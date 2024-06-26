@@ -2,92 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A179179AD
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61BCC9179B2
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2009810E7AB;
-	Wed, 26 Jun 2024 07:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B097510E786;
+	Wed, 26 Jun 2024 07:29:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="fG3kS6yf";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="WiWg6OBN";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="B/4XSzcr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3509610E79F
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:28:42 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-363ba6070b1so232096f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 00:28:42 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B986110E786
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:29:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719386920; x=1719991720; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZqNG77PcBYWk1qlqmdc1D97HuBROg9p8D0BaXqBlCPo=;
- b=fG3kS6yfti6EKwVE0Laekx5HWiQseaN/90blbhqwhUnyWE8rAk0zicma3UYIeg2xXo
- uR3I79RGM1sTn4RKcOz/L0EFX2vqTMbS/AqcBaTZTd+UGqmWFIwqqhfjb/oxlGHjsoAw
- lMylRt34QUwVkOLGmvjJAi2R8TQIE3cWR4Jv4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719386920; x=1719991720;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZqNG77PcBYWk1qlqmdc1D97HuBROg9p8D0BaXqBlCPo=;
- b=flfGuvwF4K/rers43e7+M9kidSn1Hi49fElpZiepbYozpZ5zXlmQc/eMjfZc8H97Ma
- I/hBozxj6vixfIB5tCg8upJmFwHKTTGFsytrClhxOikPQz+vrN8amPUd0C0FBoJdC07Q
- 78Y4CHiJT4+FlIr7HkJgSnhJckiJjyL27PyHZRK4SoF/rYwSn3Jd5HqvQZ9ljAztRA0Q
- 2mOqhpuhzeZMizAec84hHWVkzMqtrgqLtoAxLfhSwfxXk0vSWHUY/1X5OzM7O5VP08y+
- 2li4qEyJFoi+Je3u1/k7R5tPfJpo0pq7CwVpGT5K42KIVVKOEucj1fwj6Lv5XpC37ccM
- 03GQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVYedYsKH9SPAM151HdOiNgqXCipwsxEsHTTGnDiRsou0q7Og9xjUQxTZl0TilQRczRO0E5OjMkqIhcXv42yAY/aMZglktCfNvkP8MvVV4V
-X-Gm-Message-State: AOJu0YwKZv5vZLNeQJ+LtTDIfi1fqxqQVyEViUn++23TE7A2P0nemTYF
- ol4Ye533Ysbza/tB039hkQJRdnkDC5T16I4AKMf4F7L6YJYfj8oUwdYc0OswGek=
-X-Google-Smtp-Source: AGHT+IGkwDomQEANyZ+eXIUVoM6FPDmgEQt/mHUtBowVFVCo5z8ux3/Xf7CVbrm5g5deo4x8C36TWw==
-X-Received: by 2002:a5d:457a:0:b0:366:e496:1caa with SMTP id
- ffacd0b85a97d-366e4961e22mr5453532f8f.5.1719386920297; 
- Wed, 26 Jun 2024 00:28:40 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-36638e90ccbsm14947006f8f.59.2024.06.26.00.28.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 00:28:39 -0700 (PDT)
-Date: Wed, 26 Jun 2024 09:28:37 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Daniel Stone <daniel@fooishbar.org>,
- Lucas Stach <l.stach@pengutronix.de>, linux-kernel@vger.kernel.org,
- Oded Gabbay <ogabbay@kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-Message-ID: <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
-Mail-Followup-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Daniel Stone <daniel@fooishbar.org>,
- Lucas Stach <l.stach@pengutronix.de>, linux-kernel@vger.kernel.org,
- Oded Gabbay <ogabbay@kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Daniel Stone <daniels@collabora.com>
-References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
- <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
- <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
- <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
- <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
- <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1719386992; x=1750922992;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=35gUMXrwDxu+zVgJhUMFNejs6Dxk9mfeBUbzNjkdFO4=;
+ b=WiWg6OBNnaASnTVyA0WHGM20PKG8BvEdIgMcRXS/ms6kisEjTEGduHCG
+ D17kNrdw9pjb50PrIfGiGGNK0MNfQ6A1WdxiGDTbJrhAk/hGrJKclkFYb
+ Fh7BquLIPRPnIQgDkV+oC5siQfSici4MHQQV5fFlEsPhXxBOy5QxPZorB
+ mrM4KTIyCA2d5BGtW2dNbGzuMKIvFvzNo+pzUKXZ7Eg3fBoSp9dA72k9n
+ eYi/vxIqHqaaDFcJ80PsY4AykizejB47AU1VUtq+83o3GdgNRr7tu40hy
+ ZTiKiSeI2sijqQnhbbAxo/1334O6yjkOornd90J2O6S/vAOPev8muHvpV g==;
+X-CSE-ConnectionGUID: 3vNvTe7/Qz+WBim472UugQ==
+X-CSE-MsgGUID: /hVNikLfTGaal7+JeNfhxg==
+X-IronPort-AV: E=Sophos;i="6.08,266,1712613600"; d="scan'208";a="37591064"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 26 Jun 2024 09:29:50 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 6949C163B18; Wed, 26 Jun 2024 09:29:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1719386985;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=35gUMXrwDxu+zVgJhUMFNejs6Dxk9mfeBUbzNjkdFO4=;
+ b=B/4XSzcrCjSFyfnzKDDZ7DxNh0wk0lQLBytgMzPAWYBHC94J8K9ET/pG8C2lINUFcHVhvY
+ osIbUx/JY+sAD9SyW4noHiFx64E46yfntjyeCa/uCDSzFlpiRZV+MdlbcEIk37CIdTbd7N
+ VJwftJoNr78S/tFtUP87o7yMajPZ4FzP2xHy8bP0KVqyOhFsnY2ympMYovp2SrR5BhoYDI
+ kvVWPsO2vNG1L3uDZmsXFnTKAcCvitz1ngP+hUrCjBH9yYC02mmk5d8xq4KahG/twt4cNA
+ bpsHvSme2yzG/HCFNWelPwfYW38Yod8lTWyaK86lUDaF/Q7/iQaOFl9DUUo/sw==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ kernel@dh-electronics.com, Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: tc358867: Document
+ default DP preemphasis
+Date: Wed, 26 Jun 2024 09:29:45 +0200
+Message-ID: <2118572.KlZ2vcFHjT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240625120552.145389-1-marex@denx.de>
+References: <20240625120552.145389-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,94 +84,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 17, 2024 at 07:01:05PM +0200, Tomeu Vizoso wrote:
-> Hi Lucas,
-> 
-> Do you have any idea on how not to break userspace if we expose a render node?
+Hi Marek,
 
-So if you get a new chip with an incompatible 3d block, you already have
-that issue. And I hope etnaviv userspace can cope.
+Am Dienstag, 25. Juni 2024, 14:05:14 CEST schrieb Marek Vasut:
+> Document default DP port preemphasis configurable via new DT property
+> "toshiba,pre-emphasis". This is useful in case the DP link properties
+> are known and starting link training from preemphasis setting of 0 dB
+> is not useful. The preemphasis can be set separately for both DP lanes
+> in range 0=3D0dB, 1=3D3.5dB, 2=3D6dB .
+>=20
+> This is an endpoint property, not a port property, because the TC9595
+> datasheet does mention that the DP might operate in some sort of split
+> mode, where each DP lane is used to feed one display, so in that case
+> there might be two endpoints.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: kernel@dh-electronics.com
+> ---
+> V2: - Fix the type to u8 array
+>     - Fix the enum items to match what they represent
+> V3: - Update commit message, expand on this being an endpoint property
+> ---
+>  .../display/bridge/toshiba,tc358767.yaml       | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc3=
+58767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358=
+767.yaml
+> index 2ad0cd6dd49e0..9490854c22f3b 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.y=
+aml
+> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.y=
+aml
+> @@ -98,6 +98,24 @@ properties:
+>              reference to a valid eDP panel input endpoint node. This por=
+t is
+>              optional, treated as DP panel if not defined
+> =20
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              toshiba,pre-emphasis:
+> +                description:
+> +                  Display port output Pre-Emphasis settings for both DP =
+lanes.
+> +                $ref: /schemas/types.yaml#/definitions/uint8-array
+> +                minItems: 2
+> +                maxItems: 2
+> +                items:
+> +                  enum:
+> +                    - 0 # No pre-emphasis
+> +                    - 1 # 3.5dB pre-emphasis
+> +                    - 2 # 6dB pre-emphasis
+> +
+>      oneOf:
+>        - required:
+>            - port@0
+>=20
 
-Worst case you need to publish a fake extremely_fancy_3d_block to make
-sure old mesa never binds against an NPU-only instance.
+I get this warning:
+> mx8mp-tqma8mpql-mba8mpxl.dtb: bridge@f: ports:port@2:endpoint: Unevaluated
+> properties are not allowed ('toshiba,pre-emphasis' was unexpected)
 
-Or mesa just doesn't cope, in which case we need a etnaviv-v2-we_are_sorry
-drm driver name, or something like that.
--Sima
+DT node looks like this:
 
-> 
-> Cheers,
-> 
-> Tomeu
-> 
-> On Wed, Jun 12, 2024 at 4:26 PM Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
-> >
-> > On Mon, May 20, 2024 at 1:19 PM Daniel Stone <daniel@fooishbar.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Mon, 20 May 2024 at 08:39, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
-> > > > On Fri, May 10, 2024 at 10:34 AM Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > > > Am Mittwoch, dem 24.04.2024 um 08:37 +0200 schrieb Tomeu Vizoso:
-> > > > > > If we expose a render node for NPUs without rendering capabilities, the
-> > > > > > userspace stack will offer it to compositors and applications for
-> > > > > > rendering, which of course won't work.
-> > > > > >
-> > > > > > Userspace is probably right in not questioning whether a render node
-> > > > > > might not be capable of supporting rendering, so change it in the kernel
-> > > > > > instead by exposing a /dev/accel node.
-> > > > > >
-> > > > > > Before we bring the device up we don't know whether it is capable of
-> > > > > > rendering or not (depends on the features of its blocks), so first try
-> > > > > > to probe a rendering node, and if we find out that there is no rendering
-> > > > > > hardware, abort and retry with an accel node.
-> > > > >
-> > > > > On the other hand we already have precedence of compute only DRM
-> > > > > devices exposing a render node: there are AMD GPUs that don't expose a
-> > > > > graphics queue and are thus not able to actually render graphics. Mesa
-> > > > > already handles this in part via the PIPE_CAP_GRAPHICS and I think we
-> > > > > should simply extend this to not offer a EGL display on screens without
-> > > > > that capability.
-> > > >
-> > > > The problem with this is that the compositors I know don't loop over
-> > > > /dev/dri files, trying to create EGL screens and moving to the next
-> > > > one until they find one that works.
-> > > >
-> > > > They take the first render node (unless a specific one has been
-> > > > configured), and assumes it will be able to render with it.
-> > > >
-> > > > To me it seems as if userspace expects that /dev/dri/renderD* devices
-> > > > can be used for rendering and by breaking this assumption we would be
-> > > > breaking existing software.
-> > >
-> > > Mm, it's sort of backwards from that. Compositors just take a
-> > > non-render DRM node for KMS, then ask GBM+EGL to instantiate a GPU
-> > > which can work with that. When run in headless mode, we don't take
-> > > render nodes directly, but instead just create an EGLDisplay or
-> > > VkPhysicalDevice and work backwards to a render node, rather than
-> > > selecting a render node and going from there.
-> > >
-> > > So from that PoV I don't think it's really that harmful. The only
-> > > complication is in Mesa, where it would see an etnaviv/amdgpu/...
-> > > render node and potentially try to use it as a device. As long as Mesa
-> > > can correctly skip, there should be no userspace API implications.
-> > >
-> > > That being said, I'm not entirely sure what the _benefit_ would be of
-> > > exposing a render node for a device which can't be used by any
-> > > 'traditional' DRM consumers, i.e. GL/Vulkan/winsys.
-> >
-> > What I don't understand yet from Lucas proposal is how this isn't
-> > going to break existing userspace.
-> >
-> > I mean, even if we find a good way of having userspace skip
-> > non-rendering render nodes, what about existing userspace that isn't
-> > able to do that? Any updates to newer kernels are going to break them.
-> >
-> > Regards,
-> >
-> > Tomeu
+port@2 {
+	reg =3D <2>;
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+	endpoint {
+		toshiba,pre-emphasis =3D /bits/ 8 <1 1>;
+	};
+};
+
+I think you are missing this change as well:
+=2D- 8< --
+=2D-- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.y=
+aml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+@@ -92,7 +92,8 @@ properties:
+             reference to a valid DPI output or input endpoint node.
+=20
+       port@2:
+=2D        $ref: /schemas/graph.yaml#/properties/port
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description: |
+             eDP/DP output port. The remote endpoint phandle should be a
+             reference to a valid eDP panel input endpoint node. This port =
+is
+=2D- 8< --
+
+How would you determine the values to be set here? I suspect it's the value
+from register DP0_SnkLTChReq (0x6d4) after link training. Are they dependent
+on the actual display to be attached?
+
+Best regards,
+Alexander
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
