@@ -2,106 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9560917EE6
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 12:52:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9123917EFF
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 12:55:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03A010E83E;
-	Wed, 26 Jun 2024 10:52:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7828810E10C;
+	Wed, 26 Jun 2024 10:55:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oHkDPAqP";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="HtlvIJE3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1850910E10C
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:52:23 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
- [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83F424CF;
- Wed, 26 Jun 2024 12:51:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1719399118;
- bh=XKE4+a/drYSMQk6Mjnwv3FXxUZAUhdgh/aF+cJdKpsM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oHkDPAqP2yDAOiCYfCuX64Ev8wXb81U5lDLyYcCilaG1LQ6BbTs/ELZWDFSURhNgZ
- vxAM1Q6Gmfr0ypt3TyICwUb8hAvj0uORQBIyM34eD4PHfhIAMu6jM7TQTh8RZnbncG
- dDKMLV3UqGTYsCbwHB+waFqW8JD+ah2RcMYbccc4=
-Message-ID: <52c08932-4f09-44f5-91b7-40812b0bea4f@ideasonboard.com>
-Date: Wed, 26 Jun 2024 13:52:17 +0300
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 602E110E10C
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:55:44 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-57d07464aa9so85783a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 03:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1719399342; x=1720004142;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DvpHCyqwIEWrIEkuFm3ZwyDR/Vs8dxE4a8djGzFogD8=;
+ b=HtlvIJE3LudvWVD5lDP+9IDMXPo9nUF7cEg05Ylk2SEalJPaqANhgMMESlNVg8X4LB
+ YGTGRgZjwcxzkFqErSmjH7k0RwS2OL24A3zp/TvihDgh0U94LNQkVzZDyEK1PkOU44nG
+ EF3ucI3exK6HJ8WA00gIJauPpL8/jDSumem9eoPTt9Z1fQDMa0PrFBqB7x71SGko+kuD
+ lreY885t0dKBtFZWZVjiF60DbHmEKb2lx5NbG6MCsxutPOxv/oD51oC/5QpTiB3wyzwK
+ s8IoCtNNdwO4QgiAZIEmwrt4XommFQ+chxPJrgFVwrDgEgA0+K2zfd/xTLmsciFmfxNg
+ uisQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719399342; x=1720004142;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DvpHCyqwIEWrIEkuFm3ZwyDR/Vs8dxE4a8djGzFogD8=;
+ b=xErTHQOqHZ1e3F/q9pz1gGJVXMpN9vbpLmbR58s93XntDb1a5DJE1KG5IGMbxhvlos
+ q4IoHg45rhmd/KMDlvpYMYKdB/ZIJrr6BVN57zT3burg3ODEhQIhN41pkDPo24ig/a4g
+ a9bB7S441qudwlpqI1e3wl9CqIlQTvCnkY0cDDZIyVpgsXJ1xpxW1xTA2fxJVjzNd3m0
+ RY7Aa3GUfdzlsFZm0LmSeEk9GU8CoB/NBiQ2N6r2/mw/2ngoWYfKLypcmw64bgAVmrzo
+ 7mYwwJcmJmiD8NGWtzDTyyEY9o10h0f2Cq1nfi7Bn7G7FpTRRezv3tAv4wimp/PIcD6I
+ 9icQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUz5AlvqGlafDDp8U6ljn5ZWPw61gNthhi/ro6kIMj/A76zyKiXEaDgLIlL9i0xNvqz+dq5iEj1MMzi8oP4Qg0n03zaXFIAReR01OzmP4/c
+X-Gm-Message-State: AOJu0Yx98niO22fc3qO6YDPQE7etJYVEP/X6PrjWjRMkUEoWuEn2nUnb
+ htK6T7Z70ivTLWOXYM1ANcrKlID+K1Pjj3fTfEDq28a3jNg5usINVcEyX+waEB8JvlC8DTtn41Z
+ EJ1wVriLgzKrjec1trZGv+zatWXak4rjLx6eKNQ==
+X-Google-Smtp-Source: AGHT+IFLL8v+ApRsdF1oQyJ4gYj95DTo+ZpYfz8vWOavfb/Rr+f7PYpka089Pmz5x/tFDV2Ns1y5LdQGTy6tzXBS1V0=
+X-Received: by 2002:a50:8d4f:0:b0:57d:10bb:b42b with SMTP id
+ 4fb4d7f45d1cf-57d4bdcba20mr6272487a12.26.1719399342459; Wed, 26 Jun 2024
+ 03:55:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/11] drm/bridge: cdns-dsi: Wait for Clk and Data
- Lanes to be ready
-To: Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Dominik Haller <d.haller@phytec.de>, Sam Ravnborg <sam@ravnborg.org>,
- Thierry Reding <treding@nvidia.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Jai Luthra <j-luthra@ti.com>
-References: <20240622110929.3115714-1-a-bhatia1@ti.com>
- <20240622110929.3115714-7-a-bhatia1@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240622110929.3115714-7-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240624141926.5250-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240624141926.5250-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <de8ab492-272c-4bed-92eb-a0c3303543b2@quicinc.com>
+ <CA+6=WdSDSvcMJsmUNW6NXqNXktYjp0xdqk8Y+FakiPBYcXfgGw@mail.gmail.com>
+ <a5734572-c822-493a-a15a-63dcf37d60cc@quicinc.com>
+In-Reply-To: <a5734572-c822-493a-a15a-63dcf37d60cc@quicinc.com>
+From: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Date: Wed, 26 Jun 2024 18:55:31 +0800
+Message-ID: <CA+6=WdSYZCOQvOLCVV9BVBs_=UKbw9Sn8t7a58hY=Y--7JqGvg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] drm/panel: jd9365da: Modify the method of sending
+ commands
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
+ benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com, 
+ jagan@edgeble.ai, neil.armstrong@linaro.org, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Shuijing Li <shuijing.li@mediatek.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,67 +90,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2024 14:09, Aradhya Bhatia wrote:
-> Once the DSI Link and DSI Phy are initialized, the code needs to wait
-> for Clk and Data Lanes to be ready, before continuing configuration.
-> This is in accordance with the DSI Start-up procedure, found in the
-> Technical Reference Manual of Texas Instrument's J721E SoC[0] which
-> houses this DSI TX controller.
-> 
-> If the previous bridge (or crtc/encoder) are configured pre-maturely,
-> the input signal FIFO gets corrupt. This introduces a color-shift on the
-> display.
-> 
-> Allow the driver to wait for the clk and data lanes to get ready during
-> DSI enable.
-> 
-> [0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
->       TRM Link: http://www.ti.com/lit/pdf/spruil1
-> 
-> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
-> Tested-by: Dominik Haller <d.haller@phytec.de>
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
->   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 13 ++++++++++++-
->   1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> index 426f77092341..126e4bccd868 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> @@ -764,7 +764,7 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
->   	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
->   	unsigned long tx_byte_period;
->   	struct cdns_dsi_cfg dsi_cfg;
-> -	u32 tmp, reg_wakeup, div;
-> +	u32 tmp, reg_wakeup, div, status;
->   	int nlanes;
->   
->   	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
-> @@ -781,6 +781,17 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
->   	cdns_dsi_init_link(dsi);
->   	cdns_dsi_hs_init(dsi);
->   
-> +	/*
-> +	 * Now that the DSI Link and DSI Phy are initialized,
-> +	 * wait for the CLK and Data Lanes to be ready.
-> +	 */
-> +	tmp = CLK_LANE_RDY;
-> +	for (int i = 0; i < nlanes; i++)
-> +		tmp |= DATA_LANE_RDY(i);
-> +
-> +	WARN_ON_ONCE(readl_poll_timeout(dsi->regs + MCTL_MAIN_STS, status,
-> +					status & tmp, 100, 0));
+On Wed, Jun 26, 2024 at 1:49=E2=80=AFAM Jessica Zhang <quic_jesszhan@quicin=
+c.com> wrote:
+>
+>
+>
+> On 6/25/2024 5:13 AM, zhaoxiong lv wrote:
+> > On Tue, Jun 25, 2024 at 7:41=E2=80=AFAM Jessica Zhang <quic_jesszhan@qu=
+icinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 6/24/2024 7:19 AM, Zhaoxiong Lv wrote:
+> >>> Currently, the init_code of the jd9365da driver is placed
+> >>> in the enable() function and sent, but this seems to take
+> >>> a long time. It takes 17ms to send each instruction (an init
+> >>> code consists of about 200 instructions), so it takes
+> >>> about 3.5s to send the init_code. So we moved the sending
+> >>> of the inti_code to the prepare() function, and each
+> >>> instruction seemed to take only 25=CE=BCs.
+> >>>
+> >>> We checked the DSI host and found that the difference in
+> >>> command sending time is caused by the different modes of
+> >>> the DSI host in prepare() and enable() functions.
+> >>> Our DSI Host only supports sending cmd in LP mode, The
+> >>> prepare() function can directly send init_code (LP->cmd)
+> >>> in LP mode, but the enable() function is in HS mode and
+> >>> needs to switch to LP mode before sending init code
+> >>> (HS->LP->cmd->HS). Therefore, it takes longer to send
+> >>> the command.
+> >>>
+> >>> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.c=
+om>
+> >>
+> >> Hi Zhaoxiong,
+> >>
+> >> Just curious, if the host expects that commands are sent in LP mode, w=
+hy
+> >> isn't the MIPI_DSI_MODE_LPM flag set before sending the DCS commands?
+> >>
+> >> Thanks,
+> >>
+> >> Jessica Zhang
+> >
+> > hi jessica
+> >
+> > We have tried to set dsi->mode_flags to MIPI_DSI_MODE_LPM in the
+> > probe() function,
+> > but this seems to still happen. MTK colleagues believe that the host
+> > dsi configuration is
+> > still in LP mode during the prepare() function, and when in the
+> > enable() function, the host
+> > dsi is already in HS mode. However, since the command must be sent in
+> > LP mode, it will
+> > switch back and forth between HS->LP->HS.
+> >
+> > Add Mediatek colleagues=EF=BC=88shuijing.li@mediatek.corp-partner.googl=
+e.com=EF=BC=89
+>
+> Got it. Even drivers that call their init commands in prepare() set the
+> LPM flag [1][2] when applicable so I was just wondering why this driver
+> doesn't seem to set LPM at all even though it is going into LP mode.
+>
+> [1]
+> https://elixir.bootlin.com/linux/v6.10-rc5/source/drivers/gpu/drm/panel/p=
+anel-visionox-vtdr6130.c#L46
+>
+> [2]
+> https://elixir.bootlin.com/linux/v6.10-rc5/source/drivers/gpu/drm/panel/p=
+anel-visionox-r66451.c#L46
 
-I think an error print is more suitable than WARN_ON_ONCE(). Other than 
-that:
+hi  jessica
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+The initial default setting of our host DSI is the LP mode.
 
-  Tomi
 
-> +
->   	writel(HBP_LEN(dsi_cfg.hbp) | HSA_LEN(dsi_cfg.hsa),
->   	       dsi->regs + VID_HSIZE1);
->   	writel(HFP_LEN(dsi_cfg.hfp) | HACT_LEN(dsi_cfg.hact),
 
+
+
+>
+> >
+> >
+> >>
+> >>> ---
+> >>> Changes between V5 and V4:
+> >>> - 1. No changes.
+> >>>
+> >>> V4:https://lore.kernel.org/all/20240620080509.18504-2-lvzhaoxiong@hua=
+qin.corp-partner.google.com/
+> >>>
+> >>> Changes between V4 and V3:
+> >>> - 1. Only move mipi_dsi_dcs_write_buffer from enable() function to pr=
+epare() function,
+> >>> -    and no longer use mipi_dsi_dcs_write_seq_multi.
+> >>>
+> >>> V3:https://lore.kernel.org/all/20240614145510.22965-2-lvzhaoxiong@hua=
+qin.corp-partner.google.com/
+> >>>
+> >>> ---
+> >>>    .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 24 +++++++++------=
+----
+> >>>    1 file changed, 11 insertions(+), 13 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drive=
+rs/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> >>> index 4879835fe101..a9c483a7b3fa 100644
+> >>> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> >>> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> >>> @@ -52,21 +52,9 @@ static int jadard_enable(struct drm_panel *panel)
+> >>>    {
+> >>>        struct device *dev =3D panel->dev;
+> >>>        struct jadard *jadard =3D panel_to_jadard(panel);
+> >>> -     const struct jadard_panel_desc *desc =3D jadard->desc;
+> >>>        struct mipi_dsi_device *dsi =3D jadard->dsi;
+> >>> -     unsigned int i;
+> >>>        int err;
+> >>>
+> >>> -     msleep(10);
+> >>> -
+> >>> -     for (i =3D 0; i < desc->num_init_cmds; i++) {
+> >>> -             const struct jadard_init_cmd *cmd =3D &desc->init_cmds[=
+i];
+> >>> -
+> >>> -             err =3D mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD936=
+5DA_INIT_CMD_LEN);
+> >>> -             if (err < 0)
+> >>> -                     return err;
+> >>> -     }
+> >>> -
+> >>>        msleep(120);
+> >>>
+> >>>        err =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
+> >>> @@ -100,6 +88,8 @@ static int jadard_disable(struct drm_panel *panel)
+> >>>    static int jadard_prepare(struct drm_panel *panel)
+> >>>    {
+> >>>        struct jadard *jadard =3D panel_to_jadard(panel);
+> >>> +     const struct jadard_panel_desc *desc =3D jadard->desc;
+> >>> +     unsigned int i;
+> >>>        int ret;
+> >>>
+> >>>        ret =3D regulator_enable(jadard->vccio);
+> >>> @@ -117,7 +107,15 @@ static int jadard_prepare(struct drm_panel *pane=
+l)
+> >>>        msleep(10);
+> >>>
+> >>>        gpiod_set_value(jadard->reset, 1);
+> >>> -     msleep(120);
+> >>> +     msleep(130);
+> >>> +
+> >>> +     for (i =3D 0; i < desc->num_init_cmds; i++) {
+> >>> +             const struct jadard_init_cmd *cmd =3D &desc->init_cmds[=
+i];
+> >>> +
+> >>> +             ret =3D mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD936=
+5DA_INIT_CMD_LEN);
+> >>> +             if (ret < 0)
+> >>> +                     return ret;
+> >>> +     }
+> >>>
+> >>>        return 0;
+> >>>    }
+> >>> --
+> >>> 2.17.1
+> >>>
