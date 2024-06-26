@@ -2,64 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD3E917B7B
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 10:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369B2917B9B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9405510E7C5;
-	Wed, 26 Jun 2024 08:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC73110E7C7;
+	Wed, 26 Jun 2024 09:01:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="htEMSn13";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="jd7kPMre";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3o4Y+Slo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jd7kPMre";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3o4Y+Slo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEBE10E7C5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 08:56:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1E1F0CE2114;
- Wed, 26 Jun 2024 08:56:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7509C2BD10;
- Wed, 26 Jun 2024 08:56:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719392194;
- bh=U8LIQwcNm2fwvClBrN9NogAlE3vWVpMxV7qUqLWW3M4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=htEMSn133OP/V72aFnCF/6fgz9ocd4/tu2ZAD6a7O2t+j+5+9tdPv+3vNHCIOkgF1
- 1PfcpcFTwc0Y1gJG79m7rm4fJ2yD30IB5Z53/KiBr/JcuRhRyo49TXWUY94pukhMmZ
- KR68Yk1RRvpbWgzZ12oMsdYCdz3dZKs/3A+f+k0tK8lyqgoi2DPui5HGP1cHqW7/3r
- fQbtZHad8ACJo5WomiyXSt/O/w6Qxp+4w40XeXfItBFi2Ie/nbNf0blFAYWjZAbPfc
- lLVsrnl3XNqpgOuJFTsjNKkevk4Ylho86SGT+KB+hL4jEzk2S1u3f0FuWxVvOokA9m
- t42uHybFCxxJg==
-Date: Wed, 26 Jun 2024 10:56:31 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>, 
- Conor Dooley <conor@kernel.org>, Ryan Walklin <ryan@testtoast.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Hironori KIKUCHI <kikuchan98@gmail.com>, 
- Chris Morgan <macroalpha82@gmail.com>, Andre Przywara <andre.przywara@arm.com>,
- John Watts <contact@jookia.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: Add WL-355608-A8 panel
-Message-ID: <20240626-agate-ibex-of-effort-c72ebc@houat>
-References: <20240530211415.44201-1-ryan@testtoast.com>
- <20240530211415.44201-3-ryan@testtoast.com>
- <20240606-intelligent-aromatic-magpie-80a7a4@houat>
- <2dc1fdec-7673-4462-abe1-fecf8e3e826b@linaro.org>
- <20240606-refreshing-cinnamon-ibex-a0fe73@houat>
- <20240606-authentic-mongoose-9485904a91a1@spud>
- <20240618-silky-holistic-oyster-bf59fe@houat>
- <20240618-reverse-kinship-7f8df8c8e111@wendy>
- <eb50b8d3-b56d-42b2-a277-02a255b2d6c0@linaro.org>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8682110E7C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:01:15 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 21BEE1FB47;
+ Wed, 26 Jun 2024 09:01:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719392472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HVj31ckt8JnhJ7GiAe4Udx+6fMLl11E+t6SLxmvmQrw=;
+ b=jd7kPMreCOU3s1CxJ/ouaUtGS1Y3C4f7KOCSqPy6EQqfo4Dsyh11CxiO/pvLWRkcPgayyn
+ aIE6YSHidVmm2u/qw2hzxhIvXyh0dAusQWXOnPTabpdliK8rX/XCZ/+N03G06l9Mx7VQHA
+ pQfkVEL4BrEHf9qZWQ47f3XMEPzmkag=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719392472;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HVj31ckt8JnhJ7GiAe4Udx+6fMLl11E+t6SLxmvmQrw=;
+ b=3o4Y+Slop+k5+0zS6wzDgSukyYcAo6NPnfAoejylfFF9ZiWNj/lRA/s6AipLPVUT1LOvj6
+ wT4mwDdr8YelYoBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719392472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HVj31ckt8JnhJ7GiAe4Udx+6fMLl11E+t6SLxmvmQrw=;
+ b=jd7kPMreCOU3s1CxJ/ouaUtGS1Y3C4f7KOCSqPy6EQqfo4Dsyh11CxiO/pvLWRkcPgayyn
+ aIE6YSHidVmm2u/qw2hzxhIvXyh0dAusQWXOnPTabpdliK8rX/XCZ/+N03G06l9Mx7VQHA
+ pQfkVEL4BrEHf9qZWQ47f3XMEPzmkag=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719392472;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HVj31ckt8JnhJ7GiAe4Udx+6fMLl11E+t6SLxmvmQrw=;
+ b=3o4Y+Slop+k5+0zS6wzDgSukyYcAo6NPnfAoejylfFF9ZiWNj/lRA/s6AipLPVUT1LOvj6
+ wT4mwDdr8YelYoBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA67A139C2;
+ Wed, 26 Jun 2024 09:01:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id pD8QNNfYe2ZkaQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Jun 2024 09:01:11 +0000
+Message-ID: <e4fe3aab-0b3f-42dd-916c-db15dd6b7646@suse.de>
+Date: Wed, 26 Jun 2024 11:01:11 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qcrnq5glny2xahue"
-Content-Disposition: inline
-In-Reply-To: <eb50b8d3-b56d-42b2-a277-02a255b2d6c0@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ast: Inline drm_simple_encoder_init()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: airlied@redhat.com, jfalempe@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+References: <20240625131815.14514-1-tzimmermann@suse.de>
+ <n22c255ozkpnbvt45ugfgpqyjmebmgsjblduwurf6yr7ralffd@yvbrl4rsabea>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <n22c255ozkpnbvt45ugfgpqyjmebmgsjblduwurf6yr7ralffd@yvbrl4rsabea>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.24 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.15)[-0.760]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[8]; MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.24
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,117 +143,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
---qcrnq5glny2xahue
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am 26.06.24 um 06:34 schrieb Dmitry Baryshkov:
+> On Tue, Jun 25, 2024 at 03:18:09PM GMT, Thomas Zimmermann wrote:
+>> The function drm_simple_encoder_init() is a trivial helper and
+>> deprecated. Replace it with the regular call to drm_encoder_init().
+>> Resolves the dependency on drm_simple_kms_helper.h. No functional
+>> changes.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/gpu/drm/ast/ast_mode.c | 45 ++++++++++++++++++++++++++++++----
+>>   1 file changed, 40 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+>> index 6695af70768f..2fd9c78eab73 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -45,7 +45,6 @@
+>>   #include <drm/drm_managed.h>
+>>   #include <drm/drm_panic.h>
+>>   #include <drm/drm_probe_helper.h>
+>> -#include <drm/drm_simple_kms_helper.h>
+>>   
+>>   #include "ast_ddc.h"
+>>   #include "ast_drv.h"
+>> @@ -1358,6 +1357,14 @@ static int ast_crtc_init(struct drm_device *dev)
+>>   	return 0;
+>>   }
+>>   
+>> +/*
+>> + * VGA Encoder
+>> + */
+>> +
+>> +static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
+>> +	.destroy = drm_encoder_cleanup,
+>> +};
+>> +
+>>   /*
+>>    * VGA Connector
+>>    */
+>> @@ -1411,7 +1418,8 @@ static int ast_vga_output_init(struct ast_device *ast)
+>>   	struct drm_connector *connector = &ast->output.vga.connector;
+>>   	int ret;
+>>   
+>> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
+>> +	ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
+>> +			       DRM_MODE_ENCODER_DAC, NULL);
+> What about using drmm_encoder_init() instead? It will call
+> drm_encoder_cleanup automatically.
 
-On Tue, Jun 18, 2024 at 02:05:50PM GMT, Neil Armstrong wrote:
-> On 18/06/2024 13:13, Conor Dooley wrote:
-> > On Tue, Jun 18, 2024 at 11:04:09AM +0200, Maxime Ripard wrote:
-> > > Hi Conor,
-> > >=20
-> > > Sorry, I missed the news of you becoming a DT maintainer, so most of =
-my
-> > > previous points are obviously bogus. And congrats :)
-> >=20
-> > I've been doing it for over a year, so news travels to some corners slo=
-wly
-> > I guess. I'm not just being a pest in dozens of subsystems for fun!
-> >=20
-> > > On Thu, Jun 06, 2024 at 12:51:33PM GMT, Conor Dooley wrote:
-> > > > On Thu, Jun 06, 2024 at 01:23:03PM +0200, Maxime Ripard wrote:
-> > > > > On Thu, Jun 06, 2024 at 11:37:31AM GMT, Neil Armstrong wrote:
-> > > > > > On 06/06/2024 11:32, Maxime Ripard wrote:
-> > > > > > > On Fri, May 31, 2024 at 09:12:14AM GMT, Ryan Walklin wrote:
-> > > > > > > > The WL-355608-A8 is a 3.5" 640x480@60Hz RGB LCD display use=
-d in a
-> > > > > > > > number of handheld gaming devices made by Anbernic. By cons=
-ensus a
-> > > > > > > > vendor prefix is not provided as the panel OEM is unknown.
-> > > > > > >=20
-> > > > > > > Where has this consensus been found?
-> > > > > > >=20
-> > > > > > > I had a look at the previous discussions, and I can't find an=
-y consensus
-> > > > > > > being reached there. And for that kind of thing, having the a=
-ck or
-> > > > > > > review of any of the DT maintainers would have been great.
-> > > > > >=20
-> > > > > > There was a consensus with Conor, this is why he acked v2, see
-> > > > > > https://lore.kernel.org/all/20240525-velvet-citable-a45dd06847a=
-7@spud/
-> > > > >=20
-> > > > > It's probably a matter of semantics here, but if it's with only o=
-ne
-> > > > > person, it's not a consensus but an agreement.
-> > > > >=20
-> > > > > > ```
-> > > > > > I think if we genuinely do not know what the vendor is then we =
-just
-> > > > > > don't have a prefix.
-> > > > > > ```
-> > > > >=20
-> > > > > And even then, I don't interpret Conor's statement as a formal ag=
-reement
-> > > > > but rather an acknowledgment of the issue.
-> > > >=20
-> > > > I mean, I specifically left an r-b below that line in v2:
-> > > > https://lore.kernel.org/all/20240530-satchel-playgroup-e8aa6937b8b9=
-@spud/
-> > > >=20
-> > > > I'm not a displays guy, so my sources were limited to what I could =
-find
-> > > > from search engines, but I spent some time looking for an actual ve=
-ndor
-> > > > of the panel and could not. All I found was various listings on pla=
-ces
-> > > > like AliExpress that did not mention an manufacturer. I'd rather not
-> > > > invent a vendor because we could not find the actual vendor of the
-> > > > panel & it seemed rather unreasonable to block support for the devi=
-ce
-> > > > on the basis of not being able to figure out the vendor. If you, as
-> > > > someone knowledgeable on displays, can figure the vendor out, then
-> > > > yeah we should definitely add it.
-> > >=20
-> > > It's still a bit surprising to me. We've merged[1][2][3][4], and are =
-still
-> > > merging[5], panels from this particular vendor that have no clearly
-> > > identified OEMs. Just like any other panel, really. We almost *never*
-> > > have the actual OEM, we just go with whatever is the easiest to ident=
-ify
-> > > it.
-> >=20
-> > It wasn't (isn't?) clear to me that Abernic is even the vendor of the
-> > panel, just that it works for their devices. If there's an established
-> > policy here of making up vendors for these panels, then sure, override
-> > me and use them as the prefix.
-> >=20
-> > > Plus, if there ever is another WL-355608-A8 part from a completely
-> > > unrelated vendor, then you'll have a naming clash with no clear
-> > > indication about which is which.
->=20
-> Not sure we can say there's an established policy ongoing here, we try to
-> use the marking we find on the panel when possible and when not possible
-> we use the vendor + name of the device in last ressort.
+IIRC the original use case for the drmm_encoder_*() funcs was to solve 
+problems with the clean-up order if the encoder was added dynamically. 
+The hardware for ast is entirely static and ast uses 
+drmm_mode_config_init() for auto-cleaning up the modesetting pipeline. 
+Using drmm_encoder_init() seems like a bit of wasted resources for no gain.
 
-So pretty much what I was asking for?
+Best regards
+Thomas
 
-We're getting fairly late into the release cycle and I'd like to get it
-fixed before the release. Can you send a patch to address it please?
+>
 
-Maxime
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
---qcrnq5glny2xahue
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZnvXvgAKCRDj7w1vZxhR
-xfrAAPwMhIlIjAdfeb3S2lQfourH8zDvQoEZ9kkQF526Yhfk0gEA+1Jdsre0Xhf+
-MwG01ZUwa+NI/nKbAmWz7n2Ed4D56Ao=
-=61en
------END PGP SIGNATURE-----
-
---qcrnq5glny2xahue--
