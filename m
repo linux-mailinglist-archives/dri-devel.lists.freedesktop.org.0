@@ -2,78 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A262917573
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 03:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C14791778B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 06:43:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1864F10E280;
-	Wed, 26 Jun 2024 01:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED71D10E2DF;
+	Wed, 26 Jun 2024 04:43:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mrCoJBLX";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="bHmy4ck3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA9010E134;
- Wed, 26 Jun 2024 01:11:22 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-57a30dbdb7fso7752951a12.3; 
- Tue, 25 Jun 2024 18:11:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719364280; x=1719969080; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=asyx3WntG4OThCRcShDwfSCXWLgRQ+/Uaa7W33Vqtyk=;
- b=mrCoJBLXc3Lwu1VZtBTFmm1p22NLW82i1xs02C3h2ZvPqBY+U1SqFQMTLM7uitYfFI
- uYzkDk+egUv3k1jryOleFiwEe8ivpwLm05EGge6R0k5lDm3ay9pP037+1qAuW95tAgO5
- q/hovmVXNcrcIR8vg0bNvtrk9bw66CAQmP3W5dYyLNiG23QxUlEEWzgs21Xs7382mAqD
- OlKdU4IsOcZ/pDLqL4VeEyBLp4kjEOSHmsKsyN2ybAMzEfR78+KhVBiWDuNiH40HcMBj
- 4q+bKjJQbI3hjcKBalAI8vMDXCzARw3D+YYYplzwLaZWt+Q6l1nwo8SGLSGynQMBFQJI
- lIDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719364280; x=1719969080;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=asyx3WntG4OThCRcShDwfSCXWLgRQ+/Uaa7W33Vqtyk=;
- b=LoAGIWEbRNGgTcwXVBSz4wgi4ffGtGG9eVGLuEPRebjfmS2fhfqfdxbCMVR9AX6FK8
- EZQ7RpDoPAcSmFhZPC8l3P1V1Wihf+5NjKxL47DVxaoXkoLEN78sewyk/kLhKO8mMYW9
- fytZ5auFSyWzjCygxbQPwFTRcW2CFkstj9wGVu5kk5lv8Vp1zsdAezIBybDugXANTLtW
- dPaMqtXmeSzXJGktNx3Ho0EqWh+BpwyZ8d2g3p/PA/cuxpv9R9rp6LH3tFkGZ/3oKAMQ
- GNNrYwiVmwS2dhGQKVvmKFlJR8dTeo7AaHd+DeVYDXoFdqlpWmGrE8GzLOieFNX85dSv
- dlBA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXI7w2WE+qFGPCB43cidWWpw+/N6J7sCbuIdDpCVIvj16viOqFWu7vDAuh/z7NO6Atxtt3djC9qgoCeow1YB9MKyAm3XvcC3jWZV14+ILAu3A8AAzQFlKmKhBa4oC81vL23If03MQRKi9PAAw==
-X-Gm-Message-State: AOJu0YxsmzLzi85W+jiXqF0JTbxasrSwAUxXmbJ261t3Og6zv0GdyTHG
- M37rJMTNnj+P8HXD5CXUkglNlSTYAjg6WF9o8PnXZrXJM5b93UAtOzjTrmX5GYzWSldRf2X7aqr
- ikHKFP97pGxks4cGSuzA+1bHzDmg=
-X-Google-Smtp-Source: AGHT+IFGmha0T9jNof/KuwAohpk4SnLJgwELl6O3jUe3eisCuLf5J9RjYsaDsvAcLzroKTOUT2WgmJb2X6FeYvkzxHQ=
-X-Received: by 2002:a50:cd93:0:b0:57a:2fe7:6699 with SMTP id
- 4fb4d7f45d1cf-57d4a281750mr7434714a12.14.1719364279832; Tue, 25 Jun 2024
- 18:11:19 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 627DF10E308
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:43:55 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id E2C6588216;
+ Wed, 26 Jun 2024 06:43:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1719377033;
+ bh=wHsCJ7cXXMGa53gYSWW0zqOnC+G2BYCtot9U3pF7cT8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=bHmy4ck3zc/2UlTKIGzenh88GD81bpiDUp4bFkMUGQK9Vgdt1M0IEb0mPSQtQNPxn
+ qIDt5Cxgpqi8yMZJI9mcgBAMN7PK/9/JRQlGcULqDkNuyeLQHHoKhtw6ctDMvsbBIX
+ bvTeAFkkdVOz4hAUawo/86tGQTpUaI/Ideo0icTsLgAEVNQc65t5CKHf2dGx1CF9aH
+ H1XZF6C9Vj011I4I8ia39TxF/YNcHQXpkTE38jcfs4InGMg8NePzQ4fe3PBv6Z4Fni
+ zAteAzxCjE1/sMmUp35A2FYEYm8V4/os1tEHaHQjcxA8ek33etgcywCJ4HLn6QgfdM
+ lmu3yHgFkgLFA==
+Message-ID: <f90aa303-f18b-4cca-bb7a-f94f74dfee36@denx.de>
+Date: Wed, 26 Jun 2024 05:21:39 +0200
 MIME-Version: 1.0
-References: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
- <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
- <CAKGbVbsM4rCprWdp+aGXE-pvCkb6N7weUyG2z4nXqFpv+y=LrA@mail.gmail.com>
- <20240618-great-hissing-skink-b7950e@houat>
- <4813a6885648e5368028cd822e8b2381@manjaro.org>
- <457ae7654dba38fcd8b50e38a1275461@manjaro.org>
- <2c072cc4bc800a0c52518fa2476ef9dd@manjaro.org>
-In-Reply-To: <2c072cc4bc800a0c52518fa2476ef9dd@manjaro.org>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Wed, 26 Jun 2024 09:11:07 +0800
-Message-ID: <CAKGbVbsGm7emEPzGuf0Xn5k22Pbjfg9J9ykJHtvDF3SacfDg6A@mail.gmail.com>
-Subject: Re: [PATCH] drm/lima: Mark simple_ondemand governor as softdep
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org, 
- lima@lists.freedesktop.org, maarten.lankhorst@linux.intel.com, 
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- linux-kernel@vger.kernel.org, Philip Muller <philm@manjaro.org>, 
- Oliver Smith <ollieparanoid@postmarketos.org>,
- Daniel Smith <danct12@disroot.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm: bridge: samsung-dsim: Initialize bridge on
+ attach
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Adam Ford <aford173@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+References: <20240625122824.148163-1-marex@denx.de>
+ <4603431.cEBGB3zze1@steina-w>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <4603431.cEBGB3zze1@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,97 +75,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 26, 2024 at 2:15=E2=80=AFAM Dragan Simic <dsimic@manjaro.org> w=
-rote:
->
-> Hello everyone,
->
-> Just checking, any further thoughts about this patch?
->
-I'm OK with this as a temp workaround because it's simple and do no harm
-even it's not perfect. If no other better suggestion for short term, I'll s=
-ubmit
-this at weekend.
+On 6/25/24 4:37 PM, Alexander Stein wrote:
+> Hi Marek,
 
-> On 2024-06-18 21:22, Dragan Simic wrote:
-> > On 2024-06-18 12:33, Dragan Simic wrote:
-> >> On 2024-06-18 10:13, Maxime Ripard wrote:
-> >>> On Tue, Jun 18, 2024 at 04:01:26PM GMT, Qiang Yu wrote:
-> >>>> On Tue, Jun 18, 2024 at 12:33=E2=80=AFPM Qiang Yu <yuq825@gmail.com>=
- wrote:
-> >>>> >
-> >>>> > I see the problem that initramfs need to build a module dependency=
- chain,
-> >>>> > but lima does not call any symbol from simpleondemand governor mod=
-ule.
-> >>>> > softdep module seems to be optional while our dependency is hard o=
-ne,
-> >>>> > can we just add MODULE_INFO(depends, _depends), or create a new
-> >>>> > macro called MODULE_DEPENDS()?
-> >>
-> >> I had the same thoughts, because softdeps are for optional module
-> >> dependencies, while in this case it's a hard dependency.  Though,
-> >> I went with adding a softdep, simply because I saw no better option
-> >> available.
-> >>
-> >>>> This doesn't work on my side because depmod generates modules.dep
-> >>>> by symbol lookup instead of modinfo section. So softdep may be our
-> >>>> only
-> >>>> choice to add module dependency manually. I can accept the softdep
-> >>>> first, then make PM optional later.
-> >>
-> >> I also thought about making devfreq optional in the Lima driver,
-> >> which would make this additional softdep much more appropriate.
-> >> Though, I'm not really sure that's a good approach, because not
-> >> having working devfreq for Lima might actually cause issues on
-> >> some devices, such as increased power consumption.
-> >>
-> >> In other words, it might be better to have Lima probing fail if
-> >> devfreq can't be initialized, rather than having probing succeed
-> >> with no working devfreq.  Basically, failed probing is obvious,
-> >> while a warning in the kernel log about no devfreq might easily
-> >> be overlooked, causing regressions on some devices.
-> >>
-> >>> It's still super fragile, and depends on the user not changing the
-> >>> policy. It should be solved in some other, more robust way.
-> >>
-> >> I see, but I'm not really sure how to make it more robust?  In
-> >> the end, some user can blacklist the simple_ondemand governor
-> >> module, and we can't do much about it.
-> >>
-> >> Introducing harddeps alongside softdeps would make sense from
-> >> the design standpoint, but the amount of required changes wouldn't
-> >> be trivial at all, on various levels.
-> >
-> > After further investigation, it seems that the softdeps have
-> > already seen a fair amount of abuse for what they actually aren't
-> > intended, i.e. resolving hard dependencies.  For example, have
-> > a look at the commit d5178578bcd4 (btrfs: directly call into
-> > crypto framework for checksumming) [1] and the lines containing
-> > MODULE_SOFTDEP() at the very end of fs/btrfs/super.c. [2]
-> >
-> > If a filesystem driver can rely on the abuse of softdeps, which
-> > admittedly are a bit fragile, I think we can follow the same
-> > approach, at least for now.
-> >
-> > With all that in mind, I think that accepting this patch, as well
-> > as the related Panfrost patch, [3] should be warranted.  I'd keep
-> > investigating the possibility of introducing harddeps in form
-> > of MODULE_HARDDEP() and the related support in kmod project,
-> > similar to the already existing softdep support, [4] but that
-> > will inevitably take a lot of time, both for implementing it
-> > and for reaching various Linux distributions, which is another
-> > reason why accepting these patches seems reasonable.
-> >
-> > [1]
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/?id=3Dd5178578bcd4
-> > [2]
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/fs/btrfs/super.c#n2593
-> > [3]
-> > https://lore.kernel.org/dri-devel/4e1e00422a14db4e2a80870afb704405da16f=
-d1b.1718655077.git.dsimic@manjaro.org/
-> > [4]
-> > https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?id=3D=
-49d8e0b59052999de577ab732b719cfbeb89504d
+Hi,
+
+> Am Dienstag, 25. Juni 2024, 14:26:10 CEST schrieb Marek Vasut:
+>> Initialize the bridge on attach already, to force lanes into LP11
+>> state, since attach does trigger attach of downstream bridges which
+>> may trigger (e)DP AUX channel mode read.
+>>
+>> This fixes a corner case where DSIM with TC9595 attached to it fails
+>> to operate the DP AUX channel, because the TC9595 enters some debug
+>> mode when it is released from reset without lanes in LP11 mode. By
+>> ensuring the DSIM lanes are in LP11, the TC9595 (tc358767.c driver)
+>> can be reset in its attach callback called from DSIM attach callback,
+>> and recovered out of the debug mode just before TC9595 performs first
+>> AUX channel access later in its attach callback.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> ---
+>> Cc: Adam Ford <aford173@gmail.com>
+>> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+>> Cc: Inki Dae <inki.dae@samsung.com>
+>> Cc: Jagan Teki <jagan@amarulasolutions.com>
+>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Cc: Jonas Karlman <jonas@kwiboo.se>
+>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Michael Walle <mwalle@kernel.org>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: kernel@dh-electronics.com
+>> ---
+>> V2: Handle case where mode is not set yet
+>> ---
+>>   drivers/gpu/drm/bridge/samsung-dsim.c | 32 ++++++++++++++++++++-------
+>>   1 file changed, 24 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+>> index e7e53a9e42afb..22d3bbd866d97 100644
+>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+>> @@ -699,20 +699,24 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
+>>   
+>>   static int samsung_dsim_enable_clock(struct samsung_dsim *dsi)
+>>   {
+>> -	unsigned long hs_clk, byte_clk, esc_clk, pix_clk;
+>> +	unsigned long hs_clk, byte_clk, esc_clk;
+>>   	unsigned long esc_div;
+>>   	u32 reg;
+>>   	struct drm_display_mode *m = &dsi->mode;
+>>   	int bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+>>   
+>> -	/* m->clock is in KHz */
+>> -	pix_clk = m->clock * 1000;
+>> -
+>> -	/* Use burst_clk_rate if available, otherwise use the pix_clk */
+>> +	/*
+>> +	 * Use burst_clk_rate if available, otherwise use the mode clock
+>> +	 * if mode is already set and available, otherwise fall back to
+>> +	 * PLL input clock and operate in 1:1 lowest frequency mode until
+>> +	 * a mode is set.
+>> +	 */
+>>   	if (dsi->burst_clk_rate)
+>>   		hs_clk = samsung_dsim_set_pll(dsi, dsi->burst_clk_rate);
+>> +	else if (m)	/* m->clock is in KHz */
+>> +		hs_clk = samsung_dsim_set_pll(dsi, DIV_ROUND_UP(m->clock * 1000 * bpp, dsi->lanes));
+>>   	else
+>> -		hs_clk = samsung_dsim_set_pll(dsi, DIV_ROUND_UP(pix_clk * bpp, dsi->lanes));
+>> +		hs_clk = dsi->pll_clk_rate;
+>>   
+> 
+> I can't reproduce that mentioned corner case and presumably this problem
+> does not exist otherwise. If samsung,burst-clock-frequency is unset I get
+> a sluggish image on the monitor.
+> 
+> It seems the calculation is using a adjusted clock frequency:
+> samsung-dsim 32e60000.dsi: Using pixel clock for HS clock frequency
+> samsung-dsim 32e60000.dsi: [drm:samsung_dsim_host_attach [samsung_dsim]] Attached tc358767 device (lanes:4 bpp:24 mode-flags:0xc03)
+> samsung-dsim 32e60000.dsi: PLL ref clock freq 24000000
+> samsung-dsim 32e60000.dsi: failed to find PLL PMS for requested frequency
+> samsung-dsim 32e60000.dsi: failed to configure DSI PLL
+> samsung-dsim 32e60000.dsi: PLL ref clock freq 24000000
+> samsung-dsim 32e60000.dsi: PLL freq 883636363, (p 11, m 810, s 1)
+> samsung-dsim 32e60000.dsi: hs_clk = 883636363, byte_clk = 110454545, esc_clk = 9204545
+> samsung-dsim 32e60000.dsi: calculated hfp: 60, hbp: 105, hsa: 27
+> samsung-dsim 32e60000.dsi: LCD size = 1920x1080
+> 
+> 891 MHz is the nominal one for 148.5 MHz pixelclock. But even setting
+> samsung,burst-clock-frequency to 891 MHz results in a sluggish image.
+> Maybe this usecase is nothing I need to consider while using DSI-DP
+> with EDID timings available.
+> 
+> As the burst clock needs to provide more bandwidth than actually needed,
+> I consider this a different usecase not providing
+> samsung,burst-clock-frequency for DSI->DP usage.
+> 
+> But the initialization upon attach is working intended, so:
+> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+Thank you for testing and keeping up with this. I will wait for more 
+feedback if there is any (Frieder? Lucas? Michael?). If there are no 
+objections, then I can merge it in a week or two ?
