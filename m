@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A9D918283
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 15:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43C5918289
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 15:34:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF6F610E272;
-	Wed, 26 Jun 2024 13:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C831710E8A8;
+	Wed, 26 Jun 2024 13:34:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZZCVk4fe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kq69pMEC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E39BD10E272
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 13:33:53 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 561C210E8A8
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 13:34:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id ACD8BCE20DA;
- Wed, 26 Jun 2024 13:33:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D40EC2BD10;
- Wed, 26 Jun 2024 13:33:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 82575619B5;
+ Wed, 26 Jun 2024 13:34:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6CB8C2BD10;
+ Wed, 26 Jun 2024 13:34:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719408827;
- bh=GGaohN4Y1t1MQWC0s+WjoANH6+XCJW6K74wQWCFFwPQ=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=ZZCVk4fedPg3V7UBSS4ZSdWLXk6U/v6gI0wsmwwxyX2bvz5tuTlaaMUcFMObsqvSh
- KZIht/i6ZUqA2lprf+nf2Zjkjm2WG54T+uksUD77lbwJIuq9QIs9dJeI6In/+y4wdk
- s+rXU8XQkC3nLUQD07MOicZG/M3BCNIdUF8UdvgkYsB3dwSz4wxbl1NOpo+9HFRSvE
- +J86zc7Dgy3m7TBnpuFsDNsp4n5cYHP6ukGjSdBqS4CaeSKD1Hr0U3TOAIcrHUjqUB
- bDCBCiK9UL4oSEcB05I7r/TrJUsaLu2bkeg+BjMgBsoLt9Xtf2GKg8dHltasYQ5kel
- khIk5IRoO9uWA==
-Message-ID: <a28e2eb1de7e62e1516fabeff8c23164@kernel.org>
-Date: Wed, 26 Jun 2024 13:33:45 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Dave Stevenson" <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 00/31] Preparatory patches for BCM2712 (Pi5) support
-In-Reply-To: <20240621152055.4180873-1-dave.stevenson@raspberrypi.com>
-References: <20240621152055.4180873-1-dave.stevenson@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, "Daniel Vetter" <daniel@ffwll.ch>, "David
- Airlie" <airlied@gmail.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
- Ripard" <mripard@kernel.org>,
- "Raspberry Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Thomas
- Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: quoted-printable
+ s=k20201202; t=1719408870;
+ bh=E3IselMobiJI8seDX3QY8p1hoY3Ox5xAWjz1e1BwllQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Kq69pMEC9RAQYpo0KTNkKG4E3+MFn4h5GPK0DRneFYMcAwSH4TzIc31snnTvPjMdv
+ yqiHD9fAZQyjQqJTYbTxXQ5TwfsXX/UdPvvd6OKIhjd8/VnpHBcYpePGjRSq2CpzMW
+ 6ftyV7HqFJ0RPwUwGViTVNiXbklEIX0IbC4t8wUD/iK1mX72G1WH5an4pwYMaeHr3I
+ DSSbvUWyMhFdHIdQ7/TtrzJetq5OS+NiFepFc05HDhGm7sfPjVitdO6Ei0E0jCBQ1s
+ sS299RtRQ2hnVHEFnKoaH8UIWC8TY1m1yt8EfDo7xvw9rzwOQ8ZURxadhLkjBGbonv
+ yVgyaKxeMZYkw==
+Date: Wed, 26 Jun 2024 15:34:27 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] MAINTAINERS: drm: vc4: Add Raspberry Pi as
+ maintainers
+Message-ID: <20240626-dynamic-certain-barnacle-cffc84@houat>
+References: <20240621131926.3133484-1-dave.stevenson@raspberrypi.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="difu4vxpq2uxo35u"
+Content-Disposition: inline
+In-Reply-To: <20240621131926.3133484-1-dave.stevenson@raspberrypi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,18 +62,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 Jun 2024 16:20:24 +0100, Dave Stevenson wrote:
-> Hi
->=20
-> This set is a number of minor fixes that we've had downstream for a while,
-> and then lays down the some infrastructure changes to facilitate adding s=
-upport
-> of BCM2712. I'm just finalising those patches so they should follow on fa=
-irly
->=20
-> [ ... ]
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+--difu4vxpq2uxo35u
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+Hi,
+
+On Fri, Jun 21, 2024 at 02:19:25PM GMT, Dave Stevenson wrote:
+> Add myself as maintainer for VC4 alongside Maxime, and
+> our internal review list as reviewer.
+>=20
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+I just applied both patches. Congrats :)
+
+Do you have a drm-misc account already?
+
 Maxime
+
+--difu4vxpq2uxo35u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZnwY4wAKCRDj7w1vZxhR
+xfT+AP9L53kv36EVdIJxvR/7+QNnp/7UFcz62mwmHaSVF/M0yQEAh1qVB6p4zpr7
+9lLOi3pGKMI7OlWiOCifOIGYF1cxqA8=
+=jXy/
+-----END PGP SIGNATURE-----
+
+--difu4vxpq2uxo35u--
