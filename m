@@ -2,146 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE37917C6B
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4E3917CA2
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:37:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0456510E807;
-	Wed, 26 Jun 2024 09:27:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F008C10E2EF;
+	Wed, 26 Jun 2024 09:37:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Am1xAV8q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R1LQ+/qI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1tn7tFKC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="miSYiRUO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iBRC2vpg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0CDE10E807
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:27:53 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DE23A1F6E6;
- Wed, 26 Jun 2024 09:27:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719394072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JABiqF4TJOKgNw0Y8C50vSm17NQ+9GwWdHQcyZk9+FI=;
- b=Am1xAV8qTlbKyI7TVrPO8Hpnzhp6fx3zrY+802ih5Hi3oq2LyfIgkfAlXOLcdwzWpUZN+b
- Dz2IX+txeD76ybqqjsMmBYo2T3+aUd1CM1FgylBlnNT+3pdPXdO/3g86JFTZ6TBC/haIwc
- tjX3PWe0GV5J5QMJy7SEDZUx2FTys0Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719394072;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JABiqF4TJOKgNw0Y8C50vSm17NQ+9GwWdHQcyZk9+FI=;
- b=R1LQ+/qI2s/NSm2IlUmye0NMb+lI4dmeZemc2AfJJuSTS7n2d/QUsn/UEv9YrprNK0INHG
- IeP1iD4kKA6D8FBw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1tn7tFKC;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=miSYiRUO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719394070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JABiqF4TJOKgNw0Y8C50vSm17NQ+9GwWdHQcyZk9+FI=;
- b=1tn7tFKCARpOnnENF88ydGe4arHeBJgZb+VplbT2doFF/LRv9BqHAMagcMfnuodIXE7Add
- rKN7DaZMxjSBRAjK1oQ4bC8XWzqqpgqLy6drv0lgUmTXQztoa7/dhIo0PAwJ5yj54xc0L1
- I9vdxsKiKFyyB1UExdUGMmwmFFrFHsA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719394070;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JABiqF4TJOKgNw0Y8C50vSm17NQ+9GwWdHQcyZk9+FI=;
- b=miSYiRUOqVf5/uGpL4xiE7OKQ/e8X12b8hc0riMJwoX4AvLz/ihmiFPDsY9W5WgIduCUiI
- tBlMLJpMVLk5/jBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DA4313AAD;
- Wed, 26 Jun 2024 09:27:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id NTy6JBbfe2b1cQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Jun 2024 09:27:50 +0000
-Message-ID: <51da3254-8cf1-4216-936e-8f567baa0c80@suse.de>
-Date: Wed, 26 Jun 2024 11:27:50 +0200
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1A0C10E808
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:37:06 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-a72604c8c5bso355674566b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 02:37:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719394625; x=1719999425; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=AEVD+w0TTAAVvcUXpjCC9r3Xtde98FGUdgCPdfiAa2c=;
+ b=iBRC2vpg7dut+IEvcYsPAL7gj0k5RaKoI/l/9Deor038LbFL4llbIhRKuVgxEwdLZN
+ wHvkPATSNv0g8zWjOKoWYeXlek9jN+zd/Y0FfIQV5ckV0H587eE08dnW0gG1xjgkhB7y
+ TGyHxApZa3ofLTpVdJhgiApqlHBADU0Xt/lrH1zcnoNcO5NtZWszakVI8kHvma02Fy8c
+ Duw1tzS+0A9Ssj6u8S6xwUGmycp1pYKvjDS67s2RCvGp8ASCnw+xY3hlmh1iAo0HALbw
+ ENBOIRQsPr/mQ6zMHk/lYaQRhbr/ZG14x3nEeZwYsK6ezdcsiEJ4rdT+ghGhWSqpq8ny
+ VDtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719394625; x=1719999425;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AEVD+w0TTAAVvcUXpjCC9r3Xtde98FGUdgCPdfiAa2c=;
+ b=fHrL/P7WWpAhc3vTkuLusUYroWusymXcptjG+JA6nLMxB4ZEGIl6LxR8VkeI3LruWg
+ I+3xbmxvuqqj+PnfHVA+yN8ZR6pqbSNWNRfSITIXjCOovPSu47C3Njl0a3ubeAzlojnx
+ JkLpLrbIxZy4aHUkbCyKNiOOoNKx5BPonSf2DplnEan361FHCCtfiNJgOWqYGyh2Z1YJ
+ 8LLXWzNLU+kLlTpiVCgxZ4oNZVnonycNTVF0vQhP7Q/BHksasCRG01l7beVdDl0vnW8G
+ VVKuxAyDuivF/2SnZVjKoTnDc2hwA+1t/NA283hXQhjHkslQD9KlwjOCqzCV1WvxuVfd
+ yHBg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXZW88nDsR93oGSJ6E1nvErt/UVIeCY7B/jU47p/t9dn2rw3oTkq69h55B42HiWC+Nt9DsShNTI8anbeJDzRE1eaL5VcH2MLdMKTZQhpiJT
+X-Gm-Message-State: AOJu0YxfNQJ2A0zg72D2ogxdD6Rx1wRwoHvJ77uOo9lW/2prREHy1Tb4
+ eOewKoSN3iXe7HV5L9K6O29zhB0DSDES17hH5UKbdI/zkSRFuMpGR3E5yEr0qEo=
+X-Google-Smtp-Source: AGHT+IHMd5gcTGXG0btMMetTthXNYoimPBO8ehjkfI6u1J6Ceh0RTvs6sjMc+EPy7NGvsHh8ni7voA==
+X-Received: by 2002:a17:906:a8d:b0:a6f:4c10:8da6 with SMTP id
+ a640c23a62f3a-a7245b45a69mr587403866b.2.1719394624617; 
+ Wed, 26 Jun 2024 02:37:04 -0700 (PDT)
+Received: from [192.168.215.29] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a725cc93794sm246743566b.170.2024.06.26.02.37.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jun 2024 02:37:04 -0700 (PDT)
+Message-ID: <a33ac27f-ab88-40a7-9cb0-9d27342fed09@linaro.org>
+Date: Wed, 26 Jun 2024 11:37:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Inline drm_simple_encoder_init()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: airlied@redhat.com, jfalempe@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-References: <20240625131815.14514-1-tzimmermann@suse.de>
- <n22c255ozkpnbvt45ugfgpqyjmebmgsjblduwurf6yr7ralffd@yvbrl4rsabea>
- <e4fe3aab-0b3f-42dd-916c-db15dd6b7646@suse.de>
- <cq7xbwehvdyopndjjmxl2ekq2v7gpynxrhzh5yqkt5etao6hee@ifxdrp4gmtmb>
- <d8859a60-bbb4-4139-85e2-00b4ff694a8f@suse.de>
- <CAA8EJpptUMAQxFw6VAHvkMfqv_=74q5Yt3PHo8w6fDX+imDgkw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] drm/msm/adreno: Add support for X185 GPU
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
+References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+ <20240623110753.141400-3-quic_akhilpo@quicinc.com>
+ <5947559d-30dd-4da1-93cc-a15dc65cb77d@linaro.org>
+ <20240626082422.zcsari27yoskayuo@hu-akhilpo-hyd.qualcomm.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAA8EJpptUMAQxFw6VAHvkMfqv_=74q5Yt3PHo8w6fDX+imDgkw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240626082422.zcsari27yoskayuo@hu-akhilpo-hyd.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: DE23A1F6E6
-X-Spam-Score: -6.50
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-6.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[8]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.de:email, suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,91 +130,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 26.06.24 um 11:19 schrieb Dmitry Baryshkov:
-> On Wed, 26 Jun 2024 at 12:19, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Hi
+On 26.06.2024 10:24 AM, Akhil P Oommen wrote:
+> On Mon, Jun 24, 2024 at 03:53:48PM +0200, Konrad Dybcio wrote:
 >>
->> Am 26.06.24 um 11:10 schrieb Dmitry Baryshkov:
->>> On Wed, Jun 26, 2024 at 11:01:11AM GMT, Thomas Zimmermann wrote:
->>>> Hi
->>>>
->>>> Am 26.06.24 um 06:34 schrieb Dmitry Baryshkov:
->>>>> On Tue, Jun 25, 2024 at 03:18:09PM GMT, Thomas Zimmermann wrote:
->>>>>> The function drm_simple_encoder_init() is a trivial helper and
->>>>>> deprecated. Replace it with the regular call to drm_encoder_init().
->>>>>> Resolves the dependency on drm_simple_kms_helper.h. No functional
->>>>>> changes.
->>>>>>
->>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>> ---
->>>>>>     drivers/gpu/drm/ast/ast_mode.c | 45 ++++++++++++++++++++++++++++++----
->>>>>>     1 file changed, 40 insertions(+), 5 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
->>>>>> index 6695af70768f..2fd9c78eab73 100644
->>>>>> --- a/drivers/gpu/drm/ast/ast_mode.c
->>>>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
->>>>>> @@ -45,7 +45,6 @@
->>>>>>     #include <drm/drm_managed.h>
->>>>>>     #include <drm/drm_panic.h>
->>>>>>     #include <drm/drm_probe_helper.h>
->>>>>> -#include <drm/drm_simple_kms_helper.h>
->>>>>>     #include "ast_ddc.h"
->>>>>>     #include "ast_drv.h"
->>>>>> @@ -1358,6 +1357,14 @@ static int ast_crtc_init(struct drm_device *dev)
->>>>>>             return 0;
->>>>>>     }
->>>>>> +/*
->>>>>> + * VGA Encoder
->>>>>> + */
->>>>>> +
->>>>>> +static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
->>>>>> +  .destroy = drm_encoder_cleanup,
->>>>>> +};
->>>>>> +
->>>>>>     /*
->>>>>>      * VGA Connector
->>>>>>      */
->>>>>> @@ -1411,7 +1418,8 @@ static int ast_vga_output_init(struct ast_device *ast)
->>>>>>             struct drm_connector *connector = &ast->output.vga.connector;
->>>>>>             int ret;
->>>>>> -  ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
->>>>>> +  ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
->>>>>> +                         DRM_MODE_ENCODER_DAC, NULL);
->>>>> What about using drmm_encoder_init() instead? It will call
->>>>> drm_encoder_cleanup automatically.
->>>> IIRC the original use case for the drmm_encoder_*() funcs was to solve
->>>> problems with the clean-up order if the encoder was added dynamically. The
->>>> hardware for ast is entirely static and ast uses drmm_mode_config_init() for
->>>> auto-cleaning up the modesetting pipeline. Using drmm_encoder_init() seems
->>>> like a bit of wasted resources for no gain.
->>> I'd say it's qui pro quo. We are wasting resources on drmm handling, but
->>> then keep it by dropping all drm_encoder_funcs instances.
->> With drm_encoder_init() there's a static-const declared struct in RO
->> memory. With drmm_encoder_init(), there's a kalloc for the managed
->> callback data. It's RW memory and the alloc can fail. Therefore I prefer
->> drm_encoder_init() in this case.
-> Ack.
+>>
+>> On 6/23/24 13:06, Akhil P Oommen wrote:
+>>> Add support in drm/msm driver for the Adreno X185 gpu found in
+>>> Snapdragon X1 Elite chipset.
+>>>
+>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>> ---
+>>>
+>>>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c      | 19 +++++++++++++++----
+>>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  6 ++----
+>>>   drivers/gpu/drm/msm/adreno/adreno_device.c | 14 ++++++++++++++
+>>>   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++++
+>>>   4 files changed, 36 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>> index 0e3dfd4c2bc8..168a4bddfaf2 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>> @@ -830,8 +830,10 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
+>>>   	 */
+>>>   	gmu_write(gmu, REG_A6XX_GMU_CM3_CFG, 0x4052);
+>>> +	if (adreno_is_x185(adreno_gpu)) {
+>>> +		chipid = 0x7050001;
+>>
+>> What's wrong with using the logic below?
+> 
+> patchid is BITS(7, 0), not (15, 8) in the case of x185. Due to the
+> changes in the chipid scheme within the a7x family, this is a bit
+> confusing. I will try to improve here in another series.
 
-One more though on this: we could discuss if we want some default 
-cleanup. Such as if no cleanup pointer has been set, we always call 
-drm_encoder_cleanup(). But IMHO that needs to be consistent among all 
-elements of the pipeline (planes, CRTCs, etc), and we need to document 
-clearly which and why the default has been chosen.
+Ohh I overlooked this.. sounds a bit unfortunate.. 
 
-Best regards
-Thomas
+Seems like it doesn't really fit the "else" branch anyway, let's
+keep it for now then
 
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Konrad
