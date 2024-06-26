@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B679187D0
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 18:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67469187D5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 18:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62F2E10E96D;
-	Wed, 26 Jun 2024 16:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C41DA10E966;
+	Wed, 26 Jun 2024 16:47:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tGHBlWp9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ArUqzCPW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 219C510E968
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 16:46:40 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-42561715d41so3367365e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:46:39 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 777D410E966
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 16:47:07 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-424a3ccd0c0so16319455e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719420398; x=1720025198; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719420426; x=1720025226; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=/NyIf4mhOtD0ihzTCPAbib9y8RhFKPDpSF2/QLgvzCs=;
- b=tGHBlWp93AnTopbs0U2XdEEuXyFwC7jKUgIZEFlqf6Xm/t5YgMNOCNY1vyNpXDZ+8U
- pmvlCxrTscF+2SAI+8QdEtdBjKrdTLuIX9cSEnYawBntzPxolvZZ8ejigxm8/4aKJfwH
- mXEGRlxbXlVk2xZIl/u+WJnBriGukmc5tXxGIDoIrQLU/Mm7lWM5LAB8lTfZHUXPQTOU
- rjPHrE0JAV4hrLiD9Tp+fgrI+YfMdhDbqF/zqMB289ZKdDGeA+E7M3XcDkd0eT7zA2Jg
- mo36TgG76z9W6XJl81LXoqU98+ualVgfNYW6IVMNNqOIMS0736CXuUO4HCm+VzgA0eLp
- dSfQ==
+ :reply-to; bh=PQ47MbuUx0dEKfjEl8GDLGs6KgvQiYQD2Cb7FQPs7PE=;
+ b=ArUqzCPWtuvg988RMPe1tR1WupcPbQKuk56mi7aR6b6st2+dbZvjna+/H3DXT5yi3w
+ 4vopOVzADJEYrHUrPqnoEaZUDISEBeds9Gujjf1t3hc7NnUYaSr4gTew/SUPcdsfOWre
+ EFfli3l1aXr6yQ38y0IEG/hKTeoq/4C2Sk6BKJ73XVEP8rksLzk+zu+98SUgkHmnzGR8
+ mmcRVyhZ0CstscgsexNGDvMtjOkUqaWJPWUBoj+aX7xdK/W8XB0ZwN12UcrIE50UEkAV
+ PDP1QaULybuCGBoz7q8bfWarjXC2d7tz881HgNDm+ML+VBkxtYz7yMKf1b3KQin5qh5N
+ KI6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719420398; x=1720025198;
+ d=1e100.net; s=20230601; t=1719420426; x=1720025226;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=/NyIf4mhOtD0ihzTCPAbib9y8RhFKPDpSF2/QLgvzCs=;
- b=L9djpCZlOBHuiKtHQQaG3gsbwORJn5+cP04kmLw6Wh7rdrwCPsND9GKfP5TxzV9Ki1
- bmbL4drtU7U0xAf+sCMPrZ51Q7lcWd8zZuLmsFrjur7XEtJD4edAH31g3vK1R8sLeTvE
- IcnVabOpshBDw0aANd498UCD3XRGG96WbSo5VvNCuAq1P5wsex50RR2yPrG2I/88f2Lm
- BVv7jNkKNT4GgVqL44JJNm/AdwnQVjb/COX8oG+sjzMyZL1BJ5S/pZ6Y96S+qqJci7jI
- KEnja7//tZcEpx+HYNDIIrl7JdhQdjV4dInt5XUpfaIZR46evhIJ8kRn++oQCjA9QfvM
- xVbQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/43iBbTZh5eXW7upA70/18hk0e8aALMHLkLYidpkWia9IxkWB/UifqWChgMh0mNF1Y2au9FkXqpyW0XPK+tZ94r/did+qWG6GxOD3mC6x
-X-Gm-Message-State: AOJu0Yygo3H5fD5hT4v/IxJPdxq0NByM6XEv+TTDhCWjOtWeTiLsfIVE
- NdOcU9mXqo1dODInMnQHXrim94+gaea5mF9bR7Q6lf1XBgd82apKUtFdFUzCt8E=
-X-Google-Smtp-Source: AGHT+IEh3tYhenlXtPWnbe5L29q8hoinsLFd1OsHxhNPLpJhls/HfvQ8+Cd8CnIRbFZnWiiKrTrzDA==
-X-Received: by 2002:adf:f74e:0:b0:366:ed80:d054 with SMTP id
- ffacd0b85a97d-3673cc52f9fmr159939f8f.10.1719420397890; 
- Wed, 26 Jun 2024 09:46:37 -0700 (PDT)
+ bh=PQ47MbuUx0dEKfjEl8GDLGs6KgvQiYQD2Cb7FQPs7PE=;
+ b=DV27Z4LR7oHFtda+SnIhTo/2a+BYZ7FlyUYIXHwCjSPVwTR6Tz5dBpRmt0jrXFJrLw
+ RefLXD26pgKC+zGFVJ32nbHF9YK57hCA+mE8meDZKPjxGzy+LV1D5k+/RSMBaVpSXYpP
+ /1hZl4OwnCqd/5Dp/soyVmZliKnj/FKphtqHDUIrQ7TWnHE7RQpDl09eTmX+uH1FzHxu
+ X4VvAXMcHVWf+eoJdGPMeWnC1TrUm+MIn4k0tN8eY0bcF0nn0FEc2mdg7euCX0y4Y4Im
+ TIuFZRNUft5i0Q2xkghfI2+vgo1ohdthgO5nWsJ6G+CDjJjCcZ8awgGie0KDrfQM3qle
+ HPaQ==
+X-Gm-Message-State: AOJu0YwPL7zpoeJcILlB1NldgoEWp5JlhXU+62JnYRAuiVrzQzrVilLA
+ GvnAu/eqIgSfbXGKKI2S3EgX5lw9uYOrvxfCATdsLHGT+1CL1LiBWgVwvjfhP0o=
+X-Google-Smtp-Source: AGHT+IF1G4ppNAwlIQGAbXhmDWVW7CfOSZ2zvCiAO6m8fif6znqmr/9U1Pxwmn3KziI0rWrginGV3Q==
+X-Received: by 2002:a05:600c:450d:b0:421:7198:3d76 with SMTP id
+ 5b1f17b1804b1-4248cc58b99mr70054445e9.28.1719420425262; 
+ Wed, 26 Jun 2024 09:47:05 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:afc0:84d8:433a:2d67?
  ([2a01:e0a:982:cbb0:afc0:84d8:433a:2d67])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-366f7406f4dsm8140739f8f.114.2024.06.26.09.46.36
+ 5b1f17b1804b1-424a2abc265sm40329445e9.1.2024.06.26.09.47.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jun 2024 09:46:37 -0700 (PDT)
-Message-ID: <a6a5ced9-c0dc-4f1d-9eb4-ce14e3db3178@linaro.org>
-Date: Wed, 26 Jun 2024 18:46:35 +0200
+ Wed, 26 Jun 2024 09:47:04 -0700 (PDT)
+Message-ID: <0d9666a6-df2d-401c-91c3-a939af1119ab@linaro.org>
+Date: Wed, 26 Jun 2024 18:47:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 2/2] drm/panel: simple: Add Jiangsu Smartwin
- SMMT043480272A-A19 panel
-To: Marco Felsch <m.felsch@pengutronix.de>, quic_jesszhan@quicinc.com,
- sam@ravnborg.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: kernel@pengutronix.de, Rouven Czerwinski <r.czerwinski@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240626161714.4057983-1-m.felsch@pengutronix.de>
- <20240626161714.4057983-2-m.felsch@pengutronix.de>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 2/2] drm/panel: simple: Add AUO G104STN01 panel entry
+To: Paul Gerber <paul.gerber@ew.tq-group.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240626044727.2330191-1-paul.gerber@ew.tq-group.com>
+ <20240626044727.2330191-3-paul.gerber@ew.tq-group.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -98,7 +99,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240626161714.4057983-2-m.felsch@pengutronix.de>
+In-Reply-To: <20240626044727.2330191-3-paul.gerber@ew.tq-group.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,68 +118,60 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/06/2024 18:17, Marco Felsch wrote:
-> From: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+On 26/06/2024 06:36, Paul Gerber wrote:
+> Add support for the AUO G104STN01 10.4" (800x600) LCD-TFT panel.
 > 
-> Add support for the Jiangsu Smartwin SMMT043480272A-A19 4.3" 480x272
-> TFT-LCD panel. The timings are based on the ILI6485 controller IC
-> datasheet.
-> 
-> Signed-off-by: Rouven Czerwinski <r.czerwinski@pengutronix.de>
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> Signed-off-by: Paul Gerber <paul.gerber@ew.tq-group.com>
 > ---
->   drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++
->   1 file changed, 32 insertions(+)
+> Tested on TQ MBa8MPxL with TQMa8MPxL.
+> 
+>   drivers/gpu/drm/panel/panel-simple.c | 27 +++++++++++++++++++++++++++
+>   1 file changed, 27 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index dcb6d0b6ced0..a06ad2cd76f0 100644
+> index dcb6d0b6ced0..5eacd2085a53 100644
 > --- a/drivers/gpu/drm/panel/panel-simple.c
 > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2719,6 +2719,35 @@ static const struct panel_desc innolux_zj070na_01p = {
->   	},
+> @@ -1081,6 +1081,30 @@ static const struct panel_desc auo_g104sn02 = {
+>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 >   };
 >   
-> +static const struct display_timing jiangsu_smartwin_smmt043480272a_a19_timing = {
-> +	.pixelclock = { 8000000, 9000000, 12000000 },
-> +	.hactive = { 480, 480, 480 },
-> +	.hback_porch = { 1, 43, 43 },
-> +	.hfront_porch = { 4, 8, 75 },
-> +	.hsync_len = { 2, 4, 75 },
-> +	.vactive = { 272, 272, 272 },
-> +	.vback_porch = { 2, 12, 12 },
-> +	.vfront_porch = { 2, 8, 37 },
-> +	.vsync_len = { 2, 4, 37 },
-> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-> +		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE |
-> +		 DISPLAY_FLAGS_SYNC_POSEDGE,
+> +static const struct drm_display_mode auo_g104stn01_mode = {
+> +	.clock = 40000,
+> +	.hdisplay = 800,
+> +	.hsync_start = 800 + 40,
+> +	.hsync_end = 800 + 40 + 88,
+> +	.htotal = 800 + 40 + 88 + 128,
+> +	.vdisplay = 600,
+> +	.vsync_start = 600 + 1,
+> +	.vsync_end = 600 + 1 + 23,
+> +	.vtotal = 600 + 1 + 23 + 4,
 > +};
 > +
-> +static const struct panel_desc jiangsu_smartwin_smmt043480272a_a19 = {
-> +	.timings = &jiangsu_smartwin_smmt043480272a_a19_timing,
-> +	.num_timings = 1,
+> +static const struct panel_desc auo_g104stn01 = {
+> +	.modes = &auo_g104stn01_mode,
+> +	.num_modes = 1,
 > +	.bpc = 8,
 > +	.size = {
-> +		.width = 95,
-> +		.height = 54,
+> +		.width = 211,
+> +		.height = 158,
 > +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
-> +		     DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-> +		     DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE,
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 > +};
 > +
->   static const struct display_timing koe_tx14d24vm1bpa_timing = {
->   	.pixelclock = { 5580000, 5850000, 6200000 },
->   	.hactive = { 320, 320, 320 },
-> @@ -4626,6 +4655,9 @@ static const struct of_device_id platform_of_match[] = {
+>   static const struct display_timing auo_g121ean01_timing = {
+>   	.pixelclock = { 60000000, 74400000, 90000000 },
+>   	.hactive = { 1280, 1280, 1280 },
+> @@ -4434,6 +4458,9 @@ static const struct of_device_id platform_of_match[] = {
 >   	}, {
->   		.compatible = "innolux,zj070na-01p",
->   		.data = &innolux_zj070na_01p,
+>   		.compatible = "auo,g104sn02",
+>   		.data = &auo_g104sn02,
 > +	}, {
-> +		.compatible = "jianda,smmt043480272a-a19",
-> +		.data = &jiangsu_smartwin_smmt043480272a_a19,
+> +		.compatible = "auo,g104stn01",
+> +		.data = &auo_g104stn01,
 >   	}, {
->   		.compatible = "koe,tx14d24vm1bpa",
->   		.data = &koe_tx14d24vm1bpa,
+>   		.compatible = "auo,g121ean01",
+>   		.data = &auo_g121ean01,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
