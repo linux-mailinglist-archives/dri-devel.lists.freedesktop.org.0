@@ -2,79 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95059179C2
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153D69179C6
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8108C10E79E;
-	Wed, 26 Jun 2024 07:32:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00F1110E7A1;
+	Wed, 26 Jun 2024 07:32:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Fo+y/5ex";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="XrFVhHcn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE6810E79E
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:32:36 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-3650f2e540dso4312841f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 00:32:36 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6374F10E79F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:32:48 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3672ab915bdso24645f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 00:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719387155; x=1719991955; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7W4OioQKN0eIBHViOR9QZ+vNRz4LIKL+fXoMKffOCkw=;
- b=Fo+y/5ex2Ojwcwwq3s8urzV2NppcC/mtQhVwjXI1Y6ySQAKGPRAy6WbPkCVlrujkX5
- nqQRIatPbdoNr1Z/uN+DZFrOpEZ98SNBPaSdnQk1x6pT6s8tnn+YfC/YoKtRCZJcxqsY
- d97nXv46FMOccaU8T5Wd9SJDYNfyM4BxH29PFwhDhxa4HjLr8Nq1MUBvzLoKssx9Mz3l
- fL5aAgAM8eIMm0BdPGBGFEwOkiGSjdhzsWT6pSWvOS0SjJDqNdtuKslnrvArXGuAVYm1
- FUI1dVJY9sIM1oqIy0mqVBTOArRWO+CYGp+i02egCIunzbrr3s+g4Jt/SoimPJABj74E
- Szlg==
+ d=ffwll.ch; s=google; t=1719387167; x=1719991967; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=9/0LrueOLT9PACfMvTHobpXZcLo+P6QTn/E1HNalgYg=;
+ b=XrFVhHcn/ADMstEx19DrKtoEpxT9xw7THa3BlQSK67VgoknPAl8ZMN7ACd0Ne95H3y
+ ffd3+Xj0GMvBgXjI5Ic7m4wngv9YyDOF4nrvh72r/dpq6JUidhYNUaiDBbPXwM8nNF5w
+ cNdaJ3lwFU0cVmLTtjac0JKIoJL+XWQeQ44OE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719387155; x=1719991955;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7W4OioQKN0eIBHViOR9QZ+vNRz4LIKL+fXoMKffOCkw=;
- b=QaDFOyEY3DzTtXMHmr02V7/5zIrnU+b/sqQyK9foCZrgni1jApAN4htc7PRE7eIYwN
- Jouzr2WQhrzzts96AlPH3NLoAPN/jQAwHAW/oGBCgwl9OAzlxNi2XGksvEK3XjE6ABZn
- cCFAFlzdhCRSB9jkOkb4DuhhGTKnAQEZd7fepxHVTpuezJUOk4eQsqG0SJhtkA270Mzh
- KApuCdynHfEMb0vBLIPfhjYW1llqqtYZhyrbwgTLHjo+1PCNEXT/4PORHb3MORJSEVQ9
- leEmk0c3+8bm1YM1CLUZTyrTn1H8hLuS+/f2tS58CJ+uBXX1mzhcff3G3bR/N3JUdelc
- uYdA==
+ d=1e100.net; s=20230601; t=1719387167; x=1719991967;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9/0LrueOLT9PACfMvTHobpXZcLo+P6QTn/E1HNalgYg=;
+ b=gCcIChX3M0fbN7xDTGHRZwgPDvtv065Rwv7bcGtC9hTRstJlqlCUxkm9whqywLEyzq
+ 2+jl2kASZ22nyJlYZg24R4ZTCIw5qArk0YAhtu970V4iuyMjxL2M1LWoBzjy0lJn/PH9
+ PEdL5dGdFc8RNYAMhC3oT1BOjTRyiFq8+wMSI//+UNnwjUh2vsG/oF6PVnYnhvgDDe07
+ pyPCVy2h7QEyv2x4kUZUfQOh7P6DVs3OvOoCZH/0h2ueOJH+1Lgf0FkRP3nq9VbfJjXo
+ 3w/VEjaVSKVBBdIi9fsJFcO6y+XnVGi9GLGCFMN4odvNcUs32d6sN6acRKVUobKio1yv
+ sBwg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWaQo/R4Cwm6f6lA1hGLH3XGVr28B0YvMIQSNXJE6fZt+lFV8798Lrfm363w3qTzLUh3nIrgCih07MWu0Rczz7JWkzlrdY1kDewGbvQdw2L
-X-Gm-Message-State: AOJu0YzNLUjC1Hnlrz1lQ/3z64MO2wz7ch1wRhsTWiUoVJM0/Brm68UD
- Yx1dihuAvIva4uLCS4wLEbwkljVnkIH6V48Iz+heRE/tpW/vzsxqhttbfA6bYl4=
-X-Google-Smtp-Source: AGHT+IHkStzMgEtlbhfEd3vr7XWwRbdJYImOIKudj1b47ahck4Suw5YJPuzNImYmMu5zR3rIDZJ4Eg==
-X-Received: by 2002:adf:fc0d:0:b0:355:143:b5f5 with SMTP id
- ffacd0b85a97d-366e96bf096mr5830496f8f.64.1719387154733; 
- Wed, 26 Jun 2024 00:32:34 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ AJvYcCVsjLgKTi5e95KTq3Y5yZ4ARlL8TrPyP/PhGjjVbaGKOrze5F1RHVIRbRou252U+p2gRv/luvJsZPKsD+TdNpe9HJj9ZAt/ROe07Sj2qw8/
+X-Gm-Message-State: AOJu0YwPTXjb2QuGLJ4qlWuzn1Bqhie6ESLEipBSYIj43AKWzEGz6Qpm
+ D9kCSsioEgKNKuHbQL3+/XRBXxmYWkxz1D/nSs15F1KrVXXjF8Dt78argLvd1zw=
+X-Google-Smtp-Source: AGHT+IEjm27eE56RraAC2vbxAwlvJ+iVa1opSPFPO+Hding4xdknehogFzyefdqgrVC0LHVy91IRjg==
+X-Received: by 2002:a05:6000:1fa9:b0:365:ca95:b6cd with SMTP id
+ ffacd0b85a97d-366e2aa64ddmr7463827f8f.7.1719387166664; 
+ Wed, 26 Jun 2024 00:32:46 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3663a8c8f07sm14962150f8f.110.2024.06.26.00.32.33
+ ffacd0b85a97d-3663a2f6977sm15020476f8f.80.2024.06.26.00.32.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 00:32:34 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Jerome Brunet <jbrunet@baylibre.com>
-Cc: Kevin Hilman <khilman@baylibre.com>, linux-amlogic@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org
-In-Reply-To: <20240625145017.1003346-1-jbrunet@baylibre.com>
-References: <20240625145017.1003346-1-jbrunet@baylibre.com>
-Subject: Re: (subset) [PATCH 0/2] arm64: dts: amlogic: add power domain to
- hdmitx
-Message-Id: <171938715374.1644768.9308792407844880407.b4-ty@linaro.org>
-Date: Wed, 26 Jun 2024 09:32:33 +0200
+ Wed, 26 Jun 2024 00:32:46 -0700 (PDT)
+Date: Wed, 26 Jun 2024 09:32:44 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Helen Koike <helen.koike@collabora.com>
+Cc: Vignesh Raman <vignesh.raman@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: Time for drm-ci-next?
+Message-ID: <ZnvEHEIEJIYcsQgN@phenom.ffwll.local>
+References: <CAF6AEGsRLPqddgc2MKCXKD1TDFuwxRs_6Pj=oDuj4gah0D-07Q@mail.gmail.com>
+ <87a5mzrgie.fsf@intel.com>
+ <CAF6AEGt=8mz8S+nBQ1a3mCNLFhBrfcc5XfmNrTQ=62J-m+_3Jg@mail.gmail.com>
+ <44196cb4-bc07-4dba-bf1d-9d3d0e3bc88d@collabora.com>
+ <f20f80a7-c905-4a9e-8fa6-985d6b3b1662@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f20f80a7-c905-4a9e-8fa6-985d6b3b1662@collabora.com>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,44 +89,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, 25 Jun 2024 16:50:13 +0200, Jerome Brunet wrote:
-> This patchset add the bindings for the power domain of the HDMI Tx
-> on Amlogic SoC.
+On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike wrote:
 > 
-> This is a 1st step in cleaning HDMI Tx and its direct usage of HHI
-> register space. Eventually, this will help remove component usage from
-> the Amlogic display drivers.
 > 
-> [...]
+> On 24/06/2024 02:34, Vignesh Raman wrote:
+> > Hi,
+> > 
+> > On 15/03/24 22:50, Rob Clark wrote:
+> > > On Fri, Mar 15, 2024 at 2:28 AM Jani Nikula
+> > > <jani.nikula@linux.intel.com> wrote:
+> > > > 
+> > > > On Thu, 14 Mar 2024, Rob Clark <robdclark@gmail.com> wrote:
+> > > > > When we first merged drm/ci I was unsure if it would need it's own
+> > > > > -next branch.  But after using it for a couple releases, a few times
+> > > > > I've found myself wanting to backmerge drm/ci changes without
+> > > > > necessarily backmerging all of drm-misc-next.
+> > > > > 
+> > > > > So, maybe it makes some sense to have a drm-ci-next branch that
+> > > > > driver-maintainers could back-merge as-needed?
+> > > > 
+> > > > That's a crossmerge instead of a backmerge, and I feel that could get
+> > > > messy. What if folks crossmerge drm-ci-next but it gets rejected for
+> > > > drm-next? Or the baselines are different, and the crossmerge pulls in
+> > > > way more stuff than it should?
+> > > 
+> > > Yeah, it would defeat the point a bit of drm-ci-next was on too new of
+> > > a baseline, the whole point is to be able to merge CI changes without
+> > > pulling in unrelated changes.  So drm-ci-next would need to base on
+> > > something older, like the previous kernel release tag.
+> > > 
+> > > > IMO the route should be drm-ci-next -> pull request to drm-next ->
+> > > > backmerge drm-next to drivers and drm-misc-next.
+> > > > 
+> > > > I'm not opposed to having drm-ci-next at all, mainly indifferent, but I
+> > > > question the merge flows. And then the question becomes, does my
+> > > > suggested merge flow complicate your original goal?
+> > > > 
+> > > 
+> > > I guess we could avoid merging drm-ci-next until it had been merged
+> > > into drm-next?
 
-Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.11/arm64-dt)
+Yes, either dedicated topic branch or only backmerging drm-next please,
+that's how we're handling the flow for all other subtrees too.
 
-[2/2] arm64: dts: amlogic: add power domain to hdmitx
-      https://git.kernel.org/amlogic/c/f1ab099d6591a353899a2ee09c89de0fc908e2d2
+> > > Basically, I often find myself needing to merge CI patches on top of
+> > > msm-next in order to run CI, and then after a clean CI run, reset HEAD
+> > > back before the merge and force-push.  Which isn't really how things
+> > > should work.
 
-These changes has been applied on the intermediate git tree [1].
+This sounds more like you want an integration tree like drm-tip. Get msm
+branches integrated there, done. Backmerges just for integration testing
+are not a good idea indeed.
 
-The v6.11/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
-for inclusion in their intermediate git branches in order to be sent to Linus during
-the next merge window, or sooner if it's a set of fixes.
+> > There are many CI patches merged recently to drm-misc-next.
+> > With the GitLab 18.0 release, CI/CD pipeline configurations must
+> > transition from using the deprecated CI_JOB_JWT to the new id_tokens
+> > method, as the former will be removed.
+> > 
+> > Without the below commit kernel-build job pipelines fail in drm-ci,
+> > https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/cc806b74466672a9bbd4e9a04265d44eb506b686
+> > 
+> > We need to cherry pick only this commit to fix this issue.
+> > So it would be beneficial to have a drm-ci-next branch.
+> > 
+> > Regards,
+> > Vignesh
+> 
+> 
+> I don't mind using a drm-ci-next branch if it is created.
 
-In the cases of fixes, those will be merged in the current release candidate
-kernel and as soon they appear on the Linux master branch they will be
-backported to the previous Stable and Long-Stable kernels [2].
+What exactly is the issue in backmerging drm-misc-next (well through
+drm-next really)?
 
-The intermediate git branches are merged daily in the linux-next tree [3],
-people are encouraged testing these pre-release kernels and report issues on the
-relevant mailing-lists.
+Also if there is an issue, generally we do ad-hoc topic branches.
 
-If problems are discovered on those changes, please submit a signed-off-by revert
-patch followed by a corrective changeset.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-
+I'm very very skeptical of boutique trees with tiny focus, we've had that
+before drm-misc, it's a mess. Definitely no enthusiasm for getting back
+to that kind of world.
+-Sima
 -- 
-Neil
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
