@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB048917B4E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 10:49:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F92E917B52
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 10:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC4BE10E7D8;
-	Wed, 26 Jun 2024 08:49:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED2C010E7F4;
+	Wed, 26 Jun 2024 08:49:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="iguId/L7";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="AOdzkz9k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2084.outbound.protection.outlook.com [40.107.236.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6242710E7E0;
- Wed, 26 Jun 2024 08:49:13 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2057.outbound.protection.outlook.com [40.107.243.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91E8B10E7CF;
+ Wed, 26 Jun 2024 08:49:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SZgpScxtIIrItvPj1PfvNsmPDwr5bexiGicYDHHh/tojV/jbVbYaQ24t9XW8ntBcoWaFdFIY18MNWGcru4q0jjx4/wSHDSoIxUAIavB7O9E7P8qOqLdXgQf0nZE7/H6a/mzJxJYXlg0W2mUTApHKTqoIr7+N0a9EUQc8ZA/zNaSkgEmS+3TRVD0p4CAQd2xvkZO0PToCbTertUx6RJ5AH9WMDwEur3GfNH8ggtJB3Qyrm9uTbsl4HVh4db0gmnbeExl2bXkM52+5en8Pk4P5d8xPb5R9hkRz0CdB+cESVZPaOXrcimbv1ankGQqszXvMSGKsJJvm1CSYLmQIFfUaqQ==
+ b=kmDEH3/r+Ipba9Rq0o+IBwBsxNRpUPs+6ba27bfZ7BG3aD42xcFwZkZdBIE2AW77n9TRDzkO3jSe8Z9ftFtpxcc7yFmdL2l416RHgZFWCc9RknqDxZsGw4EVa3dKHPuwNlh42TYTuCABS7rWCR/OzEoTP+HNPFoLDGG7fXsZ1SIxNPFmXYsxKOaIeHTpoahrW/4VrV2HeNPRLYMMnW3lFJNdhcKwrZqj7CQ/r11u2b08vxo3gEseSt+h2/ihoNB23MEftzY0nHLiBHLiALdJpDfZ+6UTbQY7QSX8qlx/eWepCRrMXE+Lg0DSq7W5err9GAF1OqoY88QQ54iR4e6swQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qE4diFddfHTpVaEqoH1lXGgJ59aOWpSaklaEgb8hQAw=;
- b=bUHuLcooL16CwgNFSzR8Av+yivdQb7XtDdEGGHiw1Wvxk976EVc5ISr6Ji0I7Rvmgrrna/fIPOF0SU97sKzcGg3966rToCL6xysC8Bk97qFDat3hX26OOijBdCfQ2eme/xuWyNC5l6RG+mQJLTzh/pLfLjV7OKk2jGYgbBlcZGM7Dd1mdBc2geNA9ZOii+j0CFoJqBfVrAWB0cjp9as06oQd1vbxED2/3MUWWHjjo+azOE6ofCbdVvo6OTKRxI007jZRWDBzj5lAlNRZcWihewHEbYyhsPFwEYPjppioMmKYx425mYgpWg/nF0wgiXfogb5tjnJHokXtWUTlej/TLQ==
+ bh=41IlAKu+Kfg44K7rp6Quje4MpL4vWSW9IUJx3TveHsw=;
+ b=SZKoJ2uOMwy9aHFLDo83EX3QlnAO6W/crPkOhXFHAkxS4JMKvl7m0U2/Sx6J5z/JLM/N8Fstg3/1LCvvif7XY+OjS9rl3SQLRN/XW/83bAXul8PUFrHnW6dbc6AJdHIjIIVt9BzPzana74sFPPB4MpJixvFTLSwfC79vB0u4XWdv31UJkrGLA9Xme96ewt3O818eZRH1evcN4h9w+R9KmXk1JniQhteGr/KCx6c30O2rySRmGs3N5MZtGossQcPLI4YL/thG5LdZmkPbqGjHJzo116h3SWYjqob6VxEUgkZYOVR0/A8Hdq8f3HxVFGcv9eOLDfqU3RWPvKa9218lpQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qE4diFddfHTpVaEqoH1lXGgJ59aOWpSaklaEgb8hQAw=;
- b=iguId/L7hDeJpLQvtBIgSELuodw/hEbGrXUsdONASqYqIO6tnikUFHwY83QHHD9O+kk/QUGNeiXW+smcFrlAJlLiKBji2/H0eNsz3ZTf7RXilgdPmmjmdc6eURrUHnE38fpH9vAOWlI3vWDObOH+pmtu08P9pMQ74XULuIu1mMM=
-Received: from MN2PR08CA0011.namprd08.prod.outlook.com (2603:10b6:208:239::16)
- by MW3PR12MB4460.namprd12.prod.outlook.com (2603:10b6:303:2f::7) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=41IlAKu+Kfg44K7rp6Quje4MpL4vWSW9IUJx3TveHsw=;
+ b=AOdzkz9kKFIH2iZJqy5IqLHAPLPabr4axhW0UJi1BA0EhYrqHHEqSKnTnoQEVZfSb8NFH7ywkagCc2t9ze2pAJgztW9MVQEEGWxXnOZXj+aSETxqHY0scObqanW292INZG+JCdbpq02YZdp+zTh0GYii7Pv40yd5z2MhTT/8Vh8=
+Received: from MN2PR08CA0017.namprd08.prod.outlook.com (2603:10b6:208:239::22)
+ by IA1PR12MB8585.namprd12.prod.outlook.com (2603:10b6:208:451::17)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.30; Wed, 26 Jun
- 2024 08:49:07 +0000
+ 2024 08:49:11 +0000
 Received: from BL02EPF0001A103.namprd05.prod.outlook.com
- (2603:10b6:208:239:cafe::50) by MN2PR08CA0011.outlook.office365.com
- (2603:10b6:208:239::16) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:208:239:cafe::b3) by MN2PR08CA0017.outlook.office365.com
+ (2603:10b6:208:239::22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.38 via Frontend
- Transport; Wed, 26 Jun 2024 08:49:07 +0000
+ Transport; Wed, 26 Jun 2024 08:49:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,76 +50,82 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  BL02EPF0001A103.mail.protection.outlook.com (10.167.241.133) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7677.15 via Frontend Transport; Wed, 26 Jun 2024 08:49:07 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ 15.20.7677.15 via Frontend Transport; Wed, 26 Jun 2024 08:49:11 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 26 Jun
- 2024 03:48:59 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ 2024 03:49:05 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 26 Jun
- 2024 03:48:58 -0500
+ 2024 03:49:04 -0500
 Received: from wayne-dev-lnx.amd.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 26 Jun 2024 03:48:55 -0500
+ Transport; Wed, 26 Jun 2024 03:49:00 -0500
 From: Wayne Lin <Wayne.Lin@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 CC: <lyude@redhat.com>, <jani.nikula@intel.com>, <imre.deak@intel.com>,
  <daniel@ffwll.ch>, <Harry.Wentland@amd.com>, <jerry.zuo@amd.com>, Wayne Lin
- <Wayne.Lin@amd.com>
-Subject: [PATCH 0/3] Fix mst daisy chain light up issue after resume
-Date: Wed, 26 Jun 2024 16:48:22 +0800
-Message-ID: <20240626084825.878565-1-Wayne.Lin@amd.com>
+ <Wayne.Lin@amd.com>, Harry Wentland <hwentlan@amd.com>,
+ <stable@vger.kernel.org>
+Subject: [PATCH 1/3] drm/dp_mst: Fix all mstb marked as not probed after
+ suspend/resume
+Date: Wed, 26 Jun 2024 16:48:23 +0800
+Message-ID: <20240626084825.878565-2-Wayne.Lin@amd.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20240626084825.878565-1-Wayne.Lin@amd.com>
+References: <20240626084825.878565-1-Wayne.Lin@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+Received-SPF: None (SATLEXMB05.amd.com: Wayne.Lin@amd.com does not designate
+ permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|MW3PR12MB4460:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3542d91d-1549-4a2e-1422-08dc95bcd71c
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|IA1PR12MB8585:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57367f96-9260-4b6c-968a-08dc95bcd966
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230038|1800799022|82310400024|36860700011|376012; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+zcYTLeeLpg6ZZLKsHbGeBFGvs8nJAKDACALyTzohC0jrt5Gc2X86MQxShWs?=
- =?us-ascii?Q?DCnewZ/ZsrikMXhr0yYqs4OAg0VxwQsrLIOXv11ZDhyI9uja3EZOusarkSq4?=
- =?us-ascii?Q?yEBlXsMuAKxmp8PLiG8UZz5JDWT/Eh5JLFTqJO00q7VkrWLRP/hGV0EiTZzq?=
- =?us-ascii?Q?3Yz2pQyzWTtC6hCU2u6nWESU9Qk89ZrVNxIAJDPYif4ob2Zr6WEg5tPuGxU2?=
- =?us-ascii?Q?MeRA8CGx9TiuuSJybmCojFdVCeFzojbJL2mQK1k3SA2xRJwRJyxR3Wo+Afe5?=
- =?us-ascii?Q?x3hoqbcKGGIPGAK08gOztwfIDptRPcNlvaXIF8hLb5GrByLMUl35zY3k73iL?=
- =?us-ascii?Q?+ydf3TUCyf5OcY1HaSITf+Z3OeEVvtpkoHtLiI/VM6Jz2uV1W572sEsg4r/p?=
- =?us-ascii?Q?/IRG0j5fszUGvUeYss4AYQKYs5fI/OW9lwkr0874qtQ5dgu+lCSQ+fSiLG0E?=
- =?us-ascii?Q?Mks1NHa69UZxW71q7MmxgUBS0NCfDUH+LFreXd0bLPStkbR1Yea7Jsrla6Yo?=
- =?us-ascii?Q?HyA8JhGpEs9Bt3HEYuSoYE6yv/KnWQ3Myrwy1MsgZtlfdSJqeewJkf31WB4H?=
- =?us-ascii?Q?Kt5JYrnUqDZIxy6qMgb9hL6unckmy7qC8SXrpKj7BwDSBWRVMZjp/alYbShd?=
- =?us-ascii?Q?VW4WLKxVJVYditeIX9U62x4p3GwuO8UiUyEWv9pghxSkUVBXbUlAW3sK4yyg?=
- =?us-ascii?Q?ppcdbTJMAihoEz+DnCXqCcf7zj/IaElTqDpkCcwmIvOktVaHaimXbnU+qxr3?=
- =?us-ascii?Q?rycKEgHBaCW+15QEROr17MB1PD5RVTcT02uuZqxO+mfcSIrV8hKiuEOzs2sR?=
- =?us-ascii?Q?0olUOmJZvbrNRMnRsX2N7SYUxE7cEHKR84KGXwAd9ujgozV1ZIXilVxZ9hEv?=
- =?us-ascii?Q?5CAvdIZmeZCzmMCH+JkDAM8O04SirrS5uCeLEhjzMB09xTEgpgnpG+DYiU2b?=
- =?us-ascii?Q?fsx34zrfWFXdbnk05fGMfmRCLcV04deY1nRfbC3NugXGsGTS3HujWVbJRVmx?=
- =?us-ascii?Q?QB7+0Hzw0buXE337Dau3rrw5UVr+oz7loAOdX0t2F0FAfVX/pO9w/WEDTMFh?=
- =?us-ascii?Q?ToR09b3GBCWPp6FCnzEi+oqeE2GtFo0DmoYxCTB6JFLMBiVo4zdE9mVwQnrD?=
- =?us-ascii?Q?ULf2Y0NFDkzi7XRerRiVE78ntDxuc1a1AS0ZsJi+Jbsl8YOPDpUv/PlYiWPh?=
- =?us-ascii?Q?a2J9BD9tf/m+Mt1Mfq2e6/Uy2Vekz9Ky6RMI3hlBxSvOATSvLoHmZdcybS2N?=
- =?us-ascii?Q?q21dZkSgr0a4rY7cTBaJWHepDKFeu85T8w3HbBXk4jsoWi22t3qv26foRndx?=
- =?us-ascii?Q?qXCHUPppwd/au8KA30yuzgyo7v2uJbeNkxoNf7BaqSPFKzfOPPncoT+9Fzkd?=
- =?us-ascii?Q?adXNGjyMNhPPRXUOxszt9D0UlUUFe/+NYUjptMd7z/3mQdiEyg=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?50MVwXbhYcH+mMOtlraF+U+NS1Tps8c8h1wibMrrteti/QW0P0orfYunyECk?=
+ =?us-ascii?Q?bdnOo0oEzTDfwyYgSI44jzbuaJRbi/KZ/njqk1T0ZsYEidAL8F86IdVYHDYf?=
+ =?us-ascii?Q?JUDaT94UMc3qLLRcpMhnGjdYuQx8H9dtZJrVfmByuXlMBxhXxQmRt+CD72ta?=
+ =?us-ascii?Q?kk5uFXNRKyU0VRrG9MZxe6XiPRphgIW+u73EJXkJQDOyost4pcAfq3RSnmJ+?=
+ =?us-ascii?Q?6rc912vEJT2bPDHHeyB7sk1abiqUg698xV09WH8VE1gr7v+J5KkchoqRebC4?=
+ =?us-ascii?Q?ExWsuQKLqI8u9CxwZh171YwgTXlcMRiP8QBO4k3KKtkSjFuaP5gu0WB2Zc6/?=
+ =?us-ascii?Q?irigEK7WiWxqg4bX5yPXSC3CoLi1xvOkph8MkvVSg0w4TMALV2BjJWzPjGSR?=
+ =?us-ascii?Q?VhWGO5YcjS4mhH3hoRCcP1eDY5VcpCyjxBswEv+kM1zP1Ez8X7sIuJxgh1s0?=
+ =?us-ascii?Q?pB5S4PNOyK+ljg5Y8BiN/F+qAUoRR/J7dO1YB0LyN3i0nB5cr1RWsFQUx5UW?=
+ =?us-ascii?Q?dlDd1+KdFAx2dKD2Wp90a02NGjhYTbLSSg8WsjMSb5cVn9Ml/ciRuLPUS28Q?=
+ =?us-ascii?Q?+5PL8UPxA7unerVf8Vx7NHBTS1pqG38SS+2Dxy5kaU5zjeY2KXXSDtXqY8gP?=
+ =?us-ascii?Q?3zoo6PrhcbQUd/RAdKsgPqMNbYYFIVPEbejhnvurlM/60vecxl0eftLFiuyN?=
+ =?us-ascii?Q?QYvH0w1NHEXTJonIhyM/aYyjEYyKFlmsYUo5Vo/a3nQYtZZSTNKatTu27b+A?=
+ =?us-ascii?Q?AQTgufNoyjCxHHVmHTkKGSvMjqtTKu4N1duZDcHirep3yQxeduJ7I0D3hNvE?=
+ =?us-ascii?Q?iNMw5rpTuz88lZxZaluS4rEpBEZzgGturi1Vzh9hn3tGbokAIkAvRJQks8eE?=
+ =?us-ascii?Q?AKOa6rQOlYj74OlW2ySv/WhZ2/bh8jlUeWN6w8M7vAHTSks2FdM1pnrRd1bL?=
+ =?us-ascii?Q?EtjoFtNXQTdwNy091jiMuH87fpdWuTxAPflrBakbV5kOPiYX+mttSE02IItj?=
+ =?us-ascii?Q?W9JIWtmgGczxEK+bHsAYaX+Nu4Fm55xOhBEQmGA6oE8KYNyu2HbDdeNlOsP9?=
+ =?us-ascii?Q?0PR/DkWYd4hX7XuEHrGOwBBOf7TTTykp5CQFHdQXQQlk80vc0IRFl1Lv/KTt?=
+ =?us-ascii?Q?3d5A/9IPlYqpF+VvyKYt3S5sHDYK9nswcBdyihqlWmrBtIFzbQVZxqhSSUiL?=
+ =?us-ascii?Q?uFg61UJJtqUAsJPTDexM8zsP0Ksj4fQFX5Hqe7H6bjYYsHjHBWcxNMqDqe6J?=
+ =?us-ascii?Q?p9bEldBM+n534njADSaCyx9jex5IEwB30IqV8HfbXv3q2jBxzyNJ3rSx2WFb?=
+ =?us-ascii?Q?Wcl7/hQUMT1PVM+zr2xYCDtOFnTIxBnCxLXW3CaXjf+W8JMvZX6v+5sCwoJM?=
+ =?us-ascii?Q?++D/fSz1Q+gl6P5EaXtdUfz3S5kgLdcIlSNv0ykJ9Uy5Atdgvw=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
  SFS:(13230038)(1800799022)(82310400024)(36860700011)(376012); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2024 08:49:07.4318 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3542d91d-1549-4a2e-1422-08dc95bcd71c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2024 08:49:11.2755 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57367f96-9260-4b6c-968a-08dc95bcd966
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A103.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4460
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8585
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,28 +141,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Under DP mst daisy chain configuration, unplug one chained monitor
-during suspend and then resume, observe left connected monitor not
-light up. After analyzing, seems it's due to changing dpcd
-DP_MSTM_CTRL value after LT during reume.
+[Why]
+After supend/resume, with topology unchanged, observe that
+link_address_sent of all mstb are marked as false even the topology probing
+is done without any error.
 
-We used to defer handling UP request by disabling DP_UP_REQ_EN at the
-begining of resume process to avoid some problems. However, it turns
-out that it will cause problem on the hub if we change DP_UP_REQ_EN
-after LT. This series is trying to solve the problem by another way
-that we don't explicitly disable DP_UP_REQ_EN at source side. Instead,
-source should ignore the CSN event before source completeting topology
-probing during resume.
+It is caused by wrongly also include "ret == 0" case as a probing failure
+case.
 
-Wayne Lin (3):
-  drm/dp_mst: Fix all mstb marked as not probed after suspend/resume
-  drm/dp_mst: Skip CSN if topology probing is not done yet
-  drm/amd/display: Solve mst monitors blank out problem after resume
+[How]
+Remove inappropriate checking conditions.
 
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  3 ++-
- drivers/gpu/drm/display/drm_dp_mst_topology.c     | 15 +++++++++++++--
- 2 files changed, 15 insertions(+), 3 deletions(-)
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Harry Wentland <hwentlan@amd.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Imre Deak <imre.deak@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: stable@vger.kernel.org
+Fixes: 37dfdc55ffeb ("drm/dp_mst: Cleanup drm_dp_send_link_address() a bit")
+Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+---
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+index 7f8e1cfbe19d..68831f4e502a 100644
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -2929,7 +2929,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
+ 
+ 	/* FIXME: Actually do some real error handling here */
+ 	ret = drm_dp_mst_wait_tx_reply(mstb, txmsg);
+-	if (ret <= 0) {
++	if (ret < 0) {
+ 		drm_err(mgr->dev, "Sending link address failed with %d\n", ret);
+ 		goto out;
+ 	}
+@@ -2981,7 +2981,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
+ 	mutex_unlock(&mgr->lock);
+ 
+ out:
+-	if (ret <= 0)
++	if (ret < 0)
+ 		mstb->link_address_sent = false;
+ 	kfree(txmsg);
+ 	return ret < 0 ? ret : changed;
 -- 
 2.37.3
 
