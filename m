@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF119183D9
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 16:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC42B9183DB
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 16:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B179210E8D4;
-	Wed, 26 Jun 2024 14:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2D6A10E8D7;
+	Wed, 26 Jun 2024 14:22:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="VufVNKtU";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="vOCcSQJg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A53610E8D7
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 14:22:33 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2ec002caeb3so86666701fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:22:33 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B46710E8D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 14:22:34 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2eaa89464a3so77209141fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:22:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719411751; x=1720016551;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719411752; x=1720016552;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Q5oTyiTDE2zoIXFxITRpatG4bTgLxE9dmxO/uASRAFU=;
- b=VufVNKtUzZh8NZMDpqu8FScC0KvXb25NNuE0vTijlQN6Xf07x6ITqIqGxKbZkevwKu
- sGcGNyNa697cDL0F36Q8ay5tWyRCA7AwXEeE91CCQ7dbzT6UPlytmng9g/PjtlWaMyTF
- UVf02Lg+lMdgr/libDYw3FrkIEcBa+vJmQngZMZ2wUE/WLtFZ4S5jSTzLG2lmclY+VAa
- i4wdT0qyQxOKUKhND3A4X6woLXg9+CIzaBOA2uLvCy5JcgLFZDhTaSAegFOvXYoehyxr
- rNDsTwEwLju8NqW9acuZItRN969vTi5L2BA2D1tbS8W1NWYvIAQ1jVH9rpfwhbsUZfBz
- TJnQ==
+ bh=pSOqd6xFtwNmB6/la0EhwilFZVmFb3e1mPm8GFnYuuc=;
+ b=vOCcSQJgqs6EzrKmpdJDI1yuFQPgoDxRSM+SyAMHyJaDswIcNQkjH5BURIUeyGs24R
+ YhpadhIqkBUL6+Sulmwe/9yxhqhoU4SpljtqSkiXNZ/BRuScqrpxHiRnNTSEspz+HTKP
+ 8riQULtxBWrjS/y+0kjC/VBF9pnZFHbVCbcmMxJRKixHq5l7XxSzq3tC7uGx7XApBiYH
+ FhD+W58R9uMbqm/FXqtkyTu+uZhdgrWLiFZLHUvDyu8SUztU5S8EPbUOa2tQZCB/GbGy
+ XccdTEbheg4axI05adOjt+2ovz/4/ipOG04waov9r1gULREMSxByjM+Dj7nsHoaotRJB
+ py/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719411751; x=1720016551;
+ d=1e100.net; s=20230601; t=1719411752; x=1720016552;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Q5oTyiTDE2zoIXFxITRpatG4bTgLxE9dmxO/uASRAFU=;
- b=S4KPdLPuhqaSGFs+cupgYW6VW/WVSBZlItIBFiRepumZwt2a+32emnAYRh4A2q+JKA
- 8xDpl/ZD2cYFQlWvALMPW9T8/jryPIYHmetPSPQYQxC5P2xigD9gKfO7HvcKigdBC5cn
- P+VhCrOFZB/qDwIMQzL4QsEJwV5aaP7S4mmIv4F2Y3wfzxPD7/A2mWke0CxLyc083N2B
- v88lLUwKLgfq2yktbefI+pQGNnFv0pWqKhEIgOGZYMJukspyNeOb/guW+KiGCzk026OJ
- XpM+lt410p0wq3b++j0d1DUli72RGW+BO6bOJZUp54hviXLhN+02H4oIEyczf40xMkmp
- UF5w==
+ bh=pSOqd6xFtwNmB6/la0EhwilFZVmFb3e1mPm8GFnYuuc=;
+ b=oFq43V7WGP7cfU/5BE0+05FEhcm+71jsEKZUQWikwja6+MrkOh6oe8o1EWupv1PfST
+ JjmQTINTR4w6fXzxBuLrtbGiRpVQJrJ1YGHEVIjCTZ7BKkWV5C4J19fYd5qf2gyXs290
+ hSOIPD3VIYYa4TPtvccjSLGc068RVRubUbPRDkDhJwavBdF5kSOsj1d9VQQa5rhVeMrG
+ 6bMb6qB8TSmOPUYxwjrpg7mvmj1tMlwDYzwQgxnmoiwZ2ZhHGYYAtZXewKQQRMqxp9uF
+ i/vnzGBFhFuOzMmBFb+SjkVmeLV9zmBPHhAeU45DpFYsO2KnWrnoh2qkkZ20F97+VyAB
+ PsHg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVkjwhqIDzkhpN+xXLw+xtzDlKxTuC7Zp9rNN4rVy/tF28rYI/aZp/3AD+dcIQhVnanAajUQSLTs52nS8mdcgaJtNW8yQCSQX+VRP3+IyS7
-X-Gm-Message-State: AOJu0Yw0Y5lhigRsvDI5QazD+HNnmNrOdCWPpBXB6emU28p3QxnhXyZg
- CyDOpoBPCdqWyH7ZvNt7ZZJnTqUuw7hB9Ti8J/zY5/j6J5RgutE4hZukBG3pDqE=
-X-Google-Smtp-Source: AGHT+IGYquuMgMSS+n+tk71AQ/4ysAbKByUybNfZEzAp4mLOcPd1ahbXpUz6gx3baLFJyiijvhFKpg==
-X-Received: by 2002:a05:6512:402a:b0:52c:e184:3dd6 with SMTP id
- 2adb3069b0e04-52ce1843fe7mr9156435e87.0.1719411751338; 
- Wed, 26 Jun 2024 07:22:31 -0700 (PDT)
+ AJvYcCUUbZuHuPJYDgNcZHurLHz2Uu9ldVeRj2/xLqzUy3Yj3bYSzt1FU32xlXmSmwBnMOUCfFdNgfZflut4D0sBnFsoFV0/h/s8L8T5K9cQwTnA
+X-Gm-Message-State: AOJu0YwtukUzDV/lnWIdNx0v4Sph4GRl9qxSmMGs6keWMSbXOr9Ko78M
+ NVUoubKg0+ZkG53RteI9x+k3CTUSsKNoIQ6hP8mnp/unxqoSX1LCPQ1bEZu92D4=
+X-Google-Smtp-Source: AGHT+IG5doh7ICzMm/NrOTR59CEuv2r+Q5IA9UA8wl9i2JaEBBV0vUoMwj/zrNmZXpgh5C2T/Pl7CA==
+X-Received: by 2002:a2e:9b12:0:b0:2ec:559d:991 with SMTP id
+ 38308e7fff4ca-2ec579ffb28mr70805581fa.50.1719411752241; 
+ Wed, 26 Jun 2024 07:22:32 -0700 (PDT)
 Received: from toaster.lan ([2a01:e0a:3c5:5fb1:7be7:aef1:af9e:fff6])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-424c823c28asm27141105e9.5.2024.06.26.07.22.30
+ 5b1f17b1804b1-424c823c28asm27141105e9.5.2024.06.26.07.22.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 26 Jun 2024 07:22:31 -0700 (PDT)
 From: Jerome Brunet <jbrunet@baylibre.com>
@@ -69,10 +69,9 @@ Cc: Jerome Brunet <jbrunet@baylibre.com>, linux-kernel@vger.kernel.org,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2 1/3] dt-bindings: panel-simple-dsi: add lincoln LCD197
- panel bindings
-Date: Wed, 26 Jun 2024 16:22:07 +0200
-Message-ID: <20240626142212.1341556-2-jbrunet@baylibre.com>
+Subject: [PATCH v2 2/3] drm/mipi-dsi: add mipi_dsi_usleep_range helper
+Date: Wed, 26 Jun 2024 16:22:08 +0200
+Message-ID: <20240626142212.1341556-3-jbrunet@baylibre.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240626142212.1341556-1-jbrunet@baylibre.com>
 References: <20240626142212.1341556-1-jbrunet@baylibre.com>
@@ -94,27 +93,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds the bindings for the 1080x1920 Lincoln LCD197 DSI panel to
-panel-simple-dsi.
+Like for mipi_dsi_msleep(), usleep_range() may often be called
+in between mipi_dsi_dcs_*() functions and needs a multi compatible
+counter part.
 
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
- 1 file changed, 2 insertions(+)
+ include/drm/drm_mipi_dsi.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index db5acd2807ed..9b92a05791cc 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -46,6 +46,8 @@ properties:
-       - lg,ld070wx3-sl01
-         # LG Corporation 5" HD TFT LCD panel
-       - lg,lh500wx1-sd03
-+        # Lincoln LCD197 5" 1080x1920 LCD panel
-+      - lincolntech,lcd197
-         # One Stop Displays OSD101T2587-53TS 10.1" 1920x1200 panel
-       - osddisplays,osd101t2587-53ts
-         # Panasonic 10" WUXGA TFT LCD panel
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 71d121aeef24..0f520eeeaa8e 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -10,6 +10,7 @@
+ #define __DRM_MIPI_DSI_H__
+ 
+ #include <linux/device.h>
++#include <linux/delay.h>
+ 
+ struct mipi_dsi_host;
+ struct mipi_dsi_device;
+@@ -297,6 +298,12 @@ ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+ 			msleep(delay);	\
+ 	} while (0)
+ 
++#define mipi_dsi_usleep_range(ctx, min, max)	\
++	do {					\
++		if (!(ctx)->accum_err)		\
++			usleep_range(min, max);	\
++	} while (0)
++
+ /**
+  * enum mipi_dsi_dcs_tear_mode - Tearing Effect Output Line mode
+  * @MIPI_DSI_DCS_TEAR_MODE_VBLANK: the TE output line consists of V-Blanking
 -- 
 2.43.0
 
