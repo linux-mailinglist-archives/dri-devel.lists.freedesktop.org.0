@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F92E917B52
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 10:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDA9917B54
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 10:49:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED2C010E7F4;
-	Wed, 26 Jun 2024 08:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD5710E7D2;
+	Wed, 26 Jun 2024 08:49:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="AOdzkz9k";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="f9NFJUZm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2057.outbound.protection.outlook.com [40.107.243.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91E8B10E7CF;
- Wed, 26 Jun 2024 08:49:15 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2071.outbound.protection.outlook.com [40.107.100.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C750610E7D3;
+ Wed, 26 Jun 2024 08:49:17 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kmDEH3/r+Ipba9Rq0o+IBwBsxNRpUPs+6ba27bfZ7BG3aD42xcFwZkZdBIE2AW77n9TRDzkO3jSe8Z9ftFtpxcc7yFmdL2l416RHgZFWCc9RknqDxZsGw4EVa3dKHPuwNlh42TYTuCABS7rWCR/OzEoTP+HNPFoLDGG7fXsZ1SIxNPFmXYsxKOaIeHTpoahrW/4VrV2HeNPRLYMMnW3lFJNdhcKwrZqj7CQ/r11u2b08vxo3gEseSt+h2/ihoNB23MEftzY0nHLiBHLiALdJpDfZ+6UTbQY7QSX8qlx/eWepCRrMXE+Lg0DSq7W5err9GAF1OqoY88QQ54iR4e6swQ==
+ b=gBIP2w5PMEpZwIHmBOiImrNxwZqB8xZ25HOnMpPqhr2z+STNbN4DdaDoyNG+iRFDGE9V1TdOkONxA3a/IQDyHynNmKmQ+8aXlJfWuq6ntGwuKRj8IWg32OM13NHELnNL68IxQkQ2LUkFRatxe8ufQI2R2+vZ8w3UroSNnTlUYsPsz52mBscaeiiHQWoa3qhbjgoQ1c1zRQAws9IcZiFIUlmmNAaU1yTNrhG767PT5jzwyYzaYcMDtJffFrv8z9laZ6Ob9AxOOQk4eaMDOucAL2n/p7/HuguzKxSrJWTjx0MBnN8aK5C42OQ3Onqb8DA0ML91+o8hDDlh/bo7puCDGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=41IlAKu+Kfg44K7rp6Quje4MpL4vWSW9IUJx3TveHsw=;
- b=SZKoJ2uOMwy9aHFLDo83EX3QlnAO6W/crPkOhXFHAkxS4JMKvl7m0U2/Sx6J5z/JLM/N8Fstg3/1LCvvif7XY+OjS9rl3SQLRN/XW/83bAXul8PUFrHnW6dbc6AJdHIjIIVt9BzPzana74sFPPB4MpJixvFTLSwfC79vB0u4XWdv31UJkrGLA9Xme96ewt3O818eZRH1evcN4h9w+R9KmXk1JniQhteGr/KCx6c30O2rySRmGs3N5MZtGossQcPLI4YL/thG5LdZmkPbqGjHJzo116h3SWYjqob6VxEUgkZYOVR0/A8Hdq8f3HxVFGcv9eOLDfqU3RWPvKa9218lpQ==
+ bh=qgXrJ/U5xkSIHrJJV/Fa3UKRnhMG2KkqaXAgNm0n7wc=;
+ b=B9VnmwLKEtlQd6FSwadGqMBMazz4A/+GIOlYq/oq7Ln92raUR/9d8FauMzDPK0ZTrlz4wI7MWErNTz0894F7c+INe+2gd+geamxIbbmbVK+Tiis15u1lOqTsEXrSGjrobaMTPfruwvcYD2OLKU8tILA4Lz+yXljX5POEZO3x77gpupr1LHjGtlroJZPySz9d++v06nP81hGhtzHCJBCBZfjV3N61JoBKbHddEuAk5HXPjD4cs5GO4DHS70+BzfqBhtweCiTY0y9g/1ee9BgE0l+i906syRcZh0t0CImiDDgCEGDwPCueZnBs6GIYKbnlkD0GWPjCpKCIZ8hhfLNJTw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=41IlAKu+Kfg44K7rp6Quje4MpL4vWSW9IUJx3TveHsw=;
- b=AOdzkz9kKFIH2iZJqy5IqLHAPLPabr4axhW0UJi1BA0EhYrqHHEqSKnTnoQEVZfSb8NFH7ywkagCc2t9ze2pAJgztW9MVQEEGWxXnOZXj+aSETxqHY0scObqanW292INZG+JCdbpq02YZdp+zTh0GYii7Pv40yd5z2MhTT/8Vh8=
-Received: from MN2PR08CA0017.namprd08.prod.outlook.com (2603:10b6:208:239::22)
- by IA1PR12MB8585.namprd12.prod.outlook.com (2603:10b6:208:451::17)
+ bh=qgXrJ/U5xkSIHrJJV/Fa3UKRnhMG2KkqaXAgNm0n7wc=;
+ b=f9NFJUZm4x7MxEHACAh/JpCXJmlKlc5qcjF4rLZjXraTLcr96OKV4cyicGwR/Z1SNBSB3zlSS8JM4ybwl0WC+2ZFi5ppKV3gcoQnvaTEFDX/+pMXzfBtf9Wr7PWDVgImykoDxT4swB/VQ8Q08L8i3qJ9hbkr4NVTuCkt1nH7PHc=
+Received: from MN2PR08CA0025.namprd08.prod.outlook.com (2603:10b6:208:239::30)
+ by SJ1PR12MB6051.namprd12.prod.outlook.com (2603:10b6:a03:48a::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.30; Wed, 26 Jun
- 2024 08:49:11 +0000
+ 2024 08:49:12 +0000
 Received: from BL02EPF0001A103.namprd05.prod.outlook.com
- (2603:10b6:208:239:cafe::b3) by MN2PR08CA0017.outlook.office365.com
- (2603:10b6:208:239::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.38 via Frontend
+ (2603:10b6:208:239:cafe::34) by MN2PR08CA0025.outlook.office365.com
+ (2603:10b6:208:239::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.22 via Frontend
  Transport; Wed, 26 Jun 2024 08:49:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
@@ -51,81 +51,77 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
  BL02EPF0001A103.mail.protection.outlook.com (10.167.241.133) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.20.7677.15 via Frontend Transport; Wed, 26 Jun 2024 08:49:11 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 26 Jun
- 2024 03:49:05 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 26 Jun
- 2024 03:49:04 -0500
+ 2024 03:49:10 -0500
 Received: from wayne-dev-lnx.amd.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 26 Jun 2024 03:49:00 -0500
+ Transport; Wed, 26 Jun 2024 03:49:06 -0500
 From: Wayne Lin <Wayne.Lin@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 CC: <lyude@redhat.com>, <jani.nikula@intel.com>, <imre.deak@intel.com>,
  <daniel@ffwll.ch>, <Harry.Wentland@amd.com>, <jerry.zuo@amd.com>, Wayne Lin
  <Wayne.Lin@amd.com>, Harry Wentland <hwentlan@amd.com>,
  <stable@vger.kernel.org>
-Subject: [PATCH 1/3] drm/dp_mst: Fix all mstb marked as not probed after
- suspend/resume
-Date: Wed, 26 Jun 2024 16:48:23 +0800
-Message-ID: <20240626084825.878565-2-Wayne.Lin@amd.com>
+Subject: [PATCH 2/3] drm/dp_mst: Skip CSN if topology probing is not done yet
+Date: Wed, 26 Jun 2024 16:48:24 +0800
+Message-ID: <20240626084825.878565-3-Wayne.Lin@amd.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20240626084825.878565-1-Wayne.Lin@amd.com>
 References: <20240626084825.878565-1-Wayne.Lin@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: None (SATLEXMB05.amd.com: Wayne.Lin@amd.com does not designate
+Received-SPF: None (SATLEXMB04.amd.com: Wayne.Lin@amd.com does not designate
  permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|IA1PR12MB8585:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57367f96-9260-4b6c-968a-08dc95bcd966
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|SJ1PR12MB6051:EE_
+X-MS-Office365-Filtering-Correlation-Id: bff7334a-12d9-4658-93ad-08dc95bcd9a4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230038|1800799022|82310400024|36860700011|376012; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?50MVwXbhYcH+mMOtlraF+U+NS1Tps8c8h1wibMrrteti/QW0P0orfYunyECk?=
- =?us-ascii?Q?bdnOo0oEzTDfwyYgSI44jzbuaJRbi/KZ/njqk1T0ZsYEidAL8F86IdVYHDYf?=
- =?us-ascii?Q?JUDaT94UMc3qLLRcpMhnGjdYuQx8H9dtZJrVfmByuXlMBxhXxQmRt+CD72ta?=
- =?us-ascii?Q?kk5uFXNRKyU0VRrG9MZxe6XiPRphgIW+u73EJXkJQDOyost4pcAfq3RSnmJ+?=
- =?us-ascii?Q?6rc912vEJT2bPDHHeyB7sk1abiqUg698xV09WH8VE1gr7v+J5KkchoqRebC4?=
- =?us-ascii?Q?ExWsuQKLqI8u9CxwZh171YwgTXlcMRiP8QBO4k3KKtkSjFuaP5gu0WB2Zc6/?=
- =?us-ascii?Q?irigEK7WiWxqg4bX5yPXSC3CoLi1xvOkph8MkvVSg0w4TMALV2BjJWzPjGSR?=
- =?us-ascii?Q?VhWGO5YcjS4mhH3hoRCcP1eDY5VcpCyjxBswEv+kM1zP1Ez8X7sIuJxgh1s0?=
- =?us-ascii?Q?pB5S4PNOyK+ljg5Y8BiN/F+qAUoRR/J7dO1YB0LyN3i0nB5cr1RWsFQUx5UW?=
- =?us-ascii?Q?dlDd1+KdFAx2dKD2Wp90a02NGjhYTbLSSg8WsjMSb5cVn9Ml/ciRuLPUS28Q?=
- =?us-ascii?Q?+5PL8UPxA7unerVf8Vx7NHBTS1pqG38SS+2Dxy5kaU5zjeY2KXXSDtXqY8gP?=
- =?us-ascii?Q?3zoo6PrhcbQUd/RAdKsgPqMNbYYFIVPEbejhnvurlM/60vecxl0eftLFiuyN?=
- =?us-ascii?Q?QYvH0w1NHEXTJonIhyM/aYyjEYyKFlmsYUo5Vo/a3nQYtZZSTNKatTu27b+A?=
- =?us-ascii?Q?AQTgufNoyjCxHHVmHTkKGSvMjqtTKu4N1duZDcHirep3yQxeduJ7I0D3hNvE?=
- =?us-ascii?Q?iNMw5rpTuz88lZxZaluS4rEpBEZzgGturi1Vzh9hn3tGbokAIkAvRJQks8eE?=
- =?us-ascii?Q?AKOa6rQOlYj74OlW2ySv/WhZ2/bh8jlUeWN6w8M7vAHTSks2FdM1pnrRd1bL?=
- =?us-ascii?Q?EtjoFtNXQTdwNy091jiMuH87fpdWuTxAPflrBakbV5kOPiYX+mttSE02IItj?=
- =?us-ascii?Q?W9JIWtmgGczxEK+bHsAYaX+Nu4Fm55xOhBEQmGA6oE8KYNyu2HbDdeNlOsP9?=
- =?us-ascii?Q?0PR/DkWYd4hX7XuEHrGOwBBOf7TTTykp5CQFHdQXQQlk80vc0IRFl1Lv/KTt?=
- =?us-ascii?Q?3d5A/9IPlYqpF+VvyKYt3S5sHDYK9nswcBdyihqlWmrBtIFzbQVZxqhSSUiL?=
- =?us-ascii?Q?uFg61UJJtqUAsJPTDexM8zsP0Ksj4fQFX5Hqe7H6bjYYsHjHBWcxNMqDqe6J?=
- =?us-ascii?Q?p9bEldBM+n534njADSaCyx9jex5IEwB30IqV8HfbXv3q2jBxzyNJ3rSx2WFb?=
- =?us-ascii?Q?Wcl7/hQUMT1PVM+zr2xYCDtOFnTIxBnCxLXW3CaXjf+W8JMvZX6v+5sCwoJM?=
- =?us-ascii?Q?++D/fSz1Q+gl6P5EaXtdUfz3S5kgLdcIlSNv0ykJ9Uy5Atdgvw=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GtslV3eotBhlvYLhMa1lP1bUqd6e5mPYdPYtk7roFKqq0TV3aUI9GRQAUIPN?=
+ =?us-ascii?Q?RvxTz1GIenTN9j6uQ+CBzcCbv+d8LRv3L0XdqCwmS9X82nwEsCJXtle4oqLx?=
+ =?us-ascii?Q?p6CcawEqrH0zr1QHJPrK2/aHO6L99vNpyeDCxaKhOq+/9MkNHKmiCt5YycE+?=
+ =?us-ascii?Q?UjLFwqmyBKdPRhpNa8U2SvZsRtTbbNCBMXl8Sqp+HIwyZlTdstENlrrJ4dP7?=
+ =?us-ascii?Q?ydLtqol65wyM8ZA/NJ8hl4l/B14mx3uFAox6AFm7y/dHaExgVWCNpzwLCBZm?=
+ =?us-ascii?Q?YrWAGCHg3NRyVTidEtWOIrUSGVCTw3WZgQ4+f1z+LbNw6fiKxz98YjPHxriC?=
+ =?us-ascii?Q?XlvrUF3SRgi0Jn2YKs2p28w/5h9irCpw10Ryl1ixPn/JYzn7iKU78H7YNPq3?=
+ =?us-ascii?Q?dtlb97CRLxRpuSvrdIwRzUjjYfE4xqY7xvCHhmiE/xevEX9HJiIYx4myX6JC?=
+ =?us-ascii?Q?YdqmBW/MoP7sjpo0HBwr8kS8iJr2eR14WcbU4bCxxJhY5HUq+Ha+mO5k7j/n?=
+ =?us-ascii?Q?4I9UUqw5MK9uqr4wyp74K2tYL1pPlIhRP4trpmEbxNOMDOk+cZWVeXdq52wV?=
+ =?us-ascii?Q?NnVJn0ZO2Zj8UCMASZwFwJOV1kgZFyJbpFqjQP4Fzn5yoHyM7nu8Za0bYGqs?=
+ =?us-ascii?Q?ZlGa/8PZBQF8dI1lTXkFuweXQsL9+FYNFA+bbU+nBilE0dgdOfbsRUJmeFCc?=
+ =?us-ascii?Q?6W+3IUxo8qQ1fFHCZl8x4KWVmoyjv485aGDtTr7K5eYWxwyqgZetQhpj/9ra?=
+ =?us-ascii?Q?rtQNcjlyOmgXUGQgL9YovpPnFDFZAtw6S+4cYRaDTtXxHvXaX3jX6Nh1r1Hw?=
+ =?us-ascii?Q?u4WQshpqbG+9WGk7FsWHL3xAb6Rx9ADplG/wWKynkda8YZzovHfRdg3L7P0i?=
+ =?us-ascii?Q?GV2dbpaccFJ7guGYE+LdB9qn3o6L5DZo5wOHY9aQE1oHfG2dWRhWUtazTFux?=
+ =?us-ascii?Q?RalkgAwfm+jsnoakMIGI8R0Vm1SvNUqEt51MFSre1x5E290w/NS3G5lzu1gn?=
+ =?us-ascii?Q?t2t2KNbr114yFesCSdvEGTN+kjC0YhfAvR4YLZ4fLmpty3TxncY3dYfkgkNo?=
+ =?us-ascii?Q?wCMqOz8HRJZE2m/VgGkkx9Q3nUcUbwmiJLhH+nnq2AT5DtV3mKPW7ZIlqRP+?=
+ =?us-ascii?Q?EcgfGRstuNyUkwVLiXLiVDpEug5S3xHpOEZNA1JweHZSmHGMV5bGsLq/1jvH?=
+ =?us-ascii?Q?dCIc6gYR5qOg9ydVK1KDLpkhs01Gt7gaTpP76YyUaXZhNenawfyD3sUaMAT1?=
+ =?us-ascii?Q?2Sure2O/LlAo1em0qcwqHjhL6dG3aZLCgxd48sOzXmPVaytLASr15MIBORUf?=
+ =?us-ascii?Q?aSKrL2YIma9uqJqYpgKKXA689+6hxZH/cDylgNMko4zIYrjN9zGFGBDgC8wM?=
+ =?us-ascii?Q?GCEz+cIhnNFPn+NQkGRg3eI594jlQSZWc0bKMZcidA9i7eYlwW1aruIBW+6X?=
+ =?us-ascii?Q?wCOplejyf52Jd+CxI46C8V81pOPNxmL/?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
  SFS:(13230038)(1800799022)(82310400024)(36860700011)(376012); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2024 08:49:11.2755 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57367f96-9260-4b6c-968a-08dc95bcd966
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2024 08:49:11.6818 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bff7334a-12d9-4658-93ad-08dc95bcd9a4
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A103.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8585
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6051
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,15 +138,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 [Why]
-After supend/resume, with topology unchanged, observe that
-link_address_sent of all mstb are marked as false even the topology probing
-is done without any error.
-
-It is caused by wrongly also include "ret == 0" case as a probing failure
-case.
+During resume, observe that we receive CSN event before we start topology
+probing. Handling CSN at this moment based on uncertain topology is
+unnecessary.
 
 [How]
-Remove inappropriate checking conditions.
+Add checking condition in drm_dp_mst_handle_up_req() to skip handling CSN
+if the topology is yet to be probed.
 
 Cc: Lyude Paul <lyude@redhat.com>
 Cc: Harry Wentland <hwentlan@amd.com>
@@ -158,34 +152,40 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Cc: Imre Deak <imre.deak@intel.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: stable@vger.kernel.org
-Fixes: 37dfdc55ffeb ("drm/dp_mst: Cleanup drm_dp_send_link_address() a bit")
 Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 7f8e1cfbe19d..68831f4e502a 100644
+index 68831f4e502a..fc2ceae61db2 100644
 --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -2929,7 +2929,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
+@@ -4069,6 +4069,7 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 	if (up_req->msg.req_type == DP_CONNECTION_STATUS_NOTIFY) {
+ 		const struct drm_dp_connection_status_notify *conn_stat =
+ 			&up_req->msg.u.conn_stat;
++		bool handle_csn;
  
- 	/* FIXME: Actually do some real error handling here */
- 	ret = drm_dp_mst_wait_tx_reply(mstb, txmsg);
--	if (ret <= 0) {
-+	if (ret < 0) {
- 		drm_err(mgr->dev, "Sending link address failed with %d\n", ret);
- 		goto out;
- 	}
-@@ -2981,7 +2981,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
- 	mutex_unlock(&mgr->lock);
- 
- out:
--	if (ret <= 0)
-+	if (ret < 0)
- 		mstb->link_address_sent = false;
- 	kfree(txmsg);
- 	return ret < 0 ? ret : changed;
+ 		drm_dbg_kms(mgr->dev, "Got CSN: pn: %d ldps:%d ddps: %d mcs: %d ip: %d pdt: %d\n",
+ 			    conn_stat->port_number,
+@@ -4077,6 +4078,16 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 			    conn_stat->message_capability_status,
+ 			    conn_stat->input_port,
+ 			    conn_stat->peer_device_type);
++
++		mutex_lock(&mgr->probe_lock);
++		handle_csn = mgr->mst_primary->link_address_sent;
++		mutex_unlock(&mgr->probe_lock);
++
++		if (!handle_csn) {
++			drm_dbg_kms(mgr->dev, "Got CSN before finish topology probing. Skip it.");
++			kfree(up_req);
++			goto out;
++		}
+ 	} else if (up_req->msg.req_type == DP_RESOURCE_STATUS_NOTIFY) {
+ 		const struct drm_dp_resource_status_notify *res_stat =
+ 			&up_req->msg.u.resource_stat;
 -- 
 2.37.3
 
