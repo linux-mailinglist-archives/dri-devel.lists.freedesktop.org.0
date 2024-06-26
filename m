@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00319179B8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:31:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D95059179C2
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:32:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E08610E79D;
-	Wed, 26 Jun 2024 07:31:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8108C10E79E;
+	Wed, 26 Jun 2024 07:32:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KjmxHqmZ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Fo+y/5ex";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD1A10E79D
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:31:02 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-366e70d0330so804006f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 00:31:02 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE6810E79E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:32:36 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3650f2e540dso4312841f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 00:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719387060; x=1719991860; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719387155; x=1719991955; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Tv9djtWEOzxTaL6lh9T+uBzCSiUjvyz1rjw0jY3cUB8=;
- b=KjmxHqmZb/wN9dJ47Fvz3HjpH75QTDosDZxNqrcDDooxb2IEwrBceJT7vxVYuWZUrR
- HTICyFkqzo6rLCPDXiuIQFlECTVipcoc51wHspyin47tT2Um0JQVBqx88VAO39Q0dGHy
- dNzwGUTKyA5jyrRc3BKzyNQxz/T2ZtIz8d4V9wSl8EAbRCoXGWSMwLdcfDsoH2ph6PgM
- EO39T4DAownJ4j7gKh0gguqiapKiJI1qt+FPs28Svm9gN2pTvqFQjyhnjtrMqXyPP+HU
- mxNRobr2qVuKwcBLM8DzvCrSNhuw6jL7yyFD55wHUheTKcm2UjJ8FApbYtTaFjoyrg8r
- 2f0w==
+ bh=7W4OioQKN0eIBHViOR9QZ+vNRz4LIKL+fXoMKffOCkw=;
+ b=Fo+y/5ex2Ojwcwwq3s8urzV2NppcC/mtQhVwjXI1Y6ySQAKGPRAy6WbPkCVlrujkX5
+ nqQRIatPbdoNr1Z/uN+DZFrOpEZ98SNBPaSdnQk1x6pT6s8tnn+YfC/YoKtRCZJcxqsY
+ d97nXv46FMOccaU8T5Wd9SJDYNfyM4BxH29PFwhDhxa4HjLr8Nq1MUBvzLoKssx9Mz3l
+ fL5aAgAM8eIMm0BdPGBGFEwOkiGSjdhzsWT6pSWvOS0SjJDqNdtuKslnrvArXGuAVYm1
+ FUI1dVJY9sIM1oqIy0mqVBTOArRWO+CYGp+i02egCIunzbrr3s+g4Jt/SoimPJABj74E
+ Szlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719387060; x=1719991860;
+ d=1e100.net; s=20230601; t=1719387155; x=1719991955;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Tv9djtWEOzxTaL6lh9T+uBzCSiUjvyz1rjw0jY3cUB8=;
- b=vQS9jzxekb6kmKvM8Uej7OzgEDRqjQLwGCbykdradUUr6qBSbTTFiLkd37by7hlDXb
- M4rL/cRZjWjexVpOS35iiOJky9E0HozNb8qVv8dxU2GkiyQvcwA6W7hYv4SuGZAdFewZ
- Qb0xVsMlnWq+M2FTnlqWBnaLhwnAjDGkvxcIU1yH+94egL3KWiTYoJDG1wmCClU2OXXR
- BTMvDmv8JD/SoQgeZkTezs+vKPDIkoZXhjmL9ExIQCMq8oMsiyFcCzTgYNXPATPxTZBM
- yQ7BtZON1isE2WNNIsGSM2A/wjFUVnXqttpz3CnIbPqr7pQjdPEUaY9WjY+jKBjPAXC5
- 01Fg==
+ bh=7W4OioQKN0eIBHViOR9QZ+vNRz4LIKL+fXoMKffOCkw=;
+ b=QaDFOyEY3DzTtXMHmr02V7/5zIrnU+b/sqQyK9foCZrgni1jApAN4htc7PRE7eIYwN
+ Jouzr2WQhrzzts96AlPH3NLoAPN/jQAwHAW/oGBCgwl9OAzlxNi2XGksvEK3XjE6ABZn
+ cCFAFlzdhCRSB9jkOkb4DuhhGTKnAQEZd7fepxHVTpuezJUOk4eQsqG0SJhtkA270Mzh
+ KApuCdynHfEMb0vBLIPfhjYW1llqqtYZhyrbwgTLHjo+1PCNEXT/4PORHb3MORJSEVQ9
+ leEmk0c3+8bm1YM1CLUZTyrTn1H8hLuS+/f2tS58CJ+uBXX1mzhcff3G3bR/N3JUdelc
+ uYdA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVhcfp4ta1WxLpv/h3ePaZJFmJnqM1yKgADF6JA7uv7odV87+KZqD4qBV5/4nw2spJkZMFcsrSMmLFhpQE4UWp0hT9d30z7mrSfF/vUJQiu
-X-Gm-Message-State: AOJu0YwTO8gCWhcDTzlAroUpNP3/IJ/E5dsSKGmUNr/Iaq1eAdMTL/C9
- yVhaqozsb4IxR1oPFd+w0WiARTf3L8kJYIg0QEOtc9xq0Lcjl3kJvgYX0CISbrvc6+S9H8r9Fr1
- 7M/w=
-X-Google-Smtp-Source: AGHT+IFBXULLdxfeEky/0MesQJ9m6VVrSGMEmCaQc90xJfwO02ZaFbxqLfpmYopxto8Z2nDrU6fdNQ==
-X-Received: by 2002:a5d:44c8:0:b0:362:4dc7:dc7b with SMTP id
- ffacd0b85a97d-366e965298amr5956254f8f.58.1719387059782; 
- Wed, 26 Jun 2024 00:30:59 -0700 (PDT)
+ AJvYcCWaQo/R4Cwm6f6lA1hGLH3XGVr28B0YvMIQSNXJE6fZt+lFV8798Lrfm363w3qTzLUh3nIrgCih07MWu0Rczz7JWkzlrdY1kDewGbvQdw2L
+X-Gm-Message-State: AOJu0YzNLUjC1Hnlrz1lQ/3z64MO2wz7ch1wRhsTWiUoVJM0/Brm68UD
+ Yx1dihuAvIva4uLCS4wLEbwkljVnkIH6V48Iz+heRE/tpW/vzsxqhttbfA6bYl4=
+X-Google-Smtp-Source: AGHT+IHkStzMgEtlbhfEd3vr7XWwRbdJYImOIKudj1b47ahck4Suw5YJPuzNImYmMu5zR3rIDZJ4Eg==
+X-Received: by 2002:adf:fc0d:0:b0:355:143:b5f5 with SMTP id
+ ffacd0b85a97d-366e96bf096mr5830496f8f.64.1719387154733; 
+ Wed, 26 Jun 2024 00:32:34 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-366383f6769sm15081665f8f.5.2024.06.26.00.30.58
+ ffacd0b85a97d-3663a8c8f07sm14962150f8f.110.2024.06.26.00.32.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 00:30:59 -0700 (PDT)
+ Wed, 26 Jun 2024 00:32:34 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -70,8 +69,8 @@ In-Reply-To: <20240625145017.1003346-1-jbrunet@baylibre.com>
 References: <20240625145017.1003346-1-jbrunet@baylibre.com>
 Subject: Re: (subset) [PATCH 0/2] arm64: dts: amlogic: add power domain to
  hdmitx
-Message-Id: <171938705880.1642577.605500417615578025.b4-ty@linaro.org>
-Date: Wed, 26 Jun 2024 09:30:58 +0200
+Message-Id: <171938715374.1644768.9308792407844880407.b4-ty@linaro.org>
+Date: Wed, 26 Jun 2024 09:32:33 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -103,10 +102,31 @@ On Tue, 25 Jun 2024 16:50:13 +0200, Jerome Brunet wrote:
 > 
 > [...]
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.11/arm64-dt)
 
-[1/2] dt-bindings: display: meson-dw-hdmi: add missing power-domain
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c19f15b1e056a1ab896d54909f75febf70d98be6
+[2/2] arm64: dts: amlogic: add power domain to hdmitx
+      https://git.kernel.org/amlogic/c/f1ab099d6591a353899a2ee09c89de0fc908e2d2
+
+These changes has been applied on the intermediate git tree [1].
+
+The v6.11/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
+for inclusion in their intermediate git branches in order to be sent to Linus during
+the next merge window, or sooner if it's a set of fixes.
+
+In the cases of fixes, those will be merged in the current release candidate
+kernel and as soon they appear on the Linux master branch they will be
+backported to the previous Stable and Long-Stable kernels [2].
+
+The intermediate git branches are merged daily in the linux-next tree [3],
+people are encouraged testing these pre-release kernels and report issues on the
+relevant mailing-lists.
+
+If problems are discovered on those changes, please submit a signed-off-by revert
+patch followed by a corrective changeset.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 
 -- 
 Neil
