@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF907917D01
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45407917D44
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 12:06:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 869D610E808;
-	Wed, 26 Jun 2024 09:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D005510E81D;
+	Wed, 26 Jun 2024 10:06:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e2aRnLWM";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lPdISokD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4EFD10E808
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:55:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32EC510E81D
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:06:37 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
  [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54C8A73E;
- Wed, 26 Jun 2024 11:55:19 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 963882C5;
+ Wed, 26 Jun 2024 12:06:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1719395719;
- bh=UqxORZFoWrTgtfacpB99r8lUREab2Fbrnsec5IXJypk=;
+ s=mail; t=1719396372;
+ bh=DJ2QP0BaVusK1ZEM98l1QNG5qOn3csmrosSZGE+PPr8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=e2aRnLWMJZzQg5QGhcG3Z8Y4ptYSnu9vHoy8Chj5GttboagVtazoDYP7EsYQjnCtF
- b9pzjTIo1HyYUO5FyenMZS9ytFHSPxnclnqPf30bwkwlxrTlIyddjx8i24wBs9p6Gh
- 4mksNBvsEKLFo3uNQnKMMc+l0vRf9+Vnw0HcEOdo=
-Message-ID: <66ab4206-d1c8-4aad-99a7-c4c316e343a9@ideasonboard.com>
-Date: Wed, 26 Jun 2024 12:55:39 +0300
+ b=lPdISokDpNVRl5+YV68dIQbOZNjTXHlF4StquoOHvZ8DEzxobbYoqAetIgGOHtUqa
+ Bza7A/qVWYNM9a8J+ERQ7WVeWe+Eu5gpPxToe3jnpear/jPMs5JS5ZkWMnSd2yH+dO
+ RU39NwbeuV/yjNUBbfwezoIx4bqer/9850SBuXG4=
+Message-ID: <5b52e560-1fca-4824-9f80-91526bf25062@ideasonboard.com>
+Date: Wed, 26 Jun 2024 13:06:31 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mipi-dsi: Fix devm unregister & detach
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH v4 01/11] drm/bridge: cdns-dsi: Fix OF node pointer
+To: Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-References: <20240619-dsi-devres-fix-v1-1-a5c59310a52e@ideasonboard.com>
- <20240626-gabby-ladybug-of-freedom-08e6eb@houat>
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Dominik Haller <d.haller@phytec.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Thierry Reding <treding@nvidia.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Jai Luthra <j-luthra@ti.com>
+References: <20240622110929.3115714-1-a-bhatia1@ti.com>
+ <20240622110929.3115714-2-a-bhatia1@ti.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -86,7 +98,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240626-gabby-ladybug-of-freedom-08e6eb@houat>
+In-Reply-To: <20240622110929.3115714-2-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,41 +116,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/06/2024 11:49, Maxime Ripard wrote:
-> Hi,
+Hi,
+
+On 22/06/2024 14:09, Aradhya Bhatia wrote:
+> Fix the OF node pointer passed to the of_drm_find_bridge() call to find
+> the next bridge in the display chain.
 > 
-> On Wed, Jun 19, 2024 at 12:07:48PM GMT, Tomi Valkeinen wrote:
->> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>
->> When a bridge driver uses devm_mipi_dsi_device_register_full() or
->> devm_mipi_dsi_attach(), the resource management is moved to devres,
->> which releases the resource automatically when the bridge driver is
->> unbound.
->>
->> However, if the DSI host goes away first, the host unregistration code
->> will automatically detach and unregister any DSI peripherals, without
->> notifying the devres about it. So when the bridge driver later is
->> unbound, the resources are released a second time, leading to crash.
+> To find the next bridge in the pipeline, we need to pass "np" - the OF
+> node pointer of the next entity in the devicetree chain. Passing
+> "of_node" to of_drm_find_bridge will make the function try to fetch the
+> bridge for the cdns-dsi which is not what's required.
 > 
-> That's super surprising. mipi_dsi_device_unregister calls
-> device_unregister, which calls device_del, which in turn calls
-> devres_release_all.
+> Fix that.
 
-Hmm, right.
+The code looks fine, but I'd write the subject and desc from a different 
+perspective. The subject could be something like "Fix connecting to a 
+sink bridge", and the desc could first say that connecting the sink to a 
+DSI panel works, but connecting to a bridge fails, as wrong OF node is 
+passed to of_drm_find_bridge().
 
-> If that doesn't work like that, then it's what needs to be fixed, and
-> not worked around in the MIPI-DSI bus.
-
-Well, something causes a crash for both the device register/unregister 
-case and the attach/detach case, and the call stacks and debug prints 
-showed a double unregister/detach...
-
-I need to dig up the board and check again why the devres_release_all() 
-in device_del() doesn't solve this. But I can probably only get back to 
-this in August, so it's perhaps best to ignore this patch for now.
-
-However, the attach/detach case is still valid? I see no devres calls in 
-the detach paths.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
+
+> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index 7457d38622b0..b016f2ba06bb 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -952,7 +952,7 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+>   		bridge = drm_panel_bridge_add_typed(panel,
+>   						    DRM_MODE_CONNECTOR_DSI);
+>   	} else {
+> -		bridge = of_drm_find_bridge(dev->dev.of_node);
+> +		bridge = of_drm_find_bridge(np);
+>   		if (!bridge)
+>   			bridge = ERR_PTR(-EINVAL);
+>   	}
 
