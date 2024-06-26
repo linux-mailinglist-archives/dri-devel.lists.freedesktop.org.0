@@ -2,115 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71401917F4A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8950D917F74
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:20:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 096FC10E859;
-	Wed, 26 Jun 2024 11:14:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D477110E02C;
+	Wed, 26 Jun 2024 11:20:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b="Mh61quaN";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="5BqrJaai";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="hSGRcJnS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0ECD10E841
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:14:35 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-57d4ee2aaabso114655a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=blackwall-org.20230601.gappssmtp.com; s=20230601; t=1719400474; x=1720005274;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EtgNgXw4xx+u3otM9wLzx6tVvs8OZ+sqt5uPSGOj0/8=;
- b=Mh61quaNuWEvLqHalaH+Ts8oW8/lJmSOpE5P8FIODPc4xDnD7giR2BpXsr+nq0jlch
- jnCLBG8e2Y05Q+28DJJukxSChcA0wC72riLBTMUbEongAN/uh7gTMWMBXnVSaqTtdQRz
- Ywct67YMSH8ES8kOTr6ZJgNosdmhcqK7S2gzQRQn3wc9pA/i4j7rfNR0B+8wU1U+6JQc
- BeZGHtK5nA9n6pi0GmXCwxC/gXUURwvcsy27IPcG6NJnILkOyiJGYQgwp1+FhHzwkk6G
- DjZNE3hVongpsti0ttGmnfT5os4kwVUID8AVb9xdnhssguENz9zb+d1xHKKnfOQWy79A
- KPhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719400474; x=1720005274;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EtgNgXw4xx+u3otM9wLzx6tVvs8OZ+sqt5uPSGOj0/8=;
- b=if4oXFt/+uvhPKXkc5yfDp4Bb2vTjTpPXcVodHKJg/TdyEOotrdjDeeHlswTZmF5vB
- Ob1o8PXUcqVgmUDl69DepUVnj3PpO/uB5UO33/A8RC1QcCL7PzZ9KnmKs2K4xr4g01JX
- hp5NdJwy/QXQehchdqLYHmj4wm7aQYRNNvvfk4sp5ze9XVnl9p9FZg9t5K4FYjtyTftN
- Bd2N7NWMoFXSg+njpCTjZzdeUPwDbRxIxMNpW7/BOstK4zBQaGUhzP11yvCGOGshlvDt
- LASO6+6si19rvBRj7D6JkdoA7K7juLW9bYQJZuzqMadQDxyiBvnbbILcky43YEL32Q1w
- riJA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbWUTs7AUK9rSwcPMHv7jsY7pLQX/AqgEJS9eJVdofG8gkyTHfM9iBKkNXtlBF0TksPEmS8nyfmy7NkDXUNtGd1OKux2fnWyHtU4u8iqRG
-X-Gm-Message-State: AOJu0YxKM0/kbpSzq1LLi471EPKszDKA7GYKSOC4BYx0UofRFLeQudoE
- rBcCzldLuiZiDZFp1qT/bTAekG7Dmqyt8YcqKh/xNbXPajDnYGMZWEMqc5nTRSk=
-X-Google-Smtp-Source: AGHT+IGayyA9DDFhDYoFM+ga8k4lnKPETjVZJrjYalViZSne124FOI0Yd/seFB4YsVb6tDnNMrZMyg==
-X-Received: by 2002:a50:d79e:0:b0:57d:101f:ae9f with SMTP id
- 4fb4d7f45d1cf-57d4bdc76c9mr6673624a12.33.1719400473452; 
- Wed, 26 Jun 2024 04:14:33 -0700 (PDT)
-Received: from [192.168.51.243] ([78.128.78.220])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-57d303d7b26sm7088836a12.3.2024.06.26.04.14.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jun 2024 04:14:33 -0700 (PDT)
-Message-ID: <1d0483b9-13bc-426e-a57a-69044d5098c1@blackwall.org>
-Date: Wed, 26 Jun 2024 14:14:23 +0300
+Received: from fhigh3-smtp.messagingengine.com
+ (fhigh3-smtp.messagingengine.com [103.168.172.154])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CED710E02C
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:20:16 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailfhigh.nyi.internal (Postfix) with ESMTP id 7BE7C11403B7;
+ Wed, 26 Jun 2024 07:20:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 26 Jun 2024 07:20:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:subject
+ :subject:to:to; s=fm2; t=1719400815; x=1719487215; bh=fkOGLKTKKu
+ fIvxA5SItl5LCFUub24XZOe7xquE5snEY=; b=5BqrJaailBsUYuKzXmNr1uTHjT
+ fMTM2xb18DZG8jd8VWp9FVFhxdRjN4K8XBr9X7dzUM9ZGFpaIwIL3h6N6ldlcIwd
+ uRg9Ro2rc4ZbyS+e0o5Q80CHre/cfTfOd0b+isFPke/sl3lY4jcSzilFC6OYjtt/
+ 0iKKq1io8M4UIIZ5ChpPAtBkJbE2O5T1YYOTSnlHnR+gjSdoaz2fXlhYAtOFdoYF
+ N1B3BUOqTeyJgiP4m0krXlSTLCsJ2tjEVAagEKV3R6dleM/ConRid2oySO1OU/Ep
+ bFaNckGlYvQpG8hWSfW7aVLwB4UL3zex6fZwYCKiE5azqhHwYktb6Ut9UOLg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1719400815; x=1719487215; bh=fkOGLKTKKufIvxA5SItl5LCFUub2
+ 4XZOe7xquE5snEY=; b=hSGRcJnSRIDDjyKwxBXuXfHvLitxr7CdgsLfbSQfZzCr
+ SZZvG6XY0Uy5XU1y+6pBCPh8UIYPyyask3VNwMw5GaCDbi7eficUTL4z/WzTWeU2
+ 8QRx9L6R/gIjvWQ/HTpJg8/3afrllAip8c+lBsPwm6tNS+EFGRWxRDMufU2zPghi
+ rzngdFv/CKFQGt7ZlqxmtJmI/6iruXL2bTssWXMmhgG2efu8OhZoF8CxowaJEE7+
+ fHWQbPxETBHM5MG7oEO9yYOAwXxbk2G9eDr2lFWHbQ+YbXlJANSBGXkIUXHbbQ+V
+ 8ncR9JGKvfoqRncSrWVvjX9nehNSqxp9qQoLmdIyWQ==
+X-ME-Sender: <xms:bvl7Zrg23EMdEqhckCxFtUfobG7c0Y3Tk7Jdqevs1lPI0g_iGkNm5Q>
+ <xme:bvl7ZoC4ggen1yItOkmOYDNryh2cuULTixdWezGtaUpAaOoA-zeHmNXkeE-M2Y70D
+ VNeC_RN3OXKSOV-6w>
+X-ME-Received: <xmr:bvl7ZrHmy7HmTpJTEgDPkm4YGBN4w9p1fVeyjhMK3ngDgQUx8Smwkn96s_9vCjAIl-ms_9R8XKsmCHJVFnLi0TSMvRik4aL97VQ_Ih8xcEYj5Ufh>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrtddvgdeflecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefthigrnhcuhggr
+ lhhklhhinhcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecuggftrfgrthhtvg
+ hrnhepfeejjefhjefhgfeitdellefhueekfeetueektdejvdeuueegudehudffkeevudeu
+ necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomh
+X-ME-Proxy: <xmx:bvl7ZoSrI1PbmcRKjOVk_a1_HwO-eT-c_REpHGbNLRtURCegqMBYbw>
+ <xmx:bvl7ZoxjPEQA1wUXu1wa_zLWDcav4DFfEf2HqSyOGQnA9SijBEXMOA>
+ <xmx:bvl7Zu7GHP0DWcYNqfnd2OQVc2xFygoUYIda_NRLjE_1HmgNnm6mGQ>
+ <xmx:bvl7ZtwYANrF6ad9tLlShhIJj0oMwZCALF81DvNG9-ZJ_GIq8myFGg>
+ <xmx:b_l7Ztgd4yqkwl-dvezHthPCn0XPYzEv08Di0P3npp15WeiM81oQM8KK>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 26 Jun 2024 07:20:09 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Chris Morgan <macroalpha82@gmail.com>, Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH 0/3] Correct WL-355608-A8 panel compatible
+Date: Wed, 26 Jun 2024 23:17:47 +1200
+Message-ID: <20240626112005.248576-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v14 11/13] net: add SO_DEVMEM_DONTNEED setsockopt
- to release RX frags
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240625195407.1922912-1-almasrymina@google.com>
- <20240625195407.1922912-12-almasrymina@google.com>
-Content-Language: en-US
-From: Nikolay Aleksandrov <razor@blackwall.org>
-In-Reply-To: <20240625195407.1922912-12-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,45 +98,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/06/2024 22:53, Mina Almasry wrote:
-> Add an interface for the user to notify the kernel that it is done
-> reading the devmem dmabuf frags returned as cmsg. The kernel will
-> drop the reference on the frags to make them available for reuse.
-> 
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
-> 
-> v10:
-> - Fix leak of tokens (Nikolay).
-> 
-> v7:
-> - Updated SO_DEVMEM_* uapi to use the next available entry (Arnd).
-> 
-> v6:
-> - Squash in locking optimizations from edumazet@google.com. With his
->    changes we lock the xarray once per sock_devmem_dontneed operation
->    rather than once per frag.
-> 
-> Changes in v1:
-> - devmemtoken -> dmabuf_token (David).
-> - Use napi_pp_put_page() for refcounting (Yunsheng).
-> - Fix build error with missing socket options on other asms.
-> 
-> ---
->   arch/alpha/include/uapi/asm/socket.h  |  1 +
->   arch/mips/include/uapi/asm/socket.h   |  1 +
->   arch/parisc/include/uapi/asm/socket.h |  1 +
->   arch/sparc/include/uapi/asm/socket.h  |  1 +
->   include/uapi/asm-generic/socket.h     |  1 +
->   include/uapi/linux/uio.h              |  4 ++
->   net/core/sock.c                       | 61 +++++++++++++++++++++++++++
->   7 files changed, 70 insertions(+)
-> 
+The previous patch adding support for this panel [1] referred to previously by its serial number only. As discussed after the patch was committed, the preference is to use the integrating device vendor and name in this circumstance.
 
-FWIW,
-Reviewed-by: Nikolay Aleksandrov <razor@blackwall.org>
+This series corrects the panel compatible to reflect the vendor (Anbernic, already in the vendor prefix table), updates the NV3052C panel driver with the new compatible, and lastly adds num-chipselects and sck-gpios to the DT binding example, identified by make dt_bindings_check as required for bit-banged SPI over GPIO lines.
 
+Regards,
+
+Ryan
+
+[1] https://lore.kernel.org/dri-devel/20240530211415.44201-1-ryan@testtoast.com/
+
+Ryan Walklin (3):
+  dt-bindings: display: panel: Rename WL-355608-A8 panel
+  drm: panel: nv3052c: Correct WL-355608-A8 panel compatible
+  dt-bindings: display: panel: correct Anbernic RG35XX panel example
+
+ .../{wl-355608-a8.yaml => anbernic,rg35xx-panel.yaml} | 11 +++++++----
+ drivers/gpu/drm/panel/panel-newvision-nv3052c.c       |  2 +-
+ 2 files changed, 8 insertions(+), 5 deletions(-)
+ rename Documentation/devicetree/bindings/display/panel/{wl-355608-a8.yaml => anbernic,rg35xx-panel.yaml} (76%)
+
+-- 
+2.45.2
 
