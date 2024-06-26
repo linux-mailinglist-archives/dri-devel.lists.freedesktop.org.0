@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60693917F1C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FC5917F29
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:06:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E70A89EAE;
-	Wed, 26 Jun 2024 11:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9829210E840;
+	Wed, 26 Jun 2024 11:06:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sQHageCT";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mEIvUoql";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5013C89EAE
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:03:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF5410E840
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:06:32 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
  [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6518B73E;
- Wed, 26 Jun 2024 13:02:41 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA1F573E;
+ Wed, 26 Jun 2024 13:06:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1719399762;
- bh=gERsFsx3DJe83rNhhgOflhiyJKqXYtpDKlgawOY9RbU=;
+ s=mail; t=1719399968;
+ bh=aR64yKmX6ej7/3TEqCa62+SKj8bUSCcKQ5XwFb4GIpI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sQHageCTN2xmcHbf6GAEwH76sr8ygHpPPR7qCMditF8fabynud86CT8pAb3dbgCsS
- n9PUAw5zGxnZKojpQuI3HZCcFXUZAfpkWBNJhSg2fPs5tUkZclpyB/uGp5qy/+bhau
- WGP+nFaKC8EkkP4N/dyJYnfxpE1T9Vg0L8Q6m54Q=
-Message-ID: <11bf22b8-4a5a-4c9b-8c78-0454165ae711@ideasonboard.com>
-Date: Wed, 26 Jun 2024 14:03:01 +0300
+ b=mEIvUoql/xEeswtnnTQde9c30qV5pm5AGbEwtAzSWNjvkKgqMRjPR/Uzgb84Ymn1d
+ DUO3uT1KlTvH0WREvVL5oRqv81y2Csm7est5X7bIVxPzAqQQfeSzVemgelO8H/2KC6
+ jQp9YyIIiqpVSfl0k5d3sjXz43qUublBAfkCdzFE=
+Message-ID: <f1bb0de3-5cfc-4388-ba81-fde19885a39e@ideasonboard.com>
+Date: Wed, 26 Jun 2024 14:06:27 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/11] drm/bridge: cdns-dsi: Reset the DCS write FIFO
+Subject: Re: [PATCH v4 08/11] drm/mipi-dsi: Add helper to find input format
 To: Aradhya Bhatia <a-bhatia1@ti.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -52,9 +52,9 @@ Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
  Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
  Jai Luthra <j-luthra@ti.com>
 References: <20240622110929.3115714-1-a-bhatia1@ti.com>
- <20240622110929.3115714-8-a-bhatia1@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ <20240622110929.3115714-9-a-bhatia1@ti.com>
 Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -98,7 +98,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240622110929.3115714-8-a-bhatia1@ti.com>
+In-Reply-To: <20240622110929.3115714-9-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,47 +117,85 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 22/06/2024 14:09, Aradhya Bhatia wrote:
-> If any normal DCS write command has already been transmitted prior to
-> transmitting any Zero-Parameter DCS command, then it is necessary to
-> clear the TX FIFO by resetting it. Otherwise, the FIFO points to another
-> location, and the DCS command transmits unnecessary data causing the
-> panel to not work[0].
+> Add a helper API that can be used by the DSI hosts to find the required
+> input bus format for the given output dsi pixel format.
 > 
-> Allow the DCS Write FIFO in the cdns-dsi controller to reset as a rule,
-> before any DCS packet is transmitted to the DSI peripheral.
-> 
-> [0]: Section 12.6.5.7.5.2: "Command Mode Settings" in TDA4VM Technical
->       Reference Manual: https://www.ti.com/lit/zip/spruil1
-
-Hmm so if I read the doc right, it says: if sending zero-parameter dcs 
-command, clear the FIFO and write zero to direct_cmd_wrdat.
-
-Your patch seems to always clear the FIFO, not only for zero-parameter 
-commands. Is that a problem (I don't think so, but...)?
-
-Also, is the direct_cmd_wrdat written at all when sending zero-parameter 
-dcs command?
-
-  Tomi
-
-> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 3 +++
->   1 file changed, 3 insertions(+)
+>   drivers/gpu/drm/drm_mipi_dsi.c | 37 ++++++++++++++++++++++++++++++++++
+>   include/drm/drm_mipi_dsi.h     |  1 +
+>   2 files changed, 38 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> index 126e4bccd868..cad0c1478ef0 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> @@ -1018,6 +1018,9 @@ static ssize_t cdns_dsi_transfer(struct mipi_dsi_host *host,
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+> index a471c46f5ca6..937aa16dfcf6 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -36,6 +36,8 @@
+>   #include <drm/drm_mipi_dsi.h>
+>   #include <drm/drm_print.h>
 >   
->   	cdns_dsi_init_link(dsi);
->   
-> +	/* Reset the DCS Write FIFO */
-> +	writel(0x00, dsi->regs + DIRECT_CMD_FIFO_RST);
+> +#include <linux/media-bus-format.h>
 > +
->   	ret = mipi_dsi_create_packet(&packet, msg);
->   	if (ret)
->   		goto out;
+>   #include <video/mipi_display.h>
+>   
+>   /**
+> @@ -866,6 +868,41 @@ ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+>   }
+>   EXPORT_SYMBOL(mipi_dsi_generic_read);
+>   
+> +/**
+> + * drm_mipi_dsi_get_input_bus_fmt() - Get the required MEDIA_BUS_FMT_* based
+> + *				      input pixel format for a given DSI output
+> + *				      pixel format
+> + * @dsi_format: pixel format that a DSI host needs to output
+> + *
+> + * Various DSI hosts can use this function during their
+> + * &drm_bridge_funcs.atomic_get_input_bus_fmts operation to ascertain
+> + * the MEDIA_BUS_FMT_* pixel format required as input.
+> + *
+> + * RETURNS:
+> + * a 32-bit MEDIA_BUS_FMT_* value on success or 0 in case of failure.
+> + */
+> +u32 drm_mipi_dsi_get_input_bus_fmt(enum mipi_dsi_pixel_format dsi_format)
+> +{
+> +	switch (dsi_format) {
+> +	case MIPI_DSI_FMT_RGB888:
+> +		return MEDIA_BUS_FMT_RGB888_1X24;
+> +
+> +	case MIPI_DSI_FMT_RGB666:
+> +		return MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
+> +
+> +	case MIPI_DSI_FMT_RGB666_PACKED:
+> +		return MEDIA_BUS_FMT_RGB666_1X18;
+> +
+> +	case MIPI_DSI_FMT_RGB565:
+> +		return MEDIA_BUS_FMT_RGB565_1X16;
+> +
+> +	default:
+> +		/* Unsupported DSI Format */
+> +		return 0;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_mipi_dsi_get_input_bus_fmt);
+> +
+>   /**
+>    * mipi_dsi_dcs_write_buffer() - transmit a DCS command with payload
+>    * @dsi: DSI peripheral device
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 71d121aeef24..78a2c7d9eefb 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -290,6 +290,7 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+>   				  const void *payload, size_t size);
+>   ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+>   			      size_t num_params, void *data, size_t size);
+> +u32 drm_mipi_dsi_get_input_bus_fmt(enum mipi_dsi_pixel_format dsi_format);
+>   
+>   #define mipi_dsi_msleep(ctx, delay)	\
+>   	do {				\
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
 
