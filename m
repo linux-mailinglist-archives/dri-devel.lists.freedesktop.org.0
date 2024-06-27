@@ -2,88 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18A991AD16
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 18:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A365D91AD45
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 18:55:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8267710E183;
-	Thu, 27 Jun 2024 16:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B953010E21B;
+	Thu, 27 Jun 2024 16:55:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="y6D6L0bo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eA84aewe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D969C10E183
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 16:46:00 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-36733f09305so946517f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 09:46:00 -0700 (PDT)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4981010E21B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 16:55:49 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-7180e5f735bso1390876a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 09:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1719506758; x=1720111558;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RUlTgVjd1SWrlQFq5ZUdpN+bd1M6z2ww4u0olJxdHqw=;
- b=y6D6L0bogUCeLgPEaUGZO8W6nSOgFJHMo3IttSx5j6m4jDePkBCPfZ0iYZVDrGf6Zt
- 6arIoQunBsmMtTuL0XSutM+1xS/Ww9eR2vHWiNQJikRcTHFZ0/ghu6G9UsMTiwIL1NKP
- c0tp5IhTs0BQzAtmOxgA1jZBYtcoCLl9T7VbEOISx5hM28v2DuTG+fhQrZ02X+qM7Y9C
- hjeXL89dwaUyqkdvqfpcQsRrPJeMV9C4Nj6OT1xGYW9+tLEptXlDCX8YLMuoffBEkZ8+
- gmJMrobV8ph4ca2Jp7zBwJ+UQkPbpe8zWMAutAO6ojM5h43LV+rajcx+RFepr0nd6gmg
- s7ww==
+ d=gmail.com; s=20230601; t=1719507348; x=1720112148; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=5s1GCZEfuoRlEtDfGX4Z4uRrKQp7qaRojctirsO209Y=;
+ b=eA84aeweuD9wkKqzR6RWBQnxPwW+UJ9W2gzZBEcWTNW3MWgjbZCbS4oV7pcODV7m0o
+ pF2I7EaYb9x4bogzaUk83z6PaVK4uamWKYgwh1cXUous0IPYqKOWDUOBudcDC4hSWEjG
+ E6OZsEw26OTVpgn0K29HhIDOc6i60yrJ0AAKZwImuoyh0mNCvmEvAFddBAw3AUpSbUJz
+ uhpbF9jvM26lO39gdDKAbP1dvvORvjeocHmYBU1LXOv5zq/S8M6VB7tfC3PjhSkx9LXS
+ vQ84yQa13pPu0Uf7myCbr+DdXx5qzCWSle7lsvxaerzWmu/Zv45cLfQeqGm7dUA36X7N
+ mUGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719506758; x=1720111558;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RUlTgVjd1SWrlQFq5ZUdpN+bd1M6z2ww4u0olJxdHqw=;
- b=LkeidqLg2ShZTF9ns2ak7Cd7YOfKtb2kHmFFJUw9Mqr7+n/EvbWOuIcsm529hzvs9Q
- KRmy9pZTlgwWvtjrtQJ5Cw/eWEKU/niq0eDW8emJ2yYMKdAqrJj5ePlF1VQPRKdocKez
- ROkcDy6xBd2cmC3mjqg5iEN0boyIxJO9kmESqzOe+KyroVWpr9xvHTUQgdFk72R9a7ud
- h2C/3ydX1F8LVaLJAW16y9f/WrpRMlLJZiCnkyZizHOlvKkM5IFqkCELPHWWf9FWeLnd
- 3wZ8iJhNpvGJsoAbU2CU+zHUvx+g6+lMrtc/jYtUMqZrOQmVuuf4znNo+mi4lazWfFkj
- iRpA==
+ d=1e100.net; s=20230601; t=1719507348; x=1720112148;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5s1GCZEfuoRlEtDfGX4Z4uRrKQp7qaRojctirsO209Y=;
+ b=q4whFTLNl9rYm2p+QPYAKdittBj2ifcSYEPEpMJYRvRUuELVBh1z9h+uVWlPRD+lr4
+ QdjyDNCb+rdObFAnSvO4A4fG7FjwtHHweTx4jhl5w8UVwR5xQA4934vdy8CcmsTG4o27
+ 2YsqVE1g5KMeenkBpiGJrlz/0QVlKRxnFHKJjw/O1wb8sXd6XcNF+b1U1q9nzXgvtVOF
+ GyObFjyWictqotabkYcUKf1FwNwDXFPRXUN4uBV0evRGflUC/xMkrEjDVr4gpRJK8pye
+ 5e++ZJGGbrrfNExhu40qwJ8/SBHnHpUh8u2ZPjbHyG7wL1BoYkkkSqAtQ+CNb7uAIk2D
+ LM8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWgl2JYguH/pr+3pPe087zpHzR8kLLOqkI+8G7ECvivIfTUGjVg2QSxgyQm3XiYYMu1miGCqLjXvzi/OuvpD9Oz9mWufJJpSW1Y6VOf2VxJ
-X-Gm-Message-State: AOJu0Yz3J8jRU+8GnVXnKXRUSZ6krXXwutEwhI33glVqY+viiuGwhO+D
- teefM9bz+FzquFk6nGolOcAKS/XXROjnthHYEmwvy+7b32yR+pbwzdkaW60cZGQ=
-X-Google-Smtp-Source: AGHT+IGIYRxdqaTOfk3Ahf8IGX/zJweg6pUTNHBb0iDQkXENMydzf+ntT71BoddaWEhyCxAUa1GbDA==
-X-Received: by 2002:a05:6000:184f:b0:366:ee84:6a79 with SMTP id
- ffacd0b85a97d-366ee846c15mr12700480f8f.51.1719506758451; 
- Thu, 27 Jun 2024 09:45:58 -0700 (PDT)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
+ AJvYcCXpGUx6qkL6snVzsDRow5oanaW0Uqipmr5uFA1o4NECA3cAdAmpOiPaDuAsn3LoPvGHDkfrk2JePHN9m5d6IttXgu/zB3F33jieTZU8okh3
+X-Gm-Message-State: AOJu0Yy93c5UFYuGrn0XCR06lQ6CtH6O92S7ocGG4kfxx+nzkPby3Yg2
+ 7EQG+u4C3dRJE19FTVwse3LgippBDjflOm0M8bkpzvg3tugRzbMp
+X-Google-Smtp-Source: AGHT+IG6BL8fEiaMXCecNTPZwvWd+gBRgHcwpMbKnA2cp6Z6UbQEM8oUa0CJwRE9vNd+622oh685uA==
+X-Received: by 2002:a17:902:eccc:b0:1fa:3a30:dc8b with SMTP id
+ d9443c01a7336-1faad004f06mr35978975ad.3.1719507348398; 
+ Thu, 27 Jun 2024 09:55:48 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:c4ea:7ce4:91ae:d360])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3674369ecd3sm2401901f8f.104.2024.06.27.09.45.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jun 2024 09:45:58 -0700 (PDT)
-Message-ID: <2fe0c2c0-2f67-4549-b62f-3b9db005d3f7@freebox.fr>
-Date: Thu, 27 Jun 2024 18:45:57 +0200
+ d9443c01a7336-1faac99a30fsm15859035ad.223.2024.06.27.09.55.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jun 2024 09:55:48 -0700 (PDT)
+Date: Thu, 27 Jun 2024 09:55:45 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v3] software node: Implement device_get_match_data fwnode
+ callback
+Message-ID: <Zn2ZkcT5fsUrYUdJ@google.com>
+References: <20240427203650.582989-1-sui.jingfeng@linux.dev>
+ <ZnXbaubPVAUdDIu0@google.com>
+ <7b5305b6-78b0-4add-9e70-271159cfad95@linux.dev>
+ <Zncl_O-NjMRZYGeA@google.com>
+ <ee4e8724-4a19-4814-9b7e-9eb6eb0ac6a3@linux.dev>
+ <ZnfVoQmCE-wJbIYU@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: add TI TDP158
-To: Conor Dooley <conor@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20240627-tdp158-v3-0-fb2fbc808346@freebox.fr>
- <20240627-tdp158-v3-1-fb2fbc808346@freebox.fr>
- <20240627-display-quantum-48c2fa48ed1a@spud>
-Content-Language: en-US
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <20240627-display-quantum-48c2fa48ed1a@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZnfVoQmCE-wJbIYU@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,85 +95,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2024 18:25, Conor Dooley wrote:
-
-> On Thu, Jun 27, 2024 at 01:13:03PM +0200, Marc Gonzalez wrote:
->
->> TDP158 is an AC-coupled DVI / HDMI to TMDS level shifting Redriver.
->> It supports DVI 1.0, HDMI 1.4b and 2.0b.
->> It supports 4 TMDS channels, HPD, and a DDC interface.
->> It supports dual power supply rails (1.1V on VDD, 3.3V on VCC)
->> for power reduction. Several methods of power management are
->> implemented to reduce overall power consumption.
->> It supports fixed receiver EQ gain using I2C or pin strap to
->> compensate for different lengths input cable or board traces.
->>
->> Features
->>
->> - AC-coupled TMDS or DisplayPort dual-mode physical layer input
->> to HDMI 2.0b TMDS physical layer output supporting up to 6Gbps
->> data rate, compatible with HDMI 2.0b electrical parameters
->> - DisplayPort dual-mode standard version 1.1
->> - Programmable fixed receiver equalizer up to 15.5dB
->> - Global or independent high speed lane control, pre-emphasis
->> and transmit swing, and slew rate control
->> - I2C or pin strap programmable
->> - Configurable as a DisplayPort redriver through I2C
->> - Full lane swap on main lanes
->> - Low power consumption (200 mW at 6Gbps, 8 mW in shutdown)
->>
->> https://www.ti.com/lit/ds/symlink/tdp158.pdf
->>
->> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
->> ---
->>  .../bindings/display/bridge/ti,tdp158.yaml         | 51 ++++++++++++++++++++++
->>  1 file changed, 51 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
->> new file mode 100644
->> index 0000000000000..21c8585c3bb2d
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
->> @@ -0,0 +1,51 @@
->> +# SPDX-License-Identifier: GPL-2.0-only
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/bridge/ti,tdp158.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: TI TDP158 HDMI to TMDS Redriver
->> +
->> +maintainers:
->> +  - Arnaud Vrac <avrac@freebox.fr>
->> +  - Pierre-Hugues Husson <phhusson@freebox.fr>
->> +
->> +properties:
->> +  compatible:
->> +    const: ti,tdp158
->> +
->> +  reg:
->> +    description: I2C address of the device
+On Sun, Jun 23, 2024 at 12:58:25AM -0700, Dmitry Torokhov wrote:
+> On Sun, Jun 23, 2024 at 03:38:23PM +0800, Sui Jingfeng wrote:
+> > Hi,
+> > 
+> > On 6/23/24 03:29, Dmitry Torokhov wrote:
+> > > > In case of non-OF match (which
+> > > > > includes the case where you use software nodes) the match data is coming
+> > > > > from matching spi_device_id entry in the driver.
+> > > > 
+> > > > We don't care about much how it is probed now, rather, after the driver
+> > > > probed by a non-OF way, how does the additional devices properties
+> > > > can be get?
+> > > > 
+> > > > 
+> > > > Say:
+> > > > 
+> > > > 1) "device_property_read_u32(dev, "rotation", &rotation);" and
+> > > > 2) "!device_property_read_string(dev, "pervasive,thermal-zone",
+> > > > &thermal_zone))"
+> > > > 
+> > > > 
+> > > > For those spi/i2c/platform devices, what we argues are that
+> > > > those drivers really should just depend on "OF" before we have
+> > > > a reliable fwnode API backend to redirect to.
+> > > They are working fine without such restriction now,
+> > 
+> > 
+> > You still *NOT* answer where the additional devices properties[1][2]
+> > can be acquire.
+> > 
+> > [1] device_property_read_u32(dev, "rotation", &rotation)
+> > 
+> > [2] device_property_read_string(dev, "pervasive,thermal-zone",
+> > &thermal_zone))
+> > 
+> > 
+> > > so I see absolutely no reason imposing this restriction.
+> > 
+> > The reason is rigorous.
+> > 
+> > You are acclaiming that works by hardcode or by ignoring the flaws
+> > is fine, then all driver are working fine by *your* standard.
+> > 
+> > Your personal standard has nothing to do with this patch.
+> > 
+> > > > Where the additional device_property_read_xxxx() calls redirect to?
+> > > > 
+> > > > What if users want to invoke more device_property_read_xxxx() function?
+> > > They are being directed to first the primary FW node instance, which may
+> > > be either OF, ACPI, or SW node, and then, if property is not present
+> > > there, to the secondary FW node, which can be either again.
+> > 
+> > 
+> > What I'm asking is, on the non-OF and no-ACPI cases, where's those
+> > device_property_read_xxx() calls can be directed to?
+> > 
+> > > At no point ->device_get_match_data() callback in involved in this
+> > > process.
+> > > 
+> > 
+> > The patch is written for people who need it, not for people who don't.
+> > 
+> > It will be involved if the device is associated with software node.
+> > Its for fwnode API user to get a consistent experience, that is
+> > to get a matching data without introduce extra/duplicated match
+> > mechanism.
+> > 
+> > The patch is focus on fixing the undefined behavior, is discussing
+> > the correct way to consolidate the fwnode API. Its not going to
+> > discuss how does the those *old" and/or how does those non-fwnode
+> > systems works.
+> > 
+> > Its NOT discussing how does the driver itself can be probed, a driver
+> > can be probed multiple way and is another question. Being probed and
+> > extract matching data can two different thing and is perfectly valid.
+> > 
+> > Your problem is that you are not fully understand what other people
+> > does before you rush into the discussion. You are putting restrictions
+> > onto other people, while leaving the problem itself there unsolved.
+> > 
+> > Its not a place to express your personal value or you personal status,
+> > such as, you are "ready" or "not ready" for something. Or persuading
+> > somebody should get used to what or teaching people to talks with a
+> > whatever tone like a God.
+> > 
+> > None of those junk words are technical, I can not see constructive
+> > ideas.
 > 
-> Is reg not required? How do you communicate with the device if the i2c
-> bus is not connected? Is the enable GPIO enough to operate it in some
-> situations?
+> Yes, indeed, it appears that further discussion is pointless at this
+> point.
 > 
-> Otherwise this looks good to me, but given Maxime commented about the
-> complexity of the device, I'm probably out of my depth!
+> Andy, Heikki, Greg, and others: FWIW this is a NAK from me.
 
-Valid question.
+Even though I said I will not discuss this topic, I stumbled across some
+of your patches to the DRM subsystem and it looks like what you want is
+actually to help push through this set of patches allowing buses (such as
+platform) define their own ->get_match_data() callback so that
+device_get_match_data() can be used universally:
 
-As discussed in my brilliantly expanded commit message (:p)
-the device can be configured in various ways, either through I2C registers
-or by pin strap. We use the device in its default settings, so we don't
-touch any I2C registers, thus I'm not sure the reg property is required.
+https://lore.kernel.org/all/20230804161728.394920-2-biju.das.jz@bp.renesas.com/
 
->> +required:
->> +  - compatible
->> +  - vcc-supply
->> +  - vdd-supply
->> +  - ports
+Thanks.
 
-
-Regards
-
+-- 
+Dmitry
