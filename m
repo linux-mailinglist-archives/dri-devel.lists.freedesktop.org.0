@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E4B91AC1B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 18:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F48991AC67
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 18:16:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2D2410EB0B;
-	Thu, 27 Jun 2024 16:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32DB810E0ED;
+	Thu, 27 Jun 2024 16:16:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IEskZODN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hu1PvAP6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA6AD10E0ED
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 16:00:15 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6756E10E183
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 16:16:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 652C1CE2F46
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 16:00:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 79423C4AF0C
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 16:00:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 62C0E61E1B;
+ Thu, 27 Jun 2024 16:16:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C6AC2BBFC;
+ Thu, 27 Jun 2024 16:15:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719504012;
- bh=k94Wji3zKkhdAYPbwXrOl8nMt07ZmUBMYxdxTKZ8/dY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IEskZODNlK4RaQHTA9SU1OJUe/A3qGk4mK7XZPhxlQA2qTbDHMLaaDuRP/YuZbad4
- 3dW8OYna4wY+rTDHySLGr3clpTQjsIk0OT2bPT6C8cvOAXMRUMJY5zy2vVxJ3OfDMJ
- Rs4nkI6OkcEUew5yL1G8bby3Rt7w6XNkWN2IszpwYm4jKOKigpkZZ0H5RF1/wdvwLm
- hs6TbSbP5OZoU8W+nkEYBvHP5e/KvBf63aVJQD9jLVDbk88tVQ62O9vKFd76QltJRC
- yPYdVnhWKmk2aciqYFN7/TzZY4vV9adyzQPHik1QkpsZMSL4lioU2WvLQj+7jR4v1W
- k5bgfmUDE5Gag==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 702E1C53B50; Thu, 27 Jun 2024 16:00:12 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218900] amdgpu: Fatal error during GPU init
-Date: Thu, 27 Jun 2024 16:00:11 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: dreamlike_clinking040@simplelogin.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-218900-2300-mSKg53YAhu@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
-References: <bug-218900-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1719504964;
+ bh=K7c7Tx/3He/q87nxZHcjEEng/1qj921BjrT9VEi1+Hs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hu1PvAP6ZKVn0NLwjayviOkvW8z9WohVpCofjvKPM2XNBcoEXOFxaDSqRN4LK40pk
+ WkKe59SHzoOeq/+ykXeFfp3pCIj9kbyhJr0ou2hc95d4f3aeutbzbmnngl9QrYNSvI
+ IjL8Uxuy45qrXu1eQ7RNSPfXqVs2hbnwY6NhOYKxrXpnw/p3rhCXpDpEJBg/G1mqxn
+ bkSdQ0gpxK/GVYsaiYFRpWNkQ7M33X1Y4leT7SnqYmUTGE6XmkS2149B7js2BjRKTj
+ 3plIuDo/xzIxR/qjDNnR+iz5gneAPR0+h/MM8eE6k6sL+XjPFrIvg9U8t/Z0QDgjbG
+ qoKe3AaByLFWA==
+Date: Thu, 27 Jun 2024 17:15:57 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Marc Gonzalez <mgonzalez@freebox.fr>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, Arnaud Vrac <avrac@freebox.fr>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: add TI TDP158
+Message-ID: <20240627-headscarf-density-81bce4f05db4@spud>
+References: <20240625-tdp158-v2-0-a3b344707fa7@freebox.fr>
+ <20240625-tdp158-v2-1-a3b344707fa7@freebox.fr>
+ <20240626-blah-unseated-6cab234bae61@spud>
+ <d2012a93-911c-403e-b1c5-f01916a3200e@freebox.fr>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="51j+MB7mBaap5O9i"
+Content-Disposition: inline
+In-Reply-To: <d2012a93-911c-403e-b1c5-f01916a3200e@freebox.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,31 +74,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
 
-dreamlike_clinking040@simplelogin.com changed:
+--51j+MB7mBaap5O9i
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |dreamlike_clinking040@simpl
-                   |                            |elogin.com
-
---- Comment #21 from dreamlike_clinking040@simplelogin.com ---
-(In reply to Vasant Hegde from comment #19)
-> Unfortunately there was another big in suspend/resume path. Can you please
-> test with below patch?
+On Wed, Jun 26, 2024 at 07:20:46PM +0200, Marc Gonzalez wrote:
+> On 26/06/2024 18:08, Conor Dooley wrote:
 >=20
-> https://lore.kernel.org/linux-iommu/ZnqzXyCU8bn32j4-@8bytes.org/T/
-> #m1cd1520facb8b758efdf7a8c0261f9ee2ec217d7
+> > On Tue, Jun 25, 2024 at 06:38:12PM +0200, Marc Gonzalez wrote:
+> >
+> >> The TI TDP158 is an HDMI to TMDS Redriver.
+> >>
+> >> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> >> ---
+> >>  .../bindings/display/bridge/ti,tdp158.yaml         | 48 +++++++++++++=
++++++++++
+> >>  1 file changed, 48 insertions(+)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tdp15=
+8.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
+> >> new file mode 100644
+> >> index 0000000000000..b687699e2ba80
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
+> >> @@ -0,0 +1,48 @@
+> >> +# SPDX-License-Identifier: GPL-2.0-only
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/display/bridge/ti,tdp158.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: TI TDP158 HDMI to TMDS Redriver
+> >> +
+> >> +maintainers:
+> >> +  - Arnaud Vrac <avrac@freebox.fr>
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    const: ti,tdp158
+> >> +
+> >> +  reg:
+> >> +    description: I2C address of the device
+> >> +
+> >> +  enable-gpios:
+> >> +    description: GPIO controlling bridge enable
+> >> +
+> >> +  vcc-supply:
+> >> +    description: Power supply 3.3V
+> >> +
+> >> +  vdd-supply:
+> >> +    description: Power supply 1.1V
+> >=20
+> > Are these supplies not also required? Surely the device needs the power
+> > to function?
 >=20
+> Maybe if the hamsters spin fast enough in their wheels,
+> these supplies won't be required? :)
 >=20
+> The reason I hesitated to mark them as required,
+> is because the HW engineer told us that on our board
+> they were connected to a power line that is shared
+> between several functional blocks.
 >=20
-> -Vasant
+> I suppose that's not a reason?
 
-Can confirm this patch also fixes my suspend/resume issue, thanks!
+Then all of those blocks should have their supplies described in the
+devicetree! FWIW, if you don't put them in your dts, you'll get
+validation failures but the regulator core will produce dummy regulators
+so your driver should "just workTM". I'd suggest that you add the
+supplies though to these other functional blocks so that the OS can
+manage them properly.
 
---=20
-You may reply to this email to add a comment.
+> Required means "device doesn't work if they're not connected" ?
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Correct.
+
+Thanks,
+Conor.
+
+
+--51j+MB7mBaap5O9i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZn2QPQAKCRB4tDGHoIJi
+0i6XAQChdyjhbaQztpw+CtTA1/jCwob7Fi1bMxWkvk9HlRCwTgEAvCKfze8ePxUC
+qM4DvTLH0GmtnZV0kZoAeKfijK9ngww=
+=+dA0
+-----END PGP SIGNATURE-----
+
+--51j+MB7mBaap5O9i--
