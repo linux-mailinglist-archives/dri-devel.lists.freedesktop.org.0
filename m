@@ -2,103 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F29691A779
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 15:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9498091A7CD
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 15:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9D9F10E182;
-	Thu, 27 Jun 2024 13:11:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 244A810E097;
+	Thu, 27 Jun 2024 13:27:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UCIceEh8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V+AxsEEh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81EEC10E182
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 13:11:51 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
- [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51A2D593;
- Thu, 27 Jun 2024 15:11:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1719493885;
- bh=CbMO8dUUnXvuK9y8QPj3EQeauQtLNS1jftjx5CWgje4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UCIceEh8koC7m+7T+ITdttrPTCbNPD2P49Vxs4ZcC3uNaT6KrFuY9JWa0ZbMxtHx/
- zE0WEt0TnkAWLPlNAMx2DN55v2aFCBC3j5H4jwYKFD6L0j5XcAI4UeKclUGKnMdj2f
- yJ1kme3Uxj314TP/O2HDEbUvb3W8H9X31TA7bYWA=
-Message-ID: <704ca6ba-b270-4e5e-be13-c8ba642e8b85@ideasonboard.com>
-Date: Thu, 27 Jun 2024 16:11:44 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC2910E097;
+ Thu, 27 Jun 2024 13:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719494861; x=1751030861;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=edXXAUuyW2vi5v5+Th0/SBunCdKXls6/MEZOZ14Hpn8=;
+ b=V+AxsEEhT10alnDmZOXZhyBS8IDZEITkq31V1+23yoP1ap0Ji9sXX6/T
+ sjMnbA9eoiemCQY41s+9yAp6qUGjm53ni5Ug4/MqKSsFHNjgTr/hQkqmy
+ 0IzEMQubkDn91ilU/0qy8uzPsgtuta+2ygU4GKiUC7bdvnNkYPlewO+Bt
+ f+LD1oveQUcGWKg4trd07SskyjBqVg4qtDebgnbPzp2rBA7OexV3Ig9KL
+ iIXGukULgw8G0M9u7aJchyRzEeCiEqaCwpOOTMqSwuj5Sc1vrKegF0FB9
+ b8y/QRttsrgC9AtbQZx5m7D6DExr79UKexxm+9HoGMktyFhsKjYYjAVuo A==;
+X-CSE-ConnectionGUID: UfDost+kSuqip4A07xkT7A==
+X-CSE-MsgGUID: tvxqebrLRM2QS27usteTcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="42037533"
+X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; d="scan'208";a="42037533"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2024 06:27:40 -0700
+X-CSE-ConnectionGUID: KHM0HibgQr+rb3vdfynDIA==
+X-CSE-MsgGUID: gsOB4YedR+WWIvx8JcxBYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; d="scan'208";a="81931161"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 27 Jun 2024 06:27:39 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 27 Jun 2024 06:27:39 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 27 Jun 2024 06:27:38 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 27 Jun 2024 06:27:38 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.177)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 27 Jun 2024 06:27:36 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eyH9aSQLazsGhIo56JdxJiH4cOtQewmxNvJ9YTL42aYlm2n2CYJSWlnNysyEY4gjo7UzF/pOQOPGsFsFDewh3WRFSqbCYhldEm/h6V8JPZSJoqEmsGw4I1c544eHXCt3nHfGcHwvmhfWyohrX4SpUeBMYIISlzrVGfkR3QgZxfrf0fqDdny7Ik5jPRDjYywLH6hmzTk306KzxMvIuFEm5csDxYcwWmc9Nn0+nXUXNX8wn020SqpE99m06V1bwPL/BkPP1/+j+ICc3tj8apZ+5Srwgoxees3O87l0M8jZ5t57BU1l+/DBeXLiRiVzUuFv43V+LQ7RDUE6q6vFvHmn6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=edXXAUuyW2vi5v5+Th0/SBunCdKXls6/MEZOZ14Hpn8=;
+ b=ija9iHnHMmpaoMi+B0oiQAyjHidG2b3qiRIybvO6SFNDGAIruDfLLaSJg2F+LXHZvQ3i+4hW3iQa2r+425506xqkmmkGOCPKArd87714kYEoVEilMESZpGVrtK8IU++QI+UjUZXTA5KDdMQkOBGVRD9F5iBfDyRdsYFOjDLJ8Xxjq6PxdfKQXsDgd0vIKuLQx9v50JS513wgTJ7xEahJvKRXKP6Ej08OB/mBk3IRazp8JX+xRttm1GlwBluCkO5z2Y5WTbNdje+sTIv2cpU6/kifLcrqNYtNny7O+/9UbRVxVGz1FeeM2N+H6qK82m93+bYZ8ClKG2aGtzsVnW4qrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by IA1PR11MB7727.namprd11.prod.outlook.com (2603:10b6:208:3f1::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.34; Thu, 27 Jun
+ 2024 13:27:33 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%7]) with mapi id 15.20.7698.025; Thu, 27 Jun 2024
+ 13:27:33 +0000
+Date: Thu, 27 Jun 2024 08:27:30 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+CC: intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Jonathan Cavitt
+ <jonathan.cavitt@intel.com>
+Subject: Re: [PATCH v2 2/2] drm/i915/gem: Use the correct format specifier
+ for resource_size_t
+Message-ID: <s3f54t57t6t3flobqijfzzfhyal7cb27lag6e7bomfjeroxhi4@o4knlwgpzl6u>
+References: <20240617184243.330231-1-andi.shyti@linux.intel.com>
+ <20240617184243.330231-3-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240617184243.330231-3-andi.shyti@linux.intel.com>
+X-ClientProxiedBy: MW4PR04CA0034.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::9) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/tidss: Add OLDI bridge support
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
- Devicetree List <devicetree@vger.kernel.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
- <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Francesco Dolcini <francesco@dolcini.it>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
-References: <20240511193055.1686149-1-a-bhatia1@ti.com>
- <20240511193055.1686149-5-a-bhatia1@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240511193055.1686149-5-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|IA1PR11MB7727:EE_
+X-MS-Office365-Filtering-Correlation-Id: 806866f6-3f40-43ff-1879-08dc96ace6bf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?SksVdCRvDEwKQ76T0ZZOf+sknJDWHUeHrg8GXBxUGgnMk4oDmJJ2fFevkHGM?=
+ =?us-ascii?Q?oD9pQU/cMMv8/g93G/hfw0NC6mzIwRj2H3scRjlP/RmoUarf6UztdIb8E//O?=
+ =?us-ascii?Q?vhK2dncvlvKCy/TeHDxawJhzY8kDluo5U6FP2vmimX/1dntanh5nhqUnS13W?=
+ =?us-ascii?Q?DylTMnL75TrZMhKZ9rMleJ3kMOsDHA77q4Z+PSweke9sC9eGTVA7iV5FlmaR?=
+ =?us-ascii?Q?8OjwmE+ts4D1maO4HmEuhBZknRvT5OQxCuVT1UFjjyMMWVKQn9XC0lGXbyJ4?=
+ =?us-ascii?Q?bsJ5CHZ6HHsJKqOVSC7CYMRjmDkBpsU+CnUNn3o0zHt2EXe9b/dzvkV7O6dd?=
+ =?us-ascii?Q?bCif6KCIV0Lo9ntgthRIJKnXwCkNWUDj13rfAADbVKXETrfyG10pUTHWwau0?=
+ =?us-ascii?Q?6XEwKgZNF8Rhdr9PdemMVG/xfhJNTapYF+xn0E7SIZTXZ/3NbcqySkpnCbxX?=
+ =?us-ascii?Q?grf8Gd+4kXzfVxpPnsNoMcWYjjGSqjbC0ryu/G8+Z7ts1VVR9ccic1MvIetz?=
+ =?us-ascii?Q?Vs7ZkayLqW/7l6eS6dEspHfkM/qYo++bJFqvYnLDa/pZ7hjNodEUPh2TBQWW?=
+ =?us-ascii?Q?FvOL/C2KHnVON7FirlrE+P3lWBzhXyaBhS+wb7sx0lydr0xlrqeH+ghCQLHI?=
+ =?us-ascii?Q?eIQtgbxlCOv+EnEjEzG76NlbEY6q6lcUX4a/XKBZUTKH8VAnpsVMdFQukFDQ?=
+ =?us-ascii?Q?uTLt0ZbTvOrC5QvyBK49edPhAb6t12aOlAh7MlU/XoOdlfX3ZV1sfhA+1R/S?=
+ =?us-ascii?Q?Xzk/6HtQLYvMp47Z8MLLzuYoVDco2ZsvCS9HZ+flzIwy7F7gbALGzduAGj6o?=
+ =?us-ascii?Q?IUgyLcfVqYKBdPZgsPgjuu981seboq7jOiwS7fW4Lk1nZta+AuOegjV6Nfe1?=
+ =?us-ascii?Q?hc2IakJ/xc4eCYaPEhVpaGIeKfuX8Guo6q/08kdQh6g+buVkp8yJPtjri+qG?=
+ =?us-ascii?Q?ykL4KInggYisgkcfZvtCBLW3POQa3+g4dlFux3/EZkeyI50KQbRHwNhx7yHt?=
+ =?us-ascii?Q?JVvXiIMCfY+ZsGLI1qLgKEtVcD4Uw2s0oIJaOBryhWEvyIIWrr9btXgnMxkI?=
+ =?us-ascii?Q?TQcFFFRvlcNUiFPwlnm0LPzCE+RFSUddXo8CfsrgktQYqS72jsSXCA/sLZHG?=
+ =?us-ascii?Q?tGIGrxmQhKAuoV8GyIosrNgpmxngJH458Hm8TAEk8wJ5qSoYK/YKtLTM9mVC?=
+ =?us-ascii?Q?LzSnXvZmcHJnQHaCnPtFMo5p9yTjkFovvOpbyu0JTB+kB8oTPmqCRf3Fp5YH?=
+ =?us-ascii?Q?8PikyL/tLdNlnnIDngXZmUbxzDwZ5wOoCSdisVqI7HyQ9/QyjbrowQ/6lnJu?=
+ =?us-ascii?Q?bcWBIr35LBp0BXTyjHCFebGpmIVeYIioZfE6MZb+Ygxq7w=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/USnk9cRjqusXuFbnzFkxzSrC/QxeXtQzLLwjGZmSlX9DpOZRpk3Ktl4l6H1?=
+ =?us-ascii?Q?bIZDq/diyLaUEhg8ONrsYMc9WsTcluRblCIJMrcXTQb+vBIlTNCG5Njj4OVF?=
+ =?us-ascii?Q?b1qyknTJ9Y63owvzQ7pdU6VucMDxu6J73UZ4denMeQTai2OES1981PQAsvo+?=
+ =?us-ascii?Q?W4zHxIzGHoqj4NNRFlQD/wS0y7OmxBRVeXktTFhd1ziNvHuRfYX8knmlbKqu?=
+ =?us-ascii?Q?zsVS5SbCbLQd8ORYN/wmTl0bt0Q+NDbEn/AfRCFcBNDl50J2w5EPi3/ISyFz?=
+ =?us-ascii?Q?RG6RNjKSX84dCkodm2pPSR4WhHV2a1rQDPfNo6p6zwGDUM/MZdTxXXeyFCmo?=
+ =?us-ascii?Q?ohZxuoDNYSE+iwRqdJUbxDt7k1h5DRdvvZfi9gvbdIbX1T+jb6WxXkF6p3oG?=
+ =?us-ascii?Q?Fz/Kb0IMvbykPo21XgXSJdYPz30hmVGpNbsVw7/ThxbUnQ7FQppYkuhNbtqX?=
+ =?us-ascii?Q?ocajl3dXLD6RNNY6kFbNSWki014TCj3OfrEfa+8D95wUx6nWSIZX3Icu99CP?=
+ =?us-ascii?Q?FPrukRYbedbMgLtd864y8LstuJqVHh49B5Be2WYr/TMpcJouRHt4EAv17epg?=
+ =?us-ascii?Q?D06LL2pAZHRQCDqX1vyfUAO+r/uITszwzmnStWm96K5/UmCtxeamkNODYbrx?=
+ =?us-ascii?Q?M+5KkW4+UZED0TG3tfkb9NVsP6BvieEVPVXCuKGiHPT6qOgtoVIsizCdligg?=
+ =?us-ascii?Q?2PZa8tpSk5izahbfHZWn7P3pjrfCAIVcB2UVJ4S7qldotj++z2lpDhnGpWYZ?=
+ =?us-ascii?Q?eFzh2bb13k9cEr+JJR/JawO3p+8kNdoHw3cjqg9h2taADPc9wE9FsZ3lmtIX?=
+ =?us-ascii?Q?FYAkC1ctyn7fDwA7BrbqBi6hQA7dqihHHaz9GHxLoFUS8fT69LcYDsxlJAmx?=
+ =?us-ascii?Q?3+6upA7Vk85tFa2I0nmOs5gu54aMyUW4iiIg/hlaIV2GKQlP1vQr0ZVigiep?=
+ =?us-ascii?Q?lOit7WmrvqO/82ki2G6hDYRrKmXX1RKvZFMAP89GJid6/+CFUAIg/KxDpGzv?=
+ =?us-ascii?Q?8v1oWg54Xj9txk97m4f4c/ROXukb9202EYG1Mhd63eLnSVIE3nGZM9LYZiib?=
+ =?us-ascii?Q?WNqhGp5aAQvlNhybwO8wpztWCTBApi5YcZWwIwk93FVA+11Vcx4pdlKa9YUV?=
+ =?us-ascii?Q?0GOfLmvNHH/N2IQs4+Ewlwv9EgHEUqb8QhgMFL2VMyihznB0bnk3SXXiIL2z?=
+ =?us-ascii?Q?xNN6qqdykNo4grXPBLpKIO/N07wDpFOcw3UwB52TZA+WeuWuNg0gl7k7W1In?=
+ =?us-ascii?Q?hu9Drt5eR1kkUZSB34EvU+tDJz90P0tMwNMtOM2zTMc4yz4Mzbx6wP1e0TIM?=
+ =?us-ascii?Q?1dXA0YWITS+GjIvykOlqCD+KrEeYeaKv0NTJW1r0cdPGPor5fUB8cD+PQ0qf?=
+ =?us-ascii?Q?dUEt1h37TXnOXn2WiSo6S59eJvbDRcshJH3WI8k40e/t81CjTD/x+Bliu6LP?=
+ =?us-ascii?Q?dtUpMHTZBzj4Dp9hI1xtveA+aIeKeNCmBp8hqV+D5b4p/vCig4lAUDXo7e75?=
+ =?us-ascii?Q?6DXLRTTzFr77N3DxiXDpqtcw1Vl++yjtf7xchT5NQqgUYxWScpYHqoFLlYe8?=
+ =?us-ascii?Q?5nBwr2sT7/mO7+oIvzrwNIL+jjdefu+8TEqqCXhSmxFHy9P3ZUowzZzi8WcN?=
+ =?us-ascii?Q?BQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 806866f6-3f40-43ff-1879-08dc96ace6bf
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2024 13:27:33.1464 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XszFDfmeFbm4B98OOaV17H5//GC3d3PB/c5l+UYWqmpDkPh7lpm4WrOQZ301F5PwCFGUnEH+0IcKjknseG4Glns6cuCohCH7DblyQXpMWqU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7727
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,892 +182,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/05/2024 22:30, Aradhya Bhatia wrote:
-> Up till now, the OLDI support in tidss was integrated within the tidss dispc.
-> This was fine till the OLDI was one-to-mapped with the DSS video-port (VP).
-> The AM62 and AM62P SoCs have 2 OLDI TXes that can support dual-lvds / lvds-clone
-> modes.
-> 
-> Add OLDI TXes as separate DRM bridge entities to better support the new LVDS
-> configurations.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
-> Note:
-> 
-> The OLDI configuration should happen before the video-port configuration takes
-> place in tidss_crtc_atomic_enable hook. I have posted a patch allowing DRM
-> bridges to get enabled before the CRTC of that bridge is enabled[0]. This patch
-> uses the bridge hooks introduced in [0], and hence will not compile without [0].
-> 
-> [0]: Dependency Patch: Introduce early_enable / late_disable drm bridge APIs
-> https://lore.kernel.org/all/20240511153051.1355825-7-a-bhatia1@ti.com/
-> 
-> ---
->   drivers/gpu/drm/tidss/Makefile      |   3 +-
->   drivers/gpu/drm/tidss/tidss_dispc.c |  11 +-
->   drivers/gpu/drm/tidss/tidss_dispc.h |   4 +
->   drivers/gpu/drm/tidss/tidss_drv.c   |  13 +-
->   drivers/gpu/drm/tidss/tidss_drv.h   |   4 +
->   drivers/gpu/drm/tidss/tidss_oldi.c  | 568 ++++++++++++++++++++++++++++
->   drivers/gpu/drm/tidss/tidss_oldi.h  |  73 ++++
->   7 files changed, 673 insertions(+), 3 deletions(-)
->   create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.c
->   create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.h
-> 
-> diff --git a/drivers/gpu/drm/tidss/Makefile b/drivers/gpu/drm/tidss/Makefile
-> index 312645271014..b6d6becf1683 100644
-> --- a/drivers/gpu/drm/tidss/Makefile
-> +++ b/drivers/gpu/drm/tidss/Makefile
-> @@ -7,6 +7,7 @@ tidss-y := tidss_crtc.o \
->   	tidss_irq.o \
->   	tidss_plane.o \
->   	tidss_scale_coefs.o \
-> -	tidss_dispc.o
-> +	tidss_dispc.o \
-> +	tidss_oldi.o
->   
->   obj-$(CONFIG_DRM_TIDSS) += tidss.o
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index 1ad711f8d2a8..4961da3989c0 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -466,6 +466,16 @@ static u32 dispc_vp_read(struct dispc_device *dispc, u32 hw_videoport, u16 reg)
->   	return ioread32(base + reg);
->   }
->   
-> +u32 tidss_get_status(struct tidss_device *tidss)
-> +{
-> +	return dispc_read(tidss->dispc, DSS_SYSSTATUS);
-> +}
-> +
-> +void tidss_configure_oldi(struct tidss_device *tidss, u32 hw_videoport, u32 val)
-> +{
-> +	return dispc_vp_write(tidss->dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, val);
-> +}
-> +
->   /*
->    * TRM gives bitfields as start:end, where start is the higher bit
->    * number. For example 7:0
-> @@ -1310,7 +1320,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
->    * Calculate the percentage difference between the requested pixel clock rate
->    * and the effective rate resulting from calculating the clock divider value.
->    */
-> -static
->   unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
->   {
->   	int r = rate / 100, rr = real_rate / 100;
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-> index 086327d51a90..800a73457aff 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-> @@ -94,6 +94,10 @@ extern const struct dispc_features dispc_am62a7_feats;
->   extern const struct dispc_features dispc_am65x_feats;
->   extern const struct dispc_features dispc_j721e_feats;
->   
-> +u32 tidss_get_status(struct tidss_device *tidss);
-> +void tidss_configure_oldi(struct tidss_device *tidss, u32 hw_videoport, u32 val);
-> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate);
-> +
->   void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask);
->   dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc);
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-> index d15f836dca95..fd90e8498cc2 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -23,6 +23,7 @@
->   #include "tidss_drv.h"
->   #include "tidss_kms.h"
->   #include "tidss_irq.h"
-> +#include "tidss_oldi.h"
->   
->   /* Power management */
->   
-> @@ -140,10 +141,17 @@ static int tidss_probe(struct platform_device *pdev)
->   
->   	spin_lock_init(&tidss->wait_lock);
->   
-> +	ret = tidss_oldi_init(tidss);
-> +	if (ret) {
-> +		if (ret != -EPROBE_DEFER)
-> +			dev_err(dev, "failed to init OLDI (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
->   	ret = dispc_init(tidss);
->   	if (ret) {
->   		dev_err(dev, "failed to initialize dispc: %d\n", ret);
-> -		return ret;
-> +		goto err_oldi_deinit;
->   	}
->   
->   	pm_runtime_enable(dev);
-> @@ -202,6 +210,9 @@ static int tidss_probe(struct platform_device *pdev)
->   	pm_runtime_dont_use_autosuspend(dev);
->   	pm_runtime_disable(dev);
->   
-> +err_oldi_deinit:
-> +	tidss_oldi_deinit(tidss);
+On Mon, Jun 17, 2024 at 08:42:43PM GMT, Andi Shyti wrote:
+>Commit 05da7d9f717b ("drm/i915/gem: Downgrade stolen lmem setup
+>warning") adds a debug message where the "lmem_size" and
+>"dsm_base" variables are printed using the %lli identifier.
+>
+>However, these variables are defined as resource_size_t, which
+>are unsigned long for 32-bit machines and unsigned long long for
+>64-bit machines.
+>
+>The documentation (core-api/printk-formats.rst) recommends using
+>the %pa specifier for printing addresses and sizes of resources.
+>
+>Replace %lli with %pa.
+>
+>This patch also mutes the following sparse warning when compiling
+>with:
 
-Shouldn't this be called tidss_remove()?
+s/sparse//
 
-> +
->   	return ret;
->   }
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-> index d7f27b0b0315..4ccdc177d171 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.h
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
-> @@ -11,6 +11,7 @@
->   
->   #define TIDSS_MAX_PORTS 4
->   #define TIDSS_MAX_PLANES 4
-> +#define TIDSS_MAX_OLDI_TXES 2
->   
->   typedef u32 dispc_irq_t;
->   
-> @@ -27,6 +28,9 @@ struct tidss_device {
->   	unsigned int num_planes;
->   	struct drm_plane *planes[TIDSS_MAX_PLANES];
->   
-> +	unsigned int num_oldis;
-> +	struct tidss_oldi *oldis[TIDSS_MAX_OLDI_TXES];
+I will do that while applying, thanks.
 
-You should probably have "struct tidss_oldi;" in this file.
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-> +
->   	unsigned int irq;
->   
->   	spinlock_t wait_lock;	/* protects the irq masks */
-> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
-> new file mode 100644
-> index 000000000000..fd96ca815542
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
-> @@ -0,0 +1,568 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) 2023 - Texas Instruments Incorporated
-> + *
-> + * Aradhya Bhatia <a-bhati1@ti.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/media-bus-format.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_panel.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +#include "tidss_drv.h"
-> +#include "tidss_oldi.h"
-> +
-> +struct tidss_oldi {
-> +	struct tidss_device	*tidss;
-> +	struct device		*dev;
-> +
-> +	struct drm_bridge	bridge;
-> +	struct drm_bridge	*next_bridge;
-> +
-> +	struct drm_panel *panel;
-> +
-> +	enum tidss_oldi_link_type link_type;
-> +	const struct oldi_bus_format *bus_format;
-> +	u32 oldi_instance;
-> +	u32 parent_vp;
-> +
-> +	struct clk *s_clk;
-> +	struct regmap *io_ctrl;
-> +};
-> +
-> +static const struct oldi_bus_format oldi_bus_formats[] = {
-> +	{ MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,	18, SPWG_18,	MEDIA_BUS_FMT_RGB666_1X18 },
-> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,	24, SPWG_24,	MEDIA_BUS_FMT_RGB888_1X24 },
-> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,	24, JEIDA_24,	MEDIA_BUS_FMT_RGB888_1X24 },
-> +};
-> +
-> +static inline struct tidss_oldi *
-> +drm_bridge_to_tidss_oldi(struct drm_bridge *bridge)
-> +{
-> +	return container_of(bridge, struct tidss_oldi, bridge);
-> +}
-> +
-> +static int tidss_oldi_bridge_attach(struct drm_bridge *bridge,
-> +				    enum drm_bridge_attach_flags flags)
-> +{
-> +	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
-> +
-> +	if (!oldi->next_bridge) {
-> +		dev_err(oldi->dev,
-> +			"%s: OLDI%d Failure attach next bridge\n",
-> +			__func__, oldi->oldi_instance);
-
-Here and in other places: the oldi_instance is unsigned, so %u.
-
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> +		dev_err(oldi->dev,
-> +			"%s: OLDI%d DRM_BRIDGE_ATTACH_NO_CONNECTOR is mandatory.\n",
-> +			__func__, oldi->oldi_instance);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return drm_bridge_attach(bridge->encoder, oldi->next_bridge,
-> +				 bridge, flags);
-> +}
-> +
-> +static int
-> +oldi_set_serial_clk(struct tidss_oldi *oldi, unsigned long rate)
-
-This should be "tidss_oldi_set_serial_clk".
-
-> +{
-> +	unsigned long new_rate;
-> +	int ret;
-> +
-> +	ret = clk_set_rate(oldi->s_clk, rate);
-> +	if (ret) {
-> +		dev_err(oldi->dev,
-> +			"OLDI%d: failed to set serial clk rate to %lu Hz\n",
-> +			 oldi->oldi_instance, rate);
-> +		return ret;
-> +	}
-> +
-> +	new_rate = clk_get_rate(oldi->s_clk);
-> +
-> +	if (dispc_pclk_diff(rate, new_rate) > 5)
-> +		dev_warn(oldi->dev,
-> +			 "OLDI%d Clock rate %lu differs over 5%% from requested %lu\n",
-> +			 oldi->oldi_instance, new_rate, rate);
-> +
-> +	dev_dbg(oldi->dev, "OLDI%d: new rate %lu Hz (requested %lu Hz)\n",
-> +		oldi->oldi_instance, clk_get_rate(oldi->s_clk), rate);
-> +
-> +	return 0;
-> +}
-> +
-> +static void tidss_oldi_tx_power(struct tidss_oldi *oldi, bool power)
-> +{
-> +	u32 val = 0, mask;
-
-Unnecessary initialization.
-
-Isn't the val variable unnecessary? You could just:
-
-regmap_update_bits(oldi->io_ctrl, OLDI_PD_CTRL, mask, power ? 0 : mask);
-
-Oh, hmm, wait... You sometimes turn off the oldis, even if power == true 
-(the default cases)? I guess that's for the OLDI_MODE_UNSUPPORTED case. 
-But why is tidss_oldi_tx_power() even called in that scenario?
-
-Also, I think usually "power" would be named "enable".
-
-> +
-> +	if (WARN_ON(!oldi->io_ctrl))
-
-if oldi->io_ctrl == NULL, hasn't the probe already failed and this can 
-never be called? The WARN_ON(), and the whole if() feels unnecessary to me.
-
-> +		return;
-> +
-> +	/*
-> +	 * The power control bits are Active Low, and remain powered off by
-> +	 * default. That is, the bits are set to 1. To power on the OLDI TXes,
-> +	 * the bits must be cleared to 0. Since there are cases where not all
-> +	 * OLDI TXes are being used, the power logic selectively powers them
-> +	 * on.
-> +	 * Setting the variable 'val' to particular bit masks, makes sure that
-> +	 * the unrequired OLDI TXes remain powered off.
-> +	 */
-> +
-> +	if (power) {
-> +		val = 0;
-> +		switch (oldi->link_type) {
-> +		case OLDI_MODE_SINGLE_LINK:
-> +			if (oldi->oldi_instance == OLDI(0))
-> +				mask = OLDI_PWRDN_TX(0) | OLDI_PWRDN_BG;
-> +			else if (oldi->oldi_instance == OLDI(1))
-> +				mask = OLDI_PWRDN_TX(1) | OLDI_PWRDN_BG;
-> +
-> +			break;
-> +		case OLDI_MODE_CLONE_SINGLE_LINK:
-> +		case OLDI_MODE_DUAL_LINK:
-> +			mask = OLDI_PWRDN_TX(0) | OLDI_PWRDN_TX(1) | OLDI_PWRDN_BG;
-> +			break;
-> +		default:
-> +			if (oldi->oldi_instance == OLDI(0))
-> +				mask = OLDI_PWRDN_TX(0);
-> +			else if (oldi->oldi_instance == OLDI(1))
-> +				mask = OLDI_PWRDN_TX(1);
-> +
-> +			val = mask;
-> +			break;
-> +		}
-> +	} else {
-> +		switch (oldi->link_type) {
-> +		case OLDI_MODE_CLONE_SINGLE_LINK:
-> +		case OLDI_MODE_DUAL_LINK:
-> +			mask = OLDI_PWRDN_TX(0) | OLDI_PWRDN_TX(1) | OLDI_PWRDN_BG;
-> +			break;
-> +		case OLDI_MODE_SINGLE_LINK:
-> +		default:
-> +			if (oldi->oldi_instance == OLDI(0))
-> +				mask = OLDI_PWRDN_TX(0);
-> +			else if (oldi->oldi_instance == OLDI(1))
-> +				mask = OLDI_PWRDN_TX(1);
-> +
-> +			break;
-> +		}
-> +		val = mask;
-> +	}
-> +
-> +	regmap_update_bits(oldi->io_ctrl, OLDI_PD_CTRL, mask, val);
-> +}
-> +
-> +static int tidss_oldi_config(struct tidss_oldi *oldi)
-> +{
-> +	const struct oldi_bus_format *bus_fmt = NULL;
-> +	u32 oldi_reset_bit = BIT(5);
-> +	int count = 0;
-> +	u32 oldi_cfg = 0;
-> +
-> +	bus_fmt = oldi->bus_format;
-> +
-> +	/*
-> +	 * MASTERSLAVE and SRC bits of OLDI Config are always set to 0.
-> +	 */
-> +
-> +	if (bus_fmt->data_width == 24)
-> +		oldi_cfg |= OLDI_MSB;
-> +	else if (bus_fmt->data_width != 18)
-> +		dev_warn(oldi->dev,
-> +			 "OLDI%d: DSS port width %d not supported\n",
-> +			 oldi->oldi_instance, bus_fmt->data_width);
-> +
-> +	oldi_cfg |= OLDI_DEPOL;
-> +
-> +	oldi_cfg = (oldi_cfg & (~OLDI_MAP)) | (bus_fmt->oldi_mode_reg_val << 1);
-> +
-> +	oldi_cfg |= OLDI_SOFTRST;
-> +
-> +	oldi_cfg |= OLDI_ENABLE;
-> +
-> +	switch (oldi->link_type) {
-> +	case OLDI_MODE_SINGLE_LINK:
-> +		/* All configuration is done for this mode.  */
-> +		break;
-> +
-> +	case OLDI_MODE_CLONE_SINGLE_LINK:
-> +		oldi_cfg |= OLDI_CLONE_MODE;
-> +		break;
-> +
-> +	case OLDI_MODE_DUAL_LINK:
-> +		/* data-mapping field also indicates dual-link mode */
-> +		oldi_cfg |= BIT(3);
-> +		oldi_cfg |= OLDI_DUALMODESYNC;
-> +		break;
-> +
-> +	default:
-> +		dev_err(oldi->dev, "OLDI%d: Unsupported mode.\n",
-> +			oldi->oldi_instance);
-> +		return -EINVAL;
-> +	}
-> +
-> +	tidss_configure_oldi(oldi->tidss, oldi->parent_vp, oldi_cfg);
-
-If you expose this kind of function, I think you might as well move the 
-below while loop into that function, and return an error code from 
-tidss_configure_oldi. Then you don't need to expose tidss_get_status().
-
-To handle the other call to tidss_configure_oldi() where you pass 0 as 
-the oldi_cfg, you could either skip the while loop for oldi_cfg == 0 
-(are you sure you don't need to wait in that case too?), or have a 
-separate function in tidss for disabling oldi.
-
-But looking at the AM62a TRM, this doesn't seem to follow the steps. It has:
-
-4. Software checks that the PLLs are stable and locked.
-
-5. Release OLDITX_SW_RST = 1 (by configuring DSS0_VP_DSS_OLDI_CFG[12] 
-SOFTRST register bit).
-
-But you set the OLDITX_SW_RST while configuring.
-
-> +	while (!(oldi_reset_bit & tidss_get_status(oldi->tidss)) &&
-> +	       count < 10000)
-> +		count++;
-> +
-> +	if (!(oldi_reset_bit & tidss_get_status(oldi->tidss)))
-> +		dev_warn(oldi->dev, "%s: OLDI%d timeout waiting OLDI reset done\n",
-> +			 __func__, oldi->oldi_instance);
-> +
-> +	return 0;
-> +}
-> +
-> +static void tidss_oldi_atomic_early_enable(struct drm_bridge *bridge,
-> +					   struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
-> +	struct drm_atomic_state *state = old_bridge_state->base.state;
-> +	struct drm_connector *connector;
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_crtc_state *crtc_state;
-> +	struct drm_display_mode *mode;
-> +
-> +	connector = drm_atomic_get_new_connector_for_encoder(state,
-> +							     bridge->encoder);
-> +	if (WARN_ON(!connector))
-> +		return;
-> +
-> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +	if (WARN_ON(!conn_state))
-> +		return;
-> +
-> +	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-> +	if (WARN_ON(!crtc_state))
-> +		return;
-> +
-> +	mode = &crtc_state->adjusted_mode;
-> +
-> +	/* Configure the OLDI params*/
-> +	tidss_oldi_config(oldi);
-> +
-> +	/* Enable the OLDI serial clock (7 times the pixel clock) */
-
-This doesn't enable the clk, just sets the rate.
-
-> +	oldi_set_serial_clk(oldi, mode->clock * 7 * 1000);
-> +
-> +	/* Enable OLDI IO power */
-> +	tidss_oldi_tx_power(oldi, true);
-> +}
-> +
-> +static void tidss_oldi_atomic_late_disable(struct drm_bridge *bridge,
-> +					   struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
-> +
-> +	/* Disable OLDI IO power */
-> +	tidss_oldi_tx_power(oldi, false);
-> +
-> +	/* Disable OLDI clock by setting IDLE Frequency */
-
-And this doesn't disable the clock...
-
-What is the reason to change the freq at disable time anyway, if the 
-power and OLDI are disabled?
-
-> +	oldi_set_serial_clk(oldi, OLDI_IDLE_CLK_HZ);
-> +
-> +	/* Clear OLDI Config */
-> +	tidss_configure_oldi(oldi->tidss, oldi->parent_vp, 0);
-> +}
-> +
-> +#define MAX_INPUT_SEL_FORMATS	1
-> +
-> +static u32 *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +						 struct drm_bridge_state *bridge_state,
-> +						 struct drm_crtc_state *crtc_state,
-> +						 struct drm_connector_state *conn_state,
-> +						 u32 output_fmt,
-> +						 unsigned int *num_input_fmts)
-> +{
-> +	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
-> +	u32 *input_fmts;
-> +	int i;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(oldi_bus_formats); i++)
-> +		if (oldi_bus_formats[i].bus_fmt == output_fmt)
-> +			break;
-> +
-> +	if (i == ARRAY_SIZE(oldi_bus_formats))
-> +		return NULL;
-> +
-> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-> +			     GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	*num_input_fmts = 1;
-> +	input_fmts[0] = oldi_bus_formats[i].input_bus_fmt;
-> +	oldi->bus_format = &oldi_bus_formats[i];
-> +
-> +	return input_fmts;
-> +}
-> +
-> +static int tidss_oldi_atomic_check(struct drm_bridge *bridge,
-> +				   struct drm_bridge_state *bridge_state,
-> +				   struct drm_crtc_state *crtc_state,
-> +				   struct drm_connector_state *conn_state)
-> +{
-> +	/*
-> +	 * There might be flags negotiation supported in future but
-> +	 * set the bus flags in atomic_check statically for now.
-> +	 */
-> +
-> +	/* Not sure what this is required for, at the moment */
-
-Do you mean that this is required (for OLDI to work) but you don't know 
-why, or that this is not required?
-
-> +	bridge_state->input_bus_cfg.flags = bridge->timings->input_bus_flags;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
-> +	.attach		= tidss_oldi_bridge_attach,
-> +	.atomic_check	= tidss_oldi_atomic_check,
-> +	.atomic_early_enable = tidss_oldi_atomic_early_enable,
-> +	.atomic_late_disable = tidss_oldi_atomic_late_disable,
-> +	.atomic_get_input_bus_fmts = tidss_oldi_atomic_get_input_bus_fmts,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +};
-> +
-> +static int get_oldi_mode(struct device_node *oldi_tx)
-> +{
-> +	struct device_node *companion;
-> +	struct device_node *port0, *port1;
-> +	int pixel_order;
-> +
-> +	/*
-> +	 * Find if the OLDI is paired with another OLDI for combined OLDI
-> +	 * operation (dual-lvds or clone).
-> +	 */
-> +	companion = of_parse_phandle(oldi_tx, "ti,companion-oldi", 0);
-> +	if (!companion) {
-> +		if (of_property_read_bool(oldi_tx, "ti,secondary-oldi"))
-> +			return OLDI_MODE_SECONDARY;
-> +
-> +		/*
-> +		 * The OLDI TX does not have a companion, nor is it a
-> +		 * secondary OLDI. It will operate independently.
-> +		 */
-> +		return OLDI_MODE_SINGLE_LINK;
-> +	}
-> +
-> +	/*
-> +	 * We need to work out if the sink is expecting us to function in
-> +	 * dual-link mode. We do this by looking at the DT port nodes we are
-> +	 * connected to, if they are marked as expecting even pixels and
-> +	 * odd pixels than we need to enable vertical stripe output.
-> +	 */
-> +	port0 = of_graph_get_port_by_id(oldi_tx, 1);
-> +	port1 = of_graph_get_port_by_id(companion, 1);
-> +	pixel_order = drm_of_lvds_get_dual_link_pixel_order(port0, port1);
-> +	of_node_put(port0);
-> +	of_node_put(port1);
-> +	of_node_put(companion);
-> +
-> +	switch (pixel_order) {
-> +	case -EINVAL:
-> +		/*
-> +		 * The dual link properties were not found in at least
-> +		 * one of the sink nodes. Since 2 OLDI ports are present
-> +		 * in the DT, it can be safely assumed that the required
-> +		 * configuration is Clone Mode.
-> +		 */
-> +		return OLDI_MODE_CLONE_SINGLE_LINK;
-> +
-> +	case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
-> +		return OLDI_MODE_DUAL_LINK;
-> +
-> +	/* Unsupported OLDI Modes */
-> +	case DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS:
-> +	default:
-> +		return OLDI_MODE_UNSUPPORTED;
-> +	}
-> +}
-> +
-> +static u32 get_parent_dss_vp(struct device_node *oldi_tx, u32 *parent_vp)
-
-The return value should be int.
-
-> +{
-> +	struct device_node *ep, *dss_port;
-> +	int ret = 0;
-
-Unnecessary initialization.
-
-> +
-> +	ep = of_graph_get_endpoint_by_regs(oldi_tx, OLDI_INPUT_PORT, -1);
-> +	if (ep) {
-> +		dss_port = of_graph_get_remote_port(ep);
-> +		if (!dss_port) {
-> +			ret = -ENODEV;
-> +			goto err_return_ep_port;
-> +		}
-> +
-> +		ret = of_property_read_u32(dss_port, "reg", parent_vp);
-> +
-> +		of_node_put(dss_port);
-> +err_return_ep_port:
-> +		of_node_put(ep);
-> +		return ret;
-> +	}
-> +
-> +	return -ENODEV;
-> +}
-> +
-> +static const struct drm_bridge_timings default_tidss_oldi_timings = {
-> +	.input_bus_flags = DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE
-> +			 | DRM_BUS_FLAG_DE_HIGH,
-> +};
-> +
-> +void tidss_oldi_deinit(struct tidss_device *tidss)
-> +{
-> +	for (int i = 0; i < tidss->num_oldis; i++) {
-> +		if (tidss->oldis[i]) {
-> +			drm_bridge_remove(&tidss->oldis[i]->bridge);
-> +			tidss->oldis[i] = NULL;
-> +		}
-> +	}
-> +}
-> +
-> +int tidss_oldi_init(struct tidss_device *tidss)
-> +{
-> +	struct tidss_oldi *oldi;
-> +	struct device_node *child;
-> +	struct drm_bridge *bridge;
-> +	struct drm_panel *panel;
-> +	u32 parent_vp, oldi_instance;
-> +	enum tidss_oldi_link_type link_type = OLDI_MODE_UNSUPPORTED;
-> +	struct device_node *oldi_parent;
-> +	int ret = 0;
-> +
-> +	tidss->num_oldis = 0;
-> +
-> +	oldi_parent = of_get_child_by_name(tidss->dev->of_node, "oldi-txes");
-> +	if (!oldi_parent)
-> +		/* Return gracefully */
-> +		return 0;
-> +
-> +	for_each_child_of_node(oldi_parent, child) {
-> +		ret = get_parent_dss_vp(child, &parent_vp);
-> +		if (ret) {
-> +			if (ret == -ENODEV) {
-> +				/*
-> +				 * ENODEV means that this particular OLDI node
-> +				 * is not connected with the DSS, which is not
-> +				 * a harmful case. There could be another OLDI
-> +				 * which may still be connected.
-> +				 * Continue to search for that.
-> +				 */
-> +				ret = 0;
-> +				continue;
-> +			}
-> +			goto err_put_node;
-> +		}
-> +
-> +		ret = of_property_read_u32(child, "reg", &oldi_instance);
-> +		if (ret)
-> +			goto err_put_node;
-> +
-> +		/*
-> +		 * Now that its confirmed that OLDI is connected with DSS, let's
-> +		 * continue getting the OLDI sinks ahead and other OLDI
-> +		 * properties.
-> +		 */
-> +		ret = drm_of_find_panel_or_bridge(child, OLDI_OURPUT_PORT, -1,
-> +						  &panel, &bridge);
-> +		if (ret) {
-> +			/*
-> +			 * Either there was no OLDI sink in the devicetree, or
-> +			 * the OLDI sink has not been added yet. In any case,
-> +			 * return.
-> +			 * We don't want to have an OLDI node connected to DSS
-> +			 * but not to any sink.
-> +			 */
-> +			if (ret != -EPROBE_DEFER)
-> +				dev_err(tidss->dev,
-> +					"no panel/bridge for OLDI%d. Error %d\n",
-> +					oldi_instance, ret);
-> +			goto err_put_node;
-> +		}
-> +
-> +		if (panel) {
-> +			bridge = devm_drm_panel_bridge_add(tidss->dev, panel);
-> +			if (IS_ERR(bridge)) {
-> +				ret = PTR_ERR(bridge);
-> +				goto err_put_node;
-> +			}
-> +		}
-> +
-> +		link_type = get_oldi_mode(child);
-> +		if (link_type == OLDI_MODE_UNSUPPORTED) {
-> +			dev_err(tidss->dev,
-> +				"OLDI%d: Unsupported OLDI connection.\n",
-> +				oldi_instance);
-> +			ret = -EINVAL;
-> +			goto err_put_node;
-> +		} else if (link_type == OLDI_MODE_SECONDARY) {
-> +			/*
-> +			 * This is the secondary OLDI node, which serves as a
-> +			 * companinon to the primary OLDI, when it is configured
-> +			 * for the dual-lvds mode. Since the primary OLDI will
-> +			 * be a part of bridge chain, no need to put this one
-> +			 * too. Continue onto the next OLDI node.
-> +			 */
-> +			continue;
-> +		}
-> +
-> +		oldi = devm_kzalloc(tidss->dev, sizeof(*oldi), GFP_KERNEL);
-> +		if (!oldi) {
-> +			ret = -ENOMEM;
-> +			goto err_put_node;
-> +		}
-> +
-> +		oldi->link_type = link_type;
-> +		oldi->oldi_instance = oldi_instance;
-> +		oldi->dev = tidss->dev;
-> +		oldi->next_bridge = bridge;
-> +		oldi->panel = panel;
-> +
-> +		oldi->io_ctrl = syscon_regmap_lookup_by_phandle(child,
-> +								"ti,oldi-io-ctrl");
-> +		if (IS_ERR(oldi->io_ctrl)) {
-> +			dev_err(oldi->dev,
-> +				"%s: oldi%d syscon_regmap_lookup_by_phandle failed %ld\n",
-> +			       __func__, oldi_instance, PTR_ERR(oldi->io_ctrl));
-> +			ret = PTR_ERR(oldi->io_ctrl);
-> +			goto err_put_node;
-> +		}
-> +
-> +		oldi->s_clk = of_clk_get_by_name(child, "s_clk");
-> +		if (IS_ERR(oldi->s_clk)) {
-> +			dev_err(oldi->dev,
-> +				"%s: oldi%d Failed to get s_clk: %ld\n",
-> +				__func__, oldi_instance, PTR_ERR(oldi->s_clk));
-> +			ret = PTR_ERR(oldi->s_clk);
-> +			goto err_put_node;
-> +		}
-> +
-> +		/* Register the bridge. */
-> +		oldi->bridge.of_node = child;
-> +		oldi->bridge.driver_private = oldi;
-> +		oldi->bridge.funcs = &tidss_oldi_bridge_funcs;
-> +		oldi->bridge.timings = &default_tidss_oldi_timings;
-> +
-> +		tidss->oldis[tidss->num_oldis++] = oldi;
-> +		oldi->tidss = tidss;
-> +
-> +		drm_bridge_add(&oldi->bridge);
-> +	}
-> +
-> +err_put_node:
-> +	of_node_put(child);
-> +	of_node_put(oldi_parent);
-> +	return ret;
-
-I usually have the non-error code path at the end of the main function 
-code, with "return 0", and the error cases separately below. Reading the 
-above, it makes me think that if we reach the end of the 
-for_each_child_of_node block, we're in an error state as we pass the 
-err_put_node...
-
-> +}
-> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.h b/drivers/gpu/drm/tidss/tidss_oldi.h
-> new file mode 100644
-> index 000000000000..5ad02ddea11a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tidss/tidss_oldi.h
-> @@ -0,0 +1,73 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Copyright (C) 2023 - Texas Instruments Incorporated
-> + *
-> + * Aradhya Bhatia <a-bhati1@ti.com>
-> + */
-> +
-> +#ifndef __TIDSS_OLDI_H__
-> +#define __TIDSS_OLDI_H__
-> +
-> +#include <linux/media-bus-format.h>
-> +
-> +#include "tidss_drv.h"
-> +#include "tidss_dispc.h"
-> +
-> +struct tidss_oldi;
-> +
-> +/* OLDI Instances */
-> +#define OLDI(n)		n
-
-This is an odd macro... At least the n should be inside parenthesis, 
-but... Isn't a plain number just fine, why do you need a macro?
-
-> +
-> +/* OLDI PORTS */
-> +#define OLDI_INPUT_PORT		0
-> +#define OLDI_OURPUT_PORT	1
-> +
-> +/* OLDI Config Bits */
-> +#define OLDI_ENABLE		BIT(0)
-> +#define OLDI_MAP		(BIT(1) | BIT(2) | BIT(3))
-> +#define OLDI_SRC		BIT(4)
-> +#define OLDI_CLONE_MODE		BIT(5)
-> +#define OLDI_MASTERSLAVE	BIT(6)
-> +#define OLDI_DEPOL		BIT(7)
-> +#define OLDI_MSB		BIT(8)
-> +#define OLDI_LBEN		BIT(9)
-> +#define OLDI_LBDATA		BIT(10)
-> +#define OLDI_DUALMODESYNC	BIT(11)
-> +#define OLDI_SOFTRST		BIT(12)
-> +#define OLDI_TPATCFG		BIT(13)
-
-These are bits of the DISPC_VP_DSS_OLDI_CFG register, so it would be 
-nicer to have these in the tidss_dispc_regs.h.
-
-> +
-> +/* Control MMR Register */
-> +
-> +/* Register offsets */
-> +#define OLDI_PD_CTRL            0x100
-> +#define OLDI_LB_CTRL            0x104
-> +
-> +/* Power control bits */
-> +#define OLDI_PWRDN_TX(n)	BIT(n)
-> +
-> +/* LVDS Bandgap reference Enable/Disable */
-> +#define OLDI_PWRDN_BG		BIT(8)
-> +
-> +#define OLDI_IDLE_CLK_HZ	25000000 /*25 MHz */
-> +
-> +enum tidss_oldi_link_type {
-> +	OLDI_MODE_UNSUPPORTED,
-> +	OLDI_MODE_SINGLE_LINK,
-> +	OLDI_MODE_CLONE_SINGLE_LINK,
-> +	OLDI_MODE_DUAL_LINK,
-> +	OLDI_MODE_SECONDARY,
-> +};
-> +
-> +enum oldi_mode_reg_val { SPWG_18 = 0, JEIDA_24 = 1, SPWG_24 = 2 };
-> +
-> +struct oldi_bus_format {
-> +	u32 bus_fmt;
-> +	u32 data_width;
-> +	enum oldi_mode_reg_val oldi_mode_reg_val;
-> +	u32 input_bus_fmt;
-> +};
-> +
-> +int tidss_oldi_init(struct tidss_device *tidss);
-> +void tidss_oldi_deinit(struct tidss_device *tidss);
-> +
-> +#endif /* __TIDSS_OLDI_H__ */
-
+Lucas De Marchi
