@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A72591AB07
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 17:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6293C91AB04
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 17:21:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B2F110E175;
-	Thu, 27 Jun 2024 15:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C58910E138;
+	Thu, 27 Jun 2024 15:21:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fsTxdUX8";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="A3xf0qzN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A727E10E1EB
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 08:46:45 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45R00hng015138;
- Thu, 27 Jun 2024 08:46:40 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4818010E034
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 10:43:02 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45R2Lpt1025820;
+ Thu, 27 Jun 2024 10:42:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=1CHdrRgxQ8EbF78wEnmcOg
- ydX6IQyLwcMzedVIKQeaI=; b=fsTxdUX8o6TAx+nmrQ1phKp+CWCI0EMH0Jolki
- lXSywBv6YR8WqiJRDrLwvwBP3dUs0EaRC0HJZ7Qou+vShGu0lJO3ygs/1Q48WSRy
- WcJS+YxvuP6/2MkvGdX/6z/Q2/bUmbCZkCJhFHXZ2oFCMYVzrq/zeawolmFs2oRH
- Z53YQPQR0VL1UNvTdXim8lw+bMRqV1+lZT8bA++Hz+7YjCZmyv/BNyvg5MCTWBCe
- HXrJW7Ia/rZg/M0FEbvVeahaNlGhAqjsi5692e8VIgMhLgQ9VJTovvoXrTdwr4xD
- nVLg4maw0Jmu0Jq560kZO1dywFolios17nr83dp3LBQ3HAsg==
+ :mime-version:subject:to; s=qcppdkim1; bh=iA8+6w72zoBMreAJjV6Ek8
+ 9Djj0QZCYy7QrStROEU2k=; b=A3xf0qzNKiZZdyqe6OKfvymzlRqQxpLrjvKaep
+ TedWGqQ+2xvjqkOS66ptOaTpLLVPKi3J3qtsuKfcR792szIkAzJrEG1f6cownWsN
+ N8d8KqpsSF07wmBeveJtcroCIpT/CuQfO7CS1tvP4q5Gnrk89D/toBdnSyYtXeEh
+ 7TQ69YZ6t5syCrj46rKXn5bvdTgubmFCGGwqtwMGDPSTs0/2JXc3X8Vq/GI0TvIf
+ yfM6dD5mwQz8GX67GOcmmGg8laYi6ZhUUHO1HIkajliTTkEw1JX51I91ADQUV3Zm
+ Ma4CONAXhJ8ILAVXQ7JRFx6tg0sOi2m/5pVE0HBBzSrU5pLw==
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywqshuxxs-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywnjs3mqb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jun 2024 08:46:39 +0000 (GMT)
+ Thu, 27 Jun 2024 10:42:57 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
  [10.47.209.197])
  by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45R8kdlM020177
+ 45RAguTf018652
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jun 2024 08:46:39 GMT
+ Thu, 27 Jun 2024 10:42:56 GMT
 Received: from hu-ekangupt-hyd.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 27 Jun 2024 01:46:36 -0700
+ 15.2.1544.9; Thu, 27 Jun 2024 03:42:53 -0700
 From: Ekansh Gupta <quic_ekangupt@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>
 CC: <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
  <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
-Subject: [PATCH v2] misc: fastrpc: Move fastrpc driver to misc/fastrpc/
-Date: Thu, 27 Jun 2024 14:16:27 +0530
-Message-ID: <20240627084628.1590453-1-quic_ekangupt@quicinc.com>
+ <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3] misc: fastrpc: Move fastrpc driver to misc/fastrpc/
+Date: Thu, 27 Jun 2024 16:12:44 +0530
+Message-ID: <20240627104245.1651214-1-quic_ekangupt@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,17 +62,17 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: uNkPQgQrF1g7Yy2LFR7ddug67yYNkttm
-X-Proofpoint-GUID: uNkPQgQrF1g7Yy2LFR7ddug67yYNkttm
+X-Proofpoint-GUID: dLYOfPu00OXOTMin-9_gv63TYftyLbt2
+X-Proofpoint-ORIG-GUID: dLYOfPu00OXOTMin-9_gv63TYftyLbt2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-27_04,2024-06-25_01,2024-05-17_01
+ definitions=2024-06-27_06,2024-06-27_02,2024-05-17_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015
- bulkscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
- mlxscore=0 impostorscore=0 mlxlogscore=751 priorityscore=1501 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
- definitions=main-2406270066
+ priorityscore=1501
+ clxscore=1015 mlxscore=0 suspectscore=0 adultscore=0 mlxlogscore=792
+ impostorscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406270080
 X-Mailman-Approved-At: Thu, 27 Jun 2024 15:21:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,9 +98,12 @@ file:
 https://lore.kernel.org/all/20240606165939.12950-6-quic_ekangupt@quicinc.com/
 
 Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
 Changes in v2:
   - Updated Kconfig.
+Changes in v3:
+  - Added newline in kconfig.
 
  MAINTAINERS                          |  2 +-
  drivers/misc/Kconfig                 | 13 +------------
@@ -173,7 +177,7 @@ index 153a3f4837e8..f83d73844ea5 100644
 +obj-y				+= fastrpc/
 diff --git a/drivers/misc/fastrpc/Kconfig b/drivers/misc/fastrpc/Kconfig
 new file mode 100644
-index 000000000000..7179a44eda84
+index 000000000000..0f238560f855
 --- /dev/null
 +++ b/drivers/misc/fastrpc/Kconfig
 @@ -0,0 +1,16 @@
@@ -193,7 +197,6 @@ index 000000000000..7179a44eda84
 +	  Remote Procedure Call (RPC) mechanisms between the host CPU and
 +	  offload processors Qualcomm Digital Signal Processors (DSPs).
 +	  Say M if you want to enable this module.
-\ No newline at end of file
 diff --git a/drivers/misc/fastrpc/Makefile b/drivers/misc/fastrpc/Makefile
 new file mode 100644
 index 000000000000..77fd2b763b6b
