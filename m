@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EC991B207
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 00:13:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9509191B24E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 00:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 640FE10EB7D;
-	Thu, 27 Jun 2024 22:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE6810EB91;
+	Thu, 27 Jun 2024 22:36:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qJcrqOw3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NTnu6oyH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD49E10E50A
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 22:12:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0316361ED8;
- Thu, 27 Jun 2024 22:12:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8E0C2BBFC;
- Thu, 27 Jun 2024 22:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719526376;
- bh=zEU06ccxlSi4KJtjT+ATfMzZpKaukNTo70MyRTgbSaI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qJcrqOw3YtE/m++3cwXqHzHUknq9Flppdx6qaBv3/VpprcSaoeOE15oQoY4dhpKmu
- ZM9mGAIZ6X8qGNYI/dYu3l6VxCQBRRX0CeUuN3lmMGGwQe76iE9J37+maLg2hFRCsB
- L60iOfQ4rKQ/AACDLkQqpS0Z4k8g1zeSIVrHB9oSyZGj4pJz4aycVqRJVcnSD7kpWP
- 0CSTO5yXNX81IG6DVV20pCz929470AQ65HqXMKHSRDlr6DPIjP7ZVF7mHF+i43pllK
- 8HTTWJdjdMooADpIPNLu/piuVVS3LhDqkGdgKDcIYY8qISRFCDAVfM5eOrhTxXVFqc
- mNk+NPbtQQWiQ==
-Date: Thu, 27 Jun 2024 16:12:55 -0600
-From: Rob Herring <robh@kernel.org>
-To: Caleb Connolly <caleb@postmarketos.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Henrik Rydberg <rydberg@bitmath.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 1/7] dt-bindings: panel: document Samsung AMB655X
-Message-ID: <20240627221255.GA649980-robh@kernel.org>
-References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
- <20240624-oneplus8-v1-1-388eecf2dff7@postmarketos.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C75C010EB8C;
+ Thu, 27 Jun 2024 22:36:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719527808; x=1751063808;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4VTjFHxaIKRxwCqS3v3HXcMZfkDYQjF2heKD2BeVE0M=;
+ b=NTnu6oyH9ZZIAcZU3suCsdan1UDrUliHiG4H+JpSWOqSkNhk8BsRaCnt
+ K2ubUUgub5yEUjTcSUklcYWBcJcF1ZiM6T8kfP8tvkPIutD959cCsufAo
+ IBTK2i1Kd+BPSyhlNDAF9PV6nv+YorpjYgZLBIFn74dNwUho9AW1pFLS0
+ XaoQiByG1Fz8+zZd2j+EVc6AwROxAFxVG6JfsQcvQUiYilirCzGLYV8R0
+ 5p7eQyl71BwQwykhNjz6Pj016XWAVO338DESTuuTGPOTbTYcmjGJgKdTu
+ JIPUbBR+ziM1zOz+SeyTPrZZ2nTJXrgyAHcBFkv9sumjD6ZbT5ROBPzTg Q==;
+X-CSE-ConnectionGUID: XW1NsBe3RruPP+0eemBjGA==
+X-CSE-MsgGUID: GmE67evcSQeumZ6Nk5QOqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16917593"
+X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; d="scan'208";a="16917593"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2024 15:36:47 -0700
+X-CSE-ConnectionGUID: Rlgxk9RfT+ejmCLsE/+d2g==
+X-CSE-MsgGUID: pn4lPLxGTziV7GGBZhpHxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; d="scan'208";a="44655736"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.203])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2024 15:36:42 -0700
+Date: Fri, 28 Jun 2024 00:36:39 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/gem: Suppress oom warning in favour of ENOMEM
+ to userspace
+Message-ID: <Zn3pdz4NrQJPnH6m@ashyti-mobl2.lan>
+References: <20240626143318.11600-1-nirmoy.das@intel.com>
+ <Zn05EPD0PRLdUmuj@ashyti-mobl2.lan>
+ <fe18bed7-5a25-4abb-9745-e887d8211de8@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240624-oneplus8-v1-1-388eecf2dff7@postmarketos.org>
+In-Reply-To: <fe18bed7-5a25-4abb-9745-e887d8211de8@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +73,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 24, 2024 at 03:30:25AM +0200, Caleb Connolly wrote:
-> Describe the Samsung AMB655X panel. It has three supplies.
-> 
-> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
-> ---
->  .../bindings/display/panel/samsung,amb655x.yaml    | 59 ++++++++++++++++++++++
->  1 file changed, 59 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,amb655x.yaml b/Documentation/devicetree/bindings/display/panel/samsung,amb655x.yaml
-> new file mode 100644
-> index 000000000000..eb987d022a0d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,amb655x.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/samsung,amb655x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Samsung AMB655X 1080x2400 120hz AMOLED panel
-> +
-> +maintainers:
-> +  - Caleb Connolly <caleb@postmarketos.org>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: samsung,amb655x
+Hi Nirmoy,
 
-'x' is not a wildcard is it? Those are generally not allowed.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: reset gpio, must be GPIO_ACTIVE_LOW
-
-blank line
-
-> +  vddio-supply: true
-> +  vdd-supply: true
-> +  avdd-supply: true
-> +  enable-gpios: true
-> +  port: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vdd-supply
-> +  - avdd-supply
-> +  - vddio-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        panel@0 {
-> +            compatible = "samsung,ams495qa01";
-> +            reg = <0>;
-> +            reset-gpios = <&gpio4 0 GPIO_ACTIVE_LOW>;
-> +            vdd-supply = <&vcc_3v3>;
-> +
-> +            port {
-> +                mipi_in_panel: endpoint {
-> +                  remote-endpoint = <&mipi_out_panel>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+On Thu, Jun 27, 2024 at 06:56:53PM +0200, Nirmoy Das wrote:
+> On 6/27/2024 12:04 PM, Andi Shyti wrote:
+> > On Wed, Jun 26, 2024 at 04:33:18PM +0200, Nirmoy Das wrote:
+> > > We report object allocation failures to userspace with ENOMEM
+> > > so add __GFP_NOWARN to remove superfluous oom warnings.
+> > I think this should be the default behavior.
+> Yes, when drivers handle ENOMEM situation which is the case for i915/gem
+> code
+> >   ENOMEM doesn't
+> > necessarily mean that there is a kernel failure. Most of the time
+> > we just run out of memory, deal with it :-)
+> > 
+> > Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 > 
-> -- 
-> 2.45.0
-> 
+> Thanks!
+
+while at it... merged in
+
+drm-intel-gt-next
+
+Andi
