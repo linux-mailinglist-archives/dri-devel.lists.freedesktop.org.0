@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7E791A88F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 16:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD77491AB05
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 17:21:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 613AB10E045;
-	Thu, 27 Jun 2024 14:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C14710E0D0;
+	Thu, 27 Jun 2024 15:21:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tDsWygWP";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="G4Ofjrz8";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="P6He/Ack";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27DB410EAC2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:02:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1510461EA8
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:02:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7113CC4AF0E
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:02:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719496942;
- bh=haqyinA5O0jrPvPaCY+hTYShEe3D4xzEGz+XqJKudOE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=tDsWygWPG1UvEl1yw4KL3p/fKQSq64X/uqzYplsAs9Esq0Mw45Dzza291RqO0N/85
- GWM6bXdxmjIAoW9nbMVNTJE3+wXTInsHSNsW8su78Tvf1mc1g6wn1Wk6iDDZPJXNVa
- 3i4MHufhu/EpzNi2b6LeOL16/6Mgb3FP5fDCFXKLO8Z2bbPJGiBAe9qSMDqNRuZfHK
- 7i9K3Ha1627W+KrPkqq+PEN+G3vFNHp5rwKLbsL83myrFcYO3l76cF79/Iad4lUva7
- AHc9Rh559yc09gfr7JEV/jjaqebG2kIBLArT/bQDxpzGfLcsUkn+1YgPji9isbIjon
- LXh4xJKnrbaqw==
-Received: by mail-pg1-f178.google.com with SMTP id
- 41be03b00d2f7-7201cb6cae1so2682122a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 07:02:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUokWytWyL4+8eksLw0IwnfAlv91KPJyWoHoGQb+WYbC0TM7bAnRmE4yMajXqoGXfwdqhpIpxw6ekHM0S2saIJzcmjTT2OPREJgyJpBsBPq
-X-Gm-Message-State: AOJu0YzJ29T1nyiJHOP3OSos9eNR+OOwehVAJD/x73Tc+9GBkcMO+rhY
- 0e59BjkLbQaLqz0JugwuAqOV1g/tvzWZaltv85uh3axomOMYSX9sDWXSXw/vf5XOYGguBCjb48U
- CA9s/dUFxZcJoUVZMWMPdEF479Q==
-X-Google-Smtp-Source: AGHT+IEjPuF+8KUmWpQykLG9Tjg3oIhhxWtBXJcsgAy4abavUazUPTIucmfl5lTNX0+gcaeiTabgHFx4AqJjfR1buSs=
-X-Received: by 2002:a17:90b:1d12:b0:2c8:1e54:4d39 with SMTP id
- 98e67ed59e1d1-2c8582dbfa4mr11861140a91.48.1719496941350; Thu, 27 Jun 2024
- 07:02:21 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 749CD10E19B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 08:45:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1719477913; x=1751013913;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=qKdL3I466UOarYENCEaVrpgGL8F7/4uronFKf9FxfDY=;
+ b=G4Ofjrz8QKIMbEsU5tovD+H7vRhfhsOi1kS6CQrlTqyYH15mcOppzAty
+ KcgxOU9K2Sq+YCrhBcHjF+MfNYUJO/H9J2ZlOQpmZ8JdKh7cHrxwudTTZ
+ 7JpKvko01gBma3YnfjgMYTxm3zklTDO8Ndo8/4T6BRyVduh4fTXUbxZTQ
+ 1E8h1+2Zzfar9ItjK0OKoaKbi6/r/CkckdYFgW6CGJ0iFqr/wQDc4Ba9r
+ QsuKoyDKnWk+Mr4SEg/k1JnAMVhWhc75AUU1Cd6ORAyCMtYw0wldWg03Q
+ HMHmgjox8ukRqayJ8XrX2frmu36JateGdP1h3679HpQhK7Afbw0DtVDv8 A==;
+X-CSE-ConnectionGUID: min0TWq2QR6LXSFkDkLoZQ==
+X-CSE-MsgGUID: pWSdAYrKQwaYjSzI19zzCQ==
+X-IronPort-AV: E=Sophos;i="6.08,269,1712613600"; d="scan'208";a="37617935"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 27 Jun 2024 10:45:11 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 2C9391643F3; Thu, 27 Jun 2024 10:45:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1719477906; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding; bh=qKdL3I466UOarYENCEaVrpgGL8F7/4uronFKf9FxfDY=;
+ b=P6He/AcktrGJmS21zJh76T5I81o8oByDLbn7NG5niKlwypx72MnUJjp+p17D5cO12N+PB6
+ RxcPxP2SBHh8XL6hsGVoJupCEg6US0tZcOf3KAELOOcW0LnBdk4wBUpUcas/z+6I+0jM/N
+ h7brniKkrc8XdQZSQuRkoV7YknmDEcRH9ta3B75jGP5UWwyC5Iv7P91JntIIO12NrGtp3h
+ P+wBfFuYTVEBZyc2OEAZn6D7msGPfg7CFLzCZnqvgZinUrdGb8zMEaCHLdnVsVXr/KqcJD
+ N9QMTst6s+aoaEOWn7IBmCw5JzCbzltBGeDXVt6TvbRcJpICsQ+VMTGHsRqOGQ==
+From: Paul Gerber <paul.gerber@ew.tq-group.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>
+Cc: Paul Gerber <paul.gerber@ew.tq-group.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] Add AUO G104STN01 panel
+Date: Thu, 27 Jun 2024 10:44:42 +0200
+Message-ID: <20240627084446.3197196-1-paul.gerber@ew.tq-group.com>
+X-Mailer: git-send-email 2.44.1
 MIME-Version: 1.0
-References: <20240611102744.v2.1.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
-In-Reply-To: <20240611102744.v2.1.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 27 Jun 2024 22:02:27 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8pSGOhuRt=swb7o8zm6swnuXqyzPeASRppGCfi032xbQ@mail.gmail.com>
-Message-ID: <CAAOTY_8pSGOhuRt=swb7o8zm6swnuXqyzPeASRppGCfi032xbQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: Call drm_atomic_helper_shutdown() at
- shutdown time
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Linus Walleij <linus.walleij@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Fei Shao <fshao@chromium.org>, Maxime Ripard <mripard@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
+X-Mailman-Approved-At: Thu, 27 Jun 2024 15:21:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,89 +78,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Douglas
+Changes in v2:
+- put explanatory comment for display binding before the list entry
+- collected Acked-by and Reviewed-by
 
-Douglas Anderson <dianders@chromium.org> =E6=96=BC 2024=E5=B9=B46=E6=9C=881=
-2=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=881:28=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> Based on grepping through the source code this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown
-> time. Among other things, this means that if a panel is in use that it
-> won't be cleanly powered off at system shutdown time.
->
-> The fact that we should call drm_atomic_helper_shutdown() in the case
-> of OS shutdown/restart comes straight out of the kernel doc "driver
-> instance overview" in drm_drv.c.
->
-> This driver users the component model and shutdown happens in the base
-> driver. The "drvdata" for this driver will always be valid if
-> shutdown() is called and as of commit 2a073968289d
-> ("drm/atomic-helper: drm_atomic_helper_shutdown(NULL) should be a
-> noop") we don't need to confirm that "drm" is non-NULL.
+Link to v1: https://lore.kernel.org/dri-devel/20240626044727.2330191-1-paul.gerber@ew.tq-group.com/
 
-Applied to mediatek-drm-next [1], thanks.
+Paul Gerber (2):
+  dt-bindings: display: simple: Add AUO G104STN01 panel
+  drm/panel: simple: Add AUO G104STN01 panel entry
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+ .../bindings/display/panel/panel-simple.yaml  |  2 ++
+ drivers/gpu/drm/panel/panel-simple.c          | 27 +++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
->
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: Fei Shao <fshao@chromium.org>
-> Tested-by: Fei Shao <fshao@chromium.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> v1 of this patch was part of a series [1]. It got tested and reviewed
-> but never landed. Reposting separately in the hopes that Mediatek DRM
-> folks will land it. If, instead, Mediatek DRM folks want to Ack it I'm
-> happy to land through drm-misc.
->
-> I noticed that this was missing when I failed to add "mediatek" to my
-> patch series IDing which DRM modeset drivers did this properly [2].
-> Assuming my patch lands, that means that Mediatek devices will start
-> getting more warnings printed.
->
-> [1] https://lore.kernel.org/r/20230901164111.RFT.5.I2b014f90afc4729b6ecc7=
-b5ddd1f6dedcea4625b@changeid
-> [2] https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b2=
-9f746b93621749c@changeid
->
-> Changes in v2:
-> - Removed NULL check since it's not needed since 6.7
-> - Rebased on ToT.
->
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index b5f605751b0a..de811e2265da 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -952,6 +952,13 @@ static void mtk_drm_remove(struct platform_device *p=
-dev)
->                 of_node_put(private->comp_node[i]);
->  }
->
-> +static void mtk_drm_shutdown(struct platform_device *pdev)
-> +{
-> +       struct mtk_drm_private *private =3D platform_get_drvdata(pdev);
-> +
-> +       drm_atomic_helper_shutdown(private->drm);
-> +}
-> +
->  static int mtk_drm_sys_prepare(struct device *dev)
->  {
->         struct mtk_drm_private *private =3D dev_get_drvdata(dev);
-> @@ -983,6 +990,7 @@ static const struct dev_pm_ops mtk_drm_pm_ops =3D {
->  static struct platform_driver mtk_drm_platform_driver =3D {
->         .probe  =3D mtk_drm_probe,
->         .remove_new =3D mtk_drm_remove,
-> +       .shutdown =3D mtk_drm_shutdown,
->         .driver =3D {
->                 .name   =3D "mediatek-drm",
->                 .pm     =3D &mtk_drm_pm_ops,
-> --
-> 2.45.2.505.gda0bf45e8d-goog
->
+-- 
+2.44.1
+
