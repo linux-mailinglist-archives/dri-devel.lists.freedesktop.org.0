@@ -2,74 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8342491A3BA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 12:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE45491A3C3
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 12:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEFA110E1B3;
-	Thu, 27 Jun 2024 10:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F184C10E049;
+	Thu, 27 Jun 2024 10:30:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iU1wtzVo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l17nsMvX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8002810E1B3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 10:28:39 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-52e714b2c06so469583e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 03:28:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719484117; x=1720088917; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=CSObqPp2o1ZiYQ9QL2aHPTL2pT8TeTrCT9cgEet+VS0=;
- b=iU1wtzVofaZmL12WbyKgjlC1shL1HynDTTjKztYl9PHO0Ga2CgVHEzpGUsO801iqOM
- 94bqGaty09H6GGuQhJTvQlAJVi0Uw70SOUwKbkkEGv3g66f6RAYvSzUdGEGv3L3FeWxZ
- Gm8gy3eKNfVFdY6yNDYDxSPx6JxFpGpvzOTV91PG2K3xsx7bB/H9iBZqJKl1AEcqvn8v
- Hi4xhl2Hqct377EsDOzTtdNb3SzenNwUx8uH/nCfNipHAIkjlMxcQ4mYJUhO+mMLgs1i
- AOz25sRmDpMW90nuO/GHpbg/VHsJ3y1Jk4BuP/52v+EPt4yJdloL3DbBG+Q0dL6UnsxS
- nXrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719484117; x=1720088917;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CSObqPp2o1ZiYQ9QL2aHPTL2pT8TeTrCT9cgEet+VS0=;
- b=pC34Rm65UJIteumJYg+inz6fJPVkf8wwVtgZNqckMFQOvs0h2gjfQjPlaVwx50EXl7
- vuU6OFb1CcuNEYa915I8U9cbYuUXx2nuWLdqJ4QAj9ChnCbmFY3ULTqN+P/pZAa9BaBA
- 3rvENpDXmjsxd2Qe+eiuSSxAOVZx0AB0gr9gcC9geRuvp3eZCT3ELtXljKGClaIlq390
- fBPw6UMoHjYKt05JhuTcLbvp+IaotP3M6NPdGQoo4ZBReejtSZz5eYZ5ui+zg/IdbPew
- sHxdwuY/+G3QVRnMA9d0qvxmtsWBrRtDcRrszv3nqoFbJ+8sq0oLa2/Fj6dacvDDwUen
- xNJw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWgrVFVZjvvj/V+Ut/ztriSWoG7Vqi5NdgLkb/eYWq3QtEdZk3qh41bHr+6bG2yvFjnl32Qr7B8BQlj81KgkF07IByQZh/QwQ78boLYWEh6
-X-Gm-Message-State: AOJu0YxjSSKpstDWwZxCER5odGrg6bijwAnLOZZzHbff+IdaKhdvF2hn
- VZj8DwYtryZGO8VSzmOK99Ue/U7gerbYy9qMGQeA/Wu8RY2I3qPBuHrzCc/wExA=
-X-Google-Smtp-Source: AGHT+IFKQsbMqpoVnTPZEnzGX8hY6FDAKEvfJirsH2ST3SdWpnd2QjBxD18elzS2fRWAkQeb/uWTSQ==
-X-Received: by 2002:a05:6512:158b:b0:52c:dbdd:92e with SMTP id
- 2adb3069b0e04-52e703a40cbmr471883e87.26.1719484115347; 
- Thu, 27 Jun 2024 03:28:35 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52e71305ebbsm154630e87.126.2024.06.27.03.28.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jun 2024 03:28:34 -0700 (PDT)
-Date: Thu, 27 Jun 2024 13:28:33 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, 
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de
-Subject: Re: [PATCH v2] misc: fastrpc: Move fastrpc driver to misc/fastrpc/
-Message-ID: <jxfdfponl5eo42imhsut7rckqafolnqooifpn77fgsn26elkwi@rsvxfjzvkjxp>
-References: <20240627084628.1590453-1-quic_ekangupt@quicinc.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C319E10E049
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 10:30:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id D07B4CE2D68
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 10:30:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 04A50C32789
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 10:30:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719484224;
+ bh=DOWsij1RoSAVbnVVvXpK9AWKClxS0XYPzX75wu/fQ+k=;
+ h=From:To:Subject:Date:From;
+ b=l17nsMvXUZurswqGqW8qd58CrGeHRayg29hpavuKchXbkADAt/Zsia3tAoZI7II7h
+ PxqrFMeUej5TMnx5JVefCv8kPxwQhbHb5WDd2rZykIswMItGxgfVS2PpxDUYYD3spI
+ L0HxgDJ9JY5+zYQSKUS+ctwJGebafMZHGywt+5p3+ip+V2JlkDpzqoViRjzbOEBZv+
+ WxqCn6AAL0XuW32wa8YrteWCgm4OjiKW2+v+AFvupmonaZgHhDKgfSRNhpn2QiHJxX
+ 1I76CWomRpPjGRkWsOJZH/55/RXK3l+BptxBKZB46KIsZkjgNFX8m6E0l8zXUZ2B4Q
+ Ciqrzt400pxaA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id E7DC2C53B50; Thu, 27 Jun 2024 10:30:23 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218993] New: SIGBUS with amdgpu on multi-GPU system on X server
+ with DRI3/GBM
+Date: Thu, 27 Jun 2024 10:30:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: adaha@cendio.se
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-218993-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240627084628.1590453-1-quic_ekangupt@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,62 +75,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 27, 2024 at 02:16:27PM GMT, Ekansh Gupta wrote:
-> Move fastrpc.c from misc/ to misc/fastrpc/. New C files are planned
-> to be added for PD notifications and other missing features. Adding
-> and maintaining new files from within fastrpc directory would be easy.
-> 
-> Example of feature that is being planned to be introduced in a new C
-> file:
-> https://lore.kernel.org/all/20240606165939.12950-6-quic_ekangupt@quicinc.com/
-> 
-> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
-> ---
-> Changes in v2:
->   - Updated Kconfig.
-> 
->  MAINTAINERS                          |  2 +-
->  drivers/misc/Kconfig                 | 13 +------------
->  drivers/misc/Makefile                |  2 +-
->  drivers/misc/fastrpc/Kconfig         | 16 ++++++++++++++++
->  drivers/misc/fastrpc/Makefile        |  2 ++
->  drivers/misc/{ => fastrpc}/fastrpc.c |  0
->  6 files changed, 21 insertions(+), 14 deletions(-)
->  create mode 100644 drivers/misc/fastrpc/Kconfig
->  create mode 100644 drivers/misc/fastrpc/Makefile
->  rename drivers/misc/{ => fastrpc}/fastrpc.c (100%)
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218993
 
-> diff --git a/drivers/misc/fastrpc/Kconfig b/drivers/misc/fastrpc/Kconfig
-> new file mode 100644
-> index 000000000000..7179a44eda84
-> --- /dev/null
-> +++ b/drivers/misc/fastrpc/Kconfig
-> @@ -0,0 +1,16 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Qualcomm FastRPC devices
-> +#
-> +
-> +config QCOM_FASTRPC
-> +	tristate "Qualcomm FastRPC"
-> +	depends on ARCH_QCOM || COMPILE_TEST
-> +	depends on RPMSG
-> +	select DMA_SHARED_BUFFER
-> +	select QCOM_SCM
-> +	help
-> +	  Provides a communication mechanism that facilitate high-speed
-> +	  Remote Procedure Call (RPC) mechanisms between the host CPU and
-> +	  offload processors Qualcomm Digital Signal Processors (DSPs).
-> +	  Say M if you want to enable this module.
-> \ No newline at end of file
+            Bug ID: 218993
+           Summary: SIGBUS with amdgpu on multi-GPU system on X server
+                    with DRI3/GBM
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: adaha@cendio.se
+        Regression: No
 
-Nit: ^^
+Created attachment 306503
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306503&action=3Dedit
+trace before crash, Xvnc on Ryzen 5 7600, vkcube on Arc A380
 
-Nevertheless:
+I ran into a SIGBUS when using multiple GPUs and DRI with an X server that =
+has
+GPU acceleration (TigerVNC's Xvnc). This happened on a machine with:
+OS: Fedora 40 running 6.9.5-200.fc40.x86_64
+iGPU: Ryzen 5 7600
+dGPU: RTX 4060 | Arc A380 | RX 7600
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+The issue occurs when the X server is configured to use an AMD rendernode, =
+and
+an application wants to use a non-AMD rendernode.
 
+When opening the AMD rendernode using gbm_create_device(), a SIGBUS will oc=
+cur
+when gbm_bo_map() is called, if the application wants to use another render=
+node
+that is not an AMD GPU.
 
--- 
-With best wishes
-Dmitry
+In my setup, /dev/dri/renderD128 is the AMD iGPU, and /dev/dri/renderD129 i=
+s an
+RTX 4060.
+
+If I run the X server with
+$ Xvnc :50 -rendernode /dev/dri/renderD128
+
+and vkcube with renderD129 on the X server
+$ DISPLAY=3D:50 vkcube --gpu_number 1
+
+I get the sigbus:
+(EE)=20
+(EE) Backtrace:
+(EE) 0: Xvnc (xorg_backtrace+0x82) [0x560c52b47d42]
+(EE) 1: Xvnc (0x560c52991000+0x1b7f4c) [0x560c52b48f4c]
+(EE) 2: /lib64/libc.so.6 (0x7f0c99613000+0x40710) [0x7f0c99653710]
+(EE) 3: /lib64/libpixman-1.so.0 (0x7f0c99ed0000+0x8a2d0) [0x7f0c99f5a2d0]
+(EE) 4: /lib64/libpixman-1.so.0 (pixman_blt+0x81) [0x7f0c99ede8d1]
+(EE) 5: Xvnc (vncDRI3SyncPixmapFromGPU+0x10e) [0x560c529f303e]
+(EE) 6: Xvnc (0x560c52991000+0x622c3) [0x560c529f32c3]
+(EE) 7: Xvnc (dri3_pixmap_from_fds+0xcf) [0x560c52a7fdaf]
+(EE) 8: Xvnc (0x560c52991000+0xf1309) [0x560c52a82309]
+(EE) 9: Xvnc (Dispatch+0x426) [0x560c52ae3f56]
+(EE) 10: Xvnc (dix_main+0x46a) [0x560c52af2d4a]
+(EE) 11: /lib64/libc.so.6 (0x7f0c99613000+0x2a088) [0x7f0c9963d088]
+(EE) 12: /lib64/libc.so.6 (__libc_start_main+0x8b) [0x7f0c9963d14b]
+(EE) 13: Xvnc (_start+0x25) [0x560c529eed75]
+(EE)=20
+(EE) Bus error at address 0x7f0c8e211000
+(EE)=20
+Fatal server error:
+(EE) Caught signal 7 (Bus error). Server aborting
+(EE)=20
+Aborted (core dumped)
+
+The same crash occurs when running vkcube on an Arc GPU (A380).
+
+However, running the X server on an Arc or Nvidia GPU, and vkcube on the AMD
+GPU, does not cause a crash. Neither does running the X server on AMD, and
+vkcube on a different AMD GPU (iGPU & RX 7600 for example).
+
+I've attached a stacktrace with the last call to mmap() before the crash.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
