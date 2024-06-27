@@ -2,61 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA6D91A2B5
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 11:33:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D6191A2EF
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 11:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD7A110E1B4;
-	Thu, 27 Jun 2024 09:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA9EB10E1F6;
+	Thu, 27 Jun 2024 09:47:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eyGU99Rz";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GFvd9Bci";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5AB210EA76
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 09:33:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3374660C24;
- Thu, 27 Jun 2024 09:33:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59961C2BBFC;
- Thu, 27 Jun 2024 09:33:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719480792;
- bh=RRFrL+J8bhE7m7BCU436iQMZWyX7Gr+S0F7mrYU2u5o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eyGU99RzdVrDe1FAhHf9t7pEtCfIZ+EPr5Q1ZWjPe0JNlBsJ61RLBMmmMu1NoKzm6
- PyCb0hsVRTHd9zzEK23LG2AQ4meIi6rfWRXJYXlrntdEyOI4d6nE7Y4NuUZEQLbsHw
- 7dGUzv8mg9giD1srvBdMlGoaNQp1ph2wiDHvgGpEbZL12DqrJj9K1rdTlcn0plQNpv
- hlmZolDLYE05CEfkONilKMji2Pq70h/Jh18JI6XAzDHNW7AnXtBetPWZQIZ9E+p+lJ
- jXAeqo1n77y/WpGXl1JTfs5qZuIL0SD/8hAWsfQGM6ZeYlERzOM2wctJr18T9tpv6H
- ZDpkSL62pyztg==
-Date: Thu, 27 Jun 2024 11:33:10 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH RFC 4/5] drm/bridge: connector: add support for HDMI
- codec framework
-Message-ID: <20240627-vengeful-glorious-stork-a70480@houat>
-References: <20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org>
- <20240615-drm-bridge-hdmi-connector-v1-4-d59fc7865ab2@linaro.org>
- <20240621-polite-ruby-hyrax-c4020e@houat>
- <CAA8EJppryh=LR40_5cBH5+0LZdRP5bsZ9iyqHDBFdBqu_H=1=A@mail.gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4D810E1F6
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 09:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1719481619;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/aRbMqnFPqElcujOpfk6cQ/iT5TUsEaniaGLjqKo9qI=;
+ b=GFvd9BciqDCHULI7D8SwGh6bXjk7xFK2NBLU3+rsVa/jTNOapb3j3xygq3YdFKJMGP1Ahs
+ sH/klWQxOTLypsJ+pLBbRsB5HyJ2iAQ2ZCqsByLKEJHtukhhz/Hd9h9pa57cK/cdkUZCQj
+ ppP5UtsLVgksoWEx2/veKtdvnof4SME=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-156-9ibFcHT9N3e43avzB0Vyyg-1; Thu, 27 Jun 2024 05:46:55 -0400
+X-MC-Unique: 9ibFcHT9N3e43avzB0Vyyg-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-52cdbeaafcdso4445474e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 02:46:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719481614; x=1720086414;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/aRbMqnFPqElcujOpfk6cQ/iT5TUsEaniaGLjqKo9qI=;
+ b=SJ6zzlqMw/aQMoc127QKbG/HkfjZcGXLRz7JXAq/incnYVg6l9ZcA278RICr/mTqJM
+ nEe7bpsjVCBQ3OWnu02yWJ3w9cnida1QpG141UIoQeZmAmysndluDYgeBhyyPjrv7X45
+ nUo9VB/Rx4JInY2ZjuEb47I2q0USWT135gxQkqZpJ+S30wExo45vd0Or5zXqgCtm9Dnd
+ xW1TUEs5OuwxTzj/w9XUlCCZVHnFU2Ua3WbVLk6dx0TJYYW87Jc5OpNQcjTh15nFu1zH
+ sb0rt2NEoztPjgQednc686M1RqIle4c7/PBoyXtM61H7e91Eij4XBUI7zEZfZZOC3cnC
+ WcwA==
+X-Gm-Message-State: AOJu0YwlpojPPJxXCvjoHOP65m7BoKuknClIxBXvk5HTEfp+EciVPAKG
+ QS5/MNNoQ0kt3qppiX/AfhL0C5kR3sYHA4DzZFowwJqd8vTlZ0v2sGqKQ1zFcUMJb7LDB5AeBVb
+ x6tiE7a8MC8uhpUvPSLS+fWacmC32KwDnzEEwGjFZaiPsx2cf3SHZItrgWsniG+BETA==
+X-Received: by 2002:a05:6512:324a:b0:52c:9e25:978d with SMTP id
+ 2adb3069b0e04-52ce185e46amr6953681e87.45.1719481614268; 
+ Thu, 27 Jun 2024 02:46:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHNBRY4osLL4QYw4x+YKt8+rUQooLZRv8TYqrLSEg+HIfJ8udA+56TenAyL15Sctcq9KkjLag==
+X-Received: by 2002:a05:6512:324a:b0:52c:9e25:978d with SMTP id
+ 2adb3069b0e04-52ce185e46amr6953664e87.45.1719481613904; 
+ Thu, 27 Jun 2024 02:46:53 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42564b66fcfsm18056315e9.18.2024.06.27.02.46.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Jun 2024 02:46:53 -0700 (PDT)
+Message-ID: <f85405ee-12ce-49a7-8c44-c4c4915d999d@redhat.com>
+Date: Thu, 27 Jun 2024 11:46:52 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="f7enk3sda63umhov"
-Content-Disposition: inline
-In-Reply-To: <CAA8EJppryh=LR40_5cBH5+0LZdRP5bsZ9iyqHDBFdBqu_H=1=A@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] drm/panic: Miscellaneous fixes
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <cover.1719391132.git.geert+renesas@glider.be>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <cover.1719391132.git.geert+renesas@glider.be>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,88 +96,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---f7enk3sda63umhov
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 26/06/2024 10:41, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> Here are two more fixes for the DRM panic code.
+> 
+> Thanks for your comments!
 
-On Fri, Jun 21, 2024 at 02:10:22PM GMT, Dmitry Baryshkov wrote:
-> On Fri, 21 Jun 2024 at 12:30, Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > On Sat, Jun 15, 2024 at 08:53:33PM GMT, Dmitry Baryshkov wrote:
-> > > Add necessary glue code to be able to use new HDMI codec framework fr=
-om
-> > > the DRM bridge drivers. The drm_bridge implements a limited set of the
-> > > hdmi_codec_ops interface, with the functions accepting both
-> > > drm_connector and drm_bridge instead of just a generic void pointer.
-> > >
-> > > This framework is integrated with the DRM HDMI Connector framework, b=
-ut
-> > > can also be used for DisplayPort connectors.
-> > >
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > ---
-> > >  drivers/gpu/drm/drm_bridge_connector.c | 130 +++++++++++++++++++++++=
-+++++++++-
-> > >  include/drm/drm_bridge.h               |  46 ++++++++++++
-> > >  2 files changed, 174 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm=
-/drm_bridge_connector.c
-> > > index 0869b663f17e..71d6fdc2391f 100644
-> > > --- a/drivers/gpu/drm/drm_bridge_connector.c
-> > > +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> > > @@ -20,6 +20,8 @@
-> > >  #include <drm/drm_probe_helper.h>
-> > >  #include <drm/display/drm_hdmi_state_helper.h>
-> > >
-> > > +#include <sound/hdmi-codec.h>
-> > > +
-> > >  /**
-> > >   * DOC: overview
-> > >   *
-> > > @@ -95,6 +97,14 @@ struct drm_bridge_connector {
-> > >        * HDMI connector infrastructure, if any (see &DRM_BRIDGE_OP_HD=
-MI).
-> > >        */
-> > >       struct drm_bridge *bridge_hdmi;
-> > > +     /**
-> > > +      * @bridge_hdmi_codec:
-> > > +      *
-> > > +      * The bridge in the chain that implements necessary support fo=
-r the
-> > > +      * HDMI Audio Codec infrastructure, if any (see
-> > > +      * &DRM_BRIDGE_OP_HDMI_CODEC).
-> > > +      */
-> > > +     struct drm_bridge *bridge_hdmi_codec;
-> >
-> > Can we have a setup where one bridge would support the video stream and
-> > another one the audio?
-> >
-> > I think for now I'd rather make them both provided by the same bridge,
-> > and we can always change that later on if we need to.
->=20
-> The same point here (and for your second comment): DisplayPort audio
-> support.
+Thanks for your fixes, they are now in drm-misc-next.
 
-Well, yeah, but then we can do the same thing for DisplayPort and share
-some code when needed.
+Best regards,
 
-And like I said, we can change that later if we need to, but there's no
-point in trying to make something super flexible if we're not quite sure
-what the requirements are.
+-- 
 
-Maxime
+Jocelyn
 
---f7enk3sda63umhov
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> Geert Uytterhoeven (2):
+>    drm/panic: Do not select DRM_KMS_HELPER
+>    drm/panic: Restrict graphical logo handling to built-in
+> 
+>   drivers/gpu/drm/Kconfig     | 1 -
+>   drivers/gpu/drm/drm_panic.c | 3 +--
+>   2 files changed, 1 insertion(+), 3 deletions(-)
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZn0x1QAKCRDj7w1vZxhR
-xVJGAQCp2RjFO641IHB+23/Wkr8+mhs/+PlOaAPRI9HS0dwhcwEA17Y3DB2cG1za
-4a7vJ4jveja5VWnV4JRHQ7O3zqqaQww=
-=809M
------END PGP SIGNATURE-----
-
---f7enk3sda63umhov--
