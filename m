@@ -2,75 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C427A91A93E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 16:31:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B42991A951
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 16:35:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B62B210EAC6;
-	Thu, 27 Jun 2024 14:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EC2B10E23E;
+	Thu, 27 Jun 2024 14:35:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gf8T+SCH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UqBLWMr6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A59FF10EAC5
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:31:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3FB610E233
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:35:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EAC3461ECA
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:31:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43852C4AF0B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:31:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DEE2561ECC
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:35:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8B140C4AF09
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:35:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719498709;
- bh=je/gF3c5IjwDHUi3yQuh6iBacgL+GUzWMlTEUFbmCos=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=gf8T+SCHxjuVdwuzAwoq818CHZlsMx63I1NkNIeSMFrAhnI3pdbg0n5v8L4bobAit
- RecOip5hCy0mZgOo8ukiqQRERRQKu2SELiU2GlD4IQevFvu9rutFwqtcWvPYCSQQtq
- ARuCV4hCsDcYx+4oCBs7kPE9mVnPtqz8lSWEqgh7Hp1j4Ef9AhxDcgOarImhlNGXGV
- IuRO4hwoL4dhppvRgA5I3b++obw9IejkqvkG0cgpK5l7uXP+5+20yu3sFaN3+QJrQ/
- HyMAHxx8FXa0yQOkr2EOyYBmZIzEXqjG99z94tcSy2iHM0xz0t+iPniaSEWOGnO3XW
- isAZl/n9J0jcA==
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-706627ff48dso4369769b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 07:31:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0ShGguTaRywrnrdvpdgKITeIpDXfAVykTEfJkNfjIAvXdPXji7U1z7CXGk9+B55fdeSrR0zq2o+PXkJ/O2Ow4eKDoSRan6g3RHPYEa7V1
-X-Gm-Message-State: AOJu0YxqdJ2eL6UneNECO580dB6vEiQ2LoAkUB5kmnEIFriNZ6YOnCLI
- yIGFuwTlg6aN5iFW8nchfjhVkHcUjpKXesau5bQtRE9x7Kk1rsAYBvNDdD6Qj3DllxEvQOVR6eZ
- j5HhrAN/+rUu1By7UVOaaI/5tqg==
-X-Google-Smtp-Source: AGHT+IG1LSbB2re1qaPNE2onF1geh2vffld0C/9Blwt0TFmZDtnZln8OhUpXrzl1P1UTbercZENutaEyhnCFpRLApUc=
-X-Received: by 2002:a05:6a20:b20:b0:1be:c33e:1357 with SMTP id
- adf61e73a8af0-1bec33e1573mr3624391637.34.1719498708836; Thu, 27 Jun 2024
- 07:31:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231023-display-support-v4-0-ed82eb168fb1@baylibre.com>
- <20231023-display-support-v4-11-ed82eb168fb1@baylibre.com>
-In-Reply-To: <20231023-display-support-v4-11-ed82eb168fb1@baylibre.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 27 Jun 2024 22:31:55 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-8XzHg_pYkj_u3q_Jgzg29wiJbz5qMkySVRxL=5P69qQ@mail.gmail.com>
-Message-ID: <CAAOTY_-8XzHg_pYkj_u3q_Jgzg29wiJbz5qMkySVRxL=5P69qQ@mail.gmail.com>
-Subject: Re: [PATCH v4 11/15] drm/mediatek: dsi: Improves the DSI lane setup
- robustness
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Shuijing Li <shuijing.li@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
+ s=k20201202; t=1719498928;
+ bh=4oTdPT6IaM0c8qomNXaxQf2up9fKT7B2cD6zMZVMJo8=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=UqBLWMr6biQl8MwirGu2DGuIn5RPD2+Gvs2nf0W9M3RBgq1+PNd1QQun02dYanZ0r
+ Hcn8EhWpsksemDz2h8mZU+zEuqbUlLT/lqCYemI3g4uAoYB7Cnq5Qldp+9FbyMmBAv
+ CQYkX6FWZ37KxMSS/Q/+V1rvnS5T8Wg13W4GBqUzq+dmROgSNnASwEOYm2EUCsUrfb
+ yYKW50gjM+yy35rTRZ9uKt1j9K4GLTCWWoNIYY1ETdUzNPKLzHMzqnFqRH3rn2V9uW
+ PSVV0K89b8SWd9f6trgpY4SKEmce4NxYc4Lg6UaztDZL5m0sXXosNUgRiWsiR9X4U6
+ aWppcry3p2J+Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 78738C53BB8; Thu, 27 Jun 2024 14:35:28 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218993] SIGBUS with amdgpu on multi-GPU system on X server with
+ DRI3/GBM
+Date: Thu, 27 Jun 2024 14:35:28 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-218993-2300-pwCwotyjgu@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218993-2300@https.bugzilla.kernel.org/>
+References: <bug-218993-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,50 +75,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Shuijing:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218993
 
-Please help to review this patch.
+Artem S. Tashkinov (aros@gmx.com) changed:
 
-Regards,
-Chun-Kuang.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
-Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2024=E5=B9=B45=E6=9C=88=
-23=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:49=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> Currently, mtk_dsi_lane_ready (which setup the DSI lane) is triggered
-> before mtk_dsi_poweron. lanes_ready flag toggle to true during
-> mtk_dsi_lane_ready function, and the DSI module is set up during
-> mtk_dsi_poweron.
->
-> Later, during panel driver init, mtk_dsi_lane_ready is triggered but does
-> nothing because lanes are considered ready. Unfortunately, when the panel
-> driver try to communicate, the DSI returns a timeout.
->
-> The solution found here is to put lanes_ready flag to false after the DSI
-> module setup into mtk_dsi_poweron to init the DSI lanes after the power /
-> setup of the DSI module.
->
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
-k/mtk_dsi.c
-> index e036d9394c23..cb546a9e9419 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -643,6 +643,8 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
->         mtk_dsi_config_vdo_timing(dsi);
->         mtk_dsi_set_interrupt_enable(dsi);
->
-> +       dsi->lanes_ready =3D false;
-> +
->         return 0;
->  err_disable_engine_clk:
->         clk_disable_unprepare(dsi->engine_clk);
->
-> --
-> 2.25.1
->
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
