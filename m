@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3714291B106
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 22:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC9B91B10A
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 22:54:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 375DE10EB30;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5EED10EB3C;
 	Thu, 27 Jun 2024 20:53:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gwmail.gwu.edu header.i=@gwmail.gwu.edu header.b="OKdIIg9o";
+	dkim=pass (2048-bit key; unprotected) header.d=gwmail.gwu.edu header.i=@gwmail.gwu.edu header.b="Y6GiGk/d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08C0710EB22
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 18:00:11 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-706b53ee183so657267b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 11:00:11 -0700 (PDT)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE24310E30C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 18:00:12 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-706b14044cbso1137369b3a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 11:00:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gwmail.gwu.edu; s=google; t=1719511211; x=1720116011;
+ d=gwmail.gwu.edu; s=google; t=1719511212; x=1720116012;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vT0amGwlyAC8k8Kw/r8wtgGR1gR7pflMV02NL/G058g=;
- b=OKdIIg9oUHwCYjT4gc7OcZmJ2rc2DiRifk/kJL4o+X9MWK0842lKHOeiqcg/7VFJ5P
- HcwDof02geuIvtn7IxC8Y+y3b6MMPR3REUphyyo4bAFfPi7c9Z8UhmyeHEHq1rCwB6pC
- MmPdHplHn7lIbZgiBNuAL3qwAV465f2UZ+H79Y+p5+IWJcmny9f2DVQQAsVm4mWtsZcl
- GkVNNNmmqoeOLBCcM5PhjoZJrf3t7SZm9IHuEpEWfQferrIGG/y0mrvVu2sR9sc9jQ7+
- 7dYHuoV1UgFEJCO3yrxK0tDYeHPHzO4QuM5Nds+w9Tz1GwBOP5Uy3rYAvUg36j0eUHrI
- nVig==
+ bh=ItlPUnSvus72i750gw994VRrzxx6DngH2RkQqxVGs8Q=;
+ b=Y6GiGk/dOqzsOLyTu8XmSPTrdSi/bTnA06+HWLiGMQ6sYFG/EtPvxqQiglQWsD8Tkr
+ F5eGjyCe9fgz1K/5zNOkxd+zyiH1uSzMCjA1dXd4ejyD8+PyrMsAUoSVAEa1cQssUm88
+ QN5DUihKJoMjaVtl3I/YI/839OrDn3MK/kbyOa+EE+Iw/hPrXCzyh/MY72is2wfZdbQl
+ vvC1V42ol4jPi1JoW3XxV8C3vJKzdpn1JX6WvhWn0UX9+D/uD2RhcGxsjbkETxtnvQtt
+ ei5AP3+m4PxUrJAjlREPZVNWlf7hSa102Ik/S03GPS1q1/YpdyjwWMIHh6oJT7WiJ/2p
+ v2DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719511211; x=1720116011;
+ d=1e100.net; s=20230601; t=1719511212; x=1720116012;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vT0amGwlyAC8k8Kw/r8wtgGR1gR7pflMV02NL/G058g=;
- b=jL04KRIOZQ83h5c2I4DIP7VDG1IM/UEAtzEQuDP7sayi4lNmx4u/oS2oU4zfFve+DS
- hB6SY7N+mzvyG8oL+eIFlS1O8KrKn1kiRfPqmvr/GizYn9jtGfWPRgvR258NaBg1rurB
- M7k8V+7DdyYA0NZPc6kosg+Xbk0tGHcmJEZ+xGjbTyIoLJoVuYaVuJ7qMpM7sUHkMgkx
- owuUMeok62N/M7JUgNV80B+gQHyEa/yFzYbodl9zpBB6rg8dkTHxYq39rtJtRTLoab/c
- 9fqktC4qfHzEnKLSCHu1TB4jN7UGRbWumL9x5dpK+jiBKG2zw3MF3uqFC/m04T6CjFcm
- pdtw==
+ bh=ItlPUnSvus72i750gw994VRrzxx6DngH2RkQqxVGs8Q=;
+ b=YGqu1qOYSN8EmgOqeAPoaAZdTQvjk8I7P8urM9fedLF4sbHP7o0+DDSRNA9i0pZqI4
+ zES63+6eb/FbdHUEcrSwrLNGA89Ck/4FtdqbrQpRgrnfMfvA9za3qj4xK1k/WzQNxSM5
+ NUAiJuHP9TO+ADFp2rZ6ijXuJZzoTmzRWqWMbytdgSbAqK2FZu3oRGqZgsljlBZTylVe
+ 33UX8//hlRqd3WjpmgtLkmY2lP2inSXNkce5LqXT+AlSFRuHwN8zMSb248npyPXs3jwW
+ tK9nBUNH6izTtD5VXXXpR5suzMdh0zRYDW6UPWOEY0s8/qr/df3VqoFzTXiB3xKbHye0
+ oCqA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXo6EgUAYi3MU0w0hgpwZGHmRQUAi62Wmzuz2HYH++s0pcV4GN1GEipiOBZumRw0bdGxq7f7mcS4UkyyrbgBxYbwT5tfu7bNk4++AoQirZ3
-X-Gm-Message-State: AOJu0YxmCC4PpInNV+Nq6WbR70hd1HU68fkAhlaPbF+O8EQqCOFJc7oh
- YvlYOBTscRQOhpb53CTGYoKOFhxTXlbahRXbcRgvUxIrM3daiZwgOPoSnpE7+g==
-X-Google-Smtp-Source: AGHT+IEVZbegkTkHIwCs4fEpExpIBikkAoMtG1beygbZS81J9sVcWUApDU7aKdJw9eeYpy34AsB93g==
-X-Received: by 2002:a05:6a21:6d9e:b0:1be:c41d:b6b7 with SMTP id
- adf61e73a8af0-1bec41de2acmr7026768637.19.1719511210927; 
- Thu, 27 Jun 2024 11:00:10 -0700 (PDT)
+ AJvYcCUz3aJPq2Di7LisrDIRJBSFfkd3+Yh29V4dXV4c1Av/BBJEsoDkzwhDgbpee6P/XvRzi9mtzRa2GQdPPLpI3v2bfWrpbmjorKEzUkI13V3Q
+X-Gm-Message-State: AOJu0Yy04GUF6lWYLpiG/uajcWDtuPu0Jk5rPygPBuEI7XFx27hwG8OD
+ quDlLUMyo1nt6B8IspW8o6FN0JQBruNKUnkIsd6+AVC28+71F7u8oFkhf+TI7A==
+X-Google-Smtp-Source: AGHT+IESjooPdGd4R6XKtPhPeyt2QG2/mENVza+Wy5xrhF/fH7VOJlp0YoLUOLgDIN+gvqfSIu+Aeg==
+X-Received: by 2002:a05:6a00:26c5:b0:706:4304:3047 with SMTP id
+ d2e1a72fcca58-706746fb433mr11797648b3a.32.1719511212095; 
+ Thu, 27 Jun 2024 11:00:12 -0700 (PDT)
 Received: from aw-m18-r1.. (syn-023-241-237-137.res.spectrum.com.
  [23.241.237.137]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-706b4a352c0sm1718018b3a.171.2024.06.27.11.00.10
+ d2e1a72fcca58-706b4a352c0sm1718018b3a.171.2024.06.27.11.00.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jun 2024 11:00:10 -0700 (PDT)
+ Thu, 27 Jun 2024 11:00:11 -0700 (PDT)
 From: Matthew Schwartz <mattschwartz@gwmail.gwu.edu>
 X-Google-Original-From: Matthew Schwartz <mattschwartz@gwu.edu>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -66,9 +66,10 @@ Cc: John Schoenick <johns@valvesoftware.com>,
  Kyle Gospodnetich <me@kylegospodneti.ch>,
  Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Matthew Schwartz <mattschwartz@gwu.edu>
-Subject: [PATCH 1/2] drm: panel-orientation-quirks: Add quirk for Valve Galileo
-Date: Thu, 27 Jun 2024 10:59:46 -0700
-Message-ID: <20240627175947.65513-2-mattschwartz@gwu.edu>
+Subject: [PATCH 2/2] drm: panel-orientation-quirks: Add labels for both Valve
+ Steam Deck revisions
+Date: Thu, 27 Jun 2024 10:59:47 -0700
+Message-ID: <20240627175947.65513-3-mattschwartz@gwu.edu>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240627175947.65513-1-mattschwartz@gwu.edu>
 References: <20240627175947.65513-1-mattschwartz@gwu.edu>
@@ -90,35 +91,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Schoenick <johns@valvesoftware.com>
-
-Valve's Steam Deck Galileo revision has a 800x1280 OLED panel
+This accounts for the existence of two Steam Deck revisions 
+instead of a single revision
 
 Signed-off-by: Matthew Schwartz <mattschwartz@gwu.edu>
-Suggested-by: Matthew Schwartz <mattschwartz@gwu.edu>
-Link: https://gitlab.com/evlaV/linux-integration/-/commit/d2522d8bf88b35a8cf6978afbbd55c80d2d53f4f
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 3d127127e7cb..ac8319d38e37 100644
+index ac8319d38e37..3f84d7527793 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -427,6 +427,13 @@ static const struct dmi_system_id orientation_data[] = {
+@@ -420,14 +420,14 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galaxy Book 10.6"),
+ 		},
+ 		.driver_data = (void *)&lcd1280x1920_rightside_up,
+-	}, {	/* Valve Steam Deck */
++	}, {	/* Valve Steam Deck (Jupiter) */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
  		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
  		},
  		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* Valve Steam Deck */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galileo"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
-+		},
-+		.driver_data = (void *)&lcd800x1280_rightside_up,
- 	}, {	/* VIOS LTH17 */
+-	}, {	/* Valve Steam Deck */
++	}, {	/* Valve Steam Deck (Galileo) */
  		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "VIOS"),
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galileo"),
 -- 
 2.45.2
 
