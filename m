@@ -2,58 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2AB91ABAA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 17:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D938F91AC0E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 17:58:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1138F10EAFA;
-	Thu, 27 Jun 2024 15:41:54 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LxbBvzl3";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35A9010EB0E;
+	Thu, 27 Jun 2024 15:57:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 010D910E6AA;
- Thu, 27 Jun 2024 15:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1719502912; x=1751038912;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Nmd7FkZIhtLJsssIxeQmbD6I3oFZU7Req2xs3HTaKVo=;
- b=LxbBvzl3IvOux3Z9bw9v8tatAaoOviwn4Fu7YsUXhaVu0hs0/BhvhJq9
- HmlEtFCNHaZcmD98bVcEHpoRkMP+por09XoaoQjIKeqyPgEYKZTz27AYg
- dTqSkbatRK/QcBuX8yCX0niOplguba48+5y9rYwTd9HaX5xJryyJWXZDz
- GyZpZrCFjPpKZfVHpSSnpU3HbNnhzoT0X3CJO4u0VYd0KHbGPiXPtYHMs
- hvMAlgGz5ddUo1GlJvNRhRd0FsC31PoteIy/BfeZRJTDqLUjy/ruv1l47
- R3Hnhs8oqgTQB4xxftVrLruKzlm9gFok7QMfkhFABTooT5ZclpxZkZM1l w==;
-X-CSE-ConnectionGUID: m4pG4tpKRm6dAamaf5TLKg==
-X-CSE-MsgGUID: l6uFhZvPRLC/8Xu8eR7GjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="28037342"
-X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; d="scan'208";a="28037342"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2024 08:41:52 -0700
-X-CSE-ConnectionGUID: vLjwkHlsS6mgk/Ns8BZzFA==
-X-CSE-MsgGUID: EguhkqD8QyyqZxIyvJFvFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; d="scan'208";a="49585632"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2024 08:41:50 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/9] drm: Add helpers for x16 fixed point values
-In-Reply-To: <ZnLIe+YFkDpMcXF7@ideak-desk.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240614173911.3743172-1-imre.deak@intel.com>
- <20240614173911.3743172-2-imre.deak@intel.com> <87cyodfdku.fsf@intel.com>
- <ZnLIe+YFkDpMcXF7@ideak-desk.fi.intel.com>
-Date: Thu, 27 Jun 2024 18:41:46 +0300
-Message-ID: <875xtucs05.fsf@intel.com>
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79B7610E6AA;
+ Thu, 27 Jun 2024 15:57:54 +0000 (UTC)
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [RFC PATCH 0/6] DRM resource management cgroup, try 2.
+Date: Thu, 27 Jun 2024 17:47:19 +0200
+Message-ID: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,116 +40,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Jun 2024, Imre Deak <imre.deak@intel.com> wrote:
-> On Wed, Jun 19, 2024 at 01:10:09PM +0300, Jani Nikula wrote:
->> On Fri, 14 Jun 2024, Imre Deak <imre.deak@intel.com> wrote:
->> > Add helpers to convert between x16 fixed point and integer/fraction
->> > values. Also add the format/argument macros required to printk x16
->> > fixed point variables.
->> >
->> > These are needed by later patches dumping the Display Stream Compression
->> > configuration in DRM core and in the i915 driver to replace the
->> > corresponding bpp_x16 helpers defined locally in the driver.
->> >
->> > Signed-off-by: Imre Deak <imre.deak@intel.com>
->> > ---
->> >  drivers/gpu/drm/display/drm_dp_helper.c |  5 +++--
->> >  include/drm/drm_fixed.h                 | 23 +++++++++++++++++++++++
->> >  2 files changed, 26 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
->> > index 79a615667aab1..806f9c9764995 100644
->> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
->> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
->> > @@ -35,6 +35,7 @@
->> >  #include <drm/display/drm_dp_helper.h>
->> >  #include <drm/display/drm_dp_mst_helper.h>
->> >  #include <drm/drm_edid.h>
->> > +#include <drm/drm_fixed.h>
->> >  #include <drm/drm_print.h>
->> >  #include <drm/drm_vblank.h>
->> >  #include <drm/drm_panel.h>
->> > @@ -4151,9 +4152,9 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
->> >  	int symbol_cycles;
->> >  
->> >  	if (lane_count == 0 || hactive == 0 || bpp_x16 == 0) {
->> > -		DRM_DEBUG_KMS("Invalid BW overhead params: lane_count %d, hactive %d, bpp_x16 %d.%04d\n",
->> > +		DRM_DEBUG_KMS("Invalid BW overhead params: lane_count %d, hactive %d, bpp_x16 " DRM_X16_FMT "\n",
->> >  			      lane_count, hactive,
->> > -			      bpp_x16 >> 4, (bpp_x16 & 0xf) * 625);
->> > +			      DRM_X16_ARGS(bpp_x16));
->> >  		return 0;
->> >  	}
->> >  
->> > diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
->> > index 81572d32db0c2..0fe2a7f50d54e 100644
->> > --- a/include/drm/drm_fixed.h
->> > +++ b/include/drm/drm_fixed.h
->> > @@ -214,4 +214,27 @@ static inline s64 drm_fixp_exp(s64 x)
->> >  	return sum;
->> >  }
->> >  
->> > +static inline int drm_x16_from_int(int val_int)
->> > +{
->> > +	return val_int << 4;
->> > +}
->> > +
->> > +static inline int drm_x16_to_int(int val_x16)
->> > +{
->> > +	return val_x16 >> 4;
->> > +}
->> > +
->> > +static inline int drm_x16_to_int_roundup(int val_x16)
->> > +{
->> > +	return (val_x16 + 0xf) >> 4;
->> > +}
->> > +
->> > +static inline int drm_x16_to_frac(int val_x16)
->> > +{
->> > +	return val_x16 & 0xf;
->> > +}
->> 
->> Sad trombone about the completely different naming scheme compared to
->> the rest of the file.
->> 
->> Not saying the existing naming is great, but neither is this. And
->> there's no way to unify except by renaming *both* afterwards.
->> 
->> We could devise a scheme now that could be used for the existing stuff
->> later, without renaming the new stuff.
->
-> Based on [1]'s short variant, we could have:
->
-> dfixed*(fixed20_12 v)  -> drm_uq12*(drm_uq20_12_t v)
-> drm_fixp*(s64 v)       -> drm_q32*(s64 v)
-> drm_x16*(int v)        -> drm_q4*(int v)
+Hey,
 
-I like it. If you're brave, add them with a generic prefix instead of
-drm_ from the start, say fp_q4. ;)
+A new version of my attempt at managing VRAM through cgroups.
+Even though it's called the DRM resource management cgroup, it would be trivial
+to rename it to devmem or whatever, since there is nothing DRM specific about it.
 
-BR,
-Jani.
+This series allows setting limits on VRAM similar to system memory,
+with min/low/max limits.
+This allows various cgroups to have their own limits for usage.
 
->
-> Or instead of uq12/q32/q4 using ufp12/fp32/fp4.
->
-> [1] https://en.wikipedia.org/wiki/Q_(number_format)
->
->> *shrug*
->> 
->> BR,
->> Jani.
->> 
->> 
->> 
->> > +
->> > +#define DRM_X16_FMT		"%d.%04d"
->> > +#define DRM_X16_ARGS(val_x16)	drm_x16_to_int(val_x16), (drm_x16_to_frac(val_x16) * 625)
->> > +
->> >  #endif
->> 
->> -- 
->> Jani Nikula, Intel
+It sounds very abstract, but it can be used to prioritise the foreground
+application (by setting low), or hard partition memory so multiple processes
+sharing a single GPU use a proportional amount of memory each in a fair way,
+or to prevent long running compute jobs from having their memory evicted.
+
+This is a minimal proof of concept to get discussion going again. It works,
+but it only tracks active use of VRAM. In the ideal world, we would track
+it better in a way that also integrates better with the memory cgroup
+controller. Ideally for every VRAM allocation, we would know we could push
+it out to swap if needed, charging the original process not the process evicting.
+
+I'm hoping to restart the discussion, so that we can plug the holes and finally move forward.
+
+New in this version:
+- Complete rewrite using page_counter.
+- Support setting min/low/max, respected in the same way as memory cgroup.
+  (Could be useful to add/allow high? To go over limit for temporary bindings
+   during eviction on GART.)
+- Locking reworked. Fastpath should now be lockless with RCU.
+- Add a second implementation for AMD, to show how easy it is to make it work.
+  (Should we completely move this to TTM instead?)
+- TTM now always respects min/low when evicting, bailing out with -ENOSPC instead
+  where required.
+
+I'm hoping for some good feedback on the path forward for upstreaming. I feel this
+version has a lot better chance of being upstreamed than the previous. It should
+be a lot more scalable thanks to the usage of RCU and page_counter.
+
+Cheers,
+Maarten
+
+Maarten Lankhorst (6):
+  mm/page_counter: Move calculating protection values to page_counter
+  drm/cgroup: Add memory accounting DRM cgroup
+  drm/ttm: Handle cgroup based eviction in TTM
+  drm/xe: Implement cgroup for vram
+  drm/amdgpu: Add cgroups implementation
+  drm/xe: Hack to test with mapped pages instead of vram.
+
+ Documentation/admin-guide/cgroup-v2.rst       |  51 ++
+ Documentation/gpu/drm-compute.rst             |  54 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   6 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |   6 +
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c       |  18 +-
+ drivers/gpu/drm/ttm/tests/ttm_resource_test.c |   2 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  38 +-
+ drivers/gpu/drm/ttm/ttm_resource.c            |  28 +-
+ drivers/gpu/drm/xe/xe_device.c                |   4 +
+ drivers/gpu/drm/xe/xe_device_types.h          |   4 +
+ drivers/gpu/drm/xe/xe_ttm_sys_mgr.c           |  14 +
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr.c          |  10 +
+ include/drm/ttm/ttm_bo.h                      |   3 +-
+ include/drm/ttm/ttm_resource.h                |  16 +-
+ include/linux/cgroup_drm.h                    | 115 +++
+ include/linux/cgroup_subsys.h                 |   4 +
+ include/linux/page_counter.h                  |   4 +
+ init/Kconfig                                  |   7 +
+ kernel/cgroup/Makefile                        |   1 +
+ kernel/cgroup/drm.c                           | 813 ++++++++++++++++++
+ mm/memcontrol.c                               | 154 +---
+ mm/page_counter.c                             | 173 ++++
+ 23 files changed, 1355 insertions(+), 172 deletions(-)
+ create mode 100644 Documentation/gpu/drm-compute.rst
+ create mode 100644 include/linux/cgroup_drm.h
+ create mode 100644 kernel/cgroup/drm.c
 
 -- 
-Jani Nikula, Intel
+2.45.2
+
