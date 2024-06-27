@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C51F919EBA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 07:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F03919EB6
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 07:35:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6974710E145;
-	Thu, 27 Jun 2024 05:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF8610E10F;
+	Thu, 27 Jun 2024 05:35:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Hubg0wT9";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="f+jLTMKi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBDD710E028
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 05:34:58 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-6325b04c275so75748097b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 22:34:58 -0700 (PDT)
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+ [209.85.160.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8B5810E0EC
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 05:34:59 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id
+ d75a77b69052e-444fa363d1aso11250761cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 22:34:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1719466497; x=1720071297;
+ d=broadcom.com; s=google; t=1719466498; x=1720071298;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3Kd+Tsbe/h4EsYKbNd9LHfkVfmB+nKN5hyLqUYos+0Q=;
- b=Hubg0wT95QMkEUpIQ45T26EQWluQX0vD0030O2DM9D4ipKDOKTcBxbVr2vi77fezna
- sYIMHUD0TqQO8kwx3R+kuodwju+hMS1X592HatcaAGI8P7V7F9T2ERypL7fIUJpOTOy0
- 6IMo08ard5MbP/FvbqCW4EjwiOlz8hZl08Dvg=
+ bh=ojSdFreBeAgWUWHhp+S9ALrQERFGkIJ5WpOATX5hUf8=;
+ b=f+jLTMKiXcR//Lc4ZK3YYRKJvDLJGMIpNJScgV5fJ/vC3R9qdqi60tvKpIgrUQUrB0
+ tZb2Z9xhBrsVHx/dro7L4bOkvPDRgGFFOIspeZZhHaqAR8jeSayXRKt6Ey9KgIuiVyHM
+ jovXCTAKVAnFfeDmK2t0QwqRtfvfZ6w7RUDE0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719466497; x=1720071297;
+ d=1e100.net; s=20230601; t=1719466498; x=1720071298;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3Kd+Tsbe/h4EsYKbNd9LHfkVfmB+nKN5hyLqUYos+0Q=;
- b=fBMWZbu7wInwNdACHDhITsT9dgfSepbdZmngnqN/jaGAZIPx6TYsaDqaT4JJuwWpQ/
- 4XzTtS6BCQQ5nr+X+KxNjAVzXpVl1Cv1O2f/t8kcGiID3wy/vWhXtgkYHV2e7wLqCa7z
- 726knwoiQevWarMSx/926pX9akv6y0J723wIZT2wmKNyPL+HzSmp3+bCL3bqLu3lefFJ
- pftcvg5e3mQJaQLDRHZMrYm5xItYCMmGX9IEzLwPz3tD/Y9HLU3I+X15u5EkEiWxThQn
- 3g/uIkZ0fMgUcxrua6uF4+RMSlJnEwwUlmTTQ4e2HFuSykLF+ZkeOnWtpJBzAq7iQn/j
- lqcw==
-X-Gm-Message-State: AOJu0Yzf9JoF/eYwZLQpwcjZVP33HETKChRyh8XYyEuSaxWNzJX4J7Dh
- 2uDISXwwlN5QMPWZ8kvE7mgF86R1q3jbjJPc8x8ZQ/QSUDie9pFzu2DY0d6e9KLIOzm484xxF5J
- lJpq0wfn2ar6hKVNj1qmiy/9MTXT2XcxJk67a3lFr2m95X19rFNY8m82SVvQ+fYigMZdwqs51RH
- sREXqnMn/jJQ8ug8K7agJz8/2c3cyTPuP8OeNduLbguENJsNxMNNqs
-X-Google-Smtp-Source: AGHT+IGIAatVhJaoj1NkDVa/3dwuyE/H+KtvMOaZjHqsbCL5ZpXuTudsbrOVnYu/MtPfnUkI5bxgRw==
-X-Received: by 2002:a81:fe0c:0:b0:647:88ba:f91b with SMTP id
- 00721157ae682-64788bafa5cmr43504187b3.11.1719466497346; 
- Wed, 26 Jun 2024 22:34:57 -0700 (PDT)
+ bh=ojSdFreBeAgWUWHhp+S9ALrQERFGkIJ5WpOATX5hUf8=;
+ b=BEgjVdDFHJnuOD7st5tcC49yAiXQOaiUW1zUz54hatS3jdcnbWalc0vob0OYOjqhT1
+ +GJZM9k2O4YWYNITZhalUphSotzilBjL2VUxyYmoEEmDXqY0lSGwnsYKl/fEFpU3pPNA
+ 93VKIiAnvKJl4TyMnGS2Lzec5O3VIZGnF4YYhoYeSPT4gwdyCYjSYm0I6IIFrrOCmwsr
+ c0YeYwZ2RcgZIKnB3YxyqEXJazDu+eAbgDgUU2lQuqJn14amGtXDreCzby4shGancvUT
+ LN01iFKSmO8VVtCAC5gpkvejfFOGKY0fXd8P6esK1MIt8IUs6PqBIWfwIhBO+dx9/Kni
+ AwsA==
+X-Gm-Message-State: AOJu0Yy29D1dqbYP/KUl1A5IosE2L7p0MK0Qnd/xMDGFWim1PEyHFv3T
+ 9WDdGJr7moLB1C7Pfgri68uNHoeEzy/mObk63KTDnIQyk7Fi9Y90zzcnMAih21xfeNEfJ5CHKWW
+ KmoRIfzE/7VmsDwMV1G+QMyktFLbBE1GnMEAaoLziYj9XmDjdFtU85sGVH/rrEgQpooA/wEhoyr
+ 8IzUK7WmsYe0T5LkpqPdGHef2hoDKA5uYnayRRCBPbQIKXmPcK3t7hTD4=
+X-Google-Smtp-Source: AGHT+IHa/1SYiEu7/J3gKIoB6/1XLgdp8eGxkKv6dkN+Uc6gqaadKPd0se2NfQve3gJC4Ud49XkaSg==
+X-Received: by 2002:ac8:5910:0:b0:43e:11a5:ca21 with SMTP id
+ d75a77b69052e-444eee157d6mr126338961cf.21.1719466498144; 
+ Wed, 26 Jun 2024 22:34:58 -0700 (PDT)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net.
  [173.49.113.140]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-44641eebfa0sm2716971cf.48.2024.06.26.22.34.56
+ d75a77b69052e-44641eebfa0sm2716971cf.48.2024.06.26.22.34.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 26 Jun 2024 22:34:57 -0700 (PDT)
 From: Zack Rusin <zack.rusin@broadcom.com>
@@ -59,14 +59,15 @@ To: dri-devel@lists.freedesktop.org
 Cc: Broadcom internal kernel review list
  <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
  martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Zack Rusin <zack.rusin@broadcom.com>
-Subject: [PATCH 2/4] drm/vmwgfx: Make sure the screen surface is ref counted
-Date: Thu, 27 Jun 2024 01:34:50 -0400
-Message-Id: <20240627053452.2908605-3-zack.rusin@broadcom.com>
+ Zack Rusin <zack.rusin@broadcom.com>, stable@vger.kernel.org
+Subject: [PATCH 3/4] drm/vmwgfx: Fix handling of dumb buffers
+Date: Thu, 27 Jun 2024 01:34:51 -0400
+Message-Id: <20240627053452.2908605-4-zack.rusin@broadcom.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240627053452.2908605-1-zack.rusin@broadcom.com>
 References: <20240627053452.2908605-1-zack.rusin@broadcom.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,111 +84,2091 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix races issues in virtual crc generation by making sure the surface
-the code uses for crc computation is properly ref counted.
+Dumb buffers can be used in kms but also through prime with gallium's
+resource_from_handle. In the second case the dumb buffers can be
+rendered by the GPU where with the regular DRM kms interfaces they
+are mapped and written to by the CPU. Because the same buffer can
+be written to by the GPU and CPU vmwgfx needs to use vmw_surface (object
+which properly tracks dirty state of the guest and gpu memory)
+instead of vmw_bo (which is just guest side memory).
 
-Crc generation was trying to be too clever by allowing the surfaces
-to go in and out of scope, with the hope of always having some kind
-of screen present. That's not always the code, in particular during
-atomic disable, so to make sure the surface, when present, is not
-being actively destroyed at the same time, hold a reference to it.
+Furthermore the dumb buffer handles are expected to be gem objects by
+a lot of userspace.
+
+Make vmwgfx accept gem handles in prime and kms but internally switch
+to vmw_surface's to properly track the dirty state of the objects between
+the GPU and CPU.
+
+Fixes new kwin and kde on wayland.
 
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 7b0062036c3b ("drm/vmwgfx: Implement virtual crc generation")
-Cc: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Martin Krastev <martin.krastev@broadcom.com>
+Fixes: b32233acceff ("drm/vmwgfx: Fix prime import/export")
 Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.9+
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c | 37 +++++++++++++++++-----------
- 1 file changed, 23 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmw_surface_cache.h |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         | 127 +++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h         |  15 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  40 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 453 +++++++--------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h        |  17 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c        |  14 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_prime.c      |  32 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c   |  27 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  33 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       | 145 +++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c    | 277 ++++++++++++-
+ 12 files changed, 688 insertions(+), 502 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
-index 3bfcf671fcd5..c35f7df99977 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
-@@ -130,22 +130,26 @@ crc_generate_worker(struct work_struct *work)
- 		return;
+diff --git a/drivers/gpu/drm/vmwgfx/vmw_surface_cache.h b/drivers/gpu/drm/vmwgfx/vmw_surface_cache.h
+index b0d87c5f58d8..1ac3cb151b11 100644
+--- a/drivers/gpu/drm/vmwgfx/vmw_surface_cache.h
++++ b/drivers/gpu/drm/vmwgfx/vmw_surface_cache.h
+@@ -1,6 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+ /**********************************************************
+- * Copyright 2021 VMware, Inc.
+- * SPDX-License-Identifier: GPL-2.0 OR MIT
++ *
++ * Copyright (c) 2021-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person
+  * obtaining a copy of this software and associated documentation
+@@ -31,6 +33,10 @@
  
- 	spin_lock_irq(&du->vkms.crc_state_lock);
--	surf = du->vkms.surface;
-+	surf = vmw_surface_reference(du->vkms.surface);
- 	spin_unlock_irq(&du->vkms.crc_state_lock);
+ #include <drm/vmwgfx_drm.h>
  
--	if (vmw_surface_sync(vmw, surf)) {
--		drm_warn(crtc->dev, "CRC worker wasn't able to sync the crc surface!\n");
--		return;
++#define SVGA3D_FLAGS_UPPER_32(svga3d_flags) ((svga3d_flags) >> 32)
++#define SVGA3D_FLAGS_LOWER_32(svga3d_flags) \
++	((svga3d_flags) & ((uint64_t)U32_MAX))
++
+ static inline u32 clamped_umul32(u32 a, u32 b)
+ {
+ 	uint64_t tmp = (uint64_t) a*b;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index e5eb21a471a6..f6fafb1fc5d8 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -1,8 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright © 2011-2023 VMware, Inc., Palo Alto, CA., USA
+- * All Rights Reserved.
++ * Copyright (c) 2011-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -28,15 +28,39 @@
+ 
+ #include "vmwgfx_bo.h"
+ #include "vmwgfx_drv.h"
+-
++#include "vmwgfx_resource_priv.h"
+ 
+ #include <drm/ttm/ttm_placement.h>
+ 
+ static void vmw_bo_release(struct vmw_bo *vbo)
+ {
++	struct vmw_resource *res;
++
+ 	WARN_ON(vbo->tbo.base.funcs &&
+ 		kref_read(&vbo->tbo.base.refcount) != 0);
+ 	vmw_bo_unmap(vbo);
++
++	xa_destroy(&vbo->detached_resources);
++	WARN_ON(vbo->is_dumb && !vbo->dumb_surface);
++	if (vbo->is_dumb && vbo->dumb_surface) {
++		res = &vbo->dumb_surface->res;
++		WARN_ON(vbo != res->guest_memory_bo);
++		WARN_ON(!res->guest_memory_bo);
++		if (res->guest_memory_bo) {
++			/* Reserve and switch the backing mob. */
++			mutex_lock(&res->dev_priv->cmdbuf_mutex);
++			(void)vmw_resource_reserve(res, false, true);
++			vmw_resource_mob_detach(res);
++			if (res->coherent)
++				vmw_bo_dirty_release(res->guest_memory_bo);
++			res->guest_memory_bo = NULL;
++			res->guest_memory_offset = 0;
++			vmw_resource_unreserve(res, false, false, false, NULL,
++					       0);
++			mutex_unlock(&res->dev_priv->cmdbuf_mutex);
++		}
++		vmw_surface_unreference(&vbo->dumb_surface);
++	}
+ 	drm_gem_object_release(&vbo->tbo.base);
+ }
+ 
+@@ -324,6 +348,11 @@ void vmw_bo_pin_reserved(struct vmw_bo *vbo, bool pin)
+  *
+  */
+ void *vmw_bo_map_and_cache(struct vmw_bo *vbo)
++{
++	return vmw_bo_map_and_cache_size(vbo, vbo->tbo.base.size);
++}
++
++void *vmw_bo_map_and_cache_size(struct vmw_bo *vbo, size_t size)
+ {
+ 	struct ttm_buffer_object *bo = &vbo->tbo;
+ 	bool not_used;
+@@ -334,9 +363,10 @@ void *vmw_bo_map_and_cache(struct vmw_bo *vbo)
+ 	if (virtual)
+ 		return virtual;
+ 
+-	ret = ttm_bo_kmap(bo, 0, PFN_UP(bo->base.size), &vbo->map);
++	ret = ttm_bo_kmap(bo, 0, PFN_UP(size), &vbo->map);
+ 	if (ret)
+-		DRM_ERROR("Buffer object map failed: %d.\n", ret);
++		DRM_ERROR("Buffer object map failed: %d (size: bo = %zu, map = %zu).\n",
++			  ret, bo->base.size, size);
+ 
+ 	return ttm_kmap_obj_virtual(&vbo->map, &not_used);
+ }
+@@ -389,6 +419,7 @@ static int vmw_bo_init(struct vmw_private *dev_priv,
+ 	BUILD_BUG_ON(TTM_MAX_BO_PRIORITY <= 3);
+ 	vmw_bo->tbo.priority = 3;
+ 	vmw_bo->res_tree = RB_ROOT;
++	xa_init(&vmw_bo->detached_resources);
+ 
+ 	params->size = ALIGN(params->size, PAGE_SIZE);
+ 	drm_gem_private_object_init(vdev, &vmw_bo->tbo.base, params->size);
+@@ -653,52 +684,6 @@ void vmw_bo_fence_single(struct ttm_buffer_object *bo,
+ 	dma_fence_put(&fence->base);
+ }
+ 
+-
+-/**
+- * vmw_dumb_create - Create a dumb kms buffer
+- *
+- * @file_priv: Pointer to a struct drm_file identifying the caller.
+- * @dev: Pointer to the drm device.
+- * @args: Pointer to a struct drm_mode_create_dumb structure
+- * Return: Zero on success, negative error code on failure.
+- *
+- * This is a driver callback for the core drm create_dumb functionality.
+- * Note that this is very similar to the vmw_bo_alloc ioctl, except
+- * that the arguments have a different format.
+- */
+-int vmw_dumb_create(struct drm_file *file_priv,
+-		    struct drm_device *dev,
+-		    struct drm_mode_create_dumb *args)
+-{
+-	struct vmw_private *dev_priv = vmw_priv(dev);
+-	struct vmw_bo *vbo;
+-	int cpp = DIV_ROUND_UP(args->bpp, 8);
+-	int ret;
+-
+-	switch (cpp) {
+-	case 1: /* DRM_FORMAT_C8 */
+-	case 2: /* DRM_FORMAT_RGB565 */
+-	case 4: /* DRM_FORMAT_XRGB8888 */
+-		break;
+-	default:
+-		/*
+-		 * Dumb buffers don't allow anything else.
+-		 * This is tested via IGT's dumb_buffers
+-		 */
+-		return -EINVAL;
+-	}
+-
+-	args->pitch = args->width * cpp;
+-	args->size = ALIGN(args->pitch * args->height, PAGE_SIZE);
+-
+-	ret = vmw_gem_object_create_with_handle(dev_priv, file_priv,
+-						args->size, &args->handle,
+-						&vbo);
+-	/* drop reference from allocate - handle holds it now */
+-	drm_gem_object_put(&vbo->tbo.base);
+-	return ret;
+-}
+-
+ /**
+  * vmw_bo_swap_notify - swapout notify callback.
+  *
+@@ -852,3 +837,43 @@ void vmw_bo_placement_set_default_accelerated(struct vmw_bo *bo)
+ 
+ 	vmw_bo_placement_set(bo, domain, domain);
+ }
++
++void vmw_bo_add_detached_resource(struct vmw_bo *vbo, struct vmw_resource *res)
++{
++	xa_store(&vbo->detached_resources, (unsigned long)res, res, GFP_KERNEL);
++}
++
++void vmw_bo_del_detached_resource(struct vmw_bo *vbo, struct vmw_resource *res)
++{
++	xa_erase(&vbo->detached_resources, (unsigned long)res);
++}
++
++struct vmw_surface *vmw_bo_surface(struct vmw_bo *vbo)
++{
++	unsigned long index;
++	struct vmw_resource *res = NULL;
++	struct vmw_surface *surf = NULL;
++	struct rb_node *rb_itr = vbo->res_tree.rb_node;
++
++	if (vbo->is_dumb && vbo->dumb_surface) {
++		res = &vbo->dumb_surface->res;
++		goto out;
++	}
++
++	xa_for_each(&vbo->detached_resources, index, res) {
++		if (res->func->res_type == vmw_res_surface)
++			goto out;
++	}
++
++	for (rb_itr = rb_first(&vbo->res_tree); rb_itr;
++	     rb_itr = rb_next(rb_itr)) {
++		res = rb_entry(rb_itr, struct vmw_resource, mob_node);
++		if (res->func->res_type == vmw_res_surface)
++			goto out;
++	}
++
++out:
++	if (res)
++		surf = vmw_res_to_srf(res);
++	return surf;
++}
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
+index f349642e6190..62b4342d5f7c 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
+@@ -1,7 +1,8 @@
+ /* SPDX-License-Identifier: GPL-2.0 OR MIT */
+ /**************************************************************************
+  *
+- * Copyright 2023 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2023-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -35,11 +36,13 @@
+ 
+ #include <linux/rbtree_types.h>
+ #include <linux/types.h>
++#include <linux/xarray.h>
+ 
+ struct vmw_bo_dirty;
+ struct vmw_fence_obj;
+ struct vmw_private;
+ struct vmw_resource;
++struct vmw_surface;
+ 
+ enum vmw_bo_domain {
+ 	VMW_BO_DOMAIN_SYS           = BIT(0),
+@@ -85,11 +88,15 @@ struct vmw_bo {
+ 
+ 	struct rb_root res_tree;
+ 	u32 res_prios[TTM_MAX_BO_PRIORITY];
++	struct xarray detached_resources;
+ 
+ 	atomic_t cpu_writers;
+ 	/* Not ref-counted.  Protected by binding_mutex */
+ 	struct vmw_resource *dx_query_ctx;
+ 	struct vmw_bo_dirty *dirty;
++
++	bool is_dumb;
++	struct vmw_surface *dumb_surface;
+ };
+ 
+ void vmw_bo_placement_set(struct vmw_bo *bo, u32 domain, u32 busy_domain);
+@@ -124,15 +131,21 @@ void vmw_bo_fence_single(struct ttm_buffer_object *bo,
+ 			 struct vmw_fence_obj *fence);
+ 
+ void *vmw_bo_map_and_cache(struct vmw_bo *vbo);
++void *vmw_bo_map_and_cache_size(struct vmw_bo *vbo, size_t size);
+ void vmw_bo_unmap(struct vmw_bo *vbo);
+ 
+ void vmw_bo_move_notify(struct ttm_buffer_object *bo,
+ 			struct ttm_resource *mem);
+ void vmw_bo_swap_notify(struct ttm_buffer_object *bo);
+ 
++void vmw_bo_add_detached_resource(struct vmw_bo *vbo, struct vmw_resource *res);
++void vmw_bo_del_detached_resource(struct vmw_bo *vbo, struct vmw_resource *res);
++struct vmw_surface *vmw_bo_surface(struct vmw_bo *vbo);
++
+ int vmw_user_bo_lookup(struct drm_file *filp,
+ 		       u32 handle,
+ 		       struct vmw_bo **out);
++
+ /**
+  * vmw_bo_adjust_prio - Adjust the buffer object eviction priority
+  * according to attached resources
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 4ecaea0026fc..8de973549b5e 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -1,7 +1,8 @@
+ /* SPDX-License-Identifier: GPL-2.0 OR MIT */
+ /**************************************************************************
+  *
+- * Copyright 2009-2023 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2009-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -762,6 +763,26 @@ extern int vmw_gmr_bind(struct vmw_private *dev_priv,
+ 			int gmr_id);
+ extern void vmw_gmr_unbind(struct vmw_private *dev_priv, int gmr_id);
+ 
++/**
++ * User handles
++ */
++struct vmw_user_object {
++	struct vmw_surface *surface;
++	struct vmw_bo *buffer;
++};
++
++int vmw_user_object_lookup(struct vmw_private *dev_priv, struct drm_file *filp,
++			   u32 handle, struct vmw_user_object *uo);
++struct vmw_user_object *vmw_user_object_ref(struct vmw_user_object *uo);
++void vmw_user_object_unref(struct vmw_user_object *uo);
++bool vmw_user_object_is_null(struct vmw_user_object *uo);
++struct vmw_surface *vmw_user_object_surface(struct vmw_user_object *uo);
++struct vmw_bo *vmw_user_object_buffer(struct vmw_user_object *uo);
++void *vmw_user_object_map(struct vmw_user_object *uo);
++void *vmw_user_object_map_size(struct vmw_user_object *uo, size_t size);
++void vmw_user_object_unmap(struct vmw_user_object *uo);
++bool vmw_user_object_is_mapped(struct vmw_user_object *uo);
++
+ /**
+  * Resource utilities - vmwgfx_resource.c
+  */
+@@ -776,11 +797,6 @@ extern int vmw_resource_validate(struct vmw_resource *res, bool intr,
+ extern int vmw_resource_reserve(struct vmw_resource *res, bool interruptible,
+ 				bool no_backup);
+ extern bool vmw_resource_needs_backup(const struct vmw_resource *res);
+-extern int vmw_user_lookup_handle(struct vmw_private *dev_priv,
+-				  struct drm_file *filp,
+-				  uint32_t handle,
+-				  struct vmw_surface **out_surf,
+-				  struct vmw_bo **out_buf);
+ extern int vmw_user_resource_lookup_handle(
+ 	struct vmw_private *dev_priv,
+ 	struct ttm_object_file *tfile,
+@@ -1060,9 +1076,6 @@ int vmw_kms_suspend(struct drm_device *dev);
+ int vmw_kms_resume(struct drm_device *dev);
+ void vmw_kms_lost_device(struct drm_device *dev);
+ 
+-int vmw_dumb_create(struct drm_file *file_priv,
+-		    struct drm_device *dev,
+-		    struct drm_mode_create_dumb *args);
+ extern int vmw_resource_pin(struct vmw_resource *res, bool interruptible);
+ extern void vmw_resource_unpin(struct vmw_resource *res);
+ extern enum vmw_res_type vmw_res_type(const struct vmw_resource *res);
+@@ -1179,6 +1192,15 @@ extern int vmw_gb_surface_reference_ext_ioctl(struct drm_device *dev,
+ int vmw_gb_surface_define(struct vmw_private *dev_priv,
+ 			  const struct vmw_surface_metadata *req,
+ 			  struct vmw_surface **srf_out);
++struct vmw_surface *vmw_lookup_surface_for_buffer(struct vmw_private *vmw,
++						  struct vmw_bo *bo,
++						  u32 handle);
++u32 vmw_lookup_surface_handle_for_buffer(struct vmw_private *vmw,
++					 struct vmw_bo *bo,
++					 u32 handle);
++int vmw_dumb_create(struct drm_file *file_priv,
++		    struct drm_device *dev,
++		    struct drm_mode_create_dumb *args);
+ 
+ /*
+  * Shader management - vmwgfx_shader.c
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 13b2820cae51..b2b44a6ed3ec 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -1,7 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright 2009-2023 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2009-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -193,13 +194,12 @@ static u32 vmw_du_cursor_mob_size(u32 w, u32 h)
+  */
+ static u32 *vmw_du_cursor_plane_acquire_image(struct vmw_plane_state *vps)
+ {
+-	if (vps->surf) {
+-		if (vps->surf_mapped)
+-			return vmw_bo_map_and_cache(vps->surf->res.guest_memory_bo);
+-		return vps->surf->snooper.image;
+-	} else if (vps->bo)
+-		return vmw_bo_map_and_cache(vps->bo);
+-	return NULL;
++	struct vmw_surface *surf = vmw_user_object_surface(&vps->uo);
++
++	if (surf && !vmw_user_object_is_mapped(&vps->uo))
++		return surf->snooper.image;
++
++	return vmw_user_object_map(&vps->uo);
+ }
+ 
+ static bool vmw_du_cursor_plane_has_changed(struct vmw_plane_state *old_vps,
+@@ -536,22 +536,16 @@ void vmw_du_primary_plane_destroy(struct drm_plane *plane)
+  * vmw_du_plane_unpin_surf - unpins resource associated with a framebuffer surface
+  *
+  * @vps: plane state associated with the display surface
+- * @unreference: true if we also want to unreference the display.
+  */
+-void vmw_du_plane_unpin_surf(struct vmw_plane_state *vps,
+-			     bool unreference)
++void vmw_du_plane_unpin_surf(struct vmw_plane_state *vps)
+ {
+-	if (vps->surf) {
++	struct vmw_surface *surf = vmw_user_object_surface(&vps->uo);
++
 +	if (surf) {
-+		if (vmw_surface_sync(vmw, surf)) {
-+			drm_warn(
-+				crtc->dev,
-+				"CRC worker wasn't able to sync the crc surface!\n");
-+			return;
+ 		if (vps->pinned) {
+-			vmw_resource_unpin(&vps->surf->res);
++			vmw_resource_unpin(&surf->res);
+ 			vps->pinned--;
+ 		}
+-
+-		if (unreference) {
+-			if (vps->pinned)
+-				DRM_ERROR("Surface still pinned\n");
+-			vmw_surface_unreference(&vps->surf);
+-		}
+ 	}
+ }
+ 
+@@ -572,7 +566,7 @@ vmw_du_plane_cleanup_fb(struct drm_plane *plane,
+ {
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
+ 
+-	vmw_du_plane_unpin_surf(vps, false);
++	vmw_du_plane_unpin_surf(vps);
+ }
+ 
+ 
+@@ -661,25 +655,14 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
+ 	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
+ 
+-	if (vps->surf_mapped) {
+-		vmw_bo_unmap(vps->surf->res.guest_memory_bo);
+-		vps->surf_mapped = false;
+-	}
++	if (!vmw_user_object_is_null(&vps->uo))
++		vmw_user_object_unmap(&vps->uo);
+ 
+ 	vmw_du_cursor_plane_unmap_cm(vps);
+ 	vmw_du_put_cursor_mob(vcp, vps);
+ 
+-	vmw_du_plane_unpin_surf(vps, false);
+-
+-	if (vps->surf) {
+-		vmw_surface_unreference(&vps->surf);
+-		vps->surf = NULL;
+-	}
+-
+-	if (vps->bo) {
+-		vmw_bo_unreference(&vps->bo);
+-		vps->bo = NULL;
+-	}
++	vmw_du_plane_unpin_surf(vps);
++	vmw_user_object_unref(&vps->uo);
+ }
+ 
+ 
+@@ -698,64 +681,41 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+ 	struct drm_framebuffer *fb = new_state->fb;
+ 	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
++	struct vmw_bo *bo = NULL;
+ 	int ret = 0;
+ 
+-	if (vps->surf) {
+-		if (vps->surf_mapped) {
+-			vmw_bo_unmap(vps->surf->res.guest_memory_bo);
+-			vps->surf_mapped = false;
+-		}
+-		vmw_surface_unreference(&vps->surf);
+-		vps->surf = NULL;
+-	}
+-
+-	if (vps->bo) {
+-		vmw_bo_unreference(&vps->bo);
+-		vps->bo = NULL;
++	if (!vmw_user_object_is_null(&vps->uo)) {
++		vmw_user_object_unmap(&vps->uo);
++		vmw_user_object_unref(&vps->uo);
+ 	}
+ 
+ 	if (fb) {
+ 		if (vmw_framebuffer_to_vfb(fb)->bo) {
+-			vps->bo = vmw_framebuffer_to_vfbd(fb)->buffer;
+-			vmw_bo_reference(vps->bo);
++			vps->uo.buffer = vmw_framebuffer_to_vfbd(fb)->buffer;
++			vps->uo.surface = NULL;
+ 		} else {
+-			vps->surf = vmw_framebuffer_to_vfbs(fb)->surface;
+-			vmw_surface_reference(vps->surf);
++			memcpy(&vps->uo, &vmw_framebuffer_to_vfbs(fb)->uo, sizeof(vps->uo));
+ 		}
++		vmw_user_object_ref(&vps->uo);
+ 	}
+ 
+-	if (!vps->surf && vps->bo) {
+-		const u32 size = new_state->crtc_w * new_state->crtc_h * sizeof(u32);
+-
+-		/*
+-		 * Not using vmw_bo_map_and_cache() helper here as we need to
+-		 * reserve the ttm_buffer_object first which
+-		 * vmw_bo_map_and_cache() omits.
+-		 */
+-		ret = ttm_bo_reserve(&vps->bo->tbo, true, false, NULL);
+-
++	bo = vmw_user_object_buffer(&vps->uo);
++	if (bo) {
++		ret = ttm_bo_reserve(&bo->tbo, true, false, NULL);
+ 		if (unlikely(ret != 0))
+ 			return -ENOMEM;
+ 
+-		ret = ttm_bo_kmap(&vps->bo->tbo, 0, PFN_UP(size), &vps->bo->map);
+-
+-		ttm_bo_unreserve(&vps->bo->tbo);
+-
+-		if (unlikely(ret != 0))
+-			return -ENOMEM;
+-	} else if (vps->surf && !vps->bo && vps->surf->res.guest_memory_bo) {
++		if (vmw_framebuffer_to_vfb(fb)->bo) {
++			const u32 size = new_state->crtc_w * new_state->crtc_h * sizeof(u32);
+ 
+-		WARN_ON(vps->surf->snooper.image);
+-		ret = ttm_bo_reserve(&vps->surf->res.guest_memory_bo->tbo, true, false,
+-				     NULL);
+-		if (unlikely(ret != 0))
+-			return -ENOMEM;
+-		vmw_bo_map_and_cache(vps->surf->res.guest_memory_bo);
+-		ttm_bo_unreserve(&vps->surf->res.guest_memory_bo->tbo);
+-		vps->surf_mapped = true;
++			(void)vmw_bo_map_and_cache_size(bo, size);
++		} else {
++			vmw_bo_map_and_cache(bo);
++		}
++		ttm_bo_unreserve(&bo->tbo);
+ 	}
+ 
+-	if (vps->surf || vps->bo) {
++	if (!vmw_user_object_is_null(&vps->uo)) {
+ 		vmw_du_get_cursor_mob(vcp, vps);
+ 		vmw_du_cursor_plane_map_cm(vps);
+ 	}
+@@ -782,9 +742,9 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	hotspot_x = du->hotspot_x + new_state->hotspot_x;
+ 	hotspot_y = du->hotspot_y + new_state->hotspot_y;
+ 
+-	du->cursor_surface = vps->surf;
++	du->cursor_surface = vmw_user_object_surface(&vps->uo);
+ 
+-	if (!vps->surf && !vps->bo) {
++	if (vmw_user_object_is_null(&vps->uo)) {
+ 		vmw_cursor_update_position(dev_priv, false, 0, 0);
+ 		return;
+ 	}
+@@ -792,9 +752,8 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	vps->cursor.hotspot_x = hotspot_x;
+ 	vps->cursor.hotspot_y = hotspot_y;
+ 
+-	if (vps->surf) {
++	if (du->cursor_surface)
+ 		du->cursor_age = du->cursor_surface->snooper.age;
+-	}
+ 
+ 	if (!vmw_du_cursor_plane_has_changed(old_vps, vps)) {
+ 		/*
+@@ -913,7 +872,7 @@ int vmw_du_cursor_plane_atomic_check(struct drm_plane *plane,
+ 	}
+ 
+ 	if (!vmw_framebuffer_to_vfb(fb)->bo) {
+-		surface = vmw_framebuffer_to_vfbs(fb)->surface;
++		surface = vmw_user_object_surface(&vmw_framebuffer_to_vfbs(fb)->uo);
+ 
+ 		WARN_ON(!surface);
+ 
+@@ -1074,11 +1033,7 @@ vmw_du_plane_duplicate_state(struct drm_plane *plane)
+ 	memset(&vps->cursor, 0, sizeof(vps->cursor));
+ 
+ 	/* Each ref counted resource needs to be acquired again */
+-	if (vps->surf)
+-		(void) vmw_surface_reference(vps->surf);
+-
+-	if (vps->bo)
+-		(void) vmw_bo_reference(vps->bo);
++	vmw_user_object_ref(&vps->uo);
+ 
+ 	state = &vps->base;
+ 
+@@ -1128,11 +1083,7 @@ vmw_du_plane_destroy_state(struct drm_plane *plane,
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(state);
+ 
+ 	/* Should have been freed by cleanup_fb */
+-	if (vps->surf)
+-		vmw_surface_unreference(&vps->surf);
+-
+-	if (vps->bo)
+-		vmw_bo_unreference(&vps->bo);
++	vmw_user_object_unref(&vps->uo);
+ 
+ 	drm_atomic_helper_plane_destroy_state(plane, state);
+ }
+@@ -1227,7 +1178,7 @@ static void vmw_framebuffer_surface_destroy(struct drm_framebuffer *framebuffer)
+ 		vmw_framebuffer_to_vfbs(framebuffer);
+ 
+ 	drm_framebuffer_cleanup(framebuffer);
+-	vmw_surface_unreference(&vfbs->surface);
++	vmw_user_object_unref(&vfbs->uo);
+ 
+ 	kfree(vfbs);
+ }
+@@ -1272,29 +1223,41 @@ int vmw_kms_readback(struct vmw_private *dev_priv,
+ 	return -ENOSYS;
+ }
+ 
++static int vmw_framebuffer_surface_create_handle(struct drm_framebuffer *fb,
++						 struct drm_file *file_priv,
++						 unsigned int *handle)
++{
++	struct vmw_framebuffer_surface *vfbs = vmw_framebuffer_to_vfbs(fb);
++	struct vmw_bo *bo = vmw_user_object_buffer(&vfbs->uo);
++
++	return drm_gem_handle_create(file_priv, &bo->tbo.base, handle);
++}
+ 
+ static const struct drm_framebuffer_funcs vmw_framebuffer_surface_funcs = {
++	.create_handle = vmw_framebuffer_surface_create_handle,
+ 	.destroy = vmw_framebuffer_surface_destroy,
+ 	.dirty = drm_atomic_helper_dirtyfb,
+ };
+ 
+ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
+-					   struct vmw_surface *surface,
++					   struct vmw_user_object *uo,
+ 					   struct vmw_framebuffer **out,
+ 					   const struct drm_mode_fb_cmd2
+-					   *mode_cmd,
+-					   bool is_bo_proxy)
++					   *mode_cmd)
+ 
+ {
+ 	struct drm_device *dev = &dev_priv->drm;
+ 	struct vmw_framebuffer_surface *vfbs;
+ 	enum SVGA3dSurfaceFormat format;
++	struct vmw_surface *surface;
+ 	int ret;
+ 
+ 	/* 3D is only supported on HWv8 and newer hosts */
+ 	if (dev_priv->active_display_unit == vmw_du_legacy)
+ 		return -ENOSYS;
+ 
++	surface = vmw_user_object_surface(uo);
++
+ 	/*
+ 	 * Sanity checks.
+ 	 */
+@@ -1357,8 +1320,8 @@ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
+ 	}
+ 
+ 	drm_helper_mode_fill_fb_struct(dev, &vfbs->base.base, mode_cmd);
+-	vfbs->surface = vmw_surface_reference(surface);
+-	vfbs->is_bo_proxy = is_bo_proxy;
++	memcpy(&vfbs->uo, uo, sizeof(vfbs->uo));
++	vmw_user_object_ref(&vfbs->uo);
+ 
+ 	*out = &vfbs->base;
+ 
+@@ -1370,7 +1333,7 @@ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
+ 	return 0;
+ 
+ out_err2:
+-	vmw_surface_unreference(&surface);
++	vmw_user_object_unref(&vfbs->uo);
+ 	kfree(vfbs);
+ out_err1:
+ 	return ret;
+@@ -1386,7 +1349,6 @@ static int vmw_framebuffer_bo_create_handle(struct drm_framebuffer *fb,
+ {
+ 	struct vmw_framebuffer_bo *vfbd =
+ 			vmw_framebuffer_to_vfbd(fb);
+-
+ 	return drm_gem_handle_create(file_priv, &vfbd->buffer->tbo.base, handle);
+ }
+ 
+@@ -1407,86 +1369,6 @@ static const struct drm_framebuffer_funcs vmw_framebuffer_bo_funcs = {
+ 	.dirty = drm_atomic_helper_dirtyfb,
+ };
+ 
+-/**
+- * vmw_create_bo_proxy - create a proxy surface for the buffer object
+- *
+- * @dev: DRM device
+- * @mode_cmd: parameters for the new surface
+- * @bo_mob: MOB backing the buffer object
+- * @srf_out: newly created surface
+- *
+- * When the content FB is a buffer object, we create a surface as a proxy to the
+- * same buffer.  This way we can do a surface copy rather than a surface DMA.
+- * This is a more efficient approach
+- *
+- * RETURNS:
+- * 0 on success, error code otherwise
+- */
+-static int vmw_create_bo_proxy(struct drm_device *dev,
+-			       const struct drm_mode_fb_cmd2 *mode_cmd,
+-			       struct vmw_bo *bo_mob,
+-			       struct vmw_surface **srf_out)
+-{
+-	struct vmw_surface_metadata metadata = {0};
+-	uint32_t format;
+-	struct vmw_resource *res;
+-	unsigned int bytes_pp;
+-	int ret;
+-
+-	switch (mode_cmd->pixel_format) {
+-	case DRM_FORMAT_ARGB8888:
+-	case DRM_FORMAT_XRGB8888:
+-		format = SVGA3D_X8R8G8B8;
+-		bytes_pp = 4;
+-		break;
+-
+-	case DRM_FORMAT_RGB565:
+-	case DRM_FORMAT_XRGB1555:
+-		format = SVGA3D_R5G6B5;
+-		bytes_pp = 2;
+-		break;
+-
+-	case 8:
+-		format = SVGA3D_P8;
+-		bytes_pp = 1;
+-		break;
+-
+-	default:
+-		DRM_ERROR("Invalid framebuffer format %p4cc\n",
+-			  &mode_cmd->pixel_format);
+-		return -EINVAL;
+-	}
+-
+-	metadata.format = format;
+-	metadata.mip_levels[0] = 1;
+-	metadata.num_sizes = 1;
+-	metadata.base_size.width = mode_cmd->pitches[0] / bytes_pp;
+-	metadata.base_size.height =  mode_cmd->height;
+-	metadata.base_size.depth = 1;
+-	metadata.scanout = true;
+-
+-	ret = vmw_gb_surface_define(vmw_priv(dev), &metadata, srf_out);
+-	if (ret) {
+-		DRM_ERROR("Failed to allocate proxy content buffer\n");
+-		return ret;
+-	}
+-
+-	res = &(*srf_out)->res;
+-
+-	/* Reserve and switch the backing mob. */
+-	mutex_lock(&res->dev_priv->cmdbuf_mutex);
+-	(void) vmw_resource_reserve(res, false, true);
+-	vmw_user_bo_unref(&res->guest_memory_bo);
+-	res->guest_memory_bo = vmw_user_bo_ref(bo_mob);
+-	res->guest_memory_offset = 0;
+-	vmw_resource_unreserve(res, false, false, false, NULL, 0);
+-	mutex_unlock(&res->dev_priv->cmdbuf_mutex);
+-
+-	return 0;
+-}
+-
+-
+-
+ static int vmw_kms_new_framebuffer_bo(struct vmw_private *dev_priv,
+ 				      struct vmw_bo *bo,
+ 				      struct vmw_framebuffer **out,
+@@ -1565,55 +1447,24 @@ vmw_kms_srf_ok(struct vmw_private *dev_priv, uint32_t width, uint32_t height)
+  * vmw_kms_new_framebuffer - Create a new framebuffer.
+  *
+  * @dev_priv: Pointer to device private struct.
+- * @bo: Pointer to buffer object to wrap the kms framebuffer around.
+- * Either @bo or @surface must be NULL.
+- * @surface: Pointer to a surface to wrap the kms framebuffer around.
+- * Either @bo or @surface must be NULL.
+- * @only_2d: No presents will occur to this buffer object based framebuffer.
+- * This helps the code to do some important optimizations.
++ * @uo: Pointer to user object to wrap the kms framebuffer around.
++ * Either the buffer or surface inside the user object must be NULL.
+  * @mode_cmd: Frame-buffer metadata.
+  */
+ struct vmw_framebuffer *
+ vmw_kms_new_framebuffer(struct vmw_private *dev_priv,
+-			struct vmw_bo *bo,
+-			struct vmw_surface *surface,
+-			bool only_2d,
++			struct vmw_user_object *uo,
+ 			const struct drm_mode_fb_cmd2 *mode_cmd)
+ {
+ 	struct vmw_framebuffer *vfb = NULL;
+-	bool is_bo_proxy = false;
+ 	int ret;
+ 
+-	/*
+-	 * We cannot use the SurfaceDMA command in an non-accelerated VM,
+-	 * therefore, wrap the buffer object in a surface so we can use the
+-	 * SurfaceCopy command.
+-	 */
+-	if (vmw_kms_srf_ok(dev_priv, mode_cmd->width, mode_cmd->height)  &&
+-	    bo && only_2d &&
+-	    mode_cmd->width > 64 &&  /* Don't create a proxy for cursor */
+-	    dev_priv->active_display_unit == vmw_du_screen_target) {
+-		ret = vmw_create_bo_proxy(&dev_priv->drm, mode_cmd,
+-					  bo, &surface);
+-		if (ret)
+-			return ERR_PTR(ret);
+-
+-		is_bo_proxy = true;
+-	}
+-
+ 	/* Create the new framebuffer depending one what we have */
+-	if (surface) {
+-		ret = vmw_kms_new_framebuffer_surface(dev_priv, surface, &vfb,
+-						      mode_cmd,
+-						      is_bo_proxy);
+-		/*
+-		 * vmw_create_bo_proxy() adds a reference that is no longer
+-		 * needed
+-		 */
+-		if (is_bo_proxy)
+-			vmw_surface_unreference(&surface);
+-	} else if (bo) {
+-		ret = vmw_kms_new_framebuffer_bo(dev_priv, bo, &vfb,
++	if (vmw_user_object_surface(uo)) {
++		ret = vmw_kms_new_framebuffer_surface(dev_priv, uo, &vfb,
++						      mode_cmd);
++	} else if (uo->buffer) {
++		ret = vmw_kms_new_framebuffer_bo(dev_priv, uo->buffer, &vfb,
+ 						 mode_cmd);
+ 	} else {
+ 		BUG();
+@@ -1635,14 +1486,12 @@ static struct drm_framebuffer *vmw_kms_fb_create(struct drm_device *dev,
+ {
+ 	struct vmw_private *dev_priv = vmw_priv(dev);
+ 	struct vmw_framebuffer *vfb = NULL;
+-	struct vmw_surface *surface = NULL;
+-	struct vmw_bo *bo = NULL;
++	struct vmw_user_object uo = {0};
+ 	int ret;
+ 
+ 	/* returns either a bo or surface */
+-	ret = vmw_user_lookup_handle(dev_priv, file_priv,
+-				     mode_cmd->handles[0],
+-				     &surface, &bo);
++	ret = vmw_user_object_lookup(dev_priv, file_priv, mode_cmd->handles[0],
++				     &uo);
+ 	if (ret) {
+ 		DRM_ERROR("Invalid buffer object handle %u (0x%x).\n",
+ 			  mode_cmd->handles[0], mode_cmd->handles[0]);
+@@ -1650,7 +1499,7 @@ static struct drm_framebuffer *vmw_kms_fb_create(struct drm_device *dev,
+ 	}
+ 
+ 
+-	if (!bo &&
++	if (vmw_user_object_surface(&uo) &&
+ 	    !vmw_kms_srf_ok(dev_priv, mode_cmd->width, mode_cmd->height)) {
+ 		DRM_ERROR("Surface size cannot exceed %dx%d\n",
+ 			dev_priv->texture_max_width,
+@@ -1659,20 +1508,15 @@ static struct drm_framebuffer *vmw_kms_fb_create(struct drm_device *dev,
+ 	}
+ 
+ 
+-	vfb = vmw_kms_new_framebuffer(dev_priv, bo, surface,
+-				      !(dev_priv->capabilities & SVGA_CAP_3D),
+-				      mode_cmd);
++	vfb = vmw_kms_new_framebuffer(dev_priv, &uo, mode_cmd);
+ 	if (IS_ERR(vfb)) {
+ 		ret = PTR_ERR(vfb);
+ 		goto err_out;
+ 	}
+ 
+ err_out:
+-	/* vmw_user_lookup_handle takes one ref so does new_fb */
+-	if (bo)
+-		vmw_user_bo_unref(&bo);
+-	if (surface)
+-		vmw_surface_unreference(&surface);
++	/* vmw_user_object_lookup takes one ref so does new_fb */
++	vmw_user_object_unref(&uo);
+ 
+ 	if (ret) {
+ 		DRM_ERROR("failed to create vmw_framebuffer: %i\n", ret);
+@@ -2585,72 +2429,6 @@ void vmw_kms_helper_validation_finish(struct vmw_private *dev_priv,
+ 		vmw_fence_obj_unreference(&fence);
+ }
+ 
+-/**
+- * vmw_kms_update_proxy - Helper function to update a proxy surface from
+- * its backing MOB.
+- *
+- * @res: Pointer to the surface resource
+- * @clips: Clip rects in framebuffer (surface) space.
+- * @num_clips: Number of clips in @clips.
+- * @increment: Integer with which to increment the clip counter when looping.
+- * Used to skip a predetermined number of clip rects.
+- *
+- * This function makes sure the proxy surface is updated from its backing MOB
+- * using the region given by @clips. The surface resource @res and its backing
+- * MOB needs to be reserved and validated on call.
+- */
+-int vmw_kms_update_proxy(struct vmw_resource *res,
+-			 const struct drm_clip_rect *clips,
+-			 unsigned num_clips,
+-			 int increment)
+-{
+-	struct vmw_private *dev_priv = res->dev_priv;
+-	struct drm_vmw_size *size = &vmw_res_to_srf(res)->metadata.base_size;
+-	struct {
+-		SVGA3dCmdHeader header;
+-		SVGA3dCmdUpdateGBImage body;
+-	} *cmd;
+-	SVGA3dBox *box;
+-	size_t copy_size = 0;
+-	int i;
+-
+-	if (!clips)
+-		return 0;
+-
+-	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd) * num_clips);
+-	if (!cmd)
+-		return -ENOMEM;
+-
+-	for (i = 0; i < num_clips; ++i, clips += increment, ++cmd) {
+-		box = &cmd->body.box;
+-
+-		cmd->header.id = SVGA_3D_CMD_UPDATE_GB_IMAGE;
+-		cmd->header.size = sizeof(cmd->body);
+-		cmd->body.image.sid = res->id;
+-		cmd->body.image.face = 0;
+-		cmd->body.image.mipmap = 0;
+-
+-		if (clips->x1 > size->width || clips->x2 > size->width ||
+-		    clips->y1 > size->height || clips->y2 > size->height) {
+-			DRM_ERROR("Invalid clips outsize of framebuffer.\n");
+-			return -EINVAL;
+-		}
+-
+-		box->x = clips->x1;
+-		box->y = clips->y1;
+-		box->z = 0;
+-		box->w = clips->x2 - clips->x1;
+-		box->h = clips->y2 - clips->y1;
+-		box->d = 1;
+-
+-		copy_size += sizeof(*cmd);
+-	}
+-
+-	vmw_cmd_commit(dev_priv, copy_size);
+-
+-	return 0;
+-}
+-
+ /**
+  * vmw_kms_create_implicit_placement_property - Set up the implicit placement
+  * property.
+@@ -2785,8 +2563,9 @@ int vmw_du_helper_plane_update(struct vmw_du_update_plane *update)
+ 	} else {
+ 		struct vmw_framebuffer_surface *vfbs =
+ 			container_of(update->vfb, typeof(*vfbs), base);
++		struct vmw_surface *surf = vmw_user_object_surface(&vfbs->uo);
+ 
+-		ret = vmw_validation_add_resource(&val_ctx, &vfbs->surface->res,
++		ret = vmw_validation_add_resource(&val_ctx, &surf->res,
+ 						  0, VMW_RES_DIRTY_NONE, NULL,
+ 						  NULL);
+ 	}
+@@ -2949,3 +2728,77 @@ int vmw_connector_get_modes(struct drm_connector *connector)
+ 
+ 	return num_modes;
+ }
++
++struct vmw_user_object *vmw_user_object_ref(struct vmw_user_object *uo)
++{
++	if (uo->buffer)
++		vmw_user_bo_ref(uo->buffer);
++	else if (uo->surface)
++		vmw_surface_reference(uo->surface);
++	return uo;
++}
++
++void vmw_user_object_unref(struct vmw_user_object *uo)
++{
++	if (uo->buffer)
++		vmw_user_bo_unref(&uo->buffer);
++	else if (uo->surface)
++		vmw_surface_unreference(&uo->surface);
++}
++
++struct vmw_bo *
++vmw_user_object_buffer(struct vmw_user_object *uo)
++{
++	if (uo->buffer)
++		return uo->buffer;
++	else if (uo->surface)
++		return uo->surface->res.guest_memory_bo;
++	return NULL;
++}
++
++struct vmw_surface *
++vmw_user_object_surface(struct vmw_user_object *uo)
++{
++	if (uo->buffer)
++		return uo->buffer->dumb_surface;
++	return uo->surface;
++}
++
++void *vmw_user_object_map(struct vmw_user_object *uo)
++{
++	struct vmw_bo *bo = vmw_user_object_buffer(uo);
++
++	WARN_ON(!bo);
++	return vmw_bo_map_and_cache(bo);
++}
++
++void *vmw_user_object_map_size(struct vmw_user_object *uo, size_t size)
++{
++	struct vmw_bo *bo = vmw_user_object_buffer(uo);
++
++	WARN_ON(!bo);
++	return vmw_bo_map_and_cache_size(bo, size);
++}
++
++void vmw_user_object_unmap(struct vmw_user_object *uo)
++{
++	struct vmw_bo *bo = vmw_user_object_buffer(uo);
++
++	WARN_ON(!bo);
++
++	vmw_bo_unmap(bo);
++}
++
++bool vmw_user_object_is_mapped(struct vmw_user_object *uo)
++{
++	struct vmw_bo *bo = vmw_user_object_buffer(uo);
++
++	WARN_ON(!bo);
++
++	return (bo && bo->map.bo);
++}
++
++bool vmw_user_object_is_null(struct vmw_user_object *uo)
++{
++	return !uo->buffer && !uo->surface;
++}
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+index bf24f2f0dcfc..6141fadf81ef 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+@@ -1,7 +1,8 @@
+ /* SPDX-License-Identifier: GPL-2.0 OR MIT */
+ /**************************************************************************
+  *
+- * Copyright 2009-2023 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2009-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -221,11 +222,9 @@ struct vmw_framebuffer {
+ 
+ struct vmw_framebuffer_surface {
+ 	struct vmw_framebuffer base;
+-	struct vmw_surface *surface;
+-	bool is_bo_proxy;  /* true if this is proxy surface for DMA buf */
++	struct vmw_user_object uo;
+ };
+ 
+-
+ struct vmw_framebuffer_bo {
+ 	struct vmw_framebuffer base;
+ 	struct vmw_bo *buffer;
+@@ -277,8 +276,7 @@ struct vmw_cursor_plane_state {
+  */
+ struct vmw_plane_state {
+ 	struct drm_plane_state base;
+-	struct vmw_surface *surf;
+-	struct vmw_bo *bo;
++	struct vmw_user_object uo;
+ 
+ 	int content_fb_type;
+ 	unsigned long bo_size;
+@@ -457,9 +455,7 @@ int vmw_kms_readback(struct vmw_private *dev_priv,
+ 		     uint32_t num_clips);
+ struct vmw_framebuffer *
+ vmw_kms_new_framebuffer(struct vmw_private *dev_priv,
+-			struct vmw_bo *bo,
+-			struct vmw_surface *surface,
+-			bool only_2d,
++			struct vmw_user_object *uo,
+ 			const struct drm_mode_fb_cmd2 *mode_cmd);
+ void vmw_guess_mode_timing(struct drm_display_mode *mode);
+ void vmw_kms_update_implicit_fb(struct vmw_private *dev_priv);
+@@ -486,8 +482,7 @@ void vmw_du_plane_reset(struct drm_plane *plane);
+ struct drm_plane_state *vmw_du_plane_duplicate_state(struct drm_plane *plane);
+ void vmw_du_plane_destroy_state(struct drm_plane *plane,
+ 				struct drm_plane_state *state);
+-void vmw_du_plane_unpin_surf(struct vmw_plane_state *vps,
+-			     bool unreference);
++void vmw_du_plane_unpin_surf(struct vmw_plane_state *vps);
+ 
+ int vmw_du_crtc_atomic_check(struct drm_crtc *crtc,
+ 			     struct drm_atomic_state *state);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+index 5befc2719a49..39949e0a493f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+@@ -1,7 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright 2009-2023 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2009-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -147,8 +148,9 @@ static int vmw_ldu_fb_pin(struct vmw_framebuffer *vfb)
+ 	struct vmw_bo *buf;
+ 	int ret;
+ 
+-	buf = vfb->bo ?  vmw_framebuffer_to_vfbd(&vfb->base)->buffer :
+-		vmw_framebuffer_to_vfbs(&vfb->base)->surface->res.guest_memory_bo;
++	buf = vfb->bo ?
++		vmw_framebuffer_to_vfbd(&vfb->base)->buffer :
++		vmw_user_object_buffer(&vmw_framebuffer_to_vfbs(&vfb->base)->uo);
+ 
+ 	if (!buf)
+ 		return 0;
+@@ -169,8 +171,10 @@ static int vmw_ldu_fb_unpin(struct vmw_framebuffer *vfb)
+ 	struct vmw_private *dev_priv = vmw_priv(vfb->base.dev);
+ 	struct vmw_bo *buf;
+ 
+-	buf = vfb->bo ?  vmw_framebuffer_to_vfbd(&vfb->base)->buffer :
+-		vmw_framebuffer_to_vfbs(&vfb->base)->surface->res.guest_memory_bo;
++	buf = vfb->bo ?
++		vmw_framebuffer_to_vfbd(&vfb->base)->buffer :
++		vmw_user_object_buffer(&vmw_framebuffer_to_vfbs(&vfb->base)->uo);
++
+ 
+ 	if (WARN_ON(!buf))
+ 		return 0;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_prime.c b/drivers/gpu/drm/vmwgfx/vmwgfx_prime.c
+index c99cad444991..598b90ac7590 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_prime.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_prime.c
+@@ -1,7 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright 2013 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2013-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -31,6 +32,7 @@
+  */
+ 
+ #include "vmwgfx_drv.h"
++#include "vmwgfx_bo.h"
+ #include "ttm_object.h"
+ #include <linux/dma-buf.h>
+ 
+@@ -88,13 +90,35 @@ int vmw_prime_handle_to_fd(struct drm_device *dev,
+ 			   uint32_t handle, uint32_t flags,
+ 			   int *prime_fd)
+ {
++	struct vmw_private *vmw = vmw_priv(dev);
+ 	struct ttm_object_file *tfile = vmw_fpriv(file_priv)->tfile;
++	struct vmw_bo *vbo;
+ 	int ret;
++	int surf_handle;
+ 
+-	if (handle > VMWGFX_NUM_MOB)
++	if (handle > VMWGFX_NUM_MOB) {
+ 		ret = ttm_prime_handle_to_fd(tfile, handle, flags, prime_fd);
+-	else
+-		ret = drm_gem_prime_handle_to_fd(dev, file_priv, handle, flags, prime_fd);
++	} else {
++		ret = vmw_user_bo_lookup(file_priv, handle, &vbo);
++		if (ret)
++			return ret;
++		if (vbo && vbo->is_dumb) {
++			ret = drm_gem_prime_handle_to_fd(dev, file_priv, handle,
++							 flags, prime_fd);
++		} else {
++			surf_handle = vmw_lookup_surface_handle_for_buffer(vmw,
++									   vbo,
++									   handle);
++			if (surf_handle > 0)
++				ret = ttm_prime_handle_to_fd(tfile, surf_handle,
++							     flags, prime_fd);
++			else
++				ret = drm_gem_prime_handle_to_fd(dev, file_priv,
++								 handle, flags,
++								 prime_fd);
++		}
++		vmw_user_bo_unref(&vbo);
++	}
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+index 848dba09981b..a73af8a355fb 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+@@ -1,7 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright 2009-2023 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2009-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -58,6 +59,7 @@ void vmw_resource_mob_attach(struct vmw_resource *res)
+ 
+ 	rb_link_node(&res->mob_node, parent, new);
+ 	rb_insert_color(&res->mob_node, &gbo->res_tree);
++	vmw_bo_del_detached_resource(gbo, res);
+ 
+ 	vmw_bo_prio_add(gbo, res->used_prio);
+ }
+@@ -287,28 +289,35 @@ int vmw_user_resource_lookup_handle(struct vmw_private *dev_priv,
+  *
+  * The pointer this pointed at by out_surf and out_buf needs to be null.
+  */
+-int vmw_user_lookup_handle(struct vmw_private *dev_priv,
++int vmw_user_object_lookup(struct vmw_private *dev_priv,
+ 			   struct drm_file *filp,
+-			   uint32_t handle,
+-			   struct vmw_surface **out_surf,
+-			   struct vmw_bo **out_buf)
++			   u32 handle,
++			   struct vmw_user_object *uo)
+ {
+ 	struct ttm_object_file *tfile = vmw_fpriv(filp)->tfile;
+ 	struct vmw_resource *res;
+ 	int ret;
+ 
+-	BUG_ON(*out_surf || *out_buf);
++	WARN_ON(uo->surface || uo->buffer);
+ 
+ 	ret = vmw_user_resource_lookup_handle(dev_priv, tfile, handle,
+ 					      user_surface_converter,
+ 					      &res);
+ 	if (!ret) {
+-		*out_surf = vmw_res_to_srf(res);
++		uo->surface = vmw_res_to_srf(res);
+ 		return 0;
+ 	}
+ 
+-	*out_surf = NULL;
+-	ret = vmw_user_bo_lookup(filp, handle, out_buf);
++	uo->surface = NULL;
++	ret = vmw_user_bo_lookup(filp, handle, &uo->buffer);
++	if (!ret && !uo->buffer->is_dumb) {
++		uo->surface = vmw_lookup_surface_for_buffer(dev_priv,
++							    uo->buffer,
++							    handle);
++		if (uo->surface)
++			vmw_user_bo_unref(&uo->buffer);
++	}
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+index df0039a8ef29..0f4bfd98480a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+@@ -1,7 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright 2011-2023 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2011-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -240,7 +241,7 @@ static void vmw_sou_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 		struct vmw_connector_state *vmw_conn_state;
+ 		int x, y;
+ 
+-		sou->buffer = vps->bo;
++		sou->buffer = vmw_user_object_buffer(&vps->uo);
+ 
+ 		conn_state = sou->base.connector.state;
+ 		vmw_conn_state = vmw_connector_state_to_vcs(conn_state);
+@@ -376,10 +377,11 @@ vmw_sou_primary_plane_cleanup_fb(struct drm_plane *plane,
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
+ 	struct drm_crtc *crtc = plane->state->crtc ?
+ 		plane->state->crtc : old_state->crtc;
++	struct vmw_bo *bo = vmw_user_object_buffer(&vps->uo);
+ 
+-	if (vps->bo)
+-		vmw_bo_unpin(vmw_priv(crtc->dev), vps->bo, false);
+-	vmw_bo_unreference(&vps->bo);
++	if (bo)
++		vmw_bo_unpin(vmw_priv(crtc->dev), bo, false);
++	vmw_user_object_unref(&vps->uo);
+ 	vps->bo_size = 0;
+ 
+ 	vmw_du_plane_cleanup_fb(plane, old_state);
+@@ -411,9 +413,10 @@ vmw_sou_primary_plane_prepare_fb(struct drm_plane *plane,
+ 		.bo_type = ttm_bo_type_device,
+ 		.pin = true
+ 	};
++	struct vmw_bo *bo = NULL;
+ 
+ 	if (!new_fb) {
+-		vmw_bo_unreference(&vps->bo);
++		vmw_user_object_unref(&vps->uo);
+ 		vps->bo_size = 0;
+ 
+ 		return 0;
+@@ -422,17 +425,17 @@ vmw_sou_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	bo_params.size = new_state->crtc_w * new_state->crtc_h * 4;
+ 	dev_priv = vmw_priv(crtc->dev);
+ 
+-	if (vps->bo) {
++	bo = vmw_user_object_buffer(&vps->uo);
++	if (bo) {
+ 		if (vps->bo_size == bo_params.size) {
+ 			/*
+ 			 * Note that this might temporarily up the pin-count
+ 			 * to 2, until cleanup_fb() is called.
+ 			 */
+-			return vmw_bo_pin_in_vram(dev_priv, vps->bo,
+-						      true);
++			return vmw_bo_pin_in_vram(dev_priv, bo, true);
+ 		}
+ 
+-		vmw_bo_unreference(&vps->bo);
++		vmw_user_object_unref(&vps->uo);
+ 		vps->bo_size = 0;
+ 	}
+ 
+@@ -442,7 +445,7 @@ vmw_sou_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	 * resume the overlays, this is preferred to failing to alloc.
+ 	 */
+ 	vmw_overlay_pause_all(dev_priv);
+-	ret = vmw_bo_create(dev_priv, &bo_params, &vps->bo);
++	ret = vmw_gem_object_create(dev_priv, &bo_params, &vps->uo.buffer);
+ 	vmw_overlay_resume_all(dev_priv);
+ 	if (ret)
+ 		return ret;
+@@ -453,7 +456,7 @@ vmw_sou_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	 * TTM already thinks the buffer is pinned, but make sure the
+ 	 * pin_count is upped.
+ 	 */
+-	return vmw_bo_pin_in_vram(dev_priv, vps->bo, true);
++	return vmw_bo_pin_in_vram(dev_priv, vps->uo.buffer, true);
+ }
+ 
+ static uint32_t vmw_sou_bo_fifo_size(struct vmw_du_update_plane *update,
+@@ -580,6 +583,7 @@ static uint32_t vmw_sou_surface_pre_clip(struct vmw_du_update_plane *update,
+ {
+ 	struct vmw_kms_sou_dirty_cmd *blit = cmd;
+ 	struct vmw_framebuffer_surface *vfbs;
++	struct vmw_surface *surf = NULL;
+ 
+ 	vfbs = container_of(update->vfb, typeof(*vfbs), base);
+ 
+@@ -587,7 +591,8 @@ static uint32_t vmw_sou_surface_pre_clip(struct vmw_du_update_plane *update,
+ 	blit->header.size = sizeof(blit->body) + sizeof(SVGASignedRect) *
+ 		num_hits;
+ 
+-	blit->body.srcImage.sid = vfbs->surface->res.id;
++	surf = vmw_user_object_surface(&vfbs->uo);
++	blit->body.srcImage.sid = surf->res.id;
+ 	blit->body.destScreenId = update->du->unit;
+ 
+ 	/* Update the source and destination bounding box later in post_clip */
+@@ -1104,7 +1109,7 @@ int vmw_kms_sou_do_surface_dirty(struct vmw_private *dev_priv,
+ 	int ret;
+ 
+ 	if (!srf)
+-		srf = &vfbs->surface->res;
++		srf = &vmw_user_object_surface(&vfbs->uo)->res;
+ 
+ 	ret = vmw_validation_add_resource(&val_ctx, srf, 0, VMW_RES_DIRTY_NONE,
+ 					  NULL, NULL);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index 2041c4d48daa..398a4ad0dbf0 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -1,7 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /******************************************************************************
+  *
+- * COPYRIGHT (C) 2014-2023 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2014-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -29,6 +30,7 @@
+ #include "vmwgfx_kms.h"
+ #include "vmwgfx_vkms.h"
+ #include "vmw_surface_cache.h"
++#include <linux/fsnotify.h>
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -723,7 +725,7 @@ int vmw_kms_stdu_surface_dirty(struct vmw_private *dev_priv,
+ 	int ret;
+ 
+ 	if (!srf)
+-		srf = &vfbs->surface->res;
++		srf = &vmw_user_object_surface(&vfbs->uo)->res;
+ 
+ 	ret = vmw_validation_add_resource(&val_ctx, srf, 0, VMW_RES_DIRTY_NONE,
+ 					  NULL, NULL);
+@@ -734,12 +736,6 @@ int vmw_kms_stdu_surface_dirty(struct vmw_private *dev_priv,
+ 	if (ret)
+ 		goto out_unref;
+ 
+-	if (vfbs->is_bo_proxy) {
+-		ret = vmw_kms_update_proxy(srf, clips, num_clips, inc);
+-		if (ret)
+-			goto out_finish;
+-	}
+-
+ 	sdirty.base.fifo_commit = vmw_kms_stdu_surface_fifo_commit;
+ 	sdirty.base.clip = vmw_kms_stdu_surface_clip;
+ 	sdirty.base.fifo_reserve_size = sizeof(struct vmw_stdu_surface_copy) +
+@@ -753,7 +749,7 @@ int vmw_kms_stdu_surface_dirty(struct vmw_private *dev_priv,
+ 	ret = vmw_kms_helper_dirty(dev_priv, framebuffer, clips, vclips,
+ 				   dest_x, dest_y, num_clips, inc,
+ 				   &sdirty.base);
+-out_finish:
++
+ 	vmw_kms_helper_validation_finish(dev_priv, NULL, &val_ctx, out_fence,
+ 					 NULL);
+ 
+@@ -872,9 +868,8 @@ vmw_stdu_primary_plane_cleanup_fb(struct drm_plane *plane,
+ {
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
+ 
+-	if (vps->surf)
++	if (vmw_user_object_surface(&vps->uo))
+ 		WARN_ON(!vps->pinned);
+-
+ 	vmw_du_plane_cleanup_fb(plane, old_state);
+ 
+ 	vps->content_fb_type = SAME_AS_DISPLAY;
+@@ -882,7 +877,6 @@ vmw_stdu_primary_plane_cleanup_fb(struct drm_plane *plane,
+ }
+ 
+ 
+-
+ /**
+  * vmw_stdu_primary_plane_prepare_fb - Readies the display surface
+  *
+@@ -906,13 +900,15 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	enum stdu_content_type new_content_type;
+ 	struct vmw_framebuffer_surface *new_vfbs;
+ 	uint32_t hdisplay = new_state->crtc_w, vdisplay = new_state->crtc_h;
++	struct drm_plane_state *old_state = plane->state;
++	struct drm_rect rect;
+ 	int ret;
+ 
+ 	/* No FB to prepare */
+ 	if (!new_fb) {
+-		if (vps->surf) {
++		if (vmw_user_object_surface(&vps->uo)) {
+ 			WARN_ON(vps->pinned != 0);
+-			vmw_surface_unreference(&vps->surf);
++			vmw_user_object_unref(&vps->uo);
+ 		}
+ 
+ 		return 0;
+@@ -922,8 +918,8 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	new_vfbs = (vfb->bo) ? NULL : vmw_framebuffer_to_vfbs(new_fb);
+ 
+ 	if (new_vfbs &&
+-	    new_vfbs->surface->metadata.base_size.width == hdisplay &&
+-	    new_vfbs->surface->metadata.base_size.height == vdisplay)
++	    vmw_user_object_surface(&new_vfbs->uo)->metadata.base_size.width == hdisplay &&
++	    vmw_user_object_surface(&new_vfbs->uo)->metadata.base_size.height == vdisplay)
+ 		new_content_type = SAME_AS_DISPLAY;
+ 	else if (vfb->bo)
+ 		new_content_type = SEPARATE_BO;
+@@ -961,29 +957,29 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 			metadata.num_sizes = 1;
+ 			metadata.scanout = true;
+ 		} else {
+-			metadata = new_vfbs->surface->metadata;
++			metadata = vmw_user_object_surface(&new_vfbs->uo)->metadata;
+ 		}
+ 
+ 		metadata.base_size.width = hdisplay;
+ 		metadata.base_size.height = vdisplay;
+ 		metadata.base_size.depth = 1;
+ 
+-		if (vps->surf) {
++		if (vmw_user_object_surface(&vps->uo)) {
+ 			struct drm_vmw_size cur_base_size =
+-				vps->surf->metadata.base_size;
++				vmw_user_object_surface(&vps->uo)->metadata.base_size;
+ 
+ 			if (cur_base_size.width != metadata.base_size.width ||
+ 			    cur_base_size.height != metadata.base_size.height ||
+-			    vps->surf->metadata.format != metadata.format) {
++			    vmw_user_object_surface(&vps->uo)->metadata.format != metadata.format) {
+ 				WARN_ON(vps->pinned != 0);
+-				vmw_surface_unreference(&vps->surf);
++				vmw_user_object_unref(&vps->uo);
+ 			}
+ 
+ 		}
+ 
+-		if (!vps->surf) {
++		if (!vmw_user_object_surface(&vps->uo)) {
+ 			ret = vmw_gb_surface_define(dev_priv, &metadata,
+-						    &vps->surf);
++						    &vps->uo.surface);
+ 			if (ret != 0) {
+ 				DRM_ERROR("Couldn't allocate STDU surface.\n");
+ 				return ret;
+@@ -996,18 +992,19 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 		 * The only time we add a reference in prepare_fb is if the
+ 		 * state object doesn't have a reference to begin with
+ 		 */
+-		if (vps->surf) {
++		if (vmw_user_object_surface(&vps->uo)) {
+ 			WARN_ON(vps->pinned != 0);
+-			vmw_surface_unreference(&vps->surf);
++			vmw_user_object_unref(&vps->uo);
+ 		}
+ 
+-		vps->surf = vmw_surface_reference(new_vfbs->surface);
++		memcpy(&vps->uo, &new_vfbs->uo, sizeof(vps->uo));
++		vmw_user_object_ref(&vps->uo);
+ 	}
+ 
+-	if (vps->surf) {
++	if (vmw_user_object_surface(&vps->uo)) {
+ 
+ 		/* Pin new surface before flipping */
+-		ret = vmw_resource_pin(&vps->surf->res, false);
++		ret = vmw_resource_pin(&vmw_user_object_surface(&vps->uo)->res, false);
+ 		if (ret)
+ 			goto out_srf_unref;
+ 
+@@ -1016,6 +1013,34 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 
+ 	vps->content_fb_type = new_content_type;
+ 
++	/*
++	 * The drm fb code will do blit's via the vmap interface, which doesn't
++	 * trigger vmw_bo page dirty tracking due to being kernel side (and thus
++	 * doesn't require mmap'ing) so we have to update the surface's dirty
++	 * regions by hand but we want to be careful to not overwrite the
++	 * resource if it has been written to by the gpu (res_dirty).
++	 */
++	if (vps->uo.buffer && vps->uo.buffer->is_dumb) {
++		struct vmw_surface *surf = vmw_user_object_surface(&vps->uo);
++		struct vmw_resource *res = &surf->res;
++
++		if (!res->res_dirty && drm_atomic_helper_damage_merged(old_state,
++								       new_state,
++								       &rect)) {
++			/*
++			 * At some point it might be useful to actually translate
++			 * (rect.x1, rect.y1) => start, and (rect.x2, rect.y2) => end,
++			 * but currently the fb code will just report the entire fb
++			 * dirty so in practice it doesn't matter.
++			 */
++			pgoff_t start = res->guest_memory_offset >> PAGE_SHIFT;
++			pgoff_t end = __KERNEL_DIV_ROUND_UP(res->guest_memory_offset +
++							    res->guest_memory_size,
++							    PAGE_SIZE);
++			vmw_resource_dirty_update(res, start, end);
++		}
++	}
++
+ 	/*
+ 	 * This should only happen if the buffer object is too large to create a
+ 	 * proxy surface for.
+@@ -1026,7 +1051,7 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	return 0;
+ 
+ out_srf_unref:
+-	vmw_surface_unreference(&vps->surf);
++	vmw_user_object_unref(&vps->uo);
+ 	return ret;
+ }
+ 
+@@ -1168,14 +1193,8 @@ static uint32_t
+ vmw_stdu_surface_fifo_size_same_display(struct vmw_du_update_plane *update,
+ 					uint32_t num_hits)
+ {
+-	struct vmw_framebuffer_surface *vfbs;
+ 	uint32_t size = 0;
+ 
+-	vfbs = container_of(update->vfb, typeof(*vfbs), base);
+-
+-	if (vfbs->is_bo_proxy)
+-		size += sizeof(struct vmw_stdu_update_gb_image) * num_hits;
+-
+ 	size += sizeof(struct vmw_stdu_update);
+ 
+ 	return size;
+@@ -1184,61 +1203,14 @@ vmw_stdu_surface_fifo_size_same_display(struct vmw_du_update_plane *update,
+ static uint32_t vmw_stdu_surface_fifo_size(struct vmw_du_update_plane *update,
+ 					   uint32_t num_hits)
+ {
+-	struct vmw_framebuffer_surface *vfbs;
+ 	uint32_t size = 0;
+ 
+-	vfbs = container_of(update->vfb, typeof(*vfbs), base);
+-
+-	if (vfbs->is_bo_proxy)
+-		size += sizeof(struct vmw_stdu_update_gb_image) * num_hits;
+-
+ 	size += sizeof(struct vmw_stdu_surface_copy) + sizeof(SVGA3dCopyBox) *
+ 		num_hits + sizeof(struct vmw_stdu_update);
+ 
+ 	return size;
+ }
+ 
+-static uint32_t
+-vmw_stdu_surface_update_proxy(struct vmw_du_update_plane *update, void *cmd)
+-{
+-	struct vmw_framebuffer_surface *vfbs;
+-	struct drm_plane_state *state = update->plane->state;
+-	struct drm_plane_state *old_state = update->old_state;
+-	struct vmw_stdu_update_gb_image *cmd_update = cmd;
+-	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_rect clip;
+-	uint32_t copy_size = 0;
+-
+-	vfbs = container_of(update->vfb, typeof(*vfbs), base);
+-
+-	/*
+-	 * proxy surface is special where a buffer object type fb is wrapped
+-	 * in a surface and need an update gb image command to sync with device.
+-	 */
+-	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
+-	drm_atomic_for_each_plane_damage(&iter, &clip) {
+-		SVGA3dBox *box = &cmd_update->body.box;
+-
+-		cmd_update->header.id = SVGA_3D_CMD_UPDATE_GB_IMAGE;
+-		cmd_update->header.size = sizeof(cmd_update->body);
+-		cmd_update->body.image.sid = vfbs->surface->res.id;
+-		cmd_update->body.image.face = 0;
+-		cmd_update->body.image.mipmap = 0;
+-
+-		box->x = clip.x1;
+-		box->y = clip.y1;
+-		box->z = 0;
+-		box->w = drm_rect_width(&clip);
+-		box->h = drm_rect_height(&clip);
+-		box->d = 1;
+-
+-		copy_size += sizeof(*cmd_update);
+-		cmd_update++;
+-	}
+-
+-	return copy_size;
+-}
+-
+ static uint32_t
+ vmw_stdu_surface_populate_copy(struct vmw_du_update_plane  *update, void *cmd,
+ 			       uint32_t num_hits)
+@@ -1253,7 +1225,7 @@ vmw_stdu_surface_populate_copy(struct vmw_du_update_plane  *update, void *cmd,
+ 	cmd_copy->header.id = SVGA_3D_CMD_SURFACE_COPY;
+ 	cmd_copy->header.size = sizeof(cmd_copy->body) + sizeof(SVGA3dCopyBox) *
+ 		num_hits;
+-	cmd_copy->body.src.sid = vfbs->surface->res.id;
++	cmd_copy->body.src.sid = vmw_user_object_surface(&vfbs->uo)->res.id;
+ 	cmd_copy->body.dest.sid = stdu->display_srf->res.id;
+ 
+ 	return sizeof(*cmd_copy);
+@@ -1324,10 +1296,7 @@ static int vmw_stdu_plane_update_surface(struct vmw_private *dev_priv,
+ 	srf_update.mutex = &dev_priv->cmdbuf_mutex;
+ 	srf_update.intr = true;
+ 
+-	if (vfbs->is_bo_proxy)
+-		srf_update.post_prepare = vmw_stdu_surface_update_proxy;
+-
+-	if (vfbs->surface->res.id != stdu->display_srf->res.id) {
++	if (vmw_user_object_surface(&vfbs->uo)->res.id != stdu->display_srf->res.id) {
+ 		srf_update.calc_fifo_size = vmw_stdu_surface_fifo_size;
+ 		srf_update.pre_clip = vmw_stdu_surface_populate_copy;
+ 		srf_update.clip = vmw_stdu_surface_populate_clip;
+@@ -1371,7 +1340,7 @@ vmw_stdu_primary_plane_atomic_update(struct drm_plane *plane,
+ 		stdu = vmw_crtc_to_stdu(crtc);
+ 		dev_priv = vmw_priv(crtc->dev);
+ 
+-		stdu->display_srf = vps->surf;
++		stdu->display_srf = vmw_user_object_surface(&vps->uo);
+ 		stdu->content_fb_type = vps->content_fb_type;
+ 		stdu->cpp = vps->cpp;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+index e7a744dfcecf..223e58415fb9 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -1,7 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright 2009-2023 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2009-2024 Broadcom. All Rights Reserved. The term
++ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -36,9 +37,6 @@
+ #include <drm/ttm/ttm_placement.h>
+ 
+ #define SVGA3D_FLAGS_64(upper32, lower32) (((uint64_t)upper32 << 32) | lower32)
+-#define SVGA3D_FLAGS_UPPER_32(svga3d_flags) (svga3d_flags >> 32)
+-#define SVGA3D_FLAGS_LOWER_32(svga3d_flags) \
+-	(svga3d_flags & ((uint64_t)U32_MAX))
+ 
+ /**
+  * struct vmw_user_surface - User-space visible surface resource
+@@ -686,6 +684,14 @@ static void vmw_user_surface_base_release(struct ttm_base_object **p_base)
+ 	struct vmw_resource *res = &user_srf->srf.res;
+ 
+ 	*p_base = NULL;
++
++	/*
++	 * Dumb buffers own the resource and they'll unref the
++	 * resource themselves
++	 */
++	if (res && res->guest_memory_bo && res->guest_memory_bo->is_dumb)
++		return;
++
+ 	vmw_resource_unreference(&res);
+ }
+ 
+@@ -864,6 +870,7 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 			vmw_resource_unreference(&res);
+ 			goto out_unlock;
+ 		}
++		vmw_bo_add_detached_resource(res->guest_memory_bo, res);
+ 	}
+ 
+ 	tmp = vmw_resource_reference(&srf->res);
+@@ -892,6 +899,113 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 	return ret;
+ }
+ 
++static struct vmw_user_surface *
++vmw_lookup_user_surface_for_buffer(struct vmw_private *vmw, struct vmw_bo *bo,
++				   u32 handle)
++{
++	struct vmw_user_surface *user_srf = NULL;
++	struct vmw_surface *surf;
++	struct ttm_base_object *base;
++
++	surf = vmw_bo_surface(bo);
++	if (surf) {
++		rcu_read_lock();
++		user_srf = container_of(surf, struct vmw_user_surface, srf);
++		base = &user_srf->prime.base;
++		if (base && !kref_get_unless_zero(&base->refcount)) {
++			drm_dbg_driver(&vmw->drm,
++				       "%s: referencing a stale surface handle %d\n",
++					__func__, handle);
++			base = NULL;
++			user_srf = NULL;
++		}
++		rcu_read_unlock();
++	}
++
++	return user_srf;
++}
++
++struct vmw_surface *vmw_lookup_surface_for_buffer(struct vmw_private *vmw,
++						  struct vmw_bo *bo,
++						  u32 handle)
++{
++	struct vmw_user_surface *user_srf =
++		vmw_lookup_user_surface_for_buffer(vmw, bo, handle);
++	struct vmw_surface *surf = NULL;
++	struct ttm_base_object *base;
++
++	if (user_srf) {
++		surf = vmw_surface_reference(&user_srf->srf);
++		base = &user_srf->prime.base;
++		ttm_base_object_unref(&base);
++	}
++	return surf;
++}
++
++u32 vmw_lookup_surface_handle_for_buffer(struct vmw_private *vmw,
++					 struct vmw_bo *bo,
++					 u32 handle)
++{
++	struct vmw_user_surface *user_srf =
++		vmw_lookup_user_surface_for_buffer(vmw, bo, handle);
++	int surf_handle = 0;
++	struct ttm_base_object *base;
++
++	if (user_srf) {
++		base = &user_srf->prime.base;
++		surf_handle = (u32)base->handle;
++		ttm_base_object_unref(&base);
++	}
++	return surf_handle;
++}
++
++static int vmw_buffer_prime_to_surface_base(struct vmw_private *dev_priv,
++					    struct drm_file *file_priv,
++					    u32 fd, u32 *handle,
++					    struct ttm_base_object **base_p)
++{
++	struct ttm_base_object *base;
++	struct vmw_bo *bo;
++	struct ttm_object_file *tfile = vmw_fpriv(file_priv)->tfile;
++	struct vmw_user_surface *user_srf;
++	int ret;
++
++	ret = drm_gem_prime_fd_to_handle(&dev_priv->drm, file_priv, fd, handle);
++	if (ret) {
++		drm_warn(&dev_priv->drm,
++			 "Wasn't able to find user buffer for fd = %u.\n", fd);
++		return ret;
++	}
++
++	ret = vmw_user_bo_lookup(file_priv, *handle, &bo);
++	if (ret) {
++		drm_warn(&dev_priv->drm,
++			 "Wasn't able to lookup user buffer for handle = %u.\n", *handle);
++		return ret;
++	}
++
++	user_srf = vmw_lookup_user_surface_for_buffer(dev_priv, bo, *handle);
++	if (WARN_ON(!user_srf)) {
++		drm_warn(&dev_priv->drm,
++			 "User surface fd %d (handle %d) is null.\n", fd, *handle);
++		ret = -EINVAL;
++		goto out;
++	}
++
++	base = &user_srf->prime.base;
++	ret = ttm_ref_object_add(tfile, base, NULL, false);
++	if (ret) {
++		drm_warn(&dev_priv->drm,
++			 "Couldn't add an object ref for the buffer (%d).\n", *handle);
++		goto out;
++	}
++
++	*base_p = base;
++out:
++	vmw_user_bo_unref(&bo);
++
++	return ret;
++}
+ 
+ static int
+ vmw_surface_handle_reference(struct vmw_private *dev_priv,
+@@ -901,15 +1015,19 @@ vmw_surface_handle_reference(struct vmw_private *dev_priv,
+ 			     struct ttm_base_object **base_p)
+ {
+ 	struct ttm_object_file *tfile = vmw_fpriv(file_priv)->tfile;
+-	struct vmw_user_surface *user_srf;
++	struct vmw_user_surface *user_srf = NULL;
+ 	uint32_t handle;
+ 	struct ttm_base_object *base;
+ 	int ret;
+ 
+ 	if (handle_type == DRM_VMW_HANDLE_PRIME) {
+ 		ret = ttm_prime_fd_to_handle(tfile, u_handle, &handle);
+-		if (unlikely(ret != 0))
+-			return ret;
++		if (ret)
++			return vmw_buffer_prime_to_surface_base(dev_priv,
++								file_priv,
++								u_handle,
++								&handle,
++								base_p);
+ 	} else {
+ 		handle = u_handle;
+ 	}
+@@ -1503,7 +1621,12 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
+ 		ret = vmw_user_bo_lookup(file_priv, req->base.buffer_handle,
+ 					 &res->guest_memory_bo);
+ 		if (ret == 0) {
+-			if (res->guest_memory_bo->tbo.base.size < res->guest_memory_size) {
++			if (res->guest_memory_bo->is_dumb) {
++				VMW_DEBUG_USER("Can't backup surface with a dumb buffer.\n");
++				vmw_user_bo_unref(&res->guest_memory_bo);
++				ret = -EINVAL;
++				goto out_unlock;
++			} else if (res->guest_memory_bo->tbo.base.size < res->guest_memory_size) {
+ 				VMW_DEBUG_USER("Surface backup buffer too small.\n");
+ 				vmw_user_bo_unref(&res->guest_memory_bo);
+ 				ret = -EINVAL;
+@@ -1560,6 +1683,7 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
+ 	rep->handle      = user_srf->prime.base.handle;
+ 	rep->backup_size = res->guest_memory_size;
+ 	if (res->guest_memory_bo) {
++		vmw_bo_add_detached_resource(res->guest_memory_bo, res);
+ 		rep->buffer_map_handle =
+ 			drm_vma_node_offset_addr(&res->guest_memory_bo->tbo.base.vma_node);
+ 		rep->buffer_size = res->guest_memory_bo->tbo.base.size;
+@@ -2100,3 +2224,140 @@ int vmw_gb_surface_define(struct vmw_private *dev_priv,
+ out_unlock:
+ 	return ret;
+ }
++
++static SVGA3dSurfaceFormat vmw_format_bpp_to_svga(struct vmw_private *vmw,
++						  int bpp)
++{
++	switch (bpp) {
++	case 8: /* DRM_FORMAT_C8 */
++		return SVGA3D_P8;
++	case 16: /* DRM_FORMAT_RGB565 */
++		return SVGA3D_R5G6B5;
++	case 32: /* DRM_FORMAT_XRGB8888 */
++		if (has_sm4_context(vmw))
++			return SVGA3D_B8G8R8X8_UNORM;
++		return SVGA3D_X8R8G8B8;
++	default:
++		drm_warn(&vmw->drm, "Unsupported format bpp: %d\n", bpp);
++		return SVGA3D_X8R8G8B8;
++	}
++}
++
++/**
++ * vmw_dumb_create - Create a dumb kms buffer
++ *
++ * @file_priv: Pointer to a struct drm_file identifying the caller.
++ * @dev: Pointer to the drm device.
++ * @args: Pointer to a struct drm_mode_create_dumb structure
++ * Return: Zero on success, negative error code on failure.
++ *
++ * This is a driver callback for the core drm create_dumb functionality.
++ * Note that this is very similar to the vmw_bo_alloc ioctl, except
++ * that the arguments have a different format.
++ */
++int vmw_dumb_create(struct drm_file *file_priv,
++		    struct drm_device *dev,
++		    struct drm_mode_create_dumb *args)
++{
++	struct vmw_private *dev_priv = vmw_priv(dev);
++	struct ttm_object_file *tfile = vmw_fpriv(file_priv)->tfile;
++	struct vmw_bo *vbo = NULL;
++	struct vmw_resource *res = NULL;
++	union drm_vmw_gb_surface_create_ext_arg arg = { 0 };
++	struct drm_vmw_gb_surface_create_ext_req *req = &arg.req;
++	int ret;
++	struct drm_vmw_size drm_size = {
++		.width = args->width,
++		.height = args->height,
++		.depth = 1,
++	};
++	SVGA3dSurfaceFormat format = vmw_format_bpp_to_svga(dev_priv, args->bpp);
++	const struct SVGA3dSurfaceDesc *desc = vmw_surface_get_desc(format);
++	SVGA3dSurfaceAllFlags flags = SVGA3D_SURFACE_HINT_TEXTURE |
++				      SVGA3D_SURFACE_HINT_RENDERTARGET |
++				      SVGA3D_SURFACE_SCREENTARGET |
++				      SVGA3D_SURFACE_BIND_SHADER_RESOURCE |
++				      SVGA3D_SURFACE_BIND_RENDER_TARGET;
++
++	/*
++	 * Without mob support we're just going to use raw memory buffer
++	 * because we wouldn't be able to support full surface coherency
++	 * without mobs
++	 */
++	if (!dev_priv->has_mob) {
++		int cpp = DIV_ROUND_UP(args->bpp, 8);
++
++		switch (cpp) {
++		case 1: /* DRM_FORMAT_C8 */
++		case 2: /* DRM_FORMAT_RGB565 */
++		case 4: /* DRM_FORMAT_XRGB8888 */
++			break;
++		default:
++			/*
++			 * Dumb buffers don't allow anything else.
++			 * This is tested via IGT's dumb_buffers
++			 */
++			return -EINVAL;
 +		}
 +
-+		ret = compute_crc(crtc, surf, &crc32);
-+		if (ret)
-+			return;
-+		vmw_surface_unreference(&surf);
- 	}
- 
--	ret = compute_crc(crtc, surf, &crc32);
--	if (ret)
--		return;
--
- 	spin_lock_irq(&du->vkms.crc_state_lock);
- 	frame_start = du->vkms.frame_start;
- 	frame_end = du->vkms.frame_end;
--	crc_pending = du->vkms.crc_pending;
- 	du->vkms.frame_start = 0;
- 	du->vkms.frame_end = 0;
- 	du->vkms.crc_pending = false;
-@@ -164,7 +168,7 @@ vmw_vkms_vblank_simulate(struct hrtimer *timer)
- 	struct vmw_display_unit *du = container_of(timer, struct vmw_display_unit, vkms.timer);
- 	struct drm_crtc *crtc = &du->crtc;
- 	struct vmw_private *vmw = vmw_priv(crtc->dev);
--	struct vmw_surface *surf = NULL;
-+	bool has_surface = false;
- 	u64 ret_overrun;
- 	bool locked, ret;
- 
-@@ -179,10 +183,10 @@ vmw_vkms_vblank_simulate(struct hrtimer *timer)
- 	WARN_ON(!ret);
- 	if (!locked)
- 		return HRTIMER_RESTART;
--	surf = du->vkms.surface;
-+	has_surface = du->vkms.surface != NULL;
- 	vmw_vkms_unlock(crtc);
- 
--	if (du->vkms.crc_enabled && surf) {
-+	if (du->vkms.crc_enabled && has_surface) {
- 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
- 
- 		spin_lock(&du->vkms.crc_state_lock);
-@@ -336,6 +340,8 @@ vmw_vkms_crtc_cleanup(struct drm_crtc *crtc)
- {
- 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
- 
-+	if (du->vkms.surface)
-+		vmw_surface_unreference(&du->vkms.surface);
- 	WARN_ON(work_pending(&du->vkms.crc_generator_work));
- 	hrtimer_cancel(&du->vkms.timer);
- }
-@@ -497,9 +503,12 @@ vmw_vkms_set_crc_surface(struct drm_crtc *crtc,
- 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
- 	struct vmw_private *vmw = vmw_priv(crtc->dev);
- 
--	if (vmw->vkms_enabled) {
-+	if (vmw->vkms_enabled && du->vkms.surface != surf) {
- 		WARN_ON(atomic_read(&du->vkms.atomic_lock) != VMW_VKMS_LOCK_MODESET);
--		du->vkms.surface = surf;
-+		if (du->vkms.surface)
-+			vmw_surface_unreference(&du->vkms.surface);
-+		if (surf)
-+			du->vkms.surface = vmw_surface_reference(surf);
- 	}
- }
- 
++		args->pitch = args->width * cpp;
++		args->size = ALIGN(args->pitch * args->height, PAGE_SIZE);
++
++		ret = vmw_gem_object_create_with_handle(dev_priv, file_priv,
++							args->size, &args->handle,
++							&vbo);
++		/* drop reference from allocate - handle holds it now */
++		drm_gem_object_put(&vbo->tbo.base);
++		return ret;
++	}
++
++	req->version = drm_vmw_gb_surface_v1;
++	req->multisample_pattern = SVGA3D_MS_PATTERN_NONE;
++	req->quality_level = SVGA3D_MS_QUALITY_NONE;
++	req->buffer_byte_stride = 0;
++	req->must_be_zero = 0;
++	req->base.svga3d_flags = SVGA3D_FLAGS_LOWER_32(flags);
++	req->svga3d_flags_upper_32_bits = SVGA3D_FLAGS_UPPER_32(flags);
++	req->base.format = (uint32_t)format;
++	req->base.drm_surface_flags = drm_vmw_surface_flag_scanout;
++	req->base.drm_surface_flags |= drm_vmw_surface_flag_shareable;
++	req->base.drm_surface_flags |= drm_vmw_surface_flag_create_buffer;
++	req->base.drm_surface_flags |= drm_vmw_surface_flag_coherent;
++	req->base.base_size.width = args->width;
++	req->base.base_size.height = args->height;
++	req->base.base_size.depth = 1;
++	req->base.array_size = 0;
++	req->base.mip_levels = 1;
++	req->base.multisample_count = 0;
++	req->base.buffer_handle = SVGA3D_INVALID_ID;
++	req->base.autogen_filter = SVGA3D_TEX_FILTER_NONE;
++	ret = vmw_gb_surface_define_ext_ioctl(dev, &arg, file_priv);
++	if (ret) {
++		drm_warn(dev, "Unable to create a dumb buffer\n");
++		return ret;
++	}
++
++	args->handle = arg.rep.buffer_handle;
++	args->size = arg.rep.buffer_size;
++	args->pitch = vmw_surface_calculate_pitch(desc, &drm_size);
++
++	ret = vmw_user_resource_lookup_handle(dev_priv, tfile, arg.rep.handle,
++					      user_surface_converter,
++					      &res);
++	if (ret) {
++		drm_err(dev, "Created resource handle doesn't exist!\n");
++		goto err;
++	}
++
++	vbo = res->guest_memory_bo;
++	vbo->is_dumb = true;
++	vbo->dumb_surface = vmw_res_to_srf(res);
++
++err:
++	if (res)
++		vmw_resource_unreference(&res);
++	if (ret)
++		ttm_ref_object_base_unref(tfile, arg.rep.handle);
++
++	return ret;
++}
 -- 
 2.40.1
 
