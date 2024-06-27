@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA62291AE51
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 19:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B40191AE2A
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 19:35:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1EC510EB05;
-	Thu, 27 Jun 2024 17:40:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B14910E0E7;
+	Thu, 27 Jun 2024 17:35:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="fLKsoOZf";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fpXf3VPl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 438 seconds by postgrey-1.36 at gabe;
- Thu, 27 Jun 2024 17:40:32 UTC
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
- [95.215.58.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C03D610EA9D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 17:40:32 +0000 (UTC)
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1719509591;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7263D10E0E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 17:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1719509743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Xr0TR/1FJaHH3ED2Gg8EsjtN43r2N2jhIFfaVjK+ReM=;
- b=fLKsoOZfoseTaxxUSUzJuxD+k9IEgMWnvbjjxqtg/OrcnHyqUX9qp1tbvuE8zcJlwqiwQb
- 84rRJrF4qI1qsDXzbtV+ThZCYs8lI+Ylmi1meFS5UblE2HzVtFJajNDNU+DdfCJqO9mafK
- np2J+8e1AKLwM0WPMmrijVaBEje7zWo=
-X-Envelope-To: intel-xe@lists.freedesktop.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: tj@kernel.org
-X-Envelope-To: lizefan.x@bytedance.com
-X-Envelope-To: hannes@cmpxchg.org
-X-Envelope-To: akpm@linux-foundation.org
-X-Envelope-To: mhocko@kernel.org
-X-Envelope-To: shakeel.butt@linux.dev
-X-Envelope-To: muchun.song@linux.dev
-X-Envelope-To: friedrich.vock@gmx.de
-X-Envelope-To: cgroups@vger.kernel.org
-X-Envelope-To: linux-mm@kvack.org
-Date: Thu, 27 Jun 2024 17:33:05 +0000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>,
- Muchun Song <muchun.song@linux.dev>,
- Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
- linux-mm@kvack.org
-Subject: Re: [RFC PATCH 1/6] mm/page_counter: Move calculating protection
- values to page_counter
-Message-ID: <Zn2iUQ4xj0ANHHs6@google.com>
-References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
- <20240627154754.74828-2-maarten.lankhorst@linux.intel.com>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=356Lg5UUSnmEm4pXEbf26iOKxmVufXs5pH3pFisEAVQ=;
+ b=fpXf3VPldT9AjsZUvdOtjiAjD3eYve80SLzrt+MqbZT38JOcZjEH2OK4J+Dxfoe42ZOhbW
+ a2N4kdXUPKIeC15ynXiUDdWfnwnSRHSOYTSpy/BN9kzinYjxSY4LXnl9hMrh/xmvJua0xe
+ sK+ctwmRAeMU0443a3OvzrqLg+FIi5w=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-639-ekehw8qOMUmLpp6EyUneIw-1; Thu,
+ 27 Jun 2024 13:35:39 -0400
+X-MC-Unique: ekehw8qOMUmLpp6EyUneIw-1
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 850161956096; Thu, 27 Jun 2024 17:35:37 +0000 (UTC)
+Received: from thuth-p1g4.redhat.com (unknown [10.39.192.31])
+ by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 6788A3000603; Thu, 27 Jun 2024 17:35:32 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-kernel@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>
+Subject: [PATCH] drm/fbdev-generic: Fix framebuffer on big endian devices
+Date: Thu, 27 Jun 2024 19:35:30 +0200
+Message-ID: <20240627173530.460615-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240627154754.74828-2-maarten.lankhorst@linux.intel.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,15 +71,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 27, 2024 at 05:47:20PM +0200, Maarten Lankhorst wrote:
-> It's a lot of math, and there is nothing memcontrol specific about it.
-> This makes it easier to use inside of the drm cgroup controller.
-> 
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Starting with kernel 6.7, the framebuffer text console is not working
+anymore with the virtio-gpu device on s390x hosts. Such big endian fb
+devices are usinga different pixel ordering than little endian devices,
+e.g. DRM_FORMAT_BGRX8888 instead of DRM_FORMAT_XRGB8888.
 
-LGTM and I believe it's a good thing to do even without taking the rest
-of the series into account.
+This used to work fine as long as drm_client_buffer_addfb() was still
+calling drm_mode_addfb() which called drm_driver_legacy_fb_format()
+internally to get the right format. But drm_client_buffer_addfb() has
+recently been reworked to call drm_mode_addfb2() instead with the
+format value that has been passed to it as a parameter (see commit
+6ae2ff23aa43 ("drm/client: Convert drm_client_buffer_addfb() to drm_mode_addfb2()").
 
-Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+That format parameter is determined in drm_fbdev_generic_helper_fb_probe()
+via the drm_mode_legacy_fb_format() function - which only generates
+formats suitable for little endian devices. So to fix this issue
+switch to drm_driver_legacy_fb_format() here instead to take the
+device endianness into consideration.
 
-Thanks!
+Fixes: 6ae2ff23aa43 ("drm/client: Convert drm_client_buffer_addfb() to drm_mode_addfb2()")
+Closes: https://issues.redhat.com/browse/RHEL-45158
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ drivers/gpu/drm/drm_fbdev_generic.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+index 97e579c33d84..1e200d815e1a 100644
+--- a/drivers/gpu/drm/drm_fbdev_generic.c
++++ b/drivers/gpu/drm/drm_fbdev_generic.c
+@@ -84,7 +84,8 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 		    sizes->surface_width, sizes->surface_height,
+ 		    sizes->surface_bpp);
+ 
+-	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
++	format = drm_driver_legacy_fb_format(dev, sizes->surface_bpp,
++					     sizes->surface_depth);
+ 	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
+ 					       sizes->surface_height, format);
+ 	if (IS_ERR(buffer))
+-- 
+2.45.2
+
