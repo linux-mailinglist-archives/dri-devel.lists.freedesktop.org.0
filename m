@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D996C91A4E9
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 13:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44BDC91A4F6
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 13:20:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBEA010E5E6;
-	Thu, 27 Jun 2024 11:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834B110EA58;
+	Thu, 27 Jun 2024 11:20:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Gj9HVeOl";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="G6ab5byY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A624010E5E6
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 11:18:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACF810EA58
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 11:20:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 60956CE2E04;
- Thu, 27 Jun 2024 11:18:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A840C32786;
- Thu, 27 Jun 2024 11:18:14 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 02644CE2E04;
+ Thu, 27 Jun 2024 11:20:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDFB8C2BBFC;
+ Thu, 27 Jun 2024 11:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1719487095;
- bh=E0YEhlQqyrz9Rv1pwfdZuFu0LrVCBtcH1CdILfJjFqs=;
+ s=korg; t=1719487219;
+ bh=MB9u8iTtmWyO97YEmZErJn/2xZ0Zhkz+CeU3YYUQ9PQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Gj9HVeOlcxMX32l8FkenVufef6x+zWBoAkzbWeZZjOmgBF7O2I+8EfuAygGJaPAfS
- SfLWvyMLVlBchCFIseZAEBqQ1KYe6V1vErIQKO4uKLYX96w7R6fjextaR2ZK6YTMy4
- suNUOD95jG5d9hJo/o/WSpFiDE0EIm3H/772bpRQ=
-Date: Thu, 27 Jun 2024 13:18:11 +0200
+ b=G6ab5byYgSWYwPj4yBFPWZlYZmgZwnYH/1CGw+tCXnEtY7u3R+NE7pJxn7poSZgT1
+ +0jqJ8zFTop3wihIfwEbgU4VZxJR0+qOLWJkUi1PoJyM4zWQgwQ1d7chQlfkEt4o0w
+ zUDTj8KKbZN4X6TrUifYfhrwVuOiFvKJ1OvlKk4U=
+Date: Thu, 27 Jun 2024 13:20:15 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Ekansh Gupta <quic_ekangupt@quicinc.com>
 Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org,
  quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
  quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
- arnd@arndb.de, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3] misc: fastrpc: Move fastrpc driver to misc/fastrpc/
-Message-ID: <2024062715-ultra-muppet-c899@gregkh>
-References: <20240627104245.1651214-1-quic_ekangupt@quicinc.com>
+ arnd@arndb.de, stable <stable@kernel.org>
+Subject: Re: [PATCH v2] misc: fastrpc: Remove user PD initmem size check
+Message-ID: <2024062716-lumpish-both-24df@gregkh>
+References: <20240627060518.1510124-1-quic_ekangupt@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240627104245.1651214-1-quic_ekangupt@quicinc.com>
+In-Reply-To: <20240627060518.1510124-1-quic_ekangupt@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,39 +56,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 27, 2024 at 04:12:44PM +0530, Ekansh Gupta wrote:
-> Move fastrpc.c from misc/ to misc/fastrpc/. New C files are planned
-> to be added for PD notifications and other missing features. Adding
-> and maintaining new files from within fastrpc directory would be easy.
+On Thu, Jun 27, 2024 at 11:35:18AM +0530, Ekansh Gupta wrote:
+> For user PD initialization, initmem is allocated and sent to DSP for
+> initial memory requirements like shell loading. This size is passed
+> by user space and is checked against a max size. For unsigned PD
+> offloading, more than 2MB size could be passed by user which would
+> result in PD initialization failure. Remove the user PD initmem size
+> check and allow buffer allocation for user passed size. Any additional
+> memory sent to DSP during PD init is used as the PD heap.
 > 
-> Example of feature that is being planned to be introduced in a new C
-> file:
-> https://lore.kernel.org/all/20240606165939.12950-6-quic_ekangupt@quicinc.com/
-> 
+> Fixes: 7f1f481263c3 ("misc: fastrpc: check before loading process to the DSP")
+> Cc: stable <stable@kernel.org>
 > Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 > Changes in v2:
->   - Updated Kconfig.
-> Changes in v3:
->   - Added newline in kconfig.
+>   - Modified commit text.
+>   - Removed size check instead of updating max file size.
 > 
->  MAINTAINERS                          |  2 +-
->  drivers/misc/Kconfig                 | 13 +------------
->  drivers/misc/Makefile                |  2 +-
->  drivers/misc/fastrpc/Kconfig         | 16 ++++++++++++++++
->  drivers/misc/fastrpc/Makefile        |  2 ++
->  drivers/misc/{ => fastrpc}/fastrpc.c |  0
->  6 files changed, 21 insertions(+), 14 deletions(-)
->  create mode 100644 drivers/misc/fastrpc/Kconfig
->  create mode 100644 drivers/misc/fastrpc/Makefile
->  rename drivers/misc/{ => fastrpc}/fastrpc.c (100%)
+>  drivers/misc/fastrpc.c | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 5204fda51da3..9d064deeac89 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -1389,11 +1389,6 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+>  		goto err;
+>  	}
+>  
+> -	if (init.filelen > INIT_FILELEN_MAX) {
+> -		err = -EINVAL;
+> -		goto err;
+> -	}
+> -
+>  	inbuf.pgid = fl->tgid;
+>  	inbuf.namelen = strlen(current->comm) + 1;
+>  	inbuf.filelen = init.filelen;
 
-For now, no, sorry, not a new directory for just one .c file.
+This feels really wrong as now there is no way to bounds-check the
+buffer size at all, so userspace can do "bad things" like go over the
+defined buffer size limit which you are expecting, right?
 
-If you want to add more stuff, wonderful, then do this as the first
-commit of the series when that actually happens.
+So how is this actually correct?  If you want larger sizes, then
+increase the INIT_FILELEN_MAX value.
 
-sorry, but I'm not going to take this now.
+thanks,
 
 greg k-h
