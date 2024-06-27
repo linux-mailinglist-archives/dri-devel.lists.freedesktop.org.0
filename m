@@ -2,85 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1980491B0C8
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 22:47:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A224E91B105
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 22:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50BE110EB2A;
-	Thu, 27 Jun 2024 20:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E3AE10E307;
+	Thu, 27 Jun 2024 20:53:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fm14q7G0";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IOjdR3x3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 024F210EB2A
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 20:47:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1A3BA61F43;
- Thu, 27 Jun 2024 20:47:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8520C2BBFC;
- Thu, 27 Jun 2024 20:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719521262;
- bh=A5AMW+ZLMpX4csf8vnGmP52U32Ex4ZiXhPpAfEuGJIM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=fm14q7G0XfP2HRyb1ZONJ+pqWBWPdhH2d6IjA0ofu+ehRYg/250v2wrmD+hEAIzhy
- 5caUG+fhduRYCsICV5ZrbBJAXKlcmtzxiOCz6jFU00UwMVMtD6dbVR0LU5kxOr3Vzi
- 0cAbW2JKPpLqSba16PMnQX/dcfAOoGDpmPAXuSdllZi6nWn1C7I2SU1ch36qi0pxGU
- IihY3N5vgcgKBWatl6HEJmjhiMyCz8n3KjAwTl+PBG+9aUmYsI19ix1s++aG1UBGv+
- aAFQxni9Alv0KyIBRf2yCiEWUthS2Fyw4DdcUmhxlFEm6zWfMYW2ck/kevCRcJ1ha3
- waS1l0dqJcZJQ==
-Date: Thu, 27 Jun 2024 13:47:38 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
- Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
- Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
-Subject: Re: [PATCH net-next v14 13/13] selftests: add ncdevmem, netcat for
- devmem TCP
-Message-ID: <20240627134738.163f97e3@kernel.org>
-In-Reply-To: <CAHS8izNBB3+axWFR6cQChAawu194UqzVZ+oZp=c+H5TD4Nd8Zw@mail.gmail.com>
-References: <20240625195407.1922912-1-almasrymina@google.com>
- <20240625195407.1922912-14-almasrymina@google.com>
- <20240626150822.742eaf6a@kernel.org>
- <20240626174634.2adec19d@kernel.org>
- <CAHS8izOd_yYNJ6+xv35XoCvF7MzqachPVrkQJbic8-h=T1Vg_A@mail.gmail.com>
- <CAHS8izNBB3+axWFR6cQChAawu194UqzVZ+oZp=c+H5TD4Nd8Zw@mail.gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1D9310E307;
+ Thu, 27 Jun 2024 20:53:44 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45RAkNWK003678;
+ Thu, 27 Jun 2024 20:53:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=+VgCuJQkBNSGIB2qP3xpqf
+ n4wdZ4tV/ZUoWC19xX0DQ=; b=IOjdR3x3ffnD8VzBV6ykqadQwVTvpUXDk1J+W9
+ R2JZtyFmhaCBdbEWtFOZ8VdU0sO50Y+4vPNhm+9lqe5JXMIbjPSgNOiA77qDgT2g
+ q5Y44TkXOgcAQqZL6S1e9XbUuTLPTKo6gzdWF2vm0uqnXP2RgXFgbvAxyxgPbANO
+ YKyaSB/EcoXs+tn4lG26zZW1SPQCKwBTClNUKPU+6jmJAF/aacPu5x1yG2FPrEN8
+ 5g+XTBPviIHcrbnbsQwBFwNqoBdHMLueRzSCP3pzmUw1zKV4sKDtjLCVCeg7UdK/
+ AXn1+Zhbyv2ypUMgcYz+UbmFUxmiwFLAyNnCnxs72SM8DjoA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywmaf63ca-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Jun 2024 20:53:41 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45RKrekW017431
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Jun 2024 20:53:40 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 27 Jun 2024 13:53:40 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
+ <konrad.dybcio@linaro.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH] drm/msm/dpu: check ubwc support before adding compressed
+ formats
+Date: Thu, 27 Jun 2024 13:53:27 -0700
+Message-ID: <20240627205328.2912859-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: CK130NLPbFawpboBquJSvSoZ9kATw-UH
+X-Proofpoint-GUID: CK130NLPbFawpboBquJSvSoZ9kATw-UH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-27_14,2024-06-27_03,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 phishscore=0 malwarescore=0
+ clxscore=1015 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ mlxlogscore=832 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2406140001 definitions=main-2406270155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,12 +92,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Jun 2024 13:36:57 -0700 Mina Almasry wrote:
-> `make -C ./tools/testing/selftests/net TARGETS=ncdevmem`, which works.
+On QCM2290 chipset DPU does not support UBWC.
 
-AFAIU the most supported incantation would have to be something rather
-insane, like:
+Add a dpu cap to indicate this and do not expose compressed formats
+in this case.
 
-make -C tools/testing/selftests TARGETS=net TEST_GEN_PROGS="$(pwd)/tools/testing/selftests/net/tls" TEST_GEN_FILES=""
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h | 1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h          | 2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c               | 5 ++++-
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
-but yes, don't worry.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+index 3cbb2fe8aba2..6671f798bacc 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+@@ -12,6 +12,7 @@ static const struct dpu_caps qcm2290_dpu_caps = {
+ 	.max_mixer_blendstages = 0x4,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
++	.has_no_ubwc = true,
+ 	.max_linewidth = 2160,
+ 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+ };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index af2ead1c4886..676d0a283922 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -342,6 +342,7 @@ struct dpu_rotation_cfg {
+  * @has_dim_layer      dim layer feature status
+  * @has_idle_pc        indicate if idle power collapse feature is supported
+  * @has_3d_merge       indicate if 3D merge is supported
++ * @has_no_ubwc        indicate if UBWC is supported
+  * @max_linewidth      max linewidth for sspp
+  * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
+  * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
+@@ -354,6 +355,7 @@ struct dpu_caps {
+ 	bool has_dim_layer;
+ 	bool has_idle_pc;
+ 	bool has_3d_merge;
++	bool has_no_ubwc;
+ 	/* SSPP limits */
+ 	u32 max_linewidth;
+ 	u32 pixel_ram_size;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 6000e84598c2..31fe0fc4c02e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -1341,10 +1341,13 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable)
+ static bool dpu_plane_format_mod_supported(struct drm_plane *plane,
+ 		uint32_t format, uint64_t modifier)
+ {
++	struct dpu_plane *pdpu = to_dpu_plane(plane);
++	const struct dpu_caps *caps = pdpu->catalog->caps;
++
+ 	if (modifier == DRM_FORMAT_MOD_LINEAR)
+ 		return true;
+ 
+-	if (modifier == DRM_FORMAT_MOD_QCOM_COMPRESSED)
++	if (modifier == DRM_FORMAT_MOD_QCOM_COMPRESSED && !caps->has_no_ubwc)
+ 		return dpu_find_format(format, qcom_compressed_supported_formats,
+ 				ARRAY_SIZE(qcom_compressed_supported_formats));
+ 
+-- 
+2.44.0
+
