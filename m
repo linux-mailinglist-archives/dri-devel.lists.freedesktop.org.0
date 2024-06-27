@@ -2,47 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0498691AA8E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 17:09:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C202391AB83
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 17:37:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4D6510EADB;
-	Thu, 27 Jun 2024 15:09:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6F2810EAEB;
+	Thu, 27 Jun 2024 15:36:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AFNSSQXQ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="pQMsPr+1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dJTsbtwt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pQMsPr+1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dJTsbtwt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C0D10EADB
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 15:09:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 746A6CE2F69;
- Thu, 27 Jun 2024 15:08:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01736C2BBFC;
- Thu, 27 Jun 2024 15:08:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719500938;
- bh=LVxAoDPFGgZta/AMaaDggih53NHmLZ1I0pcsnqXUfSI=;
- h=Date:From:To:Cc:Subject:From;
- b=AFNSSQXQU826EGPSnt8hDGS3yM7ebJ5j6lmsLr+XfXCKcBq29So9Be86QF9u/C6lr
- 2xl/GOdZ/yvleIuyz9nmJ1KRJpQ6X4wpaPBxQAlDn3Os7Y/PMu+KbTyFmp1d/K8m7G
- e15tA01aP9bBg4kR2sf6o333KycCuUtu4XbmCK2dTp45ZtYhDBN0qC7pTu37A/28VH
- dvSiuvfEy1hhRAM5xZBNQqY1vYYVCKpdgiMaeHGgDHtKa7p+YxmdCudE6Ih+hBqUam
- p9pXUS5dRBmijM8Z/O+bxAWvEq7bc1kZ/Dp49BTeHUYBlqNsJ1rqG4XtSNYXu4wVJH
- UXQV/FNn9NPeQ==
-Date: Thu, 27 Jun 2024 16:08:54 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Li Ma <li.ma@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: manual merge of the drm tree with the drm-fixes tree
-Message-ID: <Zn2Ahpv6za3ef3LT@sirena.org.uk>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1DF910EAED
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 15:36:45 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B4DFD21BF6;
+ Thu, 27 Jun 2024 15:36:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719502602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XPnjE1P6R+ouQR6ThBTsBIP8leoM0cQKGt5X603YVFo=;
+ b=pQMsPr+1az67hxwccammmrQtfvUaL0rT+IiA9GvGglfKZ34lvQgsMOdBZQhVKo5E8g89Ol
+ 6NtYmJPPFMtcN4zubZFjQMexpmyHqxLORAPjPO3AWWWSVUJRtdYmdkl0jramPBv/WZHbTC
+ xV+MxL4Cn6QjSJKLu/0B0ewbhb5zZ90=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719502602;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XPnjE1P6R+ouQR6ThBTsBIP8leoM0cQKGt5X603YVFo=;
+ b=dJTsbtwtNO0na/EaLJuCO+2lCmc1kQ8kN5amgjhJEV3NfcdrvPzQrOXxE7hQcGY17Erza2
+ x9d7jMM/Y7+XfADg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719502602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XPnjE1P6R+ouQR6ThBTsBIP8leoM0cQKGt5X603YVFo=;
+ b=pQMsPr+1az67hxwccammmrQtfvUaL0rT+IiA9GvGglfKZ34lvQgsMOdBZQhVKo5E8g89Ol
+ 6NtYmJPPFMtcN4zubZFjQMexpmyHqxLORAPjPO3AWWWSVUJRtdYmdkl0jramPBv/WZHbTC
+ xV+MxL4Cn6QjSJKLu/0B0ewbhb5zZ90=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719502602;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XPnjE1P6R+ouQR6ThBTsBIP8leoM0cQKGt5X603YVFo=;
+ b=dJTsbtwtNO0na/EaLJuCO+2lCmc1kQ8kN5amgjhJEV3NfcdrvPzQrOXxE7hQcGY17Erza2
+ x9d7jMM/Y7+XfADg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C4FD1384C;
+ Thu, 27 Jun 2024 15:36:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id JFWPHAqHfWbmCgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 27 Jun 2024 15:36:42 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/8] drm/ast: Untangle the chaos in mode setting
+Date: Thu, 27 Jun 2024 17:27:45 +0200
+Message-ID: <20240627153638.8765-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="BZArcoZlnFggJHEH"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ MIME_TRACE(0.00)[0:+];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
+ RCVD_COUNT_TWO(0.00)[2]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,64 +104,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The CRTC's mode-setting code contains quite a bit of code that
+belongs to the planes or various encoder chips. This patchset
+refactors these bits and moves things to the correct places.
 
---BZArcoZlnFggJHEH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+With the patches applied, the remaining DPMS function will be
+gone and its content be moved. Several code duplications will
+be removed. There was also a bugfix wrt the VGA SCREEN_DISABLE
+bit, but it's unclear if the bug had any effect in practice.
 
-Hi all,
+Tested with AST2100 and AST2600 with VGA and DP outputs.
 
-Today's linux-next merge of the drm tree got a conflict in:
+Thomas Zimmermann (8):
+  drm/ast: Implement atomic enable/disable for encoders
+  drm/ast: Program mode for AST DP in atomic_mode_set
+  drm/ast: Move mode-setting code into mode_set_nofb CRTC helper
+  drm/ast: Handle primary-plane format setup in atomic_update
+  drm/ast: Remove gamma LUT updates from DPMS code
+  drm/ast: Only set VGA SCREEN_DISABLE bit in CRTC code
+  drm/ast: Inline ast_crtc_dpms() into callers
+  drm/ast: Use drm_atomic_helper_commit_tail() helper
 
-  drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h
+ drivers/gpu/drm/ast/ast_mode.c | 204 ++++++++++++++++++---------------
+ drivers/gpu/drm/ast/ast_reg.h  |  10 +-
+ 2 files changed, 112 insertions(+), 102 deletions(-)
 
-between commit:
+-- 
+2.45.2
 
-  c223376b3019a ("drm/amd/swsmu: add MALL init support workaround for smu_v=
-14_0_1")
-
-=66rom the drm-fixes tree and commit:
-
-  ec41bdd82e9b0 ("drm/amd/pm: Update PMFW messages for SMUv13.0.6")
-
-=66rom the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
-diff --cc drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h
-index 2e32b085824ae,12a7b0634ed56..0000000000000
---- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h
-+++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h
-@@@ -272,7 -272,8 +272,8 @@@
-  	__SMU_DUMMY_MAP(SetSoftMinVpe), \
-  	__SMU_DUMMY_MAP(GetMetricsVersion), \
-  	__SMU_DUMMY_MAP(EnableUCLKShadow), \
- -	__SMU_DUMMY_MAP(RmaDueToBadPageThreshold),\
- +	__SMU_DUMMY_MAP(RmaDueToBadPageThreshold), \
-+ 	__SMU_DUMMY_MAP(SelectPstatePolicy), \
-  	__SMU_DUMMY_MAP(MALLPowerController), \
-  	__SMU_DUMMY_MAP(MALLPowerState),
- =20
-
---BZArcoZlnFggJHEH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ9gIUACgkQJNaLcl1U
-h9B9+Af9HWLP9pwG99gRcjfbXtQXiTDTWOqY06cYsdplVD4imfZ8+fVA5i3eFuPW
-nwKu3JTVbVFgB8PRq9mc6HKEAQCfatz+YMMlL911tbENXkeRor5VO65PrKP257G0
-2yD1xGUyLRjacEJrC0CsvmqgZO6xhGbW/j5e+b5bJgZZHxfEOEkHzQj5/O0aoMQ6
-Rd+69PBpIO8DkEoOZH0RfwpAKJp+rVfpHayqzIS3GXQNVrzQ3fQrcAXLEVzrp98e
-EclOk5R/SiQ6z3kpyTgC1YwhSh53JSxsoxdhJnmYrksMBGBKFN6WRT5PJad2s+yS
-zRj4RptDV6O/2+Mpe1mhEqbMvifNxw==
-=1q1J
------END PGP SIGNATURE-----
-
---BZArcoZlnFggJHEH--
