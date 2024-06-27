@@ -2,68 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E483191A8B2
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 16:09:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F44291A8DF
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 16:14:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B116310EAC2;
-	Thu, 27 Jun 2024 14:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C7410EABA;
+	Thu, 27 Jun 2024 14:14:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SAsCjQB+";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QLMe9rA5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7CF110EAB6;
- Thu, 27 Jun 2024 14:09:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4F3BCCE2F15;
- Thu, 27 Jun 2024 14:09:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5F37C4AF13;
- Thu, 27 Jun 2024 14:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719497385;
- bh=N/OaLsIcQKk+az4MXyzNRYt8fiAoAVDEiwFfGH80yO8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=SAsCjQB+5D8MLWq0jIbFCQ6AdBh87ptZBB33QWJso5cte5CSKu+7Qo4xKjc4So14V
- D/MtC+0BeskwEoa2wRvCVsyZGNLhXIMa6JzKFR6KCZE2rNohlkoQIxBnayjvY2Zgw8
- 9e8IJ82WTS+UxOBglr6uKcRW7XGcX5ZKT9YYHpxm3ytd6DkXJNvXYOvdtBEznJzuXI
- Ci8gsJOwcZebvsoUOfp11pX4fOb7OZABwwxnkiVVSe2vWTsbDsPuhWnKmUy7VPceHX
- 9IbT5nWPdRwAQYJMyjiRBax6ipPqYg+eCDkM4kG4AOs4734e14ugNiAOAM54YuC+AE
- nB4E/wL3zPRaA==
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-52cdb9526e2so1717780e87.0; 
- Thu, 27 Jun 2024 07:09:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqSfhhG3vbFnGsiu6erdUVpXwLb9rKV1M2pUseVP7g3RwYKjgd8pOrr/CxyPrB12Iwakp0MrElR7o21QcnBGFzc7ZOneSi84sH75ykZPTpIEgF1aW5nRAGCLYHocu/kzIcNXeiHs/6gYmSGQIIId5c
-X-Gm-Message-State: AOJu0Yy398yD+hxOhBBum+8he9bZgbzKaXh+OS8yszKjrs+ZQqeKjJNn
- BhK7OQ5Nzo5FMw7JNhTP1JjicS8ieJ4zfkzd3UX7RcFCuR2DZaqGea/ZpyZcXt9ztdpYhtiEtgH
- oV642zn7pRw5UC8KYV550mXO/+w==
-X-Google-Smtp-Source: AGHT+IHfkgyQQA4gvyq2HH9PsGgzZGKPkIdmGjgdjtGkoMqcxNoy8z91RZBHjqrqy85lT8uGRsN+wJtK+ZV44Jy73Vo=
-X-Received: by 2002:a05:6512:3d24:b0:52b:963d:277c with SMTP id
- 2adb3069b0e04-52e703af548mr785682e87.33.1719497384167; Thu, 27 Jun 2024
- 07:09:44 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9432710EABA
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 14:14:35 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
+ [91.158.144.210])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A43262A5;
+ Thu, 27 Jun 2024 16:14:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1719497649;
+ bh=Iv+I+Ow8p470LpQJN8PJT/cepaTc+PVw2PkSObeSs5c=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QLMe9rA5R5E4C6HSycaPJhdJ4/CehWxTJc2uKxx5TSyFBF5fmFUUd2trKFonp9F1v
+ FmDK7+tDAnC5lhCRgO4cqHSgp4fiZa+ipENMKN9J22jATQfZzgTGSd7LPIbFiz03c6
+ toQOEYxFMp82ACrndGopxHpSjFCzcOxoR2QEV/F4=
+Message-ID: <09f66ad5-0d4f-4884-9deb-a342e91a6de6@ideasonboard.com>
+Date: Thu, 27 Jun 2024 17:14:29 +0300
 MIME-Version: 1.0
-References: <20240614215855.82093-1-danila@jiaxyga.com>
- <20240614215855.82093-4-danila@jiaxyga.com>
-In-Reply-To: <20240614215855.82093-4-danila@jiaxyga.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 27 Jun 2024 08:09:31 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+vL2fBJBBj13A=qgTQX1rj7tK=ybn+7tXBdpobpRoi6Q@mail.gmail.com>
-Message-ID: <CAL_Jsq+vL2fBJBBj13A=qgTQX1rj7tK=ybn+7tXBdpobpRoi6Q@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] dt-bindings: display/msm: Add SM7150 MDSS
-To: Danila Tikhonov <danila@jiaxyga.com>
-Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com, 
- dmitry.baryshkov@linaro.org, sean@poorly.run, marijn.suijten@somainline.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, krzk+dt@kernel.org, conor+dt@kernel.org, 
- quic_rmccann@quicinc.com, konrad.dybcio@linaro.org, neil.armstrong@linaro.org, 
- jonathan@marek.ca, swboyd@chromium.org, quic_khsieh@quicinc.com, 
- quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: display: ti,am65x-dss: Minor Cleanup
+To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+ Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
+References: <20240511193055.1686149-1-a-bhatia1@ti.com>
+ <20240511193055.1686149-2-a-bhatia1@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240511193055.1686149-2-a-bhatia1@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,137 +114,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 14, 2024 at 3:59=E2=80=AFPM Danila Tikhonov <danila@jiaxyga.com=
-> wrote:
->
-> Document the MDSS hardware found on the Qualcomm SM7150 platform.
->
-> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On 11/05/2024 22:30, Aradhya Bhatia wrote:
+> Reduce tab size from 8 spaces to 4 spaces to make the bindings
+> consistent, and easy to expand.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->  .../display/msm/qcom,sm7150-mdss.yaml         | 458 ++++++++++++++++++
->  1 file changed, 458 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm=
-7150-mdss.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm7150-md=
-ss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.ya=
-ml
-> new file mode 100644
-> index 0000000000000..13c5d5ffabde9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml
-> @@ -0,0 +1,458 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/msm/qcom,sm7150-mdss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm SM7150 Display MDSS
-> +
-> +maintainers:
-> +  - Danila Tikhonov <danila@jiaxyga.com>
-> +
-> +description:
-> +  SM7150 MSM Mobile Display Subsystem(MDSS), which encapsulates sub-bloc=
-ks like
-> +  DPU display controller, DSI and DP interfaces etc.
-> +
-> +$ref: /schemas/display/msm/mdss-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: qcom,sm7150-mdss
-> +
-> +  clocks:
-> +    items:
-> +      - description: Display ahb clock from gcc
-> +      - description: Display hf axi clock
-> +      - description: Display sf axi clock
-> +      - description: Display core clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: iface
-> +      - const: bus
-> +      - const: nrt_bus
-> +      - const: core
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  interconnects:
-> +    items:
-> +      - description: Interconnect path from mdp0 port to the data bus
-> +      - description: Interconnect path from mdp1 port to the data bus
-> +      - description: Interconnect path from CPU to the reg bus
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: mdp0-mem
-> +      - const: mdp1-mem
-> +      - const: cpu-cfg
-> +
-> +patternProperties:
-> +  "^display-controller@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +    properties:
-> +      compatible:
-> +        const: qcom,sm7150-dpu
-> +
-> +  "^displayport-controller@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +    properties:
-> +      compatible:
-> +        const: qcom,sm7150-dp
-> +
-> +  "^dsi@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +    properties:
-> +      compatible:
-> +        items:
-> +          - const: qcom,sm7150-dsi-ctrl
-> +          - const: qcom,mdss-dsi-ctrl
+>   .../bindings/display/ti/ti,am65x-dss.yaml     | 54 +++++++++----------
+>   1 file changed, 27 insertions(+), 27 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index 55e3e490d0e6..399d68986326 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -142,32 +142,32 @@ examples:
+>       #include <dt-bindings/soc/ti,sci_pm_domain.h>
+>   
+>       dss: dss@4a00000 {
+> -            compatible = "ti,am65x-dss";
+> -            reg =   <0x04a00000 0x1000>, /* common */
+> -                    <0x04a02000 0x1000>, /* vidl1 */
+> -                    <0x04a06000 0x1000>, /* vid */
+> -                    <0x04a07000 0x1000>, /* ovr1 */
+> -                    <0x04a08000 0x1000>, /* ovr2 */
+> -                    <0x04a0a000 0x1000>, /* vp1 */
+> -                    <0x04a0b000 0x1000>, /* vp2 */
+> -                    <0x04a01000 0x1000>; /* common1 */
+> -            reg-names = "common", "vidl1", "vid",
+> -                    "ovr1", "ovr2", "vp1", "vp2", "common1";
+> -            ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
+> -            power-domains = <&k3_pds 67 TI_SCI_PD_EXCLUSIVE>;
+> -            clocks =        <&k3_clks 67 1>,
+> -                            <&k3_clks 216 1>,
+> -                            <&k3_clks 67 2>;
+> -            clock-names = "fck", "vp1", "vp2";
+> -            interrupts = <GIC_SPI 166 IRQ_TYPE_EDGE_RISING>;
+> -            ports {
+> -                    #address-cells = <1>;
+> -                    #size-cells = <0>;
+> -                    port@0 {
+> -                            reg = <0>;
+> -                            oldi_out0: endpoint {
+> -                                    remote-endpoint = <&lcd_in0>;
+> -                            };
+> -                    };
+> +        compatible = "ti,am65x-dss";
+> +        reg = <0x04a00000 0x1000>, /* common */
+> +              <0x04a02000 0x1000>, /* vidl1 */
+> +              <0x04a06000 0x1000>, /* vid */
+> +              <0x04a07000 0x1000>, /* ovr1 */
+> +              <0x04a08000 0x1000>, /* ovr2 */
+> +              <0x04a0a000 0x1000>, /* vp1 */
+> +              <0x04a0b000 0x1000>, /* vp2 */
+> +              <0x04a01000 0x1000>; /* common1 */
+> +        reg-names = "common", "vidl1", "vid",
+> +                "ovr1", "ovr2", "vp1", "vp2", "common1";
+> +        ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
+> +        power-domains = <&k3_pds 67 TI_SCI_PD_EXCLUSIVE>;
+> +        clocks =        <&k3_clks 67 1>,
+> +                        <&k3_clks 216 1>,
+> +                        <&k3_clks 67 2>;
+> +        clock-names = "fck", "vp1", "vp2";
+> +        interrupts = <GIC_SPI 166 IRQ_TYPE_EDGE_RISING>;
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            port@0 {
+> +                reg = <0>;
+> +                oldi_out0: endpoint {
+> +                    remote-endpoint = <&lcd_in0>;
+> +                };
+>               };
+> +        };
+>       };
 
-You've added this compatible, but haven't updated the corresponding
-schema. With a recent change to dtschema fixing a regression, we get
-warnings about it:
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-/builds/robherring/linux-dt/Documentation/devicetree/bindings/display/msm/q=
-com,sm7150-mdss.example.dtb:
-dsi@ae94000: compatible: 'oneOf' conditional failed, one must be
-fixed:
-        ['qcom,sm7150-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
-        'qcom,sm7150-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl',
-'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl',
-'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl',
-'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl',
-'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl',
-'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl',
-'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl',
-'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl',
-'qcom,sm6125-dsi-ctrl', 'qcom,sm6350-dsi-ctrl',
-'qcom,sm6375-dsi-ctrl', 'qcom,sm8150-dsi-ctrl',
-'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl',
-'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl',
-'qcom,sm8650-dsi-ctrl']
-        'qcom,sm7150-dsi-ctrl' is not one of
-['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
-        from schema $id:
-http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
-/builds/robherring/linux-dt/Documentation/devicetree/bindings/display/msm/q=
-com,sm7150-mdss.example.dtb:
-dsi@ae94000: Unevaluated properties are not allowed ('compatible' was
-unexpected)
-        from schema $id:
-http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
+  Tomi
 
-
-Either you need to drop this node from here (and the example) or
-update the DSI schema.
-
-Rob
