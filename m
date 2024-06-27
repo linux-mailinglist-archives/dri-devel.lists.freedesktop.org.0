@@ -2,62 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609C991A13B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 10:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C9091A13D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 10:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 311E510E044;
-	Thu, 27 Jun 2024 08:14:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5BA710E18F;
+	Thu, 27 Jun 2024 08:16:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m59b1SX5";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="wG2gH66D";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PwzsNEKF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wG2gH66D";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PwzsNEKF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6726A10E044;
- Thu, 27 Jun 2024 08:14:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1719476092; x=1751012092;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=KP0PiXP0FpeancGGwcsVj3Mhu5el/I6qgwYNKt0IS3c=;
- b=m59b1SX5RJV48tw289fwL9mQR1jEDHrmbOeM1HomfPVP4yedI8vTOIC+
- mjd2qrdXPjRLu8MVkwLAxbyw8p61s3qkaMkfnMOp+ul3qksXFYGWa//EM
- xQzxiJReCq2QteJHzumBzv99y2Y35HEMCHyzsKx4Uv3A3tB2ZY53bsCAh
- jWX7A16j3a/IjCkdBOk6Vf/gOHf503G+t9qUUoCoS8IxK6CVCe9A/kDmD
- HPYSTcdNGcyAxG8LymQz6i5TspfpDgCMNV6PtTOVVJ1Ythtwrvs24uYLB
- avL//8oj0xfcIgKdmNXLy1ZhpplXUKetbJwSsc0Y7u1zjv5HMIpP1BRor Q==;
-X-CSE-ConnectionGUID: TIC7IBHMTtSTJg1rS89OeQ==
-X-CSE-MsgGUID: qbYTF38XRsiFJhcVTLTgOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="27723839"
-X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; d="scan'208";a="27723839"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2024 01:14:47 -0700
-X-CSE-ConnectionGUID: OQdGJ0TmRIO/O7rnTbGWTw==
-X-CSE-MsgGUID: CUgCJCuSR4a25azkjz81Rw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; d="scan'208";a="67509210"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.146])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2024 01:14:42 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Oded
- Gabbay <ogabbay@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 27 Jun 2024 11:14:38 +0300
-Message-ID: <87ikxudcpd.fsf@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ED9A10E18F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 08:16:29 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F35321FBAB;
+ Thu, 27 Jun 2024 08:16:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719476188; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SGQD/goNZ0lLFKRx4wt2x6TM9SR9B1sgn/SeHqY+7dk=;
+ b=wG2gH66DTmHvjTL1j7KduIjmjTEoby6vXKTPizhC8xlfB1SXS7GdYH0dWoJWRAET00znGQ
+ DNx9WlH6qJ21Iz7k7LbE0m5NRl8mlgd/ix3wXP+0OAj9w7R58yZmRiS5pFyzD2rVnzvuUS
+ ariZCiBAY7QcvkIdK/s0KmCJ0yM+f9k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719476188;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SGQD/goNZ0lLFKRx4wt2x6TM9SR9B1sgn/SeHqY+7dk=;
+ b=PwzsNEKFP8omkvcgVFH6JHHDiBc3Jc/38TQnQmFUUy3g3im86ghXxXlTkj54O55k/8H+uS
+ 0PahTPZ4GI9+ygDw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wG2gH66D;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PwzsNEKF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719476188; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SGQD/goNZ0lLFKRx4wt2x6TM9SR9B1sgn/SeHqY+7dk=;
+ b=wG2gH66DTmHvjTL1j7KduIjmjTEoby6vXKTPizhC8xlfB1SXS7GdYH0dWoJWRAET00znGQ
+ DNx9WlH6qJ21Iz7k7LbE0m5NRl8mlgd/ix3wXP+0OAj9w7R58yZmRiS5pFyzD2rVnzvuUS
+ ariZCiBAY7QcvkIdK/s0KmCJ0yM+f9k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719476188;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SGQD/goNZ0lLFKRx4wt2x6TM9SR9B1sgn/SeHqY+7dk=;
+ b=PwzsNEKFP8omkvcgVFH6JHHDiBc3Jc/38TQnQmFUUy3g3im86ghXxXlTkj54O55k/8H+uS
+ 0PahTPZ4GI9+ygDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BF576137DF;
+ Thu, 27 Jun 2024 08:16:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ebVlLdsffWbZBgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 27 Jun 2024 08:16:27 +0000
+Message-ID: <4e341fed-c1bf-4baf-bebf-07476852714c@suse.de>
+Date: Thu, 27 Jun 2024 10:16:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ast: Inline drm_simple_encoder_init()
+To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20240625131815.14514-1-tzimmermann@suse.de>
+ <3909ae22-c0c0-4f0a-b3e3-b124e86512f7@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <3909ae22-c0c0-4f0a-b3e3-b124e86512f7@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: F35321FBAB
+X-Spam-Score: -6.50
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-6.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[7]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,38 +153,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
-Hi Dave & Sima -
+Am 25.06.24 um 16:18 schrieb Jocelyn Falempe:
+>
+> On 25/06/2024 15:18, Thomas Zimmermann wrote:
+>> The function drm_simple_encoder_init() is a trivial helper and
+>> deprecated. Replace it with the regular call to drm_encoder_init().
+>> Resolves the dependency on drm_simple_kms_helper.h. No functional
+>> changes.
+>
+> Thanks for your patch, it looks good to me.
+>
+> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-drm-intel-fixes-2024-06-27:
-drm/i915 fixes for v6.10-rc6:
-- Fix potential UAF due to race on fence register revocation
+Thanks. I've merged the patch for now. Let's see where the discussion on 
+managed interfaces goes.
 
-BR,
-Jani.
+Best regards
+Thomas
 
-The following changes since commit f2661062f16b2de5d7b6a5c42a9a5c96326b8454:
-
-  Linux 6.10-rc5 (2024-06-23 17:08:54 -0400)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-06-27
-
-for you to fetch changes up to 996c3412a06578e9d779a16b9e79ace18125ab50:
-
-  drm/i915/gt: Fix potential UAF by revoke of fence registers (2024-06-24 13:05:15 +0300)
-
-----------------------------------------------------------------
-drm/i915 fixes for v6.10-rc6:
-- Fix potential UAF due to race on fence register revocation
-
-----------------------------------------------------------------
-Janusz Krzysztofik (1):
-      drm/i915/gt: Fix potential UAF by revoke of fence registers
-
- drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 1 +
- 1 file changed, 1 insertion(+)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/gpu/drm/ast/ast_mode.c | 45 ++++++++++++++++++++++++++++++----
+>>   1 file changed, 40 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>> b/drivers/gpu/drm/ast/ast_mode.c
+>> index 6695af70768f..2fd9c78eab73 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -45,7 +45,6 @@
+>>   #include <drm/drm_managed.h>
+>>   #include <drm/drm_panic.h>
+>>   #include <drm/drm_probe_helper.h>
+>> -#include <drm/drm_simple_kms_helper.h>
+>>     #include "ast_ddc.h"
+>>   #include "ast_drv.h"
+>> @@ -1358,6 +1357,14 @@ static int ast_crtc_init(struct drm_device *dev)
+>>       return 0;
+>>   }
+>>   +/*
+>> + * VGA Encoder
+>> + */
+>> +
+>> +static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
+>> +    .destroy = drm_encoder_cleanup,
+>> +};
+>> +
+>>   /*
+>>    * VGA Connector
+>>    */
+>> @@ -1411,7 +1418,8 @@ static int ast_vga_output_init(struct 
+>> ast_device *ast)
+>>       struct drm_connector *connector = &ast->output.vga.connector;
+>>       int ret;
+>>   -    ret = drm_simple_encoder_init(dev, encoder, 
+>> DRM_MODE_ENCODER_DAC);
+>> +    ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
+>> +                   DRM_MODE_ENCODER_DAC, NULL);
+>>       if (ret)
+>>           return ret;
+>>       encoder->possible_crtcs = drm_crtc_mask(crtc);
+>> @@ -1427,6 +1435,14 @@ static int ast_vga_output_init(struct 
+>> ast_device *ast)
+>>       return 0;
+>>   }
+>>   +/*
+>> + * SIL164 Encoder
+>> + */
+>> +
+>> +static const struct drm_encoder_funcs ast_sil164_encoder_funcs = {
+>> +    .destroy = drm_encoder_cleanup,
+>> +};
+>> +
+>>   /*
+>>    * SIL164 Connector
+>>    */
+>> @@ -1480,7 +1496,8 @@ static int ast_sil164_output_init(struct 
+>> ast_device *ast)
+>>       struct drm_connector *connector = &ast->output.sil164.connector;
+>>       int ret;
+>>   -    ret = drm_simple_encoder_init(dev, encoder, 
+>> DRM_MODE_ENCODER_TMDS);
+>> +    ret = drm_encoder_init(dev, encoder, &ast_sil164_encoder_funcs,
+>> +                   DRM_MODE_ENCODER_TMDS, NULL);
+>>       if (ret)
+>>           return ret;
+>>       encoder->possible_crtcs = drm_crtc_mask(crtc);
+>> @@ -1496,6 +1513,14 @@ static int ast_sil164_output_init(struct 
+>> ast_device *ast)
+>>       return 0;
+>>   }
+>>   +/*
+>> + * DP501 Encoder
+>> + */
+>> +
+>> +static const struct drm_encoder_funcs ast_dp501_encoder_funcs = {
+>> +    .destroy = drm_encoder_cleanup,
+>> +};
+>> +
+>>   /*
+>>    * DP501 Connector
+>>    */
+>> @@ -1578,7 +1603,8 @@ static int ast_dp501_output_init(struct 
+>> ast_device *ast)
+>>       struct drm_connector *connector = &ast->output.dp501.connector;
+>>       int ret;
+>>   -    ret = drm_simple_encoder_init(dev, encoder, 
+>> DRM_MODE_ENCODER_TMDS);
+>> +    ret = drm_encoder_init(dev, encoder, &ast_dp501_encoder_funcs,
+>> +                   DRM_MODE_ENCODER_TMDS, NULL);
+>>       if (ret)
+>>           return ret;
+>>       encoder->possible_crtcs = drm_crtc_mask(crtc);
+>> @@ -1594,6 +1620,14 @@ static int ast_dp501_output_init(struct 
+>> ast_device *ast)
+>>       return 0;
+>>   }
+>>   +/*
+>> + * ASPEED Display-Port Encoder
+>> + */
+>> +
+>> +static const struct drm_encoder_funcs ast_astdp_encoder_funcs = {
+>> +    .destroy = drm_encoder_cleanup,
+>> +};
+>> +
+>>   /*
+>>    * ASPEED Display-Port Connector
+>>    */
+>> @@ -1688,7 +1722,8 @@ static int ast_astdp_output_init(struct 
+>> ast_device *ast)
+>>       struct drm_connector *connector = &ast->output.astdp.connector;
+>>       int ret;
+>>   -    ret = drm_simple_encoder_init(dev, encoder, 
+>> DRM_MODE_ENCODER_TMDS);
+>> +    ret = drm_encoder_init(dev, encoder, &ast_astdp_encoder_funcs,
+>> +                   DRM_MODE_ENCODER_TMDS, NULL);
+>>       if (ret)
+>>           return ret;
+>>       encoder->possible_crtcs = drm_crtc_mask(crtc);
+>
 
 -- 
-Jani Nikula, Intel
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
