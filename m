@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B53A91ABF1
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 17:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A916591ABEC
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2024 17:54:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C41DF10EB04;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A93B10EB02;
 	Thu, 27 Jun 2024 15:54:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9A4410E09E;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB95810E127;
  Thu, 27 Jun 2024 15:54:10 +0000 (UTC)
 Received: from ns.iliad.fr (localhost [127.0.0.1])
- by ns.iliad.fr (Postfix) with ESMTP id B0BA6205DE;
+ by ns.iliad.fr (Postfix) with ESMTP id B93E7205E8;
  Thu, 27 Jun 2024 17:54:08 +0200 (CEST)
 Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
- by ns.iliad.fr (Postfix) with ESMTP id 99E0120871;
+ by ns.iliad.fr (Postfix) with ESMTP id A3B8A20133;
  Thu, 27 Jun 2024 17:54:08 +0200 (CEST)
 From: Marc Gonzalez <mgonzalez@freebox.fr>
-Date: Thu, 27 Jun 2024 17:54:00 +0200
-Subject: [PATCH v5 2/4] dt-bindings: display/msm: hdmi: add qcom,hdmi-tx-8998
+Date: Thu, 27 Jun 2024 17:54:01 +0200
+Subject: [PATCH v5 3/4] arm64: dts: qcom: msm8998: add HDMI GPIOs
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240627-hdmi-tx-v5-2-355d5c1fbc3c@freebox.fr>
+Message-Id: <20240627-hdmi-tx-v5-3-355d5c1fbc3c@freebox.fr>
 References: <20240627-hdmi-tx-v5-0-355d5c1fbc3c@freebox.fr>
 In-Reply-To: <20240627-hdmi-tx-v5-0-355d5c1fbc3c@freebox.fr>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -43,9 +43,7 @@ Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, Arnaud Vrac <avrac@freebox.fr>, 
  Pierre-Hugues Husson <phhusson@freebox.fr>, 
- Jeffrey Hugo <quic_jhugo@quicinc.com>, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Marc Gonzalez <mgonzalez@freebox.fr>
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Marc Gonzalez <mgonzalez@freebox.fr>
 X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,74 +60,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HDMI TX block embedded in the APQ8098.
+MSM8998 GPIO pin controller reference design defines:
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+- CEC: pin 31
+- DDC: pin 32,33
+- HPD: pin 34
+
+Downstream vendor code for reference:
+
+https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-pinctrl.dtsi#L2324-2400
+
+mdss_hdmi_{cec,ddc,hpd}_{active,suspend}
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
 ---
- .../devicetree/bindings/display/msm/hdmi.yaml      | 28 ++++++++++++++++++++--
- 1 file changed, 26 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/hdmi.yaml b/Documentation/devicetree/bindings/display/msm/hdmi.yaml
-index 47e97669821c3..d4a2033afea8d 100644
---- a/Documentation/devicetree/bindings/display/msm/hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/hdmi.yaml
-@@ -19,14 +19,15 @@ properties:
-       - qcom,hdmi-tx-8974
-       - qcom,hdmi-tx-8994
-       - qcom,hdmi-tx-8996
-+      - qcom,hdmi-tx-8998
- 
-   clocks:
-     minItems: 1
--    maxItems: 5
-+    maxItems: 8
- 
-   clock-names:
-     minItems: 1
--    maxItems: 5
-+    maxItems: 8
- 
-   reg:
-     minItems: 1
-@@ -142,6 +143,7 @@ allOf:
-       properties:
-         clocks:
-           minItems: 5
-+          maxItems: 5
-         clock-names:
-           items:
-             - const: mdp_core
-@@ -151,6 +153,28 @@ allOf:
-             - const: extp
-         hdmi-mux-supplies: false
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,hdmi-tx-8998
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 8
-+          maxItems: 8
-+        clock-names:
-+          items:
-+            - const: mdp_core
-+            - const: iface
-+            - const: core
-+            - const: alt_iface
-+            - const: extp
-+            - const: bus
-+            - const: mnoc
-+            - const: iface_mmss
+diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+index e5f051f5a92de..ba5e873f0f35f 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+@@ -1434,6 +1434,34 @@ blsp2_spi6_default: blsp2-spi6-default-state {
+ 				drive-strength = <6>;
+ 				bias-disable;
+ 			};
 +
- additionalProperties: false
++			hdmi_cec_default: hdmi-cec-default-state {
++				pins = "gpio31";
++				function = "hdmi_cec";
++				drive-strength = <2>;
++				bias-pull-up;
++			};
++
++			hdmi_ddc_default: hdmi-ddc-default-state {
++				pins = "gpio32", "gpio33";
++				function = "hdmi_ddc";
++				drive-strength = <2>;
++				bias-pull-up;
++			};
++
++			hdmi_hpd_default: hdmi-hpd-default-state {
++				pins = "gpio34";
++				function = "hdmi_hot";
++				drive-strength = <16>;
++				bias-pull-down;
++			};
++
++			hdmi_hpd_sleep: hdmi-hpd-sleep-state {
++				pins = "gpio34";
++				function = "hdmi_hot";
++				drive-strength = <2>;
++				bias-pull-down;
++			};
+ 		};
  
- examples:
+ 		remoteproc_mss: remoteproc@4080000 {
 
 -- 
 2.34.1
