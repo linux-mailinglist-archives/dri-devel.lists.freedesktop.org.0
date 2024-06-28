@@ -2,83 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CDB991C51A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 19:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B90EE91C527
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 19:47:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66A7710ECD8;
-	Fri, 28 Jun 2024 17:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3584610ECDD;
+	Fri, 28 Jun 2024 17:47:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="W6wgTfDr";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="NjSr7qyl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDA710ECDD
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 17:44:58 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-424a4bc95f3so433575e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 10:44:58 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE4AC10ECDA
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 17:47:15 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2ee59cffe01so179881fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 10:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719596696; x=1720201496; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=PFG4m2P9lrc/voTXf7MYXGSSv2AhfGiy4rGLJmPQ7ps=;
- b=W6wgTfDrZA8+P3NDjRF7KSQF/xY0tIBOcJ7EgBh959Mf3+omOxtnwxlvYF36XjtjTN
- p5TO31wha13J4KXlxfO4QBGcFgPGP+UEBrK5a+LZ8GsHaWdAzc8vx7G6xgomJbIfdJwB
- Ivewdo8ExXxTGCm9vwUcv6U7fnKaD3w70SOpc=
+ d=ffwll.ch; s=google; t=1719596834; x=1720201634; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oXawiii30SbY22A0WpPOSynPJrUU92tc5F+sXUGGBi4=;
+ b=NjSr7qylZ4XnOnIwYvYui7eh+bHqdA4oVskHksQqhAvMNJMlh+TbEVr1gMKmTSqjBg
+ jdTxBLL5e9H812ZwiWVaEvYDYDd72qoOnJY1lRSyPSrriG1tRQdEXGAFtcni0iCdrHQN
+ Mz13H/a1GeWmV8PkYIuaO3AprSherlq81LL4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719596696; x=1720201496;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1719596834; x=1720201634;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PFG4m2P9lrc/voTXf7MYXGSSv2AhfGiy4rGLJmPQ7ps=;
- b=LohBq9Rvruw4Mf8x5XNLPsfu80tpeC1Iru03TszPUxG1W8YLiyv7znZoyjbJKtX+rc
- QPvUYSTe+1cgGTlFg56btSrdp9O6sDwjR681dGZO/KaWjjtTbnur5fGas8ZZNOvcuYdl
- 3FzOFrmQ9zW9lYWsO8PuIePyZRRfpZKLU9umlh3Gox1sxoxJYmNN+gUyZc51uNYAH/w3
- 3p1sb1kf3X57NXt+DbP+rnsk3qHxByA0DQTDH32byezKI+DhGYvPmpcNoW3Xc2Cpgax8
- 0WPZeJIoYNaw+JvF8jRk+oeZkRP/c+SR3E8odx6Gal+a1AVPK/d2xh0crSG6T/3EmD3a
- BakQ==
+ bh=oXawiii30SbY22A0WpPOSynPJrUU92tc5F+sXUGGBi4=;
+ b=fch2G5jJ14m+g/OmLAcCBfVpnh9KynjmPuSIEcemAy2ax8eOuDcbjtL9SukZNKIfzN
+ lMHdqEDRLwwTjvyQkuz2JpNpJLKEz3+ThsVQsn7968Z0/SpgI3sEgNCKPeGjNYkQYcex
+ vipCkmpi9JE+R5z7H2fFccGHbmLTPYvbdrKfz05dxcbhD/F/kQHyjO0vg+Qu3A70eeOs
+ wIqD+4lQcnWQlcbAXvqCC8oQJ4dimg37AhaqdRBYmNkKoHQTE6nsmIVlzQaxXvo983s5
+ QD72bBWGXWurSuVmSuE/mVHrFDaHQKbMuymRBpWRlLeeTNmU66TUcs/SfQ0BAi5aDBZ0
+ t0+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUG8fiOHYR9peoP8bBhjLFc6VfxK8hYoEC6+U10z8Em4XBOY7SUUtFIjAyXud+5PTYLqrgj14ptAEvAiAJw0Hjgz2GCyIYi8i9Ncz3koMqu
-X-Gm-Message-State: AOJu0YxFxbPiRjrzOkQA/wY8fPwW+u5NXdfqzgdFdqQADVgj4G3eWwt9
- OGbVPXL0rmBDZPnGBOEKBrzl2XgOZ0dCirPbW4B/Z+iN1c4U0xdoeQfp8zgP4S0=
-X-Google-Smtp-Source: AGHT+IEwJxocm6WmlwUTvvhF/qJILTgIc/r+SbUwyzK30cSwW5Q2fXDcp5IvRDEkaQUEL1w6Vbi7eQ==
-X-Received: by 2002:a05:600c:4aa9:b0:425:5ed5:b416 with SMTP id
- 5b1f17b1804b1-4255ed5b5edmr61703235e9.1.1719596696262; 
- Fri, 28 Jun 2024 10:44:56 -0700 (PDT)
+ AJvYcCVuwqyHhL1VtFqgdwG5vTI7rnBNTHqaDFswjjdw/844KEyThIJlc2RsnGKr9M7Fymys8wrmN9gEFV2vQBnja80Gfv8IlKgp4RtjS6Su7+k3
+X-Gm-Message-State: AOJu0Yw8evJ6jK5/9SSMBA3VdqRGz1vlCUdGDNf+4dqVL8kJvmNNCtkE
+ 44fFftQjp02VbX4sNKswwgd43z4I4m0I47gL6rjnvREPGgAq0gphR4bRkbCd3VQ=
+X-Google-Smtp-Source: AGHT+IFupNHWZXb+QLKkwFqtsw/yyqnuJNIOBgzzTmWF8Qysi7dT/74C6TF8L4BTTqPJeAphNz+eXQ==
+X-Received: by 2002:a2e:b0d6:0:b0:2ec:4399:9bfc with SMTP id
+ 38308e7fff4ca-2ec55fe3a56mr117145931fa.0.1719596833481; 
+ Fri, 28 Jun 2024 10:47:13 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3675a1030c8sm2971157f8f.98.2024.06.28.10.44.55
+ 5b1f17b1804b1-4256b09a073sm44514485e9.32.2024.06.28.10.47.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 10:44:55 -0700 (PDT)
-Date: Fri, 28 Jun 2024 19:44:53 +0200
+ Fri, 28 Jun 2024 10:47:12 -0700 (PDT)
+Date: Fri, 28 Jun 2024 19:47:10 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Helen Koike <helen.koike@collabora.com>,
- Vignesh Raman <vignesh.raman@collabora.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Dave Airlie <airlied@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: Lucas Stach <l.stach@pengutronix.de>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+Message-ID: <Zn73Hr14DUHfhDz6@phenom.ffwll.local>
+Mail-Followup-To: Daniel Stone <daniel@fooishbar.org>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
  Daniel Stone <daniels@collabora.com>
-Subject: Re: Time for drm-ci-next?
-Message-ID: <Zn72laHlmWW3So9f@phenom.ffwll.local>
-References: <CAF6AEGsRLPqddgc2MKCXKD1TDFuwxRs_6Pj=oDuj4gah0D-07Q@mail.gmail.com>
- <87a5mzrgie.fsf@intel.com>
- <CAF6AEGt=8mz8S+nBQ1a3mCNLFhBrfcc5XfmNrTQ=62J-m+_3Jg@mail.gmail.com>
- <44196cb4-bc07-4dba-bf1d-9d3d0e3bc88d@collabora.com>
- <f20f80a7-c905-4a9e-8fa6-985d6b3b1662@collabora.com>
- <ZnvEHEIEJIYcsQgN@phenom.ffwll.local>
- <f6kf3smgaza7r7zif4frz6ugrdzcl4u3xqidgwgvuffydhjfzp@66afcetzo3uw>
- <ZnxUP8H5oATEYNBt@phenom.ffwll.local>
- <CAF6AEGu0X43O0-p=LaVmDgZrHnkHctuv=uLeqG+JEJXbfh=mjg@mail.gmail.com>
+References: <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
+ <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
+ <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
+ <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
+ <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
+ <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
+ <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
+ <CAPj87rPB=N2vJ-5C7xXORYstK3=TpX+jZ7mCr7oxY2wpXeaTTQ@mail.gmail.com>
+ <ZnxVWrFJKbVO8PZ0@phenom.ffwll.local>
+ <CAPj87rPnA1eKR_b7gAhDiMZRcVt8xPS9xnsscqVQ_a_qO_tD4A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGu0X43O0-p=LaVmDgZrHnkHctuv=uLeqG+JEJXbfh=mjg@mail.gmail.com>
+In-Reply-To: <CAPj87rPnA1eKR_b7gAhDiMZRcVt8xPS9xnsscqVQ_a_qO_tD4A@mail.gmail.com>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,49 +105,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 27, 2024 at 11:51:37AM -0700, Rob Clark wrote:
-> On Wed, Jun 26, 2024 at 10:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Wed, Jun 26, 2024 at 08:26:04PM +0100, Daniel Stone wrote:
+> On Wed, 26 Jun 2024 at 18:52, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Wed, Jun 26, 2024 at 11:39:01AM +0100, Daniel Stone wrote:
+> > > On Wed, 26 Jun 2024 at 09:28, Lucas Stach <l.stach@pengutronix.de> wrote:
+> > > > So we are kind of stuck here between breaking one or the other use-
+> > > > case. I'm leaning heavily into the direction of just fixing Mesa, so we
+> > > > can specify the type of screen we need at creation time to avoid the
+> > > > renderonly issue, porting this change as far back as reasonably
+> > > > possible and file old userspace into shit-happens.
+> > >
+> > > Yeah, honestly this sounds like the best solution to me too.
 > >
-> > On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry Baryshkov wrote:
-> > > On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel Vetter wrote:
-> > > > On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike wrote:
-> > > > >
-> > > > >
-> > > > > On 24/06/2024 02:34, Vignesh Raman wrote:
-> > > > > > Hi,
-> > > > > >
-> > > > > > On 15/03/24 22:50, Rob Clark wrote:
-> > > > > > > Basically, I often find myself needing to merge CI patches on top of
-> > > > > > > msm-next in order to run CI, and then after a clean CI run, reset HEAD
-> > > > > > > back before the merge and force-push.  Which isn't really how things
-> > > > > > > should work.
-> > > >
-> > > > This sounds more like you want an integration tree like drm-tip. Get msm
-> > > > branches integrated there, done. Backmerges just for integration testing
-> > > > are not a good idea indeed.
+> > Yeah mesa sounds kinda broken here ...
+> >
+> > What might work in the kernel is if you publish a fake 3d engine that's
+> > too new for broken mesa, if that's enough to make it fail to bind? And if
+> > mesa still happily binds against that, then yeah it's probably too broken
+> > and we need etnaviv-v2 (as a drm driver uapi name, I think that's what
+> > mesa filters?) for anything new (including the NN-only ones).
+> >
+> > I would still try to avoid that, but just in case someone screams about
+> > regressions.
 > 
-> But AFAIU this doesn't help for pre-merge testing, ie. prior to a
-> patch landing in msm-next
-> 
-> My idea was to have a drm-ci-next managed similar to drm-misc-next, if
-> we have needed drm/ci patches we could push them to drm-ci-next, and
-> then merge that into the driver tree (along with a PR from drm-ci-next
-> to Dave).
+> It's not just etnaviv, it's literally every Mesa driver which works
+> with decoupled render/display. So that would be etnaviv-v2,
+> panfrost-v2, panthor-v2, v3d-v2, powervr-v2, ... albeit those don't
+> tend to have multiple instances.
 
-I guess I'm confused about what kind of pre-merge testing we're talking
-about then ... Or maybe this just doesn't work too well with the linux
-kernel. The model is that you have some pile of trees, they're split up,
-and testing of all the trees together is done in integration trees like
-linux-next or drm-tip.
+So essentially mesa just burns&crashes when old mesa runs on a newer
+kernel with support for a chip that mesa doesn't know about?
 
-Criss-cross merging of trees just for integration testing is no-go. And
-that seems to be the only reason you want drm-ci-next?
+> Anyway, I'm still leaning towards the answer being: this is not an
+> etnaviv regression caused by NPU, it's a longstanding generic Mesa
+> issue for which the answer is to fix the known fragility.
 
-Also, this sounds more like msm being in a separate tree is the pain point
-here, and solving "we have too many trees" by adding more isn't a good
-idea ...
-
-Or I'm just totally confused.
+If the above is correct, then yes I think we should just fix mesa. Feels
+like the breakage is too obviously there, and that's all we'll do unless
+the screaming gets too loud.
 -Sima
 -- 
 Daniel Vetter
