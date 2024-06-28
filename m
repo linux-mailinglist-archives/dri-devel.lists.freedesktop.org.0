@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E8591C581
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 20:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E1B91C58A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 20:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1CD310ECF3;
-	Fri, 28 Jun 2024 18:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E61610ECF6;
+	Fri, 28 Jun 2024 18:16:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="W+6416L2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QIhKm26q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F29FC10ECF6
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 18:13:36 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2ec4e9075e0so1309951fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 11:13:36 -0700 (PDT)
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+ [209.85.166.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58EFD10ECF6
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 18:16:31 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id
+ ca18e2360f4ac-7f6154e20bbso34753939f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 11:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719598415; x=1720203215; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=huxmsGyg+iUWrBMicDmaxHSG7pbm8X2WK1OQEgwi0+I=;
- b=W+6416L2uhsREPPUsZtM3+KpJCkX62ngePgSI7cSZIkmnFm4AgOjChClK5K5KxrCHh
- 4LHsJgtOhvZh3f09IQD91YFNc3mydDerY/B8f/KSTbC0vAew+80RwRPwJF+1aQx5EZZl
- blNlVg/TMzmk2dXN4NzmArK7eff1x2Kb3uJI0=
+ d=gmail.com; s=20230601; t=1719598590; x=1720203390; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oCsaVaw4BhqD+Xyg8ynJ6DJaSe0bJqCFl9DQMDKbxYg=;
+ b=QIhKm26qeNUR+clErar7sMmvfdNeMK3F8YgtGcraFH8OTfGqT9xLbd5BYSCJmamJyO
+ Gb5IsouNBUVZyJJILrm84VheYbT7nAS8bs55PT790w1XQGEdJRtphDepP0bmn8G7EmVa
+ F5JvtU8f/jCaFbAUrTcabDVk0x8u4EWE7XEzMsSNOmSiXZptfO1FRGWCmev0gckoQpNP
+ XDBV4bK3x4JUTEi/MhJUaCtV/gvfxFbWSCLhpo8GfD0WZbGn38c32v+m1cW+rvujUciu
+ +WQpzqNeWujsHOOCMSiAhbIPQ3XG3WDMD8SmzQU8Dm1n1veCOjUuSvbIKm3jM1fEwQvp
+ m3xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719598415; x=1720203215;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1719598590; x=1720203390;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=huxmsGyg+iUWrBMicDmaxHSG7pbm8X2WK1OQEgwi0+I=;
- b=jLP+ywRXFMUYa/5ItZbzO+FgLEtBjPdpQe1OkI3YUEWKeqrpwJhOeORZEmDwN8tI5m
- jFvetoxdx5QCwsCmnLl28Da/9mpYal9D9RAXvGXe1xenz+3QwDUdUmXfE29MCQ2fVOh/
- t7mNH/VaJb7N7l1JgBSs8ENSXqRNXqxPrOm1CxSdlnA8NvcFXsr7rTCtBDU3BP3oZJcc
- 2JH/dA2/BkcPpB8NGj6PTESEdoccxLbmtL6t+HHhYqYCeVVzgwPJp4z3xA2A1ChwDLsD
- Y3eIy/DbOLqiuHtjiHHmP2yTXxqnpZJZp3CrmKE59PMwIqsywSNCWG/c4u6Oz6s4lt9G
- Hf7Q==
+ bh=oCsaVaw4BhqD+Xyg8ynJ6DJaSe0bJqCFl9DQMDKbxYg=;
+ b=h5KWU78YI749VcL4lOiVqgRjgioJ12upP/T3H3/B9kpjJBWkRxR3Y20RFmUDKJXdgf
+ 4ggLyiTAOXDx7jpxongd+y/ZOXZ5zb3hIfp3fLg3938Asjw+hQvue0tTRMY9f1ZiJpHA
+ L5taToHh/XLOqljACLtSrHUR6mGKXgYw9ew8CdLMsCqy7fB+V1iCXCyuDX1SougMF0e5
+ tfbGmYM4CaTwLTv88Q4TDuMEeTTB+sS0r+5A1N5DzX4BNRlRTsUYDLkMH4hQSqwAMh0H
+ pJ6g18MFdn/g1oCp6lChXS7Y/3BbeSdNZsA0BgNctINN3Gd6sYVgSjxaCVrlu4VZgOIb
+ af1Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUIQ7mRP8gW8OGGJgWoJchm9dreyfQRb9K+3r5lWhpR6jf9tXTK2SYw+M+M4nswFNJJQxMhkE4y+lKHPsDgmCcXr33N8avl1h5w3HghCP4Q
-X-Gm-Message-State: AOJu0YynZ/EXmKsmkkZ9pn/tyWyE99Pb0OB+EMpZCZ+LieRW7yRRzwvQ
- +VQlDKGn5qWoiB79s/EnNlX+AuVZhbzFGslD6OP12nBnwbtfySMKIvY+981t+WsWt7sM+IaBtZN
- QQsc=
-X-Google-Smtp-Source: AGHT+IE5lOHbq58vJ8cWAIxbIekJmFwVNdX2XgbfvBOtIf4Qv7xRVWjSmCHxNA5l5enxjRzWddwS1g==
-X-Received: by 2002:a05:651c:1986:b0:2ec:5365:34d3 with SMTP id
- 38308e7fff4ca-2ec560e8d60mr148913521fa.1.1719598415010; 
- Fri, 28 Jun 2024 11:13:35 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4256b0c15f8sm44777175e9.47.2024.06.28.11.13.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 11:13:34 -0700 (PDT)
-Date: Fri, 28 Jun 2024 20:13:32 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH] drm/ttm: Always take the bo delayed cleanup path for
- imported bos
-Message-ID: <Zn79TNg1WfERV7gj@phenom.ffwll.local>
-References: <20240628153848.4989-1-thomas.hellstrom@linux.intel.com>
- <Zn7cBbi/iZ1cxWPb@DUT025-TGLU.fm.intel.com>
+ AJvYcCVBs4D8DME2bX36M5Iyo7f3OzbyHXsnebM19KF6zohvUdGlAPq0hgNg/N4Og4Aux/kAMPWW9HRtVTFSZBTeA8D8JsxwA4x7VFRH7r6tVjW+
+X-Gm-Message-State: AOJu0YzW5gA2VY1miDWTqpkeCd6sgLPCgxOJNJLC1arfW8UpGCKwjm5m
+ myEp4M1lX5pT+GELpaA8fSktFFrTKyZxeBlH62PrAggDl2DMss0Z
+X-Google-Smtp-Source: AGHT+IGuKG9hnWHCmMAXNatkQYs5+I9y300IdNC6/HNAZ5tSrEEUeSsWTdrlSPRh9aBkW3sh3wAz9A==
+X-Received: by 2002:a05:6602:2dd2:b0:7eb:5250:a54a with SMTP id
+ ca18e2360f4ac-7f3a75a6321mr2326073139f.7.1719598590363; 
+ Fri, 28 Jun 2024 11:16:30 -0700 (PDT)
+Received: from [10.0.0.19] ([122.172.84.231]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-708044b1124sm1920736b3a.181.2024.06.28.11.16.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jun 2024 11:16:30 -0700 (PDT)
+Message-ID: <db64751c-1305-4dc2-a889-3d5da2ebd455@gmail.com>
+Date: Fri, 28 Jun 2024 23:46:26 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zn7cBbi/iZ1cxWPb@DUT025-TGLU.fm.intel.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panel: asus-z00t-tm5p5-n35596: transition to mipi_dsi
+ wrapped functions
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com
+Cc: dianders@chromium.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240628181238.169681-1-tejasvipin76@gmail.com>
+ <20240628181238.169681-4-tejasvipin76@gmail.com>
+Content-Language: en-US
+From: Tejas Vipin <tejasvipin76@gmail.com>
+In-Reply-To: <20240628181238.169681-4-tejasvipin76@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,158 +87,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 28, 2024 at 03:51:33PM +0000, Matthew Brost wrote:
-> On Fri, Jun 28, 2024 at 05:38:48PM +0200, Thomas Hellström wrote:
-> > Bos can be put with multiple unrelated dma-resv locks held. But
-> > imported bos attempt to grab the bo dma-resv during dma-buf detach
-> > that typically happens during cleanup. That leads to lockde splats
-> > similar to the below and a potential ABBA deadlock.
-> > 
-> > Fix this by always taking the delayed workqueue cleanup path for
-> > imported bos.
-> > 
-> > Requesting stable fixes from when the Xe driver was introduced,
-> > since its usage of drm_exec and wide vm dma_resvs appear to be
-> > the first reliable trigger of this.
-> > 
-> > [22982.116427] ============================================
-> > [22982.116428] WARNING: possible recursive locking detected
-> > [22982.116429] 6.10.0-rc2+ #10 Tainted: G     U  W
-> > [22982.116430] --------------------------------------------
-> > [22982.116430] glxgears:sh0/5785 is trying to acquire lock:
-> > [22982.116431] ffff8c2bafa539a8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: dma_buf_detach+0x3b/0xf0
-> > [22982.116438]
-> >                but task is already holding lock:
-> > [22982.116438] ffff8c2d9aba6da8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x49/0x2b0 [drm_exec]
-> > [22982.116442]
-> >                other info that might help us debug this:
-> > [22982.116442]  Possible unsafe locking scenario:
-> > 
-> > [22982.116443]        CPU0
-> > [22982.116444]        ----
-> > [22982.116444]   lock(reservation_ww_class_mutex);
-> > [22982.116445]   lock(reservation_ww_class_mutex);
-> > [22982.116447]
-> >                 *** DEADLOCK ***
-> > 
-> > [22982.116447]  May be due to missing lock nesting notation
-> > 
-> > [22982.116448] 5 locks held by glxgears:sh0/5785:
-> > [22982.116449]  #0: ffff8c2d9aba58c8 (&xef->vm.lock){+.+.}-{3:3}, at: xe_file_close+0xde/0x1c0 [xe]
-> > [22982.116507]  #1: ffff8c2e28cc8480 (&vm->lock){++++}-{3:3}, at: xe_vm_close_and_put+0x161/0x9b0 [xe]
-> > [22982.116578]  #2: ffff8c2e31982970 (&val->lock){.+.+}-{3:3}, at: xe_validation_ctx_init+0x6d/0x70 [xe]
-> > [22982.116647]  #3: ffffacdc469478a8 (reservation_ww_class_acquire){+.+.}-{0:0}, at: xe_vma_destroy_unlocked+0x7f/0xe0 [xe]
-> > [22982.116716]  #4: ffff8c2d9aba6da8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x49/0x2b0 [drm_exec]
-> > [22982.116719]
-> >                stack backtrace:
-> > [22982.116720] CPU: 8 PID: 5785 Comm: glxgears:sh0 Tainted: G     U  W          6.10.0-rc2+ #10
-> > [22982.116721] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 2001 02/01/2023
-> > [22982.116723] Call Trace:
-> > [22982.116724]  <TASK>
-> > [22982.116725]  dump_stack_lvl+0x77/0xb0
-> > [22982.116727]  __lock_acquire+0x1232/0x2160
-> > [22982.116730]  lock_acquire+0xcb/0x2d0
-> > [22982.116732]  ? dma_buf_detach+0x3b/0xf0
-> > [22982.116734]  ? __lock_acquire+0x417/0x2160
-> > [22982.116736]  __ww_mutex_lock.constprop.0+0xd0/0x13b0
-> > [22982.116738]  ? dma_buf_detach+0x3b/0xf0
-> > [22982.116741]  ? dma_buf_detach+0x3b/0xf0
-> > [22982.116743]  ? ww_mutex_lock+0x2b/0x90
-> > [22982.116745]  ww_mutex_lock+0x2b/0x90
-> > [22982.116747]  dma_buf_detach+0x3b/0xf0
-> > [22982.116749]  drm_prime_gem_destroy+0x2f/0x40 [drm]
-> > [22982.116775]  xe_ttm_bo_destroy+0x32/0x220 [xe]
-> > [22982.116818]  ? __mutex_unlock_slowpath+0x3a/0x290
-> > [22982.116821]  drm_exec_unlock_all+0xa1/0xd0 [drm_exec]
-> > [22982.116823]  drm_exec_fini+0x12/0xb0 [drm_exec]
-> > [22982.116824]  xe_validation_ctx_fini+0x15/0x40 [xe]
-> > [22982.116892]  xe_vma_destroy_unlocked+0xb1/0xe0 [xe]
-> > [22982.116959]  xe_vm_close_and_put+0x41a/0x9b0 [xe]
-> > [22982.117025]  ? xa_find+0xe3/0x1e0
-> > [22982.117028]  xe_file_close+0x10a/0x1c0 [xe]
-> > [22982.117074]  drm_file_free+0x22a/0x280 [drm]
-> > [22982.117099]  drm_release_noglobal+0x22/0x70 [drm]
-> > [22982.117119]  __fput+0xf1/0x2d0
-> > [22982.117122]  task_work_run+0x59/0x90
-> > [22982.117125]  do_exit+0x330/0xb40
-> > [22982.117127]  do_group_exit+0x36/0xa0
-> > [22982.117129]  get_signal+0xbd2/0xbe0
-> > [22982.117131]  arch_do_signal_or_restart+0x3e/0x240
-> > [22982.117134]  syscall_exit_to_user_mode+0x1e7/0x290
-> > [22982.117137]  do_syscall_64+0xa1/0x180
-> > [22982.117139]  ? lock_acquire+0xcb/0x2d0
-> > [22982.117140]  ? __set_task_comm+0x28/0x1e0
-> > [22982.117141]  ? find_held_lock+0x2b/0x80
-> > [22982.117144]  ? __set_task_comm+0xe1/0x1e0
-> > [22982.117145]  ? lock_release+0xca/0x290
-> > [22982.117147]  ? __do_sys_prctl+0x245/0xab0
-> > [22982.117149]  ? lockdep_hardirqs_on_prepare+0xde/0x190
-> > [22982.117150]  ? syscall_exit_to_user_mode+0xb0/0x290
-> > [22982.117152]  ? do_syscall_64+0xa1/0x180
-> > [22982.117154]  ? __lock_acquire+0x417/0x2160
-> > [22982.117155]  ? reacquire_held_locks+0xd1/0x1f0
-> > [22982.117156]  ? do_user_addr_fault+0x30c/0x790
-> > [22982.117158]  ? lock_acquire+0xcb/0x2d0
-> > [22982.117160]  ? find_held_lock+0x2b/0x80
-> > [22982.117162]  ? do_user_addr_fault+0x357/0x790
-> > [22982.117163]  ? lock_release+0xca/0x290
-> > [22982.117164]  ? do_user_addr_fault+0x361/0x790
-> > [22982.117166]  ? trace_hardirqs_off+0x4b/0xc0
-> > [22982.117168]  ? clear_bhb_loop+0x45/0xa0
-> > [22982.117170]  ? clear_bhb_loop+0x45/0xa0
-> > [22982.117172]  ? clear_bhb_loop+0x45/0xa0
-> > [22982.117174]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> > [22982.117176] RIP: 0033:0x7f943d267169
-> > [22982.117192] Code: Unable to access opcode bytes at 0x7f943d26713f.
-> > [22982.117193] RSP: 002b:00007f9430bffc80 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
-> > [22982.117195] RAX: fffffffffffffe00 RBX: 0000000000000000 RCX: 00007f943d267169
-> > [22982.117196] RDX: 0000000000000000 RSI: 0000000000000189 RDI: 00005622f89579d0
-> > [22982.117197] RBP: 00007f9430bffcb0 R08: 0000000000000000 R09: 00000000ffffffff
-> > [22982.117198] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> > [22982.117199] R13: 0000000000000000 R14: 0000000000000000 R15: 00005622f89579d0
-> > [22982.117202]  </TASK>
-> > 
-> > Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
-> > Cc: Christian König <christian.koenig@amd.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: intel-xe@lists.freedesktop.org
-> > Cc: <stable@vger.kernel.org> # v6.8+
-> 
-> Patch and explaination makes sense to me.
-> 
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Sorry, didn't intend to send this. please ignore it :p
 
-I guess for stable this is good since minimal, but after Thomas explaine
-what he meant with dma_buf_detach_unlocked I think that total sense as a
-follow-up patch maybe.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Cheers, Sima
+On 6/28/24 11:42 PM, Tejas Vipin wrote:
+> Use functions introduced in commit 966e397e4f60 ("drm/mipi-dsi:
+> Introduce mipi_dsi_*_write_seq_multi()") and commit f79d6d28d8fe
+> ("drm/mipi-dsi: wrap more functions for streamline handling") for the
+> asus-z00t-tm5p5-n35596 panel.
 > 
-> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/ttm/ttm_bo.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> > index 6396dece0db1..2427be8bc97f 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > @@ -346,6 +346,7 @@ static void ttm_bo_release(struct kref *kref)
-> >  		if (!dma_resv_test_signaled(bo->base.resv,
-> >  					    DMA_RESV_USAGE_BOOKKEEP) ||
-> >  		    (want_init_on_free() && (bo->ttm != NULL)) ||
-> > +		    bo->type == ttm_bo_type_sg ||
-> >  		    !dma_resv_trylock(bo->base.resv)) {
-> >  			/* The BO is not idle, resurrect it for delayed destroy */
-> >  			ttm_bo_flush_all_fences(bo);
-> > -- 
-> > 2.44.0
-> > 
+> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> ---
+>  .../drm/panel/panel-asus-z00t-tm5p5-n35596.c  | 140 ++++++++----------
+>  1 file changed, 59 insertions(+), 81 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+> index bcaa63d1955f..b05a663c134c 100644
+> --- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+> +++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+> @@ -33,119 +33,97 @@ static void tm5p5_nt35596_reset(struct tm5p5_nt35596 *ctx)
+>  	usleep_range(15000, 16000);
+>  }
+>  
+> -static int tm5p5_nt35596_on(struct tm5p5_nt35596 *ctx)
+> +static void tm5p5_nt35596_on(struct mipi_dsi_multi_context *dsi_ctx)
+>  {
+> -	struct mipi_dsi_device *dsi = ctx->dsi;
+> -
+> -	mipi_dsi_generic_write_seq(dsi, 0xff, 0x05);
+> -	mipi_dsi_generic_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_generic_write_seq(dsi, 0xc5, 0x31);
+> -	mipi_dsi_generic_write_seq(dsi, 0xff, 0x04);
+> -	mipi_dsi_generic_write_seq(dsi, 0x01, 0x84);
+> -	mipi_dsi_generic_write_seq(dsi, 0x05, 0x25);
+> -	mipi_dsi_generic_write_seq(dsi, 0x06, 0x01);
+> -	mipi_dsi_generic_write_seq(dsi, 0x07, 0x20);
+> -	mipi_dsi_generic_write_seq(dsi, 0x08, 0x06);
+> -	mipi_dsi_generic_write_seq(dsi, 0x09, 0x08);
+> -	mipi_dsi_generic_write_seq(dsi, 0x0a, 0x10);
+> -	mipi_dsi_generic_write_seq(dsi, 0x0b, 0x10);
+> -	mipi_dsi_generic_write_seq(dsi, 0x0c, 0x10);
+> -	mipi_dsi_generic_write_seq(dsi, 0x0d, 0x14);
+> -	mipi_dsi_generic_write_seq(dsi, 0x0e, 0x14);
+> -	mipi_dsi_generic_write_seq(dsi, 0x0f, 0x14);
+> -	mipi_dsi_generic_write_seq(dsi, 0x10, 0x14);
+> -	mipi_dsi_generic_write_seq(dsi, 0x11, 0x14);
+> -	mipi_dsi_generic_write_seq(dsi, 0x12, 0x14);
+> -	mipi_dsi_generic_write_seq(dsi, 0x17, 0xf3);
+> -	mipi_dsi_generic_write_seq(dsi, 0x18, 0xc0);
+> -	mipi_dsi_generic_write_seq(dsi, 0x19, 0xc0);
+> -	mipi_dsi_generic_write_seq(dsi, 0x1a, 0xc0);
+> -	mipi_dsi_generic_write_seq(dsi, 0x1b, 0xb3);
+> -	mipi_dsi_generic_write_seq(dsi, 0x1c, 0xb3);
+> -	mipi_dsi_generic_write_seq(dsi, 0x1d, 0xb3);
+> -	mipi_dsi_generic_write_seq(dsi, 0x1e, 0xb3);
+> -	mipi_dsi_generic_write_seq(dsi, 0x1f, 0xb3);
+> -	mipi_dsi_generic_write_seq(dsi, 0x20, 0xb3);
+> -	mipi_dsi_generic_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_generic_write_seq(dsi, 0xff, 0x00);
+> -	mipi_dsi_generic_write_seq(dsi, 0xfb, 0x01);
+> -	mipi_dsi_generic_write_seq(dsi, 0x35, 0x01);
+> -	mipi_dsi_generic_write_seq(dsi, 0xd3, 0x06);
+> -	mipi_dsi_generic_write_seq(dsi, 0xd4, 0x04);
+> -	mipi_dsi_generic_write_seq(dsi, 0x5e, 0x0d);
+> -	mipi_dsi_generic_write_seq(dsi, 0x11, 0x00);
+> -	msleep(100);
+> -	mipi_dsi_generic_write_seq(dsi, 0x29, 0x00);
+> -	mipi_dsi_generic_write_seq(dsi, 0x53, 0x24);
+> -
+> -	return 0;
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xff, 0x05);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xc5, 0x31);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xff, 0x04);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x01, 0x84);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x05, 0x25);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x06, 0x01);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x07, 0x20);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x08, 0x06);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x09, 0x08);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0a, 0x10);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0b, 0x10);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0c, 0x10);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0d, 0x14);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0e, 0x14);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0f, 0x14);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x10, 0x14);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x11, 0x14);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x12, 0x14);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x17, 0xf3);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x18, 0xc0);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x19, 0xc0);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x1a, 0xc0);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x1b, 0xb3);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x1c, 0xb3);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x1d, 0xb3);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x1e, 0xb3);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x1f, 0xb3);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x20, 0xb3);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xff, 0x00);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfb, 0x01);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x35, 0x01);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xd3, 0x06);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xd4, 0x04);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x5e, 0x0d);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x11, 0x00);
+> +
+> +	mipi_dsi_msleep(dsi_ctx, 100);
+> +
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x29, 0x00);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x53, 0x24);
+>  }
+>  
+> -static int tm5p5_nt35596_off(struct tm5p5_nt35596 *ctx)
+> +static void tm5p5_nt35596_off(struct mipi_dsi_multi_context *dsi_ctx)
+>  {
+> -	struct mipi_dsi_device *dsi = ctx->dsi;
+> -	struct device *dev = &dsi->dev;
+> -	int ret;
+> -
+> -	ret = mipi_dsi_dcs_set_display_off(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set display off: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(60);
+> +	mipi_dsi_dcs_set_display_off_multi(dsi_ctx);
+>  
+> -	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> -		return ret;
+> -	}
+> +	mipi_dsi_msleep(dsi_ctx, 60);
+>  
+> -	mipi_dsi_dcs_write_seq(dsi, 0x4f, 0x01);
+> +	mipi_dsi_dcs_enter_sleep_mode_multi(dsi_ctx);
+>  
+> -	return 0;
+> +	mipi_dsi_dcs_write_seq_multi(dsi_ctx, 0x4f, 0x01);
+>  }
+>  
+>  static int tm5p5_nt35596_prepare(struct drm_panel *panel)
+>  {
+>  	struct tm5p5_nt35596 *ctx = to_tm5p5_nt35596(panel);
+> -	struct device *dev = &ctx->dsi->dev;
+> -	int ret;
+> +	struct mipi_dsi_multi_context dsi_ctx =	{.dsi = ctx->dsi};
+>  
+> -	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to enable regulators: %d\n", ret);
+> -		return ret;
+> -	}
+> +	dsi_ctx.accum_err = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +	if (dsi_ctx.accum_err)
+> +		return dsi_ctx.accum_err;
+>  
+>  	tm5p5_nt35596_reset(ctx);
+>  
+> -	ret = tm5p5_nt35596_on(ctx);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> +	tm5p5_nt35596_on(&dsi_ctx);
+> +
+> +	if (dsi_ctx.accum_err) {
+>  		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+>  		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies),
+>  				       ctx->supplies);
+> -		return ret;
+>  	}
+>  
+> -	return 0;
+> +	return dsi_ctx.accum_err;
+>  }
+>  
+>  static int tm5p5_nt35596_unprepare(struct drm_panel *panel)
+>  {
+>  	struct tm5p5_nt35596 *ctx = to_tm5p5_nt35596(panel);
+> -	struct device *dev = &ctx->dsi->dev;
+> -	int ret;
+> +	struct mipi_dsi_multi_context dsi_ctx =	{.dsi = ctx->dsi};
+>  
+> -	ret = tm5p5_nt35596_off(ctx);
+> -	if (ret < 0)
+> -		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
+> +	tm5p5_nt35596_off(&dsi_ctx);
+>  
+>  	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+>  	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies),
+>  			       ctx->supplies);
+>  
+> -	return 0;
+> +	return dsi_ctx.accum_err;
+>  }
+>  
+>  static const struct drm_display_mode tm5p5_nt35596_mode = {
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Tejas Vipin
