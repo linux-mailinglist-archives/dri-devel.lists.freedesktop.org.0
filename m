@@ -2,88 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBA991B65F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 07:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F039391B6BA
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 08:07:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADD4F10EBB7;
-	Fri, 28 Jun 2024 05:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B0AB10E048;
+	Fri, 28 Jun 2024 06:07:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IyLNm8Di";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="vCDQDl4+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4QeBCn+L";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DDUhCGbl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uRv68Hhh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A6210EBB3;
- Fri, 28 Jun 2024 05:44:03 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45RL6DNF015295;
- Fri, 28 Jun 2024 05:44:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7vFZZqH20Du4+0rEJZkm4d1bS5cXe7cGcBbOZAvl9GI=; b=IyLNm8Di4p+qBqLV
- BZtlfw2Jmz1oYuUOJqlhMeZJHJ75k61TYHeaYNOOMAvtP4NhA3cbyFKXcBiCgr6A
- QeVg7cvx5ABQ9cmYbTJffuQt2B82q32BO8djjbI2+7le8yyo36ep1flehvEg4798
- 8SC/hgpEd8+15HzWd0I75Bi0Ma8ICFE6y5YOx1p8hanIED0+0mVfwGzBlup8qlYF
- j/gQFQTks2onL54ph4MboGcLtrLdGP0QqG2dFtq1k/STA3BoJtxR1zWZwj7MeQ74
- QCCN8LTwPhwjDQI0y0hfGyElOXnaTUeH9ok6nFplYDq17TOUzUUeNJSgA+8qnnWT
- cNuiig==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 400gcmdj60-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jun 2024 05:43:59 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45S5hx8V004491
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jun 2024 05:43:59 GMT
-Received: from [10.110.116.31] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 27 Jun
- 2024 22:43:58 -0700
-Message-ID: <19c49c3b-057c-ce83-1ec6-4929676ff0e7@quicinc.com>
-Date: Thu, 27 Jun 2024 22:43:57 -0700
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B55310E048
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 06:07:44 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8F37F1FCEB;
+ Fri, 28 Jun 2024 06:07:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719554863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=t7etucCbld6PE87n1x8j/NJlhUbmG4A1fHc19357BQ0=;
+ b=vCDQDl4+9jm1tqgBa+23f2BMFbNvNl/u95EWclbFDcEA2HTwfwROZSr/5MzssGEgkufndO
+ l/kZO4Ya8Gcmgh/EHL/b8OcNdopPoE8T/eKmPiRxXh4vvv1vzgmNcRoGzb2FnlbbjJODkI
+ 31ThPWKTS5OmHlHFpPIAgaingDPs3Dg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719554863;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=t7etucCbld6PE87n1x8j/NJlhUbmG4A1fHc19357BQ0=;
+ b=4QeBCn+Lo4rDMCnp/zm3E7ylA7bkRQfSkCxshw105Ua62Bc9ymrH3UqUIHLX9eM2m/xlpu
+ 7ryECCFOvLcwqbBg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DDUhCGbl;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uRv68Hhh
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719554861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=t7etucCbld6PE87n1x8j/NJlhUbmG4A1fHc19357BQ0=;
+ b=DDUhCGblnu7RaQCywI45P0+V39UXXfmAJ0c1ui16Puirk1NlAo6bgAefhQhb0RcGnmDgH7
+ RKgj2+C4M+VsvboAq0pEcLnD1Fk5qfPF786VZix1mGc9ay5tFKWqXU4805nB7lk3Y2VjV3
+ PY/ERHw9WnxAxIScOdWNVy1NBfnxCuY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719554861;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=t7etucCbld6PE87n1x8j/NJlhUbmG4A1fHc19357BQ0=;
+ b=uRv68Hhh8UTCxgdtC4qXAjQly/1KPPgLBO9Jx6fl2quHcGi+NX7QIHWpXqECMkMeyKtmeD
+ nqElp+ByYt3tB7CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C1F71373E;
+ Fri, 28 Jun 2024 06:07:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id uqQ8ES1TfmYSdwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Jun 2024 06:07:41 +0000
+Message-ID: <571556ed-17d2-4bcc-bb1f-fd4f827829c6@suse.de>
+Date: Fri, 28 Jun 2024 08:07:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC PATCH] drm/msm/dpu: check ubwc support before adding
- compressed formats
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/fbdev-generic: Fix framebuffer on big endian devices
+To: Thomas Huth <thuth@redhat.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-kernel@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>
+References: <20240627173530.460615-1-thuth@redhat.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, <freedreno@lists.freedesktop.org>, "Sean
- Paul" <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- "David Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
- <konrad.dybcio@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20240627205328.2912859-1-quic_abhinavk@quicinc.com>
- <CAF6AEGuGYG5mO-4KdNFbQFMA4dKj2PWT22xeh-3AFgedAG0uHw@mail.gmail.com>
- <3749ac14-54d0-fb62-345b-cef62399b6d4@quicinc.com>
- <CAA8EJppM1429sGzW6hq4QzLEjVX5Cf+8Jt5y94+VocFmPyxz+Q@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppM1429sGzW6hq4QzLEjVX5Cf+8Jt5y94+VocFmPyxz+Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: KJ2HU5jse8lKYgW_K4mAAIrqAu1xOz_W
-X-Proofpoint-ORIG-GUID: KJ2HU5jse8lKYgW_K4mAAIrqAu1xOz_W
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-28_02,2024-06-27_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0
- mlxlogscore=999 clxscore=1015 mlxscore=0 phishscore=0 impostorscore=0
- adultscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406280039
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240627173530.460615-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 8F37F1FCEB
+X-Spam-Score: -6.50
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-6.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,lists.freedesktop.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,linux-m68k.org];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[10]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,73 +155,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
+
+Am 27.06.24 um 19:35 schrieb Thomas Huth:
+> Starting with kernel 6.7, the framebuffer text console is not working
+> anymore with the virtio-gpu device on s390x hosts. Such big endian fb
+> devices are usinga different pixel ordering than little endian devices,
+> e.g. DRM_FORMAT_BGRX8888 instead of DRM_FORMAT_XRGB8888.
+>
+> This used to work fine as long as drm_client_buffer_addfb() was still
+> calling drm_mode_addfb() which called drm_driver_legacy_fb_format()
+> internally to get the right format. But drm_client_buffer_addfb() has
+> recently been reworked to call drm_mode_addfb2() instead with the
+> format value that has been passed to it as a parameter (see commit
+> 6ae2ff23aa43 ("drm/client: Convert drm_client_buffer_addfb() to drm_mode_addfb2()").
+>
+> That format parameter is determined in drm_fbdev_generic_helper_fb_probe()
+> via the drm_mode_legacy_fb_format() function - which only generates
+> formats suitable for little endian devices. So to fix this issue
+> switch to drm_driver_legacy_fb_format() here instead to take the
+> device endianness into consideration.
+>
+> Fixes: 6ae2ff23aa43 ("drm/client: Convert drm_client_buffer_addfb() to drm_mode_addfb2()")
+> Closes: https://issues.redhat.com/browse/RHEL-45158
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 
-On 6/27/2024 4:22 PM, Dmitry Baryshkov wrote:
-> On Fri, 28 Jun 2024 at 00:21, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 6/27/2024 2:13 PM, Rob Clark wrote:
->>> On Thu, Jun 27, 2024 at 1:53 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>> On QCM2290 chipset DPU does not support UBWC.
->>>>
->>>> Add a dpu cap to indicate this and do not expose compressed formats
->>>> in this case.
->>>>
->>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>> ---
->>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h | 1 +
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h          | 2 ++
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c               | 5 ++++-
->>>>    3 files changed, 7 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
->>>> index 3cbb2fe8aba2..6671f798bacc 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
->>>> @@ -12,6 +12,7 @@ static const struct dpu_caps qcm2290_dpu_caps = {
->>>>           .max_mixer_blendstages = 0x4,
->>>>           .has_dim_layer = true,
->>>>           .has_idle_pc = true,
->>>> +       .has_no_ubwc = true,
->>>>           .max_linewidth = 2160,
->>>>           .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->>>>    };
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>>> index af2ead1c4886..676d0a283922 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>>> @@ -342,6 +342,7 @@ struct dpu_rotation_cfg {
->>>>     * @has_dim_layer      dim layer feature status
->>>>     * @has_idle_pc        indicate if idle power collapse feature is supported
->>>>     * @has_3d_merge       indicate if 3D merge is supported
->>>> + * @has_no_ubwc        indicate if UBWC is supported
->>>>     * @max_linewidth      max linewidth for sspp
->>>>     * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
->>>>     * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
->>>> @@ -354,6 +355,7 @@ struct dpu_caps {
->>>>           bool has_dim_layer;
->>>>           bool has_idle_pc;
->>>>           bool has_3d_merge;
->>>> +       bool has_no_ubwc;
->>>
->>> has_no_ubwc sounds kinda awkward compared to has_ubwc.  But I guess
->>> you wanted to avoid all that churn..
->>>
->>
->> Yes I wanted to avoid modifying all the catalogs.
->>
->>> How about instead, if msm_mdss_data::ubwc_{enc,dec}_version are zero,
->>> then we know there is no ubwc support in the display.
->>>
->>
->> hmm ... should work .... I can post a v2 with this and avoid touching
->> the catalog altogether.
-> 
-> Yes, this sounds much better.
-> 
+> ---
+>   drivers/gpu/drm/drm_fbdev_generic.c | 3 ++-
 
-Ok, does this qualify for a Fixes tag too? Because exposing ubwc formats 
-on non-ubwc supported chipsets seems like a bug.
+This file is now called drm_fbdev_ttm.c in drm-misc-next. And a similar 
+patch might be necessary for drm_fbdev_dma.c. The code in 
+drm_fbdev_shmem.c apparently has it already.
+
+Best regards
+Thomas
+
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+> index 97e579c33d84..1e200d815e1a 100644
+> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+> @@ -84,7 +84,8 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+>   		    sizes->surface_width, sizes->surface_height,
+>   		    sizes->surface_bpp);
+>   
+> -	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
+> +	format = drm_driver_legacy_fb_format(dev, sizes->surface_bpp,
+> +					     sizes->surface_depth);
+>   	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
+>   					       sizes->surface_height, format);
+>   	if (IS_ERR(buffer))
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
