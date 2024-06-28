@@ -2,50 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D9B791C1D1
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 16:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3212B91C26E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 17:19:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA9C10E509;
-	Fri, 28 Jun 2024 14:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35EB110E6CC;
+	Fri, 28 Jun 2024 15:19:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WbvPFYZR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M6C41XBt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A978310E2FD
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 14:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1719586539;
- bh=DM/ExRsULnRBEi3akxLb4yY6w66qLJWjMpZ8YdfvSto=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WbvPFYZRJaK3M1ScecpKfiXTW6aD2D3Wz/EUPHJhEZcsPfro8tH8cJQXTLwIqPp4C
- qQ7xd5IvlzlQ2jnvwSOo4TIb9P/7JIZvb3td64CwMicvEqDnOADuy7f32YCWFpIFUz
- +o/+xMurr2g7uexHxGIHZ/wnXnKjLtSt6MOGPDQ1htzzhgTV6nSkiDWCh3/l8APv/l
- R3AAwvKrPYHemfLYPo61xnVkgvo7oA9SINxKDiVoK20piVJ7R0mpFI5sxSHgehbOXL
- cy/5tS5nlEuv3kqo6JN0CFP+lcPuHXjcGxUTKgsw64zKV9NCG5x8HoyhRBFnTSZ4uH
- rYIoVAHbJFPjg==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0629F37821FF;
- Fri, 28 Jun 2024 14:55:38 +0000 (UTC)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
-	kernel@collabora.com
-Subject: [PATCH 2/2] drm/panthor: Fix sync-only jobs
-Date: Fri, 28 Jun 2024 16:55:36 +0200
-Message-ID: <20240628145536.778349-3-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240628145536.778349-1-boris.brezillon@collabora.com>
-References: <20240628145536.778349-1-boris.brezillon@collabora.com>
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 746B210E129;
+ Fri, 28 Jun 2024 15:19:29 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2c927152b4bso511168a91.2; 
+ Fri, 28 Jun 2024 08:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1719587969; x=1720192769; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Pmjri7yaLe7QXW9juAdGl9QopQ/cO6H/4cwPORHxTGQ=;
+ b=M6C41XBtHh8vC6qH4lMWR3V/UCM2QEI3/oBsBv6dF3smen4EfcB9AytXEIEUJeLCPw
+ vSJa7dKErLQSTfIwgDb2nwhJ3nuTlraNt/2LICybfyJS88WjXfwSibsk+HwA82uqqWQS
+ O1Zn03ExeYd9LIAifn9sLYgEUh2T3zI+I2MxqJBxolsr78dWR1e5ErCnRuJf+jBkUqHO
+ qwUjSnBmIJTNqzy4dOBr8PzOBar1yDN10n9W9B+vIfTJlmfCPoPzvwBS2w3EKvBa40Mq
+ gsBOqBjaBh941Kn7PDlisra4cg9hXUwG0LR2QDmKAMJclf+PeLrc08NniRhZTV5bcihl
+ 7pXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719587969; x=1720192769;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Pmjri7yaLe7QXW9juAdGl9QopQ/cO6H/4cwPORHxTGQ=;
+ b=hxAPiXY6ROL032eqCpeICm0iGzXn9b8VxbGKq3n1b/2qx3N4RmQX3YgwgFOSSeKvT+
+ 2+Ou1fbd3QMsO+AUmtXT37mY/AsIeVxM+cYc8mr6G/dzPyfp6mL/fraz1C7g40fC/JK5
+ 9FtzoU3BpU2kwIvyPrgR09Z1wYSb72eSuKfgy4oVeqbAaQORRMv/ixoTzIfXT5Xs0RW5
+ FYczzlr6y7siQda5+KTBTOUIcpxRZkNSZwAW/Vzyoy4gRe15rm+ixzmC1hqJ6qutSb3i
+ Cja64Wfdx5u6kpZTe0tSOcW0rxeRcgNqplVITLcywTQL9X27eCPEcbu9/NadGwigcX2w
+ hY+g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW4X3ph/uruKt9K0ss/VT5e4gGoQ2DlOz9deJ+LFNC0PQyRSdWrBkpkuUEvaergu2QWnmdzjDJggnidaOBAZH2GudxfANFJsBLLGdTyenO9fX6lJLfuNKd4gBBtOjK/mfH019esZEvvExvJrNgo6g==
+X-Gm-Message-State: AOJu0Yw1tjalQ0HhPXZkCCt+DNnlFQ4qNP3jXIzI+Yjv0vpqZ5gGmYRf
+ e5qiRKrqX3CG/6XzoOtmoBuHAeko9GoMW2V9Hix+3SReUlW75Kx7IlybUbFOKZSTORxJB42LEBh
+ uXOVEV9gnKX6XaDavuR34sRw4xVM=
+X-Google-Smtp-Source: AGHT+IFl/ePdhUfWsByY453UJoZtJx+hjy/QQ0/MmsxXqE51xtMz7GT1s16IgCAaFz1nVwJbQE6MR1Er5Iz8x1FG1QA=
+X-Received: by 2002:a17:90a:6885:b0:2c7:e24d:f695 with SMTP id
+ 98e67ed59e1d1-2c861246b47mr15446562a91.12.1719587968869; Fri, 28 Jun 2024
+ 08:19:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
+ <CADnq5_PDxJ8O1JUQ9RBYRFB9G1WZJos05ZAM4jUKuPBwPxjNkA@mail.gmail.com>
+ <CABXGCsNN9LwHc2x2AAEH=5UNwpvkWkBqRYz3OP8MZ6Woy+HDXA@mail.gmail.com>
+ <b6c440ca-e63e-429b-af41-5f27d4b8b2a2@leemhuis.info>
+ <CABXGCsNoFfMn7LaqqFgEPg-ECyUPN=f=SXVrFi=GZk6c69-Gqw@mail.gmail.com>
+In-Reply-To: <CABXGCsNoFfMn7LaqqFgEPg-ECyUPN=f=SXVrFi=GZk6c69-Gqw@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 28 Jun 2024 11:19:16 -0400
+Message-ID: <CADnq5_PDSkr4hOHJmb1J30UC0a7sXsm5-TPkEmjzffMK_A+7ug@mail.gmail.com>
+Subject: Re: 6.10/bisected/regression - commits bc87d666c05 and 6d4279cb99ac
+ cause appearing green flashing bar on top of screen on Radeon 6900XT and 120Hz
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, "Mahfooz,
+ Hamza" <Hamza.Mahfooz@amd.com>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Rodrigo.Siqueira@amd.com, 
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,122 +89,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A sync-only job is meant to provide a synchronization point on a
-queue, so we can't return a NULL fence there, we have to add a signal
-operation to the command stream which executes after all other
-previously submitted jobs are done.
+On Fri, Jun 21, 2024 at 6:45=E2=80=AFAM Mikhail Gavrilov
+<mikhail.v.gavrilov@gmail.com> wrote:
+>
+> On Fri, Jun 21, 2024 at 12:56=E2=80=AFPM Linux regression tracking (Thors=
+ten
+> Leemhuis) <regressions@leemhuis.info> wrote:
+> > Hmmm, I might have missed something, but it looks like nothing happened
+> > here since then. What's the status? Is the issue still happening?
+>
+> Yes. Tested on e5b3efbe1ab1.
+>
+> I spotted that the problem disappears after forcing the TV to sleep
+> (activate screensaver <Super> + <L>) and then wake it up by pressing
+> any button and entering a password.
+> Hope this information can't help figure out how to fix it.
 
-Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 41 ++++++++++++++++++++-----
- include/uapi/drm/panthor_drm.h          |  5 +++
- 2 files changed, 38 insertions(+), 8 deletions(-)
+@Siqueira, Rodrigo @Mahfooz, Hamza any ideas?
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 79ffcbc41d78..951ff7e63ea8 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -458,6 +458,16 @@ struct panthor_queue {
- 		/** @seqno: Sequence number of the last initialized fence. */
- 		atomic64_t seqno;
- 
-+		/**
-+		 * @last_fence: Fence of the last submitted job.
-+		 *
-+		 * We return this fence when we get an empty command stream.
-+		 * This way, we are guaranteed that all earlier jobs have completed
-+		 * when drm_sched_job::s_fence::finished without having to feed
-+		 * the CS ring buffer with a dummy job that only signals the fence.
-+		 */
-+		struct dma_fence *last_fence;
-+
- 		/**
- 		 * @in_flight_jobs: List containing all in-flight jobs.
- 		 *
-@@ -829,6 +839,9 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
- 	panthor_kernel_bo_destroy(queue->ringbuf);
- 	panthor_kernel_bo_destroy(queue->iface.mem);
- 
-+	/* Release the last_fence we were holding, if any. */
-+	dma_fence_put(queue->fence_ctx.last_fence);
-+
- 	kfree(queue);
- }
- 
-@@ -2865,11 +2878,14 @@ queue_run_job(struct drm_sched_job *sched_job)
- 	static_assert(sizeof(call_instrs) % 64 == 0,
- 		      "call_instrs is not aligned on a cacheline");
- 
--	/* Stream size is zero, nothing to do => return a NULL fence and let
--	 * drm_sched signal the parent.
-+	/* Stream size is zero, nothing to do except making sure all previously
-+	 * submitted jobs are done before we signal the
-+	 * drm_sched_job::s_fence::finished fence.
- 	 */
--	if (!job->call_info.size)
--		return NULL;
-+	if (!job->call_info.size) {
-+		job->done_fence = dma_fence_get(queue->fence_ctx.last_fence);
-+		return job->done_fence;
-+	}
- 
- 	ret = pm_runtime_resume_and_get(ptdev->base.dev);
- 	if (drm_WARN_ON(&ptdev->base, ret))
-@@ -2928,6 +2944,10 @@ queue_run_job(struct drm_sched_job *sched_job)
- 		}
- 	}
- 
-+	/* Update the last fence. */
-+	dma_fence_put(queue->fence_ctx.last_fence);
-+	queue->fence_ctx.last_fence = dma_fence_get(job->done_fence);
-+
- 	done_fence = dma_fence_get(job->done_fence);
- 
- out_unlock:
-@@ -3378,10 +3398,15 @@ panthor_job_create(struct panthor_file *pfile,
- 		goto err_put_job;
- 	}
- 
--	job->done_fence = kzalloc(sizeof(*job->done_fence), GFP_KERNEL);
--	if (!job->done_fence) {
--		ret = -ENOMEM;
--		goto err_put_job;
-+	/* Empty command streams don't need a fence, they'll pick the one from
-+	 * the previously submitted job.
-+	 */
-+	if (job->call_info.size) {
-+		job->done_fence = kzalloc(sizeof(*job->done_fence), GFP_KERNEL);
-+		if (!job->done_fence) {
-+			ret = -ENOMEM;
-+			goto err_put_job;
-+		}
- 	}
- 
- 	ret = drm_sched_job_init(&job->base,
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index aaed8e12ad0b..926b1deb1116 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -802,6 +802,9 @@ struct drm_panthor_queue_submit {
- 	 * Must be 64-bit/8-byte aligned (the size of a CS instruction)
- 	 *
- 	 * Can be zero if stream_addr is zero too.
-+	 *
-+	 * When the stream size is zero, the queue submit serves as a
-+	 * synchronization point.
- 	 */
- 	__u32 stream_size;
- 
-@@ -822,6 +825,8 @@ struct drm_panthor_queue_submit {
- 	 * ensure the GPU doesn't get garbage when reading the indirect command
- 	 * stream buffers. If you want the cache flush to happen
- 	 * unconditionally, pass a zero here.
-+	 *
-+	 * Ignored when stream_size is zero.
- 	 */
- 	__u32 latest_flush;
- 
--- 
-2.45.0
-
+Alex
