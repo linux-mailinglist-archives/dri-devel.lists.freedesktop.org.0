@@ -2,78 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3212B91C26E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 17:19:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8341C91C2BE
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 17:39:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35EB110E6CC;
-	Fri, 28 Jun 2024 15:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9142D10EC76;
+	Fri, 28 Jun 2024 15:39:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M6C41XBt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BpJ0GVVG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 746B210E129;
- Fri, 28 Jun 2024 15:19:29 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-2c927152b4bso511168a91.2; 
- Fri, 28 Jun 2024 08:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719587969; x=1720192769; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Pmjri7yaLe7QXW9juAdGl9QopQ/cO6H/4cwPORHxTGQ=;
- b=M6C41XBtHh8vC6qH4lMWR3V/UCM2QEI3/oBsBv6dF3smen4EfcB9AytXEIEUJeLCPw
- vSJa7dKErLQSTfIwgDb2nwhJ3nuTlraNt/2LICybfyJS88WjXfwSibsk+HwA82uqqWQS
- O1Zn03ExeYd9LIAifn9sLYgEUh2T3zI+I2MxqJBxolsr78dWR1e5ErCnRuJf+jBkUqHO
- qwUjSnBmIJTNqzy4dOBr8PzOBar1yDN10n9W9B+vIfTJlmfCPoPzvwBS2w3EKvBa40Mq
- gsBOqBjaBh941Kn7PDlisra4cg9hXUwG0LR2QDmKAMJclf+PeLrc08NniRhZTV5bcihl
- 7pXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719587969; x=1720192769;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Pmjri7yaLe7QXW9juAdGl9QopQ/cO6H/4cwPORHxTGQ=;
- b=hxAPiXY6ROL032eqCpeICm0iGzXn9b8VxbGKq3n1b/2qx3N4RmQX3YgwgFOSSeKvT+
- 2+Ou1fbd3QMsO+AUmtXT37mY/AsIeVxM+cYc8mr6G/dzPyfp6mL/fraz1C7g40fC/JK5
- 9FtzoU3BpU2kwIvyPrgR09Z1wYSb72eSuKfgy4oVeqbAaQORRMv/ixoTzIfXT5Xs0RW5
- FYczzlr6y7siQda5+KTBTOUIcpxRZkNSZwAW/Vzyoy4gRe15rm+ixzmC1hqJ6qutSb3i
- Cja64Wfdx5u6kpZTe0tSOcW0rxeRcgNqplVITLcywTQL9X27eCPEcbu9/NadGwigcX2w
- hY+g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW4X3ph/uruKt9K0ss/VT5e4gGoQ2DlOz9deJ+LFNC0PQyRSdWrBkpkuUEvaergu2QWnmdzjDJggnidaOBAZH2GudxfANFJsBLLGdTyenO9fX6lJLfuNKd4gBBtOjK/mfH019esZEvvExvJrNgo6g==
-X-Gm-Message-State: AOJu0Yw1tjalQ0HhPXZkCCt+DNnlFQ4qNP3jXIzI+Yjv0vpqZ5gGmYRf
- e5qiRKrqX3CG/6XzoOtmoBuHAeko9GoMW2V9Hix+3SReUlW75Kx7IlybUbFOKZSTORxJB42LEBh
- uXOVEV9gnKX6XaDavuR34sRw4xVM=
-X-Google-Smtp-Source: AGHT+IFl/ePdhUfWsByY453UJoZtJx+hjy/QQ0/MmsxXqE51xtMz7GT1s16IgCAaFz1nVwJbQE6MR1Er5Iz8x1FG1QA=
-X-Received: by 2002:a17:90a:6885:b0:2c7:e24d:f695 with SMTP id
- 98e67ed59e1d1-2c861246b47mr15446562a91.12.1719587968869; Fri, 28 Jun 2024
- 08:19:28 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83B5510EC76;
+ Fri, 28 Jun 2024 15:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719589142; x=1751125142;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=xM6QEDnEHb0eGKhPRa9JU/tOf388B5JYNkLW7Kv0I6c=;
+ b=BpJ0GVVG1XTvqoTmzJOkH+9WGZx7zMJ11648G8gs30sysB9QRf0Y3mFi
+ C6Ha1QGFVZ88v918ykP9+D0lQveDYeCxm80wkBauS0Qy8mHmPTimqrr73
+ w1vBJHJI7gPmtzVU6TzuMZ+zqfd7GsIUB7u7mpv2ggi4H+zvwryZtJFp9
+ 21zOwu/TT5nOTz1LcWtvmJs38T75TitaOdbrYWO9aqM4rWoQi1wkZ+ZZs
+ L3rdDPceikJI4XdOczB7xnaktoR2jQamgCpWl6y0+U617ZpX1v2TBqtZ3
+ zzFnsmR8/K+yEJnp8YMxuHi924s3XtQqtWH99T+U9aRhNMH2If5XlF1ra g==;
+X-CSE-ConnectionGUID: wiD88UePRJCdFHXMSafmCg==
+X-CSE-MsgGUID: NZf5t8K9Ty2DQIxOo+0nHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16612346"
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="16612346"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 08:39:02 -0700
+X-CSE-ConnectionGUID: J+zJks8NRACER40P2JkL6Q==
+X-CSE-MsgGUID: ydQfAkoeTKSDkRnQoEIsUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="45517890"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
+ fedora..) ([10.245.245.182])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 08:39:00 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/ttm: Always take the bo delayed cleanup path for imported
+ bos
+Date: Fri, 28 Jun 2024 17:38:48 +0200
+Message-ID: <20240628153848.4989-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
- <CADnq5_PDxJ8O1JUQ9RBYRFB9G1WZJos05ZAM4jUKuPBwPxjNkA@mail.gmail.com>
- <CABXGCsNN9LwHc2x2AAEH=5UNwpvkWkBqRYz3OP8MZ6Woy+HDXA@mail.gmail.com>
- <b6c440ca-e63e-429b-af41-5f27d4b8b2a2@leemhuis.info>
- <CABXGCsNoFfMn7LaqqFgEPg-ECyUPN=f=SXVrFi=GZk6c69-Gqw@mail.gmail.com>
-In-Reply-To: <CABXGCsNoFfMn7LaqqFgEPg-ECyUPN=f=SXVrFi=GZk6c69-Gqw@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 28 Jun 2024 11:19:16 -0400
-Message-ID: <CADnq5_PDSkr4hOHJmb1J30UC0a7sXsm5-TPkEmjzffMK_A+7ug@mail.gmail.com>
-Subject: Re: 6.10/bisected/regression - commits bc87d666c05 and 6d4279cb99ac
- cause appearing green flashing bar on top of screen on Radeon 6900XT and 120Hz
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, "Mahfooz,
- Hamza" <Hamza.Mahfooz@amd.com>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Rodrigo.Siqueira@amd.com, 
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,22 +71,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 21, 2024 at 6:45=E2=80=AFAM Mikhail Gavrilov
-<mikhail.v.gavrilov@gmail.com> wrote:
->
-> On Fri, Jun 21, 2024 at 12:56=E2=80=AFPM Linux regression tracking (Thors=
-ten
-> Leemhuis) <regressions@leemhuis.info> wrote:
-> > Hmmm, I might have missed something, but it looks like nothing happened
-> > here since then. What's the status? Is the issue still happening?
->
-> Yes. Tested on e5b3efbe1ab1.
->
-> I spotted that the problem disappears after forcing the TV to sleep
-> (activate screensaver <Super> + <L>) and then wake it up by pressing
-> any button and entering a password.
-> Hope this information can't help figure out how to fix it.
+Bos can be put with multiple unrelated dma-resv locks held. But
+imported bos attempt to grab the bo dma-resv during dma-buf detach
+that typically happens during cleanup. That leads to lockde splats
+similar to the below and a potential ABBA deadlock.
 
-@Siqueira, Rodrigo @Mahfooz, Hamza any ideas?
+Fix this by always taking the delayed workqueue cleanup path for
+imported bos.
 
-Alex
+Requesting stable fixes from when the Xe driver was introduced,
+since its usage of drm_exec and wide vm dma_resvs appear to be
+the first reliable trigger of this.
+
+[22982.116427] ============================================
+[22982.116428] WARNING: possible recursive locking detected
+[22982.116429] 6.10.0-rc2+ #10 Tainted: G     U  W
+[22982.116430] --------------------------------------------
+[22982.116430] glxgears:sh0/5785 is trying to acquire lock:
+[22982.116431] ffff8c2bafa539a8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: dma_buf_detach+0x3b/0xf0
+[22982.116438]
+               but task is already holding lock:
+[22982.116438] ffff8c2d9aba6da8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x49/0x2b0 [drm_exec]
+[22982.116442]
+               other info that might help us debug this:
+[22982.116442]  Possible unsafe locking scenario:
+
+[22982.116443]        CPU0
+[22982.116444]        ----
+[22982.116444]   lock(reservation_ww_class_mutex);
+[22982.116445]   lock(reservation_ww_class_mutex);
+[22982.116447]
+                *** DEADLOCK ***
+
+[22982.116447]  May be due to missing lock nesting notation
+
+[22982.116448] 5 locks held by glxgears:sh0/5785:
+[22982.116449]  #0: ffff8c2d9aba58c8 (&xef->vm.lock){+.+.}-{3:3}, at: xe_file_close+0xde/0x1c0 [xe]
+[22982.116507]  #1: ffff8c2e28cc8480 (&vm->lock){++++}-{3:3}, at: xe_vm_close_and_put+0x161/0x9b0 [xe]
+[22982.116578]  #2: ffff8c2e31982970 (&val->lock){.+.+}-{3:3}, at: xe_validation_ctx_init+0x6d/0x70 [xe]
+[22982.116647]  #3: ffffacdc469478a8 (reservation_ww_class_acquire){+.+.}-{0:0}, at: xe_vma_destroy_unlocked+0x7f/0xe0 [xe]
+[22982.116716]  #4: ffff8c2d9aba6da8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x49/0x2b0 [drm_exec]
+[22982.116719]
+               stack backtrace:
+[22982.116720] CPU: 8 PID: 5785 Comm: glxgears:sh0 Tainted: G     U  W          6.10.0-rc2+ #10
+[22982.116721] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 2001 02/01/2023
+[22982.116723] Call Trace:
+[22982.116724]  <TASK>
+[22982.116725]  dump_stack_lvl+0x77/0xb0
+[22982.116727]  __lock_acquire+0x1232/0x2160
+[22982.116730]  lock_acquire+0xcb/0x2d0
+[22982.116732]  ? dma_buf_detach+0x3b/0xf0
+[22982.116734]  ? __lock_acquire+0x417/0x2160
+[22982.116736]  __ww_mutex_lock.constprop.0+0xd0/0x13b0
+[22982.116738]  ? dma_buf_detach+0x3b/0xf0
+[22982.116741]  ? dma_buf_detach+0x3b/0xf0
+[22982.116743]  ? ww_mutex_lock+0x2b/0x90
+[22982.116745]  ww_mutex_lock+0x2b/0x90
+[22982.116747]  dma_buf_detach+0x3b/0xf0
+[22982.116749]  drm_prime_gem_destroy+0x2f/0x40 [drm]
+[22982.116775]  xe_ttm_bo_destroy+0x32/0x220 [xe]
+[22982.116818]  ? __mutex_unlock_slowpath+0x3a/0x290
+[22982.116821]  drm_exec_unlock_all+0xa1/0xd0 [drm_exec]
+[22982.116823]  drm_exec_fini+0x12/0xb0 [drm_exec]
+[22982.116824]  xe_validation_ctx_fini+0x15/0x40 [xe]
+[22982.116892]  xe_vma_destroy_unlocked+0xb1/0xe0 [xe]
+[22982.116959]  xe_vm_close_and_put+0x41a/0x9b0 [xe]
+[22982.117025]  ? xa_find+0xe3/0x1e0
+[22982.117028]  xe_file_close+0x10a/0x1c0 [xe]
+[22982.117074]  drm_file_free+0x22a/0x280 [drm]
+[22982.117099]  drm_release_noglobal+0x22/0x70 [drm]
+[22982.117119]  __fput+0xf1/0x2d0
+[22982.117122]  task_work_run+0x59/0x90
+[22982.117125]  do_exit+0x330/0xb40
+[22982.117127]  do_group_exit+0x36/0xa0
+[22982.117129]  get_signal+0xbd2/0xbe0
+[22982.117131]  arch_do_signal_or_restart+0x3e/0x240
+[22982.117134]  syscall_exit_to_user_mode+0x1e7/0x290
+[22982.117137]  do_syscall_64+0xa1/0x180
+[22982.117139]  ? lock_acquire+0xcb/0x2d0
+[22982.117140]  ? __set_task_comm+0x28/0x1e0
+[22982.117141]  ? find_held_lock+0x2b/0x80
+[22982.117144]  ? __set_task_comm+0xe1/0x1e0
+[22982.117145]  ? lock_release+0xca/0x290
+[22982.117147]  ? __do_sys_prctl+0x245/0xab0
+[22982.117149]  ? lockdep_hardirqs_on_prepare+0xde/0x190
+[22982.117150]  ? syscall_exit_to_user_mode+0xb0/0x290
+[22982.117152]  ? do_syscall_64+0xa1/0x180
+[22982.117154]  ? __lock_acquire+0x417/0x2160
+[22982.117155]  ? reacquire_held_locks+0xd1/0x1f0
+[22982.117156]  ? do_user_addr_fault+0x30c/0x790
+[22982.117158]  ? lock_acquire+0xcb/0x2d0
+[22982.117160]  ? find_held_lock+0x2b/0x80
+[22982.117162]  ? do_user_addr_fault+0x357/0x790
+[22982.117163]  ? lock_release+0xca/0x290
+[22982.117164]  ? do_user_addr_fault+0x361/0x790
+[22982.117166]  ? trace_hardirqs_off+0x4b/0xc0
+[22982.117168]  ? clear_bhb_loop+0x45/0xa0
+[22982.117170]  ? clear_bhb_loop+0x45/0xa0
+[22982.117172]  ? clear_bhb_loop+0x45/0xa0
+[22982.117174]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[22982.117176] RIP: 0033:0x7f943d267169
+[22982.117192] Code: Unable to access opcode bytes at 0x7f943d26713f.
+[22982.117193] RSP: 002b:00007f9430bffc80 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
+[22982.117195] RAX: fffffffffffffe00 RBX: 0000000000000000 RCX: 00007f943d267169
+[22982.117196] RDX: 0000000000000000 RSI: 0000000000000189 RDI: 00005622f89579d0
+[22982.117197] RBP: 00007f9430bffcb0 R08: 0000000000000000 R09: 00000000ffffffff
+[22982.117198] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+[22982.117199] R13: 0000000000000000 R14: 0000000000000000 R15: 00005622f89579d0
+[22982.117202]  </TASK>
+
+Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.8+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 6396dece0db1..2427be8bc97f 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -346,6 +346,7 @@ static void ttm_bo_release(struct kref *kref)
+ 		if (!dma_resv_test_signaled(bo->base.resv,
+ 					    DMA_RESV_USAGE_BOOKKEEP) ||
+ 		    (want_init_on_free() && (bo->ttm != NULL)) ||
++		    bo->type == ttm_bo_type_sg ||
+ 		    !dma_resv_trylock(bo->base.resv)) {
+ 			/* The BO is not idle, resurrect it for delayed destroy */
+ 			ttm_bo_flush_all_fences(bo);
+-- 
+2.44.0
+
