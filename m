@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAFC91B387
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 02:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35F091B39D
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 02:34:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE56410EB72;
-	Fri, 28 Jun 2024 00:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9C9C10EB97;
+	Fri, 28 Jun 2024 00:34:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="vBg1rflM";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="jhS/SsL9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com
- [209.85.215.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 576BD10E518
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 00:33:19 +0000 (UTC)
-Received: by mail-pg1-f202.google.com with SMTP id
- 41be03b00d2f7-71a56a55252so37666a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 17:33:19 -0700 (PDT)
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
+ [209.85.216.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7C810E518
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 00:33:21 +0000 (UTC)
+Received: by mail-pj1-f74.google.com with SMTP id
+ 98e67ed59e1d1-2c7a68c3a85so123423a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 17:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1719534799; x=1720139599;
+ d=google.com; s=20230601; t=1719534801; x=1720139601;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=ljtto+RFffh11FtU/s940gt28hefv+VegNUoQCe2g7Q=;
- b=vBg1rflM7CvrID+cgfcvZLqkDUHegbojzV+SV8eHTnx6iKp7NNGH6bI6ZJIQJYt2qT
- Y4T98nQfhvxt/R2GUnyrbqFrN9XU5tqdIedrHE5YdO9L0bg6fcdddme1CJeIRhQ3Cn7P
- lQYjl0jYN0T0gw7++h10wmCR0oNSwKEz6jQl0fS2Vh8zb7HVUMb+nwh1dsivEOvfWScn
- hZoX/P3CO63qmHKOSgSMb3l5AlfUqFV97MeR2Iqej5ZDmj/l9nzDzPs71sTsTVLSuCxD
- VcL0biM3ojYaLlg7oLuna1ZduKCYA21eIflb7oCgSyGSHCbmrYsRAuaxnov+c+OaIc29
- yzBA==
+ bh=HtAkC7dc7eD7owfI6upy3bTZg9Fqg9IfLoFV+/ACewo=;
+ b=jhS/SsL9Dd6Qco/ntXtXdHU2j60zJdA5db69qIYcaX3CaZVig4hPP+3hhVTUkvWX2e
+ NtZfS5FdOrZI0zBpU5eq59TVoIbYc3KeTyX/SWlm1KGOPC7ySxaHRE4bu+BGwVBhdy2f
+ Mc5SpEl/bPIQxVt3nE100xTmHaCqeBqhE7k9UOx42xfhXfAzYtjJbIo2Sfo5qfKWm84t
+ CWur5kOdtCETOl4JsrZVIQ+VmLZoHQZifPIZ0uhH6H06ugm2tkiMkyvL1qkE9uviJZto
+ Bu6RvPHBeaND7mQTjpqJMWb9u0A5CvWcqWhSAYRkhwbZDiDZoOu6nderpzplnR5KQxln
+ sTfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719534799; x=1720139599;
+ d=1e100.net; s=20230601; t=1719534801; x=1720139601;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ljtto+RFffh11FtU/s940gt28hefv+VegNUoQCe2g7Q=;
- b=U32pUj4AUIaJPiDbs9/T6PxHmCTsMMUy787rg1hzhihBlbGVUscmcf7TeEdfu4Dl7M
- P9MtpvxAuckscguXPnkqfPyuw2phoLK83MAYivkJdqzYWq6G19alU6/ZH5h8zVICwqnH
- x/ptu8PDLaC4B/weHhDhQH+7SatQL8rNSbbliZHy2Q/q+F/iYp89qXY19yuYX5/M2tF1
- gF/jG1wuTGVuWkoSvbac4P/LoGXw2qgASmX57XxRYPAF+nSxQHYRFkciVZ4jy9M3dmv5
- chfY0T0b7lrx/NzAExxwIhWXUAr1BALaRPj0kumb3mv95H0OxFjMoAYv0FRGS/mxRVPm
- xIKg==
+ bh=HtAkC7dc7eD7owfI6upy3bTZg9Fqg9IfLoFV+/ACewo=;
+ b=nQ0k9DJt7aZoPIo2/VdZEOlIlESs/ff6vBT8aPrnkckiSvt4TXnM+X0yw9AeAWSVlQ
+ JSOW74xGakmv9xvFyoSoer4ngYN31F1By+SRz/3Zs1CEejslY5OM7Q3uMvSByxLkWACH
+ RGvS22cKCU+aqTY7FYX6S/Qqd9cMKeML7G2fao11MIvr8+yAOEIggQkwd+5rrefhxCji
+ CjzrLuKI9t34BKb7P1mQNl7Ev4u4PaG5hd1fOlDhhBxX+J7PPfCUHq1w1FY0hj0/QCyU
+ RlscbCRv2w+ZzATREFwZZwERQbUs2l2yCQ2/69Ntxe+oRr9Qoc0kymPaPLgBSQhOsSxc
+ CZGg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUNg4LDoZLyXLDnzaQSVqKagDOmj286+rrlFjAA8TRlrqKAaOyPZrvpAIxP5ALXOtBHikrjPDYX3Krf+u48HWXpZpNLfFHGJXZTCT5TudCJ
-X-Gm-Message-State: AOJu0YxSNDvNYLvspV+wJnY0tkRWjxwPIY2KsOssyk43IMYp6AK1n/m0
- YyV/shM69Lj94Iws+qt46Vz0iD4JGaTwcVAeRVxvLxddlp5yG/S+Og+kQKlhzGa9zHmm0mjPfLq
- 1lxaP0YJLkbxfwK8Wn/mJNw==
-X-Google-Smtp-Source: AGHT+IHXYJNtIQ5N9F5KytjG9W4ambZD1dl6GvXzMbwFsawpDVt2eS85RUAlpsidGlrm2B8g9AE05ajNX2g0RLwjmw==
+ AJvYcCVTepssOqJG2H7dD7PdO6+Yg4tJNYNRopAo1TSPuyfBuOHSOsO6NSpKUTJohpPFg2Or6aEMlVf4T1wBt0XA8x+xoUf/PdW2Bbs0Kq7Ml8fz
+X-Gm-Message-State: AOJu0YzvQastK+w3g/jqBQfE3tFHVb3LbrgKCj6G6k56DP7hiDOatkJq
+ 8bugtql7UTYUFoL6Ejxrvl6e0Z5wy/D9q60C0TpuE7QObvkcrv2GDtYqxNyhNOtHbddwNSvv0J5
+ pcKe2fI8hsilUsYaQ6NNhlw==
+X-Google-Smtp-Source: AGHT+IGLRaLTSytcMUc42cO5VbPk30udJR/OWLWuA3cZvbicGZ/TcfoTV4BSYF/3gyDoC1Kg15GgKgYZNfdRX/OyyQ==
 X-Received: from almasrymina.c.googlers.com
  ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
- (user=almasrymina job=sendgmr) by 2002:a63:3d43:0:b0:71a:1f6f:1d0f with SMTP
- id 41be03b00d2f7-71b5c3db10amr46023a12.6.1719534798544; Thu, 27 Jun 2024
- 17:33:18 -0700 (PDT)
-Date: Fri, 28 Jun 2024 00:32:49 +0000
+ (user=almasrymina job=sendgmr) by 2002:a17:90a:6fa4:b0:2c4:bb9e:fcdc with
+ SMTP id 98e67ed59e1d1-2c86144e0femr168873a91.9.1719534800464; Thu, 27 Jun
+ 2024 17:33:20 -0700 (PDT)
+Date: Fri, 28 Jun 2024 00:32:50 +0000
 In-Reply-To: <20240628003253.1694510-1-almasrymina@google.com>
 Mime-Version: 1.0
 References: <20240628003253.1694510-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
-Message-ID: <20240628003253.1694510-13-almasrymina@google.com>
-Subject: [PATCH net-next v15 12/14] net: add devmem TCP documentation
+Message-ID: <20240628003253.1694510-14-almasrymina@google.com>
+Subject: [PATCH net-next v15 13/14] tools: net: package libynl for use in
+ selftests
 From: Mina Almasry <almasrymina@google.com>
 To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
@@ -123,309 +124,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation outlining the usage and details of devmem TCP.
+From: Jakub Kicinski <kuba@kernel.org>
 
+Support building the C YNL userspace library into one big static file.
+We can then link selftests against it for easy to use C netlink
+interface.
+
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 Signed-off-by: Mina Almasry <almasrymina@google.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 ---
 
-v9: https://lore.kernel.org/netdev/20240403002053.2376017-14-almasrymina@google.com/
-- Bagas doc suggestions.
-
-v8:
-- Applied docs suggestions (Randy). Thanks!
-
-v7:
-- Applied docs suggestions (Jakub).
-
-v2:
-
-- Missing spdx (simon)
-- add to index.rst (simon)
-
+v15:
+- Added this patch from Jakub to fix linking against ynl.
+- Squashed fix from Jakub to support O=xyz builds.
 ---
- Documentation/networking/devmem.rst | 258 ++++++++++++++++++++++++++++
- Documentation/networking/index.rst  |   1 +
- 2 files changed, 259 insertions(+)
- create mode 100644 Documentation/networking/devmem.rst
+ tools/net/ynl/Makefile             |  6 +++++-
+ tools/net/ynl/lib/Makefile         |  4 +++-
+ tools/testing/selftests/net/ynl.mk | 21 +++++++++++++++++++++
+ 3 files changed, 29 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/net/ynl.mk
 
-diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
+diff --git a/tools/net/ynl/Makefile b/tools/net/ynl/Makefile
+index 8e9e09d84e269..d1cdf2a8f8266 100644
+--- a/tools/net/ynl/Makefile
++++ b/tools/net/ynl/Makefile
+@@ -2,9 +2,12 @@
+ 
+ SUBDIRS = lib generated samples
+ 
+-all: $(SUBDIRS)
++all: $(SUBDIRS) libynl.a
+ 
+ samples: | lib generated
++libynl.a: | lib generated
++	@echo -e "\tAR $@"
++	@ar rcs $@ lib/ynl.o generated/*-user.o
+ 
+ $(SUBDIRS):
+ 	@if [ -f "$@/Makefile" ] ; then \
+@@ -17,5 +20,6 @@ clean distclean:
+ 			$(MAKE) -C $$dir $@; \
+ 		fi \
+ 	done
++	rm -f libynl.a
+ 
+ .PHONY: all clean distclean $(SUBDIRS)
+diff --git a/tools/net/ynl/lib/Makefile b/tools/net/ynl/lib/Makefile
+index dfff3ecd1cbab..2887cc5de530f 100644
+--- a/tools/net/ynl/lib/Makefile
++++ b/tools/net/ynl/lib/Makefile
+@@ -14,7 +14,9 @@ include $(wildcard *.d)
+ all: ynl.a
+ 
+ ynl.a: $(OBJS)
+-	ar rcs $@ $(OBJS)
++	@echo -e "\tAR $@"
++	@ar rcs $@ $(OBJS)
++
+ clean:
+ 	rm -f *.o *.d *~
+ 	rm -rf __pycache__
+diff --git a/tools/testing/selftests/net/ynl.mk b/tools/testing/selftests/net/ynl.mk
 new file mode 100644
-index 0000000000000..f32acfd62075d
+index 0000000000000..59cb26cf3f738
 --- /dev/null
-+++ b/Documentation/networking/devmem.rst
-@@ -0,0 +1,258 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================
-+Device Memory TCP
-+=================
-+
-+
-+Intro
-+=====
-+
-+Device memory TCP (devmem TCP) enables receiving data directly into device
-+memory (dmabuf). The feature is currently implemented for TCP sockets.
-+
-+
-+Opportunity
-+-----------
-+
-+A large number of data transfers have device memory as the source and/or
-+destination. Accelerators drastically increased the prevalence of such
-+transfers.  Some examples include:
-+
-+- Distributed training, where ML accelerators, such as GPUs on different hosts,
-+  exchange data.
-+
-+- Distributed raw block storage applications transfer large amounts of data with
-+  remote SSDs. Much of this data does not require host processing.
-+
-+Typically the Device-to-Device data transfers in the network are implemented as
-+the following low-level operations: Device-to-Host copy, Host-to-Host network
-+transfer, and Host-to-Device copy.
-+
-+The flow involving host copies is suboptimal, especially for bulk data transfers,
-+and can put significant strains on system resources such as host memory
-+bandwidth and PCIe bandwidth.
-+
-+Devmem TCP optimizes this use case by implementing socket APIs that enable
-+the user to receive incoming network packets directly into device memory.
-+
-+Packet payloads go directly from the NIC to device memory.
-+
-+Packet headers go to host memory and are processed by the TCP/IP stack
-+normally. The NIC must support header split to achieve this.
-+
-+Advantages:
-+
-+- Alleviate host memory bandwidth pressure, compared to existing
-+  network-transfer + device-copy semantics.
-+
-+- Alleviate PCIe bandwidth pressure, by limiting data transfer to the lowest
-+  level of the PCIe tree, compared to the traditional path which sends data
-+  through the root complex.
-+
-+
-+More Info
-+---------
-+
-+  slides, video
-+    https://netdevconf.org/0x17/sessions/talk/device-memory-tcp.html
-+
-+  patchset
-+    [RFC PATCH v6 00/12] Device Memory TCP
-+    https://lore.kernel.org/netdev/20240305020153.2787423-1-almasrymina@google.com/
-+
-+
-+Interface
-+=========
-+
-+Example
-+-------
-+
-+tools/testing/selftests/net/ncdevmem.c:do_server shows an example of setting up
-+the RX path of this API.
-+
-+NIC Setup
-+---------
-+
-+Header split, flow steering, & RSS are required features for devmem TCP.
-+
-+Header split is used to split incoming packets into a header buffer in host
-+memory, and a payload buffer in device memory.
-+
-+Flow steering & RSS are used to ensure that only flows targeting devmem land on
-+an RX queue bound to devmem.
-+
-+Enable header split & flow steering::
-+
-+	# enable header split
-+	ethtool -G eth1 tcp-data-split on
-+
-+
-+	# enable flow steering
-+	ethtool -K eth1 ntuple on
-+
-+Configure RSS to steer all traffic away from the target RX queue (queue 15 in
-+this example)::
-+
-+	ethtool --set-rxfh-indir eth1 equal 15
-+
-+
-+The user must bind a dmabuf to any number of RX queues on a given NIC using
-+the netlink API::
-+
-+	/* Bind dmabuf to NIC RX queue 15 */
-+	struct netdev_queue *queues;
-+	queues = malloc(sizeof(*queues) * 1);
-+
-+	queues[0]._present.type = 1;
-+	queues[0]._present.idx = 1;
-+	queues[0].type = NETDEV_RX_QUEUE_TYPE_RX;
-+	queues[0].idx = 15;
-+
-+	*ys = ynl_sock_create(&ynl_netdev_family, &yerr);
-+
-+	req = netdev_bind_rx_req_alloc();
-+	netdev_bind_rx_req_set_ifindex(req, 1 /* ifindex */);
-+	netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
-+	__netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
-+
-+	rsp = netdev_bind_rx(*ys, req);
-+
-+	dmabuf_id = rsp->dmabuf_id;
-+
-+
-+The netlink API returns a dmabuf_id: a unique ID that refers to this dmabuf
-+that has been bound.
-+
-+Socket Setup
-+------------
-+
-+The socket must be flow steered to the dmabuf bound RX queue::
-+
-+	ethtool -N eth1 flow-type tcp4 ... queue 15,
-+
-+
-+Receiving data
-+--------------
-+
-+The user application must signal to the kernel that it is capable of receiving
-+devmem data by passing the MSG_SOCK_DEVMEM flag to recvmsg::
-+
-+	ret = recvmsg(fd, &msg, MSG_SOCK_DEVMEM);
-+
-+Applications that do not specify the MSG_SOCK_DEVMEM flag will receive an EFAULT
-+on devmem data.
-+
-+Devmem data is received directly into the dmabuf bound to the NIC in 'NIC
-+Setup', and the kernel signals such to the user via the SCM_DEVMEM_* cmsgs::
-+
-+		for (cm = CMSG_FIRSTHDR(&msg); cm; cm = CMSG_NXTHDR(&msg, cm)) {
-+			if (cm->cmsg_level != SOL_SOCKET ||
-+				(cm->cmsg_type != SCM_DEVMEM_DMABUF &&
-+				 cm->cmsg_type != SCM_DEVMEM_LINEAR))
-+				continue;
-+
-+			dmabuf_cmsg = (struct dmabuf_cmsg *)CMSG_DATA(cm);
-+
-+			if (cm->cmsg_type == SCM_DEVMEM_DMABUF) {
-+				/* Frag landed in dmabuf.
-+				 *
-+				 * dmabuf_cmsg->dmabuf_id is the dmabuf the
-+				 * frag landed on.
-+				 *
-+				 * dmabuf_cmsg->frag_offset is the offset into
-+				 * the dmabuf where the frag starts.
-+				 *
-+				 * dmabuf_cmsg->frag_size is the size of the
-+				 * frag.
-+				 *
-+				 * dmabuf_cmsg->frag_token is a token used to
-+				 * refer to this frag for later freeing.
-+				 */
-+
-+				struct dmabuf_token token;
-+				token.token_start = dmabuf_cmsg->frag_token;
-+				token.token_count = 1;
-+				continue;
-+			}
-+
-+			if (cm->cmsg_type == SCM_DEVMEM_LINEAR)
-+				/* Frag landed in linear buffer.
-+				 *
-+				 * dmabuf_cmsg->frag_size is the size of the
-+				 * frag.
-+				 */
-+				continue;
-+
-+		}
-+
-+Applications may receive 2 cmsgs:
-+
-+- SCM_DEVMEM_DMABUF: this indicates the fragment landed in the dmabuf indicated
-+  by dmabuf_id.
-+
-+- SCM_DEVMEM_LINEAR: this indicates the fragment landed in the linear buffer.
-+  This typically happens when the NIC is unable to split the packet at the
-+  header boundary, such that part (or all) of the payload landed in host
-+  memory.
-+
-+Applications may receive no SO_DEVMEM_* cmsgs. That indicates non-devmem,
-+regular TCP data that landed on an RX queue not bound to a dmabuf.
-+
-+
-+Freeing frags
-+-------------
-+
-+Frags received via SCM_DEVMEM_DMABUF are pinned by the kernel while the user
-+processes the frag. The user must return the frag to the kernel via
-+SO_DEVMEM_DONTNEED::
-+
-+	ret = setsockopt(client_fd, SOL_SOCKET, SO_DEVMEM_DONTNEED, &token,
-+			 sizeof(token));
-+
-+The user must ensure the tokens are returned to the kernel in a timely manner.
-+Failure to do so will exhaust the limited dmabuf that is bound to the RX queue
-+and will lead to packet drops.
-+
-+
-+Implementation & Caveats
-+========================
-+
-+Unreadable skbs
-+---------------
-+
-+Devmem payloads are inaccessible to the kernel processing the packets. This
-+results in a few quirks for payloads of devmem skbs:
-+
-+- Loopback is not functional. Loopback relies on copying the payload, which is
-+  not possible with devmem skbs.
-+
-+- Software checksum calculation fails.
-+
-+- TCP Dump and bpf can't access devmem packet payloads.
-+
-+
-+Testing
-+=======
-+
-+More realistic example code can be found in the kernel source under
-+tools/testing/selftests/net/ncdevmem.c
-+
-+ncdevmem is a devmem TCP netcat. It works very similarly to netcat, but
-+receives data directly into a udmabuf.
-+
-+To run ncdevmem, you need to run it on a server on the machine under test, and
-+you need to run netcat on a peer to provide the TX data.
-+
-+ncdevmem has a validation mode as well that expects a repeating pattern of
-+incoming data and validates it as such. For example, you can launch
-+ncdevmem on the server by::
-+
-+	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
-+		 -p 5201 -v 7
-+
-+On client side, use regular netcat to send TX data to ncdevmem process
-+on the server::
-+
-+	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-+		tr \\n \\0 | head -c 5G | nc <server IP> 5201 -p 5201
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index d1af04b952f81..0be9924db6423 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -49,6 +49,7 @@ Contents:
-    cdc_mbim
-    dccp
-    dctcp
-+   devmem
-    dns_resolver
-    driver
-    eql
++++ b/tools/testing/selftests/net/ynl.mk
+@@ -0,0 +1,21 @@
++# SPDX-License-Identifier: GPL-2.0
++
++# YNL selftest build snippet
++
++# Inputs:
++#
++# YNL_GENS:      families we need in the selftests
++# YNL_PROGS:     TEST_PROGS which need YNL (TODO, none exist, yet)
++# YNL_GEN_FILES: TEST_GEN_FILES which need YNL
++
++YNL_OUTPUTS := $(patsubst %,$(OUTPUT)/%,$(YNL_GEN_FILES))
++
++$(YNL_OUTPUTS): $(OUTPUT)/libynl.a
++$(YNL_OUTPUTS): CFLAGS += \
++	-I$(top_srcdir)/usr/include/ $(KHDR_INCLUDES) \
++	-I$(top_srcdir)/tools/net/ynl/lib/ \
++	-I$(top_srcdir)/tools/net/ynl/generated/
++
++$(OUTPUT)/libynl.a:
++	$(Q)$(MAKE) -C $(top_srcdir)/tools/net/ynl GENS="$(YNL_GENS)" libynl.a
++	$(Q)cp $(top_srcdir)/tools/net/ynl/libynl.a $(OUTPUT)/libynl.a
 -- 
 2.45.2.803.g4e1b14247a-goog
 
