@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AF791C567
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 20:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF1A91C56F
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 20:09:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA5410ED01;
-	Fri, 28 Jun 2024 18:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 368C610ECF0;
+	Fri, 28 Jun 2024 18:09:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="bVQVln/m";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="XE/9Lk+E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B442110ECF0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 18:06:33 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-52cdf4e33c7so84987e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 11:06:33 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E76410ECF0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 18:09:04 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-424ab8c2d95so1149035e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 11:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719597992; x=1720202792; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=D6RF7ZhfHPezXZ+JwgRkmSw3bzrniFyo5WgctlVMcKM=;
- b=bVQVln/mxEEUI2+2zRr/3YTXXTm/q4aebjpNqVkrIJZFW/nDZ66PBGf6975vxZ7swM
- dh24Uanww7yiK/gY9JQlpoUtTbx6QrckB23mgXwM1iJgFqjfjvsf0+Grm78NOuXQFUT3
- bKkbR3kezRDuHfzcVD03n5t7vvLtnVDx6fq1I=
+ d=ffwll.ch; s=google; t=1719598143; x=1720202943; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=eq8hJ2tVlmnhkayZaNqPxohfUGUWhASztwmu/BkC3Gc=;
+ b=XE/9Lk+ETjsFaKeteSMydcphE6Se3qUaeu+vC5RUd+9G+XDxrh9S4kKH7DkkPQonN2
+ gEqANRH/KQT32XtWvxa/rggaNHQrYdpjD01wM9hJMxb/QCZFWD2mFnIAbuZyoPnF29Vi
+ YILfJeWYamKyNKEl0J/xQTp4CLjxC6RGTHqq4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719597992; x=1720202792;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=D6RF7ZhfHPezXZ+JwgRkmSw3bzrniFyo5WgctlVMcKM=;
- b=jyMOtxNzHgcM8wyynMk0FEwmKdrfN39BUP8/kTni/WBjxfqLtNAHlVaDnuHpZUnQkR
- oJ0+0C3Hn5EzTiKwH92SQ0ggDHvTBYCToqOCU80iQYK3Z9YssdtMkNRrFqvRp/lsOyTO
- PTObAjaMp0YmeAFAu9MM0MB3hgUYMl603CFtbSVKMvfsUHMzSOqpFKNCKBdb3IaKU8d5
- kihP5Q/mVjscPvg0HRioygHsEwfdPPZZJYerjZKBHCci3zgAhTpGXpo2WBpHHV2DF/P3
- lgTbpbYiKnWZ+lOakH2AZxXFRvGvzp1Z4AkN6YBZsecrACY6+zVLXMdeCvUVgzeiU264
- 1HwQ==
+ d=1e100.net; s=20230601; t=1719598143; x=1720202943;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eq8hJ2tVlmnhkayZaNqPxohfUGUWhASztwmu/BkC3Gc=;
+ b=ri9JBInA51/D7eglkUGTdp52ExPv79bamTIw3taCdtgkXUqOJ1Pq6Dx3NkiokMDQQx
+ wWIYOx2HCQXt7eEwYDhZi3DN55gPjxMqRQKjhjwvlX30j9XFZFVQMilySqoWjFvEPVfz
+ azKgm4HpPOWc1J/fyWR307nls0M+GUVngOeUHHU7RbK44+OMYL1H0tevY/9DkCNk79p/
+ DdHgfXOkkTuT83vMJ5Nmq6DDj66y3cBHBV1vXL42mtxztbGzoigLk8QRlMGMem5mVNx/
+ VeCUa9iaxKVfPkv+SIGeHRfGBjylxznApYWwy4+4ZP62DrjASm4u4Etm6wrPcwiH/ujI
+ HrTw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW+8Wqv+fA3W9vX+Kpa9dncKC/avu3NiGhajGLtxJCAT+K/PV9bStxolPV0J7Md93EOe3trzGDstb97UXx6drrGmenopga79vVS7vTC5hrJ
-X-Gm-Message-State: AOJu0YycWqCz3FoAj9m/I8YsGbpdxYvHBUyQAQtF6/MO4/5/5Hy6Ri8C
- M8DKBHETBJYqo7R9LN6NbVKmz4gZqk+kddA+G4IV4c632KQ4JtZKCwP4zrFUg6w=
-X-Google-Smtp-Source: AGHT+IFPw3UkwaO7XpBL0spmNeH+I8UeFCE0PwAIAhPs3nFppOSfxvTU+I6UaRVoaBiX0qZ+ssaUIQ==
-X-Received: by 2002:a05:6512:1386:b0:52e:7498:118a with SMTP id
- 2adb3069b0e04-52e7498135emr3870794e87.4.1719597991738; 
- Fri, 28 Jun 2024 11:06:31 -0700 (PDT)
+ AJvYcCXSRo5VWK5xkWxaXhFG3/EWQ0yw3GoOC7e66cC2YrNzlet/pwsOAHDa9jBpqa/fSRWZuOlMe2PQMFlbNdOwLNKq0iEPQMwckxuMsk13fxQk
+X-Gm-Message-State: AOJu0YwNGo5sVugz1Atw8+CBZkfBnh94tGKD72N/QzrrlLMOOtVAiUJd
+ vZSGT6nzUUQu2JdPLSSB7+HSmkCM0BluiyBvWy03jl0jGQkTTZwmwdyMZlYoz6I=
+X-Google-Smtp-Source: AGHT+IG4oYJXQWSmBPX1vfEY44VtkqA9hNLFbiaG5x1TqnWG57Xv2ywSur0IVaOleGxs/nQHoO3kmQ==
+X-Received: by 2002:a5d:64c4:0:b0:367:42cd:7867 with SMTP id
+ ffacd0b85a97d-36742cd7c11mr4257994f8f.3.1719598142761; 
+ Fri, 28 Jun 2024 11:09:02 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3675a0e0b7csm3010776f8f.49.2024.06.28.11.06.31
+ ffacd0b85a97d-3675a0fb950sm2996120f8f.83.2024.06.28.11.09.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 11:06:31 -0700 (PDT)
-Date: Fri, 28 Jun 2024 20:06:29 +0200
+ Fri, 28 Jun 2024 11:09:02 -0700 (PDT)
+Date: Fri, 28 Jun 2024 20:09:00 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [Linaro-mm-sig] Re: dma_buf_detach lockdep splat
-Message-ID: <Zn77penjAruTgLMM@phenom.ffwll.local>
-References: <40611e5ff8c32b99e7863293a0baac078f323d8f.camel@linux.intel.com>
- <Zn0c8l-yQih3j0NE@phenom.ffwll.local>
- <6bc17415f36c2a9c689010e1cf397fc75a8df55e.camel@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Stone <daniels@collabora.com>,
+ dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>
+Subject: Re: [rerere PATCH] nightly.conf: Merge drm-msm trees into drm-tip
+Message-ID: <Zn78PEJpN8qNdxlV@phenom.ffwll.local>
+References: <20240626184515.3961230-1-dmitry.baryshkov@linaro.org>
+ <87bk3md9ms.fsf@intel.com> <8734oyckdw.fsf@intel.com>
+ <je4acmn744pwhdgwek2cgd22reoanogofcqm43vl2sxoyhb2dr@wxst2ffxistw>
+ <87h6ddbexv.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6bc17415f36c2a9c689010e1cf397fc75a8df55e.camel@linux.intel.com>
+In-Reply-To: <87h6ddbexv.fsf@intel.com>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,66 +88,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 27, 2024 at 02:18:44PM +0200, Thomas Hellström wrote:
-> On Thu, 2024-06-27 at 10:04 +0200, Daniel Vetter wrote:
-> > On Wed, Jun 26, 2024 at 05:58:02PM +0200, Thomas Hellström wrote:
-> > > Hi!
-> > > 
-> > > I'm seeing the below lockdep splat 1) with the xe driver in an
-> > > imported
-> > > dma-buf object destruction path.
-> > > 
-> > > It's not because we hold the dma_resv lock at that point, but
-> > > rather
-> > > because we hold *another* dma_resv lock at that point, and the
-> > > dma_resv
-> > > detach happens when the object is idle, in this case it was idle at
-> > > the
-> > > final put(), and dma_buf_detach() is called in the putting process.
-> > > 
-> > > Holding another dma-buf lock might happen as part of
-> > > drm_exec_unlock_all, or simply if the wider vm dma_resv was held at
-> > > object put time, so it's not an uncommon pattern, even if the
-> > > drm_exec
-> > > instance can be fixed by putting all bos after unlocking them all.
-> > > 
-> > > Two solutions coming to mind here:
-> > > 
-> > > 1) Provide a dma_buf_detach_locked()
-> > 
-> > This smells way too much like the endless headaches we had with
-> > drm_gem_object_put_locked and friends against
-> > drm_device.struct_mutex. Or
-> > I'm not understanding what you're doing, because I'm pretty sure you
-> > have
-> > to take the dma_resv lock on final put() of imported objects. Because
-> > that
-> > final put() is of the import wrapper, the exporter (and other
-> > importers)
-> > can still get at that object and so dma_resv_lock is very much
-> > needed.
+On Fri, Jun 28, 2024 at 12:21:32PM +0300, Jani Nikula wrote:
+> On Fri, 28 Jun 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> > On Thu, Jun 27, 2024 at 09:26:19PM GMT, Jani Nikula wrote:
+> >> On Thu, 27 Jun 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> >> > On Wed, 26 Jun 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> >> >> In order to improve testing of drm/msm branches, add drm-msm trees to
+> >> >> the list of the trees to be merged into drm-tip.
+> >> >>
+> >> >> Cc: Rob Clark <robdclark@gmail.com>
+> >> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> >
+> >> > It also helps in avoiding conflicts!
+> >> >
+> >> > Acked-by: Jani Nikula <jani.nikula@intel.com>
+> >> 
+> >> Oh, this is with the assumption that you'll also maintain the branches
+> >> with dim. I realized this was not spelled out, but I'm hoping it is the
+> >> case.
+> >
+> > No, we use gitlab MRs in order to be able to pre-test patches. But it
+> > doesn't stop anybody from running dim ub && dim push after merging an
+> > MR.
 > 
-> Yeah, the TTM final put looks like
+> IMO that's not quite enough.
 > 
-> if (!dma_resv_trylock() || !idle)
-> 	queue_work(final_distruction);
+> The main problem with this (from drm-tip and dim POV) is that you won't
+> notice if you push patches that cause conflicts in rebuilding
+> drm-tip. That's then left for the next person to figure out, and for
+> them it's completely unexpected.
 > 
-> dma_resv_unlock();
-> dma_buf_detach(); <--- lockdep splat
+> We had this when AMD branches were part of drm-tip, and it really wasn't
+> much fun, because the burden and benefits were quite lopsided. It's the
+> main reason the branches were dropped.
 > 
-> Here's where a dma_buf_detach_locked() would've made sense before the
-> dma_resv_unlock().
-> 
-> But if you think this will cause grief, I'm completely fine with
-> fixing this in TTM by always taking the deferring path.
+> Now, I think there's a non-trivial amount of people who want to see more
+> of gitlab MR based workflows. This is a problem we'll inevitably need to
+> tackle anyway. Perhaps rebuilding drm-tip could be a gitlab workflow,
+> triggered automatically when any of the branches are pushed? With
+> notifications for folks to figure out the conflicts. Maybe there could
+> be some linux-next like logic to use older branches until the conflicts
+> get fixed.
 
-Oh I misunderstood what you've meant, I thought you want to do a huge
-exercise in passing the "do we know we're locked" flag all the way through
-entire callchains to exporters.
+Yeah if the gitlab side just pushes without rebuilding drm-tip this isn't
+going to work well and we'll need to go back. I was thinking that we
+should be able to run dim rebuild-tip from gitlab CI flows, at least for
+the cases where everything builds. If you need to fix things up you still
+need to do a local run.
 
-If it's just so that the fastpath of bypassing the worker can function for
-imported buffers, then I think that's fine. As long as we just punt to the
-worker if we can't get the lock.
+Even better would be if this runs pre-merge so that the MR fails to land
+if there's new conflicts, but that's a bit more tricky.
 -Sima
 -- 
 Daniel Vetter
