@@ -2,69 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF93D91B9BF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 10:24:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FDA91B9D2
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 10:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 010CA10E312;
-	Fri, 28 Jun 2024 08:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F59910E0E8;
+	Fri, 28 Jun 2024 08:29:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="bqGF8WMs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a/YX3j5j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp56.i.mail.ru (smtp56.i.mail.ru [95.163.41.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 765F210E209;
- Fri, 28 Jun 2024 08:24:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
- ; s=mailru;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:To:Cc:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
- X-Cloud-Ids:Disposition-Notification-To;
- bh=3Ar3P+hPbqFiwyl7C4MmzgFJnQ8mK59RRMKBQofsVJM=; t=1719563041; x=1719653041; 
- b=bqGF8WMsSPAasWtOYrSyYDi2YWuqHoQLrvFdT9S6qHqQ19xfMvZu0lRc7qmUwSPPSZ2nNZe7Hdd
- 7+M6OTOBeFm9rd8PavTM9F+qtN5k5a57xgQC267sVW/nmimK1lY0e6jm/NGMScTo1aXxp17q2zqVp
- zKbgXMQGz6EcsxgHn3M=;
-Received: by exim-smtp-84f7fbf7d8-dklnz with esmtpa (envelope-from
- <danila@jiaxyga.com>)
- id 1sN6tf-00000000a5W-1OeS; Fri, 28 Jun 2024 11:23:56 +0300
-From: Danila Tikhonov <danila@jiaxyga.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Danila Tikhonov <danila@jiaxyga.com>
-Subject: [PATCH 1/1] dt-bindings: display/msm: dsi-controller-main: Add SM7150
-Date: Fri, 28 Jun 2024 11:23:43 +0300
-Message-ID: <20240628082343.28341-2-danila@jiaxyga.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240628082343.28341-1-danila@jiaxyga.com>
-References: <20240628082343.28341-1-danila@jiaxyga.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D844010E0E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 08:29:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719563362; x=1751099362;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=FhnmmwRsgt7q9OpUqfd3kxwu+nTktaxW9bMtPJ2FQU4=;
+ b=a/YX3j5jIaOPp8/3Px2OHxFwT9KMkHDn1Bm4tUEMMtk6tHvFxczZDffg
+ QxLRVNSUb5g2NUE81aUHOW2h74da8orQO+w7N59fcEeR0Hk7e+mAznaVt
+ iBhu54+GodW0NDQb3MtKduyu94jnIbD8ealXLCsRL9gUmtjA7HuUwx+2c
+ 2r7vKWrbd5it51IDnUEOKL7cSercvfbiPZ38hViZ391kQTbf3ZduyWFUy
+ jQwOZjrp30YxjAWJLCgoVldsCV5Nb9jtMCN0cmN4IfnBfaL3q8pE9KNiX
+ Ah4sLUbDUuDO0x7/0KIYtDGJAhCkYb8U7nDuIDiCKnTEFyrmLANWJa2Yq g==;
+X-CSE-ConnectionGUID: cpT8rwCsShqG5K4v2EjPDw==
+X-CSE-MsgGUID: vmApuENrTgeH/gIdz9N3RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16867419"
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; d="scan'208";a="16867419"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 01:29:21 -0700
+X-CSE-ConnectionGUID: zrjDGM4cTFOB7XZjM3TJ0A==
+X-CSE-MsgGUID: oy92/Yr/QYuzmi6T5Mdjuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; d="scan'208";a="49580626"
+Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.125.248.220])
+ ([10.125.248.220])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 01:29:16 -0700
+Message-ID: <1a62d729-878d-4c26-9619-43514c90aa35@linux.intel.com>
+Date: Fri, 28 Jun 2024 16:29:13 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: baolu.lu@linux.intel.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Kalle Valo <kvalo@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
+ Jason Wang <jasowang@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jeff Johnson <quic_jjohnson@quicinc.com>, ath10k@lists.infradead.org,
+ ath11k@lists.infradead.org, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 15/21] iommu/vt-d: Add helper to allocate paging domain
+To: Yi Liu <yi.l.liu@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>
+References: <20240610085555.88197-1-baolu.lu@linux.intel.com>
+ <20240610085555.88197-16-baolu.lu@linux.intel.com>
+ <86dbf286-bb0b-4beb-b26f-a74562b0ace8@intel.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <86dbf286-bb0b-4beb-b26f-a74562b0ace8@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Authentication-Results: exim-smtp-84f7fbf7d8-dklnz;
- auth=pass smtp.auth=danila@jiaxyga.com
- smtp.mailfrom=danila@jiaxyga.com
-X-Mailru-Src: smtp
-X-7564579A: B8F34718100C35BD
-X-77F55803: 4F1203BC0FB41BD9749DDC91F62168F91C3F39031358981B86C3857216B5FE61182A05F538085040266675009EE866ED3DE06ABAFEAF6705D562D5882173DA45D4BAB75C247D3C8DC9EA2F84C7A79465
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7F1942E6D70B4A2F0EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637D07BBD2EBFB7BF888638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8AE1116DAEA21A0C27927E4C5451573B7D1122D665F0F1390CC7F00164DA146DAFE8445B8C89999728AA50765F79006371FEB031537767747389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC878444BBB7636F62AF6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA73AA81AA40904B5D9A18204E546F3947CA5ED62E35AC703CCC0837EA9F3D197644AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C3C9F4304F34B30F1CBA3038C0950A5D36B5C8C57E37DE458B330BD67F2E7D9AF16D1867E19FE14079C09775C1D3CA48CF7EF884183F8E4D671DD303D21008E298D5E8D9A59859A8B6F459A8243F1D1D4475ECD9A6C639B01B78DA827A17800CE70012B0FBE38D23AE731C566533BA786AA5CC5B56E945C8DA
-X-C1DE0DAB: 0D63561A33F958A5889123BB9B3B997C5002B1117B3ED696CB36F49F8B669AAF1E49B01306B5E3AD823CB91A9FED034534781492E4B8EEADB71243024C627CEAC79554A2A72441328621D336A7BC284946AD531847A6065A535571D14F44ED41
-X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF36A14396D54525BDFCDE2E49122C30FF6C598CC6315F652C104649BAC6307798F61CD9246542D0C444A12D68860EECB72109D5ECE7ACAD65A6FFEC9055B244E7DD66B608A8CD852E8100E6DA90CB805802C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojOl9CAQoHe3nPTCPlbcxNAw==
-X-Mailru-Sender: 0A26D9779F8DDEABFA5A783B5DB0061BCEEDF7D08FB5E6CAB951B70A5BD4BD8EA324EEE37D5E021EE5E949923882BAAD210985D6C440852E55B4A2144138A88088F510C62CFD139357C462056C5AD9112068022A3E05D37EB4A721A3011E896F
-X-Mras: Ok
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,33 +84,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the DSI host found on SM7150.
+On 2024/6/28 13:42, Yi Liu wrote:
+> On 2024/6/10 16:55, Lu Baolu wrote:
+>> The domain_alloc_user operation is currently implemented by allocating a
+>> paging domain using iommu_domain_alloc(). This is because it needs to 
+>> fully
+>> initialize the domain before return. Add a helper to do this to avoid 
+>> using
+>> iommu_domain_alloc().
+>>
+>> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+>> ---
+>>   drivers/iommu/intel/iommu.c | 87 +++++++++++++++++++++++++++++++++----
+>>   1 file changed, 78 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+>> index 2e9811bf2a4e..ccde5f5972e4 100644
+>> --- a/drivers/iommu/intel/iommu.c
+>> +++ b/drivers/iommu/intel/iommu.c
+>> @@ -3633,6 +3633,79 @@ static struct iommu_domain blocking_domain = {
+>>       }
+>>   };
+>> +static int iommu_superpage_capability(struct intel_iommu *iommu, bool 
+>> first_stage)
+>> +{
+>> +    if (!intel_iommu_superpage)
+>> +        return 0;
+>> +
+>> +    if (first_stage)
+>> +        return cap_fl1gp_support(iommu->cap) ? 2 : 1;
+>> +
+>> +    return fls(cap_super_page_val(iommu->cap));
+>> +}
+>> +
+>> +static struct dmar_domain *paging_domain_alloc(struct device *dev, 
+>> bool first_stage)
+>> +{
+>> +    struct device_domain_info *info = dev_iommu_priv_get(dev);
+>> +    struct intel_iommu *iommu = info->iommu;
+>> +    struct dmar_domain *domain;
+>> +    int addr_width;
+>> +
+>> +    domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+>> +    if (!domain)
+>> +        return ERR_PTR(-ENOMEM);
+>> +
+>> +    INIT_LIST_HEAD(&domain->devices);
+>> +    INIT_LIST_HEAD(&domain->dev_pasids);
+>> +    INIT_LIST_HEAD(&domain->cache_tags);
+>> +    spin_lock_init(&domain->lock);
+>> +    spin_lock_init(&domain->cache_lock);
+>> +    xa_init(&domain->iommu_array);
+>> +
+>> +    domain->nid = dev_to_node(dev);
+>> +    domain->has_iotlb_device = info->ats_enabled;
+>> +    domain->use_first_level = first_stage;
+>> +
+>> +    /* calculate the address width */
+>> +    addr_width = agaw_to_width(iommu->agaw);
+>> +    if (addr_width > cap_mgaw(iommu->cap))
+>> +        addr_width = cap_mgaw(iommu->cap);
+>> +    domain->gaw = addr_width;
+>> +    domain->agaw = iommu->agaw;
+>> +    domain->max_addr = __DOMAIN_MAX_ADDR(addr_width);
+>> +
+>> +    /* iommu memory access coherency */
+>> +    domain->iommu_coherency = iommu_paging_structure_coherency(iommu);
+>> +
+>> +    /* pagesize bitmap */
+>> +    domain->domain.pgsize_bitmap = SZ_4K;
+>> +    domain->iommu_superpage = iommu_superpage_capability(iommu, 
+>> first_stage);
+>> +    domain->domain.pgsize_bitmap |= domain_super_pgsize_bitmap(domain);
+>> +
+>> +    /*
+>> +     * IOVA aperture: First-level translation restricts the 
+>> input-address
+>> +     * to a canonical address (i.e., address bits 63:N have the same 
+>> value
+>> +     * as address bit [N-1], where N is 48-bits with 4-level paging and
+>> +     * 57-bits with 5-level paging). Hence, skip bit [N-1].
+>> +     */
+>> +    domain->domain.geometry.force_aperture = true;
+>> +    domain->domain.geometry.aperture_start = 0;
+>> +    if (first_stage)
+>> +        domain->domain.geometry.aperture_end = 
+>> __DOMAIN_MAX_ADDR(domain->gaw - 1);
+>> +    else
+>> +        domain->domain.geometry.aperture_end = 
+>> __DOMAIN_MAX_ADDR(domain->gaw);
+>> +
+>> +    /* always allocate the top pgd */
+>> +    domain->pgd = iommu_alloc_page_node(domain->nid, GFP_KERNEL);
+>> +    if (!domain->pgd) {
+>> +        kfree(domain);
+>> +        return ERR_PTR(-ENOMEM);
+>> +    }
+>> +    domain_flush_cache(domain, domain->pgd, PAGE_SIZE);
+>> +
+>> +    return domain;
+>> +}
+>> +
+>>   static struct iommu_domain *intel_iommu_domain_alloc(unsigned type)
+>>   {
+>>       struct dmar_domain *dmar_domain;
+>> @@ -3695,15 +3768,11 @@ intel_iommu_domain_alloc_user(struct device 
+>> *dev, u32 flags,
+>>       if (user_data || (dirty_tracking && !ssads_supported(iommu)))
+>>           return ERR_PTR(-EOPNOTSUPP);
+>> -    /*
+>> -     * domain_alloc_user op needs to fully initialize a domain before
+>> -     * return, so uses iommu_domain_alloc() here for simple.
+>> -     */
+>> -    domain = iommu_domain_alloc(dev->bus);
+>> -    if (!domain)
+>> -        return ERR_PTR(-ENOMEM);
+>> -
+>> -    dmar_domain = to_dmar_domain(domain);
+>> +    /* Do not use first stage for user domain translation. */
+>> +    dmar_domain = paging_domain_alloc(dev, false);
+> 
+> this is not an apple-to-apple replacement yet. You need to set the type,
+> owner and domain->ops as well.
 
-Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
----
- .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 ++
- 1 file changed, 2 insertions(+)
+Yes. You are right. I will add below lines.
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index e1cb3a1fe..b0fd96b76 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -32,6 +32,7 @@ properties:
-               - qcom,sm6125-dsi-ctrl
-               - qcom,sm6350-dsi-ctrl
-               - qcom,sm6375-dsi-ctrl
-+              - qcom,sm7150-dsi-ctrl
-               - qcom,sm8150-dsi-ctrl
-               - qcom,sm8250-dsi-ctrl
-               - qcom,sm8350-dsi-ctrl
-@@ -348,6 +349,7 @@ allOf:
-             enum:
-               - qcom,sc7180-dsi-ctrl
-               - qcom,sc7280-dsi-ctrl
-+              - qcom,sm7150-dsi-ctrl
-               - qcom,sm8150-dsi-ctrl
-               - qcom,sm8250-dsi-ctrl
-               - qcom,sm8350-dsi-ctrl
--- 
-2.44.0
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index d51f840715e5..c5d9c2283977 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -3732,6 +3732,9 @@ intel_iommu_domain_alloc_user(struct device *dev, 
+u32 flags,
+         if (IS_ERR(dmar_domain))
+                 return ERR_CAST(dmar_domain);
+         domain = &dmar_domain->domain;
++       domain->type = IOMMU_DOMAIN_UNMANAGED;
++       domain->owner = &intel_iommu_ops;
++       domain->ops = intel_iommu_ops.default_domain_ops;
 
+         if (nested_parent) {
+                 dmar_domain->nested_parent = true;
+
+Best regards,
+baolu
