@@ -2,66 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7142E91BB76
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 11:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0995591BBC1
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 11:43:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 149BE10E1DE;
-	Fri, 28 Jun 2024 09:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCAA10E20F;
+	Fri, 28 Jun 2024 09:43:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GWWjv671";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="sOpW4zjt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9528610E0FE;
- Fri, 28 Jun 2024 09:29:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1719566950; x=1751102950;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=irwuLjcl11TTrmhJdTsbL+8hBZnUDoiZRTqW8w8y6GE=;
- b=GWWjv671muojDD61ofpKcsym/obDRMaRxBw4Kr7vdGB0TuYEsAm6bzd+
- FKdvrtUJgWklWHgelMDkGM06CHZ5mi3dEGqVLecVEq7n247kR7zUtj71i
- Mn6q1xpFNtmtUzkYIz7aPhvCzmlzzEEVtGOLUOc7bdeyrBm4ju5/N7QHR
- t51onh2KTJr5le9xEvpJGMKuN3axWIy5Kx/iCWFnXfn3dNrNZVud+5hn2
- omGWoOdiCvRE+MslIo8bv1mp3JtPp2GNatbeu2SnkWO0lbSoJxNbommVA
- HMD5d4Pghatjs2PQYw9Ezspm897KGVy2nx2an37Ful9AJI+FE0Cz7XTwA g==;
-X-CSE-ConnectionGUID: +ggXH+vvRfq2eG657bfO+w==
-X-CSE-MsgGUID: M+i+lq+BSXCdYFEOhICsGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16699019"
-X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; d="scan'208";a="16699019"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2024 02:29:10 -0700
-X-CSE-ConnectionGUID: gKH/6+VzShqievIk8WOGZw==
-X-CSE-MsgGUID: a2fev86RSlCE3mFciaK4BQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; d="scan'208";a="49640468"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.249])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2024 02:29:06 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Mitul Golani
- <mitulkumar.ajitkumar.golani@intel.com>, Suraj Kandpal
- <suraj.kandpal@intel.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build failure after merge of the drm-intel tree
-In-Reply-To: <CAPM=9tyNGA2wEgnsKdSyjHRGVikywZLdueZj=syTMFYEUNzxhw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240612141239.141ce8cc@canb.auug.org.au>
- <ZnCMUEd9dQ6bLNet@intel.com>
- <CAPM=9tyNGA2wEgnsKdSyjHRGVikywZLdueZj=syTMFYEUNzxhw@mail.gmail.com>
-Date: Fri, 28 Jun 2024 12:29:01 +0300
-Message-ID: <87ed8hbele.fsf@intel.com>
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30DA510E235
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 09:43:36 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-dfab5f7e749so420097276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 02:43:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1719567815;
+ x=1720172615; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8qzmRAVdcytlDvjKg3zIzhlsAspcHn166tJNqg286RQ=;
+ b=sOpW4zjte/EU33GbmLLf70vEhM2ZSWaxlLNNwtm4RLddQG7GRSEG5ZMC8kFGEI+9kd
+ /o44/19LmFiDFbuRTAD8QyVzBimOHOUUiGXO9BjF58pZ+WmpqsHi4Xg81N9FuFhojH99
+ kAtp7tCNCCAtENmALu3VuIguXFtt15ZIXKRYxNqw6tfR4YQNwfLKnIrGy8OWAx4v8shv
+ BSJM03H4gavAT+Rba2XmYXLhZISUs821ToT+sSh5n84Vw5R434sNI/5Z9Vt3ru7113Sj
+ JBzR4/Cs3VPb7eWPrf1i9pzHsUDEwrhNj7VKcS3c1NTEymslh8s6JBo/NjgXyzcawxPu
+ D97g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719567815; x=1720172615;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8qzmRAVdcytlDvjKg3zIzhlsAspcHn166tJNqg286RQ=;
+ b=cIZnNGmgFVg3KHriQXjhXHJp9qEP0YnY7eqanG+WOrbqc+Ipjwrmhw7Ff7HQ3OGjOu
+ ImV5/PzWv1DZmhh0ClU3b5cPjdjxixduT3eQJiZ9B3yXpSbf0AF3jbWaUWnc8NMpcYYh
+ ogvkt3mzvs3XLadNlIkB4Admz9v/k1BWicVGaACWnWXqWvw58nTEu2BZhJv6aqgk7C4e
+ +MdkRPFBtFVSz/qJluR52tjfuIBrXsTH1rxZkY5kZTsaJyqyDaoAr73pBbnLuGNNZcm0
+ 7Cf3UPx+EXUj6VbG40VI+GwKgzMrdZj495mQCqn2ru96YZ9ZLC62MOAW9RK7HrRV4MFm
+ UNQg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUNbceNqKnvAVJO73yHlieclAYaFS8Mj0i5TJ9lYDfdnuMEUjtX2dpNPGhKxV9+Vkpi360chhRuRkUwk7Kg5NgUTKZmCPF820fcHbFrZCY8
+X-Gm-Message-State: AOJu0YzgJ665RPBzgLxUzAa66tHSsLIJKLFVgH9aB+EEd5ndNgqBgXvK
+ e6CsfxevvGI44jIAcM04t0FTW/VDvTgCFFjTTqrZ04yW6AF0e6GSyDgSWqAB3ByCS7sH8WM8u9v
+ hBcI=
+X-Google-Smtp-Source: AGHT+IGowEhPYNp+j/wnMUTZSR7ogC4H26rRfJlyOs+e1ift48yG3aBC1sTTVBfzreXfG3bx1LLC7g==
+X-Received: by 2002:a0d:fd85:0:b0:61a:ed1e:ecd with SMTP id
+ 00721157ae682-64341e147c8mr151453237b3.50.1719567815117; 
+ Fri, 28 Jun 2024 02:43:35 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
+ [209.85.219.175]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-64a9a23bad1sm2761897b3.31.2024.06.28.02.43.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jun 2024 02:43:34 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-e02c4983bfaso363207276.2; 
+ Fri, 28 Jun 2024 02:43:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVzWP7vemF5BK9B95/zm7esjJdrgaPbRXEEwyPwNMVt7GhBvxJ3l2xohtoUAPxMsvwDtk6eruPYgKzZKfaha6WtXm70LAp2J1vyPXUZxdCQ1jLPHts+NYyiH12rp89N4rKgT7KcxyJIqwLQg8nBtg==
+X-Received: by 2002:a25:b183:0:b0:e03:5edd:99b5 with SMTP id
+ 3f1490d57ef6-e035edd9b77mr753201276.4.1719567813979; Fri, 28 Jun 2024
+ 02:43:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+ <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
+ <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
+ <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
+ <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
+ <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
+ <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
+ <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
+ <CAPj87rPB=N2vJ-5C7xXORYstK3=TpX+jZ7mCr7oxY2wpXeaTTQ@mail.gmail.com>
+ <ZnxVWrFJKbVO8PZ0@phenom.ffwll.local>
+ <CAPj87rPnA1eKR_b7gAhDiMZRcVt8xPS9xnsscqVQ_a_qO_tD4A@mail.gmail.com>
+In-Reply-To: <CAPj87rPnA1eKR_b7gAhDiMZRcVt8xPS9xnsscqVQ_a_qO_tD4A@mail.gmail.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Fri, 28 Jun 2024 11:43:23 +0200
+X-Gmail-Original-Message-ID: <CAAObsKATM0hQ=XTzTTucArBzSnVEu-CfdkUU4c6UVHd1+G5-gw@mail.gmail.com>
+Message-ID: <CAAObsKATM0hQ=XTzTTucArBzSnVEu-CfdkUU4c6UVHd1+G5-gw@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: Lucas Stach <l.stach@pengutronix.de>, linux-kernel@vger.kernel.org, 
+ Oded Gabbay <ogabbay@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ Daniel Stone <daniels@collabora.com>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,91 +108,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Jun 2024, Dave Airlie <airlied@gmail.com> wrote:
-> On Tue, 18 Jun 2024 at 05:26, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
->>
->> On Wed, Jun 12, 2024 at 02:12:39PM +1000, Stephen Rothwell wrote:
->> > Hi all,
->> >
->> > After merging the drm-intel tree, today's linux-next build (i386
->> > defconfig) failed like this:
->> >
->> > x86_64-linux-gnu-ld: drivers/gpu/drm/i915/display/intel_vrr.o: in func=
-tion `intel_vrr_compute_config':
->> > intel_vrr.c:(.text+0x4e4): undefined reference to `__udivdi3'
->> >
->> > Caused by commit
->> >
->> >   1676ecd303ac ("drm/i915: Compute CMRR and calculate vtotal")
->> >
->> > I have reverted that commit for today.
->>
->> the fixes for that is available in drm-intel-next now. you should probab=
-ly
->> remove the revert.
->>
->> Thanks for the heads up on that.
+On Wed, Jun 26, 2024 at 9:26=E2=80=AFPM Daniel Stone <daniel@fooishbar.org>=
+ wrote:
 >
-> In file included from
-> /home/airlied/devel/kernel/dim/src/arch/arm/include/asm/div64.h:107,
->                  from /home/airlied/devel/kernel/dim/src/include/linux/ma=
-th.h:6,
->                  from
-> /home/airlied/devel/kernel/dim/src/include/linux/kernel.h:27,
->                  from
-> /home/airlied/devel/kernel/dim/src/include/linux/cpumask.h:11,
->                  from /home/airlied/devel/kernel/dim/src/include/linux/sm=
-p.h:13,
->                  from
-> /home/airlied/devel/kernel/dim/src/include/linux/lockdep.h:14,
->                  from
-> /home/airlied/devel/kernel/dim/src/include/linux/spinlock.h:63,
->                  from
-> /home/airlied/devel/kernel/dim/src/include/linux/kref.h:16,
->                  from
-> /home/airlied/devel/kernel/dim/src/include/drm/drm_device.h:5,
->                  from
-> /home/airlied/devel/kernel/dim/src/include/drm/drm_drv.h:35,
->                  from
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/xe/compat-i915-headers=
-/i915_drv.h:13,
->                  from
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/i915/display/intel_vrr=
-.c:7:
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/i915/display/intel_vrr=
-.c:
-> In function =E2=80=98cmrr_get_vtotal=E2=80=99:
-> /home/airlied/devel/kernel/dim/src/include/asm-generic/div64.h:222:35:
-> warning: comparison of distinct pointer types lacks a cast
->   222 |         (void)(((typeof((n)) *)0) =3D=3D ((uint64_t *)0));  \
->       |                                   ^~
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/i915/display/intel_vrr=
-.c:155:35:
-> note: in expansion of macro =E2=80=98do_div=E2=80=99
->   155 |         crtc_state->cmrr.cmrr_m =3D do_div(adjusted_pixel_rate,
-> crtc_state->cmrr.cmrr_n);
->       |                                   ^~~~~~
->
-> The fixes might need some more fixing, 32-bit arm build.
+> On Wed, 26 Jun 2024 at 18:52, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Wed, Jun 26, 2024 at 11:39:01AM +0100, Daniel Stone wrote:
+> > > On Wed, 26 Jun 2024 at 09:28, Lucas Stach <l.stach@pengutronix.de> wr=
+ote:
+> > > > So we are kind of stuck here between breaking one or the other use-
+> > > > case. I'm leaning heavily into the direction of just fixing Mesa, s=
+o we
+> > > > can specify the type of screen we need at creation time to avoid th=
+e
+> > > > renderonly issue, porting this change as far back as reasonably
+> > > > possible and file old userspace into shit-happens.
+> > >
+> > > Yeah, honestly this sounds like the best solution to me too.
+> >
+> > Yeah mesa sounds kinda broken here ...
+> >
+> > What might work in the kernel is if you publish a fake 3d engine that's
+> > too new for broken mesa, if that's enough to make it fail to bind? And =
+if
+> > mesa still happily binds against that, then yeah it's probably too brok=
+en
+> > and we need etnaviv-v2 (as a drm driver uapi name, I think that's what
+> > mesa filters?) for anything new (including the NN-only ones).
+> >
+> > I would still try to avoid that, but just in case someone screams about
+> > regressions.
 
-Hmm. Works for me with commit 213cc30331e9 ("drm/i915/display: Consider
-adjusted_pixel_rate to be u64"). Are you hitting this with drm/next
-which doesn't have that yet?
+Thanks everybody for chiming in.
 
-BR,
-Jani.
+> It's not just etnaviv, it's literally every Mesa driver which works
+> with decoupled render/display. So that would be etnaviv-v2,
+> panfrost-v2, panthor-v2, v3d-v2, powervr-v2, ... albeit those don't
+> tend to have multiple instances.
 
+TBH, I think VeriSilicon is the only IP vendor that has recycled a
+render-only IP into a compute-only IP.
 
->
-> Dave.
->
->>
->> >
->> > --
->> > Cheers,
->> > Stephen Rothwell
->>
->>
+That is why I liked the approach of conditionally creating an accel
+node, as it neatly reflects that reality.
 
---=20
-Jani Nikula, Intel
+> Anyway, I'm still leaning towards the answer being: this is not an
+> etnaviv regression caused by NPU, it's a longstanding generic Mesa
+> issue for which the answer is to fix the known fragility.
+
+My understanding of the consensus so far is that Mesa should be fixed
+so that Gallium drivers can fail at screen init if the device doesn't
+support some new usage flags that we would be adding.
+
+If for some reason that doesn't work, we would be looking at having
+etnaviv use a different kind of driver name, such as etnaviv-npu or
+etnaviv-compute.
+
+Did I get it right?
+
+Thanks,
+
+Tomeu
