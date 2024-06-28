@@ -2,88 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C06091C150
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 16:42:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D292E91C171
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 16:46:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D40D10E28D;
-	Fri, 28 Jun 2024 14:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C94F10E2BB;
+	Fri, 28 Jun 2024 14:46:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CrBzc1d2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fQeqBHkf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B1110E28D
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 14:42:39 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-365663f51adso463905f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 07:42:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719585758; x=1720190558; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=KBFsmcHiCQdWp2arl9na9xvwhRaKDOvXIf/Px5kpSzA=;
- b=CrBzc1d2P2YOd6lWbHmCRhPvHP93XRXU+TzTa9RcATTnfBF4JPXXEwZ3IT5iGRT8jS
- 8EflkObg4haei4Y41d6Y4FqEMHKeRiK+uQLngdhCFXK0sD4RT2Z1UOc5fRDTwGnuKI1g
- RJNW5p8I2EcgEb7F9HqxUWEGhazyI4JNNVA/PDvp/E36zmB8Sa7yYuoCRAth6OXJfCaR
- r2lgKB7EllvPJIfR8bRauo9MHt0mSta8BVQpmSTXunFXSTlWRY2iH0TrZMzaP9uN/25w
- EKjKPkapukBJ4LPTD1x6z7NQyQWFkEmGiXkMHglFEWZfH0W0bvVr1sbNLCsoO7PPR/hh
- Yf4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719585758; x=1720190558;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KBFsmcHiCQdWp2arl9na9xvwhRaKDOvXIf/Px5kpSzA=;
- b=US4SkSyGZUnq/evACv6muz0hrf1Z3nKVcxSZfKsT3jIwH50ymRIZE5809mQD6otVA4
- xpzOnD0/oLz3IzAGbCvac+hSk+1wkp1Caw0g4HYF4qzw4Vb4+BeOsVh8GDPzBRIIahO7
- SzPUL7hg0dQuSu5x4oBcV/48tAlJd850PWEVFU35BK6qEB+Zpx1CkX4cSl2bgLPEl3UN
- FlYnGC6rLJleYZZbE0ATNdy20WclGlhIVwPctpb2q1Jf+5WIQCSv44paedz9whi1kwZh
- V7KUMOVpWlPQK+yeaIMkoKZ1608Ipdq4R8epsH4nj5uEhTXsLZW+j6FEihHjmIwinvxi
- N2jw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtd5Sq7Yw8WjZtHOlJNt6rbvwWWRCLEdxVFBeKj3EqjcFE5XZURv8II3Dn3WdE9HmOHBAeW6vv1HbxLCBHB9EMkjeDMr7rFmCVUq6H7NE8
-X-Gm-Message-State: AOJu0Yze9PXjTs7jfifLSFvEJhOJ6Iimc7PnQhq5zsOjlG71oiEQdYvx
- RuDomT2N4oF5cRN3T/H3a0SMl9q3M1LFFV5htURpgPLBapT9aWiY
-X-Google-Smtp-Source: AGHT+IHBlrmEBaunoFWrg+WEnqhg99HHDUXCnPXUbdV+Vvm2fSUOs/olkZcs/GcFE/mIMgC0rfREJA==
-X-Received: by 2002:a05:6000:1744:b0:362:b106:c5a2 with SMTP id
- ffacd0b85a97d-36752661f20mr2643122f8f.70.1719585757336; 
- Fri, 28 Jun 2024 07:42:37 -0700 (PDT)
-Received: from orome (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3675a0e174bsm2524956f8f.63.2024.06.28.07.42.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 07:42:36 -0700 (PDT)
-Date: Fri, 28 Jun 2024 16:42:35 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: John Stultz <jstultz@google.com>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- Mattijs Korpershoek <mkorpershoek@baylibre.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
- related-flags
-Message-ID: <3e37rhrcqogix5obsu2gq7jar7bcoamx4bbd376az5z3zdkwvm@jstirwdl5efm>
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
- <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
- <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
- <CANDhNCo5hSC-sLwdkBi3e-Ja-MzdqcGGbn-4G3XNYwCzZUwscw@mail.gmail.com>
- <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
- <qy7aczeu6kumv5utemoevi7omp5ryq55zmgzxh5hrz5orf2osp@wypg66awof4n>
- <20240628-resilient-resolute-rook-0fc531@houat>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9614D10E063;
+ Fri, 28 Jun 2024 14:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719585981; x=1751121981;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=i7cyVlN5OFwlHWLdv7Bf0jpGSkVnvkKIYTFFHuHnMtg=;
+ b=fQeqBHkf++j7Tw7iNSBEnfcxraGSlL2zBaK5SBbygtwfUbzqGa+vdf7F
+ /Naiolpe1STEKplgiXFPKdBq6wmy8f9Ldk4vb4To4omgj62St/TmTZnLT
+ oaO9lhCy5ITNdMoXgO4JB6RpVUHiMT8QfBTU2yJ1DdeLeR+yq6KHxAD6u
+ N4UtUWcpLBjufI5OhHM51yX574rqiuRaOiwkdjonHix7JC/NZH3YF9pb6
+ fc3b9ukwHhICckTyQugvtF64W+oBRbOu5Sfgu93lZdcxJcIVMcFfeb6ed
+ 0gNfAbGJSowX5G2fSh1+fOb/VA74hj0K9PrprIQz8AJDZ0pC81ZyWhwAo g==;
+X-CSE-ConnectionGUID: 8TER26FYSsWdjrgrvtiWwQ==
+X-CSE-MsgGUID: RUMRwI4bT3SpRONshZrx/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16904959"
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="16904959"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 07:46:12 -0700
+X-CSE-ConnectionGUID: TNY4jTfLQmqEM8EFk66ImQ==
+X-CSE-MsgGUID: 8VawjpGbQo6Dsd4hw8lrow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="49365750"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.249])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 07:46:05 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Oded
+ Gabbay <ogabbay@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-next
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Fri, 28 Jun 2024 17:46:01 +0300
+Message-ID: <875xttazx2.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7qapu67rznvjb2hm"
-Content-Disposition: inline
-In-Reply-To: <20240628-resilient-resolute-rook-0fc531@houat>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,227 +76,208 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---7qapu67rznvjb2hm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Dave & Sima -
 
-On Fri, Jun 28, 2024 at 03:08:46PM GMT, Maxime Ripard wrote:
-> Hi,
->=20
-> On Fri, Jun 28, 2024 at 01:29:17PM GMT, Thierry Reding wrote:
-> > On Tue, May 21, 2024 at 02:06:19PM GMT, Daniel Vetter wrote:
-> > > On Thu, May 16, 2024 at 09:51:35AM -0700, John Stultz wrote:
-> > > > On Thu, May 16, 2024 at 3:56=E2=80=AFAM Daniel Vetter <daniel@ffwll=
-=2Ech> wrote:
-> > > > > On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
-> > > > > > But it makes me a little nervous to add a new generic allocatio=
-n flag
-> > > > > > for a feature most hardware doesn't support (yet, at least). So=
- it's
-> > > > > > hard to weigh how common the actual usage will be across all the
-> > > > > > heaps.
-> > > > > >
-> > > > > > I apologize as my worry is mostly born out of seeing vendors re=
-ally
-> > > > > > push opaque feature flags in their old ion heaps, so in providi=
-ng a
-> > > > > > flags argument, it was mostly intended as an escape hatch for
-> > > > > > obviously common attributes. So having the first be something t=
-hat
-> > > > > > seems reasonable, but isn't actually that common makes me fret =
-some.
-> > > > > >
-> > > > > > So again, not an objection, just something for folks to stew on=
- to
-> > > > > > make sure this is really the right approach.
-> > > > >
-> > > > > Another good reason to go with full heap names instead of opaque =
-flags on
-> > > > > existing heaps is that with the former we can use symlinks in sys=
-fs to
-> > > > > specify heaps, with the latter we need a new idea. We haven't yet=
- gotten
-> > > > > around to implement this anywhere, but it's been in the dma-buf/h=
-eap todo
-> > > > > since forever, and I like it as a design approach. So would be a =
-good idea
-> > > > > to not toss it. With that display would have symlinks to cma-ecc =
-and cma,
-> > > > > and rendering maybe cma-ecc, shmem, cma heaps (in priority order)=
- for a
-> > > > > SoC where the display needs contig memory for scanout.
-> > > >=20
-> > > > So indeed that is a good point to keep in mind, but I also think it
-> > > > might re-inforce the choice of having ECC as a flag here.
-> > > >=20
-> > > > Since my understanding of the sysfs symlinks to heaps idea is about
-> > > > being able to figure out a common heap from a collection of devices,
-> > > > it's really about the ability for the driver to access the type of
-> > > > memory. If ECC is just an attribute of the type of memory (as in th=
-is
-> > > > patch series), it being on or off won't necessarily affect
-> > > > compatibility of the buffer with the device.  Similarly "uncached"
-> > > > seems more of an attribute of memory type and not a type itself.
-> > > > Hardware that can access non-contiguous "system" buffers can access
-> > > > uncached system buffers.
-> > >=20
-> > > Yeah, but in graphics there's a wide band where "shit performance" is
-> > > defacto "not useable (as intended at least)".
-> > >=20
-> > > So if we limit the symlink idea to just making sure zero-copy access =
-is
-> > > possible, then we might not actually solve the real world problem we =
-need
-> > > to solve. And so the symlinks become somewhat useless, and we need to
-> > > somewhere encode which flags you need to use with each symlink.
-> > >=20
-> > > But I also see the argument that there's a bit a combinatorial explos=
-ion
-> > > possible. So I guess the question is where we want to handle it ...
-> >=20
-> > Sorry for jumping into this discussion so late. But are we really
-> > concerned about this combinatorial explosion in practice? It may be
-> > theoretically possible to create any combination of these, but do we
-> > expect more than a couple of heaps to exist in any given system?
->=20
-> I don't worry too much about the number of heaps available in a given
-> system, it would indeed be fairly low.
->=20
-> My concern is about the semantics combinatorial explosion. So far, the
-> name has carried what semantics we were supposed to get from the buffer
-> we allocate from that heap.
->=20
-> The more variations and concepts we'll have, the more heap names we'll
-> need, and with confusing names since we wouldn't be able to change the
-> names of the heaps we already have.
+Another feature pull towards v6.11, hopefully last. This should also fix
+the 32-bit build issue [1] seen in drm-next.
 
-What I was trying to say is that none of this matters if we make these
-names opaque. If these names are contextual for the given system it
-doesn't matter what the exact capabilities are. It only matters that
-their purpose is known and that's what applications will be interested
-in.
+BR,
+Jani.
 
-> > Would it perhaps make more sense to let a platform override the heap
-> > name to make it more easily identifiable? Maybe this is a naive
-> > assumption, but aren't userspace applications and drivers not primarily
-> > interested in the "type" of heap rather than whatever specific flags
-> > have been set for it?
->=20
-> I guess it depends on what you call the type of a heap. Where we
-> allocate the memory from, sure, an application won't care about that.
-> How the buffer behaves on the other end is definitely something
-> applications are going to be interested in though.
 
-Most of these heaps will be very specific, I would assume. For example a
-heap that is meant to be protected for protected video decoding is both
-going to be created in such a way as to allow that use-case (i.e. it
-doesn't make sense for it to be uncached, for example) and it's also not
-going to be useful for any other use-case (i.e. there's no reason to use
-that heap for GPU jobs or networking, or whatever).
+[1] https://lore.kernel.org/r/CAPM=3D9tyNGA2wEgnsKdSyjHRGVikywZLdueZj=3DsyT=
+MFYEUNzxhw@mail.gmail.com
 
-> And if we allow any platform to change a given heap name, then a generic
-> application won't be able to support that without some kind of
-> platform-specific configuration.
 
-We could still standardize on common use-cases so that applications
-would know what heaps to allocate from. But there's also no need to
-arbitrarily restrict this. For example there could be cases that are
-very specific to a particular platform and which just doesn't exist
-anywhere else. Platform designers could then still use this mechanism to
-define that very particular heap and have a very specialized userspace
-application use that heap for their purpose.
+drm-intel-next-2024-06-28:
+drm/i915 feature pull #2 for v6.11:
 
-> > For example, if an applications wants to use a protected buffer, the
-> > application doesn't (and shouldn't need to) care about whether the heap
-> > for that buffer supports ECC or is backed by CMA. All it really needs to
-> > know is that it's the system's "protected" heap.
->=20
-> I mean... "protected" very much means backed by CMA already, it's pretty
-> much the only thing we document, and we call it as such in Kconfig.
+Features and functionality:
+- More eDP Panel Replay enabling (Jouni)
+- Add async flip and flip done tracepoints (Ville)
 
-Well, CMA is really just an implementation detail, right? It doesn't
-make sense to advertise that to anything outside the kernel. Maybe it's
-an interesting fact that buffers allocated from these heaps will be
-physically contiguous? In the majority of cases that's probably not even
-something that matters because we get a DMA-BUF anyway and we can map
-that any way we want.
+Refactoring and cleanups:
+- Clean up BDW+ pipe interrupt register definitions (Ville)
+- Prep work for DSB based plane programming (Ville)
+- Relocate encoder suspend/shutdown helpers (Imre)
+- Polish plane surface alignment handling (Ville)
 
-Irrespective of that, physically contigous buffers could be allocated in
-any number of ways, CMA is just a convenient implementation of one such
-allocator.
+Fixes:
+- Enable more fault interrupts on TGL+/MTL+ (Ville)
+- Fix CMRR 32-bit build (Mitul)
+- Fix PSR Selective Update Region Scan Line Capture Indication (Jouni)
+- Fix cursor fb unpinning (Maarten, Ville)
+- Fix Cx0 PHY PLL state verification in TBT mode (Imre)
+- Fix unnecessary MG DP programming on MTL+ Type-C (Imre)
 
-> But yeah, I agree that being backed by CMA is probably not what an
-> application cares about (and we even have might some discussions about
-> that), but if the ECC protection comes at a performance cost then it
-> will very much care about it. Or if it comes with caches enabled or not.
+DRM changes:
+- Rename drm_plane_check_pixel_format() to drm_plane_has_format() and export
+  (Ville)
+- Add drm_vblank_work_flush_all() (Maarten)
 
-True, no doubt about that. However, I'm saying there may be advantages
-in hiding all of this from applications. Let's say we're trying to
-implement video decoding. We can create a special "protected-video" heap
-that is specifically designed to allocate encrypted/protected scanout
-buffers from.
+Xe driver changes:
+- Call encoder .suspend_complete() hook also on Xe (Imre)
 
-When you design that system, you would most certainly not enable ECC
-protection on that heap because it leads to bad performance. You would
-also want to make sure that all of the buffers in that heap are cached
-and whatever other optimizations your chip may provide.
+BR,
+Jani.
 
-Your application doesn't have to care about this, though, because it can
-simply look for a heap named "protected-video" and allocate buffers from
-it.
+The following changes since commit d754ed2821fd9675d203cb73c4afcd593e28b7d0:
 
-> > This rather than try to represent every possible combination we
-> > basically make this a "configuration" issue. System designers need to
-> > settle on whatever combination of flags work for all the desired use-
-> > cases and then we expose that combination as a named heap.
->=20
-> This just pushes the problem down to applications, and carry the flags
-> mentioned earlier in the heap name. So the same information, but harder
-> to process or discover for an application.
+  Merge drm/drm-next into drm-intel-next (2024-06-19 11:38:31 +0300)
 
-Yes, this pushes the problem down to the application. But given the
-above I don't think it becomes at all hard to process. We may sacrifice
-some flexibility, but I'm arguing that it's flexibility that we don't
-need anyway.
+are available in the Git repository at:
 
-> > One problem that this doesn't solve is that we still don't have a way of
-> > retrieving these flags in drivers which may need them.
->=20
-> I'm not sure drivers should actually need to allocate from heaps, but we
-> could do it just like I suggested we'd do it for applications: we add a
-> new function that allows to discover what a given heap capabilities are.
-> And then we just have to iterate and choose the best suited for our
-> needs.
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-20=
+24-06-28
 
-Yeah, that's an interesting option as well. I think contrary to
-userspace it makes more sense to work off of a set of flags at the
-kernel level.
+for you to fetch changes up to 32a120f52a4c0121bca8f2328d4680d283693d60:
 
-The obvious downside to this is that userspace now also needs driver-
-specific implementations for the allocation. Similar to the above it
-gives us a lot of flexibility at the cost of simplicity.
+  drm/i915/mtl: Skip PLL state verification in TBT mode (2024-06-28 12:50:5=
+2 +0300)
 
-Thierry
+----------------------------------------------------------------
+drm/i915 feature pull #2 for v6.11:
 
---7qapu67rznvjb2hm
-Content-Type: application/pgp-signature; name="signature.asc"
+Features and functionality:
+- More eDP Panel Replay enabling (Jouni)
+- Add async flip and flip done tracepoints (Ville)
 
------BEGIN PGP SIGNATURE-----
+Refactoring and cleanups:
+- Clean up BDW+ pipe interrupt register definitions (Ville)
+- Prep work for DSB based plane programming (Ville)
+- Relocate encoder suspend/shutdown helpers (Imre)
+- Polish plane surface alignment handling (Ville)
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZ+y9gACgkQ3SOs138+
-s6GCGw/+P7wCgBX8O+ejKciexhjU0MMJ/iq+fSjPjkyRxYfxOpiFtPIGD7svaXLI
-qlhjMB0FGJ4tU8EYfoWMJzWBcOv3qg33kql9RDenfEWfk7T/teX7LpqH6G1v1CdS
-ozZehvkdw1FyCmTvHT/xzMK3lmEFL58ID/fvs3n8jGOVbMlnxVNZ1tJ2EXSUNc10
-VQzzwOnW4Ur9J16f/WEnVhgDOAYYFPjkFpV5JLarPlcRDfpOf5qrwWo7kbOEwvCz
-+YC/S2bPZsp3qpWYcbfnVN1DTjKIoKCyzJIWgzwA2Sjw71DvlO5UyZb2hYS/5I76
-lj02WxFbTgPGCwEC5g1BaXvviPjsjgXmu32Ap+KghWirxVkDG+8cCmkRrK7qZ3aw
-Mc0T//I4IKRig+EibTRZvCSTVlv9lJgl4swG9n5aytABxH5JV93qwhSdOUlWDkMq
-Xwe0fXwN5TGv+EbrAzf2EodXcCWN8AbasU7jffqFD7iFL7tEeuvF3qmLuOqaEl6w
-AsvsPKbQVxJkVzvJnSDfFZujJ/MVl+cB9S8YP2xpxk/dKcERRLS0uz22adi6C1Mo
-SCLVbhJOt7g3Js+mcbIptS+OK9krDGEVuWoUIQz12GtHR20ePDbAq/3ctFvnGvbI
-gUQR7wFr2r58TnJzkRD4TtJ4Ucg1aDDUSEgFt7nvSpBvCfP4HxM=
-=3/gW
------END PGP SIGNATURE-----
+Fixes:
+- Enable more fault interrupts on TGL+/MTL+ (Ville)
+- Fix CMRR 32-bit build (Mitul)
+- Fix PSR Selective Update Region Scan Line Capture Indication (Jouni)
+- Fix cursor fb unpinning (Maarten, Ville)
+- Fix Cx0 PHY PLL state verification in TBT mode (Imre)
+- Fix unnecessary MG DP programming on MTL+ Type-C (Imre)
 
---7qapu67rznvjb2hm--
+DRM changes:
+- Rename drm_plane_check_pixel_format() to drm_plane_has_format() and export
+  (Ville)
+- Add drm_vblank_work_flush_all() (Maarten)
+
+Xe driver changes:
+- Call encoder .suspend_complete() hook also on Xe (Imre)
+
+----------------------------------------------------------------
+Imre Deak (5):
+      drm/i915: Move encoder suspend/shutdown helpers to intel_encoder.c
+      drm/i915: Pass intel_display to the encoder suspend/shutdown helpers
+      drm/xe: Use the encoder suspend helper also used by the i915 driver
+      drm/i915/display: For MTL+ platforms skip mg dp programming
+      drm/i915/mtl: Skip PLL state verification in TBT mode
+
+Jouni H=C3=B6gander (12):
+      drm/i915/psr: Set DP_PSR_SU_REGION_SCANLINE_CAPTURE bit when needed
+      drm/i915/psr: Check panel ALPM capability for eDP Panel Replay
+      drm/i915/psr: Inform Panel Replay source support on eDP as well
+      drm/i915/psr: enable sink for eDP1.5 Panel Replay
+      drm/i915/psr: Check panel Early Transport capability for eDP PR
+      drm/i915/psr: 128b/132b Panel Replay is not supported on eDP
+      drm/i915/psr: HW will not allow PR on eDP when HDCP enabled
+      drm/i915/alpm: Make crtc_state as const in intel_alpm_compute_params
+      drm/i915/psr: Perform psr2 checks related to ALPM for Panel Replay
+      drm/i915/psr: Perform scanline indication check for Panel Replay as w=
+ell
+      drm/i915/psr: Check Early Transport for Panel Replay as well
+      drm/i915/psr: Modify dg2_activate_panel_replay to support eDP
+
+Maarten Lankhorst (2):
+      drm: Add drm_vblank_work_flush_all().
+      drm/i915: Use the same vblank worker for atomic unpin
+
+Mitul Golani (1):
+      drm/i915/display: Consider adjusted_pixel_rate to be u64
+
+Ville Syrj=C3=A4l=C3=A4 (28):
+      drm/i915: Use REG_BIT() for bdw+ pipe interrupts
+      drm/i915: Document bdw+ pipe interrupt bits
+      drm/i915: Sort bdw+ pipe interrupt bits
+      drm/i915: Extend GEN9_PIPE_PLANE_FLIP_DONE() to cover all universal p=
+lanes
+      drm/i915: Nuke the intermediate pipe fault bitmasks
+      drm/i915: Enable pipeDMC fault interrupts on tgl+
+      drm/i915: Enable plane/pipeDMC ATS fault interrupts on mtl
+      drm/i915: Extract intel_crtc_arm_vblank_event()
+      drm/i915: Add async flip tracepoint
+      drm/i915: Add flip done tracepoint
+      drm/i915: Introduce intel_mode_vdisplay()
+      drm/i915: Pass the whole atomic state to intel_color_prepare_commit()
+      drm/i915/dsb: Plumb the whole atomic state into intel_dsb_prepare()
+      drm/i915/dsb: Convert the DSB code to use intel_display rather than i=
+915
+      drm/i915/dsb: Add i915.enable_dsb module parameter
+      drm/i915: Drop useless intel_dsb.h include
+      drm/i915/dsb: Document that the ATS fault bits are for mtl+
+      drm: Rename drm_plane_check_pixel_format() to drm_plane_has_format()
+      drm: Export drm_plane_has_format()
+      drm/i915: Introduce the plane->min_alignment() vfunc
+      drm/i915: Introduce fb->min_alignment
+      drm/i915: Split cursor alignment to per-platform vfuncs
+      drm/i915: Split pre-skl platforms out from intel_surf_alignment()
+      drm/i915: Move intel_surf_alignment() into skl_univerals_plane.c
+      drm/i915: Update plane alignment requirements for TGL+
+      drm/i915: Nuke the TGL+ chroma plane tile row alignment stuff
+      drm/i915: Use vblank worker to unpin old legacy cursor fb safely
+      drm/i915/dsb: Try to document that DSB_STATUS bit 16 is level trigger=
+ed
+
+ drivers/gpu/drm/drm_atomic.c                       |   7 +-
+ drivers/gpu/drm/drm_crtc.c                         |   6 +-
+ drivers/gpu/drm/drm_crtc_internal.h                |   2 -
+ drivers/gpu/drm/drm_plane.c                        |  32 ++--
+ drivers/gpu/drm/drm_vblank_work.c                  |  22 +++
+ drivers/gpu/drm/i915/display/i9xx_plane.c          |  75 +++++++++-
+ drivers/gpu/drm/i915/display/intel_alpm.c          |   9 +-
+ drivers/gpu/drm/i915/display/intel_alpm.h          |   2 +-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  |  35 ++++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.h  |   6 +
+ drivers/gpu/drm/i915/display/intel_color.c         |  13 +-
+ drivers/gpu/drm/i915/display/intel_color.h         |   3 +-
+ drivers/gpu/drm/i915/display/intel_crtc.c          |  59 ++++++--
+ drivers/gpu/drm/i915/display/intel_crtc.h          |   1 +
+ drivers/gpu/drm/i915/display/intel_cursor.c        |  64 +++++++-
+ drivers/gpu/drm/i915/display/intel_cursor.h        |   3 +
+ drivers/gpu/drm/i915/display/intel_cx0_phy.c       |  11 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           |  11 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |  15 +-
+ drivers/gpu/drm/i915/display/intel_display_irq.c   |  50 ++++++-
+ .../gpu/drm/i915/display/intel_display_params.c    |   3 +
+ .../gpu/drm/i915/display/intel_display_params.h    |   1 +
+ drivers/gpu/drm/i915/display/intel_display_trace.h |  50 +++++++
+ drivers/gpu/drm/i915/display/intel_display_types.h |   8 +
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.h      |   1 +
+ drivers/gpu/drm/i915/display/intel_dsb.c           |  66 ++++----
+ drivers/gpu/drm/i915/display/intel_dsb.h           |   4 +-
+ drivers/gpu/drm/i915/display/intel_dsb_regs.h      |   6 +-
+ drivers/gpu/drm/i915/display/intel_encoder.c       |  44 ++++++
+ drivers/gpu/drm/i915/display/intel_encoder.h       |   4 +
+ drivers/gpu/drm/i915/display/intel_fb.c            | 151 ++++-------------=
+--
+ drivers/gpu/drm/i915/display/intel_fb.h            |   3 -
+ drivers/gpu/drm/i915/display/intel_fb_pin.c        |  39 +++--
+ drivers/gpu/drm/i915/display/intel_fb_pin.h        |   3 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c         |   5 +-
+ drivers/gpu/drm/i915/display/intel_psr.c           | 166 +++++++++++++++++=
+----
+ drivers/gpu/drm/i915/display/intel_sprite.c        |  26 ++++
+ drivers/gpu/drm/i915/display/intel_vblank.c        |  10 ++
+ drivers/gpu/drm/i915/display/intel_vblank.h        |   1 +
+ drivers/gpu/drm/i915/display/intel_vrr.c           |   2 +-
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |  85 ++++++++++-
+ drivers/gpu/drm/i915/i915_driver.c                 |  51 +------
+ drivers/gpu/drm/i915/i915_reg.h                    |  80 +++++-----
+ drivers/gpu/drm/xe/display/xe_display.c            |  18 +--
+ drivers/gpu/drm/xe/display/xe_fb_pin.c             |   3 +-
+ drivers/gpu/drm/xe/display/xe_plane_initial.c      |   4 +-
+ include/drm/drm_plane.h                            |   2 +
+ include/drm/drm_vblank_work.h                      |   2 +
+ 48 files changed, 873 insertions(+), 391 deletions(-)
+
+--=20
+Jani Nikula, Intel
