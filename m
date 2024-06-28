@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E02E91C70F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 22:07:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3DE91C70E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 22:07:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A630210ED46;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFFD10ED43;
 	Fri, 28 Jun 2024 20:07:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="ZxSftgVf";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="QldMQQTj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
- [209.85.167.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4BCE10E0AE
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 20:07:34 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id
- 5614622812f47-3d5d7fa3485so620353b6e.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 13:07:34 -0700 (PDT)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9415910ED3C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 20:07:35 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-446340c6608so8002501cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 13:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=broadcom.com; s=google; t=1719605254; x=1720210054;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LK+XwEE01O9MKbEeRLGG6iMONNez/yjAzdrVbw7Inj4=;
- b=ZxSftgVfyBb+BiInzUBuOT24PZt/hS1jmXP4RjYUVl48cjpojxoFfvVYC7SbgQzKmb
- Z33v3oZzR/c3ph/hcADGt9gDiuqQf22f+ZghuySSqGjU1sbJ2ojCb3bXi82EbLkAzD6/
- lX9yyN24+rf0FW2HsvrfjOKTNAwV/nWhLQba8=
+ bh=zp8orkZwIjkO6+SF4HBN4w4cqWNAvvI4FjDyB3S0RXY=;
+ b=QldMQQTjv8yQ5uzAi3pEHYmsQothvRqA9M2eS7oEyiOglnTvVUUODn0wJCyfRAEcfy
+ +W4NUdW2zpfKHdKaWMS/3xp2Erb5DgodgkyDKwNJPZN/G18fCxvKze9ggaGwD7tFwqax
+ 7u6B4U1RPsoFRcNOzBNQdq8fyZK6k5Ee4udmM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1719605254; x=1720210054;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LK+XwEE01O9MKbEeRLGG6iMONNez/yjAzdrVbw7Inj4=;
- b=DPQs9dc1UxskxZynH0W0vb+RgCBBed1OY7E8GyI1RDLd8zx+LMNCTTRK9amDqUEU8u
- cI4I6CbNpnKYZ66P56ZEoxuU6BPpyitxKl2Z6bLHX70SkdFdoFYgyPTCJAW0W8yF6Vo0
- GBtO90p4/5jqxKhLd2BoeOee7CWbSCsDc7OXHqHjBoGSHPz5aB6GyYGZUexi5wYxokWD
- VQtYRnXgP63Mxr5lO8Z8xrLBCTvaOSUkKxBBCPK/hZ9jy/LXl5l3b5vPffBDZfbvW5c5
- 3hsKwnfiOOKWXHnloUCSXbPgCuIVMJJLPkkztEFPyE7vd+glkBx4HMeLDmOffg1APuZD
- FASg==
-X-Gm-Message-State: AOJu0YzeqZORWgQj7mRmnvgoSgKRjKekheS9rM9dohoUgPcYEw0kBUbW
- S7X1ndH4aWmiDq0ctao9I+ikTOnt6wwb+LZKwq0fnawm8VifWCSMoMskJM+KdWKTw9dHlXapZjV
- tHa3maSt09YY/xv2MqHUooihuicPMxXhO6jhKDqtMsT+rhLRu7jKLGyLhdKK30l6H4Ig0mCnPlQ
- U0Ah2SihoDb4jwdJr7cGTNoTHwT3DwXUXDgEuX2XWBekQihce3RoVG
-X-Google-Smtp-Source: AGHT+IEFlS1iqDYpizDh8u0tStvgEVizd8V92FqbS/yFD9DE6OuFdGxMZxTGwVkmazZUpchoIX1sSg==
-X-Received: by 2002:a05:6808:13c4:b0:3d5:5e88:d125 with SMTP id
- 5614622812f47-3d55e88d5edmr11809663b6e.21.1719605253680; 
- Fri, 28 Jun 2024 13:07:33 -0700 (PDT)
+ bh=zp8orkZwIjkO6+SF4HBN4w4cqWNAvvI4FjDyB3S0RXY=;
+ b=J8BWXpSJfBMpXIMt2RsR7jf14amwqKk9OpFtmtlaVrzYmbbWD0NJ91KXjQWkKWMBG3
+ DckIv0ImNdMyWmgGj8Y6Hk5RdJ/yqF6U+jFo+XnR46El+4Qgb1w5RJfNhtTInaUg76kY
+ MIYGrKTKsiuftY4/qOdJ5vLH3U+3CN8S+AXgTgcVbPL4dHGiPHH4up12xR/2NbvAbUhg
+ ftO8giRAl8iA1IdY7PO0HI2/eVrbYviWZkfQUAU8ut2Vif7FwDnB1Bkcw0yQ4k8aavA7
+ Tnv15jHtYMsJmDeJoAhopwj3MIEb6E3JkW30Tko/M1j5uez0e9HHSg6z3X3XEikptamY
+ H3WA==
+X-Gm-Message-State: AOJu0YwlTpdU+Ja1kLV5uVJdkJyFETFfu+gr5MMvJN272YP1rMkWgg8w
+ 51K9+xTxM8ekUzgZHVK9Z72wYKcs1E3h0k1ho/jbI1wF3Z5NNcKcSg5mzOJJ2E3Nuk33/5zQTV3
+ A+Gt0Bx+3E5Bl9WrAzsL1ZfGomQcXUTfWxrZpJScw/YTvGTgvkcBYgHW9BvrVhnIYTEPkcOcTlj
+ NaXsY7CTc7J4v88hSzwPgMnVpu2kqWhCNA/Y5UZ3mlWFWHp2FNsqcE
+X-Google-Smtp-Source: AGHT+IHVK9HLCx9oPKarKUBKQaBUkQ5ixAw4yMcDTciIVYOiaKy/Mk1EiUz1VcRMfStABfhmdHsYqA==
+X-Received: by 2002:ac8:7e87:0:b0:444:ce2f:8b01 with SMTP id
+ d75a77b69052e-444d3c41644mr219149141cf.60.1719605254269; 
+ Fri, 28 Jun 2024 13:07:34 -0700 (PDT)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net.
  [173.49.113.140]) by smtp.gmail.com with ESMTPSA id
  d75a77b69052e-4465140bf35sm9972351cf.37.2024.06.28.13.07.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 13:07:33 -0700 (PDT)
+ Fri, 28 Jun 2024 13:07:34 -0700 (PDT)
 From: Zack Rusin <zack.rusin@broadcom.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Broadcom internal kernel review list
  <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
  martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Zack Rusin <zack.rusin@broadcom.com>, stable@vger.kernel.org
-Subject: [PATCH v2 1/4] drm/vmwgfx: Fix a deadlock in dma buf fence polling
-Date: Fri, 28 Jun 2024 16:07:26 -0400
-Message-Id: <20240628200729.754669-2-zack.rusin@broadcom.com>
+ Zack Rusin <zack.rusin@broadcom.com>
+Subject: [PATCH v2 2/4] drm/vmwgfx: Make sure the screen surface is ref counted
+Date: Fri, 28 Jun 2024 16:07:27 -0400
+Message-Id: <20240628200729.754669-3-zack.rusin@broadcom.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240628200729.754669-1-zack.rusin@broadcom.com>
 References: <20240628200729.754669-1-zack.rusin@broadcom.com>
@@ -83,128 +83,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a version of the fence ops that on release doesn't remove
-the fence from the pending list, and thus doesn't require a lock to
-fix poll->fence wait->fence unref deadlocks.
+Fix races issues in virtual crc generation by making sure the surface
+the code uses for crc computation is properly ref counted.
 
-vmwgfx overwrites the wait callback to iterate over the list of all
-fences and update their status, to do that it holds a lock to prevent
-the list modifcations from other threads. The fence destroy callback
-both deletes the fence and removes it from the list of pending
-fences, for which it holds a lock.
-
-dma buf polling cb unrefs a fence after it's been signaled: so the poll
-calls the wait, which signals the fences, which are being destroyed.
-The destruction tries to acquire the lock on the pending fences list
-which it can never get because it's held by the wait from which it
-was called.
-
-Old bug, but not a lot of userspace apps were using dma-buf polling
-interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
+Crc generation was trying to be too clever by allowing the surfaces
+to go in and out of scope, with the hope of always having some kind
+of screen present. That's not always the code, in particular during
+atomic disable, so to make sure the surface, when present, is not
+being actively destroyed at the same time, hold a reference to it.
 
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
+Fixes: 7b0062036c3b ("drm/vmwgfx: Implement virtual crc generation")
+Cc: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Martin Krastev <martin.krastev@broadcom.com>
 Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.2+
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c | 40 +++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index 5efc6a766f64..76971ef7801a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -32,7 +32,6 @@
- #define VMW_FENCE_WRAP (1 << 31)
- 
- struct vmw_fence_manager {
--	int num_fence_objects;
- 	struct vmw_private *dev_priv;
- 	spinlock_t lock;
- 	struct list_head fence_list;
-@@ -120,16 +119,23 @@ static void vmw_fence_goal_write(struct vmw_private *vmw, u32 value)
-  * objects with actions attached to them.
-  */
- 
--static void vmw_fence_obj_destroy(struct dma_fence *f)
-+static void vmw_fence_obj_destroy_removed(struct dma_fence *f)
- {
- 	struct vmw_fence_obj *fence =
- 		container_of(f, struct vmw_fence_obj, base);
- 
-+	WARN_ON(!list_empty(&fence->head));
-+	fence->destroy(fence);
-+}
-+
-+static void vmw_fence_obj_destroy(struct dma_fence *f)
-+{
-+	struct vmw_fence_obj *fence =
-+		container_of(f, struct vmw_fence_obj, base);
- 	struct vmw_fence_manager *fman = fman_from_fence(fence);
- 
- 	spin_lock(&fman->lock);
- 	list_del_init(&fence->head);
--	--fman->num_fence_objects;
- 	spin_unlock(&fman->lock);
- 	fence->destroy(fence);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
+index 3bfcf671fcd5..8651b788e98b 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
+@@ -75,7 +75,7 @@ vmw_surface_sync(struct vmw_private *vmw,
+ 	return ret;
  }
-@@ -257,6 +263,13 @@ static const struct dma_fence_ops vmw_fence_ops = {
- 	.release = vmw_fence_obj_destroy,
- };
  
-+static const struct dma_fence_ops vmw_fence_ops_removed = {
-+	.get_driver_name = vmw_fence_get_driver_name,
-+	.get_timeline_name = vmw_fence_get_timeline_name,
-+	.enable_signaling = vmw_fence_enable_signaling,
-+	.wait = vmw_fence_wait,
-+	.release = vmw_fence_obj_destroy_removed,
-+};
- 
- /*
-  * Execute signal actions on fences recently signaled.
-@@ -355,7 +368,6 @@ static int vmw_fence_obj_init(struct vmw_fence_manager *fman,
- 		goto out_unlock;
+-static int
++static void
+ compute_crc(struct drm_crtc *crtc,
+ 	    struct vmw_surface *surf,
+ 	    u32 *crc)
+@@ -101,8 +101,6 @@ compute_crc(struct drm_crtc *crtc,
  	}
- 	list_add_tail(&fence->head, &fman->fence_list);
--	++fman->num_fence_objects;
  
- out_unlock:
- 	spin_unlock(&fman->lock);
-@@ -403,7 +415,7 @@ static bool vmw_fence_goal_new_locked(struct vmw_fence_manager *fman,
- 				      u32 passed_seqno)
+ 	vmw_bo_unmap(bo);
+-
+-	return 0;
+ }
+ 
+ static void
+@@ -116,7 +114,6 @@ crc_generate_worker(struct work_struct *work)
+ 	u64 frame_start, frame_end;
+ 	u32 crc32 = 0;
+ 	struct vmw_surface *surf = 0;
+-	int ret;
+ 
+ 	spin_lock_irq(&du->vkms.crc_state_lock);
+ 	crc_pending = du->vkms.crc_pending;
+@@ -130,22 +127,24 @@ crc_generate_worker(struct work_struct *work)
+ 		return;
+ 
+ 	spin_lock_irq(&du->vkms.crc_state_lock);
+-	surf = du->vkms.surface;
++	surf = vmw_surface_reference(du->vkms.surface);
+ 	spin_unlock_irq(&du->vkms.crc_state_lock);
+ 
+-	if (vmw_surface_sync(vmw, surf)) {
+-		drm_warn(crtc->dev, "CRC worker wasn't able to sync the crc surface!\n");
+-		return;
+-	}
++	if (surf) {
++		if (vmw_surface_sync(vmw, surf)) {
++			drm_warn(
++				crtc->dev,
++				"CRC worker wasn't able to sync the crc surface!\n");
++			return;
++		}
+ 
+-	ret = compute_crc(crtc, surf, &crc32);
+-	if (ret)
+-		return;
++		compute_crc(crtc, surf, &crc32);
++		vmw_surface_unreference(&surf);
++	}
+ 
+ 	spin_lock_irq(&du->vkms.crc_state_lock);
+ 	frame_start = du->vkms.frame_start;
+ 	frame_end = du->vkms.frame_end;
+-	crc_pending = du->vkms.crc_pending;
+ 	du->vkms.frame_start = 0;
+ 	du->vkms.frame_end = 0;
+ 	du->vkms.crc_pending = false;
+@@ -164,7 +163,7 @@ vmw_vkms_vblank_simulate(struct hrtimer *timer)
+ 	struct vmw_display_unit *du = container_of(timer, struct vmw_display_unit, vkms.timer);
+ 	struct drm_crtc *crtc = &du->crtc;
+ 	struct vmw_private *vmw = vmw_priv(crtc->dev);
+-	struct vmw_surface *surf = NULL;
++	bool has_surface = false;
+ 	u64 ret_overrun;
+ 	bool locked, ret;
+ 
+@@ -179,10 +178,10 @@ vmw_vkms_vblank_simulate(struct hrtimer *timer)
+ 	WARN_ON(!ret);
+ 	if (!locked)
+ 		return HRTIMER_RESTART;
+-	surf = du->vkms.surface;
++	has_surface = du->vkms.surface != NULL;
+ 	vmw_vkms_unlock(crtc);
+ 
+-	if (du->vkms.crc_enabled && surf) {
++	if (du->vkms.crc_enabled && has_surface) {
+ 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
+ 
+ 		spin_lock(&du->vkms.crc_state_lock);
+@@ -336,6 +335,8 @@ vmw_vkms_crtc_cleanup(struct drm_crtc *crtc)
  {
- 	u32 goal_seqno;
--	struct vmw_fence_obj *fence;
-+	struct vmw_fence_obj *fence, *next_fence;
+ 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
  
- 	if (likely(!fman->seqno_valid))
- 		return false;
-@@ -413,7 +425,7 @@ static bool vmw_fence_goal_new_locked(struct vmw_fence_manager *fman,
- 		return false;
++	if (du->vkms.surface)
++		vmw_surface_unreference(&du->vkms.surface);
+ 	WARN_ON(work_pending(&du->vkms.crc_generator_work));
+ 	hrtimer_cancel(&du->vkms.timer);
+ }
+@@ -497,9 +498,12 @@ vmw_vkms_set_crc_surface(struct drm_crtc *crtc,
+ 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
+ 	struct vmw_private *vmw = vmw_priv(crtc->dev);
  
- 	fman->seqno_valid = false;
--	list_for_each_entry(fence, &fman->fence_list, head) {
-+	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
- 		if (!list_empty(&fence->seq_passed_actions)) {
- 			fman->seqno_valid = true;
- 			vmw_fence_goal_write(fman->dev_priv,
-@@ -471,6 +483,7 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
- rerun:
- 	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
- 		if (seqno - fence->base.seqno < VMW_FENCE_WRAP) {
-+			fence->base.ops = &vmw_fence_ops_removed;
- 			list_del_init(&fence->head);
- 			dma_fence_signal_locked(&fence->base);
- 			INIT_LIST_HEAD(&action_list);
-@@ -662,6 +675,7 @@ void vmw_fence_fifo_down(struct vmw_fence_manager *fman)
- 					 VMW_FENCE_WAIT_TIMEOUT);
+-	if (vmw->vkms_enabled) {
++	if (vmw->vkms_enabled && du->vkms.surface != surf) {
+ 		WARN_ON(atomic_read(&du->vkms.atomic_lock) != VMW_VKMS_LOCK_MODESET);
+-		du->vkms.surface = surf;
++		if (du->vkms.surface)
++			vmw_surface_unreference(&du->vkms.surface);
++		if (surf)
++			du->vkms.surface = vmw_surface_reference(surf);
+ 	}
+ }
  
- 		if (unlikely(ret != 0)) {
-+			fence->base.ops = &vmw_fence_ops_removed;
- 			list_del_init(&fence->head);
- 			dma_fence_signal(&fence->base);
- 			INIT_LIST_HEAD(&action_list);
 -- 
 2.40.1
 
