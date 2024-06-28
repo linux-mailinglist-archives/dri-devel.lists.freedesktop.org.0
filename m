@@ -2,67 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB54591B785
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 09:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B07491B795
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 09:06:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5A110EBB9;
-	Fri, 28 Jun 2024 07:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6C710E0BA;
+	Fri, 28 Jun 2024 07:05:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA0F10EBBC
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 07:04:07 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-643f1ee4b3cso2641067b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 00:04:07 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B45110E051
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 07:05:56 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-df481bf6680so243133276.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 00:05:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719558244; x=1720163044;
+ d=1e100.net; s=20230601; t=1719558354; x=1720163154;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=N4VYcLeI6FK6UKDIjd//YA7QOqVsn4Xvt1s7Cj81jOs=;
- b=mJJkgVr0a9xynIyShx77vZ5NnKIOx4DQnRPgUPHizedrJQUHlLNTwiU3EOyH+rOIGa
- dRVfQtorvsuzYTxiBMTeX07Fjc6OYZIEk9A+9y7+ffyf7p1FGJrycJWJdbHn03ktdTn0
- cMGDcGMZqKgRw2sHQUNTBWFV722MlahGOOif0dfKMq3WUKpiwd4o6r1DcrhpG6R31FAz
- 2lSrWEPd1J1sQe4YSVO1kXZBNovD7jf7UaUEEFW07mQetJhjQchiQMRgVzY1MI39Rn99
- IHeh8hi4SKU0eLXzme+D3pNB/MAQewSSb+82K8umcb1E4QKxO0sP2/sAYHaaD7/akCFR
- tTWA==
-X-Gm-Message-State: AOJu0YxuIbILMIfA6u//bPI3U0LkG/hgjnx02RMfxxmJzkEjGR61BpZC
- vn+F4tbOLewH1BvH0veFSgu4bTDWAhstEB81Bzy8zIQ8x37ZmvAEvrvBbF3R
-X-Google-Smtp-Source: AGHT+IFvxN6vMHSrRMceap6LPVeaX8ZsQY3sJJ0XoaF/KWyiLuUjFYfcc4Jm9NtVycwy3oNVI/xThQ==
-X-Received: by 2002:a81:9145:0:b0:64b:392a:b9d7 with SMTP id
- 00721157ae682-64b392aba49mr2746747b3.45.1719558244132; 
- Fri, 28 Jun 2024 00:04:04 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com.
- [209.85.128.175]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-64a99d65cf3sm2461587b3.23.2024.06.28.00.04.03
+ bh=R+FYZpltnsI5f0dWtxLVpiN9qP/1Z2ifl8T1bH4bPTE=;
+ b=sRU8g7PsdwSa4HseAXFkAbah+JRbFLxPPW3LDf6pmq/uO7U1aZxN+7JYz+ZLnrPLVT
+ FhN2r+8Kec8sPMBFmB6Azysb9QX4AoBX0v4xkC9wa03aWOAoZtgEKMq99ofWv8fTuYyZ
+ maRBaqCsOJiYrOrtS/eDPLcEzZNO0JJUkS65aUC7RRhZGQ6i+AIuT5qZ0MDsQMdAc5Jk
+ 5v18OYeCNE2du+UqktERLWpOuCt/uiScicfI5b7V+OR0/FKTE2DBA4//cds4UKo9KSzz
+ PsD4WTU8fVCRNYnrP8pdPQ1UC7dW3LgEYikBHzHeElMsu4A4+bbc5qQUWwN9SiUoGD/B
+ xIBQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUyXb5kMhNbdOHDIttwLDl7oZt1YH+r3CmNUYhWU7spdV6XRVTZqvY+RtnSdTJO9CE9yDHb25ZPnnhtaQAZOw71F214bRggZwjmtbIM9J8Q
+X-Gm-Message-State: AOJu0YwIgytTL4OQj+3BfXawuTpYWlclGYFUiWeVfWDqrZXt1xL1kUSQ
+ Zb46eAtRznYPk0u+pDow83nyybc1EsIktg20WFeW5hU47jRqYYLmpAhRoVqw
+X-Google-Smtp-Source: AGHT+IH6HeNBiaJ+193qHEXGnN+AfybofokgFmx/5zie/CoGe4iXyQ+7l6LyrIWdoAXTs1bVR5WIAA==
+X-Received: by 2002:a25:dc8e:0:b0:e03:5f92:686a with SMTP id
+ 3f1490d57ef6-e035f9271a5mr314214276.41.1719558353745; 
+ Fri, 28 Jun 2024 00:05:53 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
+ [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
+ 3f1490d57ef6-e036170080bsm11688276.18.2024.06.28.00.05.53
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jun 2024 00:04:03 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-643f1ee4b3cso2640607b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 00:04:03 -0700 (PDT)
-X-Received: by 2002:a05:690c:944:b0:64a:397f:9599 with SMTP id
- 00721157ae682-64a397f9801mr27078607b3.30.1719558242907; Fri, 28 Jun 2024
- 00:04:02 -0700 (PDT)
+ Fri, 28 Jun 2024 00:05:53 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-64b417e1511so929047b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 00:05:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUjiZttYUlOYSTDnZ/yBsl21mOSTklkwuKY2IWhkgwFpWLVetWwIUabeOD88+13RY4/MWAKulufL4xGEN90m+LdPO1IZopg0iGsjMkLGkjD
+X-Received: by 2002:a81:b049:0:b0:64b:4a32:850a with SMTP id
+ 00721157ae682-64b4a328848mr1657517b3.29.1719558352976; Fri, 28 Jun 2024
+ 00:05:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240627173530.460615-1-thuth@redhat.com>
-In-Reply-To: <20240627173530.460615-1-thuth@redhat.com>
+ <571556ed-17d2-4bcc-bb1f-fd4f827829c6@suse.de>
+In-Reply-To: <571556ed-17d2-4bcc-bb1f-fd4f827829c6@suse.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 28 Jun 2024 09:03:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU4cpizpk7CWPbCs3GKJcG95yrnh9FwwEgLsm17wa-fNA@mail.gmail.com>
-Message-ID: <CAMuHMdU4cpizpk7CWPbCs3GKJcG95yrnh9FwwEgLsm17wa-fNA@mail.gmail.com>
+Date: Fri, 28 Jun 2024 09:05:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW2tk76CZAR=xCJTuwiotO+=J=VaQaozSZ9fLU6eWeWZg@mail.gmail.com>
+Message-ID: <CAMuHMdW2tk76CZAR=xCJTuwiotO+=J=VaQaozSZ9fLU6eWeWZg@mail.gmail.com>
 Subject: Re: [PATCH] drm/fbdev-generic: Fix framebuffer on big endian devices
-To: Thomas Huth <thuth@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, 
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>, dri-devel@lists.freedesktop.org, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>, 
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Christian Zigotzky <chzigotzky@xenosoft.de>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org, 
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,65 +86,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Thomas,
 
-CC Christian
-
-On Thu, Jun 27, 2024 at 7:35=E2=80=AFPM Thomas Huth <thuth@redhat.com> wrot=
-e:
-> Starting with kernel 6.7, the framebuffer text console is not working
-> anymore with the virtio-gpu device on s390x hosts. Such big endian fb
-> devices are usinga different pixel ordering than little endian devices,
-> e.g. DRM_FORMAT_BGRX8888 instead of DRM_FORMAT_XRGB8888.
+On Fri, Jun 28, 2024 at 8:07=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+> Am 27.06.24 um 19:35 schrieb Thomas Huth:
+> > Starting with kernel 6.7, the framebuffer text console is not working
+> > anymore with the virtio-gpu device on s390x hosts. Such big endian fb
+> > devices are usinga different pixel ordering than little endian devices,
+> > e.g. DRM_FORMAT_BGRX8888 instead of DRM_FORMAT_XRGB8888.
+> >
+> > This used to work fine as long as drm_client_buffer_addfb() was still
+> > calling drm_mode_addfb() which called drm_driver_legacy_fb_format()
+> > internally to get the right format. But drm_client_buffer_addfb() has
+> > recently been reworked to call drm_mode_addfb2() instead with the
+> > format value that has been passed to it as a parameter (see commit
+> > 6ae2ff23aa43 ("drm/client: Convert drm_client_buffer_addfb() to drm_mod=
+e_addfb2()").
+> >
+> > That format parameter is determined in drm_fbdev_generic_helper_fb_prob=
+e()
+> > via the drm_mode_legacy_fb_format() function - which only generates
+> > formats suitable for little endian devices. So to fix this issue
+> > switch to drm_driver_legacy_fb_format() here instead to take the
+> > device endianness into consideration.
+> >
+> > Fixes: 6ae2ff23aa43 ("drm/client: Convert drm_client_buffer_addfb() to =
+drm_mode_addfb2()")
+> > Closes: https://issues.redhat.com/browse/RHEL-45158
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
 >
-> This used to work fine as long as drm_client_buffer_addfb() was still
-> calling drm_mode_addfb() which called drm_driver_legacy_fb_format()
-> internally to get the right format. But drm_client_buffer_addfb() has
-> recently been reworked to call drm_mode_addfb2() instead with the
-> format value that has been passed to it as a parameter (see commit
-> 6ae2ff23aa43 ("drm/client: Convert drm_client_buffer_addfb() to drm_mode_=
-addfb2()").
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 >
-> That format parameter is determined in drm_fbdev_generic_helper_fb_probe(=
-)
-> via the drm_mode_legacy_fb_format() function - which only generates
-> formats suitable for little endian devices. So to fix this issue
-> switch to drm_driver_legacy_fb_format() here instead to take the
-> device endianness into consideration.
 >
-> Fixes: 6ae2ff23aa43 ("drm/client: Convert drm_client_buffer_addfb() to dr=
-m_mode_addfb2()")
-> Closes: https://issues.redhat.com/browse/RHEL-45158
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-works fine on m68k-virt, so:
-Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-Christian had reported a similar issue before[1].
-I submitted a different solution fixing virtio[2] instead, but that
-caused issues with virtio-mouse-pci cursor...
-
-> --- a/drivers/gpu/drm/drm_fbdev_generic.c
-> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
-> @@ -84,7 +84,8 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm=
-_fb_helper *fb_helper,
->                     sizes->surface_width, sizes->surface_height,
->                     sizes->surface_bpp);
+> > ---
+> >   drivers/gpu/drm/drm_fbdev_generic.c | 3 ++-
 >
-> -       format =3D drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->s=
-urface_depth);
-> +       format =3D drm_driver_legacy_fb_format(dev, sizes->surface_bpp,
-> +                                            sizes->surface_depth);
->         buffer =3D drm_client_framebuffer_create(client, sizes->surface_w=
-idth,
->                                                sizes->surface_height, for=
-mat);
->         if (IS_ERR(buffer))
+> This file is now called drm_fbdev_ttm.c in drm-misc-next. And a similar
+> patch might be necessary for drm_fbdev_dma.c. The code in
+> drm_fbdev_shmem.c apparently has it already.
 
-[1] https://lore.kernel.org/6530cea3-4507-454e-bc36-a6970c8e7578@xenosoft.d=
-e/
-[2] "[PATCH v2] drm/virtio: Add suppport for non-native buffer formats"
-    https://lore.kernel.org/47a81d2e0e47b1715718779b6978a8b595cc7c5d.170014=
-0609.git.geert@linux-m68k.org
+We are getting too many copies of this logic...
+(yup, had to fix them all up in my WIP support for R1 ;-)
 
 Gr{oetje,eeting}s,
 
