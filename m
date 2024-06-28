@@ -2,83 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F09891C53A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 19:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA4C91C544
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 19:58:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A66D610ECE1;
-	Fri, 28 Jun 2024 17:54:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D87E10ECE3;
+	Fri, 28 Jun 2024 17:58:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JU1Uy8NA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f0VLyeXv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04C0F10ECE1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 17:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1719597294;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iJtGhUgvUDUBCNqCRXiCweWqh3UEoqmmn+2NlVqrfuI=;
- b=JU1Uy8NAtnAdKofmKW2/wRrGn6U76NpQlaRo53nQTlSac7q9VX4HFXNtdb+Rp509v9IMtC
- XA7hQDUNPv7irKQNauZXO43oRZbsYR0C6phZI3C5iMRIS/hZxSwnWzTUzzyQdgRu26UHoS
- zdUQea87ijgxHuXJtfbCleB4lXWO55Q=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-651-9fal6oXKO0aDaZ2tDQmGWw-1; Fri, 28 Jun 2024 13:54:53 -0400
-X-MC-Unique: 9fal6oXKO0aDaZ2tDQmGWw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4463fa50f4aso13020091cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 10:54:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719597293; x=1720202093;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TB1YvVhQLn/H70Rr+uFCjpzP9CQR7nQAEPIty/GMlrU=;
- b=SFvmlroIQ0O/czS8qkVlwPWjMbmB4nkWFYJNpkz55E0devrVimkHdYzNPa46diL9ws
- /a5ZvdMGaCIQqPJ/AWxdjnr5Ws2RpCPJ5izvTSNCNyU/bvaVfzMaKYhAqHuAkT3tbjpl
- fVPfN1rrAbvgPta7AmOsB0d9QrHQfA3c7HsW8xcPkto88R9zhKGnAnr5VzH1B/XKelf/
- WPDGnrbggkUKt3tAiv6Zz0lRn4cg08fDa+jBUNrdfhZKdPWcVLU8EQNF8PrKqbq1iox9
- ONqLLu9Na6FmdriWV58SbtFY6ehT1qXhAhzc3BOrTAfEu02KM15qViAisc62v+j1w0E3
- sJnQ==
-X-Gm-Message-State: AOJu0YypWMfaXw2CZ7021G8fhJVNnpiYbC81b4f5XP4O96y/SQKmYTVg
- 08Ylmalvu9jb5K/vgtg92+btpdSXrjD04Ql3dYz4jwc3TlGRqBaVVGkDFGgKMT0wqsjeNKlvUmJ
- hW4iHjt5cyJdfTXAxNT34hVnj8VBG31suS1OzZ2Ul/ZE6h2KVCnIl/0UiY7xV+DI6Ig==
-X-Received: by 2002:ac8:5a15:0:b0:43d:e4c8:8059 with SMTP id
- d75a77b69052e-444d92335aamr216984651cf.38.1719597292939; 
- Fri, 28 Jun 2024 10:54:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHliaKczNq59esZ7bbqWZZwIg7BK0Qk7e2Vg6tc6pE8nfO36/kFIUgUN4o6+qKPkamp6yxIxA==
-X-Received: by 2002:ac8:5a15:0:b0:43d:e4c8:8059 with SMTP id
- d75a77b69052e-444d92335aamr216984461cf.38.1719597292583; 
- Fri, 28 Jun 2024 10:54:52 -0700 (PDT)
-Received: from chopper.lyude.net ([2600:4040:5c4c:a000::789])
- by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-44651428177sm9074601cf.40.2024.06.28.10.54.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 10:54:52 -0700 (PDT)
-Message-ID: <c7f963fa69a8bff65c54dbacad4c890ce26f57a4.camel@redhat.com>
-Subject: Re: [PATCH v2] drm/nouveau: fix null pointer dereference in
- nouveau_connector_get_modes
-From: Lyude Paul <lyude@redhat.com>
-To: Ma Ke <make24@iscas.ac.cn>, kherbst@redhat.com, dakr@redhat.com, 
- airlied@gmail.com, daniel@ffwll.ch, airlied@redhat.com, bskeggs@redhat.com
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Fri, 28 Jun 2024 13:54:51 -0400
-In-Reply-To: <20240627022732.2978601-1-make24@iscas.ac.cn>
-References: <20240627022732.2978601-1-make24@iscas.ac.cn>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB9510ECE3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 17:58:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719597509; x=1751133509;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=SLMLIlIwPxeoqGSeXB0AmCzYU+PGutTsVn/dsTy+csY=;
+ b=f0VLyeXvDVKvqnL+29XBXvhOmOie9b+0TN+6vXlOhRBTu8GjHnuUp0ZZ
+ vwYeapiQujw1WV5g5grVU8Zi6OBP+T/ABF4jBFvBXTPwB7YBkYmRsybQi
+ yjpME2GG4AbShP0wb5xS745nqOY0dj+wsJtFW/64WoJbhwe05y7LHETPA
+ kzbXVk8OuajLowcMgNyyABCeEB4XrFswcVIx5yqGDQXSx70af5eI/58og
+ gQjz/sP7BaJkVJv9tGhp4MUmMDEESAJRYPJWlM017oLkcBsVDObjtDAxo
+ qpSB9TvHAdnRX++UuO9RJfhxyBySZDHX++syPeG4nhxUPIJzVHeOx5Um/ w==;
+X-CSE-ConnectionGUID: 89+dFRncRpuArMU/qCmajw==
+X-CSE-MsgGUID: 5d5uKRViTk65crVhLLgwag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16528362"
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="16528362"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 10:58:29 -0700
+X-CSE-ConnectionGUID: MuGJDCC9RO6Mghn9BdfYvg==
+X-CSE-MsgGUID: agBB+jtoQv2UHY75WX5/jw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="49281196"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by fmviesa005.fm.intel.com with ESMTP; 28 Jun 2024 10:58:26 -0700
+Received: from [10.245.96.165] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.245.96.165])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id BB2542877F;
+ Fri, 28 Jun 2024 18:58:24 +0100 (IST)
+Message-ID: <712046ed-2481-4644-80d7-707bbe8b5c20@intel.com>
+Date: Fri, 28 Jun 2024 19:58:23 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: linux-next: build failure after merge of the drm
+To: Mark Brown <broonie@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Piotr_Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: buildfailureaftermergeofthedrmtree@sirena.org.uk,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+References: <Zn7s611xnutUFxR0@sirena.org.uk>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <Zn7s611xnutUFxR0@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,46 +78,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Will push this upstream in just a moment, thanks!
 
-On Thu, 2024-06-27 at 10:27 +0800, Ma Ke wrote:
-> In nouveau_connector_get_modes(), the return value of
-> drm_mode_duplicate()
-> is assigned to mode, which will lead to a possible NULL pointer
-> dereference on failure of drm_mode_duplicate(). Add a check to avoid
-> npd.
->=20
-> Fixes: 6ee738610f41 ("drm/nouveau: Add DRM driver for NVIDIA GPUs")
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-> ---
-> Changes in v2:
-> - modified the patch according to suggestions.
-> ---
-> =C2=A0drivers/gpu/drm/nouveau/nouveau_connector.c | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> index 856b3ef5edb8..0c71d761d378 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> @@ -1001,6 +1001,9 @@ nouveau_connector_get_modes(struct
-> drm_connector *connector)
-> =C2=A0=09=09struct drm_display_mode *mode;
-> =C2=A0
-> =C2=A0=09=09mode =3D drm_mode_duplicate(dev, nv_connector-
-> >native_mode);
-> +=09=09if (!mode)
-> +=09=09=09return 0;
-> +
-> =C2=A0=09=09drm_mode_probed_add(connector, mode);
-> =C2=A0=09=09ret =3D 1;
-> =C2=A0=09}
+On 28.06.2024 19:03, Mark Brown wrote:
+> Hi all,
+> 
+> After merging the drm tree, today's linux-next build (x86_64
+> allmodconfig) failed like this:
+> 
+> /tmp/next/build/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c: In function 'pf_get_threshold':
+> /tmp/next/build/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:1788:27: error: unused variable 'xe' [-Werror=unused-variable]
+>  1788 |         struct xe_device *xe = gt_to_xe(gt);
+>       |                           ^~
+> cc1: all warnings being treated as errors
+> 
+> Caused by commit
+> 
+>   629df234bfe73d ("drm/xe/pf: Introduce functions to configure VF thresholds")
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+it must have been something else wrong, as this commit [1] does not
+contain this line, it was not part of patch itself [2] and I can't find
+any other commit related to this function on drm-tip
 
+but it was noticed today and some fixup was already applied [3]
+
+[1]
+https://gitlab.freedesktop.org/drm/xe/kernel/-/commit/629df234bfe73dacb4bb0daa4bc2c14824dba159
+[2] https://patchwork.freedesktop.org/patch/594015/?series=133236&rev=2
+[3]
+https://patchwork.freedesktop.org/patch/601248/?series=135512&rev=1#comment_1094525
+
+> 
+> I have used the tree from 20240627 instead.
