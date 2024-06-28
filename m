@@ -2,88 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162CA91BFC0
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 15:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207C291BFD1
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 15:44:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA34310E5E8;
-	Fri, 28 Jun 2024 13:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B928B10EC5A;
+	Fri, 28 Jun 2024 13:44:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qaAwq6zc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VYQIHtTM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90EAC10EC4E
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 13:40:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D365F60C3D;
- Fri, 28 Jun 2024 13:40:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08C32C116B1;
- Fri, 28 Jun 2024 13:40:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719582025;
- bh=UWPWV5xOWPvWRohvXp3jsd5OyLdElhEyWkgsMgthC0s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qaAwq6zcOXnpgYUwN0NVIO0yqpZ0Zb5n2YZUgJX5BmAQYP2Cluav1xiJq0hZ1F060
- swoFvPvWsQ7X032KHtT6ExmTb2egebRNSVrf4Be3qEMXEjjOWdH0RacwDbG/wbJ/IL
- Lr5X0sHIKotDF4a8APUYV/YhbMEi97yJeuTM4Ndsjf4JMs3/HwJanR6v9/QibvkRsl
- 44QEsuf0ytcePzl2v7ab0R9CGcp6eTRGf74VnAJH2ag50Yux/d5x/xrGpW/74HHWh3
- x7UXvQscwRb5ZzQo/H0341550qV2Cd13sb0hgnEiICw+icYbkcsRrPH5hsfSsGqiQB
- YLRRLIPVBVGow==
-Date: Fri, 28 Jun 2024 15:40:22 +0200
-From: "mripard@kernel.org" <mripard@kernel.org>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>, 
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, 
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "jkardatzke@google.com" <jkardatzke@google.com>, 
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "joakim.bech@linaro.org" <joakim.bech@linaro.org>, 
- Youlin Pei =?utf-8?B?KOijtOWPi+aelyk=?= <youlin.pei@mediatek.com>,
- "logang@deltatee.com" <logang@deltatee.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- Kuohong Wang =?utf-8?B?KOeOi+Wci+m0uyk=?= <kuohong.wang@mediatek.com>, 
- Jianjiao Zeng =?utf-8?B?KOabvuWBpeWnoyk=?= <Jianjiao.Zeng@mediatek.com>,
- "contact@emersion.fr" <contact@emersion.fr>, 
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "willy@infradead.org" <willy@infradead.org>, 
- "pavel@ucw.cz" <pavel@ucw.cz>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>, 
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "tjmercier@google.com" <tjmercier@google.com>,
- "jstultz@google.com" <jstultz@google.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>, 
- Yong Wu =?utf-8?B?KOWQtOWLhyk=?= <Yong.Wu@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "ppaalanen@gmail.com" <ppaalanen@gmail.com>
-Subject: Re: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
-Message-ID: <20240628-cuddly-brave-squid-e1cb22@houat>
-References: <cef8f87d-edab-41d8-8b95-f3fc39ad7f74@amd.com>
- <1050c44512374031d1349b5dced228d0efc3fbde.camel@mediatek.com>
- <3104b765-5666-44e4-8788-f1b1b296fe17@amd.com>
- <98c11bad7f40bcc79ed7a2039ddb3a46f99908f5.camel@mediatek.com>
- <75dc1136-7751-4772-9fa7-dd9124684cd2@amd.com>
- <ZnxWWtdShekGSUif@phenom.ffwll.local>
- <ae73a0203d6acf2878c9e3ae2d7554816b9c66ad.camel@mediatek.com>
- <5739abdb-0234-412a-9f25-49219411bbc6@amd.com>
- <20240627-impetuous-aboriginal-cougar-cdcbbf@houat>
- <304c9faa-5a9c-4520-a3d8-0818f76dd7c9@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0C7010EC51;
+ Fri, 28 Jun 2024 13:44:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719582288; x=1751118288;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=HKnPtLQVMYu0rwAOoeK6f2HrODquIJBMzB7c/SHjMO0=;
+ b=VYQIHtTMtfa8fRPw+4HYseDJeHIx2/6+4A3KdKdHkPUa2WzJsSI2b5Qg
+ Rvo/a34YdRo9oFiwwAJ9R+JV7Wi8Ok7XnUtqIPPjGu82+hHpBSAVUKPlH
+ QHE+yjd9TRBKdL0l7bVeI7Pm6MVznZ25EC1nTMdh2TbU5ZBNr8DMeALW0
+ 4qZ7TaZwaGVReEcHm7bjiMX0ErTAcuAnmAXYmges1vksywbE/QC2VrGiV
+ hWq7+GnaTPGTS148PC3U4V94oJXR0p9bQzwNA6pUnYILf5mOx8Rx/ZFNK
+ NrV3jEmEsLZhPdhGanYD1N6KvK65vz/ZOeM8EhryNMGUgGWNoLV4gmbE2 g==;
+X-CSE-ConnectionGUID: fBTYQTZ+SZKgR2+w1R8E6w==
+X-CSE-MsgGUID: G39GlpOcTfGMQn0oDUcqtA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="27898334"
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="27898334"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 06:44:48 -0700
+X-CSE-ConnectionGUID: sg34SEKLSW6B5DSjyfhSPQ==
+X-CSE-MsgGUID: Qk2LfHGiS3CLavuVJvqoVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="75480099"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+ by orviesa002.jf.intel.com with ESMTP; 28 Jun 2024 06:44:44 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sNBu5-000H9e-3D;
+ Fri, 28 Jun 2024 13:44:41 +0000
+Date: Fri, 28 Jun 2024 21:44:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
+Message-ID: <202406282158.ogy7XNu2-lkp@intel.com>
+References: <20240623110753.141400-4-quic_akhilpo@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wmmpztlpkqqsn5hy"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <304c9faa-5a9c-4520-a3d8-0818f76dd7c9@amd.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240623110753.141400-4-quic_akhilpo@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,91 +78,273 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Akhil,
 
---wmmpztlpkqqsn5hy
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Fri, Jun 28, 2024 at 01:42:27PM GMT, Christian K=F6nig wrote:
-> Am 27.06.24 um 16:40 schrieb mripard@kernel.org:
-> > [SNIP]
-> > > > > > > > Why can't you get this information from userspace?
-> > > > > > Same reason amd and i915/xe also pass this around internally in=
- the
-> > > > > kernel, it's just that for those gpus the render and kms node are=
- the
-> > > > > same
-> > > > > driver so this is easy.
-> > > > >=20
-> > > The reason I ask is that encryption here looks just like another para=
-meter
-> > > for the buffer, e.g. like format, stride, tilling etc..
-> > >=20
-> > > So instead of this during buffer import:
-> > >=20
-> > > mtk_gem->secure =3D (!strncmp(attach->dmabuf->exp_name, "restricted",=
- 10));
-> > > mtk_gem->dma_addr =3D sg_dma_address(sg->sgl);
-> > > mtk_gem->size =3D attach->dmabuf->size;
-> > > mtk_gem->sg =3D sg;
-> > >=20
-> > > You can trivially say during use hey this buffer is encrypted.
-> > >=20
-> > > At least that's my 10 mile high view, maybe I'm missing some extensiv=
-e key
-> > > exchange or something like that.
-> > That doesn't work in all cases, unfortunately.
-> >=20
-> > If you're doing secure video playback, the firmware is typically in
-> > charge of the frame decryption/decoding, and you'd get dma-buf back that
-> > aren't accessible by the CPU (or at least, not at the execution level
-> > Linux runs with).
->=20
-> Yeah, that's perfectly fine. At least the AMD encryption solution
-> works exactly like that as well.
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-ne=
+xt-fixes drm-tip/drm-tip linus/master v6.10-rc5]
+[cannot apply to next-20240627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> > So nobody can map that buffer, and the firmware driver is the one who
-> > knows that this buffer cannot be accessed by anyone.
->=20
-> On most hw I know you can actually map that buffer, it's just that the
-> CPU sees only garbage in it because you don't have the necessary
-> decryption keys around.
+url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-P-Oommen/dt-bi=
+ndings-display-msm-gmu-Add-Adreno-X185-GMU/20240626-061111
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
+next
+patch link:    https://lore.kernel.org/r/20240623110753.141400-4-quic_akhil=
+po%40quicinc.com
+patch subject: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
+config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/arch=
+ive/20240628/202406282158.ogy7XNu2-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad7=
+9a14c9e5ec4a369eed4adf567c22cc029863f)
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240628/202406282158.ogy7XNu2-lkp@intel.com/reproduce)
 
-So you can always map and access the buffer, but only if you're in the
-right "context" the content would be correct?
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406282158.ogy7XNu2-lkp@i=
+ntel.com/
 
-I think that part is pretty different than what ARM SoCs are doing,
-where they would typically prevent any CPU access and fault on access.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fda000: 'vdda-pll-supply'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
+b43dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fdf000: 'vdda-phy-supply'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
+b43dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fdf000: 'vdda-pll-supply'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
+b43dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: gmu@3d6a000: reg-names:0: 'gm=
+u' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/gmu.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: gmu@3d6a000: reg-names:1: 'rs=
+cc' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/gmu.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: iommu@3da0000: compatible: 'o=
+neOf' conditional failed, one must be fixed:
+   	['qcom,x1e80100-smmu-500', 'qcom,adreno-smmu', 'qcom,smmu-500', 'arm,mm=
+u-500'] is too long
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,msm8996-smmu-v2', 'qcom,m=
+sm8998-smmu-v2', 'qcom,sdm630-smmu-v2', 'qcom,sm6375-smmu-v2']
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,qcm2290-smmu-500', 'qcom,=
+sc7180-smmu-500', 'qcom,sc7280-smmu-500', 'qcom,sc8180x-smmu-500', 'qcom,sc=
+8280xp-smmu-500', 'qcom,sdm845-smmu-500', 'qcom,sm6115-smmu-500', 'qcom,sm6=
+350-smmu-500', 'qcom,sm6375-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8250=
+-smmu-500', 'qcom,sm8350-smmu-500', 'qcom,sm8450-smmu-500']
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,qcm2290-smmu-500', 'qcom,=
+sa8775p-smmu-500', 'qcom,sc7280-smmu-500', 'qcom,sc8280xp-smmu-500', 'qcom,=
+sm6115-smmu-500', 'qcom,sm6125-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8=
+250-smmu-500', 'qcom,sm8350-smmu-500', 'qcom,sm8450-smmu-500', 'qcom,sm8550=
+-smmu-500', 'qcom,sm8650-smmu-500']
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,sc7280-smmu-500', 'qcom,s=
+m8150-smmu-500', 'qcom,sm8250-smmu-500']
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,msm8996-smmu-v2', 'qcom,s=
+c7180-smmu-v2', 'qcom,sdm630-smmu-v2', 'qcom,sdm845-smmu-v2', 'qcom,sm6350-=
+smmu-v2', 'qcom,sm7150-smmu-v2']
+   	'qcom,sdm845-smmu-v2' was expected
+   	'marvell,ap806-smmu-500' was expected
+   	'qcom,x1e80100-smmu-500' is not one of ['nvidia,tegra186-smmu', 'nvidia=
+,tegra194-smmu', 'nvidia,tegra234-smmu']
+   	'arm,mmu-500' was expected
+   	'qcom,x1e80100-smmu-500' is not one of ['arm,mmu-400', 'arm,mmu-401']
+   	'qcom,x1e80100-smmu-500' is not one of ['arm,smmu-v1', 'arm,smmu-v2', '=
+arm,mmu-400', 'arm,mmu-401', 'arm,mmu-500', 'cavium,smmu-v2']
+   	'qcom,smmu-v2' was expected
+   	'qcom,smmu-500' was expected
+   	'nvidia,smmu-500' was expected
+   	'arm,smmu-v2' was expected
+   	'arm,smmu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: iommu@3da0000: clock-names: F=
+alse schema does not allow ['hlos', 'bus', 'iface', 'ahb']
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: iommu@3da0000: clocks: False =
+schema does not allow [[150, 14], [51, 55], [51, 56], [150, 0]]
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names:=
+ ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@7: compatible:0: 'qcom,s=
+mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
+m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
+pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
+m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
+m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
+qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
+, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
+916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
+994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
+,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
+qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
+5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
+om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
+,smb2351']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c=
+432000/pmic@7: failed to match any schema with compatible: ['qcom,smb2360',=
+ 'qcom,spmi-pmic']
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@a: compatible:0: 'qcom,s=
+mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
+m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
+pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
+m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
+m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
+qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
+, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
+916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
+994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
+,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
+qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
+5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
+om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
+,smb2351']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c=
+432000/pmic@a: failed to match any schema with compatible: ['qcom,smb2360',=
+ 'qcom,spmi-pmic']
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@b: compatible:0: 'qcom,s=
+mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
+m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
+pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
+m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
+m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
+qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
+, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
+916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
+994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
+,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
+qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
+5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
+om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
+,smb2351']
+--
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fda000: 'vdda-pll-supply'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
+b43dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fdf000: 'vdda-phy-supply'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
+b43dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fdf000: 'vdda-pll-supply'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
+b43dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: gmu@3d6a000: reg-names:0: 'gm=
+u' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/gmu.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: gmu@3d6a000: reg-names:1: 'rs=
+cc' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/gmu.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: iommu@3da0000: compatible: 'o=
+neOf' conditional failed, one must be fixed:
+   	['qcom,x1e80100-smmu-500', 'qcom,adreno-smmu', 'qcom,smmu-500', 'arm,mm=
+u-500'] is too long
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,msm8996-smmu-v2', 'qcom,m=
+sm8998-smmu-v2', 'qcom,sdm630-smmu-v2', 'qcom,sm6375-smmu-v2']
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,qcm2290-smmu-500', 'qcom,=
+sc7180-smmu-500', 'qcom,sc7280-smmu-500', 'qcom,sc8180x-smmu-500', 'qcom,sc=
+8280xp-smmu-500', 'qcom,sdm845-smmu-500', 'qcom,sm6115-smmu-500', 'qcom,sm6=
+350-smmu-500', 'qcom,sm6375-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8250=
+-smmu-500', 'qcom,sm8350-smmu-500', 'qcom,sm8450-smmu-500']
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,qcm2290-smmu-500', 'qcom,=
+sa8775p-smmu-500', 'qcom,sc7280-smmu-500', 'qcom,sc8280xp-smmu-500', 'qcom,=
+sm6115-smmu-500', 'qcom,sm6125-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8=
+250-smmu-500', 'qcom,sm8350-smmu-500', 'qcom,sm8450-smmu-500', 'qcom,sm8550=
+-smmu-500', 'qcom,sm8650-smmu-500']
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,sc7280-smmu-500', 'qcom,s=
+m8150-smmu-500', 'qcom,sm8250-smmu-500']
+   	'qcom,x1e80100-smmu-500' is not one of ['qcom,msm8996-smmu-v2', 'qcom,s=
+c7180-smmu-v2', 'qcom,sdm630-smmu-v2', 'qcom,sdm845-smmu-v2', 'qcom,sm6350-=
+smmu-v2', 'qcom,sm7150-smmu-v2']
+   	'qcom,sdm845-smmu-v2' was expected
+   	'marvell,ap806-smmu-500' was expected
+   	'qcom,x1e80100-smmu-500' is not one of ['nvidia,tegra186-smmu', 'nvidia=
+,tegra194-smmu', 'nvidia,tegra234-smmu']
+   	'arm,mmu-500' was expected
+   	'qcom,x1e80100-smmu-500' is not one of ['arm,mmu-400', 'arm,mmu-401']
+   	'qcom,x1e80100-smmu-500' is not one of ['arm,smmu-v1', 'arm,smmu-v2', '=
+arm,mmu-400', 'arm,mmu-401', 'arm,mmu-500', 'cavium,smmu-v2']
+   	'qcom,smmu-v2' was expected
+   	'qcom,smmu-500' was expected
+   	'nvidia,smmu-500' was expected
+   	'arm,smmu-v2' was expected
+   	'arm,smmu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: iommu@3da0000: clock-names: F=
+alse schema does not allow ['hlos', 'bus', 'iface', 'ahb']
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: iommu@3da0000: clocks: False =
+schema does not allow [[146, 14], [51, 55], [51, 56], [146, 0]]
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names:=
+ ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@7: compatible:0: 'qcom,s=
+mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
+m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
+pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
+m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
+m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
+qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
+, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
+916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
+994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
+,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
+qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
+5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
+om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
+,smb2351']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c=
+432000/pmic@7: failed to match any schema with compatible: ['qcom,smb2360',=
+ 'qcom,spmi-pmic']
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@a: compatible:0: 'qcom,s=
+mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
+m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
+pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
+m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
+m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
+qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
+, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
+916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
+994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
+,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
+qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
+5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
+om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
+,smb2351']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c=
+432000/pmic@a: failed to match any schema with compatible: ['qcom,smb2360',=
+ 'qcom,spmi-pmic']
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@b: compatible:0: 'qcom,s=
+mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
+m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
+pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
+m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
+m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
+qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
+, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
+916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
+994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
+,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
+qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
+5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
+om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
+,smb2351']
 
-> > Putting this on the userspace to know would be pretty weird, and
-> > wouldn't solve the case where the kernel would try to map it.
->=20
-> But that's exactly how all other implementations work as far as I know. I
-> mean what do you do if the kernel maps the encrypted buffer?
->=20
-> On AMD we also block userspace and kernel CPU accesses, but that is only
-> done to make it easier to find bugs not for correctness.
->=20
-> And userspace absolutely needs to be aware that a buffer is encrypted, ca=
-use
-> otherwise it could potentially try to access it with the CPU.
-
-I absolutely agree. I guess our discussion is whether it's something
-that should be implicit and understood by applications, or if it should
-be explicit and discoverable.
-
-Maxime
-
---wmmpztlpkqqsn5hy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZn69RgAKCRDj7w1vZxhR
-xW5vAQD0vblFH/q1MbM1OY/GsWrJEN+h1Zy8F/ROqZxXJoSP4wEA7MhRTaakqRAd
-6+tOX4+3tzAEZ0WOa+EHzLr+lzLYvQ0=
-=ivoa
------END PGP SIGNATURE-----
-
---wmmpztlpkqqsn5hy--
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
