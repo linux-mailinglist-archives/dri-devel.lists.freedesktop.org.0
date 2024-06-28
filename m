@@ -2,38 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1016A91C82A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 23:35:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3DB91C871
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 23:48:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9083A10E180;
-	Fri, 28 Jun 2024 21:35:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C6D10E1C1;
+	Fri, 28 Jun 2024 21:48:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="k9dlJFqB";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C04FA10E110
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 21:35:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 290A3106F
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 14:35:26 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F2C7C3F73B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 14:35:00 -0700 (PDT)
-Date: Fri, 28 Jun 2024 22:34:57 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH 2/2] drm/panthor: Fix sync-only jobs
-Message-ID: <Zn8sgSQUoQgdxHZ7@e110455-lin.cambridge.arm.com>
-References: <20240628145536.778349-1-boris.brezillon@collabora.com>
- <20240628145536.778349-3-boris.brezillon@collabora.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3419310E110;
+ Fri, 28 Jun 2024 21:48:35 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45SL2Axa008938;
+ Fri, 28 Jun 2024 21:48:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=i0Ks/4CaxAzW4hfLyWGALP
+ JDE5uJqsdDQvPxjf7MKtQ=; b=k9dlJFqB9BGyaX+MMfX1AE28+FHPLmQm+LvALX
+ MWFkL3TBbm2g5+ohAI+1+/WV0KJ+eeUeAsYSVQR/n2z3XSDgHIczyotyzIo9koJn
+ mjDmzPql3+Xvc9uRneBJzhk7V5Lmboys25kIBDLjRmHGPJ8U2KWQOJU4If58yaRm
+ H3/68uFax42vQB5b169uG1tvIrzqDiPyUXDKFOMHXj71hPaalPqib9JTCutw3jKa
+ 8kBRuj86JEbUp9GKWHaUbhoZQUEPyTOeUv9kWhtWLLFkD4J5UWskVwvu/AEarGLG
+ 515hNPL3roYbc3mlyyMvrQWlUCvnKKkeczAlOvBkdVa7SOVg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 401pm5avp9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jun 2024 21:48:33 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45SLmWcR018319
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jun 2024 21:48:32 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 28 Jun 2024 14:48:31 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
+ <swboyd@chromium.org>, <dianders@chromium.org>
+Subject: [PATCH 0/5] drm/msm: add a display mmu fault handler
+Date: Fri, 28 Jun 2024 14:48:11 -0700
+Message-ID: <20240628214817.4075379-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240628145536.778349-3-boris.brezillon@collabora.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Nc_TOgfEYune_maIt5xc78uUZN1WEodx
+X-Proofpoint-ORIG-GUID: Nc_TOgfEYune_maIt5xc78uUZN1WEodx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-28_16,2024-06-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=717 mlxscore=0
+ priorityscore=1501 phishscore=0 adultscore=0 suspectscore=0 spamscore=0
+ malwarescore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406280164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,151 +87,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 28, 2024 at 04:55:36PM +0200, Boris Brezillon wrote:
-> A sync-only job is meant to provide a synchronization point on a
-> queue, so we can't return a NULL fence there, we have to add a signal
-> operation to the command stream which executes after all other
-> previously submitted jobs are done.
-> 
-> Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+To debug display mmu faults, this series introduces a display fault
+handler similar to the gpu one.
 
-Took me a bit longer to read, lets blame Friday.
+This series has been tested on sc7280 chromebook by using triggering
+a smmu fault by forcing an incorrect stride on the planes.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 41 ++++++++++++++++++++-----
->  include/uapi/drm/panthor_drm.h          |  5 +++
->  2 files changed, 38 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 79ffcbc41d78..951ff7e63ea8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -458,6 +458,16 @@ struct panthor_queue {
->  		/** @seqno: Sequence number of the last initialized fence. */
->  		atomic64_t seqno;
->  
-> +		/**
-> +		 * @last_fence: Fence of the last submitted job.
-> +		 *
-> +		 * We return this fence when we get an empty command stream.
-> +		 * This way, we are guaranteed that all earlier jobs have completed
-> +		 * when drm_sched_job::s_fence::finished without having to feed
-> +		 * the CS ring buffer with a dummy job that only signals the fence.
-> +		 */
-> +		struct dma_fence *last_fence;
-> +
->  		/**
->  		 * @in_flight_jobs: List containing all in-flight jobs.
->  		 *
-> @@ -829,6 +839,9 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
->  	panthor_kernel_bo_destroy(queue->ringbuf);
->  	panthor_kernel_bo_destroy(queue->iface.mem);
->  
-> +	/* Release the last_fence we were holding, if any. */
-> +	dma_fence_put(queue->fence_ctx.last_fence);
-> +
->  	kfree(queue);
->  }
->  
-> @@ -2865,11 +2878,14 @@ queue_run_job(struct drm_sched_job *sched_job)
->  	static_assert(sizeof(call_instrs) % 64 == 0,
->  		      "call_instrs is not aligned on a cacheline");
->  
-> -	/* Stream size is zero, nothing to do => return a NULL fence and let
-> -	 * drm_sched signal the parent.
-> +	/* Stream size is zero, nothing to do except making sure all previously
-> +	 * submitted jobs are done before we signal the
-> +	 * drm_sched_job::s_fence::finished fence.
->  	 */
-> -	if (!job->call_info.size)
-> -		return NULL;
-> +	if (!job->call_info.size) {
-> +		job->done_fence = dma_fence_get(queue->fence_ctx.last_fence);
-> +		return job->done_fence;
+changes since RFC:
+	- move msm_mmu_set_fault_handler() to msm_kms_init_aspace
+	- make msm_kms_fault_handler return -ENOSYS
+	- use msm_disp_snapshot_state() instead of msm_disp_snapshot_state_sync()
+	  because smmu fault handler should not sleep
+	- add a rate limiter for the snapshot to avoid spam
 
-What happens if the last job's done_fence was cancelled or timed out? Is the
-sync job's done_fence going to be signalled with the same error?
+Abhinav Kumar (5):
+  drm/msm: register a fault handler for display mmu faults
+  drm/msm/iommu: rename msm_fault_handler to msm_gpu_fault_handler
+  drm/msm/iommu: introduce msm_iommu_disp_new() for msm_kms
+  drm/msm: switch msm_kms to use msm_iommu_disp_new()
+  drm/msm/dpu: rate limit snapshot capture for mmu faults
 
-Now that we're returning a fence here, should the job be also added into the
-in_flight_jobs?
-
-If you're happy with depending on the previous job's done_fence and not
-track the sync job in in_flight_jobs, then you can have my
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> +	}
->  
->  	ret = pm_runtime_resume_and_get(ptdev->base.dev);
->  	if (drm_WARN_ON(&ptdev->base, ret))
-> @@ -2928,6 +2944,10 @@ queue_run_job(struct drm_sched_job *sched_job)
->  		}
->  	}
->  
-> +	/* Update the last fence. */
-> +	dma_fence_put(queue->fence_ctx.last_fence);
-> +	queue->fence_ctx.last_fence = dma_fence_get(job->done_fence);
-> +
->  	done_fence = dma_fence_get(job->done_fence);
->  
->  out_unlock:
-> @@ -3378,10 +3398,15 @@ panthor_job_create(struct panthor_file *pfile,
->  		goto err_put_job;
->  	}
->  
-> -	job->done_fence = kzalloc(sizeof(*job->done_fence), GFP_KERNEL);
-> -	if (!job->done_fence) {
-> -		ret = -ENOMEM;
-> -		goto err_put_job;
-> +	/* Empty command streams don't need a fence, they'll pick the one from
-> +	 * the previously submitted job.
-> +	 */
-> +	if (job->call_info.size) {
-> +		job->done_fence = kzalloc(sizeof(*job->done_fence), GFP_KERNEL);
-> +		if (!job->done_fence) {
-> +			ret = -ENOMEM;
-> +			goto err_put_job;
-> +		}
->  	}
->  
->  	ret = drm_sched_job_init(&job->base,
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index aaed8e12ad0b..926b1deb1116 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -802,6 +802,9 @@ struct drm_panthor_queue_submit {
->  	 * Must be 64-bit/8-byte aligned (the size of a CS instruction)
->  	 *
->  	 * Can be zero if stream_addr is zero too.
-> +	 *
-> +	 * When the stream size is zero, the queue submit serves as a
-> +	 * synchronization point.
->  	 */
->  	__u32 stream_size;
->  
-> @@ -822,6 +825,8 @@ struct drm_panthor_queue_submit {
->  	 * ensure the GPU doesn't get garbage when reading the indirect command
->  	 * stream buffers. If you want the cache flush to happen
->  	 * unconditionally, pass a zero here.
-> +	 *
-> +	 * Ignored when stream_size is zero.
->  	 */
->  	__u32 latest_flush;
->  
-> -- 
-> 2.45.0
-> 
+ drivers/gpu/drm/msm/msm_iommu.c | 32 +++++++++++++++++++++++++++++---
+ drivers/gpu/drm/msm/msm_kms.c   | 19 ++++++++++++++++++-
+ drivers/gpu/drm/msm/msm_kms.h   |  3 +++
+ drivers/gpu/drm/msm/msm_mmu.h   |  1 +
+ 4 files changed, 51 insertions(+), 4 deletions(-)
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.44.0
+
