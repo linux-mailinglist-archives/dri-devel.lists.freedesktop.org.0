@@ -2,108 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5166191BC3D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 12:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4798291BC33
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 12:09:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 779CE10E241;
-	Fri, 28 Jun 2024 10:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAAC210E1F0;
+	Fri, 28 Jun 2024 10:09:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BSkrMkV3";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gGVE3Wy3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 277AB10E241
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 10:10:37 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-42564316479so3151925e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 03:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719569435; x=1720174235; darn=lists.freedesktop.org;
- h=mime-version:user-agent:references:message-id:date:in-reply-to
- :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=djRjxO/ZJBQCrIZgaI6fk/U62O19bgzxywyn0TmHo/A=;
- b=BSkrMkV3Jh7a6UgYcphbaLKnoJt1lUPSwxL56XYm27wiB2xBDirr4WiQmP9NAw670L
- 633Djw7Mp5hLKoBW0Z9q6uyNa+IRxQ53DvtV1g4KqrbyU65dsMA9xakI6XzHe98ocRug
- vt0HmA5xFWk889ZKbPqUcTBudBtFV1Hriv4RP3d2WGOfOJBrBBqyt0ZokDqclaMoKiX8
- hsB8XxFyYqHxkxPv/xBveDluGK+e5oN+smHEqJEMlZEoePRUeONBTCC5yQQXP18zfkSs
- ZTOJLxzk3rd/ugLLAtLGSpTjKMVh+vB+fP1v41UFP+WdnFY1r4ZsM77AfXURpUTs+Jkb
- AIkw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0373810E1F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 10:09:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1719569376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+RtiMgBTAHAWuIm/KKZtZpd22RlatO8dryujS/hU52Y=;
+ b=gGVE3Wy3K6zu9Vb+c3F/fKyG2+gh4yR2lqQZSy1+TwzGajp19hiJad5etEEe52fex13Pv7
+ QPysBFDm+WeMAJWVEdB1uKJ9Qbv6d7xxlITbmV1UNOoxsAIE+PWCR/zbnd8F//pwx/ach8
+ fpB5T6ZuEY0+1LRcVlvYF7EaVWHuh0I=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-286-z4jpTQazMG64FZtwzSfr3Q-1; Fri, 28 Jun 2024 06:09:34 -0400
+X-MC-Unique: z4jpTQazMG64FZtwzSfr3Q-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-52cda76173dso346929e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 03:09:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719569435; x=1720174235;
- h=mime-version:user-agent:references:message-id:date:in-reply-to
- :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=djRjxO/ZJBQCrIZgaI6fk/U62O19bgzxywyn0TmHo/A=;
- b=hsyspjetfggtEMpcoZcHr9AzofIh5sSu6EbCs3qPbjEP/tP3bV9eJszXOF5vIGRqDL
- m4qIcz/TAMTawKOjQCCGXZngCzcLMwgglw8hTXteJJoaueehNsA4SGQ9MzJiX1DLKzmX
- xmgEohgx7YsNUH2g6zPD1pDWec08DeFIdTrdjBjLjP2HzHStvrwC4neQleZFbWugIHa6
- CbtvjDDXX3niZbokAXJslJuisFjNsQxim71/Xu1qrsa9r8gi5grBOiiIPfKcMMHefmPt
- AiDnG8grShTPJDSu8uafqDkeyitIdesj0o0p5L3lOn7Kcq2S5SUmHl4WqT7tAC0X3cNN
- ogew==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUtd6/IwbTzKDW1IsaItwmHaQFngLD37XoQPr+3cVamsVdF0o8ucDRW+xVZW73SZv1VqsAvDZq7+h9BICZhmeMRCKKIzJAYNPEllYhYKbEV
-X-Gm-Message-State: AOJu0Yz0kpkczIxMyLMCp1vH3Lc+CFFlhoKddHVr0bmxl5mu1zEWSIps
- pmyEKeqKo7f1llaBUCRwxbU2IJ3/MHF9jjjm65yOZWumRlLdj9gD
-X-Google-Smtp-Source: AGHT+IGTbLKuH6+lACoVW6gBGISTlFA2luNgNp0at8l17FynGxoGb7mI7uIhlXYSjVIEoYumxGZPkg==
-X-Received: by 2002:a7b:cc16:0:b0:424:8e3a:d020 with SMTP id
- 5b1f17b1804b1-42498ced472mr80452775e9.29.1719569435211; 
- Fri, 28 Jun 2024 03:10:35 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:49ff:2a2d:712c:9944])
+ d=1e100.net; s=20230601; t=1719569373; x=1720174173;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+RtiMgBTAHAWuIm/KKZtZpd22RlatO8dryujS/hU52Y=;
+ b=IXp2OMd8F07Jy7qCy1WVBwjYHlRxYXtYRUy1a/ASjIU2CfInGQrH+Ne+V3no+qP/GH
+ bY9ytzfa7beGH0LWVunF2fhWY6X//2RiuqOtHkOABs1P0J6PWo/YY1YsDgCQ6MzHy/tL
+ oFk/R0CVHZyWpD3noT+Q9G/K8TOLTnILL0qUfXZ2NL/PR6z9x5tEOqy0cGghoToz3mlD
+ pHsGn2/MseOIplWgau5ftmTrt/Ve26w54IQARekFm12SU+T1UzddC8FyO4UadPetVn6m
+ XrUSUly+O9i5AmhnKeDTIr2jMk5vukECluhdCFFde6u6aTtTzmXlp9ddj4Jcmb7e2RP/
+ JwXg==
+X-Gm-Message-State: AOJu0YxySquWPPAgaqphFyJ3bTgouRj38F1crG+zEDXrvoLltj7b4ov0
+ rEpcYUkFWjZqPNnZBW94LFvcZJYcw382ddtvFFJPMNX9E2FaoqT241QOkZdc9vvT9dwz2BOJK9i
+ evAKgiWgl0/FpH44EIb7Kp781rm1MLcdrHdxfuVFu7FVnNhti2KBp/ZwhShMyA0R/Cg==
+X-Received: by 2002:a05:6512:3605:b0:52c:d8cf:d4f4 with SMTP id
+ 2adb3069b0e04-52ce18321cemr8643540e87.11.1719569373141; 
+ Fri, 28 Jun 2024 03:09:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHFNeDpfmJhi7rm70HhwBPuuwoEdP6rkpRNLON2dvXzQL4QEwthHI3QHuZfaXbVDZlPhapBUQ==
+X-Received: by 2002:a05:6512:3605:b0:52c:d8cf:d4f4 with SMTP id
+ 2adb3069b0e04-52ce18321cemr8643524e87.11.1719569372739; 
+ Fri, 28 Jun 2024 03:09:32 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4256b0c15f8sm26999325e9.47.2024.06.28.03.10.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 03:10:34 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org,  linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org,  linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org,  linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org,  bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org,  linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  "David S. Miller"
- <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,  Jakub
- Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
- Corbet <corbet@lwn.net>,  Richard Henderson
- <richard.henderson@linaro.org>,  Ivan Kokshaysky
- <ink@jurassic.park.msu.ru>,  Matt Turner <mattst88@gmail.com>,  Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>,  "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>,  Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>,  Jesper Dangaard Brouer
- <hawk@kernel.org>,  Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>,  Masami Hiramatsu
- <mhiramat@kernel.org>,  Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>,  Arnd Bergmann <arnd@arndb.de>,  Alexei
- Starovoitov <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,  Martin KaFai Lau
- <martin.lau@linux.dev>,  Eduard Zingerman <eddyz87@gmail.com>,  Song Liu
- <song@kernel.org>,  Yonghong Song <yonghong.song@linux.dev>,  John
- Fastabend <john.fastabend@gmail.com>,  KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>,  Hao Luo <haoluo@google.com>,  Jiri
- Olsa <jolsa@kernel.org>,  Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,  David Ahern
- <dsahern@kernel.org>,  Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>,  Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,  Bagas Sanjaya
- <bagasdotme@gmail.com>,  Christoph Hellwig <hch@infradead.org>,  Nikolay
- Aleksandrov <razor@blackwall.org>,  Pavel Begunkov
- <asml.silence@gmail.com>,  David Wei <dw@davidwei.uk>,  Jason Gunthorpe
- <jgg@ziepe.ca>,  Yunsheng Lin <linyunsheng@huawei.com>,  Shailend Chand
- <shailend@google.com>,  Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,  Jeroen de Borst
- <jeroendb@google.com>,  Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [PATCH net-next v15 12/14] net: add devmem TCP documentation
-In-Reply-To: <20240628003253.1694510-13-almasrymina@google.com> (Mina
- Almasry's message of "Fri, 28 Jun 2024 00:32:49 +0000")
-Date: Fri, 28 Jun 2024 11:09:28 +0100
-Message-ID: <m234oxcraf.fsf@gmail.com>
-References: <20240628003253.1694510-1-almasrymina@google.com>
- <20240628003253.1694510-13-almasrymina@google.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ ffacd0b85a97d-3675a0e0661sm1774520f8f.47.2024.06.28.03.09.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jun 2024 03:09:32 -0700 (PDT)
+Message-ID: <c2431d20-187b-45ad-9829-4da33cbd23bb@redhat.com>
+Date: Fri, 28 Jun 2024 12:09:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] drm/ast: Untangle the chaos in mode setting
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20240627153638.8765-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240627153638.8765-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,34 +93,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mina Almasry <almasrymina@google.com> writes:
-> +
-> +The user must bind a dmabuf to any number of RX queues on a given NIC using
-> +the netlink API::
-> +
-> +	/* Bind dmabuf to NIC RX queue 15 */
-> +	struct netdev_queue *queues;
-> +	queues = malloc(sizeof(*queues) * 1);
-> +
-> +	queues[0]._present.type = 1;
-> +	queues[0]._present.idx = 1;
-> +	queues[0].type = NETDEV_RX_QUEUE_TYPE_RX;
-> +	queues[0].idx = 15;
-> +
-> +	*ys = ynl_sock_create(&ynl_netdev_family, &yerr);
-> +
-> +	req = netdev_bind_rx_req_alloc();
-> +	netdev_bind_rx_req_set_ifindex(req, 1 /* ifindex */);
-> +	netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
-> +	__netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
-> +
-> +	rsp = netdev_bind_rx(*ys, req);
-> +
-> +	dmabuf_id = rsp->dmabuf_id;
-> +
-> +
-> +The netlink API returns a dmabuf_id: a unique ID that refers to this dmabuf
-> +that has been bound.
 
-The docs don't mention the unbinding behaviour. Can you add the text
-from the commit message for patch 3 ?
+
+On 27/06/2024 17:27, Thomas Zimmermann wrote:
+> The CRTC's mode-setting code contains quite a bit of code that
+> belongs to the planes or various encoder chips. This patchset
+> refactors these bits and moves things to the correct places.
+> 
+> With the patches applied, the remaining DPMS function will be
+> gone and its content be moved. Several code duplications will
+> be removed. There was also a bugfix wrt the VGA SCREEN_DISABLE
+> bit, but it's unclear if the bug had any effect in practice.
+> 
+> Tested with AST2100 and AST2600 with VGA and DP outputs.
+
+Thanks,
+
+I've tested the patch series, on a remote ampere (aarch64) system with 
+AST 2500, and it works. I wasn't able to test with a real monitor attached.
+
+-- 
+
+Jocelyn
+
+> 
+> Thomas Zimmermann (8):
+>    drm/ast: Implement atomic enable/disable for encoders
+>    drm/ast: Program mode for AST DP in atomic_mode_set
+>    drm/ast: Move mode-setting code into mode_set_nofb CRTC helper
+>    drm/ast: Handle primary-plane format setup in atomic_update
+>    drm/ast: Remove gamma LUT updates from DPMS code
+>    drm/ast: Only set VGA SCREEN_DISABLE bit in CRTC code
+>    drm/ast: Inline ast_crtc_dpms() into callers
+>    drm/ast: Use drm_atomic_helper_commit_tail() helper
+> 
+>   drivers/gpu/drm/ast/ast_mode.c | 204 ++++++++++++++++++---------------
+>   drivers/gpu/drm/ast/ast_reg.h  |  10 +-
+>   2 files changed, 112 insertions(+), 102 deletions(-)
+> 
+
