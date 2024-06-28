@@ -2,68 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7E391B5D4
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 06:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B7091B5E6
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 07:11:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30EDA10E532;
-	Fri, 28 Jun 2024 04:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4524110E533;
+	Fri, 28 Jun 2024 05:11:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="edX93eZ2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mq8+ncqN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF7610E532
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 04:54:25 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-df4d5d0b8d0so154928276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 21:54:25 -0700 (PDT)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8DC210E1CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 05:10:59 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ 46e09a7af769-700d3ffc28cso121705a34.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 22:10:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1719550464; x=1720155264;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ezxMtq5HuDjbK/JO7dm70NKoXN2tLtLjvvKClS4xB28=;
- b=edX93eZ2uwb3Yw30FKRi6St4iMNE8WF++nCKCeeVIWfJ7Ya7j8RyX/gYCELF8LF5o0
- Y/eXNeNtiyoKJxajg9U6W0xVGno1h6FbSgIFcli4fzDkOLeKwMbbtBUTDAf6bfBccZQq
- XK69ftyfPx58QM42s676JdODyfDJNl6AIZYNg=
+ d=gmail.com; s=20230601; t=1719551458; x=1720156258; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QZOviDQs/MBQD8ld1vhQDebgxIDzTBqHnA9k/ikra64=;
+ b=mq8+ncqNm6sIII0P4eRWYGGbjOU+1WyRXJPR5l2PLRHCAvmojLtHo4Uq2ijceiZKou
+ KIlELrjLJQtpwN2SGsk3LNqeSGBV4VRVQDS49gicV/qVsCqJ57Ir7Ev0QDe0qzdeG1YO
+ 5ZQodyPKqKta/c/mmqNgRkXiClfJ1v1c98yfKKyRKnA6IhzcmkNTnaVAQCfn3zdZT53W
+ Wh80Z0gyOlZjc7c7tkAzVj2q5Gkf1vt3pDtQdnWY5u0+yRUA59ULc50ulusA2Y7Qmw/p
+ sEofCAhUhSgNAeuLq3inA6f/J/ZylqSiZnfOQb8ocmzkm2YianvWJYzkqnw2yRl84G4Q
+ RevA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719550464; x=1720155264;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ezxMtq5HuDjbK/JO7dm70NKoXN2tLtLjvvKClS4xB28=;
- b=YZJlR84L3fQPN3JpjAtpBKFGx7rYX7dcTBVc+Z9C6+ri3TVZpyHcBHhA4fEGcbhH9V
- v7/n2JgMphNUrXtwEs9jKcT9Lw/eC2GpCQG32OanoYw1PPba4Ch0/4g7LVXn1MQd18Yp
- l4qEm2Wq2pgle78JcafRGNgv+hMDsDCgIOjzicbKEb8WnsgmYUtinu7+Fq0r8sg/p/4q
- 61btEm8EQvY5L9MD3CUPc/JVi+CP7dvAUxmc8RP6XdtrP21GxkoNk/vHYu3o2RFD86Kb
- XP5PRy85VdNkodphWZ7pWvAJIhfzrz0RFXiYyG+edCVgI0YJyuZ0UEOpSHd38kwLUO6M
- zZ5A==
-X-Gm-Message-State: AOJu0YwFFSYJCyQPIodLiyqNOsNEgDjm1W7qx3kHpy7PWK0kNFnY8q9P
- 1R2J00PWiDngZundTae6OQxL6w33n6P0icj+QfjBtGbnc05gqmrYSy/g3dpANdzNDEv0EYG1Dtl
- K9hkMhfDZhCfsdV66ALAC5fImweuk0Q4XITr2
-X-Google-Smtp-Source: AGHT+IE8DzCVUsv2l1DpNmgzbVVX/JNs3P+BpVA3NTBCBvqs1RmTi3iEnxhJW1b7cHlX6kBCUuiF5KB7LLVU0ITJl38=
-X-Received: by 2002:a25:bf92:0:b0:dfb:912:970f with SMTP id
- 3f1490d57ef6-e03040188e8mr13620749276.63.1719550464093; Thu, 27 Jun 2024
- 21:54:24 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1719551458; x=1720156258;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QZOviDQs/MBQD8ld1vhQDebgxIDzTBqHnA9k/ikra64=;
+ b=i7r7QofXLNGZSyO7cQyYRn+sKaAostke0j0CatlfU18P6TnAvDr2w3Z3SkCqP4D3WP
+ EjlRv//9Ivppocf8d3IQg0Rx/6w5m/TmNZtRZ16sNBVnoLXmWvyZ8eHTh7sr95GGmcIM
+ WNrBUBUz0oEdpmEk27ILUwZLhIY5UW0PyAbiBZU0s+8kLCBBmSDcBcd6nvfVNJMg1Cd3
+ Tsz3NGJq1fYl+DJ870YK+8aBzcNsYNBGZeGqrMwQbfG2CJ6M/NsHnqwlfGr6KLauQgJF
+ 9vqbbIYVvfOlKfx04IUvy+Jxy/ld+tLwSNv/w3gogIxoIS8b3MwmulRDtGHgDpkU/iE5
+ qHqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXynD7e3VH264l347DdVbIZgCjqC0kCNdy2bQC5phafCJdFcaXRBn3QB1MfQ4P8N6n0r80TrStWSq/oJKwoeM5OWeV4iRXWrSyH16mj8d10
+X-Gm-Message-State: AOJu0YwvsI/40YGUf1qbhN4ZEdmnuqmT+v6Lp/PLfnbTLo+2hI3weHI6
+ R7jYFaoftOcmFiQGsQ+a3UBJkGGdMY5nkIYgWItEtdKDM7UPF0+v
+X-Google-Smtp-Source: AGHT+IEM3bDBrt30alpajKkos/IxGqPZ7xRkmoOjUEHyZ4phZitXVg3133+I0ub4CXr8Kt4EtjoiEQ==
+X-Received: by 2002:a05:6871:588f:b0:254:b0b0:9335 with SMTP id
+ 586e51a60fabf-25d016e7c2cmr15937221fac.33.1719551458463; 
+ Thu, 27 Jun 2024 22:10:58 -0700 (PDT)
+Received: from noel.flets-west.jp ([2405:6586:4480:a10:167:9818:d778:5c14])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-70804893e4bsm624716b3a.184.2024.06.27.22.10.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jun 2024 22:10:57 -0700 (PDT)
+From: Hironori KIKUCHI <kikuchan98@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH v2 0/3] drm/panel: st7701: Add Anbernic RG28XX panel support
+Date: Fri, 28 Jun 2024 14:10:14 +0900
+Message-ID: <20240628051019.975172-1-kikuchan98@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20240627053452.2908605-1-zack.rusin@broadcom.com>
- <20240627053452.2908605-3-zack.rusin@broadcom.com>
- <CAKLwHdV98ERFMHB4-e8GZfcAX-GbiJb-Vm=JzYZrkaVoYqP2fg@mail.gmail.com>
-In-Reply-To: <CAKLwHdV98ERFMHB4-e8GZfcAX-GbiJb-Vm=JzYZrkaVoYqP2fg@mail.gmail.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Fri, 28 Jun 2024 00:54:13 -0400
-Message-ID: <CABQX2QNvSTpKY+9+7hAsqWq3Kd5_eeagjh+fLNujrM69TaO9DQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/vmwgfx: Make sure the screen surface is ref
- counted
-To: Martin Krastev <martin.krastev@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- ian.forbes@broadcom.com, maaz.mombasawala@broadcom.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,69 +89,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 27, 2024 at 8:37=E2=80=AFAM Martin Krastev
-<martin.krastev@broadcom.com> wrote:
->
-> On Thu, Jun 27, 2024 at 8:34=E2=80=AFAM Zack Rusin <zack.rusin@broadcom.c=
-om> wrote:
-> >
-> > Fix races issues in virtual crc generation by making sure the surface
-> > the code uses for crc computation is properly ref counted.
-> >
-> > Crc generation was trying to be too clever by allowing the surfaces
-> > to go in and out of scope, with the hope of always having some kind
-> > of screen present. That's not always the code, in particular during
-> > atomic disable, so to make sure the surface, when present, is not
-> > being actively destroyed at the same time, hold a reference to it.
-> >
-> > Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> > Fixes: 7b0062036c3b ("drm/vmwgfx: Implement virtual crc generation")
-> > Cc: Zack Rusin <zack.rusin@broadcom.com>
-> > Cc: Martin Krastev <martin.krastev@broadcom.com>
-> > Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broa=
-dcom.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > ---
-> >  drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c | 37 +++++++++++++++++-----------
-> >  1 file changed, 23 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c b/drivers/gpu/drm/vmw=
-gfx/vmwgfx_vkms.c
-> > index 3bfcf671fcd5..c35f7df99977 100644
-> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
-> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
-> > @@ -130,22 +130,26 @@ crc_generate_worker(struct work_struct *work)
-> >                 return;
-> >
-> >         spin_lock_irq(&du->vkms.crc_state_lock);
-> > -       surf =3D du->vkms.surface;
-> > +       surf =3D vmw_surface_reference(du->vkms.surface);
-> >         spin_unlock_irq(&du->vkms.crc_state_lock);
-> >
-> > -       if (vmw_surface_sync(vmw, surf)) {
-> > -               drm_warn(crtc->dev, "CRC worker wasn't able to sync the=
- crc surface!\n");
-> > -               return;
-> > +       if (surf) {
-> > +               if (vmw_surface_sync(vmw, surf)) {
-> > +                       drm_warn(
-> > +                               crtc->dev,
-> > +                               "CRC worker wasn't able to sync the crc=
- surface!\n");
-> > +                       return;
-> > +               }
-> > +
-> > +               ret =3D compute_crc(crtc, surf, &crc32);
-> > +               if (ret)
-> > +                       return;
-> > +               vmw_surface_unreference(&surf);
->
-> So compute_crc effectively never errs here, so the
-> vmw_surface_unreference is a given, but
-> wouldn't it correct to have the vmw_surface_unreference precede the
-> error-check early-out?
+Add support for the display panel of the Anbernic RG28XX, a handheld
+gaming device from Anbernic.
 
-Yes, good catch on both counts. I'll just make compute_crc return void
-in v2 instead of unconditionally returning 0, this way we won't have
-to deal with multiple unref paths.
-z
+This panel is driven by a variant of the ST7701 driver IC internally,
+and is connected via an RGB parallel interface for image transmission and
+an SPI interface for configuration.
+
+Since the current panel driver for the ST7701 variants only supports MIPI
+DSI as the configuration interface, add support for SPI as well.
+
+v2:
+  - Update dt-bindings
+  - Rename DSI_CMD* macros to ST7701_CMD*
+  - Rename ST7701_DSI macro to ST7701_WRITE
+  - Fix incorrect dev_err_probe() usage
+  - Remove GPIOD_FLAGS_BIT_NONEXCLUSIVE flag
+  - Remove st7701_remove() and st7701_spi_remove()
+  - Call drm_panel_disable() and drm_panel_unprepare() on cleanup
+
+Hironori KIKUCHI (3):
+  dt-bindings: display: st7701: Add Anbernic RG28XX panel
+  drm/panel: st7701: Add support for SPI for configuration
+  drm/panel: st7701: Add Anbernic RG28XX panel support
+
+ .../display/panel/sitronix,st7701.yaml        |   69 +-
+ drivers/gpu/drm/panel/Kconfig                 |    2 +
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c | 1074 ++++++++++-------
+ 3 files changed, 732 insertions(+), 413 deletions(-)
+
+-- 
+2.45.2
+
