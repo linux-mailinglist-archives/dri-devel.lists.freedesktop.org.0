@@ -2,81 +2,192 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7D691B5E9
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 07:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD2291B62D
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 07:38:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63D7B10E1CF;
-	Fri, 28 Jun 2024 05:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFDDB10EBB2;
+	Fri, 28 Jun 2024 05:38:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dszsJD69";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="le+yOBsP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4EAA10EBB2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 05:11:10 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-7066463c841so160257b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 22:11:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719551470; x=1720156270; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=s1leVm4yK6r54KvcryCJ+B+nYpH1fvWydBSEJaKQDgw=;
- b=dszsJD69sDDCqOblKUQjXeTS3qwqGzg+YneHNc5A2Hj3f+/gEouVof0xiQPzc3OJrH
- JtpJmoH1EiWGBypqDEGVV0/XfeGPRUFA/AM05+0T0tWIEGuvttydec1s3lzYuuJjJKVh
- O1TTD4npkgT1Xti0Gcd8gfcRLclFEuHpsC7Q/acigeei1WFk85J24YEsjEYcFbMnpN8E
- BjFMd4px58UiC4LWUo2YnmgTKX9UOuGzFyK58djvBFHuOpDtIJWpFNrHjhvz5Ttul4pY
- gZZKXW9boTIXohm/W5mKCfWnmwDLk1kpOjMCU2wM21vy3Sv+sZ/a3Kj3PW4wKhKQ3mTJ
- S1Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719551470; x=1720156270;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s1leVm4yK6r54KvcryCJ+B+nYpH1fvWydBSEJaKQDgw=;
- b=KyKy7adi7YXkKbFVHac361Wp1DxibqoTT+8XlWytRyRS2YXVFp9P+rJh9CGZuJsT3u
- puMAe4bY8QTfIgZ5Osfb5rkOupAL+atS2v9DH0GpAAusMZeKf0/ZIU2uF7NFDCuAnRM8
- Ku7C+RBUWuOjs+LgAhh+vltrmbVNMGKMKntEXESKzCHJ2wsi2s/ZRsccpOuJmgYnRep6
- +XSIr7MOFzkVl86nzVwNFS3mIiN4g0Tsts95xeqeefsnzUP+HStOfOvO/BjlKUWEGidD
- TYHEPghsP/1kSxftICkzSmpe2PwaeR3GrWgqaWxELfGKMmeSEzfPmgg2C4+Up+tvAcn8
- BgIw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX8TFym6KYCT9Vee/Jle2PTFGYvKeA7jEuL85L5t1fpgH+wCfjgavOiS1w+9eRsrfCt7UO37DwpjBD5co1xRY/G5NLI8u/4RIGXa6j/D0vO
-X-Gm-Message-State: AOJu0YwZXqEY1kG3OQ5Jni8jyRnu0BTp6WRXebmyZ062wsSRYszEd+sy
- Ia1WUzYtxBT0wQB6ticeF96cWBrJYfHDaI5/8Oe9G8Qyx3qEVk2O
-X-Google-Smtp-Source: AGHT+IEdqo5LbG/OYlTAzYx9ptswNQzlqaWakcu0sg22J2Y7C21d+uH6Fngxi6+VrsgnXKDB24vpDQ==
-X-Received: by 2002:a05:6a00:2e0d:b0:706:a86f:e966 with SMTP id
- d2e1a72fcca58-706a86feb29mr8468243b3a.31.1719551470045; 
- Thu, 27 Jun 2024 22:11:10 -0700 (PDT)
-Received: from noel.flets-west.jp ([2405:6586:4480:a10:167:9818:d778:5c14])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-70804893e4bsm624716b3a.184.2024.06.27.22.11.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jun 2024 22:11:09 -0700 (PDT)
-From: Hironori KIKUCHI <kikuchan98@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [PATCH v2 3/3] drm/panel: st7701: Add Anbernic RG28XX panel support
-Date: Fri, 28 Jun 2024 14:10:17 +0900
-Message-ID: <20240628051019.975172-4-kikuchan98@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240628051019.975172-1-kikuchan98@gmail.com>
-References: <20240628051019.975172-1-kikuchan98@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 262B710EBB2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 05:38:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719553134; x=1751089134;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=YEoOYmO2b7s/axvFr9PvmezntEovHTyIREwr3krX+EE=;
+ b=le+yOBsPMXWa0h4ARzlAhJQdXETiCfxs6O8QkRKO6Ld8g9Q6eXWNbWG6
+ dbGqxVnhfSuQj7H1lFfX48yayH6nQ47pMjpmZ2D1Ku4UBeD2C4v3507mz
+ VqVNJKunxdqlTxPm/oBr4iEKQEWwXh6HYZgSE2B3XF8REKdxX0EsgmPXe
+ BH0K2AAfv0c37sYSuZBKcsZVXsU/A3sdECjIxJnR5vyXhGyyeMGHVuAX0
+ a5j1UaPy/0GNcxf3JOlqD3GjBLO3C3gRimViEEOeEEDI968VpXfib4Apg
+ RJ+4qPdW1/4t2ynzk8xEvnro3tJoJV5knVblFiGyCjD3/DW05p5JLVl5c w==;
+X-CSE-ConnectionGUID: KFqYLIP2RCuT+lbzcTie1A==
+X-CSE-MsgGUID: qYNSbxzlQ4O9GIaiRVVHcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16861461"
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; d="scan'208";a="16861461"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2024 22:38:54 -0700
+X-CSE-ConnectionGUID: d0xwzdU1TyGepQlMmA9vcw==
+X-CSE-MsgGUID: FK2rX8agTGerUdAh2RY7mA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; d="scan'208";a="44686213"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 27 Jun 2024 22:38:53 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 27 Jun 2024 22:38:52 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 27 Jun 2024 22:38:52 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.46) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 27 Jun 2024 22:38:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fMpWH0IvsGtvHKj8c42GNVP+6q6nN/vc+EZ4e+fXJ0cSpTZtl/sSXQ7PLOEV1NXwNUW30QuWcTPigIWXwrTUfd2gAXKDve93nC0oVZDLU9+Bjeeb0huBrNjqhIp1gxTa0SdNgVn3NhTqsAciD8L+VRFpFZj50VRoNGHw8NlCY0XUfIoLYBm0msNS/uRpat+fnlevJrSHb7JeMe79rvTojZqv6JLrp5i/81mfGbsbXCtV6C2p/7FpV2doGFl9J7iLUiS16X5PnFUuXgwpRcTRV5W4XDXIj/FxTAA0lH4VR4ht+5G4gAL/fnAgzbaEwDIBOmvrXwM75F2Qy7Neh/iVjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0W28ESqACq/qUjeMzbnmpSz43drohUxgvI9k0pmNNIQ=;
+ b=k+ERN+FCCBMEsXLIqIpGAwC21jPT6LgcYT69PYC3FMD3WdunR7v/O5njFgXlqmyi6OXs4qXXKVF94hF7cLAQgbpkW1VO/6HEJmC5xoxuAE5iMMdzCe4eKowXLA6Kg9Qwu7+PMJdYUca/yOyUfNyVzShC81jSD/+aICul+8Ww2AGrpbZ+98zHNzTk35WQEd33VopEahFkHzp77L9TeCUdXqxcfKFOMU/WppJtMjkrwc50y9zPcghX7QexKumL/oDxJD5JY30y+1BJ5fdzsWDP3DhqW1lz2MybxaI80rhYUUZr+9mdT2Zzxa/FpiBNazjcvQ1FZIkLvQKgSmgp+2LPfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7529.namprd11.prod.outlook.com (2603:10b6:8:141::20)
+ by IA0PR11MB7283.namprd11.prod.outlook.com (2603:10b6:208:439::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.26; Fri, 28 Jun
+ 2024 05:38:49 +0000
+Received: from DS0PR11MB7529.namprd11.prod.outlook.com
+ ([fe80::d244:15cd:1060:941a]) by DS0PR11MB7529.namprd11.prod.outlook.com
+ ([fe80::d244:15cd:1060:941a%3]) with mapi id 15.20.7719.022; Fri, 28 Jun 2024
+ 05:38:49 +0000
+Message-ID: <86dbf286-bb0b-4beb-b26f-a74562b0ace8@intel.com>
+Date: Fri, 28 Jun 2024 13:42:40 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 15/21] iommu/vt-d: Add helper to allocate paging domain
+To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, "Will
+ Deacon" <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Jason
+ Gunthorpe" <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>
+CC: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Kalle
+ Valo" <kvalo@kernel.org>, Bjorn Andersson <andersson@kernel.org>, "Mathieu
+ Poirier" <mathieu.poirier@linaro.org>, Alex Williamson
+ <alex.williamson@redhat.com>, <mst@redhat.com>, Jason Wang
+ <jasowang@redhat.com>, Thierry Reding <thierry.reding@gmail.com>, "Jonathan
+ Hunter" <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ "Jeff Johnson" <quic_jjohnson@quicinc.com>, <ath10k@lists.infradead.org>,
+ <ath11k@lists.infradead.org>, <iommu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20240610085555.88197-1-baolu.lu@linux.intel.com>
+ <20240610085555.88197-16-baolu.lu@linux.intel.com>
+Content-Language: en-US
+From: Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <20240610085555.88197-16-baolu.lu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR02CA0007.apcprd02.prod.outlook.com
+ (2603:1096:3:17::19) To DS0PR11MB7529.namprd11.prod.outlook.com
+ (2603:10b6:8:141::20)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7529:EE_|IA0PR11MB7283:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7b24fbad-50b0-48cc-8d64-08dc973495e8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aGZjMGtDOENNMHNCd0YyTHVmTUZ0VTlFYVdsOUQzQkZ1R1RRQTlaV2JDY08y?=
+ =?utf-8?B?dEovYVhYT3JqcWwydC9ra0M5WFZQa1FMMG0xRDdPaDY2VGpvYXNqY1ZEUTVT?=
+ =?utf-8?B?Q1oxMkdOTi9QZm8vRnkyYnJTZVltT2JlZVo1MDhIMGs4cUVBZEJwa2Y1S2wz?=
+ =?utf-8?B?dy85ODlyTzdka0c0WURtajJ1ejJNeXlBUitLLy9yMEhCNno4ZmhiQWo0NjFu?=
+ =?utf-8?B?NXJVOEVPRjlWTW5CZ00wN2kxTVRlTFl6TyswR3RDdEJqN2tLTkVwc3ppYTQ0?=
+ =?utf-8?B?bUYzcmo3RDd1VVUwNDhkc2ZyMlBuNmVuMjFBYjUwNkxMQzNtQUVRbXBjcnFZ?=
+ =?utf-8?B?clFNQzhDblZibXBoeHhoTWdhTzlvb3VnRDUwZWRDdEM0N3g0VmhBazBWakcz?=
+ =?utf-8?B?YWFBNUNhb3dzdUJWbWhiemEzTGx3U25YU1kxcHo3NHhhUkU0VDc0QS94Mk0w?=
+ =?utf-8?B?M0ZzUUJQTkhjTGoxbWpETmZPT1ZqR3cyTXMzM3hVTnBXM3YwM2ZTL0lRUUgz?=
+ =?utf-8?B?cmtnb3NvSGlEVFVJS3B5QkxmNExiM3padFhubUIydnJzK0QvTnFvZEx0dmxz?=
+ =?utf-8?B?Y1dXUTVrMjA2Q2IraUZpeitpMndqUGVGMkI0M1pnN2hjQlg0L3NLQkp5MFlv?=
+ =?utf-8?B?UE12cyt6S2RBdWlQaGZKQlJKSFp2YWhwNWt2NFBRS1NoL0wvOC9PNURmYkZY?=
+ =?utf-8?B?Sk9DRlQrTisxVjJJWHJqcFRuYzA2Sm1VU3pzcDBnUm5zaFUxck8rcmlYQ2xz?=
+ =?utf-8?B?UWlDSDZqcjgzMXJ2ZXBUM1Y0dk0xeXhMcHJyL0pCczVvQUd2a01BVHhhQ3l0?=
+ =?utf-8?B?dnRVSkpxblFSZUZXaGExNmsvL0J3TFZwZ2tjTFpnL1Q0TWFiSk1zMkhVL0Fs?=
+ =?utf-8?B?dysxRXhVOXBmenNNYm1BQnVwTmozYkFOZFRNR2xaYXFhVXhiTmNicy9jaUNQ?=
+ =?utf-8?B?Qm93OEFBaHBEMGMrTkZLNW14Y2hmQjVpSFBHeWhuWTYwVEIvUUNFL0RMZHF0?=
+ =?utf-8?B?WTNXL3hMcXVBbGZnd2Z2Z2hxVjVoeUhvWkxpSkNISm1nT2VaaDI4Um1FOTFN?=
+ =?utf-8?B?S3B4dVNaREs3WjlHY1dwbVZnWWlWSDVpdlJmYk9sT0J3c21sRjZKc0lEbGpw?=
+ =?utf-8?B?cTdhZnIvR2o1OG5HOTBjb0VSSTBaRWVYaTJCazllMytyWW9JbTBkaThXSlZn?=
+ =?utf-8?B?Qk8yS2RRdzdnM3h3RmQ0NUlBRUVWbVI2TE96YUFTUmg2SzI4emNnN3Y3K1l4?=
+ =?utf-8?B?N0pxUmgwTlFtaDBkYWdVbmtDRkZ5SEdpWVJqWDJuSG54bnRjZTNPdSt3ZXFN?=
+ =?utf-8?B?V2I3dFpkQ2dJakJXQWJGUnAvdzNTM3hGbkIyQXZsaS9ibWhJUDNqTE9mc2JS?=
+ =?utf-8?B?WFMzWHhKenFsdHZYaGVpdGIzaExleERKT3ZCTUkrRVprakRXUTVHSzd4dFI1?=
+ =?utf-8?B?QURxRG5JN3lzdnVxR1VZdXpjSFhibWRzMmV2elpXdVBWNkxxSUVvTzU0NmlO?=
+ =?utf-8?B?OVRZem9oR0xXL0lNUEhtb3IvSzJOcXVSVXhHaSticFdCbGdtWXdiLzZPSmVN?=
+ =?utf-8?B?amFPSVR4emlTLzE2aWVVNlIxVHBzcGRHck9iZHJ0UjA5R29KZ2dET1hYb2FT?=
+ =?utf-8?B?QmFkcEt6N0I1bzI1VlFVeHduZmJ6RkxHSTJmUFdaUFhBc3FiTHRCVDhoS04r?=
+ =?utf-8?B?MDJITHFxSXl6QUtad2FBQXBUVVIwc2Q4V28ySHZTUGRTbVhwRlFSNVVKZFlH?=
+ =?utf-8?B?aU0vd1hYVEdJa1VUVkhmU1lmUHVQWDU5anpVS0Y1NDdTeExnbDZZeVhRUGpw?=
+ =?utf-8?B?U3RtS3ZuTkF4TG9ETUVoUT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB7529.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3ZsS3VXZWNoaDBRbUM0cTlvQ3dxRlptTFFUSHpvNWdCU2pqRmMxbWxOUTJ5?=
+ =?utf-8?B?ajlSbzNzdTRoQVU2R2NuMWhxQVhMZWtSRUdZcTI2cGZLQThhdWhVTHJDeURG?=
+ =?utf-8?B?YUcrK25VWVhBNlo1d0dHTEYxYkdHbnUzNFk5QWp4d0dFQTZLU09Db2RKQzRU?=
+ =?utf-8?B?NzRaWUpaak52a3JPVmlGR3dSZy9TanJDUFhCTE5ZVzJqK3pFcnhSRU1OdXd0?=
+ =?utf-8?B?N3VSS0hhTlYxNlJDbzBkYnJxWFFOT0pFaFZ5c2dkSWRzV3R0MUdDNXRnM1I0?=
+ =?utf-8?B?ZC94UWZGN0J0cll5a3NnZmM3UUR3VXZJTVhKYitCYno3bWdjdWFkNWxrTEhQ?=
+ =?utf-8?B?OTg1OFQrN0NnTG9uZWJMQXJvVmEvSGU4QW01RkJOMjFGTEl0Ly92bWE5WEsx?=
+ =?utf-8?B?MnQ4RFZaaWE0bFFvbUlvNlNHbmFZMEl1OWVSZ2dsL0dZVUpKeTJqNHFCZUxz?=
+ =?utf-8?B?QnZ2QkVmN3NXeS9BUnA1WjhCa1k3VjJGQVJmRXBDQnRXODhOOUJCSWxyMVpM?=
+ =?utf-8?B?M3pBaHI4RmIwZ0tmMGJPS1lqSXFxYkdnWSttOEhTcjJPOUhiNUd2cnpxN3E2?=
+ =?utf-8?B?ZmNpWEJEMWgzUFIwYUxTd053eHMwOTNJMkJnZWFjRisxUk1IaUJiMVYzbVpP?=
+ =?utf-8?B?NHNGSmVyZGNwMWRJUmxHSWljS2xsbG5XSGlFcFFsUGcySmFMaGpvaWcvYmgx?=
+ =?utf-8?B?citzTGFPQlBJRVNvb3BlTkJIZ3ZQbWNLZTJlbWd2VDFLNVYrN2cvdnNvcCtB?=
+ =?utf-8?B?THRuZ2xxVi8zNGh5akRTcFpTSjVwUWhpOHZ2cFZCWmFGd1VHTTBiamkyaFdZ?=
+ =?utf-8?B?SHU4TmFRZ1Y2c0lTcEhHK3RsT0VZazRyMG0yamZMNWIwV2FBN1hGYnNzUUdB?=
+ =?utf-8?B?QmRFaUo3d29nZU1HN2hERExPVWVYbTM3dVRWTTZrQkR6L0dVZkJiMUlvMFFU?=
+ =?utf-8?B?QmNnaDY1QzlOMXFHb2xmWE9RQmpaeDhmaDE5TXl4K0R4RXprdGE4MEhyKzFn?=
+ =?utf-8?B?QjJUU3Vjd3Q4ZDRWWG9BRmszdUVpOUtmWGZ3bmhmcTM4eWZFYWdkUHhMT2lx?=
+ =?utf-8?B?TGpxYktQTGd2bVZCV2ErWUYzbHFEUjVSY1ljY3BMTnhKcFNSMWk3a3dkOG4r?=
+ =?utf-8?B?WEkrSmJBWEV3Sllqb25KU1Faa0hSQlN0TGMyazBJK0orOVN3V0FWdzlERVJM?=
+ =?utf-8?B?bFJwZktOeXQvRmdlTFBDUldpWDhYZ2NNdkNGb2xGWGlDR21BSlE4TVRMQ04w?=
+ =?utf-8?B?djh3cmVEUFlBN3VWSm1QWUovVllGSHhOdUJnYVE0MlhJN2wwTDBzMUliSCtr?=
+ =?utf-8?B?NGxVelg0TzRtTk8wYkRURlUyWFA4VlhMYmNHaG00MHVydU1wTXdCMHNkYlNl?=
+ =?utf-8?B?Vll1aFZPNHNZODBJTWtXMTFJVnR4RGZaZWx1UStUNVFsbmtCbFhRUzU1ejBz?=
+ =?utf-8?B?WFRQTm5OUjFRSDBPb1VQT1hzcTVxajBqSkhpdms1V0hNNnBSd3hySmhCV1lT?=
+ =?utf-8?B?M015eDg1bldZdW1tL3ZNd0U3dUVaNTdZN1NVa3dQQ1pTLzJYcEIwRDJvZVZP?=
+ =?utf-8?B?akg5eFkza0twTUtqMVdIZjd4VE83WE9VOGZTYVI5ZVluU0tVUFNSbnJ5dGp1?=
+ =?utf-8?B?ejZQaXErTVVWbllLQUFCeDZXdFB0NnFmWFF6UW00SGxPYWFjRGdJVkg4MEd6?=
+ =?utf-8?B?NDdxMTBKOWNNUjViR2VhZFJCMmwvUCtqTWxWRVozTmdUU1FtTC83S3FoL1dY?=
+ =?utf-8?B?TW8rcXFFdDdWQ0kzd0xsVzhGNXQwdlJWNXhzeVZoOEhzU2pERHV4VytsNStT?=
+ =?utf-8?B?MXl2KzkwdU94RFJwcE50Q1dodkZDSTk4K052SVFkT1VUT1hWTHF0aHd5Wlpq?=
+ =?utf-8?B?S0FiWVgyN2dTVCt1UkFJeU1uczAxTzZhRDJMRlVDSTBNN0pROHRpbExTYW0w?=
+ =?utf-8?B?WExqeFlUUG9hSHRVcTJiMGlEUnoxWVpwOHdJV09rSzR6Nm9DUzFKcGtNZFI5?=
+ =?utf-8?B?U1lRRWMvMTdQMTR2TCtaUVp5YU1yb3B4WEJCN3ZBR09jcTAwZnB5UjNCVU1l?=
+ =?utf-8?B?czdHRnh4eTJHTkFibU0yQlhzWW90bWIyTEgxQnB6aW9FajFMbWFyVjlQRERF?=
+ =?utf-8?Q?LsCVlIeH2PmahTpU9+brdv+8s?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b24fbad-50b0-48cc-8d64-08dc973495e8
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7529.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2024 05:38:49.2141 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: udhyw9ZadozxLHZLXJSTQwV/olWwA4PUjOBJ8/AjKq7KLRkJ8tHRhH8Q9eVs/6q6jnDcE64urnVx0bcy22tcrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7283
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,202 +203,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Anbernic RG28XX is a handheld gaming device with a 2.8 inch 480x640
-display. Add support for the display panel.
+On 2024/6/10 16:55, Lu Baolu wrote:
+> The domain_alloc_user operation is currently implemented by allocating a
+> paging domain using iommu_domain_alloc(). This is because it needs to fully
+> initialize the domain before return. Add a helper to do this to avoid using
+> iommu_domain_alloc().
+> 
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>   drivers/iommu/intel/iommu.c | 87 +++++++++++++++++++++++++++++++++----
+>   1 file changed, 78 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index 2e9811bf2a4e..ccde5f5972e4 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -3633,6 +3633,79 @@ static struct iommu_domain blocking_domain = {
+>   	}
+>   };
+>   
+> +static int iommu_superpage_capability(struct intel_iommu *iommu, bool first_stage)
+> +{
+> +	if (!intel_iommu_superpage)
+> +		return 0;
+> +
+> +	if (first_stage)
+> +		return cap_fl1gp_support(iommu->cap) ? 2 : 1;
+> +
+> +	return fls(cap_super_page_val(iommu->cap));
+> +}
+> +
+> +static struct dmar_domain *paging_domain_alloc(struct device *dev, bool first_stage)
+> +{
+> +	struct device_domain_info *info = dev_iommu_priv_get(dev);
+> +	struct intel_iommu *iommu = info->iommu;
+> +	struct dmar_domain *domain;
+> +	int addr_width;
+> +
+> +	domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+> +	if (!domain)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	INIT_LIST_HEAD(&domain->devices);
+> +	INIT_LIST_HEAD(&domain->dev_pasids);
+> +	INIT_LIST_HEAD(&domain->cache_tags);
+> +	spin_lock_init(&domain->lock);
+> +	spin_lock_init(&domain->cache_lock);
+> +	xa_init(&domain->iommu_array);
+> +
+> +	domain->nid = dev_to_node(dev);
+> +	domain->has_iotlb_device = info->ats_enabled;
+> +	domain->use_first_level = first_stage;
+> +
+> +	/* calculate the address width */
+> +	addr_width = agaw_to_width(iommu->agaw);
+> +	if (addr_width > cap_mgaw(iommu->cap))
+> +		addr_width = cap_mgaw(iommu->cap);
+> +	domain->gaw = addr_width;
+> +	domain->agaw = iommu->agaw;
+> +	domain->max_addr = __DOMAIN_MAX_ADDR(addr_width);
+> +
+> +	/* iommu memory access coherency */
+> +	domain->iommu_coherency = iommu_paging_structure_coherency(iommu);
+> +
+> +	/* pagesize bitmap */
+> +	domain->domain.pgsize_bitmap = SZ_4K;
+> +	domain->iommu_superpage = iommu_superpage_capability(iommu, first_stage);
+> +	domain->domain.pgsize_bitmap |= domain_super_pgsize_bitmap(domain);
+> +
+> +	/*
+> +	 * IOVA aperture: First-level translation restricts the input-address
+> +	 * to a canonical address (i.e., address bits 63:N have the same value
+> +	 * as address bit [N-1], where N is 48-bits with 4-level paging and
+> +	 * 57-bits with 5-level paging). Hence, skip bit [N-1].
+> +	 */
+> +	domain->domain.geometry.force_aperture = true;
+> +	domain->domain.geometry.aperture_start = 0;
+> +	if (first_stage)
+> +		domain->domain.geometry.aperture_end = __DOMAIN_MAX_ADDR(domain->gaw - 1);
+> +	else
+> +		domain->domain.geometry.aperture_end = __DOMAIN_MAX_ADDR(domain->gaw);
+> +
+> +	/* always allocate the top pgd */
+> +	domain->pgd = iommu_alloc_page_node(domain->nid, GFP_KERNEL);
+> +	if (!domain->pgd) {
+> +		kfree(domain);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +	domain_flush_cache(domain, domain->pgd, PAGE_SIZE);
+> +
+> +	return domain;
+> +}
+> +
+>   static struct iommu_domain *intel_iommu_domain_alloc(unsigned type)
+>   {
+>   	struct dmar_domain *dmar_domain;
+> @@ -3695,15 +3768,11 @@ intel_iommu_domain_alloc_user(struct device *dev, u32 flags,
+>   	if (user_data || (dirty_tracking && !ssads_supported(iommu)))
+>   		return ERR_PTR(-EOPNOTSUPP);
+>   
+> -	/*
+> -	 * domain_alloc_user op needs to fully initialize a domain before
+> -	 * return, so uses iommu_domain_alloc() here for simple.
+> -	 */
+> -	domain = iommu_domain_alloc(dev->bus);
+> -	if (!domain)
+> -		return ERR_PTR(-ENOMEM);
+> -
+> -	dmar_domain = to_dmar_domain(domain);
+> +	/* Do not use first stage for user domain translation. */
+> +	dmar_domain = paging_domain_alloc(dev, false);
 
-This panel is driven by a variant of ST7701 driver IC internally,
-confirmed by dumping and analyzing its BSP initialization sequence
-by using a logic analyzer. It is very similar to the existing
-densitron,dmt028vghmcmi-1a panel, but differs in some unknown
-register values. Besides, it is connected via SPI, so add a new entry
-for the panel.
+this is not an apple-to-apple replacement yet. You need to set the type,
+owner and domain->ops as well.
 
-Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
----
- drivers/gpu/drm/panel/panel-sitronix-st7701.c | 151 ++++++++++++++++++
- 1 file changed, 151 insertions(+)
+> +	if (IS_ERR(dmar_domain))
+> +		return ERR_CAST(dmar_domain);
+> +	domain = &dmar_domain->domain;
+>   
+>   	if (nested_parent) {
+>   		dmar_domain->nested_parent = true;
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-index 07980f010bb..8450a4317c1 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-@@ -471,6 +471,55 @@ static void rg_arc_gip_sequence(struct st7701 *st7701)
- 	msleep(120);
- }
- 
-+static void rg28xx_gip_sequence(struct st7701 *st7701)
-+{
-+	st7701_switch_cmd_bkx(st7701, true, 3);
-+	ST7701_WRITE(st7701, 0xEF, 0x08);
-+
-+	st7701_switch_cmd_bkx(st7701, true, 0);
-+	ST7701_WRITE(st7701, 0xC3, 0x02, 0x10, 0x02);
-+	ST7701_WRITE(st7701, 0xC7, 0x04);
-+	ST7701_WRITE(st7701, 0xCC, 0x10);
-+
-+	st7701_switch_cmd_bkx(st7701, true, 1);
-+	ST7701_WRITE(st7701, 0xEE, 0x42);
-+	ST7701_WRITE(st7701, 0xE0, 0x00, 0x00, 0x02);
-+
-+	ST7701_WRITE(st7701, 0xE1, 0x04, 0xA0, 0x06, 0xA0, 0x05, 0xA0, 0x07, 0xA0,
-+		   0x00, 0x44, 0x44);
-+	ST7701_WRITE(st7701, 0xE2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		   0x00, 0x00, 0x00, 0x00);
-+	ST7701_WRITE(st7701, 0xE3, 0x00, 0x00, 0x22, 0x22);
-+	ST7701_WRITE(st7701, 0xE4, 0x44, 0x44);
-+	ST7701_WRITE(st7701, 0xE5, 0x0C, 0x90, 0xA0, 0xA0, 0x0E, 0x92, 0xA0, 0xA0,
-+		   0x08, 0x8C, 0xA0, 0xA0, 0x0A, 0x8E, 0xA0, 0xA0);
-+	ST7701_WRITE(st7701, 0xE6, 0x00, 0x00, 0x22, 0x22);
-+	ST7701_WRITE(st7701, 0xE7, 0x44, 0x44);
-+	ST7701_WRITE(st7701, 0xE8, 0x0D, 0x91, 0xA0, 0xA0, 0x0F, 0x93, 0xA0, 0xA0,
-+		   0x09, 0x8D, 0xA0, 0xA0, 0x0B, 0x8F, 0xA0, 0xA0);
-+	ST7701_WRITE(st7701, 0xEB, 0x00, 0x00, 0xE4, 0xE4, 0x44, 0x00, 0x40);
-+	ST7701_WRITE(st7701, 0xED, 0xFF, 0xF5, 0x47, 0x6F, 0x0B, 0xA1, 0xBA, 0xFF,
-+		   0xFF, 0xAB, 0x1A, 0xB0, 0xF6, 0x74, 0x5F, 0xFF);
-+	ST7701_WRITE(st7701, 0xEF, 0x08, 0x08, 0x08, 0x45, 0x3F, 0x54);
-+
-+	st7701_switch_cmd_bkx(st7701, false, 0);
-+
-+	st7701_switch_cmd_bkx(st7701, true, 3);
-+	ST7701_WRITE(st7701, 0xE6, 0x16);
-+	ST7701_WRITE(st7701, 0xE8, 0x00, 0x0E);
-+
-+	st7701_switch_cmd_bkx(st7701, false, 0);
-+	ST7701_WRITE(st7701, MIPI_DCS_SET_ADDRESS_MODE, 0x10);
-+	ST7701_WRITE(st7701, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(120);
-+
-+	st7701_switch_cmd_bkx(st7701, true, 3);
-+	ST7701_WRITE(st7701, 0xE8, 0x00, 0x0C);
-+	msleep(10);
-+	ST7701_WRITE(st7701, 0xE8, 0x00, 0x00);
-+	st7701_switch_cmd_bkx(st7701, false, 0);
-+}
-+
- static int st7701_prepare(struct drm_panel *panel)
- {
- 	struct st7701 *st7701 = panel_to_st7701(panel);
-@@ -986,6 +1035,106 @@ static const struct st7701_panel_desc rg_arc_desc = {
- 	.gip_sequence = rg_arc_gip_sequence,
- };
- 
-+static const struct drm_display_mode rg28xx_mode = {
-+	.clock		= 22325,
-+
-+	.hdisplay	= 480,
-+	.hsync_start	= 480 + 40,
-+	.hsync_end	= 480 + 40 + 4,
-+	.htotal		= 480 + 40 + 4 + 20,
-+
-+	.vdisplay	= 640,
-+	.vsync_start	= 640 + 2,
-+	.vsync_end	= 640 + 2 + 40,
-+	.vtotal		= 640 + 2 + 40 + 16,
-+
-+	.width_mm	= 44,
-+	.height_mm	= 58,
-+
-+	.flags		= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct st7701_panel_desc rg28xx_desc = {
-+	.mode = &rg28xx_mode,
-+
-+	.panel_sleep_delay = 80,
-+
-+	.pv_gamma = {
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0x10),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x17),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0xd),
-+
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x6),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x5),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-+
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x7),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x1f),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x4),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x11),
-+
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0xe),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x29),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x30),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
-+	},
-+	.nv_gamma = {
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0xd),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x14),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0xe),
-+
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x6),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x4),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-+
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x20),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x5),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
-+
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0x13),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x26),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x30),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
-+	},
-+	.nlinv = 7,
-+	.vop_uv = 4800000,
-+	.vcom_uv = 1512500,
-+	.vgh_mv = 15000,
-+	.vgl_mv = -11730,
-+	.avdd_mv = 6600,
-+	.avcl_mv = -4400,
-+	.gamma_op_bias = OP_BIAS_MIDDLE,
-+	.input_op_bias = OP_BIAS_MIN,
-+	.output_op_bias = OP_BIAS_MIN,
-+	.t2d_ns = 1600,
-+	.t3d_ns = 10400,
-+	.eot_en = true,
-+	.gip_sequence = rg28xx_gip_sequence,
-+};
-+
- static void st7701_cleanup(void *data)
- {
- 	struct st7701 *st7701 = (struct st7701 *)data;
-@@ -1120,11 +1269,13 @@ static const struct of_device_id st7701_dsi_of_match[] = {
- MODULE_DEVICE_TABLE(of, st7701_dsi_of_match);
- 
- static const struct of_device_id st7701_spi_of_match[] = {
-+	{ .compatible = "anbernic,rg28xx-panel", .data = &rg28xx_desc },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, st7701_spi_of_match);
- 
- static const struct spi_device_id st7701_spi_ids[] = {
-+	{ "rg28xx-panel" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(spi, st7701_spi_ids);
 -- 
-2.45.2
-
+Regards,
+Yi Liu
