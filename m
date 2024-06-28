@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B7091B5E6
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 07:11:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FD091B5E8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 07:11:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4524110E533;
-	Fri, 28 Jun 2024 05:11:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0619210EBAD;
+	Fri, 28 Jun 2024 05:11:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mq8+ncqN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nxp0jfD4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
- [209.85.210.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8DC210E1CF
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 05:10:59 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id
- 46e09a7af769-700d3ffc28cso121705a34.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 22:10:59 -0700 (PDT)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
+ [209.85.167.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70D4810E1CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 05:11:03 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id
+ 5614622812f47-3d561d685e7so158742b6e.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2024 22:11:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719551458; x=1720156258; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=QZOviDQs/MBQD8ld1vhQDebgxIDzTBqHnA9k/ikra64=;
- b=mq8+ncqNm6sIII0P4eRWYGGbjOU+1WyRXJPR5l2PLRHCAvmojLtHo4Uq2ijceiZKou
- KIlELrjLJQtpwN2SGsk3LNqeSGBV4VRVQDS49gicV/qVsCqJ57Ir7Ev0QDe0qzdeG1YO
- 5ZQodyPKqKta/c/mmqNgRkXiClfJ1v1c98yfKKyRKnA6IhzcmkNTnaVAQCfn3zdZT53W
- Wh80Z0gyOlZjc7c7tkAzVj2q5Gkf1vt3pDtQdnWY5u0+yRUA59ULc50ulusA2Y7Qmw/p
- sEofCAhUhSgNAeuLq3inA6f/J/ZylqSiZnfOQb8ocmzkm2YianvWJYzkqnw2yRl84G4Q
- RevA==
+ d=gmail.com; s=20230601; t=1719551462; x=1720156262; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JpenRVGjM2ZSkUQ2dBUpd49BSbf2cRRpi0pJzb2v/wA=;
+ b=Nxp0jfD4Rr13s2cEbVdVrhEgvH7mXFyMhMy2KJskJR+q8dUA9Z2kvcK9uT33g9JhPx
+ pcwSE/wao/37dYI6KnA7HlehYOiIm0X0NZ8hxPgxtrsvoBtaooAdHv8zQuF/QKQecYzo
+ OTlKWX1uYnfWkXc/04Q8vyrtaFsMNrxKE8O+8pLxARL7vsmrkWGk56weFSVLy8MHsMjK
+ 2Ne/2YyAqwj96gVb5PX8zDGDzmaTu0+4WruGJTOmdxqm5z9VRN7MWil2TqnwZPtUGDEi
+ 4N53D/hzAaYceaYYre7M6PgUE4Ro0EWQe+bXElCKJ7zP2n6xpbljVDYqmvSOCwalqXBE
+ y8BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719551458; x=1720156258;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QZOviDQs/MBQD8ld1vhQDebgxIDzTBqHnA9k/ikra64=;
- b=i7r7QofXLNGZSyO7cQyYRn+sKaAostke0j0CatlfU18P6TnAvDr2w3Z3SkCqP4D3WP
- EjlRv//9Ivppocf8d3IQg0Rx/6w5m/TmNZtRZ16sNBVnoLXmWvyZ8eHTh7sr95GGmcIM
- WNrBUBUz0oEdpmEk27ILUwZLhIY5UW0PyAbiBZU0s+8kLCBBmSDcBcd6nvfVNJMg1Cd3
- Tsz3NGJq1fYl+DJ870YK+8aBzcNsYNBGZeGqrMwQbfG2CJ6M/NsHnqwlfGr6KLauQgJF
- 9vqbbIYVvfOlKfx04IUvy+Jxy/ld+tLwSNv/w3gogIxoIS8b3MwmulRDtGHgDpkU/iE5
- qHqA==
+ d=1e100.net; s=20230601; t=1719551462; x=1720156262;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JpenRVGjM2ZSkUQ2dBUpd49BSbf2cRRpi0pJzb2v/wA=;
+ b=OVl9fBq8uYS2I6DRL3e/YxU/h+P9mxD3a/irozMF1xZ7h78xU2y+ZpBIZKti/z/Bug
+ U5Jk7SVQSd1reAaEdCcJpONI2Jmp+ZvZv9ymvWbxy31UWmypD3A1BW9WFoUk0jqhhQjk
+ xWIdfW8q1M7eNxBr9yPDsV/30zkFcb3pKNau7/ZVQgusB6lCEiYaQqGg46qlMFHq+kwa
+ Hkx692vzPCKjuTzhz3fpADQdggytPOYcfhLuHgqWKBtfmNXXodZd/IqP9RDG5IV8uhPE
+ gCmrqYDDhqXysdrCjjXE7lBgOkKb1nYZYabDP8Ueqh+iflUGTwyhkM5ZypFCTLk+XdTn
+ CLlw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXynD7e3VH264l347DdVbIZgCjqC0kCNdy2bQC5phafCJdFcaXRBn3QB1MfQ4P8N6n0r80TrStWSq/oJKwoeM5OWeV4iRXWrSyH16mj8d10
-X-Gm-Message-State: AOJu0YwvsI/40YGUf1qbhN4ZEdmnuqmT+v6Lp/PLfnbTLo+2hI3weHI6
- R7jYFaoftOcmFiQGsQ+a3UBJkGGdMY5nkIYgWItEtdKDM7UPF0+v
-X-Google-Smtp-Source: AGHT+IEM3bDBrt30alpajKkos/IxGqPZ7xRkmoOjUEHyZ4phZitXVg3133+I0ub4CXr8Kt4EtjoiEQ==
-X-Received: by 2002:a05:6871:588f:b0:254:b0b0:9335 with SMTP id
- 586e51a60fabf-25d016e7c2cmr15937221fac.33.1719551458463; 
- Thu, 27 Jun 2024 22:10:58 -0700 (PDT)
+ AJvYcCXkP8JHFK0u38aWesgwNDWDbkPlY6+qY5XUx/5CRth3ILQcAqVEVxcUW5nnQ9eRynOBdftWerTQ0w9AWt3Yo8UvAt3fR/RmYCDzF51uHRDG
+X-Gm-Message-State: AOJu0YxkOQc5mkNPuBpbzftwe5fB4s+Ek16+VngPJ5AjdXmT78AJ2gCK
+ 0JEuN8nrJPRFrkRcaNCCIJ2ILSi5Z8fYGKJjFRNuV3XqMKttGjNL
+X-Google-Smtp-Source: AGHT+IEx8bqjf6+huD46hE7EYOhNRkSCa7gQ7/NJzyrFgBjzYsCqxdHOWw/F7oJT2+64neV07mk8Tg==
+X-Received: by 2002:a05:6808:1b26:b0:3d2:1759:7db1 with SMTP id
+ 5614622812f47-3d54594bcbamr18842835b6e.10.1719551462153; 
+ Thu, 27 Jun 2024 22:11:02 -0700 (PDT)
 Received: from noel.flets-west.jp ([2405:6586:4480:a10:167:9818:d778:5c14])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-70804893e4bsm624716b3a.184.2024.06.27.22.10.54
+ d2e1a72fcca58-70804893e4bsm624716b3a.184.2024.06.27.22.10.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jun 2024 22:10:57 -0700 (PDT)
+ Thu, 27 Jun 2024 22:11:01 -0700 (PDT)
 From: Hironori KIKUCHI <kikuchan98@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
@@ -68,10 +69,12 @@ Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org
-Subject: [PATCH v2 0/3] drm/panel: st7701: Add Anbernic RG28XX panel support
-Date: Fri, 28 Jun 2024 14:10:14 +0900
-Message-ID: <20240628051019.975172-1-kikuchan98@gmail.com>
+Subject: [PATCH v2 1/3] dt-bindings: display: st7701: Add Anbernic RG28XX panel
+Date: Fri, 28 Jun 2024 14:10:15 +0900
+Message-ID: <20240628051019.975172-2-kikuchan98@gmail.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240628051019.975172-1-kikuchan98@gmail.com>
+References: <20240628051019.975172-1-kikuchan98@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,35 +92,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the display panel of the Anbernic RG28XX, a handheld
-gaming device from Anbernic.
+The RG28XX panel is a display panel of the Anbernic RG28XX, a handheld
+gaming device from Anbernic. It is 2.8 inches in size (diagonally) with
+a resolution of 480x640.
 
 This panel is driven by a variant of the ST7701 driver IC internally,
-and is connected via an RGB parallel interface for image transmission and
-an SPI interface for configuration.
+confirmed by dumping and analyzing its BSP initialization sequence
+by using a logic analyzer. It is very similar to the existing
+densitron,dmt028vghmcmi-1a panel, but differs in some unknown
+register values, so add a new entry for the panel to distinguish them.
 
-Since the current panel driver for the ST7701 variants only supports MIPI
-DSI as the configuration interface, add support for SPI as well.
+Additionally, the panel is connected via SPI instead of MIPI DSI.
+So add and modify for SPI as well.
 
-v2:
-  - Update dt-bindings
-  - Rename DSI_CMD* macros to ST7701_CMD*
-  - Rename ST7701_DSI macro to ST7701_WRITE
-  - Fix incorrect dev_err_probe() usage
-  - Remove GPIOD_FLAGS_BIT_NONEXCLUSIVE flag
-  - Remove st7701_remove() and st7701_spi_remove()
-  - Call drm_panel_disable() and drm_panel_unprepare() on cleanup
+Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
+---
+ .../display/panel/sitronix,st7701.yaml        | 69 +++++++++++++++++--
+ 1 file changed, 64 insertions(+), 5 deletions(-)
 
-Hironori KIKUCHI (3):
-  dt-bindings: display: st7701: Add Anbernic RG28XX panel
-  drm/panel: st7701: Add support for SPI for configuration
-  drm/panel: st7701: Add Anbernic RG28XX panel support
-
- .../display/panel/sitronix,st7701.yaml        |   69 +-
- drivers/gpu/drm/panel/Kconfig                 |    2 +
- drivers/gpu/drm/panel/panel-sitronix-st7701.c | 1074 ++++++++++-------
- 3 files changed, 732 insertions(+), 413 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+index b348f5bf0a9..835ea436531 100644
+--- a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
++++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+@@ -20,21 +20,19 @@ description: |
+   Densitron DMT028VGHMCMI-1A is 480x640, 2-lane MIPI DSI LCD panel
+   which has built-in ST7701 chip.
+ 
+-allOf:
+-  - $ref: panel-common.yaml#
+-
+ properties:
+   compatible:
+     items:
+       - enum:
+           - anbernic,rg-arc-panel
++          - anbernic,rg28xx-panel
+           - densitron,dmt028vghmcmi-1a
+           - elida,kd50t048a
+           - techstar,ts8550b
+       - const: sitronix,st7701
+ 
+   reg:
+-    description: DSI virtual channel used by that screen
++    description: DSI / SPI channel used by that screen
+     maxItems: 1
+ 
+   VCC-supply:
+@@ -43,6 +41,13 @@ properties:
+   IOVCC-supply:
+     description: I/O system regulator
+ 
++  dc-gpios:
++    maxItems: 1
++    description:
++      Controller data/command selection (D/CX) in 4-line SPI mode.
++      If not set, the controller is in 3-line SPI mode.
++      Disallowed for DSI.
++
+   port: true
+   reset-gpios: true
+   rotation: true
+@@ -57,7 +62,38 @@ required:
+   - port
+   - reset-gpios
+ 
+-additionalProperties: false
++allOf:
++  - $ref: panel-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            # SPI connected panels
++            enum:
++              - anbernic,rg28xx-panel
++    then:
++      $ref: /schemas/spi/spi-peripheral-props.yaml
++
++  - if:
++      properties:
++        compatible:
++          not:
++            contains:
++              # DSI or SPI without D/CX pin
++              enum:
++                - anbernic,rg-arc-panel
++                - anbernic,rg28xx-panel
++                - densitron,dmt028vghmcmi-1a
++                - elida,kd50t048a
++                - techstar,ts8550b
++    then:
++      required:
++        - dc-gpios
++    else:
++      properties:
++        dc-gpios: false
++
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+@@ -82,3 +118,26 @@ examples:
+             };
+         };
+     };
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "anbernic,rg28xx-panel", "sitronix,st7701";
++            reg = <0>;
++            spi-max-frequency = <3125000>;
++            VCC-supply = <&reg_lcd>;
++            IOVCC-supply = <&reg_lcd>;
++            reset-gpios = <&pio 8 14 GPIO_ACTIVE_HIGH>; /* LCD-RST: PI14 */
++            backlight = <&backlight>;
++
++            port {
++                panel_in_rgb: endpoint {
++                    remote-endpoint = <&tcon_lcd0_out_lcd>;
++                };
++            };
++        };
++    };
 -- 
 2.45.2
 
