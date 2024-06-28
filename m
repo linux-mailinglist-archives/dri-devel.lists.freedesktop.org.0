@@ -2,49 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C7291B577
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 05:29:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7D191B59B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 05:56:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 517B710E043;
-	Fri, 28 Jun 2024 03:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B51510EBBB;
+	Fri, 28 Jun 2024 03:55:59 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=jookia.org header.i=@jookia.org header.b="N8Xu6dE+";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19F9610E043
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 03:29:49 +0000 (UTC)
-Received: from localhost (unknown [124.16.138.129])
- by APP-03 (Coremail) with SMTP id rQCowADn7tYoLn5mB1vZEg--.9834S2;
- Fri, 28 Jun 2024 11:29:44 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: deller@gmx.de, laurent.pinchart@ideasonboard.com,
- kuninori.morimoto.gx@renesas.com
-Cc: linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] fbdev: omap2: Return clk_prepare_enable to transfer the error
-Date: Fri, 28 Jun 2024 11:28:12 +0800
-Message-Id: <20240628032812.280895-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
+ [95.215.58.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5244C10EBBB
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 03:55:58 +0000 (UTC)
+X-Envelope-To: dri-devel@lists.freedesktop.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+ t=1719546955;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=0wLuOfRqTRaguKs78irb8o6VdBfz2hGUI0GOzcpUVw8=;
+ b=N8Xu6dE+cfBI/EY/A8QQtmxbhhj4CH6EbhEHF6iRAoZkGsedGvAs4/wvAOh7gp9QJmMI/4
+ 4YqEk0FAtnUVN79iiLfSke1W2AFPKOdxRgcbmYAKWt8gg2lc1P5h36AzLzqN0Li7F0nh/I
+ eFdsUVEDsTOygVcRSPSdJ3wClqxyzHaKfPp8wDMGq3POYC43pYVSnR8aIntn4OiVaQFB27
+ ddQNCCC0cMqOrq3Td5lk0UpuwxNWrsVg4q6hxEyd5jrrx7vsfL7DiuaIObnrHOf6s+x9FS
+ 4KpyYxNAtHCut2G8Ce2IQs24gRF4NcQ3a3rXusyzjqIZzPMo4Prw/J18F7l84Q==
+Date: Fri, 28 Jun 2024 13:54:36 +1000
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: John Watts <contact@jookia.org>
+To: dri-devel@lists.freedesktop.org
+Subject: How to specify panel bit order in driver?
+Message-ID: <Zn4z_OJJ07xg_xmh@titan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowADn7tYoLn5mB1vZEg--.9834S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruF1DuFyDCw4kZw1kuF4rZrb_yoW3Arc_Ca
- nrurZxGF9xtrWvk3Wrtws8CrZ2y3WIqFyfur92g3yfKry7Cr1fXryDZr13A3yDXr40yFyD
- ur17X340yr1fujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbckFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
- 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_
- Gr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
- WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
- 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
- 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
- 42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUShFxUUUUU=
-X-Originating-IP: [124.16.138.129]
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,28 +53,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Return clk_prepare_enable() in order to transfer the error if it fails.
+Hello there,
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/video/fbdev/omap2/omapfb/dss/venc.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+A while ago I added support for the FS035VG158 panel to the kernel, with its
+use case being on a Allwinner T113 board.
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/venc.c b/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-index 0bd80d3b8f1b..d13ad00d353b 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-@@ -903,9 +903,7 @@ static int venc_runtime_resume(struct device *dev)
- 	if (r < 0)
- 		return r;
- 
--	clk_prepare_enable(venc.tv_dac_clk);
--
--	return 0;
-+	return clk_prepare_enable(venc.tv_dac_clk);
- }
- 
- static const struct dev_pm_ops venc_pm_ops = {
--- 
-2.25.1
+While troubleshooting some other issue (I will be posting about that this
+weekend) I found that I need to tell the panel controller to use a bit depth of
+18-bit in order for the panel to work correctly.
 
+I plan to add another panel to the kernel that also requires setting the bit
+depth, but has more configurations than just 24, 18, 16, it also supports
+packing 18 of the bits together.
+
+How all of this is configured depends on how the board and panel are wired
+together, it can't be determined at runtime based on pixel formats or anything
+like that. It seems to me that this needs to be specified in the device tree.
+
+My question is: How would I represent this? A property like 'bit-depth'?
+'color-mapping'? Or is there already some subsystem or convention designed for
+this?
+
+John.
