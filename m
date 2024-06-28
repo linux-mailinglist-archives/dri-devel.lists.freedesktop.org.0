@@ -2,72 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95E491C3E7
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 18:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED7A91C3FC
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 18:44:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32C6610EC89;
-	Fri, 28 Jun 2024 16:42:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D2E910ECB4;
+	Fri, 28 Jun 2024 16:44:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nEL1phH9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QzXnLCjS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C4110EC84
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 16:42:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1E990CE4213;
- Fri, 28 Jun 2024 16:42:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57651C116B1;
- Fri, 28 Jun 2024 16:42:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719592927;
- bh=KowZk1jQy1Io4XMkPQkUk3h3DaEtKMWS+HxwXGTr01o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nEL1phH9XyJOO3v5dFvk1S+J59xlUQRD8neWizW6JlnwyBnug2Weefv24q6bhf95i
- MhJi3bl2YjtM8xZk8U9WUvau7ojskQzgheACXDON+bH3NKQAn9wXIJPMCkj7/9bGDf
- R4UbdFho4lINQQtH5ChOH8HsTK811XPOD+LD6FmH9tYWQGwsUnyAuAJZ1SHvD1/zxC
- qCZ9dyykQhO/2OKHN0U1BCDGqGVpGlzwCawRLy9UAV91om/bWQO0aKBPH3k9JFpEjH
- 6BfpIoKU2FK6V3/TI+77El/aFCx9qvSMlxwjTWOO4nwtAudMQWkn8emj4920X/MgVI
- Zi51CngzY6Q5A==
-Date: Fri, 28 Jun 2024 09:42:06 -0700
-From: Kees Cook <kees@kernel.org>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tony Luck <tony.luck@intel.com>,
- "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- John Ogness <john.ogness@linutronix.de>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jani Nikula <jani.nikula@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Uros Bizjak <ubizjak@gmail.com>, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hyperv@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] printk: Add a short description string to kmsg_dump()
-Message-ID: <202406280938.2D7BB97C@keescook>
-References: <20240625123954.211184-1-jfalempe@redhat.com>
- <202406260906.533095B1@keescook>
- <06899fda-de75-4d44-bda5-dcbb3e35d037@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8048310EC8C;
+ Fri, 28 Jun 2024 16:44:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719593085; x=1751129085;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Hrzx0tYKglsjJaaFBqrkA9aNoCKO/WLkAqjL0968RxI=;
+ b=QzXnLCjSGrdVzGSy7mcJMb5IWuOS65O0U0mAvz85YpGa/TLtBB1+mGx/
+ hzEsIIimbsQdpaeBibNpmP0XsKxeNDpxcLVUh+6SP5Dy9nLlfUgbGd2DE
+ GhNo6nA9aCZoRBi2qTD/OkOgEY8z2nsHxxb6KHpZtgHvlj3GG5VTG15+g
+ yLZzLk3EOq7I1TxmrNQXBKV1S8uSegUVtJ4yc+nZFjifpjTqkSyvST0Sz
+ UK1tHzYJ1u3TSzDqTRDc0StYX78OgXPpPM1wQ2DE7rtANIUOdQx5802+H
+ 4FEBazBFryyu2TYTVh5tsuHE20DbAHBzzGSG/OhJA5d3mUxZoKF+vyGO6 Q==;
+X-CSE-ConnectionGUID: m++4BgnYR2izPZflaIMPDg==
+X-CSE-MsgGUID: EsY26W+lQKG4N8U/nEtnqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16620064"
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="16620064"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 09:44:45 -0700
+X-CSE-ConnectionGUID: 830SMrKRSfqy5FWt9/8D4g==
+X-CSE-MsgGUID: ngL2ajgNTZajG8Mh10xxTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; d="scan'208";a="75519907"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2024 09:44:44 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH v2 0/9] drm/i915: Dump DSC state to dmesg/debugfs
+Date: Fri, 28 Jun 2024 19:44:41 +0300
+Message-ID: <20240628164451.1177612-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.43.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <06899fda-de75-4d44-bda5-dcbb3e35d037@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,18 +66,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 28, 2024 at 09:13:11AM +0200, Jocelyn Falempe wrote:
-> It is present in the kdump log, but before all the register dumps.
-> So to retrieve it you need to parse the last 30~40 lines of logs, and search
-> for a line starting with "Kernel panic - not syncing".
-> https://elixir.bootlin.com/linux/v6.10-rc5/source/kernel/panic.c#L341
-> But I think that's a bit messy, and I prefer having a kmsg_dump parameter.
+This is v2 of [1], renaming the helpers from drm_x16 to fxp_q4 as
+suggested by Jani.
 
-Yeah, I totally agree: it should be easy to access the panic reason. I
-just wanted to double-check that from pstore's perspective there wasn't
-any "new" information here that should be captured somehow.
+[1] https://lore.kernel.org/all/20240614173911.3743172-1-imre.deak@intel.com
 
-Thanks!
+Cc: Jani Nikula <jani.nikula@intel.com>
+
+Imre Deak (9):
+  drm: Add helpers for q4 fixed point values
+  drm/display/dsc: Add a helper to dump the DSC configuration
+  drm/i915: Replace to_bpp_x16() with fxp_q4_from_int()
+  drm/i915: Replace to_bpp_int() with fxp_q4_to_int()
+  drm/i915: Replace to_bpp_int_roundup() with fxp_q4_to_int_roundup()
+  drm/i915: Replace to_bpp_frac() with fxp_q4_to_frac()
+  drm/i915: Replace BPP_X16_FMT()/ARGS() with FXP_Q4_FMT()/ARGS()
+  drm/i915: Dump DSC state to dmesg and debugfs/i915_display_info
+  drm/i915: Remove DSC register dump
+
+ drivers/gpu/drm/display/drm_dp_helper.c       |  5 +-
+ drivers/gpu/drm/display/drm_dsc_helper.c      | 91 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/icl_dsi.c        |  9 +-
+ drivers/gpu/drm/i915/display/intel_audio.c    |  5 +-
+ drivers/gpu/drm/i915/display/intel_bios.c     |  5 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |  5 +-
+ .../drm/i915/display/intel_crtc_state_dump.c  |  3 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  7 +-
+ .../drm/i915/display/intel_display_debugfs.c  |  4 +
+ .../drm/i915/display/intel_display_types.h    | 23 -----
+ drivers/gpu/drm/i915/display/intel_dp.c       | 51 ++++++-----
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   | 26 +++---
+ drivers/gpu/drm/i915/display/intel_fdi.c      |  6 +-
+ drivers/gpu/drm/i915/display/intel_link_bw.c  |  4 +-
+ drivers/gpu/drm/i915/display/intel_vdsc.c     | 51 ++++++-----
+ drivers/gpu/drm/i915/display/intel_vdsc.h     |  4 +
+ include/drm/display/drm_dsc_helper.h          |  3 +
+ include/drm/drm_fixed.h                       | 23 +++++
+ 18 files changed, 222 insertions(+), 103 deletions(-)
 
 -- 
-Kees Cook
+2.43.3
+
