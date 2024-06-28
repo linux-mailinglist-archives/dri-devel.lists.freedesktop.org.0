@@ -2,69 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B143B91C649
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 21:01:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CCAE91C621
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 20:55:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EEE410ED2D;
-	Fri, 28 Jun 2024 19:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1963A10E2FC;
+	Fri, 28 Jun 2024 18:55:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jookia.org header.i=@jookia.org header.b="gPiB1B86";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="clKY7FK/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 500 seconds by postgrey-1.36 at gabe;
- Fri, 28 Jun 2024 19:01:32 UTC
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
- [91.218.175.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C58110ED2E
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 19:01:32 +0000 (UTC)
-X-Envelope-To: linux-sunxi@lists.linux.dev
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
- t=1719600790;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=ol5vZWmzYCAtuPZvkV2jmiAnvzmCMXUkEioC5JggsN8=;
- b=gPiB1B86mnE70dlWle33ELiZCWlxK3uL2NGuS12wTJoFk7DW0qoHRufvn35raPdcC/ENqk
- LmdRP691WwONfx8wP5voen+IpJ2/Shes1KRp4fgZ7KPwi54GhJWvtcr+5C/KxQqPbVg6/3
- Bz5NwyO2tK7cNeZy+c4hHcTxkHniTncvX+LPMtS2/SaaLGxIB1/SaWmL4NVJgJnJ1Bf6uR
- 5V1DTFASS2eJ5KmXvAedPdJNuY+QGx2W/Wo9sqsuGRVqboK2rNeHdZUQEBes/KoIP01t8T
- L0dP3ZUHcUEcjQsoqfrIWcpPkS2smu5X4g9GigCbZ7V7KUSMai8RH3DWAvc8qg==
-X-Envelope-To: andre.przywara@arm.com
-X-Envelope-To: jakobl.gm.g@gmail.com
-X-Envelope-To: kirby.nankivell@gmail.com
-X-Envelope-To: contact@paulk.fr
-X-Envelope-To: mripard@kernel.org
-X-Envelope-To: wens@csie.org
-X-Envelope-To: jernej.skrabec@gmail.com
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: samuel@sholland.org
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-Date: Sat, 29 Jun 2024 04:52:06 +1000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: John Watts <contact@jookia.org>
-To: linux-sunxi@lists.linux.dev
-Cc: andre.przywara@arm.com, Jakob L <jakobl.gm.g@gmail.com>,
- "K. James" <kirby.nankivell@gmail.com>,
- Paul Kocialkowski <contact@paulk.fr>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: T113 TCON Top tinting troubleshooting
-Message-ID: <Zn8GVkpwXwhaUFno@titan>
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDAE710E2FC
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 18:55:21 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a724440f597so126386466b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 11:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1719600920; x=1720205720; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QLIc478CrM8WRyLsKp7HKGbFT+nWGbRboxpgjYNwu6s=;
+ b=clKY7FK/US2wZelcebKxkZr7ccd4VzluOd217S8Nohs44Nkm2g7IPfrioZJzjq+CA9
+ yr7bDBLPgC7YEkGQA6O5YavDXYs1a8Jq2+JAw5qYG1MLs+8Y24uc+GArF9Xc3TLKmJo8
+ krprzGzp3RTKbeP4DQY9anQA5TursZfXAfGWEQAYdby+mUitQ2LOQozGvDJs6o4v4KUe
+ 3EN0/Tmtp+otc7tpfsh85wvBgFYbgLFYjktgQPJwincCd4rVsV5fhK3z5/YvkUWVBx7A
+ 70HEAZPIqZplO7i3oafflawy9d5qoGn60ILUswnkqJbDfrRDAq1lSzDzau86m+mLDgGb
+ 57vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719600920; x=1720205720;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QLIc478CrM8WRyLsKp7HKGbFT+nWGbRboxpgjYNwu6s=;
+ b=PWEHOw+qfcTqAz4EIxN+GQVrmMsHqDiGSjZLlAl3NwsETXoAfMXCMX+6LSY1u1vyC8
+ u8YCYDuJHBCtIW8TBpYRK/Cpbv3zTUPSrofc99wxnBgy6GJK/bJ5Ae6v7A6lPpf9DsPv
+ dw8zWbeK3KGeGDVuMs+YjuU/yZFPKEAFagqgMSx1p2TJyUTAI81yxyZBcDJ03Wdp9wYd
+ 54Ftx/Tb3U5slyphYSfW7AaFik0+LZH++yuwwm5muZFwKokLSgUeOXFZvRqvMH++7wjP
+ n5JwNYj0fUZohUv98CTdBuzUS7gJkMZZzuoYPpCBKv7OUe7NttlNEw3J/1NdHIebb2Kc
+ nXrQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVEw9Q/9aZbxUlGnaJ5P5aAyVa4sGpbYNNPTjkt5F2HPCKAJHt0X5Wkz4KA2mfwXpB615wVWIOZAF0OkHaoDfbr+pl9xftHX+BxzAs0znt1
+X-Gm-Message-State: AOJu0Yw53dOBVtVooVN+ZdvWFlv7Stk9+5YulMjujSjfWDcyw64a8dVT
+ EE7ND+R8luuUU8dDLF4OVkqCe+KLnXhcaEOd9oM6E/8RX5+vn06gvzU7/+2xFJY90eu+xYwgMtx
+ tB3o5uvzGTZ2L+z6ys/bPAKoe/OY=
+X-Google-Smtp-Source: AGHT+IHeGM3d7YvzcLQJxAxEGdEg5stxZMe7tyJA5kiIIVgTMzM2ylMjwUFy3aKkTXzmqtMIOpkybbDc3e5mBxpP3kM=
+X-Received: by 2002:a17:906:7955:b0:a72:98a0:7159 with SMTP id
+ a640c23a62f3a-a7298a072damr462138866b.68.1719600920041; Fri, 28 Jun 2024
+ 11:55:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Migadu-Flow: FLOW_OUT
+References: <20240625081818.15696-1-tzimmermann@suse.de>
+In-Reply-To: <20240625081818.15696-1-tzimmermann@suse.de>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Fri, 28 Jun 2024 14:54:42 -0400
+Message-ID: <CAAxE2A68QveD4nNa_OyQQHYSdbvArck6oWnV7YsmWC89B8x=yA@mail.gmail.com>
+Subject: Re: [PATCH] firmware: sysfb: Fix reference count of sysfb parent
+ device
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org, 
+ Helge Deller <deller@gmx.de>, Jani Nikula <jani.nikula@intel.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Sui Jingfeng <suijingfeng@loongson.cn>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,55 +82,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hi Thomas,
 
-On the T113 (and most likely the D1) sometimes the RGB LCD output has strange
-artifacts such as:
+FYI, this doesn't fix the issue of lightdm not being able to start for me.
 
-- A blue tint
-- A mostly opaque green tint
-- A red tint
-- A pink tint
+Marek
 
-The actual tint seems to differ between boards or chips, and has some
-probability of showing up that can range from 50% to 90%.
 
-After a week or so of troubleshooting I've managed to figure out what's
-happening here, and I'm not too sure how to fix it.
+Marek
 
-It appears that the TCON Top on this chip can't mux both mixers to a shared
-output. The R40 (and H6?) allows this and prioritizes the DE0 when muxing, but
-on the T113 it seems to cause graphical artifacts. Disabling DE1 in the
-device tree can help but doesn't solve the problem entirely.
-
-Here's a change that tests this behaviour, it sets DE1 to output to TVE0. DE0
-then outputs to LCD0 as usual. I would appreciate if anyone with this issue can
-test the above workaround on their boards.
-There was a previous discussion here:
-https://groups.google.com/g/linux-sunxi/c/HxDBpY5HbbQ/m/mX2O2OYlCwAJ
-
----8<--- CUT HERE ---8<---
-
---- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-@@ -179,7 +179,7 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
- 	 * At least on H6, some registers have some bits set by default
- 	 * which may cause issues. Clear them here.
- 	 */
--	writel(0, regs + TCON_TOP_PORT_SEL_REG);
-+	writel(0x20, regs + TCON_TOP_PORT_SEL_REG);
- 	writel(0, regs + TCON_TOP_GATE_SRC_REG);
- 
- 	/*
-
----8<--- CUT HERE ---8<---
-
-The sunxi display code works around this issue by ensuring DE0 and DE1 never
-map to the same output: If you have DE0 set to TVE0 and DE1 set to LCD0,
-then tell it to set DE0 to LCD0, it will silently swap TVE0 on to DE1. 
-
-I'm probably going to send a patch that copies this behaviour as it
-should just work, but I'd be interested to see if there's anything I'm
-missing.
-
-John.
+On Tue, Jun 25, 2024 at 4:18=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+>
+> Retrieving the system framebuffer's parent device in sysfb_init()
+> increments the parent device's reference count. Hence release the
+> reference before leaving the init function.
+>
+> Adding the sysfb platform device acquires and additional reference
+> for the parent. This keeps the parent device around while the system
+> framebuffer is in use.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 9eac534db001 ("firmware/sysfb: Set firmware-framebuffer parent dev=
+ice")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Dan Carpenter <dan.carpenter@linaro.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Sui Jingfeng <suijingfeng@loongson.cn>
+> Cc: <stable@vger.kernel.org> # v6.9+
+> ---
+>  drivers/firmware/sysfb.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
+> index 880ffcb50088..dd274563deeb 100644
+> --- a/drivers/firmware/sysfb.c
+> +++ b/drivers/firmware/sysfb.c
+> @@ -101,8 +101,10 @@ static __init struct device *sysfb_parent_dev(const =
+struct screen_info *si)
+>         if (IS_ERR(pdev)) {
+>                 return ERR_CAST(pdev);
+>         } else if (pdev) {
+> -               if (!sysfb_pci_dev_is_enabled(pdev))
+> +               if (!sysfb_pci_dev_is_enabled(pdev)) {
+> +                       pci_dev_put(pdev);
+>                         return ERR_PTR(-ENODEV);
+> +               }
+>                 return &pdev->dev;
+>         }
+>
+> @@ -137,7 +139,7 @@ static __init int sysfb_init(void)
+>         if (compatible) {
+>                 pd =3D sysfb_create_simplefb(si, &mode, parent);
+>                 if (!IS_ERR(pd))
+> -                       goto unlock_mutex;
+> +                       goto put_device;
+>         }
+>
+>         /* if the FB is incompatible, create a legacy framebuffer device =
+*/
+> @@ -155,7 +157,7 @@ static __init int sysfb_init(void)
+>         pd =3D platform_device_alloc(name, 0);
+>         if (!pd) {
+>                 ret =3D -ENOMEM;
+> -               goto unlock_mutex;
+> +               goto put_device;
+>         }
+>
+>         pd->dev.parent =3D parent;
+> @@ -170,9 +172,12 @@ static __init int sysfb_init(void)
+>         if (ret)
+>                 goto err;
+>
+> -       goto unlock_mutex;
+> +
+> +       goto put_device;
+>  err:
+>         platform_device_put(pd);
+> +put_device:
+> +       put_device(parent);
+>  unlock_mutex:
+>         mutex_unlock(&disable_lock);
+>         return ret;
+> --
+> 2.45.2
+>
