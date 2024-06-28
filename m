@@ -2,87 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B3A91C551
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 20:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1AC91C4EA
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 19:32:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 232CC10ECEA;
-	Fri, 28 Jun 2024 18:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A34910ECD5;
+	Fri, 28 Jun 2024 17:31:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=valvesoftware.com header.i=@valvesoftware.com header.b="hmJsJEe1";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="INcBLqV6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
- Fri, 28 Jun 2024 17:32:14 UTC
-Received: from us-smtp-delivery-172.mimecast.com
- (us-smtp-delivery-172.mimecast.com [170.10.133.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4286B10ECE3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 17:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valvesoftware.com;
- s=mc20150811; t=1719595933;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XKtCW3Er86rGfQYrPBdk0AkxyGBnrD1aUtOlms/i3Os=;
- b=hmJsJEe1oy5ePitOcXdUpQffxGUbLKYv+40goaQhBfDqcjpMVa4lP+Or8scRs4jI44xmrz
- sUQ3NDN9++6r1kDP81xna1PasYaZP9slqvruPETAhbCc+uuWdOvTNZshMxGG4xc+hkDeC9
- bxPm7P2CaqVPwpoU/loAxNzjZP1yHx4=
-Received: from smtp-01-blv1.valvesoftware.com
- (smtp-01-blv1.valvesoftware.com [208.64.203.181]) by relay.mimecast.com
- with ESMTP with STARTTLS (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384)
- id us-mta-509-YeRFSs92OJut8_BO1Wnqyw-1; Fri, 28 Jun 2024 13:26:04 -0400
-X-MC-Unique: YeRFSs92OJut8_BO1Wnqyw-1
-Received: from antispam.valve.org ([172.16.1.107])
- by smtp-01-blv1.valvesoftware.com with esmtp (Exim 4.93)
- (envelope-from <johns@valvesoftware.com>) id 1sNFMJ-004VPm-K4
- for dri-devel@lists.freedesktop.org; Fri, 28 Jun 2024 10:26:03 -0700
-Received: from antispam.valve.org (127.0.0.1) id hfrp2m0171sj for
- <dri-devel@lists.freedesktop.org>;
- Fri, 28 Jun 2024 10:26:03 -0700 (envelope-from <johns@valvesoftware.com>)
-Received: from mail2.valvemail.org ([172.16.144.23])
- by antispam.valve.org ([172.16.1.107]) (SonicWall 10.0.15.7233)
- with ESMTP id o202406281726030074293-5; Fri, 28 Jun 2024 10:26:03 -0700
-Received: from [172.16.36.27] (172.16.36.27) by mail2.valvemail.org
- (172.16.144.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 28 Jun
- 2024 10:26:03 -0700
-Message-ID: <884684ce-53b1-48db-8dcb-6b2bcd0d151d@valvesoftware.com>
-Date: Fri, 28 Jun 2024 10:25:58 -0700
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB7010ECD5;
+ Fri, 28 Jun 2024 17:31:57 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45SCPgqK027707;
+ Fri, 28 Jun 2024 17:31:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=vQsq95T5PXFOUm6FcZhW0EyM
+ ZkZbXS/vatzrf4JXue0=; b=INcBLqV6ORUKFdKOzReLHI6cmVx+RAk/e9okIE8y
+ jZuDRzdsfNjC5QqR2/iwhbJ6TURsV/uNgWzJ9kluFgO/lzblnjucy2+NP2H3sV4p
+ Aqaqkidf429Jp8tNF3a4h2IY4cmpQbFA5fiIiX8xuhkXn+BDlr/1G6JWiO+12W7w
+ s7+QTZNHVypbj1+WCYXwUfTu2qvXAdUkSlE9cWKY9bXdc6nOS7iIdpY/iPukZ6fB
+ uOLtsT70hVbWV/m7soAQUPk1bjMo9II06m9GXkZi9gbZxkNefQo+jICzkN4IOlfP
+ FIe+2ddUtUbWQ+Lef2pHqRhzxrtmrL2lxjyl8ufNxQwkEg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 401pm32dm5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jun 2024 17:31:52 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45SHVowd011573
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jun 2024 17:31:50 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 28 Jun 2024 10:31:50 -0700
+Date: Fri, 28 Jun 2024 10:31:49 -0700
+From: Elliot Berman <quic_eberman@quicinc.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v4 1/5] drm/msm/adreno: Implement SMEM-based speed bin
+Message-ID: <20240628102726231-0700.eberman@hu-eberman-lv.qualcomm.com>
+References: <20240625-topic-smem_speedbin-v4-0-f6f8493ab814@linaro.org>
+ <20240625-topic-smem_speedbin-v4-1-f6f8493ab814@linaro.org>
+ <20240628101549127-0700.eberman@hu-eberman-lv.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] drm: panel-orientation-quirks: Add quirk for Valve
- Galileo
-To: Matthew Schwartz <mattschwartz@gwmail.gwu.edu>, Hamza Mahfooz
- <hamza.mahfooz@amd.com>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Mario
- Limonciello <mario.limonciello@amd.com>, Kyle Gospodnetich
- <me@kylegospodneti.ch>, Hans de Goede <hdegoede@redhat.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Matthew
- Schwartz <mattschwartz@gwu.edu>
-References: <20240627203057.127034-1-mattschwartz@gwu.edu>
- <20240627203057.127034-2-mattschwartz@gwu.edu>
- <19ca1a46-6a74-4eec-9e84-0092faaee7a1@amd.com>
- <CAD9O9Dp89CprZFMn=ysduPmUTkmJ5y6qDw18X9pLr7=ChoD0Uw@mail.gmail.com>
-From: John Schoenick <johns@valvesoftware.com>
-In-Reply-To: <CAD9O9Dp89CprZFMn=ysduPmUTkmJ5y6qDw18X9pLr7=ChoD0Uw@mail.gmail.com>
-X-ClientProxiedBy: mail2.valvemail.org (172.16.144.23) To mail2.valvemail.org
- (172.16.144.23)
-X-Mlf-DSE-Version: 6871
-X-Mlf-Rules-Version: s20240627204322; ds20230628172248;
- di20240626213040; ri20160318003319; fs20240628163459
-X-Mlf-Smartnet-Version: 20210917223710
-X-Mlf-Envelope-From: johns@valvesoftware.com
-X-Mlf-Version: 10.0.15.7233
-X-Mlf-License: BSV_C_AP____
-X-Mlf-UniqueId: o202406281726030074293
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: valvesoftware.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Fri, 28 Jun 2024 18:01:07 +0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240628101549127-0700.eberman@hu-eberman-lv.qualcomm.com>
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: GfTz67h86_1W1SU4GSH6-oKas-Rjse-E
+X-Proofpoint-GUID: GfTz67h86_1W1SU4GSH6-oKas-Rjse-E
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-28_12,2024-06-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ impostorscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 priorityscore=1501 suspectscore=0 mlxscore=0 bulkscore=0
+ clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406280130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,66 +97,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jun 28, 2024 at 10:24:52AM -0700, Elliot Berman wrote:
+> On Tue, Jun 25, 2024 at 08:28:06PM +0200, Konrad Dybcio wrote:
+> > On recent (SM8550+) Snapdragon platforms, the GPU speed bin data is
+> > abstracted through SMEM, instead of being directly available in a fuse.
+> > 
+> > Add support for SMEM-based speed binning, which includes getting
+> > "feature code" and "product code" from said source and parsing them
+> > to form something that lets us match OPPs against.
+> > 
+> > Due to the product code being ignored in the context of Adreno on
+> > production parts (as of SM8650), hardcode it to SOCINFO_PC_UNKNOWN.
+> > 
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  8 +++---
+> >  drivers/gpu/drm/msm/adreno/adreno_device.c |  2 ++
+> >  drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 41 +++++++++++++++++++++++++++---
+> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  7 ++++-
+> >  4 files changed, 50 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > index c98cdb1e9326..8ace096bb68c 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > @@ -2124,13 +2124,15 @@ static u32 fuse_to_supp_hw(const struct adreno_info *info, u32 fuse)
+> >  	return UINT_MAX;
+> >  }
+> >  
+> > -static int a6xx_set_supported_hw(struct device *dev, const struct adreno_info *info)
+> > +static int a6xx_set_supported_hw(struct adreno_gpu *adreno_gpu,
+> > +				 struct device *dev,
+> > +				 const struct adreno_info *info)
+> >  {
+> >  	u32 supp_hw;
+> >  	u32 speedbin;
+> >  	int ret;
+> >  
+> > -	ret = adreno_read_speedbin(dev, &speedbin);
+> > +	ret = adreno_read_speedbin(adreno_gpu, dev, &speedbin);
+> >  	/*
+> >  	 * -ENOENT means that the platform doesn't support speedbin which is
+> >  	 * fine
+> > @@ -2290,7 +2292,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+> >  
+> >  	a6xx_llc_slices_init(pdev, a6xx_gpu, is_a7xx);
+> >  
+> > -	ret = a6xx_set_supported_hw(&pdev->dev, config->info);
+> > +	ret = a6xx_set_supported_hw(adreno_gpu, &pdev->dev, config->info);
+> >  	if (ret) {
+> >  		a6xx_llc_slices_destroy(a6xx_gpu);
+> >  		kfree(a6xx_gpu);
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > index 1e789ff6945e..e514346088f9 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > @@ -6,6 +6,8 @@
+> >   * Copyright (c) 2014,2017 The Linux Foundation. All rights reserved.
+> >   */
+> >  
+> > +#include <linux/soc/qcom/socinfo.h>
+> > +
+> >  #include "adreno_gpu.h"
+> >  
+> >  bool hang_debug = false;
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > index 1c6626747b98..6ffd02f38499 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > @@ -21,6 +21,9 @@
+> >  #include "msm_gem.h"
+> >  #include "msm_mmu.h"
+> >  
+> > +#include <linux/soc/qcom/smem.h>
+> > +#include <linux/soc/qcom/socinfo.h>
+> > +
+> >  static u64 address_space_size = 0;
+> >  MODULE_PARM_DESC(address_space_size, "Override for size of processes private GPU address space");
+> >  module_param(address_space_size, ullong, 0600);
+> > @@ -1061,9 +1064,39 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
+> >  			   adreno_ocmem->hdl);
+> >  }
+> >  
+> > -int adreno_read_speedbin(struct device *dev, u32 *speedbin)
+> > +int adreno_read_speedbin(struct adreno_gpu *adreno_gpu,
+> > +			 struct device *dev, u32 *fuse)
+> >  {
+> > -	return nvmem_cell_read_variable_le_u32(dev, "speed_bin", speedbin);
+> > +	u32 fcode;
+> > +	int ret;
+> > +
+> > +	/*
+> > +	 * Try reading the speedbin via a nvmem cell first
+> > +	 * -ENOENT means "no nvmem-cells" and essentially means "old DT" or
+> > +	 * "nvmem fuse is irrelevant", simply assume it's fine.
+> > +	 */
+> > +	ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin", fuse);
+> > +	if (!ret)
+> > +		return 0;
+> > +	else if (ret != -ENOENT)
+> > +		return dev_err_probe(dev, ret, "Couldn't read the speed bin fuse value\n");
+> > +
+> > +#ifdef CONFIG_QCOM_SMEM
+> > +	/*
+> > +	 * Only check the feature code - the product code only matters for
+> > +	 * proto SoCs unavailable outside Qualcomm labs, as far as GPU bin
+> > +	 * matching is concerned.
+> > +	 *
+> > +	 * Ignore EOPNOTSUPP, as not all SoCs expose this info through SMEM.
+> > +	 */
+> > +	ret = qcom_smem_get_feature_code(&fcode);
+> > +	if (!ret)
+> > +		*fuse = ADRENO_SKU_ID(fcode);
+> > +	else if (ret != -EOPNOTSUPP)
+> > +		return dev_err_probe(dev, ret, "Couldn't get feature code from SMEM\n");
+> 
+> Probably want to update a6xx_set_supported_hw() error handling to ignore
+> -EOPNOTSUPP or do:
+> 
+> 	else /* ret == -EOPNOTSUPP */
+> 		return -ENOENT;
+> 
+> 
+> 
+> > +#endif
+> > +
+> > +	return 0;
+> 
+> I noticed that if SMEM isn't enabled and nvmem returns -ENOENT, we still
+> return 0. That could lead to uninitialized access of speedbin in both
+> users of adreno_read_speedbin(). Maybe:
+> 
+> 	return ret;
+> 
 
-On 6/27/24 5:17 PM, Matthew Schwartz wrote:
-> On Thu, Jun 27, 2024 at 2:28=E2=80=AFPM Hamza Mahfooz <hamza.mahfooz@amd.=
-com> wrote:
->> On 6/27/24 16:30, Matthew Schwartz wrote:
->>> From: John Schoenick <johns@valvesoftware.com>
->> Since this patch is from John, you would need his S-o-b in here as well
->> (assuming you have his permission to add it).
-> This patch will be pending approval from them in that case. The panel qui=
-rk
-> follows the same structure as the Steam Deck Jupiter revision, but the qu=
-irk
-> has only been signed during merges by people who were not the original au=
-thor.
-> Link: https://gitlab.com/evlaV/linux-integration/-/commit/b90ac393
+Ah, I see patch 4 in the series now, but I wonder if we can do something
+better so that this patch works without relying on later patch in
+series?
 
-Hey, thanks for taking the initiative to upstream this -- feel free to=20
-add my S-o-b
-
->>
->>> Valve's Steam Deck Galileo revision has a 800x1280 OLED panel
->>>
->>> Suggested-by: John Schoenick <johns@valvesoftware.com>
->>> Link: https://gitlab.com/evlaV/linux-integration/-/commit/d2522d8bf88b3=
-5a8cf6978afbbd55c80d2d53f4f
->>> Signed-off-by: Matthew Schwartz <mattschwartz@gwu.edu>
->>> ---
->>>    drivers/gpu/drm/drm_panel_orientation_quirks.c | 7 +++++++
->>>    1 file changed, 7 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/g=
-pu/drm/drm_panel_orientation_quirks.c
->>> index 3d127127e7cb..ac8319d38e37 100644
->>> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
->>> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
->>> @@ -427,6 +427,13 @@ static const struct dmi_system_id orientation_data=
-[] =3D {
->>>                  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
->>>                },
->>>                .driver_data =3D (void *)&lcd800x1280_rightside_up,
->>> +     }, {    /* Valve Steam Deck */
->>> +             .matches =3D {
->>> +               DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
->>> +               DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galileo"),
->>> +               DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
->>> +             },
->>> +             .driver_data =3D (void *)&lcd800x1280_rightside_up,
-> Unless I get a S-o-b, is authoring a different DMI check the only solutio=
-n
-> to get a functioning panel quirk upstreamed for the Galileo revision?
-> Not quite sure how I'd maintain conformity with the existing Jupiter
-> quirk while also writing something original here.
->
->>>        }, {    /* VIOS LTH17 */
->>>                .matches =3D {
->>>                  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "VIOS"),
->> --
->> Hamza
->>
-> --
-> Matt
->
-
+> >  }
+> >  
+> >  int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+> > @@ -1102,9 +1135,9 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+> >  			devm_pm_opp_set_clkname(dev, "core");
+> >  	}
+> >  
+> > -	if (adreno_read_speedbin(dev, &speedbin) || !speedbin)
+> > +	if (adreno_read_speedbin(adreno_gpu, dev, &speedbin) || !speedbin)
+> >  		speedbin = 0xffff;
+> > -	adreno_gpu->speedbin = (uint16_t) (0xffff & speedbin);
+> > +	adreno_gpu->speedbin = speedbin;
+> >  
+> >  	gpu_name = devm_kasprintf(dev, GFP_KERNEL, "%"ADRENO_CHIPID_FMT,
+> >  			ADRENO_CHIPID_ARGS(config->chip_id));
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > index cff8ce541d2c..563c08b44624 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > @@ -79,6 +79,10 @@ struct adreno_reglist {
+> >  
+> >  struct adreno_speedbin {
+> >  	uint16_t fuse;
+> > +/* As of SM8650, PCODE on production SoCs is meaningless wrt the GPU bin */
+> > +#define ADRENO_SKU_ID_FCODE		GENMASK(15, 0)
+> > +#define ADRENO_SKU_ID(fcode)	(fcode)
+> > +
+> >  	uint16_t speedbin;
+> >  };
+> >  
+> > @@ -545,7 +549,8 @@ int adreno_fault_handler(struct msm_gpu *gpu, unsigned long iova, int flags,
+> >  			 struct adreno_smmu_fault_info *info, const char *block,
+> >  			 u32 scratch[4]);
+> >  
+> > -int adreno_read_speedbin(struct device *dev, u32 *speedbin);
+> > +int adreno_read_speedbin(struct adreno_gpu *adreno_gpu,
+> > +			 struct device *dev, u32 *speedbin);
+> >  
+> >  /*
+> >   * For a5xx and a6xx targets load the zap shader that is used to pull the GPU
+> > 
+> > -- 
+> > 2.45.2
+> > 
+> > 
+> 
