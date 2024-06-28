@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEBA91BBFC
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 11:57:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1889291BBFE
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 11:57:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 586D110EBFE;
-	Fri, 28 Jun 2024 09:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F79310EC01;
+	Fri, 28 Jun 2024 09:57:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dAU8yXIb";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="e/BzDW51";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9664B10EBFE
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 09:57:00 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EAB510EC08
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 09:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1719568619;
+ s=mimecast20190719; t=1719568643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0gOQiWtj7pZtAQIV1UR6G2cxUXB6AedwPRgNUA319zg=;
- b=dAU8yXIbtCkA8rZS0yWl1rq/sD4dO/UuTszsSO1VEJwqRk/dW7DzAa/wS32qJy9CyG6zwi
- VZvNu6OqBQdUKNxQLFqG2k8fj50a/9MJa1jcXmBhsasFnymHDaOpE2y115k7SqHa8Pw4zt
- xuOxhoNBO/JyDxAaJX3IStATAkve7Xg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZviqTqdTjxdCR1970K77L1FgyrbywP1qfa4gUY05wbA=;
+ b=e/BzDW51j72wvvMEmfN/pi79w2j7shZZ58IcGGxKJeydc1U7TbGm8i08GFYplzEdypaHO5
+ +cFHPJjNnWbyWjMLQctiOje4JCoaF0GPtoPyT7n6nTEX6ux0bdy8a0fiXcKGiSYsz7Y4kJ
+ V+K/wyN438xXFIow468zFmbM70vOZbU=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-77-yIDgFH6wO0m2eucpxBGQGg-1; Fri, 28 Jun 2024 05:56:58 -0400
-X-MC-Unique: yIDgFH6wO0m2eucpxBGQGg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3673ce35cc7so334246f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 02:56:57 -0700 (PDT)
+ us-mta-44-BCPhuNHbOweN7gCJDW0Ifg-1; Fri, 28 Jun 2024 05:57:20 -0400
+X-MC-Unique: BCPhuNHbOweN7gCJDW0Ifg-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ 38308e7fff4ca-2ec584f36bfso3966351fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 02:57:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719568617; x=1720173417;
+ d=1e100.net; s=20230601; t=1719568639; x=1720173439;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0gOQiWtj7pZtAQIV1UR6G2cxUXB6AedwPRgNUA319zg=;
- b=V3nKR9Bsh+FUezAtwLPZieCTu5VU4Dl1aw6PI7tCX3QTsFD/UK4Ckft70VgPXFSn2i
- paR4Sen/m7nYKxo5bs0f5G5N6mnYF2l37N0oyc2OKZTFc4b9k9w0TxQV1yKqTTb2Bjb+
- heEo4KgQm7LEsG6v9FguwjAg/Bc7K76d2qsnX4UqynSn/jcb0enbMGSj6saf20a8sBQo
- DJp0v77xsTsRJpIdQFGpbSqmV/7VGbVIzYGXrK/GirV+K2gY2PeCiU7BXkOQ+AtpIO1B
- DljbsMl0Z59h30oEIWGKSh5GvkW3BVqcsJbQNHkGq8IAOS7d3QyidC3Q5OpeSuoTE5Ow
- Th4Q==
-X-Gm-Message-State: AOJu0YxsbMknT4Rmjnfyjop7RgtoDa8GdQ/1Zwot+R9Vr+LpmFopKyI3
- yI5sXpWzS6MkN0XeJPpfqu5TgkNXRsqQDw/6YHbCLrzoUIbx9gjH63HETgcFgCUKOLZzkagu2TT
- bsNetoBFhmLbpQ8ru9hZ2gm8ONxhERi/Bu6nZQoKQOZtKCK9doo1QdzpwmHM0BYmYhg==
-X-Received: by 2002:a05:6000:154d:b0:366:e7b5:3b49 with SMTP id
- ffacd0b85a97d-366e7b540a8mr15395313f8f.54.1719568617023; 
- Fri, 28 Jun 2024 02:56:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF3IeOVFv8Mv+NKT/+4ElnL1ZUfLGPdTlE8uijcUIka6yCL4f66WxnrdUzvS1SQ749JLafirQ==
-X-Received: by 2002:a05:6000:154d:b0:366:e7b5:3b49 with SMTP id
- ffacd0b85a97d-366e7b540a8mr15395306f8f.54.1719568616650; 
- Fri, 28 Jun 2024 02:56:56 -0700 (PDT)
+ bh=ZviqTqdTjxdCR1970K77L1FgyrbywP1qfa4gUY05wbA=;
+ b=h2cURsb5yos2tayWkXwENVeaw99SvGCrz6+UAUlBCT+h1R1+ePu2GaTC38dQHAIyfR
+ sc9z/zjzvNY3fzVMGyemhuugPGxdgVOSVuVWPhDLPyL/ijrIE8fti/LYcTpBssM9rIyi
+ VQYbxvqyP+etWvP0PZnsp09idKYm+LOb8T7dm71+8s8LuUsh/GQHzIeUwMfBfSEg7R1I
+ Hfv0NxQyvl6nHmGyQx+R1vJgxnosxFvsV6fDxJXK1NcT3uSIrMCqQSN1CBHGRZ9r9wlW
+ N+fr43lt1QCiy5CmA512u57705bmQZcM9wOjJwPzNg9RXtS4DkeszOq0sbuhTf9fPe1N
+ jmQw==
+X-Gm-Message-State: AOJu0YxFYuINqNzqRfVyqL4tIAf9r/k1ZYDmigcq8h9K9BNLQcq2P0W9
+ kEYwFKaKaS00CuBTkYLfw2xcpKoV1xA7Hgd7h+IaCwGftimI8ouArVigz9m3Fibw/JZEeGy1v4C
+ +mG44OEPLTDl7hPAGTbmZ7JacZ9A1UZfa0zrwCZVHkzMBkYwvS8pAvFgnnTRXoQIaRg==
+X-Received: by 2002:a05:651c:1581:b0:2ee:493f:d5be with SMTP id
+ 38308e7fff4ca-2ee493fd616mr38899961fa.3.1719568639541; 
+ Fri, 28 Jun 2024 02:57:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFXCYMRPuRdwrytBxGH4BSnuI5mztro2MsU4clJXe8OjW0vax4xUejeCe22YG/nsAtdjqGBlw==
+X-Received: by 2002:a05:651c:1581:b0:2ee:493f:d5be with SMTP id
+ 38308e7fff4ca-2ee493fd616mr38899861fa.3.1719568639139; 
+ Fri, 28 Jun 2024 02:57:19 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
  ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3675a10305fsm1730152f8f.96.2024.06.28.02.56.55
+ 5b1f17b1804b1-4256af3cf90sm27305675e9.5.2024.06.28.02.57.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jun 2024 02:56:56 -0700 (PDT)
-Message-ID: <0000dc70-6abd-49ac-b0f7-b72e277368e2@redhat.com>
-Date: Fri, 28 Jun 2024 11:56:55 +0200
+ Fri, 28 Jun 2024 02:57:18 -0700 (PDT)
+Message-ID: <07f40143-9eb4-47eb-b74c-72a137baf649@redhat.com>
+Date: Fri, 28 Jun 2024 11:57:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] drm/ast: Only set VGA SCREEN_DISABLE bit in CRTC code
+Subject: Re: [PATCH 7/8] drm/ast: Inline ast_crtc_dpms() into callers
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com
 Cc: dri-devel@lists.freedesktop.org
 References: <20240627153638.8765-1-tzimmermann@suse.de>
- <20240627153638.8765-7-tzimmermann@suse.de>
+ <20240627153638.8765-8-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240627153638.8765-7-tzimmermann@suse.de>
+In-Reply-To: <20240627153638.8765-8-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
@@ -97,93 +97,110 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 27/06/2024 17:27, Thomas Zimmermann wrote:
-> The SCREEN_DISABLE bit controls scanout from display memory. The bit
-> affects all planes, so set it only in the CRTC's atomic enable and
-> disable functions.
+> The function ast_crtc_dpms() is left over from when the ast driver
+> did not implement atomic modesetting. But DPMS is not supported by
+> atomic modesetting and the helper is only called to enable or
+> disable the CRTC sync pulses. Inline the function into its callers.
 > 
-> A number of bugs affect this fix. First of all, ast_set_std_regs()
-> tries to set VGASR1 except for the SD bit. Bit the read bitmask is
-> invert, so it preserves anything exceptt the SD bit. Fix this by
-> inverting the read mask.
-> 
-> The second issue is that primary-plane and CRTC helpers modify the
-> SD bit. The bit controls scanout for all planes, primary and HW
-> cursor, so set it only in the CRTC code.
-> 
-> Further add a constant to represent the SD bit in VGASR1. Keep the
-> plane's atomic_disable around to make the DRM framework happy.
+> To disable the CRTC, ast sets (AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF)
+> in VGACRB6. Replace the constants with the correct register constants
+> for VGACRB6.
 
 Thanks, it looks good te me.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/ast/ast_mode.c | 14 +++++++-------
->   drivers/gpu/drm/ast/ast_reg.h  |  1 +
->   2 files changed, 8 insertions(+), 7 deletions(-)
+>   drivers/gpu/drm/ast/ast_mode.c | 36 +++++++++++-----------------------
+>   drivers/gpu/drm/ast/ast_reg.h  |  9 ++-------
+>   2 files changed, 13 insertions(+), 32 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index e90179bc0842..77358b587098 100644
+> index 77358b587098..d130c96edf35 100644
 > --- a/drivers/gpu/drm/ast/ast_mode.c
 > +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -303,7 +303,7 @@ static void ast_set_std_reg(struct ast_device *ast,
+> @@ -1019,29 +1019,6 @@ static int ast_cursor_plane_init(struct ast_device *ast)
+>    * CRTC
+>    */
 >   
->   	/* Set SEQ; except Screen Disable field */
->   	ast_set_index_reg(ast, AST_IO_VGASRI, 0x00, 0x03);
-> -	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, stdtable->seq[0]);
-> +	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0x20, stdtable->seq[0]);
->   	for (i = 1; i < 4; i++) {
->   		jreg = stdtable->seq[i];
->   		ast_set_index_reg(ast, AST_IO_VGASRI, (i + 1), jreg);
-> @@ -690,15 +690,15 @@ static void ast_primary_plane_helper_atomic_enable(struct drm_plane *plane,
->   	 * Therefore only reprogram the address after enabling the plane.
->   	 */
->   	ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
-> -	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x1, 0xdf, 0x00);
->   }
->   
->   static void ast_primary_plane_helper_atomic_disable(struct drm_plane *plane,
->   						    struct drm_atomic_state *state)
->   {
-> -	struct ast_device *ast = to_ast_device(plane->dev);
+> -static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+> -{
+> -	struct ast_device *ast = to_ast_device(crtc->dev);
+> -	u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
 > -
-> -	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x1, 0xdf, 0x20);
-> +	/*
-> +	 * Keep this empty function to avoid calling
-> +	 * atomic_update when disabling the plane.
-> +	 */
+> -	/* TODO: Maybe control display signal generation with
+> -	 *       Sync Enable (bit CR17.7).
+> -	 */
+> -	switch (mode) {
+> -	case DRM_MODE_DPMS_ON:
+> -		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0);
+> -		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, 0);
+> -		break;
+> -	case DRM_MODE_DPMS_STANDBY:
+> -	case DRM_MODE_DPMS_SUSPEND:
+> -	case DRM_MODE_DPMS_OFF:
+> -		ch = mode;
+> -		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, AST_IO_VGASR1_SD);
+> -		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, ch);
+> -		break;
+> -	}
+> -}
+> -
+>   static enum drm_mode_status
+>   ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode *mode)
+>   {
+> @@ -1217,14 +1194,23 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+>   
+>   static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+>   {
+> -	ast_crtc_dpms(crtc, DRM_MODE_DPMS_ON);
+> +	struct ast_device *ast = to_ast_device(crtc->dev);
+> +
+> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0x00);
+> +	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, 0x00);
 >   }
 >   
->   static int ast_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
-> @@ -1029,14 +1029,14 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
->   	 */
->   	switch (mode) {
->   	case DRM_MODE_DPMS_ON:
-> -		ast_set_index_reg_mask(ast, AST_IO_VGASRI,  0x01, 0xdf, 0);
->   		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0);
-> +		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, 0);
->   		break;
->   	case DRM_MODE_DPMS_STANDBY:
->   	case DRM_MODE_DPMS_SUSPEND:
->   	case DRM_MODE_DPMS_OFF:
->   		ch = mode;
-> -		ast_set_index_reg_mask(ast, AST_IO_VGASRI,  0x01, 0xdf, 0x20);
-> +		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, AST_IO_VGASR1_SD);
->   		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, ch);
->   		break;
->   	}
+>   static void ast_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+>   {
+>   	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
+> +	struct ast_device *ast = to_ast_device(crtc->dev);
+> +	u8 vgacrb6;
+> +
+> +	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, AST_IO_VGASR1_SD);
+>   
+> -	ast_crtc_dpms(crtc, DRM_MODE_DPMS_OFF);
+> +	vgacrb6 = AST_IO_VGACRB6_VSYNC_OFF |
+> +		  AST_IO_VGACRB6_HSYNC_OFF;
+> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
+>   
+>   	/*
+>   	 * HW cursors require the underlying primary plane and CRTC to
 > diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-> index 62dddbf3fe56..6326cbdadc82 100644
+> index 6326cbdadc82..75671d345057 100644
 > --- a/drivers/gpu/drm/ast/ast_reg.h
 > +++ b/drivers/gpu/drm/ast/ast_reg.h
-> @@ -22,6 +22,7 @@
->   #define AST_IO_VGAER_VGA_ENABLE		BIT(0)
+> @@ -32,6 +32,8 @@
+>   #define AST_IO_VGACR80_PASSWORD		(0xa8)
+>   #define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
+>   #define AST_IO_VGACRA1_MMIO_ENABLED	BIT(2)
+> +#define AST_IO_VGACRB6_HSYNC_OFF	BIT(0)
+> +#define AST_IO_VGACRB6_VSYNC_OFF	BIT(1)
+>   #define AST_IO_VGACRCB_HWC_16BPP	BIT(0) /* set: ARGB4444, cleared: 2bpp palette */
+>   #define AST_IO_VGACRCB_HWC_ENABLED	BIT(1)
 >   
->   #define AST_IO_VGASRI			(0x44)
-> +#define AST_IO_VGASR1_SD		BIT(5)
->   #define AST_IO_VGADRR			(0x47)
->   #define AST_IO_VGADWR			(0x48)
->   #define AST_IO_VGAPDR		        (0x49)
+> @@ -76,13 +78,6 @@
+>   #define ASTDP_HOST_EDID_READ_DONE	BIT(0)
+>   #define ASTDP_HOST_EDID_READ_DONE_MASK	GENMASK(0, 0)
+>   
+> -/*
+> - * CRB8[b1]: Enable VSYNC off
+> - * CRB8[b0]: Enable HSYNC off
+> - */
+> -#define AST_DPMS_VSYNC_OFF		BIT(1)
+> -#define AST_DPMS_HSYNC_OFF		BIT(0)
+> -
+>   /*
+>    * CRDF[b4]: Mirror of AST_DP_VIDEO_ENABLE
+>    * Precondition:	A. ~AST_DP_PHY_SLEEP  &&
 
