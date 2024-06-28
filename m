@@ -2,48 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2103F91C3E4
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 18:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95E491C3E7
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 18:42:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96A1510E03E;
-	Fri, 28 Jun 2024 16:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C6610EC89;
+	Fri, 28 Jun 2024 16:42:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jookia.org header.i=@jookia.org header.b="QsZGUPCn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nEL1phH9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5220010E03E
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 16:40:59 +0000 (UTC)
-X-Envelope-To: jani.nikula@linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
- t=1719592856;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=U88aOQSqT01+NP3zcbq60KCUzmQTSGOugyTyS/riJNQ=;
- b=QsZGUPCnEh3DuJ3GkQXXuAcR3AniphwAx4OzyRv3l4XguZx/3+QRDksAKnwUViZOSNZRR8
- owcillfhfKTN1sg5pZpzJcObvp+vwORSJKA0RJpwysoD0nZaBPNAdt4Tdpd3Pf8k6FAxy+
- trXBUefxICGDy621NzJPEcCPnnrAxpWleBznS1c7rblsrDPp23n28mdF3sFR6C5qbk43W1
- n8ZAvta2xUX0WTskx+vuFcV07A7c7wJVaFMY02Gv/qs8+VJ3hV+VdtpZo8qQQTs2FkAIg5
- s4yoHQ5fQtwQEqNkQrB68Uvcf0JYJf15rZRbLDsMoUoZ0jpifWvN5faZ1IvwiQ==
-X-Envelope-To: dri-devel@lists.freedesktop.org
-Date: Sat, 29 Jun 2024 02:39:16 +1000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: John Watts <contact@jookia.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: How to specify panel bit order in driver?
-Message-ID: <Zn7nNMti5pdX67DH@titan>
-References: <Zn4z_OJJ07xg_xmh@titan>
- <87le2pbjdf.fsf@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2C4110EC84
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 16:42:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 1E990CE4213;
+ Fri, 28 Jun 2024 16:42:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57651C116B1;
+ Fri, 28 Jun 2024 16:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719592927;
+ bh=KowZk1jQy1Io4XMkPQkUk3h3DaEtKMWS+HxwXGTr01o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nEL1phH9XyJOO3v5dFvk1S+J59xlUQRD8neWizW6JlnwyBnug2Weefv24q6bhf95i
+ MhJi3bl2YjtM8xZk8U9WUvau7ojskQzgheACXDON+bH3NKQAn9wXIJPMCkj7/9bGDf
+ R4UbdFho4lINQQtH5ChOH8HsTK811XPOD+LD6FmH9tYWQGwsUnyAuAJZ1SHvD1/zxC
+ qCZ9dyykQhO/2OKHN0U1BCDGqGVpGlzwCawRLy9UAV91om/bWQO0aKBPH3k9JFpEjH
+ 6BfpIoKU2FK6V3/TI+77El/aFCx9qvSMlxwjTWOO4nwtAudMQWkn8emj4920X/MgVI
+ Zi51CngzY6Q5A==
+Date: Fri, 28 Jun 2024 09:42:06 -0700
+From: Kees Cook <kees@kernel.org>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tony Luck <tony.luck@intel.com>,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Uros Bizjak <ubizjak@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hyperv@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] printk: Add a short description string to kmsg_dump()
+Message-ID: <202406280938.2D7BB97C@keescook>
+References: <20240625123954.211184-1-jfalempe@redhat.com>
+ <202406260906.533095B1@keescook>
+ <06899fda-de75-4d44-bda5-dcbb3e35d037@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87le2pbjdf.fsf@intel.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <06899fda-de75-4d44-bda5-dcbb3e35d037@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,40 +83,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+On Fri, Jun 28, 2024 at 09:13:11AM +0200, Jocelyn Falempe wrote:
+> It is present in the kdump log, but before all the register dumps.
+> So to retrieve it you need to parse the last 30~40 lines of logs, and search
+> for a line starting with "Kernel panic - not syncing".
+> https://elixir.bootlin.com/linux/v6.10-rc5/source/kernel/panic.c#L341
+> But I think that's a bit messy, and I prefer having a kmsg_dump parameter.
 
-On Fri, Jun 28, 2024 at 10:45:48AM +0300, Jani Nikula wrote:
-> Might be helpful to actually point at the source code or commits or
-> something.
+Yeah, I totally agree: it should be easy to access the panic reason. I
+just wanted to double-check that from pstore's perspective there wasn't
+any "new" information here that should be captured somehow.
 
-The source code is here: drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-It's just a standard MIPI DBI panel. It reports using an RGB888 bus format.
+Thanks!
 
-> Maybe look at include/uapi/drm/drm_fourcc.h, and how the DRM_FORMAT_*
-> macros are used.
-> 
-> Can't help you with device tree, but maybe this gives you pointers to
-> other places for examples.
-
-Currently it works like this:
-
-- DRM uses 24-bit depth
-- CRTC puts out a 24-bit signal
-- This gets output over LCD pins
-- The PCB drops 2 bits per channel by wiring 6 pins to GND
-- The panel is told to only use 18 bits
-
-Getting DRM to use MEDIA_BUS_FMT_RGB666_1X18 would be nice and allow the panel
-to auto-detect which bits to use. But the bus format is set in the panel :(
-
-Where is the bus format usually set for cases where a board only supports a
-physical format?
-
-> HTH,
-> Jani.
-> 
-> 
-> -- 
-> Jani Nikula, Intel
-
-John.
+-- 
+Kees Cook
