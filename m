@@ -2,94 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E78191BE7F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 14:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F6791BE9E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 14:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEBDF10E013;
-	Fri, 28 Jun 2024 12:26:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92DB910E1B8;
+	Fri, 28 Jun 2024 12:32:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NzhmYO9L";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e2K67uGo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C14A10E013
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 12:26:49 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-364a39824baso360514f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 05:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719577608; x=1720182408; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=X/VQJz2hM3Y4F448nQxVS0VxqvpF+TwhJySiPDWqGzs=;
- b=NzhmYO9LI4gE1olRPebogxHefdQm6Me0EwZpjnwzWhN0aBwiX0Pc+rXZaomtMaI9qS
- LwSuF2mROlAde/1tSwZZefffFl+QdnhCg72twXli3OPw77kuMBPPoIT/EpIt2SvTi9kv
- R4kpmKVvLzDX03/Iox/7ZaLfbCZH6bB+wjfK/0b4IV6tuLrZiFC3Hx9W43VM3VW1zVmZ
- Q6A1AHouZfQHnyFy3eUahuQPztr8Y1R7KNNJ9VkXFR4CEq7Y6rgeKtKiUYbtEZtKP0cl
- BRY0JnsK00cJNIu4k4cb4VZpYOYjbDmSNwRMXE+g44oUiXmYvo1bzcSH0R55yBCEGS3h
- rC/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719577608; x=1720182408;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X/VQJz2hM3Y4F448nQxVS0VxqvpF+TwhJySiPDWqGzs=;
- b=XoV53RlBZ3qjrE36hRHgLiMeSGExiRy9rLDIABSgL2gbpC+Wm/0PGEF8kNsZGXHS9E
- 19wVDhCj4qs/SHbCYgMsSuU9wAKimXGP3YQoa2FLdla5NdmIEN47fjxqK0UyOsqZTXyq
- CMWV8bo/UC/7+d/Lg21N+GW6qdstNiBkqkoSbcLk4WjXB6Xtu7lw/IRXBcSeYioanwhv
- R6qGQrGMeUk0tkIRx4yU7ZiGJ7qN1jh1EAchS59fC1paex7Nvl8UTZQZ/HGYKoVQBfu3
- 6RwGXq6gVqX7sOBZ2iqRBQbewYd7PhAJoSr3HA8NbdRVW0PfWOhfiDKFwv3MYKyXMBb+
- w99g==
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C4210E1B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 12:32:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 130ABCE3BE5
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 12:32:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02017C4AF0C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 12:32:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719577938;
+ bh=QS20hUrmVwpirQtGJibxsIuWGE8OeJujhIhKjKkf07U=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=e2K67uGoZuTnFesVk+VXWWROnNKRdtPnTNJhSXEH995/3IjlUUfLNTVgOfO8snKVR
+ GXMaq93B7QzKqt8VuYfj4kICxiAF5btvozj/Hc/Tjq7Klgw2XjuP3EBnA6QpGuCobt
+ lJMhFt3MyEz3EGfhKkJRtgLd4YB7HflWzTrNEAeAIPUvoAvz1DcA/YbMk8qMz6JC82
+ zu5t6YBaUuOEj5fwllPOJy5iyZ7aa5a2+QZp/aFTSvbeyD7v7e2oxQW4+W8xlVy5vn
+ 8jR/tDEbC7+Bv9TgClSV0ZP31PLNCTg/ZGvvhiwCosiOVqZzXlowdN9OJWZxXk/Q0k
+ sIhuQ1HiGazCw==
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-2c92d00059eso309872a91.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 05:32:17 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUWKMX7yMUu2QSFDL2vm16Yj4T08q8HLQhzSu2xjFXivR4gmIyWIhJOLO7CoeobEU7lkYKWL+OkRyQQVdfiAdEz10Xu8pNKygeZLhOahmFa
-X-Gm-Message-State: AOJu0YwKkdaWAZtxJloXIZneTdWbAPKN6nBQ5KhF919hwTmQTHDjpNre
- hwbbOOnBI6yP20K+dw1/a6N6gUC9E2juBwDzef6jINItSI602HfV
-X-Google-Smtp-Source: AGHT+IEBnJj0jcIPr2SKFxa+XB8hdZdf8p61oiEXssLzKDdbv2pquDD9+yIevx/3N4QZrH7J7OMy0Q==
-X-Received: by 2002:a5d:4c43:0:b0:367:403d:a1ef with SMTP id
- ffacd0b85a97d-36742bd156cmr2987417f8f.62.1719577607204; 
- Fri, 28 Jun 2024 05:26:47 -0700 (PDT)
-Received: from orome (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3675a0cd784sm2204336f8f.7.2024.06.28.05.26.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 05:26:46 -0700 (PDT)
-Date: Fri, 28 Jun 2024 14:26:44 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Yong Wu <yong.wu@mediatek.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, christian.koenig@amd.com,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Andrew Morton <akpm@linux-foundation.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- tjmercier@google.com, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Robin Murphy <robin.murphy@arm.com>, Vijayanand Jitta <quic_vjitta@quicinc.com>,
- Joakim Bech <joakim.bech@linaro.org>, Jeffrey Kardatzke <jkardatzke@google.com>,
- Pavel Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>, 
- Pekka Paalanen <ppaalanen@gmail.com>, willy@infradead.org,
- Logan Gunthorpe <logang@deltatee.com>, 
- Daniel Vetter <daniel@ffwll.ch>, jianjiao.zeng@mediatek.com,
- kuohong.wang@mediatek.com, youlin.pei@mediatek.com
-Subject: Re: [PATCH v5 5/9] dma-buf: heaps: restricted_heap: Add private heap
- ops
-Message-ID: <gbj6vakab74yuhbkazlxvrz3x3bia3nb7loo7c74fadlh4wc2q@qjf44kr3mrqe>
-References: <20240515112308.10171-1-yong.wu@mediatek.com>
- <20240515112308.10171-6-yong.wu@mediatek.com>
+ AJvYcCUetSJ6n8BdnZk0fIUY+poCTuHjJFHzKZTYhAYEGGHDN7baXBV9j19V1+YQCT4S3SmtxhZpIwSsk4bl39+5n69txWpGmXSS8IlPBKUsiIb5
+X-Gm-Message-State: AOJu0YwuFBSdWa3lBMB1L8PC564asci3pWp/1I/ekvc628ZknSXeRwaj
+ n635uayiBaLoYH4mUXhiAWQfA70ilZ09Wb0jQ3QA5jr4jykfsLpQUQA6pOgBceLsbiR0bgv+JFC
+ lI3EnxhmslrIk+9Oy14aWTMvlgg==
+X-Google-Smtp-Source: AGHT+IHQ/05JNn97WxtnIagHd/uIS+roxfEJNPFeT15eOh7yNWGchsB1UnEjvW48a7x8gKm79Zo4hN4aG5yan43uUBQ=
+X-Received: by 2002:a17:90b:110a:b0:2c2:ce08:d0e4 with SMTP id
+ 98e67ed59e1d1-2c8613db083mr14966731a91.23.1719577937460; Fri, 28 Jun 2024
+ 05:32:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vbf3vgeqgslvvuj2"
-Content-Disposition: inline
-In-Reply-To: <20240515112308.10171-6-yong.wu@mediatek.com>
+References: <20240606092122.2026313-1-mwalle@kernel.org>
+In-Reply-To: <20240606092122.2026313-1-mwalle@kernel.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 28 Jun 2024 20:32:24 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__x_-O2AGuWqZ_HSwORTJXcyb+g4uMFnwpxWr338fPpaA@mail.gmail.com>
+Message-ID: <CAAOTY__x_-O2AGuWqZ_HSwORTJXcyb+g4uMFnwpxWr338fPpaA@mail.gmail.com>
+Subject: Re: [PATCH RESEND v5] drm/mediatek: dpi/dsi: fix possible_crtcs
+ calculation
+To: Michael Walle <mwalle@kernel.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jitao Shi <jitao.shi@mediatek.com>, Stu Hsieh <stu.hsieh@mediatek.com>, 
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, dri-devel@lists.freedesktop.org, 
+ Frank Wunderlich <frank-w@public-files.de>, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,144 +79,250 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Michael:
 
---vbf3vgeqgslvvuj2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 15, 2024 at 07:23:04PM GMT, Yong Wu wrote:
-> Add "struct restricted_heap_ops". For the restricted memory, totally there
-> are two steps:
-> a) alloc: Allocate the buffer in kernel;
-> b) restrict_buf: Restrict/Protect/Secure that buffer.
-> The "alloc" is mandatory while "restrict_buf" is optional since it may
-> be part of "alloc".
->=20
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+Michael Walle <mwalle@kernel.org> =E6=96=BC 2024=E5=B9=B46=E6=9C=886=E6=97=
+=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=885:22=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> mtk_find_possible_crtcs() assumes that the main path will always have
+> the CRTC with id 0, the ext id 1 and the third id 2. This is only true
+> if the paths are all available. But paths are optional (see also
+> comment in mtk_drm_kms_init()), e.g. the main path might not be enabled
+> or available at all. Then the CRTC IDs will shift one up, e.g. ext will
+> be 0 and the third path will be 1.
+>
+> To fix that, dynamically calculate the IDs by the presence of the paths.
+>
+> While at it, make the return code a signed one and return -ENODEV if no
+> path is found and handle the error in the callers.
+>
+> Fixes: 5aa8e7647676 ("drm/mediatek: dpi/dsi: Change the getting possible_=
+crtc way")
+> Suggested-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
 > ---
->  drivers/dma-buf/heaps/restricted_heap.c | 41 ++++++++++++++++++++++++-
->  drivers/dma-buf/heaps/restricted_heap.h | 12 ++++++++
->  2 files changed, 52 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/he=
-aps/restricted_heap.c
-> index c2ae19ba7d7e..8bb3c1876a69 100644
-> --- a/drivers/dma-buf/heaps/restricted_heap.c
-> +++ b/drivers/dma-buf/heaps/restricted_heap.c
-> @@ -12,10 +12,44 @@
-> =20
->  #include "restricted_heap.h"
-> =20
-> +static int
-> +restricted_heap_memory_allocate(struct restricted_heap *rheap, struct re=
-stricted_buffer *buf)
-> +{
-> +	const struct restricted_heap_ops *ops =3D rheap->ops;
-> +	int ret;
-> +
-> +	ret =3D ops->alloc(rheap, buf);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (ops->restrict_buf) {
-> +		ret =3D ops->restrict_buf(rheap, buf);
-> +		if (ret)
-> +			goto buf_free;
-> +	}
-> +	return 0;
-> +
-> +buf_free:
-> +	ops->free(rheap, buf);
-> +	return ret;
-> +}
-> +
-> +static void
-> +restricted_heap_memory_free(struct restricted_heap *rheap, struct restri=
-cted_buffer *buf)
-> +{
-> +	const struct restricted_heap_ops *ops =3D rheap->ops;
-> +
-> +	if (ops->unrestrict_buf)
-> +		ops->unrestrict_buf(rheap, buf);
-> +
-> +	ops->free(rheap, buf);
-> +}
-> +
->  static struct dma_buf *
->  restricted_heap_allocate(struct dma_heap *heap, unsigned long size,
->  			 unsigned long fd_flags, unsigned long heap_flags)
+> You can find v4 at [1]. Unfortunately, it was never applied and in the
+> meantime there was a change in mtk_find_possible_crtcs(). So I've
+> dropped N=C3=ADcolas Reviewed and Tested-by tags and Angelos Reviewed-by
+> tag.
+>
+> [1] https://lore.kernel.org/r/20230905084922.3908121-2-mwalle@kernel.org/
+> ---
+>  drivers/gpu/drm/mediatek/mtk_ddp_comp.c | 105 ++++++++++++++++--------
+>  drivers/gpu/drm/mediatek/mtk_ddp_comp.h |   2 +-
+>  drivers/gpu/drm/mediatek/mtk_dpi.c      |   5 +-
+>  drivers/gpu/drm/mediatek/mtk_dsi.c      |   5 +-
+>  4 files changed, 78 insertions(+), 39 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/me=
+diatek/mtk_ddp_comp.c
+> index 17b036411292..9a8c1cace8a0 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+> @@ -514,29 +514,42 @@ static bool mtk_ddp_comp_find(struct device *dev,
+>         return false;
+>  }
+>
+> -static unsigned int mtk_ddp_comp_find_in_route(struct device *dev,
+> -                                              const struct mtk_drm_route=
+ *routes,
+> -                                              unsigned int num_routes,
+> -                                              struct mtk_ddp_comp *ddp_c=
+omp)
+> +static int mtk_ddp_comp_find_in_route(struct device *dev,
+> +                                     const struct mtk_drm_route *routes,
+> +                                     unsigned int num_routes,
+> +                                     struct mtk_ddp_comp *ddp_comp)
 >  {
-> +	struct restricted_heap *rheap =3D dma_heap_get_drvdata(heap);
->  	struct restricted_buffer *restricted_buf;
->  	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->  	struct dma_buf *dmabuf;
-> @@ -28,6 +62,9 @@ restricted_heap_allocate(struct dma_heap *heap, unsigne=
-d long size,
->  	restricted_buf->size =3D ALIGN(size, PAGE_SIZE);
->  	restricted_buf->heap =3D heap;
-> =20
-> +	ret =3D restricted_heap_memory_allocate(rheap, restricted_buf);
-> +	if (ret)
-> +		goto err_free_buf;
->  	exp_info.exp_name =3D dma_heap_get_name(heap);
->  	exp_info.size =3D restricted_buf->size;
->  	exp_info.flags =3D fd_flags;
-> @@ -36,11 +73,13 @@ restricted_heap_allocate(struct dma_heap *heap, unsig=
-ned long size,
->  	dmabuf =3D dma_buf_export(&exp_info);
->  	if (IS_ERR(dmabuf)) {
->  		ret =3D PTR_ERR(dmabuf);
-> -		goto err_free_buf;
-> +		goto err_free_rstrd_mem;
->  	}
-> =20
->  	return dmabuf;
-> =20
-> +err_free_rstrd_mem:
-> +	restricted_heap_memory_free(rheap, restricted_buf);
->  err_free_buf:
->  	kfree(restricted_buf);
->  	return ERR_PTR(ret);
-> diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/he=
-aps/restricted_heap.h
-> index b448f77616ac..5783275d5714 100644
-> --- a/drivers/dma-buf/heaps/restricted_heap.h
-> +++ b/drivers/dma-buf/heaps/restricted_heap.h
-> @@ -15,6 +15,18 @@ struct restricted_buffer {
-> =20
->  struct restricted_heap {
->  	const char		*name;
+> -       int ret;
+>         unsigned int i;
+>
+> -       if (!routes) {
+> -               ret =3D -EINVAL;
+> -               goto err;
+> -       }
+> +       if (!routes)
+> +               return -EINVAL;
+>
+>         for (i =3D 0; i < num_routes; i++)
+>                 if (dev =3D=3D ddp_comp[routes[i].route_ddp].dev)
+>                         return BIT(routes[i].crtc_id);
+>
+> -       ret =3D -ENODEV;
+> -err:
+> +       return -ENODEV;
+> +}
+>
+> -       DRM_INFO("Failed to find comp in ddp table, ret =3D %d\n", ret);
+> +static bool mtk_ddp_path_available(const unsigned int *path,
+> +                                  unsigned int path_len,
+> +                                  struct device_node **comp_node)
+> +{
+> +       unsigned int i;
+>
+> -       return 0;
+> +       if (!path || !path_len)
+> +               return false;
 > +
-> +	const struct restricted_heap_ops *ops;
-> +};
+> +       for (i =3D 0U; i < path_len; i++) {
+> +               /* OVL_ADAPTOR doesn't have a device node */
+> +               if (path[i] =3D=3D DDP_COMPONENT_DRM_OVL_ADAPTOR)
+> +                       continue;
 > +
-> +struct restricted_heap_ops {
-> +	int	(*heap_init)(struct restricted_heap *rheap);
+> +               if (!comp_node[path[i]])
+> +                       return false;
+> +       }
+> +
+> +       return true;
+>  }
+>
+>  int mtk_ddp_comp_get_id(struct device_node *node,
+> @@ -554,32 +567,52 @@ int mtk_ddp_comp_get_id(struct device_node *node,
+>         return -EINVAL;
+>  }
+>
+> -unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct devi=
+ce *dev)
+> +int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev)
+>  {
+>         struct mtk_drm_private *private =3D drm->dev_private;
+> -       unsigned int ret =3D 0;
+> -
+> -       if (mtk_ddp_comp_find(dev,
+> -                             private->data->main_path,
+> -                             private->data->main_len,
+> -                             private->ddp_comp))
+> -               ret =3D BIT(0);
+> -       else if (mtk_ddp_comp_find(dev,
+> -                                  private->data->ext_path,
+> -                                  private->data->ext_len,
+> -                                  private->ddp_comp))
+> -               ret =3D BIT(1);
+> -       else if (mtk_ddp_comp_find(dev,
+> -                                  private->data->third_path,
+> -                                  private->data->third_len,
+> -                                  private->ddp_comp))
+> -               ret =3D BIT(2);
+> -       else
+> -               ret =3D mtk_ddp_comp_find_in_route(dev,
+> -                                                private->data->conn_rout=
+es,
+> -                                                private->data->num_conn_=
+routes,
+> -                                                private->ddp_comp);
+> +       const struct mtk_mmsys_driver_data *data;
+> +       struct mtk_drm_private *priv_n;
+> +       int i =3D 0, j;
+> +       int ret;
+>
+> +       for (j =3D 0; j < private->data->mmsys_dev_num; j++) {
+> +               priv_n =3D private->all_drm_private[j];
+> +               data =3D priv_n->data;
+> +
+> +               if (mtk_ddp_path_available(data->main_path, data->main_le=
+n,
+> +                                          priv_n->comp_node)) {
+> +                       if (mtk_ddp_comp_find(dev, data->main_path,
+> +                                             data->main_len,
+> +                                             priv_n->ddp_comp))
+> +                               return BIT(i);
+> +                       i++;
+> +               }
+> +
+> +               if (mtk_ddp_path_available(data->ext_path, data->ext_len,
+> +                                          priv_n->comp_node)) {
+> +                       if (mtk_ddp_comp_find(dev, data->ext_path,
+> +                                             data->ext_len,
+> +                                             priv_n->ddp_comp))
+> +                               return BIT(i);
+> +                       i++;
+> +               }
+> +
+> +               if (mtk_ddp_path_available(data->third_path, data->third_=
+len,
+> +                                          priv_n->comp_node)) {
+> +                       if (mtk_ddp_comp_find(dev, data->third_path,
+> +                                             data->third_len,
+> +                                             priv_n->ddp_comp))
+> +                               return BIT(i);
+> +                       i++;
+> +               }
+> +       }
+> +
+> +       ret =3D mtk_ddp_comp_find_in_route(dev,
+> +                                        private->data->conn_routes,
+> +                                        private->data->num_conn_routes,
+> +                                        private->ddp_comp);
+> +
+> +       DRM_INFO("Failed to find comp in ddp table, ret =3D %d\n", ret);
 
-It might be worth moving this to a later patch when it's actually
-getting used.
+After checking ret < 0 then print this error message, applied to
+mediatek-drm-next [1], thanks.
 
-Thierry
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
---vbf3vgeqgslvvuj2
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
+Chun-Kuang.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZ+rAQACgkQ3SOs138+
-s6EcbxAAiZuHIyjN3NZQtDif4ifUoMPGxGZ4nEdFZbnDVkpJtKmk85RLLw6vq+8j
-DggReAg+weGgbc+4qVdxZP8GKJvRcXUi9RIwQIj7/9U+R+VG+YCBwkoY81PnkYFF
-DDCTn9dfvf/r6SaJPj8mWase4q61go1K7R79XU7SwJ5SbCz7BC0RI89lSiUShJQ4
-PGDa1AQgNlKaYlMR6qjs9RFD6IHFt2Shge4S2/lbKcMgHxy3nbAZOULriFyPtkkg
-PYKZlsje5AAUR4pnABwU6qhZMp7svIiuUJX1+zldt+LCsyqMScvBnUfe1QijtiBn
-gg4sL1TTb1PVuUHPg15eyS5K9GHQilys2UXzCf+V8WT0Crr0gFz9+ClLYSSZh9NV
-phSCQY9YRUhAC0c7xwc8Ov1IxgJ0nqL6Ig8BoeZnhQkVf3wPzPk9B8hVvJMVZ13s
-blUxWO8qPdIzT6NsFK+A4RhN30gfqC8uy4DzyvhQR7+OWywHEaCZm3EdUZg0VHJp
-U51n4uVREXlO8/a4GwgvwWmc6Y7oiHjH9n9iYM2ua6EYc0HW+YvmJp4FbWBa3VRL
-e/ta+yMQWQYH1jfTqeQE1DJhBYEsKsgDjL7wv3USp+yMCkURiKWkos4b7ZXzCNVG
-Z6xBSJbmND7bujopIY7A81K15p0SM787q9XHn1MaAMJrk2Xd0lY=
-=OWnB
------END PGP SIGNATURE-----
-
---vbf3vgeqgslvvuj2--
+>         return ret;
+>  }
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/me=
+diatek/mtk_ddp_comp.h
+> index 26236691ce4c..e2ea19d5ddcb 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
+> @@ -326,7 +326,7 @@ static inline void mtk_ddp_comp_encoder_index_set(str=
+uct mtk_ddp_comp *comp)
+>
+>  int mtk_ddp_comp_get_id(struct device_node *node,
+>                         enum mtk_ddp_comp_type comp_type);
+> -unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct devi=
+ce *dev);
+> +int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev);
+>  int mtk_ddp_comp_init(struct device_node *comp_node, struct mtk_ddp_comp=
+ *comp,
+>                       unsigned int comp_id);
+>  enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
+k/mtk_dpi.c
+> index 5c86aa0b75b2..b894be9f1f53 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -814,7 +814,10 @@ static int mtk_dpi_bind(struct device *dev, struct d=
+evice *master, void *data)
+>                 return ret;
+>         }
+>
+> -       dpi->encoder.possible_crtcs =3D mtk_find_possible_crtcs(drm_dev, =
+dpi->dev);
+> +       ret =3D mtk_find_possible_crtcs(drm_dev, dpi->dev);
+> +       if (ret < 0)
+> +               goto err_cleanup;
+> +       dpi->encoder.possible_crtcs =3D ret;
+>
+>         ret =3D drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
+>                                 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
+k/mtk_dsi.c
+> index 2b0ac859a653..b450b7223aa2 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -861,7 +861,10 @@ static int mtk_dsi_encoder_init(struct drm_device *d=
+rm, struct mtk_dsi *dsi)
+>                 return ret;
+>         }
+>
+> -       dsi->encoder.possible_crtcs =3D mtk_find_possible_crtcs(drm, dsi-=
+>host.dev);
+> +       ret =3D mtk_find_possible_crtcs(drm, dsi->host.dev);
+> +       if (ret < 0)
+> +               goto err_cleanup_encoder;
+> +       dsi->encoder.possible_crtcs =3D ret;
+>
+>         ret =3D drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
+>                                 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> --
+> 2.39.2
+>
