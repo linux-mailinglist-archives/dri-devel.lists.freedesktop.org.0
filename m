@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D613A91BACA
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 11:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937B291BACD
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 11:06:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2DA710EBE5;
-	Fri, 28 Jun 2024 09:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DED5610EBE7;
+	Fri, 28 Jun 2024 09:06:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JGAoNL+i";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gqNPdjw5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB1E10EBE5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 09:06:08 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-1f9aeb96b93so2005795ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 02:06:08 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8FF10EBEA
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 09:06:14 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1f9cd92b146so1820135ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 02:06:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719565568; x=1720170368; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719565574; x=1720170374; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K/nz1JHR4z8p+ajw1D912vGA5V6XqUcGmzMFKN4JA2M=;
- b=JGAoNL+iLG88iga2MnXhU/Sb9h2/Gba7urXhuSEtu6hIqQzh56Ac455L9NLy99wXpK
- UFGSYxsonYqnZykq8wJq3Rg+X48PPQ5BYpE2GTdB1c1JsPC56F8yR7eKA4S/4aQljVcW
- 7FxoRc66/aTmosjiUuU7oUWqgGPUS0vPy6sfpDQYcFnCj6ulqbN+WvBwlNqSPrebWy4T
- 6TcjU1MngYyFkoELzfZFPeD8CMmRXh2+mIOJNbJUS+eqFj5tdotoLDY8WrrYPd9yN8rv
- z6fLsHcQJ+2jqo/TYswLOkAadzpe+JfUfLzDFh66LJAkxXSVLLMvFfenG6kJEFJPk5et
- SHOg==
+ bh=aN2V+duoRLP5mjQclolxXRJl1PN7YZIwA2PLtFFVKQo=;
+ b=gqNPdjw58LEAnCrVHduK2HV0ue4uaWQBNb4wQvYdO+D+BBb4YQ9q+9dukjc0mq+qY5
+ 7UHqi6rb7EChKq9P5InanIaPEnk+AG7JldClBwkcjJcXhUi8TsRxn76QqpA66r8VJbR0
+ 6jChEymIz7XntjPD85mcM7OIajEwFSgBVm6nGdiicUu1RiE4kvvuOINJ62KjCDgzDFBG
+ TFX5jWpsxapuzrhabjmFmG/Rd3CsX9AClHy2xXReRRB7ImvMiiIN9cmuDzyvjfIs9G81
+ jubt+Wp+D9ox6vEW/o69v9FJsyyhnWHJvVnBBV+BTe5/n+CzVKV8bSXX4P369AridYr5
+ 4Syg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719565568; x=1720170368;
+ d=1e100.net; s=20230601; t=1719565574; x=1720170374;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=K/nz1JHR4z8p+ajw1D912vGA5V6XqUcGmzMFKN4JA2M=;
- b=Vx5qDSjx90/SYUXPM4dgrdNItqULyxrL/oBcSJa7eU3TEadKA5G+5FwHh1loAlV4W6
- xiHQneofftKSo+nIwafz1CYHrYf7wbbS0kwdwntvUhJ6sUjXSXZN376butwnvqiJYw4f
- Ky3/dxrrVzjfNEh4S2X3tl6dMNXo/XZ53Gzvsqd7Ge0mKLIUpAEzRxXDFesJFdRUxu05
- fiXuL2n3Jjo4ARvPTZ7/Gox0zEF5oOPDk6HCwAqIvwa6ttS7ru3aFCqKLXZVWh6qgxU+
- aiMiKRtvOAK5kXfCfCFnsQOM2Foz1MPodqyPSuO1cKQUcORCiu7ABawUSN4lIqAcgvP4
- kpdg==
+ bh=aN2V+duoRLP5mjQclolxXRJl1PN7YZIwA2PLtFFVKQo=;
+ b=TlnHpJavokIOE0W4sfUcA7+KkZ4+TFoEjNsYpSmVd18xgGLNEGqb7deZ3bQnySxOcV
+ nsFFmwLA69gUWetBKmr79ew+bh7f6uMtEsvbmjYcfzN6gu9N/0bu1EAfjM3yBLocboPz
+ oy7FVgLZfG5JD4+StaNTfF/YWfh1QUw8t90NKL3w4apfZncD7m3dujuuUFtXkmlxOj5w
+ KJ9U4x6upDbUgwihDUKz4bAWCpd/EjOKQpPpgbnY4lOoxrwQCPKpZXsF3CI7EQkXX9CX
+ GVmFH81qjaxM6cpssyFq7hcNw1FzGBhWtOvCFlla0OtC/RBTXLvxgkzbuT+PTAMjTvJS
+ IqYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUIKvO3FynngbC+f0g67xZY/mjvbumxILJja1sfMyPZmsGDi9xatt1WFRlqdhPr9Sb0AktaghoxXeWcMnL1cYtPhRo74VdDoao7quJF6JVN
-X-Gm-Message-State: AOJu0YzzS8kmhziCCtsbxs2RMqvtR5QZc+gf5iJ0gN2pIbFDU0I5cTOh
- 29VLpUEmcKrwHvjewNlcsWo3XtBIXJKlAr3mbf7+qh/YIC1Cv3ZD
-X-Google-Smtp-Source: AGHT+IHdHlMsiSxDneCpl0Z+k+h/q/UIRrZYdoSU24sjr9+9ved5pPcYJylJrzwg3G+ZaraRZ/+k4g==
-X-Received: by 2002:a17:902:eccb:b0:1fa:ab7c:a483 with SMTP id
- d9443c01a7336-1faab7ca748mr37580565ad.5.1719565567694; 
- Fri, 28 Jun 2024 02:06:07 -0700 (PDT)
+ AJvYcCW6UGYf+5OLZqEMfDsK2qPRJ6IVXCODzd99M62SHPQNljdPrw4fhEl+ywgWIEh1B/roLWj3WUbgIpOiPRslUWt5DYM2YmwcZX0o0499D2Lz
+X-Gm-Message-State: AOJu0YyhIho/SxJpkA0ZnXPArWXQOECbm72OpoNrBeIl6UL1OLkhEGNE
+ udI3seFL0WNmYOpp306OP/aFngYhookJKpXb7zl6HlCdhUt8FIW2aBYVAEzoeFQ=
+X-Google-Smtp-Source: AGHT+IH8hbTH/mkdkSjyBT5baT0IFO1FQw7wMYLskc8y3Zcc6iSLCmGElb9qtOP7mNAm10MFemyYoQ==
+X-Received: by 2002:a17:902:d50b:b0:1f9:e7b4:5def with SMTP id
+ d9443c01a7336-1fa1d3e0157mr181052415ad.3.1719565573956; 
+ Fri, 28 Jun 2024 02:06:13 -0700 (PDT)
 Received: from localhost.localdomain ([39.144.106.153])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1fac10e3a1dsm10473085ad.68.2024.06.28.02.06.01
+ d9443c01a7336-1fac10e3a1dsm10473085ad.68.2024.06.28.02.06.08
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 28 Jun 2024 02:06:07 -0700 (PDT)
+ Fri, 28 Jun 2024 02:06:13 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: torvalds@linux-foundation.org,
 	laoar.shao@gmail.com
@@ -66,9 +66,9 @@ Cc: akpm@linux-foundation.org, alexei.starovoitov@gmail.com,
  linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
  netdev@vger.kernel.org, penguin-kernel@i-love.sakura.ne.jp,
  rostedt@goodmis.org, selinux@vger.kernel.org
-Subject: [PATCH v4 07/11] mm/kmemleak: Replace strncpy() with __get_task_comm()
-Date: Fri, 28 Jun 2024 17:05:13 +0800
-Message-Id: <20240628090517.17994-7-laoar.shao@gmail.com>
+Subject: [PATCH v4 08/11] tsacct: Replace strncpy() with __get_task_comm()
+Date: Fri, 28 Jun 2024 17:05:14 +0800
+Message-Id: <20240628090517.17994-8-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20240628090517.17994-1-laoar.shao@gmail.com>
 References: <20240628085750.17367-1-laoar.shao@gmail.com>
@@ -90,39 +90,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since task lock was dropped from __get_task_comm(), it's safe to call it
-from kmemleak.
-
 Using __get_task_comm() to read the task comm ensures that the name is
 always NUL-terminated, regardless of the source string. This approach also
 facilitates future extensions to the task comm.
 
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
 ---
- mm/kmemleak.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ kernel/tsacct.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/kmemleak.c b/mm/kmemleak.c
-index d5b6fba44fc9..ef29aaab88a0 100644
---- a/mm/kmemleak.c
-+++ b/mm/kmemleak.c
-@@ -663,13 +663,7 @@ static struct kmemleak_object *__alloc_object(gfp_t gfp)
- 		strncpy(object->comm, "softirq", sizeof(object->comm));
- 	} else {
- 		object->pid = current->pid;
--		/*
--		 * There is a small chance of a race with set_task_comm(),
--		 * however using get_task_comm() here may cause locking
--		 * dependency issues with current->alloc_lock. In the worst
--		 * case, the command line is not correct.
--		 */
--		strncpy(object->comm, current->comm, sizeof(object->comm));
-+		__get_task_comm(object->comm, sizeof(object->comm), current);
- 	}
+diff --git a/kernel/tsacct.c b/kernel/tsacct.c
+index 4252f0645b9e..6b094d5d9135 100644
+--- a/kernel/tsacct.c
++++ b/kernel/tsacct.c
+@@ -76,7 +76,7 @@ void bacct_add_tsk(struct user_namespace *user_ns,
+ 	stats->ac_minflt = tsk->min_flt;
+ 	stats->ac_majflt = tsk->maj_flt;
  
- 	/* kernel backtrace */
+-	strncpy(stats->ac_comm, tsk->comm, sizeof(stats->ac_comm));
++	__get_task_comm(stats->ac_comm, sizeof(stats->ac_comm), tsk);
+ }
+ 
+ 
 -- 
 2.43.5
 
