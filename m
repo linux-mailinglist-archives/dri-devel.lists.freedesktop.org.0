@@ -2,97 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0995591BBC1
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 11:43:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A982691BBC8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 11:45:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCAA10E20F;
-	Fri, 28 Jun 2024 09:43:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9AD10EBF4;
+	Fri, 28 Jun 2024 09:45:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="sOpW4zjt";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RU7fPKYg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30DA510E235
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 09:43:36 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-dfab5f7e749so420097276.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 02:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1719567815;
- x=1720172615; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8qzmRAVdcytlDvjKg3zIzhlsAspcHn166tJNqg286RQ=;
- b=sOpW4zjte/EU33GbmLLf70vEhM2ZSWaxlLNNwtm4RLddQG7GRSEG5ZMC8kFGEI+9kd
- /o44/19LmFiDFbuRTAD8QyVzBimOHOUUiGXO9BjF58pZ+WmpqsHi4Xg81N9FuFhojH99
- kAtp7tCNCCAtENmALu3VuIguXFtt15ZIXKRYxNqw6tfR4YQNwfLKnIrGy8OWAx4v8shv
- BSJM03H4gavAT+Rba2XmYXLhZISUs821ToT+sSh5n84Vw5R434sNI/5Z9Vt3ru7113Sj
- JBzR4/Cs3VPb7eWPrf1i9pzHsUDEwrhNj7VKcS3c1NTEymslh8s6JBo/NjgXyzcawxPu
- D97g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDA010EBF4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 09:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1719567900;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xF9W9nufk7Yguc1hxjMWBdR2/N1U15WThQm0qjmi0/U=;
+ b=RU7fPKYgKQ0YwX5yPeIKUlXNb9L7CfTVThQUtTi4qbOej7shNb6GO2oBxR3UUCqG+CPJ3D
+ YjhAXSPlYgj1OirTtZjavLVAOsDisQwvUhB4PPc7lfDOk6undfzidgYsepeyKevyI+R8QL
+ Q9ng1BA29JLBHrkSQoI3SjljuSt30WY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-693-YND_5S25NEKCuXEqI1lc7w-1; Fri, 28 Jun 2024 05:44:59 -0400
+X-MC-Unique: YND_5S25NEKCuXEqI1lc7w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-364dfcace34so226483f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 02:44:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719567815; x=1720172615;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8qzmRAVdcytlDvjKg3zIzhlsAspcHn166tJNqg286RQ=;
- b=cIZnNGmgFVg3KHriQXjhXHJp9qEP0YnY7eqanG+WOrbqc+Ipjwrmhw7Ff7HQ3OGjOu
- ImV5/PzWv1DZmhh0ClU3b5cPjdjxixduT3eQJiZ9B3yXpSbf0AF3jbWaUWnc8NMpcYYh
- ogvkt3mzvs3XLadNlIkB4Admz9v/k1BWicVGaACWnWXqWvw58nTEu2BZhJv6aqgk7C4e
- +MdkRPFBtFVSz/qJluR52tjfuIBrXsTH1rxZkY5kZTsaJyqyDaoAr73pBbnLuGNNZcm0
- 7Cf3UPx+EXUj6VbG40VI+GwKgzMrdZj495mQCqn2ru96YZ9ZLC62MOAW9RK7HrRV4MFm
- UNQg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUNbceNqKnvAVJO73yHlieclAYaFS8Mj0i5TJ9lYDfdnuMEUjtX2dpNPGhKxV9+Vkpi360chhRuRkUwk7Kg5NgUTKZmCPF820fcHbFrZCY8
-X-Gm-Message-State: AOJu0YzgJ665RPBzgLxUzAa66tHSsLIJKLFVgH9aB+EEd5ndNgqBgXvK
- e6CsfxevvGI44jIAcM04t0FTW/VDvTgCFFjTTqrZ04yW6AF0e6GSyDgSWqAB3ByCS7sH8WM8u9v
- hBcI=
-X-Google-Smtp-Source: AGHT+IGowEhPYNp+j/wnMUTZSR7ogC4H26rRfJlyOs+e1ift48yG3aBC1sTTVBfzreXfG3bx1LLC7g==
-X-Received: by 2002:a0d:fd85:0:b0:61a:ed1e:ecd with SMTP id
- 00721157ae682-64341e147c8mr151453237b3.50.1719567815117; 
- Fri, 28 Jun 2024 02:43:35 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
- [209.85.219.175]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-64a9a23bad1sm2761897b3.31.2024.06.28.02.43.34
+ d=1e100.net; s=20230601; t=1719567898; x=1720172698;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xF9W9nufk7Yguc1hxjMWBdR2/N1U15WThQm0qjmi0/U=;
+ b=eHBKIjPgogD0zeyRmNnc879Iqzo2fs3c133poGAgUSwcEDI69HEVD76D1XHJPKsXkP
+ QH+DHJuFxV52zdlciMYHI4CfiMi9HyQ3wdutkVvMaLKK2X6UATbp1xthKuKCBCchna0P
+ Lrjknc2shvk9Rz+eI3q8XP5A8KWAgMAgbNVnExPPTdRA+EuKRG6qF9lRg7e5KRNcpib4
+ dwX31/Tf6OFgzWdXJxQ9UQhRvQLs4TeTnecStvoEIWSy1iQaTY9yOHU4Pzg7aywoVp6l
+ sobb0yU3bpdpqkoZf9flqJO6nzZ60fKQU6gF+fH91GXRGMDl3DqNRBfRQPZtUso/nXtf
+ PFeQ==
+X-Gm-Message-State: AOJu0YyjyIRZ6QkjySevVP5vRgF2n3+/eT1qMhBm50gnC+EewOx5I4Gt
+ lktVu8hWal++iFj9Dvb9pcXqUqaP0s5feJUeQQlGdJeSeR1JnfaPPd9dLLWyaqUchsQO3AGOzZ9
+ UlXKA0qCnQVSJaruijXAWG4v+m/FoD1kUv8rDCYsfDsizA3FSQRPfDrlR6x5Uq4CE+uKlbyHwJB
+ DD
+X-Received: by 2002:a5d:5f8e:0:b0:366:eeb0:5c7a with SMTP id
+ ffacd0b85a97d-366eeb05cc5mr12275789f8f.6.1719567897749; 
+ Fri, 28 Jun 2024 02:44:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHFH+wSieCn8oswEbB1A0rCyuHUWFgL7Lp3nK+cs6QeoWbRFqOPCK8O8mjapO2a1P8As8v8zw==
+X-Received: by 2002:a5d:5f8e:0:b0:366:eeb0:5c7a with SMTP id
+ ffacd0b85a97d-366eeb05cc5mr12275778f8f.6.1719567897415; 
+ Fri, 28 Jun 2024 02:44:57 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3675a1046f2sm1699720f8f.112.2024.06.28.02.44.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jun 2024 02:43:34 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id
- 3f1490d57ef6-e02c4983bfaso363207276.2; 
- Fri, 28 Jun 2024 02:43:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVzWP7vemF5BK9B95/zm7esjJdrgaPbRXEEwyPwNMVt7GhBvxJ3l2xohtoUAPxMsvwDtk6eruPYgKzZKfaha6WtXm70LAp2J1vyPXUZxdCQ1jLPHts+NYyiH12rp89N4rKgT7KcxyJIqwLQg8nBtg==
-X-Received: by 2002:a25:b183:0:b0:e03:5edd:99b5 with SMTP id
- 3f1490d57ef6-e035edd9b77mr753201276.4.1719567813979; Fri, 28 Jun 2024
- 02:43:33 -0700 (PDT)
+ Fri, 28 Jun 2024 02:44:57 -0700 (PDT)
+Message-ID: <80ac2ebb-11e6-4ce0-a203-2384543a48a8@redhat.com>
+Date: Fri, 28 Jun 2024 11:44:56 +0200
 MIME-Version: 1.0
-References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
- <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
- <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
- <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
- <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
- <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
- <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
- <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
- <CAPj87rPB=N2vJ-5C7xXORYstK3=TpX+jZ7mCr7oxY2wpXeaTTQ@mail.gmail.com>
- <ZnxVWrFJKbVO8PZ0@phenom.ffwll.local>
- <CAPj87rPnA1eKR_b7gAhDiMZRcVt8xPS9xnsscqVQ_a_qO_tD4A@mail.gmail.com>
-In-Reply-To: <CAPj87rPnA1eKR_b7gAhDiMZRcVt8xPS9xnsscqVQ_a_qO_tD4A@mail.gmail.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 28 Jun 2024 11:43:23 +0200
-X-Gmail-Original-Message-ID: <CAAObsKATM0hQ=XTzTTucArBzSnVEu-CfdkUU4c6UVHd1+G5-gw@mail.gmail.com>
-Message-ID: <CAAObsKATM0hQ=XTzTTucArBzSnVEu-CfdkUU4c6UVHd1+G5-gw@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>, linux-kernel@vger.kernel.org, 
- Oded Gabbay <ogabbay@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Daniel Stone <daniels@collabora.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] drm/ast: Implement atomic enable/disable for encoders
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20240627153638.8765-1-tzimmermann@suse.de>
+ <20240627153638.8765-2-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240627153638.8765-2-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,63 +95,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 26, 2024 at 9:26=E2=80=AFPM Daniel Stone <daniel@fooishbar.org>=
- wrote:
->
-> On Wed, 26 Jun 2024 at 18:52, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Wed, Jun 26, 2024 at 11:39:01AM +0100, Daniel Stone wrote:
-> > > On Wed, 26 Jun 2024 at 09:28, Lucas Stach <l.stach@pengutronix.de> wr=
-ote:
-> > > > So we are kind of stuck here between breaking one or the other use-
-> > > > case. I'm leaning heavily into the direction of just fixing Mesa, s=
-o we
-> > > > can specify the type of screen we need at creation time to avoid th=
-e
-> > > > renderonly issue, porting this change as far back as reasonably
-> > > > possible and file old userspace into shit-happens.
-> > >
-> > > Yeah, honestly this sounds like the best solution to me too.
-> >
-> > Yeah mesa sounds kinda broken here ...
-> >
-> > What might work in the kernel is if you publish a fake 3d engine that's
-> > too new for broken mesa, if that's enough to make it fail to bind? And =
-if
-> > mesa still happily binds against that, then yeah it's probably too brok=
-en
-> > and we need etnaviv-v2 (as a drm driver uapi name, I think that's what
-> > mesa filters?) for anything new (including the NN-only ones).
-> >
-> > I would still try to avoid that, but just in case someone screams about
-> > regressions.
 
-Thanks everybody for chiming in.
 
-> It's not just etnaviv, it's literally every Mesa driver which works
-> with decoupled render/display. So that would be etnaviv-v2,
-> panfrost-v2, panthor-v2, v3d-v2, powervr-v2, ... albeit those don't
-> tend to have multiple instances.
+On 27/06/2024 17:27, Thomas Zimmermann wrote:
+> The CRTC helpers contain code to enable and disable DisplayPort
+> connectors. Implement this functionality in the respective connector's
+> atomic_enable/atomic_disable callbacks. DRM's atomic-modesetting
+> helpers will call the functions as part of the atomic commit.
 
-TBH, I think VeriSilicon is the only IP vendor that has recycled a
-render-only IP into a compute-only IP.
+Thanks, it looks good te me.
 
-That is why I liked the approach of conditionally creating an accel
-node, as it neatly reflects that reality.
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ast/ast_mode.c | 66 +++++++++++++++++++++++++---------
+>   1 file changed, 50 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 2fd9c78eab73..7f9f77b7ee73 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -1034,14 +1034,6 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+>   	case DRM_MODE_DPMS_ON:
+>   		ast_set_index_reg_mask(ast, AST_IO_VGASRI,  0x01, 0xdf, 0);
+>   		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0);
+> -		if (ast->tx_chip_types & AST_TX_DP501_BIT)
+> -			ast_set_dp501_video_output(crtc->dev, 1);
+> -
+> -		if (ast->tx_chip_types & AST_TX_ASTDP_BIT) {
+> -			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_ON);
+> -			ast_wait_for_vretrace(ast);
+> -			ast_dp_set_on_off(crtc->dev, 1);
+> -		}
+>   
+>   		ast_state = to_ast_crtc_state(crtc->state);
+>   		format = ast_state->format;
+> @@ -1061,14 +1053,6 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+>   	case DRM_MODE_DPMS_SUSPEND:
+>   	case DRM_MODE_DPMS_OFF:
+>   		ch = mode;
+> -		if (ast->tx_chip_types & AST_TX_DP501_BIT)
+> -			ast_set_dp501_video_output(crtc->dev, 0);
+> -
+> -		if (ast->tx_chip_types & AST_TX_ASTDP_BIT) {
+> -			ast_dp_set_on_off(crtc->dev, 0);
+> -			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_OFF);
+> -		}
+> -
+>   		ast_set_index_reg_mask(ast, AST_IO_VGASRI,  0x01, 0xdf, 0x20);
+>   		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, ch);
+>   		break;
+> @@ -1521,6 +1505,27 @@ static const struct drm_encoder_funcs ast_dp501_encoder_funcs = {
+>   	.destroy = drm_encoder_cleanup,
+>   };
+>   
+> +static void ast_dp501_encoder_helper_atomic_enable(struct drm_encoder *encoder,
+> +						   struct drm_atomic_state *state)
+> +{
+> +	struct drm_device *dev = encoder->dev;
+> +
+> +	ast_set_dp501_video_output(dev, 1);
+> +}
+> +
+> +static void ast_dp501_encoder_helper_atomic_disable(struct drm_encoder *encoder,
+> +						    struct drm_atomic_state *state)
+> +{
+> +	struct drm_device *dev = encoder->dev;
+> +
+> +	ast_set_dp501_video_output(dev, 0);
+> +}
+> +
+> +static const struct drm_encoder_helper_funcs ast_dp501_encoder_helper_funcs = {
+> +	.atomic_enable = ast_dp501_encoder_helper_atomic_enable,
+> +	.atomic_disable = ast_dp501_encoder_helper_atomic_disable,
+> +};
+> +
+>   /*
+>    * DP501 Connector
+>    */
+> @@ -1607,6 +1612,8 @@ static int ast_dp501_output_init(struct ast_device *ast)
+>   			       DRM_MODE_ENCODER_TMDS, NULL);
+>   	if (ret)
+>   		return ret;
+> +	drm_encoder_helper_add(encoder, &ast_dp501_encoder_helper_funcs);
+> +
+>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+>   
+>   	ret = ast_dp501_connector_init(dev, connector);
+> @@ -1628,6 +1635,31 @@ static const struct drm_encoder_funcs ast_astdp_encoder_funcs = {
+>   	.destroy = drm_encoder_cleanup,
+>   };
+>   
+> +static void ast_astdp_encoder_helper_atomic_enable(struct drm_encoder *encoder,
+> +						   struct drm_atomic_state *state)
+> +{
+> +	struct drm_device *dev = encoder->dev;
+> +	struct ast_device *ast = to_ast_device(dev);
+> +
+> +	ast_dp_power_on_off(dev, AST_DP_POWER_ON);
+> +	ast_wait_for_vretrace(ast);
+> +	ast_dp_set_on_off(dev, 1);
+> +}
+> +
+> +static void ast_astdp_encoder_helper_atomic_disable(struct drm_encoder *encoder,
+> +						    struct drm_atomic_state *state)
+> +{
+> +	struct drm_device *dev = encoder->dev;
+> +
+> +	ast_dp_set_on_off(dev, 0);
+> +	ast_dp_power_on_off(dev, AST_DP_POWER_OFF);
+> +}
+> +
+> +static const struct drm_encoder_helper_funcs ast_astdp_encoder_helper_funcs = {
+> +	.atomic_enable = ast_astdp_encoder_helper_atomic_enable,
+> +	.atomic_disable = ast_astdp_encoder_helper_atomic_disable,
+> +};
+> +
+>   /*
+>    * ASPEED Display-Port Connector
+>    */
+> @@ -1726,6 +1758,8 @@ static int ast_astdp_output_init(struct ast_device *ast)
+>   			       DRM_MODE_ENCODER_TMDS, NULL);
+>   	if (ret)
+>   		return ret;
+> +	drm_encoder_helper_add(encoder, &ast_astdp_encoder_helper_funcs);
+> +
+>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+>   
+>   	ret = ast_astdp_connector_init(dev, connector);
 
-> Anyway, I'm still leaning towards the answer being: this is not an
-> etnaviv regression caused by NPU, it's a longstanding generic Mesa
-> issue for which the answer is to fix the known fragility.
-
-My understanding of the consensus so far is that Mesa should be fixed
-so that Gallium drivers can fail at screen init if the device doesn't
-support some new usage flags that we would be adding.
-
-If for some reason that doesn't work, we would be looking at having
-etnaviv use a different kind of driver name, such as etnaviv-npu or
-etnaviv-compute.
-
-Did I get it right?
-
-Thanks,
-
-Tomeu
