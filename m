@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D2491BEE4
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 14:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F53791BEE6
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 14:45:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 757C910EC2A;
-	Fri, 28 Jun 2024 12:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970C410EC2E;
+	Fri, 28 Jun 2024 12:45:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="zrn1fT4S";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="QECNFTS9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94E6C10EC2E
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 12:45:03 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-1f9fb3ca81bso3339365ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 05:45:03 -0700 (PDT)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 239A710EC34
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 12:45:10 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id
+ 41be03b00d2f7-713fa1aea36so240741a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 05:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1719578703; x=1720183503; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OeseQiv7/DSaLni1dvL6OOnrfuUA5o+HEQL8eICjloc=;
- b=zrn1fT4SqwHfx7leSQgGKewusrvIL6ME1c0FB+ttjekGzqUTIJy/tc+Y+SaHBAE4OV
- yKT5MQsnfn5DSXbEa0vHGDFW2gshcPG4Oh7RuXmAFGrrrLAZYreow0OzU6WD7JrpIvyh
- qTv1IdffkHL8LhCdV9ti8Ikx/OBidSnGhPMKN/apxofjIK38JtQVVKGI3V+uIoJUfG4w
- wp42SQe1Kvng5QM5HeyMx57p2xsfRADGx1jOzEd6/khLNNj6jeo9C04rXRBNrdvfNDGM
- 1p4WBVA8Del497Al1Ix+iynuu4iWlfKdS9FkPCBmnF1j4wXFC5WSK4p970ovRodF4ufr
- /TRQ==
+ t=1719578709; x=1720183509; darn=lists.freedesktop.org; 
+ h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rg3tdU7ppY8HgCadeya2IfmEx35gEyixCgdQukzslp8=;
+ b=QECNFTS90X7jOV+7tQMZIATdTKaaA2ARPuO3++pmVlsx36f9saTONmTpXmJCU8CnGA
+ 5B4C4L1Rt4lvaA1c2IE7ddzF1EH+zXuzGoOXt9JhhmD+DZsF2h9HUDaxHxnVDvW1mKu7
+ Qm8yHZB9Pw9EA0O6c0mpHXNxBYOHtxJJmLNXf4R6Oq4pUWKhSlMMlwWq67L5u/UtWXew
+ nVlIWTMtbXJ91atS6ZBv9/PYxyRCpv9ct+JbVhCTkolHUfK/+flmRBWHCYxE6H27BSOq
+ 1is/F/y4qb8H7y6eI65+P77BcuZ7Ter85QgbbMyNr8KBpKTRFVcPM1ZcA7bLCrZysIDR
+ 7UiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719578703; x=1720183503;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OeseQiv7/DSaLni1dvL6OOnrfuUA5o+HEQL8eICjloc=;
- b=XUA8/dVQ9TubxcHyZWLz8ccKM+bL5Pi5DzQSGO9uhHRN6LJpfWLDTGZ0nw4yxovtNI
- VHknrSuanLuxJXBs249Byna4kCdn/T6oUC1tPnN+OqIQ6WvRZG+jE2v0WYq2WGZS5Pqo
- dvAfd54VwSCUS30uHnzJ56F5XhrklsNiz8gpFPOhi/UZXVH0npMoBfI742sbHCtDRea/
- MXhi/3t33wUxWc62rocZ3nQoxhuzuwnVJ4Nd1oQGc7fzaVT6l0Y0eOATc14PQMlhjnvY
- kHvnDbU80hOOviVQDvE5HTl0j8uBIiZ7rz+VSpZM5MXRnD+zNeOIg0DDZsubL3ydTaWD
- r5MA==
-X-Gm-Message-State: AOJu0Yw7/tIp1Oq6OMg320x0ykfCzlp8VHx1/U43RxbgwIDBwOiQbiQZ
- 1r9D/eFK+Za+mrg49Fm9sGZqrm02WCQhM6+01LG3odc95gRjFQ9rEuvWUnhyOjM=
-X-Google-Smtp-Source: AGHT+IGWadE2l1MOGIvcH+qhTXfxLERu8D+lorl26DB268SY32VCtG8S/9RsP0BCd2bpECNPNyPGVw==
-X-Received: by 2002:a17:902:dac6:b0:1f9:d279:a870 with SMTP id
- d9443c01a7336-1fa23fb2949mr156225565ad.25.1719578702961; 
- Fri, 28 Jun 2024 05:45:02 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1719578709; x=1720183509;
+ h=references:in-reply-to:message-id:date:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rg3tdU7ppY8HgCadeya2IfmEx35gEyixCgdQukzslp8=;
+ b=MkMVvx57wKO6FVXT931jMzwsbgRpeAFweyhKpkbPmKHdiwAeGj66SI+5CrjtXAZJTV
+ QpHtnYx+/2FeQXI6BZzr1exjfso6YMuVdatHmQkpyT4vDtDwVR8hsVIrqJdJoXNtZn4f
+ jWaR316iU++KD3YphAQLIoIQJvTPgSIrBOLCXhZAabQjx5gOvyxEnSw68IUZdlZ16ZkP
+ IuLEAoaV9/BP3b6K7ewYN6zoi1fMUEkuodrg1TMvcdIX2vTQffhUT4QEr2v3kAurLIR8
+ NTvE2qhATYuOY2zXm+ly4+2eMH2cnCvf5DlaJjiXKwsrGgM1HnJDk31TILJSaKd1i5ib
+ PKkg==
+X-Gm-Message-State: AOJu0YwYeHFMVckrMbcw1l9eeFO72hc1fn7EUXSEmQSb/h1NShQpqgN+
+ Ni2K/vgE+V2mmRjklD2uy0BRE2Fs7QC9iHyh4SLwAdCXBF6wh5f8YgFbuXe/pd8=
+X-Google-Smtp-Source: AGHT+IGi1fGSVYxtAxmFf/MTdTm122/UI6yNXUDQyXrOEFT3f8SKiRbbUQL8tC6sqxHVlH4xLvD96Q==
+X-Received: by 2002:a05:6a20:72a0:b0:1be:eae8:9975 with SMTP id
+ adf61e73a8af0-1beeae89b72mr627357637.15.1719578709482; 
+ Fri, 28 Jun 2024 05:45:09 -0700 (PDT)
 Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1fac15695b4sm14346255ad.225.2024.06.28.05.44.59
+ d9443c01a7336-1fac15695b4sm14346255ad.225.2024.06.28.05.45.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 05:45:02 -0700 (PDT)
+ Fri, 28 Jun 2024 05:45:09 -0700 (PDT)
 From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 To: dmitry.torokhov@gmail.com, robh@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
@@ -64,16 +62,13 @@ To: dmitry.torokhov@gmail.com, robh@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v6 1/5] drm/panel: jd9365da: Modify the method of sending
- commands
-Date: Fri, 28 Jun 2024 20:44:40 +0800
-Message-Id: <20240628124444.28152-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v6 2/5] dt-bindings: display: panel: Add compatible for
+ kingdisplay-kd101ne3
+Date: Fri, 28 Jun 2024 20:44:41 +0800
+Message-Id: <20240628124444.28152-3-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240628124444.28152-1-lvzhaoxiong@huaqin.corp-partner.google.com>
 References: <20240628124444.28152-1-lvzhaoxiong@huaqin.corp-partner.google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,99 +84,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the init_code of the jd9365da driver is placed
-in the enable() function and sent, but this seems to take
-a long time. It takes 17ms to send each instruction (an init
-code consists of about 200 instructions), so it takes
-about 3.5s to send the init_code. So we moved the sending
-of the inti_code to the prepare() function, and each
-instruction seemed to take only 25μs.
-
-We checked the DSI host and found that the difference in
-command sending time is caused by the different modes of
-the DSI host in prepare() and enable() functions.
-Our DSI Host only supports sending cmd in LP mode, The
-prepare() function can directly send init_code (LP->cmd)
-in LP mode, but the enable() function is in HS mode and
-needs to switch to LP mode before sending init code
-(HS->LP->cmd->HS). Therefore, it takes longer to send
-the command.
+The kingdisplay-kd101ne3 is a 10.1" WXGA TFT-LCD panel with
+jadard-jd9365da controller. Hence, we add a new compatible
+with panel specific config.
 
 Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 Changes between V6 and V5:
 - 1. No changes.
-
-V5:https://lore.kernel.org/all/20240624141926.5250-2-lvzhaoxiong@huaqin.corp-partner.google.com/
+V5:https://lore.kernel.org/all/20240624141926.5250-3-lvzhaoxiong@huaqin.corp-partner.google.com/
 
 Changes between V5 and V4:
 - 1. No changes.
-
-V4:https://lore.kernel.org/all/20240620080509.18504-2-lvzhaoxiong@huaqin.corp-partner.google.com/
+V4:https://lore.kernel.org/all/20240620080509.18504-3-lvzhaoxiong@huaqin.corp-partner.google.com/
 
 Changes between V4 and V3:
-- 1. Only move mipi_dsi_dcs_write_buffer from enable() function to prepare() function,
--    and no longer use mipi_dsi_dcs_write_seq_multi.
+- 1. Move positions to keep the list sorted.
 
-V3:https://lore.kernel.org/all/20240614145510.22965-2-lvzhaoxiong@huaqin.corp-partner.google.com/
+V3:https://lore.kernel.org/all/20240614145510.22965-3-lvzhaoxiong@huaqin.corp-partner.google.com/
 
+Changes between V3 and V2:
+- 1. Abandon the V2 patch and add kingdisplay kd101ne3-40ti binding to 
+-    jadard,jd9365da-h3.yaml again.
+
+V2:https://lore.kernel.org/all/20240601084528.22502-2-lvzhaoxiong@huaqin.corp-partner.google.com/
+
+Changes between V2 and V1:
+-  Drop some properties that have already been defined in panel-common.
+-  The header file 'dt-bindings/gpio/gpio.h' is not used, delete it
+
+V1: https://lore.kernel.org/all/20240418081548.12160-2-lvzhaoxiong@huaqin.corp-partner.google.com/
 ---
- .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 24 +++++++++----------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+ .../devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml    | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-index 4879835fe101..a9c483a7b3fa 100644
---- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-+++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-@@ -52,21 +52,9 @@ static int jadard_enable(struct drm_panel *panel)
- {
- 	struct device *dev = panel->dev;
- 	struct jadard *jadard = panel_to_jadard(panel);
--	const struct jadard_panel_desc *desc = jadard->desc;
- 	struct mipi_dsi_device *dsi = jadard->dsi;
--	unsigned int i;
- 	int err;
- 
--	msleep(10);
--
--	for (i = 0; i < desc->num_init_cmds; i++) {
--		const struct jadard_init_cmd *cmd = &desc->init_cmds[i];
--
--		err = mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD9365DA_INIT_CMD_LEN);
--		if (err < 0)
--			return err;
--	}
--
- 	msleep(120);
- 
- 	err = mipi_dsi_dcs_exit_sleep_mode(dsi);
-@@ -100,6 +88,8 @@ static int jadard_disable(struct drm_panel *panel)
- static int jadard_prepare(struct drm_panel *panel)
- {
- 	struct jadard *jadard = panel_to_jadard(panel);
-+	const struct jadard_panel_desc *desc = jadard->desc;
-+	unsigned int i;
- 	int ret;
- 
- 	ret = regulator_enable(jadard->vccio);
-@@ -117,7 +107,15 @@ static int jadard_prepare(struct drm_panel *panel)
- 	msleep(10);
- 
- 	gpiod_set_value(jadard->reset, 1);
--	msleep(120);
-+	msleep(130);
-+
-+	for (i = 0; i < desc->num_init_cmds; i++) {
-+		const struct jadard_init_cmd *cmd = &desc->init_cmds[i];
-+
-+		ret = mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD9365DA_INIT_CMD_LEN);
-+		if (ret < 0)
-+			return ret;
-+	}
- 
- 	return 0;
- }
+diff --git a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+index 41eb7fbf7715..2b977292dc48 100644
+--- a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
++++ b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+@@ -17,6 +17,7 @@ properties:
+     items:
+       - enum:
+           - chongzhou,cz101b4001
++          - kingdisplay,kd101ne3-40ti
+           - radxa,display-10hd-ad001
+           - radxa,display-8hd-ad002
+       - const: jadard,jd9365da-h3
 -- 
 2.17.1
 
