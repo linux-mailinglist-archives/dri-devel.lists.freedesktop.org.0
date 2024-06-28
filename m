@@ -2,84 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0539E91BCC1
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 12:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089D791BCD0
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 12:47:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AC7310E2B4;
-	Fri, 28 Jun 2024 10:42:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="bocju44g";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B116D10EC14;
+	Fri, 28 Jun 2024 10:47:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4176B10EC02
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 10:42:24 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45S8OfIU018773;
- Fri, 28 Jun 2024 10:42:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- EgwCA/TiZVVdeqFn6kvzVH+Az0KWAmJVNHcyk6T7iY8=; b=bocju44gSCOKZxwL
- 0PNUklMcnTka++S29PJsEQ++r5Tym2QWJw8k/hPe6SvAY/rPaI3lU4zmb6gWIB81
- iu+eZJ9myaZj0QwZbwJvvFuqBhPGVaNV95IqzbQ+hbehEy6dmXZTc0cAXywVatfj
- wO2DEEl4lm/JYP823zC7ziTLwkOfWfMTflUn/fedduw8mtrMbKSfxDpJS+9dqn+6
- sdrjRs2iOqcpgjEWHvfswhLCLXZDiBWOHzaUgAns2Y9wS7DqJRvQKErKPXWaPwTY
- 4wZw2UqtjLyg40vxv6tgMg7V30LePspazYitCU+bcoicXVIq/Dehbgra5Cad5Lit
- JeW3fw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 400f90pngq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jun 2024 10:42:18 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45SAgHcI012151
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jun 2024 10:42:17 GMT
-Received: from [10.204.65.49] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 28 Jun
- 2024 03:42:13 -0700
-Message-ID: <a5e69a5e-b882-4f36-b023-f85da430fa2f@quicinc.com>
-Date: Fri, 28 Jun 2024 16:12:10 +0530
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E309E10EC14
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 10:47:49 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sN98s-0004kw-DS; Fri, 28 Jun 2024 12:47:46 +0200
+Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sN98s-005aMe-0R; Fri, 28 Jun 2024 12:47:46 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
+Subject: [PATCH 1/3] drm/etnaviv: move debug register en-/disable into own
+ function
+Date: Fri, 28 Jun 2024 12:47:43 +0200
+Message-Id: <20240628104745.2602036-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] misc: fastrpc: Remove user PD initmem size check
-Content-Language: en-US
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
- <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>, stable
- <stable@kernel.org>
-References: <20240627060518.1510124-1-quic_ekangupt@quicinc.com>
- <62dzilcvsp3efxpxulzkf6e62rzcrhp55k6yjk5fymkqthdfzw@yageexbx6ddz>
- <f3d502ca-228e-4be4-b296-a9073975d34b@quicinc.com>
-In-Reply-To: <f3d502ca-228e-4be4-b296-a9073975d34b@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 1-igBpI_D-oKidRGSadCBSKs2h787c6F
-X-Proofpoint-GUID: 1-igBpI_D-oKidRGSadCBSKs2h787c6F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-28_06,2024-06-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- spamscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 adultscore=0
- impostorscore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406280079
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,60 +55,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The next changes will introduce another place where the debug registers
+need to be en-/disabled. Split into separate functions, so we don't need
+to replicate the code there. Also allow those calls to nest, keeping
+the debug registers enabled until all callers don't need them any longer.
 
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 33 ++++++++++++++++++++-------
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  3 +++
+ 2 files changed, 28 insertions(+), 8 deletions(-)
 
-On 6/28/2024 3:59 PM, Ekansh Gupta wrote:
->
-> On 6/27/2024 4:43 PM, Dmitry Baryshkov wrote:
->> On Thu, Jun 27, 2024 at 11:35:18AM GMT, Ekansh Gupta wrote:
->>> For user PD initialization, initmem is allocated and sent to DSP for
->>> initial memory requirements like shell loading. This size is passed
->>> by user space and is checked against a max size. For unsigned PD
->>> offloading, more than 2MB size could be passed by user which would
->>> result in PD initialization failure. Remove the user PD initmem size
->>> check and allow buffer allocation for user passed size. Any additional
->>> memory sent to DSP during PD init is used as the PD heap.
->> Would it allow malicious userspace to allocate big enough buffers and
->> reduce the amount of memory available to the system? To other DSP
->> programs?
-> The allocation here is happening from SMMU context bank which is uniquely assigned
-> to processes going to DSP. As per my understanding process can allocate maximum
-> 4GB of memory from the context bank and the memory availability will be taken care
-> by kernel memory management. Please correct me if my understanding is incorrect.
-Just wanted to add 1 question here:
-User space can also directly allocate memory. Wouldn't that be a problem if any malicious userspace
-allocated huge memory? Is there any bound check or is it handled differently? Please help me with
-some information here.
-> --Ekansh
->>> Fixes: 7f1f481263c3 ("misc: fastrpc: check before loading process to the DSP")
->>> Cc: stable <stable@kernel.org>
->>> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
->>> ---
->>> Changes in v2:
->>>   - Modified commit text.
->>>   - Removed size check instead of updating max file size.
->>>
->>>  drivers/misc/fastrpc.c | 5 -----
->>>  1 file changed, 5 deletions(-)
->>>
->>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>> index 5204fda51da3..9d064deeac89 100644
->>> --- a/drivers/misc/fastrpc.c
->>> +++ b/drivers/misc/fastrpc.c
->>> @@ -1389,11 +1389,6 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
->>>  		goto err;
->>>  	}
->>>  
->>> -	if (init.filelen > INIT_FILELEN_MAX) {
->>> -		err = -EINVAL;
->>> -		goto err;
->>> -	}
->>> -
->>>  	inbuf.pgid = fl->tgid;
->>>  	inbuf.namelen = strlen(current->comm) + 1;
->>>  	inbuf.filelen = init.filelen;
->>> -- 
->>> 2.34.1
->>>
->
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 7c7f97793ddd..ade6f7554706 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -471,6 +471,29 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 
+ 	etnaviv_hw_specs(gpu);
+ }
++void etnaviv_gpu_enable_debug_regs(struct etnaviv_gpu *gpu)
++{
++	u32 val;
++
++	if (atomic_inc_return(&gpu->dbg_ref) > 1)
++		return;
++
++	val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
++	val &= ~VIVS_HI_CLOCK_CONTROL_DISABLE_DEBUG_REGISTERS;
++	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
++}
++
++void etnaviv_gpu_disable_debug_regs(struct etnaviv_gpu *gpu)
++{
++	u32 val;
++
++	if (atomic_dec_return(&gpu->dbg_ref) != 0)
++		return;
++
++	val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
++	val |= VIVS_HI_CLOCK_CONTROL_DISABLE_DEBUG_REGISTERS;
++	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
++}
+ 
+ static void etnaviv_gpu_load_clock(struct etnaviv_gpu *gpu, u32 clock)
+ {
+@@ -1335,10 +1358,7 @@ static void sync_point_perfmon_sample_pre(struct etnaviv_gpu *gpu,
+ 	val &= ~VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
+ 	gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, val);
+ 
+-	/* enable debug register */
+-	val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
+-	val &= ~VIVS_HI_CLOCK_CONTROL_DISABLE_DEBUG_REGISTERS;
+-	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
++	etnaviv_gpu_enable_debug_regs(gpu);
+ 
+ 	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_PRE);
+ }
+@@ -1358,10 +1378,7 @@ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
+ 		*pmr->bo_vma = pmr->sequence;
+ 	}
+ 
+-	/* disable debug register */
+-	val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
+-	val |= VIVS_HI_CLOCK_CONTROL_DISABLE_DEBUG_REGISTERS;
+-	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
++	etnaviv_gpu_disable_debug_regs(gpu);
+ 
+ 	/* enable clock gating */
+ 	val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+index 31322195b9e4..07a6c66e0005 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -116,6 +116,7 @@ struct etnaviv_gpu {
+ 	struct mutex sched_lock;
+ 	struct drm_gpu_scheduler sched;
+ 	enum etnaviv_gpu_state state;
++	atomic_t dbg_ref;
+ 
+ 	/* 'ring'-buffer: */
+ 	struct etnaviv_cmdbuf buffer;
+@@ -222,6 +223,8 @@ int etnaviv_gpu_pm_get_sync(struct etnaviv_gpu *gpu);
+ void etnaviv_gpu_pm_put(struct etnaviv_gpu *gpu);
+ int etnaviv_gpu_wait_idle(struct etnaviv_gpu *gpu, unsigned int timeout_ms);
+ void etnaviv_gpu_start_fe(struct etnaviv_gpu *gpu, u32 address, u16 prefetch);
++void etnaviv_gpu_enable_debug_regs(struct etnaviv_gpu *gpu);
++void etnaviv_gpu_disable_debug_regs(struct etnaviv_gpu *gpu);
+ 
+ extern struct platform_driver etnaviv_gpu_driver;
+ 
+-- 
+2.39.2
 
