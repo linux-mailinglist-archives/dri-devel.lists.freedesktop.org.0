@@ -2,91 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA4791C50E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 19:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDB991C51A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 19:45:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A44610E094;
-	Fri, 28 Jun 2024 17:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66A7710ECD8;
+	Fri, 28 Jun 2024 17:45:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZqHwdn6c";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="W6wgTfDr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD83B10E094
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 17:40:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1719596418;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SP48UMwRjN/EBU8LVvAPVSE3bd+HHCSeXFaARhB6zhU=;
- b=ZqHwdn6crHI3hzAtarCMqPh0blHFCeTa1zrEqjPhiipLrubhxsF84v2xQpn2WfbkmEA/07
- kisPycAZEnBxZKnuGh1v4GYPJMUuV0vsc3SnZmUIPD94E8UbYJ4gRNM/cqcqBIdL0WgBTT
- pLXSiqxytI9WKJgBI66J2T9clXGBQsk=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-122-GKpnK30TOq24XhJKLjTCJQ-1; Fri, 28 Jun 2024 13:40:17 -0400
-X-MC-Unique: GKpnK30TOq24XhJKLjTCJQ-1
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-44645ec39d4so11725251cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 10:40:17 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDA710ECDD
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 17:44:58 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-424a4bc95f3so433575e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 10:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1719596696; x=1720201496; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=PFG4m2P9lrc/voTXf7MYXGSSv2AhfGiy4rGLJmPQ7ps=;
+ b=W6wgTfDrZA8+P3NDjRF7KSQF/xY0tIBOcJ7EgBh959Mf3+omOxtnwxlvYF36XjtjTN
+ p5TO31wha13J4KXlxfO4QBGcFgPGP+UEBrK5a+LZ8GsHaWdAzc8vx7G6xgomJbIfdJwB
+ Ivewdo8ExXxTGCm9vwUcv6U7fnKaD3w70SOpc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719596416; x=1720201216;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
+ d=1e100.net; s=20230601; t=1719596696; x=1720201496;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SP48UMwRjN/EBU8LVvAPVSE3bd+HHCSeXFaARhB6zhU=;
- b=jxJ/jykSXHJv0LoHBmsvIs78Bd+IMUl78iNPUYpXy5JxiOapCj3aPtPNshNDpZFN4u
- sUzPhkQgK23MPIhhEXWvBhi/5kCUW8JmEgysRpX82CQOkLbf4d5ZKDbxCU2ktFGK0Bu0
- 9jVLcDET5E6XeUik2Y+CkjNlD1R0Ihelr2PMBjJTOiTf/XgK7p1CI5k+nKWNb7njccOz
- HsHAALblzS6vcdYLdme0zxYkZ4VKVDYbtfXrXOYDokEecY88lKNU5fGLNM9rDtwkgvp8
- BtKBwCo6BcMfV0puaKYAFPtz36efpp/Q+Ukq0tIxuLk5eRcjiRSeyLGRKA0beePmtUri
- e1oQ==
+ bh=PFG4m2P9lrc/voTXf7MYXGSSv2AhfGiy4rGLJmPQ7ps=;
+ b=LohBq9Rvruw4Mf8x5XNLPsfu80tpeC1Iru03TszPUxG1W8YLiyv7znZoyjbJKtX+rc
+ QPvUYSTe+1cgGTlFg56btSrdp9O6sDwjR681dGZO/KaWjjtTbnur5fGas8ZZNOvcuYdl
+ 3FzOFrmQ9zW9lYWsO8PuIePyZRRfpZKLU9umlh3Gox1sxoxJYmNN+gUyZc51uNYAH/w3
+ 3p1sb1kf3X57NXt+DbP+rnsk3qHxByA0DQTDH32byezKI+DhGYvPmpcNoW3Xc2Cpgax8
+ 0WPZeJIoYNaw+JvF8jRk+oeZkRP/c+SR3E8odx6Gal+a1AVPK/d2xh0crSG6T/3EmD3a
+ BakQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX8D33ilTRTP0dwHg6qqdlCgGB0CfRu3EHyFvYpGpRYZieZko8ZLGOEPJZntldlOtOZyBa10LZv+BIaLHCDA60HcRNvmabfiLmtf91oUabj
-X-Gm-Message-State: AOJu0YzY67NgKjllirEMLnVEXshi21cNEfQQ0oOuN8hhWvgOd8bjACDH
- cNY932q1b45W1MRFpxAk+1m+x3022gCiefEWi/O3L/kdFRV23weeqztn+ccWcJuqOz5Tu82lqbQ
- 9cWur7oAm957D3Z7EmjdPp7d3GcmIsXkvMVbk0F+mp0u4ZY5l2JIttSgf3InfaX1fiQ==
-X-Received: by 2002:a05:622a:1aa1:b0:446:4749:88aa with SMTP id
- d75a77b69052e-4464749894emr59113141cf.32.1719596416669; 
- Fri, 28 Jun 2024 10:40:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHlk4mMP1ndQUm6VugscFP6Lg5KMqYcxhuueZsOuz4e2OVo+yEy7Ux31iC4UszjGEQFeRcEbQ==
-X-Received: by 2002:a05:622a:1aa1:b0:446:4749:88aa with SMTP id
- d75a77b69052e-4464749894emr59112891cf.32.1719596416334; 
- Fri, 28 Jun 2024 10:40:16 -0700 (PDT)
-Received: from chopper.lyude.net ([2600:4040:5c4c:a000::789])
+ AJvYcCUG8fiOHYR9peoP8bBhjLFc6VfxK8hYoEC6+U10z8Em4XBOY7SUUtFIjAyXud+5PTYLqrgj14ptAEvAiAJw0Hjgz2GCyIYi8i9Ncz3koMqu
+X-Gm-Message-State: AOJu0YxFxbPiRjrzOkQA/wY8fPwW+u5NXdfqzgdFdqQADVgj4G3eWwt9
+ OGbVPXL0rmBDZPnGBOEKBrzl2XgOZ0dCirPbW4B/Z+iN1c4U0xdoeQfp8zgP4S0=
+X-Google-Smtp-Source: AGHT+IEwJxocm6WmlwUTvvhF/qJILTgIc/r+SbUwyzK30cSwW5Q2fXDcp5IvRDEkaQUEL1w6Vbi7eQ==
+X-Received: by 2002:a05:600c:4aa9:b0:425:5ed5:b416 with SMTP id
+ 5b1f17b1804b1-4255ed5b5edmr61703235e9.1.1719596696262; 
+ Fri, 28 Jun 2024 10:44:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-44651498178sm8840761cf.60.2024.06.28.10.40.15
+ ffacd0b85a97d-3675a1030c8sm2971157f8f.98.2024.06.28.10.44.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 10:40:15 -0700 (PDT)
-Message-ID: <9004911c3b8c44afecb354db736f4d7d84c0cf19.camel@redhat.com>
-Subject: Re: [PATCH 2/3] drm/dp_mst: Skip CSN if topology probing is not
- done yet
-From: Lyude Paul <lyude@redhat.com>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>, "imre.deak@intel.com"
- <imre.deak@intel.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, "Wentland,
- Harry" <Harry.Wentland@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, 
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-Date: Fri, 28 Jun 2024 13:40:14 -0400
-In-Reply-To: <CO6PR12MB5489CB4E5CFB71CF8E812BEEFCD72@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20240626084825.878565-1-Wayne.Lin@amd.com>
- <20240626084825.878565-3-Wayne.Lin@amd.com>
- <7da3ccf156a858c1a7d2691fbedfa7aa2ceccdf7.camel@redhat.com>
- <CO6PR12MB5489CB4E5CFB71CF8E812BEEFCD72@CO6PR12MB5489.namprd12.prod.outlook.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40)
+ Fri, 28 Jun 2024 10:44:55 -0700 (PDT)
+Date: Fri, 28 Jun 2024 19:44:53 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Clark <robdclark@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Vignesh Raman <vignesh.raman@collabora.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Dave Airlie <airlied@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: Time for drm-ci-next?
+Message-ID: <Zn72laHlmWW3So9f@phenom.ffwll.local>
+References: <CAF6AEGsRLPqddgc2MKCXKD1TDFuwxRs_6Pj=oDuj4gah0D-07Q@mail.gmail.com>
+ <87a5mzrgie.fsf@intel.com>
+ <CAF6AEGt=8mz8S+nBQ1a3mCNLFhBrfcc5XfmNrTQ=62J-m+_3Jg@mail.gmail.com>
+ <44196cb4-bc07-4dba-bf1d-9d3d0e3bc88d@collabora.com>
+ <f20f80a7-c905-4a9e-8fa6-985d6b3b1662@collabora.com>
+ <ZnvEHEIEJIYcsQgN@phenom.ffwll.local>
+ <f6kf3smgaza7r7zif4frz6ugrdzcl4u3xqidgwgvuffydhjfzp@66afcetzo3uw>
+ <ZnxUP8H5oATEYNBt@phenom.ffwll.local>
+ <CAF6AEGu0X43O0-p=LaVmDgZrHnkHctuv=uLeqG+JEJXbfh=mjg@mail.gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGu0X43O0-p=LaVmDgZrHnkHctuv=uLeqG+JEJXbfh=mjg@mail.gmail.com>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,43 +95,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2024-06-27 at 09:04 +0000, Lin, Wayne wrote:
->=20
-> I understand your concern. My patch will just check whether mst
-> manager starts
-> the probing process or not by confirming whether we sent LINK_ADDRESS
-> to
-> the 1st mst branch already. It will drop the CSN event only when the
-> event comes
-> earlier than the probing. The CSN events occur during topology
-> probing should
-> still have chance to be handled after probing process release the
-> mgr->probe_lock
-> I think. Does this make sense to you please? Thanks!
+On Thu, Jun 27, 2024 at 11:51:37AM -0700, Rob Clark wrote:
+> On Wed, Jun 26, 2024 at 10:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry Baryshkov wrote:
+> > > On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel Vetter wrote:
+> > > > On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike wrote:
+> > > > >
+> > > > >
+> > > > > On 24/06/2024 02:34, Vignesh Raman wrote:
+> > > > > > Hi,
+> > > > > >
+> > > > > > On 15/03/24 22:50, Rob Clark wrote:
+> > > > > > > Basically, I often find myself needing to merge CI patches on top of
+> > > > > > > msm-next in order to run CI, and then after a clean CI run, reset HEAD
+> > > > > > > back before the merge and force-push.  Which isn't really how things
+> > > > > > > should work.
+> > > >
+> > > > This sounds more like you want an integration tree like drm-tip. Get msm
+> > > > branches integrated there, done. Backmerges just for integration testing
+> > > > are not a good idea indeed.
+> 
+> But AFAIU this doesn't help for pre-merge testing, ie. prior to a
+> patch landing in msm-next
+> 
+> My idea was to have a drm-ci-next managed similar to drm-misc-next, if
+> we have needed drm/ci patches we could push them to drm-ci-next, and
+> then merge that into the driver tree (along with a PR from drm-ci-next
+> to Dave).
 
-Yeah - that seems like the perfect solution :), sounds good to me
+I guess I'm confused about what kind of pre-merge testing we're talking
+about then ... Or maybe this just doesn't work too well with the linux
+kernel. The model is that you have some pile of trees, they're split up,
+and testing of all the trees together is done in integration trees like
+linux-next or drm-tip.
 
->=20
-> > > =C2=A0=C2=A0=C2=A0 } else if (up_req->msg.req_type =3D=3D
-> > > DP_RESOURCE_STATUS_NOTIFY) {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 co=
-nst struct drm_dp_resource_status_notify *res_stat
-> > > =3D
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &up_req->msg.u.resource_stat;
-> >=20
-> > --
-> > Cheers,
-> > =C2=A0Lyude Paul (she/her)
-> > =C2=A0Software Engineer at Red Hat
->=20
-> --
-> Regards,
-> Wayne Lin
->=20
+Criss-cross merging of trees just for integration testing is no-go. And
+that seems to be the only reason you want drm-ci-next?
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Also, this sounds more like msm being in a separate tree is the pain point
+here, and solving "we have too many trees" by adding more isn't a good
+idea ...
 
+Or I'm just totally confused.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
