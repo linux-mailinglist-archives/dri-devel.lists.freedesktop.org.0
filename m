@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB2B91BF39
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 15:08:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9046391BF3D
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2024 15:09:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F418410E096;
-	Fri, 28 Jun 2024 13:08:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5C3310EC49;
+	Fri, 28 Jun 2024 13:09:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BQhvLOzd";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="j0Qz7eAZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15E2710E096
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 13:08:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1444BCE3C27;
- Fri, 28 Jun 2024 13:08:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 010D3C116B1;
- Fri, 28 Jun 2024 13:08:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719580129;
- bh=O/aBFslEXfrhEnPLAQUllJnOitVfX9x7Hsz9OFt1hX0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BQhvLOzdZhNlJM42b0AyIzoqJxiqefiq428eKmo4AychyOlTFQ0pQAbFphUmHT1hq
- s9b9fULacP4tgraPTA+5e13wAqKuWDUJ7dLSr0Lwd0rUsd6j52bOIhxMJbcENfm4i/
- bM3F/cde6cafbq4/CIZZ4doKoxuLixKEMPZup4iKQW8c/xIVbsiA0CdaaWNQVacPV6
- 2ErQCzyNTpYo+OuiT6jC8N8AKV8lYsWHup6EAP2P1eCw30v8OzZvelayJgsiUSfRM5
- iV21adQUiBH1BtcXx1EDowlbd6cvoimEaSOB8zzwskIIScmewPhzLArkOpvTZS6tau
- cohkXxBaaArDg==
-Date: Fri, 28 Jun 2024 15:08:46 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: John Stultz <jstultz@google.com>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- Mattijs Korpershoek <mkorpershoek@baylibre.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
- related-flags
-Message-ID: <20240628-resilient-resolute-rook-0fc531@houat>
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
- <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
- <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
- <CANDhNCo5hSC-sLwdkBi3e-Ja-MzdqcGGbn-4G3XNYwCzZUwscw@mail.gmail.com>
- <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
- <qy7aczeu6kumv5utemoevi7omp5ryq55zmgzxh5hrz5orf2osp@wypg66awof4n>
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 51A2A10EC49
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2024 13:09:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=cqf/4WMNeaRoU39IHS4d1NmMLfGYJz1MQmZrQrLR5Nw=; b=j
+ 0Qz7eAZzQXvnsg5fw2KJxYznKHWn96/k16UCBCqmXH5YkPOs2yEQFgZLKSIy4ULC
+ zoMrokSPFz/cDojiTlG95OBFyzOQUW/HL4IyYfXugGcj/x2D41le55WdQzXWoQQP
+ 7gkoyV/+g8EzQ824rSlNP5pEl9XKDZZa4B2GsZD4kc=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-102 (Coremail) ; Fri, 28 Jun 2024 21:08:55 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Fri, 28 Jun 2024 21:08:55 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Johan Jonker" <jbx6244@gmail.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re:[PATCH v7] drm/rockchip: rk3066_hdmi: add sound support
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <5c651b3f-fe30-4874-98ed-044f7c62dd97@gmail.com>
+References: <5c651b3f-fe30-4874-98ed-044f7c62dd97@gmail.com>
+X-NTES-SC: AL_Qu2aC/mTv0ko4yadY+kZnEobh+Y5UcK2s/ki2YFXN5k0tCTHxR8/Q1RdAkb0+uuMIA2XmzObawdD9sBlXpZ2XqvvOshJ1wZ3GH+oWtvPX5t/
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="aklav4ucjv2rektt"
-Content-Disposition: inline
-In-Reply-To: <qy7aczeu6kumv5utemoevi7omp5ryq55zmgzxh5hrz5orf2osp@wypg66awof4n>
+Message-ID: <7c53f7d.bb08.1905ef690ef.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: _____wD3P6TntX5myNsRAA--.3669W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hIMXmWXyqo7rgABsU
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,153 +64,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---aklav4ucjv2rektt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Fri, Jun 28, 2024 at 01:29:17PM GMT, Thierry Reding wrote:
-> On Tue, May 21, 2024 at 02:06:19PM GMT, Daniel Vetter wrote:
-> > On Thu, May 16, 2024 at 09:51:35AM -0700, John Stultz wrote:
-> > > On Thu, May 16, 2024 at 3:56=E2=80=AFAM Daniel Vetter <daniel@ffwll.c=
-h> wrote:
-> > > > On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
-> > > > > But it makes me a little nervous to add a new generic allocation =
-flag
-> > > > > for a feature most hardware doesn't support (yet, at least). So i=
-t's
-> > > > > hard to weigh how common the actual usage will be across all the
-> > > > > heaps.
-> > > > >
-> > > > > I apologize as my worry is mostly born out of seeing vendors real=
-ly
-> > > > > push opaque feature flags in their old ion heaps, so in providing=
- a
-> > > > > flags argument, it was mostly intended as an escape hatch for
-> > > > > obviously common attributes. So having the first be something that
-> > > > > seems reasonable, but isn't actually that common makes me fret so=
-me.
-> > > > >
-> > > > > So again, not an objection, just something for folks to stew on to
-> > > > > make sure this is really the right approach.
-> > > >
-> > > > Another good reason to go with full heap names instead of opaque fl=
-ags on
-> > > > existing heaps is that with the former we can use symlinks in sysfs=
- to
-> > > > specify heaps, with the latter we need a new idea. We haven't yet g=
-otten
-> > > > around to implement this anywhere, but it's been in the dma-buf/hea=
-p todo
-> > > > since forever, and I like it as a design approach. So would be a go=
-od idea
-> > > > to not toss it. With that display would have symlinks to cma-ecc an=
-d cma,
-> > > > and rendering maybe cma-ecc, shmem, cma heaps (in priority order) f=
-or a
-> > > > SoC where the display needs contig memory for scanout.
-> > >=20
-> > > So indeed that is a good point to keep in mind, but I also think it
-> > > might re-inforce the choice of having ECC as a flag here.
-> > >=20
-> > > Since my understanding of the sysfs symlinks to heaps idea is about
-> > > being able to figure out a common heap from a collection of devices,
-> > > it's really about the ability for the driver to access the type of
-> > > memory. If ECC is just an attribute of the type of memory (as in this
-> > > patch series), it being on or off won't necessarily affect
-> > > compatibility of the buffer with the device.  Similarly "uncached"
-> > > seems more of an attribute of memory type and not a type itself.
-> > > Hardware that can access non-contiguous "system" buffers can access
-> > > uncached system buffers.
-> >=20
-> > Yeah, but in graphics there's a wide band where "shit performance" is
-> > defacto "not useable (as intended at least)".
-> >=20
-> > So if we limit the symlink idea to just making sure zero-copy access is
-> > possible, then we might not actually solve the real world problem we ne=
-ed
-> > to solve. And so the symlinks become somewhat useless, and we need to
-> > somewhere encode which flags you need to use with each symlink.
-> >=20
-> > But I also see the argument that there's a bit a combinatorial explosion
-> > possible. So I guess the question is where we want to handle it ...
->=20
-> Sorry for jumping into this discussion so late. But are we really
-> concerned about this combinatorial explosion in practice? It may be
-> theoretically possible to create any combination of these, but do we
-> expect more than a couple of heaps to exist in any given system?
-
-I don't worry too much about the number of heaps available in a given
-system, it would indeed be fairly low.
-
-My concern is about the semantics combinatorial explosion. So far, the
-name has carried what semantics we were supposed to get from the buffer
-we allocate from that heap.
-
-The more variations and concepts we'll have, the more heap names we'll
-need, and with confusing names since we wouldn't be able to change the
-names of the heaps we already have.
-
-> Would it perhaps make more sense to let a platform override the heap
-> name to make it more easily identifiable? Maybe this is a naive
-> assumption, but aren't userspace applications and drivers not primarily
-> interested in the "type" of heap rather than whatever specific flags
-> have been set for it?
-
-I guess it depends on what you call the type of a heap. Where we
-allocate the memory from, sure, an application won't care about that.
-How the buffer behaves on the other end is definitely something
-applications are going to be interested in though.
-
-And if we allow any platform to change a given heap name, then a generic
-application won't be able to support that without some kind of
-platform-specific configuration.
-
-> For example, if an applications wants to use a protected buffer, the
-> application doesn't (and shouldn't need to) care about whether the heap
-> for that buffer supports ECC or is backed by CMA. All it really needs to
-> know is that it's the system's "protected" heap.
-
-I mean... "protected" very much means backed by CMA already, it's pretty
-much the only thing we document, and we call it as such in Kconfig.
-
-But yeah, I agree that being backed by CMA is probably not what an
-application cares about (and we even have might some discussions about
-that), but if the ECC protection comes at a performance cost then it
-will very much care about it. Or if it comes with caches enabled or not.
-
-> This rather than try to represent every possible combination we
-> basically make this a "configuration" issue. System designers need to
-> settle on whatever combination of flags work for all the desired use-
-> cases and then we expose that combination as a named heap.
-
-This just pushes the problem down to applications, and carry the flags
-mentioned earlier in the heap name. So the same information, but harder
-to process or discover for an application.
-
-> One problem that this doesn't solve is that we still don't have a way of
-> retrieving these flags in drivers which may need them.
-
-I'm not sure drivers should actually need to allocate from heaps, but we
-could do it just like I suggested we'd do it for applications: we add a
-new function that allows to discover what a given heap capabilities are.
-And then we just have to iterate and choose the best suited for our
-needs.
-
-Maxime
-
---aklav4ucjv2rektt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZn613QAKCRDj7w1vZxhR
-xYMzAP9dgioI8HY72Rg1/06cgP7C/9nqV2DIO+/GP/sWV0wxSgEA1OIr44+4QM8r
-5QGSEyAfi7yOTBEB+QlJqdPGv5f2pAQ=
-=Pd1A
------END PGP SIGNATURE-----
-
---aklav4ucjv2rektt--
+CkhpIEpvaGFuLAoKQXQgMjAyNC0wNi0yOCAxNzoyMzozOSwgIkpvaGFuIEpvbmtlciIgPGpieDYy
+NDRAZ21haWwuY29tPiB3cm90ZToKPkFkZCBzb3VuZCBzdXBwb3J0IHRvIHRoZSBSSzMwNjYgSERN
+SSBkcml2ZXIuCj5UaGUgSERNSSBUWCBhdWRpbyBzb3VyY2UgaXMgY29ubmVjdGVkIHRvIEkyU184
+Q0guCj4KPlNpZ25lZC1vZmYtYnk6IFpoZW5nIFlhbmcgPHpoZW5neWFuZ0Byb2NrLWNoaXBzLmNv
+bT4KPlNpZ25lZC1vZmYtYnk6IEpvaGFuIEpvbmtlciA8amJ4NjI0NEBnbWFpbC5jb20+Cj4tLS0K
+Pgo+Q2hhbmdlZCBWNzoKPiAgcmViYXNlCj4tLS0KPiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
+S2NvbmZpZyAgICAgICB8ICAgMiArCj4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JrMzA2Nl9o
+ZG1pLmMgfCAyNzQgKysrKysrKysrKysrKysrKysrKysrKysrLQo+IDIgZmlsZXMgY2hhbmdlZCwg
+Mjc1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9yb2NrY2hpcC9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25m
+aWcKPmluZGV4IDFiZjNlMjgyOWNkMC4uYTMyZWU1NTg0MDhjIDEwMDY0NAo+LS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcKPisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hp
+cC9LY29uZmlnCj5AQCAtMTAyLDYgKzEwMiw4IEBAIGNvbmZpZyBST0NLQ0hJUF9SR0IKPiBjb25m
+aWcgUk9DS0NISVBfUkszMDY2X0hETUkKPiAJYm9vbCAiUm9ja2NoaXAgc3BlY2lmaWMgZXh0ZW5z
+aW9ucyBmb3IgUkszMDY2IEhETUkiCj4gCWRlcGVuZHMgb24gRFJNX1JPQ0tDSElQCj4rCXNlbGVj
+dCBTTkRfU09DX0hETUlfQ09ERUMgaWYgU05EX1NPQwo+KwlzZWxlY3QgU05EX1NPQ19ST0NLQ0hJ
+UF9JMlMgaWYgU05EX1NPQwo+IAloZWxwCj4gCSAgVGhpcyBzZWxlY3RzIHN1cHBvcnQgZm9yIFJv
+Y2tjaGlwIFNvQyBzcGVjaWZpYyBleHRlbnNpb25zCj4gCSAgZm9yIHRoZSBSSzMwNjYgSERNSSBk
+cml2ZXIuIElmIHlvdSB3YW50IHRvIGVuYWJsZQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9yb2NrY2hpcC9yazMwNjZfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JrMzA2
+Nl9oZG1pLmMKPmluZGV4IDc4NGRlOTkwZGExYi4uZDMxMjhiNzg3NjI5IDEwMDY0NAo+LS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JrMzA2Nl9oZG1pLmMKPisrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9yb2NrY2hpcC9yazMwNjZfaGRtaS5jCj5AQCAtMTUsMTIgKzE1LDIwIEBACj4gI2luY2x1
+ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5oPgo+ICNpbmNsdWRlIDxsaW51eC9yZWdtYXAuaD4K
+Pgo+KyNpbmNsdWRlIDxzb3VuZC9oZG1pLWNvZGVjLmg+Cj4rCj4gI2luY2x1ZGUgInJrMzA2Nl9o
+ZG1pLmgiCj4KPiAjaW5jbHVkZSAicm9ja2NoaXBfZHJtX2Rydi5oIgo+Cj4gI2RlZmluZSBERUZB
+VUxUX1BMTEFfUkFURSAzMDAwMDAwMAo+Cj4rc3RydWN0IGF1ZGlvX2luZm8gewo+KwlpbnQgY2hh
+bm5lbHM7Cj4rCWludCBzYW1wbGVfcmF0ZTsKPisJaW50IHNhbXBsZV93aWR0aDsKPit9Owo+Kwo+
+IHN0cnVjdCBoZG1pX2RhdGFfaW5mbyB7Cj4gCWludCB2aWM7IC8qIFRoZSBDRUEgVmlkZW8gSUQg
+KFZJQykgb2YgdGhlIGN1cnJlbnQgZHJtIGRpc3BsYXkgbW9kZS4gKi8KPiAJdW5zaWduZWQgaW50
+IGVuY19vdXRfZm9ybWF0Owo+QEAgLTU0LDkgKzYyLDE2IEBAIHN0cnVjdCByazMwNjZfaGRtaSB7
+Cj4KPiAJdW5zaWduZWQgaW50IHRtZHNjbGs7Cj4KPisJc3RydWN0IHBsYXRmb3JtX2RldmljZSAq
+YXVkaW9fcGRldjsKPisJc3RydQoKLi4uLi4uCgo+Kwo+KwlyZXR1cm4gcmV0Owo+K30KPisKPitz
+dGF0aWMgY29uc3Qgc3RydWN0IGhkbWlfY29kZWNfb3BzIGF1ZGlvX2NvZGVjX29wcyA9IHsKPisJ
+Lmh3X3BhcmFtcyA9IHJrMzA2Nl9oZG1pX2F1ZGlvX2h3X3BhcmFtcywKPisJLmF1ZGlvX3NodXRk
+b3duID0gcmszMDY2X2hkbWlfYXVkaW9fc2h1dGRvd24sCj4rCS5tdXRlX3N0cmVhbSA9IHJrMzA2
+Nl9oZG1pX2F1ZGlvX211dGVfc3RyZWFtLAo+KwkuZ2V0X2VsZCA9IHJrMzA2Nl9oZG1pX2F1ZGlv
+X2dldF9lbGQsCj4rCS5ub19jYXB0dXJlX211dGUgPSAxLAo+K307Cj4rCj4rc3RhdGljIGludCBy
+azMwNjZfaGRtaV9hdWRpb19jb2RlY19pbml0KHN0cnVjdCByazMwNjZfaGRtaSAqaGRtaSwKPisJ
+CQkJCXN0cnVjdCBkZXZpY2UgKmRldikKPit7Cj4rCXN0cnVjdCBoZG1pX2NvZGVjX3BkYXRhIGNv
+ZGVjX2RhdGEgPSB7Cj4rCQkuaTJzID0gMSwKPisJCS5vcHMgPSAmYXVkaW9fY29kZWNfb3BzLAo+
+KwkJLm1heF9pMnNfY2hhbm5lbHMgPSA4LAo+Kwl9Owo+Kwo+KwloZG1pLT5hdWRpby5jaGFubmVs
+cyA9IDI7Cj4rCWhkbWktPmF1ZGlvLnNhbXBsZV9yYXRlID0gNDgwMDA7Cj4rCWhkbWktPmF1ZGlv
+LnNhbXBsZV93aWR0aCA9IDE2Owo+KwloZG1pLT5hdWRpb19lbmFibGUgPSBmYWxzZTsKPisJaGRt
+aS0+YXVkaW9fcGRldiA9Cj4rCQlwbGF0Zm9ybV9kZXZpY2VfcmVnaXN0ZXJfZGF0YShkZXYsCj4r
+CQkJCQkgICAgICBIRE1JX0NPREVDX0RSVl9OQU1FLAo+KwkJCQkJICAgICAgUExBVEZPUk1fREVW
+SURfTk9ORSwKPisJCQkJCSAgICAgICZjb2RlY19kYXRhLAo+KwkJCQkJICAgICAgc2l6ZW9mKGNv
+ZGVjX2RhdGEpKTsKPisKPisJcmV0dXJuIFBUUl9FUlJfT1JfWkVSTyhoZG1pLT5hdWRpb19wZGV2
+KTsKPit9Cj4rCj4gc3RhdGljIGludAo+IHJrMzA2Nl9oZG1pX3JlZ2lzdGVyKHN0cnVjdCBkcm1f
+ZGV2aWNlICpkcm0sIHN0cnVjdCByazMwNjZfaGRtaSAqaGRtaSkKPiB7Cj5AQCAtNTY2LDYgKzgz
+NCw4IEBAIHJrMzA2Nl9oZG1pX3JlZ2lzdGVyKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sIHN0cnVj
+dCByazMwNjZfaGRtaSAqaGRtaSkKPgo+IAlkcm1fY29ubmVjdG9yX2F0dGFjaF9lbmNvZGVyKCZo
+ZG1pLT5jb25uZWN0b3IsIGVuY29kZXIpOwo+Cj4rCXJrMzA2Nl9oZG1pX2F1ZGlvX2NvZGVjX2lu
+aXQoaGRtaSwgZGV2KTsKCgpBY2NvcmRpbmcgdG8gRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2Ry
+aXZlci1tb2RlbC9kcml2ZXIucnN0LAoKSXQgaXMgYmVzdCBub3QgdG8gcmVnaXN0ZXIgYXQgdGhl
+IGJpbmQgY2FsbGJhY2vvvJoKCi4uIHdhcm5pbmc6OgogICAgICAtRVBST0JFX0RFRkVSIG11c3Qg
+bm90IGJlIHJldHVybmVkIGlmIHByb2JlKCkgaGFzIGFscmVhZHkgY3JlYXRlZAogICAgICBjaGls
+ZCBkZXZpY2VzLCBldmVuIGlmIHRob3NlIGNoaWxkIGRldmljZXMgYXJlIHJlbW92ZWQgYWdhaW4K
+ICAgICAgaW4gYSBjbGVhbnVwIHBhdGguIElmIC1FUFJPQkVfREVGRVIgaXMgcmV0dXJuZWQgYWZ0
+ZXIgYSBjaGlsZAogICAgICBkZXZpY2UgaGFzIGJlZW4gcmVnaXN0ZXJlZCwgaXQgbWF5IHJlc3Vs
+dCBpbiBhbiBpbmZpbml0ZSBsb29wIG9mCiAgICAgIC5wcm9iZSgpIGNhbGxzIHRvIHRoZSBzYW1l
+IGRyaXZlci4KCkZvciBleGFtcGxl77yaCnZvcF9wcm9iZSAtLeOAi2NvbXBvbmVudF9hZGQtLeOA
+i3JrMzA2Nl9oZG1pX2JpbmQtLeOAi3JrMzA2Nl9oZG1pX2F1ZGlvX2NvZGVjX2luaXQtLeOAi2hk
+bWlfY29kZWNfcHJvYmUtLeOAi3JvY2tjaGlwX3JnYl9pbml077yIREVGRVIgd2hlbiBwYW5lbCBu
+b3QgcmVhZHnvvIkKClRoaXMgIG1heSByZXN1bHQgaW4gYW4gaW5maW5pdGUgbG9vcCBvZiBwcm9i
+ZQoKCj4rCj4gCXJldHVybiAwOwo+IH0KPgo+QEAgLTgxMyw2ICsxMDgzLDcgQEAgc3RhdGljIGlu
+dCByazMwNjZfaGRtaV9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFz
+dGVyLAo+IAlyZXR1cm4gMDsKPgo+IGVycl9jbGVhbnVwX2hkbWk6Cj4rCXBsYXRmb3JtX2Rldmlj
+ZV91bnJlZ2lzdGVyKGhkbWktPmF1ZGlvX3BkZXYpOwo+IAloZG1pLT5jb25uZWN0b3IuZnVuY3Mt
+PmRlc3Ryb3koJmhkbWktPmNvbm5lY3Rvcik7Cj4gCWhkbWktPmVuY29kZXIuZW5jb2Rlci5mdW5j
+cy0+ZGVzdHJveSgmaGRtaS0+ZW5jb2Rlci5lbmNvZGVyKTsKPiBlcnJfZGlzYWJsZV9pMmM6Cj5A
+QCAtODI4LDYgKzEwOTksNyBAQCBzdGF0aWMgdm9pZCByazMwNjZfaGRtaV91bmJpbmQoc3RydWN0
+IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCj4gewo+IAlzdHJ1Y3QgcmszMDY2
+X2hkbWkgKmhkbWkgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsKPgo+KwlwbGF0Zm9ybV9kZXZpY2Vf
+dW5yZWdpc3RlcihoZG1pLT5hdWRpb19wZGV2KTsKPiAJaGRtaS0+Y29ubmVjdG9yLmZ1bmNzLT5k
+ZXN0cm95KCZoZG1pLT5jb25uZWN0b3IpOwo+IAloZG1pLT5lbmNvZGVyLmVuY29kZXIuZnVuY3Mt
+PmRlc3Ryb3koJmhkbWktPmVuY29kZXIuZW5jb2Rlcik7Cj4KPi0tCj4yLjM5LjIKPgo=
