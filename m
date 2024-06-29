@@ -2,32 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558C991CDE6
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 17:32:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D58B91CDE9
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 17:34:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C26510E116;
-	Sat, 29 Jun 2024 15:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8285410E18A;
+	Sat, 29 Jun 2024 15:34:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="fIveWBJk";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="5k00CWLy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D2110E116
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 15:32:28 +0000 (UTC)
+X-Greylist: delayed 732 seconds by postgrey-1.36 at gabe;
+ Sat, 29 Jun 2024 15:34:32 UTC
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 851FE10E18A
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 15:34:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1719675146; x=1719934346;
- bh=ARk1CN4SNcrfhu3AqT6RA6aL1fK6aSQsAxE+h/7vxhs=;
+ s=protonmail3; t=1719675270; x=1719934470;
+ bh=tcrv1emIiF0c9leopgU8fSqbwyVlehaFj8V97sK9GnE=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector;
- b=fIveWBJkSHRuccK8cvS5m9EEIOm7OhJ7/rp9IPhhkZjWp0WSdqOExdFE+mGuPkHxP
- cDBCGiR0XfY7FeY5UNf0VG2msGpfX/4bJcw3JAemv4hFre+JtpXjqk66x6mbxAINIG
- YtCb39zRvqmZTFMNcC3ko3NNGtvvLMawB+DyLvvH9NOh+l9+271W9CVR6+bOFBREho
- FdRso2Eg4Q8fA2PjhPnFni1RodWQ7zDN+ehoB4FUZpCwAqh6D3jNo4slCK+rs2wVeK
- YS68CZVR+6wz5fg8T9/alry7xsyYtXBkL/fY+J1vZgoAYwRazqsUt4kxHja+RQ37HI
- 2t0pJJOyRBVQA==
-Date: Sat, 29 Jun 2024 15:32:20 +0000
+ b=5k00CWLysWDqh4H/ioHlbfQgsuuaH575h0D5vgYr2/HcG2vTqNd8csabAx1f8lmeg
+ dAgneA4gfeRcru0yBxeARxyrm/hAxMb7TPjFpHHZYk8mxcDKGsVTNskqN380Maotnq
+ AsPNmCk++mFAINeHPLDwwffSZ+NFPQbZcQZDwimtiAWTSAddrVj0MM5m9gF219VMH+
+ lRoA9i0T7IiVfDQTFs53Jx+/CNkrSf2Bo/gZEic3XPQws3whrdiSXROopY5wITwuqf
+ yCtZWH8x6XfNjaAC5sMTt3yDMcL55NLkIH1XM45FLbythv19FWyFSDARLoIHhftbm1
+ wCekgVB25I5og==
+Date: Sat, 29 Jun 2024 15:34:25 +0000
 To: =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
 From: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -41,11 +43,12 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Subject: Re: [PATCH 1/1] drm/atomic: Allow userspace to use explicit sync with
  atomic async flips
-Message-ID: <E2TvhjtSDwH2ewf7fHTKGQChRCccKteo-t-FYLisImD7vCllDyV4_hcl8LsfKyY28mc5D7_zYSIJ5Qjac8QnENcI12RQHsDj5O3JyPzhiIg=@emersion.fr>
-In-Reply-To: <20240622170951.738735-1-andrealmeid@igalia.com>
+Message-ID: <PPWhSnGWwPfxmBFtMxYf_r6jv7owTpZf43ColyQuh1tcjl9qN9lrHrYO47QVdgS2XXUeORRMlw6gNfwx67bV4MmAQ8IyKpDLe1C8UmjDcUQ=@emersion.fr>
+In-Reply-To: <E2TvhjtSDwH2ewf7fHTKGQChRCccKteo-t-FYLisImD7vCllDyV4_hcl8LsfKyY28mc5D7_zYSIJ5Qjac8QnENcI12RQHsDj5O3JyPzhiIg=@emersion.fr>
 References: <20240622170951.738735-1-andrealmeid@igalia.com>
+ <E2TvhjtSDwH2ewf7fHTKGQChRCccKteo-t-FYLisImD7vCllDyV4_hcl8LsfKyY28mc5D7_zYSIJ5Qjac8QnENcI12RQHsDj5O3JyPzhiIg=@emersion.fr>
 Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: eb194cda8e85e2e446f855a2521d5ab3ca4f3c8d
+X-Pm-Message-ID: 1b2e1d26fc220e1e05526e8edebce2894d8d6761
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -64,15 +67,5 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Saturday, June 22nd, 2024 at 19:09, Andr=C3=A9 Almeida <andrealmeid@igal=
-ia.com> wrote:
-
-> Allow userspace to use explicit synchronization with atomic async flips.
-> That means that the flip will wait for some hardware fence, and then
-> will flip as soon as possible (async) in regard of the vblank.
-
-LGTM.
-
-Would you mind sending a patch for FB_DAMAGE_CLIPS as well?
-
-Reviewed-by: Simon Ser <contact@emersion.fr>
+BTW, should we allow OUT_FENCE_PTR as well? Would that work as expected
+with async flips?
