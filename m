@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D11191CE3B
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 19:05:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A5B91CED9
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 21:29:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA5B10E05C;
-	Sat, 29 Jun 2024 17:05:24 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="mCcyH6DR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD8D610E089;
+	Sat, 29 Jun 2024 19:29:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74D6410E05C
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 17:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1719680719; x=1719939919;
- bh=tft2Nf6iGn4XIjB4HEC7J+CNAzFuU3OF093lxc9Y1fY=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=mCcyH6DRiyP0W2GZlWrg8XR5Ls5DfAz+My//zM13B+MhMfUAaAET9YY17Lves9YuX
- 3cjRly/vAn1vnDPeqt+3dxvoVB+C1GW4Qb5L4KXluQkB8yUV/veJZa1TE98QdA/oYB
- Q2Hc1Ky84XdcZdAUtkLpXUbNgZmvwEu4gga172gbOoaZ7xn8449Rw2ZB/jzhfXOTOo
- sPwpQNwtYruKNb80ii+W3E1SA+KdQFL7F2YPk9sfYKRVbETbvIGP5NUQLUJufXJaiu
- 1IPpPePAJ3I5NYR02MIRR7ll/oq2mOY2RNN9Gbu6rzr//TXTVXfGIsFwvU5R94Cfye
- edpdgWagl/NEA==
-Date: Sat, 29 Jun 2024 17:05:16 +0000
-To: Aurabindo Pillai <aurabindo.pillai@amd.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Subject: AMD GFX12 modifiers
-Message-ID: <vahBbQHXGpyFcIwzIVTPHRnphiAma3_wNbTftk7O3I6gN4gToIj3zIJrIkO263Ly61q2HArlyB1lvyKM1FFyqkqAdLH195Y41xK8GWL4ZBg=@emersion.fr>
-Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: c974146c6cc03a98bbc91c23a6e3d14cf48bc4ce
+X-Greylist: delayed 418 seconds by postgrey-1.36 at gabe;
+ Sat, 29 Jun 2024 18:32:43 UTC
+Received: from mail.asbjorn.biz (mail.asbjorn.biz [185.38.24.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2C910E078;
+ Sat, 29 Jun 2024 18:32:43 +0000 (UTC)
+Received: from x201s (space.labitat.dk [185.38.175.0])
+ by mail.asbjorn.biz (Postfix) with ESMTPSA id C4C351C0A988;
+ Sat, 29 Jun 2024 18:25:41 +0000 (UTC)
+Received: by x201s (Postfix, from userid 1000)
+ id 212A62025CC; Sat, 29 Jun 2024 18:25:27 +0000 (UTC)
+From: =?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <asbjorn@asbjorn.st>
+To: intel-gfx@lists.freedesktop.org
+Cc: =?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <asbjorn@asbjorn.st>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915: implement vmap/vunmap GEM object functions
+Date: Sat, 29 Jun 2024 18:25:06 +0000
+Message-ID: <20240629182513.78026-1-asbjorn@asbjorn.st>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 29 Jun 2024 19:29:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,28 +53,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all!
+Implement i915_gem_vmap_object() and i915_gem_vunmap_object(),
+based on i915_gem_dmabuf_vmap() and i915_gem_dmabuf_vunmap().
 
-In 7ceb94e87bff ("drm/amd: Add gfx12 swizzle mode defs"), some
-definitions were added for GFX12 modifiers. However I'm not quite sure
-I understand how these work.
+This enables a drm_client to use drm_client_buffer_vmap() and
+drm_client_buffer_vunmap() on hardware using the i915 driver.
 
-Tile values seem to not be in the same namespace as GFX9 through GFX11,
-is that correct? In other words, can GFX9 ~ GFX11 modifiers be used with
-GFX12, or are these mutually exclusive?
+Tested with a currently out of tree pixelflut drm_client[1] on:
+- Lenovo ThinkCentre M720q (CoffeeLake-S GT2 / Intel UHD Graphics 630)
+- Dell Wyse N06D - 3030 LT (ValleyView on Intel Celeron N2807 SOC)
 
-AMD_FMT_MOD_GFX12_DCC_MAX_COMPRESSED_BLOCK_MASK has a comment explaining
-the 3 possible values, is there a reason why #defines are missing for
-these values?
+[1] XDP->DRM pixelflut: https://labitat.dk/wiki/Pixelflut-XDR
 
-The comment lists a lot more swizzle modes than just 64K_2D and 256K_2D,
-any reason why the rest are missing (at least for the 2D ones)?
+Signed-off-by: Asbjørn Sloth Tønnesen <asbjorn@asbjorn.st>
+---
+This patch applies on top of drm-intel/drm-intel-next (32a120f52a4c)
 
-Could you explain how the new GFX12 modifiers work?
+ drivers/gpu/drm/i915/gem/i915_gem_object.c | 26 ++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-Would it be possible to update the comment on top of #define AMD_FMT_MOD
-to reflect the GFX12 updates?
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 58e6c680fe0d..356530b599ce 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -873,6 +873,30 @@ bool i915_gem_object_needs_ccs_pages(struct drm_i915_gem_object *obj)
+ 	return lmem_placement;
+ }
+ 
++static int i915_gem_vmap_object(struct drm_gem_object *gem_obj,
++				struct iosys_map *map)
++{
++	struct drm_i915_gem_object *obj = to_intel_bo(gem_obj);
++	void *vaddr;
++
++	vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
++	if (IS_ERR(vaddr))
++		return PTR_ERR(vaddr);
++
++	iosys_map_set_vaddr(map, vaddr);
++
++	return 0;
++}
++
++static void i915_gem_vunmap_object(struct drm_gem_object *gem_obj,
++				   struct iosys_map *map)
++{
++	struct drm_i915_gem_object *obj = to_intel_bo(gem_obj);
++
++	i915_gem_object_flush_map(obj);
++	i915_gem_object_unpin_map(obj);
++}
++
+ void i915_gem_init__objects(struct drm_i915_private *i915)
+ {
+ 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
+@@ -896,6 +920,8 @@ static const struct drm_gem_object_funcs i915_gem_object_funcs = {
+ 	.free = i915_gem_free_object,
+ 	.close = i915_gem_close_object,
+ 	.export = i915_gem_prime_export,
++	.vmap = i915_gem_vmap_object,
++	.vunmap = i915_gem_vunmap_object,
+ };
+ 
+ /**
+-- 
+2.45.2
 
-Thanks,
-
-Simon
