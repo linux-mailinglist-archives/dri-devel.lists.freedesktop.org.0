@@ -2,79 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC55091CCE4
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 15:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B8E91CD4B
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 15:39:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA2910E067;
-	Sat, 29 Jun 2024 13:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF8510E1F1;
+	Sat, 29 Jun 2024 13:39:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VujohaPJ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Lfr2wv8P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
- [209.85.161.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0CF410E067
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 13:04:05 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id
- 006d021491bc7-5ba33b08550so724563eaf.2
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 06:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719666245; x=1720271045; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xkIrYflEOoy6jtTabWktMcFcPY7E3RXh56B/EgJcCTQ=;
- b=VujohaPJw+mW42RueSDwDAH/5txxdcvkQB9vOdiob5UZi8QDvXBPtKjl2YDHGPvHLO
- AsCY8Uw8IBKpH08ZkeNFQxapuqg3qboPPluCuHUCq1lStcMoRf/X5h9fQf9+DwM3tGbz
- b1NXrPZHitD+G7H7UbXVSS8CC09YgDuWahXQLbWL1Zswo3CFAo4DQVhmgfAfxUIU+6g+
- uSUtCHJxK/VzrpTh3FWx25FQ38ChwinOxjCYg8nVauvgRpZel0kiBF2M3TqJMyHZAyqP
- xIrOlP1hMSvjcFti7beTyeIjw/ydsen5H1pVtB27wvci0k5GmKdUPbt3GR3yheKpGTjA
- Q5qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719666245; x=1720271045;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xkIrYflEOoy6jtTabWktMcFcPY7E3RXh56B/EgJcCTQ=;
- b=gtHahZ9W1J0+02GaKQTT1Jm25pGSWMh465ydrgj/FyX119LRVPi14hHdgs+dpwpMOi
- 8h3RGsK1BV/HTqwoFUBCBd8QGFboOI9n5luBh+vnFZbX/Kutq8Rt5/n3bo/DDd+bbP2r
- u21REvbzP2xqKso0E5+eX8wmTWp+3t66KTWM0DnXE3nXr86IPzcGr/5ffhzpiLKShHc9
- 7+IJNqoHqbE//EMPdgTvMP9alrR8lcKlkkGZ3dWHucyY5BjiOaZRbjHz7MFRYg6i7Gc2
- F9tjoYh+zvCN82L0CKfRARVNRwYwp3qzqrhxaIV1Msji4ps4PwulkOntNru9ih/ZBtJO
- uehg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJMGRfV19OEsl+Clhskw4S+/zu2waXM0Wmcj0ITb2f5XGjftLKUYGhdvh5vLRrPrd5FB/nnkKvo6p/KzbR+AQthkBAl0ugfwRSmA8alejZ
-X-Gm-Message-State: AOJu0YwDcCYMP0qeZ667sYJK7PlFIFC0sRn1mPNNcekswYXpuahB8soS
- 8L9UpSBZH8zB5cO/9ptFGGUThAmCfhYKKBnfOeN7jXVLDoIOc15RMFIMFaHeODrKDqySPfPiSdx
- 9taLBfRMV2vcNDVrXwHsI3da9Y63snaUx/YI6Cw==
-X-Google-Smtp-Source: AGHT+IHIWwG40xdoyk9zXVmAxYMSBaZ/ND6gAS8dOzZl1jedjTZmN5V7ueba1+HzrCC+PVHsS+xTVD4BocQqM7rYpBQ=
-X-Received: by 2002:a0d:e612:0:b0:64a:3d7c:2782 with SMTP id
- 00721157ae682-64c73606e65mr4798507b3.41.1719649627349; Sat, 29 Jun 2024
- 01:27:07 -0700 (PDT)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC1010E1EA
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 13:39:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1719651178;
+ bh=lgC1EcQObyzTkJyziNgpAopHLxFAZvwm4iMggzZeS5k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Lfr2wv8PtG7+Jm2quhkk2v2EbHnOmnhgis0Nj+2zR0XI1RlUgyBHIxUsOOvUMoLIC
+ sycfY3Pl11kF8K8XesnvpjUWdClvwvyZgh8Z5l5InvWv2mhfT11r1hZ1Q897Wv1+BE
+ 88Vt6x8qNENVswOXZM9/SelV5OdPyXpAXVtaG3cVvTI+vVPbQExxQCKi053VzSxmKu
+ UR0vZTvJuo4cd9Z5KrrUcENKuHhe/JyzPz2hPkAEsaGwapCwDD0Z8Z/y7pE8zEQsZe
+ E/52bOtRYw9iYg1rJ11s4bHQDr6Ye/Ro2mUsef9m9UCpt9XvMfKzJXeMPNGPWWxzpg
+ 7qdUYAiseO/HA==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1BF743780627;
+ Sat, 29 Jun 2024 08:52:58 +0000 (UTC)
+Date: Sat, 29 Jun 2024 10:52:56 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Steven Price <steven.price@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+Subject: Re: [PATCH 2/2] drm/panthor: Fix sync-only jobs
+Message-ID: <20240629105256.55b9c4c4@collabora.com>
+In-Reply-To: <Zn8sgSQUoQgdxHZ7@e110455-lin.cambridge.arm.com>
+References: <20240628145536.778349-1-boris.brezillon@collabora.com>
+ <20240628145536.778349-3-boris.brezillon@collabora.com>
+ <Zn8sgSQUoQgdxHZ7@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20240628051019.975172-1-kikuchan98@gmail.com>
- <20240628051019.975172-2-kikuchan98@gmail.com>
- <20240628-splashy-slug-1d74e3fd9fe6@spud>
-In-Reply-To: <20240628-splashy-slug-1d74e3fd9fe6@spud>
-From: Hironori KIKUCHI <kikuchan98@gmail.com>
-Date: Sat, 29 Jun 2024 17:26:56 +0900
-Message-ID: <CAG40kxERY2r2cj58kjVMMg1JVOChRKraKYFo_K5C5fnx0g80Qw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: st7701: Add Anbernic RG28XX
- panel
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Jagan Teki <jagan@amarulasolutions.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,190 +64,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Conor,
+On Fri, 28 Jun 2024 22:34:57 +0100
+Liviu Dudau <liviu.dudau@arm.com> wrote:
 
-Thank you for your reply.
-
-On Sat, Jun 29, 2024 at 1:27=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Fri, Jun 28, 2024 at 02:10:15PM +0900, Hironori KIKUCHI wrote:
-> > The RG28XX panel is a display panel of the Anbernic RG28XX, a handheld
-> > gaming device from Anbernic. It is 2.8 inches in size (diagonally) with
-> > a resolution of 480x640.
-> >
-> > This panel is driven by a variant of the ST7701 driver IC internally,
-> > confirmed by dumping and analyzing its BSP initialization sequence
-> > by using a logic analyzer. It is very similar to the existing
-> > densitron,dmt028vghmcmi-1a panel, but differs in some unknown
-> > register values, so add a new entry for the panel to distinguish them.
-> >
-> > Additionally, the panel is connected via SPI instead of MIPI DSI.
-> > So add and modify for SPI as well.
-> >
-> > Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
+> On Fri, Jun 28, 2024 at 04:55:36PM +0200, Boris Brezillon wrote:
+> > A sync-only job is meant to provide a synchronization point on a
+> > queue, so we can't return a NULL fence there, we have to add a signal
+> > operation to the command stream which executes after all other
+> > previously submitted jobs are done.
+> > 
+> > Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
+> 
+> Took me a bit longer to read, lets blame Friday.
+> 
 > > ---
-> >  .../display/panel/sitronix,st7701.yaml        | 69 +++++++++++++++++--
-> >  1 file changed, 64 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,s=
-t7701.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st770=
-1.yaml
-> > index b348f5bf0a9..835ea436531 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.y=
-aml
-> > @@ -20,21 +20,19 @@ description: |
-> >    Densitron DMT028VGHMCMI-1A is 480x640, 2-lane MIPI DSI LCD panel
-> >    which has built-in ST7701 chip.
-> >
-> > -allOf:
-> > -  - $ref: panel-common.yaml#
-> > -
-> >  properties:
-> >    compatible:
-> >      items:
-> >        - enum:
-> >            - anbernic,rg-arc-panel
-> > +          - anbernic,rg28xx-panel
->
-> Please no wildcards in compatibles - what is the actual model of this
-> panel? I don't really want to see the model of the handheld here if
-> possible.
-
-Well, the "RG28XX" is the actual product name of the device...
-Besides, there is no vendor name or model name on the panel; there is
-no information at all.
-Since the panel cannot be disassembled from the housing of the device,
-I named it like this.
-
->
-> >            - densitron,dmt028vghmcmi-1a
-> >            - elida,kd50t048a
-> >            - techstar,ts8550b
-> >        - const: sitronix,st7701
-> >
-> >    reg:
-> > -    description: DSI virtual channel used by that screen
-> > +    description: DSI / SPI channel used by that screen
-> >      maxItems: 1
-> >
-> >    VCC-supply:
-> > @@ -43,6 +41,13 @@ properties:
-> >    IOVCC-supply:
-> >      description: I/O system regulator
-> >
-> > +  dc-gpios:
-> > +    maxItems: 1
-> > +    description:
-> > +      Controller data/command selection (D/CX) in 4-line SPI mode.
-> > +      If not set, the controller is in 3-line SPI mode.
-> > +      Disallowed for DSI.
+> >  drivers/gpu/drm/panthor/panthor_sched.c | 41 ++++++++++++++++++++-----
+> >  include/uapi/drm/panthor_drm.h          |  5 +++
+> >  2 files changed, 38 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> > index 79ffcbc41d78..951ff7e63ea8 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> > @@ -458,6 +458,16 @@ struct panthor_queue {
+> >  		/** @seqno: Sequence number of the last initialized fence. */
+> >  		atomic64_t seqno;
+> >  
+> > +		/**
+> > +		 * @last_fence: Fence of the last submitted job.
+> > +		 *
+> > +		 * We return this fence when we get an empty command stream.
+> > +		 * This way, we are guaranteed that all earlier jobs have completed
+> > +		 * when drm_sched_job::s_fence::finished without having to feed
+> > +		 * the CS ring buffer with a dummy job that only signals the fence.
+> > +		 */
+> > +		struct dma_fence *last_fence;
 > > +
-> >    port: true
-> >    reset-gpios: true
-> >    rotation: true
-> > @@ -57,7 +62,38 @@ required:
-> >    - port
-> >    - reset-gpios
-> >
-> > -additionalProperties: false
-> > +allOf:
-> > +  - $ref: panel-common.yaml#
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            # SPI connected panels
-> > +            enum:
-> > +              - anbernic,rg28xx-panel
-> > +    then:
-> > +      $ref: /schemas/spi/spi-peripheral-props.yaml
->
-> I'm not really keen on this. I'd rather see a different binding for the
-> SPI version compared to the MIPI ones. Is doing things like this common
-> for panels? If it is, I'll turn a blind eye..
-
-This might be the first case that a driver supports both DSI and SPI
-for a panel.
-The panel can be either a DSI device or an SPI device.
-I'm not sure if this is the right way to represent it in the documentation.=
-..
-
->
+> >  		/**
+> >  		 * @in_flight_jobs: List containing all in-flight jobs.
+> >  		 *
+> > @@ -829,6 +839,9 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
+> >  	panthor_kernel_bo_destroy(queue->ringbuf);
+> >  	panthor_kernel_bo_destroy(queue->iface.mem);
+> >  
+> > +	/* Release the last_fence we were holding, if any. */
+> > +	dma_fence_put(queue->fence_ctx.last_fence);
 > > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          not:
-> > +            contains:
-> > +              # DSI or SPI without D/CX pin
-> > +              enum:
-> > +                - anbernic,rg-arc-panel
-> > +                - anbernic,rg28xx-panel
-> > +                - densitron,dmt028vghmcmi-1a
-> > +                - elida,kd50t048a
-> > +                - techstar,ts8550b
->
-> This is all the compatibles in the file, so nothing is allowed to use
-> dc-gpios? Why bother adding it?
+> >  	kfree(queue);
+> >  }
+> >  
+> > @@ -2865,11 +2878,14 @@ queue_run_job(struct drm_sched_job *sched_job)
+> >  	static_assert(sizeof(call_instrs) % 64 == 0,
+> >  		      "call_instrs is not aligned on a cacheline");
+> >  
+> > -	/* Stream size is zero, nothing to do => return a NULL fence and let
+> > -	 * drm_sched signal the parent.
+> > +	/* Stream size is zero, nothing to do except making sure all previously
+> > +	 * submitted jobs are done before we signal the
+> > +	 * drm_sched_job::s_fence::finished fence.
+> >  	 */
+> > -	if (!job->call_info.size)
+> > -		return NULL;
+> > +	if (!job->call_info.size) {
+> > +		job->done_fence = dma_fence_get(queue->fence_ctx.last_fence);
+> > +		return job->done_fence;  
+> 
+> What happens if the last job's done_fence was cancelled or timed out? Is the
+> sync job's done_fence going to be signalled with the same error?
 
-There are 3 types of connections that the driver supports: DSI, SPI
-with D/CX pin, and SPI without D/CX pin.
-Although most SPI panels don't have a D/CX pin, theoretically "SPI
-with D/CX pin" exists.
-So, it's just prepared for that.
+It's the same object, so yes, the job will also be considered faulty
+(the error propagated to the job::s_fence::finished fence). I guess
+synchronization jobs are not supposed to fail/timeout in theory, because
+they don't do anything, but I don't think that's an issue in
+practice, because dma_fence errors are never propagated to user-space
+(only the queue status is).
 
-IMHO, once it's found, the list should be negated. List panels for SPI
-with D/CX pin, instead.
+> 
+> Now that we're returning a fence here, should the job be also added into the
+> in_flight_jobs?
 
->
-> Confused,
-> Conor.
->
-> > +    then:
-> > +      required:
-> > +        - dc-gpios
-> > +    else:
-> > +      properties:
-> > +        dc-gpios: false
-> > +
-> > +unevaluatedProperties: false
-> >
-> >  examples:
-> >    - |
-> > @@ -82,3 +118,26 @@ examples:
-> >              };
-> >          };
-> >      };
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    spi {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        panel@0 {
-> > +            compatible =3D "anbernic,rg28xx-panel", "sitronix,st7701";
-> > +            reg =3D <0>;
-> > +            spi-max-frequency =3D <3125000>;
-> > +            VCC-supply =3D <&reg_lcd>;
-> > +            IOVCC-supply =3D <&reg_lcd>;
-> > +            reset-gpios =3D <&pio 8 14 GPIO_ACTIVE_HIGH>; /* LCD-RST: =
-PI14 */
-> > +            backlight =3D <&backlight>;
-> > +
-> > +            port {
-> > +                panel_in_rgb: endpoint {
-> > +                    remote-endpoint =3D <&tcon_lcd0_out_lcd>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > --
-> > 2.45.2
-> >
+Yeah, that's done on purpose, such that we don't end up signalling the
+same dma_fence object twice (which is forbidden). This makes me realize
+I should probably drop the 'is_cs_empty()' check in
+group_sync_upd_work(), since we're not supposed to have a job with an
+empty CS in the in_flight_jobs list.
 
-Best regards,
-kikuchan.
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 951ff7e63ea8..8bf01b7b1596 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -2797,9 +2797,6 @@ static void group_sync_upd_work(struct work_struct *work)
+ 
+                spin_lock(&queue->fence_ctx.lock);
+                list_for_each_entry_safe(job, job_tmp, &queue->fence_ctx.in_flight_jobs, node) {
+-                       if (!job->call_info.size)
+-                               continue;
+-
+                        if (syncobj->seqno < job->done_fence->seqno)
+                                break;
+
+
+> 
+> If you're happy with depending on the previous job's done_fence and not
+> track the sync job in in_flight_jobs, then you can have my
+> 
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> 
+> Best regards,
+> Liviu
+> 
+> > +	}
+> >  
+> >  	ret = pm_runtime_resume_and_get(ptdev->base.dev);
+> >  	if (drm_WARN_ON(&ptdev->base, ret))
+> > @@ -2928,6 +2944,10 @@ queue_run_job(struct drm_sched_job *sched_job)
+> >  		}
+> >  	}
+> >  
+> > +	/* Update the last fence. */
+> > +	dma_fence_put(queue->fence_ctx.last_fence);
+> > +	queue->fence_ctx.last_fence = dma_fence_get(job->done_fence);
+> > +
+> >  	done_fence = dma_fence_get(job->done_fence);
+> >  
+> >  out_unlock:
+> > @@ -3378,10 +3398,15 @@ panthor_job_create(struct panthor_file *pfile,
+> >  		goto err_put_job;
+> >  	}
+> >  
+> > -	job->done_fence = kzalloc(sizeof(*job->done_fence), GFP_KERNEL);
+> > -	if (!job->done_fence) {
+> > -		ret = -ENOMEM;
+> > -		goto err_put_job;
+> > +	/* Empty command streams don't need a fence, they'll pick the one from
+> > +	 * the previously submitted job.
+> > +	 */
+> > +	if (job->call_info.size) {
+> > +		job->done_fence = kzalloc(sizeof(*job->done_fence), GFP_KERNEL);
+> > +		if (!job->done_fence) {
+> > +			ret = -ENOMEM;
+> > +			goto err_put_job;
+> > +		}
+> >  	}
+> >  
+> >  	ret = drm_sched_job_init(&job->base,
+> > diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> > index aaed8e12ad0b..926b1deb1116 100644
+> > --- a/include/uapi/drm/panthor_drm.h
+> > +++ b/include/uapi/drm/panthor_drm.h
+> > @@ -802,6 +802,9 @@ struct drm_panthor_queue_submit {
+> >  	 * Must be 64-bit/8-byte aligned (the size of a CS instruction)
+> >  	 *
+> >  	 * Can be zero if stream_addr is zero too.
+> > +	 *
+> > +	 * When the stream size is zero, the queue submit serves as a
+> > +	 * synchronization point.
+> >  	 */
+> >  	__u32 stream_size;
+> >  
+> > @@ -822,6 +825,8 @@ struct drm_panthor_queue_submit {
+> >  	 * ensure the GPU doesn't get garbage when reading the indirect command
+> >  	 * stream buffers. If you want the cache flush to happen
+> >  	 * unconditionally, pass a zero here.
+> > +	 *
+> > +	 * Ignored when stream_size is zero.
+> >  	 */
+> >  	__u32 latest_flush;
+> >  
+> > -- 
+> > 2.45.0
+> >   
+> 
+
