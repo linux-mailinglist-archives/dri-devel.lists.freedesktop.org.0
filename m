@@ -2,43 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C29691CDD3
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 17:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 558C991CDE6
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 17:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C62210E05D;
-	Sat, 29 Jun 2024 15:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C26510E116;
+	Sat, 29 Jun 2024 15:32:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="FgIKxduR";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="fIveWBJk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
- [185.70.41.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F64B10E027
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 15:22:25 +0000 (UTC)
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4D2110E116
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 15:32:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1719674538; x=1719933738;
- bh=ZaQhQB+792NPrPd8uwNUfcKNjPfomxO+GXrTpIqDgco=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=FgIKxduRdapOEcFGyMQuJn+ts8oY2DLEx7NJFojsAKmvau4t57huwncLV97+1F50m
- N0hL+0hvw9vJSUcunRRLvF1H1jWcCSU2SUNbmQgLoCSEzY5mIUOa0Tya1sW2pgZlPK
- DtCXWiNIvT3tGH0OaT50RZQ97OrwZM2t9sOzPNo4zuU+NOndsAsqjHOjOcCbUETgur
- xzOCF1s/PVrlc0dk5aKaT+MT+ztQ1P1mPGiBBz2NhyV25BbZ0ZZGC+o+JpJ60yXVNR
- e2S8r9RIbke8SwTfTfYbNE/JRN2/EwvMhZm4rxScYmyq+nhbKQRnPnxkIOzOvc8wlY
- PnYp9bbfggBDQ==
-Date: Sat, 29 Jun 2024 15:22:12 +0000
-To: dri-devel@lists.freedesktop.org
+ s=protonmail3; t=1719675146; x=1719934346;
+ bh=ARk1CN4SNcrfhu3AqT6RA6aL1fK6aSQsAxE+h/7vxhs=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=fIveWBJkSHRuccK8cvS5m9EEIOm7OhJ7/rp9IPhhkZjWp0WSdqOExdFE+mGuPkHxP
+ cDBCGiR0XfY7FeY5UNf0VG2msGpfX/4bJcw3JAemv4hFre+JtpXjqk66x6mbxAINIG
+ YtCb39zRvqmZTFMNcC3ko3NNGtvvLMawB+DyLvvH9NOh+l9+271W9CVR6+bOFBREho
+ FdRso2Eg4Q8fA2PjhPnFni1RodWQ7zDN+ehoB4FUZpCwAqh6D3jNo4slCK+rs2wVeK
+ YS68CZVR+6wz5fg8T9/alry7xsyYtXBkL/fY+J1vZgoAYwRazqsUt4kxHja+RQ37HI
+ 2t0pJJOyRBVQA==
+Date: Sat, 29 Jun 2024 15:32:20 +0000
+To: =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
 From: Simon Ser <contact@emersion.fr>
-Cc: =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Pekka Paalanen <ppaalanen@gmail.com>,
+ daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>,
+ =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com,
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>,
  =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH] drm/atomic: allow no-op FB_ID updates for async flips
-Message-ID: <20240629152204.666748-1-contact@emersion.fr>
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 1/1] drm/atomic: Allow userspace to use explicit sync with
+ atomic async flips
+Message-ID: <E2TvhjtSDwH2ewf7fHTKGQChRCccKteo-t-FYLisImD7vCllDyV4_hcl8LsfKyY28mc5D7_zYSIJ5Qjac8QnENcI12RQHsDj5O3JyPzhiIg=@emersion.fr>
+In-Reply-To: <20240622170951.738735-1-andrealmeid@igalia.com>
+References: <20240622170951.738735-1-andrealmeid@igalia.com>
 Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 940e41555372456f3719021107a12b9e71bab594
+X-Pm-Message-ID: eb194cda8e85e2e446f855a2521d5ab3ca4f3c8d
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -57,58 +64,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-User-space is allowed to submit any property in an async flip as
-long as the value doesn't change. However we missed one case:
-as things stand, the kernel rejects no-op FB_ID changes on
-non-primary planes. Fix this by changing the conditional and
-skipping drm_atomic_check_prop_changes() only for FB_ID on the
-primary plane (instead of skipping for FB_ID on any plane).
+On Saturday, June 22nd, 2024 at 19:09, Andr=C3=A9 Almeida <andrealmeid@igal=
+ia.com> wrote:
 
-Fixes: 0e26cc72c71c ("drm: Refuse to async flip with atomic prop changes")
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-Cc: Michel D=C3=A4nzer <michel.daenzer@mailbox.org>
-Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/drm_atomic_uapi.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+> Allow userspace to use explicit synchronization with atomic async flips.
+> That means that the flip will wait for some hardware fence, and then
+> will flip as soon as possible (async) in regard of the vblank.
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic=
-_uapi.c
-index 22bbb2d83e30..1764bb0dbbdf 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -1070,21 +1070,14 @@ int drm_atomic_set_property(struct drm_atomic_state=
- *state,
- =09=09=09break;
- =09=09}
-=20
--=09=09if (async_flip && prop !=3D config->prop_fb_id) {
-+=09=09if (async_flip && (prop !=3D config->prop_fb_id ||
-+=09=09=09=09   plane_state->plane->type !=3D DRM_PLANE_TYPE_PRIMARY)) {
- =09=09=09ret =3D drm_atomic_plane_get_property(plane, plane_state,
- =09=09=09=09=09=09=09    prop, &old_val);
- =09=09=09ret =3D drm_atomic_check_prop_changes(ret, old_val, prop_value, p=
-rop);
- =09=09=09break;
- =09=09}
-=20
--=09=09if (async_flip && plane_state->plane->type !=3D DRM_PLANE_TYPE_PRIMA=
-RY) {
--=09=09=09drm_dbg_atomic(prop->dev,
--=09=09=09=09       "[OBJECT:%d] Only primary planes can be changed during =
-async flip\n",
--=09=09=09=09       obj->id);
--=09=09=09ret =3D -EINVAL;
--=09=09=09break;
--=09=09}
--
- =09=09ret =3D drm_atomic_plane_set_property(plane,
- =09=09=09=09plane_state, file_priv,
- =09=09=09=09prop, prop_value);
---=20
-2.45.2
+LGTM.
 
+Would you mind sending a patch for FB_DAMAGE_CLIPS as well?
 
+Reviewed-by: Simon Ser <contact@emersion.fr>
