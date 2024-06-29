@@ -2,81 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEED91CD51
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 15:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 632AF91CD5C
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 15:44:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00B2E10E113;
-	Sat, 29 Jun 2024 13:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6E3F10E144;
+	Sat, 29 Jun 2024 13:44:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="G8RzVivN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Xty5NZuv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F17210E113
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 13:42:31 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a72517e6225so180605066b.0
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 06:42:31 -0700 (PDT)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2C8F10E144
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 13:44:10 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-57d15b85a34so1698970a12.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 06:44:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719668550; x=1720273350; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719668649; x=1720273449; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=89hU81MffUVomnG27nax1DyzxTndt9qlamfVFczEjJY=;
- b=G8RzVivNo/nXE/fmYcLXn/gZozDnt9qh9w7QiokbkvkQC/H3Mdvm0T2pWfDVRsORk1
- K7aBxwMpE/FFCuAouyE6n9xXMxGEDV6Flnjc/Z9nGRZBu3ppU6c+l1fW4BSiK+qj6ha9
- 4w3OcbT6HZ9BfeZPxo+LzVKBaUkgs7/XoG9+5cu/LM9tIkRqOSULvvnO2+Pg+SntpqDS
- aGw9uzJGe+0o2ZUrJoFbFEVRaL3FKdEFpQcQZRi1cbAnULgnkV0VG0R4gs/2yl8TRU/6
- nQQS45Emtq8o3oGTymmT3kOfD6BzKfGt3EJoHz9Lvq5qMQ5MbauRS319Lca+3fyv/Fvb
- ywIg==
+ bh=0LV9QNrUseAYBOJIHcEtXZSmELN9/hwOlYXr6//1Yxo=;
+ b=Xty5NZuvL8W3shKh9XpKNrNMundMI9PfhyrqsuGTa/YBHzQ9m9/1oO8siJinUVBA/Y
+ 9K+mva8BAPIIdwG4iSYxdqW88vqh4fRt6c3IvdX2CXzgSqRFGu7ij9U4cIkuUSSQuSsY
+ 2wtVVtlMqhzxD/A7Z4KWRLR9irICn/Qo8ozt+aXmyrW/1rrCH6AaFWU5s+OYwJlfs123
+ NqbMqQ05V4KNOYN9rceNpBTzMYWNEoYyKGnp10ZDgSjGJllH9mSajOsrUXqjY23gk2Iu
+ XIsvaDhIccLajyO3hV47B0VO+6pKpI9h7NGo3vmlfJxooSDDIbSRQVM042tRB3LkSvln
+ okow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719668550; x=1720273350;
+ d=1e100.net; s=20230601; t=1719668649; x=1720273449;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=89hU81MffUVomnG27nax1DyzxTndt9qlamfVFczEjJY=;
- b=QGkuTHnGcnPb17CjqKDrsj3C0eNZMYvmDWXgqh1+fHUT+M3Kq7AKZM3OqYaWHl+Zm/
- +XoDFj3ARACzwAMiUXKAfzUXbAzCPd21D6LRXybxJGAEnHxP3OKe9WwRRLDU6qTWwjzr
- 0KHHK84cxQn/NFXd7+4T+8+S80i1Oz4N3kB3M5fNh6Mc1CiiFUQw1PzT839/MjwwZiuG
- 924Pnw5tJwAGe/IoEdoiBSgfcBGEykKL2BhhTmP4gQYYzV2AiUdN+7CWDATBGjOkOi8C
- GaoXLK10mZcKjoLuAiOsXXPE4sCXiSPHSTw5AYyI4MFQtr7K9lxBoXUMAcQOYmJBZr0i
- X7iw==
+ bh=0LV9QNrUseAYBOJIHcEtXZSmELN9/hwOlYXr6//1Yxo=;
+ b=vOQnK6umuZpSGtRxFG4y9pfUHcZEcrsIsi4+W20c0razR3MsVJ+hf9j/3qUyj6bJFn
+ SnxrA+1aQGuMStgGsOulhaXv89vPmc9FCSsxfeNtLBO7ics0n71cq0RTdyYYbyjz2Czb
+ CNxWrE5Z+2u9fGNo7hLPTaEYrB6QHsCTrdGHoSEwd7v0FugJTrLNali4Bo4n2lpDjxmA
+ GE2HdEhuiebl5mACGc3eLepQaqxYtz8QbH3VQUmrZcn9TkDiaIEagPiViorA/KO+MlrN
+ ifHApGJAeBG1KwjjWuHzPYWyNkMjLmRQrdfhoIotYynI7QFoBrcqAMDdd1no4fyyFR0a
+ 4L/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVzo0qcNoHVsiR/U0YJiYq6tm468+rntHI+A5v6GKEFDpam25wK1AtpJxXJIyF/eGgALZPzkv+Z4XnO8ibd/5h0WM88YMy/npqI+cBA7ncG
-X-Gm-Message-State: AOJu0Yx+evTkGYP8LX8p4mE/FGopx1uPnLtYlVy4OT+kDz2xhBeikGTw
- 7ADgNmR31C1EuKJMMC4VE6YB6lOjtubMCiXFLE/mBkTkIr9nMAbZ0glYEDKI7p8=
-X-Google-Smtp-Source: AGHT+IGkI4CdDPFLm5hkOo2eXhclVzqaDP/BK686i7v6/fhp22g57DOv+8mTR622ezzn20kugpZ60g==
-X-Received: by 2002:a17:906:c0c7:b0:a5a:6bde:c3fb with SMTP id
- a640c23a62f3a-a751441e94amr70454766b.28.1719668549740; 
- Sat, 29 Jun 2024 06:42:29 -0700 (PDT)
+ AJvYcCUXPty0fL9yGLbuwqaPoPpFNydC9ipoGq+dKoXXxzoOXcnRQoj12/mzjXCXDF/oYHe1p7/8A24h7iXNwufd+wFywMmNMkfVclybRRJ8sDTz
+X-Gm-Message-State: AOJu0Yw1xeelABezcYs1IvFzYCgLhCi9YEtHXpdcY2XIG9Ei6WZ1QHAx
+ M4G+sRzKA1YUU6oFWhp1IhIzGx/JG3iAAt0k9qWqyAlhDHSBGzNSdJwCgdIXdjbRZsTGMVTj0Ff
+ n
+X-Google-Smtp-Source: AGHT+IGe5k/+Cg0G7hanL845tSD1zIZmGhhQVzgUhbAXzAyOMB+DQ6wjnUmb7w/qrSB4VpoWCF3zJQ==
+X-Received: by 2002:a05:6402:26d4:b0:585:a885:da28 with SMTP id
+ 4fb4d7f45d1cf-5879f59bb3emr724776a12.24.1719668648901; 
+ Sat, 29 Jun 2024 06:44:08 -0700 (PDT)
 Received: from [192.168.215.29] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a72ab065187sm165453966b.139.2024.06.29.06.42.28
+ 4fb4d7f45d1cf-5861503b4c5sm2212539a12.93.2024.06.29.06.44.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Jun 2024 06:42:29 -0700 (PDT)
-Message-ID: <a392f063-3914-4fff-969f-1b9f6de71241@linaro.org>
-Date: Sat, 29 Jun 2024 15:42:27 +0200
+ Sat, 29 Jun 2024 06:44:08 -0700 (PDT)
+Message-ID: <b93ee803-5963-4270-9bf9-9cbcf5d413b2@linaro.org>
+Date: Sat, 29 Jun 2024 15:44:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] drm/msm/adreno: Implement SMEM-based speed bin
-To: Elliot Berman <quic_eberman@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20240625-topic-smem_speedbin-v4-0-f6f8493ab814@linaro.org>
- <20240625-topic-smem_speedbin-v4-1-f6f8493ab814@linaro.org>
- <20240628101549127-0700.eberman@hu-eberman-lv.qualcomm.com>
- <20240628102726231-0700.eberman@hu-eberman-lv.qualcomm.com>
+Subject: Re: [PATCH 1/2] drm/msm/dpu: Add MSM8996 support
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>
+References: <20240628-dpu-msm8953-msm8996-v1-0-a31c77248db7@mainlining.org>
+ <20240628-dpu-msm8953-msm8996-v1-1-a31c77248db7@mainlining.org>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
@@ -114,9 +110,9 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20240628102726231-0700.eberman@hu-eberman-lv.qualcomm.com>
+In-Reply-To: <20240628-dpu-msm8953-msm8996-v1-1-a31c77248db7@mainlining.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,56 +128,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.06.2024 7:31 PM, Elliot Berman wrote:
-> On Fri, Jun 28, 2024 at 10:24:52AM -0700, Elliot Berman wrote:
->> On Tue, Jun 25, 2024 at 08:28:06PM +0200, Konrad Dybcio wrote:
->>> On recent (SM8550+) Snapdragon platforms, the GPU speed bin data is
->>> abstracted through SMEM, instead of being directly available in a fuse.
->>>
->>> Add support for SMEM-based speed binning, which includes getting
->>> "feature code" and "product code" from said source and parsing them
->>> to form something that lets us match OPPs against.
->>>
->>> Due to the product code being ignored in the context of Adreno on
->>> production parts (as of SM8650), hardcode it to SOCINFO_PC_UNKNOWN.
->>>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> ---
-
-[...]
-
->>> +	ret = qcom_smem_get_feature_code(&fcode);
->>> +	if (!ret)
->>> +		*fuse = ADRENO_SKU_ID(fcode);
->>> +	else if (ret != -EOPNOTSUPP)
->>> +		return dev_err_probe(dev, ret, "Couldn't get feature code from SMEM\n");
->>
->> Probably want to update a6xx_set_supported_hw() error handling to ignore
->> -EOPNOTSUPP or do:
->>
->> 	else /* ret == -EOPNOTSUPP */
->> 		return -ENOENT;
->>
->>
->>
->>> +#endif
->>> +
->>> +	return 0;
->>
->> I noticed that if SMEM isn't enabled and nvmem returns -ENOENT, we still
->> return 0. That could lead to uninitialized access of speedbin in both
->> users of adreno_read_speedbin(). Maybe:
->>
->> 	return ret;
->>
+On 28.06.2024 4:39 PM, Barnabás Czémán wrote:
+> From: Konrad Dybcio <konrad.dybcio@linaro.org>
 > 
-> Ah, I see patch 4 in the series now, but I wonder if we can do something
-> better so that this patch works without relying on later patch in
-> series?
+> Add support for MSM8996, which - fun fact - was the SoC that this driver
+> (or rather SDE, its downstream origin) was meant for and first tested on.
+> 
+> It has some hardware that differs from the modern SoCs, so not a lot of
+> current structs could have been reused. It's also seemingly the only SoC
+> supported by DPU that uses RGB pipes.
+> 
+> Note, by default this platform is still handled by the MDP5 driver
+> unless the `msm.prefer_mdp5=false' parameter is provided.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> [DB: rebased on top of sblk changes, add dpu_rgb_sblk]
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> [Removed intr_start from CTLs config]
+> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+> ---
 
-Looks like rebase mess on my side :/
+Haven't given it a really in-depth look, but we've already done so with
+the previous iterations of this patch, so this is likely gtg
 
-Rob already picked this up for next.. Guess we could ask really nicely for
-a forcepush there?
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
