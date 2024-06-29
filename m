@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E640B91CB40
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 07:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200CA91CB41
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 07:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69F0310E1FB;
-	Sat, 29 Jun 2024 05:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6E4610E213;
+	Sat, 29 Jun 2024 05:23:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="g9FEdqjs";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="PD5Yikpx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
  [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A31DD10E1FB
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 05:23:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3433110E213
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 05:23:23 +0000 (UTC)
 Delivered-To: uwu@icenowy.me
-ARC-Seal: i=1; a=rsa-sha256; t=1719638592; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1719638598; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=B8ny7U2fot/QheCyb7QbFouManFbpgrbbx4nrLOFktDhIY4QIvJzWrM/6LmkczCd2e7M4g3foU6EVkK2ptlk9ycnkHSBpAgNUih59iUyxk+gKEcvIyPyXOPcwi47s3R+dGbn2kemlr28oLKmCyHVx9bTiUWtMUSTYkg10An4Fak=
+ b=N/pQoJ2HBGvk5OK+rAVXPycZXrx862RBstQIPY3TLRJFlxTQGNm3x5+pdTId6PIFR/xFLKl+zNYPmVdHX/u7stLAqPAXOiRYBSDGbWX0oQ+ZZ2MTBdFPweATWUa2FrJ1xwW0owIMVG2UGCJAwA4pbwtcphMmH9zrfDD48hs/Jtk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1719638592;
+ s=zohoarc; t=1719638598;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=nEsIO0/bRYNax82CMmpXkU6vaStGTkFxGmHNhc3PsQE=; 
- b=I72E2nVNo0sPp9DSCChZpsbnj4+Y55gZLuRHu13SGsv5davs7/I1yyvf01+kyZ19+dwxSSgwdSL4Y8YYb2ZaNibBpx4WkSvkmtq0vGGyCrRCPeU8KKFPEZUbHCEVhd8hSjf68bTUaned94GIuL/v7TOvmPwE6oZ4nb28uHoi/iY=
+ bh=ZiTmCeUwyWMd9DM1cMRWsanJUulWwCpqnbNYD4zrjzg=; 
+ b=XiDgC3JhNqZXq3Dl/co1ZX9jCsgGaeO1sy4ayn2iV7CC/nzYUyRRrkmZ6CL0y39P5nHhg8Eqjn+Rc+pho9NGbri77nRrpO+I7ujk7UUGXAWuoen1utBAvgcCM/ZlsZ4baUYHX/7B/gBJanO+sGmdCcUdqUVGwGlOwHiG3XUX6XA=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=icenowy.me;
  spf=pass  smtp.mailfrom=uwu@icenowy.me;
  dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1719638592; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1719638598; 
  s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=nEsIO0/bRYNax82CMmpXkU6vaStGTkFxGmHNhc3PsQE=;
- b=g9FEdqjsErMLEr3aIuM6TAYS1MuqVTHIjjx+StbbJIRwK+57usSihxCvvLQAV2ru
- +FQZw6wfVbY2kgbN84ctUIfuwwWjn/wnrsjw8+IwrcrLfZltyfxY4VvEDctK8rTqsF9
- brF3V4nn0rw+g5m73twHGI7b+Zao3PkVEBs2BP4oIYdBPPsNS2aGqXwh/hMlD/FsTxl
- 9O5StNdNhovbXHpei7UnHQJZ22czMQQ3m+2P5zC9L8C26Nyes/TF+Y9rozY/xV7UK72
- 9CruVTrCfu6HaGWUIJ3yysojiuyfNGWLB1/XpSze3rzjlyyCIlNLSoc0cSueKireKCY
- NgPREyZ+xA==
-Received: by mx.zohomail.com with SMTPS id 1719638591260119.47155784716438;
- Fri, 28 Jun 2024 22:23:11 -0700 (PDT)
+ bh=ZiTmCeUwyWMd9DM1cMRWsanJUulWwCpqnbNYD4zrjzg=;
+ b=PD5Yikpx54BMenJrjK/5RN8Nx43MLhxJbJdCq4ryw9GJhTyAw3y3sT/SEk8dAoI5
+ dkDAGn61fk51ei0dAE9cs+9R5eXuHNz26yvlI82iu9eg+eqTfLeroKmGzxjTTsafXss
+ gy0M9q1usdBjzdZQf7yHgxn4rHin7T/qN1WOuJ1nqc+tmeU/Cr7dRZyeDgXycSPyGu/
+ 3E1PxqfdeesDrojoKPJdV4uM1q3J+Xh50PUARjTLX7e4eW5mGV/CZ8WjgeIbPlIVWXc
+ RrdAStixwbiKk+JHHwq/sY2U5jKL9BL3benHiUfI8asoTw8bcipK5dup2XlVHYnpSHM
+ 1zMaMYQkAA==
+Received: by mx.zohomail.com with SMTPS id 1719638596401770.5863508458222;
+ Fri, 28 Jun 2024 22:23:16 -0700 (PDT)
 From: Icenowy Zheng <uwu@icenowy.me>
 To: Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -49,10 +49,10 @@ To: Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
  Daniel Vetter <daniel@ffwll.ch>, Jiaxun Yang <jiaxun.yang@flygoat.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Icenowy Zheng <uwu@icenowy.me>
-Subject: [RFC PATCH 1/2] drm/ttm: save the device's DMA coherency status in
- ttm_device
-Date: Sat, 29 Jun 2024 13:22:46 +0800
-Message-ID: <20240629052247.2653363-2-uwu@icenowy.me>
+Subject: [RFC PATCH 2/2] drm/ttm: downgrade cached to write_combined when
+ snooping not available
+Date: Sat, 29 Jun 2024 13:22:47 +0800
+Message-ID: <20240629052247.2653363-3-uwu@icenowy.me>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240629052247.2653363-1-uwu@icenowy.me>
 References: <20240629052247.2653363-1-uwu@icenowy.me>
@@ -74,49 +74,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently TTM utilizes cached memory regardless of whether the device
-have full DMA coherency (can snoop CPU cache).
-
-Save the device's DMA coherency status in struct ttm_device, to allow
-further support of devices w/o snooping capability (the capability
-missing on at least one part of the transmission between the CPU and the
-device).
+As we can now acquire the presence of the full DMA coherency (snooping
+capability) from ttm_device, we can now map the CPU side memory as
+write-combined when cached is requested and snooping is not avilable.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 ---
- drivers/gpu/drm/ttm/ttm_device.c | 2 ++
- include/drm/ttm/ttm_device.h     | 5 +++++
- 2 files changed, 7 insertions(+)
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 4 ++++
+ drivers/gpu/drm/ttm/ttm_tt.c      | 4 ++++
+ include/drm/ttm/ttm_caching.h     | 3 ++-
+ 3 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index 434cf0258000e..b923c14861c1a 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -237,6 +237,8 @@ int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *func
- 	list_add_tail(&bdev->device_list, &glob->device_list);
- 	mutex_unlock(&ttm_global_mutex);
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 0b3f4267130c4..6519ce047787d 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -302,6 +302,10 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
+ 		caching = res->bus.caching;
+ 	}
  
-+	bdev->dma_coherent = dev->dma_coherent;
++	/* Downgrade cached mapping for non-snooping devices */
++	if (!bo->bdev->dma_coherent && caching == ttm_cached)
++		caching = ttm_write_combined;
 +
- 	return 0;
+ 	return ttm_prot_from_caching(caching, tmp);
  }
- EXPORT_SYMBOL(ttm_device_init);
-diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-index c22f30535c848..9daf7f47d6507 100644
---- a/include/drm/ttm/ttm_device.h
-+++ b/include/drm/ttm/ttm_device.h
-@@ -225,6 +225,11 @@ struct ttm_device {
- 	 */
- 	const struct ttm_device_funcs *funcs;
- 
-+	/**
-+	 * @dma_coherent: if the device backed is dma-coherent.
-+	 */
-+	bool dma_coherent;
+ EXPORT_SYMBOL(ttm_io_prot);
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 7b00ddf0ce49f..3335df45fba5e 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -152,6 +152,10 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+ 			       enum ttm_caching caching,
+ 			       unsigned long extra_pages)
+ {
++	/* Downgrade cached mapping for non-snooping devices */
++	if (!bo->bdev->dma_coherent && caching == ttm_cached)
++		caching = ttm_write_combined;
 +
+ 	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + extra_pages;
+ 	ttm->page_flags = page_flags;
+ 	ttm->dma_address = NULL;
+diff --git a/include/drm/ttm/ttm_caching.h b/include/drm/ttm/ttm_caching.h
+index a18f43e93abab..f92d7911f50e4 100644
+--- a/include/drm/ttm/ttm_caching.h
++++ b/include/drm/ttm/ttm_caching.h
+@@ -47,7 +47,8 @@ enum ttm_caching {
+ 
  	/**
- 	 * @sysman: Resource manager for the system domain.
- 	 * Access via ttm_manager_type.
+ 	 * @ttm_cached: Fully cached like normal system memory, requires that
+-	 * devices snoop the CPU cache on accesses.
++	 * devices snoop the CPU cache on accesses. Downgraded to
++	 * ttm_write_combined when the snooping capaiblity is missing.
+ 	 */
+ 	ttm_cached
+ };
 -- 
 2.45.2
 
