@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA7D91CCE6
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 15:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D466291CCEF
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2024 15:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70EB810E119;
-	Sat, 29 Jun 2024 13:04:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31E0410E070;
+	Sat, 29 Jun 2024 13:06:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A16PELij";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qxsWAJFU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD12510E070
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 13:04:17 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2ec61eeed8eso18076631fa.0
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 06:04:17 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C66810E070
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 13:06:26 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-57cc30eaf0aso920726a12.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2024 06:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719666256; x=1720271056; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719666385; x=1720271185; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=+hMhKjEObUAKJ1IKbGtbahJo7olJ5ZuXPb3nVMpK2Tg=;
- b=A16PELijR2IAgudGOnuEg5DcGscqLJgi0cqVF9Fo4Z9//otjH4wR+qrFKSR9N7MacZ
- KCghKeSDvYYYtj6mZqtYwDF1uC08g0va874hrHwa2hbhILNMFshvT6gfVoSfa60qDmoe
- 9iD41s3WZZ394Rq1C4BiGUF18puxZtr3UGkebKBNFNuX02YfWX+BC6mTCd3BMosgIVwb
- 9q8dUPqTi6NkHpAe4e/EQJYASvwuyXBSTDFHa3J07Qj0wZ+0a6ND/ohdkyYw7rM4che6
- B+awQVfsMC+7HKBzcIQjj/pDlLalz8uvL5V6mMZgFFEz5fi2xAbSIBakVk/+3UYlaxwA
- 2QNw==
+ bh=juC1pM14yL20MLPpp7yOCptiRFFzbh2VvWT0XwnjgzQ=;
+ b=qxsWAJFUTDscyQxQnfoPWF3gOIrf3J+ASwNtBTvPe08Zu8umIllYMbV9GT86PY2z9t
+ 2mC8M/Pw/jE86jDcdfBnqaBPPlllwpxXyt413Frtsbg+j6DgeCI3Xo377BGJ0jseicaw
+ 0KdwTzM/ZxkCMJOyuEVr51rR7An/EDn6P1dJVe/yL2/O+T7oiM5c/Kn7oupT7kooNFUm
+ tvB2+r8TRdtNHoq/CHLk0zrFM7xQUfWBN7jRAUGmKTK0r3LDWZfLH16dIi452s+/IzW2
+ uf/6xZrp9Djc2BSjQ5OGMNGri4BJwRPM8/OH5Ie3nd4Oepq27Uct5zufRlOsH3y/RXiq
+ j2uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719666256; x=1720271056;
+ d=1e100.net; s=20230601; t=1719666385; x=1720271185;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+hMhKjEObUAKJ1IKbGtbahJo7olJ5ZuXPb3nVMpK2Tg=;
- b=rZzLDvMzXGVdeXaByK69+uL2YRbv8ZjXPkQlRFEQ5jdui71mc9o2qlpSjJerQlY5LN
- +jCpWFtszYC+45M6BLSyDDQY6Q0o/LnTTSUz3a3SVTtjnjDz5D787f9Mb/P9QsgY1UOZ
- 2oH6aVucGMGwiGFPkplONOdskgwuX+lBLxT8/E0kOMt5fi1ES3SvvQzWeE46xeMtOcPu
- dIpBv1pJOqFROslHs/NFWi83fnvj4d8mKB0mez91SGzwHNAnnO7Nv/yQh/ChgXIKThjZ
- ii7+7HjCQf6R7oOyIqTQ5PBe4JGAnrWAuX9xFiyX3I/+iv6ZHicltIB2RMZkDmHcmaAh
- NNUQ==
+ bh=juC1pM14yL20MLPpp7yOCptiRFFzbh2VvWT0XwnjgzQ=;
+ b=uxYFgA27wr21pE3Z3HpanukKNNP2U8957Me76X2u7FoQ88e4MU15pyIYlwVnL2xEGh
+ iwAyg0AWD/nsRJQMK0HF9387fTf+tp63rWjSTTvJfYQdkZ34XGGEo7BGrBTxllBe73jg
+ gYnZKzgKJA/GWZjf8UF4DNqv/fp+ZxCeOMFT55VtKof4xAyzsdB4f9iixSskqGj3Xtr1
+ dWJcWZCCg9MNGbAfLx3AFavhhiMBUZ+K5pz5CW7UivlKarKv+yTKiyJgTlj+sBzg+QgM
+ XlumHa4Ns9evyBhk3De0Q9y5zsI+iFJtSphWLe+KUjGVFWG+mTDQN6g6bhn6aqvn4Fh4
+ 76Ig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGH/mPKblHqEH7sP5FrGdA446azJNdpDuc+8z6berspQPE24xptQ/HkGM0QaFoZuB0bE+29e+5IgKaDU5ItbuUI3roQiWKtgpvKDeHQmgM
-X-Gm-Message-State: AOJu0YyWaQrSqBKqoukBliQ17x+PZ96uIp+ae6xU3nuS/wbPx4//D5Bt
- sYBYCec6QU2eJO7+v+Ex2XAGOBeQczWm2UFd4bvLmyuts3L7ikKmKTQeBNeOdAU=
-X-Google-Smtp-Source: AGHT+IHNHcSAqFqF6iqsWHaRbUrhjZsQihjxBU+bVzLCiepT/usiIw4TrW8Nv4s6wMvI/8OQ8U8C7w==
-X-Received: by 2002:a2e:9e15:0:b0:2ee:5a38:751a with SMTP id
- 38308e7fff4ca-2ee5e3759d8mr7006711fa.28.1719666255790; 
- Sat, 29 Jun 2024 06:04:15 -0700 (PDT)
+ AJvYcCWLklxFvPx8XhSJK2hrZGV/GiyyPW0DIF0hrzxat1NT4Fmi/2p+0ugYL6E4yBFL+MbItDrCesxEOo4/0Ax26fjNdNTdnYvyL4fMyPxARPoI
+X-Gm-Message-State: AOJu0Yw+I1VmSWKWGad2kM36+/rBdhnWw15CBy/zDXVLCuJlM3dhjdPF
+ QGToQ8KssxfN9Kcbgd6/Rc0qtq4ZOIp5yNKzAJ4linFs+fbvjSAW5aAa1JYJYwo=
+X-Google-Smtp-Source: AGHT+IEDzqRR+FH5vNtJR2qnyBY924I53APu79r66rf52OA5SrMOBR4anPJDv02DF2PO5wvUOKnBOA==
+X-Received: by 2002:aa7:c986:0:b0:57d:3b8:85e6 with SMTP id
+ 4fb4d7f45d1cf-587a0decd81mr791789a12.39.1719666384502; 
+ Sat, 29 Jun 2024 06:06:24 -0700 (PDT)
 Received: from [192.168.215.29] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5861381640dsm2243695a12.50.2024.06.29.06.04.14
+ 4fb4d7f45d1cf-58614f3d74dsm2209586a12.90.2024.06.29.06.06.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Jun 2024 06:04:15 -0700 (PDT)
-Message-ID: <472a7d55-df0a-486a-845c-f24a4196c29b@linaro.org>
-Date: Sat, 29 Jun 2024 15:04:13 +0200
+ Sat, 29 Jun 2024 06:06:24 -0700 (PDT)
+Message-ID: <243c0432-a681-4932-957b-e80f2f4ef295@linaro.org>
+Date: Sat, 29 Jun 2024 15:06:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] drm/msm/adreno: Add support for X185 GPU
+Subject: Re: [PATCH v2 3/5] drm/msm/adreno: Introduce gmu_chipid for a740 &
+ a750
 To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
  freedreno <freedreno@lists.freedesktop.org>,
  dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
@@ -75,7 +76,7 @@ Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter
  Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
  linux-kernel@vger.kernel.org
 References: <20240629015111.264564-1-quic_akhilpo@quicinc.com>
- <20240629015111.264564-3-quic_akhilpo@quicinc.com>
+ <20240629015111.264564-4-quic_akhilpo@quicinc.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
@@ -113,7 +114,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20240629015111.264564-3-quic_akhilpo@quicinc.com>
+In-Reply-To: <20240629015111.264564-4-quic_akhilpo@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,11 +133,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29.06.2024 3:49 AM, Akhil P Oommen wrote:
-> Add support in drm/msm driver for the Adreno X185 gpu found in
-> Snapdragon X1 Elite chipset.
+> To simplify, introduce the new gmu_chipid for a740 & a750 GPUs.
 > 
 > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 > ---
+
+This gets rid of getting patchid from dts, but I suppose that's fine,
+as we can just add a new entry to the id table
+
+[...]
+
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -771,7 +771,7 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
+>  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>  	const struct a6xx_info *a6xx_info = adreno_gpu->info->a6xx;
+>  	u32 fence_range_lower, fence_range_upper;
+> -	u32 chipid, chipid_min = 0;
+> +	u32 chipid = 0;
+
+The initialization doesn't seem necessary
+
+otherwise:
 
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
