@@ -2,80 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E3691D109
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2024 12:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A1F91D117
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2024 12:25:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD5110E0BE;
-	Sun, 30 Jun 2024 10:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D764210E188;
+	Sun, 30 Jun 2024 10:25:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e4cYsABx";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="QAnlfGOA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9929710E0BE;
- Sun, 30 Jun 2024 10:04:46 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-57cd26347d3so2505079a12.1; 
- Sun, 30 Jun 2024 03:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719741885; x=1720346685; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o617bWQRGL7AXpKHgsvXTyzvAX01tVJwbwYGMP9yg4c=;
- b=e4cYsABxOANwwWqicDshoJKxqqVtrScjliNZaczGVCPnNsg4MiVOBQMw6bG/EIcg0t
- YXDRhI3pyCYj5nWJohXdTs08b8AwcmtatXgKiBDxNjt245suBb1KPl27W3WXxx26qtgd
- lo0aB1XW4WvUmz/EshacBjOXTqmdrs1g++XCNOUnt87p/WhnpN6IsYpjer9tyqXuWU2e
- TKOxleciIto91imPjqQEzTkwuhrjFkXXX0oLCmJRDNyFX58GChK7NjXA03wYrBnhWYg7
- JSsrmdSspCsyCbtV1CrvvqbE7j934UbhFhmRt2UhqiE+Tu8wQcv4ACBzcy2XiGVBH1RS
- sdQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719741885; x=1720346685;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=o617bWQRGL7AXpKHgsvXTyzvAX01tVJwbwYGMP9yg4c=;
- b=ZTgbS6OVDHUZSBVRI9KC1GenjjIynTbkh/xprRoZbPsukOxnmAY+ihG+GahZURrGP+
- TbdfwKAw7D/e/XeyO9Q2m1bQGofM3+6PNn4Ymh+fCKjnx8zD5uLqWE6v5L3kfZUyNyst
- 4UCdiZWSK4XamU3EsJnRR3K/hxYeRksXCD6uNSkL0gfJNWem7FEhuTjOmjsRfor8SyYi
- Ig0oPvcjml0QQOqL8B9CzxyNABSx215+SU2fWjfHKvflIPRmkmWHREf4COJAoZEdmYXz
- 4Eud5ku7MbSems14gMtLHwypfM3b+wmW/kkFZcW18ivsZC2nFxjohwgYLxaiwa8ZLqTF
- HUMw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXJpHhgmbkFK8ZVansIVZuXQvgaXRoVTobXMrcblpbOUzj2leSqa6HhHhEroLxadEoBZGB6X/MrWwu2jVn3EW3aXenEt45AaLnMyqzuEnX0VzsObHcDpQLiccUYeh7EvQ4CTmR98lYtRd7MQA==
-X-Gm-Message-State: AOJu0Yx8Tn8Mw/mtfob52esNW3bm9SiKKJS6nJ+Q0dNQRvP4Pmf041pv
- mknIn3OL+Wjg7m2j3Ch4qgckU7dXk8D7VBo+tgUd4w6RrtHfkFhwKvJauOJnwu5jetI2j0dNm75
- xFCJkyIS7d6kIE4DDC1+Up1B1Rr8=
-X-Google-Smtp-Source: AGHT+IFPqEU+V1VDRuCLs1LVF3C/KXP2R6B7s5PTM8+z/ve2MiGYbV7HExEQvJFtLMY2yJcfKaeSiA78h2EcS2EpMnE=
-X-Received: by 2002:a17:906:bc90:b0:a6f:f1bc:21ce with SMTP id
- a640c23a62f3a-a75144f666amr161051366b.47.1719741884561; Sun, 30 Jun 2024
- 03:04:44 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25E4910E188;
+ Sun, 30 Jun 2024 10:25:46 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45U99xFY024734;
+ Sun, 30 Jun 2024 10:25:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=IS91P518NB5qx+yzIfVqp6xy
+ OjGVz8XGtBbP53L1sPA=; b=QAnlfGOAHD/YsDigWoIXIxXTbsULhQbUQ2ES6BmU
+ t7z03VOg0dYHb3hXYAxGpD4lz+UCUcV0Q7es1Eq7tB3vxDqEEgI7G1+VthoXFlZu
+ SCv6UvU0YZ1XQpnpu6zbKw2+Sc2Lgj2YMHknsRSKZpFIcX7xkJ1sclrVivv+glTj
+ pXo9OKh39xcPOtDjsTiaBT58kF7qiI2oIZOy1p2EvtX3o2k1T2ksY0bN1UXCebuw
+ fWfXqPoJC1ltKHljotwBpU8cgKruFSvT3ujbT8D+JmDft5fxFd9P8mYFsjGQ55tP
+ lwDd0z6t5NnRXLC/KzzBYn1s+3p1FwtxlM9saQFcZfi3fg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40297rj0k3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 30 Jun 2024 10:25:33 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45UAPXMa006638
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 30 Jun 2024 10:25:33 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sun, 30 Jun 2024 03:25:28 -0700
+Date: Sun, 30 Jun 2024 15:55:24 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v4 1/5] drm/msm/adreno: Implement SMEM-based speed bin
+Message-ID: <20240630102524.talnb3qx5jfmcj5y@hu-akhilpo-hyd.qualcomm.com>
+References: <20240625-topic-smem_speedbin-v4-0-f6f8493ab814@linaro.org>
+ <20240625-topic-smem_speedbin-v4-1-f6f8493ab814@linaro.org>
 MIME-Version: 1.0
-References: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
- <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
- <CAKGbVbsM4rCprWdp+aGXE-pvCkb6N7weUyG2z4nXqFpv+y=LrA@mail.gmail.com>
- <20240618-great-hissing-skink-b7950e@houat>
- <4813a6885648e5368028cd822e8b2381@manjaro.org>
- <457ae7654dba38fcd8b50e38a1275461@manjaro.org>
- <2c072cc4bc800a0c52518fa2476ef9dd@manjaro.org>
- <CAKGbVbsGm7emEPzGuf0Xn5k22Pbjfg9J9ykJHtvDF3SacfDg6A@mail.gmail.com>
- <74c69c3bb4498099a195ec890e1a7896@manjaro.org>
-In-Reply-To: <74c69c3bb4498099a195ec890e1a7896@manjaro.org>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Sun, 30 Jun 2024 18:04:31 +0800
-Message-ID: <CAKGbVbvDdLMAS9Z4yDtY2gmaqM9SGgk7z38Kb0EzWX_y42XE3Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/lima: Mark simple_ondemand governor as softdep
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org, 
- lima@lists.freedesktop.org, maarten.lankhorst@linux.intel.com, 
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- linux-kernel@vger.kernel.org, Philip Muller <philm@manjaro.org>, 
- Oliver Smith <ollieparanoid@postmarketos.org>,
- Daniel Smith <danct12@disroot.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240625-topic-smem_speedbin-v4-1-f6f8493ab814@linaro.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: JHFAsILtmM6qFXL-TQKZpY7-lT_q8149
+X-Proofpoint-GUID: JHFAsILtmM6qFXL-TQKZpY7-lT_q8149
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-30_08,2024-06-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 suspectscore=0 spamscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406300082
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,116 +96,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next.
+On Tue, Jun 25, 2024 at 08:28:06PM +0200, Konrad Dybcio wrote:
+> On recent (SM8550+) Snapdragon platforms, the GPU speed bin data is
+> abstracted through SMEM, instead of being directly available in a fuse.
+> 
+> Add support for SMEM-based speed binning, which includes getting
+> "feature code" and "product code" from said source and parsing them
+> to form something that lets us match OPPs against.
+> 
+> Due to the product code being ignored in the context of Adreno on
+> production parts (as of SM8650), hardcode it to SOCINFO_PC_UNKNOWN.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  8 +++---
+>  drivers/gpu/drm/msm/adreno/adreno_device.c |  2 ++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 41 +++++++++++++++++++++++++++---
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  7 ++++-
+>  4 files changed, 50 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index c98cdb1e9326..8ace096bb68c 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -2124,13 +2124,15 @@ static u32 fuse_to_supp_hw(const struct adreno_info *info, u32 fuse)
+>  	return UINT_MAX;
+>  }
+>  
+> -static int a6xx_set_supported_hw(struct device *dev, const struct adreno_info *info)
+> +static int a6xx_set_supported_hw(struct adreno_gpu *adreno_gpu,
+> +				 struct device *dev,
+> +				 const struct adreno_info *info)
+>  {
+>  	u32 supp_hw;
+>  	u32 speedbin;
+>  	int ret;
+>  
+> -	ret = adreno_read_speedbin(dev, &speedbin);
+> +	ret = adreno_read_speedbin(adreno_gpu, dev, &speedbin);
+>  	/*
+>  	 * -ENOENT means that the platform doesn't support speedbin which is
+>  	 * fine
+> @@ -2290,7 +2292,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>  
+>  	a6xx_llc_slices_init(pdev, a6xx_gpu, is_a7xx);
+>  
+> -	ret = a6xx_set_supported_hw(&pdev->dev, config->info);
+> +	ret = a6xx_set_supported_hw(adreno_gpu, &pdev->dev, config->info);
+>  	if (ret) {
+>  		a6xx_llc_slices_destroy(a6xx_gpu);
+>  		kfree(a6xx_gpu);
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 1e789ff6945e..e514346088f9 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -6,6 +6,8 @@
+>   * Copyright (c) 2014,2017 The Linux Foundation. All rights reserved.
+>   */
+>  
+> +#include <linux/soc/qcom/socinfo.h>
+> +
+>  #include "adreno_gpu.h"
+>  
+>  bool hang_debug = false;
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index 1c6626747b98..6ffd02f38499 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -21,6 +21,9 @@
+>  #include "msm_gem.h"
+>  #include "msm_mmu.h"
+>  
+> +#include <linux/soc/qcom/smem.h>
+> +#include <linux/soc/qcom/socinfo.h>
+> +
+>  static u64 address_space_size = 0;
+>  MODULE_PARM_DESC(address_space_size, "Override for size of processes private GPU address space");
+>  module_param(address_space_size, ullong, 0600);
+> @@ -1061,9 +1064,39 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
+>  			   adreno_ocmem->hdl);
+>  }
+>  
+> -int adreno_read_speedbin(struct device *dev, u32 *speedbin)
+> +int adreno_read_speedbin(struct adreno_gpu *adreno_gpu,
+> +			 struct device *dev, u32 *fuse)
+>  {
+> -	return nvmem_cell_read_variable_le_u32(dev, "speed_bin", speedbin);
+> +	u32 fcode;
+> +	int ret;
+> +
+> +	/*
+> +	 * Try reading the speedbin via a nvmem cell first
+> +	 * -ENOENT means "no nvmem-cells" and essentially means "old DT" or
+> +	 * "nvmem fuse is irrelevant", simply assume it's fine.
+> +	 */
+> +	ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin", fuse);
+> +	if (!ret)
+> +		return 0;
+> +	else if (ret != -ENOENT)
+> +		return dev_err_probe(dev, ret, "Couldn't read the speed bin fuse value\n");
+> +
+> +#ifdef CONFIG_QCOM_SMEM
+> +	/*
+> +	 * Only check the feature code - the product code only matters for
+> +	 * proto SoCs unavailable outside Qualcomm labs, as far as GPU bin
+> +	 * matching is concerned.
+> +	 *
+> +	 * Ignore EOPNOTSUPP, as not all SoCs expose this info through SMEM.
+> +	 */
+> +	ret = qcom_smem_get_feature_code(&fcode);
+> +	if (!ret)
+> +		*fuse = ADRENO_SKU_ID(fcode);
+> +	else if (ret != -EOPNOTSUPP)
+> +		return dev_err_probe(dev, ret, "Couldn't get feature code from SMEM\n");
+> +#endif
+> +
+> +	return 0;
+>  }
+>  
+>  int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+> @@ -1102,9 +1135,9 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>  			devm_pm_opp_set_clkname(dev, "core");
+>  	}
+>  
+> -	if (adreno_read_speedbin(dev, &speedbin) || !speedbin)
+> +	if (adreno_read_speedbin(adreno_gpu, dev, &speedbin) || !speedbin)
+>  		speedbin = 0xffff;
+> -	adreno_gpu->speedbin = (uint16_t) (0xffff & speedbin);
+> +	adreno_gpu->speedbin = speedbin;
 
-On Wed, Jun 26, 2024 at 2:49=E2=80=AFPM Dragan Simic <dsimic@manjaro.org> w=
-rote:
->
-> Hello Qiang,
->
-> On 2024-06-26 03:11, Qiang Yu wrote:
-> > On Wed, Jun 26, 2024 at 2:15=E2=80=AFAM Dragan Simic <dsimic@manjaro.or=
-g>
-> > wrote:
-> >>
-> >> Hello everyone,
-> >>
-> >> Just checking, any further thoughts about this patch?
-> >>
-> > I'm OK with this as a temp workaround because it's simple and do no
-> > harm
-> > even it's not perfect. If no other better suggestion for short term,
-> > I'll submit
-> > this at weekend.
->
-> Thanks.  Just as you described it, it's far from perfect, but it's still
-> fine until there's a better solution, such as harddeps.  I'll continue
-> my
-> research about the possibility for adding harddeps, which would
-> hopefully
-> replace quite a few instances of the softdep (ab)use.
->
-> >> On 2024-06-18 21:22, Dragan Simic wrote:
-> >> > On 2024-06-18 12:33, Dragan Simic wrote:
-> >> >> On 2024-06-18 10:13, Maxime Ripard wrote:
-> >> >>> On Tue, Jun 18, 2024 at 04:01:26PM GMT, Qiang Yu wrote:
-> >> >>>> On Tue, Jun 18, 2024 at 12:33=E2=80=AFPM Qiang Yu <yuq825@gmail.c=
-om> wrote:
-> >> >>>> >
-> >> >>>> > I see the problem that initramfs need to build a module depende=
-ncy chain,
-> >> >>>> > but lima does not call any symbol from simpleondemand governor =
-module.
-> >> >>>> > softdep module seems to be optional while our dependency is har=
-d one,
-> >> >>>> > can we just add MODULE_INFO(depends, _depends), or create a new
-> >> >>>> > macro called MODULE_DEPENDS()?
-> >> >>
-> >> >> I had the same thoughts, because softdeps are for optional module
-> >> >> dependencies, while in this case it's a hard dependency.  Though,
-> >> >> I went with adding a softdep, simply because I saw no better option
-> >> >> available.
-> >> >>
-> >> >>>> This doesn't work on my side because depmod generates modules.dep
-> >> >>>> by symbol lookup instead of modinfo section. So softdep may be ou=
-r
-> >> >>>> only
-> >> >>>> choice to add module dependency manually. I can accept the softde=
-p
-> >> >>>> first, then make PM optional later.
-> >> >>
-> >> >> I also thought about making devfreq optional in the Lima driver,
-> >> >> which would make this additional softdep much more appropriate.
-> >> >> Though, I'm not really sure that's a good approach, because not
-> >> >> having working devfreq for Lima might actually cause issues on
-> >> >> some devices, such as increased power consumption.
-> >> >>
-> >> >> In other words, it might be better to have Lima probing fail if
-> >> >> devfreq can't be initialized, rather than having probing succeed
-> >> >> with no working devfreq.  Basically, failed probing is obvious,
-> >> >> while a warning in the kernel log about no devfreq might easily
-> >> >> be overlooked, causing regressions on some devices.
-> >> >>
-> >> >>> It's still super fragile, and depends on the user not changing the
-> >> >>> policy. It should be solved in some other, more robust way.
-> >> >>
-> >> >> I see, but I'm not really sure how to make it more robust?  In
-> >> >> the end, some user can blacklist the simple_ondemand governor
-> >> >> module, and we can't do much about it.
-> >> >>
-> >> >> Introducing harddeps alongside softdeps would make sense from
-> >> >> the design standpoint, but the amount of required changes wouldn't
-> >> >> be trivial at all, on various levels.
-> >> >
-> >> > After further investigation, it seems that the softdeps have
-> >> > already seen a fair amount of abuse for what they actually aren't
-> >> > intended, i.e. resolving hard dependencies.  For example, have
-> >> > a look at the commit d5178578bcd4 (btrfs: directly call into
-> >> > crypto framework for checksumming) [1] and the lines containing
-> >> > MODULE_SOFTDEP() at the very end of fs/btrfs/super.c. [2]
-> >> >
-> >> > If a filesystem driver can rely on the abuse of softdeps, which
-> >> > admittedly are a bit fragile, I think we can follow the same
-> >> > approach, at least for now.
-> >> >
-> >> > With all that in mind, I think that accepting this patch, as well
-> >> > as the related Panfrost patch, [3] should be warranted.  I'd keep
-> >> > investigating the possibility of introducing harddeps in form
-> >> > of MODULE_HARDDEP() and the related support in kmod project,
-> >> > similar to the already existing softdep support, [4] but that
-> >> > will inevitably take a lot of time, both for implementing it
-> >> > and for reaching various Linux distributions, which is another
-> >> > reason why accepting these patches seems reasonable.
-> >> >
-> >> > [1]
-> >> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/c=
-ommit/?id=3Dd5178578bcd4
-> >> > [2]
-> >> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/t=
-ree/fs/btrfs/super.c#n2593
-> >> > [3]
-> >> > https://lore.kernel.org/dri-devel/4e1e00422a14db4e2a80870afb704405da=
-16fd1b.1718655077.git.dsimic@manjaro.org/
-> >> > [4]
-> >> > https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?id=
-=3D49d8e0b59052999de577ab732b719cfbeb89504d
+This value is exposed to userspace via MSM_PARAM_CHIP_ID. 16 bits are
+reserved for speedbin, so we should ensure somewhere that we don't
+accidently use more than that.
+
+Also, what is the the max value of fcode? I think we should leave some
+space for pcode too. We never know for sure if that won't be required in
+future.
+
+-Akhil
+
+>  
+>  	gpu_name = devm_kasprintf(dev, GFP_KERNEL, "%"ADRENO_CHIPID_FMT,
+>  			ADRENO_CHIPID_ARGS(config->chip_id));
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index cff8ce541d2c..563c08b44624 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -79,6 +79,10 @@ struct adreno_reglist {
+>  
+>  struct adreno_speedbin {
+>  	uint16_t fuse;
+> +/* As of SM8650, PCODE on production SoCs is meaningless wrt the GPU bin */
+> +#define ADRENO_SKU_ID_FCODE		GENMASK(15, 0)
+> +#define ADRENO_SKU_ID(fcode)	(fcode)
+
+> +
+>  	uint16_t speedbin;
+>  };
+>  
+> @@ -545,7 +549,8 @@ int adreno_fault_handler(struct msm_gpu *gpu, unsigned long iova, int flags,
+>  			 struct adreno_smmu_fault_info *info, const char *block,
+>  			 u32 scratch[4]);
+>  
+> -int adreno_read_speedbin(struct device *dev, u32 *speedbin);
+> +int adreno_read_speedbin(struct adreno_gpu *adreno_gpu,
+> +			 struct device *dev, u32 *speedbin);
+>  
+>  /*
+>   * For a5xx and a6xx targets load the zap shader that is used to pull the GPU
+> 
+> -- 
+> 2.45.2
+> 
