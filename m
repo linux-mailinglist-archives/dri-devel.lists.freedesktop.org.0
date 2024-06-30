@@ -2,95 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B054891D089
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2024 10:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F12491D0D8
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2024 11:35:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14D2310E09C;
-	Sun, 30 Jun 2024 08:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A27B10E0C0;
+	Sun, 30 Jun 2024 09:35:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="gVN/sQtx";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="vz/CQ8ja";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Z36tpFhd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh4-smtp.messagingengine.com
- (fhigh4-smtp.messagingengine.com [103.168.172.155])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2590210E09C
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2024 08:25:57 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfhigh.nyi.internal (Postfix) with ESMTP id 715DB1140242;
- Sun, 30 Jun 2024 04:25:56 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
- by compute5.internal (MEProxy); Sun, 30 Jun 2024 04:25:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-type:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm2; t=1719735956; x=
- 1719822356; bh=pW9Aa+3i2zPjyFu4FQQGq4TbYskCox/E7WIXJmfW14w=; b=g
- VN/sQtxkabG/J+nJvwejiU5XFWveu4yr2MKixDkd+SHKu9jKV7wjtZL2mM0uzeY9
- TSAPFohTTB2MF4EWtp6m2xy61669DL7XZr9FFhcbBnDfPYa4BVQPHFL0sWVToBrv
- 29vR/d2+3poZy4MpY71bCMpfyTP5SeDmPIIu7a8Qxy5y1evRAjcfRfC4q7BzYAxn
- Ec2WWi19o7ljc+KltA1sJTEsaWwaXA2RJhaGBkm5UBQhd6/kQ3FGGAeGACadinNR
- Uf1ukm0DhIE3Lv48u+HXCIO9F9rSGgejr8UXEBzYclGfhCf4ZZM8rYjOKQrbd7F5
- Qnja72bHo7CLlrEC0Dfmg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1719735956; x=1719822356; bh=pW9Aa+3i2zPjyFu4FQQGq4TbYskC
- ox/E7WIXJmfW14w=; b=vz/CQ8jaSGmEQ1RRzZYc+sZJwzn2Eq/nhuBhV5IsMn67
- JSC1XYeOS+IkrJrtjQL6E+Rez43DuXd5EZXxFn50B/ZjnnOXpANLebWHeZl3EjRD
- 6ZMenI3X4UIHd2hIMnLQm4IVVyW1iFY3qV3mu+Gi40MbUvAswSuVYiSs9zMLoj08
- 2vhu5sxGjV8LTwc3MZptEDHgCAr9wRmgvMT4MKJv4fJ+/IPlmiHG+2s/YagVaUSs
- i+T0xDcj+nLr+3Fv2NwMTOfwJimoXLbEpnfDqFeSsbvD4WqwxT3CWmNrUaOz302M
- bivfCQ5mWgTIeKIKE5Erpzf9sFfEWA+VmfUVHEAiDg==
-X-ME-Sender: <xms:lBaBZtndEik-5h1rt6LBZwIBWf36IZQMbyPfDcZHE7c1FCKgCxX-Dg>
- <xme:lBaBZo2HW2rwpCVPtmZLcIC7Erpj5ghhatoCvEDgVFMjiqBK8IZ4J-v_EWw-STAqw
- rKwoX1BZqoppuL9HQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddruddugddtfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfthigr
- nhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtf
- frrghtthgvrhhnpeekledvtdffudejfeefvdeuudeugeeitdejheevveehgeektdelteek
- tddukeehveenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecuvehluhhsth
- gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthht
- ohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:lBaBZjq9HbiMQzQ2ry6-ByKPFQOp74hjAOQPcORtpVmuLohBe19s2A>
- <xmx:lBaBZtkZBx8oFJ0-7TnTu_-F9TC_OsQ1UIg8Zcf_ej7cJy5dz8YfYA>
- <xmx:lBaBZr27jtX3tPnLCUMlptxvTCCbT54y6oS6W4XdELt7sV6igQ5D2A>
- <xmx:lBaBZstZlKPQWlRF-hh9gCkm8TUP-B_B97asI7tQ-E9ssVogOyoysw>
- <xmx:lBaBZi2TXUTTvIY4-obFb6trojRQeI2JMyzCvIMLpMxSvqFgdNqcBuRN>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id EDD6CA60078; Sun, 30 Jun 2024 04:25:55 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-538-g1508afaa2-fm-20240616.001-g1508afaa
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEB110E0BE;
+ Sun, 30 Jun 2024 09:35:38 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45U9J3k4002838;
+ Sun, 30 Jun 2024 09:35:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 4q8UNhiWgZ7Cc1A+okTFAmm4vbLeRCpN3RPDisIrE5k=; b=Z36tpFhdeEMJYvGH
+ 5fgO+yr8mVz1VhPGGo60w7Vn3x0kCMgEtKkYqP+TXKlN4X3rZna8EEoCt8ltbTqd
+ BQTke5VbMRjszyhxIxHb+TA+ugpanQV41wkNk5FsJfEr/1LLcvfPI19ApriIlr6G
+ KfACnIy1g/dcJ5FAeN+H9NTA8E8JVdoaAm1MMIXWnK5CSfYIspc+0yQ4QJPSqcAp
+ V+uLoMdP+BWYglpOYozWlLco0U2qM48doolGZg1QjXGIIRHClaG+d/CRivyCzepu
+ JcQQI+6bMukQtV6fyfcmKq1p5T78zJWVQ/qsCsu8gdIIb/+gwwu3lTfolk51sZ2Z
+ o0utaw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 402ag29th3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 30 Jun 2024 09:35:33 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45U9ZWLG027408
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 30 Jun 2024 09:35:32 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sun, 30 Jun 2024 02:35:28 -0700
+Date: Sun, 30 Jun 2024 15:05:24 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@chromium.org>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 1/5] drm/msm/adreno: Split up giant device table
+Message-ID: <20240630093524.3zmzxrgmngfh7giv@hu-akhilpo-hyd.qualcomm.com>
+References: <20240618164303.66615-1-robdclark@gmail.com>
+ <20240618164303.66615-2-robdclark@gmail.com>
+ <20240629015831.sglaflboanhrarmn@hu-akhilpo-hyd.qualcomm.com>
+ <CAF6AEGtHyGZhBaqNXtujNMg7Cv_cLkUQoCiAckKAWUihzO1i4Q@mail.gmail.com>
 MIME-Version: 1.0
-Message-Id: <16c6f72a-fe41-4975-9c57-8c0953397171@app.fastmail.com>
-In-Reply-To: <20240626-duo-outage-1601a51239b9@spud>
-References: <20240626112005.248576-1-ryan@testtoast.com>
- <20240626112005.248576-4-ryan@testtoast.com>
- <20240626-duo-outage-1601a51239b9@spud>
-Date: Sun, 30 Jun 2024 20:25:26 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Conor Dooley" <conor@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Jessica Zhang" <quic_jesszhan@quicinc.com>,
- "Sam Ravnborg" <sam@ravnborg.org>, "David Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Hironori KIKUCHI" <kikuchan98@gmail.com>,
- "Chris Morgan" <macroalpha82@gmail.com>
-Subject: Re: [PATCH 3/3] dt-bindings: display: panel: correct Anbernic RG35XX
- panel example
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGtHyGZhBaqNXtujNMg7Cv_cLkUQoCiAckKAWUihzO1i4Q@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: kbeiAbv5rnUbGGObmQ5GO6XGcd4s_4sK
+X-Proofpoint-GUID: kbeiAbv5rnUbGGObmQ5GO6XGcd4s_4sK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-30_08,2024-06-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ malwarescore=0 phishscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0
+ spamscore=0 priorityscore=1501 suspectscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406300075
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,35 +98,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Conor,
+On Sat, Jun 29, 2024 at 06:32:05AM -0700, Rob Clark wrote:
+> On Fri, Jun 28, 2024 at 6:58 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+> >
+> > On Tue, Jun 18, 2024 at 09:42:47AM -0700, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Split into a separate table per generation, in preparation to move each
+> > > gen's device table to it's own file.
+> > >
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/msm/adreno/adreno_device.c | 67 +++++++++++++++++-----
+> > >  drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 10 ++++
+> > >  2 files changed, 63 insertions(+), 14 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > index c3703a51287b..a57659eaddc2 100644
+> > > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > @@ -20,7 +20,7 @@ bool allow_vram_carveout = false;
+> > >  MODULE_PARM_DESC(allow_vram_carveout, "Allow using VRAM Carveout, in place of IOMMU");
+> > >  module_param_named(allow_vram_carveout, allow_vram_carveout, bool, 0600);
+> > >
+> > > -static const struct adreno_info gpulist[] = {
+> > > +static const struct adreno_info a2xx_gpus[] = {
+> > >       {
+> > >               .chip_ids = ADRENO_CHIP_IDS(0x02000000),
+> > >               .family = ADRENO_2XX_GEN1,
+> > > @@ -54,7 +54,12 @@ static const struct adreno_info gpulist[] = {
+> > >               .gmem  = SZ_512K,
+> > >               .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> > >               .init  = a2xx_gpu_init,
+> > > -     }, {
+> > > +     }
+> > > +};
+> > > +DECLARE_ADRENO_GPULIST(a2xx);
+> > > +
+> > > +static const struct adreno_info a3xx_gpus[] = {
+> > > +     {
+> > >               .chip_ids = ADRENO_CHIP_IDS(0x03000512),
+> > >               .family = ADRENO_3XX,
+> > >               .fw = {
+> > > @@ -116,7 +121,12 @@ static const struct adreno_info gpulist[] = {
+> > >               .gmem  = SZ_1M,
+> > >               .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> > >               .init  = a3xx_gpu_init,
+> > > -     }, {
+> > > +     }
+> > > +};
+> > > +DECLARE_ADRENO_GPULIST(a3xx);
+> > > +
+> > > +static const struct adreno_info a4xx_gpus[] = {
+> > > +     {
+> > >               .chip_ids = ADRENO_CHIP_IDS(0x04000500),
+> > >               .family = ADRENO_4XX,
+> > >               .revn  = 405,
+> > > @@ -149,7 +159,12 @@ static const struct adreno_info gpulist[] = {
+> > >               .gmem  = (SZ_1M + SZ_512K),
+> > >               .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> > >               .init  = a4xx_gpu_init,
+> > > -     }, {
+> > > +     }
+> > > +};
+> > > +DECLARE_ADRENO_GPULIST(a4xx);
+> > > +
+> > > +static const struct adreno_info a5xx_gpus[] = {
+> > > +     {
+> > >               .chip_ids = ADRENO_CHIP_IDS(0x05000600),
+> > >               .family = ADRENO_5XX,
+> > >               .revn = 506,
+> > > @@ -274,7 +289,12 @@ static const struct adreno_info gpulist[] = {
+> > >               .quirks = ADRENO_QUIRK_LMLOADKILL_DISABLE,
+> > >               .init = a5xx_gpu_init,
+> > >               .zapfw = "a540_zap.mdt",
+> > > -     }, {
+> > > +     }
+> > > +};
+> > > +DECLARE_ADRENO_GPULIST(a5xx);
+> > > +
+> > > +static const struct adreno_info a6xx_gpus[] = {
+> > > +     {
+> > >               .chip_ids = ADRENO_CHIP_IDS(0x06010000),
+> > >               .family = ADRENO_6XX_GEN1,
+> > >               .revn = 610,
+> > > @@ -520,7 +540,12 @@ static const struct adreno_info gpulist[] = {
+> > >               .zapfw = "a690_zap.mdt",
+> > >               .hwcg = a690_hwcg,
+> > >               .address_space_size = SZ_16G,
+> > > -     }, {
+> > > +     }
+> > > +};
+> > > +DECLARE_ADRENO_GPULIST(a6xx);
+> > > +
+> > > +static const struct adreno_info a7xx_gpus[] = {
+> > > +     {
+> > >               .chip_ids = ADRENO_CHIP_IDS(0x07000200),
+> > >               .family = ADRENO_6XX_GEN1, /* NOT a mistake! */
+> > >               .fw = {
+> > > @@ -582,7 +607,17 @@ static const struct adreno_info gpulist[] = {
+> > >               .init = a6xx_gpu_init,
+> > >               .zapfw = "gen70900_zap.mbn",
+> > >               .address_space_size = SZ_16G,
+> > > -     },
+> > > +     }
+> > > +};
+> > > +DECLARE_ADRENO_GPULIST(a7xx);
+> > > +
+> > > +static const struct adreno_gpulist *gpulists[] = {
+> > > +     &a2xx_gpulist,
+> > > +     &a3xx_gpulist,
+> > > +     &a4xx_gpulist,
+> > > +     &a5xx_gpulist,
+> > > +     &a6xx_gpulist,
+> > > +     &a6xx_gpulist,
+> >
+> > Typo. a6xx_gpulist -> a7xx_gpulist.
+> 
+> yup, already have a patch fixing that in msm-next-robclark
 
-On Thu, 27 Jun 2024, at 3:38 AM, Conor Dooley wrote:
-> On Wed, Jun 26, 2024 at 11:17:50PM +1200, Ryan Walklin wrote:
->> make dt_bindings_check reports that sck-gpios and num-chipselects are
->> required for spi nodes, therefore add these to the example.
+fwiw, Tested-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 
-
-> huh, are you sure it does? It doesn't for me...
-
-With:
-make dt_binding_check -j32 -s -W 2
-
-I get the following output:
-
-/home/ryan/Projects/Develop/RG35XX+/kernel/linux/Documentation/devicetree/bindings/display/panel/anbernic,wl-355608-a8.example.dtb: spi: 'num-chipselects' is a required property
-	from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-/home/ryan/Projects/Develop/RG35XX+/kernel/linux/Documentation/devicetree/bindings/display/panel/anbernic,wl-355608-a8.example.dtb: spi: 'sck-gpios' is a required property
-	from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-
-The relevant section from spi-gpio.yaml seems to be:
-
-required:
-  - compatible
-  - num-chipselects
-  - sck-gpios
-
-I am happy to leave this out if a simpler example is desired, but alternately if the chipselects/sck-gpios should stay then I would suggest a better example would include the mosi/miso/cs GPIOs as well which would make the example functional.
-
-Regards,
-
-Ryan
+-Akhil
+> 
+> BR,
+> -R
+> 
+> > -Akhil
+> >
+> > >  };
+> > >
+> > >  MODULE_FIRMWARE("qcom/a300_pm4.fw");
+> > > @@ -617,13 +652,17 @@ MODULE_FIRMWARE("qcom/yamato_pm4.fw");
+> > >  static const struct adreno_info *adreno_info(uint32_t chip_id)
+> > >  {
+> > >       /* identify gpu: */
+> > > -     for (int i = 0; i < ARRAY_SIZE(gpulist); i++) {
+> > > -             const struct adreno_info *info = &gpulist[i];
+> > > -             if (info->machine && !of_machine_is_compatible(info->machine))
+> > > -                     continue;
+> > > -             for (int j = 0; info->chip_ids[j]; j++)
+> > > -                     if (info->chip_ids[j] == chip_id)
+> > > -                             return info;
+> > > +     for (int i = 0; i < ARRAY_SIZE(gpulists); i++) {
+> > > +             for (int j = 0; j < gpulists[i]->gpus_count; j++) {
+> > > +                     const struct adreno_info *info = &gpulists[i]->gpus[j];
+> > > +
+> > > +                     if (info->machine && !of_machine_is_compatible(info->machine))
+> > > +                             continue;
+> > > +
+> > > +                     for (int k = 0; info->chip_ids[k]; k++)
+> > > +                             if (info->chip_ids[k] == chip_id)
+> > > +                                     return info;
+> > > +             }
+> > >       }
+> > >
+> > >       return NULL;
+> > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > > index 77526892eb8c..17aba8c58f3d 100644
+> > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > > @@ -114,6 +114,16 @@ struct adreno_info {
+> > >
+> > >  #define ADRENO_CHIP_IDS(tbl...) (uint32_t[]) { tbl, 0 }
+> > >
+> > > +struct adreno_gpulist {
+> > > +     const struct adreno_info *gpus;
+> > > +     unsigned gpus_count;
+> > > +};
+> > > +
+> > > +#define DECLARE_ADRENO_GPULIST(name)                  \
+> > > +const struct adreno_gpulist name ## _gpulist = {      \
+> > > +     name ## _gpus, ARRAY_SIZE(name ## _gpus)      \
+> > > +}
+> > > +
+> > >  /*
+> > >   * Helper to build a speedbin table, ie. the table:
+> > >   *      fuse | speedbin
+> > > --
+> > > 2.45.2
+> > >
