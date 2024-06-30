@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5818B91D2EF
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2024 19:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2529A91D2F0
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2024 19:00:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF3E10E0BC;
-	Sun, 30 Jun 2024 17:00:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5CF10E156;
+	Sun, 30 Jun 2024 17:00:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P7wKBX/m";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a0KV6aRI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BABF210E0BC;
- Sun, 30 Jun 2024 17:00:30 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id
- af79cd13be357-79d879dc431so27514585a.0; 
- Sun, 30 Jun 2024 10:00:30 -0700 (PDT)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 651F810E0C5;
+ Sun, 30 Jun 2024 17:00:35 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id
+ af79cd13be357-79c072af217so182184485a.0; 
+ Sun, 30 Jun 2024 10:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719766829; x=1720371629; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=QhZDIO5zwyKjVc4uVRuo8HZwK5NnMF2vQ+RShUGl63Q=;
- b=P7wKBX/mFkQ2PI/kbZLPHbQeP+0gdVwg1najZVvwLUTaPD/Kl4Rsj8gPOy1t8Ns5zq
- dZtZ+nYforf8FdiHxziS6W4FG4BXlLOF9sWbaLYelZLzOS+enUjZI3/8qcoyzn6zlqGN
- /HhIbEYCFu+rmXtnoVKt29GXdCKTheF5c4RImEh+trhSAQ81jaqYjUTG73eaedti4uqk
- mUqThvbDv/tU198kHRq7x4yMYLW5OsFi5F9KR45jDi77O0GVMo9unWmOCbD+0w1pT+LR
- aTGezBFXY1hUpZLkQM7TfieC1gLKnGNp+ep+WMtdvuBLqY0Pioct9d4J05+v6CrapRXJ
- lnaw==
+ d=gmail.com; s=20230601; t=1719766834; x=1720371634; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aOAqEF8HBq/c8/HLVMEZy1JjMjgUXa4TTTkMry5URs4=;
+ b=a0KV6aRIPc+E65X3yCRL42MD72rlCMFTg/WD0q+/RAzg0IebdSh3jxfH5Jo48ru3p2
+ J+MxZyMWJX1JYeYtNRwDnLUpBfflC6MnsJPuqKEa61rjIBX/3LdIBIshIePv64LwUcic
+ GHJasnZQ8EVcl0vEDnll9owuVxTE2lThvp/lBBDt4Q/MFcWKxYMWKfqJoFtncUGhDUKi
+ 6Wrd64+QCiY15T2FDzE3qKAQ/g9opek7iDP92dN1vQAUB6nwCBX3ZQlRrCdVlb3T7NGE
+ Ci6ECxCVPjRJIzazM3e17yIdWS7I2P+wwKf7KtrnCy8yMMTlKtT+VJAlN0dP2vJhjrKS
+ vQtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719766829; x=1720371629;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QhZDIO5zwyKjVc4uVRuo8HZwK5NnMF2vQ+RShUGl63Q=;
- b=MFFj1a0XPC+OYxoR0xh7BJVO9AIa+mFofDKTo06hZVMBray1vY1mo6KvM0S0C2gwzR
- UJ8/zMcOxKW/8McoA1nJePWCiWlKv76yoLJY0X3boC9BAEFyFuaGuy43oAjV+CKd2/Jm
- VpxZTXb7PNjDCg/UVvELSACkIi28aIpRR5ENelF9N7sUCw+mtqV3BxydK/dIPcfmHezz
- zYa/s9uR8izZxA5SqCndvWPRtiz+tzGvQj7D7lvf+SwLdEuDZqQUSoqKDFR3i2QpEPZn
- QdOBo26gJxqECWr4hgvaxdsvMn6NLJtd9N7KMNWA+GsClDLui+6med5ZElp4n4udNyRO
- OUpw==
+ d=1e100.net; s=20230601; t=1719766834; x=1720371634;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aOAqEF8HBq/c8/HLVMEZy1JjMjgUXa4TTTkMry5URs4=;
+ b=YFA6xlatjHJncBe6W6Aa1Z+hz5DaDluvCROrcgivqRvuSHsHjO2WMDbVq2uU9+umgj
+ plxlnHHn4Rd4eYk5YjmgyR8yocGLaWcU17qOqaQW7sI4xyKca3xqpNYJvIeuEXlz1roi
+ 5wf2KHsxDhWiYovqE+vLbN9kj54l7G2jDEctw+oxNnklREGiLMNE8r4DlopfoexGTJXj
+ 9MBd7n9KtIAdWc1T57NwKieHuIRzl16QWpopC+YTn2baNqYbDeM1qAd1zdImW0110bJl
+ B30JaKAQHSXZfQZ7GXzVH63wuAupHY4T831kBXmKNryfxwpon6u+5Kz2jKnOJVw0MkBG
+ XKzg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWnu7/8U8izcM62ufizr0rMnTFvusg/JibuDXtIXmzEqqR2PZLI1YBNovMUAzO8NXN5sh5602JXH+5ngh1I+mG6jHiCAmWNOxUxR6kvr8p8IPMpFFbS7Fnx3UPf6Nc1hdIv39NyeNhBbEllLeAz9Q==
-X-Gm-Message-State: AOJu0YyV5zv6pI3TYHPWWne6s87XTuuVTWP3djzTU4ZHCPXrmJoy6/8A
- eL83KlJZkuR9ytBOZSZOI5d+n9SRs2AReW2FdNN4VOkmDLtbwsIN
-X-Google-Smtp-Source: AGHT+IEQWZf8Yo6gbgwJLFPggay24R6Ukeci/k2IqD6vqXm8jI2MY9xxuql7xgKaTohH6ACn4xBJfw==
-X-Received: by 2002:a05:620a:2a06:b0:79c:11e5:52d0 with SMTP id
- af79cd13be357-79d7b796fa4mr645307985a.18.1719766829645; 
- Sun, 30 Jun 2024 10:00:29 -0700 (PDT)
+ AJvYcCWBa/5m3KFwofgGRLtN7n2+xCnCF1Xm4TJXQpbtHpbPvdLvNAUccENJ9l5LnE4C2fsrzgJjLPek2bDNfPCpkyKnJMRLuUNEkHziRr/Pz6LGPOzhqTmT/vNeKMopEk5gURamVxr0nbp7mhHs3ZS7RQ==
+X-Gm-Message-State: AOJu0Yz0m2h05iJPLbsb0r980Hkf1Ns0v3EgCqMCslVeOxISZG75LOup
+ 5PEJvtyi3RH0GsIx78QDw7N6PCrn5173wC+SzmcJaK9He8uzFNeB
+X-Google-Smtp-Source: AGHT+IHk5xMH+iHy4kgznjXyO/Fbae7oHqigKr2e4C+Oquw5T9HXa7nj+zH8AokmUX3S0CDkJ/rPMw==
+X-Received: by 2002:a05:620a:1098:b0:79d:561c:bba1 with SMTP id
+ af79cd13be357-79d7b9d68b8mr412701885a.25.1719766834330; 
+ Sun, 30 Jun 2024 10:00:34 -0700 (PDT)
 Received: from localhost.localdomain ([142.198.217.108])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-79d69295f5esm263431785a.56.2024.06.30.10.00.27
+ af79cd13be357-79d69295f5esm263431785a.56.2024.06.30.10.00.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Jun 2024 10:00:29 -0700 (PDT)
+ Sun, 30 Jun 2024 10:00:34 -0700 (PDT)
 From: Wu Hoi Pok <wuhoipok@gmail.com>
 To: 
 Cc: Thomas Zimmermann <tzimmermann@suse.de>, Wu Hoi Pok <wuhoipok@gmail.com>,
@@ -63,10 +64,13 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, Wu Hoi Pok <wuhoipok@gmail.com>,
  "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/6] drm/radeon: remove load callback & drm_dev_alloc
-Date: Sun, 30 Jun 2024 12:59:16 -0400
-Message-ID: <20240630165949.117634-1-wuhoipok@gmail.com>
+Subject: [PATCH v3 1/6] drm/radeon: change variable name "dev" to "ddev" for
+ consistency
+Date: Sun, 30 Jun 2024 12:59:17 -0400
+Message-ID: <20240630165949.117634-2-wuhoipok@gmail.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240630165949.117634-1-wuhoipok@gmail.com>
+References: <20240630165949.117634-1-wuhoipok@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,60 +88,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-.load and drm_dev_alloc are deprecated. These patch series aims to
-remove them.
+In the probe function of amdgpu, it uses "ddev" as the name of "struct drm_device *",
+so I suggest renaming it to be consistent.
 
-v3: Both v1 and v2 sucks. v3 improves greatly on readability.
+Signed-off-by: Wu Hoi Pok <wuhoipok@gmail.com>
+---
+ drivers/gpu/drm/radeon/radeon_drv.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Wu Hoi Pok (6):
-  drm/radeon: change variable name "dev" to "ddev" for consistency
-  drm/radeon: remove load callback from kms_driver
-  drm/radeon: use variable flags as parameter
-  drm/radeon: add helper rdev_to_drm(rdev)
-  drm/radeon: change rdev->ddev to rdev_to_drm(rdev)
-  drm/radeon: change drm_dev_alloc to devm_drm_dev_alloc
-
- drivers/gpu/drm/radeon/atombios_encoders.c |  2 +-
- drivers/gpu/drm/radeon/cik.c               | 14 ++--
- drivers/gpu/drm/radeon/dce6_afmt.c         |  2 +-
- drivers/gpu/drm/radeon/evergreen.c         | 12 ++--
- drivers/gpu/drm/radeon/ni.c                |  2 +-
- drivers/gpu/drm/radeon/r100.c              | 24 +++----
- drivers/gpu/drm/radeon/r300.c              |  6 +-
- drivers/gpu/drm/radeon/r420.c              |  6 +-
- drivers/gpu/drm/radeon/r520.c              |  2 +-
- drivers/gpu/drm/radeon/r600.c              | 12 ++--
- drivers/gpu/drm/radeon/r600_cs.c           |  2 +-
- drivers/gpu/drm/radeon/r600_dpm.c          |  4 +-
- drivers/gpu/drm/radeon/r600_hdmi.c         |  2 +-
- drivers/gpu/drm/radeon/radeon.h            |  7 +-
- drivers/gpu/drm/radeon/radeon_acpi.c       | 10 +--
- drivers/gpu/drm/radeon/radeon_agp.c        |  2 +-
- drivers/gpu/drm/radeon/radeon_atombios.c   |  2 +-
- drivers/gpu/drm/radeon/radeon_audio.c      |  4 +-
- drivers/gpu/drm/radeon/radeon_combios.c    | 12 ++--
- drivers/gpu/drm/radeon/radeon_device.c     | 13 ++--
- drivers/gpu/drm/radeon/radeon_display.c    | 74 +++++++++++-----------
- drivers/gpu/drm/radeon/radeon_drv.c        | 27 +++++---
- drivers/gpu/drm/radeon/radeon_fbdev.c      | 26 ++++----
- drivers/gpu/drm/radeon/radeon_fence.c      |  8 +--
- drivers/gpu/drm/radeon/radeon_gem.c        |  2 +-
- drivers/gpu/drm/radeon/radeon_i2c.c        |  2 +-
- drivers/gpu/drm/radeon/radeon_ib.c         |  2 +-
- drivers/gpu/drm/radeon/radeon_irq_kms.c    | 12 ++--
- drivers/gpu/drm/radeon/radeon_kms.c        |  8 +--
- drivers/gpu/drm/radeon/radeon_object.c     |  2 +-
- drivers/gpu/drm/radeon/radeon_pm.c         | 20 +++---
- drivers/gpu/drm/radeon/radeon_ring.c       |  2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c        |  6 +-
- drivers/gpu/drm/radeon/rs400.c             |  6 +-
- drivers/gpu/drm/radeon/rs600.c             | 14 ++--
- drivers/gpu/drm/radeon/rs690.c             |  2 +-
- drivers/gpu/drm/radeon/rv515.c             |  4 +-
- drivers/gpu/drm/radeon/rv770.c             |  2 +-
- drivers/gpu/drm/radeon/si.c                |  4 +-
- 39 files changed, 184 insertions(+), 179 deletions(-)
-
+diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+index 7bf08164140e..739bb1da9dcc 100644
+--- a/drivers/gpu/drm/radeon/radeon_drv.c
++++ b/drivers/gpu/drm/radeon/radeon_drv.c
+@@ -259,7 +259,7 @@ static int radeon_pci_probe(struct pci_dev *pdev,
+ 			    const struct pci_device_id *ent)
+ {
+ 	unsigned long flags = 0;
+-	struct drm_device *dev;
++	struct drm_device *ddev;
+ 	int ret;
+ 
+ 	if (!ent)
+@@ -300,28 +300,28 @@ static int radeon_pci_probe(struct pci_dev *pdev,
+ 	if (ret)
+ 		return ret;
+ 
+-	dev = drm_dev_alloc(&kms_driver, &pdev->dev);
+-	if (IS_ERR(dev))
+-		return PTR_ERR(dev);
++	ddev = drm_dev_alloc(&kms_driver, &pdev->dev);
++	if (IS_ERR(ddev))
++		return PTR_ERR(ddev);
+ 
+ 	ret = pci_enable_device(pdev);
+ 	if (ret)
+ 		goto err_free;
+ 
+-	pci_set_drvdata(pdev, dev);
++	pci_set_drvdata(pdev, ddev);
+ 
+-	ret = drm_dev_register(dev, ent->driver_data);
++	ret = drm_dev_register(ddev, ent->driver_data);
+ 	if (ret)
+ 		goto err_agp;
+ 
+-	radeon_fbdev_setup(dev->dev_private);
++	radeon_fbdev_setup(ddev->dev_private);
+ 
+ 	return 0;
+ 
+ err_agp:
+ 	pci_disable_device(pdev);
+ err_free:
+-	drm_dev_put(dev);
++	drm_dev_put(ddev);
+ 	return ret;
+ }
+ 
 -- 
 2.45.2
 
