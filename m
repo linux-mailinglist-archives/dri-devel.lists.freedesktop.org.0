@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7237B91D32F
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2024 20:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D57C91D330
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2024 20:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2A6310E2BD;
-	Sun, 30 Jun 2024 18:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76DA310E2B8;
+	Sun, 30 Jun 2024 18:37:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=postmarketos.org header.i=@postmarketos.org header.b="kIsWHqTE";
+	dkim=pass (2048-bit key; unprotected) header.d=postmarketos.org header.i=@postmarketos.org header.b="FFTFIl1F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
- [91.218.175.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13EE910E2B8
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2024 18:36:53 +0000 (UTC)
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com
+ [91.218.175.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25E3910E2BD
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2024 18:36:55 +0000 (UTC)
 X-Envelope-To: robh@kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
- s=key1; t=1719772611;
+ s=key1; t=1719772613;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DZBoXWrQr9u6/TuApniCQxm7KeQ0Gzi+1XDwpvLAkwM=;
- b=kIsWHqTEmB7nu/OrNSV5DqQoACWn6qSv81uogvqCletROn6grvsNnJTJCYWXyJ4t06oYx9
- OZmgUcRF7vJHPfnEfSq4lvUyzOPFIN1KjwX32O4ipTPQjRKufJXaQZzD2GPpQaLT2qUHq1
- 9cP0XKoHNEckQbDUOA+S/fAmEukMrKqWCJGmpTEI4U4B3MDmujYUigXcpogYmnlG3JZYYf
- AEo5teWEDwmH2HD5R3/UVGylRNqjJPshXbnxS0Q+KiI7j8ACYEPF7eo7s5vm0mrPLkyNLy
- kDB1ZwLlSW9wxagvTKJPcA0h9Vp/5Geyp5DW4TfNuaknY260l2wT+LOHFXDR1g==
+ bh=yklvR36o+cTtpXZYt7sYJDdmrIN2+8dtF/7gKomOx30=;
+ b=FFTFIl1FtEXoGFGTVbntrklYIAfswfrTGPTKYCEMLBGOpca/9zu2DW4NMmOLvns8eeZ1mP
+ 4P9eCRx3iYCjSNNuXQb8p7eokI64feF64FhKVwdAhqSVe7pG/ijvncaWc3/JJtU9GoDysI
+ 2mRF6ig99LEigOUsjFL9xdi6/8hZ3So0R5HXNhOP/MdunF1vjQFpozyu5FiS50L5ryVfuh
+ zzKAhg/0vbJSv4NqBvSqrn6GoPFzETZvE5K19Hltg1ybql4atiyQiPAQHHapU4IyA0oPoJ
+ udc0rX0THc4esydOgRONce22XbzONNvhVlzIAX/xary6XUKzntlfJERmPuPG2w==
 X-Envelope-To: conor+dt@kernel.org
 X-Envelope-To: neil.armstrong@linaro.org
 X-Envelope-To: daniel@ffwll.ch
@@ -53,12 +53,12 @@ X-Envelope-To: andersson@kernel.org
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Caleb Connolly <caleb@postmarketos.org>
-Date: Sun, 30 Jun 2024 20:36:30 +0200
-Subject: [PATCH v2 7/8] Input: touchscreen: add Synaptics TCM oncell S3908
+Date: Sun, 30 Jun 2024 20:36:31 +0200
+Subject: [PATCH v2 8/8] arm64: dts: qcom: add OnePlus 8T (kebab)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240630-oneplus8-v2-7-c4a1f8da74f1@postmarketos.org>
+Message-Id: <20240630-oneplus8-v2-8-c4a1f8da74f1@postmarketos.org>
 References: <20240630-oneplus8-v2-0-c4a1f8da74f1@postmarketos.org>
 In-Reply-To: <20240630-oneplus8-v2-0-c4a1f8da74f1@postmarketos.org>
 To: Caleb Connolly <caleb@postmarketos.org>, 
@@ -78,21 +78,21 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  ~postmarketos/upstreaming@lists.sr.ht, 
  Frieder Hannenheim <frieder.hannenheim@proton.me>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=19241;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=23864;
  i=caleb@postmarketos.org; h=from:subject:message-id;
- bh=pZdSuLdBjDzcvOn/MI9RI67nHRF61y9raJVXWOqp3Qg=;
- b=owEBbQKS/ZANAwAIAQWDMSsZX2S2AcsmYgBmgaWzIqDnWNGkyYLLdwi9szaJRu+/iypz2RcXL
- brS/tWRkiKJAjMEAAEIAB0WIQS2UaFGPGq+0GkMVc0FgzErGV9ktgUCZoGlswAKCRAFgzErGV9k
- trwuD/9cPK+n5MQkOWPmmfbKQj0k/4TMR1n19qkgfh8V9rY8vDKS+zuowjbvwMEYSNvBuJ6LSoL
- EMrSN4NloY5gP+1UwnmRLro3+YVB0DeByqeIQhS476t+W5EVapNYhJzVBe7kprwUrRic54VECXH
- MBR7oftqPeEiMTnlbwk7qyEKPRvMAYQ434XqdEtWn7qbPKTwE6TVSX8L5jvh5efl7dRX6cCVpra
- rwGKLU6fyTHajlnCipD7v/9zpffPcTjNiSXiIWVivfGtLggazY6WLgYfzh7V72DowxDXzNKjcAg
- AKfufEY/hlRiQAuMoMxFyc7NO9KEyfUzDAUssqkxL1lWrCroPpgbC1S87QB7W+bVx+fN31/Vfil
- PkCZluK67F4C18OuWbKimYO14C51Ny4IbQJPGYqVlj96ySAVaBxRVnNWWYhB1tYo/7DABTGrvGh
- aTBMd+Yuh+PGbCWgDdvWLSpQJ6bzRzLsFBg4U8Fw/Hg9S0RHutMAMsJzGElC2MfvBNi0wXdO/Mf
- y18ABag5+AK7VgpQ9YnGqHC3ipaRSfRdrmrjPEYbDzgXKN8mH0FAoOqOUgTjZYybP7bLOT3O4wQ
- C13z/s/5CZ6Xjpl3ySKN3SlAI/xYnOt7yDmTRPxy/nQUhxGsHxX3B3fkH5/0AlwEOkP/JeNPNrX
- wF8ntcjSnpjQhrQ==
+ bh=DSLJL73EvX4rZsxAN+uoSDjujz9T4AGroHyd6ERthXY=;
+ b=owEBbQKS/ZANAwAIAQWDMSsZX2S2AcsmYgBmgaWzxnmL5qOeydd00e9R87w8eeaBnjz7fHPme
+ e8ZacJQdZqJAjMEAAEIAB0WIQS2UaFGPGq+0GkMVc0FgzErGV9ktgUCZoGlswAKCRAFgzErGV9k
+ trHGEACfSR1SK+CLu3/zD+jFyYtn5so/Uo6M7HZIAQbq4LZoa8EL+yJybhRekFNUSUih8I7XvSu
+ bM6A7NXZnu2Qx/tr/ufAf0e2iuPdsqmAIFs5iSBm7c+9YOH+5ZT0oIoeUdKq4PLVwk268eaGN3T
+ dxERTWx8HjF5SJShcTQL1h6MViSku2Yb6e/EqF/CXWMWTyZaW4rQxrnCUZhtDH1cSkym1iAQia+
+ Ms2qf4da929TyyvFXdzAoZLQqKO3s7Flo58ob1Qf3Nt5FfGRmuYt6kdR97E4vpzJfsyfz0GbPa0
+ V2iCzbcBuMmG5idaNVMoS8d9+8WcBX5PlsS7yOC5OzA5CFKtevkDrd2xAp1myTbekpXv96lvpez
+ lzDxjw5JKntjqYFfzajKlxJLgMyvKQQyqpuiNTm1YdlAVRBKnhCjmVd7cHwoFpkL+D4WFd6TeIH
+ Kag9B2mDpiv4BstHFK42j+OjxLl71cPSHnJcmAaCREGndpKd5LPvtKOT7dZz4+5oU10fl7wdd5T
+ 1lIYZnq6NSvv80umgdGA/5tbVVB6h4jsSYurWBUsZvKaUbkWEPYcdUnIbyquQPkjnJ9ebltsR4L
+ rW4buzXdLBy4t9aKRMZ0+BqnXrmV8/fDVd1Kymg/kmse71+aa7b9IVUoxefraKRyaOZqxBRPsSM
+ PgeDws7RQ1xc0zw==
 X-Developer-Key: i=caleb@postmarketos.org; a=openpgp;
  fpr=83B24DA7FE145076BC38BB250CD904EB673A7C47
 X-Migadu-Flow: FLOW_OUT
@@ -111,664 +111,988 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TCM oncell is the next generation of Synaptics touchscreen ICs.
-These run a very featured firmware with a reasonably well defined API.
-It is however entirely incompatible with the existing RMI4 interface.
-
-Unfortunately, no public datasheet for the interface seems to be
-available, instead this driver was created through a combination of
-vendor drivers and trial and error.
-
-The firmware interface implies support for defining the exact bit
-encoding of the touch reports, however on the S3908 chip + firmware
-found in the OnePlus 8t the TCM_SET_TOUCH_REPORT_CONFIG command appears
-to be unsupported.
+Initial support for USB, UFS, touchscreen, panel, wifi, and bluetooth.
 
 Co-developed-by: Frieder Hannenheim <frieder.hannenheim@proton.me>
 Signed-off-by: Frieder Hannenheim <frieder.hannenheim@proton.me>
 Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
 ---
- MAINTAINERS                                      |   7 +
- drivers/input/touchscreen/Kconfig                |  11 +
- drivers/input/touchscreen/Makefile               |   1 +
- drivers/input/touchscreen/synaptics_tcm_oncell.c | 571 +++++++++++++++++++++++
- 4 files changed, 590 insertions(+)
+ arch/arm64/boot/dts/qcom/Makefile                  |   1 +
+ .../arm64/boot/dts/qcom/sm8250-oneplus-common.dtsi | 909 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm8250-oneplus-kebab.dts  |  36 +
+ 3 files changed, 946 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2b9cfbf92d7a..db589c841d8c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21826,8 +21826,15 @@ M:	Icenowy Zheng <icenowy@aosc.io>
- S:	Maintained
- F:	Documentation/devicetree/bindings/regulator/silergy,sy8106a.yaml
- F:	drivers/regulator/sy8106a-regulator.c
- 
-+SYNAPTICS TCM ONCELL TOUCHSCREEN DRIVER
-+M:	Caleb Connolly <caleb@postmarketos.org>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml
-+F:	drivers/input/touchscreen/synaptics_tcm_oncell.c
-+
- SYNC FILE FRAMEWORK
- M:	Sumit Semwal <sumit.semwal@linaro.org>
- R:	Gustavo Padovan <gustavo@padovan.org>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index c821fe3ee794..43c4fd80601c 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -531,8 +531,19 @@ config TOUCHSCREEN_S6SY761
- 
- 	  To compile this driver as module, choose M here: the
- 	  module will be called s6sy761.
- 
-+config TOUCHSCREEN_SYNAPTICS_TCM_ONCELL
-+	tristate "Synaptics TCM Oncell Touchscreen driver"
-+	depends on I2C
-+	help
-+	  Say Y if you have the Synaptics S3908 TCM Oncell
-+
-+	  If unsure, say N
-+
-+	  To compile this driver as module, choose M here: the
-+	  module will be called synaptics_tcm_oncell.
-+
- config TOUCHSCREEN_GUNZE
- 	tristate "Gunze AHL-51S touchscreen"
- 	select SERIO
- 	help
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index a81cb5aa21a5..6a2b85050c3a 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -88,8 +88,9 @@ obj-$(CONFIG_TOUCHSCREEN_STMFTS)	+= stmfts.o
- obj-$(CONFIG_TOUCHSCREEN_STMPE)		+= stmpe-ts.o
- obj-$(CONFIG_TOUCHSCREEN_SUN4I)		+= sun4i-ts.o
- obj-$(CONFIG_TOUCHSCREEN_SUR40)		+= sur40.o
- obj-$(CONFIG_TOUCHSCREEN_SURFACE3_SPI)	+= surface3_spi.o
-+obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_TCM_ONCELL)	+= synaptics_tcm_oncell.o
- obj-$(CONFIG_TOUCHSCREEN_TI_AM335X_TSC)	+= ti_am335x_tsc.o
- obj-$(CONFIG_TOUCHSCREEN_TOUCHIT213)	+= touchit213.o
- obj-$(CONFIG_TOUCHSCREEN_TOUCHRIGHT)	+= touchright.o
- obj-$(CONFIG_TOUCHSCREEN_TOUCHWIN)	+= touchwin.o
-diff --git a/drivers/input/touchscreen/synaptics_tcm_oncell.c b/drivers/input/touchscreen/synaptics_tcm_oncell.c
+diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+index 5576c7d6ea06..14efed297df3 100644
+--- a/arch/arm64/boot/dts/qcom/Makefile
++++ b/arch/arm64/boot/dts/qcom/Makefile
+@@ -231,8 +231,9 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8150-mtp.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8150-sony-xperia-kumano-bahamut.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8150-sony-xperia-kumano-griffin.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8250-hdk.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8250-mtp.dtb
++dtb-$(CONFIG_ARCH_QCOM)	+= sm8250-oneplus-kebab.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8250-sony-xperia-edo-pdx203.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8250-sony-xperia-edo-pdx206.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8250-xiaomi-elish-boe.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8250-xiaomi-elish-csot.dtb
+diff --git a/arch/arm64/boot/dts/qcom/sm8250-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sm8250-oneplus-common.dtsi
 new file mode 100644
-index 000000000000..25ed1ab1377d
+index 000000000000..9a5ac055c8b3
 --- /dev/null
-+++ b/drivers/input/touchscreen/synaptics_tcm_oncell.c
-@@ -0,0 +1,571 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++++ b/arch/arm64/boot/dts/qcom/sm8250-oneplus-common.dtsi
+@@ -0,0 +1,909 @@
++// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 +/*
-+ *  Driver for Synaptics TCM Oncell Touchscreens
-+ *
-+ *  Copyright (c) 2024 Frieder Hannenheim <frieder.hannenheim@proton.me>
-+ *  Copyright (c) 2024 Caleb Connolly <caleb@postmarketos.org>
++ * Copyright (c) 2024, Frieder Hannenheim <frieder.hannenheim@proton.me>
++ * Copyright (c) 2024, Caleb Connolly <caleb@postmarketos.org>
 + */
 +
-+#include <asm-generic/unaligned.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/input/touchscreen.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <asm/unaligned.h>
-+#include <linux/delay.h>
-+#include <linux/input/mt.h>
-+#include <linux/input/touchscreen.h>
-+#include <linux/interrupt.h>
-+#include <linux/irq.h>
-+#include <linux/of_gpio.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
++/dts-v1/;
 +
-+/*
-+ * The TCM oncell interface uses a command byte, which may be followed by additional
-+ * data. The packet format is defined in the tcm_cmd struct.
-+ *
-+ * The following list only defines commands that are used in this driver (and their
-+ * counterparts for context). Vendor reference implementations can be found at
-+ * https://github.com/LineageOS/android_kernel_oneplus_sm8250/tree/ee0a7ee1939ffd53000e42051caf8f0800defb27/drivers/input/touchscreen/synaptics_tcm
-+ */
++#include <dt-bindings/leds/common.h>
++#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
++#include <dt-bindings/sound/qcom,q6afe.h>
++#include <dt-bindings/sound/qcom,q6asm.h>
++#include <dt-bindings/usb/pd.h>
++#include "sm8250.dtsi"
++#include "pm8150.dtsi"
++#include "pm8150b.dtsi"
++#include "pm8150l.dtsi"
 +
-+/*
-+ * Request information about the chip. We don't send this command explicitly as
-+ * the controller automatically sends this information when starting up.
-+ */
-+#define TCM_IDENTIFY				0x02
++/* removed_mem @ 0x80b00000 is bigger so we gotta shift everything up... */
++/delete-node/ &removed_mem;
++/delete-node/ &camera_mem;
++/delete-node/ &wlan_mem;
++/delete-node/ &ipa_fw_mem;
++/delete-node/ &ipa_gsi_mem;
++/delete-node/ &gpu_mem;
++/delete-node/ &npu_mem;
++/delete-node/ &video_mem;
++/delete-node/ &cvp_mem;
++/delete-node/ &cdsp_mem;
++/delete-node/ &slpi_mem;
++/delete-node/ &adsp_mem;
++/delete-node/ &spss_mem;
++/delete-node/ &cdsp_secure_heap;
 +
-+/* Enable/disable reporting touch inputs */
-+#define TCM_ENABLE_REPORT			0x05
-+#define TCM_DISABLE_REPORT			0x06
 +
-+/*
-+ * After powering on, we send this to exit the bootloader mode and run the main
-+ * firmware.
-+ */
-+#define TCM_RUN_APPLICATION_FIRMWARE		0x14
-+
-+/*
-+ * Reports information about the vendor provided application firmware. This is
-+ * also used to determine when the firmware has finished booting.
-+ */
-+#define TCM_GET_APPLICATION_INFO		0x20
-+
-+#define MODE_APPLICATION			0x01
-+
-+#define APP_STATUS_OK				0x00
-+#define APP_STATUS_BOOTING			0x01
-+#define APP_STATUS_UPDATING			0x02
-+
-+/* status codes */
-+#define REPORT_IDLE				0x00
-+#define REPORT_OK				0x01
-+#define REPORT_BUSY				0x02
-+#define REPORT_CONTINUED_READ			0x03
-+#define REPORT_RECEIVE_BUFFER_OVERFLOW		0x0c
-+#define REPORT_PREVIOUS_COMMAND_PENDING		0x0d
-+#define REPORT_NOT_IMPLEMENTED			0x0e
-+#define REPORT_ERROR				0x0f
-+
-+/* report types */
-+#define REPORT_IDENTIFY				0x10
-+#define REPORT_TOUCH				0x11
-+#define REPORT_DELTA				0x12
-+#define REPORT_RAW				0x13
-+#define REPORT_DEBUG				0x14
-+#define REPORT_LOG				0x1d
-+#define REPORT_TOUCH_HOLD			0x20
-+#define REPORT_INVALID				0xff
-+
-+struct tcm_message_header {
-+	u8 marker;
-+	u8 code;
-+	__le16 length;
-+} __packed;
-+
-+struct tcm_cmd {
-+	u8 cmd;
-+	__le16 length;
-+	u8 data[];
-+};
-+
-+struct tcm_identification {
-+	struct tcm_message_header header;
-+	u8 version;
-+	u8 mode;
-+	char part_number[16];
-+	u8 build_id[4];
-+	u8 max_write_size[2];
-+} __packed;
-+
-+struct tcm_app_info {
-+	struct tcm_message_header header;
-+	u8 version[2];
-+	__le16 status;
-+	u8 static_config_size[2];
-+	u8 dynamic_config_size[2];
-+	u8 app_config_start_write_block[2];
-+	u8 app_config_size[2];
-+	u8 max_touch_report_config_size[2];
-+	u8 max_touch_report_payload_size[2];
-+	char customer_config_id[16];
-+	__le16 max_x;
-+	__le16 max_y;
-+	u8 max_objects[2];
-+	u8 num_of_buttons[2];
-+	u8 num_of_image_rows[2];
-+	u8 num_of_image_cols[2];
-+	u8 has_hybrid_data[2];
-+} __packed;
-+
-+struct tcm_data {
-+	struct i2c_client *client;
-+	struct regmap *regmap;
-+	struct input_dev *input;
-+	struct gpio_desc *reset_gpio;
-+	struct completion response;
-+	struct touchscreen_properties props;
-+	struct regulator_bulk_data supplies[2];
-+
-+	/* annoying state */
-+	u16 buf_size;
-+	char buf[256];
-+};
-+
-+static int tcm_send_cmd(struct tcm_data *tcm, struct tcm_cmd *cmd)
-+{
-+	struct i2c_client *client = tcm->client;
-+	struct i2c_msg msg;
-+	int ret;
-+
-+	dev_dbg(&client->dev, "sending command %#x\n", cmd->cmd);
-+
-+	msg.addr = client->addr;
-+	msg.flags = 0;
-+	msg.len = 1 + cmd->length;
-+	msg.buf = (u8 *)cmd;
-+
-+	ret = i2c_transfer(client->adapter, &msg, 1);
-+	if (ret == 1)
-+		return 0;
-+	else if (ret < 0)
-+		return ret;
-+	else
-+		return -EIO;
-+}
-+
-+static int tcm_send_cmd_noargs(struct tcm_data *tcm, u8 cmd)
-+{
-+	struct tcm_cmd c = {
-+		.cmd = cmd,
-+		.length = 0,
++/ {
++	aliases {
++		serial0 = &uart12;
++		serial1 = &uart6;
 +	};
 +
-+	return tcm_send_cmd(tcm, &c);
-+}
++	chosen {
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
 +
-+static int tcm_recv_report(struct tcm_data *tcm,
-+			   void *buf, size_t length)
-+{
-+	struct i2c_client *client = tcm->client;
-+	struct i2c_msg msg;
-+	int ret;
++		stdout-path = "serial0:115200n8";
 +
-+	msg.addr = client->addr;
-+	msg.flags = I2C_M_RD;
-+	msg.len = length;
-+	msg.buf = buf;
++		framebuffer: framebuffer@9c000000 {
++			compatible = "simple-framebuffer";
++			reg = <0 0x9c000000 0 0x2300000>;
++			width = <1080>;
++			height = <2400>;
++			stride = <(1080 * 4)>;
++			format = "a8r8g8b8";
++		};
++	};
 +
-+	ret = i2c_transfer(client->adapter, &msg, 1);
-+	if (ret == 1)
-+		return 0;
-+	else if (ret < 0)
-+		return ret;
-+	else
-+		return -EIO;
-+}
++	gpio-keys {
++		compatible = "gpio-keys";
++		autorepeat;
 +
-+static int tcm_read_message(struct tcm_data *tcm, u8 cmd, void *buf, size_t length)
-+{
-+	int ret;
++		key-vol-up {
++			label = "Volume up";
++			linux,code = <KEY_VOLUMEUP>;
++			gpios = <&pm8150_gpios 6 GPIO_ACTIVE_LOW>;
++		};
 +
-+	reinit_completion(&tcm->response);
-+	ret = tcm_send_cmd_noargs(tcm, cmd);
-+	if (ret)
-+		return ret;
++		key-vol-dowm {
++			label = "Volume down";
++			linux,code = <KEY_VOLUMEDOWN>;
++			gpios = <&pm8150_gpios 7 GPIO_ACTIVE_LOW>;
++		};
++	};
 +
-+	ret = wait_for_completion_timeout(&tcm->response, msecs_to_jiffies(1000));
-+	if (ret == 0)
-+		return -ETIMEDOUT;
++	reserved-memory {
++		camera_mem: camera@8dc00000 {
++			reg = <0x0 0x8dc00000 0x0 0x500000>;
++			no-map;
++		};
 +
-+	if (buf) {
-+		if (length > tcm->buf_size) {
-+			dev_warn(&tcm->client->dev, "expected %zu bytes, got %u\n",
-+				 length, tcm->buf_size);
-+		}
-+		length = min(tcm->buf_size, length);
-+		memcpy(buf, tcm->buf, length);
-+	}
++		wlan_mem: wlan@8e100000 {
++			reg = <0x0 0x8e100000 0x0 0x100000>;
++			no-map;
++		};
 +
-+	return 0;
-+}
++		ipa_fw_mem: ipa-fw@8e200000 {
++			reg = <0x0 0x8e200000 0x0 0x10000>;
++			no-map;
++		};
 +
-+static void tcm_power_off(void *data)
-+{
-+	struct tcm_data *tcm = data;
++		ipa_gsi_mem: ipa-gsi@8e210000 {
++			reg = <0x0 0x8e210000 0x0 0xa000>;
++			no-map;
++		};
 +
-+	disable_irq(tcm->client->irq);
-+	regulator_bulk_disable(ARRAY_SIZE(tcm->supplies), tcm->supplies);
-+}
++		gpu_mem: gpu@8e21a000 {
++			reg = <0x0 0x8e21a000 0x0 0x2000>;
++			no-map;
++		};
 +
-+static int tcm_input_open(struct input_dev *dev)
-+{
-+	struct tcm_data *tcm = input_get_drvdata(dev);
++		npu_mem: memory@8e300000 {
++			reg = <0x0 0x8e300000 0x0 0x500000>;
++			no-map;
++		};
 +
-+	return i2c_smbus_write_byte(tcm->client, TCM_ENABLE_REPORT);
-+}
++		video_mem: video@8e800000 {
++			reg = <0x0 0x8e800000 0x0 0x500000>;
++			no-map;
++		};
 +
-+static void tcm_input_close(struct input_dev *dev)
-+{
-+	struct tcm_data *tcm = input_get_drvdata(dev);
-+	int ret;
++		cvp_mem: cvp@8ed00000 {
++			reg = <0x0 0x8ed00000 0x0 0x500000>;
++			no-map;
++		};
 +
-+	ret = i2c_smbus_write_byte(tcm->client, TCM_DISABLE_REPORT);
-+	if (ret)
-+		dev_err(&tcm->client->dev, "failed to turn off sensing\n");
-+}
++		cdsp_mem: cdsp@8f200000 {
++			reg = <0x0 0x8f200000 0x0 0x1400000>;
++			no-map;
++		};
 +
-+/*
-+ * The default report config looks like this:
-+ *
-+ * a5 01 80 00 11 08 1e 08 0f 01 04 01 06 04 07 04
-+ * 08 0c 09 0c 0a 08 0b 08 0c 08 0d 10 0e 10 03 00
-+ * 00 00
-+ *
-+ * a5 01 80 00 - HEADER + length
-+ *
-+ * 11 08 - TOUCH_FRAME_RATE (8 bits)
-+ * 30 08 - UNKNOWN (8 bits)
-+ * 0f 01 - TOUCH_0D_BUTTONS_STATE (1 bit)
-+ * 04 01 - TOUCH_PAD_TO_NEXT_BYTE (7 bits - padding)
-+ * 06 04 - TOUCH_OBJECT_N_INDEX (4 bits)
-+ * 07 04 - TOUCH_OBJECT_N_CLASSIFICATION (4 bits)
-+ * 08 0c - TOUCH_OBJECT_N_X_POSITION (12 bits)
-+ * 09 0c - TOUCH_OBJECT_N_Y_POSITION (12 bits)
-+ * 0a 08 - TOUCH_OBJECT_N_Z (8 bits)
-+ * 0b 08 - TOUCH_OBJECT_N_X_WIDTH (8 bits)
-+ * 0c 08 - TOUCH_OBJECT_N_Y_WIDTH (8 bits)
-+ * 0d 10 - TOUCH_OBJECT_N_TX_POSITION_TIXELS (16 bits) ??
-+ * 0e 10 - TOUCH_OBJECT_N_RX_POSITION_TIXELS (16 bits) ??
-+ * 03 00 - TOUCH_FOREACH_END (0 bits)
-+ * 00 00 - TOUCH_END (0 bits)
-+ *
-+ * Since we only support this report config, we just hardcode the format below.
-+ * To support additional report configs, we would need to parse the config and
-+ * use it to parse the reports dynamically.
-+ */
++		slpi_mem: slpi@90600000 {
++			reg = <0x0 0x90600000 0x0 0x1500000>;
++			no-map;
++		};
 +
-+struct tcm_report_point {
-+	u8 unknown;
-+	u8 buttons;
-+	__le32 point; /* idx : 4, class : 4, x : 12, y : 12 */
-+	// u8 idx : 4;
-+	// u8 classification : 4;
-+	// u16 x : 12;
-+	// u16 y : 12;
-+	u8 z;
-+	u8 width_x;
-+	u8 width_y;
-+	u8 tx;
-+	u8 rx;
-+} __packed;
++		adsp_mem: adsp@91b00000 {
++			reg = <0x00 0x91b00000 0x00 0x2500000>;
++			no-map;
++		};
 +
-+static int tcm_handle_touch_report(struct tcm_data *tcm, const char *buf, size_t len)
-+{
-+	const struct tcm_report_point *point;
-+	/* If the input device hasn't registered yet then we can't do anything */
-+	if (!tcm->input)
-+		return 0;
++		spss_mem: spss@94000000 {
++			reg = <0x0 0x94000000 0x0 0x100000>;
++			no-map;
++		};
 +
-+	buf += sizeof(struct tcm_message_header);
-+	len -= sizeof(struct tcm_message_header);
++		cdsp_secure_heap: cdsp-secure@94100000 {
++			reg = <0x0 0x94100000 0x0 0x4600000>;
++			no-map;
++		};
 +
-+	dev_dbg(&tcm->client->dev, "touch report len %zu\n", len);
-+	if ((len - 3) % sizeof(*point))
-+		dev_err(&tcm->client->dev, "invalid touch report length\n");
++		framebuffer@9c000000 {
++			reg = <0 0x9c000000 0 0x2300000>;
++			no-map;
++		};
++	};
 +
-+	buf++; /* Skip the FPS report */
++	panel_avdd_5p5: regulator-panel-avdd {
++		compatible = "regulator-fixed";
++		regulator-name = "panel_avdd_5p5";
++		regulator-min-microvolt = <5500000>;
++		regulator-max-microvolt = <5500000>;
++		regulator-enable-ramp-delay = <233>;
++		gpio = <&tlmm 61 GPIO_ACTIVE_HIGH>;
++		regulator-boot-on;
++		pinctrl-names = "default";
++		pinctrl-0 = <&panel_avdd_pins>;
++	};
 +
-+	/* We don't need to report releases because we have INPUT_MT_DROP_UNUSED */
-+	for (int i = 0; i < (len - 1) / sizeof(*point); i++) {
-+		u8 major_width, minor_width;
-+		u16 idx, x, y;
-+		u32 _point;
++	vph_pwr: regulator-vph-pwr {
++		compatible = "regulator-fixed";
++		regulator-name = "vph_pwr";
++		regulator-min-microvolt = <3700000>;
++		regulator-max-microvolt = <3700000>;
++		regulator-always-on;
++	};
 +
-+		point = (struct tcm_report_point *)buf;
-+		_point = le32_to_cpu(point->point);
++	vreg_s4a_1p8: regulator-vreg-s4a-1p8 {
++		compatible = "regulator-fixed";
++		regulator-name = "vreg_s4a_1p8";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-always-on;
++	};
 +
-+		minor_width = point->width_x;
-+		major_width = point->width_y;
++	qca6390-pmu {
++		compatible = "qcom,qca6390-pmu";
 +
-+		if (minor_width > major_width)
-+			swap(major_width, minor_width);
++		pinctrl-names = "default";
++		pinctrl-0 = <&bt_en_state>, <&wlan_en_state>;
 +
-+		idx = _point & 0xf;
-+		x = (_point >> 8) & 0xfff;
-+		y = (_point >> 20) & 0xfff;
++		vddaon-supply = <&vreg_s6a_0p95>;
++		vddpmu-supply = <&vreg_s6a_0p95>;
++		vddrfa0p95-supply = <&vreg_s6a_0p95>;
++		vddrfa1p3-supply = <&vreg_s8c_1p3>;
++		vddrfa1p9-supply = <&vreg_s5a_1p9>;
++		vddpcie1p3-supply = <&vreg_s8c_1p3>;
++		vddpcie1p9-supply = <&vreg_s5a_1p9>;
++		vddio-supply = <&vreg_s4a_1p8>;
 +
-+		dev_dbg(&tcm->client->dev, "touch report: idx %u x %u y %u\n",
-+			idx, x, y);
++		wlan-enable-gpios = <&tlmm 20 GPIO_ACTIVE_HIGH>;
++		bt-enable-gpios = <&tlmm 21 GPIO_ACTIVE_HIGH>;
 +
-+		input_mt_slot(tcm->input, idx);
-+		input_mt_report_slot_state(tcm->input, MT_TOOL_FINGER, true);
++		regulators {
++			vreg_pmu_rfa_cmn: ldo0 {
++				regulator-name = "vreg_pmu_rfa_cmn";
++			};
 +
-+		touchscreen_report_pos(tcm->input, &tcm->props, x, y, true);
++			vreg_pmu_aon_0p59: ldo1 {
++				regulator-name = "vreg_pmu_aon_0p59";
++			};
 +
-+		input_report_abs(tcm->input, ABS_MT_TOUCH_MAJOR, major_width);
-+		input_report_abs(tcm->input, ABS_MT_TOUCH_MINOR, minor_width);
-+		input_report_abs(tcm->input, ABS_MT_PRESSURE, point->z);
++			vreg_pmu_wlcx_0p8: ldo2 {
++				regulator-name = "vreg_pmu_wlcx_0p8";
++			};
 +
-+		buf += sizeof(*point);
-+	}
++			vreg_pmu_wlmx_0p85: ldo3 {
++				regulator-name = "vreg_pmu_wlmx_0p85";
++			};
 +
-+	input_mt_sync_frame(tcm->input);
-+	input_sync(tcm->input);
++			vreg_pmu_btcmx_0p85: ldo4 {
++				regulator-name = "vreg_pmu_btcmx_0p85";
++			};
 +
-+	return 0;
-+}
++			vreg_pmu_rfa_0p8: ldo5 {
++				regulator-name = "vreg_pmu_rfa_0p8";
++			};
 +
-+static irqreturn_t tcm_report_irq(int irq, void *data)
-+{
-+	struct tcm_data *tcm = data;
-+	struct tcm_message_header *header;
-+	char buf[256];
-+	u16 len;
-+	int ret;
++			vreg_pmu_rfa_1p2: ldo6 {
++				regulator-name = "vreg_pmu_rfa_1p2";
++			};
 +
-+	header = (struct tcm_message_header *)buf;
-+	ret = tcm_recv_report(tcm, buf, sizeof(buf));
-+	if (ret) {
-+		dev_err(&tcm->client->dev, "failed to read report: %d\n", ret);
-+		return IRQ_HANDLED;
-+	}
++			vreg_pmu_rfa_1p7: ldo7 {
++				regulator-name = "vreg_pmu_rfa_1p7";
++			};
 +
-+	switch (header->code) {
-+	case REPORT_OK:
-+	case REPORT_IDENTIFY:
-+	case REPORT_TOUCH:
-+	case REPORT_DELTA:
-+	case REPORT_RAW:
-+	case REPORT_DEBUG:
-+	case REPORT_TOUCH_HOLD:
-+		break;
-+	default:
-+		dev_dbg(&tcm->client->dev, "Ignoring report %#x\n", header->code);
-+		return IRQ_HANDLED;
-+	}
++			vreg_pmu_pcie_0p9: ldo8 {
++				regulator-name = "vreg_pmu_pcie_0p9";
++			};
 +
-+	len = le32_to_cpu(header->length);
++			vreg_pmu_pcie_1p8: ldo9 {
++				regulator-name = "vreg_pmu_pcie_1p8";
++			};
++		};
++	};
++};
 +
-+	dev_dbg(&tcm->client->dev, "report %#x len %u\n", header->code, len);
-+	print_hex_dump_bytes("report: ", DUMP_PREFIX_OFFSET, buf,
-+			     min(sizeof(buf), len + sizeof(*header)));
++&adsp {
++	firmware-name = "qcom/sm8250/OnePlus/adsp.mbn";
++	status = "okay";
++};
 +
-+	if (len > sizeof(buf) - sizeof(*header)) {
-+		dev_err(&tcm->client->dev, "report too long\n");
-+		return IRQ_HANDLED;
-+	}
++&apps_rsc {
++	regulators-0 {
++		compatible = "qcom,pm8150-rpmh-regulators";
++		qcom,pmic-id = "a";
 +
-+	/* Check if this is a read response or an indication. For indications
-+	 * (user touched the screen) we just parse the report directly.
-+	 */
-+	if (completion_done(&tcm->response) && header->code == REPORT_TOUCH) {
-+		tcm_handle_touch_report(tcm, buf, len + sizeof(*header));
-+		return IRQ_HANDLED;
-+	}
++		vdd-s1-supply = <&vph_pwr>;
++		vdd-s2-supply = <&vph_pwr>;
++		vdd-s3-supply = <&vph_pwr>;
++		vdd-s4-supply = <&vph_pwr>;
++		vdd-s5-supply = <&vph_pwr>;
++		vdd-s6-supply = <&vph_pwr>;
++		vdd-s7-supply = <&vph_pwr>;
++		vdd-s8-supply = <&vph_pwr>;
++		vdd-s9-supply = <&vph_pwr>;
++		vdd-s10-supply = <&vph_pwr>;
++		vdd-l2-l10-supply = <&vreg_bob>;
++		vdd-l3-l4-l5-l18-supply = <&vreg_s6a_0p95>;
++		vdd-l6-l9-supply = <&vreg_s8c_1p3>;
++		vdd-l7-l12-l14-l15-supply = <&vreg_s5a_1p9>;
++		vdd-l13-l16-l17-supply = <&vreg_bob>;
 +
-+	tcm->buf_size = len + sizeof(*header);
-+	memcpy(tcm->buf, buf, len + sizeof(*header));
-+	complete(&tcm->response);
++		vreg_s5a_1p9: smps5 {
++			regulator-name = "vreg_s5a_1p9";
++			regulator-min-microvolt = <1904000>;
++			regulator-max-microvolt = <2000000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
 +
-+	return IRQ_HANDLED;
-+}
++		vreg_s6a_0p95: smps6 {
++			regulator-name = "vreg_s6a_0p95";
++			regulator-min-microvolt = <920000>;
++			regulator-max-microvolt = <1128000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
 +
-+static int tcm_hw_init(struct tcm_data *tcm, u16 *max_x, u16 *max_y)
-+{
-+	int ret;
-+	struct tcm_identification id = { 0 };
-+	struct tcm_app_info app_info = { 0 };
-+	u16 status;
++		vreg_l2a_3p1: ldo2 {
++			regulator-name = "vreg_l2a_3p1";
++			regulator-min-microvolt = <3072000>;
++			regulator-max-microvolt = <3072000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l3a_0p9: ldo3 {
++			regulator-name = "vreg_l3a_0p9";
++			regulator-min-microvolt = <928000>;
++			regulator-max-microvolt = <932000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		/* l4 = VDD_SSC_MX (lmx.lvl) */
++
++		vreg_l5a_0p88: ldo5 {
++			regulator-name = "vreg_l5a_0p88";
++			regulator-min-microvolt = <880000>;
++			regulator-max-microvolt = <880000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l6a_1p2: ldo6 {
++			regulator-name = "vreg_l6a_1p2";
++			regulator-min-microvolt = <1200000>;
++			regulator-max-microvolt = <1200000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++			regulator-allow-set-load;
++			regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM
++						   RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l7a_1p7: ldo7 {
++			regulator-name = "vreg_l7a_1p7";
++			regulator-min-microvolt = <1704000>;
++			regulator-max-microvolt = <1800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l9a_1p2: ldo9 {
++			regulator-name = "vreg_l9a_1p2";
++			regulator-min-microvolt = <1200000>;
++			regulator-max-microvolt = <1200000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l10a_1p8: ldo10 {
++			regulator-name = "vreg_l10a_1p8";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <2960000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		/* l11 = VDD_SSC_CX (lxc.lvl) */
++
++		vreg_l12a_1p8: ldo12 {
++			regulator-name = "vreg_l12a_1p8";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <1800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l13a_ts_3p0: ldo13 {
++			regulator-name = "vreg_l13a_ts_3p0";
++			regulator-min-microvolt = <3008000>;
++			regulator-max-microvolt = <3008000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l14a_1p8: ldo14 {
++			regulator-name = "vreg_l14a_1p8";
++			regulator-min-microvolt = <1650000>;
++			regulator-max-microvolt = <1880000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_LPM>;
++			regulator-boot-on;
++		};
++
++		vreg_l15a_1p8: ldo15 {
++			regulator-name = "vreg_l15a_1p8";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <1800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		/* Fingerprint reader power (goodix_fp) */
++		vreg_l16a_2p7: ldo16 {
++			regulator-name = "vreg_l16a_2p7";
++			regulator-min-microvolt = <3024000>;
++			regulator-max-microvolt = <3304000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l17a_3p0: ldo17 {
++			regulator-name = "vreg_l17a_3p0";
++			regulator-min-microvolt = <2504000>;
++			regulator-max-microvolt = <2950000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++			regulator-allow-set-load;
++			regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM
++						   RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l18a_0p92: ldo18 {
++			regulator-name = "vreg_l18a_0p92";
++			regulator-min-microvolt = <800000>;
++			regulator-max-microvolt = <920000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++	};
++
++	regulators-1 {
++		compatible = "qcom,pm8150l-rpmh-regulators";
++		qcom,pmic-id = "c";
++
++		vdd-s1-supply = <&vph_pwr>;
++		vdd-s2-supply = <&vph_pwr>;
++		vdd-s3-supply = <&vph_pwr>;
++		vdd-s4-supply = <&vph_pwr>;
++		vdd-s5-supply = <&vph_pwr>;
++		vdd-s6-supply = <&vph_pwr>;
++		vdd-s7-supply = <&vph_pwr>;
++		vdd-s8-supply = <&vph_pwr>;
++		vdd-l1-l8-supply = <&vreg_s4a_1p8>;
++		vdd-l2-l3-supply = <&vreg_s8c_1p3>;
++		vdd-l4-l5-l6-supply = <&vreg_bob>;
++		vdd-l7-l11-supply = <&vreg_bob>;
++		vdd-l9-l10-supply = <&vreg_bob>;
++		vdd-bob-supply = <&vph_pwr>;
++
++		vreg_s8c_1p3: smps8 {
++			regulator-name = "vreg_s8c_1p3";
++			regulator-min-microvolt = <1200000>;
++			regulator-max-microvolt = <1400000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_bob: bob {
++			regulator-name = "vreg_bob";
++			regulator-min-microvolt = <3008000>;
++			regulator-max-microvolt = <4000000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_AUTO>;
++		};
++
++		vreg_l1c_1p8: ldo1 {
++			regulator-name = "vreg_l1c_1p8";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <1800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l2c_1p2: ldo2 {
++			regulator-name = "vreg_l2c_1p2";
++			regulator-min-microvolt = <1200000>;
++			regulator-max-microvolt = <1304000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l3c_0p8: ldo3 {
++			regulator-name = "vreg_l3c_0p8";
++			regulator-min-microvolt = <800000>;
++			regulator-max-microvolt = <1200000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l4c_1p7: ldo4 {
++			regulator-name = "vreg_l4c_1p7";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <2800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l5c_1p8: ldo5 {
++			regulator-name = "vreg_l5c_1p8";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <2800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l6c_2p96: ldo6 {
++			regulator-name = "vreg_l6c_2p96";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <2960000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l7c_cam_vcm0_2p85: ldo7 {
++			regulator-name = "vreg_l7c_cam_vcm0_2p85";
++			regulator-min-microvolt = <2856000>;
++			regulator-max-microvolt = <3104000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l8c_1p8: ldo8 {
++			regulator-name = "vreg_l8c_1p8";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <1800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l9c_2p96: ldo9 {
++			regulator-name = "vreg_l9c_2p96";
++			regulator-min-microvolt = <2704000>;
++			regulator-max-microvolt = <2960000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l10c_3p0: ldo10 {
++			regulator-name = "vreg_l10c_3p0";
++			regulator-min-microvolt = <3000000>;
++			regulator-max-microvolt = <3312000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l11c_3p3: ldo11 {
++			regulator-name = "vreg_l11c_3p3";
++			regulator-min-microvolt = <2900000>;
++			regulator-max-microvolt = <3304000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++			regulator-boot-on;
++			/* FIXME: we don't yet support power cycling the panel */
++			//regulator-always-on;
++		};
++	};
++};
++
++&cdsp {
++	firmware-name = "qcom/sm8250/OnePlus/cdsp.mbn";
++	status = "okay";
++};
++
++&crypto {
++	status = "disabled";
++};
++
++&gmu {
++	status = "okay";
++};
++
++&gpu {
++	status = "okay";
++
++	zap-shader {
++		memory-region = <&gpu_mem>;
++		firmware-name = "qcom/sm8250/OnePlus/a650_zap.mbn";
++	};
++};
++
++&i2c2 {
++	status = "okay";
 +
 +	/*
-+	 * Tell the firmware to start up. After starting it sends an IDENTIFY report, which
-+	 * we treat like a response to this message even though it's technically a new report.
++	 * Pixelworks Iris 5 @ 26 (i3c) or 22 (i2c)
++	 * This is a co-processor for the display which needs to be
++	 * initialized along with the panel.
 +	 */
-+	ret = tcm_read_message(tcm, TCM_RUN_APPLICATION_FIRMWARE, &id, sizeof(id));
-+	if (ret) {
-+		dev_err(&tcm->client->dev, "failed to identify device: %d\n", ret);
-+		return ret;
-+	}
-+
-+	dev_dbg(&tcm->client->dev, "Synaptics TCM %s v%d mode %d\n",
-+		id.part_number, id.version, id.mode);
-+	if (id.mode != MODE_APPLICATION) {
-+		/* We don't support firmware updates or anything else */
-+		dev_err(&tcm->client->dev, "Device is not in application mode\n");
-+		return -ENODEV;
-+	}
-+
-+	do {
-+		msleep(20);
-+		ret = tcm_read_message(tcm, TCM_GET_APPLICATION_INFO, &app_info, sizeof(app_info));
-+		if (ret) {
-+			dev_err(&tcm->client->dev, "failed to get application info: %d\n", ret);
-+			return ret;
-+		}
-+		status = le16_to_cpu(app_info.status);
-+	} while (status == APP_STATUS_BOOTING || status == APP_STATUS_UPDATING);
-+
-+	dev_dbg(&tcm->client->dev, "Application firmware v%d.%d (customer '%s') status %d\n",
-+		 app_info.version[0], app_info.version[1], app_info.customer_config_id,
-+		 status);
-+
-+	*max_x = le16_to_cpu(app_info.max_x);
-+	*max_y = le16_to_cpu(app_info.max_y);
-+
-+	return 0;
-+}
-+
-+static int tcm_power_on(struct tcm_data *tcm)
-+{
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(tcm->supplies),
-+				    tcm->supplies);
-+	if (ret)
-+		return ret;
-+
-+	gpiod_set_value_cansleep(tcm->reset_gpio, 1);
-+	usleep_range(10000, 11000);
-+	gpiod_set_value_cansleep(tcm->reset_gpio, 0);
-+	usleep_range(80000, 81000);
-+
-+	return 0;
-+}
-+
-+static int tcm_probe(struct i2c_client *client)
-+{
-+	struct tcm_data *tcm;
-+	u16 max_x, max_y;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
-+						I2C_FUNC_SMBUS_BYTE_DATA |
-+						I2C_FUNC_SMBUS_I2C_BLOCK))
-+		return -ENODEV;
-+
-+	tcm = devm_kzalloc(&client->dev, sizeof(struct tcm_data), GFP_KERNEL);
-+	if (!tcm)
-+		return -ENOMEM;
-+
-+	i2c_set_clientdata(client, tcm);
-+	tcm->client = client;
-+
-+	init_completion(&tcm->response);
-+
-+	tcm->supplies[0].supply = "vdd";
-+	tcm->supplies[1].supply = "vcc";
-+	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(tcm->supplies),
-+				      tcm->supplies);
-+	if (ret)
-+		return ret;
-+
-+	tcm->reset_gpio = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
-+
-+	ret = devm_add_action_or_reset(&client->dev, tcm_power_off,
-+				       tcm);
-+	if (ret)
-+		return ret;
-+
-+	ret = tcm_power_on(tcm);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-+					tcm_report_irq,
-+					IRQF_ONESHOT,
-+					"synaptics_tcm_report", tcm);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = tcm_hw_init(tcm, &max_x, &max_y);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to initialize hardware\n");
-+		return ret;
-+	}
-+
-+	tcm->input = devm_input_allocate_device(&client->dev);
-+	if (!tcm->input)
-+		return -ENOMEM;
-+
-+	tcm->input->name = "Synaptics TCM Oncell Touchscreen";
-+	tcm->input->id.bustype = BUS_I2C;
-+	tcm->input->open = tcm_input_open;
-+	tcm->input->close = tcm_input_close;
-+
-+	input_set_abs_params(tcm->input, ABS_MT_POSITION_X, 0, max_x, 0, 0);
-+	input_set_abs_params(tcm->input, ABS_MT_POSITION_Y, 0, max_y, 0, 0);
-+	input_set_abs_params(tcm->input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
-+	input_set_abs_params(tcm->input, ABS_MT_TOUCH_MINOR, 0, 255, 0, 0);
-+	input_set_abs_params(tcm->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
-+
-+	touchscreen_parse_properties(tcm->input, true, &tcm->props);
-+
-+	ret = input_mt_init_slots(tcm->input, 10, INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
-+	if (ret)
-+		return ret;
-+
-+	input_set_drvdata(tcm->input, tcm);
-+
-+	ret = input_register_device(tcm->input);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id syna_driver_ids[] = {
-+	{
-+		.compatible = "syna,s3908",
-+	},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, syna_driver_ids);
-+
-+static const struct i2c_device_id syna_i2c_ids[] = {
-+	{ "synaptics-tcm", 0 },
-+	{ }
 +};
 +
-+MODULE_DEVICE_TABLE(i2c, syna_i2c_ids);
++&i2c15 {
++	status = "okay";
 +
-+static struct i2c_driver syna_i2c_driver = {
-+	.probe		= tcm_probe,
-+	.id_table	= syna_i2c_ids,
-+	.driver		= {
-+	.name		= "synaptics-tcm",
-+	.of_match_table	= syna_driver_ids,
-+	},
++	typec-mux@42 {
++		compatible = "fcs,fsa4480";
++		reg = <0x42>;
++
++		vcc-supply = <&vreg_s4a_1p8>;
++
++		orientation-switch;
++
++		/* Currently unsupported */
++		status = "disabled";
++
++		port {
++			fsa4480_sbu_mux: endpoint {
++			};
++		};
++	};
 +};
 +
-+module_i2c_driver(syna_i2c_driver);
++&i2c16 {
++	status = "okay";
 +
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Frieder Hannenheim <frieder.hannenheim@proton.me>");
-+MODULE_AUTHOR("Caleb Connolly <caleb@postmarketos.org>");
-+MODULE_DESCRIPTION("A driver for Synaptics TCM Oncell Touchpanels");
++	bq27541_fg: bq27541-battery@55 {
++		compatible = "ti,bq27541";
++		status = "okay";
++		reg = <0x55>;
++	};
++};
 +
++&mdss {
++	status = "okay";
++};
++
++&mdss_dsi0 {
++	vdda-supply = <&vreg_l9a_1p2>;
++	status = "okay";
++
++	display_panel: panel@0 {
++		reg = <0>;
++		vddio-supply = <&vreg_l14a_1p8>;
++		vdd-supply = <&vreg_l11c_3p3>;
++		avdd-supply = <&panel_avdd_5p5>;
++		/*
++		 * FIXME: There is a bug somewhere in the display stack and it isn't
++		 * possible to get the panel to a working state after toggling reset.
++		 * At best it just shows one or more vertical red lines. So for now
++		 * let's skip the reset GPIO.
++		 */
++		// reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
++
++		pinctrl-0 = <&panel_reset_pins &panel_vsync_pins &panel_vout_pins>;
++		pinctrl-names = "default";
++
++		status = "disabled";
++
++		port {
++			panel_in_0: endpoint {
++				remote-endpoint = <&mdss_dsi0_out>;
++			};
++		};
++	};
++
++};
++
++&mdss_dsi0_out {
++	data-lanes = <0 1 2 3>;
++	remote-endpoint = <&panel_in_0>;
++};
++
++&mdss_dsi0_phy {
++	vdds-supply = <&vreg_l5a_0p88>;
++	status = "okay";
++};
++
++&pcie0 {
++	status = "okay";
++};
++
++&pcie0_phy {
++	vdda-phy-supply = <&vreg_l5a_0p88>;
++	vdda-pll-supply = <&vreg_l9a_1p2>;
++
++	status = "okay";
++};
++
++&pcieport0 {
++	wifi@0 {
++		compatible = "pci17cb,1101";
++		reg = <0x10000 0x0 0x0 0x0 0x0>;
++
++		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
++		vddaon-supply = <&vreg_pmu_aon_0p59>;
++		vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
++		vddwlmx-supply = <&vreg_pmu_wlmx_0p85>;
++		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
++		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
++		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
++		vddpcie0p9-supply = <&vreg_pmu_pcie_0p9>;
++		vddpcie1p8-supply = <&vreg_pmu_pcie_1p8>;
++	};
++};
++
++&pcie2 {
++	status = "okay";
++};
++
++&pcie2_phy {
++	vdda-phy-supply = <&vreg_l5a_0p88>;
++	vdda-pll-supply = <&vreg_l9a_1p2>;
++	status = "okay";
++};
++
++&pm8150_adc {
++	channel@4c {
++		reg = <ADC5_XO_THERM_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time = <200>;
++		label = "xo_therm";
++	};
++
++	channel@4d {
++		reg = <ADC5_AMUX_THM2_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time = <200>;
++		label = "skin_therm";
++	};
++
++	channel@4e {
++		reg = <ADC5_AMUX_THM2_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time = <200>;
++		label = "wifi_therm";
++	};
++};
++
++&pm8150_adc_tm {
++	status = "okay";
++
++	xo-therm@0 {
++		reg = <0>;
++		io-channels = <&pm8150_adc ADC5_XO_THERM_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time-us = <200>;
++	};
++
++	skin-therm@1 {
++		reg = <1>;
++		io-channels = <&pm8150_adc ADC5_XO_THERM_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time-us = <200>;
++	};
++
++	wifi-therm@2 {
++		reg = <2>;
++		io-channels = <&pm8150_adc ADC5_AMUX_THM2_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time-us = <200>;
++	};
++};
++
++&pm8150_gpios {
++	/*
++	 * These are marked as reserved in downstream
++	 * with no description, without schematics we
++	 * don't know what the deal is here.
++	 */
++	gpio-reserved-ranges = <2 1>, <4 2>, <8 1>;
++};
++
++&pm8150b_adc {
++	channel@4f {
++		reg = <ADC5_AMUX_THM3_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time = <200>;
++		label = "conn_therm";
++	};
++};
++
++&pm8150b_adc_tm {
++	status = "okay";
++
++	conn-therm@0 {
++		reg = <0>;
++		io-channels = <&pm8150b_adc ADC5_AMUX_THM3_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time-us = <200>;
++	};
++};
++
++&pm8150l_adc {
++	channel@4e {
++		reg = <ADC5_AMUX_THM2_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time = <200>;
++		label = "skin_msm_therm";
++	};
++
++	channel@4f {
++		reg = <ADC5_AMUX_THM3_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time = <200>;
++		label = "pm8150l_therm";
++	};
++};
++
++&pm8150l_adc_tm {
++	status = "okay";
++
++	skin-msm-therm@0 {
++		reg = <0>;
++		io-channels = <&pm8150l_adc ADC5_AMUX_THM2_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time-us = <200>;
++	};
++
++	pm8150l-therm@1 {
++		reg = <1>;
++		io-channels = <&pm8150l_adc ADC5_AMUX_THM3_100K_PU>;
++		qcom,ratiometric;
++		qcom,hw-settle-time-us = <200>;
++	};
++};
++
++&pon_pwrkey {
++	status = "okay";
++};
++
++&pon_resin {
++	status = "okay";
++
++	linux,code = <KEY_VOLUMEDOWN>;
++};
++
++&qupv3_id_0 {
++	status = "okay";
++};
++
++&qupv3_id_1 {
++	status = "okay";
++};
++
++&qupv3_id_2 {
++	status = "okay";
++};
++
++&tlmm {
++	gpio-reserved-ranges = <28 4>, <40 4>;
++
++	bt_en_state: bt-default-state {
++		pins = "gpio21";
++		function = "gpio";
++		drive-strength = <16>;
++		output-low;
++		bias-pull-up;
++	};
++
++	wlan_en_state: wlan-default-state {
++		pins = "gpio20";
++		function = "gpio";
++
++		drive-strength = <16>;
++		output-low;
++		bias-pull-up;
++	};
++
++	panel_reset_pins: panel-reset-state {
++		pins = "gpio75";
++		function = "gpio";
++		drive-strength = <8>;
++		bias-disable;
++	};
++
++	panel_vsync_pins: panel-vsync-state {
++		pins = "gpio66";
++		function = "mdp_vsync";
++		drive-strength = <16>;
++		bias-pull-down;
++	};
++
++	panel_vout_pins: panel-vout-state {
++		pins = "gpio24";
++		function = "gpio";
++		drive-strength = <16>;
++		output-high;
++	};
++
++	panel_avdd_pins: panel-avdd-state {
++		pins = "gpio65";
++		function = "gpio";
++		drive-strength = <8>;
++		output-high;
++	};
++
++	touch_irq_active: touch-irq-state {
++		pins = "gpio39";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-pull-up;
++		output-disable;
++	};
++
++	touch_rst_active: touch-rst-state {
++		pins = "gpio38";
++		function = "gpio";
++		drive-strength = <8>;
++		bias-pull-up;
++	};
++};
++
++&uart6 {
++	status = "okay";
++
++	bluetooth {
++		compatible = "qcom,qca6390-bt";
++
++		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
++		vddaon-supply = <&vreg_pmu_aon_0p59>;
++		vddbtcmx-supply = <&vreg_pmu_btcmx_0p85>;
++		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
++		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
++		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
++	};
++};
++
++&uart12 {
++	status = "okay";
++};
++
++&ufs_mem_hc {
++	status = "okay";
++
++	vcc-supply = <&vreg_l17a_3p0>;
++	vcc-max-microamp = <800000>;
++	vccq-supply = <&vreg_l6a_1p2>;
++	vccq-max-microamp = <800000>;
++	vccq2-supply = <&vreg_s4a_1p8>;
++	vccq2-max-microamp = <800000>;
++};
++
++&ufs_mem_phy {
++	status = "okay";
++
++	vdda-phy-supply = <&vreg_l5a_0p88>;
++	vdda-pll-supply = <&vreg_l9a_1p2>;
++};
++
++&usb_1 {
++	status = "okay";
++};
++
++&usb_1_dwc3 {
++	dr_mode = "peripheral";
++};
++
++&usb_1_hsphy {
++	status = "okay";
++
++	vdda-pll-supply = <&vreg_l5a_0p88>;
++	vdda33-supply = <&vreg_l2a_3p1>;
++	vdda18-supply = <&vreg_l12a_1p8>;
++};
++
++&usb_1_qmpphy {
++	status = "okay";
++
++	vdda-phy-supply = <&vreg_l9a_1p2>;
++	vdda-pll-supply = <&vreg_l18a_0p92>;
++};
++
++&venus {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/qcom/sm8250-oneplus-kebab.dts b/arch/arm64/boot/dts/qcom/sm8250-oneplus-kebab.dts
+new file mode 100644
+index 000000000000..162a2a709503
+--- /dev/null
++++ b/arch/arm64/boot/dts/qcom/sm8250-oneplus-kebab.dts
+@@ -0,0 +1,36 @@
++// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
++/*
++ * Copyright (c) 2024, Caleb Connolly <caleb.connolly@linaro.org>
++ */
++
++#include "sm8250-oneplus-common.dtsi"
++
++/ {
++	model = "OnePlus 8T";
++	compatible = "oneplus,kebab", "qcom,sm8250";
++};
++
++&display_panel {
++	compatible = "samsung,amb655x";
++	status = "okay";
++};
++
++&i2c13 {
++	clock-frequency = <400000>;
++	status = "okay";
++
++	touchscreen@4b {
++		compatible = "syna,s3908";
++		reg = <0x4B>;
++
++		pinctrl-0 = <&touch_irq_active &touch_rst_active>;
++		pinctrl-names = "default";
++
++		interrupts-extended = <&tlmm 39 0x2008>;
++
++		reset-gpios = <&tlmm 38 GPIO_ACTIVE_LOW>;
++
++		vdd-supply = <&vreg_l13a_ts_3p0>;
++		vcc-supply = <&vreg_l1c_1p8>;
++	};
++};
 
 -- 
 2.45.0
