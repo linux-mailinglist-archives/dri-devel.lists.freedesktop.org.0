@@ -2,105 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB11D91D84D
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 08:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3539691D872
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 09:00:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61CFE10E120;
-	Mon,  1 Jul 2024 06:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A3510E325;
+	Mon,  1 Jul 2024 06:59:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gRD7lXQM";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="T98SwK2Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C16910E120
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 06:52:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D97E3CE0FBF;
- Mon,  1 Jul 2024 06:52:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1761CC116B1;
- Mon,  1 Jul 2024 06:52:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719816762;
- bh=E9TFWo9WdevrDFVoWL1TYS3FtsXZKCPU5LV1g0UiW3M=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gRD7lXQMnyWnfIw4ySq7WC1Jyz2mQfR/Ss8soD9e4WlOEBsvlBVlgLtUwnFvvXyH3
- nPaHpgtc1VHVzgksvo7jhS9lBR6AP2Uhb3sRv8fXqrxzFOW2HgR7GNlbOeElrhimj0
- WgSs32zo1YhakujIr0nnoGlYR0lusMCauPKNjRM9EE2RNczmYmUDQcV6vgueocMmj3
- PvAbjIAFq//VktjEopZSabhiJTR7bLwYuRDVxJPCxKTQjqV3WuwzpZPN7U8jQQz8ro
- LMUVphrWnDTgVyCgLwj8RHHzvVmHPm+YH0zDm47rkUkotObWyov9DaVOc5GwxQ6BMu
- V2DFfrB9Wo8ow==
-Message-ID: <aea7fa07-b1c9-4386-891f-5e23fb6baf32@kernel.org>
-Date: Mon, 1 Jul 2024 08:52:33 +0200
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE06110E2DA
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 06:59:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1719817195;
+ bh=Yg07CdhDPSHyS29n+dlUWjZE4pr3zHwDxA+sEOsOpf8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=T98SwK2ZURdzDzIs0HePq5vSltqsCDiq7ki3knx23Md4CuQDvv+EHxOq22QzGopaE
+ yEw29x4WDejAdhbWt5A8TMqrZpIIkrIfHvHFIxfbNC24F0nfOqUegroQYO30Q4RzZ9
+ Duz2daP6ICmDu7N+u9gU3E3WRr8yiP3/5ZJ76byGX70pHlR9xNkdtjIjq53rzfAWt6
+ I1v0I3rA0pKDW0ZM0VFNhM4/dQ3/O/8TBeyPLWWqotRC1ffiNY2EBznyF17x+vlI1p
+ zVcOExJbCOiYzIWh/MGheVhYj0H1ppev1DkGFtlkSTUk3+qCWsBoDdxmpw+0HITlOm
+ E2qUSyCwhgnnQ==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 332F537809D0;
+ Mon,  1 Jul 2024 06:59:55 +0000 (UTC)
+Date: Mon, 1 Jul 2024 08:59:53 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Steven Price <steven.price@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+Subject: Re: [PATCH 2/2] drm/panthor: Fix sync-only jobs
+Message-ID: <20240701085953.32f17425@collabora.com>
+In-Reply-To: <Zn_5uyOcGc8bz-D0@e110455-lin.cambridge.arm.com>
+References: <20240628145536.778349-1-boris.brezillon@collabora.com>
+ <20240628145536.778349-3-boris.brezillon@collabora.com>
+ <Zn8sgSQUoQgdxHZ7@e110455-lin.cambridge.arm.com>
+ <20240629105256.55b9c4c4@collabora.com>
+ <Zn_5uyOcGc8bz-D0@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/8] dt-bindings: input: touchscreen: document
- synaptics TCM oncell
-To: Caleb Connolly <caleb@postmarketos.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Henrik Rydberg <rydberg@bitmath.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht
-References: <20240630-oneplus8-v2-0-c4a1f8da74f1@postmarketos.org>
- <20240630-oneplus8-v2-2-c4a1f8da74f1@postmarketos.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240630-oneplus8-v2-2-c4a1f8da74f1@postmarketos.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -117,94 +66,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/06/2024 20:36, Caleb Connolly wrote:
+On Sat, 29 Jun 2024 13:10:35 +0100
+Liviu Dudau <liviu.dudau@arm.com> wrote:
+
+> On Sat, Jun 29, 2024 at 10:52:56AM +0200, Boris Brezillon wrote:
+> > On Fri, 28 Jun 2024 22:34:57 +0100
+> > Liviu Dudau <liviu.dudau@arm.com> wrote:
+> >   
+> > > On Fri, Jun 28, 2024 at 04:55:36PM +0200, Boris Brezillon wrote:  
+> > > > A sync-only job is meant to provide a synchronization point on a
+> > > > queue, so we can't return a NULL fence there, we have to add a signal
+> > > > operation to the command stream which executes after all other
+> > > > previously submitted jobs are done.
+> > > > 
+> > > > Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
+> > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>    
+> > > 
+> > > Took me a bit longer to read, lets blame Friday.
+> > >   
+> > > > ---
+> > > >  drivers/gpu/drm/panthor/panthor_sched.c | 41 ++++++++++++++++++++-----
+> > > >  include/uapi/drm/panthor_drm.h          |  5 +++
+> > > >  2 files changed, 38 insertions(+), 8 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> > > > index 79ffcbc41d78..951ff7e63ea8 100644
+> > > > --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> > > > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> > > > @@ -458,6 +458,16 @@ struct panthor_queue {
+> > > >  		/** @seqno: Sequence number of the last initialized fence. */
+> > > >  		atomic64_t seqno;
+> > > >  
+> > > > +		/**
+> > > > +		 * @last_fence: Fence of the last submitted job.
+> > > > +		 *
+> > > > +		 * We return this fence when we get an empty command stream.
+> > > > +		 * This way, we are guaranteed that all earlier jobs have completed
+> > > > +		 * when drm_sched_job::s_fence::finished without having to feed
+> > > > +		 * the CS ring buffer with a dummy job that only signals the fence.
+> > > > +		 */
+> > > > +		struct dma_fence *last_fence;
+> > > > +
+> > > >  		/**
+> > > >  		 * @in_flight_jobs: List containing all in-flight jobs.
+> > > >  		 *
+> > > > @@ -829,6 +839,9 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
+> > > >  	panthor_kernel_bo_destroy(queue->ringbuf);
+> > > >  	panthor_kernel_bo_destroy(queue->iface.mem);
+> > > >  
+> > > > +	/* Release the last_fence we were holding, if any. */
+> > > > +	dma_fence_put(queue->fence_ctx.last_fence);
+> > > > +
+> > > >  	kfree(queue);
+> > > >  }
+> > > >  
+> > > > @@ -2865,11 +2878,14 @@ queue_run_job(struct drm_sched_job *sched_job)
+> > > >  	static_assert(sizeof(call_instrs) % 64 == 0,
+> > > >  		      "call_instrs is not aligned on a cacheline");
+> > > >  
+> > > > -	/* Stream size is zero, nothing to do => return a NULL fence and let
+> > > > -	 * drm_sched signal the parent.
+> > > > +	/* Stream size is zero, nothing to do except making sure all previously
+> > > > +	 * submitted jobs are done before we signal the
+> > > > +	 * drm_sched_job::s_fence::finished fence.
+> > > >  	 */
+> > > > -	if (!job->call_info.size)
+> > > > -		return NULL;
+> > > > +	if (!job->call_info.size) {
+> > > > +		job->done_fence = dma_fence_get(queue->fence_ctx.last_fence);
+> > > > +		return job->done_fence;    
+> > > 
+> > > What happens if the last job's done_fence was cancelled or timed out? Is the
+> > > sync job's done_fence going to be signalled with the same error?  
+> > 
+> > It's the same object, so yes, the job will also be considered faulty
+> > (the error propagated to the job::s_fence::finished fence). I guess
+> > synchronization jobs are not supposed to fail/timeout in theory, because
+> > they don't do anything, but I don't think that's an issue in
+> > practice, because dma_fence errors are never propagated to user-space
+> > (only the queue status is).
+> >   
+> > > 
+> > > Now that we're returning a fence here, should the job be also added into the
+> > > in_flight_jobs?  
+> > 
+> > Yeah, that's done on purpose, such that we don't end up signalling the
+> > same dma_fence object twice (which is forbidden).  
 > 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml b/Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml
-> new file mode 100644
-> index 000000000000..6e366c9446f8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml
+> That's the thing I was trying to figure out on Friday: how do we stop the fence
+> returned as last_fence for the sync job to be signalled after the job's done_fence
+> has also been signalled. I can't say that I found a good answer, if you can point
+> me to what I've missed it will be appreciated.
 
-Filename like compatible, so syna,s3908.yaml
-
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/syna,tcm-oncell.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Synaptics TCM Oncell i2c touchscreen
-> +
-> +maintainers:
-> +  - Caleb Connolly <caleb@postmarketos.org>
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - syna,s3908
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts-extended:
-
-Instead, just interrupts:
-
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Reset GPIO the chip is connected to.
-> +
-> +  vdd-supply:
-> +    description: a phandle for the regulator supplying 3V power.
-> +
-> +  vcc-supply:
-> +    description: a phandle for the regulator supplying IO power.
-> +
-> +additionalProperties: false
-
-This goes after "required:" block.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts-extended
-> +  - reset-gpios
-> +  - vdd-supply
-> +  - vcc-supply
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      clock-frequency = <400000>;
-
-Drop
-
-> +      status = "okay";
-
-Drop
-
-> +
-> +      touchscreen@4b {
-> +        compatible = "syna,s3908";
-> +        reg = <0x4B>;
-> +
-> +        interrupts-extended = <&tlmm 39 0x2008>;
-
-Not a correct interrupt flag, I think.
-
-Best regards,
-Krzysztof
-
-
+Well, there's only just one job that's added to the in_flight for a
+given done_fence object, so there's no risk of signaling such a fence
+more than once (even in case of a timeout). Now, let's say the
+previous 'real' job is done when this 'dummy/sync' job queued, the
+queue::fence_ctx::last_fence object will be signalled too, since this
+is essentially the same object, and when we return a signalled fence to
+the drm_sched layer in our ::run_job() callback, it just signals the
+finished drm_sched_job::s_fence::finished immediately, just like when
+you return a NULL fence.
