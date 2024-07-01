@@ -2,74 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC8791DD7B
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 13:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65D691DDC5
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 13:24:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE1DF10E3A6;
-	Mon,  1 Jul 2024 11:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28FEB10E39B;
+	Mon,  1 Jul 2024 11:24:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QqIAQ+Ip";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="annQbUSP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8E110E39B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 11:07:07 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-424a3ccd0c0so21069295e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Jul 2024 04:07:07 -0700 (PDT)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C55C610E39B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 11:24:25 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id
+ a1e0cc1a2514c-80f8dc709eeso499447241.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Jul 2024 04:24:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719832026; x=1720436826; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=V41EHoOA8oeYm9MwEGsDwJlgg36OM1Uo8B4nv2YSUdQ=;
- b=QqIAQ+IpMC3pROYPCuD49EOmNFNd+YEgI/0TyVb0L43I9hRFvlSIyBFy+giWF5DhcA
- hediCENA44nPtS6Iwn8wS9Ao/ntMU+tHnECIA6ATqeBfrGG+t7dkxdxDTzbilalNthFk
- inqlNR2OLnNadT7sHqF3GCnK1VLKiTkH0q7PO4DjsHL1XNMno0ajSgNcQM8ItzivyJbS
- 7X8EuwqOy3SnGly2zTs5TmOnU1Qfjmna7L/Mu4w8OpABKzBsrr1Dk25ZZfr9zgMksA8r
- IfG8Q1KvbUDcDc597xCkH9iOWCgQL1v7SVSN/oK4cekNMWRjVQcDxRtw2lZcpU5zyPap
- 45Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719832026; x=1720436826;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1719833064; x=1720437864; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=V41EHoOA8oeYm9MwEGsDwJlgg36OM1Uo8B4nv2YSUdQ=;
- b=jd2L8P8llKU9ApJ7/yn/9ER2gVUgw3uTuFFCi3J2azivQHSZU2R2YIEsxyi5kJTyn+
- DmAwdt2q8Y5D7mcXpBz2Eih7GrNTm5Nx+o4yrJqUztzC1uOywVTql/BPiwhvCXakHLJd
- MUQgsBFMCCSWN3mcYPWJWu8gZgGZjl+7Ti0gSx75+vyuV3weN251F5ZXJPaJTmRMaPRx
- tlGYk80adJohhb/+C6xIOU53kJkuLgCVpNLGDZJ9l+VUK4yqHKAGJeRpAExjEMZLTe+5
- jS5sN8SA8zQIjaRnFYV1/p1a9Q2VYuKNB+ahs+IfYEcLx1QLx+TE3pZbfp/AItLGdOH3
- rd/A==
+ bh=oUrL67AhfddDFHRxH2TRoEF8hBbehX2Axe/cx3JPvX0=;
+ b=annQbUSPyRnH+79SLmjWvkSamu3Y/QMmbuckRNwDRcMQXVAFzQc3E5za8y7BDpCdun
+ MlXNsDjk4arvxRZbZHXgCJtOndRf7YazvMo+qO3xQofoWddldth7IplM+b/9IlWtXhfn
+ jbdYr0wBLAVoa3S23XGbGiWpzrl1DzsJHBxjbI2oBFJPJfv4C0AsZVr8kTy1YOXAMHRY
+ wfao5rk1tNh5s98kbxlhLiMZh2xc9Hg9vB0NPIwHnZyy6BhAqjLZUW1MOD1y5bGpi+pk
+ SaUW659QqbRWoYrnNdJZh1RwJxnP32yo8MgBqmR9BomPnwFdoyo1sYKL30jcse7B6K9k
+ lQEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719833064; x=1720437864;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oUrL67AhfddDFHRxH2TRoEF8hBbehX2Axe/cx3JPvX0=;
+ b=gjrtBRy1cv7XcWl13bydSR0mvfUUFRV0DQc9HqPVEWNwUItnazM+UaLENpr6qDQ9Jv
+ DI5FLDB836lx+gCx40Dc025UZbRR3kU3Y+bO1R0ACg7CLg8SJ5IuxXxjcjKgzkZWnbR1
+ yLBCfXMJKvjlW2u7RClDgbdghEG08bmBzzRU1u/cqa3fAW6SjEekawz7StWGZbogtiQA
+ kaUXrf8JOhYJR+6qYFMLqVWmqE1O/6ArYyl4qwEN6SpPlFCHzKRM8sYfGF29hLs1WRb5
+ aLNnha+NoGaSdf91UCbXkre4NESt1WporND3fmb7Ooy5xRDR5cw0x5nizRS51wNbMKts
+ 2y4A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWv/pGqLFcYMntOeLHiiY+kJQ8ksE0ANT/vkqT93ViiPRuLPe/dd0wNd4mWT5/+cbF3yBfi6VdQaDtsGF7sbbcfqZ0xcfPv6f0xtbFqvQfl
-X-Gm-Message-State: AOJu0YwHAgHq83mD7l6PHXEEa8YE1zmpqVf8/NfGuE6ujA0oItvlKsJl
- QwW31pnayNvaKO1LEd8VoC0/P5j2cGb4l5a8d16qoMeJ0DJckbpOmp1ogZsENAg=
-X-Google-Smtp-Source: AGHT+IFrc5q/iQ835841xqoTCs84v4Tn4y6GVrTE/IwJP2R3sKwPXf4KgBB7h/5TJq9srkNcgP/PCA==
-X-Received: by 2002:a05:600c:6a8d:b0:425:77b4:366d with SMTP id
- 5b1f17b1804b1-4257a02f3f6mr35378515e9.11.1719832025941; 
- Mon, 01 Jul 2024 04:07:05 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4256af5b61bsm149932085e9.17.2024.07.01.04.07.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jul 2024 04:07:05 -0700 (PDT)
-Date: Mon, 1 Jul 2024 12:07:03 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, sam@ravnborg.org, jingoohan1@gmail.com, deller@gmx.de,
- linus.walleij@linaro.org, f.suligoi@asem.it, ukleinek@kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2 00/17] backlight: Introduce power-state constants
-Message-ID: <20240701110703.GA15322@aspen.lan>
-References: <20240624152033.25016-1-tzimmermann@suse.de>
+ AJvYcCXJS6koBPxpW1vXg5IpRwEmoAr7qOBydGIjPScCYKGuj3QcX204UzTL/iUBu3Viv8gR5CBixIihdmRlvzos5wGuHVaEB/2rkrGOWRQNePNb
+X-Gm-Message-State: AOJu0YweLXH6CJ/jrz4OSfX9NdbTN8Ib8Ab+IUJJRnApXTcYCji9Kknu
+ pbDISoS/o++Ut3Fjgbmn3JhDkzRCzDe35PfJv6XD2bshogFOaL1q/8NFARoluLcAESRGAdT/3LZ
+ Db6mRXKrHOPchOmcgPlrqV45pnSE=
+X-Google-Smtp-Source: AGHT+IGwyMqOfO87PLcMKYzWqKj15ArhzLp2ipo62An2cYoqn8JEiXomOKPcQ3YWcK787dlLTa9WLMfj39rGKsdv6fM=
+X-Received: by 2002:a05:6122:d1e:b0:4ef:61c2:6331 with SMTP id
+ 71dfb90a1353d-4f2a563c321mr3165714e0c.1.1719833064580; Mon, 01 Jul 2024
+ 04:24:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240624152033.25016-1-tzimmermann@suse.de>
+References: <87cynx971l.wl-kuninori.morimoto.gx@renesas.com>
+ <875xtp96zy.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <875xtp96zy.wl-kuninori.morimoto.gx@renesas.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 1 Jul 2024 12:23:14 +0100
+Message-ID: <CA+V-a8uY6QSC4nfk5dEgB80O4z1nxpeBqwGPVBL4h5NHqjhjdA@mail.gmail.com>
+Subject: Re: [PATCH v5 5/7] media: platform: ti: use
+ for_each_endpoint_of_node()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Eugen Hristev <eugen.hristev@collabora.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Michal Simek <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ coresight@lists.linaro.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,53 +99,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 24, 2024 at 05:19:55PM +0200, Thomas Zimmermann wrote:
-> The backlight code currently uses fbdev's FB_BLANK_ constants to
-> represent power states UNBLANK and POWERDOWN. Introduce dedicated
-> backlight constants to remove this dependency on fbdev.
+On Mon, Jul 1, 2024 at 3:32=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
 >
-> Patch 1 introduces BACKLIGHT_POWER_ON and BACKLIGHT_POWER_OFF, which
-> replace constants from fbdev. There's also BACKLIGHT_POWER_REDUCED,
-> which is required by a few drivers that appear to use incorrect or
-> uncommon blanking semantics.
+> We already have for_each_endpoint_of_node(), don't use
+> of_graph_get_next_endpoint() directly. Replace it.
 >
-> The rest of the patchset converts backlight drivers. The new
-> constants' values are identical to the old ones, so the driver
-> conversion can be done one-by-one.
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/ti/am437x/am437x-vpfe.c   | 12 +++++-------
+>  drivers/media/platform/ti/davinci/vpif_capture.c | 14 +++++++-------
+>  2 files changed, 12 insertions(+), 14 deletions(-)
 >
-> There are many more backlight drivers in other subsystems. These
-> can later be converted when the new constants have been merged.
-> Once merged, several include statements for <linux/fb.h> can be
-> removed (specifically under drivers/platform/x86/).
->
-> This patchset is part of a larger effort to implement the backlight
-> code without depending on fbdev and ultimatively remove fbdev
-> dependencies from the kernel.
->
-> v2:
-> - rename BL_CORE_ power constants to BACKLIGHT_POWER_ (Sam)
-> - fix documentation
->
-> Thomas Zimmermann (17):
->   backlight: Add BACKLIGHT_POWER_ constants for power states
->   backlight: aat2870-backlight: Use blacklight power constants
->   backlight: ams369fb06: Use backlight power constants
->   backlight: corgi-lcd: Use backlight power constants
->   backlight: gpio-backlight: Use backlight power constants
->   backlight: ipaq-micro-backlight: Use backlight power constants
->   backlight: journada_bl: Use backlight power constants
->   backlight: kb3886-bl: Use backlight power constants
->   backlight: ktd253-backlight: Use backlight power constants
->   backlight: led-backlight: Use backlight power constants
->   backlight: lm3533-backlight: Use backlight power constants
->   backlight: mp3309c: Use backlight power constants
->   backlight: pandora-backlight: Use backlight power constants
->   backlight: pcf50633-backlight: Use backlight power constants
->   backlight: pwm-backlight: Use backlight power constants
->   backlight: rave-sp-backlight: Use backlight power constants
->   backlight: sky81452-backlight: Use backlight power constants
+Reviewed-by: Prabhakar <prabhakar.csengg@gmail.com>
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-
-Daniel.
+Cheers,
+Prabhakar
