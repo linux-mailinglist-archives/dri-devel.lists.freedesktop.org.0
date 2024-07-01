@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B4F91EADB
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 00:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98ADB91EAEB
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 00:43:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 174F210E065;
-	Mon,  1 Jul 2024 22:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6910A10E105;
+	Mon,  1 Jul 2024 22:43:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AhfOqK9a";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Yow9xmoe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94C7A10E065;
- Mon,  1 Jul 2024 22:34:51 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-a725a918edaso529781566b.3; 
- Mon, 01 Jul 2024 15:34:51 -0700 (PDT)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEB010E02C
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 22:43:36 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-74840cb804dso989217a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Jul 2024 15:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719873290; x=1720478090; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dDZkEA5Xw/Sp+Sil7gF9E8mjtngb6x6DnZd0K/Gw6BM=;
- b=AhfOqK9aepI9fuxy8uWyTzIr2wb5Pn/16bCCKVrNadatGrtQ+DMhBXVC6i7uqP9Duf
- bw7xl/8mTsE0FJeiI3l89iZAowT+0aK6fVmMlm6wuM+prU1IBBs3XuvsdAWwOus2ABOv
- LHOC5jxEZaeUFFwoYLkMx6lqIwpF3tbqNwAICFSN5Da+Wfkl85HQE9zdXc3JO0zt2PZw
- v09fGxu++dVaCyy2s7IPaV6wZHhhn5AhOJYuoj254B113hirO77Smb0F4VStSkmj2+FU
- RP5OiyBOC+2HpYJGAG0na3hD+Z1jazo456W69ii/0QCUANT9mjQc88l1HqGVp3GjnU0c
- /3pA==
+ d=broadcom.com; s=google; t=1719873816; x=1720478616;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6kb3VE7l9Ll62GtOzGVar50YYVzbrCt7/ngwYHtcsHo=;
+ b=Yow9xmoeQfFLFPrdZrnivHerCRUC5MdFVVRkvllMI4BJHgV8NiSxzr8H4wen05a0OO
+ UospSThdpRR4Oy1CfmmEID4OpuviclhlfCgu8Zqf6AEdVLjnVUWcurzzLEAHtQvKsHv1
+ xFNV0R5tknbrFA86lbuvAQPaY9ODJj1KueZvE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719873290; x=1720478090;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dDZkEA5Xw/Sp+Sil7gF9E8mjtngb6x6DnZd0K/Gw6BM=;
- b=MvWvvdgQBCawuwDkXgqVsD55a27BnoyHHba2Xi0Ibor2LevVBAG1YLr9NbGe/EF6X5
- AlYUIMXYiUIYHvni/Za9YFh5S6Puk3830sr8Ku4BVlHbC3x40h2bIOcSRHpJV9BKtpS8
- aUUjCO1lUeR9oA9uobBbchpF8D8Jm2sMpcMjyskeRq1Is92t9JGYj5oP754U8FIYzNZR
- H+7Vy+CScEKFuTAtfQ30Qs5cKfLG8LBonBOMcFWHipF48Mvdzrl59nElB4HoPL++YCzV
- wlwJ61jtCgmB1LRTtRM5Jyso5RjtrmlygQKr4WnBwx7ZArkRw+OjO8ApiskAslZbJ6kE
- bT+A==
+ d=1e100.net; s=20230601; t=1719873816; x=1720478616;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6kb3VE7l9Ll62GtOzGVar50YYVzbrCt7/ngwYHtcsHo=;
+ b=by/TT6beL/CcafMVkMAWww1JfQ28K0PDkw5a9oB/8QURN7GibeE7CUQT73DDVXRydO
+ HA6cfeDwbvKg8APGSUo3arFlJtLDJ1327dLlThumqZcfm/0R1krGGAbKDCK+4+1FQZGl
+ XFr2Mnb+4momxYo9HLlXmHS4GjC3GafLoYjDeZ5rpOA8b1TBILgvSiFF81MRO0vi8dbE
+ YqeECj+Kzk7wIeKCgeP9rxBdxcTRmTY88Whr//MfHPvf6jYKSQwRCBeDrxeg3jP+2V1e
+ zqHyCKrvPUyTi1wwbKKRHHuqGKFh+gxw6uN9JlapbxZADHB6Mqr8g/DMLlVMRFttht20
+ duOA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWCGbRWODvUDhqUtZ6FljTbkzgRcQHa/GcomS2byRB/l30VTzEV4Sd8xXhUEm8NAecqIF7UadSaVSaqioAXYnTVgs+EXd2ptKwgkA8NvW9pvVlGkdhzKZF1Qh35Uq4DGU+1XPd8s6tmAMAWK2Io1w==
-X-Gm-Message-State: AOJu0YwqzjbFWdf4DWurq6kqMB9YIk9F0jzrA/Kn3BpOMWQm8ijZyMfR
- QCGpB9fOabGWs35fKVUGdJt/ZIwJ3r3LZT2Zyx/jpH1QpKZUY1YfZZNcFV2sBdKzfxdN5Ez//kc
- gD8Z9STXA6HCHxzSN3S/GOZdKIPI=
-X-Google-Smtp-Source: AGHT+IGDYQPH72kLApzWQipmEC+sdBkOt/X0x5q0hPUEBs5a0NGCXeLOjteGz2HCG46xtab/yxkP4K87WE/k2Jo1spU=
-X-Received: by 2002:a17:907:3e9f:b0:a6f:50ae:e02 with SMTP id
- a640c23a62f3a-a751446803fmr643722266b.4.1719873289405; Mon, 01 Jul 2024
- 15:34:49 -0700 (PDT)
+ AJvYcCV80ScLuWBq5EGWnRHuFe6rjd1IxW5JSI4VS4mPIGPnWo8+qckSGEUwjHqQwBHGgZXt5ZkACqd6/AoL7TaSOKVmah4xjyQctOjhhWYxDway
+X-Gm-Message-State: AOJu0YwYYcI7c5Mwm8FxoRrqfkGLjhVMgmeCsO1CUqaWrWY3WJ12eFhe
+ ha7lhuRMw8VOpiRuLAhKG6OQSiRXF376dtJQ7teoNJz3K2SCUeKGHlfE1/wfEg==
+X-Google-Smtp-Source: AGHT+IG8lD9cDd11H++aroIVkoft7tDoeKQX/8vKZUC8nw8VhaUkuLmwwKKVsyRwrDHew5HBbMnK+Q==
+X-Received: by 2002:a05:6a20:729b:b0:1be:e966:b326 with SMTP id
+ adf61e73a8af0-1bef60ef542mr10554590637.11.1719873815822; 
+ Mon, 01 Jul 2024 15:43:35 -0700 (PDT)
+Received: from [10.211.41.59] ([66.170.99.2]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-70804893e4bsm7065609b3a.184.2024.07.01.15.43.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Jul 2024 15:43:35 -0700 (PDT)
+Message-ID: <8ca5b424-0e26-40bb-8258-d8d8729c8ad5@broadcom.com>
+Date: Mon, 1 Jul 2024 15:43:33 -0700
 MIME-Version: 1.0
-References: <20240606020404.210989-1-mario.limonciello@amd.com>
- <20240606020404.210989-3-mario.limonciello@amd.com>
- <bc1d81ef-d9d0-4440-b63f-ecfb735ef783@amd.com>
- <d637d3c2-34f7-42f8-acbb-6a1730d3fc3c@amd.com>
- <CAFZQkGy0xuuUw73HQvS8Ce92sUi2rVrRnX25pi1KdNmyQbtBZA@mail.gmail.com>
- <CAFZQkGz8DeoiVX2MohoBoTMxraJk1Ou41N_wKP3GkqRrPg_6sg@mail.gmail.com>
- <49d70214-21e9-4547-96a8-ff168d922eaf@amd.com>
-In-Reply-To: <49d70214-21e9-4547-96a8-ff168d922eaf@amd.com>
-From: Xaver Hugl <xaver.hugl@gmail.com>
-Date: Tue, 2 Jul 2024 00:34:37 +0200
-Message-ID: <CAFZQkGyr6aupS6vzHc1=eHeFnA+t-yvvpQMD-4kP45Hi3a=5Qw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/amd: Add power_saving_policy drm property to
- eDP connectors
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>, amd-gfx@lists.freedesktop.org, 
- Simon Ser <contact@emersion.fr>, Harry Wentland <Harry.Wentland@amd.com>, 
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@google.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] Fix various buffer mapping/import issues
+To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
+ martin.krastev@broadcom.com
+References: <20240628200729.754669-1-zack.rusin@broadcom.com>
+From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Content-Language: en-US
+In-Reply-To: <20240628200729.754669-1-zack.rusin@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,22 +83,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mo., 1. Juli 2024 um 21:02 Uhr schrieb Mario Limonciello
-<mario.limonciello@amd.com>:
-> Hmm I'm a bit surprised the IGT tests I did didn't catch this.
->
-> Are you working on a system with two GPUs by chance (like a Framework
-> 16)?  If so; can you try the "other GPU"?
+On 6/28/24 13:07, Zack Rusin wrote:
+> This small series fixes all known prime/dumb_buffer/buffer dirty
+> tracking issues. Fixing of dumb-buffers turned out to be a lot more
+> complex than I wanted it to be. There's not much that can be done
+> there because the driver has to support old userspace (our Xorg driver
+> expects those to not be gem buffers and special cases a bunch of
+> functionality) and new userspace (which expects the handles to be
+> gem buffers, at least to issue GEM_CLOSE).
+> 
+> The third patch deals with it by making the objects returned from
+> dumb-buffers both (raw buffers and surfaces referenced by the same
+> handle), which always works and doesn't require any changes in userspace.
+> 
+> This fixes the known KDE (KWin's) buffer rendering issues.
+> 
+> v2: Fix compute_crc in the second patch, as spotted by Martin
+> 
+> Zack Rusin (4):
+>   drm/vmwgfx: Fix a deadlock in dma buf fence polling
+>   drm/vmwgfx: Make sure the screen surface is ref counted
+>   drm/vmwgfx: Fix handling of dumb buffers
+>   drm/vmwgfx: Add basic support for external buffers
+> 
+>  drivers/gpu/drm/vmwgfx/vmw_surface_cache.h |  10 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         | 127 +++---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h         |  15 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  40 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_fence.c      |  26 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c        |  62 ++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 453 +++++++--------------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.h        |  17 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c        |  14 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_prime.c      |  32 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_resource.c   |  27 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  33 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       | 145 +++----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c    | 277 ++++++++++++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c       |  40 +-
+>  15 files changed, 788 insertions(+), 530 deletions(-)
+> 
 
-No, I tested on a Framework 13.
 
-> As it seems your PR to span 3 projects and I've never built KDE before
-> can you spit out some artifacts somewhere that I can have a play with to
-> reproduce your result and find the kernel issue?  Arch pkgs would be
-> preferable for me, but some RPMs or DEBs are fine too.
+For the series - LGTM!
 
-Here you go: https://nx44777.your-storageshare.de/s/2j4Jy5anDwwzCtF
-and https://nx44777.your-storageshare.de/s/2rxJ4Tp2L8gdc8Y
-You can set the drm property to "Require color accuracy" with
-"kscreen-doctor output.1.allowColorPowerSaving.disallow" and to zero
-again with "kscreen-doctor output.1.allowColorPowerSaving.allow"
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+
+Thanks,
+
+Maaz Mombasawala <maaz.mombasawala@broadcom.com>
