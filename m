@@ -2,78 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE0A91E036
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 15:06:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290F491E04A
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 15:11:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53C1710E402;
-	Mon,  1 Jul 2024 13:06:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="K0UZTwOZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9939110E40B;
+	Mon,  1 Jul 2024 13:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74B1910E402
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 13:06:14 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8624060003;
- Mon,  1 Jul 2024 13:06:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1719839172;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EOigm+lmrrAayqgxGapMPlIg5+QAdA30qXZZ1VJ9MgE=;
- b=K0UZTwOZRzVe/+8QVUPUZnI5ZqLpGOmEoiR6fE/1Rx9/9UTuImMOwsL+NqmPdV+5bEtId5
- Xe4xlnXP/lWu4m7Yg6hOT//UyYZXc+BOwZGJRjJWgIKc4H8u9Xo7M8SRZnf33I1Z/Cq5HY
- NVSJQ6rfOuneCzN75ViNv8l7ejHfAobZcxJxgqESVkUlLDVIrWSwxsf9M0CDUujUSGQjn+
- s9wJ+dDY3nG0sMhiRxTSjo0vU8joRjIvU2QLPJlPk9ZwAfSay06ZhmQOO/Ef0Ss1lYWPpR
- yKUsK3YJOPmEl5HAotX+HZZMFV9o8QzD/2P3BTz9fzSmnf0zcdMVIBMiI7krPg==
-Date: Mon, 1 Jul 2024 15:06:09 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
- pekka.paalanen@haloniitty.fi
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com,
- marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v8 00/17] drm/vkms: Reimplement line-per-line pixel
- conversion for plane reading
-Message-ID: <ZoKpwWaX4LGqLC04@louis-chauvet-laptop>
-Mail-Followup-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
- pekka.paalanen@haloniitty.fi, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-References: <20240516-yuv-v8-0-cf8d6f86430e@bootlin.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFA4210E40B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 13:10:59 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <m.felsch@pengutronix.de>)
+ id 1sOGnt-0006DR-7p; Mon, 01 Jul 2024 15:10:45 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org
+Cc: kernel@pengutronix.de, Conor Dooley <conor.dooley@microchip.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] dt-bindings: display: simple: Add Jiangsu Smartwin
+ SMMT043480272A-A19
+Date: Mon,  1 Jul 2024 15:10:39 +0200
+Message-Id: <20240701131041.2816856-1-m.felsch@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240516-yuv-v8-0-cf8d6f86430e@bootlin.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: m.felsch@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,33 +52,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+Add compatible to panel-simple for Jiangsu Smartwin Electronics
+SMMT043480272A-A19 4.3" 480x272 LCD-TFT panel.
 
-I sent this iteration over a month ago, and I haven't received any 
-feedback since then. The same goes for the two other series [1] and [2], 
-which I sent after discussing with Melissa.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+---
+Changelog:
+v2:
+- rebased ontop of drm-misc-next
+- added Conor's acked-by
 
-I'm a bit surprised that nothing has been reviewed or merged, as Maíra 
-mentioned in [3] that she wanted to merge at least the first 11 patches. I 
-just checked, and this series applies to drm-misc-next. However, if you 
-encounter any issues, I can send a rebased version.
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-As you can see, I have more series ready ([2], [3]), and I am working on 
-additional features (configfs [4], variable refresh rate, mst...). 
-However, I am currently waiting for feedback on this series before 
-proceeding further with the next topics.
-
-What should I do to move those series forward?
-
-Best regards,
-Louis Chauvet
-
-[1]: https://lore.kernel.org/all/20240516-b4-new-color-formats-v1-0-74cf9fe07317@bootlin.com/
-[2]: https://lore.kernel.org/all/20240516-writeback_line_by_line-v1-0-7b2e3bf9f1c9@bootlin.com/
-[3]: https://lore.kernel.org/all/c83255f4-745e-43e6-98e0-2e89c31d569a@igalia.com/
-[4]: https://github.com/Fomys/linux/tree/b4/new-configfs
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 8a87e0100dcb..55be695952cc 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -176,6 +176,8 @@ properties:
+       - innolux,n156bge-l21
+         # Innolux Corporation 7.0" WSVGA (1024x600) TFT LCD panel
+       - innolux,zj070na-01p
++        # Jiangsu Smartwin Electronics 4.3" (480x272) TFT LCD panel
++      - jianda,smmt043480272a-a19
+         # Kaohsiung Opto-Electronics Inc. 5.7" QVGA (320 x 240) TFT LCD panel
+       - koe,tx14d24vm1bpa
+         # Kaohsiung Opto-Electronics. TX31D200VM0BAA 12.3" HSXGA LVDS panel
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.2
+
