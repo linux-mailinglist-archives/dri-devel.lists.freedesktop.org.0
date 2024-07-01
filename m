@@ -2,80 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2FC91E647
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 19:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8194C91E65E
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 19:15:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 754C210E48D;
-	Mon,  1 Jul 2024 17:11:49 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="O6YwvfIW";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67ACF10E4BA;
+	Mon,  1 Jul 2024 17:15:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0935610E48D
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 17:11:48 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2ec50d4e47bso31645041fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Jul 2024 10:11:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719853906; x=1720458706; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Tw5QduFXJcTB28IfyzuqlpIiVDaOglBAYISRE1Qzh+s=;
- b=O6YwvfIWKqslI8Kr2549fDz9lHVoszskJMlLJYkjf8wJoeUVrGOaGDTpZ6u8QVJBOT
- ynCnQarErf8OI/VHgBMnUqDLlhv47zU2o0OHvP7aESETvjOxOOBvtMgUI3mTd/g7uBr2
- n8KTFPkBeFhKq92z1yXxaaRA7zV5TwcxxK5PePl3KS61zx3FpTBZ/OapzDZTHvWN45aA
- FbzhmnKGRgcaX1TcgY/f6X7/w69W+INtDDpzlvUeO3yp9OwIlc4GchsoRmStbqT2Z6CI
- jItntqquZdxszyc9bwnMevbumTHt5Qnq/MYsdLmEh/iaxV+fIhMngz9xnosh4NJemkU5
- WWlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719853906; x=1720458706;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Tw5QduFXJcTB28IfyzuqlpIiVDaOglBAYISRE1Qzh+s=;
- b=XOiHvDLQEYWXrqqeeOfAdlbZiH8DBa3sikp9I8FUpEpnggKO8yaxloWgCCugWrAdmE
- wi/hdj/ZNWioeUl+h7KaA7ZSASWHqyt0oWC9H7Vj/fsrP+Q4fFMpV5hz/Ucmk1Z7pUNM
- nUzF2APVrEB3zO2Z9NTHMiaw3i30AlUjV4Tc6o/kPpzSqx8zrSa6TPdsf/FHzkC/4DK0
- v8AL4yz2wG+O32fOsd+mSO3ANTvuBVS5j9Mefp0RgShVk+20Do+r5WdSnWlQe5Jf0GfM
- Z+7b1VY3VWHMpfuxwyBU9l2fOQUzuINCGPTkHMqMJrBKeNxFmGMdcGFwHOBjs0OXQi6J
- Abng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXJFIhSPymYNOiwKmmSAsdqCUk0lxbdhnAOvZ+9OChROCtrB8p/QlT6mCdxh5wT//QXEcjzJbp7BZRkbfIyT0JrLOPw6N96E1MU84Brno7i
-X-Gm-Message-State: AOJu0YzAsQP9TJhSJPFSc4r6VfMyWsyiwn9+UZSZzSpoKIfZVRXmj7oA
- gUdSnWi84/HmAdVBYhoLBk+FfhWkF/zSi6vaTdq8yRB78wBSl4Rqiu2QJ1R6W8E=
-X-Google-Smtp-Source: AGHT+IG0FD9r3fZ87/dPAvcHzM7eN0Yneht5xggRUbjqwkATbC+IcDe2hM7Nw/WMF7GO8ZiST5S9Iw==
-X-Received: by 2002:a05:6512:6c7:b0:52c:e16e:6033 with SMTP id
- 2adb3069b0e04-52e826513edmr4541733e87.2.1719853905921; 
- Mon, 01 Jul 2024 10:11:45 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52e7ab0b9cesm1449102e87.7.2024.07.01.10.11.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jul 2024 10:11:45 -0700 (PDT)
-Date: Mon, 1 Jul 2024 20:11:44 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, srinivas.kandagatla@linaro.org, 
- linux-arm-msm@vger.kernel.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, 
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de, 
- stable <stable@kernel.org>
-Subject: Re: [PATCH v2] misc: fastrpc: Remove user PD initmem size check
-Message-ID: <foe6khsckzdvd5ccwitzfpdwoigdgu3uostuar3zk5d5stcd4s@hkrdg7vp4mqt>
-References: <20240627060518.1510124-1-quic_ekangupt@quicinc.com>
- <62dzilcvsp3efxpxulzkf6e62rzcrhp55k6yjk5fymkqthdfzw@yageexbx6ddz>
- <f3d502ca-228e-4be4-b296-a9073975d34b@quicinc.com>
- <a5e69a5e-b882-4f36-b023-f85da430fa2f@quicinc.com>
- <2024062849-brunt-humvee-d338@gregkh>
- <2e616e9d-fc04-4826-b784-4c6ee45bfbc2@quicinc.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 563F410E4B9
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 17:15:01 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sOKc5-0002p8-2t; Mon, 01 Jul 2024 19:14:49 +0200
+Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sOKc3-006Q8D-Uc; Mon, 01 Jul 2024 19:14:47 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
+Cc: Pan Xinhui <Xinhui.Pan@amd.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
+Subject: [PATCH 1/4] drm/scheduler: implement hardware time accounting
+Date: Mon,  1 Jul 2024 19:14:44 +0200
+Message-Id: <20240701171447.3823888-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2e616e9d-fc04-4826-b784-4c6ee45bfbc2@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,60 +58,257 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 01, 2024 at 10:50:38AM GMT, Ekansh Gupta wrote:
-> 
-> 
-> On 6/28/2024 7:51 PM, Greg KH wrote:
-> > On Fri, Jun 28, 2024 at 04:12:10PM +0530, Ekansh Gupta wrote:
-> >>
-> >> On 6/28/2024 3:59 PM, Ekansh Gupta wrote:
-> >>> On 6/27/2024 4:43 PM, Dmitry Baryshkov wrote:
-> >>>> On Thu, Jun 27, 2024 at 11:35:18AM GMT, Ekansh Gupta wrote:
-> >>>>> For user PD initialization, initmem is allocated and sent to DSP for
-> >>>>> initial memory requirements like shell loading. This size is passed
-> >>>>> by user space and is checked against a max size. For unsigned PD
-> >>>>> offloading, more than 2MB size could be passed by user which would
-> >>>>> result in PD initialization failure. Remove the user PD initmem size
-> >>>>> check and allow buffer allocation for user passed size. Any additional
-> >>>>> memory sent to DSP during PD init is used as the PD heap.
-> >>>> Would it allow malicious userspace to allocate big enough buffers and
-> >>>> reduce the amount of memory available to the system? To other DSP
-> >>>> programs?
-> >>> The allocation here is happening from SMMU context bank which is uniquely assigned
-> >>> to processes going to DSP. As per my understanding process can allocate maximum
-> >>> 4GB of memory from the context bank and the memory availability will be taken care
-> >>> by kernel memory management. Please correct me if my understanding is incorrect.
-> >> Just wanted to add 1 question here:
-> >> User space can also directly allocate memory. Wouldn't that be a problem if any malicious userspace
-> >> allocated huge memory?
-> > No, because any userspace program that takes up too much memory will be
-> > killed by the kernel.
-> >
-> > You can not have userspace tell the kernel to allocate 100Gb of memory,
-> > as then the kernel is the one that just took it all up, and then
-> > userspace applications will start to be killed off.
-> >
-> > You MUST bounds check your userspace-supplied memory requests.  Remember
-> > the 4 words of kernel development:
-> >
-> > 	All input is evil.
-> Thanks for the detailed explanation, Greg. I'll remember this going forward.
-> 
-> For this change, I'll increase the max size limit to 5MB which is the requirement for
-> unsigned PD to run on DSP.
+From: Christian König <ckoenig.leichtzumerken@gmail.com>
 
-So we are back to the quesiton of why 5MB is considered to be enough,
-see
+Multiple drivers came up with the requirement to measure how
+much runtime each entity accumulated on the HW.
 
-https://lore.kernel.org/linux-arm-msm/2024061755-snare-french-de38@gregkh/
+A previous attempt of accounting this had to be reverted because
+HW submissions can have a lifetime exceeding that of the entity
+originally issuing them.
 
-> 
-> --Ekansh
-> > thanks,
-> >
-> > greg k-h
-> 
+Amdgpu on the other hand solves this task by keeping track of
+all the submissions and calculating how much time they have used
+on demand.
 
+Move this approach over into the scheduler to provide an easy to
+use interface for all drivers.
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+v2:
+- rebase to v6.10-rc1
+- fix for non-power-of-two number of HW submission
+- add comment explaining the logic behind the fence tracking array
+- rename some function and fix documentation
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 82 +++++++++++++++++++++++-
+ drivers/gpu/drm/scheduler/sched_fence.c  | 19 ++++++
+ include/drm/gpu_scheduler.h              | 31 +++++++++
+ 3 files changed, 131 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 58c8161289fe..d678d0b9b29e 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -62,7 +62,9 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 			  unsigned int num_sched_list,
+ 			  atomic_t *guilty)
+ {
+-	if (!(entity && sched_list && (num_sched_list == 0 || sched_list[0])))
++	unsigned int i, num_submissions = 0;
++
++	if (!entity || !sched_list)
+ 		return -EINVAL;
+ 
+ 	memset(entity, 0, sizeof(struct drm_sched_entity));
+@@ -98,6 +100,11 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 						 (s32) DRM_SCHED_PRIORITY_KERNEL);
+ 		}
+ 		entity->rq = sched_list[0]->sched_rq[entity->priority];
++
++		for (i = 0; i < num_sched_list; ++i) {
++			num_submissions = max(num_submissions,
++					      sched_list[i]->credit_limit);
++		}
+ 	}
+ 
+ 	init_completion(&entity->entity_idle);
+@@ -110,11 +117,52 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 
+ 	atomic_set(&entity->fence_seq, 0);
+ 	entity->fence_context = dma_fence_context_alloc(2);
++	spin_lock_init(&entity->accounting_lock);
++
++	if (!num_submissions)
++		return 0;
++
++	entity->max_hw_submissions = num_submissions;
++	entity->hw_submissions = kcalloc(num_submissions, sizeof(void *),
++					 GFP_KERNEL);
++	if (!entity->hw_submissions)
++		return -ENOMEM;
+ 
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_sched_entity_init);
+ 
++/**
++ * drm_sched_entity_time_spent - Accumulated HW runtime used by this entity
++ * @entity: scheduler entity to check
++ *
++ * Get the current accumulated HW runtime used by all submissions made through
++ * this entity.
++ */
++ktime_t drm_sched_entity_time_spent(struct drm_sched_entity *entity)
++{
++	ktime_t result;
++	unsigned int i;
++
++	if (!entity->max_hw_submissions)
++		return ns_to_ktime(0);
++
++	spin_lock(&entity->accounting_lock);
++	result = entity->hw_time_used;
++	for (i = 0; i < entity->max_hw_submissions; ++i) {
++		struct drm_sched_fence *fence = entity->hw_submissions[i];
++
++		if (!fence)
++			continue;
++
++		result = ktime_add(result, drm_sched_fence_get_runtime(fence));
++	}
++	spin_unlock(&entity->accounting_lock);
++
++	return result;
++}
++EXPORT_SYMBOL(drm_sched_entity_time_spent);
++
+ /**
+  * drm_sched_entity_modify_sched - Modify sched of an entity
+  * @entity: scheduler entity to init
+@@ -326,6 +374,8 @@ EXPORT_SYMBOL(drm_sched_entity_flush);
+  */
+ void drm_sched_entity_fini(struct drm_sched_entity *entity)
+ {
++	unsigned int i;
++
+ 	/*
+ 	 * If consumption of existing IBs wasn't completed. Forcefully remove
+ 	 * them here. Also makes sure that the scheduler won't touch this entity
+@@ -341,6 +391,9 @@ void drm_sched_entity_fini(struct drm_sched_entity *entity)
+ 
+ 	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+ 	RCU_INIT_POINTER(entity->last_scheduled, NULL);
++	for (i = 0; i < entity->max_hw_submissions; ++i)
++		dma_fence_put(&entity->hw_submissions[i]->scheduled);
++	kfree(entity->hw_submissions);
+ }
+ EXPORT_SYMBOL(drm_sched_entity_fini);
+ 
+@@ -522,6 +575,33 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 	 */
+ 	sched_job->entity = NULL;
+ 
++	if (entity->max_hw_submissions) {
++		struct drm_sched_fence *fence = sched_job->s_fence;
++		unsigned int idx = fence->scheduled.seqno;
++
++		dma_fence_get(&fence->scheduled);
++		idx %= entity->max_hw_submissions;
++
++		spin_lock(&entity->accounting_lock);
++		/*
++		 * The fence seqno is dense and monotonically increasing. By
++		 * cycling through a array sized to match the maximum number of
++		 * submissions queued in the HW we can be sure that once we need
++		 * to reuse a slot the fence stored in this slot refers to a
++		 * retired submission and we can safely sum up the accumulated
++		 * runtime and dispose the fence.
++		 */
++		swap(fence, entity->hw_submissions[idx]);
++		if (fence) {
++			ktime_t runtime = drm_sched_fence_get_runtime(fence);
++
++			entity->hw_time_used = ktime_add(entity->hw_time_used,
++							 runtime);
++			dma_fence_put(&fence->scheduled);
++		}
++		spin_unlock(&entity->accounting_lock);
++	}
++
+ 	return sched_job;
+ }
+ 
+diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+index 0f35f009b9d3..55981ada1829 100644
+--- a/drivers/gpu/drm/scheduler/sched_fence.c
++++ b/drivers/gpu/drm/scheduler/sched_fence.c
+@@ -82,6 +82,25 @@ void drm_sched_fence_finished(struct drm_sched_fence *fence, int result)
+ 	dma_fence_signal(&fence->finished);
+ }
+ 
++/**
++ * drm_sched_fence_get_runtime - accumulated runtime on HW
++ * @fence: fence
++ *
++ * Calculate how much runtime this fence has accumulated on the HW.
++ */
++ktime_t drm_sched_fence_get_runtime(struct drm_sched_fence *fence)
++{
++	/* When the fence is not scheduled, it can't have accumulated runtime */
++	if (!test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->scheduled.flags))
++		return ns_to_ktime(0);
++
++	/* When it is still running, calculate runtime until now */
++	if (!test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->finished.flags))
++		return ktime_sub(ktime_get(), fence->scheduled.timestamp);
++
++	return ktime_sub(fence->finished.timestamp, fence->scheduled.timestamp);
++}
++
+ static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
+ {
+ 	return "drm_sched";
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 5acc64954a88..52bcff324a92 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -238,6 +238,35 @@ struct drm_sched_entity {
+ 	 */
+ 	struct rb_node			rb_tree_node;
+ 
++	/**
++	 * @accounting_lock:
++	 *
++	 * Protects the array of fences tracking the in-flight HW submissions
++	 * and the accumulator counter.
++	 */
++	spinlock_t			accounting_lock;
++
++	/**
++	 * @hw_time_used:
++	 *
++	 * How much HW runtime has been accumulated by retired submissions
++	 * from this entity.
++	 */
++	ktime_t				hw_time_used;
++
++	/**
++	 * @max_hw_submissions:
++	 *
++	 * Maximum number of submissions queued in the HW.
++	 */
++	unsigned int			max_hw_submissions;
++
++	/**
++	 * @hw_submissions:
++	 *
++	 * Scheduler fences of the HW submissions in flight.
++	 */
++	struct drm_sched_fence		**hw_submissions;
+ };
+ 
+ /**
+@@ -600,6 +629,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 			  struct drm_gpu_scheduler **sched_list,
+ 			  unsigned int num_sched_list,
+ 			  atomic_t *guilty);
++ktime_t drm_sched_entity_time_spent(struct drm_sched_entity *entity);
+ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout);
+ void drm_sched_entity_fini(struct drm_sched_entity *entity);
+ void drm_sched_entity_destroy(struct drm_sched_entity *entity);
+@@ -620,6 +650,7 @@ void drm_sched_fence_free(struct drm_sched_fence *fence);
+ void drm_sched_fence_scheduled(struct drm_sched_fence *fence,
+ 			       struct dma_fence *parent);
+ void drm_sched_fence_finished(struct drm_sched_fence *fence, int result);
++ktime_t drm_sched_fence_get_runtime(struct drm_sched_fence *fence);
+ 
+ unsigned long drm_sched_suspend_timeout(struct drm_gpu_scheduler *sched);
+ void drm_sched_resume_timeout(struct drm_gpu_scheduler *sched,
+
+base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
 -- 
-With best wishes
-Dmitry
+2.39.2
+
