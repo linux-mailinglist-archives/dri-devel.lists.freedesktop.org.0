@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D5D91DFCE
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 14:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABDC91DFBE
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 14:46:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD6010E3F8;
-	Mon,  1 Jul 2024 12:47:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8118B10E3F5;
+	Mon,  1 Jul 2024 12:46:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="P2nbg+m4";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="/63k5Lj5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ik5yZTtU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bunu.damsy.net (bunu.damsy.net [51.159.160.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA67010E3F8
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 12:47:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202404r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1719837981;
- bh=eVPpYLv5mLVoqUsXp7bnXHv
- 3KDaDKta5hFDMS8AUyTg=; b=P2nbg+m4xqOez6gywczJeSpOe87uU3Oi3XUPnCzSTUyRpEe8uy
- qBodeLeOe6tjxJme9zTjDZ89YHVclNgt4GaiYSb469HSeOfgeYhGkzl4w6Mm0b3BDVkfovKInbC
- 4vtQ4uUZKdnIBfbqXI+Jir7ioYsqRxRHRHPDI3qJ2x5JAodHOoKwkq8rAye8iuoL4k1bzAg6RJE
- vyItcRr/lwa+fsksE907dIve//QCsc3NiXSkWPcqVbytirDB2+VeEEzp0W2CO1m5O9mdsktfWTI
- CHpN+uOzSd9V5uh6E+0yk6hhBpqxhS2r+pmYbRduPLOhqeQAT6m5y+LzKbQ/XrEM/pg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202404e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1719837981; bh=eVPpYLv5mLVoqUsXp7bnXHv
- 3KDaDKta5hFDMS8AUyTg=; b=/63k5Lj5nzcb/mbpsNZ5UiQoRvot6t2Wyd3L7bARiGwoyZ2XgP
- qHWaqdp05QlikKc2hDdJR0oID8q76AKWuxDg==;
-Message-ID: <fd37bd66-4a34-452c-98fe-2ef808590c2e@damsy.net>
-Date: Mon, 1 Jul 2024 14:44:43 +0200
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E31B410E3F5
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 12:46:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id CACE9CE139F;
+ Mon,  1 Jul 2024 12:46:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86763C116B1;
+ Mon,  1 Jul 2024 12:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719837981;
+ bh=5Go4iu06W4P/5NpWX8+tSflVUT2oZD0yzvVFwiclK2E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ik5yZTtUFrKm7RPJ5OF5iiaFQA81/P+fEes2nK/0yeZS78oK8K3j0gALFCkSSVomt
+ KFWCMwHf5PmnF0xbQIVIfvixR3vMj/vVIViybWILJ/+57onv9pRCTLc6ECO6eZdjod
+ 0SiuL+mJuJ3nXo8pgeCJdUexpPCH7fsQf9nKOvC/1yI/oRe3lgQoyk3CZXdWd0Kmzt
+ Y9uKFGBajkZikDzrGVCOI/SjZWw0ooqx5ZQ3jHjNUBNYQJiBUUC4VNKx2y5OCrPhw5
+ wlMVJa8faqIe5R8lh5e7FWetZg1U9rkZ+m+GZkEx59/rCMDCkIQbf06pKqz7n6neI3
+ YesKoL0LRAdWg==
+Date: Mon, 1 Jul 2024 15:46:17 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Omer Shpigelman <oshpigelman@habana.ai>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ogabbay@kernel.org" <ogabbay@kernel.org>,
+ Zvika Yehudai <zyehudai@habana.ai>
+Subject: Re: [PATCH 11/15] RDMA/hbl: add habanalabs RDMA driver
+Message-ID: <20240701124617.GD13195@unreal>
+References: <20240613191828.GJ4966@unreal>
+ <fbb34afa-8a38-4124-9384-9b858ce2c4e5@habana.ai>
+ <20240617190429.GB4025@unreal>
+ <461bf44e-fd2f-4c8b-bc41-48d48e5a7fcb@habana.ai>
+ <20240618125842.GG4025@unreal>
+ <b4bda963-7026-4037-83e6-de74728569bd@habana.ai>
+ <20240619105219.GO4025@unreal>
+ <a5554266-55b7-4e96-b226-b686b8a6af89@habana.ai>
+ <20240630132911.GB176465@unreal>
+ <a19d80d4-e452-461c-a060-2c94030301a7@habana.ai>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] drm/doc: document some tracepoints as uAPI
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
- matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- rostedt@goodmis.org, l.stach@pengutronix.de, matt.coster@imgtec.com,
- frank.binns@imgtec.com, yuq825@gmail.com, robdclark@gmail.com,
- kherbst@redhat.com, lyude@redhat.com, boris.brezillon@collabora.com,
- steven.price@arm.com, mwen@igalia.com, mcanal@igalia.com,
- thomas.hellstrom@linux.intel.com
-References: <20240614081657.408397-1-pierre-eric.pelloux-prayer@amd.com>
- <20240614081657.408397-5-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <20240614081657.408397-5-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a19d80d4-e452-461c-a060-2c94030301a7@habana.ai>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,89 +71,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[adding more people to this thread based on the drivers using gpu_scheduler]
-
-Hi,
-
-Christian's comment on patch 1/5 will be addressed in v6, but before 
-pushing another version I'd like to know if there's a consensus among 
-the drivers maintainers regarding the changes proposed in this series.
-
-Thanks!
-Pierre-Eric
-
-
-Le 14/06/2024 à 10:16, Pierre-Eric Pelloux-Prayer a écrit :
-> This commit adds a document section in drm-uapi.rst about tracepoints,
-> and mark the events gpu_scheduler_trace.h as stable uAPI.
+On Mon, Jul 01, 2024 at 10:46:48AM +0000, Omer Shpigelman wrote:
+> On 6/30/24 16:29, Leon Romanovsky wrote:
+> > On Fri, Jun 28, 2024 at 10:24:32AM +0000, Omer Shpigelman wrote:
+> >> On 6/19/24 13:52, Leon Romanovsky wrote:
+> >>> On Wed, Jun 19, 2024 at 09:27:54AM +0000, Omer Shpigelman wrote:
+> >>>> On 6/18/24 15:58, Leon Romanovsky wrote:
+> >>>>> On Tue, Jun 18, 2024 at 11:08:34AM +0000, Omer Shpigelman wrote:
+> >>>>>> On 6/17/24 22:04, Leon Romanovsky wrote:
+> >>>>>>> [Some people who received this message don't often get email from leon@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> >>>>>>>
+> >>>>>>> On Mon, Jun 17, 2024 at 05:43:49PM +0000, Omer Shpigelman wrote:
+> >>>>>>>> On 6/13/24 22:18, Leon Romanovsky wrote:
+> >>>>>>>>> [Some people who received this message don't often get email from leon@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> >>>>>>>>>
+> >>>>>>>>> On Thu, Jun 13, 2024 at 11:22:04AM +0300, Omer Shpigelman wrote:
+> >>>>>>>>>> Add an RDMA driver of Gaudi ASICs family for AI scaling.
+> >>>>>>>>>> The driver itself is agnostic to the ASIC in action, it operates according
+> >>>>>>>>>> to the capabilities that were passed on device initialization.
+> >>>>>>>>>> The device is initialized by the hbl_cn driver via auxiliary bus.
+> >>>>>>>>>> The driver also supports QP resource tracking and port/device HW counters.
+> >>>>>>>>>>
+> >>>>>>>>>> Signed-off-by: Omer Shpigelman <oshpigelman@habana.ai>
+> >>>>>>>>>> Co-developed-by: Abhilash K V <kvabhilash@habana.ai>
+> >>>>>>>>>> Signed-off-by: Abhilash K V <kvabhilash@habana.ai>
+> >>>>>>>>>> Co-developed-by: Andrey Agranovich <aagranovich@habana.ai>
+> >>>>>>>>>> Signed-off-by: Andrey Agranovich <aagranovich@habana.ai>
+> >>>>>>>>>> Co-developed-by: Bharat Jauhari <bjauhari@habana.ai>
+> >>>>>>>>>> Signed-off-by: Bharat Jauhari <bjauhari@habana.ai>
+> >>>>>>>>>> Co-developed-by: David Meriin <dmeriin@habana.ai>
+> >>>>>>>>>> Signed-off-by: David Meriin <dmeriin@habana.ai>
+> >>>>>>>>>> Co-developed-by: Sagiv Ozeri <sozeri@habana.ai>
+> >>>>>>>>>> Signed-off-by: Sagiv Ozeri <sozeri@habana.ai>
+> >>>>>>>>>> Co-developed-by: Zvika Yehudai <zyehudai@habana.ai>
+> >>>>>>>>>> Signed-off-by: Zvika Yehudai <zyehudai@habana.ai>
+> >>>>>>>>>
+> >>
+> >> <...>
+> >>
+> >>>> mlx5 IB driver doesn't export any symbol that is used by the core driver,
+> >>>> that's why the core driver can be loaded without the IB driver (althought
+> >>>> you'll get circular dependency if you would export).
+> >>>
+> >>> Yes, IB and ETH drivers are "users" of core driver. As RDMA maintainer,
+> >>> I'm reluctant to accept code that exports symbols from IB drivers to
+> >>> other subsystems. We have drivers/infiniband/core/ for that.
+> >>>
+> >>
+> >> We need the core driver to access the IB driver (and to the ETH driver as
+> >> well). As you wrote, we can't use exported symbols from our IB driver nor
+> >> rely on function pointers, but what about providing the core driver an ops
+> >> structure? meaning exporting a register function from the core driver that
+> >> should be called by the IB driver during auxiliary device probe.
+> >> Something like:
+> >>
+> >> int hbl_cn_register_ib_aux_dev(struct auxiliary_device *adev,
+> >> 			       struct hbl_ib_ops *ops)
+> >> {
+> >> ...
+> >> }
+> >> EXPORT_SYMBOL(hbl_cn_register_ib_aux_dev);
+> >>
+> >> That's how only the parent driver exports symbols to the son driver so the
+> >> IB driver is a "user" of the core driver and so we count on the internal
+> >> module reference counter. But we also get the ability to access the IB
+> >> driver from the core driver (to report a HW error for example).
+> > 
+> > Before you are talking about solutions, please explain in technical
+> > terms why you absolutely need to access IB from core driver and any
+> > other possible way is not possible.
+> > 
+> > Thanks
 > 
-> The goal is to explicitly state that tools can rely on the fields,
-> formats and semantics of these events.
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
->   Documentation/gpu/drm-uapi.rst                | 19 ++++++++++++++++
->   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 22 +++++++++++++++++++
->   2 files changed, 41 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 370d820be248..78496793a8f0 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -570,3 +570,22 @@ dma-buf interoperability
->   
->   Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
->   information on how dma-buf is integrated and exposed within DRM.
-> +
-> +
-> +Trace events
-> +============
-> +
-> +See Documentation/trace/tracepoints.rst for the tracepoints documentation.
-> +In the drm subsystem, some events are considered stable uAPI to avoid
-> +breaking tools (eg: gpuvis, umr) relying on them. Stable means that fields
-> +cannot be removed, nor their formatting updated. Adding new fields is
-> +possible, under the normal uAPI requirements.
-> +
-> +Stable uAPI events
-> +------------------
-> +
-> +From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> +   :doc: uAPI trace events
-> \ No newline at end of file
-> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> index 0abcad26839c..63113803cdd5 100644
-> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> @@ -33,6 +33,28 @@
->   #define TRACE_SYSTEM gpu_scheduler
->   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
->   
-> +
-> +/**
-> + * DOC: uAPI trace events
-> + *
-> + * ``drm_sched_job``, ``drm_run_job``, ``drm_sched_process_job``,
-> + * and ``drm_sched_job_wait_dep`` are considered stable uAPI.
-> + *
-> + * Common trace events attributes:
-> + *
-> + * * ``id``    - this is &drm_sched_job->id. It uniquely idenfies a job
-> + *   inside a &struct drm_gpu_scheduler.
-> + *
-> + * * ``dev``   - the dev_name() of the device running the job.
-> + *
-> + * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
-> + *   uniquely identifies where the job is going to be executed.
-> + *
-> + * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
-> + *   &drm_sched_fence.finished
-> + *
-> + */
-> +
->   #ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
->   #define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
->   /* Similar to trace_print_array_seq but for fences. */
+> First of all, as a general assumption, everything we do today can also be
+> done with unidirectional drivers communication only. If the parent driver
+> cannot access the son driver directly, then we can have a blocking command
+> queue on the parent side that the parent driver will push to it and the
+> son driver will fetch from it, execute the command and unblock the parent.
+> That will work but it adds complexity which I'm not sure that is needed.
+> The second point is not necessarily about the direction of the
+> communication but more about generally using function pointers rather than
+> exported symbols - we have 2 flavors of functions for inter driver
+> communications: common functions and ASIC specific functions. The ASIC
+> specific functions are exposed and initialized per ASIC. If we convert
+> them to EXPORT_SYMBOLs then we expose ASIC specific functions regardless
+> of the ASIC in action.
+> Again, that will work but seems unnecessary. We can check the ASIC type
+> that was passed in each exported function and fail if a wrong ASIC type
+> was used, but it seems to me like an incorrect approach to use exported
+> symbols for ASIC specific communication. EXPORT_SYMBOLs were meant to be
+> used for driver level communication, not for utilizing device specific
+> capabilities. For that, an ops struct seems more appropriate.
+> That's why I'm suggesting to combine both exported symbols and function
+> pointers.
+
+Thanks for the explanation. I understand your concerns, but I don't see
+any technical justification for the need to access IB driver from the
+core.
+
+Thanks
