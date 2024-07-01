@@ -2,72 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B3B91E63F
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 19:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2FC91E647
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 19:11:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78A1F10E0FB;
-	Mon,  1 Jul 2024 17:09:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754C210E48D;
+	Mon,  1 Jul 2024 17:11:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="R6oo1BsC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="O6YwvfIW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26EA810E0FB
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 17:09:54 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-2c8dc2bcb78so2358164a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Jul 2024 10:09:54 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0935610E48D
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 17:11:48 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2ec50d4e47bso31645041fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Jul 2024 10:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719853793; x=1720458593; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xmxERVNDTeYDLj/2lxQmz+FNR9fPdrJt1tpozBOZ1TE=;
- b=R6oo1BsCAHXq0clF6Du260itZb8jHC+a4EWMZhE0U0dIRNv8rBLtKMlo36LBkQ8uvM
- FZ9YBaYyOaZ/E2JfbHvCxthKsxIB8XLSbJ/Z8CW0n/NbicRTK3nvQN9NBf9Boyu1KLlG
- 1R8CIAdOSOh7DpV8mM7lOq3kZhLvn0or5dd+F0wqrCg7G75oCGQGX+1QGpkJk48JeHK1
- ATATvI0TREkY8vFvp06m3fHZ4mcgnZgWRpzoCIe8fNVWy3nU03N+ZYuDaR9oQVzBvgYg
- mJVnu+fx1El+5cE4OOW4mSCwO617t/gdsf6zyxl5lnD7FqQYXEEma8jfXuEHHnN1kvkv
- YIPw==
+ d=linaro.org; s=google; t=1719853906; x=1720458706; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Tw5QduFXJcTB28IfyzuqlpIiVDaOglBAYISRE1Qzh+s=;
+ b=O6YwvfIWKqslI8Kr2549fDz9lHVoszskJMlLJYkjf8wJoeUVrGOaGDTpZ6u8QVJBOT
+ ynCnQarErf8OI/VHgBMnUqDLlhv47zU2o0OHvP7aESETvjOxOOBvtMgUI3mTd/g7uBr2
+ n8KTFPkBeFhKq92z1yXxaaRA7zV5TwcxxK5PePl3KS61zx3FpTBZ/OapzDZTHvWN45aA
+ FbzhmnKGRgcaX1TcgY/f6X7/w69W+INtDDpzlvUeO3yp9OwIlc4GchsoRmStbqT2Z6CI
+ jItntqquZdxszyc9bwnMevbumTHt5Qnq/MYsdLmEh/iaxV+fIhMngz9xnosh4NJemkU5
+ WWlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719853794; x=1720458594;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xmxERVNDTeYDLj/2lxQmz+FNR9fPdrJt1tpozBOZ1TE=;
- b=BjbHnAaNugkn2NT3L/RDzfdFTjSotCN/OYEBFQhgWKwBCRZ4c52+dubrNa2nDUEUvF
- xo9wIaL1ucMAyvKR9W5iftcgRg+KiTISdm8N9nAkJhzpr0FPteM1kqEE94fpqWjup1sX
- oUcMcig62wYDnQfly/X680LttkrEZs8uG8M7HyyFD28IuVOp+XSVYw5foQliJFr/0pu2
- TunK/g5d1tR6ECDj6IlscaWaUnPs6j7Tt6aBjLn0voS8T05tYPV1zvexYtmytF91zoMS
- 4snK9WxD7ccb5foVXnHQB5mEH51pt6Tcu04loCGWOoqKcCGpviU3YduD1UgIzHE0HhmV
- QHbg==
+ d=1e100.net; s=20230601; t=1719853906; x=1720458706;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Tw5QduFXJcTB28IfyzuqlpIiVDaOglBAYISRE1Qzh+s=;
+ b=XOiHvDLQEYWXrqqeeOfAdlbZiH8DBa3sikp9I8FUpEpnggKO8yaxloWgCCugWrAdmE
+ wi/hdj/ZNWioeUl+h7KaA7ZSASWHqyt0oWC9H7Vj/fsrP+Q4fFMpV5hz/Ucmk1Z7pUNM
+ nUzF2APVrEB3zO2Z9NTHMiaw3i30AlUjV4Tc6o/kPpzSqx8zrSa6TPdsf/FHzkC/4DK0
+ v8AL4yz2wG+O32fOsd+mSO3ANTvuBVS5j9Mefp0RgShVk+20Do+r5WdSnWlQe5Jf0GfM
+ Z+7b1VY3VWHMpfuxwyBU9l2fOQUzuINCGPTkHMqMJrBKeNxFmGMdcGFwHOBjs0OXQi6J
+ Abng==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUyBrWgav5gnw4KGzW1+q2c+EKL3G7vOr+ub/gp3rPkBJc9/WoV6jToZwo/YaMcfYMvHfPAacVYEt90MBeQZZKDAoUXpzyDfH1WR/ZQseN/
-X-Gm-Message-State: AOJu0YxQd6DJO9HIyGuqhhQfDTDmeJ9S2tnYnANXr7VYPtrj0truTHDD
- 9uowxrwG13ZEOKw1MSrhQhai7FekZprFi4ygI8ISK3dHCWdFudgSc8FfqNZG1lBui520qZljXMZ
- ytF3oUm06dQBmjum5woelhn+UiS4=
-X-Google-Smtp-Source: AGHT+IFdv/CxEX3F4Ls8LF6qC0ROUQXCJSCbEYwfXdHqQBbEAIQ+2XGyB9PXVwTsdl/QAJlaO772YrkBCIovcazHbec=
-X-Received: by 2002:a17:90b:3105:b0:2c2:ce7a:7cb6 with SMTP id
- 98e67ed59e1d1-2c93d72fa21mr5644720a91.26.1719853793619; Mon, 01 Jul 2024
- 10:09:53 -0700 (PDT)
+ AJvYcCXJFIhSPymYNOiwKmmSAsdqCUk0lxbdhnAOvZ+9OChROCtrB8p/QlT6mCdxh5wT//QXEcjzJbp7BZRkbfIyT0JrLOPw6N96E1MU84Brno7i
+X-Gm-Message-State: AOJu0YzAsQP9TJhSJPFSc4r6VfMyWsyiwn9+UZSZzSpoKIfZVRXmj7oA
+ gUdSnWi84/HmAdVBYhoLBk+FfhWkF/zSi6vaTdq8yRB78wBSl4Rqiu2QJ1R6W8E=
+X-Google-Smtp-Source: AGHT+IG0FD9r3fZ87/dPAvcHzM7eN0Yneht5xggRUbjqwkATbC+IcDe2hM7Nw/WMF7GO8ZiST5S9Iw==
+X-Received: by 2002:a05:6512:6c7:b0:52c:e16e:6033 with SMTP id
+ 2adb3069b0e04-52e826513edmr4541733e87.2.1719853905921; 
+ Mon, 01 Jul 2024 10:11:45 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52e7ab0b9cesm1449102e87.7.2024.07.01.10.11.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Jul 2024 10:11:45 -0700 (PDT)
+Date: Mon, 1 Jul 2024 20:11:44 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, srinivas.kandagatla@linaro.org, 
+ linux-arm-msm@vger.kernel.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, 
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de, 
+ stable <stable@kernel.org>
+Subject: Re: [PATCH v2] misc: fastrpc: Remove user PD initmem size check
+Message-ID: <foe6khsckzdvd5ccwitzfpdwoigdgu3uostuar3zk5d5stcd4s@hkrdg7vp4mqt>
+References: <20240627060518.1510124-1-quic_ekangupt@quicinc.com>
+ <62dzilcvsp3efxpxulzkf6e62rzcrhp55k6yjk5fymkqthdfzw@yageexbx6ddz>
+ <f3d502ca-228e-4be4-b296-a9073975d34b@quicinc.com>
+ <a5e69a5e-b882-4f36-b023-f85da430fa2f@quicinc.com>
+ <2024062849-brunt-humvee-d338@gregkh>
+ <2e616e9d-fc04-4826-b784-4c6ee45bfbc2@quicinc.com>
 MIME-Version: 1.0
-References: <vahBbQHXGpyFcIwzIVTPHRnphiAma3_wNbTftk7O3I6gN4gToIj3zIJrIkO263Ly61q2HArlyB1lvyKM1FFyqkqAdLH195Y41xK8GWL4ZBg=@emersion.fr>
-In-Reply-To: <vahBbQHXGpyFcIwzIVTPHRnphiAma3_wNbTftk7O3I6gN4gToIj3zIJrIkO263Ly61q2HArlyB1lvyKM1FFyqkqAdLH195Y41xK8GWL4ZBg=@emersion.fr>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 1 Jul 2024 13:09:42 -0400
-Message-ID: <CADnq5_NgzVn4AOekFQ1xYqkdhuZhTE1QVqxO1WJtp-Bchx6dcw@mail.gmail.com>
-Subject: Re: AMD GFX12 modifiers
-To: Simon Ser <contact@emersion.fr>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2e616e9d-fc04-4826-b784-4c6ee45bfbc2@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,33 +91,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Marek
+On Mon, Jul 01, 2024 at 10:50:38AM GMT, Ekansh Gupta wrote:
+> 
+> 
+> On 6/28/2024 7:51 PM, Greg KH wrote:
+> > On Fri, Jun 28, 2024 at 04:12:10PM +0530, Ekansh Gupta wrote:
+> >>
+> >> On 6/28/2024 3:59 PM, Ekansh Gupta wrote:
+> >>> On 6/27/2024 4:43 PM, Dmitry Baryshkov wrote:
+> >>>> On Thu, Jun 27, 2024 at 11:35:18AM GMT, Ekansh Gupta wrote:
+> >>>>> For user PD initialization, initmem is allocated and sent to DSP for
+> >>>>> initial memory requirements like shell loading. This size is passed
+> >>>>> by user space and is checked against a max size. For unsigned PD
+> >>>>> offloading, more than 2MB size could be passed by user which would
+> >>>>> result in PD initialization failure. Remove the user PD initmem size
+> >>>>> check and allow buffer allocation for user passed size. Any additional
+> >>>>> memory sent to DSP during PD init is used as the PD heap.
+> >>>> Would it allow malicious userspace to allocate big enough buffers and
+> >>>> reduce the amount of memory available to the system? To other DSP
+> >>>> programs?
+> >>> The allocation here is happening from SMMU context bank which is uniquely assigned
+> >>> to processes going to DSP. As per my understanding process can allocate maximum
+> >>> 4GB of memory from the context bank and the memory availability will be taken care
+> >>> by kernel memory management. Please correct me if my understanding is incorrect.
+> >> Just wanted to add 1 question here:
+> >> User space can also directly allocate memory. Wouldn't that be a problem if any malicious userspace
+> >> allocated huge memory?
+> > No, because any userspace program that takes up too much memory will be
+> > killed by the kernel.
+> >
+> > You can not have userspace tell the kernel to allocate 100Gb of memory,
+> > as then the kernel is the one that just took it all up, and then
+> > userspace applications will start to be killed off.
+> >
+> > You MUST bounds check your userspace-supplied memory requests.  Remember
+> > the 4 words of kernel development:
+> >
+> > 	All input is evil.
+> Thanks for the detailed explanation, Greg. I'll remember this going forward.
+> 
+> For this change, I'll increase the max size limit to 5MB which is the requirement for
+> unsigned PD to run on DSP.
 
-On Sat, Jun 29, 2024 at 1:15=E2=80=AFPM Simon Ser <contact@emersion.fr> wro=
-te:
->
-> Hi all!
->
-> In 7ceb94e87bff ("drm/amd: Add gfx12 swizzle mode defs"), some
-> definitions were added for GFX12 modifiers. However I'm not quite sure
-> I understand how these work.
->
-> Tile values seem to not be in the same namespace as GFX9 through GFX11,
-> is that correct? In other words, can GFX9 ~ GFX11 modifiers be used with
-> GFX12, or are these mutually exclusive?
->
-> AMD_FMT_MOD_GFX12_DCC_MAX_COMPRESSED_BLOCK_MASK has a comment explaining
-> the 3 possible values, is there a reason why #defines are missing for
-> these values?
->
-> The comment lists a lot more swizzle modes than just 64K_2D and 256K_2D,
-> any reason why the rest are missing (at least for the 2D ones)?
->
-> Could you explain how the new GFX12 modifiers work?
->
-> Would it be possible to update the comment on top of #define AMD_FMT_MOD
-> to reflect the GFX12 updates?
->
-> Thanks,
->
-> Simon
+So we are back to the quesiton of why 5MB is considered to be enough,
+see
+
+https://lore.kernel.org/linux-arm-msm/2024061755-snare-french-de38@gregkh/
+
+> 
+> --Ekansh
+> > thanks,
+> >
+> > greg k-h
+> 
+
+-- 
+With best wishes
+Dmitry
