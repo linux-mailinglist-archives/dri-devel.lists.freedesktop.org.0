@@ -2,59 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8BB91DBAF
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 11:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66B191DBF9
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 12:02:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE4B210E380;
-	Mon,  1 Jul 2024 09:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 647E510E386;
+	Mon,  1 Jul 2024 10:02:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="Eb/ei43Z";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="NJEPlp1b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
- [91.218.175.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC39310E37D
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 09:45:37 +0000 (UTC)
-X-Envelope-To: dri-devel@lists.freedesktop.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1719827135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/av4W2tCOJXydcbMH9LNQjQOsvgQ+rwVghFqvABN/IM=;
- b=Eb/ei43ZybmEZBl9HYbboGX2gXc0SInXoqoGDB5uOxQSBB2KFFzNO8DjZL9+XWEnRsFI6K
- IM2ie7+ckDT2PVQoYqQCAas6MKUDaxG6qwqJk8cWBiWvEK7aVvzy+VoFtwnztNXrgXH8WZ
- tW6cj0/dl+O65jC6RUV5BuVHjNu3Hx4QKyNZQGnl5h561dBDGXxoMY7vN7yhfgsdOSssrY
- OCIWyNv2IBHZikravyo6xHFpJQW4V2WbeVBY0Vt1tNPoFV/qrrvJPShFctVam5J/Q7+CXC
- qhufNa3qPJVWT7atbpOvZG9S6s0Ugx6/uxsPGOr6TTh5totCFRCMmz7TN7sS/w==
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: jonas@kwiboo.se
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: jonas@kwiboo.se
-X-Envelope-To: didi.debian@cknow.org
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Diederik de Haas <didi.debian@cknow.org>
-To: dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Jonas Karlman <jonas@kwiboo.se>
-Cc: linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: [PATCH 00/13] rockchip: Enable 4K@60Hz mode on RK3228, RK3328,
- RK3399 and RK356x
-Date: Mon, 01 Jul 2024 11:45:21 +0200
-Message-ID: <2110934.yheWrVD7BS@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <2528743.FZeJfPzi8P@bagend>
-References: <20240615170417.3134517-1-jonas@kwiboo.se>
- <2528743.FZeJfPzi8P@bagend>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB7B10E386;
+ Mon,  1 Jul 2024 10:02:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+ Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+ In-Reply-To:References; bh=DJ9+LxV54Ieb6gRSrHFlDXvJdhuQToWOdrkYwkWiAjg=;
+ t=1719828148; x=1720260148; b=NJEPlp1bgSpwFLmL3mQgQfDd97fBrEfw50f6mRmbWX61bJS
+ IgA3wiG+YetE8BX3ISRDr3JJMt4+/EfRi1gDVszKaV7VfsGtQsFYAjktDdWPSvurMmp79eRHivgij
+ mP7TO11zuSle45+sQkx9cGcGx3rE4n4DuJngkJV4wBoP8/5R+bKhMY/WmbLvVi7SsLjhb9tYXuDJX
+ 07EIgO0Fa9GZW8qa3xKsXdXkH8LzmZW5Lz2xpzXXhzEkcXeKUXTvTwFe0K9WB2XLIMZAuV1Y1taQS
+ G4RPZJ01iAq7/oGfV2TY47CAcVm4SK7BGxwcNf+A8sqV+SPuM5CGYNwTz6nflrKQ==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1sODrZ-0007Nt-U6; Mon, 01 Jul 2024 12:02:22 +0200
+Message-ID: <e0d95288-17b4-4286-8084-95f496603ada@leemhuis.info>
+Date: Mon, 1 Jul 2024 12:02:20 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart9944500.OYHocSe4MS";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] QXL display malfunction
+To: "Kaplan, David" <David.Kaplan@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: "Petkov, Borislav" <Borislav.Petkov@amd.com>,
+ "zack.rusin@broadcom.com" <zack.rusin@broadcom.com>,
+ "dmitry.osipenko@collabora.com" <dmitry.osipenko@collabora.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Dave Airlie <airlied@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
+References: <DS7PR12MB576622398096CB650FF6AF4294FF2@DS7PR12MB5766.namprd12.prod.outlook.com>
+ <DS7PR12MB57665F9F4BDF0598D7CC53DD94FF2@DS7PR12MB5766.namprd12.prod.outlook.com>
+ <67b279c7-1b65-46be-baa2-06794b47b9d1@leemhuis.info>
+ <ab0fb17d-0f96-4ee6-8b21-65d02bb02655@suse.de>
+ <DS7PR12MB57662053B081FBD62213016B94C22@DS7PR12MB5766.namprd12.prod.outlook.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+In-Reply-To: <DS7PR12MB57662053B081FBD62213016B94C22@DS7PR12MB5766.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1719828148;
+ 0dcaec6d; 
+X-HE-SMSGID: 1sODrZ-0007Nt-U6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,82 +75,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart9944500.OYHocSe4MS
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Date: Mon, 01 Jul 2024 11:45:21 +0200
-Message-ID: <2110934.yheWrVD7BS@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <2528743.FZeJfPzi8P@bagend>
-MIME-Version: 1.0
+Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
+for once, to make this easily accessible to everyone.
 
-Hi Jonas,
+Thomas, was there some progress wrt to fixing below regression? I might
+have missed something, but from here it looks like this fall through the
+cracks.
 
-On Monday, 1 July 2024 11:07:50 CEST Diederik de Haas wrote:
-> On Saturday, 15 June 2024 19:03:51 CEST Jonas Karlman wrote:
-> > This prepares and enable use of HDMI2.0 modes, e.g. 4K@60Hz, on RK3228,
-> > RK3328, RK3399 and RK356x.
-> > ...
-> > This series may not fully depend on but was only tested together with
-> > the series "drm: bridge: dw_hdmi: Misc enable/disable, CEC and EDID
-> > cleanup" at [1].
-> > [1] https://patchwork.freedesktop.org/series/134727/
+Makes me wonder if we should temporarily revert this for now to fix this
+for rc7 and ensure things get at least one week of testing before the final.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+#regzbot poke
+
+On 14.06.24 15:45, Kaplan, David wrote:
+> [AMD Official Use Only - AMD Internal Distribution Only]
 > 
-> I only just now realized this part of your message and consequently
-> I had NOT applied the referenced patch set.
+>> -----Original Message-----
+>> From: Thomas Zimmermann <tzimmermann@suse.de>
+>> Sent: Wednesday, June 12, 2024 9:26 AM
+>> To: Linux regressions mailing list <regressions@lists.linux.dev>
+>> Cc: Petkov, Borislav <Borislav.Petkov@amd.com>;
+>> zack.rusin@broadcom.com; dmitry.osipenko@collabora.com; Kaplan, David
+>> <David.Kaplan@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>;
+>> Dave Airlie <airlied@redhat.com>; Maarten Lankhorst
+>> <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+>> <mripard@kernel.org>; LKML <linux-kernel@vger.kernel.org>; ML dri-devel
+>> <dri-devel@lists.freedesktop.org>; spice-devel@lists.freedesktop.org;
+>> virtualization@lists.linux.dev
+>> Subject: Re: [REGRESSION] QXL display malfunction
+>>
+>> Caution: This message originated from an External Source. Use proper
+>> caution when opening attachments, clicking links, or responding.
+>>
+>>
+>> Hi
+>>
+>> Am 12.06.24 um 14:41 schrieb Linux regression tracking (Thorsten Leemhuis):
+>>> [CCing a few more people and lists that get_maintainers pointed out
+>>> for qxl]
+>>>
+>>> Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
+>>> for once, to make this easily accessible to everyone.
+>>>
+>>> Thomas, from here it looks like this report that apparently is caused
+>>> by a change of yours that went into 6.10-rc1 (b33651a5c98dbd
+>>> ("drm/qxl: Do not pin buffer objects for vmap")) fell through the
+>>> cracks. Or was progress made to resolve this and I just missed this?
+>>>
+>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker'
+>>> hat)
+>>> --
+>>> Everything you wanna know about Linux kernel regression tracking:
+>>> https://linux-regtracking.leemhuis.info/about/#tldr
+>>> If I did something stupid, please tell me, as explained on that page.
+>>>
+>>> #regzbot poke
+>>>
+>>>
+>>> On 03.06.24 04:29, Kaplan, David wrote:
+>>>>> -----Original Message-----
+>>>>> From: Kaplan, David
+>>>>> Sent: Sunday, June 2, 2024 9:25 PM
+>>>>> To: tzimmermann@suse.de; dmitry.osipenko@collabora.com; Koenig,
+>>>>> Christian <Christian.Koenig@amd.com>; zach.rusin@broadcom.com
+>>>>> Cc: Petkov, Borislav <Borislav.Petkov@amd.com>;
+>>>>> regressions@list.linux.dev
+>>>>> Subject: [REGRESSION] QXL display malfunction
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> I am running an Ubuntu 19.10 VM with a tip kernel using QXL video
+>>>>> and I've observed the VM graphics often malfunction after boot,
+>>>>> sometimes failing to load the Ubuntu desktop or even immediately
+>> shutting the guest down.
+>>>>> When it does load, the guest dmesg log often contains errors like
+>>>>>
+>>>>> [    4.303586] [drm:drm_atomic_helper_commit_planes] *ERROR* head
+>> 1
+>>>>> wrong: 65376256x16777216+0+0
+>>>>> [    4.586883] [drm:drm_atomic_helper_commit_planes] *ERROR* head
+>> 1
+>>>>> wrong: 65376256x16777216+0+0
+>>>>> [    4.904036] [drm:drm_atomic_helper_commit_planes] *ERROR* head
+>> 1
+>>>>> wrong: 65335296x16777216+0+0
+>>
+>> I don't see how these messages are related. Did they already appear before
+>> the broken commit was there?
 > 
-> > I have tested 4K modes on following devices:
-> > - Asus TinkerBoard (RK3288)
-> > - Pine64 Rock64 (RK3328)
-> > - Radxa ROCK Pi 4 (RK3399)
-> > - Radxa ROCK 3A (RK3568)
+> No, I did not observe them prior to the broken commit.
 > 
-> And I can confirm that this patch set enables 4K(@60Hz) resolution when
-> connecting my Rock64 to my 4K TV with my self-build 6.10-rc5 kernel.
-> It selected the 3840x2160@60Hz resolution, but ``swaymsg -t get_outputs``
-> also reported a range of 4096x2160 resolutions.
+>>
+>>>>> [    5.374347] [drm:qxl_release_from_id_locked] *ERROR* failed to find
+>> id in
+>>>>> release_idr
+>>
+>> Is there only one such message in the log? Or multiple/frequent ones.
 > 
-> In contrast, my 6.10-rc2 kernel which is quite similar, except for this
-> patch set, does not mention any 4K resolution at all.
+> I would usually only see one.
 > 
-> So AFAIC you can already include:
-> Tested-by: Diederik de Haas <didi.debian@cknow.org>
+>>
+>> Could you provide a stack trace of what happens before?
 > 
-> Next up will be a test with my Quartz64 Model B (RK3566).
-
-The Q64-B test results were a bit different from Rock64's, but this patch set 
-enabled the 4K@60Hz resolution as well.
-
-1. The console output was at 1080p, whereas it also switched to 4K on the 
-Rock64. I actually prefer this behavior.
-2. After starting sway, it did switch to a 4K resolution, but this time it 
-selected 4096x2160@30Hz on an unpatched kernel (my 6.10-rc2 and Debian 6.9.7).
-With my 6.10-rc5 kernel *with* this patch, it selected 3840x2160@60Hz
-3. None of those 'other' issues I reported with Rock64 showed up on Q64-B :-D
-
-IOW: Also for the Pine64 Quartz64 Model B, you can add:
-Tested-by: Diederik de Haas <didi.debian@cknow.org>
-
-Cheers,
-  Diederik
---nextPart9944500.OYHocSe4MS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZoJ6sQAKCRDXblvOeH7b
-bg7PAP43ud+WY6aEThMAVyAjvq6OsJBZCk51RNwaBBlKWvhBJwD+P6wkixnSYesh
-pjAUG98IhpJvAuq83kFJLgPOoOxb5wI=
-=xfwS
------END PGP SIGNATURE-----
-
---nextPart9944500.OYHocSe4MS--
-
-
-
+> Here's the top of a backtrace when the error occurs:
+> #0  qxl_release_from_id_locked (qdev=qdev@entry=0xffff88810126e000, id=id@entry=262151)
+>     at drivers/gpu/drm/qxl/qxl_release.c:373
+> #1  0xffffffff819f5b6a in qxl_garbage_collect (qdev=0xffff88810126e000)
+>     at drivers/gpu/drm/qxl/qxl_cmd.c:222
+> #2  0xffffffff810e3aa8 in process_one_work (worker=worker@entry=0xffff888101680300,
+>     work=0xffff88810126f340) at kernel/workqueue.c:3231
+> #3  0xffffffff810e6281 in process_scheduled_works (worker=<optimized out>)
+>     at kernel/workqueue.c:3312
+> #4  worker_thread (__worker=0xffff888101680300) at kernel/workqueue.c:3393
+> 
+>>
+>> We sometimes draw into the buffer object from the CPU. For accessing the
+>> buffer object's pages from the CPU, only a vmap operation should be
+>> necessary. It appears as if qxl also requires a pin. My guess is that the pin
+>> inserts the buffer-object's host-side pages and the code around
+>> qxl_release_from_id_locked() appears to be garbage-collecting them.
+>> Hence without the pin, the GC complains about inconsistent state.
+>>>>>
+>>>>> I bisected the issue down to "drm/qxl: Do not pin buffer objects for
+>> vmap"
+>>>>> (b33651a5c98dbd5a919219d8c129d0674ef74299).
+>>
+>> Thanks for bisecting. Does it work if you revert that commit?
+> 
+> Yes
+> 
+> Thanks --David Kaplan
