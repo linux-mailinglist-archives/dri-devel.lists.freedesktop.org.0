@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BA191D4EA
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 02:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4241291D4F1
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 02:13:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CCB410E254;
-	Mon,  1 Jul 2024 00:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3AB910E1E0;
+	Mon,  1 Jul 2024 00:13:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zqj5S3hy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OvX6PRWU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D233710E208;
- Mon,  1 Jul 2024 00:13:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E432D10E1E0
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 00:13:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4F2B1610A0;
- Mon,  1 Jul 2024 00:13:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33298C32786;
- Mon,  1 Jul 2024 00:13:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 45484610A3;
+ Mon,  1 Jul 2024 00:13:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 775B0C32786;
+ Mon,  1 Jul 2024 00:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719792803;
- bh=IAq7xDNMP1R0gk9ekXQMviFD/fkhMz8+rN6FL9poJzM=;
+ s=k20201202; t=1719792835;
+ bh=hw7u6xYg/+CQm01IClMuBvMqpvZ+em+NVWONFAx+A5A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Zqj5S3hyarBQQd5/Ui+knstpoK7ySNcFc48tnSvCgS+6NJOpatwZ24yB2MhURR4OP
- PHCdIMulKk05Tglrb52KzJKAP4z2aHQBl4Iu02H+trnmmQ1mLCqyIal2zgn+P8Z0oN
- jMbDXB5cI66KxPVC90/K0PT+LQVVkF+Zt2zWqsVvbuxOjjA/NGzoqr6/jteJ8EaF1H
- /xvL5Msqv5p/rsk9NISLOx+jkyvktOd9pPwhEwTxYxYMoDVDVZYkFL2UiI3aqtqwNl
- YSvVxARVonjnTtqPnIywgX9tnAxUeuP+kT/u0kU5XlpvTDLaHcotlBMDJezNew0pIu
- PcOmlTDMUGgKA==
+ b=OvX6PRWU1vgApoY4WbwCryfyYDCd7BWWfkB38M9eS85pLfbIDB5oavcXtmygf8F/V
+ 2Z/B3htggA++nMYGbN4wWsg59CIRumSXajf8fHKWwofsJlxfrAyMst9udqnlvhaBqk
+ KA925SKFA0SAdJ98SdsFe5E0+iZtmC8tKC/j1xjM1dfqMx5KJGdBGLEg9nuHVZP6vv
+ bpdSeGRCVQSYa3ghX7D3TaCCC7NTExlB0OiDzyta6kjJY4MPhVJkVUEDn+uJ25/Axt
+ 9rtotPdi7h2TPxNcQOlHW1OTougeF1bxD4VsEzoBp+xqMFd1nKxUTlJ/bxpKDZHrLx
+ es3unA40ZjVjQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Likun Gao <Likun.Gao@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- Hawking.Zhang@amd.com, lijo.lazar@amd.com, asad.kamal@amd.com,
- kevinyang.wang@amd.com, candice.li@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.9 17/20] drm/amdgpu: init TA fw for psp v14
-Date: Sun, 30 Jun 2024 20:11:22 -0400
-Message-ID: <20240701001209.2920293-17-sashal@kernel.org>
+Cc: Alexey Makhalov <alexey.makhalov@broadcom.com>,
+ kernel test robot <lkp@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Sasha Levin <sashal@kernel.org>, zack.rusin@broadcom.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 05/12] drm/vmwgfx: Fix missing HYPERVISOR_GUEST
+ dependency
+Date: Sun, 30 Jun 2024 20:13:24 -0400
+Message-ID: <20240701001342.2920907-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240701001209.2920293-1-sashal@kernel.org>
-References: <20240701001209.2920293-1-sashal@kernel.org>
+In-Reply-To: <20240701001342.2920907-1-sashal@kernel.org>
+References: <20240701001342.2920907-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.9.7
+X-stable-base: Linux 6.6.36
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,44 +65,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Likun Gao <Likun.Gao@amd.com>
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
 
-[ Upstream commit ed5a4484f074aa2bfb1dad99ff3628ea8da4acdc ]
+[ Upstream commit 8c4d6945fe5bd04ff847c3c788abd34ca354ecee ]
 
-Add support to init TA firmware for psp v14.
+VMWARE_HYPERCALL alternative will not work as intended without VMware guest code
+initialization.
 
-Signed-off-by: Likun Gao <Likun.Gao@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+  [ bp: note that this doesn't reproduce with newer gccs so it must be
+    something gcc-9-specific. ]
+
+Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/20240616012511.198243-1-alexey.makhalov@broadcom.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/psp_v14_0.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/vmwgfx/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v14_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v14_0.c
-index 78a95f8f370be..238abd98072ad 100644
---- a/drivers/gpu/drm/amd/amdgpu/psp_v14_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/psp_v14_0.c
-@@ -32,7 +32,9 @@
- #include "mp/mp_14_0_2_sh_mask.h"
- 
- MODULE_FIRMWARE("amdgpu/psp_14_0_2_sos.bin");
-+MODULE_FIRMWARE("amdgpu/psp_14_0_2_ta.bin");
- MODULE_FIRMWARE("amdgpu/psp_14_0_3_sos.bin");
-+MODULE_FIRMWARE("amdgpu/psp_14_0_3_ta.bin");
- 
- /* For large FW files the time to complete can be very long */
- #define USBC_PD_POLLING_LIMIT_S 240
-@@ -64,6 +66,9 @@ static int psp_v14_0_init_microcode(struct psp_context *psp)
- 	case IP_VERSION(14, 0, 2):
- 	case IP_VERSION(14, 0, 3):
- 		err = psp_init_sos_microcode(psp, ucode_prefix);
-+		if (err)
-+			return err;
-+		err = psp_init_ta_microcode(psp, ucode_prefix);
- 		if (err)
- 			return err;
- 		break;
+diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/Kconfig
+index faddae3d6ac2e..6f1ac940cbae7 100644
+--- a/drivers/gpu/drm/vmwgfx/Kconfig
++++ b/drivers/gpu/drm/vmwgfx/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_VMWGFX
+ 	tristate "DRM driver for VMware Virtual GPU"
+ 	depends on DRM && PCI && MMU
+-	depends on X86 || ARM64
++	depends on (X86 && HYPERVISOR_GUEST) || ARM64
+ 	select DRM_TTM
+ 	select DRM_TTM_HELPER
+ 	select MAPPING_DIRTY_HELPERS
 -- 
 2.43.0
 
