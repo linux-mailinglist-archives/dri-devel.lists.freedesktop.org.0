@@ -2,84 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA88B91E99D
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 22:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C208A91E9BF
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 22:41:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FCF910E1E5;
-	Mon,  1 Jul 2024 20:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00FA710E06A;
+	Mon,  1 Jul 2024 20:41:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DMF7p6ut";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m33N1y3K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55E2010E1E5
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 20:32:28 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-52e764bb3fbso4458067e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Jul 2024 13:32:28 -0700 (PDT)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E42F110E064;
+ Mon,  1 Jul 2024 20:41:26 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-57cbc2a2496so837439a12.0; 
+ Mon, 01 Jul 2024 13:41:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719865946; x=1720470746; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Q4Al+p7+Jx4QMS6ZRzOMzn7/IcRW4qS/ED9WAZRF5M0=;
- b=DMF7p6utm4EjOx9S2tV13Yp5GTdNAUgAD0DHi4ZkWHil4ZJo4lqA9t2a9WrcQ65pCo
- aiHuH6DbD4kMr+OPF6Qee1b/ZHPhfy4wXtfrD5RNdVsFHp4VdAaOrH6dFcHOm/ou3eh+
- SSUsbgtucJKnBTCKRJguiWU6QcoOvc7ezje72Nnl4ftJ+782eVrvjvUpDCFO9gBnn59Z
- DdomJvCTk5TpJqVxdvjMSib747YlivkX8rtMTrgQI6GtnqQxNDsk/afLNCP3F/ivu/bd
- pMqbknmzIIJmG41JY8WXxE4wC+iYlFzjkQzZqWjtSuBtjhQdtDOvplA6bDtpNPJr8LB+
- w/zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719865946; x=1720470746;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1719866485; x=1720471285; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Q4Al+p7+Jx4QMS6ZRzOMzn7/IcRW4qS/ED9WAZRF5M0=;
- b=Dh//sJS599t3VVIMUjsk6cXdhI3yXmcEiRPvtL8ZZDqaJqjpbvYQA7v1ZNOaBBnngT
- BkDbRUJdczw2CahFUwvCAKoKwxWwlmBHYGYOcPdY4F44eqcC0Art0z8NzfqhpbgNg7AR
- rXkrEYlXMuWaiDXlI2VYYXuSeZbERZbPxoLXRsppX4MZCzgj/0YgoRxomk+EsSPO5xhv
- EioGQ+KcmRWjoCvfBPdsGfHg33wxzyQ1D9gCAPqGLjHGR39ux/8EmWkKS18EhZ/DH6c0
- zETjPBm96Z5Mli3+v8wQaUp+N8+E52h9HlInBoyc85rzCG/pK8tSkb9759FXVJsKeeYY
- UzqQ==
+ bh=Xzj8Z3HbuiJuMSPBjE+mSOU8JyhOC/fKZmPOTRp5tZ4=;
+ b=m33N1y3KOHWvrR5HfdJ80C4AZ1uBMU+FTc1icRwDTPmJzs6Ry+mOqM6erbUwByTss0
+ O/m9PNvbzlz+anWFfiYazHAKt8P7QgtKvc5n4nCrasFf7X/xcmx0AZCODjWfUpHSFd28
+ 0QjarTUbIzgtXq+z75SbkU5iM+cwS5V8mn/p0Vl11TYIAxVFXoIgTU8xol5ZKvpMlmrN
+ OId3mPKdk94OD7Xt7xrh9L/BspRbNJ5EwY+GtzNrcPuXPT9vCCird4aVGmocTbg/9VK1
+ J4hFoz5RcUOwFalARdsBG3CPM+xppg0eEg8YtfXh9htjNgBTKSSg9ucq6OS4GADG2fT1
+ VWWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719866485; x=1720471285;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Xzj8Z3HbuiJuMSPBjE+mSOU8JyhOC/fKZmPOTRp5tZ4=;
+ b=INaxVTyEVUhjlkjE7awrp6nchIP6TDyhReUsVrQaGXFTBSjLUDovq3d9yDnI1FVMpq
+ sGI5E8LMQTfAO7nRqiLbWKNKB6eoxMkWp0w88syeq1PwcAXhxpXSnhrRRsYiTElxmU32
+ JIjtkIhuqPM4r2iXExheeVKf0MuOoHuRolCqTU1uAgSl8/t4l6GKXElHlhk5LzLK8zLx
+ Onmn8QFMG100/k0eaL+wWsRdelwCCNh1vZ14gcwRpe8JkHMdPn1ECnLDLnFQ4erwoe5Z
+ hlgSAnUN5zNdnTJY4/Bq2UycET9cqRL1F/7BHTdJmZkFN59U5vHhH2ToTtJeVjzm9JkX
+ A+Vg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVIYwyZfAPojEFVsbm/o3wYu3l/gs86mrqKunWDmIxeCdRzddmAlZtyh7bzUg4UNtNqYBeTeUCm8KSaKwwCeqYK4NAczFpNyUOpMeFe7E1B
-X-Gm-Message-State: AOJu0YxGjLUhL401zjRJCn1GTVWEK1d808m+pdU/aDX3EUnWDN2IKb2p
- A5JTKuiKWLluh9iEbmsvTaHBsyVaPIsC9TEHy+dIT5KXZmlvNLFzQJPB18tY2aU=
-X-Google-Smtp-Source: AGHT+IFJr9iphLbm2TbLxdU2q9eLCNITZS5yDZ612pI0Pqk94QNI9OpKhvGgRjiFMmsb1ZR/me6Rwg==
-X-Received: by 2002:a05:6512:2312:b0:52c:7fe8:6489 with SMTP id
- 2adb3069b0e04-52e8273e4a5mr4495138e87.63.1719865944333; 
- Mon, 01 Jul 2024 13:32:24 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52e7ab2f77dsm1528020e87.229.2024.07.01.13.32.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jul 2024 13:32:23 -0700 (PDT)
-Date: Mon, 1 Jul 2024 23:32:22 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Caleb Connolly <caleb@postmarketos.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Henrik Rydberg <rydberg@bitmath.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 6/8] drm/panel: add driver for samsung amb655x
-Message-ID: <37y25ko7q2hoqlzvteqt3cj2lsms3lkwi6xu6qm4xaq5gm6pus@lxh4jo4hpryv>
-References: <20240630-oneplus8-v2-0-c4a1f8da74f1@postmarketos.org>
- <20240630-oneplus8-v2-6-c4a1f8da74f1@postmarketos.org>
+ AJvYcCVyolTDaXU6/cdcJAtlbRJVxc3lb2JIWnTuemBcYkLF5OUDmsKESKyrBWSLSi/aslW9CV9Z66Gc6RlsNRjOdemnoSd/eI1UaL1D5OPxbU5j
+X-Gm-Message-State: AOJu0YyP0UlL8nDYG1KQSDEICn8YIcN/2LZjDZA3flag8nC0VFl3vtjH
+ M3mIG3JBgJePJF0uK+xB4hVvwPCqYwomxFpI0B0DhwznSa1s8fZ/z7IEzcmae5Wj2DVkFjrxpmy
+ nuEcYNwU3u+r33VIPJcqhmNKNrGE=
+X-Google-Smtp-Source: AGHT+IE9uDJq3G5ntysqFKKv18zGU7mP9ARbny08OKRkjg7To2BLgG0cfYT92khriItZCFxEBInnfZHBNEl1caa/d8I=
+X-Received: by 2002:a05:6402:11c8:b0:57c:6d1c:3cee with SMTP id
+ 4fb4d7f45d1cf-5879f3ac6f6mr5350840a12.14.1719866485011; Mon, 01 Jul 2024
+ 13:41:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240630-oneplus8-v2-6-c4a1f8da74f1@postmarketos.org>
+References: <20240628214848.4075651-1-quic_abhinavk@quicinc.com>
+ <20240628214848.4075651-4-quic_abhinavk@quicinc.com>
+In-Reply-To: <20240628214848.4075651-4-quic_abhinavk@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 1 Jul 2024 13:41:13 -0700
+Message-ID: <CAF6AEGt2zX5anreTLnMFEiPToGFJdgYZHHpqJfUtaOkdr+Wbbw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] drm/msm/iommu: introduce msm_iommu_disp_new() for
+ msm_kms
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ quic_jesszhan@quicinc.com, swboyd@chromium.org, dianders@chromium.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,109 +86,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 30, 2024 at 08:36:29PM GMT, Caleb Connolly wrote:
-> This is a 1080x2400 120hz panel used on the OnePlus 8T. It uses DSC but
-> with many non-standard DCS commands.
-> 
-> The only user of this panel (the OnePlus 8T) has a bug somewhere in the
-> DSI stack whereby it isn't possible to properly initialize this panel
-> after a reset. As a result, the reset GPIO is made optional so it can be
-> left unused on that device.
-> 
-> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
+On Fri, Jun 28, 2024 at 2:49=E2=80=AFPM Abhinav Kumar <quic_abhinavk@quicin=
+c.com> wrote:
+>
+> Introduce a new API msm_iommu_disp_new() for display use-cases.
+>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  MAINTAINERS                                   |   7 +
->  drivers/gpu/drm/panel/Kconfig                 |   9 +
->  drivers/gpu/drm/panel/Makefile                |   1 +
->  drivers/gpu/drm/panel/panel-samsung-amb655x.c | 399 ++++++++++++++++++++++++++
->  4 files changed, 416 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 807feae089c4..2b9cfbf92d7a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7142,8 +7142,15 @@ M:	Robert Chiras <robert.chiras@nxp.com>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
->  F:	drivers/gpu/drm/panel/panel-raydium-rm67191.c
->  
-> +DRM DRIVER FOR SAMSUNG AMB655X PANEL
-> +M:	Caleb Connolly <caleb@postmarketos.org>
-> +S:	Maintained
-> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> +F:	Documentation/devicetree/bindings/display/panel/samsung,amb655x.yaml
-> +F:	drivers/gpu/drm/panel/panel-samsung-amb655x.c
-> +
->  DRM DRIVER FOR SAMSUNG DB7430 PANELS
->  M:	Linus Walleij <linus.walleij@linaro.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index bf4eadfe21cb..7203d16ab20a 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -590,8 +590,17 @@ config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
->  	depends on OF
->  	select DRM_MIPI_DSI
->  	select VIDEOMODE_HELPERS
->  
-> +config DRM_PANEL_SAMSUNG_AMB655X
-> +	tristate "Samsung AMB655X DSI panel"
-> +	depends on OF
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  DRM panel driver for the Samsung AMB655X panel.
-> +	  This panel has a resolution of 1080x2400 @ 60hz or 120Hz.
-> +
->  config DRM_PANEL_SAMSUNG_ATNA33XC20
->  	tristate "Samsung ATNA33XC20 eDP panel"
->  	depends on OF
->  	depends on BACKLIGHT_CLASS_DEVICE
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index 051b75b3df7b..be6d500a56a4 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -58,8 +58,9 @@ obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM67191) += panel-raydium-rm67191.o
->  obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
->  obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM692E5) += panel-raydium-rm692e5.o
->  obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM69380) += panel-raydium-rm69380.o
->  obj-$(CONFIG_DRM_PANEL_RONBO_RB070D30) += panel-ronbo-rb070d30.o
-> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_AMB655X) += panel-samsung-amb655x.o
->  obj-$(CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20) += panel-samsung-atna33xc20.o
->  obj-$(CONFIG_DRM_PANEL_SAMSUNG_DB7430) += panel-samsung-db7430.o
->  obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
->  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
-
-
-> +static int samsung_amb655x_prepare(struct drm_panel *panel)
+>  drivers/gpu/drm/msm/msm_iommu.c | 26 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/msm_mmu.h   |  1 +
+>  2 files changed, 27 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_io=
+mmu.c
+> index a79cd18bc4c9..0420bdc4a224 100644
+> --- a/drivers/gpu/drm/msm/msm_iommu.c
+> +++ b/drivers/gpu/drm/msm/msm_iommu.c
+> @@ -343,6 +343,17 @@ static int msm_gpu_fault_handler(struct iommu_domain=
+ *domain, struct device *dev
+>         return 0;
+>  }
+>
+> +static int msm_disp_fault_handler(struct iommu_domain *domain, struct de=
+vice *dev,
+> +                                 unsigned long iova, int flags, void *ar=
+g)
 > +{
-> +	struct samsung_amb655x *ctx = to_samsung_amb655x(panel);
-> +	struct device *dev = &ctx->dsi->dev;
-> +	int ret;
+> +       struct msm_iommu *iommu =3D arg;
 > +
-> +	/*
-> +	 * During the first call to prepare, the regulators are already enabled
-> +	 * since they're boot-on. Avoid enabling them twice so we keep the refcounts
-> +	 * balanced.
-
-I see your intent, but I don't think this is fully correct. If the
-driver gets rebound, then it will perform one extra disable call. On the
-next driver probe / enable / disable / remove cycle the driver will
-perform one more, underflowing enable count. I think
-regulator_init_complete_work_function should give the phone enough time
-to boot the panel.
-
-> +	 */
-> +	if (!regulator_is_enabled(ctx->supplies[0].consumer)) {
-> +		ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> +		if (ret) {
-> +			dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> +			return ret;
-> +		}
-> +	}
+> +       if (iommu->base.handler)
+> +               return iommu->base.handler(iommu->base.arg, iova, flags, =
+NULL);
 > +
+> +       return -ENOSYS;
+> +}
+> +
+>  static void msm_iommu_resume_translation(struct msm_mmu *mmu)
+>  {
+>         struct adreno_smmu_priv *adreno_smmu =3D dev_get_drvdata(mmu->dev=
+);
+> @@ -434,6 +445,21 @@ struct msm_mmu *msm_iommu_new(struct device *dev, un=
+signed long quirks)
+>         return &iommu->base;
+>  }
+>
+> +struct msm_mmu *msm_iommu_disp_new(struct device *dev, unsigned long qui=
+rks)
+> +{
+> +       struct msm_iommu *iommu;
+> +       struct msm_mmu *mmu;
+> +
+> +       mmu =3D msm_iommu_new(dev, quirks);
+> +       if (IS_ERR_OR_NULL(mmu))
+> +               return mmu;
+> +
+> +       iommu =3D to_msm_iommu(mmu);
+> +       iommu_set_fault_handler(iommu->domain, msm_disp_fault_handler, io=
+mmu);
+> +
+> +       return mmu;
+> +}
 
--- 
-With best wishes
-Dmitry
+Hmm, are we using dev drvdata for the display pdev?  If
+dev_get_drvdata() returns NULL for display pdev, we could get away
+without having a different fault handler.
+
+BR,
+-R
+
+> +
+>  struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gp=
+u, unsigned long quirks)
+>  {
+>         struct adreno_smmu_priv *adreno_smmu =3D dev_get_drvdata(dev);
+> diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.=
+h
+> index 88af4f490881..730458d08d6b 100644
+> --- a/drivers/gpu/drm/msm/msm_mmu.h
+> +++ b/drivers/gpu/drm/msm/msm_mmu.h
+> @@ -42,6 +42,7 @@ static inline void msm_mmu_init(struct msm_mmu *mmu, st=
+ruct device *dev,
+>
+>  struct msm_mmu *msm_iommu_new(struct device *dev, unsigned long quirks);
+>  struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gp=
+u, unsigned long quirks);
+> +struct msm_mmu *msm_iommu_disp_new(struct device *dev, unsigned long qui=
+rks);
+>
+>  static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *=
+arg,
+>                 int (*handler)(void *arg, unsigned long iova, int flags, =
+void *data))
+> --
+> 2.44.0
+>
