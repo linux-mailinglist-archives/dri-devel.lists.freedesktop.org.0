@@ -2,64 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313C391DACA
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 10:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A22E091DAFF
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 11:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD8610E14B;
-	Mon,  1 Jul 2024 08:59:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="QVVxcAhM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3DD10E377;
+	Mon,  1 Jul 2024 09:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C4810E14B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 08:59:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1719824355; x=1751360355;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=efE61IVYXFWjsbD6av4gfkJoVTXG1P0ob32k8rOGXRU=;
- b=QVVxcAhMJrHe/vA/7eaXMdwIwBcPct6SA9GT5czH8fWWunuhKFW8/aW1
- ZRv4igzIfnzkKIPT2PWW9dIZCWpUXHc3rBJnwExo+DXuwSZRBL8FAk2Sz
- 8ci2iuMXfzd5EahjJOFqSislr9XAyW50qVhTY8GDDPq/Q2Gk4J8B2l+O0
- LlBKIkOpnw/kwIE737IsNRFJQlQTQ5eEf//vc9c3SXxEGA0wosbN233xP
- q/y8vExHCXL4hBqQ6Hc1lysa5VF3/wK3mhYCrxAY+ivYbhxaevXLL6ABz
- aPUcFX6fU30dNbR7NVLd7ujrPNrDRYbF6pgFmgVNO1CqmzCgmpkLzpAP9 g==;
-X-CSE-ConnectionGUID: T3Ozs11LSS25nP8hYlNUig==
-X-CSE-MsgGUID: dEOOgQ/pTrGAwgvlpue0dw==
-X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; d="scan'208";a="29328373"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 01 Jul 2024 01:59:15 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 1 Jul 2024 01:59:05 -0700
-Received: from che-lt-i67131.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 1 Jul 2024 01:58:59 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <megi@xff.cz>, <javierm@redhat.com>, <neil.armstrong@linaro.org>,
- <quic_jesszhan@quicinc.com>, <sam@ravnborg.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, 
- <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <manikandan.m@microchip.com>
-Subject: [PATCH v2 3/3] drm/panel: himax-hx8394: Add Support for Microchip
- AC40T08A MIPI Display Panel
-Date: Mon, 1 Jul 2024 14:28:37 +0530
-Message-ID: <20240701085837.50855-4-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240701085837.50855-1-manikandan.m@microchip.com>
-References: <20240701085837.50855-1-manikandan.m@microchip.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 356E010E378
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 09:03:12 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B8C3339;
+ Mon,  1 Jul 2024 02:03:36 -0700 (PDT)
+Received: from [10.57.44.170] (unknown [10.57.44.170])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9DFE53F766;
+ Mon,  1 Jul 2024 02:03:10 -0700 (PDT)
+Message-ID: <bfc7f7f7-e25f-497c-9294-438315d3d647@arm.com>
+Date: Mon, 1 Jul 2024 10:03:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/panthor: Don't check the array stride on empty
+ uobj arrays
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+References: <20240628145536.778349-1-boris.brezillon@collabora.com>
+ <20240628145536.778349-2-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240628145536.778349-2-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,185 +50,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Microchip AC40T08A MIPI Display panel. This panel uses
-a Himax HX8394 display controller and requires a vendor provided init
-sequence. The display resolution is 720x1280@60Hz with width and height
-of 76mm and 132mm respectively.
+On 28/06/2024 15:55, Boris Brezillon wrote:
+> The user is likely to leave all the drm_panthor_obj_array fields
+> to zero when the array is empty, which will cause an EINVAL failure.
+> 
+> Fixes: 4bdca1150792 ("drm/panthor: Add the driver frontend block")
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
----
- drivers/gpu/drm/panel/panel-himax-hx8394.c | 151 +++++++++++++++++++++
- 1 file changed, 151 insertions(+)
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-index d0e44f1f85d9..bf6bac5d5c12 100644
---- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
-+++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-@@ -339,6 +339,156 @@ static const struct hx8394_panel_desc powkiddy_x55_desc = {
- 	.init_sequence = powkiddy_x55_init_sequence,
- };
- 
-+static int mchp_ac40t08a_init_sequence(struct hx8394 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-+
-+	/* DCS commands do not seem to be sent correclty without this delay */
-+	msleep(20);
-+
-+	/* 5.19.8 SETEXTC: Set extension command (B9h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETEXTC,
-+			       0xff, 0x83, 0x94);
-+
-+	/* 5.19.9 SETMIPI: Set MIPI control (BAh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETMIPI,
-+			       0x63, 0x03, 0x68, 0x6b, 0xb2, 0xc0);
-+
-+	/* 5.19.2 SETPOWER: Set power (B1h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
-+			       0x48, 0x12, 0x72, 0x09, 0x32, 0x54,
-+			       0x71, 0x71, 0x57, 0x47);
-+
-+	/* 5.19.3 SETDISP: Set display related register (B2h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETDISP,
-+			       0x00, 0x80, 0x64, 0x0c, 0x0d, 0x2f);
-+
-+	/* 5.19.4 SETCYC: Set display waveform cycles (B4h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCYC,
-+			       0x73, 0x74, 0x73, 0x74, 0x73, 0x74,
-+			       0x01, 0x0c, 0x86, 0x75, 0x00, 0x3f,
-+			       0x73, 0x74, 0x73, 0x74, 0x73, 0x74,
-+			       0x01, 0x0c, 0x86);
-+
-+	/* 5.19.5 SETVCOM: Set VCOM voltage (B6h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETVCOM,
-+			       0x6e, 0x6e);
-+
-+	/* 5.19.19 SETGIP0: Set GIP Option0 (D3h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP0,
-+			       0x00, 0x00, 0x07, 0x07, 0x40, 0x07,
-+			       0x0c, 0x00, 0x08, 0x10, 0x08, 0x00,
-+			       0x08, 0x54, 0x15, 0x0a, 0x05, 0x0a,
-+			       0x02, 0x15, 0x06, 0x05, 0x06, 0x47,
-+			       0x44, 0x0a, 0x0a, 0x4b, 0x10, 0x07,
-+			       0x07, 0x0c, 0x40);
-+
-+	/* 5.19.20 Set GIP Option1 (D5h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP1,
-+			       0x1c, 0x1c, 0x1d, 0x1d, 0x00, 0x01,
-+			       0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-+			       0x08, 0x09, 0x0a, 0x0b, 0x24, 0x25,
-+			       0x18, 0x18, 0x26, 0x27, 0x18, 0x18,
-+			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+			       0x18, 0x18, 0x20, 0x21, 0x18, 0x18,
-+			       0x18, 0x18);
-+
-+	/* 5.19.21 Set GIP Option2 (D6h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP2,
-+			       0x1c, 0x1c, 0x1d, 0x1d, 0x07, 0x06,
-+			       0x05, 0x04, 0x03, 0x02, 0x01, 0x00,
-+			       0x0b, 0x0a, 0x09, 0x08, 0x21, 0x20,
-+			       0x18, 0x18, 0x27, 0x26, 0x18, 0x18,
-+			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+			       0x18, 0x18, 0x25, 0x24, 0x18, 0x18,
-+			       0x18, 0x18);
-+
-+	/* 5.19.25 SETGAMMA: Set gamma curve related setting (E0h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGAMMA,
-+			       0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21,
-+			       0x24, 0x22, 0x47, 0x56, 0x65, 0x66,
-+			       0x6e, 0x82, 0x88, 0x8b, 0x9a, 0x9d,
-+			       0x98, 0xa8, 0xb9, 0x5d, 0x5c, 0x61,
-+			       0x66, 0x6a, 0x6f, 0x7f, 0x7f, 0x00,
-+			       0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24,
-+			       0x22, 0x47, 0x56, 0x65, 0x65, 0x6e,
-+			       0x81, 0x87, 0x8b, 0x98, 0x9d, 0x99,
-+			       0xa8, 0xba, 0x5d, 0x5d, 0x62, 0x67,
-+			       0x6b, 0x72, 0x7f, 0x7f);
-+
-+	/* Unknown command, not listed in the HX8394-F datasheet (C0H) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN1,
-+			       0x1f, 0x73);
-+
-+	/* Set CABC control (C9h)*/
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCABC,
-+			       0x76, 0x00, 0x30);
-+
-+	/* 5.19.17 SETPANEL (CCh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPANEL,
-+			       0x0b);
-+
-+	/* Unknown command, not listed in the HX8394-F datasheet (D4h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
-+			       0x02);
-+
-+	/* 5.19.11 Set register bank (BDh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-+			       0x02);
-+
-+	/* 5.19.11 Set register bank (D8h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN4,
-+			       0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			       0xff, 0xff, 0xff, 0xff, 0xff, 0xff);
-+
-+	/* 5.19.11 Set register bank (BDh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-+			       0x00);
-+
-+	/* 5.19.11 Set register bank (BDh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-+			       0x01);
-+
-+	/* 5.19.2 SETPOWER: Set power (B1h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
-+			       0x00);
-+
-+	/* 5.19.11 Set register bank (BDh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-+			       0x00);
-+
-+	/* Unknown command, not listed in the HX8394-F datasheet (C6h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN2,
-+			       0xed);
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode mchp_ac40t08a_mode = {
-+	.hdisplay    = 720,
-+	.hsync_start = 720 + 12,
-+	.hsync_end   = 720 + 12 + 24,
-+	.htotal	     = 720 + 12 + 12 + 24,
-+	.vdisplay    = 1280,
-+	.vsync_start = 1280 + 13,
-+	.vsync_end   = 1280 + 14,
-+	.vtotal	     = 1280 + 14 + 13,
-+	.clock	     = 60226,
-+	.flags	     = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	.width_mm    = 76,
-+	.height_mm   = 132,
-+};
-+
-+static const struct hx8394_panel_desc mchp_ac40t08a_desc = {
-+	.mode = &mchp_ac40t08a_mode,
-+	.lanes = 4,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.init_sequence = mchp_ac40t08a_init_sequence,
-+};
-+
- static int hx8394_enable(struct drm_panel *panel)
- {
- 	struct hx8394 *ctx = panel_to_hx8394(panel);
-@@ -556,6 +706,7 @@ static void hx8394_remove(struct mipi_dsi_device *dsi)
- static const struct of_device_id hx8394_of_match[] = {
- 	{ .compatible = "hannstar,hsd060bhw4", .data = &hsd060bhw4_desc },
- 	{ .compatible = "powkiddy,x55-panel", .data = &powkiddy_x55_desc },
-+	{ .compatible = "microchip,ac40t08a-mipi-panel", .data = &mchp_ac40t08a_desc },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, hx8394_of_match);
--- 
-2.25.1
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index b8a84f26b3ef..b5e7b919f241 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -86,15 +86,15 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  	int ret = 0;
+>  	void *out_alloc;
+>  
+> +	if (!in->count)
+> +		return NULL;
+> +
+>  	/* User stride must be at least the minimum object size, otherwise it might
+>  	 * lack useful information.
+>  	 */
+>  	if (in->stride < min_stride)
+>  		return ERR_PTR(-EINVAL);
+>  
+> -	if (!in->count)
+> -		return NULL;
+> -
+>  	out_alloc = kvmalloc_array(in->count, obj_size, GFP_KERNEL);
+>  	if (!out_alloc)
+>  		return ERR_PTR(-ENOMEM);
 
