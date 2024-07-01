@@ -2,72 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13EE91E7F6
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 20:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4604E91E814
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 21:01:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1EA10E08B;
-	Mon,  1 Jul 2024 18:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 901CD10E4D0;
+	Mon,  1 Jul 2024 19:01:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AMLRirhU";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Hl7t6Z+m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEADF10E08B;
- Mon,  1 Jul 2024 18:48:06 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a729d9d7086so701384466b.0; 
- Mon, 01 Jul 2024 11:48:06 -0700 (PDT)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE3710E4D0
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 19:01:00 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id
+ af79cd13be357-79d5e616e34so243821985a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Jul 2024 12:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719859685; x=1720464485; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XOBqX6vEqO8I9+9x7cipWlXAGUF2pmkVi7D+4XiSKYI=;
- b=AMLRirhUmIjJupzXxD3SzOagkmUIvU4ZsTF/KZbLd1BT3REwMfQnGGW/LkScD5XDO4
- dWVy2Z/PRp68JxLXMHqJ5QVDTKIwVWAfcmlZQ0k7M4JqQIoOoYr266xTVJUymbzv5B1A
- bRUl9QoSFsyTmLRD6U7Jn8vWNeptrAviumVR2RnLHIGbQgNe3mRyLb6raqubbLlPzjNV
- 3BiAdKDTOXeG1gdQUNKUE+gFGL0v7cQ6w6UFvgtYn68LW+oHoVLnDVZTyq0T7KvLgDxc
- pXAO0KyA1Y0EJvF2N+ufTqLT4yw1ambbb+tGF7bzJT/KQtCKEDzBUmmHYXoDyvmq+4KC
- NS6g==
+ d=google.com; s=20230601; t=1719860459; x=1720465259;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=R4LpFR6VRPZBJqkm7iRXIp87VCy5+OyuBQMHBVpgrKc=;
+ b=Hl7t6Z+meF92OZAW3cdGJ8UUF9f9N1WDQsCSwLZURYkeQV98tFuy4Ls+o0vm2n8ZPb
+ HspkJXdSR15sK4EBhZEr0wNm7f89QSq6eok4CKvDO8buwz7xbZV8x3aAeXS8yA5sZEaa
+ Ug04UjGLyiBGXNT8aEXkG17amDRNjAv5ViQ+qI1PSoTTLRBbRyfiSOAiFxHBYjDYV6RW
+ 8mdh398cWEqHXzOSiYntDZy1LluHtskCRhciIurNUkA4m9vJfCIHruy7NREF/7QgyUzG
+ nAeRgbyi5h9MbfMbitt7Z+yGxJfV4wuUjqgpD7rH2NdswsfRBTu1qCNXK5Nqlm7hhoeH
+ TYcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719859685; x=1720464485;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XOBqX6vEqO8I9+9x7cipWlXAGUF2pmkVi7D+4XiSKYI=;
- b=ByAuhiU4ShTSpe8jzHnfoiRhdWkIsmeaI04BgXMXXHyXsbBa7NnHPf4/0TFsROFoOw
- wk1wT8GYdXTr9IOV3uzzyqD+PyJCnCUlnx6nDy/S8+0O6f6GBlHomkZxMB/uUqvQ/Ftd
- m1Gks/ARSgE9o6BBQ73G4dK35BrWLydKU+KVYecapuw3bBj0B/cGtfwU+lu0u0LeraIu
- 8JljS84/z0odFtwkStzfwe9fo69POJnkfQ7vLvx9VPT4olCLVTnnf4ECCCOo08ELbzoS
- zH92SBNPEAU4C5BARYLsiIgr9NSK4oItGfMfko51dDJ8RYGltTiDcYN1A2Ud1tSHa9ce
- MODg==
+ d=1e100.net; s=20230601; t=1719860459; x=1720465259;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R4LpFR6VRPZBJqkm7iRXIp87VCy5+OyuBQMHBVpgrKc=;
+ b=IWFEgdCUO0/b3v+a1FdTFRZmAqNAv47Os8zL30E/qy62pYgcXY5ZCOqDW78SJr+tEF
+ Vxc4TplLhLxLjL4saVCLqFGgXbozeDAB6qgl7E11TiC8Nsa2M0S9IQxBMvfuoruY29m0
+ WMwPq2wXQXKC0MjlklYoMAKaaRm3UsGCLU9XeNpnRZAFD6Id5qGrGqeXsvdPy+eBJnVH
+ 31FClqSOvqFA+Om2xvHr461lGhUS/CRIiU+azPrYMBV0Upny47kRNIWVY13N0KCxizB4
+ YqCGW5Q8ehSoDG+hBzwqof2+qtkVFXrdyOWSipppJc4q1cQxP5Cy94O7brUvmz1LBJDD
+ Nd4g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXygFE1mUDG5/jcxNqjFpiDkkwF8n3shLQdsdsonWUG30LXbSHJ3qW2fvQnMIgMBrJCj+o4W1VPegYwAvVwxZKt6/pVfHpLBTBYLM3u8lBRPCI5J0haBObuu2gSu13z856l9++AOYM9lBiDFaZa3g==
-X-Gm-Message-State: AOJu0YxneMTx1tPxma5UGFCmukRc6CGEhXp3WJQS5dOUBblLCz1UmV2F
- uuKV4kQ3IgWndi472LKsKnJfkNQKLdvu1Ch4M4dYQ+2hnk1hZuNb8t0/MmrmqZcqtgzMcv0ZmQs
- ITNifHtJ80wXcG9ogfmP8TnfRbeE=
-X-Google-Smtp-Source: AGHT+IGAMOojiJyBbt1/H6Rw8/TspWgSlD/yE6qOVbltvfbIpNipGI2zv9jT7kVgSVR0te7f9arBtHIikanhGfwCkaM=
-X-Received: by 2002:a17:907:987:b0:a72:83ad:f087 with SMTP id
- a640c23a62f3a-a72aee6574amr976524766b.10.1719859684876; Mon, 01 Jul 2024
- 11:48:04 -0700 (PDT)
+ AJvYcCUX4hhZEpbePGzIVQ9YnHBujMNtLQz2NjaukX9jfRFECU+bZJObS9Unj7WWrWW7+YCEKlAOlAfZOgTk8x/ERMUfZUkXCxGGkyXM1FCICU+q
+X-Gm-Message-State: AOJu0YzlAnexygs8YYRn1CQt1OYYYu5T/XWaSrhoVrijVkFLMMQKgZTL
+ 5o+jnj663TrrGQC0f2yOO4Kzo8BnmQtvtyrCjAyefRxBidg312+93ZDjUuX/9ZSwnCuilbEwoCf
+ JqBVhsheilG7KLGdn8qZHBHElI7iWt6mlO/r0
+X-Google-Smtp-Source: AGHT+IHqGzU9tZFX9QqaBsD++nA7soWtr02PwwhDHubls3yJUOnaqW81EaDVu4zWNv2Iw9IsPTEVGjOAs2RkVILAwGg=
+X-Received: by 2002:ad4:5c68:0:b0:6b5:4249:7c4 with SMTP id
+ 6a1803df08f44-6b5b7057b8emr78735846d6.2.1719860458778; Mon, 01 Jul 2024
+ 12:00:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240606020404.210989-1-mario.limonciello@amd.com>
- <20240606020404.210989-3-mario.limonciello@amd.com>
- <bc1d81ef-d9d0-4440-b63f-ecfb735ef783@amd.com>
- <d637d3c2-34f7-42f8-acbb-6a1730d3fc3c@amd.com>
- <CAFZQkGy0xuuUw73HQvS8Ce92sUi2rVrRnX25pi1KdNmyQbtBZA@mail.gmail.com>
-In-Reply-To: <CAFZQkGy0xuuUw73HQvS8Ce92sUi2rVrRnX25pi1KdNmyQbtBZA@mail.gmail.com>
-From: Xaver Hugl <xaver.hugl@gmail.com>
-Date: Mon, 1 Jul 2024 20:47:53 +0200
-Message-ID: <CAFZQkGz8DeoiVX2MohoBoTMxraJk1Ou41N_wKP3GkqRrPg_6sg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/amd: Add power_saving_policy drm property to
- eDP connectors
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>, amd-gfx@lists.freedesktop.org, 
- Simon Ser <contact@emersion.fr>, Harry Wentland <Harry.Wentland@amd.com>, 
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@google.com>
+References: <20240628003253.1694510-1-almasrymina@google.com>
+ <20240628003253.1694510-13-almasrymina@google.com> <m234oxcraf.fsf@gmail.com>
+In-Reply-To: <m234oxcraf.fsf@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 1 Jul 2024 12:00:44 -0700
+Message-ID: <CAHS8izOUJMnCxK0ZfOOOZH0auNF_Kk+WVA=oTEzJe8mYHdonfA@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 12/14] net: add devmem TCP documentation
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,19 +119,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Do., 20. Juni 2024 um 22:22 Uhr schrieb Xaver Hugl <xaver.hugl@gmail.com>:
-> Merging can only happen once a real world userspace application has
-> implemented support for it. I'll try to do that sometime next week in
-> KWin
+On Fri, Jun 28, 2024 at 3:10=E2=80=AFAM Donald Hunter <donald.hunter@gmail.=
+com> wrote:
+>
+> Mina Almasry <almasrymina@google.com> writes:
+> > +
+> > +The user must bind a dmabuf to any number of RX queues on a given NIC =
+using
+> > +the netlink API::
+> > +
+> > +     /* Bind dmabuf to NIC RX queue 15 */
+> > +     struct netdev_queue *queues;
+> > +     queues =3D malloc(sizeof(*queues) * 1);
+> > +
+> > +     queues[0]._present.type =3D 1;
+> > +     queues[0]._present.idx =3D 1;
+> > +     queues[0].type =3D NETDEV_RX_QUEUE_TYPE_RX;
+> > +     queues[0].idx =3D 15;
+> > +
+> > +     *ys =3D ynl_sock_create(&ynl_netdev_family, &yerr);
+> > +
+> > +     req =3D netdev_bind_rx_req_alloc();
+> > +     netdev_bind_rx_req_set_ifindex(req, 1 /* ifindex */);
+> > +     netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
+> > +     __netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
+> > +
+> > +     rsp =3D netdev_bind_rx(*ys, req);
+> > +
+> > +     dmabuf_id =3D rsp->dmabuf_id;
+> > +
+> > +
+> > +The netlink API returns a dmabuf_id: a unique ID that refers to this d=
+mabuf
+> > +that has been bound.
+>
+> The docs don't mention the unbinding behaviour. Can you add the text
+> from the commit message for patch 3 ?
 
-Here's the promised implementation:
-https://invent.kde.org/plasma/kwin/-/merge_requests/6028
+Thanks, will do, if I end up sending another version of this with more
+feedback. If this gets merged I'll follow up with a patch updating the
+docs (there seems to be no other feedback at the moment).
 
-In testing with the patches on top of kernel 6.9.6, setting the
-property to `Require color accuracy` makes the sysfs file correctly
-report "Device or resource busy" when trying to change the power
-saving level, but setting the property to zero doesn't really work.
-Once KWin sets the property to zero, changing the power saving level
-"works" but the screen blanks for a moment (might just be a single
-frame) and reading from the file returns zero again, with the visuals
-and backlight level unchanged as well.
+--=20
+Thanks,
+Mina
