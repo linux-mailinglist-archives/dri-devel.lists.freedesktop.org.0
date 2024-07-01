@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B838391DF09
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 14:23:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D5D91DFCE
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 14:47:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF3E310E3E8;
-	Mon,  1 Jul 2024 12:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD6010E3F8;
+	Mon,  1 Jul 2024 12:47:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="KPMXnxyt";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="P2nbg+m4";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="/63k5Lj5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C74810E3E8
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 12:23:20 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id
- ca18e2360f4ac-7f649f7868dso13423739f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Jul 2024 05:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1719836599; x=1720441399;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fue0Tv92IFzeqttRzqKdi3GkQifgKDzF/2EWUnqQBC0=;
- b=KPMXnxytr82hIOQYP5NrXdc7vlMNKsf1yFdSWWdxbMr26qYYjxBcQI+hHeROZMXKxY
- VORpIgcZcJ9Z+uVQmYJoUx//mND/5Y+/5rsEAy73u0LY9O85pKCq1tt1+zY8heO7oPeM
- WHPx6xPaDlhF9XV4SrUtVwXKJSAafDsX/YLSc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719836599; x=1720441399;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fue0Tv92IFzeqttRzqKdi3GkQifgKDzF/2EWUnqQBC0=;
- b=P/UOEVUzaktWIMCSCjygwXPORlv4J1kbXvEzZHgN8ZvZGgU2IP+sYJBD8UbRXVqBaU
- OxaSRer7clpAI/+Echf5g8zW1awOcy5U4xvDu3GzVYUhL3uRsyhCtFu+KZu40WnaWa6e
- ukfs0ZEvQxSy2T/68zxF/8oZpWF8uer8Eq+eH8ajqNetP8NATW6e/wN2ZAFQYW/04TmD
- 3ex4PqPUM0KRVk++gpH1tAy5H/CSiD+uLrJAmmPpNqM+p+5QBKfNHXfzWJVm7xVQzqEW
- d2zFpIxWCBwmLkrYoZHL3esjo1oSqK9lursxrYNW8zgfUUG2VuvX/m16+XvVx/DNHY7D
- hEkA==
-X-Gm-Message-State: AOJu0YwkYGLmNb4bRZq88kUTa53AecGC5ww/NmO0eTkj6iBvIa1SWYrm
- m5v6T782T2rd5LdN9WLC5n7x7FL3hhw3w84NW18vZhRrOuqVKP48/sR7xjnPuJGkyXl5K7WF9Cw
- gcKU5qoxndAF0Du27qBQgo4YlP1hRbo4ECS+a
-X-Google-Smtp-Source: AGHT+IHmOisOayl3Bg1aP4Dv+/dv7zT8nCPfFaxqgYXrt1fPN+9KVh82cPsm+6h1tgTS6UVpdgt6eVP1hPoB9dqzHhE=
-X-Received: by 2002:a6b:6b10:0:b0:7eb:db06:e067 with SMTP id
- ca18e2360f4ac-7f62ee169eemr587815439f.9.1719836599332; Mon, 01 Jul 2024
- 05:23:19 -0700 (PDT)
+Received: from bunu.damsy.net (bunu.damsy.net [51.159.160.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA67010E3F8
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2024 12:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202404r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1719837981;
+ bh=eVPpYLv5mLVoqUsXp7bnXHv
+ 3KDaDKta5hFDMS8AUyTg=; b=P2nbg+m4xqOez6gywczJeSpOe87uU3Oi3XUPnCzSTUyRpEe8uy
+ qBodeLeOe6tjxJme9zTjDZ89YHVclNgt4GaiYSb469HSeOfgeYhGkzl4w6Mm0b3BDVkfovKInbC
+ 4vtQ4uUZKdnIBfbqXI+Jir7ioYsqRxRHRHPDI3qJ2x5JAodHOoKwkq8rAye8iuoL4k1bzAg6RJE
+ vyItcRr/lwa+fsksE907dIve//QCsc3NiXSkWPcqVbytirDB2+VeEEzp0W2CO1m5O9mdsktfWTI
+ CHpN+uOzSd9V5uh6E+0yk6hhBpqxhS2r+pmYbRduPLOhqeQAT6m5y+LzKbQ/XrEM/pg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202404e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1719837981; bh=eVPpYLv5mLVoqUsXp7bnXHv
+ 3KDaDKta5hFDMS8AUyTg=; b=/63k5Lj5nzcb/mbpsNZ5UiQoRvot6t2Wyd3L7bARiGwoyZ2XgP
+ qHWaqdp05QlikKc2hDdJR0oID8q76AKWuxDg==;
+Message-ID: <fd37bd66-4a34-452c-98fe-2ef808590c2e@damsy.net>
+Date: Mon, 1 Jul 2024 14:44:43 +0200
 MIME-Version: 1.0
-References: <20240628200729.754669-1-zack.rusin@broadcom.com>
-In-Reply-To: <20240628200729.754669-1-zack.rusin@broadcom.com>
-From: Martin Krastev <martin.krastev@broadcom.com>
-Date: Mon, 1 Jul 2024 15:23:08 +0300
-Message-ID: <CAKLwHdXRn26FQaER0RsXJ193n+9FpcxCtudjv3dYrkLU4yt8=Q@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] Fix various buffer mapping/import issues
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- ian.forbes@broadcom.com, maaz.mombasawala@broadcom.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/4] drm/doc: document some tracepoints as uAPI
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
+ matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+ rostedt@goodmis.org, l.stach@pengutronix.de, matt.coster@imgtec.com,
+ frank.binns@imgtec.com, yuq825@gmail.com, robdclark@gmail.com,
+ kherbst@redhat.com, lyude@redhat.com, boris.brezillon@collabora.com,
+ steven.price@arm.com, mwen@igalia.com, mcanal@igalia.com,
+ thomas.hellstrom@linux.intel.com
+References: <20240614081657.408397-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240614081657.408397-5-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <20240614081657.408397-5-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,54 +66,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 28, 2024 at 11:07=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.co=
-m> wrote:
->
-> This small series fixes all known prime/dumb_buffer/buffer dirty
-> tracking issues. Fixing of dumb-buffers turned out to be a lot more
-> complex than I wanted it to be. There's not much that can be done
-> there because the driver has to support old userspace (our Xorg driver
-> expects those to not be gem buffers and special cases a bunch of
-> functionality) and new userspace (which expects the handles to be
-> gem buffers, at least to issue GEM_CLOSE).
->
-> The third patch deals with it by making the objects returned from
-> dumb-buffers both (raw buffers and surfaces referenced by the same
-> handle), which always works and doesn't require any changes in userspace.
->
-> This fixes the known KDE (KWin's) buffer rendering issues.
->
-> v2: Fix compute_crc in the second patch, as spotted by Martin
->
-> Zack Rusin (4):
->   drm/vmwgfx: Fix a deadlock in dma buf fence polling
->   drm/vmwgfx: Make sure the screen surface is ref counted
->   drm/vmwgfx: Fix handling of dumb buffers
->   drm/vmwgfx: Add basic support for external buffers
->
->  drivers/gpu/drm/vmwgfx/vmw_surface_cache.h |  10 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         | 127 +++---
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h         |  15 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  40 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_fence.c      |  26 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c        |  62 ++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 453 +++++++--------------
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.h        |  17 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c        |  14 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_prime.c      |  32 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_resource.c   |  27 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  33 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       | 145 +++----
->  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c    | 277 ++++++++++++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c       |  40 +-
->  15 files changed, 788 insertions(+), 530 deletions(-)
->
-> --
-> 2.40.1
->
+[adding more people to this thread based on the drivers using gpu_scheduler]
 
-To the series:
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Hi,
 
-Regards,
-Martin
+Christian's comment on patch 1/5 will be addressed in v6, but before 
+pushing another version I'd like to know if there's a consensus among 
+the drivers maintainers regarding the changes proposed in this series.
+
+Thanks!
+Pierre-Eric
+
+
+Le 14/06/2024 à 10:16, Pierre-Eric Pelloux-Prayer a écrit :
+> This commit adds a document section in drm-uapi.rst about tracepoints,
+> and mark the events gpu_scheduler_trace.h as stable uAPI.
+> 
+> The goal is to explicitly state that tools can rely on the fields,
+> formats and semantics of these events.
+> 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>   Documentation/gpu/drm-uapi.rst                | 19 ++++++++++++++++
+>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 22 +++++++++++++++++++
+>   2 files changed, 41 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 370d820be248..78496793a8f0 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -570,3 +570,22 @@ dma-buf interoperability
+>   
+>   Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+>   information on how dma-buf is integrated and exposed within DRM.
+> +
+> +
+> +Trace events
+> +============
+> +
+> +See Documentation/trace/tracepoints.rst for the tracepoints documentation.
+> +In the drm subsystem, some events are considered stable uAPI to avoid
+> +breaking tools (eg: gpuvis, umr) relying on them. Stable means that fields
+> +cannot be removed, nor their formatting updated. Adding new fields is
+> +possible, under the normal uAPI requirements.
+> +
+> +Stable uAPI events
+> +------------------
+> +
+> +From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> +   :doc: uAPI trace events
+> \ No newline at end of file
+> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> index 0abcad26839c..63113803cdd5 100644
+> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> @@ -33,6 +33,28 @@
+>   #define TRACE_SYSTEM gpu_scheduler
+>   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
+>   
+> +
+> +/**
+> + * DOC: uAPI trace events
+> + *
+> + * ``drm_sched_job``, ``drm_run_job``, ``drm_sched_process_job``,
+> + * and ``drm_sched_job_wait_dep`` are considered stable uAPI.
+> + *
+> + * Common trace events attributes:
+> + *
+> + * * ``id``    - this is &drm_sched_job->id. It uniquely idenfies a job
+> + *   inside a &struct drm_gpu_scheduler.
+> + *
+> + * * ``dev``   - the dev_name() of the device running the job.
+> + *
+> + * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
+> + *   uniquely identifies where the job is going to be executed.
+> + *
+> + * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
+> + *   &drm_sched_fence.finished
+> + *
+> + */
+> +
+>   #ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+>   #define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+>   /* Similar to trace_print_array_seq but for fences. */
