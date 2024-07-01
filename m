@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9345191E871
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 21:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F34B91E881
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2024 21:22:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C9310E4E4;
-	Mon,  1 Jul 2024 19:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3411810E4E7;
+	Mon,  1 Jul 2024 19:22:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JdFGNnYK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jS6eJ55t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E262E10E4DB;
- Mon,  1 Jul 2024 19:19:41 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-2c80637d8adso1943557a91.0; 
- Mon, 01 Jul 2024 12:19:41 -0700 (PDT)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E82BD10E4DB;
+ Mon,  1 Jul 2024 19:22:18 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-2c7c61f7ee3so2028757a91.1; 
+ Mon, 01 Jul 2024 12:22:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719861581; x=1720466381; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719861738; x=1720466538; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=n7dX91rR++X8l6FgAb2IdZ2jTpqGOU3hxaiyihnGxWg=;
- b=JdFGNnYKXwnsdXWNYmqWyAU2PKLNhe+rgEWRP/iS4WpgK/pkyHRYzwU83BmzTNylzQ
- zRsZtdhPWqzxpTG8NiiQbmRkumw1C8kNuUp5aIOaNbyldzcw4a9zuTDCHWy5100+TZId
- Ja6luAjaKbtvHa+TEfMGXCcaLR8RqRxFCa/Hi56wPcZfYdR1UAXLW47/duQ0ZRncpi4W
- dT4/AvcfYPj1geocVtusvJPY2Te//6+onpyRZDRMMwQvOc5+Jq4DEYRbsaOjvIu0vcxE
- GED8FFmzj4SaXUfopkVv0F6tnmNMf73DVD61w4q1GvZa1/7Fy5KDyXZmzjF0mZj+XlL8
- U0pg==
+ bh=4aymU97a1sGvobGJ+atGeteP+/v1F5zejZr+FSZsxR0=;
+ b=jS6eJ55tL77JYMx9Qr8foIrWirzwRVwMBkbsrQXvp7qg/zP2iRwtEP8I8vjd85f/UZ
+ vVreCHzIE/AaSWZmYGhHY6RVY1MoPmNN2FersYp/Fxz5M4+jE45nvPCjuN3NqjRyHOYU
+ oybv/350YNx/p1YkqT6uMjEvSxeqwhPperwaa4O7ziNSIVtencfqtsuWvOKHh7FebKEa
+ YtgQy30tDn9TTvo6dv4WEkQZS2FjkOEwNuemKswKEtYUPbAqJqxCXaBIBnoRLbU4tvso
+ /IpIJgobaWyGaVNmRo9U8I2n1nEPE1dR4PMkgOHdrmVBi7iSmTPEWG6UIwq9tI41W7KE
+ ab4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719861581; x=1720466381;
+ d=1e100.net; s=20230601; t=1719861738; x=1720466538;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=n7dX91rR++X8l6FgAb2IdZ2jTpqGOU3hxaiyihnGxWg=;
- b=YFX/99FzW4ScRJk84kXPnwg0XpzqWugeVULCjFpSXjXbIBT6jKgqbJUOnxCeDIe7Af
- Ro9seZ7r3yGi6k50VnGT0njuWRMRAsPsRSRLYeEJxKHgSWGN4MfGNxb4NI/2PXrfQEGw
- 1rC9ZHrrqQL1Iu21TO4OrSE4Us9znGfstbGA33MbE7po3TuXrhGDtoBb4GMOvmYXZ2tx
- aQbgMt/t/ObS+uGSJnunopIFWhy/FWRSyA/WK5ZAZyrh7knHmKCnGUCPnTYDGBG/zgY5
- fuJPYsy27Zli9vefjSEMBDtVX5jYub8l/baLG2z+PWaiqI/Z/QOvNndO+kgPIIHPFzcK
- 2yFw==
+ bh=4aymU97a1sGvobGJ+atGeteP+/v1F5zejZr+FSZsxR0=;
+ b=l9phbKGXx12XPYNrxm9yfVsIbcHrf32SmFfj+ZD4q0xDmNqU+jsEOj17NXTNzOz7ff
+ TEwcl18YuGSo3YZ3ex0jCj2+uaB1tUOS9QpvvQ+yHwdZD3pvo/2u9NFxM4bZEmDnzTpN
+ M8qAx7AEXCaVSo3Q0HjKptQylQfii+T+F8Ps5h4mEUPcU5LqGHa3fn2VDDs13D3pHN6E
+ vQvp1u8cHpbBLgo3RhYPbQnkCR5bVxSZSB5Tf2VicfX8MqOiVQ/n0y5xSIAEcwSpirPK
+ 33kX6qHmpm/P5tPgXyPETzUqusz5E3sHLv2rB9TePZAtNpxpAhQj8pSReiGBetm5p/BF
+ DKzg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUKN9w39rhrVm8ZoFBGNKaadfrEPlvHuBbqOpyaK4M5+uAk6aq+vextDUb2Zp63u8i/VmNgF6FcVERLT8rvizTH+FPoxufJXrbUSonSeON7ae26AedYc7MaIKSwpG39IRPL9WWRboRIzk3FYt8Kdg==
-X-Gm-Message-State: AOJu0Yx87jkETcqd5bzfO68hjW633niUN2ULYO1pbT/E8l463Qf/qBx9
- N0jW8Gs1zoI9Lk9wI5hH4voD9Z7TRcE3QdgdE7lmtgBULzqAbjjIVGXwdHfiqJThe0z7q8bCQ5O
- QiaZTzw4h10SUqKt6Bhd/Cyaz2UU=
-X-Google-Smtp-Source: AGHT+IG5+yZI4SRXCP1ZRSO57iNkvyORgQdxHHwZ6QNuY1DRKJ4lk+z/+oxiPHPCnZXrnlpXT/gQVlhMBabT1lU/5O4=
-X-Received: by 2002:a17:90b:e0f:b0:2c8:a8f:45fa with SMTP id
- 98e67ed59e1d1-2c93d6c650cmr3631105a91.2.1719861581296; Mon, 01 Jul 2024
- 12:19:41 -0700 (PDT)
+ AJvYcCX2uDJ0tOJyB1AHACTTQ1cghUxLZn/NArg80G6IqQRf9zkbVR4QjcUQB3RFRyyBHPGwVRaB1JZDeap7vssHuC0T3mQTQpV2AtQ+AOmeBwQqZWBLr9VaXxu8PjbNnFp3zoaXv7+oIcXn/Gg0v6IycA==
+X-Gm-Message-State: AOJu0Yz/KVv4BhRW3DChgSRysAf/0CTe7Y8z58c+yayzQBDd5f629f7u
+ bqrNBwZ4ZbLO2UE6iK+9zSxSRsiHjNqYGr/lAKKfpnLkfC2DBKxF0D4gV5bOlR/AWayqgjumdPh
+ ol/QwHQjqDJvd24I4EGS+LNjxEoVEWw==
+X-Google-Smtp-Source: AGHT+IGWf9gM/yO+PqY/uzKDCywdTX9GVdifnKlIyO8850AhUVnit1KRSinpn8GzTYvf4biNxr3CAvdFFOwlgJrft6E=
+X-Received: by 2002:a17:90a:e617:b0:2c7:5622:bf40 with SMTP id
+ 98e67ed59e1d1-2c93d6d4a69mr3298695a91.4.1719861738375; Mon, 01 Jul 2024
+ 12:22:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240701025028.36072-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20240701025028.36072-1-jiapeng.chong@linux.alibaba.com>
+References: <20240701070454.106083-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20240701070454.106083-1-jiapeng.chong@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 1 Jul 2024 15:19:29 -0400
-Message-ID: <CADnq5_N3wS=dbg5cfjKdqnU+JmCw80Evat_3-H_RJ3Aus7CfyA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix unsigned comparison with less than
- zero
+Date: Mon, 1 Jul 2024 15:22:06 -0400
+Message-ID: <CADnq5_P2KH0FioN-uQ0604mbbrprOs2TmgzuGX4S=J-goYTf3Q@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/amd/display: Fix warning comparing pointer to 0
 To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
  alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
@@ -83,83 +82,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Applied the series.  Thanks!
 
-On Sun, Jun 30, 2024 at 11:10=E2=80=AFPM Jiapeng Chong
+Alex
+
+On Mon, Jul 1, 2024 at 3:15=E2=80=AFAM Jiapeng Chong
 <jiapeng.chong@linux.alibaba.com> wrote:
 >
-> The return value from the call to dml21_find_dc_pipes_for_plane() is int.
-> However, the return value is being assigned to an unsigned int variable
-> 'num_pipes', the condition if(num_pipes <=3D 0) is not rigorous enough,
-> so making 'num_pipes' an int.
+> Avoid pointer type value compared with 0 to make code clear.
 >
-> ./drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c:318:6-15: WAR=
-NING: Unsigned expression compared with zero: num_pipes <=3D 0.
-> ./drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c:360:6-15: WAR=
-NING: Unsigned expression compared with zero: num_pipes <=3D 0.
+> ./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_facto=
+ry.c:14:12-13: WARNING comparing pointer to 0.
 >
 > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D9454
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D9458
 > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
->  .../drm/amd/display/dc/dml2/dml21/dml21_wrapper.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
+>  .../amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_factory.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c b/=
-drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
-> index c310354cd5fc..9d96a31419fa 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
-> @@ -280,7 +280,8 @@ bool dml21_validate(const struct dc *in_dc, struct dc=
-_state *context, struct dml
->
->  void dml21_prepare_mcache_programming(struct dc *in_dc, struct dc_state =
-*context, struct dml2_context *dml_ctx)
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2=
+_core_factory.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/d=
+ml2_core_factory.c
+> index 1a0da8c6df5a..f56abe9ab919 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_f=
+actory.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_f=
+actory.c
+> @@ -11,7 +11,7 @@ bool dml2_core_create(enum dml2_project_id project_id, =
+struct dml2_core_instance
 >  {
-> -       unsigned int num_pipes, dml_prog_idx, dml_phantom_prog_idx, dc_pi=
-pe_index;
-> +       unsigned int dml_prog_idx, dml_phantom_prog_idx, dc_pipe_index;
-> +       int num_pipes;
->         struct pipe_ctx *dc_main_pipes[__DML2_WRAPPER_MAX_STREAMS_PLANES_=
-_];
->         struct pipe_ctx *dc_phantom_pipes[__DML2_WRAPPER_MAX_STREAMS_PLAN=
-ES__] =3D {0};
+>         bool result =3D false;
 >
-> @@ -314,10 +315,8 @@ void dml21_prepare_mcache_programming(struct dc *in_=
-dc, struct dc_state *context
->                 }
+> -       if (out =3D=3D 0)
+> +       if (!out)
+>                 return false;
 >
->                 num_pipes =3D dml21_find_dc_pipes_for_plane(in_dc, contex=
-t, dml_ctx, dc_main_pipes, dc_phantom_pipes, dml_prog_idx);
-> -
-> -               if (num_pipes <=3D 0 ||
-> -                               dc_main_pipes[0]->stream =3D=3D NULL ||
-> -                               dc_main_pipes[0]->plane_state =3D=3D NULL=
-)
-> +               if (num_pipes <=3D 0 || dc_main_pipes[0]->stream =3D=3D N=
-ULL ||
-> +                   dc_main_pipes[0]->plane_state =3D=3D NULL)
->                         continue;
->
->                 /* get config for each pipe */
-> @@ -356,10 +355,8 @@ void dml21_prepare_mcache_programming(struct dc *in_=
-dc, struct dc_state *context
->                 pln_prog =3D &dml_ctx->v21.mode_programming.programming->=
-plane_programming[dml_prog_idx];
->
->                 num_pipes =3D dml21_find_dc_pipes_for_plane(in_dc, contex=
-t, dml_ctx, dc_main_pipes, dc_phantom_pipes, dml_prog_idx);
-> -
-> -               if (num_pipes <=3D 0 ||
-> -                               dc_main_pipes[0]->stream =3D=3D NULL ||
-> -                               dc_main_pipes[0]->plane_state =3D=3D NULL=
-)
-> +               if (num_pipes <=3D 0 || dc_main_pipes[0]->stream =3D=3D N=
-ULL ||
-> +                   dc_main_pipes[0]->plane_state =3D=3D NULL)
->                         continue;
->
->                 /* get config for each pipe */
+>         memset(out, 0, sizeof(struct dml2_core_instance));
 > --
 > 2.20.1.7.g153144c
 >
