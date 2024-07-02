@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC39C924AD1
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 23:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9FE924AD2
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 23:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2205B10E72B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ABD810E72F;
 	Tue,  2 Jul 2024 21:59:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kwxDdxTx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PGUwxlvs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7AE610E712;
- Tue,  2 Jul 2024 21:59:38 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id
- ca18e2360f4ac-7f65715fe2cso34974739f.0; 
- Tue, 02 Jul 2024 14:59:38 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5491A10E712;
+ Tue,  2 Jul 2024 21:59:40 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id
+ ca18e2360f4ac-7e21dfbc310so177462739f.1; 
+ Tue, 02 Jul 2024 14:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719957578; x=1720562378; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719957579; x=1720562379; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
  bh=ym+La6D/NLLhNjjl/GCbF3WdukVm3ek2K4bqw3UNhOo=;
- b=kwxDdxTxIvfbOinlbywwgv/wsnwgQkzTeFBiFOha5yCPtRrljIVYMeb7OW5+a4EjCl
- DffoD4aP+C3kN8e3iS2+6o+nyi3RsN/cjtNjI14rUt2/5hg/wMnXPkfEjktfVEvvi4cP
- 4Tlr2jTCMfvdbytwgpyry7dMFeWsdACly/jE2jATYM8nBWskz//0+uL+JWHrTSVI376q
- utepkeodMGcZnNmmrwcMAwJpKGcNbsMPMkoBcPgAwniltEQbCyWpTXHVDDcusHAwhYho
- +marLqpWcpu7VG04JUEp2QxHJeGIKHa0hpJVCN7R4K6HaCeny5lcQtFk2NnUpzLiesFj
- h1Dg==
+ b=PGUwxlvsqq4047XSh3EK9Magb8Hsnbmen0wIhfsGeKlMk3THMKrEIj89Xj0BjkqdWj
+ yCIiCeApLqj9aqQW/KqfyAmcROpD7+XSoXYH4SKQ8GyjBhRDWYDsppsnHQWHAlcVt1uY
+ 1xlOMZMN+aEiR5BjsgFnZfYqO3VrbmK6uh7ge2k8f1NW7rNA3ZLX9tIEbarsEW6Go6zM
+ ldJ++ZQjfqn76JI6FUUqC4lsGVgfpvhozIUBrAmzRD8HZ3G14SIRw22vr+fhd7d6qcJL
+ 50hgnLxyNJZDihAawCOtIaQhkiRsHDZtd57ilgs4ypMG7goX3BOvj15CR+wt6iYOxg8Q
+ uUSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719957578; x=1720562378;
+ d=1e100.net; s=20230601; t=1719957579; x=1720562379;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=ym+La6D/NLLhNjjl/GCbF3WdukVm3ek2K4bqw3UNhOo=;
- b=vUH1Jb2CCIaXKfH+B7i3vPBZgNQSv5hLuNvRqJVAOXuKTtBGd0CO88u+UhrM+j3PnU
- 0j0smiyNwlOTxwXIdOakY9Jpv/6bH04hoMX8apNIP1U1Gwyasl//HvOWkIr7x2u8TSNV
- W34WTBKi0b558h7fO2s803zAu4a/TrhVpkWg4PuLnTvQE6lynXZVzlEeccRHJ3+fofVK
- jlbiEcK0ceTwL/08JPycO2RtcTWtN5E7lRgAQ0zqfN/ut2GDtpapbKStoYndjONSV5t1
- hHbagrxDS1qvSSoHQsev/H5ruKKw36AZkX7xrxSUv1/+9+m0Fb4PySe7qLig90t7NFZU
- stSQ==
+ b=h712AUCv0gm0CRRL3AOIv285hew5GsD/t2NHjFk0Es6CvNSEDK+OJ6Vb3K2rO+IjX0
+ DBcf6wwa+zdFFXbDJmbZL5mW5d2Y19zVwiJj2JSmlpA+Okx8SI9/+NiNtvYvzRdZvcHN
+ Dq0ke6X3cn98gbyCiv9TqQhVL3+tgtNXAWCOZOjjvpL9R96L2CPpLP3p8VXfjTSnKA3+
+ PKNGHbI4DEGtTEbkgMVqWveTQ8/+1J7WcsW0ACO/1wlU84WLqH/TH+FwBvShrws/bRSA
+ U0bL111MxQiFVQ4GZCjCHqgv7PHxwJQlR78F9o1PIwh8FQ+bzo3+GCuOIrrl/FU3sR7m
+ o4Zw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXzloJ4Twmib2nzxFUFG6bckq1ykJcRpvFivAWf4rURZgrbMTjaXkBeOY423qLyl+qyjJzVJYE1TEcjuQf4tQqTw+jXXtf0pM6lgLFhocGoBrUFiN5SAyu2a2fCsn0y1J2Ld53ZlUmjtCalUEWBzbVlzb+dnGYgJVB5+onYQqyB4DzxkDjmf7l2OvvboAxHBCBVewCRTW94NhuOl8RpzRVlk3992BS0OagawI5szHJYFFsyKu4=
-X-Gm-Message-State: AOJu0YxHP4pFxRYJIWY370SJ1wzlkYZOs1pYIvIrz7nQiQwRsJqQWKbO
- odQSZVv8Ia2kDZGU/OpgvQ164M7BgXAOYaxl+IKAcbtlCr88vKz/HSlpcw==
-X-Google-Smtp-Source: AGHT+IEx2Gyrde0A2uOqS8y+YjAXzajqP8cUSrab+Dm1ugLLW9FFgCd4CeSHn5fLmUCcTWDUd94ipw==
-X-Received: by 2002:a6b:e01a:0:b0:7f6:1fcc:25c5 with SMTP id
- ca18e2360f4ac-7f62ee9b593mr1304401439f.19.1719957578034; 
- Tue, 02 Jul 2024 14:59:38 -0700 (PDT)
+ AJvYcCXf/EIS3eBItu6udQg/C0bdlkeJaMd3ZTMxfzZJH9pkJkVC5lqgJzQpj/3AdSP52BZ17D5maFw0q57NO8ZMvyq8AjmUfcaXFYz5fXkz39fMG1y6kf4cYVX5OpkcXwvzPENHvBasfkC8rvrv12aimTOy77JAop6Gscs/l9LyN8IBRzrbxh7pbhLR1qB9p3ZHWQi+4u7Ye5XJMrZy6E5Ar8q8SJvawcKcdF2WL5r3xN9GTkRZYxw=
+X-Gm-Message-State: AOJu0Yxjtlb7woOlCr24wq3OKH5/biVjntGtsFnX+36SIee6Da6U3stv
+ h+XKq8e6+4TrFzEU50VxX6zEoAqcZDS8JycKSrsfyKofP9SHgDNV
+X-Google-Smtp-Source: AGHT+IHIRUIlmI3WUW2mIpy7hm5XHgMqtIZ7QkWlOh59CvhPr4UBjQt+AtFMIBoct5NjwYy95AHiIg==
+X-Received: by 2002:a5e:d606:0:b0:7f6:1fcc:25c9 with SMTP id
+ ca18e2360f4ac-7f62ee19639mr1076084139f.9.1719957579545; 
+ Tue, 02 Jul 2024 14:59:39 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- ca18e2360f4ac-7f61d207fcesm279944739f.51.2024.07.02.14.59.37
+ ca18e2360f4ac-7f61d207fcesm279944739f.51.2024.07.02.14.59.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jul 2024 14:59:37 -0700 (PDT)
+ Tue, 02 Jul 2024 14:59:38 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com, jbaron@akamai.com,
@@ -64,9 +64,9 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk, joe@perches.com,
  mcgrof@kernel.org, Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v9 52/52] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-Date: Tue,  2 Jul 2024 15:58:03 -0600
-Message-ID: <20240702215804.2201271-74-jim.cromie@gmail.com>
+Subject: [PATCH v9 53/53] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+Date: Tue,  2 Jul 2024 15:58:04 -0600
+Message-ID: <20240702215804.2201271-75-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240702215804.2201271-1-jim.cromie@gmail.com>
 References: <20240702215804.2201271-1-jim.cromie@gmail.com>
