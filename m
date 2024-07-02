@@ -2,96 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC76B923B07
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 12:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA47923B9B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 12:41:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BADA210E59D;
-	Tue,  2 Jul 2024 10:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67F0410E172;
+	Tue,  2 Jul 2024 10:41:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="ex9r250k";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="vhc5Rfl9";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="meLx/pde";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com
- [103.168.172.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A6E210E59D
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 10:04:00 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailfout.nyi.internal (Postfix) with ESMTP id A041A138019C;
- Tue,  2 Jul 2024 06:03:59 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
- by compute3.internal (MEProxy); Tue, 02 Jul 2024 06:03:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1719914639;
- x=1720001039; bh=w0BsET4XO2EbD/Q55BNLIPKw+27X4/d1LTf3mFB9I8E=; b=
- ex9r250kwDRCDdvJ3HMp6mKSzdvEg5JRtpeVZA2XzMlbG3yqWcG/6ODWxLzpCLqI
- o0isffMgdjne1jrmpJ9oKZJV6OT0rwMbj84madVhsFLCTkejrobrxegicEtI9nwM
- aUnB06KhUcwWYuPlH4cQbW6tRETdb4iOkjV+WItHekDeNWIMoIVkFBGrbftBCxyD
- VFa7tdAN8YZpTRNLxzr1XODKHfnL5niZqXwpUeCstaWqJnAHlASmouaU0h+9d4/H
- Wf4GroXcCmlsNRMKWBZfV1RBA1A8zW6kQ+OLFP2AQfcHOpUoLgWg/WacUix4m2GB
- ygbeHtmIQtxXFv0IRkr/AA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1719914639; x=
- 1720001039; bh=w0BsET4XO2EbD/Q55BNLIPKw+27X4/d1LTf3mFB9I8E=; b=v
- hc5Rfl9tST/T0gL6boDn7oupli4x0OqFxRJIAYjPw1feUyeSqNJvFGvL1LR06qOK
- 2eNm+o6kApn43P4QWuZefgL9Qq+e6EGT+nrfwFkUEc8rUY/rEJmsO2qdPh6EdTgB
- jFs72uO7PaRx33XNdRLzEuMDtOMTcmnjjfcHUZ3b+biXV1cRRan1DrmVtcFX7axn
- yvVsXVh2YSbq3U3k5rH7qi7+e0CC/RFTgS4DzDA82vkjJG4sGQgRPVEgnFU97Nm2
- LnuLsBxGONXXv1aC9VexlfXDNYiOzsDjU6F38XkJZh2UfIPJpAiktGBypUNYdAhD
- JSS6zzo7hCqLD99R47P2A==
-X-ME-Sender: <xms:jtCDZiY8s8YICgZZhhqRfoPfIgV8TwXUYuX-1gMqG5q-49kv_jCXCw>
- <xme:jtCDZlbcWFHp4jyhOjcyRiwqdz8zG9ccl3xTTXvDlYkrA1Go-IdeHIvjJZoed9-4X
- j63YKFLKnO5aPLc4Iw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgddvudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
- rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
- eqnecuggftrfgrthhtvghrnhepudefgeeftedugeehffdtheefgfevffelfefghefhjeeu
- geevtefhudduvdeihefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
- hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:jtCDZs9scyNdgoMJEeDSDiXIG3hZhYVLfNA-1rtViUjGfsxOXm4PlQ>
- <xmx:jtCDZkq6nuFn4Qk8x_UPWtANu4mBTzCh7DDJPkSs_rcfqj0-hLNvXg>
- <xmx:jtCDZtqRb9DaJ6zJ-zLfZl-KXmk42-IcIw9Ucf4SNtVs-ZF4V7f32g>
- <xmx:jtCDZiSSaf6gDsDY1jgXLMkXM-0YK_tqtoWJNrvnP3B-KK7hxuntog>
- <xmx:j9CDZo0BX82S6ioGFEzkgZG-EdLY40OahBqdbw_0G4uDY7ftjoWnnkM2>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id B2A5536A0074; Tue,  2 Jul 2024 06:03:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-566-g3812ddbbc-fm-20240627.001-g3812ddbb
+X-Greylist: delayed 2354 seconds by postgrey-1.36 at gabe;
+ Tue, 02 Jul 2024 10:41:08 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96BC010E1B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 10:41:08 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46284MAV002305;
+ Tue, 2 Jul 2024 12:01:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ MIg3DBI11sSmG6wbpd1DN3SW8f/bMTTym/JO7g3ovAY=; b=meLx/pdejVh1bTGy
+ uiOCkKrNavNX2j6fEcHeoDBVA9rQI/vqeh/OSOWTTRsttxc8sHmjPcZIS0i6dlcF
+ r+2Ekv1DYq9MKu9Bruma9yWFHdmR9uvctzaJnTFSVuZDm8JO/c57GsEqoC4ifMI9
+ kXj+u56SubQnamAqrK9K6qSex+Ehy3cegUGyr0LfhS39ypwUB4pmajtm8SCuwWd3
+ XWmUfNPcJ8z+WzEWJrmrwF8JgfzQKOezzYepK7oL7lWlxRAXGiCiUDAlB0QU3gpB
+ Wn5O+H0ZWUHuZa/LOv5itGw0pYjiPz3vFkGgN7oH6f23+83dPscbIS4xiiklspxG
+ YxxZdw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4027pgjyqa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Jul 2024 12:01:35 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 725024004B;
+ Tue,  2 Jul 2024 12:01:28 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2BE492207C0;
+ Tue,  2 Jul 2024 12:00:37 +0200 (CEST)
+Received: from [10.252.8.242] (10.252.8.242) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 2 Jul
+ 2024 12:00:36 +0200
+Message-ID: <b33d9470-b845-478f-97d3-636e158693d2@foss.st.com>
+Date: Tue, 2 Jul 2024 12:00:35 +0200
 MIME-Version: 1.0
-Message-Id: <fd1d0a97-7075-4936-b58b-e99bab9afc58@app.fastmail.com>
-In-Reply-To: <ae7085fd-3bca-4a4a-b465-5e4941011877@amd.com>
-References: <20240629052247.2653363-1-uwu@icenowy.me>
- <20240629052247.2653363-3-uwu@icenowy.me>
- <a143a2c3-c6f0-4537-acc6-94f229f14639@app.fastmail.com>
- <2760BA02-8FF8-4B29-BFE2-1322B5BFB6EC@icenowy.me>
- <7e30177b-ff13-4fed-aa51-47a9cbd5d572@amd.com>
- <6303afecce2dff9e7d30f67e0a74205256e0a524.camel@icenowy.me>
- <ff1bf596-83cb-4b3e-a33a-621ac2c8171c@amd.com>
- <b9189c97f7efbaa895198113ee5b47012bd8b4dc.camel@icenowy.me>
- <ae7085fd-3bca-4a4a-b465-5e4941011877@amd.com>
-Date: Tue, 02 Jul 2024 18:03:37 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Icenowy Zheng" <uwu@icenowy.me>, "Huang Rui" <ray.huang@amd.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] drm/ttm: downgrade cached to write_combined when
- snooping not available
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/stm: Remove unnecessary .owner for
+ lvds_platform_driver
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ <yannick.fertre@foss.st.com>
+CC: <philippe.cornu@foss.st.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <mcoquelin.stm32@gmail.com>,
+ <alexandre.torgue@foss.st.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ Abaci Robot <abaci@linux.alibaba.com>
+References: <20240701062304.42844-1-jiapeng.chong@linux.alibaba.com>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20240701062304.42844-1-jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.252.8.242]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-02_06,2024-07-02_02,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,63 +87,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jiapeng,
 
-
-=E5=9C=A82024=E5=B9=B47=E6=9C=882=E6=97=A5=E4=B8=83=E6=9C=88 =E4=B8=8B=E5=
-=8D=885:27=EF=BC=8CChristian K=C3=B6nig=E5=86=99=E9=81=93=EF=BC=9A
-> Am 02.07.24 um 11:06 schrieb Icenowy Zheng:
->> [SNIP] However I don't think the definition of the AGP spec could app=
-ly on all
->> PCI(e) implementations. The AGP spec itself don't apply on
->> implementations that do not implement AGP (which is the most PCI(e)
->> implementations today), and it's not in the reference list of the PCIe
->> spec, so it does no help on this context.=20
-> No, exactly that is not correct.
+On 7/1/24 08:23, Jiapeng Chong wrote:
+> Remove .owner field if calls are used which set it automatically.
 >
-> See as I explained the No-Snoop extension to PCIe was created to help=20
-> with AGP support and later merged into the base PCIe specification.
+> ./drivers/gpu/drm/stm/lvds.c:1213:3-8: No need to set .owner here. The core will do it.
 >
-> So the AGP spec is now part of the PCIe spec.
-
-We don't really buy this theory.
-
-Keyword "AGP" doesn't appear in "PCI Express Base 4.0 Base Specification=
-" even
-once.
-
-If PCIe is a predecessor of AGP, where does AGP specific software interf=
-ace like
- AGP aperture goes? PCIe GPUs are only borrowing software concepts from =
-AGP,
-but they didn't inherit any hardware properties.
-
-[...]
-> We seem to have a misunderstanding here, this is not a software issue.=20
-> The hardware platform is considered broken by the hardware vendor!
-
-It's up to the specification text to define compliance means. So far as =
-per analysis
-from Icenowy of PCIe specification text itself it's not prohibited.
-
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9457
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/stm/lvds.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> In other words people have stitched together hardware in a way which i=
-s=20
-> not supported by the creator of that hardware.
->
-> So as long as you can't convince anybody from ARM or the RISC-V team o=
-r=20
-> whoever created that hardware to confirm that the hardware actually=20
-> works you won't get any support for that.
+> diff --git a/drivers/gpu/drm/stm/lvds.c b/drivers/gpu/drm/stm/lvds.c
+> index 2fa2c81784e9..06f2d7a56cc9 100644
+> --- a/drivers/gpu/drm/stm/lvds.c
+> +++ b/drivers/gpu/drm/stm/lvds.c
+> @@ -1210,7 +1210,6 @@ static struct platform_driver lvds_platform_driver = {
+>  	.remove = lvds_remove,
+>  	.driver = {
+>  		.name = "stm32-display-lvds",
+> -		.owner = THIS_MODULE,
+>  		.of_match_table = lvds_dt_ids,
+>  	},
+>  };
 
-Well we are trying to support them on our own in mainline, we are not as=
-king
-for any support.
 
-Thanks
-- Jiaxun
->
-> Regards,
-> Christian.
+Indeed, platform_driver_register() overrides the value of the owner.
 
---=20
-- Jiaxun
+Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+
+Thanks,
+Raphaël
+
