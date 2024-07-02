@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856C3924ABB
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 23:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0851924AC2
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 23:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0C1710E715;
-	Tue,  2 Jul 2024 21:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14D4C10E720;
+	Tue,  2 Jul 2024 21:59:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CiCrDpo3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GkHr5eet";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
- [209.85.166.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6765F10E70C;
- Tue,  2 Jul 2024 21:59:29 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id
- ca18e2360f4ac-7f3cd802729so172629739f.1; 
- Tue, 02 Jul 2024 14:59:29 -0700 (PDT)
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
+ [209.85.166.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67C0310E718;
+ Tue,  2 Jul 2024 21:59:30 +0000 (UTC)
+Received: by mail-il1-f169.google.com with SMTP id
+ e9e14a558f8ab-376266a65c8so19419465ab.3; 
+ Tue, 02 Jul 2024 14:59:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719957568; x=1720562368; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719957569; x=1720562369; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oC5iipR2BEVxGSl/++A4yY4qqMQYODae2mcnPNjxpHM=;
- b=CiCrDpo3BqPM9ru84OeEF3MTDWHhzPMCNVM4LIKFF44r1jCoR5DBNHxnlZW2HGCMlw
- FxsHqcpn7hp+oRQBEKMhOdxthqTcXd5m07FLjquiizD66+CxnLDwb8wiop8QOAFqrKKT
- RxJi8npxcyFs2n5P1CuV3/JSEi2YmZr/Zhgi1PPsBy1J0UgaCnvtSRWIJnpzQqMCkNhI
- 2AYdgy/iH71vmABsrWhq973BRzXdjCywo5xSmMbsAE80tpsPoEfAEsT4ptRgmHTXyT+d
- Jl5y2KDULeeTRLK2IdB0n8fLze44aJQCu6CwoN78NNqRFLHRE1kUmtHGRUyERYKu/LHV
- Pd1A==
+ bh=o0YsvOK5afJ8qV3rkuOU7CKX9HpGcds0hiKx8bDl++s=;
+ b=GkHr5eet8CsEHIxtRWLzdBM41Cmu8UroKXDCnOajCSuLlSkpShYH7KnP5p9EXbEzIo
+ XhkCQO05Mfj1xP/72k6wYbRzD/jiKuhVW5mGnzVM7YsLYFq8LGlJ1CgBCrdWLjOxyVgU
+ hmdlTXUGLsyZAUmb3UGjSJWxoGK0GblV59d5fNhti//LBIqingBsMMtPtQ74z7YNJjB8
+ /jrv3eTCmd2FKSFMwmRgp46xxCxdRaVsInwaRY2nuE3SvbuluywDMF4nPAoEJGt23ana
+ vouiMcHDgwcvDWCHuf+xPB95ofQY2fIs4qiHSaUKxgx62R/GhJdii/W93KPyFGK6mecf
+ ATxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719957568; x=1720562368;
+ d=1e100.net; s=20230601; t=1719957569; x=1720562369;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oC5iipR2BEVxGSl/++A4yY4qqMQYODae2mcnPNjxpHM=;
- b=dhPjfw+w+afnsYYWTAT9TKPWRARpWIF1kCyD+9mEmUhDe6K8xvZikynpgJwR0Ud90q
- SWqH4EJczLT6hkVDs7CNHDAvpi7suYNGKduvdWMi8Hp51qyyWM1dl99zFqnFhGBc8O/L
- EPaAJpCpg5ZsJormglIQrC9UzWTOCk4KefosXE+s5As/ZDYIqpC5bbSUwcWMVXn4jcLy
- XwrV1esW4fckGyBTT6YD/uVaOF0pUwGaxYME7IJ+UA2KXQfCQJBtAt5nwxIgaP4lcISr
- fGrfDSxykNMQmopw0nnOo3VCqB+FiBbvblKgeuQO5ltmb/7VmSwVi872n8BtKe4vRTrB
- AT/g==
+ bh=o0YsvOK5afJ8qV3rkuOU7CKX9HpGcds0hiKx8bDl++s=;
+ b=nq5FcU7lo6pkokuhPmxR9DUEJzWJG8lMbH4hka3qiKEUfmXbNFvAwy+6yiH4wj1UMX
+ P1eWa67waeghHcsDieJa+HnArk+G1E0PS5mWcxqnmDU2mz+ghJLqWkGU4woRKFHbRGl5
+ x85q/1ULT3boZzjQb6tW7pgVsWnrwaEuQorvIZMYipMy5YcGIUilbeZsLnCxG8u0DvXR
+ zO0u2cl0qJ1LPpwp8zjt7Rhps9CXjBhQMtPZIFDP+aXu74wSv6WWF6q1kZyE7zCPu4D+
+ F0SqP69wEiduIo9u18nULKfhBOqa10WQVBB+HjI0PtPDHGbpaUPtRAufbsSqOkuJivRu
+ cBqQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUF1n+mHZf12zpKuQv1iyDx9jK4YI/ZvsC4IxMxLcEXfIAIu5/DBlQ2Pou13i474iRyWAHWIY8LEubnFQ4/1DgPVvlyiCuqYLV8nu9UpuGwuKUB789UckLQ+4qdZMEHnWO6lOUYekLPhFh9wVVAupBGk6d1GrnxePZHvnVGBzdLhoClzEFD+6v6eakrqvyAiB9Bo2R3EDZR7ithTTQhUDsyLtZo7kHSZHGEg+I6+OKejwCJmj0=
-X-Gm-Message-State: AOJu0YzqVejsXKu1XJGaxEjM4N5pkQyX+svYJlN7sGSJ+jz9PRGNMc3Q
- W/MBsRDF2DnDh3QVo1m4LE/+mgJIejOd5+Q64WinAOMATS7/SOXM
-X-Google-Smtp-Source: AGHT+IGxhTOcr4ji5IFiskQTbP7XplIk6SNXi5lLsntoYpdRCPZ1vof9lF5GiOngaUP5FSepVU/KWA==
-X-Received: by 2002:a6b:5113:0:b0:7f4:861a:5e5f with SMTP id
- ca18e2360f4ac-7f62eea3032mr999757239f.20.1719957568654; 
- Tue, 02 Jul 2024 14:59:28 -0700 (PDT)
+ AJvYcCUeXWmMmWIAvZX5QAmAXrs0QNgY3mrMwmQVOHot+GNFHs5UkLADvsT/4+v20XgXRUCd25JnC/iIk/m3gDWyS3wx9tFH3wuWzXoPkyIs9Ny6Ja0lp8jwUbbNI1HhjiZurpENaw4AzCJ5HAf3LkdOqvlog1dm+W3j6uHQLgnqGed81qm57SYST+pAvVhml4PnDRPneRVuJyAA34sFxMLFcb1dvCfhP0I7KluoCvaME6dcUi+IlHI=
+X-Gm-Message-State: AOJu0YxeAIN4IhpzEiPaWbHfmEK8DPKbwMkE1P4zqPqf2WF1PEioOJBI
+ WJen9dXkCy6em3GNOgl8/aEr1txe+N4ZRUUv4aMLgFELJsluctj1
+X-Google-Smtp-Source: AGHT+IERaSF1E7hyGHvqAXteBQDKZ2gIbvbhsAc5+kpyvD7v6UTlnyWFF6UFWiBkSylriwtIgT4LJw==
+X-Received: by 2002:a6b:5103:0:b0:7f3:9bde:f44 with SMTP id
+ ca18e2360f4ac-7f62ee6eaf5mr1109295239f.14.1719957569649; 
+ Tue, 02 Jul 2024 14:59:29 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- ca18e2360f4ac-7f61d207fcesm279944739f.51.2024.07.02.14.59.27
+ ca18e2360f4ac-7f61d207fcesm279944739f.51.2024.07.02.14.59.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jul 2024 14:59:28 -0700 (PDT)
+ Tue, 02 Jul 2024 14:59:29 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com, jbaron@akamai.com,
@@ -64,9 +64,9 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk, joe@perches.com,
  mcgrof@kernel.org, Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v9 48/52] drm-dyndbg: add DRM_CLASSMAP_USE to mgag200 driver
-Date: Tue,  2 Jul 2024 15:57:54 -0600
-Message-ID: <20240702215804.2201271-65-jim.cromie@gmail.com>
+Subject: [PATCH v9 48/53] drm-dyndbg: add DRM_CLASSMAP_USE to udl driver
+Date: Tue,  2 Jul 2024 15:57:55 -0600
+Message-ID: <20240702215804.2201271-66-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240702215804.2201271-1-jim.cromie@gmail.com>
 References: <20240702215804.2201271-1-jim.cromie@gmail.com>
@@ -87,28 +87,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mgag200 driver has a number of DRM_UT_* debugs, make them
+The udl driver has a number of DRM_UT_* debugs, make them
 controllable when CONFIG_DRM_USE_DYNAMIC_DEBUG=y by telling dyndbg
 that the module uses them.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.c | 2 ++
+ drivers/gpu/drm/udl/udl_main.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 573dbe256aa8..88c5e24cc894 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -25,6 +25,8 @@ static int mgag200_modeset = -1;
- MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
- module_param_named(modeset, mgag200_modeset, int, 0400);
+diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+index 3ebe2ce55dfd..ba57c14454e5 100644
+--- a/drivers/gpu/drm/udl/udl_main.c
++++ b/drivers/gpu/drm/udl/udl_main.c
+@@ -19,6 +19,8 @@
+ 
+ #define NR_USB_REQUEST_CHANNEL 0x12
  
 +DRM_CLASSMAP_USE(drm_debug_classes);
 +
- int mgag200_init_pci_options(struct pci_dev *pdev, u32 option, u32 option2)
- {
- 	struct device *dev = &pdev->dev;
+ #define MAX_TRANSFER (PAGE_SIZE*16 - BULK_SIZE)
+ #define WRITES_IN_FLIGHT (20)
+ #define MAX_VENDOR_DESCRIPTOR_SIZE 256
 -- 
 2.45.2
 
