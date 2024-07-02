@@ -2,73 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0670924B89
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 00:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406ED924C1D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 01:33:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2735510E6F3;
-	Tue,  2 Jul 2024 22:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAE010E1C7;
+	Tue,  2 Jul 2024 23:33:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c+E/GD+m";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bqdwRuld";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2333B10E6F3;
- Tue,  2 Jul 2024 22:21:45 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-36743a79dceso16104f8f.0; 
- Tue, 02 Jul 2024 15:21:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719958903; x=1720563703; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=v9vgcK/xm02vctzIF3h5toINdya3dR3yqrhsTftG73M=;
- b=c+E/GD+mFJ75z//SLW62/OfRfabppruYTnNyfY6WoR52OdR5sHg4goDbZs/mGSO9C8
- E6WfXy+tWjFBS6t/FFTZa2U3SVOjvhuQlxJKTbvoLapsN6/32T87SUhkHJBr+N8wXr+X
- MQIxCq8xn+jRlj3JY2dhewc3nHa75mMK5nZMBOahhS0m1VPHm5oZXjTrod7daZB9vy/U
- C4+z2VLpzPPQ/k4R8ikrsEMj55WDiOOzdZlyWr7V73pgOpr0DBLD/B8v2KrBg3Z3V5iH
- J8dWCnouUHbrPVzh/blx6KBFpaOwgiXo6HMUrqAdy9TSI7xs9rb86WupkRduU33ft0Zl
- ONEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719958903; x=1720563703;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=v9vgcK/xm02vctzIF3h5toINdya3dR3yqrhsTftG73M=;
- b=aGlFGyzrBASufhSZxoJQbBdhhxl6PGIt0UPVTEUs51IidIUOvK9cUHAGCJZwi9jj6w
- FP0Cw1XAMKkfP3jFaK4ROwWweCxoYyIaennX1H9qTwbeN0Qz30XfWtNpwnCFgchcbCxi
- yhgOjBK6SOyV/39kKU/yq0/6HP+ct//V3s0ESJns5ta0dtrYeaZjBmf+37Zp/3NzOlzB
- Jl9PwRF/o4l9aSEr20psBmHF0kr5BJucG81/sLh1VpjnETFMeOA/Dq2ii9HgMo7etyEa
- YnoNQmacrj/fxbdtSwN/0tstzA1H7utAPqLFO0v9AQbhIme4H12n0LrcyG+EPwUNq24l
- lFzQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/arMI8Mvg6bSjb1MfZnFXuYibfHcjJDIfTkFHSP7i+vy/oYQ4AqJl5ocpvYDMHORIP69ERGZ7wfiq4pecxFpxpOIhNn/CnJidZDS1PYOnW1aJKHvtf7zuF4sgjur3KHVWz5hW7B6OqQqrBVaZUPrW9yxGSLNLvtabk5TfwCM13M4F0DiTeA4HLKxhHdUCQ4gZ3FNKjQZP53pmyrTUbRZvdWn77qVzqP0jgOcVyO4j8OSKCjk=
-X-Gm-Message-State: AOJu0YxfQ2kz1INjvKSTetp1wiAeNSu0C7TbFXaU71d1vRMziSIvqaQZ
- 9qh215rD9nxBiRX0+jWLh1gKNz0EaS9HK1uMaBD19GXnvKrGfPNY1j/Mij7mlMxxIxVjjxUqO6a
- B+gG14yb27iP/61e5p3D+e12zaBk=
-X-Google-Smtp-Source: AGHT+IE6KI59FdH94mNz6QCT52qCK9nMcKkJLsqY5hrpIbquZ+qloFhsu/enL/iF4DqZaK14tDnn5QmgUZnTWqnbHfI=
-X-Received: by 2002:adf:e25c:0:b0:367:8e52:3bb9 with SMTP id
- ffacd0b85a97d-3678e523de3mr1706933f8f.22.1719958903156; Tue, 02 Jul 2024
- 15:21:43 -0700 (PDT)
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36D7310E08E;
+ Tue,  2 Jul 2024 23:33:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719963191; x=1751499191;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=yzH45tjsH2DZUqSlBKr2pzDg/aEQ+EnDG+CHzo/H0lA=;
+ b=bqdwRuldn8lP/r4VbPDQhWaTAvelFNgmFA017mCQ9+heY5ET4ZGFhnSO
+ VgZ/BMh+3v3VIyT2lFlHQmO4SOYUZEUNz/bsiFtXv0t/g3EyrrGlM5N2u
+ fPelH9Hjg8SgsAS40jA2X9vbFtJz9EJOLaAFs6mITQ+3pwX2XG4w63YV3
+ W4LeTlL9NcZwPSjNv4XzkOjOzzUin8Ez5aleU483iyIPLAVWiAMDAMJLw
+ 4u1rECvZErjXoKtebtkm1UdK4FSkpSTJ63Rrhr7sTVq77wsuHCooXJbvH
+ XwyKWJqIl4H/foEQZepu0NVExI/u6DTzLJILXI6rTDYeOoIKrHe0j+d02 w==;
+X-CSE-ConnectionGUID: nOi6DQbuSYa9P4cl91nN7w==
+X-CSE-MsgGUID: rmzlec3wTmiEWhqkJOlUbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="28560118"
+X-IronPort-AV: E=Sophos;i="6.09,180,1716274800"; d="scan'208";a="28560118"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2024 16:33:10 -0700
+X-CSE-ConnectionGUID: wlmUeZSkQiKsUdeM5/hFnA==
+X-CSE-MsgGUID: mtMT8fVyREWBfB1jcOhZ8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,180,1716274800"; d="scan'208";a="46044198"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 02 Jul 2024 16:33:05 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 03 Jul 2024 02:33:04 +0300
+Date: Wed, 3 Jul 2024 02:33:04 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
+ jani.nikula@intel.com, jbaron@akamai.com,
+ gregkh@linuxfoundation.org, ukaszb@chromium.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk,
+ joe@perches.com, mcgrof@kernel.org
+Subject: Re: [PATCH v9 30/52] drm-dyndbg: adapt drm core to use dyndbg
+ classmaps-v2
+Message-ID: <ZoSOMClB0MeWeokU@intel.com>
 References: <20240702215804.2201271-1-jim.cromie@gmail.com>
- <20240702215804.2201271-33-jim.cromie@gmail.com>
-In-Reply-To: <20240702215804.2201271-33-jim.cromie@gmail.com>
-From: jim.cromie@gmail.com
-Date: Tue, 2 Jul 2024 16:21:15 -0600
-Message-ID: <CAJfuBxyuwpkWQpqoncHXOx5v_naAnxW1BUyHzon6PXiPCRrSSg@mail.gmail.com>
-Subject: Re: [PATCH v9 32/53] DRM-CLASSMAP-USE in drm-drv.c
-To: daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, 
- jani.nikula@intel.com, ville.syrjala@linux.intel.com, jbaron@akamai.com, 
- gregkh@linuxfoundation.org, ukaszb@chromium.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk, joe@perches.com, 
- mcgrof@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20240702215804.2201271-31-jim.cromie@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240702215804.2201271-31-jim.cromie@gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,34 +78,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 2, 2024 at 3:58=E2=80=AFPM Jim Cromie <jim.cromie@gmail.com> wr=
-ote:
->
+On Tue, Jul 02, 2024 at 03:57:20PM -0600, Jim Cromie wrote:
+> dyndbg's CLASSMAP-v1 api was broken; DECLARE_DYNDBG_CLASSMAP tried to
+> do too much.  Its replaced by DRM_CLASSMAP_DEFINE, which creates &
+> EXPORTs the classmap when CONFIG_DRM_USE_DYNAMIC_DEBUG=y, for direct
+> reference by drivers.
+> 
+> The drivers still use DECLARE_DYNDBG_CLASSMAP for now, so they still
+> redundantly re-declare the classmap, but we can convert the drivers
+> later to DYNDBG_CLASSMAP_USE
+> 
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 > ---
->  drivers/gpu/drm/drm_drv.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 243cacb3575c..f511d40f577a 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -56,6 +56,9 @@ MODULE_LICENSE("GPL and additional rights");
->  static DEFINE_SPINLOCK(drm_minor_lock);
->  static struct idr drm_minors_idr;
->
-> +/* single ref for all clients ? */
+>  drivers/gpu/drm/drm_print.c | 25 +++++++++++++------------
+>  include/drm/drm_print.h     |  8 ++++++++
+>  2 files changed, 21 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index 699b7dbffd7b..4a5f2317229b 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -55,18 +55,19 @@ MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug cat
+>  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+>  module_param_named(debug, __drm_debug, ulong, 0600);
+>  #else
+> -/* classnames must match vals of enum drm_debug_category */
+> -DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+> -			"DRM_UT_CORE",
+> -			"DRM_UT_DRIVER",
+> -			"DRM_UT_KMS",
+> -			"DRM_UT_PRIME",
+> -			"DRM_UT_ATOMIC",
+> -			"DRM_UT_VBL",
+> -			"DRM_UT_STATE",
+> -			"DRM_UT_LEASE",
+> -			"DRM_UT_DP",
+> -			"DRM_UT_DRMRES");
+> +/* classnames must match value-symbols of enum drm_debug_category */
+> +DRM_CLASSMAP_DEFINE(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS,
+> +		    DRM_UT_CORE,
+> +		    "DRM_UT_CORE",
+> +		    "DRM_UT_DRIVER",
+> +		    "DRM_UT_KMS",
+> +		    "DRM_UT_PRIME",
+> +		    "DRM_UT_ATOMIC",
+> +		    "DRM_UT_VBL",
+> +		    "DRM_UT_STATE",
+> +		    "DRM_UT_LEASE",
+> +		    "DRM_UT_DP",
+> +		    "DRM_UT_DRMRES");
 
-So this was my attempt to try a single USE
-from the client-side of drm core / driver interface.
+Looks like this stuff just ends up in an array, so presumably
+it should be possible to use designated initializers to make this
+less fragile?
 
-I didnt find it to work, and meant to rebase it away.
-
-
-> +DRM_CLASSMAP_USE(drm_debug_classes);
-> +
->  /*
->   * If the drm core fails to init for whatever reason,
->   * we should prevent any drivers from registering with it.
-> --
-> 2.45.2
->
+-- 
+Ville Syrjälä
+Intel
