@@ -2,73 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90006923C64
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 13:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB926923C97
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 13:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB98410E5BB;
-	Tue,  2 Jul 2024 11:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468EB10E5C5;
+	Tue,  2 Jul 2024 11:41:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hOqNDeLD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ErUyE8LS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1ADA10E5BB
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 11:30:38 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-52cd80e55efso7172862e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2024 04:30:38 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4361910E5C5
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 11:41:19 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-52e7145c63cso4440153e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2024 04:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719919837; x=1720524637; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719920477; x=1720525277; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=bfcCA0rJ0Yu9FTkvYdW16QcSAQI7yAKlW1Qc5AVlW3U=;
- b=hOqNDeLDHpVO3+zR5Dnc6IV15CcAKzf8NSYnJKJhJBUayK+nupCTl1iWk5a9+dFTz5
- nqZ8Eikrk0AWH6UyL0PRGpuJwa+lNgiwhOcVnXsUo9prwLLH+PtxL6SxljcRUePUBMs3
- zkbPHftF7u9E/5Pt9HKHOxETqV1qAYxZJuPsxOCsdxY8syiUsReDonVrDoeABBlL4Z9V
- sP6W+m0Zxea6HRCRNXKL8eScUvHIIE2kp3AQQd822NWiPLOSgPORHX517NpYv5q9w9uK
- EZzsg2Z7If+pYBFeNsDU/pKd8TirL1ZPWGDKuDw0xhfjx3vf9eehjkmWouuMrIo+nNWy
- f98w==
+ bh=kQVFB1Ory94czUgWNWBlgE/4b9Cm7QVvjGoDYPQAvFo=;
+ b=ErUyE8LS3e3PlZunLL9Ri9m2tPgpjV01Uerifyl7u8aBpZ/w9/wPT/oSPEsmLKszuw
+ M9LxMhrjc0qCQBPtYSRcRctOb8HzZae2xweziarLchISb0U1OUwD/rXDLDCCFqu6n72v
+ LaFlC3C5xvR69mr9tLd6LTGOHFc14aBG/UwkuGDtg9w+7uV6DZAo5lB+Z0mnn38dqa+G
+ w8s52KWBfuSLq9zPstMQjwumj8quubAW/UHUork0jcCJDs71lwvS3EmdbdA7Y7/Q3LrI
+ QUJR1TUc7D3A6v5cOnOtT4eICJMob39l3N27B+lf6CtoKOcWyr75fcIAMFElkMF3Bskh
+ L5pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719919837; x=1720524637;
+ d=1e100.net; s=20230601; t=1719920477; x=1720525277;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bfcCA0rJ0Yu9FTkvYdW16QcSAQI7yAKlW1Qc5AVlW3U=;
- b=Cnl9nuqqnRRuFHpkQtbG5zm5x0cHWTml5vDVopaMboowbB4j7hbC3Wx2OL039JOXUG
- wBtfICpAgchMjNTIqKf4OaVUyv7ADhgWvl9Y48abJHvu8jvOFmWsgnNJXydwWrkq7u0U
- wKJSsI7REFEW5g5wXXiW8h0I0qQt0XunDgWyCYqkHtmqhbk6A3F1CgNod7t1bd5f322g
- W0f3mqjsGf/7CeApOIgLKr/73hh0Lf3LPOnDd6tvNYP8gNgNgsVqOywXbqBrUlNMs+CX
- fTjoUGzgciKl+LZ8O1/ZAAdW9hUQ/LdYK+XQUly7bcPZlRmyj0EIzR1knUnXq9l8X8GA
- nwag==
+ bh=kQVFB1Ory94czUgWNWBlgE/4b9Cm7QVvjGoDYPQAvFo=;
+ b=iuowuHS+bVkLYgLE/Klc7QcOe3oO7FYkGuDuP6lLdgrEKGsQE1k8yqTc+k4sxFV3S0
+ gjIaERFdQ1r7qdmnjFGeVZcXW2qqA73JIy4ivM461xYQHxrmtfrYdpnw0VMNFH4Pw9DA
+ xuJ8SvlQGWttgvfiJj+6agM4FLpR2ISniU1rlpYxa7G+yBXamVmbGCGdhJBhnmZ1V2Ee
+ we8ddgNWXwjQhcz9XiPZvZZNsbA/bMEvuJ/HXdeYHTeWXuZQ/t9MlMnsU4jGTyInrC/w
+ MoL7DU/94oNkyojq5+m2VxvsW9b4KF7XF1Gj50R7XCK1smWt5UH9hUj6GroVYlPjicVR
+ xtvQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWv9EZ7aUzTv6wqbe3ehHwVBSkDTQVYqx1KPABXRebzKr41CLx6igoMwpeUfEo7H/gXfaIiEhBQbGxyrSa/JpKr6YUVXUwj82mERB4x3B9b
-X-Gm-Message-State: AOJu0YxHXGDnTj8zmMdoJ1p5mSIzOJ2k9lEZmTBlA7c5U9EAas33nbx6
- LpyEZ/Xb1GbUEiYk6EyiOj1AQqPpAETCq/ZTZCDcl6YuwW/A1zgnXB8zlZZ3I3UQ2xu0DeeQaPz
- 3Mqg=
-X-Google-Smtp-Source: AGHT+IGvzomEe6pk4+b5ukiwRKQ+iFhauj+aCe2WN15Uc2hBtyIpzqB4i5/D+SuowCWFltuBkJer2w==
-X-Received: by 2002:a05:6512:2345:b0:52c:76ac:329b with SMTP id
- 2adb3069b0e04-52e82687e21mr8065528e87.35.1719919836656; 
- Tue, 02 Jul 2024 04:30:36 -0700 (PDT)
+ AJvYcCUVNvFmlDqPQx4MpTPriUavR0VV7w3qJNstquHOqQcOHozD+XyPWUZriyTwmAphUVWT/4GlYsql6hZva2yWWfmbegPaxmoKhCXWL+JxG5oi
+X-Gm-Message-State: AOJu0Yw3Hp6jYkwKi0H2H3sC6Am4ltE8qtR8on04sZnVLU0yY4/yxMKr
+ R3CvrJsCGPJvfzFvk2fOTq+4J4LpY/x9Yo3s1GZEIPaZ9ZKy/Yh+hbt7DTv8LH8CgMrMIBECI9l
+ LBdM=
+X-Google-Smtp-Source: AGHT+IFqRDyr09Nd7VDWumaaV4++hDJsHKTRvx5HWWdlWqBKX6NlFxjkCBaAtoRxcjfUWhxGiOhj5A==
+X-Received: by 2002:a19:e017:0:b0:52c:81ba:aeba with SMTP id
+ 2adb3069b0e04-52e8259ff12mr1988718e87.14.1719920477367; 
+ Tue, 02 Jul 2024 04:41:17 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52e7ab0bb88sm1724140e87.56.2024.07.02.04.30.36
+ 2adb3069b0e04-52e7ab2f8b5sm1774583e87.233.2024.07.02.04.41.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jul 2024 04:30:36 -0700 (PDT)
-Date: Tue, 2 Jul 2024 14:30:34 +0300
+ Tue, 02 Jul 2024 04:41:17 -0700 (PDT)
+Date: Tue, 2 Jul 2024 14:41:15 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: John Watts <contact@jookia.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: How to specify panel bit order in driver?
-Message-ID: <neiylzqexfz5saynoo5wgewwgmloy3a4jrng3ucizvrvyusidj@lyjdice5qs4r>
-References: <Zn4z_OJJ07xg_xmh@titan> <87le2pbjdf.fsf@intel.com>
- <Zn7nNMti5pdX67DH@titan>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/1] drm/bridge: Silence error messages upon probe
+ deferral
+Message-ID: <5f2qg7cidl6rchculjzw52sfadwoprcptkhz2ikvo43kyny42s@o2ejrvqg7xjg>
+References: <20240628115131.2903251-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zn7nNMti5pdX67DH@titan>
+In-Reply-To: <20240628115131.2903251-1-alexander.stein@ew.tq-group.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,56 +92,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 29, 2024 at 02:39:16AM GMT, John Watts wrote:
-> Hi Jani,
+On Fri, Jun 28, 2024 at 01:51:30PM GMT, Alexander Stein wrote:
+> When -EPROBE_DEFER is returned do not raise an error, but silently return
+> this error instead. Fixes error like this:
+> [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+>   /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+> [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+>   /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
 > 
-> On Fri, Jun 28, 2024 at 10:45:48AM +0300, Jani Nikula wrote:
-> > Might be helpful to actually point at the source code or commits or
-> > something.
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Reviewed-by: Robert Foss <rfoss@kernel.org>
+> ---
+> Changes in v4:
+> * Rebased to next-20240628
 > 
-> The source code is here: drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> It's just a standard MIPI DBI panel. It reports using an RGB888 bus format.
+>  drivers/gpu/drm/drm_bridge.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> > Maybe look at include/uapi/drm/drm_fourcc.h, and how the DRM_FORMAT_*
-> > macros are used.
-> > 
-> > Can't help you with device tree, but maybe this gives you pointers to
-> > other places for examples.
-> 
-> Currently it works like this:
-> 
-> - DRM uses 24-bit depth
-> - CRTC puts out a 24-bit signal
-> - This gets output over LCD pins
-> - The PCB drops 2 bits per channel by wiring 6 pins to GND
-> - The panel is told to only use 18 bits
-> 
-> Getting DRM to use MEDIA_BUS_FMT_RGB666_1X18 would be nice and allow the panel
-> to auto-detect which bits to use. But the bus format is set in the panel :(
-> 
-> Where is the bus format usually set for cases where a board only supports a
-> physical format?
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index d44f055dbe3e7..3e72dfd941577 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -353,8 +353,9 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+>  	bridge->encoder = NULL;
+>  	list_del(&bridge->chain_node);
+>  
+> -	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
+> -		  bridge->of_node, encoder->name, ret);
+> +	if (ret != -EPROBE_DEFER)
+> +		DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
+> +			  bridge->of_node, encoder->name, ret);
 
-This is usally the panel driver.
+Maybe?
 
-We have been discussing adding a proper atomic_* support to the
-drm_panel. This should allow panel drivers to actually negotiate what is
-going on. Marijn started looking at it, but the patches never hit the
-ML.
+else
+   dev_err_probe(encoder->dev->dev, -EPROBE_DEFER, "failed to attach...\n");
 
-So, if the static configuration fits you, then just set it in the panel
-config. If not, you might have either to implement some hacks (like
-having a DT property describing how the panel is actually wired).
-
+>  
+>  	return ret;
+>  }
+> -- 
+> 2.34.1
 > 
-> > HTH,
-> > Jani.
-> > 
-> > 
-> > -- 
-> > Jani Nikula, Intel
-> 
-> John.
 
 -- 
 With best wishes
