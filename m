@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239AE924151
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 16:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD34924184
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 16:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFD610E613;
-	Tue,  2 Jul 2024 14:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7CEE10E61A;
+	Tue,  2 Jul 2024 14:56:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EO3MCQJ4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NgJx31FZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFAE10E613
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 14:51:22 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-42573d3f7e4so28226775e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2024 07:51:22 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2906C10E61A
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 14:56:42 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-367339bd00aso3376963f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2024 07:56:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719931881; x=1720536681; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719932200; x=1720537000; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=9exeTGo15NDIXtZ8CZttQ0DqkF9R2Zr4DFJbKqAaPNs=;
- b=EO3MCQJ4fid6esQcNh2t7P9me1L8yh+DC+fEIM95hEglXGOry078/x87NujI4wBmyO
- jCAQ1DDTuCf3FQPExrMmwzSzibdlKo82MeJLQAOTVMvy+2KKTOQEchb3IrVktj6T2d/j
- T0Bl9zfXvc5iYL9yHOEXD2Is63hE28tCmBYkSmPHPOEm80/DUYvzFea/JTNbVdwyPG8k
- nJCzInzvsDb5nhGZtx6hW2HDFBAR7F71zN7Bgz27EfiXJJNfejCUi0uaF3jb0tbpeYth
- TUi+tDJ44zUIDUL9NYOiDRM0HFTv1ieG/VACLUPjwpTwOQUje5BQ9f65P2TFsR5OeKkw
- cL1A==
+ bh=1O/aJn8vsv/arvmXTxuQEie1if3A4RdufXewAuUWOyI=;
+ b=NgJx31FZJsLnuRfBMQoDuy+56JjmqZ4Sd3183hiRCYZnWaotvGk2MJGACuniKHD+Qn
+ K67hbDH/tONcaPHAyYUTiCkIvNcOJyq7RJ9gZIqgI+vsSxfQ6+/7c2PjdyyenOVs1EcN
+ MBXt2RSuqsSABnBfsgPKm0deDsp44pohaZPjJrYrMM/P1WaTdamwyzqXlcmFhxQ8Sv8g
+ I+P1C0Ti7NXJBNAkdqr3ocltKjAcyi3R7R8XsSIdRi5KdUz9k6Rtvv8ncF++Tgv2s1Bp
+ ffsOg8UjrKUvTGJcrwAZrZncdBOkCkJkWEpqBZUC3Tm2mxBSzmDJ5RW8EEk/mRIy1eKA
+ RZfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719931881; x=1720536681;
+ d=1e100.net; s=20230601; t=1719932200; x=1720537000;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9exeTGo15NDIXtZ8CZttQ0DqkF9R2Zr4DFJbKqAaPNs=;
- b=Cw5zwYb9KUdxDihRswPc4So0Cri8bMMc/9EWNzL0VxyURei2fUugUQHSll1n8tnl7r
- LF56Gz4jqjjUJVtp4rKgq5t4INyEoh+jmQ9y79yvOJibKg/f63qE28ryevalXhFxY7VK
- uJ0WRVjee1dx0XOcBPCBAYHPX4RYZKWEAWK6Ee8StwfZSKe3IybYiU3+wWikW5MPCfLf
- WboUXvdXOJ/9FZCAEhnPBUB8Va8/EknigEHkpPhIfeAspiphYm/RXhJChLJ0LT9Mm+u2
- qvWl0VZJRH9kaXus+fP6UF0cVJbjH1X5C9M/HM6PorsRxdqEgrjWjGjR7uB1dcbRS5G4
- gCoQ==
+ bh=1O/aJn8vsv/arvmXTxuQEie1if3A4RdufXewAuUWOyI=;
+ b=g+bq1zn0Ml/SyDbe5QP3KmDX38HzfW8rC4716113r0afotu+LkOm6ACcsuzlMBxVPO
+ 5yR8DjBrPa0pcUM0G/UDM7ULDmfEgz+QCA08s61/9r20UP69nW7F97BYMFKdfKapJqS6
+ MZD8mJSwY6m0jLfQGAqgMZHQ7acffi/d6WCOtnXoqTtpzCcSY0ZKt4B1/kbyRIolqyDc
+ 4KL8SmTcelwunPzzwxxHTm8sM9N0CEMTFUXwJOwPgNp6qWPB+2txyXgKREQ3/W9egY0P
+ mErC13nG1OZban4lRyZtzDsNFboUYyR2wl8AwfEJmf1DyDB6zR3LffRlb6tImzFD2N2b
+ 7bpw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMXWGANR+ou0ilDrQvgQc+/P2G3OhLa5cc9z/aS5wCM4yNg3xKoPEWXNQSvmsCc30bgpIsUBNVa7CVmzaHKSjO7fPJVpZBIMo6smthG2XN
-X-Gm-Message-State: AOJu0Yzt8p3ZpJDx2xghmRTaSFf8S1nRd+GH9dG6FQoNlpVGxW+bw0Vf
- upoN1YwlWvaxvVjJwgyj0gzE58l84J54h9OEFH61AitnFD6MPDXz
-X-Google-Smtp-Source: AGHT+IGzOBc1vQHu0QBwklnUCvbjhak188JOOHMbtiFlqkhdFm9lr/bH6DiMEipX26Z4kjyu+6WAGA==
-X-Received: by 2002:a5d:6c6a:0:b0:366:ead8:6019 with SMTP id
- ffacd0b85a97d-3677571b6c7mr7819432f8f.49.1719931880435; 
- Tue, 02 Jul 2024 07:51:20 -0700 (PDT)
+ AJvYcCUNgv929Fxx+rSAk3IJrVuWuOzql75gQXFKVYs7L8AEG9peealSSc2OtSQ9UV8+GAGutzLQKDX1rfrJQexIaQrCyll8RKo3Fo6MPnZNZYJl
+X-Gm-Message-State: AOJu0YzeW1bsWAcBHsdCcCGLLaBF+1IjOP0cYQZwUpwOpvn63NRQKCQd
+ TPpiAeQlbpLnXf7PxygyJGZZzGbrBNDB6aTeVzpytAPf9kQ7JxOW
+X-Google-Smtp-Source: AGHT+IEDS9QP4kQhr2RPA2dvCTTRVUMX3IHs1vr7q4LcbCSOZVwNq2UlHJCaLHCwFYt+fP7HWAZGgA==
+X-Received: by 2002:adf:f98a:0:b0:35f:b03:bf45 with SMTP id
+ ffacd0b85a97d-367756adf42mr6081448f8f.24.1719932200413; 
+ Tue, 02 Jul 2024 07:56:40 -0700 (PDT)
 Received: from [192.168.42.74] ([148.252.146.204])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3675a0fba0bsm13413733f8f.69.2024.07.02.07.51.17
+ ffacd0b85a97d-3675a0fb92fsm13572218f8f.88.2024.07.02.07.56.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Jul 2024 07:51:20 -0700 (PDT)
-Message-ID: <8335651b-3296-460a-b9a6-4a36a7ec8bc8@gmail.com>
-Date: Tue, 2 Jul 2024 15:51:27 +0100
+ Tue, 02 Jul 2024 07:56:40 -0700 (PDT)
+Message-ID: <4db52d39-24ad-4034-882f-9336717b4706@gmail.com>
+Date: Tue, 2 Jul 2024 15:56:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v15 10/14] tcp: RX path for devmem TCP
+Subject: Re: [PATCH net-next v15 11/14] net: add SO_DEVMEM_DONTNEED setsockopt
+ to release RX frags
 To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
@@ -103,10 +104,10 @@ Cc: "David S. Miller" <davem@davemloft.net>,
  <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
  Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
 References: <20240628003253.1694510-1-almasrymina@google.com>
- <20240628003253.1694510-11-almasrymina@google.com>
+ <20240628003253.1694510-12-almasrymina@google.com>
 Content-Language: en-US
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240628003253.1694510-11-almasrymina@google.com>
+In-Reply-To: <20240628003253.1694510-12-almasrymina@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -125,32 +126,21 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 6/28/24 01:32, Mina Almasry wrote:
-> In tcp_recvmsg_locked(), detect if the skb being received by the user
-> is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVMEM
-> flag - pass it to tcp_recvmsg_devmem() for custom handling.
+> Add an interface for the user to notify the kernel that it is done
+> reading the devmem dmabuf frags returned as cmsg. The kernel will
+> drop the reference on the frags to make them available for reuse.
 > 
-> tcp_recvmsg_devmem() copies any data in the skb header to the linear
-> buffer, and returns a cmsg to the user indicating the number of bytes
-> returned in the linear buffer.
-> 
-> tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
-> and returns to the user a cmsg_devmem indicating the location of the
-> data in the dmabuf device memory. cmsg_devmem contains this information:
-> 
-> 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
-> 2. the size of the frag. 'frag_size'.
-> 3. an opaque token 'frag_token' to return to the kernel when the buffer
-> is to be released.
-> 
-> The pages awaiting freeing are stored in the newly added
-> sk->sk_user_frags, and each page passed to userspace is get_page()'d.
-> This reference is dropped once the userspace indicates that it is
-> done reading this page.  All pages are released when the socket is
-> destroyed.
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
-Already gave it in v13, but it got lost
+Same, lost tag from v13
 
 Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+
+And, as a follow up, would be great to clean up the loop.
+Helper functions and "continue" should help to bring the
+indention down.
 
 -- 
 Pavel Begunkov
