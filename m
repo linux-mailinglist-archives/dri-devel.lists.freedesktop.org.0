@@ -2,161 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07254923ED5
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 15:22:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECFB923ED8
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 15:25:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57E1B10E112;
-	Tue,  2 Jul 2024 13:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8366D10E225;
+	Tue,  2 Jul 2024 13:25:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="x6Gw4d2N";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EM2vpMSV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2073.outbound.protection.outlook.com [40.107.102.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9850110E1AE
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 13:22:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N8X7HyXAKN7KgpwqkL1JUvmsFengBaH6ZpzYGY63F2waaMIXjN5rKncAXPL4izhFfyo1Df/RzRoYzQwzbssRN9DrUOdbq/A4lNvWFpIXDd6Kt9CD8IL29X63osYLEvSQ2cAc0YoLT9/TACVX2oBAs+kLC5K6G1LjmIl85fuFrOuDS6h+36Ke3QL17YMQC817CUU72Jed7/h6mMN3lr/nxyexUuAH9ZYNvRqFI59GPo2xn0RDylUiuZUWYTbmFLz070k6LdawIPOcUTsVaVp5K4q1HQG/P0o0bpVoJEn2l3eo1SKdlCQ8PAZs0VvHyzr0AnYtOWlznfBNk2OSmaKI6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PwjD/hbRjpvRhlumf51BgDjkTjakyLkqYRh4va2WHts=;
- b=mbqS7SEO/zvioHHhYKaTeMZaVhlWcOsi0nrPfRTIuKQzc9C3brNbxPYDHWZsgqNq4tqeI69cVbrP0d2hHLzNBRh9J0OXFWmZzm2abcbR4P+BsbR7cqM8O/3jfqwrtcKndDCfSvFHT6DHLYsLZXqqDgn7+zZca9zZkkb96AZ7cpR/00CnF6Q5L7+2OFAMkGHlRhGe6i6MP0J8a0ZsdI3ul5/uS62S6vJU6hb1wT0JB6ESm7N5aLte38CUJWzX8F/9kMo+Qi5lYxTafDpKD5rZ7/VGI9qXcauQNqdR7ZdPEk1V3etk7zVMO7sVJnh2NUQaJ3ZLy+C4sKMPpNqIwVrhuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PwjD/hbRjpvRhlumf51BgDjkTjakyLkqYRh4va2WHts=;
- b=x6Gw4d2NO7ppXISo5j8bMFMsabIM4IPKmdQ7+wOlsT2/rgLA3vJo5CW4DK9JXLzTTCZZrl60UAyNZKROxsUkqF2lfHJgnY8AYQL43SbDQSGnZ7cOHVnTU2HfxcUK0a4779AqeRD3oamP/Zy+SkuAGALprdqwmvuyeiNp8flNKqA=
-Received: from DM6PR12MB4731.namprd12.prod.outlook.com (2603:10b6:5:35::11) by
- IA0PR12MB9011.namprd12.prod.outlook.com (2603:10b6:208:488::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7719.32; Tue, 2 Jul 2024 13:22:50 +0000
-Received: from DM6PR12MB4731.namprd12.prod.outlook.com
- ([fe80::4714:c2d:e2ed:a187]) by DM6PR12MB4731.namprd12.prod.outlook.com
- ([fe80::4714:c2d:e2ed:a187%5]) with mapi id 15.20.7719.029; Tue, 2 Jul 2024
- 13:22:49 +0000
-From: "Olsak, Marek" <Marek.Olsak@amd.com>
-To: Alex Deucher <alexdeucher@gmail.com>, Simon Ser <contact@emersion.fr>
-CC: "Pillai, Aurabindo" <Aurabindo.Pillai@amd.com>, DRI Development
- <dri-devel@lists.freedesktop.org>, "Siqueira, Rodrigo"
- <Rodrigo.Siqueira@amd.com>, "Deucher, Alexander" <Alexander.Deucher@amd.com>, 
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Subject: Re: AMD GFX12 modifiers
-Thread-Topic: AMD GFX12 modifiers
-Thread-Index: AQHay9l/QQBZk+ZdwkaCp1OnzL6dJrHjaj1b
-Date: Tue, 2 Jul 2024 13:22:49 +0000
-Message-ID: <DM6PR12MB47312197417DE10FB70EA8B1F9DC2@DM6PR12MB4731.namprd12.prod.outlook.com>
-References: <vahBbQHXGpyFcIwzIVTPHRnphiAma3_wNbTftk7O3I6gN4gToIj3zIJrIkO263Ly61q2HArlyB1lvyKM1FFyqkqAdLH195Y41xK8GWL4ZBg=@emersion.fr>
- <CADnq5_NgzVn4AOekFQ1xYqkdhuZhTE1QVqxO1WJtp-Bchx6dcw@mail.gmail.com>
-In-Reply-To: <CADnq5_NgzVn4AOekFQ1xYqkdhuZhTE1QVqxO1WJtp-Bchx6dcw@mail.gmail.com>
-Accept-Language: en-CA, en-US
-Content-Language: en-CA
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2024-07-02T13:22:49.417Z;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
- Internal Distribution
- Only; MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=0;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard; 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR12MB4731:EE_|IA0PR12MB9011:EE_
-x-ms-office365-filtering-correlation-id: 15ec5fdf-524c-4770-4246-08dc9a9a1207
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?MXJIU3RNVkFFaG5FK29yd2VZY2MvN0d5SVp1c0pyTnhhZ0MvMWYzRzl4bXNO?=
- =?utf-8?B?b2UyekxHbUNsSEJWcmlXYTE2SVZPS2N6anViZGRxZys4SEdBakNsMldhNG9W?=
- =?utf-8?B?NDJGVGo4QzNGSTBpL2dacmhLdEloMGdaWXZPVlUzOWVaUjN3ZXBaNWVST2RO?=
- =?utf-8?B?WE51OTNLTTNnTWI0Sk14RkxCQm16b0xqRkJTSnNhMGVYS1ZnYmtPS2JhRkQr?=
- =?utf-8?B?Zy8wQkJLVGdsSkZuM1dxTHpuazJDS3ZhU1k3VURYNEtSYkJnZWZtYVp4bEpL?=
- =?utf-8?B?OHNIZGM4NFkyRnZYV1dnbWgwNHJ3ZEF6cUs5RTdrQTBPRXBicXdmQzdhRHdC?=
- =?utf-8?B?MEtWQ3kyemN4b0srdEN5aWIwSExzWitTNVpCRTJEQnFIUHFQMFlHTFhDUFUz?=
- =?utf-8?B?Y0Fvcm5QVmNVUlF1a2lFQmRBSGZkNTlEMzFwUTErNmd1NTMwWDk1eXdDUXZ1?=
- =?utf-8?B?WHYxTzFZMm1tUEY2eVlTSmQ2WDFmT3BZUlpWSnljWXRIMFZNRENEaGRhUXVi?=
- =?utf-8?B?MWt5Tks2YjFhV3pUZzV2Wk9rTFArY2V0TC9JVE9iL0U0cVQ0Z2pINGtDcy9Y?=
- =?utf-8?B?NEQraE5YYjhSSHdWMm9XSXVIK25MRXNndHNKb1NROXJQL0RXTXpxcFM4S1Ru?=
- =?utf-8?B?OE5NVWhxMnhxbUg4bFdMeXdIVXd3TWwzcFBoeEphcUxydit2QXgvbkpqRHBI?=
- =?utf-8?B?aUNhRTBwMm9pL3BlM0dtUUxlQ0VUeXliWjhNWjZjWWJmUWh6bVVIZDV1UjNj?=
- =?utf-8?B?dHBBaFJ1d2x1T1FLN1kyNXhhLyszY3VaM2RyK0VIbmN1cWliMTVCRkpzNlRs?=
- =?utf-8?B?U1diS2g5dyszc3dXOS9KOTlOZ0N0eDhOeHRCOFFLb2tBN3JPS1N5c3lHV3Vu?=
- =?utf-8?B?eURUdVN5VFozR1Q1NTk3dXdJcVU3KzhUVE9GdUwrSFpXVVA0ME4rNEhSU2pU?=
- =?utf-8?B?UTQ1WUtVVmJ6N2tub2FaNGJRakpVRU00dUVPWEN1cis1dWJveklMNWNxenlL?=
- =?utf-8?B?Z0tzTHd5Tmc1b2hsZHk1Z1hzM2pRclpLUmROZkp3YVNqWE80L1pIWXRDUzNy?=
- =?utf-8?B?WlBSaWlsN0hKeUNHYlpHcXlqckNZYk1CVjlBdUNjOWRoTUlZZkFKTy9EaUQ4?=
- =?utf-8?B?dWxDaSthS08vU0Q5M25FaWV2REluR1pVa1ZOUG9RNkVMbG9pTlpCQWNmSXJz?=
- =?utf-8?B?UFY1SUwvdFNSaEtkbUlZYitoc28yNUMvVGE3ZWQ0VEVnSUsraU5yU09BTmdD?=
- =?utf-8?B?bm44R0JFS29zMkhDSmM1Nis1ampHZWp4eE14dkJZU0d3ZXFJTHBxUVVXZk9Z?=
- =?utf-8?B?S3Y1KzBmeDRoNU5CdlRDaWJoUzdTNkk4MFlsQnQ1bkdPQXhmTzFMN0t4MFk1?=
- =?utf-8?B?WkkrdnUxUHlDcWhvY1ZkRy9MVC9XWjlNNlUxalVMWHNxempld2RKcWZpVk0y?=
- =?utf-8?B?ak1zazd1SkQ0VHBwdjlGcEswTXhENE45Q2lKY05iVEhaNWJhcGpXbEpySGhz?=
- =?utf-8?B?aVlOSk9YMDg2TUhaR1FJWXYySEtJWnBJVEFnVUtkNy8vOUJ4cWlpbkdvWFFU?=
- =?utf-8?B?Qy9KdHdmdXhvYXhsQlhtZHJZSXVYcThlS3BxdGJoc0JuQUFYU21yMVQ0Y2lZ?=
- =?utf-8?B?YWtqenBYTE5xbGp2R2o2KzQvT0JFbGl4N2pmaGFIZzAyMXZ0dnY1KzExa2hz?=
- =?utf-8?B?TFBCaERkSW5IS05EVE1pT1RxN3dMZzBTTlhFR3VPUmxEQ2M1U1c1QUhlaDcx?=
- =?utf-8?B?STd5UzNvdnR2SFpMYkpUbStSLytRWWlESSsvY3BqRVduSEoyS2RkZHozTEhI?=
- =?utf-8?B?NDZEYm9ZT3QwTUNnZ25mZXM4RkwxTjFoSFdxQzBrZjRycGxET1lxQVk0andF?=
- =?utf-8?B?Mnk1YTNoekM0SCtOSmZLb3pQWU5PSVVCUmMwUC95OUhndGc9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4731.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NVVLQ2F0bS8rcERvWDVWY3RIandCbzd4U2JKSUorRG1LNGZtRjRrRy9wSE5q?=
- =?utf-8?B?cURCR0ErR3dQUEJldWhweXlNdjZSZjZuazNKbWdBaUJZV0NGWGZkN0tIaFlj?=
- =?utf-8?B?aHE5ZmlHMyt2ZkNWK2VqM0J3b05waTJFQllYU2tKaTRFQkREeWZpQ2c0YWJo?=
- =?utf-8?B?M0plaG5mbWUvWFpSZWxoRXZBVnVodEJSb0Qxc3FETUhuL3pidjZabWNaVXdp?=
- =?utf-8?B?M0hYSDNTTkI3ei9NUGtVekpzOFpBSlM3NklHT0xDd1FCYzIybm1sdkpTQi9N?=
- =?utf-8?B?TXIzbkNsYnNBZHFYVjR1YytMa0VDQ2swaXA0ZjM5RXVkbmhVQ3RzVk1CcHNG?=
- =?utf-8?B?eHgwSkE5RGpwMEhNeDVyaE81dW9CRk5OV2Rpa2lKczh1S2kzM2szbmhmS2lT?=
- =?utf-8?B?cFZFam1sR240V2U5NU0yYlBsR2l1VlVWWWI2TlpDakVHVzJnaEFZWk9tK0JE?=
- =?utf-8?B?YnRHaEFqTlQrL2l2TGtvOUhPcitXdTNRa0RiRlROT0dtU0pqQ1RGYTJESmFD?=
- =?utf-8?B?VHhQWHZRVDNsZEppRDR4QUQ5RkxZTUdHempBWlB3d1RCVWJpd2l5cTRIRTFj?=
- =?utf-8?B?TFA2RzZLaHJUNjBmREk4Z0MvbVVreU8xN1ozMEFzbDVPY2FxSnQzK1RjRVVL?=
- =?utf-8?B?alJmU0dFdEZHbVN6alNDenc4TXgzZ0pXc3N5VXJBb3F3U1JKK0RuaXNTY2pv?=
- =?utf-8?B?eGtwcDZ6VnNpWkg4ZzBOWTlsRHhtUGVEbXd5TWxJV0VNNWV3WlU5blhOcm1y?=
- =?utf-8?B?czR4aFRnajFhNmdSVHY4aG9QbHg1N3UrbFkwRTdnTkM1MnlFSElYTE11YVpi?=
- =?utf-8?B?czNqcWdOMDdzRks2WlRwbzVGNnZsZUVxOGI4QzIzU0VvTnRlc2c1S1JYeWk0?=
- =?utf-8?B?MmtkWlk3Z3B2NXhlWHpRdlRIRWdUU0JQT1F2ZmJCbzNEMkd2ZFZ3SHMzdjF5?=
- =?utf-8?B?NlErdEZNaFE0ZTVaSnNvRzFLU2pldUtZT2k3M29sditnQzk0dnVDZWFPeFBo?=
- =?utf-8?B?ditEdGJrS3Q3aHZ4MzNkSWJtV0JnWmIzNytKOGpsS1IrbUxqV2U0WmIrRjhV?=
- =?utf-8?B?bWthRWlRRHJ2NTdTbGg0T01abEJsd1FhZkNpelVCYUlER0d4V0ZoNVBjZE53?=
- =?utf-8?B?a0krUUpQa2gxUldQMW9UT2JrdVVuNmd4czg2bnltQmFDV2lvUDZCbW94L29S?=
- =?utf-8?B?OFIwdkE1RUpWRTk4WFdJK1d3VHNhRDlmdkRDQTc1dGlyb0pSZGFHaS9GUDJY?=
- =?utf-8?B?MkRhdm9haHBjVGJLRGE0ZUhDVk15ZEt5WU5WRVVOQUxpV0Y0djBhNnRTQmZa?=
- =?utf-8?B?S1kwdFdMZkZKc3R4M01UTVpSN0RoRWlJR2pWR042OElRc2pVZm5IV09BOG55?=
- =?utf-8?B?OUZYR1BYd0RuWlBIVEQyUUgwN0wzUXZmZnYxZjhjLy9UUk5ZcFVPcDhNQjE4?=
- =?utf-8?B?WU1OektiWVdpdG1lM0lCZTBnYkM3UXBTOEJlZ09YZy9wenFIK1ZvVHpDSUZD?=
- =?utf-8?B?MFVNOThMY2NJdUxXeHN4akFCV05VcHdRWjdXYk5PWExvTnBKUVFzZ1p2S3Mw?=
- =?utf-8?B?RVJ1SjBYTGg1RWRCV09XbjBtNGhFcFZUdExtQ1k3eUU1YmgwOHBLTEpXOVVj?=
- =?utf-8?B?eWZOTjVXT3B4RFY2eS9NTkIxUGsvdFNjc2JkcnVMYi9ESkJyUTAyWlVMT2E4?=
- =?utf-8?B?ZGkwdzJ2ZTAwektiT29yUEJIUnYzZE5KbWg1dkpldmsvbnRmU0lmY1E3c3g4?=
- =?utf-8?B?MXBJRGdudlZHQkxBNXZMZ3Z1T0M4bnZvOG4xb1JkNis1d2k1Vk5pZlJYbFpF?=
- =?utf-8?B?MjVVQmk0UTlGNWYwUXVhZksxYllTWUowME0yZThPbEZqRExhc1JYWU5LK2RB?=
- =?utf-8?B?VlhEaFdnVUhEbmtvSjJhOWhqSEsvODNBQWl1NjY3ckJRSTdvWFphMjdRam5K?=
- =?utf-8?B?VE14K2IvVVNBcjRRV2NFSjJyM3R0czdKUkxoSWdBWXJIVGlHR0RQZ1gzdEY3?=
- =?utf-8?B?ckh6ZlluS3M1MmxncHFBR2lyUm50OUw1TlV4WFM2SVlUc09VbVZkYU5ib1Fv?=
- =?utf-8?B?SnFxaFZjdy9vS3B2cXBrT21VK3J3YjdudzFzR1ppY0l0OVphOFV5UHlYRHJu?=
- =?utf-8?Q?uUEs=3D?=
-Content-Type: multipart/alternative;
- boundary="_000_DM6PR12MB47312197417DE10FB70EA8B1F9DC2DM6PR12MB4731namp_"
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B532E10E225
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 13:25:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2075461B98;
+ Tue,  2 Jul 2024 13:25:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C92C116B1;
+ Tue,  2 Jul 2024 13:25:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719926707;
+ bh=XjTXfbCIQa36KxnEEDVA+79Iy+FVRaew9MxgzaZrNtk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EM2vpMSV2xc/Ui/s6I2JoLMw6Ds1fRhwJIKAyvESfSAY39QHKIP3oQ1FBMDZVBgaY
+ A3ZxoBQUvrdPT+cAmx4KpgUyagAFmm6NZVKie4xtDvTnnTHU+vkCgHUpWFlfQH428X
+ GMjTYM6yGERdRrDRxz0nkjX8kPLWvU7+RIpvu9NDrssP34XTVJ0r5CLG3AfK+4fgY/
+ 1R5oDTcLB6zpgeutF+iOsp+yLYY2wxgPo8iRW0YYeuDwMNPEHngQ49nO+AzBphHaS6
+ k49poiv9D33hvuCpMEecqEogN+rGxjUJyqE3CUpev+NJMUl5g8IXtgpVyUKr5h3xPj
+ g3APSbpiQKoug==
+Date: Tue, 2 Jul 2024 15:25:04 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Sandor Yu <Sandor.yu@nxp.com>
+Cc: dmitry.baryshkov@linaro.org, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
+ jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
+ robh+dt@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ festevam@gmail.com, 
+ vkoul@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, 
+ kernel@pengutronix.de, linux-imx@nxp.com, oliver.brown@nxp.com, 
+ alexander.stein@ew.tq-group.com, sam@ravnborg.org
+Subject: Re: [PATCH v16 4/8] drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
+Message-ID: <20240702-quartz-salamander-of-culture-eec264@houat>
+References: <cover.1719903904.git.Sandor.yu@nxp.com>
+ <359914108b879e995d4a39de32a33310009f0fab.1719903904.git.Sandor.yu@nxp.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4731.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15ec5fdf-524c-4770-4246-08dc9a9a1207
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2024 13:22:49.7790 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 87bLHRtYUMRFJyKUZIzYyVezkr093MVSVA15TNfu5EWlfU1HR4L3f14s06ehlq0A
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9011
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="lqdlqrw2llhccm2m"
+Content-Disposition: inline
+In-Reply-To: <359914108b879e995d4a39de32a33310009f0fab.1719903904.git.Sandor.yu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,130 +68,271 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_DM6PR12MB47312197417DE10FB70EA8B1F9DC2DM6PR12MB4731namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEFNRCBJbnRlcm5hbCBEaXN0cmlidXRpb24gT25seV0N
-Cg0KVGhlIGNvZGUgeW91IGFyZSBsb29raW5nIGF0IHNlZW1zIG91dCBvZiBkYXRlLiBUaGUgbGF0
-ZXN0IGNvZGUgaXMgb24gYW1kLWdmeC4gVGhhdCBkb2Vzbid0IG1hdHRlciB0aG91Z2guIFRoaXMg
-c2VlbXMgdG8gYmUgYSBnZW5lcmFsIHF1ZXN0aW9uIGFib3V0IG1vZGlmaWVycy4gSGVyZSdzIHRo
-ZSBhbnN3ZXIuDQoNCk1vZGlmaWVyIGRlZmluaXRpb25zIGRvbid0IGRlc2NyaWJlIGNvbXBhdGli
-aWxpdHkgYmV0d2VlbiBjaGlwcyBhbmQgZ2VuZXJhdGlvbnMuIFRoZXkgb25seSBpZGVudGlmeSB0
-aGUgbWVtb3J5IGxheW91dC4gQmVjYXVzZSBvZiB0aGF0LCBodyBzdXBwb3J0IGNhbid0IGJlIGlu
-ZmVycmVkIGZyb20gbW9kaWZpZXJzLiBUaGVyZSBjb3VsZCBiZSBtdWx0aXBsZSBHRlggZGVmaW5p
-dGlvbnMsIHRpbGUgbnVtYmVycywgYW5kIGV2ZW4gbW9kaWZpZXJzIGZyb20gb3RoZXIgdmVuZG9y
-cyBkZXNjcmliaW5nIGV4YWN0bHkgdGhlIHNhbWUgbGF5b3V0LCBhbmQgYWxsIHN1Y2ggZXF1aXZh
-bGVudCBtb2RpZmllcnMgY2FuIGJlIGV4cG9zZWQgYnkgdGhlIHNhbWUgaHcuDQoNClRoZSBnZngx
-MiBtb2RpZmllcnMgd29yayBpbiBleGFjdGx5IHRoZSBzYW1lIHdheSBhcyBhbnkgb3RoZXIgbW9k
-aWZpZXJzLg0KDQpNYXJlaw0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCkZyb206
-IEFsZXggRGV1Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29tPg0KU2VudDogSnVseSAxLCAyMDI0
-IDEzOjA5DQpUbzogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPjsgT2xzYWssIE1hcmVr
-IDxNYXJlay5PbHNha0BhbWQuY29tPg0KQ2M6IFBpbGxhaSwgQXVyYWJpbmRvIDxBdXJhYmluZG8u
-UGlsbGFpQGFtZC5jb20+OyBEUkkgRGV2ZWxvcG1lbnQgPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmc+OyBTaXF1ZWlyYSwgUm9kcmlnbyA8Um9kcmlnby5TaXF1ZWlyYUBhbWQuY29tPjsg
-RGV1Y2hlciwgQWxleGFuZGVyIDxBbGV4YW5kZXIuRGV1Y2hlckBhbWQuY29tPjsgQmFzIE5pZXV3
-ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVuLm5sPg0KU3ViamVjdDogUmU6IEFNRCBHRlgx
-MiBtb2RpZmllcnMNCg0KKyBNYXJlaw0KDQpPbiBTYXQsIEp1biAyOSwgMjAyNCBhdCAxOjE14oCv
-UE0gU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPiB3cm90ZToNCj4NCj4gSGkgYWxsIQ0K
-Pg0KPiBJbiA3Y2ViOTRlODdiZmYgKCJkcm0vYW1kOiBBZGQgZ2Z4MTIgc3dpenpsZSBtb2RlIGRl
-ZnMiKSwgc29tZQ0KPiBkZWZpbml0aW9ucyB3ZXJlIGFkZGVkIGZvciBHRlgxMiBtb2RpZmllcnMu
-IEhvd2V2ZXIgSSdtIG5vdCBxdWl0ZSBzdXJlDQo+IEkgdW5kZXJzdGFuZCBob3cgdGhlc2Ugd29y
-ay4NCj4NCj4gVGlsZSB2YWx1ZXMgc2VlbSB0byBub3QgYmUgaW4gdGhlIHNhbWUgbmFtZXNwYWNl
-IGFzIEdGWDkgdGhyb3VnaCBHRlgxMSwNCj4gaXMgdGhhdCBjb3JyZWN0PyBJbiBvdGhlciB3b3Jk
-cywgY2FuIEdGWDkgfiBHRlgxMSBtb2RpZmllcnMgYmUgdXNlZCB3aXRoDQo+IEdGWDEyLCBvciBh
-cmUgdGhlc2UgbXV0dWFsbHkgZXhjbHVzaXZlPw0KPg0KPiBBTURfRk1UX01PRF9HRlgxMl9EQ0Nf
-TUFYX0NPTVBSRVNTRURfQkxPQ0tfTUFTSyBoYXMgYSBjb21tZW50IGV4cGxhaW5pbmcNCj4gdGhl
-IDMgcG9zc2libGUgdmFsdWVzLCBpcyB0aGVyZSBhIHJlYXNvbiB3aHkgI2RlZmluZXMgYXJlIG1p
-c3NpbmcgZm9yDQo+IHRoZXNlIHZhbHVlcz8NCj4NCj4gVGhlIGNvbW1lbnQgbGlzdHMgYSBsb3Qg
-bW9yZSBzd2l6emxlIG1vZGVzIHRoYW4ganVzdCA2NEtfMkQgYW5kIDI1NktfMkQsDQo+IGFueSBy
-ZWFzb24gd2h5IHRoZSByZXN0IGFyZSBtaXNzaW5nIChhdCBsZWFzdCBmb3IgdGhlIDJEIG9uZXMp
-Pw0KPg0KPiBDb3VsZCB5b3UgZXhwbGFpbiBob3cgdGhlIG5ldyBHRlgxMiBtb2RpZmllcnMgd29y
-az8NCj4NCj4gV291bGQgaXQgYmUgcG9zc2libGUgdG8gdXBkYXRlIHRoZSBjb21tZW50IG9uIHRv
-cCBvZiAjZGVmaW5lIEFNRF9GTVRfTU9EDQo+IHRvIHJlZmxlY3QgdGhlIEdGWDEyIHVwZGF0ZXM/
-DQo+DQo+IFRoYW5rcywNCj4NCj4gU2ltb24NCg==
+--lqdlqrw2llhccm2m
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---_000_DM6PR12MB47312197417DE10FB70EA8B1F9DC2DM6PR12MB4731namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi,
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxwIHN0eWxlPSJmb250LWZhbWlseTpDYWxp
-YnJpO2ZvbnQtc2l6ZToxMHB0O2NvbG9yOiMwMDAwRkY7bWFyZ2luOjVwdDtmb250LXN0eWxlOm5v
-cm1hbDtmb250LXdlaWdodDpub3JtYWw7dGV4dC1kZWNvcmF0aW9uOm5vbmU7IiBhbGlnbj0iTGVm
-dCI+DQpbQU1EIE9mZmljaWFsIFVzZSBPbmx5IC0gQU1EIEludGVybmFsIERpc3RyaWJ1dGlvbiBP
-bmx5XTxicj4NCjwvcD4NCjxicj4NCjxkaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIg
-c3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0Zv
-bnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJw
-dDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KVGhlIGNvZGUgeW91IGFyZSZuYnNwO2xvb2tpbmcg
-YXQgc2VlbXMgb3V0IG9mIGRhdGUuIFRoZSBsYXRlc3QgY29kZSBpcyBvbiBhbWQtZ2Z4LiBUaGF0
-IGRvZXNuJ3QgbWF0dGVyIHRob3VnaC4gVGhpcyBzZWVtcyB0byBiZSBhIGdlbmVyYWwgcXVlc3Rp
-b24gYWJvdXQgbW9kaWZpZXJzLiBIZXJlJ3MgdGhlIGFuc3dlci48L2Rpdj4NCjxkaXYgY2xhc3M9
-ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRl
-ZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJp
-ZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4N
-CjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBB
-cHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGlj
-YSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpN
-b2RpZmllciBkZWZpbml0aW9ucyBkb24ndCBkZXNjcmliZSBjb21wYXRpYmlsaXR5IGJldHdlZW4g
-Y2hpcHMgYW5kIGdlbmVyYXRpb25zLiBUaGV5IG9ubHkgaWRlbnRpZnkgdGhlIG1lbW9yeSBsYXlv
-dXQuIEJlY2F1c2Ugb2YgdGhhdCwgaHcgc3VwcG9ydCBjYW4ndCBiZSBpbmZlcnJlZCBmcm9tIG1v
-ZGlmaWVycy4gVGhlcmUgY291bGQgYmUgbXVsdGlwbGUgR0ZYIGRlZmluaXRpb25zLCZuYnNwO3Rp
-bGUgbnVtYmVycywgYW5kIGV2ZW4gbW9kaWZpZXJzIGZyb20NCiBvdGhlciB2ZW5kb3JzIGRlc2Ny
-aWJpbmcgZXhhY3RseSB0aGUgc2FtZSBsYXlvdXQsIGFuZCBhbGwgc3VjaCBlcXVpdmFsZW50IG1v
-ZGlmaWVycyBjYW4gYmUgZXhwb3NlZCBieSB0aGUgc2FtZSBody48L2Rpdj4NCjxkaXYgY2xhc3M9
-ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRl
-ZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJp
-ZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4N
-CjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBB
-cHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGlj
-YSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpU
-aGUgZ2Z4MTIgbW9kaWZpZXJzIHdvcmsgaW4gZXhhY3RseSB0aGUgc2FtZSB3YXkgYXMgYW55IG90
-aGVyIG1vZGlmaWVycy48L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0i
-Zm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZp
-Y2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xv
-cjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1By
-b29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9z
-X01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXpl
-OiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpNYXJlazwvZGl2Pg0KPGRpdiBpZD0iYXBw
-ZW5kb25zZW5kIj48L2Rpdj4NCjxociBzdHlsZT0iZGlzcGxheTppbmxpbmUtYmxvY2s7d2lkdGg6
-OTglIiB0YWJpbmRleD0iLTEiPg0KPGRpdiBpZD0iZGl2UnBseUZ3ZE1zZyIgZGlyPSJsdHIiPjxm
-b250IGZhY2U9IkNhbGlicmksIHNhbnMtc2VyaWYiIHN0eWxlPSJmb250LXNpemU6MTFwdCIgY29s
-b3I9IiMwMDAwMDAiPjxiPkZyb206PC9iPiBBbGV4IERldWNoZXIgJmx0O2FsZXhkZXVjaGVyQGdt
-YWlsLmNvbSZndDs8YnI+DQo8Yj5TZW50OjwvYj4gSnVseSAxLCAyMDI0IDEzOjA5PGJyPg0KPGI+
-VG86PC9iPiBTaW1vbiBTZXIgJmx0O2NvbnRhY3RAZW1lcnNpb24uZnImZ3Q7OyBPbHNhaywgTWFy
-ZWsgJmx0O01hcmVrLk9sc2FrQGFtZC5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBQaWxsYWksIEF1
-cmFiaW5kbyAmbHQ7QXVyYWJpbmRvLlBpbGxhaUBhbWQuY29tJmd0OzsgRFJJIERldmVsb3BtZW50
-ICZsdDtkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnJmd0OzsgU2lxdWVpcmEsIFJvZHJp
-Z28gJmx0O1JvZHJpZ28uU2lxdWVpcmFAYW1kLmNvbSZndDs7IERldWNoZXIsIEFsZXhhbmRlciAm
-bHQ7QWxleGFuZGVyLkRldWNoZXJAYW1kLmNvbSZndDs7IEJhcyBOaWV1d2VuaHVpemVuICZsdDti
-YXNAYmFzbmlldXdlbmh1aXplbi5ubCZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IEFNRCBH
-RlgxMiBtb2RpZmllcnM8L2ZvbnQ+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPC9kaXY+DQo8ZGl2IGNs
-YXNzPSJCb2R5RnJhZ21lbnQiPjxmb250IHNpemU9IjIiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTFwdDsiPg0KPGRpdiBjbGFzcz0iUGxhaW5UZXh0Ij4rIE1hcmVrPGJyPg0KPGJyPg0KT24gU2F0
-LCBKdW4gMjksIDIwMjQgYXQgMToxNeKAr1BNIFNpbW9uIFNlciAmbHQ7Y29udGFjdEBlbWVyc2lv
-bi5mciZndDsgd3JvdGU6PGJyPg0KJmd0Ozxicj4NCiZndDsgSGkgYWxsITxicj4NCiZndDs8YnI+
-DQomZ3Q7IEluIDdjZWI5NGU4N2JmZiAoJnF1b3Q7ZHJtL2FtZDogQWRkIGdmeDEyIHN3aXp6bGUg
-bW9kZSBkZWZzJnF1b3Q7KSwgc29tZTxicj4NCiZndDsgZGVmaW5pdGlvbnMgd2VyZSBhZGRlZCBm
-b3IgR0ZYMTIgbW9kaWZpZXJzLiBIb3dldmVyIEknbSBub3QgcXVpdGUgc3VyZTxicj4NCiZndDsg
-SSB1bmRlcnN0YW5kIGhvdyB0aGVzZSB3b3JrLjxicj4NCiZndDs8YnI+DQomZ3Q7IFRpbGUgdmFs
-dWVzIHNlZW0gdG8gbm90IGJlIGluIHRoZSBzYW1lIG5hbWVzcGFjZSBhcyBHRlg5IHRocm91Z2gg
-R0ZYMTEsPGJyPg0KJmd0OyBpcyB0aGF0IGNvcnJlY3Q/IEluIG90aGVyIHdvcmRzLCBjYW4gR0ZY
-OSB+IEdGWDExIG1vZGlmaWVycyBiZSB1c2VkIHdpdGg8YnI+DQomZ3Q7IEdGWDEyLCBvciBhcmUg
-dGhlc2UgbXV0dWFsbHkgZXhjbHVzaXZlPzxicj4NCiZndDs8YnI+DQomZ3Q7IEFNRF9GTVRfTU9E
-X0dGWDEyX0RDQ19NQVhfQ09NUFJFU1NFRF9CTE9DS19NQVNLIGhhcyBhIGNvbW1lbnQgZXhwbGFp
-bmluZzxicj4NCiZndDsgdGhlIDMgcG9zc2libGUgdmFsdWVzLCBpcyB0aGVyZSBhIHJlYXNvbiB3
-aHkgI2RlZmluZXMgYXJlIG1pc3NpbmcgZm9yPGJyPg0KJmd0OyB0aGVzZSB2YWx1ZXM/PGJyPg0K
-Jmd0Ozxicj4NCiZndDsgVGhlIGNvbW1lbnQgbGlzdHMgYSBsb3QgbW9yZSBzd2l6emxlIG1vZGVz
-IHRoYW4ganVzdCA2NEtfMkQgYW5kIDI1NktfMkQsPGJyPg0KJmd0OyBhbnkgcmVhc29uIHdoeSB0
-aGUgcmVzdCBhcmUgbWlzc2luZyAoYXQgbGVhc3QgZm9yIHRoZSAyRCBvbmVzKT88YnI+DQomZ3Q7
-PGJyPg0KJmd0OyBDb3VsZCB5b3UgZXhwbGFpbiBob3cgdGhlIG5ldyBHRlgxMiBtb2RpZmllcnMg
-d29yaz88YnI+DQomZ3Q7PGJyPg0KJmd0OyBXb3VsZCBpdCBiZSBwb3NzaWJsZSB0byB1cGRhdGUg
-dGhlIGNvbW1lbnQgb24gdG9wIG9mICNkZWZpbmUgQU1EX0ZNVF9NT0Q8YnI+DQomZ3Q7IHRvIHJl
-ZmxlY3QgdGhlIEdGWDEyIHVwZGF0ZXM/PGJyPg0KJmd0Ozxicj4NCiZndDsgVGhhbmtzLDxicj4N
-CiZndDs8YnI+DQomZ3Q7IFNpbW9uPGJyPg0KPC9kaXY+DQo8L3NwYW4+PC9mb250PjwvZGl2Pg0K
-PC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+There's still the scrambler issue we discussed on v15, but I have some
+more comments.
 
---_000_DM6PR12MB47312197417DE10FB70EA8B1F9DC2DM6PR12MB4731namp_--
+On Tue, Jul 02, 2024 at 08:22:36PM GMT, Sandor Yu wrote:
+> +enum drm_connector_status cdns_mhdp8501_detect(struct cdns_mhdp8501_device *mhdp)
+> +{
+> +	u8 hpd = 0xf;
+> +
+> +	hpd = cdns_mhdp8501_read_hpd(mhdp);
+> +	if (hpd == 1)
+> +		return connector_status_connected;
+> +	else if (hpd == 0)
+> +		return connector_status_disconnected;
+> +
+> +	dev_warn(mhdp->dev, "Unknown cable status, hdp=%u\n", hpd);
+> +	return connector_status_unknown;
+> +}
+> +
+> +static void hotplug_work_func(struct work_struct *work)
+> +{
+> +	struct cdns_mhdp8501_device *mhdp = container_of(work,
+> +						     struct cdns_mhdp8501_device,
+> +						     hotplug_work.work);
+> +	enum drm_connector_status status = cdns_mhdp8501_detect(mhdp);
+> +
+> +	drm_bridge_hpd_notify(&mhdp->bridge, status);
+> +
+> +	if (status == connector_status_connected) {
+> +		/* Cable connected  */
+> +		DRM_INFO("HDMI/DP Cable Plug In\n");
+> +		enable_irq(mhdp->irq[IRQ_OUT]);
+> +	} else if (status == connector_status_disconnected) {
+> +		/* Cable Disconnected  */
+> +		DRM_INFO("HDMI/DP Cable Plug Out\n");
+> +		enable_irq(mhdp->irq[IRQ_IN]);
+> +	}
+> +}
+
+You shouldn't play with the interrupt being enabled here: hotplug
+interrupts should always enabled.
+
+If you can't for some reason, the reason should be documented in your
+driver.
+
+> +	/* Mailbox protect for HDMI PHY access */
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +	ret = phy_init(mhdp->phy);
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to initialize PHY: %d\n", ret);
+> +		goto clk_disable;
+> +	}
+> +
+> +	/* Mailbox protect for HDMI PHY access */
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +	ret = phy_set_mode(mhdp->phy, phy_mode);
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to configure PHY: %d\n", ret);
+> +		goto clk_disable;
+> +	}
+
+Why do you need a shared mutex between the phy and HDMI controller?
+
+> +static enum drm_mode_status
+> +cdns_hdmi_tmds_char_rate_valid(const struct drm_bridge *bridge,
+> +			       const struct drm_display_mode *mode,
+> +			       unsigned long long tmds_rate)
+> +{
+> +	struct cdns_mhdp8501_device *mhdp = bridge->driver_private;
+> +	union phy_configure_opts phy_cfg;
+> +	int ret;
+> +
+> +	phy_cfg.hdmi.tmds_char_rate = tmds_rate;
+> +
+> +	/* Mailbox protect for HDMI PHY access */
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +	ret = phy_validate(mhdp->phy, PHY_MODE_HDMI, 0, &phy_cfg);
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +	if (ret < 0)
+> +		return MODE_CLOCK_RANGE;
+> +
+> +	return MODE_OK;
+> +}
+> +
+> +static enum drm_mode_status
+> +cdns_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
+> +			    const struct drm_display_info *info,
+> +			    const struct drm_display_mode *mode)
+> +{
+> +	unsigned long long tmds_rate;
+> +
+> +	/* We don't support double-clocked and Interlaced modes */
+> +	if (mode->flags & DRM_MODE_FLAG_DBLCLK ||
+> +	    mode->flags & DRM_MODE_FLAG_INTERLACE)
+> +		return MODE_BAD;
+> +
+> +	/* MAX support pixel clock rate 594MHz */
+> +	if (mode->clock > 594000)
+> +		return MODE_CLOCK_HIGH;
+
+This needs to be in the tmds_char_rate_valid function
+
+> +	if (mode->hdisplay > 3840)
+> +		return MODE_BAD_HVALUE;
+> +
+> +	if (mode->vdisplay > 2160)
+> +		return MODE_BAD_VVALUE;
+> +
+> +	tmds_rate = mode->clock * 1000ULL;
+> +	return cdns_hdmi_tmds_char_rate_valid(bridge, mode, tmds_rate);
+
+It will already be called by the core so this is redundant.
+
+> +static void cdns_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
+> +					   struct drm_bridge_state *old_state)
+> +{
+> +	struct cdns_mhdp8501_device *mhdp = bridge->driver_private;
+> +	struct drm_atomic_state *state = old_state->base.state;
+> +	struct drm_connector *connector;
+> +	struct video_info *video = &mhdp->video_info;
+> +	struct drm_crtc_state *crtc_state;
+> +	struct drm_connector_state *conn_state;
+> +	struct drm_display_mode *mode = &mhdp->mode;
+> +	union phy_configure_opts phy_cfg;
+> +	int ret;
+> +
+> +	connector = drm_atomic_get_new_connector_for_encoder(state,
+> +							     bridge->encoder);
+> +	if (WARN_ON(!connector))
+> +		return;
+> +
+> +	mhdp->curr_conn = connector;
+> +
+> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
+> +	if (WARN_ON(!conn_state))
+> +		return;
+> +
+> +	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+> +	if (WARN_ON(!crtc_state))
+> +		return;
+> +
+> +	video->color_fmt = conn_state->hdmi.output_format;
+> +	video->bpc = conn_state->hdmi.output_bpc;
+> +
+> +	drm_mode_copy(&mhdp->mode, &crtc_state->adjusted_mode);
+
+Why do you need a copy of all these fields? You should pass the
+connector / bridge state around and not copy these fields.
+
+> +	/* video mode check */
+> +	if (mode->clock == 0 || mode->hdisplay == 0 || mode->vdisplay == 0)
+> +		return;
+
+This should be checked in atomic_check, but I'm pretty sure it's redundant.
+
+> +	dev_dbg(mhdp->dev, "Mode: %dx%dp%d\n",
+> +		mode->hdisplay, mode->vdisplay, mode->clock);
+> +
+> +	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
+> +
+> +	/* Line swapping */
+> +	cdns_mhdp_reg_write(&mhdp->base, LANES_CONFIG, 0x00400000 | mhdp->lane_mapping);
+> +
+> +	mhdp->hdmi.char_rate = drm_hdmi_compute_mode_clock(mode,
+> +							   mhdp->video_info.bpc,
+> +							   mhdp->video_info.color_fmt);
+
+The TMDS char rate is already available in the connector_state so there
+no need to recompute it.
+
+> +	phy_cfg.hdmi.tmds_char_rate = mhdp->hdmi.char_rate;
+
+And you shouldn't store a copy either.
+
+> +	/* Mailbox protect for HDMI PHY access */
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +	ret = phy_configure(mhdp->phy, &phy_cfg);
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +	if (ret) {
+> +		dev_err(mhdp->dev, "%s: phy_configure() failed: %d\n",
+> +			__func__, ret);
+> +		return;
+> +	}
+> +
+> +	cdns_hdmi_sink_config(mhdp);
+> +
+> +	ret = cdns_hdmi_ctrl_init(mhdp);
+> +	if (ret < 0) {
+> +		dev_err(mhdp->dev, "%s, ret = %d\n", __func__, ret);
+> +		return;
+> +	}
+> +
+> +	/* Config GCP */
+> +	if (mhdp->video_info.bpc == 8)
+> +		cdns_hdmi_disable_gcp(mhdp);
+> +	else
+> +		cdns_hdmi_enable_gcp(mhdp);
+> +
+> +	ret = cdns_hdmi_mode_config(mhdp, mode, &mhdp->video_info);
+> +	if (ret < 0) {
+> +		dev_err(mhdp->dev, "CDN_API_HDMITX_SetVic_blocking ret = %d\n", ret);
+> +		return;
+> +	}
+> +}
+> +
+> +static int cdns_hdmi_bridge_clear_infoframe(struct drm_bridge *bridge,
+> +					    enum hdmi_infoframe_type type)
+> +{
+> +	return 0;
+> +}
+
+Either implement it or don't, but an empty function is dead code.
+
+> +static int cdns_hdmi_bridge_write_infoframe(struct drm_bridge *bridge,
+> +					    enum hdmi_infoframe_type type,
+> +					    const u8 *buffer, size_t len)
+> +{
+> +	struct cdns_mhdp8501_device *mhdp = bridge->driver_private;
+> +
+> +	switch (type) {
+> +	case HDMI_INFOFRAME_TYPE_AVI:
+> +		cdns_hdmi_config_infoframe(mhdp, 0, len, buffer, HDMI_INFOFRAME_TYPE_AVI);
+> +		break;
+> +	case HDMI_INFOFRAME_TYPE_SPD:
+> +		cdns_hdmi_config_infoframe(mhdp, 1, len, buffer, HDMI_INFOFRAME_TYPE_SPD);
+> +		break;
+> +	case HDMI_INFOFRAME_TYPE_VENDOR:
+> +		cdns_hdmi_config_infoframe(mhdp, 2, len, buffer, HDMI_INFOFRAME_TYPE_VENDOR);
+> +		break;
+> +	default:
+> +		dev_dbg(mhdp->dev, "Unsupported infoframe type %x\n", type);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int cdns_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
+> +					 struct drm_bridge_state *bridge_state,
+> +					 struct drm_crtc_state *crtc_state,
+> +					 struct drm_connector_state *conn_state)
+> +{
+> +	return drm_atomic_helper_connector_hdmi_check(conn_state->connector, conn_state->state);
+> +}
+
+You should also call your mode_valid function here.
+
+Maxime
+
+--lqdlqrw2llhccm2m
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZoP/rwAKCRDj7w1vZxhR
+xbtMAPwOIZGKcI/rVzpcMiT2neBt5WGvMKV0jq/zloFZ/N14pwD/eob5WPgjeYWd
+oweE8ti1ed438LG/cKON29OerGxdGw0=
+=INSe
+-----END PGP SIGNATURE-----
+
+--lqdlqrw2llhccm2m--
