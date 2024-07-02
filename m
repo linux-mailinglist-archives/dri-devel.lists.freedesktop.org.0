@@ -2,113 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C99924074
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 16:20:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8559240E3
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 16:30:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4227310E227;
-	Tue,  2 Jul 2024 14:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0466B10E285;
+	Tue,  2 Jul 2024 14:30:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oEBBIKK3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Az5Mk+zK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SZoJTd60";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P/aHVHQq";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CD10XKI2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC5C10E227;
- Tue,  2 Jul 2024 14:20:40 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C18D51FBAB;
- Tue,  2 Jul 2024 14:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719930039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2090D10E285
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 14:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1719930624;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=3arCfMnSLD6TmGayHJHudTbjvKxANzAoXW5QPbJX0u8=;
- b=oEBBIKK3ZlLz9bpQWUKx05VN+e9UkfZquEBUWmDsQTyDCcjlMXMxljocbh7yy88iz/c4rx
- bltSqZAOHh0qaao6+B2qpznvtzd6q98tpGlQ6GtuKKlkTNj9iFsfOMqSaSPCNOEeY5CRJv
- xEVYNlYmVWTGy63arnAic+3iGJfeaO0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719930039;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3arCfMnSLD6TmGayHJHudTbjvKxANzAoXW5QPbJX0u8=;
- b=Az5Mk+zKxbfLFQhms8ElUy7WMV+lwyn+UTn8Po1BkY2q49iQ/gujzTZooATGvwb9IU01Vo
- amdCuabJN2rJo3AA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SZoJTd60;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="P/aHVHQq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719930038; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3arCfMnSLD6TmGayHJHudTbjvKxANzAoXW5QPbJX0u8=;
- b=SZoJTd60p4my1o+2OPJKzY0rLo+8lZ6rTav0YzEV0azo/4TL+qshuOmhrihKibswQszr1w
- M5kW7kRiVFXya5euOwiII8jG5h3bWLW4a0TI+uSCIiChmf791CUVn/9z5PxEGZ3u/9rYAm
- dhUeC4XJ4eMbCcTUIbA5rFgVnbFTDfA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719930038;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3arCfMnSLD6TmGayHJHudTbjvKxANzAoXW5QPbJX0u8=;
- b=P/aHVHQqsIydYpS3snIaAamUOdhrxxiX4kRVvbve4t2Mkult3fjcKDpOvmaXTWswf4wgcd
- 2vXfLKKoH62aTrBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6620A13A9A;
- Tue,  2 Jul 2024 14:20:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id g4S1F7YMhGZcEQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Jul 2024 14:20:38 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, kraxel@redhat.com, dmitry.osipenko@collabora.com,
- zack.rusin@broadcom.com, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: regressions@leemhuis.info, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Kaplan <david.kaplan@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/qxl: Pin buffer objects for internal mappings
-Date: Tue,  2 Jul 2024 16:20:07 +0200
-Message-ID: <20240702142034.32615-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.45.2
+ bh=9uqCNpuUurhHnKN6EfvlxVvWT4Bm5hlRiNW9ttyGiSk=;
+ b=CD10XKI2NHlHaJ69n3jh1iivLx1j2Z2CkFRSCGHCdEN0uu8cO/hPOE2VsilxqwFQx/3ly2
+ d3t0ymX2ia2nXq+xAQ8T34K05I7VF/I/DKSSc2xxWMBmjgfBcImvq7/s9bbwHNuAXALTDT
+ +3RSBFTyUbYNZ89EExkPiIpPKzKgTHE=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-410-Fs7aRXgtMM-HjBv8kRFmiA-1; Tue, 02 Jul 2024 10:30:23 -0400
+X-MC-Unique: Fs7aRXgtMM-HjBv8kRFmiA-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-52e71284e6bso4737970e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2024 07:30:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719930620; x=1720535420;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9uqCNpuUurhHnKN6EfvlxVvWT4Bm5hlRiNW9ttyGiSk=;
+ b=xUwpjMkadsFOy3ECdaXtEYQZ+ZgkJb2yfIa2trht+CIEVaVDbQDixnHA98RCVEYJgW
+ d5tsRFHs99w1B5ia1lwk7TOKDqI1GEyEDdjIh2NaotLazXbCmCD8NeNTu5q5FuXflynF
+ rb0m1JQJJQYLT6RXO7oqQnMYbGBynKfNjqLYlNQLnyurA8jL59niUnQGBwlLVJyc6NhT
+ i/VeSD1Rd4NwTw09U/Sd9aO5iwivj6vBam/JogHPQ0v++eiAd3s6jmadhIAKEHTJnpM3
+ 4b0GEadVrfkU/THtQIDzCKIZt4Q9G/6wwpmtOoQgENFsXldGHjiu5u8mFmfFSgr1xOF6
+ LhOg==
+X-Gm-Message-State: AOJu0YyHLNyWTyUsu3wUb9g5zgDKgWyk6YHpxsbm8k1aDXzUvGNyMRe8
+ D0kMmM5rfS4GLj/rwqv55UyBisBBKw25sLq9VxL1yldfmsFBGj+Fxi3lbds7Qhd+kMsrOihRRh1
+ lhxLI0PIvpfFCftGUwHrYAYBbEGnYeTOofDQlFK+wmmjR9Trq8JFlrrkSUz5DlOduQAd8TRspcc
+ Gp5U3IRhfGTz2dazIoD8n7/jxhpYoZj5Wd6kGGMx3lYr/k01J5JXv2J2zWjqhgnSo=
+X-Received: by 2002:a05:6512:3092:b0:52e:767a:ada7 with SMTP id
+ 2adb3069b0e04-52e82702ed0mr5685163e87.50.1719930620331; 
+ Tue, 02 Jul 2024 07:30:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGmlYVq/dsNEdP0OinVSOmSriUPk64RTurOHtSTtqwDzvFrRNvhz09uiyE6K1dnU5LneVtrcQ==
+X-Received: by 2002:a05:6512:3092:b0:52e:767a:ada7 with SMTP id
+ 2adb3069b0e04-52e82702ed0mr5685140e87.50.1719930619750; 
+ Tue, 02 Jul 2024 07:30:19 -0700 (PDT)
+Received: from toolbox.fritz.box ([193.138.7.148])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52e7ab0ba7esm1792343e87.55.2024.07.02.07.30.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Jul 2024 07:30:19 -0700 (PDT)
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: [PATCH v2] drm/drm_connector: Document Colorspace property variants
+Date: Tue,  2 Jul 2024 16:30:16 +0200
+Message-ID: <20240702143017.2429975-1-sebastian.wick@redhat.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCPT_COUNT_TWELVE(0.00)[15];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FREEMAIL_TO(0.00)[redhat.com,collabora.com,broadcom.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: C18D51FBAB
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,160 +92,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add qxl_bo_pin_and_vmap() that pins and vmaps a buffer object in one
-step. Update callers of the regular qxl_bo_vmap(). Fixes a bug where
-qxl accesses an unpinned buffer object while it is being moved; such
-as with the monitor-description BO. An typical error is shown below.
+The initial idea of the Colorspace prop was that this maps 1:1 to
+InfoFrames/SDP but KMS does not give user space enough information nor
+control over the output format to figure out which variants can be used
+for a given KMS commit. At the same time, properties like Broadcast RGB
+expect full range quantization range being produced by user space from
+the CRTC and drivers to convert to the range expected by the sink for
+the chosen output format, mode, InfoFrames, etc.
 
-[    4.303586] [drm:drm_atomic_helper_commit_planes] *ERROR* head 1 wrong: 65376256x16777216+0+0
-[    4.586883] [drm:drm_atomic_helper_commit_planes] *ERROR* head 1 wrong: 65376256x16777216+0+0
-[    4.904036] [drm:drm_atomic_helper_commit_planes] *ERROR* head 1 wrong: 65335296x16777216+0+0
-[    5.374347] [drm:qxl_release_from_id_locked] *ERROR* failed to find id in release_idr
+This change documents the reality of the Colorspace property. The
+Default variant unfortunately is very much driver specific and not
+reflected by the EDID. The BT2020 variants are in active use by generic
+compositors which have expectations from the driver about the
+conversions it has to do when selecting certain output formats.
 
-Commit b33651a5c98d ("drm/qxl: Do not pin buffer objects for vmap")
-removed the implicit pin operation from qxl's vmap code. This is the
-correct behavior for GEM and PRIME interfaces, but the pin is still
-needed for qxl internal operation.
+Everything else is also marked as undefined. Coming up with valid
+behavior that makes it usable from user space and consistent with other
+KMS properties for those variants is left as an exercise for whoever
+wants to use them.
 
-Also add a corresponding function qxl_bo_vunmap_and_unpin() and remove
-the old qxl_bo_vmap() helpers.
+v2:
+ * Talk about "pixel operation properties" that user space configures
+ * Mention that user space is responsible for checking the EDID for sink
+   support
+ * Make it clear that drivers can choose between RGB and YCbCr on their
+   own
 
-Future directions: BOs should not be pinned or vmapped unnecessarily.
-The pin-and-vmap operation should be removed from the driver and a
-temporary mapping should be established with a vmap_local-like helper.
-See the client helper drm_client_buffer_vmap_local() for semantics.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b33651a5c98d ("drm/qxl: Do not pin buffer objects for vmap")
-Reported-by: David Kaplan <david.kaplan@amd.com>
-Closes: https://lore.kernel.org/dri-devel/ab0fb17d-0f96-4ee6-8b21-65d02bb02655@suse.de/
-Tested-by: David Kaplan <david.kaplan@amd.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: virtualization@lists.linux.dev
-Cc: spice-devel@lists.freedesktop.org
+Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 ---
- drivers/gpu/drm/qxl/qxl_display.c | 14 +++++++-------
- drivers/gpu/drm/qxl/qxl_object.c  | 11 +++++++++--
- drivers/gpu/drm/qxl/qxl_object.h  |  4 ++--
- 3 files changed, 18 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/drm_connector.c | 79 +++++++++++++++++++++++++--------
+ include/drm/drm_connector.h     |  8 ----
+ 2 files changed, 61 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index 86a5dea710c0..bc24af08dfcd 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -584,11 +584,11 @@ static struct qxl_bo *qxl_create_cursor(struct qxl_device *qdev,
- 	if (ret)
- 		goto err;
- 
--	ret = qxl_bo_vmap(cursor_bo, &cursor_map);
-+	ret = qxl_bo_pin_and_vmap(cursor_bo, &cursor_map);
- 	if (ret)
- 		goto err_unref;
- 
--	ret = qxl_bo_vmap(user_bo, &user_map);
-+	ret = qxl_bo_pin_and_vmap(user_bo, &user_map);
- 	if (ret)
- 		goto err_unmap;
- 
-@@ -614,12 +614,12 @@ static struct qxl_bo *qxl_create_cursor(struct qxl_device *qdev,
- 		       user_map.vaddr, size);
- 	}
- 
--	qxl_bo_vunmap(user_bo);
--	qxl_bo_vunmap(cursor_bo);
-+	qxl_bo_vunmap_and_unpin(user_bo);
-+	qxl_bo_vunmap_and_unpin(cursor_bo);
- 	return cursor_bo;
- 
- err_unmap:
--	qxl_bo_vunmap(cursor_bo);
-+	qxl_bo_vunmap_and_unpin(cursor_bo);
- err_unref:
- 	qxl_bo_unpin(cursor_bo);
- 	qxl_bo_unref(&cursor_bo);
-@@ -1205,7 +1205,7 @@ int qxl_create_monitors_object(struct qxl_device *qdev)
- 	}
- 	qdev->monitors_config_bo = gem_to_qxl_bo(gobj);
- 
--	ret = qxl_bo_vmap(qdev->monitors_config_bo, &map);
-+	ret = qxl_bo_pin_and_vmap(qdev->monitors_config_bo, &map);
- 	if (ret)
- 		return ret;
- 
-@@ -1236,7 +1236,7 @@ int qxl_destroy_monitors_object(struct qxl_device *qdev)
- 	qdev->monitors_config = NULL;
- 	qdev->ram_header->monitors_config = 0;
- 
--	ret = qxl_bo_vunmap(qdev->monitors_config_bo);
-+	ret = qxl_bo_vunmap_and_unpin(qdev->monitors_config_bo);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
-index 5893e27a7ae5..cb1b7c2580ae 100644
---- a/drivers/gpu/drm/qxl/qxl_object.c
-+++ b/drivers/gpu/drm/qxl/qxl_object.c
-@@ -182,7 +182,7 @@ int qxl_bo_vmap_locked(struct qxl_bo *bo, struct iosys_map *map)
- 	return 0;
- }
- 
--int qxl_bo_vmap(struct qxl_bo *bo, struct iosys_map *map)
-+int qxl_bo_pin_and_vmap(struct qxl_bo *bo, struct iosys_map *map)
- {
- 	int r;
- 
-@@ -190,7 +190,13 @@ int qxl_bo_vmap(struct qxl_bo *bo, struct iosys_map *map)
- 	if (r)
- 		return r;
- 
-+	r = qxl_bo_pin_locked(bo);
-+	if (r)
-+		return r;
-+
- 	r = qxl_bo_vmap_locked(bo, map);
-+	if (r)
-+		qxl_bo_unpin_locked(bo);
- 	qxl_bo_unreserve(bo);
- 	return r;
- }
-@@ -241,7 +247,7 @@ void qxl_bo_vunmap_locked(struct qxl_bo *bo)
- 	ttm_bo_vunmap(&bo->tbo, &bo->map);
- }
- 
--int qxl_bo_vunmap(struct qxl_bo *bo)
-+int qxl_bo_vunmap_and_unpin(struct qxl_bo *bo)
- {
- 	int r;
- 
-@@ -250,6 +256,7 @@ int qxl_bo_vunmap(struct qxl_bo *bo)
- 		return r;
- 
- 	qxl_bo_vunmap_locked(bo);
-+	qxl_bo_unpin_locked(bo);
- 	qxl_bo_unreserve(bo);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/qxl/qxl_object.h b/drivers/gpu/drm/qxl/qxl_object.h
-index 1cf5bc759101..875f63221074 100644
---- a/drivers/gpu/drm/qxl/qxl_object.h
-+++ b/drivers/gpu/drm/qxl/qxl_object.h
-@@ -59,9 +59,9 @@ extern int qxl_bo_create(struct qxl_device *qdev,
- 			 u32 priority,
- 			 struct qxl_surface *surf,
- 			 struct qxl_bo **bo_ptr);
--int qxl_bo_vmap(struct qxl_bo *bo, struct iosys_map *map);
-+int qxl_bo_pin_and_vmap(struct qxl_bo *bo, struct iosys_map *map);
- int qxl_bo_vmap_locked(struct qxl_bo *bo, struct iosys_map *map);
--int qxl_bo_vunmap(struct qxl_bo *bo);
-+int qxl_bo_vunmap_and_unpin(struct qxl_bo *bo);
- void qxl_bo_vunmap_locked(struct qxl_bo *bo);
- void *qxl_bo_kmap_atomic_page(struct qxl_device *qdev, struct qxl_bo *bo, int page_offset);
- void qxl_bo_kunmap_atomic_page(struct qxl_device *qdev, struct qxl_bo *bo, void *map);
+diff --git ./drivers/gpu/drm/drm_connector.c ../drivers/gpu/drm/drm_connector.c
+index ab6ab7ff7ea8..b4f4d2f908d1 100644
+--- ./drivers/gpu/drm/drm_connector.c
++++ ../drivers/gpu/drm/drm_connector.c
+@@ -2315,24 +2315,67 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
+  * DOC: standard connector properties
+  *
+  * Colorspace:
+- *     This property helps select a suitable colorspace based on the sink
+- *     capability. Modern sink devices support wider gamut like BT2020.
+- *     This helps switch to BT2020 mode if the BT2020 encoded video stream
+- *     is being played by the user, same for any other colorspace. Thereby
+- *     giving a good visual experience to users.
+- *
+- *     The expectation from userspace is that it should parse the EDID
+- *     and get supported colorspaces. Use this property and switch to the
+- *     one supported. Sink supported colorspaces should be retrieved by
+- *     userspace from EDID and driver will not explicitly expose them.
+- *
+- *     Basically the expectation from userspace is:
+- *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
+- *        colorspace
+- *      - Set this new property to let the sink know what it
+- *        converted the CRTC output to.
+- *      - This property is just to inform sink what colorspace
+- *        source is trying to drive.
++ *	This property is used to inform the driver about the color encoding
++ *	user space configured the pixel operation properties to produce.
++ *	The variants set the colorimetry, transfer characteristics, and which
++ *	YCbCr conversion should be used when necessary.
++ *	The transfer characteristics from HDR_OUTPUT_METADATA takes precedence
++ *	over this property.
++ *	User space always configures the pixel operation properties to produce
++ *	full quantization range data (see the Broadcast RGB property).
++ *
++ *	Drivers inform the sink about what colorimetry, transfer
++ *	characteristics, YCbCr conversion, and quantization range to expect
++ *	(this can depend on the output mode, output format and other
++ *	properties). Drivers also convert the user space provided data to what
++ *	the sink expects.
++ *
++ *	User space has to check if the sink supports all of the possible
++ *	colorimetries that the driver is allowed to pick by parsing the EDID.
++ *
++ *	For historical reasons this property exposes a number of variants which
++ *	result in undefined behavior.
++ *
++ *	Default:
++ *		The behavior is driver-specific.
++ *	BT2020_RGB:
++ *	BT2020_YCC:
++ *		User space configures the pixel operation properties to produce
++ *		RGB content with Rec. ITU-R BT.2020 colorimetry, Rec.
++ *		ITU-R BT.2020 (Table 4, RGB) transfer characteristics and full
++ *		quantization range.
++ *		User space can use the HDR_OUTPUT_METADATA property to set the
++ *		transfer characteristics to PQ (Rec. ITU-R BT.2100 Table 4) or
++ *		HLG (Rec. ITU-R BT.2100 Table 5) in which case, user space
++ *		configures pixel operation properties to produce content with
++ *		the respective transfer characteristics.
++ *		User space has to make sure the sink supports Rec.
++ *		ITU-R BT.2020 R'G'B' and Rec. ITU-R BT.2020 Y'C'BC'R
++ *		colorimetry.
++ *		Drivers can configure the sink to use an RGB format, tell the
++ *		sink to expect Rec. ITU-R BT.2020 R'G'B' colorimetry and convert
++ *		to the appropriate quantization range.
++ *		Drivers can configure the sink to use a YCbCr format, tell the
++ *		sink to expect Rec. ITU-R BT.2020 Y'C'BC'R colorimetry, convert
++ *		to YCbCr using the Rec. ITU-R BT.2020 non-constant luminance
++ *		conversion matrix and convert to the appropriate quantization
++ *		range.
++ *		The variants BT2020_RGB and BT2020_YCC are equivalent and the
++ *		driver chooses between RGB and YCbCr on its own.
++ *	SMPTE_170M_YCC:
++ *	BT709_YCC:
++ *	XVYCC_601:
++ *	XVYCC_709:
++ *	SYCC_601:
++ *	opYCC_601:
++ *	opRGB:
++ *	BT2020_CYCC:
++ *	DCI-P3_RGB_D65:
++ *	DCI-P3_RGB_Theater:
++ *	RGB_WIDE_FIXED:
++ *	RGB_WIDE_FLOAT:
++ *	BT601_YCC:
++ *		The behavior is undefined.
+  *
+  * Because between HDMI and DP have different colorspaces,
+  * drm_mode_create_hdmi_colorspace_property() is used for HDMI connector and
+diff --git ./include/drm/drm_connector.h ../include/drm/drm_connector.h
+index c754651044d4..e3fa43291f44 100644
+--- ./include/drm/drm_connector.h
++++ ../include/drm/drm_connector.h
+@@ -471,14 +471,6 @@ enum drm_privacy_screen_status {
+  *
+  * DP definitions come from the DP v2.0 spec
+  * HDMI definitions come from the CTA-861-H spec
+- *
+- * A note on YCC and RGB variants:
+- *
+- * Since userspace is not aware of the encoding on the wire
+- * (RGB or YCbCr), drivers are free to pick the appropriate
+- * variant, regardless of what userspace selects. E.g., if
+- * BT2020_RGB is selected by userspace a driver will pick
+- * BT2020_YCC if the encoding on the wire is YUV444 or YUV420.
+   *
+  * @DRM_MODE_COLORIMETRY_DEFAULT:
+  *   Driver specific behavior.
 -- 
-2.45.2
+2.45.1
 
