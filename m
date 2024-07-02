@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C10F924732
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 20:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711B6924734
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 20:20:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B65DC10E672;
-	Tue,  2 Jul 2024 18:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E563D10E2C8;
+	Tue,  2 Jul 2024 18:20:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hkJNuKC0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MJhdJBEL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
- [209.85.217.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA3110E676;
- Tue,  2 Jul 2024 18:19:59 +0000 (UTC)
-Received: by mail-vs1-f44.google.com with SMTP id
- ada2fe7eead31-48c2d353b01so1468843137.2; 
- Tue, 02 Jul 2024 11:19:59 -0700 (PDT)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8B6510E28A;
+ Tue,  2 Jul 2024 18:20:14 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id
+ a1e0cc1a2514c-81011c142ffso181508241.3; 
+ Tue, 02 Jul 2024 11:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719944398; x=1720549198; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719944414; x=1720549214; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0rdY3nfttXQyfJtXRQz+w76u4SJZ23QmqNlqUfvwe5I=;
- b=hkJNuKC0W6fbY1YVYcsmURImXxMg4Kr5/KeVBgzRAa0qYMGPZd8qECgJXZxETUJXMz
- hOMUhDHCo2TYC2c2dxqTiCp7hoiSpn4zxXWlXldoh353flgOST0CoUv5ReGyAX0ELncx
- 7UGDVd2HdkIBsnm0MZXxUpWQxfN4+DG4FY7f5YIfSGaQsJRuNDPH1iFfMcd2wnM/pJDF
- 4WC8EqiTVp1eHhEyp9TvXuXNqwj1pD6FiCdHEwQ5jdD2DjwBWVry36I4e1DQowC90d9q
- q+/5gUu7cMjU5kbLt4fZ3zLRigTuHFxNNzcmw9073HsF+99s2gI5w9Uyaqu8IN0Njhuz
- yFYw==
+ bh=cmw7KLpqC5sHFcBw/YtYXedNSjR/K2nv2vMyO3PED/w=;
+ b=MJhdJBELWlxJAJFxi5en1eKjB7PHuJzHfwbuWKCQrjLQSZZv4QehucPYpIiXCcTg/L
+ 5WaOS8W/RS21ygfqkWwyRMkY27mpNwWJ1fWB42g2ZFzVXJpbAFb9ptiOO+uvL014MX/J
+ +hmafkrar++Z0Q0GLXJkylZvq+Cy7eX1z9cH0K5fTWucbtjg53Zbw4o6lDxd5SBRy7g8
+ of3/3B7/6ozgbRUYSzNqrBTn6ButUSCMXApwl7lf3ZpKKqMJhI53ggLy3ssiJmVKG9G1
+ ifVW4wLbnNzCEREN9Cf8WSys9FUYewaEKGQ01Bfddj4izUtvuDadbVQwGNBmKDxm4mYv
+ mgBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719944398; x=1720549198;
+ d=1e100.net; s=20230601; t=1719944414; x=1720549214;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0rdY3nfttXQyfJtXRQz+w76u4SJZ23QmqNlqUfvwe5I=;
- b=Frd6TFx49CxtBjwqgBHXvjKLUz9Yg1rkOZcYfa7Tf5yp8Hf5d5F6sBsiqJx00XaBcx
- lzV7B4TzskWZRZSjvR+klxEymCrhDd7WzKu/Tm5SHoxU6tgLh39Npf0ViILViEn9AAIH
- tE2qDwgPBwuH1PTJhJNduRu6+ipTTlUND5fuzu281GHnkZR+nHlSH7Xa8kD9sE4tBEaD
- dpimMHGiUlN2dkY1iOO8pZm+1+N1rnxNGJEp8bUEm4sG9Es2JLtmY+SJMq9xomq8l2WQ
- BSPDXktoiJ8zVM52CCmtV1WPRJA9TNMlI9dPvNC+0csoXvVaW92roj4R8dlEw2iwsTV4
- 41MA==
+ bh=cmw7KLpqC5sHFcBw/YtYXedNSjR/K2nv2vMyO3PED/w=;
+ b=OC9JnU4JgQqk99grFN4NCbq/fgQWOT77N40EBnpd+7M9WtHwMbTfYSKXHKkvsDLAdi
+ bBOWuTN2GboAhP+Ph4vP20uFUw8igmQkjwZIKrN7feGbz2ikCVsNbcrG8IAazxECMqBH
+ 70QY65i+cqIniorij2d864hFgHIAfh+537rMtFQn87DloWkVPHlkD7mcPkG9OcFHDaxk
+ vX3br3ckH9Aq3/BAlAIQwhJ91xevK9vpzk1ZnYWO54ZQqCvzbcHfF2Yv0q4Xv7dp8C0I
+ U7AjQn2pig3SEwD/6graDOhN9hsqE3zjvHbitAR2jBAi5vsNLAbmeU871YPTQvQqoEQh
+ fZig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUi4gV3Qkc1Te5Np3NWfAogbbu6ueZLkdaY8kiQJD/88H27XL781IK3TJqNAssecKf+JJKujSmgpYi2nlubo8yziumVOQb222EDiE5kTub2
-X-Gm-Message-State: AOJu0YyiKPQqW5wPqULGo+hy3KmwbKUwhPeeKBmQ+OHV5pOKv6+65m30
- VQxKSepZzjI+EOzJFi2Kmbz/jTcdp8eZY/M2WAGf1UxqqDDF1uCl3MC8r8v9cyF/fSBAME0PfhS
- +uQg+X+OiuGz+prHCjJ4FfS/bKPU=
-X-Google-Smtp-Source: AGHT+IHjTuR7tkA1YoV1X/Vc1MDwRXNGgjuh4jPO1kdI0ozZItn98WX7uULjPeQzl1OgXibRRsUD2XaEtEpLwuVn2e0=
-X-Received: by 2002:a05:6102:d8e:b0:48f:4f10:cb0c with SMTP id
- ada2fe7eead31-48faf12e3bamr10430391137.22.1719944398048; Tue, 02 Jul 2024
- 11:19:58 -0700 (PDT)
+ AJvYcCX9O6mKcVzDfFtdNmHDrgt8Z2ky61UQll+K4y5RmEHe7EkyrtB+080u3jObogvwM8eGDpNgogbzuGXZrEs4//l9460HBsp5Uc3JZybMyabJ
+X-Gm-Message-State: AOJu0Yw/Sgq4FTkIB4j9WCVxomcSVej7xaYZMVsd4yKncmHAH5jKxX1X
+ tT2S4updZauy8thw8faYbLFBsY7fhRVwSmVgQYpLxXThESndCWUOGsrxAsae6bduL8jjt4XGV2O
+ 7P8O5W8VfHfk5gbkJb/NJURBrwTM=
+X-Google-Smtp-Source: AGHT+IEQ5BsMFWZ5hSXd66lnuCuKmGxBkNSc5Eib8fIqIIhMywdcFt8DNObMVeQdyw74P6xdKueGutP9xYt7mpqbdug=
+X-Received: by 2002:a05:6122:2899:b0:4ea:edfb:8d89 with SMTP id
+ 71dfb90a1353d-4f2a56dd66cmr10762195e0c.12.1719944413430; Tue, 02 Jul 2024
+ 11:20:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240702173048.2286044-1-rajneesh.bhardwaj@amd.com>
-In-Reply-To: <20240702173048.2286044-1-rajneesh.bhardwaj@amd.com>
+ <20240702173048.2286044-2-rajneesh.bhardwaj@amd.com>
+In-Reply-To: <20240702173048.2286044-2-rajneesh.bhardwaj@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 2 Jul 2024 14:19:45 -0400
-Message-ID: <CADnq5_Mzb6smePX-Uo2G+YXer3d=ckf9E2546DhHytSwSW6B3A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/ttm: Allow direct reclaim to allocate local memory
+Date: Tue, 2 Jul 2024 14:20:01 -0400
+Message-ID: <CADnq5_MU-j1sBYn-7dzvEKF73VBc=bcYOYY0AcbPjrJnKB24Zg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/ttm: Make ttm shrinkers NUMA aware
 To: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, 
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Cc: amd-gfx@lists.freedesktop.org, felix.kuehling@amd.com, 
@@ -85,14 +86,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Jul 2, 2024 at 1:40=E2=80=AFPM Rajneesh Bhardwaj
 <rajneesh.bhardwaj@amd.com> wrote:
 >
-> Limiting the allocation of higher order pages to the closest NUMA node
-> and enabling direct memory reclaim provides not only failsafe against
-> situations when memory becomes too much fragmented and the allocator is
-> not able to satisfy the request from the local node but falls back to
-> remote pages (HUGEPAGE) but also offers performance improvement.
-> Accessing remote pages suffers due to bandwidth limitations and could be
-> avoided if memory becomes defragmented and in most cases without using
-> manual compation.
+> Otherwise the nid is always passed as 0 during memory reclaim so
+> make TTM shrinkers NUMA aware.
 >
 > Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
 > ---
@@ -101,20 +96,19 @@ On Tue, Jul 2, 2024 at 1:40=E2=80=AFPM Rajneesh Bhardwaj
 >
 > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_poo=
 l.c
-> index 6e1fd6985ffc..cc27d5c7afe8 100644
+> index cc27d5c7afe8..f93ac9089a60 100644
 > --- a/drivers/gpu/drm/ttm/ttm_pool.c
 > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -91,7 +91,7 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool=
- *pool, gfp_t gfp_flags,
->          */
->         if (order)
->                 gfp_flags |=3D __GFP_NOMEMALLOC | __GFP_NORETRY | __GFP_N=
-OWARN |
-> -                       __GFP_KSWAPD_RECLAIM;
-> +                       __GFP_RECLAIM | __GFP_THISNODE;
+> @@ -812,7 +812,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>                             &ttm_pool_debugfs_shrink_fops);
+>  #endif
 >
->         if (!pool->use_dma_alloc) {
->                 p =3D alloc_pages_node(pool->nid, gfp_flags, order);
+> -       mm_shrinker =3D shrinker_alloc(0, "drm-ttm_pool");
+> +       mm_shrinker =3D shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool=
+");
+>         if (!mm_shrinker)
+>                 return -ENOMEM;
+>
 > --
 > 2.34.1
 >
