@@ -2,94 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7394923A95
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 11:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2621B923AFB
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 12:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D275C10E5A6;
-	Tue,  2 Jul 2024 09:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030F310E1AB;
+	Tue,  2 Jul 2024 10:01:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Eqp+PFbJ";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="FHCmYi5D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB8FD10E5A5
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 09:48:59 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2ee7a1ad286so332481fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2024 02:48:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719913738; x=1720518538; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=eQKBE1FE4gVeE/pTxSlRLGb8qXFL4Qosomf5ec/NnUU=;
- b=Eqp+PFbJVgoGjaU9k04rCVUyUD/lSNvV9HpVfjw9C+lO0IX5VF3dUAP2ofPgayrah0
- /ZY3dDx+9/WATmWX/aZJ5tZu1QSV+LROS1IUfRBLpOiijvPLL2NAODzQwJFYx+9TSkny
- lGeeBHINqK2v4Oy0alfTG/Lm9L6iapBACQB9jfmlxxOa0eHDdbS84S6UV5uuuVuUsCd1
- VwyMBjEuQDoR/KR9CP0wBwzU/OibObUyeX80Io+hIaienhyHsNZKUHX5QdTcKYkWKuSq
- sMz2/sipJ06GJkiQbRQu29eFve1T/sdpVy6iCwmrCOWc28qeNoH7G/t+YdivfZvmVHu3
- XW1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719913738; x=1720518538;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eQKBE1FE4gVeE/pTxSlRLGb8qXFL4Qosomf5ec/NnUU=;
- b=I0av5pdpTXwGM8R1+rcSFL1HSn3TUNXB1c39eyyCHbE21xCvsW7BjxDTBnZbkYMQIA
- NX5iBOXyF5N7k/goDT+13vlMP4Hjbrcr1gSpkbwOVSXeHDH4k4RwCho/DFsBD05RXGrR
- eY9ihMMb1p0qRvE/DyObxVzxS47GafsyNkdHZ0Pyk5ux28gkNt9lMvFCW3rwodpJtkKn
- RBoyfOCOCPr3Q69XtDJXheWJjlQMuFPuUdala/69YHYkmOsTqsjlRyaahgo5Sq+Bp8RG
- c74JcOFesZytzcSx36K0QeTsS7AmU1mhTqHQTwA2UdpoJZpMDtMheg8183UHWir+qhnT
- YbgQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV80cZ6albbHhvO4I79iiazwwsINZqiV65fpuzWrWXoXzmunVexfbLxYVZzqPG/Ft5KtPkjGMi1ZobI+SYl4UW8a/PuL/0gLBIRQKvkYZK7
-X-Gm-Message-State: AOJu0Yw5cCGakEf2aPQ4W3o3fVxnTDBPV2GAup17dX+Xioh0WmIAQZ6V
- 4JxF2EIgT1ZfXJe2CDpHveuSQJy2iXqo2njR5BNWv4pCDZLIbXDAsbaS9pHXHyA=
-X-Google-Smtp-Source: AGHT+IFqBUb9Z/lQB5tnnDyAQuJJOp+uTr+Pgp7gBda/3vOoSNPxzuipgShTPcGYxiszIB8CQWowdg==
-X-Received: by 2002:a2e:a78f:0:b0:2ec:4e99:92 with SMTP id
- 38308e7fff4ca-2ee5e3c32e9mr78874021fa.29.1719913737970; 
- Tue, 02 Jul 2024 02:48:57 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ee5160e333sm16231161fa.5.2024.07.02.02.48.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jul 2024 02:48:57 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 02 Jul 2024 12:48:55 +0300
-Subject: [PATCH v3 4/4] drm/bridge-connector: reset the HDMI connector
- state
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A7310E1AB
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 10:01:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1719914470; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=hwG+VedwzcfPvdhlTgBnuVt5K/rI6Tuuw/rZGp2QvXeLcEGB4Mhke37BFPBLPZo0hQmF+vWMTl/FlAKiqyKHK+u8U8wtVuan1Vsn9n0Js8jsefB8NAC9fiHcRp4lrYZLrIdTI7zq/unQT/nl+iIrssP89QiyQYxb6g9dJkJYW84=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1719914470;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=lq+cPpQFpajmigEpdnK1tqlgUHHq9wmvoZ7G1CxyHeg=; 
+ b=HjxFKPZBuCm6DgD5D/R6VDV6sDGz6vdkmsauZCxmkfocaiYZdq5sVSjh0HYUg6ADq31VELxlBDN88pAebxFowKo9vdtQXjPAh0MqKseS/Gb9jlrjqgkUnkMmX/QcTCCy0og4UNaalXGwLkwAgKK0+bSE3VQGP0PXj0RLbyBvack=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1719914470; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=lq+cPpQFpajmigEpdnK1tqlgUHHq9wmvoZ7G1CxyHeg=;
+ b=FHCmYi5D4THx6B5y6F5eedkbs9KsIlBTh3IHigtUTr1gCuVrzvgp4BdhtagVo4ZE
+ HkPtm5ERa/+Tg5zEzlpmAkXGNjOs/CgSgAVgxTN+hrYt2RF3XCHFVkXCJOCM7mPdxMR
+ bjEa/N8iF/vFJIS275ltRxdfV8bZynRP82ps2lRQlteUoQHnZvsGTTdhJ6Yve6sUNlr
+ 3VJ/P4WqZJDMnAhUgqOgtcWXoZ/5dzqVEqIDPmTPKSclysY+roCR0yzq2wz0KyVM3hQ
+ c2oeqjrOijWsJBEcluKpUuxYBREG7Ggein/56HvXF7Q2dYqroYXr1Ahn0Od2wmy2Lv5
+ jhXTmxCQQA==
+Received: by mx.zohomail.com with SMTPS id 1719914469225554.1334590249544;
+ Tue, 2 Jul 2024 03:01:09 -0700 (PDT)
+Message-ID: <0db974d40cd8c5dcc723d43c328bac923e0fe33a.camel@icenowy.me>
+Subject: Re: [RFC PATCH 2/2] drm/ttm: downgrade cached to write_combined
+ when snooping not available
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jiaxun
+ Yang <jiaxun.yang@flygoat.com>, Huang Rui <ray.huang@amd.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 02 Jul 2024 18:01:05 +0800
+In-Reply-To: <ae7085fd-3bca-4a4a-b465-5e4941011877@amd.com>
+References: <20240629052247.2653363-1-uwu@icenowy.me>
+ <20240629052247.2653363-3-uwu@icenowy.me>
+ <a143a2c3-c6f0-4537-acc6-94f229f14639@app.fastmail.com>
+ <2760BA02-8FF8-4B29-BFE2-1322B5BFB6EC@icenowy.me>
+ <7e30177b-ff13-4fed-aa51-47a9cbd5d572@amd.com>
+ <6303afecce2dff9e7d30f67e0a74205256e0a524.camel@icenowy.me>
+ <ff1bf596-83cb-4b3e-a33a-621ac2c8171c@amd.com>
+ <b9189c97f7efbaa895198113ee5b47012bd8b4dc.camel@icenowy.me>
+ <ae7085fd-3bca-4a4a-b465-5e4941011877@amd.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240702-drm-bridge-connector-fix-hdmi-reset-v3-4-12b0e3124ca4@linaro.org>
-References: <20240702-drm-bridge-connector-fix-hdmi-reset-v3-0-12b0e3124ca4@linaro.org>
-In-Reply-To: <20240702-drm-bridge-connector-fix-hdmi-reset-v3-0-12b0e3124ca4@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- dri-devel@lists.freedesktop.org, igt-dev@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2314;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=XfWO1UT95i4nFh6ks6YHBz3BepXJnrLcVKL7lmB6nak=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ1rzWdb9r/6I6H3gyF9qODH2lY8y17SPBf1qHDLNjUucT
- kuIepl0MhqzMDByMciKKbL4FLRMjdmUHPZhx9R6mEGsTCBTGLg4BWAin5nY//B5XWtTEbstXeAl
- e5cpTPjg5Bv6mSzbxX8zL5dOCQsN9w9VU3yc2/Bsbu603rUvpjwq1D/43/h+ppPUa84AowTVN1x
- 7bl38cu5UDd8Unw1/7nEb9q5ZZaG18dzsRl+usvX+jK9nnrizbGp+wfsoo6q9IsXLtBxcTUx7Ty
- j4hBdPe5iyu4rjTra+//LSHE4pI7v/af0tD3JNZaPUnjeYrvbssdi2KkdM87eDq/OkWdqPLkidL
- QrZ8u7jm5yX5x7O/ML992hwf8KVD54zrMK8pBtqm2dMPP5hgdPZ9nrujPS3bHXHPXucNgnKGGmF
- trMfWP7HXuCEqdek/ki3yxsvLF1st1dQfs/ST30WWfr+AA==
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,62 +82,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On HDMI connectors which use drm_bridge_connector and DRM_BRIDGE_OP_HDMI
-IGT chokes on the max_bpc property in several kms_properties tests due
-to the the drm_bridge_connector failing to reset HDMI-related
-properties.
+=E5=9C=A8 2024-07-02=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 11:27 +0200=EF=BC=
+=8CChristian K=C3=B6nig=E5=86=99=E9=81=93=EF=BC=9A
+> Am 02.07.24 um 11:06 schrieb Icenowy Zheng:
+> > [SNIP]
+> > However I don't think the definition of the AGP spec could apply on
+> > all
+> > PCI(e) implementations. The AGP spec itself don't apply on
+> > implementations that do not implement AGP (which is the most PCI(e)
+> > implementations today), and it's not in the reference list of the
+> > PCIe
+> > spec, so it does no help on this context.
+>=20
+> No, exactly that is not correct.
+>=20
+> See as I explained the No-Snoop extension to PCIe was created to help
+> with AGP support and later merged into the base PCIe specification.
+>=20
+> So the AGP spec is now part of the PCIe spec.
+> [SNIP]
 
-Call __drm_atomic_helper_connector_hdmi_reset() if the
-drm_bridge_connector has bridge_hdmi.
+I don't think AGP spec is part of the PCIe spec, at least not part of
+the PCIe spec I was reading. It does not contain the word "AGP" at all,
+and despite it has a "Reference Documents" chapter, this chapter didn't
+include the AGP spec, unlike PCI spec / PCI-X addendum which are listed
+there.
 
-It is impossible to call this function from HDMI bridges, there is is no
-function that corresponds to the drm_connector_funcs::reset().
+In addition, your logic that No-Snoop is related to AGP only apply when
+discussing about the history of PCIe, not when inspecting it from a
+synchronic view, which is what new implementers of a spec should do.
 
-Fixes: 6b4468b0c6ba ("drm/bridge-connector: implement glue code for HDMI connector")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/display/Kconfig                |  1 +
- drivers/gpu/drm/display/drm_bridge_connector.c | 13 ++++++++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+> > > We have quite a bunch of V4L, sound and I also think network
+> > > devices
+> > > which work like that. But those are non-PCI devices.
+> > I think in the Linux kernel most drivers (of course including PCI
+> > ones)
+> > use DMA buffer in this way, which makes them natually compatible
+> > with
+> > non-coherent PCIe implementations. TTM is one of the few exceptions
+> > here.
+>=20
+> Yes and that is absolutely intentional.
+>=20
+> See we don't want to support any non-coherent PCIe implementation.
+>=20
 
-diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index 1a192a45961b..bfd025f8c7b5 100644
---- a/drivers/gpu/drm/display/Kconfig
-+++ b/drivers/gpu/drm/display/Kconfig
-@@ -9,6 +9,7 @@ config DRM_DISPLAY_HELPER
- config DRM_BRIDGE_CONNECTOR
- 	bool
- 	depends on DRM && DRM_BRIDGE && DRM_DISPLAY_HELPER
-+	select DRM_DISPLAY_HDMI_STATE_HELPER
- 	help
- 	  DRM connector implementation terminating DRM bridge chains.
- 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 0869b663f17e..7ebb35438459 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -216,8 +216,19 @@ static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
- 	}
- }
- 
-+static void drm_bridge_connector_reset(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+
-+	drm_atomic_helper_connector_reset(connector);
-+	if (bridge_connector->bridge_hdmi)
-+		__drm_atomic_helper_connector_hdmi_reset(connector,
-+							 connector->state);
-+}
-+
- static const struct drm_connector_funcs drm_bridge_connector_funcs = {
--	.reset = drm_atomic_helper_connector_reset,
-+	.reset = drm_bridge_connector_reset,
- 	.detect = drm_bridge_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+However, considering users exist for this setup, I here seriously hope
+the support to be gained since today.
 
--- 
-2.39.2
+> [SNIP]
+> > > And if I'm not completely mistaken the RISC-V specification was
+> > > also
+> > > updated to disallow stuff like this.
+> > >=20
+> > > So yes you can have boards which implement non-snooped PCIe, but
+> > > you
+> > > get
+> > > exactly zero support from hardware vendors to run software on it.
+> > >=20
+> > It's a quite usual case for free softwares to get no support from
+> > hardware vendors, and some of them are even developed by reverse
+> > engineering. I don't think it as a blocker for the Linux kernel to
+> > merge as many hardwares' support as possible.
+>=20
+> We seem to have a misunderstanding here, this is not a software
+> issue.=20
+> The hardware platform is considered broken by the hardware vendor!
+
+I don't think in this case Arm Ltd / RISC-V International is considered
+the vendor -- the SoC vendor is. You can rarely get support directly
+from the CPU ISA vendor (or CPU IP vendor, which differs mostly in the
+RISC-V situation) in the case a SoC or a final product with some SoC is
+purchased, and the SoC/product's vendor would rarely declare their
+hardware platform as broken.
+
+>=20
+> In other words people have stitched together hardware in a way which
+> is=20
+> not supported by the creator of that hardware.
+>=20
+> So as long as you can't convince anybody from ARM or the RISC-V team
+> or=20
+> whoever created that hardware to confirm that the hardware actually=20
+> works you won't get any support for that.
+
+The world isn't black-or-white, and the thing contradictory to
+"confirmed working" is "not confirmed working" instead of "confirmed
+not working". To get the thing really working (or prove it doesn't work
+at all by practice) is part of the traditional fun of a hacker.
+
+>=20
+> Regards,
+> Christian.
 
