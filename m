@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B609924AC1
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 23:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856C3924ABB
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 23:59:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1809F10E71C;
-	Tue,  2 Jul 2024 21:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C1710E715;
+	Tue,  2 Jul 2024 21:59:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hhM3yFaD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CiCrDpo3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
- [209.85.166.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E3610E716;
- Tue,  2 Jul 2024 21:59:28 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id
- ca18e2360f4ac-7f3c5af0a04so246308139f.0; 
- Tue, 02 Jul 2024 14:59:28 -0700 (PDT)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
+ [209.85.166.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6765F10E70C;
+ Tue,  2 Jul 2024 21:59:29 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id
+ ca18e2360f4ac-7f3cd802729so172629739f.1; 
+ Tue, 02 Jul 2024 14:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719957567; x=1720562367; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719957568; x=1720562368; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Wh8QJ3ROh21ShBzcCiOPzlcJgoRl8pzdhd6qJVNHlVY=;
- b=hhM3yFaDKvyqFCRUMjDRLrXRf8ck38pezthqRymwJAHgeDiCF9nziyK867489Ypbe+
- 80FD2c/kJN0XHA41sqL+QQdD25WFg7V9esVB6s52qKAeg0MJsf5q+eO72awwukYlmrcF
- rhGHnl7mZO8gNEt4vy4K6SRoyGCJqo640HXWknhfE3Kkbl1hD1SZfNDiZaRww9ZT0M03
- 2fzR47Sk/tg4V/0Knd2Hj3gGw8Waixc9eT1K/5ctkW7Ih3XzIuptzRzd05CV7C8u/p0J
- D95+w2TPuQKK7j36hizmvAIUfRTc5QG6nft6EvsBG1nXanIekZ4L9+QNivn7Sc1tfRWq
- MY7Q==
+ bh=oC5iipR2BEVxGSl/++A4yY4qqMQYODae2mcnPNjxpHM=;
+ b=CiCrDpo3BqPM9ru84OeEF3MTDWHhzPMCNVM4LIKFF44r1jCoR5DBNHxnlZW2HGCMlw
+ FxsHqcpn7hp+oRQBEKMhOdxthqTcXd5m07FLjquiizD66+CxnLDwb8wiop8QOAFqrKKT
+ RxJi8npxcyFs2n5P1CuV3/JSEi2YmZr/Zhgi1PPsBy1J0UgaCnvtSRWIJnpzQqMCkNhI
+ 2AYdgy/iH71vmABsrWhq973BRzXdjCywo5xSmMbsAE80tpsPoEfAEsT4ptRgmHTXyT+d
+ Jl5y2KDULeeTRLK2IdB0n8fLze44aJQCu6CwoN78NNqRFLHRE1kUmtHGRUyERYKu/LHV
+ Pd1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719957567; x=1720562367;
+ d=1e100.net; s=20230601; t=1719957568; x=1720562368;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Wh8QJ3ROh21ShBzcCiOPzlcJgoRl8pzdhd6qJVNHlVY=;
- b=WvlVeVFoGtJdXT4HZygasYX79ohXXm9FEs4Yh/iV9/K6Ks4SDUgAXYqgZHuABYsrmW
- 1MTnME6sDTTnSiXJvg2fwVZJaIvhaZssWR9owptSRPGeAfFQq22LGUTjGohmwVCg4Dap
- ePlohksi08Ep7HlnCAjs8FmeMD4AaZcP8ALXO5ztUDSBiT79zTPDs2UWstgOLyrLgi7+
- HOeppUrq44aCcKrGMJrjECaA/46KvkeJI116t0+riH50QIJfSQNF7Zleaim4qyxKiAwH
- DllXQosoA288Sy+6u11OEU0VCiPfpAPTJNIKIgrqcopY2vQiKjgpW+ReF971epGoQMeM
- uuuA==
+ bh=oC5iipR2BEVxGSl/++A4yY4qqMQYODae2mcnPNjxpHM=;
+ b=dhPjfw+w+afnsYYWTAT9TKPWRARpWIF1kCyD+9mEmUhDe6K8xvZikynpgJwR0Ud90q
+ SWqH4EJczLT6hkVDs7CNHDAvpi7suYNGKduvdWMi8Hp51qyyWM1dl99zFqnFhGBc8O/L
+ EPaAJpCpg5ZsJormglIQrC9UzWTOCk4KefosXE+s5As/ZDYIqpC5bbSUwcWMVXn4jcLy
+ XwrV1esW4fckGyBTT6YD/uVaOF0pUwGaxYME7IJ+UA2KXQfCQJBtAt5nwxIgaP4lcISr
+ fGrfDSxykNMQmopw0nnOo3VCqB+FiBbvblKgeuQO5ltmb/7VmSwVi872n8BtKe4vRTrB
+ AT/g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUBkaDUZumsaNrHrLRj1H23LxeUNPOiFzlmV+gRShJdiFhV3B0lG4FiIBZfLhG/rRYD6eJTLfQ/TIYMl1P7ySfOGxVKQWxQP6mTmt2pG2rzr/qPOj3bUgNj2rjaJvMh9m1VzWIiQfz90vgpgAawv9iwor2NbXB8SS/OhJiIvPgXaVgMc1oSDymesqeh4CG877A9q9AVGdobqjzfu18JdMEcho+LBQoaNXEPIe8Gy8V9Bx1nKvA=
-X-Gm-Message-State: AOJu0YxjzIfT/ag/OhjpxrZ8uzLOMNMRV3b1FUV4mqgVDJnTPEVojIq5
- 60oSX7ihWx+2gRs/LyxXNWLCycSx97s1FdeWH4R0MvmJuCce4iDn
-X-Google-Smtp-Source: AGHT+IH3xH7tho2sBM1GSeoWG+NM2MBhz/xyUPt2gcXQi9kj/rdgFoV4pSxxHWVcBZJh0cz14Ndmig==
-X-Received: by 2002:a6b:6514:0:b0:7f3:d5d3:3e56 with SMTP id
- ca18e2360f4ac-7f62ee8d268mr1165752739f.17.1719957567640; 
- Tue, 02 Jul 2024 14:59:27 -0700 (PDT)
+ AJvYcCUF1n+mHZf12zpKuQv1iyDx9jK4YI/ZvsC4IxMxLcEXfIAIu5/DBlQ2Pou13i474iRyWAHWIY8LEubnFQ4/1DgPVvlyiCuqYLV8nu9UpuGwuKUB789UckLQ+4qdZMEHnWO6lOUYekLPhFh9wVVAupBGk6d1GrnxePZHvnVGBzdLhoClzEFD+6v6eakrqvyAiB9Bo2R3EDZR7ithTTQhUDsyLtZo7kHSZHGEg+I6+OKejwCJmj0=
+X-Gm-Message-State: AOJu0YzqVejsXKu1XJGaxEjM4N5pkQyX+svYJlN7sGSJ+jz9PRGNMc3Q
+ W/MBsRDF2DnDh3QVo1m4LE/+mgJIejOd5+Q64WinAOMATS7/SOXM
+X-Google-Smtp-Source: AGHT+IGxhTOcr4ji5IFiskQTbP7XplIk6SNXi5lLsntoYpdRCPZ1vof9lF5GiOngaUP5FSepVU/KWA==
+X-Received: by 2002:a6b:5113:0:b0:7f4:861a:5e5f with SMTP id
+ ca18e2360f4ac-7f62eea3032mr999757239f.20.1719957568654; 
+ Tue, 02 Jul 2024 14:59:28 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- ca18e2360f4ac-7f61d207fcesm279944739f.51.2024.07.02.14.59.26
+ ca18e2360f4ac-7f61d207fcesm279944739f.51.2024.07.02.14.59.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jul 2024 14:59:27 -0700 (PDT)
+ Tue, 02 Jul 2024 14:59:28 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com, jbaron@akamai.com,
@@ -64,9 +64,9 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk, joe@perches.com,
  mcgrof@kernel.org, Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v9 47/53] drm-dyndbg: add DRM_CLASSMAP_USE to vkms driver
-Date: Tue,  2 Jul 2024 15:57:53 -0600
-Message-ID: <20240702215804.2201271-64-jim.cromie@gmail.com>
+Subject: [PATCH v9 48/52] drm-dyndbg: add DRM_CLASSMAP_USE to mgag200 driver
+Date: Tue,  2 Jul 2024 15:57:54 -0600
+Message-ID: <20240702215804.2201271-65-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240702215804.2201271-1-jim.cromie@gmail.com>
 References: <20240702215804.2201271-1-jim.cromie@gmail.com>
@@ -87,28 +87,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vkms driver has a number of DRM_UT_* debugs, make them
+The mgag200 driver has a number of DRM_UT_* debugs, make them
 controllable when CONFIG_DRM_USE_DYNAMIC_DEBUG=y by telling dyndbg
 that the module uses them.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
+ drivers/gpu/drm/mgag200/mgag200_drv.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index dd0af086e7fa..086797c4b82b 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -39,6 +39,8 @@
- 
- static struct vkms_config *default_config;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+index 573dbe256aa8..88c5e24cc894 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.c
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+@@ -25,6 +25,8 @@ static int mgag200_modeset = -1;
+ MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+ module_param_named(modeset, mgag200_modeset, int, 0400);
  
 +DRM_CLASSMAP_USE(drm_debug_classes);
 +
- static bool enable_cursor = true;
- module_param_named(enable_cursor, enable_cursor, bool, 0444);
- MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+ int mgag200_init_pci_options(struct pci_dev *pdev, u32 option, u32 option2)
+ {
+ 	struct device *dev = &pdev->dev;
 -- 
 2.45.2
 
