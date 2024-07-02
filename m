@@ -2,84 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A30923E38
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 14:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9C8923E51
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 15:02:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9110710E1B0;
-	Tue,  2 Jul 2024 12:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AAB710E029;
+	Tue,  2 Jul 2024 13:02:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RCkaUmP0";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="YrWlArJR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE63910E1AE;
- Tue,  2 Jul 2024 12:56:57 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-36786081ac8so338134f8f.0; 
- Tue, 02 Jul 2024 05:56:57 -0700 (PDT)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76B8B10E029
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 13:02:03 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-706b53ee183so3541300b3a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2024 06:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719925016; x=1720529816; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=X+in5BXb/vtFxcHIZXRWviluH0ffdCxEZJKwCycdffI=;
- b=RCkaUmP0XsjFf9zLcBn9trUi5ddW0HH6GdRVTm7DjcKSymmSua01Kz5yy0ePHrbBHs
- PXpH4jMDIrwPnwXA4jRVsCZq5j9to3ylR3aAPPCEZN4xM16CsSpzBDgJoscZvcF9+6Nl
- PIE/BmDf8Rqi2wAi6GXL0xBaG9BQ3E6fp+Zl3Ria5SmxAOxvQwWV1TB2Cylprj/YSaHa
- PfATNPoBVhRVzaUuOvwz6y/MjhN1/FBf5zeW/FK+wE/PRPoF0CDZoJz6q2PNeFOeQUBz
- NkVWVVTUdJ28sO5shTkF0h7fuFQzLkpUcmd+oi8un9ajKYRVgqlWdfSApTS+AFQLUtR4
- 0t0g==
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1719925323; x=1720530123; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qZtrnZ09n95IC/BfvYp8Bv1QvGg6hzmuOXjgAkx8r4U=;
+ b=YrWlArJRoHUvqjjV9j57BJ70d2j7cFPtb863+H/uAGfqsO+52XpoK3qQvFi6PqA3QP
+ KqT8U81U8DWOhBJRoQd2Rt0P+nqUse/oDOQvNV+/izA5KsLbNuw5Of0ONV3BDkyc60v2
+ +9eZFTcyPJeq9YcrM/BxCJCCMIPuBNhRiDBA9UJiTWAbYbHKnDN8faRbsaJdvv9TpGth
+ 6cZEL9M9zuwoc+uiTLAx4GYIkMLWjTaidiO6J1kWV+HMeOwRBHCjHoyo1T3VMW+JFUtz
+ edp1NTZJ4QwHJSuzitSAs+mmAwuG7RClgkHAHIicODq0dkyxylO2mZ38h9BCKRkzEVgv
+ Yy2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719925016; x=1720529816;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X+in5BXb/vtFxcHIZXRWviluH0ffdCxEZJKwCycdffI=;
- b=KykMg8gzbnuGdHpjLn1dadjPr8ZAODBp2oV2cFnR8HYWJddVHZLMpZQAPxnEydr2bH
- q7tIz3bOLA9vBnLNz+YGGEGzzFcxty0rkEqj/WwIGip8NTJuozzJmNnB7FS20X7HrnNt
- s3Xtmc663Y0AXhGVtpM2YWlB6VV+6KUP3/OXzWiLSH/h6kbZYC611scwjEJFq/cIR7xQ
- Vu6GTXoqm4ehC7wwvk0sFdpVKu5IgrZQ5HPdl2zBU4Lzpyxnju6oYVuMM6A0BorBI3sf
- M+kp32JJsNdF6bX8ynkHdVXU2H4vMQf7YEwbwdHXXJuDQtMsL09jwfGasNqSZF5Q9Ue4
- ZWgw==
+ d=1e100.net; s=20230601; t=1719925323; x=1720530123;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qZtrnZ09n95IC/BfvYp8Bv1QvGg6hzmuOXjgAkx8r4U=;
+ b=Px5P1oo5DwIYWF4l26dn601G66kQwIga1va5q9v53o+AwjAR6Gd4+9x69exWitcoIM
+ VaxYGtg6brijC0Lm8NiJkYG4UByFvb7ucduKmcypKPmqD3XcxVSTLzCgq/nW3i3vTH1o
+ 97WRa7lhxq9AOp6pm91bL/ajQxza3ciVUAd8eNrTu6jL+VDKmmnb/acuHC6TotuUOVum
+ oDYnlup0haUuJAxxT1+B5Wp0tVed/m4OMWkWHK2qbMXUEB9dW5+bYz2N1dhf4l7XAu6c
+ ZBYB+mVcAeTWjt3WppZfCrg6LJfQErsHWKg+pEAKDoMUV+rK4E+PVrYHoLS09sxtKVYw
+ J/tA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWcg3UqGGqHMidsmdZzy78ClftZ66qt6FA8rSX77aKIX+vF53t3P7nFLRpLLfxel9Kut+J9IaGk2XOI2FQva80vtOrPH/j/uej+u323698PJHZgcQLsPw4nPKya4vjYUV/5tbKBJXSYuuER0jsbgLi1
-X-Gm-Message-State: AOJu0Yz2BIeF5faxXAhQ4Tju0vne53XAutiD7pWH6HWwExgY4+DNRpBA
- 3QDazHYYhYdbvDjAo6MjRsp4vn8qUhhDj/NlvnxiXILyUJ3iXIPQ
-X-Google-Smtp-Source: AGHT+IH84ILGIU8atW89P0kwgpHmmjiN3dcdo+V/tPYzkg1LEi1HUO58sQ9arTekTI+CSIAsGWRiBA==
-X-Received: by 2002:a5d:66c8:0:b0:367:8c22:5b7a with SMTP id
- ffacd0b85a97d-3678c22645emr651852f8f.22.1719925016068; 
- Tue, 02 Jul 2024 05:56:56 -0700 (PDT)
-Received: from [192.168.0.20]
- (cpc115152-dals23-2-0-cust532.20-2.cable.virginm.net. [86.12.82.21])
+ AJvYcCUyHFBmcB2YEONSx6UJm+VR19LiKBtIirMxIK5HVA1r5UkHzUU7D/eTzXkcAwvEXExFo05t82y/Gc0wEXFemIjkLYXGH9ZLtkK1qmh3XiF1
+X-Gm-Message-State: AOJu0YyEKlXoNLWhcBsndrXd7SUp9ZagPPrlZJvq4cDlaHmqa3vF0NTl
+ QBd4LUGU77vHsXmvLxsKBc0dFyApzmvpytZ+lO5QytZ9Rxnto/mg3NTfeNWXV5w=
+X-Google-Smtp-Source: AGHT+IHHwOYQGp6vYM2oRjMRQI8gLSDsunWGnK1uML0DYGFvbUO9k1Pbtg8uL4+EUK2Pgm+LWhCk4Q==
+X-Received: by 2002:a05:6a21:339a:b0:1bc:e9ad:e736 with SMTP id
+ adf61e73a8af0-1bef610ce49mr13461970637.3.1719925321416; 
+ Tue, 02 Jul 2024 06:02:01 -0700 (PDT)
+Received: from yc.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3675a0fc429sm13145533f8f.68.2024.07.02.05.56.55
+ 41be03b00d2f7-72c6c8ec50csm6233111a12.59.2024.07.02.06.01.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jul 2024 05:56:55 -0700 (PDT)
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Tue, 02 Jul 2024 13:56:32 +0100
-Subject: [PATCH 3/3] drm/msm: Expose expanded UBWC config uapi
+ Tue, 02 Jul 2024 06:01:58 -0700 (PDT)
+From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@chromium.org, linus.walleij@linaro.org, swboyd@chromium.org,
+ airlied@gmail.com, dmitry.baryshkov@linaro.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org
+Cc: lvzhaoxiong@huaqin.corp-partner.google.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Subject: [PATCH v1 0/2] Support for Melfas lmfbx101117480 MIPI-DSI panel
+Date: Tue,  2 Jul 2024 21:01:36 +0800
+Message-Id: <20240702130138.2543711-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240702-msm-tiling-config-v1-3-adaa6a6e4523@gmail.com>
-References: <20240702-msm-tiling-config-v1-0-adaa6a6e4523@gmail.com>
-In-Reply-To: <20240702-msm-tiling-config-v1-0-adaa6a6e4523@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, Connor Abbott <cwabbott0@gmail.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719925012; l=1686;
- i=cwabbott0@gmail.com; s=20240426; h=from:subject:message-id;
- bh=NRBL4jAN6hjfyxISVZD05E8syLttrXlZkKCLenRZkDQ=;
- b=ybJ3mkt0VhbHWnNkEva9LM6fnRAIfBOe/JvuqLyV8GmE1VAGCnuyd6L7FvFBJF1sKK1ewOAyS
- QI8ZcVxNW06BSRcjrglzlINcKMAv/rm0OvXoqfU5Zn0vguUWawmRzqN
-X-Developer-Key: i=cwabbott0@gmail.com; a=ed25519;
- pk=dkpOeRSXLzVgqhy0Idr3nsBr4ranyERLMnoAgR4cHmY=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,46 +86,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds extra parameters that affect UBWC tiling that will be used by
-the Mesa implementation of VK_EXT_host_image_copy.
+Melfas lmfbx101117480 is a 10.1" WXGA TFT LCD panel with jadard-jd9365da
+controller, which fits in nicely with the existing panel-jadard-jd9365da-h3
+driver. Add compatible for melfas lmfbx101117480 in dt-bindings.
 
-Signed-off-by: Connor Abbott <cwabbott0@gmail.com>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 6 ++++++
- include/uapi/drm/msm_drm.h              | 2 ++
- 2 files changed, 8 insertions(+)
+Cong Yang (2):
+  dt-bindings: display: panel: Add compatible for melfas lmfbx101117480
+  drm/panel: jd9365da: Support for Melfas lmfbx101117480 MIPI-DSI panel
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 1c6626747b98..a4d3bc2de8df 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -379,6 +379,12 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 	case MSM_PARAM_RAYTRACING:
- 		*value = adreno_gpu->has_ray_tracing;
- 		return 0;
-+	case MSM_PARAM_UBWC_SWIZZLE:
-+		*value = adreno_gpu->ubwc_config.ubwc_swizzle;
-+		return 0;
-+	case MSM_PARAM_MACROTILE_MODE:
-+		*value = adreno_gpu->ubwc_config.macrotile_mode;
-+		return 0;
- 	default:
- 		DBG("%s: invalid param: %u", gpu->name, param);
- 		return -EINVAL;
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 3fca72f73861..2377147b6af0 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -88,6 +88,8 @@ struct drm_msm_timespec {
- #define MSM_PARAM_VA_SIZE    0x0f  /* RO: size of valid GPU iova range (bytes) */
- #define MSM_PARAM_HIGHEST_BANK_BIT 0x10 /* RO */
- #define MSM_PARAM_RAYTRACING 0x11 /* RO */
-+#define MSM_PARAM_UBWC_SWIZZLE 0x12 /* RO */
-+#define MSM_PARAM_MACROTILE_MODE 0x13 /* RO */
- 
- /* For backwards compat.  The original support for preemption was based on
-  * a single ring per priority level so # of priority levels equals the #
+ .../display/panel/jadard,jd9365da-h3.yaml     |   1 +
+ .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 246 ++++++++++++++++++
+ 2 files changed, 247 insertions(+)
 
 -- 
-2.31.1
+2.25.1
 
