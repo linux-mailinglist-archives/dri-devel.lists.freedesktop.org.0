@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00AD92488E
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 21:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BA89248A2
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2024 21:54:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B01610E676;
-	Tue,  2 Jul 2024 19:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 056C210E67D;
+	Tue,  2 Jul 2024 19:54:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Gn3N4xBd";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="HL6IuNUq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4910110E67B
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 19:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7Y/kIBa4MocqL5VsX4pa8YlTzbYsFHxrleMVSoRGylU=; b=Gn3N4xBdm+qM8pwbIk7A5brYm7
- LexsVZJ2whsJBS+iv3Ia2IW+LxgYzbSkz3gi0Zbtip7pmL3yAxQRAJ8Pe/ejdn3AKXwITEsy4NYUX
- C2vKGo/5jifhIwFVu8HuXl3D0UgDBdW1wfnCHj46j0lEF9YJQldF5U06WiRH7tw5N3KuziY6PI0dt
- HqE6LXEPstM4BUYS6lLqWwjMLoemkOMRlrpL324EFjEJ8fV10h7KuS2l/VnIFJ+XOLxkyizifp5oC
- Njsy0wi0DMtb2QkxqkX1bWiRj1DAEaVdJQn9qZdKZCU6rt/YzLC4Vb3E2v1mQeIkOewXf+gVdAj5y
- NjzTm7tQ==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sOjSK-00ARCD-DC; Tue, 02 Jul 2024 21:46:24 +0200
-Message-ID: <1e8b7043-b92f-4a91-8b71-48117a2da0c0@igalia.com>
-Date: Tue, 2 Jul 2024 16:46:12 -0300
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D772110E67B
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2024 19:54:04 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-7066c799382so3953303b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2024 12:54:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1719950044; x=1720554844;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WKspYi5W/ZdswDO7XlK4270UE9lyALCffo6kcOXsMuM=;
+ b=HL6IuNUqAi7Ku0MduXO/5mCNCidLCXmJJ62RIajhNd6jMmZQ3+HabJtALvhNn7F9K1
+ UHcEcBCZrrXBdNvj4yWWmjWz76rXXJ2F2E6JqyXsbxYHhqlh0szShE9cyoX6The+Fgsm
+ LBVZwvTyuPtt0HqDcrWaO2Bwx6gM+N5JDb5Kg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719950044; x=1720554844;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WKspYi5W/ZdswDO7XlK4270UE9lyALCffo6kcOXsMuM=;
+ b=sDm4XAkkFFoV8BbgPAertRzpmi0HTbAaXIUCNLEZQSMaKfHY0k2GsdIKpsBZFUnJEX
+ +8KX5Q378D4EXSObL9gBLmJ1qlXPmSeYhamaV86fMHFrxnLCi0vmH/+2rryct/fZtMuQ
+ u+LZ9EvoKaSJdv8JRjonmhkzf0v26R+noAbaMqgHzIOAdfd+uSJYW7Kni40uabJSFCp/
+ JiCHhBUXfAJWJY9Rct6rkoh0nC1j6IVlzwMx19WqtSKHCzMF72FoceqDBdka/4/bqhmw
+ wqGIT6+TTvuAHpUUZscs76MbB9xWiOESl/AdqylhUEJn5PfNU1XcTPl5t8hki+OVGyQ0
+ +kGw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXMQJfxFoZgXQe602vjvOsZZa8U2W8jXITJ//nmvaMsbt9g3l3lyQrQNtKrFTblldtCDTHZRq+krQjXadc1JEXeZ2v2R/IaAd03WYtEIIoz
+X-Gm-Message-State: AOJu0YzcyET++vSHKeGVz1xKl4pcR681zHS9gYfwP6Z9yrdLu8/+kOYx
+ +i0MfrlXkxSeLMSpas7oKO4b7opEBFaC3OiUgPNrmx3c36Zi/H/OrLNz6TEnIQ==
+X-Google-Smtp-Source: AGHT+IGr/ywyT1fL7IAiEfXuWrCa+C4TqGVSeEaEa1XLC/EhciWvQBg4NvyGFbfPDSRrWFyUziw1Gw==
+X-Received: by 2002:a05:6a00:2e93:b0:707:f9eb:34fc with SMTP id
+ d2e1a72fcca58-70aaaf39f9amr11851669b3a.29.1719950043989; 
+ Tue, 02 Jul 2024 12:54:03 -0700 (PDT)
+Received: from [10.211.41.59] ([66.170.99.2]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7080246e1d9sm8951553b3a.71.2024.07.02.12.54.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Jul 2024 12:54:03 -0700 (PDT)
+Message-ID: <340cb22d-464d-42d3-aebd-fe97878323b9@broadcom.com>
+Date: Tue, 2 Jul 2024 12:54:02 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/11] drm/vc4: hdmi: Handle error case of
- pm_runtime_resume_and_get
-To: Stefan Wahren <wahrenst@gmx.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Jassi Brar <jassisinghbrar@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Jiri Slaby <jirislaby@kernel.org>, Minas Harutyunyan <hminas@synopsys.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
- Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
-References: <20240630153652.318882-1-wahrenst@gmx.net>
- <20240630153652.318882-7-wahrenst@gmx.net>
+Subject: Re: [PATCH v3 0/4] Fix various buffer mapping/import issues
+To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
+ martin.krastev@broadcom.com
+References: <20240702021254.1610188-1-zack.rusin@broadcom.com>
+From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240630153652.318882-7-wahrenst@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240702021254.1610188-1-zack.rusin@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,61 +83,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/30/24 12:36, Stefan Wahren wrote:
-> The commit 0f5251339eda ("drm/vc4: hdmi: Make sure the controller is
-> powered in detect") introduced the necessary power management handling
-> to avoid register access while controller is powered down.
-> Unfortunately it just print a warning if pm_runtime_resume_and_get()
-> fails and proceed anyway.
+On 7/1/24 19:11, Zack Rusin wrote:
+> This small series fixes all known prime/dumb_buffer/buffer dirty
+> tracking issues. Fixing of dumb-buffers turned out to be a lot more
+> complex than I wanted it to be. There's not much that can be done
+> there because the driver has to support old userspace (our Xorg driver
+> expects those to not be gem buffers and special cases a bunch of
+> functionality) and new userspace (which expects the handles to be
+> gem buffers, at least to issue GEM_CLOSE).
 > 
-> This could happen during suspend to idle. So we must assume it is unsafe
-> to access the HDMI register. So bail out properly.
+> The third patch deals with it by making the objects returned from
+> dumb-buffers both (raw buffers and surfaces referenced by the same
+> handle), which always works and doesn't require any changes in userspace.
 > 
-> Fixes: 0f5251339eda ("drm/vc4: hdmi: Make sure the controller is powered in detect")
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> This fixes the known KDE (KWin's) buffer rendering issues.
+> 
+> v2: Fix compute_crc in the second patch, as spotted by Martin
+> v3: Simplify the first change which fixes the deadlock in the dma-buf
+> fence polling
+> 
+> Zack Rusin (4):
+>   drm/vmwgfx: Fix a deadlock in dma buf fence polling
+>   drm/vmwgfx: Make sure the screen surface is ref counted
+>   drm/vmwgfx: Fix handling of dumb buffers
+>   drm/vmwgfx: Add basic support for external buffers
+> 
+>  drivers/gpu/drm/vmwgfx/vmw_surface_cache.h |  10 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         | 127 +++---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h         |  15 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  40 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_fence.c      |  17 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c        |  62 ++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 453 +++++++--------------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.h        |  17 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c        |  14 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_prime.c      |  32 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_resource.c   |  27 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  33 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       | 145 +++----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c    | 277 ++++++++++++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c       |  40 +-
+>  15 files changed, 775 insertions(+), 534 deletions(-)
+> 
 
- From the docs, I see that `DRM_ERROR` was deprecated in favor of
-`pr_err()` (although I'm seeing some drivers using `dev_err()`). So,
-after this change, this is:
+For the series - LGTM!
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 
-It would be nice to have a follow-up patch changing other vc4 files,
-as they are using `DRM_ERROR` when returning the error from
-`pm_runtime_resume_and_get()`.
+Thanks,
 
-Best Regards,
-- Maíra
-
-> ---
->   drivers/gpu/drm/vc4/vc4_hdmi.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index d57c4a5948c8..b3a42b709718 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -429,6 +429,7 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
->   {
->   	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
->   	enum drm_connector_status status = connector_status_disconnected;
-> +	int ret;
-> 
->   	/*
->   	 * NOTE: This function should really take vc4_hdmi->mutex, but
-> @@ -441,7 +442,11 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
->   	 * the lock for now.
->   	 */
-> 
-> -	WARN_ON(pm_runtime_resume_and_get(&vc4_hdmi->pdev->dev));
-> +	ret = pm_runtime_resume_and_get(&vc4_hdmi->pdev->dev);
-> +	if (ret) {
-> +		DRM_ERROR("Failed to retain HDMI power domain: %d\n", ret);
-> +		return status;
-> +	}
-> 
->   	if (vc4_hdmi->hpd_gpio) {
->   		if (gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio))
-> --
-> 2.34.1
-> 
+Maaz Mombasawala <maaz.mombasawala@broadcom.com>
