@@ -2,54 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06869261AF
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 15:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2D69261BD
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 15:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD6F710E849;
-	Wed,  3 Jul 2024 13:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44AE010E036;
+	Wed,  3 Jul 2024 13:26:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lWtcybac";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OqDN//yE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E367E10E849
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 13:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1720012820;
- bh=NRq1qfIgPD2u6cT1j0/APC2DPBFEetcouNuEPTEwhUo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lWtcybac9l6OiKGnk1TexKAJwT11/vMjxjrrT8bvwImiov5gDBLydrks1t5+GgQJm
- aZ4As9mJUiaZlAE1fHwLLRscVlC/UqzVIVynMCrzkQioRYOGIVrjiJ7PnDic5n25ZQ
- FsWlRrOL3yLos/tn3E2cahdm+BUJVcpvOv/ACIi+1zzaR8SzWoGoa1zoGMIOUwWtBp
- 2fh+6pZTQ7euct9iiN0sb2posIhFEqFnWUdwq3jcEoVrPHicMpYz5BAF8KrI4c0UCV
- PSTPekzeCpL4SDJ177NBDDUHb+bECJOwXYkOygbe5P1ut5fIev5kkBjNFkeYLSXuTk
- 0R1uAqD1Oqcvw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id B3120378209B;
- Wed,  3 Jul 2024 13:20:19 +0000 (UTC)
-Date: Wed, 3 Jul 2024 15:20:18 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: dri-devel@lists.freedesktop.org, robh@kernel.org, steven.price@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, linux-kernel@vger.kernel.org, Diederik
- de Haas <didi.debian@cknow.org>, Furkan Kardame <f.kardame@manjaro.org>,
- stable@vger.kernel.org
-Subject: Re: [PATCH] drm/panfrost: Mark simple_ondemand governor as softdep
-Message-ID: <20240703152018.02e4e461@collabora.com>
-In-Reply-To: <f672e7460c92bc9e0c195804f7e99d0b@manjaro.org>
-References: <4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org>
- <f672e7460c92bc9e0c195804f7e99d0b@manjaro.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03B3D10E013
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 13:26:07 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-424acf3226fso41701625e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2024 06:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1720013165; x=1720617965; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z0rWeHO3BsGm6akvC+EgQ9xHnvFwapyoYVQZdRmU9M0=;
+ b=OqDN//yEIuRroQ/1tBlTvi0XB5FE/Z6bYFEMzjb7HPd3TFC1bz3zOU1LmLAZX96DMs
+ 7DM2EOdcLRQGW0ln8ru/Avc/TnE2mGN8zpmH/12FSEIBOCtgOCwgoTfuRmBj0RWm114P
+ VzIbhx/PL87sfi3EXHhFqt1drCzu93ZCdx5DFeYMA7SNasfm/Ru8vmK6hPVpwJvQI1wj
+ 0ybv0JVj1t/EuzPoSHEQTqEZg1k3iCMPDsDrW24nK4586Rxcp4Yt3ik3RnA1ffWN2mRy
+ G35fEGldjezbKOpVUyCgGIu9lSP4LV3rCTQLgnsgoXBoCu3cF5P6azxpVsLXUDHyKPqa
+ LRAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720013165; x=1720617965;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Z0rWeHO3BsGm6akvC+EgQ9xHnvFwapyoYVQZdRmU9M0=;
+ b=uIwTPkqiVVeEs4KJOrt0khy2VMtPaV64MIYN9nnv6iw2i/4FV1hHq5MModfCQK2EU4
+ E+oP1DWQLEm9Ls6tNAhmluDcewhhYmjf5cjfbfHgEAlwB/fY010C34TE1pqs+KjYadhu
+ jdvgiPKvMTJKr7tx3CFl7sWroxLAiOzzDXuJRqKLDQ53xnDXhj4vOOSP006l9w1biirZ
+ /pOOGwgGqRIwqwy4iq8nJRIBLI9ECdsKOMBYf1EcaU6YT/CDuH42tYWpdlhNBaiwpOxI
+ gWka9ZFfwSOMWMeiVkp+ySgFRrTS2qeSdCp3jC+4KaX8obGP5qo85TLW1SPg6F903yq+
+ yvLg==
+X-Gm-Message-State: AOJu0Yxmrtn74I4do9U7sdwjKUybI4UBGSkBfpojT00XqK9gmdvJngjs
+ 0ITD+QgZb1Mp7ierOy7/jqGqQY6n0jz44gN0zJkvlDb+U65OGIO5
+X-Google-Smtp-Source: AGHT+IE4GzvMhD0N/7NOZNMJyAZrW9TYyNiHkxqC5KB8UGOXAPG6Z5Fw2HfxtHxF97MrpvDjVIIu8A==
+X-Received: by 2002:a05:600c:474d:b0:425:670f:7d14 with SMTP id
+ 5b1f17b1804b1-4257a02f2f9mr79692185e9.20.1720013164516; 
+ Wed, 03 Jul 2024 06:26:04 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:1559:9300:5f5d:6303:9414:d3d])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4256af5ba51sm237197665e9.12.2024.07.03.06.26.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Jul 2024 06:26:04 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org
+Subject: Using drm_exec for TTMs BO eviction
+Date: Wed,  3 Jul 2024 15:25:57 +0200
+Message-Id: <20240703132602.4756-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,116 +81,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 03 Jul 2024 14:42:37 +0200
-Dragan Simic <dsimic@manjaro.org> wrote:
+Hi guys,
 
-> Hello everyone,
-> 
-> On 2024-06-17 22:17, Dragan Simic wrote:
-> > Panfrost DRM driver uses devfreq to perform DVFS, while using 
-> > simple_ondemand
-> > devfreq governor by default.  This causes driver initialization to fail 
-> > on
-> > boot when simple_ondemand governor isn't built into the kernel 
-> > statically,
-> > as a result of the missing module dependency and, consequently, the 
-> > required
-> > governor module not being included in the initial ramdisk.  Thus, let's 
-> > mark
-> > simple_ondemand governor as a softdep for Panfrost, to have its kernel 
-> > module
-> > included in the initial ramdisk.
-> > 
-> > This is a rather longstanding issue that has forced distributions to 
-> > build
-> > devfreq governors statically into their kernels, [1][2] or has forced 
-> > users
-> > to introduce some unnecessary workarounds. [3]
-> > 
-> > For future reference, not having support for the simple_ondemand 
-> > governor in
-> > the initial ramdisk produces errors in the kernel log similar to these 
-> > below,
-> > which were taken from a Pine64 RockPro64:
-> > 
-> >   panfrost ff9a0000.gpu: [drm:panfrost_devfreq_init [panfrost]]
-> > *ERROR* Couldn't initialize GPU devfreq
-> >   panfrost ff9a0000.gpu: Fatal error during GPU init
-> >   panfrost: probe of ff9a0000.gpu failed with error -22
-> > 
-> > Having simple_ondemand marked as a softdep for Panfrost may not resolve 
-> > this
-> > issue for all Linux distributions.  In particular, it will remain 
-> > unresolved
-> > for the distributions whose utilities for the initial ramdisk 
-> > generation do
-> > not handle the available softdep information [4] properly yet.  
-> > However, some
-> > Linux distributions already handle softdeps properly while generating 
-> > their
-> > initial ramdisks, [5] and this is a prerequisite step in the right 
-> > direction
-> > for the distributions that don't handle them properly yet.
-> > 
-> > [1] 
-> > https://gitlab.manjaro.org/manjaro-arm/packages/core/linux/-/blob/linux61/config?ref_type=heads#L8180
-> > [2] https://salsa.debian.org/kernel-team/linux/-/merge_requests/1066
-> > [3] https://forum.pine64.org/showthread.php?tid=15458
-> > [4] 
-> > https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?id=49d8e0b59052999de577ab732b719cfbeb89504d
-> > [5] 
-> > https://github.com/archlinux/mkinitcpio/commit/97ac4d37aae084a050be512f6d8f4489054668ad
-> > 
-> > Cc: Diederik de Haas <didi.debian@cknow.org>
-> > Cc: Furkan Kardame <f.kardame@manjaro.org>
-> > Cc: stable@vger.kernel.org
-> > Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
-> > Signed-off-by: Dragan Simic <dsimic@manjaro.org>  
-> 
-> Just checking, could this patch be accepted, please?
+We recently ran into a problem with deadlocks during eviction and while back Thomas worked on a patch set which was going into the direction of solving this.
 
-Yes, sorry for the delay. Here's my
+So I simplified it to just the functionality needed to resolve this issue at. The resulting patch set is just the initial first step of using drm_exec in TTM for locking BOs during eviction.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Should a deadlock happen the drm_exec object is now used to resolve it and prelock the contended object. This approach solves this the ENOMEM issue on contending evictions quite nicely.
 
-Steve, any objection?
+Please review and comment,
+Christian.
 
-> The Lima 
-> counterpart
-> has already been accepted. [6]
-> 
-> The approach in this patch is far from perfect, but it's still fine 
-> until
-> there's a better solution, such as harddeps.  I'll continue my research
-> about the possibility for introducing harddeps, which would hopefully
-> replace quite a few instances of the softdep (ab)use that already extend
-> rather far.  For example, have a look at the commit d5178578bcd4 (btrfs:
-> directly call into crypto framework for checksumming) [7] and the lines
-> containing MODULE_SOFTDEP() at the very end of fs/btrfs/super.c. [8]
-> 
-> If a filesystem driver can rely on the (ab)use of softdeps, which may be
-> fragile or seen as a bit wrong, I think we can follow the same approach,
-> at least until a better solution is available.
-> 
-> [6] 
-> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0c94f58cef319ad054fd909b3bf4b7d09c03e11c
-> [7] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5178578bcd4
-> [8] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/super.c#n2593
-> 
-> > ---
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > index ef9f6c0716d5..149737d7a07e 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > @@ -828,3 +828,4 @@ module_platform_driver(panfrost_driver);
-> >  MODULE_AUTHOR("Panfrost Project Developers");
-> >  MODULE_DESCRIPTION("Panfrost DRM Driver");
-> >  MODULE_LICENSE("GPL v2");
-> > +MODULE_SOFTDEP("pre: governor_simpleondemand");  
 
