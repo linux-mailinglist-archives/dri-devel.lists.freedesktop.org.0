@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A64926729
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 19:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D316F926727
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 19:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B35210E95C;
-	Wed,  3 Jul 2024 17:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEECF10E95A;
+	Wed,  3 Jul 2024 17:30:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="JUKvRuws";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="F0pBHuk3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8725610E953
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55B2910E94F
  for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 17:30:22 +0000 (UTC)
 X-Virus-Scanned: SPAM Filter at disroot.org
 From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1720027262; bh=ksrD/Tq/2rB6BgiXT3q4kCWNpwHrXVB98PTd7OrH8+0=;
+ t=1720027265; bh=xWhhT0PIpYdUYnVVPcuw6cE/PMXrJBxbisiuTpAxlE4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=JUKvRuwsm58Wyf+pe4kmSajuqBorUtZRpe6lldgQs05ks1mabIJDfer2quZqj+qoe
- qMFKuPKUwJvQr76JHrSRGTYN3626ix3sVgCQNqp2HF9N39+n3MUc8xsSY0aCCkOpod
- Me+5YZ7r+jQ5WQdOAU7KsjYxQwg2olXJzdNDZghXo2wrLsLKJhxE4wnT+0kWO3Fr3b
- l9sqm1QKv464sG7YLUGZCwAbHVo9v6zMeCtUvC/jOWJ2NNWA+NYQSeQ2U91w92djay
- g74I7teRnpWGcHg/310LVy3CS2lO86gF0FdVrwYIBf+7tUdb0VC9FiQ1HPjYIpX15m
- s0lyDeHQ6c8xQ==
+ b=F0pBHuk3ZSr0NX17Xo3XztlLiveFn6X/0/iHTp8UXZ9DTVtc7B6+NQgqellKN6/Os
+ YEy3cYj8ksYvKOsmxWn+21NqEFi9HPD9ynjJIDF92yMNl9mx0PqDtXuy3FqmwrdN8q
+ grvXdM6FTQlkDBwS8E0ebC1/Tz+iwgW0rXiRgxypBUoWlO7tWHq2TiUI4849OMV2Ri
+ rXrmxnVAa+nWuXrfSMUmbZE1M7OBmx3y3gJgN1zZnPMlhCXP46UQvUGWoSslxKKUsP
+ 4sOpSy98gvsP7LkkgLqwMzc/Fow40YIAMpVbaaVvGLvdE3qBQvE08rH4DTIozic2IK
+ c05soHWOgBcIw==
 To: dri-devel@lists.freedesktop.org
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -36,10 +36,10 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Arthur Grillo <arthurgrillo@riseup.net>,
  Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
  Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-Subject: [PATCH v3 1/9] drm/tests: Stop using deprecated dev_private member on
- drm_framebuffer tests
-Date: Wed,  3 Jul 2024 14:22:20 -0300
-Message-ID: <20240703172228.11166-2-gcarlos@disroot.org>
+Subject: [PATCH v3 2/9] drm/tests: Add parameters to the
+ drm_test_framebuffer_create test
+Date: Wed,  3 Jul 2024 14:22:21 -0300
+Message-ID: <20240703172228.11166-3-gcarlos@disroot.org>
 In-Reply-To: <20240703172228.11166-1-gcarlos@disroot.org>
 References: <20240703172228.11166-1-gcarlos@disroot.org>
 MIME-Version: 1.0
@@ -59,122 +59,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dev_private member of drm_device is deprecated and its use should
-be avoided. Stop using it by embedding the drm_device onto a mock struct.
-
-The new mock struct allows to share variables and even further mocks
-over the tests in a cleaner way than using dev_private void pointer.
-
-Also start using drm_kunit_helper_alloc_drm_device() for allocating
-the drm_device mock.
+Extend the existing test case to cover:
+1. Invalid flag atribute in the struct drm_mode_fb_cmd2.
+2. Pixel format which requires non-linear modifier with
+DRM_FORMAT_MOD_LINEAR set.
+3. Buffer offset for inexistent plane
 
 Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 ---
 v2:
-  - Start using drm_kunit_helper_alloc_drm_device() for drm_device mock.
-  - Rename struct drm_mock to drm_framebuffer_test_priv
+  - Remove strcpy to strscpy change.
 v3:
-  - Replace the use of void pointer on drm_framebuffer_test_priv struct.
-  - Document struct drm_framebuffer_test_priv here.
+  - Rename and commment the "Buffer offset for inexistent plane"
+    test case.
 ---
- drivers/gpu/drm/tests/drm_framebuffer_test.c | 54 ++++++++++++++------
- 1 file changed, 38 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/tests/drm_framebuffer_test.c | 27 ++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
 diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-index 06f03b78c9c4..3882a88b6631 100644
+index 3882a88b6631..3ed987423322 100644
 --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
 +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-@@ -8,8 +8,10 @@
- #include <kunit/test.h>
+@@ -21,6 +21,8 @@
+ #define MIN_HEIGHT 4
+ #define MAX_HEIGHT 4096
  
- #include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_mode.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_kunit_helpers.h>
- #include <drm/drm_print.h>
- 
- #include "../drm_crtc_internal.h"
-@@ -317,12 +319,25 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
++#define DRM_MODE_FB_INVALID BIT(2)
++
+ struct drm_framebuffer_test {
+ 	int buffer_created;
+ 	struct drm_mode_fb_cmd2 cmd;
+@@ -85,6 +87,24 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
+ 		 .pitches = { 4 * MAX_WIDTH, 0, 0 },
+ 	}
  },
- };
- 
++
 +/*
-+ * This struct is intended to provide a way to mocked functions communicate
-+ * with the outer test when it can't be achieved by using its return value. In
-+ * this way, the functions that receive the mocked drm_device, for example, can
-+ * grab a reference to this and actually return something to be used on some
-+ * expectation.
++ * All entries in members that represents per-plane values (@modifier, @handles,
++ * @pitches and @offsets) must be zero when unused.
 + */
-+struct drm_framebuffer_test_priv {
-+	struct drm_device dev;
-+	bool buffer_created;
-+};
++{ .buffer_created = 0, .name = "ABGR8888 Buffer offset for inexistent plane",
++	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_ABGR8888,
++		 .handles = { 1, 0, 0 }, .offsets = { UINT_MAX / 2, UINT_MAX / 2, 0 },
++		 .pitches = { 4 * MAX_WIDTH, 0, 0 }, .flags = DRM_MODE_FB_MODIFIERS,
++	}
++},
 +
- static struct drm_framebuffer *fb_create_mock(struct drm_device *dev,
- 					      struct drm_file *file_priv,
- 					      const struct drm_mode_fb_cmd2 *mode_cmd)
- {
--	int *buffer_created = dev->dev_private;
--	*buffer_created = 1;
-+	struct drm_framebuffer_test_priv *priv = container_of(dev, typeof(*priv), dev);
-+
-+	priv->buffer_created = true;
- 	return ERR_PTR(-EINVAL);
- }
- 
-@@ -332,30 +347,37 @@ static struct drm_mode_config_funcs mock_config_funcs = {
- 
- static int drm_framebuffer_test_init(struct kunit *test)
- {
--	struct drm_device *mock;
-+	struct device *parent;
-+	struct drm_framebuffer_test_priv *priv;
-+	struct drm_device *dev;
-+
-+	parent = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, parent);
- 
--	mock = kunit_kzalloc(test, sizeof(*mock), GFP_KERNEL);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mock);
-+	priv = drm_kunit_helper_alloc_drm_device(test, parent, typeof(*priv),
-+						 dev, 0);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
-+	dev = &priv->dev;
- 
--	mock->mode_config.min_width = MIN_WIDTH;
--	mock->mode_config.max_width = MAX_WIDTH;
--	mock->mode_config.min_height = MIN_HEIGHT;
--	mock->mode_config.max_height = MAX_HEIGHT;
--	mock->mode_config.funcs = &mock_config_funcs;
-+	dev->mode_config.min_width = MIN_WIDTH;
-+	dev->mode_config.max_width = MAX_WIDTH;
-+	dev->mode_config.min_height = MIN_HEIGHT;
-+	dev->mode_config.max_height = MAX_HEIGHT;
-+	dev->mode_config.funcs = &mock_config_funcs;
- 
--	test->priv = mock;
-+	test->priv = priv;
- 	return 0;
- }
- 
- static void drm_test_framebuffer_create(struct kunit *test)
- {
- 	const struct drm_framebuffer_test *params = test->param_value;
--	struct drm_device *mock = test->priv;
--	int buffer_created = 0;
-+	struct drm_framebuffer_test_priv *priv = test->priv;
-+	struct drm_device *dev = &priv->dev;
- 
--	mock->dev_private = &buffer_created;
--	drm_internal_framebuffer_create(mock, &params->cmd, NULL);
--	KUNIT_EXPECT_EQ(test, params->buffer_created, buffer_created);
-+	priv->buffer_created = false;
-+	drm_internal_framebuffer_create(dev, &params->cmd, NULL);
-+	KUNIT_EXPECT_EQ(test, params->buffer_created, priv->buffer_created);
- }
- 
- static void drm_framebuffer_test_to_desc(const struct drm_framebuffer_test *t, char *desc)
++{ .buffer_created = 0, .name = "ABGR8888 Invalid flag",
++	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_ABGR8888,
++		 .handles = { 1, 0, 0 }, .offsets = { UINT_MAX / 2, 0, 0 },
++		 .pitches = { 4 * MAX_WIDTH, 0, 0 }, .flags = DRM_MODE_FB_INVALID,
++	}
++},
+ { .buffer_created = 1, .name = "ABGR8888 Set DRM_MODE_FB_MODIFIERS without modifiers",
+ 	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_ABGR8888,
+ 		 .handles = { 1, 0, 0 }, .offsets = { UINT_MAX / 2, 0, 0 },
+@@ -264,6 +284,13 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
+ 		 .pitches = { MAX_WIDTH, DIV_ROUND_UP(MAX_WIDTH, 2), DIV_ROUND_UP(MAX_WIDTH, 2) },
+ 	}
+ },
++{ .buffer_created = 0, .name = "YUV420_10BIT Invalid modifier(DRM_FORMAT_MOD_LINEAR)",
++	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_YUV420_10BIT,
++		 .handles = { 1, 0, 0 }, .flags = DRM_MODE_FB_MODIFIERS,
++		 .modifier = { DRM_FORMAT_MOD_LINEAR, 0, 0 },
++		 .pitches = { MAX_WIDTH, 0, 0 },
++	}
++},
+ { .buffer_created = 1, .name = "X0L2 Normal sizes",
+ 	.cmd = { .width = 600, .height = 600, .pixel_format = DRM_FORMAT_X0L2,
+ 		 .handles = { 1, 0, 0 }, .pitches = { 1200, 0, 0 }
 -- 
 2.44.2
 
