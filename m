@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52FD924C87
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 02:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D417924CB7
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 02:20:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12FEB10E501;
-	Wed,  3 Jul 2024 00:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C27D10E6FA;
+	Wed,  3 Jul 2024 00:20:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YEan8Rfk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CiWEWXh/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA2EE10E501
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 00:01:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE6D710E6F9
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 00:20:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 14DB1CE10F8;
- Wed,  3 Jul 2024 00:01:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D9DAC116B1;
- Wed,  3 Jul 2024 00:01:01 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id BD7C2CE222A;
+ Wed,  3 Jul 2024 00:19:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65E2EC116B1;
+ Wed,  3 Jul 2024 00:19:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719964864;
- bh=XKl/c87Kbh0kGQurl6iORGiYsqlKqoMj55PIg6Hhs+w=;
+ s=k20201202; t=1719965997;
+ bh=SFsqNX+6slZmjSB86CGH3XB+ZErTnNT0rtJ8aW8Urz0=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=YEan8RfkgilOWFyp2YBV84OjOIwJGzT/QUvC9cDYBcMEDk3TkFMsLKBF9uaI3k5xL
- VuRhqA8zfpuwTfTremn1Lfy49x1I4pn78dNiE5Uq7TWWa07iyaYQ8YvBR1dEKp7iq9
- R8yV6YrR+Bx6zfN/DLN1ph361m7q21kuqTq2IWDYRcEx+PK8fzGBhlBa+m2Iuhwjpm
- mwfsiW4c8qZKDNcJ5vH8oJbtiPsmoDQqn1zNuPfURkcMB754p/Mq6D5tJ259L8hyQt
- sCs/eeFQOdzPHAvWPBmULTvr0ubVHTK0ab9EbJ4JPA4n4p+tQfgDYM78M/M/ETPmmp
- 88qK4oQsV+OkQ==
-Date: Tue, 2 Jul 2024 17:01:00 -0700
+ b=CiWEWXh/UkVNmeAUfZXdtG67Y1o49S9dbYoJ0d6QyE8RKvUU9FNdAKA2NUpPNV9PI
+ bN41jqlN514pW/0dqfjftsE6C1Wl/gey08FMJGlkX+FEtsrqOG6Jrd7wYaZw5oGVTx
+ BPvwt9pjrvgo8hMtjSWSZHjpQQHjRa5AT89glk/nTXEwMu2EjQMrv0D2h/Bq3/aR0s
+ duFLcXIui+tre++3IefsnC8WBEUTIIqVuvE2wFaj0m/deieFGTvZAwznVeS92uKcJf
+ +Hk8u3LzmuanxtVkpELuHg4qBKIfgdn5+Jkie18lSYvYRX44x/THC6zycH2Ald7Tli
+ 4Ls+aEZ227geg==
+Date: Tue, 2 Jul 2024 17:19:53 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -67,12 +67,13 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
  Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
  Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>
-Subject: Re: [PATCH net-next v15 01/14] netdev: add netdev_rx_queue_restart()
-Message-ID: <20240702170100.66783656@kernel.org>
-In-Reply-To: <20240628003253.1694510-2-almasrymina@google.com>
+ <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
+Subject: Re: [PATCH net-next v15 02/14] net: netdev netlink api to bind
+ dma-buf to a net device
+Message-ID: <20240702171953.00886d5a@kernel.org>
+In-Reply-To: <20240628003253.1694510-3-almasrymina@google.com>
 References: <20240628003253.1694510-1-almasrymina@google.com>
- <20240628003253.1694510-2-almasrymina@google.com>
+ <20240628003253.1694510-3-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -91,11 +92,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Jun 2024 00:32:38 +0000 Mina Almasry wrote:
-> Add netdev_rx_queue_restart() function to netdev_rx_queue.h
+On Fri, 28 Jun 2024 00:32:39 +0000 Mina Almasry wrote:
+> API takes the dma-buf fd as input, and binds it to the netdevice. The
+> user can specify the rx queues to bind the dma-buf to.
 > 
-> Signed-off-by: David Wei <dw@davidwei.uk>
+> Suggested-by: Stanislav Fomichev <sdf@google.com>
 > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+> diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+> index 959755be4d7f9..899ac0882a098 100644
+> --- a/Documentation/netlink/specs/netdev.yaml
+> +++ b/Documentation/netlink/specs/netdev.yaml
+> @@ -268,6 +268,45 @@ attribute-sets:
+>          name: napi-id
+>          doc: ID of the NAPI instance which services this queue.
+>          type: u32
+> +  -
+> +    name: queue-dmabuf
+> +    attributes:
+> +      -
+> +        name: type
+> +        doc: rx or tx queue
+> +        type: u8
+> +        enum: queue-type
+> +      -
+> +        name: idx
+> +        doc: queue index
+> +        type: u32
+
+u8 is a waste of space, since attrs are rounded up to 4B
+and we don't use "idx"
+
+How about we use a subset of queue attrs?
+
+	name: queue-id
+	subset-of: queue
+	attributes:
+	  -
+	    name: id
+	  -
+	    name: type
+
+> +  -
+> +    name: bind-dmabuf
+
+The naming is a bit too command specific, how about pp-buf ?
+Or just dmabuf ?
+
+> +    attributes:
+> +      -
+> +        name: ifindex
+> +        doc: netdev ifindex to bind the dma-buf to.
+> +        type: u32
+> +        checks:
+> +          min: 1
+> +      -
+> +        name: queues
+> +        doc: receive queues to bind the dma-buf to.
+> +        type: nest
+> +        nested-attributes: queue-dmabuf
+> +        multi-attr: true
+> +      -
+> +        name: dmabuf-fd
+> +        doc: dmabuf file descriptor to bind.
+> +        type: u32
+> +      -
+> +        name: dmabuf-id
+> +        doc: id of the dmabuf binding
+> +        type: u32
+> +        checks:
+> +          min: 1
+> +
+
+We need some form of introspection. Can we add both in the queue dump
+and page pool dump some info (dmabuf-id?) to indicate there is a DMABUF
+bound to the queue / page pool?
+
+>    -
+>      name: qstats
+> @@ -579,6 +618,20 @@ operations:
+>            attributes:
+>              - ifindex
+>          reply: *queue-get-op
+> +    -
+> +      name: bind-rx
+> +      doc: Bind dmabuf to netdev
+> +      attribute-set: bind-dmabuf
+> +      flags: [ admin-perm ]
+> +      do:
+> +        request:
+> +          attributes:
+> +            - ifindex
+> +            - dmabuf-fd
+> +            - queues
+> +        reply:
+> +          attributes:
+> +            - dmabuf-id
+
+The ops end up getting rendered as an enum, so the ordering matters.
+You can't insert in the middle without breaking uAPI.
+For attribute sets (which you also added before qstat) it technically
+doesn't matter but would be good to have them in order to match ops.
+
+> diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
+> index 43742ac5b00da..190a504a62358 100644
+> --- a/include/uapi/linux/netdev.h
+> +++ b/include/uapi/linux/netdev.h
+> @@ -136,6 +136,24 @@ enum {
+>  	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
+>  };
+>  
+> +enum {
+> +	NETDEV_A_QUEUE_DMABUF_TYPE = 1,
+> +	NETDEV_A_QUEUE_DMABUF_IDX,
+> +
+> +	__NETDEV_A_QUEUE_DMABUF_MAX,
+> +	NETDEV_A_QUEUE_DMABUF_MAX = (__NETDEV_A_QUEUE_DMABUF_MAX - 1)
+> +};
+> +
+> +enum {
+> +	NETDEV_A_BIND_DMABUF_IFINDEX = 1,
+> +	NETDEV_A_BIND_DMABUF_QUEUES,
+> +	NETDEV_A_BIND_DMABUF_DMABUF_FD,
+> +	NETDEV_A_BIND_DMABUF_DMABUF_ID,
+
+This does look kinda repetitive, maybe let's drop the dmabuf from attr
+names?
+
+> +	__NETDEV_A_BIND_DMABUF_MAX,
+> +	NETDEV_A_BIND_DMABUF_MAX = (__NETDEV_A_BIND_DMABUF_MAX - 1)
+> +};
