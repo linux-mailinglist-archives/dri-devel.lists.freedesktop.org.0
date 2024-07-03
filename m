@@ -2,84 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C88E925A15
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 12:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D01925B08
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 13:05:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C410210E77E;
-	Wed,  3 Jul 2024 10:54:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NOXxJC9B";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 583FE89358;
+	Wed,  3 Jul 2024 11:05:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F06D10E791;
- Wed,  3 Jul 2024 10:54:06 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2ebe40673e8so63648691fa.3; 
- Wed, 03 Jul 2024 03:54:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720004044; x=1720608844; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=X+in5BXb/vtFxcHIZXRWviluH0ffdCxEZJKwCycdffI=;
- b=NOXxJC9B1TmND8obaP+M3r7NueNvnc+D83yAZ7AVGBLk0nUAB6DG9kqU3OQc3BG6a6
- y0gEPT9m3CMNe6911OUOXI7XmZ3wjSQPVPjCIbvO54W8aZoBzHBZvCpEGLY+/CCiMm1M
- ACJ+DBDnFkVi+PAxFHDSeAGVJ42zj5Zeci76IkiqFJBlIKhTzW6UaUADoWYiNvfdk23f
- DNCV9hCov7Tf+poLQ5sFPBALQoavrezB5RYmQ+eLiNCmmmmUyY5SQHwkrtQoh2yRgPYJ
- Y5xyYZ0R4tnmzBOBO2iLKEJea8wsdUiUlVllMv7a6mli41iOi+mc5sx8OMW2XwNK4yRE
- VDcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720004044; x=1720608844;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X+in5BXb/vtFxcHIZXRWviluH0ffdCxEZJKwCycdffI=;
- b=OYQEnBQB6kIHSkligEhBei1VdaiEoykqruwjn1StfcGHgmr83eXPCRdxX/Mo8KnIUh
- Y7/eq4qD8clkG5i749waWlRZ0LR60DMHehNiA9Wf0SeCWZAnV8KPMOifG5A8xoWoWNmb
- ZgmC7YVJL9EU8Of+r77xhV3/pbavE/cc4cIhTw/ZTw15KZgR6CEXrWUmGizMWNTgRhLh
- j7UOdze5jch5KioKFOImSb346Ls0Z3c9bLHXgmJnhgHxm41d7Ozy7iE5GRtGEcWHqlhA
- c9Nu620BK2uVPKlnWwWNkOkUNCnQtzMbgXYilf6BcwDbD1jhP6az5fqy2DuUT1ni+e08
- 1eGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUThOe3xV3nQAMMKGvzVq+7dk4IdC5d0sUwC5cU3Y9XE52aGYpz/ElWbt+d+xFgM3Fm0ja6Z3s5EjaOSKM1exeXoOr8NqBCaJAPmYMbFiatZqLFYZ5Quz/zWyFS7fNz+sfSdHqFDa+LbsG6ZXIcpGC5
-X-Gm-Message-State: AOJu0Yx08x2UmlEeQ4HLPe/h4PcSK8gNnQcpqGfdcEdssHE58e/SIrg8
- UNFYAXDbz80J4BwEcmymnAsEj2v5AicKa1PWyrjsDCzmSjofM82Ukbrh16f7
-X-Google-Smtp-Source: AGHT+IGkQhYp6C4iCdcLdDXmR0eESMCPMl+aTQRH6S1hhLyjnuBSp92V5VZ53UeIKqFXa98xzrHVjQ==
-X-Received: by 2002:a2e:b169:0:b0:2ee:8817:422b with SMTP id
- 38308e7fff4ca-2ee8817435emr4552951fa.19.1720004043456; 
- Wed, 03 Jul 2024 03:54:03 -0700 (PDT)
-Received: from [192.168.0.20]
- (cpc115152-dals23-2-0-cust532.20-2.cable.virginm.net. [86.12.82.21])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3675a0d9b1dsm15644879f8f.42.2024.07.03.03.54.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jul 2024 03:54:03 -0700 (PDT)
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Wed, 03 Jul 2024 11:53:49 +0100
-Subject: [PATCH v2 3/3] drm/msm: Expose expanded UBWC config uapi
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6B9D10E7B4
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 11:05:16 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sOxnN-0004XG-5j; Wed, 03 Jul 2024 13:05:05 +0200
+Message-ID: <16fdbb7214ac409fd447575daf8d2c8ee2fbf02e.camel@pengutronix.de>
+Subject: Re: [PATCH v5 3/4] drm/sched: trace dependencies for gpu jobs
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com, 
+ matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org,  tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch,  dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com,  rostedt@goodmis.org
+Date: Wed, 03 Jul 2024 13:05:02 +0200
+In-Reply-To: <20240614081657.408397-4-pierre-eric.pelloux-prayer@amd.com>
+References: <20240614081657.408397-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240614081657.408397-4-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240703-msm-tiling-config-v2-3-b9da29ab6608@gmail.com>
-References: <20240703-msm-tiling-config-v2-0-b9da29ab6608@gmail.com>
-In-Reply-To: <20240703-msm-tiling-config-v2-0-b9da29ab6608@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, Connor Abbott <cwabbott0@gmail.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1720004038; l=1686;
- i=cwabbott0@gmail.com; s=20240426; h=from:subject:message-id;
- bh=NRBL4jAN6hjfyxISVZD05E8syLttrXlZkKCLenRZkDQ=;
- b=uOMD0cQHXWYYxQeOFr04/892ck5b1ocEmyn8AQq69zm16OKeU85kklfqTCge7b1j1knvXHGK9
- i3zfAdgB7EvBAenyVHWZ44zjKbL20RNSaqmk08J4cUdCWs+BruErspQ
-X-Developer-Key: i=cwabbott0@gmail.com; a=ed25519;
- pk=dkpOeRSXLzVgqhy0Idr3nsBr4ranyERLMnoAgR4cHmY=
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,46 +55,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds extra parameters that affect UBWC tiling that will be used by
-the Mesa implementation of VK_EXT_host_image_copy.
+Am Freitag, dem 14.06.2024 um 10:16 +0200 schrieb Pierre-Eric Pelloux-
+Prayer:
+> Trace the fence dependencies similarly to how we print fences:
+>=20
+>  ... , dependencies:{(context:606, seqno:38006)}
+>=20
+> This allows tools to analyze the dependencies between the jobs (previousl=
+y
+> it was only possible for fences traced by drm_sched_job_wait_dep).
+>=20
+> Since drm_sched_job and drm_run_job use the same base event class,
+> the caller of trace_drm_run_job have to pass a dep_count of 0 (which
+> is ignored because dependencies are only considered at submit time).
+>=20
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd=
+.com>
+> ---
+>  .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 59 ++++++++++++++++---
+>  drivers/gpu/drm/scheduler/sched_entity.c      |  8 ++-
+>  drivers/gpu/drm/scheduler/sched_main.c        |  2 +-
+>  3 files changed, 58 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gp=
+u/drm/scheduler/gpu_scheduler_trace.h
+> index f6da377cdb99..0abcad26839c 100644
+> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> @@ -26,15 +26,41 @@
+> =20
+>  #include <linux/stringify.h>
+>  #include <linux/types.h>
+> +#include <linux/trace_seq.h>
+>  #include <linux/tracepoint.h>
+> =20
+>  #undef TRACE_SYSTEM
+>  #define TRACE_SYSTEM gpu_scheduler
+>  #define TRACE_INCLUDE_FILE gpu_scheduler_trace
+> =20
+> +#ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+> +#define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+> +/* Similar to trace_print_array_seq but for fences. */
+> +static inline const char *__print_dma_fence_array(struct trace_seq *p, c=
+onst void *buf, int count)
+> +{
+> +	const char *ret =3D trace_seq_buffer_ptr(p);
+> +	u64 *fences =3D (u64 *) buf;
+> +	const char *prefix =3D "";
+> +
+> +	trace_seq_putc(p, '{');
+> +	for (int i =3D 0; i < count; i++) {
+> +		u64 context =3D fences[2 * i], seqno =3D fences[2 * i + 1];
+> +
+> +		trace_seq_printf(p, "%s(context:%llu, seqno:%lld)",
+> +				 prefix, context, seqno);
+> +		prefix =3D ",";
+> +	}
+> +	trace_seq_putc(p, '}');
+> +	trace_seq_putc(p, 0);
+> +
+> +	return ret;
+> +}
+> +#endif
+> +
+>  DECLARE_EVENT_CLASS(drm_sched_job,
+> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *=
+entity),
+> -	    TP_ARGS(sched_job, entity),
+> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *=
+entity,
+> +		     unsigned int dep_count),
+> +	    TP_ARGS(sched_job, entity, dep_count),
+>  	    TP_STRUCT__entry(
+>  			     __string(name, sched_job->sched->name)
+>  			     __field(uint64_t, id)
+> @@ -43,9 +69,14 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+>  			     __string(dev, dev_name(sched_job->sched->dev))
+>  			     __field(uint64_t, fence_context)
+>  			     __field(uint64_t, fence_seqno)
+> +			     __field(int, n_deps)
+> +			     __dynamic_array(u64, deps, dep_count * 2)
+>  			     ),
+> =20
+>  	    TP_fast_assign(
+> +			   unsigned long idx;
+> +			   struct dma_fence *fence;
+> +			   u64 *dyn_arr;
+>  			   __entry->id =3D sched_job->id;
+>  			   __assign_str(name);
+>  			   __entry->job_count =3D spsc_queue_count(&entity->job_queue);
+> @@ -54,22 +85,32 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+>  			   __assign_str(dev);
+>  			   __entry->fence_context =3D sched_job->s_fence->finished.context;
+>  			   __entry->fence_seqno =3D sched_job->s_fence->finished.seqno;
+> -
+> +			   __entry->n_deps =3D dep_count;
+> +			   if (dep_count) {
+> +				dyn_arr =3D __get_dynamic_array(deps);
+> +				xa_for_each(&sched_job->dependencies, idx, fence) {
+> +					dyn_arr[2 * idx] =3D fence->context;
+> +					dyn_arr[2 * idx + 1] =3D fence->seqno;
+> +				}
+> +			   }
+>  			   ),
+> -	    TP_printk("id=3D%llu, fence=3D(context:%llu, seqno:%lld), ring=3D%s=
+, job count:%u, hw job count:%d",
+> +	    TP_printk("id=3D%llu, fence=3D(context:%llu, seqno:%lld), ring=3D%s=
+, job count:%u, hw job count:%d, dependencies:%s",
+>  		      __entry->id,
+>  		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
+> -		      __entry->job_count, __entry->hw_job_count)
+> +		      __entry->job_count, __entry->hw_job_count,
+> +		      __print_dma_fence_array(p, __get_dynamic_array(deps), __entry->n=
+_deps))
+>  );
+> =20
+>  DEFINE_EVENT(drm_sched_job, drm_sched_job,
+> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *=
+entity),
+> -	    TP_ARGS(sched_job, entity)
+> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *=
+entity,
+> +		     unsigned int dep_count),
+> +	    TP_ARGS(sched_job, entity, dep_count)
+>  );
+> =20
+>  DEFINE_EVENT_PRINT(drm_sched_job, drm_run_job,
+> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *=
+entity),
+> -	    TP_ARGS(sched_job, entity),
+> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *=
+entity,
+> +		     unsigned int dep_count),
+> +	    TP_ARGS(sched_job, entity, 0),
+>  	    TP_printk("dev=3D%s, id=3D%llu, fence=3D(context:%llu, seqno:%lld),=
+ ring=3D%s, job count:%u, hw job count:%d",
+>  		      __get_str(dev), __entry->id,
+>  		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
+cheduler/sched_entity.c
+> index 58c8161289fe..aa33a9d29b14 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -583,7 +583,13 @@ void drm_sched_entity_push_job(struct drm_sched_job =
+*sched_job)
+>  	bool first;
+>  	ktime_t submit_ts;
+> =20
+> -	trace_drm_sched_job(sched_job, entity);
+> +	if (trace_drm_sched_job_enabled()) {
+> +		unsigned long index;
+> +		void *f;
+> +
+> +		xa_for_each(&sched_job->dependencies, index, f) { }
 
-Signed-off-by: Connor Abbott <cwabbott0@gmail.com>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 6 ++++++
- include/uapi/drm/msm_drm.h              | 2 ++
- 2 files changed, 8 insertions(+)
+I did need to do a double take on that one. While using index for the
+total number of dependencies is correct for the dense and at this point
+in time fully populated dependencies array, it is a bit non-obvious.
+Maybe add a small comment here or have an actual counter in the loop
+body?
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 1c6626747b98..a4d3bc2de8df 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -379,6 +379,12 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 	case MSM_PARAM_RAYTRACING:
- 		*value = adreno_gpu->has_ray_tracing;
- 		return 0;
-+	case MSM_PARAM_UBWC_SWIZZLE:
-+		*value = adreno_gpu->ubwc_config.ubwc_swizzle;
-+		return 0;
-+	case MSM_PARAM_MACROTILE_MODE:
-+		*value = adreno_gpu->ubwc_config.macrotile_mode;
-+		return 0;
- 	default:
- 		DBG("%s: invalid param: %u", gpu->name, param);
- 		return -EINVAL;
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 3fca72f73861..2377147b6af0 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -88,6 +88,8 @@ struct drm_msm_timespec {
- #define MSM_PARAM_VA_SIZE    0x0f  /* RO: size of valid GPU iova range (bytes) */
- #define MSM_PARAM_HIGHEST_BANK_BIT 0x10 /* RO */
- #define MSM_PARAM_RAYTRACING 0x11 /* RO */
-+#define MSM_PARAM_UBWC_SWIZZLE 0x12 /* RO */
-+#define MSM_PARAM_MACROTILE_MODE 0x13 /* RO */
- 
- /* For backwards compat.  The original support for preemption was based on
-  * a single ring per priority level so # of priority levels equals the #
+Regards,
+Lucas
 
--- 
-2.31.1
+> +		trace_drm_sched_job(sched_job, entity, index);
+> +	}
+>  	atomic_inc(entity->rq->sched->score);
+>  	WRITE_ONCE(entity->last_user, current->group_leader);
+> =20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 7e90c9f95611..0bc9b7b24b34 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1201,7 +1201,7 @@ static void drm_sched_run_job_work(struct work_stru=
+ct *w)
+>  	atomic_add(sched_job->credits, &sched->credit_count);
+>  	drm_sched_job_begin(sched_job);
+> =20
+> -	trace_drm_run_job(sched_job, entity);
+> +	trace_drm_run_job(sched_job, entity, 0);
+>  	fence =3D sched->ops->run_job(sched_job);
+>  	complete_all(&entity->entity_idle);
+>  	drm_sched_fence_scheduled(s_fence, fence);
 
