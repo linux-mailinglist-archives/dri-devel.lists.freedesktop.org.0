@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CB59260AE
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 14:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7769260B7
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 14:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00BCE10E7D5;
-	Wed,  3 Jul 2024 12:42:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 778BF10E7D9;
+	Wed,  3 Jul 2024 12:43:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="joYWoJIL";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="A87AfaT3";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="dkrbfJpB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC8810E7D5
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 12:42:42 +0000 (UTC)
+Received: from bunu.damsy.net (bunu.damsy.net [51.159.160.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF8510E7D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 12:43:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202404r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1720010599;
+ bh=SxuCnm3/kgBzTMSgDET5g9P
+ B8H9cZFHQ6AGT4WgbFuM=; b=A87AfaT3hvBd1yoc5G319FqSChBLYo3ySr6jB/YJmyFrHdv7D/
+ 0yHLUrkJwiwGK3RIbjq6wdXghmKha9sFs6w/jkjEevFuLhHQJ6sbQL0Z+aQSabpBKD9cjTQ6V2l
+ FnOWHkzq0VpWZOWDxlsVrqkNfdb7LMYzGcxzICxukvWU5vdMCoN7iifCaug7uFZ8eey68h7/6fO
+ xiMHDz4AsN16ylQPl1nAWiiihO+cF+xtjP6cB4juMpZ6WrmzboFxB71Nh84UlmhOP56HoUAKb7+
+ Nkzbe0RTnmVHDWgYHud+1m4Pk63azlrJ1t6EjMS0axBqhSVCrkz2foZscNmS19BV9HA==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202404e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1720010599; bh=SxuCnm3/kgBzTMSgDET5g9P
+ B8H9cZFHQ6AGT4WgbFuM=; b=dkrbfJpBunyDleQjTNL34gRpVmZYP6WNc2KVmllg6uKI1gZ+Ca
+ 5PfTKT0evIeJrOmFpqj3txYbpF45qhEkTXDA==;
+Message-ID: <76485a0b-e11d-4c35-b0a5-5268b196d3e8@damsy.net>
+Date: Wed, 3 Jul 2024 14:43:18 +0200
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1720010560;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3oNe79QFYy0BsgqHNRdTuV4KBXJ2XwhFBof2yObhRJQ=;
- b=joYWoJILWQcLuVUoMWuHU+2kafxCfq51hIeDwC3CDaRgCIKFzfbT1x+DK57xH+WsoxMc9H
- 03PQ57rwOw+1z8zxII+rk7yeL/Ev2uhX0X3rMQjwmDECu4tXf5xYGScIrmPaoaeSzapSkL
- 8O8vWZBJ+qqv5cKZvs7UxZ1L47D1FuzcQO9GEt0abtVAgY/0lLYS6xORI7GcoI3lBNTBp6
- KBKXTU2ctDnpGRCp+Kc1pTegYcKzO0+DPWdbVv+v3uvoT6iGddIw+aAcRCNH48TzNxRABP
- fu6H2NSCFY5hwHV5lyzo6BjLLoTONDf/NG4/CgD9GYGYuDL3O30/2fEUyORAXA==
-Date: Wed, 03 Jul 2024 14:42:37 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: dri-devel@lists.freedesktop.org
-Cc: boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, linux-kernel@vger.kernel.org, Diederik
- de Haas <didi.debian@cknow.org>, Furkan Kardame <f.kardame@manjaro.org>,
- stable@vger.kernel.org
-Subject: Re: [PATCH] drm/panfrost: Mark simple_ondemand governor as softdep
-In-Reply-To: <4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org>
-References: <4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org>
-Message-ID: <f672e7460c92bc9e0c195804f7e99d0b@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] drm/sched: trace dependencies for gpu jobs
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
+ matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+ rostedt@goodmis.org
+References: <20240614081657.408397-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240614081657.408397-4-pierre-eric.pelloux-prayer@amd.com>
+ <16fdbb7214ac409fd447575daf8d2c8ee2fbf02e.camel@pengutronix.de>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <16fdbb7214ac409fd447575daf8d2c8ee2fbf02e.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,104 +64,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello everyone,
 
-On 2024-06-17 22:17, Dragan Simic wrote:
-> Panfrost DRM driver uses devfreq to perform DVFS, while using 
-> simple_ondemand
-> devfreq governor by default.  This causes driver initialization to fail 
-> on
-> boot when simple_ondemand governor isn't built into the kernel 
-> statically,
-> as a result of the missing module dependency and, consequently, the 
-> required
-> governor module not being included in the initial ramdisk.  Thus, let's 
-> mark
-> simple_ondemand governor as a softdep for Panfrost, to have its kernel 
-> module
-> included in the initial ramdisk.
-> 
-> This is a rather longstanding issue that has forced distributions to 
-> build
-> devfreq governors statically into their kernels, [1][2] or has forced 
-> users
-> to introduce some unnecessary workarounds. [3]
-> 
-> For future reference, not having support for the simple_ondemand 
-> governor in
-> the initial ramdisk produces errors in the kernel log similar to these 
-> below,
-> which were taken from a Pine64 RockPro64:
-> 
->   panfrost ff9a0000.gpu: [drm:panfrost_devfreq_init [panfrost]]
-> *ERROR* Couldn't initialize GPU devfreq
->   panfrost ff9a0000.gpu: Fatal error during GPU init
->   panfrost: probe of ff9a0000.gpu failed with error -22
-> 
-> Having simple_ondemand marked as a softdep for Panfrost may not resolve 
-> this
-> issue for all Linux distributions.  In particular, it will remain 
-> unresolved
-> for the distributions whose utilities for the initial ramdisk 
-> generation do
-> not handle the available softdep information [4] properly yet.  
-> However, some
-> Linux distributions already handle softdeps properly while generating 
-> their
-> initial ramdisks, [5] and this is a prerequisite step in the right 
-> direction
-> for the distributions that don't handle them properly yet.
-> 
-> [1] 
-> https://gitlab.manjaro.org/manjaro-arm/packages/core/linux/-/blob/linux61/config?ref_type=heads#L8180
-> [2] https://salsa.debian.org/kernel-team/linux/-/merge_requests/1066
-> [3] https://forum.pine64.org/showthread.php?tid=15458
-> [4] 
-> https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?id=49d8e0b59052999de577ab732b719cfbeb89504d
-> [5] 
-> https://github.com/archlinux/mkinitcpio/commit/97ac4d37aae084a050be512f6d8f4489054668ad
-> 
-> Cc: Diederik de Haas <didi.debian@cknow.org>
-> Cc: Furkan Kardame <f.kardame@manjaro.org>
-> Cc: stable@vger.kernel.org
-> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
-> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
 
-Just checking, could this patch be accepted, please?  The Lima 
-counterpart
-has already been accepted. [6]
-
-The approach in this patch is far from perfect, but it's still fine 
-until
-there's a better solution, such as harddeps.  I'll continue my research
-about the possibility for introducing harddeps, which would hopefully
-replace quite a few instances of the softdep (ab)use that already extend
-rather far.  For example, have a look at the commit d5178578bcd4 (btrfs:
-directly call into crypto framework for checksumming) [7] and the lines
-containing MODULE_SOFTDEP() at the very end of fs/btrfs/super.c. [8]
-
-If a filesystem driver can rely on the (ab)use of softdeps, which may be
-fragile or seen as a bit wrong, I think we can follow the same approach,
-at least until a better solution is available.
-
-[6] 
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0c94f58cef319ad054fd909b3bf4b7d09c03e11c
-[7] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5178578bcd4
-[8] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/super.c#n2593
-
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
->  1 file changed, 1 insertion(+)
+Le 03/07/2024 à 13:05, Lucas Stach a écrit :
+> Am Freitag, dem 14.06.2024 um 10:16 +0200 schrieb Pierre-Eric Pelloux-
+> Prayer:
+>> Trace the fence dependencies similarly to how we print fences:
+>>
+>>   ... , dependencies:{(context:606, seqno:38006)}
+>>
+>> This allows tools to analyze the dependencies between the jobs (previously
+>> it was only possible for fences traced by drm_sched_job_wait_dep).
+>>
+>> Since drm_sched_job and drm_run_job use the same base event class,
+>> the caller of trace_drm_run_job have to pass a dep_count of 0 (which
+>> is ignored because dependencies are only considered at submit time).
+>>
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>> ---
+>>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 59 ++++++++++++++++---
+>>   drivers/gpu/drm/scheduler/sched_entity.c      |  8 ++-
+>>   drivers/gpu/drm/scheduler/sched_main.c        |  2 +-
+>>   3 files changed, 58 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> index f6da377cdb99..0abcad26839c 100644
+>> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> @@ -26,15 +26,41 @@
+>>   
+>>   #include <linux/stringify.h>
+>>   #include <linux/types.h>
+>> +#include <linux/trace_seq.h>
+>>   #include <linux/tracepoint.h>
+>>   
+>>   #undef TRACE_SYSTEM
+>>   #define TRACE_SYSTEM gpu_scheduler
+>>   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
+>>   
+>> +#ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+>> +#define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+>> +/* Similar to trace_print_array_seq but for fences. */
+>> +static inline const char *__print_dma_fence_array(struct trace_seq *p, const void *buf, int count)
+>> +{
+>> +	const char *ret = trace_seq_buffer_ptr(p);
+>> +	u64 *fences = (u64 *) buf;
+>> +	const char *prefix = "";
+>> +
+>> +	trace_seq_putc(p, '{');
+>> +	for (int i = 0; i < count; i++) {
+>> +		u64 context = fences[2 * i], seqno = fences[2 * i + 1];
+>> +
+>> +		trace_seq_printf(p, "%s(context:%llu, seqno:%lld)",
+>> +				 prefix, context, seqno);
+>> +		prefix = ",";
+>> +	}
+>> +	trace_seq_putc(p, '}');
+>> +	trace_seq_putc(p, 0);
+>> +
+>> +	return ret;
+>> +}
+>> +#endif
+>> +
+>>   DECLARE_EVENT_CLASS(drm_sched_job,
+>> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
+>> -	    TP_ARGS(sched_job, entity),
+>> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity,
+>> +		     unsigned int dep_count),
+>> +	    TP_ARGS(sched_job, entity, dep_count),
+>>   	    TP_STRUCT__entry(
+>>   			     __string(name, sched_job->sched->name)
+>>   			     __field(uint64_t, id)
+>> @@ -43,9 +69,14 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+>>   			     __string(dev, dev_name(sched_job->sched->dev))
+>>   			     __field(uint64_t, fence_context)
+>>   			     __field(uint64_t, fence_seqno)
+>> +			     __field(int, n_deps)
+>> +			     __dynamic_array(u64, deps, dep_count * 2)
+>>   			     ),
+>>   
+>>   	    TP_fast_assign(
+>> +			   unsigned long idx;
+>> +			   struct dma_fence *fence;
+>> +			   u64 *dyn_arr;
+>>   			   __entry->id = sched_job->id;
+>>   			   __assign_str(name);
+>>   			   __entry->job_count = spsc_queue_count(&entity->job_queue);
+>> @@ -54,22 +85,32 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+>>   			   __assign_str(dev);
+>>   			   __entry->fence_context = sched_job->s_fence->finished.context;
+>>   			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
+>> -
+>> +			   __entry->n_deps = dep_count;
+>> +			   if (dep_count) {
+>> +				dyn_arr = __get_dynamic_array(deps);
+>> +				xa_for_each(&sched_job->dependencies, idx, fence) {
+>> +					dyn_arr[2 * idx] = fence->context;
+>> +					dyn_arr[2 * idx + 1] = fence->seqno;
+>> +				}
+>> +			   }
+>>   			   ),
+>> -	    TP_printk("id=%llu, fence=(context:%llu, seqno:%lld), ring=%s, job count:%u, hw job count:%d",
+>> +	    TP_printk("id=%llu, fence=(context:%llu, seqno:%lld), ring=%s, job count:%u, hw job count:%d, dependencies:%s",
+>>   		      __entry->id,
+>>   		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
+>> -		      __entry->job_count, __entry->hw_job_count)
+>> +		      __entry->job_count, __entry->hw_job_count,
+>> +		      __print_dma_fence_array(p, __get_dynamic_array(deps), __entry->n_deps))
+>>   );
+>>   
+>>   DEFINE_EVENT(drm_sched_job, drm_sched_job,
+>> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
+>> -	    TP_ARGS(sched_job, entity)
+>> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity,
+>> +		     unsigned int dep_count),
+>> +	    TP_ARGS(sched_job, entity, dep_count)
+>>   );
+>>   
+>>   DEFINE_EVENT_PRINT(drm_sched_job, drm_run_job,
+>> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
+>> -	    TP_ARGS(sched_job, entity),
+>> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity,
+>> +		     unsigned int dep_count),
+>> +	    TP_ARGS(sched_job, entity, 0),
+>>   	    TP_printk("dev=%s, id=%llu, fence=(context:%llu, seqno:%lld), ring=%s, job count:%u, hw job count:%d",
+>>   		      __get_str(dev), __entry->id,
+>>   		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index 58c8161289fe..aa33a9d29b14 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -583,7 +583,13 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+>>   	bool first;
+>>   	ktime_t submit_ts;
+>>   
+>> -	trace_drm_sched_job(sched_job, entity);
+>> +	if (trace_drm_sched_job_enabled()) {
+>> +		unsigned long index;
+>> +		void *f;
+>> +
+>> +		xa_for_each(&sched_job->dependencies, index, f) { }
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index ef9f6c0716d5..149737d7a07e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -828,3 +828,4 @@ module_platform_driver(panfrost_driver);
->  MODULE_AUTHOR("Panfrost Project Developers");
->  MODULE_DESCRIPTION("Panfrost DRM Driver");
->  MODULE_LICENSE("GPL v2");
-> +MODULE_SOFTDEP("pre: governor_simpleondemand");
+> I did need to do a double take on that one. While using index for the
+> total number of dependencies is correct for the dense and at this point
+> in time fully populated dependencies array, it is a bit non-obvious.
+> Maybe add a small comment here or have an actual counter in the loop
+> body?
+
+Makes sense. I'll add a counter in v6.
+
+thanks,
+Pierre-Eric
+
+> 
+> Regards,
+> Lucas
+> 
+>> +		trace_drm_sched_job(sched_job, entity, index);
+>> +	}
+>>   	atomic_inc(entity->rq->sched->score);
+>>   	WRITE_ONCE(entity->last_user, current->group_leader);
+>>   
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 7e90c9f95611..0bc9b7b24b34 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -1201,7 +1201,7 @@ static void drm_sched_run_job_work(struct work_struct *w)
+>>   	atomic_add(sched_job->credits, &sched->credit_count);
+>>   	drm_sched_job_begin(sched_job);
+>>   
+>> -	trace_drm_run_job(sched_job, entity);
+>> +	trace_drm_run_job(sched_job, entity, 0);
+>>   	fence = sched->ops->run_job(sched_job);
+>>   	complete_all(&entity->entity_idle);
+>>   	drm_sched_fence_scheduled(s_fence, fence);
