@@ -2,53 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7769260B7
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 14:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246099260CD
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 14:48:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 778BF10E7D9;
-	Wed,  3 Jul 2024 12:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAFD010E7DB;
+	Wed,  3 Jul 2024 12:48:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="A87AfaT3";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="dkrbfJpB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VPSWtT35";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bunu.damsy.net (bunu.damsy.net [51.159.160.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAF8510E7D9
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 12:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202404r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1720010599;
- bh=SxuCnm3/kgBzTMSgDET5g9P
- B8H9cZFHQ6AGT4WgbFuM=; b=A87AfaT3hvBd1yoc5G319FqSChBLYo3ySr6jB/YJmyFrHdv7D/
- 0yHLUrkJwiwGK3RIbjq6wdXghmKha9sFs6w/jkjEevFuLhHQJ6sbQL0Z+aQSabpBKD9cjTQ6V2l
- FnOWHkzq0VpWZOWDxlsVrqkNfdb7LMYzGcxzICxukvWU5vdMCoN7iifCaug7uFZ8eey68h7/6fO
- xiMHDz4AsN16ylQPl1nAWiiihO+cF+xtjP6cB4juMpZ6WrmzboFxB71Nh84UlmhOP56HoUAKb7+
- Nkzbe0RTnmVHDWgYHud+1m4Pk63azlrJ1t6EjMS0axBqhSVCrkz2foZscNmS19BV9HA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202404e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1720010599; bh=SxuCnm3/kgBzTMSgDET5g9P
- B8H9cZFHQ6AGT4WgbFuM=; b=dkrbfJpBunyDleQjTNL34gRpVmZYP6WNc2KVmllg6uKI1gZ+Ca
- 5PfTKT0evIeJrOmFpqj3txYbpF45qhEkTXDA==;
-Message-ID: <76485a0b-e11d-4c35-b0a5-5268b196d3e8@damsy.net>
-Date: Wed, 3 Jul 2024 14:43:18 +0200
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74AAC10E7E3
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 12:48:33 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2ec408c6d94so55056311fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2024 05:48:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1720010911; x=1720615711; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=x11iuqRGe4Tgv5rOzurWgHtPcvZZMPkYb7YxaddpGqE=;
+ b=VPSWtT35F4ad6xM7lCEuIfF0/rq6rJXJJm+Q5FhNK5whWF0SeXvn60I9BoEtl++rUV
+ hyOK8Ibw3hv46A2bF2G1jDDmRVrEoJFyVpcbJF4lhAT3KHDwN8cy9BA6ulXnCYSbyWTy
+ fuQpcD5Kzsm7BD4toEHTUlks/086Y/r2rmEymcaMxS3wvGeyRwu4K40IeUwAlvH0bVg2
+ JT2h/t3thUcmzznx5RTYw54JSHeZtweLh8jdECDQ/limWKkXDI/Kjkt4kcDKilYKTosf
+ 8hgyjFFKvJAgaaRw7JA8ISjwIksKZMJin6kghoYw5AkCAIQLltG3KSwpA1c8gTJc29n5
+ UAcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720010911; x=1720615711;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=x11iuqRGe4Tgv5rOzurWgHtPcvZZMPkYb7YxaddpGqE=;
+ b=qE1XSngWipVkwJAY2dV8VH6kkz+1SRhljGmKBLrImwpsNeTd3hyOcs8AUcobALaAa/
+ 02Spc2K3jFMgWW2jATsV417JcdyxF63vH9pi4cdJhepQbLe7Mnc7+sqIHLYdzcAYhfCv
+ ZPAKuvBBjqeVJ5XZfdGFDvgIiDGoGy1xskimgInDX5tsKbBraDwQao5N1WOO5hpxATXj
+ t//ONg3BohyiEJ25caogu/L7X/vFx6kk8L86tEIeg+asPpyssK+Froem2c7FkRta6x4U
+ JWclBEQ35umJk9UK5YFR0xEMzOzpXnH9j6q/x6DwDbFNifwHa5noSmbZI0XhRq9wZVXy
+ Kn0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWk9pxhidNyNP5UPMBBI43eVbw+xBsOgFj0kAfOq6ykRZOmiGFeObPwJL1ZXUee8eoYi75Tdxy+u0scFcBoqU8yGRWal2rdQILfNNEV19Ub
+X-Gm-Message-State: AOJu0Yy99OWMIuj18oATdCgQYguqefkiSucwuGlfESgtUSatR/mZ+QTI
+ wkDO3ehwn1D7ibFrFybhz2m0UFgf9AFp5GiB8/MSK/UUZ3OdTPMh6rfmrjilVr4=
+X-Google-Smtp-Source: AGHT+IEgpBgzmnLDU0pqMOnMuikxdfaM8cWgSqf7ihXy6Ww9djEMRDj3Spb9YqLBoyszuYbuJHQxPg==
+X-Received: by 2002:a2e:a889:0:b0:2e9:8a0a:ea05 with SMTP id
+ 38308e7fff4ca-2ee5e3ad756mr89968581fa.17.1720010911158; 
+ Wed, 03 Jul 2024 05:48:31 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:ef03:73b5:7503:ee71?
+ ([2a01:e0a:982:cbb0:ef03:73b5:7503:ee71])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3675a0cd634sm15990961f8f.9.2024.07.03.05.48.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Jul 2024 05:48:30 -0700 (PDT)
+Message-ID: <06f8113c-8e83-411a-a4bf-bfadc2560882@linaro.org>
+Date: Wed, 3 Jul 2024 14:48:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] drm/sched: trace dependencies for gpu jobs
-To: Lucas Stach <l.stach@pengutronix.de>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
- matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- rostedt@goodmis.org
-References: <20240614081657.408397-1-pierre-eric.pelloux-prayer@amd.com>
- <20240614081657.408397-4-pierre-eric.pelloux-prayer@amd.com>
- <16fdbb7214ac409fd447575daf8d2c8ee2fbf02e.camel@pengutronix.de>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <16fdbb7214ac409fd447575daf8d2c8ee2fbf02e.camel@pengutronix.de>
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH RFC 0/3] Implement Qualcomm TEE IPC and ioctl calls
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com>
+ <umwai5fxohuz6apprv6ouhdrnomal4a7cmyhmzpf6dnamnvti2@un4hxx52hkge>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <umwai5fxohuz6apprv6ouhdrnomal4a7cmyhmzpf6dnamnvti2@un4hxx52hkge>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,180 +116,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 03/07/2024 13:36, Dmitry Baryshkov wrote:
+> On Tue, Jul 02, 2024 at 10:57:35PM GMT, Amirreza Zarrabi wrote:
 
-
-Le 03/07/2024 à 13:05, Lucas Stach a écrit :
-> Am Freitag, dem 14.06.2024 um 10:16 +0200 schrieb Pierre-Eric Pelloux-
-> Prayer:
->> Trace the fence dependencies similarly to how we print fences:
->>
->>   ... , dependencies:{(context:606, seqno:38006)}
->>
->> This allows tools to analyze the dependencies between the jobs (previously
->> it was only possible for fences traced by drm_sched_job_wait_dep).
->>
->> Since drm_sched_job and drm_run_job use the same base event class,
->> the caller of trace_drm_run_job have to pass a dep_count of 0 (which
->> is ignored because dependencies are only considered at submit time).
->>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 59 ++++++++++++++++---
->>   drivers/gpu/drm/scheduler/sched_entity.c      |  8 ++-
->>   drivers/gpu/drm/scheduler/sched_main.c        |  2 +-
->>   3 files changed, 58 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> index f6da377cdb99..0abcad26839c 100644
->> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> @@ -26,15 +26,41 @@
->>   
->>   #include <linux/stringify.h>
->>   #include <linux/types.h>
->> +#include <linux/trace_seq.h>
->>   #include <linux/tracepoint.h>
->>   
->>   #undef TRACE_SYSTEM
->>   #define TRACE_SYSTEM gpu_scheduler
->>   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
->>   
->> +#ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
->> +#define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
->> +/* Similar to trace_print_array_seq but for fences. */
->> +static inline const char *__print_dma_fence_array(struct trace_seq *p, const void *buf, int count)
->> +{
->> +	const char *ret = trace_seq_buffer_ptr(p);
->> +	u64 *fences = (u64 *) buf;
->> +	const char *prefix = "";
->> +
->> +	trace_seq_putc(p, '{');
->> +	for (int i = 0; i < count; i++) {
->> +		u64 context = fences[2 * i], seqno = fences[2 * i + 1];
->> +
->> +		trace_seq_printf(p, "%s(context:%llu, seqno:%lld)",
->> +				 prefix, context, seqno);
->> +		prefix = ",";
->> +	}
->> +	trace_seq_putc(p, '}');
->> +	trace_seq_putc(p, 0);
->> +
->> +	return ret;
->> +}
->> +#endif
->> +
->>   DECLARE_EVENT_CLASS(drm_sched_job,
->> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
->> -	    TP_ARGS(sched_job, entity),
->> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity,
->> +		     unsigned int dep_count),
->> +	    TP_ARGS(sched_job, entity, dep_count),
->>   	    TP_STRUCT__entry(
->>   			     __string(name, sched_job->sched->name)
->>   			     __field(uint64_t, id)
->> @@ -43,9 +69,14 @@ DECLARE_EVENT_CLASS(drm_sched_job,
->>   			     __string(dev, dev_name(sched_job->sched->dev))
->>   			     __field(uint64_t, fence_context)
->>   			     __field(uint64_t, fence_seqno)
->> +			     __field(int, n_deps)
->> +			     __dynamic_array(u64, deps, dep_count * 2)
->>   			     ),
->>   
->>   	    TP_fast_assign(
->> +			   unsigned long idx;
->> +			   struct dma_fence *fence;
->> +			   u64 *dyn_arr;
->>   			   __entry->id = sched_job->id;
->>   			   __assign_str(name);
->>   			   __entry->job_count = spsc_queue_count(&entity->job_queue);
->> @@ -54,22 +85,32 @@ DECLARE_EVENT_CLASS(drm_sched_job,
->>   			   __assign_str(dev);
->>   			   __entry->fence_context = sched_job->s_fence->finished.context;
->>   			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
->> -
->> +			   __entry->n_deps = dep_count;
->> +			   if (dep_count) {
->> +				dyn_arr = __get_dynamic_array(deps);
->> +				xa_for_each(&sched_job->dependencies, idx, fence) {
->> +					dyn_arr[2 * idx] = fence->context;
->> +					dyn_arr[2 * idx + 1] = fence->seqno;
->> +				}
->> +			   }
->>   			   ),
->> -	    TP_printk("id=%llu, fence=(context:%llu, seqno:%lld), ring=%s, job count:%u, hw job count:%d",
->> +	    TP_printk("id=%llu, fence=(context:%llu, seqno:%lld), ring=%s, job count:%u, hw job count:%d, dependencies:%s",
->>   		      __entry->id,
->>   		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
->> -		      __entry->job_count, __entry->hw_job_count)
->> +		      __entry->job_count, __entry->hw_job_count,
->> +		      __print_dma_fence_array(p, __get_dynamic_array(deps), __entry->n_deps))
->>   );
->>   
->>   DEFINE_EVENT(drm_sched_job, drm_sched_job,
->> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
->> -	    TP_ARGS(sched_job, entity)
->> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity,
->> +		     unsigned int dep_count),
->> +	    TP_ARGS(sched_job, entity, dep_count)
->>   );
->>   
->>   DEFINE_EVENT_PRINT(drm_sched_job, drm_run_job,
->> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
->> -	    TP_ARGS(sched_job, entity),
->> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity,
->> +		     unsigned int dep_count),
->> +	    TP_ARGS(sched_job, entity, 0),
->>   	    TP_printk("dev=%s, id=%llu, fence=(context:%llu, seqno:%lld), ring=%s, job count:%u, hw job count:%d",
->>   		      __get_str(dev), __entry->id,
->>   		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->> index 58c8161289fe..aa33a9d29b14 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -583,7 +583,13 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>   	bool first;
->>   	ktime_t submit_ts;
->>   
->> -	trace_drm_sched_job(sched_job, entity);
->> +	if (trace_drm_sched_job_enabled()) {
->> +		unsigned long index;
->> +		void *f;
->> +
->> +		xa_for_each(&sched_job->dependencies, index, f) { }
-> 
-> I did need to do a double take on that one. While using index for the
-> total number of dependencies is correct for the dense and at this point
-> in time fully populated dependencies array, it is a bit non-obvious.
-> Maybe add a small comment here or have an actual counter in the loop
-> body?
-
-Makes sense. I'll add a counter in v6.
-
-thanks,
-Pierre-Eric
+<snip>
 
 > 
-> Regards,
-> Lucas
+>>
+>> Can we use TEE subsystem?
+>> -------------------------
+>> There are workarounds for some of the issues above. The question is if we
+>> should define our own UAPI or try to use a hack-y way of fitting into
+>> the TEE subsystem. I am using word hack-y, as most of the workaround
+>> involves:
+>>
+>> - "diverging from the definition". For instance, ignoring the session
+>>    open and close ioctl calls or use file descriptors for all remote
+>> resources (as, fd is the closet to capability) which undermines the
+>> isolation provided by the contexts,
+>>
+>> - "overloading the variables". For instance, passing object ID as file
+>>    descriptors in a place of session ID, or
+>>
+>> - "bypass TEE subsystem". For instance, extensively rely on meta
+>>    parameters or push everything (e.g. kernel services) to the back-end
+>> driver, which means leaving almost all TEE subsystem unused.
+
+Why can't you extend the TEE subsystem with those features ?
+
+>>
+>> We cannot take the full benefits of TEE subsystem and may need to
+>> implement most of the requirements in the back-end driver. Also, as
+>> discussed above, the UAPI is not suitable for capability-based use cases.
+>> We proposed a new set of ioctl calls for SMC-Invoke driver.
+>>
+>> In this series we posted three patches. We implemented a transport
+>> driver that provides qcom_tee_object. Any object on secure side is
+>> represented with an instance of qcom_tee_object and any struct exposed
+>> to TEE should embed an instance of qcom_tee_object. Any, support for new
+>> services, e.g. memory object, RPMB, userspace clients or supplicants are
+>> implemented independently from the driver.
+>>
+>> We have a simple memory object and a user driver that uses
+>> qcom_tee_object.
 > 
->> +		trace_drm_sched_job(sched_job, entity, index);
->> +	}
->>   	atomic_inc(entity->rq->sched->score);
->>   	WRITE_ONCE(entity->last_user, current->group_leader);
->>   
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index 7e90c9f95611..0bc9b7b24b34 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -1201,7 +1201,7 @@ static void drm_sched_run_job_work(struct work_struct *w)
->>   	atomic_add(sched_job->credits, &sched->credit_count);
->>   	drm_sched_job_begin(sched_job);
->>   
->> -	trace_drm_run_job(sched_job, entity);
->> +	trace_drm_run_job(sched_job, entity, 0);
->>   	fence = sched->ops->run_job(sched_job);
->>   	complete_all(&entity->entity_idle);
->>   	drm_sched_fence_scheduled(s_fence, fence);
+> Could you please point out any user for the uAPI? I'd like to understand
+> how does it from from the userspace point of view.
+
+<snip>
+
