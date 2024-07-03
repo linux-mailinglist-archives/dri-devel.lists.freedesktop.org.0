@@ -2,101 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A76B9262C3
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 16:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49379262D2
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 16:07:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9799410E86F;
-	Wed,  3 Jul 2024 14:01:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D026D10E8B3;
+	Wed,  3 Jul 2024 14:07:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=LIVE.CA header.i=@LIVE.CA header.b="C/dmE8Fh";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WJwEMnxy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02olkn2062.outbound.protection.outlook.com [40.92.15.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC1D10E86F
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 14:01:23 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2052.outbound.protection.outlook.com [40.107.93.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAE1010E875;
+ Wed,  3 Jul 2024 14:07:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f9RThZAu40ZJnZE38WDynnexAzw0+Cz+blTg2nUrgUGTWRp6fHBt6Gc4DLncUkVk8+7Ov8JykSw+vfxA56kFrrR2aM0BcKXAjn5OHYqrZBhGwpD1+4+1YMdUdqgCg2wZxj4I6TcZEJYpgMS/JFwA3p3VaDZCSPxMo0DqjTBfB6FgZf+UMfB1JalDTby6kAfQllZD26xBwYt7TF5NMNTHgBcLFjJdI/51M84XzT1FOy+xbR4U72+saEIh5H92OlAyaixugvuS23VTYN56dYDn6EAPamndRndsnoAGgmHoLtvI1KYBtnqUiuSnhFf7SADJZkZ0Qvjs+1hMaIKdTD5keg==
+ b=X8iTXKhs5RJ/aprKjQNiqhd6NfuMC1AmYZRTs0jxBOGGC0LwE5CBGshYErFUnIkK25svcsPW6pvLDu1tyRpCmRowpPvGaIpgXLJAQLyTi1r3nKSid5rBXFLdnFcF6g8PsNmM7XZem+TKCKArVytG5kqtOsWTf1W/7sc06lW5Ee/bZOhv/OFYwir1m7lR7NRHFpZzJTJUkRXwEC5+Ef8JPE2J94iMWdzL05jUTMgayXdo+AKP9X2lA1hCEwo3KdSwycXNemCGC+UUvGk7q7W1FEsSEm1F6lNuFcBAadQxSIYhpCUpfktrbNAQBgz5avEX1CWZWdJepOelUGRo1SSwzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vNOkO0NQs9MANFj4dNm1HAwi3JXRAUiQokCPThMAUH8=;
- b=JkNdDAjHLxw7k/UZLyyc5hu/XjiPQHjnKpLyIxFzKOWD1bqF5eGlHRpmX0u7gUdmkXDUAh9JcBppdEuiFmuKQvbJoxsG4bVz2RoY/g8GhKxrrj8xg7cTcH3uhL9uNOqEdFxeOwURhyHPXaRifhJkKW6LgOP1twSkx3Q1Lxe9Y0EnB1musF8QIOefeLdrcHFrUBjp5uvhIG9yaGqJ2hRHDFiMW8ngze8CO7o+8g4XP3VzH1OqhYrqVtyNZ3kocVoWZOPf0BdFaTBGbPTA2guYPhKtZ/IELv29kpTxMai7pCBxVcjjuSRBFg7YiLw2ZBFfC/HDSrIwG94uKHpOjzxMFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=LIVE.CA; s=selector1; 
+ bh=Mihi0JHukroW9f+CPPHkvFGG0oY7UMRQoRFrP9nibQI=;
+ b=TRipx++vMXymNG13x6SEvjqhQAB8UiC1dU4cGgCiR4LZgwqKFrs4FQVNIpS+BhlpjWamegM0yXoneQvyOOBlPCRmHoVmy1MXPQ44dOElQSpw9AWUY6hSUCCPsRdJMywJUW4LDQitAXFrl+wYggOGHEgSuya4acPQfbLaSGqJfaVeWaHL7cqeNb1jNhkHYcBaacKUD/VL+dSBPPx1CMiE7UBO2f9zc23VHpD5dxtDkKVs9OlESOBMnyup18AHzuB2euAf0QQIKpY5f/UpfHT9/H7rPcdpq3ijxHr0LTSqoBwDAVLoRR022YD8LoVMU/C2so0F5qeGjjLLzIqyI3EIoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vNOkO0NQs9MANFj4dNm1HAwi3JXRAUiQokCPThMAUH8=;
- b=C/dmE8Fhoy/PrUCAY1cMKqoiT5XA4T7lR0aJ8PR/esb5dONgK1axskAwAvvnPIclv7Twlrh9HchH8tQ1wz7GOT2Jg1flMLNe4qFvzD/gLkxuZoXm8bCXwQSceKQtrbDJNk4FnOoi+U4wZopl8N+IZPLVTwKZOaO0x2KoQXwa64ATgX0VLXJS1sqPBPBtUt/CKmE0VUxtR9JaRueUa0vLKi0YBoxyvXW0k8p0SrgBJvl8y2OX5F0s0d/J4bDxwxb4dFkBPQuuOIIlIlRiCtNmMKNVjE8UmatIwv5kOpShCqzDPyYBNwDgjm7PomaW3ktdbWAayNyblLH2QKmkIvL4xA==
-Received: from DM6PR02MB4283.namprd02.prod.outlook.com (2603:10b6:5:26::12) by
- SA2PR02MB7562.namprd02.prod.outlook.com (2603:10b6:806:147::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.33; Wed, 3 Jul
- 2024 14:01:17 +0000
-Received: from DM6PR02MB4283.namprd02.prod.outlook.com
- ([fe80::881b:c465:e9da:daee]) by DM6PR02MB4283.namprd02.prod.outlook.com
- ([fe80::881b:c465:e9da:daee%4]) with mapi id 15.20.7719.029; Wed, 3 Jul 2024
- 14:01:17 +0000
-From: Josh Simonot <jsimonot@live.ca>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: virtio_gpu_cmd_resource_flush
-Thread-Topic: virtio_gpu_cmd_resource_flush
-Thread-Index: AQHazMZcnNAp4heC1U+vtLtmW636ALHlCRMt
-Date: Wed, 3 Jul 2024 14:01:17 +0000
-Message-ID: <DM6PR02MB4283010B4A4CE521B1050042C7DD2@DM6PR02MB4283.namprd02.prod.outlook.com>
-References: <DM6PR02MB4283EC97FB486C9E9357D3F0C7DC2@DM6PR02MB4283.namprd02.prod.outlook.com>
-In-Reply-To: <DM6PR02MB4283EC97FB486C9E9357D3F0C7DC2@DM6PR02MB4283.namprd02.prod.outlook.com>
+ bh=Mihi0JHukroW9f+CPPHkvFGG0oY7UMRQoRFrP9nibQI=;
+ b=WJwEMnxyX/GseHMIPYxBMvM3dGSJc9uIAsD+7Vz2+O1Pna8UXzXKguykjuOmWxtjlkTY1Nc2jANJazLqKpczKxFLdwRU5hDwkF1VKgWS9UqOSmagkWBU8toa9owaM8Tn2v0SRFI2NeSSpPZ4Qbd1Vbssxz9ObTSlVkxVaGyLEVY=
+Received: from BN8PR12MB3348.namprd12.prod.outlook.com (2603:10b6:408:47::29)
+ by MW6PR12MB8952.namprd12.prod.outlook.com (2603:10b6:303:246::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.36; Wed, 3 Jul
+ 2024 14:06:57 +0000
+Received: from BN8PR12MB3348.namprd12.prod.outlook.com
+ ([fe80::8d0:2246:d1f9:e087]) by BN8PR12MB3348.namprd12.prod.outlook.com
+ ([fe80::8d0:2246:d1f9:e087%4]) with mapi id 15.20.7719.029; Wed, 3 Jul 2024
+ 14:06:57 +0000
+From: "Zuo, Jerry" <Jerry.Zuo@amd.com>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+CC: "lyude@redhat.com" <lyude@redhat.com>, "jani.nikula@intel.com"
+ <jani.nikula@intel.com>, "imre.deak@intel.com" <imre.deak@intel.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "Wentland, Harry"
+ <Harry.Wentland@amd.com>, "Lin, Wayne" <Wayne.Lin@amd.com>
+Subject: RE: [PATCH 3/3] drm/amd/display: Solve mst monitors blank out problem
+ after resume
+Thread-Topic: [PATCH 3/3] drm/amd/display: Solve mst monitors blank out
+ problem after resume
+Thread-Index: AQHax6W9sQkq5PtsWkmfL5JAHJU0g7HlFOrw
+Date: Wed, 3 Jul 2024 14:06:57 +0000
+Message-ID: <BN8PR12MB3348F86E259037338B248735E5DD2@BN8PR12MB3348.namprd12.prod.outlook.com>
+References: <20240626084825.878565-1-Wayne.Lin@amd.com>
+ <20240626084825.878565-4-Wayne.Lin@amd.com>
+In-Reply-To: <20240626084825.878565-4-Wayne.Lin@amd.com>
 Accept-Language: en-CA, en-US
-Content-Language: en-CA
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [yrTM269Mzmnlu01dLYcNW5/fDmCYByCg]
+msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ActionId=79087b0c-aa3c-45a4-8723-a2684d044e16;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=0;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=true;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
+ Internal Distribution Only;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2024-07-03T14:05:48Z;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR02MB4283:EE_|SA2PR02MB7562:EE_
-x-ms-office365-filtering-correlation-id: e5284c79-ba6b-43ea-ce4e-08dc9b689bb5
-x-ms-exchange-slblob-mailprops: Vs63Iqe4sQmRZ8qlr/ycpgAEOPKg7MYldUaLSXqBA0e6eMTbre4d5LlvH4kz/q1E38ayQczfy9hR7nwmRBoC3r8Qmdd93qQ3MR9pwbf1G+I2CMomfJmjy9LIyrtZ2RaKlmgyxQcoSmJcUBrrEzboMysTE3kyHbjakuKEsaWUp3QGhRP6Lpo/ScOc3okpMB3Sx548J1gGm+v+/LbXwQ0vOYSxKblhCMM6BZB28FqCWX4sTr+ySS4m87IDT4ZiDTD487SG0Hb7hHtUth2nWRWjtoLZdZDE0uP2RWTYDnFRn/ukkkwcfZfykNgw7gq06Y+yGuHEcQKg0A9hgqUPJAwxjU+TlphDE//t65RWzTinLvcNvHmiEFZ3ir3cgQjr/YNi54nIG2X9QetUtnXyao1djwVIGTaAWJKPDhktNQ6iYEoJqUns4f975gwB6gJwAUVRggMjdRViZ0QF4BRtvosvACbdiY93DcTY8BdFn8WIY+UAbTYi9STRmDb9q21uqpLSCbqLmfdWG2rEqwU1JOw/DSszZxq9tqDtZ22cArFgGHdG0T9g5GX024a5CHve/Odsd3cyECy2+5elnOjTLeXNn9FB3Shz2B3EOrWahnEedfY/7CXFf2vER8RpvgCOTAu0otrKi8m3y/JqRZGzgeP1hy0JPOC1TsURJFH9T17OLIL2IoT/oQy6JcY8zxaIaXcUg23RPjLJzTGA5uGd5dWLKJlaYlE17Z275tNISF9QmbU=
-x-microsoft-antispam: BCL:0;
- ARA:14566002|461199028|8060799006|102099032|3412199025|440099028; 
-x-microsoft-antispam-message-info: e4dZ+yJj6dTrwPJIeaY/LFIjbwLKx0kdcQqxivV3pT60omnAh+KvqHX1dDO0g0pV6VBSHE8bHPzIM244bMZuXV2I4Qr7Zj6XbKkYg7QdcqroYFP7CLq6WPpc+OhNhR/3Ptltkqiz2orwPZ/5CXMHvFHYCgC+Ir5W8Ee0Xh5ymW7hlJoj3xLUDIsoCGJzsNNMpMSpUoe1x6QXpRcLpEUviXvHFb8SW6X5wC3nR+0g9KJh0H9Re593pWc4kESJoi96gwwhrrWCMQ+nzI9Mfl5zSj6oE+HdlrhiqQjb6Pa4vyac9BekoPxPEqD7gg31NN8lKbuvEGfyc76t2joRjl+sSgui/wvy9roOhZu27Fp17yfse6iym6pC1JHsesBMP/cAnR7jbVV58A5FWH6+5LPj9P1L4CRzar5F93ZOJiMw7UU5d36aYe2pdBwYkJru62bDknFJaY8H2ivUsGgzYdAkwicnkevX3nNYr7bXaF9fbVMAfmCX30++9vXcbdMuEOISU+nFUaACIXXpelfPNSaSqK8QuWvgbQYkTf29pY0bFUCnzi/rr/rsKs8jLMDgi8RVzBu+NaisHAOf8Skvmg3nrHUtn2pNyfqgcxMaCqwuJpKkQ5rtNSU1WsuNGWpNDWO/
+x-ms-traffictypediagnostic: BN8PR12MB3348:EE_|MW6PR12MB8952:EE_
+x-ms-office365-filtering-correlation-id: bf47b8f1-be98-4526-0b6b-08dc9b696681
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?TmyhIB94tsPs5Xg04hucCCG1fZzg8iMMHTkzm9YEUScIL1USc4LVq8uPLwII?=
+ =?us-ascii?Q?dExGvtDLo5J6Q3AVtnDmEdAo67mlYGCYBL0GrZl25TolfZAuW8FXuRUBeOza?=
+ =?us-ascii?Q?skNfYcJqFrYWh5h7zrMDxVMi4djeh3Clmtr02ucGPXhDhVOBjPDOHrEFSpAk?=
+ =?us-ascii?Q?i/6PhdRTfqC0QbN0b5VyfZWIRvjFe6/79pWwPYmHZtn4dESCGyNzqIU84pwx?=
+ =?us-ascii?Q?f1+SzqAvZK1gwEe8UdqIS2fElEw31ogS2mo1H6xLb/jhmGIlVxXhY9vJRfsm?=
+ =?us-ascii?Q?zD8f4ND7IqiXeoJ90wVvwLXuBX7WpszE0YNrw4oFSMmpERFkDvXZRT2taJ+C?=
+ =?us-ascii?Q?2vpR44Pf+1xLy5VN8bD+gwuUZZJdj1j2nOPiu1LvEsxoIdhXiWbZVW51tUzh?=
+ =?us-ascii?Q?4XecZjc0m08lMzTh4LB3SgNWZqm1z2mlJS+sPTpaNGy//j79z9LawGymvu20?=
+ =?us-ascii?Q?M8y5VMN5pGbAHUuAkON6l1emHKpvCyfA/ioUi1bDW13pZg54x1D8qfOSuL65?=
+ =?us-ascii?Q?/ElnzFKipiXM8fliFJ62BLDKgtz+crUOJa5Q4UVZZeLbhNh6H4tfLlkRdmrj?=
+ =?us-ascii?Q?MdGs2e4zO8J/NmlD8ahoTuy5dhZrpRUr1azeUispMGn2fGL46FY9gf3GUpo1?=
+ =?us-ascii?Q?mEiJdf4kOHUwRlIRm5bZ+XidMRdk1GfIVLdpG6qdiJHrylLCNTTAnNy8T5uE?=
+ =?us-ascii?Q?YgGo/YgDNJy6Zo024OTV5Rz53Z2eVmia9aLJjHXvvCY2VuZAHrWtsWtq9zQz?=
+ =?us-ascii?Q?1CiYJKu5UwMYu39zlMnNMz2AUs+ysyD1DsIw/ZGw2kUch/b5orJKOcrORbiz?=
+ =?us-ascii?Q?BjBf08TZyrK2tte0CipJhXDnqXsrjG6QFRdlRxW+Jx3sU7tNue7PSF6rxrKl?=
+ =?us-ascii?Q?d6ShAVf2QqJzFdJPwitxnTSLK5pPM44Z1lzcCj/5+DCNGGxxHfJ4Cvb8CVbQ?=
+ =?us-ascii?Q?xCC9uGmKKSrgAsv8s1B0uE7tcOavO46lx5lMRXAUufBBeCsQp+NBNvgXEGAO?=
+ =?us-ascii?Q?QjsXXFdxYfkDLUuKVCy1IhACOGinqaFM21yCZh4aTLyqQS8Ru/FI0aceBWvx?=
+ =?us-ascii?Q?coR2iw5u861HtHBmkK5zXBHBJGcKPlxrahFIvRzU7F/fydAj9b91xmYYM6Qc?=
+ =?us-ascii?Q?UW+lB2eSjw1M9DuO+UFbGUoQJr559bCSE7ytL0LxI1J7YrUzZtLTcNYa+Gvq?=
+ =?us-ascii?Q?OcQYz4QshwB3Fr7hyKkr5OQbvIdsfg7SFO86zB4VPl3Tuord1LMVoeMfR2AO?=
+ =?us-ascii?Q?UP0qwM+cmDC9AexWjqH1PcA83Vspx3W8lXKRFw1JxJ0wOI1xLw8TrzjP2wSH?=
+ =?us-ascii?Q?K3E6YDV3jST0TH6uV8+/4lFHpakL5lN6o0QhpwjJ0GHPmp9kiypxk9z+vcmm?=
+ =?us-ascii?Q?I8kzlfy+taNrd2Zle9X3eJqkQagArEVX9bMohTuEe4ZNUID6fQ=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3348.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(38070700018); DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?fG4pJV9Q8kzmuuoDGfdM7d9kS7wn51Mq+jK+YV5rJCPJ3ZhJT0wTQ/nf8V?=
- =?iso-8859-1?Q?szBscO3UHQGxWorZk/4pwT8Plueu20SctX4rpRDUqxEst+GjfH2W7wUFDk?=
- =?iso-8859-1?Q?CuJOhqQdpmvLNjPYiinCnP2D+sK+hp6yySBEp+E+QwGjQ41+eHPKCH69km?=
- =?iso-8859-1?Q?5CuMf6hlKJVvjOfdmPRSNyZxlkBIvCWvxaTMvS77HQjzjljpUEGHFN2VZk?=
- =?iso-8859-1?Q?+37ICLtWg8gWKQHTjjmn0vs3hLYxijWaZAe5ASKxUD5aJ4DePAReNKMTEd?=
- =?iso-8859-1?Q?cnHz/Y5U0kUDs2TcjY6sFpD4p8YHPLqXOYOZ11Bm3B5uLKagNWnoEEj8+C?=
- =?iso-8859-1?Q?qFWPd79jdOCsEOwBaVeeGY+rJuv1efJROOPlndusdxNaTV2GcFaxCr5xOj?=
- =?iso-8859-1?Q?3dZj6FEFLUKhw6nSpyPoGgRjh0/+0BMcKYFfv0XzaB3TQSlvnE8VHV/ztT?=
- =?iso-8859-1?Q?Cb4ldT11XIXHZGvYGVNgrNp6iyPZfC9sSKtxWYYSzDNXkzLINPn/XpZIte?=
- =?iso-8859-1?Q?rH+i+p0rCF8liowIVSufgogZehI7OHmGdadI9flYBrXcNxmpzbtNYb34CZ?=
- =?iso-8859-1?Q?pD0JyrUWhfqzVpCYaBWwmG2OlgBmYKVDClIEwToDPfW8TN46a1M9tLZd4G?=
- =?iso-8859-1?Q?2VVSUSZm7+Fu7W+Btz5ooCR8c/tbRXtYPlHAI3BnZLC91dIHOtPwCS0dvw?=
- =?iso-8859-1?Q?qDpwuHAzardvbj3vM0lhT6+T0ttHrm1T0HxZgbAbLMunBaEYTgqCYPISX4?=
- =?iso-8859-1?Q?6jiCkE1cPCaS3mqQBKUXqidspI4JnxcmFTg57tCh7sSEQCTpOyK8oFwGgR?=
- =?iso-8859-1?Q?sqo5Yw7ywYnQiLrb2HYyRT1K42HjSei7UJ83F1oXYyDwwWyIQghD7vzRdy?=
- =?iso-8859-1?Q?CQPG7xG810JBLX6+81UlDWgyDp08n4miRlgpjZ5JhXVOQfPh76gPagegrV?=
- =?iso-8859-1?Q?Okz3g56Uvas9sD7xmZsuhC8jW3h0oMzrRBAeHHR8DV96jaAAEuxQ+1iQap?=
- =?iso-8859-1?Q?xg0MtvcCykrvpTmsW8aOGECo1Goppgy9/gEbs3g9aVjHJgzLN76qebHdxC?=
- =?iso-8859-1?Q?n4eDalhyS900sMbor0z2CpWrxrswBjJLVA4+KpmHHg0XUbKClNaIGSVKB8?=
- =?iso-8859-1?Q?Kw/JlZ0KR2O7snT0pkpoBIb/xV5lj6OhA8PF8yuZNl76aY7WiOIHDW0DzR?=
- =?iso-8859-1?Q?rftZVJXr1/aQ6tGs8w0bT2VpOV5mWqsaRs95iuRHt2qj/mDVK8uM4ja0cg?=
- =?iso-8859-1?Q?4SKplw2sZMkpye0lNzdw=3D=3D?=
-Content-Type: multipart/alternative;
- boundary="_000_DM6PR02MB4283010B4A4CE521B1050042C7DD2DM6PR02MB4283namp_"
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?DKYH8gYqbSuADBOIVCBISTvNNX9vA9crwHR8bVz+t7PfN6O/qI708gMZuH/P?=
+ =?us-ascii?Q?olqWo0CUVklojBkLrof8doG2pAnXPzRo5/sx+QFSPAfFa7uvyUxwRWHrXwCt?=
+ =?us-ascii?Q?o2cIEnN+O2HUv+iz1d8GyD9UBWSye3d4MbUCHHvlLuaoW36X35OLTd8jp7y2?=
+ =?us-ascii?Q?TT4iAbao2MZyNXmigSGxLD8d0+AGm7STlSNet/DGD13OTCeVZQutAqCuDLpx?=
+ =?us-ascii?Q?Q4av3vecub0IwQNRzQJm2S9Pw6KGkFXtuyqfhV5DAY1z3gMV5pu3NeVumce2?=
+ =?us-ascii?Q?QoM50Lq8zsZxrHUOcrWWAV8k3abWFEECRiqFEtDj33fX9DeQyLACZ2Z8VU7V?=
+ =?us-ascii?Q?0OpaQpRXrnzE4kcYG0Lt2ihFUaMrJaOFa0o4MNcPEoXVFUjItPcfY4GIrnOQ?=
+ =?us-ascii?Q?EF7xG4mRFmyTs46NeIy/FVdn4djQYa+4iTDg7czFMs8g9B8OyuPtZRvn//xP?=
+ =?us-ascii?Q?WjhAqtlG+TmmhK8RROr/qqTqeipUyJF2MrQZGK1b8CfS+N2Nasei/Rp5IoHg?=
+ =?us-ascii?Q?KIzme8uLIEg5JC82cXjYxCnjKLtOMfcQi0ijwp6N/jNfHEx8uERzopmv2uBQ?=
+ =?us-ascii?Q?IhhtUSUQTduuoloBx4Ch43eh3i41v93o3Y0DGnAgl87QNJpw8N7ZsCZiZrvY?=
+ =?us-ascii?Q?t27D8QcfXHkcw7zG5ej3Ej5HaWgXAaX3YhNqgktllBTxh2y7Vd/TD7Gbq1/P?=
+ =?us-ascii?Q?GbDbfQ0f62dhxBeOjVkwtHoqW4g5vtnC3cK0dVQWrCdC+hVy1CUvrrBBCz3U?=
+ =?us-ascii?Q?41kFWICozD7sVgs24aLgCOAfKlCR7RU/cwXdUiR2jtqppfC4NJj6Gb0R2WBE?=
+ =?us-ascii?Q?WUdLQuuedLu8+vOR+v7jwyzlhASTOYiA0yI6769MUJ/2yC+21zr1tNjul2x/?=
+ =?us-ascii?Q?I7NWmxqWinmm6nj3Y+hCV/r4OA+sr3P0VpRRMBte21zH0wcYFFfKtOuuT6Zq?=
+ =?us-ascii?Q?YDvgNPTyoGFJ2i9vzy5ObEUT/rs4AHCkW4fG7W/7iNDTYY6M00SoNtYPHSe8?=
+ =?us-ascii?Q?xDnFs+2VljSn6lR74DOJeesBoizaT7rJiKB1E+a1QufpByj6e/tDYJmZoon0?=
+ =?us-ascii?Q?ESQ0LwGNA7SYNjI/MVP6ZpyFZvcLqhRmRXjw5m66rVvyUlL0OXKNQDaqFzgI?=
+ =?us-ascii?Q?AxqeSC8jLdT8kG3yXZvq1D3hZxHnmtJBusySkaNKbRmvYZspDxBgHzSpt1C2?=
+ =?us-ascii?Q?B0gVPADCzA7XXZJ56xbpLy6PXwq4/KdON5fo7tfU2HvwrFyKLD6GqZtdaqER?=
+ =?us-ascii?Q?ZPruRWp3HvBZHtjd97kmu7oyjb9IhKWz10Yd+S2s34aWWEX9pkzIFEMjs8/L?=
+ =?us-ascii?Q?OmEPRqBmR5bMgiAxVQZwyrwIUHV227phKW7ztZNn83gRk3+8xpitkxKRUJ0a?=
+ =?us-ascii?Q?jufsLz1lPjfmlmkRbr/gxjdlVTNPey2Isuex84DqF4J3OeHJmZwlJ8Ayv+1b?=
+ =?us-ascii?Q?xoXBd6+NgUC+3Sfkw8kI4xbsuPUHUtwIsAvKJmjEocDwq2bdwkHFMgE6ube/?=
+ =?us-ascii?Q?urYAc9/Wy1zQRMUEJc50Fy+RUPc6Qv8vMjaoWfj4B1ydPgfhbmTZBDCzmmop?=
+ =?us-ascii?Q?3GVMBWEhG4JOHWRCVak=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-0f88b.templateTenant
+X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR02MB4283.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5284c79-ba6b-43ea-ce4e-08dc9b689bb5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2024 14:01:17.0707 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3348.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf47b8f1-be98-4526-0b6b-08dc9b696681
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2024 14:06:57.2939 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR02MB7562
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dD67AF46FRMFWO4gOH01U34MQlbwd8eKJK2yP9/YCPCJqqhLBHhOcq/YWFWpsFFK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8952
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,75 +160,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_DM6PR02MB4283010B4A4CE521B1050042C7DD2DM6PR02MB4283namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+[AMD Official Use Only - AMD Internal Distribution Only]
 
-It looks like the virtio-gpu flush should be fenced, but on the host side t=
-he received flush cmd doesn't have the fence flag set, and no fence_id.  So=
-, I have to reply right away instead of waiting for scanout to complete.  I=
-s that expected?  then what's the right way to vsync the guest?
+Reviewed-by: Fangzhi Zuo <jerry.zuo@amd.com>
 
-At the moment, I'm queueing up the resources for scanout, but guest is flus=
-hing faster than host vsync.  I briefly looked at qemu implementation, but =
-don't understand it yet.  A high level breakdown of what should be happenin=
-g would be extremely helpful!
+> -----Original Message-----
+> From: Wayne Lin <Wayne.Lin@amd.com>
+> Sent: Wednesday, June 26, 2024 4:48 AM
+> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> Cc: lyude@redhat.com; jani.nikula@intel.com; imre.deak@intel.com;
+> daniel@ffwll.ch; Wentland, Harry <Harry.Wentland@amd.com>; Zuo, Jerry
+> <Jerry.Zuo@amd.com>; Lin, Wayne <Wayne.Lin@amd.com>
+> Subject: [PATCH 3/3] drm/amd/display: Solve mst monitors blank out proble=
+m
+> after resume
+>
+> [Why]
+> In dm resume, we firstly restore dc state and do the mst resume for topol=
+ogy
+> probing thereafter. If we change dpcd DP_MSTM_CTRL value after LT in mst
+> reume, it will cause light up problem on the hub.
+>
+> [How]
+> Revert the commit 202dc359adda ("drm/amd/display: Defer handling mst up
+> request in resume"). And adjust the reason to trigger dc_link_detect by
+> DETECT_REASON_RESUMEFROMS3S4.
+>
+> Fixes: 202dc359adda ("drm/amd/display: Defer handling mst up request in
+> resume")
+> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index c64cc2378a94..b01452eb0981 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -2569,6 +2569,7 @@ static void resume_mst_branch_status(struct
+> drm_dp_mst_topology_mgr *mgr)
+>
+>       ret =3D drm_dp_dpcd_writeb(mgr->aux, DP_MSTM_CTRL,
+>                                DP_MST_EN |
+> +                              DP_UP_REQ_EN |
+>                                DP_UPSTREAM_IS_SRC);
+>       if (ret < 0) {
+>               drm_dbg_kms(mgr->dev, "mst write failed - undocked during
+> suspend?\n"); @@ -3171,7 +3172,7 @@ static int dm_resume(void *handle)
+>               } else {
+>                       mutex_lock(&dm->dc_lock);
+>                       dc_exit_ips_for_hw_access(dm->dc);
+> -                     dc_link_detect(aconnector->dc_link,
+> DETECT_REASON_HPD);
+> +                     dc_link_detect(aconnector->dc_link,
+> DETECT_REASON_RESUMEFROMS3S4);
+>                       mutex_unlock(&dm->dc_lock);
+>               }
+>
+> --
+> 2.37.3
 
-Thanks,
-Josh
-
-
---_000_DM6PR02MB4283010B4A4CE521B1050042C7DD2DM6PR02MB4283namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"direction: ltr; text-align: left; te=
-xt-indent: 0px; margin: 0px; font-family: Calibri, Helvetica, sans-serif; f=
-ont-size: 12pt; color: rgb(0, 0, 0);">
-It looks like the virtio-gpu flush should be fenced, but on the host side t=
-he received flush cmd doesn't have the fence flag set, and no fence_id.&nbs=
-p; So, I have to reply right away instead of waiting for scanout to complet=
-e.&nbsp; Is that expected?&nbsp; then what's the
- right way to vsync the guest?</div>
-<div style=3D"direction: ltr; text-align: left; text-indent: 0px; margin: 0=
-px; font-family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rg=
-b(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; text-align: left; text-indent: 0px; margin: 0=
-px; font-family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rg=
-b(0, 0, 0);">
-At the moment, I'm queueing up the resources for scanout, but guest is flus=
-hing faster than host vsync.&nbsp; I briefly looked at qemu implementation,=
- but don't understand it yet.&nbsp; A high level breakdown of what should b=
-e happening would be extremely helpful!</div>
-<div style=3D"direction: ltr; text-align: left; text-indent: 0px; margin: 0=
-px; font-family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rg=
-b(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; text-align: left; text-indent: 0px; margin: 0=
-px; font-family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rg=
-b(0, 0, 0);">
-Thanks,</div>
-<div class=3D"elementToProof" style=3D"direction: ltr; text-align: left; te=
-xt-indent: 0px; margin: 0px; font-family: Calibri, Helvetica, sans-serif; f=
-ont-size: 12pt; color: rgb(0, 0, 0);">
-Josh</div>
-<div class=3D"elementToProof" style=3D"direction: ltr; text-align: left; te=
-xt-indent: 0px; margin: 0px; font-family: Calibri, Helvetica, sans-serif; f=
-ont-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-</body>
-</html>
-
---_000_DM6PR02MB4283010B4A4CE521B1050042C7DD2DM6PR02MB4283namp_--
