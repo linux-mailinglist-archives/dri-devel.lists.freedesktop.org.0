@@ -2,60 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF192926C39
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 01:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70B6926C76
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 01:32:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B6DB10E1E8;
-	Wed,  3 Jul 2024 23:02:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0D3E10E0C8;
+	Wed,  3 Jul 2024 23:32:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SyW7zLRQ";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="FCIW4v3K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6598410E1E8
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 23:02:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 058E7CE315D;
- Wed,  3 Jul 2024 23:02:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39878C2BD10;
- Wed,  3 Jul 2024 23:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720047737;
- bh=323AARVAbsuqgisnRvoVpG6coTMv5pU6DvWTb8N8kDs=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=SyW7zLRQqEUsF3R7njKMze0tJN6sYAo2v3HfdCpIhTKysCzrL4GfENdHiWwE8dNMD
- wpI9kxWE9iFgKz74LTQQv7D4FaqQHsi9XbIOP6/SvmzrJxbL6ScbaC/cFT8AZIXFzq
- NRAaN3muBi4sVDM30qmdX4gdNcMH5MQQ9vo4a5XuvmGq6b5vQAjLjn0FAimCWjbvER
- 69/S9sZvWykTB6EsjfwWTB68SXYyXxQa8iBLQe1hNNiKRudLeYZ157U2Ln+nG6G3cH
- u8JU5G5yo196FznjoasDSsIaYmzbKEag9ARgW7RhGWQFr6QGxcpMizQw2I6aQDobfL
- 9HI9Mp+N/ewyA==
-Message-ID: <dc00b9daafe6a88ffaaaf4aace29e136.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F27110E0C8
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 23:32:15 +0000 (UTC)
+From: Dragan Simic <dsimic@manjaro.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1720049533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QlysRJGMPVMeOyPkS2J6+X2utP4VEwmmX+EczNyIJjk=;
+ b=FCIW4v3KulXCCrJ17Z/KdG0HmI74JNGt56c6V4NKu8hg7IHzTQp3mAQBJhS4VQLZm2EX2I
+ T4VlSTAP2VT62fyVvfE5EsO6+7vJ1u63ORQ9OkK0O54pC1GsJL3WicmvVf0Jy+RwGN35fe
+ GoVsbiPQlLvi9MNjY7zfPdnDBWTdFPpSP1m5tXBgtMPZ4//8aKWIJpGcmC1GtZ6j9UFtdt
+ Csy1+CXnAlOHR0v9MeNF6qh1kwrSeXpzqS7ALiF+X1v415HS6Fs0zVoKToUjZeQaT1Z5Cc
+ XS39/nf/pLAio6TxwRuQfXKRY9oFCPbG/MboevgWIlfJjT/mi51pui5lWse4CQ==
+To: linux-rockchip@lists.infradead.org,
+	dri-devel@lists.freedesktop.org
+Cc: heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/rockchip: cdn-dp: Remove redundant workarounds for
+ firmware loading
+Date: Thu,  4 Jul 2024 01:32:02 +0200
+Message-Id: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240703105454.41254-20-ryan@testtoast.com>
-References: <20240703105454.41254-1-ryan@testtoast.com>
- <20240703105454.41254-20-ryan@testtoast.com>
-Subject: Re: [PATCH v2 19/23] clk: sunxi-ng: ccu: add Display Engine 3.3
- (DE33) support
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
- Chris Morgan <macroalpha82@gmail.com>, John Watts <contact@jookia.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-To: Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh@kernel.org>,
- Ryan Walklin <ryan@testtoast.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Date: Wed, 03 Jul 2024 16:02:15 -0700
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,42 +56,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Ryan Walklin (2024-07-03 03:51:09)
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/=
-ccu-sun8i-de2.c
-> index b0b8dba239aec..36b9eadb80bb5 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> @@ -7,6 +7,7 @@
->  #include <linux/clk-provider.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_address.h>
+After the additional firmware-related module information was introduced by
+the commit c0677e41a47f ("drm/rockchip: cdn-dp-core: add MODULE_FIRMWARE
+macro"), there's no longer need for the firmware-loading workarounds whose
+sole purpose was to prevent the missing firmware blob in an initial ramdisk
+from causing driver initialization to fail.  Thus, delete the workarounds,
+which removes a sizable chunk of redundant code.
 
-What is this include for?
+Various utilities used by Linux distributions to generate initial ramdisks
+need to obey the firmware-related module information, so we can rely on the
+firmware blob being present in the generated initial ramdisks.
 
->  #include <linux/platform_device.h>
->  #include <linux/reset.h>
-> =20
-> @@ -290,6 +301,16 @@ static int sunxi_de2_clk_probe(struct platform_devic=
-e *pdev)
->                         "Couldn't deassert reset control: %d\n", ret);
->                 goto err_disable_mod_clk;
->         }
-> +=20
-> +       /*
-> +        * The DE33 requires these additional (unknown) registers set
-> +        * during initialisation.
-> +        */
-> +       if (of_device_is_compatible(pdev->dev.of_node,
-> +                                   "allwinner,sun50i-h616-de33-clk")) {
-> +               writel(0, reg + 0x24);
-> +               writel(0x0000A980, reg + 0x28);
+Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+---
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 53 +++++---------------------
+ 1 file changed, 10 insertions(+), 43 deletions(-)
 
-Lowercase hex please. Did the downstream driver have names for these
-register offsets by way of some sort of #define?
-
-> +       }
-> =20
->         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
->         if (ret)
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index bd7aa891b839..e1a7c6a1172b 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -44,9 +44,9 @@ static inline struct cdn_dp_device *encoder_to_dp(struct drm_encoder *encoder)
+ #define DPTX_HPD_DEL		(2 << 12)
+ #define DPTX_HPD_SEL_MASK	(3 << 28)
+ 
+-#define CDN_FW_TIMEOUT_MS	(64 * 1000)
+ #define CDN_DPCD_TIMEOUT_MS	5000
+ #define CDN_DP_FIRMWARE		"rockchip/dptx.bin"
++
+ MODULE_FIRMWARE(CDN_DP_FIRMWARE);
+ 
+ struct cdn_dp_data {
+@@ -909,61 +909,28 @@ static int cdn_dp_audio_codec_init(struct cdn_dp_device *dp,
+ 	return PTR_ERR_OR_ZERO(dp->audio_pdev);
+ }
+ 
+-static int cdn_dp_request_firmware(struct cdn_dp_device *dp)
+-{
+-	int ret;
+-	unsigned long timeout = jiffies + msecs_to_jiffies(CDN_FW_TIMEOUT_MS);
+-	unsigned long sleep = 1000;
+-
+-	WARN_ON(!mutex_is_locked(&dp->lock));
+-
+-	if (dp->fw_loaded)
+-		return 0;
+-
+-	/* Drop the lock before getting the firmware to avoid blocking boot */
+-	mutex_unlock(&dp->lock);
+-
+-	while (time_before(jiffies, timeout)) {
+-		ret = request_firmware(&dp->fw, CDN_DP_FIRMWARE, dp->dev);
+-		if (ret == -ENOENT) {
+-			msleep(sleep);
+-			sleep *= 2;
+-			continue;
+-		} else if (ret) {
+-			DRM_DEV_ERROR(dp->dev,
+-				      "failed to request firmware: %d\n", ret);
+-			goto out;
+-		}
+-
+-		dp->fw_loaded = true;
+-		ret = 0;
+-		goto out;
+-	}
+-
+-	DRM_DEV_ERROR(dp->dev, "Timed out trying to load firmware\n");
+-	ret = -ETIMEDOUT;
+-out:
+-	mutex_lock(&dp->lock);
+-	return ret;
+-}
+-
+ static void cdn_dp_pd_event_work(struct work_struct *work)
+ {
+ 	struct cdn_dp_device *dp = container_of(work, struct cdn_dp_device,
+ 						event_work);
+ 	struct drm_connector *connector = &dp->connector;
+ 	enum drm_connector_status old_status;
+-
+ 	int ret;
+ 
+ 	mutex_lock(&dp->lock);
+ 
+ 	if (dp->suspended)
+ 		goto out;
+ 
+-	ret = cdn_dp_request_firmware(dp);
+-	if (ret)
+-		goto out;
++	if (!dp->fw_loaded) {
++		ret = request_firmware(&dp->fw, CDN_DP_FIRMWARE, dp->dev);
++		if (ret) {
++			DRM_DEV_ERROR(dp->dev, "Loading firmware failed: %d\n", ret);
++			goto out;
++		}
++
++		dp->fw_loaded = true;
++	}
+ 
+ 	dp->connected = true;
+ 
