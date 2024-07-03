@@ -2,100 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723159255E8
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 10:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849A19255E7
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 10:52:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8A3010E121;
-	Wed,  3 Jul 2024 08:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E015410E3AE;
+	Wed,  3 Jul 2024 08:52:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="FGJZ1QIb";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="EyUOib+U";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="13XjcBnq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6WN91WI7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="13XjcBnq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6WN91WI7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from flow6-smtp.messagingengine.com (flow6-smtp.messagingengine.com
- [103.168.172.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB11C10E14F
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 08:52:51 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailflow.nyi.internal (Postfix) with ESMTP id 1918520022A;
- Wed,  3 Jul 2024 04:52:51 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
- by compute3.internal (MEProxy); Wed, 03 Jul 2024 04:52:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1719996771;
- x=1720003971; bh=ZS0CdGRiwS5/cWLhb6TU/G+nrrQXxwzq+A/eCbPuVL0=; b=
- FGJZ1QIbpPKEgX9nZat8dtI48F8mVpDPldPo61k+ca4+CVDiSN8pEXG7oePiyadK
- ieinW2pEaoXvko361PEyTWr5QXFnVslzimUn6oPXjS9XwKDBJeoAkEsdJnHZTX+R
- ZXTlzMM5ceVdgr6enNsKaoaI5J4ZBpLCxiw6RlCnXJVZsGRLfyIxkz+VMkhUsG6n
- ZU4UC3AZi72wKHsIfvg7fvaNf619wscRxtthmaF7yprhF6Y8b2BclJUDS3aIHq/f
- NSATQzy6Al89CxJNJH6EM52mNfM8GrX80EsOyfTgghhYy3ZB0dDgZmqWH1IWB+KQ
- an4mvlf6cPAyg4sIhhuHvA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=ifd894703.fm2; t=
- 1719996771; x=1720003971; bh=ZS0CdGRiwS5/cWLhb6TU/G+nrrQXxwzq+A/
- eCbPuVL0=; b=EyUOib+UQryuML8z5r4Y42KeD1j36Wkf3XyHTT0az9lfj5s/Gy+
- TQFVc/6t7NKuB/1exy7fP6R7zASna6dajHeDQhWdCwl80abu3i4MO/h8zD49sS5c
- PMvwUnUEb+tJVbs5h1iSD/R2wUiD8j/WGuO9JdI3Yikw/cjVgAavdz8+qr5+qMjy
- yM5AE0MBmX8zq0dMwI4ctkYHLlYARCNLQbJZPQGJB8gy5/A/mcEnN+P61OigV53j
- NVwrgkV+E0wLraUw4Bezm8VQ0ld7hVuVA9h3icdM5lylm8KlHAMfBGTQ/UCzppq3
- ceKmpqci26GYPu0zTOY1ywVLKnqcoGvDl2Q==
-X-ME-Sender: <xms:YhGFZjB5AUpivuEIo67la95hkywUMUtqfUBF0LawsVdkDUhnXVKHmg>
- <xme:YhGFZpjVt3VNMpKy-uWHcE3flwunNhihCH1L-9LEs2031WYWlx0tskYiONiDg4W2E
- jMTPq8Sf0WnPIvbp30>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudejgddtlecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
- rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
- eqnecuggftrfgrthhtvghrnhepkeelveffhedtiefgkeefhffftdduffdvueevtdffteeh
- ueeihffgteelkeelkeejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigr
- nhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:YhGFZunZrPjNP9WSewJwUjJFmjCIBVm7ztrw8ETwiO4PETSEeDF0oA>
- <xmx:YxGFZlyKD2MILeApajFdA-aApi1vdaOsy5ehjjcqELgDUSVxQmQ7mg>
- <xmx:YxGFZoRVALX8OV-2Ve9xKNkjGcJDCAvSr7_sIP7fhzIhhBzuaZC_7w>
- <xmx:YxGFZoadjyzY_onpM7oXtVmmKJ9Z7ogSy2uzS_HWmSEDGXAN3qLkdw>
- <xmx:YxGFZpQH0t7RIvClohnSB2KuX_i3Yw4zcXylM4rGJTM62wSYIy4L43og>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id D2EC036A0074; Wed,  3 Jul 2024 04:52:50 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-566-g3812ddbbc-fm-20240627.001-g3812ddbb
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F7D510E17F;
+ Wed,  3 Jul 2024 08:52:44 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 121121FC9E;
+ Wed,  3 Jul 2024 08:52:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719996763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=vL2mwRISun4ZAo3P75oUig4aPMONa2S3X9TsSq90GtI=;
+ b=13XjcBnqLAWkgkt49/Om3DGVVmX0DPZpO6UpVVUJ96IKSuX32zhBiQsa0bkMPmebQcCywC
+ HY6qnHT3lBsrTdKJgfo6d+QP9guhc4P9eyN5VOGs+PPBxbZy9cxgYHuTcQOmU/wpkB5MMW
+ LajIz3UPkhK+dAMDHmo3A+3ykxPit8Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719996763;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=vL2mwRISun4ZAo3P75oUig4aPMONa2S3X9TsSq90GtI=;
+ b=6WN91WI7pHZjGruwSpxqySZyNSLws3lkAgvnC399YKBlYqEurqZ/rGBYAQeIODKCzV81e/
+ UnWj7+CwpobuH1DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719996763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=vL2mwRISun4ZAo3P75oUig4aPMONa2S3X9TsSq90GtI=;
+ b=13XjcBnqLAWkgkt49/Om3DGVVmX0DPZpO6UpVVUJ96IKSuX32zhBiQsa0bkMPmebQcCywC
+ HY6qnHT3lBsrTdKJgfo6d+QP9guhc4P9eyN5VOGs+PPBxbZy9cxgYHuTcQOmU/wpkB5MMW
+ LajIz3UPkhK+dAMDHmo3A+3ykxPit8Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719996763;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=vL2mwRISun4ZAo3P75oUig4aPMONa2S3X9TsSq90GtI=;
+ b=6WN91WI7pHZjGruwSpxqySZyNSLws3lkAgvnC399YKBlYqEurqZ/rGBYAQeIODKCzV81e/
+ UnWj7+CwpobuH1DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C86E913889;
+ Wed,  3 Jul 2024 08:52:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id +aFAL1oRhWb9SgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 03 Jul 2024 08:52:42 +0000
+Message-ID: <748e1bd6-6c40-443d-acbc-3d379229d068@suse.de>
+Date: Wed, 3 Jul 2024 10:52:42 +0200
 MIME-Version: 1.0
-Message-Id: <4c5e0f77-b24d-47dd-86d2-31cb8e44b42a@app.fastmail.com>
-In-Reply-To: <fd1d0a97-7075-4936-b58b-e99bab9afc58@app.fastmail.com>
-References: <20240629052247.2653363-1-uwu@icenowy.me>
- <20240629052247.2653363-3-uwu@icenowy.me>
- <a143a2c3-c6f0-4537-acc6-94f229f14639@app.fastmail.com>
- <2760BA02-8FF8-4B29-BFE2-1322B5BFB6EC@icenowy.me>
- <7e30177b-ff13-4fed-aa51-47a9cbd5d572@amd.com>
- <6303afecce2dff9e7d30f67e0a74205256e0a524.camel@icenowy.me>
- <ff1bf596-83cb-4b3e-a33a-621ac2c8171c@amd.com>
- <b9189c97f7efbaa895198113ee5b47012bd8b4dc.camel@icenowy.me>
- <ae7085fd-3bca-4a4a-b465-5e4941011877@amd.com>
- <fd1d0a97-7075-4936-b58b-e99bab9afc58@app.fastmail.com>
-Date: Wed, 03 Jul 2024 16:52:30 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Icenowy Zheng" <uwu@icenowy.me>, "Huang Rui" <ray.huang@amd.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- bhelgaas@google.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-Subject: PCIe coherency in spec (was: [RFC PATCH 2/2] drm/ttm: downgrade
- cached to write_combined when snooping not available)
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/6] drm/radeon: remove load callback & drm_dev_alloc
+To: Wu Hoi Pok <wuhoipok@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240630165949.117634-1-wuhoipok@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240630165949.117634-1-wuhoipok@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[9]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+ MID_RHS_MATCH_FROM(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.29
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,88 +144,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
+Am 30.06.24 um 18:59 schrieb Wu Hoi Pok:
+> .load and drm_dev_alloc are deprecated. These patch series aims to
+> remove them.
+>
+> v3: Both v1 and v2 sucks. v3 improves greatly on readability.
 
-=E5=9C=A82024=E5=B9=B47=E6=9C=882=E6=97=A5=E4=B8=83=E6=9C=88 =E4=B8=8B=E5=
-=8D=886:03=EF=BC=8CJiaxun Yang=E5=86=99=E9=81=93=EF=BC=9A
-> =E5=9C=A82024=E5=B9=B47=E6=9C=882=E6=97=A5=E4=B8=83=E6=9C=88 =E4=B8=8B=
-=E5=8D=885:27=EF=BC=8CChristian K=C3=B6nig=E5=86=99=E9=81=93=EF=BC=9A
->> Am 02.07.24 um 11:06 schrieb Icenowy Zheng:
->>> [SNIP] However I don't think the definition of the AGP spec could ap=
-ply on all
->>> PCI(e) implementations. The AGP spec itself don't apply on
->>> implementations that do not implement AGP (which is the most PCI(e)
->>> implementations today), and it's not in the reference list of the PC=
-Ie
->>> spec, so it does no help on this context.=20
->> No, exactly that is not correct.
->>
->> See as I explained the No-Snoop extension to PCIe was created to help=20
->> with AGP support and later merged into the base PCIe specification.
->>
->> So the AGP spec is now part of the PCIe spec.
+Very nice, thank you. I tested the patches with Radeon hardware and did 
+not find issues. AFAICT this can be merged as-is. I think it should go 
+into the amd trees. Maybe Alex or Christian can pick it up.
 
-Hi Bjorn & linux-pci folks,
+Thanks for sticking with it.
 
-It seems like we have some disputes on interpretation pf PCIe specificat=
-ion.
-
-We are seeking your expertise on the question: Does PCIe specification m=
-andate Cache
-coherency via snoop?
-
-There are some further context in this thread [1].
-
-[1]:  https://lore.kernel.org/all/0db974d40cd8c5dcc723d43c328bac923e0fe3=
-3a.camel@icenowy.me/
-Thanks
-- Jiaxun
+Best regards
+Thomas
 
 >
-> We don't really buy this theory.
+> Wu Hoi Pok (6):
+>    drm/radeon: change variable name "dev" to "ddev" for consistency
+>    drm/radeon: remove load callback from kms_driver
+>    drm/radeon: use variable flags as parameter
+>    drm/radeon: add helper rdev_to_drm(rdev)
+>    drm/radeon: change rdev->ddev to rdev_to_drm(rdev)
+>    drm/radeon: change drm_dev_alloc to devm_drm_dev_alloc
 >
-> Keyword "AGP" doesn't appear in "PCI Express Base 4.0 Base Specificati=
-on" even
-> once.
+>   drivers/gpu/drm/radeon/atombios_encoders.c |  2 +-
+>   drivers/gpu/drm/radeon/cik.c               | 14 ++--
+>   drivers/gpu/drm/radeon/dce6_afmt.c         |  2 +-
+>   drivers/gpu/drm/radeon/evergreen.c         | 12 ++--
+>   drivers/gpu/drm/radeon/ni.c                |  2 +-
+>   drivers/gpu/drm/radeon/r100.c              | 24 +++----
+>   drivers/gpu/drm/radeon/r300.c              |  6 +-
+>   drivers/gpu/drm/radeon/r420.c              |  6 +-
+>   drivers/gpu/drm/radeon/r520.c              |  2 +-
+>   drivers/gpu/drm/radeon/r600.c              | 12 ++--
+>   drivers/gpu/drm/radeon/r600_cs.c           |  2 +-
+>   drivers/gpu/drm/radeon/r600_dpm.c          |  4 +-
+>   drivers/gpu/drm/radeon/r600_hdmi.c         |  2 +-
+>   drivers/gpu/drm/radeon/radeon.h            |  7 +-
+>   drivers/gpu/drm/radeon/radeon_acpi.c       | 10 +--
+>   drivers/gpu/drm/radeon/radeon_agp.c        |  2 +-
+>   drivers/gpu/drm/radeon/radeon_atombios.c   |  2 +-
+>   drivers/gpu/drm/radeon/radeon_audio.c      |  4 +-
+>   drivers/gpu/drm/radeon/radeon_combios.c    | 12 ++--
+>   drivers/gpu/drm/radeon/radeon_device.c     | 13 ++--
+>   drivers/gpu/drm/radeon/radeon_display.c    | 74 +++++++++++-----------
+>   drivers/gpu/drm/radeon/radeon_drv.c        | 27 +++++---
+>   drivers/gpu/drm/radeon/radeon_fbdev.c      | 26 ++++----
+>   drivers/gpu/drm/radeon/radeon_fence.c      |  8 +--
+>   drivers/gpu/drm/radeon/radeon_gem.c        |  2 +-
+>   drivers/gpu/drm/radeon/radeon_i2c.c        |  2 +-
+>   drivers/gpu/drm/radeon/radeon_ib.c         |  2 +-
+>   drivers/gpu/drm/radeon/radeon_irq_kms.c    | 12 ++--
+>   drivers/gpu/drm/radeon/radeon_kms.c        |  8 +--
+>   drivers/gpu/drm/radeon/radeon_object.c     |  2 +-
+>   drivers/gpu/drm/radeon/radeon_pm.c         | 20 +++---
+>   drivers/gpu/drm/radeon/radeon_ring.c       |  2 +-
+>   drivers/gpu/drm/radeon/radeon_ttm.c        |  6 +-
+>   drivers/gpu/drm/radeon/rs400.c             |  6 +-
+>   drivers/gpu/drm/radeon/rs600.c             | 14 ++--
+>   drivers/gpu/drm/radeon/rs690.c             |  2 +-
+>   drivers/gpu/drm/radeon/rv515.c             |  4 +-
+>   drivers/gpu/drm/radeon/rv770.c             |  2 +-
+>   drivers/gpu/drm/radeon/si.c                |  4 +-
+>   39 files changed, 184 insertions(+), 179 deletions(-)
 >
-> If PCIe is a predecessor of AGP, where does AGP specific software inte=
-rface like
->  AGP aperture goes? PCIe GPUs are only borrowing software concepts fro=
-m AGP,
-> but they didn't inherit any hardware properties.
->
-> [...]
->> We seem to have a misunderstanding here, this is not a software issue=
-.=20
->> The hardware platform is considered broken by the hardware vendor!
->
-> It's up to the specification text to define compliance means. So far a=
-s=20
-> per analysis
-> from Icenowy of PCIe specification text itself it's not prohibited.
->
->>
->> In other words people have stitched together hardware in a way which =
-is=20
->> not supported by the creator of that hardware.
->>
->> So as long as you can't convince anybody from ARM or the RISC-V team =
-or=20
->> whoever created that hardware to confirm that the hardware actually=20
->> works you won't get any support for that.
->
-> Well we are trying to support them on our own in mainline, we are not =
-asking
-> for any support.
->
-> Thanks
-> - Jiaxun
->>
->> Regards,
->> Christian.
->
-> --=20
-> - Jiaxun
 
---=20
-- Jiaxun
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
