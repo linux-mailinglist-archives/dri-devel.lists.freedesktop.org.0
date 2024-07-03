@@ -2,76 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8E39253ED
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 08:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB2592543D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 08:54:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD4010E100;
-	Wed,  3 Jul 2024 06:52:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 510E710E737;
+	Wed,  3 Jul 2024 06:54:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gec/Cd32";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Oh2dwGea";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB41810E100
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 06:52:16 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4634MfdL026782;
- Wed, 3 Jul 2024 06:52:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=Wey2gPnwmY2OcGa3q4Houy
- XyhxUKSTaDIT7MKTAE7NA=; b=gec/Cd32rz5RRbsNViBwgs54gRDbjSqfVPcmSL
- Z5ryHaIW/m8lOVobjpB89gtJfFicusqaBtLqD4G4eRotb5XxitQ32AeXRPGnkOhK
- M/Fll5PTIq1EQdM0bOZTqL5ADFrUxcPODvp111v4j4J+VWm7sY0KbusX9+uWXjvf
- yqwhSFkagYzLEM3HC0qO9LMTD2Mn3icIzVzAsewOi0zESSRxCib9LOS5MxqymyHC
- bO1SRJxgUJiZSy41DpNbYRFU62kydxMO1MTeJHa2lThJxiMt2erCyPMjTwE9g8Y3
- 4EzeJSJuCsrLscVsCyddpYbx3btsp5bZuQ/KpD974GHD53wg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 404yjhr8yx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 Jul 2024 06:52:12 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 4636qBYE014152
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 3 Jul 2024 06:52:11 GMT
-Received: from hu-ekangupt-hyd.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 2 Jul 2024 23:52:08 -0700
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>
-CC: <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
- <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
-Subject: [PATCH v1] misc: fastrpc: Add support for multiple PD from one process
-Date: Wed, 3 Jul 2024 12:22:00 +0530
-Message-ID: <20240703065200.1438145-1-quic_ekangupt@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2071.outbound.protection.outlook.com [40.107.223.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C34AE10E736;
+ Wed,  3 Jul 2024 06:53:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dI0Md9vrOrfO8pzDF8Tqz5ohv0DscRu6pZAJuTwHMOHv5QOIwVP3NrzTgJhkmIN7KwXyWirOc4loeZRz6BN2oHQ/+Kryu4cuNyFDG+Ez8ONbqxlcghi1oy5YcoUES1BJ5lYQqmMKb9Z6LpREoe3YZgw9q3jTUNcky09GxZHUqp79tRi7jTJ1rK5BMhvwyjvPV2o6r+jsgb0DfCu5Yhq7s+erLUGw+F5pC8AdC+yN7pm8zgn9ihizCfEaZAAnGTQVTywhesA2uQJeXjZP9xbR3AWHhLhAxRAemrwSjA3yWJINrMzrOMqrCUUJFE+A1sWWfu+alwsG/xCys/TDY2cRtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8kLp3J+X9EKK5Eb0UBZ8IjzjiNzMrBgb9G3Spa/5BIM=;
+ b=nPr0V0JmJ0aYOVt6wopOgMxHf6zTraoL5ANawfLOsOkgiJRFLXDfMcO2NpQfK1+0Wrv/0M9W/Ui+j3yVzaztRujAPR5lHoEA3g0EVj60RgEghdHdTQUUOjNnKrVIIWEBFFzpCcTyrBbPWki5+anTt6V7pbz5UVraOuANwepYGe5MqNZwiDkegmRoOIDam8RU7d1WmCZ6cKD95cdTw9r+Q04zUFHvZW7K1VDhNJsJxunk6kr/2YFbg2ZsIaSlcgIPvvYbIrTw/Xrv9n0sGruAyR+7hhws3Y1bYY8DLUgQa28XrMEwf5dneQp/809RGE0yIfE3/2MAnJ6Vz/Qu6JmhDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8kLp3J+X9EKK5Eb0UBZ8IjzjiNzMrBgb9G3Spa/5BIM=;
+ b=Oh2dwGea1AZZjzUOql9mjAop+R9V6fTp7q0VvQf9JVQBypWmK6wMEypIsjOYD2k750crT2JCX/idlGrrCGzHo0t50R55FSfpuPGruIt1iY0CGoUVRaQfsRJWSyDbE8PH4NBS3n1oTUF+GTjGkqZE/sKgNRsnZz9Pz6h0ZAAOYRQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW4PR12MB6952.namprd12.prod.outlook.com (2603:10b6:303:207::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.26; Wed, 3 Jul
+ 2024 06:53:55 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.7741.017; Wed, 3 Jul 2024
+ 06:53:55 +0000
+Message-ID: <920e08ca-1318-4c0f-b1dc-b335c00302b1@amd.com>
+Date: Wed, 3 Jul 2024 08:53:41 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/ttm: Make ttm shrinkers NUMA aware
+To: "Bhardwaj, Rajneesh" <Rajneesh.Bhardwaj@amd.com>,
+ Alex Deucher <alexdeucher@gmail.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>
+References: <20240702173048.2286044-1-rajneesh.bhardwaj@amd.com>
+ <20240702173048.2286044-2-rajneesh.bhardwaj@amd.com>
+ <CADnq5_MU-j1sBYn-7dzvEKF73VBc=bcYOYY0AcbPjrJnKB24Zg@mail.gmail.com>
+ <efc11b48-ccc1-4bdf-9585-a66edfa6307e@amd.com>
+ <DS7PR12MB59332621FF50996A88C3F84EFEDC2@DS7PR12MB5933.namprd12.prod.outlook.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <DS7PR12MB59332621FF50996A88C3F84EFEDC2@DS7PR12MB5933.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 4ooK7fRs93bP16MVvvShFI6DBLsBI6ke
-X-Proofpoint-ORIG-GUID: 4ooK7fRs93bP16MVvvShFI6DBLsBI6ke
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-03_03,2024-07-02_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0
- mlxlogscore=999 clxscore=1015 lowpriorityscore=0 suspectscore=0
- malwarescore=0 mlxscore=0 priorityscore=1501 adultscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407030049
+X-ClientProxiedBy: FR4P281CA0007.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c8::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB6952:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91addc32-584c-4f0c-f363-08dc9b2ce7c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cklWam5zTHB1NkxnVW5abk15SG54TmtYTnVBbGF3NG1yQWxvcFM2RnFVRUdt?=
+ =?utf-8?B?T01VbjFaVmUweEFQRXpxck1od29NRW1VUDFKNWQ1Z0hhdW92clc1TlM0M3Jn?=
+ =?utf-8?B?MEt3VlJoSk1nSFZwbm84RzBmSVF0NExGN2VFenJMY01RZDdwcWJpd2YxTUVR?=
+ =?utf-8?B?ZjN1OTM0emprWjJJRmx5NUZ2NTRKTjhIUHc0SmtUaVdTNHhySFJCb3lsdVQx?=
+ =?utf-8?B?bGdkTUtXZ05wRkV2dm5JN3dseWtFZ3phbytaNFZ2cDF2ZW5zR0tzb1gxN3FG?=
+ =?utf-8?B?YWFvdER1cFo1YTZsencvYUFveDJrYlVyWm55NytjbXZpUXJHUDJTbElESXpZ?=
+ =?utf-8?B?ZHMyODZvMU0rK3orYUxoWHdSdk1aOEpFaDdWS1dmbHFDTVYzcGttdGc5cldT?=
+ =?utf-8?B?U2xIcHpwQ0F1Sld0MU8zQXkzYi83b1QyTlpLZkhKWi9mZnNlaTVURU40cFE4?=
+ =?utf-8?B?NUVNR21Gc3RUWk5LZjgyaTNtTS9aWVBHclVTVmp4QVBZTGZKSDBBWGlaNzdB?=
+ =?utf-8?B?SGlCUVhLRWhjSHZmUlpTam84cnZwQTJEdXhPWmIxZHk4RlVvejdob2NSN2cx?=
+ =?utf-8?B?eUU3dC9RaG96NGs0a0dUK1NDdkRLOG9uWkVTYXNDK251RldFZHkzL1RPdFph?=
+ =?utf-8?B?WWxlY3p6dVcwVHJPSnBndUpWYUI2dW9SdjlOM002RlZoQlJCd2UxcUU0ZlhQ?=
+ =?utf-8?B?QVFYck9OeExqRTBtbGR2K1p2aDV6SFFNRndMM05Vb0szNFpJdWNNQWljL2pM?=
+ =?utf-8?B?bEFxM2NBaU1pcXA4bW85d3ZYT1pNTkphMDAzMC9yZVJtWFp0OW5PL1ZIMHV3?=
+ =?utf-8?B?bitHMCs0Sy81aTVLYkJMZ3pZVHlCdUJadkFLSThWdGpJTUNCcmpjc3VDYjk3?=
+ =?utf-8?B?MGkxT2hkR0xGclA2VEx0UUZwdndxZ3ZxT0VNeUVjODlxNlhxOXdnWDVoSUN0?=
+ =?utf-8?B?dmxadlNzcWs1MHMxZFVZLzkwTXVLdnRTSExqUDR6KzJnUUl3Z1dEMjRSTDl6?=
+ =?utf-8?B?RlJuenZFZTFoT2h0MFRDOG1FczlvRkNodlRUbUVxcWFqVW95NTBpMEt5K3FC?=
+ =?utf-8?B?RWUzcWpmMjBqNm45dWdPZ0lKTlZubnFHZE93eis1b2RqZGtndEgraC9Gbllt?=
+ =?utf-8?B?UDJyd3Q2ajZNZXdNZnpRQVJ3Zlo3ZXBCRFNOTGNWRGFaYUhDdnhLM1V3Y3hW?=
+ =?utf-8?B?bWMvcmEzYzJLN0ttVTN3N0xYbklGOXZpN2pxWWw4aTIzMmxqK1gxWTczQkxD?=
+ =?utf-8?B?U1V0cTArYWxzN3FxZ29CKzhKSEsydE91K20welgzTEF3amxpOElic1luSmF3?=
+ =?utf-8?B?dzVWUHNtRUtKRzIvWWF4VFllMVlhdjV5ZlNDS2dJUmtjMXR2S0p2U21JVE1H?=
+ =?utf-8?B?QWVlaFVOQXA0TjZtWkhzaDQwOWhSOUIyNDR6d3Y0c09iZVI0aFRvdXV6OGJU?=
+ =?utf-8?B?TC92ajRTMnNQTGFmUDJVVzUyVTM4L29majRtNG1SeEo4WE1WMGNSYk1BUGZq?=
+ =?utf-8?B?WG9BdEQ1MjRaLzFYaUFWbkhQbmdJTmNGd1pUaEdjKzJOMDJudTdWOEhYdHlB?=
+ =?utf-8?B?Wk95eVF1VXJKdVJTQXZKNm9qMDJDaGxURnpMM2o2RkZPYmVRMm5sV1JlUjFP?=
+ =?utf-8?B?YnFtOFRYaFM5dU5wK0ZGZ1d3ZE1KaEYrRTM5amQvSHFGSkJEQmFsZmhLWVZ1?=
+ =?utf-8?B?eXc4VGFRRXFoT1BYMFN2U1h3MFgxdkZvd2tOZU5KWU1rUXF1Yms5VkMxQk9i?=
+ =?utf-8?B?RE81Si9HK0lpUmVORGxYREtsNkJGYkpFSE5xM1dEWXYrSWJXcEJQQ1I3SW1K?=
+ =?utf-8?B?Ynl3ZWdvdldMckxDYmtFQT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UzB4SHA1b29lbkpyY2ZkOSt2QjhJVmdZS2R4U1pIdTgvdjNub1c2czlQVHdn?=
+ =?utf-8?B?U1B6WEJxSUxSTStKdXB5QlVEekhkR0hISVA4V05UYlZkMG1xYmFtdkViMGNk?=
+ =?utf-8?B?SkVWUWZTK1puaEhFeGdxZFhFbEVKcE9wM0JYdGUxUS9aRVkxQXdkQXBFWFQz?=
+ =?utf-8?B?T3QzQmhkd0c5M2tPaVIwNHFCdnFCQ0pqWGhZTTFFeUJpZE05S2R4cEpOYnRX?=
+ =?utf-8?B?NUxxUXRFT3ZBeUJoRVV3WThCTWthTUxGK2U2cWF6MnBJWFhEQk5YaUVyTldJ?=
+ =?utf-8?B?TTlKaVA2djFQZk1NK0FrR1RaZHM0ZE9vRmpyaGwvQm44TXpkM1RmTUlGMWk1?=
+ =?utf-8?B?WnhVVll6VzZyWlI1bGs1cmdWVlU4bVVXMXJOTzJ0VlJ3WXBOejFpa2ZHVklM?=
+ =?utf-8?B?eE9QTUM0Z3lGUmpROWgxN2k1RXpySktwSHptOG02YU1yb01vNTdpZ1JiaVlG?=
+ =?utf-8?B?TnNVZTd6NW9PeE8wQlkzQmM4WXFsOFV6akszZmlESlF5aUt3UGVqR1VSdWx1?=
+ =?utf-8?B?UlNwUERZb1dBZ3pNQ1ZsRHpYTzhnei9iMjlLYUdVczFaWmZwQ0pRZDlTZVRS?=
+ =?utf-8?B?MVY4TDRuaTZWZUhFNXNad1ljVFBEM3AyVktZdWdxZFk5ZkxNaHludTM0T0E3?=
+ =?utf-8?B?SzZqUHBjTkRRZ2tzWjRMdFNiUjNvb0FVVU9nbDRiTDBaOWlaY0ovQVlxbm1R?=
+ =?utf-8?B?aVBoN2orTC9NdDFSOVM2QklyUlV4a0pLZEVrOUtsWitjbklON1Y2NW1JV21n?=
+ =?utf-8?B?MGI4cjAxWDJFUmRjMTVtWmwrcnY2Wm5iTkxPREk2QVErZjNvMXNPd3dYYUsy?=
+ =?utf-8?B?RFQ3Y0hNZFF0VUxkTU1rM3I4Y3UyWUZlS1FSd3JUemZQU0JUVUVXZXRBNHY3?=
+ =?utf-8?B?MzNPR1FzZ0wvWU5zbjhnZjdmODg5clkzbTI5KzNRTm83R1dmaFg4enNxQ3k5?=
+ =?utf-8?B?Mm9jNlBLY3BQWkcvK2NTRUpzeCtSNDFGK3Q1U1p3d2ZpdXFiRmg3QUZpRzEy?=
+ =?utf-8?B?N2g4cHVQYmQ3ZTREa0cvZkI4c0pvUHdBREVKNDhnVXlJUHV6eVQxNm9FS2Mw?=
+ =?utf-8?B?UkF2NHdLZzNBclNScndlODV3MDdPL2J2SHp1aGZIRkRqUXBMcnkzbWVicEs3?=
+ =?utf-8?B?Q3FtZnNFeEJrazdjL1VTUkdha2NabURub1pWc0IyTXdsd3NaRFhURzhpZUJo?=
+ =?utf-8?B?SVNZZ214YzVNalR3UlY2eWFBdWlzWnZaQ281T2hwVitQaXEyZ3FkRExOb3Bv?=
+ =?utf-8?B?amoveXlqdTVtR01qZTJzenhtRmZlS0VpdEQxRktQdVk4YmltVjQvMTFIMWNH?=
+ =?utf-8?B?Y1dpUUNNOVBETlc5aGZ0MzVscDM3Wlp6T0JMMnNzbzk0L0ZaalBodUp0VVVV?=
+ =?utf-8?B?MkdLZk03YUNiMkhHQWsvZUQ4SllReW1vZm8xeWJndkM4ek9vaHBPVURmMDcy?=
+ =?utf-8?B?eGNHd2YyUWdiTHBVY0JSUFRsS3NuUVRldGlzbjQvUi9GV2ZIS05nMkpncm5M?=
+ =?utf-8?B?MnFGcXc3eU1kcm5nVTVISExzeHZTV0xJUXk2dzlocHl4cm9WT3dkaDBIZWRq?=
+ =?utf-8?B?ZDRMS1BMRXlobGtDQzA1ZmtZS0ZYY3BiYjUyT0FBbzhUdWlOYVpMZTIyWmVq?=
+ =?utf-8?B?ZU1NKzY5MnNaUFBnZFRkZHdJMnZHRTRNMktaT29TZ3lONmZpbGJDMW8wbXFt?=
+ =?utf-8?B?MHhTRmVBZE5GVmRqZlRCM28rYmtxK1g2TmU1TVQ1OXZzWHRpN0JobjNMN1Ra?=
+ =?utf-8?B?dktXVnFZN0twcGZwS1pKcVVCZGRYaGFURzlyem1kZWpwUDNYQUFDaks2Z0Iy?=
+ =?utf-8?B?b2R4QjFFcUNpQkMwdnlQSGlNQjZjQUNiMUFRMlRGMmszd3Y4L2J3dzlKTE8w?=
+ =?utf-8?B?OGk2SzZyeFFUQ1VRWjVWRHB5a3I5NHRuY2NscVU0b1N4QmxwdEVTaFkwV1pF?=
+ =?utf-8?B?U2ExUVJWN25LWDU4b215UGFSMDJaN0szMFlMU3liNXQvZTIxQnU0bGF6bEF5?=
+ =?utf-8?B?blVwZzI0bFRpZnZoRlVFYXlFUTMzbzR3cUFuTVN0cVZNQUFHTklvRGpxdDdH?=
+ =?utf-8?B?bTZPMWt2YjVCYlFyYVMxRXUra0M4bWVpUXhSbjljblFLQmg1V2V6K2w2Uzcy?=
+ =?utf-8?Q?mGnvNFVOyTvuWVh6WT9HgiubE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91addc32-584c-4f0c-f363-08dc9b2ce7c8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2024 06:53:55.1150 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GidUsV7MmlC2jgs649lpbXPPp6CL2AkI33oquFuqGM30KvDIFKLAhSSoTdIkqlgi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6952
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,196 +167,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Memory intensive applications(which requires more tha 4GB) that wants
-to offload tasks to DSP might have to split the tasks to multiple
-user PD to make the resources available. For every call to DSP,
-fastrpc driver passes the process tgid which works as an identifier
-for the DSP to enqueue the tasks to specific PD. With current design,
-if any process opens device node more than once and makes PD init
-request, same tgid will be passed to DSP which will be considered a
-bad request and this will result in failure as the same identifier
-cannot be used for multiple DSP PD. Allocate and pass an effective
-pgid to DSP which would be allocated during device open and will have
-a lifetime till the device is closed. This will allow the same process
-to open the device more than once and spawn multiple dynamic PD for
-ease of processing.
+Am 02.07.24 um 23:54 schrieb Bhardwaj, Rajneesh:
+> [AMD Official Use Only - AMD Internal Distribution Only]
+>
+> -----Original Message-----
+> From: Koenig, Christian <Christian.Koenig@amd.com>
+> Sent: Tuesday, July 2, 2024 2:25 PM
+> To: Alex Deucher <alexdeucher@gmail.com>; Bhardwaj, Rajneesh <Rajneesh.Bhardwaj@amd.com>; Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+> Cc: amd-gfx@lists.freedesktop.org; Kuehling, Felix <Felix.Kuehling@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>
+> Subject: Re: [PATCH 2/2] drm/ttm: Make ttm shrinkers NUMA aware
+>
+>
+>
+> Am 02.07.24 um 20:20 schrieb Alex Deucher:
+>> + dri-devel
+>>
+>> On Tue, Jul 2, 2024 at 1:40 PM Rajneesh Bhardwaj
+>> <rajneesh.bhardwaj@amd.com> wrote:
+>>> Otherwise the nid is always passed as 0 during memory reclaim so make
+>>> TTM shrinkers NUMA aware.
+>>>
+>>> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+>>> ---
+>>>    drivers/gpu/drm/ttm/ttm_pool.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c
+>>> b/drivers/gpu/drm/ttm/ttm_pool.c index cc27d5c7afe8..f93ac9089a60
+>>> 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+>>> @@ -812,7 +812,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>>>                               &ttm_pool_debugfs_shrink_fops);
+>>>    #endif
+>>>
+>>> -       mm_shrinker = shrinker_alloc(0, "drm-ttm_pool");
+>>> +       mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE,
+>>> + "drm-ttm_pool");
+> You also need to make ttm_pool_shrink() actually use the nid.
+>
+> Yeah, Did you mean setting the nid of the shrinker control structure from something like ttm_global_init() -passes NUMA node id dev_to_node(dev) to ttm_pool_mgr_init and use it to set the mm_shrinker->sc.nid ?
 
-Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
----
- drivers/misc/fastrpc.c | 48 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 39 insertions(+), 9 deletions(-)
+No, the nid needs to be passed in as parameter to ttm_pool_shrink(). See 
+function ttm_pool_shrinker_scan()
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 5204fda51da3..7250e30aa93f 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -105,6 +105,10 @@
- 
- #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
- 
-+#define MAX_DSP_PD	64
-+#define MIN_FRPC_PGID	1000
-+#define MAX_FRPC_PGID	(MIN_FRPC_PGID + MAX_DSP_PD)
-+
- static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
- 						"sdsp", "cdsp"};
- struct fastrpc_phy_page {
-@@ -268,6 +272,7 @@ struct fastrpc_channel_ctx {
- 	struct fastrpc_session_ctx session[FASTRPC_MAX_SESSIONS];
- 	spinlock_t lock;
- 	struct idr ctx_idr;
-+	struct ida dsp_pgid_ida;
- 	struct list_head users;
- 	struct kref refcount;
- 	/* Flag if dsp attributes are cached */
-@@ -299,6 +304,7 @@ struct fastrpc_user {
- 	struct fastrpc_buf *init_mem;
- 
- 	int tgid;
-+	int dsp_pgid;
- 	int pd;
- 	bool is_secure_dev;
- 	/* Lock for lists */
-@@ -462,6 +468,7 @@ static void fastrpc_channel_ctx_free(struct kref *ref)
- 	struct fastrpc_channel_ctx *cctx;
- 
- 	cctx = container_of(ref, struct fastrpc_channel_ctx, refcount);
-+	ida_destroy(&cctx->dsp_pgid_ida);
- 
- 	kfree(cctx);
- }
-@@ -1114,7 +1121,7 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
- 	int ret;
- 
- 	cctx = fl->cctx;
--	msg->pid = fl->tgid;
-+	msg->pid = fl->dsp_pgid;
- 	msg->tid = current->pid;
- 
- 	if (kernel)
-@@ -1292,7 +1299,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
- 		}
- 	}
- 
--	inbuf.pgid = fl->tgid;
-+	inbuf.pgid = fl->dsp_pgid;
- 	inbuf.namelen = init.namelen;
- 	inbuf.pageslen = 0;
- 	fl->pd = USER_PD;
-@@ -1394,7 +1401,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
- 		goto err;
- 	}
- 
--	inbuf.pgid = fl->tgid;
-+	inbuf.pgid = fl->dsp_pgid;
- 	inbuf.namelen = strlen(current->comm) + 1;
- 	inbuf.filelen = init.filelen;
- 	inbuf.pageslen = 1;
-@@ -1503,7 +1510,7 @@ static int fastrpc_release_current_dsp_process(struct fastrpc_user *fl)
- 	int tgid = 0;
- 	u32 sc;
- 
--	tgid = fl->tgid;
-+	tgid = fl->dsp_pgid;
- 	args[0].ptr = (u64)(uintptr_t) &tgid;
- 	args[0].length = sizeof(tgid);
- 	args[0].fd = -1;
-@@ -1528,6 +1535,9 @@ static int fastrpc_device_release(struct inode *inode, struct file *file)
- 	list_del(&fl->user);
- 	spin_unlock_irqrestore(&cctx->lock, flags);
- 
-+	if (fl->dsp_pgid != -1)
-+		ida_free(&cctx->dsp_pgid_ida, fl->dsp_pgid);
-+
- 	if (fl->init_mem)
- 		fastrpc_buf_free(fl->init_mem);
- 
-@@ -1554,6 +1564,19 @@ static int fastrpc_device_release(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
-+static int fastrpc_pgid_alloc(struct fastrpc_channel_ctx *cctx)
-+{
-+	int ret = -1;
-+
-+	/* allocate unique id between MIN_FRPC_PGID and MAX_FRPC_PGID */
-+	ret = ida_alloc_range(&cctx->dsp_pgid_ida, MIN_FRPC_PGID,
-+					MAX_FRPC_PGID, GFP_ATOMIC);
-+	if (ret < 0)
-+		return -1;
-+
-+	return ret;
-+}
-+
- static int fastrpc_device_open(struct inode *inode, struct file *filp)
- {
- 	struct fastrpc_channel_ctx *cctx;
-@@ -1582,6 +1605,12 @@ static int fastrpc_device_open(struct inode *inode, struct file *filp)
- 	fl->cctx = cctx;
- 	fl->is_secure_dev = fdevice->secure;
- 
-+	fl->dsp_pgid = fastrpc_pgid_alloc(cctx);
-+	if (fl->dsp_pgid == -1) {
-+		dev_dbg(&cctx->rpdev->dev, "too many fastrpc clients, max %u allowed\n", MAX_DSP_PD);
-+		return -EUSERS;
-+	}
-+
- 	fl->sctx = fastrpc_session_alloc(cctx);
- 	if (!fl->sctx) {
- 		dev_err(&cctx->rpdev->dev, "No session available\n");
-@@ -1646,7 +1675,7 @@ static int fastrpc_dmabuf_alloc(struct fastrpc_user *fl, char __user *argp)
- static int fastrpc_init_attach(struct fastrpc_user *fl, int pd)
- {
- 	struct fastrpc_invoke_args args[1];
--	int tgid = fl->tgid;
-+	int tgid = fl->dsp_pgid;
- 	u32 sc;
- 
- 	args[0].ptr = (u64)(uintptr_t) &tgid;
-@@ -1802,7 +1831,7 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
- 	int err;
- 	u32 sc;
- 
--	req_msg.pgid = fl->tgid;
-+	req_msg.pgid = fl->dsp_pgid;
- 	req_msg.size = buf->size;
- 	req_msg.vaddr = buf->raddr;
- 
-@@ -1888,7 +1917,7 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
- 		return err;
- 	}
- 
--	req_msg.pgid = fl->tgid;
-+	req_msg.pgid = fl->dsp_pgid;
- 	req_msg.flags = req.flags;
- 	req_msg.vaddr = req.vaddrin;
- 	req_msg.num = sizeof(pages);
-@@ -1978,7 +2007,7 @@ static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_me
- 		return -EINVAL;
- 	}
- 
--	req_msg.pgid = fl->tgid;
-+	req_msg.pgid = fl->dsp_pgid;
- 	req_msg.len = map->len;
- 	req_msg.vaddrin = map->raddr;
- 	req_msg.fd = map->fd;
-@@ -2031,7 +2060,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
- 		return err;
- 	}
- 
--	req_msg.pgid = fl->tgid;
-+	req_msg.pgid = fl->dsp_pgid;
- 	req_msg.fd = req.fd;
- 	req_msg.offset = req.offset;
- 	req_msg.vaddrin = req.vaddrin;
-@@ -2375,6 +2404,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
- 	INIT_LIST_HEAD(&data->invoke_interrupted_mmaps);
- 	spin_lock_init(&data->lock);
- 	idr_init(&data->ctx_idr);
-+	ida_init(&data->dsp_pgid_ida);
- 	data->domain_id = domain_id;
- 	data->rpdev = rpdev;
- 
--- 
-2.34.1
+Regards,
+Christian.
+
+>
+> Just setting the flag won't really help us.
+>
+> Regards,
+> Christian.
+>
+>>>           if (!mm_shrinker)
+>>>                   return -ENOMEM;
+>>>
+>>> --
+>>> 2.34.1
+>>>
 
