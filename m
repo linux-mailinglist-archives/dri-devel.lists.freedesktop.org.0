@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543989260B0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 14:42:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CB59260AE
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 14:42:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 574B410E7D7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00BCE10E7D5;
 	Wed,  3 Jul 2024 12:42:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="OkOMUVNi";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="Vl7/Lnn9";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="joYWoJIL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bunu.damsy.net (bunu.damsy.net [51.159.160.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A635C10E7D7
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC8810E7D5
  for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 12:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202404r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1720010521;
- bh=jm2YhROIdm7pwBWdhWAlkDX
- aitJl69ARjp6cpblP7ow=; b=OkOMUVNio5TjRXaOQIzbmWpd+3sn+BxyXAzEpr3zuOrfZmsRAm
- nKoeyzT8heukL2aKvijNCUqUK1O12zqArpq7Y+K9RwArSuDpjAaKOPmLGjuI7Td1+WbS555+aWm
- 1rvxWmWFbtx7f4+gsflYJTSeyNsRyGsvJ4D+gbP1NZfpTDL5ntoptgl8wFv2W0dq78sHDmWSdAG
- M3ZE62W8NNTh5a06MMs7oIXZ/oXIb1x1DNAOpB/cHDiXtr1BlunCA37nFHj1ljSw3J4T08wrPU0
- z9e8yv29lTtSPf2oTl3pmyWIMj6T7HxqX0Z0kGPIpVUvCKst+J57GVKapt2KKf8Pddg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202404e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1720010521; bh=jm2YhROIdm7pwBWdhWAlkDX
- aitJl69ARjp6cpblP7ow=; b=Vl7/Lnn9cGv0oXd1VGZVxSfzudoeTx1BH3wl6w5Zy2sTJyZq6U
- 75COtbJwJymQXx+Dgxalpd+I8lpNzdk00WDQ==;
-Message-ID: <74020d3e-fa0a-45a7-89f7-f8ecac172ef6@damsy.net>
-Date: Wed, 3 Jul 2024 14:42:00 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] drm/doc: document some tracepoints as uAPI
-To: Lucas Stach <l.stach@pengutronix.de>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
- matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- rostedt@goodmis.org
-References: <20240614081657.408397-1-pierre-eric.pelloux-prayer@amd.com>
- <20240614081657.408397-5-pierre-eric.pelloux-prayer@amd.com>
- <3f4151d691ddca0fd621a88e60e5228627c52cfe.camel@pengutronix.de>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <3f4151d691ddca0fd621a88e60e5228627c52cfe.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1720010560;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3oNe79QFYy0BsgqHNRdTuV4KBXJ2XwhFBof2yObhRJQ=;
+ b=joYWoJILWQcLuVUoMWuHU+2kafxCfq51hIeDwC3CDaRgCIKFzfbT1x+DK57xH+WsoxMc9H
+ 03PQ57rwOw+1z8zxII+rk7yeL/Ev2uhX0X3rMQjwmDECu4tXf5xYGScIrmPaoaeSzapSkL
+ 8O8vWZBJ+qqv5cKZvs7UxZ1L47D1FuzcQO9GEt0abtVAgY/0lLYS6xORI7GcoI3lBNTBp6
+ KBKXTU2ctDnpGRCp+Kc1pTegYcKzO0+DPWdbVv+v3uvoT6iGddIw+aAcRCNH48TzNxRABP
+ fu6H2NSCFY5hwHV5lyzo6BjLLoTONDf/NG4/CgD9GYGYuDL3O30/2fEUyORAXA==
+Date: Wed, 03 Jul 2024 14:42:37 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: dri-devel@lists.freedesktop.org
+Cc: boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, linux-kernel@vger.kernel.org, Diederik
+ de Haas <didi.debian@cknow.org>, Furkan Kardame <f.kardame@manjaro.org>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] drm/panfrost: Mark simple_ondemand governor as softdep
+In-Reply-To: <4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org>
+References: <4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org>
+Message-ID: <f672e7460c92bc9e0c195804f7e99d0b@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,101 +61,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello everyone,
 
-
-Le 03/07/2024 à 12:46, Lucas Stach a écrit :
-> Am Freitag, dem 14.06.2024 um 10:16 +0200 schrieb Pierre-Eric Pelloux-
-> Prayer:
->> This commit adds a document section in drm-uapi.rst about tracepoints,
->> and mark the events gpu_scheduler_trace.h as stable uAPI.
->>
->> The goal is to explicitly state that tools can rely on the fields,
->> formats and semantics of these events.
->>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   Documentation/gpu/drm-uapi.rst                | 19 ++++++++++++++++
->>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 22 +++++++++++++++++++
->>   2 files changed, 41 insertions(+)
->>
->> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
->> index 370d820be248..78496793a8f0 100644
->> --- a/Documentation/gpu/drm-uapi.rst
->> +++ b/Documentation/gpu/drm-uapi.rst
->> @@ -570,3 +570,22 @@ dma-buf interoperability
->>   
->>   Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
->>   information on how dma-buf is integrated and exposed within DRM.
->> +
->> +
->> +Trace events
->> +============
->> +
->> +See Documentation/trace/tracepoints.rst for the tracepoints documentation.
->> +In the drm subsystem, some events are considered stable uAPI to avoid
->> +breaking tools (eg: gpuvis, umr) relying on them. Stable means that fields
->> +cannot be removed, nor their formatting updated. Adding new fields is
->> +possible, under the normal uAPI requirements.
+On 2024-06-17 22:17, Dragan Simic wrote:
+> Panfrost DRM driver uses devfreq to perform DVFS, while using 
+> simple_ondemand
+> devfreq governor by default.  This causes driver initialization to fail 
+> on
+> boot when simple_ondemand governor isn't built into the kernel 
+> statically,
+> as a result of the missing module dependency and, consequently, the 
+> required
+> governor module not being included in the initial ramdisk.  Thus, let's 
+> mark
+> simple_ondemand governor as a softdep for Panfrost, to have its kernel 
+> module
+> included in the initial ramdisk.
 > 
-> What are those "normal uAPI requirements" in this context? Aside from
-> not being able to remove or change any fields?
-
-The ones from 
-https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
-
-For the trace events, the sentence "patches must be reviewed and ready 
-for merging into a suitable and canonical upstream project" could be 
-read as "gpuvis patches must be reviewed and ready for merging".
-
-Thanks,
-Pierre-Eric
-
-
-
+> This is a rather longstanding issue that has forced distributions to 
+> build
+> devfreq governors statically into their kernels, [1][2] or has forced 
+> users
+> to introduce some unnecessary workarounds. [3]
 > 
-> Regards,
-> Lucas
+> For future reference, not having support for the simple_ondemand 
+> governor in
+> the initial ramdisk produces errors in the kernel log similar to these 
+> below,
+> which were taken from a Pine64 RockPro64:
 > 
->> +
->> +Stable uAPI events
->> +------------------
->> +
->> +From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> +   :doc: uAPI trace events
->> \ No newline at end of file
->> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> index 0abcad26839c..63113803cdd5 100644
->> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> @@ -33,6 +33,28 @@
->>   #define TRACE_SYSTEM gpu_scheduler
->>   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
->>   
->> +
->> +/**
->> + * DOC: uAPI trace events
->> + *
->> + * ``drm_sched_job``, ``drm_run_job``, ``drm_sched_process_job``,
->> + * and ``drm_sched_job_wait_dep`` are considered stable uAPI.
->> + *
->> + * Common trace events attributes:
->> + *
->> + * * ``id``    - this is &drm_sched_job->id. It uniquely idenfies a job
->> + *   inside a &struct drm_gpu_scheduler.
->> + *
->> + * * ``dev``   - the dev_name() of the device running the job.
->> + *
->> + * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
->> + *   uniquely identifies where the job is going to be executed.
->> + *
->> + * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
->> + *   &drm_sched_fence.finished
->> + *
->> + */
->> +
->>   #ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
->>   #define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
->>   /* Similar to trace_print_array_seq but for fences. */
+>   panfrost ff9a0000.gpu: [drm:panfrost_devfreq_init [panfrost]]
+> *ERROR* Couldn't initialize GPU devfreq
+>   panfrost ff9a0000.gpu: Fatal error during GPU init
+>   panfrost: probe of ff9a0000.gpu failed with error -22
+> 
+> Having simple_ondemand marked as a softdep for Panfrost may not resolve 
+> this
+> issue for all Linux distributions.  In particular, it will remain 
+> unresolved
+> for the distributions whose utilities for the initial ramdisk 
+> generation do
+> not handle the available softdep information [4] properly yet.  
+> However, some
+> Linux distributions already handle softdeps properly while generating 
+> their
+> initial ramdisks, [5] and this is a prerequisite step in the right 
+> direction
+> for the distributions that don't handle them properly yet.
+> 
+> [1] 
+> https://gitlab.manjaro.org/manjaro-arm/packages/core/linux/-/blob/linux61/config?ref_type=heads#L8180
+> [2] https://salsa.debian.org/kernel-team/linux/-/merge_requests/1066
+> [3] https://forum.pine64.org/showthread.php?tid=15458
+> [4] 
+> https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?id=49d8e0b59052999de577ab732b719cfbeb89504d
+> [5] 
+> https://github.com/archlinux/mkinitcpio/commit/97ac4d37aae084a050be512f6d8f4489054668ad
+> 
+> Cc: Diederik de Haas <didi.debian@cknow.org>
+> Cc: Furkan Kardame <f.kardame@manjaro.org>
+> Cc: stable@vger.kernel.org
+> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
+> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+
+Just checking, could this patch be accepted, please?  The Lima 
+counterpart
+has already been accepted. [6]
+
+The approach in this patch is far from perfect, but it's still fine 
+until
+there's a better solution, such as harddeps.  I'll continue my research
+about the possibility for introducing harddeps, which would hopefully
+replace quite a few instances of the softdep (ab)use that already extend
+rather far.  For example, have a look at the commit d5178578bcd4 (btrfs:
+directly call into crypto framework for checksumming) [7] and the lines
+containing MODULE_SOFTDEP() at the very end of fs/btrfs/super.c. [8]
+
+If a filesystem driver can rely on the (ab)use of softdeps, which may be
+fragile or seen as a bit wrong, I think we can follow the same approach,
+at least until a better solution is available.
+
+[6] 
+https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0c94f58cef319ad054fd909b3bf4b7d09c03e11c
+[7] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5178578bcd4
+[8] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/super.c#n2593
+
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index ef9f6c0716d5..149737d7a07e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -828,3 +828,4 @@ module_platform_driver(panfrost_driver);
+>  MODULE_AUTHOR("Panfrost Project Developers");
+>  MODULE_DESCRIPTION("Panfrost DRM Driver");
+>  MODULE_LICENSE("GPL v2");
+> +MODULE_SOFTDEP("pre: governor_simpleondemand");
