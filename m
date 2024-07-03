@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64BD9263DF
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 16:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B71792646B
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 17:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0726F10E242;
-	Wed,  3 Jul 2024 14:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF4910E90F;
+	Wed,  3 Jul 2024 15:10:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="vKlkUWrY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bcKKuNpS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3405A10E242
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 14:52:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52C5C10E910;
+ Wed,  3 Jul 2024 15:10:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720019414; x=1751555414;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=21xLGJoQYD1kb2zURTdJKfi+rqKWWh/EQBKGmisczfU=;
+ b=bcKKuNpSakw1Q1pVGpZyUHX4CxigXHwo5hpPuxV21jCM0kqr2/cLgyKZ
+ XHgJAl7fQcAxMCdCYfpJpvevYczD8NL8ubbC6Ki97jrtp+Ts1sBA06PaL
+ ZPNMrzngMskpZxDEFwS3eNSh06TmvmviDdn4UrFkX4ENMlWuBqGTgxreP
+ jjW3aVbb6g4N9lEQ6tTMwL8lPGn1+jhjEnFW+x1qC6G+Ssk4sXntSJm3U
+ bysqBtGMeP7Obbc9/xQvOrMXuPjDqsVAE7iZKvXry/yPx+PbuCG9pRPFl
+ WuaxCQkSLD4XVMXmH9YFjoUCtumtCsY/W1RY84tX6Ef9UO7kXhdoOFiGu Q==;
+X-CSE-ConnectionGUID: IFSazUZFQ6O+q4lJ+89uoQ==
+X-CSE-MsgGUID: 62VlKjleQWelvOIRp1AtcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="21126990"
+X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; d="scan'208";a="21126990"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jul 2024 08:10:13 -0700
+X-CSE-ConnectionGUID: bornbNVxQsKAg15BCJsKkg==
+X-CSE-MsgGUID: jW+rOXhcTumhiV2lZYVWOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; d="scan'208";a="46261150"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jul 2024 08:10:13 -0700
+Date: Wed, 3 Jul 2024 18:10:24 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/9] drm/i915: Dump DSC state to dmesg/debugfs
+Message-ID: <ZoVp4L1Sdo96ZRYu@ideak-desk.fi.intel.com>
+References: <20240628164451.1177612-1-imre.deak@intel.com>
+ <87sewt9wrk.fsf@intel.com>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1720018355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lVm5E6swsesJb06uFJCAcatfBLzXL+iYie8HScXx3cM=;
- b=vKlkUWrYQaoJmbPXXISLT74VRiQWv32r99RgM5O1kWtx5Mv2m477cvHj8gp52amczXkFah
- lx14wum+G/sArou9KFA3+cv371EGwBCAmUEbc7uGCfknM7jGvRlwEAjPGFc4IrdvzJNmwp
- by2CJ9iD6+7gbLSo943NFtO6/yUQyokBdNrdTtrMbyiOeV1cEDWKrhATxJVU9u3psQgXa5
- q4mhkEI3lbpPvdZsBUkCpIRRL/o8TcmdkhlwvxHH31VT0BVokeBCuwvWO3/4/BHaa4rG53
- y0GwOh8sDu3UJSWTqbFCZpdTlOt8zc5G3urs03TVeET4/Womq/UcsF6Pn1yOlg==
-Date: Wed, 03 Jul 2024 16:52:35 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
- robh@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- linux-kernel@vger.kernel.org, Diederik de Haas <didi.debian@cknow.org>,
- Furkan Kardame <f.kardame@manjaro.org>, stable@vger.kernel.org
-Subject: Re: [PATCH] drm/panfrost: Mark simple_ondemand governor as softdep
-In-Reply-To: <e42a55ba-cbb5-47a4-bec6-9c3067040970@arm.com>
-References: <4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org>
- <f672e7460c92bc9e0c195804f7e99d0b@manjaro.org>
- <e42a55ba-cbb5-47a4-bec6-9c3067040970@arm.com>
-Message-ID: <192dbcd968dfebf825a3a759701bf381@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87sewt9wrk.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,133 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-07-03 15:20, Steven Price wrote:
-> On 03/07/2024 13:42, Dragan Simic wrote:
->> On 2024-06-17 22:17, Dragan Simic wrote:
->>> Panfrost DRM driver uses devfreq to perform DVFS, while using
->>> simple_ondemand
->>> devfreq governor by default.  This causes driver initialization to
->>> fail on
->>> boot when simple_ondemand governor isn't built into the kernel
->>> statically,
->>> as a result of the missing module dependency and, consequently, the
->>> required
->>> governor module not being included in the initial ramdisk.  Thus,
->>> let's mark
->>> simple_ondemand governor as a softdep for Panfrost, to have its 
->>> kernel
->>> module
->>> included in the initial ramdisk.
->>> 
->>> This is a rather longstanding issue that has forced distributions to
->>> build
->>> devfreq governors statically into their kernels, [1][2] or has forced
->>> users
->>> to introduce some unnecessary workarounds. [3]
->>> 
->>> For future reference, not having support for the simple_ondemand
->>> governor in
->>> the initial ramdisk produces errors in the kernel log similar to 
->>> these
->>> below,
->>> which were taken from a Pine64 RockPro64:
->>> 
->>>   panfrost ff9a0000.gpu: [drm:panfrost_devfreq_init [panfrost]]
->>> *ERROR* Couldn't initialize GPU devfreq
->>>   panfrost ff9a0000.gpu: Fatal error during GPU init
->>>   panfrost: probe of ff9a0000.gpu failed with error -22
->>> 
->>> Having simple_ondemand marked as a softdep for Panfrost may not
->>> resolve this
->>> issue for all Linux distributions.  In particular, it will remain
->>> unresolved
->>> for the distributions whose utilities for the initial ramdisk
->>> generation do
->>> not handle the available softdep information [4] properly yet. 
->>> However, some
->>> Linux distributions already handle softdeps properly while generating
->>> their
->>> initial ramdisks, [5] and this is a prerequisite step in the right
->>> direction
->>> for the distributions that don't handle them properly yet.
->>> 
->>> [1]
->>> https://gitlab.manjaro.org/manjaro-arm/packages/core/linux/-/blob/linux61/config?ref_type=heads#L8180
->>> [2] https://salsa.debian.org/kernel-team/linux/-/merge_requests/1066
->>> [3] https://forum.pine64.org/showthread.php?tid=15458
->>> [4]
->>> https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?id=49d8e0b59052999de577ab732b719cfbeb89504d
->>> [5]
->>> https://github.com/archlinux/mkinitcpio/commit/97ac4d37aae084a050be512f6d8f4489054668ad
->>> 
->>> Cc: Diederik de Haas <didi.debian@cknow.org>
->>> Cc: Furkan Kardame <f.kardame@manjaro.org>
->>> Cc: stable@vger.kernel.org
->>> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
->>> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+On Mon, Jul 01, 2024 at 02:28:31PM +0300, Jani Nikula wrote:
+> On Fri, 28 Jun 2024, Imre Deak <imre.deak@intel.com> wrote:
+> > This is v2 of [1], renaming the helpers from drm_x16 to fxp_q4 as
+> > suggested by Jani.
+> >
+> > [1] https://lore.kernel.org/all/20240614173911.3743172-1-imre.deak@intel.com
+> >
+> > Cc: Jani Nikula <jani.nikula@intel.com>
 > 
-> Reviewed-by: Steven Price <steven.price@arm.com>
-
-Thanks!
-
->> Just checking, could this patch be accepted, please?  The Lima 
->> counterpart
->> has already been accepted. [6]
+> No detailed review, but on the approach and naming,
 > 
-> Thanks for the prod - I have to admit I saw there was discussion about
-> the Lima patch and so just put this on my list to look again later 
-> after
-> the discussion had reached a conclusion.
-> 
->> The approach in this patch is far from perfect, but it's still fine 
->> until
->> there's a better solution, such as harddeps.  I'll continue my 
->> research
->> about the possibility for introducing harddeps, which would hopefully
->> replace quite a few instances of the softdep (ab)use that already 
->> extend
->> rather far.  For example, have a look at the commit d5178578bcd4 
->> (btrfs:
->> directly call into crypto framework for checksumming) [7] and the 
->> lines
->> containing MODULE_SOFTDEP() at the very end of fs/btrfs/super.c. [8]
-> 
-> I agree - it's not perfect, but it's the best we have for now. I hope
-> sometime we'll have a cleaner solution to express dependencies like 
-> this
-> (good luck! ;) ).
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-Thanks. :)  Implementing harddeps is _relatively_ straightforward, but
-getting full support for harddeps reach various Linux distributions is
-going to be an uphill battle without doubt. :)
+Testing the patchset in CI shards is still pending, however based on the
+available BAT result, I pushed already the first two patches with your
+ack to drm-misc-next, thanks.
 
->> If a filesystem driver can rely on the (ab)use of softdeps, which may 
->> be
->> fragile or seen as a bit wrong, I think we can follow the same 
->> approach,
->> at least until a better solution is available.
->> 
->> [6]
->> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0c94f58cef319ad054fd909b3bf4b7d09c03e11c
->> [7]
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5178578bcd4
->> [8]
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/super.c#n2593
->> 
->>> ---
->>>  drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
->>>  1 file changed, 1 insertion(+)
->>> 
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> index ef9f6c0716d5..149737d7a07e 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> @@ -828,3 +828,4 @@ module_platform_driver(panfrost_driver);
->>>  MODULE_AUTHOR("Panfrost Project Developers");
->>>  MODULE_DESCRIPTION("Panfrost DRM Driver");
->>>  MODULE_LICENSE("GPL v2");
->>> +MODULE_SOFTDEP("pre: governor_simpleondemand");
+> > Imre Deak (9):
+> >   drm: Add helpers for q4 fixed point values
+> >   drm/display/dsc: Add a helper to dump the DSC configuration
+> >   drm/i915: Replace to_bpp_x16() with fxp_q4_from_int()
+> >   drm/i915: Replace to_bpp_int() with fxp_q4_to_int()
+> >   drm/i915: Replace to_bpp_int_roundup() with fxp_q4_to_int_roundup()
+> >   drm/i915: Replace to_bpp_frac() with fxp_q4_to_frac()
+> >   drm/i915: Replace BPP_X16_FMT()/ARGS() with FXP_Q4_FMT()/ARGS()
+> >   drm/i915: Dump DSC state to dmesg and debugfs/i915_display_info
+> >   drm/i915: Remove DSC register dump
+> >
+> >  drivers/gpu/drm/display/drm_dp_helper.c       |  5 +-
+> >  drivers/gpu/drm/display/drm_dsc_helper.c      | 91 +++++++++++++++++++
+> >  drivers/gpu/drm/i915/display/icl_dsi.c        |  9 +-
+> >  drivers/gpu/drm/i915/display/intel_audio.c    |  5 +-
+> >  drivers/gpu/drm/i915/display/intel_bios.c     |  5 +-
+> >  drivers/gpu/drm/i915/display/intel_cdclk.c    |  5 +-
+> >  .../drm/i915/display/intel_crtc_state_dump.c  |  3 +
+> >  drivers/gpu/drm/i915/display/intel_display.c  |  7 +-
+> >  .../drm/i915/display/intel_display_debugfs.c  |  4 +
+> >  .../drm/i915/display/intel_display_types.h    | 23 -----
+> >  drivers/gpu/drm/i915/display/intel_dp.c       | 51 ++++++-----
+> >  drivers/gpu/drm/i915/display/intel_dp_mst.c   | 26 +++---
+> >  drivers/gpu/drm/i915/display/intel_fdi.c      |  6 +-
+> >  drivers/gpu/drm/i915/display/intel_link_bw.c  |  4 +-
+> >  drivers/gpu/drm/i915/display/intel_vdsc.c     | 51 ++++++-----
+> >  drivers/gpu/drm/i915/display/intel_vdsc.h     |  4 +
+> >  include/drm/display/drm_dsc_helper.h          |  3 +
+> >  include/drm/drm_fixed.h                       | 23 +++++
+> >  18 files changed, 222 insertions(+), 103 deletions(-)
+> 
+> -- 
+> Jani Nikula, Intel
