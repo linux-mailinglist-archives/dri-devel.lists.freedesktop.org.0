@@ -2,47 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8BC92672B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 19:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E5792675F
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 19:45:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E20310E95D;
-	Wed,  3 Jul 2024 17:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D9B710E98A;
+	Wed,  3 Jul 2024 17:45:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="PFZcuTOr";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="amC3bSv7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E78B10E952
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 17:30:22 +0000 (UTC)
-X-Virus-Scanned: SPAM Filter at disroot.org
-From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1720027288; bh=u+waA3ERN/R9C1+7FuEqbNu+4+7A8S3ryY4fb2+V13M=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=PFZcuTOr/ln3wbv1NI/59q/dQCXMStK624W8USBsOtCnpvgm/OMlZv9g4OuuDYaFb
- SL1K7/60qpg5HbseyjDZC3uUgYPMrQPS6QqJbnPACZ5/IUmPSZ1KTS9SIKhE1ZAfgv
- IW1XuPZ2ETdOAvji7Z7WsQMCBfuSG5IS3tOz9QCvmV50jUDZgVUnyfT3dfwmo7bAiE
- 17LnBKEdZGBjUjTgF8Q61tkHoValZSKUutwIDI9z/w0sEvaTmsnk4vBroBTdD3qHhy
- SzJBxCrDaelHealhRhbqfjcHQsUattjwOKMpG2qZRY/LtRujLH4NpIv5oNTeCm0IKr
- LSwnODDtScfaA==
-To: dri-devel@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-Subject: [PATCH v3 9/9] drm/tests: Add test for drm_framebuffer_free()
-Date: Wed,  3 Jul 2024 14:22:28 -0300
-Message-ID: <20240703172228.11166-10-gcarlos@disroot.org>
-In-Reply-To: <20240703172228.11166-1-gcarlos@disroot.org>
-References: <20240703172228.11166-1-gcarlos@disroot.org>
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1DA810E98A
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 17:45:36 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-65240d22f7cso3329557b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2024 10:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1720028736; x=1720633536;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GhxR4AnmOLb2e8qgt4elcn3tmPYz1HfQBknaKkg9ViY=;
+ b=amC3bSv7Zs3Qg0wkcn6OM6EASyZaUo3fkh9DF+JBKl9Mh1aobQ9n65FU/kaOGmr0Lz
+ rPtwBct15VVQE5LCNMaKePGufUS9sksJKy8AYir0D8FnJRSm1NcvL9qdMntSXTF+QxtM
+ jOofWsMyt1qk2PVEpg0gkqG4zBVJQUVBrh0j/BImir1IuL//QF5Y7eZLhPh6uycTuGA0
+ jToY/AzbWhkHQ3gMpOpBxZezqBKhqbvSMd8sBbOKVeOcQXVc4ibbYUIHz4RTjfTKCwNl
+ RD5oZAgT2mctv369SMmyYCGVzA8K2jB+s/+A+hMBwOFgXdVh4VBa0d9iZ+E1bZB0Bipq
+ xo5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720028736; x=1720633536;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GhxR4AnmOLb2e8qgt4elcn3tmPYz1HfQBknaKkg9ViY=;
+ b=P4wwyXug7D1VCW4rnKyffm3UEGLNxsfYj0bwG7qEbqjjFICaHhMXQtY/vKEMcawkcX
+ Bu/3GJRhl2TFOsMIGNTx6y1FRE4u6WDoM0qJz9lqYAPyqUHpU+psvy5yhPZ2euJhuOe/
+ Kz8ufwzHtcnBfSPXHIYLR6lG8ho3hgvJbeJAvMSNFy3swH8m2nTnwIRv/HroSs/HRiga
+ g+0sXxVksjwdZhwYDBLIJfAuZw+L4gFdcDibTd442Ba78TNe5PJj55+/95/VYWEg474P
+ c2dS/iuTyXijQgz1B7sJPGSSF0vFl1Z2qKqRow5y+KLa4q/XOjRf1/Ur3OoV081xS1WC
+ 02mg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVLsr8hkhf8kg+Xx1ilvQ5utHN8K1pJqL89SNoUFGkod2K25upsJ58ZE4GQQHl3gVEHTxlQ71jDY2SnWuluiFwRPH7oAjPLLlXPuKieAub+
+X-Gm-Message-State: AOJu0Yy18bGdU5XctZR9rey8lD6ZBSSYKJuDwFZqulIM/ZkOmWEQ+uGF
+ 50zIlbuSQe+vp9PX2cPlYmk3hPK6DgZuSSMwRgHjkldJntxBnBpBApVrwfrLuu6ZP5MUU2QuPWY
+ fffYyTpaHKvJYL+7YmS7eJLLtp8yXv0kxlp5p
+X-Google-Smtp-Source: AGHT+IGhOytUB8CaG/gAFJEC68exEInJu4ze08dBFswC7EHqqNiHxCYGfnPatnT8gPM2A0u1TbA00DVz/5EvCS/GRV4=
+X-Received: by 2002:a81:7c54:0:b0:646:25c7:178e with SMTP id
+ 00721157ae682-64c7123c013mr127129437b3.5.1720028735529; Wed, 03 Jul 2024
+ 10:45:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240630011215.42525-1-thorsten.blum@toblux.com>
+ <20240701232634.0bddb542ddea123b48dcabdf@linux-foundation.org>
+ <20240702064017.GA24838@lst.de> <e0f384b0-6913-4224-a3ea-bdae784f5dab@amd.com>
+ <20240702003357.6bfd1d918c56d536bb664c37@linux-foundation.org>
+ <CAJuCfpFCiUfpa45rG74zd-KoQcaA2fwgUw86iSF2CDiFrXCOdA@mail.gmail.com>
+In-Reply-To: <CAJuCfpFCiUfpa45rG74zd-KoQcaA2fwgUw86iSF2CDiFrXCOdA@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 3 Jul 2024 10:45:21 -0700
+Message-ID: <CAJuCfpHJPtduJwOyxTFT9RVmWZCcWULWhUN4ZPEt6earHp=MXA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Remove unnecessary kmalloc() cast
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Christoph Hellwig <hch@lst.de>, Thorsten Blum <thorsten.blum@toblux.com>,
+ jack@suse.cz, 
+ linux-kernel@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,92 +88,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a single KUnit test case for the drm_framebuffer_free function.
+On Tue, Jul 2, 2024 at 8:15=E2=80=AFAM Suren Baghdasaryan <surenb@google.co=
+m> wrote:
+>
+> On Tue, Jul 2, 2024 at 7:34=E2=80=AFAM Andrew Morton <akpm@linux-foundati=
+on.org> wrote:
+> >
+> > On Tue, 2 Jul 2024 09:13:35 +0200 Christian K=C3=B6nig <christian.koeni=
+g@amd.com> wrote:
+> >
+> > > yes that is
+> > > intentionally a define and not an inline function.
+> > >
+> > > See this patch here which changed that:
+> > >
+> > > commit 2c321f3f70bc284510598f712b702ce8d60c4d14
+> > > Author: Suren Baghdasaryan <surenb@google.com>
+> > > Date:   Sun Apr 14 19:07:31 2024 -0700
+> > >
+> > >      mm: change inlined allocation helpers to account at the call sit=
+e
+> >
+> > Dang, yes, that was a regrettable change.  But hardly the end of the
+> > world.  I do think each such alteration should have included a comment
+> > to prevent people from going and cleaning them up.
+>
+> Sorry I missed this discussion. Yes, the definition was intentional
+> and I will add comments for all the cases which were changed this way.
 
-Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
----
-v2:
-  - Reorder kunit cases alphabetically.
-v3:
-  - Replace the use of void pointer on drm_framebuffer_test_priv struct.
-  - Remove the test with unregistered framebuffer object.
-  - Add documentation.
----
- drivers/gpu/drm/tests/drm_framebuffer_test.c | 50 ++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+Posted https://lore.kernel.org/all/20240703174225.3891393-1-surenb@google.c=
+om/
+adding clarifying comments.
+Thanks,
+Suren.
 
-diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-index 73a1a3a3987e..7d1d078760f9 100644
---- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
-+++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-@@ -357,6 +357,7 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
- struct drm_framebuffer_test_priv {
- 	struct drm_device dev;
- 	bool buffer_created;
-+	bool buffer_freed;
- };
- 
- static struct drm_framebuffer *fb_create_mock(struct drm_device *dev,
-@@ -634,10 +635,59 @@ static void drm_test_framebuffer_init_dev_mismatch(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
- }
- 
-+static void destroy_free_mock(struct drm_framebuffer *fb)
-+{
-+	struct drm_framebuffer_test_priv *priv = container_of(fb->dev, typeof(*priv), dev);
-+
-+	priv->buffer_freed = true;
-+}
-+
-+static struct drm_framebuffer_funcs framebuffer_funcs_free_mock = {
-+	.destroy = destroy_free_mock,
-+};
-+
-+/*
-+ * In summary, the drm_framebuffer_free() function must implicitly call
-+ * fb->funcs->destroy() and garantee that the framebufer object is unregistered
-+ * from the drm_device idr pool.
-+ */
-+static void drm_test_framebuffer_free(struct kunit *test)
-+{
-+	struct drm_framebuffer_test_priv *priv = test->priv;
-+	struct drm_device *dev = &priv->dev;
-+	struct drm_mode_object *obj;
-+	struct drm_framebuffer fb = {
-+		.dev = dev,
-+		.funcs = &framebuffer_funcs_free_mock,
-+	};
-+	int id, ret;
-+
-+	priv->buffer_freed = false;
-+
-+	/*
-+	 * Mock	a framebuffer that was not unregistered	at the moment of the
-+	 * drm_framebuffer_free() call.
-+	 */
-+	ret = drm_mode_object_add(dev, &fb.base, DRM_MODE_OBJECT_FB);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	id = fb.base.id;
-+
-+	drm_framebuffer_free(&fb.base.refcount);
-+
-+	/* The framebuffer object must be unregistered */
-+	obj = drm_mode_object_find(dev, NULL, id, DRM_MODE_OBJECT_FB);
-+	KUNIT_EXPECT_PTR_EQ(test, obj, NULL);
-+	KUNIT_EXPECT_EQ(test, fb.base.id, 0);
-+
-+	/* Test if fb->funcs->destroy() was called */
-+	KUNIT_EXPECT_EQ(test, priv->buffer_freed, true);
-+}
-+
- static struct kunit_case drm_framebuffer_tests[] = {
- 	KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, check_src_coords_gen_params),
- 	KUNIT_CASE(drm_test_framebuffer_cleanup),
- 	KUNIT_CASE_PARAM(drm_test_framebuffer_create, drm_framebuffer_create_gen_params),
-+	KUNIT_CASE(drm_test_framebuffer_free),
- 	KUNIT_CASE(drm_test_framebuffer_init),
- 	KUNIT_CASE(drm_test_framebuffer_init_bad_format),
- 	KUNIT_CASE(drm_test_framebuffer_init_dev_mismatch),
--- 
-2.44.2
-
+> Thanks,
+> Suren.
+>
+> >
+> >
