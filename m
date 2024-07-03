@@ -2,80 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FE79255A2
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 10:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9239255A8
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 10:44:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A2D10E76F;
-	Wed,  3 Jul 2024 08:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 120BD10E76C;
+	Wed,  3 Jul 2024 08:44:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="iVnoTUj5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QLWIqNHv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iVnoTUj5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QLWIqNHv";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="t/Obisim";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pnoXWZim";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t/Obisim";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pnoXWZim";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CFE210E76D;
- Wed,  3 Jul 2024 08:43:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 683B710E76C;
+ Wed,  3 Jul 2024 08:44:32 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2F7A321B14;
- Wed,  3 Jul 2024 08:43:43 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2C02C210E9;
+ Wed,  3 Jul 2024 08:44:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719996223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1719996271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=M5mPImjflznCvU8v6E0k5Lt065ivRLse5XN+jzBNIO4=;
- b=iVnoTUj5f0euGbehg8dw/9Q9yb7hHPAu/SBwWQsYv6ZvjQDFdtsIJnuxvYshWnHDK+xEQT
- 0Z0lhiGx9aijMrkv5AdFG1m8arWqRCAIZiGRSx6uF19i3wazuDOjqfmEqKdLy1ZTmNU9v5
- Xjxea8AnSstjT6hgQH+At7+WHf4HmUI=
+ bh=5FTNit5VumeYByn0kziQD+RLgnsk5rbQnOLmPNd/FnI=;
+ b=t/ObisimNYlkKTBC8/InflOcv3XM870HYBgw1CnGPxgA4vdIxD1GlfeKWy3/nVs/XZ6a8q
+ aJ4wYNXi5bz9C+7FoqYB7mAA3DkJ1/PAvzkoeqWcEoicLfCSdHdba6kaDt0Kpq64hS9bTW
+ R5wxX99WxWk0dLXYryHDMZxZTvjztuU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719996223;
+ s=susede2_ed25519; t=1719996271;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=M5mPImjflznCvU8v6E0k5Lt065ivRLse5XN+jzBNIO4=;
- b=QLWIqNHvuDfq8ERGNK2F83+0J0Fw3L9nRVA5kQxE2BpVaiSMszJWHQKtv4SLQYtshpfVbz
- 9bWwHqKwJ41iwiBg==
+ bh=5FTNit5VumeYByn0kziQD+RLgnsk5rbQnOLmPNd/FnI=;
+ b=pnoXWZimXXS/w2L1JaYNJJDJsLFmPmJr/nt6t/O1Lp7An2nNdR43VAUiBtC8D+80KWj/j5
+ aO+EIdKFHdtQP4CA==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719996223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1719996271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=M5mPImjflznCvU8v6E0k5Lt065ivRLse5XN+jzBNIO4=;
- b=iVnoTUj5f0euGbehg8dw/9Q9yb7hHPAu/SBwWQsYv6ZvjQDFdtsIJnuxvYshWnHDK+xEQT
- 0Z0lhiGx9aijMrkv5AdFG1m8arWqRCAIZiGRSx6uF19i3wazuDOjqfmEqKdLy1ZTmNU9v5
- Xjxea8AnSstjT6hgQH+At7+WHf4HmUI=
+ bh=5FTNit5VumeYByn0kziQD+RLgnsk5rbQnOLmPNd/FnI=;
+ b=t/ObisimNYlkKTBC8/InflOcv3XM870HYBgw1CnGPxgA4vdIxD1GlfeKWy3/nVs/XZ6a8q
+ aJ4wYNXi5bz9C+7FoqYB7mAA3DkJ1/PAvzkoeqWcEoicLfCSdHdba6kaDt0Kpq64hS9bTW
+ R5wxX99WxWk0dLXYryHDMZxZTvjztuU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719996223;
+ s=susede2_ed25519; t=1719996271;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=M5mPImjflznCvU8v6E0k5Lt065ivRLse5XN+jzBNIO4=;
- b=QLWIqNHvuDfq8ERGNK2F83+0J0Fw3L9nRVA5kQxE2BpVaiSMszJWHQKtv4SLQYtshpfVbz
- 9bWwHqKwJ41iwiBg==
+ bh=5FTNit5VumeYByn0kziQD+RLgnsk5rbQnOLmPNd/FnI=;
+ b=pnoXWZimXXS/w2L1JaYNJJDJsLFmPmJr/nt6t/O1Lp7An2nNdR43VAUiBtC8D+80KWj/j5
+ aO+EIdKFHdtQP4CA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7F9713889;
- Wed,  3 Jul 2024 08:43:42 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0A1D13889;
+ Wed,  3 Jul 2024 08:44:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id NsJeNz4PhWYJSAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 03 Jul 2024 08:43:42 +0000
-Message-ID: <7efdb950-5da8-4a31-93de-9b9981aaefbf@suse.de>
-Date: Wed, 3 Jul 2024 10:43:42 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 3laaNW4PhWY/SAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 03 Jul 2024 08:44:30 +0000
+Message-ID: <e2da85aa-c39c-4494-8c11-b57adb0a7ccf@suse.de>
+Date: Wed, 3 Jul 2024 10:44:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/6] drm/radeon: remove load callback from kms_driver
+Subject: Re: [PATCH v3 3/6] drm/radeon: use variable flags as parameter
 To: Wu Hoi Pok <wuhoipok@gmail.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -83,7 +83,7 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20240630165949.117634-1-wuhoipok@gmail.com>
- <20240630165949.117634-3-wuhoipok@gmail.com>
+ <20240630165949.117634-4-wuhoipok@gmail.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -110,9 +110,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240630165949.117634-3-wuhoipok@gmail.com>
+In-Reply-To: <20240630165949.117634-4-wuhoipok@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.29
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-0.999];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
@@ -127,9 +130,6 @@ X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
  FUZZY_BLOCKED(0.00)[rspamd.com];
  DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.29
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,41 +148,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Am 30.06.24 um 18:59 schrieb Wu Hoi Pok:
-> The ".load" callback in "struct drm_driver" is deprecated. In order to remove
-> the callback, we have to manually call "radeon_driver_load_kms" instead.
+> To be consistent with amdgpu driver, use "flags" as the parameter because
+> it is already assigned as "ent->driver_data".
 >
 > Signed-off-by: Wu Hoi Pok <wuhoipok@gmail.com>
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
 
+
 > ---
->   drivers/gpu/drm/radeon/radeon_drv.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/radeon/radeon_drv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-> index 739bb1da9dcc..88d3de2a79f8 100644
+> index 88d3de2a79f8..7b8aa8406751 100644
 > --- a/drivers/gpu/drm/radeon/radeon_drv.c
 > +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -310,6 +310,10 @@ static int radeon_pci_probe(struct pci_dev *pdev,
->   
->   	pci_set_drvdata(pdev, ddev);
->   
-> +	ret = radeon_driver_load_kms(ddev, flags);
-> +	if (ret)
-> +		goto err_agp;
-> +
->   	ret = drm_dev_register(ddev, ent->driver_data);
+> @@ -314,7 +314,7 @@ static int radeon_pci_probe(struct pci_dev *pdev,
 >   	if (ret)
 >   		goto err_agp;
-> @@ -569,7 +573,6 @@ static const struct drm_ioctl_desc radeon_ioctls_kms[] = {
->   static const struct drm_driver kms_driver = {
->   	.driver_features =
->   	    DRIVER_GEM | DRIVER_RENDER | DRIVER_MODESET,
-> -	.load = radeon_driver_load_kms,
->   	.open = radeon_driver_open_kms,
->   	.postclose = radeon_driver_postclose_kms,
->   	.unload = radeon_driver_unload_kms,
+>   
+> -	ret = drm_dev_register(ddev, ent->driver_data);
+> +	ret = drm_dev_register(ddev, flags);
+>   	if (ret)
+>   		goto err_agp;
+>   
 
 -- 
 --
