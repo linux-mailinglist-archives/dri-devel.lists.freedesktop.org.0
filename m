@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B203F926570
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 17:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE249265AD
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 18:10:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80B1410E936;
-	Wed,  3 Jul 2024 15:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF0C210E053;
+	Wed,  3 Jul 2024 16:10:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Js39l3hF";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OsA53nAR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D399110E92E;
- Wed,  3 Jul 2024 15:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720022375; x=1751558375;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4iV+aQttd3YAfBPE810KZ/J0jy+wRBDu8do37P7beec=;
- b=Js39l3hFe4wRqeEkvPBLDa5hz2IgWRtS4oq1U1j5fpg94rvgQsz8qVX3
- NfuC6f5hetLye8q9csl1qnSO5bBDeBzjG+qa6p337+ena+Ox+DU+siFX/
- 6k7MpiIt+rqKVC5UmpOtUwOUXeNnvIgNlo5+w4e6iWEXPBqXvd3SxUjW1
- nI0xJk5+7buzbFrPvIPH9ujsDBeptby1IUjVEqPRo4FDxfxAuAeTu6HAU
- J7iXDfAH2/vhZYk/ura7AqMOrvpad6Q2Lj46YOI626lT4Rz1/9aUuU4qK
- SDHkYz0xqe3FXsTXDA4wrKRch4zmMNtdJffdsPOpy4E+djzOZs01c9iXF w==;
-X-CSE-ConnectionGUID: bpf3/gAVTUigD72lKKuFPg==
-X-CSE-MsgGUID: HdygV9ioSFykzS+Y7b2kUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="17131779"
-X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; d="scan'208";a="17131779"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jul 2024 08:59:31 -0700
-X-CSE-ConnectionGUID: i/QyMJXrRfS4Ein5BUpKUg==
-X-CSE-MsgGUID: OGCyA94YTDy98SREk2YD/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; d="scan'208";a="46964121"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jul 2024 08:59:30 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/5] drm/dp: Add the LTTPR PHY OUI DPCD register
-Date: Wed,  3 Jul 2024 18:59:36 +0300
-Message-ID: <20240703155937.1674856-5-imre.deak@intel.com>
-X-Mailer: git-send-email 2.43.3
-In-Reply-To: <20240703155937.1674856-1-imre.deak@intel.com>
-References: <20240703155937.1674856-1-imre.deak@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 232DB10E021
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 16:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1720022994;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=a1sXr0thktmDx/q8cOENxbGCufmQp1QnvYwSpw++kfk=;
+ b=OsA53nAR4UKjyqSnisfnHCf9ELjJcBS0aoG4Ahe/L5HSrTB1wTxicYyQm++yCh7pN70vTS
+ M7Pg/EyGR62DJHam9WoacGbEgWs/UldTmnFx/1UXJQvKjgI/Ie2o40OZHxTSkfN5Wc3hTW
+ clYKN5we4/5Xh6q9+RzM7Z9IwB03dkk=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-678-rGv9wkdxPuKIHorf-4LgQA-1; Wed,
+ 03 Jul 2024 12:08:14 -0400
+X-MC-Unique: rGv9wkdxPuKIHorf-4LgQA-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 99B10191DADF; Wed,  3 Jul 2024 16:05:05 +0000 (UTC)
+Received: from chopper.lyude.net (unknown [10.22.10.132])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 742CE1954B0D; Wed,  3 Jul 2024 16:05:02 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/vkms: Remove event from vkms_output
+Date: Wed,  3 Jul 2024 12:04:58 -0400
+Message-ID: <20240703160458.1303872-1-lyude@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,30 +72,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the DPCD register for the LTTPR PHY OUI. This will be used by a
-later i915 patch to dump the descriptors for the detected LTTPR PHYs.
+While working on rvkms, I noticed that there's no code that actually uses
+the drm_pending_vblank_event that's embedded in vkms_output. So, just drop
+the member from the struct.
 
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Imre Deak <imre.deak@intel.com>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- include/drm/display/drm_dp.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/vkms/vkms_drv.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-index 173548c6473a9..a6f8b098c56f1 100644
---- a/include/drm/display/drm_dp.h
-+++ b/include/drm/display/drm_dp.h
-@@ -1543,6 +1543,10 @@ enum drm_dp_phy {
- #define DP_SYMBOL_ERROR_COUNT_LANE2_PHY_REPEATER1	    0xf0039 /* 1.3 */
- #define DP_SYMBOL_ERROR_COUNT_LANE3_PHY_REPEATER1	    0xf003b /* 1.3 */
- 
-+#define DP_OUI_PHY_REPEATER1				    0xf003d /* 1.3 */
-+#define DP_OUI_PHY_REPEATER(dp_phy) \
-+	DP_LTTPR_REG(dp_phy, DP_OUI_PHY_REPEATER1)
-+
- #define __DP_FEC1_BASE					    0xf0290 /* 1.4 */
- #define __DP_FEC2_BASE					    0xf0298 /* 1.4 */
- #define DP_FEC_BASE(dp_phy) \
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 8f5710debb1eb..5e46ea5b96dcc 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -103,7 +103,6 @@ struct vkms_output {
+ 	struct drm_writeback_connector wb_connector;
+ 	struct hrtimer vblank_hrtimer;
+ 	ktime_t period_ns;
+-	struct drm_pending_vblank_event *event;
+ 	/* ordered wq for composer_work */
+ 	struct workqueue_struct *composer_workq;
+ 	/* protects concurrent access to composer */
 -- 
-2.43.3
+2.45.2
 
