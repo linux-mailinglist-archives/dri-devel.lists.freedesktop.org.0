@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB5E924DE0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 04:36:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AAD924DED
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 04:40:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42A9D10E529;
-	Wed,  3 Jul 2024 02:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8F8710E6F8;
+	Wed,  3 Jul 2024 02:40:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="BrTosh7Q";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="dNzz6FLA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 211D210E529
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 02:36:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83F9110E53F;
+ Wed,  3 Jul 2024 02:40:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1719974205;
- bh=0SHqF0dUovd6ss7dr8haTSOKzF2Sqk2aiA+Wo+YlUXw=;
+ s=201702; t=1719974404;
+ bh=/EDCIQAEg/p+MMLYNbszg680nHn24gcRpI+TzuKcU9U=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BrTosh7QOfRCq2kxrXOrE8VmZbJ+puf5D3nORfbHKQFZ166stwB0wms/m3X4eyOFO
- Kr7n0OQysIE4CUVMEpEMBM8t0wDnDB2G9glSM8lOIIaIU6zJMpQiWvYgOEn1Ovlgex
- UEkrQ60MvhEBj2ekWFrKPsk9f7xvJt5XqbEhjyGZF0ESDf2slOcg4Ci13fW72gtdRK
- StugcFI0ly3iVCGkClfUtX8oXm2/1DdYc31ir1Q2zloNy7I97NvwGZACzBes6XlMxG
- uB9wk9zd5xi2mfvy4ZnuSqsdXLOVejNqlNLiDf7M1Qf5jEQekJi87DoW9obsXnX4+H
- LtJl48F11Yshg==
+ b=dNzz6FLALGPfiBBeUd9mFzjTACHs3c7VtDmmOlzIbDb9ExivdmeboVLwjOCuGmFlX
+ 8JHOe65oS15FjvwbiJsxRawcevEG1qyMNiWHu4rhUkAdKXKI4ccsz71CKZtgOYqjiJ
+ x6yi5mPfvQsy2k5QW7Vr9IalFMl+gdRn5ac+DocdUnKsr/o1OHQXH3WxPnEo8RQYz5
+ tiUcrHAfKmwHbYAC244CfiR60uCmb5gIos3dJDc8X/w58S2UzWg75hlT2QE2gJcaIv
+ aLhoMoSV1rBx1dux0GkzFonVX8vjXHx2xbFOEgvCSMy/ak5/u103SLEmQ9tRgH63pv
+ yA+tiaObozFpw==
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4WDP704HvCz4wbr;
- Wed,  3 Jul 2024 12:36:44 +1000 (AEST)
-Date: Wed, 3 Jul 2024 12:36:43 +1000
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4WDPBq6FBXz4wcJ;
+ Wed,  3 Jul 2024 12:40:03 +1000 (AEST)
+Date: Wed, 3 Jul 2024 12:40:03 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>
-Cc: Mark Brown <broonie@kernel.org>, DRI <dri-devel@lists.freedesktop.org>,
- Piotr =?UTF-8?B?UGnDs3Jrb3dza2k=?= <piotr.piorkowski@intel.com>, Michal
- Wajdeczko <michal.wajdeczko@intel.com>,
- buildfailureaftermergeofthedrmtree@sirena.org.uk, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build failure after merge of the drm
-Message-ID: <20240703123643.5b4dc83f@canb.auug.org.au>
-In-Reply-To: <Zn7s611xnutUFxR0@sirena.org.uk>
-References: <Zn7s611xnutUFxR0@sirena.org.uk>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: DRI <dri-devel@lists.freedesktop.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+Subject: Re: Comments in Fixes: line (Was: Re: linux-next: Fixes tag needs
+ some work in the drm-intel tree)
+Message-ID: <20240703123930.13edbfa5@canb.auug.org.au>
+In-Reply-To: <155844385673.15761.3434506339174536733@jlahtine-desk.ger.corp.intel.com>
+References: <20190520221526.0e103916@canb.auug.org.au>
+ <155844385673.15761.3434506339174536733@jlahtine-desk.ger.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/yaBhn/0VkwjWMaUO2AGJq8U";
+Content-Type: multipart/signed; boundary="Sig_/iW/ag6FLZSTW2BV7u.6x/zr";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,52 +64,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/yaBhn/0VkwjWMaUO2AGJq8U
+--Sig_/iW/ag6FLZSTW2BV7u.6x/zr
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+Hi Joonas,
 
-On Fri, 28 Jun 2024 18:03:39 +0100 Mark Brown <broonie@kernel.org> wrote:
+On Tue, 21 May 2019 16:04:16 +0300 Joonas Lahtinen <joonas.lahtinen@linux.i=
+ntel.com> wrote:
 >
-> After merging the drm tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->=20
-> /tmp/next/build/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c: In function '=
-pf_get_threshold':
-> /tmp/next/build/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:1788:27: error=
-: unused variable 'xe' [-Werror=3Dunused-variable]
->  1788 |         struct xe_device *xe =3D gt_to_xe(gt);
->       |                           ^~
-> cc1: all warnings being treated as errors
->=20
-> Caused by commit
->=20
->   629df234bfe73d ("drm/xe/pf: Introduce functions to configure VF thresho=
-lds")
->=20
-> I have used the tree from 20240627 instead.
+> We also have an incoming patch where the Fixes: line has a comment in
+> it. Does your tooling account for this when checking the Fixes: line?
 
-I am still seeing that build failure.
+No, but I will ignore it manually.  The tooling just produces suggested
+notifications - I don't send them all.
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/yaBhn/0VkwjWMaUO2AGJq8U
+--Sig_/iW/ag6FLZSTW2BV7u.6x/zr
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmaEuTsACgkQAVBC80lX
-0GxrbQf+LSBGQ52sQ0YfN9wr5fTIjIq/ntnbwl+hoEnKZtBUjmaiPZWEoWXYnmbG
-oKgUBRZvVBAKjxpb4hwV4aVdvQGWKDe4FjD+AwUeevutrFEeZEGI2ZQBLfHbFC6x
-+kio3gEHjh/I5VOIgeaDToOo47JLKvArn5Bu69nZgMZIaOVectLT74KrE0TP4L4a
-V5Ey0a2C4MXXbTC+zZWP2Y9AX8LgvxE5wGOkRJ5pN7C0p5Ff8UDYwEXBEQ/T6SRF
-E3ejRAGuWP5FVOe6gGDeC2FEeBQfrCVrnIzCq7aqNiZIyW3lrXTFHQo3atFYwekB
-gk25zepLUnHaYJPhIXoYZw0eLsGC2g==
-=efJw
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmaEugMACgkQAVBC80lX
+0Gz4Jgf/UF7YP6SfzyE5+288tj6hS1FY8cZ48ltYoAR9PRxR4qY3m/+2f45akRCU
+F4TmPbvvLVtB0XolGcP6OL7DyPoPp2KXG5yu5DUugxm/jLdZNqKJDM8F65oSc9Cg
+jQdEy+CtBjJOXgSaX2sMP1ITeLa3CIUexX/McpAsRJTJODDEnAkzrDS+wNYGGU5+
+FrF/gwBHi3Nx+ncrAmIh2KLXUS6Jtt2PWVbzbgvrBgbRzsZ0idj5jeC8P2Lcco6J
+ftFxLt7sS2x9wFKTW+L++60F2XJFfdsYYqnTd5280gSrX6RvhihxKD3ShPkb9rW1
+XVorTzC+YUyPO7ImMsStLKC9vsEh0A==
+=vsZB
 -----END PGP SIGNATURE-----
 
---Sig_/yaBhn/0VkwjWMaUO2AGJq8U--
+--Sig_/iW/ag6FLZSTW2BV7u.6x/zr--
