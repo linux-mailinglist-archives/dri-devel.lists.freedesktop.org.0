@@ -2,82 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33C4924D08
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 03:09:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971F0924D30
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 03:32:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB83610E1DA;
-	Wed,  3 Jul 2024 01:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8943910E4FD;
+	Wed,  3 Jul 2024 01:32:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ig0o6BUs";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ck0liyDT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F00910E1DA
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 01:09:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2ED6761F24;
- Wed,  3 Jul 2024 01:09:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 323DEC116B1;
- Wed,  3 Jul 2024 01:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719968951;
- bh=hWgVxOSGAEJwnK0X9uUne1FLswfdVUNj5k95j+tZUNg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ig0o6BUsf9Np4u5YLg1bwzjs/0u6hf/l//X2faWRDtnhgybsfqgmXkC8hGzToIgZy
- Iofzu8QQ+r1VqToxhSyI/gJ504Hr02rJ2uYzHI7m3kIsL16T1t1qpzmBfZHiFPZtmG
- kT/xhZ+oapmd3OF8aQMH8QIKzbERDRc43TAwkBMmNal5MAvkugFLJ6IW5N9wqU37np
- pzK4W9UFn3YRrjw05SCqg/NZecw3n5Zk4wPnHSXqwSGHu7ZXzovrXLfR7KCdTRoSXv
- 55rWsZwbh8yN8RTuecvS/5vWW3UWVtuT+B/VAHWXuwcvNl+NFC/2YsjDSjeLVjx+Lc
- aKyEyPPnfpQ3Q==
-Date: Tue, 2 Jul 2024 18:09:08 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Donald
- Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Richard
- Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
- <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
- Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, "Christian
- =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
- Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
- Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to
- netdevice
-Message-ID: <20240702180908.0eccf78f@kernel.org>
-In-Reply-To: <20240628003253.1694510-4-almasrymina@google.com>
-References: <20240628003253.1694510-1-almasrymina@google.com>
- <20240628003253.1694510-4-almasrymina@google.com>
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5612110E4FD
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 01:32:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=1ok9kRw33sXF8orp5Jtg95h3Al6bX08l7+YKTGR5+k8=; b=c
+ k0liyDToxJs0fQmmYJsGPTY5Dgwz9P9nvVFXy4890dd5s1osHsjEZJUmwTQALpC+
+ /xH7J0b1IhwFPm92kX2gJXZPlul/vst7I7lKp6oFI66PArWRv4ghk2IynkwLYAct
+ 2iYrA1c28qk+g4x3cvEWh8v952zz8jryMIYAGB8/PY=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-123 (Coremail) ; Wed, 3 Jul 2024 09:32:15 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Wed, 3 Jul 2024 09:32:15 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Johan Jonker" <jbx6244@gmail.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re:[PATCH v8] drm/rockchip: rk3066_hdmi: add sound support
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <3bd738a7-379f-4b93-befd-e6ee96e802b5@gmail.com>
+References: <3bd738a7-379f-4b93-befd-e6ee96e802b5@gmail.com>
+X-NTES-SC: AL_Qu2aC/Wcv0so4yebZOkZnEobh+Y5UcK2s/ki2YFXN5k0kSTM2CsGV3pJPWHq0MiGMx+BtR2MXSdi8+RXe4lDeY32liRgazEXcjGabQInt69s
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_19643_1965100845.1719970335735"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Message-ID: <6fdaa603.14d8.19076388bf8.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: _____wDHjwEfqoRmvhoaAA--.17629W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMxQRXmXAmOnjawADs3
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,242 +63,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Jun 2024 00:32:40 +0000 Mina Almasry wrote:
-> +/* Protected by rtnl_lock() */
-> +static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
-> +
-> +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
-> +{
-> +	struct netdev_rx_queue *rxq;
-> +	unsigned long xa_idx;
-> +	unsigned int rxq_idx;
-> +
-> +	if (!binding)
-> +		return;
+------=_Part_19643_1965100845.1719970335735
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-nit: I don't see how it can happen, no defensive programming, please
+SGkgSm9oYW4sCgpBdCAyMDI0LTA3LTAzIDAyOjIzOjI0LCAiSm9oYW4gSm9ua2VyIiA8amJ4NjI0
+NEBnbWFpbC5jb20+IHdyb3RlOgo+QWRkIHNvdW5kIHN1cHBvcnQgdG8gdGhlIFJLMzA2NiBIRE1J
+IGRyaXZlci4KPlRoZSBIRE1JIFRYIGF1ZGlvIHNvdXJjZSBpcyBjb25uZWN0ZWQgdG8gSTJTXzhD
+SC4KPgo+U2lnbmVkLW9mZi1ieTogWmhlbmcgWWFuZyA8emhlbmd5YW5nQHJvY2stY2hpcHMuY29t
+Pgo+U2lnbmVkLW9mZi1ieTogSm9oYW4gSm9ua2VyIDxqYng2MjQ0QGdtYWlsLmNvbT4KPi0tLQo+
+Cj5DaGFuZ2VkIFY4Ogo+ICByZXR1cm4gLUVQUk9CRV9ERUZFUiBhcyBlYXJseSBhcyBwb3NzaWJs
+ZQo+ICBtb3ZlIHJrMzA2Nl9oZG1pX2F1ZGlvX2NvZGVjX2luaXQoKSBmdW5jdGlvbiBhZnRlciBy
+azMwNjZfaGRtaV9yZWdpc3RlcigpCj4gIHJlc3R5bGUKPgo+Q2hhbmdlZCBWNzoKPiAgcmViYXNl
+Cj4tLS0KPiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZyAgICAgICB8ICAgMiArCj4g
+ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JrMzA2Nl9oZG1pLmMgfCAyOTYgKysrKysrKysrKysr
+KysrKysrKysrKystLQo+IDIgZmlsZXMgY2hhbmdlZCwgMjgzIGluc2VydGlvbnMoKyksIDE1IGRl
+bGV0aW9ucygtKQo+Cj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25m
+aWcgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZwo+aW5kZXggMWJmM2UyODI5Y2Qw
+Li5hMzJlZTU1ODQwOGMgMTAwNjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2Nv
+bmZpZwo+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcKPkBAIC0xMDIsNiAr
+MTAyLDggQEAgY29uZmlnIFJPQ0tDSElQX1JHQgo+IGNvbmZpZyBST0NLQ0hJUF9SSzMwNjZfSERN
+SQo+IAlib29sICJSb2NrY2hpcCBzcGVjaWZpYyBleHRlbnNpb25zIGZvciBSSzMwNjYgSERNSSIK
+PiAJZGVwZW5kcyBvbiBEUk1fUk9DS0NISVAKPisJc2VsZWN0IFNORF9TT0NfSERNSV9DT0RFQyBp
+ZiBTTkRfU09DCgoKCi4uLi4uLi4uLgoKCj4gCWRybV9lbmNvZGVyX2hlbHBlcl9hZGQoZW5jb2Rl
+ciwgJnJrMzA2Nl9oZG1pX2VuY29kZXJfaGVscGVyX2Z1bmNzKTsKPiAJZHJtX3NpbXBsZV9lbmNv
+ZGVyX2luaXQoZHJtLCBlbmNvZGVyLCBEUk1fTU9ERV9FTkNPREVSX1RNRFMpOwo+QEAgLTc0MCw2
+ICs5ODgsNyBAQCBzdGF0aWMgaW50IHJrMzA2Nl9oZG1pX2JpbmQoc3RydWN0IGRldmljZSAqZGV2
+LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCj4gewo+IAlzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpw
+ZGV2ID0gdG9fcGxhdGZvcm1fZGV2aWNlKGRldik7Cj4gCXN0cnVjdCBkcm1fZGV2aWNlICpkcm0g
+PSBkYXRhOwo+KwlzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXI7Cj4gCXN0cnVjdCByazMwNjZf
+aGRtaSAqaGRtaTsKPiAJaW50IGlycTsKPiAJaW50IHJldDsKPkBAIC03NDgsOCArOTk3LDIxIEBA
+IHN0YXRpYyBpbnQgcmszMDY2X2hkbWlfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBk
+ZXZpY2UgKm1hc3RlciwKPiAJaWYgKCFoZG1pKQo+IAkJcmV0dXJuIC1FTk9NRU07Cj4KPisJZW5j
+b2RlciA9ICZoZG1pLT5lbmNvZGVyLmVuY29kZXI7Cj4rCj4rCWVuY29kZXItPnBvc3NpYmxlX2Ny
+dGNzID0KPisJCWRybV9vZl9maW5kX3Bvc3NpYmxlX2NydGNzKGRybSwgZGV2LT5vZl9ub2RlKTsK
+PisKPisJLyoKPisJICogSWYgd2UgZmFpbGVkIHRvIGZpbmQgdGhlIENSVEMocykgd2hpY2ggdGhp
+cyBlbmNvZGVyIGlzCj4rCSAqIHN1cHBvc2VkIHRvIGJlIGNvbm5lY3RlZCB0bywgaXQncyBiZWNh
+dXNlIHRoZSBDUlRDIGhhcwo+KwkgKiBub3QgYmVlbiByZWdpc3RlcmVkIHlldC4gIERlZmVyIHBy
+b2JpbmcsIGFuZCBob3BlIHRoYXQKPisJICogdGhlIHJlcXVpcmVkIENSVEMgaXMgYWRkZWQgbGF0
+ZXIuCj4rCSAqLwo+KwlpZiAoZW5jb2Rlci0+cG9zc2libGVfY3J0Y3MgPT0gMCkKCj4rCQlyZXR1
+cm4gLUVQUk9CRV9ERUZFUjsKCgpNb3ZlICBFUFJPQkVfREVGRVIgZWFybHkgc3RpbGwgZG9lcyBu
+b3QgYXZvaWQgdGhlIGlzc3VlIEkgbWVudGlvbmVkIGluIFY3LgoKCkZvciB0aGUgY29tcG9uZW50
+IGJhc2VkIGRyaXZlciBtb2RlIGluIGRybe+8jHRoZSBwcm9iZSBvZiBsYXN0IHN1YmNvbXBvbmVu
+dO+8iGNvbXBvbmVudF9hZGTvvIjvvInvvIkgd2lsbAp0cmlnZ2VyIHRoZSBiaW5kIGNhbGxiYWNr
+IG9mIGFsbCBzdWJjb21wb25lbnTvvIwgYW55ICAgLUVQUk9CRV9ERUZFUiAgcmV0dXJuIGluIHRo
+ZSBiaW5kIGNhbGxiYWNrIHdpbGwgbGVhZAp0aGUgIEVQUk9CRV9ERUZFUiBvZiB0aGUgbGFzdCBz
+dWJjb21wb25lbnQgLnByb2JlLgpGb3Igb25lIGV4YW1wbGUgb24gcmszMDY2OgpMQ0RDMC0tPkhE
+TUkKTENEQzEtLT5SR0ItLT5wYW5lbApsY2RjMCh2b3BfcHJvYmUpLS0tPmhkbWlfYmluZC0tPmF1
+ZGlvIHJlZ2lzdGVyLS0+aGRtaV9jb2RlY19wcm9iZSBzdWNjZXNzLS0+bGNkYzEodm9wX2JpbmQp
+LS0+CnJvY2tjaGlwX3JnYl9pbml0KGRlZmVyIGJ5IHNvbWVob3csbWF5YmUgcGFuZWwgcmVnaXN0
+ZXIgZmFpbGVkKS0tPiBsY2RjMCh2b3BfcHJvYmUpIHJldHVybiAgIEVQUk9CRV9ERUZFUi4KCgpB
+cyB0aGVyZSBpcyBvbiBzdWNjZXNzIHByb2JlKGhkbWlfY29kZWNfcHJvYmUpIGR1cmluZyB0aGUg
+cHJvY2VzcywgdGhpcyB3aWxsIHRyaWdnZXIgYSBuZXcgZGVmZXJyZWQgcHJvYmUsIHNlZToKc3Rh
+dGljIGludCBkcml2ZXJfcHJvYmVfZGV2aWNlKHN0cnVjdCBkZXZpY2VfZHJpdmVyICpkcnYsIHN0
+cnVjdCBkZXZpY2UgKmRldikKewogICAgICAgIGludCB0cmlnZ2VyX2NvdW50ID0gYXRvbWljX3Jl
+YWQoJmRlZmVycmVkX3RyaWdnZXJfY291bnQpOyAKICAgICAgICBpbnQgcmV0OwoKICAgICAgICBh
+dG9taWNfaW5jKCZwcm9iZV9jb3VudCk7IAogICAgICAgIHJldCA9IF9fZHJpdmVyX3Byb2JlX2Rl
+dmljZShkcnYsIGRldik7CiAgICAgICAgaWYgKHJldCA9PSAtRVBST0JFX0RFRkVSIHx8IHJldCA9
+PSBFUFJPQkVfREVGRVIpIHsKICAgICAgICAgICAgICAgIGRyaXZlcl9kZWZlcnJlZF9wcm9iZV9h
+ZGQoZGV2KTsKCiAgICAgICAgICAgICAgICAvKgogICAgICAgICAgICAgICAgICogRGlkIGEgdHJp
+Z2dlciBvY2N1ciB3aGlsZSBwcm9iaW5nPyBOZWVkIHRvIHJlLXRyaWdnZXIgaWYgeWVzCiAgICAg
+ICAgICAgICAgICAgKi8KICAgICAgICAgICAgICAgIGlmICh0cmlnZ2VyX2NvdW50ICE9IGF0b21p
+Y19yZWFkKCZkZWZlcnJlZF90cmlnZ2VyX2NvdW50KSAmJgogICAgICAgICAgICAgICAgICAgICFk
+ZWZlcl9hbGxfcHJvYmVzKQogICAgICAgICAgICAgICAgICAgICAgICBkcml2ZXJfZGVmZXJyZWRf
+cHJvYmVfdHJpZ2dlcigpOwogICAgICAgIH0KICAgICAgICBhdG9taWNfZGVjKCZwcm9iZV9jb3Vu
+dCk7CiAgICAgICAgd2FrZV91cF9hbGwoJnByb2JlX3dhaXRxdWV1ZSk7CiAgICAgICAgcmV0dXJu
+IHJldDsKfQoKClNvIHRoZSBwb3RlbnRpYSBvZiBpbmZpbml0ZSBsb29wIHBvcmJlIHJpc2XjgIIK
+CgpJIHRoaW5rIG9uZSBwb3NzaWJsZSBzb2x1dGlpb24gaXMgcmVnaXN0ZXIgdGhlIGV4dHJhIGRp
+cnZlcnPvvIhoZG1pIGF1ZGlv77yMY2Vj77yMaGRjcO+8iWF0IHRoZQplbmNvZGVyLT5mdW5jcy0+
+bGF0ZV9yZWdpc3RlciBob29r44CCCnRoZSBsYXRlX3JlZ2lzdGVyIGlzIGNhbGxlZCBhdCB0aGUg
+dmVyeSBsYXN0IG9mIGRybV9kZXZfcmVnaXN0ZXIsICBhbGwgdGhlIHN1YmNvbXBlbnQgbXVzdApi
+aW5kIHN1Y2Nlc3MgaWYgd2UgZmluYWxseSBydW4gdG8gdGhpcyBzdGVwLgoKCgoKCgo+Kwo+IAlo
+ZG1pLT5kZXYgPSBkZXY7Cj4tCWhkbWktPmRybV9kZXYgPSBkcm07Cj4gCWhkbWktPnJlZ3MgPSBk
+ZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwgMCk7Cj4gCWlmIChJU19FUlIoaGRt
+aS0+cmVncykpCj4gCQlyZXR1cm4gUFRSX0VSUihoZG1pLT5yZWdzKTsKPkBAIC04MDAsNiArMTA2
+Miw4IEBAIHN0YXRpYyBpbnQgcmszMDY2X2hkbWlfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0
+cnVjdCBkZXZpY2UgKm1hc3RlciwKPiAJaWYgKHJldCkKPiAJCWdvdG8gZXJyX2Rpc2FibGVfaTJj
+Owo+Cj4rCXJrMzA2Nl9oZG1pX2F1ZGlvX2NvZGVjX2luaXQoaGRtaSwgZGV2KTsKPisKPiAJZGV2
+X3NldF9kcnZkYXRhKGRldiwgaGRtaSk7Cj4KPiAJcmV0ID0gZGV2bV9yZXF1ZXN0X3RocmVhZGVk
+X2lycShkZXYsIGlycSwgcmszMDY2X2hkbWlfaGFyZGlycSwKPkBAIC04MTMsNiArMTA3Nyw3IEBA
+IHN0YXRpYyBpbnQgcmszMDY2X2hkbWlfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBk
+ZXZpY2UgKm1hc3RlciwKPiAJcmV0dXJuIDA7Cj4KPiBlcnJfY2xlYW51cF9oZG1pOgo+KwlwbGF0
+Zm9ybV9kZXZpY2VfdW5yZWdpc3RlcihoZG1pLT5hdWRpb19wZGV2KTsKPiAJaGRtaS0+Y29ubmVj
+dG9yLmZ1bmNzLT5kZXN0cm95KCZoZG1pLT5jb25uZWN0b3IpOwo+IAloZG1pLT5lbmNvZGVyLmVu
+Y29kZXIuZnVuY3MtPmRlc3Ryb3koJmhkbWktPmVuY29kZXIuZW5jb2Rlcik7Cj4gZXJyX2Rpc2Fi
+bGVfaTJjOgo+QEAgLTgyOCw2ICsxMDkzLDcgQEAgc3RhdGljIHZvaWQgcmszMDY2X2hkbWlfdW5i
+aW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+IHsKPiAJc3Ry
+dWN0IHJrMzA2Nl9oZG1pICpoZG1pID0gZGV2X2dldF9kcnZkYXRhKGRldik7Cj4KPisJcGxhdGZv
+cm1fZGV2aWNlX3VucmVnaXN0ZXIoaGRtaS0+YXVkaW9fcGRldik7Cj4gCWhkbWktPmNvbm5lY3Rv
+ci5mdW5jcy0+ZGVzdHJveSgmaGRtaS0+Y29ubmVjdG9yKTsKPiAJaGRtaS0+ZW5jb2Rlci5lbmNv
+ZGVyLmZ1bmNzLT5kZXN0cm95KCZoZG1pLT5lbmNvZGVyLmVuY29kZXIpOwo+Cj4tLQo+Mi4zOS4y
+Cj4K
+------=_Part_19643_1965100845.1719970335735
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-> +	if (binding->list.next)
-> +		list_del(&binding->list);
-> +
-> +	xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgaWQ9InNwbkVkaXRvckNvbnRlbnQiPjxwIHN0eWxlPSJt
+YXJnaW46IDA7Ij5IaSBKb2hhbiw8L3A+PC9kaXY+PHByZT5BdCAyMDI0LTA3LTAzIDAyOjIzOjI0
+LCAiSm9oYW4gSm9ua2VyIiAmbHQ7amJ4NjI0NEBnbWFpbC5jb20mZ3Q7IHdyb3RlOgomZ3Q7QWRk
+IHNvdW5kIHN1cHBvcnQgdG8gdGhlIFJLMzA2NiBIRE1JIGRyaXZlci4KJmd0O1RoZSBIRE1JIFRY
+IGF1ZGlvIHNvdXJjZSBpcyBjb25uZWN0ZWQgdG8gSTJTXzhDSC4KJmd0OwomZ3Q7U2lnbmVkLW9m
+Zi1ieTogWmhlbmcgWWFuZyAmbHQ7emhlbmd5YW5nQHJvY2stY2hpcHMuY29tJmd0OwomZ3Q7U2ln
+bmVkLW9mZi1ieTogSm9oYW4gSm9ua2VyICZsdDtqYng2MjQ0QGdtYWlsLmNvbSZndDsKJmd0Oy0t
+LQomZ3Q7CiZndDtDaGFuZ2VkIFY4OgomZ3Q7ICByZXR1cm4gLUVQUk9CRV9ERUZFUiBhcyBlYXJs
+eSBhcyBwb3NzaWJsZQomZ3Q7ICBtb3ZlIHJrMzA2Nl9oZG1pX2F1ZGlvX2NvZGVjX2luaXQoKSBm
+dW5jdGlvbiBhZnRlciByazMwNjZfaGRtaV9yZWdpc3RlcigpCiZndDsgIHJlc3R5bGUKJmd0Owom
+Z3Q7Q2hhbmdlZCBWNzoKJmd0OyAgcmViYXNlCiZndDstLS0KJmd0OyBkcml2ZXJzL2dwdS9kcm0v
+cm9ja2NoaXAvS2NvbmZpZyAgICAgICB8ICAgMiArCiZndDsgZHJpdmVycy9ncHUvZHJtL3JvY2tj
+aGlwL3JrMzA2Nl9oZG1pLmMgfCAyOTYgKysrKysrKysrKysrKysrKysrKysrKystLQomZ3Q7IDIg
+ZmlsZXMgY2hhbmdlZCwgMjgzIGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQomZ3Q7CiZn
+dDtkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcgYi9kcml2ZXJz
+L2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZwomZ3Q7aW5kZXggMWJmM2UyODI5Y2QwLi5hMzJlZTU1
+ODQwOGMgMTAwNjQ0CiZndDstLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZwom
+Z3Q7KysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcKJmd0O0BAIC0xMDIsNiAr
+MTAyLDggQEAgY29uZmlnIFJPQ0tDSElQX1JHQgomZ3Q7IGNvbmZpZyBST0NLQ0hJUF9SSzMwNjZf
+SERNSQomZ3Q7IAlib29sICJSb2NrY2hpcCBzcGVjaWZpYyBleHRlbnNpb25zIGZvciBSSzMwNjYg
+SERNSSIKJmd0OyAJZGVwZW5kcyBvbiBEUk1fUk9DS0NISVAKJmd0OysJc2VsZWN0IFNORF9TT0Nf
+SERNSV9DT0RFQyBpZiBTTkRfU09DCjxkaXY+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj4uLi4u
+Li4uLi48L2Rpdj48ZGl2Pjxicj48L2Rpdj4mZ3Q7IAlkcm1fZW5jb2Rlcl9oZWxwZXJfYWRkKGVu
+Y29kZXIsICZhbXA7cmszMDY2X2hkbWlfZW5jb2Rlcl9oZWxwZXJfZnVuY3MpOwomZ3Q7IAlkcm1f
+c2ltcGxlX2VuY29kZXJfaW5pdChkcm0sIGVuY29kZXIsIERSTV9NT0RFX0VOQ09ERVJfVE1EUyk7
+CiZndDtAQCAtNzQwLDYgKzk4OCw3IEBAIHN0YXRpYyBpbnQgcmszMDY2X2hkbWlfYmluZChzdHJ1
+Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3RlciwKJmd0OyB7CiZndDsgCXN0cnVj
+dCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYgPSB0b19wbGF0Zm9ybV9kZXZpY2UoZGV2KTsKJmd0OyAJ
+c3RydWN0IGRybV9kZXZpY2UgKmRybSA9IGRhdGE7CiZndDsrCXN0cnVjdCBkcm1fZW5jb2RlciAq
+ZW5jb2RlcjsKJmd0OyAJc3RydWN0IHJrMzA2Nl9oZG1pICpoZG1pOwomZ3Q7IAlpbnQgaXJxOwom
+Z3Q7IAlpbnQgcmV0OwomZ3Q7QEAgLTc0OCw4ICs5OTcsMjEgQEAgc3RhdGljIGludCByazMwNjZf
+aGRtaV9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAomZ3Q7
+IAlpZiAoIWhkbWkpCiZndDsgCQlyZXR1cm4gLUVOT01FTTsKJmd0OwomZ3Q7KwllbmNvZGVyID0g
+JmFtcDtoZG1pLSZndDtlbmNvZGVyLmVuY29kZXI7CiZndDsrCiZndDsrCWVuY29kZXItJmd0O3Bv
+c3NpYmxlX2NydGNzID0KJmd0OysJCWRybV9vZl9maW5kX3Bvc3NpYmxlX2NydGNzKGRybSwgZGV2
+LSZndDtvZl9ub2RlKTsKJmd0OysKJmd0OysJLyoKJmd0OysJICogSWYgd2UgZmFpbGVkIHRvIGZp
+bmQgdGhlIENSVEMocykgd2hpY2ggdGhpcyBlbmNvZGVyIGlzCiZndDsrCSAqIHN1cHBvc2VkIHRv
+IGJlIGNvbm5lY3RlZCB0bywgaXQncyBiZWNhdXNlIHRoZSBDUlRDIGhhcwomZ3Q7KwkgKiBub3Qg
+YmVlbiByZWdpc3RlcmVkIHlldC4gIERlZmVyIHByb2JpbmcsIGFuZCBob3BlIHRoYXQKJmd0OysJ
+ICogdGhlIHJlcXVpcmVkIENSVEMgaXMgYWRkZWQgbGF0ZXIuCiZndDsrCSAqLwomZ3Q7KwlpZiAo
+ZW5jb2Rlci0mZ3Q7cG9zc2libGVfY3J0Y3MgPT0gMCkKPGRpdj4mZ3Q7KwkJcmV0dXJuIC1FUFJP
+QkVfREVGRVI7PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5Nb3ZlICBFUFJPQkVfREVGRVIgZWFy
+bHkgc3RpbGwgZG9lcyBub3QgYXZvaWQgdGhlIGlzc3VlIEkgbWVudGlvbmVkIGluIFY3LjwvZGl2
+PjxkaXY+PGJyPjwvZGl2PjxkaXY+Rm9yIHRoZSBjb21wb25lbnQgYmFzZWQgZHJpdmVyIG1vZGUg
+aW4gZHJt77yMdGhlIHByb2JlIG9mIGxhc3Qgc3ViY29tcG9uZW5077yIY29tcG9uZW50X2FkZO+8
+iO+8ie+8iSB3aWxsPC9kaXY+PGRpdj50cmlnZ2VyIHRoZSBiaW5kIGNhbGxiYWNrIG9mIGFsbCBz
+dWJjb21wb25lbnTvvIwgYW55ICAgLUVQUk9CRV9ERUZFUiAgcmV0dXJuIGluIHRoZSBiaW5kIGNh
+bGxiYWNrIHdpbGwgbGVhZDwvZGl2PjxkaXY+dGhlICBFUFJPQkVfREVGRVIgb2YgdGhlIGxhc3Qg
+c3ViY29tcG9uZW50IC5wcm9iZS48L2Rpdj48ZGl2PkZvciBvbmUgZXhhbXBsZSBvbiByazMwNjY6
+PC9kaXY+PGRpdj5MQ0RDMC0tJmd0O0hETUk8L2Rpdj48ZGl2PkxDREMxLS0mZ3Q7UkdCLS0mZ3Q7
+cGFuZWw8L2Rpdj48ZGl2PmxjZGMwKHZvcF9wcm9iZSktLS0mZ3Q7aGRtaV9iaW5kLS0mZ3Q7YXVk
+aW8gcmVnaXN0ZXItLSZndDtoZG1pX2NvZGVjX3Byb2JlIHN1Y2Nlc3MtLSZndDtsY2RjMSh2b3Bf
+YmluZCktLSZndDs8L2Rpdj48ZGl2PnJvY2tjaGlwX3JnYl9pbml0KGRlZmVyIGJ5IHNvbWVob3cs
+bWF5YmUgcGFuZWwgcmVnaXN0ZXIgZmFpbGVkKS0tJmd0OyBsY2RjMCh2b3BfcHJvYmUpIHJldHVy
+biAgIEVQUk9CRV9ERUZFUi48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PkFzIHRoZXJlIGlzIG9u
+IHN1Y2Nlc3MgcHJvYmUoaGRtaV9jb2RlY19wcm9iZSkgZHVyaW5nIHRoZSBwcm9jZXNzLCB0aGlz
+IHdpbGwgdHJpZ2dlciBhIG5ldyBkZWZlcnJlZCBwcm9iZSwgc2VlOjwvZGl2PjxkaXY+c3RhdGlj
+IGludCBkcml2ZXJfcHJvYmVfZGV2aWNlKHN0cnVjdCBkZXZpY2VfZHJpdmVyICpkcnYsIHN0cnVj
+dCBkZXZpY2UgKmRldikKewogICAgICAgIGludCB0cmlnZ2VyX2NvdW50ID0gYXRvbWljX3JlYWQo
+JmFtcDtkZWZlcnJlZF90cmlnZ2VyX2NvdW50KTsgCiAgICAgICAgaW50IHJldDsKCiAgICAgICAg
+YXRvbWljX2luYygmYW1wO3Byb2JlX2NvdW50KTsgCiAgICAgICAgcmV0ID0gX19kcml2ZXJfcHJv
+YmVfZGV2aWNlKGRydiwgZGV2KTsKICAgICAgICBpZiAocmV0ID09IC1FUFJPQkVfREVGRVIgfHwg
+cmV0ID09IEVQUk9CRV9ERUZFUikgewogICAgICAgICAgICAgICAgZHJpdmVyX2RlZmVycmVkX3By
+b2JlX2FkZChkZXYpOwoKICAgICAgICAgICAgICAgIC8qCiAgICAgICAgICAgICAgICAgKiBEaWQg
+YSB0cmlnZ2VyIG9jY3VyIHdoaWxlIHByb2Jpbmc/IE5lZWQgdG8gcmUtdHJpZ2dlciBpZiB5ZXMK
+ICAgICAgICAgICAgICAgICAqLwogICAgICAgICAgICAgICAgaWYgKHRyaWdnZXJfY291bnQgIT0g
+YXRvbWljX3JlYWQoJmFtcDtkZWZlcnJlZF90cmlnZ2VyX2NvdW50KSAmYW1wOyZhbXA7CiAgICAg
+ICAgICAgICAgICAgICAgIWRlZmVyX2FsbF9wcm9iZXMpCiAgICAgICAgICAgICAgICAgICAgICAg
+IGRyaXZlcl9kZWZlcnJlZF9wcm9iZV90cmlnZ2VyKCk7CiAgICAgICAgfQogICAgICAgIGF0b21p
+Y19kZWMoJmFtcDtwcm9iZV9jb3VudCk7CiAgICAgICAgd2FrZV91cF9hbGwoJmFtcDtwcm9iZV93
+YWl0cXVldWUpOwogICAgICAgIHJldHVybiByZXQ7Cn08L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2
+PlNvIHRoZSBwb3RlbnRpYSBvZiBpbmZpbml0ZSBsb29wIHBvcmJlIHJpc2XjgII8L2Rpdj48ZGl2
+Pjxicj48L2Rpdj48ZGl2PkkgdGhpbmsgb25lIHBvc3NpYmxlIHNvbHV0aWlvbiBpcyByZWdpc3Rl
+ciB0aGUgZXh0cmEgZGlydmVyc++8iGhkbWkgYXVkaW/vvIxjZWPvvIxoZGNw77yJYXQgdGhlPC9k
+aXY+PGRpdj5lbmNvZGVyLSZndDtmdW5jcy0mZ3Q7bGF0ZV9yZWdpc3RlciBob29r44CCPC9kaXY+
+PGRpdj50aGUgbGF0ZV9yZWdpc3RlciBpcyBjYWxsZWQgYXQgdGhlIHZlcnkgbGFzdCBvZiBkcm1f
+ZGV2X3JlZ2lzdGVyLCAgYWxsIHRoZSBzdWJjb21wZW50IG11c3Q8L2Rpdj48ZGl2PmJpbmQgc3Vj
+Y2VzcyBpZiB3ZSBmaW5hbGx5IHJ1biB0byB0aGlzIHN0ZXAuPC9kaXY+PGRpdj48YnI+PC9kaXY+
+PGRpdj48YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+Jmd0OysKJmd0OyAJaGRtaS0mZ3Q7ZGV2ID0g
+ZGV2OwomZ3Q7LQloZG1pLSZndDtkcm1fZGV2ID0gZHJtOwomZ3Q7IAloZG1pLSZndDtyZWdzID0g
+ZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKHBkZXYsIDApOwomZ3Q7IAlpZiAoSVNfRVJS
+KGhkbWktJmd0O3JlZ3MpKQomZ3Q7IAkJcmV0dXJuIFBUUl9FUlIoaGRtaS0mZ3Q7cmVncyk7CiZn
+dDtAQCAtODAwLDYgKzEwNjIsOCBAQCBzdGF0aWMgaW50IHJrMzA2Nl9oZG1pX2JpbmQoc3RydWN0
+IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCiZndDsgCWlmIChyZXQpCiZndDsg
+CQlnb3RvIGVycl9kaXNhYmxlX2kyYzsKJmd0OwomZ3Q7KwlyazMwNjZfaGRtaV9hdWRpb19jb2Rl
+Y19pbml0KGhkbWksIGRldik7CiZndDsrCiZndDsgCWRldl9zZXRfZHJ2ZGF0YShkZXYsIGhkbWkp
+OwomZ3Q7CiZndDsgCXJldCA9IGRldm1fcmVxdWVzdF90aHJlYWRlZF9pcnEoZGV2LCBpcnEsIHJr
+MzA2Nl9oZG1pX2hhcmRpcnEsCiZndDtAQCAtODEzLDYgKzEwNzcsNyBAQCBzdGF0aWMgaW50IHJr
+MzA2Nl9oZG1pX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIs
+CiZndDsgCXJldHVybiAwOwomZ3Q7CiZndDsgZXJyX2NsZWFudXBfaGRtaToKJmd0OysJcGxhdGZv
+cm1fZGV2aWNlX3VucmVnaXN0ZXIoaGRtaS0mZ3Q7YXVkaW9fcGRldik7CiZndDsgCWhkbWktJmd0
+O2Nvbm5lY3Rvci5mdW5jcy0mZ3Q7ZGVzdHJveSgmYW1wO2hkbWktJmd0O2Nvbm5lY3Rvcik7CiZn
+dDsgCWhkbWktJmd0O2VuY29kZXIuZW5jb2Rlci5mdW5jcy0mZ3Q7ZGVzdHJveSgmYW1wO2hkbWkt
+Jmd0O2VuY29kZXIuZW5jb2Rlcik7CiZndDsgZXJyX2Rpc2FibGVfaTJjOgomZ3Q7QEAgLTgyOCw2
+ICsxMDkzLDcgQEAgc3RhdGljIHZvaWQgcmszMDY2X2hkbWlfdW5iaW5kKHN0cnVjdCBkZXZpY2Ug
+KmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAomZ3Q7IHsKJmd0OyAJc3RydWN0IHJrMzA2Nl9o
+ZG1pICpoZG1pID0gZGV2X2dldF9kcnZkYXRhKGRldik7CiZndDsKJmd0OysJcGxhdGZvcm1fZGV2
+aWNlX3VucmVnaXN0ZXIoaGRtaS0mZ3Q7YXVkaW9fcGRldik7CiZndDsgCWhkbWktJmd0O2Nvbm5l
+Y3Rvci5mdW5jcy0mZ3Q7ZGVzdHJveSgmYW1wO2hkbWktJmd0O2Nvbm5lY3Rvcik7CiZndDsgCWhk
+bWktJmd0O2VuY29kZXIuZW5jb2Rlci5mdW5jcy0mZ3Q7ZGVzdHJveSgmYW1wO2hkbWktJmd0O2Vu
+Y29kZXIuZW5jb2Rlcik7CiZndDsKJmd0Oy0tCiZndDsyLjM5LjIKJmd0Owo8L3ByZT48L2Rpdj4=
 
-nit: s/bound_rxq_list/bound_rxqs/ ? it's not a list
+------=_Part_19643_1965100845.1719970335735--
 
-> +		if (rxq->mp_params.mp_priv == binding) {
-> +			/* We hold the rtnl_lock while binding/unbinding
-> +			 * dma-buf, so we can't race with another thread that
-> +			 * is also modifying this value. However, the page_pool
-> +			 * may read this config while it's creating its
-> +			 * rx-queues. WRITE_ONCE() here to match the
-> +			 * READ_ONCE() in the page_pool.
-> +			 */
-> +			WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
-
-Is this really sufficient in terms of locking? @binding is not
-RCU-protected and neither is the reader guaranteed to be in 
-an RCU critical section. Actually the "reader" tries to take a ref 
-and use this struct so it's not even a pure reader.
-
-Let's add a lock or use one of the existing locks
-
-Or, perhaps time to add a mutex to struct net_device
-
-> +			rxq_idx = get_netdev_rx_queue_index(rxq);
-> +
-> +			netdev_rx_queue_restart(binding->dev, rxq_idx);
-> +		}
-> +	}
-> +
-> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
-> +
-> +	net_devmem_dmabuf_binding_put(binding);
-> +}
-> +
-> +int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
-> +				    struct net_devmem_dmabuf_binding *binding)
-> +{
-> +	struct netdev_rx_queue *rxq;
-> +	u32 xa_idx;
-> +	int err;
-> +
-> +	if (rxq_idx >= dev->num_rx_queues)
-> +		return -ERANGE;
-> +
-> +	rxq = __netif_get_rx_queue(dev, rxq_idx);
-> +	if (rxq->mp_params.mp_priv)
-> +		return -EEXIST;
-
-Makes me wonder - do we need an API to unbind or we assume
-application will only have one binding per socket and close 
-it every time? I guess that's fine for future extension.
-
-> +	err = xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_limit_32b,
-> +		       GFP_KERNEL);
-> +	if (err)
-> +		return err;
-> +
-> +	/* We hold the rtnl_lock while binding/unbinding dma-buf, so we can't
-> +	 * race with another thread that is also modifying this value. However,
-> +	 * the driver may read this config while it's creating its * rx-queues.
-> +	 * WRITE_ONCE() here to match the READ_ONCE() in the driver.
-> +	 */
-> +	WRITE_ONCE(rxq->mp_params.mp_priv, binding);
-> +
-> +	err = netdev_rx_queue_restart(dev, rxq_idx);
-> +	if (err)
-> +		goto err_xa_erase;
-> +
-> +	return 0;
-> +
-> +err_xa_erase:
-> +	WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
-> +	xa_erase(&binding->bound_rxq_list, xa_idx);
-> +
-> +	return err;
-> +}
-> +
-> +int net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
-> +			   struct net_devmem_dmabuf_binding **out)
-> +{
-> +	struct net_devmem_dmabuf_binding *binding;
-> +	static u32 id_alloc_next;
-> +	struct scatterlist *sg;
-> +	struct dma_buf *dmabuf;
-> +	unsigned int sg_idx, i;
-> +	unsigned long virtual;
-> +	int err;
-> +
-> +	dmabuf = dma_buf_get(dmabuf_fd);
-> +	if (IS_ERR(dmabuf))
-> +		return -EBADFD;
-
-nit: I think error pointers are nicer than **out parameters :(
-     you can ERR_CAST() all the DMABUF errors
-
-> +	binding = kzalloc_node(sizeof(*binding), GFP_KERNEL,
-> +			       dev_to_node(&dev->dev));
-> +	if (!binding) {
-> +		err = -ENOMEM;
-> +		goto err_put_dmabuf;
-> +	}
-> +
-> +	binding->dev = dev;
-> +
-> +	err = xa_alloc_cyclic(&net_devmem_dmabuf_bindings, &binding->id,
-> +			      binding, xa_limit_32b, &id_alloc_next,
-> +			      GFP_KERNEL);
-> +	if (err < 0)
-> +		goto err_free_binding;
-> +
-> +	xa_init_flags(&binding->bound_rxq_list, XA_FLAGS_ALLOC);
-> +
-> +	refcount_set(&binding->ref, 1);
-> +
-> +	binding->dmabuf = dmabuf;
-> +
-> +	binding->attachment = dma_buf_attach(binding->dmabuf, dev->dev.parent);
-> +	if (IS_ERR(binding->attachment)) {
-> +		err = PTR_ERR(binding->attachment);
-> +		goto err_free_id;
-> +	}
-
-> -/* Stub */
->  int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info)
->  {
-> -	return 0;
-> +	struct nlattr *tb[ARRAY_SIZE(netdev_queue_dmabuf_nl_policy)];
-> +	struct net_devmem_dmabuf_binding *out_binding;
-> +	struct list_head *sock_binding_list;
-> +	u32 ifindex, dmabuf_fd, rxq_idx;
-> +	struct net_device *netdev;
-> +	struct sk_buff *rsp;
-> +	struct nlattr *attr;
-> +	int rem, err = 0;
-> +	void *hdr;
-> +
-> +	if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_DEV_IFINDEX) ||
-> +	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_BIND_DMABUF_DMABUF_FD) ||
-> +	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_BIND_DMABUF_QUEUES))
-> +		return -EINVAL;
-> +
-> +	ifindex = nla_get_u32(info->attrs[NETDEV_A_DEV_IFINDEX]);
-> +	dmabuf_fd = nla_get_u32(info->attrs[NETDEV_A_BIND_DMABUF_DMABUF_FD]);
-> +
-> +	rtnl_lock();
-> +
-> +	netdev = __dev_get_by_index(genl_info_net(info), ifindex);
-> +	if (!netdev) {
-
- || !netif_device_present(netdev)
-
-> +		err = -ENODEV;
-> +		goto err_unlock;
-> +	}
-> +
-> +	err = net_devmem_bind_dmabuf(netdev, dmabuf_fd, &out_binding);
-> +	if (err)
-> +		goto err_unlock;
-> +
-> +	nla_for_each_attr(attr, genlmsg_data(info->genlhdr),
-> +			  genlmsg_len(info->genlhdr), rem) {
-> +
-> +		if (nla_type(attr) != NETDEV_A_BIND_DMABUF_QUEUES)
-> +			continue;
-
-nit: nla_for_each_attr_type()
-
-> +		err = nla_parse_nested(
-> +			tb, ARRAY_SIZE(netdev_queue_dmabuf_nl_policy) - 1, attr,
-> +			netdev_queue_dmabuf_nl_policy, info->extack);
-> +		if (err < 0)
-> +			goto err_unbind;
-> +
-> +		rxq_idx = nla_get_u32(tb[NETDEV_A_QUEUE_DMABUF_IDX]);
-> +
-> +		err = net_devmem_bind_dmabuf_to_queue(netdev, rxq_idx,
-> +						      out_binding);
-> +		if (err)
-> +			goto err_unbind;
-> +	}
-> +
-> +	sock_binding_list = genl_sk_priv_get(&netdev_nl_family,
-> +					     NETLINK_CB(skb).sk);
-> +	if (IS_ERR(sock_binding_list)) {
-> +		err = PTR_ERR(sock_binding_list);
-> +		goto err_unbind;
-> +	}
-> +
-> +	list_add(&out_binding->list, sock_binding_list);
-> +
-> +	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
-> +	if (!rsp) {
-> +		err = -ENOMEM;
-> +		goto err_unbind;
-> +	}
-> +
-> +	hdr = genlmsg_iput(rsp, info);
-> +	if (!hdr) {
-> +		err = -EMSGSIZE;
-> +		goto err_genlmsg_free;
-> +	}
-
-I'd move genl_sk_priv_get(), genlmsg_new() and genlmsg_iput() before we
-take rtnl_lock(), but I admit it's a bit late for this sort of
-feedback.. :)
-
-> +	nla_put_u32(rsp, NETDEV_A_BIND_DMABUF_DMABUF_ID, out_binding->id);
-> +	genlmsg_end(rsp, hdr);
-> +
-> +	rtnl_unlock();
-> +
-> +	return genlmsg_reply(rsp, info);
-> +
-> +err_genlmsg_free:
-> +	nlmsg_free(rsp);
-> +err_unbind:
-> +	net_devmem_unbind_dmabuf(out_binding);
-> +err_unlock:
-> +	rtnl_unlock();
-> +	return err;
->  }
