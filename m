@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2523F926723
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 19:30:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6947926721
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 19:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF67B10E953;
-	Wed,  3 Jul 2024 17:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C283B10E950;
+	Wed,  3 Jul 2024 17:30:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="gedfkCKQ";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="hxQE1fBF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33BE310E955
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 17:30:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C0F10E950
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 17:30:22 +0000 (UTC)
 X-Virus-Scanned: SPAM Filter at disroot.org
 From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1720027282; bh=5cUXPHd9nUcFVbK9b0A1L5MIuhpHlIkcYsAEZD7Gaoo=;
+ t=1720027285; bh=gjvkiUOSE7F5WUd6+3qhbjUsNsvcnn9qdimWMtEQ8F8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=gedfkCKQjCQIT6tRrE+t2sleDDroPRma9VrPaGMv5JS/TsgxQJkGHJYv6jfr6AIHJ
- q6n5wdOBVPO8rOeYbCQC28OCCORJDkXLKHvVHR4k5fp3HbIFDAUBuKZs44I0ttgv7N
- jGecvn50DQeW0JFrXYB97O5F+vi121y+B4Td79RJMqrMo6krWq4DQF/oblAmTcgGy+
- 0ZC4DVgBTxMbnYDwJrTeYoS4c/ohNFceZvDFmEGgz/6V0vMVH4mG5Ad/AaswmXLhq9
- DuVxy19OCEYTr/5+vci/r9GCIBvkvXgFRGCE4Oyc4no/L8YIYP7ngELSyOiN5zIWSh
- XrCqg3pbMzpxw==
+ b=hxQE1fBFpJZM1LXXCBPhUnQTYxLQLwrQFxNPYzzPNzicDHlFpqKZTzxdVJBLh6J1+
+ QsL4xv0FZutUJahUpfoqw8O4iXtyo1KcN1xJwjtmJR/oFaz4PzHHYpP/qn+rJ8uDcG
+ mFza0mZeHwM591L3muQDJ97ttkF7wINZX60rHaZyRuzo+Z0YnjYdnBdecRdrzvV8CP
+ Mgpyapks+GGVrlqLEIqVePZ6zCC0THobDTnkUZiUPj+HMmGceg+sKElanfFuTSD8uX
+ tfS2sYA8UePZu2IGW4PcCLeDzO7O61fna5D2DcakgqWl+hVE5foeKQDiGPNFljJcmV
+ CAEqoQ41Unz4Q==
 To: dri-devel@lists.freedesktop.org
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -36,9 +36,9 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Arthur Grillo <arthurgrillo@riseup.net>,
  Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
  Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-Subject: [PATCH v3 7/9] drm/tests: Add test for drm_framebuffer_lookup()
-Date: Wed,  3 Jul 2024 14:22:26 -0300
-Message-ID: <20240703172228.11166-8-gcarlos@disroot.org>
+Subject: [PATCH v3 8/9] drm/tests: Add test for drm_framebuffer_init()
+Date: Wed,  3 Jul 2024 14:22:27 -0300
+Message-ID: <20240703172228.11166-9-gcarlos@disroot.org>
 In-Reply-To: <20240703172228.11166-1-gcarlos@disroot.org>
 References: <20240703172228.11166-1-gcarlos@disroot.org>
 MIME-Version: 1.0
@@ -58,81 +58,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add two KUnit test cases for the drm_framebuffer_lookup function, one for
-the base case, that tests if the lookup finds the correct framebuffer object
-and another that tests the lookup for an inexistent framebuffer.
+Add three KUnit test cases for the drm_framebuffer_init function:
+
+1. Test if expected values are being set after drm_framebuffer_init() call.
+2. Try to init a framebuffer without setting its format.
+3. Try calling drm_framebuffer_init() with mismatch of the drm_device passed
+   at the first argument and the one pointed by fb->dev.
 
 Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 ---
 v2:
   - Reorder kunit cases alphabetically.
-  - Replace drm_mode_object_add() call to drm_framebuffer_init().
-  - Rely on drm_kunit_helper_alloc_device() for mock initialization.
+  - Let fb1.dev unset instead of set it to wrong_drm to test mismatched
+    drm_device passed as drm_framebuffer_init() argument.
+  - Clean the framebuffer object.
 v3:
-  - Rename framebuffer variables.
+  - Split into three tests.
   - Add documentation.
-  - Split the lookup for inexistent framebuffer into another test.
-  - Call drm_framebuffer_put after lookup on drm_test_framebuffer_lookup test.
+  - Stop testing lookup here.
 ---
- drivers/gpu/drm/tests/drm_framebuffer_test.c | 41 ++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ drivers/gpu/drm/tests/drm_framebuffer_test.c | 68 ++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
 diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-index 4d0807e1090d..54829e832c5e 100644
+index 54829e832c5e..73a1a3a3987e 100644
 --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
 +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-@@ -530,10 +530,51 @@ static void drm_test_framebuffer_cleanup(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, dev->mode_config.num_fb, 0);
+@@ -569,10 +569,78 @@ static void drm_test_framebuffer_lookup_inexistent(struct kunit *test)
+ 	KUNIT_EXPECT_NULL(test, fb);
  }
  
-+/*
-+ * Initialize a framebuffer, lookup its id and test if the returned reference
-+ * matches.
-+ */
-+static void drm_test_framebuffer_lookup(struct kunit *test)
++/* Test if drm_framebuffer_init initializes the framebuffer with expected values */
++static void drm_test_framebuffer_init(struct kunit *test)
 +{
 +	struct drm_framebuffer_test_priv *priv = test->priv;
 +	struct drm_device *dev = &priv->dev;
 +	struct drm_format_info format = { };
-+	struct drm_framebuffer expected_fb = { .dev = dev, .format = &format };
-+	struct drm_framebuffer *returned_fb;
-+	uint32_t id = 0;
++	struct drm_framebuffer fb1 = { .dev = dev, .format = &format };
++	struct drm_framebuffer_funcs funcs = { };
 +	int ret;
 +
-+	ret = drm_framebuffer_init(dev, &expected_fb, NULL);
++	ret = drm_framebuffer_init(dev, &fb1, &funcs);
 +	KUNIT_ASSERT_EQ(test, ret, 0);
-+	id = expected_fb.base.id;
 +
-+	/* Looking for expected_fb */
-+	returned_fb = drm_framebuffer_lookup(dev, NULL, id);
-+	KUNIT_EXPECT_PTR_EQ(test, returned_fb, &expected_fb);
-+	drm_framebuffer_put(returned_fb);
++	/* Check if fb->funcs is actually set to the drm_framebuffer_funcs passed on */
++	KUNIT_EXPECT_PTR_EQ(test, fb1.funcs, &funcs);
 +
-+	drm_framebuffer_cleanup(&expected_fb);
++	/* The fb->comm must be set to the current running process */
++	KUNIT_EXPECT_STREQ(test, fb1.comm, current->comm);
++
++	/* The fb->base must be successfully initialized */
++	KUNIT_EXPECT_NE(test, fb1.base.id, 0);
++	KUNIT_EXPECT_EQ(test, fb1.base.type, DRM_MODE_OBJECT_FB);
++	KUNIT_EXPECT_EQ(test, kref_read(&fb1.base.refcount), 1);
++	KUNIT_EXPECT_PTR_EQ(test, fb1.base.free_cb, &drm_framebuffer_free);
++
++	/* There must be just that one fb initialized */
++	KUNIT_EXPECT_EQ(test, dev->mode_config.num_fb, 1);
++	KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.prev, &fb1.head);
++	KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.next, &fb1.head);
++
++	drm_framebuffer_cleanup(&fb1);
 +}
 +
-+/* Try to lookup an id that is not linked to a framebuffer */
-+static void drm_test_framebuffer_lookup_inexistent(struct kunit *test)
++/* Try to init a framebuffer without setting its format */
++static void drm_test_framebuffer_init_bad_format(struct kunit *test)
 +{
 +	struct drm_framebuffer_test_priv *priv = test->priv;
 +	struct drm_device *dev = &priv->dev;
-+	struct drm_framebuffer *fb;
-+	uint32_t id = 0;
++	struct drm_framebuffer fb1 = { .dev = dev, .format = NULL };
++	struct drm_framebuffer_funcs funcs = { };
++	int ret;
 +
-+	/* Looking for an inexistent framebuffer */
-+	fb = drm_framebuffer_lookup(dev, NULL, id);
-+	KUNIT_EXPECT_NULL(test, fb);
++	/* Fails if fb.format isn't set */
++	ret = drm_framebuffer_init(dev, &fb1, &funcs);
++	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
++}
++
++/*
++ * Test calling drm_framebuffer_init() passing a framebuffer linked to a
++ * different drm_device parent from the one passed on the first argument.
++ */
++static void drm_test_framebuffer_init_dev_mismatch(struct kunit *test)
++{
++	struct drm_framebuffer_test_priv *priv = test->priv;
++	struct drm_device *dev = &priv->dev;
++	struct drm_format_info format = { };
++	struct drm_framebuffer fb1 = { .dev = NULL, .format = &format };
++	struct drm_framebuffer_funcs funcs = { };
++	int ret;
++
++	/* Fails if fb->dev doesn't point to the drm_device passed on first arg */
++	ret = drm_framebuffer_init(dev, &fb1, &funcs);
++	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
 +}
 +
  static struct kunit_case drm_framebuffer_tests[] = {
  	KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, check_src_coords_gen_params),
  	KUNIT_CASE(drm_test_framebuffer_cleanup),
  	KUNIT_CASE_PARAM(drm_test_framebuffer_create, drm_framebuffer_create_gen_params),
-+	KUNIT_CASE(drm_test_framebuffer_lookup),
-+	KUNIT_CASE(drm_test_framebuffer_lookup_inexistent),
++	KUNIT_CASE(drm_test_framebuffer_init),
++	KUNIT_CASE(drm_test_framebuffer_init_bad_format),
++	KUNIT_CASE(drm_test_framebuffer_init_dev_mismatch),
+ 	KUNIT_CASE(drm_test_framebuffer_lookup),
+ 	KUNIT_CASE(drm_test_framebuffer_lookup_inexistent),
  	KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
- 	{ }
- };
 -- 
 2.44.2
 
