@@ -2,63 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5E392654B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 17:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC20926556
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 17:57:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30FE210E6D1;
-	Wed,  3 Jul 2024 15:51:33 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ILvQV6NM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A6310E920;
+	Wed,  3 Jul 2024 15:57:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79F1B10E610
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 15:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720021892; x=1751557892;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=ms394A/zPqDI3DaDC87RCpTsmOlsNg4WPz8+xELa/fs=;
- b=ILvQV6NMDXT0hIPZTOEyUlJY4Hbc7EnprSVyI5xcl3tVda3DlLQL2nJ5
- ouTofSMsI+xHXn7k7QiCVHfcRWgO8ikiVNmTE41ps6M40ZZWxBKatsyDM
- ahjFRIhu70YAsech0Pf68fc6f+scTR6EirPrYgOCqrY1pdBHt64wtHyyB
- um1OyWVmisQKq+hsMeoQKq2NvuxZIAH8YqsT/XTx8f/MZo40xYehdeE8h
- B2tLJZ4Dg42WESpcRnVzax4Al3DymMhw10GX6AhqptEcc1+yVbKOOkP6j
- hK7/ajrYGMFmLxtGCnzpMXpeLul8v6BVBrmK8CQ500H5AsfRrBY7bp5E3 w==;
-X-CSE-ConnectionGUID: T8ePmQmGQSS3XAmx1PvGEA==
-X-CSE-MsgGUID: 3OIOBEzkT16c4h8Yl8OKpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="28652813"
-X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; d="scan'208";a="28652813"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jul 2024 08:51:32 -0700
-X-CSE-ConnectionGUID: LOYlVwlDT4SbmdchFoAZ0A==
-X-CSE-MsgGUID: CC+7XF+XRVy6U4A3TMiyVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; d="scan'208";a="51254171"
-Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
- [10.245.244.226]) ([10.245.244.226])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jul 2024 08:51:30 -0700
-Message-ID: <c2b5145c72a4d4598bfdde23c532f3f657f0c075.camel@linux.intel.com>
-Subject: Re: [PATCH 2/5] drm/exec: don't immediately add the prelocked obj
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- matthew.brost@intel.com
-Cc: dri-devel@lists.freedesktop.org
-Date: Wed, 03 Jul 2024 17:51:27 +0200
-In-Reply-To: <20240703132602.4756-3-christian.koenig@amd.com>
-References: <20240703132602.4756-1-christian.koenig@amd.com>
- <20240703132602.4756-3-christian.koenig@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2935E10E920
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 15:56:59 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6041367;
+ Wed,  3 Jul 2024 08:57:23 -0700 (PDT)
+Received: from e122027.cambridge.arm.com (e122027.cambridge.arm.com
+ [10.1.37.29])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D8C23F766;
+ Wed,  3 Jul 2024 08:56:57 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ Steven Price <steven.price@arm.com>
+Subject: [PATCH] drm/panthor: Record devfreq busy as soon as a job is started
+Date: Wed,  3 Jul 2024 16:56:46 +0100
+Message-Id: <20240703155646.80928-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,75 +46,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-07-03 at 15:25 +0200, Christian K=C3=B6nig wrote:
-> Some contended objects might never be locked again in the case of
-> eviction
-> handling for example.
->=20
-> Make sure that those doesn't show up in the list of locked objects
-> until
-> they are explicitely mentioned.
+If a queue is already assigned to the hardware, then a newly submitted
+job can start straight away without waiting for the tick. However in
+this case the devfreq infrastructure isn't notified that the GPU is
+busy. By the time the tick happens the job might well have finished and
+no time will be accounted for the GPU being busy.
 
-Could you be a bit more specific in the commit message about in what
-situations that is bad?
+Fix this by recording the GPU as busy directly in queue_run_job() in the
+case where there is a CSG assigned and therefore we just ring the
+doorbell.
 
-/Thomas
+Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
+Signed-off-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_sched.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-
->=20
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
-> =C2=A0drivers/gpu/drm/drm_exec.c | 18 +++++++++---------
-> =C2=A01 file changed, 9 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-> index 2da094bdf8a4..220df336fbd9 100644
-> --- a/drivers/gpu/drm/drm_exec.c
-> +++ b/drivers/gpu/drm/drm_exec.c
-> @@ -61,8 +61,11 @@ static void drm_exec_unlock_all(struct drm_exec
-> *exec)
-> =C2=A0		drm_gem_object_put(obj);
-> =C2=A0	}
-> =C2=A0
-> -	drm_gem_object_put(exec->prelocked);
-> -	exec->prelocked =3D NULL;
-> +	if (exec->prelocked) {
-> +		dma_resv_unlock(exec->prelocked->resv);
-> +		drm_gem_object_put(exec->prelocked);
-> +		exec->prelocked =3D NULL;
-> +	}
-> =C2=A0}
-> =C2=A0
-> =C2=A0/**
-> @@ -179,16 +182,9 @@ static int drm_exec_lock_contended(struct
-> drm_exec *exec)
-> =C2=A0		dma_resv_lock_slow(obj->resv, &exec->ticket);
-> =C2=A0	}
-> =C2=A0
-> -	ret =3D drm_exec_obj_locked(exec, obj);
-> -	if (unlikely(ret))
-> -		goto error_unlock;
-> -
-> =C2=A0	exec->prelocked =3D obj;
-> =C2=A0	return 0;
-> =C2=A0
-> -error_unlock:
-> -	dma_resv_unlock(obj->resv);
-> -
-> =C2=A0error_dropref:
-> =C2=A0	drm_gem_object_put(obj);
-> =C2=A0	return ret;
-> @@ -214,6 +210,10 @@ int drm_exec_lock_obj(struct drm_exec *exec,
-> struct drm_gem_object *obj)
-> =C2=A0		return ret;
-> =C2=A0
-> =C2=A0	if (exec->prelocked =3D=3D obj) {
-> +		ret =3D drm_exec_obj_locked(exec, obj);
-> +		if (unlikely(ret))
-> +			return ret;
-> +
-> =C2=A0		drm_gem_object_put(exec->prelocked);
-> =C2=A0		exec->prelocked =3D NULL;
-> =C2=A0		return 0;
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 951ff7e63ea8..e7afaa1ad8dc 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -2942,6 +2942,7 @@ queue_run_job(struct drm_sched_job *sched_job)
+ 			pm_runtime_get(ptdev->base.dev);
+ 			sched->pm.has_ref = true;
+ 		}
++		panthor_devfreq_record_busy(sched->ptdev);
+ 	}
+ 
+ 	/* Update the last fence. */
+-- 
+2.39.2
 
