@@ -2,74 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E1D926175
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 15:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBC79261AE
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 15:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B290910E835;
-	Wed,  3 Jul 2024 13:10:24 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="n5+Kb2Np";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C0210E7F2;
+	Wed,  3 Jul 2024 13:20:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4009710E835
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 13:10:23 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2eaa89464a3so55129731fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2024 06:10:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720012221; x=1720617021; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fYNKyC7r0lY93w+1DA2lEanB3Pazmm2DrUBGKs4HZ0o=;
- b=n5+Kb2NpDDjzwk/qzdDwYON2wezZC1seO6mkzzwYjOc8JjIGNagjwDVwVfeoaYwE9Q
- woVzFI+eVjT+8EcMPla1xYYxNza5GlTNgy/JjMH36xPfhED1Jao8AlTq5qCKPPK0Qa2V
- B90aFAnQtT+xmvJPsmhgwC2krGCum3bXZ2AxWxWB1pt0TQ9Az16TaMyoGh6i4JQm+K9s
- 38bMl9cl+2aanhan5FskWvKjKeXwmzB02st1/vZ1c4HEd6HJ4PiTzINRA2drzivg7t+e
- ug/koD0icsH3tV5rP/ijQCxTy0CR2W6NDxQPrHQQWcUI3BeLz1NJ6lhFTR+DF7y1++Du
- LiMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720012221; x=1720617021;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fYNKyC7r0lY93w+1DA2lEanB3Pazmm2DrUBGKs4HZ0o=;
- b=WZHQI2m5FSiyxU4QfXqjmDJHkwQ6Vy4c/FQVUVwQ86WJesDLv2mTjqzaF+r/Tk8uCL
- QbyK9r2IMj/2MeUF6gvZomoxNrftSn0rYwN5HVU+kCkA23Gdwx0V+Xo65kU/5xD57N/V
- abWlbhW35I9W7+DIPWKTPFbC3Cl5CQJEv+DvZXH7FbIgr99rtqnjYcvn5ep0cfBDyGJI
- x4ERMIbhXYK8lBNrIOptUMybb/8xRLNrJwwWapP5K7K1zOoXlKAFsHnk0DSVhZbKB6qU
- 5U9oJEekzCd5ITQ4TmzTDZzncF9Uu1DHtyzaL7rIZYeC3iMnilzdvsn7Ti3wVHEPTg7A
- 1UAQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWSyfIsHGGlwjYAKhOl+xFxFyjoFUX0r4lUpjxxU/JaTkQloBy0Os602TtmwfQGVnHljA2O/8qhWE79HGg8FtS2LecqnOZin3q4k2On54Lu
-X-Gm-Message-State: AOJu0YyUri2Pnuz3OwKBDsmfSnkWKkq35BdwOcYjZKygdtRQtGpBeloQ
- iYtjbGVSzkrWuQ1p1G0JJmLCnkwHz6j9GfUX+/uMTTCJgoHfgF5PvMvKguSa9MFTRT4ndcbvTQK
- lAJj3WwiiAbF4n04OcXWOXOUWeoZJOnvh+ffT2Q==
-X-Google-Smtp-Source: AGHT+IF2tkib/oC3Qiv+r3vhOaGqxlEBIzZGIynLySjW51phBdlrQV9rmjY1VJWS6M/DGM6KhRIAswSjPmSVX6S2YU4=
-X-Received: by 2002:a2e:b5cb:0:b0:2ee:8555:473e with SMTP id
- 38308e7fff4ca-2ee85556516mr7890711fa.46.1720012221282; Wed, 03 Jul 2024
- 06:10:21 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AEB2210E7F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 13:20:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4135C367;
+ Wed,  3 Jul 2024 06:20:46 -0700 (PDT)
+Received: from [10.1.37.29] (e122027.cambridge.arm.com [10.1.37.29])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AA2C93F762;
+ Wed,  3 Jul 2024 06:20:18 -0700 (PDT)
+Message-ID: <e42a55ba-cbb5-47a4-bec6-9c3067040970@arm.com>
+Date: Wed, 3 Jul 2024 14:20:16 +0100
 MIME-Version: 1.0
-References: <20240702130138.2543711-1-yangcong5@huaqin.corp-partner.google.com>
- <20240702130138.2543711-3-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20240702130138.2543711-3-yangcong5@huaqin.corp-partner.google.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 3 Jul 2024 15:10:09 +0200
-Message-ID: <CACRpkdY+nuSWz7rnVVUpF_mZOfDUb_6fgoJpnG2Pt-+AGLqt0g@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] drm/panel: jd9365da: Support for Melfas
- lmfbx101117480 MIPI-DSI panel
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
- dianders@chromium.org, swboyd@chromium.org, airlied@gmail.com, 
- dmitry.baryshkov@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
- robh+dt@kernel.org, conor+dt@kernel.org, 
- lvzhaoxiong@huaqin.corp-partner.google.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panfrost: Mark simple_ondemand governor as softdep
+To: Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org
+Cc: boris.brezillon@collabora.com, robh@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, linux-kernel@vger.kernel.org,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Furkan Kardame <f.kardame@manjaro.org>, stable@vger.kernel.org
+References: <4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org>
+ <f672e7460c92bc9e0c195804f7e99d0b@manjaro.org>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <f672e7460c92bc9e0c195804f7e99d0b@manjaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,39 +51,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 2, 2024 at 3:02=E2=80=AFPM Cong Yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
+On 03/07/2024 13:42, Dragan Simic wrote:
+> Hello everyone,
+> 
+> On 2024-06-17 22:17, Dragan Simic wrote:
+>> Panfrost DRM driver uses devfreq to perform DVFS, while using
+>> simple_ondemand
+>> devfreq governor by default.  This causes driver initialization to
+>> fail on
+>> boot when simple_ondemand governor isn't built into the kernel
+>> statically,
+>> as a result of the missing module dependency and, consequently, the
+>> required
+>> governor module not being included in the initial ramdisk.  Thus,
+>> let's mark
+>> simple_ondemand governor as a softdep for Panfrost, to have its kernel
+>> module
+>> included in the initial ramdisk.
+>>
+>> This is a rather longstanding issue that has forced distributions to
+>> build
+>> devfreq governors statically into their kernels, [1][2] or has forced
+>> users
+>> to introduce some unnecessary workarounds. [3]
+>>
+>> For future reference, not having support for the simple_ondemand
+>> governor in
+>> the initial ramdisk produces errors in the kernel log similar to these
+>> below,
+>> which were taken from a Pine64 RockPro64:
+>>
+>>   panfrost ff9a0000.gpu: [drm:panfrost_devfreq_init [panfrost]]
+>> *ERROR* Couldn't initialize GPU devfreq
+>>   panfrost ff9a0000.gpu: Fatal error during GPU init
+>>   panfrost: probe of ff9a0000.gpu failed with error -22
+>>
+>> Having simple_ondemand marked as a softdep for Panfrost may not
+>> resolve this
+>> issue for all Linux distributions.  In particular, it will remain
+>> unresolved
+>> for the distributions whose utilities for the initial ramdisk
+>> generation do
+>> not handle the available softdep information [4] properly yet. 
+>> However, some
+>> Linux distributions already handle softdeps properly while generating
+>> their
+>> initial ramdisks, [5] and this is a prerequisite step in the right
+>> direction
+>> for the distributions that don't handle them properly yet.
+>>
+>> [1]
+>> https://gitlab.manjaro.org/manjaro-arm/packages/core/linux/-/blob/linux61/config?ref_type=heads#L8180
+>> [2] https://salsa.debian.org/kernel-team/linux/-/merge_requests/1066
+>> [3] https://forum.pine64.org/showthread.php?tid=15458
+>> [4]
+>> https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?id=49d8e0b59052999de577ab732b719cfbeb89504d
+>> [5]
+>> https://github.com/archlinux/mkinitcpio/commit/97ac4d37aae084a050be512f6d8f4489054668ad
+>>
+>> Cc: Diederik de Haas <didi.debian@cknow.org>
+>> Cc: Furkan Kardame <f.kardame@manjaro.org>
+>> Cc: stable@vger.kernel.org
+>> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
+>> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
 
-> The Melfas lmfbx101117480 is a 10.1" WXGA TFT-LCD panel, use jd9365da
-> controller, which fits in nicely with the existing panel-jadard-jd9365da-=
-h3
-> driver. Hence, we add a new compatible with panel specific config.
->
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-This is certainly OK
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> 
+> Just checking, could this patch be accepted, please?  The Lima counterpart
+> has already been accepted. [6]
 
-> +static int melfas_lmfbx101117480_init_cmds(struct jadard *jadard)
-> +{
-> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D jadard->dsi =
-};
-> +
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x00);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0x93);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0x65);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe3, 0xf8);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x03);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x01);
+Thanks for the prod - I have to admit I saw there was discussion about
+the Lima patch and so just put this on my list to look again later after
+the discussion had reached a conclusion.
 
-Until this point *all* displays have the same init sequence, what about
-a follow-up patch that start to break things that are always the
-same into helper functions?
+> The approach in this patch is far from perfect, but it's still fine until
+> there's a better solution, such as harddeps.  I'll continue my research
+> about the possibility for introducing harddeps, which would hopefully
+> replace quite a few instances of the softdep (ab)use that already extend
+> rather far.  For example, have a look at the commit d5178578bcd4 (btrfs:
+> directly call into crypto framework for checksumming) [7] and the lines
+> containing MODULE_SOFTDEP() at the very end of fs/btrfs/super.c. [8]
 
-These sequences all have a lot of the same magic bytes, so if
-you guys have a datasheet for this display controller then start
-adding gradually some #defines for the e0, e1, e2 etc commands
-please.
+I agree - it's not perfect, but it's the best we have for now. I hope
+sometime we'll have a cleaner solution to express dependencies like this
+(good luck! ;) ).
 
-Yours,
-Linus Walleij
+Thanks,
+
+Steve
+
+> If a filesystem driver can rely on the (ab)use of softdeps, which may be
+> fragile or seen as a bit wrong, I think we can follow the same approach,
+> at least until a better solution is available.
+> 
+> [6]
+> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0c94f58cef319ad054fd909b3bf4b7d09c03e11c
+> [7]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5178578bcd4
+> [8]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/super.c#n2593
+> 
+>> ---
+>>  drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> index ef9f6c0716d5..149737d7a07e 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> @@ -828,3 +828,4 @@ module_platform_driver(panfrost_driver);
+>>  MODULE_AUTHOR("Panfrost Project Developers");
+>>  MODULE_DESCRIPTION("Panfrost DRM Driver");
+>>  MODULE_LICENSE("GPL v2");
+>> +MODULE_SOFTDEP("pre: governor_simpleondemand");
+
