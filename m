@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70B6926C76
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 01:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD83926C77
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 01:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0D3E10E0C8;
-	Wed,  3 Jul 2024 23:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E12BB10E110;
+	Wed,  3 Jul 2024 23:32:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="FCIW4v3K";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="RFFHRHL/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F27110E0C8
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 23:32:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 473D410E110
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 23:32:24 +0000 (UTC)
 From: Dragan Simic <dsimic@manjaro.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1720049533;
+ t=1720049542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=QlysRJGMPVMeOyPkS2J6+X2utP4VEwmmX+EczNyIJjk=;
- b=FCIW4v3KulXCCrJ17Z/KdG0HmI74JNGt56c6V4NKu8hg7IHzTQp3mAQBJhS4VQLZm2EX2I
- T4VlSTAP2VT62fyVvfE5EsO6+7vJ1u63ORQ9OkK0O54pC1GsJL3WicmvVf0Jy+RwGN35fe
- GoVsbiPQlLvi9MNjY7zfPdnDBWTdFPpSP1m5tXBgtMPZ4//8aKWIJpGcmC1GtZ6j9UFtdt
- Csy1+CXnAlOHR0v9MeNF6qh1kwrSeXpzqS7ALiF+X1v415HS6Fs0zVoKToUjZeQaT1Z5Cc
- XS39/nf/pLAio6TxwRuQfXKRY9oFCPbG/MboevgWIlfJjT/mi51pui5lWse4CQ==
+ bh=lZlEw+Fn9hl8WVVU5TGBdkPfXk1IUsyRsh6CxIbbcHo=;
+ b=RFFHRHL/BIMNa+DJmfGc3RiA6ssbcnwsNILQ5RSm+yVVf+MIQc37InYfNhMEbA0Kwc/UJM
+ Y4SzsE2LedBnsxnSsA1EIHLblLXP45j3Dfc+AebWa3PYWFu0YkbzdoP29WKobyieSTAmtL
+ rllL+pjdULYQwPC+98TvkIgliMkqcr5zmCuXdtS90UCbdi7i1wNuiM+QzRHPOIxdY6sXeE
+ My4UesB4b8ECB7zZ2xHw78T1UIWPiz+fBFGlEEJjZdpIKhypS7ZT+RnaeotvVwWy8PSSGM
+ TqgmWqB12TqLdTLMq3OKOvQHSpBgSJhbOaeboYqWYBmrhl86dlCQBgk427Ds0A==
 To: linux-rockchip@lists.infradead.org,
 	dri-devel@lists.freedesktop.org
 Cc: heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/rockchip: cdn-dp: Remove redundant workarounds for
- firmware loading
-Date: Thu,  4 Jul 2024 01:32:02 +0200
-Message-Id: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
+Subject: [PATCH] drm/rockchip: cdn-dp: Clean up a few logged messages
+Date: Thu,  4 Jul 2024 01:32:20 +0200
+Message-Id: <92db74a313547c087cc71059428698c4ec37a9ae.1720048818.git.dsimic@manjaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Authentication-Results: ORIGINATING;
@@ -56,105 +55,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After the additional firmware-related module information was introduced by
-the commit c0677e41a47f ("drm/rockchip: cdn-dp-core: add MODULE_FIRMWARE
-macro"), there's no longer need for the firmware-loading workarounds whose
-sole purpose was to prevent the missing firmware blob in an initial ramdisk
-from causing driver initialization to fail.  Thus, delete the workarounds,
-which removes a sizable chunk of redundant code.
-
-Various utilities used by Linux distributions to generate initial ramdisks
-need to obey the firmware-related module information, so we can rely on the
-firmware blob being present in the generated initial ramdisks.
+Clean up a few logged messages, which were previously worded as rather
+incomplete sentences separated by periods.  This was both a bit unreadable
+and grammatically incorrect, so convert them into partial sentences separated
+(or connected) by semicolons, together with some wording improvements.
 
 Signed-off-by: Dragan Simic <dsimic@manjaro.org>
 ---
- drivers/gpu/drm/rockchip/cdn-dp-core.c | 53 +++++---------------------
- 1 file changed, 10 insertions(+), 43 deletions(-)
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-index bd7aa891b839..e1a7c6a1172b 100644
+index bd7aa891b839..ee9def197095 100644
 --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
 +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -44,9 +44,9 @@ static inline struct cdn_dp_device *encoder_to_dp(struct drm_encoder *encoder)
- #define DPTX_HPD_DEL		(2 << 12)
- #define DPTX_HPD_SEL_MASK	(3 << 28)
+@@ -969,46 +969,44 @@ static void cdn_dp_pd_event_work(struct work_struct *work)
  
--#define CDN_FW_TIMEOUT_MS	(64 * 1000)
- #define CDN_DPCD_TIMEOUT_MS	5000
- #define CDN_DP_FIRMWARE		"rockchip/dptx.bin"
-+
- MODULE_FIRMWARE(CDN_DP_FIRMWARE);
+ 	/* Not connected, notify userspace to disable the block */
+ 	if (!cdn_dp_connected_port(dp)) {
+-		DRM_DEV_INFO(dp->dev, "Not connected. Disabling cdn\n");
++		DRM_DEV_INFO(dp->dev, "Not connected; disabling cdn\n");
+ 		dp->connected = false;
  
- struct cdn_dp_data {
-@@ -909,61 +909,28 @@ static int cdn_dp_audio_codec_init(struct cdn_dp_device *dp,
- 	return PTR_ERR_OR_ZERO(dp->audio_pdev);
- }
+ 	/* Connected but not enabled, enable the block */
+ 	} else if (!dp->active) {
+-		DRM_DEV_INFO(dp->dev, "Connected, not enabled. Enabling cdn\n");
++		DRM_DEV_INFO(dp->dev, "Connected, not enabled; enabling cdn\n");
+ 		ret = cdn_dp_enable(dp);
+ 		if (ret) {
+-			DRM_DEV_ERROR(dp->dev, "Enable dp failed %d\n", ret);
++			DRM_DEV_ERROR(dp->dev, "Enabling dp failed: %d\n", ret);
+ 			dp->connected = false;
+ 		}
  
--static int cdn_dp_request_firmware(struct cdn_dp_device *dp)
--{
--	int ret;
--	unsigned long timeout = jiffies + msecs_to_jiffies(CDN_FW_TIMEOUT_MS);
--	unsigned long sleep = 1000;
--
--	WARN_ON(!mutex_is_locked(&dp->lock));
--
--	if (dp->fw_loaded)
--		return 0;
--
--	/* Drop the lock before getting the firmware to avoid blocking boot */
--	mutex_unlock(&dp->lock);
--
--	while (time_before(jiffies, timeout)) {
--		ret = request_firmware(&dp->fw, CDN_DP_FIRMWARE, dp->dev);
--		if (ret == -ENOENT) {
--			msleep(sleep);
--			sleep *= 2;
--			continue;
--		} else if (ret) {
--			DRM_DEV_ERROR(dp->dev,
--				      "failed to request firmware: %d\n", ret);
--			goto out;
--		}
--
--		dp->fw_loaded = true;
--		ret = 0;
--		goto out;
--	}
--
--	DRM_DEV_ERROR(dp->dev, "Timed out trying to load firmware\n");
--	ret = -ETIMEDOUT;
--out:
--	mutex_lock(&dp->lock);
--	return ret;
--}
--
- static void cdn_dp_pd_event_work(struct work_struct *work)
- {
- 	struct cdn_dp_device *dp = container_of(work, struct cdn_dp_device,
- 						event_work);
- 	struct drm_connector *connector = &dp->connector;
- 	enum drm_connector_status old_status;
--
- 	int ret;
+ 	/* Enabled and connected to a dongle without a sink, notify userspace */
+ 	} else if (!cdn_dp_check_sink_connection(dp)) {
+-		DRM_DEV_INFO(dp->dev, "Connected without sink. Assert hpd\n");
++		DRM_DEV_INFO(dp->dev, "Connected without sink; assert hpd\n");
+ 		dp->connected = false;
  
- 	mutex_lock(&dp->lock);
+ 	/* Enabled and connected with a sink, re-train if requested */
+ 	} else if (!cdn_dp_check_link_status(dp)) {
+ 		unsigned int rate = dp->max_rate;
+ 		unsigned int lanes = dp->max_lanes;
+ 		struct drm_display_mode *mode = &dp->mode;
  
- 	if (dp->suspended)
- 		goto out;
+-		DRM_DEV_INFO(dp->dev, "Connected with sink. Re-train link\n");
++		DRM_DEV_INFO(dp->dev, "Connected with sink; re-train link\n");
+ 		ret = cdn_dp_train_link(dp);
+ 		if (ret) {
+ 			dp->connected = false;
+-			DRM_DEV_ERROR(dp->dev, "Train link failed %d\n", ret);
++			DRM_DEV_ERROR(dp->dev, "Training link failed: %d\n", ret);
+ 			goto out;
+ 		}
  
--	ret = cdn_dp_request_firmware(dp);
--	if (ret)
--		goto out;
-+	if (!dp->fw_loaded) {
-+		ret = request_firmware(&dp->fw, CDN_DP_FIRMWARE, dp->dev);
-+		if (ret) {
-+			DRM_DEV_ERROR(dp->dev, "Loading firmware failed: %d\n", ret);
-+			goto out;
-+		}
-+
-+		dp->fw_loaded = true;
-+	}
- 
- 	dp->connected = true;
- 
+ 		/* If training result is changed, update the video config */
+ 		if (mode->clock &&
+ 		    (rate != dp->max_rate || lanes != dp->max_lanes)) {
+ 			ret = cdn_dp_config_video(dp);
+ 			if (ret) {
+ 				dp->connected = false;
+-				DRM_DEV_ERROR(dp->dev,
+-					      "Failed to config video %d\n",
+-					      ret);
++				DRM_DEV_ERROR(dp->dev, "Failed to configure video: %d\n", ret);
+ 			}
+ 		}
+ 	}
