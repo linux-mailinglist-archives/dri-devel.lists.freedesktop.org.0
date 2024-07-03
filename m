@@ -2,48 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1539892547D
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 09:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D0A92549D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2024 09:29:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7CA10E740;
-	Wed,  3 Jul 2024 07:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F002210E744;
+	Wed,  3 Jul 2024 07:29:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="s1IyRIHJ";
+	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="OtJEfuyG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED2D10E739
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 07:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1719991004;
- bh=WZGRqMWEz4knUWSaieWgSvVpQovvAL+A2eKgZtAouI0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s1IyRIHJ9f16bbbDo/zCqPvbidL6p1xX/Jicx12BtZ+tjXCKOLZ+j5lF0+MmwfMXz
- G5JjrrA7vLG+s4uurxNvClvpCdvZltg0XEAZOAtJqV5pzOJGlnjJ31oj570xqxlx/f
- AvJKu2hfdBY+evPWMH+Rqi66PuKCtQgLhIhnzCJplAvhw6S8+T8unFRCbER13ua9TY
- te33aAbmPXFLhNpwtl44esInCYB9uivFgxDvJCNdaW7WzbKhyv4KRpZEtwsY6aYTUU
- lHq4QuHW3IyBlo4+yerAgU1+hXuIDH7saLavU21HWVLtrg2uJIT6WGm6DLFsRPnCbQ
- 1prkdJHhXjO7A==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id B2FED37821B3;
- Wed,  3 Jul 2024 07:16:43 +0000 (UTC)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
-	kernel@collabora.com
-Subject: [PATCH v2 2/2] drm/panthor: Fix sync-only jobs
-Date: Wed,  3 Jul 2024 09:16:40 +0200
-Message-ID: <20240703071640.231278-3-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240703071640.231278-1-boris.brezillon@collabora.com>
-References: <20240703071640.231278-1-boris.brezillon@collabora.com>
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DED010E744
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2024 07:29:53 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-706627ff48dso3786920b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2024 00:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1719991792; x=1720596592;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eyHOv+1TQs3NJgyrsK3G70btEgM4PBOJQcOuP6+/cTo=;
+ b=OtJEfuyGjnh/m/77VNP5AMTWMN0stQuhTUJWbeLJZRolTGuQjC/8gAFlDn2uqDtVoW
+ aKCbRLmw8yDlKP1Z1mLcU8a9Vr5Lra6Fjctclpl4uxcc0Ud1QRkYtMScr8zMAnRhrMvn
+ x9Jmfd6Jf51WzkkSNWMM1M6ZQQeJEMhcPTYUT/AxNS9zNNDXe+xdjWolcq0rkhmQeYOL
+ oqu3dJOyo/J0MgZSdE1RJOjiD1N9gPBtTb7hWuWshW04SHv7K5QWkt97vcgtOlCQlED6
+ iTPS2fDuvlmTdvoFVfXQClaTmIKxe2ixtB2lb0KwX26eE1WCrRztdWZfCwIbMCtwOjhD
+ +L+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719991792; x=1720596592;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eyHOv+1TQs3NJgyrsK3G70btEgM4PBOJQcOuP6+/cTo=;
+ b=EFH/Ela9DjvGM8FggF9xV89mJOZO5GwTWSI2k6xpmo6vca+I31K8xTK+jccBFSty8+
+ TjBErdNfSpqQhXzIdlHeFzAQCrEheFtcwT7ChPWURxv4aKlZmY0uDINbqEZJzyeaJw22
+ XArBE7z9+mnxSJ37ToEOWIj1edrsl2hpQFf57VbvzRKTEIUp+PII2ElhutKqRe2ANEnM
+ CwJQbzBmfPDM7BLCNdSEt0OpoD8AxLsNZWlnurGsdnxEVrH4dxlLlJjciN45Z0vzpnry
+ GejOlFVpwhSegMvDHFTKygikdHPrfs6t7myba0+yyJaanZ2qM372/JsKAsnHkcIw/N79
+ 9rRg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUwF3GjbUg/52FGp1Hd8KcLIxoGSElhA1frFN8qGukxindhMDtLd6w+IwBgBxMDxo0H6xk8cu07h9mjNk/s6T3/CtYTav7xGNI3fZ08i/cA
+X-Gm-Message-State: AOJu0YxEKvL3jtEWF1GkyyhEwqmdObF2KYRsFqSnqf0Lc1GYskolSfnc
+ 6/zlW9q67z4omc6MPbhmActaXS9RiluSA5uldAMJICbwhnkJPCtA8+w+oEEtT/E=
+X-Google-Smtp-Source: AGHT+IF/2q2bYv+AW1oYPuOUB0yCXXmEAlApl3JeOfwhHA84IKB4Vo8dFV5LyPLNM+Hvub3oz8ssbw==
+X-Received: by 2002:a05:6a00:194a:b0:706:759a:70bc with SMTP id
+ d2e1a72fcca58-70aaaf32f24mr14483206b3a.29.1719991792618; 
+ Wed, 03 Jul 2024 00:29:52 -0700 (PDT)
+Received: from fedora.vc.shawcable.net (S0106c09435b54ab9.vc.shawcable.net.
+ [24.85.107.15]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-70802959d41sm9993502b3a.96.2024.07.03.00.29.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Jul 2024 00:29:52 -0700 (PDT)
+From: Thorsten Blum <thorsten.blum@toblux.com>
+To: ogabbay@kernel.org
+Cc: ttayar@habana.ai, obitton@habana.ai, fkassabri@habana.ai,
+ dliberman@habana.ai, quic_carlv@quicinc.com, dhirschfeld@habana.ai,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thorsten Blum <thorsten.blum@toblux.com>
+Subject: [RESEND PATCH] accel/habanalabs/gaudi2: Use kvfree() for memory
+ allocated with kvcalloc()
+Date: Wed,  3 Jul 2024 09:24:39 +0200
+Message-ID: <20240703072438.725114-2-thorsten.blum@toblux.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,138 +84,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A sync-only job is meant to provide a synchronization point on a
-queue, so we can't return a NULL fence there, we have to add a signal
-operation to the command stream which executes after all other
-previously submitted jobs are done.
+Use kvfree() to fix the following Coccinelle/coccicheck warning reported
+by kfree_mismatch.cocci:
 
-v2:
-- Fixed a UAF bug
-- Added R-bs
+	WARNING kvmalloc is used to allocate this memory at line 10398
 
-Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Tomer Tayar <ttayar@habana.ai>
+Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 44 ++++++++++++++++++-------
- include/uapi/drm/panthor_drm.h          |  5 +++
- 2 files changed, 38 insertions(+), 11 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 79ffcbc41d78..9a0ff48f7061 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -458,6 +458,16 @@ struct panthor_queue {
- 		/** @seqno: Sequence number of the last initialized fence. */
- 		atomic64_t seqno;
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index fa1c4feb9f89..8024047962ec 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -10489,7 +10489,7 @@ static int gaudi2_memset_device_memory(struct hl_device *hdev, u64 addr, u64 siz
+ 				(u64 *)(lin_dma_pkts_arr), DEBUGFS_WRITE64);
+ 	WREG32(sob_addr, 0);
  
-+		/**
-+		 * @last_fence: Fence of the last submitted job.
-+		 *
-+		 * We return this fence when we get an empty command stream.
-+		 * This way, we are guaranteed that all earlier jobs have completed
-+		 * when drm_sched_job::s_fence::finished without having to feed
-+		 * the CS ring buffer with a dummy job that only signals the fence.
-+		 */
-+		struct dma_fence *last_fence;
-+
- 		/**
- 		 * @in_flight_jobs: List containing all in-flight jobs.
- 		 *
-@@ -829,6 +839,9 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
- 	panthor_kernel_bo_destroy(queue->ringbuf);
- 	panthor_kernel_bo_destroy(queue->iface.mem);
+-	kfree(lin_dma_pkts_arr);
++	kvfree(lin_dma_pkts_arr);
  
-+	/* Release the last_fence we were holding, if any. */
-+	dma_fence_put(queue->fence_ctx.last_fence);
-+
- 	kfree(queue);
+ 	return rc;
  }
- 
-@@ -2784,9 +2797,6 @@ static void group_sync_upd_work(struct work_struct *work)
- 
- 		spin_lock(&queue->fence_ctx.lock);
- 		list_for_each_entry_safe(job, job_tmp, &queue->fence_ctx.in_flight_jobs, node) {
--			if (!job->call_info.size)
--				continue;
--
- 			if (syncobj->seqno < job->done_fence->seqno)
- 				break;
- 
-@@ -2865,11 +2875,14 @@ queue_run_job(struct drm_sched_job *sched_job)
- 	static_assert(sizeof(call_instrs) % 64 == 0,
- 		      "call_instrs is not aligned on a cacheline");
- 
--	/* Stream size is zero, nothing to do => return a NULL fence and let
--	 * drm_sched signal the parent.
-+	/* Stream size is zero, nothing to do except making sure all previously
-+	 * submitted jobs are done before we signal the
-+	 * drm_sched_job::s_fence::finished fence.
- 	 */
--	if (!job->call_info.size)
--		return NULL;
-+	if (!job->call_info.size) {
-+		job->done_fence = dma_fence_get(queue->fence_ctx.last_fence);
-+		return dma_fence_get(job->done_fence);
-+	}
- 
- 	ret = pm_runtime_resume_and_get(ptdev->base.dev);
- 	if (drm_WARN_ON(&ptdev->base, ret))
-@@ -2928,6 +2941,10 @@ queue_run_job(struct drm_sched_job *sched_job)
- 		}
- 	}
- 
-+	/* Update the last fence. */
-+	dma_fence_put(queue->fence_ctx.last_fence);
-+	queue->fence_ctx.last_fence = dma_fence_get(job->done_fence);
-+
- 	done_fence = dma_fence_get(job->done_fence);
- 
- out_unlock:
-@@ -3378,10 +3395,15 @@ panthor_job_create(struct panthor_file *pfile,
- 		goto err_put_job;
- 	}
- 
--	job->done_fence = kzalloc(sizeof(*job->done_fence), GFP_KERNEL);
--	if (!job->done_fence) {
--		ret = -ENOMEM;
--		goto err_put_job;
-+	/* Empty command streams don't need a fence, they'll pick the one from
-+	 * the previously submitted job.
-+	 */
-+	if (job->call_info.size) {
-+		job->done_fence = kzalloc(sizeof(*job->done_fence), GFP_KERNEL);
-+		if (!job->done_fence) {
-+			ret = -ENOMEM;
-+			goto err_put_job;
-+		}
- 	}
- 
- 	ret = drm_sched_job_init(&job->base,
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index aaed8e12ad0b..926b1deb1116 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -802,6 +802,9 @@ struct drm_panthor_queue_submit {
- 	 * Must be 64-bit/8-byte aligned (the size of a CS instruction)
- 	 *
- 	 * Can be zero if stream_addr is zero too.
-+	 *
-+	 * When the stream size is zero, the queue submit serves as a
-+	 * synchronization point.
- 	 */
- 	__u32 stream_size;
- 
-@@ -822,6 +825,8 @@ struct drm_panthor_queue_submit {
- 	 * ensure the GPU doesn't get garbage when reading the indirect command
- 	 * stream buffers. If you want the cache flush to happen
- 	 * unconditionally, pass a zero here.
-+	 *
-+	 * Ignored when stream_size is zero.
- 	 */
- 	__u32 latest_flush;
- 
 -- 
-2.45.0
+2.45.2
 
