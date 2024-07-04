@@ -2,56 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122BA9270AA
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 09:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D858F9270B2
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 09:34:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 775C910EA03;
-	Thu,  4 Jul 2024 07:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7F5310EA04;
+	Thu,  4 Jul 2024 07:34:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="h6TE/13x";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="C1TbCmes";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B5BE10E9FA;
- Thu,  4 Jul 2024 07:32:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=tXOITrb8w/ZiO/TlNQLwdmyzolg0O/2dDCq+hXUIP5k=; b=h6TE/13xvaloTR5oRUuBs3RauS
- hYjh5drWDPsh4lukTCSwwF89HFOCjpymTga2D7SmPcXKdjip1EDXB7JQ7wDAAQPqZs3xvoCpXuUf0
- CGkIAFKwLixu/oOYdFnnfNHSxGsxbd8QU8ti9Gvj4UavVmiDDFm7ESlyEf1Cx34V7q2l5QRZ7cTEU
- dhEYY0cEeGyyA5zrPGEddhT5VnjIl/OU9p9xAxzA2EphCbQ6C5f2TYiZ4umR6WHkBERokpMtfM9He
- kkVPWFrqKY6ixjIUv4Q+p6QkfACdjP4k/rf6kHWZjkhmv7Io/BL+v7p5+JRnMI14fto4RXoO2HdFx
- OaRiN6+A==;
-Received: from [84.69.19.168] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sPGwd-00B0jx-IJ; Thu, 04 Jul 2024 09:31:55 +0200
-Date: Thu, 4 Jul 2024 07:31:54 +0000
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <ZoZP6mUSergfzFMh@linux>
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA51C10EA04
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 07:34:40 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-64789495923so2949867b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 00:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1720078480; x=1720683280; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZSJbA3DiJ1YzPD3LPw7LD0YqK/n1egS96uxWCsi6+XA=;
+ b=C1TbCmesZQ32S2q7gOf7Q+iTpDnVST4SWV3/Wi6PjM/snMOkWID6YLo9TcePyicyD5
+ 1uoa7aShGVbaQU5o0bw/PyKCjmJiJWdV5lyoBvEyKbb+MeDmugZdCW39H34gFsClrddD
+ WAM3cmyUUTIMwzDhqH8v1/8HDjSvSn336eBDcv6+Y8lC4e7uO6qCHgfwDmRNrmOVo2kf
+ oCfTvdIoRz+K8Iqfh36hXpPimHKGw20DvCIGfews8mGhx5pIIe03+M+oHiEjPzrkt/+m
+ at7+gB4MTzONvsO7qVEkyYGeEHeC07DrQxg1wS37UGoNHvpiiUesbqwXnJ3QsWoLTFCO
+ uZiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720078480; x=1720683280;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZSJbA3DiJ1YzPD3LPw7LD0YqK/n1egS96uxWCsi6+XA=;
+ b=kKurrjIIGmGgg+uzkQ7BXO5dphrUwVuiAnrLjo44vpAjjcC7H2VgJ1JEjhmCEXhyve
+ +Mc99fTH+MykzoEHbC++I5NIlz1P8ecf8KFrt9B2U+iEAULJvdgALsUtGHseXZFqpD9t
+ Y7JTzEmuicKlkrwuEFBUFXCuArn4p1YUy7Q9SeQlTH4eCewQfH8v9cgCfV6imu8yll0Y
+ dov2NBnX39QVygfOXu7pY1UxHKzSmp1dBm+48/ve2x+HkI9pwVAj34/rHnSnFxMhK8ke
+ uXBym6kJVTikQEQ8dkBoUfyODCxBblwZi8n1/TlbGw0ss7kU0/oKZ7D9V5u4o0siplc+
+ ngBw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWuM06wCyAwiGi28kcios5rJs/swAQHVKlrKc9sG26DZVUZ8jf7MdglHoqggjM7lQcT6PlEEkkKN1+6z5S6SU3zUZHFtk0JgjVHBaPfcft5
+X-Gm-Message-State: AOJu0YxAmUi/P8v1dPXU8znGmTNmSzIjWLBwPyBcQ7qE8NPzyiLbuJpR
+ 9hpdxRGl5P6prZnlFmPZIrwnGJ2f3Zcht50Z2hwOxrwQLbkxgYM+LcvJte3bMTY1wiAC7AKS3/m
+ dED+G60eMS2ScV11F9KPx29WuGW7pDmzaUB/o5g==
+X-Google-Smtp-Source: AGHT+IHhzigWq58lUOH6s/Jt2RBqXA0UUUMkvO30rPZCplWLfh0mEABxieG1yDWZSLhKM2T0i2/FZBaIpwaJfjilpU0=
+X-Received: by 2002:a05:690c:7483:b0:631:2ebf:b8dc with SMTP id
+ 00721157ae682-652d5333721mr10121657b3.4.1720078479809; Thu, 04 Jul 2024
+ 00:34:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com>
+ <20240702-qcom-tee-object-and-ioctls-v1-1-633c3ddf57ee@quicinc.com>
+ <ink4tq3wk2jkpybiisaudkun3g2x2drfogrdw43zdpi6yh2u5g@yrvrxzxsi46g>
+ <836dab13-9c59-4d87-a600-a0be6506deb2@quicinc.com>
+In-Reply-To: <836dab13-9c59-4d87-a600-a0be6506deb2@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 4 Jul 2024 10:34:28 +0300
+Message-ID: <CAA8EJprp2veCaQq8GsYv4Mu1HQbx8nWv0XWtxcE4cu5kxkA16w@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/3] firmware: qcom: implement object invoke support
+To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,84 +85,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 4 Jul 2024 at 00:40, Amirreza Zarrabi <quic_azarrabi@quicinc.com> wrote:
+>
+>
+>
+> On 7/3/2024 10:13 PM, Dmitry Baryshkov wrote:
+> > On Tue, Jul 02, 2024 at 10:57:36PM GMT, Amirreza Zarrabi wrote:
+> >> Qualcomm TEE hosts Trusted Applications and Services that run in the
+> >> secure world. Access to these resources is provided using object
+> >> capabilities. A TEE client with access to the capability can invoke
+> >> the object and request a service. Similarly, TEE can request a service
+> >> from nonsecure world with object capabilities that are exported to secure
+> >> world.
+> >>
+> >> We provide qcom_tee_object which represents an object in both secure
+> >> and nonsecure world. TEE clients can invoke an instance of qcom_tee_object
+> >> to access TEE. TEE can issue a callback request to nonsecure world
+> >> by invoking an instance of qcom_tee_object in nonsecure world.
+> >
+> > Please see Documentation/process/submitting-patches.rst on how to write
+> > commit messages.
+>
+> Ack.
+>
+> >
+> >>
+> >> Any driver in nonsecure world that is interested to export a struct (or a
+> >> service object) to TEE, requires to embed an instance of qcom_tee_object in
+> >> the relevant struct and implements the dispatcher function which is called
+> >> when TEE invoked the service object.
+> >>
+> >> We also provids simplified API which implements the Qualcomm TEE transport
+> >> protocol. The implementation is independent from any services that may
+> >> reside in nonsecure world.
+> >
+> > "also" usually means that it should go to a separate commit.
+>
+> I will split this patch to multiple smaller ones.
+>
 
-Hi Dave, Sima,
+[...]
 
-The final pull for 6.11 is quite small and only contains a handful of
-fixes in areas such as stolen memory probing on ATS-M, GuC priority
-handling, out of memory reporting noise downgrade and fence register
-hanlding race condition reported by CI.
+> >
+> >> +    } in, out;
+> >> +};
+> >> +
+> >> +int qcom_tee_object_do_invoke(struct qcom_tee_object_invoke_ctx *oic,
+> >> +    struct qcom_tee_object *object, unsigned long op, struct qcom_tee_arg u[], int *result);
+> >
+> > What's the difference between a result that gets returned by the
+> > function and the result that gets retuned via the pointer?
+>
+> The function result, is local to kernel, for instance memory allocation failure,
+> or failure to issue the smc call. The result in pointer, is the remote result,
+> for instance return value from TA, or the TEE itself.
+>
+> I'll use better name, e.g. 'remote_result'?
 
-Regards,
+See how this is handled by other parties. For example, PSCI. If you
+have a standard set of return codes, translate them to -ESOMETHING in
+your framework and let everybody else see only the standard errors.
 
-Tvrtko
 
-drm-intel-gt-next-2024-07-04:
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Downgrade stolen lmem setup warning [gem] (Jonathan Cavitt)
-- Evaluate GuC priority within locks [gt/uc] (Andi Shyti)
-- Fix potential UAF by revoke of fence registers [gt] (Janusz Krzysztofik)
-- Return NULL instead of '0' [gem] (Andi Shyti)
-- Use the correct format specifier for resource_size_t [gem] (Andi Shyti)
-- Suppress oom warning in favour of ENOMEM to userspace [gem] (Nirmoy Das)
-
-Miscellaneous:
-
-- Evaluate forcewake usage within locks [gt] (Andi Shyti)
-- Fix typo in comment [gt/uc] (Andi Shyti)
-The following changes since commit 79655e867ad6dfde2734c67c7704c0dd5bf1e777:
-
-  drm/i915/mtl: Update workaround 14018575942 (2024-06-11 16:06:20 +0200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2024-07-04
-
-for you to fetch changes up to 3b85152cb167bd24fe84ceb91b719b5904ca354f:
-
-  drm/i915/gem: Suppress oom warning in favour of ENOMEM to userspace (2024-06-28 00:11:01 +0200)
-
-----------------------------------------------------------------
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Downgrade stolen lmem setup warning [gem] (Jonathan Cavitt)
-- Evaluate GuC priority within locks [gt/uc] (Andi Shyti)
-- Fix potential UAF by revoke of fence registers [gt] (Janusz Krzysztofik)
-- Return NULL instead of '0' [gem] (Andi Shyti)
-- Use the correct format specifier for resource_size_t [gem] (Andi Shyti)
-- Suppress oom warning in favour of ENOMEM to userspace [gem] (Nirmoy Das)
-
-Miscellaneous:
-
-- Evaluate forcewake usage within locks [gt] (Andi Shyti)
-- Fix typo in comment [gt/uc] (Andi Shyti)
-
-----------------------------------------------------------------
-Andi Shyti (5):
-      drm/i915/gt: debugfs: Evaluate forcewake usage within locks
-      drm/i915/gt/uc: Fix typo in comment
-      drm/i915/gt/uc: Evaluate GuC priority within locks
-      drm/i915/gem: Return NULL instead of '0'
-      drm/i915/gem: Use the correct format specifier for resource_size_t
-
-Janusz Krzysztofik (1):
-      drm/i915/gt: Fix potential UAF by revoke of fence registers
-
-Jonathan Cavitt (1):
-      drm/i915/gem: Downgrade stolen lmem setup warning
-
-Nirmoy Das (1):
-      drm/i915/gem: Suppress oom warning in favour of ENOMEM to userspace
-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c        |  8 +++++--
- drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c      |  1 +
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c     |  4 ++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h       |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 27 ++++++++++++++---------
- drivers/gpu/drm/i915/i915_scatterlist.c           |  8 +++----
- 6 files changed, 32 insertions(+), 18 deletions(-)
+-- 
+With best wishes
+Dmitry
