@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA9A926E9D
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 06:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8A5926EAF
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 07:03:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8229610E8F3;
-	Thu,  4 Jul 2024 04:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D034E10E9B4;
+	Thu,  4 Jul 2024 05:03:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kMEgcUAB";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Rb1cZVzT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 592FC10E8F3;
- Thu,  4 Jul 2024 04:58:18 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2ebeefb9a7fso2355521fa.0; 
- Wed, 03 Jul 2024 21:58:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720069096; x=1720673896; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B7zncIRfeuDlItOIy7D0MDTD3orFgOC3UeicdZPk4r4=;
- b=kMEgcUABKYVXobgOpCg3Xg2vgKuqGrNh79/AeZ1AzJ7te0XJLlIyBtDanPi1mIaoHV
- lppfPp4vHkk/qB71pOJc5kDTqEOaHkB4m8djBj69j52hQAShoVO6rQqNso2QS/9R+GSP
- qv07Oj+0qSPrk/tANeEkw54YIlraSu+zAd44Q6SDckGIbIXJm/NSWRGp/3Dun9hMhEFI
- 7nyO1BYMlcsftRUOAnkR+Nsz+xudJ/gCbL67Bi3Sn1FDSzDOrtSNI0zFGvmItZp3Yce/
- ce9MHP4iruEZ6QRzUh1ZDyVGxFGXSldl+iQM3fV/KTQsbln/nQ1nFPx7/0NbYfCWx0LY
- CWkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720069096; x=1720673896;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=B7zncIRfeuDlItOIy7D0MDTD3orFgOC3UeicdZPk4r4=;
- b=NBkzqnq2QyN0gkJ7D4QfI5wRWdjk0TvGsY/g2/9KJarz4Vk5w+7xJvW+vlqTntUksP
- IRn6oc2/kEYhIYDPFdWfmhMr2vz7X9eXvDLnrUeLE42jyfoH0lqdQBYC9H9Sapy2uZiJ
- KXeshI2rgKSEUqdJF0A1wPpiA7IeqIgOPPdqzkKk+6V8DFCmY8S+nHe5ooQebyPOk6kT
- L3dWwv32OmHB/Kfr2qhB5di+iz1qTBt+2JXH20BjbL//nT4zrNI3dfVI8L+9eutBUXIw
- 4pMaInwqzhNgUKJmNNKdtGYdQcHRMBSSrKTy2HsRnyuU/wxPFAOAapzss6hxFVQ8WM3m
- oMVg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX7FI7zasDyhdn5egdqwjmtnkOfh+kWFbvLZye1diDZ6vsq2dUyEIvtayIrTOUGn5smZANwXPFw3LT/iWueGtA68/xVamrzidIdrTtqCVp+kFzA68l5W1WL1oMgiB0/O/cI9ZJ6hhrtu+hHmOlZlA==
-X-Gm-Message-State: AOJu0Yx133xuzukp+np/DEzpnwBtCtdNYtehJZWttSRvbPYyNrasJyHt
- dxg8mdq5S3KdqzqHIUR5BNVwyJVslTGOjFERifpMPS8Z1DhEXwWzsje8Agbp/kvrjiHZj/KzRqJ
- wFXdcspuBM+t4JtBEy44NGSaf9/E=
-X-Google-Smtp-Source: AGHT+IF0DLCtxx1ONKaWIRWGcQaRLMMZnMXe1/bJJ23kQW1gwZq1F3/MHvrqsk9LZCHS4bi/2zcKgih857VzQG3iP9Y=
-X-Received: by 2002:a2e:bc86:0:b0:2ed:58d0:b711 with SMTP id
- 38308e7fff4ca-2ee8edfaa32mr3768541fa.33.1720069095952; Wed, 03 Jul 2024
- 21:58:15 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B84110E9B4
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 05:03:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 880CECE32E2;
+ Thu,  4 Jul 2024 05:03:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46706C3277B;
+ Thu,  4 Jul 2024 05:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1720069402;
+ bh=Hjf3JAXpXfAWWms/5UKIQ2jB2126fzQdVq72QWeU1SY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Rb1cZVzTlJpr/k6oeKlH6QQHACs6VCGZyFHWJOYUKcADHzJ4VAxtmh0X0c0fmWz0D
+ MR49wp5r4Fj5cxXpvNgXZvAozMuuQ8eMOBoFPJbt0lQRfVIJOTR2BMfPbiyBJnUpYQ
+ 6t8t7J0pkE1zBkxx5Es8U2yAYbhdxfjNa7MTFDBs=
+Date: Thu, 4 Jul 2024 07:03:19 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>,
+ Alice Ryhl <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH 0/4] drm/panic: Add a qr_code panic screen
+Message-ID: <2024070417-husked-edgy-f527@gregkh>
+References: <20240703154309.426867-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-References: <20240630165949.117634-1-wuhoipok@gmail.com>
- <748e1bd6-6c40-443d-acbc-3d379229d068@suse.de>
-In-Reply-To: <748e1bd6-6c40-443d-acbc-3d379229d068@suse.de>
-From: Hoi Pok Wu <wuhoipok@gmail.com>
-Date: Thu, 4 Jul 2024 00:58:04 -0400
-Message-ID: <CANyH0kDFSn6voXWnF-91fYufRT=Y3eRBLG66JBXz2_=rxJHXfg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] drm/radeon: remove load callback & drm_dev_alloc
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703154309.426867-1-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,86 +65,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks a lot for your help Thomas.
+On Wed, Jul 03, 2024 at 05:33:57PM +0200, Jocelyn Falempe wrote:
+> This series adds a new panic screen, with the kmsg data embedded in a QR-code.
+> 
+> The main advantage of QR-code, is that you can copy/paste the debug data to a bug report.
+> 
+> The QR-code encoder is written in rust, and is very specific to drm_panic.
+> The reason is that it is called in a panic handler, and thus can't allocate memory, or use locking.
+> The rust code uses a few rust core API, and provides only two C entry points.
+> There is no particular reason to do it in rust, I just wanted to learn rust, and see if it can work in the kernel.
+> 
+> If you want to see what it looks like, I've put a few screenshots here:
+> https://github.com/kdj0c/panic_report/issues/1
 
-On Wed, Jul 3, 2024 at 4:52=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
->
-> Hi
->
-> Am 30.06.24 um 18:59 schrieb Wu Hoi Pok:
-> > .load and drm_dev_alloc are deprecated. These patch series aims to
-> > remove them.
-> >
-> > v3: Both v1 and v2 sucks. v3 improves greatly on readability.
->
-> Very nice, thank you. I tested the patches with Radeon hardware and did
-> not find issues. AFAICT this can be merged as-is. I think it should go
-> into the amd trees. Maybe Alex or Christian can pick it up.
->
-> Thanks for sticking with it.
->
-> Best regards
-> Thomas
->
-> >
-> > Wu Hoi Pok (6):
-> >    drm/radeon: change variable name "dev" to "ddev" for consistency
-> >    drm/radeon: remove load callback from kms_driver
-> >    drm/radeon: use variable flags as parameter
-> >    drm/radeon: add helper rdev_to_drm(rdev)
-> >    drm/radeon: change rdev->ddev to rdev_to_drm(rdev)
-> >    drm/radeon: change drm_dev_alloc to devm_drm_dev_alloc
-> >
-> >   drivers/gpu/drm/radeon/atombios_encoders.c |  2 +-
-> >   drivers/gpu/drm/radeon/cik.c               | 14 ++--
-> >   drivers/gpu/drm/radeon/dce6_afmt.c         |  2 +-
-> >   drivers/gpu/drm/radeon/evergreen.c         | 12 ++--
-> >   drivers/gpu/drm/radeon/ni.c                |  2 +-
-> >   drivers/gpu/drm/radeon/r100.c              | 24 +++----
-> >   drivers/gpu/drm/radeon/r300.c              |  6 +-
-> >   drivers/gpu/drm/radeon/r420.c              |  6 +-
-> >   drivers/gpu/drm/radeon/r520.c              |  2 +-
-> >   drivers/gpu/drm/radeon/r600.c              | 12 ++--
-> >   drivers/gpu/drm/radeon/r600_cs.c           |  2 +-
-> >   drivers/gpu/drm/radeon/r600_dpm.c          |  4 +-
-> >   drivers/gpu/drm/radeon/r600_hdmi.c         |  2 +-
-> >   drivers/gpu/drm/radeon/radeon.h            |  7 +-
-> >   drivers/gpu/drm/radeon/radeon_acpi.c       | 10 +--
-> >   drivers/gpu/drm/radeon/radeon_agp.c        |  2 +-
-> >   drivers/gpu/drm/radeon/radeon_atombios.c   |  2 +-
-> >   drivers/gpu/drm/radeon/radeon_audio.c      |  4 +-
-> >   drivers/gpu/drm/radeon/radeon_combios.c    | 12 ++--
-> >   drivers/gpu/drm/radeon/radeon_device.c     | 13 ++--
-> >   drivers/gpu/drm/radeon/radeon_display.c    | 74 +++++++++++----------=
--
-> >   drivers/gpu/drm/radeon/radeon_drv.c        | 27 +++++---
-> >   drivers/gpu/drm/radeon/radeon_fbdev.c      | 26 ++++----
-> >   drivers/gpu/drm/radeon/radeon_fence.c      |  8 +--
-> >   drivers/gpu/drm/radeon/radeon_gem.c        |  2 +-
-> >   drivers/gpu/drm/radeon/radeon_i2c.c        |  2 +-
-> >   drivers/gpu/drm/radeon/radeon_ib.c         |  2 +-
-> >   drivers/gpu/drm/radeon/radeon_irq_kms.c    | 12 ++--
-> >   drivers/gpu/drm/radeon/radeon_kms.c        |  8 +--
-> >   drivers/gpu/drm/radeon/radeon_object.c     |  2 +-
-> >   drivers/gpu/drm/radeon/radeon_pm.c         | 20 +++---
-> >   drivers/gpu/drm/radeon/radeon_ring.c       |  2 +-
-> >   drivers/gpu/drm/radeon/radeon_ttm.c        |  6 +-
-> >   drivers/gpu/drm/radeon/rs400.c             |  6 +-
-> >   drivers/gpu/drm/radeon/rs600.c             | 14 ++--
-> >   drivers/gpu/drm/radeon/rs690.c             |  2 +-
-> >   drivers/gpu/drm/radeon/rv515.c             |  4 +-
-> >   drivers/gpu/drm/radeon/rv770.c             |  2 +-
-> >   drivers/gpu/drm/radeon/si.c                |  4 +-
-> >   39 files changed, 184 insertions(+), 179 deletions(-)
-> >
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
+Cool, this idea has been floating around for decades, here's the last
+attempt at this back in 2014:
+	https://lore.kernel.org/all/1395093587-2583-1-git-send-email-teobaluta@gmail.com/
+
+> 
+> -- 
+> 
+> Jocelyn
+> 
+> 
+> Jocelyn Falempe (4):
+>   drm/panic: Add integer scaling to blit()
+>   drm/rect: add drm_rect_overlap()
+>   drm/panic: simplify logo handling
+>   drm/panic: Add a qr_code panic screen
+> 
+>  drivers/gpu/drm/Kconfig         |  29 +
+>  drivers/gpu/drm/Makefile        |   1 +
+>  drivers/gpu/drm/drm_drv.c       |   3 +
+>  drivers/gpu/drm/drm_panic.c     | 338 +++++++++--
+>  drivers/gpu/drm/drm_panic_qr.rs | 989 ++++++++++++++++++++++++++++++++
+
+Wait, we can put .rs files in any directory now?  I didn't think that
+worked properly yet.
+
+thanks,
+
+greg k-h
