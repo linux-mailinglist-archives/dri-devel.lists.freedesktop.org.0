@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DE79277FB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 16:14:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D634B927804
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 16:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5993710EB07;
-	Thu,  4 Jul 2024 14:14:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5949510EB13;
+	Thu,  4 Jul 2024 14:15:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="IGSNRR7l";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Z1d9Q8PK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
- [209.85.210.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18C4610EB07
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 14:14:15 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id
- 46e09a7af769-6f8d0a00a35so578016a34.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 07:14:15 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3929F10EB13
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 14:15:30 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-44633a67e52so4379381cf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 07:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1720102454; x=1720707254;
+ d=broadcom.com; s=google; t=1720102529; x=1720707329;
  darn=lists.freedesktop.org; 
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=l4IK4rUj0NtvhaQKL5g/oqOwVPVPkV+PEE2F6ue1LTQ=;
- b=IGSNRR7l5X9o7L+Yu3VZTxkDZg552p9lOrHiMvgbQTCfXZo56XM9UD2ji9siwK4X+Y
- scSYHAhv2JUDmZDMS7xF4B7J2r4BDJkry5ZC+BHHKh1vlE2FcdvUxITGOrd5+YTLpXh0
- 3mEqY781EwOpqiifvYf7YCbx0H34YDWMyC20k=
+ :reply-to; bh=w7QIYSqgPk7JPB9lCMqj9CqKdyudFpqUE70qVrMBMRA=;
+ b=Z1d9Q8PKC+uHW5wbrA6lwrHWPSq/DW3RdV0o9F00HU6V0DnnjJcYKFXAPfq48diezI
+ l8oWTeVm8eGA0QZws1rFEOVpwUpa1JlSnjuxSspespbUY13KfA8s7vweVc58MoKOTdBB
+ nXqtfxCaqq+JjejhcML3Kg2ucdzFMPVnZxmd4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720102454; x=1720707254;
+ d=1e100.net; s=20230601; t=1720102529; x=1720707329;
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=l4IK4rUj0NtvhaQKL5g/oqOwVPVPkV+PEE2F6ue1LTQ=;
- b=lectiJbLHPHjyup7rAJhV/KdxboVa1piqnWWc7j+hZhokKuWClS+wEAw/wNrXxe2pj
- lf+TnoubQGnxe3swDMYm5BOWRyY3d+zcsNGdqHXMRQKVT+LJ9K/PzE9gA6n5bcjQkA7C
- BdLRLNR1hYzO57fgIwekbWoHdmGzirRLXmWkNITqz2tS1ztYFvg5dY/qASDMTfu9PMZD
- MGqnwbANs8R5V0pUrDBG9FYIS6hScKEJzZpEwvhyTqBAZN+3qeN7PwWvEMeTaPWwYi5M
- C99VtDA1XU9JNfhx9NCRZVhfzZJ7+0IGzw1xZ/sy97nHU9HnU5ZRVYvZURoHfNcs46y3
- LXMA==
+ bh=w7QIYSqgPk7JPB9lCMqj9CqKdyudFpqUE70qVrMBMRA=;
+ b=fny+1WS8tq+RqGKnqGN3eRFSstyw3puk7vekGSwNzCHSbXvjZsny7QbcvkJ03it4Z3
+ 7e9/NlV+jMtuNpby295g5K+uhPla4yankGKy4sBssugmHMZA/4fFAsyFkdZiHvW4wyce
+ 45pgRz5Nt/0kRQqPujC+9YDX9guGAXo6BuS1jZtV2t2BydmnNMXUFPX0NgZX4izjfQco
+ qdOUFB+9BSBHleHLVsgDV+F87YKik6KZmxqgdk2YnNbaBGXs9OvXnPjgF8M2yNpV3ZDc
+ gIxX9Qn3ddvrMkUuPcCEmYA6NaA/SF/83oHLCYYH7+DLuF3XKW55EhaYj256OkwWaiv1
+ 3MOQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUyv++bqgJDGPojM0owKy6Pe2IXDkbRM07CKpMj4cN2D6YWntKtJEKqJlh63QKes4lLPh/swuqJ1lgPmsue3i/MT9IszyoPjuz6aC4TOc69
-X-Gm-Message-State: AOJu0YwjYsnwQJ9mHKspa1KMN8YOzHx12xz3zAb2WZT1rS2svS08mlbN
- q4Cyn2+mzFCAr5h9GivXtbJZsc41jvN91tbKRlTD1rJLJd2WybRv9BCm+YfsQw==
-X-Google-Smtp-Source: AGHT+IFT29S2/XQChpc79Qq3mBvTKtkHafcbD4GyYx9MlO+jXcpUJuXaD+vn/fyCndbwcUnJ7jIzoQ==
-X-Received: by 2002:a05:6870:610f:b0:254:9ded:a3bf with SMTP id
- 586e51a60fabf-25e2bf1f10bmr1373747fac.45.1720102454087; 
- Thu, 04 Jul 2024 07:14:14 -0700 (PDT)
+ AJvYcCUFsIp/C43ioqDgs4xlR1ABQ6N9mohxI3rJ/XBTzWxnPH9x032WCr4K9VxG4W/e355EoIp6JRVE8ryA+WAgdZVUlkMJfDknzSssyNGUpvxo
+X-Gm-Message-State: AOJu0Yxvedr5egk8Yv5ZmjFXdlbnIzBC7stwL5f/1Xuv9bDLp345D1Kz
+ +8yYGuO/0A8HWCCSkkopxfl61BNyNjfmwQ84BowWBkyaSawQBWzlA86KRM+lBg==
+X-Google-Smtp-Source: AGHT+IFoHKgvRZCR3o8yLRgn0980orYJt0ZatXips8K28yIHFP8sKyQ6o0Q1GbUvtPDe4OhtC5hD2A==
+X-Received: by 2002:a05:622a:1306:b0:446:501f:3dad with SMTP id
+ d75a77b69052e-447cbf660abmr19538511cf.36.1720102529152; 
+ Thu, 04 Jul 2024 07:15:29 -0700 (PDT)
 Received: from [10.230.29.79] ([192.19.223.252])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4465140bf35sm60862281cf.37.2024.07.04.07.13.58
+ d75a77b69052e-4465140bf35sm60870711cf.37.2024.07.04.07.14.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jul 2024 07:14:13 -0700 (PDT)
-Message-ID: <86705667-1320-436f-b845-da5efdd80de3@broadcom.com>
-Date: Thu, 4 Jul 2024 15:13:56 +0100
+ Thu, 04 Jul 2024 07:15:28 -0700 (PDT)
+Message-ID: <95762956-b46a-4dfa-b22f-bccbfa39558d@broadcom.com>
+Date: Thu, 4 Jul 2024 15:14:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/11] usb: dwc2: debugfs: Print parameter no_clock_gating
+Subject: Re: [PATCH 09/11] usb: dwc2: Skip clock gating on Broadcom SoCs
 To: Stefan Wahren <wahrenst@gmx.net>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui
  <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
@@ -73,7 +73,7 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
 References: <20240630153652.318882-1-wahrenst@gmx.net>
- <20240630153652.318882-9-wahrenst@gmx.net>
+ <20240630153652.318882-10-wahrenst@gmx.net>
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
@@ -107,9 +107,9 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20240630153652.318882-9-wahrenst@gmx.net>
+In-Reply-To: <20240630153652.318882-10-wahrenst@gmx.net>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000c62c8c061c6c8f9e"
+ micalg=sha-256; boundary="000000000000402bd6061c6c9430"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,29 +125,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000c62c8c061c6c8f9e
+--000000000000402bd6061c6c9430
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 6/30/2024 4:36 PM, 'Stefan Wahren' via BCM-KERNEL-FEEDBACK-LIST,PDL 
-wrote:
-> The commit c4a0f7a6ab54 ("usb: dwc2: Skip clock gating on Samsung
-> SoCs") introduced a parameter to skip enabling clock gating mode
-> even the hardware platform should supports it.
+On 6/30/2024 4:36 PM, Stefan Wahren wrote:
+> On resume of the Raspberry Pi the dwc2 driver fails to enable
+> HCD_FLAG_HW_ACCESSIBLE before re-enabling the interrupts.
+> This causes a situation where both handler ignore a incoming port
+> interrupt and force the upper layers to disable the dwc2 interrupt line.
+> This leaves the USB interface in a unusable state:
 > 
-> In order to make this more visible also print this in show
-> parameters of debugfs.
+> irq 66: nobody cared (try booting with the "irqpoll" option)
+> CPU: 0 PID: 0 Comm: swapper/0 Tainted: G W          6.10.0-rc3
+> Hardware name: BCM2835
+> Call trace:
+> unwind_backtrace from show_stack+0x10/0x14
+> show_stack from dump_stack_lvl+0x50/0x64
+> dump_stack_lvl from __report_bad_irq+0x38/0xc0
+> __report_bad_irq from note_interrupt+0x2ac/0x2f4
+> note_interrupt from handle_irq_event+0x88/0x8c
+> handle_irq_event from handle_level_irq+0xb4/0x1ac
+> handle_level_irq from generic_handle_domain_irq+0x24/0x34
+> generic_handle_domain_irq from bcm2836_chained_handle_irq+0x24/0x28
+> bcm2836_chained_handle_irq from generic_handle_domain_irq+0x24/0x34
+> generic_handle_domain_irq from generic_handle_arch_irq+0x34/0x44
+> generic_handle_arch_irq from __irq_svc+0x88/0xb0
+> Exception stack(0xc1b01f20 to 0xc1b01f68)
+> 1f20: 0005c0d4 00000001 00000000 00000000 c1b09780 c1d6b32c c1b04e54 c1a5eae8
+> 1f40: c1b04e90 00000000 00000000 00000000 c1d6a8a0 c1b01f70 c11d2da8 c11d4160
+> 1f60: 60000013 ffffffff
+> __irq_svc from default_idle_call+0x1c/0xb0
+> default_idle_call from do_idle+0x21c/0x284
+> do_idle from cpu_startup_entry+0x28/0x2c
+> cpu_startup_entry from kernel_init+0x0/0x12c
+> handlers:
+> [<f539e0f4>] dwc2_handle_common_intr
+> [<75cd278b>] usb_hcd_irq
+> Disabling IRQ #66
 > 
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> Disabling clock gatling workaround this issue.
 
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+Typo: gatling/gating.
+
+> 
+> Fixes: 0112b7ce68ea ("usb: dwc2: Update dwc2_handle_usb_suspend_intr function.")
+> Link: https://lore.kernel.org/linux-usb/3fd0c2fb-4752-45b3-94eb-42352703e1fd@gmx.net/T/
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> ---
+>   drivers/usb/dwc2/params.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+> index 5a1500d0bdd9..66580de52882 100644
+> --- a/drivers/usb/dwc2/params.c
+> +++ b/drivers/usb/dwc2/params.c
+> @@ -23,6 +23,7 @@ static void dwc2_set_bcm_params(struct dwc2_hsotg *hsotg)
+>   	p->max_transfer_size = 65535;
+>   	p->max_packet_count = 511;
+>   	p->ahbcfg = 0x10;
+> +	p->no_clock_gating = true;
+
+Could we set this depending upon whether the dwc2 host controller is a 
+wake-up source for the system or not?
 -- 
 Florian
 
---000000000000c62c8c061c6c8f9e
+--000000000000402bd6061c6c9430
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -218,14 +265,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIOqA1BQIPRkNcPTZ
-EJUh6usakW/8XoYBsi3kJlE3/Gl2MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDcwNDE0MTQxNFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIK8c5ndrXoaGg/os
+FT3JDuwvbXCxh8FqxA1y+KoUlMAuMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI0MDcwNDE0MTUyOVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBSumw113x46gLiiaY0G7WfUhWEAZJZ1Xmk
-Y+EG9CTdj0TiUpcxcBArff5+wEO8Nzui/EIHJE523f+nKsRAWTjTVtxXv/TD0a8+rN9HM6OqwLhG
-0PzNNXpUPouj6jUD0bqrEyVdaG94t+4vlBxG6Qvk9BKTmEPFR6h7upyx0Lb5N2KYxFG8ofhRUmww
-fxoxz/zq8ThNAekzYBWfe6mg6a7UPOvf6Btg2DhoG+udGbaAstmtkmZiv5dHR4scASLlFkTc4UJJ
-PW2iRomFflCNh2RLbIdDar0Yb6Ybf0x/YAxFImM6A+bRYdRRqGLc5gKlm/vWQWMPku1e198F8XRv
-Y44J
---000000000000c62c8c061c6c8f9e--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQDM6t87Fi9FNGEBebQUguKNpRfFyvtRTpBy
+aH59TNR4/AkC+nUD2hdEjl1cMSZnNfffVN/eZmP8HqAtvRYZOArWti7pUpqF8V7Fy6n77GABn8hY
+G4Uz1PTH35sL31HIo9iTpVhndfaER5mkHDVOIfXL+GVnucvagE/ubMwCC2jjOgKhCWVhvTeIBqX9
+hH0iuW2NZJXAhmofx3Nde8WnMkHsyXv2EJ/RQAhbCn+cOIxR0/CEBsUemIYYUlodeNp/ax+5vCtx
+KcsA25g+76YoiD07HXnUInprkkP5uTwZ3LqGr0N4hkpkMHmkEYT+gH8dKWU94+p1PObUu9y/Ub7A
+cmdl
+--000000000000402bd6061c6c9430--
