@@ -2,87 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FF29275C5
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 14:16:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282BB9275DF
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 14:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3A8110EAB7;
-	Thu,  4 Jul 2024 12:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51A5310EAB5;
+	Thu,  4 Jul 2024 12:23:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="WLoevO+N";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WiCRhc82";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WLoevO+N";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WiCRhc82";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Ys4N/DOE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5CX5wbry";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ys4N/DOE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5CX5wbry";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB96D10EAB5
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 12:16:41 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F066C10EAB6
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 12:23:35 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5E1FA2197E;
- Thu,  4 Jul 2024 12:16:40 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3D0AB1F7BB;
+ Thu,  4 Jul 2024 12:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720095400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1720095814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=iE0cGMTjgno2BNOENEpExvNLplyG+PROxhp43+zycVA=;
- b=WLoevO+NZ3oTBgxi+Irr/OaVQksPQBEJiBv4VkDzdJyO3kRLTTo3yJTlWTSlBVcRVMyGBS
- 4GrLFQs3rMr8W8s7Rmo6avg0OUn+LkkPNsR1yWs+sSj4Xq5zof/RMOsA1fhd6Mmkt7tsgx
- zxdqchDQ63I2d+bA09qNLaT1lCHvtBU=
+ bh=wawstSKP596uGGTfJi31uP2a5X2WGUynlGJH1v+6Ow0=;
+ b=Ys4N/DOEQQz4wUXZ+kfzjQxlsWtU87hcgBSObnDehe3WS+AxfN60rBXnsngJBdrjRlApF3
+ rM70dewlSuvHM7g4BANBPZb9tZCRGoyscmXkUbqqET6FW8uxMX7Lgiqr2safPh6xOobVq/
+ 3haCNDZG5RBAeFT6dtO1M63J1eNeoI4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720095400;
+ s=susede2_ed25519; t=1720095814;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=iE0cGMTjgno2BNOENEpExvNLplyG+PROxhp43+zycVA=;
- b=WiCRhc82m8IrbEoP+3XFH+ccUWGbTQ5hxdc6SbfYf5XQ8cVHPbuH93eHr6AWXr/1sJ1Aea
- rftJvS41sH9cRmDA==
-Authentication-Results: smtp-out1.suse.de;
+ bh=wawstSKP596uGGTfJi31uP2a5X2WGUynlGJH1v+6Ow0=;
+ b=5CX5wbryGDUsRhGVJqawnB2qE8Sxq0GXQgw8mv0dcNNWZmIAsnCaT8N0Lkssj3dGW9GzXm
+ db8OD2P5uAJoF2Dw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720095400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1720095814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=iE0cGMTjgno2BNOENEpExvNLplyG+PROxhp43+zycVA=;
- b=WLoevO+NZ3oTBgxi+Irr/OaVQksPQBEJiBv4VkDzdJyO3kRLTTo3yJTlWTSlBVcRVMyGBS
- 4GrLFQs3rMr8W8s7Rmo6avg0OUn+LkkPNsR1yWs+sSj4Xq5zof/RMOsA1fhd6Mmkt7tsgx
- zxdqchDQ63I2d+bA09qNLaT1lCHvtBU=
+ bh=wawstSKP596uGGTfJi31uP2a5X2WGUynlGJH1v+6Ow0=;
+ b=Ys4N/DOEQQz4wUXZ+kfzjQxlsWtU87hcgBSObnDehe3WS+AxfN60rBXnsngJBdrjRlApF3
+ rM70dewlSuvHM7g4BANBPZb9tZCRGoyscmXkUbqqET6FW8uxMX7Lgiqr2safPh6xOobVq/
+ 3haCNDZG5RBAeFT6dtO1M63J1eNeoI4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720095400;
+ s=susede2_ed25519; t=1720095814;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=iE0cGMTjgno2BNOENEpExvNLplyG+PROxhp43+zycVA=;
- b=WiCRhc82m8IrbEoP+3XFH+ccUWGbTQ5hxdc6SbfYf5XQ8cVHPbuH93eHr6AWXr/1sJ1Aea
- rftJvS41sH9cRmDA==
+ bh=wawstSKP596uGGTfJi31uP2a5X2WGUynlGJH1v+6Ow0=;
+ b=5CX5wbryGDUsRhGVJqawnB2qE8Sxq0GXQgw8mv0dcNNWZmIAsnCaT8N0Lkssj3dGW9GzXm
+ db8OD2P5uAJoF2Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 263881369F;
- Thu,  4 Jul 2024 12:16:40 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 06D9813889;
+ Thu,  4 Jul 2024 12:23:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id oFjAB6iShmZ2CgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 04 Jul 2024 12:16:40 +0000
-Message-ID: <119aeaca-9a9f-4914-8730-6dacf72705f5@suse.de>
-Date: Thu, 4 Jul 2024 14:16:39 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id pwIAAEaUhmZfDAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 04 Jul 2024 12:23:33 +0000
+Message-ID: <bb747779-0c69-4db9-8302-515259728496@suse.de>
+Date: Thu, 4 Jul 2024 14:23:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] drm/mgag200: Only set VIDRST bits in CRTC modesetting
+Subject: Re: [PATCH 2/4] drm/mgag200: Start/stop BMC scanout in BMC encoder
+ helpers
 To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org
 References: <20240703135502.29190-1-tzimmermann@suse.de>
- <20240703135502.29190-2-tzimmermann@suse.de>
- <bdc20978-933d-4b57-8350-3775fa01e145@redhat.com>
+ <20240703135502.29190-3-tzimmermann@suse.de>
+ <61aa2068-c513-42da-a563-acd9d1db4d06@redhat.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -109,9 +110,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <bdc20978-933d-4b57-8350-3775fa01e145@redhat.com>
+In-Reply-To: <61aa2068-c513-42da-a563-acd9d1db4d06@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.29
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
@@ -126,9 +130,6 @@ X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
  FUZZY_BLOCKED(0.00)[rspamd.com];
  DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -4.29
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,237 +147,153 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 04.07.24 um 14:03 schrieb Jocelyn Falempe:
+Am 04.07.24 um 14:13 schrieb Jocelyn Falempe:
 >
 >
 > On 03/07/2024 15:40, Thomas Zimmermann wrote:
->> The VRSTEN and HRSTEN bits control whether a CRTC synchronizes its
->> display signal with an external source on the VIDRST pin. The G200WB
->> and G200EW3 models synchronize with a BMC chip, but different external
->> video encoders, such as the Matrox Maven, can also be attached to the
->> pin.
->
-> If I understand correctly, it's a kind of VSYNC with the BMC, to avoid
-> tearing when using the remote console ?
-
-I closely looked through the code behind enable_vidrst and 
-disable_vidrst. The involved registers are mostly undocumented, but from 
-the comments I assume that the BMC has to stop scanning out the display 
-signal. It's likely that it only picks up mode changes after the scanout 
-has been re-enabled.
-
-BTW we've seen various models with BMC attached, but only G200EW3 and 
-G200WB use this code for synchronization. Do you think we could enable 
-it for all models and BMCs?
-
->
+>> Start and stop the BMC scanout from the BMC encoder's atomic_enable
+>> and atomic_disable helpers. The BMC stops scanning out at the beginning
+>> of a modeset operation and restarts the scanout at the end of the
+>> modeset.
 >>
->> Only set VRSTEN and HRSTEN bits in the CRTC mode-setting code, so the
->> driver maintains the bits independently from the BMC. Add the field
->> set_vidrst to the CRTC state for this purpose. Off by default, control
->> the CRTC VIDRST setting from the BMC's atomic_check helper. So if a
->> BMC (or another external clock) requires synchronization, it instructs
->> the CRTC to synchronize. >
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/mgag200/mgag200_bmc.c    | 26 +++++++++++++++++++-----
->>   drivers/gpu/drm/mgag200/mgag200_drv.h    |  5 ++++-
->>   drivers/gpu/drm/mgag200/mgag200_g200er.c |  2 +-
->>   drivers/gpu/drm/mgag200/mgag200_g200ev.c |  2 +-
->>   drivers/gpu/drm/mgag200/mgag200_g200se.c |  2 +-
->>   drivers/gpu/drm/mgag200/mgag200_mode.c   | 11 ++++++----
->>   6 files changed, 35 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_bmc.c 
->> b/drivers/gpu/drm/mgag200/mgag200_bmc.c
->> index 23ef85aa7e37..cb5400333862 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_bmc.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_bmc.c
->> @@ -77,11 +77,6 @@ void mgag200_bmc_enable_vidrst(struct mga_device 
->> *mdev)
->>   {
->>       u8 tmp;
->>   -    /* Ensure that the vrsten and hrsten are set */
->> -    WREG8(MGAREG_CRTCEXT_INDEX, 1);
->> -    tmp = RREG8(MGAREG_CRTCEXT_DATA);
->> -    WREG8(MGAREG_CRTCEXT_DATA, tmp | 0x88);
->> -
->>       /* Assert rstlvl2 */
->>       WREG8(DAC_INDEX, MGA1064_REMHEADCTL2);
->>       tmp = RREG8(DAC_DATA);
->> @@ -108,6 +103,25 @@ void mgag200_bmc_enable_vidrst(struct mga_device 
->> *mdev)
->>       WREG_DAC(MGA1064_GEN_IO_DATA, tmp);
->>   }
->>   +static int mgag200_bmc_encoder_helper_atomic_check(struct 
->> drm_encoder *encoder,
->> +                           struct drm_crtc_state *crtc_state,
->> +                           struct drm_connector_state *conn_state)
->> +{
->> +    struct mga_device *mdev = to_mga_device(encoder->dev);
->> +    struct mgag200_crtc_state *mgag200_crtc_state = 
->> to_mgag200_crtc_state(crtc_state);
->> +
->> +    if (mdev->info->has_vidrst)
->> +        mgag200_crtc_state->set_vidrst = true;
->> +    else
->> +        mgag200_crtc_state->set_vidrst = false;
->> +
+>> Only G200EW3 and G200WB require this procedure. Drop the original
+>> vidrst callbacks for these model's support, as they are now obsolete.
 >
-> I think you can simplify it with:
+> Thanks, that makes the BMC connector more useful.
 >
-> mgag200_crtc_state->set_vidrst = mdev->info->has_vidrst;
+> I'm just wondering, in case you use both a VGA output and the BMC, 
+> before this patch, vidrst would be enabled, and after, as the BMC 
+> connector is "unconnected" it should be disabled ?
+>
+> Will that have a visible impact for users ?
 
-Ok.
+Oh, I didn't think of this case. That could likely be a problem. Thanks 
+for pointing this out.
+
+Let's drop patches 2 to 4 for now. I'd still like to take patch 1, as it 
+works on it own and makes sense.
 
 Best regards
 Thomas
 
-
 >
->> +    return 0;
+>
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/gpu/drm/mgag200/mgag200_bmc.c     | 24 +++++++++++++++++++++--
+>>   drivers/gpu/drm/mgag200/mgag200_drv.h     |  4 +---
+>>   drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  2 --
+>>   drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  2 --
+>>   4 files changed, 23 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_bmc.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+>> index cb5400333862..74feb6d8db45 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_bmc.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+>> @@ -14,7 +14,7 @@ static struct mgag200_bmc_connector 
+>> *to_mgag200_bmc_connector(struct drm_connect
+>>       return container_of(connector, struct mgag200_bmc_connector, 
+>> base);
+>>   }
+>>   -void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
+>> +static void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
+>>   {
+>>       u8 tmp;
+>>       int iter_max;
+>> @@ -73,7 +73,16 @@ void mgag200_bmc_disable_vidrst(struct mga_device 
+>> *mdev)
+>>       }
+>>   }
+>>   -void mgag200_bmc_enable_vidrst(struct mga_device *mdev)
+>> +static void mgag200_bmc_encoder_helper_atomic_disable(struct 
+>> drm_encoder *encoder,
+>> +                              struct drm_atomic_state *state)
+>> +{
+>> +    struct mga_device *mdev = to_mga_device(encoder->dev);
+>> +
+>> +    if (mdev->info->has_vidrst)
+>> +        mgag200_bmc_disable_vidrst(mdev);
 >> +}
 >> +
->> +static const struct drm_encoder_helper_funcs 
+>> +static void mgag200_bmc_enable_vidrst(struct mga_device *mdev)
+>>   {
+>>       u8 tmp;
+>>   @@ -103,6 +112,15 @@ void mgag200_bmc_enable_vidrst(struct 
+>> mga_device *mdev)
+>>       WREG_DAC(MGA1064_GEN_IO_DATA, tmp);
+>>   }
+>>   +static void mgag200_bmc_encoder_helper_atomic_enable(struct 
+>> drm_encoder *encoder,
+>> +                             struct drm_atomic_state *state)
+>> +{
+>> +    struct mga_device *mdev = to_mga_device(encoder->dev);
+>> +
+>> +    if (mdev->info->has_vidrst)
+>> +        mgag200_bmc_enable_vidrst(mdev);
+>> +}
+>> +
+>>   static int mgag200_bmc_encoder_helper_atomic_check(struct 
+>> drm_encoder *encoder,
+>>                              struct drm_crtc_state *crtc_state,
+>>                              struct drm_connector_state *conn_state)
+>> @@ -119,6 +137,8 @@ static int 
+>> mgag200_bmc_encoder_helper_atomic_check(struct drm_encoder *encoder,
+>>   }
+>>     static const struct drm_encoder_helper_funcs 
 >> mgag200_bmc_encoder_helper_funcs = {
->> +    .atomic_check = mgag200_bmc_encoder_helper_atomic_check,
->> +};
->> +
->>   static const struct drm_encoder_funcs mgag200_bmc_encoder_funcs = {
->>       .destroy = drm_encoder_cleanup,
+>> +    .atomic_disable = mgag200_bmc_encoder_helper_atomic_disable,
+>> +    .atomic_enable = mgag200_bmc_encoder_helper_atomic_enable,
+>>       .atomic_check = mgag200_bmc_encoder_helper_atomic_check,
 >>   };
->> @@ -190,6 +204,8 @@ int mgag200_bmc_output_init(struct mga_device 
->> *mdev, struct drm_connector *physi
->>                      DRM_MODE_ENCODER_VIRTUAL, NULL);
->>       if (ret)
->>           return ret;
->> +    drm_encoder_helper_add(encoder, &mgag200_bmc_encoder_helper_funcs);
->> +
->>       encoder->possible_crtcs = drm_crtc_mask(crtc);
->>         bmc_connector = &mdev->output.bmc.bmc_connector;
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h 
+>>   diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h 
 >> b/drivers/gpu/drm/mgag200/mgag200_drv.h
->> index 7f7dfbd0f013..4b75613de882 100644
+>> index 4b75613de882..b1365795234b 100644
 >> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
 >> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
->> @@ -179,6 +179,8 @@ struct mgag200_crtc_state {
->>       const struct drm_format_info *format;
->>         struct mgag200_pll_values pixpllc;
->> +
->> +    bool set_vidrst;
+>> @@ -442,9 +442,7 @@ int mgag200_mode_config_init(struct mga_device 
+>> *mdev, resource_size_t vram_avail
+>>   /* mgag200_vga.c */
+>>   int mgag200_vga_output_init(struct mga_device *mdev);
+>>   -                /* mgag200_bmc.c */
+>> -void mgag200_bmc_disable_vidrst(struct mga_device *mdev);
+>> -void mgag200_bmc_enable_vidrst(struct mga_device *mdev);
+>> +/* mgag200_bmc.c */
+>>   int mgag200_bmc_output_init(struct mga_device *mdev, struct 
+>> drm_connector *physical_connector);
+>>     #endif                /* __MGAG200_DRV_H__ */
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+>> index 839401e8b465..265f3e95830a 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+>> @@ -146,8 +146,6 @@ static const struct mgag200_device_info 
+>> mgag200_g200ew3_device_info =
+>>       MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, true, 0, 1, false);
+>>     static const struct mgag200_device_funcs 
+>> mgag200_g200ew3_device_funcs = {
+>> -    .disable_vidrst = mgag200_bmc_disable_vidrst,
+>> -    .enable_vidrst = mgag200_bmc_enable_vidrst,
+>>       .pixpllc_atomic_check = mgag200_g200ew3_pixpllc_atomic_check,
+>>       .pixpllc_atomic_update = mgag200_g200wb_pixpllc_atomic_update, 
+>> // same as G200WB
 >>   };
->>     static inline struct mgag200_crtc_state 
->> *to_mgag200_crtc_state(struct drm_crtc_state *base)
->> @@ -430,7 +432,8 @@ void mgag200_crtc_atomic_destroy_state(struct 
->> drm_crtc *crtc, struct drm_crtc_st
->>       .atomic_duplicate_state = mgag200_crtc_atomic_duplicate_state, \
->>       .atomic_destroy_state = mgag200_crtc_atomic_destroy_state
->>   -void mgag200_set_mode_regs(struct mga_device *mdev, const struct 
->> drm_display_mode *mode);
->> +void mgag200_set_mode_regs(struct mga_device *mdev, const struct 
->> drm_display_mode *mode,
->> +               bool set_vidrst);
->>   void mgag200_set_format_regs(struct mga_device *mdev, const struct 
->> drm_format_info *format);
->>   void mgag200_enable_display(struct mga_device *mdev);
->>   void mgag200_init_registers(struct mga_device *mdev);
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c 
->> b/drivers/gpu/drm/mgag200/mgag200_g200er.c
->> index 4e8a1756138d..abfbed6ec390 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
->> @@ -195,7 +195,7 @@ static void 
->> mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->>           funcs->disable_vidrst(mdev);
->>         mgag200_set_format_regs(mdev, format);
->> -    mgag200_set_mode_regs(mdev, adjusted_mode);
->> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
->> mgag200_crtc_state->set_vidrst);
->>         if (funcs->pixpllc_atomic_update)
->>           funcs->pixpllc_atomic_update(crtc, old_state);
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c 
->> b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
->> index d884f3cb0ec7..acc99999e2b5 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
->> @@ -196,7 +196,7 @@ static void 
->> mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->>           funcs->disable_vidrst(mdev);
->>         mgag200_set_format_regs(mdev, format);
->> -    mgag200_set_mode_regs(mdev, adjusted_mode);
->> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
->> mgag200_crtc_state->set_vidrst);
->>         if (funcs->pixpllc_atomic_update)
->>           funcs->pixpllc_atomic_update(crtc, old_state);
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c 
->> b/drivers/gpu/drm/mgag200/mgag200_g200se.c
->> index a824bb8ad579..be4e124102c6 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
->> @@ -327,7 +327,7 @@ static void 
->> mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->>           funcs->disable_vidrst(mdev);
->>         mgag200_set_format_regs(mdev, format);
->> -    mgag200_set_mode_regs(mdev, adjusted_mode);
->> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
->> mgag200_crtc_state->set_vidrst);
->>         if (funcs->pixpllc_atomic_update)
->>           funcs->pixpllc_atomic_update(crtc, old_state);
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c 
->> b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> index bb6204002cb3..4f4612192e30 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -201,9 +201,9 @@ void mgag200_init_registers(struct mga_device *mdev)
->>       WREG8(MGA_MISC_OUT, misc);
->>   }
->>   -void mgag200_set_mode_regs(struct mga_device *mdev, const struct 
->> drm_display_mode *mode)
->> +void mgag200_set_mode_regs(struct mga_device *mdev, const struct 
->> drm_display_mode *mode,
->> +               bool set_vidrst)
->>   {
->> -    const struct mgag200_device_info *info = mdev->info;
->>       unsigned int hdisplay, hsyncstart, hsyncend, htotal;
->>       unsigned int vdisplay, vsyncstart, vsyncend, vtotal;
->>       u8 misc, crtcext1, crtcext2, crtcext5;
->> @@ -238,9 +238,11 @@ void mgag200_set_mode_regs(struct mga_device 
->> *mdev, const struct drm_display_mod
->>              ((hdisplay & 0x100) >> 7) |
->>              ((hsyncstart & 0x100) >> 6) |
->>               (htotal & 0x40);
->> -    if (info->has_vidrst)
->> +    if (set_vidrst)
->>           crtcext1 |= MGAREG_CRTCEXT1_VRSTEN |
->>                   MGAREG_CRTCEXT1_HRSTEN;
->> +    else
->> +        crtcext1 &= ~(MGAREG_CRTCEXT1_VRSTEN | MGAREG_CRTCEXT1_HRSTEN);
->>         crtcext2 = ((vtotal & 0xc00) >> 10) |
->>              ((vdisplay & 0x400) >> 8) |
->> @@ -656,7 +658,7 @@ void mgag200_crtc_helper_atomic_enable(struct 
->> drm_crtc *crtc, struct drm_atomic_
->>           funcs->disable_vidrst(mdev);
->>         mgag200_set_format_regs(mdev, format);
->> -    mgag200_set_mode_regs(mdev, adjusted_mode);
->> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
->> mgag200_crtc_state->set_vidrst);
->>         if (funcs->pixpllc_atomic_update)
->>           funcs->pixpllc_atomic_update(crtc, old_state);
->> @@ -717,6 +719,7 @@ struct drm_crtc_state 
->> *mgag200_crtc_atomic_duplicate_state(struct drm_crtc *crtc
->>       new_mgag200_crtc_state->format = mgag200_crtc_state->format;
->>       memcpy(&new_mgag200_crtc_state->pixpllc, 
->> &mgag200_crtc_state->pixpllc,
->>              sizeof(new_mgag200_crtc_state->pixpllc));
->> +    new_mgag200_crtc_state->set_vidrst = 
->> mgag200_crtc_state->set_vidrst;
->>         return &new_mgag200_crtc_state->base;
->>   }
->
-> With the small nitpick.
->
-> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
->
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+>> index 835df0f4fc13..e25477347c3e 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+>> @@ -280,8 +280,6 @@ static const struct mgag200_device_info 
+>> mgag200_g200wb_device_info =
+>>       MGAG200_DEVICE_INFO_INIT(1280, 1024, 31877, true, 0, 1, false);
+>>     static const struct mgag200_device_funcs 
+>> mgag200_g200wb_device_funcs = {
+>> -    .disable_vidrst = mgag200_bmc_disable_vidrst,
+>> -    .enable_vidrst = mgag200_bmc_enable_vidrst,
+>>       .pixpllc_atomic_check = mgag200_g200wb_pixpllc_atomic_check,
+>>       .pixpllc_atomic_update = mgag200_g200wb_pixpllc_atomic_update,
+>>   };
 >
 
 -- 
