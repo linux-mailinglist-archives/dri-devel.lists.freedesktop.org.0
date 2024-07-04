@@ -2,42 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8414F92738D
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 12:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8799273CA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 12:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 773D810EA70;
-	Thu,  4 Jul 2024 10:00:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEC210E9EC;
+	Thu,  4 Jul 2024 10:15:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="M7YxZmAM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81FF010EA70
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 10:00:47 +0000 (UTC)
-Received: from i53875ac2.versanet.de ([83.135.90.194] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1sPJGe-0007a4-4D; Thu, 04 Jul 2024 12:00:44 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>,
- Diederik de Haas <didi.debian@cknow.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- devicetree@vger.kernel.org, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Sandy Huang <hjc@rock-chips.com>, Peter Geis <pgwipeout@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v11 09/24] drm/rockchip: dw_hdmi: add regulator support
-Date: Thu, 04 Jul 2024 12:00:43 +0200
-Message-ID: <3615926.LM0AJKV5NW@diego>
-In-Reply-To: <16078476.GIfNKF0EQE@bagend>
-References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
- <20220422072841.2206452-10-s.hauer@pengutronix.de>
- <16078476.GIfNKF0EQE@bagend>
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCB510EA7A
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 10:15:56 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2ebe6495aedso4397161fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 03:15:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1720088154; x=1720692954; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=1nvqcTE+d+I6/PYlZYlUrN3ZSE7/0dbyWuREcOgf8aA=;
+ b=M7YxZmAM3xI4Hx4cCi9v4DQF44Z5xUniV7zJCyC76LcXmFpa0NpnrTVLZi3qMWGW2+
+ m53+SIR5d0pUvaP49fSYGJ58x2Y/07rnJZgyT7LUfeJZq5f8MFrs680Yash8D1mbB4lh
+ b9zC53ESlRXVF6/wu6p4L62PLSX5k23Cz4WZvDzJHruFb42PV+NWXyh0AbbYrX0H2Us8
+ 8KprM3q59Cqmo8yyIZzMwzaGlF9jcQFAX9nAEavbRTlvXidYhnpbCE+9snsbVJjCoCsf
+ hPgZ8pvLYwZF1zYwsvnMZQgPcmbB6o8WSSrHpEjugkKc8RSIsbzZaW3lt+PmSYvGM5Yn
+ yU6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720088154; x=1720692954;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1nvqcTE+d+I6/PYlZYlUrN3ZSE7/0dbyWuREcOgf8aA=;
+ b=ofJVG7tq7bYRpQvlJBcjz1e+ibs0+MT8fK7cyoGlcU1zHfCc7CienRZcwQQ4jFnDMJ
+ kWEm7qjMC+22VtYfSBs/QyWWCUdcwp9oLpJkWxZCPPMzyGkU41Ya6TzQ6eGfVmNlqaa6
+ PPWjrs2WyO2ONHKth2h4GAYhgZwqS0JYxcyOE3kde1PJlY6rAkpBSVSeoukj7PAIGS99
+ Uf8LZC3aVO366cyJwTj5XxqXVl9+Z9lhTi0AFJWqgkWJVhuDPsul64uZ6mfySZ3V6AZ8
+ qEEho2FnLUc0N/MOohjxC3nrhwKsOW1oDQZQjEU7VbupEXgkqkYFj/nUuQYdVSsXOB23
+ PU+Q==
+X-Gm-Message-State: AOJu0YxYktN0PttZ9GT/Nj+19XyUuBYcGyvxr5V2EPE39/18PkfpVT4Z
+ mYjkrhUswC++o1rznjFYS8ysAKuK/fa854fTZk26jYF6Hsk4qxX0ozBJkmhWgAI=
+X-Google-Smtp-Source: AGHT+IFjFbE6dWkiueh16FP2N9UOEw13MN12/uduae8Rfkcs3JR/7QPB7Yfqddj+KjB9xdjW8KZcuw==
+X-Received: by 2002:a2e:98c3:0:b0:2ec:5200:a935 with SMTP id
+ 38308e7fff4ca-2ee8edc2d45mr8049801fa.40.1720088154177; 
+ Thu, 04 Jul 2024 03:15:54 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ee5168cf1fsm22523201fa.116.2024.07.04.03.15.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Jul 2024 03:15:53 -0700 (PDT)
+Date: Thu, 4 Jul 2024 13:15:52 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
+ helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ robdclark@gmail.com, 
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ mcanal@igalia.com, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, 
+ intel-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] drm/ci: uprev IGT
+Message-ID: <ojnz5hjfht6gwouphvmvizb2udlz2wvwnsj4vgosp3chrhsmcv@c7cxscdyxtsn>
+References: <20240704092202.75551-1-vignesh.raman@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240704092202.75551-1-vignesh.raman@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,131 +89,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, 4. Juli 2024, 11:09:00 CEST schrieb Diederik de Haas:
-> On Friday, 22 April 2022 09:28:26 CEST Sascha Hauer wrote:
-> > The RK3568 has HDMI_TX_AVDD0V9 and HDMI_TX_AVDD_1V8 supply inputs needed
-> > for the HDMI port. add support for these to the driver for boards which
-> > have them supplied by switchable regulators.
-> > 
-> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > ---
-> >  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 41 +++++++++++++++++++--
-> >  1 file changed, 38 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> > b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c index
-> > b64cc62c7b5af..fe4f9556239ac 100644
-> > --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> > +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> > @@ -9,6 +9,7 @@
-> >  #include <linux/platform_device.h>
-> >  #include <linux/phy/phy.h>
-> >  #include <linux/regmap.h>
-> > +#include <linux/regulator/consumer.h>
-> > 
-> >  #include <drm/bridge/dw_hdmi.h>
-> >  #include <drm/drm_edid.h>
-> > @@ -76,6 +77,8 @@ struct rockchip_hdmi {
-> >  	struct clk *ref_clk;
-> >  	struct clk *grf_clk;
-> >  	struct dw_hdmi *hdmi;
-> > +	struct regulator *avdd_0v9;
-> > +	struct regulator *avdd_1v8;
-> >  	struct phy *phy;
-> >  };
-> > 
-> > @@ -226,6 +229,14 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi
-> > *hdmi) return PTR_ERR(hdmi->grf_clk);
-> >  	}
-> > 
-> > +	hdmi->avdd_0v9 = devm_regulator_get(hdmi->dev, "avdd-0v9");
-> > +	if (IS_ERR(hdmi->avdd_0v9))
-> > +		return PTR_ERR(hdmi->avdd_0v9);
-> > +
-> > +	hdmi->avdd_1v8 = devm_regulator_get(hdmi->dev, "avdd-1v8");
-> > +	if (IS_ERR(hdmi->avdd_1v8))
-> > +		return PTR_ERR(hdmi->avdd_1v8);
-> > +
-> >  	return 0;
-> >  }
-> > 
-> > @@ -566,11 +577,23 @@ static int dw_hdmi_rockchip_bind(struct device *dev,
-> > struct device *master, return ret;
-> >  	}
-> > 
-> > +	ret = regulator_enable(hdmi->avdd_0v9);
-> > +	if (ret) {
-> > +		DRM_DEV_ERROR(hdmi->dev, "failed to enable avdd0v9: 
-> %d\n", ret);
-> > +		goto err_avdd_0v9;
-> > +	}
-> > +
-> > +	ret = regulator_enable(hdmi->avdd_1v8);
-> > +	if (ret) {
-> > +		DRM_DEV_ERROR(hdmi->dev, "failed to enable avdd1v8: 
-> %d\n", ret);
-> > +		goto err_avdd_1v8;
-> > +	}
-> > +
-> >  	ret = clk_prepare_enable(hdmi->ref_clk);
-> >  	if (ret) {
-> >  		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI 
-> reference clock: %d\n",
-> >  			      ret);
-> > -		return ret;
-> > +		goto err_clk;
-> >  	}
-> > 
-> >  	if (hdmi->chip_data == &rk3568_chip_data) {
-> > @@ -594,10 +617,19 @@ static int dw_hdmi_rockchip_bind(struct device *dev,
-> > struct device *master, */
-> >  	if (IS_ERR(hdmi->hdmi)) {
-> >  		ret = PTR_ERR(hdmi->hdmi);
-> > -		drm_encoder_cleanup(encoder);
-> > -		clk_disable_unprepare(hdmi->ref_clk);
-> > +		goto err_bind;
-> >  	}
-> > 
-> > +	return 0;
-> > +
-> > +err_bind:
-> > +	clk_disable_unprepare(hdmi->ref_clk);
-> > +	drm_encoder_cleanup(encoder);
-> > +err_clk:
-> > +	regulator_disable(hdmi->avdd_1v8);
-> > +err_avdd_1v8:
-> > +	regulator_disable(hdmi->avdd_0v9);
-> > +err_avdd_0v9:
-> >  	return ret;
-> >  }
-> > 
-> > @@ -608,6 +640,9 @@ static void dw_hdmi_rockchip_unbind(struct device *dev,
-> > struct device *master,
-> > 
-> >  	dw_hdmi_unbind(hdmi->hdmi);
-> >  	clk_disable_unprepare(hdmi->ref_clk);
-> > +
-> > +	regulator_disable(hdmi->avdd_1v8);
-> > +	regulator_disable(hdmi->avdd_0v9);
-> >  }
-> > 
-> >  static const struct component_ops dw_hdmi_rockchip_ops = {
+On Thu, Jul 04, 2024 at 02:52:02PM GMT, Vignesh Raman wrote:
+> Uprev IGT to the latest version, which includes a fix for the
+> writeback tests issue on MSM devices. Enable debugging for
+> igt-runner to log output such as 'Begin test' and 'End test'.
+> This will help identify which test causes system freeze or hangs.
+> Update xfails and add metadata header for each flake test.
 > 
-> Is it possible to probe for those avdd_0v9 and avdd_1v8 regulators only on 
-> devices that should have them?
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> ---
 > 
-> On a Rock64 (rk3328), but probably for all VOP1 devices, they're not present 
-> and that results in the following warnings:
-> dwhdmi-rockchip ff3c0000.hdmi: supply avdd-0v9 not found, using dummy regulator
-> dwhdmi-rockchip ff3c0000.hdmi: supply avdd-1v8 not found, using dummy regulator
+> v1:
+>   - https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1216850
+> 
+> ---
+>  drivers/gpu/drm/ci/gitlab-ci.yml              |   2 +-
+>  drivers/gpu/drm/ci/igt_runner.sh              |   1 +
+>  .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   1 +
+>  .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |  14 +-
+>  .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |   4 +-
+>  drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |  12 +-
+>  .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |  41 ++++-
+>  drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |   5 +-
+>  drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |   2 +-
+>  drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |   4 +-
+>  drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |  14 +-
+>  drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |   9 +-
+>  drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |   5 +-
+>  drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |  24 +--
+>  drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |   8 +-
+>  drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |   4 +-
+>  drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   2 +
+>  drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |   2 +-
+>  drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |   4 +-
+>  drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |  25 +--
+>  drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |   4 +-
+>  drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |  17 +-
+>  drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |   2 +-
+>  drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |   5 +-
+>  .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   9 +-
+>  .../drm/ci/xfails/mediatek-mt8173-flakes.txt  |  32 +++-
+>  .../drm/ci/xfails/mediatek-mt8173-skips.txt   |   4 +-
+>  .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   2 +-
+>  .../drm/ci/xfails/mediatek-mt8183-skips.txt   |   2 +-
+>  .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |   2 +-
+>  .../gpu/drm/ci/xfails/meson-g12b-skips.txt    |   2 +-
+>  .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   5 +-
+>  .../gpu/drm/ci/xfails/msm-apq8016-skips.txt   |   2 +-
+>  .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |   2 +-
+>  .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |   4 +-
 
-counter-argument, why not define them in the dts?
-I.e. looking at the rock64 schematics, you want the dvideo_avdd_1v8 (from
-LDO1) and dvideo_avdd_1v0 (from LDO3) if I'm not mistaken. Why this stuff
-is called dvideo and not hdmi in there I have no clue ;-)
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # msm tests
 
 
-Heiko
+>  .../msm-sc7180-trogdor-kingoftown-fails.txt   | 145 ------------------
+>  .../msm-sc7180-trogdor-kingoftown-flakes.txt  |  18 ++-
+>  .../msm-sc7180-trogdor-kingoftown-skips.txt   |   5 +-
+>  ...sm-sc7180-trogdor-lazor-limozeen-fails.txt | 145 ------------------
+>  ...m-sc7180-trogdor-lazor-limozeen-flakes.txt |  11 +-
+>  ...sm-sc7180-trogdor-lazor-limozeen-skips.txt |   2 +-
+>  .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   | 105 ++++++++++++-
+>  .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |   4 +-
+>  .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   2 +-
+>  .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   2 +-
+>  .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   2 +-
+>  .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |   4 +-
+>  .../drm/ci/xfails/rockchip-rk3399-skips.txt   |   2 +-
+>  .../drm/ci/xfails/virtio_gpu-none-fails.txt   |  64 ++++++++
+>  .../drm/ci/xfails/virtio_gpu-none-skips.txt   |   4 +-
+>  drivers/gpu/drm/ci/xfails/vkms-none-fails.txt |   4 -
+>  .../gpu/drm/ci/xfails/vkms-none-flakes.txt    |  21 +++
+>  drivers/gpu/drm/ci/xfails/vkms-none-skips.txt | 105 ++++++++++++-
+>  53 files changed, 527 insertions(+), 395 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+> index 80fb0f57ae46..b09976c3d2c2 100644
+> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+> @@ -5,7 +5,7 @@ variables:
+>    UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+>    TARGET_BRANCH: drm-next
+>  
+> -  IGT_VERSION: 0df7b9b97f9da0e364f5ee30fe331004b8c86b56
+> +  IGT_VERSION: f13702b8e4e847c56da3ef6f0969065d686049c5
+>  
+>    DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/anholt/deqp-runner.git
+>    DEQP_RUNNER_GIT_TAG: v0.15.0
 
 
+-- 
+With best wishes
+Dmitry
