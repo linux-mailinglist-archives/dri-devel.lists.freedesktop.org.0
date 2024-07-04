@@ -2,79 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A552926E94
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 06:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA9A926E9D
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 06:58:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6ABB10E981;
-	Thu,  4 Jul 2024 04:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8229610E8F3;
+	Thu,  4 Jul 2024 04:58:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="GRkk9PYX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kMEgcUAB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B47B410E8F3
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 04:50:45 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-70af5fbf0d5so171798b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2024 21:50:45 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 592FC10E8F3;
+ Thu,  4 Jul 2024 04:58:18 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2ebeefb9a7fso2355521fa.0; 
+ Wed, 03 Jul 2024 21:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1720068645; x=1720673445; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1720069096; x=1720673896; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+YEP4Pq59dsIwYHVB+3j/E35J2uSNOsK6zNODVCesHM=;
- b=GRkk9PYX/IwVLaoi+C4OnoJs+fQFvsP31ZImA6CLw3g2ZtUnHXdeR7fwYrFs0tzFmq
- LC2Lr0H20Catf4uAvZJz1Cg7xkrDH6NIz3Wr7gRg9kQ1mSZxLXW32azZkX07u9YlMnPf
- ZDDD9vLLlCW3nFqkSj+pHBP8sJLRiNAzPgM7g/d6zsqHv5dwHqhWX3ol7tYPKSoKjoIT
- zUtRxoyqKMdhohK+iy4i5h5KtIX9+2c/Fd8mGL60S3Ton+ELmxDhzQ1YONlEyN6LQQXv
- /5ITZ6oc8uS1FwZdZCPSzUGNvidMHUCnsqxT/cJ77hcxTsBuoWhzSVyntFteRRRZy2wL
- xWgw==
+ bh=B7zncIRfeuDlItOIy7D0MDTD3orFgOC3UeicdZPk4r4=;
+ b=kMEgcUABKYVXobgOpCg3Xg2vgKuqGrNh79/AeZ1AzJ7te0XJLlIyBtDanPi1mIaoHV
+ lppfPp4vHkk/qB71pOJc5kDTqEOaHkB4m8djBj69j52hQAShoVO6rQqNso2QS/9R+GSP
+ qv07Oj+0qSPrk/tANeEkw54YIlraSu+zAd44Q6SDckGIbIXJm/NSWRGp/3Dun9hMhEFI
+ 7nyO1BYMlcsftRUOAnkR+Nsz+xudJ/gCbL67Bi3Sn1FDSzDOrtSNI0zFGvmItZp3Yce/
+ ce9MHP4iruEZ6QRzUh1ZDyVGxFGXSldl+iQM3fV/KTQsbln/nQ1nFPx7/0NbYfCWx0LY
+ CWkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720068645; x=1720673445;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1720069096; x=1720673896;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+YEP4Pq59dsIwYHVB+3j/E35J2uSNOsK6zNODVCesHM=;
- b=Dr8AJ/HY4zLAcjs3Y+zt7yhL1ohtjVvEHwXIw/CgUPEkUTSPSiKWXdmPVL2SHTbVTo
- UGkj95iEDkxHzXvEo/DobQknmg+GeBtw7WwzCl4pTMrB3YDNNRLM233Y4DM7Fv4XFZ1W
- uC3nGLfIVH3RE1UgVWsaiiYUyKkBzU3tsNx7/42Jrg0iDP0GmW46jtz6swuYhlTzi98o
- Dg/Kz4AUn6Ff1zdlDWXeMzXGtnCAnDLJA0kDXXchZs2OvfjpNaut24BhIGPdhDsx6F+M
- X91Ma8u+eIQDi4siB0ijee4MPbIl9MEKqBA3dtBAZ9SquJ8xrsbDHIefcDCtduAZPdai
- 4NoA==
+ bh=B7zncIRfeuDlItOIy7D0MDTD3orFgOC3UeicdZPk4r4=;
+ b=NBkzqnq2QyN0gkJ7D4QfI5wRWdjk0TvGsY/g2/9KJarz4Vk5w+7xJvW+vlqTntUksP
+ IRn6oc2/kEYhIYDPFdWfmhMr2vz7X9eXvDLnrUeLE42jyfoH0lqdQBYC9H9Sapy2uZiJ
+ KXeshI2rgKSEUqdJF0A1wPpiA7IeqIgOPPdqzkKk+6V8DFCmY8S+nHe5ooQebyPOk6kT
+ L3dWwv32OmHB/Kfr2qhB5di+iz1qTBt+2JXH20BjbL//nT4zrNI3dfVI8L+9eutBUXIw
+ 4pMaInwqzhNgUKJmNNKdtGYdQcHRMBSSrKTy2HsRnyuU/wxPFAOAapzss6hxFVQ8WM3m
+ oMVg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVgk4U1VvXilERkEuVxr+UxSLI65Zn6mchbhYZ0l+Dncy/y611E5LDyqB3HNLyWzN/D2yEKyv74n2O8kInyV2j3HgeD+Fc69cquHO/7WvKz
-X-Gm-Message-State: AOJu0YxH6lLQfX92A4+8RHd0dVsi+TazLJ60Zp2ThALpBH5yHNMPRtDw
- +EhZTQNCmFtF6TjpIGxYwULimwTiuwwJ8uQBrPAT1BD/ZRmAS4PVZMTYlFQKlM8=
-X-Google-Smtp-Source: AGHT+IHuX5KUBMOSZtD7UAvek5USheWSgaTr64NI2c2gOrXik2u/mBbBLgPRtkMTdjpqPjSzpDJbLg==
-X-Received: by 2002:a05:6a00:99a:b0:707:fa61:1c6a with SMTP id
- d2e1a72fcca58-70b01b33706mr509515b3a.10.1720068645137; 
- Wed, 03 Jul 2024 21:50:45 -0700 (PDT)
-Received: from yc.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-70804a8ec1asm11291826b3a.188.2024.07.03.21.50.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jul 2024 21:50:44 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
- dianders@chromium.org, linus.walleij@linaro.org, swboyd@chromium.org,
- airlied@gmail.com, dmitry.baryshkov@linaro.org,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org
-Cc: lvzhaoxiong@huaqin.corp-partner.google.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH v2 3/3] drm/panel: jd9365da: Break some CMDS into helper
- functions
-Date: Thu,  4 Jul 2024 12:50:17 +0800
-Message-Id: <20240704045017.2781991-4-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240704045017.2781991-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20240704045017.2781991-1-yangcong5@huaqin.corp-partner.google.com>
+ AJvYcCX7FI7zasDyhdn5egdqwjmtnkOfh+kWFbvLZye1diDZ6vsq2dUyEIvtayIrTOUGn5smZANwXPFw3LT/iWueGtA68/xVamrzidIdrTtqCVp+kFzA68l5W1WL1oMgiB0/O/cI9ZJ6hhrtu+hHmOlZlA==
+X-Gm-Message-State: AOJu0Yx133xuzukp+np/DEzpnwBtCtdNYtehJZWttSRvbPYyNrasJyHt
+ dxg8mdq5S3KdqzqHIUR5BNVwyJVslTGOjFERifpMPS8Z1DhEXwWzsje8Agbp/kvrjiHZj/KzRqJ
+ wFXdcspuBM+t4JtBEy44NGSaf9/E=
+X-Google-Smtp-Source: AGHT+IF0DLCtxx1ONKaWIRWGcQaRLMMZnMXe1/bJJ23kQW1gwZq1F3/MHvrqsk9LZCHS4bi/2zcKgih857VzQG3iP9Y=
+X-Received: by 2002:a2e:bc86:0:b0:2ed:58d0:b711 with SMTP id
+ 38308e7fff4ca-2ee8edfaa32mr3768541fa.33.1720069095952; Wed, 03 Jul 2024
+ 21:58:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240630165949.117634-1-wuhoipok@gmail.com>
+ <748e1bd6-6c40-443d-acbc-3d379229d068@suse.de>
+In-Reply-To: <748e1bd6-6c40-443d-acbc-3d379229d068@suse.de>
+From: Hoi Pok Wu <wuhoipok@gmail.com>
+Date: Thu, 4 Jul 2024 00:58:04 -0400
+Message-ID: <CANyH0kDFSn6voXWnF-91fYufRT=Y3eRBLG66JBXz2_=rxJHXfg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] drm/radeon: remove load callback & drm_dev_alloc
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,217 +84,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These panels have some common cmds (e0h~e3h,80h), let's break
-them into helper functions.
+Thanks a lot for your help Thomas.
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
- .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 89 +++++++++++--------
- 1 file changed, 53 insertions(+), 36 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-index 5b525a111b90..04d315d96bff 100644
---- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-+++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-@@ -48,6 +48,19 @@ struct jadard {
- 	struct gpio_desc *reset;
- };
- 
-+#define JD9365DA_DCS_SWITCH_PAGE	0xe0
-+
-+#define jd9365da_switch_page(dsi_ctx, page) \
-+	mipi_dsi_dcs_write_seq_multi(dsi_ctx, JD9365DA_DCS_SWITCH_PAGE, (page))
-+
-+static void jadard_enable_standard_cmds(struct mipi_dsi_multi_context *dsi_ctx)
-+{
-+	mipi_dsi_dcs_write_seq_multi(dsi_ctx, 0xe1, 0x93);
-+	mipi_dsi_dcs_write_seq_multi(dsi_ctx, 0xe2, 0x65);
-+	mipi_dsi_dcs_write_seq_multi(dsi_ctx, 0xe3, 0xf8);
-+	mipi_dsi_dcs_write_seq_multi(dsi_ctx, 0x80, 0x03);
-+}
-+
- static inline struct jadard *panel_to_jadard(struct drm_panel *panel)
- {
- 	return container_of(panel, struct jadard, panel);
-@@ -198,12 +211,10 @@ static int radxa_display_8hd_ad002_init_cmds(struct jadard *jadard)
- {
- 	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
- 
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x00);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE1, 0x93);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE2, 0x65);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE3, 0xF8);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x03);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x01);
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
-+	jadard_enable_standard_cmds(&dsi_ctx);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x01);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x7E);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x03, 0x00);
-@@ -276,7 +287,8 @@ static int radxa_display_8hd_ad002_init_cmds(struct jadard *jadard)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x37);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x81, 0x23);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x82, 0x10);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x02);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x02);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x47);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x47);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x45);
-@@ -360,13 +372,15 @@ static int radxa_display_8hd_ad002_init_cmds(struct jadard *jadard)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7C, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7D, 0x03);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7E, 0x7B);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x04);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x04);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x0E);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0xB3);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x60);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0E, 0x2A);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x36, 0x59);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x00);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
- 
- 	return dsi_ctx.accum_err;
- };
-@@ -398,12 +412,10 @@ static int cz101b4001_init_cmds(struct jadard *jadard)
- {
- 	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
- 
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x00);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE1, 0x93);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE2, 0x65);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE3, 0xF8);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x03);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x01);
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
-+	jadard_enable_standard_cmds(&dsi_ctx);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x01);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x3B);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0C, 0x74);
-@@ -471,7 +483,8 @@ static int cz101b4001_init_cmds(struct jadard *jadard)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x20);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x81, 0x0F);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x82, 0x00);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x02);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x02);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x02);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x02);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x00);
-@@ -584,12 +597,14 @@ static int cz101b4001_init_cmds(struct jadard *jadard)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7A, 0x17);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7D, 0x14);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7E, 0x82);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x04);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x04);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x0E);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0xB3);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x61);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0E, 0x48);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x00);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE6, 0x02);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE7, 0x0C);
- 
-@@ -623,12 +638,10 @@ static int kingdisplay_kd101ne3_init_cmds(struct jadard *jadard)
- {
- 	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
- 
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x00);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0x93);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0x65);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe3, 0xf8);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x03);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x01);
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
-+	jadard_enable_standard_cmds(&dsi_ctx);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x01);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x74);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0xc7);
-@@ -694,7 +707,8 @@ static int kingdisplay_kd101ne3_init_cmds(struct jadard *jadard)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x26);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x81, 0x14);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x82, 0x02);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x02);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x02);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x52);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x5f);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x5f);
-@@ -808,12 +822,14 @@ static int kingdisplay_kd101ne3_init_cmds(struct jadard *jadard)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x05);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x2a);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x04);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x04);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x0e);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0xb3);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x61);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x48);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x00);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
- 
- 	return dsi_ctx.accum_err;
- };
-@@ -854,12 +870,10 @@ static int melfas_lmfbx101117480_init_cmds(struct jadard *jadard)
- {
- 	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
- 
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x00);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0x93);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0x65);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe3, 0xf8);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x03);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x01);
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
-+	jadard_enable_standard_cmds(&dsi_ctx);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x01);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x74);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0xbf);
-@@ -932,7 +946,8 @@ static int melfas_lmfbx101117480_init_cmds(struct jadard *jadard)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x24);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x81, 0x12);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x82, 0x02);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x02);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x02);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x52);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x55);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x55);
-@@ -1046,14 +1061,16 @@ static int melfas_lmfbx101117480_init_cmds(struct jadard *jadard)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x05);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x2a);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x04);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x04);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x23);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x11);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x48);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x36, 0x49);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x08);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2e, 0x03);
--	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x00);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x02);
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe7, 0x06);
- 
--- 
-2.25.1
-
+On Wed, Jul 3, 2024 at 4:52=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+>
+> Hi
+>
+> Am 30.06.24 um 18:59 schrieb Wu Hoi Pok:
+> > .load and drm_dev_alloc are deprecated. These patch series aims to
+> > remove them.
+> >
+> > v3: Both v1 and v2 sucks. v3 improves greatly on readability.
+>
+> Very nice, thank you. I tested the patches with Radeon hardware and did
+> not find issues. AFAICT this can be merged as-is. I think it should go
+> into the amd trees. Maybe Alex or Christian can pick it up.
+>
+> Thanks for sticking with it.
+>
+> Best regards
+> Thomas
+>
+> >
+> > Wu Hoi Pok (6):
+> >    drm/radeon: change variable name "dev" to "ddev" for consistency
+> >    drm/radeon: remove load callback from kms_driver
+> >    drm/radeon: use variable flags as parameter
+> >    drm/radeon: add helper rdev_to_drm(rdev)
+> >    drm/radeon: change rdev->ddev to rdev_to_drm(rdev)
+> >    drm/radeon: change drm_dev_alloc to devm_drm_dev_alloc
+> >
+> >   drivers/gpu/drm/radeon/atombios_encoders.c |  2 +-
+> >   drivers/gpu/drm/radeon/cik.c               | 14 ++--
+> >   drivers/gpu/drm/radeon/dce6_afmt.c         |  2 +-
+> >   drivers/gpu/drm/radeon/evergreen.c         | 12 ++--
+> >   drivers/gpu/drm/radeon/ni.c                |  2 +-
+> >   drivers/gpu/drm/radeon/r100.c              | 24 +++----
+> >   drivers/gpu/drm/radeon/r300.c              |  6 +-
+> >   drivers/gpu/drm/radeon/r420.c              |  6 +-
+> >   drivers/gpu/drm/radeon/r520.c              |  2 +-
+> >   drivers/gpu/drm/radeon/r600.c              | 12 ++--
+> >   drivers/gpu/drm/radeon/r600_cs.c           |  2 +-
+> >   drivers/gpu/drm/radeon/r600_dpm.c          |  4 +-
+> >   drivers/gpu/drm/radeon/r600_hdmi.c         |  2 +-
+> >   drivers/gpu/drm/radeon/radeon.h            |  7 +-
+> >   drivers/gpu/drm/radeon/radeon_acpi.c       | 10 +--
+> >   drivers/gpu/drm/radeon/radeon_agp.c        |  2 +-
+> >   drivers/gpu/drm/radeon/radeon_atombios.c   |  2 +-
+> >   drivers/gpu/drm/radeon/radeon_audio.c      |  4 +-
+> >   drivers/gpu/drm/radeon/radeon_combios.c    | 12 ++--
+> >   drivers/gpu/drm/radeon/radeon_device.c     | 13 ++--
+> >   drivers/gpu/drm/radeon/radeon_display.c    | 74 +++++++++++----------=
+-
+> >   drivers/gpu/drm/radeon/radeon_drv.c        | 27 +++++---
+> >   drivers/gpu/drm/radeon/radeon_fbdev.c      | 26 ++++----
+> >   drivers/gpu/drm/radeon/radeon_fence.c      |  8 +--
+> >   drivers/gpu/drm/radeon/radeon_gem.c        |  2 +-
+> >   drivers/gpu/drm/radeon/radeon_i2c.c        |  2 +-
+> >   drivers/gpu/drm/radeon/radeon_ib.c         |  2 +-
+> >   drivers/gpu/drm/radeon/radeon_irq_kms.c    | 12 ++--
+> >   drivers/gpu/drm/radeon/radeon_kms.c        |  8 +--
+> >   drivers/gpu/drm/radeon/radeon_object.c     |  2 +-
+> >   drivers/gpu/drm/radeon/radeon_pm.c         | 20 +++---
+> >   drivers/gpu/drm/radeon/radeon_ring.c       |  2 +-
+> >   drivers/gpu/drm/radeon/radeon_ttm.c        |  6 +-
+> >   drivers/gpu/drm/radeon/rs400.c             |  6 +-
+> >   drivers/gpu/drm/radeon/rs600.c             | 14 ++--
+> >   drivers/gpu/drm/radeon/rs690.c             |  2 +-
+> >   drivers/gpu/drm/radeon/rv515.c             |  4 +-
+> >   drivers/gpu/drm/radeon/rv770.c             |  2 +-
+> >   drivers/gpu/drm/radeon/si.c                |  4 +-
+> >   39 files changed, 184 insertions(+), 179 deletions(-)
+> >
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>
