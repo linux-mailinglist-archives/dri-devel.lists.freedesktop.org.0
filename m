@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14589277DA
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 16:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F859277E1
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 16:11:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC81E10E1FE;
-	Thu,  4 Jul 2024 14:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20DCD10EB06;
+	Thu,  4 Jul 2024 14:11:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="RON9aM5O";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="bJmmHugX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
- [209.85.215.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21DA410E1FE
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 14:11:20 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id
- 41be03b00d2f7-6c5bcb8e8edso461689a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 07:11:20 -0700 (PDT)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA36D10EB06
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 14:11:38 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-1fafb9a33b3so3780165ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 07:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1720102279; x=1720707079;
+ d=broadcom.com; s=google; t=1720102298; x=1720707098;
  darn=lists.freedesktop.org; 
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=oWpSvPyuFaL/Z3hl6A4+mYuI/ejET5A+M6CFQqXqqbI=;
- b=RON9aM5Oidd1Q7FnL68g0YfMJasnVzwyiq2XCaFbJ/zVjfrYH6miRh9VbRifHR6c3y
- MRJFg0qIsbOsYCbhpGbKpvlBy0a7v56yNmgCQI6KnHMGOAmy9rwE6a1rNm8ux0tueZOw
- ljcrXoI2wrudSdQ/LH7K5Qigzy0Ln/8J2Y5Do=
+ :reply-to; bh=baZB7ZXvKpftV5rMV5IztbkcxjZ8nIBUpWGGjVZ1M0A=;
+ b=bJmmHugXrrzfZ9JTPaoyVZCGxuQ17eeltTG9LSb+UbJ2grJU36GKQV1WOvoFWc1/aH
+ qovzDXgSJK9zoJKsr5mayO3ysAluAQqSctzF0FWSnAQ6Q+/N3A1a4yY04eVrD4PuwBuS
+ iPbRbvWXFj4Bb5y81j7jb8wfEfMgkGGtwKc/o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720102279; x=1720707079;
+ d=1e100.net; s=20230601; t=1720102298; x=1720707098;
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=oWpSvPyuFaL/Z3hl6A4+mYuI/ejET5A+M6CFQqXqqbI=;
- b=bn3QzmNj12JGKz2UkPvk2LopHpI6pjQo50vog4rCumyp5d1wDbVpjLXgp2+md5eiSx
- RiXHk1QoAR0HpM/oagqO6vfra6DFAqWajg4JaAlymwNkh+H0tumzkhsKvZhNKt4zxh2u
- JFZMKDrwc1+12QGz7ocEMsi36krGCVAiFRRNr4gGNmkBmY0tTzJ5t3a9G18wm+g7HCRu
- iOGGI3S003coOnllDWsb7wRpzZGTI5gHc0kSBWb4dsxVaOCVUTRNj+XWAtpqBc57AFRB
- +ek+D0a2jBvMPefFSvITasY3WY7zKZXG+Dvd+pBwbu+XnuRI4wI0N/K6h/ya33DOsg3O
- 3JtA==
+ bh=baZB7ZXvKpftV5rMV5IztbkcxjZ8nIBUpWGGjVZ1M0A=;
+ b=SaStBqwCf0z0RKdQVyL8NMRQ6TslODTkTgQ3gJ7kh7kwtGZ2gBAS4Usq+IsqeIjS/g
+ orUY97nV+gAuxDPJPgGCYVaeJZGOvt+DXCbcwaMBL5DIBYchXZ0IcB2nWEE33PHdgbse
+ KOBvwmlXqcqvdhtYGLwBv/kAKZHTB+TyWTGo8g8PdaO87zPg97EnsgRoATSopAHf7wQg
+ 4Ij6HdGXIIj93I4DcCiCE17Xce1Zv3XloWNtRfU/8s0ccFT8U1S7Ig85dzC6n08Kuq8R
+ TjFn0FJDbXpC7wb/pFW+Huo5/DFg5qCncAxM2IBdZ2Gc04lBTglhJjwnLPe/9IDxsHtb
+ IEtg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVlbyXbrIpuXwtOwnkz3m9MoBWOJeKWFv8fnHnO7wZ+boqH8xsox5XykchDhVJutF3FDPHW4i0lMeeQ2kSVMX6n0dkN2d+XYaGlO0e6pwnb
-X-Gm-Message-State: AOJu0YyXsMaSdXhOFcJD5jQQDrWwr049W3+QDLrA/0OWtYh5AS1QQD0S
- E1bu0WghobMsmK4F0oqkAlhVlxwgetCBz63YCkCuocEvMdaM8n5mnWgNZqHkXg==
-X-Google-Smtp-Source: AGHT+IHDG+6yrPmowJrYSD8veU4rk02aGqRlO5FIYXe2ZoenaAz1qBC+k8Wp+ZQsU0LKCzwV/b1+wg==
-X-Received: by 2002:a17:90a:df98:b0:2c9:754d:2cba with SMTP id
- 98e67ed59e1d1-2c99c50fc2fmr1334627a91.3.1720102279526; 
- Thu, 04 Jul 2024 07:11:19 -0700 (PDT)
+ AJvYcCXBW3N7wmxBjx+pJBNdGwqxDTG90dOaFqviMQki8UAWu/bqeWPq2BDe1seaZIhG5bt5pzZAPVN0cL2qPFFgrlmj2g4atK+oR0Cn6KkPN+eo
+X-Gm-Message-State: AOJu0YylfPxnlNjJG0jPGMlfsIRUNWy6KRgerVjWnzOhh96kN7crbxPp
+ PRwOzG+hZG91KfoZFD9DVGqhy9gKoHm2u7iesK+D37xnrcPEZUrHcRqCk/IWHA==
+X-Google-Smtp-Source: AGHT+IHyCoQeFtMQ1zKUiilu29pAHD5KerfvrevUcYiPvLHm4Y8t9zB57H8y8qClJfNio83Lu+ygrw==
+X-Received: by 2002:a17:903:22c6:b0:1fa:12a5:a4f9 with SMTP id
+ d9443c01a7336-1fb33efe2b6mr14725455ad.47.1720102298181; 
+ Thu, 04 Jul 2024 07:11:38 -0700 (PDT)
 Received: from [10.40.5.113] ([89.207.175.15])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2c99a9c7a85sm1539511a91.33.2024.07.04.07.11.12
+ d9443c01a7336-1fac1596657sm123250375ad.255.2024.07.04.07.11.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jul 2024 07:11:18 -0700 (PDT)
-Message-ID: <388b6198-3945-4a1f-b6cc-3a511f1be1e4@broadcom.com>
-Date: Thu, 4 Jul 2024 15:11:10 +0100
+ Thu, 04 Jul 2024 07:11:37 -0700 (PDT)
+Message-ID: <41f89d96-079e-46fa-ad77-255ebe70e9a2@broadcom.com>
+Date: Thu, 4 Jul 2024 15:11:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/11] pmdomain: raspberrypi-power: Adjust packet
- definition
+Subject: Re: [PATCH 05/11] irqchip/bcm2835: Enable SKIP_SET_WAKE and
+ MASK_ON_SUSPEND
 To: Stefan Wahren <wahrenst@gmx.net>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui
  <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
@@ -74,7 +74,7 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
 References: <20240630153652.318882-1-wahrenst@gmx.net>
- <20240630153652.318882-4-wahrenst@gmx.net>
+ <20240630153652.318882-6-wahrenst@gmx.net>
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
@@ -108,9 +108,9 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20240630153652.318882-4-wahrenst@gmx.net>
+In-Reply-To: <20240630153652.318882-6-wahrenst@gmx.net>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000600cae061c6c85cd"
+ micalg=sha-256; boundary="0000000000007c26da061c6c860c"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,27 +126,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000600cae061c6c85cd
+--0000000000007c26da061c6c860c
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 6/30/2024 4:36 PM, Stefan Wahren wrote:
-> According to the official Mailbox property interface the second part
-> of RPI_FIRMWARE_SET_POWER_STATE ( and so on ...) is named state because
-> it represent u32 flags and just the lowest bit is for on/off. So rename it
-> to align with documentation and prepare the driver for further changes.
+On 6/30/2024 4:36 PM, 'Stefan Wahren' via BCM-KERNEL-FEEDBACK-LIST,PDL 
+wrote:
+> The BCM2835 ARMCTRL interrupt controller doesn't provide any facility
+> to configure the wakeup sources. That's the reason why this
+> implementation lacks the irq_set_wake implementation. But this prevent
+> us from properly entering power management states like "suspend to
+> idle".
 > 
-> Link: https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface
+> So enable the flags IRQCHIP_SKIP_SET_WAKE and
+> IRQCHIP_MASK_ON_SUSPEND to let the irqchip core allows and handles
+> the power management.
+> 
 > Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 
 Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
 Florian
 
---000000000000600cae061c6c85cd
+--0000000000007c26da061c6c860c
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -217,14 +222,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIGH5fnKYEI9bxDNZ
-8WeQOpEXZF46mF71ZbSCPJepKYPXMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDcwNDE0MTExOVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIPQbeM0zSvkK7aTg
+xxgrh+IdJRKWJbfHIQqo/kJ7cBTeMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI0MDcwNDE0MTEzOFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCJQxBjAbp9ne5wlIRM8LCkQI3OQIUtR00c
-IYFR32P5LnvU8jxjHUKLVbsdkyFnrxjoJ1Yu7FpNPrbokUPuOfa5EuCsGRHlsl9a7ptDGV6B5gKf
-PQNVom9yCdyNEzpwkNeU6E0XGDpPkmRiODUjpxg/Xjl9jxMp54SX7vc/ebT2MWRI9KPt0zCbZ85E
-4/MoNrNm3MZD7tlbXcXRu+E4zXX9QAcYUx25xZuW0t+682FV3Z6lAR84jI/u34O7U3zTzl+u2rFj
-TMm+uDrKRmIx+jV7obwYakRxFLCEo616V1Vv82JIps0OuYaoA8LMVKH7NSVegZ853eSyEszLrYKE
-jrmq
---000000000000600cae061c6c85cd--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCKxvBQNwoTJ46hULhTdhYeoRMgL8eXJgrb
+IabscgNQSIpVim1YiYrLSaFXOOlmo1n/JbQvP0YWz+yjFFRH1ijX9kRloC5AhCjo/Ifp6mlbmFUa
+mW7AlolcMA6sQ7qE3EovHBaa2DAV9WQUyUb+SCpO54HxAQqv4soiiEvNCPPCal1T7ctGiGKs0Kj5
+hneCnmLET1Y7HgRlgxlFRVuqSojRfZzQUm04QpsL3R8/BbxskdxbAGD5PSvTtcydZz/VavhPlxTu
+pUJxVw/Gernm86lyz6QESTNaf+IYbUnW6c+LzCEaA51Hd8Ht3xeHT1MQaBbwG/eit1ulujPz57uT
+jt62
+--0000000000007c26da061c6c860c--
