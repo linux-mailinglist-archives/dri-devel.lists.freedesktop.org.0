@@ -2,73 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C87A92741F
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 12:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F8E927423
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 12:35:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B95E10EA76;
-	Thu,  4 Jul 2024 10:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA61310E1C9;
+	Thu,  4 Jul 2024 10:35:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="DgCVIFGJ";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="JWG1AfrB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
- [95.215.58.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2027410EA76
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 10:34:33 +0000 (UTC)
-X-Envelope-To: dri-devel@lists.freedesktop.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1720089270;
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30FBD10E1C9
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 10:35:45 +0000 (UTC)
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1720089343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WaeRZ2nOjo92gumscFG9YpVZTkXiyVaKUvdvkRECyMs=;
- b=DgCVIFGJBTAj+jAEd25PHvFZkbUs1LImkDzhrgReBtXijVUVkKPP1wnPw2V4WaUOujxKvu
- jJyvcjGiG7wvLqhry+l86pk0JW7Rh9tTmnqCZ9stUzB3kkBnqSTMEkcgT31X3WondIGuK+
- p0kxQBoVq3VXNRM74CpUq01obpMyoDsywt4GndWznVjvavjG1lDtEG/Zme0utAXrcRMLRj
- 7UupdPzTKXI+xG/ed47jl9Gxmtq7x0KIS7cO4cntuC9vIIJ7+zog4SFdllKvn2FZgJJ17c
- 9AhprNEbSOAXdN9LXFoOPFcnF/g/Jmpf3EO/Uieoogaqiix1nVJTqAcHclxVTA==
-X-Envelope-To: s.hauer@pengutronix.de
-X-Envelope-To: heiko@sntech.de
-X-Envelope-To: knaerzche@gmail.com
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: devicetree@vger.kernel.org
-X-Envelope-To: kernel@pengutronix.de
-X-Envelope-To: andy.yan@rock-chips.com
-X-Envelope-To: benjamin.gaignard@collabora.com
-X-Envelope-To: michael.riesch@wolfvision.net
-X-Envelope-To: hjc@rock-chips.com
-X-Envelope-To: pgwipeout@gmail.com
-X-Envelope-To: s.hauer@pengutronix.de
-X-Envelope-To: dmitry.osipenko@collabora.com
-X-Envelope-To: dsimic@manjaro.org
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Diederik de Haas <didi.debian@cknow.org>
-To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>,
- Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Alex Bee <knaerzche@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- devicetree@vger.kernel.org, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Sandy Huang <hjc@rock-chips.com>, Peter Geis <pgwipeout@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>
-Subject: Re: [PATCH v11 09/24] drm/rockchip: dw_hdmi: add regulator support
-Date: Thu, 04 Jul 2024 12:34:18 +0200
-Message-ID: <17377562.Wbl12GSNyo@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <3615926.LM0AJKV5NW@diego>
-References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
- <16078476.GIfNKF0EQE@bagend> <3615926.LM0AJKV5NW@diego>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2562580.NADL9uRC7c";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+ bh=VJOFsT26L8JdFVcMMX9b4cqXxsGrGFsPl357c5nOzqE=;
+ b=JWG1AfrBc+4vkUyLgNP2jWcN58hOkyPDvbjMENRwcvc+0331+xLKVvKw0TzZkHMzrpGKfN
+ m+zqd/bZlA9vjBHFuylMBeTOgkwyhu2efWUjovyhlgXvlbneXTxIABQ1W8BHvkQ8cOgoSi
+ jlRMcI0Qq1AUff02y/8H3Gk6hqqmsv5/731JlbRDgLNb1O5kVtQn7VTEnEwq2kqIEs54ax
+ fnNR1O8V+Kn/+4JCroVPBXQh3oFFytcRYEIRJmFrmOcfqImqW/dhhAU3QMJEjfH6Vvsxfl
+ jf8+WMbN7znp4tQM6T3hZZjzsbNX2URxgfK+arj6dT5iAts/wNlnRsSQ8coHKA==
+Date: Thu, 04 Jul 2024 12:35:42 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/rockchip: cdn-dp: Remove redundant workarounds for
+ firmware loading
+In-Reply-To: <109c6f19.2559.1907b817a99.Coremail.andyshrk@163.com>
+References: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
+ <109c6f19.2559.1907b817a99.Coremail.andyshrk@163.com>
+Message-ID: <0bf4701d98833609b917983718c610aa@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,67 +63,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart2562580.NADL9uRC7c
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Date: Thu, 04 Jul 2024 12:34:18 +0200
-Message-ID: <17377562.Wbl12GSNyo@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <3615926.LM0AJKV5NW@diego>
-MIME-Version: 1.0
+Hello Andy,
 
-On Thursday, 4 July 2024 12:00:43 CEST Heiko St=FCbner wrote:
-> > Is it possible to probe for those avdd_0v9 and avdd_1v8 regulators only=
- on
-> > devices that should have them?
-> >=20
-> > On a Rock64 (rk3328), but probably for all VOP1 devices, they're not
-> > present and that results in the following warnings:
-> > dwhdmi-rockchip ff3c0000.hdmi: supply avdd-0v9 not found, using dummy
-> > regulator dwhdmi-rockchip ff3c0000.hdmi: supply avdd-1v8 not found, usi=
-ng
-> > dummy regulator
-> counter-argument, why not define them in the dts?
-> I.e. looking at the rock64 schematics, you want the dvideo_avdd_1v8 (from
-> LDO1) and dvideo_avdd_1v0 (from LDO3) if I'm not mistaken. Why this stuff
-> is called dvideo and not hdmi in there I have no clue ;-)
+On 2024-07-04 04:10, Andy Yan wrote:
+> At 2024-07-04 07:32:02, "Dragan Simic" <dsimic@manjaro.org> wrote:
+>> After the additional firmware-related module information was 
+>> introduced by
+>> the commit c0677e41a47f ("drm/rockchip: cdn-dp-core: add 
+>> MODULE_FIRMWARE
+>> macro"), there's no longer need for the firmware-loading workarounds 
+>> whose
+>> sole purpose was to prevent the missing firmware blob in an initial 
+>> ramdisk
+>> from causing driver initialization to fail.  Thus, delete the 
+>> workarounds,
+>> which removes a sizable chunk of redundant code.
+> 
+> What would happen if there was no ramdisk? And the firmware is in 
+> rootfs ？
+> 
+> For example： A buildroot based tiny embedded system。
 
-That appears to be a valid counter-argument ...
+Good point, let me explain, please.
 
-On donderdag 4 juli 2024 12:28:53 CEST Alex Bee wrote:
-> Those regulators exist for _all_ RK SoCs that use dw-hdmi controller, as =
-it
-> has to be supplied in same why (as it is always the same controller). In
-> particular case of rock64[0] its:
->=20
-> DVIDEO_AVDD_1V8P6 -> VCC_18
-> DVIDEO_AVDD_1V0M6 -> VDD_10
->=20
-> So: Just fix the device tree and your warnings are gone :)
->=20
-> [0] https://files.pine64.org/doc/rock64/ROCK64_Schematic_v2.0_20171019.pdf
+In general, if a driver is built into the kernel, there should also be
+an initial ramdisk that contains the related firmware blobs, because 
+it's
+unknown is the root filesystem available when the driver is probed.  If
+a driver is built as a module and there's no initial ramdisk, having
+the related firmware blobs on the root filesystem should be fine, 
+because
+the firmware blobs and the kernel module become available at the same
+time, through the root filesystem. [1]
 
-=2E.. confirmed by Alex Bee.
+Another option for a driver built statically into the kernel, when 
+there's
+no initial ramdisk, is to build the required firmware blobs into the 
+kernel
+image. [2]  Of course, that's feasible only when a kernel image is built
+specificially for some device, because otherwise it would become too 
+large
+because of too many drivers and their firmware blobs becoming included,
+but that seems to fit the Buildroot-based example.
 
-I do wonder about 0.9V vs 1.0V, but I'll bug someone else about that ;-)
+To sum it up, mechanisms already exist in the kernel for various 
+scenarios
+when it comes to loading firmware blobs.  Even if the deleted workaround
+attempts to solve some issue specific to some environment, that isn't 
+the
+right place or the right way for solving any issues of that kind.
 
-Cheers,
-  Diederik
---nextPart2562580.NADL9uRC7c
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+While preparing this patch, I even tried to find another kernel driver 
+that
+also implements some similar workarounds for firmware loading, to 
+justify
+the existence of such workarounds and to possibly move them into the 
+kernel's
+firmware-loading interface.  Alas, I was unable to find such workarounds 
+in
+other drivers, which solidified my reasoning behind classifying the 
+removed
+code as out-of-place and redundant.
 
------BEGIN PGP SIGNATURE-----
+[1] 
+https://www.kernel.org/doc/Documentation/driver-api/firmware/direct-fs-lookup.rst
+[2] 
+https://www.kernel.org/doc/Documentation/driver-api/firmware/built-in-fw.rst
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZoZ6qgAKCRDXblvOeH7b
-bvq+AP9nd2vWXEhpjpT5r1vm/NRY9bGkS/orX1vBaxZgGcwjmQEA9GlBCm3VIGIq
-h8OWrwrSTdI76Uh1Eb98A1qx9ctzUAI=
-=S12p
------END PGP SIGNATURE-----
-
---nextPart2562580.NADL9uRC7c--
-
-
-
+>> Various utilities used by Linux distributions to generate initial 
+>> ramdisks
+>> need to obey the firmware-related module information, so we can rely 
+>> on the
+>> firmware blob being present in the generated initial ramdisks.
+>> 
+>> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+>> ---
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c | 53 +++++---------------------
+>> 1 file changed, 10 insertions(+), 43 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c 
+>> b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+>> index bd7aa891b839..e1a7c6a1172b 100644
+>> --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
+>> +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+>> @@ -44,9 +44,9 @@ static inline struct cdn_dp_device 
+>> *encoder_to_dp(struct drm_encoder *encoder)
+>> #define DPTX_HPD_DEL		(2 << 12)
+>> #define DPTX_HPD_SEL_MASK	(3 << 28)
+>> 
+>> -#define CDN_FW_TIMEOUT_MS	(64 * 1000)
+>> #define CDN_DPCD_TIMEOUT_MS	5000
+>> #define CDN_DP_FIRMWARE		"rockchip/dptx.bin"
+>> +
+>> MODULE_FIRMWARE(CDN_DP_FIRMWARE);
+>> 
+>> struct cdn_dp_data {
+>> @@ -909,61 +909,28 @@ static int cdn_dp_audio_codec_init(struct 
+>> cdn_dp_device *dp,
+>> 	return PTR_ERR_OR_ZERO(dp->audio_pdev);
+>> }
+>> 
+>> -static int cdn_dp_request_firmware(struct cdn_dp_device *dp)
+>> -{
+>> -	int ret;
+>> -	unsigned long timeout = jiffies + 
+>> msecs_to_jiffies(CDN_FW_TIMEOUT_MS);
+>> -	unsigned long sleep = 1000;
+>> -
+>> -	WARN_ON(!mutex_is_locked(&dp->lock));
+>> -
+>> -	if (dp->fw_loaded)
+>> -		return 0;
+>> -
+>> -	/* Drop the lock before getting the firmware to avoid blocking boot 
+>> */
+>> -	mutex_unlock(&dp->lock);
+>> -
+>> -	while (time_before(jiffies, timeout)) {
+>> -		ret = request_firmware(&dp->fw, CDN_DP_FIRMWARE, dp->dev);
+>> -		if (ret == -ENOENT) {
+>> -			msleep(sleep);
+>> -			sleep *= 2;
+>> -			continue;
+>> -		} else if (ret) {
+>> -			DRM_DEV_ERROR(dp->dev,
+>> -				      "failed to request firmware: %d\n", ret);
+>> -			goto out;
+>> -		}
+>> -
+>> -		dp->fw_loaded = true;
+>> -		ret = 0;
+>> -		goto out;
+>> -	}
+>> -
+>> -	DRM_DEV_ERROR(dp->dev, "Timed out trying to load firmware\n");
+>> -	ret = -ETIMEDOUT;
+>> -out:
+>> -	mutex_lock(&dp->lock);
+>> -	return ret;
+>> -}
+>> -
+>> static void cdn_dp_pd_event_work(struct work_struct *work)
+>> {
+>> 	struct cdn_dp_device *dp = container_of(work, struct cdn_dp_device,
+>> 						event_work);
+>> 	struct drm_connector *connector = &dp->connector;
+>> 	enum drm_connector_status old_status;
+>> -
+>> 	int ret;
+>> 
+>> 	mutex_lock(&dp->lock);
+>> 
+>> 	if (dp->suspended)
+>> 		goto out;
+>> 
+>> -	ret = cdn_dp_request_firmware(dp);
+>> -	if (ret)
+>> -		goto out;
+>> +	if (!dp->fw_loaded) {
+>> +		ret = request_firmware(&dp->fw, CDN_DP_FIRMWARE, dp->dev);
+>> +		if (ret) {
+>> +			DRM_DEV_ERROR(dp->dev, "Loading firmware failed: %d\n", ret);
+>> +			goto out;
+>> +		}
+>> +
+>> +		dp->fw_loaded = true;
+>> +	}
+>> 
+>> 	dp->connected = true;
+>> 
