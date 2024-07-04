@@ -2,37 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A715A9271D3
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 10:35:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6F49271DF
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 10:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A54510EA28;
-	Thu,  4 Jul 2024 08:35:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF2EA10EA33;
+	Thu,  4 Jul 2024 08:39:42 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="16eO5BK7";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7400510EA28
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 08:35:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5568367;
- Thu,  4 Jul 2024 01:35:49 -0700 (PDT)
-Received: from [10.1.36.26] (e122027.cambridge.arm.com [10.1.36.26])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0FD5B3F766;
- Thu,  4 Jul 2024 01:35:23 -0700 (PDT)
-Message-ID: <957a0c8e-f80b-4f6f-ac6f-70398abafd6f@arm.com>
-Date: Thu, 4 Jul 2024 09:35:22 +0100
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C59A210EA33
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 08:39:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1720082380;
+ bh=sA8QHdLjPfav8TbcR6YQwgjbQ2b9bEIoala4MwhSdHQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=16eO5BK7kK2Lkg2zf6iwJnuoX6jV/9md/Okmd/oDGJysDlbvLlL+iiBSsjnBCrVmB
+ o7NgTFQSGV4KKd60agtZrmIGWQa494sujbbYTh3It9tz5hnGCIJyBBgsnzipSnFd6o
+ B96BSRjoOKoI4mbGiywgmOCdDPRzYcmbsoPvJ2hGmr+6iUv7z/gogwd6jn/knibjpu
+ OICww3UMFyne62ITObPlocHg65aSvPjJsMzD/wc5PDofjTzs1jepFIi2dPP2qHX4jt
+ kU9sTEjwzjgIPwjI7Pm64pxGb2yAZsTBe4A1LFgz5F2wcO7zFsFw/ervuV56PP9vHo
+ vAkfAa9Sd7knA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id D4130378216A;
+ Thu,  4 Jul 2024 08:39:39 +0000 (UTC)
+Message-ID: <7c1d5e3f-ed2d-4f12-945c-32ee90e78e2a@collabora.com>
+Date: Thu, 4 Jul 2024 10:39:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Record devfreq busy as soon as a job is
- started
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-References: <20240703155646.80928-1-steven.price@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20240703155646.80928-1-steven.price@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] drm/mediatek: Fix missing configuration flags in
+ mtk_crtc_ddp_config()
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jeffrey Kardatzke <jkardatzke@google.com>
+References: <20240703103308.10198-1-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240703103308.10198-1-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,37 +66,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/07/2024 16:56, Steven Price wrote:
-> If a queue is already assigned to the hardware, then a newly submitted
-> job can start straight away without waiting for the tick. However in
-> this case the devfreq infrastructure isn't notified that the GPU is
-> busy. By the time the tick happens the job might well have finished and
-> no time will be accounted for the GPU being busy.
+Il 03/07/24 12:33, Jason-JH.Lin ha scritto:
+> In mtk_crtc_ddp_config(), mtk_crtc will use some configuration flags to
+> generate instructions to cmdq_handle, such as:
+>    state->pending_config
+>    mtk_crtc->pending_planes
+>    plane_state->pending.config
+>    mtk_crtc->pending_async_planes
+>    plane_state->pending.async_config
 > 
-> Fix this by recording the GPU as busy directly in queue_run_job() in the
-> case where there is a CSG assigned and therefore we just ring the
-> doorbell.
+> These configuration flags may be set to false when a GCE IRQ comes calling
+> ddp_cmdq_cb(). This may result in missing prepare instructions,
+> especially if mtk_crtc_update_config() with the flase need_vblank (no need
+> to wait for vblank) cases.
 > 
-> Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 1 +
->  1 file changed, 1 insertion(+)
+> Therefore, use the mtk_crtc->config_updating flag set at the beginning of
+> mtk_crtc_update_config() to ensure that these configuration flags won't be
+> changed when the mtk_crtc_ddp_config() is preparing instructions.
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 951ff7e63ea8..e7afaa1ad8dc 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -2942,6 +2942,7 @@ queue_run_job(struct drm_sched_job *sched_job)
->  			pm_runtime_get(ptdev->base.dev);
->  			sched->pm.has_ref = true;
->  		}
-> +		panthor_devfreq_record_busy(sched->ptdev);
->  	}
->  
->  	/* Update the last fence. */
+> Fixes: 7f82d9c43879 ("drm/mediatek: Clear pending flag when cmdq packet is done")
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 
-Pushed to drm-misc-next
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Thanks,
-Steve
+
