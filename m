@@ -2,70 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889A692770E
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 15:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D45892771B
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 15:24:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C07410E067;
-	Thu,  4 Jul 2024 13:21:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OFjG1iMZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F72D10EAE6;
+	Thu,  4 Jul 2024 13:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 973C810E067
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 13:21:50 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-7066c799382so412788b3a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 06:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720099310; x=1720704110; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Zxv4zWBK4FG19nclOzgciDpwXeW+GGBMkHfutZYKU+g=;
- b=OFjG1iMZa2x7rLC3nwPsNXW7vxkkQKaf4bfcvCBd+jH4G/YDTx81EYBluc3immkeYY
- xCf7OZPmbjKYlc7r12eHu1gpfCeCtZdBi8CKmlPcMEBWLzAih8v3rgqLqpLfJnr7cEtK
- QoYO6pk+zZBfaiiCgDGpwa7iCwnO18bpUs9jiq2LX5fy3l4HMey+/rsXwm1ecbt6Cznp
- ZYG3x9AC6rgoXcgnB94nAD/KKypopIjrQzzCXU5GvuRP4hhzJ9n4qcRwie1h0MBd0DK/
- Bowz80Bm8h2mJloix4ofqjoxaAI/ZK0YLM6SSnjWUzNm70vBRAKCgdpEHd4UumBOef9v
- /cwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720099310; x=1720704110;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Zxv4zWBK4FG19nclOzgciDpwXeW+GGBMkHfutZYKU+g=;
- b=T6Jfm5WdoR0+qN9Z2B56BE4TDqhsyiQOlsROLeiMD6UNPNpP2Q1SmA2tZtUDydvXFS
- L1BaYPBh9OVB6yP/v1hIcbfgQKLTCLnNpQxWvXyGV3i9hwN3MwiMv7gmFfE/OVp9SoxS
- s8JUBKfOeKaKjvxALtrdJ29EnkxoJ7Tzsg2j1HlsMsIi7ZJRmUgQ8cOuUU0+mcOo+t6I
- SfVFrOyrhZTh/zWtMj/gLKFl0B9pv9zFnXeDaLtqI3Eem8V0JsMMcrz+EcPSHCNLWEoh
- YHoz+dViNNgFLjwO7Lq951XClTFjbjctkQMQnTcQHqkTLSrrjLGRKhYzGdOA5nZD0tEo
- f8RQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX6CKaJLfn9IgpS25MQpIMxOYxQlIKQeO02oUqqT3tatYwIwysWcEG7V7TicNhf5/E3hYL2BbY+jFvGlZrNJ6LqCr79dlW6Rwj4QGt1kjgf
-X-Gm-Message-State: AOJu0Yw5iYiwxWL10N5zZSsdBnXRoSCN1j71SPKS7mqfXeQqAEF0u2D3
- CB56likpID0y30qkxpjhkR8a+/fsjymYetnmPrl7NcCAHUV/feCA
-X-Google-Smtp-Source: AGHT+IG1LfZ/JBubCZYsSHvhki2sszTRErOK4JEkHtWrxAk7vstk3ejVZH+SNcCxdensOuBZaoq2cQ==
-X-Received: by 2002:a05:6a00:3cc5:b0:702:65de:19e5 with SMTP id
- d2e1a72fcca58-70b00ae8bc2mr1974332b3a.33.1720099309945; 
- Thu, 04 Jul 2024 06:21:49 -0700 (PDT)
-Received: from dev0.. ([49.43.162.39]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-72c6b397c9esm8253522a12.49.2024.07.04.06.21.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jul 2024 06:21:49 -0700 (PDT)
-From: Abhinav Jain <jain.abhinav177@gmail.com>
-To: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com,
- jain.abhinav177@gmail.com, julia.lawall@inria.fr
-Subject: [PATCH v2] gpu: ipu-v3: Add cleanup attribute for prg_node for auto
- cleanup
-Date: Thu,  4 Jul 2024 13:21:42 +0000
-Message-Id: <20240704132142.1003887-1-jain.abhinav177@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2148C10EAE6
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 13:24:38 +0000 (UTC)
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+ by APP-01 (Coremail) with SMTP id qwCowAAH6U2CooZmXzyOAQ--.1294S2;
+ Thu, 04 Jul 2024 21:24:29 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, sam@ravnborg.org, noralf@tronnes.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Ma Ke <make24@iscas.ac.cn>
+Subject: [PATCH RESEND] drm/client: fix null pointer dereference in
+ drm_client_modeset_probe
+Date: Thu,  4 Jul 2024 21:24:16 +0800
+Message-Id: <20240704132416.299319-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAAH6U2CooZmXzyOAQ--.1294S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtr4DZw18XFyUuw4xtw4Dtwb_yoWDCwb_GF
+ yUX39rCrsxWa4kCanI9a1xAF12ya4UCr48AF12vayFy3s8J3ZxZr9rJr1rZ3W8XFyUAryU
+ tasruFnxAr4IkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb38FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+ 1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v
+ 4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
+ evJa73UjIFyTuYvjfUFYFADUUUU
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,52 +61,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add cleanup attribute for device node prg_node.
-Remove of_node_put for device node prg_node as it is unnecessary now.
+In drm_client_modeset_probe(), the return value of drm_mode_duplicate() is
+assigned to modeset->mode, which will lead to a possible NULL pointer
+dereference on failure of drm_mode_duplicate(). Add a check to avoid npd.
 
-Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-Signed-off-by: Abhinav Jain <jain.abhinav177@gmail.com>
+Fixes: cf13909aee05 ("drm/fb-helper: Move out modeset config code")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
 ---
-- PATCH v1:
-https://lore.kernel.org/all/20240702150109.1002065-1-jain.abhinav177@gmail.com/
+ drivers/gpu/drm/drm_client_modeset.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-- Changes since v1:
-  Enhanced the commit description to better suit the work being done
-  as per the feedback in v1
----
- drivers/gpu/ipu-v3/ipu-prg.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/ipu-v3/ipu-prg.c b/drivers/gpu/ipu-v3/ipu-prg.c
-index 729605709955..d1f46bc761ec 100644
---- a/drivers/gpu/ipu-v3/ipu-prg.c
-+++ b/drivers/gpu/ipu-v3/ipu-prg.c
-@@ -84,8 +84,8 @@ static LIST_HEAD(ipu_prg_list);
- struct ipu_prg *
- ipu_prg_lookup_by_phandle(struct device *dev, const char *name, int ipu_id)
- {
--	struct device_node *prg_node = of_parse_phandle(dev->of_node,
--							name, 0);
-+	struct device_node *prg_node __free(device_node) =
-+		of_parse_phandle(dev->of_node, name, 0);
- 	struct ipu_prg *prg;
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+index 31af5cf37a09..bbe21522dc6a 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -880,6 +880,8 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
  
- 	mutex_lock(&ipu_prg_list_mutex);
-@@ -95,14 +95,11 @@ ipu_prg_lookup_by_phandle(struct device *dev, const char *name, int ipu_id)
- 			device_link_add(dev, prg->dev,
- 					DL_FLAG_AUTOREMOVE_CONSUMER);
- 			prg->id = ipu_id;
--			of_node_put(prg_node);
- 			return prg;
- 		}
- 	}
- 	mutex_unlock(&ipu_prg_list_mutex);
- 
--	of_node_put(prg_node);
--
- 	return NULL;
- }
- 
+ 			kfree(modeset->mode);
+ 			modeset->mode = drm_mode_duplicate(dev, mode);
++			if (!modeset->mode)
++				continue;
+ 			drm_connector_get(connector);
+ 			modeset->connectors[modeset->num_connectors++] = connector;
+ 			modeset->x = offset->x;
 -- 
-2.34.1
+2.25.1
 
