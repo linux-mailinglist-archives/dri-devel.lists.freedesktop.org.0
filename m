@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0569277F3
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 16:14:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DE79277FB
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 16:14:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A7CE10EB0A;
-	Thu,  4 Jul 2024 14:13:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5993710EB07;
+	Thu,  4 Jul 2024 14:14:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="GQpvPdv1";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="IGSNRR7l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6554310EB0E
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 14:13:58 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-445e1f933e0so3102131cf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 07:13:58 -0700 (PDT)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C4610EB07
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 14:14:15 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ 46e09a7af769-6f8d0a00a35so578016a34.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 07:14:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1720102437; x=1720707237;
+ d=broadcom.com; s=google; t=1720102454; x=1720707254;
  darn=lists.freedesktop.org; 
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=E7NXDPW5rtMf2iWdXYvkO/ymArnJ9gie9vpL1OmruRo=;
- b=GQpvPdv1R01olJa7kddHAHsqEEERPzI2zpzgtb1slvcS0EY7R1V67Rviat0dJ1vT81
- mDdlktqJrjO+B4sJ4wUijZtqg9AL8NBp//eDWtu+2BGmhYPTMffX9ppmrcLnyfDJBycG
- OFfUzt7NgOiLBdObuV5yPFmkymLgbN69X3vlw=
+ :reply-to; bh=l4IK4rUj0NtvhaQKL5g/oqOwVPVPkV+PEE2F6ue1LTQ=;
+ b=IGSNRR7l5X9o7L+Yu3VZTxkDZg552p9lOrHiMvgbQTCfXZo56XM9UD2ji9siwK4X+Y
+ scSYHAhv2JUDmZDMS7xF4B7J2r4BDJkry5ZC+BHHKh1vlE2FcdvUxITGOrd5+YTLpXh0
+ 3mEqY781EwOpqiifvYf7YCbx0H34YDWMyC20k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720102437; x=1720707237;
+ d=1e100.net; s=20230601; t=1720102454; x=1720707254;
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=E7NXDPW5rtMf2iWdXYvkO/ymArnJ9gie9vpL1OmruRo=;
- b=OLkFQvIoywq5tLtV+NZRArTPD50ZK8TBdGlsDZV5l3WbOZ1KIDwYI9cZijWkOG6z64
- IaWz9ghxrQVVmZu1UEfqQyLQ/XPhFf1HffZgbXofgWNLbFVhjlt+RkwxqqPjW7P68dj6
- CSJOqIbNbon0/rUHiff30iV9oC/X1Kd78hsH7aJE8LOPnsnvs7bys1M851gCQESIT4cU
- xWJrra03L59myA+h2ze7PlzXPUneEIuxqeZa/UjvzSqYBSi9KPjyvGGj1scoIEH9mjtB
- XI9Ngvb6w5GhtFgctWex2fVVIsaFc9GSR9nC8VthWKpXC7dHE5RCYBTyQQ6sSQxY57YZ
- MljQ==
+ bh=l4IK4rUj0NtvhaQKL5g/oqOwVPVPkV+PEE2F6ue1LTQ=;
+ b=lectiJbLHPHjyup7rAJhV/KdxboVa1piqnWWc7j+hZhokKuWClS+wEAw/wNrXxe2pj
+ lf+TnoubQGnxe3swDMYm5BOWRyY3d+zcsNGdqHXMRQKVT+LJ9K/PzE9gA6n5bcjQkA7C
+ BdLRLNR1hYzO57fgIwekbWoHdmGzirRLXmWkNITqz2tS1ztYFvg5dY/qASDMTfu9PMZD
+ MGqnwbANs8R5V0pUrDBG9FYIS6hScKEJzZpEwvhyTqBAZN+3qeN7PwWvEMeTaPWwYi5M
+ C99VtDA1XU9JNfhx9NCRZVhfzZJ7+0IGzw1xZ/sy97nHU9HnU5ZRVYvZURoHfNcs46y3
+ LXMA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0FkEf3cC5sYzp3H9ACaSHjTKLWY145MEvGdApt7TOPEVkLdSoj9rvTEX2T9udCye48AK0gfYUFFOBVlEoUzjsll3K20FbCNkGu6bEj5Xr
-X-Gm-Message-State: AOJu0YynwJdrCxdv8MzIn336VvslJcioZvLf29UDjn/y8ZNjKwIykxmb
- mRbmOpTuchWUrIjthGNd69LmIxS0BULpZ19BZb9ZW8gHMGdDw6yzS/+T9hFxXg==
-X-Google-Smtp-Source: AGHT+IHRp77Od5AfvvEZdWw9+IFLlANIpXkVdkZNUhGr4sgtyMOmjrxVm/saDjitOtgruk8P/lX/Lg==
-X-Received: by 2002:a05:622a:1206:b0:441:338c:77cf with SMTP id
- d75a77b69052e-447cbfa00a3mr19696591cf.65.1720102437241; 
- Thu, 04 Jul 2024 07:13:57 -0700 (PDT)
+ AJvYcCUyv++bqgJDGPojM0owKy6Pe2IXDkbRM07CKpMj4cN2D6YWntKtJEKqJlh63QKes4lLPh/swuqJ1lgPmsue3i/MT9IszyoPjuz6aC4TOc69
+X-Gm-Message-State: AOJu0YwjYsnwQJ9mHKspa1KMN8YOzHx12xz3zAb2WZT1rS2svS08mlbN
+ q4Cyn2+mzFCAr5h9GivXtbJZsc41jvN91tbKRlTD1rJLJd2WybRv9BCm+YfsQw==
+X-Google-Smtp-Source: AGHT+IFT29S2/XQChpc79Qq3mBvTKtkHafcbD4GyYx9MlO+jXcpUJuXaD+vn/fyCndbwcUnJ7jIzoQ==
+X-Received: by 2002:a05:6870:610f:b0:254:9ded:a3bf with SMTP id
+ 586e51a60fabf-25e2bf1f10bmr1373747fac.45.1720102454087; 
+ Thu, 04 Jul 2024 07:14:14 -0700 (PDT)
 Received: from [10.230.29.79] ([192.19.223.252])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4465140bf35sm60862281cf.37.2024.07.04.07.13.41
+ d75a77b69052e-4465140bf35sm60862281cf.37.2024.07.04.07.13.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jul 2024 07:13:56 -0700 (PDT)
-Message-ID: <a1b87121-9818-41bf-9916-f21a9a7c3088@broadcom.com>
-Date: Thu, 4 Jul 2024 15:13:37 +0100
+ Thu, 04 Jul 2024 07:14:13 -0700 (PDT)
+Message-ID: <86705667-1320-436f-b845-da5efdd80de3@broadcom.com>
+Date: Thu, 4 Jul 2024 15:13:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/11] ARM: bcm2835_defconfig: Enable SUSPEND
+Subject: Re: [PATCH 08/11] usb: dwc2: debugfs: Print parameter no_clock_gating
 To: Stefan Wahren <wahrenst@gmx.net>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui
  <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
@@ -73,7 +73,7 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
 References: <20240630153652.318882-1-wahrenst@gmx.net>
- <20240630171926.323426-1-wahrenst@gmx.net>
+ <20240630153652.318882-9-wahrenst@gmx.net>
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
@@ -107,9 +107,9 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20240630171926.323426-1-wahrenst@gmx.net>
+In-Reply-To: <20240630153652.318882-9-wahrenst@gmx.net>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000c53b27061c6c8e33"
+ micalg=sha-256; boundary="000000000000c62c8c061c6c8f9e"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,16 +125,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000c53b27061c6c8e33
+--000000000000c62c8c061c6c8f9e
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 6/30/2024 6:19 PM, Stefan Wahren wrote:
-> Since the Raspberry Pi supports Suspend-To-Idle now, this option
-> should be enabled. This should make power management testing easier.
+On 6/30/2024 4:36 PM, 'Stefan Wahren' via BCM-KERNEL-FEEDBACK-LIST,PDL 
+wrote:
+> The commit c4a0f7a6ab54 ("usb: dwc2: Skip clock gating on Samsung
+> SoCs") introduced a parameter to skip enabling clock gating mode
+> even the hardware platform should supports it.
+> 
+> In order to make this more visible also print this in show
+> parameters of debugfs.
 > 
 > Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 
@@ -142,7 +147,7 @@ Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
 Florian
 
---000000000000c53b27061c6c8e33
+--000000000000c62c8c061c6c8f9e
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -213,14 +218,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIGT0oxhqwTEBVy/T
-B/qMjqjoCAiLiYvab29v3NEGGv+1MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDcwNDE0MTM1N1owaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIOqA1BQIPRkNcPTZ
+EJUh6usakW/8XoYBsi3kJlE3/Gl2MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI0MDcwNDE0MTQxNFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQC1Sk8N/f/af/8RU+iHCtiADqN85fqRR0RJ
-5FXCHYgzO2iUvFQrW7Gd4Z0hRv9HsGa/MtmQWTdt6bf3yaSHuSQt/Tg7uMnwsiWVgzvNqDn4db4Y
-cRiZuxhv1HiaswHfbH+xtbSIIWLyrtTbzdc0qSJdK3QACkj1TCvMNHrvDLsmfMSiRniIWdm0GnJI
-5CzgrhtBXBoXzg+RLv0pVdiOoYOlB68uHki3vXsjhXLbOMlSmIILG4QhxZq/BcC5xRZQn6xOxIRo
-QW9SIhRIKvuIj6gxoSY80CPSPtCDoIkyZucD2NGN3FoM5H1kvlWT/OfCtEu2WQ4TrblaTZBDZd4L
-/tgJ
---000000000000c53b27061c6c8e33--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBSumw113x46gLiiaY0G7WfUhWEAZJZ1Xmk
+Y+EG9CTdj0TiUpcxcBArff5+wEO8Nzui/EIHJE523f+nKsRAWTjTVtxXv/TD0a8+rN9HM6OqwLhG
+0PzNNXpUPouj6jUD0bqrEyVdaG94t+4vlBxG6Qvk9BKTmEPFR6h7upyx0Lb5N2KYxFG8ofhRUmww
+fxoxz/zq8ThNAekzYBWfe6mg6a7UPOvf6Btg2DhoG+udGbaAstmtkmZiv5dHR4scASLlFkTc4UJJ
+PW2iRomFflCNh2RLbIdDar0Yb6Ybf0x/YAxFImM6A+bRYdRRqGLc5gKlm/vWQWMPku1e198F8XRv
+Y44J
+--000000000000c62c8c061c6c8f9e--
