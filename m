@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4159277D3
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 16:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A14589277DA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 16:11:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B582B10E144;
-	Thu,  4 Jul 2024 14:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC81E10E1FE;
+	Thu,  4 Jul 2024 14:11:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="QvuWurYk";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="RON9aM5O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6815E10E144
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 14:10:53 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-1f9de13d6baso4412325ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 07:10:53 -0700 (PDT)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21DA410E1FE
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 14:11:20 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-6c5bcb8e8edso461689a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 07:11:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1720102253; x=1720707053;
+ d=broadcom.com; s=google; t=1720102279; x=1720707079;
  darn=lists.freedesktop.org; 
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=a4QcNYDEgK8UtF45OxfS3ufQ4qQzgKzXxJJVBSW89C0=;
- b=QvuWurYk31MQ+lekbvPkRzoyJdavAZPoRgeGqISwb6bFg1SjXypOTPNAkmSRptk/RX
- j31os9+/usTU1hblPZ6IikkyApPCbSeGJ3Sy37DLoiMaKJtl9tpL+OPvn5/vxGL3R8wh
- 94XH6Wzivx5V4fZHHa1wt6XsbIgCNEXkcG/X8=
+ :reply-to; bh=oWpSvPyuFaL/Z3hl6A4+mYuI/ejET5A+M6CFQqXqqbI=;
+ b=RON9aM5Oidd1Q7FnL68g0YfMJasnVzwyiq2XCaFbJ/zVjfrYH6miRh9VbRifHR6c3y
+ MRJFg0qIsbOsYCbhpGbKpvlBy0a7v56yNmgCQI6KnHMGOAmy9rwE6a1rNm8ux0tueZOw
+ ljcrXoI2wrudSdQ/LH7K5Qigzy0Ln/8J2Y5Do=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720102253; x=1720707053;
+ d=1e100.net; s=20230601; t=1720102279; x=1720707079;
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=a4QcNYDEgK8UtF45OxfS3ufQ4qQzgKzXxJJVBSW89C0=;
- b=O3NmHXMn3PxecclHTyH5fmpCDqEqvkkXn+F9Ax2gU31O43LHp3K4Ql+rV/sqSzPWzh
- H4tq5b/+0Pd2VEbE8KjGD/ZDyPbREnpWHPcQ+wmc9WdFlliDFnwO5O4s75U8V482NjlL
- NQvzLSg6wsRpGEcRGfDtfl6X1P4zl7iFF3c8XtC7KaePjCPMxe2OQ2PfMrj+w3r1zM/6
- 5RdgJKMP7oYYcydSwjwhXAag/lCimIPhJxmBEmmpjLs1QDnpqjOQd0JaAbTAdUevuXgm
- ho01hmwVbPT7k+v4qGsJCXMhbFcAjxOyzBabepozkHiVYoboKGkpq9utGY6Qqh7eeRp0
- II1w==
+ bh=oWpSvPyuFaL/Z3hl6A4+mYuI/ejET5A+M6CFQqXqqbI=;
+ b=bn3QzmNj12JGKz2UkPvk2LopHpI6pjQo50vog4rCumyp5d1wDbVpjLXgp2+md5eiSx
+ RiXHk1QoAR0HpM/oagqO6vfra6DFAqWajg4JaAlymwNkh+H0tumzkhsKvZhNKt4zxh2u
+ JFZMKDrwc1+12QGz7ocEMsi36krGCVAiFRRNr4gGNmkBmY0tTzJ5t3a9G18wm+g7HCRu
+ iOGGI3S003coOnllDWsb7wRpzZGTI5gHc0kSBWb4dsxVaOCVUTRNj+XWAtpqBc57AFRB
+ +ek+D0a2jBvMPefFSvITasY3WY7zKZXG+Dvd+pBwbu+XnuRI4wI0N/K6h/ya33DOsg3O
+ 3JtA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGNb9/pTGfQIeMIi2JSgJdNhxBsi7WfFRrraYKc1KRUFGRE0YgFhxe5N6g1Pxa57pL8sfga+4RTN4GB/9d+7hcVz8s7nBJwPsU/r/779Bn
-X-Gm-Message-State: AOJu0YxxmV4DhzyVmwbRtvpvwVfloB/j2rmDfvhgSa5sMKhA6jj4NSc7
- c33R22tXorV0MNRPtUz0nSfvQFWVU50y6wV7VucD3P2Ra7398zKGQxQ7Ad62/hzke4un7pWzgYi
- Luvzl
-X-Google-Smtp-Source: AGHT+IG/G65UA576nNxaALdMIPzMsae+qFG3tPn0zrvwLEQffi8IBFLxt2388tiS+iyprxbhcNaBqQ==
-X-Received: by 2002:a17:903:2308:b0:1fb:2ba3:2f6c with SMTP id
- d9443c01a7336-1fb33ef9152mr13493465ad.52.1720102252624; 
- Thu, 04 Jul 2024 07:10:52 -0700 (PDT)
+ AJvYcCVlbyXbrIpuXwtOwnkz3m9MoBWOJeKWFv8fnHnO7wZ+boqH8xsox5XykchDhVJutF3FDPHW4i0lMeeQ2kSVMX6n0dkN2d+XYaGlO0e6pwnb
+X-Gm-Message-State: AOJu0YyXsMaSdXhOFcJD5jQQDrWwr049W3+QDLrA/0OWtYh5AS1QQD0S
+ E1bu0WghobMsmK4F0oqkAlhVlxwgetCBz63YCkCuocEvMdaM8n5mnWgNZqHkXg==
+X-Google-Smtp-Source: AGHT+IHDG+6yrPmowJrYSD8veU4rk02aGqRlO5FIYXe2ZoenaAz1qBC+k8Wp+ZQsU0LKCzwV/b1+wg==
+X-Received: by 2002:a17:90a:df98:b0:2c9:754d:2cba with SMTP id
+ 98e67ed59e1d1-2c99c50fc2fmr1334627a91.3.1720102279526; 
+ Thu, 04 Jul 2024 07:11:19 -0700 (PDT)
 Received: from [10.40.5.113] ([89.207.175.15])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1fac10d1460sm123215215ad.25.2024.07.04.07.10.43
+ 98e67ed59e1d1-2c99a9c7a85sm1539511a91.33.2024.07.04.07.11.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jul 2024 07:10:51 -0700 (PDT)
-Message-ID: <df432be3-cb0a-40d1-9599-4119128c3861@broadcom.com>
-Date: Thu, 4 Jul 2024 15:10:40 +0100
+ Thu, 04 Jul 2024 07:11:18 -0700 (PDT)
+Message-ID: <388b6198-3945-4a1f-b6cc-3a511f1be1e4@broadcom.com>
+Date: Thu, 4 Jul 2024 15:11:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/11] mailbox: bcm2835: Fix timeout during suspend mode
+Subject: Re: [PATCH 03/11] pmdomain: raspberrypi-power: Adjust packet
+ definition
 To: Stefan Wahren <wahrenst@gmx.net>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui
  <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
@@ -74,7 +74,7 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
 References: <20240630153652.318882-1-wahrenst@gmx.net>
- <20240630153652.318882-3-wahrenst@gmx.net>
+ <20240630153652.318882-4-wahrenst@gmx.net>
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
@@ -108,9 +108,9 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20240630153652.318882-3-wahrenst@gmx.net>
+In-Reply-To: <20240630153652.318882-4-wahrenst@gmx.net>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000c7a097061c6c8376"
+ micalg=sha-256; boundary="000000000000600cae061c6c85cd"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,7 +126,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000c7a097061c6c8376
+--000000000000600cae061c6c85cd
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -134,57 +134,19 @@ Content-Transfer-Encoding: 7bit
 
 
 On 6/30/2024 4:36 PM, Stefan Wahren wrote:
-> During noirq suspend phase the Raspberry Pi power driver suffer of
-> firmware property timeouts. The reason is that the IRQ of the underlying
-> BCM2835 mailbox is disabled and rpi_firmware_property_list() will always
-> run into a timeout [1].
+> According to the official Mailbox property interface the second part
+> of RPI_FIRMWARE_SET_POWER_STATE ( and so on ...) is named state because
+> it represent u32 flags and just the lowest bit is for on/off. So rename it
+> to align with documentation and prepare the driver for further changes.
 > 
-> Since the VideoCore side isn't consider as a wakeup source, set the
-> IRQF_NO_SUSPEND flag for the mailbox IRQ in order to keep it enabled
-> during suspend-resume cycle.
-> 
-> [1]
-> PM: late suspend of devices complete after 1.754 msecs
-> WARNING: CPU: 0 PID: 438 at drivers/firmware/raspberrypi.c:128
->   rpi_firmware_property_list+0x204/0x22c
-> Firmware transaction 0x00028001 timeout
-> Modules linked in:
-> CPU: 0 PID: 438 Comm: bash Tainted: G         C         6.9.3-dirty #17
-> Hardware name: BCM2835
-> Call trace:
-> unwind_backtrace from show_stack+0x18/0x1c
-> show_stack from dump_stack_lvl+0x34/0x44
-> dump_stack_lvl from __warn+0x88/0xec
-> __warn from warn_slowpath_fmt+0x7c/0xb0
-> warn_slowpath_fmt from rpi_firmware_property_list+0x204/0x22c
-> rpi_firmware_property_list from rpi_firmware_property+0x68/0x8c
-> rpi_firmware_property from rpi_firmware_set_power+0x54/0xc0
-> rpi_firmware_set_power from _genpd_power_off+0xe4/0x148
-> _genpd_power_off from genpd_sync_power_off+0x7c/0x11c
-> genpd_sync_power_off from genpd_finish_suspend+0xcc/0xe0
-> genpd_finish_suspend from dpm_run_callback+0x78/0xd0
-> dpm_run_callback from device_suspend_noirq+0xc0/0x238
-> device_suspend_noirq from dpm_suspend_noirq+0xb0/0x168
-> dpm_suspend_noirq from suspend_devices_and_enter+0x1b8/0x5ac
-> suspend_devices_and_enter from pm_suspend+0x254/0x2e4
-> pm_suspend from state_store+0xa8/0xd4
-> state_store from kernfs_fop_write_iter+0x154/0x1a0
-> kernfs_fop_write_iter from vfs_write+0x12c/0x184
-> vfs_write from ksys_write+0x78/0xc0
-> ksys_write from ret_fast_syscall+0x0/0x54
-> Exception stack(0xcc93dfa8 to 0xcc93dff0)
-> [...]
-> PM: noirq suspend of devices complete after 3095.584 msecs
-> 
-> Link: https://github.com/raspberrypi/firmware/issues/1894
-> Fixes: 0bae6af6d704 ("mailbox: Enable BCM2835 mailbox support")
+> Link: https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface
 > Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 
 Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
 Florian
 
---000000000000c7a097061c6c8376
+--000000000000600cae061c6c85cd
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -255,14 +217,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIMmiw87idsI5QZod
-ZD1BAh1id3iKcdG4aIT+nG3c2fVGMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDcwNDE0MTA1M1owaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIGH5fnKYEI9bxDNZ
+8WeQOpEXZF46mF71ZbSCPJepKYPXMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI0MDcwNDE0MTExOVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCfF1zYCO0EASzEjhL9SL2/AkRCwyqagblF
-clsUcNKlkjd/4LNqwe21kw+1Wy267kG05fvkddvQL8uGM0fA1HqCgWLlPAWW0r8iAlTDOEV5FZRg
-gW1Xf3zmVsAcHcbUrlcB+GIor8fRCEzBB6e9bGtw9Cp3XulhDgtVIbMdzZSXL3bBum/dkOVcUDPk
-v7EagdBpIoh8yi0aYcfRtpPHK0TrAYwJoKQ67XTphbZdfwMLcN711U4A1w3RXQhO2WJh5DRWJJ9D
-PKeGPhfbttZsOV1tQhiGkL3nVQkyPHJ0qWLfHzXInYr+Ki4ft3FNMlLnOyAvrNMUXMd2XLAIo7ma
-eLga
---000000000000c7a097061c6c8376--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCJQxBjAbp9ne5wlIRM8LCkQI3OQIUtR00c
+IYFR32P5LnvU8jxjHUKLVbsdkyFnrxjoJ1Yu7FpNPrbokUPuOfa5EuCsGRHlsl9a7ptDGV6B5gKf
+PQNVom9yCdyNEzpwkNeU6E0XGDpPkmRiODUjpxg/Xjl9jxMp54SX7vc/ebT2MWRI9KPt0zCbZ85E
+4/MoNrNm3MZD7tlbXcXRu+E4zXX9QAcYUx25xZuW0t+682FV3Z6lAR84jI/u34O7U3zTzl+u2rFj
+TMm+uDrKRmIx+jV7obwYakRxFLCEo616V1Vv82JIps0OuYaoA8LMVKH7NSVegZ853eSyEszLrYKE
+jrmq
+--000000000000600cae061c6c85cd--
