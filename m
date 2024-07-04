@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDA3927210
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 10:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E96492723E
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 10:56:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C53B810EA41;
-	Thu,  4 Jul 2024 08:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA2D510EA45;
+	Thu,  4 Jul 2024 08:56:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="zbMOtq5w";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="JlwQcdtS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2FDE10EA40
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 08:50:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1720083002; x=1751619002;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=taELz09kemQcRTcnI5iQ5KPDeTeYJTdJK5+QS+mBmtQ=;
- b=zbMOtq5wxHblZWbmSzYvx47wqcdqUvA6a+IgILuVlgvMwn1ezJquKR0y
- Lb8N9BuZzI+ibVKgVcOdP3b7TVTQLeE2gKL0J2HYbxAfXYP+meGKwXOTf
- 1K6NV3YiQAXpCab01LygKM/snEBGUNuSHWiHixAcjkwo9exgGQfFJVmWC
- M9eqim61P7DbQu+ZhUDbgroyySkA8MF8ju7DU5oPxiw27AwhrPrpkzmHX
- t5p72pJPfe/eBOjZJwJ2I5ZL9+FuG9agMyYZUPdmTTMrdTdwFOBFTtARj
- g+NBwfkEKFIg45UagHGw0nJWKHpTbc8urXPLDD78LmfoeOLV8ZdoZYAxG g==;
-X-CSE-ConnectionGUID: kCPvKpFuTFyELXI+0A+2CQ==
-X-CSE-MsgGUID: 6Zy3XaIjSHW4BIiCUH1q7w==
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; d="scan'208";a="28816296"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 04 Jul 2024 01:50:01 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 4 Jul 2024 01:49:21 -0700
-Received: from che-lt-i67131.microchip.com (10.10.85.11) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Thu, 4 Jul 2024 01:49:10 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <linux@armlinux.org.uk>,
- <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
- <claudiu.beznea@tuxon.dev>, <arnd@arndb.de>, <Jason@zx2c4.com>,
- <palmer@rivosinc.com>, <mpe@ellerman.id.au>, <rdunlap@infradead.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-CC: <manikandan.m@microchip.com>, <Hari.PrasathGE@microchip.com>,
- <Nicolas.Ferre@microchip.com>
-Subject: [PATCH 4/4] ARM: configs: at91: Enable Microchip's MIPI DSI Host
- Controller support
-Date: Thu, 4 Jul 2024 14:18:37 +0530
-Message-ID: <20240704084837.168075-5-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240704084837.168075-1-manikandan.m@microchip.com>
-References: <20240704084837.168075-1-manikandan.m@microchip.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D6310EA45
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 08:56:08 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-2c80637d8adso321678a91.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 01:56:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1720083368; x=1720688168; darn=lists.freedesktop.org; 
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OXOoxvvOe31w1ncPerleKixgz0Ceuj04whgXRu8l0SQ=;
+ b=JlwQcdtSOAB/kGL/pE9YZHlof+J0f4s56wQSBfSMDS3LaK1qeShMSn+6iKASMO8QQR
+ thKHByJ2kSedpZuW2uVt9W4rpwrhapX9ZobHeqaCKzJW3/VFJK+J4PTw09ZpATFjG9xI
+ dMhPc5M3WoIsPcUpwaKJinywkUN63SjXlAhSXd++r0Ye8MZujhJUSII7WUc1ekaZPkHq
+ YMLgTaq2snXG5Mn/Uh/GoGTkXOFfw2sCMN3SDkt5qgFseE5cKnBLb5u5RYiETY3IUuO0
+ TcxZME59WfegXb/jdbZkKX3tK06/KSaMcZRlbjuy8lWzYikO1wl4LM0tKcrONjMgDq3I
+ AWmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720083368; x=1720688168;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OXOoxvvOe31w1ncPerleKixgz0Ceuj04whgXRu8l0SQ=;
+ b=MQnBiAAzQq03UAYjvIKjEGNT+ariko3M6zXJofYwc8+1v6zSSESmBD29TJ/zm04ifI
+ b78eTlOnXxSXUvWXtVqIwYarjv0NxPeOUQI3EQhbPUllEIk61QwU5YUZX7r+ABgbSVd6
+ PZaGMtjzjg3dEHtH3OlmfF1zdZGru93SjxUaPyCBvGwpiLeUNL5iMMVGfWXmb1W+VvOp
+ oOBYiczWGattOLqWjAn989ZuK1LeOEOIEs4EEHj+M2IJlNFO8CJ/sGKI8uAKzOtz1Ur9
+ W5LexWp4+CrbnMaSdwRBLWROm5M5EDtaiQ4bEKRGsfhyrYcadl4QrVRUDbXHIC3Dz4e/
+ THwA==
+X-Gm-Message-State: AOJu0YxkO0kFQkduo1NmUPAVljzS98WZNAicUbuQ1g2T++fnOG7c+X31
+ O5vjTkGUMUUfL0j7ne9hXvsLvaEz/DF0LG5tddPsifOfp9vpvBiG4v4U8ZdQ0Yk=
+X-Google-Smtp-Source: AGHT+IEwW4pDtpfHuwfN8E1EywFvTESPh1XIyJapLgL8zwTEtD/NyP7knccVK4/CsOptrrx9sDsSuw==
+X-Received: by 2002:a17:90a:eb05:b0:2c9:888a:7a7b with SMTP id
+ 98e67ed59e1d1-2c99c570392mr636231a91.25.1720083367671; 
+ Thu, 04 Jul 2024 01:56:07 -0700 (PDT)
+Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2c99a97282csm962572a91.20.2024.07.04.01.56.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Jul 2024 01:56:07 -0700 (PDT)
+From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+To: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org,
+ linus.walleij@linaro.org, dianders@google.com, hsinyi@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v1 0/2] HID: i2c-hid: elan: Add elan-ekth6a12nay timing
+Date: Thu,  4 Jul 2024 16:55:53 +0800
+Message-Id: <20240704085555.11204-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,26 +79,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the Microchip's DSI controller wrapper driver that uses
-the Synopsys DesignWare MIPI DSI host controller bridge.
+Elan-ekth6a12nay requires reset to pull down time greater than 10ms,
+so the configuration post_power_delay_ms is 10, and the chipset
+initial time is required to be greater than 300ms,
+so the post_gpio_reset_on_delay_ms is set to 300.
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
----
- arch/arm/configs/at91_dt_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Zhaoxiong Lv (2):
+  dt-bindings: HID: i2c-hid: elan: Introduce Elan ekth6a12nay
+  HID: i2c-hid: elan: Add elan-ekth6a12nay timing
 
-diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
-index 1d53aec4c836..c5c8623f1075 100644
---- a/arch/arm/configs/at91_dt_defconfig
-+++ b/arch/arm/configs/at91_dt_defconfig
-@@ -143,6 +143,7 @@ CONFIG_VIDEO_OV2640=m
- CONFIG_VIDEO_OV7740=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=y
-+CONFIG_DRM_MICROCHIP_DW_MIPI_DSI=y
- CONFIG_DRM_PANEL_SIMPLE=y
- CONFIG_DRM_PANEL_EDP=y
- CONFIG_FB_ATMEL=y
+ .../devicetree/bindings/input/elan,ekth6915.yaml          | 1 +
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c                     | 8 ++++++++
+ 2 files changed, 9 insertions(+)
+
 -- 
-2.25.1
+2.17.1
 
