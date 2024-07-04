@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E96492723E
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 10:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB90927241
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 10:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA2D510EA45;
-	Thu,  4 Jul 2024 08:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 057F210EA48;
+	Thu,  4 Jul 2024 08:56:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="JlwQcdtS";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="NhKDOZTt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63D6310EA45
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 08:56:08 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-2c80637d8adso321678a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 01:56:08 -0700 (PDT)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB5ED10EA48
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 08:56:12 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id
+ 41be03b00d2f7-761e0f371f5so91337a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 01:56:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1720083368; x=1720688168; darn=lists.freedesktop.org; 
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OXOoxvvOe31w1ncPerleKixgz0Ceuj04whgXRu8l0SQ=;
- b=JlwQcdtSOAB/kGL/pE9YZHlof+J0f4s56wQSBfSMDS3LaK1qeShMSn+6iKASMO8QQR
- thKHByJ2kSedpZuW2uVt9W4rpwrhapX9ZobHeqaCKzJW3/VFJK+J4PTw09ZpATFjG9xI
- dMhPc5M3WoIsPcUpwaKJinywkUN63SjXlAhSXd++r0Ye8MZujhJUSII7WUc1ekaZPkHq
- YMLgTaq2snXG5Mn/Uh/GoGTkXOFfw2sCMN3SDkt5qgFseE5cKnBLb5u5RYiETY3IUuO0
- TcxZME59WfegXb/jdbZkKX3tK06/KSaMcZRlbjuy8lWzYikO1wl4LM0tKcrONjMgDq3I
- AWmQ==
+ t=1720083372; x=1720688172; darn=lists.freedesktop.org; 
+ h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=HU6hvuxuaxwFr3kU7mCJAsHrIdHyV6zPoRNePKzbdwk=;
+ b=NhKDOZTt82bxCrVeD47YPBhJcNlvSa8I9aeBwIDvX6n/fb9fi807BwzVBeSsi1FSeP
+ wY0BQBGo1tFkwmwzuw8w5fS2+ez26ZBdhxFqi9Se+DZKPy+SttraN01JsLT82y5RnYOB
+ jrTV/RYhUpJ+4qE8yrhbMYEVapkpSXt3HxclnV+6nj0cfhmRc1ZtilX+lgpB5OCjcYbP
+ 9Gp6N12WlsZz//mdxjYV89/8SSzAdPPKkIV9T/9J9Weu7oCnaicFquhuCxh2vHw41XDv
+ lBJp74PIAW5XUdpZoqMq3LrUtHxJDACPeCxQWQmesGX4pSXVbSOXXw6QxnjVZSTKBUkW
+ 6hTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720083368; x=1720688168;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OXOoxvvOe31w1ncPerleKixgz0Ceuj04whgXRu8l0SQ=;
- b=MQnBiAAzQq03UAYjvIKjEGNT+ariko3M6zXJofYwc8+1v6zSSESmBD29TJ/zm04ifI
- b78eTlOnXxSXUvWXtVqIwYarjv0NxPeOUQI3EQhbPUllEIk61QwU5YUZX7r+ABgbSVd6
- PZaGMtjzjg3dEHtH3OlmfF1zdZGru93SjxUaPyCBvGwpiLeUNL5iMMVGfWXmb1W+VvOp
- oOBYiczWGattOLqWjAn989ZuK1LeOEOIEs4EEHj+M2IJlNFO8CJ/sGKI8uAKzOtz1Ur9
- W5LexWp4+CrbnMaSdwRBLWROm5M5EDtaiQ4bEKRGsfhyrYcadl4QrVRUDbXHIC3Dz4e/
- THwA==
-X-Gm-Message-State: AOJu0YxkO0kFQkduo1NmUPAVljzS98WZNAicUbuQ1g2T++fnOG7c+X31
- O5vjTkGUMUUfL0j7ne9hXvsLvaEz/DF0LG5tddPsifOfp9vpvBiG4v4U8ZdQ0Yk=
-X-Google-Smtp-Source: AGHT+IEwW4pDtpfHuwfN8E1EywFvTESPh1XIyJapLgL8zwTEtD/NyP7knccVK4/CsOptrrx9sDsSuw==
-X-Received: by 2002:a17:90a:eb05:b0:2c9:888a:7a7b with SMTP id
- 98e67ed59e1d1-2c99c570392mr636231a91.25.1720083367671; 
- Thu, 04 Jul 2024 01:56:07 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1720083372; x=1720688172;
+ h=references:in-reply-to:message-id:date:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HU6hvuxuaxwFr3kU7mCJAsHrIdHyV6zPoRNePKzbdwk=;
+ b=vfy2EUg1uykx5qKrtwNJIbHY0z+trD17CFwDAEfYnJdxsKTV4TbQGAVh6aVeLNZU/B
+ kPCtB3yDU6Om9N1nNFYFYN2qwAVsxnoNR3oSCDmbZRVkZMO1Mkk5z3aQXzRVtHA+Kng1
+ 1/4RfsVowUOuZwmBoM3nEIEokAYE3qwi45i+3TtpKVMBjbTWzh6PsQ/X354Y/OgJTMLR
+ 4L7uz+NiOvugldHLpNRcgIs7AoyqhJ6NEzswbGtUOMiYLEvSy7q6MyNHXnqW/DBxBKn4
+ cz0KG90B2kVLK2TAtitVf3DF6GqLu6TiFH/AF7bvdaYuGwioUWmoGkqLZhBvdqWTis3U
+ 4nWw==
+X-Gm-Message-State: AOJu0YxDrPFdFdkwfdAh5PHjMAuKPTI0Sj5kQ/G6P7CALdxjjixMHKF5
+ RRMaNf0BWKjmYWWYPkmkwhIrBfgC7T3MBFgAJ2GOvRFafrL1GZpO23ZjmB2Yzvc=
+X-Google-Smtp-Source: AGHT+IGpMVM87ZSRHOmVDMb+jxuKrOdkzBfFepNQcYRIQF1P/x7zZM5uBxlC8GAU8SWrioNhjW/vDw==
+X-Received: by 2002:a17:90a:898e:b0:2c9:6abd:ca64 with SMTP id
+ 98e67ed59e1d1-2c99f325530mr1191127a91.9.1720083372432; 
+ Thu, 04 Jul 2024 01:56:12 -0700 (PDT)
 Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2c99a97282csm962572a91.20.2024.07.04.01.56.04
+ 98e67ed59e1d1-2c99a97282csm962572a91.20.2024.07.04.01.56.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jul 2024 01:56:07 -0700 (PDT)
+ Thu, 04 Jul 2024 01:56:12 -0700 (PDT)
 From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 To: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org,
@@ -60,10 +60,13 @@ To: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v1 0/2] HID: i2c-hid: elan: Add elan-ekth6a12nay timing
-Date: Thu,  4 Jul 2024 16:55:53 +0800
-Message-Id: <20240704085555.11204-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v1 1/2] dt-bindings: HID: i2c-hid: elan: Introduce Elan
+ ekth6a12nay
+Date: Thu,  4 Jul 2024 16:55:54 +0800
+Message-Id: <20240704085555.11204-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240704085555.11204-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+References: <20240704085555.11204-1-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,19 +82,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Elan-ekth6a12nay requires reset to pull down time greater than 10ms,
-so the configuration post_power_delay_ms is 10, and the chipset
-initial time is required to be greater than 300ms,
-so the post_gpio_reset_on_delay_ms is set to 300.
+The Elan ekth6a12nay touch screen chip same as Elan eKTH6915 controller
+has a reset gpio. The difference is that they have different
+post_power_delay_ms.
 
-Zhaoxiong Lv (2):
-  dt-bindings: HID: i2c-hid: elan: Introduce Elan ekth6a12nay
-  HID: i2c-hid: elan: Add elan-ekth6a12nay timing
+Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+---
+ Documentation/devicetree/bindings/input/elan,ekth6915.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../devicetree/bindings/input/elan,ekth6915.yaml          | 1 +
- drivers/hid/i2c-hid/i2c-hid-of-elan.c                     | 8 ++++++++
- 2 files changed, 9 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+index dc4ac41f2441..0bbf9dd7636e 100644
+--- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
++++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+@@ -20,6 +20,7 @@ properties:
+   compatible:
+     enum:
+       - elan,ekth6915
++      - elan,ekth6a12nay
+       - ilitek,ili2901
+ 
+   reg:
 -- 
 2.17.1
 
