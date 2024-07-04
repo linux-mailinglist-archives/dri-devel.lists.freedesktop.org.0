@@ -2,94 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0629271C7
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 10:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A715A9271D3
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 10:35:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD7F010EA21;
-	Thu,  4 Jul 2024 08:32:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="U6eUOSaj";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A54510EA28;
+	Thu,  4 Jul 2024 08:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8BB10EA21
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 08:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720081940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fly4Axb2kq7yYa3s1bvRYz7zwAvd+XD9LSO+uMJgGd0=;
- b=U6eUOSajJzg4VeVpVei7huqZj1+9SW4trSsJ3yTAUwfgW1Gdwt3VdYzLxsRcvwvIFTLmpY
- KbxNzQwWGE3+C6vrLjtFl7aY/Wu0QD4JTqWJHczXOfjDQjsIXSOawE/FjZE6p3iUt4439C
- gkjkV2uvif/iH/rctSvdGNONmU9pQtE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-65-A7Aue1CoM2Ky6jVfNJ0sJQ-1; Thu, 04 Jul 2024 04:32:18 -0400
-X-MC-Unique: A7Aue1CoM2Ky6jVfNJ0sJQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-42566e8a995so2931485e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 01:32:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720081937; x=1720686737;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Fly4Axb2kq7yYa3s1bvRYz7zwAvd+XD9LSO+uMJgGd0=;
- b=OL2daFnuqnP5uLgTqpV+hH702l8WlYqmSND8FQd1ssLxBGXhnCZuVhLAcPmKHX1Zgl
- KkKmuibeVmSjPDE3jeTVaKGMBL0I6VtAuiTRUgDmN1rN477EYBMrffXQTN09swxo73O9
- kKdhu/wCpSWsiBGu3GyonReYerZxyC96mY7osqfhdhCSu9eVpLMzRSB3as2ZRYXzXQId
- c7s1yFQRdZSgqbZC0U/cGxpbn9tKdXLvgi6r8Ty4rWt4k48Ev2pHPOxJVV6kSVXqT1yY
- s1U3C/xbEV+JFuTHw5LPf/w50GQEt5APO0gWJirxtROwWRTue1SDulkOJUAYCyFYDaeQ
- eJxg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX7qMul0L85uXpGXTFUnPeWvqT6vbnIK9jlIl/kIl6MlI88/Y+fS9jpqZ5yiIIn21EFPWR5l4mtbF8xhBDGA1abjqv4abOp3i66sQgcYlTO
-X-Gm-Message-State: AOJu0YxNlCsbtbPzTfFSWqaBng3kK2AUey07El+oWJZ+weL0jslUpvnf
- THRWCkK4hgz2tx1YLRaJhCX63AQQORphkJzf91sSJ1bG/Fm97WQLU3Ab4GdA1+KTSKNYBPfcbmB
- 5VPzm7QWo0S/gPt5H/8GIxOd688+yvDd7UmCGfeBLuvq3Sg9ITc+5zo0ZG5CcER2rMg==
-X-Received: by 2002:a7b:cd95:0:b0:425:6dce:8c54 with SMTP id
- 5b1f17b1804b1-4264a48c4e0mr6049555e9.33.1720081937440; 
- Thu, 04 Jul 2024 01:32:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnqR2vNBhJCq7+miK0hh0vE1WCYEKEi71Jb9hxbqW7v9GH8NeQk1sqkfUNsHXzGDgQk6MD+g==
-X-Received: by 2002:a7b:cd95:0:b0:425:6dce:8c54 with SMTP id
- 5b1f17b1804b1-4264a48c4e0mr6049255e9.33.1720081937006; 
- Thu, 04 Jul 2024 01:32:17 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:680e:9bf4:b6a9:959b?
- ([2a01:e0a:d5:a000:680e:9bf4:b6a9:959b])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4264a1d16e7sm14493795e9.6.2024.07.04.01.32.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jul 2024 01:32:16 -0700 (PDT)
-Message-ID: <c1f6472a-fbf6-43db-9b44-f5fb887f3a1e@redhat.com>
-Date: Thu, 4 Jul 2024 10:32:12 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7400510EA28
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 08:35:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5568367;
+ Thu,  4 Jul 2024 01:35:49 -0700 (PDT)
+Received: from [10.1.36.26] (e122027.cambridge.arm.com [10.1.36.26])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0FD5B3F766;
+ Thu,  4 Jul 2024 01:35:23 -0700 (PDT)
+Message-ID: <957a0c8e-f80b-4f6f-ac6f-70398abafd6f@arm.com>
+Date: Thu, 4 Jul 2024 09:35:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] drm/panic: Add a qr_code panic screen
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
- <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Danilo Krummrich <dakr@redhat.com>
-References: <20240703154309.426867-1-jfalempe@redhat.com>
- <2024070417-husked-edgy-f527@gregkh>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <2024070417-husked-edgy-f527@gregkh>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] drm/panthor: Record devfreq busy as soon as a job is
+ started
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+References: <20240703155646.80928-1-steven.price@arm.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240703155646.80928-1-steven.price@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -106,64 +49,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 04/07/2024 07:03, Greg KH wrote:
-> On Wed, Jul 03, 2024 at 05:33:57PM +0200, Jocelyn Falempe wrote:
->> This series adds a new panic screen, with the kmsg data embedded in a QR-code.
->>
->> The main advantage of QR-code, is that you can copy/paste the debug data to a bug report.
->>
->> The QR-code encoder is written in rust, and is very specific to drm_panic.
->> The reason is that it is called in a panic handler, and thus can't allocate memory, or use locking.
->> The rust code uses a few rust core API, and provides only two C entry points.
->> There is no particular reason to do it in rust, I just wanted to learn rust, and see if it can work in the kernel.
->>
->> If you want to see what it looks like, I've put a few screenshots here:
->> https://github.com/kdj0c/panic_report/issues/1
+On 03/07/2024 16:56, Steven Price wrote:
+> If a queue is already assigned to the hardware, then a newly submitted
+> job can start straight away without waiting for the tick. However in
+> this case the devfreq infrastructure isn't notified that the GPU is
+> busy. By the time the tick happens the job might well have finished and
+> no time will be accounted for the GPU being busy.
 > 
-> Cool, this idea has been floating around for decades, here's the last
-> attempt at this back in 2014:
-> 	https://lore.kernel.org/all/1395093587-2583-1-git-send-email-teobaluta@gmail.com/
+> Fix this by recording the GPU as busy directly in queue_run_job() in the
+> case where there is a CSG assigned and therefore we just ring the
+> doorbell.
 > 
-Yes, I've looked at this, but drawing a QR-code in the middle of fbcon 
-was a bit complex. Now with drm panic, there is a proper infrastructure 
-to display the QR code, and make sure it won't be overwritten.
-
->>
->> -- 
->>
->> Jocelyn
->>
->>
->> Jocelyn Falempe (4):
->>    drm/panic: Add integer scaling to blit()
->>    drm/rect: add drm_rect_overlap()
->>    drm/panic: simplify logo handling
->>    drm/panic: Add a qr_code panic screen
->>
->>   drivers/gpu/drm/Kconfig         |  29 +
->>   drivers/gpu/drm/Makefile        |   1 +
->>   drivers/gpu/drm/drm_drv.c       |   3 +
->>   drivers/gpu/drm/drm_panic.c     | 338 +++++++++--
->>   drivers/gpu/drm/drm_panic_qr.rs | 989 ++++++++++++++++++++++++++++++++
+> Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Wait, we can put .rs files in any directory now?  I didn't think that
-> worked properly yet.
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 951ff7e63ea8..e7afaa1ad8dc 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -2942,6 +2942,7 @@ queue_run_job(struct drm_sched_job *sched_job)
+>  			pm_runtime_get(ptdev->base.dev);
+>  			sched->pm.has_ref = true;
+>  		}
+> +		panthor_devfreq_record_busy(sched->ptdev);
+>  	}
+>  
+>  	/* Update the last fence. */
 
-Yes, thanks to the work of the rust-for-linux team. When I started to 
-work on this, I needed a few workarounds to make my rust code compile. 
-But since 6.10-rc1, I was able to drop them all. Also for this simple 
-case, I don't use bindgen, because there are only 2 Rust functions, that 
-I need to call from C.
+Pushed to drm-misc-next
 
-> 
-> thanks,
-> 
-> greg k-h
-> 
-
--- 
-
-Jocelyn
-
+Thanks,
+Steve
