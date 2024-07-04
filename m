@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7147926FBE
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 08:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741E492702C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 09:02:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B34410E941;
-	Thu,  4 Jul 2024 06:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 798EC10E9ED;
+	Thu,  4 Jul 2024 07:02:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="BPClduXN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NT1XRMFH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B9C10E941
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 06:40:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1720075230; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cbsMDJ54XPbGsKgUiQwKU7Ossbnsg8BxvxEELPKGPAuY/PP74KQ1THVR+f+2W9o+ADhwkcIKw/Ctx5zj0k/8FlCiAPC4pXTwZCwo9zH85KIST7mZ4xeHleItb8vlDzhoPD0amRqk+9HrOdhYr4dxCzesUz9s1QbZI5Y8lXXadRU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1720075230;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=8hFZAidPcDdSv5uZH+SmygHMQQ9j5VWMuPUkSwHgy9M=; 
- b=aGksZX+N7VCE5DHcZjN5gmSkFCrauOkc3ItXGeXGF8xcbTegqshMq2K92D4c2iwdnrQLgSpoIVYjsw44+pbL62OinZEdvNhpdUHdOhfCSQ5jm8RuaGylhxtXYl+ZQ/DjqrS61LRgO6/AmnsAdtl4cl2V+n9Y/2XajWV05d7kpmw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1720075230; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=8hFZAidPcDdSv5uZH+SmygHMQQ9j5VWMuPUkSwHgy9M=;
- b=BPClduXNj8xNP1fWI91lDWKzZEdUHdscAWayV9vvGrlTnyYXi9iJC9YJ+nu+saxo
- CjtOLXf66Iqa6VfImP7P9rWowH+8uJHhbXhI2mtJXqqdsoR7R8Ub2Y4Mh8GnFKY+k5k
- urMMQ8m4Cb3znWg2Sv3yYplh+Rp0+h2oXH604TfTw7zUCIlM/I1kmchLW3qr63g3CYN
- 7RkB1ueWuLspSYOPNbHCrOV/dpdkVOtHLguWI5uWiWu3rIySJBJ/9NALdsiKNFs5j7j
- XVjrC10DVJbjjhW9zfTXDRww3vqTqZKdKmoHqJI4KpUbLrucdGUSmXTQiSn0Widtx47
- N2QEBmh2jg==
-Received: by mx.zohomail.com with SMTPS id 1720075227349371.7068907339411;
- Wed, 3 Jul 2024 23:40:27 -0700 (PDT)
-Message-ID: <51603213d16493879c85417c0c8cc3f2df0cf7cf.camel@icenowy.me>
-Subject: Re: PCIe coherency in spec (was: [RFC PATCH 2/2] drm/ttm: downgrade
- cached to write_combined when snooping not available)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Jiaxun Yang
- <jiaxun.yang@flygoat.com>,  Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- bhelgaas@google.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Date: Thu, 04 Jul 2024 14:40:16 +0800
-In-Reply-To: <ZoY9HZwon3_yiq6F@infradead.org>
-References: <20240703210831.GA63958@bhelgaas>
- <99ff395019901c5c1a7b298481c8261b30fdbd01.camel@icenowy.me>
- <ZoY9HZwon3_yiq6F@infradead.org>
-Organization: Anthon Open-Source Community
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E91B10E9EC
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 07:02:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720076546; x=1751612546;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=HTB1sePIud3c4rcPIx03gGOAyz7Lyhr/bfLJjJkcDk8=;
+ b=NT1XRMFHxJSJj1NM83HIbuPPsU4XyfcVuLD0l5BRhfFmcN9/taMuuSJu
+ xQmvqYcDgJDtx8kdcoI1GYb/se+rZp53IFyZFJQGdrnawDRKfTgG/NmpY
+ Mu9nQfsImFAzT2wzZqje+/8xDW9Y9WUmuarIHbyQbl1Mrfd+x2rcWWRW+
+ QgoqSw6+3Omk2FSb5Shgq/3m/SuQnRdfeV8Y1A5e8L4iLh3LbG1MrU/AP
+ znZm5fiUBjs2SVxgXHzm1u+0rmOvuBKuji0WE/eXxHtbCbnq6clovZhr1
+ D7zqx2INdpk20DFtnyY4939oz68UM/C1PHP/czlSlI4sxJfR+Osl4UYB0 g==;
+X-CSE-ConnectionGUID: Hxc+l2xEQRqc1kJInX485w==
+X-CSE-MsgGUID: 2Wkv9q75TZ+o9t/8iu/hCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="20241793"
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; d="scan'208";a="20241793"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2024 00:02:26 -0700
+X-CSE-ConnectionGUID: bq0nrWTxSw60uPvQdaXmhw==
+X-CSE-MsgGUID: Ym0juRbYSuOgUTjJN9j4VA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; d="scan'208";a="46518039"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.245.56])
+ ([10.245.245.56])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2024 00:02:23 -0700
+Message-ID: <8de22d252014aa52e631eb1bcf8e85d50e96c29e.camel@linux.intel.com>
+Subject: Re: linux-next: build failure after merge of the drm
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, Dave Airlie <airlied@redhat.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>
+Cc: Mark Brown <broonie@kernel.org>, DRI <dri-devel@lists.freedesktop.org>, 
+ Piotr =?ISO-8859-1?Q?Pi=F3rkowski?= <piotr.piorkowski@intel.com>, 
+ buildfailureaftermergeofthedrmtree@sirena.org.uk, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Date: Thu, 04 Jul 2024 09:02:21 +0200
+In-Reply-To: <10c3d9b8-bf5b-42c1-9c87-36828f5c995c@intel.com>
+References: <Zn7s611xnutUFxR0@sirena.org.uk>
+ <20240703123643.5b4dc83f@canb.auug.org.au>
+ <10c3d9b8-bf5b-42c1-9c87-36828f5c995c@intel.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,36 +80,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E5=9C=A8 2024-07-03=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 23:11 -0700=EF=BC=
-=8CChristoph Hellwig=E5=86=99=E9=81=93=EF=BC=9A
-> On Thu, Jul 04, 2024 at 10:00:52AM +0800, Icenowy Zheng wrote:
-> > So I here want to ask a question as an individual hacker: what's
-> > the
-> > policy of linux-pci towards these non-coherent PCIe
-> > implementations?
+Hi
+
+On Wed, 2024-07-03 at 13:46 +0200, Michal Wajdeczko wrote:
+> + Rodrigo for help
+>=20
+> On 03.07.2024 04:36, Stephen Rothwell wrote:
+> > Hi all,
 > >=20
-> > If the sentences of Christian is right, these implementations are
-> > just
-> > out-of-spec, should them get purged out of the kernel, or at least
-> > raising a warning that some HW won't work because of inconformant
-> > implementation?
->=20
-> Nothing in the PCIe specifications that mandates a programming model.
-> Non-coherent DMA is extremely common in lower end devices, and
-> despite
-> all the issues that it causes well supported in Linux.
->=20
-> What are you trying to solve?
+> > On Fri, 28 Jun 2024 18:03:39 +0100 Mark Brown <broonie@kernel.org>
+> > wrote:
+> > >=20
+> > > After merging the drm tree, today's linux-next build (x86_64
+> > > allmodconfig) failed like this:
+> > >=20
+> > > /tmp/next/build/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c: In
+> > > function 'pf_get_threshold':
+> > > /tmp/next/build/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:1788:2
+> > > 7: error: unused variable 'xe' [-Werror=3Dunused-variable]
+> > > =C2=A01788 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct x=
+e_device *xe =3D gt_to_xe(gt);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~
+> > > cc1: all warnings being treated as errors
+> > >=20
+> > > Caused by commit
+> > >=20
+> > > =C2=A0 629df234bfe73d ("drm/xe/pf: Introduce functions to configure V=
+F
+> > > thresholds")
+> > >=20
+> > > I have used the tree from 20240627 instead.
+> >=20
+> > I am still seeing that build failure.
+> >=20
 
-Currently the DRM TTM subsystem (and GPU drivers using it) will assume
-coherency and fail on these non-coherent systems with cryptic error
-messages (like `[drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring gfx
-test failed (-110)`) without mentioning coherency issues at all.
+I see that git for an unknown reason introduces this line as an
+automatic resolve merging drm-next into the drm-tip build. Later there
+was a manual fixup for this after merging another branch into drm-tip
+but that's too late.
 
-My original patchset tries to solve this problem by make the TTM
-subsystem sensible of coherency status (and prevent CPU-side cached
-mapping when non-coherent), but got argued by TTM maintainer and the
-maintainer says TTM's ignorance on non-coherent systems is intentional.
+So I've added a manual fixup to drm-rerere to remove this line just
+after the merge that somehow introduces it.
 
->=20
+/Thomas
 
