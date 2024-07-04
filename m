@@ -2,63 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFEA9275B8
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 14:10:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428A29275BF
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 14:14:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7A210EA1E;
-	Thu,  4 Jul 2024 12:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B711A10EAAD;
+	Thu,  4 Jul 2024 12:14:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eIC8EBds";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HUGbl8Hs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FBDE10EA1E
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 12:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wvGPA+uFp9q5GPv2Hy9Yn5IXdEOa9ACphERR99unxkQ=; b=eIC8EBds9Za8+6toLlsI+Gt55E
- APf4QxvuAmD3cMe+4yGrUMvrfgfahXE3mTCRdiXgpJ4Q6V9avv0SwxqS/Qs0zISIWNxUznJ/wXhgV
- AUQM8xayQYpRnoCncMkl8YSgzEMDIHZiGOyII3UWHt9pjG6yd+yvr84UxgIsnkE3B2CO/MFQaJc8b
- nmXoc993GOPfHGimBy94ff1q6xlSmE+VLiJ3bjs6RsvWa4kKl5GHCdf2WrgE16sqhx8xkQOF1Eatq
- BB8az0u3KNDNN6Mi5+aWZ9SfOXdhzvFvi55nBzIxCmt+v+kGYOmvZTEYrmIbh96TRcVOvhjhl4RjR
- 04hECBjA==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sPLHv-00B5Zl-Si; Thu, 04 Jul 2024 14:10:12 +0200
-Message-ID: <bdebd2b3-d1e3-4d01-b6da-ec369aa8b0b8@igalia.com>
-Date: Thu, 4 Jul 2024 09:10:04 -0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF1D510EAAD
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 12:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1720095239;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7oFdg2x1PtfaAbXusElUVAHbsqqyuqlxIdjRWkcJ+S4=;
+ b=HUGbl8Hsm1XuUhEJM3WX37nkIjiO0jTQAdLv27Q4gLgJ+RtlirshktWSC4CHlsi6ihGLBU
+ cOBQBZZjTMLokvJuczxMDMeTU9WhSYqhKa/KcGPYp7ltHI64yIaaXJPLdPOA/0FhIRuVDp
+ tVjqdMjEduHg4U6wT55YqmrRm0hl3l8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-207-ECJhr_bBMZ2VdMwXGWLNCA-1; Thu, 04 Jul 2024 08:13:57 -0400
+X-MC-Unique: ECJhr_bBMZ2VdMwXGWLNCA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4257dd7d594so3961965e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 05:13:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720095236; x=1720700036;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7oFdg2x1PtfaAbXusElUVAHbsqqyuqlxIdjRWkcJ+S4=;
+ b=NSbf4PehV+VE0FKauyi1B8puk9JNaerc6BheVHx6/s34/rDBpjbHYxMX+8F745GP6B
+ 11dlUuJvoDkcESu53Y83pGg1jnwZRMOVfmdlKoxgflAVSyFMxdzVC8tCmwr17PpmYv+Q
+ dWEfd8JV+tPC7l7vi6wdpyWPRcImxTGdnMpDW8PRPZHj2OyjhPKtp5LRkoBHneMADhT5
+ TeXAeulWdOGD73p7hDUh0pZhBymNWTeuHg8SK9vREcQhOwKxFYbVzZctRGqXjgMQTtoP
+ U9K+y2g/CaQ9S5OZuwW36seE6YtcAj/em7ia+Lg85S7ol17/jzZL2N3vNzoD/SIDG1Tq
+ BIRg==
+X-Gm-Message-State: AOJu0YzxF+7ueNcp4thNFhKnNK6NogF80zKKFU6qRNEhMO5mdDJ1wLMS
+ 2kRtPPEunzNS/7lwZDdbSOLmWJtEW4krVF9k6ZjemL25aQMoSGBJEOfr/zuU/pAmL3vvhj2M8f6
+ sdYbZCnHMxVLpzT6mJgJSdRHrwMO9ENAQ5U1vF8mZ6TIpi7mrF9bjpZhZWO85ad/SOw==
+X-Received: by 2002:a05:600c:3217:b0:421:7f30:7cf2 with SMTP id
+ 5b1f17b1804b1-4264a3d8726mr11098555e9.1.1720095236546; 
+ Thu, 04 Jul 2024 05:13:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEQVB5seqDi19vMX9RMWI7O11dM6/6SGShsnjEZzUz+OrdwFXheqoE1BjMkSg7/kb5HHjS77w==
+X-Received: by 2002:a05:600c:3217:b0:421:7f30:7cf2 with SMTP id
+ 5b1f17b1804b1-4264a3d8726mr11098385e9.1.1720095236137; 
+ Thu, 04 Jul 2024 05:13:56 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:680e:9bf4:b6a9:959b?
+ ([2a01:e0a:d5:a000:680e:9bf4:b6a9:959b])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4264a1d0b24sm22663585e9.3.2024.07.04.05.13.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Jul 2024 05:13:54 -0700 (PDT)
+Message-ID: <61aa2068-c513-42da-a563-acd9d1db4d06@redhat.com>
+Date: Thu, 4 Jul 2024 14:13:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vkms: Remove event from vkms_output
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, open list <linux-kernel@vger.kernel.org>
-References: <20240703160458.1303872-1-lyude@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240703160458.1303872-1-lyude@redhat.com>
+Subject: Re: [PATCH 2/4] drm/mgag200: Start/stop BMC scanout in BMC encoder
+ helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20240703135502.29190-1-tzimmermann@suse.de>
+ <20240703135502.29190-3-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240703135502.29190-3-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,34 +96,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/3/24 13:04, Lyude Paul wrote:
-> While working on rvkms, I noticed that there's no code that actually uses
-> the drm_pending_vblank_event that's embedded in vkms_output. So, just drop
-> the member from the struct.
+
+
+On 03/07/2024 15:40, Thomas Zimmermann wrote:
+> Start and stop the BMC scanout from the BMC encoder's atomic_enable
+> and atomic_disable helpers. The BMC stops scanning out at the beginning
+> of a modeset operation and restarts the scanout at the end of the
+> modeset.
 > 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Only G200EW3 and G200WB require this procedure. Drop the original
+> vidrst callbacks for these model's support, as they are now obsolete.
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+Thanks, that makes the BMC connector more useful.
 
-Feel free to apply it to drm-misc/drm-misc-next! Otherwise, I'll apply
-it over the weekend.
+I'm just wondering, in case you use both a VGA output and the BMC, 
+before this patch, vidrst would be enabled, and after, as the BMC 
+connector is "unconnected" it should be disabled ?
 
-Best Regards,
-- Maíra
+Will that have a visible impact for users ?
 
+
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/vkms/vkms_drv.h | 1 -
->   1 file changed, 1 deletion(-)
+>   drivers/gpu/drm/mgag200/mgag200_bmc.c     | 24 +++++++++++++++++++++--
+>   drivers/gpu/drm/mgag200/mgag200_drv.h     |  4 +---
+>   drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  2 --
+>   drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  2 --
+>   4 files changed, 23 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 8f5710debb1eb..5e46ea5b96dcc 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -103,7 +103,6 @@ struct vkms_output {
->   	struct drm_writeback_connector wb_connector;
->   	struct hrtimer vblank_hrtimer;
->   	ktime_t period_ns;
-> -	struct drm_pending_vblank_event *event;
->   	/* ordered wq for composer_work */
->   	struct workqueue_struct *composer_workq;
->   	/* protects concurrent access to composer */
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_bmc.c b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+> index cb5400333862..74feb6d8db45 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_bmc.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+> @@ -14,7 +14,7 @@ static struct mgag200_bmc_connector *to_mgag200_bmc_connector(struct drm_connect
+>   	return container_of(connector, struct mgag200_bmc_connector, base);
+>   }
+>   
+> -void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
+> +static void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
+>   {
+>   	u8 tmp;
+>   	int iter_max;
+> @@ -73,7 +73,16 @@ void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
+>   	}
+>   }
+>   
+> -void mgag200_bmc_enable_vidrst(struct mga_device *mdev)
+> +static void mgag200_bmc_encoder_helper_atomic_disable(struct drm_encoder *encoder,
+> +						      struct drm_atomic_state *state)
+> +{
+> +	struct mga_device *mdev = to_mga_device(encoder->dev);
+> +
+> +	if (mdev->info->has_vidrst)
+> +		mgag200_bmc_disable_vidrst(mdev);
+> +}
+> +
+> +static void mgag200_bmc_enable_vidrst(struct mga_device *mdev)
+>   {
+>   	u8 tmp;
+>   
+> @@ -103,6 +112,15 @@ void mgag200_bmc_enable_vidrst(struct mga_device *mdev)
+>   	WREG_DAC(MGA1064_GEN_IO_DATA, tmp);
+>   }
+>   
+> +static void mgag200_bmc_encoder_helper_atomic_enable(struct drm_encoder *encoder,
+> +						     struct drm_atomic_state *state)
+> +{
+> +	struct mga_device *mdev = to_mga_device(encoder->dev);
+> +
+> +	if (mdev->info->has_vidrst)
+> +		mgag200_bmc_enable_vidrst(mdev);
+> +}
+> +
+>   static int mgag200_bmc_encoder_helper_atomic_check(struct drm_encoder *encoder,
+>   						   struct drm_crtc_state *crtc_state,
+>   						   struct drm_connector_state *conn_state)
+> @@ -119,6 +137,8 @@ static int mgag200_bmc_encoder_helper_atomic_check(struct drm_encoder *encoder,
+>   }
+>   
+>   static const struct drm_encoder_helper_funcs mgag200_bmc_encoder_helper_funcs = {
+> +	.atomic_disable = mgag200_bmc_encoder_helper_atomic_disable,
+> +	.atomic_enable = mgag200_bmc_encoder_helper_atomic_enable,
+>   	.atomic_check = mgag200_bmc_encoder_helper_atomic_check,
+>   };
+>   
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> index 4b75613de882..b1365795234b 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> @@ -442,9 +442,7 @@ int mgag200_mode_config_init(struct mga_device *mdev, resource_size_t vram_avail
+>   /* mgag200_vga.c */
+>   int mgag200_vga_output_init(struct mga_device *mdev);
+>   
+> -				/* mgag200_bmc.c */
+> -void mgag200_bmc_disable_vidrst(struct mga_device *mdev);
+> -void mgag200_bmc_enable_vidrst(struct mga_device *mdev);
+> +/* mgag200_bmc.c */
+>   int mgag200_bmc_output_init(struct mga_device *mdev, struct drm_connector *physical_connector);
+>   
+>   #endif				/* __MGAG200_DRV_H__ */
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+> index 839401e8b465..265f3e95830a 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+> @@ -146,8 +146,6 @@ static const struct mgag200_device_info mgag200_g200ew3_device_info =
+>   	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, true, 0, 1, false);
+>   
+>   static const struct mgag200_device_funcs mgag200_g200ew3_device_funcs = {
+> -	.disable_vidrst = mgag200_bmc_disable_vidrst,
+> -	.enable_vidrst = mgag200_bmc_enable_vidrst,
+>   	.pixpllc_atomic_check = mgag200_g200ew3_pixpllc_atomic_check,
+>   	.pixpllc_atomic_update = mgag200_g200wb_pixpllc_atomic_update, // same as G200WB
+>   };
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+> index 835df0f4fc13..e25477347c3e 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+> @@ -280,8 +280,6 @@ static const struct mgag200_device_info mgag200_g200wb_device_info =
+>   	MGAG200_DEVICE_INFO_INIT(1280, 1024, 31877, true, 0, 1, false);
+>   
+>   static const struct mgag200_device_funcs mgag200_g200wb_device_funcs = {
+> -	.disable_vidrst = mgag200_bmc_disable_vidrst,
+> -	.enable_vidrst = mgag200_bmc_enable_vidrst,
+>   	.pixpllc_atomic_check = mgag200_g200wb_pixpllc_atomic_check,
+>   	.pixpllc_atomic_update = mgag200_g200wb_pixpllc_atomic_update,
+>   };
+
