@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7A0926E8E
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 06:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CDE926E90
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 06:50:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7111A10E00B;
-	Thu,  4 Jul 2024 04:50:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80C8610E2A4;
+	Thu,  4 Jul 2024 04:50:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="Ikpwk17Y";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="PSZAJ7md";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7B310E00B
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 04:50:28 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id
- 5614622812f47-3d56285aa18so104992b6e.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2024 21:50:28 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB5410E2A4
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 04:50:34 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-6519528f44fso2215947b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2024 21:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1720068627; x=1720673427; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=n3gOQ/pcPbb3LfkKeHQWEv2OM2Ynwqz5rb6saZsnn9M=;
- b=Ikpwk17Y13m15X04d0OVG4UjBZSiwKPuQnQk+f18zHtr8qoOEceDsXB4fcTj0VGSfa
- nZ+mJmU8HDV8WpYobVr16V+Wmbl5MHQ3nB1Sc8zcKmSGMi0y2fiizQ3PXkwK5niUDmsS
- Fdfxw1b/RI8Jak0dL8bENbwZrqU9qKW5vUx84EjSIoElxaL5uMrSA3SkLLI4L4IWZ/7C
- 8iUptWQkA3VQLhbEyUpXkvy9Hx84AoLVoOTC0bRsNWopS+eO7fMU0mI6V3Z3gCPh9baB
- F0X1But82d9zVrn4nPMWX1A1EviGWK6OhE5ogRHOdHJljJWFjkT5lbokwkqbvMb/3txR
- px1Q==
+ t=1720068633; x=1720673433; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KsBn5YIFgQujACGaG7/CDDGw57w//+UBPY3qWDxgZNw=;
+ b=PSZAJ7mdzz1tfFlBqTh85IRrbLoc8RpYO7WIhv4brE9EkixRRLsgijhQENUAVNd8de
+ RSu45Re8J/VACpIhvkyzdqAF40gM9Yt+IgMFR66p0E4bIWyAOKxzc5yXmFIBEua+z7/j
+ 65wVht7tDZZ3l5TRmtk7PaZdBg7XxoX0naig0t7DbKCcES5bKwyyHypQZrBWHl7w8dYx
+ PBlFFMSjQjMeevvrXNlBOEsEmLtoWt+zkSgxoy5be103yN7qq+7xQuIQrmtlSZHch+bt
+ 8U/+wTSvjSjdcKO+0l49lKTDE/LO7kOYRY+qcopgeKv/hGOh9isOoUDvNy5290h/Av69
+ +Eog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720068627; x=1720673427;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=n3gOQ/pcPbb3LfkKeHQWEv2OM2Ynwqz5rb6saZsnn9M=;
- b=ix1fFOuLUcqBadD/YQXak6HcvpyMgHya+M7/b1qBjkOjTiDEnZnB9MiWvRFb+mRWKC
- ScMsxFDy1oaY0BRU89ljDvQfl/qagP1KTuDKbKQBbbEQckZ4pUIrYCLHTAcxEE/nAoRZ
- Dn0NhLxQaOESB2+tNlyjuq8Iz2qqyZMidq9eCxMGSFdWQqfW0ZNWTpnHZbkU05ieBi4F
- wn1B2KcZU1a8Xw9TjYW+51nvA0wPFme7eTuBELaS5XGyJueOwj2PCGvnsA1MGxUpi8AT
- KaK5jm/o1C+qjxVqQClyLy7N/qx8UkPPnj+U6loUnj6oI9R95cKW4zKuOTaZUtUMT4jM
- Oj+A==
+ d=1e100.net; s=20230601; t=1720068633; x=1720673433;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KsBn5YIFgQujACGaG7/CDDGw57w//+UBPY3qWDxgZNw=;
+ b=ScBwzRuw4hw01nD5oT6MT82ZwyNdfu31HXptX9I50VMqCYRpHjrXyLn5/EKSI3ZpFA
+ tN5yz1ziNEuCUHMc/dbOYHj2guS3w63saw+RgcYlQW2Nx6ulzUOCv/3sViAHrHrH0SmI
+ 0Wl+sRRNSj/vR7vs9vLBV5HLi+gZ3ZQbdRp/slj16cpJjAZzCl6TZscdzM2PfT9iUfDO
+ 53oybPkfJM9PcAK+wIn5vLbs0ZGfL6rBw7u/R71fCyoOdJUMpWgALDxGo5DxTdOLJFhC
+ uXwefKArNIaiC1+wj+a0RUyOx+DXEYup+lyV0L70kXNBHW8yjlPvsSqrktrPrOPvRJ5F
+ aafQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUxnLAyGWN3/2fh0NQuPyWPcHYhnfjL9m3DgkQiKhHfUQoaAvNGcRQ9JSVGu0r/T/jfsS+aAWmYeeT+cFoXT0oqhpCXvKa1PtRfz+MDURfh
-X-Gm-Message-State: AOJu0Yzj3Q29RQRnekXf+woZi7JtuBMkLzVsddpKvfvycSGvrQLzE0dQ
- s4qG9f5IAqFiqpqjdcSXWx3/Aqv0O0nCeQU31bc0qVJcQUCb0Ol05cd6/78dDy4PUNNZSOF7474
- /
-X-Google-Smtp-Source: AGHT+IFh3qW3mPVxpPZd9G4TjfK5nxFYTDAaYwjcRaRtPMbxGNm18LvdwCp9WL+YLZdj8BA4+9h2Ug==
-X-Received: by 2002:a05:6808:8f4:b0:3d5:5d95:fb0 with SMTP id
- 5614622812f47-3d914c5e376mr465253b6e.20.1720068627347; 
- Wed, 03 Jul 2024 21:50:27 -0700 (PDT)
+ AJvYcCUgOFk3PtlyaxjATQIx/eMqlu2wf9WP/4GgagXY0N11KEi3M+EBquB0enH++43d5Ozol0l8u8VHU4TYgcxPvCjj4/h/QNWMGWw9aTPdE+pQ
+X-Gm-Message-State: AOJu0YyDzbYnz1bSTIjLhFLDQ4ldOyInAS1kvbhjJAd5peI+2rxes8H0
+ h5XsyfrU9mtKww3os4vdlO3ovjjAHM9zZSKU2p7VQoqB3jU+MO10JzO5g75CvN4=
+X-Google-Smtp-Source: AGHT+IGwWXLEPd6j1SIUqzU+gfofpiqClC0+U9lppd9lNrJyoW9Y+Q7h2ChaL82zLrx8UHmV9t1tHg==
+X-Received: by 2002:a05:690c:45c5:b0:61e:a26:c1b2 with SMTP id
+ 00721157ae682-652d767d0a7mr7287207b3.17.1720068633205; 
+ Wed, 03 Jul 2024 21:50:33 -0700 (PDT)
 Received: from yc.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-70804a8ec1asm11291826b3a.188.2024.07.03.21.50.23
+ d2e1a72fcca58-70804a8ec1asm11291826b3a.188.2024.07.03.21.50.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jul 2024 21:50:26 -0700 (PDT)
+ Wed, 03 Jul 2024 21:50:32 -0700 (PDT)
 From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
  dianders@chromium.org, linus.walleij@linaro.org, swboyd@chromium.org,
@@ -65,11 +65,15 @@ To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
 Cc: lvzhaoxiong@huaqin.corp-partner.google.com,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH v2 0/3] Support for Melfas lmfbx101117480 MIPI-DSI panel
-Date: Thu,  4 Jul 2024 12:50:14 +0800
-Message-Id: <20240704045017.2781991-1-yangcong5@huaqin.corp-partner.google.com>
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v2 1/3] dt-bindings: display: panel: Add compatible for melfas
+ lmfbx101117480
+Date: Thu,  4 Jul 2024 12:50:15 +0800
+Message-Id: <20240704045017.2781991-2-yangcong5@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240704045017.2781991-1-yangcong5@huaqin.corp-partner.google.com>
+References: <20240704045017.2781991-1-yangcong5@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,26 +91,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series support for Melfas lmfbx101117480 MIPI-DSI panel with
-jadard-jd9365da controller.
-Add compatible for melfas lmfbx101117480 in dt-bindings.
-Break some CMDS into helper functions.
+The Melfas lmfbx101117480 is a 10.1" WXGA TFT LCD panel with jadard-jd9365da
+controller. Hence, we add a new compatible with panel specific config.
 
-Changes in v2:
-- PATCH 1/3: No change.
-- PATCH 2/3: No change..
-- PATCH 3/7: Break some CMDS into helper functions.
-- Link to v1: https://lore.kernel.org/dri-devel/20240702130138.2543711-1-yangcong5@huaqin.corp-partner.google.com/
+Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
+ .../devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml    | 1 +
+ 1 file changed, 1 insertion(+)
 
-Cong Yang (3):
-  dt-bindings: display: panel: Add compatible for melfas lmfbx101117480
-  drm/panel: jd9365da: Support for Melfas lmfbx101117480 MIPI-DSI panel
-  drm/panel: jd9365da: Break some CMDS into helper functions
-
- .../display/panel/jadard,jd9365da-h3.yaml     |   1 +
- .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 317 ++++++++++++++++--
- 2 files changed, 291 insertions(+), 27 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+index 3d5bede98cf1..b8783eba3ddc 100644
+--- a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
++++ b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+@@ -18,6 +18,7 @@ properties:
+       - enum:
+           - chongzhou,cz101b4001
+           - kingdisplay,kd101ne3-40ti
++          - melfas,lmfbx101117480
+           - radxa,display-10hd-ad001
+           - radxa,display-8hd-ad002
+       - const: jadard,jd9365da-h3
 -- 
 2.25.1
 
