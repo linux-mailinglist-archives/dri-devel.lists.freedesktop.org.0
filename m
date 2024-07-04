@@ -2,89 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21623927539
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 13:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE54927596
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 13:57:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47BD610EAA2;
-	Thu,  4 Jul 2024 11:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACCEB10EAAC;
+	Thu,  4 Jul 2024 11:57:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Bz5esc5m";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3hd5Gtpw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E31810EAA2
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 11:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720093037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uqyBX3zArIOTroiktpF738HmfBUreaQ6KV57xDF+BEU=;
- b=Bz5esc5mcft2fk6BgpeLa/GsquiN97j0OsaTw60AHQjHDgc9jq0qDu1Hik1I6gM1SVxS2d
- XEonE5jYuxpGkMFHsY5bWZtiH47zzjamTQJBjA7xPP/sktdC6p14uEqcm3jKgQG029URGQ
- NYChLIR1df8oT/CApUZfQFFDBJ1VNzc=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-693-o0PYnM76PCu5tjFz0yJxlA-1; Thu, 04 Jul 2024 07:37:15 -0400
-X-MC-Unique: o0PYnM76PCu5tjFz0yJxlA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-52e969d34bbso583450e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 04:37:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720093034; x=1720697834;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uqyBX3zArIOTroiktpF738HmfBUreaQ6KV57xDF+BEU=;
- b=Pv84mY68BDKB+pxzVBkty9nz3CSFiJlAzVSDn0pZDdhSIIDTF1GoAIi4WmOcTj1rVn
- glxR8lkG4fq01g+MVblVNQ6u3mVZZ0zcVUQo95aaiUf4c/WbMwUt656urDzQBelqcTku
- 2jJQNuffGxTt5VHOVwcDG8maDiJKmHgER6DwoVmwnsXbTaNWT72t3LI1qffaFtYhKHN7
- m9howqcWRFRUUgTCoM7Pzs6dvY9DiQ38XLND8aqgm/tuW6JRk0n4VzDv2Rrxt+nP+rrd
- maL4iJhaggaQP35ya7SZJ+dbfl6gExFiMNVyDjTKrR+gBxdksbwwSihst4SRmI5v1L59
- v5mA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlzkZ+QUekGIJwBpzllmID0+20BvwKv/NDDaxh3PahFMaPjtP3qlgAR8aHqAP/fVwDXqZcF49vYE9urcLEUEpVb+LCM1eM0ZASC7/Tbtl1
-X-Gm-Message-State: AOJu0YzGmRbcnCtE5SvCxTtswzkilVb9Ulif6Bnc5zhk42auY5FAa7z8
- QLY7kDE/+BfD7STzm24iq68HSlz+LMqaNl4Q7AOeE7vQzlatSvgEneDqDl46RH2RkessWXaAor0
- yV0miswnu/Dm/qPuioj+mEBBFjxG5REyy1Srdhy0CprLo+eFnldgbjygJ+lI4so0Aog==
-X-Received: by 2002:ac2:5924:0:b0:52e:9d60:7b4c with SMTP id
- 2adb3069b0e04-52ea06e48cfmr845852e87.61.1720093034217; 
- Thu, 04 Jul 2024 04:37:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHAC+hNiL1prnnUa5FO1O3uWyIwQgxomTMRgam+LYoxR1V6bY9ndbxw7Fh3Zy/p1THh1JG3CQ==
-X-Received: by 2002:ac2:5924:0:b0:52e:9d60:7b4c with SMTP id
- 2adb3069b0e04-52ea06e48cfmr845825e87.61.1720093033739; 
- Thu, 04 Jul 2024 04:37:13 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:680e:9bf4:b6a9:959b?
- ([2a01:e0a:d5:a000:680e:9bf4:b6a9:959b])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4264a1d16b0sm20944305e9.7.2024.07.04.04.37.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jul 2024 04:37:12 -0700 (PDT)
-Message-ID: <d35ed036-209d-43fe-bcf3-91b218df4142@redhat.com>
-Date: Thu, 4 Jul 2024 13:37:11 +0200
-MIME-Version: 1.0
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2084.outbound.protection.outlook.com [40.107.102.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2732B10EAA9;
+ Thu,  4 Jul 2024 11:57:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DxS/YNXqKoRTERE8nwgvnI0WI90K9jWV1OCk5px8+TjiRIfGTMzgrFDOlClKXU5vzXHvFS21487OgSKMdp8Ct6brej1tkKlVEf8fG58yMKPEnbU7CQEPgvVjaPgEWxGsSvESaP92PIQmYiRdJoCOnxSV5wk1GOKvATNW8YhxoALEfcmuUSz9xK8ptMReVoHNTMjimYU3YzAUvnR8938+msjkOgIiZuYUmS5+5b3LH45tYawcELtraeHp/Wb6NVjpI85kjzsj7yX4gryfxfrrjzqVw8XksKvahRksQDdlDjXmOcmTzHVJGdx3ztg8kkFlvVtjO8qygQDEdMgyybw84Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Us0HqI8ddvso9knNAHqKAyyB61gD/la4ywUSZKGBz7o=;
+ b=Hl01d9x/RsR4SfHdbh9/FBp8V3bOTV2VwyFLjsJmRJTjbbVvhYd/Q9eHUAYgUYbZuStkm7n815ib1A11p+5a3EJKSiy9MgQv3+t/HqJrmuZd7Ic2pc/4r8Woj2F94rmYA60RCCHPf5ypdeORBJ/Q8PtRbribO6zB5hG0RMIFE50fLCkKBpwvOUvFuTImQxeh6htCnYY1ExVkpp3ntCCep+JtAXGCOhZOV9X2KTZykQSCFyQFTK1XpPO5qrQZkeYXGjF7QBSPG1ca/WpHctTAatHkxOFQgUTp17wsovJhfQDjOiJZoyV8cx7YIrX8uPqXeoIpEJJ1xVqJI1dKLopIgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Us0HqI8ddvso9knNAHqKAyyB61gD/la4ywUSZKGBz7o=;
+ b=3hd5GtpwTw1uhn/1lCfTB7XQ1ZKg+DCHSJ2cjS13Wk/jCMZRLFlXXfm5v/+lzMEiWjD5hNE/iJhxX48MF6b+i2RUAAyuhpvrXF9+PF5sWiZDvw+diDcTDyisoonIlgsdMvHJKlAVaTjhk/Lc8jem3r79AmUMEqnH0QVRL+pE/is=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ2PR12MB8805.namprd12.prod.outlook.com (2603:10b6:a03:4d0::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.30; Thu, 4 Jul
+ 2024 11:57:20 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.7741.017; Thu, 4 Jul 2024
+ 11:57:20 +0000
+Message-ID: <7090d13a-f40b-4cf8-b536-7e8d4a2d7168@amd.com>
+Date: Thu, 4 Jul 2024 13:57:15 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/panic: Add a qr_code panic screen
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: a.hindborg@samsung.com, airlied@gmail.com, alex.gaynor@gmail.com,
- benno.lossin@proton.me, bjorn3_gh@protonmail.com, boqun.feng@gmail.com,
- dakr@redhat.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- gary@garyguo.net, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, ojeda@kernel.org,
- rust-for-linux@vger.kernel.org, tzimmermann@suse.de, wedsonaf@gmail.com
-References: <20240703154309.426867-5-jfalempe@redhat.com>
- <20240704091109.1453809-1-aliceryhl@google.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240704091109.1453809-1-aliceryhl@google.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH v6 08/12] drm/ttm: Add a virtual base class for graphics
+ memory backup
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+References: <20240703153813.182001-1-thomas.hellstrom@linux.intel.com>
+ <20240703153813.182001-9-thomas.hellstrom@linux.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240703153813.182001-9-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0087.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB8805:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29758e44-358c-4db0-5f10-08dc9c20753d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NnBHVTNabWdvOWZiZ1oySjEzUTloajJPd0pFWXFuYW1pL0txZnhvYkluZnd2?=
+ =?utf-8?B?QkM1YSttYVhWWmpyN3VROGxoWThNMTEvYU9wSHUwYWhzanVRUkpvWGVtdVFL?=
+ =?utf-8?B?T1daWWxic3pFZnQyWjdtQk1HZnFVRG1IbDlndVpsR3dueHkxNWRJSDdLUDBB?=
+ =?utf-8?B?aWNXQTM2eEQvMVBXV0U1RjN6ZDRXZXc0cTZQbFA0enkwajZENy90L2tHME1t?=
+ =?utf-8?B?UmRhYlZvdldZaFNGMjZrdE5RK1NWTVpMMjdvekhmaS8zT3JNcmFvS2dMbllN?=
+ =?utf-8?B?Q0FWR2x6eDRPaHROQmVFZGJQK3pkd2Z2TDQ2RDlUYXpSeExQNWllSmJPNGJa?=
+ =?utf-8?B?NDUvQXpDSG5kY215Q0xxOU02V1NTc3RWNWRkM043Ryt4Ym9EUU9LOWx2aHRS?=
+ =?utf-8?B?UllMaUZKRk4rUXYzZks3eUJBTmg0MGRtOXM1Y2ZjVEMzQ1p6UEEzMnJWdWFF?=
+ =?utf-8?B?NkxJWEpPS3p3d2lCZHBReVF5THc0bkNPb2UwbEpYNVNvOUxvWHpQbVpRbUcy?=
+ =?utf-8?B?enVVTGNXZ1JaL2QramdTNDBVN1dsZFNqS0NDL2NtZjMvUHZQKzJIQ1ErczZa?=
+ =?utf-8?B?cndWeTVCeVEwNk8zY1ZWS2R6Z25BNzM0b243b2xucGhCeSsyS3dMTlBpcERn?=
+ =?utf-8?B?bjViNWlFTFV2ZHp0V2tSdyswd01abmxKeExCOXBTaGlKUVJmUmdWQTFteXV2?=
+ =?utf-8?B?enBoM01OQ1JKYjNVUkdtSEFHdlNiSkdSRlVSQ1QzM01CWnFvWDJSbHNvaXJB?=
+ =?utf-8?B?TjYwMzNJZjBudzJ3d0JvTExQZGRXTmNPcmx4WkJrd3hydFYxT25LOHN3Tjdk?=
+ =?utf-8?B?Z2hoWmdhOVAwSnQ3MWU0WlhKLzJLSkcrQkVMdUVIZWVoU2dTTll0Q255cGtx?=
+ =?utf-8?B?bk1xcnpYZENsVlRmTW91WDE0MGx6dGRjUGxLVTY0ck1TbGh2K1k0UURmc044?=
+ =?utf-8?B?WDd3QlMvTFVmV0czM3ExTGt0N3pRUHVuN0FJTGJCQXdOaklKRFJXa0EyZnNj?=
+ =?utf-8?B?Vll3TEpFNGI1SG9aemtjdXdxb0pkTnMrOUsrUTJMT0NxTmpHNTM1QXhDMXA1?=
+ =?utf-8?B?bnV6cjBiekF0OVBOOFRkeHlaNVd4V2VoeUszeWFUUEkyTVJrMUd3TTNwYjhj?=
+ =?utf-8?B?VmRrT255WkxKUG15TmNPb1pLMngwL3NlbGJDalpVUlhVMDVkMDY1SHF5d1A3?=
+ =?utf-8?B?OUhFM2pYNXUydUVnd244SlVBL0Y4YlNDekhZMXpMU2xuWUhUcTlKL1IxWUJj?=
+ =?utf-8?B?ckVxVHlLUHJEVkFsM05ybVFxY2V4eUF5akgrdVJrVnc4bGExeWxsYTRwdUY4?=
+ =?utf-8?B?V21ReTg5UWxZdVZMekV1Q2REZEpPL20yWER5eFppT1M3Sy9iRG5zbmc3VW5o?=
+ =?utf-8?B?M3hEZFRMUGdyWm53d3hTSkdsbXRQVjRETFNTMWpvNEhwL2xiVmpweklJamFG?=
+ =?utf-8?B?UDlLY3Z5UU1UVmFIS1dMcmdNMnJ3VmhvV1BvWjE0ZW56TDRZSXRQUXNxTW5L?=
+ =?utf-8?B?ZGpGcllGbnhRY3pTMUU5WlNGQlB3bjZLOWtZUFhXNWVkbnJ6RWtjTzAwV09O?=
+ =?utf-8?B?ZlJXTFBYZ3pwNWNtNW5QN2dMVnNWTjRLbE1qTGtaTjZ1SVo1Tm9ycURUazh5?=
+ =?utf-8?B?QXN6b1p3cjFJNUZpZ2hxY2JpTit0K1FHaXlhNTYxUDZTZjZGTVBUTFppb25a?=
+ =?utf-8?B?d25pTFRQVzNKRUVNY3k3QXh3U1Y3M2IwcHRuK2hYSm5YRXorWHp1T3hnRlNv?=
+ =?utf-8?B?dGdnYTZFcXVLWnFnaG9zd2ZtV0lSUzlJQk5lUEtoNWZRT1QxbXBhamJIWStC?=
+ =?utf-8?B?cmlRellhL3NGTDRZVHRhUT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SEhVSDlxM0NaOHZvWGpLZVd2dy9pVHNTQjZReTFLdWErbzJUYkU4TEg3aXNq?=
+ =?utf-8?B?Mm92d1FNcG5EWVA0d3g0ZlpUZ2RkV0hacDVpS0JyRHNScjNhbkJiLzc4anVa?=
+ =?utf-8?B?OHhUN3FxWTNHZGNQcGlheitVQXhpdUNuSWdhcUZKMXdDUW5wUm5vMnA0eXlr?=
+ =?utf-8?B?NUlxQWN3VHBQeFhSblY2alBqTXFMSHczTDdDYUxLbXhZOE9ITk9VQStncEZy?=
+ =?utf-8?B?czJ5ZU5QQmlsOG4wLzJnTkR2Z2NkaTlqQlZGTS9ocVhESlJoODl0am12MXBX?=
+ =?utf-8?B?LzQ4ZFg2L3NDTVdzZWg2SVh3MWJHdFVCSEVuSWNsS1VPVi9aZFBIVHg2STNk?=
+ =?utf-8?B?cDZSMDAzVmxObmEyK09lZmQ2aHM4NWFxNHZEVWhrYnNhMkJqc2R1YmQ5VjZT?=
+ =?utf-8?B?NTAyNU81MmNmR0Z5MlNxWllTMTFzblFhNEhVWGw4WHZGdTdLaEwrVWRvTXMz?=
+ =?utf-8?B?M1FCa0VHekQzY29ZVTlzRTFQM3BSY3VKL2xsQTR3bGU1SSt2VTY0M2xJTWhu?=
+ =?utf-8?B?RjR5bDVUQk9ZSkR1WUhpYmoyMkd3UC9SYWpLN01xcnA1V1hhR3F1K01YbjIr?=
+ =?utf-8?B?ck8ybFBNUTRlUE96OWRZa0NMVGlmMWgwdEltUnRPYlNMK2dGSWNFUzZnZ2p1?=
+ =?utf-8?B?c3JUVUFjQlJRTVhLb2hwYXlKM0loc00wb0NUUVA4NDdBQkh4aUQxY2syMHZs?=
+ =?utf-8?B?ZjRoOXFpaU9Qa2tPOXN4TjVXaTBCRndoREpxMTVxL0ZscWFmbmNYMW52eTlP?=
+ =?utf-8?B?am9oNDZqUnhWbm50UkdLV2ttTFRoSXBtV3p1Wm9CWFdPbzZ5dzNnWlJoVit4?=
+ =?utf-8?B?RFJNNWM1TzJvQkFzemYxK1RrSWp6c3NhVmtTeGpqdktzdzZaYVhISktybmh1?=
+ =?utf-8?B?U1JEYWVHRExtOWNKa0E5SUlnQjAzVTEvWjBQYzR6TFRtTlViRUZRTnQ4TU1q?=
+ =?utf-8?B?R1daRzliY1NtNXFCWGQ5NzZySVA4Ri9vNkpBUWJWOEM0YUk1UE54WUoycE5W?=
+ =?utf-8?B?U29sdlFDNHNDUUVxNU1MZkJqb21McDV0RUxyY3FsVmRyTkd5MzcyTWdlaHJw?=
+ =?utf-8?B?Z29lRlMzdDlvZ0E3S3grR0UydmZuVEFyVmpibEhPYnJTc09YdHF2S3BSRnpS?=
+ =?utf-8?B?TDAwcGgzY1hVcjhxanV5SmlZeXJ1RmlheW9PVlhrWUNFUmhkd2FWU2lXcEdL?=
+ =?utf-8?B?by9wV09SQnU2RytjZ0QwbTFUL1NyWGRRM00vT0dEMFd1NEpmQS9uaDZiczg2?=
+ =?utf-8?B?aDUwa3FMS3BwVmM5Y2dtUmpUcjY4MS9OR2NhRDlPdmtqSnN6SzB5WG96Zmlz?=
+ =?utf-8?B?dEVGRkVXYTk0UCs4aXR6UjIySVlQZjRabmdsN25sYWUvbkR2aUNFa1N5V3lC?=
+ =?utf-8?B?QXVGcFpoVkYvQ3pIMHJNWHRwbjFSOVc5cUZNYzRqVndoNVhKNkhrZlhqQVBT?=
+ =?utf-8?B?eHZzTlJrRU00S1FiK0xCZzZRN0UvOUtGVTFoOVRFd2Q4S1g4NmtYNTBWeVNU?=
+ =?utf-8?B?RzZGQWpWSWNUK1FXME1lZDlueTVBRkRqTE04cE8zMzQzNzV0b3hLdjNRRWI0?=
+ =?utf-8?B?L0NuVXVBVjdldC9oSEJQck1MeUc5a2svNkljeTRXSnh1cEdycDRZNkd5VFRZ?=
+ =?utf-8?B?ZmI5VWxmL3V5OEI1OG1pem1WQVp6QjVHTkRzQXVtNHIxakR1NTJVcFk4SzJu?=
+ =?utf-8?B?U2N3OHArR0NTTUdnMHFEZUpMNlZIT0xoaTFTUVA0b2ttRERVWkxkMllwMDJh?=
+ =?utf-8?B?V3JEb2xDZEZuYkl1b3pYTXlJbGtLSWhqZHh4OGFNODVtK3ZwTlNPS050US8r?=
+ =?utf-8?B?SzVmQXhMNFFNRG1sTmdHYkhzVE9KRG1NNlBWWXREbHJmYWJFM1A2Zzl2Q1NG?=
+ =?utf-8?B?UnVVNnNXYURHbnhqZ0U5WStTWWJ6Z3o3anVEVTJuTmF6bGdqYVJpMFNWdUJI?=
+ =?utf-8?B?dGtDSmtlWWw0Z3J2dmQ2SjZCUCt6eDhGRVZFVUtQaHRUZzhlaGp2aVNZa2ZQ?=
+ =?utf-8?B?RktFdGxIWjFKTHI0UHFtOE9hT3dCNXV4Q1J5RGRxdFIzK1pOcy80VDBzZXhS?=
+ =?utf-8?B?MVpndkxwYWVTL2Q3MWtuNUZGZi9wM3A5Zzl1LzA1OEN5R0tmSFRoTjhCc2lX?=
+ =?utf-8?Q?2blba6wm6NWhF+MdQFd8CHHIb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29758e44-358c-4db0-5f10-08dc9c20753d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2024 11:57:20.2387 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UGD/wN12W2WJw8GzArREburCyjPBOUELbzq+J+uSbwFzzJp5P1W7NKAwnVIg8a36
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8805
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,265 +163,345 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 03.07.24 um 17:38 schrieb Thomas Hellström:
+> Initially intended for experimenting with different backup
+> solutions (shmem vs direct swap cache insertion), abstract
+> the backup destination using a virtual base class.
+>
+> Also provide a sample implementation for shmem.
 
+Let's postpone this and all following patches and merge the LRU changes 
+first.
 
-On 04/07/2024 11:11, Alice Ryhl wrote:
-> Jocelyn Falempe <jfalempe@redhat.com> wrote:
->> This patch adds a new panic screen, with a QR code and the kmsg data
->> embedded.
->> If DRM_PANIC_SCREEN_QR_CODE_URL is set, then the kmsg data will be
->> compressed with zlib and encoded as a numerical segment, and appended
->> to the url as a url parameter. This allows to save space, and put
->> about ~7500 bytes of kmsg data, in a V40 QR code.
->> Linux distributions can customize the url, and put a web frontend to
->> directly open a bug report with the kmsg data.
->>
->> Otherwise the kmsg data will be encoded as binary segment (ie raw
->> ascii) and only a maximum of 2953 bytes of kmsg data will be
->> available in the QR code.
->>
->> You can also limit the QR code size with DRM_PANIC_SCREEN_QR_VERSION.
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> This is pretty cool! The Rust code looks reasonable, and it's really
-> nice that you've isolated all of the unsafe code to a single place. That
-> makes it much easier to review.
-> 
-> I have a few comments on Rust style below:
-> 
->> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
->> new file mode 100644
->> index 000000000000..f4d7a3b8a01e
->> --- /dev/null
->> +++ b/drivers/gpu/drm/drm_panic_qr.rs
->> @@ -0,0 +1,989 @@
->> +// SPDX-License-Identifier: MIT
->> +
->> +//! This is a simple qr encoder for DRM panic
->> +//! Due to the Panic constraint, it doesn't allocate memory and does all the work
->> +//! on the stack or on the provided buffers.
->> +//! For simplification, it only supports Low error correction, and apply the
->> +//! first mask (checkboard). It will draw the smallest QRcode that can contain
->> +//! the string passed as parameter.
->> +//! To get the most compact QR-code, the start of the url is encoded as binary,
->> +//! and the compressed kmsg is encoded as numeric.
->> +//! The binary data must be a valid url parameter, so the easiest way is to use
->> +//! base64 encoding. But this waste 25% of data space, so the whole stack trace
->> +//! won't fit in the QR-Code. So instead it encodes every 13bits of input into
->> +//! 4 decimal digits, and then use the efficient numeric encoding, that encode 3
->> +//! decimal digits into 10bits. This makes 39bits of compressed data into 12
->> +//! decimal digits, into 40bits in the QR-Code, so wasting only 2.5%.
->> +//! And numbers are valid url parameter, so the website can do the reverse, to
->> +//! get the binary data.
->> +//!
->> +//! Inspired by this 3 projects, all under MIT license:
->> +//! https://github.com/kennytm/qrcode-rust
->> +//! https://github.com/erwanvivien/fast_qr
->> +//! https://github.com/bjguillot/qr
-> 
-> Generally, documentation under //! or /// comments should be written
-> using markdown. In markdown, line breaks are ignored and do not actually
-> show up as a line break in the rendered documentation. If you want an
-> actual line break, then you need an empty line.
+Christian.
 
-Thanks, I didn't know about this. I'm now playing with rustdoc, and the 
-output is really not what I expected. I will fix the rust comments in v2
-> I would format it like this:
-> 
-> //! This is a simple qr encoder for DRM panic.
-> //!
-> //! Due to the Panic constraint, it doesn't allocate memory and does all
-> //! the work on the stack or on the provided buffers. For
-> //! simplification, it only supports Low error correction, and apply the
-> //! first mask (checkboard). It will draw the smallest QRcode that can
-> //! contain the string passed as parameter. To get the most compact
-> //! QR-code, the start of the url is encoded as binary, and the
-> //! compressed kmsg is encoded as numeric.
-> //!
-> //! The binary data must be a valid url parameter, so the easiest way is
-> //! to use base64 encoding. But this waste 25% of data space, so the
-> //! whole stack trace won't fit in the QR-Code. So instead it encodes
-> //! every 13bits of input into 4 decimal digits, and then use the
-> //! efficient numeric encoding, that encode 3 decimal digits into
-> //! 10bits. This makes 39bits of compressed data into 12 decimal digits,
-> //! into 40bits in the QR-Code, so wasting only 2.5%. And numbers are
-> //! valid url parameter, so the website can do the reverse, to get the
-> //! binary data.
-> //!
-> //! Inspired by this 3 projects, all under MIT license:
-> //!
-> //! * https://github.com/kennytm/qrcode-rust
-> //! * https://github.com/erwanvivien/fast_qr
-> //! * https://github.com/bjguillot/qr
-> 
->> +/// drm_panic_qr_generate()
->> +///
->> +/// C entry point for the rust QR Code generator
->> +///
->> +/// Write the QR code image in the data buffer, and return the qrcode size, or 0
->> +/// if the data doesn't fit in a QR code.
->> +///
->> +/// url: the base url of the QR code. will be encoded as Binary segment.
->> +/// data: pointer to the binary data, to be encoded. if url is NULL, it will be
->> +///       encoded as Binary segment. otherwise it will be encoded efficiently as
->> +///       Numeric segment, and appendended to the url.
->> +/// data_len: length of the data, that needs to be encoded.
->> +/// data_size: size of data buffer, it should be at least 4071 bytes to hold a
->> +///            V40 QR-code. it will then be overwritten with the QR-code image.
->> +/// tmp: a temporary buffer that the QR-code encoder will use, to write the
->> +///      segments data and ECC.
->> +/// tmp_size: size of the tmp buffer, it must be at least 3706 bytes long for V40
-> 
-> The same applies here. When rendered using markdown, the above will be
-> rendered like this:
-
-Yes I will fix that too.
-> 
-> url: the base url of the QR code. will be encoded as Binary segment.
-> data: pointer to the binary data, to be encoded. if url is NULL, it will
-> be encoded as Binary segment. otherwise it will be encoded efficiently
-> as Numeric segment, and appendended to the url. data_len: length of the
-> data, that needs to be encoded. data_size: size of data buffer, it
-> should be at least 4071 bytes to hold a V40 QR-code. it will then be
-> overwritten with the QR-code image. tmp: a temporary buffer that the
-> QR-code encoder will use, to write the segments data and ECC. tmp_size:
-> size of the tmp buffer, it must be at least 3706 bytes long for V40
-> 
-> I don't think that's what you wanted.
-> 
->> +#[no_mangle]
->> +pub extern "C" fn drm_panic_qr_generate(
->> +    url: *const i8,
->> +    data: *mut u8,
->> +    data_len: usize,
->> +    data_size: usize,
->> +    tmp: *mut u8,
->> +    tmp_size: usize,
->> +) -> u8 {
->> +    if data_size <= 4071 || tmp_size <= 3706 {
->> +        return 0;
->> +    }
->> +    let data_slice: &mut [u8] = unsafe { core::slice::from_raw_parts_mut(data, data_size) };
->> +    let tmp_slice: &mut [u8] = unsafe { core::slice::from_raw_parts_mut(tmp, tmp_size) };
->> +    if url.is_null() {
->> +        match EncodedMsg::new(&[&Segment::Binary(&data_slice[0..data_len])], tmp_slice) {
->> +            None => 0,
->> +            Some(em) => {
->> +                let qr_image = QrImage::new(&em, data_slice);
->> +                qr_image.width
->> +            }
->> +        }
->> +    } else {
->> +        let url_str: &str = unsafe { CStr::from_char_ptr(url).as_str_unchecked() };
->> +        let segments = &[
->> +            &Segment::Binary(url_str.as_bytes()),
->> +            &Segment::Numeric(&data_slice[0..data_len]),
->> +        ];
->> +        match EncodedMsg::new(segments, tmp_slice) {
->> +            None => 0,
->> +            Some(em) => {
->> +                let qr_image = QrImage::new(&em, data_slice);
->> +                qr_image.width
->> +            }
->> +        }
->> +    }
->> +}
-> 
-> It's very nice that you've isolated all of the unsafe code to this
-> function. That makes it very easy to review.
-> 
-> A few comments:
-> 
-> First, all unsafe blocks must be annotated with a safety comment. For
-> example:
-> 
-> // SAFETY: The caller ensures that `data` is valid for `data_size`
-> // bytes, and that it is valid for writing.
-> let data_slice: &mut [u8] = unsafe { core::slice::from_raw_parts_mut(data, data_size) };
-> 
-> Unsafe functions are those that can trigger memory safety problems if
-> you call them incorrectly, and you must annotate calls with a safety
-> comment that explains why this call cannot result in memory safety
-> issues. In this case, you can just say that the caller promises to pass
-> you reasonable arguments.
-
-Yes, all these buffers come from the C side, so you need to trust the 
-caller. I will add these safety comments.
-> 
-> 
-> The next unsafe block is a bit more interesting.
-> 
->> +        let url_str: &str = unsafe { CStr::from_char_ptr(url).as_str_unchecked() };
-> 
-> Here, you call two unsafe functions:
-> 
-> * `CStr::from_char_ptr`
-> * `CStr::as_str_unchecked`
-> 
-> If you read the documentation, you will find these safety requirements:
-> 
-> /// # Safety
-> ///
-> /// `ptr` must be a valid pointer to a `NUL`-terminated C string, and it must
-> /// last at least `'a`. When `CStr` is alive, the memory pointed by `ptr`
-> /// must not be mutated.
-> 
-> /// # Safety
-> ///
-> /// The contents must be valid UTF-8.
-> 
-> Your unsafe block *must* have a safety comment that explains why the
-> above things are satisfied. The requirements of `from_char_ptr` are
-> okay, but is it really the case that `url` is necessarily valid UTF-8?
-> 
-> You never actually use the fact that it's UTF-8 anywhere, so you can
-> just not call `as_str_unchecked`. The `CStr` type also has an `as_bytes`
-> method, so there's no reason to go through the `&str` type.
-
-Yes, I can use directly the CStr, so one less unsafe call :)
-
-> 
-> Finally, `drm_panic_qr_generate` should really be marked unsafe. By not
-> marking it unsafe, you are saying that no matter what the arguments are,
-> calling the function will not result in memory safety problems. That's
-> not really true. If I call it with `data` being a null pointer, you're
-> going to have a bad time.
-
-Sure, we can't guarantee that the pointers are valid, when they come 
-from the C side. So I agree this should be unsafe.
-
-> 
-> You probably want something along these lines:
-> 
-> /// # Safety
-> ///
-> /// * `url` must be null or point at a nul-terminated string.
-> /// * `data` must be valid for reading and writing for `data_size` bytes.
-> /// * `tmp` must be valid for reading and writing for `tmp_size` bytes.
-> #[no_mangle]
-> pub unsafe extern "C" fn drm_panic_qr_generate(
-> 
-> As long as the above requirements are satisfied, calling
-> `drm_panic_qr_generate` should never cause memory unsafety, so this is
-> an appropriate list of safety requirements.
-
-Ok, I will add this in v2
-> 
-> (You also require that `data_len <= data_size`, but if this is violated
-> you get a kernel panic which isn't a memory safety problem, so it does
-> not need to be listed in the safety requirements.)
-
-Sure, I will add this check too.
-
-> 
-> Alice
-> 
-
-
-Thanks a lot for this detailed review, that's really helpful.
-
--- 
-
-Jocelyn
+>
+> While when settling on a preferred backup solution, one could
+> perhaps skip the abstraction, this functionality may actually
+> come in handy for configurable dedicated graphics memory
+> backup to fast nvme files or similar, whithout affecting
+> swap-space. Could indeed be useful for VRAM backup on S4 and
+> other cases.
+>
+> v5:
+> - Fix a UAF. (kernel test robot, Dan Carptenter)
+> v6:
+> - Rename ttm_backup_shmem_copy_page() function argument
+>    (Matthew Brost)
+> - Add some missing documentation
+>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>   drivers/gpu/drm/ttm/Makefile           |   2 +-
+>   drivers/gpu/drm/ttm/ttm_backup_shmem.c | 139 +++++++++++++++++++++++++
+>   include/drm/ttm/ttm_backup.h           | 137 ++++++++++++++++++++++++
+>   3 files changed, 277 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/gpu/drm/ttm/ttm_backup_shmem.c
+>   create mode 100644 include/drm/ttm/ttm_backup.h
+>
+> diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
+> index dad298127226..5e980dd90e41 100644
+> --- a/drivers/gpu/drm/ttm/Makefile
+> +++ b/drivers/gpu/drm/ttm/Makefile
+> @@ -4,7 +4,7 @@
+>   
+>   ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
+>   	ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
+> -	ttm_device.o ttm_sys_manager.o
+> +	ttm_device.o ttm_sys_manager.o ttm_backup_shmem.o
+>   ttm-$(CONFIG_AGP) += ttm_agp_backend.o
+>   
+>   obj-$(CONFIG_DRM_TTM) += ttm.o
+> diff --git a/drivers/gpu/drm/ttm/ttm_backup_shmem.c b/drivers/gpu/drm/ttm/ttm_backup_shmem.c
+> new file mode 100644
+> index 000000000000..3d23a34d9f34
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ttm/ttm_backup_shmem.c
+> @@ -0,0 +1,139 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2024 Intel Corporation
+> + */
+> +
+> +#include <drm/ttm/ttm_backup.h>
+> +#include <linux/page-flags.h>
+> +
+> +/**
+> + * struct ttm_backup_shmem - A shmem based ttm_backup subclass.
+> + * @backup: The base struct ttm_backup
+> + * @filp: The associated shmem object
+> + */
+> +struct ttm_backup_shmem {
+> +	struct ttm_backup backup;
+> +	struct file *filp;
+> +};
+> +
+> +static struct ttm_backup_shmem *to_backup_shmem(struct ttm_backup *backup)
+> +{
+> +	return container_of(backup, struct ttm_backup_shmem, backup);
+> +}
+> +
+> +static void ttm_backup_shmem_drop(struct ttm_backup *backup, unsigned long handle)
+> +{
+> +	handle -= 1;
+> +	shmem_truncate_range(file_inode(to_backup_shmem(backup)->filp), handle,
+> +			     handle + 1);
+> +}
+> +
+> +static int ttm_backup_shmem_copy_page(struct ttm_backup *backup, struct page *dst,
+> +				      unsigned long handle, bool intr)
+> +{
+> +	struct file *filp = to_backup_shmem(backup)->filp;
+> +	struct address_space *mapping = filp->f_mapping;
+> +	struct folio *from_folio;
+> +
+> +	handle -= 1;
+> +	from_folio = shmem_read_folio(mapping, handle);
+> +	if (IS_ERR(from_folio))
+> +		return PTR_ERR(from_folio);
+> +
+> +	/* Note: Use drm_memcpy_from_wc? */
+> +	copy_highpage(dst, folio_file_page(from_folio, handle));
+> +	folio_put(from_folio);
+> +
+> +	return 0;
+> +}
+> +
+> +static unsigned long
+> +ttm_backup_shmem_backup_page(struct ttm_backup *backup, struct page *page,
+> +			     bool writeback, pgoff_t i, gfp_t page_gfp,
+> +			     gfp_t alloc_gfp)
+> +{
+> +	struct file *filp = to_backup_shmem(backup)->filp;
+> +	struct address_space *mapping = filp->f_mapping;
+> +	unsigned long handle = 0;
+> +	struct folio *to_folio;
+> +	int ret;
+> +
+> +	to_folio = shmem_read_folio_gfp(mapping, i, alloc_gfp);
+> +	if (IS_ERR(to_folio))
+> +		return handle;
+> +
+> +	folio_mark_accessed(to_folio);
+> +	folio_lock(to_folio);
+> +	folio_mark_dirty(to_folio);
+> +	copy_highpage(folio_file_page(to_folio, i), page);
+> +	handle = i + 1;
+> +
+> +	if (writeback && !folio_mapped(to_folio) && folio_clear_dirty_for_io(to_folio)) {
+> +		struct writeback_control wbc = {
+> +			.sync_mode = WB_SYNC_NONE,
+> +			.nr_to_write = SWAP_CLUSTER_MAX,
+> +			.range_start = 0,
+> +			.range_end = LLONG_MAX,
+> +			.for_reclaim = 1,
+> +		};
+> +		folio_set_reclaim(to_folio);
+> +		ret = mapping->a_ops->writepage(folio_page(to_folio, 0), &wbc);
+> +		if (!folio_test_writeback(to_folio))
+> +			folio_clear_reclaim(to_folio);
+> +		/* If writepage succeeds, it unlocks the folio */
+> +		if (ret)
+> +			folio_unlock(to_folio);
+> +	} else {
+> +		folio_unlock(to_folio);
+> +	}
+> +
+> +	folio_put(to_folio);
+> +
+> +	return handle;
+> +}
+> +
+> +static void ttm_backup_shmem_fini(struct ttm_backup *backup)
+> +{
+> +	struct ttm_backup_shmem *sbackup = to_backup_shmem(backup);
+> +
+> +	fput(sbackup->filp);
+> +	kfree(sbackup);
+> +}
+> +
+> +static const struct ttm_backup_ops ttm_backup_shmem_ops = {
+> +	.drop = ttm_backup_shmem_drop,
+> +	.copy_backed_up_page = ttm_backup_shmem_copy_page,
+> +	.backup_page = ttm_backup_shmem_backup_page,
+> +	.fini = ttm_backup_shmem_fini,
+> +};
+> +
+> +/**
+> + * ttm_backup_shmem_create() - Create a shmem-based struct backup.
+> + * @size: The maximum size (in bytes) to back up.
+> + *
+> + * Create a backup utilizing shmem objects.
+> + *
+> + * Return: A pointer to a struct ttm_backup on success,
+> + * an error pointer on error.
+> + */
+> +struct ttm_backup *ttm_backup_shmem_create(loff_t size)
+> +{
+> +	struct ttm_backup_shmem *sbackup =
+> +		kzalloc(sizeof(*sbackup), GFP_KERNEL | __GFP_ACCOUNT);
+> +	struct file *filp;
+> +
+> +	if (!sbackup)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	filp = shmem_file_setup("ttm shmem backup", size, 0);
+> +	if (IS_ERR(filp)) {
+> +		kfree(sbackup);
+> +		return ERR_CAST(filp);
+> +	}
+> +
+> +	sbackup->filp = filp;
+> +	sbackup->backup.ops = &ttm_backup_shmem_ops;
+> +
+> +	return &sbackup->backup;
+> +}
+> +EXPORT_SYMBOL_GPL(ttm_backup_shmem_create);
+> diff --git a/include/drm/ttm/ttm_backup.h b/include/drm/ttm/ttm_backup.h
+> new file mode 100644
+> index 000000000000..5f8c7d3069ef
+> --- /dev/null
+> +++ b/include/drm/ttm/ttm_backup.h
+> @@ -0,0 +1,137 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2024 Intel Corporation
+> + */
+> +
+> +#ifndef _TTM_BACKUP_H_
+> +#define _TTM_BACKUP_H_
+> +
+> +#include <linux/mm_types.h>
+> +#include <linux/shmem_fs.h>
+> +
+> +struct ttm_backup;
+> +
+> +/**
+> + * ttm_backup_handle_to_page_ptr() - Convert handle to struct page pointer
+> + * @handle: The handle to convert.
+> + *
+> + * Converts an opaque handle received from the
+> + * struct ttm_backoup_ops::backup_page() function to an (invalid)
+> + * struct page pointer suitable for a struct page array.
+> + *
+> + * Return: An (invalid) struct page pointer.
+> + */
+> +static inline struct page *
+> +ttm_backup_handle_to_page_ptr(unsigned long handle)
+> +{
+> +	return (struct page *)(handle << 1 | 1);
+> +}
+> +
+> +/**
+> + * ttm_backup_page_ptr_is_handle() - Whether a struct page pointer is a handle
+> + * @page: The struct page pointer to check.
+> + *
+> + * Return: true if the struct page pointer is a handld returned from
+> + * ttm_backup_handle_to_page_ptr(). False otherwise.
+> + */
+> +static inline bool ttm_backup_page_ptr_is_handle(const struct page *page)
+> +{
+> +	return (unsigned long)page & 1;
+> +}
+> +
+> +/**
+> + * ttm_backup_page_ptr_to_handle() - Convert a struct page pointer to a handle
+> + * @page: The struct page pointer to convert
+> + *
+> + * Return: The handle that was previously used in
+> + * ttm_backup_handle_to_page_ptr() to obtain a struct page pointer, suitable
+> + * for use as argument in the struct ttm_backup_ops drop() or
+> + * copy_backed_up_page() functions.
+> + */
+> +static inline unsigned long
+> +ttm_backup_page_ptr_to_handle(const struct page *page)
+> +{
+> +	WARN_ON(!ttm_backup_page_ptr_is_handle(page));
+> +	return (unsigned long)page >> 1;
+> +}
+> +
+> +/** struct ttm_backup_ops - A struct ttm_backup backend operations */
+> +struct ttm_backup_ops {
+> +	/**
+> +	 * drop - release memory associated with a handle
+> +	 * @backup: The struct backup pointer used to obtain the handle
+> +	 * @handle: The handle obtained from the @backup_page function.
+> +	 */
+> +	void (*drop)(struct ttm_backup *backup, unsigned long handle);
+> +
+> +	/**
+> +	 * copy_backed_up_page - Copy the contents of a previously backed
+> +	 * up page
+> +	 * @backup: The struct backup pointer used to back up the page.
+> +	 * @dst: The struct page to copy into.
+> +	 * @handle: The handle returned when the page was backed up.
+> +	 * @intr: Try to perform waits interruptable or at least killable.
+> +	 *
+> +	 * Return: 0 on success, Negative error code on failure, notably
+> +	 * -EINTR if @intr was set to true and a signal is pending.
+> +	 */
+> +	int (*copy_backed_up_page)(struct ttm_backup *backup, struct page *dst,
+> +				   unsigned long handle, bool intr);
+> +
+> +	/**
+> +	 * backup_page - Backup a page
+> +	 * @backup: The struct backup pointer to use.
+> +	 * @page: The page to back up.
+> +	 * @writeback: Whether to perform immediate writeback of the page.
+> +	 * This may have performance implications.
+> +	 * @i: A unique integer for each page and each struct backup.
+> +	 * This is a hint allowing the backup backend to avoid managing
+> +	 * its address space separately.
+> +	 * @page_gfp: The gfp value used when the page was allocated.
+> +	 * This is used for accounting purposes.
+> +	 * @alloc_gfp: The gpf to be used when the backend needs to allocaete
+> +	 * memory.
+> +	 *
+> +	 * Return: A handle on success. 0 on failure.
+> +	 * (This is following the swp_entry_t convention).
+> +	 *
+> +	 * Note: This function could be extended to back up a folio and
+> +	 * backends would then split the folio internally if needed.
+> +	 * Drawback is that the caller would then have to keep track of
+> +	 * the folio size- and usage.
+> +	 */
+> +	unsigned long (*backup_page)(struct ttm_backup *backup, struct page *page,
+> +				     bool writeback, pgoff_t i, gfp_t page_gfp,
+> +				     gfp_t alloc_gfp);
+> +	/**
+> +	 * fini - Free the struct backup resources after last use.
+> +	 * @backup: Pointer to the struct backup whose resources to free.
+> +	 *
+> +	 * After a call to @fini, it's illegal to use the @backup pointer.
+> +	 */
+> +	void (*fini)(struct ttm_backup *backup);
+> +};
+> +
+> +/**
+> + * struct ttm_backup - Abstract a backup backend.
+> + * @ops: The operations as described above.
+> + *
+> + * The struct ttm_backup is intended to be subclassed by the
+> + * backend implementation.
+> + */
+> +struct ttm_backup {
+> +	const struct ttm_backup_ops *ops;
+> +};
+> +
+> +/**
+> + * ttm_backup_shmem_create() - Create a shmem-based struct backup.
+> + * @size: The maximum size (in bytes) to back up.
+> + *
+> + * Create a backup utilizing shmem objects.
+> + *
+> + * Return: A pointer to a struct ttm_backup on success,
+> + * an error pointer on error.
+> + */
+> +struct ttm_backup *ttm_backup_shmem_create(loff_t size);
+> +
+> +#endif
 
