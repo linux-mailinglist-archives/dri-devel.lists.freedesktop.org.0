@@ -2,54 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135AB927B6F
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 18:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E72927B8B
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 19:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83E7E10E04E;
-	Thu,  4 Jul 2024 16:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14C8E10EB5C;
+	Thu,  4 Jul 2024 17:04:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EaQzhY82";
+	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="exUV6ud7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C111710EA5F
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 16:48:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DE8F9624A0;
- Thu,  4 Jul 2024 16:48:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8431DC4AF0A;
- Thu,  4 Jul 2024 16:48:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720111686;
- bh=XcJtSuXQaEpDB4k3O8CW7Y7Ik25cpq7G3KBR2xOKg+0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EaQzhY82FK+j0bBDDIKvpCTMrTijDwIvjizYlcoOeXU+j8ejLtaXIaZxPf5ncuwnE
- K2RFFfh+m/Nxsq7wJSCC/Zu/9Z2YR70axQwXN6qHj3WkiCYYln0fhQ5m1RQO3zgiDr
- AVAEFxIJCuEd7SJitKzT5Xmyd1fp6COyek4PVD0fcSSX9YUniHvQ4Xg1097DcYYmj4
- HnOhNse4DIQCBHBtO8OiV/q+hjE/utMUhpDw5yMUSxG06LaHbYTOdXDzxK45WdxArm
- 0tV+6EnhQcDomG1U+wYvLqhPHaRWjr7F6v12AL1tr3ZijtjWFrHA1/suhBEfmFfEYR
- E9GDs6ztX1+Jg==
-Date: Thu, 4 Jul 2024 17:48:01 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- airlied@gmail.com, daniel@ffwll.ch, mripard@kernel.org,
- dianders@google.com, hsinyi@google.com, awarnecke002@hotmail.com,
- quic_jesszhan@quicinc.com, dmitry.baryshkov@linaro.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/5] dt-bindings: display: panel: Add compatible for
- starry-er88577
-Message-ID: <20240704-cacti-bunny-83fc57eebd8b@spud>
-References: <20240704072958.27876-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240704072958.27876-5-lvzhaoxiong@huaqin.corp-partner.google.com>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B65D10EB5C
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 17:04:44 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-42565cdf99cso7187815e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 10:04:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1720112683; x=1720717483;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VhEKXBgCk8YcI/We+H9vMpuHE/Wchhz3UGLxkuxH2GI=;
+ b=exUV6ud7jMoCgLaeHc6Sh+LSvb/P2uXEI/bTCfBMwu+E/OE1+g0k/UGxcJr+InHKKd
+ 3gvmJ8Kts0i8Vz7/cSA3Nc9lvksBPi4FJwK4YMqYBxh8rYQzpgh6Am5xceMQQCzeqctb
+ Bbn4gUpG/0rMW0F2iKl1GVPSCWyyj/NWCypSon8e1en6XQkS1z62d/cOl6Uz8vKYLrMS
+ I7I8zC5bKYDlNYAB2LV50yomf95RMQkWus2eoL0AEEF7iERdM4AH7xmiXAvgo54/Vn3K
+ gNtXtYL024Yp1/zxHCdZQhqVtJH26kggx2b0xcrmnQ5xcDtMibEHVMX/gmRiOleXs7MW
+ 1u3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720112683; x=1720717483;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VhEKXBgCk8YcI/We+H9vMpuHE/Wchhz3UGLxkuxH2GI=;
+ b=r/4REU/EfLpgtMHvjGCQELm8mUvP3wc4aW9GmADvbDeoB/LJUbtB+Uv6OSpSCOBuZJ
+ SztCV2TkYbNspAQGElM98X+Z8EYiXVzHnJ2HBogNlJtohiLeWklIbjS4glFCFIhXymvT
+ B1aw09B25HIcemWaO5xQ+XC8G8nMFayxfSfYzVJmE3L/r5AeAscDL1sP/IF2hj4oUw/v
+ wdVIJ9upEy7xgaigVyGF6o0Ul7Hv7tEkkl1g/COUxPqG9Bhb7xFyzgMtvPvqA2zMBR1z
+ p3tBpu21tFJxznLEivDDF/O1lF+wcfS/S6XGtEhJfqirx0bJ4eQTmcga89od7rhSnGk/
+ Ulig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUV8UHZdltqg/mlRm1Fk/LTkI/40kZ5/B1dCgunquBQVKAi8GSftL7pBAFGRJdY+6ZnHyDh4LzFKE+VZLEuTZFdfTbvSRNtmz8+lJGgIfsN
+X-Gm-Message-State: AOJu0YxA7FoGgaMUBeJy8j05JAAERFWfWNqHTNs86yBg3Llm7gRn3b8Q
+ GD4/gifcPFDd/8iBRFbO5zLJXRZORo+vEAZAjDh6AqbthF8WKzF3IKmpuQ690Nk=
+X-Google-Smtp-Source: AGHT+IFcq4eZY0ByhNRonxN57ZbQ4denoA/srdaVmLq6HfGOy2pmX+pLKLzxcImWqmQ5tilcL6/aXA==
+X-Received: by 2002:a05:600c:1790:b0:424:784c:b134 with SMTP id
+ 5b1f17b1804b1-4264a3bc345mr20946965e9.6.1720112682605; 
+ Thu, 04 Jul 2024 10:04:42 -0700 (PDT)
+Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4264a1d165bsm31107415e9.4.2024.07.04.10.04.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Jul 2024 10:04:42 -0700 (PDT)
+Message-ID: <e55d0f0e-a104-4790-b832-120dbddd93ad@freebox.fr>
+Date: Thu, 4 Jul 2024 19:04:41 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RykSl8c0tZ5L9jJS"
-Content-Disposition: inline
-In-Reply-To: <20240704072958.27876-5-lvzhaoxiong@huaqin.corp-partner.google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: add TI TDP158
+To: Maxime Ripard <mripard@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240627-tdp158-v3-0-fb2fbc808346@freebox.fr>
+ <20240627-tdp158-v3-1-fb2fbc808346@freebox.fr>
+ <20240701-bug-of-great-honeydew-cfb6ef@houat>
+Content-Language: en-US
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <20240701-bug-of-great-honeydew-cfb6ef@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,88 +98,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 01/07/2024 15:50, Maxime Ripard wrote:
 
---RykSl8c0tZ5L9jJS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> The i2c register access (and the whole behaviour of the device) is
+> constrained on the I2C_EN pin status, and you can't read it from the
+> device, so it's also something we need to have in the DT.
 
-On Thu, Jul 04, 2024 at 03:29:57PM +0800, Zhaoxiong Lv wrote:
-> The starry-er88577 is a 10.1" WXGA TFT-LCD panel. Hence, we=20
-> add a new compatible with panel specific config.
->=20
-> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> ---
-> Changes between V5 and V4:
-> -  1. We are compatible with starry-er88577 panels in the boe-th101mb31ig=
-002
-> -     driver, so add it to the "boe,th101mb31ig002-28a.yaml".
+I think the purpose of the I2C_EN pin might have been misunderstood.
 
-Are you sure that "compatible" is the right word here? It seems like the
-devices are rather similar, but compatible would mean that the driver
-would work for both without changes. The driver patch (and the lack of a
-fallback compatible here) implies that the panels are not actually
-compatible.
+I2C_EN is not meant to be toggled, ever, by anyone from this planet.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+I2C_EN is a layout-time setting, decided by a board manufacturer:
 
-Cheers,
-Conor.
+- If the TDP158 is fully configured once-and-for-all at layout-time,
+then no I2C bus is required, and I2C_EN is pulled down forever.
 
->=20
-> v4: https://lore.kernel.org/all/20240620115245.31540-2-lvzhaoxiong@huaqin=
-=2Ecorp-partner.google.com/
->=20
-> Changes between V4 and V3:
-> -  1. Move positions to keep the list sorted.
->=20
-> v3: https://lore.kernel.org/all/20240614145609.25432-2-lvzhaoxiong@huaqin=
-=2Ecorp-partner.google.com/
->=20
-> Changes between V3 and V2:
-> -  1. Separate the Starry bindings from kingdisplay, and add it to panel-=
-simple-dsi.yaml
->=20
-> v2: https://lore.kernel.org/all/20240601084528.22502-4-lvzhaoxiong@huaqin=
-=2Ecorp-partner.google.com/
->=20
-> Changes between V2 and V1:
-> -  1. Add compatible for Starry er88577 in Kingdisplay kd101ne3 dt-bindin=
-gs.
-> ---
->  .../bindings/display/panel/boe,th101mb31ig002-28a.yaml          | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/boe,th101mb3=
-1ig002-28a.yaml b/Documentation/devicetree/bindings/display/panel/boe,th101=
-mb31ig002-28a.yaml
-> index 32df26cbfeed..2f251703a121 100644
-> --- a/Documentation/devicetree/bindings/display/panel/boe,th101mb31ig002-=
-28a.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/boe,th101mb31ig002-=
-28a.yaml
-> @@ -17,6 +17,8 @@ properties:
->      enum:
->          # BOE TH101MB31IG002-28A 10.1" WXGA TFT LCD panel
->        - boe,th101mb31ig002-28a
-> +        # The Starry-er88577 is a 10.1" WXGA TFT-LCD panel
-> +      - starry,er88577
-> =20
->    reg: true
->    backlight: true
-> --=20
-> 2.17.1
->=20
+- If the board manufacturer wants to keep open the possibility
+to adjust some parameters at run-time, then they must connect
+the device to an I2C bus, and I2C_EN is pulled up forever.
 
---RykSl8c0tZ5L9jJS
-Content-Type: application/pgp-signature; name="signature.asc"
+The only reason I see to expose I2C_EN in a binding is:
+if we want to support the fully static setup, AND it is not acceptable
+to support it from an i2c_driver, then there might need to be a way to
+say "you are not an i2c client, you must fail in probe".
 
------BEGIN PGP SIGNATURE-----
+Or I don't understand anything about device tree bindings
+(which is entirely possible).
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZobSQQAKCRB4tDGHoIJi
-0n0BAPwM1wnWItNs6WI3AwZCgk5MoSXvVYzWf9JAa8uWhdN//wEAvt+kBecbADu6
-XQe4iZTVmBZ1wU/wBEoU1gPCcr9KZwU=
-=2pS9
------END PGP SIGNATURE-----
+Regards
 
---RykSl8c0tZ5L9jJS--
