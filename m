@@ -2,151 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105FF927E42
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 22:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62548927ECB
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 23:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE5E10E113;
-	Thu,  4 Jul 2024 20:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDDC410E00E;
+	Thu,  4 Jul 2024 21:58:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="d8BZMXfo";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="NoN1gOOy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2080.outbound.protection.outlook.com [40.107.244.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E7910E078;
- Thu,  4 Jul 2024 20:15:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hmuNFGEc/hblGXtl3qLJ3utT/u8Q9PxMi5Zlf6aakzQWBQ09EEKKAXqrbkXQfSeyyq7PG7kXE7ZlYS4DEvucgHMXhd64f9f8mg7c4JsEgOuMtjryVEZMvx6WXoI8DlVwf1GqmbeLmz2GIo8KBe4FQWw0rAfN2SbV5qkBtYjLFaVnpic3Wdu9EX2soYQvfTjsFhLggoZlgcINYfQoC5p/J5WlkgzlYZ0fkhnmTkWA915CxnVCi5QRQ+57OI3lvyLnStGAAx9tHOLusTYlzddghg233xiJX+U3gYjkc8+FoZMrTiGj6tjxhGDWyEQejs6/VOSgBWSImeUUk3x8aJM6Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bh+0U/z9TP7whi81/SWY3tZXHnQJn/CdRshzkdH5jUc=;
- b=EObdkMKLFImIQxzRXS032t0yqneja9aikX1cv0I3bL3Y8vXV/EptO6OFqY/cehv9oOEo9b1fk8ah/2WFtiMBaiobYvfVJPKvFBOF7er0FrP2+EOhGLIOf5SuPkgxeFwJl2CNC1L+abhjOv/Fjj2ZBGQiBD+2QZg3F3euclVa3JAQ2SgNUjjMuK/J1nRQSpbCZKazl0Lf5D4ihiu5pvBhS0TqfBn6lnfRFWNAgbh2oFOowUDzlErExBpvVpnn9OSsnaqUjnpXINRTdhgIcArdZ9ecrbZAW+6+Re+J+n66RHco3UsphAPXQ25+EAGarfpiDvdKlp27DlTavZ5Zgdl4gA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bh+0U/z9TP7whi81/SWY3tZXHnQJn/CdRshzkdH5jUc=;
- b=d8BZMXfo/x0/BURJS0FAduFclg4X++SouiS5Shwt3UwUsNf1Au4XYCPWJtbi/OQhqr5FcO5Gb/J9sj/oSn0sLfYLCW4ni56p/bBE6B8npfITBIkJcKl5Zkl33jPhcLXMViGYDcIQxFTgr/OBYp1Y7e8wB9gDjpijV6wvfPGB/s0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW6PR12MB8733.namprd12.prod.outlook.com (2603:10b6:303:24c::8)
- by LV2PR12MB5918.namprd12.prod.outlook.com (2603:10b6:408:174::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.27; Thu, 4 Jul
- 2024 20:15:31 +0000
-Received: from MW6PR12MB8733.namprd12.prod.outlook.com
- ([fe80::71a6:a9da:c464:fa2e]) by MW6PR12MB8733.namprd12.prod.outlook.com
- ([fe80::71a6:a9da:c464:fa2e%3]) with mapi id 15.20.7719.028; Thu, 4 Jul 2024
- 20:15:31 +0000
-Message-ID: <55479c9b-1686-42db-b8da-aaa93c589660@amd.com>
-Date: Thu, 4 Jul 2024 14:15:25 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display/dc: Remove dc code repetition
-To: Joao Paulo Pereira da Silva <jppaulo11@usp.br>, harry.wentland@amd.com,
- sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch
-Cc: luanicaro@usp.br, paulormm@ime.usp.br, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20240613160549.139004-1-jppaulo11@usp.br>
-Content-Language: en-US
-From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
-In-Reply-To: <20240613160549.139004-1-jppaulo11@usp.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN9PR03CA0050.namprd03.prod.outlook.com
- (2603:10b6:408:fb::25) To MW6PR12MB8733.namprd12.prod.outlook.com
- (2603:10b6:303:24c::8)
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53F7710E00E
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 21:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1720130278; x=1720389478;
+ bh=jcpphOxcKqDgmZFG5laam2USdpCS8njyFrIf6xUFINw=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=NoN1gOOyVW4SgT4XDOzVSfc8kW8bDEyDNh7BTjE2l34uMulOdhpG4LZLHnVeO+OS7
+ rg/aMFfAv/jDhdxVHpAw7D2xp3jhF40qkThwSYf+0j+oA/ohLxc2Ou3g/7goys6Oew
+ 3XCtmNDzOKLddWBThtoPPHeWYdd9Iwg9A1i65p0tUGETeq5UIm9X4teuTiLkDGTGQP
+ oRtqPKjJ0bQsa4qSL2AK+Jxc/u4ttIDI6NyXiuoCJUcvdFIFAfomeMWOgwjtTOTk+3
+ +6O+A99Kd3NC8JJibtY23bWahhqAiXpu9rMHIb+lFt0arEqcq9KeTyj3ZRgu1R1OHr
+ 9+1GN3qn58FXg==
+Date: Thu, 04 Jul 2024 21:57:54 +0000
+To: "Olsak, Marek" <Marek.Olsak@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: Alex Deucher <alexdeucher@gmail.com>, "Pillai,
+ Aurabindo" <Aurabindo.Pillai@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Subject: Re: AMD GFX12 modifiers
+Message-ID: <vj4fiAeZ6gKbGp3-Pc4VTWsrXVakEw4qVAFWvSwuInGFav8XX51muU57abjq5t5xIsjlLivoUXyiVqT_X_sP2ufgnzoDx6uJotCvl10Tczk=@emersion.fr>
+In-Reply-To: <DM6PR12MB4731C6A4ED42471BA85EB75FF9DD2@DM6PR12MB4731.namprd12.prod.outlook.com>
+References: <vahBbQHXGpyFcIwzIVTPHRnphiAma3_wNbTftk7O3I6gN4gToIj3zIJrIkO263Ly61q2HArlyB1lvyKM1FFyqkqAdLH195Y41xK8GWL4ZBg=@emersion.fr>
+ <CADnq5_NgzVn4AOekFQ1xYqkdhuZhTE1QVqxO1WJtp-Bchx6dcw@mail.gmail.com>
+ <DM6PR12MB47312197417DE10FB70EA8B1F9DC2@DM6PR12MB4731.namprd12.prod.outlook.com>
+ <puRC6uFBtCVBzB86vMEYSr2EEy6ByN5dSXIJH1ePIcIckTFo1xw2r0GUMx39uPMnOGYf6DxpjGEfGRwyVRHSezhX_NIIwKUQD8MGlhXewuk=@emersion.fr>
+ <DM6PR12MB4731C6A4ED42471BA85EB75FF9DD2@DM6PR12MB4731.namprd12.prod.outlook.com>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: 50e3f24113a91ee6d16043b8719e497da2f87ba2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW6PR12MB8733:EE_|LV2PR12MB5918:EE_
-X-MS-Office365-Filtering-Correlation-Id: d73db4e3-319b-4282-b024-08dc9c660df4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VTdLSkdGM0FkYzlyNnJuM3h4bHFsNFJEV29rRXo1TkFuYU1OWWRCQ0pKTzdn?=
- =?utf-8?B?ODN5OXllQkV1ekRaQ2M2dUtVZmczVFFvZHRkbmlMenFhbkhzTHoyRU95dTQ1?=
- =?utf-8?B?T2dkVnhPdmhiTk80QUdkdkdpc1lFcWx1RXVXYkE2YW1SVXRlZG5hdnZ1MG81?=
- =?utf-8?B?Z0pKM2YyMFVCd0krc0UzY0ZIQkZPWmV0ZnJqZkIxUi81bTFBUE9NVm5HS3hu?=
- =?utf-8?B?dUhnVkNOUUNjMkxiSWR5NnlIZHA4WmZaMFRaN2tmYlR5MllOSlVrbEdzMGVU?=
- =?utf-8?B?UjZqaVZUeE1LZ29vdXhnM2pYMWN6R2hCL2U1UVV3ZndrMUJzZHl1ZFl1amRm?=
- =?utf-8?B?NFZzNENsLzMyWkprTC81VHlaZEZaVHBMK1M3cE9ZRUZac0w2TjB6TTBRMGFu?=
- =?utf-8?B?OTUyeGRrZ2FDSXg5MUVTcS9sRHVwUlBnL1E3ZE5LZGZZU1MrNlE5dk1rYXU0?=
- =?utf-8?B?cVJ0NDcrNzJ2UFd3TmpoWllubUs5MFpVZEFtd2xTS2I4TXBaNHhkdURETDlX?=
- =?utf-8?B?Z3N2U2xwTDlxYnppWEt6ZWNzenNEU1VFUnF0TlFDUFgvMVA3TjhqOFdadHhE?=
- =?utf-8?B?TzhLVnRLMEhnKzU4VUFkYkhGSHM5NnZKOVgxRmVPT3ZOSUhKaVNBRy9iRUV3?=
- =?utf-8?B?azhxdSs4QjlDQkhWamJGdm9xM2U4emN2VVluNWt0cFFnd0dhSDQyQ2VKd2tx?=
- =?utf-8?B?blZxbkVlMFlTbXFvbVp0bGRtSVgwb3lTNVZRME1KL1l2d3lVWGcvUXFmRlNz?=
- =?utf-8?B?VEN4aUFKUjJjblRsb0ZEeHIzTjRRcm5abEUwT1Z6V0ZUNTZKREoyUit5N3Rs?=
- =?utf-8?B?NnJsbVJBQ3k4aGI0SFFnYXFYWFdsTTc0SUVQMkZQWE5Wak9OQXhYdk1Ib0Jy?=
- =?utf-8?B?WWZ2MlN0RUExWURXMFlhcno4d2dNU2FRcVhhQXYyamxoL09xWjhuSzRUdS90?=
- =?utf-8?B?YUEray9vdng4S09RSGV3Zm1HMGJnTzhvU1Y3dTlmMGMvMUtkSHFGTFpVakN6?=
- =?utf-8?B?R0xVNnIweDc4ZW9kRWhVSCsvVzJ0L291U1laQlhIV0lnU3dvT3UvVlhlUGoz?=
- =?utf-8?B?WUovbDBEYjN5ajRwTW5jdFFTdWFzOXdGNlVOVFdlQXAxMXpTTWY1anFOYTNa?=
- =?utf-8?B?NTJYZHUyV3crY1NwZ3ZuZXZleXhqdW9wOEVzaDN4K3JHc1ZuWG04WElwOUJF?=
- =?utf-8?B?QTFSc2pETWhHem1xcTRsaDIvRlh0V2hTTXU1Q2poMzd2YStBY2lVbkdjTlpi?=
- =?utf-8?B?SlgyYmxPZENBQk9OejZ1L3QvV081L1liTGIrL1FHVnpVUE51NG4xZDdaK0NT?=
- =?utf-8?B?TSt6Sks5Y08wZnduWGpsYlVVa3BURjk3N1hiRUhKNWVTZzZzeEZLY2g4b2pw?=
- =?utf-8?B?SlhIVXBLTGdiOVlmOTl5ZzFlV3BzTk9qbFFiazZHampvZlA4ZmR1OVJBT25D?=
- =?utf-8?B?QVJ4L241clVFVE9wV3pQTnBKYzJkYzZYWFNrcURad09ESUY4TVZqUThKbXBI?=
- =?utf-8?B?bElNeEU2Z3VVZUN3c2JZYk5YYkVacUh5WENqZTlIdTU5aFF0UjByMnN4U1Bq?=
- =?utf-8?B?bGkxbmQ4TDVKTzhXYVpzWDZBMzk0dUEvZ2duSXVlSnQ2REtQVTF5blltYXVD?=
- =?utf-8?B?WTVDSjVSWU9XejlpNUFGYzg4cWFpR2liSHUrTSswMCtCd0lQY3BXb0hVSHQ2?=
- =?utf-8?B?akdkKzAvTHFYUklsaHVUemQwUERtcFpiTTRGQUJGYnVNV245LzRrL1g4TzNX?=
- =?utf-8?B?d3d3QmQ0N0pUMlczNU1WM3p5ZFVMUUNEdEFQSGRUWmxCT3puVXR4aThLUEZx?=
- =?utf-8?B?dGQ1b280SGZ4eG5KbXNNUT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW6PR12MB8733.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?akVZT2J6OXpKNmNjU3g0K0ZOT2dITkVuUUxhMkxnV0prVGRTOW4vOEdIK1gw?=
- =?utf-8?B?VlVydDlPbi9Ed1c4WlBXdlMyVjcvd2RUQjdJSHZWQnVQNXRQOTlvbGJYaVdN?=
- =?utf-8?B?TkIzUUM3WE5qRGJwSk5MTmRxbGxuKzFScHh4WFZ3TnFPUVV6VW4yYUF0NzFo?=
- =?utf-8?B?eGR5dEQ0MWRCWWFYZ2tGOGFCcFNBbmJkMllsbjU5TXdlZlozeUxRL0orNThQ?=
- =?utf-8?B?dzVMZlB6NW0rc3pFNEthdEQ5UW1sb3Ftb1hIeEx0MCtTcjNIQjlKM2Y2SlZu?=
- =?utf-8?B?WkJJWjBqOTNTUE9KUS8wUGh3NnRrS1dPejNGTG5xZDR4MWRFS1dEMHlJTS9z?=
- =?utf-8?B?LzVuTWpSd2NiWCtHVzRVcFhHeGpka2RTTGdjWUZEM0FCWlBKbEZ4a3A4UEJh?=
- =?utf-8?B?cytDWHg5WDJrU2pqelh5N09QcTl0WW4xMFlBZjJhYzMvWGdBT3lTekpxMndW?=
- =?utf-8?B?SEVGNlBIMHdKekt0N2dKVDdOZXJpWmpJYlF1dWV2bFhyTGdQYVBQWkV1TDNF?=
- =?utf-8?B?RkVEQUN0YWEyUlZGK0NxRm12bFU0WHhzUG10L3FwQ0l0ajFHMUMxNHlHWExq?=
- =?utf-8?B?Q213UXdNeFFGWUdiNFJKRm5nc0dmUWlxQ3dzOC94UnNFRzh1aU10QmZrOHJU?=
- =?utf-8?B?emk5ckFXRjVsQmtxNUd5N01OMXZ1VHh5UVY5N2NuendsTmtIc2NzQnNlUjVT?=
- =?utf-8?B?TTFqMURlM1J6NytrMEZsc2V3RWpFaWd3NkYvZmo1bzBrTllveE4yL1FpUHZZ?=
- =?utf-8?B?eHgrR0VSc3I2ejk0WmNJYVJvOEtFSjllMVFsemMxKzNSRTFlTzUyTis4aDdh?=
- =?utf-8?B?R0dUWDduSjhlT0VSZzh0VnBzc2hGb3ZnbnkwZ3gvVDZsbmRHWXB2Y0gzS21j?=
- =?utf-8?B?Q09rS2w4YlJBMjhld0Z0Y2Q5bk1hVmNKSjJCNGRERHNiZ1FJK3BGVHkveGtj?=
- =?utf-8?B?VVB6N29XZCttMGJsSWNTL0dzb3B5R05mYm9ud0ZSeHRKTEVXMGhRS2VWU0hl?=
- =?utf-8?B?Y29ha0xCdDZIeGVJTDRWQ1puTDg0V1R1QStnejRieUU2anRjZVNzZXUxVlBI?=
- =?utf-8?B?NkF2eHVRelJlZkJ1cEQwemo5Tks2SzJ4c3lBZTRTYXBCK1F5bElGWFk4dGhF?=
- =?utf-8?B?MXVJYlpoZU1NcDBCU1hpeU5EdDhsNVlGSHBkQXNoajFqMUR5WUVaek5TN0pY?=
- =?utf-8?B?eURrLzhteSsyMzdvNlBHV1VNaDJxSXpLRXlVYVhDbEdOam8wY2s0UVJ5TER6?=
- =?utf-8?B?SnhPMTdKbHFqYnJFSUtwQzgvOEtaVGdRNGVzRTl6UnpuTlZ1UGRXQW55ckZZ?=
- =?utf-8?B?RXFKVnhndFZ2VlJ5bXJDUkVWc0FQRWFnTVZPdjhnT2NWNlJNZjQvZFNnUDl1?=
- =?utf-8?B?M21OR0xXY3hPMHRudWNIaTRvSnB2V0FrcUJTZE5aUlZMS2pENVhlWUZja0tB?=
- =?utf-8?B?NEVlcXlzdXczT1VvbTVPbUFCaXIxUEZCblB6SGdaZ2c1dmxVVGpVMVBFc0ts?=
- =?utf-8?B?V09TL1ltTG5ybGZOUzl0N0g0R1R2Ni82SkRjYXpNdDR5ZFVXNU1nbzA3MWJN?=
- =?utf-8?B?TjVNQWRBUUNYbTlpTDNjK3F5VFl6OXgra3JvM2oxY21jUml2M3ZLTFdnYm13?=
- =?utf-8?B?a3FTRUhUVk5ZZ3JGUVowMS9NaWFIOHR0ai9RWUh0TFM2TGliV2kvdDZyREt5?=
- =?utf-8?B?QWk1NTdzWFZRTnJkN1A4NU9yVlIzb1pkVWl0eTFHTWhZbjJBaXBEbXdqZ2VB?=
- =?utf-8?B?NGlCUi91NzAxS2FBOWdDZy9kbkhaUzlpSllGKzhsU2NQNWdKb0tDQmU5QVNz?=
- =?utf-8?B?RWRvQVd2cEIzWE1yQmtXbWFTK3NmM21XOEx4NnNsdjNBK0RiNXFKcndLYk0v?=
- =?utf-8?B?Q0ljRHhPMXAzZ0FhOW5ZaXh3L0FtL1FsSVAySnRiYnFVR0VqZkZMOFBFR0JE?=
- =?utf-8?B?N3pnbWdaZUcyaHBQTnBXcVFsLzB4NnI2VGkvOU51QUswaTY1b2FQSHN2YWZO?=
- =?utf-8?B?SXRNU3AwVVZnYzJwTlNoR0xCU3htNWJGRmsvTExteEZqOXo2UmY0V2hXbnJj?=
- =?utf-8?B?bVJVaHAwTlVwYjV5SkdRekQwN0FtV2x3YkZsUU1WQTRsTmUyOFlQUlBKSFVE?=
- =?utf-8?Q?x6Dyw2U/Z8vuIEl7QnZ9syS7B?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d73db4e3-319b-4282-b024-08dc9c660df4
-X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8733.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2024 20:15:31.5998 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AcayJhf7vpPgvzWNr+ESyh3MgDerg96yiXv9tn1UxC6LeOMegB1FrskLtD5icEsgklecKxlkj4S2UGvoaxeqLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5918
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,180 +64,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joao,
+On Wednesday, July 3rd, 2024 at 17:11, Olsak, Marek <Marek.Olsak@amd.com> w=
+rote:
 
-First of all, thanks for your patch. Follows some of my comments:
+> Alex publishes the amd-staging-drm-next branch regularly where all our ke=
+rnel commits go.
 
- > On 6/13/24 10:05 AM, Joao Paulo Pereira da Silva wrote:
+I know. That's what I use as a base when I send amdgpu patches.
 
-You can drop the dc part in the commit title. Also, the title should 
-highlight that you are decoupling one part of the code in a single place 
-to avoid duplication.
+This doesn't contain any more relevant changes.
 
-> Code is repeated in functions optc1_enable_crtc
-> (dc/optc/dcn10/dcn10_optc.c) and optc2_enable_crtc
-> (dc/optc/dcn20/dcn20_optc.c).
-> 
-> So, remove it with the creation of a macro.
-> 
-> Signed-off-by: Joao Paulo Pereira da Silva <jppaulo11@usp.br>
-> ---
->   .../amd/display/dc/optc/dcn10/dcn10_optc.c    | 29 ++-----------------
->   .../amd/display/dc/optc/dcn10/dcn10_optc.h    | 27 +++++++++++++++++
->   .../amd/display/dc/optc/dcn20/dcn20_optc.c    | 29 ++-----------------
->   3 files changed, 33 insertions(+), 52 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
-> index 5574bc628053..facdeeb41250 100644
-> --- a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
-> @@ -41,6 +41,8 @@
->   
->   #define STATIC_SCREEN_EVENT_MASK_RANGETIMING_DOUBLE_BUFFER_UPDATE_EN 0x100
->   
-> +#define OPTC_SRC_SEL_FIELD OPTC_SRC_SEL
-> +
->   /**
->    * apply_front_porch_workaround() - This is a workaround for a bug that has
->    *                                  existed since R5xx and has not been fixed
-> @@ -517,32 +519,7 @@ void optc1_enable_optc_clock(struct timing_generator *optc, bool enable)
->    */
->   static bool optc1_enable_crtc(struct timing_generator *optc)
->   {
-> -	/* TODO FPGA wait for answer
-> -	 * OTG_MASTER_UPDATE_MODE != CRTC_MASTER_UPDATE_MODE
-> -	 * OTG_MASTER_UPDATE_LOCK != CRTC_MASTER_UPDATE_LOCK
-> -	 */
-> -	struct optc *optc1 = DCN10TG_FROM_TG(optc);
-> -
-> -	/* opp instance for OTG. For DCN1.0, ODM is remoed.
-> -	 * OPP and OPTC should 1:1 mapping
-> -	 */
-> -	REG_UPDATE(OPTC_DATA_SOURCE_SELECT,
-> -			OPTC_SRC_SEL, optc->inst);
-> -
-> -	/* VTG enable first is for HW workaround */
-> -	REG_UPDATE(CONTROL,
-> -			VTG0_ENABLE, 1);
-> -
-> -	REG_SEQ_START();
-> -
-> -	/* Enable CRTC */
-> -	REG_UPDATE_2(OTG_CONTROL,
-> -			OTG_DISABLE_POINT_CNTL, 3,
-> -			OTG_MASTER_EN, 1);
-> -
-> -	REG_SEQ_SUBMIT();
-> -	REG_SEQ_WAIT_DONE();
-> -
-> +	_optc1_enable_crtc(optc);
->   	return true;
->   }
->   
-> diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.h b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.h
-> index 2f3bd7648ba7..aea80fa6fe91 100644
-> --- a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.h
-> +++ b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.h
-> @@ -604,4 +604,31 @@ struct dcn_optc_mask {
->   
->   void dcn10_timing_generator_init(struct optc *optc);
->   
-> +#define _optc1_enable_crtc(optc)					\
+> See the gfx12 modifiers that Mesa exposes.
 
-Let's avoid the introduction of a macro. Just create a function for that.
+The modifier u64 bit layout is not supposed to be "Mesa-specific".
+It's shared by multiple userspace components. It needs to be defined
+properly in drm_fourcc.h.
 
-> +	do {								\
-> +		/* TODO FPGA wait for answer */				\
+Please, can you read my questions and answer them?
 
-You can drop this comment.
-
-> +		/* OTG_MASTER_UPDATE_MODE != CRTC_MASTER_UPDATE_MODE */	\
-> +		/* OTG_MASTER_UPDATE_LOCK != CRTC_MASTER_UPDATE_LOCK */	\
-> +		struct optc *optc1 = DCN10TG_FROM_TG(optc);		\
-> +									\
-> +		/* opp instance for OTG. For DCN1.0, ODM is remoed. */	\
-
-I think the original comment had a typo, I guess it should be "removed" 
-instead of "remoed". Can you also fix this?
-
-> +		/* OPP and OPTC should 1:1 mapping */			\
-> +		REG_UPDATE(OPTC_DATA_SOURCE_SELECT,			\
-> +				OPTC_SRC_SEL_FIELD, optc->inst);	\
-> +									\
-> +		/* VTG enable first is for HW workaround */		\
-> +		REG_UPDATE(CONTROL,					\
-> +				VTG0_ENABLE, 1);			\
-> +									\
-> +		REG_SEQ_START();					\
-> +									\
-> +		/* Enable CRTC */					\
-> +		REG_UPDATE_2(OTG_CONTROL,				\
-> +				OTG_DISABLE_POINT_CNTL, 3,		\
-> +				OTG_MASTER_EN, 1);			\
-
-Maybe you can convert this patch into a patchset, where the first patch 
-moves code around, and the following patches fix typos and code style, 
-such as the parenthesis aligment with the parameters.
-
-> +									\
-> +		REG_SEQ_SUBMIT();					\
-> +		REG_SEQ_WAIT_DONE();					\
-> +	} while (0)
-> +
-
-I was thinking... do we have more cases like this one? If so, maybe we 
-can create a generic optc.c file. Anyway, this is just one idea to add 
-to your radar for future patches.
-
-Thanks
-Siqueira
-
->   #endif /* __DC_TIMING_GENERATOR_DCN10_H__ */
-> diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c b/drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c
-> index d6f095b4555d..012e0c52aeec 100644
-> --- a/drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c
-> @@ -37,6 +37,8 @@
->   #define FN(reg_name, field_name) \
->   	optc1->tg_shift->field_name, optc1->tg_mask->field_name
->   
-> +#define OPTC_SRC_SEL_FIELD OPTC_SEG0_SRC_SEL
-> +
->   /**
->    * optc2_enable_crtc() - Enable CRTC - call ASIC Control Object to enable Timing generator.
->    *
-> @@ -47,32 +49,7 @@
->    */
->   bool optc2_enable_crtc(struct timing_generator *optc)
->   {
-> -	/* TODO FPGA wait for answer
-> -	 * OTG_MASTER_UPDATE_MODE != CRTC_MASTER_UPDATE_MODE
-> -	 * OTG_MASTER_UPDATE_LOCK != CRTC_MASTER_UPDATE_LOCK
-> -	 */
-> -	struct optc *optc1 = DCN10TG_FROM_TG(optc);
-> -
-> -	/* opp instance for OTG. For DCN1.0, ODM is remoed.
-> -	 * OPP and OPTC should 1:1 mapping
-> -	 */
-> -	REG_UPDATE(OPTC_DATA_SOURCE_SELECT,
-> -			OPTC_SEG0_SRC_SEL, optc->inst);
-> -
-> -	/* VTG enable first is for HW workaround */
-> -	REG_UPDATE(CONTROL,
-> -			VTG0_ENABLE, 1);
-> -
-> -	REG_SEQ_START();
-> -
-> -	/* Enable CRTC */
-> -	REG_UPDATE_2(OTG_CONTROL,
-> -			OTG_DISABLE_POINT_CNTL, 3,
-> -			OTG_MASTER_EN, 1);
-> -
-> -	REG_SEQ_SUBMIT();
-> -	REG_SEQ_WAIT_DONE();
-> -
-> +	_optc1_enable_crtc(optc);
->   	return true;
->   }
->   
-
+> From: Simon Ser <contact@emersion.fr>
+> Sent: Tuesday, July 2, 2024 12:39:10 PM
+> To: Olsak, Marek <Marek.Olsak@amd.com>
+> Cc: Alex Deucher <alexdeucher@gmail.com>; Pillai, Aurabindo <Aurabindo.Pi=
+llai@amd.com>; DRI Development <dri-devel@lists.freedesktop.org>; Siqueira,=
+ Rodrigo <Rodrigo.Siqueira@amd.com>; Deucher, Alexander <Alexander.Deucher@=
+amd.com>; Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> Subject: Re: AMD GFX12 modifiers
+>=20
+> On Tuesday, July 2nd, 2024 at 15:22, Olsak, Marek <Marek.Olsak@amd.com> w=
+rote:
+>=20
+> > The code you are=C2=A0looking at seems out of date. The latest code is =
+on
+> > amd-gfx.
+>=20
+> Could you point me where? I searched for drm_fourcc.h and only found [1]
+> which I guess at least answers my question about
+> AMD_FMT_MOD_GFX12_DCC_MAX_COMPRESSED_BLOCK_MASK.
+>=20
+> [1]: https://lore.kernel.org/amd-gfx/20240626183135.8606-5-marek.olsak@am=
+d.com/
+>=20
+> > That doesn't matter though. This seems to be a general
+> > question about modifiers. Here's the answer.
+> >
+> > Modifier definitions don't describe compatibility between chips and gen=
+erations. They only identify the memory layout. Because of that, hw support=
+ can't be inferred from modifiers. There could be multiple GFX definitions,=
+=C2=A0tile numbers, and even modifiers from other vendors describing exactl=
+y the same layout, and all such equivalent modifiers can be exposed by the =
+same hw.
+> >
+> > The gfx12 modifiers work in exactly the same way as any other modifiers=
+.
+>=20
+> Thanks, I know how modifiers work, I'm a WSI person. :)
+>=20
+> My questions were not generic questions about modifiers though. My
+> questions are about the technical detail of how GFX12 buffer tiling
+> properties are encoded in the modifier u64.
+>=20
+> This is something I need to know for libdrm modifier pretty-printing,
+> as well as drm_info and drmdb. And in general, I think it's important to
+> audit changes to drm_fourcc.h, rules around modifiers are a bit
+> complicated and easy to get wrong.
+>=20
+> > From: Alex Deucher <alexdeucher@gmail.com>
+> > Sent: July 1, 2024 13:09
+> > To: Simon Ser <contact@emersion.fr>; Olsak, Marek <Marek.Olsak@amd.com>
+> > Cc: Pillai, Aurabindo <Aurabindo.Pillai@amd.com>; DRI Development <dri-=
+devel@lists.freedesktop.org>; Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>;=
+ Deucher, Alexander <Alexander.Deucher@amd.com>; Bas Nieuwenhuizen <bas@bas=
+nieuwenhuizen.nl>
+> > Subject: Re: AMD GFX12 modifiers
+> >
+> > + Marek
+> >
+> > On Sat, Jun 29, 2024 at 1:15=E2=80=AFPM Simon Ser <contact@emersion.fr>=
+ wrote:
+> > >
+> > > Hi all!
+> > >
+> > > In 7ceb94e87bff ("drm/amd: Add gfx12 swizzle mode defs"), some
+> > > definitions were added for GFX12 modifiers. However I'm not quite sur=
+e
+> > > I understand how these work.
+> > >
+> > > Tile values seem to not be in the same namespace as GFX9 through GFX1=
+1,
+> > > is that correct? In other words, can GFX9 ~ GFX11 modifiers be used w=
+ith
+> > > GFX12, or are these mutually exclusive?
+> > >
+> > > AMD_FMT_MOD_GFX12_DCC_MAX_COMPRESSED_BLOCK_MASK has a comment explain=
+ing
+> > > the 3 possible values, is there a reason why #defines are missing for
+> > > these values?
+> > >
+> > > The comment lists a lot more swizzle modes than just 64K_2D and 256K_=
+2D,
+> > > any reason why the rest are missing (at least for the 2D ones)?
+> > >
+> > > Could you explain how the new GFX12 modifiers work?
+> > >
+> > > Would it be possible to update the comment on top of #define AMD_FMT_=
+MOD
+> > > to reflect the GFX12 updates?
+> > >
+> > > Thanks,
+> > >
+> > > Simon
