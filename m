@@ -2,78 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8799273CA
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 12:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39DA927403
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 12:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEC210E9EC;
-	Thu,  4 Jul 2024 10:15:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B77F310EA10;
+	Thu,  4 Jul 2024 10:26:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="M7YxZmAM";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XSuS5L7S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCB510EA7A
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 10:15:56 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2ebe6495aedso4397161fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 03:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720088154; x=1720692954; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1nvqcTE+d+I6/PYlZYlUrN3ZSE7/0dbyWuREcOgf8aA=;
- b=M7YxZmAM3xI4Hx4cCi9v4DQF44Z5xUniV7zJCyC76LcXmFpa0NpnrTVLZi3qMWGW2+
- m53+SIR5d0pUvaP49fSYGJ58x2Y/07rnJZgyT7LUfeJZq5f8MFrs680Yash8D1mbB4lh
- b9zC53ESlRXVF6/wu6p4L62PLSX5k23Cz4WZvDzJHruFb42PV+NWXyh0AbbYrX0H2Us8
- 8KprM3q59Cqmo8yyIZzMwzaGlF9jcQFAX9nAEavbRTlvXidYhnpbCE+9snsbVJjCoCsf
- hPgZ8pvLYwZF1zYwsvnMZQgPcmbB6o8WSSrHpEjugkKc8RSIsbzZaW3lt+PmSYvGM5Yn
- yU6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720088154; x=1720692954;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1nvqcTE+d+I6/PYlZYlUrN3ZSE7/0dbyWuREcOgf8aA=;
- b=ofJVG7tq7bYRpQvlJBcjz1e+ibs0+MT8fK7cyoGlcU1zHfCc7CienRZcwQQ4jFnDMJ
- kWEm7qjMC+22VtYfSBs/QyWWCUdcwp9oLpJkWxZCPPMzyGkU41Ya6TzQ6eGfVmNlqaa6
- PPWjrs2WyO2ONHKth2h4GAYhgZwqS0JYxcyOE3kde1PJlY6rAkpBSVSeoukj7PAIGS99
- Uf8LZC3aVO366cyJwTj5XxqXVl9+Z9lhTi0AFJWqgkWJVhuDPsul64uZ6mfySZ3V6AZ8
- qEEho2FnLUc0N/MOohjxC3nrhwKsOW1oDQZQjEU7VbupEXgkqkYFj/nUuQYdVSsXOB23
- PU+Q==
-X-Gm-Message-State: AOJu0YxYktN0PttZ9GT/Nj+19XyUuBYcGyvxr5V2EPE39/18PkfpVT4Z
- mYjkrhUswC++o1rznjFYS8ysAKuK/fa854fTZk26jYF6Hsk4qxX0ozBJkmhWgAI=
-X-Google-Smtp-Source: AGHT+IFjFbE6dWkiueh16FP2N9UOEw13MN12/uduae8Rfkcs3JR/7QPB7Yfqddj+KjB9xdjW8KZcuw==
-X-Received: by 2002:a2e:98c3:0:b0:2ec:5200:a935 with SMTP id
- 38308e7fff4ca-2ee8edc2d45mr8049801fa.40.1720088154177; 
- Thu, 04 Jul 2024 03:15:54 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ee5168cf1fsm22523201fa.116.2024.07.04.03.15.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jul 2024 03:15:53 -0700 (PDT)
-Date: Thu, 4 Jul 2024 13:15:52 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
- helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- robdclark@gmail.com, 
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- mcanal@igalia.com, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] drm/ci: uprev IGT
-Message-ID: <ojnz5hjfht6gwouphvmvizb2udlz2wvwnsj4vgosp3chrhsmcv@c7cxscdyxtsn>
-References: <20240704092202.75551-1-vignesh.raman@collabora.com>
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA5310EA74
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 10:26:46 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 282B7FF802;
+ Thu,  4 Jul 2024 10:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1720088804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8c8lHuSxIC0xsXfjFa++wNy/K3qw8ReVVWevEHg/8VI=;
+ b=XSuS5L7SjBODsSS6KyhRKpPAvcobZlSVf7QHVPCfD2bzMyxtN7pmBchTNFZUnMJGjyHUWm
+ c3ngMQgyw8tYk07DMlv748w+UiuQwXpjM0N0aHDxlqZ7WgdC404OzkvQXfFUd51eGAg3IQ
+ oNIJybFdNqdwatfZwuU/PtQdAErC9c1Ef3r7a8nehiDwjsg6scr4MimBosBlRYsrSAW83K
+ E/Ck378RexxwnBz42RCkvg7Y/STpV3N4nj/HH/GGjYAy3RAeMc0sPk9WwiNGabfITHmCWa
+ lfpp+VcZfP3TxtW7A+u53SkfZmfS6OcxnU5ZQlqLM19K+Ruh05yHexEjME5qQA==
+Date: Thu, 4 Jul 2024 12:26:41 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/vkms: Remove event from vkms_output
+Message-ID: <ZoZ44eg5YrZAcApx@louis-chauvet-laptop>
+Mail-Followup-To: Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240703160458.1303872-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240704092202.75551-1-vignesh.raman@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240703160458.1303872-1-lyude@redhat.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,94 +78,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 04, 2024 at 02:52:02PM GMT, Vignesh Raman wrote:
-> Uprev IGT to the latest version, which includes a fix for the
-> writeback tests issue on MSM devices. Enable debugging for
-> igt-runner to log output such as 'Begin test' and 'End test'.
-> This will help identify which test causes system freeze or hangs.
-> Update xfails and add metadata header for each flake test.
+Le 03/07/24 - 12:04, Lyude Paul a écrit :
+> While working on rvkms, I noticed that there's no code that actually uses
+> the drm_pending_vblank_event that's embedded in vkms_output. So, just drop
+> the member from the struct.
+
+This seems to be a leftover of the work on the introduction on vblank, if 
+you look at the V1 [1] you can see it was used, but not removed on the 
+last iteration [2].
+
+It apply properly on drm-misc-next and igt test kms_flip/kms_vblank are 
+success.
+
+[1]: https://lore.kernel.org/all/20180625171922.5ofev566kghxxxwu@smtp.gmail.com/
+[2]: https://lore.kernel.org/all/5d9ca7b3884c1995bd4a983b1d2ff1b840eb7f1a.1531402095.git.rodrigosiqueiramelo@gmail.com/
+
+Reviewed-By: Louis Chauvet <louis.chauvet@bootlin.com>
+Tested-By: Louis Chauvet <louis.chauvet@bootlin.com>
+
 > 
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
+>  drivers/gpu/drm/vkms/vkms_drv.h | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> v1:
->   - https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1216850
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 8f5710debb1eb..5e46ea5b96dcc 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -103,7 +103,6 @@ struct vkms_output {
+>  	struct drm_writeback_connector wb_connector;
+>  	struct hrtimer vblank_hrtimer;
+>  	ktime_t period_ns;
+> -	struct drm_pending_vblank_event *event;
+>  	/* ordered wq for composer_work */
+>  	struct workqueue_struct *composer_workq;
+>  	/* protects concurrent access to composer */
+> -- 
+> 2.45.2
 > 
-> ---
->  drivers/gpu/drm/ci/gitlab-ci.yml              |   2 +-
->  drivers/gpu/drm/ci/igt_runner.sh              |   1 +
->  .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   1 +
->  .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |  14 +-
->  .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |   4 +-
->  drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |  12 +-
->  .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |  41 ++++-
->  drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |   5 +-
->  drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |   2 +-
->  drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |   4 +-
->  drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |  14 +-
->  drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |   9 +-
->  drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |   5 +-
->  drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |  24 +--
->  drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |   8 +-
->  drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |   4 +-
->  drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   2 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |   2 +-
->  drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |   4 +-
->  drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |  25 +--
->  drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |   4 +-
->  drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |  17 +-
->  drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |   2 +-
->  drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |   5 +-
->  .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   9 +-
->  .../drm/ci/xfails/mediatek-mt8173-flakes.txt  |  32 +++-
->  .../drm/ci/xfails/mediatek-mt8173-skips.txt   |   4 +-
->  .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   2 +-
->  .../drm/ci/xfails/mediatek-mt8183-skips.txt   |   2 +-
->  .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |   2 +-
->  .../gpu/drm/ci/xfails/meson-g12b-skips.txt    |   2 +-
->  .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   5 +-
->  .../gpu/drm/ci/xfails/msm-apq8016-skips.txt   |   2 +-
->  .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |   2 +-
->  .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |   4 +-
-
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # msm tests
-
-
->  .../msm-sc7180-trogdor-kingoftown-fails.txt   | 145 ------------------
->  .../msm-sc7180-trogdor-kingoftown-flakes.txt  |  18 ++-
->  .../msm-sc7180-trogdor-kingoftown-skips.txt   |   5 +-
->  ...sm-sc7180-trogdor-lazor-limozeen-fails.txt | 145 ------------------
->  ...m-sc7180-trogdor-lazor-limozeen-flakes.txt |  11 +-
->  ...sm-sc7180-trogdor-lazor-limozeen-skips.txt |   2 +-
->  .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   | 105 ++++++++++++-
->  .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |   4 +-
->  .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   2 +-
->  .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   2 +-
->  .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   2 +-
->  .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |   4 +-
->  .../drm/ci/xfails/rockchip-rk3399-skips.txt   |   2 +-
->  .../drm/ci/xfails/virtio_gpu-none-fails.txt   |  64 ++++++++
->  .../drm/ci/xfails/virtio_gpu-none-skips.txt   |   4 +-
->  drivers/gpu/drm/ci/xfails/vkms-none-fails.txt |   4 -
->  .../gpu/drm/ci/xfails/vkms-none-flakes.txt    |  21 +++
->  drivers/gpu/drm/ci/xfails/vkms-none-skips.txt | 105 ++++++++++++-
->  53 files changed, 527 insertions(+), 395 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-> index 80fb0f57ae46..b09976c3d2c2 100644
-> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
-> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-> @@ -5,7 +5,7 @@ variables:
->    UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
->    TARGET_BRANCH: drm-next
->  
-> -  IGT_VERSION: 0df7b9b97f9da0e364f5ee30fe331004b8c86b56
-> +  IGT_VERSION: f13702b8e4e847c56da3ef6f0969065d686049c5
->  
->    DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/anholt/deqp-runner.git
->    DEQP_RUNNER_GIT_TAG: v0.15.0
-
 
 -- 
-With best wishes
-Dmitry
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
