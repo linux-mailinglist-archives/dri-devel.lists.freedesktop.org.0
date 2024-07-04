@@ -2,65 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838659275F3
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 14:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7400B927615
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 14:32:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D9910EAC6;
-	Thu,  4 Jul 2024 12:27:57 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hXhF4440";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1176310EA47;
+	Thu,  4 Jul 2024 12:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4375310EAC4;
- Thu,  4 Jul 2024 12:27:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720096077; x=1751632077;
- h=message-id:date:mime-version:from:to:cc:subject:
- content-transfer-encoding;
- bh=/xZRxZP5+a2PWzhEMmbMnBPs5ROF1T5pYZY3NUGl5qA=;
- b=hXhF4440kBWCWJajXMno2pvlY0xsuvwzYivqrZsScgDpnqYNt55jPpII
- xhJDITIxW8xH/5RJL5EaZs1CDllewX/0DRYlBJHs6PiDqIEIlCJk4IZgn
- wF7fZqAmadAnzb5lGDpTAS/UrV+GCGD21+EvElGLUI/3LzHnkO4tjLnG9
- dVZ5ahhzT3JYhqUNEs5UF3L+Mib6mCvMCKoUV7vGDU7Yr0c8ky/YoIRrL
- TFgI1VeBKdfXjZjGYlEul2mDHSsb0I+dWchx972im5HaL0ocJgLsrXbKN
- jda/7nspyJfMXXBb3PpdEp3raNOEGBAj/dRjWaS+G86rr55HQ2YUeBJjG w==;
-X-CSE-ConnectionGUID: t/h++ePaQ4y3sW5YEOywLw==
-X-CSE-MsgGUID: PDiwpzUbT1OmOnobp9oN2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="27977028"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; d="scan'208";a="27977028"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2024 05:27:56 -0700
-X-CSE-ConnectionGUID: I7ubbYafR7SesiNz/WKJBQ==
-X-CSE-MsgGUID: d3376Jb/SHWiQpOknz7A8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; d="scan'208";a="77724329"
-Received: from unknown (HELO [10.245.245.96]) ([10.245.245.96])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2024 05:27:50 -0700
-Message-ID: <ffba0c63-2798-40b6-948d-361cd3b14e9f@linux.intel.com>
-Date: Thu, 4 Jul 2024 14:27:58 +0200
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B4610EA47
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 12:32:39 +0000 (UTC)
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+ by APP-01 (Coremail) with SMTP id qwCowAAX+ExXloZm+2KMAQ--.18813S2;
+ Thu, 04 Jul 2024 20:32:31 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: patrik.r.jakobsson@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, airlied@redhat.com, alan@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Ma Ke <make24@iscas.ac.cn>, stable@vger.kernel.org
+Subject: [PATCH v2 RESEND] drm/gma500: fix null pointer dereference in
+ cdv_intel_lvds_get_modes
+Date: Thu,  4 Jul 2024 20:32:21 +0800
+Message-Id: <20240704123221.291438-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PULL] drm-misc-fixes
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAAX+ExXloZm+2KMAQ--.18813S2
+X-Coremail-Antispam: 1UD129KBjvJXoWrtF1rCw4fWFWDtFWkWr13XFb_yoW8Jryfpr
+ 47GFyjyr4FqFZFgFW8C3WvgF4Yqa43KFn7KryDZws3uFn0yF1UXryru3yfWrW3CFZxGrZY
+ yrnxtay5Ga10kF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+ 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
+ Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
+ YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+ AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+ 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+ IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUbHa0DUUUUU==
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,71 +62,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+In cdv_intel_lvds_get_modes(), the return value of drm_mode_duplicate()
+is assigned to mode, which will lead to a NULL pointer dereference on
+failure of drm_mode_duplicate(). Add a check to avoid npd.
 
-A nicely filled fixes tree just for you! And the rest of the world!
+Cc: stable@vger.kernel.org
+Fixes: 6a227d5fd6c4 ("gma500: Add support for Cedarview")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+Changes in v2:
+- modified the patch according to suggestions from other patchs;
+- added Fixes line;
+- added Cc stable;
+- Link: https://lore.kernel.org/lkml/20240622072514.1867582-1-make24@iscas.ac.cn/T/
+---
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Cheers,
-~Maarten
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
+index f08a6803dc18..3adc2c9ab72d 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
+@@ -311,6 +311,9 @@ static int cdv_intel_lvds_get_modes(struct drm_connector *connector)
+ 	if (mode_dev->panel_fixed_mode != NULL) {
+ 		struct drm_display_mode *mode =
+ 		    drm_mode_duplicate(dev, mode_dev->panel_fixed_mode);
++		if (!mode)
++			return 0;
++
+ 		drm_mode_probed_add(connector, mode);
+ 		return 1;
+ 	}
+-- 
+2.25.1
 
-drm-misc-fixes-2024-07-04:
-drm-misc-fixes for v6.10-rc7:
-- Add panel quirks.
-- Firmware sysfb refcount fix.
-- Another null pointer mode deref fix for nouveau.
-- Panthor sync and uobj fixes.
-- Fix fbdev regression since v6.7.
-- Delay free imported bo in ttm to fix lockdep splat.
-The following changes since commit 66edf3fb331b6c55439b10f9862987b0916b3726:
-
-  drm/nouveau/dispnv04: fix null pointer dereference in nv17_tv_get_ld_modes (2024-06-25 15:30:50 -0400)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-07-04
-
-for you to fetch changes up to d99fbd9aab624fc030934e21655389ab1765dc94:
-
-  drm/ttm: Always take the bo delayed cleanup path for imported bos (2024-07-04 09:22:04 +0200)
-
-----------------------------------------------------------------
-drm-misc-fixes for v6.10-rc7:
-- Add panel quirks.
-- Firmware sysfb refcount fix.
-- Another null pointer mode deref fix for nouveau.
-- Panthor sync and uobj fixes.
-- Fix fbdev regression since v6.7.
-- Delay free imported bo in ttm to fix lockdep splat.
-
-----------------------------------------------------------------
-Boris Brezillon (2):
-      drm/panthor: Don't check the array stride on empty uobj arrays
-      drm/panthor: Fix sync-only jobs
-
-John Schoenick (1):
-      drm: panel-orientation-quirks: Add quirk for Valve Galileo
-
-Ma Ke (1):
-      drm/nouveau: fix null pointer dereference in nouveau_connector_get_modes
-
-Matthew Schwartz (1):
-      drm: panel-orientation-quirks: Add labels for both Valve Steam Deck revisions
-
-Thomas Hellström (1):
-      drm/ttm: Always take the bo delayed cleanup path for imported bos
-
-Thomas Huth (1):
-      drm/fbdev-generic: Fix framebuffer on big endian devices
-
-Thomas Zimmermann (1):
-      firmware: sysfb: Fix reference count of sysfb parent device
-
- drivers/firmware/sysfb.c                       | 12 ++++---
- drivers/gpu/drm/drm_fbdev_generic.c            |  3 +-
- drivers/gpu/drm/drm_panel_orientation_quirks.c |  9 +++++-
- drivers/gpu/drm/nouveau/nouveau_connector.c    |  3 ++
- drivers/gpu/drm/panthor/panthor_drv.c          |  6 ++--
- drivers/gpu/drm/panthor/panthor_sched.c        | 44 +++++++++++++++++++-------
- drivers/gpu/drm/ttm/ttm_bo.c                   |  1 +
- include/uapi/drm/panthor_drm.h                 |  5 +++
- 8 files changed, 63 insertions(+), 20 deletions(-)
