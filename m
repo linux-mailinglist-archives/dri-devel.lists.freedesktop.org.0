@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DF2927094
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 09:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15BA1927095
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 09:30:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F4FA10E1D7;
-	Thu,  4 Jul 2024 07:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8902E10E959;
+	Thu,  4 Jul 2024 07:30:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="FtwDSswa";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="1N5TTazo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B178A10E1D7
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 07:30:11 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-706b539fcaeso1148720b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 00:30:11 -0700 (PDT)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4A310E973
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 07:30:17 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-710437d0affso197155a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 00:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1720078211; x=1720683011; darn=lists.freedesktop.org; 
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HoZASCSjh5HMX+iYg6EyKw+Bujbjq1YrTEDuwpgZE9Q=;
- b=FtwDSswai14FApD4jvVWDHukza1eWtKDhjB5Er63W2+Ud5EPe9VM+E4xNBKYFKCb/z
- RgPEnJlmL2FqnTzCoImW9ShUeBUdiTghU+HJRZvDig96nQpSpTLQ0yTh4r9wqjWmqo0Q
- XLQfH69+4TIc3aFAKXCodoJZD5hk9g11zglL8bcvKOzUHmaH7/XOHOc0rADxoBs+Q1e5
- Q1r4b22SD5d0wjoiRo//fThEJ5jH/ViZ8PG8Il5z9CG6Ah6gIlqC8FfNor0nLYhbcqmR
- znALX56SLXrK8v3tcUQkTqaEpJOQx+WWqIyNoX7zz2471zqc4Lb1zCUHZfbcWUujcnkk
- 76eg==
+ t=1720078217; x=1720683017; darn=lists.freedesktop.org; 
+ h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=xg0hLlO8+PF9aQb4nRdBoCDmNrfex1VFsOmkO3c71VM=;
+ b=1N5TTazoV3xpGTVPUkZEtq685ZYUG9pQ2L6AgOtZ6zs+G+T6DopPZ4/ytPeu+O4dO0
+ XEieZnFQkwiysGrdPZuJ61BZT5ueAjjF2WG5Zncyl4/wZzTfn8piCHPW+dxZNfo91htn
+ QXL8KuZzeXd/Lwxm9uDFRytkckN8s195SftYQUYIpVWnNKyMU5G+Bo7fIIagSeBbn7Oy
+ 3sTxoLVLOJOGM2cKZcGGmJiTrYV78fo3VstPDGbuV5HS0oACmunv2nY9DSV8U200atpS
+ js/0L/+IqF9e9Xv7fspGiiQW544vPRniI//iQtHylxxb3TZedXu70W18++lyS78tVrfT
+ ukDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720078211; x=1720683011;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HoZASCSjh5HMX+iYg6EyKw+Bujbjq1YrTEDuwpgZE9Q=;
- b=TYpBgo+U46ydITgL+cC0Nz86juscH4xIiBGhm9FaXl5r+5Vw5smk/PAWXBSZkXxHFn
- hXO3aGdLU1DG8EhfmxH6ow+NrYg62GivUCWoBDrTbiovJkgivB3eHNgIiY5sza41X9/p
- vUcZxhcUOJlJkPL78omO1KvSR7BhQkEPAYJFbWqksJgxNegTyma0cRqRXkJkXGt6k34p
- 0pc7eDdI8oOglqqGacjmQQOQdYjsfakRm8VhMqpF/ZuMCN5ehtplbp4l7rI9P8vL0T8r
- wQllT1eCPW/4pKyHCGDWphQfInet1oJ3/s+mhQxc4/GwEtUpiXXXozz/Esxn3vZ8tbf7
- ZY5w==
-X-Gm-Message-State: AOJu0YzOHvPU0Gx6Nr45812Vf5aYB1tM9K3ok1UfMnKjNNxS1Qrw8TCu
- 7iTo2AxtF7VvS6XzX2oEyEaie0tCKeWfeJeRdzLjBX8DX2hALTg2LrDAAjLCts4=
-X-Google-Smtp-Source: AGHT+IF0CGZi0nRLYzMbd6CFtfqKawTIK20i6+6QYDX1nOMjNRk44Geb04TJIT85AHJuXHPHgbzLXA==
-X-Received: by 2002:a05:6a20:5510:b0:1be:c3f8:aeda with SMTP id
- adf61e73a8af0-1c0cd1a53b8mr766246637.16.1720078209074; 
- Thu, 04 Jul 2024 00:30:09 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1720078217; x=1720683017;
+ h=references:in-reply-to:message-id:date:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xg0hLlO8+PF9aQb4nRdBoCDmNrfex1VFsOmkO3c71VM=;
+ b=YkvLJCnhkai5yeEZ37dk6qPPl1D0UaSRCQaNqOt+5PqYxgSGNSE0KsZxiWqGCrdBOf
+ lV1mURDV9xyctmQGBezJ1g7E9KOw8hg3r8yBgxutZjSMNL7Ku9k3oMzp3lyCWZkvGX0H
+ W0Rx8WxHafvvJ5yfltRLDDBQxjdfXxAGvq2o//vu+w7pA+veTirrybMcTm6NZuiEQU4J
+ H6ELN9y+nL268qG7+tkqGvTiO7ZfQqDRWvm3Sb8n4PXZe3PWYGLoi5juXyAiIPZGmfhB
+ NldhOvV212gJcDvi/KIp6W4GD4+c6lpfiY/KMa5WwSXWIPJvAa5BDqSZ5SlBYCgMx8Z1
+ vBRg==
+X-Gm-Message-State: AOJu0YwsWyF1hzvkn8VXVsKwznnaVCAa+VoYvw0v3wo3sGih3HPx9bRZ
+ R5GHl+LD/ekL8zyU1g/dmzlrOtMaJfQWA+KnGPpvRq3rZLlVZs03mpNbm7USyA8=
+X-Google-Smtp-Source: AGHT+IETpniVgYzkLnFj0BogOQwz/7wCD/Kjlbtg/LVXdXjJlvArmj0gpZgytp1RjHa5oC0z9AuOWg==
+X-Received: by 2002:a05:6a20:9187:b0:1bd:8581:2f61 with SMTP id
+ adf61e73a8af0-1c0cc8d4d5bmr809458637.39.1720078216785; 
+ Thu, 04 Jul 2024 00:30:16 -0700 (PDT)
 Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-72c6a8dbb2fsm7735699a12.31.2024.07.04.00.30.05
+ 41be03b00d2f7-72c6a8dbb2fsm7735699a12.31.2024.07.04.00.30.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jul 2024 00:30:08 -0700 (PDT)
+ Thu, 04 Jul 2024 00:30:16 -0700 (PDT)
 From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 To: neil.armstrong@linaro.org, robh@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, airlied@gmail.com,
@@ -62,10 +62,13 @@ To: neil.armstrong@linaro.org, robh@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v5 0/5] Support Starry er88577 MIPI-DSI panel
-Date: Thu,  4 Jul 2024 15:29:53 +0800
-Message-Id: <20240704072958.27876-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v5 1/5] drm/panel: boe-th101mb31ig002 : Make it compatible
+ with other panel.
+Date: Thu,  4 Jul 2024 15:29:54 +0800
+Message-Id: <20240704072958.27876-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240704072958.27876-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+References: <20240704072958.27876-1-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,50 +84,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Starry is a 10.1" WXGA TFT LCD panel. Because Starry-er88577 
-and boe-th101mb31ig002 have very similar inti_code, after 
-discussing with Dmitry Baryshkov, We will modify it based on the 
-panel-boe-th101mb31ig002-28a.c driver instead of using a separate 
-driver.
+This driver currently only applies to one panel. Modify it to be
+compatible with other panels.
 
-Changes between V5 and V4:
-- PATCH 1/5: Add a new patch, make it compatible with more panels.
-- PATCH 2/5: Add a new patch, change devm_gpiod_get() to devm_gpiod_get_optional() in the Probe() function.
-- PATCH 3/5: Add a new patch, use wrapped MIPI DCS functions.
-- PATCH 4/5: Add it to the "boe,th101mb31ig002-28a.yaml.
-- PATCH 5/5: Compatible with starry-er88577 panel in panel-boe-th101mb31ig002-28a.c driver.
-- Link to v4: https://lore.kernel.org/all/20240620115245.31540-1-lvzhaoxiong@huaqin.corp-partner.google.com/
+Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+---
+ .../drm/panel/panel-boe-th101mb31ig002-28a.c  | 40 +++++++++++++++----
+ 1 file changed, 33 insertions(+), 7 deletions(-)
 
-Changes between V4 and V3:
-- PATCH 1/2: Move positions to keep the list sorted.
-- PATCH 2/2: Adjust the ".clock" assignment format.
-- Link to v3: https://lore.kernel.org/all/20240614145609.25432-1-lvzhaoxiong@huaqin.corp-partner.google.com/
-
-Changes between V3 and V2:
-- PATCH 1/2: This add the bindings to panel-simple-dsi.
-- PATCH 2/2: Add a separate driver for Starry-er88577, and Use the new mipi_dsi_dcs_write_seq_multi() function.
-- Link to v2: https://lore.kernel.org/all/20240601084528.22502-1-lvzhaoxiong@huaqin.corp-partner.google.com/
-
-Changes between V2 and V1:
-- PATCH 1/4: Delete some unnecessary information.
-- PATCH 2/4: Use the new mipi_dsi_dcs_write_seq_multi() function, deleted some unnecessary functions.
-- PATCH 3/4: Add compatible for Starry-er88577.
-- PATCH 4/4: Add starry panel configuration in panel-kingdisplay-kd101ne3 driver.
-- Link to v1: https://lore.kernel.org/all/20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com/
-
-Zhaoxiong Lv (5):
-  drm/panel: boe-th101mb31ig002 : Make it compatible with other panel.
-  drm/panel: boe-th101mb31ig002: switch to devm_gpiod_get_optional() for
-    reset_gpio
-  drm/panel: boe-th101mb31ig002: use wrapped MIPI DCS functions
-  dt-bindings: display: panel: Add compatible for starry-er88577
-  drm/panel: :boe-th101mb31ig002: Support for starry-er88577 MIPI-DSI
-    panel
-
- .../display/panel/boe,th101mb31ig002-28a.yaml |   2 +
- .../drm/panel/panel-boe-th101mb31ig002-28a.c  | 298 +++++++++++++-----
- 2 files changed, 215 insertions(+), 85 deletions(-)
-
+diff --git a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
+index 763e9f8342d3..159e401ad0e6 100644
+--- a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
++++ b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
+@@ -17,11 +17,21 @@
+ #include <drm/drm_modes.h>
+ #include <drm/drm_panel.h>
+ 
++struct panel_desc {
++	const struct drm_display_mode *modes;
++	unsigned long mode_flags;
++	enum mipi_dsi_pixel_format format;
++	const struct panel_init_cmd *init_cmds;
++	unsigned int lanes;
++};
++
+ struct boe_th101mb31ig002 {
+ 	struct drm_panel panel;
+ 
+ 	struct mipi_dsi_device *dsi;
+ 
++	const struct panel_desc *desc;
++
+ 	struct regulator *power;
+ 	struct gpio_desc *enable;
+ 	struct gpio_desc *reset;
+@@ -161,7 +171,10 @@ static int boe_th101mb31ig002_prepare(struct drm_panel *panel)
+ 	gpiod_set_value_cansleep(ctx->enable, 1);
+ 	msleep(50);
+ 	boe_th101mb31ig002_reset(ctx);
+-	boe_th101mb31ig002_enable(panel);
++
++	ret = ctx->desc->init(ctx);
++	if (ret)
++		return ret;
+ 
+ 	return 0;
+ }
+@@ -181,6 +194,16 @@ static const struct drm_display_mode boe_th101mb31ig002_default_mode = {
+ 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+ };
+ 
++static const struct panel_desc boe_th101mb31ig002_desc = {
++	.modes = &boe_th101mb31ig002_default_mode,
++	.lanes = 4,
++	.format = MIPI_DSI_FMT_RGB888,
++	.mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
++			  MIPI_DSI_MODE_NO_EOT_PACKET |
++			  MIPI_DSI_MODE_LPM,
++	.init_cmds = boe_th101mb31ig002_enable,
++};
++
+ static int boe_th101mb31ig002_get_modes(struct drm_panel *panel,
+ 					struct drm_connector *connector)
+ {
+@@ -237,6 +260,7 @@ static const struct drm_panel_funcs boe_th101mb31ig002_funcs = {
+ static int boe_th101mb31ig002_dsi_probe(struct mipi_dsi_device *dsi)
+ {
+ 	struct boe_th101mb31ig002 *ctx;
++	const struct panel_desc *desc;
+ 	int ret;
+ 
+ 	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
+@@ -246,11 +270,11 @@ static int boe_th101mb31ig002_dsi_probe(struct mipi_dsi_device *dsi)
+ 	mipi_dsi_set_drvdata(dsi, ctx);
+ 	ctx->dsi = dsi;
+ 
+-	dsi->lanes = 4;
+-	dsi->format = MIPI_DSI_FMT_RGB888;
+-	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
+-			  MIPI_DSI_MODE_NO_EOT_PACKET |
+-			  MIPI_DSI_MODE_LPM;
++	desc = of_device_get_match_data(&dsi->dev);
++	dsi->lanes = desc->lanes;
++	dsi->format = desc->format;
++	dsi->mode_flags = desc->mode_flags;
++	ctx->desc = desc;
+ 
+ 	ctx->power = devm_regulator_get(&dsi->dev, "power");
+ 	if (IS_ERR(ctx->power))
+@@ -302,7 +326,9 @@ static void boe_th101mb31ig002_dsi_remove(struct mipi_dsi_device *dsi)
+ }
+ 
+ static const struct of_device_id boe_th101mb31ig002_of_match[] = {
+-	{ .compatible = "boe,th101mb31ig002-28a", },
++	{ .compatible = "boe,th101mb31ig002-28a",
++	  .data = &boe_th101mb31ig002_desc
++	},
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, boe_th101mb31ig002_of_match);
 -- 
 2.17.1
 
