@@ -2,196 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DBAF9270DC
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 09:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E44927124
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 10:02:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6908210EA15;
-	Thu,  4 Jul 2024 07:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B988710EA18;
+	Thu,  4 Jul 2024 08:02:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aFTGrFJi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zg9GDQ0r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1B1710EA14;
- Thu,  4 Jul 2024 07:48:43 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 248FD10EA17;
+ Thu,  4 Jul 2024 08:02:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720079323; x=1751615323;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=zhfe2YdT+kJJkH8TLL5Zt+SIvq5QP3dVPeBx8W66V+Q=;
- b=aFTGrFJiDyk96Z1/CKihMTrmU/MtdAkyV0iUx1dlqCg87OXqEhBIuO0T
- 08u+c2R4hdbxIMjDseAXn+N8sQ7bX25Rpn0kAm4ixM93fu8XfG9NwyK9t
- PqDoSHp1OSxHTfurgRWrktPNkOSG8PGMK2PqfMDHNJ0F4dfskKwOoKxbX
- E89Vdv6wMLjSTV3tDb6a4zHuSWNPhecBMy+C2hsZvO58TzKMIEgTWPwjG
- tNBnlw3SoTlDpwov8ZZQ491ptEQYsUCVVhjAoiYSE1n0BDyLKusoLyOZX
- sRhepHK/2DCfQtyoBmbUvnixWOTBMQfQja24g5n99YkvxIQ/p2CGzgaHA Q==;
-X-CSE-ConnectionGUID: vj6GPKuDQjmUn6LzH8U/fA==
-X-CSE-MsgGUID: R63qi+AqSm+IH6+iPwE3Ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="28736665"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; d="scan'208";a="28736665"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2024 00:48:43 -0700
-X-CSE-ConnectionGUID: q4m6NYSMTsSlz7npawFFew==
-X-CSE-MsgGUID: 5m+J5pYeT+2JAwgj6n6lsg==
+ t=1720080160; x=1751616160;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=3ZUwTceSBpb6CD4scfPX6oEr7FFHDEsHdCaicQ+iVqI=;
+ b=Zg9GDQ0rzHEQAo14w23vfHQodiejUFJeuKCbroYsuf90+Hsz0aK3Uf0R
+ FQ9JdRfLkHdJ67yU/uItUzmu4+O+T2nqxjamfKMpL/YO78xODKUQFLjh2
+ d+uWvUZHjeK4cgF/jwEN21z0Pz56zLa3/qCIz+NXoIwGuxjj64v0ho+HF
+ bml52KDVBVEgAOFWDZ+vQ38FX1aV4d7ktfyr8PLnSWhuOGwAxVEWpWEBG
+ UoHw0OeczriShSAOJ+rogayA6fsWpKaD6v64ZikRIxXEmj2Id4k0T2MaJ
+ G6c134/ADFXbToK+Lf9xtvOJAJbyjRKjk+7G/iZCVTalCyf7JYz7tGCvS A==;
+X-CSE-ConnectionGUID: YcBQyOcIQVOhpZ3Jrm4QjQ==
+X-CSE-MsgGUID: NAmQGDeQTj+IDPFZRg93jA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="27961395"
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; d="scan'208";a="27961395"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2024 01:02:40 -0700
+X-CSE-ConnectionGUID: tuMmnWtkSKyTp9sTV5fOUw==
+X-CSE-MsgGUID: WDTfuELXSf2aIqAI04dSaA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; d="scan'208";a="69705748"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 04 Jul 2024 00:48:43 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 4 Jul 2024 00:48:42 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 4 Jul 2024 00:48:42 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 4 Jul 2024 00:48:42 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 4 Jul 2024 00:48:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=byn4XOyuqjsHBhPmF6k+8VZO1AyBXZOijPlrtlEu95m3lx4Jbfuwn8tCYbaHoqusaQ2fjC6lQ5sKGhdW/DJD6JXqE8mrbN17lMN/AzbisHymC9WKfECSKZEoh59XzD0flG/k7zA8OUdo03mZxudXJxPy6eFixjfv/KOU+CT1MTp5O22Ym1jb2SfepBnQtdcM/Z0OC87qFrVIwI53zkcKuY8Yj3GrCa/k4dCp/E8ICGOB1NMZoaoVEfcTVLXNAjXQsQklwc0RQji5aRuzhoGZCiB+mAmzd+9oqHQdPaYzxsfrJRQ31JjGCcBK9XjgYfQe6YGUzkuLNrWSrzU0ijLzQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zhfe2YdT+kJJkH8TLL5Zt+SIvq5QP3dVPeBx8W66V+Q=;
- b=asjcTd/Qlpx4k3OQUItlGIoDBMl93EzXQAq13tKE3n3rVUEMUhOKUaGHP3ugJyAQikgDk3CiJu7zDeifNofo9eqoWZqbCxJjktqvU/awWnXuwnkCWnbveeygzpTInbgOQatFvEa8RoHa3flfV3+/lUqM5K93HtEF6+81wuwSd2WxnzaO+hLNFH21DF7Y3yNyp7+0KYqUzCHdxpC78S+mgQYSkqDPyn+ZL7evttHiFlix4rLOqYMUKioglZ8gkBJq+RrvymaMQMwksGVO2nRA7VKreGbcdVCrh3nCmxv4ZV3bbj+/pD3kaizTU/eaXvBBCQJdx5UhPWLZltvuKFEoew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5275.namprd11.prod.outlook.com (2603:10b6:408:134::24)
- by DS0PR11MB8114.namprd11.prod.outlook.com (2603:10b6:8:129::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.25; Thu, 4 Jul
- 2024 07:48:40 +0000
-Received: from BN9PR11MB5275.namprd11.prod.outlook.com
- ([fe80::d113:e69e:54bf:3fea]) by BN9PR11MB5275.namprd11.prod.outlook.com
- ([fe80::d113:e69e:54bf:3fea%4]) with mapi id 15.20.7741.017; Thu, 4 Jul 2024
- 07:48:39 +0000
-From: "Mrozek, Michal" <michal.mrozek@intel.com>
-To: =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?= <thomas.hellstrom@linux.intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-CC: "Mishra, Pallavi" <pallavi.mishra@intel.com>, "Auld, Matthew"
- <matthew.auld@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, "Yu, Effie" <effie.yu@intel.com>, "Brost,
- Matthew" <matthew.brost@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, "Souza, Jose" <jose.souza@intel.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH] drm/xe: Use write-back caching mode for system memory on
- DGFX
-Thread-Topic: [PATCH] drm/xe: Use write-back caching mode for system memory on
- DGFX
-Thread-Index: AQHawmdCUYMF7oqo3kas6b/0usbP07HmSCnw
-Date: Thu, 4 Jul 2024 07:48:39 +0000
-Message-ID: <BN9PR11MB52751488AEFDE50B84ABEE67E7DE2@BN9PR11MB5275.namprd11.prod.outlook.com>
-References: <20240619163904.2935-1-thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20240619163904.2935-1-thomas.hellstrom@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5275:EE_|DS0PR11MB8114:EE_
-x-ms-office365-filtering-correlation-id: 6f6560bb-796f-45de-ae07-08dc9bfdb837
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?bGdHa0VYaDBWTXVteFVFMkNWM2xPUk1QczdiSlJDNXI2VjBKUjk1bVAxRUx6?=
- =?utf-8?B?WExBNDZXWUd0b0VwdytITkpSM3RsTGtZaGpJVVE5WWZla2FJa04vZ1p3NjQ2?=
- =?utf-8?B?YTdCTjhPeG9wMWN2K2tOcFp4dXhwc1dDYktSWVJTeVhYYTR5VXpnSnRzcXp0?=
- =?utf-8?B?QkphWXNOekZJK3JkUW4wOXFIUkN0NnpMVmRxdWdCb1Y0ajhtS296TUJHTkJ4?=
- =?utf-8?B?UVJYWm5yM3FEVmYwdUJmNlBVRFlKUnRKVTJoVytTVHhMMDlsdUt5YjdQaE5I?=
- =?utf-8?B?RFduSjd2MjlLUU5aVHgzSTViSjZxVzBSZWNuc29teVNoU0gyWGdwU0pmazFK?=
- =?utf-8?B?ZkhYNnNzdzQ5WkFNNWs1YmFQNHR3SlRPZWJydU5weDNvbFlubHVmdlhkQjFC?=
- =?utf-8?B?akxKTTFPbzU4enhhc0JlbjFvMUFCYTNvRU5xWkxlRFhaaDRPS3JEcDhzRmtT?=
- =?utf-8?B?emc2MTdqd1N2VmprUTZScVlLWDF6ZCt1RmNYTlBVUlZVblF0OWVLcWM5dGhx?=
- =?utf-8?B?TVErU2xyQTJJckJ3eFZqRGg4K0llaTNYWkZMclpQUmN5N2QyT0I2ZTRpMWpZ?=
- =?utf-8?B?MVZsMXdmdjR5Y0kyeXpEMldqeVdPSGYvRmZaK1IzcTNYNlpJdm80RE1GM0tk?=
- =?utf-8?B?N3FXcHF0Z3hsdUlrSFBzTE41VUVpT2JnL3p2WTJpOVVrYUhGRE1EU3NzMFpq?=
- =?utf-8?B?cmVtN3ZSTUtYd0YyTlgyazI0Z1ZzLzQ2RkRycnE0cDRJZFRHWHB3cGpQb2hy?=
- =?utf-8?B?OEw0YmFuQnJra3dNV1MzajN1TGl0RWVqUXBjWk41L1U5OXNPeDFRVDdhYjNW?=
- =?utf-8?B?dlJwb01JbVpiUDJuZDdhZ0RXNFg2ejU4bkpIaUwrVjBMR003R21kdGhleEtr?=
- =?utf-8?B?R09TakdDemprck5Kam9TTThyZkM0Q2tqZXM2dUtRWittdmFHRDNzUmFLOVR2?=
- =?utf-8?B?dWw2NlhUWUJJd1c2c3dIMnczVW1kRmJOREJHdUUrOU5oaCsxVkUzQTJqT1Iz?=
- =?utf-8?B?WE55VTNhUDF6Tm11MXBweDM0UUVjNEE4Z2ZlY0F5WjhUa2N3cUttSGNBdG5I?=
- =?utf-8?B?a3dpd0thOHhXZzhKTGdpSkEwU1NseUlEeTlRWFVPdk9QbHFYeS9VenArd0p6?=
- =?utf-8?B?SG1LTzFVS1dTb3Y5cTE3TXdHOFZucWhHMVBYYW5PTm81SzFDbWhsd0ZuVHVE?=
- =?utf-8?B?SUtLdFhSY1F2R1JpV1I4QVlac3dWL01xdnB4NUljN0xtR0Y3TVJHTEpxTkVj?=
- =?utf-8?B?TEkwcHhpdWh2YUQwWHVQSDJvZE5TM3ZzamNiRlFwM2QxblRCVTRFNDVMdWlY?=
- =?utf-8?B?Z3FIOU94ditoYlFORHBRZUxDMjhrWS9LeUt6d3pKUDdqK1A3ZFhNMDFkRjlK?=
- =?utf-8?B?OUFGZmRaU1ZyZWdLdVFzZnFQYVFrMGVGMDh0Y2dxNS9haHRHT0pIdnJrRVIy?=
- =?utf-8?B?U2JrOGxjR2Z1NGN2UDdHSTJwUVZkWG1ZOW8ra2JaWUZWY3ZYQ09yd1BPb1Nk?=
- =?utf-8?B?NmRhSnVvTEFMclJSOUpaZ2RmajA0RDVuWURGcW9JRnlsekltUVJLMVhvY2Jj?=
- =?utf-8?B?MzI3Vng3YkwrcGVzNisvcHZaU0hmN3lUU2RKL1BBVVQ1ZVdpanMvNkJUVllv?=
- =?utf-8?B?d2NKcm40Z2hHRWNJM3E4YjZaVlZKd1c3TDhSQWh4SnQyOG1hN2M0eWhYRlkw?=
- =?utf-8?B?dVZSdnZ4czlxUmpRS3loSnM1VTIvL2dSUUhsK3RSaG8zOXVxaXNkY01MTVBJ?=
- =?utf-8?B?ZVhrSzFIbmNwQnlCK2hFcUtiUkhSZjFqQ3JQN3VVb2ZvUDZZc2hQbE12V3V3?=
- =?utf-8?B?QVhXR2UyNFpJN2s3N2ZtSk05VlV1MzRJcnZldVZhV25KV3RJbzEyaGRCUWx2?=
- =?utf-8?B?ZUdOL0c1VTQ2V3ZvUVBYRStkNnYyZ2xrWnZSNDZNamduVmc9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5275.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZDNBNHF3N2xxUDJjdWQzcG9QcWJadUVRUzc5bTROcjNnK2FwSllGcHBMd2Uz?=
- =?utf-8?B?NVdaWjBCSlBLTHBpanBFeHVPMXlGUHdsbDMxZVFFSHZySm52UURIWWpkc09a?=
- =?utf-8?B?N3NJb3NiWEROWG40UlQvM1VOV1Fidy9ySmo3Qm5iVXd4clBLR2tKUXRNekM5?=
- =?utf-8?B?WStXZmlLMnZtdXB3c3Byb04rcmRINTJISzI4Z2VhQ2kvTUlCaTQzYk5kR3JQ?=
- =?utf-8?B?T29nQ2w1UEY4SlM1a1F3eG9FRGZaMmNDTHhHYjBORS9vWVFLUWtZbHBuRzla?=
- =?utf-8?B?Z01WRUdpV3QrVlRaaE02K1RWZitoZnNCVHRZZkV6UjZjdjcvaDZaSFF1VVIr?=
- =?utf-8?B?dG1od0JZZXhBQkpxbnRMYkRjZ3ROa1Rzd3NyRk9NenNKN3QrVkZXS2F1WVhE?=
- =?utf-8?B?VjJCTTdxLzFNL1Y1cXJPVnhPdFo3R3Zhb1lWVU4zcEdYSDVwZGV0NlhZeW0x?=
- =?utf-8?B?V2VSUFh0VXNIZEVyakQxS092UTVxbjd2SDBQWlN6akNtTk1LUXZQY3NjbUFl?=
- =?utf-8?B?bS9rcldxZy9EWnoveTc1ekFEbnlOZXRTanB2U1hTNE8yRllSTEZuUk9LN1dk?=
- =?utf-8?B?dVNsbFlDSjU2WDF4SG00NWdpWU9IWkFKeFNVenJ2L0RCR0Q2MmhBZnl5QXBP?=
- =?utf-8?B?emhPM3h6d0NlY2s4bEFYZnY2U0ZlcXB5Y3Z5TytUQVZzNGpjTkhxcXBuSm1h?=
- =?utf-8?B?Z2JPdEFZVFR0eWhoMXVqQXJvU0tzci9IUDNuR29IMWx1WklIZFVqNUU5YWZN?=
- =?utf-8?B?L09zc1JybUJlcDBoNzJIMUNhQmRWaDBsTndxdVowb3RTVG1LYWVnbTJJcks0?=
- =?utf-8?B?VlAwaXlIbDRTMG02Wmg5WWMzbm5yVEZFNHYxa2VhTjAzcmhPRjQ0eEVZTVgx?=
- =?utf-8?B?QTdvQ0dqY2hyV2ZaVHlpZ0piSkRUZnFZalIvM3l3NXlQVHFyQTQxa1FKNkRE?=
- =?utf-8?B?QnNydVhtTW1QQmJUZGp0UEtRNXF0Q3ZVekpLMEZqYmlXQUxibEdyS2x1MjNx?=
- =?utf-8?B?L1U5ZEViVTVOYlkrSFIxeVllWXZ2WU5QTURZSnh1cU8xeVNyZWpBdWdmNEZ5?=
- =?utf-8?B?azBrV1NnanVxckZ5eFh6c3QweWVTQTlkcmxQRHJyb2hWNW9aTTNmV2c3SDlv?=
- =?utf-8?B?dDlHOHM4R0JWNExEUHR4akFycFVKdjI1dGs2TXVlZEtxRjNGeUxjMlpTZEdL?=
- =?utf-8?B?SFExUkhXbTIvbXlHTThBOU1NMzYwMHpGZVlFVmZPNk9aaFRkRUJJampUaHFs?=
- =?utf-8?B?ZkI5SDNmTFV0M0pCUFQrWEUvV3l6aEVGYjNVNmNOUjEzeDROeGtXa256S2NR?=
- =?utf-8?B?UCs3QTZoOEtWVlA4MjJmK1BFV3hIcW8rckVFVnBodUFRM0JJNERjQlZqL2VH?=
- =?utf-8?B?MGhQUEFIUFhlODNQR2tNaU5jTjlIN1l4TW1sTXQ0amlYMCsyLzR6cTBwNGI4?=
- =?utf-8?B?SlBiNzBKRXR2ZjRtZ2Y3ZktzUEFZSDByaXJhZmEvbG91T3gxR2drMkxjR0RF?=
- =?utf-8?B?YzVNOTUwSS9ISXlLNjR5WEF3V09kZEdrVHZ4OUFFQkJkOHpuYVBKTksvUUNN?=
- =?utf-8?B?MStVODhhaERoUmp6b1BvL29FU2lIbWI5MmxNbVZJWnQ1bTBPY3M2dm9Id3Uw?=
- =?utf-8?B?aUc1K0orOHMreTA4YU5BZFJuVUlNMFlFM1BKemF0cDJMSmJlTXd4azQwQ3Zl?=
- =?utf-8?B?WitpV0Z0WEQyWmNKWDVNSmc2WGJpY2hvcXYrNkhxNjl6MlgrbGJIWHpBdnhZ?=
- =?utf-8?B?bWNvQlpJcnQ5L1JGOGh6TWxjRmhPTVVKdGhwbXZURzg0SGVaVkJ6bmlFMzRE?=
- =?utf-8?B?SHJQTHBEeENnTVI2Rk5sRGpsK0ZaYVJTYjIxSWJEY25kd2Z6SnhUdlJXQWtt?=
- =?utf-8?B?Q2pUdFNScXZkQ05yeFVjZ1lFVDIwWjJwRUVaRnBSaGU0aUI1M2pWNnJWZkJn?=
- =?utf-8?B?ZXREd0s2THdvazBvY0VkQTNCeENwQWl0SGZjU2YxQWNYT3NkSjl2aDFtdjlE?=
- =?utf-8?B?M1duZ2ZFS0UrU1ltY1JEaHVMeCtWU3dyanpjbnk5cUVDb1FsYVRhTGxBZFhX?=
- =?utf-8?B?aFhnd2dsQVVidUh6WHVNc0ZRY3NYbm1hZXBxUVdXV1VCUlhjcFErYUxJSi8r?=
- =?utf-8?Q?yOl5ukOoPguu73owxVLMNBOlG?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; d="scan'208";a="46937338"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.245.56])
+ ([10.245.245.56])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2024 01:02:37 -0700
+Message-ID: <9555ff334287ee508ff3d7cad805b156c18f3424.camel@linux.intel.com>
+Subject: Re: [PATCH] drm/ttm: Always take the bo delayed cleanup path for
+ imported bos
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ stable@vger.kernel.org
+Date: Thu, 04 Jul 2024 10:02:35 +0200
+In-Reply-To: <7caeb3e0-490d-47f3-89b8-9e1264acc072@amd.com>
+References: <20240628153848.4989-1-thomas.hellstrom@linux.intel.com>
+ <Zn7cBbi/iZ1cxWPb@DUT025-TGLU.fm.intel.com>
+ <Zn79TNg1WfERV7gj@phenom.ffwll.local>
+ <7caeb3e0-490d-47f3-89b8-9e1264acc072@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5275.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f6560bb-796f-45de-ae07-08dc9bfdb837
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jul 2024 07:48:39.9159 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: e4cO595FRPBAwKzLev4mt51ZioGW12UIYzjLk4hsMSzburX4/Jv/XqPDoXqw7yA8eZdqC0WSul8ipJKZXsJlJg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8114
-X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -207,92 +78,227 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGNhY2hpbmcgbW9kZSBmb3IgYnVmZmVyIG9iamVjdHMgd2l0aCBWUkFNIGFzIGEgcG9zc2li
-bGUgcGxhY2VtZW50IHdhcyBmb3JjZWQgdG8gd3JpdGUtY29tYmluZWQsIHJlZ2FyZGxlc3Mgb2Yg
-cGxhY2VtZW50Lg0KDQpIb3dldmVyLCB3cml0ZS1jb21iaW5lZCBzeXN0ZW0gbWVtb3J5IGlzIGV4
-cGVuc2l2ZSB0byBhbGxvY2F0ZSBhbmQgZXZlbiB0aG91Z2ggaXQgaXMgcG9vbGVkLCB0aGUgcG9v
-bCBpcyBleHBlbnNpdmUgdG8gc2hyaW5rLCBzaW5jZSBpdCBpbnZvbHZlcyBnbG9iYWwgQ1BVIFRM
-QiBmbHVzaGVzLg0KDQpNb3Jlb3ZlciB3cml0ZS1jb21iaW5lZCBzeXN0ZW0gbWVtb3J5IGZyb20g
-VFRNIGlzIG9ubHkgcmVsaWFibHkgYXZhaWxhYmxlIG9uIHg4NiBhbmQgREdGWCBkb2Vzbid0IGhh
-dmUgYW4geDg2IHJlc3RyaWN0aW9uLg0KDQpTbyByZWdhcmRsZXNzIG9mIHRoZSBjcHUgY2FjaGlu
-ZyBtb2RlIHNlbGVjdGVkIGZvciBhIGJvLCBpbnRlcm5hbGx5IHVzZSB3cml0ZS1iYWNrIGNhY2hp
-bmcgbW9kZSBmb3Igc3lzdGVtIG1lbW9yeSBvbiBER0ZYLg0KDQpDb2hlcmVuY3kgaXMgbWFpbnRh
-aW5lZCwgYnV0IHVzZXItc3BhY2UgY2xpZW50cyBtYXkgcGVyY2VpdmUgYSBkaWZmZXJlbmNlIGlu
-IGNwdSBhY2Nlc3Mgc3BlZWRzLg0KDQpTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgSGVsbHN0csO2bSA8
-dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+DQpGaXhlczogNjIyZjcwOWNhNjI5ICgi
-ZHJtL3hlL3VhcGk6IEFkZCBzdXBwb3J0IGZvciBDUFUgY2FjaGluZyBtb2RlIikNCkNjOiBQYWxs
-YXZpIE1pc2hyYSA8cGFsbGF2aS5taXNocmFAaW50ZWwuY29tPg0KQ2M6IE1hdHRoZXcgQXVsZCA8
-bWF0dGhldy5hdWxkQGludGVsLmNvbT4NCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnDQpDYzogSm9vbmFzIExhaHRpbmVuIDxqb29uYXMubGFodGluZW5AbGludXguaW50ZWwuY29t
-Pg0KQ2M6IEVmZmllIFl1IDxlZmZpZS55dUBpbnRlbC5jb20+DQpDYzogTWF0dGhldyBCcm9zdCA8
-bWF0dGhldy5icm9zdEBpbnRlbC5jb20+DQpDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4u
-bGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4NCkNjOiBKb3NlIFNvdXphIDxqb3NlLnNvdXphQGlu
-dGVsLmNvbT4NCkNjOiBNaWNoYWwgTXJvemVrIDxtaWNoYWwubXJvemVrQGludGVsLmNvbT4NCkNj
-OiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2Ni44Kw0KLS0tDQogZHJpdmVycy9ncHUvZHJt
-L3hlL3hlX2JvLmMgICAgICAgfCA0NyArKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLQ0K
-IGRyaXZlcnMvZ3B1L2RybS94ZS94ZV9ib190eXBlcy5oIHwgIDMgKy0NCiBpbmNsdWRlL3VhcGkv
-ZHJtL3hlX2RybS5oICAgICAgICB8ICA4ICsrKysrLQ0KIDMgZmlsZXMgY2hhbmdlZCwgMzcgaW5z
-ZXJ0aW9ucygrKSwgMjEgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0veGUveGVfYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9iby5jIGluZGV4IDY1YzY5Njk2
-NmU5Ni4uMzExOTJkOTgzZDllIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9ncHUvZHJtL3hlL3hlX2Jv
-LmMNCisrKyBiL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9iby5jDQpAQCAtMzQzLDcgKzM0Myw3IEBA
-IHN0YXRpYyBzdHJ1Y3QgdHRtX3R0ICp4ZV90dG1fdHRfY3JlYXRlKHN0cnVjdCB0dG1fYnVmZmVy
-X29iamVjdCAqdHRtX2JvLA0KIAlzdHJ1Y3QgeGVfZGV2aWNlICp4ZSA9IHhlX2JvX2RldmljZShi
-byk7DQogCXN0cnVjdCB4ZV90dG1fdHQgKnR0Ow0KIAl1bnNpZ25lZCBsb25nIGV4dHJhX3BhZ2Vz
-Ow0KLQllbnVtIHR0bV9jYWNoaW5nIGNhY2hpbmc7DQorCWVudW0gdHRtX2NhY2hpbmcgY2FjaGlu
-ZyA9IHR0bV9jYWNoZWQ7DQogCWludCBlcnI7DQogDQogCXR0ID0ga3phbGxvYyhzaXplb2YoKnR0
-KSwgR0ZQX0tFUk5FTCk7IEBAIC0zNTcsMjYgKzM1NywzNSBAQCBzdGF0aWMgc3RydWN0IHR0bV90
-dCAqeGVfdHRtX3R0X2NyZWF0ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKnR0bV9ibywNCiAJ
-CWV4dHJhX3BhZ2VzID0gRElWX1JPVU5EX1VQKHhlX2RldmljZV9jY3NfYnl0ZXMoeGUsIGJvLT5z
-aXplKSwNCiAJCQkJCSAgIFBBR0VfU0laRSk7DQogDQotCXN3aXRjaCAoYm8tPmNwdV9jYWNoaW5n
-KSB7DQotCWNhc2UgRFJNX1hFX0dFTV9DUFVfQ0FDSElOR19XQzoNCi0JCWNhY2hpbmcgPSB0dG1f
-d3JpdGVfY29tYmluZWQ7DQotCQlicmVhazsNCi0JZGVmYXVsdDoNCi0JCWNhY2hpbmcgPSB0dG1f
-Y2FjaGVkOw0KLQkJYnJlYWs7DQotCX0NCi0NCi0JV0FSTl9PTigoYm8tPmZsYWdzICYgWEVfQk9f
-RkxBR19VU0VSKSAmJiAhYm8tPmNwdV9jYWNoaW5nKTsNCi0NCiAJLyoNCi0JICogRGlzcGxheSBz
-Y2Fub3V0IGlzIGFsd2F5cyBub24tY29oZXJlbnQgd2l0aCB0aGUgQ1BVIGNhY2hlLg0KLQkgKg0K
-LQkgKiBGb3IgWGVfTFBHIGFuZCBiZXlvbmQsIFBQR1RUIFBURSBsb29rdXBzIGFyZSBhbHNvIG5v
-bi1jb2hlcmVudCBhbmQNCi0JICogcmVxdWlyZSBhIENQVTpXQyBtYXBwaW5nLg0KKwkgKiBER0ZY
-IHN5c3RlbSBtZW1vcnkgaXMgYWx3YXlzIFdCIC8gdHRtX2NhY2hlZCwgc2luY2UNCisJICogb3Ro
-ZXIgY2FjaGluZyBtb2RlcyBhcmUgb25seSBzdXBwb3J0ZWQgb24geDg2LiBER0ZYDQorCSAqIEdQ
-VSBzeXN0ZW0gbWVtb3J5IGFjY2Vzc2VzIGFyZSBhbHdheXMgY29oZXJlbnQgd2l0aCB0aGUNCisJ
-ICogQ1BVLg0KIAkgKi8NCi0JaWYgKCghYm8tPmNwdV9jYWNoaW5nICYmIGJvLT5mbGFncyAmIFhF
-X0JPX0ZMQUdfU0NBTk9VVCkgfHwNCi0JICAgICh4ZS0+aW5mby5ncmFwaGljc192ZXJ4MTAwID49
-IDEyNzAgJiYgYm8tPmZsYWdzICYgWEVfQk9fRkxBR19QQUdFVEFCTEUpKQ0KLQkJY2FjaGluZyA9
-IHR0bV93cml0ZV9jb21iaW5lZDsNCisJaWYgKCFJU19ER0ZYKHhlKSkgew0KKwkJc3dpdGNoIChi
-by0+Y3B1X2NhY2hpbmcpIHsNCisJCWNhc2UgRFJNX1hFX0dFTV9DUFVfQ0FDSElOR19XQzoNCisJ
-CQljYWNoaW5nID0gdHRtX3dyaXRlX2NvbWJpbmVkOw0KKwkJCWJyZWFrOw0KKwkJZGVmYXVsdDoN
-CisJCQljYWNoaW5nID0gdHRtX2NhY2hlZDsNCisJCQlicmVhazsNCisJCX0NCisNCisJCVdBUk5f
-T04oKGJvLT5mbGFncyAmIFhFX0JPX0ZMQUdfVVNFUikgJiYgIWJvLT5jcHVfY2FjaGluZyk7DQor
-DQorCQkvKg0KKwkJICogRGlzcGxheSBzY2Fub3V0IGlzIGFsd2F5cyBub24tY29oZXJlbnQgd2l0
-aCB0aGUgQ1BVIGNhY2hlLg0KKwkJICoNCisJCSAqIEZvciBYZV9MUEcgYW5kIGJleW9uZCwgUFBH
-VFQgUFRFIGxvb2t1cHMgYXJlIGFsc28NCisJCSAqIG5vbi1jb2hlcmVudCBhbmQgcmVxdWlyZSBh
-IENQVTpXQyBtYXBwaW5nLg0KKwkJICovDQorCQlpZiAoKCFiby0+Y3B1X2NhY2hpbmcgJiYgYm8t
-PmZsYWdzICYgWEVfQk9fRkxBR19TQ0FOT1VUKSB8fA0KKwkJICAgICh4ZS0+aW5mby5ncmFwaGlj
-c192ZXJ4MTAwID49IDEyNzAgJiYNCisJCSAgICAgYm8tPmZsYWdzICYgWEVfQk9fRkxBR19QQUdF
-VEFCTEUpKQ0KKwkJCWNhY2hpbmcgPSB0dG1fd3JpdGVfY29tYmluZWQ7DQorCX0NCiANCiAJaWYg
-KGJvLT5mbGFncyAmIFhFX0JPX0ZMQUdfTkVFRFNfVUMpIHsNCiAJCS8qDQpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3hlL3hlX2JvX3R5cGVzLmggYi9kcml2ZXJzL2dwdS9kcm0veGUveGVf
-Ym9fdHlwZXMuaA0KaW5kZXggODY0MjJlMTEzZDM5Li4xMDQ1MGYxZmJiZGUgMTAwNjQ0DQotLS0g
-YS9kcml2ZXJzL2dwdS9kcm0veGUveGVfYm9fdHlwZXMuaA0KKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3hlL3hlX2JvX3R5cGVzLmgNCkBAIC02Niw3ICs2Niw4IEBAIHN0cnVjdCB4ZV9ibyB7DQogDQog
-CS8qKg0KIAkgKiBAY3B1X2NhY2hpbmc6IENQVSBjYWNoaW5nIG1vZGUuIEN1cnJlbnRseSBvbmx5
-IHVzZWQgZm9yIHVzZXJzcGFjZQ0KLQkgKiBvYmplY3RzLg0KKwkgKiBvYmplY3RzLiBFeGNlcHRp
-b25zIGFyZSBzeXN0ZW0gbWVtb3J5IG9uIERHRlgsIHdoaWNoIGlzIGFsd2F5cw0KKwkgKiBXQi4N
-CiAJICovDQogCXUxNiBjcHVfY2FjaGluZzsNCiANCmRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkv
-ZHJtL3hlX2RybS5oIGIvaW5jbHVkZS91YXBpL2RybS94ZV9kcm0uaCBpbmRleCA5M2UwMGJlNDRi
-MmQuLjExODliMzA0NDcyMyAxMDA2NDQNCi0tLSBhL2luY2x1ZGUvdWFwaS9kcm0veGVfZHJtLmgN
-CisrKyBiL2luY2x1ZGUvdWFwaS9kcm0veGVfZHJtLmgNCkBAIC03ODMsNyArNzgzLDEzIEBAIHN0
-cnVjdCBkcm1feGVfZ2VtX2NyZWF0ZSB7DQogI2RlZmluZSBEUk1fWEVfR0VNX0NQVV9DQUNISU5H
-X1dDICAgICAgICAgICAgICAgICAgICAgIDINCiAJLyoqDQogCSAqIEBjcHVfY2FjaGluZzogVGhl
-IENQVSBjYWNoaW5nIG1vZGUgdG8gc2VsZWN0IGZvciB0aGlzIG9iamVjdC4gSWYNCi0JICogbW1h
-cGluZyB0aGUgb2JqZWN0IHRoZSBtb2RlIHNlbGVjdGVkIGhlcmUgd2lsbCBhbHNvIGJlIHVzZWQu
-DQorCSAqIG1tYXBpbmcgdGhlIG9iamVjdCB0aGUgbW9kZSBzZWxlY3RlZCBoZXJlIHdpbGwgYWxz
-byBiZSB1c2VkLiBUaGUNCisJICogZXhjZXB0aW9uIGlzIHdoZW4gbWFwcGluZyBzeXN0ZW0gbWVt
-b3J5IChpbmNsdWRpbmcgZXZpY3RlZA0KKwkgKiBzeXN0ZW0gbWVtb3J5KSBvbiBkaXNjcmV0ZSBH
-UFVzLiBUaGUgY2FjaGluZyBtb2RlIHNlbGVjdGVkIHdpbGwNCisJICogdGhlbiBiZSBvdmVycmlk
-ZGVuIHRvIERSTV9YRV9HRU1fQ1BVX0NBQ0hJTkdfV0IsIGFuZCBjb2hlcmVuY3kNCisJICogYmV0
-d2VlbiBHUFUtIGFuZCBDUFUgaXMgZ3VhcmFudGVlZC4gVGhlIGNhY2hpbmcgbW9kZSBvZg0KKwkg
-KiBleGlzdGluZyBDUFUtbWFwcGluZ3Mgd2lsbCBiZSB1cGRhdGVkIHRyYW5zcGFyZW50bHkgdG8N
-CisJICogdXNlci1zcGFjZSBjbGllbnRzLg0KIAkgKi8NCiAJX191MTYgY3B1X2NhY2hpbmc7DQog
-CS8qKiBAcGFkOiBNQlogKi8NCi0tDQoyLjQ0LjANCg0KQWNrZWQtYnk6IE1pY2hhbCBNcm96ZWsg
-PG1pY2hhbC5tcm96ZWtAaW50ZWwuY29tPg0K
+On Mon, 2024-07-01 at 12:43 +0200, Christian K=C3=B6nig wrote:
+> Am 28.06.24 um 20:13 schrieb Daniel Vetter:
+> > On Fri, Jun 28, 2024 at 03:51:33PM +0000, Matthew Brost wrote:
+> > > On Fri, Jun 28, 2024 at 05:38:48PM +0200, Thomas Hellstr=C3=B6m wrote=
+:
+> > > > Bos can be put with multiple unrelated dma-resv locks held. But
+> > > > imported bos attempt to grab the bo dma-resv during dma-buf
+> > > > detach
+> > > > that typically happens during cleanup. That leads to lockde
+> > > > splats
+> > > > similar to the below and a potential ABBA deadlock.
+> > > >=20
+> > > > Fix this by always taking the delayed workqueue cleanup path
+> > > > for
+> > > > imported bos.
+> > > >=20
+> > > > Requesting stable fixes from when the Xe driver was introduced,
+> > > > since its usage of drm_exec and wide vm dma_resvs appear to be
+> > > > the first reliable trigger of this.
+> > > >=20
+> > > > [22982.116427] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> > > > [22982.116428] WARNING: possible recursive locking detected
+> > > > [22982.116429] 6.10.0-rc2+ #10 Tainted: G=C2=A0=C2=A0=C2=A0=C2=A0 U=
+=C2=A0 W
+> > > > [22982.116430] --------------------------------------------
+> > > > [22982.116430] glxgears:sh0/5785 is trying to acquire lock:
+> > > > [22982.116431] ffff8c2bafa539a8
+> > > > (reservation_ww_class_mutex){+.+.}-{3:3}, at:
+> > > > dma_buf_detach+0x3b/0xf0
+> > > > [22982.116438]
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 but task is already holding lock:
+> > > > [22982.116438] ffff8c2d9aba6da8
+> > > > (reservation_ww_class_mutex){+.+.}-{3:3}, at:
+> > > > drm_exec_lock_obj+0x49/0x2b0 [drm_exec]
+> > > > [22982.116442]
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 other info that might help us debug this:
+> > > > [22982.116442]=C2=A0 Possible unsafe locking scenario:
+> > > >=20
+> > > > [22982.116443]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CPU0
+> > > > [22982.116444]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ----
+> > > > [22982.116444]=C2=A0=C2=A0 lock(reservation_ww_class_mutex);
+> > > > [22982.116445]=C2=A0=C2=A0 lock(reservation_ww_class_mutex);
+> > > > [22982.116447]
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *** DEADLOCK ***
+> > > >=20
+> > > > [22982.116447]=C2=A0 May be due to missing lock nesting notation
+> > > >=20
+> > > > [22982.116448] 5 locks held by glxgears:sh0/5785:
+> > > > [22982.116449]=C2=A0 #0: ffff8c2d9aba58c8 (&xef->vm.lock){+.+.}-
+> > > > {3:3}, at: xe_file_close+0xde/0x1c0 [xe]
+> > > > [22982.116507]=C2=A0 #1: ffff8c2e28cc8480 (&vm->lock){++++}-{3:3},
+> > > > at: xe_vm_close_and_put+0x161/0x9b0 [xe]
+> > > > [22982.116578]=C2=A0 #2: ffff8c2e31982970 (&val->lock){.+.+}-{3:3},
+> > > > at: xe_validation_ctx_init+0x6d/0x70 [xe]
+> > > > [22982.116647]=C2=A0 #3: ffffacdc469478a8
+> > > > (reservation_ww_class_acquire){+.+.}-{0:0}, at:
+> > > > xe_vma_destroy_unlocked+0x7f/0xe0 [xe]
+> > > > [22982.116716]=C2=A0 #4: ffff8c2d9aba6da8
+> > > > (reservation_ww_class_mutex){+.+.}-{3:3}, at:
+> > > > drm_exec_lock_obj+0x49/0x2b0 [drm_exec]
+> > > > [22982.116719]
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 stack backtrace:
+> > > > [22982.116720] CPU: 8 PID: 5785 Comm: glxgears:sh0 Tainted:
+> > > > G=C2=A0=C2=A0=C2=A0=C2=A0 U=C2=A0 W=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 6.10.0-rc2+ #10
+> > > > [22982.116721] Hardware name: ASUS System Product Name/PRIME
+> > > > B560M-A AC, BIOS 2001 02/01/2023
+> > > > [22982.116723] Call Trace:
+> > > > [22982.116724]=C2=A0 <TASK>
+> > > > [22982.116725]=C2=A0 dump_stack_lvl+0x77/0xb0
+> > > > [22982.116727]=C2=A0 __lock_acquire+0x1232/0x2160
+> > > > [22982.116730]=C2=A0 lock_acquire+0xcb/0x2d0
+> > > > [22982.116732]=C2=A0 ? dma_buf_detach+0x3b/0xf0
+> > > > [22982.116734]=C2=A0 ? __lock_acquire+0x417/0x2160
+> > > > [22982.116736]=C2=A0 __ww_mutex_lock.constprop.0+0xd0/0x13b0
+> > > > [22982.116738]=C2=A0 ? dma_buf_detach+0x3b/0xf0
+> > > > [22982.116741]=C2=A0 ? dma_buf_detach+0x3b/0xf0
+> > > > [22982.116743]=C2=A0 ? ww_mutex_lock+0x2b/0x90
+> > > > [22982.116745]=C2=A0 ww_mutex_lock+0x2b/0x90
+> > > > [22982.116747]=C2=A0 dma_buf_detach+0x3b/0xf0
+> > > > [22982.116749]=C2=A0 drm_prime_gem_destroy+0x2f/0x40 [drm]
+> > > > [22982.116775]=C2=A0 xe_ttm_bo_destroy+0x32/0x220 [xe]
+> > > > [22982.116818]=C2=A0 ? __mutex_unlock_slowpath+0x3a/0x290
+> > > > [22982.116821]=C2=A0 drm_exec_unlock_all+0xa1/0xd0 [drm_exec]
+> > > > [22982.116823]=C2=A0 drm_exec_fini+0x12/0xb0 [drm_exec]
+> > > > [22982.116824]=C2=A0 xe_validation_ctx_fini+0x15/0x40 [xe]
+> > > > [22982.116892]=C2=A0 xe_vma_destroy_unlocked+0xb1/0xe0 [xe]
+> > > > [22982.116959]=C2=A0 xe_vm_close_and_put+0x41a/0x9b0 [xe]
+> > > > [22982.117025]=C2=A0 ? xa_find+0xe3/0x1e0
+> > > > [22982.117028]=C2=A0 xe_file_close+0x10a/0x1c0 [xe]
+> > > > [22982.117074]=C2=A0 drm_file_free+0x22a/0x280 [drm]
+> > > > [22982.117099]=C2=A0 drm_release_noglobal+0x22/0x70 [drm]
+> > > > [22982.117119]=C2=A0 __fput+0xf1/0x2d0
+> > > > [22982.117122]=C2=A0 task_work_run+0x59/0x90
+> > > > [22982.117125]=C2=A0 do_exit+0x330/0xb40
+> > > > [22982.117127]=C2=A0 do_group_exit+0x36/0xa0
+> > > > [22982.117129]=C2=A0 get_signal+0xbd2/0xbe0
+> > > > [22982.117131]=C2=A0 arch_do_signal_or_restart+0x3e/0x240
+> > > > [22982.117134]=C2=A0 syscall_exit_to_user_mode+0x1e7/0x290
+> > > > [22982.117137]=C2=A0 do_syscall_64+0xa1/0x180
+> > > > [22982.117139]=C2=A0 ? lock_acquire+0xcb/0x2d0
+> > > > [22982.117140]=C2=A0 ? __set_task_comm+0x28/0x1e0
+> > > > [22982.117141]=C2=A0 ? find_held_lock+0x2b/0x80
+> > > > [22982.117144]=C2=A0 ? __set_task_comm+0xe1/0x1e0
+> > > > [22982.117145]=C2=A0 ? lock_release+0xca/0x290
+> > > > [22982.117147]=C2=A0 ? __do_sys_prctl+0x245/0xab0
+> > > > [22982.117149]=C2=A0 ? lockdep_hardirqs_on_prepare+0xde/0x190
+> > > > [22982.117150]=C2=A0 ? syscall_exit_to_user_mode+0xb0/0x290
+> > > > [22982.117152]=C2=A0 ? do_syscall_64+0xa1/0x180
+> > > > [22982.117154]=C2=A0 ? __lock_acquire+0x417/0x2160
+> > > > [22982.117155]=C2=A0 ? reacquire_held_locks+0xd1/0x1f0
+> > > > [22982.117156]=C2=A0 ? do_user_addr_fault+0x30c/0x790
+> > > > [22982.117158]=C2=A0 ? lock_acquire+0xcb/0x2d0
+> > > > [22982.117160]=C2=A0 ? find_held_lock+0x2b/0x80
+> > > > [22982.117162]=C2=A0 ? do_user_addr_fault+0x357/0x790
+> > > > [22982.117163]=C2=A0 ? lock_release+0xca/0x290
+> > > > [22982.117164]=C2=A0 ? do_user_addr_fault+0x361/0x790
+> > > > [22982.117166]=C2=A0 ? trace_hardirqs_off+0x4b/0xc0
+> > > > [22982.117168]=C2=A0 ? clear_bhb_loop+0x45/0xa0
+> > > > [22982.117170]=C2=A0 ? clear_bhb_loop+0x45/0xa0
+> > > > [22982.117172]=C2=A0 ? clear_bhb_loop+0x45/0xa0
+> > > > [22982.117174]=C2=A0 entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > > > [22982.117176] RIP: 0033:0x7f943d267169
+> > > > [22982.117192] Code: Unable to access opcode bytes at
+> > > > 0x7f943d26713f.
+> > > > [22982.117193] RSP: 002b:00007f9430bffc80 EFLAGS: 00000246
+> > > > ORIG_RAX: 00000000000000ca
+> > > > [22982.117195] RAX: fffffffffffffe00 RBX: 0000000000000000 RCX:
+> > > > 00007f943d267169
+> > > > [22982.117196] RDX: 0000000000000000 RSI: 0000000000000189 RDI:
+> > > > 00005622f89579d0
+> > > > [22982.117197] RBP: 00007f9430bffcb0 R08: 0000000000000000 R09:
+> > > > 00000000ffffffff
+> > > > [22982.117198] R10: 0000000000000000 R11: 0000000000000246 R12:
+> > > > 0000000000000000
+> > > > [22982.117199] R13: 0000000000000000 R14: 0000000000000000 R15:
+> > > > 00005622f89579d0
+> > > > [22982.117202]=C2=A0 </TASK>
+> > > >=20
+> > > > Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for
+> > > > Intel GPUs")
+> > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > Cc: intel-xe@lists.freedesktop.org
+> > > > Cc: <stable@vger.kernel.org> # v6.8+
+> > > Patch and explaination makes sense to me.
+> > >=20
+> > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> > I guess for stable this is good since minimal, but after Thomas
+> > explaine
+> > what he meant with dma_buf_detach_unlocked I think that total sense
+> > as a
+> > follow-up patch maybe.
+> >=20
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>=20
+> IIRC the last time this issue came up a possible solution discussed
+> was=20
+> to change dma_buf_detach() so that it should always be called with
+> the=20
+> reservation lock held.
+>=20
+> The problem at the time was that this meant changing=20
+> dmabuf->ops->detach() to also be called with that lock held and after
+> that nobody looked into it any more.
+>=20
+> Anyway Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for
+> this=20
+> patch.
+
+Thanks for review. It looks like a dma-buf fix would involve a number
+of drivers so pushed this to drm-misc-fixes for now. It looks like both
+radeon and amdgpu may potentially suffer from this. Nouveau does detach
+in gem_release which looks incorrect if gpu access is going on at that
+point.
+
+So will probably need to be properly revisited.
+
+/Thomas
+
+
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Cheers, Sima
+> > > > Signed-off-by: Thomas Hellstr=C3=B6m
+> > > > <thomas.hellstrom@linux.intel.com>
+> > > > ---
+> > > > =C2=A0 drivers/gpu/drm/ttm/ttm_bo.c | 1 +
+> > > > =C2=A0 1 file changed, 1 insertion(+)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > index 6396dece0db1..2427be8bc97f 100644
+> > > > --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > @@ -346,6 +346,7 @@ static void ttm_bo_release(struct kref
+> > > > *kref)
+> > > > =C2=A0=C2=A0		if (!dma_resv_test_signaled(bo->base.resv,
+> > > > =C2=A0=C2=A0					=C2=A0=C2=A0=C2=A0
+> > > > DMA_RESV_USAGE_BOOKKEEP) ||
+> > > > =C2=A0=C2=A0		=C2=A0=C2=A0=C2=A0 (want_init_on_free() && (bo->ttm !=
+=3D NULL))
+> > > > ||
+> > > > +		=C2=A0=C2=A0=C2=A0 bo->type =3D=3D ttm_bo_type_sg ||
+> > > > =C2=A0=C2=A0		=C2=A0=C2=A0=C2=A0 !dma_resv_trylock(bo->base.resv)) =
+{
+> > > > =C2=A0=C2=A0			/* The BO is not idle, resurrect it
+> > > > for delayed destroy */
+> > > > =C2=A0=C2=A0			ttm_bo_flush_all_fences(bo);
+> > > > --=20
+> > > > 2.44.0
+> > > >=20
+>=20
+
