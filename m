@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22F592746B
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 12:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EDF927473
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 12:57:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 135CE10EA8C;
-	Thu,  4 Jul 2024 10:53:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6397E10EA95;
+	Thu,  4 Jul 2024 10:57:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y+vdwe8G";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lzEeOL+y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8683910EA8C
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 10:53:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DD7B10EA95
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 10:57:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3A7AACE3394;
- Thu,  4 Jul 2024 10:53:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1445C3277B;
- Thu,  4 Jul 2024 10:53:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6D38562668;
+ Thu,  4 Jul 2024 10:57:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91F3C3277B;
+ Thu,  4 Jul 2024 10:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720090412;
- bh=w4Cv32uuo4ZtkK2rhTa0Lj3AYy2bsH3y1qztTl1euXE=;
+ s=k20201202; t=1720090668;
+ bh=V+KXgBsdWqqQhukSQm9HVIb7N1iIDvx2Pq5wFVvJehc=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Y+vdwe8GAmmEToPV4SxHcDW6veCc6SnmuaHXiXCL2NpyK/SZeKipHy/ruDwFs28dI
- xe5iyCye8pSJUmXsOn/BAnzdEcHRrtTIS9tpgyPSmae1Q7/foCXzk61ZrG90xaJKNO
- LIeF36mTGEEEpOgLFERm9ZJd+/AEw/hnTixHkv/1JJn7Py/n3iXhoZcMgdVkYwN5du
- ke15LFY1dYaZFDOMYN5VxHyqSlXHHKxa/3LTxWwrMuUNCe6OfG9bJrpWR98k3pzRj1
- jbB3ZUnH9rJNp+FE2k7m8xSYtBvsTTlQUuE3msbYg7cmfvIAsdb0LvWzFhz1OX7zz/
- u7pE3Ns7k+Lcg==
-Message-ID: <50c48961-0817-42d0-82eb-80bdc7ccae62@kernel.org>
-Date: Thu, 4 Jul 2024 12:53:21 +0200
+ b=lzEeOL+yPLEs0bGyrbd0GAzjxXb0c1N+FUB1VEp3X/qGeQqC84RuSyq1ZQG7jZODt
+ CLdovOSEGbKIiyZ6EKpp4cS/CCV5vVIUkI2pXC5pKPGvhSywzR/oxQfuiLDY441gmh
+ VA5Oog6Nh5I+zrj2WCgJdozyNteE7S/01MrvhFID2yrt2xErHcQ4wuSdz1JLl7LOfn
+ TSTxl0O7UH+U2nsblLAjeb1Z92ANmkjr9+p7RW9Jm5rPI5xBHurBJ10MH8fkND7Lu5
+ +bu4ZWwx8Fhf5TAB4C7lN1JYrxrJA6gV/HABStOau1Yb3LjEgfsoC45Oz4IQSoy5xN
+ wiCeraEQ4YHxg==
+Message-ID: <9ef5a1ba-e404-46e0-8513-5fffbfb5618b@kernel.org>
+Date: Thu, 4 Jul 2024 12:57:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: display: bridge: add sam9x75-mipi-dsi
- binding
+Subject: Re: [PATCH 2/4] drm/bridge: add Microchip DSI controller support for
+ sam9x7 SoC series
 To: Manikandan Muralidharan <manikandan.m@microchip.com>,
  andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -50,7 +50,7 @@ To: Manikandan Muralidharan <manikandan.m@microchip.com>,
  linux-arm-kernel@lists.infradead.org
 Cc: Hari.PrasathGE@microchip.com
 References: <20240704084837.168075-1-manikandan.m@microchip.com>
- <20240704084837.168075-2-manikandan.m@microchip.com>
+ <20240704084837.168075-3-manikandan.m@microchip.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240704084837.168075-2-manikandan.m@microchip.com>
+In-Reply-To: <20240704084837.168075-3-manikandan.m@microchip.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,166 +115,186 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 04/07/2024 10:48, Manikandan Muralidharan wrote:
-> Add the 'sam9x75-mipi-dsi' compatible binding, which describes the
-> Microchip's specific wrapper for the Synopsys DesignWare MIPI DSI HOST
-> Controller for the sam9x75 series System-on-Chip (SoC) devices.
+> Add the Microchip's DSI controller wrapper driver that uses
+> the Synopsys DesignWare MIPI DSI host controller bridge.
 > 
 > Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 > ---
->  .../bridge/microchip,sam9x75-mipi-dsi.yaml    | 135 ++++++++++++++++++
->  1 file changed, 135 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml
-> new file mode 100644
-> index 000000000000..87aaf9c929e9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml
-> @@ -0,0 +1,135 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/microchip,sam9x75-mipi-dsi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Microchip SAM9X75 MIPI DSI Controller
-> +
-> +maintainers:
-> +  - Manikandan Muralidharan <manikandan.m@microchip.com>
-> +
-> +description:
-> +  Microchip specific extensions or wrapper to the Synopsys Designware MIPI DSI.
-> +  The MIPI Display Serial Interface (DSI) Host Controller implements all
-> +  protocol functions defined in the MIPI DSI Specification. The DSI Host
-> +  provides an interface between the LCD Controller (LCDC) and the MIPI D-PHY,
-> +  allowing communication with a DSI-compliant display.
-> +
-> +allOf:
-> +  - $ref: /schemas/display/dsi-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: microchip,sam9x75-mipi-dsi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description:
-> +      MIPI DSI must have two clocks to function correctly.Peripheral clock
-> +      'pclk' for the hardware block functionality and Generic clock 'refclk' to
-> +      drive the D-PHY PLL block.
 
-List the clocks with description instead of writing it in free-form text.
 
-> +    minItems: 2
-
-Drop, three clocks would not be correct anyway, right?
+...
 
 > +
-> +  clock-names:
-> +    items:
-> +      - const: pclk
-> +      - const: refclk
+> +#define HSTT(_maxfreq, _c_lp2hs, _c_hs2lp, _d_lp2hs, _d_hs2lp)	\
+> +{					\
+> +	.maxfreq = _maxfreq,		\
+> +	.timing = {			\
+> +		.clk_lp2hs = _c_lp2hs,	\
+> +		.clk_hs2lp = _c_hs2lp,	\
+> +		.data_lp2hs = _d_lp2hs,	\
+> +		.data_hs2lp = _d_hs2lp,	\
+> +	}				\
+> +}
 > +
-> +  microchip,sfr:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to Special Function Register (SFR) node.To enable the DSI/CSI
+> +struct hstt hstt_table[] = {
 
-Everywhere: there is always a space after full stop.
+So more globals? No.
 
-> +      selection bit in SFR's ISS Configuration Register.
+> +	HSTT(90,  32, 20,  26, 13),
+> +	HSTT(100,  35, 23,  28, 14),
+> +	HSTT(110,  32, 22,  26, 13),
+> +	HSTT(130,  31, 20,  27, 13),
+> +	HSTT(140,  33, 22,  26, 14),
+> +	HSTT(150,  33, 21,  26, 14),
+> +	HSTT(170,  32, 20,  27, 13),
+> +	HSTT(180,  36, 23,  30, 15),
+> +	HSTT(200,  40, 22,  33, 15),
+> +	HSTT(220,  40, 22,  33, 15),
+> +	HSTT(240,  44, 24,  36, 16),
+> +	HSTT(250,  48, 24,  38, 17),
+> +	HSTT(270,  48, 24,  38, 17),
+> +	HSTT(300,  50, 27,  41, 18),
+> +	HSTT(330,  56, 28,  45, 18),
+> +	HSTT(360,  59, 28,  48, 19),
+> +	HSTT(400,  61, 30,  50, 20),
+> +	HSTT(450,  67, 31,  55, 21),
+> +	HSTT(500,  73, 31,  59, 22),
+> +	HSTT(550,  79, 36,  63, 24),
+> +	HSTT(600,  83, 37,  68, 25),
+> +	HSTT(650,  90, 38,  73, 27),
+> +	HSTT(700,  95, 40,  77, 28),
+> +	HSTT(750, 102, 40,  84, 28),
+> +	HSTT(800, 106, 42,  87, 30),
+> +	HSTT(850, 113, 44,  93, 31),
+> +	HSTT(900, 118, 47,  98, 32),
+> +	HSTT(950, 124, 47, 102, 34),
+> +	HSTT(1000, 130, 49, 107, 35),
+> +};
 > +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          DSI Input port node, connected to the LCDC RGB output port.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +            properties:
-> +              remote-endpoint: true
 
-Why do you need it?
-
-No constraints on data-lanes or frequencies?
+...
 
 > +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          DSI Output port node, connected to a panel or a bridge input port.
+> +static void dw_mipi_dsi_mchp_power_on(void *priv_data)
+> +{
+> +	struct dw_mipi_dsi_mchp *dsi = priv_data;
 > +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +            properties:
-> +              remote-endpoint: true
+> +	/* Enable the DSI wrapper */
+> +	dsi_write(dsi, DSI_PWR_UP, HOST_PWRUP);
+> +}
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - ports
+> +static void dw_mipi_dsi_mchp_power_off(void *priv_data)
+> +{
+> +	struct dw_mipi_dsi_mchp *dsi = priv_data;
 > +
-> +unevaluatedProperties: false
+> +	/* Disable the DSI wrapper */
+> +	dsi_write(dsi, DSI_PWR_UP, HOST_RESET);
+> +}
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/at91.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi: dsi@f8054000 {
+> +struct dw_mipi_dsi_phy_ops dw_mipi_dsi_mchp_phy_ops = {
 
-Drop unused label.
+Why this is not static?
 
-> +         compatible = "microchip,sam9x75-mipi-dsi";
-> +         reg = <0xf8054000 0x200>;
-> +         clocks = <&pmc PMC_TYPE_PERIPHERAL 54>, <&pmc PMC_TYPE_GCK 55>;
-> +         clock-names = "pclk", "refclk";
-> +         microchip,sfr = <&sfr>;
-> +
-> +         #address-cells = <1>;
-> +         #size-cells = <0>;
-> +
-> +         ports {
-> +                #address-cells = <1>;
+Why this is not const?
 
-Messed indentation, everywhere in the example...
-
-Use 4 spaces for example indentation.
-
-> +                #size-cells = <0>;
+> +	.init = dw_mipi_dsi_mchp_init,
+> +	.power_on = dw_mipi_dsi_mchp_power_on,
+> +	.power_off = dw_mipi_dsi_mchp_power_off,
+> +	.get_lane_mbps = dw_mipi_dsi_mchp_get_lane_mbps,
+> +	.get_timing = dw_mipi_dsi_mchp_get_timing,
+> +};
 > +
-> +                port@0 {
-> +                        reg = <0>;
-> +                        dsi_in: endpoint {
-> +                            remote-endpoint = <&hlcdc_panel_output>;
-> +                        };
-> +                };
+> +static int dw_mipi_dsi_mchp_probe(struct platform_device *pdev)
+> +{
+> +	struct dw_mipi_dsi_mchp *dsi;
+> +	struct resource *res;
+> +	struct regmap *sfr;
+> +	const struct dw_mipi_dsi_mchp_chip_data *cdata;
+> +	int ret;
 > +
-> +                port@1 {
-> +                        reg = <1>;
-> +                        dsi_out: endpoint {
-> +                            remote-endpoint = <&mipi_in_panel>;
-> +                        };
-> +                };
-> +         };
+> +	dsi = devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
+> +	if (!dsi)
+> +		return -ENOMEM;
 > +
-> +         panel@0 {
+> +	dsi->dev = &pdev->dev;
+> +	cdata = of_device_get_match_data(dsi->dev);
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	dsi->base = devm_ioremap_resource(&pdev->dev, res);
 
-Drop the node, not related.
+There is a helper for these two.
+
+> +	if (IS_ERR(dsi->base)) {
+> +		ret = PTR_ERR(dsi->base);
+> +		dev_err(dsi->dev, "Unable to get DSI Base address: %d\n", ret);
+
+return dev_err_probe
+
+> +		return ret;
+> +	}
+> +
+> +	dsi->pclk = devm_clk_get(&pdev->dev, "pclk");
+> +	if (IS_ERR(dsi->pclk)) {
+> +		ret = PTR_ERR(dsi->pclk);
+> +		dev_err(dsi->dev, "Unable to get pclk: %d\n", ret);
+
+return dev_err_probe
+
+You are upstreaming some old code, aren't you?
+
+> +		return ret;
+> +	}
+> +
+> +	dsi->pllref_clk = devm_clk_get(&pdev->dev, "refclk");
+> +	if (IS_ERR(dsi->pllref_clk)) {
+> +		ret = PTR_ERR(dsi->pllref_clk);
+> +		dev_err(dsi->dev, "Unable to get DSI PHY PLL reference clock: %d\n",
+
+return dev_err_probe
+
+
+> +			ret);
+> +		return ret;
+> +	}
+> +
+> +	clk_set_rate(dsi->pllref_clk, DSI_PLL_REF_CLK);
+> +	if (clk_get_rate(dsi->pllref_clk) != DSI_PLL_REF_CLK) {
+> +		dev_err(dsi->dev, "Failed to set DSI PHY PLL reference clock\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = clk_prepare_enable(dsi->pllref_clk);
+
+Enable clock later, so your error paths will be simpler.
+
+> +	if (ret) {
+> +		dev_err(dsi->dev, "Failed to enable DSI PHY PLL reference clock: %d\n",
+> +			ret);
+> +		return ret;
+> +	}
+> +
+> +	sfr = syscon_regmap_lookup_by_phandle(pdev->dev.of_node, "microchip,sfr");
+> +	if (IS_ERR_OR_NULL(sfr)) {
+
+NULL? Can it be NULL?
+
+> +		ret = PTR_ERR(sfr);
+> +		dev_err(dsi->dev, "Failed to get handle on Special Function Register: %d\n",
+> +			ret);
+
+ret = dev_err_probe
+
+> +		goto err_dsi_probe;
+> +	}
+> +	/* Select DSI in SFR's ISS Configuration Register */
+> +	ret = regmap_write(sfr, SFR_ISS_CFG, ISS_CFG_DSI_MODE);
+> +	if (ret) {
+> +		dev_err(dsi->dev, "Failed to enable DSI in SFR ISS configuration register: %d\n",
+> +			ret);
+> +		goto err_dsi_probe;
+> +	}
+
+
 
 Best regards,
 Krzysztof
