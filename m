@@ -2,121 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468F29275EE
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 14:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065849275F0
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 14:27:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2642F10EAB8;
-	Thu,  4 Jul 2024 12:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E21310EAC3;
+	Thu,  4 Jul 2024 12:27:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arri.de header.i=@arri.de header.b="JGubVhPy";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IXXZ9oMY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
- (mail-dbaeur03hn2233.outbound.protection.outlook.com [52.100.14.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E03A010EAB8
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 12:27:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eexpjCmnznbaOvL9PZkYwIN30dJIyBM35gGrJQRHcX6J5+Rwi+6RJA0U2bqao3+4pJTlY+FtWTSB6mgHQiZOGlbNBloaXlByL8bStXM1Ob03I5MHyNfEEu016kU/kQIKX6RwBWOYlwlLGPqUPRjGmI/KSrlBY6Kqc7PNnTJH8XeuD4dtX4hRMd2oxhugiouvkM6ybdO7L7RCS7STCKZ9rkzUpCzMRcmjw7rXQ9XwpAbo2QRVHQEZooQJuLNeRUYXgbgvZ+7P+kzu4D5BqkEQtXZJGoNaYFE/DjCMXLUT5usdtXkunWe0rypO6V40quXmprmRY8UigSN/ECO0kysMpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QeUGYAqAc589YKBG9jO3O+XEEZ3XCcAxJf90M/Ew8S8=;
- b=EEEyBCKcHPCqz+B6cAesY8OQg8qALeOaT+AJZnTGVpc5C399hAhqgXASQBMYd1SX7vbrsR+HnHXRva1RjS4HMwA9+d3GKHjdd+Ifut/aiQLVjXmUScxYvPjFEUhpt0AT6Nvkvi4Nax/Dj4biIjo/hT0wjIqyc+SF2PVLQH1A5y0QFnDxh82ZR24Gi70qU4d8saCAdHsFsQ9y0ugdh5Ds4Wu0VzjaQTmsJqNqr+mGMY7TALoEwcoxURqo/RoI0apMkvXPrz11sJYB8GEuwSACzViynM552/+9elqtrIR6Q7MaQnyIl7sKeoNImRIIJfcU7lbczRlT/Tn1s4EEfkFl0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 217.111.95.7) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=arri.de;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=arri.de;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arri.de; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QeUGYAqAc589YKBG9jO3O+XEEZ3XCcAxJf90M/Ew8S8=;
- b=JGubVhPyO62V4I7XTF54VGSwGd3dEUUjZWKJHRWEAms8EbPVF481hKVviB+dbsIVSEqXqfWW3BZD4jzQteJ7I20YhwKG/kiVefSx+qCMzrdqqXdb6dRiQCfQUZsXT0h4owtIbjud/AY482TEJhp2Clj1uI54xAjw7Nak7TgYIt0=
-Received: from AS4P251CA0029.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:5d3::19)
- by DBBPR07MB7482.eurprd07.prod.outlook.com (2603:10a6:10:1f3::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.25; Thu, 4 Jul
- 2024 12:27:01 +0000
-Received: from AMS0EPF000001AB.eurprd05.prod.outlook.com
- (2603:10a6:20b:5d3:cafe::49) by AS4P251CA0029.outlook.office365.com
- (2603:10a6:20b:5d3::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.29 via Frontend
- Transport; Thu, 4 Jul 2024 12:27:01 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 217.111.95.7)
- smtp.mailfrom=arri.de; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=arri.de;
-Received-SPF: Fail (protection.outlook.com: domain of arri.de does not
- designate 217.111.95.7 as permitted sender) receiver=protection.outlook.com;
- client-ip=217.111.95.7; helo=mta.arri.de;
-Received: from mta.arri.de (217.111.95.7) by
- AMS0EPF000001AB.mail.protection.outlook.com (10.167.16.151) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7741.18 via Frontend Transport; Thu, 4 Jul 2024 12:27:00 +0000
-Received: from N9W6SW14.arri.de (10.30.4.245) by mta.arri.de (10.10.18.5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Thu, 4 Jul
- 2024 14:26:59 +0200
-From: Christian Eggers <ceggers@arri.de>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: David Lechner <david@lechnology.com>, =?UTF-8?q?Noralf=20Tr=C3=B8nnes?=
- <noralf@tronnes.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <ceggers@gmx.de>, Christian Eggers
- <ceggers@arri.de>
-Subject: [RFC PATCH RESEND] drm/tiny: Add support for Sitronix ST7539
-Date: Thu, 4 Jul 2024 14:26:42 +0200
-Message-ID: <20240704122642.22906-1-ceggers@arri.de>
-X-Mailer: git-send-email 2.43.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 054B410EAC3
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 12:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1720096070;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aGOK3v380mScVxIB+5nhCn1pnCqZuzK3mPDmWhKwBs4=;
+ b=IXXZ9oMY8tSvxr9GDpO724TpizElZW1S8WOvuXSywYyGq2mKb9828nHbR62K/2MrtcM2LH
+ 3a8rGMyGatcz4obsxILg5xivoAzj4CXfamvEPz6R5gy4X8tObUXMSKQ0NucKR/O66BmDe9
+ SQb8yno061NezRohzbXIJqj8a1PqWv8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-226-ZRDkq7ejO8KReFlbcGpKxw-1; Thu, 04 Jul 2024 08:27:48 -0400
+X-MC-Unique: ZRDkq7ejO8KReFlbcGpKxw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-425685183edso4636895e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2024 05:27:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720096067; x=1720700867;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aGOK3v380mScVxIB+5nhCn1pnCqZuzK3mPDmWhKwBs4=;
+ b=usEv1hl9gT9y1itbALSuyB5ru3SuCacG4xhZ/Q+dWa1zwiIwW4PLbfI5E9tTs2TnSy
+ NxT62VwNtvY16jqEyPC5ITML55xD4XP46ONlJDFW5NnA/BcNE1Z5+I7+pIhdTWmHZvmB
+ XrDSuniZno9M2Wjj8BqIEv7GkMrdo11hdRE6lkAF0sH+N7edNeUBOXIATh6fqHrJ5fx6
+ BtSrqtyS4yuDpjmh0UxD6HixDoTIj3zg0V8Aqk1RHW9iA/qE1rts9ZQ/ncfEq4iwgLkS
+ JIc6cXA8TtZZDsmEWd6+zYKOM7/JsXDX83ONTzhEQ/0Ixod0yoHjXFDrQtH9RXeIm8Pd
+ lVBw==
+X-Gm-Message-State: AOJu0YwvhRmc9sObpvcOVSttK+Yous55rPow7Abo14Yi4bAdOE+QASdP
+ eoEjtTwNe4RBV8SJHoUgXfObEPSVrXEfJKXp26JjPfNgS6E7NWszp+gMHoggBfwogx9/JkAWJEr
+ t3jPD6GQ9IcLh57FV2Vmmw7wW8w8cMWl7KnJCBCNnOGV+V8A8dGV8jyPezlTZu9T5EA==
+X-Received: by 2002:a05:600c:214d:b0:424:aa73:83db with SMTP id
+ 5b1f17b1804b1-4264a3d98e2mr13251055e9.3.1720096067666; 
+ Thu, 04 Jul 2024 05:27:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHzdLHfL9RaReLV6CPIXnxHg8cEadvCD1rEtiqkF9KreNiF5bzt7y0iLgOXCDf756IATmGc0g==
+X-Received: by 2002:a05:600c:214d:b0:424:aa73:83db with SMTP id
+ 5b1f17b1804b1-4264a3d98e2mr13250875e9.3.1720096067245; 
+ Thu, 04 Jul 2024 05:27:47 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:680e:9bf4:b6a9:959b?
+ ([2a01:e0a:d5:a000:680e:9bf4:b6a9:959b])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4264a1f2391sm23208165e9.25.2024.07.04.05.27.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Jul 2024 05:27:46 -0700 (PDT)
+Message-ID: <b89600c3-59b9-4eb4-8e26-34e36cdd0a82@redhat.com>
+Date: Thu, 4 Jul 2024 14:27:45 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] drm/mgag200: Only set VIDRST bits in CRTC modesetting
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20240703135502.29190-1-tzimmermann@suse.de>
+ <20240703135502.29190-2-tzimmermann@suse.de>
+ <bdc20978-933d-4b57-8350-3775fa01e145@redhat.com>
+ <119aeaca-9a9f-4914-8730-6dacf72705f5@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <119aeaca-9a9f-4914-8730-6dacf72705f5@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.30.4.245]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001AB:EE_|DBBPR07MB7482:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75b256d6-debc-487f-65b4-08dc9c249a65
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|34020700016|376014|36860700013|7416014|1800799024|82310400026|12100799063;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?djcgNQVRvzmlcktBTc+4Ll4fvmZ/t9Glhg+l373Ryl7MYaHEQALpd1DyYzoR?=
- =?us-ascii?Q?vjlNS7nHS+H14ZoEqRQ3MP1kSGY483kP5KpBRdhmQ4KUSi+ChzQwaw4vd7Tx?=
- =?us-ascii?Q?l6nhQSkhP8ptw5czL90oB7mp5UEApB6NWup8163a3Ch7dfSaCXmc60/xpXWl?=
- =?us-ascii?Q?o8Q0AnPr4fay96bWl2OXsa3zjufGSPih+1iWJWHCP+U7yda2Lqg50H+fzS4T?=
- =?us-ascii?Q?kfPJJa4S+ZlEY8gPHn3LotXRj2SSJW8V69aXgTsCsHYyhhzQ46Hd9X5980HL?=
- =?us-ascii?Q?y6KFO0ABoT6zQwWGNrwTgWiI1oZAvQquDxBe4IJdnPl91ephT4VTmFdcB9h8?=
- =?us-ascii?Q?aj+eO8EMYCud0u02z2KGE2jMkhZbXpnovz3699RddR9ZjMACsPkkrEFZeDw9?=
- =?us-ascii?Q?xuLkYBWznATZZx8dTLr4v5Q9G/YN56mh9YbRhue+2wnvuZ24j/VZzkAtDidc?=
- =?us-ascii?Q?3q/KP40SH9EYDXKe9aCK8ABDi5KsLDS97YURyUq0M4YT/xNCw9dnsBgQeK6E?=
- =?us-ascii?Q?ec5v0gxxgDXStEE2Ht3OwA4atDhZJ5Cd+5zz5aHlONz/UBrkfqDtP0ZIc5vh?=
- =?us-ascii?Q?u6uqLc/8zC/uPC8m8dAEJ5Q5HFFQRc/GXC5oS82sAgvwj3eTCCAqdF0d/Ni6?=
- =?us-ascii?Q?QSoMXwaU2QqNmvTrzPUSko/evdMKnF75gyuteehZ5ofkUA3Ih6VjxQ/lzdtz?=
- =?us-ascii?Q?ATb/DrKHlIQFM8Gt3UTknyLFrrJN0S9cvifZ9RgClRtu8hR6hmZIsdjE92Mr?=
- =?us-ascii?Q?J4USUI+aHRjCbGjzEj9nQzIw8E7dIC38M8ZxqcO6JS507w+agWH2AbKABlHA?=
- =?us-ascii?Q?aJd8F+BS2FsOiyyiYM0b8gKmSUxUAUKJUMoNQzYZJMsz99je1wK68cmsoBV+?=
- =?us-ascii?Q?b4M1krZbu6jKLqarkZ/Hhbb88K7buHftteahYPdhKeF54K/rFJL/AYwIGF3u?=
- =?us-ascii?Q?DrSuAqwwrR/Z85tMkrPyTpIVgIrfODDz5RSxcGj9MEkhkrPa+COX17hELuQ/?=
- =?us-ascii?Q?jxpPNKViEPCAWatmzlIX5Q202EqalLpDBU9TIW0Fznax9t911vqE/EWtRY30?=
- =?us-ascii?Q?8djMMamNKztTUhNvODjukElFbM4dqJcjmSjCfjugq4342DmmbG9IeDwQ4kG/?=
- =?us-ascii?Q?8UzVEKhe+SCYvptVXZh3bP6XBSHm6t1x1iMrlAkdMF8WiUsZf0Z7fu5wFMwQ?=
- =?us-ascii?Q?gP4K5jYWdH68U61DRcYyHC+eTXcNyPnL4bl9jXrpXwTzgZykpOunOMtZKPfT?=
- =?us-ascii?Q?rMl2adlUL2WzaSp+ta/r51H5VIU+L+yiV5K1J3e6sPczIi0U7f0+XdW2+VY6?=
- =?us-ascii?Q?U0OQxIWXFu+9zruP7gvz/fD0YLu1xUT3lJ5iTjJggvk/dplgBOTAPfZhZ0Rf?=
- =?us-ascii?Q?EZBlj1Dq2hqHFOleYITGPZKgVhzq?=
-X-Forefront-Antispam-Report: CIP:217.111.95.7; CTRY:DE; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mta.arri.de; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(34020700016)(376014)(36860700013)(7416014)(1800799024)(82310400026)(12100799063);
- DIR:OUT; SFP:1501; 
-X-OriginatorOrg: arri.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2024 12:27:00.2391 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75b256d6-debc-487f-65b4-08dc9c249a65
-X-MS-Exchange-CrossTenant-Id: e6a73a5a-614d-4c51-b3e3-53b660a9433a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e6a73a5a-614d-4c51-b3e3-53b660a9433a; Ip=[217.111.95.7];
- Helo=[mta.arri.de]
-X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF000001AB.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR07MB7482
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,515 +97,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Resend because the 1st transmission got HTML'ed by my company's mail server.
 
-Based on the existing ST7586 driver. But the ST7539 ...
-- is monochrome only
-- has 8 VERTICAL pixels per byte
-- doesn't support any MIPI DCS commands
-- has (a few) 16 bit commands
-- doesn't support setting a clipping rect when writing to the RAM
-- doesn't support rotation (only mirroring of X and/or Y axis)
 
-Questions/TODO:
-- should drivers for such old displays be mainlined?
-- shall I use mipi_dbi_ although the display doesn't implement MIPI DCS
-  (and has some 16 bit commands)?
-- can the conversion to 8 vertical pixels/byte (taken from
-  solomon/ssd130x.c) be avoided / simplified / made more efficient?
-- how to implement setting of the display contrast (required by my
-  application)?
-- add device tree binding
+On 04/07/2024 14:16, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 04.07.24 um 14:03 schrieb Jocelyn Falempe:
+>>
+>>
+>> On 03/07/2024 15:40, Thomas Zimmermann wrote:
+>>> The VRSTEN and HRSTEN bits control whether a CRTC synchronizes its
+>>> display signal with an external source on the VIDRST pin. The G200WB
+>>> and G200EW3 models synchronize with a BMC chip, but different external
+>>> video encoders, such as the Matrox Maven, can also be attached to the
+>>> pin.
+>>
+>> If I understand correctly, it's a kind of VSYNC with the BMC, to avoid
+>> tearing when using the remote console ?
+> 
+> I closely looked through the code behind enable_vidrst and 
+> disable_vidrst. The involved registers are mostly undocumented, but from 
+> the comments I assume that the BMC has to stop scanning out the display 
+> signal. It's likely that it only picks up mode changes after the scanout 
+> has been re-enabled.
+> 
+> BTW we've seen various models with BMC attached, but only G200EW3 and 
+> G200WB use this code for synchronization. Do you think we could enable 
+> it for all models and BMCs?
+> 
+ From one side it makes sense because all those chips are made for BMC. 
+On the other hand, it may break, and we don't know what the other BMC 
+firmwares are doing, and we even don't know if those pins are connected.
 
-Signed-off-by: Christian Eggers <ceggers@arri.de>
----
- MAINTAINERS                   |   6 +
- drivers/gpu/drm/tiny/Kconfig  |  11 +
- drivers/gpu/drm/tiny/Makefile |   1 +
- drivers/gpu/drm/tiny/st7539.c | 424 ++++++++++++++++++++++++++++++++++
- 4 files changed, 442 insertions(+)
- create mode 100644 drivers/gpu/drm/tiny/st7539.c
+So I prefer to stay on the safe side, and keep it like this.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e7d543cf9f6c..7191206c1ae3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7116,6 +7116,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
- F:	drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
- 
-+DRM DRIVER FOR SITRONIX ST7539 PANELS
-+M:	Christian Eggers <ceggers@arri.de>
-+S:	Maintained
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	drivers/gpu/drm/tiny/st7539.c
-+
- DRM DRIVER FOR SITRONIX ST7586 PANELS
- M:	David Lechner <david@lechnology.com>
- S:	Maintained
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index f6889f649bc1..220d2aee9354 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -186,6 +186,17 @@ config TINYDRM_REPAPER
- 
- 	  If M is selected the module will be called repaper.
- 
-+config TINYDRM_ST7539
-+	tristate "DRM support for Sitronix ST7539 display panels"
-+	depends on DRM && SPI
-+	select DRM_KMS_HELPER
-+	select DRM_GEM_DMA_HELPER
-+	select DRM_MIPI_DBI
-+	help
-+	  DRM driver for Sitronix ST7539 panels.
-+
-+	  If M is selected the module will be called st7539.
-+
- config TINYDRM_ST7586
- 	tristate "DRM support for Sitronix ST7586 display panels"
- 	depends on DRM && SPI
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index 76dde89a044b..0bd217779995 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -14,5 +14,6 @@ obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
- obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
- obj-$(CONFIG_TINYDRM_MI0283QT)		+= mi0283qt.o
- obj-$(CONFIG_TINYDRM_REPAPER)		+= repaper.o
-+obj-$(CONFIG_TINYDRM_ST7539)		+= st7539.o
- obj-$(CONFIG_TINYDRM_ST7586)		+= st7586.o
- obj-$(CONFIG_TINYDRM_ST7735R)		+= st7735r.o
-diff --git a/drivers/gpu/drm/tiny/st7539.c b/drivers/gpu/drm/tiny/st7539.c
-new file mode 100644
-index 000000000000..9a6aeea006ef
---- /dev/null
-+++ b/drivers/gpu/drm/tiny/st7539.c
-@@ -0,0 +1,424 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * DRM driver for Sitronix ST7539 panels
-+ *
-+ * Copyright 2024 Christian Eggers <ceggers@arri.de>
-+ *
-+ * based on st7586.c
-+ * Copyright 2017 David Lechner <david@lechnology.com>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/spi/spi.h>
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_damage_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_dma_helper.h>
-+#include <drm/drm_fbdev_dma.h>
-+#include <drm/drm_format_helper.h>
-+#include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_rect.h>
-+
-+/* controller-specific commands */
-+#define ST7539_SET_COLUMN_ADDRESS_LSB(CA) (0x00 | ((CA) & 0x0f))
-+#define ST7539_SET_COLUMN_ADDRESS_MSB(CA) (0x10 | (((CA) & 0xff) >> 4))
-+#define ST7539_SET_SCROLL_LINE(x)    (0x40 | ((x) & 0x3f))
-+#define ST7539_SET_CONTRAST           0x81    /* + 1 byte value */
-+#define ST7539_SET_FPS__76            0xA0    /* 76 fps */
-+#define ST7539_SET_FPS__95            0xA1    /* 95 fps */
-+#define ST7539_SET_FPS__132           0xA2    /* 132 fps */
-+#define ST7539_SET_FPS__168           0xA3    /* 168 fps */
-+#define ST7539_SET_DISP_NORMAL        0xA6    /* non inverse */
-+#define ST7539_SET_DISP_INVERSE       0xA7    /* inverse display */
-+#define ST7539_SET_DISP_OFF           0xAE    /* display off and controller power down */
-+#define ST7539_SET_DISP_ON            0xAF    /* display on and controller power on */
-+#define ST7539_SET_PAGE_ADDRESS(PA)  (0xB0 | ((PA) & 0xf))
-+#define ST7539_SET_SCAN_NORMAL        0xC0    /* MX=0, MY=0 */
-+#define ST7539_SET_SCAN_X_INV         0xC2    /* MX=1, MY=0 */
-+#define ST7539_SET_SCAN_Y_INV         0xC4    /* MX=0, MY=1 */
-+#define ST7539_SET_SCAN_XY_INV        0xC6    /* MX=1, MY=1 */
-+#define ST7539_SOFT_RESET             0xE2
-+#define ST7539_NOP                    0xE3
-+#define ST7539_SET_BIAS__1_6          0xE8    /* 1/6 */
-+#define ST7539_SET_BIAS__1_7          0xE9    /* 1/7 */
-+#define ST7539_SET_BIAS__1_8          0xEA    /* 1/8 */
-+#define ST7539_SET_BIAS__1_9          0xEB    /* 1/9 */
-+
-+#define ST7539_HOR_RES 192
-+#define ST7539_VER_RES 64
-+
-+/* slightly modified version of from mipi_dbi_typec3_command() */
-+static int st7539_dbi_command_buf(struct mipi_dbi *dbi,
-+				   u8 *cmd, size_t cmd_len,
-+				   u8 *par, size_t num)
-+{
-+	struct spi_device *spi = dbi->spi;
-+	u32 speed_hz;
-+	int ret = 0;
-+
-+	spi_bus_lock(spi->controller);
-+	gpiod_set_value_cansleep(dbi->dc, 0);
-+	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, cmd_len);
-+	ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, cmd, cmd_len);
-+	spi_bus_unlock(spi->controller);
-+	if (ret || !num)
-+		return ret;
-+
-+	spi_bus_lock(spi->controller);
-+	gpiod_set_value_cansleep(dbi->dc, 1);
-+	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, num);
-+	ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, par, num);
-+	spi_bus_unlock(spi->controller);
-+
-+	return ret;
-+}
-+
-+/**
-+ * st7539_dbi_command16 - Command with 2 bytes
-+ * @dbi: MIPI DBI structure
-+ * @cmd: Array of two command bytes
-+ *
-+ * Returns:
-+ * Zero on success, negative error code on failure.
-+ */
-+static int st7539_dbi_command16(struct mipi_dbi *dbi, const u8 *cmd)
-+{
-+	u8 *cmdbuf;
-+	int ret;
-+
-+	/* SPI requires dma-safe buffers */
-+	cmdbuf = kmemdup(cmd, 2, GFP_KERNEL);
-+	if (!cmdbuf)
-+		return -ENOMEM;
-+
-+	mutex_lock(&dbi->cmdlock);
-+	ret = st7539_dbi_command_buf(dbi, cmdbuf, 2, NULL, 0);
-+	mutex_unlock(&dbi->cmdlock);
-+
-+	kfree(cmdbuf);
-+
-+	return ret;
-+}
-+
-+static int st7539_dbi_typec3_command(struct mipi_dbi *dbi,
-+				   u8 *cmd, u8 *par, size_t num)
-+{
-+	return st7539_dbi_command_buf(dbi, cmd, 1, par, num);
-+}
-+
-+/*
-+ * The ST7539 controller packs 8 VERTICAL pixels into one byte
-+ * (similar as "page_address_mode" for SH1106 in drm/solomon/ssd130x.c).
-+ */
-+
-+static void st7539_xrgb8888_to_mono(u8 *dst, struct iosys_map *src,
-+				       struct drm_framebuffer *fb,
-+				       struct drm_rect *clip,
-+				       struct drm_format_conv_state *fmtcnv_state)
-+{
-+	u8 *buf;
-+	struct iosys_map dst_map;
-+
-+	unsigned int width = drm_rect_width(clip);
-+	unsigned int height = drm_rect_height(clip);
-+	unsigned int line_length = DIV_ROUND_UP(width, 8);
-+	unsigned int page_height = 8;
-+	unsigned int pages = DIV_ROUND_UP(height, page_height);
-+	size_t len = pages * width;
-+	u32 array_idx = 0;
-+	int i, j, k;
-+
-+	/* intermediate buffer (8 horizontal pixels per byte) */
-+	buf = kmalloc(len, GFP_KERNEL);
-+	if (!buf)
-+		return;
-+
-+	iosys_map_set_vaddr(&dst_map, buf);
-+	drm_fb_xrgb8888_to_mono(&dst_map, NULL, src, fb, clip, fmtcnv_state);
-+
-+	/* convert to 8 VERTICAL pixels per byte */
-+	for (i = 0; i < pages; i++) {
-+		for (j = 0; j < width; j++) {
-+			u8 data = 0;
-+
-+			for (k = 0; k < 8; k++) {
-+				u8 byte = buf[(8 * i + k) * line_length + j / 8];
-+				u8 bit = !((byte >> (j % 8)) & 1);  /* invert pixels */
-+
-+				data |= bit << k;
-+			}
-+			dst[array_idx++] = data;
-+		}
-+	}
-+
-+	kfree(buf);
-+}
-+
-+static int st7539_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *fb,
-+			   struct drm_rect *clip, struct drm_format_conv_state *fmtcnv_state)
-+{
-+	int ret;
-+
-+	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
-+	if (ret)
-+		return ret;
-+
-+	st7539_xrgb8888_to_mono(dst, src, fb, clip, fmtcnv_state);
-+
-+	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-+
-+	return 0;
-+}
-+
-+static void st7539_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
-+			    struct drm_rect *rect, struct drm_format_conv_state *fmtcnv_state)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(fb->dev);
-+	struct mipi_dbi *dbi = &dbidev->dbi;
-+	int start, end, ret = 0;
-+
-+	/* hardware doesn't support clipping of the column --> send full lines */
-+	rect->x1 = 0;
-+	rect->x2 = ST7539_HOR_RES;
-+	/* 8 pixels per byte, so grow clip to nearest multiple of 8 */
-+	rect->y1 = rounddown(rect->y1, 8);
-+	rect->y2 = roundup(rect->y2, 8);
-+
-+	DRM_DEBUG_KMS("Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
-+
-+	ret = st7539_buf_copy(dbidev->tx_buf, src, fb, rect, fmtcnv_state);
-+	if (ret)
-+		goto err_msg;
-+
-+	/* Pixels are packed 8 per byte */
-+	start = rect->y1 / 8;
-+	end = rect->y2 / 8;
-+
-+	mipi_dbi_command(dbi, ST7539_SET_COLUMN_ADDRESS_LSB(rect->x1 & 0xFF));
-+	mipi_dbi_command(dbi, ST7539_SET_COLUMN_ADDRESS_MSB((rect->x1 >> 8) & 0xFF));
-+
-+	ret = mipi_dbi_command_buf(dbi, ST7539_SET_PAGE_ADDRESS(start),
-+				   (u8 *)dbidev->tx_buf,
-+				   (rect->x2 - rect->x1) * (end - start));
-+err_msg:
-+	if (ret)
-+		dev_err_once(fb->dev->dev, "Failed to update display %d\n", ret);
-+}
-+
-+static void st7539_pipe_update(struct drm_simple_display_pipe *pipe,
-+			       struct drm_plane_state *old_state)
-+{
-+	struct drm_plane_state *state = pipe->plane.state;
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
-+	struct drm_framebuffer *fb = state->fb;
-+	struct drm_rect rect;
-+	int idx;
-+
-+	if (!pipe->crtc.state->active)
-+		return;
-+
-+	if (!drm_dev_enter(fb->dev, &idx))
-+		return;
-+
-+	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
-+		st7539_fb_dirty(&shadow_plane_state->data[0], fb, &rect,
-+				&shadow_plane_state->fmtcnv_state);
-+
-+	drm_dev_exit(idx);
-+}
-+
-+static void st7539_pipe_enable(struct drm_simple_display_pipe *pipe,
-+			       struct drm_crtc_state *crtc_state,
-+			       struct drm_plane_state *plane_state)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	struct mipi_dbi *dbi = &dbidev->dbi;
-+	struct drm_rect rect = {
-+		.x1 = 0,
-+		.x2 = fb->width,
-+		.y1 = 0,
-+		.y2 = fb->height,
-+	};
-+	int idx;
-+
-+	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+		return;
-+
-+	DRM_DEBUG_KMS("\n");
-+
-+	/* Cannot use mipi_dbi_poweron_reset() here as the ST7539 has a non DCI
-+	 * opcode for soft reset
-+	 */
-+	mipi_dbi_hw_reset(dbi);
-+
-+	mipi_dbi_command(dbi, ST7539_SOFT_RESET);
-+	mipi_dbi_command(dbi, ST7539_SET_FPS__76);
-+	mipi_dbi_command(dbi, ST7539_SET_BIAS__1_9);
-+	st7539_dbi_command16(dbi, (u8[]){ST7539_SET_CONTRAST, 120});
-+	mipi_dbi_command(dbi, ST7539_SET_SCAN_Y_INV);  /* ToDo: make this configurable */
-+
-+	st7539_fb_dirty(&shadow_plane_state->data[0], fb, &rect,
-+			&shadow_plane_state->fmtcnv_state);
-+
-+	mipi_dbi_command(dbi, ST7539_SET_DISP_ON);
-+}
-+
-+static void st7539_pipe_disable(struct drm_simple_display_pipe *pipe)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+
-+	/*
-+	 * This callback is not protected by drm_dev_enter/exit since we want to
-+	 * turn off the display on regular driver unload. It's highly unlikely
-+	 * that the underlying SPI controller is gone should this be called after
-+	 * unplug.
-+	 */
-+
-+	DRM_DEBUG_KMS("\n");
-+
-+	mipi_dbi_command(&dbidev->dbi, MIPI_DCS_SET_DISPLAY_OFF);
-+}
-+
-+static const u32 st7539_formats[] = {
-+	DRM_FORMAT_XRGB8888,
-+};
-+
-+static const struct drm_simple_display_pipe_funcs st7539_pipe_funcs = {
-+	.mode_valid	= mipi_dbi_pipe_mode_valid,
-+	.enable		= st7539_pipe_enable,
-+	.disable	= st7539_pipe_disable,
-+	.update		= st7539_pipe_update,
-+	.begin_fb_access = mipi_dbi_pipe_begin_fb_access,
-+	.end_fb_access	= mipi_dbi_pipe_end_fb_access,
-+	.reset_plane	= mipi_dbi_pipe_reset_plane,
-+	.duplicate_plane_state = mipi_dbi_pipe_duplicate_plane_state,
-+	.destroy_plane_state = mipi_dbi_pipe_destroy_plane_state,
-+};
-+
-+static const struct drm_display_mode st7539_mode = {
-+	DRM_SIMPLE_MODE(ST7539_HOR_RES, ST7539_VER_RES, 57, 23),
-+};
-+
-+DEFINE_DRM_GEM_DMA_FOPS(st7539_fops);
-+
-+static const struct drm_driver st7539_driver = {
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops			= &st7539_fops,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
-+	.debugfs_init		= mipi_dbi_debugfs_init,
-+	.name			= "st7539",
-+	.desc			= "Sitronix ST7539",
-+	.date			= "20240624",
-+	.major			= 1,
-+	.minor			= 0,
-+};
-+
-+static const struct of_device_id st7539_of_match[] = {
-+	{ .compatible = "sitronix,st7539" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, st7539_of_match);
-+
-+static const struct spi_device_id st7539_id[] = {
-+	{ "st7539", 0 },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, st7539_id);
-+
-+static int st7539_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct mipi_dbi_dev *dbidev;
-+	struct drm_device *drm;
-+	struct mipi_dbi *dbi;
-+	struct gpio_desc *a0;
-+	size_t bufsize;
-+	int ret;
-+
-+	dbidev = devm_drm_dev_alloc(dev, &st7539_driver,
-+				    struct mipi_dbi_dev, drm);
-+	if (IS_ERR(dbidev))
-+		return PTR_ERR(dbidev);
-+
-+	dbi = &dbidev->dbi;
-+	drm = &dbidev->drm;
-+
-+	bufsize = DIV_ROUND_UP(st7539_mode.vdisplay, 8) * st7539_mode.hdisplay;
-+
-+	dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(dbi->reset))
-+		return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
-+
-+	a0 = devm_gpiod_get(dev, "a0", GPIOD_OUT_LOW);
-+	if (IS_ERR(a0))
-+		return dev_err_probe(dev, PTR_ERR(a0), "Failed to get GPIO 'a0'\n");
-+
-+	ret = mipi_dbi_spi_init(spi, dbi, a0);
-+	if (ret)
-+		return ret;
-+
-+	/* override the command function set in mipi_dbi_spi_init() */
-+	dbi->command = st7539_dbi_typec3_command;
-+
-+	/* Cannot read from this controller via SPI */
-+	dbi->read_commands = NULL;
-+
-+	ret = mipi_dbi_dev_init_with_formats(dbidev, &st7539_pipe_funcs,
-+					     st7539_formats, ARRAY_SIZE(st7539_formats),
-+					     &st7539_mode, 0, bufsize);
-+	if (ret)
-+		return ret;
-+
-+	drm_mode_config_reset(drm);
-+
-+	ret = drm_dev_register(drm, 0);
-+	if (ret)
-+		return ret;
-+
-+	spi_set_drvdata(spi, drm);
-+
-+	drm_fbdev_dma_setup(drm, 0);
-+
-+	return 0;
-+}
-+
-+static void st7539_remove(struct spi_device *spi)
-+{
-+	struct drm_device *drm = spi_get_drvdata(spi);
-+
-+	drm_dev_unplug(drm);
-+	drm_atomic_helper_shutdown(drm);
-+}
-+
-+static void st7539_shutdown(struct spi_device *spi)
-+{
-+	drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-+}
-+
-+static struct spi_driver st7539_spi_driver = {
-+	.driver = {
-+		.name = "st7539",
-+		.of_match_table = st7539_of_match,
-+	},
-+	.id_table = st7539_id,
-+	.probe = st7539_probe,
-+	.remove = st7539_remove,
-+	.shutdown = st7539_shutdown,
-+};
-+module_spi_driver(st7539_spi_driver);
-+
-+MODULE_DESCRIPTION("Sitronix ST7539 DRM driver");
-+MODULE_AUTHOR("Christian Eggers <ceggers@arri.de>");
-+MODULE_LICENSE("GPL");
--- 
-2.43.0
+
+>>
+>>>
+>>> Only set VRSTEN and HRSTEN bits in the CRTC mode-setting code, so the
+>>> driver maintains the bits independently from the BMC. Add the field
+>>> set_vidrst to the CRTC state for this purpose. Off by default, control
+>>> the CRTC VIDRST setting from the BMC's atomic_check helper. So if a
+>>> BMC (or another external clock) requires synchronization, it instructs
+>>> the CRTC to synchronize. >
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>   drivers/gpu/drm/mgag200/mgag200_bmc.c    | 26 +++++++++++++++++++-----
+>>>   drivers/gpu/drm/mgag200/mgag200_drv.h    |  5 ++++-
+>>>   drivers/gpu/drm/mgag200/mgag200_g200er.c |  2 +-
+>>>   drivers/gpu/drm/mgag200/mgag200_g200ev.c |  2 +-
+>>>   drivers/gpu/drm/mgag200/mgag200_g200se.c |  2 +-
+>>>   drivers/gpu/drm/mgag200/mgag200_mode.c   | 11 ++++++----
+>>>   6 files changed, 35 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_bmc.c 
+>>> b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+>>> index 23ef85aa7e37..cb5400333862 100644
+>>> --- a/drivers/gpu/drm/mgag200/mgag200_bmc.c
+>>> +++ b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+>>> @@ -77,11 +77,6 @@ void mgag200_bmc_enable_vidrst(struct mga_device 
+>>> *mdev)
+>>>   {
+>>>       u8 tmp;
+>>>   -    /* Ensure that the vrsten and hrsten are set */
+>>> -    WREG8(MGAREG_CRTCEXT_INDEX, 1);
+>>> -    tmp = RREG8(MGAREG_CRTCEXT_DATA);
+>>> -    WREG8(MGAREG_CRTCEXT_DATA, tmp | 0x88);
+>>> -
+>>>       /* Assert rstlvl2 */
+>>>       WREG8(DAC_INDEX, MGA1064_REMHEADCTL2);
+>>>       tmp = RREG8(DAC_DATA);
+>>> @@ -108,6 +103,25 @@ void mgag200_bmc_enable_vidrst(struct mga_device 
+>>> *mdev)
+>>>       WREG_DAC(MGA1064_GEN_IO_DATA, tmp);
+>>>   }
+>>>   +static int mgag200_bmc_encoder_helper_atomic_check(struct 
+>>> drm_encoder *encoder,
+>>> +                           struct drm_crtc_state *crtc_state,
+>>> +                           struct drm_connector_state *conn_state)
+>>> +{
+>>> +    struct mga_device *mdev = to_mga_device(encoder->dev);
+>>> +    struct mgag200_crtc_state *mgag200_crtc_state = 
+>>> to_mgag200_crtc_state(crtc_state);
+>>> +
+>>> +    if (mdev->info->has_vidrst)
+>>> +        mgag200_crtc_state->set_vidrst = true;
+>>> +    else
+>>> +        mgag200_crtc_state->set_vidrst = false;
+>>> +
+>>
+>> I think you can simplify it with:
+>>
+>> mgag200_crtc_state->set_vidrst = mdev->info->has_vidrst;
+> 
+> Ok.
+> 
+> Best regards
+> Thomas
+> 
+> 
+>>
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static const struct drm_encoder_helper_funcs 
+>>> mgag200_bmc_encoder_helper_funcs = {
+>>> +    .atomic_check = mgag200_bmc_encoder_helper_atomic_check,
+>>> +};
+>>> +
+>>>   static const struct drm_encoder_funcs mgag200_bmc_encoder_funcs = {
+>>>       .destroy = drm_encoder_cleanup,
+>>>   };
+>>> @@ -190,6 +204,8 @@ int mgag200_bmc_output_init(struct mga_device 
+>>> *mdev, struct drm_connector *physi
+>>>                      DRM_MODE_ENCODER_VIRTUAL, NULL);
+>>>       if (ret)
+>>>           return ret;
+>>> +    drm_encoder_helper_add(encoder, &mgag200_bmc_encoder_helper_funcs);
+>>> +
+>>>       encoder->possible_crtcs = drm_crtc_mask(crtc);
+>>>         bmc_connector = &mdev->output.bmc.bmc_connector;
+>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h 
+>>> b/drivers/gpu/drm/mgag200/mgag200_drv.h
+>>> index 7f7dfbd0f013..4b75613de882 100644
+>>> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+>>> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+>>> @@ -179,6 +179,8 @@ struct mgag200_crtc_state {
+>>>       const struct drm_format_info *format;
+>>>         struct mgag200_pll_values pixpllc;
+>>> +
+>>> +    bool set_vidrst;
+>>>   };
+>>>     static inline struct mgag200_crtc_state 
+>>> *to_mgag200_crtc_state(struct drm_crtc_state *base)
+>>> @@ -430,7 +432,8 @@ void mgag200_crtc_atomic_destroy_state(struct 
+>>> drm_crtc *crtc, struct drm_crtc_st
+>>>       .atomic_duplicate_state = mgag200_crtc_atomic_duplicate_state, \
+>>>       .atomic_destroy_state = mgag200_crtc_atomic_destroy_state
+>>>   -void mgag200_set_mode_regs(struct mga_device *mdev, const struct 
+>>> drm_display_mode *mode);
+>>> +void mgag200_set_mode_regs(struct mga_device *mdev, const struct 
+>>> drm_display_mode *mode,
+>>> +               bool set_vidrst);
+>>>   void mgag200_set_format_regs(struct mga_device *mdev, const struct 
+>>> drm_format_info *format);
+>>>   void mgag200_enable_display(struct mga_device *mdev);
+>>>   void mgag200_init_registers(struct mga_device *mdev);
+>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c 
+>>> b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+>>> index 4e8a1756138d..abfbed6ec390 100644
+>>> --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
+>>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+>>> @@ -195,7 +195,7 @@ static void 
+>>> mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+>>>           funcs->disable_vidrst(mdev);
+>>>         mgag200_set_format_regs(mdev, format);
+>>> -    mgag200_set_mode_regs(mdev, adjusted_mode);
+>>> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
+>>> mgag200_crtc_state->set_vidrst);
+>>>         if (funcs->pixpllc_atomic_update)
+>>>           funcs->pixpllc_atomic_update(crtc, old_state);
+>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c 
+>>> b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+>>> index d884f3cb0ec7..acc99999e2b5 100644
+>>> --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+>>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+>>> @@ -196,7 +196,7 @@ static void 
+>>> mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+>>>           funcs->disable_vidrst(mdev);
+>>>         mgag200_set_format_regs(mdev, format);
+>>> -    mgag200_set_mode_regs(mdev, adjusted_mode);
+>>> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
+>>> mgag200_crtc_state->set_vidrst);
+>>>         if (funcs->pixpllc_atomic_update)
+>>>           funcs->pixpllc_atomic_update(crtc, old_state);
+>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c 
+>>> b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+>>> index a824bb8ad579..be4e124102c6 100644
+>>> --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
+>>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+>>> @@ -327,7 +327,7 @@ static void 
+>>> mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+>>>           funcs->disable_vidrst(mdev);
+>>>         mgag200_set_format_regs(mdev, format);
+>>> -    mgag200_set_mode_regs(mdev, adjusted_mode);
+>>> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
+>>> mgag200_crtc_state->set_vidrst);
+>>>         if (funcs->pixpllc_atomic_update)
+>>>           funcs->pixpllc_atomic_update(crtc, old_state);
+>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c 
+>>> b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>>> index bb6204002cb3..4f4612192e30 100644
+>>> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+>>> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>>> @@ -201,9 +201,9 @@ void mgag200_init_registers(struct mga_device *mdev)
+>>>       WREG8(MGA_MISC_OUT, misc);
+>>>   }
+>>>   -void mgag200_set_mode_regs(struct mga_device *mdev, const struct 
+>>> drm_display_mode *mode)
+>>> +void mgag200_set_mode_regs(struct mga_device *mdev, const struct 
+>>> drm_display_mode *mode,
+>>> +               bool set_vidrst)
+>>>   {
+>>> -    const struct mgag200_device_info *info = mdev->info;
+>>>       unsigned int hdisplay, hsyncstart, hsyncend, htotal;
+>>>       unsigned int vdisplay, vsyncstart, vsyncend, vtotal;
+>>>       u8 misc, crtcext1, crtcext2, crtcext5;
+>>> @@ -238,9 +238,11 @@ void mgag200_set_mode_regs(struct mga_device 
+>>> *mdev, const struct drm_display_mod
+>>>              ((hdisplay & 0x100) >> 7) |
+>>>              ((hsyncstart & 0x100) >> 6) |
+>>>               (htotal & 0x40);
+>>> -    if (info->has_vidrst)
+>>> +    if (set_vidrst)
+>>>           crtcext1 |= MGAREG_CRTCEXT1_VRSTEN |
+>>>                   MGAREG_CRTCEXT1_HRSTEN;
+>>> +    else
+>>> +        crtcext1 &= ~(MGAREG_CRTCEXT1_VRSTEN | MGAREG_CRTCEXT1_HRSTEN);
+>>>         crtcext2 = ((vtotal & 0xc00) >> 10) |
+>>>              ((vdisplay & 0x400) >> 8) |
+>>> @@ -656,7 +658,7 @@ void mgag200_crtc_helper_atomic_enable(struct 
+>>> drm_crtc *crtc, struct drm_atomic_
+>>>           funcs->disable_vidrst(mdev);
+>>>         mgag200_set_format_regs(mdev, format);
+>>> -    mgag200_set_mode_regs(mdev, adjusted_mode);
+>>> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
+>>> mgag200_crtc_state->set_vidrst);
+>>>         if (funcs->pixpllc_atomic_update)
+>>>           funcs->pixpllc_atomic_update(crtc, old_state);
+>>> @@ -717,6 +719,7 @@ struct drm_crtc_state 
+>>> *mgag200_crtc_atomic_duplicate_state(struct drm_crtc *crtc
+>>>       new_mgag200_crtc_state->format = mgag200_crtc_state->format;
+>>>       memcpy(&new_mgag200_crtc_state->pixpllc, 
+>>> &mgag200_crtc_state->pixpllc,
+>>>              sizeof(new_mgag200_crtc_state->pixpllc));
+>>> +    new_mgag200_crtc_state->set_vidrst = 
+>>> mgag200_crtc_state->set_vidrst;
+>>>         return &new_mgag200_crtc_state->base;
+>>>   }
+>>
+>> With the small nitpick.
+>>
+>> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>
+>>
+> 
 
