@@ -2,76 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19515929825
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 15:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68357929827
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 15:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6C510E029;
-	Sun,  7 Jul 2024 13:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5841910E05F;
+	Sun,  7 Jul 2024 13:45:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L4a7I3/R";
+	dkim=pass (1024-bit key; unprotected) header.d=pobox.com header.i=@pobox.com header.b="OaLZGqp6";
+	dkim=pass (1024-bit key; unprotected) header.d=xanderlent.com header.i=@xanderlent.com header.b="U+wAFR2I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3375510E97A;
- Fri,  5 Jul 2024 10:02:43 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-70af9f7104cso1019193b3a.3; 
- Fri, 05 Jul 2024 03:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720173763; x=1720778563; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ueZlpVq6cMGd2O6TPcbGvjQRFl2p51IxcfO3kFZ+XLY=;
- b=L4a7I3/RpJ6/a4EbjA/mp6V6b+NwRZS+QnLZnUBi7KUu9FZ8LAfmSTtsd2qMrMb1sU
- Ri25Z5IUHU9jNtxC8iVNFmeeqkX7ScBL7xX83eanI93Lo+0r9KQx9bvIbrYB7RWPzjTa
- 3JdeU0TuiGXcIR/ql5A9ceCEvWX0lplZRCpg+PGenZbljxK82sdGvtGSZC4y6bKHt/gw
- vy9B84dqxiXjwSsOKHWefBJy1rcC7AQohlYX+PBi/fBXKtDodl1P93Oz2RP4p+/TwJef
- 8gmAPnh2qebCdfn8F0pltCSoMTbK65vftn7EXMaIP6uPYGENJXUk5xApG3cXa2ZbHkcp
- VHhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720173763; x=1720778563;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ueZlpVq6cMGd2O6TPcbGvjQRFl2p51IxcfO3kFZ+XLY=;
- b=TblmlafJo3yA4O1AhYClpLFerCmMPED5c5Iou4RHTDTQg/69vXCzJQlQfpMTf3RfQP
- EwZ9g3UnGptfG6FmQeKqCrQIQVDPeHvJJ7dHaozD1lqC4ydACeAHzgWIZUWT5T4mx1Pd
- 15SacMWXsCCz03F3wZW5VQz4WDp22vqVcny9Q7WnoXxmIDDOZ0zydddG1P7CPZevICcX
- ipukwrHQmYNeVh1H11gcUSzsXOgm1D+TIrXovLpXEZ6YCBRLimgirylLz8Abpu+JC3p4
- dRbfAxXqWgj9oudgpl/MfXi+dbcBp3cB+/GRJnMI6boreDwVXNepHwoB03fguZm6kUyU
- euyQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV5IuVhwgowBMrMo9Kn0gI6O9uLgjFMnri8m0IeGHtgwBZQrgjb0eajkRg2q+qlG+A0tZgD9ECZHlBb4F8B/52yoMNkim3H7sStLe0CoqoDxTp638ikQhxML5wgTQBK2fHq4Edwiu8wXHWmWHFX2g==
-X-Gm-Message-State: AOJu0Yy5llVTH+DYg5rMD5H3YJEBOOmI6KXJ3NcHdKOdZ5Ibqua7CkQ1
- KDdW0ZRCB34QfXLJM75B3KeQ1+s3XkT+6BTjS5XwgkGeq1PNr7fR
-X-Google-Smtp-Source: AGHT+IGth6g00ULdqwjQ5OsB/b6tcPIphe8A+dcZteytrm1KA6ipJ415LiZeDcSQljJ2azzErnFegA==
-X-Received: by 2002:a05:6a00:846:b0:705:b0aa:a6bf with SMTP id
- d2e1a72fcca58-70b00914f13mr4569613b3a.2.1720173762453; 
- Fri, 05 Jul 2024 03:02:42 -0700 (PDT)
-Received: from pop-os.. ([2401:4900:1cd7:818f:d731:f6bd:8194:7763])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-70804c835absm13623750b3a.220.2024.07.05.03.02.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jul 2024 03:02:42 -0700 (PDT)
-From: Akshay Behl <akshaybehl231@gmail.com>
-To: airlied@gmail.com,
-	daniel@ffwll.ch
-Cc: Akshay Behl <akshaybehl231@gmail.com>, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/amd/display: Docs improvement in /dc/inc/hw/mpc.h
-Date: Fri,  5 Jul 2024 15:31:26 +0530
-Message-Id: <20240705100125.353231-1-akshaybehl231@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240704092039.31264-1-akshaybehl231@gmail.com>
-References: <20240704092039.31264-1-akshaybehl231@gmail.com>
+X-Greylist: delayed 504 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Jul 2024 11:23:11 UTC
+Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9737F10EAF0
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 11:23:11 +0000 (UTC)
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+ by pb-smtp2.pobox.com (Postfix) with ESMTP id DAA3E288DB;
+ Fri,  5 Jul 2024 07:14:44 -0400 (EDT)
+ (envelope-from lx@xanderlent.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:date
+ :subject:mime-version:content-type:content-transfer-encoding
+ :message-id:to:cc; s=sasl; bh=vqmCrZQzc6VxA7DOYVHFH11+oLx5Qm2ZRQ
+ liQz36DNo=; b=OaLZGqp6+BQ94x2hpIg3YHLW5oqj7tUoYxuAIe+vIzO5RjqXMX
+ Z6WKQozfy6ut05OXXmWbP8EMhhNkCe66CQkDKTYfQ0L1XK06uG7dY64ha1ageztO
+ vYPJV6yyYDhVUpdASiP/kaMsAtgeZcayrc+jVyRrjCeLkG1Hw+Y1bDvgw=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+ by pb-smtp2.pobox.com (Postfix) with ESMTP id D23B9288DA;
+ Fri,  5 Jul 2024 07:14:44 -0400 (EDT)
+ (envelope-from lx@xanderlent.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=xanderlent.com;
+ h=from:date:subject:mime-version:content-type:content-transfer-encoding:message-id:to:cc;
+ s=2021-09.pbsmtp; bh=vqmCrZQzc6VxA7DOYVHFH11+oLx5Qm2ZRQliQz36DNo=;
+ b=U+wAFR2IFIEJEoc7kYJNMj9VSnr4+7zD2D5OfX6nfqmY0iOULx62YgnbIqXiwazkTfgrem5eGTS+gfdM9eNo7KbEB+xQDs8rXjGXDNfx9D1wsS1J6q9W4FQN7Ib7WPhGgLXXMXg5XAi0igvuAi0cKyq8nSSdiYi2MPFiRjWGYwk=
+Received: from ultralight.local (unknown [172.58.228.231])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 9C756288D9;
+ Fri,  5 Jul 2024 07:14:43 -0400 (EDT)
+ (envelope-from lx@xanderlent.com)
+From: "Alexander F. Lent" <lx@xanderlent.com>
+Date: Fri, 05 Jul 2024 07:14:22 -0400
+Subject: [PATCH] accel/ivpu: Add missing MODULE_FIRMWARE metadata
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 07 Jul 2024 13:44:38 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240705-fix-ivpu-firmware-metadata-v1-1-704b73852d92@xanderlent.com>
+X-B4-Tracking: v=1; b=H4sIAI3Vh2YC/3XMQQ6CQAyF4auQrm0yDgSMVzEuOrRKF4ykA2hCu
+ DvVvbv3Jy/fBkVMpcC12sBk1aKv7HE+VdAPlJ+Cyt4QQ2xCFxp86Ad1nRYfNr7JBEeZiWkmrDn
+ ExG3o2guDA5OJv3/47e6dqAgmo9wPX/K/BPt+AEgE7j+ZAAAA
+To: "Alexander F. Lent" <lx@xanderlent.com>, 
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, 
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>, 
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1720178083; l=2131;
+ i=lx@xanderlent.com; s=20240705; h=from:subject:message-id;
+ bh=vqmCrZQzc6VxA7DOYVHFH11+oLx5Qm2ZRQliQz36DNo=;
+ b=ul5+mUGLzximeBukKpfIKpzmVK7XfVt6U6onPbARLu17HW0SOtnn/lpd3am72T7GBgh5wItNl
+ J7wnYPEj+ohAUgcESw6lLLiDx26C0Y89JVVg7YT2dkgOoNsAtis8Fpw
+X-Developer-Key: i=lx@xanderlent.com; a=ed25519;
+ pk=T7WKAI9F1J7lcthsLG4aBF+wzehTsa3GPyzJkh5is3k=
+X-Pobox-Relay-ID: C82E6A86-3ABF-11EF-BD6B-965B910A682E-45904678!pb-smtp2.pobox.com
+X-Mailman-Approved-At: Sun, 07 Jul 2024 13:45:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,142 +85,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After making the required changes
+Modules that load firmware from various paths at runtime must declare
+those paths at compile time, via the MODULE_FIRMWARE macro, so that the
+firmware paths are included in the module's metadata.
 
-This patch fixes some of the warnings while building kernel Docs:
-./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'read_mpcc_state' not described in 'mpc_funcs'
-./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'mpc_init_single_inst' not described in 'mpc_funcs'
-./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'get_mpcc_for_dpp_from_secondary' not described in 'mpc_funcs'
-./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'get_mpcc_for_dpp' not described in 'mpc_funcs'
-./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'wait_for_idle' not described in 'mpc_funcs'
-./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'assert_mpcc_idle_before_connect' not described in 'mpc_funcs'
+The accel/ivpu driver loaded firmware but lacked this metadata,
+preventing dracut from correctly locating firmware files.
 
-by adding descriptions to these struct members
-
-Signed-off-by: Akshay Behl <akshaybehl231@gmail.com>
+Fixes: 9ab43e95f922 ("accel/ivpu: Switch to generation based FW names")
+Fixes: 02d5b0aacd05 ("accel/ivpu: Implement firmware parsing and booting")
+Signed-off-by: Alexander F. Lent <lx@xanderlent.com>
 ---
- drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 84 ++++++++++++++++++++-
- 1 file changed, 83 insertions(+), 1 deletion(-)
+ drivers/accel/ivpu/ivpu_fw.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-index 34a398f23fc6..d2bea0a9699d 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-@@ -282,6 +282,21 @@ struct mpcc_state {
-  * struct mpc_funcs - funcs
-  */
- struct mpc_funcs {
-+	/**
-+	 * @read_mpcc_state:
-+	 *
-+	 * Read current state of a specified MPCC instance
-+	 *
-+	 * Parameters:
-+	 *
-+	 * - [in/out] mpc  - MPC context.
-+	 * - [in] mpcc_inst - integer representing specific MPC instance
-+	 * - [in/out] mpcc_state - MPCC state struct where read information will be stored
-+	 *
-+	 * Return:
-+	 *
-+	 * void
-+	 */
- 	void (*read_mpcc_state)(
- 			struct mpc *mpc,
- 			int mpcc_inst,
-@@ -352,6 +367,21 @@ struct mpc_funcs {
- 	 * void
- 	 */
- 	void (*mpc_init)(struct mpc *mpc);
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 1457300828bf..51792a00b7e3 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -48,16 +48,26 @@ static char *ivpu_firmware;
+ module_param_named_unsafe(firmware, ivpu_firmware, charp, 0644);
+ MODULE_PARM_DESC(firmware, "NPU firmware binary in /lib/firmware/..");
+ 
++#define IVPU_FW_PATH_37XX_BIN		"vpu_37xx.bin"
++#define IVPU_FW_PATH_37XX_V0_BIN	"intel/vpu/vpu_37xx_v0.0.bin"
++#define IVPU_FW_PATH_40XX_BIN		"vpu_40xx.bin"
++#define IVPU_FW_PATH_40XX_V0_BIN	"intel/vpu/vpu_40xx_v0.0.bin"
 +
-+	/**
-+	 * @mpc_init_single_inst:
-+	 *
-+	 * Reset the MPCC HW status of a single MPCC physical instance.
-+	 *
-+	 * Parameters:
-+	 *
-+	 * - [in/out] mpc - MPC context.
-+	 * - [in] mpcc_id - The MPCC physical instance to use for blending.
-+	 *
-+	 * Return:
-+	 *
-+	 * void
-+	 */
- 	void (*mpc_init_single_inst)(
- 			struct mpc *mpc,
- 			unsigned int mpcc_id);
-@@ -448,17 +478,69 @@ struct mpc_funcs {
- 			struct mpc *mpc,
- 			struct mpc_tree *tree,
- 			struct mpcc *mpcc);
--
-+	/**
-+	 * @get_mpcc_for_dpp_from_secondary:
-+	 *
-+	 * Retrieve a specified MPCC struct from the 'secondary' MPC tree using the provided DPP id.
-+	 *
-+	 * Parameters:
-+	 * - [in/out] tree - MPC tree structure that will be searched.
-+	 * - [in]     dpp_id - DPP input for the MPCC.
-+	 *
-+	 * Return:
-+	 *
-+	 * struct mpcc* - MPCC that matched the input params
-+	 */
- 	struct mpcc* (*get_mpcc_for_dpp_from_secondary)(
- 			struct mpc_tree *tree,
- 			int dpp_id);
+ static struct {
+ 	int gen;
+ 	const char *name;
+ } fw_names[] = {
+-	{ IVPU_HW_37XX, "vpu_37xx.bin" },
+-	{ IVPU_HW_37XX, "intel/vpu/vpu_37xx_v0.0.bin" },
+-	{ IVPU_HW_40XX, "vpu_40xx.bin" },
+-	{ IVPU_HW_40XX, "intel/vpu/vpu_40xx_v0.0.bin" },
++	{ IVPU_HW_37XX, IVPU_FW_PATH_37XX_BIN },
++	{ IVPU_HW_37XX, IVPU_FW_PATH_37XX_V0_BIN },
++	{ IVPU_HW_40XX, IVPU_FW_PATH_40XX_BIN },
++	{ IVPU_HW_40XX, IVPU_FW_PATH_40XX_V0_BIN },
+ };
  
-+	/**
-+	 * @get_mpcc_for_dpp:
-+	 *
-+	 * Retrieve a specified MPCC struct from the MPC tree using the provided DPP id.
-+	 *
-+	 * Parameters:
-+	 * - [in/out] tree - MPC tree structure that will be searched.
-+	 * - [in]     dpp_id - DPP input for the MPCC.
-+	 *
-+	 * Return:
-+	 *
-+	 * struct mpcc* - MPCC that matched the input params
-+	 */
++MODULE_FIRMWARE(IVPU_FW_PATH_37XX_BIN);
++MODULE_FIRMWARE(IVPU_FW_PATH_37XX_V0_BIN);
++MODULE_FIRMWARE(IVPU_FW_PATH_40XX_BIN);
++MODULE_FIRMWARE(IVPU_FW_PATH_40XX_V0_BIN);
 +
- 	struct mpcc* (*get_mpcc_for_dpp)(
- 			struct mpc_tree *tree,
- 			int dpp_id);
- 
-+	/**
-+	 * @wait_for_idle:
-+	 *
-+	 * Wait for a specific MPCC instance to become idle
-+	 *
-+	 * Parameters:
-+	 * - [in/out] mpc  - MPC context.
-+	 * - [in]     id - ID of the MPCC instance to wait for
-+	 *
-+	 * Return:
-+	 *
-+	 * void
-+	 */
- 	void (*wait_for_idle)(struct mpc *mpc, int id);
- 
-+	/**
-+	 * @assert_mpcc_idle_before_connect:
-+	 *
-+	 * Assert that the specific MPCC instance is ideal before attempting to connect.
-+	 *
-+	 * Parameters:
-+	 * - [in/out] mpc  - MPC context.
-+	 * - [in]     mpcc_id - ID of the MPCC instance to check for
-+	 *
-+	 * Return:
-+	 *
-+	 * void
-+	 */
- 	void (*assert_mpcc_idle_before_connect)(struct mpc *mpc, int mpcc_id);
- 
- 	void (*init_mpcc_list_from_hw)(
+ static int ivpu_fw_request(struct ivpu_device *vdev)
+ {
+ 	int ret = -ENOENT;
+
+---
+base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
+change-id: 20240704-fix-ivpu-firmware-metadata-3d02bd60768d
+
+Best regards,
 -- 
-2.34.1
+Alexander F. Lent <lx@xanderlent.com>
 
