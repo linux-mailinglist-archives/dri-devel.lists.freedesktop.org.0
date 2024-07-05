@@ -2,73 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACC1928C23
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 18:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CC1928DAB
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 21:02:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F40A10EC1B;
-	Fri,  5 Jul 2024 16:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1634D10E0C5;
+	Fri,  5 Jul 2024 19:02:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="BS5zMMfA";
+	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="FtITjWyR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2196210EC1C
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 16:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1720196231; x=1720801031; i=wahrenst@gmx.net;
- bh=1oRwnciuEXkv2Uecg1J00P8VU6GnpRNyjC2WILIluhI=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=BS5zMMfAuDN9p/7E6Iortp4qvljfI4NKhSeBZ6sKybjZ0MzKOj9XmbzNBh2II2Nj
- 5MNRiQqC/uR9OtRx+BrwG+5aeC5T/oLMva43RGgl9Vgw+t0fxlTAOypykQraTkilc
- GdnUDWdZRIND8wkypUGt3SNIS+bcfbiV12UA4ilBaCQVzHTGdmJGFi0k5JOyYrR0S
- pOYGs/NEf+5RgKvdvjoXtWAx+qwPL9LFV1PKFyPFZ8g2D5fscvULySS7Aoebw1FTa
- jgVmrx/iMa23u+r8L3vCCAqGqUBtcL83y8YjUo/2P1Nc+RKfZrpRAmOq+M/p/sWxS
- 5OqztOSeTx9+xqNmAg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MnakR-1s0ubD3u7h-00hsLn; Fri, 05
- Jul 2024 18:17:11 +0200
-Message-ID: <85107d7a-44b4-442b-8bd1-de08790feded@gmx.net>
-Date: Fri, 5 Jul 2024 18:17:10 +0200
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2059.outbound.protection.outlook.com [40.107.21.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5394610E0C5
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 19:02:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aTOAEJkG6rKCg85q6fuON+AwtsQohLYMARS6T5SdBPTGAJU6EfCZqfwAV0luvD+FByL09XdW3wlExbLXuRg62CFu1YpDGcEycxH5QBG6j2OEn3p4/nhamW+EsjYcztOqChLDZCgaHVqEMhEQqJ5gHBc21+Fl5RosxX5gP90jwriePXwyKqk4fOXgWYqtCl5cPXmHIf4nT6jxHPHiRiSyCgUv4kmCF/id3EnC1mHVVQBtj+r+jDOg5ih8nWu54+KznqEab3s7Ug4tsotmpJVB5Uer2KCCpnDPqcdfDyGkJM+dK2QRG4uVYnEmsnjXTyYnVdCKcRjOdRVev9KPJwT8iQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=28+Bc6e9m+m4Z6Uc7qq4x3fGM+WZvj4LfQghw7fys8E=;
+ b=aPJnhSj8ke2KfZ6R846NRXVJbTpPXnjn3ZCUlMzDh+WcJ2S/TdfVCySB3G2JcYtRDxaO8F4IhQ9BrgKX2QVIz5Sk2D+fHCtKjZjsnKoyXPtIrMLDzGCfD2MlH6l3gBZPOijGKubyJ0h50Mxc9imaCstSxsAEZ8Y0ww3FSjcK717WrZfPSHAKv7/jP4BWPiK1bASa7dqF+mLOttsRFXrgxLf0tYY7e7zg+fsLvKgABWf2xQqOpkHaee6rEn7HObkPRHVRzvSn9xWggh6pKlayccJV+79d9rf5+TzQeZiMVl7yszGP1oU8zEUOg6ewrePF6G1Cpr8QOFZpehBS4RHgvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=28+Bc6e9m+m4Z6Uc7qq4x3fGM+WZvj4LfQghw7fys8E=;
+ b=FtITjWyRHDXlN9uRlkIC7zfXKGe2RpSt6pPVxZ0b1RlIUgCP7p2/6TYLnrEAQ3NMdrgM2gv8+P/Bma28ri87hTW9Dmiz6ulnz6BEjLHkPkXMolalhA6KtlvCTSVQvDscFM7onrsN9M5C7N/YDaN5ZGRPKGjR6QB7JjV5hBuo6i8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by GVXPR04MB10023.eurprd04.prod.outlook.com (2603:10a6:150:118::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.25; Fri, 5 Jul
+ 2024 19:02:43 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.7741.027; Fri, 5 Jul 2024
+ 19:02:42 +0000
+Date: Fri, 5 Jul 2024 15:02:32 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, p.zabel@pengutronix.de,
+ airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, tglx@linutronix.de
+Subject: Re: [PATCH 10/10] MAINTAINERS: Add maintainer for i.MX8qxp Display
+ Controller
+Message-ID: <ZohDSDPZ+mS63TQv@lizhi-Precision-Tower-5810>
+References: <20240705090932.1880496-1-victor.liu@nxp.com>
+ <20240705090932.1880496-11-victor.liu@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240705090932.1880496-11-victor.liu@nxp.com>
+X-ClientProxiedBy: BY3PR10CA0011.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::16) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: vc4: Increased CMA usage after replace drm_gem_dma_object for
- drm_gem_object in vc4_exec_info
-To: Daniel Vetter <daniel@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Maxime Ripard <maxime@cerno.tech>, Melissa Wen <mwen@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
-References: <6a13d674-96d3-40a2-8d4b-634fc2aed836@gmx.net>
- <CAKMK7uFa1_dzyZX+GzgncynLAJu=0ZdddbmRSO6-ETep8B3dXA@mail.gmail.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <CAKMK7uFa1_dzyZX+GzgncynLAJu=0ZdddbmRSO6-ETep8B3dXA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:KZncnkCBkpOvVlkTvL+JVimoquidWM+JKmZcAIF6+VEAjBAbeXj
- SLZz58/3FyenYIbSnN+ACDOBMhsWPp8Je/tI4cU/QFLUJiX8KaLjOZeKaf1A8DIBlCjq7i4
- Uc/2HIJj/Jp8+Nz8ivEAp1F0mHCj8R0zYn9zUW5749Lc+41OI2PyzFP5L5/SiM2KIcgl3x6
- sVJFrnyS7nVZ2JdSp+IPQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:1ICjHHNvIpM=;On6iYA3Cd0nFF63XFqeYoSQ1g5L
- 7OW01YJD8jtCxeZAMwFP7xGF6D7Z88RNBU57B8eQ/BunsAAkczyFWuyxtI5teumXvOlZqfW27
- IFA5I9+xLKEWx/MRueZN6MKFMnN8x4vEdJDfHHolqb0lmQF/gUVriy8HTnCIb2R8MbwbcdzmE
- IQR5EDdN6q9IEOgmTH9b/iTDPFdxEewi/s1KMKzYo4DL7EPcgad777IcRdvs5fSe4u9mo+4hg
- QGaxxqLAf0EAf+2KSn0UHtGopFx5YwSpCahrLi6L4oxyBxa70yr99JWHPq+b24pRL0PwBCcaz
- lMz4w8muZ6BSWDd8tAvKOaD21ig/vpLoNZUcfRmKifG9+9Drb03Ck9XHpmt5fjE3f8YfvWcKd
- dNHhOfA5Fa/LT3sKvu2GvsdOTjKxBIs+b92LroLi461ykKahKRrZQ26JwsXxwEY6PL7ynRC9d
- 3gOhIzodifQzdEdALum/5j4y+DyiOdesNjlMveNrkZp/hfmC+3jWLfrOaY0nF2lLX+NPRXJGF
- TWsBq98SABrfaZf/AsaXCQS424sTQvH3Y5tx5MOA43/5E2Pu/1NXo5YZwANYRvWb+UufslkLL
- UHWl/1MafxGOMPTmAg1iK4al3NKjkk8EZ5whI8sg7fw64liNOZdN/vAvvyqfJ71396F46Hw0g
- wWBm5fQV5RGgGBHUJmxHL4C1KfAQNKCuYX6wYvJVJSbNiDKStUP5h1LQ2qJsf/xLohgjw2bht
- Umh1kKvI+nXc+EQnjp4DUOTIuBOOQzJD3SV8ww9/+wefo/hrb3WLysw60dc5ATFEQofppxMyL
- EVqXyQNYDs/qfpBkuqlku6wEMImgE6P3ufwykL2ITUer8=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|GVXPR04MB10023:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01c6f81d-86ad-4dc8-05d5-08dc9d250c5f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|52116014|376014|7416014|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?s6Nosk5uGcA8DOAufv3qG/fBg+hrszAt+gqITMruoLcWinYz1aeve6Cm8umT?=
+ =?us-ascii?Q?RUR8AXSIUGB1/KoGE6WgQDkJ6kQ4Bq6YJy009EOKi+TwQZVcLurAcEq2S3Wf?=
+ =?us-ascii?Q?Ay3FXvBWZyljp+ratP5AoFf+GpVooASyrNU57mPpkjWaku2L0TNegknAXvoZ?=
+ =?us-ascii?Q?wrGBKDjibgR+IPhvSO3y2cCcssUc9UbYHM/cNUgcrk+bKkwm//2OS3Qi/6O6?=
+ =?us-ascii?Q?IbAvDOxi5bb+oiM1VleZh4MY0zGCgJfcqfl4LBScL5nYUxU7dFava6Yukuvj?=
+ =?us-ascii?Q?K+HE3Jcp4zTR6iwNMdL0nZ31XUoVOOlxA8hpvw3QrOZYatjkchQxw6Ez94L+?=
+ =?us-ascii?Q?kLkZc4xGWuaYsXNyHUp8VwVRyBxiZD/U3VOZ6Zt+uYGSiaRQuf+j5k7QxUeg?=
+ =?us-ascii?Q?l2nnjXHjrjHwGXLlqtQVbR95Zc5v+R2gKWVEItzhNx9yjP7CIotfN2O6BlxL?=
+ =?us-ascii?Q?y+jJP2FJzbhi30mvsPkTGTRvoYHk0WpmGx+BQBy2WAPLL4tfIyXMOPnFOei9?=
+ =?us-ascii?Q?PTLtP7+4qjWCh0Edv4ZOgJhLCV3VFFaxBQuw8DcBf1ZgkGXhvMEciQhFdTAO?=
+ =?us-ascii?Q?CdSPeXD8W5mmL3prVOMOBrktEjQwqApOCXnpj5Q7YRrKl6MB57W+mzprWdpP?=
+ =?us-ascii?Q?PZu8vEZA/I7ZCVRjntVgZyNGv9yEDr1GL15kcq4cGS2ydKW2tEYXcVyGaujE?=
+ =?us-ascii?Q?hWOmQxqM4AY5eGda8Pl8xxA0eV5Vj8LgseS0UtzmkihNlVwR2oOPRP7x5xwC?=
+ =?us-ascii?Q?3T4EuhkrN5jhX4Iu72F1k3joh1naVQ6p69sLMy+XAHKer/t4Ib6PrhAZs53c?=
+ =?us-ascii?Q?ewMfUeG3j6e2AIWl+tGOPvD0rv5xp5T40EReK3An5eLM4HYvNFoVNt6pPbNP?=
+ =?us-ascii?Q?bLbsJjfXmvid9GD6MSYhEOlH09UBzA19qxykRClwHGq5WZrX+MMmXMbRHqMg?=
+ =?us-ascii?Q?cBIB+NUNGFCifsAMTxHeR55gc1tG/OfyuhTKWK0fh0g3MUtBZtNM3aC6CJHT?=
+ =?us-ascii?Q?2CwJJ6M/BgBcbaKRbSS+DvkewnO43oMcb4rc8OIj/dia2EOL6XYDc2dSl+qG?=
+ =?us-ascii?Q?KNB+PeA791gtg/m6yRyRemqA8t0JbPurtckkCr2bhB9xWbNu9iXSnWjtx5ys?=
+ =?us-ascii?Q?kJ2efxsFf01EgcMbvDQl+lnbuqAPbTDLyr+zO0q72IxiHwskz7Car7oijNth?=
+ =?us-ascii?Q?EBj8PsaFrKQ+v4KLOSLuoN98bAywRdRJfXjQZymZT9YwYdyOoNw/abxaUoUx?=
+ =?us-ascii?Q?90bmgE4v+SUY7Bkake2eEgF4TirDNBmck6PvOA5iO9yX9SShLDSPEMXa1mAP?=
+ =?us-ascii?Q?LNpnA2/PdMbnyxh5lSjlCzgIi5tVAPfWCzGrQg+mVerNY/VZ+rpuwqUItz0k?=
+ =?us-ascii?Q?UpVqVXw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?d5TT/1C+j/Kuz06gLlSxIHqHG8MZT8SVQidGhqNBy/K85x1ZRJmjHtSbr9p1?=
+ =?us-ascii?Q?e4lArKWYBtKUwzzx7eB9X8naLT/NIIdWMIspakASX9asU3NIfpjFvWCZGC/S?=
+ =?us-ascii?Q?0hUO5hSKcJE5y5rtV0hpjAgI+LfZ5SFLj6ydjglDghdCTMUTx3SLP0nhfaRz?=
+ =?us-ascii?Q?+wPJxLhe1/CYOcJ8mLoTfuHIiOwXUYWQmcdx5s2mVCHLPcXVi9usyWnTcTFC?=
+ =?us-ascii?Q?qY1sQp6G5dzAr3OqV92VcvIHyLrLvlHueTsumFeMAuqxNyUEmcidWiEw0CKL?=
+ =?us-ascii?Q?lFNcybu1mahZ1sFIBKbO8mMQQFTxCNjrGiZhxFQ4gZkeWmye9OvsjmpfxoqY?=
+ =?us-ascii?Q?Y/MRZrC208YV0U+dP52DFzwN93qnMznuFBXykdByoOnb6yMgHE3sm/ovhGLf?=
+ =?us-ascii?Q?kjK6Z+HeITmknKcutgeBBq76ZSREbAM+iKRpsoRUnhHYt9M2NpYHIusXCdI3?=
+ =?us-ascii?Q?bFhf8tnCfhi5MNt56pTCcOI/ipqvVw9Z8Z/6ck/zNiCcfuUaZaSzHvcdwOQn?=
+ =?us-ascii?Q?pJPZzGX0lTKV2prndvOqDUbxpH36ZQMAlOR8y+NbfwtNGcUz0PniLDw5g7/+?=
+ =?us-ascii?Q?e9dVthJ3XC9fU/Uz8+9HwJWlruoqkYr83RxdYk5RsnRaWeahGJtUUeAYZp/t?=
+ =?us-ascii?Q?j4BtqQusVoxjTnQRbvxzw/HOreWh3bWWjqegjoQJgcXrnkQl+zTlw2Q4aquZ?=
+ =?us-ascii?Q?bwH6OImJT32zkL91Jx3F5bDjIw4kotu4foguY45R+o4EkSfc3+l7ZdhbCfam?=
+ =?us-ascii?Q?wPun1CJFKIMQarxyw5KznniGhkd+GjLgN8SDBrAa8cHFoutH0iRhCz7NkJIn?=
+ =?us-ascii?Q?KWu1R/2CNVnfvmtfxS0BBSCInH5abu7prf4Uwk+rVbmxJf9SxK1yHLIgdtel?=
+ =?us-ascii?Q?lNGdZ2d8l+wjPvmy3HNB7WinbvvQP8RhaPaVNMVqIbpA+xuILRGToF+1BqzY?=
+ =?us-ascii?Q?mNyEFxTCWgd/Kw1xKG1hQh1OPjEEMamZdzc7wHjnqSkO5SBx/u1ahS3qnXAM?=
+ =?us-ascii?Q?bpm8J8X0j+yKgXYXOIAY/PBtG6jLaEpH5lWBMRtTFtRRq2IAy4I+ujGEv5xZ?=
+ =?us-ascii?Q?e3oMabKEk8wuC3ohYhP/fK6wkRrGDb4t3lbgz7gU5CSBjWG2gOrVpKqyy+cS?=
+ =?us-ascii?Q?yChtp1oGeCpcRohnV7Lm8RuorVzKc9BmfQCSfpIlXKtU7HpTTQYkR3RQg4Aw?=
+ =?us-ascii?Q?G86+BVRm1TddK5MijLxvFx9NChsxljW/i3x8aeyrOrLrq6t25yNMxaFYm9/t?=
+ =?us-ascii?Q?RW04zVdE9SL20kvPQ+UzZ5tzJTuu2biSH/a96Wvjw1GdjBVZ1DuhTy2d+LOO?=
+ =?us-ascii?Q?RNH8TIClw1GnBbX65N+BU6LP2q4MfOqoG08XAtkqG5yqjGADEVHWKuZnMyCx?=
+ =?us-ascii?Q?xNmKXGjplQQyc84sD12aiA19OL5XqLixM1sRbda0WXMLdCYC5IDLuV4xw1VR?=
+ =?us-ascii?Q?1fcwLaWu1961GZYlGCWg1ySLh6KSXRLteSQVPgXatDmzKRpjUn/l3qyWpPMc?=
+ =?us-ascii?Q?iAHnO8jnCowXoi9osDNbtnZh4ZOZhX+khC7JOIrYMyd7fW7+CZiaaMYurC+Q?=
+ =?us-ascii?Q?3ODaYjD0FBoxCPwNJhNPr7u5GGtD1UmMcLVyGeu/?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01c6f81d-86ad-4dc8-05d5-08dc9d250c5f
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2024 19:02:42.7940 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 81s4LZSb5Ki8NaELUQsaxuHdqfbzvaLoynVZZg3amqkVM+HhYKyehbh/+SvlyV8S4IfWDGgIzUqkFIcOASI2+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10023
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,185 +152,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Jul 05, 2024 at 05:09:32PM +0800, Liu Ying wrote:
+> Add myself as the maintainer of i.MX8qxp Display Controller.
+> 
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+>  MAINTAINERS | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 35db18d26c11..29c9d52e74d1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7379,6 +7379,25 @@ F:	Documentation/devicetree/bindings/display/imx/
+>  F:	drivers/gpu/drm/imx/ipuv3/
+>  F:	drivers/gpu/ipu-v3/
+>  
+> +DRM DRIVERS FOR FREESCALE IMX8 DISPLAY CONTROLLER
+> +M:	Liu Ying <victor.liu@nxp.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-extdst.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchlayer.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchunit-common.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchwarp.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-intc.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon.yaml
+> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
 
-Am 05.07.24 um 17:19 schrieb Daniel Vetter:
-> Adding dri-devel
->
-> On Fri, 5 Jul 2024 at 17:14, Stefan Wahren <wahrenst@gmx.net> wrote:
->
->     Hi,
->     last year my Raspberry Pi 3B Plus died, so i didn't noticed this
->     sooner.
->     If I ran Raspberry Pi OS Bullseye with X11 and a recent Mainline
->     Kernel
->     (arm/multi_v7_defconfig) on my new Raspberry Pi 3 B+, i'm getting th=
-e
->     following errors:
->
->     [=C2=A0=C2=A0=C2=A0 0.000000] Booting Linux on physical CPU 0x0
->     [=C2=A0=C2=A0=C2=A0 0.000000] Linux version 6.10.0-rc1-g685505219723
->     (stefanw@stefanw-SCHENKER) (arm-linux-gnueabihf-gcc (GCC) 11.3.1
->     20220604 [releases/gcc-11 revision
->     591c0f4b92548e3ae2e8173f4f93984b1c7f62bb], GNU ld
->     (Linaro_Binutils-2022.06) 2.37.20220122) #1 SMP Wed Jul=C2=A0 3
->     19:57:14 CEST
->     2024
->     [=C2=A0=C2=A0=C2=A0 0.000000] CPU: ARMv7 Processor [410fd034] revisi=
-on 4 (ARMv7),
->     cr=3D10c5383d
->     [=C2=A0=C2=A0=C2=A0 0.000000] CPU: div instructions available: patch=
-ing division code
->     [=C2=A0=C2=A0=C2=A0 0.000000] CPU: PIPT / VIPT nonaliasing data cach=
-e, VIPT aliasing
->     instruction cache
->     [=C2=A0=C2=A0=C2=A0 0.000000] OF: fdt: Machine model: Raspberry Pi 3=
- Model B Plus
->     Rev 1.3
->     [=C2=A0=C2=A0=C2=A0 0.000000] random: crng init done
->     [=C2=A0=C2=A0=C2=A0 0.000000] Memory policy: Data cache writealloc
->     [=C2=A0=C2=A0=C2=A0 0.000000] efi: UEFI not found.
->     [=C2=A0=C2=A0=C2=A0 0.000000] Reserved memory: created CMA memory po=
-ol at 0x37000000,
->     size 64 MiB
->     [=C2=A0=C2=A0=C2=A0 0.000000] OF: reserved mem: initialized node lin=
-ux,cma,
->     compatible
->     id shared-dma-pool
->     [=C2=A0=C2=A0=C2=A0 0.000000] OF: reserved mem: 0x37000000..0x3affff=
-ff (65536
->     KiB) map
->     reusable linux,cma
->     [=C2=A0=C2=A0=C2=A0 0.000000] Zone ranges:
->     [=C2=A0=C2=A0=C2=A0 0.000000]=C2=A0=C2=A0 DMA=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 [mem 0x0000000000000000-0x000000002fffffff]
->     [=C2=A0=C2=A0=C2=A0 0.000000]=C2=A0=C2=A0 Normal=C2=A0=C2=A0 empty
->     [=C2=A0=C2=A0=C2=A0 0.000000]=C2=A0=C2=A0 HighMem=C2=A0 [mem 0x00000=
-00030000000-0x000000003b3fffff]
->     [=C2=A0=C2=A0=C2=A0 0.000000] Movable zone start for each node
->     [=C2=A0=C2=A0=C2=A0 0.000000] Early memory node ranges
->     [=C2=A0=C2=A0=C2=A0 0.000000]=C2=A0=C2=A0 node=C2=A0=C2=A0 0: [mem 0=
-x0000000000000000-0x000000003b3fffff]
->     [=C2=A0=C2=A0=C2=A0 0.000000] Initmem setup node 0 [mem
->     0x0000000000000000-0x000000003b3fffff]
->     [=C2=A0=C2=A0=C2=A0 0.000000] percpu: Embedded 17 pages/cpu s40404 r=
-8192 d21036
->     u69632
->     [=C2=A0=C2=A0=C2=A0 0.000000] pcpu-alloc: s40404 r8192 d21036 u69632=
- alloc=3D17*4096
->     [=C2=A0=C2=A0=C2=A0 0.000000] pcpu-alloc: [0] 0 [0] 1 [0] 2 [0] 3
->     [=C2=A0=C2=A0=C2=A0 0.000000] Kernel command line: video=3DHDMI-A-1:=
-1920x1200M@60
->     dma.dmachans=3D0x7ff5 bcm2709.boardrev=3D0xa020d3
->     bcm2709.serial=3D0x51972538
->     bcm2709.uart_clock=3D48000000 bcm2709.disk_led_gpio=3D29
->     bcm2709.disk_led_active_low=3D0 vc_mem.mem_base=3D0x3ec00000
->     vc_mem.mem_size=3D0x40000000 console=3DttyS1,115200 console=3Dtty1
->     root=3DPARTUUID=3Decfed651-02 rootfstype=3Dext4 fsck.repair=3Dyes ro=
-otwait
->     [=C2=A0=C2=A0=C2=A0 0.000000] Dentry cache hash table entries: 13107=
-2 (order: 7,
->     524288
->     bytes, linear)
->     [=C2=A0=C2=A0=C2=A0 0.000000] Inode-cache hash table entries: 65536 =
-(order: 6, 262144
->     bytes, linear)
->     [=C2=A0=C2=A0=C2=A0 0.000000] Built 1 zonelists, mobility grouping o=
-n. Total
->     pages: 242688
->     [=C2=A0=C2=A0=C2=A0 0.000000] mem auto-init: stack:off, heap alloc:o=
-ff, heap
->     free:off,
->     mlocked free:off
->     [=C2=A0=C2=A0=C2=A0 0.000000] Memory: 868880K/970752K available (153=
-60K kernel code,
->     2535K rwdata, 6708K rodata, 2048K init, 426K bss, 36336K reserved,
->     65536K cma-reserved, 118784K highmem)
->     ...
->     [=C2=A0=C2=A0 56.187787] [drm:vc4_bo_create [vc4]] *ERROR* Failed to
->     allocate from
->     GEM DMA helper:
->     [=C2=A0=C2=A0 56.187870] vc4-drm soc:gpu: [drm] V3D:=C2=A0 36316kb B=
-Os (40)
->     [=C2=A0=C2=A0 56.187884] vc4-drm soc:gpu: [drm] V3D shader:
->     124kb BOs (31)
->     [=C2=A0=C2=A0 56.187893] vc4-drm soc:gpu: [drm] dumb:=C2=A0=C2=A0 45=
-64kb BOs (5)
->     [=C2=A0=C2=A0 56.187900] vc4-drm soc:gpu: [drm] binner:=C2=A0 16384k=
-b BOs (1)
->     [=C2=A0=C2=A0 56.187909] vc4-drm soc:gpu: [drm]=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tota=
-l purged BO:
->     19540kb BOs (15)
->     [=C2=A0=C2=A0 56.188269] [drm:vc4_bo_create [vc4]] *ERROR* Failed to
->     allocate from
->     GEM DMA helper:
->     [=C2=A0=C2=A0 56.188315] vc4-drm soc:gpu: [drm] V3D:=C2=A0 35072kb B=
-Os (30)
->     [=C2=A0=C2=A0 56.188325] vc4-drm soc:gpu: [drm] V3D shader:
->     124kb BOs (31)
->     [=C2=A0=C2=A0 56.188337] vc4-drm soc:gpu: [drm] dumb:=C2=A0=C2=A0 45=
-64kb BOs (5)
->     [=C2=A0=C2=A0 56.188345] vc4-drm soc:gpu: [drm] binner:=C2=A0 16384k=
-b BOs (1)
->     [=C2=A0=C2=A0 56.188354] vc4-drm soc:gpu: [drm]=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tota=
-l purged BO:
->     19540kb BOs (15)
->     ...
->
->     Except of these errors, X11 works as expected. Since I knew that thi=
-s
->     setup shouldn't throw these errors without CMA modifications, I
->     bisected
->     this to this commit:
->
->     commit 47c07e46c86f310bed73b9c895155a49df3d5e71 (HEAD)
->     Author: Ma=C3=ADra Canal <mcanal@igalia.com>
->     Date:=C2=A0=C2=A0 Thu Feb 2 08:19:43 2023 -0300
->
->     drm/vc4: replace drm_gem_dma_object for drm_gem_object in
->     vc4_exec_info
->
->     After that I increased the CMA to 128 MB via Kernel cmdline and
->     compared
->     /proc/meminfo before and after the patch:
->
->     Before
->     CmaTotal:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 131072 kB
->     CmaFree:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- 20132 kB
->
->     After
->     CmaTotal:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 131072 kB
->     CmaFree:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 5644 kB
->
->     So my question: is this noticable CMA increase expected by this
->     change?
->
->
-> No, it shouldn't change anything. All it does is change the type we
-> use to iterate over objects from the subclass to the base class in the
-> command submission code. The resulting code should be entirely
-> unchanged, if the compiler doesn't get confused at least and applies
-> all the same optimizations.
->
-> Can you please double-check that it's really this commit that makes
-> the difference, and nothing else changed in the system?
-Sorry, the fluctuation of meminfo wasn't a good indication so i used
-"watch" on the output and it showed similiar values.
+How about 
+	 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc*.yaml
 
-So i dropped the cma setting from cmdline in order to reproduce the
-original issue. Unfortunately the error is reproducible only in 50%
-percent of all cases. So I assume this is all caused by runtime (maybe
-memory pressure) and a low CMA value.
+Frank
 
-Sorry for the noise
->
-> Thanks, Sima
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
+> +F:	drivers/gpu/drm/imx/dc/
+> +
+>  DRM DRIVERS FOR FREESCALE IMX BRIDGE
+>  M:	Liu Ying <victor.liu@nxp.com>
+>  L:	dri-devel@lists.freedesktop.org
+> -- 
+> 2.34.1
+> 
