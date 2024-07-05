@@ -2,80 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523D7928702
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 12:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4368D928720
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 12:53:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF4E10EA9B;
-	Fri,  5 Jul 2024 10:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C151910E16A;
+	Fri,  5 Jul 2024 10:53:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="k4ZNSYA0";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="GF3A7R2u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2519210EAA8
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 10:44:30 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-52a559e4429so122358e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 03:44:30 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B8A510EAB1
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 10:53:43 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4265267db01so395975e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 03:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1720176268; x=1720781068; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=iY+wmuc9gDBD8vkaWCJVg2xR38SmYyHEmg/ulb81llg=;
- b=k4ZNSYA0IJfzZn0mLrwMmmXJmSamQuk4C6+10d3cpha/TjSg9uaCokka3LNx3C4gYp
- KGsFdn+lvBTAqCuChPhBALGYNtuFZq6Jlh117SvKzWTlOg640kz5C56UIt+5GTYUBAAs
- RI1gzAmEw//H/60u1wd/PpbFloZ7xXXYW7RVY=
+ d=ffwll.ch; s=google; t=1720176822; x=1720781622; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=nPaLzRHyMO7fheB48bkwp+Y0j4OZdMsIVUFYWAvW8mE=;
+ b=GF3A7R2ubVJFuvqZaSHNaJ2ZM4Z+XYTnf6m8R2NMWodBXMls5wnf8Yy1PwzJNsELrh
+ tjv7YTDo40UOF91SNzpGg10blNgXYGRKkX/I0uVCExEpWvZhfv2c+Hy5IIkj4Yal+/qS
+ Da9efRYzM5m7ImZ4o6AdvbysjNU+PWJUNL/ok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720176268; x=1720781068;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iY+wmuc9gDBD8vkaWCJVg2xR38SmYyHEmg/ulb81llg=;
- b=XUdD22h1cTr91FycrpRXyZqYJpe33TO4y23jeFM88qURSMmV6Lulw/p2NysbCi/cmR
- DmyH+c6B8Sx5RgXUA2PWSSHH3yjj8diImNkLgtcHSIa8rfMrOnJZ3csdWFidcOzrKPlV
- N6A/QHX313AnKnbyumOvyIwIcrJ6b9c/ccxCfH7vj3P6MsZ9uTo3U5AerV64LAKx9iwL
- wGsaT9yG115MvopqMxICezhDlayk5kcdSFPGpcQuA6Js+TK1jjh9xPEfVEdEgNd/15uT
- gFlsOk+oi9ZBuxLtLSHKs3sRHH3OmEv+/sOxRP/TqaJCu1inRL9WYkfLW/Mms/9hYwlU
- cxog==
+ d=1e100.net; s=20230601; t=1720176822; x=1720781622;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nPaLzRHyMO7fheB48bkwp+Y0j4OZdMsIVUFYWAvW8mE=;
+ b=nlGeh+iep1XsZMV17kq5q5WkI9YXMOI0y/CZrq0y/1ngebLtSRxHudYz2GhImCrZy1
+ LOGhCqaBG4wLAYw3pek/IuuWc9zOPXilH9kGnn2Ps5muSFNhi1NIrMEiBD2fUIKP+2iJ
+ Yq5FZY6ke++y+whR2fQ6p1BVTGA6GgPmOYWSV3+mLs6DWFYf4FMw38HqjHRPQSJcOSh/
+ yPXtW8pMFVUmeYFsUoXoUqoJmNo3lXtC2m6Yt2geQ373Ro0SQ4GEvZwOwUoYOdEyp9Xl
+ /rzLCt/uVDZnlzwVqI7lXJ8LqqKsjX9RcqhqBQlTkpBX1E6bMLPFi9IaUlXKg6DCqCed
+ 55bg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVXpD5jxqfNf5Dmp38jGTx+cJVx2WL1eRcQ7ijU3dQxLnkQbnSNNi/T+b2itmCufC5qsll+qE+CqDYNJAgtL/uk/Tqr1jGiGn9U5KiOzAbO
-X-Gm-Message-State: AOJu0YzNU7TXxrNQRjAGtxo3divcgh7P826riMw3micSIlL4XwZ6q7gZ
- sTS48YT3TXm4SIrQY8By+kjaUsrgRZ2m2n+xeKsIXvQXyl6iCWY76Ewql+JC+RU/fxWJufCLwn7
- K3+M=
-X-Google-Smtp-Source: AGHT+IFv8vmD0HrL5U4YaRADGw3d1unqqJdPgX9u/ZnQoU6sTpOyPpqntCgjf0AGZjf758RbG3Uz7g==
-X-Received: by 2002:ac2:4306:0:b0:52e:7bb4:942d with SMTP id
- 2adb3069b0e04-52ea06150a9mr2793245e87.1.1720176268148; 
- Fri, 05 Jul 2024 03:44:28 -0700 (PDT)
+ AJvYcCUCzOOzPDINbpDkla1y5wPq7mEamWKuDNV8xKdkHV3FY3sKq3At+VuxzAiOTMglbJkl38PSrGMvFhEJZQk++FKp9sC6BIBqREratFObDsmp
+X-Gm-Message-State: AOJu0Ywzm4qqsB0C6cH/8XqcaZORxQLbsCfsEJIFYhFS7Sng27cQpAfZ
+ kNnWYEh+sRWqO85u12sTGRRIlMTkMozmsIL9Gm/LTBJBgOWadabIs/vtM+s4Kcg=
+X-Google-Smtp-Source: AGHT+IGwbA+5Nba6wqmsyP+zBhPGQAJWRUedfb0m14SOM4RDLwwrsjacVIQ6QbBF5I3SMiaMv1+wag==
+X-Received: by 2002:a5d:6da8:0:b0:362:4aac:8697 with SMTP id
+ ffacd0b85a97d-3679db7dbdamr3248107f8f.0.1720176821633; 
+ Fri, 05 Jul 2024 03:53:41 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-367961a507csm5775873f8f.77.2024.07.05.03.44.27
+ ffacd0b85a97d-3679887d58fsm4771469f8f.42.2024.07.05.03.53.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jul 2024 03:44:27 -0700 (PDT)
-Date: Fri, 5 Jul 2024 12:44:25 +0200
+ Fri, 05 Jul 2024 03:53:41 -0700 (PDT)
+Date: Fri, 5 Jul 2024 12:53:39 +0200
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Maxime Ripard <mripard@redhat.com>
-Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] drm-misc-next
-Message-ID: <ZofOidmBv5DcQ6ca@phenom.ffwll.local>
-References: <20240704-curvy-outstanding-lizard-bcea78@houat>
+To: Rob Clark <robdclark@gmail.com>
+Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [pull] drm/msm: drm-msm-next-2024-07-04 for v6.11
+Message-ID: <ZofQs0EOxVXOYKMj@phenom.ffwll.local>
+References: <CAF6AEGvZQpYEHpSCgXGJ2kaHJDK6QFAFfTsfiWm4b2zZOnjXGw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240704-curvy-outstanding-lizard-bcea78@houat>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGvZQpYEHpSCgXGJ2kaHJDK6QFAFfTsfiWm4b2zZOnjXGw@mail.gmail.com>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,151 +86,253 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 04, 2024 at 03:17:09PM +0200, Maxime Ripard wrote:
-> Hi,
+On Thu, Jul 04, 2024 at 08:48:18AM -0700, Rob Clark wrote:
+> Hi Dave, Sima,
 > 
-> Here's this week drm-misc-next PR, and the last PR for the 6.11 release cycle.
+> This is the main pull for v6.11.  It includes a merge of the immutable
+> tag qcom/20240430-a750-raytracing-v3-2-7f57c5ac082d@gmail.com to pick
+> up dependencies for raytracing and SMEM speedbin.
 > 
-> Thanks!
-> Maxime
+> Further description below.
 > 
-> drm-misc-next-2024-07-04:
-> drm-misc-next for $kernel-version:
+> The following changes since commit 92815da4576a495cb6362cdfb132152fccc2222d:
 > 
-> UAPI Changes:
-> 
-> Cross-subsystem Changes:
-> 
-> Core Changes:
->   - dp/mst: Fix daisy-chaining at resume
->   - dsc: Add helper to dump the DSC configuration
->   - tests: Add tests for the new monochrome TV mode variant
-> 
-> Driver Changes:
->   - ast: Refactor the mode setting code
->   - panfrost: Fix devfreq job reporting
->   - stm: Add LDVS support, DSI PHY updates
->   - panels:
->     - New panel: AUO G104STN01, K&d kd101ne3-40ti,
-> The following changes since commit 61bfcd190820d1dce846e58a4c9ddca8db4751ed:
-> 
->   drm/bridge: analogix_dp: handle AUX transfer timeouts (2024-06-27 11:52:19 +0200)
+>   Merge remote-tracking branch 'drm-misc/drm-misc-next' into HEAD
+> (2024-06-12 16:52:39 +0300)
 > 
 > are available in the Git repository at:
 > 
->   https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2024-07-04
+>   https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2024-07-04
 > 
-> for you to fetch changes up to 896868eded124059023be0af92d68cdaf9b4de70:
-> 
->   drm/panthor: Record devfreq busy as soon as a job is started (2024-07-04 09:29:55 +0100)
+> for you to fetch changes up to fe34394ecdad459d2d7b1f30e4a39ac27fcd77f8:
 
 Pulled, thanks.
--Sima
 
+>   dt-bindings: display/msm: dsi-controller-main: Add SM7150
+> (2024-07-03 05:57:35 -0700)
 > 
 > ----------------------------------------------------------------
-> drm-misc-next for $kernel-version:
+> Updates for v6.11
 > 
-> UAPI Changes:
+> Core:
+> - SM7150 support
 > 
-> Cross-subsystem Changes:
+> DPU:
+> - SM7150 support
+> - Fix DSC support for DSI panels in video mode
+> - Fixed TE vsync source support for DSI command-mode panels
+> - Fix for devices without UBWC in the display controller (ie.
+>   QCM2290)
 > 
-> Core Changes:
->   - dp/mst: Fix daisy-chaining at resume
->   - dsc: Add helper to dump the DSC configuration
->   - tests: Add tests for the new monochrome TV mode variant
+> DSI:
+> - Remove unused register-writing wrappers
+> - Fix DSC support for panels in video mode
+> - Add support for parsing TE vsync source
+> - Add support for MSM8937 (28nm DSI PHY)
 > 
-> Driver Changes:
->   - ast: Refactor the mode setting code
->   - panfrost: Fix devfreq job reporting
->   - stm: Add LDVS support, DSI PHY updates
->   - panels:
->     - New panel: AUO G104STN01, K&d kd101ne3-40ti,
+> MDP5:
+> - Add support for MSM8937
+> - Fix configuration for MSM8953
+> 
+> GPU:
+> - Split giant device table into per-gen "hw catalog" similar to
+>   what is done on the display side of the driver
+> - Fix a702 UBWC mode
+> - Fix unused variably warnings
+> - GPU memory traces
+
+Stumbled over this and it feels a bit hilarious ... merged 4 years ago
+with bbd9d05618a6 ("gpu/trace: add a gpu total memory usage tracepoint").
+Only now the first driver, and we don't even have uapi docs for this ...
+
+I think a little bit more actual consensus engineering like pepp is trying
+to do now for gpu tracing would be good.
+
+Cheers, Sima
+
+> - Add param for userspace to know if raytracing is supported
+> - Memory barrier cleanup and GBIF unhalt fix
+> - X185 support (aka gpu in X1 laptop chips)
+> - a505 support
+> - fixes
 > 
 > ----------------------------------------------------------------
-> Dave Stevenson (1):
->       drm/tests: Add tests for the new Monochrome value of tv_mode
+> Abhinav Kumar (3):
+>       drm/msm/a6xx: use __unused__ to fix compiler warnings for gen7_* includes
+>       drm/msm/dpu: drop validity checks for clear_pending_flush() ctl op
+>       drm/msm/dpu: check ubwc support before adding compressed formats
 > 
-> Dragan Simic (2):
->       drm/lima: Mark simple_ondemand governor as softdep
->       drm/panfrost: Mark simple_ondemand governor as softdep
+> Akhil P Oommen (3):
+>       dt-bindings: display/msm/gmu: Add Adreno X185 GMU
+>       drm/msm/adreno: Add support for X185 GPU
+>       drm/msm/adreno: Introduce gmu_chipid for a740 & a750
 > 
-> Imre Deak (2):
->       drm: Add helpers for q4 fixed point values
->       drm/display/dsc: Add a helper to dump the DSC configuration
+> Barnabás Czémán (4):
+>       drm/msm/dpu: guard ctl irq callback register/unregister
+>       drm/msm/mdp5: Remove MDP_CAP_SRC_SPLIT from msm8x53_config
+>       dt-bindings: display/msm: qcom, mdp5: Add msm8937 compatible
+>       dt-bindings: msm: dsi-phy-28nm: Document msm8937 compatible
 > 
-> Paul Gerber (2):
->       dt-bindings: display: simple: Add AUO G104STN01 panel
->       drm/panel: simple: Add AUO G104STN01 panel entry
+> Connor Abbott (5):
+>       firmware: qcom: scm: Add gpu_init_regs call
+>       firmware: qcom_scm: Add gpu_init_regs call
+>       drm/msm/a7xx: Initialize a750 "software fuse"
+>       drm/msm: Add MSM_PARAM_RAYTRACING uapi
+>       drm/msm/a7xx: Add missing register writes from downstream
 > 
-> Raphael Gallais-Pou (4):
->       dt-bindings: display: add STM32 LVDS device
->       drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver
->       drm/stm: dsi: use new SYSTEM_SLEEP_PM_OPS() macro
->       drm/stm: dsi: expose DSI PHY internal clock
+> Daniil Titov (3):
+>       drm/msm/mdp5: Add MDP5 configuration for MSM8937
+>       drm/msm/dsi: Add phy configuration for MSM8937
+>       drm/msm/adreno: Add support for Adreno 505 GPU
 > 
-> Steven Price (1):
->       drm/panthor: Record devfreq busy as soon as a job is started
+> Danila Tikhonov (5):
+>       dt-bindings: display/msm: Add SM7150 DPU
+>       drm/msm/dpu: Add SM7150 support
+>       dt-bindings: display/msm: Add SM7150 MDSS
+>       drm/msm: mdss: Add SM7150 support
+>       dt-bindings: display/msm: dsi-controller-main: Add SM7150
 > 
-> Thomas Zimmermann (9):
->       drm/ast: Implement atomic enable/disable for encoders
->       drm/ast: Program mode for AST DP in atomic_mode_set
->       drm/ast: Move mode-setting code into mode_set_nofb CRTC helper
->       drm/ast: Handle primary-plane format setup in atomic_update
->       drm/ast: Remove gamma LUT updates from DPMS code
->       drm/ast: Only set VGA SCREEN_DISABLE bit in CRTC code
->       drm/ast: Inline ast_crtc_dpms() into callers
->       drm/ast: Use drm_atomic_helper_commit_tail() helper
->       drm/mgag200: Rename constant MGAREG_Status to MGAREG_STATUS
+> Dmitry Baryshkov (9):
+>       dt-bindings: display/msm/dsi: allow specifying TE source
+>       drm/msm/dpu: convert vsync source defines to the enum
+>       drm/msm/dsi: drop unused GPIOs handling
+>       drm/msm/dpu: pull the is_cmd_mode out of
+> _dpu_encoder_update_vsync_source()
+>       drm/msm/dpu: rework vsync_source handling
+>       drm/msm/dsi: parse vsync source from device tree
+>       drm/msm/dpu: support setting the TE source
+>       drm/msm/dpu: rename dpu_hw_setup_vsync_source functions
+>       drm/msm/dpu: remove CRTC frame event callback registration
 > 
-> Thorsten Blum (1):
->       drm/managed: Simplify if condition
+> Jani Nikula (1):
+>       drm/msm/dp: switch to struct drm_edid
 > 
-> Wayne Lin (2):
->       drm/dp_mst: Fix all mstb marked as not probed after suspend/resume
->       drm/dp_mst: Skip CSN if topology probing is not done yet
+> Jonathan Marek (4):
+>       drm/msm/dpu: fix video mode DSC for DSI
+>       drm/msm/dsi: set video mode widebus enable bit when widebus is enabled
+>       drm/msm/dsi: set VIDEO_COMPRESSION_MODE_CTRL_WC
+>       drm/msm/dsi: add a comment to explain pkt_per_line encoding
 > 
-> Yannick Fertre (1):
->       drm/stm: dsi: add pm runtime ops
+> Jun Nie (2):
+>       drm/msm/dpu: adjust data width for widen bus case
+>       drm/msm/dpu: enable compression bit in cfg2 for DSC
 > 
-> Zhaoxiong Lv (5):
->       drm/panel: jd9365da: Modify the method of sending commands
->       dt-bindings: display: panel: Add compatible for kingdisplay-kd101ne3
->       drm/panel: panel-jadard-jd9365da-h3: use wrapped MIPI DCS functions
->       drm/panel: jd9365da: Support for kd101ne3-40ti MIPI-DSI panel
->       drm/panel: jd9365da: Add the function of adjusting orientation
+> Konrad Dybcio (7):
+>       drm/msm/a6xx: Fix A702 UBWC mode
+>       soc: qcom: Move some socinfo defines to the header
+>       soc: qcom: smem: Add a feature code getter
+>       drm/msm/dsi: Remove dsi_phy_read/write()
+>       drm/msm/dsi: Remove dsi_phy_write_[un]delay()
+>       drm/msm/adreno: De-spaghettify the use of memory barriers
+>       Revert "drm/msm/a6xx: Poll for GBIF unhalt status in hw_init"
 > 
->  .../bindings/display/panel/jadard,jd9365da-h3.yaml |    1 +
->  .../bindings/display/panel/panel-simple.yaml       |    2 +
->  .../bindings/display/st,stm32mp25-lvds.yaml        |  119 ++
->  MAINTAINERS                                        |    1 +
->  drivers/gpu/drm/ast/ast_mode.c                     |  204 ++--
->  drivers/gpu/drm/ast/ast_reg.h                      |   10 +-
->  drivers/gpu/drm/display/drm_dp_helper.c            |    5 +-
->  drivers/gpu/drm/display/drm_dp_mst_topology.c      |   15 +-
->  drivers/gpu/drm/display/drm_dsc_helper.c           |   91 ++
->  drivers/gpu/drm/drm_managed.c                      |    2 +-
->  drivers/gpu/drm/lima/lima_drv.c                    |    1 +
->  drivers/gpu/drm/mgag200/mgag200_mode.c             |    6 +-
->  drivers/gpu/drm/mgag200/mgag200_reg.h              |    2 +-
->  drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c   | 1090 ++++++++++-------
->  drivers/gpu/drm/panel/panel-simple.c               |   27 +
->  drivers/gpu/drm/panfrost/panfrost_drv.c            |    1 +
->  drivers/gpu/drm/panthor/panthor_sched.c            |    1 +
->  drivers/gpu/drm/stm/Kconfig                        |   11 +
->  drivers/gpu/drm/stm/Makefile                       |    2 +
->  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c              |  279 ++++-
->  drivers/gpu/drm/stm/lvds.c                         | 1226 ++++++++++++++++++++
->  drivers/gpu/drm/tests/drm_cmdline_parser_test.c    |   11 +
->  drivers/gpu/drm/tests/drm_connector_test.c         |    1 +
->  drivers/gpu/drm/tests/drm_modes_test.c             |   31 +
->  include/drm/display/drm_dsc_helper.h               |    3 +
->  include/drm/drm_fixed.h                            |   23 +
->  26 files changed, 2605 insertions(+), 560 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
->  create mode 100644 drivers/gpu/drm/stm/lvds.c
-
-
+> Krzysztof Kozlowski (4):
+>       dt-bindings: display/msm/gpu: constrain clocks in top-level
+>       dt-bindings: display/msm/gpu: define reg-names in top-level
+>       dt-bindings: display/msm/gpu: simplify compatible regex
+>       dt-bindings: display/msm/gpu: fix the schema being not applied
+> 
+> Neil Armstrong (2):
+>       drm/msm/adreno: fix a7xx gpu init
+>       drm/msm/adreno: fix a743 and a740 cx mem init
+> 
+> Rob Clark (11):
+>       drm/msm/adreno: Split up giant device table
+>       drm/msm/adreno: Split catalog into separate files
+>       drm/msm/adreno: Move hwcg regs to a6xx hw catalog
+>       drm/msm/adreno: Move hwcg table into a6xx specific info
+>       drm/msm/adreno: Move CP_PROTECT settings to hw catalog
+>       drm/msm: Add GPU memory traces
+>       drm/msm: Add obj flags to gpu devcoredump
+>       drm/msm/adreno: Check for zap node availability
+>       Merge remote-tracking branch
+> 'qcom/20240430-a750-raytracing-v3-2-7f57c5ac082d@gmail.com' into
+> msm-next-robclark
+>       drm/msm/a6xx: Add missing __always_unused
+>       drm/msm/gem: Add missing rcu_dereference()
+> 
+>  .../bindings/display/msm/dsi-controller-main.yaml  |   19 +
+>  .../bindings/display/msm/dsi-phy-28nm.yaml         |    1 +
+>  .../devicetree/bindings/display/msm/gmu.yaml       |    4 +
+>  .../devicetree/bindings/display/msm/gpu.yaml       |   27 +-
+>  .../devicetree/bindings/display/msm/qcom,mdp5.yaml |    1 +
+>  .../devicetree/bindings/display/msm/qcom,mdss.yaml |    1 +
+>  .../bindings/display/msm/qcom,sm7150-dpu.yaml      |  143 +++
+>  .../bindings/display/msm/qcom,sm7150-mdss.yaml     |  458 +++++++
+>  drivers/firmware/qcom/qcom_scm.c                   |   14 +
+>  drivers/firmware/qcom/qcom_scm.h                   |    3 +
+>  drivers/gpu/drm/msm/Kconfig                        |    1 +
+>  drivers/gpu/drm/msm/Makefile                       |    5 +
+>  drivers/gpu/drm/msm/adreno/a2xx_catalog.c          |   52 +
+>  drivers/gpu/drm/msm/adreno/a3xx_catalog.c          |   81 ++
+>  drivers/gpu/drm/msm/adreno/a4xx_catalog.c          |   50 +
+>  drivers/gpu/drm/msm/adreno/a5xx_catalog.c          |  161 +++
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   29 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c          | 1259 ++++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |   38 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  995 ++--------------
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   12 +
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |   13 +-
+>  drivers/gpu/drm/msm/adreno/adreno_device.c         |  624 +---------
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c            |    6 +-
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   44 +-
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h |  335 ++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |   25 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h           |    2 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |   57 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |   15 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |    8 +
+>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |    4 +-
+>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   21 +-
+>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |    3 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |    1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |    1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |    3 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |   19 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |    5 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   26 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         |   14 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h         |    2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   45 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |    7 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h          |    4 -
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |   91 +-
+>  drivers/gpu/drm/msm/dp/dp_display.c                |   11 +-
+>  drivers/gpu/drm/msm/dp/dp_panel.c                  |   47 +-
+>  drivers/gpu/drm/msm/dp/dp_panel.h                  |    2 +-
+>  drivers/gpu/drm/msm/dsi/dsi.h                      |    1 +
+>  drivers/gpu/drm/msm/dsi/dsi_host.c                 |   59 +-
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c              |    5 +
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |    2 +
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |    6 +-
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c         |  273 ++---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |  218 ++--
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c         |  109 +-
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c         |  323 ++---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c    |  205 ++--
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |  320 +++--
+>  drivers/gpu/drm/msm/msm_drv.h                      |   11 +
+>  drivers/gpu/drm/msm/msm_gem.c                      |   37 +
+>  drivers/gpu/drm/msm/msm_gpu.c                      |    6 +-
+>  drivers/gpu/drm/msm/msm_gpu.h                      |    9 +
+>  drivers/gpu/drm/msm/msm_mdss.c                     |    8 +
+>  drivers/soc/qcom/smem.c                            |   33 +
+>  drivers/soc/qcom/socinfo.c                         |    8 -
+>  include/linux/firmware/qcom/qcom_scm.h             |   23 +
+>  include/linux/soc/qcom/smem.h                      |    1 +
+>  include/linux/soc/qcom/socinfo.h                   |   34 +
+>  include/uapi/drm/msm_drm.h                         |    1 +
+>  71 files changed, 4011 insertions(+), 2470 deletions(-)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/msm/qcom,sm7150-dpu.yaml
+>  create mode 100644
+> Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml
+>  create mode 100644 drivers/gpu/drm/msm/adreno/a2xx_catalog.c
+>  create mode 100644 drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+>  create mode 100644 drivers/gpu/drm/msm/adreno/a4xx_catalog.c
+>  create mode 100644 drivers/gpu/drm/msm/adreno/a5xx_catalog.c
+>  create mode 100644 drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
 
 -- 
 Daniel Vetter
