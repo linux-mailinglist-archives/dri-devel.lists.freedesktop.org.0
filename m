@@ -2,65 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEA79289BE
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 15:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100B89289E7
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 15:41:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 716F610E1B5;
-	Fri,  5 Jul 2024 13:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 630AD10EBA5;
+	Fri,  5 Jul 2024 13:41:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="S74Tvjx4";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="dDk3L56E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D072010E1B5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 13:33:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720186422; x=1751722422;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=NQJt0oVBMB6nfsZbWY48G7tWz8oznM37wU46AF4PXEk=;
- b=S74Tvjx4HgLeQaADZJP8jsfmCpVpdV9a4L7TplgkvVyT2U08Sh70UreG
- 0yaoDaaAbwZKTlyPTv2y3TgfWLLZ5QqjmLMvLCz7CqXezOzu52wId5EbX
- URbOvt/u+oeQOLOCVkCtLTm0P8iaPdm8XombrVnMS98Ql+bIranHaISXe
- xny9eKYChnKGZgjVg37b3cWpnz7NDieE6A9hZr3WOeJVnZPIOGfmFOxY7
- Xb4x6QLm95y5y0n1dguVlj28bx1fBUTuCzqMa3EpdrvE0MM8k9zQN0i0j
- vjVNH8uoXHlQ9OMEmOQOh0iywTEJRjwRMWcVZV6S/4dDv3urMElp62731 A==;
-X-CSE-ConnectionGUID: is3gS+ZMQOS6NzfaDgKAQw==
-X-CSE-MsgGUID: EorNZK6NRvGum4d4dg6Rvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="21293192"
-X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="21293192"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2024 06:33:42 -0700
-X-CSE-ConnectionGUID: svof4Ni/Tpyt71IigJNJIA==
-X-CSE-MsgGUID: WX4G6Tb7SfqbQjvy2lQ5mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="46850930"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO [10.245.245.166])
- ([10.245.245.166])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2024 06:33:40 -0700
-Message-ID: <030210bc0cbc8d797f2c6c424862097212affbc7.camel@linux.intel.com>
-Subject: Re: [PATCH 2/5] drm/exec: don't immediately add the prelocked obj
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- matthew.brost@intel.com
-Cc: dri-devel@lists.freedesktop.org
-Date: Fri, 05 Jul 2024 15:33:38 +0200
-In-Reply-To: <1aff22d6-09e4-42d9-9412-fc44ace145ac@gmail.com>
-References: <20240703132602.4756-1-christian.koenig@amd.com>
- <20240703132602.4756-3-christian.koenig@amd.com>
- <c2b5145c72a4d4598bfdde23c532f3f657f0c075.camel@linux.intel.com>
- <1aff22d6-09e4-42d9-9412-fc44ace145ac@gmail.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C3AD10EB99
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 13:41:31 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-42111cf2706so2079225e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 06:41:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1720186889; x=1720791689; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hYq4Ghm/qD4X8g59+rt7/AyXTOqvB29s1gzm0udAON4=;
+ b=dDk3L56EyFuJ96GiAp4DC9Q6Zf0+KOhXaOBzLCnpIqBX20sxzGoxP230jcubzGCXP+
+ oTp0YdE5mXGlTAQKKRJULXN8umwffM4RYaPBi/cH4ZEWGo+V+OMBeZVI/bdjIAVY24jP
+ QZkDCOEJXRW2YwDyU1WQoP7AOyG2pzn02CBoE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720186889; x=1720791689;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hYq4Ghm/qD4X8g59+rt7/AyXTOqvB29s1gzm0udAON4=;
+ b=A41upszzoWzGG8wbOnUQcanuehvcPJklLAsYiHZCrkvB4c0pW16If5f/KkqKk3CXU3
+ Jyl1OaMOJWu/OGgVc0bwoeEwUObM9EpzO15nMtf6aHBo+w11cy2lDWRAehGxojYSwEf9
+ 0e0opNGCh2nLfb3VJxxDghPQAYQyR3tiYB2RqlMA+eXCmvGFL3YM9iwmZoAgEn3Dpjzq
+ APuT3Iwno8j5DfUJonF28cXk+cDmMPEYHpybDvXBrhUdIzypMohk+uRZCjf2507Hwmfk
+ P8BfWYL8QX8sZgE5RMrxhaJAS9GuWfCQNpXxazYliCi8M9Rz85LYmq67supY5qEyqAEb
+ C+0Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUn7HFEOxGzff6NW/9RxBbZr71IfEaalYsNeLXQAnLnXdKk1x4945RdvKIngiF8gBu+aVDgxG+5VcuNErK35I84HfGpKNfEeKfQ8ibRcjeu
+X-Gm-Message-State: AOJu0Yx12r/oyl/N6X+BmPCrbY1rzeltW5DK9Ic3t4wpNPXGtjX5lipn
+ xi7WyBSt53BV2Ipe1bvaxnCxXbDfS/CFWEzl+vfU/b4U8K4DiEHOB1jeNYS6QeY=
+X-Google-Smtp-Source: AGHT+IHy5I71tFmzj8hG6kRNj6VGoN9oGdPL1jjZSB9TbVRv2dFuN5Re/aCUVhXZIMsk78oJMav84A==
+X-Received: by 2002:a5d:5f84:0:b0:367:2da6:aa1b with SMTP id
+ ffacd0b85a97d-3679de74a63mr3125952f8f.7.1720186889172; 
+ Fri, 05 Jul 2024 06:41:29 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-367a0522ea3sm3762365f8f.27.2024.07.05.06.41.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jul 2024 06:41:28 -0700 (PDT)
+Date: Fri, 5 Jul 2024 15:41:26 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] MAINTAINERS: drm/sti: mark it as Odd Fixes
+Message-ID: <Zof4Bp82iu7hZsSZ@phenom.ffwll.local>
+Mail-Followup-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20240705100356.16760-1-krzysztof.kozlowski@linaro.org>
+ <ZofW1v4uEFo9GscF@phenom.ffwll.local>
+ <20240705-hysterical-beluga-of-courtesy-38b2e2@houat>
+ <ff8b84c9-5bef-4cb9-a10b-b3bb1a017366@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ff8b84c9-5bef-4cb9-a10b-b3bb1a017366@linaro.org>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,101 +99,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2024-07-05 at 14:41 +0200, Christian K=C3=B6nig wrote:
-> Am 03.07.24 um 17:51 schrieb Thomas Hellstr=C3=B6m:
-> > On Wed, 2024-07-03 at 15:25 +0200, Christian K=C3=B6nig wrote:
-> > > Some contended objects might never be locked again in the case of
-> > > eviction
-> > > handling for example.
-> > >=20
-> > > Make sure that those doesn't show up in the list of locked
-> > > objects
-> > > until
-> > > they are explicitely mentioned.
-> > Could you be a bit more specific in the commit message about in
-> > what
-> > situations that is bad?
->=20
-> The prelocked object is not necessarily expected to be in the list of
-> locked objects.
->=20
-> I ran into issues because amdgpu tried to validate all locked objects
-> and so tried to also validate the prelocked one (which was only
-> locked=20
-> for eviction).
->=20
-> That obviously didn't made much sense.
+On Fri, Jul 05, 2024 at 01:33:38PM +0200, Krzysztof Kozlowski wrote:
+> On 05/07/2024 13:22, Maxime Ripard wrote:
+> > On Fri, Jul 05, 2024 at 01:19:50PM GMT, Daniel Vetter wrote:
+> >> On Fri, Jul 05, 2024 at 12:03:56PM +0200, Krzysztof Kozlowski wrote:
+> >>> Patches to STI DRM are not being picked up, so even though there is
+> >>> maintainer activity, it seems that these drivers are not being actively
+> >>> looked at.  Reflect this in maintainer status.
+> >>
+> >> Note that since the driver is in drm-misc, other committers can also pick
+> >> up patches and push them. Both Neil and Dimtry have commit rights and
+> >> should be able to pick up your patches for you, if they get stuck.
+> > 
+> > I've applied the patches.
+> > 
+> > I don't think we should merge this one though, a one-off mishap can happen.
+> 
+> Sure.
+> 
+> Folks, maybe then pattern in maintainers should be somehow changed or grew?
+> 
+> The recommendation to all submitters is to use get_maintainers.pl. b4
+> also does it. In this particular case, using get_maintainers.pl or b4
+> will result in patches not being picked up.
 
-Indeed. Could you add a similar description to the commit message?
+I think get_maintainers.pl is correct: You get the driver maintainer, plus
+drm-misc maintainers as official fallback, plus Dave&me as fallback of
+last resorts. So all correct.
 
-/Thomas
-
-
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > /Thomas
-> >=20
-> >=20
-> >=20
-> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > ---
-> > > =C2=A0=C2=A0drivers/gpu/drm/drm_exec.c | 18 +++++++++---------
-> > > =C2=A0=C2=A01 file changed, 9 insertions(+), 9 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_exec.c
-> > > b/drivers/gpu/drm/drm_exec.c
-> > > index 2da094bdf8a4..220df336fbd9 100644
-> > > --- a/drivers/gpu/drm/drm_exec.c
-> > > +++ b/drivers/gpu/drm/drm_exec.c
-> > > @@ -61,8 +61,11 @@ static void drm_exec_unlock_all(struct
-> > > drm_exec
-> > > *exec)
-> > > =C2=A0=C2=A0		drm_gem_object_put(obj);
-> > > =C2=A0=C2=A0	}
-> > > =C2=A0=20
-> > > -	drm_gem_object_put(exec->prelocked);
-> > > -	exec->prelocked =3D NULL;
-> > > +	if (exec->prelocked) {
-> > > +		dma_resv_unlock(exec->prelocked->resv);
-> > > +		drm_gem_object_put(exec->prelocked);
-> > > +		exec->prelocked =3D NULL;
-> > > +	}
-> > > =C2=A0=C2=A0}
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0/**
-> > > @@ -179,16 +182,9 @@ static int drm_exec_lock_contended(struct
-> > > drm_exec *exec)
-> > > =C2=A0=C2=A0		dma_resv_lock_slow(obj->resv, &exec->ticket);
-> > > =C2=A0=C2=A0	}
-> > > =C2=A0=20
-> > > -	ret =3D drm_exec_obj_locked(exec, obj);
-> > > -	if (unlikely(ret))
-> > > -		goto error_unlock;
-> > > -
-> > > =C2=A0=C2=A0	exec->prelocked =3D obj;
-> > > =C2=A0=C2=A0	return 0;
-> > > =C2=A0=20
-> > > -error_unlock:
-> > > -	dma_resv_unlock(obj->resv);
-> > > -
-> > > =C2=A0=C2=A0error_dropref:
-> > > =C2=A0=C2=A0	drm_gem_object_put(obj);
-> > > =C2=A0=C2=A0	return ret;
-> > > @@ -214,6 +210,10 @@ int drm_exec_lock_obj(struct drm_exec *exec,
-> > > struct drm_gem_object *obj)
-> > > =C2=A0=C2=A0		return ret;
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	if (exec->prelocked =3D=3D obj) {
-> > > +		ret =3D drm_exec_obj_locked(exec, obj);
-> > > +		if (unlikely(ret))
-> > > +			return ret;
-> > > +
-> > > =C2=A0=C2=A0		drm_gem_object_put(exec->prelocked);
-> > > =C2=A0=C2=A0		exec->prelocked =3D NULL;
-> > > =C2=A0=C2=A0		return 0;
->=20
-
+What's special with the commit rights model is that other committers that
+work all over the subsystem can also pick up the patches for you, so that
+the drm-misc mainters don't become a bottleneck. But the ideal person
+there are drm-misc committers who work in your team or company, or someone
+else where you have some goodwill credits to spend with and ask them for a
+favour. And there's just no way to model that and make sure the script
+gives you the right suggestions.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
