@@ -2,63 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94287928BB3
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 17:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80285928BCD
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 17:35:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12AA710EC15;
-	Fri,  5 Jul 2024 15:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D05F10EC09;
+	Fri,  5 Jul 2024 15:35:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BVTzNnw2";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="RgDO4ZYg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA6A10EC18;
- Fri,  5 Jul 2024 15:32:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720193552; x=1751729552;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4CaczmofBD4rSAxW0ImUhf6jSNtAOm73ciyVdpeW8iU=;
- b=BVTzNnw2WaFBx0EwnU5mwdHRRawgzHb8gmZmysoqT9R4SZre+zEx+Jiw
- 6f2iaU7Oj0LlYBk746Hx161Jxm2tEG48cy7cR4dOUQ8FYaO5y7nhvc826
- VVzFCxaJcaLNdL60j41957Vl7bYRCxgMz55Lx92f+LRYdYuRiDwnJMsTe
- 3gdKuhzs46cCvQnD6qUTFDJlIIhUkJmMdYLHV1+bm/wqPYy1fNuvPUZnS
- yY8jWJwPNxyLdTH7COvmnYgqY0IqRwjcBoKYfVDhWbYgG+po3vK+ZlJkB
- 184HBgDpKTvQPVk8Mrashjxywu8vq3oJZcyRI/re0yhavZEcWGy/ZJdhi A==;
-X-CSE-ConnectionGUID: WCbDAKBZS2yZQ6LytPMT8A==
-X-CSE-MsgGUID: 52HYQ1DER4Wzl9628eOQmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17622930"
-X-IronPort-AV: E=Sophos;i="6.09,185,1716274800"; d="scan'208";a="17622930"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2024 08:32:32 -0700
-X-CSE-ConnectionGUID: fkb+kTZSQuOqUD1z/IRKxg==
-X-CSE-MsgGUID: QnSnJ4+SQAK4HRxdXnjZeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,185,1716274800"; d="scan'208";a="46844980"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO fedora..)
- ([10.245.245.166])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2024 08:32:30 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 8/8] drm/ttm: Balance ttm_resource_cursor_init() and
- ttm_resource_cursor_fini()
-Date: Fri,  5 Jul 2024 17:32:06 +0200
-Message-ID: <20240705153206.68526-9-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240705153206.68526-1-thomas.hellstrom@linux.intel.com>
-References: <20240705153206.68526-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D13010EC09
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 15:35:37 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-4257480ee5aso1951885e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 08:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1720193735; x=1720798535; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=YKIOErnN4ZSBK93fEaGuNPtZhO0OBRfZiH5pNgGd0zQ=;
+ b=RgDO4ZYgXrLH5lx+mRlktDAj131x2J4W9T9IUo5OuItob4ril2/n4MlTgulEhWMgg+
+ UXOT+IwvGhUOeBAJStec1xMPOsdLtZN63Cx+HrW5KwdBZSrtxCwF23U4p+szntGDG5jV
+ yG53hd5V7zIV1dk/F4jyfARfHDVwEuqeS7jYw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720193735; x=1720798535;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YKIOErnN4ZSBK93fEaGuNPtZhO0OBRfZiH5pNgGd0zQ=;
+ b=R/H43df4w62mytCW1rGBwb1t0ltIbg8L9MZpTeUlW47Nfoh3hzD3qQua60Ch3pn7Eu
+ uXcgjwdCPNoT7KiUoH8It9oY7K1UDceaiieGkYiwtgbMrZYC9n/CIoORBL1InTzS2v1p
+ 0FZSXVT+ay5A4SujJYbVASw65OXjwfhoLKXXttp2r0x0SycCksNgTuuZba1m6nv5mJAS
+ c7rkf4mrGJTxfh8eTHPN9LhTFkcaePAH6IvuoDvpboIqTCkzTHHyEN1pFeo1AzufkAeF
+ uKFYC1V9Wt5P9lGcy7qnEygC55aFPPnNMuOT8MF+doSY8ZwbScIKsebevbhBorqyNyce
+ wrCA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1rzsgDeHvIMM0uiukQV0jG3waVHWB8+v6vTxKwxmhKnCMNY3MfRhPSSf3RaOvKfJ6QMfvv4iImo+cCvyMkd1sG7i4neDSQm6/iQnEkgvO
+X-Gm-Message-State: AOJu0YxOB1lKUGct/sQyJsR0XMMtWEq42DiJhsyqrU2RwliipADD6oi3
+ o7H0S5igAfNoAKBi31Du3rwxG+OSVnxqicr5C1HM5qpAyVsv399L+KcvtiKhXqM=
+X-Google-Smtp-Source: AGHT+IGsJ1mkZ0D80/UjIJ9jqd/HQtwk88TIn27ewYuZuyXXRnv9JvlWXptYv3VuFI8J6TfR4dnNdg==
+X-Received: by 2002:a05:600c:1c9f:b0:425:7ac6:96f7 with SMTP id
+ 5b1f17b1804b1-4264a35297dmr36017775e9.0.1720193735231; 
+ Fri, 05 Jul 2024 08:35:35 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4264a2ca492sm67724735e9.34.2024.07.05.08.35.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jul 2024 08:35:34 -0700 (PDT)
+Date: Fri, 5 Jul 2024 17:35:32 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, John Stultz <jstultz@google.com>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
+ related-flags
+Message-ID: <ZogSxHFPt8SpOa0w@phenom.ffwll.local>
+Mail-Followup-To: Thierry Reding <thierry.reding@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ John Stultz <jstultz@google.com>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
+ <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
+ <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
+ <CANDhNCo5hSC-sLwdkBi3e-Ja-MzdqcGGbn-4G3XNYwCzZUwscw@mail.gmail.com>
+ <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
+ <qy7aczeu6kumv5utemoevi7omp5ryq55zmgzxh5hrz5orf2osp@wypg66awof4n>
+ <20240628-resilient-resolute-rook-0fc531@houat>
+ <3e37rhrcqogix5obsu2gq7jar7bcoamx4bbd376az5z3zdkwvm@jstirwdl5efm>
+ <20240704-therapeutic-maroon-coucal-f61a63@houat>
+ <wapv4gl2se34tq3isycb7bui5xi3x6kxjqtyz24qhjipnkbuqu@sv4w2crksuq5>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <wapv4gl2se34tq3isycb7bui5xi3x6kxjqtyz24qhjipnkbuqu@sv4w2crksuq5>
+X-Operating-System: Linux phenom 6.9.7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,164 +115,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the interface more symmetric by providing and using a
-ttm_resource_cursor_init().
+Just figured I'll jump in on one detail here.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/ttm/ttm_bo.c       |  3 ++-
- drivers/gpu/drm/ttm/ttm_bo_util.c  |  4 +++-
- drivers/gpu/drm/ttm/ttm_resource.c | 34 +++++++++++++++++++++---------
- include/drm/ttm/ttm_resource.h     | 12 ++++++-----
- 4 files changed, 36 insertions(+), 17 deletions(-)
+On Fri, Jul 05, 2024 at 04:31:34PM +0200, Thierry Reding wrote:
+> On Thu, Jul 04, 2024 at 02:24:49PM GMT, Maxime Ripard wrote:
+> > On Fri, Jun 28, 2024 at 04:42:35PM GMT, Thierry Reding wrote:
+> > > On Fri, Jun 28, 2024 at 03:08:46PM GMT, Maxime Ripard wrote:
+> > > > Hi,
+> > > > 
+> > > > On Fri, Jun 28, 2024 at 01:29:17PM GMT, Thierry Reding wrote:
+> > > > > On Tue, May 21, 2024 at 02:06:19PM GMT, Daniel Vetter wrote:
+> > > > > > On Thu, May 16, 2024 at 09:51:35AM -0700, John Stultz wrote:
+> > > > > > > On Thu, May 16, 2024 at 3:56 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > > > On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
+> > > > > > > > > But it makes me a little nervous to add a new generic allocation flag
+> > > > > > > > > for a feature most hardware doesn't support (yet, at least). So it's
+> > > > > > > > > hard to weigh how common the actual usage will be across all the
+> > > > > > > > > heaps.
+> > > > > > > > >
+> > > > > > > > > I apologize as my worry is mostly born out of seeing vendors really
+> > > > > > > > > push opaque feature flags in their old ion heaps, so in providing a
+> > > > > > > > > flags argument, it was mostly intended as an escape hatch for
+> > > > > > > > > obviously common attributes. So having the first be something that
+> > > > > > > > > seems reasonable, but isn't actually that common makes me fret some.
+> > > > > > > > >
+> > > > > > > > > So again, not an objection, just something for folks to stew on to
+> > > > > > > > > make sure this is really the right approach.
+> > > > > > > >
+> > > > > > > > Another good reason to go with full heap names instead of opaque flags on
+> > > > > > > > existing heaps is that with the former we can use symlinks in sysfs to
+> > > > > > > > specify heaps, with the latter we need a new idea. We haven't yet gotten
+> > > > > > > > around to implement this anywhere, but it's been in the dma-buf/heap todo
+> > > > > > > > since forever, and I like it as a design approach. So would be a good idea
+> > > > > > > > to not toss it. With that display would have symlinks to cma-ecc and cma,
+> > > > > > > > and rendering maybe cma-ecc, shmem, cma heaps (in priority order) for a
+> > > > > > > > SoC where the display needs contig memory for scanout.
+> > > > > > > 
+> > > > > > > So indeed that is a good point to keep in mind, but I also think it
+> > > > > > > might re-inforce the choice of having ECC as a flag here.
+> > > > > > > 
+> > > > > > > Since my understanding of the sysfs symlinks to heaps idea is about
+> > > > > > > being able to figure out a common heap from a collection of devices,
+> > > > > > > it's really about the ability for the driver to access the type of
+> > > > > > > memory. If ECC is just an attribute of the type of memory (as in this
+> > > > > > > patch series), it being on or off won't necessarily affect
+> > > > > > > compatibility of the buffer with the device.  Similarly "uncached"
+> > > > > > > seems more of an attribute of memory type and not a type itself.
+> > > > > > > Hardware that can access non-contiguous "system" buffers can access
+> > > > > > > uncached system buffers.
+> > > > > > 
+> > > > > > Yeah, but in graphics there's a wide band where "shit performance" is
+> > > > > > defacto "not useable (as intended at least)".
+> > > > > > 
+> > > > > > So if we limit the symlink idea to just making sure zero-copy access is
+> > > > > > possible, then we might not actually solve the real world problem we need
+> > > > > > to solve. And so the symlinks become somewhat useless, and we need to
+> > > > > > somewhere encode which flags you need to use with each symlink.
+> > > > > > 
+> > > > > > But I also see the argument that there's a bit a combinatorial explosion
+> > > > > > possible. So I guess the question is where we want to handle it ...
+> > > > > 
+> > > > > Sorry for jumping into this discussion so late. But are we really
+> > > > > concerned about this combinatorial explosion in practice? It may be
+> > > > > theoretically possible to create any combination of these, but do we
+> > > > > expect more than a couple of heaps to exist in any given system?
+> > > > 
+> > > > I don't worry too much about the number of heaps available in a given
+> > > > system, it would indeed be fairly low.
+> > > > 
+> > > > My concern is about the semantics combinatorial explosion. So far, the
+> > > > name has carried what semantics we were supposed to get from the buffer
+> > > > we allocate from that heap.
+> > > > 
+> > > > The more variations and concepts we'll have, the more heap names we'll
+> > > > need, and with confusing names since we wouldn't be able to change the
+> > > > names of the heaps we already have.
+> > > 
+> > > What I was trying to say is that none of this matters if we make these
+> > > names opaque. If these names are contextual for the given system it
+> > > doesn't matter what the exact capabilities are. It only matters that
+> > > their purpose is known and that's what applications will be interested
+> > > in.
+> > 
+> > If the names are opaque, and we don't publish what the exact
+> > capabilities are, how can an application figure out which heap to use in
+> > the first place?
+> 
+> This would need to be based on conventions. The idea is to standardize
+> on a set of names for specific, well-known use-cases.
+> 
+> > > > > Would it perhaps make more sense to let a platform override the heap
+> > > > > name to make it more easily identifiable? Maybe this is a naive
+> > > > > assumption, but aren't userspace applications and drivers not primarily
+> > > > > interested in the "type" of heap rather than whatever specific flags
+> > > > > have been set for it?
+> > > > 
+> > > > I guess it depends on what you call the type of a heap. Where we
+> > > > allocate the memory from, sure, an application won't care about that.
+> > > > How the buffer behaves on the other end is definitely something
+> > > > applications are going to be interested in though.
+> > > 
+> > > Most of these heaps will be very specific, I would assume.
+> > 
+> > We don't have any specific heap upstream at the moment, only generic
+> > ones.
+> 
+> But we're trying to add more specific ones, right?
+> 
+> > > For example a heap that is meant to be protected for protected video
+> > > decoding is both going to be created in such a way as to allow that
+> > > use-case (i.e. it doesn't make sense for it to be uncached, for
+> > > example) and it's also not going to be useful for any other use-case
+> > > (i.e. there's no reason to use that heap for GPU jobs or networking,
+> > > or whatever).
+> > 
+> > Right. But also, libcamera has started to use dma-heaps to allocate
+> > dma-capable buffers and do software processing on it before sending it
+> > to some hardware controller.
+> > 
+> > Caches are critical here, and getting a non-cacheable buffer would be
+> > a clear regression.
+> 
+> I understand that. My point is that maybe we shouldn't try to design a
+> complex mechanism that allows full discoverability of everything that a
+> heap supports or is capable of. Instead if the camera has specific
+> requirements, it could look for a heap named "camera". Or if it can
+> share a heap with other multimedia devices, maybe call the heap
+> "multimedia".
+> 
+> The idea is that heaps for these use-cases are quite specific, so you
+> would likely not find an arbitrary number of processes try to use the
+> same heap.
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 0131ec802066..7fcd9cb0478e 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -449,7 +449,8 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
- 	int ret = 0;
- 
- 	spin_lock(&bdev->lru_lock);
--	res = ttm_resource_manager_first(man, &cursor);
-+	ttm_resource_cursor_init(&cursor, man);
-+	res = ttm_resource_manager_first(&cursor);
- 	ttm_resource_cursor_fini(&cursor);
- 	if (!res) {
- 		ret = -ENOENT;
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 3c07f4712d5c..ec6a0482cd94 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -865,7 +865,8 @@ s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
- 	s64 lret;
- 
- 	spin_lock(&bdev->lru_lock);
--	ttm_resource_manager_for_each_res(man, &cursor, res) {
-+	ttm_resource_cursor_init(&cursor, man);
-+	ttm_resource_manager_for_each_res(&cursor, res) {
- 		struct ttm_buffer_object *bo = res->bo;
- 		bool bo_needs_unlock = false;
- 		bool bo_locked = false;
-@@ -906,6 +907,7 @@ s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
- 
- 		ttm_lru_walk_unlock(bo, bo_needs_unlock);
- 		ttm_bo_put(bo);
-+
- 		if (lret == -EBUSY || lret == -EALREADY)
- 			lret = 0;
- 		progress = (lret < 0) ? lret : progress + lret;
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index 6d764ba88aab..b300d615e196 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -80,6 +80,23 @@ static void ttm_bulk_move_drop_cursors(struct ttm_lru_bulk_move *bulk)
- 		ttm_resource_cursor_clear_bulk(cursor);
- }
- 
-+/**
-+ * ttm_resource_cursor_init() - Initialize a struct ttm_resource_cursor
-+ * @cursor: The cursor to initialize.
-+ * @man: The resource manager.
-+ *
-+ * Initialize the cursor before using it for iteration.
-+ */
-+void ttm_resource_cursor_init(struct ttm_resource_cursor *cursor,
-+			      struct ttm_resource_manager *man)
-+{
-+	cursor->priority = 0;
-+	cursor->man = man;
-+	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
-+	INIT_LIST_HEAD(&cursor->bulk_link);
-+	INIT_LIST_HEAD(&cursor->hitch.link);
-+}
-+
- /**
-  * ttm_resource_cursor_fini() - Finalize the LRU list cursor usage
-  * @cursor: The struct ttm_resource_cursor to finalize.
-@@ -586,17 +603,16 @@ ttm_resource_cursor_check_bulk(struct ttm_resource_cursor *cursor,
-  * Return: The first resource from the resource manager.
-  */
- struct ttm_resource *
--ttm_resource_manager_first(struct ttm_resource_manager *man,
--			   struct ttm_resource_cursor *cursor)
-+ttm_resource_manager_first(struct ttm_resource_cursor *cursor)
- {
--	lockdep_assert_held(&man->bdev->lru_lock);
-+	struct ttm_resource_manager *man = cursor->man;
- 
--	cursor->priority = 0;
--	cursor->man = man;
--	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
--	INIT_LIST_HEAD(&cursor->bulk_link);
--	list_add(&cursor->hitch.link, &man->lru[cursor->priority]);
-+	if (WARN_ON_ONCE(!man))
-+		return NULL;
-+
-+	lockdep_assert_held(&man->bdev->lru_lock);
- 
-+	list_move(&cursor->hitch.link, &man->lru[cursor->priority]);
- 	return ttm_resource_manager_next(cursor);
- }
- 
-@@ -632,8 +648,6 @@ ttm_resource_manager_next(struct ttm_resource_cursor *cursor)
- 		ttm_resource_cursor_clear_bulk(cursor);
- 	}
- 
--	ttm_resource_cursor_fini(cursor);
--
- 	return NULL;
- }
- 
-diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index be034be56ba1..ee0e652328b3 100644
---- a/include/drm/ttm/ttm_resource.h
-+++ b/include/drm/ttm/ttm_resource.h
-@@ -30,6 +30,7 @@
- #include <linux/mutex.h>
- #include <linux/iosys-map.h>
- #include <linux/dma-fence.h>
-+#include <linux/cleanup.h>
- 
- #include <drm/drm_print.h>
- #include <drm/ttm/ttm_caching.h>
-@@ -325,6 +326,9 @@ struct ttm_resource_cursor {
- 	unsigned int priority;
- };
- 
-+void ttm_resource_cursor_init(struct ttm_resource_cursor *cursor,
-+			      struct ttm_resource_manager *man);
-+
- void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor);
- 
- /**
-@@ -456,8 +460,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
- 				struct drm_printer *p);
- 
- struct ttm_resource *
--ttm_resource_manager_first(struct ttm_resource_manager *man,
--			   struct ttm_resource_cursor *cursor);
-+ttm_resource_manager_first(struct ttm_resource_cursor *cursor);
- struct ttm_resource *
- ttm_resource_manager_next(struct ttm_resource_cursor *cursor);
- 
-@@ -466,14 +469,13 @@ ttm_lru_first_res_or_null(struct list_head *head);
- 
- /**
-  * ttm_resource_manager_for_each_res - iterate over all resources
-- * @man: the resource manager
-  * @cursor: struct ttm_resource_cursor for the current position
-  * @res: the current resource
-  *
-  * Iterate over all the evictable resources in a resource manager.
-  */
--#define ttm_resource_manager_for_each_res(man, cursor, res)		\
--	for (res = ttm_resource_manager_first(man, cursor); res;	\
-+#define ttm_resource_manager_for_each_res(cursor, res)	\
-+	for (res = ttm_resource_manager_first(cursor); res;	\
- 	     res = ttm_resource_manager_next(cursor))
- 
- struct ttm_kmap_iter *
+Yeah the idea to sort this out was to have symlinks in sysfs from the
+device to each heap. We could then have priorities for each such link, so
+that applications can pick the "best" heap that will work with all
+devices. Or also special links for special use-cases, like for a
+display+render drm device you might want to have separate links for the
+display and the render-only use-case.
+
+I think trying to encode this all into the name of a heap without linking
+it to the device is not going to work well in general.
+
+We still have that entire "make sysfs symlinks work for dma-buf heaps" on
+our todos, and that idea is almost as old as dma-buf itself :-/
+-Sima
 -- 
-2.44.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
