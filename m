@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE80929826
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 15:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19515929825
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 15:44:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F289F10E035;
-	Sun,  7 Jul 2024 13:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6C510E029;
+	Sun,  7 Jul 2024 13:44:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="AyuCiSXL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L4a7I3/R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B68610E8FB
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 09:38:48 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-424a3ccd0c0so9681185e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 02:38:47 -0700 (PDT)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3375510E97A;
+ Fri,  5 Jul 2024 10:02:43 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-70af9f7104cso1019193b3a.3; 
+ Fri, 05 Jul 2024 03:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1720172326; x=1720777126;
- darn=lists.freedesktop.org; 
- h=mime-version:user-agent:content-transfer-encoding:date:cc:to
- :reply-to:from:subject:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Si7lKvkL3/rRvUKBQJf++lXuz9T94RjR26RNcqf2OuM=;
- b=AyuCiSXLrZj+Gh6+K9S6prqq8dsX3cQWzEG0Q7D/WaXcjTcutwjhM4oN413gCgCNE9
- 0TQU5JQZAtQG+6kxlK+uTYgPySgAJ+8elDdx2DH19c6yVTc4XHtMUdwnE52HDHnm66gP
- gpaW40idW4GprSnFCposchi/tO4SQZt0kcpqxxH0PIa4wkGh/KXZVPjA7fYCPOrQ5fi0
- aMuYCoZiwoPxlj1I+OZP0f0CWfHAzLdG48Pn1eth2YfslcHAgH59nILxsbecXsRhuoco
- 0ZSBeKKesGydtc/N8UGWNCbqQWjirYXSsq53YwvHEtx6Cp59PpgIPsDfcJfdFoxbsjvQ
- vXNQ==
+ d=gmail.com; s=20230601; t=1720173763; x=1720778563; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ueZlpVq6cMGd2O6TPcbGvjQRFl2p51IxcfO3kFZ+XLY=;
+ b=L4a7I3/RpJ6/a4EbjA/mp6V6b+NwRZS+QnLZnUBi7KUu9FZ8LAfmSTtsd2qMrMb1sU
+ Ri25Z5IUHU9jNtxC8iVNFmeeqkX7ScBL7xX83eanI93Lo+0r9KQx9bvIbrYB7RWPzjTa
+ 3JdeU0TuiGXcIR/ql5A9ceCEvWX0lplZRCpg+PGenZbljxK82sdGvtGSZC4y6bKHt/gw
+ vy9B84dqxiXjwSsOKHWefBJy1rcC7AQohlYX+PBi/fBXKtDodl1P93Oz2RP4p+/TwJef
+ 8gmAPnh2qebCdfn8F0pltCSoMTbK65vftn7EXMaIP6uPYGENJXUk5xApG3cXa2ZbHkcp
+ VHhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720172326; x=1720777126;
- h=mime-version:user-agent:content-transfer-encoding:date:cc:to
- :reply-to:from:subject:message-id:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1720173763; x=1720778563;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Si7lKvkL3/rRvUKBQJf++lXuz9T94RjR26RNcqf2OuM=;
- b=vTA5OA8mMR3UhEpzKIhOHikj39/QzMENStRyRYidx5Eu9OPkpxj5AADn52Jj9gm5rj
- L1a0v1gsotV4LUKrfa8IvJseXTTyMCIi5Cp+i6StF6p9eY1gvvQbT0J/T5HFicvKVTXI
- /fffNx7H5cXjS+uLIs9DV2UmJ1uL3w71uphBKe0XaQjKUNVObkerQdC5wbHP3ZLPqpXs
- w9v2ykGWF0lfzJ/m/JF50Q4QuR2cjA5x4CLwsoHKQ/6OmtNLL6/8HeiEr7evbTZZ78gD
- NOOMeixmLSkBZ++1WzJg2N6VsCk+6NGSHWaRoqUtsc+ZiQ9VzyZ0cyOGoUQrqXntnOEl
- SrFw==
+ bh=ueZlpVq6cMGd2O6TPcbGvjQRFl2p51IxcfO3kFZ+XLY=;
+ b=TblmlafJo3yA4O1AhYClpLFerCmMPED5c5Iou4RHTDTQg/69vXCzJQlQfpMTf3RfQP
+ EwZ9g3UnGptfG6FmQeKqCrQIQVDPeHvJJ7dHaozD1lqC4ydACeAHzgWIZUWT5T4mx1Pd
+ 15SacMWXsCCz03F3wZW5VQz4WDp22vqVcny9Q7WnoXxmIDDOZ0zydddG1P7CPZevICcX
+ ipukwrHQmYNeVh1H11gcUSzsXOgm1D+TIrXovLpXEZ6YCBRLimgirylLz8Abpu+JC3p4
+ dRbfAxXqWgj9oudgpl/MfXi+dbcBp3cB+/GRJnMI6boreDwVXNepHwoB03fguZm6kUyU
+ euyQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUxGhkgFVeXYlXmCWHl7uMwtQNwNNgIDff7l++SJERa3LsrDOqjOWqDKmDetR8JrVkB5nsW+wGDnWgeCMbIzT5EuxbekvXWQR7v4Qj4T22o
-X-Gm-Message-State: AOJu0Yzwo5IKWTP9y5CbRK+ad82b4y0pHcRSCPKy7Hs+Hfi2idm9cgk2
- Fu557RvYo3k3mlN/Hg08hSgmmaNXWU70cG9XRYQxhq7z+6AiD0ux
-X-Google-Smtp-Source: AGHT+IEVQ2yzqJ4bfKosA62iERG+Zje0okNgh7+Zr98qYlyunlopaHJcgBqpEKXmPcrRss14dpqkFw==
-X-Received: by 2002:a05:600c:364d:b0:425:5f6d:b4a with SMTP id
- 5b1f17b1804b1-4264a3e3182mr27181835e9.9.1720172326193; 
- Fri, 05 Jul 2024 02:38:46 -0700 (PDT)
-Received: from mars.fritz.box ([2a02:8071:7130:82c0:da34:bd1d:ae27:5be6])
+ AJvYcCV5IuVhwgowBMrMo9Kn0gI6O9uLgjFMnri8m0IeGHtgwBZQrgjb0eajkRg2q+qlG+A0tZgD9ECZHlBb4F8B/52yoMNkim3H7sStLe0CoqoDxTp638ikQhxML5wgTQBK2fHq4Edwiu8wXHWmWHFX2g==
+X-Gm-Message-State: AOJu0Yy5llVTH+DYg5rMD5H3YJEBOOmI6KXJ3NcHdKOdZ5Ibqua7CkQ1
+ KDdW0ZRCB34QfXLJM75B3KeQ1+s3XkT+6BTjS5XwgkGeq1PNr7fR
+X-Google-Smtp-Source: AGHT+IGth6g00ULdqwjQ5OsB/b6tcPIphe8A+dcZteytrm1KA6ipJ415LiZeDcSQljJ2azzErnFegA==
+X-Received: by 2002:a05:6a00:846:b0:705:b0aa:a6bf with SMTP id
+ d2e1a72fcca58-70b00914f13mr4569613b3a.2.1720173762453; 
+ Fri, 05 Jul 2024 03:02:42 -0700 (PDT)
+Received: from pop-os.. ([2401:4900:1cd7:818f:d731:f6bd:8194:7763])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4264a21cbc6sm54721515e9.24.2024.07.05.02.38.45
+ d2e1a72fcca58-70804c835absm13623750b3a.220.2024.07.05.03.02.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jul 2024 02:38:45 -0700 (PDT)
-Message-ID: <6a7293bd06942131161c5a7b7878c51cfbbb807e.camel@googlemail.com>
-Subject: [PATCH] drm/bridge: synopsys: dw-mipi-dsi: enable EoTp by default
-From: Christoph Fritz <chf.fritz@googlemail.com>
-To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- NeilArmstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
-Cc: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>, Nicolas Boichat
- <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>
-Date: Fri, 05 Jul 2024 11:38:44 +0200
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+ Fri, 05 Jul 2024 03:02:42 -0700 (PDT)
+From: Akshay Behl <akshaybehl231@gmail.com>
+To: airlied@gmail.com,
+	daniel@ffwll.ch
+Cc: Akshay Behl <akshaybehl231@gmail.com>, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/amd/display: Docs improvement in /dc/inc/hw/mpc.h
+Date: Fri,  5 Jul 2024 15:31:26 +0530
+Message-Id: <20240705100125.353231-1-akshaybehl231@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240704092039.31264-1-akshaybehl231@gmail.com>
+References: <20240704092039.31264-1-akshaybehl231@gmail.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sun, 07 Jul 2024 13:45:08 +0000
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 07 Jul 2024 13:44:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,44 +84,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: chf.fritz@googlemail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the transmission of an EoTp (end of transmission packet) by
-default. EoTp should be enabled anyway because it is a Linux necessity
-that can be disabled by a dsi mod_flag if needed.
+After making the required changes
 
-EoTp signals the end of an HS transmission, this adds overall robustness
-at protocol level at the expense of an increased overhead.
+This patch fixes some of the warnings while building kernel Docs:
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'read_mpcc_state' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'mpc_init_single_inst' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'get_mpcc_for_dpp_from_secondary' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'get_mpcc_for_dpp' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'wait_for_idle' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning: Function parameter or struct member 'assert_mpcc_idle_before_connect' not described in 'mpc_funcs'
 
-Signed-off-by: Christoph Fritz <chf.fritz@googlemail.com>
+by adding descriptions to these struct members
+
+Signed-off-by: Akshay Behl <akshaybehl231@gmail.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 84 ++++++++++++++++++++-
+ 1 file changed, 83 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/dr=
-m/bridge/synopsys/dw-mipi-dsi.c
-index c4e9d96933dce..0fb02e4e7f4e5 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -722,7 +722,12 @@ static void dw_mipi_dsi_dpi_config(struct dw_mipi_dsi =
-*dsi,
-=20
- static void dw_mipi_dsi_packet_handler_config(struct dw_mipi_dsi *dsi)
- {
--	dsi_write(dsi, DSI_PCKHDL_CFG, CRC_RX_EN | ECC_RX_EN | BTA_EN);
-+	u32 val =3D CRC_RX_EN | ECC_RX_EN | BTA_EN | EOTP_TX_EN;
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+index 34a398f23fc6..d2bea0a9699d 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+@@ -282,6 +282,21 @@ struct mpcc_state {
+  * struct mpc_funcs - funcs
+  */
+ struct mpc_funcs {
++	/**
++	 * @read_mpcc_state:
++	 *
++	 * Read current state of a specified MPCC instance
++	 *
++	 * Parameters:
++	 *
++	 * - [in/out] mpc  - MPC context.
++	 * - [in] mpcc_inst - integer representing specific MPC instance
++	 * - [in/out] mpcc_state - MPCC state struct where read information will be stored
++	 *
++	 * Return:
++	 *
++	 * void
++	 */
+ 	void (*read_mpcc_state)(
+ 			struct mpc *mpc,
+ 			int mpcc_inst,
+@@ -352,6 +367,21 @@ struct mpc_funcs {
+ 	 * void
+ 	 */
+ 	void (*mpc_init)(struct mpc *mpc);
 +
-+	if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
-+		val &=3D ~EOTP_TX_EN;
++	/**
++	 * @mpc_init_single_inst:
++	 *
++	 * Reset the MPCC HW status of a single MPCC physical instance.
++	 *
++	 * Parameters:
++	 *
++	 * - [in/out] mpc - MPC context.
++	 * - [in] mpcc_id - The MPCC physical instance to use for blending.
++	 *
++	 * Return:
++	 *
++	 * void
++	 */
+ 	void (*mpc_init_single_inst)(
+ 			struct mpc *mpc,
+ 			unsigned int mpcc_id);
+@@ -448,17 +478,69 @@ struct mpc_funcs {
+ 			struct mpc *mpc,
+ 			struct mpc_tree *tree,
+ 			struct mpcc *mpcc);
+-
++	/**
++	 * @get_mpcc_for_dpp_from_secondary:
++	 *
++	 * Retrieve a specified MPCC struct from the 'secondary' MPC tree using the provided DPP id.
++	 *
++	 * Parameters:
++	 * - [in/out] tree - MPC tree structure that will be searched.
++	 * - [in]     dpp_id - DPP input for the MPCC.
++	 *
++	 * Return:
++	 *
++	 * struct mpcc* - MPCC that matched the input params
++	 */
+ 	struct mpcc* (*get_mpcc_for_dpp_from_secondary)(
+ 			struct mpc_tree *tree,
+ 			int dpp_id);
+ 
++	/**
++	 * @get_mpcc_for_dpp:
++	 *
++	 * Retrieve a specified MPCC struct from the MPC tree using the provided DPP id.
++	 *
++	 * Parameters:
++	 * - [in/out] tree - MPC tree structure that will be searched.
++	 * - [in]     dpp_id - DPP input for the MPCC.
++	 *
++	 * Return:
++	 *
++	 * struct mpcc* - MPCC that matched the input params
++	 */
 +
-+	dsi_write(dsi, DSI_PCKHDL_CFG, val);
- }
-=20
- static void dw_mipi_dsi_video_packet_config(struct dw_mipi_dsi *dsi,
---=20
-2.39.2
-
-
+ 	struct mpcc* (*get_mpcc_for_dpp)(
+ 			struct mpc_tree *tree,
+ 			int dpp_id);
+ 
++	/**
++	 * @wait_for_idle:
++	 *
++	 * Wait for a specific MPCC instance to become idle
++	 *
++	 * Parameters:
++	 * - [in/out] mpc  - MPC context.
++	 * - [in]     id - ID of the MPCC instance to wait for
++	 *
++	 * Return:
++	 *
++	 * void
++	 */
+ 	void (*wait_for_idle)(struct mpc *mpc, int id);
+ 
++	/**
++	 * @assert_mpcc_idle_before_connect:
++	 *
++	 * Assert that the specific MPCC instance is ideal before attempting to connect.
++	 *
++	 * Parameters:
++	 * - [in/out] mpc  - MPC context.
++	 * - [in]     mpcc_id - ID of the MPCC instance to check for
++	 *
++	 * Return:
++	 *
++	 * void
++	 */
+ 	void (*assert_mpcc_idle_before_connect)(struct mpc *mpc, int mpcc_id);
+ 
+ 	void (*init_mpcc_list_from_hw)(
+-- 
+2.34.1
 
