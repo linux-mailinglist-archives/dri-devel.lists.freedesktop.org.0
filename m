@@ -2,48 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95EF9283C8
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 10:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4DE9283D5
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 10:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F323410E1D4;
-	Fri,  5 Jul 2024 08:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE22210E123;
+	Fri,  5 Jul 2024 08:40:51 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="MvqN0sxv";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="YYvZEiQG";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2161710E160
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 08:39:01 +0000 (UTC)
-Received: from localhost (unknown [124.16.138.129])
- by APP-05 (Coremail) with SMTP id zQCowAA3PeUesYdm612lAQ--.42588S2;
- Fri, 05 Jul 2024 16:38:54 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- deller@gmx.de
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] backlight: l4f00242t03: Add check for spi_setup
-Date: Fri,  5 Jul 2024 16:38:34 +0800
-Message-Id: <20240705083834.3006465-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from fhigh7-smtp.messagingengine.com
+ (fhigh7-smtp.messagingengine.com [103.168.172.158])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A02510E123
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 08:40:50 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfhigh.nyi.internal (Postfix) with ESMTP id B3A2811401A5;
+ Fri,  5 Jul 2024 04:40:49 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+ by compute5.internal (MEProxy); Fri, 05 Jul 2024 04:40:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-type:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:subject:subject:to:to; s=fm2; t=1720168849; x=
+ 1720255249; bh=XggOw6sNdJbe3Ee9jM5s0rhVY/BH/gB5TnFgTwGkUno=; b=M
+ vqN0sxvUNK0jk2xXrivtOhG2fJNAstNS0Az0kPG7Z9Hht1YRiriSkBIlIS9KqLMo
+ QT9hMdM/4uv8kG/bHCwh5AaCiD5HrKpmz4r1a4L6Fv4yRBDPtlxCWuAKEGEGggOw
+ 0pl4c7A3RYuDpjpBSIKnUCbmsf+Za4A5S3wWT3+WfKqLxsYruYJ7+bPQ+P7JYZCh
+ SgqT5G/QrB0qnjlewYHrU8AGd+gLrPOE9OPBYGfSPOogc3Iuvibg3w7042SDIvct
+ QFdpElOJlwpIyY+8Pi8f2U4zL+bqoeWz7G6k8Wj1Kqfiixgr4LolPHkH8AAkjo9b
+ 25nTbjl+ZHqjFFuFL727w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1720168849; x=1720255249; bh=XggOw6sNdJbe3Ee9jM5s0rhVY/BH
+ /gB5TnFgTwGkUno=; b=YYvZEiQG+jRSv2QL7uMXf4TqqIudGMW1hoFPfUOibxcw
+ TacQLhVfQuk82KlE8enxXU1E6yOhapEGS58U6tChdivRft/rW8INn11QLLGTomDh
+ 9gjHNdFX6SCktUAzmesh1UvlY2ae7N/nLra16tQkFg3TKfJ51eRhSr3v6a0ZsXai
+ 5xfxiAA2CQWI6MDLuurmJpkB3wQResZL70hlcumcCPC5Y4Mcyx3OT+FIOK3VHZQ3
+ AEoW5bZLB5n/SJ1t/f3IKncqe62iJWqG/k618IDUB9cA2eyZAvANa/e2pX2JL7Ss
+ JsirC9nKOLBrKxQEokKZtToq0ziVhsKtAzkhEfzwGw==
+X-ME-Sender: <xms:kLGHZlr9ABtO4zPZUN0mmhASWOKY1lCBcCX0JNBdUIWA5u7bJvyn-A>
+ <xme:kLGHZnrX-EUuLNQ9wOKdtOAfFWCmbgNzyZk7mu_wVev7jzSurMCpvVx9b1MQ7mkeA
+ UzTxHjiBFnbeIleUQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddugddtjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfthigr
+ nhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtf
+ frrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefgteeu
+ veeiudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpehrhigrnhesthgvshhtthhorghsthdrtghomh
+X-ME-Proxy: <xmx:kbGHZiOzY8TJjtzSUlAybkgTSy6oewMQPd9fVCmxRFAzwibbjOI6ow>
+ <xmx:kbGHZg4kjPSctSbDNpxotQi1V6DLxcR-Bgepas0TOnNciieHiDiW8A>
+ <xmx:kbGHZk6yO6WYF6-qIXETTta0hX1UhISvy6KxMJc4XWAc-EKo4ZWcHw>
+ <xmx:kbGHZoiba4Ht9kPv3rSLlvaAKBNNAagSSNMxSRomnY-5KMGfYYHB3g>
+ <xmx:kbGHZq6CQjR2jt6ectEqyn-1UrbcXP7g3vtd5RiGYopbpI06pylUPAi3>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id E1C02A60078; Fri,  5 Jul 2024 04:40:48 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-566-g3812ddbbc-fm-20240627.001-g3812ddbb
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAA3PeUesYdm612lAQ--.42588S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw4xAr4xAr47ZFyUWr1xKrg_yoWDGFXE9w
- n2v3yxurWjgr409r47J3WfAayS9F45WFWrWF4v934SyasxXrn3ZrWjqrnrWFyUZr18JF9x
- C3ZFkryfZry7JjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb2kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
- 1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
- cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
- ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r43MxAI
- w28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
- 4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
- rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJw
- CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
- z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjAhL5UUUUU==
-X-Originating-IP: [124.16.138.129]
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+Message-Id: <e041466e-cfdc-46db-ae83-dcc04ed1af42@app.fastmail.com>
+In-Reply-To: <dc00b9daafe6a88ffaaaf4aace29e136.sboyd@kernel.org>
+References: <20240703105454.41254-1-ryan@testtoast.com>
+ <20240703105454.41254-20-ryan@testtoast.com>
+ <dc00b9daafe6a88ffaaaf4aace29e136.sboyd@kernel.org>
+Date: Fri, 05 Jul 2024 20:39:15 +1200
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Stephen Boyd" <sboyd@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "David Airlie" <airlied@gmail.com>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Rob Herring" <robh@kernel.org>, "Samuel Holland" <samuel@sholland.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>
+Cc: "Andre Przywara" <andre.przywara@arm.com>,
+ "Chris Morgan" <macroalpha82@gmail.com>, "John Watts" <contact@jookia.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 19/23] clk: sunxi-ng: ccu: add Display Engine 3.3
+ (DE33) support
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,37 +107,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add check for the return value of spi_setup() and return the error
-if it fails in order to catch the error.
+Hi Stephen, thanks for reviewing.
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/video/backlight/l4f00242t03.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On Thu, 4 Jul 2024, at 11:02 AM, Stephen Boyd wrote:
+> Quoting Ryan Walklin (2024-07-03 03:51:09)
+>> +#include <linux/of_address.h>
+>
+> What is this include for?
+>
+for writel, however have confirmed this should instead be #include <asm/io.h>, will correct for v3.
 
-diff --git a/drivers/video/backlight/l4f00242t03.c b/drivers/video/backlight/l4f00242t03.c
-index dd0874f8c7ff..a4e27adee8ac 100644
---- a/drivers/video/backlight/l4f00242t03.c
-+++ b/drivers/video/backlight/l4f00242t03.c
-@@ -166,6 +166,7 @@ static const struct lcd_ops l4f_ops = {
- static int l4f00242t03_probe(struct spi_device *spi)
- {
- 	struct l4f00242t03_priv *priv;
-+	int ret;
- 
- 	priv = devm_kzalloc(&spi->dev, sizeof(struct l4f00242t03_priv),
- 				GFP_KERNEL);
-@@ -174,7 +175,9 @@ static int l4f00242t03_probe(struct spi_device *spi)
- 
- 	spi_set_drvdata(spi, priv);
- 	spi->bits_per_word = 9;
--	spi_setup(spi);
-+	ret = spi_setup(spi);
-+	if (ret < 0)
-+		return ret;
- 
- 	priv->spi = spi;
- 
--- 
-2.25.1
+>> +       if (of_device_is_compatible(pdev->dev.of_node,
+>> +                                   "allwinner,sun50i-h616-de33-clk")) {
+>> +               writel(0, reg + 0x24);
+>> +               writel(0x0000A980, reg + 0x28);
+>
+> Lowercase hex please. Did the downstream driver have names for these
+> register offsets by way of some sort of #define?
 
+Thanks, will correct. AFAIK no, these are from Jernej's tree which I understand he developed independently, there was no vendor driver to reference, nor DE33 datasheet publicly available. 
+
+Jernej, are you able to weigh in at all?
+
+Thanks,
+
+Ryan
