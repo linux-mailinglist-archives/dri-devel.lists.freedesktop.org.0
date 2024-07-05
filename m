@@ -2,53 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62548927ECB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2024 23:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA8492816E
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 07:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDDC410E00E;
-	Thu,  4 Jul 2024 21:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9E310E03F;
+	Fri,  5 Jul 2024 05:37:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="NoN1gOOy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DFiSkmdv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F7710E00E
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2024 21:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1720130278; x=1720389478;
- bh=jcpphOxcKqDgmZFG5laam2USdpCS8njyFrIf6xUFINw=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=NoN1gOOyVW4SgT4XDOzVSfc8kW8bDEyDNh7BTjE2l34uMulOdhpG4LZLHnVeO+OS7
- rg/aMFfAv/jDhdxVHpAw7D2xp3jhF40qkThwSYf+0j+oA/ohLxc2Ou3g/7goys6Oew
- 3XCtmNDzOKLddWBThtoPPHeWYdd9Iwg9A1i65p0tUGETeq5UIm9X4teuTiLkDGTGQP
- oRtqPKjJ0bQsa4qSL2AK+Jxc/u4ttIDI6NyXiuoCJUcvdFIFAfomeMWOgwjtTOTk+3
- +6O+A99Kd3NC8JJibtY23bWahhqAiXpu9rMHIb+lFt0arEqcq9KeTyj3ZRgu1R1OHr
- 9+1GN3qn58FXg==
-Date: Thu, 04 Jul 2024 21:57:54 +0000
-To: "Olsak, Marek" <Marek.Olsak@amd.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: Alex Deucher <alexdeucher@gmail.com>, "Pillai,
- Aurabindo" <Aurabindo.Pillai@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>, "Siqueira,
- Rodrigo" <Rodrigo.Siqueira@amd.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Subject: Re: AMD GFX12 modifiers
-Message-ID: <vj4fiAeZ6gKbGp3-Pc4VTWsrXVakEw4qVAFWvSwuInGFav8XX51muU57abjq5t5xIsjlLivoUXyiVqT_X_sP2ufgnzoDx6uJotCvl10Tczk=@emersion.fr>
-In-Reply-To: <DM6PR12MB4731C6A4ED42471BA85EB75FF9DD2@DM6PR12MB4731.namprd12.prod.outlook.com>
-References: <vahBbQHXGpyFcIwzIVTPHRnphiAma3_wNbTftk7O3I6gN4gToIj3zIJrIkO263Ly61q2HArlyB1lvyKM1FFyqkqAdLH195Y41xK8GWL4ZBg=@emersion.fr>
- <CADnq5_NgzVn4AOekFQ1xYqkdhuZhTE1QVqxO1WJtp-Bchx6dcw@mail.gmail.com>
- <DM6PR12MB47312197417DE10FB70EA8B1F9DC2@DM6PR12MB4731.namprd12.prod.outlook.com>
- <puRC6uFBtCVBzB86vMEYSr2EEy6ByN5dSXIJH1ePIcIckTFo1xw2r0GUMx39uPMnOGYf6DxpjGEfGRwyVRHSezhX_NIIwKUQD8MGlhXewuk=@emersion.fr>
- <DM6PR12MB4731C6A4ED42471BA85EB75FF9DD2@DM6PR12MB4731.namprd12.prod.outlook.com>
-Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 50e3f24113a91ee6d16043b8719e497da2f87ba2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBB7C10E03F
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 05:37:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720157838; x=1751693838;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=sXWQ7/z/I41dDr/D6JJkOrUrSir5OR2CjFS1eG+fUks=;
+ b=DFiSkmdvIi8g+Dk3/27rDIPS++S0anhjRL63UaJMJE0VlqU9xtjHzmuf
+ 9JHO0NlXkvHLjnDm3MK3Cc1/FNvoF3w5lHUCO6N8uZVjARa4Gkx0SX5J4
+ jyfPNnA1f90MCsoYfvGmljHBuGmSsPzPZeNxABLo0PbJw6o5lQdV8nUEs
+ i8Ncfm5yoLlqDFbXVWopsiRXaXozuSRDm3gLVxHiQ3dlO1v5GYPpTRkJY
+ kChs8f55oWLSKFR2SNWpaRwINGARxaAZVdbdTK+zjYBb+5VNsz3kVtBvv
+ k/0SXlyC3rN2fYn+QQJ75fTTxa8jc0zGpAF8lCCWZPx6eTzslNJ7nJOVe g==;
+X-CSE-ConnectionGUID: Ht7VRdUSQNSNN78fcEoKqg==
+X-CSE-MsgGUID: 3cAE6JaVQIaCxkPRShbvQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="20344512"
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="20344512"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2024 22:37:17 -0700
+X-CSE-ConnectionGUID: CTag5QdcSWKEpykADhMf2w==
+X-CSE-MsgGUID: DZsJjfjXTnyRITGkwE/zHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="46842097"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 04 Jul 2024 22:37:14 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sPbdA-000Rz5-1C;
+ Fri, 05 Jul 2024 05:37:12 +0000
+Date: Fri, 5 Jul 2024 13:37:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
+ dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
+ Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+Subject: Re: [PATCH v3 8/9] drm/tests: Add test for drm_framebuffer_init()
+Message-ID: <202407051302.m55qmD7L-lkp@intel.com>
+References: <20240703172228.11166-9-gcarlos@disroot.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703172228.11166-9-gcarlos@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,113 +79,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, July 3rd, 2024 at 17:11, Olsak, Marek <Marek.Olsak@amd.com> w=
-rote:
+Hi Carlos,
 
-> Alex publishes the amd-staging-drm-next branch regularly where all our ke=
-rnel commits go.
+kernel test robot noticed the following build errors:
 
-I know. That's what I use as a base when I send amdgpu patches.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc6 next-20240703]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This doesn't contain any more relevant changes.
+url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Eduardo-Gallo-Filho/drm-tests-Stop-using-deprecated-dev_private-member-on-drm_framebuffer-tests/20240704-234045
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240703172228.11166-9-gcarlos%40disroot.org
+patch subject: [PATCH v3 8/9] drm/tests: Add test for drm_framebuffer_init()
+config: arc-randconfig-001-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051302.m55qmD7L-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051302.m55qmD7L-lkp@intel.com/reproduce)
 
-> See the gfx12 modifiers that Mesa exposes.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051302.m55qmD7L-lkp@intel.com/
 
-The modifier u64 bit layout is not supposed to be "Mesa-specific".
-It's shared by multiple userspace components. It needs to be defined
-properly in drm_fourcc.h.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Please, can you read my questions and answer them?
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_phonet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_tcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/core/usbcore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-chicony.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-megaworld.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sony.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tmff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+>> ERROR: modpost: "drm_framebuffer_free" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] undefined!
 
-> From: Simon Ser <contact@emersion.fr>
-> Sent: Tuesday, July 2, 2024 12:39:10 PM
-> To: Olsak, Marek <Marek.Olsak@amd.com>
-> Cc: Alex Deucher <alexdeucher@gmail.com>; Pillai, Aurabindo <Aurabindo.Pi=
-llai@amd.com>; DRI Development <dri-devel@lists.freedesktop.org>; Siqueira,=
- Rodrigo <Rodrigo.Siqueira@amd.com>; Deucher, Alexander <Alexander.Deucher@=
-amd.com>; Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Subject: Re: AMD GFX12 modifiers
->=20
-> On Tuesday, July 2nd, 2024 at 15:22, Olsak, Marek <Marek.Olsak@amd.com> w=
-rote:
->=20
-> > The code you are=C2=A0looking at seems out of date. The latest code is =
-on
-> > amd-gfx.
->=20
-> Could you point me where? I searched for drm_fourcc.h and only found [1]
-> which I guess at least answers my question about
-> AMD_FMT_MOD_GFX12_DCC_MAX_COMPRESSED_BLOCK_MASK.
->=20
-> [1]: https://lore.kernel.org/amd-gfx/20240626183135.8606-5-marek.olsak@am=
-d.com/
->=20
-> > That doesn't matter though. This seems to be a general
-> > question about modifiers. Here's the answer.
-> >
-> > Modifier definitions don't describe compatibility between chips and gen=
-erations. They only identify the memory layout. Because of that, hw support=
- can't be inferred from modifiers. There could be multiple GFX definitions,=
-=C2=A0tile numbers, and even modifiers from other vendors describing exactl=
-y the same layout, and all such equivalent modifiers can be exposed by the =
-same hw.
-> >
-> > The gfx12 modifiers work in exactly the same way as any other modifiers=
-.
->=20
-> Thanks, I know how modifiers work, I'm a WSI person. :)
->=20
-> My questions were not generic questions about modifiers though. My
-> questions are about the technical detail of how GFX12 buffer tiling
-> properties are encoded in the modifier u64.
->=20
-> This is something I need to know for libdrm modifier pretty-printing,
-> as well as drm_info and drmdb. And in general, I think it's important to
-> audit changes to drm_fourcc.h, rules around modifiers are a bit
-> complicated and easy to get wrong.
->=20
-> > From: Alex Deucher <alexdeucher@gmail.com>
-> > Sent: July 1, 2024 13:09
-> > To: Simon Ser <contact@emersion.fr>; Olsak, Marek <Marek.Olsak@amd.com>
-> > Cc: Pillai, Aurabindo <Aurabindo.Pillai@amd.com>; DRI Development <dri-=
-devel@lists.freedesktop.org>; Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>;=
- Deucher, Alexander <Alexander.Deucher@amd.com>; Bas Nieuwenhuizen <bas@bas=
-nieuwenhuizen.nl>
-> > Subject: Re: AMD GFX12 modifiers
-> >
-> > + Marek
-> >
-> > On Sat, Jun 29, 2024 at 1:15=E2=80=AFPM Simon Ser <contact@emersion.fr>=
- wrote:
-> > >
-> > > Hi all!
-> > >
-> > > In 7ceb94e87bff ("drm/amd: Add gfx12 swizzle mode defs"), some
-> > > definitions were added for GFX12 modifiers. However I'm not quite sur=
-e
-> > > I understand how these work.
-> > >
-> > > Tile values seem to not be in the same namespace as GFX9 through GFX1=
-1,
-> > > is that correct? In other words, can GFX9 ~ GFX11 modifiers be used w=
-ith
-> > > GFX12, or are these mutually exclusive?
-> > >
-> > > AMD_FMT_MOD_GFX12_DCC_MAX_COMPRESSED_BLOCK_MASK has a comment explain=
-ing
-> > > the 3 possible values, is there a reason why #defines are missing for
-> > > these values?
-> > >
-> > > The comment lists a lot more swizzle modes than just 64K_2D and 256K_=
-2D,
-> > > any reason why the rest are missing (at least for the 2D ones)?
-> > >
-> > > Could you explain how the new GFX12 modifiers work?
-> > >
-> > > Would it be possible to update the comment on top of #define AMD_FMT_=
-MOD
-> > > to reflect the GFX12 updates?
-> > >
-> > > Thanks,
-> > >
-> > > Simon
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
