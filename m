@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269E3928994
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 15:28:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEA79289BE
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 15:33:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14E9810EB93;
-	Fri,  5 Jul 2024 13:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 716F610E1B5;
+	Fri,  5 Jul 2024 13:33:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mbcch/GG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="S74Tvjx4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF26710E257;
- Fri,  5 Jul 2024 13:28:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D072010E1B5
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 13:33:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720186135; x=1751722135;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=IXCShkJkHmSpR+YhW53DnG/dJjgU3CqWPEEiFkbNVfs=;
- b=mbcch/GG8k5hSMAKsSSZqZOwN4HuH+U7f2tyOvloQvXAj6B+ly+weytT
- XU2/mFjisdD7ZqC356vAiX9+gzdWDD7A9iKRnaOismDBdj0ze0EKpdQas
- DQNrTQrc6/Me6zQxwK3Hv7Mm1L1IKtn+Qx06UwGESWQvMMGxT4MaTKZjY
- DiEJ2fXk4n58RlAT1GZnTNldBVNCihobLwVTCcw2Uft6I0IVji5iFhEee
- O9zDocHsc9zZoO5lMTLNjn5fC7iwNT+9xLBqRqLvFgSoTKWPkPkqwi1Or
- nyo/PBK2OTjAC8knAMM/S/3HWrD09y3ltRUSYOvcAVkJsJY5mnmX4SbQ9 A==;
-X-CSE-ConnectionGUID: /vno3oRmRx663MPhjQRhNw==
-X-CSE-MsgGUID: N6IIFVhaTDqYMrI7agdRnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="21292851"
-X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="21292851"
+ t=1720186422; x=1751722422;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=NQJt0oVBMB6nfsZbWY48G7tWz8oznM37wU46AF4PXEk=;
+ b=S74Tvjx4HgLeQaADZJP8jsfmCpVpdV9a4L7TplgkvVyT2U08Sh70UreG
+ 0yaoDaaAbwZKTlyPTv2y3TgfWLLZ5QqjmLMvLCz7CqXezOzu52wId5EbX
+ URbOvt/u+oeQOLOCVkCtLTm0P8iaPdm8XombrVnMS98Ql+bIranHaISXe
+ xny9eKYChnKGZgjVg37b3cWpnz7NDieE6A9hZr3WOeJVnZPIOGfmFOxY7
+ Xb4x6QLm95y5y0n1dguVlj28bx1fBUTuCzqMa3EpdrvE0MM8k9zQN0i0j
+ vjVNH8uoXHlQ9OMEmOQOh0iywTEJRjwRMWcVZV6S/4dDv3urMElp62731 A==;
+X-CSE-ConnectionGUID: is3gS+ZMQOS6NzfaDgKAQw==
+X-CSE-MsgGUID: EorNZK6NRvGum4d4dg6Rvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="21293192"
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="21293192"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2024 06:28:54 -0700
-X-CSE-ConnectionGUID: 2cFNoZ0ZR/+mOWEZupQEoQ==
-X-CSE-MsgGUID: mK4aBrDKQFqCbikLtVRgYA==
+ 05 Jul 2024 06:33:42 -0700
+X-CSE-ConnectionGUID: svof4Ni/Tpyt71IigJNJIA==
+X-CSE-MsgGUID: WX4G6Tb7SfqbQjvy2lQ5mg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="46850312"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO fedora..)
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="46850930"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO [10.245.245.166])
  ([10.245.245.166])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2024 06:28:50 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Pallavi Mishra <pallavi.mishra@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Effie Yu <effie.yu@intel.com>, Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jose Souza <jose.souza@intel.com>, Michal Mrozek <michal.mrozek@intel.com>,
- stable@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH v3] drm/xe: Use write-back caching mode for system memory on
- DGFX
-Date: Fri,  5 Jul 2024 15:28:28 +0200
-Message-ID: <20240705132828.27714-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
+ 05 Jul 2024 06:33:40 -0700
+Message-ID: <030210bc0cbc8d797f2c6c424862097212affbc7.camel@linux.intel.com>
+Subject: Re: [PATCH 2/5] drm/exec: don't immediately add the prelocked obj
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ matthew.brost@intel.com
+Cc: dri-devel@lists.freedesktop.org
+Date: Fri, 05 Jul 2024 15:33:38 +0200
+In-Reply-To: <1aff22d6-09e4-42d9-9412-fc44ace145ac@gmail.com>
+References: <20240703132602.4756-1-christian.koenig@amd.com>
+ <20240703132602.4756-3-christian.koenig@amd.com>
+ <c2b5145c72a4d4598bfdde23c532f3f657f0c075.camel@linux.intel.com>
+ <1aff22d6-09e4-42d9-9412-fc44ace145ac@gmail.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,152 +76,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The caching mode for buffer objects with VRAM as a possible
-placement was forced to write-combined, regardless of placement.
+On Fri, 2024-07-05 at 14:41 +0200, Christian K=C3=B6nig wrote:
+> Am 03.07.24 um 17:51 schrieb Thomas Hellstr=C3=B6m:
+> > On Wed, 2024-07-03 at 15:25 +0200, Christian K=C3=B6nig wrote:
+> > > Some contended objects might never be locked again in the case of
+> > > eviction
+> > > handling for example.
+> > >=20
+> > > Make sure that those doesn't show up in the list of locked
+> > > objects
+> > > until
+> > > they are explicitely mentioned.
+> > Could you be a bit more specific in the commit message about in
+> > what
+> > situations that is bad?
+>=20
+> The prelocked object is not necessarily expected to be in the list of
+> locked objects.
+>=20
+> I ran into issues because amdgpu tried to validate all locked objects
+> and so tried to also validate the prelocked one (which was only
+> locked=20
+> for eviction).
+>=20
+> That obviously didn't made much sense.
 
-However, write-combined system memory is expensive to allocate and
-even though it is pooled, the pool is expensive to shrink, since
-it involves global CPU TLB flushes.
+Indeed. Could you add a similar description to the commit message?
 
-Moreover write-combined system memory from TTM is only reliably
-available on x86 and DGFX doesn't have an x86 restriction.
+/Thomas
 
-So regardless of the cpu caching mode selected for a bo,
-internally use write-back caching mode for system memory on DGFX.
 
-Coherency is maintained, but user-space clients may perceive a
-difference in cpu access speeds.
 
-v2:
-- Update RB- and Ack tags.
-- Rephrase wording in xe_drm.h (Matt Roper)
-v3:
-- Really rephrase wording.
-
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Fixes: 622f709ca629 ("drm/xe/uapi: Add support for CPU caching mode")
-Cc: Pallavi Mishra <pallavi.mishra@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Effie Yu <effie.yu@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Jose Souza <jose.souza@intel.com>
-Cc: Michal Mrozek <michal.mrozek@intel.com>
-Cc: <stable@vger.kernel.org> # v6.8+
-Acked-by: Matthew Auld <matthew.auld@intel.com>
-Acked-by: José Roberto de Souza <jose.souza@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Fixes: 622f709ca629 ("drm/xe/uapi: Add support for CPU caching mode")
-Acked-by: Michal Mrozek <michal.mrozek@intel.com>
-Acked-by: Effie Yu <effie.yu@intel.com> #On chat
----
- drivers/gpu/drm/xe/xe_bo.c       | 47 +++++++++++++++++++-------------
- drivers/gpu/drm/xe/xe_bo_types.h |  3 +-
- include/uapi/drm/xe_drm.h        |  8 +++++-
- 3 files changed, 37 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-index 65c696966e96..31192d983d9e 100644
---- a/drivers/gpu/drm/xe/xe_bo.c
-+++ b/drivers/gpu/drm/xe/xe_bo.c
-@@ -343,7 +343,7 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
- 	struct xe_device *xe = xe_bo_device(bo);
- 	struct xe_ttm_tt *tt;
- 	unsigned long extra_pages;
--	enum ttm_caching caching;
-+	enum ttm_caching caching = ttm_cached;
- 	int err;
- 
- 	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
-@@ -357,26 +357,35 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
- 		extra_pages = DIV_ROUND_UP(xe_device_ccs_bytes(xe, bo->size),
- 					   PAGE_SIZE);
- 
--	switch (bo->cpu_caching) {
--	case DRM_XE_GEM_CPU_CACHING_WC:
--		caching = ttm_write_combined;
--		break;
--	default:
--		caching = ttm_cached;
--		break;
--	}
--
--	WARN_ON((bo->flags & XE_BO_FLAG_USER) && !bo->cpu_caching);
--
- 	/*
--	 * Display scanout is always non-coherent with the CPU cache.
--	 *
--	 * For Xe_LPG and beyond, PPGTT PTE lookups are also non-coherent and
--	 * require a CPU:WC mapping.
-+	 * DGFX system memory is always WB / ttm_cached, since
-+	 * other caching modes are only supported on x86. DGFX
-+	 * GPU system memory accesses are always coherent with the
-+	 * CPU.
- 	 */
--	if ((!bo->cpu_caching && bo->flags & XE_BO_FLAG_SCANOUT) ||
--	    (xe->info.graphics_verx100 >= 1270 && bo->flags & XE_BO_FLAG_PAGETABLE))
--		caching = ttm_write_combined;
-+	if (!IS_DGFX(xe)) {
-+		switch (bo->cpu_caching) {
-+		case DRM_XE_GEM_CPU_CACHING_WC:
-+			caching = ttm_write_combined;
-+			break;
-+		default:
-+			caching = ttm_cached;
-+			break;
-+		}
-+
-+		WARN_ON((bo->flags & XE_BO_FLAG_USER) && !bo->cpu_caching);
-+
-+		/*
-+		 * Display scanout is always non-coherent with the CPU cache.
-+		 *
-+		 * For Xe_LPG and beyond, PPGTT PTE lookups are also
-+		 * non-coherent and require a CPU:WC mapping.
-+		 */
-+		if ((!bo->cpu_caching && bo->flags & XE_BO_FLAG_SCANOUT) ||
-+		    (xe->info.graphics_verx100 >= 1270 &&
-+		     bo->flags & XE_BO_FLAG_PAGETABLE))
-+			caching = ttm_write_combined;
-+	}
- 
- 	if (bo->flags & XE_BO_FLAG_NEEDS_UC) {
- 		/*
-diff --git a/drivers/gpu/drm/xe/xe_bo_types.h b/drivers/gpu/drm/xe/xe_bo_types.h
-index 02d68873558a..ebc8abf7930a 100644
---- a/drivers/gpu/drm/xe/xe_bo_types.h
-+++ b/drivers/gpu/drm/xe/xe_bo_types.h
-@@ -68,7 +68,8 @@ struct xe_bo {
- 
- 	/**
- 	 * @cpu_caching: CPU caching mode. Currently only used for userspace
--	 * objects.
-+	 * objects. Exceptions are system memory on DGFX, which is always
-+	 * WB.
- 	 */
- 	u16 cpu_caching;
- 
-diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-index 33544ef78d3e..19619d4952a8 100644
---- a/include/uapi/drm/xe_drm.h
-+++ b/include/uapi/drm/xe_drm.h
-@@ -783,7 +783,13 @@ struct drm_xe_gem_create {
- #define DRM_XE_GEM_CPU_CACHING_WC                      2
- 	/**
- 	 * @cpu_caching: The CPU caching mode to select for this object. If
--	 * mmaping the object the mode selected here will also be used.
-+	 * mmaping the object the mode selected here will also be used. The
-+	 * exception is when mapping system memory (including data evicted
-+	 * to system) on discrete GPUs. The caching mode selected will
-+	 * then be overridden to DRM_XE_GEM_CPU_CACHING_WB, and coherency
-+	 * between GPU- and CPU is guaranteed. The caching mode of
-+	 * existing CPU-mappings will be updated transparently to
-+	 * user-space clients.
- 	 */
- 	__u16 cpu_caching;
- 	/** @pad: MBZ */
--- 
-2.44.0
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > /Thomas
+> >=20
+> >=20
+> >=20
+> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > ---
+> > > =C2=A0=C2=A0drivers/gpu/drm/drm_exec.c | 18 +++++++++---------
+> > > =C2=A0=C2=A01 file changed, 9 insertions(+), 9 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_exec.c
+> > > b/drivers/gpu/drm/drm_exec.c
+> > > index 2da094bdf8a4..220df336fbd9 100644
+> > > --- a/drivers/gpu/drm/drm_exec.c
+> > > +++ b/drivers/gpu/drm/drm_exec.c
+> > > @@ -61,8 +61,11 @@ static void drm_exec_unlock_all(struct
+> > > drm_exec
+> > > *exec)
+> > > =C2=A0=C2=A0		drm_gem_object_put(obj);
+> > > =C2=A0=C2=A0	}
+> > > =C2=A0=20
+> > > -	drm_gem_object_put(exec->prelocked);
+> > > -	exec->prelocked =3D NULL;
+> > > +	if (exec->prelocked) {
+> > > +		dma_resv_unlock(exec->prelocked->resv);
+> > > +		drm_gem_object_put(exec->prelocked);
+> > > +		exec->prelocked =3D NULL;
+> > > +	}
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0/**
+> > > @@ -179,16 +182,9 @@ static int drm_exec_lock_contended(struct
+> > > drm_exec *exec)
+> > > =C2=A0=C2=A0		dma_resv_lock_slow(obj->resv, &exec->ticket);
+> > > =C2=A0=C2=A0	}
+> > > =C2=A0=20
+> > > -	ret =3D drm_exec_obj_locked(exec, obj);
+> > > -	if (unlikely(ret))
+> > > -		goto error_unlock;
+> > > -
+> > > =C2=A0=C2=A0	exec->prelocked =3D obj;
+> > > =C2=A0=C2=A0	return 0;
+> > > =C2=A0=20
+> > > -error_unlock:
+> > > -	dma_resv_unlock(obj->resv);
+> > > -
+> > > =C2=A0=C2=A0error_dropref:
+> > > =C2=A0=C2=A0	drm_gem_object_put(obj);
+> > > =C2=A0=C2=A0	return ret;
+> > > @@ -214,6 +210,10 @@ int drm_exec_lock_obj(struct drm_exec *exec,
+> > > struct drm_gem_object *obj)
+> > > =C2=A0=C2=A0		return ret;
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	if (exec->prelocked =3D=3D obj) {
+> > > +		ret =3D drm_exec_obj_locked(exec, obj);
+> > > +		if (unlikely(ret))
+> > > +			return ret;
+> > > +
+> > > =C2=A0=C2=A0		drm_gem_object_put(exec->prelocked);
+> > > =C2=A0=C2=A0		exec->prelocked =3D NULL;
+> > > =C2=A0=C2=A0		return 0;
+>=20
 
