@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77CD928803
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 13:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE57192880D
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 13:36:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE2210EB28;
-	Fri,  5 Jul 2024 11:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 561F810EB6E;
+	Fri,  5 Jul 2024 11:36:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZbR3b/Mg";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zUFhyMhQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4643A10EB28
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 11:33:42 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-36786081ac8so932663f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 04:33:42 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE4310EB66
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 11:36:41 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4257a390a4eso10508515e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 04:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720179220; x=1720784020; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1720179400; x=1720784200; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Kj4T/FE6TRTwgKvUh8miTAP+4Sxx7piK+hrghsP+fQg=;
- b=ZbR3b/Mg7ZrFFZRhm7g+4K/VwMUVUNXiwvhoO2bQP/8aGVtnN8MqbUHoijRUpCJo1h
- mWn0YNbk7K1BRLuOKAfTgHGvpjuDMZcsox0evP0Tjhuqz919U4HCo+tZ7R5nGclBaHcG
- bJe1le/Tdcxb0RtL9xyRkPWeVqhJQgD3RQxBP+RXWVLAxTmv5wCHyudVYm3lEcaYVXZg
- qgqANivTuqrB0olcbjZNLEc1GZvq5TiUigpiBVQ+qv0lPQOUmz7Ye/PI5JRhC/Xkl/Sa
- BJ3Y/zuRGNJLDXY5elSSXfZd2vgf56a+eYtbXoGRDQl1pBwboqlEme1zdo2CBLANcQae
- h7wQ==
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ftpwpdpd74QlveoBY7KO0dbT9gEHf6+1Hk4UhbSr99I=;
+ b=zUFhyMhQ1FemxEgaF7oy1tYzqBRUAFHUhmdFzae1wCTOlvaSMubWflogMuQHqTOokb
+ /2yzqacz1Sf/Wn4Wq1cQH3F8pzS4xVGGMTdX6YsMLXN4VbK3voWsICOz9nZ2/b6CljRp
+ 7qJH/mxhKnUMoL0FyKjyj35QH3noS4XrkqDegfCSYvcqiLK51QrODPHDWJ5S02REKVwq
+ e1FjAnloy/GQAcgKFwe6CbCaW4jubZBVPmxZs/3vQJdK8zxDe8HArOy0Q04G1Q7nJ5Ct
+ 8uiGd3saTUAxq/hluhAmhZMpNz2StRIfZB3otHkgp383I3FsAOu+YBQT/Sb3bAuoZgaM
+ 3I9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720179220; x=1720784020;
+ d=1e100.net; s=20230601; t=1720179400; x=1720784200;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Kj4T/FE6TRTwgKvUh8miTAP+4Sxx7piK+hrghsP+fQg=;
- b=hOcEyXBwtGVfNtqAlhj1bt4GnXMv0bB7SJXPBChUDGrnq8Ht5aI4J5iVCbmitr9ZQa
- JkA0RTCezmuhnr3k6MC7ocJVSQNXEH2kXW7HhIH/NU0i/ekbR0mL2kT4IzesrDXKIgU5
- 0ZkrER5f3ze+BoKubUOhMLZgyEhVI921XnQg93ftx//Mokt1FQirs6kMDgR+OX9o1Txf
- jDa1HPo33cIjjsytcqDCQMiZ/NaFljV3/Odi+t+SzRp3Rcw8ugjPF/ztB/POCcCoNYbj
- 9/IHzH6YlzPwrz/aurFFoZISt488uqa039HobzZgnSvgYpHsFhRzjy+fYGL4ayj/WlIC
- SHHA==
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ftpwpdpd74QlveoBY7KO0dbT9gEHf6+1Hk4UhbSr99I=;
+ b=IVW/j+s9bQEs0INnEmI9qZ05YZeogPYCUJRsPUJvUqZG8Zs8O97W+zsrAh8m82N8I+
+ 0GuHkQzRGl5BYSByc9g7yP9Jn87sIzE8Qp7OoPmFKIOBlU4DXqAntSjy5lHE1wLqLWaA
+ 87UvGrnh0rDa97PXAdub4c6+zx115QbU9zSQTTqaaXYa9iKO0o7+a1BTAgxu4OfteL+n
+ SVJK69OBIwuJ7dWYhV8MwZX3rFvK4LxLOZpxb0JeI4EYgut3vn9+JkL0JYN2aupmwpca
+ CuzkA+V2DQT7zqDYeDIylFgvElOmLgxsBTBMkwN0t/ozCe7TrGw4p1gwB3hY5uNzOdwY
+ c6Eg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXuiEEPVuj32+8f8YTfa6CwYn38npPC8hmz+fu8bLml40HXp+HvSUyFSwP8XhmUARuclCisk1/T/N7VZx+S3og+CjDQOUZ+DorXqDEu7PZF
-X-Gm-Message-State: AOJu0YzNKIH+88CIWvraQeuE7cujr2XdPk1QuD2sQ8y0CnVpPNzOU6P9
- O8UMS7zqsZo6tX0/wERxtbniVVhMGc/ZcKAAQhXp6pESPIltBvcGh5VMyNGQ+w8=
-X-Google-Smtp-Source: AGHT+IFnzLdgG11nufMyUjEG7qhPGlpPY4A8/duGZNKCgDzoQ+C+vzUAPKAHZPRHprZRwSq9/QgYlw==
-X-Received: by 2002:adf:ff8c:0:b0:360:9bf5:1eab with SMTP id
- ffacd0b85a97d-3679dd3635fmr3082102f8f.36.1720179220508; 
- Fri, 05 Jul 2024 04:33:40 -0700 (PDT)
+ AJvYcCUjP2OhlXp52VRxBggNrhVBjM5xqUSEv1wOb0AH9/6yVKlG/tj5DKXNupVk9zlpKowI6v7s+f/1RRVeVTGoB06ot5WAkswJgK6B4egRbPWX
+X-Gm-Message-State: AOJu0YxKR7r+nrA+mWIGJodrmMSUDpaeZvvMLI3DfDtCBKpTSpHn3jcV
+ djKohu33D+ccJK0PypjfwYdvwQpZ2xpfQoz7xyg6aJWnopNom7rK0d9QqKUe40o=
+X-Google-Smtp-Source: AGHT+IHoNggNRmVBDMFmlxr1SI7XUi5lDCC9FhrxjvRoTRfup+gkVCoGLhuu+uxwdOjMivleq2n37Q==
+X-Received: by 2002:a05:600c:4395:b0:425:6f3a:651d with SMTP id
+ 5b1f17b1804b1-4264a4319e2mr27863795e9.27.1720179399774; 
+ Fri, 05 Jul 2024 04:36:39 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.137])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3675a043a16sm20931756f8f.0.2024.07.05.04.33.39
+ 5b1f17b1804b1-4264a21d2basm58124875e9.28.2024.07.05.04.36.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Jul 2024 04:33:40 -0700 (PDT)
-Message-ID: <ff8b84c9-5bef-4cb9-a10b-b3bb1a017366@linaro.org>
-Date: Fri, 5 Jul 2024 13:33:38 +0200
+ Fri, 05 Jul 2024 04:36:39 -0700 (PDT)
+Message-ID: <72069f51-d416-4c55-8c9a-56f2ed1a6ef0@linaro.org>
+Date: Fri, 5 Jul 2024 13:36:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: drm/sti: mark it as Odd Fixes
-To: Maxime Ripard <mripard@kernel.org>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH 5/6] drm/sti: hdmi: drop driver owner assignment
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20240705100356.16760-1-krzysztof.kozlowski@linaro.org>
- <ZofW1v4uEFo9GscF@phenom.ffwll.local>
- <20240705-hysterical-beluga-of-courtesy-38b2e2@houat>
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Alain Volmat <alain.volmat@foss.st.com>
+References: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
+ <20240330205722.93801-1-krzysztof.kozlowski@linaro.org>
+ <20240527144700.GC713992@gnbcxd0016.gnb.st.com>
+ <77b4e4ad-2b1e-4b6d-bc3b-0c7b339bc295@linaro.org>
+ <20240705-bustard-of-unreal-sorcery-bfc9ba@houat>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -117,7 +118,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240705-hysterical-beluga-of-courtesy-38b2e2@houat>
+In-Reply-To: <20240705-bustard-of-unreal-sorcery-bfc9ba@houat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -135,28 +136,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/07/2024 13:22, Maxime Ripard wrote:
-> On Fri, Jul 05, 2024 at 01:19:50PM GMT, Daniel Vetter wrote:
->> On Fri, Jul 05, 2024 at 12:03:56PM +0200, Krzysztof Kozlowski wrote:
->>> Patches to STI DRM are not being picked up, so even though there is
->>> maintainer activity, it seems that these drivers are not being actively
->>> looked at.  Reflect this in maintainer status.
+On 05/07/2024 13:14, Maxime Ripard wrote:
+> +Alain
+> 
+> On Tue, Jun 04, 2024 at 03:18:55PM GMT, Krzysztof Kozlowski wrote:
+>> On 27/05/2024 16:47, Alain Volmat wrote:
+>>> Hi Krzysztof,
+>>>
+>>> thanks for your patch, sorry for the delay.
+>>>
+
+
+...
+
+>>>
+>>> Acked-by: Alain Volmat <alain.volmat@foss.st.com>
 >>
->> Note that since the driver is in drm-misc, other committers can also pick
->> up patches and push them. Both Neil and Dimtry have commit rights and
->> should be able to pick up your patches for you, if they get stuck.
+>> What does this ack mean? You are the maintainer, so what is supposed to
+>> happen now? If maintainer does not take patches, then the DRM STI looks
+>> orphaned.
 > 
-> I've applied the patches.
-> 
-> I don't think we should merge this one though, a one-off mishap can happen.
+> The expectation would have been that Alain would have applied these
+> patches. That being said, your reply here dropped him from the
+> recipients list, so it's not surprising you didn't get any answer.
 
-Sure.
 
-Folks, maybe then pattern in maintainers should be somehow changed or grew?
+Uh, indeed. I don't know how this happened. I was replying to him, which
+is visible in "On 27/05 .... Alain Vormat wrote" header, but... weird.
 
-The recommendation to all submitters is to use get_maintainers.pl. b4
-also does it. In this particular case, using get_maintainers.pl or b4
-will result in patches not being picked up.
+Alain,
+I apologize, it seems I am responsible for this mishap here.
 
 Best regards,
 Krzysztof
