@@ -2,108 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9AB928655
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 12:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1EB3928682
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 12:16:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C649710E9C7;
-	Fri,  5 Jul 2024 10:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4B310E27D;
+	Fri,  5 Jul 2024 10:16:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZUqoyMTo";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="h4ng8XnU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67C6C10E9C7
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 10:04:31 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-424acf3226fso10586975e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 03:04:31 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5EA010E27D
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 10:16:03 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-424a3d36c28so1574195e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 03:16:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720173870; x=1720778670; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=UbCAcXarF28AQprPLdMta3JF6IOVP+8+qFcSHwrGOMo=;
- b=ZUqoyMTo+TsCZ2EC/97Lb52V1glqcBLwQ+g3yzBVBtZGtYQRETsq9b78+S9wCWOosw
- cWjXbCKz0ojFyGcmxLVsWGybN87Xn4ujmORLPok40ZS3KIjCNcCI02X6l6pP0N70Lex9
- llenzAUx33VcDNfjlsdb+J4By3mpiMowDpxXQHGmhF0MzZbxXglPwIznQTwgT/qrt3/4
- C0Rd9eB/iiwUUUb6cNgG/9QjlPJMmBdZwFBkTPh3iQRNRjcVB0/kOpL83+fQr45EwOsf
- kaALt8mR6nlefTklzbrhJFpUHpQArzuGRZ46FU2Uzg/hsV3anf5VlbS/wu406zoD2WW6
- ptLg==
+ d=ffwll.ch; s=google; t=1720174562; x=1720779362; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=e8YpnAFKaUJkZ9e7cjGVcNZMSDBPf7SKXmSIIUefUzk=;
+ b=h4ng8XnUaYeQVnz00y2r9yRG/s0m/giZMe05BBOl+sh09PHXtoYgvKMnx0HxrHEt2w
+ nM4fT+Y188mHaelH+NFh6qICVKERIkBZSkYu3RaSShTXJ2iPilRWxbbTN7YPU53Gm1Kr
+ f/++V5U6HKYexiBD4W01sajyKw7aZmf9ORBAQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720173870; x=1720778670;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=UbCAcXarF28AQprPLdMta3JF6IOVP+8+qFcSHwrGOMo=;
- b=d7XBw8DbbdSqQGSX5tYIjuH+dRD5+Oqnvw93wjMPAGCKv5WZpeXiYMROOiPwI7wUn6
- 0dy8uM8mtKuuViOeCBWLUD0s5C9//9aEahhBLE8M4LFwkKvJ/Azjy4IChemSxNKMIBx1
- QweFgVnARD+SF3E5yoddp/5O0+86/jfsb7FGbgmGV3PobQdX6xIczwPA+L1ZllXuedcb
- 4lHasIKSnWDDdmIp4auxO8D2JUheEBLpF+sTakFQIItPD2nZm8hTYcKgdS9ljVLIMXiT
- IZRdbyVKcvdXYd4IxfwgDk8hVtpMCzIVqCrpp4ZvgcUBSNv2ftHIQAIVxhS+BSRE8sET
- uU2Q==
+ d=1e100.net; s=20230601; t=1720174562; x=1720779362;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e8YpnAFKaUJkZ9e7cjGVcNZMSDBPf7SKXmSIIUefUzk=;
+ b=pXBHLimUMc4WouEsIw394ns1a5ux1uCXCIDMkN1a1TsLnZO+KE0O/j1xh/5eHgidoF
+ 6ZIcuDExdbtNV7AyU8sE5yZ2hoFyQbaOz1Tr2l0VlgCy4FfyDsz8Jz/EczCl0uYnWgSs
+ VedJkAn/LEpRig1Y8c0PyC7E/5uHQTa8KriATqhnhNiMEr6gL3msz/XvLK+rROCkxitA
+ ASbUHMnkSMINMQAr59PdkUTpXaPCn83sRRp6mckx4JfKpZTCXDJiK705nUZJpCh+78L5
+ a/CPE8FfByBZ5b3OHY5NhGjtrLvF6NDbp+Dh5gL/c+7kzUGEUSfpNmHLlCn14YVSzZl0
+ C1TA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVnreYahKgpjZvYfa6RCKW8eajez0K8MKfAx0Im1B197lxQMouS01hZ4vlXoVdVwpG5wTPvzezpifnmNRXxblF7Aot3SojOdoKT30UKYB0W
-X-Gm-Message-State: AOJu0YwuPJ4lt6YLXXKhqm+0yP40hjn2AN3jEkeMkupA+RMOugYw1HQz
- hpYgnohtbOZN86cNvBsZcYd+9NNyV22VBSUSTI6ZljqGNLgQeAgfD+q2lBudpt8=
-X-Google-Smtp-Source: AGHT+IHbi2e7o5MJ57LqdFk1YRbNnDm6GdtbR0DxY6a9utZXNSBkFzBn5q73IFqENACWFO9t82KPoQ==
-X-Received: by 2002:a05:600c:5116:b0:425:6851:8172 with SMTP id
- 5b1f17b1804b1-4264a3d8045mr31874165e9.3.1720173869478; 
- Fri, 05 Jul 2024 03:04:29 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:9a73:20dd:5505:b164?
- ([2a01:e0a:982:cbb0:9a73:20dd:5505:b164])
+ AJvYcCWmwQ6UOjKCC1OeVNzD7FmGVWVhltk1og5xgCd3fnCvdIWoTny/hZnMmLwDQ+pNy8467tORtK0TF683av9437D0uPOuDs4vVynPeSOYx89M
+X-Gm-Message-State: AOJu0Yy158Q2N8SkLDhmkp8/N+MVAsSNEGYctcVGke3iUwA0/q31dk5M
+ tMenJ67goTmcbyVnN/gjfRXUNaUTONwy2dKhmKPEdV64i/9qKAufCjC/uJCfq0M=
+X-Google-Smtp-Source: AGHT+IG5jC8qGYerMEa8mW9vXGn+mmSq/y2dFjrm5VbQTJ28UlrGH1KIdniCNnlSUf5lpbXwmBs8Bw==
+X-Received: by 2002:a05:600c:35d2:b0:425:676f:f946 with SMTP id
+ 5b1f17b1804b1-4264a456e13mr29828265e9.4.1720174562074; 
+ Fri, 05 Jul 2024 03:16:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4264a1d510bsm55867875e9.3.2024.07.05.03.04.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Jul 2024 03:04:29 -0700 (PDT)
-Message-ID: <78384e57-4139-47c9-ae5a-480c0d6b9daa@linaro.org>
-Date: Fri, 5 Jul 2024 12:04:28 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 5/6] drm/sti: hdmi: drop driver owner assignment
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ 5b1f17b1804b1-4264a251ef5sm55535215e9.36.2024.07.05.03.16.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jul 2024 03:16:01 -0700 (PDT)
+Date: Fri, 5 Jul 2024 12:15:58 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Tvrtko Ursulin <tursulin@igalia.com>
+Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
- <20240330205722.93801-1-krzysztof.kozlowski@linaro.org>
- <20240527144700.GC713992@gnbcxd0016.gnb.st.com>
- <77b4e4ad-2b1e-4b6d-bc3b-0c7b339bc295@linaro.org>
- <f207b481-f530-4f54-a482-218908869050@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <f207b481-f530-4f54-a482-218908869050@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: Re: [PULL] drm-intel-gt-next
+Message-ID: <ZofH3gdKKXdg7TV7@phenom.ffwll.local>
+References: <ZoZP6mUSergfzFMh@linux>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZoZP6mUSergfzFMh@linux>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,67 +88,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/07/2024 11:59, Krzysztof Kozlowski wrote:
-> On 04/06/2024 15:18, Krzysztof Kozlowski wrote:
->> On 27/05/2024 16:47, Alain Volmat wrote:
->>> Hi Krzysztof,
->>>
->>> thanks for your patch, sorry for the delay.
->>>
->>> On Sat, Mar 30, 2024 at 09:57:21PM +0100, Krzysztof Kozlowski wrote:
->>>> Core in platform_driver_register() already sets the .owner, so driver
->>>> does not need to.  Whatever is set here will be anyway overwritten by
->>>> main driver calling platform_driver_register().
->>>>
->>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>> ---
->>>>
->>>> I forgot two drivers.
->>>>   drivers/gpu/drm/sti/sti_hdmi.c | 1 -
->>>>   1 file changed, 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
->>>> index 500936d5743c..b0d84440a87b 100644
->>>> --- a/drivers/gpu/drm/sti/sti_hdmi.c
->>>> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
->>>> @@ -1485,7 +1485,6 @@ static void sti_hdmi_remove(struct platform_device *pdev)
->>>>   struct platform_driver sti_hdmi_driver = {
->>>>   	.driver = {
->>>>   		.name = "sti-hdmi",
->>>> -		.owner = THIS_MODULE,
->>>>   		.of_match_table = hdmi_of_match,
->>>>   	},
->>>>   	.probe = sti_hdmi_probe,
->>>> -- 
->>>> 2.34.1
->>>>
->>>
->>> Acked-by: Alain Volmat <alain.volmat@foss.st.com>
->>
->> What does this ack mean? You are the maintainer, so what is supposed to
->> happen now? If maintainer does not take patches, then the DRM STI looks
->> orphaned.
+On Thu, Jul 04, 2024 at 07:31:54AM +0000, Tvrtko Ursulin wrote:
 > 
-> +Cc Neil, Dmitry,
+> Hi Dave, Sima,
 > 
-> I pinged and pinged and wanted some sort of clarification here but one
-> month passed and nothing was clarified.
+> The final pull for 6.11 is quite small and only contains a handful of
+> fixes in areas such as stolen memory probing on ATS-M, GuC priority
+> handling, out of memory reporting noise downgrade and fence register
+> hanlding race condition reported by CI.
 > 
-> I could be understanding the DRM process wrong, but if no one picks up
-> trivial cleanups for 1.5 months, then to me subsystem is orphaned. I
-> will send respective MAINTAINERS update.
+> Regards,
+> 
+> Tvrtko
+> 
+> drm-intel-gt-next-2024-07-04:
+> Driver Changes:
+> 
+> Fixes/improvements/new stuff:
+> 
+> - Downgrade stolen lmem setup warning [gem] (Jonathan Cavitt)
+> - Evaluate GuC priority within locks [gt/uc] (Andi Shyti)
+> - Fix potential UAF by revoke of fence registers [gt] (Janusz Krzysztofik)
+> - Return NULL instead of '0' [gem] (Andi Shyti)
+> - Use the correct format specifier for resource_size_t [gem] (Andi Shyti)
+> - Suppress oom warning in favour of ENOMEM to userspace [gem] (Nirmoy Das)
+> 
+> Miscellaneous:
+> 
+> - Evaluate forcewake usage within locks [gt] (Andi Shyti)
+> - Fix typo in comment [gt/uc] (Andi Shyti)
+> The following changes since commit 79655e867ad6dfde2734c67c7704c0dd5bf1e777:
+> 
+>   drm/i915/mtl: Update workaround 14018575942 (2024-06-11 16:06:20 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2024-07-04
+> 
+> for you to fetch changes up to 3b85152cb167bd24fe84ceb91b719b5904ca354f:
+> 
+>   drm/i915/gem: Suppress oom warning in favour of ENOMEM to userspace (2024-06-28 00:11:01 +0200)
 
-Let's do that, if Alain doesn't take his own patches that were reviewed
-then it should either be orphaned  or moved to drm-misc.
-
-Neil
+Pulled, thanks.
+-Sima
 
 > 
-> Best regards,
-> Krzysztof
+> ----------------------------------------------------------------
+> Driver Changes:
 > 
+> Fixes/improvements/new stuff:
+> 
+> - Downgrade stolen lmem setup warning [gem] (Jonathan Cavitt)
+> - Evaluate GuC priority within locks [gt/uc] (Andi Shyti)
+> - Fix potential UAF by revoke of fence registers [gt] (Janusz Krzysztofik)
+> - Return NULL instead of '0' [gem] (Andi Shyti)
+> - Use the correct format specifier for resource_size_t [gem] (Andi Shyti)
+> - Suppress oom warning in favour of ENOMEM to userspace [gem] (Nirmoy Das)
+> 
+> Miscellaneous:
+> 
+> - Evaluate forcewake usage within locks [gt] (Andi Shyti)
+> - Fix typo in comment [gt/uc] (Andi Shyti)
+> 
+> ----------------------------------------------------------------
+> Andi Shyti (5):
+>       drm/i915/gt: debugfs: Evaluate forcewake usage within locks
+>       drm/i915/gt/uc: Fix typo in comment
+>       drm/i915/gt/uc: Evaluate GuC priority within locks
+>       drm/i915/gem: Return NULL instead of '0'
+>       drm/i915/gem: Use the correct format specifier for resource_size_t
+> 
+> Janusz Krzysztofik (1):
+>       drm/i915/gt: Fix potential UAF by revoke of fence registers
+> 
+> Jonathan Cavitt (1):
+>       drm/i915/gem: Downgrade stolen lmem setup warning
+> 
+> Nirmoy Das (1):
+>       drm/i915/gem: Suppress oom warning in favour of ENOMEM to userspace
+> 
+>  drivers/gpu/drm/i915/gem/i915_gem_stolen.c        |  8 +++++--
+>  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c      |  1 +
+>  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c     |  4 ++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h       |  2 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 27 ++++++++++++++---------
+>  drivers/gpu/drm/i915/i915_scatterlist.c           |  8 +++----
+>  6 files changed, 32 insertions(+), 18 deletions(-)
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
