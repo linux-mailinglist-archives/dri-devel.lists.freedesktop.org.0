@@ -2,82 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9639928AC3
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 16:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D41DA928B4E
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 17:09:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 015D110E25E;
-	Fri,  5 Jul 2024 14:34:37 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="C1+hn8F6";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05DA510E09F;
+	Fri,  5 Jul 2024 15:09:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B53D210E25E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 14:34:35 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-52ea33671ffso1204198e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 07:34:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720190074; x=1720794874; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LEJHO7rkl+xJJJhR/OlOUSXNtS4l+Ak5HXkZa8xkzw4=;
- b=C1+hn8F6MF2TaB0L07eFkdpiKq1L720gMf0kNH5fDnp+xsdOrBPBpSUveLG3RYrOhQ
- dz9/xrKkIH8qftBKBDO/HPwsv5FBu36TJlQVahsHr67MCmxaRlwqQUtmv89LmoAcMUw9
- TmuwDvoQzU9WUjxwpMaLf8Y8gFKhg/CZFsamBTrrKPre6qrg6Z7MQEquo7FwtdGD2jUZ
- fhP3MfJtrdC5U+ahK8Smd0wKrjbUUUjgUCcYPz9bj+BTfQUbuFCs7eMiZJqgPkyb64Sk
- sFPOOxE5WqF0l0PKDNM+gfZVtcb6O/oCyMOOzp4vv8SFtT2OEATtBLmGenbARPouL/HD
- a+iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720190074; x=1720794874;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LEJHO7rkl+xJJJhR/OlOUSXNtS4l+Ak5HXkZa8xkzw4=;
- b=LhQYwtDAn3WCkOPhR+dFu3Zr3OiJu+V+yBt0b2l3BhWxPbyluveZbsaFe1aCvPwA+i
- mnCKB5WrUk/op25NE5PisdF+cspR5QLl2YfJ+XT86viqoI8SEG/faOCCykBwM6nN8h5N
- sMY/c1oUBqZLhMYyN94zn4CpnXSTZpscDmF/cndKpsAxASfSfpILTE0xJ+qVIRMg8xEE
- JHcVYksFOgMqYQFvu7YsHhogiI9tfJKFLkLdVlBpRXCmuYNtEdf7VvsYkMUxGNHNuuLU
- cFVRzmYSD3vSl9IPSTSjHfIcol9UOrnaJwWmXgQ4asvzgcj9ymg2z50e5hnilUBjmiRd
- X3UA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWs4MLwynml2vTqFHJb9ZpqYXHRsi6/v8OwLpAM/JAPpykkbxl+Bcu5ZhLGTllBFikbv6MAm0pATXGkG2gQOWOVY0fq8Hx4qJB+jzKWXqL8
-X-Gm-Message-State: AOJu0YyGRPRly6h5m/ZP4OcowHx5GAk2ynec+WhE+ejgsTC/o7kdhpFH
- mBpD63yoJ/Q5tLHesgR05pn9mpbbn5mIxrQD0/4DIjL1kvj1AO4WHDbcldgEAwQ=
-X-Google-Smtp-Source: AGHT+IExpSPLbhdfXO79t1NxOiXDtAHEROuoPPAPjqvX+SJpApir1f2/GJTe7nfTqsNHoDT+/oAc+Q==
-X-Received: by 2002:a19:6a1a:0:b0:52c:f521:9423 with SMTP id
- 2adb3069b0e04-52ea064ee3dmr2962725e87.26.1720190073677; 
- Fri, 05 Jul 2024 07:34:33 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52e9f183e00sm575303e87.305.2024.07.05.07.34.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jul 2024 07:34:33 -0700 (PDT)
-Date: Fri, 5 Jul 2024 17:34:31 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Marc Gonzalez <mgonzalez@freebox.fr>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-phy@lists.infradead.org,
- Arnaud Vrac <avrac@freebox.fr>, 
- Pierre-Hugues Husson <phhusson@freebox.fr>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, 
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v2] drm/msm: add msm8998 hdmi phy/pll support
-Message-ID: <5lbtymde3plfiqkvnd2lrjzxhengmsw242uqapnzpvfd5jrm25@x2ik2h6vrdxm>
-References: <20240704-hdmi-phy-v2-1-a7f5af202cb5@freebox.fr>
+X-Greylist: delayed 317 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Jul 2024 15:09:17 UTC
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net
+ [176.9.242.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C80F10E092
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 15:09:17 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net
+ [IPv6:2a01:37:1000::53df:5f1c:0])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+ by bmailout3.hostsharing.net (Postfix) with ESMTPS id D577F100B0385;
+ Fri,  5 Jul 2024 17:03:57 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id 7B58F4BC74; Fri,  5 Jul 2024 17:03:57 +0200 (CEST)
+Date: Fri, 5 Jul 2024 17:03:57 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+ Minas Harutyunyan <hminas@synopsys.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Jiri Slaby <jirislaby@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
+Subject: Re: [PATCH 09/11] usb: dwc2: Skip clock gating on Broadcom SoCs
+Message-ID: <ZogLXYopViQO11ta@wunner.de>
+References: <20240630153652.318882-1-wahrenst@gmx.net>
+ <20240630153652.318882-10-wahrenst@gmx.net>
+ <95762956-b46a-4dfa-b22f-bccbfa39558d@broadcom.com>
+ <ZoezRpXBgB1B5WjB@wunner.de>
+ <4502d826-d80c-4a98-a889-da7badfa698e@gmx.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240704-hdmi-phy-v2-1-a7f5af202cb5@freebox.fr>
+In-Reply-To: <4502d826-d80c-4a98-a889-da7badfa698e@gmx.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,42 +69,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 04, 2024 at 06:45:36PM GMT, Marc Gonzalez wrote:
-> From: Arnaud Vrac <avrac@freebox.fr>
+On Fri, Jul 05, 2024 at 12:22:33PM +0200, Stefan Wahren wrote:
+> Am 05.07.24 um 10:48 schrieb Lukas Wunner:
+> > A similar issue was reported for Agilex platforms back in 2021:
+> > 
+> > https://lore.kernel.org/all/5e8cbce0-3260-2971-484f-fc73a3b2bd28@synopsys.com/
+> > 
+> > It was fixed by commit 3d8d3504d233 ("usb: dwc2: Add platform specific
+> > data for Intel's Agilex"), which sets the no_clock_gating flag on that
+> > platform.
 > 
-> Ported from the downstream driver.
-
-Please write some sensible commit message.
-
+> From my understanding Samsung noticed this issue at first and
+> introduced the no_clock_gating flag [1] and they referenced 0112b7ce68ea
+> ("usb: dwc2: Update dwc2_handle_usb_suspend_intr function.") as I did in
+> this patch. Later some platforms like Rockchip and Agilex followed.
 > 
-> Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
-> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
-> ---
->  drivers/gpu/drm/msm/Makefile                   |   1 +
->  drivers/gpu/drm/msm/hdmi/hdmi.c                |   1 +
->  drivers/gpu/drm/msm/hdmi/hdmi.h                |   8 +
->  drivers/gpu/drm/msm/hdmi/hdmi_phy.c            |   5 +
->  drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c       | 789 +++++++++++++++++++++++++
->  drivers/gpu/drm/msm/registers/display/hdmi.xml |  89 +++
->  6 files changed, 893 insertions(+)
+> Should i better refer to the Samsung bugfix instead of the Agilex bugfix?
 
-- Missing changelog
-- Missing a pointer to bindings. Ideally bindings should come together
-  with the driver.
-
-I'm not going to check the math, but it looks pretty close to what we
-have for msm8996.
-
-> +
-> +static const char * const hdmi_phy_8998_reg_names[] = {
-> +	"vdda-pll",
-> +	"vdda-phy",
-
-Unless you have a strong reason to, please use vcca and vddio here, so
-that we don't have unnecessary conditionals in schema.
+I'd say mention both.  The Samsung one because it was the first
+occurrence and the Agilex one because it specifically mentions
+the interrupt storm which you've also witnessed on the Raspberry Pi.
+Samsung's report mentions other symptoms than an interrupt storm.
 
 
+> > The real question is whether BCM2848 platforms likewise cannot disable
+> > the clock of the dwc2 controller or whether this is specific to the
+> > BCM2835.  Right now dwc2_set_bcm_params() is applied to both the
+> > BCM2848 and BCM2835.  If the BCM2848 behaves differently in this
+> > regard, we'd have to duplicate dwc2_set_bcm_params() for the BCM2835.
+> 
+> From my understand BCM2848 refers to the same SoC, but the ACPI
+> implementation uses a different ID [2]. So I think this is safe.
+> [2] -
+> https://patches.linaro.org/project/linux-usb/patch/20210413215834.3126447-2-jeremy.linton@arm.com/
 
--- 
-With best wishes
-Dmitry
+Careful there, the patch vaguely says...
+
+    With that added and identified as "BCM2848",
+    an id in use by other OSs for this device, the dw2
+    controller on the BCM2711 will work.
+
+...which sounds like they copy-pasted the BCM2848 id from somewhere else.
+I would assume that BCM2848 is really a different SoC and not just
+a different name for the BCM2835, but hopefully BroadCom folks will
+be able to confirm or deny this (and thus the necessity of the quirk
+on BCM2848 and not just on BCM2835).
+
+Thanks,
+
+Lukas
