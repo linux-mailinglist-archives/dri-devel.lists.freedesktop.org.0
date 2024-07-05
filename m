@@ -2,68 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441FD928782
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 13:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8708292879B
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 13:14:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6227510EACA;
-	Fri,  5 Jul 2024 11:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B522010E17A;
+	Fri,  5 Jul 2024 11:14:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Txr+UW6M";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GJf2MbDa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD7910EACA
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 11:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720177647; x=1751713647;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=0nUinA24UAUinlu6pUh1CLN4Sx/3gtSsYrL50QJPbKE=;
- b=Txr+UW6MTqilvha8dOxaI6e+R9fqjmsQ2J5iEu3cb43zKnRD6WQUG9UI
- yiNxZoHWX7uUJ7A81STrTGKX/TsDuH+m7JC3S8sUMRSUi2sp+3xlydmjN
- iYyTuQOg495XVCgyJDdYBuwUatIpVWiRiKrbIg3EHK6EMxBMXd4g9aHrG
- QCGlzqgYt1WOWgfID9+z5a8p1Qk9i+V5lOVJTXRr7FXay4+axZSBu0i4t
- vPNN1Y9hKC+DAsYy2BA1fgBpxDdCm3VZIxrZ2L8CZHqbbRfyXBOWNTvxh
- /LwsZBkZYVZxXBU/YVBWeIhq32qzjSE8uDP/wN3MFpwlPZD2P0f9Zp8iU g==;
-X-CSE-ConnectionGUID: n3+ZWlWGTH2NmbsvCwwE2w==
-X-CSE-MsgGUID: z9w6pxPDSs2QNr3SfOX0lw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17188054"
-X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="17188054"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2024 04:06:35 -0700
-X-CSE-ConnectionGUID: 2Szdt3w5RWCWbuoreaNbZg==
-X-CSE-MsgGUID: GzXInrnrRX+4ZUMv6mpKKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="46823769"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
- by fmviesa008.fm.intel.com with ESMTP; 05 Jul 2024 04:06:31 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sPglp-000SIN-0d;
- Fri, 05 Jul 2024 11:06:29 +0000
-Date: Fri, 5 Jul 2024 19:06:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-Subject: Re: [PATCH v3 9/9] drm/tests: Add test for drm_framebuffer_free()
-Message-ID: <202407051851.5P18lNVW-lkp@intel.com>
-References: <20240703172228.11166-10-gcarlos@disroot.org>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A57910EACE
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 11:14:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id A5E06CE3D74;
+ Fri,  5 Jul 2024 11:14:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D727C116B1;
+ Fri,  5 Jul 2024 11:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1720178073;
+ bh=eAZkOw/qCZxZNxeFa0yFFeH9CTuaDIsE82L/fWGMopk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GJf2MbDaxffscQSXaRGY7ughlmQh4Yv16eKs3TOJWFV1GD2QCVtSEneJuQ3swsBtR
+ MKuB5VnI26alTPTx2QfgqJi6ytvgWi6Wu33iRMFaV1jI2x84EWIjCJaZ1u1m1dNFMn
+ jCwWwhNZhaHBFvtAHkr60D+5d/Irermczagu7i8/fWlCIng6F5P+DxIp8erDghUJkI
+ C8ftiwafsbTJfD9j6SjWLI9BDNy9eDWrmRTlsefQgYnmkhXv35WForeVES9g0vA8S8
+ aIvWt7Ppddgro31+WhkGHo4b9uShkFUmjwSwe/9VFBx4UGGFM6Hs5mu1I/McBLmy1p
+ FzJxlUCuLDyBw==
+Date: Fri, 5 Jul 2024 13:14:30 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH 5/6] drm/sti: hdmi: drop driver owner assignment
+Message-ID: <20240705-bustard-of-unreal-sorcery-bfc9ba@houat>
+References: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
+ <20240330205722.93801-1-krzysztof.kozlowski@linaro.org>
+ <20240527144700.GC713992@gnbcxd0016.gnb.st.com>
+ <77b4e4ad-2b1e-4b6d-bc3b-0c7b339bc295@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="eik5wfctbw4stpcc"
 Content-Disposition: inline
-In-Reply-To: <20240703172228.11166-10-gcarlos@disroot.org>
+In-Reply-To: <77b4e4ad-2b1e-4b6d-bc3b-0c7b339bc295@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,133 +63,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Carlos,
 
-kernel test robot noticed the following build errors:
+--eik5wfctbw4stpcc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc6 next-20240703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
++Alain
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Eduardo-Gallo-Filho/drm-tests-Stop-using-deprecated-dev_private-member-on-drm_framebuffer-tests/20240704-234045
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240703172228.11166-10-gcarlos%40disroot.org
-patch subject: [PATCH v3 9/9] drm/tests: Add test for drm_framebuffer_free()
-config: arc-randconfig-001-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051851.5P18lNVW-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051851.5P18lNVW-lkp@intel.com/reproduce)
+On Tue, Jun 04, 2024 at 03:18:55PM GMT, Krzysztof Kozlowski wrote:
+> On 27/05/2024 16:47, Alain Volmat wrote:
+> > Hi Krzysztof,
+> >=20
+> > thanks for your patch, sorry for the delay.
+> >=20
+> > On Sat, Mar 30, 2024 at 09:57:21PM +0100, Krzysztof Kozlowski wrote:
+> >> Core in platform_driver_register() already sets the .owner, so driver
+> >> does not need to.  Whatever is set here will be anyway overwritten by
+> >> main driver calling platform_driver_register().
+> >>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> ---
+> >>
+> >> I forgot two drivers.
+> >>  drivers/gpu/drm/sti/sti_hdmi.c | 1 -
+> >>  1 file changed, 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_=
+hdmi.c
+> >> index 500936d5743c..b0d84440a87b 100644
+> >> --- a/drivers/gpu/drm/sti/sti_hdmi.c
+> >> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
+> >> @@ -1485,7 +1485,6 @@ static void sti_hdmi_remove(struct platform_devi=
+ce *pdev)
+> >>  struct platform_driver sti_hdmi_driver =3D {
+> >>  	.driver =3D {
+> >>  		.name =3D "sti-hdmi",
+> >> -		.owner =3D THIS_MODULE,
+> >>  		.of_match_table =3D hdmi_of_match,
+> >>  	},
+> >>  	.probe =3D sti_hdmi_probe,
+> >> --=20
+> >> 2.34.1
+> >>
+> >=20
+> > Acked-by: Alain Volmat <alain.volmat@foss.st.com>
+>=20
+> What does this ack mean? You are the maintainer, so what is supposed to
+> happen now? If maintainer does not take patches, then the DRM STI looks
+> orphaned.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407051851.5P18lNVW-lkp@intel.com/
+The expectation would have been that Alain would have applied these
+patches. That being said, your reply here dropped him from the
+recipients list, so it's not surprising you didn't get any answer.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Maxime
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_phonet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_tcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/core/usbcore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-chicony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-megaworld.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tmff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-ERROR: modpost: "drm_framebuffer_free" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] undefined!
->> ERROR: modpost: "drm_mode_object_add" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] undefined!
+--eik5wfctbw4stpcc
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZofVlQAKCRDj7w1vZxhR
+xcBvAQD+r87gp4IQXY0xaRutXeQ8CqwfsGrouFQMyDdyz/774AD9H4oxSqomDAxO
+BxQKgbpctQoasdUmI3y8FQqOcpAdZgQ=
+=yqMd
+-----END PGP SIGNATURE-----
+
+--eik5wfctbw4stpcc--
