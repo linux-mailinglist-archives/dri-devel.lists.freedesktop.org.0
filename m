@@ -2,36 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1538928E07
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 22:00:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E00D928E04
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 22:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0551510EC27;
-	Fri,  5 Jul 2024 20:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8355A10EBC5;
+	Fri,  5 Jul 2024 20:00:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99CF010E21E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8FC10EBFD
  for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 20:00:18 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sPp6M-0003VJ-Kt; Fri, 05 Jul 2024 22:00:14 +0200
+ id 1sPp6M-0003VL-Kr; Fri, 05 Jul 2024 22:00:14 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sPp6L-007Ocg-SP; Fri, 05 Jul 2024 22:00:13 +0200
+ id 1sPp6L-007Ocg-VB; Fri, 05 Jul 2024 22:00:14 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
 Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
  patchwork-lst@pengutronix.de
-Subject: [PATCH v2 1/5] drm/etnaviv: hold GPU lock across perfmon sampling
-Date: Fri,  5 Jul 2024 22:00:09 +0200
-Message-Id: <20240705200013.2656275-1-l.stach@pengutronix.de>
+Subject: [PATCH v2 2/5] drm/etnaviv: assert GPU lock held in perfmon
+ pipe_*_read functions
+Date: Fri,  5 Jul 2024 22:00:10 +0200
+Message-Id: <20240705200013.2656275-2-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240705200013.2656275-1-l.stach@pengutronix.de>
+References: <20240705200013.2656275-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -54,72 +57,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The perfmon sampling mutates shared GPU state (e.g. VIVS_HI_CLOCK_CONTROL
-to select the pipe for the perf counter reads). To avoid clashing with
-other functions mutating the same state (e.g. etnaviv_gpu_update_clock)
-the perfmon sampling needs to hold the GPU lock.
+The perf counter read functions don't just read registers, but they
+also mutate state to direct the reads towards the correct pipe and
+engine. Assert that the GPU mutex is held at this point, so that
+those state changes don't interfere with others.
 
-Fixes: 68dc0b295dcb ("drm/etnaviv: use 'sync points' for performance monitor requests")
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
 v2: new patch
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 7c7f97793ddd..2bd14d3501e2 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1330,6 +1330,8 @@ static void sync_point_perfmon_sample_pre(struct etnaviv_gpu *gpu,
- {
- 	u32 val;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+index dc9dea664a28..d53a5c293373 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+@@ -62,6 +62,8 @@ static u32 pipe_perf_reg_read(struct etnaviv_gpu *gpu,
+ 	u32 value = 0;
+ 	unsigned i;
  
-+	mutex_lock(&gpu->lock);
++	lockdep_assert_held(&gpu->lock);
 +
- 	/* disable clock gating */
- 	val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
- 	val &= ~VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
-@@ -1341,6 +1343,8 @@ static void sync_point_perfmon_sample_pre(struct etnaviv_gpu *gpu,
- 	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
+ 	for (i = 0; i < gpu->identity.pixel_pipes; i++) {
+ 		pipe_select(gpu, clock, i);
+ 		value += perf_reg_read(gpu, domain, signal);
+@@ -81,6 +83,8 @@ static u32 pipe_reg_read(struct etnaviv_gpu *gpu,
+ 	u32 value = 0;
+ 	unsigned i;
  
- 	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_PRE);
++	lockdep_assert_held(&gpu->lock);
 +
-+	mutex_unlock(&gpu->lock);
- }
- 
- static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
-@@ -1350,13 +1354,9 @@ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
- 	unsigned int i;
- 	u32 val;
- 
--	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_POST);
--
--	for (i = 0; i < submit->nr_pmrs; i++) {
--		const struct etnaviv_perfmon_request *pmr = submit->pmrs + i;
-+	mutex_lock(&gpu->lock);
- 
--		*pmr->bo_vma = pmr->sequence;
--	}
-+	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_POST);
- 
- 	/* disable debug register */
- 	val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
-@@ -1367,6 +1367,14 @@ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
- 	val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
- 	val |= VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
- 	gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, val);
-+
-+	mutex_unlock(&gpu->lock);
-+
-+	for (i = 0; i < submit->nr_pmrs; i++) {
-+		const struct etnaviv_perfmon_request *pmr = submit->pmrs + i;
-+
-+		*pmr->bo_vma = pmr->sequence;
-+	}
- }
- 
- 
+ 	for (i = 0; i < gpu->identity.pixel_pipes; i++) {
+ 		pipe_select(gpu, clock, i);
+ 		value += gpu_read(gpu, signal->data);
 -- 
 2.39.2
 
