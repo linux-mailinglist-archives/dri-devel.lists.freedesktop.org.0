@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F65928440
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 10:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B17928483
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 11:03:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7372110E1C2;
-	Fri,  5 Jul 2024 08:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4275D10E238;
+	Fri,  5 Jul 2024 09:03:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fhQQGvzG";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 512 seconds by postgrey-1.36 at gabe;
- Fri, 05 Jul 2024 08:56:40 UTC
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
- [83.223.95.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA6810E0AB
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 08:56:40 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
- by bmailout1.hostsharing.net (Postfix) with ESMTPS id 77A2E3000D5B1;
- Fri,  5 Jul 2024 10:48:06 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id 637213E9B8; Fri,  5 Jul 2024 10:48:06 +0200 (CEST)
-Date: Fri, 5 Jul 2024 10:48:06 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Stefan Wahren <wahrenst@gmx.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Jiri Slaby <jirislaby@kernel.org>,
- Minas Harutyunyan <hminas@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
-Subject: Re: [PATCH 09/11] usb: dwc2: Skip clock gating on Broadcom SoCs
-Message-ID: <ZoezRpXBgB1B5WjB@wunner.de>
-References: <20240630153652.318882-1-wahrenst@gmx.net>
- <20240630153652.318882-10-wahrenst@gmx.net>
- <95762956-b46a-4dfa-b22f-bccbfa39558d@broadcom.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF8CB10E22E;
+ Fri,  5 Jul 2024 09:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720170229; x=1751706229;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=dU2zPazzjTGN9qLgg8zEiNhIsxktDn8YpckDFP1UUB0=;
+ b=fhQQGvzGZKHQPE8mWkthqhqufuDYiUVPOVF5+FLLlc6mZlEAImwG7mhg
+ QzoIiBHZmjv5h+uXdvjfE9uOgZpwsJqABJITG1KkL4+rwDyxZBRaoEH+W
+ Vk54LHIkSgdTA9C1wecJ3EfjtD3t06J8M+KgREFw8z8YYBOGRkzTQWA1d
+ cdCC+jjFy6k9gW7W9PEbsZYZp+hTPkKUc26va/pvC+H8pnr154Gpl+yZX
+ +y/Qyatt+rCa0TxygqUp3J3mdcUSfP4KIueptbsxoBU0SAJPtcb6/eWGq
+ 84tOngh1djp8i8HWqNTQ3vqIEyxmf0SgzEyWH261L3HaGvOMFHVqPu+sX w==;
+X-CSE-ConnectionGUID: Aj/6Zll5QxSC4j27MKoXzA==
+X-CSE-MsgGUID: zYptAqK7RMyjB9FdJEjLGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17324179"
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="17324179"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jul 2024 02:03:48 -0700
+X-CSE-ConnectionGUID: u9bSuSXFT0ycOIsvJZ2Axw==
+X-CSE-MsgGUID: IHZeozTcRWGPKzhKlAG98w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; d="scan'208";a="51676128"
+Received: from nemesa.iind.intel.com ([10.190.239.22])
+ by orviesa003.jf.intel.com with ESMTP; 05 Jul 2024 02:03:47 -0700
+From: Nemesa Garg <nemesa.garg@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Nemesa Garg <nemesa.garg@intel.com>
+Subject: [PATCH 0/5]  Introduce drm sharpening property
+Date: Fri,  5 Jul 2024 14:32:00 +0530
+Message-Id: <20240705090205.72302-1-nemesa.garg@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <95762956-b46a-4dfa-b22f-bccbfa39558d@broadcom.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,72 +65,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 04, 2024 at 03:14:50PM +0100, Florian Fainelli wrote:
-> On 6/30/2024 4:36 PM, Stefan Wahren wrote:
-> > On resume of the Raspberry Pi the dwc2 driver fails to enable
-> > HCD_FLAG_HW_ACCESSIBLE before re-enabling the interrupts.
-> > This causes a situation where both handler ignore a incoming port
-> > interrupt and force the upper layers to disable the dwc2 interrupt line.
-> > This leaves the USB interface in a unusable state:
-> > 
-> > irq 66: nobody cared (try booting with the "irqpoll" option)
-> > CPU: 0 PID: 0 Comm: swapper/0 Tainted: G W          6.10.0-rc3
-> > Hardware name: BCM2835
-> > Call trace:
-> > unwind_backtrace from show_stack+0x10/0x14
-> > show_stack from dump_stack_lvl+0x50/0x64
-> > dump_stack_lvl from __report_bad_irq+0x38/0xc0
-> > __report_bad_irq from note_interrupt+0x2ac/0x2f4
-> > note_interrupt from handle_irq_event+0x88/0x8c
-> > handle_irq_event from handle_level_irq+0xb4/0x1ac
-> > handle_level_irq from generic_handle_domain_irq+0x24/0x34
-> > generic_handle_domain_irq from bcm2836_chained_handle_irq+0x24/0x28
-> > bcm2836_chained_handle_irq from generic_handle_domain_irq+0x24/0x34
-> > generic_handle_domain_irq from generic_handle_arch_irq+0x34/0x44
-> > generic_handle_arch_irq from __irq_svc+0x88/0xb0
+ Many a times images are blurred or upscaled content is also not as
+crisp as original rendered image. Traditional sharpening techniques often
+apply a uniform level of enhancement across entire image, which sometimes
+result in over-sharpening of some areas and potential loss of natural details. 
 
-A similar issue was reported for Agilex platforms back in 2021:
+Intel has come up with Display Engine based adaptive sharpening filter 
+with minimal power and performance impact. From LNL onwards, the Display
+hardware can use one of the pipe scaler for adaptive sharpness filter.
+This can be used for both gaming and non-gaming use cases like photos,
+image viewing. It works on a region of pixels depending on the tap size.
 
-https://lore.kernel.org/all/5e8cbce0-3260-2971-484f-fc73a3b2bd28@synopsys.com/
+This is an attempt to introduce an adaptive sharpness solution which
+helps in improving the image quality. For this new CRTC property is added.
+The user can set this property with desired sharpness strength value with
+0-255. A value of 1 representing minimum sharpening strength and 255
+representing maximum sharpness strength. A strength value of 0 means no
+sharpening or sharpening feature disabled.
+It works on a region of pixels depending on the tap size. The coefficients
+are used to generate an alpha value which is used to blend the sharpened
+image to original image.
+ 
+Middleware MR link: https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3665
+IGT patchwork link: https://patchwork.freedesktop.org/series/130218/
 
-It was fixed by commit 3d8d3504d233 ("usb: dwc2: Add platform specific
-data for Intel's Agilex"), which sets the no_clock_gating flag on that
-platform.
+--v3: Added uapi documentation.
+      Made sharpness word consistent. 
 
-Looking at drivers/usb/dwc2/params.c, numerous other platforms need
-the same flag.
+Nemesa Garg (5):
+  drm: Introduce sharpness mode property
+  drm/i915/display: Compute the scaler filter coefficients
+  drm/i915/display: Enable the second scaler for sharpness
+  drm/i915/display: Add registers and compute the strength
+  drm/i915/display: Load the lut values and enable sharpness
 
-Please amend the commit message to mention the Agilex issue and
-resulting commit.
+ drivers/gpu/drm/drm_atomic_uapi.c             |   4 +
+ drivers/gpu/drm/drm_crtc.c                    |  35 +++
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/display/intel_crtc.c     |   3 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  21 +-
+ .../drm/i915/display/intel_display_types.h    |  11 +
+ .../drm/i915/display/intel_modeset_verify.c   |   1 +
+ drivers/gpu/drm/i915/display/intel_panel.c    |   4 +-
+ .../drm/i915/display/intel_sharpen_filter.c   | 236 ++++++++++++++++++
+ .../drm/i915/display/intel_sharpen_filter.h   |  33 +++
+ drivers/gpu/drm/i915/display/skl_scaler.c     |  97 ++++++-
+ drivers/gpu/drm/i915/display/skl_scaler.h     |   1 +
+ drivers/gpu/drm/i915/i915_reg.h               |  19 ++
+ drivers/gpu/drm/xe/Makefile                   |   1 +
+ include/drm/drm_crtc.h                        |  17 ++
+ 15 files changed, 470 insertions(+), 14 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_sharpen_filter.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_sharpen_filter.h
 
+-- 
+2.25.1
 
-> > --- a/drivers/usb/dwc2/params.c
-> > +++ b/drivers/usb/dwc2/params.c
-> > @@ -23,6 +23,7 @@ static void dwc2_set_bcm_params(struct dwc2_hsotg *hsotg)
-> >   	p->max_transfer_size = 65535;
-> >   	p->max_packet_count = 511;
-> >   	p->ahbcfg = 0x10;
-> > +	p->no_clock_gating = true;
-> 
-> Could we set this depending upon whether the dwc2 host controller is a
-> wake-up source for the system or not?
-
-The flag seems to mean whether the platform is actually capable of
-disabling the clock of the USB controller.  BCM2835 seems to be
-incapable and as a result, even though dwc2_host_enter_clock_gating()
-is called, the chip signals interrupts.
-
-There doesn't seem to be a relation to using the controller as a
-wakeup source, so your comment doesn't seem to make sense.
-If the clock can't be gated, the chip can always serve as a
-wakeup source.
-
-The real question is whether BCM2848 platforms likewise cannot disable
-the clock of the dwc2 controller or whether this is specific to the
-BCM2835.  Right now dwc2_set_bcm_params() is applied to both the
-BCM2848 and BCM2835.  If the BCM2848 behaves differently in this
-regard, we'd have to duplicate dwc2_set_bcm_params() for the BCM2835.
-
-Thanks,
-
-Lukas
