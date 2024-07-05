@@ -2,96 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD909283F1
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 10:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041AF928402
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 10:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABA6B10E1A5;
-	Fri,  5 Jul 2024 08:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29E0210E155;
+	Fri,  5 Jul 2024 08:46:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="3tdvylt0";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="cjslrqmf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gqSmC6f6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com
- [103.168.172.145])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A8B610E160
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 08:43:07 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfout.nyi.internal (Postfix) with ESMTP id 797B41380461;
- Fri,  5 Jul 2024 04:43:06 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
- by compute5.internal (MEProxy); Fri, 05 Jul 2024 04:43:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-type:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm2; t=1720168986; x=
- 1720255386; bh=RKV00q6lSm2tO3hKipSYrp0qt46JHSY9gtuafqcyWeU=; b=3
- tdvylt0coff7sn2DlN4UnLxawJqN2MlPBuSCUyGfqfxe80aB0xe8fcyVPFO8hVUp
- LoJAEKyl9UnAVzekwbwRVdYFEphSegZDZjzh9wMO38Kl0wqE0In10xBCY5C68RAE
- Ktp5Emsj3ldxPSvcNadLD20MePj/Be1zIbxp3zDiIGaGVuqSPCdQIoBer/pWRylJ
- rW3R2n4btdvnvMEfG4oXmln5CmRfsA9C/YtT1kwnjYy2gIOvZuACjHoZlhG6UXy2
- HLl+vHjoSSMqtMLjdrzgPo5IVorqpIgpmjLIUzVfb7pHBw+qsn65zBWgfFINZrkS
- tyuAEN+BKW5KALVciqQrg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1720168986; x=1720255386; bh=RKV00q6lSm2tO3hKipSYrp0qt46J
- HSY9gtuafqcyWeU=; b=cjslrqmfXdY6hETVXHDgnL6HyNqrQrS4icGId5yd5SjI
- 5eVLk8VWoRf8KWC6GiGWLacTNiqlO8IEaSbEvV+LhVEGeyLqNqRX+vBGHcmQvcvv
- 9/Bc2YkR87FZSnxLaozSkBvSrZZ6IcG6OWD5RAvtfMBeTKg8dXxf/dPCFF9LH5Ej
- 1Z8l9nT/gv4mO5pirRMTIIE0gwVNhc1HphGad5rQ7/e6hftXhceBprD22hXByOxS
- BCySGXA6NkyKZDZMCKAGIgHotH0+Uywz2xpOoCW+IjCbE9MUFmeN7WvzYPQJbWYV
- N4hDA+T7tog9dbPv4R/3kM4opBT4FRd8vy7m0+hL/A==
-X-ME-Sender: <xms:GbKHZvInD--y0myNt-IrD8_EkS7ozWVgW8pcig0wCQi4iWXWvR9sQA>
- <xme:GbKHZjKKZV468F9xn8tYoKUPEQSL-YPA2DYi96vHFn3XyUdXeC-V2rcwQZNfZXmp9
- kB9hTW4eZlKf4Yfbg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddugddtjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfthigr
- nhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtf
- frrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefgteeu
- veeiudeijeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehrhigrnhesthgvshhtthhorghsthdrtghomh
-X-ME-Proxy: <xmx:GrKHZnsb3SR0FV3e5O0EfNseDorhA4j9fx3Fs1WRTFUKPg3mRXWPGw>
- <xmx:GrKHZoahHJ1QufOL2rOPmRdGHSOn7XDVihL-obblfxaS-xxegeUflw>
- <xmx:GrKHZmbuGvblbSyv0FTLI0T_ZtsANEKpkB_7INRG6Mtr0PWTJotNMw>
- <xmx:GrKHZsDBlbZDJ2W7zDiKVLCmEMuHoQTRpQXPBAMlYJWhRMQYd1ppoA>
- <xmx:GrKHZox9r7c7mE_WnPAxJGejGc7XKXbISUeI6_0qi6grBwI24iE-8MT_>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id E1469A60078; Fri,  5 Jul 2024 04:43:05 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-566-g3812ddbbc-fm-20240627.001-g3812ddbb
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA88610E09C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 08:46:15 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-42122ac2f38so8621325e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 01:46:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1720169174; x=1720773974; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vqe4KnkOYZvhw0LoLhK32nqj8NEoWKv+/VqzK0jL6Vs=;
+ b=gqSmC6f6tLV+i9qjsKNp+kyR7itmFthqIL6/uqJshU8q2drvp47i+8WbbuvBDx1Rdn
+ kDdGgNgXk9mo40vr6ldl89tb+RwTjgx92KdEYLSU2VTRqBhXLohUJXkluDjGrEAy8Bjw
+ bT95woTduKtDSfMjfLHe+KFbd664wnsHzn5aD/RXoMrnR+BtJk10Hi+HMpkxr9LyXibB
+ CIanEz7yqSo2Rv2qy3BmgPmY9PfeyWskSu6m2unhvn41HRIbRmD2pjS8omOwgz/rG08n
+ beQHvzflhKLBnI7GFwZAJPtXYDpJuhczxxKI9Z3E1CjDoi0PuaURTW6EFEDdK1tAmYw5
+ Yplw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720169174; x=1720773974;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Vqe4KnkOYZvhw0LoLhK32nqj8NEoWKv+/VqzK0jL6Vs=;
+ b=xMAUS7ok4pjEK/8+YZ16B9b8vKZC723ZHwf8Jr2k4fVkOsY6urgNZ3XvT0qympN3XW
+ eib6NQjmuZXFHesRSILgZejvAQAct5Dq9ojAFp2ITfCUkPPnEnvS1pG/GeSHfYKuIPEo
+ pDUGi2KgWMyjuGov5RLBlTEoiuQICa6fquL4wsP7YsVbEx/EAQqBrCMD3YbQ2x1xadSd
+ MVqyBZjycX6ykomteIWoD+0m+tFKe+7UHdvLq1nwStbka3Txowql+g6w/kTSRUPT0j9t
+ Chdg2qNfAvLwRpWG1AljNgm4iJmVnqwJ3/aw6h9nx1j5ZTHgkN/0aPbN462e9VWGsHQE
+ +zuw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXY7Ic8rOdAOgsDBQ/0NpIVdbXxXY6Zh0HV+odSJvB/bcaIA1Ud1HGqKoq6zhBsfnN1YL4vq9h17XVaXV6gyHZ03bh9keZqZ8Gm8VB16yEJ
+X-Gm-Message-State: AOJu0Yz6p0nYHwpp6aDdfGWy6gmweyN/FbhlOUtjDmwc8jK0gGLb0UmN
+ hZoBBeWbdfHEUExC5aiNYTQsxaaFJ+KlE+blRoWJpBv3dcLCL4FIa5JNLRAFy/Y=
+X-Google-Smtp-Source: AGHT+IHLaWHMsrIEkAGvMoO52ZSCdECYDkbf6R9gSoFbVCf+dsJ9hk2JLjnNeb/U+Qrngj9X8+Z9Iw==
+X-Received: by 2002:a05:600c:4f01:b0:425:6290:b11b with SMTP id
+ 5b1f17b1804b1-4264b197124mr33304105e9.18.1720169174264; 
+ Fri, 05 Jul 2024 01:46:14 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4264a25181asm53763085e9.30.2024.07.05.01.46.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jul 2024 01:46:13 -0700 (PDT)
+Date: Fri, 5 Jul 2024 09:46:12 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Chen Ni <nichen@iscas.ac.cn>
+Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] backlight: l4f00242t03: Add check for spi_setup
+Message-ID: <20240705084612.GA110803@aspen.lan>
+References: <20240705083834.3006465-1-nichen@iscas.ac.cn>
 MIME-Version: 1.0
-Message-Id: <cd8652aa-2272-4f07-ac65-e414e83925e6@app.fastmail.com>
-In-Reply-To: <20240703-concerned-geranium-dd89f3f82375@spud>
-References: <20240703105454.41254-1-ryan@testtoast.com>
- <20240703105454.41254-19-ryan@testtoast.com>
- <20240703-concerned-geranium-dd89f3f82375@spud>
-Date: Fri, 05 Jul 2024 20:42:45 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Conor Dooley" <conor@kernel.org>
-Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>, 
- "Chris Morgan" <macroalpha82@gmail.com>, "John Watts" <contact@jookia.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 18/23] dt-bindings: allwinner: add H616 DE33 bus,
- clock and display bindings
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240705083834.3006465-1-nichen@iscas.ac.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,15 +84,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Jul 2024, at 3:28 AM, Conor Dooley wrote:
->> Add display engine bus, clock and mixer bindings for the DE33.
->> 
->> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+On Fri, Jul 05, 2024 at 04:38:34PM +0800, Chen Ni wrote:
+> Add check for the return value of spi_setup() and return the error
+> if it fails in order to catch the error.
 >
-> Probably this should be 3 patches given 3 subsystems, but the content is
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+> ---
+>  drivers/video/backlight/l4f00242t03.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> Cheers,
-> Conor.
+> diff --git a/drivers/video/backlight/l4f00242t03.c b/drivers/video/backlight/l4f00242t03.c
+> index dd0874f8c7ff..a4e27adee8ac 100644
+> --- a/drivers/video/backlight/l4f00242t03.c
+> +++ b/drivers/video/backlight/l4f00242t03.c
+> @@ -166,6 +166,7 @@ static const struct lcd_ops l4f_ops = {
+>  static int l4f00242t03_probe(struct spi_device *spi)
+>  {
+>  	struct l4f00242t03_priv *priv;
+> +	int ret;
 >
-Thanks Conor, will separate for v3 but ack noted.
+>  	priv = devm_kzalloc(&spi->dev, sizeof(struct l4f00242t03_priv),
+>  				GFP_KERNEL);
+> @@ -174,7 +175,9 @@ static int l4f00242t03_probe(struct spi_device *spi)
+>
+>  	spi_set_drvdata(spi, priv);
+>  	spi->bits_per_word = 9;
+> -	spi_setup(spi);
+> +	ret = spi_setup(spi);
+> +	if (ret < 0)
+> +		return ret;
+
+Good change but please add a dev_err_probe() here to match the other
+error paths in this function.
+
+
+Daniel.
