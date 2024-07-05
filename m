@@ -2,141 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CC1928DAB
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 21:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8815F928DC5
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 21:31:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1634D10E0C5;
-	Fri,  5 Jul 2024 19:02:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73F1B10E12A;
+	Fri,  5 Jul 2024 19:31:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="FtITjWyR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IImcWP6Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2059.outbound.protection.outlook.com [40.107.21.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5394610E0C5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 19:02:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aTOAEJkG6rKCg85q6fuON+AwtsQohLYMARS6T5SdBPTGAJU6EfCZqfwAV0luvD+FByL09XdW3wlExbLXuRg62CFu1YpDGcEycxH5QBG6j2OEn3p4/nhamW+EsjYcztOqChLDZCgaHVqEMhEQqJ5gHBc21+Fl5RosxX5gP90jwriePXwyKqk4fOXgWYqtCl5cPXmHIf4nT6jxHPHiRiSyCgUv4kmCF/id3EnC1mHVVQBtj+r+jDOg5ih8nWu54+KznqEab3s7Ug4tsotmpJVB5Uer2KCCpnDPqcdfDyGkJM+dK2QRG4uVYnEmsnjXTyYnVdCKcRjOdRVev9KPJwT8iQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=28+Bc6e9m+m4Z6Uc7qq4x3fGM+WZvj4LfQghw7fys8E=;
- b=aPJnhSj8ke2KfZ6R846NRXVJbTpPXnjn3ZCUlMzDh+WcJ2S/TdfVCySB3G2JcYtRDxaO8F4IhQ9BrgKX2QVIz5Sk2D+fHCtKjZjsnKoyXPtIrMLDzGCfD2MlH6l3gBZPOijGKubyJ0h50Mxc9imaCstSxsAEZ8Y0ww3FSjcK717WrZfPSHAKv7/jP4BWPiK1bASa7dqF+mLOttsRFXrgxLf0tYY7e7zg+fsLvKgABWf2xQqOpkHaee6rEn7HObkPRHVRzvSn9xWggh6pKlayccJV+79d9rf5+TzQeZiMVl7yszGP1oU8zEUOg6ewrePF6G1Cpr8QOFZpehBS4RHgvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=28+Bc6e9m+m4Z6Uc7qq4x3fGM+WZvj4LfQghw7fys8E=;
- b=FtITjWyRHDXlN9uRlkIC7zfXKGe2RpSt6pPVxZ0b1RlIUgCP7p2/6TYLnrEAQ3NMdrgM2gv8+P/Bma28ri87hTW9Dmiz6ulnz6BEjLHkPkXMolalhA6KtlvCTSVQvDscFM7onrsN9M5C7N/YDaN5ZGRPKGjR6QB7JjV5hBuo6i8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by GVXPR04MB10023.eurprd04.prod.outlook.com (2603:10a6:150:118::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.25; Fri, 5 Jul
- 2024 19:02:43 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.7741.027; Fri, 5 Jul 2024
- 19:02:42 +0000
-Date: Fri, 5 Jul 2024 15:02:32 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, p.zabel@pengutronix.de,
- airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, tglx@linutronix.de
-Subject: Re: [PATCH 10/10] MAINTAINERS: Add maintainer for i.MX8qxp Display
- Controller
-Message-ID: <ZohDSDPZ+mS63TQv@lizhi-Precision-Tower-5810>
-References: <20240705090932.1880496-1-victor.liu@nxp.com>
- <20240705090932.1880496-11-victor.liu@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240705090932.1880496-11-victor.liu@nxp.com>
-X-ClientProxiedBy: BY3PR10CA0011.namprd10.prod.outlook.com
- (2603:10b6:a03:255::16) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD1A10E12A
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 19:31:51 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2ee90f56e02so16937621fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2024 12:31:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1720207909; x=1720812709; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3a/IP9UAI0MMzDfJcGVj3efcyNq722ZVixAUuw6OvDM=;
+ b=IImcWP6ZK0eQl/aJJilRoQ7hUWk9PZImtIYWDE+0+OnODtyYUgbo66FEJBLPUqFKmy
+ 5HdSsndiwX+lOUonobwkl/23eGcDTg+keWFmTI7VWLYgQlDoWb+KWqKmjkre6sFrqZsx
+ huzw2t1x5nuLPBi/ypTVVe1R6b4fj388r67qyCulF7gVnHt1Y75K9oLe9X1GEnXVZevF
+ i2HF3lH3Rfc2txJIV9PVu07z2PUAIChWVUIG0NtwjlwztypfFgK1dUcjeCPNVVUNwEnE
+ L+ySjF/EW+27vD2nv18shpaQZdjML4DT3MpECLs/qilIK3H8uozuM9iS/O2GfKPjTcCq
+ hqHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720207909; x=1720812709;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3a/IP9UAI0MMzDfJcGVj3efcyNq722ZVixAUuw6OvDM=;
+ b=uIsfM4fR8c/w321CT7VvVF6guJvsQhMlwa/1kOhBHLTdhCP72z7TIWEria0MXF4LGp
+ jqGksHemI9TFQflhWf1+lxuZhTJSZP2mwUXC8EltO2k6CaeMVqy6juEis5ll9V0a+KCO
+ ZT3IvoMb+NeC9PrR4tHuv3PVWtHy9JQD1GG6iL8DiR7HYjM2S9nh4l7TLrSkw29IDNvI
+ qmype6r6/7his7Q4OhC9414q4RUDW7KAK8Tz26mtB/uJ9YWJ492bCUAlfil7s4Cz85AG
+ Y/6a4DiTwx0Avtzv3SZuylGrx70I/0oF3cYY9KEtBcknYVD5cv2opyYRyoA4HAb4pEf2
+ EFyA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXr7XK45TBTrKCyPDy7wiE5DVT/6uSBj/Hmd566fPlP0kMarAs1NIBrr2r4qrTYmJ7lFJbCxotryIkI0bhf9oW3fG+CT0ZUegfCi8XHEkxL
+X-Gm-Message-State: AOJu0YwzPmrEsbXbdjPeSyUmwRVwGKb3UCPCS26HZOcm0IUGagkwIMyg
+ U+sPSm+MklWfFsu7sPyg8IYFRioAuoz6inXssP+QjfBhxGP9rr8Mp3WXfQsfpoEm7dAkPRtLC4+
+ odN5+WlJuQJydR5d+W2TiGiZmSwU=
+X-Google-Smtp-Source: AGHT+IEGwTHUnEwxAtcRQIzolhJSZk6WkVqku3urMzgbBFOy6oE1rE6fQ+l016BGnCGGPVPlLtRBZJ2NRquAVpXNayg=
+X-Received: by 2002:a2e:a167:0:b0:2ee:83f7:8b32 with SMTP id
+ 38308e7fff4ca-2ee8ed93dbcmr37826791fa.21.1720207908815; Fri, 05 Jul 2024
+ 12:31:48 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|GVXPR04MB10023:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01c6f81d-86ad-4dc8-05d5-08dc9d250c5f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|52116014|376014|7416014|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?s6Nosk5uGcA8DOAufv3qG/fBg+hrszAt+gqITMruoLcWinYz1aeve6Cm8umT?=
- =?us-ascii?Q?RUR8AXSIUGB1/KoGE6WgQDkJ6kQ4Bq6YJy009EOKi+TwQZVcLurAcEq2S3Wf?=
- =?us-ascii?Q?Ay3FXvBWZyljp+ratP5AoFf+GpVooASyrNU57mPpkjWaku2L0TNegknAXvoZ?=
- =?us-ascii?Q?wrGBKDjibgR+IPhvSO3y2cCcssUc9UbYHM/cNUgcrk+bKkwm//2OS3Qi/6O6?=
- =?us-ascii?Q?IbAvDOxi5bb+oiM1VleZh4MY0zGCgJfcqfl4LBScL5nYUxU7dFava6Yukuvj?=
- =?us-ascii?Q?K+HE3Jcp4zTR6iwNMdL0nZ31XUoVOOlxA8hpvw3QrOZYatjkchQxw6Ez94L+?=
- =?us-ascii?Q?kLkZc4xGWuaYsXNyHUp8VwVRyBxiZD/U3VOZ6Zt+uYGSiaRQuf+j5k7QxUeg?=
- =?us-ascii?Q?l2nnjXHjrjHwGXLlqtQVbR95Zc5v+R2gKWVEItzhNx9yjP7CIotfN2O6BlxL?=
- =?us-ascii?Q?y+jJP2FJzbhi30mvsPkTGTRvoYHk0WpmGx+BQBy2WAPLL4tfIyXMOPnFOei9?=
- =?us-ascii?Q?PTLtP7+4qjWCh0Edv4ZOgJhLCV3VFFaxBQuw8DcBf1ZgkGXhvMEciQhFdTAO?=
- =?us-ascii?Q?CdSPeXD8W5mmL3prVOMOBrktEjQwqApOCXnpj5Q7YRrKl6MB57W+mzprWdpP?=
- =?us-ascii?Q?PZu8vEZA/I7ZCVRjntVgZyNGv9yEDr1GL15kcq4cGS2ydKW2tEYXcVyGaujE?=
- =?us-ascii?Q?hWOmQxqM4AY5eGda8Pl8xxA0eV5Vj8LgseS0UtzmkihNlVwR2oOPRP7x5xwC?=
- =?us-ascii?Q?3T4EuhkrN5jhX4Iu72F1k3joh1naVQ6p69sLMy+XAHKer/t4Ib6PrhAZs53c?=
- =?us-ascii?Q?ewMfUeG3j6e2AIWl+tGOPvD0rv5xp5T40EReK3An5eLM4HYvNFoVNt6pPbNP?=
- =?us-ascii?Q?bLbsJjfXmvid9GD6MSYhEOlH09UBzA19qxykRClwHGq5WZrX+MMmXMbRHqMg?=
- =?us-ascii?Q?cBIB+NUNGFCifsAMTxHeR55gc1tG/OfyuhTKWK0fh0g3MUtBZtNM3aC6CJHT?=
- =?us-ascii?Q?2CwJJ6M/BgBcbaKRbSS+DvkewnO43oMcb4rc8OIj/dia2EOL6XYDc2dSl+qG?=
- =?us-ascii?Q?KNB+PeA791gtg/m6yRyRemqA8t0JbPurtckkCr2bhB9xWbNu9iXSnWjtx5ys?=
- =?us-ascii?Q?kJ2efxsFf01EgcMbvDQl+lnbuqAPbTDLyr+zO0q72IxiHwskz7Car7oijNth?=
- =?us-ascii?Q?EBj8PsaFrKQ+v4KLOSLuoN98bAywRdRJfXjQZymZT9YwYdyOoNw/abxaUoUx?=
- =?us-ascii?Q?90bmgE4v+SUY7Bkake2eEgF4TirDNBmck6PvOA5iO9yX9SShLDSPEMXa1mAP?=
- =?us-ascii?Q?LNpnA2/PdMbnyxh5lSjlCzgIi5tVAPfWCzGrQg+mVerNY/VZ+rpuwqUItz0k?=
- =?us-ascii?Q?UpVqVXw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?d5TT/1C+j/Kuz06gLlSxIHqHG8MZT8SVQidGhqNBy/K85x1ZRJmjHtSbr9p1?=
- =?us-ascii?Q?e4lArKWYBtKUwzzx7eB9X8naLT/NIIdWMIspakASX9asU3NIfpjFvWCZGC/S?=
- =?us-ascii?Q?0hUO5hSKcJE5y5rtV0hpjAgI+LfZ5SFLj6ydjglDghdCTMUTx3SLP0nhfaRz?=
- =?us-ascii?Q?+wPJxLhe1/CYOcJ8mLoTfuHIiOwXUYWQmcdx5s2mVCHLPcXVi9usyWnTcTFC?=
- =?us-ascii?Q?qY1sQp6G5dzAr3OqV92VcvIHyLrLvlHueTsumFeMAuqxNyUEmcidWiEw0CKL?=
- =?us-ascii?Q?lFNcybu1mahZ1sFIBKbO8mMQQFTxCNjrGiZhxFQ4gZkeWmye9OvsjmpfxoqY?=
- =?us-ascii?Q?Y/MRZrC208YV0U+dP52DFzwN93qnMznuFBXykdByoOnb6yMgHE3sm/ovhGLf?=
- =?us-ascii?Q?kjK6Z+HeITmknKcutgeBBq76ZSREbAM+iKRpsoRUnhHYt9M2NpYHIusXCdI3?=
- =?us-ascii?Q?bFhf8tnCfhi5MNt56pTCcOI/ipqvVw9Z8Z/6ck/zNiCcfuUaZaSzHvcdwOQn?=
- =?us-ascii?Q?pJPZzGX0lTKV2prndvOqDUbxpH36ZQMAlOR8y+NbfwtNGcUz0PniLDw5g7/+?=
- =?us-ascii?Q?e9dVthJ3XC9fU/Uz8+9HwJWlruoqkYr83RxdYk5RsnRaWeahGJtUUeAYZp/t?=
- =?us-ascii?Q?j4BtqQusVoxjTnQRbvxzw/HOreWh3bWWjqegjoQJgcXrnkQl+zTlw2Q4aquZ?=
- =?us-ascii?Q?bwH6OImJT32zkL91Jx3F5bDjIw4kotu4foguY45R+o4EkSfc3+l7ZdhbCfam?=
- =?us-ascii?Q?wPun1CJFKIMQarxyw5KznniGhkd+GjLgN8SDBrAa8cHFoutH0iRhCz7NkJIn?=
- =?us-ascii?Q?KWu1R/2CNVnfvmtfxS0BBSCInH5abu7prf4Uwk+rVbmxJf9SxK1yHLIgdtel?=
- =?us-ascii?Q?lNGdZ2d8l+wjPvmy3HNB7WinbvvQP8RhaPaVNMVqIbpA+xuILRGToF+1BqzY?=
- =?us-ascii?Q?mNyEFxTCWgd/Kw1xKG1hQh1OPjEEMamZdzc7wHjnqSkO5SBx/u1ahS3qnXAM?=
- =?us-ascii?Q?bpm8J8X0j+yKgXYXOIAY/PBtG6jLaEpH5lWBMRtTFtRRq2IAy4I+ujGEv5xZ?=
- =?us-ascii?Q?e3oMabKEk8wuC3ohYhP/fK6wkRrGDb4t3lbgz7gU5CSBjWG2gOrVpKqyy+cS?=
- =?us-ascii?Q?yChtp1oGeCpcRohnV7Lm8RuorVzKc9BmfQCSfpIlXKtU7HpTTQYkR3RQg4Aw?=
- =?us-ascii?Q?G86+BVRm1TddK5MijLxvFx9NChsxljW/i3x8aeyrOrLrq6t25yNMxaFYm9/t?=
- =?us-ascii?Q?RW04zVdE9SL20kvPQ+UzZ5tzJTuu2biSH/a96Wvjw1GdjBVZ1DuhTy2d+LOO?=
- =?us-ascii?Q?RNH8TIClw1GnBbX65N+BU6LP2q4MfOqoG08XAtkqG5yqjGADEVHWKuZnMyCx?=
- =?us-ascii?Q?xNmKXGjplQQyc84sD12aiA19OL5XqLixM1sRbda0WXMLdCYC5IDLuV4xw1VR?=
- =?us-ascii?Q?1fcwLaWu1961GZYlGCWg1ySLh6KSXRLteSQVPgXatDmzKRpjUn/l3qyWpPMc?=
- =?us-ascii?Q?iAHnO8jnCowXoi9osDNbtnZh4ZOZhX+khC7JOIrYMyd7fW7+CZiaaMYurC+Q?=
- =?us-ascii?Q?3ODaYjD0FBoxCPwNJhNPr7u5GGtD1UmMcLVyGeu/?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01c6f81d-86ad-4dc8-05d5-08dc9d250c5f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2024 19:02:42.7940 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 81s4LZSb5Ki8NaELUQsaxuHdqfbzvaLoynVZZg3amqkVM+HhYKyehbh/+SvlyV8S4IfWDGgIzUqkFIcOASI2+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10023
+References: <44196cb4-bc07-4dba-bf1d-9d3d0e3bc88d@collabora.com>
+ <f20f80a7-c905-4a9e-8fa6-985d6b3b1662@collabora.com>
+ <ZnvEHEIEJIYcsQgN@phenom.ffwll.local>
+ <f6kf3smgaza7r7zif4frz6ugrdzcl4u3xqidgwgvuffydhjfzp@66afcetzo3uw>
+ <ZnxUP8H5oATEYNBt@phenom.ffwll.local>
+ <CAF6AEGu0X43O0-p=LaVmDgZrHnkHctuv=uLeqG+JEJXbfh=mjg@mail.gmail.com>
+ <Zn72laHlmWW3So9f@phenom.ffwll.local>
+ <CAF6AEGv6Hd65OPJm6DBB=yPRtLLB1BZpRodLr-Bk5stGzULMew@mail.gmail.com>
+ <Zoas4JJ3uhrR9lH7@phenom.ffwll.local>
+ <CAF6AEGtCEbhBo2CXLQymf2g5RogtdYv2LLXUNQO7Tvuw7x6ujA@mail.gmail.com>
+ <ZofMlSIjFV9iGZNM@phenom.ffwll.local>
+In-Reply-To: <ZofMlSIjFV9iGZNM@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 5 Jul 2024 12:31:36 -0700
+Message-ID: <CAF6AEGvDFLBC6BWUdC6L1czn044EuTerPWqLib5hhRVkZyEpig@mail.gmail.com>
+Subject: Re: Time for drm-ci-next?
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Helen Koike <helen.koike@collabora.com>,
+ Vignesh Raman <vignesh.raman@collabora.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Dave Airlie <airlied@gmail.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Stone <daniels@collabora.com>, Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,50 +94,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 05, 2024 at 05:09:32PM +0800, Liu Ying wrote:
-> Add myself as the maintainer of i.MX8qxp Display Controller.
-> 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
->  MAINTAINERS | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 35db18d26c11..29c9d52e74d1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7379,6 +7379,25 @@ F:	Documentation/devicetree/bindings/display/imx/
->  F:	drivers/gpu/drm/imx/ipuv3/
->  F:	drivers/gpu/ipu-v3/
->  
-> +DRM DRIVERS FOR FREESCALE IMX8 DISPLAY CONTROLLER
-> +M:	Liu Ying <victor.liu@nxp.com>
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Maintained
-> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-extdst.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchlayer.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchunit-common.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchwarp.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-intc.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon.yaml
-> +F:	Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
+On Fri, Jul 5, 2024 at 3:36=E2=80=AFAM Daniel Vetter <daniel.vetter@ffwll.c=
+h> wrote:
+>
+> On Thu, Jul 04, 2024 at 08:40:26AM -0700, Rob Clark wrote:
+> > On Thu, Jul 4, 2024 at 7:08=E2=80=AFAM Daniel Vetter <daniel.vetter@ffw=
+ll.ch> wrote:
+> > >
+> > > On Tue, Jul 02, 2024 at 05:32:39AM -0700, Rob Clark wrote:
+> > > > On Fri, Jun 28, 2024 at 10:44=E2=80=AFAM Daniel Vetter <daniel@ffwl=
+l.ch> wrote:
+> > > > >
+> > > > > On Thu, Jun 27, 2024 at 11:51:37AM -0700, Rob Clark wrote:
+> > > > > > On Wed, Jun 26, 2024 at 10:47=E2=80=AFAM Daniel Vetter <daniel@=
+ffwll.ch> wrote:
+> > > > > > >
+> > > > > > > On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry Baryshkov wr=
+ote:
+> > > > > > > > On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel Vetter wrote=
+:
+> > > > > > > > > On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike wro=
+te:
+> > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > On 24/06/2024 02:34, Vignesh Raman wrote:
+> > > > > > > > > > > Hi,
+> > > > > > > > > > >
+> > > > > > > > > > > On 15/03/24 22:50, Rob Clark wrote:
+> > > > > > > > > > > > Basically, I often find myself needing to merge CI =
+patches on top of
+> > > > > > > > > > > > msm-next in order to run CI, and then after a clean=
+ CI run, reset HEAD
+> > > > > > > > > > > > back before the merge and force-push.  Which isn't =
+really how things
+> > > > > > > > > > > > should work.
+> > > > > > > > >
+> > > > > > > > > This sounds more like you want an integration tree like d=
+rm-tip. Get msm
+> > > > > > > > > branches integrated there, done. Backmerges just for inte=
+gration testing
+> > > > > > > > > are not a good idea indeed.
+> > > > > >
+> > > > > > But AFAIU this doesn't help for pre-merge testing, ie. prior to=
+ a
+> > > > > > patch landing in msm-next
+> > > > > >
+> > > > > > My idea was to have a drm-ci-next managed similar to drm-misc-n=
+ext, if
+> > > > > > we have needed drm/ci patches we could push them to drm-ci-next=
+, and
+> > > > > > then merge that into the driver tree (along with a PR from drm-=
+ci-next
+> > > > > > to Dave).
+> > > > >
+> > > > > I guess I'm confused about what kind of pre-merge testing we're t=
+alking
+> > > > > about then ... Or maybe this just doesn't work too well with the =
+linux
+> > > > > kernel. The model is that you have some pile of trees, they're sp=
+lit up,
+> > > > > and testing of all the trees together is done in integration tree=
+s like
+> > > > > linux-next or drm-tip.
+> > > >
+> > > > pre-merge: for msm we've been collecting up patches from list into =
+a
+> > > > fast-forward MR which triggers CI before merging to msm-next/msm-fi=
+xes
+> > > >
+> > > > Ideally drm-misc and other trees would do similar, we'd catch more
+> > > > regressions that way.  For example, in msm-next the nodebugfs build=
+ is
+> > > > currently broken, because we merged drm-misc-next at a time when
+> > > > komeda was broken:
+> > > >
+> > > > https://gitlab.freedesktop.org/drm/msm/-/jobs/60575681#L9520
+> > > >
+> > > > If drm-misc was using pre-merge CI this would have been caught and =
+the
+> > > > offending patch dropped.
+> > >
+> > > That sounds more like we should push on the drm-misc pre-merge CI bou=
+lder
+> > > to move it uphill, than add even more trees to make it even harder to=
+ get
+> > > there long term ...
+> > >
+> > > Short term it helps locally to have finer trees, but only short term =
+and
+> > > only very locally.
+> >
+> > The path to have fewer trees (ideally only one for all of drm) is to
+> > use gitlab MRs to land everything :-)
+> >
+> > drm-ci-next is only a stop-gap.. but one that we need.  The
+> > ${branchname}-external-fixes trick covers _most_ cases where we need
+> > unrelated patches (ie. to fix random ToT breakage outside of drm or in
+> > core drm), but it doesn't help when the needed changes are yml
+> > (because gitlab processes all the yml before merging the
+> > -external-fixes branch).  This is where we need drm-ci-next, otherwise
+> > we are having to create a separate MR which cherry-picks drm/ci
+> > patches for doing the CI.  This is a rather broken process.
+>
+> So what I don't get is ... if we CI drm-misc, how does that not help
+> improve the situation here? Step one would be post-merge (i.e. just enabl=
+e
+> CI in the repo), then get MRs going.
 
-How about 
-	 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc*.yaml
+I guess post-merge is better than nothing.. but pre-merge is better.
 
-Frank
+post-merge can work if you have a "sheriff" system where someone
+(perhaps on a rotation) is actively monitoring results and "revert and
+ask questions later" when something breaks.  Pre-merge ensures the
+interested party is involved in the process ;-)
 
-> +F:	drivers/gpu/drm/imx/dc/
-> +
->  DRM DRIVERS FOR FREESCALE IMX BRIDGE
->  M:	Liu Ying <victor.liu@nxp.com>
->  L:	dri-devel@lists.freedesktop.org
-> -- 
-> 2.34.1
-> 
+BR,
+-R
+
+> > I could conceivably see a scenario where we are landing both drm/ci
+> > and drm/msm changes via the same tree.  But only if we were using
+> > gitlab MRs and CI for landing all changes in that tree.
+>
+> Yeah that's kinda the world I'm hoping for.
+> -Sima
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
