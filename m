@@ -2,55 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D1A928E57
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 22:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3475928EC8
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 23:23:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 456CD10E05A;
-	Fri,  5 Jul 2024 20:48:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JAbNq0Vi";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F35110E033;
+	Fri,  5 Jul 2024 21:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB2D10E05A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 20:48:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9C170CE3EFA;
- Fri,  5 Jul 2024 20:48:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B458FC4AF0A;
- Fri,  5 Jul 2024 20:48:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720212508;
- bh=emKAb+tft4K0foCSYr6sbq2VPkioj9JnikHXC08E3Ec=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JAbNq0ViVhr+cccjh6Gzx0zT7EFBDA6vCNo7U0ZIHH4rNpWtw+x2/+S1XuyTdq691
- bnN+ju+K2EIsD7acjjiz7NyueF/8av7nMH2npVqQr0qr6j9V+Hq+4/6XoJbnTIPI4H
- i3g0rauvRfdqpzA2FxU25RP2mr5fqX3tjDSccGhzNE491868IIb2BCbWJR1I/SOfe8
- r5eH7LnSA13ninCr9W/FBMqTLrBNk1CPvIBy6LuMip3asVVvdtQkEc9j0se0GTpU9I
- ywWcWHRBWWo3UNdmJnzY1ZTjzVrWdfM8f2eyxc90E1TP8NdepfntOUV2+BVNUjT5e5
- uoh2AgtMF7S9w==
-From: SeongJae Park <sj@kernel.org>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: SeongJae Park <sj@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Christoph Hellwig <hch@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
- Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dongwon Kim <dongwon.kim@intel.com>,
- Junxiao Chang <junxiao.chang@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Christoph Hellwig <hch@lst.de>, Dave Airlie <airlied@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v16 3/9] mm/gup: Introduce memfd_pin_folios() for pinning
- memfd folios
-Date: Fri,  5 Jul 2024 13:48:25 -0700
-Message-Id: <20240705204825.109189-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240624063952.1572359-4-vivek.kasireddy@intel.com>
-References: 
+X-Greylist: delayed 546 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Jul 2024 21:23:23 UTC
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
+ [83.223.78.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE21910E050
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 21:23:23 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net
+ [IPv6:2a01:37:1000::53df:5f1c:0])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+ by bmailout2.hostsharing.net (Postfix) with ESMTPS id BF5BD2800B750;
+ Fri,  5 Jul 2024 23:14:14 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id 99DB832455; Fri,  5 Jul 2024 23:14:14 +0200 (CEST)
+Date: Fri, 5 Jul 2024 23:14:14 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Jeremy Linton <jeremy.linton@arm.com>
+Cc: Stefan Wahren <wahrenst@gmx.net>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Minas Harutyunyan <hminas@synopsys.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Jiri Slaby <jirislaby@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
+Subject: Re: [PATCH 09/11] usb: dwc2: Skip clock gating on Broadcom SoCs
+Message-ID: <ZohiJgyaDwAoGtAx@wunner.de>
+References: <20240630153652.318882-1-wahrenst@gmx.net>
+ <20240630153652.318882-10-wahrenst@gmx.net>
+ <95762956-b46a-4dfa-b22f-bccbfa39558d@broadcom.com>
+ <ZoezRpXBgB1B5WjB@wunner.de>
+ <4502d826-d80c-4a98-a889-da7badfa698e@gmx.net>
+ <ZogLXYopViQO11ta@wunner.de>
+ <43fa421c-5e5b-40a6-a546-d80e753586e3@gmx.net>
+ <38e46b44-6248-45e8-bdf9-66008a2fe290@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <38e46b44-6248-45e8-bdf9-66008a2fe290@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,142 +73,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Vivek and Andrew,
-
-On Sun, 23 Jun 2024 23:36:11 -0700 Vivek Kasireddy <vivek.kasireddy@intel.com> wrote:
-
-> For drivers that would like to longterm-pin the folios associated
-> with a memfd, the memfd_pin_folios() API provides an option to
-> not only pin the folios via FOLL_PIN but also to check and migrate
-> them if they reside in movable zone or CMA block. This API
-> currently works with memfds but it should work with any files
-> that belong to either shmemfs or hugetlbfs. Files belonging to
-> other filesystems are rejected for now.
+On Fri, Jul 05, 2024 at 12:16:14PM -0500, Jeremy Linton wrote:
+> > Am 05.07.24 um 17:03 schrieb Lukas Wunner:
+> > > Careful there, the patch vaguely says...
+> > > 
+> > >     With that added and identified as "BCM2848",
+> > >     an id in use by other OSs for this device, the dw2
+> > >     controller on the BCM2711 will work.
+> > > 
+> > > ...which sounds like they copy-pasted the BCM2848 id from somewhere else.
+> > > I would assume that BCM2848 is really a different SoC and not just
+> > > a different name for the BCM2835, but hopefully BroadCom folks will
+> > > be able to confirm or deny this (and thus the necessity of the quirk
+> > > on BCM2848 and not just on BCM2835).
 > 
-> The folios need to be located first before pinning them via FOLL_PIN.
-> If they are found in the page cache, they can be immediately pinned.
-> Otherwise, they need to be allocated using the filesystem specific
-> APIs and then pinned.
+> This id comes from the edk2-platforms ACPI tables and is currently used by
+> both the rpi3 and rpi4, and AFAIK nothing else as the rpi5-dev work is
+> currently only exposing XHCI.
 > 
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Cc: Christoph Hellwig <hch@infradead.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Hugh Dickins <hughd@google.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Dongwon Kim <dongwon.kim@intel.com>
-> Cc: Junxiao Chang <junxiao.chang@intel.com>
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com> (v2)
-> Reviewed-by: David Hildenbrand <david@redhat.com> (v3)
-> Reviewed-by: Christoph Hellwig <hch@lst.de> (v6)
-> Acked-by: Dave Airlie <airlied@redhat.com>
-> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->  include/linux/memfd.h |   5 ++
->  include/linux/mm.h    |   3 +
->  mm/gup.c              | 137 ++++++++++++++++++++++++++++++++++++++++++
->  mm/memfd.c            |  45 ++++++++++++++
->  4 files changed, 190 insertions(+)
+> The ID is strictly the USB controller not the SoC. Its a bit confusingly
+> named, but something we inherited from the much older windows/edk2 port,
+> where it appears that the peripheral HID's were just picked in numerical
+> order.
 > 
-[...]
-> diff --git a/mm/gup.c b/mm/gup.c
-> index a88e19c78730..94160abbf499 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-[...]
-> @@ -3747,3 +3749,138 @@ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
->  				     &locked, gup_flags);
->  }
->  EXPORT_SYMBOL(pin_user_pages_unlocked);
-> +
-> +/**
-> + * memfd_pin_folios() - pin folios associated with a memfd
-[...]
-> +			for (i = 0; i < nr_found; i++) {
-> +				/*
-> +				 * As there can be multiple entries for a
-> +				 * given folio in the batch returned by
-> +				 * filemap_get_folios_contig(), the below
-> +				 * check is to ensure that we pin and return a
-> +				 * unique set of folios between start and end.
-> +				 */
-> +				if (next_idx &&
-> +				    next_idx != folio_index(fbatch.folios[i]))
-> +					continue;
-> +
-> +				folio = try_grab_folio(&fbatch.folios[i]->page,
-> +						       1, FOLL_PIN);
-> +				if (!folio) {
-> +					folio_batch_release(&fbatch);
-> +					ret = -EINVAL;
-> +					goto err;
-> +				}
+> [0] https://github.com/tianocore/edk2-platforms/blob/12f68d29abdc9d703f67bd743fdec23ebb1e966e/Platform/RaspberryPi/AcpiTables/GpuDevs.asl#L15
 
-I found this patch is applied on mm-unstable as commit 7618d1ff59ef ("mm/gup:
-introduce memfd_pin_folios() for pinning memfd folios").  Somehow, however, the
-commit has changd the above try_grab_folio() call to try_grab_folio_fast()
-call.
+So BCM2848, BCM2849, BCM2850 and so on are just made-up IDs
+for a Windows/EDK2 port that got cargo-culted into the kernel?
+Yikes!
 
-As a result, building kernel without CONFIG_MMU fais as below:
-
-      CC      mm/gup.o
-    mm/gup.c: In function 'memfd_pin_folios':
-    mm/gup.c:3862:41: error: implicit declaration of function 'try_grab_folio_fast'; did you mean 'try_grab_folio'? [-Werror=implicit-function-declaration]
-     3862 |                                 folio = try_grab_folio_fast(&fbatch.folios[i]->page,
-          |                                         ^~~~~~~~~~~~~~~~~~~
-          |                                         try_grab_folio
-    mm/gup.c:3862:39: warning: assignment to 'struct folio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     3862 |                                 folio = try_grab_folio_fast(&fbatch.folios[i]->page,
-          |                                       ^
-
-But simply changing the call back to try_grab_folio() causes another failure:
-
-      CC      mm/gup.o
-    mm/gup.c: In function 'memfd_pin_folios':
-    mm/gup.c:3862:56: error: passing argument 1 of 'try_grab_folio' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     3862 |                                 folio = try_grab_folio(&fbatch.folios[i]->page,
-          |                                                        ^~~~~~~~~~~~~~~~~~~~~~~
-          |                                                        |
-          |                                                        struct page *
-    mm/gup.c:141:47: note: expected 'struct folio *' but argument is of type 'struct page *'
-      141 | int __must_check try_grab_folio(struct folio *folio, int refs,
-          |                                 ~~~~~~~~~~~~~~^~~~~
-    mm/gup.c:3862:39: warning: assignment to 'struct folio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     3862 |                                 folio = try_grab_folio(&fbatch.folios[i]->page,
-          |                                       ^
-
-Maybe the change has made to fix conflict with another mm-unstable commit
-02a2d55767d1 ("mm: gup: stop abusing try_grab_folio"), but forgot the
-CONFIG_MMU unset case?
-
-I confirmed the failure disappears after further cleanup like below:
-
-diff --git a/mm/gup.c b/mm/gup.c
-index 46a266ed84f7..9f4902425070 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -3859,9 +3859,9 @@ long memfd_pin_folios(struct file *memfd, loff_t start, loff_t end,
-                                    next_idx != folio_index(fbatch.folios[i]))
-                                        continue;
-
--                               folio = try_grab_folio_fast(&fbatch.folios[i]->page,
--                                                      1, FOLL_PIN);
--                               if (!folio) {
-+                               folio = page_folio(&fbatch.folios[i]->page);
-+
-+                               if (try_grab_folio(folio, 1, FOLL_PIN)) {
-                                        folio_batch_release(&fbatch);
-                                        ret = -EINVAL;
-                                        goto err;
-
-I didn't look deep into the patch, so unsure if that's a valid fix, though.
-May I ask your thoughts?
-
-
-Thanks,
-SJ
-
-[...]
+Has anyone checked whether they collide with actual Broadcom products?
