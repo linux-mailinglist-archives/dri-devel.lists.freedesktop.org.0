@@ -2,57 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22105928DD4
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 21:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1538928E07
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2024 22:00:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFD710E2CF;
-	Fri,  5 Jul 2024 19:38:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WnPBd/qO";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0551510EC27;
+	Fri,  5 Jul 2024 20:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3376510E2CF
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 19:38:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 10D1ECE3ECC;
- Fri,  5 Jul 2024 19:37:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AB77BC4AF0D;
- Fri,  5 Jul 2024 19:37:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720208278;
- bh=QmxDXWhbURXuUWtYMT4oPszmHDCN/dLT/1LFJprLC70=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=WnPBd/qO4nDYm50JaSwcxylUIq+VZkgRSQHLTerfcuwK+3GkK+l8YmS45v9ps9nBt
- PT9QkBCi1gY6njfJFzO4rSSF++FF4+WvnI0vDlR1l/V3FcTOXtFvTZtIDLLOuMHGl0
- lzH2j4xCpwekjBXEnyLCqT4l3Lpy4yySrgMEDEAijqhhR6Z7IN4NVM2IpLr7qTPbXC
- D20jX7Zd9Y25/xaq8nQsY0WICp60+SWeJgEBX3dBb+quRYLRK2DLbsOktQmqLxpAB1
- 6dndrt1i/ZIVHmn+Inxw1g3DIsFvTlUgrPrjuHnP6jfMkZGvL/DexjCHGPfv9SU/qu
- DTFSiesyOwHmQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- A0479C43446; Fri,  5 Jul 2024 19:37:58 +0000 (UTC)
-Subject: Re: [PULL] drm-fixes for v6.10
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZogN3gNPBVb29Vgl@phenom.ffwll.local>
-References: <ZogN3gNPBVb29Vgl@phenom.ffwll.local>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <ZogN3gNPBVb29Vgl@phenom.ffwll.local>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-fixes-2024-07-05
-X-PR-Tracked-Commit-Id: 3c6f5afd91cfacba9f43fd388f2d88c85195ae32
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: dd9d7390b2de008448eb3328d4a0504c76c74572
-Message-Id: <172020827865.9250.17848296938618641540.pr-tracker-bot@kernel.org>
-Date: Fri, 05 Jul 2024 19:37:58 +0000
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99CF010E21E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 20:00:18 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sPp6M-0003VJ-Kt; Fri, 05 Jul 2024 22:00:14 +0200
+Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sPp6L-007Ocg-SP; Fri, 05 Jul 2024 22:00:13 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
+Subject: [PATCH v2 1/5] drm/etnaviv: hold GPU lock across perfmon sampling
+Date: Fri,  5 Jul 2024 22:00:09 +0200
+Message-Id: <20240705200013.2656275-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,15 +54,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 5 Jul 2024 17:14:38 +0200:
+The perfmon sampling mutates shared GPU state (e.g. VIVS_HI_CLOCK_CONTROL
+to select the pipe for the perf counter reads). To avoid clashing with
+other functions mutating the same state (e.g. etnaviv_gpu_update_clock)
+the perfmon sampling needs to hold the GPU lock.
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-07-05
+Fixes: 68dc0b295dcb ("drm/etnaviv: use 'sync points' for performance monitor requests")
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+v2: new patch
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/dd9d7390b2de008448eb3328d4a0504c76c74572
-
-Thank you!
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 7c7f97793ddd..2bd14d3501e2 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1330,6 +1330,8 @@ static void sync_point_perfmon_sample_pre(struct etnaviv_gpu *gpu,
+ {
+ 	u32 val;
+ 
++	mutex_lock(&gpu->lock);
++
+ 	/* disable clock gating */
+ 	val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
+ 	val &= ~VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
+@@ -1341,6 +1343,8 @@ static void sync_point_perfmon_sample_pre(struct etnaviv_gpu *gpu,
+ 	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
+ 
+ 	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_PRE);
++
++	mutex_unlock(&gpu->lock);
+ }
+ 
+ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
+@@ -1350,13 +1354,9 @@ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
+ 	unsigned int i;
+ 	u32 val;
+ 
+-	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_POST);
+-
+-	for (i = 0; i < submit->nr_pmrs; i++) {
+-		const struct etnaviv_perfmon_request *pmr = submit->pmrs + i;
++	mutex_lock(&gpu->lock);
+ 
+-		*pmr->bo_vma = pmr->sequence;
+-	}
++	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_POST);
+ 
+ 	/* disable debug register */
+ 	val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
+@@ -1367,6 +1367,14 @@ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
+ 	val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
+ 	val |= VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
+ 	gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, val);
++
++	mutex_unlock(&gpu->lock);
++
++	for (i = 0; i < submit->nr_pmrs; i++) {
++		const struct etnaviv_perfmon_request *pmr = submit->pmrs + i;
++
++		*pmr->bo_vma = pmr->sequence;
++	}
+ }
+ 
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.39.2
+
