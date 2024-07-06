@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61697929093
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2024 05:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E009290BE
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2024 06:45:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA42A10EA35;
-	Sat,  6 Jul 2024 03:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B2C10E0FF;
+	Sat,  6 Jul 2024 04:45:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="B09MFEOG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QtQ4eOvU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B71EE10EA14;
- Sat,  6 Jul 2024 03:41:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ekbQDooGGkHs+OEBp01r7ebDHbjjVf+o0Kyh/Fj/m7Y=; b=B09MFEOGQ4fn/DonXCu7z9fcZ+
- 4f6C3tKoFyReoxV3lmCTkVhZBI8MgY/YbqhZiYeTs8EU3Y7u1uB0i8S+Qrs53DhgS+RLTsy+FmKcF
- nddZ8eUsELiPEG2QD6C7+odIjYF37WaH75IKLpsbXQfxvMpoyT9wIpBEsKQ2OoDzGLWvrtysVUqtW
- aUcej2ryvDhdOkCZlzIPp1AGztLt34EpRbuxgPoIlk+sV5w6+Nt8lZTsCg3KgmzHGG1Ke429elpPf
- LkhZ6LbuJeoQXm2pzkq1cGa17xtYzSNFhND0Ed77H9UPwAy7Xd7esWUxHc8KhoEoVJVHCgy+BMiYd
- a5kY207w==;
-Received: from [189.6.17.125] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sPwIQ-00Bj27-Q1; Sat, 06 Jul 2024 05:41:11 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: Alex Hung <alex.hung@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH v4 11/11] drm/amd/display: remove dc_edid handler from
- dm_helpers_parse_edid_caps
-Date: Sat,  6 Jul 2024 00:35:12 -0300
-Message-ID: <20240706034004.801329-12-mwen@igalia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240706034004.801329-1-mwen@igalia.com>
-References: <20240706034004.801329-1-mwen@igalia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E37A010E0A6;
+ Sat,  6 Jul 2024 04:45:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720241130; x=1751777130;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Tn5abEdQ9CH4IR3iMV7Us+q6ibAi/T5jniKdfJH5yr0=;
+ b=QtQ4eOvUmk7hhyx6wottMGMOrKZBxiVzpk6blb1R8BUGJk14ojU3WCVc
+ 4HNyyCSne/o6KYlKs0uhy2GR2u4oJYHFRQ4L5lu9v0MF6r0QSoW6cvTCz
+ 4WqRTJWELcK1WWwLZPzsmKgtvoBgq2QjBecGHF0pdk60TYlvxb3xMIa5z
+ IZ+1nziOa8rU/HsNNClpVy2/GRPmutUo/N+Me4xixx4jnCRkg/fdCbefT
+ cGpUZf1+fCrhTFWTK0sjiAeKv97Lq/WfoUFdF11ugwuvjMig7u/osg0lm
+ 7at3GtNO6ycMiUIzcILU3aLKZ7lTeemv1zukwQQ7w2UrQVHpWdvSB4JVR g==;
+X-CSE-ConnectionGUID: pT8mNu3CRKuw1NlPavSDPA==
+X-CSE-MsgGUID: PHzPRH4ST3a2FQaWUK8VmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17651327"
+X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; d="scan'208";a="17651327"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jul 2024 21:45:29 -0700
+X-CSE-ConnectionGUID: VfCqaFR+Rrm30HFgsHAUFg==
+X-CSE-MsgGUID: I/MDejYIQxO1dUASENMOIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; d="scan'208";a="84568015"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+ by orviesa001.jf.intel.com with ESMTP; 05 Jul 2024 21:45:27 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sPxIa-000TJo-1I;
+ Sat, 06 Jul 2024 04:45:24 +0000
+Date: Sat, 6 Jul 2024 12:45:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 8/8] drm/ttm: Balance ttm_resource_cursor_init() and
+ ttm_resource_cursor_fini()
+Message-ID: <202407061220.4fu8rFR1-lkp@intel.com>
+References: <20240705153206.68526-9-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240705153206.68526-9-thomas.hellstrom@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,129 +77,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We can parse edid caps from drm_edid and drm_eld and any calls of
-dm_helpers_parse_edid_caps is made in a state that we have drm_edid set
-to amdgpu connector.
+Hi Thomas,
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  6 ++--
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 29 +++++++++----------
- drivers/gpu/drm/amd/display/dc/dm_helpers.h   |  1 -
- .../drm/amd/display/dc/link/link_detection.c  |  6 ++--
- 4 files changed, 17 insertions(+), 25 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 34e380b4408e..fd3580bf1fb2 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7024,10 +7024,8 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
- 
- 		memset(&dc_em_sink->edid_caps, 0, sizeof(struct dc_edid_caps));
- 		memmove(dc_em_sink->dc_edid.raw_edid, (uint8_t *)edid, (edid->extensions + 1) * EDID_LENGTH);
--		dm_helpers_parse_edid_caps(
--			dc_link,
--			&dc_em_sink->dc_edid,
--			&dc_em_sink->edid_caps);
-+		dm_helpers_parse_edid_caps(dc_link,
-+					   &dc_em_sink->edid_caps);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 3fb07f437793..59c12cb1db5a 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -87,27 +87,20 @@ static void apply_edid_quirks(struct drm_edid_product_id *product_id, struct dc_
-  *
-  * Return: void
-  */
--enum dc_edid_status dm_helpers_parse_edid_caps(
--		struct dc_link *link,
--		const struct dc_edid *edid,
--		struct dc_edid_caps *edid_caps)
-+enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
-+					       struct dc_edid_caps *edid_caps)
- {
- 	struct amdgpu_dm_connector *aconnector = link->priv;
- 	struct drm_connector *connector = &aconnector->base;
- 	const struct drm_edid *drm_edid = aconnector->drm_edid;
- 	struct drm_edid_product_id product_id;
--	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
- 	int sad_count;
- 	int i = 0;
--
- 	enum dc_edid_status result = EDID_OK;
- 
--	if (!edid_caps || !edid)
-+	if (!edid_caps || !drm_edid)
- 		return EDID_BAD_INPUT;
- 
--	if (!drm_edid_is_valid(edid_buf))
--		result = EDID_BAD_CHECKSUM;
--
- 	drm_edid_get_product_id(drm_edid, &product_id);
- 
- 	edid_caps->manufacturer_id = le16_to_cpu(product_id.manufacturer_name);
-@@ -919,19 +912,23 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 		if (!drm_edid)
- 			return EDID_NO_RESPONSE;
- 
--		edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
-+		/* FIXME: Get rid of drm_edid_raw()
-+		 * Raw edid is still needed for dm_helpers_dp_write_dpcd()
-+		 */
-+		edid = drm_edid_raw(drm_edid);
- 		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
- 		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
- 
- 		edid_status = dm_helpers_parse_edid_caps(
- 						link,
--						&sink->dc_edid,
- 						&sink->edid_caps);
- 
--		/* We don't need the original edid anymore */
--		drm_edid_free(drm_edid);
--
--	} while (edid_status == EDID_BAD_CHECKSUM && --retry > 0);
-+		if (edid_status != EDID_OK) {
-+			/* We can discard the drm_edid and retry */
-+			drm_edid_free(drm_edid);
-+			drm_edid_connector_update(connector, drm_edid);
-+		}
-+	} while (edid_status != EDID_OK && --retry > 0);
- 
- 	if (edid_status != EDID_OK)
- 		DRM_ERROR("EDID err: %d, on connector: %s",
-diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-index 34adae7ab6e8..bcdfc46c844e 100644
---- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-+++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-@@ -61,7 +61,6 @@ void dm_helpers_free_gpu_mem(
- 
- enum dc_edid_status dm_helpers_parse_edid_caps(
- 	struct dc_link *link,
--	const struct dc_edid *edid,
- 	struct dc_edid_caps *edid_caps);
- 
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-index bba644024780..c7bb146636b2 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-@@ -1417,10 +1417,8 @@ struct dc_sink *link_add_remote_sink(
- 			dc_sink))
- 		goto fail_add_sink;
- 
--	edid_status = dm_helpers_parse_edid_caps(
--			link,
--			&dc_sink->dc_edid,
--			&dc_sink->edid_caps);
-+	edid_status = dm_helpers_parse_edid_caps(link,
-+						 &dc_sink->edid_caps);
- 
- 	/*
- 	 * Treat device as no EDID device if EDID
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20240703]
+[cannot apply to drm-intel/for-linux-next-fixes drm-misc/drm-misc-next linus/master v6.10-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Allow-TTM-LRU-list-nodes-of-different-types/20240706-050447
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20240705153206.68526-9-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v7 8/8] drm/ttm: Balance ttm_resource_cursor_init() and ttm_resource_cursor_fini()
+config: i386-buildonly-randconfig-001-20240706 (https://download.01.org/0day-ci/archive/20240706/202407061220.4fu8rFR1-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061220.4fu8rFR1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407061220.4fu8rFR1-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/ttm/ttm_resource.c:607: warning: Excess function parameter 'man' description in 'ttm_resource_manager_first'
+
+
+vim +607 drivers/gpu/drm/ttm/ttm_resource.c
+
+60e2bb1468a0ed Thomas Hellström 2024-07-05  593  
+5d05b988f1c0fd Christian König  2021-06-08  594  /**
+c3fc230689e1af Thomas Hellström 2024-07-05  595   * ttm_resource_manager_first() - Start iterating over the resources
+c3fc230689e1af Thomas Hellström 2024-07-05  596   * of a resource manager
+5d05b988f1c0fd Christian König  2021-06-08  597   * @man: resource manager to iterate over
+5d05b988f1c0fd Christian König  2021-06-08  598   * @cursor: cursor to record the position
+5d05b988f1c0fd Christian König  2021-06-08  599   *
+c3fc230689e1af Thomas Hellström 2024-07-05  600   * Initializes the cursor and starts iterating. When done iterating,
+c3fc230689e1af Thomas Hellström 2024-07-05  601   * the caller must explicitly call ttm_resource_cursor_fini().
+c3fc230689e1af Thomas Hellström 2024-07-05  602   *
+c3fc230689e1af Thomas Hellström 2024-07-05  603   * Return: The first resource from the resource manager.
+5d05b988f1c0fd Christian König  2021-06-08  604   */
+5d05b988f1c0fd Christian König  2021-06-08  605  struct ttm_resource *
+c052d143fd54cf Thomas Hellström 2024-07-05  606  ttm_resource_manager_first(struct ttm_resource_cursor *cursor)
+5d05b988f1c0fd Christian König  2021-06-08 @607  {
+c052d143fd54cf Thomas Hellström 2024-07-05  608  	struct ttm_resource_manager *man = cursor->man;
+5d05b988f1c0fd Christian König  2021-06-08  609  
+c052d143fd54cf Thomas Hellström 2024-07-05  610  	if (WARN_ON_ONCE(!man))
+c052d143fd54cf Thomas Hellström 2024-07-05  611  		return NULL;
+c052d143fd54cf Thomas Hellström 2024-07-05  612  
+c052d143fd54cf Thomas Hellström 2024-07-05  613  	lockdep_assert_held(&man->bdev->lru_lock);
+c3fc230689e1af Thomas Hellström 2024-07-05  614  
+c052d143fd54cf Thomas Hellström 2024-07-05  615  	list_move(&cursor->hitch.link, &man->lru[cursor->priority]);
+1d19e02e4ccfef Thomas Hellström 2024-07-05  616  	return ttm_resource_manager_next(cursor);
+5d05b988f1c0fd Christian König  2021-06-08  617  }
+5d05b988f1c0fd Christian König  2021-06-08  618  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
