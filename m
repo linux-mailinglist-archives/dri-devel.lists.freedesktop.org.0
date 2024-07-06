@@ -2,55 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7D2928F73
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2024 00:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6152F928FDA
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2024 02:58:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBBA310E060;
-	Fri,  5 Jul 2024 22:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F75A10E07D;
+	Sat,  6 Jul 2024 00:58:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="dJmr/DDw";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="0Sspght0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99A7710E060
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2024 22:55:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8185962C9A;
- Fri,  5 Jul 2024 22:55:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABD90C116B1;
- Fri,  5 Jul 2024 22:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1720220124;
- bh=U979f+Tfwka69RciLAAdirjab/emcVZLYO2LqqusTYk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=dJmr/DDwu/SuLSTOdbfYeMwqHMcYBiaOD9/VCJ+Y8G7N8+CXgCqMx/qweZ+Eu5saW
- 2+DMD8eI0+A8i8zIAQYaGdRIgzvSP8i946vAa/NE0A3JYPQ2kU8PCyhFEGyYUGbxFr
- VKk4y5aIVi2VBSRM1LhnY5erogMfjl8szyHwODsQ=
-Date: Fri, 5 Jul 2024 15:55:23 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Cc: SeongJae Park <sj@kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>, David Hildenbrand <david@redhat.com>, Matthew Wilcox
- <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>, Peter Xu
- <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, "Kim, Dongwon"
- <dongwon.kim@intel.com>, "Chang, Junxiao" <junxiao.chang@intel.com>, Jason
- Gunthorpe <jgg@nvidia.com>, "Christoph Hellwig" <hch@lst.de>, Dave Airlie
- <airlied@redhat.com>
-Subject: Re: [PATCH v16 3/9] mm/gup: Introduce memfd_pin_folios() for
- pinning memfd folios
-Message-Id: <20240705155523.2f098948237715f8a0ffa56c@linux-foundation.org>
-In-Reply-To: <IA0PR11MB7185570E3FCFAE3E7BDE7991F8DF2@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <20240624063952.1572359-4-vivek.kasireddy@intel.com>
- <20240705204825.109189-1-sj@kernel.org>
- <20240705142320.000b1e520b856b7c034bc829@linux-foundation.org>
- <IA0PR11MB7185570E3FCFAE3E7BDE7991F8DF2@IA0PR11MB7185.namprd11.prod.outlook.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B5710E07D
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jul 2024 00:58:45 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id AA0BC8845A;
+ Sat,  6 Jul 2024 02:58:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1720227523;
+ bh=mMJou5m9J1j/u/3wLu2HdDR4nEKGjz1W+s5yXqNx4Ys=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=0Sspght0v+1OyWQqtJp/k6K5p9Na/gcSg0LupJyPo2ZX3BR8JPqdG6+TH9/8rrCOs
+ mum0wZSzH+wYQu8n/sNQa1K7jrEucv5LGXQyRMc0W8r/VORyPyF77pS2uT8p+UKaT4
+ V2OqGSM1v0CuDFDahYaAnqsDrv5a8DH0+qtpBvMOSLz5/ib9d46cEWvn+cgpwE50oz
+ ev/xudaXsTkQX3z6eO2AX6Qixd0afwjhwk9IOfxL4CaCrvYD40MeD3AEtTRgRsPtlB
+ kG/BvBDiDbZYAf60MqIGbMmJDKoVYSRSDeCoSP6vylrABxyETnh4bSYho56xtK81bF
+ 9eRbQu1z7FEag==
+Message-ID: <ab2eb32e-a458-4c9b-8324-27ccb00336c5@denx.de>
+Date: Sat, 6 Jul 2024 02:16:58 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: lcdif: Use adjusted_mode .clock instead of
+ .crtc_clock
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
+ "Lukas F . Hartmann" <lukas@mntmn.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, kernel@dh-electronics.com,
+ linux-arm-kernel@lists.infradead.org
+References: <20240531202813.277109-1-marex@denx.de>
+ <1897634.CQOukoFCf9@steina-w>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <1897634.CQOukoFCf9@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,62 +73,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 5 Jul 2024 22:11:14 +0000 "Kasireddy, Vivek" <vivek.kasireddy@intel.com> wrote:
-
-> Hi Andrew and SJ, 
+On 6/24/24 11:19 AM, Alexander Stein wrote:
+> Am Freitag, 31. Mai 2024, 22:27:21 CEST schrieb Marek Vasut:
+>> In case an upstream bridge modified the required clock frequency
+>> in its .atomic_check callback by setting adjusted_mode.clock ,
+>> make sure that clock frequency is generated by the LCDIFv3 block.
+>>
+>> This is useful e.g. when LCDIFv3 feeds DSIM which feeds TC358767
+>> with (e)DP output, where the TC358767 expects precise timing on
+>> its input side, the precise timing must be generated by the LCDIF.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
 > 
-> > 
-> > >
-> > > I didn't look deep into the patch, so unsure if that's a valid fix, though.
-> > > May I ask your thoughts?
-> > 
-> > Perhaps we should propagate the errno which was returned by
-> > try_grab_folio()?
-> > 
-> > I'll do it this way.  Vivek, please check and let us know?
-> Yeah, memfd_pin_folios() doesn't need the fast version, so replacing with
-> the slow version (try_grab_folio) should be fine. And, as you suggest,
-> propagating the errno returned by try_grab_folio() would be the right thing
-> to do instead of explicitly setting errno to -EINVAL. Either way, this change is
-> Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> With the other rc358767 patches in place, this does the trick.
+> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-Cool, thanks.
-
-We could do this to propagate the try_grab_folio() return value:
-
---- a/mm/gup.c~mm-gup-introduce-memfd_pin_folios-for-pinning-memfd-folios-fix-fix
-+++ a/mm/gup.c
-@@ -3848,6 +3848,8 @@ long memfd_pin_folios(struct file *memfd
- 
- 			next_idx = 0;
- 			for (i = 0; i < nr_found; i++) {
-+				int ret2;
-+
- 				/*
- 				 * As there can be multiple entries for a
- 				 * given folio in the batch returned by
-@@ -3860,10 +3862,10 @@ long memfd_pin_folios(struct file *memfd
- 					continue;
- 
- 				folio = page_folio(&fbatch.folios[i]->page);
--
--				if (try_grab_folio(folio, 1, FOLL_PIN)) {
-+				ret2 = try_grab_folio(folio, 1, FOLL_PIN);
-+				if (ret2) {
- 					folio_batch_release(&fbatch);
--					ret = -EINVAL;
-+					ret = ret2;
- 					goto err;
- 				}
- 
-
-But try_grab_folio can return that weird -EREMOTEIO.  The
-try_grab_folio() kerneldoc doesn't even mention that - it incorrectly
-claims that only -ENOMEM can be returned. (needs fixing!).
-
-And if memfd_pin_folios() returns -EREMOTEIO then I expect
-udmabuf_ioctl() will return -EREMOTEIO to userspace.  And userspace
-will wonder "what the hell is that".  If there's a udmabuf_ioctl
-manpage then will that explain this errno?  And similar concerns for
-future callers of memfd_pin_folios().
-
+I'll pick this up next week if there is no objection.
