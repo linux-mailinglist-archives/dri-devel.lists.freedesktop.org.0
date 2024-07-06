@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6152F928FDA
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2024 02:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447EF928FE5
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2024 03:12:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F75A10E07D;
-	Sat,  6 Jul 2024 00:58:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84EDF10E0E4;
+	Sat,  6 Jul 2024 01:12:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="0Sspght0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Al6QKwKf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63B5710E07D
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jul 2024 00:58:45 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id AA0BC8845A;
- Sat,  6 Jul 2024 02:58:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1720227523;
- bh=mMJou5m9J1j/u/3wLu2HdDR4nEKGjz1W+s5yXqNx4Ys=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=0Sspght0v+1OyWQqtJp/k6K5p9Na/gcSg0LupJyPo2ZX3BR8JPqdG6+TH9/8rrCOs
- mum0wZSzH+wYQu8n/sNQa1K7jrEucv5LGXQyRMc0W8r/VORyPyF77pS2uT8p+UKaT4
- V2OqGSM1v0CuDFDahYaAnqsDrv5a8DH0+qtpBvMOSLz5/ib9d46cEWvn+cgpwE50oz
- ev/xudaXsTkQX3z6eO2AX6Qixd0afwjhwk9IOfxL4CaCrvYD40MeD3AEtTRgRsPtlB
- kG/BvBDiDbZYAf60MqIGbMmJDKoVYSRSDeCoSP6vylrABxyETnh4bSYho56xtK81bF
- 9eRbQu1z7FEag==
-Message-ID: <ab2eb32e-a458-4c9b-8324-27ccb00336c5@denx.de>
-Date: Sat, 6 Jul 2024 02:16:58 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDE010E0E4;
+ Sat,  6 Jul 2024 01:12:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=AS9cAtBh3YgCXgXDU4/Q/DI5ppPuFlEliQR7lHeCIFU=; b=Al6QKwKfrxtaZ82v3rD2sW6tBY
+ NG3wUo2e6pDDjZAB5EexFvBpT6VyEG3pJEpGkSrwmB2faRBewSkxK5yU5qurb3hMKr+ZA6o0LhJKi
+ on/BqqCh+3BPiXOSHNoBKFmrjV1Punqk+hSq6b0/ZuHrp5/TUKMN7ej4FqKzwgRl0XI5wE2uxUHjn
+ 2zqdjHMTtM2nT24FulDuvyQvEaVid5mR2LL4MkZWBdSbJtybHDHxlgwpIX6x1LV2YpMaisuHJbuxK
+ HNou44h9OqMUH8MEH1C8sUyN2iIn/+DwwO8N8hjc/Z7UOBDSVEeHz6+wb2LLPyPtRgE1Ph3NVzdCH
+ n+ZyyEyw==;
+Received: from [191.19.134.16] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sPtyS-00BhBm-CQ; Sat, 06 Jul 2024 03:12:24 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
+ daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com,
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v8 0/1] drm/atomic: Ease async flip restrictions
+Date: Fri,  5 Jul 2024 22:12:12 -0300
+Message-ID: <20240706011214.380390-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: lcdif: Use adjusted_mode .clock instead of
- .crtc_clock
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
- "Lukas F . Hartmann" <lukas@mntmn.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, kernel@dh-electronics.com,
- linux-arm-kernel@lists.infradead.org
-References: <20240531202813.277109-1-marex@denx.de>
- <1897634.CQOukoFCf9@steina-w>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <1897634.CQOukoFCf9@steina-w>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,19 +66,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/24/24 11:19 AM, Alexander Stein wrote:
-> Am Freitag, 31. Mai 2024, 22:27:21 CEST schrieb Marek Vasut:
->> In case an upstream bridge modified the required clock frequency
->> in its .atomic_check callback by setting adjusted_mode.clock ,
->> make sure that clock frequency is generated by the LCDIFv3 block.
->>
->> This is useful e.g. when LCDIFv3 feeds DSIM which feeds TC358767
->> with (e)DP output, where the TC358767 expects precise timing on
->> its input side, the precise timing must be generated by the LCDIF.
->>
->> Signed-off-by: Marek Vasut <marex@denx.de>
-> 
-> With the other rc358767 patches in place, this does the trick.
-> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Hi,
 
-I'll pick this up next week if there is no objection.
+As per my previous patchsets, the goal of this work is to find a nice way to
+allow amdgpu to perform async page flips in the overlay plane as well, not
+only on the primary one. Currently, when using the atomic uAPI, this is the only
+type of plane allowed to do async flips, and every driver accepts it.
+
+In my last version, I had created a static field `bool async_flip` for
+drm_planes. When creating new planes, drivers could tell if such plane was
+allowed or not to do async flips. This would be latter checked on the atomic
+uAPI whenever the DRM_MODE_PAGE_FLIP_ASYNC was present.
+
+However, Dmitry Baryshkov raised a valid point about getting confused with the 
+existing atomic_async_check() code, giving that is an function to do basically
+what I want: to let drivers tell DRM whether a giving plane can do async flips
+or not. It turns out atomic_async_check() is implemented by drivers to deal with
+the legacy cursor update, so it's not wired with the atomic uAPI because is
+something that precedes such API.
+
+So my new proposal is to just reuse this same function in the atomic uAPI path.
+The plane restrictions defined at atomic_async_check() should work in this
+codepath as well. And I will be able to allow overlays planes by modifying
+amdgpu_dm_plane_atomic_async_check(), and anyone else have a proper place to
+play with async plane restrictions as well.
+
+One note is that currently we always allow async flips for primary planes,
+regardless of the drivers, but not every atomic_async_check() implementation
+allows primary planes (because they were writing targeting cursor planes
+anyway...). To avoid regressions, my patch only calls atomic_async_check() for
+non primary planes, and always allows primary ones.
+
+Thoughts?
+
+Changelog
+ v7: https://lore.kernel.org/dri-devel/20240618030024.500532-1-andrealmeid@igalia.com/
+ - Complete rewrite
+
+
+André Almeida (2):
+  drm/atomic: Let drivers decide which planes to async flip
+  drm/amdgpu: Enable async flip on overlay planes
+
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  3 +--
+ drivers/gpu/drm/drm_atomic_uapi.c             | 21 ++++++++++++++-----
+ 2 files changed, 17 insertions(+), 7 deletions(-)
+
+-- 
+2.45.2
+
