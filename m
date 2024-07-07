@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3219299B8
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 22:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA6F9299BA
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 22:40:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057D310E158;
-	Sun,  7 Jul 2024 20:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE1C10E1A2;
+	Sun,  7 Jul 2024 20:40:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PzpIL84h";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gxPTqWNx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
- [209.85.161.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC6410E158;
- Sun,  7 Jul 2024 20:40:23 +0000 (UTC)
-Received: by mail-oo1-f46.google.com with SMTP id
- 006d021491bc7-5b53bb4bebaso1901612eaf.0; 
- Sun, 07 Jul 2024 13:40:23 -0700 (PDT)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
+ [209.85.166.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2750210E1A0;
+ Sun,  7 Jul 2024 20:40:48 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id
+ ca18e2360f4ac-7fd6762b296so5375339f.2; 
+ Sun, 07 Jul 2024 13:40:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720384822; x=1720989622; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720384847; x=1720989647; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hDpwOmkMyCFrYvKPDy95PHGlfJKkemR6/uPTwFX1Sjg=;
- b=PzpIL84hxlnwvyUnP8NomoHOO7+Ly/2xyvjA9ReL2YCw69tT2uKgd/PqTVc7roRmtt
- pa5c/HdVmiO75QClk/KXigN5e3LkwK0PQNPrwtEHVc8QuiMo7Ha004x5fl92LZ/F+TyH
- 7YLTwINmVhjcigzLG/YtKvabF/WjNqT4xhtcEnInM8Ans/HQvS+qT/rksCNheTdF2AdH
- F+RxtZeZskpnTS7IW8eS01xnebcrx+Eyj+XI68KyxOrgEZ3w6ZELg2F4gNc2Lw9q3bik
- LbLA03NTHfEn6lYUiqaW79U0wAQdI7TkiO2Fp8oMPa7jB44/t24LLVTpo0rXkRQ86+w/
- V1dA==
+ bh=Wmhc+zRv8pLLe0u2BD2Av7AlaACzMrIvBAZzVMfblQc=;
+ b=gxPTqWNxSWfVztAiqLalq2U6raoTdmFCAkY8sE1xBw84IhK2BeHPlucLoiP1A4lC1f
+ q5bmK6jZ1bs91qik7i/67fjYkFuHxqDsH8p5VQxyIUI40JHYBkgPc/UBa0tXhZrVjl4B
+ YZWNuIhP0a8zEYZ320GxY2x7idT0dq2PIJPhQoY/KZH4M/UX2rh0LNY9zxzbTUUenXag
+ IHOIKi5+IARzN1p4zjrE8E0gArPeZoD90RjJD1+2mJeUtAXostfJbRlvPhPvqYEY6hGz
+ nkX4XU8lP/cVwg+T9Q1pPLbxb0VGzqXVmhw3SjG/V4jUyclUxT/Km4kO9hjR6IW+eji0
+ jwfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720384822; x=1720989622;
+ d=1e100.net; s=20230601; t=1720384847; x=1720989647;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=hDpwOmkMyCFrYvKPDy95PHGlfJKkemR6/uPTwFX1Sjg=;
- b=tqK3rcfzGiLUAbmVw/kpiMSSqD9uYF+rhkZxAJMY8ZVz+wgFku4CiurP+9GGXuEx2B
- vnqnPNb6pnYGRgEexxLr0jaTQX/n0uIlFoHe/eLQ66BBcHovfPoN7HcktwHoN/p8oVrY
- Lc7m+B9LgYbIO/XLSQYlnaPpSzlvhx5v9uwYTu5KMOehJt/YLJmMS6ql6mQ1h5HXdi6u
- z6JK2uzBWmal0D/LLzTsxyMpT5jvmeG3YskZ2gJ34lHupv0QT26XFgUDncOncbKpv2GC
- R24339a2xE9vT2Odmee7Abk6eH/g6/b16A/65+jUxM6mDpmaIkYnT4cfwghk5FHcqMTQ
- yucQ==
+ bh=Wmhc+zRv8pLLe0u2BD2Av7AlaACzMrIvBAZzVMfblQc=;
+ b=UahF0PqbqU9U+tJFVqjyYlIw/C2rvxxipbNr5oXnTbnN+98+ZpO7y0bCcVxQmHUNUf
+ UpFWWeO+1TAsmK45lX5+oNTVfiz6wkJojGkEQLKE64qVfZONg8HMG2+uD22xepzwPqPZ
+ O9t1ehnDXU9UEv3MvXpdsxFqU0LHxRFjvErbiCW/1wRrnj/WGhQIUPRYY8NPv0K4ZQIN
+ I6PB/GShsC4qqg6Q3sZwc3hIZXCknlUbVvzyRUfxpGOnp2oifGq0CpEk5zr5QqB0P9Im
+ E35ZOi0fYt9EST8VWVIrY0NvaOGaElB0Me9F4QG53S/51qVokJbB0XOe78UUgijAhKKE
+ +7Ew==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWGodNl4IewpAFJKKM33SupoMPzJYVgSG8okfkMboFjSUysggqGcU72Kkb/kPK8l/kFMJp0+PhgXk9DtFPlEE0TPaVeToRDgOFNViEkN9Ve
-X-Gm-Message-State: AOJu0YwHGMCKKByXv5DJG2KNNTfhtPnJX3kMqLZlissK41D5IVWEpvpl
- hR1YU/u5uCJuYgJsvVRnjPZceiTXElUPlnQurtfRWtI6A9/KqQkmTj6oLMmJ9Zkk/fKNwLFsZkG
- FBsHiSk6RXhYcgrxj9vFwO9jHHmSU+aG1
-X-Google-Smtp-Source: AGHT+IHvVtKTxYcG9uVoJ4eOJ2CPIRthO817fTOaitzI6mZgN2TtmYuYyGf2LkOt8Y2eKVfoiM/GbxeNofwzPOIU84A=
-X-Received: by 2002:a05:6358:5e09:b0:1a6:9982:5dd5 with SMTP id
- e5c5f4694b2df-1aa98c394a6mr1165187155d.10.1720384822206; Sun, 07 Jul 2024
- 13:40:22 -0700 (PDT)
+ AJvYcCU9MY+cl4MHRqfGd4St+ccIvlwH6QPM0efyftEbfKc1+6ErD9doepgSLnVfAnzIuPeppkWl7fpats44QNOhut2PvSefUD7e24xQwtfH2B3H
+X-Gm-Message-State: AOJu0YzWgnO0m57Jgs0IVk+YxaMZiQAyfzm5rl6vJHyyuIRXVaReTRkR
+ qfjnBiBdKY5LQe4EnWC6yVCr4xJy9PPRMnNfubR5/1lECaFUOqrFeDIF45bNKdxA5rY1gkmXkE3
+ hb1g1pTqARIlToxXdhEGXBTLqzQbSmgWN
+X-Google-Smtp-Source: AGHT+IF0N+8688muyeK/+tfJRXNZr2JpvxV4K3V8rANm4Z5BaZ9oWE7IdFRBYwzX8ieDq5qht3hPcD46vcpQ770Matw=
+X-Received: by 2002:a05:6602:184f:b0:7f9:59af:c26b with SMTP id
+ ca18e2360f4ac-7f959afc527mr445880439f.17.1720384847333; Sun, 07 Jul 2024
+ 13:40:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240705200013.2656275-1-l.stach@pengutronix.de>
- <20240705200013.2656275-3-l.stach@pengutronix.de>
-In-Reply-To: <20240705200013.2656275-3-l.stach@pengutronix.de>
+ <20240705200013.2656275-4-l.stach@pengutronix.de>
+In-Reply-To: <20240705200013.2656275-4-l.stach@pengutronix.de>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Sun, 7 Jul 2024 22:40:10 +0200
-Message-ID: <CAH9NwWd+RmX+gqzShahCpGFiT=nqpmTq43jWyGF5ugZ=+GKRcw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] drm/etnaviv: unconditionally enable debug registers
+Date: Sun, 7 Jul 2024 22:40:35 +0200
+Message-ID: <CAH9NwWf9QiwwaNtXuPyiTNpTzN_7p19rrZ6czpTRCuv5-kaXew@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] drm/etnaviv: update hardware headers from rnndb
 To: Lucas Stach <l.stach@pengutronix.de>
 Cc: etnaviv@lists.freedesktop.org, 
  Russell King <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
@@ -80,69 +80,60 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 >
-> A later change will use the FE debug registers to improve GPU
-> progress monitoring. Instead of having to keep track of the
-> usage state of the debug registers and lock access to the
-> VIVS_HI_CLOCK_CONTROL register, statically enable debug
-> register access during GPU init.
->
-> The Vivante downstream driver seems to do the same thing since
-> a while, so it should be okay to keep access enabled. (See
-> gckHARDWARE_InitializeHardware in 6.4.11 downstream driver).
->
-> Many debug registers contain bogus data if clock gating is
-> enabled, so even if they are always accessible performance
-> profiling still needs to manage some prerequisites.
+> Update state_hi.xml.h header from etna_viv commit
+> 8f43a34fd9cd ("rndb: document FE current primitve debug reg")
 >
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
 Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
 > ---
-> v2: new patch replacing more complex usage tracking from v1
+> v2: no changes
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 14 ++------------
->  1 file changed, 2 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/etnaviv/state_hi.xml.h | 23 ++++++++++++-----------
+>  1 file changed, 12 insertions(+), 11 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 2bd14d3501e2..bf0b13c99a3c 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -574,8 +574,8 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
->                         continue;
->                 }
+> diff --git a/drivers/gpu/drm/etnaviv/state_hi.xml.h b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+> index 829bc528e618..f7bc5f6e20ff 100644
+> --- a/drivers/gpu/drm/etnaviv/state_hi.xml.h
+> +++ b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+> @@ -8,17 +8,17 @@ This file was generated by the rules-ng-ng headergen tool in this git repository
+>  git clone git://0x04.net/rules-ng-ng
 >
-> -               /* disable debug registers, as they are not normally needed */
-> -               control |= VIVS_HI_CLOCK_CONTROL_DISABLE_DEBUG_REGISTERS;
-> +               /* enable debug register access */
-> +               control &= ~VIVS_HI_CLOCK_CONTROL_DISABLE_DEBUG_REGISTERS;
->                 gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, control);
->
->                 failed = false;
-> @@ -1337,11 +1337,6 @@ static void sync_point_perfmon_sample_pre(struct etnaviv_gpu *gpu,
->         val &= ~VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
->         gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, val);
->
-> -       /* enable debug register */
-> -       val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
-> -       val &= ~VIVS_HI_CLOCK_CONTROL_DISABLE_DEBUG_REGISTERS;
-> -       gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
+>  The rules-ng-ng source files this header was generated from are:
+> -- state.xml     (  29355 bytes, from 2024-01-19 10:18:54)
+> -- common.xml    (  35664 bytes, from 2023-12-06 10:55:32)
+> -- common_3d.xml (  15069 bytes, from 2023-11-22 10:05:24)
+> -- state_hi.xml  (  35854 bytes, from 2023-12-11 15:50:17)
+> -- copyright.xml (   1597 bytes, from 2016-11-10 13:58:32)
+> -- state_2d.xml  (  52271 bytes, from 2023-06-02 12:35:03)
+> -- state_3d.xml  (  89522 bytes, from 2024-01-19 10:18:54)
+> -- state_blt.xml (  14592 bytes, from 2023-11-22 10:05:09)
+> -- state_vg.xml  (   5975 bytes, from 2016-11-10 13:58:32)
 > -
->         sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_PRE);
->
->         mutex_unlock(&gpu->lock);
-> @@ -1358,11 +1353,6 @@ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
->
->         sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_POST);
->
-> -       /* disable debug register */
-> -       val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
-> -       val |= VIVS_HI_CLOCK_CONTROL_DISABLE_DEBUG_REGISTERS;
-> -       gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
-> -
->         /* enable clock gating */
->         val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
->         val |= VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
+> -Copyright (C) 2012-2023 by the following authors:
+> +- state.xml     (  30729 bytes, from 2024-06-21 11:31:54)
+> +- common.xml    (  35664 bytes, from 2023-12-13 09:33:18)
+> +- common_3d.xml (  15069 bytes, from 2023-12-13 09:33:18)
+> +- state_hi.xml  (  35909 bytes, from 2024-06-21 11:31:54)
+> +- copyright.xml (   1597 bytes, from 2020-10-28 12:56:03)
+> +- state_2d.xml  (  52271 bytes, from 2023-05-30 20:50:02)
+> +- state_3d.xml  (  89626 bytes, from 2024-06-21 11:32:57)
+> +- state_blt.xml (  14592 bytes, from 2023-12-13 09:33:18)
+> +- state_vg.xml  (   5975 bytes, from 2020-10-28 12:56:03)
+> +
+> +Copyright (C) 2012-2024 by the following authors:
+>  - Wladimir J. van der Laan <laanwj@gmail.com>
+>  - Christian Gmeiner <christian.gmeiner@gmail.com>
+>  - Lucas Stach <l.stach@pengutronix.de>
+> @@ -467,6 +467,7 @@ DEALINGS IN THE SOFTWARE.
+>  #define VIVS_MC_PROFILE_CONFIG0                                        0x00000470
+>  #define VIVS_MC_PROFILE_CONFIG0_FE__MASK                       0x000000ff
+>  #define VIVS_MC_PROFILE_CONFIG0_FE__SHIFT                      0
+> +#define VIVS_MC_PROFILE_CONFIG0_FE_CURRENT_PRIM                        0x00000009
+>  #define VIVS_MC_PROFILE_CONFIG0_FE_DRAW_COUNT                  0x0000000a
+>  #define VIVS_MC_PROFILE_CONFIG0_FE_OUT_VERTEX_COUNT            0x0000000b
+>  #define VIVS_MC_PROFILE_CONFIG0_FE_CACHE_MISS_COUNT            0x0000000c
 > --
 > 2.39.2
 >
