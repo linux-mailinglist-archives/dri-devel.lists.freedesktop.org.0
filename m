@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA6F9299BA
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 22:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3AC9299BC
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 22:42:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE1C10E1A2;
-	Sun,  7 Jul 2024 20:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B76710E1A4;
+	Sun,  7 Jul 2024 20:42:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gxPTqWNx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RAYW0O7/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2750210E1A0;
- Sun,  7 Jul 2024 20:40:48 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id
- ca18e2360f4ac-7fd6762b296so5375339f.2; 
- Sun, 07 Jul 2024 13:40:48 -0700 (PDT)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
+ [209.85.167.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7EAA10E1A0;
+ Sun,  7 Jul 2024 20:42:32 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id
+ 5614622812f47-3c9cc681ee4so1923386b6e.0; 
+ Sun, 07 Jul 2024 13:42:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720384847; x=1720989647; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720384952; x=1720989752; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Wmhc+zRv8pLLe0u2BD2Av7AlaACzMrIvBAZzVMfblQc=;
- b=gxPTqWNxSWfVztAiqLalq2U6raoTdmFCAkY8sE1xBw84IhK2BeHPlucLoiP1A4lC1f
- q5bmK6jZ1bs91qik7i/67fjYkFuHxqDsH8p5VQxyIUI40JHYBkgPc/UBa0tXhZrVjl4B
- YZWNuIhP0a8zEYZ320GxY2x7idT0dq2PIJPhQoY/KZH4M/UX2rh0LNY9zxzbTUUenXag
- IHOIKi5+IARzN1p4zjrE8E0gArPeZoD90RjJD1+2mJeUtAXostfJbRlvPhPvqYEY6hGz
- nkX4XU8lP/cVwg+T9Q1pPLbxb0VGzqXVmhw3SjG/V4jUyclUxT/Km4kO9hjR6IW+eji0
- jwfA==
+ bh=HFAsUiIeW1r3iO6Uv8t19LcsrMlkLwCA+nJYBBtAQng=;
+ b=RAYW0O7/u7laupFvwW/23wRv+xqnfsrOhbUZ62Uu84tJYYfXw0HnBfA/9ciKX5rsJD
+ tUnw+rGphMsb/qWWSMhvFQynpNCSdK82lgL4V8/xHFbZ3a7Ned+v8tAmydyhbSbpzJTS
+ wmB+W3EdEBWlNem+sSkQP/xea5f7YgLJHeG+8C1q8HDh4QJMQY536ZL/rxBAQYgOoPVT
+ M6b7c6D0wxKzzfumP8SuFNMsrVXgfAgxiW4WcU/o6Op46AOh9uPu+LERtpxmTEJ6mFWM
+ irKcxOoglnemEfgOgQPAwkiH/b1o398L3AJ9Zcd5C1k+cFjmJKlfP9/FpYFrGokVhYlh
+ IbPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720384847; x=1720989647;
+ d=1e100.net; s=20230601; t=1720384952; x=1720989752;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Wmhc+zRv8pLLe0u2BD2Av7AlaACzMrIvBAZzVMfblQc=;
- b=UahF0PqbqU9U+tJFVqjyYlIw/C2rvxxipbNr5oXnTbnN+98+ZpO7y0bCcVxQmHUNUf
- UpFWWeO+1TAsmK45lX5+oNTVfiz6wkJojGkEQLKE64qVfZONg8HMG2+uD22xepzwPqPZ
- O9t1ehnDXU9UEv3MvXpdsxFqU0LHxRFjvErbiCW/1wRrnj/WGhQIUPRYY8NPv0K4ZQIN
- I6PB/GShsC4qqg6Q3sZwc3hIZXCknlUbVvzyRUfxpGOnp2oifGq0CpEk5zr5QqB0P9Im
- E35ZOi0fYt9EST8VWVIrY0NvaOGaElB0Me9F4QG53S/51qVokJbB0XOe78UUgijAhKKE
- +7Ew==
+ bh=HFAsUiIeW1r3iO6Uv8t19LcsrMlkLwCA+nJYBBtAQng=;
+ b=vM2bOJcUhrzRaKGenvr9pB3dje7oM3f2X1SprYIJaLbD9AM+86OoHc9rfzPG6DPzJN
+ 2a+xlKFJLeYk4uETtd0GKZ4gfOYD7eZ2Z7xqEE8U4SO5G2OrX35NEgSDSijJxk0nCKH6
+ mCMFHzwdZbW3StwRuyQj24j1YTdNT3N7mnd1VsUigs1xJAjOOUPp+8ktZrTeQWx8QYDH
+ XfAWDlZwJa+7eALKDrH6DIfF1+w8XkLfwt5dTS/GgYoUWFjeN7SmaF7ZTH63xxSsj0eJ
+ GpoIRKc0E8UUEkOhapITOj405Ohgn+b5f9ip2ZPNOhD3z0SlMWFIYZ1C21YMCopMaG8j
+ Kyxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU9MY+cl4MHRqfGd4St+ccIvlwH6QPM0efyftEbfKc1+6ErD9doepgSLnVfAnzIuPeppkWl7fpats44QNOhut2PvSefUD7e24xQwtfH2B3H
-X-Gm-Message-State: AOJu0YzWgnO0m57Jgs0IVk+YxaMZiQAyfzm5rl6vJHyyuIRXVaReTRkR
- qfjnBiBdKY5LQe4EnWC6yVCr4xJy9PPRMnNfubR5/1lECaFUOqrFeDIF45bNKdxA5rY1gkmXkE3
- hb1g1pTqARIlToxXdhEGXBTLqzQbSmgWN
-X-Google-Smtp-Source: AGHT+IF0N+8688muyeK/+tfJRXNZr2JpvxV4K3V8rANm4Z5BaZ9oWE7IdFRBYwzX8ieDq5qht3hPcD46vcpQ770Matw=
-X-Received: by 2002:a05:6602:184f:b0:7f9:59af:c26b with SMTP id
- ca18e2360f4ac-7f959afc527mr445880439f.17.1720384847333; Sun, 07 Jul 2024
- 13:40:47 -0700 (PDT)
+ AJvYcCX1HBIxLsqfoITh3MLN61HtJUDbuiY8a1Rre8rEgoZXM+X91gsIFhpv/4KzEQj/QT/PWgtX9IM47jiVVEh1l6VUiHNbuUZThuNGg0LV4/Z8
+X-Gm-Message-State: AOJu0Yz7k3hGtxgOgLJ3Dy6zrsk9VL33nBRgsguqzBlsVAPxOQ1PKhYm
+ AoTpmbIWHLdrxSRfhlz4OE1pfMTk7p//rNkpOWX3QqDB72eadxE1Rt7kUPdcnUzoZJG/2gl9w1U
+ pF5MAY3pIOVzbDRFK2qGd2WrGVQM=
+X-Google-Smtp-Source: AGHT+IEYqFdsRWzOKAUHkbwBp5Nz63GFFfVqYboeJ43qZhlQZQhcbZxKxCax1i+FN96NwT2L55JIXs0UP7ACoxTjda4=
+X-Received: by 2002:a05:6808:2195:b0:3d6:2eb1:8c4f with SMTP id
+ 5614622812f47-3d914eabe3fmr13922387b6e.53.1720384951923; Sun, 07 Jul 2024
+ 13:42:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240705200013.2656275-1-l.stach@pengutronix.de>
- <20240705200013.2656275-4-l.stach@pengutronix.de>
-In-Reply-To: <20240705200013.2656275-4-l.stach@pengutronix.de>
+ <20240705200013.2656275-5-l.stach@pengutronix.de>
+In-Reply-To: <20240705200013.2656275-5-l.stach@pengutronix.de>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Sun, 7 Jul 2024 22:40:35 +0200
-Message-ID: <CAH9NwWf9QiwwaNtXuPyiTNpTzN_7p19rrZ6czpTRCuv5-kaXew@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] drm/etnaviv: update hardware headers from rnndb
+Date: Sun, 7 Jul 2024 22:42:20 +0200
+Message-ID: <CAH9NwWd1JzThTFJqJOaG4Jknp95w+Oy0EPZSbnw+1yK1ZnLR8g@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] drm/etnaviv: take current primitive into account
+ when checking for hung GPU
 To: Lucas Stach <l.stach@pengutronix.de>
 Cc: etnaviv@lists.freedesktop.org, 
  Russell King <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
@@ -80,60 +81,82 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 >
-> Update state_hi.xml.h header from etna_viv commit
-> 8f43a34fd9cd ("rndb: document FE current primitve debug reg")
+> Large draws can make the GPU appear to be stuck to the current hangcheck
+> logic as the FE address will not move until the draw is finished. However,
+> the FE has a debug register, which records the current primitive ID within
+> a draw. Using this debug register we can extend the timeout as long as the
+> draw progresses.
 >
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
 Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
 > ---
-> v2: no changes
+> v2:
+> - dropped debug register enable/disable
+> - locked against concurrent debug register access
 > ---
->  drivers/gpu/drm/etnaviv/state_hi.xml.h | 23 ++++++++++++-----------
->  1 file changed, 12 insertions(+), 11 deletions(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.h   |  1 +
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 17 +++++++++++++++--
+>  2 files changed, 16 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/etnaviv/state_hi.xml.h b/drivers/gpu/drm/etnaviv/state_hi.xml.h
-> index 829bc528e618..f7bc5f6e20ff 100644
-> --- a/drivers/gpu/drm/etnaviv/state_hi.xml.h
-> +++ b/drivers/gpu/drm/etnaviv/state_hi.xml.h
-> @@ -8,17 +8,17 @@ This file was generated by the rules-ng-ng headergen tool in this git repository
->  git clone git://0x04.net/rules-ng-ng
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> index 31322195b9e4..4d8a7d48ade3 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> @@ -144,6 +144,7 @@ struct etnaviv_gpu {
 >
->  The rules-ng-ng source files this header was generated from are:
-> -- state.xml     (  29355 bytes, from 2024-01-19 10:18:54)
-> -- common.xml    (  35664 bytes, from 2023-12-06 10:55:32)
-> -- common_3d.xml (  15069 bytes, from 2023-11-22 10:05:24)
-> -- state_hi.xml  (  35854 bytes, from 2023-12-11 15:50:17)
-> -- copyright.xml (   1597 bytes, from 2016-11-10 13:58:32)
-> -- state_2d.xml  (  52271 bytes, from 2023-06-02 12:35:03)
-> -- state_3d.xml  (  89522 bytes, from 2024-01-19 10:18:54)
-> -- state_blt.xml (  14592 bytes, from 2023-11-22 10:05:09)
-> -- state_vg.xml  (   5975 bytes, from 2016-11-10 13:58:32)
-> -
-> -Copyright (C) 2012-2023 by the following authors:
-> +- state.xml     (  30729 bytes, from 2024-06-21 11:31:54)
-> +- common.xml    (  35664 bytes, from 2023-12-13 09:33:18)
-> +- common_3d.xml (  15069 bytes, from 2023-12-13 09:33:18)
-> +- state_hi.xml  (  35909 bytes, from 2024-06-21 11:31:54)
-> +- copyright.xml (   1597 bytes, from 2020-10-28 12:56:03)
-> +- state_2d.xml  (  52271 bytes, from 2023-05-30 20:50:02)
-> +- state_3d.xml  (  89626 bytes, from 2024-06-21 11:32:57)
-> +- state_blt.xml (  14592 bytes, from 2023-12-13 09:33:18)
-> +- state_vg.xml  (   5975 bytes, from 2020-10-28 12:56:03)
-> +
-> +Copyright (C) 2012-2024 by the following authors:
->  - Wladimir J. van der Laan <laanwj@gmail.com>
->  - Christian Gmeiner <christian.gmeiner@gmail.com>
->  - Lucas Stach <l.stach@pengutronix.de>
-> @@ -467,6 +467,7 @@ DEALINGS IN THE SOFTWARE.
->  #define VIVS_MC_PROFILE_CONFIG0                                        0x00000470
->  #define VIVS_MC_PROFILE_CONFIG0_FE__MASK                       0x000000ff
->  #define VIVS_MC_PROFILE_CONFIG0_FE__SHIFT                      0
-> +#define VIVS_MC_PROFILE_CONFIG0_FE_CURRENT_PRIM                        0x00000009
->  #define VIVS_MC_PROFILE_CONFIG0_FE_DRAW_COUNT                  0x0000000a
->  #define VIVS_MC_PROFILE_CONFIG0_FE_OUT_VERTEX_COUNT            0x0000000b
->  #define VIVS_MC_PROFILE_CONFIG0_FE_CACHE_MISS_COUNT            0x0000000c
+>         /* hang detection */
+>         u32 hangcheck_dma_addr;
+> +       u32 hangcheck_primid;
+>         u32 hangcheck_fence;
+>
+>         void __iomem *mmio;
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> index 62dcfdc7894d..01f927430bc6 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -11,6 +11,7 @@
+>  #include "etnaviv_gpu.h"
+>  #include "etnaviv_sched.h"
+>  #include "state.xml.h"
+> +#include "state_hi.xml.h"
+>
+>  static int etnaviv_job_hang_limit = 0;
+>  module_param_named(job_hang_limit, etnaviv_job_hang_limit, int , 0444);
+> @@ -35,7 +36,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>  {
+>         struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
+>         struct etnaviv_gpu *gpu = submit->gpu;
+> -       u32 dma_addr;
+> +       u32 dma_addr, primid = 0;
+>         int change;
+>
+>         /*
+> @@ -52,10 +53,22 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>          */
+>         dma_addr = gpu_read(gpu, VIVS_FE_DMA_ADDRESS);
+>         change = dma_addr - gpu->hangcheck_dma_addr;
+> +       if (submit->exec_state == ETNA_PIPE_3D) {
+> +               /* guard against concurrent usage from perfmon_sample */
+> +               mutex_lock(&gpu->lock);
+> +               gpu_write(gpu, VIVS_MC_PROFILE_CONFIG0,
+> +                         VIVS_MC_PROFILE_CONFIG0_FE_CURRENT_PRIM <<
+> +                         VIVS_MC_PROFILE_CONFIG0_FE__SHIFT);
+> +               primid = gpu_read(gpu, VIVS_MC_PROFILE_FE_READ);
+> +               mutex_unlock(&gpu->lock);
+> +       }
+>         if (gpu->state == ETNA_GPU_STATE_RUNNING &&
+>             (gpu->completed_fence != gpu->hangcheck_fence ||
+> -            change < 0 || change > 16)) {
+> +            change < 0 || change > 16 ||
+> +            (submit->exec_state == ETNA_PIPE_3D &&
+> +             gpu->hangcheck_primid != primid))) {
+>                 gpu->hangcheck_dma_addr = dma_addr;
+> +               gpu->hangcheck_primid = primid;
+>                 gpu->hangcheck_fence = gpu->completed_fence;
+>                 goto out_no_timeout;
+>         }
 > --
 > 2.39.2
 >
