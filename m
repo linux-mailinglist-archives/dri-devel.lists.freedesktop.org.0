@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586839298B5
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 17:49:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58464929975
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 21:15:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E1AF10E03C;
-	Sun,  7 Jul 2024 15:49:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA6410E0D0;
+	Sun,  7 Jul 2024 19:15:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DqpmhQne";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="b5jTJ3lT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50D1A10E03C
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jul 2024 15:49:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720367360; x=1751903360;
- h=message-id:subject:from:to:cc:date:
- content-transfer-encoding:mime-version;
- bh=UiydbORaCjHV/d/rR0lEJrnxm7WC/WJsu89IazQgpa0=;
- b=DqpmhQne7lqVVn94ITSyb+0AFZwsmvYprZql8KX1unt1z//PjynEqD1L
- A1lVGpbGRq7ErOEAINY1/66ReYZhMywtcXhvHbhFI5rxIavdwoJu6DtCU
- o2pfMYRbgB7VXBMiPfYbEJ74dDgKx8LC8fxZQZvoueaIEzo4r9Lb6PpOM
- za0uGNf39VfsFzwfOFDZZ0y6aYMQ92chxzgz6PrBsfJ6OZ+ce5JgP3OMq
- nKFcW8JSF4DtJKsq7R3RPH30w63g9q7bajPEqnLOxLZi9Iob0QWHg71XE
- 0Ee/BB3C8UrZVCZm4sMdHDwTPFfsIgNs8XbL5YTZ9ZR46XQt07S+YvbHk Q==;
-X-CSE-ConnectionGUID: Gr23hfUgRfu2QDJBjUv4nA==
-X-CSE-MsgGUID: mS+5RCuqTaSc9r647o41Eg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="17289574"
-X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; d="scan'208";a="17289574"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2024 08:49:20 -0700
-X-CSE-ConnectionGUID: kunKODbMRw6nKtfmgppVFw==
-X-CSE-MsgGUID: Zyr6IRGGRe6usdbSCBMMhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; d="scan'208";a="51716097"
-Received: from fpallare-mobl3.ger.corp.intel.com (HELO [10.245.245.235])
- ([10.245.245.235])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2024 08:49:18 -0700
-Message-ID: <0db8246a59e67c8e740110c6cfdd8339bec97f32.camel@linux.intel.com>
-Subject: The TTM LRU-walk cherry-pick series
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Matthew
- Brost <matthew.brost@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Date: Sun, 07 Jul 2024 17:49:16 +0200
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1A0610E0D0
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jul 2024 19:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=K+ysL2Mn2FVQqH0WhbxxJThx/wtL6dihXjVtsTevpNU=; b=b5jTJ3lTuUoQoJbSKmBBHA+I70
+ 9vQ556AHW2iR4IggvxM5eX/TPQwJPsXPEfTUsRMkfNc26xdYuK2FBR9+MXPeAztXznPhCCFSaNYyL
+ 93wMmi4uuIHHcKoSKfXJ4NOJnFmk1iS8fIX2blxNjA/7chyl0G+vFUceOn4qy1aMCr5ptIhvhfRqV
+ HW5or+2hh0YU4nBAWa9UYE2XpZpbueMujPbLC0YgODFj/eopoUBhvk4LRtU6t/sofDp9pOj0jXyd1
+ tNxHTQrUinqUqIXRN7TRMdcW0OKTIqq9qGSiyQwJ0Bqh3WvGQPCvJ9NkT7oQyFTwQ+Z769OH2cuv9
+ PtWsReTQ==;
+Received: from [187.36.213.55] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sQXMM-00CD8O-9d; Sun, 07 Jul 2024 21:15:42 +0200
+Message-ID: <ddf0ea21-64ac-4f1b-9df6-83f4b4d552b0@igalia.com>
+Date: Sun, 7 Jul 2024 16:15:34 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/vkms: Remove event from vkms_output
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, open list <linux-kernel@vger.kernel.org>
+References: <20240703160458.1303872-1-lyude@redhat.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240703160458.1303872-1-lyude@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,19 +74,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Christian, Matthew,
+On 7/3/24 13:04, Lyude Paul wrote:
+> While working on rvkms, I noticed that there's no code that actually uses
+> the drm_pending_vblank_event that's embedded in vkms_output. So, just drop
+> the member from the struct.
+> 
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 
-I think I addressed all review comments and a couple of anticipated
-ones (s/long/s64/) in the swapout- and eviction patches.
+Applied to drm-misc/drm-misc-next!
 
-I'm heading off on vacation today, (4 weeks) so if something becomes
-urgent in-between feel free to pick up, modify and merge.=20
+Best Regards,
+- Maíra
 
-Regarding the drm_exec trylock functionality I'm for as much as
-possible that it should look like any other locking primitive trylock.
-i.e. no additional tricks needed.
-
-Thanks,
-Thomas
-
-
+> ---
+>   drivers/gpu/drm/vkms/vkms_drv.h | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 8f5710debb1eb..5e46ea5b96dcc 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -103,7 +103,6 @@ struct vkms_output {
+>   	struct drm_writeback_connector wb_connector;
+>   	struct hrtimer vblank_hrtimer;
+>   	ktime_t period_ns;
+> -	struct drm_pending_vblank_event *event;
+>   	/* ordered wq for composer_work */
+>   	struct workqueue_struct *composer_workq;
+>   	/* protects concurrent access to composer */
