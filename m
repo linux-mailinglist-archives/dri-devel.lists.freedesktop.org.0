@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D856092983D
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 15:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32C792983F
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2024 16:00:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB40110E034;
-	Sun,  7 Jul 2024 13:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE01110E112;
+	Sun,  7 Jul 2024 14:00:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cq9pO14Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WSLQIOrT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE06110E034
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jul 2024 13:58:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01EA810E112
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jul 2024 14:00:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A2EE6CE09AD;
- Sun,  7 Jul 2024 13:58:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32BDAC3277B;
- Sun,  7 Jul 2024 13:58:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2AD14602E2;
+ Sun,  7 Jul 2024 14:00:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4B8C3277B;
+ Sun,  7 Jul 2024 13:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720360693;
- bh=8Kylf+t2UNpIbjF9sss2Nya8a4fTm/WXmwgVokPpJ38=;
+ s=k20201202; t=1720360805;
+ bh=w6E61bZ+Nc7fH6AkO+e1UuyFuM7XFN8xxnB02WH7ZKU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Cq9pO14YA3xvEgzmURKEXlEx2QAJJigIvzd9oWKfch1rHKqK+jC1k06b3zymFbDih
- KwXB6XFkKPIJIEXG8/PGMXO4LI33rNcy7Kfi6QGHP2K3YOR9JZ5dSWNawL0DP+hlHQ
- z9mO0AABa0pLZhP7w41NRNUmA4QZKHC3b9OkaCni5NiGjTURkObYlJE9N1dwYTZXhn
- iZxwdvyR2cFQV0N2uupPDgVmIRq23EyOUF+xDohtVKNtUytcv2OC6/+dXmyoETiDeh
- /wzsHtzWiaTrBV+6bHJORRsemdfn94GcXsADFc8ymRkuXYuUsgMSZjR503kFhg57VS
- BYanrbZV7gxpw==
-Message-ID: <eec3d2a7-0197-4196-bf6f-71d0e29777de@kernel.org>
-Date: Sun, 7 Jul 2024 15:58:04 +0200
+ b=WSLQIOrT+HiXM06ezax1CgdZzJMHs2tG5p/jyZL40Lyw64OJOn7VqHCvKzOnIun9w
+ s6ST+JTzdDi/wUlJxGDtpaa7S67wAm8LsvS3nk6EF2jmqHpACQtZmaZhEN9ITntz9h
+ oSlOd+vaSa6FqkrEQqIC26H/duwTwWRglBg+m8+vqVtwj/uOUguCQ1apde1zAXaOKo
+ r8adn0m09tsmfZgiuAspuVbUhn9e3m/WQFOH2bmo0g411k/tqr10rq7BEDXSGVGW6u
+ xlHDmlI7kiCyi/i0l/1/L5E4GrkAOYIYX9gukSOar80Orpno/GMgL2BbmICI6SbMho
+ eDEjO6rBIVHvg==
+Message-ID: <cd558335-6e72-46d1-911b-68ccbb211136@kernel.org>
+Date: Sun, 7 Jul 2024 15:59:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/10] dt-bindings: display: imx: Add some i.MX8qxp
- Display Controller processing units
+Subject: Re: [PATCH 02/10] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller display engine
 To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
@@ -45,7 +45,7 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
  shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
  festevam@gmail.com, tglx@linutronix.de
 References: <20240705090932.1880496-1-victor.liu@nxp.com>
- <20240705090932.1880496-2-victor.liu@nxp.com>
+ <20240705090932.1880496-3-victor.liu@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240705090932.1880496-2-victor.liu@nxp.com>
+In-Reply-To: <20240705090932.1880496-3-victor.liu@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,28 +110,107 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 05/07/2024 11:09, Liu Ying wrote:
-> Freescale i.MX8qxp Display Controller is implemented as construction set of
-> building blocks with unified concept and standardized interfaces.
+> i.MX8qxp Display Controller display engine consists of all processing units
+> that operate in a display clock domain.
 > 
-> Document some processing units to support two display outputs.
-
-
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+>  .../imx/fsl,imx8qxp-dc-display-engine.yaml    | 166 ++++++++++++++++++
+>  1 file changed, 166 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml
+> new file mode 100644
+> index 000000000000..dc9579897b76
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml
+> @@ -0,0 +1,166 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-display-engine.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8qxp Display Controller Display Engine
+> +
+> +description:
+> +  All Processing Units that operate in a display clock domain. Pixel pipeline
+> +  is driven by a video timing and cannot be stalled. Implements all display
+> +  specific processing.
+> +
 > +maintainers:
 > +  - Liu Ying <victor.liu@nxp.com>
 > +
 > +properties:
 > +  compatible:
-> +    const: fsl,imx8qxp-dc-tcon
+> +    const: fsl,imx8qxp-dc-display-engine
 > +
 > +  reg:
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: top
+> +      - const: cfg
+> +
+> +  resets:
 > +    maxItems: 1
 > +
-> +  fsl,dc-tc-id:
-> +    description: Timing Controller unit instance number
+> +  interrupts:
+> +    maxItems: 3
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: shdload
+> +      - const: framecomplete
+> +      - const: seqcomplete
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 1
+> +
+> +  ranges: true
+> +
+> +  fsl,dc-de-id:
+> +    description: Display Engine instance number
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1]
 
-No instance numbering. This applies to your entire patchset.
+No, drop. For the same reason as earlier patch.
 
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description: video output
 
+Eh, mixing children with and without addresses is considered poor design.
+
+> +
+> +patternProperties:
+> +  "^dither@[0-9a-f]+$":
+> +    type: object
+> +    additionalProperties: true
+> +
+> +    properties:
+> +      compatible:
+> +        const: fsl,imx8qxp-dc-dither
+> +
+> +  "^framegen@[0-9a-f]+$":
+> +    type: object
+> +    additionalProperties: true
+> +
+> +    properties:
+> +      compatible:
+> +        const: fsl,imx8qxp-dc-framegen
+> +
+> +  "^gammacor@[0-9a-f]+$":
+
+This looks like you are organizing bindings per your driver architecture.
 
 Best regards,
 Krzysztof
