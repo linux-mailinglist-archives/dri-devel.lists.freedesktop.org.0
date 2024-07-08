@@ -2,93 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D350D929CD6
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 09:14:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF30B929D0F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 09:30:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6F4810E23F;
-	Mon,  8 Jul 2024 07:14:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA3AA10E253;
+	Mon,  8 Jul 2024 07:30:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EFH/9Slc";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ms/eYmjK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PI1o+UW+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ms/eYmjK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PI1o+UW+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77CDF10E100
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 07:14:17 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4265921b0f6so14823635e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 00:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720422856; x=1721027656; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=vcpZKxffh1BIPbGttr7eH91nbmnE8KOM65bYeiW3Qyg=;
- b=EFH/9SlcnWIuV9x2q5hn9qDQjsVCd3pqofbtBOUWh5QflgQ8tspL+k5LTGftm1TQs7
- qHc8ovvH5lc3corc3yjtUwql3Pn3sQ3Y4aIpOX7r2EHKSA41R2GYgV5xW/l2AQ1ejkTN
- qiUucwrq3LIzwkP/ggz20cOe41SUe8h/yzqJ8J3Lu5Zhjog3t0ew2PNOoPOtsrEjeyLI
- S3sxlOUGNs6vJ3h8hEJ116Fh4u9tPWnuuoaUmuBadryTjUAjtQ80XS2llEiIll12LjhT
- +mg53w3tF55ChbJYgvi1M6cKjbULKXf139pXJKD2FkJx2+7m1ff49h2q7MKWq/f0g/Ev
- 48nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720422856; x=1721027656;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vcpZKxffh1BIPbGttr7eH91nbmnE8KOM65bYeiW3Qyg=;
- b=Ke12pPR3rA9fTMGpcpIb0AZy49aqZ+r6PeAB+97Y7OS4AH+UNkPhmAEYPHnhKVBgDV
- v/6X9xZKp3EtkaTpCJia8ENbkxV9A3MZd7wuBALtsecuoZzv3+3Yg9QNVw2KbMLsZywb
- lkn+elIj5NJUEO8B7b7aPclrPt4gxd27P89l7cUNMkFtVAYL20uJe7StsUbuS1A2+PZI
- QeSxLCDrxsT3LIbMYjPLg6n3BghJc4F3YfVfr+xh9QJu9j5SCzaHimz1dspf2kq4TEF0
- pX3H9rTAnQazcaZAo8kTUcoDrN18/eJAyyFIx6M64jnka95jFMViybInpXarlG+woP0A
- nYWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnA8U3z6e3hQ02JTej05ffyPHVsEgQIWb4WJ3N6MFCofLWPD85wFI8alhTMci95DYoS94bea8PkkGM9t4C7FmmZVYcMVesqmoOSnYHqauS
-X-Gm-Message-State: AOJu0Yx+eAJ/47DVHJQ6qNJKwzuVZPsD+cpk2KBJXobQ2QaTicMBJddL
- qPpfa+f4eCL8G70CZNm5rChpN4Z4wjA2EAuacDgb5Nnip0oFbPGn
-X-Google-Smtp-Source: AGHT+IE7rimd7KEtTYGAglzE1thSHNWtvzIpA30fmoas+DNLkSTy3PEkmPXIgmyCB2YCS+utG0lcoA==
-X-Received: by 2002:a05:600c:20c:b0:426:65bf:5cc2 with SMTP id
- 5b1f17b1804b1-42665bf5d8bmr23951935e9.1.1720422855227; 
- Mon, 08 Jul 2024 00:14:15 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4264a2519a4sm151263255e9.35.2024.07.08.00.14.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jul 2024 00:14:14 -0700 (PDT)
-Message-ID: <41859b82-fe75-451a-9e13-fec254bdaad5@gmail.com>
-Date: Mon, 8 Jul 2024 09:14:14 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C73E10E100
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 07:30:37 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 311881FBFA;
+ Mon,  8 Jul 2024 07:30:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1720423834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nBEO13J3V8TnyxpdAPEXkHPJJFXuP/cBSX1L3f2H1iw=;
+ b=ms/eYmjKoFWW7gmzB7JP0MgggjZvS5OWPl0Qk1h6ZqSZNMxqE9087jDmMs8VgpFMz83RRh
+ ZKwgpTgEdjXIYGcNV2gzIg07Yako4R0URoKOhIna7j6+bekk6nCIaS2p5MWKGaRvj+FSMa
+ ETgSnjyQd9XoAlzxW0Mb0hbzBsKxVzU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1720423834;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nBEO13J3V8TnyxpdAPEXkHPJJFXuP/cBSX1L3f2H1iw=;
+ b=PI1o+UW+v6yRmTbHllRW0hEvrUxUpCDifNMMessHLSlDK75UNaInKdsMOJSciikTH3DBx6
+ lSSumv80qTIsqjDg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ms/eYmjK";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PI1o+UW+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1720423834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nBEO13J3V8TnyxpdAPEXkHPJJFXuP/cBSX1L3f2H1iw=;
+ b=ms/eYmjKoFWW7gmzB7JP0MgggjZvS5OWPl0Qk1h6ZqSZNMxqE9087jDmMs8VgpFMz83RRh
+ ZKwgpTgEdjXIYGcNV2gzIg07Yako4R0URoKOhIna7j6+bekk6nCIaS2p5MWKGaRvj+FSMa
+ ETgSnjyQd9XoAlzxW0Mb0hbzBsKxVzU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1720423834;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nBEO13J3V8TnyxpdAPEXkHPJJFXuP/cBSX1L3f2H1iw=;
+ b=PI1o+UW+v6yRmTbHllRW0hEvrUxUpCDifNMMessHLSlDK75UNaInKdsMOJSciikTH3DBx6
+ lSSumv80qTIsqjDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DC3BF13A7F;
+ Mon,  8 Jul 2024 07:30:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id NDvYM5mVi2aMDgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 08 Jul 2024 07:30:33 +0000
+Message-ID: <37c0df72-498b-44ad-9a47-d69f0515edd7@suse.de>
+Date: Mon, 8 Jul 2024 09:30:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] Re: [PATCH 0/8] dma-buf: heaps: Support
- carved-out heaps and ECC related-flags
-To: Thierry Reding <thierry.reding@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, John Stultz <jstultz@google.com>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier"
- <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
- <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
- <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
- <CANDhNCo5hSC-sLwdkBi3e-Ja-MzdqcGGbn-4G3XNYwCzZUwscw@mail.gmail.com>
- <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
- <qy7aczeu6kumv5utemoevi7omp5ryq55zmgzxh5hrz5orf2osp@wypg66awof4n>
- <20240628-resilient-resolute-rook-0fc531@houat>
- <3e37rhrcqogix5obsu2gq7jar7bcoamx4bbd376az5z3zdkwvm@jstirwdl5efm>
- <20240704-therapeutic-maroon-coucal-f61a63@houat>
- <wapv4gl2se34tq3isycb7bui5xi3x6kxjqtyz24qhjipnkbuqu@sv4w2crksuq5>
- <ZogSxHFPt8SpOa0w@phenom.ffwll.local>
+Subject: Re: [PATCH] drm/format-helper: Add conversion from XRGB8888 to BGR888
+To: Aditya Garg <gargaditya08@live.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
+Cc: Orlando Chamberlain <orlandoch.dev@gmail.com>,
+ Kerem Karabay <kekrby@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <4C98332B-4E56-4314-8BDA-709AD3974899@live.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <ZogSxHFPt8SpOa0w@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <4C98332B-4E56-4314-8BDA-709AD3974899@live.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 311881FBFA
+X-Spam-Score: -4.00
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.00 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[live.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_DN_EQ_ADDR_SOME(0.00)[]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
+ FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,vger.kernel.org];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ TAGGED_RCPT(0.00)[]; RCPT_COUNT_SEVEN(0.00)[9];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,145 +156,262 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.07.24 um 17:35 schrieb Daniel Vetter:
-> Just figured I'll jump in on one detail here.
+Hi
+
+Am 05.07.24 um 13:38 schrieb Aditya Garg:
+> From: Kerem Karabay <kekrby@gmail.com>
 >
-> On Fri, Jul 05, 2024 at 04:31:34PM +0200, Thierry Reding wrote:
->> On Thu, Jul 04, 2024 at 02:24:49PM GMT, Maxime Ripard wrote:
->>> On Fri, Jun 28, 2024 at 04:42:35PM GMT, Thierry Reding wrote:
->>>> On Fri, Jun 28, 2024 at 03:08:46PM GMT, Maxime Ripard wrote:
->>>>> Hi,
->>>>>
->>>>> On Fri, Jun 28, 2024 at 01:29:17PM GMT, Thierry Reding wrote:
->>>>>> On Tue, May 21, 2024 at 02:06:19PM GMT, Daniel Vetter wrote:
->>>>>>> On Thu, May 16, 2024 at 09:51:35AM -0700, John Stultz wrote:
->>>>>>>> On Thu, May 16, 2024 at 3:56 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->>>>>>>>> On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
->>>>>>>>>> But it makes me a little nervous to add a new generic allocation flag
->>>>>>>>>> for a feature most hardware doesn't support (yet, at least). So it's
->>>>>>>>>> hard to weigh how common the actual usage will be across all the
->>>>>>>>>> heaps.
->>>>>>>>>>
->>>>>>>>>> I apologize as my worry is mostly born out of seeing vendors really
->>>>>>>>>> push opaque feature flags in their old ion heaps, so in providing a
->>>>>>>>>> flags argument, it was mostly intended as an escape hatch for
->>>>>>>>>> obviously common attributes. So having the first be something that
->>>>>>>>>> seems reasonable, but isn't actually that common makes me fret some.
->>>>>>>>>>
->>>>>>>>>> So again, not an objection, just something for folks to stew on to
->>>>>>>>>> make sure this is really the right approach.
->>>>>>>>> Another good reason to go with full heap names instead of opaque flags on
->>>>>>>>> existing heaps is that with the former we can use symlinks in sysfs to
->>>>>>>>> specify heaps, with the latter we need a new idea. We haven't yet gotten
->>>>>>>>> around to implement this anywhere, but it's been in the dma-buf/heap todo
->>>>>>>>> since forever, and I like it as a design approach. So would be a good idea
->>>>>>>>> to not toss it. With that display would have symlinks to cma-ecc and cma,
->>>>>>>>> and rendering maybe cma-ecc, shmem, cma heaps (in priority order) for a
->>>>>>>>> SoC where the display needs contig memory for scanout.
->>>>>>>> So indeed that is a good point to keep in mind, but I also think it
->>>>>>>> might re-inforce the choice of having ECC as a flag here.
->>>>>>>>
->>>>>>>> Since my understanding of the sysfs symlinks to heaps idea is about
->>>>>>>> being able to figure out a common heap from a collection of devices,
->>>>>>>> it's really about the ability for the driver to access the type of
->>>>>>>> memory. If ECC is just an attribute of the type of memory (as in this
->>>>>>>> patch series), it being on or off won't necessarily affect
->>>>>>>> compatibility of the buffer with the device.  Similarly "uncached"
->>>>>>>> seems more of an attribute of memory type and not a type itself.
->>>>>>>> Hardware that can access non-contiguous "system" buffers can access
->>>>>>>> uncached system buffers.
->>>>>>> Yeah, but in graphics there's a wide band where "shit performance" is
->>>>>>> defacto "not useable (as intended at least)".
->>>>>>>
->>>>>>> So if we limit the symlink idea to just making sure zero-copy access is
->>>>>>> possible, then we might not actually solve the real world problem we need
->>>>>>> to solve. And so the symlinks become somewhat useless, and we need to
->>>>>>> somewhere encode which flags you need to use with each symlink.
->>>>>>>
->>>>>>> But I also see the argument that there's a bit a combinatorial explosion
->>>>>>> possible. So I guess the question is where we want to handle it ...
->>>>>> Sorry for jumping into this discussion so late. But are we really
->>>>>> concerned about this combinatorial explosion in practice? It may be
->>>>>> theoretically possible to create any combination of these, but do we
->>>>>> expect more than a couple of heaps to exist in any given system?
->>>>> I don't worry too much about the number of heaps available in a given
->>>>> system, it would indeed be fairly low.
->>>>>
->>>>> My concern is about the semantics combinatorial explosion. So far, the
->>>>> name has carried what semantics we were supposed to get from the buffer
->>>>> we allocate from that heap.
->>>>>
->>>>> The more variations and concepts we'll have, the more heap names we'll
->>>>> need, and with confusing names since we wouldn't be able to change the
->>>>> names of the heaps we already have.
->>>> What I was trying to say is that none of this matters if we make these
->>>> names opaque. If these names are contextual for the given system it
->>>> doesn't matter what the exact capabilities are. It only matters that
->>>> their purpose is known and that's what applications will be interested
->>>> in.
->>> If the names are opaque, and we don't publish what the exact
->>> capabilities are, how can an application figure out which heap to use in
->>> the first place?
->> This would need to be based on conventions. The idea is to standardize
->> on a set of names for specific, well-known use-cases.
->>
->>>>>> Would it perhaps make more sense to let a platform override the heap
->>>>>> name to make it more easily identifiable? Maybe this is a naive
->>>>>> assumption, but aren't userspace applications and drivers not primarily
->>>>>> interested in the "type" of heap rather than whatever specific flags
->>>>>> have been set for it?
->>>>> I guess it depends on what you call the type of a heap. Where we
->>>>> allocate the memory from, sure, an application won't care about that.
->>>>> How the buffer behaves on the other end is definitely something
->>>>> applications are going to be interested in though.
->>>> Most of these heaps will be very specific, I would assume.
->>> We don't have any specific heap upstream at the moment, only generic
->>> ones.
->> But we're trying to add more specific ones, right?
->>
->>>> For example a heap that is meant to be protected for protected video
->>>> decoding is both going to be created in such a way as to allow that
->>>> use-case (i.e. it doesn't make sense for it to be uncached, for
->>>> example) and it's also not going to be useful for any other use-case
->>>> (i.e. there's no reason to use that heap for GPU jobs or networking,
->>>> or whatever).
->>> Right. But also, libcamera has started to use dma-heaps to allocate
->>> dma-capable buffers and do software processing on it before sending it
->>> to some hardware controller.
->>>
->>> Caches are critical here, and getting a non-cacheable buffer would be
->>> a clear regression.
->> I understand that. My point is that maybe we shouldn't try to design a
->> complex mechanism that allows full discoverability of everything that a
->> heap supports or is capable of. Instead if the camera has specific
->> requirements, it could look for a heap named "camera". Or if it can
->> share a heap with other multimedia devices, maybe call the heap
->> "multimedia".
->>
->> The idea is that heaps for these use-cases are quite specific, so you
->> would likely not find an arbitrary number of processes try to use the
->> same heap.
-> Yeah the idea to sort this out was to have symlinks in sysfs from the
-> device to each heap. We could then have priorities for each such link, so
-> that applications can pick the "best" heap that will work with all
-> devices. Or also special links for special use-cases, like for a
-> display+render drm device you might want to have separate links for the
-> display and the render-only use-case.
+> Add XRGB8888 emulation helper for devices that only support BGR888.
+
+Nothing wrong with that, but it needs a caller. Do you have a driver 
+that uses this routine?
+
+Best regards
+Thomas
+
 >
-> I think trying to encode this all into the name of a heap without linking
-> it to the device is not going to work well in general.
+> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> ---
+>   drivers/gpu/drm/drm_format_helper.c           | 54 +++++++++++++
+>   .../gpu/drm/tests/drm_format_helper_test.c    | 81 +++++++++++++++++++
+>   include/drm/drm_format_helper.h               |  3 +
+>   3 files changed, 138 insertions(+)
 >
-> We still have that entire "make sysfs symlinks work for dma-buf heaps" on
-> our todos, and that idea is almost as old as dma-buf itself :-/
+> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+> index b1be458ed..28c0e76a1 100644
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -702,6 +702,57 @@ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *dst_pi
+>   }
+>   EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888);
+>   
+> +static void drm_fb_xrgb8888_to_bgr888_line(void *dbuf, const void *sbuf, unsigned int pixels)
+> +{
+> +	u8 *dbuf8 = dbuf;
+> +	const __le32 *sbuf32 = sbuf;
+> +	unsigned int x;
+> +	u32 pix;
+> +
+> +	for (x = 0; x < pixels; x++) {
+> +		pix = le32_to_cpu(sbuf32[x]);
+> +		/* write red-green-blue to output in little endianness */
+> +		*dbuf8++ = (pix & 0x00FF0000) >> 16;
+> +		*dbuf8++ = (pix & 0x0000FF00) >> 8;
+> +		*dbuf8++ = (pix & 0x000000FF) >> 0;
+> +	}
+> +}
+> +
+> +/**
+> + * drm_fb_xrgb8888_to_bgr888 - Convert XRGB8888 to BGR888 clip buffer
+> + * @dst: Array of BGR888 destination buffers
+> + * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
+> + *             within @dst; can be NULL if scanlines are stored next to each other.
+> + * @src: Array of XRGB8888 source buffers
+> + * @fb: DRM framebuffer
+> + * @clip: Clip rectangle area to copy
+> + * @state: Transform and conversion state
+> + *
+> + * This function copies parts of a framebuffer to display memory and converts the
+> + * color format during the process. Destination and framebuffer formats must match. The
+> + * parameters @dst, @dst_pitch and @src refer to arrays. Each array must have at
+> + * least as many entries as there are planes in @fb's format. Each entry stores the
+> + * value for the format's respective color plane at the same index.
+> + *
+> + * This function does not apply clipping on @dst (i.e. the destination is at the
+> + * top-left corner).
+> + *
+> + * Drivers can use this function for BGR888 devices that don't natively
+> + * support XRGB8888.
+> + */
+> +void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *dst_pitch,
+> +			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+> +			       const struct drm_rect *clip, struct drm_format_conv_state *state)
+> +{
+> +	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
+> +		3,
+> +	};
+> +
+> +	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
+> +		    drm_fb_xrgb8888_to_bgr888_line);
+> +}
+> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_bgr888);
+> +
+>   static void drm_fb_xrgb8888_to_argb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
+>   {
+>   	__le32 *dbuf32 = dbuf;
+> @@ -1035,6 +1086,9 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
+>   		} else if (dst_format == DRM_FORMAT_RGB888) {
+>   			drm_fb_xrgb8888_to_rgb888(dst, dst_pitch, src, fb, clip, state);
+>   			return 0;
+> +		} else if (dst_format == DRM_FORMAT_BGR888) {
+> +			drm_fb_xrgb8888_to_bgr888(dst, dst_pitch, src, fb, clip, state);
+> +			return 0;
+>   		} else if (dst_format == DRM_FORMAT_ARGB8888) {
+>   			drm_fb_xrgb8888_to_argb8888(dst, dst_pitch, src, fb, clip, state);
+>   			return 0;
+> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> index 08992636e..e54f0f6e7 100644
+> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> @@ -60,6 +60,11 @@ struct convert_to_rgb888_result {
+>   	const u8 expected[TEST_BUF_SIZE];
+>   };
+>   
+> +struct convert_to_bgr888_result {
+> +	unsigned int dst_pitch;
+> +	const u8 expected[TEST_BUF_SIZE];
+> +};
+> +
+>   struct convert_to_argb8888_result {
+>   	unsigned int dst_pitch;
+>   	const u32 expected[TEST_BUF_SIZE];
+> @@ -107,6 +112,7 @@ struct convert_xrgb8888_case {
+>   	struct convert_to_argb1555_result argb1555_result;
+>   	struct convert_to_rgba5551_result rgba5551_result;
+>   	struct convert_to_rgb888_result rgb888_result;
+> +	struct convert_to_bgr888_result bgr888_result;
+>   	struct convert_to_argb8888_result argb8888_result;
+>   	struct convert_to_xrgb2101010_result xrgb2101010_result;
+>   	struct convert_to_argb2101010_result argb2101010_result;
+> @@ -151,6 +157,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x00, 0x00, 0xFF },
+>   		},
+> +		.bgr888_result = {
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+> +			.expected = { 0xFF, 0x00, 0x00 },
+> +		},
+>   		.argb8888_result = {
+>   			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xFFFF0000 },
+> @@ -217,6 +227,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x00, 0x00, 0xFF },
+>   		},
+> +		.bgr888_result = {
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+> +			.expected = { 0xFF, 0x00, 0x00 },
+> +		},
+>   		.argb8888_result = {
+>   			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xFFFF0000 },
+> @@ -330,6 +344,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   				0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
+>   			},
+>   		},
+> +		.bgr888_result = {
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+> +			.expected = {
+> +				0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
+> +				0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00,
+> +				0x00, 0x00, 0xFF, 0xFF, 0x00, 0xFF,
+> +				0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF,
+> +			},
+> +		},
+>   		.argb8888_result = {
+>   			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+> @@ -468,6 +491,17 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   			},
+>   		},
+> +		.bgr888_result = {
+> +			.dst_pitch = 15,
+> +			.expected = {
+> +				0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05, 0xA8, 0xF3, 0x03,
+> +				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +				0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05,
+> +				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +				0xA8, 0x03, 0x03, 0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C,
+> +				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +			},
+> +		},
+>   		.argb8888_result = {
+>   			.dst_pitch = 20,
+>   			.expected = {
+> @@ -914,6 +948,52 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+> +static void drm_test_fb_xrgb8888_to_bgr888(struct kunit *test)
+> +{
+> +	const struct convert_xrgb8888_case *params = test->param_value;
+> +	const struct convert_to_bgr888_result *result = &params->bgr888_result;
+> +	size_t dst_size;
+> +	u8 *buf = NULL;
+> +	__le32 *xrgb8888 = NULL;
+> +	struct iosys_map dst, src;
+> +
+> +	struct drm_framebuffer fb = {
+> +		.format = drm_format_info(DRM_FORMAT_XRGB8888),
+> +		.pitches = { params->pitch, 0, 0 },
+> +	};
+> +
+> +	dst_size = conversion_buf_size(DRM_FORMAT_BGR888, result->dst_pitch,
+> +				       &params->clip, 0);
+> +	KUNIT_ASSERT_GT(test, dst_size, 0);
+> +
+> +	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
+> +	iosys_map_set_vaddr(&dst, buf);
+> +
+> +	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+> +	iosys_map_set_vaddr(&src, xrgb8888);
+> +
+> +	/*
+> +	 * BGR888 expected results are already in little-endian
+> +	 * order, so there's no need to convert the test output.
+> +	 */
+> +	drm_fb_xrgb8888_to_bgr888(&dst, &result->dst_pitch, &src, &fb, &params->clip,
+> +				  &fmtcnv_state);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr; /* restore original value of buf */
+> +	memset(buf, 0, dst_size);
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, &result->dst_pitch, DRM_FORMAT_BGR888, &src, &fb, &params->clip,
+> +				  &fmtcnv_state);
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +}
+> +
+>   static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
+>   {
+>   	const struct convert_xrgb8888_case *params = test->param_value;
+> @@ -1851,6 +1931,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb1555, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgba5551, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888, convert_xrgb8888_gen_params),
+> +	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_bgr888, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
+> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+> index f13b34e0b..b53cf85ca 100644
+> --- a/include/drm/drm_format_helper.h
+> +++ b/include/drm/drm_format_helper.h
+> @@ -95,6 +95,9 @@ void drm_fb_xrgb8888_to_rgba5551(struct iosys_map *dst, const unsigned int *dst_
+>   void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *dst_pitch,
+>   			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+>   			       const struct drm_rect *clip, struct drm_format_conv_state *state);
+> +void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *dst_pitch,
+> +			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+> +			       const struct drm_rect *clip, struct drm_format_conv_state *state);
+>   void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
+>   				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+>   				 const struct drm_rect *clip, struct drm_format_conv_state *state);
 
-I still have the draft patches for that lying around on my harddisk 
-somewhere with zero time to look into it.
-
-If anybody wants to pick it up feel free to ping me, but be aware that 
-you need to write more documentation than code.
-
-Regards,
-Christian.
-
-> -Sima
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
