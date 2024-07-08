@@ -2,81 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF71892A8E8
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 20:22:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7433392A8E7
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 20:22:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4410D10E329;
-	Mon,  8 Jul 2024 18:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A57CB10E2FD;
+	Mon,  8 Jul 2024 18:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CNANpOwX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bDuMxd78";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30B2410E389
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 15:19:01 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2ee98947f70so30633451fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 08:19:01 -0700 (PDT)
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3788010E2BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 17:23:02 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id
+ d9443c01a7336-1fb3cf78fcaso25370805ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 10:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720451939; x=1721056739; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720459382; x=1721064182; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=TSBUSiGrKda6Rclc8JKjTu2mlczLCGQS71CjDrMpfKo=;
- b=CNANpOwXu0a/gTNRxHDQQoluXY6Zkz5Gsc5n33Y9xFTD6EnLWuO6O5kQeCDjyFwTRX
- TI+cQlK2e/gJDDsSTkB9am0JUVPwGLCmOPVzC5VCpsjM8Xv9GSagyTn1exMLaI9V+bB/
- aEkYYajb/TGCURHaWYuyftdLQYSCO6kk2GMLyfPlJIu7GjMUJQswLVAZwdj95+YbkbdU
- m66uVdl83y27xSZy4Q739ULYhXCpOWL1fM6bpZkKljSK6mfTu3gx+wHRvzjKMQ+sVnng
- e1rMJ86xu4exKe31OahS6SFKEGjVGSxZTcrcHyEvV2pTNpJi7TG7CbzXVQHV+5uZhNPP
- NCeQ==
+ bh=l8dssTOE5YtjaCpjIjX/bht9CAwJzQ5jf+TiBoCd/rc=;
+ b=bDuMxd783NbK2qiSQQUDgRKm1AVQs69/GlPDvzPSbTJ2jjPKtgvB9YiNUQOLgZKVeg
+ uIZDudgDZNJw9IktngGj4FsPDz8Y4J1RP3qfdllIOlXS8g1lXfNifhwGtR7h7gIYpD7R
+ NjoHVsPQc1SEGL9VDJOuwJjanEfHbYp36h3HIGXgSANh3ZJxveZJPXbJrhrZyKaAulnd
+ L/pFirWJgHFRZ5Ao14AToMtaqTGQzy+mf16V1GwsQhsS7xcniHhUZyDWqGFd66z6H64h
+ N7fbIRzl5i9vus5P8CxjQgW6rFd9PH5woxhrjbDzbi9Cy5eaoJcCWALnnBLDE1n1ikNZ
+ lRdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720451939; x=1721056739;
+ d=1e100.net; s=20230601; t=1720459382; x=1721064182;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=TSBUSiGrKda6Rclc8JKjTu2mlczLCGQS71CjDrMpfKo=;
- b=ew2N74Vqon/0JJ3bAWO8TmLva8Okn9yv/8ua/Ur5wcix6OREe8QZYpdIFTmvkNXaJ/
- 6/5n+ytHBLn2vcJnwregpGSvmGIpXe8Qx1UZ1ebFQJ+8B1AFU9QvL1C0MDRfq+Db9N2K
- RQP9GBHCUwRD6lVGjg8ahGGAzRmOuhhCOrGnWPE3Y0m8dFV/gAmO5Sk+/oPyJ0lNKC6S
- NpNa0QiPOK6aN5HA7qcvWSaJMuTD1hvGO/WBYfgf7tQmasoa1q5JNffJu0n9NA7ghJBf
- jrTrw5iCDfwW+NbkC1Tg39T+P+j4CpJKN1/PcpgDL2lj48j4OG7sIh2UEQvoMg8RRUBe
- SPvQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVYOIwAu/hFFDrR0QD3a1PsD0kxhfkA6nOLbKM37qoWBPgCJugbV+hxEl5gRu+nwFpZSqQDJkTETbPsIpsusds/2YdgpYvMCqxnIXa2gc3K
-X-Gm-Message-State: AOJu0Yz7P5GiSf2z+C/A+yhe27mySHhYc39usuZKE+ccjt46k1CP9Gp8
- 3HHyPDGWFuEtWaQjmiJ2a6edcq81AmczkTLgH9YvrFG8DOMwjHEp
-X-Google-Smtp-Source: AGHT+IHBOpU2TpGoqEtMyb1uE3hxIskr/IILSBqTmPyQ+zwbgIxWLN7Nwf+BZwShchhySLprAWHYaw==
-X-Received: by 2002:a2e:86cc:0:b0:2ed:275d:aa44 with SMTP id
- 38308e7fff4ca-2eeb30fcd17mr242501fa.28.1720451939038; 
- Mon, 08 Jul 2024 08:18:59 -0700 (PDT)
-Received: from GLaDOS.tastitalia.local ([37.77.97.75])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-58e113d1c45sm5537837a12.64.2024.07.08.08.18.57
+ bh=l8dssTOE5YtjaCpjIjX/bht9CAwJzQ5jf+TiBoCd/rc=;
+ b=nI8gaekorxE/s7faS96YDEuHh3UFUikNNSonJ27uSZlhdHkB5xoRTiOOCGLIRpQu55
+ jODbRECF9R+69pNtEkzNenbZUwKNzRKvL/LvSYx/e70RNsOvs0T6muHSpQuXfgcNdpaU
+ 96Avl8lGsy/GXB3vJyH8tvUQzQguqkZyuLuznEVjkghioF9mJI/oD9C8cNaEDu02j5nJ
+ QfLXya1UcXZbt7KnyYDHvl6IuFcEo/FM0GA9NZrIeYzjVoNACTBU9482Uc3rCB1Boo5K
+ gAjmlV4GlsikvTc58cocMuhCE5VGth6OXgHF/duGUmk8SsoUjDmm+N1DpqVvyaQ1UFlH
+ +KmA==
+X-Gm-Message-State: AOJu0Ywbz7Rg9+sYK3z49RHXjFlA6r8yUO/TbK9wumOwjPPdHT4oFiO0
+ VbpT71u6R8aeIuYbJeAYpW5pRnSOaT4Z4eEmwZLCDWchF7A8v3jo
+X-Google-Smtp-Source: AGHT+IEnHd1r/rT95kPOKGYZBxgklx50F/DDhELRb5rGAwZPK7BNWUon2xTWMeDCG3gWIbiM3Cj76A==
+X-Received: by 2002:a17:902:e84f:b0:1fb:3b30:8ce0 with SMTP id
+ d9443c01a7336-1fbb6ed5798mr1508735ad.44.1720459381664; 
+ Mon, 08 Jul 2024 10:23:01 -0700 (PDT)
+Received: from embed-PC.. ([122.173.216.255]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1fbb6a10852sm1190705ad.27.2024.07.08.10.22.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jul 2024 08:18:58 -0700 (PDT)
-From: stefano.radaelli21@gmail.com
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Stefano Radaelli <stefano.radaelli21@gmail.com>,
- "Noah J . Rosa" <noahj.rosa@gmail.com>
-Subject: [PATCH] dt-bindings: display: bridge: ti,
- sn65dsi83: add burst-mode-disabled
-Date: Mon,  8 Jul 2024 17:18:56 +0200
-Message-Id: <20240708151857.40538-1-stefano.radaelli21@gmail.com>
+ Mon, 08 Jul 2024 10:23:00 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli24@gmail.com>
+To: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, rbmarliere@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Abhishek Tamboli <abhishektamboli24@gmail.com>
+Subject: [PATCH] drm: Add documentation for struct drm_plane_size_hint members
+Date: Mon,  8 Jul 2024 22:52:24 +0530
+Message-Id: <20240708172224.46073-1-abhishektamboli24@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 08 Jul 2024 18:21:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,30 +81,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Stefano Radaelli <stefano.radaelli21@gmail.com>
+Add descriptions for 'width' and 'height' members in struct
+drm_plane_size_hint to improve clarity and documentation coverage.
 
-It allows to disable Burst video mode
-
-Co-developed-by: Noah J. Rosa <noahj.rosa@gmail.com>
-Signed-off-by: Noah J. Rosa <noahj.rosa@gmail.com>
-Signed-off-by: Stefano Radaelli <stefano.radaelli21@gmail.com>
+Signed-off-by: Abhishek Tamboli <abhishektamboli24@gmail.com>
 ---
- .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml       | 3 +++
- 1 file changed, 3 insertions(+)
+ include/uapi/drm/drm_mode.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-index 48a97bb3e2e0..eb9c8b6b6813 100644
---- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-@@ -35,6 +35,9 @@ properties:
-   vcc-supply:
-     description: A 1.8V power supply (see regulator/regulator.yaml).
- 
-+  burst-mode-disabled:
-+    description: Set Video Mode in Non-Burst Mode
-+
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 1ca5c7e418fd..25891a636e4f 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -872,7 +872,13 @@ struct drm_color_lut {
+  * array of struct drm_plane_size_hint.
+  */
+ struct drm_plane_size_hint {
++	/**
++	 * @width: Width of the plane size hint.
++	 */
+ 	__u16 width;
++	/**
++	 * @height: Height of the plane size hint.
++	 */
+ 	__u16 height;
+ };
  
 -- 
 2.34.1
