@@ -2,141 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033DD929E4F
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 10:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F79929E82
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 10:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A31510E2A7;
-	Mon,  8 Jul 2024 08:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C92B910E2D9;
+	Mon,  8 Jul 2024 08:52:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ur2pU+U2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L1+GRHmz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ur2pU+U2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L1+GRHmz";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="WMTbCRls";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24AF710E2CC
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 08:29:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8ECB01FC07;
- Mon,  8 Jul 2024 08:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720427387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1ht+SmsfAJTb6xKxxaRj8dKFlrbHA+3nGzOFEg8lIl0=;
- b=ur2pU+U2BJbFQf9U0uu75klfwCXNOgS4wCaHHtW+A8QJv9CFLYgNOvgBLiH8PZGv82RGBv
- 3cOcAZHw1biOdZz5drLTRC0s4F74vXBxblQhLS47WG1XLSwJ32blnkt3hb+gGFzbkytX3J
- 2FQZLAtu1GZjy/p4u1kA+bqkaGWkgTg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720427387;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1ht+SmsfAJTb6xKxxaRj8dKFlrbHA+3nGzOFEg8lIl0=;
- b=L1+GRHmzS5bY2Jg9qnkNNAho2MdHlR7Ed+Z4bT7A4YMEusxXmGB4E5ZfnCt8YIIsDNlhWB
- ggGiMDBBnUKkAPDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720427387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1ht+SmsfAJTb6xKxxaRj8dKFlrbHA+3nGzOFEg8lIl0=;
- b=ur2pU+U2BJbFQf9U0uu75klfwCXNOgS4wCaHHtW+A8QJv9CFLYgNOvgBLiH8PZGv82RGBv
- 3cOcAZHw1biOdZz5drLTRC0s4F74vXBxblQhLS47WG1XLSwJ32blnkt3hb+gGFzbkytX3J
- 2FQZLAtu1GZjy/p4u1kA+bqkaGWkgTg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720427387;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1ht+SmsfAJTb6xKxxaRj8dKFlrbHA+3nGzOFEg8lIl0=;
- b=L1+GRHmzS5bY2Jg9qnkNNAho2MdHlR7Ed+Z4bT7A4YMEusxXmGB4E5ZfnCt8YIIsDNlhWB
- ggGiMDBBnUKkAPDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41D7D1396E;
- Mon,  8 Jul 2024 08:29:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id F06XDnuji2aXIgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 08 Jul 2024 08:29:47 +0000
-Message-ID: <abbb7883-6b57-4261-9fc1-9c9eac1665e3@suse.de>
-Date: Mon, 8 Jul 2024 10:29:46 +0200
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6E8F10E2D9
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 08:52:43 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-52ea5185ba7so343599e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 01:52:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1720428762; x=1721033562; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=lFE86WZSp3JEzrRPlKfWS/fFW4ZMBFxHZg4sDLK8TCA=;
+ b=WMTbCRlsw4gXz+5y3ymN/2UcB2Sc7bPkP0VLMuLXBilDJoQaNJJkU3DIAhzjlr+3IA
+ +VSVuvz9cviSDKK2teG1/V17d8FZL5ciSt/A2lqNhqM5BKkT8K5XL9SzmCOYtl/Q5fgC
+ tK9ANKAsJEKvkt/hYWEhlNz8axxDDNZSy/4Cc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720428762; x=1721033562;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lFE86WZSp3JEzrRPlKfWS/fFW4ZMBFxHZg4sDLK8TCA=;
+ b=Y6TZBaThFW+4uHL0e5Xd6Fk53NgtafD7n1J1REd1sfLOs1FgNT8GRXdfOmZol4fS5Z
+ +BSLOrO/WPLpOiqXamotHAD4JJcV219o/kugnP8k03hFE/ULieVV7zFeHiUNsK04Qf18
+ 1cPz7ZFpMiAXXiR5u/a/47IPnTUqvb0FcCt3m1YO0+2rqw9kQdc3sOAhlZa5++gm6xxw
+ s3JkAoNdZ612BX71bqwzvvueYemk+1GEiBwqd9sYc7AU63G2Wyz+InyuM71N6MDKoQ3T
+ PvW86XpxffBOpYQTSD4L6itgMQ7z+v/4q9F4b6St53/xLg0CXyOkG/Ow94EiIDxdCWQp
+ FTPA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0mdmIT8nn1Q8k57C0o0ctE9/doOENereCWvfthnkUqQaizCC9uRZvCMM4wy0tmOzlF4szSM0cqGMFUqt/sOiZxgMGxJ55ZdFaYjbO2j9t
+X-Gm-Message-State: AOJu0YzACkrzf33nQxwrj29xH+J7o56pZVAB4oAI8nZjf2c7HmrQ5A3t
+ +GQ/XxRGE/6DSlJqlOpJCz20EjRxibUM6khJt35PvOdUA389wg4C3G6JDDIhdW4=
+X-Google-Smtp-Source: AGHT+IHbMM/eoLoU7QnXWDaQ4cqieXM1e/6mMypL5AfoOk9SPk1MkXshcYh/oZ3kVphJ7k/ylftDNA==
+X-Received: by 2002:ac2:4209:0:b0:52c:def2:d8af with SMTP id
+ 2adb3069b0e04-52ea07350aemr6151426e87.4.1720428761592; 
+ Mon, 08 Jul 2024 01:52:41 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42664e46c45sm51683065e9.18.2024.07.08.01.52.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Jul 2024 01:52:41 -0700 (PDT)
+Date: Mon, 8 Jul 2024 10:52:39 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Rob Clark <robdclark@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Vignesh Raman <vignesh.raman@collabora.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Dave Airlie <airlied@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Stone <daniels@collabora.com>, Rob Clark <robdclark@chromium.org>
+Subject: Re: Time for drm-ci-next?
+Message-ID: <Zouo16MCRRCNyYAs@phenom.ffwll.local>
+References: <ZnvEHEIEJIYcsQgN@phenom.ffwll.local>
+ <f6kf3smgaza7r7zif4frz6ugrdzcl4u3xqidgwgvuffydhjfzp@66afcetzo3uw>
+ <ZnxUP8H5oATEYNBt@phenom.ffwll.local>
+ <CAF6AEGu0X43O0-p=LaVmDgZrHnkHctuv=uLeqG+JEJXbfh=mjg@mail.gmail.com>
+ <Zn72laHlmWW3So9f@phenom.ffwll.local>
+ <CAF6AEGv6Hd65OPJm6DBB=yPRtLLB1BZpRodLr-Bk5stGzULMew@mail.gmail.com>
+ <Zoas4JJ3uhrR9lH7@phenom.ffwll.local>
+ <CAF6AEGtCEbhBo2CXLQymf2g5RogtdYv2LLXUNQO7Tvuw7x6ujA@mail.gmail.com>
+ <ZofMlSIjFV9iGZNM@phenom.ffwll.local>
+ <CAF6AEGvDFLBC6BWUdC6L1czn044EuTerPWqLib5hhRVkZyEpig@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/format-helper: Add conversion from XRGB8888 to BGR888
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, Orlando Chamberlain <orlandoch.dev@gmail.com>,
- Kerem Karabay <kekrby@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <4C98332B-4E56-4314-8BDA-709AD3974899@live.com>
- <37c0df72-498b-44ad-9a47-d69f0515edd7@suse.de>
- <6D311D35-6F8F-4E14-9A3F-EEEBE5490ACD@live.com>
- <bf43c9de-32fe-4abc-9045-043c16687cca@suse.de>
- <4365B424-E585-43ED-BDA9-F722B3E6CD56@live.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <4365B424-E585-43ED-BDA9-F722B3E6CD56@live.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.79
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.79 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- ARC_NA(0.00)[]; FREEMAIL_TO(0.00)[live.com];
- TO_DN_EQ_ADDR_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
- RCVD_TLS_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
- MID_RHS_MATCH_FROM(0.00)[]; TAGGED_RCPT(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[9]; RCVD_VIA_SMTP_AUTH(0.00)[];
- TO_DN_SOME(0.00)[]
+In-Reply-To: <CAF6AEGvDFLBC6BWUdC6L1czn044EuTerPWqLib5hhRVkZyEpig@mail.gmail.com>
+X-Operating-System: Linux phenom 6.9.7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,291 +96,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Fri, Jul 05, 2024 at 12:31:36PM -0700, Rob Clark wrote:
+> On Fri, Jul 5, 2024 at 3:36 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > On Thu, Jul 04, 2024 at 08:40:26AM -0700, Rob Clark wrote:
+> > > On Thu, Jul 4, 2024 at 7:08 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > >
+> > > > On Tue, Jul 02, 2024 at 05:32:39AM -0700, Rob Clark wrote:
+> > > > > On Fri, Jun 28, 2024 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > >
+> > > > > > On Thu, Jun 27, 2024 at 11:51:37AM -0700, Rob Clark wrote:
+> > > > > > > On Wed, Jun 26, 2024 at 10:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > > >
+> > > > > > > > On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry Baryshkov wrote:
+> > > > > > > > > On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel Vetter wrote:
+> > > > > > > > > > On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike wrote:
+> > > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > On 24/06/2024 02:34, Vignesh Raman wrote:
+> > > > > > > > > > > > Hi,
+> > > > > > > > > > > >
+> > > > > > > > > > > > On 15/03/24 22:50, Rob Clark wrote:
+> > > > > > > > > > > > > Basically, I often find myself needing to merge CI patches on top of
+> > > > > > > > > > > > > msm-next in order to run CI, and then after a clean CI run, reset HEAD
+> > > > > > > > > > > > > back before the merge and force-push.  Which isn't really how things
+> > > > > > > > > > > > > should work.
+> > > > > > > > > >
+> > > > > > > > > > This sounds more like you want an integration tree like drm-tip. Get msm
+> > > > > > > > > > branches integrated there, done. Backmerges just for integration testing
+> > > > > > > > > > are not a good idea indeed.
+> > > > > > >
+> > > > > > > But AFAIU this doesn't help for pre-merge testing, ie. prior to a
+> > > > > > > patch landing in msm-next
+> > > > > > >
+> > > > > > > My idea was to have a drm-ci-next managed similar to drm-misc-next, if
+> > > > > > > we have needed drm/ci patches we could push them to drm-ci-next, and
+> > > > > > > then merge that into the driver tree (along with a PR from drm-ci-next
+> > > > > > > to Dave).
+> > > > > >
+> > > > > > I guess I'm confused about what kind of pre-merge testing we're talking
+> > > > > > about then ... Or maybe this just doesn't work too well with the linux
+> > > > > > kernel. The model is that you have some pile of trees, they're split up,
+> > > > > > and testing of all the trees together is done in integration trees like
+> > > > > > linux-next or drm-tip.
+> > > > >
+> > > > > pre-merge: for msm we've been collecting up patches from list into a
+> > > > > fast-forward MR which triggers CI before merging to msm-next/msm-fixes
+> > > > >
+> > > > > Ideally drm-misc and other trees would do similar, we'd catch more
+> > > > > regressions that way.  For example, in msm-next the nodebugfs build is
+> > > > > currently broken, because we merged drm-misc-next at a time when
+> > > > > komeda was broken:
+> > > > >
+> > > > > https://gitlab.freedesktop.org/drm/msm/-/jobs/60575681#L9520
+> > > > >
+> > > > > If drm-misc was using pre-merge CI this would have been caught and the
+> > > > > offending patch dropped.
+> > > >
+> > > > That sounds more like we should push on the drm-misc pre-merge CI boulder
+> > > > to move it uphill, than add even more trees to make it even harder to get
+> > > > there long term ...
+> > > >
+> > > > Short term it helps locally to have finer trees, but only short term and
+> > > > only very locally.
+> > >
+> > > The path to have fewer trees (ideally only one for all of drm) is to
+> > > use gitlab MRs to land everything :-)
+> > >
+> > > drm-ci-next is only a stop-gap.. but one that we need.  The
+> > > ${branchname}-external-fixes trick covers _most_ cases where we need
+> > > unrelated patches (ie. to fix random ToT breakage outside of drm or in
+> > > core drm), but it doesn't help when the needed changes are yml
+> > > (because gitlab processes all the yml before merging the
+> > > -external-fixes branch).  This is where we need drm-ci-next, otherwise
+> > > we are having to create a separate MR which cherry-picks drm/ci
+> > > patches for doing the CI.  This is a rather broken process.
+> >
+> > So what I don't get is ... if we CI drm-misc, how does that not help
+> > improve the situation here? Step one would be post-merge (i.e. just enable
+> > CI in the repo), then get MRs going.
+> 
+> I guess post-merge is better than nothing.. but pre-merge is better.
+> 
+> post-merge can work if you have a "sheriff" system where someone
+> (perhaps on a rotation) is actively monitoring results and "revert and
+> ask questions later" when something breaks.  Pre-merge ensures the
+> interested party is involved in the process ;-)
 
-Am 08.07.24 um 10:10 schrieb Aditya Garg:
-> Hi
->> I see. Best would be to submit this patch together with the driver for review.
->>
-> Although it’s your take, but I really doubt whether the driver would make it upstream. It shall most likely be provided as a DKMS module.
-
-What's wrong with upstreaming the driver?
-
->
-> What should be the best case scenario then?
-
-We only add helpers that have callers. So the conversion routine would 
-have to remain in the driver module. If we have have an upstream user of 
-that helper, we can pick up your patch later.
-
-Best regards
-Thomas
-
-
-
->> Best regards
->> Thomas
->>
->>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
->>>>> Signed-off-by: Aditya Garg <gargaditya08@live.com>
->>>>> ---
->>>>>   drivers/gpu/drm/drm_format_helper.c           | 54 +++++++++++++
->>>>>   .../gpu/drm/tests/drm_format_helper_test.c    | 81 +++++++++++++++++++
->>>>>   include/drm/drm_format_helper.h               |  3 +
->>>>>   3 files changed, 138 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
->>>>> index b1be458ed..28c0e76a1 100644
->>>>> --- a/drivers/gpu/drm/drm_format_helper.c
->>>>> +++ b/drivers/gpu/drm/drm_format_helper.c
->>>>> @@ -702,6 +702,57 @@ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *dst_pi
->>>>>   }
->>>>>   EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888);
->>>>>   +static void drm_fb_xrgb8888_to_bgr888_line(void *dbuf, const void *sbuf, unsigned int pixels)
->>>>> +{
->>>>> + u8 *dbuf8 = dbuf;
->>>>> + const __le32 *sbuf32 = sbuf;
->>>>> + unsigned int x;
->>>>> + u32 pix;
->>>>> +
->>>>> + for (x = 0; x < pixels; x++) {
->>>>> + pix = le32_to_cpu(sbuf32[x]);
->>>>> + /* write red-green-blue to output in little endianness */
->>>>> + *dbuf8++ = (pix & 0x00FF0000) >> 16;
->>>>> + *dbuf8++ = (pix & 0x0000FF00) >> 8;
->>>>> + *dbuf8++ = (pix & 0x000000FF) >> 0;
->>>>> + }
->>>>> +}
->>>>> +
->>>>> +/**
->>>>> + * drm_fb_xrgb8888_to_bgr888 - Convert XRGB8888 to BGR888 clip buffer
->>>>> + * @dst: Array of BGR888 destination buffers
->>>>> + * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
->>>>> + *             within @dst; can be NULL if scanlines are stored next to each other.
->>>>> + * @src: Array of XRGB8888 source buffers
->>>>> + * @fb: DRM framebuffer
->>>>> + * @clip: Clip rectangle area to copy
->>>>> + * @state: Transform and conversion state
->>>>> + *
->>>>> + * This function copies parts of a framebuffer to display memory and converts the
->>>>> + * color format during the process. Destination and framebuffer formats must match. The
->>>>> + * parameters @dst, @dst_pitch and @src refer to arrays. Each array must have at
->>>>> + * least as many entries as there are planes in @fb's format. Each entry stores the
->>>>> + * value for the format's respective color plane at the same index.
->>>>> + *
->>>>> + * This function does not apply clipping on @dst (i.e. the destination is at the
->>>>> + * top-left corner).
->>>>> + *
->>>>> + * Drivers can use this function for BGR888 devices that don't natively
->>>>> + * support XRGB8888.
->>>>> + */
->>>>> +void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *dst_pitch,
->>>>> +        const struct iosys_map *src, const struct drm_framebuffer *fb,
->>>>> +        const struct drm_rect *clip, struct drm_format_conv_state *state)
->>>>> +{
->>>>> + static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
->>>>> + 3,
->>>>> + };
->>>>> +
->>>>> + drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
->>>>> +     drm_fb_xrgb8888_to_bgr888_line);
->>>>> +}
->>>>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_bgr888);
->>>>> +
->>>>>   static void drm_fb_xrgb8888_to_argb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
->>>>>   {
->>>>>    __le32 *dbuf32 = dbuf;
->>>>> @@ -1035,6 +1086,9 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
->>>>>    } else if (dst_format == DRM_FORMAT_RGB888) {
->>>>>    drm_fb_xrgb8888_to_rgb888(dst, dst_pitch, src, fb, clip, state);
->>>>>    return 0;
->>>>> + } else if (dst_format == DRM_FORMAT_BGR888) {
->>>>> + drm_fb_xrgb8888_to_bgr888(dst, dst_pitch, src, fb, clip, state);
->>>>> + return 0;
->>>>>    } else if (dst_format == DRM_FORMAT_ARGB8888) {
->>>>>    drm_fb_xrgb8888_to_argb8888(dst, dst_pitch, src, fb, clip, state);
->>>>>    return 0;
->>>>> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
->>>>> index 08992636e..e54f0f6e7 100644
->>>>> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
->>>>> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
->>>>> @@ -60,6 +60,11 @@ struct convert_to_rgb888_result {
->>>>>    const u8 expected[TEST_BUF_SIZE];
->>>>>   };
->>>>>   +struct convert_to_bgr888_result {
->>>>> + unsigned int dst_pitch;
->>>>> + const u8 expected[TEST_BUF_SIZE];
->>>>> +};
->>>>> +
->>>>>   struct convert_to_argb8888_result {
->>>>>    unsigned int dst_pitch;
->>>>>    const u32 expected[TEST_BUF_SIZE];
->>>>> @@ -107,6 +112,7 @@ struct convert_xrgb8888_case {
->>>>>    struct convert_to_argb1555_result argb1555_result;
->>>>>    struct convert_to_rgba5551_result rgba5551_result;
->>>>>    struct convert_to_rgb888_result rgb888_result;
->>>>> + struct convert_to_bgr888_result bgr888_result;
->>>>>    struct convert_to_argb8888_result argb8888_result;
->>>>>    struct convert_to_xrgb2101010_result xrgb2101010_result;
->>>>>    struct convert_to_argb2101010_result argb2101010_result;
->>>>> @@ -151,6 +157,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>    .expected = { 0x00, 0x00, 0xFF },
->>>>>    },
->>>>> + .bgr888_result = {
->>>>> + .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>> + .expected = { 0xFF, 0x00, 0x00 },
->>>>> + },
->>>>>    .argb8888_result = {
->>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>    .expected = { 0xFFFF0000 },
->>>>> @@ -217,6 +227,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>    .expected = { 0x00, 0x00, 0xFF },
->>>>>    },
->>>>> + .bgr888_result = {
->>>>> + .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>> + .expected = { 0xFF, 0x00, 0x00 },
->>>>> + },
->>>>>    .argb8888_result = {
->>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>    .expected = { 0xFFFF0000 },
->>>>> @@ -330,6 +344,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->>>>>    0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
->>>>>    },
->>>>>    },
->>>>> + .bgr888_result = {
->>>>> + .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>> + .expected = {
->>>>> + 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
->>>>> + 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00,
->>>>> + 0x00, 0x00, 0xFF, 0xFF, 0x00, 0xFF,
->>>>> + 0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF,
->>>>> + },
->>>>> + },
->>>>>    .argb8888_result = {
->>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>    .expected = {
->>>>> @@ -468,6 +491,17 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->>>>>    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->>>>>    },
->>>>>    },
->>>>> + .bgr888_result = {
->>>>> + .dst_pitch = 15,
->>>>> + .expected = {
->>>>> + 0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05, 0xA8, 0xF3, 0x03,
->>>>> + 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->>>>> + 0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05,
->>>>> + 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->>>>> + 0xA8, 0x03, 0x03, 0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C,
->>>>> + 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->>>>> + },
->>>>> + },
->>>>>    .argb8888_result = {
->>>>>    .dst_pitch = 20,
->>>>>    .expected = {
->>>>> @@ -914,6 +948,52 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
->>>>>    KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
->>>>>   }
->>>>>   +static void drm_test_fb_xrgb8888_to_bgr888(struct kunit *test)
->>>>> +{
->>>>> + const struct convert_xrgb8888_case *params = test->param_value;
->>>>> + const struct convert_to_bgr888_result *result = &params->bgr888_result;
->>>>> + size_t dst_size;
->>>>> + u8 *buf = NULL;
->>>>> + __le32 *xrgb8888 = NULL;
->>>>> + struct iosys_map dst, src;
->>>>> +
->>>>> + struct drm_framebuffer fb = {
->>>>> + .format = drm_format_info(DRM_FORMAT_XRGB8888),
->>>>> + .pitches = { params->pitch, 0, 0 },
->>>>> + };
->>>>> +
->>>>> + dst_size = conversion_buf_size(DRM_FORMAT_BGR888, result->dst_pitch,
->>>>> +        &params->clip, 0);
->>>>> + KUNIT_ASSERT_GT(test, dst_size, 0);
->>>>> +
->>>>> + buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
->>>>> + KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
->>>>> + iosys_map_set_vaddr(&dst, buf);
->>>>> +
->>>>> + xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
->>>>> + KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
->>>>> + iosys_map_set_vaddr(&src, xrgb8888);
->>>>> +
->>>>> + /*
->>>>> +  * BGR888 expected results are already in little-endian
->>>>> +  * order, so there's no need to convert the test output.
->>>>> +  */
->>>>> + drm_fb_xrgb8888_to_bgr888(&dst, &result->dst_pitch, &src, &fb, &params->clip,
->>>>> +   &fmtcnv_state);
->>>>> + KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
->>>>> +
->>>>> + buf = dst.vaddr; /* restore original value of buf */
->>>>> + memset(buf, 0, dst_size);
->>>>> +
->>>>> + int blit_result = 0;
->>>>> +
->>>>> + blit_result = drm_fb_blit(&dst, &result->dst_pitch, DRM_FORMAT_BGR888, &src, &fb, &params->clip,
->>>>> +   &fmtcnv_state);
->>>>> +
->>>>> + KUNIT_EXPECT_FALSE(test, blit_result);
->>>>> + KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
->>>>> +}
->>>>> +
->>>>>   static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
->>>>>   {
->>>>>    const struct convert_xrgb8888_case *params = test->param_value;
->>>>> @@ -1851,6 +1931,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
->>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb1555, convert_xrgb8888_gen_params),
->>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgba5551, convert_xrgb8888_gen_params),
->>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888, convert_xrgb8888_gen_params),
->>>>> + KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_bgr888, convert_xrgb8888_gen_params),
->>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
->>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
->>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
->>>>> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
->>>>> index f13b34e0b..b53cf85ca 100644
->>>>> --- a/include/drm/drm_format_helper.h
->>>>> +++ b/include/drm/drm_format_helper.h
->>>>> @@ -95,6 +95,9 @@ void drm_fb_xrgb8888_to_rgba5551(struct iosys_map *dst, const unsigned int *dst_
->>>>>   void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *dst_pitch,
->>>>>           const struct iosys_map *src, const struct drm_framebuffer *fb,
->>>>>           const struct drm_rect *clip, struct drm_format_conv_state *state);
->>>>> +void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *dst_pitch,
->>>>> +        const struct iosys_map *src, const struct drm_framebuffer *fb,
->>>>> +        const struct drm_rect *clip, struct drm_format_conv_state *state);
->>>>>   void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
->>>>>     const struct iosys_map *src, const struct drm_framebuffer *fb,
->>>>>     const struct drm_rect *clip, struct drm_format_conv_state *state);
->>>> -- 
->>>> --
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Software Solutions Germany GmbH
->>>> Frankenstrasse 146, 90461 Nuernberg, Germany
->>>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->>>> HRB 36809 (AG Nuernberg)
->> -- 
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->
-
+So ... make that happen? And it doesn't have to be for all of drm-misc,
+mesa after all switched over to MR also on a bit a driver/area basis. So
+agreeing among all drm-ci folks to use gitlab MR in drm-misc for pre-merge
+testing shouldn't be that hard to make happen. And unlike a separate
+branch it's not some kind of detour with a good chance to get stuck in a
+local optimum.
+-Sima
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
