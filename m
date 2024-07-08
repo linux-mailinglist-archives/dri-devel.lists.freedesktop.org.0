@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498B192A2E3
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 14:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F24D92A2EC
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 14:38:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEBB510E0B4;
-	Mon,  8 Jul 2024 12:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85E8710E04C;
+	Mon,  8 Jul 2024 12:38:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CN2pGbEu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j3XgzGaN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E658210E10B
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 12:37:07 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4266b1f1b21so4671865e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 05:37:07 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B33710E04C
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 12:38:37 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-42573d3f7e4so26739105e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 05:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720442226; x=1721047026; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1720442316; x=1721047116; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=96TJNAco6UswomCuF7kl+MAcyBf4on/lL0AOzmc2lek=;
- b=CN2pGbEuk9PaOL3imNv11jG7lw3ADJyM1/DtS0bxzCEgblAHybBQ0AO2Na8mL2AkYW
- f/rZ2X4vhPmZ/Vx4LO+CaI4rXBgbprcytkUKUofLq12Z7B2Xjpg27uVGE9XyOvVt4BU3
- GKeDa0I+Yaj4HsdCd4ituZR3l2QI3tftEhkK6jx7hEX16mMhPDIIwmQA1JE8RGsnVF7D
- XOcNyI6ky2HDMVi/x7KtrBDhCtWo3znaAOY7UXOy2nmx6ygmmVoSFh6vmFKv0qWLNUXg
- lT3QxHkGLjwolgNyvG+x2+E9gBEKWNQ9weFDm/cXBKITsINvI+FSeop8TAfcuEhWZTAZ
- jCnw==
+ :reply-to; bh=KaJW3HvKxNqVBLDwr+Z97qDaSgrCG2UbGmzOpX1s2SM=;
+ b=j3XgzGaNQjIj8RmS6pm/RwjmwMaJp4Fol0ZAkeAwQuyLvKPoDe8EA59r7rZHSs1sgE
+ skD5SjK4fTgh6q6t5U6pnzcF/Uw/HyUsiCmV2ocRGQ9n9sBdOLPrJWpb6Qqs9iXVQmtR
+ efWdmhHrGWkQGMfKmeeJO/DWmL1FaKD+KuXY9YWB62YGsPNsrAl8YKmWL4MIG4c2JGY/
+ X23sxJDlG6ufES4J5r78phbJgqPqhzTICGU8CIIQptWZnuD3vHYj3kLNAxPneAavAecx
+ eKC9kOFsJakYr8J3/+R0BBRzJ8nNPnbe/pG6hR4GF985D4pbvVRo0JH6guXqz8zrxAvm
+ /sbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720442226; x=1721047026;
+ d=1e100.net; s=20230601; t=1720442316; x=1721047116;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=96TJNAco6UswomCuF7kl+MAcyBf4on/lL0AOzmc2lek=;
- b=KbPqi/9hyfY5PBKAo+LFAVu+lx2n9wgsYPAnTXEN/TgruWYVKPH7uckoEMHGROWGSQ
- 7YfzuRpl+2Hl2fz6gzTu6t9O04ZIPW7IO22jzxJROXR3CKWZ3Q9MK3v2Ur942jMVq0ZD
- 5J02b+mKYQdO79apIfskmvEgwHWpUtmA/P1nm4WLc8RpMAuxO8r6XB1ykMoOwhE6JSdK
- uIws/30+N6krGrZxLF6o5kIX2lz47BaIvmA/coX/3VgSppIHQ0FFc1tcpMwAyUr1Hbal
- CSgJroxjNBKreimYbBdaP48NLPxyhC+NLtFiZFaY/1OjNPCghq3qMn5ly0FiwYcpdaLW
- 3W6Q==
-X-Gm-Message-State: AOJu0YxpZRY7q7esXNJnW5Fu4F0IBca9xvR3W8Ki9VQRxH8byX3xyGuk
- MeDd58FFzemxlQpzcnoOSzgs3w1qL014o1UqpvGYcpMVmLn67jdXHStiyh4+mDE=
-X-Google-Smtp-Source: AGHT+IHIUGHCJQHdqzNxOo2k+mrRHFj4Rg40rb/Uq0fOelGFJdpvW+XuLNcPwM5LrV9+ssCLjGxIjQ==
-X-Received: by 2002:a05:600c:33a9:b0:426:5b29:b5c8 with SMTP id
- 5b1f17b1804b1-4265b29bd52mr52831365e9.28.1720442226128; 
- Mon, 08 Jul 2024 05:37:06 -0700 (PDT)
+ bh=KaJW3HvKxNqVBLDwr+Z97qDaSgrCG2UbGmzOpX1s2SM=;
+ b=lKGTZ5kx/PP1hsVvcQOAZf4Xgxk10ZLbiTJpOmXxKUyqdW/jpukNEkRPJkkugQt1z3
+ Oa/7tFgIDIoIHFQO2axTcrN2lLFLObMKGKgjA25OFnL2GkcCuhZbKi4rcWhkYXGhEkzX
+ DHcHYEovdQKYM8TOk910QX7b5Q+SCHemHnTtevkxaz8VlW9rd0+EA1k6pfkNW1ikLOph
+ DVbRt4T506GDMLvFRb8p5dJzOlxr0rATOm8SnZ2ErYi0wlqFjQHJCfXKV5xWoTaYQwkK
+ AblGNEAEQ8eMQS6PaDvX8k9RssRzLgLgFyeMKMZm3de0jS9fRzLCTrOZPz5AEk8mDkYw
+ w4mg==
+X-Gm-Message-State: AOJu0Yz6msgzvpmYNVHosZ10o6uNnECve2z2y4Pa94eSYh3hwr+vfyQB
+ QVloXPGXfJnDXYs27QK+iCE2ULDZDoEN/O0DBkBQS1dJ7Ix/fLuH3WYQBGW88jI=
+X-Google-Smtp-Source: AGHT+IGJ0wnPGPW00Hz/cr3B39knS1brYR02EbUfCMF4OGLAjfR0Wgck5I6r+I7MtVCkDKL8M/cT9w==
+X-Received: by 2002:a05:600c:524b:b0:426:622d:9e6b with SMTP id
+ 5b1f17b1804b1-426622d9ea8mr33176545e9.23.1720442315561; 
+ Mon, 08 Jul 2024 05:38:35 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:cad:2140:f482:8fc6:e8d0:6d7c?
  ([2a01:e0a:cad:2140:f482:8fc6:e8d0:6d7c])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4264a2518f9sm164932565e9.31.2024.07.08.05.37.03
+ 5b1f17b1804b1-4266c3650f4sm24577855e9.1.2024.07.08.05.38.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jul 2024 05:37:05 -0700 (PDT)
-Message-ID: <861c8b22-8842-4eb6-8905-1e1a6467e661@linaro.org>
-Date: Mon, 8 Jul 2024 14:37:02 +0200
+ Mon, 08 Jul 2024 05:38:35 -0700 (PDT)
+Message-ID: <c8daf725-5558-460b-8d52-5a69d4895a9d@linaro.org>
+Date: Mon, 8 Jul 2024 14:38:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v5 2/5] drm/panel: boe-th101mb31ig002: switch to
- devm_gpiod_get_optional() for reset_gpio
+Subject: Re: [PATCH v5 3/5] drm/panel: boe-th101mb31ig002: use wrapped MIPI
+ DCS functions
 To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
  robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
  airlied@gmail.com, daniel@ffwll.ch, mripard@kernel.org, dianders@google.com,
@@ -71,7 +71,7 @@ To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240704072958.27876-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240704072958.27876-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240704072958.27876-4-lvzhaoxiong@huaqin.corp-partner.google.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -98,7 +98,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240704072958.27876-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240704072958.27876-4-lvzhaoxiong@huaqin.corp-partner.google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,28 +118,199 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 04/07/2024 09:29, Zhaoxiong Lv wrote:
-> Switch the driver to use devm_gpiod_get_optional() on reset_gpio to avoid
-> driver probe issues when reset line is not specified.
+> Remove conditional code and always use mipi_dsi_dcs_*multi() wrappers to
+> simplify driver's init/enable/exit code.
+> 
+> Convert the hex in init_code from UPPERCASE to lowercase.
 > 
 > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 > ---
->   drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   .../drm/panel/panel-boe-th101mb31ig002-28a.c  | 143 ++++++++----------
+>   1 file changed, 63 insertions(+), 80 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> index 159e401ad0e6..9f225c15b21c 100644
+> index 9f225c15b21c..736bfba607cf 100644
 > --- a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
 > +++ b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> @@ -286,7 +286,7 @@ static int boe_th101mb31ig002_dsi_probe(struct mipi_dsi_device *dsi)
->   		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->enable),
->   				     "Failed to get enable GPIO\n");
+> @@ -17,11 +17,13 @@
+>   #include <drm/drm_modes.h>
+>   #include <drm/drm_panel.h>
 >   
-> -	ctx->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_HIGH);
-> +	ctx->reset = devm_gpiod_get_optional(&dsi->dev, "reset", GPIOD_OUT_HIGH);
->   	if (IS_ERR(ctx->reset))
->   		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->reset),
->   				     "Failed to get reset GPIO\n");
+> +struct boe_th101mb31ig002;
+> +
+>   struct panel_desc {
+>   	const struct drm_display_mode *modes;
+>   	unsigned long mode_flags;
+>   	enum mipi_dsi_pixel_format format;
+> -	const struct panel_init_cmd *init_cmds;
+> +	int (*init)(struct boe_th101mb31ig002 *ctx);
+>   	unsigned int lanes;
+>   };
+>   
+> @@ -49,74 +51,61 @@ static void boe_th101mb31ig002_reset(struct boe_th101mb31ig002 *ctx)
+>   	usleep_range(5000, 6000);
+>   }
+>   
+> -static int boe_th101mb31ig002_enable(struct drm_panel *panel)
+> +static int boe_th101mb31ig002_enable(struct boe_th101mb31ig002 *ctx)
+>   {
+> -	struct boe_th101mb31ig002 *ctx = container_of(panel,
+> -						      struct boe_th101mb31ig002,
+> -						      panel);
+> -	struct mipi_dsi_device *dsi = ctx->dsi;
+> -	struct device *dev = &dsi->dev;
+> -	int ret;
+> -
+> -	mipi_dsi_dcs_write_seq(dsi, 0xE0, 0xAB, 0xBA);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xE1, 0xBA, 0xAB);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x10, 0x01, 0x47, 0xFF);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x0C, 0x14, 0x04, 0x50, 0x50, 0x14);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x56, 0x53, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x33, 0x30, 0x04);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xB6, 0xB0, 0x00, 0x00, 0x10, 0x00, 0x10,
+> -				    0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x05, 0x12, 0x29, 0x49, 0x48, 0x00,
+> -				    0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x7C, 0x65, 0x55, 0x49, 0x46, 0x36,
+> -				    0x3B, 0x24, 0x3D, 0x3C, 0x3D, 0x5C, 0x4C,
+> -				    0x55, 0x47, 0x46, 0x39, 0x26, 0x06, 0x7C,
+> -				    0x65, 0x55, 0x49, 0x46, 0x36, 0x3B, 0x24,
+> -				    0x3D, 0x3C, 0x3D, 0x5C, 0x4C, 0x55, 0x47,
+> -				    0x46, 0x39, 0x26, 0x06);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x00, 0xFF, 0x87, 0x12, 0x34, 0x44, 0x44,
+> -				    0x44, 0x44, 0x98, 0x04, 0x98, 0x04, 0x0F,
+> -				    0x00, 0x00, 0xC1);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x54, 0x94, 0x02, 0x85, 0x9F, 0x00,
+> -				    0x7F, 0x00, 0x54, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x17, 0x09, 0x08, 0x89, 0x08, 0x11,
+> -				    0x22, 0x20, 0x44, 0xFF, 0x18, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x86, 0x46, 0x05, 0x05, 0x1C, 0x1C,
+> -				    0x1D, 0x1D, 0x02, 0x1F, 0x1F, 0x1E, 0x1E,
+> -				    0x0F, 0x0F, 0x0D, 0x0D, 0x13, 0x13, 0x11,
+> -				    0x11, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x07, 0x07, 0x04, 0x04, 0x1C, 0x1C,
+> -				    0x1D, 0x1D, 0x02, 0x1F, 0x1F, 0x1E, 0x1E,
+> -				    0x0E, 0x0E, 0x0C, 0x0C, 0x12, 0x12, 0x10,
+> -				    0x10, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xC6, 0x2A, 0x2A);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x21, 0x00, 0x31, 0x42, 0x34, 0x16);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xCA, 0xCB, 0x43);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xCD, 0x0E, 0x4B, 0x4B, 0x20, 0x19, 0x6B,
+> -				    0x06, 0xB3);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xD2, 0xE3, 0x2B, 0x38, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xD4, 0x00, 0x01, 0x00, 0x0E, 0x04, 0x44,
+> -				    0x08, 0x10, 0x00, 0x00, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x80, 0x01, 0xFF, 0xFF, 0xFF, 0xFF,
+> -				    0xFF, 0xFF);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xF0, 0x12, 0x03, 0x20, 0x00, 0xFF);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xF3, 0x00);
+> -
+> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	msleep(120);
+> -
+> -	ret = mipi_dsi_dcs_set_display_on(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set panel on: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	return 0;
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0xab, 0xba);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0xba, 0xab);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb1, 0x10, 0x01, 0x47, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x0c, 0x14, 0x04, 0x50, 0x50, 0x14);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb3, 0x56, 0x53, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb4, 0x33, 0x30, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0xb0, 0x00, 0x00, 0x10, 0x00, 0x10,
+> +					       0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb8, 0x05, 0x12, 0x29, 0x49, 0x48, 0x00,
+> +					       0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb9, 0x7c, 0x65, 0x55, 0x49, 0x46, 0x36,
+> +					       0x3b, 0x24, 0x3d, 0x3c, 0x3d, 0x5c, 0x4c,
+> +					       0x55, 0x47, 0x46, 0x39, 0x26, 0x06, 0x7c,
+> +					       0x65, 0x55, 0x49, 0x46, 0x36, 0x3b, 0x24,
+> +					       0x3d, 0x3c, 0x3d, 0x5c, 0x4c, 0x55, 0x47,
+> +					       0x46, 0x39, 0x26, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0xff, 0x87, 0x12, 0x34, 0x44, 0x44,
+> +					       0x44, 0x44, 0x98, 0x04, 0x98, 0x04, 0x0f,
+> +					       0x00, 0x00, 0xc1);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x54, 0x94, 0x02, 0x85, 0x9f, 0x00,
+> +					       0x7f, 0x00, 0x54, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2, 0x17, 0x09, 0x08, 0x89, 0x08, 0x11,
+> +					       0x22, 0x20, 0x44, 0xff, 0x18, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc3, 0x86, 0x46, 0x05, 0x05, 0x1c, 0x1c,
+> +					       0x1d, 0x1d, 0x02, 0x1f, 0x1f, 0x1e, 0x1e,
+> +					       0x0f, 0x0f, 0x0d, 0x0d, 0x13, 0x13, 0x11,
+> +					       0x11, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc4, 0x07, 0x07, 0x04, 0x04, 0x1c, 0x1c,
+> +					       0x1d, 0x1d, 0x02, 0x1f, 0x1f, 0x1e, 0x1e,
+> +					       0x0e, 0x0e, 0x0c, 0x0c, 0x12, 0x12, 0x10,
+> +					       0x10, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc6, 0x2a, 0x2a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc8, 0x21, 0x00, 0x31, 0x42, 0x34, 0x16);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca, 0xcb, 0x43);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcd, 0x0e, 0x4b, 0x4b, 0x20, 0x19, 0x6b,
+> +					       0x06, 0xb3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd2, 0xe3, 0x2b, 0x38, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd4, 0x00, 0x01, 0x00, 0x0e, 0x04, 0x44,
+> +					       0x08, 0x10, 0x00, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x80, 0x01, 0xff, 0xff, 0xff, 0xff,
+> +					       0xff, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x12, 0x03, 0x20, 0x00, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0x00);
+> +
+> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> +
+> +	mipi_dsi_msleep(&dsi_ctx, 120);
+> +
+> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+> +
+> +	return dsi_ctx.accum_err;
+>   }
+>   
+>   static int boe_th101mb31ig002_disable(struct drm_panel *panel)
+> @@ -124,21 +113,15 @@ static int boe_th101mb31ig002_disable(struct drm_panel *panel)
+>   	struct boe_th101mb31ig002 *ctx = container_of(panel,
+>   						      struct boe_th101mb31ig002,
+>   						      panel);
+> -	struct mipi_dsi_device *dsi = ctx->dsi;
+> -	struct device *dev = &dsi->dev;
+> -	int ret;
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+>   
+> -	ret = mipi_dsi_dcs_set_display_off(dsi);
+> -	if (ret < 0)
+> -		dev_err(dev, "Failed to set panel off: %d\n", ret);
+> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+>   
+> -	msleep(120);
+> +	mipi_dsi_msleep(&dsi_ctx, 120);
+>   
+> -	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> -	if (ret < 0)
+> -		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+>   
+> -	return 0;
+> +	return dsi_ctx.accum_err;
+>   }
+>   
+>   static int boe_th101mb31ig002_unprepare(struct drm_panel *panel)
+> @@ -201,7 +184,7 @@ static const struct panel_desc boe_th101mb31ig002_desc = {
+>   	.mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
+>   			  MIPI_DSI_MODE_NO_EOT_PACKET |
+>   			  MIPI_DSI_MODE_LPM,
+> -	.init_cmds = boe_th101mb31ig002_enable,
+> +	.init = boe_th101mb31ig002_enable,
+>   };
+>   
+>   static int boe_th101mb31ig002_get_modes(struct drm_panel *panel,
 
-Hmm, the reset gpio is not in the bindings, please fix that!
-
-Neil
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
