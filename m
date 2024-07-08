@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3B292A86E
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 19:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60ECE92A8E6
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 20:21:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0967110E191;
-	Mon,  8 Jul 2024 17:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4308D10E1BF;
+	Mon,  8 Jul 2024 18:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aOkiPSZe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="alDZDe9r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9C9D10E191
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 17:53:16 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-1faad2f1967so35662175ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 10:53:16 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26AB510E242
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 15:18:23 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a77e7420697so251312866b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 08:18:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1720461194; x=1721065994;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1720451901; x=1721056701; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=O9BjDRQX7kj+10HbtsCDkp5kJ5lKfYRGsbWpWcg95/M=;
- b=aOkiPSZeycKguWW3CSIHhoPtNExmUOvX3rKY/Y+PzW/YuqcOd6k+z1D/ox/8cl6QNb
- aLYMGauXoPvRyqeoYB9LojSt8ph/LySVzMEmDDsieXsxtxGbU0wpiYk385isrqZBBgR1
- eMnkjhng8CH2HYZbu5Z8lU80FpV8vcapsq6RU=
+ bh=oGCrVrBGIrx7MPLgB/KlykXRMIJJJRJ81UrBbePvOHg=;
+ b=alDZDe9ruQgP9hAio0f9fmfQIvKlUqopJ5xE59wTDXXjEfkXyZYM9yeEi24HdRpiFx
+ B+yqrBQipeGF2PNiUDqoooRm/pGCqcY6O8J8mnFAtm3WYxAZ+HzDdt26ha9XqFtFxBjv
+ HGxDkd6Jwh3uhQCIU9x0guIy2WK1TUYOqWaO9EavTfYC68+3abPFZUKI2vsfy0NcYWeV
+ VixpKkGGVLxdaInVfCYgQ3ioZIwj/VFdgPWVWuADIu6TfHQ6GimIGm8oPxvhIyjnwVWs
+ x+0r/DO8909wQAgZyxAzo04Pz3ue+/15Y94CUpswZLWT9zq1yaobXnJpIZjEpwZScuQ9
+ HipA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720461194; x=1721065994;
+ d=1e100.net; s=20230601; t=1720451901; x=1721056701;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=O9BjDRQX7kj+10HbtsCDkp5kJ5lKfYRGsbWpWcg95/M=;
- b=S3L/ibK7yhEHY3hIFr3HXfVg5za72Wa6osVQiXMa33onakFiGMczzEo2FFmG+lg55f
- A156MkCU2CI4U3Vp07geHTJbU/m42zRvH1US2WRBpigGWfYvCnLfuRe9oNdSvUuCQ5FY
- fnNGpq1glymeNYcfT3PZo6VcnymfJKYySAQTqOs+z3jRjfnKRFWXMCv9NZcs6U2t/Qjc
- yxXSj6REk+J4jgqGQ7sly2ocD7mmvimXjLB4mh3j8jUT9L9ClAJp0L+AsKoA3n5iyUY+
- 1CHYSO9YnH/9PYENKQSus2mQxi96UJEWA9ugy5Ayx0dlzesfGwLDODZpqPlHFJW9eV4/
- yRdw==
-X-Gm-Message-State: AOJu0YwYUVksyQ3QDmRChy5N1CJJQyQMfnpmytvyzVwULVkkWmQ55CM+
- Du7mfmXIMDvb8R50EYSVp5SX9Dl4ErGyvqHShC9XcwoUMQ0r4G39UyDGW1cVu33JdpoHAqK4u7s
- =
-X-Google-Smtp-Source: AGHT+IHPFw3gZqk59xHeov3I6X4Z0L3gagGKfy7AhBoV0V+C3PC9P2uqs2UeYxrwQRh/JJc7gzOsvg==
-X-Received: by 2002:a17:902:ce8a:b0:1fb:3263:2e60 with SMTP id
- d9443c01a7336-1fb37046126mr172139675ad.13.1720461194560; 
- Mon, 08 Jul 2024 10:53:14 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:45f:e756:a603:fedf])
+ bh=oGCrVrBGIrx7MPLgB/KlykXRMIJJJRJ81UrBbePvOHg=;
+ b=d7ZQU2GESJnc2o+avqvTofyprErzdGlJSv4HzMtUyIPDKtDPYxd9Jp450xy7t3yDv2
+ ziTAaQUe4VYAjoB5AE4Ait+MlUPv9e5+Jpbg0p+iM9z1GQwa/lIREg8i1OnQKHPFkeqg
+ MljyO07wubPyBnpnNJeBNwmGHRXqgY6+VPldjRcT58CzWCg0IvFP0gi/kISJTwFDiPtQ
+ 4KvewI9Tsol726JTD+0XIjGK7QzfYSZRAxGFPfjnSkUkLY/UBHKFxhWEbUTvKftvCjrR
+ fVh7DFqeZ1Dc9SIFW+xCvp7I9AiBrPlj/koOa345ycENWwKuSUObTvAvMwkaPh9xqBeC
+ DlRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWGODqSNDP2YtecNravrtFb3rw18hIEgTLbMk/ZfYzo1pQ97MP5FzNBh1DC1zohT2V5APrvW19Ud6fDtdVM1NvYYGJPSRVUyynpJZzZfvW2
+X-Gm-Message-State: AOJu0YyOLhG17ViHklyp+JUh63z7egHyIeQdbjrNu2Pf9GGKBwE5jmDT
+ 1nr2PyALWtH9rBzjHtOMa+SU1h7SWGHyV5KJC+5268fYWf0w57Cc
+X-Google-Smtp-Source: AGHT+IHDkYDqBWV7jiUx3ikaGrYl0qJ1VuVd0nwfS410p0DwAQ9ZE96/NVk3RbpvQFL4gy7OZyyFHA==
+X-Received: by 2002:a17:906:ccd2:b0:a77:dd1c:6274 with SMTP id
+ a640c23a62f3a-a77dd1c6efamr481461566b.69.1720451901111; 
+ Mon, 08 Jul 2024 08:18:21 -0700 (PDT)
+Received: from GLaDOS.tastitalia.local ([37.77.97.75])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1fbb6a3132csm1415315ad.112.2024.07.08.10.53.12
+ a640c23a62f3a-a780a6dc721sm3142766b.53.2024.07.08.08.18.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jul 2024 10:53:13 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Thierry Reding <treding@nvidia.com>, kernel test robot <lkp@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Mon, 08 Jul 2024 08:18:20 -0700 (PDT)
+From: stefano.radaelli21@gmail.com
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: sharp-lq101r1sx01: Fixed reversed "if" in remove
-Date: Mon,  8 Jul 2024 10:52:21 -0700
-Message-ID: <20240708105221.1.I576751c661c7edb6b804dda405d10e2e71153e32@changeid>
-X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Stefano Radaelli <stefano.radaelli21@gmail.com>,
+ "Noah J . Rosa" <noahj.rosa@gmail.com>
+Subject: [PATCH] drm/bridge: ti-sn65dsi83: Add Non-Burst mode property
+Date: Mon,  8 Jul 2024 17:18:19 +0200
+Message-Id: <20240708151819.40457-1-stefano.radaelli21@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Mon, 08 Jul 2024 18:21:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,35 +89,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit d7d473d8464e ("drm/panel: sharp-lq101r1sx01: Don't call disable
-at shutdown/remove") had a subtle bug. We should be calling
-sharp_panel_del() when the "sharp" variable is non-NULL, not when it's
-NULL. Fix.
+From: Stefano Radaelli <stefano.radaelli21@gmail.com>
 
-Fixes: d7d473d8464e ("drm/panel: sharp-lq101r1sx01: Don't call disable at shutdown/remove")
-Cc: Thierry Reding <treding@nvidia.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/202406261525.SkhtM3ZV-lkp@intel.com/
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
+The video mode can be divided into two methods for sending packet data:
+burst mode and non-burst mode.
+In burst mode, pixel data is compressed to save time for the interface
+to return to low power.
+Non-burst modes transmit pixel data in a stream controlled by sync
+pulses or sync events.
+
+Adding this property in the DTS gives the programmer the ability to
+disable Burst Mode, depending on how the MIPI controller is configured.
+
+Co-developed-by: Noah J. Rosa <noahj.rosa@gmail.com>
+Signed-off-by: Noah J. Rosa <noahj.rosa@gmail.com>
+Signed-off-by: Stefano Radaelli <stefano.radaelli21@gmail.com>
 ---
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-index edc9425bb143..a0d76d588da1 100644
---- a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-@@ -362,7 +362,7 @@ static void sharp_panel_remove(struct mipi_dsi_device *dsi)
- 		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", err);
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 57a7ed13f996..6314c03ce1e6 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -145,6 +145,7 @@ struct sn65dsi83 {
+ 	struct drm_bridge		*panel_bridge;
+ 	struct gpio_desc		*enable_gpio;
+ 	struct regulator		*vcc;
++	bool				burst_mode;
+ 	bool				lvds_dual_link;
+ 	bool				lvds_dual_link_even_odd_swap;
+ };
+@@ -581,6 +582,7 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
+ 	struct drm_bridge *panel_bridge;
+ 	struct device *dev = ctx->dev;
  
- 	/* only detach from host for the DSI-LINK2 interface */
--	if (!sharp)
-+	if (sharp)
- 		sharp_panel_del(sharp);
- }
++	ctx->burst_mode = !(of_property_read_bool(dev->of_node, "burst-mode-disabled"));
+ 	ctx->lvds_dual_link = false;
+ 	ctx->lvds_dual_link_even_odd_swap = false;
+ 	if (model != MODEL_SN65DSI83) {
+@@ -654,10 +656,15 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
  
+ 	dsi->lanes = dsi_lanes;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+-	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+ 			  MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP |
+ 			  MIPI_DSI_MODE_VIDEO_NO_HSA | MIPI_DSI_MODE_NO_EOT_PACKET;
+ 
++	if (ctx->burst_mode)
++		dsi->mode_flags |= MIPI_DSI_MODE_VIDEO_BURST;
++	else
++		dsi->mode_flags |= MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
++
+ 	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to attach dsi to host: %d\n", ret);
 -- 
-2.45.2.803.g4e1b14247a-goog
+2.34.1
 
