@@ -2,109 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A267B929D67
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 09:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC50F929DEA
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 10:02:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A7310E269;
-	Mon,  8 Jul 2024 07:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E132110E0BA;
+	Mon,  8 Jul 2024 08:02:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="he5XXDw2";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="mXPv1G7e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2141D10E269
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 07:44:38 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-42122ac2f38so21286855e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 00:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720424676; x=1721029476; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=PKc/6b8SzfBj7M2nYp8kBK/g6YH6J6CYddIrh37bRLc=;
- b=he5XXDw2wtgjtrmaKrvFkokNlSIBd93fVRZ/1ebOYhXQ5xuXz8hWZEhwk2B/Abrr0q
- oQGeaxI6c1oHtkZF9zDrQl13VKFYCfrTyxPpuCiLsMBhoY8dA9FWc/Dp71IrhJyBWD3j
- qH3nuGLLn7+41UqwiCM1ntPMSItOfLmp6cCwooEjYcIyA4Hj0VYRD7azSmJ5ibDXX+qY
- hvIbRYcKQovcD1GKqKDnBCczVuVOhGDiupS6HT0aVPYDtvkX39SAb7zWZamOpNUQozdG
- EK3YqzlLRyVmWPA6YvwHdLV3zDesjcZFcl3xC2KPr7+3ugbnZ8t6qMrRgUnkA1Y6UA7O
- vC/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720424676; x=1721029476;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=PKc/6b8SzfBj7M2nYp8kBK/g6YH6J6CYddIrh37bRLc=;
- b=qZi5zIApd6U5bO98uct7RC5qmIpcBP/asW2nIJOo90M0ACH2fZ6qP4NxBfNNF1+ED8
- 8Bm8rZOj8eRNX1rIejDOdA4LLJ24fCe4KWIM8UzX/C0Ow2Jq58nhf54ZeP1H9il6jXG6
- RbL3zMdvEg698HcOeEHju6rmFFw7osgCz31fWvXn1INzebF7mWEXnJBMKONWhwJWvr+2
- uoQQdkg1k8fmTcDYA8fyd3MXslsPHf+NAu2mfNpwjbS/vWYahZAZBkyTqFWMp6zZBk0N
- PFfWOnBPkwi8cw2je98Ah4j9bQS33aLlyakHXflG2F5bcByiknnpqw6ab9Wd8v120zVn
- nxlQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXUxVko78Hn6P+CvfHRDI4WfW1dmWBr7ZfhSzWMOCvWrGJbtrZm+9BHpnPQiMrUt0J4AC/2K5OgEwr+7TZE7k+K4tONDayteyO136NsEgY1
-X-Gm-Message-State: AOJu0YxYTj23s1Y3eE3eGr0gXN5n36hhMDz2AcaubkhENf/J0Aa9oLkc
- FOjX80hveGbvil9jCkYuRq6FwyHMkQcPzWipVycqvBVS8SdguHkv5n+MlxAi5nM4783Rc2u1psZ
- pf6M=
-X-Google-Smtp-Source: AGHT+IFi1UJrpS7oW1nzOg6c48MFbp0L4M8yB6ww5kHrzgS7QC/RcwAaxZOQdCBl4dSZKgy7bT1lyA==
-X-Received: by 2002:a05:600c:2d16:b0:426:5b52:84fb with SMTP id
- 5b1f17b1804b1-4265b528599mr57698455e9.7.1720424676295; 
- Mon, 08 Jul 2024 00:44:36 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:cad:2140:f482:8fc6:e8d0:6d7c?
- ([2a01:e0a:cad:2140:f482:8fc6:e8d0:6d7c])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4264a2fc9desm155494565e9.45.2024.07.08.00.44.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jul 2024 00:44:35 -0700 (PDT)
-Message-ID: <c6a911c9-64e4-46aa-a6da-3311907b1c8b@linaro.org>
-Date: Mon, 8 Jul 2024 09:44:29 +0200
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DD85F10E03A
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 08:02:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=lwPz0lRMXLSQxxxMbI0Kjobk8iGkewqANPi/OxkSuSw=; b=m
+ XPv1G7e4dHaZhtV/kkHNIbVHq0ZK4f61KN3dSrWnfN+HGiPoot98JYdq6VyORUgy
+ BnzxrdQ5ox4MQ7kCT/stChGGWNOsGIH+j4D2wdQfLklpPTJJMjl/g40F1GjsBK3z
+ jmvs5ZOpS4gDvcBa9IdQyQFYLVjtz20RSJRXTZ0hoM=
+Received: from andyshrk$163.com ( [103.29.142.67] ) by
+ ajax-webmail-wmsvr-40-113 (Coremail) ; Mon, 8 Jul 2024 15:46:16 +0800 (CST)
+X-Originating-IP: [103.29.142.67]
+Date: Mon, 8 Jul 2024 15:46:16 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Dragan Simic" <dsimic@manjaro.org>
+Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ javierm@redhat.com
+Subject: Re:Re: [PATCH] drm/rockchip: cdn-dp: Remove redundant workarounds
+ for firmware loading
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <0bf4701d98833609b917983718c610aa@manjaro.org>
+References: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
+ <109c6f19.2559.1907b817a99.Coremail.andyshrk@163.com>
+ <0bf4701d98833609b917983718c610aa@manjaro.org>
+X-NTES-SC: AL_Qu2ZAviZu08s4CCRbekZnEobh+Y5UcK2s/ki2YFXN5k0oiTA4REjQnF7Jmft4cKBGj2NvhaYYBlcxO9kcZdoUqEQhrQ4E92F4D3Sufz79Ghe
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 2/5] drm/panel: st7701: Decouple DSI and DRM parts
-To: Hironori KIKUCHI <kikuchan98@gmail.com>, linux-kernel@vger.kernel.org
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <20240706102338.99231-1-kikuchan98@gmail.com>
- <20240706102338.99231-3-kikuchan98@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240706102338.99231-3-kikuchan98@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <2fd3aabd.785b.190914ec1a6.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: _____wD3f5JImYtmHPYsAA--.3738W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMwoWXmXAmVobswABs+
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,148 +63,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/07/2024 12:23, Hironori KIKUCHI wrote:
-> Split into a DSI-specific part and a DRM-specific part.
-> 
-> Additionally, use devm_add_action_or_reset() to simplify the flow,
-> and disable and unprepare the panel on cleanup.
-> 
-> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
-> ---
->   drivers/gpu/drm/panel/panel-sitronix-st7701.c | 72 ++++++++++++-------
->   1 file changed, 45 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> index a9a8fd85057..a0644f7a4c8 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> @@ -539,7 +539,7 @@ static int st7701_get_modes(struct drm_panel *panel,
->   
->   	mode = drm_mode_duplicate(connector->dev, desc_mode);
->   	if (!mode) {
-> -		dev_err(&st7701->dsi->dev, "failed to add mode %ux%u@%u\n",
-> +		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
->   			desc_mode->hdisplay, desc_mode->vdisplay,
->   			drm_mode_vrefresh(desc_mode));
->   		return -ENOMEM;
-> @@ -974,42 +974,48 @@ static const struct st7701_panel_desc rg_arc_desc = {
->   	.gip_sequence = rg_arc_gip_sequence,
->   };
->   
-> -static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
-> +static void st7701_cleanup(void *data)
-> +{
-> +	struct st7701 *st7701 = (struct st7701 *)data;
-> +
-> +	drm_panel_remove(&st7701->panel);
-> +	drm_panel_disable(&st7701->panel);
-> +	drm_panel_unprepare(&st7701->panel);
-> +}
-> +
-> +static int st7701_probe(struct device *dev, int connector_type)
->   {
->   	const struct st7701_panel_desc *desc;
->   	struct st7701 *st7701;
->   	int ret;
->   
-> -	st7701 = devm_kzalloc(&dsi->dev, sizeof(*st7701), GFP_KERNEL);
-> +	st7701 = devm_kzalloc(dev, sizeof(*st7701), GFP_KERNEL);
->   	if (!st7701)
->   		return -ENOMEM;
->   
-> -	desc = of_device_get_match_data(&dsi->dev);
-> -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> -			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
-> -	dsi->format = desc->format;
-> -	dsi->lanes = desc->lanes;
-> +	desc = of_device_get_match_data(dev);
-> +	if (!desc)
-> +		return -ENODEV;
->   
->   	st7701->supplies[0].supply = "VCC";
->   	st7701->supplies[1].supply = "IOVCC";
->   
-> -	ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(st7701->supplies),
-> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(st7701->supplies),
->   				      st7701->supplies);
->   	if (ret < 0)
->   		return ret;
->   
-> -	st7701->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
-> +	st7701->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
->   	if (IS_ERR(st7701->reset)) {
-> -		dev_err(&dsi->dev, "Couldn't get our reset GPIO\n");
-> +		dev_err(dev, "Couldn't get our reset GPIO\n");
->   		return PTR_ERR(st7701->reset);
->   	}
->   
-> -	ret = of_drm_get_panel_orientation(dsi->dev.of_node, &st7701->orientation);
-> +	ret = of_drm_get_panel_orientation(dev->of_node, &st7701->orientation);
->   	if (ret < 0)
-> -		return dev_err_probe(&dsi->dev, ret, "Failed to get orientation\n");
-> +		return dev_err_probe(dev, ret, "Failed to get orientation\n");
->   
-> -	drm_panel_init(&st7701->panel, &dsi->dev, &st7701_funcs,
-> -		       DRM_MODE_CONNECTOR_DSI);
-> +	drm_panel_init(&st7701->panel, dev, &st7701_funcs, connector_type);
->   
->   	/**
->   	 * Once sleep out has been issued, ST7701 IC required to wait 120ms
-> @@ -1028,27 +1034,39 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
->   
->   	drm_panel_add(&st7701->panel);
->   
-> -	mipi_dsi_set_drvdata(dsi, st7701);
-> -	st7701->dsi = dsi;
-> +	dev_set_drvdata(dev, st7701);
->   	st7701->desc = desc;
->   
-> -	ret = mipi_dsi_attach(dsi);
-> -	if (ret)
-> -		goto err_attach;
-> +	return devm_add_action_or_reset(dev, st7701_cleanup, st7701);
-> +}
-> +
-> +static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct st7701 *st7701;
-> +	int err;
-> +
-> +	err = st7701_probe(&dsi->dev, DRM_MODE_CONNECTOR_DSI);
-> +	if (err)
-> +		return err;
-> +
-> +	st7701 = dev_get_drvdata(&dsi->dev);
-> +	st7701->dsi = dsi;
-> +
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
-> +	dsi->format = st7701->desc->format;
-> +	dsi->lanes = st7701->desc->lanes;
-> +
-> +	err = mipi_dsi_attach(dsi);
-> +	if (err)
-> +		return dev_err_probe(&dsi->dev, err, "Failed to init MIPI DSI\n");
->   
->   	return 0;
-> -
-> -err_attach:
-> -	drm_panel_remove(&st7701->panel);
-> -	return ret;
->   }
->   
->   static void st7701_dsi_remove(struct mipi_dsi_device *dsi)
->   {
-> -	struct st7701 *st7701 = mipi_dsi_get_drvdata(dsi);
-> -
->   	mipi_dsi_detach(dsi);
-> -	drm_panel_remove(&st7701->panel);
->   }
->   
->   static const struct of_device_id st7701_of_match[] = {
-
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+CkhpIERyYWdhbu+8jApBdCAyMDI0LTA3LTA0IDE4OjM1OjQyLCAiRHJhZ2FuIFNpbWljIiA8ZHNp
+bWljQG1hbmphcm8ub3JnPiB3cm90ZToKPkhlbGxvIEFuZHksCj4KPk9uIDIwMjQtMDctMDQgMDQ6
+MTAsIEFuZHkgWWFuIHdyb3RlOgo+PiBBdCAyMDI0LTA3LTA0IDA3OjMyOjAyLCAiRHJhZ2FuIFNp
+bWljIiA8ZHNpbWljQG1hbmphcm8ub3JnPiB3cm90ZToKPj4+IEFmdGVyIHRoZSBhZGRpdGlvbmFs
+IGZpcm13YXJlLXJlbGF0ZWQgbW9kdWxlIGluZm9ybWF0aW9uIHdhcyAKPj4+IGludHJvZHVjZWQg
+YnkKPj4+IHRoZSBjb21taXQgYzA2NzdlNDFhNDdmICgiZHJtL3JvY2tjaGlwOiBjZG4tZHAtY29y
+ZTogYWRkIAo+Pj4gTU9EVUxFX0ZJUk1XQVJFCj4+PiBtYWNybyIpLCB0aGVyZSdzIG5vIGxvbmdl
+ciBuZWVkIGZvciB0aGUgZmlybXdhcmUtbG9hZGluZyB3b3JrYXJvdW5kcyAKPj4+IHdob3NlCj4+
+PiBzb2xlIHB1cnBvc2Ugd2FzIHRvIHByZXZlbnQgdGhlIG1pc3NpbmcgZmlybXdhcmUgYmxvYiBp
+biBhbiBpbml0aWFsIAo+Pj4gcmFtZGlzawo+Pj4gZnJvbSBjYXVzaW5nIGRyaXZlciBpbml0aWFs
+aXphdGlvbiB0byBmYWlsLiAgVGh1cywgZGVsZXRlIHRoZSAKPj4+IHdvcmthcm91bmRzLAo+Pj4g
+d2hpY2ggcmVtb3ZlcyBhIHNpemFibGUgY2h1bmsgb2YgcmVkdW5kYW50IGNvZGUuCj4+IAo+PiBX
+aGF0IHdvdWxkIGhhcHBlbiBpZiB0aGVyZSB3YXMgbm8gcmFtZGlzaz8gQW5kIHRoZSBmaXJtd2Fy
+ZSBpcyBpbiAKPj4gcm9vdGZzIO+8nwo+PiAKPj4gRm9yIGV4YW1wbGXvvJogQSBidWlsZHJvb3Qg
+YmFzZWQgdGlueSBlbWJlZGRlZCBzeXN0ZW3jgIIKPgo+R29vZCBwb2ludCwgbGV0IG1lIGV4cGxh
+aW4sIHBsZWFzZS4KPgo+SW4gZ2VuZXJhbCwgaWYgYSBkcml2ZXIgaXMgYnVpbHQgaW50byB0aGUg
+a2VybmVsLCB0aGVyZSBzaG91bGQgYWxzbyBiZQo+YW4gaW5pdGlhbCByYW1kaXNrIHRoYXQgY29u
+dGFpbnMgdGhlIHJlbGF0ZWQgZmlybXdhcmUgYmxvYnMsIGJlY2F1c2UgCj5pdCdzCj51bmtub3du
+IGlzIHRoZSByb290IGZpbGVzeXN0ZW0gYXZhaWxhYmxlIHdoZW4gdGhlIGRyaXZlciBpcyBwcm9i
+ZWQuICBJZgo+YSBkcml2ZXIgaXMgYnVpbHQgYXMgYSBtb2R1bGUgYW5kIHRoZXJlJ3Mgbm8gaW5p
+dGlhbCByYW1kaXNrLCBoYXZpbmcKPnRoZSByZWxhdGVkIGZpcm13YXJlIGJsb2JzIG9uIHRoZSBy
+b290IGZpbGVzeXN0ZW0gc2hvdWxkIGJlIGZpbmUsIAo+YmVjYXVzZQo+dGhlIGZpcm13YXJlIGJs
+b2JzIGFuZCB0aGUga2VybmVsIG1vZHVsZSBiZWNvbWUgYXZhaWxhYmxlIGF0IHRoZSBzYW1lCj50
+aW1lLCB0aHJvdWdoIHRoZSByb290IGZpbGVzeXN0ZW0uIFsxXQo+Cj5Bbm90aGVyIG9wdGlvbiBm
+b3IgYSBkcml2ZXIgYnVpbHQgc3RhdGljYWxseSBpbnRvIHRoZSBrZXJuZWwsIHdoZW4gCj50aGVy
+ZSdzCj5ubyBpbml0aWFsIHJhbWRpc2ssIGlzIHRvIGJ1aWxkIHRoZSByZXF1aXJlZCBmaXJtd2Fy
+ZSBibG9icyBpbnRvIHRoZSAKPmtlcm5lbAo+aW1hZ2UuIFsyXSAgT2YgY291cnNlLCB0aGF0J3Mg
+ZmVhc2libGUgb25seSB3aGVuIGEga2VybmVsIGltYWdlIGlzIGJ1aWx0Cj5zcGVjaWZpY2lhbGx5
+IGZvciBzb21lIGRldmljZSwgYmVjYXVzZSBvdGhlcndpc2UgaXQgd291bGQgYmVjb21lIHRvbyAK
+PmxhcmdlCj5iZWNhdXNlIG9mIHRvbyBtYW55IGRyaXZlcnMgYW5kIHRoZWlyIGZpcm13YXJlIGJs
+b2JzIGJlY29taW5nIGluY2x1ZGVkLAo+YnV0IHRoYXQgc2VlbXMgdG8gZml0IHRoZSBCdWlsZHJv
+b3QtYmFzZWQgZXhhbXBsZS4KPgo+VG8gc3VtIGl0IHVwLCBtZWNoYW5pc21zIGFscmVhZHkgZXhp
+c3QgaW4gdGhlIGtlcm5lbCBmb3IgdmFyaW91cyAKPnNjZW5hcmlvcwo+d2hlbiBpdCBjb21lcyB0
+byBsb2FkaW5nIGZpcm13YXJlIGJsb2JzLiAgRXZlbiBpZiB0aGUgZGVsZXRlZCB3b3JrYXJvdW5k
+Cj5hdHRlbXB0cyB0byBzb2x2ZSBzb21lIGlzc3VlIHNwZWNpZmljIHRvIHNvbWUgZW52aXJvbm1l
+bnQsIHRoYXQgaXNuJ3QgCj50aGUKPnJpZ2h0IHBsYWNlIG9yIHRoZSByaWdodCB3YXkgZm9yIHNv
+bHZpbmcgYW55IGlzc3VlcyBvZiB0aGF0IGtpbmQuCj4KPldoaWxlIHByZXBhcmluZyB0aGlzIHBh
+dGNoLCBJIGV2ZW4gdHJpZWQgdG8gZmluZCBhbm90aGVyIGtlcm5lbCBkcml2ZXIgCj50aGF0Cj5h
+bHNvIGltcGxlbWVudHMgc29tZSBzaW1pbGFyIHdvcmthcm91bmRzIGZvciBmaXJtd2FyZSBsb2Fk
+aW5nLCB0byAKPmp1c3RpZnkKPnRoZSBleGlzdGVuY2Ugb2Ygc3VjaCB3b3JrYXJvdW5kcyBhbmQg
+dG8gcG9zc2libHkgbW92ZSB0aGVtIGludG8gdGhlIAo+a2VybmVsJ3MKPmZpcm13YXJlLWxvYWRp
+bmcgaW50ZXJmYWNlLiAgQWxhcywgSSB3YXMgdW5hYmxlIHRvIGZpbmQgc3VjaCB3b3JrYXJvdW5k
+cyAKPmluCj5vdGhlciBkcml2ZXJzLCB3aGljaCBzb2xpZGlmaWVkIG15IHJlYXNvbmluZyBiZWhp
+bmQgY2xhc3NpZnlpbmcgdGhlIAo+cmVtb3ZlZAo+Y29kZSBhcyBvdXQtb2YtcGxhY2UgYW5kIHJl
+ZHVuZGFudC4KRm9yIHNvbWUgdGlueSBlbWJlZGRlZCBzeXN0ZW3vvIx0aGVyZSBpcyBubyBzdWNo
+IHJhbWRpc2vvvIxmb3IgZXhhbXBsZe+8mgphIGJ1aWxkcm9vdCBiYXNlZCByb290ZnPvvIx0aGUg
+YnVpbGRyb290IG9ubHkgZ2VuZXJhdGUgcm9vdGZz44CCCgpBbmQgRllJ77yMIHRoZXJlIGFyZSBt
+YWlubGluZSBkcml2ZXJzIHRyeSB0byBmaXggc3VjaCBpc3N1ZSBieSBkZWZlcl9wcm9iZe+8jGZv
+ciBleGFtcGxl77yaIApzbWNfYWJjWzBdClRoZXJlIGFyZSBhbHNvIHNvbWUgb3RoZXIgc2ltaWxh
+ciBzY2VuYXJpbyBpbiBncHUgZHJpdmVyezF9WzJdCgoKWzBdaHR0cHM6Ly9lbGl4aXIuYm9vdGxp
+bi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9kcml2ZXJzL3RlZS9vcHRlZS9zbWNfYWJpLmMjTDE1
+MTgKWzFdaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2RyaS1kZXZlbC9wYXRj
+aC8yMDI0MDEwOTEyMDYwNC42MDM3MDAtMS1qYXZpZXJtQHJlZGhhdC5jb20vClsyXWh0dHBzOi8v
+bG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC84N3kxOTE4cHNkLmZzZkBtaW5lcnZhLm1haWwtaG9z
+dC1hZGRyZXNzLWlzLW5vdC1zZXQvVC8KCgo+Cj5bMV0gCj5odHRwczovL3d3dy5rZXJuZWwub3Jn
+L2RvYy9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvZmlybXdhcmUvZGlyZWN0LWZzLWxvb2t1cC5y
+c3QKPlsyXSAKPmh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL0RvY3VtZW50YXRpb24vZHJpdmVy
+LWFwaS9maXJtd2FyZS9idWlsdC1pbi1mdy5yc3QKPgo+Pj4gVmFyaW91cyB1dGlsaXRpZXMgdXNl
+ZCBieSBMaW51eCBkaXN0cmlidXRpb25zIHRvIGdlbmVyYXRlIGluaXRpYWwgCj4+PiByYW1kaXNr
+cwo+Pj4gbmVlZCB0byBvYmV5IHRoZSBmaXJtd2FyZS1yZWxhdGVkIG1vZHVsZSBpbmZvcm1hdGlv
+biwgc28gd2UgY2FuIHJlbHkgCj4+PiBvbiB0aGUKPj4+IGZpcm13YXJlIGJsb2IgYmVpbmcgcHJl
+c2VudCBpbiB0aGUgZ2VuZXJhdGVkIGluaXRpYWwgcmFtZGlza3MuCj4+PiAKPj4+IFNpZ25lZC1v
+ZmYtYnk6IERyYWdhbiBTaW1pYyA8ZHNpbWljQG1hbmphcm8ub3JnPgo+Pj4gLS0tCj4+PiBkcml2
+ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRwLWNvcmUuYyB8IDUzICsrKysrLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tCj4+PiAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgNDMgZGVsZXRp
+b25zKC0pCj4+PiAKPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2Ru
+LWRwLWNvcmUuYyAKPj4+IGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2Nkbi1kcC1jb3JlLmMK
+Pj4+IGluZGV4IGJkN2FhODkxYjgzOS4uZTFhN2M2YTExNzJiIDEwMDY0NAo+Pj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL3JvY2tjaGlwL2Nkbi1kcC1jb3JlLmMKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9yb2NrY2hpcC9jZG4tZHAtY29yZS5jCj4+PiBAQCAtNDQsOSArNDQsOSBAQCBzdGF0aWMg
+aW5saW5lIHN0cnVjdCBjZG5fZHBfZGV2aWNlIAo+Pj4gKmVuY29kZXJfdG9fZHAoc3RydWN0IGRy
+bV9lbmNvZGVyICplbmNvZGVyKQo+Pj4gI2RlZmluZSBEUFRYX0hQRF9ERUwJCSgyIDw8IDEyKQo+
+Pj4gI2RlZmluZSBEUFRYX0hQRF9TRUxfTUFTSwkoMyA8PCAyOCkKPj4+IAo+Pj4gLSNkZWZpbmUg
+Q0ROX0ZXX1RJTUVPVVRfTVMJKDY0ICogMTAwMCkKPj4+ICNkZWZpbmUgQ0ROX0RQQ0RfVElNRU9V
+VF9NUwk1MDAwCj4+PiAjZGVmaW5lIENETl9EUF9GSVJNV0FSRQkJInJvY2tjaGlwL2RwdHguYmlu
+Igo+Pj4gKwo+Pj4gTU9EVUxFX0ZJUk1XQVJFKENETl9EUF9GSVJNV0FSRSk7Cj4+PiAKPj4+IHN0
+cnVjdCBjZG5fZHBfZGF0YSB7Cj4+PiBAQCAtOTA5LDYxICs5MDksMjggQEAgc3RhdGljIGludCBj
+ZG5fZHBfYXVkaW9fY29kZWNfaW5pdChzdHJ1Y3QgCj4+PiBjZG5fZHBfZGV2aWNlICpkcCwKPj4+
+IAlyZXR1cm4gUFRSX0VSUl9PUl9aRVJPKGRwLT5hdWRpb19wZGV2KTsKPj4+IH0KPj4+IAo+Pj4g
+LXN0YXRpYyBpbnQgY2RuX2RwX3JlcXVlc3RfZmlybXdhcmUoc3RydWN0IGNkbl9kcF9kZXZpY2Ug
+KmRwKQo+Pj4gLXsKPj4+IC0JaW50IHJldDsKPj4+IC0JdW5zaWduZWQgbG9uZyB0aW1lb3V0ID0g
+amlmZmllcyArIAo+Pj4gbXNlY3NfdG9famlmZmllcyhDRE5fRldfVElNRU9VVF9NUyk7Cj4+PiAt
+CXVuc2lnbmVkIGxvbmcgc2xlZXAgPSAxMDAwOwo+Pj4gLQo+Pj4gLQlXQVJOX09OKCFtdXRleF9p
+c19sb2NrZWQoJmRwLT5sb2NrKSk7Cj4+PiAtCj4+PiAtCWlmIChkcC0+ZndfbG9hZGVkKQo+Pj4g
+LQkJcmV0dXJuIDA7Cj4+PiAtCj4+PiAtCS8qIERyb3AgdGhlIGxvY2sgYmVmb3JlIGdldHRpbmcg
+dGhlIGZpcm13YXJlIHRvIGF2b2lkIGJsb2NraW5nIGJvb3QgCj4+PiAqLwo+Pj4gLQltdXRleF91
+bmxvY2soJmRwLT5sb2NrKTsKPj4+IC0KPj4+IC0Jd2hpbGUgKHRpbWVfYmVmb3JlKGppZmZpZXMs
+IHRpbWVvdXQpKSB7Cj4+PiAtCQlyZXQgPSByZXF1ZXN0X2Zpcm13YXJlKCZkcC0+ZncsIENETl9E
+UF9GSVJNV0FSRSwgZHAtPmRldik7Cj4+PiAtCQlpZiAocmV0ID09IC1FTk9FTlQpIHsKPj4+IC0J
+CQltc2xlZXAoc2xlZXApOwo+Pj4gLQkJCXNsZWVwICo9IDI7Cj4+PiAtCQkJY29udGludWU7Cj4+
+PiAtCQl9IGVsc2UgaWYgKHJldCkgewo+Pj4gLQkJCURSTV9ERVZfRVJST1IoZHAtPmRldiwKPj4+
+IC0JCQkJICAgICAgImZhaWxlZCB0byByZXF1ZXN0IGZpcm13YXJlOiAlZFxuIiwgcmV0KTsKPj4+
+IC0JCQlnb3RvIG91dDsKPj4+IC0JCX0KPj4+IC0KPj4+IC0JCWRwLT5md19sb2FkZWQgPSB0cnVl
+Owo+Pj4gLQkJcmV0ID0gMDsKPj4+IC0JCWdvdG8gb3V0Owo+Pj4gLQl9Cj4+PiAtCj4+PiAtCURS
+TV9ERVZfRVJST1IoZHAtPmRldiwgIlRpbWVkIG91dCB0cnlpbmcgdG8gbG9hZCBmaXJtd2FyZVxu
+Iik7Cj4+PiAtCXJldCA9IC1FVElNRURPVVQ7Cj4+PiAtb3V0Ogo+Pj4gLQltdXRleF9sb2NrKCZk
+cC0+bG9jayk7Cj4+PiAtCXJldHVybiByZXQ7Cj4+PiAtfQo+Pj4gLQo+Pj4gc3RhdGljIHZvaWQg
+Y2RuX2RwX3BkX2V2ZW50X3dvcmsoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+Pj4gewo+Pj4g
+CXN0cnVjdCBjZG5fZHBfZGV2aWNlICpkcCA9IGNvbnRhaW5lcl9vZih3b3JrLCBzdHJ1Y3QgY2Ru
+X2RwX2RldmljZSwKPj4+IAkJCQkJCWV2ZW50X3dvcmspOwo+Pj4gCXN0cnVjdCBkcm1fY29ubmVj
+dG9yICpjb25uZWN0b3IgPSAmZHAtPmNvbm5lY3RvcjsKPj4+IAllbnVtIGRybV9jb25uZWN0b3Jf
+c3RhdHVzIG9sZF9zdGF0dXM7Cj4+PiAtCj4+PiAJaW50IHJldDsKPj4+IAo+Pj4gCW11dGV4X2xv
+Y2soJmRwLT5sb2NrKTsKPj4+IAo+Pj4gCWlmIChkcC0+c3VzcGVuZGVkKQo+Pj4gCQlnb3RvIG91
+dDsKPj4+IAo+Pj4gLQlyZXQgPSBjZG5fZHBfcmVxdWVzdF9maXJtd2FyZShkcCk7Cj4+PiAtCWlm
+IChyZXQpCj4+PiAtCQlnb3RvIG91dDsKPj4+ICsJaWYgKCFkcC0+ZndfbG9hZGVkKSB7Cj4+PiAr
+CQlyZXQgPSByZXF1ZXN0X2Zpcm13YXJlKCZkcC0+ZncsIENETl9EUF9GSVJNV0FSRSwgZHAtPmRl
+dik7Cj4+PiArCQlpZiAocmV0KSB7Cj4+PiArCQkJRFJNX0RFVl9FUlJPUihkcC0+ZGV2LCAiTG9h
+ZGluZyBmaXJtd2FyZSBmYWlsZWQ6ICVkXG4iLCByZXQpOwo+Pj4gKwkJCWdvdG8gb3V0Owo+Pj4g
+KwkJfQo+Pj4gKwo+Pj4gKwkJZHAtPmZ3X2xvYWRlZCA9IHRydWU7Cj4+PiArCX0KPj4+IAo+Pj4g
+CWRwLT5jb25uZWN0ZWQgPSB0cnVlOwo+Pj4gCg==
