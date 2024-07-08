@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66614929C7B
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 08:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF616929CA2
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 09:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264E310E230;
-	Mon,  8 Jul 2024 06:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F74A10E048;
+	Mon,  8 Jul 2024 07:00:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="kr5H30Bo";
+	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="c4ohIXcE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2088.outbound.protection.outlook.com [40.107.22.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB71C10E230
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 06:51:18 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com
+ (mail-westeuropeazon11011041.outbound.protection.outlook.com [52.101.70.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64F6B10E048
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 07:00:54 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EWf0ShokhOF127Ecy7rbu/M1orVwBUa5/8Jbwt+lXkxd+ti+e0sVjSTCnRmadbMB73rvyffb1of/GSjmKzofC4LSPNeInFXUPoIqkvQu76k3QvZQUgLFZ4+atQd37RYveOwQnng7cxe8X9i5vo5eoApht9VItn2h8M5EPb5T6NJS/wkV0n7ftgtB9KKXxa6g8eYPjAXLWF6/7rYpxxJUu364M6VmyihM4iYOsyQ1vbEvrvd13Ul9w/kndW6HGPhPJWRpPJqHsm4HXqLyuX+a37T/Ng4hchzpZvzO0ZyVPEmBcC+uP0GMY2jHCEF4+wmycoS3Ib7GrxqovwV57bu6CA==
+ b=j6qg81nsRCSD+UoK8NpMBE/UPq4HsfgXxvOKWWUwnMoa6KTdsc0L34RRvfmnaXNcm2KSWH4lfnhSDypVIxn1IB6xLAeLuOIeSxeMYgDWyiDMQ9+ISAMIrK15MhN1MOT6rc5lQnYiZbDF3Tfdgnbxfa3gBHVX5i7m7pELn91ClO1C50zXZCawcP4AaWdsUrcoZyIqWzVtQMOF+43y1OEAuhuVrW/XKwMMz3tChepSgmWrYxpOBMcQgLdUQSyWvA7OWRNGOu8d/6fuWzBeWtxGxOXrwa6YE85p3sOsiwVl+qjrTu0vJ6YGhLm0dse/zDq2YCz/Zgm4lYEI1jfxUqewEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oidvAYGAJcR6bQ8ZpvnET9iSlpJe4fn0RPvFmQW9UEA=;
- b=Sl4NtvgzeQHHuN0chjQPDJwccChSZcq/hKOB+ee6tAD4MAY/jAcpWqmFUcRL3FJM7gAAWgZX1LbyXNhTXZ+0CO4YJV5MEQr6y4Dq3DRF8v5pQqftZLCedNEIRaSae719Q7J+Frp749ZQwsY87ZDteBzid2QVZQWYmbNyKALAWQcHxlF6cbhkjP33yK7efc7b7KUI2pR+wI5AIKx3NC2EjuYgHTSDr8P2dlqHwwFGupWBXeWAs0BG45ajvNgIYdkKEsQ7FJSFGAXxtJdc5M/mqZNn2pn9Eg484YMqQca8Fxy4kbzBcv9WxM/m5Tg8P4PdqWY+pntvGC2eWxVxx0TEuw==
+ bh=1ujfMXvevWHSC/7dJbQQjhsWKGdPnRON/f12g6fqhcY=;
+ b=hNqKdYRYmSamOCMYM4w5HCxafg4OeH/lS266DvATClz4xi4vh5KIHCC9zeGO0PNaG/wHJail73Cyuy+Rf3Y/Q0LUL7eWj18ZU53+p6foTSHkXWQU6zitccVQ+vxdSA8/vzKOujnsT68XL1FjQ8dh/j4kODfe8vp4SCUcwh9vbH04x00XEXg8ka4mCrYHyNTu4ZgMexqOmKCX6LMmcNl5N/ISlfOyg1Ep+0XgV8Rt9BUkxktMsC57zdIjmuwHJzzrt7ROEka7/zkMac+3COJKx/UFKnu1IimRrwz9TZmWZag9TYeyGAjiDgjXpvaOs2OIgT3HMIWKbz1cF9JMyUodBQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oidvAYGAJcR6bQ8ZpvnET9iSlpJe4fn0RPvFmQW9UEA=;
- b=kr5H30Boj2lG2OiVLJfTpguuWNjDEE2PQdcv2CK9XOjVq8JWQhAtOoqmwMnWQN6CgbnR+8xvj3Z6Zgi5GxBPSC3H8MoQdqM/0Xxuv+EhhhTUAMVE+WLLXFMGKi15FKWRoZGSK1VNnlX/4dGkK8Dn2DYOpEAuMB7siavl0HEWL8I=
+ bh=1ujfMXvevWHSC/7dJbQQjhsWKGdPnRON/f12g6fqhcY=;
+ b=c4ohIXcEjapLiwNs56Ei3c8cwUEGjNTL7Du3HpkAPQrZJcJMuRIq9dnx4mHuMxcKSH7wYeH0JpoANFZQCPa+wsTK5A7OuhPRDtc3iTHucKNIPDxPr8imxuc43inJRlmYv2E4lXJn8q9hw7/GQ1gJmtl8PNVDc+sCDn22dnT2nWA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by GV1PR04MB10274.eurprd04.prod.outlook.com (2603:10a6:150:1ac::14)
+ by AS8PR04MB7559.eurprd04.prod.outlook.com (2603:10a6:20b:295::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Mon, 8 Jul
- 2024 06:51:15 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.36; Mon, 8 Jul
+ 2024 07:00:51 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%2]) with mapi id 15.20.7741.033; Mon, 8 Jul 2024
- 06:51:15 +0000
-Message-ID: <31301581-a710-4e25-a079-e017686c52ec@nxp.com>
-Date: Mon, 8 Jul 2024 14:51:39 +0800
+ 07:00:51 +0000
+Message-ID: <a5515f50-38fd-4578-ae92-f8fc3e5fb4e0@nxp.com>
+Date: Mon, 8 Jul 2024 15:01:14 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/10] dt-bindings: interrupt-controller: Add i.MX8qxp
- Display Controller interrupt controller
+Subject: Re: [PATCH 05/10] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller
 To: Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
@@ -55,102 +55,101 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
  shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
  festevam@gmail.com, tglx@linutronix.de
 References: <20240705090932.1880496-1-victor.liu@nxp.com>
- <20240705090932.1880496-5-victor.liu@nxp.com>
- <b0cbd659-21b8-4049-8882-f49275d4a247@kernel.org>
+ <20240705090932.1880496-6-victor.liu@nxp.com>
+ <e2454904-c70e-49f9-b7b6-05ef348c35fb@kernel.org>
 From: Liu Ying <victor.liu@nxp.com>
 Content-Language: en-US
-In-Reply-To: <b0cbd659-21b8-4049-8882-f49275d4a247@kernel.org>
+In-Reply-To: <e2454904-c70e-49f9-b7b6-05ef348c35fb@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: SI2PR02CA0041.apcprd02.prod.outlook.com
- (2603:1096:4:196::20) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+X-ClientProxiedBy: SG2P153CA0013.APCP153.PROD.OUTLOOK.COM (2603:1096::23) To
+ AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GV1PR04MB10274:EE_
-X-MS-Office365-Filtering-Correlation-Id: aec34b0e-3e9a-477b-f581-08dc9f1a5cbd
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB7559:EE_
+X-MS-Office365-Filtering-Correlation-Id: dbcf0100-8ec7-4b6f-4fc6-08dc9f1bb3bc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bTBwV0orcFdFVmtUU204MldOSWFXSkIzZFh5YWd5TVovazV6VTIwbUxwQWF5?=
- =?utf-8?B?K0Y4a0lJWWJkeXppYlI1ZmRiZitXZjR1WGRBMG1qSXFCVmJrQjZIWnZSeFNp?=
- =?utf-8?B?dzVWalZIQWtLVXVKc0d4ZjBtM2JhVDhmZUtUYzZGUXNqOHB6WGYzN25XQjhQ?=
- =?utf-8?B?Y3psRXJORHFob1p1Q0JlanIzUTdmZGtmTVBoT0xWS0tWNmdacndEdjgxYnVl?=
- =?utf-8?B?RkIzSXNsUGpYZVJqWUpxaEhPR2EvMTE2VFlBUCttaVh4WUxlTGlnYzM3dlda?=
- =?utf-8?B?aU5SeCtPQ3RhNkdtcFpUckNmUHhSTzdmZm1KU3hIOWd4bWl5QXZnZDFHa0dX?=
- =?utf-8?B?aXhvU0dCcng1T1Y0c3ZBNkJGc0xuUnJSZThpb0lSODBJeDVRbUppdGk5cy9k?=
- =?utf-8?B?RjVIMTBieHU3R3lneHUraDVuQ283MFBNTUhqWDlDM2xVNzNDamNkd1R0MXBX?=
- =?utf-8?B?a1Q2M1hFY2NzbTlObUJsbUhZNEtnV3ZXbHVuM1FKVTVuOU81OFc3a2FBKzc1?=
- =?utf-8?B?S1lxSXZIT2FZK296MGlFNmlMVkQ2T3NiUEhYRkVGUnRVWnlqNStPSkpYUDIy?=
- =?utf-8?B?UWk5MmR5ZVFJdUNaZUs4KzRHV1JuVkpIaXhBeEVQbGRJeTl2ZDJXaEZwZE9F?=
- =?utf-8?B?bVFHWElJck9GMzNLdk54eUJxYm5jR3RtN2JGQmpvSkNJVEk3QlA0ajRBM1pQ?=
- =?utf-8?B?UDBuWjg0T1dISk1tQmlCcnRyRWJsTXFyY1RaZE1BTStXUVhqRGNlL1NlV3Az?=
- =?utf-8?B?SXl5RjZjeG5yeG1ndmpvZjFzWWhlVWVnKzkxem1GQzB4WU9QYzMyeDk5MmN6?=
- =?utf-8?B?Z2pkbWoxNUI1YTJSeDBDb1hVWWVqQWJhVE03TFBRYzJuTzNxMTBSSEp0dmpQ?=
- =?utf-8?B?QmdDRGxnRkRoS2sraHJNV1lvM3RITjhBRnZOQ0xxT1NwZVU2U3lINHZzR1Bn?=
- =?utf-8?B?M1Z1Q2tHbFNhdkpWQ01sUWhteHFKcmIxeHlmWVc2R1VMUHVuOVFnWnlLSGtV?=
- =?utf-8?B?ZDVqdDc5WEtwM1M3aWRhSndmREpaYzVXMjlSdVJ0S3c2Q25PSHVLSDFvZ0Nx?=
- =?utf-8?B?V3BpZ2laWUJiNVVnOUlrYU43VklSV1VEMVlQcFlVU244YXhFMFRzSWF6Ui8z?=
- =?utf-8?B?L29iRGNGVC8yOElCTENjL1AvYWFqdCt5UDN6SkRMaTQ2TFgyMGhvTXdHUjFk?=
- =?utf-8?B?V2pxWnFzeUdQMi9NVDY3eXRkdFZnazJwZW9MZlozcFJGWlF4VVdxbWFvZ2Z2?=
- =?utf-8?B?c1pVczF5NEFhS2JaWGxKaUtocktXRTQ5WnFBcHNoNEZjeWVuRUpJK29YNHA1?=
- =?utf-8?B?UzcvY3pUMmZIbGlkWU83NmRta092d0xnOVhzL3VrS1BZVzQ0U1JJVHcxV1E0?=
- =?utf-8?B?c1locFVTYkozSFQ4Z2R2WFJjQmYvcVpiUGFTakRQckJHamJ2bS81eUR0QVVj?=
- =?utf-8?B?K1FMQXEvRDlwbVRraWswdjBnMU5MV1d1dFVsbUE4amZrUDEzSk5LSVdGZW1u?=
- =?utf-8?B?aThRTFNaWFRIcFVFajN5RkN2dldrN0dKN25haW9XMjhaeisyTVllblVCa1k5?=
- =?utf-8?B?WXZhUzF4MmZLUWhhU3pRYTliNmdFQXF6bzhZaGV6bVZsQi9MOVZJV0FZanFC?=
- =?utf-8?B?QjlIS2taUS9sMkcrcWZ0b3IrUndhcW55WWZzNzl2VURwNHJRK2o3N3VacGxL?=
- =?utf-8?B?QStJcEJYMmVTdG5UeWh3NXpOZGFRTEJpanFraXdhTm5VcUdpcWcrMnZSV2Zs?=
- =?utf-8?Q?lhkx3xq15BWxlUVUNk=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c0RXZlFFcitSZURwYVMwZFFWaXgvZ1dOZHZweUxhQmovK3h6cExyUExCTGMx?=
+ =?utf-8?B?RENwMCt2RDEyR3h2ejdBL1FwSm5mMTR1MTFTRVFqdGQzMkFtdDNibnBuK1Mz?=
+ =?utf-8?B?T0kzUTUzN0x6RjhVMmM0UE1yQUt4WllvZWtiM0FFeHpVcjFvT3FPK3hPaklW?=
+ =?utf-8?B?UnpDNjFhSGM2MTBkSFJ0MGVNT1U3cWZvNU54anl1bGRuL0grbEhhVC9PeVFq?=
+ =?utf-8?B?WldhOXFDV3AxVjlOd25WY1lSNjZYdjN2MGdzN2c5VWFZT2NwdDZUd2JWZmgr?=
+ =?utf-8?B?NGg3WW40czN1alh4MUdUTDVBd3Vua3VKUFdiZDEvR0gxMXdzMjFZd2FFNGZn?=
+ =?utf-8?B?WGZsb0JJeGlYQjIzdFdGeHI3d3dJWG9tTzl1N2U0ekw1UWZJTFlDa01WLzE0?=
+ =?utf-8?B?WkNPaVlmQmVzM1J0ZWZqMllJbHRQNU1WaThrdFB0UE9qZmpPaytCR2g5c1FG?=
+ =?utf-8?B?cm5tMktkeXdZMk5ZbFhtNHVUeTFnUjlzci93b0JoKzFmVUtzYUNka3hrZ1A5?=
+ =?utf-8?B?UjBYM1M4SENUN21jeStkZmJpZ05hL0Zxb1Bya0RyWE1hemhFeXM5U3ZNa1FK?=
+ =?utf-8?B?T1Z6UTQ0OW9UVEhsa1hVVTM2SG5UbXI5UjN4dHZ4TUJHVWlJWVBXUENSRlBi?=
+ =?utf-8?B?RERzQW5GVUJBaVZqdkUweFJKRFZLTkE3Q0ZBQzhUT2NFY0EyWHE3SDhXQ0lq?=
+ =?utf-8?B?R2lFUVlKa1htRG1DcTdLUENqeUlDdGYrMDQ2OHlibWlvTFlqeW9kVnBZelZw?=
+ =?utf-8?B?OW1hcjFrM3BTNzVJbkVIWjN4eDBrVDVxc0F2Y2xIZlpwcnFjM3BBTG80RHdj?=
+ =?utf-8?B?NmRRTngrbG5MVDBrelg4OTJmdUlFdUdZNjFsem8rU0J0azZ1aFlZQk5FTXBw?=
+ =?utf-8?B?ZzRkYnh5bGUzSWZOM2xvRkZuRzltT0NhU3RsWmlNZGJvR2ZMbWV3YURNazFO?=
+ =?utf-8?B?blJBc1JsclNrU2FvZ1ZEZ1NONTEwdlNiSHJjTytRbEVxMXoyZTRGdXhtdngy?=
+ =?utf-8?B?VmlMRmIxOW9aeFpjQ1pkMzU5dTArRWJMVUlBdzJZTS9nLzlCVWwwUjl0ZENu?=
+ =?utf-8?B?QzVXR2l5bEFIbGpENitmaXVLZDNvUFNteDcxTC9BQ1FTa0c2MEYzZ3FrVU5q?=
+ =?utf-8?B?dFhwazBqVmVrQmRLNTdCSzhwRXZ6VXdBK0poNkZ1Qi9qaXVwWHpsS1J2MXBV?=
+ =?utf-8?B?ZFVyeWMzak40RTNNMWtuZStzcmdadURJc2c3bHU1dWR5bnFWMTdLc2ptbk85?=
+ =?utf-8?B?aTV5NFZ6cnlxYnBLUVpzU0ZOYVZ3YVJnSm1RTDFaK2gyaEFtNDVyS2xhM0wx?=
+ =?utf-8?B?eHR1R1ZIOGVpSlNqU3ZHckY1WjZiWGxkblJkTk5rS0UvS3RkYXkvRXZxRmNW?=
+ =?utf-8?B?MWxtT3dmbkxXWGJRVmFJT0gwTTFXME1aV3RYTWhYTVNDNEt5VG5aekNEK2N6?=
+ =?utf-8?B?SXFxVGVYZjNmYnpWNlFIcTU5MjlwVmFIazR2cE5taCs2cGlQMUtDSDkrb0Jh?=
+ =?utf-8?B?YWk4VlhKNkFpalFvY3FHRDM0RWd5UXY5RVRtaU5QK2ZNWFZmZXk1TFZoUUtm?=
+ =?utf-8?B?WG1hMkg0M1FsN1BrZTdtOHM1OXdpVnE3RlRiSU1aUmhNOFJFMVlJc2xBa3Q0?=
+ =?utf-8?B?UzhGaW5UTTB1c1N2Tjd5MHEwa2FlS1VKOWxvdVJrRy9ieEczUWg1OVZkL05Q?=
+ =?utf-8?B?dXZqZ0I5QWFRMktCaURsOHNKUjhRQnJvQmpsd3UyMzZLNDhrOEtmZjJNeEJW?=
+ =?utf-8?Q?MOYr81/paz9yikLux4=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWNQZUdmbi9oMWFtYnJ3cHVhc21Bbld5RTlDdndUWHMyb0xNM0tYOGVwUTU3?=
- =?utf-8?B?eDFPalBVa2s3ZTFJNDJMR0ViVVBqdHhXVTN0T0ZHRSt3aDR3cjNoUm1oUExo?=
- =?utf-8?B?cU93Tk1mMHBqbXZVcjFXTVNXYXVvSW9ib1RUOVFGUFdhLzU4T3NjNXpRam80?=
- =?utf-8?B?VWJOL1BDV1dTaEI3N3Z4cXFQcHl6Ulp1am85eHE0OXdURnYxZDZlU2p4QmZM?=
- =?utf-8?B?alJDUW1sRGJXNW1zbm1hb1JOdnpEN2R0TmZnRERFL29HVkNvcjRvVWlmQlFy?=
- =?utf-8?B?VUl6TnJDdnpqU0xmci9OeFRLOTZxUVFFUkJxcDdZa3Y2QkpoaVJLRDl1TkZK?=
- =?utf-8?B?d3BZVGZXK0pmMlI5cGRxaGNpdUFqRm1id1RzTTVKVWJGVGtya1pJTkNJelI5?=
- =?utf-8?B?bzF3UFI0eXdBVHgrakliaERPWmRNNXhkOXJwR1lFOCttb05acUlGWDZtNjF6?=
- =?utf-8?B?cExwUmdtajduRzRXVm5LSTVsSFRvSjJTOEsvRTlmK09RMzJqdWJGRGpZUlps?=
- =?utf-8?B?WFdEL3k3c2RhMHAwTTE0NWJoeDBDeURnZXduOGJGUExuQ1dtTDcySDNESVlW?=
- =?utf-8?B?dHNOUFQxZmhnVWZaQlJnYldpQit3OWIyR1I5bTBRTkNpd2pvZVVWUytCSjU5?=
- =?utf-8?B?ZlNSMGxlVVlockRTMGFxOVptSGJqZlRlZU53Yit0VW92endobTlRVzNxcGJY?=
- =?utf-8?B?ZVV0OGRmTkhVRzA4RUxCRHlZWi9oTitEZitMakp0QWpHZE1ZY1JQaXo3dEhq?=
- =?utf-8?B?UFRDQ2liVVI0YjRKSmVEWmZVQzdaNU9CMHBSY0JzcW9jMmwvTk04NGpvdnJV?=
- =?utf-8?B?RzJpUWFkdnFid0V5RDVlUXNTaVlCb2htYUhhRHdweHpyQm9UVTFJeE9NaFVh?=
- =?utf-8?B?amlsMkdPNnNHTXRiaGt2ZU12SVV0eUFCa1BkZko2dnN4RzBRR1o0NVlmbHdG?=
- =?utf-8?B?b3pkTjc1a3JGS0NRemFTcWFsQVBlTTFzRi9LNlVFWi9MZnhpMlFTcVRuUHZB?=
- =?utf-8?B?Z2Z5Rzc5YVY1NnJTWDdQUTRQZFlLK2JJdkZLUVBwSkVPR01SMTVoZkRhUm54?=
- =?utf-8?B?OHBteGoxT1F5TEYxODJYVjZrNEJ6cGlsT0s3Z0c4M2lZaG1UNnJ6QkxCY2tz?=
- =?utf-8?B?UTlkNld1WnRQRW42djFYUHdaMy9QQnlNMXI0ak5oejV3UzhFY3JMOHZKbGt2?=
- =?utf-8?B?ZWVQVlczTG9NSFdiNGFNSVRYbUh6THowUVVIVGxLL1phb2tyc0N5V25HTWh0?=
- =?utf-8?B?dzlDMEVjV3N2N0swL0dUU2lBZWFQV2VSTkVvaU5YWDNmc1FtSlI0bzJOT213?=
- =?utf-8?B?OU8yVk82a29DS1V4VnpBNUR2SzlFWmxaMndEOCtpUkoxbGVrR1ljQTF2Ni8z?=
- =?utf-8?B?QndMZnA3OHFnRnNla2ZmZ3IwVlRtcWdObmFTWmNLWTUrSm1pN1lHTkZ1Vm95?=
- =?utf-8?B?NFlZSGUzQmczc3RXNjlaVlVZak0vU2RiNENNa0NCTTNRZXI2eDdkUDVaZzlv?=
- =?utf-8?B?NXdjN2M0OEMyNGF2L1FWZlZwUExVUXNkdkhqYytEMDduTHdLOHY0SnRGbHdH?=
- =?utf-8?B?UWlXWExXK2hVQ3JIWVUrWFppSG4vOHFIQUJpSDFZaFZERTlMR2FDS2h4S2Jq?=
- =?utf-8?B?ckRySHZReDJJeWNpalNrMGEvTTNYeVBLNGZwdCtMZ3Z6VDZiODM2cGVFK2hm?=
- =?utf-8?B?UXBrVUtjMDVKeXRvSHdEcDFhZmRNK0Y2b0Z5M2Eya0tGcHk5UTMrYU0yTjVx?=
- =?utf-8?B?dHRmeDNBbWFWRjRjMzNWR0c2RUtlNWNjblpabVJnR2FqSlBIenVOR2VWaWlN?=
- =?utf-8?B?NDl0dlpFUkRPd0cyZnZLN1BlWnFjUHh0VnhzVk93TjRIYzRyKzNkTGJUVFBE?=
- =?utf-8?B?YVRRNHZIdDRiZWFpYlgyeDJRVlRTa3dmbDZEYk1pWnBaWStQaElXMFlxUWRj?=
- =?utf-8?B?OCtyUVBVUGNwYlZpR01RUW1DSGRhdmRXc21rZUJOTklzSXA5c2Ftemd1N1d3?=
- =?utf-8?B?WkJ3WklhWTkxY1dKM2RaU2t4bVVEdmZ4eFZjODZ2Z2g5WWlZVERuVmE1Sjk4?=
- =?utf-8?B?dzJ3WDFiOWJxNWkyUlZzWDQvdDVoaUNlQW5BUFA5UjFwa1hWWk9nZjYyZG4w?=
- =?utf-8?Q?N3FqsVz6liVdQIRp/XWu/xpr5?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wm45TmNlZEtkc2FYZ1FwQi8vSnBqcU80TTNWeVFIcVFOVnNpVDF6VDM4NzlY?=
+ =?utf-8?B?VE15QTFRek1UZDZEWkdBalAvVEl4S3ZHTlV2S3IzN3M2VlJvMEgzZTE1VU9L?=
+ =?utf-8?B?dmhzeWlOL3Y4ZldnUS9DK0dsSGFHaGVlem0rNFNrUUp1V0pITDdNUGp0Qytq?=
+ =?utf-8?B?OGpOdUtyVURkQUg2L0QrczBlNlBDRHNUOEdnR21GZHhRaUhDdUFNWXhwL3FE?=
+ =?utf-8?B?OG96aHNBdnJiZk4zSmkzVUlqdWZneHgrdzlSYkRRaXljaFN2U3F4ZWR0dW9h?=
+ =?utf-8?B?dlpsTTN2aFlLL3M3dWtMTVRiTEZ4aWNTVkVlZmtOTFp6QUh1L3pqSGo1NFpC?=
+ =?utf-8?B?NFZNZzFSOTZZVWQ5d0g5cG1KTWZmeWxKTzRiREtuNFhyMmtrYkZOTFFKWGFR?=
+ =?utf-8?B?MDJScGRjM24vY1BPZS9lRk5qN3JOME0rM0p2Q3ZVZUZFbDl0UTgvWTZERzZR?=
+ =?utf-8?B?L1FCdlNsTGV1eExxUGNnZmJ6QnI1bm00Zmh2U255L2k2MlNDM0FYVEpMOHRW?=
+ =?utf-8?B?ZW5ibnVDaDRzOXhVMmI3eVVHa2xlRTh0dkVXR1FwTVhsbzV1d3dYZDREMit0?=
+ =?utf-8?B?QVdNTjBEeFVScGRVZnYwMzgwQVl4VDl4dVVNdTBjUE00aGt2VXVnRkZ3Vmdk?=
+ =?utf-8?B?MGlmZDZ1TVJqdEo0VFA1cnVlblBDZ0JJa2hNOVgrQjZldWtMNktBUEN1Skk5?=
+ =?utf-8?B?a2Z5Rm16RzhuYVJpeHk5VXl5aHE1NlFQeEVWZVBsMUY1RllkVGtMaTYrMEV1?=
+ =?utf-8?B?dlZNY05INFJiMHY3WHdwOXhVOW5Ec0ovQXJ2cjljblZuZDAvUEQwR3p3UHd5?=
+ =?utf-8?B?VEZjOEFTRG5OcEhXK3l2TjA0YTdmN2VXYzc5OUYwaVlpL1hMTlJ5aE5KM1hh?=
+ =?utf-8?B?REFhSGZCZnl3dmdVclJZS0QveC9mMHpBa2MwTUZjNUovUE8weDBmb3FSOVlI?=
+ =?utf-8?B?L0REUWFlMk1aS0daZFpzcDRQcHBnOFpPbkFCMkpDbFhMN1pmWFFLNm0vaXVJ?=
+ =?utf-8?B?cmh0YnVVVUtuaDFOQXMyQWI0UHlYanBKalMwNUxOTmtCdW1qS3JIYjNjTFM4?=
+ =?utf-8?B?dnpPeFByamFodU1oYUJDUDFSSGZOc1YvWmpMTEYrcFRaQ1JQSFJUNERUOXlY?=
+ =?utf-8?B?YTBtWU5wRThPZHhLWnA1TGVLUDNrdDVwSEZOVXRJalJmVVU0d08zZEt2Z1pv?=
+ =?utf-8?B?OE1wL1BNUGNvRmcxRVc2UndvelhxM3Z3S3BvUitwZ1BXZEJmY3JoUVNNKzcx?=
+ =?utf-8?B?WjZIUGxRa0FyN3lhbzhXVkJpOG5FUW9NV1lrK0ZibW1FUmdPUnFnNnNjK1Bv?=
+ =?utf-8?B?aGNqdi9DZFJVMFk0T1B1ZjI4TURBbXNPYkJlUklhbXd2bVlRSmRCTHdTQUkz?=
+ =?utf-8?B?YVVpY0RCSXJZcCtBa0ZuTVpLOFFaTHN0YU9hK0x1R3hzMTF1dVV1dzJhbzZ0?=
+ =?utf-8?B?cm1Xc0tZUk4wNHFobWxGSjVXZVgwV2FkcTZnRUlybG1YVFRmaWN1OFdvc2Jn?=
+ =?utf-8?B?RXlMb1ZETTcxbTZ5QmlTUW5TQW0vc3hzM0RLZzY0ckRBZlNSOW15d0ltOEZj?=
+ =?utf-8?B?MTRqVThwdVpRdlJqWjk4enY0N3RBYy9VNjhzamhPdC93bm5aU0hwVllIMkR5?=
+ =?utf-8?B?RldGYXJ1TlhQVFlGNldwVFA1WXFpTVR0UXZXcUJoTE92VU4yaFh2ZWNiVHNt?=
+ =?utf-8?B?Tkg3ckRlUFovRW5OZDZ6T0ZZV3hXbzF4V1dDOGpYODU5L2RkSU5hUytzYm1j?=
+ =?utf-8?B?UXM3MnVFOEk0N3NqeUE3RWpDVk1RaXo1azJJM2QzTXlvV2ZjUlBvQkl6TVJF?=
+ =?utf-8?B?ZXR4Y0JiZkNKU2dMdFVnYTNnaWZCMDZmbXI2NGVzK1NxUFdVRkFUR0dka3dW?=
+ =?utf-8?B?ZWNuajJ0YVkvaGVza1hDSUNETWV4cWxIaTFaT2VuSUthWDlyUVUvZHZCVlNL?=
+ =?utf-8?B?ckVBMkw2akdiUUEwRlJSZnpuMFhDS203NWZndzJERHNpMzF0bStwM09UMVZE?=
+ =?utf-8?B?ZWpDeTRKelhKMTYxZTNOanBMN3RlRVBFYmloRXo5OXFVUjljU25PUVpFS0Fl?=
+ =?utf-8?B?YlovQlNCY21rdHVTbXFEVjNsODl6SGxsL2ZGeTIyWmY4NnQzRzFZNXlUUHJL?=
+ =?utf-8?Q?m8NFcpAq8oNrBkTJmHFu8M6Jr?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aec34b0e-3e9a-477b-f581-08dc9f1a5cbd
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbcf0100-8ec7-4b6f-4fc6-08dc9f1bb3bc
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2024 06:51:15.6175 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2024 07:00:51.1070 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0JDI81H3Lci4MDGjHSpIa0llrSquEqy93U1AaJdK3lh8fowd4+9O1uje8GNLf2gn6YNw/iRVrUpd+rGfqhB0wQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10274
+X-MS-Exchange-CrossTenant-UserPrincipalName: z2IzK6EDlmGWfK1TcZ8oMvgoqb/xEjoM/6oRagxkhMHGShoUpSY/OYUvLzHLGqD2xmpyEJ/TaZ6DSlgDHtAHsQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7559
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,62 +167,73 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 07/07/2024, Krzysztof Kozlowski wrote:
 > On 05/07/2024 11:09, Liu Ying wrote:
->> i.MX8qxp Display Controller has a built-in interrupt controller to support
->> Enable/Status/Preset/Clear interrupt bit.
+>> i.MX8qxp Display Controller(DC) is comprised of three main components that
+>> include a blit engine for 2D graphics accelerations, display controller for
+>> display output processing, as well as a command sequencer.
 >>
 >> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 >> ---
->>  .../fsl,imx8qxp-dc-intc.yaml                  | 321 ++++++++++++++++++
->>  1 file changed, 321 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/fsl,imx8qxp-dc-intc.yaml
+>>  .../bindings/display/imx/fsl,imx8qxp-dc.yaml  | 243 ++++++++++++++++++
+>>  1 file changed, 243 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
 >>
->> diff --git a/Documentation/devicetree/bindings/interrupt-controller/fsl,imx8qxp-dc-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/fsl,imx8qxp-dc-intc.yaml
+>> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
 >> new file mode 100644
->> index 000000000000..3d0d11def505
+>> index 000000000000..a2ad280d2839
 >> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/interrupt-controller/fsl,imx8qxp-dc-intc.yaml
->> @@ -0,0 +1,321 @@
+>> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
+>> @@ -0,0 +1,243 @@
 >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 >> +%YAML 1.2
 >> +---
->> +$id: http://devicetree.org/schemas/interrupt-controller/fsl,imx8qxp-dc-intc.yaml#
+>> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc.yaml#
 >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 >> +
->> +title: Freescale i.MX8qxp Display Controller interrupt controller
+>> +title: Freescale i.MX8qxp Display Controller
 >> +
 >> +description: |
->> +  The Display Controller has a built-in interrupt controller with the following
->> +  features for all relevant HW events:
+>> +  The Freescale i.MX8qxp Display Controller(DC) is comprised of three main
+>> +  components that include a blit engine for 2D graphics accelerations, display
+>> +  controller for display output processing, as well as a command sequencer.
 >> +
->> +  * Enable bit (mask)
->> +  * Status bit (set by an HW event)
->> +  * Preset bit (can be used by SW to set status)
->> +  * Clear bit (used by SW to reset the status)
-> 
-> 1. Why this is split from the main node?
-
-Maxime suggested to do so:
-
-"
-But at least the CRTC and the interrupt controller should be split away,
-or explained and detailed far better than "well it's just convenient".
-"
-
-https://lore.kernel.org/lkml/2k3cc3yfwqlpquxrdmzmaafz55b3lnqomzxjsvtetfriliqj3k@tv6uh7dzc2ea/
-
-> 
-> 2. Who can use this interrupt controller? Children of your display unit?
-
-Yes, only devices in the main display controller use it.
-
-> Then it is not really a separate device, is it?
-
-Er, per Maxime, it is a separate device.
-
-> 
+>> +                                  Display buffers              Source buffers
+>> +                                 (AXI read master)            (AXI read master)
+>> +                                  | .......... |                  | | |
+>> +      +---------------------------+------------+------------------+-+-+------+
+>> +      | Display Controller (DC)   | .......... |                  | | |      |
+>> +      |                           |            |                  | | |      |
+>> +      |   @@@@@@@@@@@  +----------+------------+------------+     | | |      |
+>> +  A   |  | Command   | |          V            V            |     | | |      |
+>> +  X <-+->| Sequencer | |    @@@@@@@@@@@@@@@@@@@@@@@@@@@@    |     V V V      |
+>> +  I   |  | (AXI CLK) | |   |                            |   |   @@@@@@@@@@   |
+>> +      |   @@@@@@@@@@@  |   |       Pixel Engine         |   |  |          |  |
+>> +      |       |        |   |         (AXI CLK)          |   |  |          |  |
+>> +      |       V        |    @@@@@@@@@@@@@@@@@@@@@@@@@@@@    |  |          |  |
+>> +  A   |   ***********  |       |   |            |   |       |  |   Blit   |  |
+>> +  H <-+->| Configure | |       V   V            V   V       |  |  Engine  |  |
+>> +  B   |  | (CFG CLK) | |    00000000000      11111111111    |  | (AXI CLK)|  |
+>> +      |   ***********  |   |  Display  |    |  Display  |   |  |          |  |
+>> +      |                |   |  Engine   |    |  Engine   |   |  |          |  |
+>> +      |                |   | (Disp CLK)|    | (Disp CLK)|   |  |          |  |
+>> +      |   @@@@@@@@@@@  |    00000000000      11111111111    |   @@@@@@@@@@   |
+>> +  I   |  |  Common   | |         |                |         |       |        |
+>> +  R <-+--|  Control  | |         |    Display     |         |       |        |
+>> +  Q   |  | (AXI CLK) | |         |   Controller   |         |       |        |
+>> +      |   @@@@@@@@@@@  +------------------------------------+       |        |
+>> +      |                          |                |       ^         |        |
+>> +      +--------------------------+----------------+-------+---------+--------+
+>> +              ^                  |                |       |         |
+>> +              |                  V                V       |         V
+>> +       Clocks & Resets        Display          Display  Panic   Destination
+>> +                              Output0          Output1 Control    buffer
+>> +                                                              (AXI write master)
+>> +
+>> +maintainers:
+>> +  - Liu Ying <victor.liu@nxp.com>
+>> +
 >> +properties:
 >> +  compatible:
->> +    const: fsl,imx8qxp-dc-intc
+>> +    const: fsl,imx8qxp-dc
 >> +
 >> +  reg:
 >> +    maxItems: 1
@@ -231,24 +241,80 @@ Er, per Maxime, it is a separate device.
 >> +  clocks:
 >> +    maxItems: 1
 >> +
->> +  interrupt-controller: true
+>> +  resets:
+>> +    maxItems: 2
 >> +
->> +  "#interrupt-cells":
+>> +  reset-names:
+>> +    items:
+>> +      - const: axi
+>> +      - const: cfg
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  "#address-cells":
 >> +    const: 1
 >> +
->> +  interrupts:
->> +    items:
->> +      - description: |
+>> +  "#size-cells":
+>> +    const: 1
+>> +
+>> +  ranges: true
+>> +
+>> +patternProperties:
+>> +  "^axi-performance-counter@[0-9a-f]+$":
 > 
-> Do not need '|' unless you need to preserve formatting.
+> Node names should be generic. See also an explanation and list of
 
-Will do.
+Ok.
+
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> 
+> 
+> Is this a PMU?
+
+Will use "^pmu@[0-9a-f]+$".  Thanks.
 
 > 
+>> +    type: object
+>> +    additionalProperties: true
+>> +
+>> +    properties:
+>> +      compatible:
+>> +        const: fsl,imx8qxp-dc-axi-performance-counter
+>> +
 > 
+> 
+>> +        pixel-engine@56180800 {
+>> +            compatible = "fsl,imx8qxp-dc-pixel-engine";
+>> +            reg = <0x56180800 0xac00>;
+>> +            clocks = <&dc0_lpcg IMX_LPCG_CLK_5>;
+>> +            #address-cells = <1>;
+>> +            #size-cells = <1>;
+>> +            ranges;
+>> +        };
+>> +
+>> +        display-engine@5618b400 {
+>> +            compatible = "fsl,imx8qxp-dc-display-engine";
+>> +            reg = <0x5618b400 0x14>, <0x5618b800 0x1c00>;
+>> +            reg-names = "top", "cfg";
+>> +            interrupt-parent = <&dc0_intc>;
+> 
+> Where is this node?
+
+It's the interrupt controller documented in patch 4/10 in this series.
+It's a child node in the main display controller node.
+
+> 
+> I think this proves that interrupt controller is part of the display
+> controller.
+
+Yes.  But, per Maxime, the interrupt controller is a separate device.
+
 > 
 > Best regards,
 > Krzysztof
+> 
 > 
 
 -- 
