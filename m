@@ -2,75 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA8D92A2E1
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 14:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 498B192A2E3
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 14:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A029D10E076;
-	Mon,  8 Jul 2024 12:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEBB510E0B4;
+	Mon,  8 Jul 2024 12:37:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XeR89Lu9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CN2pGbEu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0711C10E0B4
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 12:36:55 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-70b09c2ade6so1737549b3a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 05:36:55 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E658210E10B
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 12:37:07 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4266b1f1b21so4671865e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 05:37:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720442214; x=1721047014; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yXn9040q77oGlxBnBYUKFbDXyOPG8b0Isv78rveFo2M=;
- b=XeR89Lu92FeNXFf1GelBXEE0I7sZ9fcjPaJzCFzIIAt3MDN/C28LcO8017LZq5qLIV
- hHGXt/5GQaMMrYS5agaV+FQv+ZIgRTMbUd7SmpwgY9JXPsSZWW8uEd+AXxZH1RzGyMc6
- 6jx8wM3JezWfN4R9aPOjLqfD5wKQCHWswbt2CStUb1caIWhTxWlOnSMsL0zb9hr4STJh
- EUdwnqZLg0eSxiSktx8pUIYRsTdhBUmphh2/iyBISv3FXA6JgWP00Nlq+JFPdkXIEdZ3
- v++l+pmPOrb42Eq5vay4ZkeeumCMpJJoPlw4S1IWIfYnCcH4yUTVUhYbyMVEtTHuQ5uK
- g5Cw==
+ d=linaro.org; s=google; t=1720442226; x=1721047026; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=96TJNAco6UswomCuF7kl+MAcyBf4on/lL0AOzmc2lek=;
+ b=CN2pGbEuk9PaOL3imNv11jG7lw3ADJyM1/DtS0bxzCEgblAHybBQ0AO2Na8mL2AkYW
+ f/rZ2X4vhPmZ/Vx4LO+CaI4rXBgbprcytkUKUofLq12Z7B2Xjpg27uVGE9XyOvVt4BU3
+ GKeDa0I+Yaj4HsdCd4ituZR3l2QI3tftEhkK6jx7hEX16mMhPDIIwmQA1JE8RGsnVF7D
+ XOcNyI6ky2HDMVi/x7KtrBDhCtWo3znaAOY7UXOy2nmx6ygmmVoSFh6vmFKv0qWLNUXg
+ lT3QxHkGLjwolgNyvG+x2+E9gBEKWNQ9weFDm/cXBKITsINvI+FSeop8TAfcuEhWZTAZ
+ jCnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720442214; x=1721047014;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yXn9040q77oGlxBnBYUKFbDXyOPG8b0Isv78rveFo2M=;
- b=BMbbKTGDA/JtKyUUVSkpJZWU9AM0C6FcUvGtQske0NTbTC9/XqSUoLLRgmYDoeNDEU
- HWCGXZHCIgeYa9s9GIyS0QdBlSd0d49fsaLWqoxSozgmh+V71lVy5aharE2lkDqe0U26
- Bkrz33b7HqF6we7GEcbI6TtoSRTpJI4cXvrw6+lQIEuT7Fm9CV8ZIe5qpALeh4ioMG+K
- cliNSLSS0eH9g0UxP1AudnDXxKcX7yk0vtlJTKoAZm9fwR76n2qZHXSdHCgklQVmOgKf
- 29Bj9AeTC3PDaxN7k4l57X/9iXr748i/r/e2851ZkT6bXpPLFHhMIxjvLxETymhICwcE
- rMIw==
-X-Gm-Message-State: AOJu0YwY0QRqug3GftCwEvxVX0fcmc9riZPxC4s/DQYYPPRpAaZ9137n
- Jd/IAp+4hlgkpS14kb3fVxQgfIjmwvIYxTOjPLju3Hc6ydmF4UCESN0tn6kvaaM9L9wdvI9PA5h
- XirW7n3NMkfOx9KRIgx6jMqZ3Aw5s8A==
-X-Google-Smtp-Source: AGHT+IGDyypax6tFZ+0anhgmRjNpIBTLAzdwlweVYSSS9ZlMea4/i8gmb8U7aD4CSE+xGJaBxWDhp4YVGLzu89vRlPk=
-X-Received: by 2002:a05:6a00:1891:b0:70b:1450:1d05 with SMTP id
- d2e1a72fcca58-70b14501ee1mr5909528b3a.20.1720442213791; Mon, 08 Jul 2024
- 05:36:53 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1720442226; x=1721047026;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=96TJNAco6UswomCuF7kl+MAcyBf4on/lL0AOzmc2lek=;
+ b=KbPqi/9hyfY5PBKAo+LFAVu+lx2n9wgsYPAnTXEN/TgruWYVKPH7uckoEMHGROWGSQ
+ 7YfzuRpl+2Hl2fz6gzTu6t9O04ZIPW7IO22jzxJROXR3CKWZ3Q9MK3v2Ur942jMVq0ZD
+ 5J02b+mKYQdO79apIfskmvEgwHWpUtmA/P1nm4WLc8RpMAuxO8r6XB1ykMoOwhE6JSdK
+ uIws/30+N6krGrZxLF6o5kIX2lz47BaIvmA/coX/3VgSppIHQ0FFc1tcpMwAyUr1Hbal
+ CSgJroxjNBKreimYbBdaP48NLPxyhC+NLtFiZFaY/1OjNPCghq3qMn5ly0FiwYcpdaLW
+ 3W6Q==
+X-Gm-Message-State: AOJu0YxpZRY7q7esXNJnW5Fu4F0IBca9xvR3W8Ki9VQRxH8byX3xyGuk
+ MeDd58FFzemxlQpzcnoOSzgs3w1qL014o1UqpvGYcpMVmLn67jdXHStiyh4+mDE=
+X-Google-Smtp-Source: AGHT+IHIUGHCJQHdqzNxOo2k+mrRHFj4Rg40rb/Uq0fOelGFJdpvW+XuLNcPwM5LrV9+ssCLjGxIjQ==
+X-Received: by 2002:a05:600c:33a9:b0:426:5b29:b5c8 with SMTP id
+ 5b1f17b1804b1-4265b29bd52mr52831365e9.28.1720442226128; 
+ Mon, 08 Jul 2024 05:37:06 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:cad:2140:f482:8fc6:e8d0:6d7c?
+ ([2a01:e0a:cad:2140:f482:8fc6:e8d0:6d7c])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4264a2518f9sm164932565e9.31.2024.07.08.05.37.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Jul 2024 05:37:05 -0700 (PDT)
+Message-ID: <861c8b22-8842-4eb6-8905-1e1a6467e661@linaro.org>
+Date: Mon, 8 Jul 2024 14:37:02 +0200
 MIME-Version: 1.0
-References: <20240630221931.1650565-1-aford173@gmail.com>
-In-Reply-To: <20240630221931.1650565-1-aford173@gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Mon, 8 Jul 2024 07:36:41 -0500
-Message-ID: <CAHCN7xKE34WBgUjOaHQg4Z_+0LwYHoHy5jgFtdr-754CnW6qqA@mail.gmail.com>
-Subject: Re: [PATCH V3] drm/bridge: adv7511: Fix Intermittent EDID failures
-To: dri-devel@lists.freedesktop.org
-Cc: aford@beaconembedded.com, Liu Ying <victor.liu@nxp.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v5 2/5] drm/panel: boe-th101mb31ig002: switch to
+ devm_gpiod_get_optional() for reset_gpio
+To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
+ robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ airlied@gmail.com, daniel@ffwll.ch, mripard@kernel.org, dianders@google.com,
+ hsinyi@google.com, awarnecke002@hotmail.com, quic_jesszhan@quicinc.com,
+ dmitry.baryshkov@linaro.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240704072958.27876-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240704072958.27876-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240704072958.27876-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,183 +113,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 30, 2024 at 5:19=E2=80=AFPM Adam Ford <aford173@gmail.com> wrot=
-e:
->
-> In the process of adding support for shared IRQ pins, a scenario
-> was accidentally created where adv7511_irq_process returned
-> prematurely causing the EDID to fail randomly.
->
-> Since the interrupt handler is broken up into two main helper functions,
-> update both of them to treat the helper functions as IRQ handlers. These
-> IRQ routines process their respective tasks as before, but if they
-> determine that actual work was done, mark the respective IRQ status
-> accordingly, and delay the check until everything has been processed.
->
-> This should guarantee the helper functions don't return prematurely
-> while still returning proper values of either IRQ_HANDLED or IRQ_NONE.
->
-> Reported-by: Liu Ying <victor.liu@nxp.com>
-> Fixes: f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> Tested-by: Liu Ying <victor.liu@nxp.com> # i.MX8MP EVK ADV7535 EDID retri=
-eval w/o IRQ
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Gentle nudge on this.  I was hoping it could be merged in the 6.10
-window since it fixes a known regression, but  I know it's summer in
-the northern hemisphere, and everyone is busy.
-
-adam
+On 04/07/2024 09:29, Zhaoxiong Lv wrote:
+> Switch the driver to use devm_gpiod_get_optional() on reset_gpio to avoid
+> driver probe issues when reset line is not specified.
+> 
+> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 > ---
-> V3:  Remove unnecessary declaration of ret by evaluating the return
->      code of regmap_read directly.
->
-> V2:  Fix uninitialized cec_status
->      Cut back a little on error handling to return either IRQ_NONE or
->      IRQ_HANDLED.
->
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/b=
-ridge/adv7511/adv7511.h
-> index ea271f62b214..ec0b7f3d889c 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> @@ -401,7 +401,7 @@ struct adv7511 {
->
->  #ifdef CONFIG_DRM_I2C_ADV7511_CEC
->  int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511);
-> -void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)=
-;
-> +int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
->  #else
->  static inline int adv7511_cec_init(struct device *dev, struct adv7511 *a=
-dv7511)
->  {
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/d=
-rm/bridge/adv7511/adv7511_cec.c
-> index 44451a9658a3..2e9c88a2b5ed 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> @@ -119,7 +119,7 @@ static void adv7511_cec_rx(struct adv7511 *adv7511, i=
-nt rx_buf)
->         cec_received_msg(adv7511->cec_adap, &msg);
->  }
->
-> -void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
-> +int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
->  {
->         unsigned int offset =3D adv7511->info->reg_cec_offset;
->         const u32 irq_tx_mask =3D ADV7511_INT1_CEC_TX_READY |
-> @@ -131,16 +131,19 @@ void adv7511_cec_irq_process(struct adv7511 *adv751=
-1, unsigned int irq1)
->         unsigned int rx_status;
->         int rx_order[3] =3D { -1, -1, -1 };
->         int i;
-> +       int irq_status =3D IRQ_NONE;
->
-> -       if (irq1 & irq_tx_mask)
-> +       if (irq1 & irq_tx_mask) {
->                 adv_cec_tx_raw_status(adv7511, irq1);
-> +               irq_status =3D IRQ_HANDLED;
-> +       }
->
->         if (!(irq1 & irq_rx_mask))
-> -               return;
-> +               return irq_status;
->
->         if (regmap_read(adv7511->regmap_cec,
->                         ADV7511_REG_CEC_RX_STATUS + offset, &rx_status))
-> -               return;
-> +               return irq_status;
->
->         /*
->          * ADV7511_REG_CEC_RX_STATUS[5:0] contains the reception order of=
- RX
-> @@ -172,6 +175,8 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511,=
- unsigned int irq1)
->
->                 adv7511_cec_rx(adv7511, rx_buf);
->         }
-> +
-> +       return IRQ_HANDLED;
->  }
->
->  static int adv7511_cec_adap_enable(struct cec_adapter *adap, bool enable=
-)
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
-rm/bridge/adv7511/adv7511_drv.c
-> index 66ccb61e2a66..c8d2c4a157b2 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -469,6 +469,8 @@ static int adv7511_irq_process(struct adv7511 *adv751=
-1, bool process_hpd)
->  {
->         unsigned int irq0, irq1;
->         int ret;
-> +       int cec_status =3D IRQ_NONE;
-> +       int irq_status =3D IRQ_NONE;
->
->         ret =3D regmap_read(adv7511->regmap, ADV7511_REG_INT(0), &irq0);
->         if (ret < 0)
-> @@ -478,29 +480,31 @@ static int adv7511_irq_process(struct adv7511 *adv7=
-511, bool process_hpd)
->         if (ret < 0)
->                 return ret;
->
-> -       /* If there is no IRQ to handle, exit indicating no IRQ data */
-> -       if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
-> -           !(irq1 & ADV7511_INT1_DDC_ERROR))
-> -               return -ENODATA;
-> -
->         regmap_write(adv7511->regmap, ADV7511_REG_INT(0), irq0);
->         regmap_write(adv7511->regmap, ADV7511_REG_INT(1), irq1);
->
-> -       if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.enc=
-oder)
-> +       if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.enc=
-oder) {
->                 schedule_work(&adv7511->hpd_work);
-> +               irq_status =3D IRQ_HANDLED;
-> +       }
->
->         if (irq0 & ADV7511_INT0_EDID_READY || irq1 & ADV7511_INT1_DDC_ERR=
-OR) {
->                 adv7511->edid_read =3D true;
->
->                 if (adv7511->i2c_main->irq)
->                         wake_up_all(&adv7511->wq);
-> +               irq_status =3D IRQ_HANDLED;
->         }
->
->  #ifdef CONFIG_DRM_I2C_ADV7511_CEC
-> -       adv7511_cec_irq_process(adv7511, irq1);
-> +       cec_status =3D adv7511_cec_irq_process(adv7511, irq1);
->  #endif
->
-> -       return 0;
-> +       /* If there is no IRQ to handle, exit indicating no IRQ data */
-> +       if (irq_status =3D=3D IRQ_HANDLED || cec_status =3D=3D IRQ_HANDLE=
-D)
-> +               return IRQ_HANDLED;
-> +
-> +       return IRQ_NONE;
->  }
->
->  static irqreturn_t adv7511_irq_handler(int irq, void *devid)
-> @@ -509,7 +513,7 @@ static irqreturn_t adv7511_irq_handler(int irq, void =
-*devid)
->         int ret;
->
->         ret =3D adv7511_irq_process(adv7511, true);
-> -       return ret < 0 ? IRQ_NONE : IRQ_HANDLED;
-> +       return ret < 0 ? IRQ_NONE : ret;
->  }
->
->  /* ---------------------------------------------------------------------=
---------
-> --
-> 2.43.0
->
+>   drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
+> index 159e401ad0e6..9f225c15b21c 100644
+> --- a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
+> +++ b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
+> @@ -286,7 +286,7 @@ static int boe_th101mb31ig002_dsi_probe(struct mipi_dsi_device *dsi)
+>   		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->enable),
+>   				     "Failed to get enable GPIO\n");
+>   
+> -	ctx->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_HIGH);
+> +	ctx->reset = devm_gpiod_get_optional(&dsi->dev, "reset", GPIOD_OUT_HIGH);
+>   	if (IS_ERR(ctx->reset))
+>   		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->reset),
+>   				     "Failed to get reset GPIO\n");
+
+Hmm, the reset gpio is not in the bindings, please fix that!
+
+Neil
