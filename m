@@ -2,104 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912B492A2FB
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 14:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C01392A322
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 14:46:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBFE10E251;
-	Mon,  8 Jul 2024 12:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEB0C10E1F7;
+	Mon,  8 Jul 2024 12:46:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="z22KA5p7";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eiFRTsge";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2F1710E33D
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 12:39:45 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-42665be6916so7496185e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 05:39:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720442384; x=1721047184; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=mMnzgQzbLnKBd86eXIXGNAPcyZsn83VkPZ3CDQuP6FI=;
- b=z22KA5p7Oas7DI88WaDxCpBsQVvki0Q0twUzFSOam+fySrumQO4m2f+wCrwvPLVbVY
- m/h8Y836soV7uSf8y8oh1cjSCxEfHge3Q8ZhmF/L6s1E1u3EfklC0X4DM5JRMdWzcrbp
- 6BDuCBdR0MJ0x8TNS2E8n02mwbeBDnk1yTvovlx8mxF4vkdML56dbfm5oAgENk6c7qBz
- VCoqnsKku0v3z48m4AqICJFFm5k6oRW4lzVmgrtK4tRe9hRrVA5BCs49/ebqzQludUaT
- YBMAb91TvmWNZMddHfU/GVglaoqngrHQOZAxBo0orTv7a2Skk34FTRyAMD/zTPx7q1g8
- BCWg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F37D610E1F7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 12:46:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1720442783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AhoO6urTVJ0q192k56ooXPYrzl6TzMmLD2n9wo2/bAc=;
+ b=eiFRTsgen5T3WF4ENBIp7uxRYWmh7hw6QcycNaBdRt0prouZ/QLxlG4MpMRgmP0qykPd8e
+ HAtmirP+3ljz1yOMZpBdcpKiYHwkkvxcmALY116Qy4wgX3v3KTzyLjuXtzfmUkJ4uiezNO
+ xiTVftfv1vcNkbNuKVZFEF26wE2EwlQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-297-rN2WVHcgMEy3WfD-uW9hNw-1; Mon, 08 Jul 2024 08:46:22 -0400
+X-MC-Unique: rN2WVHcgMEy3WfD-uW9hNw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-367987cff30so2654318f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 05:46:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720442384; x=1721047184;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=mMnzgQzbLnKBd86eXIXGNAPcyZsn83VkPZ3CDQuP6FI=;
- b=WVOBXiVTWIPBwa2idsvOVfoRjM5SY6qk8cWK/eNruuA01pmZzAVLy6O8kX6uih54mk
- wlQg63Sx+BfOFJXc02VSmOUiTHxX4xK7KzSJJCwLBIepOlI0ZB21IiJMGlH4oIRNAaHN
- vuneWbRfp72SCYgKSev9zinZT/zXrFdFzpL51PmWv8C1Sm/OYIjbQQRn3fOzINgAx1/U
- rIJ8v7KW7uhwlFVWP4fjUMc5GXhI6crp6uMCJe696vFyx347HZMd3O2XVO7ypdFuF+gS
- gxIFZzpA89W+b/SIeB63XuMN4Td979DsJqzTpw/KyxfbrmE4zctLSf/NEFTcsaoJhR1r
- UmAg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqoNz4rr6wOKjBH/VTcb9lLzDCycp+OdlQPBnrfRjmc9gt9s2uGiTEkJzN5AXGE7v0XxB/W5pDUBO/CSuN2DYYTQ2HpVKdC69aCyFAzCA3
-X-Gm-Message-State: AOJu0Yy9OORfACcJLPHmBcy0SqcJ+tQlRa6FVddjwxz7MQ/nOjNz4kTZ
- 3HYHNxtdFIKysVD0MVwuxn0LM+Fk0iaYMCY6muY4SVEgrEFuWZA5m855ihIkvy0=
-X-Google-Smtp-Source: AGHT+IF+xVRbezrp3kHSmQCXaAZQyFu7mLcep9GiVcMts+AxUpGWFZOBcV+iFf4PCOWhSjZs+97Zbg==
-X-Received: by 2002:a05:600c:510b:b0:426:686f:7ad with SMTP id
- 5b1f17b1804b1-426686f09a5mr27390275e9.10.1720442383908; 
- Mon, 08 Jul 2024 05:39:43 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:cad:2140:f482:8fc6:e8d0:6d7c?
- ([2a01:e0a:cad:2140:f482:8fc6:e8d0:6d7c])
+ d=1e100.net; s=20230601; t=1720442781; x=1721047581;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AhoO6urTVJ0q192k56ooXPYrzl6TzMmLD2n9wo2/bAc=;
+ b=g22YBectl4y2XE+8G1Yj64Pv/0oWKh5zhwrbLnOOytG+9UWwIka1A2Jkc+XiPrGMk8
+ dwAkIQ25orxRmH6DtpyyrKSQJxr2/9Ctwg4h36nBfZWlu4/qybUdO+mUOkXZtg2nJTl6
+ unImZRhe4ymyovAq9J3nYrN5zY/0zBI+m2lv+xO4JGlH4beXsVHojqsgwEiZcn2SmLII
+ YaHSi8KfTTFGe9EwCwn5JGyUtXgssPLtg0FqPBtzEGrv1jusLNhLUR6h1+dEuYbfDnh6
+ DoCkSvktPD3F5q9c/AP4/Preiy6hugdeZA9hZGOWZ89N+x1jmRTLBiK3Pmodu0CjhQtz
+ QGqA==
+X-Gm-Message-State: AOJu0Yz1GeCR/e11wBjnBMlBY120HcWr6DB+eMUU1Fmt2IlpUf/V/7f8
+ 2iHutTy322NxH+1PEVNjTqyCvWFSHrP3/8+Zz0tA5zSY2I+Ot7zyXDqlAWf1HP6fKR3p6Llw0Kc
+ 54XO3ki7yyQjo+2uIrYNlhBgkcgXwr3lmm8jmKn7wZsrGtX58B73bowZQxfHI2UCqZDGH5gZFsA
+ ==
+X-Received: by 2002:a5d:4f05:0:b0:366:efa2:f2f7 with SMTP id
+ ffacd0b85a97d-3679dd15b0emr8645921f8f.1.1720442780950; 
+ Mon, 08 Jul 2024 05:46:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGkpawbuDfiwYZKmzSEu7EUVZzM4xhNmo2MbgKIgjCYu6uQNEja/xMYRNljIEpoHY6nVIf08g==
+X-Received: by 2002:a5d:4f05:0:b0:366:efa2:f2f7 with SMTP id
+ ffacd0b85a97d-3679dd15b0emr8645896f8f.1.1720442780433; 
+ Mon, 08 Jul 2024 05:46:20 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4264a2518f9sm165059635e9.31.2024.07.08.05.39.41
+ ffacd0b85a97d-3678fefc01dsm14416235f8f.26.2024.07.08.05.46.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jul 2024 05:39:43 -0700 (PDT)
-Message-ID: <a64fdf95-9b9c-4ee5-878a-21a71a2dd5ad@linaro.org>
-Date: Mon, 8 Jul 2024 14:39:40 +0200
+ Mon, 08 Jul 2024 05:46:18 -0700 (PDT)
+Message-ID: <1ff58346-c5cb-4fcf-9583-e048422fe7f7@redhat.com>
+Date: Mon, 8 Jul 2024 14:46:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 3/3] drm/panel: himax-hx8394: Add Support for Microchip
- AC40T08A MIPI Display Panel
-To: Manikandan Muralidharan <manikandan.m@microchip.com>, megi@xff.cz,
- javierm@redhat.com, quic_jesszhan@quicinc.com, sam@ravnborg.org,
- airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240701085837.50855-1-manikandan.m@microchip.com>
- <20240701085837.50855-4-manikandan.m@microchip.com>
+Subject: Re: [PATCH v4 6/7] drm/mgag200: Add vblank support
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ sam@ravnborg.org, emil.l.velikov@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>
+References: <20240705114900.572-1-tzimmermann@suse.de>
+ <20240705114900.572-7-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240705114900.572-7-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240701085837.50855-4-manikandan.m@microchip.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,189 +94,507 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/07/2024 10:58, Manikandan Muralidharan wrote:
-> Add support for the Microchip AC40T08A MIPI Display panel. This panel uses
-> a Himax HX8394 display controller and requires a vendor provided init
-> sequence. The display resolution is 720x1280@60Hz with width and height
-> of 76mm and 132mm respectively.
+
+
+On 05/07/2024 13:47, Thomas Zimmermann wrote:
+> There's no VBLANK interrupt on Matrox chipsets. The workaround that is
+> being used here and in other free Matrox drivers is to program <linecomp>
+> to the value of <vblkstr> and enable the VLINE interrupt. This triggers
+> an interrupt at the time when VBLANK begins.
 > 
-> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+> VLINE uses separate registers for enabling and clearing pending interrupts.
+> No extra synchronization between irq handler and the rest of the driver is
+> required.
+
+Thanks for this patch, I have a few comments below:
+> 
+> v4:
+> - recreate patch on latest upstream
+> - use devm_request_irq() for managed cleanup
+> - fail if vblanking cannot be initialized
+> - rename register constants (Sam, Emil)
+> - clear interrupt before registering handler (Ville)
+> - move <linecomp> programming into separate commit
+> - set <linecomp> to <vblkstr>
+> - fix typo in commit message
+> 
+> v3:
+> - set <linecomp> to <vdisplay> + 1 to trigger at VBLANK
+> - expand comment on linecomp
+> 
+> v2:
+> - only signal vblank on CRTC 0
+> - use constants for registers and fields
+> - set VLINECLR before enabling interrupt
+> - test against STATUS and IEN in irq handler
+> - coding-style fixes
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
->   drivers/gpu/drm/panel/panel-himax-hx8394.c | 151 +++++++++++++++++++++
->   1 file changed, 151 insertions(+)
+>   drivers/gpu/drm/mgag200/mgag200_drv.c     | 47 ++++++++++++++++++++
+>   drivers/gpu/drm/mgag200/mgag200_drv.h     |  6 ++-
+>   drivers/gpu/drm/mgag200/mgag200_g200.c    |  5 +++
+>   drivers/gpu/drm/mgag200/mgag200_g200eh.c  |  5 +++
+>   drivers/gpu/drm/mgag200/mgag200_g200eh3.c |  5 +++
+>   drivers/gpu/drm/mgag200/mgag200_g200er.c  |  5 +++
+>   drivers/gpu/drm/mgag200/mgag200_g200ev.c  |  5 +++
+>   drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  5 +++
+>   drivers/gpu/drm/mgag200/mgag200_g200se.c  |  5 +++
+>   drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  5 +++
+>   drivers/gpu/drm/mgag200/mgag200_mode.c    | 54 ++++++++++++++++++++++-
+>   drivers/gpu/drm/mgag200/mgag200_reg.h     |  7 +++
+>   12 files changed, 152 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-> index d0e44f1f85d9..bf6bac5d5c12 100644
-> --- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
-> +++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-> @@ -339,6 +339,156 @@ static const struct hx8394_panel_desc powkiddy_x55_desc = {
->   	.init_sequence = powkiddy_x55_init_sequence,
->   };
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> index 62080cf0f2da..62479de9e659 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> @@ -18,6 +18,7 @@
+>   #include <drm/drm_managed.h>
+>   #include <drm/drm_module.h>
+>   #include <drm/drm_pciids.h>
+> +#include <drm/drm_vblank.h>
 >   
-> +static int mchp_ac40t08a_init_sequence(struct hx8394 *ctx)
+>   #include "mgag200_drv.h"
+>   
+> @@ -84,6 +85,35 @@ resource_size_t mgag200_probe_vram(void __iomem *mem, resource_size_t size)
+>   	return offset - 65536;
+>   }
+>   
+> +static irqreturn_t mgag200_irq_handler(int irq, void *arg)
 > +{
-> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> +	struct drm_device *dev = arg;
+> +	struct mga_device *mdev = to_mga_device(dev);
+> +	struct drm_crtc *crtc;
+> +	u32 status, ien, iclear;
 > +
-> +	/* DCS commands do not seem to be sent correclty without this delay */
-> +	msleep(20);
+> +	status = RREG32(MGAREG_STATUS);
 > +
-> +	/* 5.19.8 SETEXTC: Set extension command (B9h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETEXTC,
-> +			       0xff, 0x83, 0x94);
+> +	if (status & MGAREG_STATUS_VLINEPEN) {
+> +		ien = RREG32(MGAREG_IEN);
+> +		if (!(ien & MGAREG_IEN_VLINEIEN))
+> +			goto out;
 > +
-> +	/* 5.19.9 SETMIPI: Set MIPI control (BAh) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETMIPI,
-> +			       0x63, 0x03, 0x68, 0x6b, 0xb2, 0xc0);
+This is to catch a race condition, receiving the interrupt, just after 
+disabling it ? I think you still want to clear it, to avoid having it 
+fire as soon as you re-enable it ?
+
+> +		crtc = drm_crtc_from_index(dev, 0);
+> +		if (WARN_ON_ONCE(!crtc))
+> +			goto out;
+> +		drm_crtc_handle_vblank(crtc);
 > +
-> +	/* 5.19.2 SETPOWER: Set power (B1h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
-> +			       0x48, 0x12, 0x72, 0x09, 0x32, 0x54,
-> +			       0x71, 0x71, 0x57, 0x47);
+> +		iclear = RREG32(MGAREG_ICLEAR);
+
+iclear is a Write-Only register, according to the documentation.
+So reading it will always return 0.
+
+I would suggest to just write:
+
+WREG32(MGAREG_ICLEAR, MGAREG_ICLEAR_VLINEICLR);
+
+> +		iclear |= MGAREG_ICLEAR_VLINEICLR;
+> +		WREG32(MGAREG_ICLEAR, iclear);
+> +		return IRQ_HANDLED;
+> +	}
 > +
-> +	/* 5.19.3 SETDISP: Set display related register (B2h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETDISP,
-> +			       0x00, 0x80, 0x64, 0x0c, 0x0d, 0x2f);
+> +out:
+> +	return IRQ_NONE;
+> +}
 > +
-> +	/* 5.19.4 SETCYC: Set display waveform cycles (B4h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCYC,
-> +			       0x73, 0x74, 0x73, 0x74, 0x73, 0x74,
-> +			       0x01, 0x0c, 0x86, 0x75, 0x00, 0x3f,
-> +			       0x73, 0x74, 0x73, 0x74, 0x73, 0x74,
-> +			       0x01, 0x0c, 0x86);
+>   /*
+>    * DRM driver
+>    */
+> @@ -167,7 +197,9 @@ int mgag200_device_init(struct mga_device *mdev,
+>   			const struct mgag200_device_funcs *funcs)
+>   {
+>   	struct drm_device *dev = &mdev->base;
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>   	u8 crtcext3, misc;
+> +	u32 ien, iclear;
+>   	int ret;
+>   
+>   	mdev->info = info;
+> @@ -192,6 +224,21 @@ int mgag200_device_init(struct mga_device *mdev,
+>   
+>   	mutex_unlock(&mdev->rmmio_lock);
+>   
+> +	ien = RREG32(MGAREG_IEN);
+> +	ien &= ~(MGAREG_IEN_VLINEIEN);
+> +	WREG32(MGAREG_IEN, ien);
+
+I would suggest to disable all interrupt instead,
+WREG32(MGAREG_IEN, 0);
+
+
+
 > +
-> +	/* 5.19.5 SETVCOM: Set VCOM voltage (B6h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETVCOM,
-> +			       0x6e, 0x6e);
+> +	iclear = RREG32(MGAREG_ICLEAR);
+
+same here, don't read the iclear register.
+
+> +	iclear |= MGAREG_ICLEAR_VLINEICLR;
+> +	WREG32(MGAREG_ICLEAR, iclear);
 > +
-> +	/* 5.19.19 SETGIP0: Set GIP Option0 (D3h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP0,
-> +			       0x00, 0x00, 0x07, 0x07, 0x40, 0x07,
-> +			       0x0c, 0x00, 0x08, 0x10, 0x08, 0x00,
-> +			       0x08, 0x54, 0x15, 0x0a, 0x05, 0x0a,
-> +			       0x02, 0x15, 0x06, 0x05, 0x06, 0x47,
-> +			       0x44, 0x0a, 0x0a, 0x4b, 0x10, 0x07,
-> +			       0x07, 0x0c, 0x40);
+> +	ret = devm_request_irq(&pdev->dev, pdev->irq, mgag200_irq_handler, IRQF_SHARED,
+> +			       dev->driver->name, dev);
+> +	if (ret) {
+> +		drm_err(dev, "Failed to acquire interrupt, error %d\n", ret);
+> +		return ret;
+> +	}
 > +
-> +	/* 5.19.20 Set GIP Option1 (D5h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP1,
-> +			       0x1c, 0x1c, 0x1d, 0x1d, 0x00, 0x01,
-> +			       0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-> +			       0x08, 0x09, 0x0a, 0x0b, 0x24, 0x25,
-> +			       0x18, 0x18, 0x26, 0x27, 0x18, 0x18,
-> +			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-> +			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-> +			       0x18, 0x18, 0x20, 0x21, 0x18, 0x18,
-> +			       0x18, 0x18);
+>   	return 0;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> index 7f7dfbd0f013..f7b22b195016 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> @@ -421,6 +421,8 @@ void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic
+>   void mgag200_crtc_reset(struct drm_crtc *crtc);
+>   struct drm_crtc_state *mgag200_crtc_atomic_duplicate_state(struct drm_crtc *crtc);
+>   void mgag200_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state);
+> +int mgag200_crtc_enable_vblank(struct drm_crtc *crtc);
+> +void mgag200_crtc_disable_vblank(struct drm_crtc *crtc);
+>   
+>   #define MGAG200_CRTC_FUNCS \
+>   	.reset = mgag200_crtc_reset, \
+> @@ -428,7 +430,9 @@ void mgag200_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_st
+>   	.set_config = drm_atomic_helper_set_config, \
+>   	.page_flip = drm_atomic_helper_page_flip, \
+>   	.atomic_duplicate_state = mgag200_crtc_atomic_duplicate_state, \
+> -	.atomic_destroy_state = mgag200_crtc_atomic_destroy_state
+> +	.atomic_destroy_state = mgag200_crtc_atomic_destroy_state, \
+> +	.enable_vblank = mgag200_crtc_enable_vblank, \
+> +	.disable_vblank = mgag200_crtc_disable_vblank
+>   
+>   void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mode *mode);
+>   void mgag200_set_format_regs(struct mga_device *mdev, const struct drm_format_info *format);
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200.c b/drivers/gpu/drm/mgag200/mgag200_g200.c
+> index f874e2949840..77ce8d36cef0 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200.c
+> @@ -8,6 +8,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+>   
+>   #include "mgag200_drv.h"
+>   
+> @@ -403,5 +404,9 @@ struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct
+>   	drm_mode_config_reset(dev);
+>   	drm_kms_helper_poll_init(dev);
+>   
+> +	ret = drm_vblank_init(dev, 1);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 > +
-> +	/* 5.19.21 Set GIP Option2 (D6h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP2,
-> +			       0x1c, 0x1c, 0x1d, 0x1d, 0x07, 0x06,
-> +			       0x05, 0x04, 0x03, 0x02, 0x01, 0x00,
-> +			       0x0b, 0x0a, 0x09, 0x08, 0x21, 0x20,
-> +			       0x18, 0x18, 0x27, 0x26, 0x18, 0x18,
-> +			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-> +			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-> +			       0x18, 0x18, 0x25, 0x24, 0x18, 0x18,
-> +			       0x18, 0x18);
+>   	return mdev;
+>   }
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh.c b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
+> index 52bf49ead5c5..72bd8e3421c2 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200eh.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
+> @@ -8,6 +8,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+>   
+>   #include "mgag200_drv.h"
+>   
+> @@ -279,5 +280,9 @@ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const stru
+>   	drm_mode_config_reset(dev);
+>   	drm_kms_helper_poll_init(dev);
+>   
+> +	ret = drm_vblank_init(dev, 1);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 > +
-> +	/* 5.19.25 SETGAMMA: Set gamma curve related setting (E0h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGAMMA,
-> +			       0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21,
-> +			       0x24, 0x22, 0x47, 0x56, 0x65, 0x66,
-> +			       0x6e, 0x82, 0x88, 0x8b, 0x9a, 0x9d,
-> +			       0x98, 0xa8, 0xb9, 0x5d, 0x5c, 0x61,
-> +			       0x66, 0x6a, 0x6f, 0x7f, 0x7f, 0x00,
-> +			       0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24,
-> +			       0x22, 0x47, 0x56, 0x65, 0x65, 0x6e,
-> +			       0x81, 0x87, 0x8b, 0x98, 0x9d, 0x99,
-> +			       0xa8, 0xba, 0x5d, 0x5d, 0x62, 0x67,
-> +			       0x6b, 0x72, 0x7f, 0x7f);
+>   	return mdev;
+>   }
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
+> index e7f89b2a59fd..1bbb0745b84a 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
+> @@ -7,6 +7,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+>   
+>   #include "mgag200_drv.h"
+>   
+> @@ -184,5 +185,9 @@ struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
+>   	drm_mode_config_reset(dev);
+>   	drm_kms_helper_poll_init(dev);
+>   
+> +	ret = drm_vblank_init(dev, 1);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 > +
-> +	/* Unknown command, not listed in the HX8394-F datasheet (C0H) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN1,
-> +			       0x1f, 0x73);
+>   	return mdev;
+>   }
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+> index 4e8a1756138d..3350baf08a45 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+> @@ -8,6 +8,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+>   
+>   #include "mgag200_drv.h"
+>   
+> @@ -318,5 +319,9 @@ struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const stru
+>   	drm_mode_config_reset(dev);
+>   	drm_kms_helper_poll_init(dev);
+>   
+> +	ret = drm_vblank_init(dev, 1);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 > +
-> +	/* Set CABC control (C9h)*/
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCABC,
-> +			       0x76, 0x00, 0x30);
+>   	return mdev;
+>   }
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+> index d884f3cb0ec7..88d8bcd6fe51 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+> @@ -8,6 +8,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+>   
+>   #include "mgag200_drv.h"
+>   
+> @@ -323,5 +324,9 @@ struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const stru
+>   	drm_mode_config_reset(dev);
+>   	drm_kms_helper_poll_init(dev);
+>   
+> +	ret = drm_vblank_init(dev, 1);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 > +
-> +	/* 5.19.17 SETPANEL (CCh) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPANEL,
-> +			       0x0b);
+>   	return mdev;
+>   }
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+> index 839401e8b465..9d08180f7612 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+> @@ -7,6 +7,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+>   
+>   #include "mgag200_drv.h"
+>   
+> @@ -204,5 +205,9 @@ struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
+>   	drm_mode_config_reset(dev);
+>   	drm_kms_helper_poll_init(dev);
+>   
+> +	ret = drm_vblank_init(dev, 1);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 > +
-> +	/* Unknown command, not listed in the HX8394-F datasheet (D4h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
-> +			       0x02);
+>   	return mdev;
+>   }
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+> index a824bb8ad579..fcc8075627ef 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+> @@ -8,6 +8,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+>   
+>   #include "mgag200_drv.h"
+>   
+> @@ -523,5 +524,9 @@ struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const stru
+>   	drm_mode_config_reset(dev);
+>   	drm_kms_helper_poll_init(dev);
+>   
+> +	ret = drm_vblank_init(dev, 1);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 > +
-> +	/* 5.19.11 Set register bank (BDh) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-> +			       0x02);
+>   	return mdev;
+>   }
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+> index 835df0f4fc13..4f8ef3465b9f 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+> @@ -8,6 +8,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+>   
+>   #include "mgag200_drv.h"
+>   
+> @@ -328,5 +329,9 @@ struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const stru
+>   	drm_mode_config_reset(dev);
+>   	drm_kms_helper_poll_init(dev);
+>   
+> +	ret = drm_vblank_init(dev, 1);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 > +
-> +	/* 5.19.11 Set register bank (D8h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN4,
-> +			       0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +			       0xff, 0xff, 0xff, 0xff, 0xff, 0xff);
+>   	return mdev;
+>   }
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index da2cbe81d4e6..ec6fb1277d6e 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -22,6 +22,7 @@
+>   #include <drm/drm_gem_framebuffer_helper.h>
+>   #include <drm/drm_panic.h>
+>   #include <drm/drm_print.h>
+> +#include <drm/drm_vblank.h>
+>   
+>   #include "mgag200_ddc.h"
+>   #include "mgag200_drv.h"
+> @@ -226,7 +227,14 @@ void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mod
+>   	vblkstr = mode->crtc_vblank_start;
+>   	vblkend = vtotal + 1;
+>   
+> -	linecomp = vdispend;
+> +	/*
+> +	 * There's no VBLANK interrupt on Matrox chipsets, so we use
+> +	 * the VLINE interrupt instead. It triggers when the current
+> +	 * <linecomp> has been reached. For VBLANK, this is the first
+> +	 * non-visible line at the bottom of the screen. Therefore,
+> +	 * keep <linecomp> in sync with <vblkstr>.
+> +	 */
+> +	linecomp = vblkstr;
+>   
+>   	misc = RREG8(MGA_MISC_IN);
+>   
+> @@ -637,6 +645,8 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
+>   	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+>   	struct drm_device *dev = crtc->dev;
+>   	struct mga_device *mdev = to_mga_device(dev);
+> +	struct drm_pending_vblank_event *event;
+> +	unsigned long flags;
+>   
+>   	if (crtc_state->enable && crtc_state->color_mgmt_changed) {
+>   		const struct drm_format_info *format = mgag200_crtc_state->format;
+> @@ -646,6 +656,18 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
+>   		else
+>   			mgag200_crtc_set_gamma_linear(mdev, format);
+>   	}
 > +
-> +	/* 5.19.11 Set register bank (BDh) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-> +			       0x00);
+> +	event = crtc->state->event;
+> +	if (event) {
+> +		crtc->state->event = NULL;
 > +
-> +	/* 5.19.11 Set register bank (BDh) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-> +			       0x01);
+> +		spin_lock_irqsave(&dev->event_lock, flags);
+> +		if (drm_crtc_vblank_get(crtc) != 0)
+> +			drm_crtc_send_vblank_event(crtc, event);
+> +		else
+> +			drm_crtc_arm_vblank_event(crtc, event);
+> +		spin_unlock_irqrestore(&dev->event_lock, flags);
+> +	}
+>   }
+>   
+>   void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
+> @@ -676,6 +698,8 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
+>   
+>   	if (funcs->enable_vidrst)
+>   		funcs->enable_vidrst(mdev);
 > +
-> +	/* 5.19.2 SETPOWER: Set power (B1h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
-> +			       0x00);
+> +	drm_crtc_vblank_on(crtc);
+>   }
+>   
+>   void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
+> @@ -683,6 +707,8 @@ void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic
+>   	struct mga_device *mdev = to_mga_device(crtc->dev);
+>   	const struct mgag200_device_funcs *funcs = mdev->funcs;
+>   
+> +	drm_crtc_vblank_off(crtc);
 > +
-> +	/* 5.19.11 Set register bank (BDh) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-> +			       0x00);
+>   	if (funcs->disable_vidrst)
+>   		funcs->disable_vidrst(mdev);
+>   
+> @@ -735,6 +761,32 @@ void mgag200_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_st
+>   	kfree(mgag200_crtc_state);
+>   }
+>   
+> +int mgag200_crtc_enable_vblank(struct drm_crtc *crtc)
+> +{
+> +	struct mga_device *mdev = to_mga_device(crtc->dev);
+> +	u32 iclear, ien;
 > +
-> +	/* Unknown command, not listed in the HX8394-F datasheet (C6h) */
-> +	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN2,
-> +			       0xed);
+> +	iclear = RREG32(MGAREG_ICLEAR);
+> +	iclear |= MGAREG_ICLEAR_VLINEICLR;
+> +	WREG32(MGAREG_ICLEAR, iclear);
+
+same here, don't read the iclear register.
+
+> +
+> +	ien = RREG32(MGAREG_IEN);
+> +	ien |= MGAREG_IEN_VLINEIEN;
+> +	WREG32(MGAREG_IEN, ien);
 > +
 > +	return 0;
 > +}
 > +
-> +static const struct drm_display_mode mchp_ac40t08a_mode = {
-> +	.hdisplay    = 720,
-> +	.hsync_start = 720 + 12,
-> +	.hsync_end   = 720 + 12 + 24,
-> +	.htotal	     = 720 + 12 + 12 + 24,
-> +	.vdisplay    = 1280,
-> +	.vsync_start = 1280 + 13,
-> +	.vsync_end   = 1280 + 14,
-> +	.vtotal	     = 1280 + 14 + 13,
-> +	.clock	     = 60226,
-> +	.flags	     = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> +	.width_mm    = 76,
-> +	.height_mm   = 132,
-> +};
+> +void mgag200_crtc_disable_vblank(struct drm_crtc *crtc)
+> +{
+> +	struct mga_device *mdev = to_mga_device(crtc->dev);
+> +	u32 ien;
 > +
-> +static const struct hx8394_panel_desc mchp_ac40t08a_desc = {
-> +	.mode = &mchp_ac40t08a_mode,
-> +	.lanes = 4,
-> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST,
-> +	.format = MIPI_DSI_FMT_RGB888,
-> +	.init_sequence = mchp_ac40t08a_init_sequence,
-> +};
+> +	ien = RREG32(MGAREG_IEN);
+> +	ien &= ~(MGAREG_IEN_VLINEIEN);
+> +	WREG32(MGAREG_IEN, ien);
+> +}
 > +
->   static int hx8394_enable(struct drm_panel *panel)
->   {
->   	struct hx8394 *ctx = panel_to_hx8394(panel);
-> @@ -556,6 +706,7 @@ static void hx8394_remove(struct mipi_dsi_device *dsi)
->   static const struct of_device_id hx8394_of_match[] = {
->   	{ .compatible = "hannstar,hsd060bhw4", .data = &hsd060bhw4_desc },
->   	{ .compatible = "powkiddy,x55-panel", .data = &powkiddy_x55_desc },
-> +	{ .compatible = "microchip,ac40t08a-mipi-panel", .data = &mchp_ac40t08a_desc },
->   	{ /* sentinel */ }
->   };
->   MODULE_DEVICE_TABLE(of, hx8394_of_match);
+>   /*
+>    * Mode config
+>    */
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_reg.h b/drivers/gpu/drm/mgag200/mgag200_reg.h
+> index aa73463674e4..d4fef8f25871 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_reg.h
+> +++ b/drivers/gpu/drm/mgag200/mgag200_reg.h
+> @@ -102,10 +102,17 @@
+>   #define MGAREG_EXEC		0x0100
+>   
+>   #define	MGAREG_FIFOSTATUS	0x1e10
+> +
+>   #define	MGAREG_STATUS		0x1e14
+> +#define MGAREG_STATUS_VLINEPEN	BIT(5)
+> +
+>   #define MGAREG_CACHEFLUSH       0x1fff
+> +
+>   #define	MGAREG_ICLEAR		0x1e18
+> +#define MGAREG_ICLEAR_VLINEICLR	BIT(5)
+> +
+>   #define	MGAREG_IEN		0x1e1c
+> +#define MGAREG_IEN_VLINEIEN	BIT(5)
+>   
+>   #define	MGAREG_VCOUNT		0x1e20
+>   
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+Do you know what happens if the IRQ doesn't work (ie not receiving any IRQ)?
+When testing the DMA, I remember that on a few machines, I never get the 
+Softrap IRQ. I don't know if it was a DMA engine problem, or if it's the 
+mgag200 IRQ that was not connected properly.
+
+I will try to find this machine, and test this series on it.
+
+Best regards,
+
+-- 
+
+Jocelyn
+
