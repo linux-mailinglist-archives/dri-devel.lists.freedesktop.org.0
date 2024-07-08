@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D849929E36
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 10:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0611A929E49
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 10:27:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67AC810E2A6;
-	Mon,  8 Jul 2024 08:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73B2110E2C4;
+	Mon,  8 Jul 2024 08:27:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 36B7310E29C
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 08:22:27 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.09,191,1716217200"; d="scan'208";a="210645630"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 713D510E2C4
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 08:27:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.09,191,1716217200"; d="scan'208";a="214604511"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 08 Jul 2024 17:22:26 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 08 Jul 2024 17:27:18 +0900
 Received: from localhost.localdomain (unknown [10.226.92.86])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6CFCC438B0A5;
- Mon,  8 Jul 2024 17:22:23 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id CE3EE43986DF;
+ Mon,  8 Jul 2024 17:27:14 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  Geert Uytterhoeven <geert+renesas@glider.be>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH] drm: renesas: rcar-du: rcar_lvds: Fix PM imbalance if
- RPM_ACTIVE
-Date: Mon,  8 Jul 2024 09:22:17 +0100
-Message-ID: <20240708082220.22115-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH] drm: renesas: shmobile: shmo_drm_crtc: Fix PM imbalance if
+ RPM_ACTIVE is true
+Date: Mon,  8 Jul 2024 09:27:09 +0100
+Message-ID: <20240708082712.30257-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,31 +60,22 @@ condition only.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-index 92ba43a6fe38..471a2d3bc203 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-@@ -361,7 +361,7 @@ static void rcar_lvds_enable(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+index 2e2f37b9d0a4..42a5d6876bec 100644
+--- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
++++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+@@ -208,7 +208,7 @@ static void shmob_drm_crtc_atomic_enable(struct drm_crtc *crtc,
  	int ret;
  
- 	ret = pm_runtime_resume_and_get(lvds->dev);
+ 	ret = pm_runtime_resume_and_get(dev);
 -	if (ret)
 +	if (ret < 0)
  		return;
  
- 	/* Enable the companion LVDS encoder in dual-link mode. */
-@@ -550,7 +550,7 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq,
- 	dev_dbg(lvds->dev, "enabling LVDS PLL, freq=%luHz\n", freq);
- 
- 	ret = pm_runtime_resume_and_get(lvds->dev);
--	if (ret)
-+	if (ret < 0)
- 		return ret;
- 
- 	rcar_lvds_pll_setup_d3_e3(lvds, freq, dot_clk_only);
+ 	/* Reset and enable the LCDC. */
 -- 
 2.43.0
 
