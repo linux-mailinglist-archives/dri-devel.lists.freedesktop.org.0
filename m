@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4CA92A73E
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 18:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E639E92A73D
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 18:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B3F10E032;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5338210E271;
 	Mon,  8 Jul 2024 16:24:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="jeibj9US";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="jROZB+fm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A98B810E032
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 16:24:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94BEC10E032
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 16:24:48 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id E7FCC887B9;
- Mon,  8 Jul 2024 18:24:43 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id E7368887C1;
+ Mon,  8 Jul 2024 18:24:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1720455885;
- bh=+fEyfp1GigiHxYcbx1OC+XWY6BBrzyHXvIiRSE3vRVE=;
+ s=phobos-20191101; t=1720455887;
+ bh=OYeTMxUL+opXKRi7H7/XeJ9+r7U/kSUH3d13hAnjyFQ=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jeibj9UStOPEmgyTMI+6d51OA3GIqKhlFw+jq/qRMkQj80rGlh/gOm9DJa61X00r+
- YK+ZluUVaRXaxvMnVVbVFulVJlIcLRg0DevuIgq3AzCU7QQ1H2vsCItMN/HDvdIXZt
- 7AY9DY7BaxBb+3i4VAp60wsMfIKGFtGuNOvq1wkvtxYH5dy4iSpXXIV3Bn2vJ+igVW
- souaJKeV21C+tbaA4HxceTXeh1MKV5DTFamS5+NXy3s1a0XvbJBg/9nQccIPI0z9/r
- r1R0Fy6Db2edOEfx8Okn6wsW4a8k2tiN4oolYyfVUUMIl8VvVnUK6iTWO/ysTErPLd
- JyLu9QcZkv61Q==
-Message-ID: <c2ef6725-77db-4497-9c24-fcce660ee6d7@denx.de>
-Date: Mon, 8 Jul 2024 17:06:30 +0200
+ b=jROZB+fmFq3k2RVxICP16IFjcbgFrl9YBR7GgbJ8KDdxKrXj/B1bk7zkkakHzH3Uq
+ McuCscpDu9k630zBfm7/mQWR4OhvEYz7v7ZL246+RQ9A0NRYsmPgMbiYU90M+n0h63
+ Bv1mVG8LWdUZI1o0b0WltOgzuMjyhjuhwcpiAhhmMDkZeVO0+HoTKmoSXQAfnQwDLL
+ +8scC79TyjPY9FpSzJlBJtGNC3sDxHP7v8S+uz0lfUSlgmcVGYTDVMGHVshGluyWRj
+ CaHNZwp47lYCG2AYgHrT4WD7RYYlVPIngXUppjoyTT+YaOCBbF9ltKzp44GWeoPiYm
+ ms41zyl11PLMQ==
+Message-ID: <660f2c61-3797-45cc-9e1e-3462f306ae39@denx.de>
+Date: Mon, 8 Jul 2024 17:08:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] drm/bridge: tc358767: Add configurable default
- preemphasis
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: tc358867: Document
+ default DP preemphasis
 To: Alexander Stein <alexander.stein@ew.tq-group.com>,
  dri-devel@lists.freedesktop.org
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -51,10 +51,10 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  devicetree@vger.kernel.org, kernel@dh-electronics.com
 References: <20240625120552.145389-1-marex@denx.de>
- <20240625120552.145389-2-marex@denx.de> <3293850.oiGErgHkdL@steina-w>
+ <2118572.KlZ2vcFHjT@steina-w>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <3293850.oiGErgHkdL@steina-w>
+In-Reply-To: <2118572.KlZ2vcFHjT@steina-w>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -74,21 +74,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/26/24 9:36 AM, Alexander Stein wrote:
+On 6/26/24 9:29 AM, Alexander Stein wrote:
 
 Hi,
 
-sorry for the late reply.
-
->> @@ -2435,6 +2454,18 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
->>   			return -EINVAL;
->>   		}
->>   		mode |= BIT(endpoint.port);
->> +		if (endpoint.port != 2)
->> +			continue;
 >> +
+>>       oneOf:
+>>         - required:
+>>             - port@0
+>>
 > 
-> Mh, I know currently there are not other port-specific properties. But
-> maybe it's easier to read if 'if (endpoint.port == 2) {' is used.
+> I get this warning:
+>> mx8mp-tqma8mpql-mba8mpxl.dtb: bridge@f: ports:port@2:endpoint: Unevaluated
+>> properties are not allowed ('toshiba,pre-emphasis' was unexpected)
+> 
+> DT node looks like this:
+> 
+> port@2 {
+> 	reg = <2>;
+> 
+> 	endpoint {
+> 		toshiba,pre-emphasis = /bits/ 8 <1 1>;
+> 	};
+> };
+> 
+> I think you are missing this change as well:
+> -- 8< --
+> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+> @@ -92,7 +92,8 @@ properties:
+>               reference to a valid DPI output or input endpoint node.
+>   
+>         port@2:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+>           description: |
+>               eDP/DP output port. The remote endpoint phandle should be a
+>               reference to a valid eDP panel input endpoint node. This port is
+> -- 8< --
 
-Fixed in V4, thanks.
+Picked for V4, thank you !
+
+> How would you determine the values to be set here? I suspect it's the value
+> from register DP0_SnkLTChReq (0x6d4) after link training. Are they dependent
+> on the actual display to be attached?
+
+In my case, I only did trial-and-error, because the test hardware I have 
+available right now ... well, it is a test hardware and won't work 
+reliably with pre-emphasis 0, so I had to up it a bit.
