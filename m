@@ -2,76 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D864292A32D
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 14:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7106892A35C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 14:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5E810E349;
-	Mon,  8 Jul 2024 12:49:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD4D10E34A;
+	Mon,  8 Jul 2024 12:58:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GmMHlpeT";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="134peU5C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26E6210E349
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 12:49:36 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id
- 41be03b00d2f7-754d2b05db5so1944561a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 05:49:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720442976; x=1721047776; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gwJfqVEIoVdfoTsztHNlaZf6K08VAN240cdWOXUU17s=;
- b=GmMHlpeT1sC25l7xSTiukpUwvfjzpTtOoJTdpSrNUuGMWl1yPC/vSkbYU6qBOZI67O
- Q/eqqITLNf8OXu+IozuQMX9+Maqufsq2rTIDVfqCjjlr2pwU8BclQONoHuL+5g0pcPWH
- VKtE1/AtR7G7ABBgMixl80pVbvTQEmgOidGPPynNSmjXVv1LPWgurfUGf4j8+mJwITT5
- KedE5732/1/VnkrnYDDT3acd0ajSdNE8nR+WTavTc4ORGVse3rKZBoGADNl5rei3Iu3f
- zV760QjX3KOjrzl9aQXYV+LWhMOz57mCHvyhJkblLjGtxh6Y9NjFiv89WSDN06VtsiuU
- 88+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720442976; x=1721047776;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gwJfqVEIoVdfoTsztHNlaZf6K08VAN240cdWOXUU17s=;
- b=PSClq4FqtK9lFyJ3Az8mcIwF3w6vEV2Mk4RAvLaVYv7Fx5LJPCU7U3AaihZjVhsPyN
- 2ujXosXupxdDWhwbaH/HH2DhQXcQGbL7suvti4fjwKadS461CF3xoFR4zYtCjYZU/+Df
- meQJ8KPri+XAKcHyFJpeCrYqBBO4r7Mdvr/aMG7DnpCmN0lpW5V6kRLqiL8PK63Rj/BW
- s66kXsgva9mCK1Z4I8o9Q3bmt+4lEpbbgAT7Y9KiaWy6s/v73VyDNNmg3df7qfoE0uVe
- M0tqGyyKPBxFt68Y2MxSMDJ5Qcj9RvbIRBEiaa8nDspKOa7jo8fY+V/ErSuwwonK+30p
- J7kQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVjDYB7I4R3cQ/LjtgMm94dhhaPsVUk23O2IZMNO7fg0VpbqppZo7X42nppARB2JJuMOvi3gE7+K53gO0DIQkqZVatgos28QVD4DK9jsW9f
-X-Gm-Message-State: AOJu0YyosaxQIippcy0UCL7AagNJEq8IxknMB4z6sTrTl1q59ZSy1Szh
- 7cOGlgd1uGspWUBNkB9bvP9IPtaUT5WUdAG3ctz6iOGMHbq4XXgChmCHGykF7TSsrnyVWCbplU6
- XEnxRJrG0vgTU8UUq70vWmbFuArjPVRZd8Xs89MYx90E1PVt9q5Dqjg==
-X-Google-Smtp-Source: AGHT+IFh+8rVNSdILFoJSTAPdcM4HawcWPM/1UUqpARio3DoOIhOeIUZ96MzfeyAZxWq+ws/d6HRKhGtmB30W5rYgpQ=
-X-Received: by 2002:a17:90b:a4a:b0:2c9:6751:7539 with SMTP id
- 98e67ed59e1d1-2c99c6ba8cemr6298715a91.44.1720442975629; Mon, 08 Jul 2024
- 05:49:35 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E500D10E34A;
+ Mon,  8 Jul 2024 12:58:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id CC82160BC9;
+ Mon,  8 Jul 2024 12:58:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2989FC116B1;
+ Mon,  8 Jul 2024 12:58:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1720443486;
+ bh=hpdkCWfwfzg5s1IUBJJkO+7WoLoHsMDfkEWC6+mslUA=;
+ h=Subject:To:Cc:From:Date:From;
+ b=134peU5CzUAoSpLTtC02tcADp5BcwYoye65GqdP0iVK1fy2RrPyAuKza9PysDBy0R
+ Nyfxl8aWKAjBSgmpjDR8H6Fz/YerVSfkr2gxH6SpAMj/+9U2or0n5xgDAyvo2fbuOE
+ g906VV2uZfbx2h6okqLyw5xyrhIFNGoZsoOAgJh0=
+Subject: Patch "drm/ttm: Always take the bo delayed cleanup path for imported
+ bos" has been added to the 6.9-stable tree
+To: christian.koenig@amd.com, daniel.vetter@ffwll.ch, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ intel-xe@lists.freedesktop.org, matthew.brost@intel.com,
+ thomas.hellstrom@linux.intel.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 08 Jul 2024 14:57:47 +0200
+Message-ID: <2024070847-molecule-sulfate-d7f5@gregkh>
 MIME-Version: 1.0
-References: <20240704-hdmi-phy-v2-1-a7f5af202cb5@freebox.fr>
- <5lbtymde3plfiqkvnd2lrjzxhengmsw242uqapnzpvfd5jrm25@x2ik2h6vrdxm>
- <2d21db63-4371-45b4-ab24-9a725c29e09a@freebox.fr>
-In-Reply-To: <2d21db63-4371-45b4-ab24-9a725c29e09a@freebox.fr>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 8 Jul 2024 15:49:23 +0300
-Message-ID: <CAA8EJpqz1SiUdTMpx5hmnax_rBqtpVAtOZsaL8UfHnZ5vZZFHQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm: add msm8998 hdmi phy/pll support
-To: Marc Gonzalez <mgonzalez@freebox.fr>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-phy@lists.infradead.org, Arnaud Vrac <avrac@freebox.fr>, 
- Pierre-Hugues Husson <phhusson@freebox.fr>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, 
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,82 +57,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 8 Jul 2024 at 14:07, Marc Gonzalez <mgonzalez@freebox.fr> wrote:
->
-> On 05/07/2024 16:34, Dmitry Baryshkov wrote:
->
-> > On Thu, Jul 04, 2024 at 06:45:36PM GMT, Marc Gonzalez wrote:
-> >
-> >> From: Arnaud Vrac <avrac@freebox.fr>
-> >>
-> >> Ported from the downstream driver.
-> >
-> > Please write some sensible commit message.
->
-> Here's an attempt at expanding the commit message:
->
-> """
-> This code adds support for the HDMI PHY block in the MSM8998.
-> It is a copy & paste of the vendor driver downstream:
-> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/drivers/clk/msm/mdss/mdss-hdmi-pll-8998.c
-> """
 
-Add support for the HDMI PHY as present on the Qualcomm MSM8998
-platform. The code is mostly c&p of the vendor code from msm-4.4,
-kernel.lnx.4.4.r38-rel.
+This is a note to let you know that I've just added the patch titled
 
->
->
-> >>  drivers/gpu/drm/msm/Makefile                   |   1 +
-> >>  drivers/gpu/drm/msm/hdmi/hdmi.c                |   1 +
-> >>  drivers/gpu/drm/msm/hdmi/hdmi.h                |   8 +
-> >>  drivers/gpu/drm/msm/hdmi/hdmi_phy.c            |   5 +
-> >>  drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c       | 789 +++++++++++++++++++++++++
-> >>  drivers/gpu/drm/msm/registers/display/hdmi.xml |  89 +++
-> >>  6 files changed, 893 insertions(+)
-> >
-> > - Missing changelog
->
-> - Rebase onto v6.10
-> - Move drivers/gpu/drm/msm/hdmi/hdmi.xml.h to drivers/gpu/drm/msm/registers/display/hdmi.xml
-> - Add copyright attribution
-> - Remove all dead/debug/temporary code
->
-> > - Missing a pointer to bindings. Ideally bindings should come together with the driver.
->
-> "qcom,hdmi-phy-8998" is defined in "HDMI TX support in msm8998" series (Acked by Rob Herring & Vinod Koul)
+    drm/ttm: Always take the bo delayed cleanup path for imported bos
 
-This (and the link to lore) ideally should be a part of the cover
-letter or the comment below '---' in the patch.
+to the 6.9-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
->
-> > I'm not going to check the math, but it looks pretty close to what we
-> > have for msm8996.
->
-> What is the consequence of this?
+The filename of the patch is:
+     drm-ttm-always-take-the-bo-delayed-cleanup-path-for-imported-bos.patch
+and it can be found in the queue-6.9 subdirectory.
 
-That I won't check the math :-D
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
->
->
-> >> +static const char * const hdmi_phy_8998_reg_names[] = {
-> >> +    "vdda-pll",
-> >> +    "vdda-phy",
-> >
-> > Unless you have a strong reason to, please use vcca and vddio here, so
-> > that we don't have unnecessary conditionals in schema.
->
-> The vendor code uses vddio & vcca for msm8996;
-> vdda-pll & vdda-phy for msm8998.
->
-> Which is vcca? Which is vddio?
 
-vddio = vdda-phy (1.8V)
-vcca = vdda-pll (lower voltage)
+From d99fbd9aab624fc030934e21655389ab1765dc94 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Date: Fri, 28 Jun 2024 17:38:48 +0200
+Subject: drm/ttm: Always take the bo delayed cleanup path for imported bos
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8996-mdss-pll.dtsi
-> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-mdss-pll.dtsi#L121-172
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
+commit d99fbd9aab624fc030934e21655389ab1765dc94 upstream.
+
+Bos can be put with multiple unrelated dma-resv locks held. But
+imported bos attempt to grab the bo dma-resv during dma-buf detach
+that typically happens during cleanup. That leads to lockde splats
+similar to the below and a potential ABBA deadlock.
+
+Fix this by always taking the delayed workqueue cleanup path for
+imported bos.
+
+Requesting stable fixes from when the Xe driver was introduced,
+since its usage of drm_exec and wide vm dma_resvs appear to be
+the first reliable trigger of this.
+
+[22982.116427] ============================================
+[22982.116428] WARNING: possible recursive locking detected
+[22982.116429] 6.10.0-rc2+ #10 Tainted: G     U  W
+[22982.116430] --------------------------------------------
+[22982.116430] glxgears:sh0/5785 is trying to acquire lock:
+[22982.116431] ffff8c2bafa539a8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: dma_buf_detach+0x3b/0xf0
+[22982.116438]
+               but task is already holding lock:
+[22982.116438] ffff8c2d9aba6da8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x49/0x2b0 [drm_exec]
+[22982.116442]
+               other info that might help us debug this:
+[22982.116442]  Possible unsafe locking scenario:
+
+[22982.116443]        CPU0
+[22982.116444]        ----
+[22982.116444]   lock(reservation_ww_class_mutex);
+[22982.116445]   lock(reservation_ww_class_mutex);
+[22982.116447]
+                *** DEADLOCK ***
+
+[22982.116447]  May be due to missing lock nesting notation
+
+[22982.116448] 5 locks held by glxgears:sh0/5785:
+[22982.116449]  #0: ffff8c2d9aba58c8 (&xef->vm.lock){+.+.}-{3:3}, at: xe_file_close+0xde/0x1c0 [xe]
+[22982.116507]  #1: ffff8c2e28cc8480 (&vm->lock){++++}-{3:3}, at: xe_vm_close_and_put+0x161/0x9b0 [xe]
+[22982.116578]  #2: ffff8c2e31982970 (&val->lock){.+.+}-{3:3}, at: xe_validation_ctx_init+0x6d/0x70 [xe]
+[22982.116647]  #3: ffffacdc469478a8 (reservation_ww_class_acquire){+.+.}-{0:0}, at: xe_vma_destroy_unlocked+0x7f/0xe0 [xe]
+[22982.116716]  #4: ffff8c2d9aba6da8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x49/0x2b0 [drm_exec]
+[22982.116719]
+               stack backtrace:
+[22982.116720] CPU: 8 PID: 5785 Comm: glxgears:sh0 Tainted: G     U  W          6.10.0-rc2+ #10
+[22982.116721] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 2001 02/01/2023
+[22982.116723] Call Trace:
+[22982.116724]  <TASK>
+[22982.116725]  dump_stack_lvl+0x77/0xb0
+[22982.116727]  __lock_acquire+0x1232/0x2160
+[22982.116730]  lock_acquire+0xcb/0x2d0
+[22982.116732]  ? dma_buf_detach+0x3b/0xf0
+[22982.116734]  ? __lock_acquire+0x417/0x2160
+[22982.116736]  __ww_mutex_lock.constprop.0+0xd0/0x13b0
+[22982.116738]  ? dma_buf_detach+0x3b/0xf0
+[22982.116741]  ? dma_buf_detach+0x3b/0xf0
+[22982.116743]  ? ww_mutex_lock+0x2b/0x90
+[22982.116745]  ww_mutex_lock+0x2b/0x90
+[22982.116747]  dma_buf_detach+0x3b/0xf0
+[22982.116749]  drm_prime_gem_destroy+0x2f/0x40 [drm]
+[22982.116775]  xe_ttm_bo_destroy+0x32/0x220 [xe]
+[22982.116818]  ? __mutex_unlock_slowpath+0x3a/0x290
+[22982.116821]  drm_exec_unlock_all+0xa1/0xd0 [drm_exec]
+[22982.116823]  drm_exec_fini+0x12/0xb0 [drm_exec]
+[22982.116824]  xe_validation_ctx_fini+0x15/0x40 [xe]
+[22982.116892]  xe_vma_destroy_unlocked+0xb1/0xe0 [xe]
+[22982.116959]  xe_vm_close_and_put+0x41a/0x9b0 [xe]
+[22982.117025]  ? xa_find+0xe3/0x1e0
+[22982.117028]  xe_file_close+0x10a/0x1c0 [xe]
+[22982.117074]  drm_file_free+0x22a/0x280 [drm]
+[22982.117099]  drm_release_noglobal+0x22/0x70 [drm]
+[22982.117119]  __fput+0xf1/0x2d0
+[22982.117122]  task_work_run+0x59/0x90
+[22982.117125]  do_exit+0x330/0xb40
+[22982.117127]  do_group_exit+0x36/0xa0
+[22982.117129]  get_signal+0xbd2/0xbe0
+[22982.117131]  arch_do_signal_or_restart+0x3e/0x240
+[22982.117134]  syscall_exit_to_user_mode+0x1e7/0x290
+[22982.117137]  do_syscall_64+0xa1/0x180
+[22982.117139]  ? lock_acquire+0xcb/0x2d0
+[22982.117140]  ? __set_task_comm+0x28/0x1e0
+[22982.117141]  ? find_held_lock+0x2b/0x80
+[22982.117144]  ? __set_task_comm+0xe1/0x1e0
+[22982.117145]  ? lock_release+0xca/0x290
+[22982.117147]  ? __do_sys_prctl+0x245/0xab0
+[22982.117149]  ? lockdep_hardirqs_on_prepare+0xde/0x190
+[22982.117150]  ? syscall_exit_to_user_mode+0xb0/0x290
+[22982.117152]  ? do_syscall_64+0xa1/0x180
+[22982.117154]  ? __lock_acquire+0x417/0x2160
+[22982.117155]  ? reacquire_held_locks+0xd1/0x1f0
+[22982.117156]  ? do_user_addr_fault+0x30c/0x790
+[22982.117158]  ? lock_acquire+0xcb/0x2d0
+[22982.117160]  ? find_held_lock+0x2b/0x80
+[22982.117162]  ? do_user_addr_fault+0x357/0x790
+[22982.117163]  ? lock_release+0xca/0x290
+[22982.117164]  ? do_user_addr_fault+0x361/0x790
+[22982.117166]  ? trace_hardirqs_off+0x4b/0xc0
+[22982.117168]  ? clear_bhb_loop+0x45/0xa0
+[22982.117170]  ? clear_bhb_loop+0x45/0xa0
+[22982.117172]  ? clear_bhb_loop+0x45/0xa0
+[22982.117174]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[22982.117176] RIP: 0033:0x7f943d267169
+[22982.117192] Code: Unable to access opcode bytes at 0x7f943d26713f.
+[22982.117193] RSP: 002b:00007f9430bffc80 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
+[22982.117195] RAX: fffffffffffffe00 RBX: 0000000000000000 RCX: 00007f943d267169
+[22982.117196] RDX: 0000000000000000 RSI: 0000000000000189 RDI: 00005622f89579d0
+[22982.117197] RBP: 00007f9430bffcb0 R08: 0000000000000000 R09: 00000000ffffffff
+[22982.117198] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+[22982.117199] R13: 0000000000000000 R14: 0000000000000000 R15: 00005622f89579d0
+[22982.117202]  </TASK>
+
+Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.8+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240628153848.4989-1-thomas.hellstrom@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 6396dece0db1..2427be8bc97f 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -346,6 +346,7 @@ static void ttm_bo_release(struct kref *kref)
+ 		if (!dma_resv_test_signaled(bo->base.resv,
+ 					    DMA_RESV_USAGE_BOOKKEEP) ||
+ 		    (want_init_on_free() && (bo->ttm != NULL)) ||
++		    bo->type == ttm_bo_type_sg ||
+ 		    !dma_resv_trylock(bo->base.resv)) {
+ 			/* The BO is not idle, resurrect it for delayed destroy */
+ 			ttm_bo_flush_all_fences(bo);
 -- 
-With best wishes
-Dmitry
+2.45.2
+
+
+
+Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
+
+queue-6.9/drm-xe-fix-error-handling-in-xe_migrate_update_pgtables.patch
+queue-6.9/drm-ttm-always-take-the-bo-delayed-cleanup-path-for-imported-bos.patch
+queue-6.9/drm-xe-mcr-avoid-clobbering-dss-steering.patch
