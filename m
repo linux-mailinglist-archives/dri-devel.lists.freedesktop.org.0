@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBD692A776
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 18:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105F892A791
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 18:47:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0CC010E0B5;
-	Mon,  8 Jul 2024 16:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 433ED10E0AC;
+	Mon,  8 Jul 2024 16:47:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="eqQFY7d9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D3d6P2iJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 296A210E129
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 16:39:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 8468A4192B;
- Mon,  8 Jul 2024 18:39:03 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gTtGZ9dbAxBC; Mon,  8 Jul 2024 18:39:02 +0200 (CEST)
-Message-ID: <aa9c189e-b9b5-428b-995c-7dd5b68dc51c@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1720456742; bh=V9mNn1vfnK5z4HghpcE26HkNpnS83uwKsBEMkqfyIaM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=eqQFY7d9ytMZd9sEWF0ZjWk8ZvTjv8mVTXFAWaIRjPZlcssemrrV5i1OpvQ2K8L+Y
- sJVMM2mSBE2skuOzan0LhkmPHknkbEqgR2a7zkIDqBnfcpPCcqcu1ImqrBJNW0Rl0G
- k0cLCtiikU8AwuB2PfkH/0TrbQo9JwVyMHzZFQwIGct/8jlaFITVS9tDSbd2Ih/77h
- DiHvEv0RpuYT5qSqM0UCV2PXl0E+Qf0IuxYKDB3q+4+oTTbPWE+jbFqcoOSIrUwN0v
- W4o67m4XLYJabjFXpsftrPMfA1PyR9XiRBCkg2cXIsSqhUwGCaAvj4XEYUcf8Or40K
- WnKzUc3P87Yeg==
-Date: Mon, 8 Jul 2024 13:41:37 -0300
-MIME-Version: 1.0
-Subject: Re: [PATCH v3 9/9] drm/tests: Add test for drm_framebuffer_free()
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, =?UTF-8?Q?Andr=C3=A9_Almeida?=
- <andrealmeid@igalia.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>,
- Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20240703172228.11166-10-gcarlos@disroot.org>
- <98849e7f439a542f6c42e0dfa01a7a6f@kernel.org>
-Content-Language: en-US
-From: Carlos <gcarlos@disroot.org>
-In-Reply-To: <98849e7f439a542f6c42e0dfa01a7a6f@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84F1310E0AC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 16:47:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D9B0B60EAA;
+ Mon,  8 Jul 2024 16:47:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52C90C116B1;
+ Mon,  8 Jul 2024 16:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1720457259;
+ bh=VHvm2D3xsSEmwhh+btt7E0FxJz3widPba7++CMSHLQE=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=D3d6P2iJU/gosDUr6HODB+GG4Cc7+yOYSEC4NwlKdiNkou68LahgTgitDx/mff8qs
+ IL/Yj7XLzrMrxD4q1APndxB8mAqE7U5aKw1KvCVRyiAZqiQZ2Xd8rhxNcu9Blmmldh
+ scF/wUab8KNLcKuz78/taVhnsPXU8Ngn5nJaw1ZMy1Wqj4rqTEgHxMJb1zs0touTRp
+ CaIW6HQYT62OFvXoTM8QEtbTie7fTxkcxR23mVhaUQLgLKn6RsqyfmhS9zhjUD0SAU
+ P3FQaPx8XqU7/uUeCW++FURI73QKLhuh+x29smXSBrJlfpdQ2Ym1RLvGy5ReoadrAS
+ K6n3UagFqsY8w==
+Date: Mon, 08 Jul 2024 10:47:37 -0600
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: stefano.radaelli21@gmail.com
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+ Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Daniel Vetter <daniel@ffwll.ch>, "Noah J . Rosa" <noahj.rosa@gmail.com>, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240708151857.40538-1-stefano.radaelli21@gmail.com>
+References: <20240708151857.40538-1-stefano.radaelli21@gmail.com>
+Message-Id: <172045725750.3389992.15451403448241421795.robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: display: bridge: ti,sn65dsi83: add
+ burst-mode-disabled
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,19 +67,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime, thank you for the review!
 
-On 7/8/24 08:36, Maxime Ripard wrote:
-> On Wed, 3 Jul 2024 14:22:28 -0300, Carlos Eduardo Gallo Filho wrote:
->> Add a single KUnit test case for the drm_framebuffer_free function.
->>
->> Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-> Acked-by: Maxime Ripard <mripard@kernel.org>
+On Mon, 08 Jul 2024 17:18:56 +0200, stefano.radaelli21@gmail.com wrote:
+> From: Stefano Radaelli <stefano.radaelli21@gmail.com>
+> 
+> It allows to disable Burst video mode
+> 
+> Co-developed-by: Noah J. Rosa <noahj.rosa@gmail.com>
+> Signed-off-by: Noah J. Rosa <noahj.rosa@gmail.com>
+> Signed-off-by: Stefano Radaelli <stefano.radaelli21@gmail.com>
+> ---
+>  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml       | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-Accordingly to the kernel bot report, I forgot to export
-drm_mode_object_add symbol for the test and I'll include the
-EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_mode_object_add) in v4. Since this
-will be a little change, must I keep your Acked-by in v4?
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Thanks, Carlos
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml: burst-mode-disabled: missing type definition
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240708151857.40538-1-stefano.radaelli21@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
