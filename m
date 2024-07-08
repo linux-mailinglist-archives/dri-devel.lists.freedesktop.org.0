@@ -2,85 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F79929E82
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 10:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA2E929E84
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 10:53:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C92B910E2D9;
-	Mon,  8 Jul 2024 08:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3974A10E2DA;
+	Mon,  8 Jul 2024 08:53:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="WMTbCRls";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Az7wP6lP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6E8F10E2D9
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 08:52:43 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-52ea5185ba7so343599e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 01:52:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1720428762; x=1721033562; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=lFE86WZSp3JEzrRPlKfWS/fFW4ZMBFxHZg4sDLK8TCA=;
- b=WMTbCRlsw4gXz+5y3ymN/2UcB2Sc7bPkP0VLMuLXBilDJoQaNJJkU3DIAhzjlr+3IA
- +VSVuvz9cviSDKK2teG1/V17d8FZL5ciSt/A2lqNhqM5BKkT8K5XL9SzmCOYtl/Q5fgC
- tK9ANKAsJEKvkt/hYWEhlNz8axxDDNZSy/4Cc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720428762; x=1721033562;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lFE86WZSp3JEzrRPlKfWS/fFW4ZMBFxHZg4sDLK8TCA=;
- b=Y6TZBaThFW+4uHL0e5Xd6Fk53NgtafD7n1J1REd1sfLOs1FgNT8GRXdfOmZol4fS5Z
- +BSLOrO/WPLpOiqXamotHAD4JJcV219o/kugnP8k03hFE/ULieVV7zFeHiUNsK04Qf18
- 1cPz7ZFpMiAXXiR5u/a/47IPnTUqvb0FcCt3m1YO0+2rqw9kQdc3sOAhlZa5++gm6xxw
- s3JkAoNdZ612BX71bqwzvvueYemk+1GEiBwqd9sYc7AU63G2Wyz+InyuM71N6MDKoQ3T
- PvW86XpxffBOpYQTSD4L6itgMQ7z+v/4q9F4b6St53/xLg0CXyOkG/Ow94EiIDxdCWQp
- FTPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0mdmIT8nn1Q8k57C0o0ctE9/doOENereCWvfthnkUqQaizCC9uRZvCMM4wy0tmOzlF4szSM0cqGMFUqt/sOiZxgMGxJ55ZdFaYjbO2j9t
-X-Gm-Message-State: AOJu0YzACkrzf33nQxwrj29xH+J7o56pZVAB4oAI8nZjf2c7HmrQ5A3t
- +GQ/XxRGE/6DSlJqlOpJCz20EjRxibUM6khJt35PvOdUA389wg4C3G6JDDIhdW4=
-X-Google-Smtp-Source: AGHT+IHbMM/eoLoU7QnXWDaQ4cqieXM1e/6mMypL5AfoOk9SPk1MkXshcYh/oZ3kVphJ7k/ylftDNA==
-X-Received: by 2002:ac2:4209:0:b0:52c:def2:d8af with SMTP id
- 2adb3069b0e04-52ea07350aemr6151426e87.4.1720428761592; 
- Mon, 08 Jul 2024 01:52:41 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42664e46c45sm51683065e9.18.2024.07.08.01.52.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jul 2024 01:52:41 -0700 (PDT)
-Date: Mon, 8 Jul 2024 10:52:39 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Helen Koike <helen.koike@collabora.com>,
- Vignesh Raman <vignesh.raman@collabora.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Dave Airlie <airlied@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Stone <daniels@collabora.com>, Rob Clark <robdclark@chromium.org>
-Subject: Re: Time for drm-ci-next?
-Message-ID: <Zouo16MCRRCNyYAs@phenom.ffwll.local>
-References: <ZnvEHEIEJIYcsQgN@phenom.ffwll.local>
- <f6kf3smgaza7r7zif4frz6ugrdzcl4u3xqidgwgvuffydhjfzp@66afcetzo3uw>
- <ZnxUP8H5oATEYNBt@phenom.ffwll.local>
- <CAF6AEGu0X43O0-p=LaVmDgZrHnkHctuv=uLeqG+JEJXbfh=mjg@mail.gmail.com>
- <Zn72laHlmWW3So9f@phenom.ffwll.local>
- <CAF6AEGv6Hd65OPJm6DBB=yPRtLLB1BZpRodLr-Bk5stGzULMew@mail.gmail.com>
- <Zoas4JJ3uhrR9lH7@phenom.ffwll.local>
- <CAF6AEGtCEbhBo2CXLQymf2g5RogtdYv2LLXUNQO7Tvuw7x6ujA@mail.gmail.com>
- <ZofMlSIjFV9iGZNM@phenom.ffwll.local>
- <CAF6AEGvDFLBC6BWUdC6L1czn044EuTerPWqLib5hhRVkZyEpig@mail.gmail.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7992A10E2DA
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 08:53:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 0F552CE0987;
+ Mon,  8 Jul 2024 08:53:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016F6C116B1;
+ Mon,  8 Jul 2024 08:53:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1720428813;
+ bh=r6OJ9UCaupziUyYIHNank9rLNfRQpHSb6hJHw20AvoQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Az7wP6lPdqbHK6DkB3QNNa4ePVFxiEyL8r+tT/9TRlx44wQv3gcUnd9UP0PIe8/y/
+ 4lXqG1m2fqCTVDBxzvOFQCAw+ax3O6/N83oQ4uQ74PTJMS35jwN7f3IxgpoBo7pUYR
+ wWYAjLE3RXPNI0EHRi98HalVlh7OAU3A6aLVtIY2qv81I6n5Kb01423NCCgcFQeFYr
+ WG0ZY45r4yL6vjoK4T7TkKq2uEw43e3GXpcPohMZ/V+wt8VUkTtiO8W4S61Tbglkk4
+ 6IOHWG5iudH7ICK6MTwUQTnhGdanCbGWt80r5Mrvx/epfYyl0PJWgKUAe5rsO8MQY2
+ qTvSR/uTteDQQ==
+Date: Mon, 8 Jul 2024 10:53:30 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, dri-devel@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH] drm: renesas: shmobile: shmo_drm_crtc: Fix PM imbalance
+ if RPM_ACTIVE is true
+Message-ID: <20240708-mighty-squid-of-glamour-6c1af7@houat>
+References: <20240708082712.30257-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="ef2jjf62nmsyribw"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGvDFLBC6BWUdC6L1czn044EuTerPWqLib5hhRVkZyEpig@mail.gmail.com>
-X-Operating-System: Linux phenom 6.9.7-amd64 
+In-Reply-To: <20240708082712.30257-1-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,101 +65,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 05, 2024 at 12:31:36PM -0700, Rob Clark wrote:
-> On Fri, Jul 5, 2024 at 3:36 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > On Thu, Jul 04, 2024 at 08:40:26AM -0700, Rob Clark wrote:
-> > > On Thu, Jul 4, 2024 at 7:08 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > >
-> > > > On Tue, Jul 02, 2024 at 05:32:39AM -0700, Rob Clark wrote:
-> > > > > On Fri, Jun 28, 2024 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > >
-> > > > > > On Thu, Jun 27, 2024 at 11:51:37AM -0700, Rob Clark wrote:
-> > > > > > > On Wed, Jun 26, 2024 at 10:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > >
-> > > > > > > > On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry Baryshkov wrote:
-> > > > > > > > > On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel Vetter wrote:
-> > > > > > > > > > On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike wrote:
-> > > > > > > > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > On 24/06/2024 02:34, Vignesh Raman wrote:
-> > > > > > > > > > > > Hi,
-> > > > > > > > > > > >
-> > > > > > > > > > > > On 15/03/24 22:50, Rob Clark wrote:
-> > > > > > > > > > > > > Basically, I often find myself needing to merge CI patches on top of
-> > > > > > > > > > > > > msm-next in order to run CI, and then after a clean CI run, reset HEAD
-> > > > > > > > > > > > > back before the merge and force-push.  Which isn't really how things
-> > > > > > > > > > > > > should work.
-> > > > > > > > > >
-> > > > > > > > > > This sounds more like you want an integration tree like drm-tip. Get msm
-> > > > > > > > > > branches integrated there, done. Backmerges just for integration testing
-> > > > > > > > > > are not a good idea indeed.
-> > > > > > >
-> > > > > > > But AFAIU this doesn't help for pre-merge testing, ie. prior to a
-> > > > > > > patch landing in msm-next
-> > > > > > >
-> > > > > > > My idea was to have a drm-ci-next managed similar to drm-misc-next, if
-> > > > > > > we have needed drm/ci patches we could push them to drm-ci-next, and
-> > > > > > > then merge that into the driver tree (along with a PR from drm-ci-next
-> > > > > > > to Dave).
-> > > > > >
-> > > > > > I guess I'm confused about what kind of pre-merge testing we're talking
-> > > > > > about then ... Or maybe this just doesn't work too well with the linux
-> > > > > > kernel. The model is that you have some pile of trees, they're split up,
-> > > > > > and testing of all the trees together is done in integration trees like
-> > > > > > linux-next or drm-tip.
-> > > > >
-> > > > > pre-merge: for msm we've been collecting up patches from list into a
-> > > > > fast-forward MR which triggers CI before merging to msm-next/msm-fixes
-> > > > >
-> > > > > Ideally drm-misc and other trees would do similar, we'd catch more
-> > > > > regressions that way.  For example, in msm-next the nodebugfs build is
-> > > > > currently broken, because we merged drm-misc-next at a time when
-> > > > > komeda was broken:
-> > > > >
-> > > > > https://gitlab.freedesktop.org/drm/msm/-/jobs/60575681#L9520
-> > > > >
-> > > > > If drm-misc was using pre-merge CI this would have been caught and the
-> > > > > offending patch dropped.
-> > > >
-> > > > That sounds more like we should push on the drm-misc pre-merge CI boulder
-> > > > to move it uphill, than add even more trees to make it even harder to get
-> > > > there long term ...
-> > > >
-> > > > Short term it helps locally to have finer trees, but only short term and
-> > > > only very locally.
-> > >
-> > > The path to have fewer trees (ideally only one for all of drm) is to
-> > > use gitlab MRs to land everything :-)
-> > >
-> > > drm-ci-next is only a stop-gap.. but one that we need.  The
-> > > ${branchname}-external-fixes trick covers _most_ cases where we need
-> > > unrelated patches (ie. to fix random ToT breakage outside of drm or in
-> > > core drm), but it doesn't help when the needed changes are yml
-> > > (because gitlab processes all the yml before merging the
-> > > -external-fixes branch).  This is where we need drm-ci-next, otherwise
-> > > we are having to create a separate MR which cherry-picks drm/ci
-> > > patches for doing the CI.  This is a rather broken process.
-> >
-> > So what I don't get is ... if we CI drm-misc, how does that not help
-> > improve the situation here? Step one would be post-merge (i.e. just enable
-> > CI in the repo), then get MRs going.
-> 
-> I guess post-merge is better than nothing.. but pre-merge is better.
-> 
-> post-merge can work if you have a "sheriff" system where someone
-> (perhaps on a rotation) is actively monitoring results and "revert and
-> ask questions later" when something breaks.  Pre-merge ensures the
-> interested party is involved in the process ;-)
 
-So ... make that happen? And it doesn't have to be for all of drm-misc,
-mesa after all switched over to MR also on a bit a driver/area basis. So
-agreeing among all drm-ci folks to use gitlab MR in drm-misc for pre-merge
-testing shouldn't be that hard to make happen. And unlike a separate
-branch it's not some kind of detour with a good chance to get stuck in a
-local optimum.
--Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--ef2jjf62nmsyribw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Mon, Jul 08, 2024 at 09:27:09AM GMT, Biju Das wrote:
+> The pm_runtime_resume_and_get() returns 1 if RPM is active, in this
+> case it won't call a put. This will result in PM imbalance as it
+> treat this as an error and propagate this to caller and the caller
+> never calls corresponding put(). Fix this issue by checking error
+> condition only.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/=
+gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> index 2e2f37b9d0a4..42a5d6876bec 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> @@ -208,7 +208,7 @@ static void shmob_drm_crtc_atomic_enable(struct drm_c=
+rtc *crtc,
+>  	int ret;
+> =20
+>  	ret =3D pm_runtime_resume_and_get(dev);
+> -	if (ret)
+> +	if (ret < 0)
+>  		return;
+
+The documentation of pm_runtime_resume_and_get says that:
+
+  Resume @dev synchronously and if that is successful, increment its
+  runtime PM usage counter. Return 0 if the runtime PM usage counter of
+  @dev has been incremented or a negative error code otherwise.
+
+So it looks like it can't return 1, ever. Are you sure you're not
+confusing pm_runtime_resume_and_get with pm_runtime_get?
+
+Maxime
+
+--ef2jjf62nmsyribw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZoupBAAKCRAnX84Zoj2+
+drR5AXwIybckdv5i3Zud2xBYF2Sehyjt+wab8QcznHJgNmYMY8qB1EuuoFJ/qapn
+tIZcFxYBfRRoz4oyRot4Oxa854qAR1kWsCUWCoCrhMFlaOeW0/yj51srlL/EyYdj
+GVeEeKR3+g==
+=tPMh
+-----END PGP SIGNATURE-----
+
+--ef2jjf62nmsyribw--
