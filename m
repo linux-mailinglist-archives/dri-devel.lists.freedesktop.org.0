@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E47892A554
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 17:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB5B92A555
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 17:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8D1210E360;
-	Mon,  8 Jul 2024 15:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3033310E376;
+	Mon,  8 Jul 2024 15:01:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="tFYlUdap";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="dI4N87sH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78BE510E376
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D310010E360
  for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 15:01:48 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id C0C7588729;
- Mon,  8 Jul 2024 17:01:45 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id B9D1D88730;
+ Mon,  8 Jul 2024 17:01:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1720450906;
- bh=mqSTohvMgRIhGEWHVCWzYU5kobWF8CMwHlA2yrhy678=;
- h=From:To:Cc:Subject:Date:From;
- b=tFYlUdap21uExbEaLAcEDboWbhy4d0sa9ZXgXWpXs6l5itPloI4HHoAlnEP/kkHnj
- yxC69wN/WE5roa2aYp/DV3d+S40rsxw44Xsknk/Ft7uBYaHWUbxyVxMiqTDNXbBdy+
- ZFWpYqXYrjNgG1i2Od68UM8W7rVZ6zkMkkKCFjvCBletYCcdB1oOUFovoGau/n8mqB
- RoPqGf54oFhrnYMhPqBlkDEZZXAaQAvtztf+eQPeIEa3PrsjcZfsIUeuthqf4BhVMe
- IMbYHh+ztIZPGdVadUGRECuD8B0lLKuzTB73cx2EKzvPlTnKo6/l6iuyNxEn47ITtf
- Mx13qBtRA+nHQ==
+ s=phobos-20191101; t=1720450907;
+ bh=kzsN2CVcmen8q9agco8seR/ZLvEkcv55kH+IiDUqMzQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=dI4N87sH2/cR4OFvIOmZO2bevVD8rTGunPzSCPAySNB0FTWIXmLPpwAu11DaxuiuM
+ QyeW2JBitKVDz6LUj60u1pF1Ibq6POnCZonY94/w+cNFMmUZ9afgosCwVzcL2itZJ8
+ /9fR2iOZRcz/DzDfLQYIT6ncL64+CcQkoNTzhWDRGJoouPwgomEPA4k6ixEbmrxIEJ
+ BD4q9El0oHAmDagw0NKzZnjTaGwa+J7N/ruElNqC3sB0Gx6J7+omY0btu/XCY6M/eE
+ gd68kkLYhiRpH/EoDOyYtQwjF710D7KsybOKj89cv5im/wffM77leeBgYua/ZEfGRS
+ vNNtNEvHWZ3Rg==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>,
@@ -47,11 +47,13 @@ Cc: Marek Vasut <marex@denx.de>,
  Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
  Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  devicetree@vger.kernel.org, kernel@dh-electronics.com
-Subject: [PATCH v4 1/2] dt-bindings: display: bridge: tc358867: Document
- default DP preemphasis
-Date: Mon,  8 Jul 2024 17:01:13 +0200
-Message-ID: <20240708150130.54484-1-marex@denx.de>
+Subject: [PATCH v4 2/2] drm/bridge: tc358767: Add configurable default
+ preemphasis
+Date: Mon,  8 Jul 2024 17:01:14 +0200
+Message-ID: <20240708150130.54484-2-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240708150130.54484-1-marex@denx.de>
+References: <20240708150130.54484-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -71,17 +73,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document default DP port preemphasis configurable via new DT property
+Make the default DP port preemphasis configurable via new DT property
 "toshiba,pre-emphasis". This is useful in case the DP link properties
 are known and starting link training from preemphasis setting of 0 dB
 is not useful. The preemphasis can be set separately for both DP lanes
 in range 0=0dB, 1=3.5dB, 2=6dB .
 
-This is an endpoint property, not a port property, because the TC9595
-datasheet does mention that the DP might operate in some sort of split
-mode, where each DP lane is used to feed one display, so in that case
-there might be two endpoints.
-
+Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
 Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
@@ -104,51 +102,131 @@ Cc: devicetree@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: kernel@dh-electronics.com
 ---
-V2: - Fix the type to u8 array
-    - Fix the enum items to match what they represent
-V3: - Update commit message, expand on this being an endpoint property
-V4: - Fix ref: /schemas/graph.yaml#/$defs/port-base and add unevaluatedProperties
+V2: - Parse toshiba,pre-emphasis property out of an endpoint of port 2 (the DP port)
+V3: - No change
+V4: - Invert the if (endpoint.port == 2) conditional in tc_probe_bridge_endpoint()
+    - Add AB from Alexander
 ---
- .../display/bridge/toshiba,tc358767.yaml      | 21 ++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/tc358767.c | 45 ++++++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-index 2ad0cd6dd49e0..b78f64c9c5f44 100644
---- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-@@ -92,12 +92,31 @@ properties:
-             reference to a valid DPI output or input endpoint node.
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index dde1b2734c98a..a13e4898a210c 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -241,6 +241,10 @@
  
-       port@2:
--        $ref: /schemas/graph.yaml#/properties/port
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-         description: |
-             eDP/DP output port. The remote endpoint phandle should be a
-             reference to a valid eDP panel input endpoint node. This port is
-             optional, treated as DP panel if not defined
+ /* Link Training */
+ #define DP0_SRCCTRL		0x06a0
++#define DP0_SRCCTRL_PRE1		GENMASK(29, 28)
++#define DP0_SRCCTRL_SWG1		GENMASK(25, 24)
++#define DP0_SRCCTRL_PRE0		GENMASK(21, 20)
++#define DP0_SRCCTRL_SWG0		GENMASK(17, 16)
+ #define DP0_SRCCTRL_SCRMBLDIS		BIT(13)
+ #define DP0_SRCCTRL_EN810B		BIT(12)
+ #define DP0_SRCCTRL_NOTP		(0 << 8)
+@@ -278,6 +282,8 @@
+ #define AUDIFDATA6		0x0720	/* DP0 Audio Info Frame Bytes 27 to 24 */
  
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
+ #define DP1_SRCCTRL		0x07a0	/* DP1 Control Register */
++#define DP1_SRCCTRL_PRE			GENMASK(21, 20)
++#define DP1_SRCCTRL_SWG			GENMASK(17, 16)
+ 
+ /* PHY */
+ #define DP_PHY_CTRL		0x0800
+@@ -369,6 +375,7 @@ struct tc_data {
+ 
+ 	u32			rev;
+ 	u8			assr;
++	u8			pre_emphasis[2];
+ 
+ 	struct gpio_desc	*sd_gpio;
+ 	struct gpio_desc	*reset_gpio;
+@@ -1090,13 +1097,17 @@ static int tc_main_link_enable(struct tc_data *tc)
+ 			return ret;
+ 	}
+ 
+-	ret = regmap_write(tc->regmap, DP0_SRCCTRL, tc_srcctrl(tc));
++	ret = regmap_write(tc->regmap, DP0_SRCCTRL,
++			   tc_srcctrl(tc) |
++			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
++			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
+ 	if (ret)
+ 		return ret;
+ 	/* SSCG and BW27 on DP1 must be set to the same as on DP0 */
+ 	ret = regmap_write(tc->regmap, DP1_SRCCTRL,
+ 		 (tc->link.spread ? DP0_SRCCTRL_SSCG : 0) |
+-		 ((tc->link.rate != 162000) ? DP0_SRCCTRL_BW27 : 0));
++		 ((tc->link.rate != 162000) ? DP0_SRCCTRL_BW27 : 0) |
++		 FIELD_PREP(DP1_SRCCTRL_PRE, tc->pre_emphasis[1]));
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1188,8 +1199,10 @@ static int tc_main_link_enable(struct tc_data *tc)
+ 		goto err_dpcd_write;
+ 
+ 	/* Reset voltage-swing & pre-emphasis */
+-	tmp[0] = tmp[1] = DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
+-			  DP_TRAIN_PRE_EMPH_LEVEL_0;
++	tmp[0] = DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
++		 FIELD_PREP(DP_TRAIN_PRE_EMPHASIS_MASK, tc->pre_emphasis[0]);
++	tmp[1] = DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
++		 FIELD_PREP(DP_TRAIN_PRE_EMPHASIS_MASK, tc->pre_emphasis[1]);
+ 	ret = drm_dp_dpcd_write(aux, DP_TRAINING_LANE0_SET, tmp, 2);
+ 	if (ret < 0)
+ 		goto err_dpcd_write;
+@@ -1213,7 +1226,9 @@ static int tc_main_link_enable(struct tc_data *tc)
+ 	ret = regmap_write(tc->regmap, DP0_SRCCTRL,
+ 			   tc_srcctrl(tc) | DP0_SRCCTRL_SCRMBLDIS |
+ 			   DP0_SRCCTRL_AUTOCORRECT |
+-			   DP0_SRCCTRL_TP1);
++			   DP0_SRCCTRL_TP1 |
++			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
++			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1248,7 +1263,9 @@ static int tc_main_link_enable(struct tc_data *tc)
+ 	ret = regmap_write(tc->regmap, DP0_SRCCTRL,
+ 			   tc_srcctrl(tc) | DP0_SRCCTRL_SCRMBLDIS |
+ 			   DP0_SRCCTRL_AUTOCORRECT |
+-			   DP0_SRCCTRL_TP2);
++			   DP0_SRCCTRL_TP2 |
++			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
++			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1274,7 +1291,9 @@ static int tc_main_link_enable(struct tc_data *tc)
+ 
+ 	/* Clear Training Pattern, set AutoCorrect Mode = 1 */
+ 	ret = regmap_write(tc->regmap, DP0_SRCCTRL, tc_srcctrl(tc) |
+-			   DP0_SRCCTRL_AUTOCORRECT);
++			   DP0_SRCCTRL_AUTOCORRECT |
++			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
++			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
+ 	if (ret)
+ 		return ret;
+ 
+@@ -2435,6 +2454,18 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
+ 			return -EINVAL;
+ 		}
+ 		mode |= BIT(endpoint.port);
 +
-+            properties:
-+              toshiba,pre-emphasis:
-+                description:
-+                  Display port output Pre-Emphasis settings for both DP lanes.
-+                $ref: /schemas/types.yaml#/definitions/uint8-array
-+                minItems: 2
-+                maxItems: 2
-+                items:
-+                  enum:
-+                    - 0 # No pre-emphasis
-+                    - 1 # 3.5dB pre-emphasis
-+                    - 2 # 6dB pre-emphasis
++		if (endpoint.port == 2) {
++			of_property_read_u8_array(node, "toshiba,pre-emphasis",
++						  tc->pre_emphasis,
++						  ARRAY_SIZE(tc->pre_emphasis));
 +
-     oneOf:
-       - required:
-           - port@0
++			if (tc->pre_emphasis[0] < 0 || tc->pre_emphasis[0] > 2 ||
++			    tc->pre_emphasis[1] < 0 || tc->pre_emphasis[1] > 2) {
++				dev_err(dev, "Incorrect Pre-Emphasis setting, use either 0=0dB 1=3.5dB 2=6dB\n");
++				return -EINVAL;
++			}
++		}
+ 	}
+ 
+ 	if (mode == mode_dpi_to_edp || mode == mode_dpi_to_dp) {
 -- 
 2.43.0
 
