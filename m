@@ -2,77 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9C7929E93
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 10:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5094B929E9C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 11:00:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E7010E2E9;
-	Mon,  8 Jul 2024 08:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE4210E00A;
+	Mon,  8 Jul 2024 09:00:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="cU4DfM9o";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="ioCeZxdO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B60710E2E9
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 08:58:07 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-426607d4eb7so1979765e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 01:58:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1720429086; x=1721033886; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LMyKqbyil9/Tq34DWS+1DnlmwOF50Yp/OlECGa9z5DM=;
- b=cU4DfM9oU3U0m5EoCrYVKTEymhDZQJ0v45XjCs1zOib5imLh2L4b1bnXX6S5jXquAp
- YRAoNwuUswGNsmBbqerwQDWgRh0iIvC2dUBNK4Y6h1Z4MiWrm/gXxF+ZEHJj4/3iptO7
- CCINxd7vtOEpUqjLZX+ESWZMcU8bcZWz2vBDc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720429086; x=1721033886;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LMyKqbyil9/Tq34DWS+1DnlmwOF50Yp/OlECGa9z5DM=;
- b=MEPouTr1sy+Qxw5VsxtzxIK68MBu3Dk++JBwFycBjAsN0WQrfBquwEXw2B9KHQXwu5
- 81dR6IwgiU85OT3H+6ZT6t26mXDqPCdZysWlNfTayAIu6uzsEDHg+tTV3TKq61M3Oqou
- lPf9Isl6fFwaDImwt7sxmINGWFe2eaPKO5x/+lgeHQh4cZ9lDca6A9TIaydH4B8qP7r2
- NYW56P09D3gMSzSClXLQGtzbjBZldc011QxnOcSEXo2nW7TOdJMtQNgWThghz8X8sB8E
- DysnEPsCN2Lc3vf27e2q8S1WCjNVu6aWKHhfTBaR0a580cmkzvGJ3dKnY/oBnVNA2Fw9
- VLIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWzZbZUhjAwwrs3W7CW6pzhT75QgIvnwtZnfx16f/Dsfhg8GFb1Mo8J/R8C86Zxvn5aLR0la2Ylb7wTUV+3CYLZjuqJHkyfT2vCIpxJsE7r
-X-Gm-Message-State: AOJu0YxcCzHt/ZoojoxAIMlQZ6zNkhqMoJc6gb7NjfiP6TMr+HXSNu2z
- oKDHDmQcU0I95ibQUrnXFFRquJzJM7kDvBtywAMxWx51Jih/FMu+m1jrPrdpNFU=
-X-Google-Smtp-Source: AGHT+IEgRfZAD4TamAlnn0Yf85HMM/eXJHl7e7yKmoXUefz2s+P9sIXchH0/DmhuDKjCe3s2Xa/6LA==
-X-Received: by 2002:a05:6000:400e:b0:367:95e3:e4c6 with SMTP id
- ffacd0b85a97d-3679dd12d7fmr7114858f8f.1.1720429085635; 
- Mon, 08 Jul 2024 01:58:05 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3678e5c2b08sm14834906f8f.71.2024.07.08.01.58.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jul 2024 01:58:05 -0700 (PDT)
-Date: Mon, 8 Jul 2024 10:58:03 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: airlied@redhat.com, kraxel@redhat.com, dmitry.osipenko@collabora.com,
- zack.rusin@broadcom.com, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- regressions@leemhuis.info, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- David Kaplan <david.kaplan@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] drm/qxl: Pin buffer objects for internal mappings
-Message-ID: <ZouqG20NkG5DdBC_@phenom.ffwll.local>
-References: <20240702142034.32615-1-tzimmermann@suse.de>
- <096287bd-c882-4d9d-bd4d-19c2fa68b8ec@suse.de>
+Received: from TY3P286CU002.outbound.protection.outlook.com
+ (mail-japaneastazon11010013.outbound.protection.outlook.com [52.101.229.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C83A610E00A
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 09:00:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eT3Kar1IVz11/Jy0kuh/aF/uBAUioEtMCYo7Lj6gni0AjRu9XeSYV5EfYRnCOYEglHXFURLn5Vha01EoyQHUkxz17vBX0ZjF/AtFEZhx3IDP6u888EwJEgqtrl9om5tITzSzsSfPj9hwdPsiE1ME9GEkPRLaZKCLDS7CYxxHIU+P/6PYEh/udu24MIi4t4+EY9ryc/tgS01CsZVjUhZJV3i76vLEk1S5+D/rq4AFmoOzOGSKxR+EYgJbTCRC1N9rsqdwiA1Xoelf8JFU8j91wTl+Lw+FEoXPNlvAy1fnFSohUAlOuHW1vkrkePVYKiE+tHeprs92OXrga3lCcJNkbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VMwyVnSr6sui8+X//Mse9hEqoDmw/d1DAf26rukCbJE=;
+ b=Rh0rCRtWfwMHm5LVI0FtNdW3t6CxZm5jXWLfgMCrHJ3rg9PrQI8GyoX+JQTi4ZJGesk7XVExB7DVGaMqK/4blTvPHuPjSGyNlb1ar6KYU3vUjQfdGycUE1+QnMyA6R5KGn8DsdEqPso3vrLZipTn7RSM63cki4kwVAgA4H7bTGboQpYw36tzl1+d/O34SHOfJbizFbvh3HxMHYLgGY3TWqOzUWDmYv1LuylKaTn1ceaib4kfWBSR2CdMDa8J/RsF6x4fjR42vxZ8G4nLCyBkFqBnMWo3zBseTPQmjdywX9JEwThnzJorR9EMzKECHGXPC09fSXxbUlLNJtBXCHNq3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VMwyVnSr6sui8+X//Mse9hEqoDmw/d1DAf26rukCbJE=;
+ b=ioCeZxdOIleNIjBGyIhiDgsDuUsOXfSnOYHaoN+e3W06oDJQxgt9Ti/6IgtDVCR5kR8hugAdWPxDQWM9MyiCcrvcCrOLdjV6qKb6LJ5uG5KCelt6BlOp0JpFy+Jz6AL0Ji8OCA1Z6b9Z5r5ar2eEStGRr/L3qZ2e/ljlYwzoxVE=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYCPR01MB10103.jpnprd01.prod.outlook.com (2603:1096:400:1ef::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Mon, 8 Jul
+ 2024 09:00:33 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.7741.033; Mon, 8 Jul 2024
+ 09:00:33 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Maxime Ripard <mripard@kernel.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+ <biju.das.au@gmail.com>
+Subject: RE: [PATCH] drm: renesas: shmobile: shmo_drm_crtc: Fix PM imbalance
+ if RPM_ACTIVE is true
+Thread-Topic: [PATCH] drm: renesas: shmobile: shmo_drm_crtc: Fix PM imbalance
+ if RPM_ACTIVE is true
+Thread-Index: AQHa0RCneh5Q9SmpwEKRFAYXUPoVVrHshnoAgAABQ9A=
+Date: Mon, 8 Jul 2024 09:00:33 +0000
+Message-ID: <TY3PR01MB113460400FF8AB36377DAFF4286DA2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20240708082712.30257-1-biju.das.jz@bp.renesas.com>
+ <20240708-mighty-squid-of-glamour-6c1af7@houat>
+In-Reply-To: <20240708-mighty-squid-of-glamour-6c1af7@houat>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB10103:EE_
+x-ms-office365-filtering-correlation-id: eb816ea2-318a-4587-f32a-08dc9f2c6cde
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|38070700018; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?qZGGXY6rE4OMSsRCbOE9/mAoQiCFizSxOg8VSrWpkCchGUMpAy7TxQycZvw3?=
+ =?us-ascii?Q?ln/4QekLnCay6c01ZvRkcvNJScEUPFOYGpbLaPSFRpxXYJUQr5/91wtq9Z4l?=
+ =?us-ascii?Q?Lcrbq09tJnoJoueEDKjJzpjKN9/ZtBOZCHe/PNbmEOI73BLFXyd1qpDbLH0O?=
+ =?us-ascii?Q?NQ41oMze7vJHc+Ag/Y0m9tjHkbsbNc6hPFX1VILRA6+2bMgs5JDnekQ21/JT?=
+ =?us-ascii?Q?wwbb6gsLyOa8WtKZPUPbGXD2cPRWloB2OnthqwRv+W9QtSlWD/CNMAbsW1W6?=
+ =?us-ascii?Q?NgK08mnYMgyQslxwv6CLXeOJTHIRM9iMuCq3u0EQrfHELq3KfCP5Wt2Kl9oT?=
+ =?us-ascii?Q?Ts8fG3vLpyPHYA9CTYUCimXimO+IFFZd4ltsP/EGjHnX7UJnMzQGi6vlcF6M?=
+ =?us-ascii?Q?8GCDohMddwrv0qYezx85AtK17js5nLcB8ze0fr0uym/MqIwwkJ7zAN1OqVy2?=
+ =?us-ascii?Q?obckAlv5+M3PQgz/yFJuTEwpNJH1cqKodlnw9UNAUaRx3jJkpPZD0CiEsTZm?=
+ =?us-ascii?Q?41irEKe198xvoeClut+3jMPScLM1eW5M5jHNKdPsCDiiGbnlnUpZZFGqau/O?=
+ =?us-ascii?Q?jUOtlCyrmpn7j6U+HqFRHt32BGBaxvQwCQmyHtwoK00ocXkHZJ2t57fKB8ai?=
+ =?us-ascii?Q?N/mEMKHQ26WSq402oQ6zVZYyf3seO8PwQaVuo/T6ecsBGwMvpn6A9/wfpdD1?=
+ =?us-ascii?Q?ridR1wD8OS8ebj6yputDVvc2taV6/mZ774S8m3gQDSiirvWb+5ZGBAg62n1c?=
+ =?us-ascii?Q?FuOiIXDJ4Cxb2j8aa1Ickm/LuSBPgq+eeTLx9DuFEXo7fSdRO4G2PlIlaIz5?=
+ =?us-ascii?Q?8bB/s/tFDj6FK9w2BJSXUCbSNyg7GZB7bPFFwGVSuIW/zLf2LjN+gXdRVvK6?=
+ =?us-ascii?Q?RBDI2KuzNs0+7j7owKGEpJZSBx7DnVpHRA5Q9b79CWIimSU0pi816yFa2VkI?=
+ =?us-ascii?Q?enqmGMp3j/3JcGELR1Y8D/UTs7eBQLVPgpYCilJ8CJQ9p6Ug633N4Bydz757?=
+ =?us-ascii?Q?FuZzRLFVsAfJYBZAGS07fATq3Wds6G61PJUPMcjvUfMvcHYn0Dq/AX1vLVWB?=
+ =?us-ascii?Q?6kbKi2m+M8DHApiYM2HCtS4vJN3Oj1REc2zcZMCcVCJEGMbngDUaUor/YdTf?=
+ =?us-ascii?Q?/mqPEvLUEbXTJAWP8knGzYgbezBK9UEYHgrMUTuXyuN8wmh+RQfMdH1TTRrr?=
+ =?us-ascii?Q?K4M0hoMilPOl5mRpa1HIShw+MYurxk2D7scZsLWSonaNbkztKeZm+uNCZxA4?=
+ =?us-ascii?Q?4AFks7RzPippiL5D0HebTaTrdmoi/WEcWKxyXV4op3cmkGlILEe+/NC3twN5?=
+ =?us-ascii?Q?ZEHc+V8PFNhf/bofwSJCGFTqXUgkEXovsVVbQy2lp3z+P5M4A8HUm58OERCo?=
+ =?us-ascii?Q?E3NCFQ8=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?RelXr/XVuyQSEt9uUUSGwsrXcYxNlcAI9Cwjmw62zW9HttErvA9/9NMW/Yqz?=
+ =?us-ascii?Q?62sSsyRwiYLKbpdCjqQl2REotTcdQyBPLhUBTZ4g9cgZYD5dOL/VJWmaGE25?=
+ =?us-ascii?Q?OyB3702OWi9NyXj5kQN/U0lT8kqto3OiHXa5kixjuFWoWjXMaIRvJVYzhZN/?=
+ =?us-ascii?Q?rNFxkHJYMRXMQUaC4FzM3ArAmZvXw8gnWKd8FMcIz+iGociE/5Sgsg0Pkc+y?=
+ =?us-ascii?Q?jWkMrDgi3MmSh3ZKDLn1zrosjHyt1ojwWffJYPV98Te4gwM5mIhTEMvzorl4?=
+ =?us-ascii?Q?le7dSybkAGYZY0zc4Y0UHG1gsTvpQLQPm6yJMd+Nzd4bmIt/HuGjranXUw+V?=
+ =?us-ascii?Q?/GuKRep2T3At3nENAnn8Ldv0tVkl4svfAb5iQ3PnYqECymsUdpDd4GrqKUV+?=
+ =?us-ascii?Q?sb1QiLvPMhNR8xi4l3YlL6aQzyvOLo8m6btiNEuxGBNLKTdiSS3eZx0Qh8RB?=
+ =?us-ascii?Q?gRIXPBQA9CJUvxZz+c9CS5qE+4oDkBwA1+zow3Ee3r28oVzmyHULEM4tCI5Z?=
+ =?us-ascii?Q?43TmnvlnqeG2LLALSXmxq4qQbJvOVppWHd0CJGTqd+8dYMqe/THt6ISv4x8a?=
+ =?us-ascii?Q?6Vyl3BmAMoEizMNSzKNeB+tnoP/eRiFa459pZjuUJQckGieilAQ7cqKuPpFf?=
+ =?us-ascii?Q?FBO3ED75eIEVmUv9Yoijix5V2oQghuOJ4nPFQEZQC5nZKjHMbNX6f4M5dJPf?=
+ =?us-ascii?Q?XjRz+PsY0cIU7iCyTjzsLtN+Mx+wQ4Y2lkqyWOd8B4BwGUmIzzu3n7ZUZO34?=
+ =?us-ascii?Q?RlRg52vVNfscatNZpCjt0vj6gGjOM29wLvCZryaWeqXs5x4iKPiUm+pUyqne?=
+ =?us-ascii?Q?K0eLfujQr2YJQ81RFE35pSNo1kKAFICVNCAdUNtRtWdOUDI4Vpj6ihR0+QFQ?=
+ =?us-ascii?Q?2opSAoJ9WOieZSzBG6ZRiLiHlATezcU6p0/bfsPTJrg6rCO0hD6pZ4866rwp?=
+ =?us-ascii?Q?5pS81uRqHw+liM0oKOIsaUr9e85g8lVIPNp7/0mnI9IrK+MC8W6pDOF3hK3N?=
+ =?us-ascii?Q?5ZpGjC/ae8zgJfUQJnDt7Pev75skTcGPyCmLvUh+ZkIgliSQHetxml2IQP8V?=
+ =?us-ascii?Q?Jo53McWv5pNmISJT+KSmy1ZHPI543ijkW3SbxqbIxE5BWqCX+jXYqclXlMto?=
+ =?us-ascii?Q?o6OaSNbNGlDm+06vV0Gna5LF9mxNl6jcuThNmt7onSZWl0TfQ5EWf2etNm1Z?=
+ =?us-ascii?Q?ox/TLLd2njOdZsA33QzRfk+urmNzx/CjtmHoAASgdBvKzD2Gn9l0UuQbc5MS?=
+ =?us-ascii?Q?bv0AQ7E13UkwMLKTmXdNkV3KnOKMjEWyx7am6P6/QiolX6oBitB6re1kLQ95?=
+ =?us-ascii?Q?kD7K7+CqxYK2c+WbYLQdoiTBWrt9vlT0o4R5MjCRaGF4HqF+7lu+spKFghxM?=
+ =?us-ascii?Q?a4wZ70MVkV3rk68SjakP4LUp6+51z8M9HizP+VMN07WLuG1AHRelq2ULkcGJ?=
+ =?us-ascii?Q?z1+6KbA6IJqWL2w+0/Xs3eOnFoWWLXEObxJfuFhhxOCUrML6pKvd51UHJbv0?=
+ =?us-ascii?Q?H4kVzausHiIJUj2SIP8XVoSK2ZoFAbUhdyTJ6mUxZsDlivsZ1Rc4ylTo74wO?=
+ =?us-ascii?Q?6zUXNHZAZyYk6ozREUuULUvkjIiax3P6H95iVfA++gIG19rq+iz7BGlHwJwL?=
+ =?us-ascii?Q?3A=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <096287bd-c882-4d9d-bd4d-19c2fa68b8ec@suse.de>
-X-Operating-System: Linux phenom 6.9.7-amd64 
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb816ea2-318a-4587-f32a-08dc9f2c6cde
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2024 09:00:33.3544 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VYiKEpSA3G95M8Gp3RGK/PeZ7moWgDnOUneY3L63tsPcfi/vyNNYU+2//dpFBCm7Qf6+1JKmxR4fGRAIXO2gGaHgA6EFn6KKv7RE3JsNbHU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10103
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,175 +159,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 08, 2024 at 10:09:44AM +0200, Thomas Zimmermann wrote:
+Hi Maxime,
+
+> -----Original Message-----
+> From: Maxime Ripard <mripard@kernel.org>
+> Sent: Monday, July 8, 2024 9:54 AM
+> Subject: Re: [PATCH] drm: renesas: shmobile: shmo_drm_crtc: Fix PM imbala=
+nce if RPM_ACTIVE is true
+>=20
 > Hi,
-> 
-> ping for a review. This is a bugfix for a serious problem.
-
-I tried to look around whether there's any place where we could WARN_ON if
-we create a vmap but it's not pinned. But there's lots of places where we
-want the vmap only for the duration of the dma_resv locked section, so
-really can't do that. And your patch removes the unlocked vmap
-implementation, which would be the only place really.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> 
-> Best regards
-> Thomas
-> 
-> Am 02.07.24 um 16:20 schrieb Thomas Zimmermann:
-> > Add qxl_bo_pin_and_vmap() that pins and vmaps a buffer object in one
-> > step. Update callers of the regular qxl_bo_vmap(). Fixes a bug where
-> > qxl accesses an unpinned buffer object while it is being moved; such
-> > as with the monitor-description BO. An typical error is shown below.
-> > 
-> > [    4.303586] [drm:drm_atomic_helper_commit_planes] *ERROR* head 1 wrong: 65376256x16777216+0+0
-> > [    4.586883] [drm:drm_atomic_helper_commit_planes] *ERROR* head 1 wrong: 65376256x16777216+0+0
-> > [    4.904036] [drm:drm_atomic_helper_commit_planes] *ERROR* head 1 wrong: 65335296x16777216+0+0
-> > [    5.374347] [drm:qxl_release_from_id_locked] *ERROR* failed to find id in release_idr
-> > 
-> > Commit b33651a5c98d ("drm/qxl: Do not pin buffer objects for vmap")
-> > removed the implicit pin operation from qxl's vmap code. This is the
-> > correct behavior for GEM and PRIME interfaces, but the pin is still
-> > needed for qxl internal operation.
-> > 
-> > Also add a corresponding function qxl_bo_vunmap_and_unpin() and remove
-> > the old qxl_bo_vmap() helpers.
-> > 
-> > Future directions: BOs should not be pinned or vmapped unnecessarily.
-> > The pin-and-vmap operation should be removed from the driver and a
-> > temporary mapping should be established with a vmap_local-like helper.
-> > See the client helper drm_client_buffer_vmap_local() for semantics.
-> > 
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Fixes: b33651a5c98d ("drm/qxl: Do not pin buffer objects for vmap")
-> > Reported-by: David Kaplan <david.kaplan@amd.com>
-> > Closes: https://lore.kernel.org/dri-devel/ab0fb17d-0f96-4ee6-8b21-65d02bb02655@suse.de/
-> > Tested-by: David Kaplan <david.kaplan@amd.com>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > Cc: Christian König <christian.koenig@amd.com>
-> > Cc: Zack Rusin <zack.rusin@broadcom.com>
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: virtualization@lists.linux.dev
-> > Cc: spice-devel@lists.freedesktop.org
+>=20
+> On Mon, Jul 08, 2024 at 09:27:09AM GMT, Biju Das wrote:
+> > The pm_runtime_resume_and_get() returns 1 if RPM is active, in this
+> > case it won't call a put. This will result in PM imbalance as it treat
+> > this as an error and propagate this to caller and the caller never
+> > calls corresponding put(). Fix this issue by checking error condition
+> > only.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > ---
-> >   drivers/gpu/drm/qxl/qxl_display.c | 14 +++++++-------
-> >   drivers/gpu/drm/qxl/qxl_object.c  | 11 +++++++++--
-> >   drivers/gpu/drm/qxl/qxl_object.h  |  4 ++--
-> >   3 files changed, 18 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-> > index 86a5dea710c0..bc24af08dfcd 100644
-> > --- a/drivers/gpu/drm/qxl/qxl_display.c
-> > +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> > @@ -584,11 +584,11 @@ static struct qxl_bo *qxl_create_cursor(struct qxl_device *qdev,
-> >   	if (ret)
-> >   		goto err;
-> > -	ret = qxl_bo_vmap(cursor_bo, &cursor_map);
-> > +	ret = qxl_bo_pin_and_vmap(cursor_bo, &cursor_map);
-> >   	if (ret)
-> >   		goto err_unref;
-> > -	ret = qxl_bo_vmap(user_bo, &user_map);
-> > +	ret = qxl_bo_pin_and_vmap(user_bo, &user_map);
-> >   	if (ret)
-> >   		goto err_unmap;
-> > @@ -614,12 +614,12 @@ static struct qxl_bo *qxl_create_cursor(struct qxl_device *qdev,
-> >   		       user_map.vaddr, size);
-> >   	}
-> > -	qxl_bo_vunmap(user_bo);
-> > -	qxl_bo_vunmap(cursor_bo);
-> > +	qxl_bo_vunmap_and_unpin(user_bo);
-> > +	qxl_bo_vunmap_and_unpin(cursor_bo);
-> >   	return cursor_bo;
-> >   err_unmap:
-> > -	qxl_bo_vunmap(cursor_bo);
-> > +	qxl_bo_vunmap_and_unpin(cursor_bo);
-> >   err_unref:
-> >   	qxl_bo_unpin(cursor_bo);
-> >   	qxl_bo_unref(&cursor_bo);
-> > @@ -1205,7 +1205,7 @@ int qxl_create_monitors_object(struct qxl_device *qdev)
-> >   	}
-> >   	qdev->monitors_config_bo = gem_to_qxl_bo(gobj);
-> > -	ret = qxl_bo_vmap(qdev->monitors_config_bo, &map);
-> > +	ret = qxl_bo_pin_and_vmap(qdev->monitors_config_bo, &map);
-> >   	if (ret)
-> >   		return ret;
-> > @@ -1236,7 +1236,7 @@ int qxl_destroy_monitors_object(struct qxl_device *qdev)
-> >   	qdev->monitors_config = NULL;
-> >   	qdev->ram_header->monitors_config = 0;
-> > -	ret = qxl_bo_vunmap(qdev->monitors_config_bo);
-> > +	ret = qxl_bo_vunmap_and_unpin(qdev->monitors_config_bo);
-> >   	if (ret)
-> >   		return ret;
-> > diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
-> > index 5893e27a7ae5..cb1b7c2580ae 100644
-> > --- a/drivers/gpu/drm/qxl/qxl_object.c
-> > +++ b/drivers/gpu/drm/qxl/qxl_object.c
-> > @@ -182,7 +182,7 @@ int qxl_bo_vmap_locked(struct qxl_bo *bo, struct iosys_map *map)
-> >   	return 0;
-> >   }
-> > -int qxl_bo_vmap(struct qxl_bo *bo, struct iosys_map *map)
-> > +int qxl_bo_pin_and_vmap(struct qxl_bo *bo, struct iosys_map *map)
-> >   {
-> >   	int r;
-> > @@ -190,7 +190,13 @@ int qxl_bo_vmap(struct qxl_bo *bo, struct iosys_map *map)
-> >   	if (r)
-> >   		return r;
-> > +	r = qxl_bo_pin_locked(bo);
-> > +	if (r)
-> > +		return r;
-> > +
-> >   	r = qxl_bo_vmap_locked(bo, map);
-> > +	if (r)
-> > +		qxl_bo_unpin_locked(bo);
-> >   	qxl_bo_unreserve(bo);
-> >   	return r;
-> >   }
-> > @@ -241,7 +247,7 @@ void qxl_bo_vunmap_locked(struct qxl_bo *bo)
-> >   	ttm_bo_vunmap(&bo->tbo, &bo->map);
-> >   }
-> > -int qxl_bo_vunmap(struct qxl_bo *bo)
-> > +int qxl_bo_vunmap_and_unpin(struct qxl_bo *bo)
-> >   {
-> >   	int r;
-> > @@ -250,6 +256,7 @@ int qxl_bo_vunmap(struct qxl_bo *bo)
-> >   		return r;
-> >   	qxl_bo_vunmap_locked(bo);
-> > +	qxl_bo_unpin_locked(bo);
-> >   	qxl_bo_unreserve(bo);
-> >   	return 0;
-> >   }
-> > diff --git a/drivers/gpu/drm/qxl/qxl_object.h b/drivers/gpu/drm/qxl/qxl_object.h
-> > index 1cf5bc759101..875f63221074 100644
-> > --- a/drivers/gpu/drm/qxl/qxl_object.h
-> > +++ b/drivers/gpu/drm/qxl/qxl_object.h
-> > @@ -59,9 +59,9 @@ extern int qxl_bo_create(struct qxl_device *qdev,
-> >   			 u32 priority,
-> >   			 struct qxl_surface *surf,
-> >   			 struct qxl_bo **bo_ptr);
-> > -int qxl_bo_vmap(struct qxl_bo *bo, struct iosys_map *map);
-> > +int qxl_bo_pin_and_vmap(struct qxl_bo *bo, struct iosys_map *map);
-> >   int qxl_bo_vmap_locked(struct qxl_bo *bo, struct iosys_map *map);
-> > -int qxl_bo_vunmap(struct qxl_bo *bo);
-> > +int qxl_bo_vunmap_and_unpin(struct qxl_bo *bo);
-> >   void qxl_bo_vunmap_locked(struct qxl_bo *bo);
-> >   void *qxl_bo_kmap_atomic_page(struct qxl_device *qdev, struct qxl_bo *bo, int page_offset);
-> >   void qxl_bo_kunmap_atomic_page(struct qxl_device *qdev, struct qxl_bo *bo, void *map);
-> 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-> 
+> >  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> > b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> > index 2e2f37b9d0a4..42a5d6876bec 100644
+> > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> > @@ -208,7 +208,7 @@ static void shmob_drm_crtc_atomic_enable(struct drm=
+_crtc *crtc,
+> >  	int ret;
+> >
+> >  	ret =3D pm_runtime_resume_and_get(dev);
+> > -	if (ret)
+> > +	if (ret < 0)
+> >  		return;
+>=20
+> The documentation of pm_runtime_resume_and_get says that:
+>=20
+>   Resume @dev synchronously and if that is successful, increment its
+>   runtime PM usage counter. Return 0 if the runtime PM usage counter of
+>   @dev has been incremented or a negative error code otherwise.
+>=20
+> So it looks like it can't return 1, ever. Are you sure you're not confusi=
+ng pm_runtime_resume_and_get
+> with pm_runtime_get?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+It should be ret < 0 as ret =3D 1 corresponds to RPM_ACTIVE and the API doe=
+s not call put() when ret =3D 1; see [1] and [2]
+
+[1] https://elixir.bootlin.com/linux/v6.10-rc6/source/drivers/base/power/ru=
+ntime.c#L778
+
+[2] https://elixir.bootlin.com/linux/v6.10-rc6/source/include/linux/pm_runt=
+ime.h#L431
+
+Am I miss anything? Please let me know.
+
+Cheers,
+Biju
