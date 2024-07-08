@@ -2,83 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA8B92A90A
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 20:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37B392A96C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 21:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C72510E3C9;
-	Mon,  8 Jul 2024 18:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D8610E3E4;
+	Mon,  8 Jul 2024 19:00:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f2HxZe0I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ye4hKGjr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16FCA10E3C9
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 18:39:01 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-5854ac817afso5058877a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 11:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720463939; x=1721068739; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PAih6j5ihNGVUjJQt6fHiMuGB9TgkvdVd2zf85IhhMY=;
- b=f2HxZe0IBmXJVY2PSP3MZKLSfW3QrzHrmeGbi/NSFyL0pOuxE/kfLUgfIBM1jnf0ts
- FmNmX55g4YWbL1Gj0iiHDJcOCfij8dEABDm6CYSu76fcLXFiqNp/eua/2b16OC+j/In3
- iS9dQElHTBe22LliHegsxdhhlSN23WEFrgAz191j3iZqb7RnIYDidAsx/jYBfuQXwMQo
- 99L/DUa3f18c/9r+69eqz61Rt7G0jqaGpn4kRa6wWT1qKYlAM0Aa/jVerKxMAh9a85la
- 0sk1MUG3D6+zILkqPAQEN/Hoy3n2qyixSraXEketqiAfYE40wbTpJJbFPPnZZROU4Z/C
- Zf4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720463939; x=1721068739;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PAih6j5ihNGVUjJQt6fHiMuGB9TgkvdVd2zf85IhhMY=;
- b=HUzWebuLvvznlkULt01JidNExRLlVQDWZTXOvnT+sbtdhze2IsajOG3U/XfZx//9tZ
- soLorbxHirMkel2h69SXx+yGq9I0movT8hX8ywCrCvCYadK/jZLs8c8WdlmzXoW8N09s
- kE7pDPbP1XwHXooqmxyMcmvgB6g+Yk4ab5YBIlpBhhC0t3fKdELPn7fBAwDYwmn55HRo
- IG6EnJyNT1ubR+AdpvEb2s1hkbVBborNwMK3NoX69N2rAOuwYxN57nZP3T4B3fA8mo+y
- 5hQz5reXIKvW6lYvX+2cjwSFp+W0HVVCNObnD1O8NR48Y1tznDdmHjgLupnm6cT1pQjy
- /KAQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWjdPa1DXuQN8J9Tkc25KUgijAcBfGrwXgNhl9HXLfne74jd2kQ/RdL/UjO00qT2XKPT/trErw2Pm2ZbaHfnPHKLdjMHEGrtip5KfSnXfbt
-X-Gm-Message-State: AOJu0YykH7hO/Svx2iBog3XXwh+uRTLYUxa4/0VjibeDGJSzj6BTxHrq
- 2RFthDPRl7ZMG71FZXEKbDixb7KlB6Y1EO5h0+UWLcarDvfon69Bpl+12TJeyqDozGQx4Gz3PFx
- K5CxW9QYQVKKbbunhwlCWU2+u22w=
-X-Google-Smtp-Source: AGHT+IEaoHXoOfzGNSmSoKjMWvBpOHFbClS41nTDLtYx57ohOHi5kQiYAAd2apDXp1OHsQIh2101vMyX2+eFEXvUfYs=
-X-Received: by 2002:a05:6402:308e:b0:58e:3501:5c0a with SMTP id
- 4fb4d7f45d1cf-594baf8d6cfmr261149a12.11.1720463939161; Mon, 08 Jul 2024
- 11:38:59 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36CF110E3E3;
+ Mon,  8 Jul 2024 19:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720465225; x=1752001225;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=f9bOQybnMAvgRea8a/jakUPDginmVJcCG/OGavAgDG8=;
+ b=Ye4hKGjrA2FgJ3GsRkqOQnyLGJA0c0mZd+UYgIBZF2WZ1YXaA5RC+K6j
+ FP0ODyTJg6mErZqgA6GLP0wtSMDqUs5nd1EzK6uTjxuW/HG5GK1fIUHUk
+ nqB+3Ga6pKuU/cOmyDNUsmTahXfoB7+lTaqGA+Y0uP7Setv7wX/z0D8Hl
+ 7uJYxtNKTe/isnsFDTHA9s9SodpKq21k6FqauSkslh+3SXBQR65keTq+c
+ wZWUnmZoRobVGXiIBLqgDHI8QxdcIg0oNnPitdqpD05IyCQ3kjIy/crpD
+ imEMv4gjqh4G99b/7dR1DcgBlzhfqgNrGTywAJ+rSWG9silWsPStAmU/e g==;
+X-CSE-ConnectionGUID: yQq0FF16TN2seLoNnLM55A==
+X-CSE-MsgGUID: 3kE2hnnlTfatJxY9ZkUgsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="17821056"
+X-IronPort-AV: E=Sophos;i="6.09,192,1716274800"; d="scan'208";a="17821056"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2024 12:00:25 -0700
+X-CSE-ConnectionGUID: JkG8rzPnSXOCZ2iBZJb6Tw==
+X-CSE-MsgGUID: 58a7rrf3TbeWRuzx0MD05Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,192,1716274800"; d="scan'208";a="85140019"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2024 12:00:24 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH v2 5/6] drm/dp: Add helper to dump an LTTPR PHY descriptor
+Date: Mon,  8 Jul 2024 22:00:28 +0300
+Message-ID: <20240708190029.271247-6-imre.deak@intel.com>
+X-Mailer: git-send-email 2.43.3
+In-Reply-To: <20240708190029.271247-1-imre.deak@intel.com>
+References: <20240708190029.271247-1-imre.deak@intel.com>
 MIME-Version: 1.0
-References: <ZnvEHEIEJIYcsQgN@phenom.ffwll.local>
- <f6kf3smgaza7r7zif4frz6ugrdzcl4u3xqidgwgvuffydhjfzp@66afcetzo3uw>
- <ZnxUP8H5oATEYNBt@phenom.ffwll.local>
- <CAF6AEGu0X43O0-p=LaVmDgZrHnkHctuv=uLeqG+JEJXbfh=mjg@mail.gmail.com>
- <Zn72laHlmWW3So9f@phenom.ffwll.local>
- <CAF6AEGv6Hd65OPJm6DBB=yPRtLLB1BZpRodLr-Bk5stGzULMew@mail.gmail.com>
- <Zoas4JJ3uhrR9lH7@phenom.ffwll.local>
- <CAF6AEGtCEbhBo2CXLQymf2g5RogtdYv2LLXUNQO7Tvuw7x6ujA@mail.gmail.com>
- <ZofMlSIjFV9iGZNM@phenom.ffwll.local>
- <CAF6AEGvDFLBC6BWUdC6L1czn044EuTerPWqLib5hhRVkZyEpig@mail.gmail.com>
- <Zouo16MCRRCNyYAs@phenom.ffwll.local>
-In-Reply-To: <Zouo16MCRRCNyYAs@phenom.ffwll.local>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 8 Jul 2024 11:38:46 -0700
-Message-ID: <CAF6AEGvGZp=WhGxmqVjqPnR3G33GTng+L0kwABCRxAKb0nHc9g@mail.gmail.com>
-Subject: Re: Time for drm-ci-next?
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Helen Koike <helen.koike@collabora.com>,
- Vignesh Raman <vignesh.raman@collabora.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, Dave Airlie <airlied@gmail.com>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Stone <daniels@collabora.com>, Rob Clark <robdclark@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,151 +69,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 8, 2024 at 1:52=E2=80=AFAM Daniel Vetter <daniel.vetter@ffwll.c=
-h> wrote:
->
-> On Fri, Jul 05, 2024 at 12:31:36PM -0700, Rob Clark wrote:
-> > On Fri, Jul 5, 2024 at 3:36=E2=80=AFAM Daniel Vetter <daniel.vetter@ffw=
-ll.ch> wrote:
-> > >
-> > > On Thu, Jul 04, 2024 at 08:40:26AM -0700, Rob Clark wrote:
-> > > > On Thu, Jul 4, 2024 at 7:08=E2=80=AFAM Daniel Vetter <daniel.vetter=
-@ffwll.ch> wrote:
-> > > > >
-> > > > > On Tue, Jul 02, 2024 at 05:32:39AM -0700, Rob Clark wrote:
-> > > > > > On Fri, Jun 28, 2024 at 10:44=E2=80=AFAM Daniel Vetter <daniel@=
-ffwll.ch> wrote:
-> > > > > > >
-> > > > > > > On Thu, Jun 27, 2024 at 11:51:37AM -0700, Rob Clark wrote:
-> > > > > > > > On Wed, Jun 26, 2024 at 10:47=E2=80=AFAM Daniel Vetter <dan=
-iel@ffwll.ch> wrote:
-> > > > > > > > >
-> > > > > > > > > On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry Baryshko=
-v wrote:
-> > > > > > > > > > On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel Vetter w=
-rote:
-> > > > > > > > > > > On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike=
- wrote:
-> > > > > > > > > > > >
-> > > > > > > > > > > >
-> > > > > > > > > > > > On 24/06/2024 02:34, Vignesh Raman wrote:
-> > > > > > > > > > > > > Hi,
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > On 15/03/24 22:50, Rob Clark wrote:
-> > > > > > > > > > > > > > Basically, I often find myself needing to merge=
- CI patches on top of
-> > > > > > > > > > > > > > msm-next in order to run CI, and then after a c=
-lean CI run, reset HEAD
-> > > > > > > > > > > > > > back before the merge and force-push.  Which is=
-n't really how things
-> > > > > > > > > > > > > > should work.
-> > > > > > > > > > >
-> > > > > > > > > > > This sounds more like you want an integration tree li=
-ke drm-tip. Get msm
-> > > > > > > > > > > branches integrated there, done. Backmerges just for =
-integration testing
-> > > > > > > > > > > are not a good idea indeed.
-> > > > > > > >
-> > > > > > > > But AFAIU this doesn't help for pre-merge testing, ie. prio=
-r to a
-> > > > > > > > patch landing in msm-next
-> > > > > > > >
-> > > > > > > > My idea was to have a drm-ci-next managed similar to drm-mi=
-sc-next, if
-> > > > > > > > we have needed drm/ci patches we could push them to drm-ci-=
-next, and
-> > > > > > > > then merge that into the driver tree (along with a PR from =
-drm-ci-next
-> > > > > > > > to Dave).
-> > > > > > >
-> > > > > > > I guess I'm confused about what kind of pre-merge testing we'=
-re talking
-> > > > > > > about then ... Or maybe this just doesn't work too well with =
-the linux
-> > > > > > > kernel. The model is that you have some pile of trees, they'r=
-e split up,
-> > > > > > > and testing of all the trees together is done in integration =
-trees like
-> > > > > > > linux-next or drm-tip.
-> > > > > >
-> > > > > > pre-merge: for msm we've been collecting up patches from list i=
-nto a
-> > > > > > fast-forward MR which triggers CI before merging to msm-next/ms=
-m-fixes
-> > > > > >
-> > > > > > Ideally drm-misc and other trees would do similar, we'd catch m=
-ore
-> > > > > > regressions that way.  For example, in msm-next the nodebugfs b=
-uild is
-> > > > > > currently broken, because we merged drm-misc-next at a time whe=
-n
-> > > > > > komeda was broken:
-> > > > > >
-> > > > > > https://gitlab.freedesktop.org/drm/msm/-/jobs/60575681#L9520
-> > > > > >
-> > > > > > If drm-misc was using pre-merge CI this would have been caught =
-and the
-> > > > > > offending patch dropped.
-> > > > >
-> > > > > That sounds more like we should push on the drm-misc pre-merge CI=
- boulder
-> > > > > to move it uphill, than add even more trees to make it even harde=
-r to get
-> > > > > there long term ...
-> > > > >
-> > > > > Short term it helps locally to have finer trees, but only short t=
-erm and
-> > > > > only very locally.
-> > > >
-> > > > The path to have fewer trees (ideally only one for all of drm) is t=
-o
-> > > > use gitlab MRs to land everything :-)
-> > > >
-> > > > drm-ci-next is only a stop-gap.. but one that we need.  The
-> > > > ${branchname}-external-fixes trick covers _most_ cases where we nee=
-d
-> > > > unrelated patches (ie. to fix random ToT breakage outside of drm or=
- in
-> > > > core drm), but it doesn't help when the needed changes are yml
-> > > > (because gitlab processes all the yml before merging the
-> > > > -external-fixes branch).  This is where we need drm-ci-next, otherw=
-ise
-> > > > we are having to create a separate MR which cherry-picks drm/ci
-> > > > patches for doing the CI.  This is a rather broken process.
-> > >
-> > > So what I don't get is ... if we CI drm-misc, how does that not help
-> > > improve the situation here? Step one would be post-merge (i.e. just e=
-nable
-> > > CI in the repo), then get MRs going.
-> >
-> > I guess post-merge is better than nothing.. but pre-merge is better.
-> >
-> > post-merge can work if you have a "sheriff" system where someone
-> > (perhaps on a rotation) is actively monitoring results and "revert and
-> > ask questions later" when something breaks.  Pre-merge ensures the
-> > interested party is involved in the process ;-)
->
-> So ... make that happen? And it doesn't have to be for all of drm-misc,
-> mesa after all switched over to MR also on a bit a driver/area basis. So
-> agreeing among all drm-ci folks to use gitlab MR in drm-misc for pre-merg=
-e
-> testing shouldn't be that hard to make happen. And unlike a separate
-> branch it's not some kind of detour with a good chance to get stuck in a
-> local optimum.
+Add a helper to dump the DPCD descriptor for an LTTPR PHY. This is based
+on [1] and [2] moving the helper to DRM core as suggested by Ville.
 
-Tree vs branch doesn't really have much in the way of distinction,
-modulo gitlab permissions.  In that it doesn't do much good if drm/ci
-patches are landing on a different branch.
+[1] https://lore.kernel.org/all/20240703155937.1674856-5-imre.deak@intel.com
+[2] https://lore.kernel.org/all/20240703155937.1674856-6-imre.deak@intel.com
 
-I guess what you are suggesting is that we have a single tree/branch
-that drm/ci + drm/msm + (plus whoever else wants to get in on the
-drm/ci, so probably at least vkms) lands patches into via gitlab MRs?
+Cc: dri-devel@lists.freedesktop.org
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/display/drm_dp_helper.c | 66 +++++++++++++++++++++----
+ include/drm/display/drm_dp.h            |  4 ++
+ include/drm/display/drm_dp_helper.h     |  2 +
+ 3 files changed, 62 insertions(+), 10 deletions(-)
 
-BR,
--R
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index d4c34f3641400..6ee51003de3ce 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -2328,6 +2328,31 @@ drm_dp_get_quirks(const struct drm_dp_dpcd_ident *ident, bool is_branch)
+ #undef DEVICE_ID_ANY
+ #undef DEVICE_ID
+ 
++static int drm_dp_read_ident(struct drm_dp_aux *aux, unsigned int offset,
++			     struct drm_dp_dpcd_ident *ident)
++{
++	int ret;
++
++	ret = drm_dp_dpcd_read(aux, offset, ident, sizeof(*ident));
++
++	return ret < 0 ? ret : 0;
++}
++
++static void drm_dp_dump_desc(struct drm_dp_aux *aux,
++			     const char *device_name, const struct drm_dp_desc *desc)
++{
++	const struct drm_dp_dpcd_ident *ident = &desc->ident;
++
++	drm_dbg_kms(aux->drm_dev,
++		    "%s: %s: OUI %*phD dev-ID %*pE HW-rev %d.%d SW-rev %d.%d quirks 0x%04x\n",
++		    aux->name, device_name,
++		    (int)sizeof(ident->oui), ident->oui,
++		    (int)strnlen(ident->device_id, sizeof(ident->device_id)), ident->device_id,
++		    ident->hw_rev >> 4, ident->hw_rev & 0xf,
++		    ident->sw_major_rev, ident->sw_minor_rev,
++		    desc->quirks);
++}
++
+ /**
+  * drm_dp_read_desc - read sink/branch descriptor from DPCD
+  * @aux: DisplayPort AUX channel
+@@ -2344,27 +2369,48 @@ int drm_dp_read_desc(struct drm_dp_aux *aux, struct drm_dp_desc *desc,
+ {
+ 	struct drm_dp_dpcd_ident *ident = &desc->ident;
+ 	unsigned int offset = is_branch ? DP_BRANCH_OUI : DP_SINK_OUI;
+-	int ret, dev_id_len;
++	int ret;
+ 
+-	ret = drm_dp_dpcd_read(aux, offset, ident, sizeof(*ident));
++	ret = drm_dp_read_ident(aux, offset, ident);
+ 	if (ret < 0)
+ 		return ret;
+ 
+ 	desc->quirks = drm_dp_get_quirks(ident, is_branch);
+ 
+-	dev_id_len = strnlen(ident->device_id, sizeof(ident->device_id));
+-
+-	drm_dbg_kms(aux->drm_dev,
+-		    "%s: DP %s: OUI %*phD dev-ID %*pE HW-rev %d.%d SW-rev %d.%d quirks 0x%04x\n",
+-		    aux->name, is_branch ? "branch" : "sink",
+-		    (int)sizeof(ident->oui), ident->oui, dev_id_len,
+-		    ident->device_id, ident->hw_rev >> 4, ident->hw_rev & 0xf,
+-		    ident->sw_major_rev, ident->sw_minor_rev, desc->quirks);
++	drm_dp_dump_desc(aux, is_branch ? "DP branch" : "DP sink", desc);
+ 
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_dp_read_desc);
+ 
++/**
++ * drm_dp_dump_lttpr_desc - read and dump the DPCD descriptor for an LTTPR PHY
++ * @aux: DisplayPort AUX channel
++ * @dp_phy: LTTPR PHY instance
++ *
++ * Read the DPCD LTTPR PHY descriptor for @dp_phy and print a debug message
++ * with its details to dmesg.
++ *
++ * Returns 0 on success or a negative error code on failure.
++ */
++int drm_dp_dump_lttpr_desc(struct drm_dp_aux *aux, enum drm_dp_phy dp_phy)
++{
++	struct drm_dp_desc desc = {};
++	int ret;
++
++	if (drm_WARN_ON(aux->drm_dev, dp_phy < DP_PHY_LTTPR1 || dp_phy > DP_MAX_LTTPR_COUNT))
++		return -EINVAL;
++
++	ret = drm_dp_read_ident(aux, DP_OUI_PHY_REPEATER(dp_phy), &desc.ident);
++	if (ret < 0)
++		return ret;
++
++	drm_dp_dump_desc(aux, drm_dp_phy_name(dp_phy), &desc);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_dump_lttpr_desc);
++
+ /**
+  * drm_dp_dsc_sink_bpp_incr() - Get bits per pixel increment
+  * @dsc_dpcd: DSC capabilities from DPCD
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index 173548c6473a9..a6f8b098c56f1 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -1543,6 +1543,10 @@ enum drm_dp_phy {
+ #define DP_SYMBOL_ERROR_COUNT_LANE2_PHY_REPEATER1	    0xf0039 /* 1.3 */
+ #define DP_SYMBOL_ERROR_COUNT_LANE3_PHY_REPEATER1	    0xf003b /* 1.3 */
+ 
++#define DP_OUI_PHY_REPEATER1				    0xf003d /* 1.3 */
++#define DP_OUI_PHY_REPEATER(dp_phy) \
++	DP_LTTPR_REG(dp_phy, DP_OUI_PHY_REPEATER1)
++
+ #define __DP_FEC1_BASE					    0xf0290 /* 1.4 */
+ #define __DP_FEC2_BASE					    0xf0298 /* 1.4 */
+ #define DP_FEC_BASE(dp_phy) \
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index ea03e1dd26ba7..bbb1cdc4fc68d 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -657,6 +657,8 @@ struct drm_dp_desc {
+ int drm_dp_read_desc(struct drm_dp_aux *aux, struct drm_dp_desc *desc,
+ 		     bool is_branch);
+ 
++int drm_dp_dump_lttpr_desc(struct drm_dp_aux *aux, enum drm_dp_phy dp_phy);
++
+ /**
+  * enum drm_dp_quirk - Display Port sink/branch device specific quirks
+  *
+-- 
+2.43.3
 
-> -Sima
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
