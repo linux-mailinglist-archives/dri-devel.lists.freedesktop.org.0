@@ -2,80 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E42892A39C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 15:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD90392A3B3
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2024 15:34:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62A4910E352;
-	Mon,  8 Jul 2024 13:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6961B10E35D;
+	Mon,  8 Jul 2024 13:33:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zHAKRpN0";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="c/wXRHcT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA2A10E352
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 13:27:47 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-52ea2b6a9f5so4071295e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 06:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720445265; x=1721050065; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xLz+pzXsJ6l5mFHOSKbiVfzHPETHq+grSYLHo5ZTzRY=;
- b=zHAKRpN0g5o2gYHb54/P4F2HxNRU4FUqr4OFbYpfO9NVKJBtXszcFtdbEZMtXaP8yt
- IEA1eKXrAtvmemJSl3M4iF6AFk30he0Gnx6REFYUnIWOjeZ5P/tDkto+BTHxlLUv6Bor
- kbl1b3fWwPfzfgFjj6fCI/AcBDWrzWSQvAg0VzfW4Ht7v/xL4S6VgK03yxNQonIQ40A9
- vsHJ2FmVgbxPKtVdJ+1vb5A5sfkynbc+DAeyUW9CnTKsiNDRcaJJYApYjTxOBQzxiKh+
- a5tkhShB6R+hO2Sc1g7TFnHF3KwGpTMEtB7erXSnIVmkSAPsBZe3yBLpVaT+1dQq5eAA
- OO+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720445265; x=1721050065;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xLz+pzXsJ6l5mFHOSKbiVfzHPETHq+grSYLHo5ZTzRY=;
- b=Jy4EHnH5nIPBHWE3lmmCr5R9JBuBb36irxPoW3o7xeQm552XyVjOzK38LusgzDufXr
- uQ/b2EzXIkaaBLzdnCbXHLlqiys+5Uq6WQ6M+0FSNrgTCI1je6LkVTxGteQq8IQR7E2D
- DLH3+e8CNGtKMM+ATd7Pnd42u2DLxsJJvyWHU4QCz70RvKyfsIOBR9S9D/e44J8dTgLt
- G4ebFGSDwoIXiKWJ7ErfIbaTtdIwuQT9dbbFWPxePyyHcRiSQAcDUkmuYEiTJrFs+yYM
- SW3lQuS8cK8D9Gt30YWo8BuH7VPUe3jLfDZVEgzJ8IBxsoq4/53yHoxOOabHIimBrIU9
- 32wQ==
-X-Gm-Message-State: AOJu0YzMlvKP95M7IZ+VvlqXc9n5hUILSVdEAPt3fU29hClJB2zgy/4a
- E8VydYLa8UEfwvUe36GdTTV3IwPnESeT9XRNvQTjyWpIWg7fOZh+AyXhVnJQKows5xFkc52m08f
- ZUho=
-X-Google-Smtp-Source: AGHT+IFzFef/Tv8RS12QfjZA7cDHgbrsywJxw7p2DpGff9CwZ0w/u5TnUJ6q/+bCZgefSX1bAM+WBQ==
-X-Received: by 2002:a19:c204:0:b0:52c:8df9:2e6f with SMTP id
- 2adb3069b0e04-52ea06cc913mr7432147e87.42.1720445265038; 
- Mon, 08 Jul 2024 06:27:45 -0700 (PDT)
-Received: from eriador.lan (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00::b8c]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ea910a4b8sm728047e87.202.2024.07.08.06.27.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jul 2024 06:27:42 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: dri-devel@lists.freedesktop.org,
-	Adam Ford <aford173@gmail.com>
-Cc: aford@beaconembedded.com, Liu Ying <victor.liu@nxp.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3] drm/bridge: adv7511: Fix Intermittent EDID failures
-Date: Mon,  8 Jul 2024 16:27:38 +0300
-Message-ID: <172044524823.2537680.15499072146875099672.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240630221931.1650565-1-aford173@gmail.com>
-References: <20240630221931.1650565-1-aford173@gmail.com>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D567410E35D
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2024 13:33:56 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 468CKG7F014260;
+ Mon, 8 Jul 2024 15:33:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ pQZd32lrwSdbK0qtBZuTFC92e7n3xKS/AFWQ/E+TqbY=; b=c/wXRHcTxFs5gH/5
+ YRtl8gvXgiXGdQCjMn2vHnt20BZYsH8+1B4JFmJoUANjxUIdM7xm0GZyyKiBKswQ
+ /3se3CkImCgtX8gixqqWJUzujsRFrrzjWuo1QLDkop+tfH7J1N5dSnZRuYYBnCSm
+ MZp0+S6J93IZ5iGg0hzZJz9aWRYPsw5gskZrNqU5B/kobtwIltPLeeG7Z4zGsyr4
+ 8IlVofsitziA7SMrfrXzSEfGn7/0uw8RM7Sl0tAxzT+24mQmHmQoiuNGoljwicZx
+ 6RN+90bLmqmPAerLHrfRkDI2+LGfDFTUSp3UyDL5kyMLBzpbxgdgehemST71Cx9n
+ kWzQoQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 406whfq3jj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 Jul 2024 15:33:33 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id C364740044;
+ Mon,  8 Jul 2024 15:33:26 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id F3A1D223644;
+ Mon,  8 Jul 2024 15:32:36 +0200 (CEST)
+Received: from [10.48.86.145] (10.48.86.145) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 8 Jul
+ 2024 15:32:35 +0200
+Message-ID: <9d60f79c-6cf3-eb6c-57ae-e6ea391fa618@foss.st.com>
+Date: Mon, 8 Jul 2024 15:32:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/stm: Remove unnecessary .owner for
+ lvds_platform_driver
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ <yannick.fertre@foss.st.com>
+CC: <raphael.gallais-pou@foss.st.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <mcoquelin.stm32@gmail.com>,
+ <alexandre.torgue@foss.st.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ Abaci Robot <abaci@linux.alibaba.com>
+References: <20240701062304.42844-1-jiapeng.chong@linux.alibaba.com>
+Content-Language: en-US
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+In-Reply-To: <20240701062304.42844-1-jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.48.86.145]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-08_09,2024-07-05_01,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,26 +86,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 30 Jun 2024 17:19:31 -0500, Adam Ford wrote:
-> In the process of adding support for shared IRQ pins, a scenario
-> was accidentally created where adv7511_irq_process returned
-> prematurely causing the EDID to fail randomly.
+
+
+On 7/1/24 08:23, Jiapeng Chong wrote:
+> Remove .owner field if calls are used which set it automatically.
 > 
-> Since the interrupt handler is broken up into two main helper functions,
-> update both of them to treat the helper functions as IRQ handlers. These
-> IRQ routines process their respective tasks as before, but if they
-> determine that actual work was done, mark the respective IRQ status
-> accordingly, and delay the check until everything has been processed.
+> ./drivers/gpu/drm/stm/lvds.c:1213:3-8: No need to set .owner here. The core will do it.
 > 
-> [...]
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9457
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>   drivers/gpu/drm/stm/lvds.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/stm/lvds.c b/drivers/gpu/drm/stm/lvds.c
+> index 2fa2c81784e9..06f2d7a56cc9 100644
+> --- a/drivers/gpu/drm/stm/lvds.c
+> +++ b/drivers/gpu/drm/stm/lvds.c
+> @@ -1210,7 +1210,6 @@ static struct platform_driver lvds_platform_driver = {
+>   	.remove = lvds_remove,
+>   	.driver = {
+>   		.name = "stm32-display-lvds",
+> -		.owner = THIS_MODULE,
+>   		.of_match_table = lvds_dt_ids,
+>   	},
+>   };
 
-Applied to drm-misc-fixes, thanks!
-
-[1/1] drm/bridge: adv7511: Fix Intermittent EDID failures
-      commit: 91f9f4a37124044089debb02a3965c59b5b10c21
-
-Best regards,
--- 
-With best wishes
-Dmitry
-
+Hi Jiapeng,
+Applied on drm-misc-next.
+Many thanks,
+Philippe :-)
