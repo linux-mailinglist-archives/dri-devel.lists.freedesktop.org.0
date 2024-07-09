@@ -2,80 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D61492B25D
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 10:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086D292B238
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 10:36:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB0510E4B7;
-	Tue,  9 Jul 2024 08:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ABEE10E4AF;
+	Tue,  9 Jul 2024 08:36:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="wsEFis3C";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jWsTlgnQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 689 seconds by postgrey-1.36 at gabe;
- Tue, 09 Jul 2024 08:42:01 UTC
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39FD810E4B7
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 08:42:00 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46970J4r031206;
- Tue, 9 Jul 2024 10:30:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- 4ddWApf5yRC6Suz8B9WVJ/vHSrjM8rDrQEFG9pPzp1s=; b=wsEFis3CIz+Vjztg
- XX4X+LydYiLGCdtCM6SabJwpr3ie+6IWfe5khJcstAyiK9MvQwDF62bwvkt+yG5m
- WDGDPT+PiVLG5MPbHD2Q2e2FY6eIYnYZhCjGYuOyEeo3T5qWd42xn8v+kCq8Kvgy
- e589FH4mwHKGI+kOz6DHR0tWMTBeTwQY1auHQeTPmnp1B1rdgdQDAXzgKskL8EMU
- +wQu9wpBqV2WDdxYpOfPfrGHSfmb2vWyXqx4lO6L9/KD1Nw+OacTQ0gnZd4aBXYe
- V4SCC36O5e0JsvY66L55pTxUy6+WgmoQZ6i8euGr9g02YRXW+Jlej17VdIaj7tHA
- N6dp+Q==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 406whft9m4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Jul 2024 10:30:14 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id ADADB40044;
- Tue,  9 Jul 2024 10:29:52 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 09C5F216821;
- Tue,  9 Jul 2024 10:28:55 +0200 (CEST)
-Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 9 Jul
- 2024 10:28:53 +0200
-Message-ID: <f8295b75-1c98-44d3-9da3-92cc192297e2@foss.st.com>
-Date: Tue, 9 Jul 2024 10:28:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/stm: Fix an error handling path in
- stm_drm_platform_probe()
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Yannick Fertre
- <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Eric Anholt <eric@anholt.net>, Neil Armstrong <neil.armstrong@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
- "Yannick Fertre" <yannick.fertre@st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>
-References: <20fff7f853f20a48a96db8ff186124470ec4d976.1704560028.git.christophe.jaillet@wanadoo.fr>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20fff7f853f20a48a96db8ff186124470ec4d976.1704560028.git.christophe.jaillet@wanadoo.fr>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A725710E4B6
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 08:36:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 1BC3DCE0F2B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 08:36:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3EEB9C4AF0A
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 08:36:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1720514182;
+ bh=l3BrGtfgwS0ZSl3hTfr4Vr5jpDBVrosczIP8PADLiUI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=jWsTlgnQYIDIQVVyxamBZgE2t9bmMZ30jWWZuONDCGRmEYUGtwfXmaMCQ/syCpYvd
+ FGY7o8ZIpUh5WmaTMF7j1L2ukUepk3ul4cKkifGDxpopwnPZtHOEJrXe1ziT5T9zca
+ tRTZNznY8HuTw9TRQ4p8qYxATiA7ytfmP3BE+S3gmbA2RFCZtJVVA/O/G5WHmxJbhZ
+ UhTtHF7zkMxMVci2xLY4B7QR9esdWwjbzxFAo5lx/BkJkZ4QLry6nhZQqZBhG+Rdgr
+ tkzWtlRrekMdntHwAvDe6hSv4ssuV7rXnkrHeJN8TlepnX3D4MbYJ2LiVLPqPWaUcu
+ blmHLymTxTEFw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 2FE28C53B73; Tue,  9 Jul 2024 08:36:22 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 219007] opening and closing /dev/dri/card0 in a QEMU KVM
+ instance will shutdown system, 6.10.0-rc6+
+Date: Tue, 09 Jul 2024 08:36:21 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: regressions@leemhuis.info
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-219007-2300-6xR3QshGxj@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-219007-2300@https.bugzilla.kernel.org/>
+References: <bug-219007-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.17]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-08_15,2024-07-08_01,2024-05-17_01
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,19 +75,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219007
 
-On 1/6/24 17:54, Christophe JAILLET wrote:
-> If drm_dev_register() fails, a call to drv_load() must be undone, as
-> already done in the remove function.
->
-> Fixes: b759012c5fa7 ("drm/stm: Add STM32 LTDC driver")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+The Linux kernel's regression tracker (Thorsten Leemhuis) (regressions@leem=
+huis.info) changed:
 
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |regressions@leemhuis.info
 
-Hi Christophe,
+--- Comment #2 from The Linux kernel's regression tracker (Thorsten Leemhui=
+s) (regressions@leemhuis.info) ---
+Colin, quick reminder: many bugs reported here are never forwarded to any
+developer. For some of the details see https://lwn.net/Articles/910740/ and=
+ the
+links in there. So the people you are trying to reach most likely won't even
+see this.
 
-After some delay: applied on drm-misc-next.
+Mail is usually the best for reporting, as mentioned in
+https://docs.kernel.org/admin-guide/reporting-issues.html (which also tells
+people to avoid bugzilla in most cases)
 
-Thanks,
-Raphaël
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
