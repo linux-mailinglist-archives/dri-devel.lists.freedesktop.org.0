@@ -2,150 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B395B92B0E7
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 09:14:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A8C92B0FC
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 09:21:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37A2C10E341;
-	Tue,  9 Jul 2024 07:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C3310E1E1;
+	Tue,  9 Jul 2024 07:21:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MrH+wXCJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R4rzsbtR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MrH+wXCJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R4rzsbtR";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OdtXiWgU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6DE10E48F
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 07:14:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 238EA21B8B;
- Tue,  9 Jul 2024 07:14:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720509288; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D141510E1E1
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 07:21:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1720509699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/AleoyyoKXqA93MBg6urXoyOknwxwnFWdPcvrSR4WQQ=;
- b=MrH+wXCJSdmjNQ3lwLSGV9d5fFPBLu3HBhJlOuPxfYBBaios4pHp6EB2IA+sFtheZ2j14S
- Ruk/XyL2bBDPFG41XHkckEtuzWfpemNnK+bp5Q4htMLC9PbCqreV5/SXdmXyAeYggBjOGf
- yPof8YRkfGC0BeYPXL1LJWJZtlhz/dY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720509288;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/AleoyyoKXqA93MBg6urXoyOknwxwnFWdPcvrSR4WQQ=;
- b=R4rzsbtRiSeEbNCfxbqZYfoAgApugqo8WfJBOiYh4affJW1CfFJicVXZL26K64orO8p+L2
- EkP0Ubpaz7ceA6Bg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MrH+wXCJ;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=R4rzsbtR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720509288; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/AleoyyoKXqA93MBg6urXoyOknwxwnFWdPcvrSR4WQQ=;
- b=MrH+wXCJSdmjNQ3lwLSGV9d5fFPBLu3HBhJlOuPxfYBBaios4pHp6EB2IA+sFtheZ2j14S
- Ruk/XyL2bBDPFG41XHkckEtuzWfpemNnK+bp5Q4htMLC9PbCqreV5/SXdmXyAeYggBjOGf
- yPof8YRkfGC0BeYPXL1LJWJZtlhz/dY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720509288;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/AleoyyoKXqA93MBg6urXoyOknwxwnFWdPcvrSR4WQQ=;
- b=R4rzsbtRiSeEbNCfxbqZYfoAgApugqo8WfJBOiYh4affJW1CfFJicVXZL26K64orO8p+L2
- EkP0Ubpaz7ceA6Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB0521396E;
- Tue,  9 Jul 2024 07:14:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id e05EMGfjjGYtEQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 09 Jul 2024 07:14:47 +0000
-Message-ID: <0236d6a0-a8c5-47bb-a3f2-c4022b49b09d@suse.de>
-Date: Tue, 9 Jul 2024 09:14:47 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=dW6WO+G76jLZyDSLMkWamap7ltUf9TSQdzlmmQjea1E=;
+ b=OdtXiWgUv63t9cXlsIGvFb1rPvNP9C/TKUVzhwC1ow6poY9L7/z/vwcJhSYkoR6nKN635g
+ miSb/HdaF2BT08E9QmLwhaBknAFGqQq1Mmh5fBYKsBJEB09nmv3O4dXZc+3LVWiy0bemmw
+ Fj2yoNMqKdfTVUd8nVl3+kYaIvF0LuM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-422-wXCk2A_6MOeTLXOf7Cox0w-1; Tue, 09 Jul 2024 03:21:37 -0400
+X-MC-Unique: wXCk2A_6MOeTLXOf7Cox0w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-36794e8929bso541306f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 00:21:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720509696; x=1721114496;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dW6WO+G76jLZyDSLMkWamap7ltUf9TSQdzlmmQjea1E=;
+ b=HYvZv25wPNV51tEwKalgJYSYoLJ/0O10cGflzkr8OB2OiZbvb3cOOkeAWizTb4iTfF
+ j7m5gP16uxtVQ/5qZUxcGNm5hKUYA2HWjwe8D73rymiuQE9+m7pcdEoWSlYwqm+sILZ/
+ fHXR2Dh8jAenswlJPORtKSMr9Sk6Xv9vxNU62YDjppXnX9OlnW3FPV1JnlyvLCxUzLkr
+ A0fGFl0QwRmx8oeIv5pyJqVNWlqCnvXP6xS0NjvjWpRaUW14Vp9BCpcGfwy2NmPZ7QQA
+ PUiIM+3rt/o/Wwcjqc7bzjLf8acu9k9zQ4TVkREspx7RUAfWAiuS/Ujew1JVpoGCF5ua
+ sb2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWUS+kwJKFhvm9+OvEp+i4zX8oeVN46cEe13h1uUAk89cPdvCcNKg70VZHM/i4GxY52SLT2uhC7EuwMtYfjhsLKnW1ANMvokIcTZ7nkPg9T
+X-Gm-Message-State: AOJu0Ywz/78q0PJrbL46e9VURbLEnkgvgZSgrEkEF4KHRn7zNhnCKYaC
+ 1LDsKi1qK725OkamstA0/1JNzqNS5QSvHCsbyAzLmcjOeBXwMz4DCpJuw5cAtKabRUONtpp4dL/
+ 8rmXj6U5r0bqcN6tXhbMqXzRM/Nl6RrUJ+WC7HWQUTrTRsw25rLZ9FwTfh23MNCSJcQ==
+X-Received: by 2002:a05:600c:358a:b0:426:5f08:542b with SMTP id
+ 5b1f17b1804b1-426701981aamr12098745e9.0.1720509696436; 
+ Tue, 09 Jul 2024 00:21:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IECRCfyILsy8xvGs+E15/2e5WJYbe8Jd+4WpmoQc8yvMhh4oUIPufkb5c0SOa/lja2miLgfRA==
+X-Received: by 2002:a05:600c:358a:b0:426:5f08:542b with SMTP id
+ 5b1f17b1804b1-426701981aamr12098455e9.0.1720509695955; 
+ Tue, 09 Jul 2024 00:21:35 -0700 (PDT)
+Received: from pstanner-thinkpadt14sgen1.remote.csb
+ (nat-pool-muc-t.redhat.com. [149.14.88.26])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4266f6f5f51sm27487855e9.25.2024.07.09.00.21.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jul 2024 00:21:35 -0700 (PDT)
+Message-ID: <7734192dbf4d07ce77ab7a20481ccb12ff71ffcb.camel@redhat.com>
+Subject: Re: [PATCH v9 10/13] PCI: Give pci_intx() its own devres callback
+From: Philipp Stanner <pstanner@redhat.com>
+To: Ashish Kalra <Ashish.Kalra@amd.com>, Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
+Cc: airlied@gmail.com, bhelgaas@google.com, dakr@redhat.com,
+ daniel@ffwll.ch,  dri-devel@lists.freedesktop.org, hdegoede@redhat.com, 
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, sam@ravnborg.org, 
+ tzimmermann@suse.de, thomas.lendacky@amd.com, mario.limonciello@amd.com
+Date: Tue, 09 Jul 2024 09:21:34 +0200
+In-Reply-To: <20240708214656.4721-1-Ashish.Kalra@amd.com>
+References: <20240613115032.29098-11-pstanner@redhat.com>
+ <20240708214656.4721-1-Ashish.Kalra@amd.com>
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/format-helper: Add conversion from XRGB8888 to BGR888
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, Orlando Chamberlain <orlandoch.dev@gmail.com>,
- Kerem Karabay <kekrby@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <4C98332B-4E56-4314-8BDA-709AD3974899@live.com>
- <37c0df72-498b-44ad-9a47-d69f0515edd7@suse.de>
- <6D311D35-6F8F-4E14-9A3F-EEEBE5490ACD@live.com>
- <bf43c9de-32fe-4abc-9045-043c16687cca@suse.de>
- <4365B424-E585-43ED-BDA9-F722B3E6CD56@live.com>
- <abbb7883-6b57-4261-9fc1-9c9eac1665e3@suse.de>
- <MA0P287MB021775E5A6E676498F3A975DB8DA2@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <MA0P287MB021775E5A6E676498F3A975DB8DA2@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.00 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; XM_UA_NO_VERSION(0.01)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[live.com]; MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_DN_EQ_ADDR_SOME(0.00)[]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- MID_RHS_MATCH_FROM(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[9]; TAGGED_RCPT(0.00)[];
- DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,live.com:email]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 238EA21B8B
-X-Spam-Flag: NO
-X-Spam-Score: -3.00
-X-Spam-Level: 
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,313 +99,212 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+@Bjorn, @Krzysztof
 
-Am 08.07.24 um 10:37 schrieb Aditya Garg:
->
->> On 8 Jul 2024, at 1:59 PM, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>
->> ﻿Hi
->>
->>> Am 08.07.24 um 10:10 schrieb Aditya Garg:
->>> Hi
->>>> I see. Best would be to submit this patch together with the driver for review.
->>>>
->>> Although it’s your take, but I really doubt whether the driver would make it upstream. It shall most likely be provided as a DKMS module.
->> What's wrong with upstreaming the driver?
-> 1. The author of the driver seems to have abandoned the driver.
-> 2. It currently supports only T2 Macs. T1 Mac support is uncertain.
-> 3. It only handles the DRM part. 2 additional HID drivers are also needed for the touch bar to work, which again work only for T2 Macs.
-> 4. Although I can legally submit it since the author signed the commit and it's GPL2, I would prefer getting consent from the author for a bigger patch like adding the driver.
->
-> Do you still think it will be able to make upstream?
+On Mon, 2024-07-08 at 21:46 +0000, Ashish Kalra wrote:
+> With this patch applied, we are observing unloading and then
+> reloading issues with the AMD Crypto (CCP) driver:
 
-It's up to you. But you'd effectively sign up for maintainership.
+Thank you very much for digging into this, Ashish
 
-Best regards
-Thomas
+Could you give me some pointers how one could test CCP by himself?
 
->
->>> What should be the best case scenario then?
->> We only add helpers that have callers. So the conversion routine would have to remain in the driver module. If we have have an upstream user of that helper, we can pick up your patch later.
->>
-> Makes sense. Thanks for clarifying!
->
->> Best regards
->> Thomas
->>
->>
->>
->>>> Best regards
->>>> Thomas
->>>>
->>>>>> Best regards
->>>>>> Thomas
->>>>>>
->>>>>>> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
->>>>>>> Signed-off-by: Aditya Garg <gargaditya08@live.com>
->>>>>>> ---
->>>>>>>   drivers/gpu/drm/drm_format_helper.c           | 54 +++++++++++++
->>>>>>>   .../gpu/drm/tests/drm_format_helper_test.c    | 81 +++++++++++++++++++
->>>>>>>   include/drm/drm_format_helper.h               |  3 +
->>>>>>>   3 files changed, 138 insertions(+)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
->>>>>>> index b1be458ed..28c0e76a1 100644
->>>>>>> --- a/drivers/gpu/drm/drm_format_helper.c
->>>>>>> +++ b/drivers/gpu/drm/drm_format_helper.c
->>>>>>> @@ -702,6 +702,57 @@ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *dst_pi
->>>>>>>   }
->>>>>>>   EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888);
->>>>>>>   +static void drm_fb_xrgb8888_to_bgr888_line(void *dbuf, const void *sbuf, unsigned int pixels)
->>>>>>> +{
->>>>>>> + u8 *dbuf8 = dbuf;
->>>>>>> + const __le32 *sbuf32 = sbuf;
->>>>>>> + unsigned int x;
->>>>>>> + u32 pix;
->>>>>>> +
->>>>>>> + for (x = 0; x < pixels; x++) {
->>>>>>> + pix = le32_to_cpu(sbuf32[x]);
->>>>>>> + /* write red-green-blue to output in little endianness */
->>>>>>> + *dbuf8++ = (pix & 0x00FF0000) >> 16;
->>>>>>> + *dbuf8++ = (pix & 0x0000FF00) >> 8;
->>>>>>> + *dbuf8++ = (pix & 0x000000FF) >> 0;
->>>>>>> + }
->>>>>>> +}
->>>>>>> +
->>>>>>> +/**
->>>>>>> + * drm_fb_xrgb8888_to_bgr888 - Convert XRGB8888 to BGR888 clip buffer
->>>>>>> + * @dst: Array of BGR888 destination buffers
->>>>>>> + * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
->>>>>>> + *             within @dst; can be NULL if scanlines are stored next to each other.
->>>>>>> + * @src: Array of XRGB8888 source buffers
->>>>>>> + * @fb: DRM framebuffer
->>>>>>> + * @clip: Clip rectangle area to copy
->>>>>>> + * @state: Transform and conversion state
->>>>>>> + *
->>>>>>> + * This function copies parts of a framebuffer to display memory and converts the
->>>>>>> + * color format during the process. Destination and framebuffer formats must match. The
->>>>>>> + * parameters @dst, @dst_pitch and @src refer to arrays. Each array must have at
->>>>>>> + * least as many entries as there are planes in @fb's format. Each entry stores the
->>>>>>> + * value for the format's respective color plane at the same index.
->>>>>>> + *
->>>>>>> + * This function does not apply clipping on @dst (i.e. the destination is at the
->>>>>>> + * top-left corner).
->>>>>>> + *
->>>>>>> + * Drivers can use this function for BGR888 devices that don't natively
->>>>>>> + * support XRGB8888.
->>>>>>> + */
->>>>>>> +void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *dst_pitch,
->>>>>>> +        const struct iosys_map *src, const struct drm_framebuffer *fb,
->>>>>>> +        const struct drm_rect *clip, struct drm_format_conv_state *state)
->>>>>>> +{
->>>>>>> + static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
->>>>>>> + 3,
->>>>>>> + };
->>>>>>> +
->>>>>>> + drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
->>>>>>> +     drm_fb_xrgb8888_to_bgr888_line);
->>>>>>> +}
->>>>>>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_bgr888);
->>>>>>> +
->>>>>>>   static void drm_fb_xrgb8888_to_argb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
->>>>>>>   {
->>>>>>>    __le32 *dbuf32 = dbuf;
->>>>>>> @@ -1035,6 +1086,9 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
->>>>>>>    } else if (dst_format == DRM_FORMAT_RGB888) {
->>>>>>>    drm_fb_xrgb8888_to_rgb888(dst, dst_pitch, src, fb, clip, state);
->>>>>>>    return 0;
->>>>>>> + } else if (dst_format == DRM_FORMAT_BGR888) {
->>>>>>> + drm_fb_xrgb8888_to_bgr888(dst, dst_pitch, src, fb, clip, state);
->>>>>>> + return 0;
->>>>>>>    } else if (dst_format == DRM_FORMAT_ARGB8888) {
->>>>>>>    drm_fb_xrgb8888_to_argb8888(dst, dst_pitch, src, fb, clip, state);
->>>>>>>    return 0;
->>>>>>> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
->>>>>>> index 08992636e..e54f0f6e7 100644
->>>>>>> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
->>>>>>> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
->>>>>>> @@ -60,6 +60,11 @@ struct convert_to_rgb888_result {
->>>>>>>    const u8 expected[TEST_BUF_SIZE];
->>>>>>>   };
->>>>>>>   +struct convert_to_bgr888_result {
->>>>>>> + unsigned int dst_pitch;
->>>>>>> + const u8 expected[TEST_BUF_SIZE];
->>>>>>> +};
->>>>>>> +
->>>>>>>   struct convert_to_argb8888_result {
->>>>>>>    unsigned int dst_pitch;
->>>>>>>    const u32 expected[TEST_BUF_SIZE];
->>>>>>> @@ -107,6 +112,7 @@ struct convert_xrgb8888_case {
->>>>>>>    struct convert_to_argb1555_result argb1555_result;
->>>>>>>    struct convert_to_rgba5551_result rgba5551_result;
->>>>>>>    struct convert_to_rgb888_result rgb888_result;
->>>>>>> + struct convert_to_bgr888_result bgr888_result;
->>>>>>>    struct convert_to_argb8888_result argb8888_result;
->>>>>>>    struct convert_to_xrgb2101010_result xrgb2101010_result;
->>>>>>>    struct convert_to_argb2101010_result argb2101010_result;
->>>>>>> @@ -151,6 +157,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->>>>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>>>    .expected = { 0x00, 0x00, 0xFF },
->>>>>>>    },
->>>>>>> + .bgr888_result = {
->>>>>>> + .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>>> + .expected = { 0xFF, 0x00, 0x00 },
->>>>>>> + },
->>>>>>>    .argb8888_result = {
->>>>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>>>    .expected = { 0xFFFF0000 },
->>>>>>> @@ -217,6 +227,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->>>>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>>>    .expected = { 0x00, 0x00, 0xFF },
->>>>>>>    },
->>>>>>> + .bgr888_result = {
->>>>>>> + .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>>> + .expected = { 0xFF, 0x00, 0x00 },
->>>>>>> + },
->>>>>>>    .argb8888_result = {
->>>>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>>>    .expected = { 0xFFFF0000 },
->>>>>>> @@ -330,6 +344,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->>>>>>>    0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
->>>>>>>    },
->>>>>>>    },
->>>>>>> + .bgr888_result = {
->>>>>>> + .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>>> + .expected = {
->>>>>>> + 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
->>>>>>> + 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00,
->>>>>>> + 0x00, 0x00, 0xFF, 0xFF, 0x00, 0xFF,
->>>>>>> + 0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF,
->>>>>>> + },
->>>>>>> + },
->>>>>>>    .argb8888_result = {
->>>>>>>    .dst_pitch = TEST_USE_DEFAULT_PITCH,
->>>>>>>    .expected = {
->>>>>>> @@ -468,6 +491,17 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->>>>>>>    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->>>>>>>    },
->>>>>>>    },
->>>>>>> + .bgr888_result = {
->>>>>>> + .dst_pitch = 15,
->>>>>>> + .expected = {
->>>>>>> + 0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05, 0xA8, 0xF3, 0x03,
->>>>>>> + 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->>>>>>> + 0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05,
->>>>>>> + 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->>>>>>> + 0xA8, 0x03, 0x03, 0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C,
->>>>>>> + 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->>>>>>> + },
->>>>>>> + },
->>>>>>>    .argb8888_result = {
->>>>>>>    .dst_pitch = 20,
->>>>>>>    .expected = {
->>>>>>> @@ -914,6 +948,52 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
->>>>>>>    KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
->>>>>>>   }
->>>>>>>   +static void drm_test_fb_xrgb8888_to_bgr888(struct kunit *test)
->>>>>>> +{
->>>>>>> + const struct convert_xrgb8888_case *params = test->param_value;
->>>>>>> + const struct convert_to_bgr888_result *result = &params->bgr888_result;
->>>>>>> + size_t dst_size;
->>>>>>> + u8 *buf = NULL;
->>>>>>> + __le32 *xrgb8888 = NULL;
->>>>>>> + struct iosys_map dst, src;
->>>>>>> +
->>>>>>> + struct drm_framebuffer fb = {
->>>>>>> + .format = drm_format_info(DRM_FORMAT_XRGB8888),
->>>>>>> + .pitches = { params->pitch, 0, 0 },
->>>>>>> + };
->>>>>>> +
->>>>>>> + dst_size = conversion_buf_size(DRM_FORMAT_BGR888, result->dst_pitch,
->>>>>>> +        &params->clip, 0);
->>>>>>> + KUNIT_ASSERT_GT(test, dst_size, 0);
->>>>>>> +
->>>>>>> + buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
->>>>>>> + KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
->>>>>>> + iosys_map_set_vaddr(&dst, buf);
->>>>>>> +
->>>>>>> + xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
->>>>>>> + KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
->>>>>>> + iosys_map_set_vaddr(&src, xrgb8888);
->>>>>>> +
->>>>>>> + /*
->>>>>>> +  * BGR888 expected results are already in little-endian
->>>>>>> +  * order, so there's no need to convert the test output.
->>>>>>> +  */
->>>>>>> + drm_fb_xrgb8888_to_bgr888(&dst, &result->dst_pitch, &src, &fb, &params->clip,
->>>>>>> +   &fmtcnv_state);
->>>>>>> + KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
->>>>>>> +
->>>>>>> + buf = dst.vaddr; /* restore original value of buf */
->>>>>>> + memset(buf, 0, dst_size);
->>>>>>> +
->>>>>>> + int blit_result = 0;
->>>>>>> +
->>>>>>> + blit_result = drm_fb_blit(&dst, &result->dst_pitch, DRM_FORMAT_BGR888, &src, &fb, &params->clip,
->>>>>>> +   &fmtcnv_state);
->>>>>>> +
->>>>>>> + KUNIT_EXPECT_FALSE(test, blit_result);
->>>>>>> + KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
->>>>>>> +}
->>>>>>> +
->>>>>>>   static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
->>>>>>>   {
->>>>>>>    const struct convert_xrgb8888_case *params = test->param_value;
->>>>>>> @@ -1851,6 +1931,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
->>>>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb1555, convert_xrgb8888_gen_params),
->>>>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgba5551, convert_xrgb8888_gen_params),
->>>>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888, convert_xrgb8888_gen_params),
->>>>>>> + KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_bgr888, convert_xrgb8888_gen_params),
->>>>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
->>>>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
->>>>>>>    KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
->>>>>>> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
->>>>>>> index f13b34e0b..b53cf85ca 100644
->>>>>>> --- a/include/drm/drm_format_helper.h
->>>>>>> +++ b/include/drm/drm_format_helper.h
->>>>>>> @@ -95,6 +95,9 @@ void drm_fb_xrgb8888_to_rgba5551(struct iosys_map *dst, const unsigned int *dst_
->>>>>>>   void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *dst_pitch,
->>>>>>>           const struct iosys_map *src, const struct drm_framebuffer *fb,
->>>>>>>           const struct drm_rect *clip, struct drm_format_conv_state *state);
->>>>>>> +void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *dst_pitch,
->>>>>>> +        const struct iosys_map *src, const struct drm_framebuffer *fb,
->>>>>>> +        const struct drm_rect *clip, struct drm_format_conv_state *state);
->>>>>>>   void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
->>>>>>>     const struct iosys_map *src, const struct drm_framebuffer *fb,
->>>>>>>     const struct drm_rect *clip, struct drm_format_conv_state *state);
->>>>>> --
->>>>>> --
->>>>>> Thomas Zimmermann
->>>>>> Graphics Driver Developer
->>>>>> SUSE Software Solutions Germany GmbH
->>>>>> Frankenstrasse 146, 90461 Nuernberg, Germany
->>>>>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->>>>>> HRB 36809 (AG Nuernberg)
->>>> --
->>>> --
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Software Solutions Germany GmbH
->>>> Frankenstrasse 146, 90461 Nuernberg, Germany
->>>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->>>> HRB 36809 (AG Nuernberg)
->> --
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->>
+>=20
+> with DEVRES logging enabled, we observe the following logs:
+>=20
+> [=C2=A0 218.093588] ccp 0000:a2:00.1: DEVRES REL 00000000c18c52fb
+> 0xffff8d09dc1972c0 devm_kzalloc_release (152 bytes)
+> [=C2=A0 218.105527] ccp 0000:a2:00.1: DEVRES REL 000000003091fb95
+> 0xffff8d09d3aad000 devm_kzalloc_release (3072 bytes)
+> [=C2=A0 218.117500] ccp 0000:a2:00.1: DEVRES REL 0000000049e4adfe
+> 0xffff8d09d588f000 pcim_intx_restore (4 bytes)
+> [=C2=A0 218.129519] ccp 0000:a2:00.1: DEVRES ADD 000000001a2ac6ad
+> 0xffff8cfa867b7cc0 pcim_intx_restore (4 bytes)
+> [=C2=A0 218.140434] ccp 0000:a2:00.1: DEVRES REL 00000000627ecaf7
+> 0xffff8d09d588f680 pcim_msi_release (16 bytes)
+> [=C2=A0 218.151665] ccp 0000:a2:00.1: DEVRES REL 0000000058b2252a
+> 0xffff8d09dc199680 msi_device_data_release (80 bytes)
+> [=C2=A0 218.163625] ccp 0000:a2:00.1: DEVRES REL 00000000435cc85e
+> 0xffff8d09d588ff80 devm_attr_group_remove (8 bytes)
+> [=C2=A0 218.175224] ccp 0000:a2:00.1: DEVRES REL 00000000cb6fcd9b
+> 0xffff8d09eb583660 pcim_addr_resource_release (40 bytes)
+> [=C2=A0 218.187319] ccp 0000:a2:00.1: DEVRES REL 00000000d64a8b84
+> 0xffff8d09eb583180 pcim_iomap_release (48 bytes)
+> [=C2=A0 218.198615] ccp 0000:a2:00.1: DEVRES REL 0000000099ac6b28
+> 0xffff8d09eb5830c0 pcim_addr_resource_release (40 bytes)
+> [=C2=A0 218.210730] ccp 0000:a2:00.1: DEVRES REL 00000000bdd27f88
+> 0xffff8d09d3ac2700 pcim_release (0 bytes)
+> [=C2=A0 218.221489] ccp 0000:a2:00.1: DEVRES REL 00000000e763315c
+> 0xffff8d09d3ac2240 devm_kzalloc_release (20 bytes)
+> [=C2=A0 218.233008] ccp 0000:a2:00.1: DEVRES REL 00000000ae90f983
+> 0xffff8d09dc25a800 devm_kzalloc_release (184 bytes)
+> [=C2=A0 218.245251] ccp 0000:23:00.1: DEVRES REL 00000000a2ec0085
+> 0xffff8cfa86bee700 fw_name_devm_release (16 bytes)
+> [=C2=A0 218.256748] ccp 0000:23:00.1: DEVRES REL 0000000021bccd98
+> 0xffff8cfaa528d5c0 devm_pages_release (16 bytes)
+> [=C2=A0 218.268044] ccp 0000:23:00.1: DEVRES REL 000000003ef7cbc7
+> 0xffff8cfaa1b5ec00 devm_kzalloc_release (104 bytes)
+> [=C2=A0 218.279631] ccp 0000:23:00.1: DEVRES REL 00000000619322e1
+> 0xffff8cfaa1b5e480 devm_kzalloc_release (152 bytes)
+> [=C2=A0 218.300438] ccp 0000:23:00.1: DEVRES REL 00000000c261523b
+> 0xffff8cfaad88b000 devm_kzalloc_release (3072 bytes)
+> [=C2=A0 218.331000] ccp 0000:23:00.1: DEVRES REL 00000000fbd19618
+> 0xffff8cfaa528d140 pcim_intx_restore (4 bytes)
+> [=C2=A0 218.361330] ccp 0000:23:00.1: DEVRES ADD 0000000057f8e767
+> 0xffff8cfa867b7740 pcim_intx_restore (4 bytes)
+> [=C2=A0 218.391226] ccp 0000:23:00.1: DEVRES REL 0000000058c9dce1
+> 0xffff8cfaa528d880 pcim_msi_release (16 bytes)
+> [=C2=A0 218.421340] ccp 0000:23:00.1: DEVRES REL 00000000c8ab08a7
+> 0xffff8cfa9e617300 msi_device_data_release (80 bytes)
+> [=C2=A0 218.452357] ccp 0000:23:00.1: DEVRES REL 00000000cf5baccb
+> 0xffff8cfaa528d8c0 devm_attr_group_remove (8 bytes)
+> [=C2=A0 218.483011] ccp 0000:23:00.1: DEVRES REL 00000000b8cbbadd
+> 0xffff8cfa9c596060 pcim_addr_resource_release (40 bytes)
+> [=C2=A0 218.514343] ccp 0000:23:00.1: DEVRES REL 00000000920f9607
+> 0xffff8cfa9c596c60 pcim_iomap_release (48 bytes)
+> [=C2=A0 218.544659] ccp 0000:23:00.1: DEVRES REL 00000000d401a708
+> 0xffff8cfa9c596840 pcim_addr_resource_release (40 bytes)
+> [=C2=A0 218.575774] ccp 0000:23:00.1: DEVRES REL 00000000865d2fa2
+> 0xffff8cfaa528d940 pcim_release (0 bytes)
+> [=C2=A0 218.605758] ccp 0000:23:00.1: DEVRES REL 00000000f5b79222
+> 0xffff8cfaa528d080 devm_kzalloc_release (20 bytes)
+> [=C2=A0 218.636260] ccp 0000:23:00.1: DEVRES REL 0000000037ef240a
+> 0xffff8cfa9eeb3f00 devm_kzalloc_release (184 bytes)
+>=20
+> and the CCP driver reload issue during driver probe:
+>=20
+> [=C2=A0 226.552684] pci 0000:23:00.1: Resources present before probing
+> [=C2=A0 226.568846] pci 0000:a2:00.1: Resources present before probing
+>=20
+> From the above DEVRES logging, it looks like pcim_intx_restore
+> associated resource is being released but then
+> being re-added during detach/unload, which causes really_probe() to
+> fail at probe time, as dev->devres_head is
+> not empty due to this added resource:
+> ...
+> [=C2=A0 218.331000] ccp 0000:23:00.1: DEVRES REL 00000000fbd19618
+> 0xffff8cfaa528d140 pcim_intx_restore (4 bytes)
+> [=C2=A0 218.361330] ccp 0000:23:00.1: DEVRES ADD 0000000057f8e767
+> 0xffff8cfa867b7740 pcim_intx_restore (4 bytes)
+> ...
+>=20
+> Going more deep into this:=20
+>=20
+> This is the initial pcim_intx_resoure associated resource being added
+> during first (CCP) driver load:
+>=20
+> [=C2=A0=C2=A0 40.418933]=C2=A0 pcim_intx+0x3a/0x120
+> [=C2=A0=C2=A0 40.418936]=C2=A0 pci_intx+0x8b/0xa0
+> [=C2=A0=C2=A0 40.418939]=C2=A0 __pci_enable_msix_range+0x369/0x530
+> [=C2=A0=C2=A0 40.418943]=C2=A0 pci_enable_msix_range+0x18/0x20
+> [=C2=A0=C2=A0 40.418946]=C2=A0 sp_pci_probe+0x106/0x310 [ccp]
+> [=C2=A0=C2=A0 40.418965] ipmi device interface
+> [=C2=A0=C2=A0 40.418960]=C2=A0 ? srso_alias_return_thunk+0x5/0xfbef5
+> [=C2=A0=C2=A0 40.418969]=C2=A0 local_pci_probe+0x4f/0xb0
+> [=C2=A0=C2=A0 40.418973]=C2=A0 work_for_cpu_fn+0x1e/0x30
+> [=C2=A0=C2=A0 40.418976]=C2=A0 process_one_work+0x183/0x350
+> [=C2=A0=C2=A0 40.418980]=C2=A0 worker_thread+0x2df/0x3f0
+> [=C2=A0=C2=A0 40.418982]=C2=A0 ? __pfx_worker_thread+0x10/0x10
+> [=C2=A0=C2=A0 40.418985]=C2=A0 kthread+0xd0/0x100
+> [=C2=A0=C2=A0 40.418987]=C2=A0 ? __pfx_kthread+0x10/0x10
+> [=C2=A0=C2=A0 40.418990]=C2=A0 ret_from_fork+0x40/0x60
+> [=C2=A0=C2=A0 40.418993]=C2=A0 ? __pfx_kthread+0x10/0x10
+> [=C2=A0=C2=A0 40.418996]=C2=A0 ret_from_fork_asm+0x1a/0x30
+> [=C2=A0=C2=A0 40.419001]=C2=A0 </TASK>
+> ..
+> ..
+> [=C2=A0=C2=A0 40.419012] ccp 0000:23:00.1: DEVRES ADD 00000000fbd19618
+> 0xffff8cfaa528d140 pcim_intx_restore (4 bytes)
+>=20
+> Now, at driver unload:=20
+> devres_release_all() -> remove_nodes() -> release_nodes() ...
+>=20
+> remove_nodes() moves normal devres entries to the todo list, as can
+> be seen with the following log:
+> ...
+> [=C2=A0 218.245241] moving node 00000000fbd19618 0xffff8cfaa528d140 from
+> devres to todo list
+> ...
+>=20
+> So, now this pcim_intx_resource associated resource is no longer part
+> of dev->devres_head list and has been
+> moved to the todo list.
+>=20
+> Later, when release_nodes() is invoked, it calls the associated
+> release() callback associated with this devres:
+> ...
+> [=C2=A0 218.331000] ccp 0000:23:00.1: DEVRES REL 00000000fbd19618
+> 0xffff8cfaa528d140 pcim_intx_restore (4 bytes)
+> ...
+>=20
+> The call flow for that is:
+> pcim_intx_restore() -> pci_intx() -> pcim_intx() ...
+>=20
+> Now, pcim_intx() calls get_or_create_intx_devres() which tries to
+> find it's associated devres using devres_find(), but=20
+> that fails to find the devres, as the devres is no longer on dev-
+> >devres_head and has been moved to todo list.
+>=20
+> Therefore, get_or_create_intx_devres() adds a new devres at driver
+> unload/detach time:
+> ...
+> [=C2=A0 218.361330] ccp 0000:23:00.1: DEVRES ADD 0000000057f8e767
+> 0xffff8cfa867b7740 pcim_intx_restore (4 bytes)
+> ...
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+You're absolutely right, that seems to be the issue precisely. In fact,
+this problem of PCI hybrid functions calling themselves again even
+forced me to implement a "pure unmanaged" version of
+__pci_request_region(). So it's a pity that I didn't think of that
+problem for pci_intx().
+
+>=20
+> But, then this is an issue as pcim_intx() is supposed to restore the
+> original PCI INTx state on driver detach, but it now
+> operating on a newly added devres and not the original devres (added
+> at driver probe) which contains the original PCI INTx
+> state, so it will be restoring an incorrect PCI INTx state ?
+
+I think this is just UB and we don't have to think about whether it's
+the correct state or not =E2=80=93 it must only be restored once, so it's
+broken in any case.
+
+>=20
+> Additionally, this newly added devres causes driver reload/probe
+> failure as really_probe() now finds resources present
+> before probing.
+
+Yes, that has to be separated.
+
+@Bjorn:
+So I think the solution will be not to call into pci_intx() from
+pcim_intx_restore() at all anymore.
+
+Similar as we do with __pci_request_region() <-> __pcim_request_region().
+
+Let me dig into that..
+
+I guess you'll prefer me to send a fixup commit to squash into the
+pcim_intx() commit?
+
+I'm quite busy today, but will definitely deliver that quite soon.
+
+>=20
+> Not sure, if this issue has been observed with other PCI device
+> drivers.
+
+Everyone using pci_intx() AND pcim_enable_device() will have this
+issue.
+
+The only thing I'm wondering about is where your code in
+drivers/crypto/ccp/ calls into pci_intx()?
+
+
+Regards,
+P.
+
+>=20
+> Thanks,
+> Ashish
+>=20
 
