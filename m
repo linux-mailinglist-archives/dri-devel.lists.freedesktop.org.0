@@ -2,48 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7DB92C04C
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 18:34:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A3A92C06A
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 18:37:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB7F910E605;
-	Tue,  9 Jul 2024 16:34:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73C1D10E606;
+	Tue,  9 Jul 2024 16:36:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UhhiPuYM";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="rMxkriDa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E99110E602
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 16:34:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=l/dXv6tiFHIDsiK5FlFzp9gPWIuOg2Aj/F8rF0rd7CQ=; b=UhhiPuYMlNiGRZOzHN0nNad//h
- J/llxKeT77APXYCaz77tuTq77LCBhMvqj3LQlWhVcXwGvpR7gKLSIACFIY6URHuGxynqLyW8uOD/8
- opTEfL75iZ5qmL8zxs8qFLdrz/Z0PzPdvUPHMFATYLmPXgVPTHZgtukwYb45RBMWNQEtnR1l2AqJJ
- LRqvPZjxD0SCF40szFh5PmqXam0jOjxr3KQoX/hrSC6uiUVEXep8Nw5SxLccoc+LuYuqx5xwXd1VT
- ozaxZjjXKvOmDKJGxrU2y5FNQRCkogevv4QoTbptinZIFbfImpWNIY6o+2cJqQp4w87p2rlK+z8KE
- IcN/zCFA==;
-Received: from [84.69.19.168] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sRDnb-00Csp0-Co; Tue, 09 Jul 2024 18:34:39 +0200
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH 12/12] drm/v3d: Move perfmon init completely into own unit
-Date: Tue,  9 Jul 2024 17:34:25 +0100
-Message-ID: <20240709163425.58276-13-tursulin@igalia.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240709163425.58276-1-tursulin@igalia.com>
-References: <20240709163425.58276-1-tursulin@igalia.com>
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFDEA10E607
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 16:36:57 +0000 (UTC)
 MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1720543011;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qb4jsYTIQzitlWMV3L8IKAQqxT2vxmP2fmC44qXIKog=;
+ b=rMxkriDamSGiRoMubJ+OPvOCJy32kDnf0T4D7nNs6RWEub+6GnN3/pLIhEzQki3IbyZkPe
+ XLrpTUWPjcJH07oYxVhmZcaOlrwabSoFRly/Kxnxp9YKinHoy8f5+Qma+8fCRuOpK16NlG
+ goGqtuxbimiKzWa5Yml+VK6CmM8el4k0YGHYTwXcmye/BzXUGzgDgf3rkLEyWi1X6dZf/D
+ cFduWZy3kPDGRXI813Vp4EciWmCojBkP+p93O5cUsHLGImeHE4Zq8cHhpQK6iaQ60JXLVH
+ 7rRkAjj/kYj8JAEq9d6xuK1uTAmm+uWr6Thsq2IgLzPCSACyM3X7W2uFprU5Qg==
+Date: Tue, 09 Jul 2024 18:36:08 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andy Yan <andyshrk@163.com>, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
+ andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ javierm@redhat.com
+Subject: Re: [PATCH] drm/rockchip: cdn-dp: Remove redundant workarounds for
+ firmware loading
+In-Reply-To: <20240709-exuberant-tentacled-oxpecker-bd1ea0@houat>
+References: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
+ <109c6f19.2559.1907b817a99.Coremail.andyshrk@163.com>
+ <0bf4701d98833609b917983718c610aa@manjaro.org>
+ <2fd3aabd.785b.190914ec1a6.Coremail.andyshrk@163.com>
+ <f0fb9feed2d9262bb4d7c8ade836af62@manjaro.org>
+ <909d072.9028.19096c2429a.Coremail.andyshrk@163.com>
+ <31062b80d3f9e11c339c400a70464f43@manjaro.org>
+ <20240709-exuberant-tentacled-oxpecker-bd1ea0@houat>
+Message-ID: <b6d630447e6c69e913b76650d910f895@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,173 +70,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Hello Maxime,
 
-Now that the build time dependencies on various array sizes have been
-removed, we can move the perfmon init completely into its own compilation
-unit and remove the hardcoded defines.
+On 2024-07-09 13:09, Maxime Ripard wrote:
+> On Tue, Jul 09, 2024 at 12:10:51PM GMT, Dragan Simic wrote:
+>> On 2024-07-09 11:10, Andy Yan wrote:
+>> > At 2024-07-09 16:17:06, "Dragan Simic" <dsimic@manjaro.org> wrote:
+>> > > On 2024-07-08 09:46, Andy Yan wrote:
+>> > > > At 2024-07-04 18:35:42, "Dragan Simic" <dsimic@manjaro.org> wrote:
+>> > > > > On 2024-07-04 04:10, Andy Yan wrote:
+>> > > > > > At 2024-07-04 07:32:02, "Dragan Simic" <dsimic@manjaro.org> wrote:
+>> > > > > > > After the additional firmware-related module information was
+>> > > > > > > introduced by
+>> > > > > > > the commit c0677e41a47f ("drm/rockchip: cdn-dp-core: add
+>> > > > > > > MODULE_FIRMWARE
+>> > > > > > > macro"), there's no longer need for the
+>> > > > > > > firmware-loading workarounds
+>> > > > > > > whose
+>> > > > > > > sole purpose was to prevent the missing firmware
+>> > > > > > > blob in an initial
+>> > > > > > > ramdisk
+>> > > > > > > from causing driver initialization to fail.  Thus, delete the
+>> > > > > > > workarounds,
+>> > > > > > > which removes a sizable chunk of redundant code.
+>> > > > > >
+>> > > > > > What would happen if there was no ramdisk? And the firmware is in
+>> > > > > > rootfs ？
+>> > > > > >
+>> > > > > > For example： A buildroot based tiny embedded system。
+>> > > > >
+>> > > > > Good point, let me explain, please.
+>> > > > >
+>> > > > > In general, if a driver is built into the kernel, there
+>> > > > > should also be
+>> > > > > an initial ramdisk that contains the related firmware blobs, because
+>> > > > > it's
+>> > > > > unknown is the root filesystem available when the driver is probed.
+>> > > > > If
+>> > > > > a driver is built as a module and there's no initial ramdisk, having
+>> > > > > the related firmware blobs on the root filesystem should be fine,
+>> > > > > because
+>> > > > > the firmware blobs and the kernel module become available at
+>> > > > > the same
+>> > > > > time, through the root filesystem. [1]
+>> > > > >
+>> > > > > Another option for a driver built statically into the kernel, when
+>> > > > > there's
+>> > > > > no initial ramdisk, is to build the required firmware blobs into the
+>> > > > > kernel
+>> > > > > image. [2]  Of course, that's feasible only when a kernel image is
+>> > > > > built
+>> > > > > specificially for some device, because otherwise it would become too
+>> > > > > large
+>> > > > > because of too many drivers and their firmware blobs becoming
+>> > > > > included,
+>> > > > > but that seems to fit the Buildroot-based example.
+>> > > > >
+>> > > > > To sum it up, mechanisms already exist in the kernel for various
+>> > > > > scenarios
+>> > > > > when it comes to loading firmware blobs.  Even if the deleted
+>> > > > > workaround
+>> > > > > attempts to solve some issue specific to some environment,
+>> > > > > that isn't
+>> > > > > the
+>> > > > > right place or the right way for solving any issues of that kind.
+>> > > > >
+>> > > > > While preparing this patch, I even tried to find another
+>> > > > > kernel driver
+>> > > > > that
+>> > > > > also implements some similar workarounds for firmware loading, to
+>> > > > > justify
+>> > > > > the existence of such workarounds and to possibly move them into the
+>> > > > > kernel's
+>> > > > > firmware-loading interface.  Alas, I was unable to find such
+>> > > > > workarounds
+>> > > > > in
+>> > > > > other drivers, which solidified my reasoning behind classifying the
+>> > > > > removed
+>> > > > > code as out-of-place and redundant.
+>> > > >
+>> > > > For some tiny embedded system，there is no such ramdisk，for example：
+>> > > > a buildroot based rootfs，the buildroot only generate rootfs。
+>> > > >
+>> > > > And FYI， there are mainline drivers try to fix such issue by
+>> > > > defer_probe，for example：
+>> > > > smc_abc[0]
+>> > > > There are also some other similar scenario in gpu driver{1}[2]
+>> > > >
+>> > > > [0]https://elixir.bootlin.com/linux/latest/source/drivers/tee/optee/smc_abi.c#L1518
+>> > > > [1]https://patchwork.kernel.org/project/dri-devel/patch/20240109120604.603700-1-javierm@redhat.com/
+>> > > > [2]https://lore.kernel.org/dri-devel/87y1918psd.fsf@minerva.mail-host-address-is-not-set/T/
+>> > >
+>> > > Thanks for providing these examples.
+>> > >
+>> > > Before I continue thinking about the possible systemic solution,
+>> > > could you please clarify the way Buildroot builds the kernel and
+>> > > prepares the root filesystem?  I'm not familiar with Buildroot,
+>> > > but it seems to me that it builds the drivers statically into the
+>> > > produced kernel image, while it places the related firmware blobs
+>> > > into the produced root filesystem.  Am I right there?
+>> >
+>> > in practice we can chose build the drivers statically into the kernel，
+>> > we can also build it as a module。
+>> > And in both case， the firmware blobs are put in rootfs。
+>> > If the drivers is built as a module， the module will also put in
+>> > rootfs，
+>> > so its fine。
+>> > But if a drivers is built into the kernel ，it maybe can't access the
+>> > firmware blob
+>> > before the rootfs is mounted.
+>> > So we can see some drivers try to use  DEFER_PROBE to fix this issue.
+>> 
+>> When Buildroot builds the drivers statically into the kernel image,
+>> can it also be told to build the required firmware blobs into the
+>> kernel image, for which there's already support in the kernel?
+>> 
+>> Of course, that would be feasible if only a small number of firmware
+>> blobs would end up built into the kernel image, i.e. if the Buildroot
+>> build would be tailored for a specific board.
+> 
+> IIRC, it can, but it's not really convenient from a legal point of 
+> view.
 
-This improves on the temporary fix quickly delivered in
-792d16b5375d ("drm/v3d: Move perfmon init completely into own unit").
+Ah, makes sense.  Very different licensing for the same file, etc.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-References: 792d16b5375d ("drm/v3d: Move perfmon init completely into own unit")
----
- drivers/gpu/drm/v3d/v3d_drv.c                 |  9 +---
- drivers/gpu/drm/v3d/v3d_drv.h                 |  6 +--
- drivers/gpu/drm/v3d/v3d_perfmon.c             | 44 +++++++++++--------
- .../gpu/drm/v3d/v3d_performance_counters.h    | 16 ++++---
- 4 files changed, 40 insertions(+), 35 deletions(-)
+>> Otherwise...
+>> 
+>> > > As I already wrote earlier, and as the above-linked discussions
+>> > > conclude, solving these issues doesn't belong to any specific driver.
+>> > > It should be resolved within the kernel's firmware loading mechanism
+>> > > instead, and no driver should be specific in that regard.
+>> >
+>> > IT would be good if it can be resolved within the kernel's  firmware
+>> > loading mechanism.
+>> 
+>> ... we'll need this as a systemic solution.
+> 
+> The general policy has been to put drivers that need a firmware as a
+> module, and just never build them statically.
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index a47f00b443d3..491c638a4d74 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -95,7 +95,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
- 		args->value = 1;
- 		return 0;
- 	case DRM_V3D_PARAM_MAX_PERF_COUNTERS:
--		args->value = v3d->max_counters;
-+		args->value = v3d->perfmon_info.max_counters;
- 		return 0;
- 	default:
- 		DRM_DEBUG("Unknown parameter %d\n", args->param);
-@@ -298,12 +298,7 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	v3d->cores = V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_NCORES);
- 	WARN_ON(v3d->cores > 1); /* multicore not yet implemented */
- 
--	if (v3d->ver >= 71)
--		v3d->max_counters = V3D_V71_NUM_PERFCOUNTERS;
--	else if (v3d->ver >= 42)
--		v3d->max_counters = V3D_V42_NUM_PERFCOUNTERS;
--	else
--		v3d->max_counters = 0;
-+	v3d_perfmon_init(v3d);
- 
- 	v3d->reset = devm_reset_control_get_exclusive(dev, NULL);
- 	if (IS_ERR(v3d->reset)) {
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 00fe5d993175..6d2d34cd135c 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -104,10 +104,7 @@ struct v3d_dev {
- 	int ver;
- 	bool single_irq_line;
- 
--	/* Different revisions of V3D have different total number of performance
--	 * counters
--	 */
--	unsigned int max_counters;
-+	struct v3d_perfmon_info perfmon_info;
- 
- 	void __iomem *hub_regs;
- 	void __iomem *core_regs[3];
-@@ -568,6 +565,7 @@ int v3d_sched_init(struct v3d_dev *v3d);
- void v3d_sched_fini(struct v3d_dev *v3d);
- 
- /* v3d_perfmon.c */
-+void v3d_perfmon_init(struct v3d_dev *v3d);
- void v3d_perfmon_get(struct v3d_perfmon *perfmon);
- void v3d_perfmon_put(struct v3d_perfmon *perfmon);
- void v3d_perfmon_start(struct v3d_dev *v3d, struct v3d_perfmon *perfmon);
-diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
-index b7d0b02e1a95..cd7f1eedf17f 100644
---- a/drivers/gpu/drm/v3d/v3d_perfmon.c
-+++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
-@@ -195,6 +195,23 @@ static const struct v3d_perf_counter_desc v3d_v71_performance_counters[] = {
- 	{"QPU", "QPU-stalls-other", "[QPU] Stalled qcycles waiting for any other reason (vary/W/Z)"},
- };
- 
-+void v3d_perfmon_init(struct v3d_dev *v3d)
-+{
-+	const struct v3d_perf_counter_desc *counters = NULL;
-+	unsigned int max = 0;
-+
-+	if (v3d->ver >= 71) {
-+		counters = v3d_v71_performance_counters;
-+		max = ARRAY_SIZE(v3d_v71_performance_counters);
-+	} else if (v3d->ver >= 42) {
-+		counters = v3d_v42_performance_counters;
-+		max = ARRAY_SIZE(v3d_v42_performance_counters);
-+	}
-+
-+	v3d->perfmon_info.max_counters = max;
-+	v3d->perfmon_info.counters = counters;
-+}
-+
- void v3d_perfmon_get(struct v3d_perfmon *perfmon)
- {
- 	if (perfmon)
-@@ -321,7 +338,7 @@ int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
- 
- 	/* Make sure all counters are valid. */
- 	for (i = 0; i < req->ncounters; i++) {
--		if (req->counters[i] >= v3d->max_counters)
-+		if (req->counters[i] >= v3d->perfmon_info.max_counters)
- 			return -EINVAL;
- 	}
- 
-@@ -416,26 +433,15 @@ int v3d_perfmon_get_counter_ioctl(struct drm_device *dev, void *data,
- 			return -EINVAL;
- 	}
- 
--	/* Make sure that the counter ID is valid */
--	if (req->counter >= v3d->max_counters)
--		return -EINVAL;
--
--	BUILD_BUG_ON(ARRAY_SIZE(v3d_v42_performance_counters) !=
--		     V3D_V42_NUM_PERFCOUNTERS);
--	BUILD_BUG_ON(ARRAY_SIZE(v3d_v71_performance_counters) !=
--		     V3D_V71_NUM_PERFCOUNTERS);
--	BUILD_BUG_ON(V3D_MAX_COUNTERS < V3D_V42_NUM_PERFCOUNTERS);
--	BUILD_BUG_ON(V3D_MAX_COUNTERS < V3D_V71_NUM_PERFCOUNTERS);
--	BUILD_BUG_ON((V3D_MAX_COUNTERS != V3D_V42_NUM_PERFCOUNTERS) &&
--		     (V3D_MAX_COUNTERS != V3D_V71_NUM_PERFCOUNTERS));
--
--	if (v3d->ver >= 71)
--		counter = &v3d_v71_performance_counters[req->counter];
--	else if (v3d->ver >= 42)
--		counter = &v3d_v42_performance_counters[req->counter];
--	else
-+	if (!v3d->perfmon_info.max_counters)
- 		return -EOPNOTSUPP;
- 
-+	/* Make sure that the counter ID is valid */
-+	if (req->counter >= v3d->perfmon_info.max_counters)
-+		return -EINVAL;
-+
-+	counter = &v3d->perfmon_info.counters[req->counter];
-+
- 	strscpy(req->name, counter->name, sizeof(req->name));
- 	strscpy(req->category, counter->category, sizeof(req->category));
- 	strscpy(req->description, counter->description, sizeof(req->description));
-diff --git a/drivers/gpu/drm/v3d/v3d_performance_counters.h b/drivers/gpu/drm/v3d/v3d_performance_counters.h
-index 131b2909522a..d919a2fc9449 100644
---- a/drivers/gpu/drm/v3d/v3d_performance_counters.h
-+++ b/drivers/gpu/drm/v3d/v3d_performance_counters.h
-@@ -19,11 +19,17 @@ struct v3d_perf_counter_desc {
- 	char description[256];
- };
- 
-+struct v3d_perfmon_info {
-+	/*
-+	 * Different revisions of V3D have different total number of
-+	 * performance counters.
-+	 */
-+	unsigned int max_counters;
- 
--#define V3D_V42_NUM_PERFCOUNTERS (87)
--#define V3D_V71_NUM_PERFCOUNTERS (93)
--
--/* Maximum number of performance counters supported by any version of V3D */
--#define V3D_MAX_COUNTERS (93)
-+	/*
-+	 * Array of counters valid for the platform.
-+	 */
-+	const struct v3d_perf_counter_desc *counters;
-+};
- 
- #endif
--- 
-2.44.0
-
+I totally agree, but if Buildroot builds them statically and provides
+no initial ramdisk, we need a better solution than having various 
+drivers
+attempt to implement their own workarounds.
