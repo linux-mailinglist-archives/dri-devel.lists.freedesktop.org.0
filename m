@@ -2,88 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD7292C506
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 22:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A7F92C546
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 23:23:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB1A810E078;
-	Tue,  9 Jul 2024 20:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8517410E669;
+	Tue,  9 Jul 2024 21:23:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="CpZO8h6q";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Fki7TXn7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAE4810E078
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 20:56:01 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-79ef8fe0e90so297622085a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 13:56:01 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
+ [209.85.219.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85EFC10E027
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 21:23:48 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id
+ 3f1490d57ef6-e02c4983bfaso5876831276.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 14:23:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1720558558; x=1721163358;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cVh6W36UPU19XxDEtUe4/W7t7i/b/SampjURjZZcQD8=;
- b=CpZO8h6q9evmKBQYsDT4uZHB5uJ4n1Fc41vGUFdt16rfFi/SAiZ9Ofenzk/MqJV3Bn
- CPWa6Vj65BgTgjXqMathviqkHFcl99+NgA07zka0OtXqAVXovUosccKn53nNrSxaUDHG
- XdStUaTAWbcIZDR+Dk/XuDbLw805do76BeixI=
+ d=gmail.com; s=20230601; t=1720560227; x=1721165027; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=WmfdnyKEA3o5jGPK2SDIy8v7JkJ7vv3CMoQcD/uKGOk=;
+ b=Fki7TXn7pvwz7my5Y3m0E+/Q6s65vMBsEvsXsQpu91nhM6zPieZuslN/TeOST0BeIx
+ 4xppAybokha9HuBtT2vPG0tTRLPWiZaACLBadwahFQjuBH7bcUyYHsQ3skhPD79gHwmP
+ wFA3Ajigz6DRC9QPlccn0jGaOchGNItdLSlH+uvqu8OpLhfmPurdlCjFrTOYzef6eJiy
+ p+gL8kK/mBrGf83mGXAxYlBTECzx/f7H1Z4I8TZDdqrNn32sX3skOHXyFsNoOAPDlFhY
+ CReudyODEbNFOzfQyW2VVX0+zGtQHT/VCaK/owiDcEwU7t9TOFniExL/Ho+6yMWkvJyD
+ uyxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720558558; x=1721163358;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cVh6W36UPU19XxDEtUe4/W7t7i/b/SampjURjZZcQD8=;
- b=cN/oQJPUu7kTQILI/kVp4gRq/THti9PygAvQytaQ2tK8vBB2ctmFRb++r38L2vA8cb
- nUh77aIIM6xhN8p//RAktvpilOf12hEkscQ8yLSEUSxdSBcbcNigreo0CIkuhzAcnN+T
- Jb3mcijb4Fyr/y4qdrnDcCu7V4Mz7UdQy3DTrXSK4qNxpJDirA4TSouGPtEPCSAe6O21
- p/xP7x3MzOB/f3u2m91wl9PGIvtkkyKp2DacyBYcPEOU+nTSS6R+ELEtI5DRCg5iP9iS
- +oqONsGIYtKc96c/u1jOqurcCNYGZe8yu8NzRf5xaYUq543IqZ1D8wqMoGGIbC27pP43
- 9HKg==
+ d=1e100.net; s=20230601; t=1720560227; x=1721165027;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WmfdnyKEA3o5jGPK2SDIy8v7JkJ7vv3CMoQcD/uKGOk=;
+ b=YPFENv1uXLxY5pf44Jn6j9kSGF1WmWfPafU1JY845d2hnra1VkDYviey+kTlx4p6ms
+ waDsF6k9gM413/UCfQHpt0jZ2byscmqqicNtq3w6tFDuf/ivin6wGNe/PrhvihRjVCc/
+ zTGU75Xmwph10gSVnqtACcq/uuknl+mt3kjgkf07DDwBkVFYckSoxl7/5w04/d/Ib7G1
+ hBWpHj114kY089CDvjbS26Pvln3qVj40azVU/xgHPcsNWzzAA+pmcNG0xguiZ/xNlUzC
+ KybYOU7FtXU+6TnshN1HuRypr0cObnROGG8vMozyn75WaJTsJ0z1MLVjUmWzAgPAVch3
+ ENnw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVSofDaLz2a6Jc9H+aF3c67VJwWCytvBxzI3RPkxWNrRivujud0VGiHZROs9SuT4kGcxAbKmP0RadNneK8HXRRNUQ01L9ASTnFmKYuCShqw
-X-Gm-Message-State: AOJu0Yw712a6JKNhkvZlnJ4XZitDT68+WJUIe6WEoaMimoJVYeEn55dT
- yUrlX0g3G7/9WUKwGOyMjKIHXcIHp3uJQ8rsNUNJrJgVTUla9m3H+v0LtdoZMhxRyJxqdDlp5s+
- qovOR
-X-Google-Smtp-Source: AGHT+IEVczYw1fAMtJJmywgXnqpPJ64O6HSas4PuBMe/pIRu/mTOxWaBobhyyfqRAPU9gUsEa1ElRg==
-X-Received: by 2002:a05:6214:48e:b0:6b5:4a87:4034 with SMTP id
- 6a1803df08f44-6b61c1c436cmr51528466d6.49.1720558558025; 
- Tue, 09 Jul 2024 13:55:58 -0700 (PDT)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com.
- [209.85.160.175]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b61b9c461bsm11991776d6.11.2024.07.09.13.55.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jul 2024 13:55:56 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-447f8aa87bfso103001cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 13:55:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWxhcV110ass9t8osv0xiGwmt0udpaxPhr1426hPmCWmisyWbJzs1uIaSeVDYQwXtlI5slWtIvLk5dSSD18acy6RPypOec/Q/Xe5SVsfm6g
-X-Received: by 2002:a05:622a:7604:b0:447:f5de:bd18 with SMTP id
- d75a77b69052e-44b191f6ac5mr194891cf.9.1720558556064; Tue, 09 Jul 2024
- 13:55:56 -0700 (PDT)
+ AJvYcCVgL0mJE9ujFC5xe15KG/og4DmNb0f0SuJuiR3IZdrYEh+ySAlwY6JjJSFNXXPgpQjrKbQRvQQ/ean+kl+9KG00+aA6F2UJ/akYA7hK2FZu
+X-Gm-Message-State: AOJu0YxbE6Q+PPxNUU392O7yOfUitK6a1mBTAYnxTbEj7geEo7coLwM3
+ Zy4G8xz+WxjgUP+337/5FF5C59FvRs6zKXnaJG4P0E3oF+ATS86YUezL/esyJpMpGMawGnhliWa
+ J/nbHLaOX0Ajy1OJV9vGBj14jm3A=
+X-Google-Smtp-Source: AGHT+IGqLBKbHM6hlsG0wHM9ou2lXYWje2G/b89S5krrTbK++SlEeR3dIZKk1TXGNjaFP5nCyTc2Qrm/usAt1crjW9s=
+X-Received: by 2002:a25:a2c4:0:b0:e03:6211:15be with SMTP id
+ 3f1490d57ef6-e041b0f5b5bmr4295856276.29.1720560227203; Tue, 09 Jul 2024
+ 14:23:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240628182428.171031-1-tejasvipin76@gmail.com>
- <20240628182428.171031-2-tejasvipin76@gmail.com>
- <CAD=FV=VKiEjDfeK8pCqAk8+YWBD2U4ESLik8kiDbvgrZz7o1NA@mail.gmail.com>
- <36aa6067-fa6b-4957-ae33-58a28e32c8fd@gmail.com>
-In-Reply-To: <36aa6067-fa6b-4957-ae33-58a28e32c8fd@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 9 Jul 2024 13:55:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U6WdxD4g-4rA2Kz0nbs3fZUA+NRzivg_tJMup0652MxQ@mail.gmail.com>
-Message-ID: <CAD=FV=U6WdxD4g-4rA2Kz0nbs3fZUA+NRzivg_tJMup0652MxQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/mipi-dsi: add more multi functions for better
- error handling
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, LinusW <linus.walleij@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20240708151857.40538-1-stefano.radaelli21@gmail.com>
+ <172045725750.3389992.15451403448241421795.robh@kernel.org>
+ <CAK+owohBrewYFpDKjsE5iWC5OQ3p6S_9fwj7DWa1Ux2h8CXcAw@mail.gmail.com>
+ <944ecc41-9ef7-4d9e-9d96-3c5c0cdb71b5@denx.de>
+ <CAK+owoiQY8OYiZofyq4jj2S3Mg6ub88DF5V52JcppxhWbUsWgg@mail.gmail.com>
+ <223b287f-4da6-4ec1-be7c-6135215c5551@denx.de>
+ <CAK+owogLctqu17cFEQH+258wrpfMJ4iE6iJABRu5dwxDtR21EA@mail.gmail.com>
+ <8ae33208-3273-4bca-8371-6fc1ef50061f@denx.de>
+In-Reply-To: <8ae33208-3273-4bca-8371-6fc1ef50061f@denx.de>
+From: Stefano Radaelli <stefano.radaelli21@gmail.com>
+Date: Tue, 9 Jul 2024 23:23:36 +0200
+Message-ID: <CAK+owoiG7k-zfApd_mase3Z_H9K2ue6FjSt42jQtu+-i28hG5Q@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: bridge: ti,
+ sn65dsi83: add burst-mode-disabled
+To: Marek Vasut <marex@denx.de>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
+ "Noah J . Rosa" <noahj.rosa@gmail.com>, linux-kernel@vger.kernel.org
+Content-Type: multipart/alternative; boundary="00000000000028414e061cd72561"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,67 +94,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--00000000000028414e061cd72561
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 9, 2024 at 4:18=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com>=
- wrote:
->
-> On 7/9/24 5:50 AM, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Fri, Jun 28, 2024 at 11:25=E2=80=AFAM Tejas Vipin <tejasvipin76@gmai=
-l.com> wrote:
-> >>
-> >> +/**
-> >> + * mipi_dsi_dcs_set_page_address_multi() - define the column extent o=
-f the
-> >> + *     frame memory accessed by the host processor
-> >> + * @ctx: Context for multiple DSI transactions
-> >> + * @start: first column of frame memory
-> >> + * @end: last column of frame memory
-> >
-> > nit: "start" and "end" comments should say "first page" and "last
-> > page", not "first column" and "last column". The previous function was
-> > the one about columns.
-> >
-> >> + *
-> >> + * Like mipi_dsi_dcs_set_page_address() but deals with errors in a wa=
-y that
-> >> + * makes it convenient to make several calls in a row.
-> >> + */
-> >> +void mipi_dsi_dcs_set_page_address_multi(struct mipi_dsi_multi_contex=
-t *ctx,
-> >> +                                          u16 start, u16 end)
-> >
-> > nit: indentation of the above line isn't _quite_ right.
-> >
-> >
-> > Other than the two nits, this looks fine to me, but I'd prefer if
-> > someone else provides an "Ack" in addition to me that they're OK
-> > adding these extra "multi" functions. Both Dmitry and Linus W were
-> > involved in the original "multi" functions, so maybe they'd be willing
-> > to offer their opinions?
->
-> I think a better way to go forward with multi style functions is to
-> use macros. All the multi style functions are basically exactly the
-> same with the only difference being the function called internally
-> and the dev_err. This can be represented in the form of a macro, and
-> would save on a ton of otherwise redundant code, while also allowing
-> us to "convert" any function to multi style as and when we please.
->
-> We would ideally have 2 macros, one for the main functions where we
-> desire to modify accum_err on an error arising, and another macro that
-> just checks accum_err to see if the function should be a no op.
->
-> If you guys think this is a good idea, I'll work on the macros and
-> do the multi conversions in this new way.
+Yes this is not the mainline driver but it is the one from which the
+mainline driver is taken.
 
-I had a similar thought but I wasn't sure how easy it would be. If you
-want to prototype it out and send out patches if they look good then
-that'd be nice. We'd want to make sure that we actually generate
-functions for the "multi" variants since we don't want all that inline
-code on every caller, but generating those functions with a macro does
-seem like it would work. I guess you'd also need to include some sort
-of string for use in the error messages.
+Yes this problem occurs with this mainline driver.
 
--Doug
+Stefano
+
+Il Mar 9 Lug 2024, 23:12 Marek Vasut <marex@denx.de> ha scritto:
+
+> On 7/9/24 7:30 PM, Stefano Radaelli wrote:
+> > Okay, I get it.
+> >
+> > So if you think this mode shouldn't be implemented within this driver, we
+> > can close the thread.
+> > Just for information, this driver has been implemented from the work done
+> > by Compulab (as it says in the driver's initial comments), and they do
+> not
+> > put the burst mode by default, not even giving the possibility to
+> activate
+> > it by dts:
+> >
+> https://github.com/compulab-yokneam/imx8-android/blob/master/o8/vendor/nxp-opensource/kernel_imx/0055-sn65dsi83-Add-ti-sn65dsi83-dsi-to-lvds-bridge-driver.patch
+>
+> This is not the mainline Linux driver.
+>
+> > The panels that I've had these problems with are some of JuTouch's
+> > 1920x1200, for example JT101TM015 , and I solved it by giving the option
+> to
+> > remove this mode.
+> > I have also heard from other colleagues who have had the same problem on
+> > some dual-channel displays.
+>
+> Does that problem happen with the aforementioned driver or the mainline
+> Linux driver ?
+>
+
+--00000000000028414e061cd72561
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Yes this is not the mainline driver but it is the one fro=
+m which the mainline driver is taken.<div dir=3D"auto"><br></div><div dir=
+=3D"auto">Yes this problem occurs with this mainline driver.</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">Stefano=C2=A0</div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il Mar 9 Lug 2024,=
+ 23:12 Marek Vasut &lt;<a href=3D"mailto:marex@denx.de">marex@denx.de</a>&g=
+t; ha scritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 7/9/24 7:30 PM, S=
+tefano Radaelli wrote:<br>
+&gt; Okay, I get it.<br>
+&gt; <br>
+&gt; So if you think this mode shouldn&#39;t be implemented within this dri=
+ver, we<br>
+&gt; can close the thread.<br>
+&gt; Just for information, this driver has been implemented from the work d=
+one<br>
+&gt; by Compulab (as it says in the driver&#39;s initial comments), and the=
+y do not<br>
+&gt; put the burst mode by default, not even giving the possibility to acti=
+vate<br>
+&gt; it by dts:<br>
+&gt; <a href=3D"https://github.com/compulab-yokneam/imx8-android/blob/maste=
+r/o8/vendor/nxp-opensource/kernel_imx/0055-sn65dsi83-Add-ti-sn65dsi83-dsi-t=
+o-lvds-bridge-driver.patch" rel=3D"noreferrer noreferrer" target=3D"_blank"=
+>https://github.com/compulab-yokneam/imx8-android/blob/master/o8/vendor/nxp=
+-opensource/kernel_imx/0055-sn65dsi83-Add-ti-sn65dsi83-dsi-to-lvds-bridge-d=
+river.patch</a><br>
+<br>
+This is not the mainline Linux driver.<br>
+<br>
+&gt; The panels that I&#39;ve had these problems with are some of JuTouch&#=
+39;s<br>
+&gt; 1920x1200, for example JT101TM015 , and I solved it by giving the opti=
+on to<br>
+&gt; remove this mode.<br>
+&gt; I have also heard from other colleagues who have had the same problem =
+on<br>
+&gt; some dual-channel displays.<br>
+<br>
+Does that problem happen with the aforementioned driver or the mainline <br=
+>
+Linux driver ?<br>
+</blockquote></div>
+
+--00000000000028414e061cd72561--
