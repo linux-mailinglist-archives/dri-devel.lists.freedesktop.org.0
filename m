@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51C192BBEA
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 15:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5024F92BBF0
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 15:52:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5134310E564;
-	Tue,  9 Jul 2024 13:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF98210E566;
+	Tue,  9 Jul 2024 13:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E877110E564
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 13:52:18 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.09,195,1716217200"; d="scan'208";a="214766364"
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4F99D10E562
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 13:52:30 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.09,195,1716217200"; d="scan'208";a="210808047"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 09 Jul 2024 22:52:17 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 09 Jul 2024 22:52:29 +0900
 Received: from localhost.localdomain (unknown [10.226.92.130])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 534C843DEDB6;
- Tue,  9 Jul 2024 22:52:12 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 43D3E43DEDAE;
+ Tue,  9 Jul 2024 22:52:23 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 3/9] dt-bindings: display: renesas,
- rzg2l-du: Document RZ/G2UL DU bindings
-Date: Tue,  9 Jul 2024 14:51:41 +0100
-Message-ID: <20240709135152.185042-4-biju.das.jz@bp.renesas.com>
+ Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 5/9] drm: renesas: rz-du: Add RZ/G2UL DU Support
+Date: Tue,  9 Jul 2024 14:51:43 +0100
+Message-ID: <20240709135152.185042-6-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
 References: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
@@ -58,81 +57,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document DU found in RZ/G2UL SoC. The DU block is identical to RZ/G2L
-SoC, but has only DPI interface.
+The LCD controller is composed of Frame Compression Processor (FCPVD),
+Video Signal Processor (VSPD), and Display Unit (DU).
 
-While at it, add missing required property port@1 for RZ/G2L and RZ/V2L
-SoCs. Currently there is no user for the DPI interface and hence there
-won't be any ABI breakage for adding port@1 as required property for
-RZ/G2L and RZ/V2L SoCs.
+It has DPI interface and supports a maximum resolution of WXGA along
+with 2 RPFs to support the blending of two picture layers and raster
+operations (ROPs).
+
+The DU module is connected to VSPD. Add RZ/G2UL DU support.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 v1->v2:
- * Updated commit description related to non ABI breakage.
- * Added Ack from Conor.
+ * No change.
 ---
- .../bindings/display/renesas,rzg2l-du.yaml    | 32 +++++++++++++++++--
- 1 file changed, 29 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |  9 ++++++++-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 11 +++++++++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-index 08e5b9478051..c0fec282fa45 100644
---- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-+++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-@@ -18,6 +18,7 @@ properties:
-   compatible:
-     oneOf:
-       - enum:
-+          - renesas,r9a07g043u-du # RZ/G2UL
-           - renesas,r9a07g044-du # RZ/G2{L,LC}
-       - items:
-           - enum:
-@@ -60,9 +61,6 @@ properties:
-         $ref: /schemas/graph.yaml#/properties/port
-         unevaluatedProperties: false
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+index 6e7aac6219be..b1812f947252 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+@@ -28,6 +28,7 @@
+ #include "rzg2l_du_vsp.h"
  
--    required:
--      - port@0
--
-     unevaluatedProperties: false
+ #define DU_MCR0			0x00
++#define DU_MCR0_DPI_OE		BIT(0)
+ #define DU_MCR0_DI_EN		BIT(8)
  
-   renesas,vsps:
-@@ -88,6 +86,34 @@ required:
+ #define DU_DITR0		0x10
+@@ -216,9 +217,15 @@ static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
  
- additionalProperties: false
+ static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool start)
+ {
++	struct rzg2l_du_crtc_state *rstate =
++					to_rzg2l_crtc_state(rcrtc->crtc.state);
+ 	struct rzg2l_du_device *rcdu = rcrtc->dev;
++	u32 val = DU_MCR0_DI_EN;
  
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a07g043u-du
-+    then:
-+      properties:
-+        ports:
-+          properties:
-+            port@0: false
-+            port@1:
-+              description: DPI
+-	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
++	if (rstate->outputs == BIT(RZG2L_DU_OUTPUT_DPAD0))
++		val |= DU_MCR0_DPI_OE;
 +
-+          required:
-+            - port@1
-+    else:
-+      properties:
-+        ports:
-+          properties:
-+            port@0:
-+              description: DSI
-+            port@1:
-+              description: DPI
++	writel(start ? val : 0, rcdu->mmio + DU_MCR0);
+ }
+ 
+ static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+index e5eca8691a33..34534441b7ec 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+@@ -25,6 +25,16 @@
+  * Device Information
+  */
+ 
++static const struct rzg2l_du_device_info rzg2l_du_r9a07g043u_info = {
++	.channels_mask = BIT(0),
++	.routes = {
++		[RZG2L_DU_OUTPUT_DPAD0] = {
++			.possible_outputs = BIT(0),
++			.port = 1,
++		},
++	},
++};
 +
-+          required:
-+            - port@0
-+            - port@1
- examples:
-   # RZ/G2L DU
-   - |
+ static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
+ 	.channels_mask = BIT(0),
+ 	.routes = {
+@@ -40,6 +50,7 @@ static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
+ };
+ 
+ static const struct of_device_id rzg2l_du_of_table[] = {
++	{ .compatible = "renesas,r9a07g043u-du", .data = &rzg2l_du_r9a07g043u_info },
+ 	{ .compatible = "renesas,r9a07g044-du", .data = &rzg2l_du_r9a07g044_info },
+ 	{ /* sentinel */ }
+ };
 -- 
 2.43.0
 
