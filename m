@@ -2,85 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5598F92BE3D
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 17:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8461092BE81
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 17:34:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D1FB10E597;
-	Tue,  9 Jul 2024 15:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5E2910E5A1;
+	Tue,  9 Jul 2024 15:34:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="GsbIsJAl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rwf1zbzC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B00B10E59B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 15:26:27 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id
- af79cd13be357-79f014a53b7so281440785a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 08:26:27 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C62C10E599
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 15:34:47 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-52e9fe05354so7769027e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 08:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1720538783; x=1721143583;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1720539285; x=1721144085; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aj2kSla0vBt0/GLSIO8CQ/A6D734l7WrZXmLB07NQmU=;
- b=GsbIsJAlyV9Vm7DAB6OdHN4YiQv1Xo3g+SlP7KTBI1CBr/tdEQAjmXDapDbb8pJpf/
- tNF8Zco9PmLgX7W5ZZZJfKTT58gMTVaBzqEf3k2sR+zjmVY13N0ZubNQCLzUCPdVPOzS
- K7ORMfDBYNOMD7ZqJ+ishv6Mvxm4trLcJ6GjQ=
+ bh=7yG/ZDYim4z9LC6qifUBZG0/p5bmD5z8CTGL0U90n4A=;
+ b=rwf1zbzCODJlvsVld1o8MoCtQ6bljrsBTM44PzoJkXvFwlfAL0vO2C6KErPzQDBLK2
+ Se7dIqUAdYjOh1PVBHosJGuPXCdjLb75MeSUEslzjrsNQm1js0SDznl9AoHm0EMHLYVt
+ 0comLi8vbOGJldmWDntLl7QOzou8Nz9oFUoU1sZOgDxzL0jUhkajeG6ornCfqadPKp+/
+ vCXa6Dl/9Pprd3ZovMlS5NB2OJ6Nau9AN/y3YuthZcu82iQ+TQCnwiLrPta61dxT+LOn
+ n9Y2PHpnNepMRec34gdImVF3jsENH3twwIz/ySYs7ezrEqr/9/1HNTIWbxby7aoj6yXN
+ YHdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720538783; x=1721143583;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1720539285; x=1721144085;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aj2kSla0vBt0/GLSIO8CQ/A6D734l7WrZXmLB07NQmU=;
- b=Aan49L8T/skkcmSZ/ig/DkJylHdtWakG+Rcynp+0f0GJQdPnDknvVu3TyvX5zHbGK3
- 5OYWKP4bSQi2g9s10J2eROev2sulFlUYuXhRiCiA8vaztVP+ukEuoNPPaKDJGZbEJZxr
- jh+4tIWEGUHtoERcD1uQTWMI7b6tQDgkdUG0QBkZhFbXuqeH8dxThBtAtXkHaJCmstrg
- jR3UNGsun3pcmH3nKgFRxiq8oZzumUAtVH+UKQgyhgtVb8njJDkaTXwkGvWRf3uP7vjj
- 6QknPJ3ZVOaFCwI7jhH0Ko+NVdvJRR+IcIfnn3604iPhXTtOAT8sr0aYIhdBj6KAgYGB
- aNTQ==
-X-Gm-Message-State: AOJu0YzzH1yYy3ROxQIX38Z2qdkXZpDZRaU1APeFrQXtDwoo2RH7+UrK
- XGSn8Lfdx7gKxRZknuP96of2LvlOf4Am/EAfCzkcwRowPV5eqLi9rdrqKn5jQumrRcJ7a8D8VKY
- oQonZ
-X-Google-Smtp-Source: AGHT+IEyT0i40+5Mgde5Iqp0ysxF+G8zHKzx8vL7GelTnLEJ5CF0ca4Oebt0d3Bk+97B8X415hDZgQ==
-X-Received: by 2002:a05:620a:70e2:b0:79f:c54:70d6 with SMTP id
- af79cd13be357-79f19a1f2ffmr327011385a.27.1720538783539; 
- Tue, 09 Jul 2024 08:26:23 -0700 (PDT)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com.
- [209.85.160.169]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-79f1909ab81sm106447585a.99.2024.07.09.08.26.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jul 2024 08:26:22 -0700 (PDT)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-44664ad946eso239671cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 08:26:22 -0700 (PDT)
-X-Received: by 2002:ac8:45ce:0:b0:447:cebf:705 with SMTP id
- d75a77b69052e-447faede198mr3930761cf.0.1720538781555; Tue, 09 Jul 2024
- 08:26:21 -0700 (PDT)
+ bh=7yG/ZDYim4z9LC6qifUBZG0/p5bmD5z8CTGL0U90n4A=;
+ b=h1JmPSIfCa1JflKdqh9ztxBVMHo1R3EDoxLEC64kQzEUImUXJt5AI0NjIeslGRTkP4
+ gI5ZTlPs9j1P40qrs/KJTc7canI8ewF+BwZZg6xcL5wgG9wgq9S8pXbULFrZ2uOK1ZbN
+ os+DW3VDrMBlirV5bpgFzy7rcmSkOe7fS+kEa2LZ+r+TOsfkeGg4hZ3aONHhX2ukp73P
+ ttQow8hGh/VJUvhSqdO6Yvyj9OTCGFR0jUyemVjQheGKlse762G7logY9pDPCVFPTI2H
+ ZUOknRS5JK0nfstH4Qc/2k1D6EjCpxJ7e7xfAKDne5+B7jzAqHIomScHMEg4UspLc/87
+ No7A==
+X-Gm-Message-State: AOJu0YxMgvZaJb/HporyNVv9KrCOXeaoM56/k2eGiF3iySLQtb5e/F1g
+ nQnmvvdMwE3lKNdudVyPNc3uN1NU+VMDVR+g0NNhwnnSQYk+Z7NGJqZbq/qjOStBpOjhCMeGARX
+ BR24=
+X-Google-Smtp-Source: AGHT+IGM3pUx5C/Cg6m7uBP+vTz1fPg9IUGzC77G9bSZyWmRGAOxTkESVD8m4RIjQ+Lwn/adRidfWA==
+X-Received: by 2002:a19:6b19:0:b0:52e:9f43:c13f with SMTP id
+ 2adb3069b0e04-52eb9990cecmr1756059e87.7.1720539285216; 
+ Tue, 09 Jul 2024 08:34:45 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4266f6f1182sm44663495e9.14.2024.07.09.08.34.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jul 2024 08:34:44 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Maxime Jourdan <mjourdan@baylibre.com>, Yao Zi <ziyao@disroot.org>
+Cc: dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240703155826.10385-2-ziyao@disroot.org>
+References: <20240703155826.10385-2-ziyao@disroot.org>
+Subject: Re: [PATCH] drm/meson: fix canvas release in bind function
+Message-Id: <172053928435.1226690.16610517501511162578.b4-ty@linaro.org>
+Date: Tue, 09 Jul 2024 17:34:44 +0200
 MIME-Version: 1.0
-References: <20240708105221.1.I576751c661c7edb6b804dda405d10e2e71153e32@changeid>
- <ba539524-d0bf-4a22-9872-7c8347d88abd@linaro.org>
-In-Reply-To: <ba539524-d0bf-4a22-9872-7c8347d88abd@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 9 Jul 2024 08:26:06 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UU00oJ0Gi5fhOOk4gCFp1Cg55cA7Gy_GPpVgj95BNNbA@mail.gmail.com>
-Message-ID: <CAD=FV=UU00oJ0Gi5fhOOk4gCFp1Cg55cA7Gy_GPpVgj95BNNbA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: sharp-lq101r1sx01: Fixed reversed "if" in
- remove
-To: neil.armstrong@linaro.org
-Cc: dri-devel@lists.freedesktop.org, Linus Walleij <linus.walleij@linaro.org>, 
- Dan Carpenter <dan.carpenter@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, 
- Thierry Reding <treding@nvidia.com>, kernel test robot <lkp@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,48 +90,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Jul 9, 2024 at 12:53=E2=80=AFAM Neil Armstrong
-<neil.armstrong@linaro.org> wrote:
->
-> On 08/07/2024 19:52, Douglas Anderson wrote:
-> > Commit d7d473d8464e ("drm/panel: sharp-lq101r1sx01: Don't call disable
-> > at shutdown/remove") had a subtle bug. We should be calling
-> > sharp_panel_del() when the "sharp" variable is non-NULL, not when it's
-> > NULL. Fix.
-> >
-> > Fixes: d7d473d8464e ("drm/panel: sharp-lq101r1sx01: Don't call disable =
-at shutdown/remove")
-> > Cc: Thierry Reding <treding@nvidia.com>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Closes: https://lore.kernel.org/r/202406261525.SkhtM3ZV-lkp@intel.com/
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> >
-> >   drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c b/drivers/=
-gpu/drm/panel/panel-sharp-lq101r1sx01.c
-> > index edc9425bb143..a0d76d588da1 100644
-> > --- a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-> > +++ b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-> > @@ -362,7 +362,7 @@ static void sharp_panel_remove(struct mipi_dsi_devi=
-ce *dsi)
-> >               dev_err(&dsi->dev, "failed to detach from DSI host: %d\n"=
-, err);
-> >
-> >       /* only detach from host for the DSI-LINK2 interface */
-> > -     if (!sharp)
-> > +     if (sharp)
-> >               sharp_panel_del(sharp);
-> >   }
-> >
->
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Wed, 03 Jul 2024 15:58:27 +0000, Yao Zi wrote:
+> Allocated canvases may not be released on the error exit path of
+> meson_drv_bind_master(), leading to resource leaking. Rewrite exit path
+> to release canvases on error.
+> 
+> 
 
-Thanks! I've pushed to "drm-misc-next-fixes" since it's after -rc6 and
-the problematic patch is in drm-next.
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
 
-[1/1] drm/panel: sharp-lq101r1sx01: Fixed reversed "if" in remove
-      commit: ec85147a3529fded4bba12b48623f3a2587af83f
+[1/1] drm/meson: fix canvas release in bind function
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a695949b2e9bb6b6700a764c704731a306c4bebf
+
+-- 
+Neil
+
