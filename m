@@ -2,87 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D5992B2BF
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 10:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7F592B2E1
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 10:59:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11FBF10E33C;
-	Tue,  9 Jul 2024 08:56:33 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aY0VoWAF";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70C1D10E4BF;
+	Tue,  9 Jul 2024 08:59:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 262ED10E33C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 08:56:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720515391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=92rwpfULOwYA2s5GulSLICeLZXxrOACWBgizlUgjv3k=;
- b=aY0VoWAFwqssuwZvo5Sn93wZ15lFCX86HUuSGoc4g6JAErSKjFqTYgq9UGaRHGklXqUGmm
- nEVKfeXS8rtf/S5AxvSiQn1o1JbahmhyhsxNsxrM9cOS/PdpnWWVtLsU1MJikoJZRqyzQF
- sEKfMeORYl2pgGTG6a2PTClwFvxGy28=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-75-Xg-5ufZ0NJG0J6SvUaJ8AA-1; Tue, 09 Jul 2024 04:56:30 -0400
-X-MC-Unique: Xg-5ufZ0NJG0J6SvUaJ8AA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-52e9c23da78so748017e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 01:56:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720515388; x=1721120188;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mZo3i4FrLDziFrzuVJBLT1zQ9UdyZZW5nDEeprPuspY=;
- b=CE/9Yva/UHuwsxEtljet+pCqMikKi3oDAcWRLAv6U8UFfequXY1WLIf9VzsgbQkXOu
- fh0cFT+OQ6ewneyxIsWFnUn0TFo8RNq5Vy7mTdyTKxUB8jRMEQiBjjLYf/vw7B4VAtDJ
- kU8OeGaaTKCFp9VEETjMpA6/oVS22eiG55HuOn3jWCjyfq9ykJOb0t+D6rXz5XjOhyaH
- gp5QLkNbb2FhlhBt1+uSL90NkCfXL3guDmET9fWm9Jo289ytZb2n/ZJrAy/vWvlMyR3b
- JfWeX5N1bFJxDiR02vobeMseA7Bi3dkAJ5GOxU8Em0RGCqo7RXLeR9MHO2G2dJxDjl9k
- IN1Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZnmPLzpSy/nUgaYeZPIarEkpYy2s5PVLqWcQkI6Xb4iBlfhXHDlOCj/HUd+y43GGLME3UHzJvCGq9SK95vT2MxL8JCzlU7L+Httjvqjv6
-X-Gm-Message-State: AOJu0YzGaHXb7Tr4l2w3soNGD1DOUacTVfn2jKzRspH1aymjGWUv/Shg
- jG1DTRNnXNCyp6yRdouSOYtgy9IRR1ol3iPc05KsbInTFNPnQ5FO4wL65tFpQWspto7vjQBUFY8
- 8eJu98l6u0tyU9mQGRkGnf06+jVffeYNJwA6UwMpPj8+q4ntz2lMdvsRA0Xg0y4LgVA==
-X-Received: by 2002:a2e:a594:0:b0:2ec:4287:26ac with SMTP id
- 38308e7fff4ca-2eeb3191af2mr13488581fa.4.1720515388754; 
- Tue, 09 Jul 2024 01:56:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGJFO85FdSpN/tGtIniVZthBrr5afzWmwuyHHpTqaBS39B1vWHCFm7f/iojSiOOVOD1vzLidg==
-X-Received: by 2002:a2e:a594:0:b0:2ec:4287:26ac with SMTP id
- 38308e7fff4ca-2eeb3191af2mr13488161fa.4.1720515387987; 
- Tue, 09 Jul 2024 01:56:27 -0700 (PDT)
-Received: from pstanner-thinkpadt14sgen1.remote.csb
- (nat-pool-muc-t.redhat.com. [149.14.88.26])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4266f741624sm29991115e9.41.2024.07.09.01.56.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jul 2024 01:56:27 -0700 (PDT)
-Message-ID: <426645d40776198e0fcc942f4a6cac4433c7a9aa.camel@redhat.com>
-Subject: Re: [PATCH v9 10/13] PCI: Give pci_intx() its own devres callback
-From: Philipp Stanner <pstanner@redhat.com>
-To: Ashish Kalra <Ashish.Kalra@amd.com>
-Cc: airlied@gmail.com, bhelgaas@google.com, dakr@redhat.com,
- daniel@ffwll.ch,  dri-devel@lists.freedesktop.org, hdegoede@redhat.com, 
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, sam@ravnborg.org, 
- tzimmermann@suse.de, thomas.lendacky@amd.com, mario.limonciello@amd.com
-Date: Tue, 09 Jul 2024 10:56:26 +0200
-In-Reply-To: <20240708214656.4721-1-Ashish.Kalra@amd.com>
-References: <20240613115032.29098-11-pstanner@redhat.com>
- <20240708214656.4721-1-Ashish.Kalra@amd.com>
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9D310E4BF
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 08:59:36 +0000 (UTC)
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+ by APP-05 (Coremail) with SMTP id zQCowAA3PbXm+4xmx0ZWAg--.12661S2;
+ Tue, 09 Jul 2024 16:59:28 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: patrik.r.jakobsson@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ alan@linux.intel.com, akpm@linux-foundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Ma Ke <make24@iscas.ac.cn>, stable@vger.kernel.org
+Subject: [PATCH v3] drm/gma500: fix null pointer dereference in
+ cdv_intel_lvds_get_modes
+Date: Tue,  9 Jul 2024 16:59:16 +0800
+Message-Id: <20240709085916.3002467-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAA3PbXm+4xmx0ZWAg--.12661S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uF1xZF18KF4UWFykAFW7CFg_yoW8Gryxpr
+ 47GFyYyr4FqFZFgFW8CF10gFWjq3W3JF18Kry8Jws3u3Z0yFyUXryru3y3Xry3JFZxGrZ5
+ trnxtFW5Ga1jyF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ xl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+ Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
+ W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
+ 0VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
+ Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+ x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
+ 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+ JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
+ sGvfC2KfnxnUUI43ZEXa7VUbHa0DUUUUU==
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,99 +62,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From c24bd5b66e798a341caf183fb7cdbdf235502d90 Mon Sep 17 00:00:00 2001
-From: Philipp Stanner <pstanner@redhat.com>
-Date: Tue, 9 Jul 2024 09:45:48 +0200
-Subject: [PATCH] PCI: Fix pcim_intx() recursive calls
+In cdv_intel_lvds_get_modes(), the return value of drm_mode_duplicate()
+is assigned to mode, which will lead to a NULL pointer dereference on
+failure of drm_mode_duplicate(). Add a check to avoid npd.
 
-pci_intx() calls into pcim_intx() in managed mode, i.e., when
-pcim_enable_device() had been called. This recursive call causes a bug
-by re-registering the device resource in the release callback.
-
-This is the same phenomenon that made it necessary to implement some
-functionality a second time, see __pcim_request_region().
-
-Implement __pcim_intx() to bypass the hybrid nature of pci_intx() on
-driver detach.
-
-Fixes: https://lore.kernel.org/all/20240708214656.4721-1-Ashish.Kalra@amd.c=
-om/
-Reported-by: Ashish Kalra <Ashish.Kalra@amd.com>
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+Cc: stable@vger.kernel.org
+Fixes: 6a227d5fd6c4 ("gma500: Add support for Cedarview")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
 ---
-Hi Ashish,
-I hacked down this fix that should be applyable on top.
-Could you maybe have a first quick look whether this fixes the issue?
+Changes in v3:
+- added the recipient's email address, due to the prolonged absence of a 
+response from the recipients.
+Changes in v2:
+- modified the patch according to suggestions from other patchs;
+- added Fixes line;
+- added Cc stable;
+- Link: https://lore.kernel.org/lkml/20240622072514.1867582-1-make24@iscas.ac.cn/T/
 ---
- drivers/pci/devres.c | 33 +++++++++++++++++++++------------
- 1 file changed, 21 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-index 2f0379a4e58f..dcef049b72fe 100644
---- a/drivers/pci/devres.c
-+++ b/drivers/pci/devres.c
-@@ -408,12 +408,31 @@ static inline bool mask_contains_bar(int mask, int ba=
-r)
- =09return mask & BIT(bar);
- }
-=20
-+/*
-+ * This is a copy of pci_intx() used to bypass the problem of occuring
-+ * recursive function calls due to the hybrid nature of pci_intx().
-+ */
-+static void __pcim_intx(struct pci_dev *pdev, int enable)
-+{
-+=09u16 pci_command, new;
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
+index f08a6803dc18..3adc2c9ab72d 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
+@@ -311,6 +311,9 @@ static int cdv_intel_lvds_get_modes(struct drm_connector *connector)
+ 	if (mode_dev->panel_fixed_mode != NULL) {
+ 		struct drm_display_mode *mode =
+ 		    drm_mode_duplicate(dev, mode_dev->panel_fixed_mode);
++		if (!mode)
++			return 0;
 +
-+=09pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
-+
-+=09if (enable)
-+=09=09new =3D pci_command & ~PCI_COMMAND_INTX_DISABLE;
-+=09else
-+=09=09new =3D pci_command | PCI_COMMAND_INTX_DISABLE;
-+
-+=09if (new !=3D pci_command)
-+=09=09pci_write_config_word(pdev, PCI_COMMAND, new);
-+}
-+
- static void pcim_intx_restore(struct device *dev, void *data)
- {
- =09struct pci_dev *pdev =3D to_pci_dev(dev);
- =09struct pcim_intx_devres *res =3D data;
-=20
--=09pci_intx(pdev, res->orig_intx);
-+=09__pcim_intx(pdev, res->orig_intx);
- }
-=20
- static struct pcim_intx_devres *get_or_create_intx_devres(struct device *d=
-ev)
-@@ -443,7 +462,6 @@ static struct pcim_intx_devres *get_or_create_intx_devr=
-es(struct device *dev)
-  */
- int pcim_intx(struct pci_dev *pdev, int enable)
- {
--=09u16 pci_command, new;
- =09struct pcim_intx_devres *res;
-=20
- =09res =3D get_or_create_intx_devres(&pdev->dev);
-@@ -451,16 +469,7 @@ int pcim_intx(struct pci_dev *pdev, int enable)
- =09=09return -ENOMEM;
-=20
- =09res->orig_intx =3D !enable;
--
--=09pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
--
--=09if (enable)
--=09=09new =3D pci_command & ~PCI_COMMAND_INTX_DISABLE;
--=09else
--=09=09new =3D pci_command | PCI_COMMAND_INTX_DISABLE;
--
--=09if (new !=3D pci_command)
--=09=09pci_write_config_word(pdev, PCI_COMMAND, new);
-+=09__pcim_intx(pdev, enable);
-=20
- =09return 0;
- }
---=20
-2.45.0
+ 		drm_mode_probed_add(connector, mode);
+ 		return 1;
+ 	}
+-- 
+2.25.1
 
