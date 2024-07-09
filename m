@@ -2,156 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBAAC92BDA9
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 17:01:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E78C92BDDA
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 17:10:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 150BE10E58A;
-	Tue,  9 Jul 2024 15:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8775F10E591;
+	Tue,  9 Jul 2024 15:10:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="b2ObV7ay";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EEB91d0a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2041.outbound.protection.outlook.com [40.107.93.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE7BE10E586;
- Tue,  9 Jul 2024 15:01:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N4THc5F7tMXVIGnIlF+7oSqOFF+Y3u1F/6UJBo43NscHjUTawZt5d5orKdMpbP65jgJKjVX6kBSznnYuklsqTi5pb+CvtEYHnfmbMDLTrLCX9A682Bb25YAU1XQUkF93zo5uVx2fPkuqq1XIa+LxDHpPTjijvY5HXU1SVaLKERMEI6sfvocsOy2EBVgcYuTJq0vk401wrzIul9uAXvSl38DdRV+/niuNtFoXLI1kAtt5w9GeyJMZI6L8stUy+utmbaTD4MKXmSU2JB3VRmokxKt9Nk+Vr15J0QIvj4upIkS2v2hWsxDz0KgeiJS+sDjPgB/NZGxR7zBMnWcsVFxKKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PS5v2OmKnOngCzxECsJ9IKvovI3QQ8pJdEfVYbdHkQQ=;
- b=PiFqe9ZIw7b7zB1aJ+aCL/JlFTKQbFWGYIteeXQ0poxABopbOtrpOp/Nlb9RImCjmipVkQqlKsbOfKrXH/KP5NQUc7Bxg8SckqO4R/Nt1XfZyn7EHHLUyNvwZR7ZXvabPGiYXhOKfpQvQIuUroqyHpqv8JPovm4S08qyieGSxL/phLwUq09J+zatNHu7kz4L3grPv5IS+bYsXRoRQWwzaE9/mC1SZ2rqC4ojtBSi9jU6AUwzbRP/+mFp7feW7wk0xtf/Yt21RDYdSma027zJ780yKbij8cxpq6AI6AEVyeZvAnhhrXXPPMsll+rTqnwn2e0ytwA9AMxVpfu/+wYgOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PS5v2OmKnOngCzxECsJ9IKvovI3QQ8pJdEfVYbdHkQQ=;
- b=b2ObV7ayNzQbN9gSXBhvPObI0JhKDQzN2m42oyZtA6aqXzdc73wRsbkAW1YDvAAVzoC0d11CoIrQwRVYWwI33FyqU2jlAbBD5dqJ7HcN8u+RCaiK4Hnd8WpmiFXcnRtH684ZzTZBPIOKkRh7KcgUJSNQqwy2JHYTIveY41i95rM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW6PR12MB8733.namprd12.prod.outlook.com (2603:10b6:303:24c::8)
- by DS0PR12MB8443.namprd12.prod.outlook.com (2603:10b6:8:126::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.31; Tue, 9 Jul
- 2024 15:01:14 +0000
-Received: from MW6PR12MB8733.namprd12.prod.outlook.com
- ([fe80::71a6:a9da:c464:fa2e]) by MW6PR12MB8733.namprd12.prod.outlook.com
- ([fe80::71a6:a9da:c464:fa2e%5]) with mapi id 15.20.7741.033; Tue, 9 Jul 2024
- 15:01:14 +0000
-Message-ID: <f22c70c9-8102-4ba8-b8e9-6df260110b6b@amd.com>
-Date: Tue, 9 Jul 2024 09:01:06 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/amd/display: Add otg_master NULL check within
- init_pipe_slice_table_from_context
-Content-Language: en-US
-To: Ma Ke <make24@iscas.ac.cn>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, daniel.vetter@ffwll.ch, alvin.lee2@amd.com,
- wenjing.liu@amd.com, chaitanya.dhere@amd.com, hamza.mahfooz@amd.com,
- sohaib.nadeem@amd.com, samson.tam@amd.com, Qingqing.Zhuo@amd.com,
- dillon.varone@amd.com, stylon.wang@amd.com, akpm@linux-foundation.org
-References: <20240709091012.3123409-1-make24@iscas.ac.cn>
-From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
-In-Reply-To: <20240709091012.3123409-1-make24@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN9PR03CA0454.namprd03.prod.outlook.com
- (2603:10b6:408:139::9) To MW6PR12MB8733.namprd12.prod.outlook.com
- (2603:10b6:303:24c::8)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B061310E586
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 15:10:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1720537802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i9hJNJvkqtuDKnpGxwTSSK4Nn/qjZ9Q6M1TKqTLLGIg=;
+ b=EEB91d0aUPm15jkF7lIEglj57JYKj/WP1NZymNArOyEzZgII3S1b0SMFWPL9TuXPOwzlJj
+ sZ4GI1m6tRLJcaQn85Wz3LExYNEBmQ08QRQtbsyDbvbxBKxDvEzHNXvSY3MWkIwEzJ2psW
+ U/K/o/phftpmbum8qe0xAAq56xTH3uQ=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-90-FZYuhh0mOqybm4PU_de3ww-1; Tue, 09 Jul 2024 11:10:00 -0400
+X-MC-Unique: FZYuhh0mOqybm4PU_de3ww-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-52eaef92c91so3135859e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 08:10:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720537799; x=1721142599;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=i9hJNJvkqtuDKnpGxwTSSK4Nn/qjZ9Q6M1TKqTLLGIg=;
+ b=h2pAj6aG2B3vOFKml3wCICw5OgsWdOe8wjoshV/5erpLgMYDEVvWejRPVbG1u2OQlL
+ 9Ouizd5qsClt/nxW7owHi7vHU7SbY/J3bJ9gGt9UXvspzWvAS/+ew2ZrL7YGZvLw0NcM
+ 4tLGjAogY/pPWjWT02Ax042VVj6dS4FVMNFtOPpLbWK13KlTBfqc7D/vYFLyepFrntyf
+ bG65/aDC4Aaji2tDznxf7S1iNgzFwFEtJ68Ze0z6leplxjQfVkeUqtRiglo2G6IESZXx
+ oYTmKu6lNB5egv/XTJeLuWRaVZPt6c77y1x3JFDeLLRmsrest/aJB0+bEb/c3hAmPnyg
+ 2qUg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUEir2jqQDyc0NHAA9lN2lGc+VedHPkiwlkQU4zZaDgq3FxHwdhdQCWT/btfLI1AS/RAJ/lq0W2Z/CMHG/JIzN7fzhdubN5Lfs39hPvnKOW
+X-Gm-Message-State: AOJu0Yy4Bemi56iFXshIAfDNmDcTDxWWGru7OQ+ClntxbV5kY5ltvVpy
+ 4bzbH2bw6+h2jwTc4LXrPvQcoWdR2TQGTCaAnYsCjgN2u5p7QkUXgooydquMbFnBM7+V7Fx8MZy
+ UlQm95K73QHWG5HZWTwNfai1nBDBg1BklZgCaNaVV/b5pCWiTf3FGKV2pOQ9goY7xaQ==
+X-Received: by 2002:a05:6512:3f0c:b0:52c:de00:9c04 with SMTP id
+ 2adb3069b0e04-52eb99d338amr2146342e87.48.1720537798946; 
+ Tue, 09 Jul 2024 08:09:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEbH1TZziI+vUJZQonXRAiSIHPZ19o53LoqN4VQ+Pt8OUVGTPQhQfUV73ZUPjiRu5OPM35iUw==
+X-Received: by 2002:a05:6512:3f0c:b0:52c:de00:9c04 with SMTP id
+ 2adb3069b0e04-52eb99d338amr2146311e87.48.1720537798486; 
+ Tue, 09 Jul 2024 08:09:58 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4266f6e09fcsm45581385e9.4.2024.07.09.08.09.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Jul 2024 08:09:57 -0700 (PDT)
+Message-ID: <e19d875c-70b4-4e0d-a481-ab2a99a8ee42@redhat.com>
+Date: Tue, 9 Jul 2024 17:09:56 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW6PR12MB8733:EE_|DS0PR12MB8443:EE_
-X-MS-Office365-Filtering-Correlation-Id: 418d8a4e-9141-49df-4e30-08dca027fa56
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?V2RYOTFRem4rSjBORkRpZUxNY3dYdXJSN1ZLWkVPM0pOeGxBVkljcVlyRVht?=
- =?utf-8?B?KzZQQjRuRGE3c3U4Rk11WHg4TzcxRGpteUVwdTU1MFRLZURvdFlNQ0RoZUVq?=
- =?utf-8?B?V1ZKTHdjSHRSWTB5VGxIb3M5M0k5K0hONU4rMEp3SWVzZVByWWtmUXFnekMy?=
- =?utf-8?B?TnlISEIvUDd4eFVUVDdzdExBdFFUMXR2RTZydnorUlIxcHZIM1JCQm9RbU5G?=
- =?utf-8?B?bm9UZXNIUlRkNXl3UU9zT1ZXT0R3N2lDNXlZZUszM01ldS9iM3ZlQlZWT01x?=
- =?utf-8?B?eXMxUk5wV3dJYSs2MEFEVmM5SUFyNHE0dXBHSC9TY0dTV3ZwSlhGRVFQL1Yz?=
- =?utf-8?B?UTFnRmp2OWhMbHFPcVJ5RlVWWVkyeEMwZWFxYmF3MjRQV2dXM2NjcE9iKzJN?=
- =?utf-8?B?TkFEVDhKY1pCR0cxb0V1cnJYM3JIYmVmeFdaMmhVN0hjenk4Ym1jdDVyeUxU?=
- =?utf-8?B?L25CUkhnWFlOZEJneGVjVVlzZWhrbitueG9WRTN5NWxCRnZyN1YvNUY1eEdH?=
- =?utf-8?B?M0h3akZNRlFTZjFTZCtKS2JWT2p4VEYxdnoyZ2lTTTNKUWFCMVJtSWZlUXNl?=
- =?utf-8?B?dVFzaGhBYXhsdE04RHpiaHVtZHhQN3hrdWFWSktjNkJGeW12bFhUK2taTDZ3?=
- =?utf-8?B?azRPamJEWjIreGpvTUpTZ2UzdDMyVEVoa2hVUkFKRjUvVjJDaG9ic3B0dGsr?=
- =?utf-8?B?Q1lNRFd0RUp3clhBVzYxd0VXdXEya2hwdXBXSVVnc3BjdXMxNmJuanlPd21W?=
- =?utf-8?B?bFdsUWRIT0tsS0E0d3hxdWovNHhMczlpOEFoS3MraGxGV0M1b0E5aHdNMCtv?=
- =?utf-8?B?WkVmSHl1VE1YeG14Z2RJZUJLZDVOQ3M4TWQvOWRkS1dIRmsyeGdEYXN1MXhT?=
- =?utf-8?B?TzJzQloxVFN5L20rTDI3VlFoZzVERVI5M004ZTlsNnR6eW5kQjJ1RW5VRU5O?=
- =?utf-8?B?M3pEb3dSYWc1b2FTU2h0WWVpMEtPdnJBbUVBVXJnOTNwMXdLdGxQbXhha0xB?=
- =?utf-8?B?Z0pVYkE4RkZUOGp6am9iRms4Q2drRUZ3Q2VPa1RKSFpqTDdBN3NNQndoSUFn?=
- =?utf-8?B?RGdkdzZmb3BGaVpkODhJUVg4cGlQNmNTcjhmR0RZR0RWakk0cGVRSmJVMm9V?=
- =?utf-8?B?RjhsVHVjS3RwZU1wNlhYQTZ2d1poSll5c3lXQ2RMMEM1UCt6ZHBQVEVvMGZX?=
- =?utf-8?B?RGVQczZIdE5OZmJmUXBGbVBBQkh2TVZQaUtWTlM0dVFBSzJOOVFpOE1qdmh6?=
- =?utf-8?B?cWljc0ZnNW1uYTY4VFFreG5MTW8ySHY0S21IM28ySU1BVHBXR0xYeFRvR1Ex?=
- =?utf-8?B?WVBlSmdUZ1ZJbHhpdjVhdlZaVFE3UU9pOCt4bHhnZGhrZm9IR0dJcTNHT0lz?=
- =?utf-8?B?bnNCK0orVGhWckhNQ1ZlL3RLSy9vTGV4VmZ4djQ3NkpWbWpoZGhnM3djRjEx?=
- =?utf-8?B?Q040cXRjM1pBMGN2M3lLSTMwZ2svYVdubGV6aHNuZkJkYW10VHNydmwxN0Fa?=
- =?utf-8?B?MHVRa21PU0wwTUJYVHd6ekJHU3lWUHRSRWtKK2NITEozQVZlaS8ySk5XVDhr?=
- =?utf-8?B?bVhVaWFGc2lsZi9BVk94SUJ1QUVpNEJ5dFBaSkdWQzhTSEdWdkR3TXNOSGpV?=
- =?utf-8?B?OElMajFsMmh5eTRjOGJSbkJFNjlaQ2cvTDBuNWcwaktsZkQrU2YzRVFrZytL?=
- =?utf-8?B?a21CRERtcStteE9GeHRqcEZHZE1mTURMMWpOMFNYOVJrb3dma2t0S1hDRmhX?=
- =?utf-8?B?aGxBRlhDWVBGc1NvWWZWaGdTd2Q2QW9nQVVKdkVMb2kvUzZrd3lQbkI4cDF6?=
- =?utf-8?B?bnU2NkpGWlYzelpGbThkdz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW6PR12MB8733.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bVp3c1NBQTZxa1RFTjJKN3ZzTmZrT01uSXZza05tQklpdHcweE1jdHdXL2xF?=
- =?utf-8?B?bUhHZk9VeXdyVVFtYW80L2JWUEpsUFV6bEpoYjJwdXZPVFM2Z2pLME9ka2VC?=
- =?utf-8?B?S3crdVlYbzJOVWcxYVBDaDJvWEc2ZGY0L2J2RktvR0FzMEEwVTRxaW4zQWxv?=
- =?utf-8?B?NXFOTkJxcEdvSm9Pam9kUThIOEJuU3ZVMnZTRlhoaTg1aG9nVXU0M1hSZWdM?=
- =?utf-8?B?SFhxcFY5NzRtUVBqeWxIM1hIbncxOHpUQlpnZkpyWkN1OGdVSEM2dGduM3Fx?=
- =?utf-8?B?Y1lMM2VkTEdHMHREbmcrM1pQaWZ3V2FuQUNGSDd5ZlJPRE84ZEN3MmtYSS9X?=
- =?utf-8?B?UXpSc3pUd1c2MWg1cm92WmVWY1Q0V0hWT2hSNjBOZTliZldScmhYZlMrN2xH?=
- =?utf-8?B?YTZmQTVvN05MOHJnYWc4aUhTM25OUlZDTEorYlNobDFZSWZzcTR2ejlSdkl0?=
- =?utf-8?B?ZTFXUFEvb05pSllPQ2U3MDIyOG4wUzIrODBzQVVtWGVxdkFtQTBwWkhoZmFk?=
- =?utf-8?B?MW8rdVVuVTY0WTdVVVZsM3BKTVBKeHdhb0ZXWmJEaWpZTFd0S3VZZWtRUVhi?=
- =?utf-8?B?dnRDK1BTTmlUSGF3cDlXYURMMG1aTCs0cHo2UXFuQlJwOFlUcXAyelBEa2ZV?=
- =?utf-8?B?TlpkYlBkYVREUFgveDNwcTE1Z2RvdnJtbkk1bFZYQ1FoVnR1Vko1SitLSnI5?=
- =?utf-8?B?NE9RaE9tLzJzWUV5VG5meTJRaWlCWHl5Q2N4M3BWelE4VjhpT21LbHoyb0hq?=
- =?utf-8?B?L2U4VFpwWjE0Q1Rua01rYzREODJWWC9NcHlGU09zUDUzL25UMzdIWmxpSkhJ?=
- =?utf-8?B?NmpBcndBbnk0dlBDSkZtQmN1Z0M5eEhjQm1tamlybzdDYlFmVFdLUWVuTHYz?=
- =?utf-8?B?djBjY1RLM0Z6UU1kbUNCazhHOFZ1V0FpMCtuV3ZyNnEwcjJzRUFNNmtkN3c3?=
- =?utf-8?B?L1VDdFJuQXVLSlUzbFJDTzFuTkJCUXl2Y092ckdUZmt3V0pMb3pobFg5dUVE?=
- =?utf-8?B?REVDOGtpRy9nWkY2NVhUZ0JiRERDMXgzYUt0b1BZU1pnZ1FxWSswTmsyVTdX?=
- =?utf-8?B?dFhPeXhpQ085VlNIdk1YdENXZDJnTkloNzl0VEJDb0lXRjYrVVJaS0JBRlFy?=
- =?utf-8?B?elZPdkxjZ2VzS0FHRzFtZVNhbFpoOUdmY1JJYmVuRlVJaTd4dTFpNkxJYXpV?=
- =?utf-8?B?cHk3QTFkRG4xYVFlZXdxYmRnSnk1OHpQak8xd2VRQU5EblVjZ0h1Y2hqOFlk?=
- =?utf-8?B?ZE1ZV3E4bUU1Si9wSXBmV2k0ZmNXODh6RUpMZUpxVEdUc2Z0M01LTFR6ek80?=
- =?utf-8?B?V0xwZ1pUSTVxQ0dZTjZGT1JQWjJRTGgvL2lCaVZadkNiekxhaDk0Ujd3Y1Iv?=
- =?utf-8?B?RjVNRTFjODRoYzBkRzF4L1JMeTJ0dkVWQW9aQjh3dXpoL3RWYmY0MzIyU0xa?=
- =?utf-8?B?dnBsY24rMVNxZTRYMXRpWmV2QXNNMVFNMDZlWXpqR05Xa3IxUXQyZVlsNFp1?=
- =?utf-8?B?bzJESkFmYkF0amZreE9Ud29XWmxQbVptY1JTRlJOSHRIS21RUmt2cXVuaXlv?=
- =?utf-8?B?MU9yYTJOWHM0RGRqOU5lMWdMd3prZWJBYmdRWXY0Z1k5MHZlRnFZVU93Q3VE?=
- =?utf-8?B?MzBKT29TajkvZWtiOEtxbnlYWHhqdXN4MFdTaHZ4azlVU25UTXhoUGM1bkcz?=
- =?utf-8?B?d1JUMUtSYnVyQW5aaHlUZjI4R05QQk9EUVd2dGxTdkc2Q05EamU2NWpwWlVB?=
- =?utf-8?B?ZWZJeEduMUIxODJzTFl5dEVTaTlaYUFCYzk5NmNCdXU3dFF3YUZCSjJuVE5S?=
- =?utf-8?B?alJpdlZUZ21RL0Q1cWZFOS9CR2g4TEtrcFRKUkFvVlVWWlBnQ3FEd1h2bHhx?=
- =?utf-8?B?SUkvTHdyVWw5RjhKT1Y5M2dyR2w1WVRJTCtIMUdHN0JIVnhlU2JNQlBoc1hl?=
- =?utf-8?B?cmY5N0JtZDl4ZWRKZEh6S0YwdGQ1YnZWRHZENmdEbmV1MGMxSXpISFV2S2VW?=
- =?utf-8?B?QlRyTlhuVzRrNlMxZWFETjJiTk1sV012a2c5cU1jd3krYk9ZbTRQYTRVSU5U?=
- =?utf-8?B?ejV5U2NRWEJucm1ZMVRsVzQxUDRXK0xhNDlVOGMwVDR2Yk1GVDBmTkxDclFV?=
- =?utf-8?Q?Wm6jQg3cjYsa8PX/wngLsFf0Z?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 418d8a4e-9141-49df-4e30-08dca027fa56
-X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8733.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2024 15:01:14.6651 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7wbO7sooz5erZV9S/ZRe7n5opSY4i/Ua50DVOwp/lew5Ri2lRr+dICbJpi0x6rNWeh8kHYa/dLMH6kGt41bjUA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8443
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] drm/panic: Add a qr_code panic screen
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Danilo Krummrich <dakr@redhat.com>
+References: <20240709084458.158659-1-jfalempe@redhat.com>
+ <20240709084458.158659-5-jfalempe@redhat.com>
+ <CANiq72kS2fAgRnR8yNfpN69tMG+UPfgfytaA8sE=tYH+OQ_L6A@mail.gmail.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <CANiq72kS2fAgRnR8yNfpN69tMG+UPfgfytaA8sE=tYH+OQ_L6A@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,43 +107,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/9/24 3:10 AM, Ma Ke wrote:
-> To avoid reports of NULL_RETURN warning, we should add
-> otg_master NULL check.
+
+
+On 09/07/2024 11:41, Miguel Ojeda wrote:
+> Hi Jocelyn,
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: c51d87202d1f ("drm/amd/display: do not attempt ODM power optimization if minimal transition doesn't exist")
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-> ---
-> Changes in v2:
-> - added the recipient's email address, due to the prolonged absence of a
-> response from the recipient.
-> - added Cc stable.
-> ---
->   drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 3 +++
->   1 file changed, 3 insertions(+)
+> A quick docs-only review of the Rust side (some of these apply in
+> several cases -- I just wanted to give an overview for you to
+> consider).
+
+Thanks, I'll fix all typo/grammar you mentioned.
 > 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-> index f6fe0a64beac..8972598ca77f 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-> @@ -1177,6 +1177,9 @@ static void init_pipe_slice_table_from_context(
->   		stream = context->streams[i];
->   		otg_master = resource_get_otg_master_for_stream(
->   				&context->res_ctx, stream);
-> +		if (!otg_master)
-> +			continue;
-> +
->   		count = resource_get_odm_slice_count(otg_master);
->   		update_slice_table_for_stream(table, stream, count);
->   
+> On Tue, Jul 9, 2024 at 10:45 AM Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>>
+>> +//! This is a simple qr encoder for DRM panic.
+>> +//!
+>> +//! Due to the Panic constraint, it doesn't allocate memory and does all
+> 
+> Perhaps clarify "Panic constraint" here?
+> 
+>> +//! the work on the stack or on the provided buffers. For
+>> +//! simplification, it only supports Low error correction, and apply the
+> 
+> "applies"?
+> 
+>> +//! first mask (checkboard). It will draw the smallest QRcode that can
+> 
+> "QR code"? "QR-code"?
+> 
+> In other places "QR-code" is used -- it would be ideal to be
+> consistent. (Although, isn't the common spelling "QR code"?)
 
-Hi,
+Agreed, I will replace all with "QR code".
 
-Which repository and branch are you using? It looks like this issue is 
-already fixed on amd-staging-drm-next.
+> 
+>> +//! contain the string passed as parameter. To get the most compact
+>> +//! QR-code, the start of the url is encoded as binary, and the
+> 
+> Probably "URL".
 
-Thanks
-Siqueira
+Yes, I will run s/url/URL in the comments.
+> 
+>> +//! compressed kmsg is encoded as numeric.
+>> +//!
+>> +//! The binary data must be a valid url parameter, so the easiest way is
+>> +//! to use base64 encoding. But this waste 25% of data space, so the
+> 
+> "wastes"
+> 
+>> +//! whole stack trace won't fit in the QR-Code. So instead it encodes
+>> +//! every 13bits of input into 4 decimal digits, and then use the
+> 
+> "uses"
+> 
+>> +//! efficient numeric encoding, that encode 3 decimal digits into
+>> +//! 10bits. This makes 39bits of compressed data into 12 decimal digits,
+>> +//! into 40bits in the QR-Code, so wasting only 2.5%. And numbers are
+>> +//! valid url parameter, so the website can do the reverse, to get the
+> 
+> "And the numbers are valid URL parameters"?
+> 
+>> +//! Inspired by this 3 projects, all under MIT license:
+> 
+> "these"
+> 
+>> +// Generator polynomials for QR Code, only those that are needed for Low quality
+> 
+> If possible, please remember to use periods at the end for both
+> comments and docs. It is very pedantic, but if possible we would like
+> to try to be consistent across subsystems on how the documentation
+> looks etc. If everything looks the same, it is also easy to
+> remember/check how to do it for new files and so on.
 
+Sure, I will check this again.
+> 
+>> +/// QRCode parameter for Low quality ECC:
+>> +/// - Error Correction polynomial
+>> +/// - Number of blocks in group 1
+>> +/// - Number of blocks in group 2
+>> +/// - Block size in group 1
+>> +/// (Block size in group 2 is one more than group 1)
+> 
+> We typically leave a newline after a list.
+> 
+>> +    // Return the smallest QR Version than can hold these segments
+>> +    fn from_segments(segments: &[&Segment<'_>]) -> Option<Version> {
+> 
+> Should be docs, even if private? i.e. `///`?
+> 
+> Also third person and period.
+> 
+>> +// padding bytes
+>> +const PADDING: [u8; 2] = [236, 17];
+> 
+> `///`?
+> 
+>> +/// get the next 13 bits of data, starting at specified offset (in bits)
+> 
+> Please capitalize.
+> 
+>> +        // b is 20 at max (bit_off <= 7 and size <= 13)
+> 
+> Please use Markdown for comments too.
+> 
+>> +/// EncodedMsg will hold the data to be put in the QR-Code, with correct segment
+>> +/// encoding, padding, and Error Code Correction.
+> 
+> Missing newline? In addition, for the title (i.e. first paragraph), we
+> try to keep it short/simple, e.g. you could perhaps say something
+> like:
+> 
+>      /// Data to be put in the QR code (with correct segment encoding,
+> padding, and error code correction).
+> 
+>> +/// QrImage
+>> +///
+>> +/// A QR-Code image, encoded as a linear binary framebuffer.
+> 
+> Please remove the title -- the second paragraph should be the title.
+> 
+>> +/// Max width is 177 for V40 QR code, so u8 is enough for coordinate.
+> 
+> `u8`
+> 
+>> +/// drm_panic_qr_generate()
+> 
+> You can remove this title.
+> 
+>> +/// C entry point for the rust QR Code generator.
+>> +///
+>> +/// Write the QR code image in the data buffer, and return the qrcode size, or 0
+>> +/// if the data doesn't fit in a QR code.
+>> +///
+>> +/// * `url` The base url of the QR code. It will be encoded as Binary segment.
+> 
+> Typically we would write a colon. after the key, e.g.
+> 
+>      /// * `url`: the base URL of the QR code.
+> 
+>> +/// # Safety
+>> +///
+>> +/// * `url` must be null or point at a nul-terminated string.
+>> +/// * `data` must be valid for reading and writing for `data_size` bytes.
+>> +/// * `data_len` must be less than `data_size`.
+>> +/// * `tmp` must be valid for reading and writing for `tmp_size` bytes.
+> 
+> It would be nice to mention for which duration these need to hold,
+> e.g. the call or something else.
+
+Yes, it's until the function returns, I will add this precision.
+
+> 
+>> +        // Safety: url must be a valid pointer to a nul-terminated string.
+> 
+> Please use the `// SAFETY: ` prefix instead, since it is how we tag
+> these (i.e. differently from from the `# Safety` section).
+> 
+>> +/// * `version` QR code version, between 1-40.
+> 
+> If something like this happens to be used in several places, you may
+> want to consider using transparent newtypes for them. This would allow
+> you to avoid having to document each use point and it would enrich the
+> signatures.
+> 
+
+I used to list all QR versions in an enum, but I find it a bit too much 
+boilerplate to ensure the version is between 1 and 40.
+By transparent newtypes, you mean adding "#[repr(transparent)]" to a 
+struct ?
+I don't plan to add more "version" usage, so probably not worth it.
+
+> Thanks!
+> 
+> Cheers,
+> Miguel
+> 
+
+Best regards,
+
+-- 
+
+Jocelyn
 
