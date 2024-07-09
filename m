@@ -2,88 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996F392C3F9
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 21:39:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 509C492C45B
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 22:17:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 993BE10E60D;
-	Tue,  9 Jul 2024 19:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ADC410E607;
+	Tue,  9 Jul 2024 20:17:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jpo4jrcM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KGZvJtUN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7732410E60D;
- Tue,  9 Jul 2024 19:39:20 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 469GgFDc025652;
- Tue, 9 Jul 2024 19:38:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ay5oBrHSb2YL73YTY5mpyQMrO+3FJd7t8ZkpRjje6dM=; b=jpo4jrcMa1PYT1Hz
- B/H88h/SwhPzHsKpo9u2/cDjbXHLWhtNHbLqoH9IkuCiFwsIBT4nG08RjVDRypnw
- kqmwcI31votZ4naM/I5cx9rIfhLQU4pD+rMpkjaF56gIhqUNB/DayPmS//91zpiL
- BDfN9bmxcO7raEaG748rv35YEZ9K9OURJC9lHxj/kQr9H89BjOsdx3mUE+ETsPem
- lgo0EDOjEJ7CmzE9XaYnjl6KrMpYbV8FEET9TuiGbc8L3Rl6OZdxISwPRn89pJAb
- KaiYhKXrFGYqhHhdQFb+vQsu2YSva/M5sRmZiHnWh9uqVPYzoyzRrxZrp3fW7vd/
- I3l6Yw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4091jdhqs0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Jul 2024 19:38:16 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 469JcFsE032048
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 9 Jul 2024 19:38:15 GMT
-Received: from [10.71.110.34] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 9 Jul 2024
- 12:38:13 -0700
-Message-ID: <46487222-6818-b0bf-e5cc-2310d62b5fe6@quicinc.com>
-Date: Tue, 9 Jul 2024 12:38:00 -0700
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF95410E607
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 20:17:19 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-4257a390a4eso40131065e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 13:17:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1720556238; x=1721161038; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EXHxrC/luHFKOt8/7OLM5HjDIKDd5blPn0cUkiIy97M=;
+ b=KGZvJtUNwh3wa2DUuEthuD77KTPMr77NU3SITfsccM1+SJzs9LrwWHSJGaJHnTCltG
+ 5IpRIIfMqybkYKsTGPqEBJCfUbGp0v5M00lB7CRlVh5wKqeCFuvPcjQLhaaTpYZjrmMb
+ 4Jm2hvylZPaWfoZEw4itfmK5bPjOmQulIIp7Csw5QCDfP6JjfT/kS1+kSgD1yAgjMhwq
+ 8kp4qcsH3KGwCYdYouUs5oB92EkfPpQZOtyAfFJuCbBXX9CK88VGLAmPY3jfTnxEPZAe
+ IR/VkI71V0F0Hupb2UhC3OjfObk1qzF/sLqkG65eLzZrZJNg59qXeFbRnFpaKc+thaTl
+ gjuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720556238; x=1721161038;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EXHxrC/luHFKOt8/7OLM5HjDIKDd5blPn0cUkiIy97M=;
+ b=rzjGTWo4Oy5B/BM1qg92MzUZ9psBf8cDyEEP0Mjej0hr9lPKjgNU+hH9Vhyj+q+ZpZ
+ d+ZcHRIqfPhqdKvHR9OpIsGRWgdtD8SAdxX0W9nvo0B2K0tfO/pwpdSus2SF6nNQ7WfR
+ uNneB++PNCRy6dCt4rB4E7qCfO5BNRsfqVz64vI2Ye6+FgekI7zkgySq4YAaMqnV8so3
+ lmYIbl2qJxcMeXWqZr0nHSva9ZRpGzLP1s1GktUg5bWpQEhs326Dr67ZXrEZ9VR6fUUo
+ J1oT36yQT7y7c30sHu7jbJ5bzS2FwZ9keR4naq057K/RROm9vMgrw5aj3P9Vy5PWivmy
+ 6cIA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW/jtwF3bYxcxTKgnQpS97M9t79oBmX+QcbRm3ashy2KVUsPilbvuAjh27r9JehszhV/ej09ECOfcOZQBx9jT8PiYMQclEN5sBSGz2JxdEN
+X-Gm-Message-State: AOJu0YxEzWclioLys6SPFy5bqTgdXmWCWiJIhJpFlZ6UHL/p+3JoBGzL
+ whYbhrY23WQnBERos9JKFhO6B95oU4HV+n3vm0jslXGNujA/e0f9
+X-Google-Smtp-Source: AGHT+IHOb1az36jkAJmIB78p3YoPZuizKhT18QzcHxzqAQfDXBCqRFxIMk/L1NU6CA+UPO2yENzLUg==
+X-Received: by 2002:a05:600c:6a17:b0:425:5eec:d261 with SMTP id
+ 5b1f17b1804b1-426708f1999mr26644295e9.34.1720556237509; 
+ Tue, 09 Jul 2024 13:17:17 -0700 (PDT)
+Received: from localhost ([2001:861:3385:e20:6384:4cf:52c5:3194])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4266f737b1bsm54058325e9.32.2024.07.09.13.17.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jul 2024 13:17:17 -0700 (PDT)
+From: Raphael Gallais-Pou <rgallaispou@gmail.com>
+To: David Airlie <airlied@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] MAINTAINERS: add myself to DRM/STi maintainers
+Date: Tue,  9 Jul 2024 22:14:28 +0200
+Message-ID: <20240709201428.132612-1-rgallaispou@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH 2/2] drm/msm/dpu: don't play tricks with debug macros
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Jordan Crouse <jordan@cosmicpenguin.net>, Chandan
- Uddaraju <chandanu@codeaurora.org>, Rajesh Yadav <ryadav@codeaurora.org>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>, Archit Taneja
- <architt@codeaurora.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Jeykumar
- Sankaran <jsanka@codeaurora.org>
-References: <20240709-dpu-fix-wb-v1-0-448348bfd4cb@linaro.org>
- <20240709-dpu-fix-wb-v1-2-448348bfd4cb@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20240709-dpu-fix-wb-v1-2-448348bfd4cb@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: nwCNJHvQJK8e2IG-3esDB5ADKXGgn6BK
-X-Proofpoint-ORIG-GUID: nwCNJHvQJK8e2IG-3esDB5ADKXGgn6BK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-09_08,2024-07-09_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 malwarescore=0 mlxlogscore=999
- mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1015 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
- definitions=main-2407090132
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,67 +85,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In lights of recent events and my will to participate in the Linux
+kernel development I see this opportunity to add myself, and help Alain
+as maintainer for the DRM/STi drivers.
 
+Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 7/9/2024 6:48 AM, Dmitry Baryshkov wrote:
-> DPU debugging macros need to be converted to a proper drm_debug_*
-> macros, however this is a going an intrusive patch, not suitable for a
-> fix. Wire DPU_DEBUG and DPU_DEBUG_DRIVER to always use DRM_DEBUG_DRIVER
-> to make sure that DPU debugging messages always end up in the drm debug
-> messages and are controlled via the usual drm.debug mask.
-> 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 71b739b40921..0e583aae590a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7477,6 +7477,7 @@ F:	drivers/gpu/drm/rockchip/
+ 
+ DRM DRIVERS FOR STI
+ M:	Alain Volmat <alain.volmat@foss.st.com>
++M:	Raphael Gallais-Pou <rgallaispou@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+-- 
+2.45.2
 
-These macros have been deprecated, is this waht you meant by the 
-conversion to proper drm_debug_*?
-
-/* NOTE: this is deprecated in favor of drm_dbg(NULL, ...). */
-#define DRM_DEBUG_DRIVER(fmt, ...)                                      \
-         __drm_dbg(DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-
-I think all that this macro was doing was to have appropriate DRM_UT_* 
-macros enabled before calling the corresponding DRM_DEBUG_* macros. But 
-I think what was incorrect here is for DPU_DEBUG, we could have used 
-DRM_UT_CORE instead of DRM_UT_KMS.
-
-And DRM_DEBUG_DRIVER should have been used instead of DRM_ERROR.
-
-Was this causing the issue of the prints not getting enabled?
-
-> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h | 14 ++------------
->   1 file changed, 2 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index e2adc937ea63..935ff6fd172c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -31,24 +31,14 @@
->    * @fmt: Pointer to format string
->    */
->   #define DPU_DEBUG(fmt, ...)                                                \
-> -	do {                                                               \
-> -		if (drm_debug_enabled(DRM_UT_KMS))                         \
-> -			DRM_DEBUG(fmt, ##__VA_ARGS__); \
-> -		else                                                       \
-> -			pr_debug(fmt, ##__VA_ARGS__);                      \
-> -	} while (0)
-> +	DRM_DEBUG_DRIVER(fmt, ##__VA_ARGS__)
->   
->   /**
->    * DPU_DEBUG_DRIVER - macro for hardware driver logging
->    * @fmt: Pointer to format string
->    */
->   #define DPU_DEBUG_DRIVER(fmt, ...)                                         \
-> -	do {                                                               \
-> -		if (drm_debug_enabled(DRM_UT_DRIVER))                      \
-> -			DRM_ERROR(fmt, ##__VA_ARGS__); \
-> -		else                                                       \
-> -			pr_debug(fmt, ##__VA_ARGS__);                      \
-> -	} while (0)
-> +	DRM_DEBUG_DRIVER(fmt, ##__VA_ARGS__)
->   
->   #define DPU_ERROR(fmt, ...) pr_err("[dpu error]" fmt, ##__VA_ARGS__)
->   #define DPU_ERROR_RATELIMITED(fmt, ...) pr_err_ratelimited("[dpu error]" fmt, ##__VA_ARGS__)
-> 
