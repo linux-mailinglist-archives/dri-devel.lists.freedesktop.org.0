@@ -2,99 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345C692B8F7
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 14:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20C492B915
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 14:11:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6646010E517;
-	Tue,  9 Jul 2024 12:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3323710E524;
+	Tue,  9 Jul 2024 12:11:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CHmeeePA";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="PtUSgGH/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F013E10E517
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 12:02:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720526564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dy4YRqqLNlf0j0FOWn3tiz8LkZrh0YUIypGbDuzRZ3A=;
- b=CHmeeePA8HfjQ3i6p4S+teXMD1LcDi49vO9EZicWc0NZQpdVBxzdjXGh8sbAAP/NdASxHx
- uBBhCJX20fiuG4mhpgS2vp9qTJPJlNF6pPVV6/9tBLzQBk6HO7aobO0C8dQyF7fENRMBOj
- W0w2sYhstMdS0Ao1+spg/bmA3+u+njQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-362-4nSzAv4RNkm8Ashm4Ep7qw-1; Tue, 09 Jul 2024 08:02:42 -0400
-X-MC-Unique: 4nSzAv4RNkm8Ashm4Ep7qw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-42726545762so1832235e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 05:02:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720526561; x=1721131361;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dy4YRqqLNlf0j0FOWn3tiz8LkZrh0YUIypGbDuzRZ3A=;
- b=owVH6ZgopBgD1VrxcBylziH8Mvpkfo3vCpePiGAQDW723P/PyBZLxEjizeEIFxcjDD
- o6B1tQ+VquHb8N9nLbzU4cVCh+5Yr2Zd6BYd5/us+EUJMAf2IKhvoaWlO4NovWN6dlCA
- HGzWJNxZzUrZCsK1mMW/0j1b/8QA7BT8druAZebrEppiqmfzEofWDD7NeYlCwSvs6D8B
- 3Q2T/u+nE3J+E84g8TlY9lChosKLJA6qSiZ0eg9bv6/YzLKGQDx9aWMUMVJNxhyTX6S+
- PqLqoxUJERhzqIjtnaoZqgD5LBQXNp5k8lFbtf4A9+6QB3Vq75NxxHqDXTU2gNdQuent
- +UNw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWiBdUYuXpGCr5ohwsEjVChI54un+AlvkS/9zNtfcyavIHl748jzSmyTcaa3o20z/KcOTaEuK07M2bNH2TykwARbQSMcLz2jBVNV+aLYOYq
-X-Gm-Message-State: AOJu0YzgoNO8W/iPGrPMH+HqKv1MYqS0HgR2WFd+LOuuxhCv6UlScsuQ
- k2rg2XxcwMFoqyXUUanEh8gmJT8/wHw+bmV8OR9OK+WeF5BOLuDsvAyPtM59eimp6v8Tn7h8IeZ
- zHq/aFjkoT0pf6nGqIKDm5PpjiRQcpekCKoHNCH1i32djaA7Rliz5L8nmkTOofrk7yA==
-X-Received: by 2002:a05:600c:3226:b0:426:59ec:17a9 with SMTP id
- 5b1f17b1804b1-426707d7c9fmr16596895e9.22.1720526561306; 
- Tue, 09 Jul 2024 05:02:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFSrbJt0jJlRogPAw/bQ1qZ0Lbp/49hLv8AiWFs4Pgl2/5UBg3dAYp6ZylEW9+XrxlA+vNo9w==
-X-Received: by 2002:a05:600c:3226:b0:426:59ec:17a9 with SMTP id
- 5b1f17b1804b1-426707d7c9fmr16596635e9.22.1720526560952; 
- Tue, 09 Jul 2024 05:02:40 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-367cde7deeasm2422525f8f.8.2024.07.09.05.02.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jul 2024 05:02:40 -0700 (PDT)
-Message-ID: <48cb6b5e-3685-4661-9183-080e25348892@redhat.com>
-Date: Tue, 9 Jul 2024 14:02:39 +0200
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD1C10E524
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 12:11:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1720527033; x=1721131833; i=markus.elfring@web.de;
+ bh=07u+d8/VVabnzNsgDPxn1WvWRdYn18Z+KZmEgI742IA=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=PtUSgGH/zk1ZLSvEsUj1h7TmqoGPsawvcXuKyULGBvdgP+WcdjoKlcKN82t61B0X
+ oDDIiirI53CUXCHi6uEPFMNSk42roQOATaaBMkgO55Vomvoh0QwzwDwOd9+jYjEyU
+ sEQOOw/uL4DtvetB7R1R94lpqDvzycQF7cZITY+VgZpOiLKaJU0KHKuumeYDdkIMw
+ 1/Zgk0SqKwwRI7F/n7j+smTiLiFGwDFQra7cfde0Fz73vDvyMymrsfRYHqeBZ+iS4
+ WGaj/Rhc9O+QRvVC0/OgTF8Fe9YYtr+cNHkVvymRAlXSTZFZLFMigUsQSQJLrRagF
+ DQlpalzJzPOunqAsqg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MVJNd-1sqlpe2EcB-00LfaQ; Tue, 09
+ Jul 2024 14:10:33 +0200
+Message-ID: <1fe42fac-b3b0-43fe-9270-79afed5fba6c@web.de>
+Date: Tue, 9 Jul 2024 14:10:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] drm/panic: Add a qr_code panic screen
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
- <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Danilo Krummrich <dakr@redhat.com>
-References: <20240709084458.158659-1-jfalempe@redhat.com>
- <20240709084458.158659-5-jfalempe@redhat.com>
- <2024070951-tall-effective-c916@gregkh>
- <2024070947-exorcism-purchase-2f28@gregkh>
- <acd5c505-f058-46e7-9d92-620dea41d707@redhat.com>
- <2024070944-follow-crazy-ff95@gregkh>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <2024070944-follow-crazy-ff95@gregkh>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: make24@iscas.ac.cn, dri-devel@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org
+Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Wei Liu <wei.liu@kernel.org>
+References: <20240709113311.37168-1-make24@iscas.ac.cn>
+Subject: Re: [PATCH v4] drm/gma500: fix null pointer dereference in
+ cdv_intel_lvds_get_modes
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240709113311.37168-1-make24@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:d1pJZ68qXVLC5hDwh5dRD6Gu4W2nu8B0JaP0M5KPoZ4RDYSO2li
+ 54bTlvMJ+AgnnVabxrF789qHsFdBA8tafROZY+vtw2bjb4lDnngz8EweGuhNMimNbojDr91
+ yY2StoZShqaVh+L+Pkju90eaafFKr1mdk/CX/fhqJE9q1m10cUIUIKLGuOhzEtJ1yMFYDqq
+ AkbP11Bm8UZnaCwvJDMRA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:SB8L1Y85kb4=;IdtYRSGC0esrjCM//uktqOB6+Z7
+ 8jcwx3fpx3XaQNYh5US3nMVLJcmk2q+Ijg6X23q0bGq+hNmP3dvTKf6mAu5ObhZ81s5AJ9c6y
+ dmhBGa93Nwec2NACODNAFrNomMkpemPjqziDZV3o80TDYl//Q4S7i6b11ElDt/OUYZGHlg4/X
+ GGC1pyUJUWoCivIaI9PHxSlgFZ1aQnJwmRwPtRU8KwDjFU/Kz7uVnvGspAsEMpvF/xCw9guOU
+ bzonFA4hCKKFbsA5qCRKbiZysTC3kWxO9rhN/wkkQxNEzL6XW5utLELYrKMlDKdGIPXB26+LM
+ YwmmBdazbZbCyYZRXHTjaLjmt0SqNipBf+WGdXXp68I+zJjz5hG228RxWJjM9CwML8Dw7uJyY
+ BI15TCjUJvbD86mjVjXxPM8UwPv6QRS77F5PHNGlb4hjasqoNNZMZVCM/HoPzRCVaYhG/pXIx
+ VqbxFMGv7hVLjh4vBg93Y01+CzcVC6DP/CSZmb1ExsZTP+HpU9QqwT6/sTW3rfv5q3DULch1S
+ 1dgOgCBH9b0N6C7X3/9HW/Aw6quP1JBr2lwexuFAny3C3LuIS/CbAK2b/yr2E5cyJosTwoUIB
+ Hn6neTn+1mfyHpp4L7BzoqfqYdbpsYNG2RDS+Z4fMcUk9x42XULh+NluKOmynfCnPAgn6iT3D
+ AR5yNhlGPvbJBZ0B3ayDbEJPI9dWOd1dWSbuc/r0siTaxm0bRgNawhnlCa/vbkRyrhfKKsh3D
+ jDh93qeAwIwM4DhryRAFT18CBg80askcrlNUwz8Z7RzUhvesZvH0KJCqz8X5pXjsKSOmxFn7J
+ D5Acyn++A6C3j8ZMEccxNltpdYqVEGHJjUeoDnmnmRweU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,68 +86,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+=E2=80=A6
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+
+Are you going to adjust this information anyhow?
 
 
-On 09/07/2024 12:12, Greg KH wrote:
-> On Tue, Jul 09, 2024 at 12:04:02PM +0200, Jocelyn Falempe wrote:
->>
->>
->> On 09/07/2024 11:12, Greg KH wrote:
->>> On Tue, Jul 09, 2024 at 11:11:35AM +0200, Greg KH wrote:
->>>> On Tue, Jul 09, 2024 at 10:40:10AM +0200, Jocelyn Falempe wrote:
->>>>> +config DRM_PANIC_SCREEN_QR_CODE_URL
->>>>> +	string "Base url of the QR code in the panic screen"
->>>>> +	depends on DRM_PANIC_SCREEN_QR_CODE
->>>>> +	help
->>>>> +	  This option sets the base url to report the kernel panic. If it's set
->>>>> +	  the qr code will contain the url and the kmsg compressed with zlib as
->>>>> +	  url parameter. If it's empty, the qr code will contain the kmsg as
->>>>> +	  uncompressed text only.
->>>>
->>>> meta-comment, should we by default do this on a kernel.org domain so
->>>> that no specific distro has to worry about hosing this type of web
->>>> service?
->>>
->>> Also, do you have the backend source for this to show how anyone can
->>> host it themselves as well?  We can't add features to the kernel that no
->>> one but closed-source implementations will use for obvious reasons.
->>
->> I've made a proof of concept backend here:
->> https://github.com/kdj0c/panic_report/
->>
->> And the javascript to decode the kmsg trace is here (under MIT licence):
->> https://github.com/kdj0c/panic_report/blob/main/docs/panic_report.js
-> 
-> SPDX lines are your friend, you might want to look into that for this
-> stuff :)
+> ---
+> Changes in v4:
+> - revised the recipient email list, apologize for the inadvertent mistak=
+e.
+=E2=80=A6
 
-Sure, I've added the SPDX header for this file.
-> 
->> It uses the pako js library to uncompress the zlib data, which is also under
->> MIT/Zlib licence https://github.com/nodeca/pako/
-> 
-> Great, can you put that in the Kconfig help area for this option in your
-> next version?
+The usage of mailing list addresses is probably undesirable for
+the Developer's Certificate of Origin, isn't it?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.10-rc7#n398
 
-Yes, I will add a link to the panic_report github project.
-> 
->> If kernel.org want to host a default service for that, that would be great.
->> It can be linked with https://bugzilla.kernel.org to easily create a bug, or
->> look for similar bugs.
-> 
-> Someone should at least propose it if this is going to be an option that
-> the kernel supports.
-
-I hope someone will volunteer to do that, as I'm not really into web 
-development. Also it's a bit early, drm panic is quite new, and needs 
-more driver support to be really useful.
-> thanks,
-> 
-> greg k-h
-> 
-
-
--- 
-
-Jocelyn
-
+Regards,
+Markus
