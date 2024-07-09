@@ -2,79 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB4692B9EE
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 14:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E199E92B9A2
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 14:36:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D15B10E549;
-	Tue,  9 Jul 2024 12:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00E5A10E537;
+	Tue,  9 Jul 2024 12:36:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VEyspgtz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MP27TjQG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B252810E540
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 12:49:47 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2ee9b098bd5so43895061fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 05:49:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720529386; x=1721134186; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nvRk9NRwvi4Sad8kAKb8C0nIgxvEumP7Jqs1X0zsqU4=;
- b=VEyspgtzuN3X8wOWcjhnUglCfEsN/sh3tFg9Hh7n1TlO3jx7sJBnObQBO7Eeny+t/U
- VgTBfZP3j6Vx/oT1tYvgRFd15pHYVWvC0FBNc/0ml9rulmSy0pWEfjYIGSGNHCL//Zke
- W3tbUReEbGdr5k6YqtEVTo7PWUs+FEAVUK9ATev1mYPu4tItC+R6qfIScGL7pOSXiGDd
- 6Ysm04rM3+tMiaWUA6qkxdpotn8Eu8f6IvNNU8yw4VoVNcxm+wtmpO7M9QBnCZPeNFOP
- NbAangI80kaccVNwZpzlTcj0uAI2AXSULr6F9K9nBNsZWSNNDm+hayR6ITSHuapDOFXt
- GPiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720529386; x=1721134186;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nvRk9NRwvi4Sad8kAKb8C0nIgxvEumP7Jqs1X0zsqU4=;
- b=Ea/iNLMYyPo17IGOvAXMOxIRqGlDsviPLZq9R4qy8EPY3svCIFaNCYdBK2ZjxCMUH4
- PvWhSwz+ILfQANaDWt44Mz8Qg97BR/3xy+y9oIi9F3wYrnnvhk4Kd0W21l/pQm4CklW9
- j/BdB/FIpOSXgcjT1V3ckYLdPjG+VTtsFSEObDyxUkJl8GgZC1KbVw7AbHFf+FJqzI00
- 1bM0til7hLQHweQxamnB+M9Ix53uYeCAU13sG2BN2kwiCM4DEAHRE2/JRrZtBAdEn/8o
- hrVhQG6LyaEN7tHIkXrMKzx2fU16VvceanyAXpXKNrlnrzFCy/ltFa4cFVRIDHW7AUM2
- KNpQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3abcO567vfOHTiC2O0yzS47xc3m0aFEO5XhC0gSQwBkOySPp8kQiAJ91srMH4baOOTask/vkpVMoHXIbfcPMLxd8AqKC2BKDjsmgdIipm
-X-Gm-Message-State: AOJu0YzTusvSwVXxBHccsGAzXqx0ARnnfvSUJgN9RgaXuOZ9ih0Ec7uO
- er9jKQJ05dTlIEthkBAw7E2DHktM1WTWLp8c5JpEbJtNWBbnImDlEQxX5CNkhjc=
-X-Google-Smtp-Source: AGHT+IFzyDrAISLmyfMTkD2U0CnOaEiWNNhOh8Yt33K2jGcGj4upmTfOI84CZT5z68/EAKIkTu9l9Q==
-X-Received: by 2002:a2e:a612:0:b0:2ec:5668:3b93 with SMTP id
- 38308e7fff4ca-2eeb30dc16emr19340391fa.12.1720529385501; 
- Tue, 09 Jul 2024 05:49:45 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4266f6e9666sm39540095e9.9.2024.07.09.05.49.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jul 2024 05:49:45 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: sam@ravnborg.org, daniel@ffwll.ch, dianders@chromium.org, 
- linus.walleij@linaro.org, swboyd@chromium.org, airlied@gmail.com, 
- dmitry.baryshkov@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
- robh+dt@kernel.org, conor+dt@kernel.org, 
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: lvzhaoxiong@huaqin.corp-partner.google.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240704045017.2781991-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20240704045017.2781991-1-yangcong5@huaqin.corp-partner.google.com>
-Subject: Re: [PATCH v2 0/3] Support for Melfas lmfbx101117480 MIPI-DSI
- panel
-Message-Id: <172052938462.987180.17478336258755727379.b4-ty@linaro.org>
-Date: Tue, 09 Jul 2024 14:49:44 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2720610E533;
+ Tue,  9 Jul 2024 12:36:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720528613; x=1752064613;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=QD16/W+gTAFQtTHcyhUoWKx3JHae4ORgoBXvLF+JsCs=;
+ b=MP27TjQGNjEX4owGmXR604yl4KJoksxzKcN/Zh7P61Kn1QtklTW6XSdo
+ IhgNV4xearX8JsNdc6Z6clCMuaEm3BZfst0a4Qciml+cWcFNIwh1TnY6d
+ bZWtSweZZzSgvWZHYO2HWLxtDXd6Q+RJn8GwjluHwsDEZAPGeNk+GGxGF
+ Ha/hj6AS21H+voNJaGW9+WYld13jfNoLX0LnEfpBwgsDOl5EBcA8EqHAD
+ vFBBOoud6qKGmVlCxt7cMaMnd8DWsXECPHWZHixgCeosNjEPKvisbfR/d
+ rLO0sOffSrbuMN2mq/bH2UlNqbrkkk3QsCAI+Bbty/jTbbaVN7KGqgIXx w==;
+X-CSE-ConnectionGUID: Ys2m5z7tSJGkC5JLhUDBIQ==
+X-CSE-MsgGUID: atkjG4pCSf6XwLkSBP2E2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="21547570"
+X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; d="scan'208";a="21547570"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2024 05:36:53 -0700
+X-CSE-ConnectionGUID: Zb6repQVQH639LokAwoWFA==
+X-CSE-MsgGUID: x8lnZKcNQbyrXb2xCwItww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; d="scan'208";a="78581940"
+Received: from nitin-super-server.iind.intel.com ([10.145.169.70])
+ by orviesa002.jf.intel.com with ESMTP; 09 Jul 2024 05:36:50 -0700
+From: Nitin Gote <nitin.r.gote@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, andi.shyti@intel.com,
+ chris.p.wilson@linux.intel.com, nirmoy.das@intel.com,
+ janusz.krzysztofik@linux.intel.com, nitin.r.gote@intel.com,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/i915/gt: Do not consider preemption during
+ execlists_dequeue for gen8
+Date: Tue,  9 Jul 2024 18:23:02 +0530
+Message-Id: <20240709125302.861319-1-nitin.r.gote@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,31 +69,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+We're seeing a GPU HANG issue on a CHV platform, which was caused by
+bac24f59f454 ("drm/i915/execlists: Enable coarse preemption boundaries for gen8").
 
-On Thu, 04 Jul 2024 12:50:14 +0800, Cong Yang wrote:
-> This series support for Melfas lmfbx101117480 MIPI-DSI panel with
-> jadard-jd9365da controller.
-> Add compatible for melfas lmfbx101117480 in dt-bindings.
-> Break some CMDS into helper functions.
-> 
-> Changes in v2:
-> - PATCH 1/3: No change.
-> - PATCH 2/3: No change..
-> - PATCH 3/7: Break some CMDS into helper functions.
-> - Link to v1: https://lore.kernel.org/dri-devel/20240702130138.2543711-1-yangcong5@huaqin.corp-partner.google.com/
-> 
-> [...]
+Gen8 platform has only timeslice and doesn't support a preemption mechanism
+as engines do not have a preemption timer and doesn't send an irq if the
+preemption timeout expires. So, add a fix to not consider preemption
+during dequeuing for gen8 platforms.
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+Also move can_preemt() above need_preempt() function to resolve implicit
+declaration of function ‘can_preempt' error and make can_preempt()
+function param as const to resolve error: passing argument 1 of
+‘can_preempt’ discards ‘const’ qualifier from the pointer target type.
 
-[1/3] dt-bindings: display: panel: Add compatible for melfas lmfbx101117480
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/e7305ad465b50deaa7a9f3a97dde3b22cbd00474
-[2/3] drm/panel: jd9365da: Support for Melfas lmfbx101117480 MIPI-DSI panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c4ce398cf18ae2859cc9930a9486b576ce262de9
-[3/3] drm/panel: jd9365da: Break some CMDS into helper functions
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/533ca79cd9f734aae56814445e3f1e6cc1a50358
+Fixes: bac24f59f454 ("drm/i915/execlists: Enable coarse preemption boundaries for gen8")
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/11396
+Suggested-by: Andi Shyti <andi.shyti@intel.com>
+Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+CC: <stable@vger.kernel.org> # v5.2+
+---
+ .../drm/i915/gt/intel_execlists_submission.c  | 24 ++++++++++++-------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 21829439e686..30631cc690f2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -294,11 +294,26 @@ static int virtual_prio(const struct intel_engine_execlists *el)
+ 	return rb ? rb_entry(rb, struct ve_node, rb)->prio : INT_MIN;
+ }
+ 
++static bool can_preempt(const struct intel_engine_cs *engine)
++{
++	if (GRAPHICS_VER(engine->i915) > 8)
++		return true;
++
++	if (IS_CHERRYVIEW(engine->i915) || IS_BROADWELL(engine->i915))
++		return false;
++
++	/* GPGPU on bdw requires extra w/a; not implemented */
++	return engine->class != RENDER_CLASS;
++}
++
+ static bool need_preempt(const struct intel_engine_cs *engine,
+ 			 const struct i915_request *rq)
+ {
+ 	int last_prio;
+ 
++	if ((GRAPHICS_VER(engine->i915) <= 8) && can_preempt(engine))
++		return false;
++
+ 	if (!intel_engine_has_semaphores(engine))
+ 		return false;
+ 
+@@ -3313,15 +3328,6 @@ static void remove_from_engine(struct i915_request *rq)
+ 	i915_request_notify_execute_cb_imm(rq);
+ }
+ 
+-static bool can_preempt(struct intel_engine_cs *engine)
+-{
+-	if (GRAPHICS_VER(engine->i915) > 8)
+-		return true;
+-
+-	/* GPGPU on bdw requires extra w/a; not implemented */
+-	return engine->class != RENDER_CLASS;
+-}
+-
+ static void kick_execlists(const struct i915_request *rq, int prio)
+ {
+ 	struct intel_engine_cs *engine = rq->engine;
 -- 
-Neil
+2.25.1
 
