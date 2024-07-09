@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE5C792B3E0
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 11:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2257E92B426
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 11:41:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3541210E4D3;
-	Tue,  9 Jul 2024 09:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B034110E4D1;
+	Tue,  9 Jul 2024 09:41:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ISUKwmQU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fapimXiB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5228210E4D3
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 09:32:16 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2ee9bca8652so2811481fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 02:32:16 -0700 (PDT)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A836D10E4D1
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 09:41:19 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-2c967e21888so3337280a91.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 02:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1720517534; x=1721122334; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ewc70fROqt3rzaJz07StrqQmqSZrtwDP5kdVthlFK8I=;
- b=ISUKwmQU0ES0+c5z3MZg6iUeY7O0uzsJnEcbZ4DYe1J1j9ZUK116y9eDtuqOJgQdEQ
- VUZvMK2Q060KH+DGWMnlijbZF8owtJA8p5ZnQPmTJMOHnB1/9+pJGGcu5+U653Zwg2v9
- UuOVDT6zZ0L/O6NXk+Ng1dPyRjm6vu/xzT8Ls=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720517534; x=1721122334;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1720518079; x=1721122879; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ewc70fROqt3rzaJz07StrqQmqSZrtwDP5kdVthlFK8I=;
- b=lR8IAb0t8eNHBWztPAHm31V0rHHjsVCbhJo2l9H60oy2XpoRAYJaX6EnmbSlz5yFYj
- 4W9ssjexVwpD0Z9iif+2om0+WFwM99T1ZwQINo4RmDaiqXJDfWTtdRVIsvu8uH395W+J
- EZwLgHwTU2pdV/TK487XwO970p3q+57yceVtbrpZRjGaM8TbpRpom8syivIR6jtf2dt+
- 6xcrsevzWZnOeMhVW4mNjgSevcgb8iTFzXE0z8AfO2IPe6Xflud/N3dsgIgh2hFvHJi7
- 8A5bk7KBWFvjKQhBk1xQ0BdSJ3EI3CEqutQzLcml4GGkSWTckFRea49s0lItdq2y2XzA
- Ijlw==
-X-Gm-Message-State: AOJu0Yxe+AZWVHC0YIIAAap1ZgcUwZBTljq1jKgyYVfOP68Btb/xFCq9
- WEdZx59i3/ouSWTPGHVwvHW5vB1OjRpWCap92kpPU0HMWRLjQ5xBQU1SUM3Yv3A=
-X-Google-Smtp-Source: AGHT+IGVWWUiNssA64xmT9WON6S1dOldSZUUjeYQLAGxDZ+nsaLA2Q0ky3uiXmODRee/PMIV+ZKiUA==
-X-Received: by 2002:a05:651c:509:b0:2ee:7e6c:34d7 with SMTP id
- 38308e7fff4ca-2eeb30b86b4mr15046411fa.1.1720517534339; 
- Tue, 09 Jul 2024 02:32:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4264a2fca8bsm199553335e9.47.2024.07.09.02.32.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jul 2024 02:32:13 -0700 (PDT)
-Date: Tue, 9 Jul 2024 11:32:11 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Cc: dri-devel@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Hung <alex.hung@amd.com>, Wayne Lin <wayne.lin@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 2/2] drm/amd/display: use drm_crtc_set_vblank_offdelay()
-Message-ID: <Zo0Dm_XeF3dMqK1C@phenom.ffwll.local>
-References: <20240708202907.383917-1-hamza.mahfooz@amd.com>
- <20240708202907.383917-2-hamza.mahfooz@amd.com>
+ bh=oVroGXjljN7UKU/yhFIYpLiSd6PbIzKS4cUQFOHvuWw=;
+ b=fapimXiBE5Azsy0B5YEkQ+uR6l4TbIsERCh6HSS8XBwR5ANxvSKgoUXRexKJFejHhX
+ TW+vIT4A1GYrl446p4vhz3Yzthqvy0O23zZyeI84Wfo7bx2PU399GWNCiP8F4l6H5Nid
+ ywttxyy8x+GOW5LhgRyKX/1XcyjtXtb1bUEu+ybzdXE2EvszN/lOe3RDUNS6Xj6yFDw9
+ h/OWakaA94D0iboWpadjGe3+o8fvtuJcBi4hug7lh2hMHi5Kj8FGz3zDcVwwcan5dlHd
+ ZppviUwUn+PxC4edyKajO+JP9rJKDUBqHwB3UxQmSJU0pl4bXBq8Ix8HSex7lhTbnhVn
+ criw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720518079; x=1721122879;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oVroGXjljN7UKU/yhFIYpLiSd6PbIzKS4cUQFOHvuWw=;
+ b=l2rYyCJk9Owi2epvwQ/0A+z/7JwzfdQo02+4OH1f81EGMvs8X5tS/+Njy3xOQB5u4f
+ 3JlYLUI2IcOb7xIL4ndBC5g+C+R6tKe1HPB7JOXjE3oi3rdl/6V4EJmlXV2oG+zA2ryH
+ 3hZqGtnYiAY2Ou3DhdPHIxyVaR5UietEiyCjQGGbSHjZiKpKY/2J3TWkzjcDlmzEHCSa
+ 6yiLFo6YY/Wes/L8lKBuvACozHkVdmKI9iLCCX8+7D5CDkqLh5Rfr7FWGBUHt1eGr6Kq
+ KVBqNlfg4cMfYM8WCZ72UXzDVzrkOGQ1TDc3KUMWWHYsCPAihiI0iWc2hgdDj/IonsBk
+ jTiw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWL2yNRU5mmFr9rRXMX1BsGsHMMLHd+w08zeGu1BDRSxOXbtn9jIq+LhhzgHrA0hveFzkL+b7MYE1sDDmAxyiwL07xCa7US1NBGW+fDmrid
+X-Gm-Message-State: AOJu0YxarWEoXFy0iBtNvSgM3K6Dqs8kV+VWgr4pY+RykMuUBCUkzH1E
+ dXaLBlzfwbwfVclUnWqmOWCzG8wZ8I3aawTdB/ghME9Bok5L5fpkX9OFiY1Vbb2urkPj+paf9pY
+ H3qC0kaC7YzlAGhHEXpLrHppLBKc=
+X-Google-Smtp-Source: AGHT+IF8ZjDYhseE4Khi5hh3/IVLxfQ67v9J2c5cotmB0Lq+rDdIDmRbQdZ5yWgqnTKcX7faKxVbS2/+f/aXqcOR3ns=
+X-Received: by 2002:a17:90b:1e05:b0:2c8:1f30:4e04 with SMTP id
+ 98e67ed59e1d1-2ca35d48f74mr1921776a91.36.1720518079028; Tue, 09 Jul 2024
+ 02:41:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240708202907.383917-2-hamza.mahfooz@amd.com>
-X-Operating-System: Linux phenom 6.9.7-amd64 
+References: <20240709084458.158659-1-jfalempe@redhat.com>
+ <20240709084458.158659-5-jfalempe@redhat.com>
+In-Reply-To: <20240709084458.158659-5-jfalempe@redhat.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 9 Jul 2024 11:41:06 +0200
+Message-ID: <CANiq72kS2fAgRnR8yNfpN69tMG+UPfgfytaA8sE=tYH+OQ_L6A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/panic: Add a qr_code panic screen
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,89 +89,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 08, 2024 at 04:29:07PM -0400, Hamza Mahfooz wrote:
-> Hook up drm_crtc_set_vblank_offdelay() in amdgpu_dm, so that we can
-> enable PSR more quickly for displays that support it.
-> 
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 30 ++++++++++++++-----
->  1 file changed, 22 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index fdbc9b57a23d..ee6c31e9d3c4 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -8231,7 +8231,7 @@ static int amdgpu_dm_encoder_init(struct drm_device *dev,
->  
->  static void manage_dm_interrupts(struct amdgpu_device *adev,
->  				 struct amdgpu_crtc *acrtc,
-> -				 bool enable)
-> +				 struct dm_crtc_state *acrtc_state)
->  {
->  	/*
->  	 * We have no guarantee that the frontend index maps to the same
-> @@ -8239,12 +8239,25 @@ static void manage_dm_interrupts(struct amdgpu_device *adev,
->  	 *
->  	 * TODO: Use a different interrupt or check DC itself for the mapping.
->  	 */
-> -	int irq_type =
-> -		amdgpu_display_crtc_idx_to_irq_type(
-> -			adev,
-> -			acrtc->crtc_id);
-> +	int irq_type = amdgpu_display_crtc_idx_to_irq_type(adev,
-> +							   acrtc->crtc_id);
-> +	struct dc_crtc_timing *timing;
-> +	int offdelay;
-> +
-> +	if (acrtc_state) {
-> +		timing = &acrtc_state->stream->timing;
-> +
-> +		/* at least 2 frames */
-> +		offdelay = 2000 / div64_u64(div64_u64((timing->pix_clk_100hz *
-> +						       (uint64_t)100),
-> +						      timing->v_total),
-> +					    timing->h_total) + 1;
+Hi Jocelyn,
 
-Yeah, _especially_ when you have a this short timeout your really have to
-instead fix the vblank driver code properly so you can enable
-vblank_disable_immediate. This is just cheating :-)
--Sima
+A quick docs-only review of the Rust side (some of these apply in
+several cases -- I just wanted to give an overview for you to
+consider).
 
-> +
-> +		if (acrtc_state->stream->link->psr_settings.psr_version <
-> +		    DC_PSR_VERSION_UNSUPPORTED &&
-> +		    amdgpu_ip_version(adev, DCE_HWIP, 0) >= IP_VERSION(3, 5, 0))
-> +			drm_crtc_set_vblank_offdelay(&acrtc->base, offdelay);
->  
-> -	if (enable) {
->  		drm_crtc_vblank_on(&acrtc->base);
->  		amdgpu_irq_get(
->  			adev,
-> @@ -9319,7 +9332,7 @@ static void amdgpu_dm_commit_streams(struct drm_atomic_state *state,
->  		if (old_crtc_state->active &&
->  		    (!new_crtc_state->active ||
->  		     drm_atomic_crtc_needs_modeset(new_crtc_state))) {
-> -			manage_dm_interrupts(adev, acrtc, false);
-> +			manage_dm_interrupts(adev, acrtc, NULL);
->  			dc_stream_release(dm_old_crtc_state->stream);
->  		}
->  	}
-> @@ -9834,7 +9847,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
->  		     drm_atomic_crtc_needs_modeset(new_crtc_state))) {
->  			dc_stream_retain(dm_new_crtc_state->stream);
->  			acrtc->dm_irq_params.stream = dm_new_crtc_state->stream;
-> -			manage_dm_interrupts(adev, acrtc, true);
-> +			manage_dm_interrupts(adev, acrtc,
-> +					     to_dm_crtc_state(new_crtc_state));
->  		}
->  		/* Handle vrr on->off / off->on transitions */
->  		amdgpu_dm_handle_vrr_transition(dm_old_crtc_state, dm_new_crtc_state);
-> -- 
-> 2.45.1
-> 
+On Tue, Jul 9, 2024 at 10:45=E2=80=AFAM Jocelyn Falempe <jfalempe@redhat.co=
+m> wrote:
+>
+> +//! This is a simple qr encoder for DRM panic.
+> +//!
+> +//! Due to the Panic constraint, it doesn't allocate memory and does all
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Perhaps clarify "Panic constraint" here?
+
+> +//! the work on the stack or on the provided buffers. For
+> +//! simplification, it only supports Low error correction, and apply the
+
+"applies"?
+
+> +//! first mask (checkboard). It will draw the smallest QRcode that can
+
+"QR code"? "QR-code"?
+
+In other places "QR-code" is used -- it would be ideal to be
+consistent. (Although, isn't the common spelling "QR code"?)
+
+> +//! contain the string passed as parameter. To get the most compact
+> +//! QR-code, the start of the url is encoded as binary, and the
+
+Probably "URL".
+
+> +//! compressed kmsg is encoded as numeric.
+> +//!
+> +//! The binary data must be a valid url parameter, so the easiest way is
+> +//! to use base64 encoding. But this waste 25% of data space, so the
+
+"wastes"
+
+> +//! whole stack trace won't fit in the QR-Code. So instead it encodes
+> +//! every 13bits of input into 4 decimal digits, and then use the
+
+"uses"
+
+> +//! efficient numeric encoding, that encode 3 decimal digits into
+> +//! 10bits. This makes 39bits of compressed data into 12 decimal digits,
+> +//! into 40bits in the QR-Code, so wasting only 2.5%. And numbers are
+> +//! valid url parameter, so the website can do the reverse, to get the
+
+"And the numbers are valid URL parameters"?
+
+> +//! Inspired by this 3 projects, all under MIT license:
+
+"these"
+
+> +// Generator polynomials for QR Code, only those that are needed for Low=
+ quality
+
+If possible, please remember to use periods at the end for both
+comments and docs. It is very pedantic, but if possible we would like
+to try to be consistent across subsystems on how the documentation
+looks etc. If everything looks the same, it is also easy to
+remember/check how to do it for new files and so on.
+
+> +/// QRCode parameter for Low quality ECC:
+> +/// - Error Correction polynomial
+> +/// - Number of blocks in group 1
+> +/// - Number of blocks in group 2
+> +/// - Block size in group 1
+> +/// (Block size in group 2 is one more than group 1)
+
+We typically leave a newline after a list.
+
+> +    // Return the smallest QR Version than can hold these segments
+> +    fn from_segments(segments: &[&Segment<'_>]) -> Option<Version> {
+
+Should be docs, even if private? i.e. `///`?
+
+Also third person and period.
+
+> +// padding bytes
+> +const PADDING: [u8; 2] =3D [236, 17];
+
+`///`?
+
+> +/// get the next 13 bits of data, starting at specified offset (in bits)
+
+Please capitalize.
+
+> +        // b is 20 at max (bit_off <=3D 7 and size <=3D 13)
+
+Please use Markdown for comments too.
+
+> +/// EncodedMsg will hold the data to be put in the QR-Code, with correct=
+ segment
+> +/// encoding, padding, and Error Code Correction.
+
+Missing newline? In addition, for the title (i.e. first paragraph), we
+try to keep it short/simple, e.g. you could perhaps say something
+like:
+
+    /// Data to be put in the QR code (with correct segment encoding,
+padding, and error code correction).
+
+> +/// QrImage
+> +///
+> +/// A QR-Code image, encoded as a linear binary framebuffer.
+
+Please remove the title -- the second paragraph should be the title.
+
+> +/// Max width is 177 for V40 QR code, so u8 is enough for coordinate.
+
+`u8`
+
+> +/// drm_panic_qr_generate()
+
+You can remove this title.
+
+> +/// C entry point for the rust QR Code generator.
+> +///
+> +/// Write the QR code image in the data buffer, and return the qrcode si=
+ze, or 0
+> +/// if the data doesn't fit in a QR code.
+> +///
+> +/// * `url` The base url of the QR code. It will be encoded as Binary se=
+gment.
+
+Typically we would write a colon. after the key, e.g.
+
+    /// * `url`: the base URL of the QR code.
+
+> +/// # Safety
+> +///
+> +/// * `url` must be null or point at a nul-terminated string.
+> +/// * `data` must be valid for reading and writing for `data_size` bytes=
+.
+> +/// * `data_len` must be less than `data_size`.
+> +/// * `tmp` must be valid for reading and writing for `tmp_size` bytes.
+
+It would be nice to mention for which duration these need to hold,
+e.g. the call or something else.
+
+> +        // Safety: url must be a valid pointer to a nul-terminated strin=
+g.
+
+Please use the `// SAFETY: ` prefix instead, since it is how we tag
+these (i.e. differently from from the `# Safety` section).
+
+> +/// * `version` QR code version, between 1-40.
+
+If something like this happens to be used in several places, you may
+want to consider using transparent newtypes for them. This would allow
+you to avoid having to document each use point and it would enrich the
+signatures.
+
+Thanks!
+
+Cheers,
+Miguel
