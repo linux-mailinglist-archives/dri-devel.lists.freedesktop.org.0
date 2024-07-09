@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A1D92C312
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 20:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C3892C315
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 20:07:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFF410E60C;
-	Tue,  9 Jul 2024 18:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3EF610E628;
+	Tue,  9 Jul 2024 18:07:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AVjGncWb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BPfhC/aa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
- [209.85.160.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABB610E60C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 18:06:42 +0000 (UTC)
-Received: by mail-oa1-f42.google.com with SMTP id
- 586e51a60fabf-25e397c51b2so2709617fac.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 11:06:42 -0700 (PDT)
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+ [209.85.210.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 011CE10E628
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 18:07:01 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id
+ 46e09a7af769-70362cae7e1so1685030a34.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 11:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720548401; x=1721153201; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720548421; x=1721153221; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WzBDhpjO1TzmBMf6LfzhCg/YH/Iw6PGOmuPK9+lkbGc=;
- b=AVjGncWbD/htHAVweYUnM4+3vlkZaNomtLNmv50fpaDI1D425Yd9J4ZmNLLvTPou42
- r8Kuwa6mTgGCous7kfhgDJosl5tPhqb6Wxhfewln1PbVyvunq7kuOtFxNwaCYCmsMiWk
- BGTGW2Ig8jzxCj7a1yNIYksvyw7JF/AVORq9NRfG34X8N8jXohNSGDfsUT/G6lbNeRkB
- a62agc/uD0HONOcrxB/7nQoICEozCaO8+6+ydlpkPEIcl5+ajTKzhA2ZKJ4zK+VbV41j
- hcZe/WdpWVngFDdqM3B8JXdO3UTYE68Zwb1kmYgeM0JFeq8Op444iuJq2yxRYDOsmWEN
- vsGQ==
+ bh=EJAo1DXs8ooE0RW3APFpiuREqVJox962WsbSK7msjLw=;
+ b=BPfhC/aaw+PHR4TTX/VmxW4/wb2C29pS39ChOj0sNH6U+hmnepxtyEvqzuqO9vAEen
+ hcTRheF2jMKFQ6AHA60NzT/6WEgmwPV+dgpKUGEL9gNWjFgLtdrK2Ep/Wy/2DzGAw+i9
+ c+W0G5HJ0ZEMqyX5xvZrzb5sq8ziuYkNNIizrBZJvkD4uWm7E5BCBUVWLLxNxGIE7hd/
+ 2G4MwOlfOkBF6UWReQYEySTscjs1K0In3X3QOCKFEOP4pJQNOWCOKuMLijXFZAklpNX7
+ pFTPCeQGKvf4USx/J9Z/Plo4KcxwOOw4gCeXDzvo6XljsCP2O7zgXTJqw1kasVA18wqD
+ uIyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720548401; x=1721153201;
+ d=1e100.net; s=20230601; t=1720548421; x=1721153221;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WzBDhpjO1TzmBMf6LfzhCg/YH/Iw6PGOmuPK9+lkbGc=;
- b=n/x+OZbQBAxL5NxFQSNPdFIAwqe+sF7c2fmONU2nvuKjBJh0N2S3rq0TGQUzz8wVBM
- d6eU/HmpwNANEitsHQeyXLNVnpsWJURF8r+SPzlIv0DyFhpl7q2pGzfat9axzItsvnct
- Rot2XC4wZC2Q+upLtIy8kLFmps5RHlpnKYPmJj1WKsVXvzLYaZtvgERVe/2pD5X8PCZ5
- jJhjmEMy1oPIQUYTS+SLwhYAdOR03sAavtvxueCyQPoAbhXuAtbmgeao2aJcGenzclu0
- WkyVdMLTjkPv+HtaHnby/5AMecK7eAOkTaph2p6DGIzyU3jd/3YbyZB5j9ntfQsIV2Hw
- FnmQ==
+ bh=EJAo1DXs8ooE0RW3APFpiuREqVJox962WsbSK7msjLw=;
+ b=NLwI8HgHAn1Iv9pZME8J8SB7MIxOGgOgL0RpLUc+y0eBRLccIomdXByjeAbJYYudP/
+ gvT9IpuHPLN7LvSfj7ArpxUWkrlCtXBSxwznnWTBIMgSYPVbvECfm2Q4l6PvkHDFh/l5
+ m9cimymmvYW9hY/r4PtyQAjt9y6H2HTapqz8422LdB0Dkkpr5u+1g2tW0QFj3GR4z3IZ
+ ZXEoVgDeM9V1f69F/rrewxPiv57jG0sCSN0gNXt62jv2+sxbUzxPzi1RlZbnFPCGXgld
+ 5stBa2ECWnC02JsY5aRLK0Ddq9JcubtEpCcPY8ivd+/BpWILLybCRNgMzHlHwE1pD1R3
+ B8IQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWk5IoKX5BpqKqmdXbp+D+l3WCv17ihrsBfUX/2LqhOvZ03+tORKlvjEhdn2Ul/FlT3PVJB5TKm7kl5WB3gNYX4rnF7E4XOfQmlfxhjO8Oa
-X-Gm-Message-State: AOJu0YyQGC1DqLt/JvD9cKpSZ6XlpwUCUUKZ693mpymnPrFrxSEDGVCW
- F3Qqp6V6BKloXiKtDjJo+hPDRVMrkZ3BhXGD4diMh0BACA2Q52wJZjlkambC2Hrm75Lf45EAXRp
- czbANDPYZaGrqenkmetQSSyCac6U=
-X-Google-Smtp-Source: AGHT+IEGUcQKJ9mnpyPVQXQ1pNx23mMBnkpqX5kngam5zoBvxP51NVErbJOzJhsbwWiQjadnpg0LnTkMyAlCadX5jSY=
-X-Received: by 2002:a05:6870:ec87:b0:254:ccac:134d with SMTP id
- 586e51a60fabf-25eae7575dcmr2838916fac.2.1720548401179; Tue, 09 Jul 2024
- 11:06:41 -0700 (PDT)
+ AJvYcCVZR9eOlMIzyUGSPn/QTGgL4E83oLfiYF0ANelllAfl7sz5AI1GQVztGQBVUDJuyobW5GzBR5wNB804kYK6EMn/tiD/oQWE/Do1jkArF3qj
+X-Gm-Message-State: AOJu0YySoeGc4UAkM6RcZicy/WrlpLE1dbwwvG2itgKjB+pcBXtGi36Z
+ bdAuYY8aMQsuzm7OFG3KvmS60k0iZiuBMmiYn3b2JSVH3XWsBnaCXn9FVG+uG7KtVHlvWkEMbZj
+ 9aXjudBoJUahcrILgyoxsjQYVLRA=
+X-Google-Smtp-Source: AGHT+IEK/h7YRFNQ2S7300KC0byBo5gQdt7zCpjTXA4dfoiohxCrmTmLBf7UZXh0AakpB+NhqkARZiuhDFtcgob1/K0=
+X-Received: by 2002:a05:6870:c03:b0:25e:1a0f:522d with SMTP id
+ 586e51a60fabf-25eae8a49b7mr2821143fac.35.1720548420892; Tue, 09 Jul 2024
+ 11:07:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240709085916.3002467-1-make24@iscas.ac.cn>
-In-Reply-To: <20240709085916.3002467-1-make24@iscas.ac.cn>
+References: <20240709113311.37168-1-make24@iscas.ac.cn>
+In-Reply-To: <20240709113311.37168-1-make24@iscas.ac.cn>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Tue, 9 Jul 2024 20:06:30 +0200
-Message-ID: <CAMeQTsa4eYwPW=ut4yheZD0od3Yc9hGc1W3N=Ns7BKuYugcunw@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/gma500: fix null pointer dereference in
+Date: Tue, 9 Jul 2024 20:06:49 +0200
+Message-ID: <CAMeQTsZojC24Hs_zy0UX0Zjq42zLH21yn_hZhkcSKbL5X1jiSA@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/gma500: fix null pointer dereference in
  cdv_intel_lvds_get_modes
 To: Ma Ke <make24@iscas.ac.cn>
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, alan@linux.intel.com, akpm@linux-foundation.org, 
+ airlied@gmail.com, daniel@ffwll.ch, daniel.vetter@ffwll.ch, 
+ alan@linux.intel.com, airlied@redhat.com, akpm@linux-foundation.org, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -82,7 +83,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 9, 2024 at 10:59=E2=80=AFAM Ma Ke <make24@iscas.ac.cn> wrote:
+On Tue, Jul 9, 2024 at 1:33=E2=80=AFPM Ma Ke <make24@iscas.ac.cn> wrote:
 >
 > In cdv_intel_lvds_get_modes(), the return value of drm_mode_duplicate()
 > is assigned to mode, which will lead to a NULL pointer dereference on
@@ -98,6 +99,9 @@ Pushed to drm-misc-fixes
 -Patrik
 
 > ---
+> Changes in v4:
+> - revised the recipient email list, apologize for the inadvertent mistake=
+.
 > Changes in v3:
 > - added the recipient's email address, due to the prolonged absence of a
 > response from the recipients.
