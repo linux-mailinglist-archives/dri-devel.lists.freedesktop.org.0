@@ -2,85 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E2992AD1C
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 02:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84BF92AD34
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 02:44:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC4410E1E8;
-	Tue,  9 Jul 2024 00:28:09 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="meIKFhgH";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6F3F10E211;
+	Tue,  9 Jul 2024 00:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
- [209.85.219.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2BD110E1E8
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 00:28:08 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id
- 6a1803df08f44-6b5e6eded83so24052466d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 17:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1720484885; x=1721089685;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UYM3zw5Ilnu3cOqCw9QUJr0rFrT7FZCvEIIlOa+MUGg=;
- b=meIKFhgH5GeXIs1joVRZdj5Td0tHEWFccBh+Mcx7fTBZAOMqL08PKPJWa0clRlJkMj
- CUFGC3kq1hHTvV4O7EB+WX1pJaD7PZhtPhRXX1OYbRtVVyEnFjqSqyoWChQE+jy56awf
- iIU4StelOnbJq9yvYfrtECIN2uVvUgBxcXjO4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720484885; x=1721089685;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UYM3zw5Ilnu3cOqCw9QUJr0rFrT7FZCvEIIlOa+MUGg=;
- b=tkLdk/yhjgZzmjlguxQ+Gby184WQ1yPmZVSOnnHxpXx54uvsyXgWfDc5l3jmDEOxk8
- xBMY0bI6/VnCPCf/rN7cJAO+uemDiW3PWbLgEkutalGqdKCH0Om/IWpfQNprSN6oPLRw
- XBPPHCo1sv5ONtZ8CIFanRZZCLz9P63e4E7RCt+x9PMrcr3fTrstSq0B4US0/sLK9u+q
- gbLZIxtuCowDSqgDkkNh5n9skYDvQAEgK0WXc3F4m8yxdLrtdhirUXlHIdcclg8vn9g/
- /6ePr1nVtSKOI2RZHJ6ld1NnYNPv/b6hr+zOOEKWZfg2ivLugQxE6I/TovJhx2pzWoT+
- kZXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCURBda0y+MUPkXRRuZOECxYTF31oV8c+63rejj3vvfsAwRbg7P8sGgJ2Izs7aG84rjyrG1PSBCrzOJHI54BzSCcnuZDdkpJalP0xmptxHnN
-X-Gm-Message-State: AOJu0YyXpEWDEcqrrjgRJrulU8SIYAtzTBDgYkW5QVM1wuFU280GZUNT
- GgLdAa0AP55n+gttezkvx7R1Ya74ybGoz/5LGGlUgKa7hYBCUgM9v89TA6n2DcDwVH99lBzbv6w
- ACiB5
-X-Google-Smtp-Source: AGHT+IHwlp3AuPg/XjmXltlvdsZsmb9jQ+DhtK2nUC9LYzoEWOhgIPayHCp8X8xGXPIYSakf36owNA==
-X-Received: by 2002:a05:6214:c61:b0:6b5:2f57:1a5c with SMTP id
- 6a1803df08f44-6b61c1f508emr15514176d6.59.1720484884886; 
- Mon, 08 Jul 2024 17:28:04 -0700 (PDT)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com.
- [209.85.160.176]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b61ba1587asm4170786d6.70.2024.07.08.17.28.03
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jul 2024 17:28:04 -0700 (PDT)
-Received: by mail-qt1-f176.google.com with SMTP id
- d75a77b69052e-44664ad946eso62731cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2024 17:28:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWADEhd1zGF04scOBk2tmmPCMUVDDNwXDDOrfjcl/Fz1bkrMSY1STGsRywSsmNupPX0yrC9A1YWt3vusa7iY+wS+yQowdB+6O2aeqaExM+p
-X-Received: by 2002:ac8:7a83:0:b0:447:ed90:7396 with SMTP id
- d75a77b69052e-447fba65e4cmr1638641cf.24.1720484883356; Mon, 08 Jul 2024
- 17:28:03 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3E50310E211
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 00:44:15 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0C061007;
+ Mon,  8 Jul 2024 17:44:39 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F14C53F762;
+ Mon,  8 Jul 2024 17:44:11 -0700 (PDT)
+Date: Tue, 9 Jul 2024 01:42:10 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chris
+ Morgan <macroalpha82@gmail.com>, John Watts <contact@jookia.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 02/23] drm: sun4i: de2/de3: Merge CSC functions into one
+Message-ID: <20240709014210.45ce6054@minigeek.lan>
+In-Reply-To: <20240703105454.41254-3-ryan@testtoast.com>
+References: <20240703105454.41254-1-ryan@testtoast.com>
+ <20240703105454.41254-3-ryan@testtoast.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 MIME-Version: 1.0
-References: <20240628182428.171031-1-tejasvipin76@gmail.com>
- <20240628182428.171031-3-tejasvipin76@gmail.com>
-In-Reply-To: <20240628182428.171031-3-tejasvipin76@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 8 Jul 2024 17:27:51 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U=YJu-QS9qck-Q89UxwEEfitJHyk6-gGX7zCGNz9xF0w@mail.gmail.com>
-Message-ID: <CAD=FV=U=YJu-QS9qck-Q89UxwEEfitJHyk6-gGX7zCGNz9xF0w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/panel: startek-kd070fhfid015: transition to
- mipi_dsi wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,132 +57,246 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed,  3 Jul 2024 22:50:52 +1200
+Ryan Walklin <ryan@testtoast.com> wrote:
+
 Hi,
 
-On Fri, Jun 28, 2024 at 11:25=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.co=
-m> wrote:
->
-> @@ -52,92 +52,63 @@ static inline struct stk_panel *to_stk_panel(struct d=
-rm_panel *panel)
->  static int stk_panel_init(struct stk_panel *stk)
+> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+> 
+> Merging both function into one lets this one decide on it's own if CSC
+> should be enabled or not.
+
+"both functions" is not very specific or telling, and left me a bit
+clueless, so can we maybe use:
+
+"At the moment the colour space conversion is handled by two functions:
+one to setup the conversion parameters, and another one to enable the
+conversion. Merging both into one gives more flexibility for upcoming
+extensions to support whole YUV pipelines, in the DE33."
+
+Maybe someone knows the real killer reason why this is required, this
+could then be added here.
+
+> Currently heuristics for that is pretty simple
+> - enable it for YUV formats and disable for RGB. However, DE3 can have
+> whole pipeline in RGB or YUV format. YUV pipeline will be supported in
+> later commits.
+
+The actual patch looks like a valid transformation to me, so with an
+amended commit message:
+
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_csc.c      | 89 ++++++++++----------------
+>  drivers/gpu/drm/sun4i/sun8i_csc.h      |  9 ++-
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 11 +---
+>  3 files changed, 40 insertions(+), 69 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
+> index 6ebd1c3aa3ab5..0dcbc0866ae82 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_csc.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
+> @@ -107,23 +107,28 @@ static const u32 yuv2rgb_de3[2][3][12] = {
+>  	},
+>  };
+>  
+> -static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
+> -				       enum format_type fmt_type,
+> -				       enum drm_color_encoding encoding,
+> -				       enum drm_color_range range)
+> +static void sun8i_csc_setup(struct regmap *map, u32 base,
+> +			    enum format_type fmt_type,
+> +			    enum drm_color_encoding encoding,
+> +			    enum drm_color_range range)
 >  {
->         struct mipi_dsi_device *dsi =3D stk->dsi;
-> -       struct device *dev =3D &stk->dsi->dev;
-> -       int ret;
-> +       struct mipi_dsi_multi_context dsi_ctx =3D {.dsi =3D dsi};
->
-> -       ret =3D mipi_dsi_dcs_soft_reset(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "failed to mipi_dsi_dcs_soft_reset: %d\n", r=
-et);
-> -               return ret;
-> -       }
-> -       mdelay(5);
-> +       mipi_dsi_dcs_soft_reset_multi(&dsi_ctx);
->
-> -       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "failed to set exit sleep mode: %d\n", ret);
-> -               return ret;
-> -       }
-> -       msleep(120);
-> +       if (!dsi_ctx.accum_err)
-> +               mdelay(5);
-
-I'm curious: why isn't the above just "mipi_dsi_msleep(5)" and get rid
-of the "if" test?
-
-
-> +       mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
->
-> -       mipi_dsi_generic_write_seq(dsi, DSI_REG_MCAP, 0x04);
-> +       mipi_dsi_msleep(&dsi_ctx, 120);
+> +	u32 base_reg, val;
+>  	const u32 *table;
+> -	u32 base_reg;
+>  	int i;
+>  
+>  	table = yuv2rgb[range][encoding];
+>  
+>  	switch (fmt_type) {
+> +	case FORMAT_TYPE_RGB:
+> +		val = 0;
+> +		break;
+>  	case FORMAT_TYPE_YUV:
+> +		val = SUN8I_CSC_CTRL_EN;
+>  		base_reg = SUN8I_CSC_COEFF(base, 0);
+>  		regmap_bulk_write(map, base_reg, table, 12);
+>  		break;
+>  	case FORMAT_TYPE_YVU:
+> +		val = SUN8I_CSC_CTRL_EN;
+>  		for (i = 0; i < 12; i++) {
+>  			if ((i & 3) == 1)
+>  				base_reg = SUN8I_CSC_COEFF(base, i + 1);
+> @@ -135,28 +140,37 @@ static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
+>  		}
+>  		break;
+>  	default:
+> +		val = 0;
+>  		DRM_WARN("Wrong CSC mode specified.\n");
+>  		return;
+>  	}
 > +
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, DSI_REG_MCAP, 0x04);
->
->         /* Interface setting, video mode */
-> -       mipi_dsi_generic_write_seq(dsi, DSI_REG_IS, 0x14, 0x08, 0x00, 0x2=
-2, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, DSI_REG_IIS, 0x0C, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, DSI_REG_CTRL, 0x3A, 0xD3);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, DSI_REG_IS, 0x14, 0x08=
-, 0x00, 0x22, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, DSI_REG_IIS, 0x0C, 0x0=
-0);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, DSI_REG_CTRL, 0x3A, 0x=
-D3);
-
-nit: While touching these lines, it'd be nice to transition them to
-lower case hex (3a vs 3A).
-
-
-> -       ret =3D mipi_dsi_dcs_set_display_brightness(dsi, 0x77);
-> -       if (ret < 0) {
-> -               dev_err(dev, "failed to write display brightness: %d\n", =
-ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0x77);
->
-> -       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
-> -                              MIPI_DCS_WRITE_MEMORY_START);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DIS=
-PLAY,
-> +                                    MIPI_DCS_WRITE_MEMORY_START);
->
-> -       ret =3D mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
-> -       if (ret < 0) {
-> -               dev_err(dev, "failed to set pixel format: %d\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x77);
->
-> -       ret =3D mipi_dsi_dcs_set_column_address(dsi, 0, stk->mode->hdispl=
-ay - 1);
-> -       if (ret < 0) {
-> -               dev_err(dev, "failed to set column address: %d\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0, stk->mode->hdi=
-splay - 1);
->
-> -       ret =3D mipi_dsi_dcs_set_page_address(dsi, 0, stk->mode->vdisplay=
- - 1);
-> -       if (ret < 0) {
-> -               dev_err(dev, "failed to set page address: %d\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0, stk->mode->vdisp=
-lay - 1);
-
-Nice to get rid of all of these special case "if" tests and error handling!=
- :-)
-
-optional nit: it feels like there are two many blank lines separating
-single line statements. Maybe get rid of a few of the blank lines?
-
->
-> -       return 0;
-> +       return dsi_ctx.accum_err;
+> +	regmap_write(map, SUN8I_CSC_CTRL(base), val);
 >  }
->
->  static int stk_panel_on(struct stk_panel *stk)
+>  
+> -static void sun8i_de3_ccsc_set_coefficients(struct regmap *map, int layer,
+> -					    enum format_type fmt_type,
+> -					    enum drm_color_encoding encoding,
+> -					    enum drm_color_range range)
+> +static void sun8i_de3_ccsc_setup(struct regmap *map, int layer,
+> +				 enum format_type fmt_type,
+> +				 enum drm_color_encoding encoding,
+> +				 enum drm_color_range range)
 >  {
->         struct mipi_dsi_device *dsi =3D stk->dsi;
-> -       struct device *dev =3D &stk->dsi->dev;
-> -       int ret;
-> +       struct mipi_dsi_multi_context dsi_ctx =3D {.dsi =3D dsi};
->
-> -       ret =3D mipi_dsi_dcs_set_display_on(dsi);
-> -       if (ret < 0)
-> -               dev_err(dev, "failed to set display on: %d\n", ret);
-> +       mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
->
-> -       mdelay(20);
-> +       if (!dsi_ctx.accum_err)
-> +               mdelay(20);
+> +	u32 addr, val, mask;
+>  	const u32 *table;
+> -	u32 addr;
+>  	int i;
+>  
+> +	mask = SUN50I_MIXER_BLEND_CSC_CTL_EN(layer);
+>  	table = yuv2rgb_de3[range][encoding];
+>  
+>  	switch (fmt_type) {
+> +	case FORMAT_TYPE_RGB:
+> +		val = 0;
+> +		break;
+>  	case FORMAT_TYPE_YUV:
+> +		val = mask;
+>  		addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE, layer, 0);
+>  		regmap_bulk_write(map, addr, table, 12);
+>  		break;
+>  	case FORMAT_TYPE_YVU:
+> +		val = mask;
+>  		for (i = 0; i < 12; i++) {
+>  			if ((i & 3) == 1)
+>  				addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE,
+> @@ -173,67 +187,30 @@ static void sun8i_de3_ccsc_set_coefficients(struct regmap *map, int layer,
+>  		}
+>  		break;
+>  	default:
+> +		val = 0;
+>  		DRM_WARN("Wrong CSC mode specified.\n");
+>  		return;
+>  	}
+> -}
+> -
+> -static void sun8i_csc_enable(struct regmap *map, u32 base, bool enable)
+> -{
+> -	u32 val;
+> -
+> -	if (enable)
+> -		val = SUN8I_CSC_CTRL_EN;
+> -	else
+> -		val = 0;
+> -
+> -	regmap_update_bits(map, SUN8I_CSC_CTRL(base), SUN8I_CSC_CTRL_EN, val);
+> -}
+> -
+> -static void sun8i_de3_ccsc_enable(struct regmap *map, int layer, bool enable)
+> -{
+> -	u32 val, mask;
+> -
+> -	mask = SUN50I_MIXER_BLEND_CSC_CTL_EN(layer);
+> -
+> -	if (enable)
+> -		val = mask;
+> -	else
+> -		val = 0;
+>  
+>  	regmap_update_bits(map, SUN50I_MIXER_BLEND_CSC_CTL(DE3_BLD_BASE),
+>  			   mask, val);
+>  }
+>  
+> -void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
+> -				     enum format_type fmt_type,
+> -				     enum drm_color_encoding encoding,
+> -				     enum drm_color_range range)
+> -{
+> -	u32 base;
+> -
+> -	if (mixer->cfg->is_de3) {
+> -		sun8i_de3_ccsc_set_coefficients(mixer->engine.regs, layer,
+> -						fmt_type, encoding, range);
+> -		return;
+> -	}
+> -
+> -	base = ccsc_base[mixer->cfg->ccsc][layer];
+> -
+> -	sun8i_csc_set_coefficients(mixer->engine.regs, base,
+> -				   fmt_type, encoding, range);
+> -}
+> -
+> -void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable)
+> +void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
+> +			enum format_type fmt_type,
+> +			enum drm_color_encoding encoding,
+> +			enum drm_color_range range)
+>  {
+>  	u32 base;
+>  
+>  	if (mixer->cfg->is_de3) {
+> -		sun8i_de3_ccsc_enable(mixer->engine.regs, layer, enable);
+> +		sun8i_de3_ccsc_setup(mixer->engine.regs, layer,
+> +				     fmt_type, encoding, range);
+>  		return;
+>  	}
+>  
+>  	base = ccsc_base[mixer->cfg->ccsc][layer];
+>  
+> -	sun8i_csc_enable(mixer->engine.regs, base, enable);
+> +	sun8i_csc_setup(mixer->engine.regs, base,
+> +			fmt_type, encoding, range);
+>  }
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
+> index 7322770f39f03..b7546e06e315c 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_csc.h
+> +++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
+> @@ -28,10 +28,9 @@ enum format_type {
+>  	FORMAT_TYPE_YVU,
+>  };
+>  
+> -void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
+> -				     enum format_type fmt_type,
+> -				     enum drm_color_encoding encoding,
+> -				     enum drm_color_range range);
+> -void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable);
+> +void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
+> +			enum format_type fmt_type,
+> +			enum drm_color_encoding encoding,
+> +			enum drm_color_range range);
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> index 76e2d3ec0a78c..6ee3790a2a812 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> @@ -281,14 +281,9 @@ static int sun8i_vi_layer_update_formats(struct sun8i_mixer *mixer, int channel,
+>  			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR_FBFMT_MASK, val);
+>  
+>  	fmt_type = sun8i_vi_layer_get_format_type(fmt);
+> -	if (fmt_type != FORMAT_TYPE_RGB) {
+> -		sun8i_csc_set_ccsc_coefficients(mixer, channel, fmt_type,
+> -						state->color_encoding,
+> -						state->color_range);
+> -		sun8i_csc_enable_ccsc(mixer, channel, true);
+> -	} else {
+> -		sun8i_csc_enable_ccsc(mixer, channel, false);
+> -	}
+> +	sun8i_csc_set_ccsc(mixer, channel, fmt_type,
+> +			   state->color_encoding,
+> +			   state->color_range);
+>  
+>  	if (!fmt->is_yuv)
+>  		val = SUN8I_MIXER_CHAN_VI_LAYER_ATTR_RGB_MODE;
 
-Like above, not sure why this isn't mipi_dsi_msleep(20).
-
-
--Doug
