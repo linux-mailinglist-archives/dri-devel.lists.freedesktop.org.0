@@ -2,79 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A569C92B42E
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 11:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38FF92B49A
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 12:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03AF10E4DB;
-	Tue,  9 Jul 2024 09:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0424010E4DC;
+	Tue,  9 Jul 2024 10:01:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="QqswLLJ3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="P8YBVK3H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B59D10E4DA
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 09:41:44 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-367a183df54so3027682f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 02:41:44 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D68010E4DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 10:01:47 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-52e9f788e7bso5186980e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 03:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1720518102; x=1721122902;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IAZt8GtzurYosVReDcWXFfiP8YdX7GkjA3wsNUYSUA0=;
- b=QqswLLJ3oEcRIwXXl8uGe+N13cJpM2lu1iZK7CsBXLlK8B2VFzFCc2pNUkH8GUcdvX
- M62/5tGq3fl3RZ3wWLRF/n7Qmgc049brrWZY2uYTrJRW8xI9qv+HLt+6pbCDMUsX1s/z
- RTprymuN33AlSc7XHZA00h0t7bYYZboPpVrq8TDPhMz4n0ufGeCbIOJsuaRI8FPdokqi
- B07xqSDMw1Q+VBQgLwyfm/9N7WjtmCOa3g+wYr2dB5GDjGh2UE6t4ZXTxdPQ9UNEAAoE
- ZNfVsMd4GFyKOsUc2gLsxwRfLpokjz2z5OgwEIytubrBjzUBhy0TmoKIdr1257ORhBk0
- +hJQ==
+ d=linaro.org; s=google; t=1720519305; x=1721124105; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=pjGwGtF2xRizI+srPedcBC0b7P2ztI7j/rQTVNi0iHA=;
+ b=P8YBVK3HxL1c3G3wBgO4gS9RmlmviWlZ/vEtEQg7+/MC7htYGMD/TYI6LdqVsjtZ+r
+ qZvhdklmlJJsxdgELFURHj4wqjl6tXn/LP9D7VXRkkB2uB7xqgAwweU3VJuQ5qeulxb9
+ Me/JP3CR4QmhpEf9c4jNVttpoPdhvK6SqJY5SvVwW46wJN/Cc85DDBOZMHcjKJE5WYfJ
+ 74kHu2Cd90u837XchsdQWGIg5rhytYZ7/sbJvKD8SvtxGgEtB12Lua09KohWmGuwDgWe
+ GYfEAjadRf56bi4+z8VLVOHkNfEEpYAgWAmjSmdnLkIzhbkBaisSm/brgqocBt1yeJTm
+ pbng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720518102; x=1721122902;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IAZt8GtzurYosVReDcWXFfiP8YdX7GkjA3wsNUYSUA0=;
- b=JXRpIMs5GuJ29Fk/9PeJOffZWOWr0pD2N4aUbOASm3cAyi5H2BIgw7BN+d9SxYmJY1
- MDGrEH8qLBPYQ77Bm7tg+eYz/Xdopq67jm0mLBJblzDDrDqMAcmfywlu1F69Zqd2npc2
- nBr7vTvosBFaGZod727IeY59pk+AIM/ffUBPeUbwTnTsWOL6XR0Z3/8wr+yPwYqufHse
- pIthw86qWFJIuPejISCz8kVl2C8ys3FF/zkXAQUN3aE/oq1D6SRLoNy+uK6jp3nYjMSS
- U5rL3OuYC1iUqQiNQ0NoAVXTeZCmgXrG9tQtj9aDTlDJv+p8AIirfJEb9Xfjtxl0mm8H
- /97w==
+ d=1e100.net; s=20230601; t=1720519305; x=1721124105;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pjGwGtF2xRizI+srPedcBC0b7P2ztI7j/rQTVNi0iHA=;
+ b=a4yvYoLfgyt5G3uN8fK2SuNKLaM4UvU2JuX0OFGHog4kEMvwpu7/3MdS/RY2NZ/xjJ
+ OMpZxlfsuPmMiLybH6vGkd9O7Wz9cTmq8TG1/yvISRXBZN5nuFhXvwfNAMHqVO1O3mO3
+ pP9CTxJA/NIMB3hAY+ztSBNvYksODMTU7iwp9PxA4fWTg9ZviyOPCMdZvED2DlPOkG7Q
+ mTwQNjOY8hD6/3ki4/dnWPQTJvVt24sWX5JJIJ0jQPB+GRID49Zp2ezIpGY4F0QA/KaS
+ Dbk/mSZ0pWtJXOF7NX4UqMhRl/Ci2mWtSkaOyl0vP6rVFxMc2Z0SmhN+owh1O02GXQeC
+ anTA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV+k6qbL7u6ZSpO9+p21jRdtBSrF6JbB2uA4QTYTiRGC1AIvbiXiLzBwsdBP3EU2doVCcdMPCM3tOXKl/UZiPwZpoS8TdbVIW6to1FIvGrd
-X-Gm-Message-State: AOJu0YwQj20ja1zzyYhuhUYTp7ERtC1Wic6H/8MGrHyVsRhs+/aX7y/S
- cLndl5WGnJ1Z97UVG1WzIuu7TRkfQRUMLSmXZQg9UFYEv93CLoqwkG5mpNw0obwSWAJwDFzm8Sb
- 6zy/EMDb7mZM1DQn/3qARopy2e02/Pxgka/SS
-X-Google-Smtp-Source: AGHT+IGR9yHQ5VjkQb02n11rV5m/nD2z1+GzQbrI8bQfIRwcFNZ5ZAorDCFB5Yu93sLbwZrEWDDYx07QGU+HUmU2sGI=
-X-Received: by 2002:adf:fecc:0:b0:362:40cd:1bc with SMTP id
- ffacd0b85a97d-367cea73537mr1228764f8f.24.1720518102260; Tue, 09 Jul 2024
- 02:41:42 -0700 (PDT)
+ AJvYcCUvPak4iQEEX9pTdBX6wFqlYPXS7aLeKfYhLezg1FADCvA8mXWoZMqC7Kwgu0bJAa4qjMdvyc44WA+0zKMtgSOg/SoWhn53sc0jdGhqslu5
+X-Gm-Message-State: AOJu0YwvEFRwuDx0R7ltYq9Q2b8XwhbhFWejg8+c9kV6H1t7/2OHjdY5
+ sBW33Ipi3BPBamVVGNH1B2DsHlbArlViReVCU1M+9lAALj8oxtwYxzs8P3L3gCI=
+X-Google-Smtp-Source: AGHT+IFLXhBeqSztq8eF7bnR+mC6OL8ZEmPYgOhofCzxDKWUbMbIUlDUTp0ODWISoYGSEKWBNj89Dg==
+X-Received: by 2002:a05:6512:3e09:b0:52e:9a4f:204c with SMTP id
+ 2adb3069b0e04-52eb998e696mr1580790e87.10.1720519305159; 
+ Tue, 09 Jul 2024 03:01:45 -0700 (PDT)
+Received: from [192.168.105.194] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-594bda308d7sm860432a12.91.2024.07.09.03.01.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Jul 2024 03:01:44 -0700 (PDT)
+Message-ID: <5139c105-a474-4097-a59c-da158ee1145b@linaro.org>
+Date: Tue, 9 Jul 2024 12:01:42 +0200
 MIME-Version: 1.0
-References: <20240709084458.158659-1-jfalempe@redhat.com>
- <20240709084458.158659-5-jfalempe@redhat.com>
-In-Reply-To: <20240709084458.158659-5-jfalempe@redhat.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 9 Jul 2024 11:41:29 +0200
-Message-ID: <CAH5fLgh5fb_NYUNPPXYepJg=pbmHAb+-+sOrCxc0n=fiNjTFTw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/panic: Add a qr_code panic screen
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@samsung.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- Danilo Krummrich <dakr@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/3] Implement Qualcomm TEE IPC and ioctl calls
+To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,141 +125,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 9, 2024 at 10:45=E2=80=AFAM Jocelyn Falempe <jfalempe@redhat.co=
-m> wrote:
->
-> This patch adds a new panic screen, with a QR code and the kmsg data
-> embedded.
-> If DRM_PANIC_SCREEN_QR_CODE_URL is set, then the kmsg data will be
-> compressed with zlib and encoded as a numerical segment, and appended
-> to the url as a url parameter. This allows to save space, and put
-> about ~7500 bytes of kmsg data, in a V40 QR code.
-> Linux distributions can customize the url, and put a web frontend to
-> directly open a bug report with the kmsg data.
->
-> Otherwise the kmsg data will be encoded as binary segment (ie raw
-> ascii) and only a maximum of 2953 bytes of kmsg data will be
-> available in the QR code.
->
-> You can also limit the QR code size with DRM_PANIC_SCREEN_QR_VERSION.
->
-> v2:
->  * Rewrite the rust comments with Markdown (Alice Ryhl)
->  * Mark drm_panic_qr_generate() as unsafe (Alice Ryhl)
->  * Use CStr directly, and remove the call to as_str_unchecked()
->    (Alice Ryhl)
->  * Add a check for data_len <=3D data_size (Greg KH)
->
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+On 3.07.2024 7:57 AM, Amirreza Zarrabi wrote:
+> Qualcomm TEE hosts Trusted Applications (TAs) and services that run in
+> the secure world. Access to these resources is provided using MinkIPC.
+> MinkIPC is a capability-based synchronous message passing facility. It
+> allows code executing in one domain to invoke objects running in other
+> domains. When a process holds a reference to an object that lives in
+> another domain, that object reference is a capability. Capabilities
+> allow us to separate implementation of policies from implementation of
+> the transport.
+> 
+> As part of the upstreaming of the object invoke driver (called SMC-Invoke
+> driver), we need to provide a reasonable kernel API and UAPI. The clear
+> option is to use TEE subsystem and write a back-end driver, however the
+> TEE subsystem doesn't fit with the design of Qualcomm TEE.
 
-[...]
+I guess a very important question is: how do we test this patchset?
 
-> +/// drm_panic_qr_generate()
-> +///
-> +/// C entry point for the rust QR Code generator.
-> +///
-> +/// Write the QR code image in the data buffer, and return the qrcode si=
-ze, or 0
-> +/// if the data doesn't fit in a QR code.
-> +///
-> +/// * `url` The base url of the QR code. It will be encoded as Binary se=
-gment.
-> +/// * `data` A pointer to the binary data, to be encoded. if url is NULL=
-, it
-> +///    will be encoded as binary segment, otherwise it will be encoded
-> +///    efficiently as a numeric segment, and appended to the url.
-> +/// * `data_len` Length of the data, that needs to be encoded.
-> +/// * `data_size` Size of data buffer, it should be at least 4071 bytes =
-to hold
-> +///    a V40 QR-code. It will then be overwritten with the QR-code image=
-.
-> +/// * `tmp` A temporary buffer that the QR-code encoder will use, to wri=
-te the
-> +///    segments and ECC.
-> +/// * `tmp_size` Size of the temporary buffer, it must be at least 3706 =
-bytes
-> +///    long for V40.
-> +///
-> +/// # Safety
-> +///
-> +/// * `url` must be null or point at a nul-terminated string.
-> +/// * `data` must be valid for reading and writing for `data_size` bytes=
-.
-> +/// * `data_len` must be less than `data_size`.
-> +/// * `tmp` must be valid for reading and writing for `tmp_size` bytes.
+Are there any open-source consumers of this IOCTL?
 
-You don't allow data_len =3D=3D data_size?
-
-> +#[no_mangle]
-> +pub unsafe extern "C" fn drm_panic_qr_generate(
-> +    url: *const i8,
-> +    data: *mut u8,
-> +    data_len: usize,
-> +    data_size: usize,
-> +    tmp: *mut u8,
-> +    tmp_size: usize,
-> +) -> u8 {
-> +    if data_size <=3D 4071 || tmp_size <=3D 3706 || data_len > data_size=
- {
-> +        return 0;
-> +    }
-
-Since you explicitly check the data_len, it does not *need* to be a
-safety requirement (but it can be). Even if it's wrong, violating the
-requirement does not lead to memory safety.
-
-> +    // Safety: data must be a valid pointer for reading and writing data=
-_size bytes.
-> +    let data_slice: &mut [u8] =3D unsafe { core::slice::from_raw_parts_m=
-ut(data, data_size) };
-> +    // Safety: tmp must be a valid pointer for reading and writing tmp_s=
-ize bytes.
-> +    let tmp_slice: &mut [u8] =3D unsafe { core::slice::from_raw_parts_mu=
-t(tmp, tmp_size) };
-
-These safety comments explain why these calls are dangerous, but
-that's not what safety comments should do. They should explain why
-this particular call is okay. In this case, it's because the caller of
-drm_panic_qr_generate must follow the documented safety requirements
-of the current function. The wording could look like this:
-
-// SAFETY: Due to the safety requirements on this function, the caller
-ensures that tmp is a valid pointer for reading and writing tmp_size
-bytes.
-
-The wording is not much different, but it's an important distinction.
-
-(Also, safety comments are written SAFETY: not Safety:)
-
-> +    if url.is_null() {
-> +        match EncodedMsg::new(&[&Segment::Binary(&data_slice[0..data_len=
-])], tmp_slice) {
-> +            None =3D> 0,
-> +            Some(em) =3D> {
-> +                let qr_image =3D QrImage::new(&em, data_slice);
-> +                qr_image.width
-> +            }
-> +        }
-> +    } else {
-> +        // Safety: url must be a valid pointer to a nul-terminated strin=
-g.
-> +        let url_cstr: &CStr =3D unsafe { CStr::from_char_ptr(url) };
-
-// SAFETY: The caller ensures that url is a valid pointer to a
-nul-terminated string.
-
-> +        let segments =3D &[
-> +            &Segment::Binary(url_cstr.as_bytes()),
-> +            &Segment::Numeric(&data_slice[0..data_len]),
-> +        ];
-> +        match EncodedMsg::new(segments, tmp_slice) {
-> +            None =3D> 0,
-> +            Some(em) =3D> {
-> +                let qr_image =3D QrImage::new(&em, data_slice);
-> +                qr_image.width
-> +            }
-> +        }
-> +    }
-> +}
-
-Alice
+Konrad
