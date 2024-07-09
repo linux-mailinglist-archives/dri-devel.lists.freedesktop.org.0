@@ -2,58 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134B092BFD2
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 18:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E6D92C040
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 18:34:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1FA610E5F4;
-	Tue,  9 Jul 2024 16:26:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE70810E5F6;
+	Tue,  9 Jul 2024 16:34:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="RXZN36u/";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XTRS1//t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ABA710E5F1
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 16:26:23 +0000 (UTC)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B2810E5F5
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 16:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=OExbLpt3wSF3w/hrg+8j49ZRF21ivIyihPUkkk5kmos=; b=XTRS1//t8Bb+TLRBlKwBaHhcnS
+ 7kfIWW1tCCKhhOiDYgQXC0ltfI8J3m1juL7sjWWdJXlsVEFd+UuGKuWDVgcpR255z4Kec2yumwOdR
+ sX1mHiZYU5WAV8XPI1YHBeKrNOUIXcONHIemHWdK5rktQyaavDw3w0nxax5CHKWPsv3lJ8W0EE5W+
+ UVEQtcEWswGk9lgQLmT6tgX9wF4p9nMIaps1KRmJ0nffg3+ezkP3C2Z96fI1aXojB9ixSddjaC4tm
+ SFW53eboyHWXPtJMnZrgQfjvCPsJhiQZDyIjVGAV9LfxnV5Zv6MXPhD5sTdrHLRpQOaU4QFTaMoXC
+ X9S357JQ==;
+Received: from [84.69.19.168] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sRDnT-00Csnx-AE; Tue, 09 Jul 2024 18:34:31 +0200
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: [PATCH 00/12] v3d: Perfmon cleanup
+Date: Tue,  9 Jul 2024 17:34:13 +0100
+Message-ID: <20240709163425.58276-1-tursulin@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1720542381;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NIgxRyMC/4LKp3/Urv6m9ksbsZkbuIU4Wj6kwrBcp2E=;
- b=RXZN36u/ChsFCOF2NPFS6d+B8ZkVCb+rmAWwR7wGd8GUZ6s1Lb6RzlatpYjla1FIp/WLPE
- 6a0rZNfHCHMOQ3YhYuwmqiEprvAsWReRSL7x8lHfqgdvPT1b5mvVHgkqkzwaW9DtZoOVYQ
- EH4rmhfSSnjECVj8EbP5p3aWGUS7qfd8RtMQkVt7NXlPiO2XInfzkiuACHhyE40IHsZC6F
- ZhiFqWUe/wZnQ8hH9JezJrGULcHuiCibJ4QzaVQbn261rV7HwFbJqO26f59AlY9uySRncg
- uL7VI40oj4aQqH2JiRBjs7HqfHLSWmZnm16KcLw5ZcRh/yvqHTOgvF7qOBf9aw==
-Date: Tue, 09 Jul 2024 18:26:20 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Andy Yan <andyshrk@163.com>
-Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, javierm@redhat.com
-Subject: Re: [PATCH] drm/rockchip: cdn-dp: Remove redundant workarounds for
- firmware loading
-In-Reply-To: <6c5da368.a3c2.190971a411c.Coremail.andyshrk@163.com>
-References: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
- <109c6f19.2559.1907b817a99.Coremail.andyshrk@163.com>
- <0bf4701d98833609b917983718c610aa@manjaro.org>
- <2fd3aabd.785b.190914ec1a6.Coremail.andyshrk@163.com>
- <f0fb9feed2d9262bb4d7c8ade836af62@manjaro.org>
- <909d072.9028.19096c2429a.Coremail.andyshrk@163.com>
- <31062b80d3f9e11c339c400a70464f43@manjaro.org>
- <6c5da368.a3c2.190971a411c.Coremail.andyshrk@163.com>
-Message-ID: <d5b3f350765165299c60ab6abfae6ee8@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,274 +58,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Andy,
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-On 2024-07-09 12:46, Andy Yan wrote:
-> At 2024-07-09 18:10:51, "Dragan Simic" <dsimic@manjaro.org> wrote:
->> On 2024-07-09 11:10, Andy Yan wrote:
->>> At 2024-07-09 16:17:06, "Dragan Simic" <dsimic@manjaro.org> wrote:
->>>> On 2024-07-08 09:46, Andy Yan wrote:
->>>>> At 2024-07-04 18:35:42, "Dragan Simic" <dsimic@manjaro.org> wrote:
->>>>>> On 2024-07-04 04:10, Andy Yan wrote:
->>>>>>> At 2024-07-04 07:32:02, "Dragan Simic" <dsimic@manjaro.org> 
->>>>>>> wrote:
->>>>>>>> After the additional firmware-related module information was
->>>>>>>> introduced by
->>>>>>>> the commit c0677e41a47f ("drm/rockchip: cdn-dp-core: add
->>>>>>>> MODULE_FIRMWARE
->>>>>>>> macro"), there's no longer need for the firmware-loading
->>>>>>>> workarounds
->>>>>>>> whose
->>>>>>>> sole purpose was to prevent the missing firmware blob in an
->>>>>>>> initial
->>>>>>>> ramdisk
->>>>>>>> from causing driver initialization to fail.  Thus, delete the
->>>>>>>> workarounds,
->>>>>>>> which removes a sizable chunk of redundant code.
->>>>>>> 
->>>>>>> What would happen if there was no ramdisk? And the firmware is in
->>>>>>> rootfs ？
->>>>>>> 
->>>>>>> For example： A buildroot based tiny embedded system。
->>>>>> 
->>>>>> Good point, let me explain, please.
->>>>>> 
->>>>>> In general, if a driver is built into the kernel, there should 
->>>>>> also
->>>>>> be
->>>>>> an initial ramdisk that contains the related firmware blobs, 
->>>>>> because
->>>>>> it's
->>>>>> unknown is the root filesystem available when the driver is 
->>>>>> probed.
->>>>>> If
->>>>>> a driver is built as a module and there's no initial ramdisk, 
->>>>>> having
->>>>>> the related firmware blobs on the root filesystem should be fine,
->>>>>> because
->>>>>> the firmware blobs and the kernel module become available at the
->>>>>> same
->>>>>> time, through the root filesystem. [1]
->>>>>> 
->>>>>> Another option for a driver built statically into the kernel, when
->>>>>> there's
->>>>>> no initial ramdisk, is to build the required firmware blobs into 
->>>>>> the
->>>>>> kernel
->>>>>> image. [2]  Of course, that's feasible only when a kernel image is
->>>>>> built
->>>>>> specificially for some device, because otherwise it would become 
->>>>>> too
->>>>>> large
->>>>>> because of too many drivers and their firmware blobs becoming
->>>>>> included,
->>>>>> but that seems to fit the Buildroot-based example.
->>>>>> 
->>>>>> To sum it up, mechanisms already exist in the kernel for various
->>>>>> scenarios
->>>>>> when it comes to loading firmware blobs.  Even if the deleted
->>>>>> workaround
->>>>>> attempts to solve some issue specific to some environment, that
->>>>>> isn't
->>>>>> the
->>>>>> right place or the right way for solving any issues of that kind.
->>>>>> 
->>>>>> While preparing this patch, I even tried to find another kernel
->>>>>> driver
->>>>>> that
->>>>>> also implements some similar workarounds for firmware loading, to
->>>>>> justify
->>>>>> the existence of such workarounds and to possibly move them into 
->>>>>> the
->>>>>> kernel's
->>>>>> firmware-loading interface.  Alas, I was unable to find such
->>>>>> workarounds
->>>>>> in
->>>>>> other drivers, which solidified my reasoning behind classifying 
->>>>>> the
->>>>>> removed
->>>>>> code as out-of-place and redundant.
->>>>> 
->>>>> For some tiny embedded system，there is no such ramdisk，for example：
->>>>> a buildroot based rootfs，the buildroot only generate rootfs。
->>>>> 
->>>>> And FYI， there are mainline drivers try to fix such issue by
->>>>> defer_probe，for example：
->>>>> smc_abc[0]
->>>>> There are also some other similar scenario in gpu driver{1}[2]
->>>>> 
->>>>> [0]https://elixir.bootlin.com/linux/latest/source/drivers/tee/optee/smc_abi.c#L1518
->>>>> [1]https://patchwork.kernel.org/project/dri-devel/patch/20240109120604.603700-1-javierm@redhat.com/
->>>>> [2]https://lore.kernel.org/dri-devel/87y1918psd.fsf@minerva.mail-host-address-is-not-set/T/
->>>> 
->>>> Thanks for providing these examples.
->>>> 
->>>> Before I continue thinking about the possible systemic solution,
->>>> could you please clarify the way Buildroot builds the kernel and
->>>> prepares the root filesystem?  I'm not familiar with Buildroot,
->>>> but it seems to me that it builds the drivers statically into the
->>>> produced kernel image, while it places the related firmware blobs
->>>> into the produced root filesystem.  Am I right there?
->>> 
->>> in practice we can chose build the drivers statically into the 
->>> kernel，
->>> we can also build it as a module。
->>> And in both case， the firmware blobs are put in rootfs。
->>> If the drivers is built as a module， the module will also put in
->>> rootfs，
->>> so its fine。
->>> But if a drivers is built into the kernel ，it maybe can't access the
->>> firmware blob
->>> before the rootfs is mounted.
->>> So we can see some drivers try to use  DEFER_PROBE to fix this issue.
->> 
->> When Buildroot builds the drivers statically into the kernel image,
->> can it also be told to build the required firmware blobs into the
->> kernel image, for which there's already support in the kernel?
-> 
-> I‘m not sure about that。Firmware and linux kernel are two seperate
-> project or repository。
-> And i’m also not sure if that needs the support of the specific driver
-> to build the firmware into the kernel？ >
+When we had to quickly deal with a tree build issue via merging
+792d16b5375d ("drm/v3d: Move perfmon init completely into own unit"), we
+promised to follow up with a nicer solution.
 
-Please see the link below, which I actually referred to.  That feature
-should allow required firmware blobs to be built into the kernel image,
-although I haven't tested it myself.
+As in the process of eliminating the hardcoded defines we have discovered a few
+issues in handling of corner cases and userspace input validation, the fix has
+turned into a larger series, but hopefully the end result is a justifiable
+cleanup.
 
-https://www.kernel.org/doc/Documentation/driver-api/firmware/built-in-fw.rst
+Tvrtko Ursulin (12):
+  drm/v3d: Prevent out of bounds access in performance query extensions
+  drm/v3d: Prefer get_user for scalar types
+  drm/v3d: Add some local variables in queries/extensions
+  drm/v3d: Align data types of internal and uapi counts
+  drm/v3d: Fix potential memory leak in the timestamp extension
+  drm/v3d: Fix potential memory leak in the performance extension
+  drm/v3d: Validate passed in drm syncobj handles in the timestamp
+    extension
+  drm/v3d: Validate passed in drm syncobj handles in the performance
+    extension
+  drm/v3d: Move part of copying of reset/copy performance extension to a
+    helper
+  drm/v3d: Size the kperfmon_ids array at runtime
+  drm/v3d: Do not use intermediate storage when copying performance
+    query results
+  drm/v3d: Move perfmon init completely into own unit
 
->> Of course, that would be feasible if only a small number of firmware
->> blobs would end up built into the kernel image, i.e. if the Buildroot
->> build would be tailored for a specific board.
->> 
->> Otherwise...
->> 
->>>> As I already wrote earlier, and as the above-linked discussions
->>>> conclude, solving these issues doesn't belong to any specific 
->>>> driver.
->>>> It should be resolved within the kernel's firmware loading mechanism
->>>> instead, and no driver should be specific in that regard.
->>> 
->>> IT would be good if it can be resolved within the kernel's  firmware
->>> loading mechanism.
->> 
->> ... we'll need this as a systemic solution.
->> 
->>>>>> [1]
->>>>>> https://www.kernel.org/doc/Documentation/driver-api/firmware/direct-fs-lookup.rst
->>>>>> [2]
->>>>>> https://www.kernel.org/doc/Documentation/driver-api/firmware/built-in-fw.rst
->>>>>> 
->>>>>>>> Various utilities used by Linux distributions to generate 
->>>>>>>> initial
->>>>>>>> ramdisks
->>>>>>>> need to obey the firmware-related module information, so we can
->>>>>>>> rely
->>>>>>>> on the
->>>>>>>> firmware blob being present in the generated initial ramdisks.
->>>>>>>> 
->>>>>>>> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
->>>>>>>> ---
->>>>>>>> drivers/gpu/drm/rockchip/cdn-dp-core.c | 53
->>>>>>>> +++++---------------------
->>>>>>>> 1 file changed, 10 insertions(+), 43 deletions(-)
->>>>>>>> 
->>>>>>>> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c
->>>>>>>> b/drivers/gpu/drm/rockchip/cdn-dp-core.c
->>>>>>>> index bd7aa891b839..e1a7c6a1172b 100644
->>>>>>>> --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
->>>>>>>> +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
->>>>>>>> @@ -44,9 +44,9 @@ static inline struct cdn_dp_device
->>>>>>>> *encoder_to_dp(struct drm_encoder *encoder)
->>>>>>>> #define DPTX_HPD_DEL		(2 << 12)
->>>>>>>> #define DPTX_HPD_SEL_MASK	(3 << 28)
->>>>>>>> 
->>>>>>>> -#define CDN_FW_TIMEOUT_MS	(64 * 1000)
->>>>>>>> #define CDN_DPCD_TIMEOUT_MS	5000
->>>>>>>> #define CDN_DP_FIRMWARE		"rockchip/dptx.bin"
->>>>>>>> +
->>>>>>>> MODULE_FIRMWARE(CDN_DP_FIRMWARE);
->>>>>>>> 
->>>>>>>> struct cdn_dp_data {
->>>>>>>> @@ -909,61 +909,28 @@ static int cdn_dp_audio_codec_init(struct
->>>>>>>> cdn_dp_device *dp,
->>>>>>>> 	return PTR_ERR_OR_ZERO(dp->audio_pdev);
->>>>>>>> }
->>>>>>>> 
->>>>>>>> -static int cdn_dp_request_firmware(struct cdn_dp_device *dp)
->>>>>>>> -{
->>>>>>>> -	int ret;
->>>>>>>> -	unsigned long timeout = jiffies +
->>>>>>>> msecs_to_jiffies(CDN_FW_TIMEOUT_MS);
->>>>>>>> -	unsigned long sleep = 1000;
->>>>>>>> -
->>>>>>>> -	WARN_ON(!mutex_is_locked(&dp->lock));
->>>>>>>> -
->>>>>>>> -	if (dp->fw_loaded)
->>>>>>>> -		return 0;
->>>>>>>> -
->>>>>>>> -	/* Drop the lock before getting the firmware to avoid blocking
->>>>>>>> boot
->>>>>>>> */
->>>>>>>> -	mutex_unlock(&dp->lock);
->>>>>>>> -
->>>>>>>> -	while (time_before(jiffies, timeout)) {
->>>>>>>> -		ret = request_firmware(&dp->fw, CDN_DP_FIRMWARE, dp->dev);
->>>>>>>> -		if (ret == -ENOENT) {
->>>>>>>> -			msleep(sleep);
->>>>>>>> -			sleep *= 2;
->>>>>>>> -			continue;
->>>>>>>> -		} else if (ret) {
->>>>>>>> -			DRM_DEV_ERROR(dp->dev,
->>>>>>>> -				      "failed to request firmware: %d\n", ret);
->>>>>>>> -			goto out;
->>>>>>>> -		}
->>>>>>>> -
->>>>>>>> -		dp->fw_loaded = true;
->>>>>>>> -		ret = 0;
->>>>>>>> -		goto out;
->>>>>>>> -	}
->>>>>>>> -
->>>>>>>> -	DRM_DEV_ERROR(dp->dev, "Timed out trying to load firmware\n");
->>>>>>>> -	ret = -ETIMEDOUT;
->>>>>>>> -out:
->>>>>>>> -	mutex_lock(&dp->lock);
->>>>>>>> -	return ret;
->>>>>>>> -}
->>>>>>>> -
->>>>>>>> static void cdn_dp_pd_event_work(struct work_struct *work)
->>>>>>>> {
->>>>>>>> 	struct cdn_dp_device *dp = container_of(work, struct
->>>>>>>> cdn_dp_device,
->>>>>>>> 						event_work);
->>>>>>>> 	struct drm_connector *connector = &dp->connector;
->>>>>>>> 	enum drm_connector_status old_status;
->>>>>>>> -
->>>>>>>> 	int ret;
->>>>>>>> 
->>>>>>>> 	mutex_lock(&dp->lock);
->>>>>>>> 
->>>>>>>> 	if (dp->suspended)
->>>>>>>> 		goto out;
->>>>>>>> 
->>>>>>>> -	ret = cdn_dp_request_firmware(dp);
->>>>>>>> -	if (ret)
->>>>>>>> -		goto out;
->>>>>>>> +	if (!dp->fw_loaded) {
->>>>>>>> +		ret = request_firmware(&dp->fw, CDN_DP_FIRMWARE, dp->dev);
->>>>>>>> +		if (ret) {
->>>>>>>> +			DRM_DEV_ERROR(dp->dev, "Loading firmware failed: %d\n", 
->>>>>>>> ret);
->>>>>>>> +			goto out;
->>>>>>>> +		}
->>>>>>>> +
->>>>>>>> +		dp->fw_loaded = true;
->>>>>>>> +	}
->>>>>>>> 
->>>>>>>> 	dp->connected = true;
->>>>>>>> 
->> 
->> _______________________________________________
->> Linux-rockchip mailing list
->> Linux-rockchip@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   9 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  16 +-
+ drivers/gpu/drm/v3d/v3d_perfmon.c             |  44 +--
+ .../gpu/drm/v3d/v3d_performance_counters.h    |  16 +-
+ drivers/gpu/drm/v3d/v3d_sched.c               | 106 ++++---
+ drivers/gpu/drm/v3d/v3d_submit.c              | 285 ++++++++++--------
+ 6 files changed, 281 insertions(+), 195 deletions(-)
+
+-- 
+2.44.0
+
