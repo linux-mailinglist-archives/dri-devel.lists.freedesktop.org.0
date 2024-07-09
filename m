@@ -2,81 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B31292C283
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 19:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDD292C28F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 19:33:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C9388924B;
-	Tue,  9 Jul 2024 17:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4839310E60B;
+	Tue,  9 Jul 2024 17:33:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EVdoGEqe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GuA+1q8f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
- [209.85.219.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D468924B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 17:30:40 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id
- 3f1490d57ef6-dff17fd97b3so6046697276.2
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 10:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720546239; x=1721151039; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WNlyt4y43+Jz1Zom9ZW3FrRjKWjV33+Al0P8HERgYY0=;
- b=EVdoGEqePb4eEkipye2cdOw18fTNS3yP6reoIYnYXLvNZp2XYGlxeErPMS7hI38Dvy
- 6OajQ3OOfD3K5YUZFRznoMSzD1BsBZM9WOVDdKRsO4UMo5aggWz1bJ9W5RxVUayoEFrA
- NGNqSreyDvfgOgEulVe/p/7v4zMBuTT8bU+UxyT+McFVWxk0cR6KqT4rFkgwirGTcxiS
- Tnc/VoDcy82Ci+0AHEvBdk20vOSD19LcnHO6wG+GHZx1PbPvcTnTL+l47UoEUiKTuWP4
- q1FmKsl1iV/UzIg4obimCTofB312/H1XMeC7XBXkkhq6zgHuzCqphK1fZbDnUl+FmV0U
- poXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720546239; x=1721151039;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WNlyt4y43+Jz1Zom9ZW3FrRjKWjV33+Al0P8HERgYY0=;
- b=W5BqDDib1yttDuUCJ+QsHqWf9v9RkJRisnzjH3Kud+l44qVUcPzCHPU7sk8OlG0tLn
- ilzxyyutiX6MKDvBNStPHwesps3UPjE4uIsjrjIU98QMZcRmfQYIQ3nPsT/A8Eok7WH8
- jZ7nZkmbeqGXGJZsPbx91NHosX+3bNSgrmpwnV5FA+Am57iaZc+ecj2Y/3iZQwvu+f2v
- zEFDOC4q3Oj/C/mOle5rHPQxyPxus5pukBNGoi8TTbi8esa6gM57ZHdf2ApRpbBh1E14
- KXyuCaOVuQNObt6V5Rq18oCKmPTU8MHZMF4eClr3aShb0bnVHS45mOsvwEdqCk2BlDNq
- nGZg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWRZagB6ARBwpqhY+2f1znS61B3ZNTNFLUMA5Y1oDqhCAqvGvK7ekYd7TrD0Q1stMjbjCd9mHcno+RWBg55qI1FM+W4KvCd3iaYERnTq0nL
-X-Gm-Message-State: AOJu0YwCjULo/oDNU5Q2Yx58MQ1P191bS5Y5ozWqsRZhmE2+6qipDz+g
- csj43BsjQc70ElLYw48EPQeE2sFVuf0iaSeIM80TgTkUK2NZ6JeVUgSG/8lFNpkuWMiho9EsubD
- 7RnttxiRxAj/yX9ekiLvFbkvWQGY=
-X-Google-Smtp-Source: AGHT+IGOjJHvGKbedEFhzRDIFdooLGsj28vn6iUAkmnUl7Lm0rCOI5r1V+bUsW2/cU5RbasscGe4neOW78oKs0/T4sQ=
-X-Received: by 2002:a05:6902:245:b0:dff:bfc:1643 with SMTP id
- 3f1490d57ef6-e041b122b55mr3995751276.49.1720546238691; Tue, 09 Jul 2024
- 10:30:38 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 894B110E083
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 17:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720546399; x=1752082399;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=+nbXIzY309qLeW5sCNxaIKlA4h++0Lx4eB7fBSQE1+E=;
+ b=GuA+1q8fgLMLTDQ5S5G9t0iOn+bvIGbPM8gVVE+I1Ru1M9Qmzq6LDllY
+ wbP469Mi6Iqfr2INvoNzpUUl+voeJXGs9NiSrYCWPocusyttoZfDtrKRV
+ WZBlSvyRCurDrq/3TsOiNEut76tsxkziEh9zoyHj23R44CnSXQXQQcKuj
+ 6GDCehe4ySYVk+3xqBl2rEeDV5BjjlPwGAnEm9eRVSukVSDXRSpjcHerJ
+ /219s1PiRcyHOUjADcb/Vh6SCGmSI3dHOUsg58UCNKcUZ+COsiMQvhpuF
+ KgaT2JKTNDkVhvRrPDM2FgT5dKcSsXBQzrCbscnXzfLYeJ5H9JwmenR7F A==;
+X-CSE-ConnectionGUID: 4yX05CR3STezvhwpdOfwEg==
+X-CSE-MsgGUID: DGSqapEOR26vKjD3bdedqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="12457981"
+X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; d="scan'208";a="12457981"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2024 10:33:19 -0700
+X-CSE-ConnectionGUID: oDBRA+0ITo+GXUIPyJpsXw==
+X-CSE-MsgGUID: EIywkZ93Q4CQ3ZOE26Awvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; d="scan'208";a="53107161"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 09 Jul 2024 10:33:19 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 9 Jul 2024 10:33:18 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 9 Jul 2024 10:33:18 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 9 Jul 2024 10:33:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H6DRc6ZIiMZ/VaG5pGmwKYoOeCeEyi1HnHo1T4MXavSK48T8ll46E5VQ3lnGFUv/wzjbfB9NC8azwdiDxNo7upogBd3Zf6vq0ISE2H7RHsiS4qIuAm5dHL0pEb6K7KM2FULkttFTo2bb4Bkowga94Uzl+gpc1l0yweUKAy8Axn7q7Jun53KIKQwlidwr2QJUHssGpvkS+VoZ0QMDKAUs0rO3oXBJB2oBdDsX1Y2qMX5Ko0hcETEuPKPIgL6QWlZQemOUf7g4zYzAnLuA4Co1ThxzdGCDkt8SjpOWtZxVtQTIjhqf7r1jkvMpc8Qa5HIyyb2SZ8KIk+fRRjQUhEYoSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XS8nn6hFl40j4X7z/MwmoZ2rr+23onOy9vOcfjOwHac=;
+ b=aDGvdT2MWS7MIw5YPSHTrh3MBuHxIiqQ1xi0grqK6fkijNWeeIjN6uWBaBhNp9pxYIQRbHc3XUSvRKdTIEc8geGpvR3uhQrVTLZaIJBZZpf5nkEyh9YS1XphkXfHchBJv6kglqvaUz+cp24B/mRq48TE1l45B6x4ABR+Dz0+Cwmgig/aF7Qsu19dfSPXaVxjOUfukiuNnmexp3Mzopi2rWEQTMyOgAOO78xsMhe7WPYgX6FhLXFl+6FImL33iTDy9qWfoRAb2hG+5EgEzSEOn1SvyR0GXtJoy6BnXgeYGwAvtkHUmgABzC9p9qEwxZRJB5sRv1thAtcWBvh7aPCV6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com (2603:10b6:208:38f::5)
+ by BN9PR11MB5306.namprd11.prod.outlook.com (2603:10b6:408:137::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.20; Tue, 9 Jul
+ 2024 17:33:15 +0000
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::1a0f:84e3:d6cd:e51]) by BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::1a0f:84e3:d6cd:e51%4]) with mapi id 15.20.7741.033; Tue, 9 Jul 2024
+ 17:33:15 +0000
+Date: Tue, 9 Jul 2024 17:32:21 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+CC: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: The TTM LRU-walk cherry-pick series
+Message-ID: <Zo10JX5GlNWDKou4@DUT025-TGLU.fm.intel.com>
+References: <0db8246a59e67c8e740110c6cfdd8339bec97f32.camel@linux.intel.com>
+ <ZowEX6tlXJJafTDZ@DUT025-TGLU.fm.intel.com>
+ <e356d7e2-33db-4aed-bfee-8e0828372527@amd.com>
+ <ZowG//hThxa4zDPc@DUT025-TGLU.fm.intel.com>
+ <b56aa968-011f-4b6c-b28b-564378bb5e68@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b56aa968-011f-4b6c-b28b-564378bb5e68@amd.com>
+X-ClientProxiedBy: SJ0PR13CA0230.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c1::25) To BL3PR11MB6508.namprd11.prod.outlook.com
+ (2603:10b6:208:38f::5)
 MIME-Version: 1.0
-References: <20240708151857.40538-1-stefano.radaelli21@gmail.com>
- <172045725750.3389992.15451403448241421795.robh@kernel.org>
- <CAK+owohBrewYFpDKjsE5iWC5OQ3p6S_9fwj7DWa1Ux2h8CXcAw@mail.gmail.com>
- <944ecc41-9ef7-4d9e-9d96-3c5c0cdb71b5@denx.de>
- <CAK+owoiQY8OYiZofyq4jj2S3Mg6ub88DF5V52JcppxhWbUsWgg@mail.gmail.com>
- <223b287f-4da6-4ec1-be7c-6135215c5551@denx.de>
-In-Reply-To: <223b287f-4da6-4ec1-be7c-6135215c5551@denx.de>
-From: Stefano Radaelli <stefano.radaelli21@gmail.com>
-Date: Tue, 9 Jul 2024 19:30:28 +0200
-Message-ID: <CAK+owogLctqu17cFEQH+258wrpfMJ4iE6iJABRu5dwxDtR21EA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: bridge: ti,
- sn65dsi83: add burst-mode-disabled
-To: Marek Vasut <marex@denx.de>
-Cc: "Rob Herring (Arm)" <robh@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
- "Noah J . Rosa" <noahj.rosa@gmail.com>, linux-kernel@vger.kernel.org
-Content-Type: multipart/alternative; boundary="000000000000608301061cd3e39d"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR11MB6508:EE_|BN9PR11MB5306:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32c94b2f-05be-4241-2c7e-08dca03d3709
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?JMFIewpqslFiPFl9Uhk1S/kL6kZEpFNKan64eTj/uT4fXWJFpMQxDGMS/J?=
+ =?iso-8859-1?Q?4cvE/lWc4lVA808iq5vMeTje0PBk52+i7EerjHS3bnYZUt97l+fvyFjbMC?=
+ =?iso-8859-1?Q?8IV9I/8fickUGR8naWNRzI+r+rzc6mQgQOZFYbneSKprK5nmluG9X6z72m?=
+ =?iso-8859-1?Q?F9MBydQX2V0Nd1v7Lkj6bwem42gDmk5cmcxPAgjAeFIKDxGdT0Q1uoC72L?=
+ =?iso-8859-1?Q?MTas3avYFjli++c8aM+KC+LTLId2ZradtnuL8fmi7YL+S7I9bpr0UqjTJf?=
+ =?iso-8859-1?Q?T2PB0xCDMlUP58BMu5LRweceSnf87fY+xqkCS0W0EscN0LIfHp9sb3t2TX?=
+ =?iso-8859-1?Q?yM8o9651KvFXb+GgF7LHIf53Jf4AS5NavqUKp8Su6WySUYpdZx3XckIOzU?=
+ =?iso-8859-1?Q?IcyhpWiA8DWz43bjobOrls1e5HzYnMILP0t6ArbQtmT4A9h9Z3JbPAb5Of?=
+ =?iso-8859-1?Q?ymBZPhZwYEEziDemiymq1W97Ns4GNz0lAG8RICIk0DNkkecxoHj7oZYG3R?=
+ =?iso-8859-1?Q?wbG/eVRskq+aBVHZn9lhz7vomD/5FnUSU0PffigbMq4ZKxuz/u1x2WK9NM?=
+ =?iso-8859-1?Q?FFI+d/P8+KLKzeFrsr3LbKBtzVx2VINvnGtQ0Wdn9uqXYKN2P0b2JbLSU1?=
+ =?iso-8859-1?Q?d9tovMrOaRrz+5SAnpohxrS3WT7qY9MjHVAlwpOC9RUag3kYX+9NUnkT3W?=
+ =?iso-8859-1?Q?/2nIdkd7SSlLDdOT02ZhOACGh29cILwCj5ElHL8Fvi15r74Ugj/HFx4Yp6?=
+ =?iso-8859-1?Q?3L0lnAN2mVQZvgjjq4gYkzB4VMjZU2LAS/MVlEeBJuUJENPRHtyPaYPiGE?=
+ =?iso-8859-1?Q?GYJ4MxPG75BDVB9TfPjaz9mD5dXqPmvHkUwWFKy18kS87VaD7clZrhB7VS?=
+ =?iso-8859-1?Q?5/bWlQA2LfbP1htG2E8GbBeNwX3FvvzhVubJWM49j5TB29Fk+vAROlQoJr?=
+ =?iso-8859-1?Q?sc55T82X4Pqz2BLJYdnWqt5h1GhGw2aELTiC9Q+udWSUyMn4+gdxQqj98p?=
+ =?iso-8859-1?Q?qv4vsAFnKLfNHp+D4Z+L2mSeFdVO8MSvOBvj4LhGZigsE/sBlKxtSmHo2f?=
+ =?iso-8859-1?Q?THvwMLP8OOZ/jL+bY03mjcJxaGCv9iq0J7ViXX62FPIIKgjT1XNUQ+Lfr5?=
+ =?iso-8859-1?Q?2VYbRX1P6KDTLREJWp4LC4NomvFrnm+/9UZ1cuFgeFTTlZSyYgK9QGDbKB?=
+ =?iso-8859-1?Q?H+CM8tmA6SIJrwgpqK1m8BhflbKvVLyuodqz9UnS8q4+r7vJMO6SHlg1kK?=
+ =?iso-8859-1?Q?6XNVsNWXDtXurc1Bj3bAIZAJ10HLoWjfr9Hn91e2+TcVWz/KeESEzMb/nE?=
+ =?iso-8859-1?Q?Xfd9QfP8hGaq22lHLGt++8r2LR/5xQpwlqcoSNgly7m4Kbw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR11MB6508.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?O8IMLcvu/oTvANeXGewJyzEKtYYbvO+9wZ2noRJMj7qJ+UlKWTYZ6MivLe?=
+ =?iso-8859-1?Q?Cys0cGi3OjWtXM6Na1XeKL6dpORVhbnhhAgQQ46WR1fSxb2EAwX021mwj8?=
+ =?iso-8859-1?Q?eobBTsFc40a4ziBL5+LWLCUIdqiYE6Ma4u9QV7lL1QklhIWZ62Lp7CuQZd?=
+ =?iso-8859-1?Q?02LVIWRC4cUUC2oNsk+nR7u+wOLqoQLjWglLvKX3HxmCOWfZ0NuvxBvgbk?=
+ =?iso-8859-1?Q?ZBDs1N2/D9UprD0KILo/KQALarCZogvZ1j2gZO96ogPhwWsRCascd9jdw8?=
+ =?iso-8859-1?Q?EfHC8uqq2pYNpIgQezWQe/fS0ULClOE0p6VvpzK+EybVoDYfWd38Pk7zmr?=
+ =?iso-8859-1?Q?4yQDsMPgN0CGgvo7b7nFiEtUIEjlYU3L5R5blRXQbwDiPBs04wc+2HPfQn?=
+ =?iso-8859-1?Q?mooTezviJiZXSGgV5kYm4JvrAcul/CzDr6/1TmOi1+qSawe5bZVISuhOW3?=
+ =?iso-8859-1?Q?5y3XbRW0Hg+DD8F29vJy7z8AdMshyk2xO7+LyN0tR2AgURTJgjIlRjsCSV?=
+ =?iso-8859-1?Q?T2JJFMw5jmFQecwlMDyaWSF9+5ij9eC0+5OCdyYGX51ZoGvZ5VxAhva4gM?=
+ =?iso-8859-1?Q?W6SE8jXJKXoNolBOpMBAJyW5UQvJ4EaqRFeg5e0DLVyqzTcST3bU/WiOFe?=
+ =?iso-8859-1?Q?84xY4D05I8W0VlDr5z+Sen1DmDiA2M01GpAtvXoOAiMEBpp76tmY0WVUif?=
+ =?iso-8859-1?Q?SMU1HgvJqDRKrBsEzZ0BIhReHHZ+xmvOByKrpZBh6+q4qJclq61STqvA+X?=
+ =?iso-8859-1?Q?/+Ksjj34aUNGr261IzIbUxctQavjF4Bs/2IqKVC0aGu4Ixsb4pAzc5j6hW?=
+ =?iso-8859-1?Q?nhiznokKdAcRhLaGhoM48eo6loniG6SXRqr52du6TL98KrsCJOZjXoqQeo?=
+ =?iso-8859-1?Q?QC4pug4AsbU5egA/0qIfoiwyxgBQYzoYKWLJTA+I3py/fO8sYaycVNcAiR?=
+ =?iso-8859-1?Q?EXMGzqkA5X+pfRbI1pQ6UpH/H6dSwgi6008STg7wBMNfu/HemH7KkMdq56?=
+ =?iso-8859-1?Q?GvKyPViYOmDcD8YOgW1cINmCkSBH62+oGxgTTzmaXd8/sKy0rpfE28PSZ7?=
+ =?iso-8859-1?Q?1+X5YJ2gcG1aUiQg+OOAq54e/Pq2p2JfBuloGVpn3VybqfC2v/G1Z3dLzX?=
+ =?iso-8859-1?Q?tUsH/KVaPY5bDjTQ1A91tCzamqD3NA06ACnZ2Q6WIx3+y9fs39u4lcAeS7?=
+ =?iso-8859-1?Q?ODpC4q8Q2JVFEV11y3zdK8tS0Mv1steEa7GchCvUSWsV8FxGL9MJVQif3V?=
+ =?iso-8859-1?Q?fmYh0eIHcIu6a0G+PaKVDOjtzJ1lu/JtiJARtKcByA+1adQprOfU4vPkFm?=
+ =?iso-8859-1?Q?KIHWL1wmgaH/H5pQ3G7WKsjk/nsmfEmV8+ldHg5L9ZPWYsJwD6S/CQCd8K?=
+ =?iso-8859-1?Q?7wpB7Q+HJSPmfmOIOnYjaIY+Wasr5pkXmlDzh0jbkdQ6LrC6ZZdUIIzJdn?=
+ =?iso-8859-1?Q?GTbPyU0tKfnRzCm1O4+4Rzx2Y6BCwDW5IbuTS/hR7f4A6ibAcw6ACYRmeF?=
+ =?iso-8859-1?Q?eaJBRcGRzt7RdycInZRqo9tIpF8zcMteVEiY+7BDXyHptLrDcYCZYN+O5C?=
+ =?iso-8859-1?Q?+bc5tiSZ489Asy7EvGTPp/hW79Kbr27q9/AOF733VJ3Elpr/DRLrdzhdog?=
+ =?iso-8859-1?Q?4HvspaU+LNS7kQzhlamuYckR0Po+FWsdqHWfwC1wq1qF5iZIAIku0hKA?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32c94b2f-05be-4241-2c7e-08dca03d3709
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6508.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2024 17:33:15.8238 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5rSBBKHMit6Cir0jJpuoWosaal+FEkOdhjJcKeuWrH2TOsA/QuEAJ6XiFTYF7D7+WKEh+h++OwY9lDMrbvW28A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5306
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,120 +181,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000608301061cd3e39d
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Jul 09, 2024 at 12:54:13PM +0200, Christian König wrote:
+> Am 08.07.24 um 17:34 schrieb Matthew Brost:
+> > On Mon, Jul 08, 2024 at 05:29:30PM +0200, Christian König wrote:
+> > > Am 08.07.24 um 17:23 schrieb Matthew Brost:
+> > > > On Sun, Jul 07, 2024 at 05:49:16PM +0200, Thomas Hellström wrote:
+> > > > > Christian, Matthew,
+> > > > > 
+> > > > > I think I addressed all review comments and a couple of anticipated
+> > > > > ones (s/long/s64/) in the swapout- and eviction patches.
+> > > > > 
+> > > > > I'm heading off on vacation today, (4 weeks) so if something becomes
+> > > > > urgent in-between feel free to pick up, modify and merge.
+> > > > > 
+> > > > I found a couple of nits in last patch of [1] but gave an RB as the nits
+> > > > can be fixed on upon merge.
+> > > > 
+> > > > The series [1] is fully RB'd and CI looks good. I'm thinking we should
+> > > > merge this. If any bugs pop after merging feel confident that I can
+> > > > quickly fix them while Thomas is out. Also fine for waiting for Thomas
+> > > > to return too.
+> > > > 
+> > > > What do you think Christian?
+> > > I'm currently working on testing patches 1-7 and if that doesn't show any
+> > > immediate problems will push them to drm-misc-next.
+> > > 
+> > +1
+> 
+> And pushed.
+> 
 
-Okay, I get it.
+Great.
 
-So if you think this mode shouldn't be implemented within this driver, we
-can close the thread.
-Just for information, this driver has been implemented from the work done
-by Compulab (as it says in the driver's initial comments), and they do not
-put the burst mode by default, not even giving the possibility to activate
-it by dts:
-https://github.com/compulab-yokneam/imx8-android/blob/master/o8/vendor/nxp-opensource/kernel_imx/0055-sn65dsi83-Add-ti-sn65dsi83-dsi-to-lvds-bridge-driver.patch
-
-The panels that I've had these problems with are some of JuTouch's
-1920x1200, for example JT101TM015 , and I solved it by giving the option to
-remove this mode.
-I have also heard from other colleagues who have had the same problem on
-some dual-channel displays.
-
-Thank you,
-
-Stefano
-
-Il Mar 9 Lug 2024, 17:00 Marek Vasut <marex@denx.de> ha scritto:
-
-> On 7/9/24 4:44 PM, Stefano Radaelli wrote:
-> > Hi Marek,
->
-> Hi,
->
-> > Actually this property is specific also to DSI8x bridge, as you can see
-> > from the screenshot below taken from official datasheet:
-> >
-> > [image: image.png]
-> >
-> > And it's the sn65dsi8x driver that tells MIPI driver which flags to use
-> > during attachment.
->
-> There are other bridges and panels which support both DSI burst and
-> sync-pulse/sync-events modes, so a property which selects the mode is
-> generic, not specific to this particular bridge . The bridge driver
-> could parse such generic property, although it would be better if the
-> core code parsed it instead.
->
-> > So, for example, this bridge can work also for MIPI interfaces which
-> don't
-> > support burst-mode.
-> > Also, as a value-added benefit, I found non-burst mode better for some
-> > 1920x1200 LVDS panels I'm testing (Of course with more energy
-> consumption).
-> > That's why I though it could be useful have this option, since SN65DSI8x
-> > supports both modes.
->
-> Can you share which panel model this is ?
+> > 
+> > > The kernel build bot also complained about something in #8 additionally to
+> > > your nit picks so I think we should investigate that first.
+> > > 
+> > > > drivers/gpu/drm/ttm/ttm_resource.c:607: warning: Excess function parameter 'man' description in 'ttm_resource_manager_first'
+> > That is the kernel doc nit I raised.
+> 
+> Ah, yeah ok. For that minor cleanup we can wait for Thomas to be back from
+> vacation.
+> 
+> Important point is I can now rebase my drm_exec work on top of it.
 >
 
---000000000000608301061cd3e39d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sounds good. Will keep an eye out for drm_exec changes.
 
-<div dir=3D"auto"><div dir=3D"auto">Okay, I get it.</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto">So if you think this mode shouldn&#39;t be impl=
-emented within this driver, we can close the thread.</div><div dir=3D"auto"=
->Just for information, this driver has been implemented from the work done =
-by Compulab (as it says in the driver&#39;s initial comments), and they do =
-not put the burst mode by default, not even giving the possibility to activ=
-ate it by dts:<br></div><div dir=3D"auto"><a href=3D"https://github.com/com=
-pulab-yokneam/imx8-android/blob/master/o8/vendor/nxp-opensource/kernel_imx/=
-0055-sn65dsi83-Add-ti-sn65dsi83-dsi-to-lvds-bridge-driver.patch">https://gi=
-thub.com/compulab-yokneam/imx8-android/blob/master/o8/vendor/nxp-opensource=
-/kernel_imx/0055-sn65dsi83-Add-ti-sn65dsi83-dsi-to-lvds-bridge-driver.patch=
-</a></div><div dir=3D"auto"><br></div><div dir=3D"auto">The panels that I&#=
-39;ve had these problems with are some of JuTouch&#39;s 1920x1200, for exam=
-ple JT101TM015 , and I solved it by giving the option to remove this mode.<=
-/div><div dir=3D"auto">I have also heard from other colleagues who have had=
- the same problem on some dual-channel displays.<br></div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">Thank you,</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">Stefano</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Il Mar 9 Lug 2024, 17:00 Marek Vasut &lt;<a h=
-ref=3D"mailto:marex@denx.de">marex@denx.de</a>&gt; ha scritto:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">On 7/9/24 4:44 PM, Stefano Radaelli wrote:<br>
-&gt; Hi Marek,<br>
-<br>
-Hi,<br>
-<br>
-&gt; Actually this property is specific also to DSI8x bridge, as you can se=
-e<br>
-&gt; from the screenshot below taken from official datasheet:<br>
-&gt; <br>
-&gt; [image: image.png]<br>
-&gt; <br>
-&gt; And it&#39;s the sn65dsi8x driver that tells MIPI driver which flags t=
-o use<br>
-&gt; during attachment.<br>
-<br>
-There are other bridges and panels which support both DSI burst and <br>
-sync-pulse/sync-events modes, so a property which selects the mode is <br>
-generic, not specific to this particular bridge . The bridge driver <br>
-could parse such generic property, although it would be better if the <br>
-core code parsed it instead.<br>
-<br>
-&gt; So, for example, this bridge can work also for MIPI interfaces which d=
-on&#39;t<br>
-&gt; support burst-mode.<br>
-&gt; Also, as a value-added benefit, I found non-burst mode better for some=
-<br>
-&gt; 1920x1200 LVDS panels I&#39;m testing (Of course with more energy cons=
-umption).<br>
-&gt; That&#39;s why I though it could be useful have this option, since SN6=
-5DSI8x<br>
-&gt; supports both modes.<br>
-<br>
-Can you share which panel model this is ?<br>
-</blockquote></div>
-
---000000000000608301061cd3e39d--
+Matt
+ 
+> Regards,
+> Christian.
+> 
+> > 
+> > Matt
+> > 
+> > > Christian.
+> > > 
+> > > > Matt
+> > > > 
+> > > > [1] https://patchwork.freedesktop.org/series/135801/
+> > > > 
+> > > > > Regarding the drm_exec trylock functionality I'm for as much as
+> > > > > possible that it should look like any other locking primitive trylock.
+> > > > > i.e. no additional tricks needed.
+> > > > > 
+> > > > > Thanks,
+> > > > > Thomas
+> > > > > 
+> > > > > 
+> 
