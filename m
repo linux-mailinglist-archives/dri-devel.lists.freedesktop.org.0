@@ -2,97 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E864592B4A9
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 12:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B6192B4C9
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2024 12:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3019E10E4E0;
-	Tue,  9 Jul 2024 10:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE7810E4DE;
+	Tue,  9 Jul 2024 10:09:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QNz928wQ";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="WQpZqsXt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B156E10E4DE
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 10:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720519447;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tpy09mrz7GMKI4NSvK7MGNBVjEFB/bqkDusvYImFW+s=;
- b=QNz928wQ+5sJ46F00zP6itWt35+VRL4xjY1/z0vjjT24kksLR+U7E0hglcYAKAEMOGhNrh
- Oh5Uwcvo0mo9u3qVFoXTlOfgR4sFaDxIHfSNs6/4qHH4vWPvDGR6NdhhpZMRG4pOCbTjLs
- sw9SW27rSbVrecz1h3gWvjzFyqu7Kio=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-679-KNIMi1LmNXeAsI_5xnZFsg-1; Tue, 09 Jul 2024 06:04:05 -0400
-X-MC-Unique: KNIMi1LmNXeAsI_5xnZFsg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-36787ba7ad4so3626569f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 03:04:05 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 637AA10E506
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 10:09:16 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-3678ff89323so147038f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 03:09:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1720519754; x=1721124554; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=N116s5bsFDgCuOUDWfC538633m2LGema8YibI/w3XO0=;
+ b=WQpZqsXtie/AeY6O43d+LNyBQ6kKRwU56KgeYcLx8pe5fLR3UWephB6j3cqtQVWN5y
+ aHFEh/M5CQb1vyl8ngUZf+361Qcuf+5pbUgZJlqcTrhErNqKKhmV/CenI+qK87z1SAlb
+ itO/TVHpIT56mDD0h9K2djC5NKVPIbi8DyI5g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720519444; x=1721124244;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tpy09mrz7GMKI4NSvK7MGNBVjEFB/bqkDusvYImFW+s=;
- b=NujIHopbmsd33+YCZjhwxvToLNoZsaFf3PaSbP+qXwgacP5ujOR4EWCVk21KAc60qM
- WJu0+NCGuqTvlXOeFYpJnbZo1vhIlVHuHAQ+U0HHpCH6qUqSUUMZ+HZk8F7SXED4GluK
- eztrBp4nlvxJJN3cnrH4N557EcjSoXo/czyK1jxZrvOA02wHYsoZizWdDcuaxBKUziuU
- zXEeHMTd0cB8RtJeHKFpUdP3mq7z9e5IJKXteAOJ3nILTPwPw8Bsv59UK1JBZ+TyZWW3
- CQpU7eujeppg6YgcwDMBZrCNRyC6Rd7UBTVbKyCyqvvUTWXTWncrGaUfivjXJGyJ8Z+I
- ZwRQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW/T1GYYUD4OOkSisj8kl5JRnkXUm1f6x5RDZ7MGivWyXT6YLAALCGFGdu4XKzsUfCiGAWU6BR8yoj6kxgzBregHwuxYHULd5LBoAo6Kk4I
-X-Gm-Message-State: AOJu0Yy1gYgsD3d0KwJ5sFUm4r2w8jLkhQavvHygtJla/pLsWzd22bVm
- X0YQO3/cMAsgEuknnADxvIj16iVrPyZYy1NYsWV7Ned1QSJCsZZI1sxEs3Cyksg2FtgZkUrqw3b
- L8aD3ppCwDkZxD4vbA5TSwTJ0X4ieJQF7pJFhtlakkqW+aKVefggOjk11mYDOKhmTWA==
-X-Received: by 2002:a5d:5f48:0:b0:35f:1161:e1a3 with SMTP id
- ffacd0b85a97d-367cea46c6fmr1621673f8f.5.1720519444788; 
- Tue, 09 Jul 2024 03:04:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG3iuKpr/2eO4/gcMobO6ZU2lCVEnjdpbfxjc4M2aoAaKUj61p40UKF3EXkfLoCHaXC2OhfCQ==
-X-Received: by 2002:a5d:5f48:0:b0:35f:1161:e1a3 with SMTP id
- ffacd0b85a97d-367cea46c6fmr1621657f8f.5.1720519444402; 
- Tue, 09 Jul 2024 03:04:04 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ d=1e100.net; s=20230601; t=1720519754; x=1721124554;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=N116s5bsFDgCuOUDWfC538633m2LGema8YibI/w3XO0=;
+ b=gmBiDby9/xzr7t1tuKHwm5ngZxkGzT6zI3phN1+e/n9W1QsMNtNyR1RIfooj3xoPpG
+ AKUZn1lKbAJFONRRYlLIyoAFS2NlKjWmH6HILNO1+P7h9lPzuDozh19jdMUYroRgcMbD
+ fmBo9SYhzVY3RU5MCeQibXxBKtBNeaCB4r4tFhNf9pHxtUVRCXCih0Y+w9qnU+fuIffZ
+ unr6fSMe7sxQoReBCEtdaTgZLjczTPxrhM8emsrd8ItGkM2qMmSXT1eGORTw1s7ETwSh
+ Efkpl/NhDrfTm/3L2kk20qYxGoYnCQ+nO8kyDuSWnH7tn458SgcBeyOPFsb8usn4JwwX
+ sVBA==
+X-Gm-Message-State: AOJu0YyhWaPz9QVw1VXhhXZ8Y6T9LRl0qpD+hOGhMA49HR2JCeSyLP9U
+ twmTFy9UlBxThXv3JIHfQ7OWqhc7vCbUcK2bC1VUAeB/k5TQPTrYTLUA6NjHh/Q=
+X-Google-Smtp-Source: AGHT+IE3mFJrI0mQL4jaEJ2DSbAXMKWTEqEY8de3yAEaCaTUU3lsXsEV6aU+P50/ApWw/4SGjslzsA==
+X-Received: by 2002:a05:6000:4023:b0:366:eb60:bcf2 with SMTP id
+ ffacd0b85a97d-367ceac5047mr1351844f8f.4.1720519754446; 
+ Tue, 09 Jul 2024 03:09:14 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-367df88b1c5sm19168f8f.4.2024.07.09.03.04.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jul 2024 03:04:03 -0700 (PDT)
-Message-ID: <acd5c505-f058-46e7-9d92-620dea41d707@redhat.com>
-Date: Tue, 9 Jul 2024 12:04:02 +0200
+ ffacd0b85a97d-367cdfab7d4sm2067803f8f.113.2024.07.09.03.09.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jul 2024 03:09:14 -0700 (PDT)
+Date: Tue, 9 Jul 2024 12:09:12 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Cc: dri-devel@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Hung <alex.hung@amd.com>, Wayne Lin <wayne.lin@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] drm/amd/display: use drm_crtc_set_vblank_offdelay()
+Message-ID: <Zo0MSB7eSp1H0iPI@phenom.ffwll.local>
+References: <20240708202907.383917-1-hamza.mahfooz@amd.com>
+ <20240708202907.383917-2-hamza.mahfooz@amd.com>
+ <Zo0Dm_XeF3dMqK1C@phenom.ffwll.local>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] drm/panic: Add a qr_code panic screen
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
- <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Danilo Krummrich <dakr@redhat.com>
-References: <20240709084458.158659-1-jfalempe@redhat.com>
- <20240709084458.158659-5-jfalempe@redhat.com>
- <2024070951-tall-effective-c916@gregkh>
- <2024070947-exorcism-purchase-2f28@gregkh>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <2024070947-exorcism-purchase-2f28@gregkh>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zo0Dm_XeF3dMqK1C@phenom.ffwll.local>
+X-Operating-System: Linux phenom 6.9.7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,52 +87,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 09/07/2024 11:12, Greg KH wrote:
-> On Tue, Jul 09, 2024 at 11:11:35AM +0200, Greg KH wrote:
->> On Tue, Jul 09, 2024 at 10:40:10AM +0200, Jocelyn Falempe wrote:
->>> +config DRM_PANIC_SCREEN_QR_CODE_URL
->>> +	string "Base url of the QR code in the panic screen"
->>> +	depends on DRM_PANIC_SCREEN_QR_CODE
->>> +	help
->>> +	  This option sets the base url to report the kernel panic. If it's set
->>> +	  the qr code will contain the url and the kmsg compressed with zlib as
->>> +	  url parameter. If it's empty, the qr code will contain the kmsg as
->>> +	  uncompressed text only.
->>
->> meta-comment, should we by default do this on a kernel.org domain so
->> that no specific distro has to worry about hosing this type of web
->> service?
+On Tue, Jul 09, 2024 at 11:32:11AM +0200, Daniel Vetter wrote:
+> On Mon, Jul 08, 2024 at 04:29:07PM -0400, Hamza Mahfooz wrote:
+> > Hook up drm_crtc_set_vblank_offdelay() in amdgpu_dm, so that we can
+> > enable PSR more quickly for displays that support it.
+> > 
+> > Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> > ---
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 30 ++++++++++++++-----
+> >  1 file changed, 22 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > index fdbc9b57a23d..ee6c31e9d3c4 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > @@ -8231,7 +8231,7 @@ static int amdgpu_dm_encoder_init(struct drm_device *dev,
+> >  
+> >  static void manage_dm_interrupts(struct amdgpu_device *adev,
+> >  				 struct amdgpu_crtc *acrtc,
+> > -				 bool enable)
+> > +				 struct dm_crtc_state *acrtc_state)
+> >  {
+> >  	/*
+> >  	 * We have no guarantee that the frontend index maps to the same
+> > @@ -8239,12 +8239,25 @@ static void manage_dm_interrupts(struct amdgpu_device *adev,
+> >  	 *
+> >  	 * TODO: Use a different interrupt or check DC itself for the mapping.
+> >  	 */
+> > -	int irq_type =
+> > -		amdgpu_display_crtc_idx_to_irq_type(
+> > -			adev,
+> > -			acrtc->crtc_id);
+> > +	int irq_type = amdgpu_display_crtc_idx_to_irq_type(adev,
+> > +							   acrtc->crtc_id);
+> > +	struct dc_crtc_timing *timing;
+> > +	int offdelay;
+> > +
+> > +	if (acrtc_state) {
+> > +		timing = &acrtc_state->stream->timing;
+> > +
+> > +		/* at least 2 frames */
+> > +		offdelay = 2000 / div64_u64(div64_u64((timing->pix_clk_100hz *
+> > +						       (uint64_t)100),
+> > +						      timing->v_total),
+> > +					    timing->h_total) + 1;
 > 
-> Also, do you have the backend source for this to show how anyone can
-> host it themselves as well?  We can't add features to the kernel that no
-> one but closed-source implementations will use for obvious reasons.
+> Yeah, _especially_ when you have a this short timeout your really have to
+> instead fix the vblank driver code properly so you can enable
+> vblank_disable_immediate. This is just cheating :-)
 
-I've made a proof of concept backend here:
-https://github.com/kdj0c/panic_report/
+Michel mentioned on irc that DC had immediate vblank disabling, but this
+was reverted with f64e6e0b6afe ("Revert "drm/amdgpu/display: set
+vblank_disable_immediate for DC"").
 
-And the javascript to decode the kmsg trace is here (under MIT licence):
-https://github.com/kdj0c/panic_report/blob/main/docs/panic_report.js
+I haven't looked at the details of the bug report, but stuttering is
+exactly what happens when the driver's vblank code has these races. Going
+for a very low timeout instead of zero just means it's a bit harder to hit
+the issue, and much, much harder to debug properly.
 
-It uses the pako js library to uncompress the zlib data, which is also 
-under MIT/Zlib licence https://github.com/nodeca/pako/
-
-If kernel.org want to host a default service for that, that would be 
-great. It can be linked with https://bugzilla.kernel.org to easily 
-create a bug, or look for similar bugs.
-
-
-Best regards,
-
+So yeah even more reasons to look at the underlying root-cause here I
+think.
+-Sima
 -- 
-
-Jocelyn
-
-
-> 
-> thanks,
-> 
-> greg k-h
-> 
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
