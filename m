@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E3292D50F
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 17:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0B392D546
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 17:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE5410E0C6;
-	Wed, 10 Jul 2024 15:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0102410E25E;
+	Wed, 10 Jul 2024 15:47:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kfbpzxdf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k7pET244";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8977610E0C6
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 15:35:51 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1385A10E25E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 15:47:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E822B61B19;
- Wed, 10 Jul 2024 15:35:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10EF9C4AF0F;
- Wed, 10 Jul 2024 15:35:49 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 11CAFCE1676;
+ Wed, 10 Jul 2024 15:44:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA029C32781;
+ Wed, 10 Jul 2024 15:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720625750;
- bh=7nXaOQ2Y21REg/4hAQAvgB2v44nvBiwZIAy1N2EwgCI=;
+ s=k20201202; t=1720626237;
+ bh=2VjxCw7/pEHU/0bidI2feuCnA4pDBlOvPp0FjhiWL90=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=kfbpzxdfM08YiMA9CnN1Ds8V/6cfkbBcUBSyJUyyszqmvYhChL4AE5DcSgHpHQIYk
- uK6ddvllWwmNjBDlk3YUhq9pHqSdF5gfYxmE2VWuRJ24IMML35Yn06oLI7IZlAIQyu
- e6KTtc0qNrFVdrEHQO4OpHLx928c8B5RM0yZfDSyHHGyN8gHHr0wE6R/0HM9//M+dF
- WOS/N61/Bw/aAKSPINmAQeel29qmosvlZBX5HDEDRV/WOCgFhRB43qP/dsRIiCfz9e
- iA0zOurNkwSguAGh8kpj73E0ZgtzvHfuDJS1HaVwMLIIvDDkUTbyuNZPVPHOiytyeH
- 99nf/1JFxtdpw==
-Date: Wed, 10 Jul 2024 08:35:48 -0700
+ b=k7pET244b2dzX8onmYuhgmH3WJXcAwvN3WXPP4XeMUeQyE8FDEUm49zqkn4eoykSd
+ 6WcJPG77ORaxSNqspszVTBD3dwOgPPDj7eONQkHJYs9xZ2Pvscclw8yOyT9UMsMedU
+ 0UxZQt5Bpdl8rJy0rEG4jedX/gaLPZITnkl2V/u8Jp5ksFSyaL5DzIz1PEqPZUGCRB
+ JFHJGY6DnzgIbC/L16cXcvDlLIYBYJqvMwFQedBXtKZ0UjNypbaemqd1K156K2aA35
+ 3D5titODmrtCxIEekIiE/sJCNG6z8VwkhqJwIydyJHBNwtkwHJAKe5MGzWfKRqJuPr
+ YWiA3J10YxxIg==
+Date: Wed, 10 Jul 2024 08:43:54 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -61,12 +61,13 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
  Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
  Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>
-Subject: Re: [PATCH net-next v16 01/13] netdev: add netdev_rx_queue_restart()
-Message-ID: <20240710083548.351e51e5@kernel.org>
-In-Reply-To: <20240710001749.1388631-2-almasrymina@google.com>
+ <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
+Subject: Re: [PATCH net-next v16 02/13] net: netdev netlink api to bind
+ dma-buf to a net device
+Message-ID: <20240710084354.279873ca@kernel.org>
+In-Reply-To: <20240710001749.1388631-3-almasrymina@google.com>
 References: <20240710001749.1388631-1-almasrymina@google.com>
- <20240710001749.1388631-2-almasrymina@google.com>
+ <20240710001749.1388631-3-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -85,7 +86,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Jul 2024 00:17:34 +0000 Mina Almasry wrote:
-> +	DEBUG_NET_WARN_ON_ONCE(!rtnl_is_locked());
+On Wed, 10 Jul 2024 00:17:35 +0000 Mina Almasry wrote:
+> API takes the dma-buf fd as input, and binds it to the netdevice. The
+> user can specify the rx queues to bind the dma-buf to.
+> 
+> Suggested-by: Stanislav Fomichev <sdf@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
-ASSERT_RTNL() ?
+Reviewed-by: Jakub Kicinski <kuba@kernel.org>
