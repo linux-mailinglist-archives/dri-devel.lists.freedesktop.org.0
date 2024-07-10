@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E39B92D713
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 19:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3890292D72D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 19:10:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7271910E84A;
-	Wed, 10 Jul 2024 17:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF8D10E849;
+	Wed, 10 Jul 2024 17:10:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="AcqwWzrP";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UwdL931F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10CCB10E84A
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:06:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A67A310E849
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,27 +22,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zRR+VOPImDzRutZToW8U5ii8OFf2+i/kT3Ts0v9OFqY=; b=AcqwWzrPemNbiK/XfUUCN7xyyJ
- TuULETL1VroN+cxuWkBJq34nfMiMwXUz2b+lO68GPCC9Hiy4wCgHMLH4XyaHQ8uvlK6b1eFK1RSva
- siFCg8U5wqTF2bFgnyRox14LWd1uWfH429K9fQObohsqEyTHmZ5T5mJqmAPxy7k3CLdivuFjn96Yr
- dfwvO4JGO37guPrH1n0StaeENB0wZqWvImktM1EFFhCrF4XloU9u3UNBrfHnbMPbuYOkZmZ606VTF
- ZsnSUR0YvYrE9UejDIQR32NtyfkiuxrbIsVaJQWhsTtINRfvCRq3rGav1jiDYVOdI6FivbmelVFBh
- 3yI4RZzQ==;
+ bh=W960oQS6oN8rtnoJrGvR0wCSj4QLBhNosc7fVn8jr90=; b=UwdL931FqG5mSVJ6QTJ8ZtsvhL
+ iGl5VFYZaJFnXSaEgyPYu9SH6Yofzz0sSyv5Ot9g0C3ERQ9nWEcQkKraLx/fG7AGLq2uNTGuWiFu1
+ uVf/ukiE1kDwSWwk45/vGSjGPhfIkK0dOmV9fg1p/MP/CDtMx+yEx7rwMTURwDtTBb2UuDGIYMo+s
+ 5/bEqh+Ah0/XCYH2MAM/fwFdHmo2S/+TIKUVp2e5A/sUwyvMyb7SMadAYU4asH7amor5ljG27OrgI
+ 0fXYtlhd/2UYppTDRAUFonvRnxoZ+3K49TZorChPjIudO67K1NPjrosc8kvAv0vaoni4FfP4dlJ01
+ 5eeN5wJQ==;
 Received: from [187.36.213.55] (helo=[192.168.1.212])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sRamI-00DLFl-3O; Wed, 10 Jul 2024 19:06:50 +0200
-Message-ID: <6c4a6268-6e0a-476b-adca-b1c35ea71abc@igalia.com>
-Date: Wed, 10 Jul 2024 14:06:46 -0300
+ id 1sRapP-00DLKH-LT; Wed, 10 Jul 2024 19:10:03 +0200
+Message-ID: <6545484d-fbd0-4591-8b78-ba2a2086dcf6@igalia.com>
+Date: Wed, 10 Jul 2024 14:09:58 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/12] drm/v3d: Validate passed in drm syncobj handles in
- the timestamp extension
+Subject: Re: [PATCH 05/12] drm/v3d: Validate passed in drm syncobj handles in
+ the performance extension
 To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Iago Toral Quiroga <itoral@igalia.com>, stable@vger.kernel.org
 References: <20240710134130.17292-1-tursulin@igalia.com>
- <20240710134130.17292-5-tursulin@igalia.com>
+ <20240710134130.17292-6-tursulin@igalia.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Autocrypt: addr=mcanal@igalia.com; keydata=
@@ -54,7 +54,7 @@ Autocrypt: addr=mcanal@igalia.com; keydata=
  s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
  GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
  pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240710134130.17292-5-tursulin@igalia.com>
+In-Reply-To: <20240710134130.17292-6-tursulin@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,35 +79,29 @@ On 7/10/24 10:41, Tvrtko Ursulin wrote:
 > array the rest of the driver will not handle that well.
 > 
 > Fix it by checking handle was looked up successfuly or otherwise fail the
-
-I believe you mean "Fix it by checking if the handle..."
-
-Also s/successfuly/successfully
-
 > extension by jumping into the existing unwind.
 > 
 > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Fixes: 9ba0ff3e083f ("drm/v3d: Create a CPU job extension for the timestamp query job")
+> Fixes: bae7cb5d6800 ("drm/v3d: Create a CPU job extension for the reset performance query job"
 > Cc: Maíra Canal <mcanal@igalia.com>
 > Cc: Iago Toral Quiroga <itoral@igalia.com>
 > Cc: <stable@vger.kernel.org> # v6.8+
 > ---
->   drivers/gpu/drm/v3d/v3d_submit.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
+>   drivers/gpu/drm/v3d/v3d_submit.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-> index ca1b1ad0a75c..3313423080e7 100644
+> index 3313423080e7..b51600e236c8 100644
 > --- a/drivers/gpu/drm/v3d/v3d_submit.c
 > +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-> @@ -497,6 +497,10 @@ v3d_get_cpu_timestamp_query_params(struct drm_file *file_priv,
+> @@ -706,6 +706,10 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
 >   		}
 >   
->   		job->timestamp_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
-> +		if (!job->timestamp_query.queries[i].syncobj) {
+>   		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
+> +		if (!job->performance_query.queries[i].syncobj) {
 > +			err = -ENOENT;
 
-I'm not sure if err should be -ENOENT or -EINVAL, but based on other 
-drivers, I believe it should be -EINVAL.
+Same from previous patch.
 
 Best Regards,
 - Maíra
@@ -115,27 +109,16 @@ Best Regards,
 > +			goto error;
 > +		}
 >   	}
->   	job->timestamp_query.count = timestamp.count;
->   
-> @@ -550,6 +554,10 @@ v3d_get_cpu_reset_timestamp_params(struct drm_file *file_priv,
+>   	job->performance_query.count = reset.count;
+>   	job->performance_query.nperfmons = reset.nperfmons;
+> @@ -787,6 +791,10 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
 >   		}
 >   
->   		job->timestamp_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
-> +		if (!job->timestamp_query.queries[i].syncobj) {
+>   		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
+> +		if (!job->performance_query.queries[i].syncobj) {
 > +			err = -ENOENT;
 > +			goto error;
 > +		}
 >   	}
->   	job->timestamp_query.count = reset.count;
->   
-> @@ -613,6 +621,10 @@ v3d_get_cpu_copy_query_results_params(struct drm_file *file_priv,
->   		}
->   
->   		job->timestamp_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
-> +		if (!job->timestamp_query.queries[i].syncobj) {
-> +			err = -ENOENT;
-> +			goto error;
-> +		}
->   	}
->   	job->timestamp_query.count = copy.count;
->   
+>   	job->performance_query.count = copy.count;
+>   	job->performance_query.nperfmons = copy.nperfmons;
