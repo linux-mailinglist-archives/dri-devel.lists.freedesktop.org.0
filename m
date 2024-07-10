@@ -2,72 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACBF992CC37
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 09:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC73592CD14
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 10:35:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5C8D10E6A5;
-	Wed, 10 Jul 2024 07:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E30B10E06C;
+	Wed, 10 Jul 2024 08:35:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="ofri7lUb";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="BX2XRfzT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D200210E6A6
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 07:48:56 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-52ea2ce7abaso8190550e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 00:48:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1720597735; x=1721202535;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GNsDfIDnf4EzGjKDdcme11QFsKS3nMXn+3RFV1TKwBQ=;
- b=ofri7lUb/qIiVgnFnRxitDCn4mkG7ceRAVdwEPP6om/RistzwHEXRyJp2xM85ZHa6K
- aoS2jPHfBPRS2aAjklmTmClrOkQZuU6OhDZSQmlxBwUOvYuCs2rDkX7QWSPGruo1HJDB
- SqcNLQebU/y/qi54T+nCy02hNSdS8EAuIdF9Y0a4qzmf8l2eBTbAmTm5Ktwb692oMb85
- +6obYfbG1WRQDav2jorrLHzK8aN2o+XFiSR8P7SId+yo07JJZdOCp18lrfP7wFZQRgBB
- kKrRZC/0IxR2dzrOOFdSLDColgRd42qJiYJdk8UePnT8TYAA392MGk2u9z1zJhq6Y+Ri
- WjtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720597735; x=1721202535;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GNsDfIDnf4EzGjKDdcme11QFsKS3nMXn+3RFV1TKwBQ=;
- b=LCQ9vlpx9iM+rcAxPb+dLUNw2qPkUlsFcoQ2P9N0fKHRF0OKHJlJ8dNLxHqa5pI1vA
- Hb6t4ZX7bkYXsYkt6EsqdzxHAXazBMEBahxLiQwllE/CKeQVrQTEBcnk09dFPQuMLHne
- GNeDQpilqCDUC+6C7X2y1/5fseagPFE5QhxE3e5/PVePWiJw/t04EOhmyyBPLR7EjwfN
- ZYZYpMQrJgJMvdpiXRrP5PKf/hv75JHVK8tvDYwGESeEGhQXzj1nCaHo9BAW6qVQSON4
- 929dRjsnOXNIv7dZQtiVo55FFYjXC50cQGmxtWNHttVv1NUulZKjSA+P0GLGtrBaGzG6
- ceqQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXUbJkRyhb1FVY46u6EXKfdaH6ynqWv+R7QQlVFvBjmhoRDjUlxy56IKbLEY+u02Sb+Kcja7NjlfJVUIdgAsW1VPTkuc+qGwwMgEO4MdzB8
-X-Gm-Message-State: AOJu0YwYhlBPxzYiohTkAgNe62jdd1BKaFjIxC8286kGscrj7cGDt4Ch
- OWyGvqprZUahtVCBYx4MMbZTXuNtDC+WoYGjMYuvblZ4LIYKNCVspgy5VF4jTdI=
-X-Google-Smtp-Source: AGHT+IG80H6A817GZXvHI9egaLq2gNkzKl5Ws5DDQve3aWxctuque2YrycdsMJ8ERJDon1+bu1hJ2w==
-X-Received: by 2002:ac2:5544:0:b0:52c:db0a:a550 with SMTP id
- 2adb3069b0e04-52eb99d2025mr2795508e87.42.1720597734730; 
- Wed, 10 Jul 2024 00:48:54 -0700 (PDT)
-Received: from fedora.fritz.box (aftr-82-135-80-26.dynamic.mnet-online.de.
- [82.135.80.26]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-367cdfa06absm4537414f8f.80.2024.07.10.00.48.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jul 2024 00:48:54 -0700 (PDT)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [PATCH] drm/i915: Explicitly cast divisor to fix Coccinelle warning
-Date: Wed, 10 Jul 2024 09:46:51 +0200
-Message-ID: <20240710074650.419902-2-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.45.2
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9ED10E02E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 08:35:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1720600511; x=1721205311; i=markus.elfring@web.de;
+ bh=YLjYF/eFVWGg/xIW1xPAMIzk49GaK0gZOh85xXj6gpM=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=BX2XRfzT8priNv5di15/HMx5X9rHSfQ/Iw1YFnUWIsojTQLYhzeiHnnD4ijQSQIk
+ P2gsH3xMRJ5DgqAIPcMv3fba2FQftOCoCZGX2EPhUdvLPxWBGzb8toK8pSBeefuBP
+ WkCdtuKAKNtax3FYT8vq1iIk60HVQGaXRvfMPxHozukakoSD5qOZvSKkAvuDVo0CK
+ naB+HARwqS8+4evcJJ6q9Cz81+XcBTm/VtbUmY1OxLYb/pPfUaQ/RQld2C/tnkmzf
+ dwHCK1d5gpbEcAkgOq8M309TpQrArbeauwyfBwD+j/snHjtcbzVSPrhJ5T/52/2SA
+ W3NCEWbZ/omseIiRoA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N3Xjb-1sIULU0c9T-00tC6R; Wed, 10
+ Jul 2024 10:35:11 +0200
+Message-ID: <7eabf6b3-e9fd-4c59-8c2d-8dfdf05ddb55@web.de>
+Date: Wed, 10 Jul 2024 10:34:57 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, make24@iscas.ac.cn,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
+Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Wei Liu <wei.liu@kernel.org>
+References: <CAMeQTsZojC24Hs_zy0UX0Zjq42zLH21yn_hZhkcSKbL5X1jiSA@mail.gmail.com>
+Subject: Re: [v4] drm/gma500: fix null pointer dereference in
+ cdv_intel_lvds_get_modes
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <CAMeQTsZojC24Hs_zy0UX0Zjq42zLH21yn_hZhkcSKbL5X1jiSA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ztBwSIUruFgutnrDH/yIK49xLeUe4QbnRCIEIQKFqESog/Ybbyt
+ iw7A5NjiZgHUCNbH0waliVLhepQbQ4dD900Mi/RFDDDxEaCww5oxcL1wJ9OwtVCkc+PaD7w
+ B5lphAlk1pv+FfY3Fuc/uSIyTLEuboJhpI+H985+C9i9YsqMT84lkGohqdf0Yt/KBbYcmOq
+ EvFcHOgFrkRHlJxw5c8Tw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:lEmTYdWidZc=;iMWpbu+WPrflaguxPa0NHvvIT2w
+ p0veKle+VCyYtnui1D8IV36ib/RDceUBy+wJbhJWLGi20/1SiQGwJvNpMV6NgwN484aelKpFT
+ V0fT/6hCpqBHSspX8C7IsvXn+OPWol367rK/Q9TmqHm5uF0er4+RrUJAKEmxc+l4nYfBN4rBp
+ nfikqoshmdJttbXIoi1yIUPwZnyrpZU+Rw5gOPuy1mmgAmjTfEooKC/9/wUou48p6v1DWzPTi
+ uaYfup75enS3jcRUm84EEv+ahJ4kQOLHZW2KgV1K6inEsiG0cLN0pWt+QAI7EiSkb1Kh9Vi+a
+ umyGRLjvTmJkr9cVruS8aKQlHFgV7cOlxICHTVmWfZ1v9PU5YICZ458O/p8JA0ssMyvVWWwP3
+ L2s5AT0bS93hNR/0vf6pe5E8ah2VybxmBR3SO12NtqF6EqdYxV/OYy/FZzYYOsav0XDXRBeAl
+ OwhO/tBxpK2pjnBCfUz1p+58hcMsb2apdNfOcJCfXhHeFQCNNNfgZ2RYoICo24dN9A0fGHgsi
+ 5I6a90C+1L90JcgfOYzVukMVnZnuf9JT9eSlVbYxZmazo/WIooOs/aT8fFL/K2a7UDPvf9pOF
+ OZakTDID+MMXX6QXr5Za4h0ugBM/ijoUpB6K7H2zJ7kAZ9ybK8WIVfXGBzGiOP6677ZqKUmC5
+ vxduJZtOWG5gVDFNBRuz6kGJEhLmp+Yk/bQ58PostAQOX347oRVISe8FBEmPBkIuVQdRCajHX
+ XgpH3SEIiuFjmzIk5/eXQV250ap5In9zGIUuMv/FqM4LwjQBkp/rRsuj/Rs0hQ/u4VtVnCEDt
+ ljxzWab3eu+sFBDzirapH0zTsMM01q4GUz6SG8vdzlB/0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,30 +85,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the comment explains, the if check ensures that the divisor oa_period
-is a u32. Explicitly cast oa_period to u32 to remove the following
-Coccinelle/coccicheck warning reported by do_div.cocci:
+=E2=80=A6
+> > Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+>
+> Thanks for the patch!
+> Pushed to drm-misc-fixes
 
-  WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead
+Do you care for the applicability of the available information
+according to this tag?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.10-rc7#n398
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
----
- drivers/gpu/drm/i915/i915_perf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index 0b1cd4c7a525..24722e758aaf 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -4103,7 +4103,7 @@ static int read_properties_unlocked(struct i915_perf *perf,
- 			 */
- 			if (oa_period <= NSEC_PER_SEC) {
- 				u64 tmp = NSEC_PER_SEC;
--				do_div(tmp, oa_period);
-+				do_div(tmp, (u32)oa_period);
- 				oa_freq_hz = tmp;
- 			} else
- 				oa_freq_hz = 0;
--- 
-2.45.2
-
+Regards,
+Markus
