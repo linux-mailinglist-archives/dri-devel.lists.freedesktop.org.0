@@ -2,66 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF2B92CEF2
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 12:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F290892CF53
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 12:37:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07AF410E719;
-	Wed, 10 Jul 2024 10:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A82B010E722;
+	Wed, 10 Jul 2024 10:37:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UKGGuK1y";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Yub14HrM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2070310E71A
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 10:23:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720606992; x=1752142992;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=29bMgJfh02XAAbMgonEBUzZFjdVcxplyXO2mJEZgq+w=;
- b=UKGGuK1yLeM77tG1y4PaEzfF4/siZKRSg8s6f868xfHJnTkOTpafpZTr
- g1Zw5szmIcfHSDoFiuyWAip1Fz2KWqkCTT3XkAVtegORhXMDEa7p+A6UW
- 1YwvbRp+G9khQ7zMseO9dTWNws/Tn+4+dzK0trpVFMmxAqTK496xrj44B
- O7wJOg5zTARPG/3L3Dn8Cze1BRzTcPfjwduzbXHvvY/2EBnKJjXs4t5jx
- kUdbmYwCNo9rNGBMG8vy6L6OYbsJThEqT/gnDlEbBSOHNCjzZBQgwjzRv
- d/AjHLxIej4sSu2KOiNvu3pffKoAG8JoShdWMHS81UmhlgjgmPJ9KM8TZ A==;
-X-CSE-ConnectionGUID: lZ19z0fNThqC673Kyaz+CQ==
-X-CSE-MsgGUID: LkCRzpNoSHSbu3N3tRSZ/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="12472051"
-X-IronPort-AV: E=Sophos;i="6.09,197,1716274800"; d="scan'208";a="12472051"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2024 03:23:10 -0700
-X-CSE-ConnectionGUID: LE3PwP3yQICOP5LWQmb+Og==
-X-CSE-MsgGUID: Kze/xY6XTE+qCLGo8zTgpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,197,1716274800"; d="scan'208";a="48050490"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.246.19.58])
- ([10.246.19.58])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2024 03:23:08 -0700
-Message-ID: <35a7963e-e92b-4c73-b03d-a846e93adf5a@linux.intel.com>
-Date: Wed, 10 Jul 2024 12:23:06 +0200
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D77310E722
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 10:37:18 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-52e9c55febcso8015544e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 03:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1720607836; x=1721212636; darn=lists.freedesktop.org;
+ h=mime-version:user-agent:references:message-id:date:in-reply-to
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jUv1TKKjUHthOG7mdtMKuqVjyWEdEs5skCdldKg/BLA=;
+ b=Yub14HrMAvUKxwSA1Xy7altybJVsRSRDK9SmpDd44MwI9tAfD8iVZsdTneGhy5WRLf
+ xlu1TYcOc3QiCqr9e8aGTWiXKWznLbIT8bl3nIe1IG4RNUdhSnkGrupTOmPwgMF/pdZz
+ PX3Z3mRhqIhuFL4xWt2zaswITFHAwojArKPPN0igpcMp+lDMhR1Cr3DMc6W+ENbjSZEX
+ iLpUcqt8MM50rUZ8ZEQhLAjI4+7z9QO1QXwX7bBx2xkei/5crZXZhn27CsNElAj7Pbt7
+ PyLNK4WgNXChJsVmuIpFgRTuOBo1k2SlFZ3zsYLEfqBgb6iSfRWFpWSEKvLyP3AL806v
+ cwEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720607836; x=1721212636;
+ h=mime-version:user-agent:references:message-id:date:in-reply-to
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jUv1TKKjUHthOG7mdtMKuqVjyWEdEs5skCdldKg/BLA=;
+ b=HdPv24LAjqR9toUIdXtUqnoNimkRxuCYTjJ/XF5tbACyKZbyQ4X39hVU3lsEnw4N0b
+ 4n8EL/arNMKoUkiCSfvHv03iKgpQatWrkA4gEeYM8cwEPz1nus6rwGKR3uQTYIgMnhYe
+ jcGT/S4+UPzWShJNsqOJJE48MncnGiaqmBussdpmvVGaTNgW4/POt/nw0kr0A/HMCYba
+ GLA++7oQ6/K6L/FZXD58Kh3/w8zPEEJabmy7JR9CShg10xk4ittLEk4Juaw5tULJHUK0
+ HfkxsWv78E9h5HeCwcX18awkGC9XZGcrmlNSDO9ubLS9jzVU9/zu9+JIXqw0aBH2F62T
+ mhqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/c4+J7aoldhtgOU+VHtXP+XkIc2B3/4t4tcgn4LaSh2ytgecmnfrh2fHxR0WGiUA6F7150mBwcr6j8kqAztiGQNUeihFNh5bkFj8aWZHH
+X-Gm-Message-State: AOJu0YyHGYigxB0LOxYXuYZl8JREKdz0y6IzPi3T1zBYv2sEGSJBI5rW
+ 9NCqaxEYRz4vy14+jh9c707Qp4csf4mpmSlNneeXzqjTz0V+qKbI
+X-Google-Smtp-Source: AGHT+IEYBZWIZpjV7C9ssz+2I4yf8GPHbR8l+2RYZAsApi0hWbugWj4h9Cu7wWaqd85eKzfkNy/N7w==
+X-Received: by 2002:a05:6512:3e19:b0:52c:e17c:3753 with SMTP id
+ 2adb3069b0e04-52eb9991919mr3752798e87.5.1720607835793; 
+ Wed, 10 Jul 2024 03:37:15 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:d1a7:2644:c75e:c5ee])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4266ac156easm114146345e9.38.2024.07.10.03.37.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Jul 2024 03:37:15 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org,  linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org,  linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org,  linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org,  linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org,  linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,  Eric Dumazet
+ <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan Corbet
+ <corbet@lwn.net>,  Richard Henderson <richard.henderson@linaro.org>,  Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>,  Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,  "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>,  Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>,  Jesper Dangaard Brouer
+ <hawk@kernel.org>,  Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,  Masami Hiramatsu
+ <mhiramat@kernel.org>,  Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>,  Arnd Bergmann <arnd@arndb.de>,  Steffen
+ Klassert <steffen.klassert@secunet.com>,  Herbert Xu
+ <herbert@gondor.apana.org.au>,  David Ahern <dsahern@kernel.org>,  Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>,  Shuah Khan
+ <shuah@kernel.org>,  Sumit Semwal <sumit.semwal@linaro.org>,  =?utf-8?Q?C?=
+ =?utf-8?Q?hristian_K=C3=B6nig?= <christian.koenig@amd.com>,  Bagas Sanjaya
+ <bagasdotme@gmail.com>,
+ Christoph Hellwig <hch@infradead.org>,  Nikolay Aleksandrov
+ <razor@blackwall.org>,  Taehee Yoo <ap420073@gmail.com>,  Pavel Begunkov
+ <asml.silence@gmail.com>,  David Wei <dw@davidwei.uk>,  Jason Gunthorpe
+ <jgg@ziepe.ca>,  Yunsheng Lin <linyunsheng@huawei.com>,  Shailend Chand
+ <shailend@google.com>,  Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,  Jeroen de Borst
+ <jeroendb@google.com>,  Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v16 11/13] net: add devmem TCP documentation
+In-Reply-To: <20240710001749.1388631-12-almasrymina@google.com> (Mina
+ Almasry's message of "Wed, 10 Jul 2024 00:17:44 +0000")
+Date: Wed, 10 Jul 2024 11:28:37 +0100
+Message-ID: <m2a5ip1qy2.fsf@gmail.com>
+References: <20240710001749.1388631-1-almasrymina@google.com>
+ <20240710001749.1388631-12-almasrymina@google.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] accel/ivpu: Add missing MODULE_FIRMWARE metadata
-To: "Alexander F. Lent" <lx@xanderlent.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
- Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240709-fix-ivpu-firmware-metadata-v3-1-55f70bba055b@xanderlent.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20240709-fix-ivpu-firmware-metadata-v3-1-55f70bba055b@xanderlent.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,56 +113,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Mina Almasry <almasrymina@google.com> writes:
 
-On 09.07.2024 13:54, Alexander F. Lent wrote:
-> Modules that load firmware from various paths at runtime must declare
-> those paths at compile time, via the MODULE_FIRMWARE macro, so that the
-> firmware paths are included in the module's metadata.
-> 
-> The accel/ivpu driver loads firmware but lacks this metadata,
-> preventing dracut from correctly locating firmware files. Fix it.
-> 
-> Fixes: 9ab43e95f922 ("accel/ivpu: Switch to generation based FW names")
-> Fixes: 02d5b0aacd05 ("accel/ivpu: Implement firmware parsing and booting")
-> Signed-off-by: Alexander F. Lent <lx@xanderlent.com>
-> ---
-> Hi Jacek,
-> 
-> Thanks for catching the error, and for the more succinct comment.
-> Please find v3 attached.
-> ---
-> Changes in v3:
-> - Simplify comment, per review.
-> - Fix typo in 40xx firmware path, per review.
-> - Link to v2: https://lore.kernel.org/r/20240708-fix-ivpu-firmware-metadata-v2-1-78b953172026@xanderlent.com
-> 
-> Changes in v2:
-> - Only annotate the module with the production firmware paths, per review.
-> - Drop macros for de-duping firmware fileames, just use string literals, per review.
-> - Link to v1: https://lore.kernel.org/r/20240705-fix-ivpu-firmware-metadata-v1-1-704b73852d92@xanderlent.com
-> ---
->  drivers/accel/ivpu/ivpu_fw.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-> index 1457300828bf..ef717802a3c8 100644
-> --- a/drivers/accel/ivpu/ivpu_fw.c
-> +++ b/drivers/accel/ivpu/ivpu_fw.c
-> @@ -58,6 +58,10 @@ static struct {
->  	{ IVPU_HW_40XX, "intel/vpu/vpu_40xx_v0.0.bin" },
->  };
->  
-> +/* Production fw_names from the table above */
-> +MODULE_FIRMWARE("intel/vpu/vpu_37xx_v0.0.bin");
-> +MODULE_FIRMWARE("intel/vpu/vpu_40xx_v0.0.bin");
-> +
->  static int ivpu_fw_request(struct ivpu_device *vdev)
->  {
->  	int ret = -ENOENT;
-> 
-> ---
-> base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
-> change-id: 20240704-fix-ivpu-firmware-metadata-3d02bd60768d
-> 
-> Best regards,
+> Add documentation outlining the usage and details of devmem TCP.
+>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
