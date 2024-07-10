@@ -2,84 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C7992C680
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 01:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BAC92C6F4
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 02:17:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC42B10E153;
-	Tue,  9 Jul 2024 23:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91EEC10E0CF;
+	Wed, 10 Jul 2024 00:17:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZtkBH86m";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Do2Arwaq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0AE10E153
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2024 23:17:20 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 469D81Gn012640;
- Tue, 9 Jul 2024 23:16:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- r3AwTGK/2A110THpl8eIw/zeTmYO4gyt4wE1EL2JaIM=; b=ZtkBH86m1XymRDEc
- n80rDH7mFYRSSCNUwiLxkVqh6PFd4MTKZx6hdnmpa559T4yMeOuaEpjqljeQFQ2I
- z25ld+wYkhvzHRl80zFeVgwKfkVRRWTpHpLvEfQYEH9dBNNoBCmr2TJBeunJHST1
- tssQ5Ll669UDFfHA2ea2u2QDHg9XzxRCIbVHRLIipx4kIUb1z84lyVsBjiKWfjNk
- uFFGTFySboaVl/n16s0Epm6ZcvhI+YCRNqYBz0ExeSbt8A8AsSZ6vnHyZYQdS4et
- Rb35v0nUMkBQululHJcPk7SwCCojp83wexaAhsH4cauVbtG1XmKqmAiTV3OPNN8o
- ejeaxA==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 406y3hfepn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Jul 2024 23:16:53 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 469NGqSU003441
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 9 Jul 2024 23:16:52 GMT
-Received: from [10.4.85.5] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 9 Jul 2024
- 16:16:50 -0700
-Message-ID: <bdf39b00-b889-42d2-ba07-4e2881fe9105@quicinc.com>
-Date: Wed, 10 Jul 2024 09:16:48 +1000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-Subject: Re: [PATCH RFC 0/3] Implement Qualcomm TEE IPC and ioctl calls
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- <srinivas.kandagatla@linaro.org>, <bartosz.golaszewski@linaro.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-References: <20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com>
- <umwai5fxohuz6apprv6ouhdrnomal4a7cmyhmzpf6dnamnvti2@un4hxx52hkge>
-Content-Language: en-US
-In-Reply-To: <umwai5fxohuz6apprv6ouhdrnomal4a7cmyhmzpf6dnamnvti2@un4hxx52hkge>
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com
+ [209.85.219.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1201E10E0CF
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 00:17:54 +0000 (UTC)
+Received: by mail-yb1-f201.google.com with SMTP id
+ 3f1490d57ef6-e056166e0a6so213724276.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2024 17:17:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1720570673; x=1721175473;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=i25N5yO3RTSnYCvWaAX8/wWz/vwY/V0EBFfHBNs2++w=;
+ b=Do2Arwaqq3phlGLXuXbrVa2W45+0IaZuv/9JN0KRs2AcdG0Fp3/AEzE4AJxYURZjI6
+ Q4u46n0QrZ9QYVrX7u36F+2lyvORXxxOJXE0ZYqCQtrakk1z/w7ayDWpTJ8HzWEVJocI
+ pvrIg7ha0Dq5qzvYBD4NNiH8jwo980oXOipSdAS3n1K4jz0ql3e/ULbJpZGNNTCTn40i
+ //LhzyZREYgARmlNeLZmITygt2lAB1o8GKbfvsvvqXIgNCRFjSgbgqHAE2zqs1Vpamgf
+ kgFA+1IqJZdFjvTLXjkzSolpj0p09gnVemYNEFXz4wmpOlFizoLjVRaO6HF8u3eqgW39
+ k4QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720570673; x=1721175473;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=i25N5yO3RTSnYCvWaAX8/wWz/vwY/V0EBFfHBNs2++w=;
+ b=G3/HEphW1SOYS3qy3vAHeIQDQiTEwjj4EyjfiDnimA2+Zyi76HrLhIg0j/wUM5a0LC
+ s923LOWgqMhQyWO5JX7MpiANSU3tBv50njEfuLQlPE8QTCvs/mN1wu7NA1f+FpIdQxlN
+ nr+Mw/ZFjznvrkHkZ3xGUI/TmV7/pr36A/su/DP2RAA0pw9WCDzDj9ssKEBj9+pxwOK7
+ H6SojNBz9C1riEt+Ym0r6qKtdbRFjXVRMmilOYhwYx91rTKXjaaKBsAIkyybC5fmMgPa
+ R0q8QXtgnrPebcUHh+hiiWzz6lI2tAr4KEV/+W9tA1KRA0/HeNq/9OX8ChgxxNT57e5r
+ vZEg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWyOcgLAxpKkBoSq63jVqDKbf+HDjFL2mhOJEJFKGkLMRhb0l/CYVK127pWj3LL2Un6sTZNQLTWgCO20abYr1+F8p+/6WpbpWsAELwaqKgE
+X-Gm-Message-State: AOJu0YwogZ8uP2TpihQgVsfL/KiWb0mHWABPmlt5GcHF21KmkVKmT4DR
+ ITl+hcch4O58y9ZXaslgUGmSXFhIk56RL4ZjPWEr8YZhwqObWqcj9tnf6K19XGn0pVa0bu2XX68
+ 65MD/BE//OVUooiOaUNr2/g==
+X-Google-Smtp-Source: AGHT+IGWuknbwVPFNqPjRSpcpFmky9tdjSygv3nactPxkCENjdDEWOtUw7oz/4CoOJTcglkgzv5e1kk7MdCVXYvfSA==
+X-Received: from almasrymina.c.googlers.com
+ ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
+ (user=almasrymina job=sendgmr) by 2002:a05:6902:2089:b0:e03:2bfe:40c9 with
+ SMTP id 3f1490d57ef6-e041b032f48mr7458276.3.1720570672627; Tue, 09 Jul 2024
+ 17:17:52 -0700 (PDT)
+Date: Wed, 10 Jul 2024 00:17:33 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
+Message-ID: <20240710001749.1388631-1-almasrymina@google.com>
+Subject: [PATCH net-next v16 00/13] Device Memory TCP
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Cc: Mina Almasry <almasrymina@google.com>,
+ Donald Hunter <donald.hunter@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, 
+ Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: U4K5ti_hmHt6I-tjjL5YAXxr-CKsFECv
-X-Proofpoint-GUID: U4K5ti_hmHt6I-tjjL5YAXxr-CKsFECv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-09_10,2024-07-09_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- spamscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- clxscore=1015 mlxlogscore=999 impostorscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407090159
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,275 +114,685 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+v16: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D866353&s=
+tate=3D*
+=3D=3D=3D=3D
+
+v15 got a thorough review and some testing, and this version addresses almo=
+st
+all the feedback. Some more minor comments where the authors said it
+could be done later, I left out.
+
+Major changes:
+- Addition of dma-buf introspection to page-pool-get and queue-get.
+- Fixes to selftests suggested by Taehee.
+- Fixes to documentation suggested by Donald.
+- A couple of suggestions and fixes to TCP patches by Eric and David.
+- Fixes to number assignements suggested by Arnd.
+- Use rtnl_lock()ing to guard against queue reconfiguration while the
+  page_pool initialization is happening. (Jakub).
+- Fixes to a few warnings reproduced by Taehee.
+- Fixes to dma-buf binding suggested by Taehee and Jakub.
+- Fixes to netlink UAPI suggested by Jakub
+- Applied a number of Reviewed-bys and Acked-bys (including ones I lost
+  from v13+).
+
+Full devmem TCP changes including the full GVE driver implementation is
+here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v16/
+
+One caveat: Taehee reproduced a KASAN warning and reported it here:
+
+https://lore.kernel.org/netdev/CAMArcTUdCxOBYGF3vpbq=3DeBvqZfnc44KBaQTN7H-w=
+qdUxZdziw@mail.gmail.com/
+
+I estimate the issue to be minor and easily fixable:
+
+https://lore.kernel.org/netdev/CAHS8izNgaqC--GGE2xd85QB=3DutUnOHmioCsDd1TNx=
+JWKemaD_g@mail.gmail.com/
+
+I hope to be able to follow up with a fix to net tree as net-next closes
+imminently, but if this iteration doesn't make it in, I will repost with
+a fix squashed after net-next reopens, no problem.
+
+v15: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D865481&s=
+tate=3D*
+=3D=3D=3D=3D
+
+No material changes in this version, only a fix to linking against
+libynl.a from the last version. Per Jakub's instructions I've pulled one
+of his patches into this series, and now use the new libynl.a correctly,
+I hope.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v15/
+
+v14: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D865135&a=
+rchive=3Dboth&state=3D*
+=3D=3D=3D=3D
+
+No material changes in this version. Only rebase and re-verification on
+top of net-next. v13, I think, raced with commit ebad6d0334793
+("net/ipv4: Use nested-BH locking for ipv4_tcp_sk.") being merged to
+net-next that caused a patchwork failure to apply. This series should
+apply cleanly on commit c4532232fa2a4 ("selftests: net: remove unneeded
+IP_GRE config").
+
+I did not wait the customary 24hr as Jakub said it's OK to repost as soon
+as I build test the rebased version:
+
+https://lore.kernel.org/netdev/20240625075926.146d769d@kernel.org/
+
+v13: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D861406&a=
+rchive=3Dboth&state=3D*
+=3D=3D=3D=3D
+
+Major changes:
+--------------
+
+This iteration addresses Pavel's review comments, applies his
+reviewed-by's, and seeks to fix the patchwork build error (sorry!).
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v13/
+
+v12: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D859747&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major changes:
+--------------
+
+This iteration only addresses one minor comment from Pavel with regards
+to the trace printing of netmem, and the patchwork build error
+introduced in v11 because I missed doing an allmodconfig build, sorry.
+
+Other than that v11, AFAICT, received no feedback. There is one
+discussion about how the specifics of  plugging io uring memory through
+the page pool, but not relevant to content in this particular patchset,
+AFAICT.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v12/
+
+v11: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D857457&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+v11 addresses feedback received in v10. The major change is the removal
+of the memory provider ops as requested by Christoph. We still
+accomplish the same thing, but utilizing direct function calls with if
+statements rather than generic ops.
+
+Additionally address sparse warnings, bugs and review comments from
+folks that reviewed.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v11/
+
+Detailed changelog:
+-------------------
+
+- Fixes in netdev_rx_queue_restart() from Pavel & David.
+- Remove commit e650e8c3a36f5 ("net: page_pool: create hooks for
+custom page providers") from the series to address Christoph's
+feedback and rebased other patches on the series on this change.
+- Fixed build errors with CONFIG_DMA_SHARED_BUFFER &&
+  !CONFIG_GENERIC_ALLOCATOR build.
+- Fixed sparse warnings pointed out by Paolo.
+- Drop unnecessary gro_pull_from_frag0 checks.
+- Added Bagas reviewed-by to docs.
+
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: Nikolay Aleksandrov <razor@blackwall.org>
+Cc: Taehee Yoo <ap420073@gmail.com>
+Cc: Donald Hunter <donald.hunter@gmail.com>
+
+v10: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D852422&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+v9 was sent right before the merge window closed (sorry!). v10 is almost
+a re-send of the series now that the merge window re-opened. Only
+rebased to latest net-next and addressed some minor iterative comments
+received on v9.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v10/
+
+Detailed changelog:
+-------------------
+
+- Fixed tokens leaking in DONTNEED setsockopt (Nikolay).
+- Moved net_iov_dma_addr() to devmem.c and made it a devmem specific
+  helpers (David).
+- Rename hook alloc_pages to alloc_netmems as alloc_pages is now
+  preprocessor macro defined and causes a build error.
+
+v9:
+=3D=3D=3D
+
+Major Changes:
+--------------
+
+GVE queue API has been merged. Submitting this version as non-RFC after
+rebasing on top of the merged API, and dropped the out of tree queue API
+I was carrying on github. Addressed the little feedback v8 has received.
+
+Detailed changelog:
+------------------
+- Added new patch from David Wei to this series for
+  netdev_rx_queue_restart()
+  - Fixed sparse error.
+  - Removed CONFIG_ checks in netmem_is_net_iov()
+  - Flipped skb->readable to skb->unreadable
+  - Minor fixes to selftests & docs.
+
+RFC v8:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+- Fixed build error generated by patch-by-patch build.
+- Applied docs suggestions from Randy.
+
+RFC v7:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the feedback
+RFCv6 received from folks, namely Jakub, Yunsheng, Arnd, David, & Pavel.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v7/
+
+Detailed changelog:
+
+- Use admin-perm in netlink API.
+- Addressed feedback from Jakub with regards to netlink API
+  implementation.
+- Renamed devmem.c functions to something more appropriate for that
+  file.
+- Improve the performance seen through the page_pool benchmark.
+- Fix the value definition of all the SO_DEVMEM_* uapi.
+- Various fixes to documentation.
+
+Perf - page-pool benchmark:
+---------------------------
+
+Improved performance of bench_page_pool_simple.ko tests compared to v6:
+
+https://pastebin.com/raw/v5dYRg8L
+
+      net-next base: 8 cycle fast path.
+      RFC v6: 10 cycle fast path.
+      RFC v7: 9 cycle fast path.
+      RFC v7 with CONFIG_DMA_SHARED_BUFFER disabled: 8 cycle fast path,
+                                                     same as baseline.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+Perf is about the same regardless of the changes in v7, namely the
+removal of the static_branch_unlikely to improve the page_pool benchmark
+performance:
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+RFC v6:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the little
+feedback RFCv5 received.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v6/
+
+This version also comes with some performance data recorded in the cover
+letter (see below changelog).
+
+Detailed changelog:
+
+- Rebased on top of the merged netmem_ref changes.
+
+- Converted skb->dmabuf to skb->readable (Pavel). Pavel's original
+  suggestion was to remove the skb->dmabuf flag entirely, but when I
+  looked into it closely, I found the issue that if we remove the flag
+  we have to dereference the shinfo(skb) pointer to obtain the first
+  frag to tell whether an skb is readable or not. This can cause a
+  performance regression if it dirties the cache line when the
+  shinfo(skb) was not really needed. Instead, I converted the skb->dmabuf
+  flag into a generic skb->readable flag which can be re-used by io_uring
+  0-copy RX.
+
+- Squashed a few locking optimizations from Eric Dumazet in the RX path
+  and the DEVMEM_DONTNEED setsockopt.
+
+- Expanded the tests a bit. Added validation for invalid scenarios and
+  added some more coverage.
+
+Perf - page-pool benchmark:
+---------------------------
+
+bench_page_pool_simple.ko tests with and without these changes:
+https://pastebin.com/raw/ncHDwAbn
+
+AFAIK the number that really matters in the perf tests is the
+'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+cycles without the changes but there is some 1 cycle noise in some
+results.
+
+With the patches this regresses to 9 cycles with the changes but there
+is 1 cycle noise occasionally running this test repeatedly.
+
+Lastly I tried disable the static_branch_unlikely() in
+netmem_is_net_iov() check. To my surprise disabling the
+static_branch_unlikely() check reduces the fast path back to 8 cycles,
+but the 1 cycle noise remains.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+Major changes in RFC v5:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Rebased on top of 'Abstract page from net stack' series and used the
+   new netmem type to refer to LSB set pointers instead of re-using
+   struct page.
+
+2. Downgraded this series back to RFC and called it RFC v5. This is
+   because this series is now dependent on 'Abstract page from net
+   stack'[1] and the queue API. Both are removed from the series to
+   reduce the patch # and those bits are fairly independent or
+   pre-requisite work.
+
+3. Reworked the page_pool devmem support to use netmem and for some
+   more unified handling.
+
+4. Reworked the reference counting of net_iov (renamed from
+   page_pool_iov) to use pp_ref_count for refcounting.
+
+The full changes including the dependent series and GVE page pool
+support is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-rfcv5/
+
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D810774
+
+Major changes in v1:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Implemented MVP queue API ndos to remove the userspace-visible
+   driver reset.
+
+2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+
+3. Removed RFC tag.
+
+Many smaller addressed comments across all the patches (patches have
+individual change log).
+
+Full tree including the rest of the GVE driver changes:
+https://github.com/mina/linux/commits/tcpdevmem-v1
+
+Changes in RFC v3:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Pulled in the memory-provider dependency from Jakub's RFC[1] to make the
+   series reviewable and mergeable.
+
+2. Implemented multi-rx-queue binding which was a todo in v2.
+
+3. Fix to cmsg handling.
+
+The sticking point in RFC v2[2] was the device reset required to refill
+the device rx-queues after the dmabuf bind/unbind. The solution
+suggested as I understand is a subset of the per-queue management ops
+Jakub suggested or similar:
+
+https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
+
+This is not addressed in this revision, because:
+
+1. This point was discussed at netconf & netdev and there is openness to
+   using the current approach of requiring a device reset.
+
+2. Implementing individual queue resetting seems to be difficult for my
+   test bed with GVE. My prototype to test this ran into issues with the
+   rx-queues not coming back up properly if reset individually. At the
+   moment I'm unsure if it's a mistake in the POC or a genuine issue in
+   the virtualization stack behind GVE, which currently doesn't test
+   individual rx-queue restart.
+
+3. Our usecases are not bothered by requiring a device reset to refill
+   the buffer queues, and we'd like to support NICs that run into this
+   limitation with resetting individual queues.
+
+My thought is that drivers that have trouble with per-queue configs can
+use the support in this series, while drivers that support new netdev
+ops to reset individual queues can automatically reset the queue as
+part of the dma-buf bind/unbind.
+
+The same approach with device resets is presented again for consideration
+with other sticking points addressed.
+
+This proposal includes the rx devmem path only proposed for merge. For a
+snapshot of my entire tree which includes the GVE POC page pool support &
+device memory support:
+
+https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-v3
+
+[1] https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
+hat.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izOVJGJH5WF68OsRWFKJid1_huzzUK+hpKb=
+LcL4pSOD1Jw@mail.gmail.com/T/
+
+Changes in RFC v2:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+The sticking point in RFC v1[1] was the dma-buf pages approach we used to
+deliver the device memory to the TCP stack. RFC v2 is a proof-of-concept
+that attempts to resolve this by implementing scatterlist support in the
+networking stack, such that we can import the dma-buf scatterlist
+directly. This is the approach proposed at a high level here[2].
+
+Detailed changes:
+1. Replaced dma-buf pages approach with importing scatterlist into the
+   page pool.
+2. Replace the dma-buf pages centric API with a netlink API.
+3. Removed the TX path implementation - there is no issue with
+   implementing the TX path with scatterlist approach, but leaving
+   out the TX path makes it easier to review.
+4. Functionality is tested with this proposal, but I have not conducted
+   perf testing yet. I'm not sure there are regressions, but I removed
+   perf claims from the cover letter until they can be re-confirmed.
+5. Added Signed-off-by: contributors to the implementation.
+6. Fixed some bugs with the RX path since RFC v1.
+
+Any feedback welcome, but specifically the biggest pending questions
+needing feedback IMO are:
+
+1. Feedback on the scatterlist-based approach in general.
+2. Netlink API (Patch 1 & 2).
+3. Approach to handle all the drivers that expect to receive pages from
+   the page pool (Patch 6).
+
+[1] https://lore.kernel.org/netdev/dfe4bae7-13a0-3c5d-d671-f61b375cb0b4@gma=
+il.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jLVO8n=
+zTLXCc=3DH7Nw@mail.gmail.com/
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* TL;DR:
+
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
+
+* Problem:
+
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
+
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+* Patch overview:
+
+** Part 1: netlink API
+
+Gives user ability to bind dma-buf to an RX queue.
+
+** Part 2: scatterlist support
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to process scatterlist.
+
+Approach #1 was attempted in RFC v1. RFC v2 implements approach #2.
+
+** part 3: page pool support
+
+We piggy back on page pool memory providers proposal:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory
+TCP changes from the driver.
+
+** part 4: support for unreadable skb frags
+
+Page pool iovs are not accessible by the host; we implement changes
+throughput the networking stack to correctly handle skbs with unreadable
+frags.
+
+** Part 5: recvmsg() APIs
+
+We define user APIs for the user to send and receive device memory.
+
+Not included with this series is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This series is built on top of net-next with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using device memory
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+** Test Setup
+
+Kernel: net-next with this series and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Cc: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Shailend Chand <shailend@google.com>
+Cc: Harshitha Ramamurthy <hramamurthy@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Jeroen de Borst <jeroendb@google.com>
+Cc: Praveen Kaligineedi <pkaligineedi@google.com>
 
 
-On 7/3/2024 9:36 PM, Dmitry Baryshkov wrote:
-> On Tue, Jul 02, 2024 at 10:57:35PM GMT, Amirreza Zarrabi wrote:
->> Qualcomm TEE hosts Trusted Applications (TAs) and services that run in
->> the secure world. Access to these resources is provided using MinkIPC.
->> MinkIPC is a capability-based synchronous message passing facility. It
->> allows code executing in one domain to invoke objects running in other
->> domains. When a process holds a reference to an object that lives in
->> another domain, that object reference is a capability. Capabilities
->> allow us to separate implementation of policies from implementation of
->> the transport.
->>
->> As part of the upstreaming of the object invoke driver (called SMC-Invoke
->> driver), we need to provide a reasonable kernel API and UAPI. The clear
->> option is to use TEE subsystem and write a back-end driver, however the
->> TEE subsystem doesn't fit with the design of Qualcomm TEE.
->>
 
-To answer your "general comment", maybe a bit of background :).
+Mina Almasry (13):
+  netdev: add netdev_rx_queue_restart()
+  net: netdev netlink api to bind dma-buf to a net device
+  netdev: support binding dma-buf to netdevice
+  netdev: netdevice devmem allocator
+  page_pool: devmem support
+  memory-provider: dmabuf devmem memory provider
+  net: support non paged skb frags
+  net: add support for skbs with unreadable frags
+  tcp: RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+  net: add devmem TCP documentation
+  selftests: add ncdevmem, netcat for devmem TCP
+  netdev: add dmabuf introspection
 
-Traditionally, policy enforcement is based on access-control models,
-either (1) access-control list or (2) capability [0]. A capability is an
-opaque ("non-forge-able") object reference that grants the holder the
-right to perform certain operations on the object (e.g. Read, Write,
-Execute, or Grant). Capabilities are preferred mechanism for representing
-a policy, due to their fine-grained representation of access right, inline
-with
-  (P1) the principle of least privilege [1], and
-  (P2) the ability to avoid the confused deputy problem [2].
+ Documentation/netlink/specs/netdev.yaml |  61 +++
+ Documentation/networking/devmem.rst     | 269 ++++++++++++
+ Documentation/networking/index.rst      |   1 +
+ arch/alpha/include/uapi/asm/socket.h    |   6 +
+ arch/mips/include/uapi/asm/socket.h     |   6 +
+ arch/parisc/include/uapi/asm/socket.h   |   6 +
+ arch/sparc/include/uapi/asm/socket.h    |   6 +
+ include/linux/skbuff.h                  |  61 ++-
+ include/linux/skbuff_ref.h              |   9 +-
+ include/linux/socket.h                  |   1 +
+ include/net/devmem.h                    | 123 ++++++
+ include/net/mp_dmabuf_devmem.h          |  44 ++
+ include/net/netdev_rx_queue.h           |   5 +
+ include/net/netmem.h                    | 193 ++++++++-
+ include/net/page_pool/helpers.h         |  47 ++-
+ include/net/page_pool/types.h           |   8 +
+ include/net/sock.h                      |   2 +
+ include/net/tcp.h                       |   5 +-
+ include/trace/events/page_pool.h        |   8 +-
+ include/uapi/asm-generic/socket.h       |   6 +
+ include/uapi/linux/netdev.h             |  13 +
+ include/uapi/linux/uio.h                |  17 +
+ net/core/Makefile                       |   3 +-
+ net/core/datagram.c                     |   6 +
+ net/core/dev.c                          |   6 +-
+ net/core/devmem.c                       | 364 ++++++++++++++++
+ net/core/gro.c                          |   3 +-
+ net/core/netdev-genl-gen.c              |  23 +
+ net/core/netdev-genl-gen.h              |   6 +
+ net/core/netdev-genl.c                  | 111 +++++
+ net/core/netdev_rx_queue.c              |  74 ++++
+ net/core/page_pool.c                    |  96 +++--
+ net/core/page_pool_user.c               |   4 +
+ net/core/skbuff.c                       |  76 +++-
+ net/core/sock.c                         |  68 +++
+ net/ipv4/esp4.c                         |   3 +-
+ net/ipv4/tcp.c                          | 261 +++++++++++-
+ net/ipv4/tcp_input.c                    |  13 +-
+ net/ipv4/tcp_ipv4.c                     |  16 +
+ net/ipv4/tcp_minisocks.c                |   2 +
+ net/ipv4/tcp_output.c                   |   5 +-
+ net/ipv6/esp6.c                         |   3 +-
+ net/packet/af_packet.c                  |   4 +-
+ tools/include/uapi/linux/netdev.h       |  13 +
+ tools/testing/selftests/net/.gitignore  |   1 +
+ tools/testing/selftests/net/Makefile    |   9 +
+ tools/testing/selftests/net/ncdevmem.c  | 536 ++++++++++++++++++++++++
+ 47 files changed, 2505 insertions(+), 98 deletions(-)
+ create mode 100644 Documentation/networking/devmem.rst
+ create mode 100644 include/net/devmem.h
+ create mode 100644 include/net/mp_dmabuf_devmem.h
+ create mode 100644 net/core/devmem.c
+ create mode 100644 net/core/netdev_rx_queue.c
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
 
-[0] Jack B. Dennis and Earl C. Van Horn. 1966. Programming Semantics for
-Multiprogrammed Computations. Commun. ACM 9 (1966), 143–155.
+--=20
+2.45.2.803.g4e1b14247a-goog
 
-[1] Jerome H. Saltzer and Michael D. Schroeder. 1975. The Protection of
-Information in Computer Systems. Proc. IEEE 63 (1975), 1278–1308.
-
-[2] Norm Hardy. 1988. The Confused Deputy (or Why Capabilities Might Have
-Been Invented). ACM Operating Systems Review 22, 4 (1988), 36–38.
-
-For MinkIPC, an object represents a TEE or TA service. The reference to
-the object is the "handle" that is returned from TEE (let's call it
-TEE-Handle). The supported operations are "service invocation" (similar
-to Execute), and "sharing access to a service" (similar to Grant).
-Anyone with access to the TEE-Handle can invoke the service or pass the
-TEE-Handle to someone else to access the same service.
-
-The responsibility of the MinkIPC framework is to hide the TEE-Handle,
-so that the client can not forge it, and allow the owner of the handle
-to transfer it to other clients as it wishes. Using a file descriptor
-table we can achieve that. We wrap the TEE-Handle as a FD and let the
-client invoke FD (e.g. using IOCTL), or transfer the FD (e.g. using
-UNIX socket).
-
-As a side note, for the sake of completeness, capabilities are fundamentally
-a "discretionary mechanism", as the holder of the object reference has the
-ability to share it with others. A secure system requires "mandatory
-enforcement" (i.e. ability to revoke authority and ability to control
-the authority propagation). This is out of scope for the MinkIPC.
-MinkIPC is only interested in P1 and P2 (mention above).
-
-
->> Does TEE subsystem fit requirements of a capability based system?
->> -----------------------------------------------------------------
->> In TEE subsystem, to invoke a function:
->>    - client should open a device file "/dev/teeX",
->>    - create a session with a TA, and
->>    - invoke the functions in that session.
->>
->> 1. The privilege to invoke a function is determined by a session. If a
->>    client has a session, it cannot share it with other clients. Even if
->> it does, it is not fine-grained enough, i.e. either all accessible
->> functions/resources in a session or none. Assume a scenario when a client
->> wants to grant a permission to invoke just a function that it has the rights,
->> to another client.
->>
->> The "all or nothing" for sharing sessions is not in line with our
->> capability system: "if you own a capability, you should be able to grant
->> or share it".
-> 
-> Can you please be more specific here? What kind of sharing is expected
-> on the user side of it?
-
-In MinkIPC, after authenticating a client credential, a TA (or TEE) may
-return multiple TEE-Handles, each representing a service that the client
-has privilege to access. The client should be able to "individually"
-reference each TEE-Handle, e.g. to invoke and share it (as per capability-
-based system requirements).
-
-If we use TEE subsystem, which has a session based design, all TEE-Handles
-are meaningful with respect to the session in which they are allocated,
-hence the use of "__u32 session" in "struct tee_ioctl_invoke_arg".
-
-Here, we have a contradiction with MinkIPC. We may ignore the session
-and say "even though a TEE-Handle is allocated in a session but it is also
-valid outside a session", i.e. the session-id in TEE uapi becomes redundant
-(a case of divergence from definition).
-
-> 
->> 2. In TEE subsystem, resources are managed in a context. Every time a
->>    client opens "/dev/teeX", a new context is created to keep track of
->> the allocated resources, including opened sessions and remote objects. Any
->> effort for sharing resources between two independent clients requires
->> involvement of context manager, i.e. the back-end driver. This requires
->> implementing some form of policy in the back-end driver.
-> 
-> What kind of resource sharing?
-
-TEE subsystem "rightfully" allocates a context each time a client opens
-a device file. This context pass around to the backend driver to identify
-independent clients that opened the device file.
-
-The context is used by backend driver to keep track of the resources. Type
-of resources are TEE driver dependent. As an example of resource in TEE
-subsystem, you can look into 'shm' register and unregister (specially,
-see comment in function 'shm_alloc_helper').
-
-For MinkIPC, all clients are treated the same and the TEE-Handles are
-representative of the resources, accessible "globally" if a client has the
-capability for them. In kernel, clients access an object if they have
-access to "qcom_tee_object", in userspace, clients access an object if
-they have the FD wrapper for the TEE-Handle.
-
-If we use context, instead of the file descriptor table, any form of object
-transfer requires involvement of the backend driver. If we use the file
-descriptor table, contexts are becoming useless for MinkIPC (i.e.
-'ctx->data' will "always" be null).
-
-> 
->> 3. The TEE subsystem supports two type of memory sharing:
->>    - per-device memory pools, and
->>    - user defined memory references.
->> User defined memory references are private to the application and cannot
->> be shared. Memory allocated from per-device "shared" pools are accessible
->> using a file descriptor. It can be mapped by any process if it has
->> access to it. This means, we cannot provide the resource isolation
->> between two clients. Assume a scenario when a client wants to allocate a
->> memory (which is shared with TEE) from an "isolated" pool and share it
->> with another client, without the right to access the contents of memory.
-> 
-> This doesn't explain, why would it want to share such memory with
-> another client.
-
-Ok, I believe there is a misunderstanding here. I did not try to justify
-specific usecase. We want to separate the memory allocation from the
-framework. This way, how the memory is obtained, e.g. it is allocated
-(1) from an isolated pool, (2) a shared pool, (3) a secure heap,
-(4) a system dma-heap, (5) process address space, or (6) other memory
-with "different constraints", becomes independent.
-
-We introduced "memory object" type. User implements a kernel service
-using "qcom_tee_object" to represent the memory object. We have an
-implementation of memory objects based on dma-buf.
-
-> 
->> 4. The kernel API provided by TEE subsystem does not support a kernel
->>    supplicant. Adding support requires an execution context (e.g. a
->> kernel thread) due to the TEE subsystem design. tee_driver_ops supports
->> only "send" and "receive" callbacks and to deliver a request, someone
->> should wait on "receive".
-> 
-> There is nothing wrong here, but maybe I'm misunderstanding something.
-
-I agree. But, I am trying to re-emphasize how useful TEE subsystem is
-for MinkIPC. For kernel services, we solely rely on the backend driver.
-For instance, to expose RPMB service we will use "qcom_tee_object".
-So there is nothing provided by the framework to simplify the service
-development.
-
-> 
->> We need a callback to "dispatch" or "handle" a request in the context of
->> the client thread. It should redirect a request to a kernel service or
->> a user supplicant. In TEE subsystem such requirement should be implemented
->> in TEE back-end driver, independent from the TEE subsystem.
->>
->> 5. The UAPI provided by TEE subsystem is similar to the GPTEE Client
->>    interface. This interface is not suitable for a capability system.
->> For instance, there is no session in a capability system which means
->> either its should not be used, or we should overload its definition.
-> 
-> General comment: maybe adding more detailed explanation of how the
-> capabilities are aquired and how they can be used might make sense.
-> 
-> BTW. It might be my imperfect English, but each time I see the word
-> 'capability' I'm thinking that some is capable of doing something. I
-> find it hard to use 'capability' for the reference to another object.
-> 
-
-Explained at the top :).
-
->>
->> Can we use TEE subsystem?
->> -------------------------
->> There are workarounds for some of the issues above. The question is if we
->> should define our own UAPI or try to use a hack-y way of fitting into
->> the TEE subsystem. I am using word hack-y, as most of the workaround
->> involves:
->>
->> - "diverging from the definition". For instance, ignoring the session
->>   open and close ioctl calls or use file descriptors for all remote
->> resources (as, fd is the closet to capability) which undermines the
->> isolation provided by the contexts,
->>
->> - "overloading the variables". For instance, passing object ID as file
->>   descriptors in a place of session ID, or
->>
->> - "bypass TEE subsystem". For instance, extensively rely on meta
->>   parameters or push everything (e.g. kernel services) to the back-end
->> driver, which means leaving almost all TEE subsystem unused.
->>
->> We cannot take the full benefits of TEE subsystem and may need to
->> implement most of the requirements in the back-end driver. Also, as
->> discussed above, the UAPI is not suitable for capability-based use cases.
->> We proposed a new set of ioctl calls for SMC-Invoke driver.
->>
->> In this series we posted three patches. We implemented a transport
->> driver that provides qcom_tee_object. Any object on secure side is
->> represented with an instance of qcom_tee_object and any struct exposed
->> to TEE should embed an instance of qcom_tee_object. Any, support for new
->> services, e.g. memory object, RPMB, userspace clients or supplicants are
->> implemented independently from the driver.
->>
->> We have a simple memory object and a user driver that uses
->> qcom_tee_object.
-> 
-> Could you please point out any user for the uAPI? I'd like to understand
-> how does it from from the userspace point of view.
-
-Sure :), I'll write up a test patch and send it in next series.
-
-Summary.
-
-TEE framework provides some nice facilities, including:
-  - uapi and ioctl interface,
-  - marshaling parameters and context management,
-  - memory mapping and sharing, and
-  - TEE bus and TA drivers.
-
-For, MinkIPC, we will not use any of them. The only usable piece, is uapi
-interface which is not suitable for MinkIPC, as discussed above.
-
-> 
->>
->> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
->> ---
->> Amirreza Zarrabi (3):
->>       firmware: qcom: implement object invoke support
->>       firmware: qcom: implement memory object support for TEE
->>       firmware: qcom: implement ioctl for TEE object invocation
->>
->>  drivers/firmware/qcom/Kconfig                      |   36 +
->>  drivers/firmware/qcom/Makefile                     |    2 +
->>  drivers/firmware/qcom/qcom_object_invoke/Makefile  |   12 +
->>  drivers/firmware/qcom/qcom_object_invoke/async.c   |  142 +++
->>  drivers/firmware/qcom/qcom_object_invoke/core.c    | 1139 ++++++++++++++++++
->>  drivers/firmware/qcom/qcom_object_invoke/core.h    |  186 +++
->>  .../qcom/qcom_object_invoke/qcom_scm_invoke.c      |   22 +
->>  .../firmware/qcom/qcom_object_invoke/release_wq.c  |   90 ++
->>  .../qcom/qcom_object_invoke/xts/mem_object.c       |  406 +++++++
->>  .../qcom_object_invoke/xts/object_invoke_uapi.c    | 1231 ++++++++++++++++++++
->>  include/linux/firmware/qcom/qcom_object_invoke.h   |  233 ++++
->>  include/uapi/misc/qcom_tee.h                       |  117 ++
->>  12 files changed, 3616 insertions(+)
->> ---
->> base-commit: 74564adfd3521d9e322cfc345fdc132df80f3c79
->> change-id: 20240702-qcom-tee-object-and-ioctls-6f52fde03485
->>
->> Best regards,
->> -- 
->> Amirreza Zarrabi <quic_azarrabi@quicinc.com>
->>
-> 
