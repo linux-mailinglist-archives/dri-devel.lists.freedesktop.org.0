@@ -2,59 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EB592D774
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 19:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA07092D788
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 19:35:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C5510E00D;
-	Wed, 10 Jul 2024 17:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA65810E851;
+	Wed, 10 Jul 2024 17:35:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UctQm9IQ";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="PfxD/7F3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B502B10E00D
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=kVsRk3PaSnKyD3LvELrhP/a5zPIgtqnRvq3C6M+B32Y=; b=UctQm9IQeqkDX7dI3XNokHnNvA
- r3dX/Vo+38m10bRgT9B25UZ20bNADqlXzUg4bCg1LKuKYtasnsiD8FcvbIOthEG0qKfv0TJuSJCyj
- G2QcsVKyPbURLxbMSTZnaBVMAkdTxT7h3TknPH1AnTYUeAE3MXTNAGGLlgx1bGpyDUJRYxQvqutov
- jAxw6qUW2NRHJ0fedngujBDR3Xr/1ISsVHnkabvXZ4nGVCPtBdiZ/2NbQuTvNRxlGzIcmukXZ8LtU
- FcArZ3Sgp4n0rFn32qZE6i5md/CP0vRHVLu77fqFWYbdcXSoynC74aR9Z9j0m+JXOebtmbBsY54d+
- nBWm2pYA==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sRb8T-00DLgl-PV; Wed, 10 Jul 2024 19:29:46 +0200
-Message-ID: <ff764b11-fe88-4995-96c3-ffe4f5d407dd@igalia.com>
-Date: Wed, 10 Jul 2024 14:29:41 -0300
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D665010E851
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:35:51 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id
+ 6a1803df08f44-6b5f4c7f4fbso285336d6.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 10:35:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1720632946; x=1721237746;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nq9tNUhoBsUEDC1UEIUaCv3t+k06QOX2ENZA+annY9M=;
+ b=PfxD/7F3offAoTi7q6/aZhhzSkhQYgI6JU25G4EHro52te6wspT9j9dGIoo1O5y///
+ YJtErF4gjQW4wocgIfrs9csRS7i25YBOQPuaFDyMD6Viqat3DyLN3VGRi7DyoFDhZqqS
+ FRf6hjL4BhsKxyBYqUGksZu9LiYl2Tl7qll/0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720632946; x=1721237746;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nq9tNUhoBsUEDC1UEIUaCv3t+k06QOX2ENZA+annY9M=;
+ b=DLnJO4rWxKf7GbY/qLtsA2nipEGHTFWiXuKiCFSyJckmMgcqT+yPPs8zIUiDsK2ZF0
+ +L776tDn6nnlWHtujFP1sTMgckRpQn+dN3Sij/nJoEtpmHOWXj1e25pTlsXfLhO5Buct
+ yIet7u2kaKArr/Jf2FMER/pkSluUgl4x/PhTcKCcZqs2KTCM410yyxIqGDX27qaGO/lD
+ dt5TLLALzrHeSdiA4/+Ghg7MIG69opgJ52kLQlco5XKxw1nh2s27UjlzfTrmHbd0AfQQ
+ /q58/ZoIwEto68ViZMugF2bh07E3ERDshTSn92eP0zTejKS556U+zQ/H7UnQ6iUnMwTx
+ Hghw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0Hlg5it2pq79UE3jffVq0XiRg2jRuhZJpGfAZ5v5VxZpnpgyF1pon+zofpCz0OlcC45Do0XQZ+qVJ/sdScg0ACp0U8VAs3MMh2P6m00Cq
+X-Gm-Message-State: AOJu0YzUAuYVA1ZJNTvelMOdlx0iRfovwJH0BpPhDCXQDjq5V8gELuqR
+ YyjiBPjRjdsXqKevPozCXZLmaKu+Zi36wFb1SP1rZbu12ENFL4uUKKTOvVHJ3cseMurqsNKPhrA
+ +PA==
+X-Google-Smtp-Source: AGHT+IFP75Jo76HvPx1CzjV0pL0dyxUR8OWjcP3KubPO1JVDZeJ6qV5a3afwbi6xe23xtx64mLo7Sw==
+X-Received: by 2002:a05:6214:2a83:b0:6b7:4319:ad6f with SMTP id
+ 6a1803df08f44-6b74319b2admr27371886d6.36.1720632945684; 
+ Wed, 10 Jul 2024 10:35:45 -0700 (PDT)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com.
+ [209.85.160.170]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6b61ba7495csm18788386d6.92.2024.07.10.10.35.44
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Jul 2024 10:35:44 -0700 (PDT)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-44a8b140a1bso24521cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 10:35:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVm8RDliLXfWZP34TSrFi8rjMhixqzz2GyQYMxpw3iYMDpQ9A4ZgnwpIrAY9W8OR2ihImvFJCiS6RyE27WL/J16RCXRsdit93Hcrni4BIaT
+X-Received: by 2002:ac8:5399:0:b0:447:f3ae:383b with SMTP id
+ d75a77b69052e-44b1a14a434mr3218051cf.19.1720632943866; Wed, 10 Jul 2024
+ 10:35:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/12] drm/v3d: Size the kperfmon_ids array at runtime
-To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-References: <20240710134130.17292-1-tursulin@igalia.com>
- <20240710134130.17292-8-tursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240710134130.17292-8-tursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org>
+ <20240710-x1e80100-crd-backlight-v1-1-eb242311a23e@linaro.org>
+In-Reply-To: <20240710-x1e80100-crd-backlight-v1-1-eb242311a23e@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 10 Jul 2024 10:35:28 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XJuV12mStW3eUm5MHG8BA9W_fn0skN=BrtmqC+fnCZig@mail.gmail.com>
+Message-ID: <CAD=FV=XJuV12mStW3eUm5MHG8BA9W_fn0skN=BrtmqC+fnCZig@mail.gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindings: display: panel: samsung,atna33xc20:
+ Document ATNA45AF01
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,115 +101,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/10/24 10:41, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> Instead of statically reserving pessimistic space for the kperfmon_ids
-> array, make the userspace extension code allocate the exactly required
-> amount of space.
-> 
-> Apart from saving some memory at runtime, this also removes the need for
-> the V3D_MAX_PERFMONS macro whose removal will benefit further driver
-> cleanup.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Hi,
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
-
-Best Regards,
-- Maíra
-
+On Wed, Jul 10, 2024 at 10:05=E2=80=AFAM Stephan Gerhold
+<stephan.gerhold@linaro.org> wrote:
+>
+> The Samsung ATNA45AF01 panel is an AMOLED eDP panel that has backlight
+> control over the DP AUX channel. While it works almost correctly with the
+> generic "edp-panel" compatible, the backlight needs special handling to
+> work correctly. It is similar to the existing ATNA33XC20 panel, just with
+> a larger resolution and size.
+>
+> Add a new "samsung,atna45af01" compatible to describe this panel in the D=
+T.
+>
+> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
 > ---
->   drivers/gpu/drm/v3d/v3d_drv.h    |  6 +-----
->   drivers/gpu/drm/v3d/v3d_sched.c  |  4 +++-
->   drivers/gpu/drm/v3d/v3d_submit.c | 17 +++++++++++------
->   3 files changed, 15 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-> index 38c80168da51..00fe5d993175 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> @@ -351,13 +351,9 @@ struct v3d_timestamp_query {
->   	struct drm_syncobj *syncobj;
->   };
->   
-> -/* Number of perfmons required to handle all supported performance counters */
-> -#define V3D_MAX_PERFMONS DIV_ROUND_UP(V3D_MAX_COUNTERS, \
-> -				      DRM_V3D_MAX_PERF_COUNTERS)
-> -
->   struct v3d_performance_query {
->   	/* Performance monitor IDs for this query */
-> -	u32 kperfmon_ids[V3D_MAX_PERFMONS];
-> +	u32 *kperfmon_ids;
->   
->   	/* Syncobj that indicates the query availability */
->   	struct drm_syncobj *syncobj;
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index 173801aa54ee..fc8730264386 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -94,8 +94,10 @@ __v3d_performance_query_info_free(struct v3d_performance_query_info *qinfo,
->   	if (qinfo->queries) {
->   		unsigned int i;
->   
-> -		for (i = 0; i < count; i++)
-> +		for (i = 0; i < count; i++) {
->   			drm_syncobj_put(qinfo->queries[i].syncobj);
-> +			kvfree(qinfo->queries[i].kperfmon_ids);
-> +		}
->   
->   		kvfree(qinfo->queries);
->   	}
-> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-> index 35682433f75b..8dae3ab5f936 100644
-> --- a/drivers/gpu/drm/v3d/v3d_submit.c
-> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-> @@ -668,10 +668,20 @@ copy_query_info(struct v3d_performance_query_info *qinfo,
->   			goto error;
->   		}
->   
-> +		query->kperfmon_ids =
-> +			kvmalloc_array(nperfmons,
-> +				       sizeof(struct v3d_performance_query *),
-> +				       GFP_KERNEL);
-> +		if (!query->kperfmon_ids) {
-> +			err = -ENOMEM;
-> +			goto error;
-> +		}
-> +
->   		ids_pointer = u64_to_user_ptr(ids);
->   
->   		for (j = 0; j < nperfmons; j++) {
->   			if (get_user(id, ids_pointer++)) {
-> +				kvfree(query->kperfmon_ids);
->   				err = -EFAULT;
->   				goto error;
->   			}
-> @@ -681,6 +691,7 @@ copy_query_info(struct v3d_performance_query_info *qinfo,
->   
->   		query->syncobj = drm_syncobj_find(fpriv, sync);
->   		if (!query->syncobj) {
-> +			kvfree(query->kperfmon_ids);
->   			err = -ENOENT;
->   			goto error;
->   		}
-> @@ -714,9 +725,6 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
->   	if (copy_from_user(&reset, ext, sizeof(reset)))
->   		return -EFAULT;
->   
-> -	if (reset.nperfmons > V3D_MAX_PERFMONS)
-> -		return -EINVAL;
-> -
->   	job->job_type = V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY;
->   
->   	job->performance_query.queries = kvmalloc_array(reset.count,
-> @@ -762,9 +770,6 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
->   	if (copy.pad)
->   		return -EINVAL;
->   
-> -	if (copy.nperfmons > V3D_MAX_PERFMONS)
-> -		return -EINVAL;
-> -
->   	job->job_type = V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY;
->   
->   	job->performance_query.queries = kvmalloc_array(copy.count,
+>  .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml       | 6 =
++++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna=
+33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna3=
+3xc20.yaml
+> index 765ca155c83a..d668e8d0d296 100644
+> --- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.=
+yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.=
+yaml
+> @@ -14,7 +14,11 @@ allOf:
+>
+>  properties:
+>    compatible:
+> -    const: samsung,atna33xc20
+> +    enum:
+> +      # Samsung 13.3" FHD (1920x1080 pixels) eDP AMOLED panel
+> +      - samsung,atna33xc20
+> +      # Samsung 14.5" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
+> +      - samsung,atna45af01
+
+Seems OK, but a few thoughts:
+
+1. Is it worth renaming this file? Something like
+"samsung,atna-oled-panel.yaml"? I'd be interested in DT maintainer
+folks' opinions here.
+
+2. In theory you could make your compatible look like this:
+
+compatible =3D "samsung,atna45af01", "samsung,atna33xc20"
+
+...which would say "I have a 45af01 but if the OS doesn't have
+anything special to do that it would be fine to use the 33xc20
+driver". That would allow device trees to work without the kernel
+changes and would allow you to land the DT changes in parallel with
+the driver changes and things would keep working.
+
+...and, in fact, that would mean you _didn't_ need to add the new
+compatible string to the driver, which is nice.
+
+
+-Doug
