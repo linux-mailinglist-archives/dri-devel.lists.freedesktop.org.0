@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F035F92D8D4
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 21:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A13F92D8D8
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 21:13:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88EF710E075;
-	Wed, 10 Jul 2024 19:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9F9710E87F;
+	Wed, 10 Jul 2024 19:13:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="bylf2jZq";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Wg9ZWOHe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E658710E075
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 19:12:59 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id
- 46e09a7af769-70388567d24so32395a34.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 12:12:59 -0700 (PDT)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 404CA10E895
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 19:13:09 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-79f0e7faafcso7861785a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 12:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1720638777; x=1721243577;
+ d=chromium.org; s=google; t=1720638784; x=1721243584;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=msnytkDAJA+P3orVTeKKvN06RuuVdEWbRMnBWzLAFIc=;
- b=bylf2jZq/VAqcpwv7oNKkNcjc/Sk9lP0uzpiCgl4UmcEq/YEcwv1rZPQjgNWtYuTMK
- d7iXwevPpPv48/hghBa7nkxTs+MIsw/oYWKeVe7O1LMstDsXl1FcgFkxB3UHqpCbXh8w
- D9rDNDhCFZ34lIPiTIR5HzZJNZJ6gpzZRoTJs=
+ bh=3lzoBY9/yiM7+D5Gb2Lvu+52q3dl18EqlM4F4NkXNe8=;
+ b=Wg9ZWOHe9RDUAWkUsmI6PKiiwfld9P66xgSRHTw/7HhuDyuccMSyh/LUHW7D53whsh
+ anv2sLN1cM5j48Z1xMOKFWrqBuXh5AL/o34a1iFt2KeItm6xAcndgBnqtShfzSubVuEh
+ zMFc0PjPUQ8YaGJUhm5QFEYuKrJ4f5ZMWpeJ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720638777; x=1721243577;
+ d=1e100.net; s=20230601; t=1720638784; x=1721243584;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=msnytkDAJA+P3orVTeKKvN06RuuVdEWbRMnBWzLAFIc=;
- b=ru4131LvbBCADNzLKnpI9AEoOwGz9+Uy69iD7J7c320CLsYNiAaqhXAI3C1I2zqK7K
- 7bKyyYesjOh0Qn5gxiR0uqn5b379A6bWTVtw7495YsUlcL+3jxPBJVgVSzEUND/1Rg6m
- EbVwKXbcD+1Zg3o+efng2Y/mFRVwdqSoO5XDhGIqluJO8ZMWCA6C1qnSA2t5smrSMpyX
- 33WzJrDMRWq4lhR0vCg4Hml2t/4EP2I0GXiUYwMkSBNHzo34z6rnyfXdxqD33N1V0rt3
- q0B0FEL8gKWXKAQm78WU4mGb1mOo/lt+xOGzMXObByknKc423TIWvksPHR3Ym3DprSwk
- S7Yw==
+ bh=3lzoBY9/yiM7+D5Gb2Lvu+52q3dl18EqlM4F4NkXNe8=;
+ b=lZ+rhw8zw3u+qYl4dgBDxIZyAyGH2FbBLx0AdqodPxd/4XzND9HG8FFHlIjp8NmKwJ
+ ibe7IqdVmocO165NOcmWExE8C6fmc+rQfOMCUpybkMS9wp3ya74Fgb9A+am6AP2WSyxh
+ hHfZ/VdXZgPttLgLlUUqgrWEZSHQYAB6aA29E9oKh+Iafocyo81kl0SViE6rj42PW5A4
+ r0SLK7H+13mxPJScN1HppNRUoDUYmG6agJZ5Zu7uICvOd0SDo/v2Tms5PUZUM4c5wiMD
+ ugCdWC34U2EYyeYspicznYsMYswfG+BVObjNIL8clFLjpTX5L+zoZv1KCKnY7WFOexQ/
+ 3ziA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWPfxXP4SMTnp0lsVKZOPhV41E0c1RjlFCngUQecGW4RKgUWulvrLzvN9tctwY6+12/E8jfeBPqYK1cXK9beyuWLK9OerJ3RquFwLWQnsd/
-X-Gm-Message-State: AOJu0YyP/HUDlgnc1jfHd3JU6W4EfrTYfXZsCU2Xn7i3Jq62TZjyc8wt
- F2UWTZG6wLYijysAxquIz3BjjZYY0nD5vNVAC2NXxF8g5zEQjGhOHwA1ak3z8rV5lug+cLFMl2p
- Ryw==
-X-Google-Smtp-Source: AGHT+IEBeQDtBe4ztU7/zLRpF+saSKPHjipnYmcaqx2cshQjCQi/P6JnJmyxkIxyehorFsy5cPzCWQ==
-X-Received: by 2002:a05:6830:3b84:b0:703:7051:4018 with SMTP id
- 46e09a7af769-70375a4634dmr7270827a34.28.1720638776716; 
- Wed, 10 Jul 2024 12:12:56 -0700 (PDT)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com.
- [209.85.160.170]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b61ba8c9f1sm19301226d6.123.2024.07.10.12.12.55
+ AJvYcCVUdTW7D6/sO+6sulXEOvUVpRR7O9X7qV2QOE2xscDp12gXyTlXZ/d6pxnAM6DmlIUXTAJNJHzgKNGMYIXo/kFUUkPLv3y2kHvLZgvNIg7W
+X-Gm-Message-State: AOJu0YzkB6Z6X1JvlBYpJtKORS07gR29n/G9b1koGZdPzTx5JbWZlybk
+ edBMelbC7TwZwa/+uXaKcy+z5UHuRfDcGh6GblMFm5FZnHADP7u20dgp2qf3qrVElwRuuP9+sUp
+ igA==
+X-Google-Smtp-Source: AGHT+IHPfvIZZOvs7QIEH8t+VemvWPpDJ5p1HIfPvA9a9g6ITSOAbRT+ZKGvizsHQAo/J1lz9jpubA==
+X-Received: by 2002:a05:620a:2e4:b0:79d:772b:3f0b with SMTP id
+ af79cd13be357-79f19a51f10mr725896685a.37.1720638784098; 
+ Wed, 10 Jul 2024 12:13:04 -0700 (PDT)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com.
+ [209.85.160.176]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-79f190b4c57sm218555985a.132.2024.07.10.12.12.57
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jul 2024 12:12:55 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id
- d75a77b69052e-44a8b140a1bso63271cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 12:12:55 -0700 (PDT)
+ Wed, 10 Jul 2024 12:13:01 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-44a8b140a1bso63331cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 12:12:57 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUseV7scq8q4oAzIvQEYjNfa28SlBe+ezrU0OCROo9PaDcjVBVdk12XROEEs0o1ciq6xj5d5YdHEXKAH1s7YV8cGxK4+Jx5jph8JnzcjXpa
-X-Received: by 2002:ac8:6a12:0:b0:447:e2f0:4d17 with SMTP id
- d75a77b69052e-44d118939ecmr377451cf.7.1720638775365; Wed, 10 Jul 2024
- 12:12:55 -0700 (PDT)
+ AJvYcCXiF74yILaLlWRVOqGVKZBotHUviP191zNZI1abuv0KWeNxEdJa5ZUJ5rlnQnt9oxNTVc8dwnscuL2kHua+ntfQyxGhiqgqeT5mt6VK0IOd
+X-Received: by 2002:ac8:6b94:0:b0:447:e76a:c04b with SMTP id
+ d75a77b69052e-44d0aa46fd5mr520361cf.10.1720638777116; Wed, 10 Jul 2024
+ 12:12:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240710084715.1119935-1-yangcong5@huaqin.corp-partner.google.com>
- <20240710084715.1119935-2-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20240710084715.1119935-2-yangcong5@huaqin.corp-partner.google.com>
+ <20240710084715.1119935-3-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20240710084715.1119935-3-yangcong5@huaqin.corp-partner.google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 10 Jul 2024 12:12:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vt+8qqY8AQuKkC2np6z8aHoDpeV1siHKrDe-=Ft8xaMg@mail.gmail.com>
-Message-ID: <CAD=FV=Vt+8qqY8AQuKkC2np6z8aHoDpeV1siHKrDe-=Ft8xaMg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/4] drm/panel: boe-tv101wum-nl6: Break some CMDS into
- helper functions
+Date: Wed, 10 Jul 2024 12:12:45 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UCvbuMbsuproyyDumezHa7eVQHQt-kWxmMwUmxXgh_Sw@mail.gmail.com>
+Message-ID: <CAD=FV=UCvbuMbsuproyyDumezHa7eVQHQt-kWxmMwUmxXgh_Sw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] drm/panel: nt35521: Break some CMDS into helper
+ functions
 To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 Cc: quic_jesszhan@quicinc.com, neil.armstrong@linaro.org, mwalle@kernel.org, 
  linus.walleij@linaro.org, airlied@gmail.com, dmitry.baryshkov@linaro.org, 
@@ -101,12 +101,11 @@ Hi,
 On Wed, Jul 10, 2024 at 1:47=E2=80=AFAM Cong Yang
 <yangcong5@huaqin.corp-partner.google.com> wrote:
 >
-> hj110iz-01a and tv110c9m-ll3 both nt36523 controller, and they have
-> some common cmds, so let's break them into helper functions.
+> Break select page cmds into helper functions.
 >
 > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 > ---
->  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 190 ++++++------------
->  1 file changed, 63 insertions(+), 127 deletions(-)
+>  .../panel/panel-sony-tulip-truly-nt35521.c    | 29 ++++++++++++++-----
+>  1 file changed, 21 insertions(+), 8 deletions(-)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
