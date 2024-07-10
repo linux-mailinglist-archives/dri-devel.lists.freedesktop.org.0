@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A67E92CD6E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 10:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A420292CD6F
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 10:47:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8D9310E6EC;
-	Wed, 10 Jul 2024 08:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1622910E6ED;
+	Wed, 10 Jul 2024 08:47:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="D8pvQ8rg";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="WG8eIXTD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD24810E6EC
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 08:47:46 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-70af5fbf0d5so382289b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 01:47:46 -0700 (PDT)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+ [209.85.167.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8190810E6ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 08:47:52 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id
+ 5614622812f47-3c9cc681ee4so3249341b6e.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 01:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1720601266; x=1721206066; darn=lists.freedesktop.org; 
+ t=1720601271; x=1721206071; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tXBDlG1I/lzZeBefyMjGbvmhGQI0/1kYfl254lPabwc=;
- b=D8pvQ8rgmh6R/VTyo/7TYLdaoR3xy5invyFGcLNRXLRqmGIKytP+4tBzgOgR4tMzNO
- pG78//qwFs41+PdN/xl2hRCkMBpRLnVz1UpoVzsZ1kTNrHh2gHV7DNzlR1quqlBgiDqY
- vUjsDxv7KXjD7itF/CVRfD6YZlDxmkp6unGdwk7anxuYfCx++KyUK8YMSZqokVXw5+n0
- hry02s8gfEnn81CDHuS6/QYtVvmQBqndgK4yqaZP6HxKL62dsK+mSBAyeaU5rG/Ew0Fn
- 7G2KBCOE+fLyL1WH7R8oAMLrscqd5LiawPCXVbrrOoIJdj/RNmsnDXfobWlyMHE0pQER
- eGkw==
+ bh=Tn6/JTVF220KfPuRiI9l9VKV8sAaLbQJuZW2WMReItY=;
+ b=WG8eIXTDBPOiUVS4TCtBqvwmh7ewt+zpP6op5BxehzhOsmLyaX/x+AgYY/U41kX+/6
+ hiNRAYpOBmOIFknUMYAb04BaAN01pxxEGHn8sO9myTL52RzU3NegyNGIY9HmN+o7R5Ah
+ URFQyD8J0mgwQdDUJ0nXw4+ap5kZi4RWOkcgD1p4Hwew5RIMSP191bLU6geDYOjc90jP
+ LkyAyqw8pmkQxCJ4UxxN0wIHGl4I7dmtzuWetHI6GrqRZlXD0xzAEnZP52VvB6sh3Kzm
+ Wslexf7i6A7IAVn14WHL+erHaZ08wrL6rng+iO3DBiCAaiTPbk74jMrsepTM+L2fTF6z
+ zacg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720601266; x=1721206066;
+ d=1e100.net; s=20230601; t=1720601271; x=1721206071;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tXBDlG1I/lzZeBefyMjGbvmhGQI0/1kYfl254lPabwc=;
- b=NkEe9LaCtOuB8JZsot+l/EBL0kpYDcpu57yMRMywIX1fFORW0+3cn/eWxKjA6jeWis
- TcD/DRli/txl0BnhzWWoCT7bjGWRLwrakwOC3yogSYkhxlLcPV9cYvBeLwj6ekb6FVuC
- 9K6FQHN+yErY6nuH4ZpTUkp/sl91J9RoOKBXvH+OBkqL08pOzRTemAD30rVXT4SKgIV/
- oymeKoNpR2SRHNbA3OUr5M21wL/OYb3PBNA39zWhPu4nGBdA6FRe0KRidNe5Jg1rmFf3
- Sd7V8zEF+COg5jeKt8ucNEkKbHOigWcICyum+sh3e/YpHomTQN5khvPbxH1bmMwjCtbq
- jdYA==
-X-Gm-Message-State: AOJu0YwVvTJSqBUeQQNaZRQ5GSjewy/UiF/4U6AL+2tdZAhAVQrA/VJZ
- GgK71Ah2ZtLXfx6luxH95lDG9OJwBUyNUQSVAufGql/kO/WkknUumhMF1mroYRE/F0HiwUHHVpI
- c
-X-Google-Smtp-Source: AGHT+IHRpFgk9Kh/NEjBd2abgjEdLxEoyMQEAZuELGDG3fQNivCkALbrYlNh01gHQfOmG2fRpuRYfQ==
-X-Received: by 2002:a05:6a00:1396:b0:705:d6ad:2495 with SMTP id
- d2e1a72fcca58-70b44e02e67mr8110266b3a.12.1720601266161; 
- Wed, 10 Jul 2024 01:47:46 -0700 (PDT)
+ bh=Tn6/JTVF220KfPuRiI9l9VKV8sAaLbQJuZW2WMReItY=;
+ b=iHXW0RvGVSh3O9j4i2IvNJHOGsll8MuY+PRC89WdAK17xxKOCUDgdkPim1DinYUKwN
+ KEPEh3k6WZYTbGI73ddyJ1tB/Dj26fqlGNncuF0ZlyTlDsOc8IiJxr0YYro7EdS/OIQ+
+ IDbSnQrzYOByyAjufZsJF20IspjTOjBqB6rKGhYVUk8JEUetBxBxn34YLPaSA3oRjSf5
+ HZbQBm/hp1Tf5x1iJHQ3stOHJ2yztiTqhmmoTkQkv7hPbKl7LaaHWMs/rSylorjPBoRL
+ Jnj2BzrQjjWodoA7RpqHgSNeaf9eK5e+pBb6p6VEP8f6Zgtg4/0Hdn78zaJ6HH2vZ10a
+ XnZA==
+X-Gm-Message-State: AOJu0YyrNTJdCQ7hJIDZN2RFMI5xFtS0wyGlEF/Se2uOHPHlIrYU3X6j
+ 7pEkXryU3STEbh7ahafqaKInbKeakIV9H8VKuNjkOeMc59r/ZRStD6vkTeNqmCg=
+X-Google-Smtp-Source: AGHT+IFbgZB844oOUhZMaqOQ/5Pw8rPZQwKP9tFroRsoUhUFwclz9BfFci1WoXFSlj5HkkqIjeCNZg==
+X-Received: by 2002:a05:6808:210b:b0:3d6:3174:8ac with SMTP id
+ 5614622812f47-3d93c085952mr5381382b6e.38.1720601271698; 
+ Wed, 10 Jul 2024 01:47:51 -0700 (PDT)
 Received: from yc.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-70b438997d4sm3216077b3a.28.2024.07.10.01.47.43
+ d2e1a72fcca58-70b438997d4sm3216077b3a.28.2024.07.10.01.47.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jul 2024 01:47:45 -0700 (PDT)
+ Wed, 10 Jul 2024 01:47:51 -0700 (PDT)
 From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 To: quic_jesszhan@quicinc.com, neil.armstrong@linaro.org, mwalle@kernel.org,
  dianders@chromium.org, linus.walleij@linaro.org, airlied@gmail.com,
@@ -63,10 +62,10 @@ To: quic_jesszhan@quicinc.com, neil.armstrong@linaro.org, mwalle@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH v1 2/4] drm/panel: nt35521: Break some CMDS into helper
+Subject: [PATCH v1 3/4] drm/panel: nt36672e: Break some CMDS into helper
  functions
-Date: Wed, 10 Jul 2024 16:47:13 +0800
-Message-Id: <20240710084715.1119935-3-yangcong5@huaqin.corp-partner.google.com>
+Date: Wed, 10 Jul 2024 16:47:14 +0800
+Message-Id: <20240710084715.1119935-4-yangcong5@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240710084715.1119935-1-yangcong5@huaqin.corp-partner.google.com>
 References: <20240710084715.1119935-1-yangcong5@huaqin.corp-partner.google.com>
@@ -87,104 +86,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Break select page cmds into helper functions.
+Break select page cmds and reload cmds into helper functions.
 
 Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 ---
- .../panel/panel-sony-tulip-truly-nt35521.c    | 29 ++++++++++++++-----
- 1 file changed, 21 insertions(+), 8 deletions(-)
+ .../gpu/drm/panel/panel-novatek-nt36672e.c    | 69 ++++++++++++-------
+ 1 file changed, 44 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-index f2198fa29735..104b2290560e 100644
---- a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-+++ b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-@@ -25,6 +25,12 @@ struct truly_nt35521 {
- 	struct gpio_desc *blen_gpio;
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
+index e81a70147259..8c9e04207ba9 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
+@@ -44,6 +44,16 @@ struct nt36672e_panel {
+ 	const struct panel_desc *desc;
  };
  
-+#define NT35521_DCS_SWITCH_PAGE	0xf0
++#define NT36672E_DCS_SWITCH_PAGE	0xff
 +
-+#define nt35521_switch_page(dsi_ctx, page) \
-+	mipi_dsi_dcs_write_seq_multi(dsi_ctx, NT35521_DCS_SWITCH_PAGE, \
-+				     0x55, 0xaa, 0x52, 0x08, (page))
++#define nt36672e_switch_page(ctx, page) \
++	mipi_dsi_dcs_write_seq_multi(ctx, NT36672E_DCS_SWITCH_PAGE, (page))
 +
- static inline
- struct truly_nt35521 *to_truly_nt35521(struct drm_panel *panel)
++static void nt36672e_enable_reload_cmds(struct mipi_dsi_multi_context *ctx)
++{
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++}
++
+ static inline struct nt36672e_panel *to_nt36672e_panel(struct drm_panel *panel)
  {
-@@ -48,7 +54,7 @@ static int truly_nt35521_on(struct truly_nt35521 *ctx)
+ 	return container_of(panel, struct nt36672e_panel, panel);
+@@ -51,16 +61,16 @@ static inline struct nt36672e_panel *to_nt36672e_panel(struct drm_panel *panel)
  
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ {
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x10);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++	nt36672e_switch_page(ctx, 0x10);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xb0, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xc0, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xc1, 0x89, 0x28, 0x00, 0x08, 0x00, 0xaa, 0x02,
+ 				     0x0e, 0x00, 0x2b, 0x00, 0x07, 0x0d, 0xb7, 0x0c, 0xb7);
+-
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xc2, 0x1b, 0xa0);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x20);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0x20);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x01, 0x66);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x06, 0x40);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x07, 0x38);
+@@ -76,8 +86,9 @@ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xf7, 0x54);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xf8, 0x64);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xf9, 0x54);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x24);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0x24);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x01, 0x0f);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x03, 0x0c);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x05, 0x1d);
+@@ -139,8 +150,9 @@ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xc9, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xd9, 0x80);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xe9, 0x02);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x25);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0x25);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x18, 0x22);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x19, 0xe4);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x21, 0x40);
+@@ -164,8 +176,9 @@ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xd7, 0x80);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xef, 0x20);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0x84);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x26);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0x26);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x81, 0x0f);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x83, 0x01);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x84, 0x03);
+@@ -185,8 +198,9 @@ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x9c, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x9d, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x9e, 0x00);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x27);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0x27);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x01, 0x68);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x20, 0x81);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x21, 0x6a);
+@@ -215,8 +229,9 @@ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xe6, 0xd3);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xeb, 0x03);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xec, 0x28);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x2a);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0x2a);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x00, 0x91);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x03, 0x20);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x07, 0x50);
+@@ -260,8 +275,9 @@ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x8c, 0x7d);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x8d, 0x7d);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x8e, 0x7d);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x20);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0x20);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xb0, 0x00, 0x00, 0x00, 0x17, 0x00, 0x49, 0x00,
+ 				     0x6a, 0x00, 0x89, 0x00, 0x9f, 0x00, 0xb6, 0x00, 0xc8);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xb1, 0x00, 0xd9, 0x01, 0x10, 0x01, 0x3a, 0x01,
+@@ -286,8 +302,9 @@ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ 				     0x01, 0x03, 0x1f, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xbb, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
+ 				     0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x21);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0x21);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xb0, 0x00, 0x00, 0x00, 0x17, 0x00, 0x49, 0x00,
+ 				     0x6a, 0x00, 0x89, 0x00, 0x9f, 0x00, 0xb6, 0x00, 0xc8);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xb1, 0x00, 0xd9, 0x01, 0x10, 0x01, 0x3a, 0x01,
+@@ -312,8 +329,9 @@ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ 				     0x01, 0x03, 0x1f, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0xbb, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
+ 				     0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x2c);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0x2c);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x61, 0x1f);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x62, 0x1f);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x7e, 0x03);
+@@ -327,12 +345,13 @@ static void nt36672e_1080x2408_60hz_init(struct mipi_dsi_multi_context *ctx)
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x56, 0x0f);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x58, 0x0f);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x59, 0x0f);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0xf0);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++
++	nt36672e_switch_page(ctx, 0xf0);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x5a, 0x00);
  
--	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x00);
-+	nt35521_switch_page(&dsi_ctx, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xff, 0xaa, 0x55, 0xa5, 0x80);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x6f, 0x11, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf7, 0x20, 0x00);
-@@ -59,7 +65,8 @@ static int truly_nt35521_on(struct truly_nt35521 *ctx)
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbb, 0x11, 0x11);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbc, 0x00, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb6, 0x02);
--	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x01);
-+
-+	nt35521_switch_page(&dsi_ctx, 0x01);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x09, 0x09);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb1, 0x09, 0x09);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbc, 0x8c, 0x00);
-@@ -71,7 +78,8 @@ static int truly_nt35521_on(struct truly_nt35521 *ctx)
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb4, 0x25, 0x25);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb9, 0x43, 0x43);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xba, 0x24, 0x24);
--	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x02);
-+
-+	nt35521_switch_page(&dsi_ctx, 0x02);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xee, 0x03);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0,
- 					 0x00, 0xb2, 0x00, 0xb3, 0x00, 0xb6, 0x00, 0xc3,
-@@ -103,7 +111,8 @@ static int truly_nt35521_on(struct truly_nt35521 *ctx)
- 					 0x02, 0x93, 0x02, 0xcd, 0x02, 0xf6, 0x03, 0x31,
- 					 0x03, 0x6c, 0x03, 0xe9, 0x03, 0xef, 0x03, 0xf4);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbb, 0x03, 0xf6, 0x03, 0xf7);
--	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x03);
-+
-+	nt35521_switch_page(&dsi_ctx, 0x03);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x22, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb1, 0x22, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb2, 0x05, 0x00, 0x60, 0x00, 0x00);
-@@ -122,7 +131,8 @@ static int truly_nt35521_on(struct truly_nt35521 *ctx)
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xc5, 0xc0);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xc6, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xc7, 0x00);
--	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x05);
-+
-+	nt35521_switch_page(&dsi_ctx, 0x05);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x17, 0x06);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb1, 0x17, 0x06);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb2, 0x17, 0x06);
-@@ -178,7 +188,8 @@ static int truly_nt35521_on(struct truly_nt35521 *ctx)
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xeb, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xec, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xed, 0x30);
--	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x06);
-+
-+	nt35521_switch_page(&dsi_ctx, 0x06);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x31, 0x31);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb1, 0x31, 0x31);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb2, 0x2d, 0x2e);
-@@ -235,10 +246,12 @@ static int truly_nt35521_on(struct truly_nt35521 *ctx)
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x6f, 0x11);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf3, 0x01);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x35, 0x00);
--	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x00);
-+
-+	nt35521_switch_page(&dsi_ctx, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xd9, 0x02, 0x03, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x00, 0x00);
--	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x00);
-+
-+	nt35521_switch_page(&dsi_ctx, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb1, 0x6c, 0x21);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52, 0x00, 0x00);
- 	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x35, 0x00);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0x10);
+-	mipi_dsi_dcs_write_seq_multi(ctx, 0xfb, 0x01);
++	nt36672e_switch_page(ctx, 0x10);
++	nt36672e_enable_reload_cmds(ctx);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x51, 0xff);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x53, 0x24);
+ 	mipi_dsi_dcs_write_seq_multi(ctx, 0x55, 0x01);
 -- 
 2.25.1
 
