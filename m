@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC1992D1D3
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 14:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5048C92D1D6
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 14:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8664610E782;
-	Wed, 10 Jul 2024 12:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 886BB10E78C;
+	Wed, 10 Jul 2024 12:43:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KU0hLPJV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nPE8q17X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7700510E782
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 12:43:07 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-585e774fd3dso8205330a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 05:43:07 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 590EE10E782
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 12:43:08 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-57cf8880f95so8233155a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 05:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720615386; x=1721220186; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720615387; x=1721220187; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=zrGWK9ix3Z5llLRfYODIcW20ljsKJIUMR1M7aT6SnbA=;
- b=KU0hLPJV4fwNqxa6QkE9k1Ct+Ij7Mscg1r4ZuVOO0HJGoZwkRKUKslT2aXmw2LmOEV
- FijbsrDu8JVA6zI0Vg8iCK9J0jd0Zxt9e/IvZ4kMio/E3APSp/FvhxhxocnPVXdsSDwk
- gznGWSj2pLFuyDHf++I80gfN+9ri3uuZhHbeWmAjI6xQa+jAscA/ceIG5hWvHWRCOvGQ
- XM1yB1MC6cxyzeSkuCDs/PZuoiXSKJK0guEv8J36gQ6nqq8JXs9q4N09YI9v7+F0u7qy
- 6uVtITJNFnzuu9SctHI9ljiHooi9IOC+d3lUPNuDRHRvcOMVsJu1MJse18ek1RRtK8T0
- PrUQ==
+ :reply-to; bh=wqDOtib2IWFavjXl6U2wSV2USEnbi4NLN6orparHipU=;
+ b=nPE8q17XQqFqmOPuw/Xq3Zix7h+W2AZwpf1fdyMOyK/LZg0rYwPqEqjH+LYClVvQyW
+ v6I2kLpXcAU+rJd+WjObq/1++M/08SoNzSav7s/KGc17Gr5bvpTV9FEfnnCTXqIGU1qe
+ 1FUp3nJaJ/B6WJlI38HI7yqtoGNxe7AQS0TwLLeNy0Eko3QQYwdPH/6geRjZ4/F0Pkyr
+ gCaJOpjJOwIPXUcR4Vi30xCjGD20nnoNQSTiNw+j3PzDc9NZtw0obrAeboSoOAoe2ZaP
+ x3ERM7qAcnHheOPMboLPr8E3NECAvIY1vpG5t1vGNVxHcPd3raKqbGGSwXWCdw3whcL4
+ 5hzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720615386; x=1721220186;
+ d=1e100.net; s=20230601; t=1720615387; x=1721220187;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zrGWK9ix3Z5llLRfYODIcW20ljsKJIUMR1M7aT6SnbA=;
- b=i53SyUrYorkezmOcOkoJomeAVMijtFjwm4+no7AyrlpZ92IPuVSEhsInOXKRMYgryj
- 8X1nvmCa+SSx7zjnf1eI0PfHMMUF4+EGnMZTzWleQ+9e7tyU/nmdXrPGEl6X2YZJymHW
- wxB2HAhxWDlZ0Pq/TvIzhMxb3ms0r2KKCXePClqicMyMRbshFZfb1WpiguuM/MYJP2kB
- hFry80hg69BD05T4RtMKFTIlEGblz39GJ7eyUL1Ljt6/n24CR5B5O8x00Ha2M7U34Wr1
- KXsrCqIzjWHnhCXkxCH6E69MoQ8Vj0+g60ja9nzEGkeSgkmmgf7YABVtzsoUJbNxen7z
- wEqQ==
+ bh=wqDOtib2IWFavjXl6U2wSV2USEnbi4NLN6orparHipU=;
+ b=Omz9p5wlY+55QIjakIvJo/uHHx2OIaZFCLqQVhslgVQiOY+lPxP8x3mv2UKIsxXu6E
+ sokKYip3o3fNoGQNJ8HP3vPhepqomtUUo0/geupfIqm27D14pZInhMb2oDrCZR9owyoE
+ 1CMHdGTvqsOv6NSfRWtwmdoTTkfXB0H5cWkqOhqf6XnkgYvwC26k22/MGHVP3X3oBoZz
+ XxPzPk1qtKzf0JTO0SslvnrigbjJmZvFfiMP5wsCVQtMW9XeB0eTDaerpGQIo80xiqxD
+ MhkQvMDvRk8SodeXWyUYapA/SZn1J8AfXRm3jMEMzYRfu2RtjiZvcrf1O/XmxS7tUOzc
+ gtnA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXtKJh5/tKtJA9zus+cympdszTjhtbMzrq8+Z5m5xXzcwNz4tEVbgtXCl73qI1mspV9ViZ1/JXglHDWP3BuEtBwPgWRZOpkflEdE3IEINVb
-X-Gm-Message-State: AOJu0YxDURSQmQ1ag2eiVyqGg1fJ4Ae3jvFamxuu2T3C8hX0WWQbaMLy
- KNcrXjqMLaz7vFw40/ZpQnUJfvmqSZLvaBN9lbL99KTp4+JsScrM
-X-Google-Smtp-Source: AGHT+IH8XhK8C4D8UNL2dRYDg6OeHix/CwPk0Qzd2XGs8ECRNe09UZ5Xr7l6DMxHl8gdoWDktBhaYw==
-X-Received: by 2002:a05:6402:1742:b0:57c:9ccd:c626 with SMTP id
- 4fb4d7f45d1cf-594bcab136cmr3329639a12.39.1720615385601; 
- Wed, 10 Jul 2024 05:43:05 -0700 (PDT)
+ AJvYcCVdfbcAY9B9gKkrG0WMNkkO01qg8HYp1IFsow1hN6UzzAo5hzI8arnYYV78X5kTEPyMHwQxg+Siifz8dsaNvUcuoUQJohb8B3HZjMjpPlgz
+X-Gm-Message-State: AOJu0YzzANBe2mSSjhKjGTM8NNxT1MiA7Q/5mLB04atCSCL66zNMAzpr
+ 0MwuwwYY6rHjDx1dWTUQXhF7T3CuGy5u0475GlkIYNJ2nKiozsY3
+X-Google-Smtp-Source: AGHT+IGcx69p4kp6QNhNGYGbH73egDV++LmAtMPL1ckgtdLk9nkGBW/Fed8DLcwIk6L3HRFlvOxTrw==
+X-Received: by 2002:a05:6402:2106:b0:57c:6d1c:3cee with SMTP id
+ 4fb4d7f45d1cf-594baf91661mr4275662a12.14.1720615386322; 
+ Wed, 10 Jul 2024 05:43:06 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:1504:6f00:b310:1e44:6e5e:7646])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-594bb9604f7sm2171868a12.15.2024.07.10.05.43.04
+ 4fb4d7f45d1cf-594bb9604f7sm2171868a12.15.2024.07.10.05.43.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 10 Jul 2024 05:43:05 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
@@ -60,9 +60,9 @@ X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: thomas.hellstrom@linux.intel.com, matthew.brost@intel.com,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/7] drm/exec: don't immediately add the prelocked obj
-Date: Wed, 10 Jul 2024 14:42:56 +0200
-Message-Id: <20240710124301.1628-3-christian.koenig@amd.com>
+Subject: [PATCH 3/7] drm/exec: provide trylock interface for eviction
+Date: Wed, 10 Jul 2024 14:42:57 +0200
+Message-Id: <20240710124301.1628-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240710124301.1628-1-christian.koenig@amd.com>
 References: <20240710124301.1628-1-christian.koenig@amd.com>
@@ -84,63 +84,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some contended objects might never be locked again in the case of eviction
-handling for example.
-
-Make sure that those doesn't show up in the list of locked objects until
-they are explicitely mentioned.
+The TTM eviction path has some additional requirements which make it
+necessary to trylock an object and then eventually keep or drop the lock
+again.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/drm_exec.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_exec.c | 77 ++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_exec.h     |  5 +++
+ 2 files changed, 82 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-index 2da094bdf8a4..220df336fbd9 100644
+index 220df336fbd9..b81bf5a92d97 100644
 --- a/drivers/gpu/drm/drm_exec.c
 +++ b/drivers/gpu/drm/drm_exec.c
-@@ -61,8 +61,11 @@ static void drm_exec_unlock_all(struct drm_exec *exec)
- 		drm_gem_object_put(obj);
- 	}
+@@ -336,5 +336,82 @@ int drm_exec_prepare_array(struct drm_exec *exec,
+ }
+ EXPORT_SYMBOL(drm_exec_prepare_array);
  
--	drm_gem_object_put(exec->prelocked);
--	exec->prelocked = NULL;
-+	if (exec->prelocked) {
-+		dma_resv_unlock(exec->prelocked->resv);
++/**
++ * drm_exec_trylock_obj - try to lock a GEM object
++ * @exec: the drm_exec object with the state
++ * @obj: the GEM object to trylock
++ *
++ * Try to lock a GEM object but don't grab a reference yet.
++ *
++ * Since we can't handle contention here it's illegal to trylock the first
++ * object.
++ *
++ * This function is suposed to be used from atomic context and we don't
++ * know if the GEM object will actually be used or not. So we don't grab a
++ * reference yet.
++ *
++ * Returns: True if the object could be locked, false otherwise.
++ */
++bool drm_exec_trylock_obj(struct drm_exec *exec, struct drm_gem_object *obj)
++{
++	if (WARN_ON(!exec->num_objects))
++		return false;
++
++	if (exec->prelocked == obj)
++		return true;
++
++	return dma_resv_trylock_ctx(obj->resv, &exec->ticket);
++}
++EXPORT_SYMBOL(drm_exec_trylock_obj);
++
++/**
++ * drm_exec_keep_trylocked_obj - keep the trylocked obj
++ * @exec: the drm_exec object with the state
++ * @obj: the GEM object to trylock
++ *
++ * Keep a trylocked object in the drm_exec state object. Grabs a reference to
++ * the object and adds it to the container of locked objects.
++ */
++int drm_exec_keep_trylocked_obj(struct drm_exec *exec,
++				struct drm_gem_object *obj)
++{
++	int ret;
++
++	ret = drm_exec_obj_locked(exec, obj);
++	if (ret) {
++		dma_resv_unlock(obj->resv);
++		return ret;
++	}
++
++	if (exec->prelocked == obj) {
 +		drm_gem_object_put(exec->prelocked);
 +		exec->prelocked = NULL;
 +	}
- }
- 
- /**
-@@ -179,16 +182,9 @@ static int drm_exec_lock_contended(struct drm_exec *exec)
- 		dma_resv_lock_slow(obj->resv, &exec->ticket);
- 	}
- 
--	ret = drm_exec_obj_locked(exec, obj);
--	if (unlikely(ret))
--		goto error_unlock;
--
- 	exec->prelocked = obj;
- 	return 0;
- 
--error_unlock:
--	dma_resv_unlock(obj->resv);
--
- error_dropref:
- 	drm_gem_object_put(obj);
- 	return ret;
-@@ -214,6 +210,10 @@ int drm_exec_lock_obj(struct drm_exec *exec, struct drm_gem_object *obj)
- 		return ret;
- 
- 	if (exec->prelocked == obj) {
-+		ret = drm_exec_obj_locked(exec, obj);
-+		if (unlikely(ret))
-+			return ret;
 +
- 		drm_gem_object_put(exec->prelocked);
- 		exec->prelocked = NULL;
- 		return 0;
++	return ret;
++}
++EXPORT_SYMBOL(drm_exec_keep_trylocked_obj);
++
++/**
++ * drm_exec_drop_trylocked_obj - drop the trylocked obj
++ * @exec: the drm_exec object with the state
++ * @obj: the GEM object to trylock
++ *
++ * Used to drop a trylocked object in the drm_exec state object, drop the
++ * reservation lock again and cleanup all references.
++ */
++void drm_exec_drop_trylocked_obj(struct drm_exec *exec,
++				 struct drm_gem_object *obj)
++{
++	/*
++	 * We can't drop the reference of prelocked objects since we might still
++	 * be in atomic context. Additionally it makes sense to keep the
++	 * prelocked object around since we might need it again later on.
++	 */
++	if (exec->prelocked != obj)
++		dma_resv_unlock(obj->resv);
++}
++EXPORT_SYMBOL(drm_exec_drop_trylocked_obj);
++
+ MODULE_DESCRIPTION("DRM execution context");
+ MODULE_LICENSE("Dual MIT/GPL");
+diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+index aa786b828a0a..a3943057a3e8 100644
+--- a/include/drm/drm_exec.h
++++ b/include/drm/drm_exec.h
+@@ -146,5 +146,10 @@ int drm_exec_prepare_array(struct drm_exec *exec,
+ 			   struct drm_gem_object **objects,
+ 			   unsigned int num_objects,
+ 			   unsigned int num_fences);
++bool drm_exec_trylock_obj(struct drm_exec *exec, struct drm_gem_object *obj);
++int drm_exec_keep_trylocked_obj(struct drm_exec *exec,
++				struct drm_gem_object *obj);
++void drm_exec_drop_trylocked_obj(struct drm_exec *exec,
++				struct drm_gem_object *obj);
+ 
+ #endif
 -- 
 2.34.1
 
