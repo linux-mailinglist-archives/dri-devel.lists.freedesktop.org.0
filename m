@@ -2,81 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4835B92D42B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 16:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C413292D42D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 16:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C380310E7F1;
-	Wed, 10 Jul 2024 14:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3668810E7F2;
+	Wed, 10 Jul 2024 14:27:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TcWnt5M6";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XFJpnowE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D4E10E7F1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 14:26:29 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25E5010E7F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 14:27:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720621589;
+ s=mimecast20190719; t=1720621626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YLpje94ko4rJbRiat9uARaebkBWqPj9eNqna53WMfVE=;
- b=TcWnt5M6Rl6/UvUjXqWn7kWvxJhlrTa9Vzs1K43Pgtbv5IZ2l2Awx2rQP4dJUDco8DfY/Y
- CUGmeGTu/R4VYYECPYtPYnP19ur+kAqRvVd2ouQlGzR/iif8Agp+/XV9URCLXsPnwX4JgB
- 7hyidTwCLxMDRKOkBN07UuEiNkFXFd4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/WhkE03izr9IVT+WSuvJmiYAmBnP7PNEbXcq7Ek31l0=;
+ b=XFJpnowE7hDDMEjsqzgRxOXJGtsYJoLCNPXZG04d5E0VlEjvkY6Av+23PWfyCayTY54Ylu
+ pWk8neWCEf/1/XMEPDQ3TgFOxDxxQE8p2hdW6W9m+B0RmrPM1ilVf5UEdzZehD4CJSvGPo
+ EWebUHEERDRrLZLQwJ72WSknPzimd2M=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-550-ftbH2glEMp-uCEgJ_6Z22A-1; Wed, 10 Jul 2024 10:26:28 -0400
-X-MC-Unique: ftbH2glEMp-uCEgJ_6Z22A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-367990b4beeso4332714f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 07:26:27 -0700 (PDT)
+ us-mta-147-UtN4ZhVIOnevejo84bqoSA-1; Wed, 10 Jul 2024 10:27:04 -0400
+X-MC-Unique: UtN4ZhVIOnevejo84bqoSA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-367990b4beeso4333089f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 07:27:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720621586; x=1721226386;
+ d=1e100.net; s=20230601; t=1720621623; x=1721226423;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YLpje94ko4rJbRiat9uARaebkBWqPj9eNqna53WMfVE=;
- b=YG9MCucJdYyx0w2lT+qd54zHcrQV/f/tq5kac0/YZuoDlgBjiYvibyC4ZC/L6/ZGlw
- UqgrrYBo+XW8Ve/nD4pR4Vz2boStPe72NSpr2qVvWxYcFEqdP7mko9rKL1eaTXtEgo07
- 7dAto7uAswA7fU+RSYb3UmGHoBVYijQg9nB1K0A5MAMRxqi4BXZ7rqxOzsRoADrEN1uk
- USoKoxAujL+Y+raMF7s3+ppTvIiZ+kJmAaIxPKbhKst1zR7OGFCYV3VO+AA13nqmxG+C
- PFTeQ6+i+B/eqvhn1TRFLg/VnnJglw1wOzceEEIJHGglZ2CK7gAjKI0jPKLTFx6QcJuC
- a1NQ==
-X-Gm-Message-State: AOJu0Yz/RPl1rLVbJduwiAIlnjSgnBhK38BtNChA1cO0yi2H1rqrh+AK
- TAsuum669fiVTaDHHBv1c/T32K9WgJwEWn4awpHn5Wln3ag3kpHnnMDmOjzPB1QUZYlfFtaMfou
- KhL/pAgZ6/vnyjlaWZcJIiVkjrk0tMmd5FegJeWyEp3qpB0S2u1IiuPrs2Ykgks7LjX4Fcj8gJQ
- ==
-X-Received: by 2002:a05:6000:54a:b0:367:975c:e551 with SMTP id
- ffacd0b85a97d-367cea962femr3892425f8f.33.1720621586376; 
- Wed, 10 Jul 2024 07:26:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFSa2oHWWThSK1FvVmePH3SW8D8uNWJa6v6ME2mSW52hoRa52FleXnBikOFq24NEznOMIIKVg==
-X-Received: by 2002:a05:6000:54a:b0:367:975c:e551 with SMTP id
- ffacd0b85a97d-367cea962femr3892408f8f.33.1720621585880; 
- Wed, 10 Jul 2024 07:26:25 -0700 (PDT)
+ bh=/WhkE03izr9IVT+WSuvJmiYAmBnP7PNEbXcq7Ek31l0=;
+ b=UpY3RWDmHReP0S1dLJwsWCdpf0cIgQUEBYf8fy9ec08moTacTMS1O7DMkLI/4XRhgA
+ HaQRmVzJN17AJrsoTyfzJrGqHvohaf89fn+e/CbEsfHJHh1Wew39TogeIGTgfQU/++b0
+ D0VJpiOLW/vcP4OXx/ecHxicdRQ66N7ReXgG0FPyy2KBoW9yp8xXbQHRIEGGy5ZerNlb
+ 3/ZHTXIHQOToYctyPUI3tgo8exn6M3ln2naG9kohuGid22sKheorNsQjeXbCWFVuzaok
+ BfQNvnTnYiaMvv/IE9bJc+QnYB5bq0nNzBwBaxekjGp3T4VJ0/AlpxGszN9Ez+KnVmpC
+ EfmQ==
+X-Gm-Message-State: AOJu0YyWYXIYmTLc2s1PQN5mc9dzG3OR1ur1DY7MR+RjZZ75MAd8R7ep
+ dkLvmsKvPAYigrBHHnMcAne4gJWwARYwfESSdFNpJzO42v7ZA8RgmOKo0iAvcaODTQ6EKfM54zg
+ IbSHH2jjPWqLfaVghaoO4KvbSMCi/0TRE6Q/nfXPhjaAHpr+GX/c1/w4mUeukMq3+bg==
+X-Received: by 2002:adf:ae52:0:b0:360:9c4f:1f8 with SMTP id
+ ffacd0b85a97d-367cea966a5mr3403695f8f.34.1720621623594; 
+ Wed, 10 Jul 2024 07:27:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHdmVJg6Qpd5jAxKzIWsx5UjX++oH9KTGh9yXsucotdTxaqyV6QfwfcrkQo4BMzZw56wKPgRw==
+X-Received: by 2002:adf:ae52:0:b0:360:9c4f:1f8 with SMTP id
+ ffacd0b85a97d-367cea966a5mr3403677f8f.34.1720621623169; 
+ Wed, 10 Jul 2024 07:27:03 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-367cde846a3sm5481229f8f.30.2024.07.10.07.26.25
+ ffacd0b85a97d-367cdfa0672sm5498485f8f.79.2024.07.10.07.27.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jul 2024 07:26:25 -0700 (PDT)
-Message-ID: <d5a559a9-5e22-47ed-bfad-5bab4e521a4f@redhat.com>
-Date: Wed, 10 Jul 2024 16:26:24 +0200
+ Wed, 10 Jul 2024 07:27:02 -0700 (PDT)
+Message-ID: <ee79a3d8-41e6-4857-aad4-36fe80c7c6d6@redhat.com>
+Date: Wed, 10 Jul 2024 16:27:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] drm/mgag200: Remove vidrst callbacks from struct
- mgag200_device_funcs
+Subject: Re: [PATCH v2 3/3] drm/mgag200: Rename BMC vidrst names
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org
 References: <20240710084609.354578-1-tzimmermann@suse.de>
- <20240710084609.354578-3-tzimmermann@suse.de>
+ <20240710084609.354578-4-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240710084609.354578-3-tzimmermann@suse.de>
+In-Reply-To: <20240710084609.354578-4-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
@@ -100,18 +98,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 10/07/2024 10:42, Thomas Zimmermann wrote:
-> The callbacks disable_vidrst and enable_vidrst are obsolete. Remove
-> the fields from struct mgag200_device_funcs. Instead call their
-> implementations directly of the field 'has_vidrst' has been set in
-> struct mgag200_device_info.
-> 
-> Also change the logic slightly. The BMC used to start and stop scanout
-> during the CRTC's atomic_enable and atomic_disable. Plane updates were
-> done while the BMC scanned out the display. Now only stop once in
-> atomic_disable at the beginning of a modeset and then restart the
-> scanout at the end of a modeset in atomic_enable. While the modeset
-> takes place, the BMC does not scanout at all.
-
+> The BMC's scanout synchronization is only indirectly related to the
+> VIDRST functionality. Do some renaming.
 
 Thanks, it looks good to me.
 
@@ -120,178 +108,157 @@ Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/mgag200/mgag200_drv.h     | 12 ------------
->   drivers/gpu/drm/mgag200/mgag200_g200er.c  |  7 ++-----
->   drivers/gpu/drm/mgag200/mgag200_g200ev.c  |  7 ++-----
->   drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  2 --
->   drivers/gpu/drm/mgag200/mgag200_g200se.c  |  7 ++-----
->   drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  2 --
->   drivers/gpu/drm/mgag200/mgag200_mode.c    | 15 ++++-----------
->   7 files changed, 10 insertions(+), 42 deletions(-)
+>   drivers/gpu/drm/mgag200/mgag200_bmc.c    |  4 ++--
+>   drivers/gpu/drm/mgag200/mgag200_drv.h    | 14 +++++++-------
+>   drivers/gpu/drm/mgag200/mgag200_g200er.c |  4 ++--
+>   drivers/gpu/drm/mgag200/mgag200_g200ev.c |  4 ++--
+>   drivers/gpu/drm/mgag200/mgag200_g200se.c |  4 ++--
+>   drivers/gpu/drm/mgag200/mgag200_mode.c   | 10 +++++-----
+>   6 files changed, 20 insertions(+), 20 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_bmc.c b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+> index 1c7aa4f36787..45e35dffb3ea 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_bmc.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+> @@ -14,7 +14,7 @@ static struct mgag200_bmc_connector *to_mgag200_bmc_connector(struct drm_connect
+>   	return container_of(connector, struct mgag200_bmc_connector, base);
+>   }
+>   
+> -void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
+> +void mgag200_bmc_stop_scanout(struct mga_device *mdev)
+>   {
+>   	u8 tmp;
+>   	int iter_max;
+> @@ -73,7 +73,7 @@ void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
+>   	}
+>   }
+>   
+> -void mgag200_bmc_enable_vidrst(struct mga_device *mdev)
+> +void mgag200_bmc_start_scanout(struct mga_device *mdev)
+>   {
+>   	u8 tmp;
+>   
 > diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> index 4b75613de882..4a46c8c006c8 100644
+> index 4a46c8c006c8..f97eaa49b089 100644
 > --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
 > +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> @@ -247,18 +247,6 @@ struct mgag200_device_info {
->   	}
+> @@ -216,8 +216,8 @@ struct mgag200_device_info {
+>   	 */
+>   	unsigned long max_mem_bandwidth;
 >   
->   struct mgag200_device_funcs {
-> -	/*
-> -	 * Disables an external reset source (i.e., BMC) before programming
-> -	 * a new display mode.
-> -	 */
-> -	void (*disable_vidrst)(struct mga_device *mdev);
-> -
-> -	/*
-> -	 * Enables an external reset source (i.e., BMC) after programming
-> -	 * a new display mode.
-> -	 */
-> -	void (*enable_vidrst)(struct mga_device *mdev);
-> -
->   	/*
->   	 * Validate that the given state can be programmed into PIXPLLC. On
->   	 * success, the calculated parameters should be stored in the CRTC's
+> -	/* HW has external source (e.g., BMC) to synchronize with */
+> -	bool has_vidrst:1;
+> +	/* Synchronize scanout with BMC */
+> +	bool sync_bmc:1;
+>   
+>   	struct {
+>   		unsigned data_bit:3;
+> @@ -232,13 +232,13 @@ struct mgag200_device_info {
+>   };
+>   
+>   #define MGAG200_DEVICE_INFO_INIT(_max_hdisplay, _max_vdisplay, _max_mem_bandwidth, \
+> -				 _has_vidrst, _i2c_data_bit, _i2c_clock_bit, \
+> +				 _sync_bmc, _i2c_data_bit, _i2c_clock_bit, \
+>   				 _bug_no_startadd) \
+>   	{ \
+>   		.max_hdisplay = (_max_hdisplay), \
+>   		.max_vdisplay = (_max_vdisplay), \
+>   		.max_mem_bandwidth = (_max_mem_bandwidth), \
+> -		.has_vidrst = (_has_vidrst), \
+> +		.sync_bmc = (_sync_bmc), \
+>   		.i2c = { \
+>   			.data_bit = (_i2c_data_bit), \
+>   			.clock_bit = (_i2c_clock_bit), \
+> @@ -430,9 +430,9 @@ int mgag200_mode_config_init(struct mga_device *mdev, resource_size_t vram_avail
+>   /* mgag200_vga.c */
+>   int mgag200_vga_output_init(struct mga_device *mdev);
+>   
+> -				/* mgag200_bmc.c */
+> -void mgag200_bmc_disable_vidrst(struct mga_device *mdev);
+> -void mgag200_bmc_enable_vidrst(struct mga_device *mdev);
+> +/* mgag200_bmc.c */
+> +void mgag200_bmc_stop_scanout(struct mga_device *mdev);
+> +void mgag200_bmc_start_scanout(struct mga_device *mdev);
+>   int mgag200_bmc_output_init(struct mga_device *mdev, struct drm_connector *physical_connector);
+>   
+>   #endif				/* __MGAG200_DRV_H__ */
 > diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> index abfbed6ec390..b3bb3e9fb0d1 100644
+> index b3bb3e9fb0d1..737a48aa9160 100644
 > --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
 > +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> @@ -191,9 +191,6 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
->   	const struct drm_format_info *format = mgag200_crtc_state->format;
->   
-> -	if (funcs->disable_vidrst)
-> -		funcs->disable_vidrst(mdev);
-> -
->   	mgag200_set_format_regs(mdev, format);
->   	mgag200_set_mode_regs(mdev, adjusted_mode, mgag200_crtc_state->set_vidrst);
->   
-> @@ -209,8 +206,8 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+> @@ -206,8 +206,8 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
 >   
 >   	mgag200_enable_display(mdev);
 >   
-> -	if (funcs->enable_vidrst)
-> -		funcs->enable_vidrst(mdev);
-> +	if (mdev->info->has_vidrst)
-> +		mgag200_bmc_enable_vidrst(mdev);
+> -	if (mdev->info->has_vidrst)
+> -		mgag200_bmc_enable_vidrst(mdev);
+> +	if (mdev->info->sync_bmc)
+> +		mgag200_bmc_start_scanout(mdev);
 >   }
 >   
 >   static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
 > diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> index acc99999e2b5..3ac0a508e2c5 100644
+> index 3ac0a508e2c5..8d1ccc2ad94a 100644
 > --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
 > +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> @@ -192,9 +192,6 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
->   	const struct drm_format_info *format = mgag200_crtc_state->format;
->   
-> -	if (funcs->disable_vidrst)
-> -		funcs->disable_vidrst(mdev);
-> -
->   	mgag200_set_format_regs(mdev, format);
->   	mgag200_set_mode_regs(mdev, adjusted_mode, mgag200_crtc_state->set_vidrst);
->   
-> @@ -210,8 +207,8 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+> @@ -207,8 +207,8 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
 >   
 >   	mgag200_enable_display(mdev);
 >   
-> -	if (funcs->enable_vidrst)
-> -		funcs->enable_vidrst(mdev);
-> +	if (mdev->info->has_vidrst)
-> +		mgag200_bmc_enable_vidrst(mdev);
+> -	if (mdev->info->has_vidrst)
+> -		mgag200_bmc_enable_vidrst(mdev);
+> +	if (mdev->info->sync_bmc)
+> +		mgag200_bmc_start_scanout(mdev);
 >   }
 >   
 >   static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-> index 839401e8b465..265f3e95830a 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-> @@ -146,8 +146,6 @@ static const struct mgag200_device_info mgag200_g200ew3_device_info =
->   	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, true, 0, 1, false);
->   
->   static const struct mgag200_device_funcs mgag200_g200ew3_device_funcs = {
-> -	.disable_vidrst = mgag200_bmc_disable_vidrst,
-> -	.enable_vidrst = mgag200_bmc_enable_vidrst,
->   	.pixpllc_atomic_check = mgag200_g200ew3_pixpllc_atomic_check,
->   	.pixpllc_atomic_update = mgag200_g200wb_pixpllc_atomic_update, // same as G200WB
->   };
 > diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> index be4e124102c6..7a8099eb100c 100644
+> index 7a8099eb100c..cf7f6897838f 100644
 > --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
 > +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> @@ -323,9 +323,6 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
->   	const struct drm_format_info *format = mgag200_crtc_state->format;
->   
-> -	if (funcs->disable_vidrst)
-> -		funcs->disable_vidrst(mdev);
-> -
->   	mgag200_set_format_regs(mdev, format);
->   	mgag200_set_mode_regs(mdev, adjusted_mode, mgag200_crtc_state->set_vidrst);
->   
-> @@ -341,8 +338,8 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+> @@ -338,8 +338,8 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
 >   
 >   	mgag200_enable_display(mdev);
 >   
-> -	if (funcs->enable_vidrst)
-> -		funcs->enable_vidrst(mdev);
-> +	if (mdev->info->has_vidrst)
-> +		mgag200_bmc_enable_vidrst(mdev);
+> -	if (mdev->info->has_vidrst)
+> -		mgag200_bmc_enable_vidrst(mdev);
+> +	if (mdev->info->sync_bmc)
+> +		mgag200_bmc_start_scanout(mdev);
 >   }
 >   
 >   static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-> index 835df0f4fc13..e25477347c3e 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-> @@ -280,8 +280,6 @@ static const struct mgag200_device_info mgag200_g200wb_device_info =
->   	MGAG200_DEVICE_INFO_INIT(1280, 1024, 31877, true, 0, 1, false);
->   
->   static const struct mgag200_device_funcs mgag200_g200wb_device_funcs = {
-> -	.disable_vidrst = mgag200_bmc_disable_vidrst,
-> -	.enable_vidrst = mgag200_bmc_enable_vidrst,
->   	.pixpllc_atomic_check = mgag200_g200wb_pixpllc_atomic_check,
->   	.pixpllc_atomic_update = mgag200_g200wb_pixpllc_atomic_update,
->   };
 > diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index e746f365fecf..fcc10723d385 100644
+> index fcc10723d385..735eb5906892 100644
 > --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 > +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -657,9 +657,6 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
->   	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
->   	const struct drm_format_info *format = mgag200_crtc_state->format;
+> @@ -610,7 +610,7 @@ int mgag200_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_st
+>   	if (ret)
+>   		return ret;
 >   
-> -	if (funcs->disable_vidrst)
-> -		funcs->disable_vidrst(mdev);
-> -
->   	mgag200_set_format_regs(mdev, format);
->   	mgag200_set_mode_regs(mdev, adjusted_mode, mgag200_crtc_state->set_vidrst);
+> -	new_mgag200_crtc_state->set_vidrst = mdev->info->has_vidrst;
+> +	new_mgag200_crtc_state->set_vidrst = mdev->info->sync_bmc;
 >   
-> @@ -673,22 +670,18 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
+>   	if (new_crtc_state->mode_changed) {
+>   		if (funcs->pixpllc_atomic_check) {
+> @@ -670,16 +670,16 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
 >   
 >   	mgag200_enable_display(mdev);
 >   
-> -	if (funcs->enable_vidrst)
-> -		funcs->enable_vidrst(mdev);
-> +	if (mdev->info->has_vidrst)
-> +		mgag200_bmc_enable_vidrst(mdev);
+> -	if (mdev->info->has_vidrst)
+> -		mgag200_bmc_enable_vidrst(mdev);
+> +	if (mdev->info->sync_bmc)
+> +		mgag200_bmc_start_scanout(mdev);
 >   }
 >   
 >   void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
 >   {
 >   	struct mga_device *mdev = to_mga_device(crtc->dev);
-> -	const struct mgag200_device_funcs *funcs = mdev->funcs;
 >   
-> -	if (funcs->disable_vidrst)
-> -		funcs->disable_vidrst(mdev);
-> +	if (mdev->info->has_vidrst)
-> +		mgag200_bmc_disable_vidrst(mdev);
+> -	if (mdev->info->has_vidrst)
+> -		mgag200_bmc_disable_vidrst(mdev);
+> +	if (mdev->info->sync_bmc)
+> +		mgag200_bmc_stop_scanout(mdev);
 >   
 >   	mgag200_disable_display(mdev);
-> -
-> -	if (funcs->enable_vidrst)
-> -		funcs->enable_vidrst(mdev);
 >   }
->   
->   void mgag200_crtc_reset(struct drm_crtc *crtc)
 
