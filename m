@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5048C92D1D6
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 14:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EA092D1D4
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 14:43:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 886BB10E78C;
-	Wed, 10 Jul 2024 12:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC3E10E786;
+	Wed, 10 Jul 2024 12:43:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nPE8q17X";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m/PGfq5q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
  [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 590EE10E782
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 12:43:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC4410E782
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 12:43:09 +0000 (UTC)
 Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-57cf8880f95so8233155a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 05:43:08 -0700 (PDT)
+ 4fb4d7f45d1cf-58b447c519eso7940701a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 05:43:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720615387; x=1721220187; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720615388; x=1721220188; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=wqDOtib2IWFavjXl6U2wSV2USEnbi4NLN6orparHipU=;
- b=nPE8q17XQqFqmOPuw/Xq3Zix7h+W2AZwpf1fdyMOyK/LZg0rYwPqEqjH+LYClVvQyW
- v6I2kLpXcAU+rJd+WjObq/1++M/08SoNzSav7s/KGc17Gr5bvpTV9FEfnnCTXqIGU1qe
- 1FUp3nJaJ/B6WJlI38HI7yqtoGNxe7AQS0TwLLeNy0Eko3QQYwdPH/6geRjZ4/F0Pkyr
- gCaJOpjJOwIPXUcR4Vi30xCjGD20nnoNQSTiNw+j3PzDc9NZtw0obrAeboSoOAoe2ZaP
- x3ERM7qAcnHheOPMboLPr8E3NECAvIY1vpG5t1vGNVxHcPd3raKqbGGSwXWCdw3whcL4
- 5hzg==
+ :reply-to; bh=1DzdNUe/Ry+da5QYCBOVa0efIY5B5o+i0CSMZqA5OQg=;
+ b=m/PGfq5qxwvhjEJIdhbcD/ShNnC9tQH/+FosrRCO7YWsOeHeHaIgcw8J5MylaqxE0m
+ DwG8MVLEUJhIXCF75SUTEthkbKotDwOChH/FXIn82HwLi6QZM8yeQUXs5/gMeCKzz7uR
+ Yez/2z46fc2FF2akXIUyd4SZJW/cnx8W24+K8AZeDiTqgzQLe8bHd0LePJuvo2eSu/YU
+ dFiFZCOSljco0TJOfMMIbVRi9fNRoHKzyFpqmSFmE1cQQs68GNlq03jy7vKqxcIVhNk3
+ Y/xvZKj5hyKnLz9KxK13uAVZB+nxj8Xl/cHcQKqMhYjDfmuVIvJt6HKNsBSG/4WOoZF+
+ RWsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720615387; x=1721220187;
+ d=1e100.net; s=20230601; t=1720615388; x=1721220188;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wqDOtib2IWFavjXl6U2wSV2USEnbi4NLN6orparHipU=;
- b=Omz9p5wlY+55QIjakIvJo/uHHx2OIaZFCLqQVhslgVQiOY+lPxP8x3mv2UKIsxXu6E
- sokKYip3o3fNoGQNJ8HP3vPhepqomtUUo0/geupfIqm27D14pZInhMb2oDrCZR9owyoE
- 1CMHdGTvqsOv6NSfRWtwmdoTTkfXB0H5cWkqOhqf6XnkgYvwC26k22/MGHVP3X3oBoZz
- XxPzPk1qtKzf0JTO0SslvnrigbjJmZvFfiMP5wsCVQtMW9XeB0eTDaerpGQIo80xiqxD
- MhkQvMDvRk8SodeXWyUYapA/SZn1J8AfXRm3jMEMzYRfu2RtjiZvcrf1O/XmxS7tUOzc
- gtnA==
+ bh=1DzdNUe/Ry+da5QYCBOVa0efIY5B5o+i0CSMZqA5OQg=;
+ b=bnvB0o+a9aeDQKuyuT0EuR0Wyhy4jkD19Gy7IHq3V6L7HSAjVkoCrJUY84Y1B27qKq
+ gR32OLOisT8CdsunAlq1mdKSEtzWW2RPZPsPngXRPyUGJgoTEmK+v3kqq1e9NnPMfaWw
+ VvJPYqloAQ394092mAvXmu9yt5GMVvNok2nRgJUnkzBicyiw/znEoCiQW5Q19AbXBEq0
+ PTekZckhM5O5P3ArkWxNIhzl7wSpY6OJQZ6m/wV+9m4Tjy2q9TJ52k0wRv4+yc13FkzB
+ pu/XEaHf3snUUlNsv8tvVJSpyEVZZSLKiabukgTT3ZpFCCSzHAIKWcPGV9IwU8i2TqzV
+ jbhw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVdfbcAY9B9gKkrG0WMNkkO01qg8HYp1IFsow1hN6UzzAo5hzI8arnYYV78X5kTEPyMHwQxg+Siifz8dsaNvUcuoUQJohb8B3HZjMjpPlgz
-X-Gm-Message-State: AOJu0YzzANBe2mSSjhKjGTM8NNxT1MiA7Q/5mLB04atCSCL66zNMAzpr
- 0MwuwwYY6rHjDx1dWTUQXhF7T3CuGy5u0475GlkIYNJ2nKiozsY3
-X-Google-Smtp-Source: AGHT+IGcx69p4kp6QNhNGYGbH73egDV++LmAtMPL1ckgtdLk9nkGBW/Fed8DLcwIk6L3HRFlvOxTrw==
-X-Received: by 2002:a05:6402:2106:b0:57c:6d1c:3cee with SMTP id
- 4fb4d7f45d1cf-594baf91661mr4275662a12.14.1720615386322; 
- Wed, 10 Jul 2024 05:43:06 -0700 (PDT)
+ AJvYcCX9WxgTsDXYuoWHtcSg9WCG6KYaHz9+SIKG8kW0uyNSjTqLYrA++gORJSbA+11qLkD6qp6sfroSjSaPJVt2N8rnLOvzhb4owTlhN0dvWfJW
+X-Gm-Message-State: AOJu0YyShxKcLgWh7xZ1yrGWQUSMdPFF8403ndV+0BnVj9ThOEkD/hr4
+ YFUIjGXFKK25UuP+Gqorg+XzFcywboqutpScphfmjkumfItIBmp2xXD0+ykIIHE=
+X-Google-Smtp-Source: AGHT+IEO/7Rs+ElVcB2Dn2I6s+rMvLeAoJT1biIVqHe5lojvLlj2OKUE9Xh7iebQn1CiZ76NdMolng==
+X-Received: by 2002:a05:6402:3551:b0:586:57c:2373 with SMTP id
+ 4fb4d7f45d1cf-594b6eda294mr4697588a12.0.1720615387101; 
+ Wed, 10 Jul 2024 05:43:07 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:1504:6f00:b310:1e44:6e5e:7646])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-594bb9604f7sm2171868a12.15.2024.07.10.05.43.05
+ 4fb4d7f45d1cf-594bb9604f7sm2171868a12.15.2024.07.10.05.43.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jul 2024 05:43:05 -0700 (PDT)
+ Wed, 10 Jul 2024 05:43:06 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: thomas.hellstrom@linux.intel.com, matthew.brost@intel.com,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/7] drm/exec: provide trylock interface for eviction
-Date: Wed, 10 Jul 2024 14:42:57 +0200
-Message-Id: <20240710124301.1628-4-christian.koenig@amd.com>
+Subject: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal header
+Date: Wed, 10 Jul 2024 14:42:58 +0200
+Message-Id: <20240710124301.1628-5-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240710124301.1628-1-christian.koenig@amd.com>
 References: <20240710124301.1628-1-christian.koenig@amd.com>
@@ -84,118 +84,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TTM eviction path has some additional requirements which make it
-necessary to trylock an object and then eventually keep or drop the lock
-again.
+That is something drivers really shouldn't mess with.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/drm_exec.c | 77 ++++++++++++++++++++++++++++++++++++++
- include/drm/drm_exec.h     |  5 +++
- 2 files changed, 82 insertions(+)
+ drivers/gpu/drm/ttm/ttm_bo.c      |  1 +
+ drivers/gpu/drm/ttm/ttm_bo_util.c |  2 +
+ drivers/gpu/drm/ttm/ttm_bo_util.h | 67 +++++++++++++++++++++++++++++++
+ include/drm/ttm/ttm_bo.h          | 35 ----------------
+ 4 files changed, 70 insertions(+), 35 deletions(-)
+ create mode 100644 drivers/gpu/drm/ttm/ttm_bo_util.h
 
-diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-index 220df336fbd9..b81bf5a92d97 100644
---- a/drivers/gpu/drm/drm_exec.c
-+++ b/drivers/gpu/drm/drm_exec.c
-@@ -336,5 +336,82 @@ int drm_exec_prepare_array(struct drm_exec *exec,
- }
- EXPORT_SYMBOL(drm_exec_prepare_array);
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 0131ec802066..41bee8696e69 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -45,6 +45,7 @@
+ #include <linux/dma-resv.h>
  
-+/**
-+ * drm_exec_trylock_obj - try to lock a GEM object
-+ * @exec: the drm_exec object with the state
-+ * @obj: the GEM object to trylock
+ #include "ttm_module.h"
++#include "ttm_bo_util.h"
+ 
+ static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
+ 					struct ttm_placement *placement)
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 3c07f4712d5c..03e28e3d0d03 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -37,6 +37,8 @@
+ 
+ #include <drm/drm_cache.h>
+ 
++#include "ttm_bo_util.h"
++
+ struct ttm_transfer_obj {
+ 	struct ttm_buffer_object base;
+ 	struct ttm_buffer_object *bo;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.h b/drivers/gpu/drm/ttm/ttm_bo_util.h
+new file mode 100644
+index 000000000000..c19b50809208
+--- /dev/null
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.h
+@@ -0,0 +1,67 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/**************************************************************************
++ * Copyright 2024 Advanced Micro Devices, Inc.
 + *
-+ * Try to lock a GEM object but don't grab a reference yet.
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
 + *
-+ * Since we can't handle contention here it's illegal to trylock the first
-+ * object.
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
 + *
-+ * This function is suposed to be used from atomic context and we don't
-+ * know if the GEM object will actually be used or not. So we don't grab a
-+ * reference yet.
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
 + *
-+ * Returns: True if the object could be locked, false otherwise.
-+ */
-+bool drm_exec_trylock_obj(struct drm_exec *exec, struct drm_gem_object *obj)
-+{
-+	if (WARN_ON(!exec->num_objects))
-+		return false;
++ **************************************************************************/
++#ifndef _TTM_BO_UTIL_H_
++#define _TTM_BO_UTIL_H_
 +
-+	if (exec->prelocked == obj)
-+		return true;
++struct ww_acquire_ctx;
 +
-+	return dma_resv_trylock_ctx(obj->resv, &exec->ticket);
-+}
-+EXPORT_SYMBOL(drm_exec_trylock_obj);
++struct ttm_buffer_object;
++struct ttm_operation_ctx;
++struct ttm_lru_walk;
 +
-+/**
-+ * drm_exec_keep_trylocked_obj - keep the trylocked obj
-+ * @exec: the drm_exec object with the state
-+ * @obj: the GEM object to trylock
-+ *
-+ * Keep a trylocked object in the drm_exec state object. Grabs a reference to
-+ * the object and adds it to the container of locked objects.
-+ */
-+int drm_exec_keep_trylocked_obj(struct drm_exec *exec,
-+				struct drm_gem_object *obj)
-+{
-+	int ret;
-+
-+	ret = drm_exec_obj_locked(exec, obj);
-+	if (ret) {
-+		dma_resv_unlock(obj->resv);
-+		return ret;
-+	}
-+
-+	if (exec->prelocked == obj) {
-+		drm_gem_object_put(exec->prelocked);
-+		exec->prelocked = NULL;
-+	}
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_exec_keep_trylocked_obj);
-+
-+/**
-+ * drm_exec_drop_trylocked_obj - drop the trylocked obj
-+ * @exec: the drm_exec object with the state
-+ * @obj: the GEM object to trylock
-+ *
-+ * Used to drop a trylocked object in the drm_exec state object, drop the
-+ * reservation lock again and cleanup all references.
-+ */
-+void drm_exec_drop_trylocked_obj(struct drm_exec *exec,
-+				 struct drm_gem_object *obj)
-+{
-+	/*
-+	 * We can't drop the reference of prelocked objects since we might still
-+	 * be in atomic context. Additionally it makes sense to keep the
-+	 * prelocked object around since we might need it again later on.
++/** struct ttm_lru_walk_ops - Operations for a LRU walk. */
++struct ttm_lru_walk_ops {
++	/**
++	 * process_bo - Process this bo.
++	 * @walk: struct ttm_lru_walk describing the walk.
++	 * @bo: A locked and referenced buffer object.
++	 *
++	 * Return: Negative error code on error, User-defined positive value
++	 * (typically, but not always, size of the processed bo) on success.
++	 * On success, the returned values are summed by the walk and the
++	 * walk exits when its target is met.
++	 * 0 also indicates success, -EBUSY means this bo was skipped.
 +	 */
-+	if (exec->prelocked != obj)
-+		dma_resv_unlock(obj->resv);
-+}
-+EXPORT_SYMBOL(drm_exec_drop_trylocked_obj);
++	s64 (*process_bo)(struct ttm_lru_walk *walk,
++			  struct ttm_buffer_object *bo);
++};
 +
- MODULE_DESCRIPTION("DRM execution context");
- MODULE_LICENSE("Dual MIT/GPL");
-diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-index aa786b828a0a..a3943057a3e8 100644
---- a/include/drm/drm_exec.h
-+++ b/include/drm/drm_exec.h
-@@ -146,5 +146,10 @@ int drm_exec_prepare_array(struct drm_exec *exec,
- 			   struct drm_gem_object **objects,
- 			   unsigned int num_objects,
- 			   unsigned int num_fences);
-+bool drm_exec_trylock_obj(struct drm_exec *exec, struct drm_gem_object *obj);
-+int drm_exec_keep_trylocked_obj(struct drm_exec *exec,
-+				struct drm_gem_object *obj);
-+void drm_exec_drop_trylocked_obj(struct drm_exec *exec,
-+				struct drm_gem_object *obj);
++/**
++ * struct ttm_lru_walk - Structure describing a LRU walk.
++ */
++struct ttm_lru_walk {
++	/** @ops: Pointer to the ops structure. */
++	const struct ttm_lru_walk_ops *ops;
++	/** @ctx: Pointer to the struct ttm_operation_ctx. */
++	struct ttm_operation_ctx *ctx;
++	/** @ticket: The struct ww_acquire_ctx if any. */
++	struct ww_acquire_ctx *ticket;
++	/** @tryock_only: Only use trylock for locking. */
++	bool trylock_only;
++};
++
++s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
++			   struct ttm_resource_manager *man, s64 target);
++
++#endif
+diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+index d1a732d56259..5f7c967222a2 100644
+--- a/include/drm/ttm/ttm_bo.h
++++ b/include/drm/ttm/ttm_bo.h
+@@ -194,41 +194,6 @@ struct ttm_operation_ctx {
+ 	uint64_t bytes_moved;
+ };
  
- #endif
+-struct ttm_lru_walk;
+-
+-/** struct ttm_lru_walk_ops - Operations for a LRU walk. */
+-struct ttm_lru_walk_ops {
+-	/**
+-	 * process_bo - Process this bo.
+-	 * @walk: struct ttm_lru_walk describing the walk.
+-	 * @bo: A locked and referenced buffer object.
+-	 *
+-	 * Return: Negative error code on error, User-defined positive value
+-	 * (typically, but not always, size of the processed bo) on success.
+-	 * On success, the returned values are summed by the walk and the
+-	 * walk exits when its target is met.
+-	 * 0 also indicates success, -EBUSY means this bo was skipped.
+-	 */
+-	s64 (*process_bo)(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo);
+-};
+-
+-/**
+- * struct ttm_lru_walk - Structure describing a LRU walk.
+- */
+-struct ttm_lru_walk {
+-	/** @ops: Pointer to the ops structure. */
+-	const struct ttm_lru_walk_ops *ops;
+-	/** @ctx: Pointer to the struct ttm_operation_ctx. */
+-	struct ttm_operation_ctx *ctx;
+-	/** @ticket: The struct ww_acquire_ctx if any. */
+-	struct ww_acquire_ctx *ticket;
+-	/** @tryock_only: Only use trylock for locking. */
+-	bool trylock_only;
+-};
+-
+-s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
+-			   struct ttm_resource_manager *man, s64 target);
+-
+ /**
+  * ttm_bo_get - reference a struct ttm_buffer_object
+  *
 -- 
 2.34.1
 
