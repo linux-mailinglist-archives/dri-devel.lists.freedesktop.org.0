@@ -2,58 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703A592D505
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 17:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E3292D50F
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 17:35:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B905310E09F;
-	Wed, 10 Jul 2024 15:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE5410E0C6;
+	Wed, 10 Jul 2024 15:35:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G1xiXe8c";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kfbpzxdf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5F2910E25E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 15:34:28 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8977610E0C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 15:35:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A9939CE16FC;
- Wed, 10 Jul 2024 15:34:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105FBC32781;
- Wed, 10 Jul 2024 15:33:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E822B61B19;
+ Wed, 10 Jul 2024 15:35:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10EF9C4AF0F;
+ Wed, 10 Jul 2024 15:35:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720625599;
- bh=zDVY8tB780k6z4UBCPdCtJgt9crXAab77/6Rj9QcuuM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=G1xiXe8c6dikEOrQ6IdV0UJ2x0OhCKo3EqQPrKer8X1ZHe7UcBbAFXHEyVsXzk4rn
- tebme7oVZk27Gy/21YNzWl0w6fE3YVnIE1WhtxyHj/p/ek3JF5P9SnJzD+FERUzYZf
- lHIW0RfXO72ryZVjOM4sCQZCT9G0v3/sEB0/ktrZa0B3NbFKVk7Jyl176nKzSn7ZPB
- 9uqO4ICGlfAU1cf3lQ2jvir/hxviLP4ti20+Khfg1rcG3b7oobGyYWQHTryrDUiFn3
- BoiUcml49KrL6Ed/ZJS/sdizx/4zOQU8FbrH9MeCSD7+gOC8ljETkmx+b/E881gt4N
- iMFpEGOXI2Dlw==
-Date: Wed, 10 Jul 2024 09:33:17 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, kernel@dh-electronics.com,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jonas Karlman <jonas@kwiboo.se>, Robert Foss <rfoss@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: tc358867: Document
- default DP preemphasis
-Message-ID: <172062558439.3107707.14187355988690749078.robh@kernel.org>
-References: <20240708150130.54484-1-marex@denx.de>
+ s=k20201202; t=1720625750;
+ bh=7nXaOQ2Y21REg/4hAQAvgB2v44nvBiwZIAy1N2EwgCI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=kfbpzxdfM08YiMA9CnN1Ds8V/6cfkbBcUBSyJUyyszqmvYhChL4AE5DcSgHpHQIYk
+ uK6ddvllWwmNjBDlk3YUhq9pHqSdF5gfYxmE2VWuRJ24IMML35Yn06oLI7IZlAIQyu
+ e6KTtc0qNrFVdrEHQO4OpHLx928c8B5RM0yZfDSyHHGyN8gHHr0wE6R/0HM9//M+dF
+ WOS/N61/Bw/aAKSPINmAQeel29qmosvlZBX5HDEDRV/WOCgFhRB43qP/dsRIiCfz9e
+ iA0zOurNkwSguAGh8kpj73E0ZgtzvHfuDJS1HaVwMLIIvDDkUTbyuNZPVPHOiytyeH
+ 99nf/1JFxtdpw==
+Date: Wed, 10 Jul 2024 08:35:48 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v16 01/13] netdev: add netdev_rx_queue_restart()
+Message-ID: <20240710083548.351e51e5@kernel.org>
+In-Reply-To: <20240710001749.1388631-2-almasrymina@google.com>
+References: <20240710001749.1388631-1-almasrymina@google.com>
+ <20240710001749.1388631-2-almasrymina@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240708150130.54484-1-marex@denx.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,49 +85,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 10 Jul 2024 00:17:34 +0000 Mina Almasry wrote:
+> +	DEBUG_NET_WARN_ON_ONCE(!rtnl_is_locked());
 
-On Mon, 08 Jul 2024 17:01:13 +0200, Marek Vasut wrote:
-> Document default DP port preemphasis configurable via new DT property
-> "toshiba,pre-emphasis". This is useful in case the DP link properties
-> are known and starting link training from preemphasis setting of 0 dB
-> is not useful. The preemphasis can be set separately for both DP lanes
-> in range 0=0dB, 1=3.5dB, 2=6dB .
-> 
-> This is an endpoint property, not a port property, because the TC9595
-> datasheet does mention that the DP might operate in some sort of split
-> mode, where each DP lane is used to feed one display, so in that case
-> there might be two endpoints.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: kernel@dh-electronics.com
-> ---
-> V2: - Fix the type to u8 array
->     - Fix the enum items to match what they represent
-> V3: - Update commit message, expand on this being an endpoint property
-> V4: - Fix ref: /schemas/graph.yaml#/$defs/port-base and add unevaluatedProperties
-> ---
->  .../display/bridge/toshiba,tc358767.yaml      | 21 ++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-
+ASSERT_RTNL() ?
