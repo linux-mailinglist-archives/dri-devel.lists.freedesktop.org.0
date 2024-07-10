@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F290892CF53
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 12:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F52E92CF54
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 12:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82B010E722;
-	Wed, 10 Jul 2024 10:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C89FE10E71F;
+	Wed, 10 Jul 2024 10:37:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Yub14HrM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OOKt2O5v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D77310E722
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 10:37:18 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-52e9c55febcso8015544e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 03:37:18 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C30910E723
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 10:37:20 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-36794da7c96so3794856f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 03:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720607836; x=1721212636; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720607839; x=1721212639; darn=lists.freedesktop.org;
  h=mime-version:user-agent:references:message-id:date:in-reply-to
  :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jUv1TKKjUHthOG7mdtMKuqVjyWEdEs5skCdldKg/BLA=;
- b=Yub14HrMAvUKxwSA1Xy7altybJVsRSRDK9SmpDd44MwI9tAfD8iVZsdTneGhy5WRLf
- xlu1TYcOc3QiCqr9e8aGTWiXKWznLbIT8bl3nIe1IG4RNUdhSnkGrupTOmPwgMF/pdZz
- PX3Z3mRhqIhuFL4xWt2zaswITFHAwojArKPPN0igpcMp+lDMhR1Cr3DMc6W+ENbjSZEX
- iLpUcqt8MM50rUZ8ZEQhLAjI4+7z9QO1QXwX7bBx2xkei/5crZXZhn27CsNElAj7Pbt7
- PyLNK4WgNXChJsVmuIpFgRTuOBo1k2SlFZ3zsYLEfqBgb6iSfRWFpWSEKvLyP3AL806v
- cwEg==
+ bh=vldLU5ousstfmDh5bnJGfW4ITCUolQrrvfqTIfAcNhk=;
+ b=OOKt2O5vicVF9IkGLaZc7JYt/VPBc9QgWNWOLCYYgOt14qAe+LJI2pUZpQVdHYpm+T
+ qJzxPFON/dVyV+RTN+X2TrGDoj99sPIFWEkMdCgJzmL0H8Z51EaBDP9nSIJSP/AoQi9e
+ OukCXA+g4AWxu6xGlKNV5D/jLj/MCIUNWrWeSiJcBUDnTYMO+vSIB2ZNKQBBW2PfEff0
+ lEbFe2iK9AHrEPJjRFGYLL835lAzJSPiiOSqPG7z4oPmrbw7yWQUQyHMMlFJF0zoD8RJ
+ PPoqQ8toPIh68tdIwxZayxCksVsgQM0qQWNk/u9aR0h6p+Y6SNo854tEuAKhVRx/WHZy
+ 5zDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720607836; x=1721212636;
+ d=1e100.net; s=20230601; t=1720607839; x=1721212639;
  h=mime-version:user-agent:references:message-id:date:in-reply-to
  :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jUv1TKKjUHthOG7mdtMKuqVjyWEdEs5skCdldKg/BLA=;
- b=HdPv24LAjqR9toUIdXtUqnoNimkRxuCYTjJ/XF5tbACyKZbyQ4X39hVU3lsEnw4N0b
- 4n8EL/arNMKoUkiCSfvHv03iKgpQatWrkA4gEeYM8cwEPz1nus6rwGKR3uQTYIgMnhYe
- jcGT/S4+UPzWShJNsqOJJE48MncnGiaqmBussdpmvVGaTNgW4/POt/nw0kr0A/HMCYba
- GLA++7oQ6/K6L/FZXD58Kh3/w8zPEEJabmy7JR9CShg10xk4ittLEk4Juaw5tULJHUK0
- HfkxsWv78E9h5HeCwcX18awkGC9XZGcrmlNSDO9ubLS9jzVU9/zu9+JIXqw0aBH2F62T
- mhqA==
+ bh=vldLU5ousstfmDh5bnJGfW4ITCUolQrrvfqTIfAcNhk=;
+ b=KWPgZzM2ZV8QoQ/cobqUweF3faWsMHBEJeankq7nFqliDdNZiRDHe9IKO21B4MGs2+
+ pgV/uSLzBb6OSQIQRgAFwsoNdvbg/NeCzorFBMUs6ntJV13OrTgybN8YRLx1m0M4Z145
+ WfzLaU5VVggGPql7GIIuEJnoQBeaUiPp3GI1Q+tRtcFIewAxGV7qiEeqyNFQIhvRtddc
+ BxtKEu4f8McyPu7V+BeR7G04cmpwZXvQLQzn5jcnoYLQDCk6icuujTJQCqoV4acUE4sE
+ 077IHr+9d8U6G0i/dBloQTCF6xefW2ga9yZ7YgwoN2zH/OXiU4qMRhMDVmsZL30N429C
+ rd+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX/c4+J7aoldhtgOU+VHtXP+XkIc2B3/4t4tcgn4LaSh2ytgecmnfrh2fHxR0WGiUA6F7150mBwcr6j8kqAztiGQNUeihFNh5bkFj8aWZHH
-X-Gm-Message-State: AOJu0YyHGYigxB0LOxYXuYZl8JREKdz0y6IzPi3T1zBYv2sEGSJBI5rW
- 9NCqaxEYRz4vy14+jh9c707Qp4csf4mpmSlNneeXzqjTz0V+qKbI
-X-Google-Smtp-Source: AGHT+IEYBZWIZpjV7C9ssz+2I4yf8GPHbR8l+2RYZAsApi0hWbugWj4h9Cu7wWaqd85eKzfkNy/N7w==
-X-Received: by 2002:a05:6512:3e19:b0:52c:e17c:3753 with SMTP id
- 2adb3069b0e04-52eb9991919mr3752798e87.5.1720607835793; 
- Wed, 10 Jul 2024 03:37:15 -0700 (PDT)
+ AJvYcCV9ZFO7CWMLkzFHaGVFByR7wxO3y4f55O/z4Rstcl2vI0n3OBog0mlbYZTiyQAFsS8QJwXO22QQS+lXnk+DSj465H8yrSgPV83UOkgsbpze
+X-Gm-Message-State: AOJu0YxrgJQOmLG4Wi9mQ1ygJ6yDVrKVqRM1aocThPUOm1TShE+Ruvx9
+ mJ+VFsZCyNd5Prpml6QueUxRlk+Bmbpw/o7QfbITofGexReQ6HOZ
+X-Google-Smtp-Source: AGHT+IHfVxi0Lmy20qi3zZkkAs93779qbLSUYFgab3guGNLSJuv1zXb2yWVvs5PzjNax6/VrOLGUkw==
+X-Received: by 2002:a05:6000:e90:b0:367:9748:ee7f with SMTP id
+ ffacd0b85a97d-367cead931emr3298090f8f.65.1720607838413; 
+ Wed, 10 Jul 2024 03:37:18 -0700 (PDT)
 Received: from imac ([2a02:8010:60a0:0:d1a7:2644:c75e:c5ee])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4266ac156easm114146345e9.38.2024.07.10.03.37.13
+ ffacd0b85a97d-367cdfab6d3sm4896005f8f.112.2024.07.10.03.37.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jul 2024 03:37:15 -0700 (PDT)
+ Wed, 10 Jul 2024 03:37:17 -0700 (PDT)
 From: Donald Hunter <donald.hunter@gmail.com>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org,  linux-kernel@vger.kernel.org,
@@ -87,14 +87,16 @@ Cc: netdev@vger.kernel.org,  linux-kernel@vger.kernel.org,
  <jgg@ziepe.ca>,  Yunsheng Lin <linyunsheng@huawei.com>,  Shailend Chand
  <shailend@google.com>,  Harshitha Ramamurthy <hramamurthy@google.com>,
  Shakeel Butt <shakeel.butt@linux.dev>,  Jeroen de Borst
- <jeroendb@google.com>,  Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [PATCH net-next v16 11/13] net: add devmem TCP documentation
-In-Reply-To: <20240710001749.1388631-12-almasrymina@google.com> (Mina
- Almasry's message of "Wed, 10 Jul 2024 00:17:44 +0000")
-Date: Wed, 10 Jul 2024 11:28:37 +0100
-Message-ID: <m2a5ip1qy2.fsf@gmail.com>
+ <jeroendb@google.com>,  Praveen Kaligineedi <pkaligineedi@google.com>,
+ Stanislav Fomichev <sdf@google.com>
+Subject: Re: [PATCH net-next v16 02/13] net: netdev netlink api to bind
+ dma-buf to a net device
+In-Reply-To: <20240710001749.1388631-3-almasrymina@google.com> (Mina Almasry's
+ message of "Wed, 10 Jul 2024 00:17:35 +0000")
+Date: Wed, 10 Jul 2024 11:30:12 +0100
+Message-ID: <m25xtd1qvf.fsf@gmail.com>
 References: <20240710001749.1388631-1-almasrymina@google.com>
- <20240710001749.1388631-12-almasrymina@google.com>
+ <20240710001749.1388631-3-almasrymina@google.com>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -115,9 +117,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Mina Almasry <almasrymina@google.com> writes:
 
-> Add documentation outlining the usage and details of devmem TCP.
+> API takes the dma-buf fd as input, and binds it to the netdevice. The
+> user can specify the rx queues to bind the dma-buf to.
 >
+> Suggested-by: Stanislav Fomichev <sdf@google.com>
 > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
