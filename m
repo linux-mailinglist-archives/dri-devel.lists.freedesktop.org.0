@@ -2,158 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484D692DA96
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 23:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340BE92DB93
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 00:07:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3509C10E1AD;
-	Wed, 10 Jul 2024 21:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2CE10E91C;
+	Wed, 10 Jul 2024 22:07:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3iOyVVIM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nTdvmIrK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2D1F10E1AD;
- Wed, 10 Jul 2024 21:13:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d6IT5kzIjImY/48uVC7HRgTHwSekjhgu+0b/T+tSmvfgRIXpKgs/A3jBx/GJJoY5GaB8MieHGmGfykt0+9FNFYA3sWzMmo5gep03LeiG5/hypmsc3wF1CymY+HsH9SydsOxE4+G8F6GkkeLCIHkqOmLEDHo29nhVlTwi0jcXr38Kod0iWmvfzseITn/GBNUrGAo0epjoYOqZJDooHcAuVRYezzHDiisoN+smd/1AZ0t/y6uHYWR1yALFQrcCxSowldKSJxrBNZ00n5vV80SDBqahZs7V6MIAjO+KhDg2aUak+yQ1Pszl4Qf5wML0k1w8z5S5xq2sHnY4dKx376qf1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NhZOpNaoWox8bwqB4FhFlhS1oJYbleT7CU+b0E41xb8=;
- b=R+xsLOa/7D6igVHwXNs254WM/0V2sQTcYTi8jXAoT6Q3wbyjnDxnVBiiqozlbCk8U/Rasba3zuMqEsjMm3oV5Si7Q7FtslGXVNg5jwxPe/FjuZ8B4HmReWZhH7tb1sNUag3lEXHJr6Tv7CF4Fr8uX9s88XRyE0GKoaC9Mh78k5w2qEQ6bGCKw3ZRiTJDREb2ao22yCma62Y8U97Y2qayol7y5PbRCfeTnFgayxpR2ToNBies78vsMp2OKq3JLBZJWNXQGbVjOfHxSFzBrG8ntPUJu2ggOfg+Zdpb43PZNXSa6IXAdebAuV+o4sec/dfbaWZM0uDO8wyU38DSj6HQvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NhZOpNaoWox8bwqB4FhFlhS1oJYbleT7CU+b0E41xb8=;
- b=3iOyVVIMhNgWf/M2a2d1VAutdepYSLQfVT4xPrswKiMiZqmctP6dUYnZyqnNpw5ta94hm9YUGovIFMwOGk7Ab0yx7hMa/zq3RsXyxwURpindfhHzcKhrvUDisHzTCroRNpGepN99pjU9dYchSH7hAZYNJlZC5D2DccMNiLj/p0w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SN7PR12MB6839.namprd12.prod.outlook.com (2603:10b6:806:265::21)
- by DS0PR12MB9039.namprd12.prod.outlook.com (2603:10b6:8:de::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.20; Wed, 10 Jul
- 2024 21:13:22 +0000
-Received: from SN7PR12MB6839.namprd12.prod.outlook.com
- ([fe80::eaf3:6d41:3ac0:b5f4]) by SN7PR12MB6839.namprd12.prod.outlook.com
- ([fe80::eaf3:6d41:3ac0:b5f4%6]) with mapi id 15.20.7741.033; Wed, 10 Jul 2024
- 21:13:22 +0000
-Message-ID: <bd3da8d0-a60f-4905-b27d-cf549844c683@amd.com>
-Date: Wed, 10 Jul 2024 17:13:18 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/amd/display: use drm_crtc_set_vblank_offdelay()
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>, 
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Hung <alex.hung@amd.com>, Wayne Lin <wayne.lin@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>, amd-gfx@lists.freedesktop.org
-References: <20240708202907.383917-1-hamza.mahfooz@amd.com>
- <20240708202907.383917-2-hamza.mahfooz@amd.com>
- <Zo0Dm_XeF3dMqK1C@phenom.ffwll.local> <Zo0MSB7eSp1H0iPI@phenom.ffwll.local>
- <3214e5a3-a616-4bcd-8f1d-238e1bf346fe@amd.com>
- <Zo5Ju2bWFUVBHeKX@phenom.ffwll.local>
-Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <Zo5Ju2bWFUVBHeKX@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0099.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::8) To SN7PR12MB6839.namprd12.prod.outlook.com
- (2603:10b6:806:265::21)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307EE10E91C
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 22:07:15 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-59589a9be92so344737a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 15:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1720649234; x=1721254034; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=9H9KVdvsFZKQpaap3qbncNFDicrGBdDbDfc5aQ3qGYo=;
+ b=nTdvmIrKYWesE9fruuqzOAO44mGwTb5Xmp6Pge5z12Dd1IcnpNFKG8zrA/X7fCgE1R
+ svSrgeZ9VmPLRV4kT311U5EPtgcdp+MNM+YovPeDCzRPpWcwQTvBIYuABR2jBBVOWHKT
+ s9qmRJA35MKG6fAFKY1LAIuscOVDPzq1spuC/6MbvZchq0fSWNhKCwv0y1WyiAaZP684
+ lPXmBAR1p80Im7eR+4E8lGsrBvi1WUS4BZXz9meiCDksZcqoMFf9lfy4CJTtp+Gsbl5F
+ olgc1zJY6P5qclu0Osfwa18GF/eVb3u8xsVv2UUXR4OFN9YI2mdeLiNNcRge0r8wdnsa
+ 3Ptg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720649234; x=1721254034;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9H9KVdvsFZKQpaap3qbncNFDicrGBdDbDfc5aQ3qGYo=;
+ b=BGoWeBd/dMwxZz3umIwah1hMA2ImXJKYH3zviqNfBKVonelWo9o1HNZBY7HLeWCRkA
+ zWef5JOyVdo3dRIa1tr0Kl1yQno96ZI8hSMy29+Yi6hGevpMeUSp3EkcJk6FKVTn/W/I
+ QItnhvsjsjW85yY2gfdu56uyXMCQKYDgnyHURMRAtfYExFD4+c2yk6kfRgi84XGGevRP
+ YBON+acFmpc6/bv9ZlaFbwLTTVm+4JeQ7FJKwzQkbsm4JPOWXVRAlRF08JMNBWUmc3EB
+ qZh/TByouX7euH4A7Oqo0MhbHrrqEwEBspK+xsbU6H3Ob8EuahG4t0vlMXCn4uvyz4JO
+ 4xVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUty8hphNSH2S6eJbKQtLW1ygEM4reK7/PVEGeAbypONSF5C7Svq56X1pDPJ8MWreuc6impeob2AGFIXa7Of9ImDfoRcukEFI9+2rwL44b6
+X-Gm-Message-State: AOJu0Yyvxd825Vrtq2L0Ip4QUn08gtQy9I2FPyaVFa0sayc2+uHQ4VTK
+ w4mr+64mGqwtR2LgQfaAe1Y8l57/f8xXbu3Oj1cyOD65FfP+jLNmZKgElI1VgvM=
+X-Google-Smtp-Source: AGHT+IEro5tD1HRn9AyujC41uwXOu47HaADaQB9ttxw2u6NdKu7uNyCdC1pcI2Ix9Uz3iAKvZKcijg==
+X-Received: by 2002:a50:ef01:0:b0:58b:a92f:2901 with SMTP id
+ 4fb4d7f45d1cf-594baf9181amr3957891a12.17.1720649233561; 
+ Wed, 10 Jul 2024 15:07:13 -0700 (PDT)
+Received: from [192.168.105.194] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-594bd459aafsm2676284a12.78.2024.07.10.15.07.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Jul 2024 15:07:13 -0700 (PDT)
+Message-ID: <58b1274b-1f53-4d10-a6e3-6334eb589ab3@linaro.org>
+Date: Thu, 11 Jul 2024 00:07:10 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB6839:EE_|DS0PR12MB9039:EE_
-X-MS-Office365-Filtering-Correlation-Id: 749397a0-85aa-4bd5-77aa-08dca1252108
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YnprMlY0MUVrNjhJeTFMaVVMU3Rqb05PSHdkZVV0U3M1K2dPbmxUby9LUWpP?=
- =?utf-8?B?TlJDS0J2MWNFeE90T2EyWSsxRGF5QXN5c0dHZU00SURuNFBLYlZJYXhTSkJG?=
- =?utf-8?B?eE5uNndaSGR3ZUFVY0QvaURiUVFwUmQ5L0lSYTFyMHUyajRQMytFbUZ5eWg5?=
- =?utf-8?B?SlhIZUEwZWNMRjBETWZ5TEF4bmVzTVhsb3p2UFIvcVBpQkR1OUtleWE4MUJv?=
- =?utf-8?B?RzF4RjRDdXU3K2JPYStuemIzK1NPSURFdDJhTk5nQzNpbS9jUXNDVkVTaHJL?=
- =?utf-8?B?VEFScmNoUzloRSt0ZmtBTVI3VGlrbGlsTHZBSER1aEpuM2w4cFlkV25POTAz?=
- =?utf-8?B?dUFNWUVNK1FkRVYvNnZad3BmeExCY0dNYktyZWd5RUUvNVBXZHRLS05xM295?=
- =?utf-8?B?RUVxRVFYNnl4Ym9IbDl3T0toQnRJUGx1SW4waVNMbTc0OG1BV0IwUjY3cTFB?=
- =?utf-8?B?NWJzNzF2dkcyVU5TNTQ5SHNSSkdUT2k0ejBiUGEwN29sdlZ3OUJudS9kREFi?=
- =?utf-8?B?Umw0d1NEWGNaZisvNytBV1RnY242ci9aRUJsUlZ6U05xK253UEVmQ0YxZW5x?=
- =?utf-8?B?VzF3ZVlmaE1zWGh5QVo1TVJZNXJ3WGVoSTBFOGRIaEtNYTJCeU5mMFBtcEVk?=
- =?utf-8?B?eEZhM2MrdVpFdFJRaG91TEVISER5Z291eGJXTVJvZERGM2F0L3ZnWlR0VllY?=
- =?utf-8?B?QTB0YVFPaE9tTmlBVmRFMnlkZ2xtSENOMHFncDlBM3NkYWxwRE5yU2d1c3hN?=
- =?utf-8?B?cEdMZVMveEd3ZEh0RExNUEJHSFdIU1JvSGRkeXdWaGVScDU2Z1NjME12TXJH?=
- =?utf-8?B?VWJVYVRNbFZZWENpYVdVeVR5aEpLb0NZTnhsRTgvbXRGYmJPQmorL3JxazJu?=
- =?utf-8?B?NmxJdFFHMllleE53WFRVMzhoREhncnVCSGFjaEF1cDBmUkFCdEMyR0tJNFQ0?=
- =?utf-8?B?NlRGUjdMMktWQ1VzMnczZ0FuODdOanhtTVNuOU9xSVdua0ZNUGdSNGFENDBL?=
- =?utf-8?B?K2hhL1RWaG04S3Q0MDN4alErdG1iVGhxTXJqN3JYRDVhWXhDOC9DenlWMGJ2?=
- =?utf-8?B?WmhaU1h4Y2d3b2NBdVpPbXM1WTRvR0RZQTdFU29JQVZLb09FdGQ2M2ZKMnd2?=
- =?utf-8?B?VmY4UmR1YWt5ZWZ6TEVRSStlUGhsTFlDd0h1NXpNOGEzT0NNVEtMVm14ZGNj?=
- =?utf-8?B?RjR2MmtvR1FLYndnOWwrQk9FaHlEelJ5ZzhLc2QveEV4RG05THpVR3Rma0tj?=
- =?utf-8?B?dUF2V2kySGZiNHVJdzNVY1huaTBlQkVQN2VFaW9YTFZ4MWJzS1NNU0NPQnJG?=
- =?utf-8?B?cHg0cEFwSEsxajhwalhmWTNOS2Z3Y09pQTBhYTJHOWVXclFMejhSdGErNFh2?=
- =?utf-8?B?bGErM3NVMWhSQjJIK2VEMmpXdjE4Zm5pekt6T0oxcVBTS3BYcnBMbEVzeFB3?=
- =?utf-8?B?cmFyZFF3aXZoVDMybW5HWUFteDBiVzZzK215L1dRcHRQTjdkbDhTZWJ6NTlX?=
- =?utf-8?B?MVNXVGlUQWVXa21HN0ljUTJ0WjhkQXJQSG9WREVzNkFsM1Znbm9UY0FHNzQv?=
- =?utf-8?B?dktacnRaeTlQYllYaE4rT2xLUUhVeU9QTm1XVmRHcEw2bUNERUNCTWdmbXIr?=
- =?utf-8?B?NUx3VjR1aVdVVXJ2Z3hUS0lmU0E3eFY0REZoeUc2ZG5wR0gvcUYwS0ZObVRP?=
- =?utf-8?B?VWRCZ3N6cjZEL01IZERVWENtWHZVU2oyc044K2VWWjdUVlN6M2pER0xBY1Zt?=
- =?utf-8?B?U1ozNzI5SE8wZlFJN3ZmNmpudDByUWxta21NMjlwWExHSnZpSG5aUm9nQk5W?=
- =?utf-8?B?M1VyREVEdHhhZ2RDSjhEUT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB6839.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVk4UmFaa2JrelJlTmZnT0w4MHlsZUlKVzA4TmFxTklVUnNaUTNqenpET1RC?=
- =?utf-8?B?TVVzci9ialQvTVpiTENjK1ErWXgzQWE1c0lyeVphY3FJbjBDcS9mcSsxQ3FH?=
- =?utf-8?B?VEpVeFEycHN6MDV6SnNMS2tQL3hWZ0llYStydWxZL3JVQ2QybXI4U1loS3ZB?=
- =?utf-8?B?Y3NZci85RTJNelhNbXlZSnEvM0FQeGF6elVPLytIakE3aGFLK2FWUFpNYjNj?=
- =?utf-8?B?ZUx6VkFxTmVBdHgvekoxOVVOZkN4VVRwWTBpYjc4RjNsNUI0WXVqZVp3aU9z?=
- =?utf-8?B?ZEJ1S2RCbENWVnhLajVWTFY4d3dXVG5meTJXRWx4L2l4SmdaaTd4ZWZCWURx?=
- =?utf-8?B?OGlacXNGalo1WWoxZmRvUW9Fc1RzcU54Q3hZODFEckl2ZHpwZHV6anFISEFX?=
- =?utf-8?B?cENZMHNZYjMvdFMxcmh2RzB4c1R4NmxESjl1MHNVWkpvSW1RVklzNzRFNW1q?=
- =?utf-8?B?bFo1WDhQQnpNcXBQb0Y5aVdoUTVVTVc0MW9VZFkzdGhoREt6VGh3RUhBQlRs?=
- =?utf-8?B?enk5bkNUTVhNSWdJSmc2TTZZdkdFSTFKeVI2K092MmlLN1l4MEhxbVRKaTMv?=
- =?utf-8?B?cGkwVTJ1YUVLWmEyNjMraFJrSU1CME5PTVp3alY1eVVyeUkvbERrMUI2eHRs?=
- =?utf-8?B?bnZHOElTRTFJU2JjbkpDeEh6cU93ak9ybFlaaWV2U0s4U3BtT3g0bkFIaUhO?=
- =?utf-8?B?R3FsQXJ2M1BBU2NNUXhnOVNpdXg0QmxjcXZPa3N5NllZWmdKbTJvcHFoYlBa?=
- =?utf-8?B?VVg3MXcrdTJvc25NaTdYTE1XTUYrbDRPZCtLWDFmSU1ISjc4UUVFanFMYk50?=
- =?utf-8?B?Y1VNVnQ1NVhJNjJIVEM1RTBCL3k4Y0NiNTFLWXhPKytnQ3VzTkRJRTNDUncr?=
- =?utf-8?B?b1hpUzJXQUo0aXhjdzVhTjJIS2VrTTdicnlPUUF0YzFtNGNpbGtQRFkwUlNW?=
- =?utf-8?B?a1VZOTBGN2Z5ZGRZQWpHa3dwNzRHTXFXR0d3WTV6RDFZZDBVeTlSUXJKVDdG?=
- =?utf-8?B?SVdGNDVYUHJ0VmZiQmU2MnBjN01vekJQTFJ2WVJHR0J2NldCMjdWbHRKRXJJ?=
- =?utf-8?B?Tzhadk5qMlR0VmxibVE3Z1dQMysvTlFjWXZZREtoUDhMc05kSG5FQjYxRDIv?=
- =?utf-8?B?MEpuTkx3VDRPZVdFZkM0VGU1WWlMNTFCUUYrWWdyMGtLeFlhaFE4TXBaemIy?=
- =?utf-8?B?VjNEbXZWeWRsdU51R3lCNnlWMnVGaEhVMXFRcnIxQXRsSyt0cFRVa004MUtQ?=
- =?utf-8?B?T0h3YVltb2hvKzBBR3JsckZ6ajFZaVdLQ3Vob0FIVWdzMGl0cTNvRXptanJu?=
- =?utf-8?B?UmtlQzB1bUVJSHBnY0VEaWNWUFY2ZU14L3BUa0xpcjhWSEtQVkNKWXRRbHRQ?=
- =?utf-8?B?dk93alpDRU02T0FYYXFvREszeFZ0RjZUdytXTW05WmtZOU5BazhsVmhRcnlX?=
- =?utf-8?B?YWNWb2NGRUhzU3VzQTArK2VlVENTblNhck44L0ZsZHMyRENmbFZXMkZrYXBy?=
- =?utf-8?B?aGszY2FjelFiLzFDbVN6R1Y5TjdIbkZCZXZ6dmJtKzQzVVpXZkxtRzRNVWtq?=
- =?utf-8?B?anB0WnFpamU3TnhDQm4yZmw5ZDFZeHZwZGJRZW5vWEJtbXJmTXFwU2JGaTM2?=
- =?utf-8?B?OVBWNGRWSzlYdFdKbmNKbWhRcjBTcyswZVZWYkNxN053ZWJHSHNVZDFycTRY?=
- =?utf-8?B?Q0xoQm5sZnowSFd3clFhd3BDZ2xrRC81czA3T3pXcTg5TG5lYmlGU2ZKR2NF?=
- =?utf-8?B?a1M5VEE4bURsZE9mNm5JNGpiYjVEYm5SbkdsVk5UYlAyeTc3ZVVWRW9TVjRs?=
- =?utf-8?B?VEFwbXhDYjVSUVg1VU9xMGpSVWwvaG95UXFVVDloWlQ3WkhWUTgrSmM4Y0k5?=
- =?utf-8?B?cHFZc3RZZ3F2S2hjQ3RHV0x0RWRldm9HaEdaNUJzQUFPMzZjdGVwamhrK2NR?=
- =?utf-8?B?TllweWwzWFVacVdqdmM1Nmk2anVzUS9FVmVCMmYyQWlHeHJmcDB6UjFsQ3lK?=
- =?utf-8?B?amtMRExzSzZyRHkzcWtpU2FKaTAyUUg0UDMxeEFvZW5zMVEzdGFibFg4Mjhw?=
- =?utf-8?B?UjFDT0xKNnl4V2RwdjVnVzJ6elNraFkwQ0dELzN6d2RiVlYwbkxoWjAvd0pQ?=
- =?utf-8?Q?V8ng/C36dTcOIw613zc0rA5w7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 749397a0-85aa-4bd5-77aa-08dca1252108
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB6839.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2024 21:13:22.1010 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k9Nev1IWyhu9xdXveWffbcVAmsxAElRWys7HXmuhYwq5OKu/nFUmnUt+FDcIDQUl1krLYtEKdthy3c0wuMPzTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9039
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] arm64: dts: qcom: x1e80100-crd: Fix backlight
+To: Stephan Gerhold <stephan.gerhold@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan@kernel.org>
+References: <20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org>
+ <20240710-x1e80100-crd-backlight-v1-4-eb242311a23e@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240710-x1e80100-crd-backlight-v1-4-eb242311a23e@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,129 +128,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/10/24 04:43, Daniel Vetter wrote:
-> On Tue, Jul 09, 2024 at 10:02:08AM -0400, Hamza Mahfooz wrote:
->> On 7/9/24 06:09, Daniel Vetter wrote:
->>> On Tue, Jul 09, 2024 at 11:32:11AM +0200, Daniel Vetter wrote:
->>>> On Mon, Jul 08, 2024 at 04:29:07PM -0400, Hamza Mahfooz wrote:
->>>>> Hook up drm_crtc_set_vblank_offdelay() in amdgpu_dm, so that we can
->>>>> enable PSR more quickly for displays that support it.
->>>>>
->>>>> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
->>>>> ---
->>>>>    .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 30 ++++++++++++++-----
->>>>>    1 file changed, 22 insertions(+), 8 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>>>> index fdbc9b57a23d..ee6c31e9d3c4 100644
->>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>>>> @@ -8231,7 +8231,7 @@ static int amdgpu_dm_encoder_init(struct drm_device *dev,
->>>>>    static void manage_dm_interrupts(struct amdgpu_device *adev,
->>>>>    				 struct amdgpu_crtc *acrtc,
->>>>> -				 bool enable)
->>>>> +				 struct dm_crtc_state *acrtc_state)
->>>>>    {
->>>>>    	/*
->>>>>    	 * We have no guarantee that the frontend index maps to the same
->>>>> @@ -8239,12 +8239,25 @@ static void manage_dm_interrupts(struct amdgpu_device *adev,
->>>>>    	 *
->>>>>    	 * TODO: Use a different interrupt or check DC itself for the mapping.
->>>>>    	 */
->>>>> -	int irq_type =
->>>>> -		amdgpu_display_crtc_idx_to_irq_type(
->>>>> -			adev,
->>>>> -			acrtc->crtc_id);
->>>>> +	int irq_type = amdgpu_display_crtc_idx_to_irq_type(adev,
->>>>> +							   acrtc->crtc_id);
->>>>> +	struct dc_crtc_timing *timing;
->>>>> +	int offdelay;
->>>>> +
->>>>> +	if (acrtc_state) {
->>>>> +		timing = &acrtc_state->stream->timing;
->>>>> +
->>>>> +		/* at least 2 frames */
->>>>> +		offdelay = 2000 / div64_u64(div64_u64((timing->pix_clk_100hz *
->>>>> +						       (uint64_t)100),
->>>>> +						      timing->v_total),
->>>>> +					    timing->h_total) + 1;
->>>>
->>>> Yeah, _especially_ when you have a this short timeout your really have to
->>>> instead fix the vblank driver code properly so you can enable
->>>> vblank_disable_immediate. This is just cheating :-)
->>>
->>> Michel mentioned on irc that DC had immediate vblank disabling, but this
->>> was reverted with f64e6e0b6afe ("Revert "drm/amdgpu/display: set
->>> vblank_disable_immediate for DC"").
->>>
->>> I haven't looked at the details of the bug report, but stuttering is
->>> exactly what happens when the driver's vblank code has these races. Going
->>> for a very low timeout instead of zero just means it's a bit harder to hit
->>> the issue, and much, much harder to debug properly.
->>>
->>> So yeah even more reasons to look at the underlying root-cause here I
->>> think.
->>> -Sima
->>
->> The issue is that DMUB (display firmware) isn't able to keep up with all of
->> the requests that the driver is making. The issue is fairly difficult to
->> reproduce (I've only seen it once after letting the system run with a
->> program that would engage PSR every so often, after several hours).
->> It is also worth noting that we have the same 2 idle frame wait on the
->> windows
->> driver, for the same reasons. So, in all likelihood if it is your opinion
->> that
->> the series should be NAKed, we will probably have to move the wait into the
->> driver as a workaround.
+On 10.07.2024 7:05 PM, Stephan Gerhold wrote:
+> The backlight does not work correctly with the current display panel
+> configuration: It works after boot, but once the display gets disabled it
+> is not possible to get it back on. It turns out that the ATNA45AF01 panel
+> needs exactly the same non-standard power sequence as implemented by the
+> panel-samsung-atna33xc20 driver for sc7180-trogdor-homestar.
 > 
-> Well that's an entirely different reason, and needs to be recorded in the
-> commit log that disabling/enabling vblank is too expensive and why. Also
-> would be good to record that windows does the same.
-
-Point taken.
-
+> Switch the panel in the DT to the new compatible and make two more changes
+> to make it work correctly:
 > 
-> I'm also not entirely sure this is a good interface, so some
-> thoughts/question:
+>  1. Add the missing GPIO for the panel EL_ON3 line (EDP_BL_EN on CRD and
+>     enable-gpios in the DT).
+>  2. Drop the regulator-always-on for the panel regulator. The panel does
+>     not seem to power off properly if the regulator stays on.
 > 
-> - is the issue only with psr, meaning that if we switch the panel to a
->    different crtc, do we need to update the off delay.
+> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+> ---
 
-I can't say definitively, but all of the public reports (that I've seen)
-and my local repro are PSR related.
+[...]
 
-> 
-> - there's still the question of why vblank_immediate_disable resulted in
->    stuttering, is that the same bug? I think for consistency it'd be best
->    if we enable immediate vblank disabling everywhere (for maximum
->    testing), and then apply the 2 frame delay workaround only where needed
->    explicitly. Otherwise if there's other issues than DMUB being slow, they
->    might be mostly hidden and become really hard to track down when they
->    show up.
+> +		power-source = <1>; /* 1.8V */
 
-Ya, I believe they are all DMUB related since the stuttering issues are
-accompanied by the following dmesg log entry:
+Would be nice to get the #defines for this PMIC instead..
 
-[drm:dc_dmub_srv_wait_idle [amdgpu]] *ERROR* Error waiting for DMUB 
-idle: status=3
+> +		input-disable;
+> +		output-enable;
 
-(which is pretty much an unspecified firmware timeout)
+LGTM otherwise
 
-Also, setting vblank_immediate_disable unconditionally for amdgpu, while 
-only
-enabling the delay for cases that we know that we need it seems 
-reasonable to me.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-> 
-> - I think an interface to set the right values in lockstep with the vblank
->    on/off state would be best, so maybe a special drm_crtc_vblank_on_config
->    that takes additional parameters?
-
-Sure, that seems fine, what parameters besides the off delay did you have
-in mind though?
-
-> 
-> Cheers, Sima
--- 
-Hamza
-
+Konrad
