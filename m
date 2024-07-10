@@ -2,91 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE9B92D42F
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 16:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1337792D477
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 16:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 162EE10E7F5;
-	Wed, 10 Jul 2024 14:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 585F810E6DA;
+	Wed, 10 Jul 2024 14:45:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eVl3qPf5";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kjd8c6+J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I4WvuWII";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kjd8c6+J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I4WvuWII";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B13F10E7F3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 14:29:11 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-58be2b8b6b2so8104859a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 07:29:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720621750; x=1721226550; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c8gJnKjoA3sk0MHNnCyDf7HxbJLOHfbLKYv1jyslxAs=;
- b=eVl3qPf5XSsCED9ukSTZsGN/16AqEw2m6l+3I5W3MUqoMI1Xp896jDPj5vEi5MfpVq
- WdQKMluClQ75QH+Vw8Xa8F6UjyCr62qvt19PVqDlwp0yXR7LjuUJ8wPyH7cLw3bjCiqf
- Zwz4mz0HoSNY37VqFJ32X3M6BW1QbPGs3E/JwMZL2p69YpXmynFja/Urglh1nFYreKee
- ZfjfeLkgpLOiqvIMhu5v8qwCSmDPP3P629mWPPc81GGyHU8zs2UqYsqM5Gynksx5oSCe
- Yy96jLPexShtDwgc6P7imGS70DqTCfmZFdDFS1spGFvoLQn5VOkzC9QD9Gx51l7Dxbtv
- VXWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720621750; x=1721226550;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=c8gJnKjoA3sk0MHNnCyDf7HxbJLOHfbLKYv1jyslxAs=;
- b=OUgXjZC75Vj3xFg5NflTjAoGtboVWq5cuDpUw9zlmu9AhVRxsqfBhudIfp4vqqKC4K
- cbM96eLxPvrrMAqWwAcZ2u8w2ukUdBMfP5V6v2j80VH43BeHuoVkpBnVEKHkBNM2liT5
- L/0PDM6xDR6Rc0XM3OTBbBzXpBVkgDIzlWh6VQdhkqfZhvRRiAkGgMSI5u8qmMiZmhHf
- ZCb1K5f4STZ2kUV4+NlUtutd8ljpaJl+E0RyZD7a8A4BJX05chSMgYg/N8LCGPCin+ww
- Osv/gWnLygY755Af7m1hJVa7S8HdqVPjiD5uAjZqy0zzX/8mb4bqoq4tdFMExRcI9w1s
- z68Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKI/5R0ymhitaEpYY3QuXukPlKmtcBE1AdRQDdWGWx6OG2K+cMoUvQspWzvNXJQmQ2w2CnnCP1IlAmOoOgnbq6eZAflqAvW/xdLBK4aQbw
-X-Gm-Message-State: AOJu0YygxHob4IXexg1woUY3eFFo6mU3RjQgDqvmOyktB31FyW9xlfwT
- v/FeJ9CtC7J6gp2uVSxR1XvRpTZHqOff+TemiqUF41ZO2jUY6S4DLuOpEgZcFO+1vBUuX+qv4lJ
- T9oe5D+7DgTUcSoIlcAEavif4GUs=
-X-Google-Smtp-Source: AGHT+IFA5+m5xZv4TYCT5QPxWx1vJf/iXq68BQ4T7QErwC03UwTWky2h2CUAYZOmGS5DJLngCY+qzVcAGRFLZMxsAl8=
-X-Received: by 2002:a17:907:868e:b0:a72:4d91:6223 with SMTP id
- a640c23a62f3a-a780b8849cbmr438447066b.62.1720621749595; Wed, 10 Jul 2024
- 07:29:09 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1153210E22E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 14:45:38 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 82A421F836;
+ Wed, 10 Jul 2024 14:45:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1720622736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5Gr6Gh55hfj4d+3CzjYKhFDuic+DuJM29Vd3zd3vNJI=;
+ b=kjd8c6+J8WDtPut+MaljpgKQi1newS/R2QYmRVeJQ/8MVwzdGQRlE7B8zkJmNVhTxBYf+a
+ I9r2gw1h/jtFJ3+5sk2iylOkDNbeLXa5/y2sqQtUnrbq2Wr7lKzqCucO1IyciAFyW7U7g7
+ yZF+CZMySkgvAwUiiZjWOrSLKufXNms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1720622736;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5Gr6Gh55hfj4d+3CzjYKhFDuic+DuJM29Vd3zd3vNJI=;
+ b=I4WvuWII3btlVkHtVrfsCA8PI5vka23XCVGYvqS5ZBgGXf9pxTfRfx5HBDfzfovkh6pBJD
+ 6qEjv+jaOCRKk0DQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kjd8c6+J;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=I4WvuWII
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1720622736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5Gr6Gh55hfj4d+3CzjYKhFDuic+DuJM29Vd3zd3vNJI=;
+ b=kjd8c6+J8WDtPut+MaljpgKQi1newS/R2QYmRVeJQ/8MVwzdGQRlE7B8zkJmNVhTxBYf+a
+ I9r2gw1h/jtFJ3+5sk2iylOkDNbeLXa5/y2sqQtUnrbq2Wr7lKzqCucO1IyciAFyW7U7g7
+ yZF+CZMySkgvAwUiiZjWOrSLKufXNms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1720622736;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5Gr6Gh55hfj4d+3CzjYKhFDuic+DuJM29Vd3zd3vNJI=;
+ b=I4WvuWII3btlVkHtVrfsCA8PI5vka23XCVGYvqS5ZBgGXf9pxTfRfx5HBDfzfovkh6pBJD
+ 6qEjv+jaOCRKk0DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4619C1369A;
+ Wed, 10 Jul 2024 14:45:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4DXHD5Cejma+QQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 10 Jul 2024 14:45:36 +0000
+Message-ID: <04f80b99-e551-4fb5-a370-e4d94295b20e@suse.de>
+Date: Wed, 10 Jul 2024 16:45:35 +0200
 MIME-Version: 1.0
-References: <20240124011459.12204-1-jason-jh.lin@mediatek.com>
- <20240124011459.12204-2-jason-jh.lin@mediatek.com>
- <f91d3ac1-0a7d-4ca2-bf0f-c5e471c2f6bb@collabora.com>
- <2a2a939c9cb56de0383ec3e42db9bcf8e8518775.camel@mediatek.com>
-In-Reply-To: <2a2a939c9cb56de0383ec3e42db9bcf8e8518775.camel@mediatek.com>
-From: Jassi Brar <jassisinghbrar@gmail.com>
-Date: Wed, 10 Jul 2024 09:28:58 -0500
-Message-ID: <CABb+yY2_oJ_AC2w5AgHMBvqFDeyaUq9BLczqY8JhLFPDnfzY_Q@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: mailbox: Add mediatek,gce-props.yaml
-To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-Cc: "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, 
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, 
- "robh+dt@kernel.org" <robh+dt@kernel.org>, 
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>, 
- =?UTF-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>, 
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, 
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- =?UTF-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>, 
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>, 
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "fshao@chromium.org" <fshao@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] drm/mgag200: Only set VIDRST bits in CRTC
+ modesetting
+To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20240710084609.354578-1-tzimmermann@suse.de>
+ <20240710084609.354578-2-tzimmermann@suse.de>
+ <29ed1a04-ceb7-4619-9b91-2ea35e53c9f2@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <29ed1a04-ceb7-4619-9b91-2ea35e53c9f2@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; DKIM_TRACE(0.00)[suse.de:+];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[7]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 82A421F836
+X-Spam-Flag: NO
+X-Spam-Score: -4.50
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,15 +156,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 26, 2024 at 10:04=E2=80=AFAM Jason-JH Lin (=E6=9E=97=E7=9D=BF=
-=E7=A5=A5)
-<Jason-JH.Lin@mediatek.com> wrote:
->
-> Hi Angelo, Jassi,
->
-> Could you help me apply this series?
-> Thanks!
->
-Please get it reviewed by DT maintainers .... Rob or Krzysztof.
+Hi
 
--Jassi
+Am 10.07.24 um 16:25 schrieb Jocelyn Falempe:
+>
+>
+>> +    if (set_vidrst)
+>>           crtcext1 |= MGAREG_CRTCEXT1_VRSTEN |
+>>                   MGAREG_CRTCEXT1_HRSTEN;
+>> +    else
+>> +        crtcext1 &= ~(MGAREG_CRTCEXT1_VRSTEN | MGAREG_CRTCEXT1_HRSTEN);
+>
+> The else case is useless, as crtcext1 has already this bits set to 0 
+> unconditionnaly.
+
+Indeed. Will be fixed.
+
+Best regards
+Thomas
+
+>
+>>         crtcext2 = ((vtotal & 0xc00) >> 10) |
+>>              ((vdisplay & 0x400) >> 8) |
+>> @@ -597,6 +599,7 @@ int mgag200_crtc_helper_atomic_check(struct 
+>> drm_crtc *crtc, struct drm_atomic_st
+>>       struct mga_device *mdev = to_mga_device(dev);
+>>       const struct mgag200_device_funcs *funcs = mdev->funcs;
+>>       struct drm_crtc_state *new_crtc_state = 
+>> drm_atomic_get_new_crtc_state(new_state, crtc);
+>> +    struct mgag200_crtc_state *new_mgag200_crtc_state = 
+>> to_mgag200_crtc_state(new_crtc_state);
+>>       struct drm_property_blob *new_gamma_lut = 
+>> new_crtc_state->gamma_lut;
+>>       int ret;
+>>   @@ -607,6 +610,8 @@ int mgag200_crtc_helper_atomic_check(struct 
+>> drm_crtc *crtc, struct drm_atomic_st
+>>       if (ret)
+>>           return ret;
+>>   +    new_mgag200_crtc_state->set_vidrst = mdev->info->has_vidrst;
+>> +
+>>       if (new_crtc_state->mode_changed) {
+>>           if (funcs->pixpllc_atomic_check) {
+>>               ret = funcs->pixpllc_atomic_check(crtc, new_state);
+>> @@ -656,7 +661,7 @@ void mgag200_crtc_helper_atomic_enable(struct 
+>> drm_crtc *crtc, struct drm_atomic_
+>>           funcs->disable_vidrst(mdev);
+>>         mgag200_set_format_regs(mdev, format);
+>> -    mgag200_set_mode_regs(mdev, adjusted_mode);
+>> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
+>> mgag200_crtc_state->set_vidrst);
+>>         if (funcs->pixpllc_atomic_update)
+>>           funcs->pixpllc_atomic_update(crtc, old_state);
+>> @@ -717,6 +722,7 @@ struct drm_crtc_state 
+>> *mgag200_crtc_atomic_duplicate_state(struct drm_crtc *crtc
+>>       new_mgag200_crtc_state->format = mgag200_crtc_state->format;
+>>       memcpy(&new_mgag200_crtc_state->pixpllc, 
+>> &mgag200_crtc_state->pixpllc,
+>>              sizeof(new_mgag200_crtc_state->pixpllc));
+>> +    new_mgag200_crtc_state->set_vidrst = 
+>> mgag200_crtc_state->set_vidrst;
+>>         return &new_mgag200_crtc_state->base;
+>>   }
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
