@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C3492D34C
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 15:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E10192D354
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 15:47:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B11D410E7CC;
-	Wed, 10 Jul 2024 13:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6AA710E7CD;
+	Wed, 10 Jul 2024 13:47:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jWZWM4tp";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="kIB6/7nr";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="I8IvBRhv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B50C10E7CC
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 13:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=4kAYpNXLlLXB920zUa/04CWkfwmM7xDwjfJIpNAa8C0=; b=jWZWM4tpC02OfxR0wJOneXgiqm
- xs88iHUXWLvxkG8TO2Iz2ik60TMY9ic5MyKkGxBUO8hHwp44lZm5ZA5/ydfTXDpcLik2c15k+cXfz
- IIx7uKzyu/yHqTucYJHKs3PloXoU6dlVLJyVdg0YsXRoFIwT08tDrP8SzTNpj8ghN3F6ZJfMM5yFb
- j5No23uC4D8aK/QtEGKDlIvJMZjWUCX1vIpKMnL2MDBgj7AByroi0nl2tiMQQHiGoBYfB91xDhJf9
- JyGfhtDpkiTgDQ3OjCRxITNfoLXA1HMzkaBRPiF/auxqifIV9u8UCgj57lQ6UopA/H7I2NoBQf5dF
- z8mgfgdw==;
-Received: from [84.69.19.168] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sRXdr-00DH94-Ey; Wed, 10 Jul 2024 15:45:55 +0200
-Message-ID: <fe477eb3-f702-40ca-ad94-6862e8692e30@igalia.com>
-Date: Wed, 10 Jul 2024 14:45:54 +0100
+Received: from bunu.damsy.net (bunu.damsy.net [51.159.160.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59CEE10E7CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 13:47:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202404r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1720619183;
+ bh=iDuB0IZBC7W3G/b2B2gsPMP
+ ny0HVh947/T6AQZtB9Q0=; b=kIB6/7nrMHLjC6I45gYTgPHMAFxQNiYyFtn1g+5Sf3/Guhl2dl
+ fzqf9aZs+pDMBigx85eQV7Hwtc5OEUEVj8zrZg4uM1XlK49LzdkE0MNe6Vqw/Lt+GsgBjlXWNS6
+ yR/FDKsGfjkrXeqH46aIAGTlr0v90bSTVCyZoEkiymWG1Kyg09PmM0yc0qW8dAsIPprWcamGu+F
+ 6QjC7LIzeG/e2gqjL8QlwUwPIIV4+I5JT+uNJBjdL5SrKySA9/iN0UaBppfeVUoVKOubCSVeN5V
+ AcwwDTGlQLDpX+zn9y2AwGgGlBKv88XXuIDc7p1etNEsNrIbVhEeJowYv1zOgWaalUw==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202404e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1720619183; bh=iDuB0IZBC7W3G/b2B2gsPMP
+ ny0HVh947/T6AQZtB9Q0=; b=I8IvBRhvjVKGZjuz8XlSSfe3WZT30mQBRB+y63zjN1njMmScj9
+ 6DmH0F0cz8TeaQpdFwkI1JzR6NtjKLP6BCCQ==;
+Message-ID: <9248ae41-e6c7-4fe5-819e-daaa7e809e7b@damsy.net>
+Date: Wed, 10 Jul 2024 15:46:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] drm/v3d: Prevent out of bounds access in
- performance query extensions
-To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
- Iago Toral Quiroga <itoral@igalia.com>, stable@vger.kernel.org
-References: <20240710134130.17292-1-tursulin@igalia.com>
- <20240710134130.17292-2-tursulin@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20240710134130.17292-2-tursulin@igalia.com>
+Subject: Re: [PATCH v5 4/4] drm/doc: document some tracepoints as uAPI
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
+ matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+ rostedt@goodmis.org
+References: <20240614081657.408397-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240614081657.408397-5-pierre-eric.pelloux-prayer@amd.com>
+ <d509317e-3b85-4ce5-95a5-081697d7253f@igalia.com>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <d509317e-3b85-4ce5-95a5-081697d7253f@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,53 +64,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maíra,
 
-On 10/07/2024 14:41, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Le 03/07/2024 à 17:41, Maíra Canal a écrit :
+> Hi Pierre,
 > 
-> Check that the number of perfmons userspace is passing in the copy and
-> reset extensions is not greater than the internal kernel storage where
-> the ids will be copied into.
+> On 6/14/24 05:16, Pierre-Eric Pelloux-Prayer wrote:
+>> This commit adds a document section in drm-uapi.rst about tracepoints,
+>> and mark the events gpu_scheduler_trace.h as stable uAPI.
+>>
+>> The goal is to explicitly state that tools can rely on the fields,
+>> formats and semantics of these events.
+>>
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer 
+>> <pierre-eric.pelloux-prayer@amd.com>
+>> ---
+>>   Documentation/gpu/drm-uapi.rst                | 19 ++++++++++++++++
+>>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 22 +++++++++++++++++++
+>>   2 files changed, 41 insertions(+)
+>>
+>> diff --git a/Documentation/gpu/drm-uapi.rst 
+>> b/Documentation/gpu/drm-uapi.rst
+>> index 370d820be248..78496793a8f0 100644
+>> --- a/Documentation/gpu/drm-uapi.rst
+>> +++ b/Documentation/gpu/drm-uapi.rst
+>> @@ -570,3 +570,22 @@ dma-buf interoperability
+>>   Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+>>   information on how dma-buf is integrated and exposed within DRM.
+>> +
+>> +
+>> +Trace events
+>> +============
+>> +
+>> +See Documentation/trace/tracepoints.rst for the tracepoints 
+>> documentation.
 > 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Fixes: bae7cb5d6800 ("drm/v3d: Create a CPU job extension for the reset performance query job"
-> Cc: Maíra Canal <mcanal@igalia.com>
-> Cc: Iago Toral Quiroga <itoral@igalia.com>
-> Cc: <stable@vger.kernel.org> # v6.8+
+> I would write it:
+> 
+> "See Documentation/trace/tracepoints.rst for information about using
+> Linux Kernel Tracepoints."
+> 
+>> +In the drm subsystem, some events are considered stable uAPI to avoid
+> 
+> Super small nit: s/drm/DRM
+> 
+>> +breaking tools (eg: gpuvis, umr) relying on them. Stable means that 
+>> fields
+> 
+> Super small nit:
+> 
+> 1. s/eg:/e.g.:
+> 2. s/gpuvis/GPUVis (maybe a URL to it?)
+> 3. Maybe a URL to umr?
+> 
+> 
+>> +cannot be removed, nor their formatting updated. Adding new fields is
+>> +possible, under the normal uAPI requirements.
+>> +
+>> +Stable uAPI events
+>> +------------------
+>> +
+>> +From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Super small nit: from the rest of the file, I see that a title was never
+> needed. Do we need it here?
+> 
+>> +
+>> +.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> +   :doc: uAPI trace events
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h 
+>> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> index 0abcad26839c..63113803cdd5 100644
+>> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> @@ -33,6 +33,28 @@
+>>   #define TRACE_SYSTEM gpu_scheduler
+>>   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
+>> +
+>> +/**
+>> + * DOC: uAPI trace events
+>> + *
+>> + * ``drm_sched_job``, ``drm_run_job``, ``drm_sched_process_job``,
+>> + * and ``drm_sched_job_wait_dep`` are considered stable uAPI.
+> 
+> Super small nit again, but I believe we should format function names
+> with ``foo()``, if I understood kerneldoc documentation correctly.
+> 
+> Apart from all those nits, I completely agree with Lucas, it is great to
+> see this improvement.
+> 
+> Acked-by: Maíra Canal <mcanal@igalia.com>
 
-On this one I forgot to carry over from v1:
 
-Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+Thanks a lot for the feedback, I'll integrate it in v6.
 
 Regards,
+Pierre-Eric
 
-Tvrtko
-
-> ---
->   drivers/gpu/drm/v3d/v3d_submit.c | 6 ++++++
->   1 file changed, 6 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-> index 88f63d526b22..263fefc1d04f 100644
-> --- a/drivers/gpu/drm/v3d/v3d_submit.c
-> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-> @@ -637,6 +637,9 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
->   	if (copy_from_user(&reset, ext, sizeof(reset)))
->   		return -EFAULT;
->   
-> +	if (reset.nperfmons > V3D_MAX_PERFMONS)
-> +		return -EINVAL;
-> +
->   	job->job_type = V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY;
->   
->   	job->performance_query.queries = kvmalloc_array(reset.count,
-> @@ -708,6 +711,9 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
->   	if (copy.pad)
->   		return -EINVAL;
->   
-> +	if (copy.nperfmons > V3D_MAX_PERFMONS)
-> +		return -EINVAL;
-> +
->   	job->job_type = V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY;
->   
->   	job->performance_query.queries = kvmalloc_array(copy.count,
+> Best Regards,
+> - Maíra
+> 
+>> + *
+>> + * Common trace events attributes:
+>> + *
+>> + * * ``id``    - this is &drm_sched_job->id. It uniquely idenfies a job
+>> + *   inside a &struct drm_gpu_scheduler.
+>> + *
+>> + * * ``dev``   - the dev_name() of the device running the job.
+>> + *
+>> + * * ``ring``  - the hardware ring running the job. Together with 
+>> ``dev`` it
+>> + *   uniquely identifies where the job is going to be executed.
+>> + *
+>> + * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
+>> + *   &drm_sched_fence.finished
+>> + *
+>> + */
+>> +
+>>   #ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+>>   #define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+>>   /* Similar to trace_print_array_seq but for fences. */
