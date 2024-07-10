@@ -2,145 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1337792D477
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 16:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC09492D480
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 16:48:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585F810E6DA;
-	Wed, 10 Jul 2024 14:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C94E10E22E;
+	Wed, 10 Jul 2024 14:48:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kjd8c6+J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I4WvuWII";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kjd8c6+J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I4WvuWII";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bMrRdvzn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1153210E22E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 14:45:38 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 82A421F836;
- Wed, 10 Jul 2024 14:45:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720622736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5Gr6Gh55hfj4d+3CzjYKhFDuic+DuJM29Vd3zd3vNJI=;
- b=kjd8c6+J8WDtPut+MaljpgKQi1newS/R2QYmRVeJQ/8MVwzdGQRlE7B8zkJmNVhTxBYf+a
- I9r2gw1h/jtFJ3+5sk2iylOkDNbeLXa5/y2sqQtUnrbq2Wr7lKzqCucO1IyciAFyW7U7g7
- yZF+CZMySkgvAwUiiZjWOrSLKufXNms=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720622736;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5Gr6Gh55hfj4d+3CzjYKhFDuic+DuJM29Vd3zd3vNJI=;
- b=I4WvuWII3btlVkHtVrfsCA8PI5vka23XCVGYvqS5ZBgGXf9pxTfRfx5HBDfzfovkh6pBJD
- 6qEjv+jaOCRKk0DQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kjd8c6+J;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=I4WvuWII
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720622736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5Gr6Gh55hfj4d+3CzjYKhFDuic+DuJM29Vd3zd3vNJI=;
- b=kjd8c6+J8WDtPut+MaljpgKQi1newS/R2QYmRVeJQ/8MVwzdGQRlE7B8zkJmNVhTxBYf+a
- I9r2gw1h/jtFJ3+5sk2iylOkDNbeLXa5/y2sqQtUnrbq2Wr7lKzqCucO1IyciAFyW7U7g7
- yZF+CZMySkgvAwUiiZjWOrSLKufXNms=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720622736;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5Gr6Gh55hfj4d+3CzjYKhFDuic+DuJM29Vd3zd3vNJI=;
- b=I4WvuWII3btlVkHtVrfsCA8PI5vka23XCVGYvqS5ZBgGXf9pxTfRfx5HBDfzfovkh6pBJD
- 6qEjv+jaOCRKk0DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4619C1369A;
- Wed, 10 Jul 2024 14:45:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 4DXHD5Cejma+QQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 10 Jul 2024 14:45:36 +0000
-Message-ID: <04f80b99-e551-4fb5-a370-e4d94295b20e@suse.de>
-Date: Wed, 10 Jul 2024 16:45:35 +0200
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2049.outbound.protection.outlook.com [40.107.243.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9C0710E22E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 14:48:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=feWMJ0vZJDw4VCcR5wb5ms0E4VTL3qS01aXjZ29nL7qG6W8PRy3xq/cYI/AiajTCXm+Rc8Ir3qLBFLwt9JBNZ7k9HdWaf55nEZN19IXVxPTZbk/TFPUj9oKOVThqtutAxOsWedbDpFvNOlU88oHI3QsLWu8u+QAYzvHsdLOfm3NUfKaacPEsQQqe0cGF78j8z0gL5DAXX4pzSuFYmEMR4oERd9J+ymwjye1KG81SSihe8wYD30Jj9SOx00ieyw6cJR/3a5gk9CmvtIMm7O/MS0JdMR8HF27bVC1ZqCEiM3d0a1vMf7DgYqFhMJR29Mf+7lEnvYbA+qgEgnrZISuk6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7CBzI8yAb0Pn8ANnJ7k83L1gWb1Ok+HOBPvyMpbF+Tk=;
+ b=awTFJXgK0EaRpwg1q5g2EKHS7amdiNSq00VgjFq3Ieu1sCyIa4JhHDLzmPkamHQ1M045GLfo7qeEjELHpjQa7rU6KuMzgOqO26OmtDegDiG78prnUuMacpwXh0ntS8Aq+MCTJKvwZpmwacS53+R3gScTAJ0Um8pY/faaVTFCikK9OHykWToiGUUQoXVQ2x6SlXQLZbj0OBxkuY54FaHClXGmkh4dqpnhJgq8P6IZTnX+HFvm56hHSyX1xkaXlRQjHeF+Ql0L7RwgTECn7SFB1yuycGIL2sV5JjZ3oMzYehV7M4WOUyiTGOluOz5rw/lOk3fYWOS5yWPleoIgWkSu0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7CBzI8yAb0Pn8ANnJ7k83L1gWb1Ok+HOBPvyMpbF+Tk=;
+ b=bMrRdvzndLQS3fqGB+V9FiDetekbdRfPB+N5J8jVHca+BHVYYMWLH3uM9PviDBEZeVrf9yFFod/SSuOXuBDFOGsfROKpSUulilzPCnF98SqaVULCAjjfyVFkt26VRjZhTvViDvPAQYXXzhl0cj4wV8npJ385l1u0yBkwE4IGxqc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
+ by SN7PR12MB6692.namprd12.prod.outlook.com (2603:10b6:806:270::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Wed, 10 Jul
+ 2024 14:48:17 +0000
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062%3]) with mapi id 15.20.7741.027; Wed, 10 Jul 2024
+ 14:48:16 +0000
+Message-ID: <0393cf47-3fa2-4e32-8b3d-d5d5bdece298@amd.com>
+Date: Wed, 10 Jul 2024 16:48:07 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] drm/mgag200: Only set VIDRST bits in CRTC
- modesetting
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20240710084609.354578-1-tzimmermann@suse.de>
- <20240710084609.354578-2-tzimmermann@suse.de>
- <29ed1a04-ceb7-4619-9b91-2ea35e53c9f2@redhat.com>
+Subject: Re: [PATCH 0/2] Support direct I/O read and write for memory
+ allocated by dmabuf
+To: Lei Liu <liulei.rjpt@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ Andrei Vagin <avagin@google.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, Daniel Vetter <daniel@ffwll.ch>,
+ "Vetter, Daniel" <daniel.vetter@intel.com>
+Cc: opensource.kernel@vivo.com
+References: <20240710135757.25786-1-liulei.rjpt@vivo.com>
+ <5e5ee5d3-8a57-478a-9ce7-b40cab60b67d@amd.com>
+ <d70cf558-cf34-4909-a33e-58e3a10bbc0c@vivo.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <29ed1a04-ceb7-4619-9b91-2ea35e53c9f2@redhat.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <d70cf558-cf34-4909-a33e-58e3a10bbc0c@vivo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; DKIM_TRACE(0.00)[suse.de:+];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[7]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 82A421F836
-X-Spam-Flag: NO
-X-Spam-Score: -4.50
-X-Spam-Level: 
+X-ClientProxiedBy: FR4P281CA0128.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b9::17) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|SN7PR12MB6692:EE_
+X-MS-Office365-Filtering-Correlation-Id: 919a9205-e24c-4d81-eae1-08dca0ef553f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?anpiUmVQbmFJN2NnSG4vQmxBNi9DNWRTbTFrZThLcG5tMndrbEg2dlY0TGVq?=
+ =?utf-8?B?VEt6eU50R1NFV0FYN3dXS3JrdDdUeXNESVN6dzAxNkhuWU9XbmR1dmlNTzNw?=
+ =?utf-8?B?MGV0ckI0ZkJaR2FaRVl5RW9pMDBZZGF6K0hKKzFEaFBUZTBXY1VjekszTFhr?=
+ =?utf-8?B?WlR2eTg5TDltNkJodHgwRXE3MUkza0dBdE1qUm9tSmFSZlp0aStwNGhWZ1Er?=
+ =?utf-8?B?VEdxYVplM1U1cVZiYktQR01TTzNpdGd6bnl4Nk1RQlFSRDVQdlZXd0dEZDVz?=
+ =?utf-8?B?bGRsR2t6RTVSeHJBS01kMGR6cEJWbnNSaUZ5VFZvRkFrUTNRcGlHcFlGNU1z?=
+ =?utf-8?B?UEM2U0ticldUdG13MlB4dkJPZkMvbERUNEdmTWZuZkZiVnIwT1VVeVdTWFhp?=
+ =?utf-8?B?WDIrSlhPQm1XcXl2bnBPWHNjblB2b0pFc2prQ0JnZEovZXhhQkhWcmNiSzVG?=
+ =?utf-8?B?cmRjOE81WURRLy9SWmVNV0Q0RGVIU05aNVM2SDBjNVhvblhqTjJad2xxTkhV?=
+ =?utf-8?B?RjRFSTVJQk4wc1hTTTdSdjRRZlR1WHpmVmY1YUdsRHJ6V2pVWGI0NVVDSHV6?=
+ =?utf-8?B?cm9SNjJISHN3QzJ4YXYxU3BrbzU1RDNEVHhFZWZVMFIweGRkM2pzV1lTYjBX?=
+ =?utf-8?B?d1ZXa3UraUpuZXduczVGZW9PdmpINVBjZ0JuS0ZQd2R1UUNGTTlLNmZ1T1li?=
+ =?utf-8?B?V3E4SUNuTmMrVm44eWhUcjNsMGt2MWZPdkNacUhXUXp4Y2dOWkhZWjd3VEVQ?=
+ =?utf-8?B?SjErSGJzWmVMQkgxTFlabnBZQUhQMUV0anRua2c5bDdKbWFhd290VXE2L0g4?=
+ =?utf-8?B?QVJQdHR3VVkrTGdQRU4rTU9xSGdRRmVweEF1Y0JzdSs1T2diWVNKNHlsL05Z?=
+ =?utf-8?B?Z3Rob09seUhLb2k0UUlMa2lQd3N5anc2VXNBSnczZkNnWTk0WWJoRXR4cncr?=
+ =?utf-8?B?VXdHM0gzZ01KMlhXMjhpQ0JjRzZNZEZMYmZiY1Q4cUJiYmRvM0M4cmw3dE9K?=
+ =?utf-8?B?Nkt2dGdvNXJVRnJ5TXFuSTdTakpMNVRMUHA4a0tmUytKRGNEcmJoUHVIeFMv?=
+ =?utf-8?B?UThjYXIydUozK1RZRVVLMVh5UU4xSFlEVjVpK2ttbFJSTmd6b0d1S2Q0WTU1?=
+ =?utf-8?B?MW9NYmlXYUgrcmROUUhxWk9CcXZPWW1GdWZZTFpoaEtSWGJWQlUrR0tDZHJK?=
+ =?utf-8?B?MzM3LzhrWkkzL3ZVQk9yYVcyK2VsSm9hNGFteENocHFnd3ZHUXJnZDdPamg0?=
+ =?utf-8?B?V0E0R0prLzQ3WHNzeHk0bm5VS3dzWkJKWmtFT1JzODNLTk1ucEFwSVc2UGtM?=
+ =?utf-8?B?VFJjSGUwVWVHV0tpVE1ZbnFZYlorY1N1dXNSZlB3QVArOWxudUQ4MVBjVmNK?=
+ =?utf-8?B?RHE0aDlJam1yQTlxUlk3ekt4TmZ1UWNZajRrUDR3RGpRQlVxNFk3TDJPajhR?=
+ =?utf-8?B?eXhUV21DQkdUMWQ2VHd6T09yY2lZb3VKd1ptNlBMRGc3bjQyeWxsZWJSeVJy?=
+ =?utf-8?B?ZmpCc1hYZHd6bHZGV0RnWFNwZnVUL1I3MWJvL3dqeDV2Y0x5S2Y5T0wyZzNR?=
+ =?utf-8?B?U1VudURxWmRkNnB1eFNoWURCNmlnUlNVbVVpQ2JZUGVvQkhaTTIzbndrTFo4?=
+ =?utf-8?B?TzBZSDBZTUhPNGZtb3pmR2Vsdm1RaE1DejAxdlRwS3AwSWVCVGZXcHd4b0p3?=
+ =?utf-8?B?NkVPN2tqSDN4UVljbi8rUmg4dnhNRTQzTm9GTnJqZFJjWGQxcmtyRVVsU3c2?=
+ =?utf-8?B?UVBjcXJZbGduUWhYSUxINlRsU2ZoR1VVTlQ0SWJMSjQwQnpUbXo4bENlVzZz?=
+ =?utf-8?B?RGsyL1NHMVExY0VqTGhDbzUycXM3dytUT1NaeUxyL0FKeDNzUmJxdXpOY0RF?=
+ =?utf-8?Q?QAqgtY+2W0Zoq?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U1VJRElDNGZHSjdtbUQrQUxNWHpaSlRoL2JBTjE5L2Fla09PRnhPamFDRlZI?=
+ =?utf-8?B?UkwvT2JIMFExemwrOU5KRlUvN1hpSE1rOXc5R1hhZEFGdVV3Wlc1TGxpV0FX?=
+ =?utf-8?B?WmtKaXBoeVRMcVRzTXpySHRabXlYRmFYdTg1MGQ3V1hmVlZNa043VndZN0Vq?=
+ =?utf-8?B?WkczQ1ZUTEJ3Q2lrQ2Q4MW5OelBBUmI4VVJ1NFpCQjFWQXQ3VmRDZ0hrMDNU?=
+ =?utf-8?B?SHM4elUxZmtQVWVLNDIvSk9tS1lodzZjbDFZb3ZXOVI2NzgrODhHeFFDeW1J?=
+ =?utf-8?B?ZG53ZWJRdGdTV3hSTzAyQXJoM3didFV2TzRVT1Z5TzhVOHRsaldYMnBJbWQ3?=
+ =?utf-8?B?ai9ja0FxTXluN0Y4VHpUa2YwalVONVhyWkRuQWdMOVp1cHlsSmVmRjhRUDRZ?=
+ =?utf-8?B?MkFaRDJqZWNtZHZnQlJRMXdHUDV4TTlSd3N5RkFsQmRSb0phNVk0Zzhwa2FE?=
+ =?utf-8?B?a0JmQUI3dlhqQkREMEk5LzNaQVNtaUdUSi9Ba1ZQRjZlR1B2dVNHejh2blVQ?=
+ =?utf-8?B?TW5wSFE5cXpvWmF5ck1KQjVLQnpnMDAyVnFpU0R3bUlRN0tzQWlWNlFicTVQ?=
+ =?utf-8?B?Q0tNOXp1Z2lhRjFMTitRWkpzSGFzMUtQdWtvTDh4aWQ1RnQxa2toUGFxWDJC?=
+ =?utf-8?B?bm5POHdvZmpCNjBoMC94YXdxR3QwSU9tVnFGSHRkUUhibGhjNU1yYXJXdWtp?=
+ =?utf-8?B?eE5pL2pUUVJYR3Vxa2NvbkhJVDZKQnZXQzhvb0lTWDVGRERXSjJvazFwR3FV?=
+ =?utf-8?B?Nkhqd1lIQk0vT2JjT0ZBUFVCSlNvTEtnM0RvY0pHSDRBRnFZOWs4N0kxZlJ2?=
+ =?utf-8?B?OEVjRWpPRnJZcjJ1WldCWkxmN0FVaFdHM3ZwME8vTk4vcU1rdVBucVdFQkdF?=
+ =?utf-8?B?Z0xMZXE0YXBTRVJvZHYxRDVGU0hLQ000cjB6VGsyZHpzL0FIS2ZyWWN0YkQv?=
+ =?utf-8?B?clkyeGIyeWN6WWpYOEZlc1EvYTZsM1V3eTRXdW53NWRPeHBNcUJhQXVaSTVT?=
+ =?utf-8?B?VTR6THBVZi83UWdxSmdQa0l1NHdBRk52OHFnUVVnMktqRW1GTTRGT3dVWnNT?=
+ =?utf-8?B?YlhBR1dFenhSc3hVVnJ1TGkrSVVtRXhBUGdod3E1WFBFeG5lR2dKanZ6R21w?=
+ =?utf-8?B?VmVQb1ZxWHBZeWNhUHZvMW9nTXFwdjV2UDV1ck5Kb1RIQjRRUFAza1pEY1hw?=
+ =?utf-8?B?RVpqMHZVbDZlL1gvaEx1Z0ZGaVpwNHFvTXFpVm1wVkhhSTRrSHF6VkxTSGJv?=
+ =?utf-8?B?UUgwOURJTnY4REhvbEcxcW1RamswcHRzamFHZjJJOEl6WDArVFVqRlQxN3d0?=
+ =?utf-8?B?MGhHMm1zeDZabSthYkFxUEs5STFRL0pCREZMT1JBQWF5OTFncVlra1F4bkdE?=
+ =?utf-8?B?VWQvMzdSSHYvblhqOUtxcEJRS3VjUXlINGtWWlovb1VUZWxIYlk4K3R4TFEr?=
+ =?utf-8?B?bkpIcFZxekExcWk5R2NBQnA3VU92WklMaC91U1pCL3ord0hKRysyTGViMWJo?=
+ =?utf-8?B?WHVRSFpnV2N6L05PaCtlRDYvTDB6SE9GTkMrcWxURmF6aENuUFdUM01RZ0ps?=
+ =?utf-8?B?eStaWjFleXRkcXJyWk1QdEJhNUdIN01iZEN0OER0RWp4OHl0R3pXRUdYWHBk?=
+ =?utf-8?B?VGZKSXdnQ2NobSs5dlNPSXQzNEJEalQ4QnF1Nm1meHJlUS8yUW9wWktXZDFw?=
+ =?utf-8?B?ZmFNL0pleldyUmlKaGxteUVYMGRVeFRiSVJvd3NsdEFlbk54TUlmTXBvMFhv?=
+ =?utf-8?B?RHFobWp1Ni81ME9LL3d2Y05Rd3Q0VWIxcWRFNmlVdGI4WVg2K2l6b1RNa0FV?=
+ =?utf-8?B?a1RiRUVJTnBNdWtJZ3I1UmNPUXJ1TVlFYXFEa0FKRkYzK0krZUVnZXovd1Mz?=
+ =?utf-8?B?STdiOWNKRDV3bUgzaFJJazNha0I2RmlpbnF1aDkvYk5QQm5FOGVic1B2VWY5?=
+ =?utf-8?B?RDhJdVc2VUNtR1AwTms1dEV1QWphNndRMjBLZU9NS3kwSUZQTTV4UWU3Z2dB?=
+ =?utf-8?B?RjRUeEhkSWhtN0NXeENjSmV2T2RsZlZteWQ3TkVWVTJoNzY1SzZwT0J5cGhH?=
+ =?utf-8?B?b2QrTkN0Z3dZQ3lYODJhWlF2NCtBSVg2eTBFK1RoVW84NmtBTzlaUlZVSUV6?=
+ =?utf-8?Q?YavE=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 919a9205-e24c-4d81-eae1-08dca0ef553f
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2024 14:48:16.8875 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vQ/pWqGmU0i8YbcTENfdUQRo92/2Xdfz9Kgpg76Dks/i7Kz/GKXqb6mZIQOprJrR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6692
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,75 +176,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 10.07.24 um 16:25 schrieb Jocelyn Falempe:
+Am 10.07.24 um 16:35 schrieb Lei Liu:
 >
+> 在 2024/7/10 22:14, Christian König 写道:
+>> Am 10.07.24 um 15:57 schrieb Lei Liu:
+>>> Use vm_insert_page to establish a mapping for the memory allocated
+>>> by dmabuf, thus supporting direct I/O read and write; and fix the
+>>> issue of incorrect memory statistics after mapping dmabuf memory.
+>>
+>> Well big NAK to that! Direct I/O is intentionally disabled on DMA-bufs.
 >
->> +    if (set_vidrst)
->>           crtcext1 |= MGAREG_CRTCEXT1_VRSTEN |
->>                   MGAREG_CRTCEXT1_HRSTEN;
->> +    else
->> +        crtcext1 &= ~(MGAREG_CRTCEXT1_VRSTEN | MGAREG_CRTCEXT1_HRSTEN);
+> Hello! Could you explain why direct_io is disabled on DMABUF? Is there 
+> any historical reason for this?
+
+It's basically one of the most fundamental design decision of DMA-Buf. 
+The attachment/map/fence model DMA-buf uses is not really compatible 
+with direct I/O on the underlying pages.
+
+>>
+>> We already discussed enforcing that in the DMA-buf framework and this 
+>> patch probably means that we should really do that.
+>>
+>> Regards,
+>> Christian.
 >
-> The else case is useless, as crtcext1 has already this bits set to 0 
-> unconditionnaly.
+> Thank you for your response. With the application of AI large model 
+> edgeification, we urgently need support for direct_io on DMABUF to 
+> read some very large files. Do you have any new solutions or plans for 
+> this?
 
-Indeed. Will be fixed.
+We have seen similar projects over the years and all of those turned out 
+to be complete shipwrecks.
 
-Best regards
-Thomas
+There is currently a patch set under discussion to give the network 
+subsystem DMA-buf support. If you are interest in network direct I/O 
+that could help.
+
+Additional to that a lot of GPU drivers support userptr usages, e.g. to 
+import malloced memory into the GPU driver. You can then also do direct 
+I/O on that malloced memory and the kernel will enforce correct handling 
+with the GPU driver through MMU notifiers.
+
+But as far as I know a general DMA-buf based solution isn't possible.
+
+Regards,
+Christian.
 
 >
->>         crtcext2 = ((vtotal & 0xc00) >> 10) |
->>              ((vdisplay & 0x400) >> 8) |
->> @@ -597,6 +599,7 @@ int mgag200_crtc_helper_atomic_check(struct 
->> drm_crtc *crtc, struct drm_atomic_st
->>       struct mga_device *mdev = to_mga_device(dev);
->>       const struct mgag200_device_funcs *funcs = mdev->funcs;
->>       struct drm_crtc_state *new_crtc_state = 
->> drm_atomic_get_new_crtc_state(new_state, crtc);
->> +    struct mgag200_crtc_state *new_mgag200_crtc_state = 
->> to_mgag200_crtc_state(new_crtc_state);
->>       struct drm_property_blob *new_gamma_lut = 
->> new_crtc_state->gamma_lut;
->>       int ret;
->>   @@ -607,6 +610,8 @@ int mgag200_crtc_helper_atomic_check(struct 
->> drm_crtc *crtc, struct drm_atomic_st
->>       if (ret)
->>           return ret;
->>   +    new_mgag200_crtc_state->set_vidrst = mdev->info->has_vidrst;
->> +
->>       if (new_crtc_state->mode_changed) {
->>           if (funcs->pixpllc_atomic_check) {
->>               ret = funcs->pixpllc_atomic_check(crtc, new_state);
->> @@ -656,7 +661,7 @@ void mgag200_crtc_helper_atomic_enable(struct 
->> drm_crtc *crtc, struct drm_atomic_
->>           funcs->disable_vidrst(mdev);
->>         mgag200_set_format_regs(mdev, format);
->> -    mgag200_set_mode_regs(mdev, adjusted_mode);
->> +    mgag200_set_mode_regs(mdev, adjusted_mode, 
->> mgag200_crtc_state->set_vidrst);
->>         if (funcs->pixpllc_atomic_update)
->>           funcs->pixpllc_atomic_update(crtc, old_state);
->> @@ -717,6 +722,7 @@ struct drm_crtc_state 
->> *mgag200_crtc_atomic_duplicate_state(struct drm_crtc *crtc
->>       new_mgag200_crtc_state->format = mgag200_crtc_state->format;
->>       memcpy(&new_mgag200_crtc_state->pixpllc, 
->> &mgag200_crtc_state->pixpllc,
->>              sizeof(new_mgag200_crtc_state->pixpllc));
->> +    new_mgag200_crtc_state->set_vidrst = 
->> mgag200_crtc_state->set_vidrst;
->>         return &new_mgag200_crtc_state->base;
->>   }
+> Regards,
+> Lei Liu.
 >
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+>>
+>>>
+>>> Lei Liu (2):
+>>>    mm: dmabuf_direct_io: Support direct_io for memory allocated by 
+>>> dmabuf
+>>>    mm: dmabuf_direct_io: Fix memory statistics error for dmabuf 
+>>> allocated
+>>>      memory with direct_io support
+>>>
+>>>   drivers/dma-buf/heaps/system_heap.c |  5 +++--
+>>>   fs/proc/task_mmu.c                  |  8 +++++++-
+>>>   include/linux/mm.h                  |  1 +
+>>>   mm/memory.c                         | 15 ++++++++++-----
+>>>   mm/rmap.c                           |  9 +++++----
+>>>   5 files changed, 26 insertions(+), 12 deletions(-)
+>>>
+>>
 
