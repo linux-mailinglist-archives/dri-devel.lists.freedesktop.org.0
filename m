@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6CF92D709
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 19:05:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5DE692D70A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 19:05:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB4B10E29B;
-	Wed, 10 Jul 2024 17:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F24010E83D;
+	Wed, 10 Jul 2024 17:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xUW6T/7a";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aKR4b3sq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A20D10E83D
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:05:18 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-3679df4cb4cso21611f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 10:05:18 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD8D10E83D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:05:19 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-4266f535e82so16275555e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 10:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1720631117; x=1721235917; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=/g1Yb1+vfOCpHonxF+Jqbu5p5cwpmV8OmQtPa+jVmyk=;
- b=xUW6T/7atPChn8TJeWOFBHVbJyoBjcyLccKghMIWUwa7fYrZ76nVDHrOvhEaoZ3O4G
- 8rQffZ9qi+icqHUS0TOqfYZ+SIQF0si2lXvgvw7ryGIwaivoMnsGk6MMRL2wPaH5mIQH
- G2OYBp4CW2IXbo97PtpUYkjqPO630KvxUa+xHff3WqfCiyVTK3TZxYJK9XIJaCkIWHCh
- ujAjCaUptjE0kT73hHqBscsAed6ETiCO6XFv2c1Lo2mTaKfue8U0QmMmzFVAlq4O5Gaa
- X1IrFoNiLVJ+BWv6ab/BWceukD/zOHc+Wvt5uCKXuzPtave1CcOhIi1Vn0H3BJioTrNF
- aLyA==
+ :reply-to; bh=S4NkoAIT77VT3upOcUYDgNo3eUGfA37eNUjC42fZIhc=;
+ b=aKR4b3sqWs/ZSyTRE7BnDyKjPgSr/4JHvEc+wUEE5Zizx7tCDCXAgNlyF+dKS6GvVd
+ VKq8x4RFIdeArqlp8IkdNYCkHqYHRCypPegIBOzISI/vi55+wcLZC2zNj6N8sg8Ws7oq
+ Wat/u3pXuEIDs1LDx3ZN027/FQUWXGagg0SJLOwH7nBYhL1l9oTlzba/+hVReKsTi7RF
+ BWB7rPAFcd23dArdlYImtHrPzw0yIdLxVX0ydyUhKUtC9JDc39zo2YftDP0/I6PBr3l9
+ 5ugpwUyLEBzkVZq5NgNqwRHVLEbp/WXaqaz2MMcYq5aivQGRxNy51KKV0eZ28wcVnYtR
+ dOCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1720631117; x=1721235917;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/g1Yb1+vfOCpHonxF+Jqbu5p5cwpmV8OmQtPa+jVmyk=;
- b=l+JH4l7aK79fMGm66/cDIGcY3V/Drz3N9HDn8vnnB9UFrt9lZlWZrfnbTftXepGVxO
- BDBntxWcBfxqn1j7tMADzG7ar1F2J5+IR71Bkb9HOBzkFHTGFMJL+Adw9/nS7zcdQ/OJ
- 0mLL5xCKsaJ2PXQ8blzhPFOF4H/ZaoQ/JBcMXiwPHtpTkCWbil9m6nvns6du07mjIkqs
- MxFlGvyUpwRGx9rGS0pG7MR9xe4TKtpxc1SG2z3eQ6RAOHheSVg1FVEc4ArBuY9H66dp
- 2ZvwRoNYnP9dSN0h+Xx6PYnxTwWd2yCiprSXdX9gU97bEhkX3lDHfwIkyJ4nHgo2OQ8g
- klkg==
+ bh=S4NkoAIT77VT3upOcUYDgNo3eUGfA37eNUjC42fZIhc=;
+ b=pz3P1f6YBndJvJg6KZsa4JDg0hCSc3bwhmqNfV/MdFUSDxQezD9/unBdvb+3NfaHmX
+ Aes+Ndsrkx3JayjNmpA9aasaOMgEiZ4pXk6/CFy2prHsT0rcu2u+53YSo7upZ7fhfLzk
+ Vjetm9E5Gn7NVlHZ/eN+kDKZF8Lda71rCME1WpYLIFyDfHN1/Es//G/Hnj6j0+W3bi7L
+ GvDPdndguc1uTqTL8kyLUjpErqZ2vUKvkYvHPvJiTtyA5/czhDhRDNCu2EDp/IdzKWaU
+ SYeHsZMLwHtJ4vhDvR7IJfPsGbdlLN/AgsXG6zIscmUIndS0eN+j6U0zXQc5uvfBM//t
+ Hpcw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1pmwdGwIM3yQT6ifk2qbVHo8xKBtLPYKo5Gbp1OgAhyMGlH0jxYQzq6NTBemzTcaCe1LnySExz8qsYuayFJjQ2bFDp3OsqSLpGc3TflZv
-X-Gm-Message-State: AOJu0YyMEtTSuCNgeAP5VAPafQWsLt95ujn3ko8PTqYe3zy37uVDtIfK
- /ksDean8B1nLndQ/heC5mbuMzio0SJ8PtMt7IshwuBUu79loeJdY/9wlO/oPmr0=
-X-Google-Smtp-Source: AGHT+IHrRXiCsidR4X+LasiuthOFj9ICKMJe5oQgZWQE5LzqBbT6SBTjtUxtWEVsNWAdJXaa53sXHw==
-X-Received: by 2002:adf:e0d0:0:b0:360:8c88:ab82 with SMTP id
- ffacd0b85a97d-367f04de8e6mr260014f8f.30.1720631116954; 
- Wed, 10 Jul 2024 10:05:16 -0700 (PDT)
+ AJvYcCWDXArNawY01GpUBj6+Ks35C/8EUQ8+YZiVfXpu4UTYWomh3MRqr15oEGfNm+ju56tWW2dnXL9iFTedh/fvrIwK2kHrIL+hHlN6QdcKQniM
+X-Gm-Message-State: AOJu0YwTjaS/cFx3VCPs7EQ/Dn0gH8jaZk+l2KOLpdpVXvzxTuiiONq9
+ q+zWuYIs/TMTk3rZDOzxGxc3iKXLvfo7KjX0cSj2yi9d9I0qlXPlLvt3fXZ2KtFxusLk7MneasD
+ T7e353A==
+X-Google-Smtp-Source: AGHT+IGkLUFSUmZ5ECS3GHwAe+MqsROrwZrfQE/I+tdJdPvxCPyYlWVxShiAik5dzVjABnYcvtZ7ZQ==
+X-Received: by 2002:a05:600c:896:b0:426:5216:3254 with SMTP id
+ 5b1f17b1804b1-426708f1eebmr46866985e9.32.1720631117621; 
+ Wed, 10 Jul 2024 10:05:17 -0700 (PDT)
 Received: from [127.0.0.2] ([2a02:2454:ff1f:b240:65e6:93ca:5f80:ea9b])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-367cde7dedfsm5838446f8f.24.2024.07.10.10.05.16
+ ffacd0b85a97d-367cde7dedfsm5838446f8f.24.2024.07.10.10.05.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jul 2024 10:05:16 -0700 (PDT)
+ Wed, 10 Jul 2024 10:05:17 -0700 (PDT)
 From: Stephan Gerhold <stephan.gerhold@linaro.org>
-Date: Wed, 10 Jul 2024 19:04:58 +0200
-Subject: [PATCH 2/5] drm/panel: samsung-atna33xc20: Add compatible for
- ATNA45AF01
+Date: Wed, 10 Jul 2024 19:04:59 +0200
+Subject: [PATCH 3/5] Revert "drm/panel-edp: Add SDC ATNA45AF01"
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240710-x1e80100-crd-backlight-v1-2-eb242311a23e@linaro.org>
+Message-Id: <20240710-x1e80100-crd-backlight-v1-3-eb242311a23e@linaro.org>
 References: <20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org>
 In-Reply-To: <20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -91,33 +91,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Samsung ATNA45AF01 panel needs exactly the same non-standard power
-sequence as the Samsung ATNA33XC20 panel for backlight to work properly.
-Add the new "samsung,atna45af01" compatible to the driver to make it handle
-these panels as well.
+This reverts commit 8ebb1fc2e69ab8b89a425e402c7bd85e053b7b01.
 
-While ATNA45AF01 would also work with "samsung,atna33xc20" as a fallback
-compatible, the original submission of the compatible in commit
-4bfe6c8f7c23 ("drm/panel-simple: Add Samsung ATNA33XC20") had the timings
-and resolution hardcoded. These would not work for ATNA45AF01.
+The panel should be handled through the samsung-atna33xc20 driver for
+correct power up timings. Otherwise the backlight does not work correctly.
+
+We have existing users of this panel through the generic "edp-panel"
+compatible (e.g. the Qualcomm X1E80100 CRD), but the screen works only
+partially in that configuration: It works after boot but once the screen
+gets disabled it does not turn on again until after reboot. It behaves the
+same way with the default "conservative" timings, so we might as well drop
+the configuration from the panel-edp driver. That way, users with old DTBs
+will get a warning and can move to the new driver.
 
 Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
 ---
- drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/panel/panel-edp.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-index 9a482a744b8c..fd56fd02df87 100644
---- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-@@ -333,6 +333,7 @@ static void atana33xc20_remove(struct dp_aux_ep_device *aux_ep)
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 3a574a9b46e7..d2d682385e89 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1960,8 +1960,6 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x05af, &delay_200_500_e200_d200, "Unknown"),
+ 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x05f1, &delay_200_500_e200_d200, "Unknown"),
  
- static const struct of_device_id atana33xc20_dt_match[] = {
- 	{ .compatible = "samsung,atna33xc20", },
-+	{ .compatible = "samsung,atna45af01", },
- 	{ /* sentinal */ }
- };
- MODULE_DEVICE_TABLE(of, atana33xc20_dt_match);
+-	EDP_PANEL_ENTRY('S', 'D', 'C', 0x416d, &delay_100_500_e200, "ATNA45AF01"),
+-
+ 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1511, &delay_200_500_e50, "LQ140M1JW48"),
+ 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1523, &delay_80_500_e50, "LQ140M1JW46"),
+ 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x153a, &delay_200_500_e50, "LQ140T1JH01"),
 
 -- 
 2.44.1
