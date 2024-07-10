@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66C992CB8A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 09:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7CA92CB92
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 09:03:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15D7710E09D;
-	Wed, 10 Jul 2024 07:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B9F10E5ED;
+	Wed, 10 Jul 2024 07:03:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bzlW4xXV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JktpBqIh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com
- [209.85.161.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9DD210E09D;
- Wed, 10 Jul 2024 07:01:12 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id
- 006d021491bc7-5c7aff2005bso14622eaf.2; 
- Wed, 10 Jul 2024 00:01:12 -0700 (PDT)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D5B10E1EA;
+ Wed, 10 Jul 2024 07:03:42 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id
+ d75a77b69052e-447f0b046d4so1362431cf.1; 
+ Wed, 10 Jul 2024 00:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720594872; x=1721199672; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720595021; x=1721199821; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0g/tbN5BOdpCUSIAXDAOLNWIFD9iOc+XZRuFSDfjuIw=;
- b=bzlW4xXVxNEcNldTwEEjXKs82x0LsYfj86NmuEd+WB8/S4RUmtvBX7OqVmZkALK5Ev
- sWfLG7dh7iRQVHKea0cSTR379jq2Fqv293x9F+i7awgIpBQaNEz54H4Ul+AjmrWZRf7Q
- nnmDdI5sSyPmMMgd2w3d7GDy+sNdgSLxu9P3GfKzJvTLNrT8ATpyQ/aFHcRk3QbduhdP
- 2ea1KccsqDst3NfEDG7PXmeibaWVYjaqcKVRk8+r+ILYIg+Y448r8FQAwe7ksR/sl5vV
- jt/ub0ymnDtHiN3rB6UqIpoAqQ95bvvn4t4gVfpDLoITNBuSpA1Z4AqD1Ub8J+xbh/Mv
- GrWw==
+ bh=p3BXcqkjeuhZC3iXU7hUkrYXvkUrW95a4kWlrA8Wcs0=;
+ b=JktpBqIhdbPwGeNz897t5mxoEfAzJ5XqpheBtRJhKz2Ojc1G9Y9VknLbPLxCEQZ+gK
+ /KMfdAWqe9gDOgtis4kKbufDqkO1L3SzAtwzvfv9VH0Zhx3wJuKshOTaLVnBRbrPns3j
+ C16q5ILN0I8kmid9x/kkM9wItEt0mbaVd3Ny+oV/oAxHs3cycz3D+qyYANs3Y+YERhCI
+ 5AWo3rC67p3IlktF3UQ+PxRwnVSe9N212C3I2y3H8DkT8Bqy0bigZAnrSv8kEtrGTPxC
+ /MdtJjC4V14GG9abjY5OVc7tnUFHoF3jHSC1fO+zRudiU8DmQY3UZ1RCQe7z/ZeNCQSn
+ FEcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720594872; x=1721199672;
+ d=1e100.net; s=20230601; t=1720595021; x=1721199821;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0g/tbN5BOdpCUSIAXDAOLNWIFD9iOc+XZRuFSDfjuIw=;
- b=BWLhVrxovYWZyMxxEtHY7bS95C4h/D3O4L8wXX5e1x5tF9oZjhSjG1zxI35rygJdcS
- Cut7OGIQw+bktFjPlh1pFeFee2FIi5Rn6tmWOhPO11+RKD/dh3RI0uHp6GQwnhSesXJx
- oJuEt678RjnJFNM/1mQbXe58yoVxee4mPTVqKMPxoT9VPLVQlrVUDWoCBg5Oxc8DMgmv
- Rbga1ThwrBuO0hM8QwyDV6Clv0SKvEq5gDJHeiRziWaT1Kae/KoUbgAKO+oLcAjStIhP
- 4MesAhYAFNzp++P/2rOwc2pwpae1p7thcHJ7C2EEySHn47leWSYpuQGsy+0rwzoF5GBp
- nkTw==
+ bh=p3BXcqkjeuhZC3iXU7hUkrYXvkUrW95a4kWlrA8Wcs0=;
+ b=WIALk5ull74UO9k+g2AuYzUK7RtsJG2hIdWn+MTGwlsArI0NGLIP8opeQ8anIDFQST
+ CboZ9ksNTD5T5gceXG0ugVlAyKf6Cu5jU6Ny+7JPH0+jJOCtVDv6057XAQEJknvBcKyS
+ alH/p3s5gHNP9FMaKGmAP5UWDVaO9bUn3phFSPtOWzGWkaJBxayGuCvULFjkv5RXIZr0
+ iRB87qFHyapsMaXKdKXiGKarLiKpt/jf4QR/+uqBrRcoMzz+YeEz6ge5MySF/3gNOMeo
+ RUm28aUuLFbFxrJ3ikpqIroNUQd/bZhn51V9vzGLQ3rUBfpMOkgu/mLV2itU8/kxhCDT
+ XVEg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURzRtduydDGpkcQHLE4kfB7y4gHTMNNyX2YXMOK9mzGtZcgcuiWvmC/F+QTHQvd+iEM3yvfFl7amwilY4yupPFk7aNnz6g9h20bYSZwOxcmLMwUYl/7bYVULbSiX4H40An4ibkpXV0Iw44e+33WA==
-X-Gm-Message-State: AOJu0YwRPGTQzykoyWo2BpfrYrFNA38VISs/UlaYhTH2G/aNzPc/UksJ
- Twq0N96Pu/hlLb8Uonc+ZOG+T8/7j04QpfvOlSwMfefMK7fLuB3hFWLFE/KkAqPhhPzj+xLARuX
- x36Dr2a52mxiLnyT3JZpxpPKiWrM=
-X-Google-Smtp-Source: AGHT+IFx2BRvjtFXqoSg1+PvMMQRdSDlmRVGe6OqPGstIMZOnCPopgGEXsf8wsKHq0X3hpEtGSjUw3Isc0L2F8oBYBc=
-X-Received: by 2002:a05:6820:2c05:b0:5c7:b587:40a7 with SMTP id
- 006d021491bc7-5c7b58743aemr806363eaf.1.1720594871696; Wed, 10 Jul 2024
- 00:01:11 -0700 (PDT)
+ AJvYcCXZKIkBi+VW1ia5mjt5rvs1vPRuY7LAeFUPICDORQuiDWUtkzzjzfrm1hYxodau56Gu0CDYjJjufrEx7+jy3PqfNKcsC9SMJq3kB7mxsOEpg4c5jMid8Xq0dZa2D8HUEfBx+nJU1nGxdNeoID1OVg==
+X-Gm-Message-State: AOJu0Yz2OWAlECrsgI/9F73uHs/fMsrik0O8f+Ot6Iz5Inj3MPcnkyyP
+ JyL/AaCbayL80yxVxIjIAhw5prmlwTGa7XKtiK15i1PZPiX9NKWLjbQno52rQYOZc5QI2PkEiB9
+ lq2xaMAaU2X6ijoVpwrlnLbELNNo=
+X-Google-Smtp-Source: AGHT+IGoTFtKJW2jS7acG2Oi3QXPtRAexd48mCUJWxKk2iudODVVH1vr9AaGCM32ITeGQ3dDowuFjyKpv2ALtupjw7I=
+X-Received: by 2002:a05:6214:514d:b0:6b2:b13d:5b75 with SMTP id
+ 6a1803df08f44-6b61bc801a7mr50698376d6.1.1720595021031; Wed, 10 Jul 2024
+ 00:03:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
  <CADnq5_PDxJ8O1JUQ9RBYRFB9G1WZJos05ZAM4jUKuPBwPxjNkA@mail.gmail.com>
@@ -62,10 +62,11 @@ References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
  <ea465a40-f673-42b1-8b1c-a2efb20cd562@amd.com>
  <CABXGCsPyrUEqDq2gbr4VLw5ncd9cKoCZ9nOr2SRfg8Lh=9H5Kg@mail.gmail.com>
  <2915a8c4-ebac-4dae-8f09-32a5b4d9aeda@amd.com>
-In-Reply-To: <2915a8c4-ebac-4dae-8f09-32a5b4d9aeda@amd.com>
+ <CABXGCsPuRViSd_WeOciLKcQ4hjYxJ7e3i7LomwsUMzd0a+zvBw@mail.gmail.com>
+In-Reply-To: <CABXGCsPuRViSd_WeOciLKcQ4hjYxJ7e3i7LomwsUMzd0a+zvBw@mail.gmail.com>
 From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Wed, 10 Jul 2024 12:01:00 +0500
-Message-ID: <CABXGCsPuRViSd_WeOciLKcQ4hjYxJ7e3i7LomwsUMzd0a+zvBw@mail.gmail.com>
+Date: Wed, 10 Jul 2024 12:03:30 +0500
+Message-ID: <CABXGCsOsfP2SToiDhRAS51nPJ+Qr2v7B3Kjr+yVeP4G7zFZpMA@mail.gmail.com>
 Subject: Re: 6.10/bisected/regression - commits bc87d666c05 and 6d4279cb99ac
  cause appearing green flashing bar on top of screen on Radeon 6900XT and 120Hz
 To: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
@@ -93,88 +94,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 9, 2024 at 7:48=E2=80=AFPM Rodrigo Siqueira Jordao
-<Rodrigo.Siqueira@amd.com> wrote:
-> Hi,
+On Wed, Jul 10, 2024 at 12:01=E2=80=AFPM Mikhail Gavrilov
+<mikhail.v.gavrilov@gmail.com> wrote:
 >
-> I also tried it with 6900XT. I got the same results on my side.
+> On Tue, Jul 9, 2024 at 7:48=E2=80=AFPM Rodrigo Siqueira Jordao
+> <Rodrigo.Siqueira@amd.com> wrote:
+> > Hi,
+> >
+> > I also tried it with 6900XT. I got the same results on my side.
+>
+> This is weird.
+>
+> > Anyway, I could not reproduce the issue with the below components. I ma=
+y
+> > be missing something that will trigger this bug; in this sense, could
+> > you describe the following:
+> > - The display resolution and refresh rate.
+>
+> 3840x2160 and 120Hz
+> At 60Hz issue not reproduced.
+>
+> > - Are you able to reproduce this issue with DP and HDMI?
+>
+> My TV, an OLED LG C3, has only an HDMI 2.1 port.
+>
+> > - Could you provide the firmware information: sudo cat
+> > /sys/kernel/debug/dri/0/amdgpu_firmware_info
+>
+> > sudo cat /sys/kernel/debug/dri/0/amdgpu_firmware_info
+> [sudo] password for mikhail:
+> VCE feature version: 0, firmware version: 0x00000000
+> UVD feature version: 0, firmware version: 0x00000000
+> MC feature version: 0, firmware version: 0x00000000
+> ME feature version: 38, firmware version: 0x0000000e
+> PFP feature version: 38, firmware version: 0x0000000e
+> CE feature version: 38, firmware version: 0x00000003
+> RLC feature version: 1, firmware version: 0x0000001f
+> RLC SRLC feature version: 1, firmware version: 0x00000001
+> RLC SRLG feature version: 1, firmware version: 0x00000001
+> RLC SRLS feature version: 1, firmware version: 0x00000001
+> RLCP feature version: 0, firmware version: 0x00000000
+> RLCV feature version: 0, firmware version: 0x00000000
+> MEC feature version: 38, firmware version: 0x00000015
+> MEC2 feature version: 38, firmware version: 0x00000015
+> IMU feature version: 0, firmware version: 0x00000000
+> SOS feature version: 0, firmware version: 0x00000000
+> ASD feature version: 553648344, firmware version: 0x210000d8
+> TA XGMI feature version: 0x00000000, firmware version: 0x00000000
+> TA RAS feature version: 0x00000000, firmware version: 0x00000000
+> TA HDCP feature version: 0x00000000, firmware version: 0x1700003f
+> TA DTM feature version: 0x00000000, firmware version: 0x12000016
+> TA RAP feature version: 0x00000000, firmware version: 0x00000000
+> TA SECUREDISPLAY feature version: 0x00000000, firmware version: 0x0000000=
+0
+> SMC feature version: 0, program: 0, firmware version: 0x00544fdf (84.79.2=
+23)
+> SDMA0 feature version: 52, firmware version: 0x00000009
+> VCN feature version: 0, firmware version: 0x0311f002
+> DMCU feature version: 0, firmware version: 0x00000000
+> DMCUB feature version: 0, firmware version: 0x05000f00
+> TOC feature version: 0, firmware version: 0x00000007
+> MES_KIQ feature version: 0, firmware version: 0x00000000
+> MES feature version: 0, firmware version: 0x00000000
+> VPE feature version: 0, firmware version: 0x00000000
+> VBIOS version: 102-RAPHAEL-008
+>
 
-This is weird.
+I forgot to add output for discrete GPU:
 
-> Anyway, I could not reproduce the issue with the below components. I may
-> be missing something that will trigger this bug; in this sense, could
-> you describe the following:
-> - The display resolution and refresh rate.
-
-3840x2160 and 120Hz
-At 60Hz issue not reproduced.
-
-> - Are you able to reproduce this issue with DP and HDMI?
-
-My TV, an OLED LG C3, has only an HDMI 2.1 port.
-
-> - Could you provide the firmware information: sudo cat
-> /sys/kernel/debug/dri/0/amdgpu_firmware_info
-
-> sudo cat /sys/kernel/debug/dri/0/amdgpu_firmware_info
+> sudo cat /sys/kernel/debug/dri/1/amdgpu_firmware_info
 [sudo] password for mikhail:
 VCE feature version: 0, firmware version: 0x00000000
 UVD feature version: 0, firmware version: 0x00000000
 MC feature version: 0, firmware version: 0x00000000
-ME feature version: 38, firmware version: 0x0000000e
-PFP feature version: 38, firmware version: 0x0000000e
-CE feature version: 38, firmware version: 0x00000003
-RLC feature version: 1, firmware version: 0x0000001f
-RLC SRLC feature version: 1, firmware version: 0x00000001
-RLC SRLG feature version: 1, firmware version: 0x00000001
-RLC SRLS feature version: 1, firmware version: 0x00000001
+ME feature version: 44, firmware version: 0x00000040
+PFP feature version: 44, firmware version: 0x00000062
+CE feature version: 44, firmware version: 0x00000025
+RLC feature version: 1, firmware version: 0x00000060
+RLC SRLC feature version: 0, firmware version: 0x00000000
+RLC SRLG feature version: 0, firmware version: 0x00000000
+RLC SRLS feature version: 0, firmware version: 0x00000000
 RLCP feature version: 0, firmware version: 0x00000000
 RLCV feature version: 0, firmware version: 0x00000000
-MEC feature version: 38, firmware version: 0x00000015
-MEC2 feature version: 38, firmware version: 0x00000015
+MEC feature version: 44, firmware version: 0x00000076
+MEC2 feature version: 44, firmware version: 0x00000076
 IMU feature version: 0, firmware version: 0x00000000
-SOS feature version: 0, firmware version: 0x00000000
-ASD feature version: 553648344, firmware version: 0x210000d8
-TA XGMI feature version: 0x00000000, firmware version: 0x00000000
-TA RAS feature version: 0x00000000, firmware version: 0x00000000
+SOS feature version: 0, firmware version: 0x00210e64
+ASD feature version: 553648345, firmware version: 0x210000d9
+TA XGMI feature version: 0x00000000, firmware version: 0x2000000f
+TA RAS feature version: 0x00000000, firmware version: 0x1b00013e
 TA HDCP feature version: 0x00000000, firmware version: 0x1700003f
 TA DTM feature version: 0x00000000, firmware version: 0x12000016
-TA RAP feature version: 0x00000000, firmware version: 0x00000000
+TA RAP feature version: 0x00000000, firmware version: 0x07000016
 TA SECUREDISPLAY feature version: 0x00000000, firmware version: 0x00000000
-SMC feature version: 0, program: 0, firmware version: 0x00544fdf (84.79.223=
-)
-SDMA0 feature version: 52, firmware version: 0x00000009
+SMC feature version: 0, program: 0, firmware version: 0x003a5a00 (58.90.0)
+SDMA0 feature version: 52, firmware version: 0x00000053
+SDMA1 feature version: 52, firmware version: 0x00000053
+SDMA2 feature version: 52, firmware version: 0x00000053
+SDMA3 feature version: 52, firmware version: 0x00000053
 VCN feature version: 0, firmware version: 0x0311f002
 DMCU feature version: 0, firmware version: 0x00000000
-DMCUB feature version: 0, firmware version: 0x05000f00
-TOC feature version: 0, firmware version: 0x00000007
+DMCUB feature version: 0, firmware version: 0x02020020
+TOC feature version: 0, firmware version: 0x00000000
 MES_KIQ feature version: 0, firmware version: 0x00000000
 MES feature version: 0, firmware version: 0x00000000
 VPE feature version: 0, firmware version: 0x00000000
-VBIOS version: 102-RAPHAEL-008
+VBIOS version: 113-D4120100-100
 
-> Also, could you conduct the below tests and report the results:
->
-> - Test 1: Just revert the fallback patch (drm/amd/display: Add fallback
-> configuration for set DRR in DCN10) and see if it solves the issue.
-
-It's not enough.
-I checked revert commit bc87d666c05 on top of 34afb82a3c67.
-
-> - Test 2: Try the latest amd-staging-drm-next
-> (https://gitlab.freedesktop.org/agd5f/linux) and see if the issue is gone=
-.
-
-I checked commit 7cef45b1347a in the amd-staging-drm-next branch. Same here=
-.
-
-> - Test 3: In the kernel that you see the issue, could you install the
-> latest firmware and see if it fix the issue? Check:
-> https://gitlab.freedesktop.org/drm/firmware P.S.: Don't forget to update
-> the initramfs or something similar in your system.
-
-Is this any sense? Fedora Rawhide always ships with the latest kernel
-and firmware.
 
 --=20
 Best Regards,
