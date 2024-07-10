@@ -2,61 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A416B92D6FF
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 19:00:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A20F392D708
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 19:05:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6498210E1C8;
-	Wed, 10 Jul 2024 17:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3A1B10E838;
+	Wed, 10 Jul 2024 17:05:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="H49peGiQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I3dvbHa5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D964210E838
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:00:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=DdZXvo7kSPL3UziVB8WkVRWnMr0YmDhIiYuzIYjnN7o=; b=H49peGiQGsGTppxO1gH7wDd8oa
- BMsdjLD8OhBHjn7+PlDTReqvcLJ6s3j3hO0eweumhdqJM6qpFEHHzPVMY/OGx8VRehmFnHij/4fGA
- 3EbR4fDnkY1xRAZFOBo/AkAVw4XAbO8AiXbvC4LDBp2qwfki4dPGDrx25/cTiAKXuVuhaY/JWPwCB
- fe4rEJT7BUPDDCi8vVK2fpbH7otIxcLVnY3aqUQW4JXWItvmqTx5fyyVpsm0XcmFJ1RM0F0j2+Lt8
- npCC5uCYeMswRYHePCht4sZbVc3Jzn8kj30ce7UYp8bfzMfnBF5cHt4JHDy3djdUvweJiVvb217sz
- tTyf9dQg==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sRafy-00DL93-Jc; Wed, 10 Jul 2024 19:00:18 +0200
-Message-ID: <97404689-f27b-4051-b593-b17ec50f1d07@igalia.com>
-Date: Wed, 10 Jul 2024 14:00:13 -0300
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA8210E838
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:05:17 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-42793fc0a6dso67645e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 10:05:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1720631115; x=1721235915; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UO6/lK5/7C6XDmsvIs3cVH295usofusy4WKu+UT3LKI=;
+ b=I3dvbHa5AZsoRURRPNO27C/4Z46cyvMAnWZiD+gP+YxBOIO5qzfiZtUrapITUy3hVr
+ FrSmkkpQRt9fKm8G/DNaZMs9UBq2CmQEb3/2JfvJy7GjI77alszaaTzw2QKKMB92oTYo
+ IZjfJLa+cWHmaOF2lDsDGBkj/NiJBOR1IBEDwo8L8KALeV87Ybbey2OH/Z74CupSJAqJ
+ Pcyx3mSc+rsKH0bd74gUfOfEDKm68jvMOhShFqQrTJDCoVwu5T+2CLKIkBQTwW5pDDuo
+ ujiZziBjRSrt1c666nlkzFTtP5wh5YjNhwTHPaASaBLNaA2p+dHiHW57/NNNZPJPXTiP
+ sUQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720631115; x=1721235915;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UO6/lK5/7C6XDmsvIs3cVH295usofusy4WKu+UT3LKI=;
+ b=HsTw+/VBS5O7qqdQZ091EHsPH/3aVyFbVKmEzacwACn0Wov985sqfq31w4bFSlJRjR
+ lYwkk8X3DiRMD5jUhwqZO2bhdQcTmvgMU/yCcT9OPzTmRUpJlPR4kT2q8eXFhkWrdCPy
+ UhOygmYykDbx6RdLNrHfVnmFTE2vJUJ5mJ2Uyli9JFNXnZ4opVi3U+fkmzi8DosZ+9Kt
+ mdBbdSYfq6KQiBDoBNyxNwhm/5ZKxZk4BP3HNSFiPum7RqOfPDLmIWgnhfbuuWieuqFz
+ E969MUPsSDXI9JBOBx2pfGjorOe+vfmkgEHpK6HSqZR3v7HeG+br0E4XI53zGWARE0OV
+ MKVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXX1590Rzn8ThYlVMCgWsGdi231z+ny9eVUbbe28K4SztWi1KKFucTDlITEQyzDIRJRMLu2yJ4RVaeCwngRxtKiIoCPwk5+ynXafrfpPxrr
+X-Gm-Message-State: AOJu0YxVME8Il9qKqweOwxdYBYvUzQ4W9+Z26j/ccEYMj/0gg0g0Z1Mi
+ Bb9TEYPzdP64mwzEz0n+XfbHPImTeHulagPU5n2Lr75MVFkx97RcnPqiy9fDdbM=
+X-Google-Smtp-Source: AGHT+IEZ/vduzwwhO5K4kQPX85w5VJ3dB+TYQDHXeHNJPj2YvvMVSizSFMwuGwYgtxvCPlkuMJjVQA==
+X-Received: by 2002:a05:600c:5345:b0:426:602d:a243 with SMTP id
+ 5b1f17b1804b1-426707d8a90mr42891675e9.16.1720631115301; 
+ Wed, 10 Jul 2024 10:05:15 -0700 (PDT)
+Received: from [127.0.0.2] ([2a02:2454:ff1f:b240:65e6:93ca:5f80:ea9b])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-367cde7dedfsm5838446f8f.24.2024.07.10.10.05.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Jul 2024 10:05:14 -0700 (PDT)
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+Subject: [PATCH 0/5] drm/panel: atna33xc20: Fix the Samsung ATNA45AF01
+ panel
+Date: Wed, 10 Jul 2024 19:04:56 +0200
+Message-Id: <20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/12] drm/v3d: Fix potential memory leak in the
- performance extension
-To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>, stable@vger.kernel.org
-References: <20240710134130.17292-1-tursulin@igalia.com>
- <20240710134130.17292-4-tursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240710134130.17292-4-tursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADi/jmYC/x3MSwqAMAwA0atI1gbSKv6uIi60TTUoKq2IULy7x
+ eVbzEQI7IUDdFkEz7cEOfYElWdglnGfGcUmgyZdUq0IH8UNKSI03uI0mnWTebmwKrRrJ9cWFTt
+ I8enZyfOP++F9P56MXmJoAAAA
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>, 
+ Johan Hovold <johan@kernel.org>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,207 +92,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/10/24 10:41, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> If fetching of userspace memory fails during the main loop, all drm sync
-> objs looked up until that point will be leaked because of the missing
-> drm_syncobj_put.
-> 
-> Fix it by exporting and using a common cleanup helper.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Fixes: bae7cb5d6800 ("drm/v3d: Create a CPU job extension for the reset performance query job"
+The backlight of the Samsung ATNA45AF01 panel used in the Qualcomm X1E80100
+CRD does not work correctly with the current display panel configuration
+and drivers: It works after boot, but once the display gets disabled it is
+not possible to get it back on. It turns out that the ATNA45AF01 panel
+needs exactly the same non-standard power sequence as implemented for
+ATNA33XC20 in the panel-samsung-atna33xc20 driver.
 
-Missing ) at the end of Fixes.
+Move the ATNA45AF01 panel from the generic panel-edp driver to the
+panel-samsung-atna33xc20 driver and fix the panel configuration in the
+x1e80100-crd device tree to make the panel work correctly.
 
-> Cc: Maíra Canal <mcanal@igalia.com>
-> Cc: Iago Toral Quiroga <itoral@igalia.com>
-> Cc: <stable@vger.kernel.org> # v6.8+
-> ---
->   drivers/gpu/drm/v3d/v3d_drv.h    |  2 ++
->   drivers/gpu/drm/v3d/v3d_sched.c  | 22 +++++++++++++-----
->   drivers/gpu/drm/v3d/v3d_submit.c | 40 +++++++++++++++++++++-----------
->   3 files changed, 44 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-> index 95651c3c926f..38c80168da51 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> @@ -565,6 +565,8 @@ void v3d_mmu_remove_ptes(struct v3d_bo *bo);
->   /* v3d_sched.c */
->   void __v3d_timestamp_query_info_free(struct v3d_timestamp_query_info *qinfo,
->   				     unsigned int count);
-> +void __v3d_performance_query_info_free(struct v3d_performance_query_info *qinfo,
-> +				       unsigned int count);
+The DT changes are included here for reference and easier testing, I assume
+Bjorn or Konrad will pick them up after the DRM panel changes were applied.
 
-Same nits from the previous patch.
+Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+---
+Stephan Gerhold (5):
+      dt-bindings: display: panel: samsung,atna33xc20: Document ATNA45AF01
+      drm/panel: samsung-atna33xc20: Add compatible for ATNA45AF01
+      Revert "drm/panel-edp: Add SDC ATNA45AF01"
+      arm64: dts: qcom: x1e80100-crd: Fix backlight
+      arm64: defconfig: Add CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20
 
->   void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue);
->   int v3d_sched_init(struct v3d_dev *v3d);
->   void v3d_sched_fini(struct v3d_dev *v3d);
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index e45d3ddc6f82..173801aa54ee 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -87,20 +87,30 @@ __v3d_timestamp_query_info_free(struct v3d_timestamp_query_info *qinfo,
->   	}
->   }
->   
-> +void
-> +__v3d_performance_query_info_free(struct v3d_performance_query_info *qinfo,
-> +				  unsigned int count)
-> +{
-> +	if (qinfo->queries) {
-> +		unsigned int i;
-> +
-> +		for (i = 0; i < count; i++)
-> +			drm_syncobj_put(qinfo->queries[i].syncobj);
-> +
-> +		kvfree(qinfo->queries);
-> +	}
-> +}
-> +
->   static void
->   v3d_cpu_job_free(struct drm_sched_job *sched_job)
->   {
->   	struct v3d_cpu_job *job = to_cpu_job(sched_job);
-> -	struct v3d_performance_query_info *performance_query = &job->performance_query;
->   
->   	__v3d_timestamp_query_info_free(&job->timestamp_query,
->   					job->timestamp_query.count);
->   
-> -	if (performance_query->queries) {
-> -		for (int i = 0; i < performance_query->count; i++)
-> -			drm_syncobj_put(performance_query->queries[i].syncobj);
-> -		kvfree(performance_query->queries);
-> -	}
-> +	__v3d_performance_query_info_free(&job->performance_query,
-> +					  job->performance_query.count);
->   
->   	v3d_job_cleanup(&job->base);
->   }
-> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-> index 2818afdd4807..ca1b1ad0a75c 100644
-> --- a/drivers/gpu/drm/v3d/v3d_submit.c
-> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-> @@ -637,6 +637,7 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
->   	u32 __user *syncs;
->   	u64 __user *kperfmon_ids;
->   	struct drm_v3d_reset_performance_query reset;
-> +	int err;
->   
->   	if (!job) {
->   		DRM_DEBUG("CPU job extension was attached to a GPU job.\n");
-> @@ -672,32 +673,36 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
->   		u32 id;
->   
->   		if (copy_from_user(&sync, syncs++, sizeof(sync))) {
-> -			kvfree(job->performance_query.queries);
-> -			return -EFAULT;
-> +			err = -EFAULT;
-> +			goto error;
->   		}
->   
-> -		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
-> -
->   		if (copy_from_user(&ids, kperfmon_ids++, sizeof(ids))) {
-> -			kvfree(job->performance_query.queries);
-> -			return -EFAULT;
-> +			err = -EFAULT;
-> +			goto error;
->   		}
->   
->   		ids_pointer = u64_to_user_ptr(ids);
->   
->   		for (int j = 0; j < reset.nperfmons; j++) {
->   			if (copy_from_user(&id, ids_pointer++, sizeof(id))) {
-> -				kvfree(job->performance_query.queries);
-> -				return -EFAULT;
-> +				err = -EFAULT;
-> +				goto error;
->   			}
->   
->   			job->performance_query.queries[i].kperfmon_ids[j] = id;
->   		}
-> +
-> +		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
->   	}
->   	job->performance_query.count = reset.count;
->   	job->performance_query.nperfmons = reset.nperfmons;
->   
->   	return 0;
-> +
-> +error > +	__v3d_performance_query_info_free(qinfo, i);
+ .../bindings/display/panel/samsung,atna33xc20.yaml      |  6 +++++-
+ arch/arm64/boot/dts/qcom/x1e80100-crd.dts               | 17 +++++++++++++++--
+ arch/arm64/configs/defconfig                            |  1 +
+ drivers/gpu/drm/panel/panel-edp.c                       |  2 --
+ drivers/gpu/drm/panel/panel-samsung-atna33xc20.c        |  1 +
+ 5 files changed, 22 insertions(+), 5 deletions(-)
+---
+base-commit: 523b23f0bee3014a7a752c9bb9f5c54f0eddae88
+change-id: 20240710-x1e80100-crd-backlight-632f9bf936ef
 
-I miss the declaration of `qinfo`.
+Best regards,
+-- 
+Stephan Gerhold <stephan.gerhold@linaro.org>
 
-> +	return err;
->   }
->   
->   static int
-> @@ -708,6 +713,7 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
->   	u32 __user *syncs;
->   	u64 __user *kperfmon_ids;
->   	struct drm_v3d_copy_performance_query copy;
-> +	int err;
->   
->   	if (!job) {
->   		DRM_DEBUG("CPU job extension was attached to a GPU job.\n");
-> @@ -746,27 +752,29 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
->   		u32 id;
->   
->   		if (copy_from_user(&sync, syncs++, sizeof(sync))) {
-> -			kvfree(job->performance_query.queries);
-> -			return -EFAULT;
-> +			err = -EFAULT;
-> +			goto error;
->   		}
->   
->   		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
-
-I believe this line should be deleted as it is introduced later in this
-patch.
-
->   
->   		if (copy_from_user(&ids, kperfmon_ids++, sizeof(ids))) {
-> -			kvfree(job->performance_query.queries);
-> -			return -EFAULT;
-> +			err = -EFAULT;
-> +			goto error;
->   		}
->   
->   		ids_pointer = u64_to_user_ptr(ids);
->   
->   		for (int j = 0; j < copy.nperfmons; j++) {
->   			if (copy_from_user(&id, ids_pointer++, sizeof(id))) {
-> -				kvfree(job->performance_query.queries);
-> -				return -EFAULT;
-> +				err = -EFAULT;
-> +				goto error;
->   			}
->   
->   			job->performance_query.queries[i].kperfmon_ids[j] = id;
->   		}
-> +
-> +		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
->   	}
->   	job->performance_query.count = copy.count;
->   	job->performance_query.nperfmons = copy.nperfmons;
-> @@ -779,6 +787,10 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
->   	job->copy.stride = copy.stride;
->   
->   	return 0;
-> +
-> +error:
-> +	__v3d_performance_query_info_free(qinfo, i);
-
-Missing declaration of `qinfo`.
-
-Best Regards,
-- Maíra
-
-> +	return err;
->   }
->   
->   /* Whenever userspace sets ioctl extensions, v3d_get_extensions parses data
