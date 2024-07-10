@@ -2,75 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BE692D2CA
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 15:30:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D0592D2E9
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2024 15:34:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F287A10E79D;
-	Wed, 10 Jul 2024 13:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC0C10E7AE;
+	Wed, 10 Jul 2024 13:34:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oOeCuMrZ";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Yty8WZIB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8866510E79D
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 13:29:59 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-52ea0f18500so5997697e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 06:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720618197; x=1721222997; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=60aav+xK4jpl7xG8YPKnbprg8tIY6Nqk/IZH7bl4w4w=;
- b=oOeCuMrZOoMgLsPQzmGecxTBG1eH7TfIXwgw3C5T1VZXHSv1sMTn3Mpqy6pPyJLLjb
- GBwOIrcYKCVKh7+Rg82v863JzqO9uzFLYQa6p9riSktepFAYEeZPRguFQTkiIs80zsqB
- I/Rsv1KyhEZ7nGcFXYiE6j2hnqmPc46GADO7/WpRxUgP3ZDCtCxWXJzpxxTc43JAVXg/
- rdeTPPP6lyx04sI1e6F2bbLAalsPTVZtKOApQh4DO/fwxZqqtNrDSAKzejCCUIhZMCiR
- vX0ecN4kFsIXBESVr5frFT2j5xrZfB8zKvX5YbmjwP4jBOe0bjVHpGlh9OX6CfLJZ5i2
- rlHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720618197; x=1721222997;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=60aav+xK4jpl7xG8YPKnbprg8tIY6Nqk/IZH7bl4w4w=;
- b=VLGmHerq9U+XC4oedY8/AUoLt7eNBkfzNCgCDH0zQNO6idL5KrnJYf7C/4qqMfkHaI
- KGdvhi/y2lcyf7/Q4eb1Gc2HXf8UezwTEqMuSXYXFZYH4Ms9olEr7J5XbBX2lJKBFntq
- MbwylEiQD6XMnNKxhaMqIxfwUm0sw+OBg4hEfZslfbe5sYx2zBUvakS7ulZDXemOcMxj
- 7GWvLPyQ5psXXoR9H3qQs7s8ayCNh4TBKEo42qjnbb+biRxze08xxtes5pswwqr876rH
- w8jL99sJ4xHHkyCPoYGLAEhRq9Ip2bGtTEZcHOIaupJt+5+IhlxMofZ1IR2L9CB3hbPH
- JuIg==
-X-Gm-Message-State: AOJu0Yy4XQToG0YdSoM9+p7i3r9HMXVA7p565JFEfzi2DX1hYkce3DCZ
- C0l2XBOltr2H2ijQDtAoA4NNfLEzukYigOopiymS4Ubv8DpuULAvbfZ0NDTwytc=
-X-Google-Smtp-Source: AGHT+IHBHuYCCPwlgq5edN/L9l0kJT3pRxlv0eRV0p1+UE+pPGfeFREyn6CNWYa3giyYGhc2Ub/T0Q==
-X-Received: by 2002:a05:6512:1285:b0:52c:818c:13b8 with SMTP id
- 2adb3069b0e04-52eb998fc87mr3918196e87.4.1720618196964; 
- Wed, 10 Jul 2024 06:29:56 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-367cde7e07fsm5304369f8f.17.2024.07.10.06.29.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jul 2024 06:29:56 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- airlied@gmail.com, mripard@kernel.org, dianders@google.com, 
- hsinyi@google.com, awarnecke002@hotmail.com, quic_jesszhan@quicinc.com, 
- dmitry.baryshkov@linaro.org, 
- Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240709134754.28013-1-lvzhaoxiong@huaqin.corp-partner.google.com>
-References: <20240709134754.28013-1-lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: Re: [PATCH v6 0/5] Support Starry er88577 MIPI-DSI panel
-Message-Id: <172061819595.1968965.12553404194809762882.b4-ty@linaro.org>
-Date: Wed, 10 Jul 2024 15:29:55 +0200
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E3A10E7AC
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 13:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1720618442; x=1721223242; i=wahrenst@gmx.net;
+ bh=+3tUuSexjnpG44HlEeCMDYkMDHwEt8wqzMLss58tItk=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=Yty8WZIBncC6TRsiVPWwLLzEUluGlOV5HTyvD35ojHzE9TkvDt2+MJmwkODumCz4
+ MUEdwgdtylDqbUKZpDfbF4S1kfHUt6IdBEdzTJ8Fdhzr9bOMLyFFoc3fMeYugJnld
+ mnaTBBFOXKxnWqOjgVenbNf2/YnlhqygfDlhMSl8F4Km3xNYpo6Ilj/5LBZs5GSRZ
+ MbcLWB1zjIESTsc2F0c8r9xOUWv3qKPGpfmt/2oaqFc+wAk2UJjAQwAtMCwHxn/aZ
+ oGaDibQ+DCUK7l/TnenQ9AIUkorF3s1d+6LL9cvaZat610cNNKGEGSf8G1CXNrgmc
+ jWdhnkZD9UR4gwVmhw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfYLQ-1ruPZ40HDk-00qV0p; Wed, 10
+ Jul 2024 15:34:02 +0200
+Message-ID: <8dd6def7-58b7-4578-b427-281aab70645a@gmx.net>
+Date: Wed, 10 Jul 2024 15:33:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/11] usb: dwc2: Skip clock gating on Broadcom SoCs
+To: Lukas Wunner <lukas@wunner.de>, Jeremy Linton <jeremy.linton@arm.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+ Minas Harutyunyan <hminas@synopsys.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Jassi Brar <jassisinghbrar@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Peter Robinson <pbrobinson@gmail.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-pm@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kernel-list@raspberrypi.com
+References: <20240630153652.318882-1-wahrenst@gmx.net>
+ <20240630153652.318882-10-wahrenst@gmx.net>
+ <95762956-b46a-4dfa-b22f-bccbfa39558d@broadcom.com>
+ <ZoezRpXBgB1B5WjB@wunner.de> <4502d826-d80c-4a98-a889-da7badfa698e@gmx.net>
+ <ZogLXYopViQO11ta@wunner.de> <43fa421c-5e5b-40a6-a546-d80e753586e3@gmx.net>
+ <38e46b44-6248-45e8-bdf9-66008a2fe290@arm.com> <ZohiJgyaDwAoGtAx@wunner.de>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <ZohiJgyaDwAoGtAx@wunner.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:dviN9n5mJNy5LcG+dhLGDfMtO1l0d0odq4AVYBIUuTcOGdBVkbZ
+ CQP2qJF5WQHb8YNJbsitIYBk2IsAJNvaxAV+HpXanK0ElZtDncslaoxv3nMsMVLo0xNFhv3
+ PwdDhrZ7r63ll9+Ag9kDc5oq8wPxguGNg3KKVs8+uJmCSRK3JZuyNUa+naUr+ufZvbDcGVM
+ jlP1915LEhg8OB/OYByLw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Yq/sCgCsZM8=;BqY06MQMuRa21r/LEhc0tIsTBaf
+ LAUQiaC9WWtNMVJhX5wq7hL9w6UQye8vO6Xe+hbggCrl69p/UIzBFApWQquDStybs17EE0Rb/
+ pHcb+9tGC02gKSMxQkokQ5+V7+W3CtmS4I1hwSPPKQocEK4/WU08cWfjoYhAD0uxtWB5UQwDz
+ yrG3nf1j/mLAg5h+hM6B3kfh1d+KMqyjg6EAtigDxOYIF4WgnZe79yuA1h09mYwIth39WKdTk
+ LFiLNXkGG8bC+RnP+uablmhQhmHNkDlUW4JkuDPSlh47eWp6B6VHOxDT8CXLLmCTC1UolbKUR
+ +w9gK2JXQ0p9jQk1VRcJKiW0SJm9ufJj/TJQAJS7JlJGlfr5joIDwUDSDFerUqCN6rXP1fk5C
+ HlVeBWQcuDc6S//lOPDuYzf2PrBOurW22Rz1m0r18QkG9v8gKlhx6Ql/1vM3UMwalzUOVDYKA
+ 6L/aIpSiFF+4ks+7eq0Hrp9DUMaIwoUMIOpEOoyS2RoFQCmywgNDh/8UNhVLI6SFQTp/QgoO1
+ YBibO7veRgglwLfJPv/3EyG4xg6AZ6WXYy5TQkRdMjhZy4rNm7yPake2vWSPEh/U3LsHQVqZM
+ TPVmuQHqranmx3CSrR026vHSSd6trXeBtH0TZz/P5ge1b5J4SJrsWc5Spz589XuG6R8Y2sORZ
+ meWmgNCSbucAkRij9VRovAFDQpCjL9RPQJfC8FtCbXpPeYi/oeF6vvZyGxwc9Fz0EJxgMmA+P
+ Eg7syDNhbeQP0tU/5q48/SEdrlS2qau8EetjGry9xGWT+t3NgBzwwUwO17yLSYoCYzeL4tdx/
+ F19utBxHvwa3tjHksyuhLX8A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,38 +98,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Am 05.07.24 um 23:14 schrieb Lukas Wunner:
+> On Fri, Jul 05, 2024 at 12:16:14PM -0500, Jeremy Linton wrote:
+>>> Am 05.07.24 um 17:03 schrieb Lukas Wunner:
+>>>> Careful there, the patch vaguely says...
+>>>>
+>>>>      With that added and identified as "BCM2848",
+>>>>      an id in use by other OSs for this device, the dw2
+>>>>      controller on the BCM2711 will work.
+>>>>
+>>>> ...which sounds like they copy-pasted the BCM2848 id from somewhere e=
+lse.
+>>>> I would assume that BCM2848 is really a different SoC and not just
+>>>> a different name for the BCM2835, but hopefully BroadCom folks will
+>>>> be able to confirm or deny this (and thus the necessity of the quirk
+>>>> on BCM2848 and not just on BCM2835).
+>> This id comes from the edk2-platforms ACPI tables and is currently used=
+ by
+>> both the rpi3 and rpi4, and AFAIK nothing else as the rpi5-dev work is
+>> currently only exposing XHCI.
+>>
+>> The ID is strictly the USB controller not the SoC. Its a bit confusingl=
+y
+>> named, but something we inherited from the much older windows/edk2 port=
+,
+>> where it appears that the peripheral HID's were just picked in numerica=
+l
+>> order.
+>>
+>> [0] https://github.com/tianocore/edk2-platforms/blob/12f68d29abdc9d703f=
+67bd743fdec23ebb1e966e/Platform/RaspberryPi/AcpiTables/GpuDevs.asl#L15
+> So BCM2848, BCM2849, BCM2850 and so on are just made-up IDs
+> for a Windows/EDK2 port that got cargo-culted into the kernel?
+> Yikes!
+>
+> Has anyone checked whether they collide with actual Broadcom products?
+Using public available information like this [1], I wasn't able to find
+any collision.
 
-On Tue, 09 Jul 2024 21:47:49 +0800, Zhaoxiong Lv wrote:
-> The Starry is a 10.1" WXGA TFT LCD panel. Because Starry-er88577
-> and boe-th101mb31ig002 have very similar inti_code, after
-> discussing with Dmitry Baryshkov, We will modify it based on the
-> panel-boe-th101mb31ig002-28a.c driver instead of using a separate
-> driver.
-> 
-> Changes between V6 and V5:
-> - PATCH 1/5: Corrected the use of "->init" in struct panel_desc, and modify indentation
-> - PATCH 2/5: No changes.
-> - PATCH 3/5: No changes.
-> - PATCH 4/5: Modify the commit information and "reset gpio" binding.
-> - PATCH 5/5: Add two lines of init_code (D1 and D3) to modify the internal resistance of the mipi channel.
-> - Link to v5: https://lore.kernel.org/all/20240704072958.27876-1-lvzhaoxiong@huaqin.corp-partner.google.com/
-> 
-> [...]
-
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
-
-[1/5] drm/panel: boe-th101mb31ig002 : Make it compatible with other panel.
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/24179ff9a2e4524ce83014b8827a73ad03a25c13
-[2/5] drm/panel: boe-th101mb31ig002: switch to devm_gpiod_get_optional() for reset_gpio
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/7f58ebaccb67cb22b2936ba79c844f1e446dc73b
-[3/5] drm/panel: boe-th101mb31ig002: use wrapped MIPI DCS functions
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a16b680a2140e6cbda41ac144564696c3ee2815f
-[4/5] dt-bindings: display: panel: Add compatible for starry-er88577
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/3808a15e3248820c0859d9b8a0f2c7e5c8259044
-[5/5] drm/panel: boe-th101mb31ig002: Support for starry-er88577 MIPI-DSI panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/e4bd1db1c1f771983393bf5574854dff26ca7532
-
--- 
-Neil
-
+[1] - https://github.com/anholt/linux/wiki/Devices-with-Videocore-graphics
