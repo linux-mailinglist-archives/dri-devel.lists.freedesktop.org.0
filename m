@@ -2,88 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF2B92DD3B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 02:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A04592DD68
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 02:44:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3A3510E72D;
-	Thu, 11 Jul 2024 00:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26F0C10E2AB;
+	Thu, 11 Jul 2024 00:44:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xq0hHjDo";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="DR+EEvwa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72EBF10E72D
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 00:01:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720656088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Oi8fo65wpfQof/PhKweOk7/L71Af/cTWGM1ZWIePR1Q=;
- b=Xq0hHjDo/oLZG+SCGJ2GJLD5pPR0aAl4+V0acwwWtBu/swtAX5leSpMytfgR2Jtp3UB2V5
- 1+hr72IDESUUDbSyh+3byugV6V2xOFBUngfh4E8jBPQyHjChddrt6/M1mnKV07gLjUmRKe
- 80MCNw8656VLrU8Ylrf2OZnI5JRNd+8=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-260-1VSXi25jN8OVuUNqvAJKgA-1; Wed, 10 Jul 2024 20:01:23 -0400
-X-MC-Unique: 1VSXi25jN8OVuUNqvAJKgA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-52ea883187cso322475e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:01:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720656082; x=1721260882;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Oi8fo65wpfQof/PhKweOk7/L71Af/cTWGM1ZWIePR1Q=;
- b=n7QbeDZyAZnVHciiLCu858TTOjxYZ3UdKCnTzitWA3/gIsnhM0oG+qcSv7loJ1lRqy
- JzylDGeB94Jphm75iNINU9VqM5PuxZDpsvL4kx7OXz4ZfmA71HZ5sjyyM8dBYZSTFtFy
- JsZ4EsktqJefOXgJLh1NE0VFqOrJGcIUnLz5XyAwrs5oa+Vu1jHyzonGCOrd+GMl8ffI
- CZqCORib1UNRbj/6d+kyY9kpVR3fxxzRF8wntfG8JxuS2pmj0ciwy/Ga59mYg3v4ujKr
- fIHR95UUyAonuguAynApbA76jHVbMmw8KlEOjRxUmQly0ziR6VY8xI9wGNPuYpfhEJgK
- mSIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXxpeuEqU11TIyIFrh1ZvzKw/OEid1AAvc/mYsJ9qTCs23HYm7Peglhdfp4zcwgMzNSocziXiEUQo2/dSUOKoIma8NdRq5jHOs40JLmikU4
-X-Gm-Message-State: AOJu0Yyc07GKvqtx5FUiIDRE8ZTkjOa+qxUWz6R461Itc9KPcqlsNDiJ
- YwMOkWkP5zkFeCKhlOGSRtYWG63aqOZGt9bigx3LV35j3AvwW1z1FNhlfMcttiEgP6uvvEHuNvL
- DM2k1uPA/Vp7u7AaYAi2frXxFCYG+gpDXGBITXRY19LWIgEdajCDQfEbnmUlwQp98Ew==
-X-Received: by 2002:a05:6512:3d87:b0:52c:df77:6507 with SMTP id
- 2adb3069b0e04-52eb99a1482mr6318151e87.37.1720656082136; 
- Wed, 10 Jul 2024 17:01:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFNVVTrUjKRBDOxdCZle7w0wo862nKUiY/5iz8+HD1G7PDoaEn7cQzJexwWk8IL0tUbPpeWbg==
-X-Received: by 2002:a05:6512:3d87:b0:52c:df77:6507 with SMTP id
- 2adb3069b0e04-52eb99a1482mr6318122e87.37.1720656081383; 
- Wed, 10 Jul 2024 17:01:21 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a780a7ff038sm200377666b.115.2024.07.10.17.01.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jul 2024 17:01:20 -0700 (PDT)
-Message-ID: <d7719653-f270-493d-ac42-6a1291eb7dc0@redhat.com>
-Date: Thu, 11 Jul 2024 02:01:18 +0200
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2072.outbound.protection.outlook.com [40.107.96.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53CC510E2AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 00:44:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IXDb3JaXlSPblqEwemI37Oz1l2NAHPaun82ABWukTJrFAeJW2VlzyAI0B4r3TRToX/AlCJFM/g4QCvt9UtjPPtcTLUGWDayb8cdSlm8jKOYp7+uh7Q0UammiadJ7suSZIGzyaoVz2kdZvtbPsyoz4ZSmwrj6b7tGjmG2ie0vkoAbZ8eufyNQANCht5aUm7JsjyiT7Q6dcVJKsVpvLUc2m/KZ703vjrTbEe4g9ZHOT8F/ttkpVYL/0RSPySY0qbjGXAj6xp8SX4xRwdwBrNXgwKG65zw5Zl+zo8UBlDE7Wks06MYDefkAyTmwyJYsQJHB9gLi/s6toE6h50ijlW3tjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tUEpflRZnlymYQAGmmjEq3TEcnmsZwEGYMvytPvaT6k=;
+ b=aGPnd+jk9lW72uwvB0KtckpzUVJSkgub0TvzeMp8TBQbZ1uC4VWknF98y5Q2P5fCRypG2qsk8lapW7v36rrAPVVdql+ckRuhW19SdV3SDgdIqE1iGCjGZZ/rYu9HqbvKhpta9uljRj8FPcOuyD0nuKuwxq6UAbO0ihnVbAeuUaEHml90b639yf9b7NKlsy5sLRA9Vscy/ZiCQ8RQRPqUkaQZlh/5Wcz21qpspyKos2FXDe8+6QLKcba76xy7wvgm2zjgAVyjDT9M4GQqbOzQg2aBPtoDRgu6Y6ha9bupYEhrrZDWoX5LQcvaj6N6WdPjjknvWflhaWacdeg1dXGR5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tUEpflRZnlymYQAGmmjEq3TEcnmsZwEGYMvytPvaT6k=;
+ b=DR+EEvwaeicfPe/Xs04TYlhU8y547JA/5HvuHTBFn9Gs/uTvyBUFk/fTtHS4VNmsZsZxB9szGHSoSuYWzcucDL9AY7mA3LqyjhLHA9K8RB59xf6+h5LaKkYXcJgu8PTQ3G21UDnxEkGnVBfl1RvqsiMONutIlMiV18eBOSq6U8rZxhfClf2zaQvfLfJ7C4J4nNI16qbsU87pCXM+/iqxF6g433L60kvrrt9RtvNrY+pdr0Px2WiqMkhNnxSvAK4SK0VYs1UlaF+Y98Mo4gkJ+wlF+OTLwC6dI8ZRKjeY9OT8iKfxP+bQ5N9Pb7nHDxy0X1U+yw74IIRQamDTfAsjdw==
+Received: from BYAPR01CA0002.prod.exchangelabs.com (2603:10b6:a02:80::15) by
+ LV8PR12MB9208.namprd12.prod.outlook.com (2603:10b6:408:182::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
+ 2024 00:44:24 +0000
+Received: from SJ1PEPF00001CE2.namprd05.prod.outlook.com
+ (2603:10b6:a02:80:cafe::dd) by BYAPR01CA0002.outlook.office365.com
+ (2603:10b6:a02:80::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.19 via Frontend
+ Transport; Thu, 11 Jul 2024 00:44:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ1PEPF00001CE2.mail.protection.outlook.com (10.167.242.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7762.17 via Frontend Transport; Thu, 11 Jul 2024 00:44:23 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 10 Jul
+ 2024 17:44:09 -0700
+Received: from [10.110.48.28] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 10 Jul
+ 2024 17:44:07 -0700
+Message-ID: <4b0479b0-1e0f-43db-8333-26b7a1fd791c@nvidia.com>
+Date: Wed, 10 Jul 2024 17:44:03 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm: panthor: add dev_coredumpv support
-To: Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
- ojeda@kernel.org, lyude@redhat.com, robh@kernel.org, lina@asahilina.net,
- mcanal@igalia.com, airlied@gmail.com, "daniel@ffwll.ch" <daniel@ffwll.ch>
-Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240710225011.275153-1-daniel.almeida@collabora.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20240710225011.275153-1-daniel.almeida@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH net-next v16 12/13] selftests: add ncdevmem, netcat for
+ devmem TCP
+To: Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-alpha@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+ <linux-parisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+ <linux-trace-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+CC: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, "Richard
+ Henderson" <richard.henderson@linaro.org>, Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, "Thomas
+ Bogendoerfer" <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, "Steven
+ Rostedt" <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, "Willem de
+ Bruijn" <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, "Christoph
+ Hellwig" <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, "Harshitha
+ Ramamurthy" <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
+References: <20240710001749.1388631-1-almasrymina@google.com>
+ <20240710001749.1388631-13-almasrymina@google.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20240710001749.1388631-13-almasrymina@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE2:EE_|LV8PR12MB9208:EE_
+X-MS-Office365-Filtering-Correlation-Id: e027ea6e-9d80-4d4f-6be7-08dca1429c32
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|7416014|1800799024|376014|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?amlSczV1cSswOWxjRlpTNDNyMVFMaFU1QVhXVXZ1enErSVNQKzUwNTVKcWpt?=
+ =?utf-8?B?MmpSMW4vazFpeEdYZHhidHd0Vm9RVDF3VFJtcnB2ZHJVVm1ncUZQU2tPdEYx?=
+ =?utf-8?B?OEQ3eG4yQ2V5MnpFSG1sMzlDdEpjb3Z4NDVpaE5Tdk1FbDdLY1NleGdKL1JV?=
+ =?utf-8?B?QzdDQnc3U1hNbjRsYlIyaU1Nb3B3RWRkYTlKLzlRR084WXdIa1hMcFFzWWpa?=
+ =?utf-8?B?QmQwMVZ4OUJDTFdZbmdoN05MZ2U4WUd1cGJDVVQ0SmdtUFFJUk44YlpVbDFU?=
+ =?utf-8?B?NzVtYTEva1plRnk4NHlGOGtGdElDY20vemx1VWZLYU4rU2s2K1ZPRnV5alk0?=
+ =?utf-8?B?Q2taaEUvdE05Smh1aTFOTEJTRk93Q2UxN01XOXo0MG5QUFgxU1YxTXNRU204?=
+ =?utf-8?B?cjJyZ0RobGVQSkFwK2ZwemJCQlhZUnVYSmJ2eTcwbUNwd0tNUFpQOU5HWEt1?=
+ =?utf-8?B?Q0RpclhsL2hBUHFqamF5czJHRHdIRFViVUxOWVFKZTNrQTE0dUJISncyaGtU?=
+ =?utf-8?B?UHlITlpFZlk1bEk1T2dEa1JTMlQ4WHdCaVlCcTk2SURSbGFNdHQ2VWZHNG9x?=
+ =?utf-8?B?Y3dFMUREUDFIa1ZLUWZybUxFeUE3S2dQcTI3U1VieERrU2h6c3g1d1lYTXNH?=
+ =?utf-8?B?S3RjUXd2eE85eHJrVys1QXphUm42QXhBZXA1NmJ3N2Q4eXIvYUozazR0VzdI?=
+ =?utf-8?B?OWlJWGN0V1M4azZWWjdNd1hjZDBra0duUnh0NnF1TkhLdU54bGROK0VXM2h6?=
+ =?utf-8?B?SmhCcXNwUjNvUVJUaFJqOXB4bDF2R3BJNmROeDQ2Vng4QUJpM2Y3QkxMQ2hv?=
+ =?utf-8?B?NXYzdG9zSWFZbm9UMVQvdTVFQ1hoUkw2K0srTE5ZNUVEY3B5dlVFZnhGMHN0?=
+ =?utf-8?B?d0w0bHJ0bzZ3eURnTHhnbGx4RUMzN3h3bXp5NE5EbFE3TTFWYkpLSTVQUjBL?=
+ =?utf-8?B?cE1rY3YzNGp2MXVCdjZyT2lwOC9pdTdzMVJFc1U5cHloVys1Tjg1d1VmUmpM?=
+ =?utf-8?B?MUR3eDlMVWpacXFQUmhEbm5HU3FaZ2hqTktWeFpBQy9hZWxHWG5qQm9EYnF6?=
+ =?utf-8?B?QUhFMmtTWERxd0ljYTc5cUVsbVVoN0ZCdEMyMm1iWFFwODFuc3h3Q1l6ajQv?=
+ =?utf-8?B?VHNUYS9zTTlDTjdTQ29Xd0paa2QxbTlIbERXTzRJbjNIQ2Vhdzc3OURJRDJX?=
+ =?utf-8?B?SkoyZkQvTmVua2NwWDRMbW9sVVNFSFdkMG94NW9lRU5TRU9ldjN0SDVRRDY5?=
+ =?utf-8?B?ZE5BMjJxa0lkT2lEWXNFek95MjlNTmVYeWJ3SVZRRkhiRHlYUTZRTEloeFA5?=
+ =?utf-8?B?ZGkxNzhUR3JSM2JoMDFIMEd0R2Q1OXlUYXJVMTAzZUFVMWgxN01DTUlNZVVs?=
+ =?utf-8?B?TXpDVU5yR3o5UXVTdVMwd3MveVZGb213U1M3MUQ3SytGMUxWek5lWkpNcVo4?=
+ =?utf-8?B?WkJiS1QvUnJoSHdKUTg1TFhia1dKV3RZTVEraE5GQVBMekVNZzloNjlqS1pv?=
+ =?utf-8?B?UWMwS1hmVHFYNGxlREJYTDFmMkp0Rk01UXNiQ0VoTTNtS3kzbS9mV3dvVXB4?=
+ =?utf-8?B?ais4Y3AzYytkYS9PYjVsTk0vZDh1QW9pVXdoUi80YU0wOXg3WHZ5UkpiZEVE?=
+ =?utf-8?B?ZjhwUWprUGlmdnpHb0YvT1NvR09VUHZkOUVqZUhLNlJyanpaWnZTend6Mzdj?=
+ =?utf-8?B?MGhGU2FkZmFOZGRwUExUK1dCNUNKeE5TYUxPMldqQ2hxSTFVOXNqZkJzQXdZ?=
+ =?utf-8?B?d084NmVSTDV0MGJUb0RkSS9rOWk0MzlVYzdOVHpleXF3YUpNQk05K3JPcGJs?=
+ =?utf-8?B?OFExWTE5T1VMdkVlU0VHU1gzWjI1T1Z5eWppVGRtek9WMlJtVU4wVDNFU2d0?=
+ =?utf-8?B?V2R1Tks2RjFGRGpFV2poemRvN0pjR0tSWnc0azV3cTBraitTNlZZREpoN0Ry?=
+ =?utf-8?B?MHU3MDM2WDMrKzFVeXdHS3ZiTnZRWDY5WjFsVUorMVBLQi84MVdmaHptRnFy?=
+ =?utf-8?B?QXVpNXdORzBRPT0=?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(82310400026)(7416014)(1800799024)(376014)(36860700013)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 00:44:23.9137 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e027ea6e-9d80-4d4f-6be7-08dca1429c32
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE2.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9208
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,941 +178,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(+Sima)
-
-Hi Daniel,
-
-On 7/11/24 12:50 AM, Daniel Almeida wrote:
-> Dump the state of the GPU. This feature is useful for debugging purposes.
-> ---
-> Hi everybody!
-> 
-> For those looking for a branch instead, see [0].
-> 
-> I know this patch has (possibly many) issues. It is meant as a
-> discussion around the GEM abstractions for now. In particular, I am
-> aware of the series introducing Rust support for vmalloc and friends -
-> that is some very nice work! :)
-
-Just to link it in for other people reading this mail. [1] adds support for
-other kernel allocators than `Kmalloc`, in particular `Vmalloc` and `KVmalloc`.
-
-[1] https://lore.kernel.org/rust-for-linux/20240704170738.3621-1-dakr@redhat.com/
-
-> 
-> Danilo, as we've spoken before, I find it hard to work with `rust: drm:
-> gem: Add GEM object abstraction`. My patch is based on v1, but IIUC
-> the issue remains in v2: it is not possible to build a gem::ObjectRef
-> from a bindings::drm_gem_object*.
-
-This is due to `ObjectRef` being typed to `T: IntoGEMObject`. The "raw" GEM
-object is embedded in a driver specific GEM object type `T`. Without knowing
-`T` we can't `container_of!` to the driver specific type `T`.
-
-If your driver specific GEM object type is in C, Rust doesn't know about it
-and hence, can't handle it. We can't drop the generic type `T` here,
-otherwise Rust code can't get the driver specific GEM object from a raw GEM
-object pointer we receive from GEM object lookups, e.g. in IOCTLs.
-
-> 
-> Furthermore, gem::IntoGEMObject contains a Driver: drv::Driver
-> associated type:
-> 
-> ```
-> +/// Trait that represents a GEM object subtype
-> +pub trait IntoGEMObject: Sized + crate::private::Sealed {
-> +    /// Owning driver for this type
-> +    type Driver: drv::Driver;
-> +
-> ```
-
-This accociated type is required as well. For instance, we need to be able to
-create a handle from a GEM object. Without the `Driver` type we can't derive
-the `File` type to call drm_gem_handle_create().
-
-> 
-> While this does work for Asahi and Nova - two drivers that are written
-> entirely in Rust - it is a blocker for any partially-converted drivers.
-> This is because there is no drv::Driver at all, only Rust functions that
-> are called from an existing C driver.
-> 
-> IMHO, are unlikely to see full rewrites of any existing C code. But
-> partial convertions allows companies to write new features entirely in
-> Rust, or to migrate to Rust in small steps. For this reason, I think we
-> should strive to treat partially-converted drivers as first-class
-> citizens.
-
-This is a bit of a tricky one. Generally, I'm fine with anything that helps
-implementing drivers partially in Rust. However, there are mainly two things
-we have to be very careful with.
-
-(1) I think this one is pretty obvious, but we can't break the design of Rust
-abstractions in terms of safety and soundness for that.
-
-(2) We have to be very careful of where we draw the line. We can't define an
-arbitrary boundary of where C code can attach to Rust abstractions for one
-driver and then do the same thing for another driver that wants to attach at a
-different boundary, this simply doesn't scale in terms of maintainability.
-
-Honestly, the more I think about it, the more it seems to me that with
-abstractions for a full Rust driver you can't do what you want without
-violating (1) or (2).
-
-The problem with separate abstractions is also (2), how do we keep this
-maintainable when there are multiple drivers asking for different boundaries?
-
-However, if you have a proposal that helps your use case that doesn't violate (1)
-and (2) and still keeps full Rust drivers functional I'm absolutely open to it.
-
-One thing that comes to my mindis , you could probably create some driver specific
-"dummy" types to satisfy the type generics of the types you want to use. Not sure
-how well this works out though.
-
-- Danilo
-
-> 
-> [0]: https://gitlab.collabora.com/dwlsalmeida/for-upstream/-/tree/panthor-devcoredump?ref_type=heads
-> 
->   drivers/gpu/drm/panthor/Kconfig         |  13 ++
->   drivers/gpu/drm/panthor/Makefile        |   2 +
->   drivers/gpu/drm/panthor/dump.rs         | 294 ++++++++++++++++++++++++
->   drivers/gpu/drm/panthor/lib.rs          |  10 +
->   drivers/gpu/drm/panthor/panthor_mmu.c   |  39 ++++
->   drivers/gpu/drm/panthor/panthor_mmu.h   |   3 +
->   drivers/gpu/drm/panthor/panthor_rs.h    |  40 ++++
->   drivers/gpu/drm/panthor/panthor_sched.c |  28 ++-
->   drivers/gpu/drm/panthor/regs.rs         | 264 +++++++++++++++++++++
->   rust/bindings/bindings_helper.h         |   3 +
->   10 files changed, 695 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/gpu/drm/panthor/dump.rs
->   create mode 100644 drivers/gpu/drm/panthor/lib.rs
->   create mode 100644 drivers/gpu/drm/panthor/panthor_rs.h
->   create mode 100644 drivers/gpu/drm/panthor/regs.rs
-> 
-> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
-> index 55b40ad07f3b..78d34e516f5b 100644
-> --- a/drivers/gpu/drm/panthor/Kconfig
-> +++ b/drivers/gpu/drm/panthor/Kconfig
-> @@ -21,3 +21,16 @@ config DRM_PANTHOR
+On 7/9/24 5:17 PM, Mina Almasry wrote:
+...
+> diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
+> index bc3925200637c..39420a6e86b7f 100644
+> --- a/tools/testing/selftests/net/Makefile
+> +++ b/tools/testing/selftests/net/Makefile
+> @@ -95,6 +95,11 @@ TEST_PROGS += fq_band_pktlimit.sh
+>   TEST_PROGS += vlan_hw_filter.sh
+>   TEST_PROGS += bpf_offload.py
 >   
->   	  Note that the Mali-G68 and Mali-G78, while Valhall architecture, will
->   	  be supported with the panfrost driver as they are not CSF GPUs.
+> +# YNL files, must be before "include ..lib.mk"
+> +EXTRA_CLEAN += $(OUTPUT)/libynl.a
+> +YNL_GEN_FILES := ncdevmem
+> +TEST_GEN_FILES += $(YNL_GEN_FILES)
 > +
-> +config DRM_PANTHOR_RS
-> +	bool "Panthor Rust components"
-> +	depends on DRM_PANTHOR
-> +	depends on RUST
-> +	help
-> +	  Enable Panthor's Rust components
-> +
-> +config DRM_PANTHOR_COREDUMP
-> +	bool "Panthor devcoredump support"
-> +	depends on DRM_PANTHOR_RS
-> +	help
-> +	  Dump the GPU state through devcoredump for debugging purposes
-> \ No newline at end of file
-> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
-> index 15294719b09c..10387b02cd69 100644
-> --- a/drivers/gpu/drm/panthor/Makefile
-> +++ b/drivers/gpu/drm/panthor/Makefile
-> @@ -11,4 +11,6 @@ panthor-y := \
->   	panthor_mmu.o \
->   	panthor_sched.o
+>   TEST_FILES := settings
+>   TEST_FILES += in_netns.sh lib.sh net_helper.sh setup_loopback.sh setup_veth.sh
 >   
-> +panthor-$(CONFIG_DRM_PANTHOR_RS) += lib.o
->   obj-$(CONFIG_DRM_PANTHOR) += panthor.o
-> +
-> diff --git a/drivers/gpu/drm/panthor/dump.rs b/drivers/gpu/drm/panthor/dump.rs
-> new file mode 100644
-> index 000000000000..77fe5f420300
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/dump.rs
-> @@ -0,0 +1,294 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// SPDX-FileCopyrightText: Copyright Collabora 2024
-> +
-> +//! Dump the GPU state to a file, so we can figure out what went wrong if it
-> +//! crashes.
-> +//!
-> +//! The dump is comprised of the following sections:
-> +//!
-> +//! Registers,
-> +//! Firmware interface (TODO)
-> +//! Buffer objects (the whole VM)
-> +//!
-> +//! Each section is preceded by a header that describes it. Most importantly,
-> +//! each header starts with a magic number that should be used by userspace to
-> +//! when decoding.
-> +//!
-> +
-> +use alloc::DumpAllocator;
-> +use kernel::bindings;
-> +use kernel::prelude::*;
-> +
-> +use crate::regs;
-> +use crate::regs::GpuRegister;
-> +
-> +// PANT
-> +const MAGIC: u32 = 0x544e4150;
-> +
-> +#[derive(Copy, Clone)]
-> +#[repr(u32)]
-> +enum HeaderType {
-> +    /// A register dump
-> +    Registers,
-> +    /// The VM data,
-> +    Vm,
-> +    /// A dump of the firmware interface
-> +    _FirmwareInterface,
-> +}
-> +
-> +#[repr(C)]
-> +pub(crate) struct DumpArgs {
-> +    dev: *mut bindings::device,
-> +    /// The slot for the job
-> +    slot: i32,
-> +    /// The active buffer objects
-> +    bos: *mut *mut bindings::drm_gem_object,
-> +    /// The number of active buffer objects
-> +    bo_count: usize,
-> +    /// The base address of the registers to use when reading.
-> +    reg_base_addr: *mut core::ffi::c_void,
-> +}
-> +
-> +#[repr(C)]
-> +pub(crate) struct Header {
-> +    magic: u32,
-> +    ty: HeaderType,
-> +    header_size: u32,
-> +    data_size: u32,
-> +}
-> +
-> +#[repr(C)]
-> +#[derive(Clone, Copy)]
-> +pub(crate) struct RegisterDump {
-> +    register: GpuRegister,
-> +    value: u32,
-> +}
-> +
-> +/// The registers to dump
-> +const REGISTERS: [GpuRegister; 18] = [
-> +    regs::SHADER_READY_LO,
-> +    regs::SHADER_READY_HI,
-> +    regs::TILER_READY_LO,
-> +    regs::TILER_READY_HI,
-> +    regs::L2_READY_LO,
-> +    regs::L2_READY_HI,
-> +    regs::JOB_INT_MASK,
-> +    regs::JOB_INT_STAT,
-> +    regs::MMU_INT_MASK,
-> +    regs::MMU_INT_STAT,
-> +    regs::as_transtab_lo(0),
-> +    regs::as_transtab_hi(0),
-> +    regs::as_memattr_lo(0),
-> +    regs::as_memattr_hi(0),
-> +    regs::as_faultstatus(0),
-> +    regs::as_faultaddress_lo(0),
-> +    regs::as_faultaddress_hi(0),
-> +    regs::as_status(0),
-> +];
-> +
-> +mod alloc {
-> +    use core::ptr::NonNull;
-> +
-> +    use kernel::bindings;
-> +    use kernel::prelude::*;
-> +
-> +    use crate::dump::Header;
-> +    use crate::dump::HeaderType;
-> +    use crate::dump::MAGIC;
-> +
-> +    pub(crate) struct DumpAllocator {
-> +        mem: NonNull<core::ffi::c_void>,
-> +        pos: usize,
-> +        capacity: usize,
-> +    }
-> +
-> +    impl DumpAllocator {
-> +        pub(crate) fn new(size: usize) -> Result<Self> {
-> +            if isize::try_from(size).unwrap() == isize::MAX {
-> +                return Err(EINVAL);
-> +            }
-> +
-> +            // Let's cheat a bit here, since there is no Rust vmalloc allocator
-> +            // for the time being.
-> +            //
-> +            // Safety: just a FFI call to alloc memory
-> +            let mem = NonNull::new(unsafe {
-> +                bindings::__vmalloc_noprof(
-> +                    size.try_into().unwrap(),
-> +                    bindings::GFP_KERNEL | bindings::GFP_NOWAIT | 1 << bindings::___GFP_NORETRY_BIT,
-> +                )
-> +            });
-> +
-> +            let mem = match mem {
-> +                Some(buffer) => buffer,
-> +                None => return Err(ENOMEM),
-> +            };
-> +
-> +            // Ssfety: just a FFI call to zero out the memory. Mem and size were
-> +            // used to allocate the memory above.
-> +            unsafe { core::ptr::write_bytes(mem.as_ptr(), 0, size) };
-> +            Ok(Self {
-> +                mem,
-> +                pos: 0,
-> +                capacity: size,
-> +            })
-> +        }
-> +
-> +        fn alloc_mem(&mut self, size: usize) -> Option<*mut u8> {
-> +            assert!(size % 8 == 0, "Allocation size must be 8-byte aligned");
-> +            if isize::try_from(size).unwrap() == isize::MAX {
-> +                return None;
-> +            } else if self.pos + size > self.capacity {
-> +                kernel::pr_debug!("DumpAllocator out of memory");
-> +                None
-> +            } else {
-> +                let offset = self.pos;
-> +                self.pos += size;
-> +
-> +                // Safety: we know that this is a valid allocation, so
-> +                // dereferencing is safe. We don't ever return two pointers to
-> +                // the same address, so we adhere to the aliasing rules. We make
-> +                // sure that the memory is zero-initialized before being handed
-> +                // out (this happens when the allocator is first created) and we
-> +                // enforce a 8 byte alignment rule.
-> +                Some(unsafe { self.mem.as_ptr().offset(offset as isize) as *mut u8 })
-> +            }
-> +        }
-> +
-> +        pub(crate) fn alloc<T>(&mut self) -> Option<&mut T> {
-> +            let mem = self.alloc_mem(core::mem::size_of::<T>())? as *mut T;
-> +            // Safety: we uphold safety guarantees in alloc_mem(), so this is
-> +            // safe to dereference.
-> +            Some(unsafe { &mut *mem })
-> +        }
-> +
-> +        pub(crate) fn alloc_bytes(&mut self, num_bytes: usize) -> Option<&mut [u8]> {
-> +            let mem = self.alloc_mem(num_bytes)?;
-> +
-> +            // Safety: we uphold safety guarantees in alloc_mem(), so this is
-> +            // safe to build a slice
-> +            Some(unsafe { core::slice::from_raw_parts_mut(mem, num_bytes) })
-> +        }
-> +
-> +        pub(crate) fn alloc_header(&mut self, ty: HeaderType, data_size: u32) -> &mut Header {
-> +            let hdr: &mut Header = self.alloc().unwrap();
-> +            hdr.magic = MAGIC;
-> +            hdr.ty = ty;
-> +            hdr.header_size = core::mem::size_of::<Header>() as u32;
-> +            hdr.data_size = data_size;
-> +            hdr
-> +        }
-> +
-> +        pub(crate) fn is_end(&self) -> bool {
-> +            self.pos == self.capacity
-> +        }
-> +
-> +        pub(crate) fn dump(self) -> (NonNull<core::ffi::c_void>, usize) {
-> +            (self.mem, self.capacity)
-> +        }
-> +    }
-> +}
-> +
-> +fn dump_registers(alloc: &mut DumpAllocator, args: &DumpArgs) {
-> +    let sz = core::mem::size_of_val(&REGISTERS);
-> +    alloc.alloc_header(HeaderType::Registers, sz.try_into().unwrap());
-> +
-> +    for reg in &REGISTERS {
-> +        let dumped_reg: &mut RegisterDump = alloc.alloc().unwrap();
-> +        dumped_reg.register = *reg;
-> +        dumped_reg.value = reg.read(args.reg_base_addr);
-> +    }
-> +}
-> +
-> +fn dump_bo(alloc: &mut DumpAllocator, bo: &mut bindings::drm_gem_object) {
-> +    let mut map = bindings::iosys_map::default();
-> +
-> +    // Safety: we trust the kernel to provide a valid BO.
-> +    let ret = unsafe { bindings::drm_gem_vmap_unlocked(bo, &mut map as _) };
-> +    if ret != 0 {
-> +        pr_warn!("Failed to map BO");
-> +        return;
-> +    }
-> +
-> +    let sz = bo.size;
-> +
-> +    // Safety: we know that the vaddr is valid and we know the BO size.
-> +    let mapped_bo: &mut [u8] =
-> +        unsafe { core::slice::from_raw_parts_mut(map.__bindgen_anon_1.vaddr as *mut _, sz) };
-> +
-> +    alloc.alloc_header(HeaderType::Vm, sz as u32);
-> +
-> +    let bo_data = alloc.alloc_bytes(sz).unwrap();
-> +    bo_data.copy_from_slice(&mapped_bo[..]);
-> +
-> +    // Safety: BO is valid and was previously mapped.
-> +    unsafe { bindings::drm_gem_vunmap_unlocked(bo, &mut map as _) };
-> +}
-> +
-> +/// Dumps the current state of the GPU to a file
-> +///
-> +/// # Safety
-> +///
-> +/// `Args` must be aligned and non-null.
-> +/// All fields of `DumpArgs` must be valid.
-> +#[no_mangle]
-> +pub(crate) extern "C" fn panthor_core_dump(args: *const DumpArgs) -> core::ffi::c_int {
-> +    assert!(!args.is_null());
-> +    // Safety: we checked whether the pointer was null. It is assumed to be
-> +    // aligned as per the safety requirements.
-> +    let args = unsafe { &*args };
-> +    //
-> +    // TODO: Ideally, we would use the safe GEM abstraction from the kernel
-> +    // crate, but I see no way to create a drm::gem::ObjectRef from a
-> +    // bindings::drm_gem_object. drm::gem::IntoGEMObject is only implemented for
-> +    // drm::gem::Object, which means that new references can only be created
-> +    // from a Rust-owned GEM object.
-> +    //
-> +    // It also has a has a `type Driver: drv::Driver` associated type, from
-> +    // which it can access the `File` associated type. But not all GEM functions
-> +    // take a file, though. For example, `drm_gem_vmap_unlocked` (used here)
-> +    // does not.
-> +    //
-> +    // This associated type is a blocker here, because there is no actual
-> +    // drv::Driver. We're only implementing a few functions in Rust.
-> +    let mut bos = match Vec::with_capacity(args.bo_count, GFP_KERNEL) {
-> +        Ok(bos) => bos,
-> +        Err(_) => return ENOMEM.to_errno(),
-> +    };
-> +    for i in 0..args.bo_count {
-> +        // Safety: `args` is assumed valid as per the safety requirements.
-> +        // `bos` is a valid pointer to a valid array of valid pointers.
-> +        let bo = unsafe { &mut **args.bos.add(i) };
-> +        bos.push(bo, GFP_KERNEL).unwrap();
-> +    }
-> +
-> +    let mut sz = core::mem::size_of::<Header>();
-> +    sz += REGISTERS.len() * core::mem::size_of::<RegisterDump>();
-> +
-> +    for bo in &mut *bos {
-> +        sz += core::mem::size_of::<Header>();
-> +        sz += bo.size;
-> +    }
-> +
-> +    // Everything must fit within this allocation, otherwise it was miscomputed.
-> +    let mut alloc = match DumpAllocator::new(sz) {
-> +        Ok(alloc) => alloc,
-> +        Err(e) => return e.to_errno(),
-> +    };
-> +
-> +    dump_registers(&mut alloc, &args);
-> +    for bo in bos {
-> +        dump_bo(&mut alloc, bo);
-> +    }
-> +
-> +    if !alloc.is_end() {
-> +        pr_warn!("DumpAllocator: wrong allocation size");
-> +    }
-> +
-> +    let (mem, size) = alloc.dump();
-> +
-> +    // Safety: `mem` is a valid pointer to a valid allocation of `size` bytes.
-> +    unsafe { bindings::dev_coredumpv(args.dev, mem.as_ptr(), size, bindings::GFP_KERNEL) };
-> +
-> +    0
-> +}
-> diff --git a/drivers/gpu/drm/panthor/lib.rs b/drivers/gpu/drm/panthor/lib.rs
-> new file mode 100644
-> index 000000000000..faef8662d0f5
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/lib.rs
-> @@ -0,0 +1,10 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// SPDX-FileCopyrightText: Copyright Collabora 2024
-> +
-> +//! The Rust components of the Panthor driver
-> +
-> +#[cfg(CONFIG_DRM_PANTHOR_COREDUMP)]
-> +mod dump;
-> +mod regs;
-> +
-> +const __LOG_PREFIX: &[u8] = b"panthor\0";
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index fa0a002b1016..f8934de41ffa 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -2,6 +2,8 @@
->   /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->   /* Copyright 2023 Collabora ltd. */
+> @@ -104,6 +109,10 @@ TEST_INCLUDES := forwarding/lib.sh
 >   
-> +#include "drm/drm_gem.h"
-> +#include "linux/gfp_types.h"
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_exec.h>
-> @@ -2619,6 +2621,43 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
->   	return drm_gpuvm_prepare_objects(&vm->base, exec, slot_count);
->   }
+>   include ../lib.mk
 >   
-> +/**
-> + * panthor_vm_bo_dump() - Dump the VM BOs for debugging purposes.
-> + *
-> + *
-> + * @vm: VM targeted by the GPU job.
-> + * @count: The number of BOs returned
-> + *
-> + * Return: an array of pointers to the BOs backing the whole VM.
-> + */
-> +struct drm_gem_object **
-> +panthor_vm_dump(struct panthor_vm *vm, u32 *count)
-> +{
-> +	struct drm_gpuva *va, *next;
-> +	struct drm_gem_object **objs;
-> +	*count = 0;
-> +	u32 i = 0;
-> +
-> +	mutex_lock(&vm->op_lock);
-> +	drm_gpuvm_for_each_va_safe(va, next, &vm->base) {
-> +		(*count)++;
-> +	}
-> +
-> +	objs = kcalloc(*count, sizeof(struct drm_gem_object *), GFP_KERNEL);
-> +	if (!objs) {
-> +		mutex_unlock(&vm->op_lock);
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	drm_gpuvm_for_each_va_safe(va, next, &vm->base) {
-> +		objs[i] = va->gem.obj;
-> +		i++;
-> +	}
-> +	mutex_unlock(&vm->op_lock);
-> +
-> +	return objs;
-> +}
-> +
->   /**
->    * panthor_mmu_unplug() - Unplug the MMU logic
->    * @ptdev: Device.
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
-> index f3c1ed19f973..e9369c19e5b5 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-> @@ -50,6 +50,9 @@ int panthor_vm_add_bos_resvs_deps_to_job(struct panthor_vm *vm,
->   void panthor_vm_add_job_fence_to_bos_resvs(struct panthor_vm *vm,
->   					   struct drm_sched_job *job);
->   
-> +struct drm_gem_object **
-> +panthor_vm_dump(struct panthor_vm *vm, u32 *count);
-> +
->   struct dma_resv *panthor_vm_resv(struct panthor_vm *vm);
->   struct drm_gem_object *panthor_vm_root_gem(struct panthor_vm *vm);
->   
-> diff --git a/drivers/gpu/drm/panthor/panthor_rs.h b/drivers/gpu/drm/panthor/panthor_rs.h
-> new file mode 100644
-> index 000000000000..024db09be9a1
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_rs.h
-> @@ -0,0 +1,40 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// SPDX-FileCopyrightText: Copyright Collabora 2024
-> +
-> +#include <drm/drm_gem.h>
-> +
-> +struct PanthorDumpArgs {
-> +	struct device *dev;
-> +	/**
-> +   * The slot for the job
-> +   */
-> +	s32 slot;
-> +	/**
-> +   * The active buffer objects
-> +   */
-> +	struct drm_gem_object **bos;
-> +	/**
-> +   * The number of active buffer objects
-> +   */
-> +	size_t bo_count;
-> +	/**
-> +   * The base address of the registers to use when reading.
-> +   */
-> +	void *reg_base_addr;
-> +};
-> +
-> +/**
-> + * Dumps the current state of the GPU to a file
-> + *
-> + * # Safety
-> + *
-> + * All fields of `DumpArgs` must be valid.
-> + */
-> +#ifdef CONFIG_DRM_PANTHOR_RS
-> +int panthor_core_dump(const struct PanthorDumpArgs *args);
-> +#else
-> +inline int panthor_core_dump(const struct PanthorDumpArgs *args)
-> +{
-> +	return 0;
-> +}
-> +#endif
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 79ffcbc41d78..39e1654d930e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -1,6 +1,9 @@
->   // SPDX-License-Identifier: GPL-2.0 or MIT
->   /* Copyright 2023 Collabora ltd. */
->   
-> +#include "drm/drm_gem.h"
-> +#include "linux/gfp_types.h"
-> +#include "linux/slab.h"
->   #include <drm/drm_drv.h>
->   #include <drm/drm_exec.h>
->   #include <drm/drm_gem_shmem_helper.h>
-> @@ -31,6 +34,7 @@
->   #include "panthor_mmu.h"
->   #include "panthor_regs.h"
->   #include "panthor_sched.h"
-> +#include "panthor_rs.h"
->   
->   /**
->    * DOC: Scheduler
-> @@ -2805,6 +2809,27 @@ static void group_sync_upd_work(struct work_struct *work)
->   	group_put(group);
->   }
->   
-> +static void dump_job(struct panthor_device *dev, struct panthor_job *job)
-> +{
-> +	struct panthor_vm *vm = job->group->vm;
-> +	struct drm_gem_object **objs;
-> +	u32 count;
-> +
-> +	objs = panthor_vm_dump(vm, &count);
-> +
-> +	if (!IS_ERR(objs)) {
-> +		struct PanthorDumpArgs args = {
-> +			.dev = job->group->ptdev->base.dev,
-> +			.bos = objs,
-> +			.bo_count = count,
-> +			.reg_base_addr = dev->iomem,
-> +		};
-> +		panthor_core_dump(&args);
-> +		kfree(objs);
-> +	}
-> +}
-> +
-> +
->   static struct dma_fence *
->   queue_run_job(struct drm_sched_job *sched_job)
->   {
-> @@ -2929,7 +2954,7 @@ queue_run_job(struct drm_sched_job *sched_job)
->   	}
->   
->   	done_fence = dma_fence_get(job->done_fence);
-> -
-> +	dump_job(ptdev, job);
->   out_unlock:
->   	mutex_unlock(&sched->lock);
->   	pm_runtime_mark_last_busy(ptdev->base.dev);
-> @@ -2950,6 +2975,7 @@ queue_timedout_job(struct drm_sched_job *sched_job)
->   	drm_warn(&ptdev->base, "job timeout\n");
->   
->   	drm_WARN_ON(&ptdev->base, atomic_read(&sched->reset.in_progress));
-> +	dump_job(ptdev, job);
->   
->   	queue_stop(queue, job);
->   
-> diff --git a/drivers/gpu/drm/panthor/regs.rs b/drivers/gpu/drm/panthor/regs.rs
-> new file mode 100644
-> index 000000000000..514bc9ee2856
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/regs.rs
-> @@ -0,0 +1,264 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// SPDX-FileCopyrightText: Copyright Collabora 2024
-> +// SPDX-FileCopyrightText: (C) COPYRIGHT 2010-2022 ARM Limited. All rights reserved.
-> +
-> +//! The registers for Panthor, extracted from panthor_regs.h
-> +
-> +#![allow(unused_macros, unused_imports, dead_code)]
-> +
-> +use kernel::bindings;
-> +
-> +use core::ops::Add;
-> +use core::ops::Shl;
-> +use core::ops::Shr;
-> +
-> +#[repr(transparent)]
-> +#[derive(Clone, Copy)]
-> +pub(crate) struct GpuRegister(u64);
-> +
-> +impl GpuRegister {
-> +    pub(crate) fn read(&self, iomem: *const core::ffi::c_void) -> u32 {
-> +        // Safety: `reg` represents a valid address
-> +        unsafe {
-> +            let addr = iomem.offset(self.0 as isize);
-> +            bindings::readl_relaxed(addr as *const _)
-> +        }
-> +    }
-> +}
-> +
-> +pub(crate) const fn bit(index: u64) -> u64 {
-> +    1 << index
-> +}
-> +pub(crate) const fn genmask(high: u64, low: u64) -> u64 {
-> +    ((1 << (high - low + 1)) - 1) << low
-> +}
-> +
-> +pub(crate) const GPU_ID: GpuRegister = GpuRegister(0x0);
-> +pub(crate) const fn gpu_arch_major(x: u64) -> GpuRegister {
-> +    GpuRegister((x) >> 28)
-> +}
-> +pub(crate) const fn gpu_arch_minor(x: u64) -> GpuRegister {
-> +    GpuRegister((x) & genmask(27, 24) >> 24)
-> +}
-> +pub(crate) const fn gpu_arch_rev(x: u64) -> GpuRegister {
-> +    GpuRegister((x) & genmask(23, 20) >> 20)
-> +}
-> +pub(crate) const fn gpu_prod_major(x: u64) -> GpuRegister {
-> +    GpuRegister((x) & genmask(19, 16) >> 16)
-> +}
-> +pub(crate) const fn gpu_ver_major(x: u64) -> GpuRegister {
-> +    GpuRegister((x) & genmask(15, 12) >> 12)
-> +}
-> +pub(crate) const fn gpu_ver_minor(x: u64) -> GpuRegister {
-> +    GpuRegister((x) & genmask(11, 4) >> 4)
-> +}
-> +pub(crate) const fn gpu_ver_status(x: u64) -> GpuRegister {
-> +    GpuRegister(x & genmask(3, 0))
-> +}
-> +pub(crate) const GPU_L2_FEATURES: GpuRegister = GpuRegister(0x4);
-> +pub(crate) const fn gpu_l2_features_line_size(x: u64) -> GpuRegister {
-> +    GpuRegister(1 << ((x) & genmask(7, 0)))
-> +}
-> +pub(crate) const GPU_CORE_FEATURES: GpuRegister = GpuRegister(0x8);
-> +pub(crate) const GPU_TILER_FEATURES: GpuRegister = GpuRegister(0xc);
-> +pub(crate) const GPU_MEM_FEATURES: GpuRegister = GpuRegister(0x10);
-> +pub(crate) const GROUPS_L2_COHERENT: GpuRegister = GpuRegister(bit(0));
-> +pub(crate) const GPU_MMU_FEATURES: GpuRegister = GpuRegister(0x14);
-> +pub(crate) const fn gpu_mmu_features_va_bits(x: u64) -> GpuRegister {
-> +    GpuRegister((x) & genmask(7, 0))
-> +}
-> +pub(crate) const fn gpu_mmu_features_pa_bits(x: u64) -> GpuRegister {
-> +    GpuRegister(((x) >> 8) & genmask(7, 0))
-> +}
-> +pub(crate) const GPU_AS_PRESENT: GpuRegister = GpuRegister(0x18);
-> +pub(crate) const GPU_CSF_ID: GpuRegister = GpuRegister(0x1c);
-> +pub(crate) const GPU_INT_RAWSTAT: GpuRegister = GpuRegister(0x20);
-> +pub(crate) const GPU_INT_CLEAR: GpuRegister = GpuRegister(0x24);
-> +pub(crate) const GPU_INT_MASK: GpuRegister = GpuRegister(0x28);
-> +pub(crate) const GPU_INT_STAT: GpuRegister = GpuRegister(0x2c);
-> +pub(crate) const GPU_IRQ_FAULT: GpuRegister = GpuRegister(bit(0));
-> +pub(crate) const GPU_IRQ_PROTM_FAULT: GpuRegister = GpuRegister(bit(1));
-> +pub(crate) const GPU_IRQ_RESET_COMPLETED: GpuRegister = GpuRegister(bit(8));
-> +pub(crate) const GPU_IRQ_POWER_CHANGED: GpuRegister = GpuRegister(bit(9));
-> +pub(crate) const GPU_IRQ_POWER_CHANGED_ALL: GpuRegister = GpuRegister(bit(10));
-> +pub(crate) const GPU_IRQ_CLEAN_CACHES_COMPLETED: GpuRegister = GpuRegister(bit(17));
-> +pub(crate) const GPU_IRQ_DOORBELL_MIRROR: GpuRegister = GpuRegister(bit(18));
-> +pub(crate) const GPU_IRQ_MCU_STATUS_CHANGED: GpuRegister = GpuRegister(bit(19));
-> +pub(crate) const GPU_CMD: GpuRegister = GpuRegister(0x30);
-> +const fn gpu_cmd_def(ty: u64, payload: u64) -> u64 {
-> +    (ty) | ((payload) << 8)
-> +}
-> +pub(crate) const fn gpu_soft_reset() -> GpuRegister {
-> +    GpuRegister(gpu_cmd_def(1, 1))
-> +}
-> +pub(crate) const fn gpu_hard_reset() -> GpuRegister {
-> +    GpuRegister(gpu_cmd_def(1, 2))
-> +}
-> +pub(crate) const CACHE_CLEAN: GpuRegister = GpuRegister(bit(0));
-> +pub(crate) const CACHE_INV: GpuRegister = GpuRegister(bit(1));
-> +pub(crate) const GPU_STATUS: GpuRegister = GpuRegister(0x34);
-> +pub(crate) const GPU_STATUS_ACTIVE: GpuRegister = GpuRegister(bit(0));
-> +pub(crate) const GPU_STATUS_PWR_ACTIVE: GpuRegister = GpuRegister(bit(1));
-> +pub(crate) const GPU_STATUS_PAGE_FAULT: GpuRegister = GpuRegister(bit(4));
-> +pub(crate) const GPU_STATUS_PROTM_ACTIVE: GpuRegister = GpuRegister(bit(7));
-> +pub(crate) const GPU_STATUS_DBG_ENABLED: GpuRegister = GpuRegister(bit(8));
-> +pub(crate) const GPU_FAULT_STATUS: GpuRegister = GpuRegister(0x3c);
-> +pub(crate) const GPU_FAULT_ADDR_LO: GpuRegister = GpuRegister(0x40);
-> +pub(crate) const GPU_FAULT_ADDR_HI: GpuRegister = GpuRegister(0x44);
-> +pub(crate) const GPU_PWR_KEY: GpuRegister = GpuRegister(0x50);
-> +pub(crate) const GPU_PWR_KEY_UNLOCK: GpuRegister = GpuRegister(0x2968a819);
-> +pub(crate) const GPU_PWR_OVERRIDE0: GpuRegister = GpuRegister(0x54);
-> +pub(crate) const GPU_PWR_OVERRIDE1: GpuRegister = GpuRegister(0x58);
-> +pub(crate) const GPU_TIMESTAMP_OFFSET_LO: GpuRegister = GpuRegister(0x88);
-> +pub(crate) const GPU_TIMESTAMP_OFFSET_HI: GpuRegister = GpuRegister(0x8c);
-> +pub(crate) const GPU_CYCLE_COUNT_LO: GpuRegister = GpuRegister(0x90);
-> +pub(crate) const GPU_CYCLE_COUNT_HI: GpuRegister = GpuRegister(0x94);
-> +pub(crate) const GPU_TIMESTAMP_LO: GpuRegister = GpuRegister(0x98);
-> +pub(crate) const GPU_TIMESTAMP_HI: GpuRegister = GpuRegister(0x9c);
-> +pub(crate) const GPU_THREAD_MAX_THREADS: GpuRegister = GpuRegister(0xa0);
-> +pub(crate) const GPU_THREAD_MAX_WORKGROUP_SIZE: GpuRegister = GpuRegister(0xa4);
-> +pub(crate) const GPU_THREAD_MAX_BARRIER_SIZE: GpuRegister = GpuRegister(0xa8);
-> +pub(crate) const GPU_THREAD_FEATURES: GpuRegister = GpuRegister(0xac);
-> +pub(crate) const fn gpu_texture_features(n: u64) -> GpuRegister {
-> +    GpuRegister(0xB0 + ((n) * 4))
-> +}
-> +pub(crate) const GPU_SHADER_PRESENT_LO: GpuRegister = GpuRegister(0x100);
-> +pub(crate) const GPU_SHADER_PRESENT_HI: GpuRegister = GpuRegister(0x104);
-> +pub(crate) const GPU_TILER_PRESENT_LO: GpuRegister = GpuRegister(0x110);
-> +pub(crate) const GPU_TILER_PRESENT_HI: GpuRegister = GpuRegister(0x114);
-> +pub(crate) const GPU_L2_PRESENT_LO: GpuRegister = GpuRegister(0x120);
-> +pub(crate) const GPU_L2_PRESENT_HI: GpuRegister = GpuRegister(0x124);
-> +pub(crate) const SHADER_READY_LO: GpuRegister = GpuRegister(0x140);
-> +pub(crate) const SHADER_READY_HI: GpuRegister = GpuRegister(0x144);
-> +pub(crate) const TILER_READY_LO: GpuRegister = GpuRegister(0x150);
-> +pub(crate) const TILER_READY_HI: GpuRegister = GpuRegister(0x154);
-> +pub(crate) const L2_READY_LO: GpuRegister = GpuRegister(0x160);
-> +pub(crate) const L2_READY_HI: GpuRegister = GpuRegister(0x164);
-> +pub(crate) const SHADER_PWRON_LO: GpuRegister = GpuRegister(0x180);
-> +pub(crate) const SHADER_PWRON_HI: GpuRegister = GpuRegister(0x184);
-> +pub(crate) const TILER_PWRON_LO: GpuRegister = GpuRegister(0x190);
-> +pub(crate) const TILER_PWRON_HI: GpuRegister = GpuRegister(0x194);
-> +pub(crate) const L2_PWRON_LO: GpuRegister = GpuRegister(0x1a0);
-> +pub(crate) const L2_PWRON_HI: GpuRegister = GpuRegister(0x1a4);
-> +pub(crate) const SHADER_PWROFF_LO: GpuRegister = GpuRegister(0x1c0);
-> +pub(crate) const SHADER_PWROFF_HI: GpuRegister = GpuRegister(0x1c4);
-> +pub(crate) const TILER_PWROFF_LO: GpuRegister = GpuRegister(0x1d0);
-> +pub(crate) const TILER_PWROFF_HI: GpuRegister = GpuRegister(0x1d4);
-> +pub(crate) const L2_PWROFF_LO: GpuRegister = GpuRegister(0x1e0);
-> +pub(crate) const L2_PWROFF_HI: GpuRegister = GpuRegister(0x1e4);
-> +pub(crate) const SHADER_PWRTRANS_LO: GpuRegister = GpuRegister(0x200);
-> +pub(crate) const SHADER_PWRTRANS_HI: GpuRegister = GpuRegister(0x204);
-> +pub(crate) const TILER_PWRTRANS_LO: GpuRegister = GpuRegister(0x210);
-> +pub(crate) const TILER_PWRTRANS_HI: GpuRegister = GpuRegister(0x214);
-> +pub(crate) const L2_PWRTRANS_LO: GpuRegister = GpuRegister(0x220);
-> +pub(crate) const L2_PWRTRANS_HI: GpuRegister = GpuRegister(0x224);
-> +pub(crate) const SHADER_PWRACTIVE_LO: GpuRegister = GpuRegister(0x240);
-> +pub(crate) const SHADER_PWRACTIVE_HI: GpuRegister = GpuRegister(0x244);
-> +pub(crate) const TILER_PWRACTIVE_LO: GpuRegister = GpuRegister(0x250);
-> +pub(crate) const TILER_PWRACTIVE_HI: GpuRegister = GpuRegister(0x254);
-> +pub(crate) const L2_PWRACTIVE_LO: GpuRegister = GpuRegister(0x260);
-> +pub(crate) const L2_PWRACTIVE_HI: GpuRegister = GpuRegister(0x264);
-> +pub(crate) const GPU_REVID: GpuRegister = GpuRegister(0x280);
-> +pub(crate) const GPU_COHERENCY_FEATURES: GpuRegister = GpuRegister(0x300);
-> +pub(crate) const GPU_COHERENCY_PROTOCOL: GpuRegister = GpuRegister(0x304);
-> +pub(crate) const GPU_COHERENCY_ACE: GpuRegister = GpuRegister(0);
-> +pub(crate) const GPU_COHERENCY_ACE_LITE: GpuRegister = GpuRegister(1);
-> +pub(crate) const GPU_COHERENCY_NONE: GpuRegister = GpuRegister(31);
-> +pub(crate) const MCU_CONTROL: GpuRegister = GpuRegister(0x700);
-> +pub(crate) const MCU_CONTROL_ENABLE: GpuRegister = GpuRegister(1);
-> +pub(crate) const MCU_CONTROL_AUTO: GpuRegister = GpuRegister(2);
-> +pub(crate) const MCU_CONTROL_DISABLE: GpuRegister = GpuRegister(0);
-> +pub(crate) const MCU_STATUS: GpuRegister = GpuRegister(0x704);
-> +pub(crate) const MCU_STATUS_DISABLED: GpuRegister = GpuRegister(0);
-> +pub(crate) const MCU_STATUS_ENABLED: GpuRegister = GpuRegister(1);
-> +pub(crate) const MCU_STATUS_HALT: GpuRegister = GpuRegister(2);
-> +pub(crate) const MCU_STATUS_FATAL: GpuRegister = GpuRegister(3);
-> +pub(crate) const JOB_INT_RAWSTAT: GpuRegister = GpuRegister(0x1000);
-> +pub(crate) const JOB_INT_CLEAR: GpuRegister = GpuRegister(0x1004);
-> +pub(crate) const JOB_INT_MASK: GpuRegister = GpuRegister(0x1008);
-> +pub(crate) const JOB_INT_STAT: GpuRegister = GpuRegister(0x100c);
-> +pub(crate) const JOB_INT_GLOBAL_IF: GpuRegister = GpuRegister(bit(31));
-> +pub(crate) const fn job_int_csg_if(x: u64) -> GpuRegister {
-> +    GpuRegister(bit(x))
-> +}
-> +pub(crate) const MMU_INT_RAWSTAT: GpuRegister = GpuRegister(0x2000);
-> +pub(crate) const MMU_INT_CLEAR: GpuRegister = GpuRegister(0x2004);
-> +pub(crate) const MMU_INT_MASK: GpuRegister = GpuRegister(0x2008);
-> +pub(crate) const MMU_INT_STAT: GpuRegister = GpuRegister(0x200c);
-> +pub(crate) const MMU_BASE: GpuRegister = GpuRegister(0x2400);
-> +pub(crate) const MMU_AS_SHIFT: GpuRegister = GpuRegister(6);
-> +const fn mmu_as(as_: u64) -> u64 {
-> +    MMU_BASE.0 + ((as_) << MMU_AS_SHIFT.0)
-> +}
-> +pub(crate) const fn as_transtab_lo(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x0)
-> +}
-> +pub(crate) const fn as_transtab_hi(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x4)
-> +}
-> +pub(crate) const fn as_memattr_lo(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x8)
-> +}
-> +pub(crate) const fn as_memattr_hi(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0xC)
-> +}
-> +pub(crate) const fn as_memattr_aarch64_inner_alloc_expl(w: u64, r: u64) -> GpuRegister {
-> +    GpuRegister((3 << 2) | (if w > 0 { bit(0) } else { 0 } | (if r > 0 { bit(1) } else { 0 })))
-> +}
-> +pub(crate) const fn as_lockaddr_lo(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x10)
-> +}
-> +pub(crate) const fn as_lockaddr_hi(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x14)
-> +}
-> +pub(crate) const fn as_command(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x18)
-> +}
-> +pub(crate) const AS_COMMAND_NOP: GpuRegister = GpuRegister(0);
-> +pub(crate) const AS_COMMAND_UPDATE: GpuRegister = GpuRegister(1);
-> +pub(crate) const AS_COMMAND_LOCK: GpuRegister = GpuRegister(2);
-> +pub(crate) const AS_COMMAND_UNLOCK: GpuRegister = GpuRegister(3);
-> +pub(crate) const AS_COMMAND_FLUSH_PT: GpuRegister = GpuRegister(4);
-> +pub(crate) const AS_COMMAND_FLUSH_MEM: GpuRegister = GpuRegister(5);
-> +pub(crate) const fn as_faultstatus(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x1C)
-> +}
-> +pub(crate) const fn as_faultaddress_lo(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x20)
-> +}
-> +pub(crate) const fn as_faultaddress_hi(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x24)
-> +}
-> +pub(crate) const fn as_status(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x28)
-> +}
-> +pub(crate) const AS_STATUS_AS_ACTIVE: GpuRegister = GpuRegister(bit(0));
-> +pub(crate) const fn as_transcfg_lo(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x30)
-> +}
-> +pub(crate) const fn as_transcfg_hi(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x34)
-> +}
-> +pub(crate) const fn as_transcfg_ina_bits(x: u64) -> GpuRegister {
-> +    GpuRegister((x) << 6)
-> +}
-> +pub(crate) const fn as_transcfg_outa_bits(x: u64) -> GpuRegister {
-> +    GpuRegister((x) << 14)
-> +}
-> +pub(crate) const AS_TRANSCFG_SL_CONCAT: GpuRegister = GpuRegister(bit(22));
-> +pub(crate) const AS_TRANSCFG_PTW_RA: GpuRegister = GpuRegister(bit(30));
-> +pub(crate) const AS_TRANSCFG_DISABLE_HIER_AP: GpuRegister = GpuRegister(bit(33));
-> +pub(crate) const AS_TRANSCFG_DISABLE_AF_FAULT: GpuRegister = GpuRegister(bit(34));
-> +pub(crate) const AS_TRANSCFG_WXN: GpuRegister = GpuRegister(bit(35));
-> +pub(crate) const AS_TRANSCFG_XREADABLE: GpuRegister = GpuRegister(bit(36));
-> +pub(crate) const fn as_faultextra_lo(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x38)
-> +}
-> +pub(crate) const fn as_faultextra_hi(as_: u64) -> GpuRegister {
-> +    GpuRegister(mmu_as(as_) + 0x3C)
-> +}
-> +pub(crate) const CSF_GPU_LATEST_FLUSH_ID: GpuRegister = GpuRegister(0x10000);
-> +pub(crate) const fn csf_doorbell(i: u64) -> GpuRegister {
-> +    GpuRegister(0x80000 + ((i) * 0x10000))
-> +}
-> +pub(crate) const CSF_GLB_DOORBELL_ID: GpuRegister = GpuRegister(0);
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-> index b245db8d5a87..4ee4b97e7930 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -12,15 +12,18 @@
->   #include <drm/drm_gem.h>
->   #include <drm/drm_ioctl.h>
->   #include <kunit/test.h>
-> +#include <linux/devcoredump.h>
->   #include <linux/errname.h>
->   #include <linux/ethtool.h>
->   #include <linux/jiffies.h>
-> +#include <linux/iosys-map.h>
->   #include <linux/mdio.h>
->   #include <linux/pci.h>
->   #include <linux/phy.h>
->   #include <linux/refcount.h>
->   #include <linux/sched.h>
->   #include <linux/slab.h>
-> +#include <linux/vmalloc.h>
->   #include <linux/wait.h>
->   #include <linux/workqueue.h>
->   
+> +# YNL build
+> +YNL_GENS := netdev
+> +include ynl.mk
+
+This seems to be missing a rule to generate ynl.mk, right?
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+
 
