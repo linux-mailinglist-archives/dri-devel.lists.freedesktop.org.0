@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE8792E017
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 08:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5105092E016
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 08:27:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6325910E95A;
-	Thu, 11 Jul 2024 06:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5956D10E207;
+	Thu, 11 Jul 2024 06:27:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rGHfp4AO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ehe1eXW/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A56110E979
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 06:25:55 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B68310E97B
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 06:27:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 52723CE17E5;
- Thu, 11 Jul 2024 06:25:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD8F6C116B1;
- Thu, 11 Jul 2024 06:25:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6786D61C17;
+ Thu, 11 Jul 2024 06:27:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37963C116B1;
+ Thu, 11 Jul 2024 06:27:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720679152;
- bh=PleP9t/ax+Sp2aeZHu4QJBNkcPjSGKK8qgyTeC5ChdE=;
+ s=k20201202; t=1720679230;
+ bh=94EpK8AfuiCjM4ymA1InsAcetALr2xnbHV4v3CDac64=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=rGHfp4AOHiWG2s5wcAxRMXKoGxac8gDTtFHOlVixcf4pJ++04/JFJMl3v7Rkpd03v
- X5pIUGmdpVpTzNr3z/NmwJkIO78997WuhoL87Oj+CXMXQpAOrMeL3CExvg73xSHwHj
- YFYm5kEL7neWUAgtM/hGMmnKKS1aCT1Dz9mMCF0UbuuXjUgvhYBoc2k2KpTUM61628
- P1ZHQtXddDtqpAmDkZ5qkkb9UjTBOI8PBGf4ggUGeOZLkW6wrogD1n5uAXDmjSkC4z
- RVo47taUdgcB0fJHqk9bT7QaN/CgBZdx9y4Olt9HfNhIw/Hhkg4SOcptnUYQWYroF8
- 4LseV80J4pddQ==
-Message-ID: <467a6379-6ee7-46b0-90c8-340e12f7a556@kernel.org>
-Date: Thu, 11 Jul 2024 08:25:45 +0200
+ b=Ehe1eXW/87eDOZVyoqym61fsr4nXnfTfC6AKlvK3bkfTCX4h3gPiGPPwZQP7n2C+g
+ YNR74wiUgw9cc0a1jdDK1I2gTiyl5dBLDcpVHqfQsVxJpuqpFK1cPMvBEY1MDewpDo
+ swm0qgt6nN/tGld3gB8c3xvO6SKGgG5Up6QG5hpvUbFs9NuLnfR7Du3Nq+wV7SvniX
+ jQcn30+azMEM9IG4sBzBLZVzmdtRClowS4dWMWRJNzvCPFlhLfMA1KBE8RNouzfx//
+ xYs0M736kDF3PXp5N2S+1P711lFwOy9lbbHOxd+n9Jzw0iK9RlT2okomS3ocKeoSW6
+ yu+jMEVLt6Rkw==
+Message-ID: <b6228510-0f28-4bb3-94ca-9dd274d47958@kernel.org>
+Date: Thu, 11 Jul 2024 08:27:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/5] dt-bindings: display: panel: samsung,atna33xc20:
  Document ATNA45AF01
-To: Stephan Gerhold <stephan.gerhold@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
+To: Doug Anderson <dianders@chromium.org>,
+ Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan@kernel.org>
+ <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>,
+ Johan Hovold <johan@kernel.org>
 References: <20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org>
  <20240710-x1e80100-crd-backlight-v1-1-eb242311a23e@linaro.org>
+ <CAD=FV=XJuV12mStW3eUm5MHG8BA9W_fn0skN=BrtmqC+fnCZig@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,9 +95,9 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240710-x1e80100-crd-backlight-v1-1-eb242311a23e@linaro.org>
+In-Reply-To: <CAD=FV=XJuV12mStW3eUm5MHG8BA9W_fn0skN=BrtmqC+fnCZig@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,19 +113,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/07/2024 19:04, Stephan Gerhold wrote:
-> The Samsung ATNA45AF01 panel is an AMOLED eDP panel that has backlight
-> control over the DP AUX channel. While it works almost correctly with the
-> generic "edp-panel" compatible, the backlight needs special handling to
-> work correctly. It is similar to the existing ATNA33XC20 panel, just with
-> a larger resolution and size.
+On 10/07/2024 19:35, Doug Anderson wrote:
+> Hi,
 > 
-> Add a new "samsung,atna45af01" compatible to describe this panel in the DT.
+> On Wed, Jul 10, 2024 at 10:05 AM Stephan Gerhold
+> <stephan.gerhold@linaro.org> wrote:
+>>
+>> The Samsung ATNA45AF01 panel is an AMOLED eDP panel that has backlight
+>> control over the DP AUX channel. While it works almost correctly with the
+>> generic "edp-panel" compatible, the backlight needs special handling to
+>> work correctly. It is similar to the existing ATNA33XC20 panel, just with
+>> a larger resolution and size.
+>>
+>> Add a new "samsung,atna45af01" compatible to describe this panel in the DT.
+>>
+>> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+>> ---
+>>  .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml       | 6 +++++-
+>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
+>> index 765ca155c83a..d668e8d0d296 100644
+>> --- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
+>> +++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
+>> @@ -14,7 +14,11 @@ allOf:
+>>
+>>  properties:
+>>    compatible:
+>> -    const: samsung,atna33xc20
+>> +    enum:
+>> +      # Samsung 13.3" FHD (1920x1080 pixels) eDP AMOLED panel
+>> +      - samsung,atna33xc20
+>> +      # Samsung 14.5" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
+>> +      - samsung,atna45af01
 > 
-> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
-> ---
+> Seems OK, but a few thoughts:
+> 
+> 1. Is it worth renaming this file? Something like
+> "samsung,atna-oled-panel.yaml"? I'd be interested in DT maintainer
+> folks' opinions here.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+No, rather keep existing name, because it should be based on compatible.
 
 Best regards,
 Krzysztof
