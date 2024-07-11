@@ -2,82 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B81D92ED7C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 19:10:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A315D92EDE3
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 19:35:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3B2010EB0C;
-	Thu, 11 Jul 2024 17:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20F7A10EB2C;
+	Thu, 11 Jul 2024 17:35:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="EWpQtbQC";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="cYCYZzAu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5AD10EB0C
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 17:10:33 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id
- af79cd13be357-79f17d6be17so74486185a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 10:10:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1720717829; x=1721322629;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uMrodmUyUKlhvfzT8TSP1NFfD9HljVlU57hBQAsrNU8=;
- b=EWpQtbQCXbYUPhskJTXd3J6pJYszMpaQ3AXe7bY72OTfAamPkWgtpKmNN0V9rr2zGE
- LShkINorPXEK5cj/S4cE0uRy1LlyPWlBIU1nPpSsVEMqikofl0OQ9LbejERnLiWqjEuy
- 3l6qCrM7QZCOjphMXRt2HipPz89SZa92q809k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720717829; x=1721322629;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uMrodmUyUKlhvfzT8TSP1NFfD9HljVlU57hBQAsrNU8=;
- b=pXlhrqSPGfy6Ia4d/WKVCFd8TXK2p2L92VQbnmjaCe2rp4xz1StiXfRDTeHq0w1RYJ
- 5vG/VfNofj1qNPqZJVQVmW6CL5klG0fBeLSV1xhEKDNyE5Ka2NcElUv7iwrKqRtVH8OO
- c/dOIRSBl0ynCF7X73c0IepAWjc3pT+vQY57Zj2mkwyoPdZe47E4CcmxCYjdwJhXuDD0
- po0+luDFwhO4SjiwJQyCfwlqB1aETSNPPUqPi79T5paTzOPoc+RBd6Od9GdEuWGNuwD7
- mI8BoOdKmQaW6o0Exuw/Kff3VK7LgwwQxs0/2HPVVJrVfBLIpmKhx1ObEczigHBNRP+Y
- XjvA==
-X-Gm-Message-State: AOJu0YwL4AEPcdwgP0NEPJeOnZn7/PFZVITfGqvb1f5GYErOCR/qsg4p
- WpP1s9iZAQiSDnqe+QHSJczB/WAqasag/3rWyqhZt+4emhRRf/Q0W+z+miVE9yZZWdDpuFtkWR0
- =
-X-Google-Smtp-Source: AGHT+IFUGuJ0LYLhDvS9sgQLNAm3MJcTKKq9Sa9sM8TvGcbmJV2tHwa93NrMWbV3o+qTU6R5BfVHiA==
-X-Received: by 2002:a05:6214:1cc1:b0:6b4:ff58:854a with SMTP id
- 6a1803df08f44-6b61bca13a0mr110736766d6.17.1720717828989; 
- Thu, 11 Jul 2024 10:10:28 -0700 (PDT)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
- [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b7544607f8sm1473486d6.63.2024.07.11.10.10.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Jul 2024 10:10:27 -0700 (PDT)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-44e534a1fbeso4841cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 10:10:27 -0700 (PDT)
-X-Received: by 2002:ac8:4a15:0:b0:444:ccc5:f4c0 with SMTP id
- d75a77b69052e-44d35468174mr3719571cf.15.1720717827112; Thu, 11 Jul 2024
- 10:10:27 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B869E10E2AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 17:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=5g+bG2w2KNsgMUAXfjGfTyuIBwE6mTizHS7XQHyD7IE=; b=cYCYZzAumOV/sSgvKgJGNO+iKv
+ xEpmOb4GkMHs6+ZafQXeDKBZ3UbjfRNGb5758uPbgufx5BPF8y4XwRxHtJVc/oHvxHZAPdBovmWrB
+ wViiJa78njkK2lWTUSm2RrIFEth8i05vZCUD3/FDRxAlRDFwzUMNmPeX1fi3CUqI2JoZ8wS9gDccs
+ tbAPn78T6W5FIAdTY4J5OBr8Gtar7XpkFtYbQjEpv8kdrBfI4PTtTxS+bpbwn9Rzkv1kEQLBsMiXw
+ aOZipV/keYzMA0nksTavgF9A+Ipe7rul3g+n9yJTPTuswpngJHVwJIzoUvrg24inapijUbk1RHicq
+ xeC7NwLw==;
+Received: from [84.69.19.168] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sRxh0-00DpfJ-M5; Thu, 11 Jul 2024 19:34:54 +0200
+Message-ID: <405fffd5-7548-4734-8c41-2e9f248da56c@igalia.com>
+Date: Thu, 11 Jul 2024 18:34:53 +0100
 MIME-Version: 1.0
-References: <20240710190235.1095156-1-hsinyi@chromium.org>
-In-Reply-To: <20240710190235.1095156-1-hsinyi@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 11 Jul 2024 10:10:11 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W_KS2KXVDLFpNcgYpT9NJwNW-S-3nWfpfT-gibJVJYcQ@mail.gmail.com>
-Message-ID: <CAD=FV=W_KS2KXVDLFpNcgYpT9NJwNW-S-3nWfpfT-gibJVJYcQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add BOE NV140WUM-N41
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/v3d: Expose memory stats through fdinfo
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Iago Toral <itoral@igalia.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20240711142736.783816-1-mcanal@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20240711142736.783816-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,27 +64,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, Jul 10, 2024 at 12:02=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org>=
- wrote:
->
-> The raw edid of the panel is:
-> 00 ff ff ff ff ff ff 00 09 e5 e8 0a 00 00 00 00
-> 2a 1f 01 04 a5 1e 13 78 03 fb f5 96 5d 5a 91 29
-> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 9c 3e 80 c8 70 b0 3c 40 30 20
-> 36 00 2e bc 10 00 00 1a 00 00 00 fd 00 28 3c 4c
-> 4c 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
-> 4f 45 20 43 51 0a 20 20 20 20 20 20 00 00 00 fe
-> 00 4e 56 31 34 30 57 55 4d 2d 4e 34 31 0a 00 26
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+On 11/07/2024 15:25, Maíra Canal wrote:
+> Use the common DRM function `drm_show_memory_stats()` to expose standard
+> fdinfo memory stats.
+> 
+> V3D exposes global GPU memory stats through debugfs. Those stats will be
+> preserved while the DRM subsystem doesn't have a standard solution to
+> expose global GPU stats.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+> 
+> * Example fdinfo output:
+> 
+> $ cat /proc/10100/fdinfo/19
+> pos:    0
+> flags:  02400002
+> mnt_id: 25
+> ino:    521
+> drm-driver:     v3d
+> drm-client-id:  81
+> drm-engine-bin:         4916187 ns
+> v3d-jobs-bin:   98 jobs
+> drm-engine-render:      154563573 ns
+> v3d-jobs-render:        98 jobs
+> drm-engine-tfu:         10574 ns
+> v3d-jobs-tfu:   1 jobs
+> drm-engine-csd:         0 ns
+> v3d-jobs-csd:   0 jobs
+> drm-engine-cache_clean:         0 ns
+> v3d-jobs-cache_clean:   0 jobs
+> drm-engine-cpu:         0 ns
+> v3d-jobs-cpu:   0 jobs
+> drm-total-memory:       15168 KiB
+> drm-shared-memory:      9336 KiB
+> drm-active-memory:      0
+> 
+> * Example gputop output:
+> 
+> DRM minor 128
+>    PID      MEM      RSS       bin          render           tfu            csd        cache_clean        cpu       NAME
+> 10257      19M      19M |  3.6% ▎     || 43.2% ██▋   ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | glmark2
+>   9963       3M       3M |  0.3% ▏     ||  2.6% ▎     ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | glxgears
+>   9965      10M      10M |  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | Xwayland
+> 10100      14M      14M |  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | chromium-browse
+> 
+> Best Regards,
+> - Maíra
+> 
+>   drivers/gpu/drm/v3d/v3d_bo.c  | 12 ++++++++++++
+>   drivers/gpu/drm/v3d/v3d_drv.c |  2 ++
+>   2 files changed, 14 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+> index a165cbcdd27b..ecb80fd75b1a 100644
+> --- a/drivers/gpu/drm/v3d/v3d_bo.c
+> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
+> @@ -26,6 +26,17 @@
+>   #include "v3d_drv.h"
+>   #include "uapi/drm/v3d_drm.h"
+>   
+> +static enum drm_gem_object_status v3d_gem_status(struct drm_gem_object *obj)
+> +{
+> +	struct v3d_bo *bo = to_v3d_bo(obj);
+> +	enum drm_gem_object_status res = 0;
+> +
+> +	if (bo->base.pages)
+> +		res |= DRM_GEM_OBJECT_RESIDENT;
 
-Applied, thanks!
+To check my understanding of v3d - pages are actually always there for 
+the lifetime of the object? If so this could be just "return 
+DRM_GEM_OBJECT_RESIDENT", although granted, like you have it is more 
+future proof.
 
-[1/1] drm/panel-edp: Add BOE NV140WUM-N41
-      commit: 993d36ac99efeafeb7b5f12353def6d7d20d6389
+Either way:
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+Regards,
+
+Tvrtko
+
+> +
+> +	return res;
+> +}
+> +
+>   /* Called DRM core on the last userspace/kernel unreference of the
+>    * BO.
+>    */
+> @@ -63,6 +74,7 @@ static const struct drm_gem_object_funcs v3d_gem_funcs = {
+>   	.vmap = drm_gem_shmem_object_vmap,
+>   	.vunmap = drm_gem_shmem_object_vunmap,
+>   	.mmap = drm_gem_shmem_object_mmap,
+> +	.status = v3d_gem_status,
+>   	.vm_ops = &drm_gem_shmem_vm_ops,
+>   };
+>   
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index a47f00b443d3..e883f405f26a 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -184,6 +184,8 @@ static void v3d_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+>   		drm_printf(p, "v3d-jobs-%s: \t%llu jobs\n",
+>   			   v3d_queue_to_string(queue), jobs_completed);
+>   	}
+> +
+> +	drm_show_memory_stats(p, file);
+>   }
+>   
+>   static const struct file_operations v3d_drm_fops = {
