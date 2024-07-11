@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CFE592E907
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 15:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E5192E920
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 15:18:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF1E210E2A1;
-	Thu, 11 Jul 2024 13:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB3C10EA53;
+	Thu, 11 Jul 2024 13:18:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TaS3IUsJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OomnUIeq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9666610E2C7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:15:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8A3810EA53
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:18:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,26 +22,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=R8KocFR1uQXnwkG0GgPGn0lbEUmnk9Qf8EsQepY4p2E=; b=TaS3IUsJBu+zcADTITOCWvIGwC
- x1f+qY3qfI6bOZ7BPKV/uVt7aOZEOGwPgFPBfIzWuSBC1l0ARUbunXdzf2TCGC2H+v7B1MKk6iSB6
- 95vwKhk2L9uw3SmRQl94UMQolfzazfaAoZqYIWgu8bcU8aj3ZQ1WCQcT/OG7e6K+mvnDIc8p+Nt1n
- 0O5gDZxgdlxlPNgh4MmMAQhQ6PTMtcGQDR3FFnHvWb9o2UCVQdZ6a88v5eeFQdjd1FHqZX7u0Rzf7
- udcwXlVsbJKnJLE5fDUD4QUwTKU5uExqLiPr9kgF3M5mD8U2qIlIrc5VmoHEh42nJbfnW5SupX7Sp
- 2dQfDv7g==;
+ bh=3KTVt2Cln7D/cPnkyR/DlXzxhxiif4ZfMmb5d418pTo=; b=OomnUIeqcVlQA9t5WYtNkOAsGt
+ nLzw+3vLpGoBRIlos+vMmE8oLtOmiioathFLEZuuCAjO897R7dAjACTWwF98gv/bHMPp4GbegRe8G
+ Zpiz0zl4UsVNplQXVw+CL+WJNfds0TM5/FhLkQDLFPazwZWVZFw4OWY/EA5mbVVivTxwWN5BeDx5f
+ ngSqXLx+VP/a4EVKoINJlMslWKBa7Eqr3t7NKIB4G6FNl7cJVAsCDhEaf5B8eAdDyqCSWFvTzuvz8
+ dvSX3+AF+Wa1MkcuyJbg6xqJ+TFB9diMbW2qthe67ovY65pnlaQOpnPN497vOIFzZUR0/nyoLLR/9
+ P+kZpm1g==;
 Received: from [187.36.213.55] (helo=[192.168.1.212])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sRtdo-00DhqU-Kp; Thu, 11 Jul 2024 15:15:20 +0200
-Message-ID: <b466ea7f-eabf-470c-8e13-03fff3094d62@igalia.com>
-Date: Thu, 11 Jul 2024 10:15:17 -0300
+ id 1sRtgZ-00DhuL-Ux; Thu, 11 Jul 2024 15:18:12 +0200
+Message-ID: <179fd3b6-2166-484b-a093-810476c2e0dd@igalia.com>
+Date: Thu, 11 Jul 2024 10:18:08 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/11] drm/v3d: Do not use intermediate storage when
- copying performance query results
+Subject: Re: [PATCH 09/11] drm/v3d: Move perfmon init completely into own unit
 To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 References: <20240711091542.82083-1-tursulin@igalia.com>
- <20240711091542.82083-9-tursulin@igalia.com>
+ <20240711091542.82083-10-tursulin@igalia.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Autocrypt: addr=mcanal@igalia.com; keydata=
@@ -53,7 +52,7 @@ Autocrypt: addr=mcanal@igalia.com; keydata=
  s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
  GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
  pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240711091542.82083-9-tursulin@igalia.com>
+In-Reply-To: <20240711091542.82083-10-tursulin@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,116 +73,179 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 7/11/24 06:15, Tvrtko Ursulin wrote:
 > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 > 
-> Removing the intermediate buffer removes the last use of the
-> V3D_MAX_COUNTERS define, which will enable further driver cleanup.
+> Now that the build time dependencies on various array sizes have been
+> removed, we can move the perfmon init completely into its own compilation
+> unit and remove the hardcoded defines.
 > 
-> While at it pull the 32 vs 64 bit copying decision outside the loop in
-> order to reduce the number of conditional instructions.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> This improves on the temporary fix quickly delivered in
+> 9c3951ec27b9 ("drm/v3d: Fix perfmon build error/warning").
 
-After addressing Iago's comment, you can add my
+Just to please checkpatch, can you write "...delivered in commit 
+9c3951ec27b9 ("drm/v3d: Fix perfmon build error/warning")."
+
+You can send the next version with my R-b:
 
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
 Best Regards,
 - Maíra
 
-> ---
->   drivers/gpu/drm/v3d/v3d_sched.c | 60 ++++++++++++++++++++-------------
->   1 file changed, 37 insertions(+), 23 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index 7b2195ba4248..2564467735fc 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -421,18 +421,23 @@ v3d_reset_timestamp_queries(struct v3d_cpu_job *job)
->   	v3d_put_bo_vaddr(bo);
->   }
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> References: 9c3951ec27b9 ("drm/v3d: Fix perfmon build error/warning")
+> ---
+>   drivers/gpu/drm/v3d/v3d_drv.c                 |  9 +---
+>   drivers/gpu/drm/v3d/v3d_drv.h                 |  6 +--
+>   drivers/gpu/drm/v3d/v3d_perfmon.c             | 44 +++++++++++--------
+>   .../gpu/drm/v3d/v3d_performance_counters.h    | 16 ++++---
+>   4 files changed, 40 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index a47f00b443d3..491c638a4d74 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -95,7 +95,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
+>   		args->value = 1;
+>   		return 0;
+>   	case DRM_V3D_PARAM_MAX_PERF_COUNTERS:
+> -		args->value = v3d->max_counters;
+> +		args->value = v3d->perfmon_info.max_counters;
+>   		return 0;
+>   	default:
+>   		DRM_DEBUG("Unknown parameter %d\n", args->param);
+> @@ -298,12 +298,7 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+>   	v3d->cores = V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_NCORES);
+>   	WARN_ON(v3d->cores > 1); /* multicore not yet implemented */
 >   
-> +static void write_to_buffer_32(u32 *dst, unsigned int idx, u32 value)
+> -	if (v3d->ver >= 71)
+> -		v3d->max_counters = V3D_V71_NUM_PERFCOUNTERS;
+> -	else if (v3d->ver >= 42)
+> -		v3d->max_counters = V3D_V42_NUM_PERFCOUNTERS;
+> -	else
+> -		v3d->max_counters = 0;
+> +	v3d_perfmon_init(v3d);
+>   
+>   	v3d->reset = devm_reset_control_get_exclusive(dev, NULL);
+>   	if (IS_ERR(v3d->reset)) {
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+> index b1dfec49ba7d..8524761bc62d 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -104,10 +104,7 @@ struct v3d_dev {
+>   	int ver;
+>   	bool single_irq_line;
+>   
+> -	/* Different revisions of V3D have different total number of performance
+> -	 * counters
+> -	 */
+> -	unsigned int max_counters;
+> +	struct v3d_perfmon_info perfmon_info;
+>   
+>   	void __iomem *hub_regs;
+>   	void __iomem *core_regs[3];
+> @@ -568,6 +565,7 @@ int v3d_sched_init(struct v3d_dev *v3d);
+>   void v3d_sched_fini(struct v3d_dev *v3d);
+>   
+>   /* v3d_perfmon.c */
+> +void v3d_perfmon_init(struct v3d_dev *v3d);
+>   void v3d_perfmon_get(struct v3d_perfmon *perfmon);
+>   void v3d_perfmon_put(struct v3d_perfmon *perfmon);
+>   void v3d_perfmon_start(struct v3d_dev *v3d, struct v3d_perfmon *perfmon);
+> diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
+> index b7d0b02e1a95..cd7f1eedf17f 100644
+> --- a/drivers/gpu/drm/v3d/v3d_perfmon.c
+> +++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
+> @@ -195,6 +195,23 @@ static const struct v3d_perf_counter_desc v3d_v71_performance_counters[] = {
+>   	{"QPU", "QPU-stalls-other", "[QPU] Stalled qcycles waiting for any other reason (vary/W/Z)"},
+>   };
+>   
+> +void v3d_perfmon_init(struct v3d_dev *v3d)
 > +{
-> +	dst[idx] = value;
+> +	const struct v3d_perf_counter_desc *counters = NULL;
+> +	unsigned int max = 0;
+> +
+> +	if (v3d->ver >= 71) {
+> +		counters = v3d_v71_performance_counters;
+> +		max = ARRAY_SIZE(v3d_v71_performance_counters);
+> +	} else if (v3d->ver >= 42) {
+> +		counters = v3d_v42_performance_counters;
+> +		max = ARRAY_SIZE(v3d_v42_performance_counters);
+> +	}
+> +
+> +	v3d->perfmon_info.max_counters = max;
+> +	v3d->perfmon_info.counters = counters;
 > +}
 > +
-> +static void write_to_buffer_64(u64 *dst, unsigned int idx, u64 value)
-> +{
-> +	dst[idx] = value;
-> +}
-> +
->   static void
-> -write_to_buffer(void *dst, u32 idx, bool do_64bit, u64 value)
-> +write_to_buffer(void *dst, unsigned int idx, bool do_64bit, u64 value)
+>   void v3d_perfmon_get(struct v3d_perfmon *perfmon)
 >   {
-> -	if (do_64bit) {
-> -		u64 *dst64 = (u64 *)dst;
-> -
-> -		dst64[idx] = value;
-> -	} else {
-> -		u32 *dst32 = (u32 *)dst;
-> -
-> -		dst32[idx] = (u32)value;
-> -	}
-> +	if (do_64bit)
-> +		write_to_buffer_64(dst, idx, value);
-> +	else
-> +		write_to_buffer_32(dst, idx, value);
->   }
+>   	if (perfmon)
+> @@ -321,7 +338,7 @@ int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
 >   
->   static void
-> @@ -505,18 +510,23 @@ v3d_reset_performance_queries(struct v3d_cpu_job *job)
->   }
->   
->   static void
-> -v3d_write_performance_query_result(struct v3d_cpu_job *job, void *data, u32 query)
-> +v3d_write_performance_query_result(struct v3d_cpu_job *job, void *data,
-> +				   unsigned int query)
->   {
-> -	struct v3d_performance_query_info *performance_query = &job->performance_query;
-> -	struct v3d_copy_query_results_info *copy = &job->copy;
-> +	struct v3d_performance_query_info *performance_query =
-> +						&job->performance_query;
->   	struct v3d_file_priv *v3d_priv = job->base.file->driver_priv;
->   	struct v3d_dev *v3d = job->base.v3d;
-> -	struct v3d_perfmon *perfmon;
-> -	u64 counter_values[V3D_MAX_COUNTERS];
-> +	unsigned int i, j, offset;
->   
-> -	for (int i = 0; i < performance_query->nperfmons; i++) {
-> -		perfmon = v3d_perfmon_find(v3d_priv,
-> -					   performance_query->queries[query].kperfmon_ids[i]);
-> +	for (i = 0, offset = 0;
-> +	     i < performance_query->nperfmons;
-> +	     i++, offset += DRM_V3D_MAX_PERF_COUNTERS) {
-> +		struct v3d_performance_query *q =
-> +				&performance_query->queries[query];
-> +		struct v3d_perfmon *perfmon;
-> +
-> +		perfmon = v3d_perfmon_find(v3d_priv, q->kperfmon_ids[i]);
->   		if (!perfmon) {
->   			DRM_DEBUG("Failed to find perfmon.");
->   			continue;
-> @@ -524,14 +534,18 @@ v3d_write_performance_query_result(struct v3d_cpu_job *job, void *data, u32 quer
->   
->   		v3d_perfmon_stop(v3d, perfmon, true);
->   
-> -		memcpy(&counter_values[i * DRM_V3D_MAX_PERF_COUNTERS], perfmon->values,
-> -		       perfmon->ncounters * sizeof(u64));
-> +		if (job->copy.do_64bit) {
-> +			for (j = 0; j < perfmon->ncounters; j++)
-> +				write_to_buffer_64(data, offset + j,
-> +						   perfmon->values[j]);
-> +		} else {
-> +			for (j = 0; j < perfmon->ncounters; j++)
-> +				write_to_buffer_32(data, offset + j,
-> +						   perfmon->values[j]);
-> +		}
->   
->   		v3d_perfmon_put(perfmon);
+>   	/* Make sure all counters are valid. */
+>   	for (i = 0; i < req->ncounters; i++) {
+> -		if (req->counters[i] >= v3d->max_counters)
+> +		if (req->counters[i] >= v3d->perfmon_info.max_counters)
+>   			return -EINVAL;
 >   	}
-> -
-> -	for (int i = 0; i < performance_query->ncounters; i++)
-> -		write_to_buffer(data, i, copy->do_64bit, counter_values[i]);
->   }
 >   
->   static void
+> @@ -416,26 +433,15 @@ int v3d_perfmon_get_counter_ioctl(struct drm_device *dev, void *data,
+>   			return -EINVAL;
+>   	}
+>   
+> -	/* Make sure that the counter ID is valid */
+> -	if (req->counter >= v3d->max_counters)
+> -		return -EINVAL;
+> -
+> -	BUILD_BUG_ON(ARRAY_SIZE(v3d_v42_performance_counters) !=
+> -		     V3D_V42_NUM_PERFCOUNTERS);
+> -	BUILD_BUG_ON(ARRAY_SIZE(v3d_v71_performance_counters) !=
+> -		     V3D_V71_NUM_PERFCOUNTERS);
+> -	BUILD_BUG_ON(V3D_MAX_COUNTERS < V3D_V42_NUM_PERFCOUNTERS);
+> -	BUILD_BUG_ON(V3D_MAX_COUNTERS < V3D_V71_NUM_PERFCOUNTERS);
+> -	BUILD_BUG_ON((V3D_MAX_COUNTERS != V3D_V42_NUM_PERFCOUNTERS) &&
+> -		     (V3D_MAX_COUNTERS != V3D_V71_NUM_PERFCOUNTERS));
+> -
+> -	if (v3d->ver >= 71)
+> -		counter = &v3d_v71_performance_counters[req->counter];
+> -	else if (v3d->ver >= 42)
+> -		counter = &v3d_v42_performance_counters[req->counter];
+> -	else
+> +	if (!v3d->perfmon_info.max_counters)
+>   		return -EOPNOTSUPP;
+>   
+> +	/* Make sure that the counter ID is valid */
+> +	if (req->counter >= v3d->perfmon_info.max_counters)
+> +		return -EINVAL;
+> +
+> +	counter = &v3d->perfmon_info.counters[req->counter];
+> +
+>   	strscpy(req->name, counter->name, sizeof(req->name));
+>   	strscpy(req->category, counter->category, sizeof(req->category));
+>   	strscpy(req->description, counter->description, sizeof(req->description));
+> diff --git a/drivers/gpu/drm/v3d/v3d_performance_counters.h b/drivers/gpu/drm/v3d/v3d_performance_counters.h
+> index 131b2909522a..d919a2fc9449 100644
+> --- a/drivers/gpu/drm/v3d/v3d_performance_counters.h
+> +++ b/drivers/gpu/drm/v3d/v3d_performance_counters.h
+> @@ -19,11 +19,17 @@ struct v3d_perf_counter_desc {
+>   	char description[256];
+>   };
+>   
+> +struct v3d_perfmon_info {
+> +	/*
+> +	 * Different revisions of V3D have different total number of
+> +	 * performance counters.
+> +	 */
+> +	unsigned int max_counters;
+>   
+> -#define V3D_V42_NUM_PERFCOUNTERS (87)
+> -#define V3D_V71_NUM_PERFCOUNTERS (93)
+> -
+> -/* Maximum number of performance counters supported by any version of V3D */
+> -#define V3D_MAX_COUNTERS (93)
+> +	/*
+> +	 * Array of counters valid for the platform.
+> +	 */
+> +	const struct v3d_perf_counter_desc *counters;
+> +};
+>   
+>   #endif
