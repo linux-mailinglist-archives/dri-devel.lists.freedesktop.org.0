@@ -2,158 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4E392DD0A
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 01:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF2B92DD3B
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 02:01:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81C4C10E92D;
-	Wed, 10 Jul 2024 23:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A3510E72D;
+	Thu, 11 Jul 2024 00:01:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="mag+FIBE";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xq0hHjDo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2074.outbound.protection.outlook.com [40.107.243.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5E88926D;
- Wed, 10 Jul 2024 23:47:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Yfpx27nmdxfItQ+D26g87m+sIt2J6sBLoDJG5aqvEIH4xM5gQXbMxr2UFfgGiI+xDJIlBkNu3c4DOKL7Q3uxf3/RpWXCPkidlUePs3MxvBNOczbDMAa3Diviodf5pAH6JJdgG+ABcusWhH+RVKhm8JeHlYcq318jiEp99Z/rgUYgg4yMiEYFzzr3xp7S08evVH9bm3N4ekZP3uUIi+Qb1N/3NTCWDnlEScCMeCxa5KrHEXxbKWPwER7GhdkEpHn2Bauy6aA+IJRX68DUVTOe+nMpZJXdCCipOv7zokvwZg6ShML4OtIi4irYNPSQdjldZFEOxv+eLQPDS+0BLDx7xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TBhMo2ITlOb3z+sCTdLGBPzcRPRm6kv2ah8KnuP76vs=;
- b=b/NHbhYGT8Wxq+ku9Oglm/bOKmDVi/cI2C/Vnvd/7XX+aZxON/8ySvB0j36ZFsLblEyAUf0US2cpksyAo8pKfKluZ9vpUGUF3opvh4GzeoO8x4BghquwFsAXGlVr0pQZq5j685TsUUK+WO+x1DZvpyRwL3yEUgYqpXIykZpiz/gpf+c7BGtEEruUU6Zj3h1RxivdreiQnt7jolVby62bbaGXikMA1Hd6EKG5rVDl5ndHbj9FsjMeQZkVYE0aECiO0bkOtWN+Ng6YOiQ9EynOszozBijKPQXCAjNtgumZoR/fmD8dUZ4Fdutdtj+WbYPCFGQBkereMD8efzkIg3dtjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TBhMo2ITlOb3z+sCTdLGBPzcRPRm6kv2ah8KnuP76vs=;
- b=mag+FIBE3YiXpgZzohsoidXYXaRvfStlZHmuPMgb4yX2Nkaz6o2cNUXzw17php9fvQ+5Cg9ec1J0YJ9PjGZneus8QHuqUkw38HxXUzXPeo5gLdlKo+P3hfm/4vHZ0t1H63P3/snLc3K7qqnolu2262S37rrv2eQP9xbzquKxU0k=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by CH2PR12MB4167.namprd12.prod.outlook.com (2603:10b6:610:7a::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Wed, 10 Jul
- 2024 23:47:06 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81%6]) with mapi id 15.20.7762.016; Wed, 10 Jul 2024
- 23:47:06 +0000
-Message-ID: <782ca993-39f3-4a17-9039-23d98d5031ec@amd.com>
-Date: Wed, 10 Jul 2024 19:47:03 -0400
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?Q?Re=3A_va_range_based_memory_management_discussion_=28was?=
- =?UTF-8?B?OiDlm57lpI3vvJrlm57lpI3vvJpSZe+8mlByb3Bvc2FsIHRvIGFkZCBDUklVIHN1?=
- =?UTF-8?Q?pport_to_DRM_render_nodes=29?=
-To: =?UTF-8?B?5ZGo5pil5piOKOaXpeaciCk=?= <riyue.zcm@alibaba-inc.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- criu <criu@openvz.org>
-Cc: "Errabolu, Ramesh" <Ramesh.Errabolu@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?5byg5Lym5by6KOW8oOWwmCk=?= <zhanglunqiang.zlq@alibaba-inc.com>
-References: <fdd1aaa5-29fe-4d67-bb55-da054c7c24f6.riyue.zcm@alibaba-inc.com>
-Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <fdd1aaa5-29fe-4d67-bb55-da054c7c24f6.riyue.zcm@alibaba-inc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQXPR0101CA0051.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:14::28) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72EBF10E72D
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 00:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1720656088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Oi8fo65wpfQof/PhKweOk7/L71Af/cTWGM1ZWIePR1Q=;
+ b=Xq0hHjDo/oLZG+SCGJ2GJLD5pPR0aAl4+V0acwwWtBu/swtAX5leSpMytfgR2Jtp3UB2V5
+ 1+hr72IDESUUDbSyh+3byugV6V2xOFBUngfh4E8jBPQyHjChddrt6/M1mnKV07gLjUmRKe
+ 80MCNw8656VLrU8Ylrf2OZnI5JRNd+8=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-260-1VSXi25jN8OVuUNqvAJKgA-1; Wed, 10 Jul 2024 20:01:23 -0400
+X-MC-Unique: 1VSXi25jN8OVuUNqvAJKgA-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-52ea883187cso322475e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 17:01:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720656082; x=1721260882;
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Oi8fo65wpfQof/PhKweOk7/L71Af/cTWGM1ZWIePR1Q=;
+ b=n7QbeDZyAZnVHciiLCu858TTOjxYZ3UdKCnTzitWA3/gIsnhM0oG+qcSv7loJ1lRqy
+ JzylDGeB94Jphm75iNINU9VqM5PuxZDpsvL4kx7OXz4ZfmA71HZ5sjyyM8dBYZSTFtFy
+ JsZ4EsktqJefOXgJLh1NE0VFqOrJGcIUnLz5XyAwrs5oa+Vu1jHyzonGCOrd+GMl8ffI
+ CZqCORib1UNRbj/6d+kyY9kpVR3fxxzRF8wntfG8JxuS2pmj0ciwy/Ga59mYg3v4ujKr
+ fIHR95UUyAonuguAynApbA76jHVbMmw8KlEOjRxUmQly0ziR6VY8xI9wGNPuYpfhEJgK
+ mSIQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXxpeuEqU11TIyIFrh1ZvzKw/OEid1AAvc/mYsJ9qTCs23HYm7Peglhdfp4zcwgMzNSocziXiEUQo2/dSUOKoIma8NdRq5jHOs40JLmikU4
+X-Gm-Message-State: AOJu0Yyc07GKvqtx5FUiIDRE8ZTkjOa+qxUWz6R461Itc9KPcqlsNDiJ
+ YwMOkWkP5zkFeCKhlOGSRtYWG63aqOZGt9bigx3LV35j3AvwW1z1FNhlfMcttiEgP6uvvEHuNvL
+ DM2k1uPA/Vp7u7AaYAi2frXxFCYG+gpDXGBITXRY19LWIgEdajCDQfEbnmUlwQp98Ew==
+X-Received: by 2002:a05:6512:3d87:b0:52c:df77:6507 with SMTP id
+ 2adb3069b0e04-52eb99a1482mr6318151e87.37.1720656082136; 
+ Wed, 10 Jul 2024 17:01:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFNVVTrUjKRBDOxdCZle7w0wo862nKUiY/5iz8+HD1G7PDoaEn7cQzJexwWk8IL0tUbPpeWbg==
+X-Received: by 2002:a05:6512:3d87:b0:52c:df77:6507 with SMTP id
+ 2adb3069b0e04-52eb99a1482mr6318122e87.37.1720656081383; 
+ Wed, 10 Jul 2024 17:01:21 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a780a7ff038sm200377666b.115.2024.07.10.17.01.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Jul 2024 17:01:20 -0700 (PDT)
+Message-ID: <d7719653-f270-493d-ac42-6a1291eb7dc0@redhat.com>
+Date: Thu, 11 Jul 2024 02:01:18 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|CH2PR12MB4167:EE_
-X-MS-Office365-Filtering-Correlation-Id: a002f495-7488-49ee-d1ac-08dca13a9b28
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|3613699012;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?U1lEM1cxTTJmWU9VSTZUMy9LS0RkRW41dnhFL2J3b041NE1vMkpzMW9yVFl4?=
- =?utf-8?B?VXZnU25MZXhhMTJhb3ZuWmowRzA0eDdBMk1VMWlrU01uYlAxS1ZsTWxGYnNO?=
- =?utf-8?B?MTN5M3V5bXNTOWdPMXhWUURUSWU5MW93RldLZXpORmsya3VhalY2U1dja0Zj?=
- =?utf-8?B?aG1rL01xRzJObnpnbFoyQXh1bVpLQVBaOTJXdnA5SFNGejRGZWNER0tYTHJv?=
- =?utf-8?B?SGRWdks5UHdUVkVMYUUreFR4SXlJYm9hZk1HY2luazd6d0NlZDNWcUlsQ1Rv?=
- =?utf-8?B?b21Cc1hMNHBJVkdnOVAySTZJUGh4T0VSS2ZjZVVnbUlLNmdBSE9CYW41R2x3?=
- =?utf-8?B?WlZFYUlNQ2FmM29RYjFSall0V0JlM3VObXhqZUdKTzNDd0hmRGR4eUtZSDFn?=
- =?utf-8?B?Nk1SOTBaQTZGb1QrT3FaazNaMFVXRDdaWVRzaTBRTUp5V2hBVkVxajFtdXow?=
- =?utf-8?B?Um92NU1xa3E2bXFBRlN6YWxjbXh4SFVNeUtqMGhsV0hBditnTXRLVTJVTUIx?=
- =?utf-8?B?UXEwWG1Eb2V6dWlwdXdmM3lQTUFvZ3ZBYWdPSWxqUDQvaVpVSkNZMHViRHRz?=
- =?utf-8?B?YjNVYjNrRWtadzlETGh4TllzZUlsNFBrcGtXRWI5VE1FZXRuTjVWNlV6MU83?=
- =?utf-8?B?Mytsc01pU1ZESWdvcFovU0xGejYwWmcwSHo3M2dlWFRaV3hZNHYrVDBjRHB6?=
- =?utf-8?B?SjVycXRLZ2R1M3FPeGdVeDNRZDNYdEdzWU50MmEvZjVmdjJjTW8wRG1kN1JQ?=
- =?utf-8?B?L25VNFNlTy9qM1RBWGZ0N3JPaTVKZGdkTG1SMmZIQ3U5ODcrajhocVBxRGIw?=
- =?utf-8?B?cUxpNXZ4S3U3TE5oMHMyQW1ZdVZBcnhTbUFyZkVWNEtlcDVBNkRwazZiOEl3?=
- =?utf-8?B?ZVM2bmZaLzdycE8xMXV6RnZxZXFtZUViZmpLeVVMVnBxNUVPc21iUU5uRUFw?=
- =?utf-8?B?c3JUOTEzWjlFVWlYd3lTMVZjSzc4UXJ0ejBmWnZqS1UxYVRBd2k5dFlCcUZp?=
- =?utf-8?B?YTRjTzJYdmFzVzBseDJPZ3MwZkNLK2QyMDArckVmaTJQSWxLOFByVndEczhO?=
- =?utf-8?B?V3U5U3FNc2s4TEZrVEpYeTNubWpLd1ROVktPQWNHdzBpNThHSEJxMTg0bkVz?=
- =?utf-8?B?VktnNlNPekxTd3BpaXk5ZXZHbzhPcVN2bXcwbzlzcHRlTnN6Y2gwUlR6ZUlx?=
- =?utf-8?B?QmhxWEk0YS9Pd1dtVk9ISm9iRDBaemVGUlZaYlhjdWpLNVZvN01oOFo2cExj?=
- =?utf-8?B?M0JuR0gwZjFuM2plbVg0WmVxMFMzZmhORjN2MHh6dkdEL1AreXVFckpINmYy?=
- =?utf-8?B?citYampBYXNUNWVPZ0trM1BJdVJpeWZCRHZsNkg0WUlQUDNlTUd6aXhNeFFs?=
- =?utf-8?B?R0dzbUlyNHFLRVd1R1NJeGFReklXL0xlWFJuaTNIUjhjWGdhQ3piVDVNaHow?=
- =?utf-8?B?SWRrcHdNYm4vYlIzZDFtcjVNdFUyekxrQ1VmU01MTzJMb21qd3RrWkNncHhx?=
- =?utf-8?B?Ty9tSEhGamJNTTB6U1drRHFvcXcxRExGQkdEbHBiNmJHZkhCWDB2SlFHZTJI?=
- =?utf-8?B?VTBXdG5ubTdXSkdiSERPRkhWSmhhR0hxc2hLQkIrRVNuM1FTeGhqUDlhMXhs?=
- =?utf-8?B?UzhzV3lnUTN3S0pNN3h2d2NPOWxjNXIwMkdDc0VHaUlCdXQxSm5OckVoWmt1?=
- =?utf-8?B?MDhnUTZZaWtCSEh4MG5KendlQTdrTVJiTU9GWWltMmd2bXZzUGtqRXJrTjdu?=
- =?utf-8?B?c0ZjSE5yQ1llbUxsNGJwdGJ4SnRLcEs0QzJrbFcwY1JTTE9PZVJNcW94WDRL?=
- =?utf-8?Q?UjrcgGNGC8h9Ys/Wrs7ETny1+a7kFcJqOtmVg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(3613699012); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S1FpNmRaN05LaW92Wm5tdTMvZ2Z2dkZYUlRZUHh2S3d6WW8xN3Vyb29ieXMz?=
- =?utf-8?B?SGdaQkdiU2tlN1UyOE1PemZzeGNyOGhaUkxHa0VzZmtlcFJSc25LVllqK000?=
- =?utf-8?B?ZmdvR0lEOGdCYnNIaHhhemsrTFdZb3ZrWU45ak1rV3NNR0RrbWc4djNrS0dj?=
- =?utf-8?B?S3VGS2VKWFFqdmxPUHJYYnF1a2pBVWNCMmo4NENqdjZSbXh1d3V3T3QyaWpC?=
- =?utf-8?B?VWk3Q2Zpa21FSFFFLzdYZHpGS3JKcmdhdnBqNzFiMVBBUHgyWHBmUWFrYitK?=
- =?utf-8?B?RjhtYXdOd01SZXAzVHc1elRPSk1teUxBTjh0dUNmek1iY21hTGoyQ1VZenBV?=
- =?utf-8?B?M01Cd29WcFpJSmpZV1ZqRk13TFZaZGx3Zm0vYXlYRzZITUFjR05MZy9pRTdr?=
- =?utf-8?B?alpuSWZza2FDQUhrZjBGNUFXd2k3YXI1QXNCYThnTG8zUmNUemRIWE9OQWNu?=
- =?utf-8?B?UTIwajlYRURrNmxieXpRVXVFQ1NMQ3Q5RlYzK0pwcmFOdTFlV3JVZU1uL1d3?=
- =?utf-8?B?R0lCdkFyUkNwYXphNlI5N1FmeUs2SUF1Z2ZTMzFmYnhKRUdleHNtQ1dCNWdz?=
- =?utf-8?B?K2IyRWo5QVFockFDcFBVa1kycmcraURVOEgyNkNmZGNmOElnQWFsS01MaEtS?=
- =?utf-8?B?a0J5bEVEWm9tcTdoK1c3WGVmR1NtOXRmRk5QVml2VVp2dXJUUmFadFRDUWV2?=
- =?utf-8?B?c3RnL1FnV3hoWGFqeHZlclE5aU80SmptdWZ4ZHZqSFJJSjdLUjRGSlZkeFl0?=
- =?utf-8?B?d3JPZ2RXVjJtMzNGWHpsK3JrMzVPa016b0hOblM4M1FXSUM1YWdOR2hMZlR3?=
- =?utf-8?B?ZDA2ZFNrTFVPaSs0dUlNVDkrTElwMmRpeEV4VkVlTE1DWUQwYm9Pbjd6bGhH?=
- =?utf-8?B?TUNrU1ZFTXliK015Y3JXS0ZnQlZVWHdTakpmdEFUSXJjOXBtMzltQVVlQlBS?=
- =?utf-8?B?TW9oWDNkTkpMYjFabDV2MmYwaGhMcTErSVAzOUhYKzN6Q2FxbC9pUDhERDlS?=
- =?utf-8?B?cUhjOFg4dGl6M3lEc2tsZ21sMWlLUXQ5aUk2MHMzSDFjWFY3TnBWdC9yQkdF?=
- =?utf-8?B?UWpObTl6dENaeUpPSTFaZlplYnhMaDJPQTUxY0JENTlwQ1JORnNOaDllUGdY?=
- =?utf-8?B?blJlM2luTkNlYTlaaGpVY2FySjdseVJxWjJzRnhiSWlXZGlNbWZUUlJvd0lN?=
- =?utf-8?B?ZElhTTA1aWZxbW1BdkJqUVBPNUpVTUpFUG1ubXpuZ3NEczVrR0pnOFRsNWFW?=
- =?utf-8?B?eWFBcmZzak5mY0FKTXNnS21qUy8yZG5udFlKbm9MY2ExM0ZZVTlmNzdVZTZY?=
- =?utf-8?B?Ly9jZXJsVDU4Y01QVGx6VG1GQ1lpbG1UMkVobE05emJFODZva3k4MERseXY2?=
- =?utf-8?B?OGRjSVp2QUwwNko1QUVFNDR4dXlkeFQwT3pYam83UWlZQzdMTWIxQ2k0N3pO?=
- =?utf-8?B?b0NoTzlqK0hyY2VoSi93Z2QrS2h5RDNPT05tRCt2QzhvYm9MUjM5TW1ES3VQ?=
- =?utf-8?B?L2N3eXNJbzQrRG9NNkNHUkg2clc3RjVtWlNuQjYrcUV2WnZvL0dhMkJVeEJo?=
- =?utf-8?B?dithNUNsMWhtT1NqSkNwdkRLQjhJZUtlMEp5T3V0ZHNWRk5ocTJYdU1sMnhu?=
- =?utf-8?B?K1NwRGowV1RvOUhNM3dUZ1V2cmZrY251WFNtK2VXOGJQb1VnbTQ4U0kxalpS?=
- =?utf-8?B?KzhSL1k3eDFPUTdmbjRla3NwQU0wekdzRFpSTlZKcitRVXRibmZQZVVtQXZJ?=
- =?utf-8?B?UStmNXQwWm9tT1dHcnlXU2dWU1pnbEpiZ3BWdk8zRzNsQ0Y1V2VOOURTNUVt?=
- =?utf-8?B?elFncy9UVlM1aDBlZ3JnUE1Hdm52OXUybzN6OXVFS1lUTHhlVllwWVRDVEhF?=
- =?utf-8?B?WHU0U3Y4YXZ5VTlieDNoeFk0WGtmY0FsNVkwNXJYL21tZGN5cE5uV2JBRHVK?=
- =?utf-8?B?d1BLckJMMHZiZDhzTllPZGxNdFdsemFJQjFXUUFwb2psckY2TEVYZE4veDls?=
- =?utf-8?B?R2NqYWxSbzVXRXkvaEhoc2Qxenl1T2dXTXhOVFQ3eVpkdnBzZm1iYk8vajRs?=
- =?utf-8?B?OThwOGpySWhjbk5iTmlYcTNRRDd5ajliMUlORGtPS2swaVJXSUdQUjVlbFdq?=
- =?utf-8?Q?RiZBItviYuWs8falfkmFkZQ+U?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a002f495-7488-49ee-d1ac-08dca13a9b28
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2024 23:47:06.4494 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fUrL0WcMycQKs2m0XIO9F6mnyhb14bftA9PbcTJsOXhy1KiufdW/kFCaTl2kfinzY5CXi/H8yP2sGFxJsi8X/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4167
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] drm: panthor: add dev_coredumpv support
+To: Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
+ ojeda@kernel.org, lyude@redhat.com, robh@kernel.org, lina@asahilina.net,
+ mcanal@igalia.com, airlied@gmail.com, "daniel@ffwll.ch" <daniel@ffwll.ch>
+Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240710225011.275153-1-daniel.almeida@collabora.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20240710225011.275153-1-daniel.almeida@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,774 +99,941 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-07-09 22:38, 周春明(日月) wrote:
->
->
->
->
->
->
-> ------------------------------------------------------------------
-> 发件人：Felix Kuehling <felix.kuehling@amd.com>
-> 发送时间：2024年7月10日(星期三) 01:07
-> 收件人：周春明(日月) <riyue.zcm@alibaba-inc.com>; Tvrtko Ursulin 
-> <tursulin@ursulin.net>; dri-devel@lists.freedesktop.org 
-> <dri-devel@lists.freedesktop.org>; amd-gfx@lists.freedesktop.org 
-> <amd-gfx@lists.freedesktop.org>; Dave Airlie <airlied@redhat.com>; 
-> Daniel Vetter <daniel@ffwll.ch>; criu <criu@openvz.org>
-> 抄　送："Errabolu, Ramesh" <Ramesh.Errabolu@amd.com>; "Christian König" 
-> <christian.koenig@amd.com>
-> 主　题：Re: 回复：Re：Proposal to add CRIU support to DRM render nodes
->
->
->
-> On 2024-07-09 5:30, 周春明(日月) wrote:
-> >
-> >
-> >
-> >
-> >
-> >
-> > ------------------------------------------------------------------
-> > 发件人：Felix Kuehling <felix.kuehling@amd.com>
-> > 发送时间：2024年7月9日(星期二) 06:40
-> > 收件人：周春明(日月) <riyue.zcm@alibaba-inc.com>; Tvrtko Ursulin 
-> <tursulin@ursulin.net>; dri-devel@lists.freedesktop.org 
-> <dri-devel@lists.freedesktop.org>; amd-gfx@lists.freedesktop.org 
-> <amd-gfx@lists.freedesktop.org>; Dave Airlie <airlied@redhat.com>; 
-> Daniel Vetter <daniel@ffwll.ch>; criu <criu@openvz.org>
-> > 抄 送："Errabolu, Ramesh" <Ramesh.Errabolu@amd.com>; "Christian König" 
-> <christian.koenig@amd.com>
-> > 主 题：Re: Re：Proposal to add CRIU support to DRM render nodes
-> >
-> >
-> > On 2024-07-08 2:51, 周春明(日月) wrote:
-> >>
-> >>> Hi Felix,
-> >>>
-> >>> When I learn CRIU you introduced in 
-> https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins/amdgpu 
-> <https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins/amdgpu> 
-> <https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins/amdgpu>> 
-> <https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins/amdgpu> 
-> <https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins/amdgpu>> 
-> <https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins/amdgpu>> 
-> <https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins/amdgpu>>> 
-> , there is a sentence
-> >>> "ROCm manages memory in the form of buffer objects (BOs). We are 
-> also working on a new memory management API that will be based on 
-> virtual address ranges...",
-> >>> Out of curious, how about "new memory management based on virtual 
-> address ranges"? Any introduction for that?
-> >>
-> >>>Hi David,
-> >>
-> >>>This refers to the SVM API that has been in the upstream driver for 
-> a while now: 
-> https://elixir.bootlin.com/linux/v6.9.8/source/include/uapi/linux/kfd_ioctl.h#L732 
-> <https://elixir.bootlin.com/linux/v6.9.8/source/include/uapi/linux/kfd_ioctl.h#L732> 
-> <https://elixir.bootlin.com/linux/v6.9.8/source/include/uapi/linux/kfd_ioctl.h#L732>>
-> >>
-> >> [David] Can all ROCm runtime memory management switch to use svm 
-> apis? No need BOs any more?
->
-> >I had thought about that when I started working on SVM years ago. But 
-> I came to the conclusion that we need to use BOs for VRAM to support 
-> DMABuf exports and imports to support P2P and IPC features.
->
-> [David] OK, I guessed you would say DMABuf and IPC factors, if we 
-> don't use dmabuf (as you know, dmabuf isn't popular in compute area) 
-> and implement a new ipc based on va ranges, is that possible to using 
-> svm api to cover all ROCm memory management?
-> When I tried memory pool used by cuda graph, seems that's OK.
+(+Sima)
 
-DMABuf and IPC are important for collective communications libraries 
-used by distributed applications. You could get away without it when 
-you're running a single-process application on a single machine. But 
-changing all memory allocations to SVM would probably cause some 
-performance regressions, because our BO allocators and memory mapping 
-functions are simpler and easier to optimize than for unified memory.
+Hi Daniel,
 
-That leaves the question, what's the expected benefit or a compelling 
-reason for making such an invasive change?
+On 7/11/24 12:50 AM, Daniel Almeida wrote:
+> Dump the state of the GPU. This feature is useful for debugging purposes.
+> ---
+> Hi everybody!
+> 
+> For those looking for a branch instead, see [0].
+> 
+> I know this patch has (possibly many) issues. It is meant as a
+> discussion around the GEM abstractions for now. In particular, I am
+> aware of the series introducing Rust support for vmalloc and friends -
+> that is some very nice work! :)
 
-Regards,
-   Felix
+Just to link it in for other people reading this mail. [1] adds support for
+other kernel allocators than `Kmalloc`, in particular `Vmalloc` and `KVmalloc`.
 
+[1] https://lore.kernel.org/rust-for-linux/20240704170738.3621-1-dakr@redhat.com/
 
->
-> Thanks,
-> -David
->
-> >Regards,
-> >  Felix
->
->
-> >
-> > Thanks,
-> > -David
-> >
-> > Regards,
-> >   Felix
-> >
-> >
-> >>
-> >> Thanks,
-> >> -David
-> >>
-> >> ------------------------------------------------------------------
-> >>     发件人：Felix Kuehling <felix.kuehling@amd.com>
-> >>     发送时间：2024年5月3日(星期五) 22:44
-> >>     收件人：Tvrtko Ursulin <tursulin@ursulin.net>; 
-> dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; 
-> amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; Dave 
-> Airlie <airlied@redhat.com>; Daniel Vetter <daniel@ffwll.ch>; criu 
-> <criu@openvz.org>
-> >>     抄 送："Errabolu, Ramesh" <Ramesh.Errabolu@amd.com>; "Christian 
-> König" <christian.koenig@amd.com>
-> >>     主 题：Re: Proposal to add CRIU support to DRM render nodes
-> >>
-> >>
-> >>
-> >>     On 2024-04-16 10:04, Tvrtko Ursulin wrote:
-> >>     >
-> >>     > On 01/04/2024 18:58, Felix Kuehling wrote:
-> >>     >>
-> >>     >> On 2024-04-01 12:56, Tvrtko Ursulin wrote:
-> >>     >>>
-> >>     >>> On 01/04/2024 17:37, Felix Kuehling wrote:
-> >>     >>>> On 2024-04-01 11:09, Tvrtko Ursulin wrote:
-> >>     >>>>>
-> >>     >>>>> On 28/03/2024 20:42, Felix Kuehling wrote:
-> >>     >>>>>>
-> >>     >>>>>> On 2024-03-28 12:03, Tvrtko Ursulin wrote:
-> >>     >>>>>>>
-> >>     >>>>>>> Hi Felix,
-> >>     >>>>>>>
-> >>     >>>>>>> I had one more thought while browsing around the amdgpu 
-> CRIU plugin. It appears it relies on the KFD support being compiled in 
-> and /dev/kfd present, correct? AFAICT at least, it relies on that to 
-> figure out the amdgpu DRM node.
-> >>     >>>>>>>
-> >>     >>>>>>> In would be probably good to consider designing things 
-> without that dependency. So that checkpointing an application which 
-> does not use /dev/kfd is possible. Or if the kernel does not even have 
-> the KFD support compiled in.
-> >>     >>>>>>
-> >>     >>>>>> Yeah, if we want to support graphics apps that don't use 
-> KFD, we should definitely do that. Currently we get a lot of topology 
-> information from KFD, not even from the /dev/kfd device but from the 
-> sysfs nodes exposed by KFD. We'd need to get GPU device info from the 
-> render nodes instead. And if KFD is available, we may need to 
-> integrate both sources of information.
-> >>     >>>>>>
-> >>     >>>>>>
-> >>     >>>>>>>
-> >>     >>>>>>> It could perhaps mean no more than adding some GPU 
-> discovery code into CRIU. Which shuold be flexible enough to account 
-> for things like re-assigned minor numbers due driver reload.
-> >>     >>>>>>
-> >>     >>>>>> Do you mean adding GPU discovery to the core CRIU, or to 
-> the plugin. I was thinking this is still part of the plugin.
-> >>     >>>>>
-> >>     >>>>> Yes I agree. I was only thinking about adding some DRM 
-> device discovery code in a more decoupled fashion from the current 
-> plugin, for both the reason discussed above (decoupling a bit from 
-> reliance on kfd sysfs), and then also if/when a new DRM driver might 
-> want to implement this the code could be move to some common plugin area.
-> >>     >>>>>
-> >>     >>>>> I am not sure how feasible that would be though. The "gpu 
-> id" concept and it's matching in the current kernel code and CRIU 
-> plugin - is that value tied to the physical GPU instance or how it works?
-> >>     >>>>
-> >>     >>>> The concept of the GPU ID is that it's stable while the 
-> system is up, even when devices get added and removed dynamically. It 
-> was baked into the API early on, but I don't think we ever fully 
-> validated device hot plug. I think the closest we're getting is with 
-> our latest MI GPUs and dynamic partition mode change.
-> >>     >>>
-> >>     >>> Doesn't it read the saved gpu id from the image file while 
-> doing restore and tries to open the render node to match it? Maybe I 
-> am misreading the code.. But if it does, does it imply that in 
-> practice it could be stable across reboots? Or that it is not possible 
-> to restore to a different instance of maybe the same GPU model 
-> installed in a system?
-> >>     >>
-> >>     >> Ah, the idea is, that when you restore on a different 
-> system, you may get different GPU IDs. Or you may checkpoint an app 
-> running on GPU 1 but restore it on GPU 2 on the same system. That's 
-> why we need to translate GPU IDs in restored applications. User mode 
-> still uses the old GPU IDs, but the kernel mode driver translates them 
-> to the actual GPU IDs of the GPUs that the process was restored on.
-> >>     >
-> >>     > I see.. I think. Normal flow is ppd->user_gpu_id set during 
-> client init, but for restored clients it gets overriden during restore 
-> so that any further ioctls can actually not instantly fail.
-> >>     >
-> >>     > And then in amdgpu_plugin_restore_file, when it is opening 
-> the render node, it relies on the kfd topology to have filled in (more 
-> or less) the target_gpu_id corresponding to the render node gpu id of 
-> the target GPU - the one associated with the new kfd gpu_id?
-> >>
-> >>     Yes.
-> >>
-> >>     >
-> >>     > I am digging into this because I am trying to see if some 
-> part of GPU discovery could somehow be decoupled.. to offer you to 
-> work on at least that until you start to tackle the main body of the 
-> feature. But it looks properly tangled up.
-> >>
-> >>     OK. Most of the interesting plugin code should be in 
-> amdgpu_plugin_topology.c. It currently has some pretty complicated 
-> logic to find a set of devices that matches the topology in the 
-> checkpoint, including shader ISA versions, numbers of compute units, 
-> memory sizes, firmware versions and IO-Links between GPUs. This was 
-> originally done to support P2P with XGMI links. I'm not sure we ever 
-> updated it to properly support PCIe P2P.
-> >>
-> >>
-> >>     >
-> >>     > Do you have any suggestions with what I could help with? 
-> Maybe developing some sort of drm device enumeration library if you 
-> see a way that would be useful in decoupling the device discovery from 
-> kfd. We would need to define what sort of information you would need 
-> to be queryable from it.
-> >>
-> >>     Maybe. I think a lot of device information is available with 
-> some amdgpu info-ioctl. It may not cover all the things we're checking 
-> in the KFD topology, though.
-> >>
-> >>     >
-> >>     >>>> This also highlights another aspect on those spatially 
-> partitioned GPUs. GPU IDs identify device partitions, not devices. 
-> Similarly, each partition has its own render node, and the KFD 
-> topology info in sysfs points to the render-minor number corresponding 
-> to each GPU ID.
-> >>     >>>
-> >>     >>> I am not familiar with this. This is not SR-IOV but some 
-> other kind of partitioning? Would you have any links where I could 
-> read more?
-> >>     >>
-> >>     >> Right, the bare-metal driver can partition a PF spatially 
-> without SRIOV. SRIOV can also use spatial partitioning and expose each 
-> partition through its own VF, but that's not useful for bare metal. 
-> Spatial partitioning is new in MI300. There is some high-level info in 
-> this whitepaper: 
-> https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf 
-> <https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf> 
-> <https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf>> 
-> <https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf> 
-> <https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf>> 
-> <https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf>> 
-> <https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf>>>.
-> >>     >
-> >>     > From the outside (userspace) this looks simply like multiple 
-> DRM render nodes or how exactly?
-> >>
-> >>     Yes, that's correct. Each partition has its own render node and 
-> its own node in the KFD topology.
-> >>
-> >>     Regards,
-> >>       Felix
-> >>
-> >>     >
-> >>     > Regards,
-> >>     >
-> >>     > Tvrtko
-> >>     >
-> >>     >>
-> >>     >> Regards,
-> >>     >>    Felix
-> >>     >>
-> >>     >>
-> >>     >>>
-> >>     >>> Regards,
-> >>     >>>
-> >>     >>> Tvrtko
-> >>     >>>
-> >>     >>>>>>> Otherwise I am eagerly awaiting to hear more about the 
-> design specifics around dma-buf handling. And also seeing how to 
-> extend to other DRM related anonymous fds.
-> >>     >>>>>>
-> >>     >>>>>> I've been pretty far under-water lately. I hope I'll 
-> find time to work on this more, but it's probably going to be at least 
-> a few weeks.
-> >>     >>>>>
-> >>     >>>>> Got it.
-> >>     >>>>>
-> >>     >>>>> Regards,
-> >>     >>>>>
-> >>     >>>>> Tvrtko
-> >>     >>>>>
-> >>     >>>>>>
-> >>     >>>>>> Regards,
-> >>     >>>>>>    Felix
-> >>     >>>>>>
-> >>     >>>>>>
-> >>     >>>>>>>
-> >>     >>>>>>> Regards,
-> >>     >>>>>>>
-> >>     >>>>>>> Tvrtko
-> >>     >>>>>>>
-> >>     >>>>>>> On 15/03/2024 18:36, Tvrtko Ursulin wrote:
-> >>     >>>>>>>>
-> >>     >>>>>>>> On 15/03/2024 02:33, Felix Kuehling wrote:
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> On 2024-03-12 5:45, Tvrtko Ursulin wrote:
-> >>     >>>>>>>>>>
-> >>     >>>>>>>>>> On 11/03/2024 14:48, Tvrtko Ursulin wrote:
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> Hi Felix,
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> On 06/12/2023 21:23, Felix Kuehling wrote:
-> >> >>>>>>>>>>>> Executive Summary: We need to add CRIU support to DRM 
-> render nodes in order to maintain CRIU support for ROCm application 
-> once they start relying on render nodes for more GPU memory 
-> management. In this email I'm providing some background why we are 
-> doing this, and outlining some of the problems we need to solve to 
-> checkpoint and restore render node state and shared memory (DMABuf) 
-> state. I have some thoughts on the API design, leaning on what we did 
-> for KFD, but would like to get feedback from the DRI community 
-> regarding that API and to what extent there is interest in making that 
-> generic.
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> We are working on using DRM render nodes for virtual 
-> address mappings in ROCm applications to implement the CUDA11-style VM 
-> API and improve interoperability between graphics and compute. This 
-> uses DMABufs for sharing buffer objects between KFD and multiple 
-> render node devices, as well as between processes. In the long run 
-> this also provides a path to moving all or most memory management from 
-> the KFD ioctl API to libdrm.
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> Once ROCm user mode starts using render nodes for 
-> virtual address management, that creates a problem for checkpointing 
-> and restoring ROCm applications with CRIU. Currently there is no 
-> support for checkpointing and restoring render node state, other than 
-> CPU virtual address mappings. Support will be needed for checkpointing 
-> GEM buffer objects and handles, their GPU virtual address mappings and 
-> memory sharing relationships between devices and processes.
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> Eventually, if full CRIU support for graphics 
-> applications is desired, more state would need to be captured, 
-> including scheduler contexts and BO lists. Most of this state is 
-> driver-specific.
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> After some internal discussions we decided to take our 
-> design process public as this potentially touches DRM GEM and DMABuf 
-> APIs and may have implications for other drivers in the future.
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> One basic question before going into any API details: 
-> Is there a desire to have CRIU support for other DRM drivers?
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> This sounds like a very interesting feature on the 
-> overall, although I cannot answer on the last question here.
-> >>     >>>>>>>>>>
-> >>     >>>>>>>>>> I forgot to finish this thought. I cannot answer / 
-> don't know of any concrete plans, but I think feature is pretty cool 
-> and if amdgpu gets it working I wouldn't be surprised if other drivers 
-> would get interested.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> Thanks, that's good to hear!
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>>
-> >>     >>>>>>>>>>> Funnily enough, it has a tiny relation to an i915 
-> feature I recently implemented on Mesa's request, which is to be able 
-> to "upload" the GPU context from the GPU hang error state and replay 
-> the hanging request. It is kind of (at a stretch) a very special tiny 
-> subset of checkout and restore so I am not mentioning it as a curiosity.
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> And there is also another partical conceptual 
-> intersect with the (at the moment not yet upstream) i915 online 
-> debugger. This part being in the area of discovering and enumerating 
-> GPU resources beloning to the client.
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> I don't see an immediate design or code sharing 
-> opportunities though but just mentioning.
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> I did spend some time reading your plugin and 
-> kernel implementation out of curiousity and have some comments and 
-> questions.
-> >>     >>>>>>>>>>>
-> >> >>>>>>>>>>>> With that out of the way, some considerations for a 
-> possible DRM CRIU API (either generic of AMDGPU driver specific): The 
-> API goes through several phases during checkpoint and restore:
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> Checkpoint:
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>>  1. Process-info (enumerates objects and sizes so user 
-> mode can allocate
-> >> >>>>>>>>>>>>     memory for the checkpoint, stops execution on the GPU)
-> >> >>>>>>>>>>>>  2. Checkpoint (store object metadata for BOs, queues, 
-> etc.)
-> >> >>>>>>>>>>>>  3. Unpause (resumes execution after the checkpoint is 
-> complete)
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> Restore:
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>>  1. Restore (restore objects, VMAs are not in the 
-> right place at this time)
-> >> >>>>>>>>>>>>  2. Resume (final fixups after the VMAs are sorted 
-> out, resume execution)
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> Btw is check-pointing guaranteeing all relevant 
-> activity is idled? For instance dma_resv objects are free of fences 
-> which would need to restored for things to continue executing 
-> sensibly? Or how is that handled?
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> In our compute use cases, we suspend user mode 
-> queues. This can include CWSR (compute-wave-save-restore) where the 
-> state of in-flight waves is stored in memory and can be reloaded and 
-> resumed from memory later. We don't use any fences other than 
-> "eviction fences", that are signaled after the queues are suspended. 
-> And those fences are never handed to user mode. So we don't need to 
-> worry about any fence state in the checkpoint.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> If we extended this to support the kernel mode 
-> command submission APIs, I would expect that we'd wait for all current 
-> submissions to complete, and stop new ones from being sent to the HW 
-> before taking the checkpoint. When we take the checkpoint in the CRIU 
-> plugin, the CPU threads are already frozen and cannot submit any more 
-> work. If we wait for all currently pending submissions to drain, I 
-> think we don't need to save any fence state because all the fences 
-> will have signaled. (I may be missing some intricacies and I'm afraid 
-> it may not be that simple in reality, but that's my opening bid. ;)
-> >>     >>>>>>>>
-> >>     >>>>>>>> It feels feasible to me too, for the normally behaving 
-> clients at least.
-> >>     >>>>>>>>
-> >>     >>>>>>>> Presumably, given that the whole checkpointing is not 
-> instant, it would be okay to wait a second or two longer for the 
-> in-progress submissions complete. After which kernel would need to 
-> prune all signalled fences from the respective container objects 
-> before checkpointing.
-> >>     >>>>>>>>
-> >>     >>>>>>>> For the "misbehaving" clients who have perhaps queued 
-> up too much work, either still in the scheduler with unsatisfied 
-> dependencies, or already submitted to the hardware and/or driver 
-> backend, is there a timeout concept in CRIU so it would be possible to 
-> say something like "try to checkpoint but if the kernel says no time 
-> period t then give up"?
-> >>     >>>>>>>>
-> >> >>>>>>>>>>>> For some more background about our implementation in 
-> KFD, you can refer to this whitepaper: 
-> https://github.com/checkpoint-restore/criu/blob/criu-dev/plugins/amdgpu/README.md 
-> <https://github.com/checkpoint-restore/criu/blob/criu-dev/plugins/amdgpu/README.md> 
-> <https://github.com/checkpoint-restore/criu/blob/criu-dev/plugins/amdgpu/README.md>> 
-> <https://github.com/checkpoint-restore/criu/blob/criu-dev/plugins/amdgpu/README.md> 
-> <https://github.com/checkpoint-restore/criu/blob/criu-dev/plugins/amdgpu/README.md>> 
-> <https://github.com/checkpoint-restore/criu/blob/criu-dev/plugins/amdgpu/README.md>> 
-> <https://github.com/checkpoint-restore/criu/blob/criu-dev/plugins/amdgpu/README.md>>>
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> Potential objections to a KFD-style CRIU API in DRM 
-> render nodes, I'll address each of them in more detail below:
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>>   * Opaque information in the checkpoint data that 
-> user mode can't
-> >> >>>>>>>>>>>> interpret or do anything with
-> >> >>>>>>>>>>>>   * A second API for creating objects (e.g. BOs) that 
-> is separate from
-> >> >>>>>>>>>>>>     the regular BO creation API
-> >> >>>>>>>>>>>>   * Kernel mode would need to be involved in restoring 
-> BO sharing
-> >> >>>>>>>>>>>> relationships rather than replaying BO creation, 
-> export and import
-> >> >>>>>>>>>>>>     from user mode
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> # Opaque information in the checkpoint
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> This comes out of ABI compatibility considerations. 
-> Adding any new objects or attributes to the driver/HW state that needs 
-> to be checkpointed could potentially break the ABI of the CRIU 
-> checkpoint/restore ioctl if the plugin needs to parse that 
-> information. Therefore, much of the information in our KFD CRIU ioctl 
-> API is opaque. It is written by kernel mode in the checkpoint, it is 
-> consumed by kernel mode when restoring the checkpoint, but user mode 
-> doesn't care about the contents or binary layout, so there is no user 
-> mode ABI to break. This is how we were able to maintain CRIU support 
-> when we added the SVM API to KFD without changing the CRIU plugin and 
-> without breaking our ABI.
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> Opaque information may also lend itself to API 
-> abstraction, if this becomes a generic DRM API with driver-specific 
-> callbacks that fill in HW-specific opaque data.
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> This feels sound in principle to me. Fundamentally 
-> the state is very hardware specfic, and/or driver version specific, so 
-> I don't see anything could be gained in practice by making it much 
-> less opaque. (Apart from making things more complicated.)
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> I was however unsure of the current split of how 
-> you dump buffer objects with some data in the defined bo structure, 
-> and some in completely opaque private data. Is there a benefit to that 
-> split, or maybe in other words, is there a benefit on having part 
-> transparent and part opaque for buffer objects?
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> Some of the buffer object state is needed by the 
-> plugin. E.g. the size and mmap offset are needed to match VMAs with 
-> BOs. I'd have to review the plugin in detail to prove that all the 
-> fields are, in fact, needed by the plugin, but that was the intent. 
-> Anything that the plugin doesn't need to know should be in the opaque 
-> data structures.
-> >>     >>>>>>>>
-> >>     >>>>>>>> Right, got it.
-> >>     >>>>>>>>
-> >>     >>>>>>>> Would it make sense to make the opaque data in the 
-> same block as the defined one? I mean instead of separating the two in 
-> the binary image for instance have struct kfd_criu_bo_bucket have a 
-> trailing priv_data blob? Maybe it is too late now if the image format 
-> is not versioned or something.
-> >>     >>>>>>>>
-> >>     >>>>>>>>>>> To slightly touch upon the question of whether this 
-> could become a generic DRM API. It feels it would be hard to do it 
-> from the start. What sounds more feasible is if/when generic looking 
-> helpers can be spotted while developing the RFC then potentially 
-> structure the code they can easily be promoted to shared/common at 
-> some future moment.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> Yes, that's how this usually goes, in my experience. 
-> Thanks for confirming.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>>>
-> >> >>>>>>>>>>>> # Second API for creating objects
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> Creating BOs and other objects when restoring a 
-> checkpoint needs more information than the usual BO alloc and similar 
-> APIs provide. For example, we need to restore BOs with the same GEM 
-> handles so that user mode can continue using those handles after 
-> resuming execution. If BOs are shared through DMABufs without dynamic 
-> attachment, we need to restore pinned BOs as pinned. Validation of 
-> virtual addresses and handling MMU notifiers must be suspended until 
-> the virtual address space is restored. For user mode queues we need to 
-> save and restore a lot of queue execution state so that execution can 
-> resume cleanly.
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> This also sounds justified to me. Restore creating 
-> all internal objects is definitely special and sounds better to add 
-> uapi to create them directly with the correct properties, than to add 
-> uapi to adjust internal properties after creation. And in case you 
-> would always need some new uapi - so at least to adjust after 
-> creation. At which point you may have both in one. Internally 
-> implementation can be split or common, whatever makes sense for a 
-> given object type, but new uapi definitely sounds is required.
-> >> >>>>>>>>>>>> # Restoring buffer sharing relationships
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> Different GEM handles in different render nodes and 
-> processes can refer to the same underlying shared memory, either by 
-> directly pointing to the same GEM object, or by creating an import 
-> attachment that may get its SG tables invalidated and updated 
-> dynamically through dynamic attachment callbacks. In the latter case 
-> it's obvious, who is the exporter and who is the importer. In the 
-> first case, either one could be the exporter, and it's not clear who 
-> would need to create the BO and who would need to
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> To see if I follow the former case correctly.
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> This could be two clients A and B, where B has 
-> imported a dma-buf shared BO from A and has since closed the dma-buf 
-> fd? Which results in a single BO with reference count of 2 and 
-> obj->import_attach unset. History of who created the object is lost.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> Yes. In the amdgpu driver this happens when the 
-> exporter and import device are the same.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> In fact it could even be that two imported objects 
-> remain (clients A, B and C) and A, who originally created the BO, has 
-> since fully released it. So any kind of "creator" tracking if added 
-> wouldn't be fully reliable either.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> That's a good point.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>>>
-> >> >>>>>>>>>>>> import it when restoring the checkpoint. To further 
-> complicate things, multiple processes in a checkpoint get restored 
-> concurrently. So there is no guarantee that an exporter has restored a 
-> shared BO at the time an importer is trying to restore its import.
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> A proposal to deal with these problems would be to 
-> treat importers and exporters the same. Whoever restores first, ends 
-> up creating the BO and potentially attaching to it. The other 
-> process(es) can find BOs that were already restored by another process 
-> by looking it up with a unique ID that could be based on the DMABuf 
-> inode number. An alternative would be a two-pass approach that needs 
-> to restore BOs on two passes:
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>>  1. Restore exported BOs
-> >> >>>>>>>>>>>>  2. Restore imports
-> >> >>>>>>>>>>>>
-> >> >>>>>>>>>>>> With some inter-process synchronization in CRIU itself 
-> between these two passes. This may require changes in the core CRIU, 
-> outside our plugin. Both approaches depend on identifying BOs with 
-> some unique ID that could be based on the DMABuf inode number in the 
-> checkpoint. However, we would need to identify the processes in the 
-> same restore session, possibly based on parent/child process 
-> relationships, to create a scope where those IDs are valid during restore.
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> If my understanding above is on the right track, 
-> then I think this is the only thing which can be done (for all scenarios).
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> I presented two alternatives. I think you're in favor 
-> of the first one, where it doesn't matter who is the importer and 
-> exporter. I think the two-pass approach requires that you can identify 
-> an exporter. And as you pointed out, the exporter may already have 
-> dropped their reference to the BO.
-> >>     >>>>>>>>
-> >>     >>>>>>>> Yep.
-> >>     >>>>>>>>
-> >>     >>>>>>>>>>> I also *think* it would be safe. At least at the 
-> moment I cannot think what could go wrong. Semantics are that it 
-> doesn't really matter who created the object.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> I would agree. What matters is that the object is 
-> recreated on the correct device, and that all the direct references 
-> and import attachments pointing to it are restored.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>>>
-> >> >>>>>>>>>>>> Finally, we would also need to checkpoint and restore 
-> DMABuf file descriptors themselves. These are anonymous file 
-> descriptors. The CRIU plugin could probably be taught to recreate them 
-> from the original exported BO based on the inode number that could be 
-> queried with fstat in the checkpoint. It would need help from the 
-> render node CRIU API to find the right BO from the inode, which may be 
-> from a different process in the same restore session.
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> This part feels like it is breaking the component 
-> separation a bit because even for buffers fully owned by amdgpu, 
-> strictly speaking the dma-buf fd is not. At least my understanding 
-> from the above is that you propose to attempt to import the fd, from 
-> the kernel side, during the checkpoint process? Like:
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> Checkpoint:
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> CRIU for each anon fd:
-> >>     >>>>>>>>>>> amdgpu_plugin(fd)
-> >>     >>>>>>>>>>>   -> attempt in kernel dma buf import (passes fd to 
-> kernel via ioctl?)
-> >>     >>>>>>>>>>>       -> is it ours? (no -> error)
-> >>     >>>>>>>>>>>           -> create a record mapping fd number to 
-> amdgpu BO
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> Restore:
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> for each dma-buf fd record:
-> >>     >>>>>>>>>>>   create BO if does not exists
-> >>     >>>>>>>>>>>   export BO to same fd
-> >>     >>>>>>>>>>>   close BO handle if not in regular BO handle records
-> >>     >>>>>>>>>>>
-> >>     >>>>>>>>>>> Or since you mention lookup by inode, that would 
-> need to be dmabuf_plugin so it can lookup inodes in the private mount 
-> space. However how would it co-operate with amdgpu_plugin is not clear 
-> to me.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> The way I think about the ownership is, whichever 
-> driver created the underlying BO owns the checkpointing of the dmabuf. 
-> You need driver-specific information to link the dmabuf with the 
-> driver's BO and you need the right driver to recreate the BO and the 
-> dmabuf fd when restoring the checkpoint.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> It gets really interesting if you have an amdgpu 
-> plugin and an i915 plugin, and they checkpoint an application that 
-> shares BOs between the two devices through DMABufs. E.g. if i915 
-> created a BO and amdgpu imported it, then during restore, i915 needs 
-> to restore the dmabuf before the amdgpu import of it can be restored. 
-> I think that brings us back to a two-phase approach to restoring the 
-> memory sharing relationships. Uff.
-> >>     >>>>>>>>
-> >>     >>>>>>>> I think this part of the discussion somewhat depends 
-> on the previous part about idling. If it is feasible to completely 
-> idle and prune, and fail if that is not happening quickly enough, then 
-> maybe there wouldn't be too much hierarchical state to save.
-> >>     >>>>>>>>
-> >>     >>>>>>>> Otherwise my idea was that there is a top-level 
-> drm_plugin.so which understands amdgpu fds, i915, syncobj, sync_file, 
-> and uses some new uapi to uniquely identify each, associate with the 
-> correct driver, and then internally dispatches to 
-> amdgpu|i915|dmabuf|..._plugin.so. Building the in memory 
-> representation of their relationships. As long as all objects and 
-> their relationships have been recorded I think everything could then 
-> be correctly restored.
-> >>     >>>>>>>>
-> >>     >>>>>>>> It is possible there is flaw in my thinking and that 
-> something in CRIU design would make this impossible? I think it would 
-> require the top-level drm_plugin.so to hold all state in memory until 
-> the whole checkpointing is done, and then verify something is not 
-> incomplete, failing it all if it was. (For instance one plugin 
-> discovered an reference to an object which was not discoverd by any 
-> other plugin or things like that.) May need some further tweaks to 
-> CRIU common code.
-> >>     >>>>>>>>
-> >>     >>>>>>>> Maybe I need to better understand how exactly you mean 
-> to query the DRM driver about random anonymous fds. I see it as a 
-> problem in the design, possibly even implementation, but maybe I am 
-> missing something which makes it not so. I mean even with my general 
-> idea I don't know how would one determine which driver to query about 
-> a particular anonymous inode.
-> >>     >>>>>>>>
-> >>     >>>>>>>>>> I later also realised that I was maybe increasing 
-> the scope for you here. :) You did state focus is ROCm applications 
-> which possibly doesn't care about dma-resv, fences, syncobjs etc?
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> That's my focus for now. But I don't want to engineer 
-> a solution that would preclude your use cases in the future.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>
-> >>     >>>>>>>>>>
-> >>     >>>>>>>>>> But I think the "how to handle dma-bufs" design 
-> question is still relevant and interesting. For example I had this 
-> thought that perhaps what would be needed is a CRIU plugin hierarchy.
-> >>     >>>>>>>>>>
-> >>     >>>>>>>>>> Because fundamentally we would be snapshoting a 
-> hierarcy of kernel objects belonging to different drivers (kfd, 
-> amdgpu, dma-buf, ...). And if one day someone would to try to handle 
-> dma fences and drm syncobjs, the argument for a hierarchial design 
-> would be even stronger I think.
-> >>     >>>>>>>>>>
-> >>     >>>>>>>>>> Something like a drm_plugin.so could call 
-> sub-plugins (amdgpu, dma-buf, sync file, ...) and internally build the 
-> representation of the whole state and how the relationship between the 
-> objects.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> Maybe. I guess a structure similar to libdrm makes 
-> sense. I'm not sure it's strictly a hierarchy. Maybe more like some 
-> common code shared by multiple GPU driver plugins. I think the common 
-> checkpoint state is quite limited and restoring it requires the 
-> GPU-specific drivers anyway.
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> Also the idea of building a representation of the 
-> whole state doesn't work well with the CRIU design, because "the whole 
-> state" can include multiple processes that restore themselves 
-> concurrently and only synchronize with each other in a few places in 
-> the restore process. I feel, if we can work out how to checkpoint and 
-> restore shared objects between processes, we can do the same for 
-> shared objects between drivers without imposing a strict hierarchy and 
-> some omniscient entity that needs to know "the whole state".
-> >>     >>>>>>>>
-> >>     >>>>>>>> Okay, this continues on the same problem space as 
-> above. And you obviously know how CRIU works much better than me.
-> >>     >>>>>>>>
-> >>     >>>>>>>>>> With that kind of design there probably would be a 
-> need to define some common kernel side api and uapi, so all involved 
-> objects can be enumerated with some unique ids etc.
-> >>     >>>>>>>>>>
-> >>     >>>>>>>>>> Now.. the counter argument.. the more state from 
-> different drivers would one want to handle the bigger this project 
-> would get. Would it even be feasible is the question, to the point 
-> that it may be simpler to just run the workload in a VM via SR-IOV and 
-> simply hibernate the whole thin guest. :)
-> >>     >>>>>>>>>
-> >>     >>>>>>>>> Well, CRIU kind of tries to do that, but with 
-> containers instead of VMs. ;)
-> >>     >>>>>>>>
-> >>     >>>>>>>> It would definitely be useful for hardware and drivers 
-> without SR-IOV support so lets hope it is doable. :)
-> >>     >>>>>>>>
-> >>     >>>>>>>> Regards,
-> >>     >>>>>>>>
-> >>     >>>>>>>> Tvrtko
-> >
->
+> 
+> Danilo, as we've spoken before, I find it hard to work with `rust: drm:
+> gem: Add GEM object abstraction`. My patch is based on v1, but IIUC
+> the issue remains in v2: it is not possible to build a gem::ObjectRef
+> from a bindings::drm_gem_object*.
+
+This is due to `ObjectRef` being typed to `T: IntoGEMObject`. The "raw" GEM
+object is embedded in a driver specific GEM object type `T`. Without knowing
+`T` we can't `container_of!` to the driver specific type `T`.
+
+If your driver specific GEM object type is in C, Rust doesn't know about it
+and hence, can't handle it. We can't drop the generic type `T` here,
+otherwise Rust code can't get the driver specific GEM object from a raw GEM
+object pointer we receive from GEM object lookups, e.g. in IOCTLs.
+
+> 
+> Furthermore, gem::IntoGEMObject contains a Driver: drv::Driver
+> associated type:
+> 
+> ```
+> +/// Trait that represents a GEM object subtype
+> +pub trait IntoGEMObject: Sized + crate::private::Sealed {
+> +    /// Owning driver for this type
+> +    type Driver: drv::Driver;
+> +
+> ```
+
+This accociated type is required as well. For instance, we need to be able to
+create a handle from a GEM object. Without the `Driver` type we can't derive
+the `File` type to call drm_gem_handle_create().
+
+> 
+> While this does work for Asahi and Nova - two drivers that are written
+> entirely in Rust - it is a blocker for any partially-converted drivers.
+> This is because there is no drv::Driver at all, only Rust functions that
+> are called from an existing C driver.
+> 
+> IMHO, are unlikely to see full rewrites of any existing C code. But
+> partial convertions allows companies to write new features entirely in
+> Rust, or to migrate to Rust in small steps. For this reason, I think we
+> should strive to treat partially-converted drivers as first-class
+> citizens.
+
+This is a bit of a tricky one. Generally, I'm fine with anything that helps
+implementing drivers partially in Rust. However, there are mainly two things
+we have to be very careful with.
+
+(1) I think this one is pretty obvious, but we can't break the design of Rust
+abstractions in terms of safety and soundness for that.
+
+(2) We have to be very careful of where we draw the line. We can't define an
+arbitrary boundary of where C code can attach to Rust abstractions for one
+driver and then do the same thing for another driver that wants to attach at a
+different boundary, this simply doesn't scale in terms of maintainability.
+
+Honestly, the more I think about it, the more it seems to me that with
+abstractions for a full Rust driver you can't do what you want without
+violating (1) or (2).
+
+The problem with separate abstractions is also (2), how do we keep this
+maintainable when there are multiple drivers asking for different boundaries?
+
+However, if you have a proposal that helps your use case that doesn't violate (1)
+and (2) and still keeps full Rust drivers functional I'm absolutely open to it.
+
+One thing that comes to my mindis , you could probably create some driver specific
+"dummy" types to satisfy the type generics of the types you want to use. Not sure
+how well this works out though.
+
+- Danilo
+
+> 
+> [0]: https://gitlab.collabora.com/dwlsalmeida/for-upstream/-/tree/panthor-devcoredump?ref_type=heads
+> 
+>   drivers/gpu/drm/panthor/Kconfig         |  13 ++
+>   drivers/gpu/drm/panthor/Makefile        |   2 +
+>   drivers/gpu/drm/panthor/dump.rs         | 294 ++++++++++++++++++++++++
+>   drivers/gpu/drm/panthor/lib.rs          |  10 +
+>   drivers/gpu/drm/panthor/panthor_mmu.c   |  39 ++++
+>   drivers/gpu/drm/panthor/panthor_mmu.h   |   3 +
+>   drivers/gpu/drm/panthor/panthor_rs.h    |  40 ++++
+>   drivers/gpu/drm/panthor/panthor_sched.c |  28 ++-
+>   drivers/gpu/drm/panthor/regs.rs         | 264 +++++++++++++++++++++
+>   rust/bindings/bindings_helper.h         |   3 +
+>   10 files changed, 695 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/gpu/drm/panthor/dump.rs
+>   create mode 100644 drivers/gpu/drm/panthor/lib.rs
+>   create mode 100644 drivers/gpu/drm/panthor/panthor_rs.h
+>   create mode 100644 drivers/gpu/drm/panthor/regs.rs
+> 
+> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
+> index 55b40ad07f3b..78d34e516f5b 100644
+> --- a/drivers/gpu/drm/panthor/Kconfig
+> +++ b/drivers/gpu/drm/panthor/Kconfig
+> @@ -21,3 +21,16 @@ config DRM_PANTHOR
+>   
+>   	  Note that the Mali-G68 and Mali-G78, while Valhall architecture, will
+>   	  be supported with the panfrost driver as they are not CSF GPUs.
+> +
+> +config DRM_PANTHOR_RS
+> +	bool "Panthor Rust components"
+> +	depends on DRM_PANTHOR
+> +	depends on RUST
+> +	help
+> +	  Enable Panthor's Rust components
+> +
+> +config DRM_PANTHOR_COREDUMP
+> +	bool "Panthor devcoredump support"
+> +	depends on DRM_PANTHOR_RS
+> +	help
+> +	  Dump the GPU state through devcoredump for debugging purposes
+> \ No newline at end of file
+> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
+> index 15294719b09c..10387b02cd69 100644
+> --- a/drivers/gpu/drm/panthor/Makefile
+> +++ b/drivers/gpu/drm/panthor/Makefile
+> @@ -11,4 +11,6 @@ panthor-y := \
+>   	panthor_mmu.o \
+>   	panthor_sched.o
+>   
+> +panthor-$(CONFIG_DRM_PANTHOR_RS) += lib.o
+>   obj-$(CONFIG_DRM_PANTHOR) += panthor.o
+> +
+> diff --git a/drivers/gpu/drm/panthor/dump.rs b/drivers/gpu/drm/panthor/dump.rs
+> new file mode 100644
+> index 000000000000..77fe5f420300
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/dump.rs
+> @@ -0,0 +1,294 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-FileCopyrightText: Copyright Collabora 2024
+> +
+> +//! Dump the GPU state to a file, so we can figure out what went wrong if it
+> +//! crashes.
+> +//!
+> +//! The dump is comprised of the following sections:
+> +//!
+> +//! Registers,
+> +//! Firmware interface (TODO)
+> +//! Buffer objects (the whole VM)
+> +//!
+> +//! Each section is preceded by a header that describes it. Most importantly,
+> +//! each header starts with a magic number that should be used by userspace to
+> +//! when decoding.
+> +//!
+> +
+> +use alloc::DumpAllocator;
+> +use kernel::bindings;
+> +use kernel::prelude::*;
+> +
+> +use crate::regs;
+> +use crate::regs::GpuRegister;
+> +
+> +// PANT
+> +const MAGIC: u32 = 0x544e4150;
+> +
+> +#[derive(Copy, Clone)]
+> +#[repr(u32)]
+> +enum HeaderType {
+> +    /// A register dump
+> +    Registers,
+> +    /// The VM data,
+> +    Vm,
+> +    /// A dump of the firmware interface
+> +    _FirmwareInterface,
+> +}
+> +
+> +#[repr(C)]
+> +pub(crate) struct DumpArgs {
+> +    dev: *mut bindings::device,
+> +    /// The slot for the job
+> +    slot: i32,
+> +    /// The active buffer objects
+> +    bos: *mut *mut bindings::drm_gem_object,
+> +    /// The number of active buffer objects
+> +    bo_count: usize,
+> +    /// The base address of the registers to use when reading.
+> +    reg_base_addr: *mut core::ffi::c_void,
+> +}
+> +
+> +#[repr(C)]
+> +pub(crate) struct Header {
+> +    magic: u32,
+> +    ty: HeaderType,
+> +    header_size: u32,
+> +    data_size: u32,
+> +}
+> +
+> +#[repr(C)]
+> +#[derive(Clone, Copy)]
+> +pub(crate) struct RegisterDump {
+> +    register: GpuRegister,
+> +    value: u32,
+> +}
+> +
+> +/// The registers to dump
+> +const REGISTERS: [GpuRegister; 18] = [
+> +    regs::SHADER_READY_LO,
+> +    regs::SHADER_READY_HI,
+> +    regs::TILER_READY_LO,
+> +    regs::TILER_READY_HI,
+> +    regs::L2_READY_LO,
+> +    regs::L2_READY_HI,
+> +    regs::JOB_INT_MASK,
+> +    regs::JOB_INT_STAT,
+> +    regs::MMU_INT_MASK,
+> +    regs::MMU_INT_STAT,
+> +    regs::as_transtab_lo(0),
+> +    regs::as_transtab_hi(0),
+> +    regs::as_memattr_lo(0),
+> +    regs::as_memattr_hi(0),
+> +    regs::as_faultstatus(0),
+> +    regs::as_faultaddress_lo(0),
+> +    regs::as_faultaddress_hi(0),
+> +    regs::as_status(0),
+> +];
+> +
+> +mod alloc {
+> +    use core::ptr::NonNull;
+> +
+> +    use kernel::bindings;
+> +    use kernel::prelude::*;
+> +
+> +    use crate::dump::Header;
+> +    use crate::dump::HeaderType;
+> +    use crate::dump::MAGIC;
+> +
+> +    pub(crate) struct DumpAllocator {
+> +        mem: NonNull<core::ffi::c_void>,
+> +        pos: usize,
+> +        capacity: usize,
+> +    }
+> +
+> +    impl DumpAllocator {
+> +        pub(crate) fn new(size: usize) -> Result<Self> {
+> +            if isize::try_from(size).unwrap() == isize::MAX {
+> +                return Err(EINVAL);
+> +            }
+> +
+> +            // Let's cheat a bit here, since there is no Rust vmalloc allocator
+> +            // for the time being.
+> +            //
+> +            // Safety: just a FFI call to alloc memory
+> +            let mem = NonNull::new(unsafe {
+> +                bindings::__vmalloc_noprof(
+> +                    size.try_into().unwrap(),
+> +                    bindings::GFP_KERNEL | bindings::GFP_NOWAIT | 1 << bindings::___GFP_NORETRY_BIT,
+> +                )
+> +            });
+> +
+> +            let mem = match mem {
+> +                Some(buffer) => buffer,
+> +                None => return Err(ENOMEM),
+> +            };
+> +
+> +            // Ssfety: just a FFI call to zero out the memory. Mem and size were
+> +            // used to allocate the memory above.
+> +            unsafe { core::ptr::write_bytes(mem.as_ptr(), 0, size) };
+> +            Ok(Self {
+> +                mem,
+> +                pos: 0,
+> +                capacity: size,
+> +            })
+> +        }
+> +
+> +        fn alloc_mem(&mut self, size: usize) -> Option<*mut u8> {
+> +            assert!(size % 8 == 0, "Allocation size must be 8-byte aligned");
+> +            if isize::try_from(size).unwrap() == isize::MAX {
+> +                return None;
+> +            } else if self.pos + size > self.capacity {
+> +                kernel::pr_debug!("DumpAllocator out of memory");
+> +                None
+> +            } else {
+> +                let offset = self.pos;
+> +                self.pos += size;
+> +
+> +                // Safety: we know that this is a valid allocation, so
+> +                // dereferencing is safe. We don't ever return two pointers to
+> +                // the same address, so we adhere to the aliasing rules. We make
+> +                // sure that the memory is zero-initialized before being handed
+> +                // out (this happens when the allocator is first created) and we
+> +                // enforce a 8 byte alignment rule.
+> +                Some(unsafe { self.mem.as_ptr().offset(offset as isize) as *mut u8 })
+> +            }
+> +        }
+> +
+> +        pub(crate) fn alloc<T>(&mut self) -> Option<&mut T> {
+> +            let mem = self.alloc_mem(core::mem::size_of::<T>())? as *mut T;
+> +            // Safety: we uphold safety guarantees in alloc_mem(), so this is
+> +            // safe to dereference.
+> +            Some(unsafe { &mut *mem })
+> +        }
+> +
+> +        pub(crate) fn alloc_bytes(&mut self, num_bytes: usize) -> Option<&mut [u8]> {
+> +            let mem = self.alloc_mem(num_bytes)?;
+> +
+> +            // Safety: we uphold safety guarantees in alloc_mem(), so this is
+> +            // safe to build a slice
+> +            Some(unsafe { core::slice::from_raw_parts_mut(mem, num_bytes) })
+> +        }
+> +
+> +        pub(crate) fn alloc_header(&mut self, ty: HeaderType, data_size: u32) -> &mut Header {
+> +            let hdr: &mut Header = self.alloc().unwrap();
+> +            hdr.magic = MAGIC;
+> +            hdr.ty = ty;
+> +            hdr.header_size = core::mem::size_of::<Header>() as u32;
+> +            hdr.data_size = data_size;
+> +            hdr
+> +        }
+> +
+> +        pub(crate) fn is_end(&self) -> bool {
+> +            self.pos == self.capacity
+> +        }
+> +
+> +        pub(crate) fn dump(self) -> (NonNull<core::ffi::c_void>, usize) {
+> +            (self.mem, self.capacity)
+> +        }
+> +    }
+> +}
+> +
+> +fn dump_registers(alloc: &mut DumpAllocator, args: &DumpArgs) {
+> +    let sz = core::mem::size_of_val(&REGISTERS);
+> +    alloc.alloc_header(HeaderType::Registers, sz.try_into().unwrap());
+> +
+> +    for reg in &REGISTERS {
+> +        let dumped_reg: &mut RegisterDump = alloc.alloc().unwrap();
+> +        dumped_reg.register = *reg;
+> +        dumped_reg.value = reg.read(args.reg_base_addr);
+> +    }
+> +}
+> +
+> +fn dump_bo(alloc: &mut DumpAllocator, bo: &mut bindings::drm_gem_object) {
+> +    let mut map = bindings::iosys_map::default();
+> +
+> +    // Safety: we trust the kernel to provide a valid BO.
+> +    let ret = unsafe { bindings::drm_gem_vmap_unlocked(bo, &mut map as _) };
+> +    if ret != 0 {
+> +        pr_warn!("Failed to map BO");
+> +        return;
+> +    }
+> +
+> +    let sz = bo.size;
+> +
+> +    // Safety: we know that the vaddr is valid and we know the BO size.
+> +    let mapped_bo: &mut [u8] =
+> +        unsafe { core::slice::from_raw_parts_mut(map.__bindgen_anon_1.vaddr as *mut _, sz) };
+> +
+> +    alloc.alloc_header(HeaderType::Vm, sz as u32);
+> +
+> +    let bo_data = alloc.alloc_bytes(sz).unwrap();
+> +    bo_data.copy_from_slice(&mapped_bo[..]);
+> +
+> +    // Safety: BO is valid and was previously mapped.
+> +    unsafe { bindings::drm_gem_vunmap_unlocked(bo, &mut map as _) };
+> +}
+> +
+> +/// Dumps the current state of the GPU to a file
+> +///
+> +/// # Safety
+> +///
+> +/// `Args` must be aligned and non-null.
+> +/// All fields of `DumpArgs` must be valid.
+> +#[no_mangle]
+> +pub(crate) extern "C" fn panthor_core_dump(args: *const DumpArgs) -> core::ffi::c_int {
+> +    assert!(!args.is_null());
+> +    // Safety: we checked whether the pointer was null. It is assumed to be
+> +    // aligned as per the safety requirements.
+> +    let args = unsafe { &*args };
+> +    //
+> +    // TODO: Ideally, we would use the safe GEM abstraction from the kernel
+> +    // crate, but I see no way to create a drm::gem::ObjectRef from a
+> +    // bindings::drm_gem_object. drm::gem::IntoGEMObject is only implemented for
+> +    // drm::gem::Object, which means that new references can only be created
+> +    // from a Rust-owned GEM object.
+> +    //
+> +    // It also has a has a `type Driver: drv::Driver` associated type, from
+> +    // which it can access the `File` associated type. But not all GEM functions
+> +    // take a file, though. For example, `drm_gem_vmap_unlocked` (used here)
+> +    // does not.
+> +    //
+> +    // This associated type is a blocker here, because there is no actual
+> +    // drv::Driver. We're only implementing a few functions in Rust.
+> +    let mut bos = match Vec::with_capacity(args.bo_count, GFP_KERNEL) {
+> +        Ok(bos) => bos,
+> +        Err(_) => return ENOMEM.to_errno(),
+> +    };
+> +    for i in 0..args.bo_count {
+> +        // Safety: `args` is assumed valid as per the safety requirements.
+> +        // `bos` is a valid pointer to a valid array of valid pointers.
+> +        let bo = unsafe { &mut **args.bos.add(i) };
+> +        bos.push(bo, GFP_KERNEL).unwrap();
+> +    }
+> +
+> +    let mut sz = core::mem::size_of::<Header>();
+> +    sz += REGISTERS.len() * core::mem::size_of::<RegisterDump>();
+> +
+> +    for bo in &mut *bos {
+> +        sz += core::mem::size_of::<Header>();
+> +        sz += bo.size;
+> +    }
+> +
+> +    // Everything must fit within this allocation, otherwise it was miscomputed.
+> +    let mut alloc = match DumpAllocator::new(sz) {
+> +        Ok(alloc) => alloc,
+> +        Err(e) => return e.to_errno(),
+> +    };
+> +
+> +    dump_registers(&mut alloc, &args);
+> +    for bo in bos {
+> +        dump_bo(&mut alloc, bo);
+> +    }
+> +
+> +    if !alloc.is_end() {
+> +        pr_warn!("DumpAllocator: wrong allocation size");
+> +    }
+> +
+> +    let (mem, size) = alloc.dump();
+> +
+> +    // Safety: `mem` is a valid pointer to a valid allocation of `size` bytes.
+> +    unsafe { bindings::dev_coredumpv(args.dev, mem.as_ptr(), size, bindings::GFP_KERNEL) };
+> +
+> +    0
+> +}
+> diff --git a/drivers/gpu/drm/panthor/lib.rs b/drivers/gpu/drm/panthor/lib.rs
+> new file mode 100644
+> index 000000000000..faef8662d0f5
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/lib.rs
+> @@ -0,0 +1,10 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-FileCopyrightText: Copyright Collabora 2024
+> +
+> +//! The Rust components of the Panthor driver
+> +
+> +#[cfg(CONFIG_DRM_PANTHOR_COREDUMP)]
+> +mod dump;
+> +mod regs;
+> +
+> +const __LOG_PREFIX: &[u8] = b"panthor\0";
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index fa0a002b1016..f8934de41ffa 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -2,6 +2,8 @@
+>   /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+>   /* Copyright 2023 Collabora ltd. */
+>   
+> +#include "drm/drm_gem.h"
+> +#include "linux/gfp_types.h"
+>   #include <drm/drm_debugfs.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_exec.h>
+> @@ -2619,6 +2621,43 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
+>   	return drm_gpuvm_prepare_objects(&vm->base, exec, slot_count);
+>   }
+>   
+> +/**
+> + * panthor_vm_bo_dump() - Dump the VM BOs for debugging purposes.
+> + *
+> + *
+> + * @vm: VM targeted by the GPU job.
+> + * @count: The number of BOs returned
+> + *
+> + * Return: an array of pointers to the BOs backing the whole VM.
+> + */
+> +struct drm_gem_object **
+> +panthor_vm_dump(struct panthor_vm *vm, u32 *count)
+> +{
+> +	struct drm_gpuva *va, *next;
+> +	struct drm_gem_object **objs;
+> +	*count = 0;
+> +	u32 i = 0;
+> +
+> +	mutex_lock(&vm->op_lock);
+> +	drm_gpuvm_for_each_va_safe(va, next, &vm->base) {
+> +		(*count)++;
+> +	}
+> +
+> +	objs = kcalloc(*count, sizeof(struct drm_gem_object *), GFP_KERNEL);
+> +	if (!objs) {
+> +		mutex_unlock(&vm->op_lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	drm_gpuvm_for_each_va_safe(va, next, &vm->base) {
+> +		objs[i] = va->gem.obj;
+> +		i++;
+> +	}
+> +	mutex_unlock(&vm->op_lock);
+> +
+> +	return objs;
+> +}
+> +
+>   /**
+>    * panthor_mmu_unplug() - Unplug the MMU logic
+>    * @ptdev: Device.
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+> index f3c1ed19f973..e9369c19e5b5 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> @@ -50,6 +50,9 @@ int panthor_vm_add_bos_resvs_deps_to_job(struct panthor_vm *vm,
+>   void panthor_vm_add_job_fence_to_bos_resvs(struct panthor_vm *vm,
+>   					   struct drm_sched_job *job);
+>   
+> +struct drm_gem_object **
+> +panthor_vm_dump(struct panthor_vm *vm, u32 *count);
+> +
+>   struct dma_resv *panthor_vm_resv(struct panthor_vm *vm);
+>   struct drm_gem_object *panthor_vm_root_gem(struct panthor_vm *vm);
+>   
+> diff --git a/drivers/gpu/drm/panthor/panthor_rs.h b/drivers/gpu/drm/panthor/panthor_rs.h
+> new file mode 100644
+> index 000000000000..024db09be9a1
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_rs.h
+> @@ -0,0 +1,40 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-FileCopyrightText: Copyright Collabora 2024
+> +
+> +#include <drm/drm_gem.h>
+> +
+> +struct PanthorDumpArgs {
+> +	struct device *dev;
+> +	/**
+> +   * The slot for the job
+> +   */
+> +	s32 slot;
+> +	/**
+> +   * The active buffer objects
+> +   */
+> +	struct drm_gem_object **bos;
+> +	/**
+> +   * The number of active buffer objects
+> +   */
+> +	size_t bo_count;
+> +	/**
+> +   * The base address of the registers to use when reading.
+> +   */
+> +	void *reg_base_addr;
+> +};
+> +
+> +/**
+> + * Dumps the current state of the GPU to a file
+> + *
+> + * # Safety
+> + *
+> + * All fields of `DumpArgs` must be valid.
+> + */
+> +#ifdef CONFIG_DRM_PANTHOR_RS
+> +int panthor_core_dump(const struct PanthorDumpArgs *args);
+> +#else
+> +inline int panthor_core_dump(const struct PanthorDumpArgs *args)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 79ffcbc41d78..39e1654d930e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -1,6 +1,9 @@
+>   // SPDX-License-Identifier: GPL-2.0 or MIT
+>   /* Copyright 2023 Collabora ltd. */
+>   
+> +#include "drm/drm_gem.h"
+> +#include "linux/gfp_types.h"
+> +#include "linux/slab.h"
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_exec.h>
+>   #include <drm/drm_gem_shmem_helper.h>
+> @@ -31,6 +34,7 @@
+>   #include "panthor_mmu.h"
+>   #include "panthor_regs.h"
+>   #include "panthor_sched.h"
+> +#include "panthor_rs.h"
+>   
+>   /**
+>    * DOC: Scheduler
+> @@ -2805,6 +2809,27 @@ static void group_sync_upd_work(struct work_struct *work)
+>   	group_put(group);
+>   }
+>   
+> +static void dump_job(struct panthor_device *dev, struct panthor_job *job)
+> +{
+> +	struct panthor_vm *vm = job->group->vm;
+> +	struct drm_gem_object **objs;
+> +	u32 count;
+> +
+> +	objs = panthor_vm_dump(vm, &count);
+> +
+> +	if (!IS_ERR(objs)) {
+> +		struct PanthorDumpArgs args = {
+> +			.dev = job->group->ptdev->base.dev,
+> +			.bos = objs,
+> +			.bo_count = count,
+> +			.reg_base_addr = dev->iomem,
+> +		};
+> +		panthor_core_dump(&args);
+> +		kfree(objs);
+> +	}
+> +}
+> +
+> +
+>   static struct dma_fence *
+>   queue_run_job(struct drm_sched_job *sched_job)
+>   {
+> @@ -2929,7 +2954,7 @@ queue_run_job(struct drm_sched_job *sched_job)
+>   	}
+>   
+>   	done_fence = dma_fence_get(job->done_fence);
+> -
+> +	dump_job(ptdev, job);
+>   out_unlock:
+>   	mutex_unlock(&sched->lock);
+>   	pm_runtime_mark_last_busy(ptdev->base.dev);
+> @@ -2950,6 +2975,7 @@ queue_timedout_job(struct drm_sched_job *sched_job)
+>   	drm_warn(&ptdev->base, "job timeout\n");
+>   
+>   	drm_WARN_ON(&ptdev->base, atomic_read(&sched->reset.in_progress));
+> +	dump_job(ptdev, job);
+>   
+>   	queue_stop(queue, job);
+>   
+> diff --git a/drivers/gpu/drm/panthor/regs.rs b/drivers/gpu/drm/panthor/regs.rs
+> new file mode 100644
+> index 000000000000..514bc9ee2856
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/regs.rs
+> @@ -0,0 +1,264 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-FileCopyrightText: Copyright Collabora 2024
+> +// SPDX-FileCopyrightText: (C) COPYRIGHT 2010-2022 ARM Limited. All rights reserved.
+> +
+> +//! The registers for Panthor, extracted from panthor_regs.h
+> +
+> +#![allow(unused_macros, unused_imports, dead_code)]
+> +
+> +use kernel::bindings;
+> +
+> +use core::ops::Add;
+> +use core::ops::Shl;
+> +use core::ops::Shr;
+> +
+> +#[repr(transparent)]
+> +#[derive(Clone, Copy)]
+> +pub(crate) struct GpuRegister(u64);
+> +
+> +impl GpuRegister {
+> +    pub(crate) fn read(&self, iomem: *const core::ffi::c_void) -> u32 {
+> +        // Safety: `reg` represents a valid address
+> +        unsafe {
+> +            let addr = iomem.offset(self.0 as isize);
+> +            bindings::readl_relaxed(addr as *const _)
+> +        }
+> +    }
+> +}
+> +
+> +pub(crate) const fn bit(index: u64) -> u64 {
+> +    1 << index
+> +}
+> +pub(crate) const fn genmask(high: u64, low: u64) -> u64 {
+> +    ((1 << (high - low + 1)) - 1) << low
+> +}
+> +
+> +pub(crate) const GPU_ID: GpuRegister = GpuRegister(0x0);
+> +pub(crate) const fn gpu_arch_major(x: u64) -> GpuRegister {
+> +    GpuRegister((x) >> 28)
+> +}
+> +pub(crate) const fn gpu_arch_minor(x: u64) -> GpuRegister {
+> +    GpuRegister((x) & genmask(27, 24) >> 24)
+> +}
+> +pub(crate) const fn gpu_arch_rev(x: u64) -> GpuRegister {
+> +    GpuRegister((x) & genmask(23, 20) >> 20)
+> +}
+> +pub(crate) const fn gpu_prod_major(x: u64) -> GpuRegister {
+> +    GpuRegister((x) & genmask(19, 16) >> 16)
+> +}
+> +pub(crate) const fn gpu_ver_major(x: u64) -> GpuRegister {
+> +    GpuRegister((x) & genmask(15, 12) >> 12)
+> +}
+> +pub(crate) const fn gpu_ver_minor(x: u64) -> GpuRegister {
+> +    GpuRegister((x) & genmask(11, 4) >> 4)
+> +}
+> +pub(crate) const fn gpu_ver_status(x: u64) -> GpuRegister {
+> +    GpuRegister(x & genmask(3, 0))
+> +}
+> +pub(crate) const GPU_L2_FEATURES: GpuRegister = GpuRegister(0x4);
+> +pub(crate) const fn gpu_l2_features_line_size(x: u64) -> GpuRegister {
+> +    GpuRegister(1 << ((x) & genmask(7, 0)))
+> +}
+> +pub(crate) const GPU_CORE_FEATURES: GpuRegister = GpuRegister(0x8);
+> +pub(crate) const GPU_TILER_FEATURES: GpuRegister = GpuRegister(0xc);
+> +pub(crate) const GPU_MEM_FEATURES: GpuRegister = GpuRegister(0x10);
+> +pub(crate) const GROUPS_L2_COHERENT: GpuRegister = GpuRegister(bit(0));
+> +pub(crate) const GPU_MMU_FEATURES: GpuRegister = GpuRegister(0x14);
+> +pub(crate) const fn gpu_mmu_features_va_bits(x: u64) -> GpuRegister {
+> +    GpuRegister((x) & genmask(7, 0))
+> +}
+> +pub(crate) const fn gpu_mmu_features_pa_bits(x: u64) -> GpuRegister {
+> +    GpuRegister(((x) >> 8) & genmask(7, 0))
+> +}
+> +pub(crate) const GPU_AS_PRESENT: GpuRegister = GpuRegister(0x18);
+> +pub(crate) const GPU_CSF_ID: GpuRegister = GpuRegister(0x1c);
+> +pub(crate) const GPU_INT_RAWSTAT: GpuRegister = GpuRegister(0x20);
+> +pub(crate) const GPU_INT_CLEAR: GpuRegister = GpuRegister(0x24);
+> +pub(crate) const GPU_INT_MASK: GpuRegister = GpuRegister(0x28);
+> +pub(crate) const GPU_INT_STAT: GpuRegister = GpuRegister(0x2c);
+> +pub(crate) const GPU_IRQ_FAULT: GpuRegister = GpuRegister(bit(0));
+> +pub(crate) const GPU_IRQ_PROTM_FAULT: GpuRegister = GpuRegister(bit(1));
+> +pub(crate) const GPU_IRQ_RESET_COMPLETED: GpuRegister = GpuRegister(bit(8));
+> +pub(crate) const GPU_IRQ_POWER_CHANGED: GpuRegister = GpuRegister(bit(9));
+> +pub(crate) const GPU_IRQ_POWER_CHANGED_ALL: GpuRegister = GpuRegister(bit(10));
+> +pub(crate) const GPU_IRQ_CLEAN_CACHES_COMPLETED: GpuRegister = GpuRegister(bit(17));
+> +pub(crate) const GPU_IRQ_DOORBELL_MIRROR: GpuRegister = GpuRegister(bit(18));
+> +pub(crate) const GPU_IRQ_MCU_STATUS_CHANGED: GpuRegister = GpuRegister(bit(19));
+> +pub(crate) const GPU_CMD: GpuRegister = GpuRegister(0x30);
+> +const fn gpu_cmd_def(ty: u64, payload: u64) -> u64 {
+> +    (ty) | ((payload) << 8)
+> +}
+> +pub(crate) const fn gpu_soft_reset() -> GpuRegister {
+> +    GpuRegister(gpu_cmd_def(1, 1))
+> +}
+> +pub(crate) const fn gpu_hard_reset() -> GpuRegister {
+> +    GpuRegister(gpu_cmd_def(1, 2))
+> +}
+> +pub(crate) const CACHE_CLEAN: GpuRegister = GpuRegister(bit(0));
+> +pub(crate) const CACHE_INV: GpuRegister = GpuRegister(bit(1));
+> +pub(crate) const GPU_STATUS: GpuRegister = GpuRegister(0x34);
+> +pub(crate) const GPU_STATUS_ACTIVE: GpuRegister = GpuRegister(bit(0));
+> +pub(crate) const GPU_STATUS_PWR_ACTIVE: GpuRegister = GpuRegister(bit(1));
+> +pub(crate) const GPU_STATUS_PAGE_FAULT: GpuRegister = GpuRegister(bit(4));
+> +pub(crate) const GPU_STATUS_PROTM_ACTIVE: GpuRegister = GpuRegister(bit(7));
+> +pub(crate) const GPU_STATUS_DBG_ENABLED: GpuRegister = GpuRegister(bit(8));
+> +pub(crate) const GPU_FAULT_STATUS: GpuRegister = GpuRegister(0x3c);
+> +pub(crate) const GPU_FAULT_ADDR_LO: GpuRegister = GpuRegister(0x40);
+> +pub(crate) const GPU_FAULT_ADDR_HI: GpuRegister = GpuRegister(0x44);
+> +pub(crate) const GPU_PWR_KEY: GpuRegister = GpuRegister(0x50);
+> +pub(crate) const GPU_PWR_KEY_UNLOCK: GpuRegister = GpuRegister(0x2968a819);
+> +pub(crate) const GPU_PWR_OVERRIDE0: GpuRegister = GpuRegister(0x54);
+> +pub(crate) const GPU_PWR_OVERRIDE1: GpuRegister = GpuRegister(0x58);
+> +pub(crate) const GPU_TIMESTAMP_OFFSET_LO: GpuRegister = GpuRegister(0x88);
+> +pub(crate) const GPU_TIMESTAMP_OFFSET_HI: GpuRegister = GpuRegister(0x8c);
+> +pub(crate) const GPU_CYCLE_COUNT_LO: GpuRegister = GpuRegister(0x90);
+> +pub(crate) const GPU_CYCLE_COUNT_HI: GpuRegister = GpuRegister(0x94);
+> +pub(crate) const GPU_TIMESTAMP_LO: GpuRegister = GpuRegister(0x98);
+> +pub(crate) const GPU_TIMESTAMP_HI: GpuRegister = GpuRegister(0x9c);
+> +pub(crate) const GPU_THREAD_MAX_THREADS: GpuRegister = GpuRegister(0xa0);
+> +pub(crate) const GPU_THREAD_MAX_WORKGROUP_SIZE: GpuRegister = GpuRegister(0xa4);
+> +pub(crate) const GPU_THREAD_MAX_BARRIER_SIZE: GpuRegister = GpuRegister(0xa8);
+> +pub(crate) const GPU_THREAD_FEATURES: GpuRegister = GpuRegister(0xac);
+> +pub(crate) const fn gpu_texture_features(n: u64) -> GpuRegister {
+> +    GpuRegister(0xB0 + ((n) * 4))
+> +}
+> +pub(crate) const GPU_SHADER_PRESENT_LO: GpuRegister = GpuRegister(0x100);
+> +pub(crate) const GPU_SHADER_PRESENT_HI: GpuRegister = GpuRegister(0x104);
+> +pub(crate) const GPU_TILER_PRESENT_LO: GpuRegister = GpuRegister(0x110);
+> +pub(crate) const GPU_TILER_PRESENT_HI: GpuRegister = GpuRegister(0x114);
+> +pub(crate) const GPU_L2_PRESENT_LO: GpuRegister = GpuRegister(0x120);
+> +pub(crate) const GPU_L2_PRESENT_HI: GpuRegister = GpuRegister(0x124);
+> +pub(crate) const SHADER_READY_LO: GpuRegister = GpuRegister(0x140);
+> +pub(crate) const SHADER_READY_HI: GpuRegister = GpuRegister(0x144);
+> +pub(crate) const TILER_READY_LO: GpuRegister = GpuRegister(0x150);
+> +pub(crate) const TILER_READY_HI: GpuRegister = GpuRegister(0x154);
+> +pub(crate) const L2_READY_LO: GpuRegister = GpuRegister(0x160);
+> +pub(crate) const L2_READY_HI: GpuRegister = GpuRegister(0x164);
+> +pub(crate) const SHADER_PWRON_LO: GpuRegister = GpuRegister(0x180);
+> +pub(crate) const SHADER_PWRON_HI: GpuRegister = GpuRegister(0x184);
+> +pub(crate) const TILER_PWRON_LO: GpuRegister = GpuRegister(0x190);
+> +pub(crate) const TILER_PWRON_HI: GpuRegister = GpuRegister(0x194);
+> +pub(crate) const L2_PWRON_LO: GpuRegister = GpuRegister(0x1a0);
+> +pub(crate) const L2_PWRON_HI: GpuRegister = GpuRegister(0x1a4);
+> +pub(crate) const SHADER_PWROFF_LO: GpuRegister = GpuRegister(0x1c0);
+> +pub(crate) const SHADER_PWROFF_HI: GpuRegister = GpuRegister(0x1c4);
+> +pub(crate) const TILER_PWROFF_LO: GpuRegister = GpuRegister(0x1d0);
+> +pub(crate) const TILER_PWROFF_HI: GpuRegister = GpuRegister(0x1d4);
+> +pub(crate) const L2_PWROFF_LO: GpuRegister = GpuRegister(0x1e0);
+> +pub(crate) const L2_PWROFF_HI: GpuRegister = GpuRegister(0x1e4);
+> +pub(crate) const SHADER_PWRTRANS_LO: GpuRegister = GpuRegister(0x200);
+> +pub(crate) const SHADER_PWRTRANS_HI: GpuRegister = GpuRegister(0x204);
+> +pub(crate) const TILER_PWRTRANS_LO: GpuRegister = GpuRegister(0x210);
+> +pub(crate) const TILER_PWRTRANS_HI: GpuRegister = GpuRegister(0x214);
+> +pub(crate) const L2_PWRTRANS_LO: GpuRegister = GpuRegister(0x220);
+> +pub(crate) const L2_PWRTRANS_HI: GpuRegister = GpuRegister(0x224);
+> +pub(crate) const SHADER_PWRACTIVE_LO: GpuRegister = GpuRegister(0x240);
+> +pub(crate) const SHADER_PWRACTIVE_HI: GpuRegister = GpuRegister(0x244);
+> +pub(crate) const TILER_PWRACTIVE_LO: GpuRegister = GpuRegister(0x250);
+> +pub(crate) const TILER_PWRACTIVE_HI: GpuRegister = GpuRegister(0x254);
+> +pub(crate) const L2_PWRACTIVE_LO: GpuRegister = GpuRegister(0x260);
+> +pub(crate) const L2_PWRACTIVE_HI: GpuRegister = GpuRegister(0x264);
+> +pub(crate) const GPU_REVID: GpuRegister = GpuRegister(0x280);
+> +pub(crate) const GPU_COHERENCY_FEATURES: GpuRegister = GpuRegister(0x300);
+> +pub(crate) const GPU_COHERENCY_PROTOCOL: GpuRegister = GpuRegister(0x304);
+> +pub(crate) const GPU_COHERENCY_ACE: GpuRegister = GpuRegister(0);
+> +pub(crate) const GPU_COHERENCY_ACE_LITE: GpuRegister = GpuRegister(1);
+> +pub(crate) const GPU_COHERENCY_NONE: GpuRegister = GpuRegister(31);
+> +pub(crate) const MCU_CONTROL: GpuRegister = GpuRegister(0x700);
+> +pub(crate) const MCU_CONTROL_ENABLE: GpuRegister = GpuRegister(1);
+> +pub(crate) const MCU_CONTROL_AUTO: GpuRegister = GpuRegister(2);
+> +pub(crate) const MCU_CONTROL_DISABLE: GpuRegister = GpuRegister(0);
+> +pub(crate) const MCU_STATUS: GpuRegister = GpuRegister(0x704);
+> +pub(crate) const MCU_STATUS_DISABLED: GpuRegister = GpuRegister(0);
+> +pub(crate) const MCU_STATUS_ENABLED: GpuRegister = GpuRegister(1);
+> +pub(crate) const MCU_STATUS_HALT: GpuRegister = GpuRegister(2);
+> +pub(crate) const MCU_STATUS_FATAL: GpuRegister = GpuRegister(3);
+> +pub(crate) const JOB_INT_RAWSTAT: GpuRegister = GpuRegister(0x1000);
+> +pub(crate) const JOB_INT_CLEAR: GpuRegister = GpuRegister(0x1004);
+> +pub(crate) const JOB_INT_MASK: GpuRegister = GpuRegister(0x1008);
+> +pub(crate) const JOB_INT_STAT: GpuRegister = GpuRegister(0x100c);
+> +pub(crate) const JOB_INT_GLOBAL_IF: GpuRegister = GpuRegister(bit(31));
+> +pub(crate) const fn job_int_csg_if(x: u64) -> GpuRegister {
+> +    GpuRegister(bit(x))
+> +}
+> +pub(crate) const MMU_INT_RAWSTAT: GpuRegister = GpuRegister(0x2000);
+> +pub(crate) const MMU_INT_CLEAR: GpuRegister = GpuRegister(0x2004);
+> +pub(crate) const MMU_INT_MASK: GpuRegister = GpuRegister(0x2008);
+> +pub(crate) const MMU_INT_STAT: GpuRegister = GpuRegister(0x200c);
+> +pub(crate) const MMU_BASE: GpuRegister = GpuRegister(0x2400);
+> +pub(crate) const MMU_AS_SHIFT: GpuRegister = GpuRegister(6);
+> +const fn mmu_as(as_: u64) -> u64 {
+> +    MMU_BASE.0 + ((as_) << MMU_AS_SHIFT.0)
+> +}
+> +pub(crate) const fn as_transtab_lo(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x0)
+> +}
+> +pub(crate) const fn as_transtab_hi(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x4)
+> +}
+> +pub(crate) const fn as_memattr_lo(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x8)
+> +}
+> +pub(crate) const fn as_memattr_hi(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0xC)
+> +}
+> +pub(crate) const fn as_memattr_aarch64_inner_alloc_expl(w: u64, r: u64) -> GpuRegister {
+> +    GpuRegister((3 << 2) | (if w > 0 { bit(0) } else { 0 } | (if r > 0 { bit(1) } else { 0 })))
+> +}
+> +pub(crate) const fn as_lockaddr_lo(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x10)
+> +}
+> +pub(crate) const fn as_lockaddr_hi(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x14)
+> +}
+> +pub(crate) const fn as_command(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x18)
+> +}
+> +pub(crate) const AS_COMMAND_NOP: GpuRegister = GpuRegister(0);
+> +pub(crate) const AS_COMMAND_UPDATE: GpuRegister = GpuRegister(1);
+> +pub(crate) const AS_COMMAND_LOCK: GpuRegister = GpuRegister(2);
+> +pub(crate) const AS_COMMAND_UNLOCK: GpuRegister = GpuRegister(3);
+> +pub(crate) const AS_COMMAND_FLUSH_PT: GpuRegister = GpuRegister(4);
+> +pub(crate) const AS_COMMAND_FLUSH_MEM: GpuRegister = GpuRegister(5);
+> +pub(crate) const fn as_faultstatus(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x1C)
+> +}
+> +pub(crate) const fn as_faultaddress_lo(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x20)
+> +}
+> +pub(crate) const fn as_faultaddress_hi(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x24)
+> +}
+> +pub(crate) const fn as_status(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x28)
+> +}
+> +pub(crate) const AS_STATUS_AS_ACTIVE: GpuRegister = GpuRegister(bit(0));
+> +pub(crate) const fn as_transcfg_lo(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x30)
+> +}
+> +pub(crate) const fn as_transcfg_hi(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x34)
+> +}
+> +pub(crate) const fn as_transcfg_ina_bits(x: u64) -> GpuRegister {
+> +    GpuRegister((x) << 6)
+> +}
+> +pub(crate) const fn as_transcfg_outa_bits(x: u64) -> GpuRegister {
+> +    GpuRegister((x) << 14)
+> +}
+> +pub(crate) const AS_TRANSCFG_SL_CONCAT: GpuRegister = GpuRegister(bit(22));
+> +pub(crate) const AS_TRANSCFG_PTW_RA: GpuRegister = GpuRegister(bit(30));
+> +pub(crate) const AS_TRANSCFG_DISABLE_HIER_AP: GpuRegister = GpuRegister(bit(33));
+> +pub(crate) const AS_TRANSCFG_DISABLE_AF_FAULT: GpuRegister = GpuRegister(bit(34));
+> +pub(crate) const AS_TRANSCFG_WXN: GpuRegister = GpuRegister(bit(35));
+> +pub(crate) const AS_TRANSCFG_XREADABLE: GpuRegister = GpuRegister(bit(36));
+> +pub(crate) const fn as_faultextra_lo(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x38)
+> +}
+> +pub(crate) const fn as_faultextra_hi(as_: u64) -> GpuRegister {
+> +    GpuRegister(mmu_as(as_) + 0x3C)
+> +}
+> +pub(crate) const CSF_GPU_LATEST_FLUSH_ID: GpuRegister = GpuRegister(0x10000);
+> +pub(crate) const fn csf_doorbell(i: u64) -> GpuRegister {
+> +    GpuRegister(0x80000 + ((i) * 0x10000))
+> +}
+> +pub(crate) const CSF_GLB_DOORBELL_ID: GpuRegister = GpuRegister(0);
+> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+> index b245db8d5a87..4ee4b97e7930 100644
+> --- a/rust/bindings/bindings_helper.h
+> +++ b/rust/bindings/bindings_helper.h
+> @@ -12,15 +12,18 @@
+>   #include <drm/drm_gem.h>
+>   #include <drm/drm_ioctl.h>
+>   #include <kunit/test.h>
+> +#include <linux/devcoredump.h>
+>   #include <linux/errname.h>
+>   #include <linux/ethtool.h>
+>   #include <linux/jiffies.h>
+> +#include <linux/iosys-map.h>
+>   #include <linux/mdio.h>
+>   #include <linux/pci.h>
+>   #include <linux/phy.h>
+>   #include <linux/refcount.h>
+>   #include <linux/sched.h>
+>   #include <linux/slab.h>
+> +#include <linux/vmalloc.h>
+>   #include <linux/wait.h>
+>   #include <linux/workqueue.h>
+>   
+
