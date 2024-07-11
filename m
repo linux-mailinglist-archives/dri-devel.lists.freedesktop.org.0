@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FCC92E8EF
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 15:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950C192E8FC
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 15:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5996110EA5B;
-	Thu, 11 Jul 2024 13:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1113010E28C;
+	Thu, 11 Jul 2024 13:11:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="hHqQ/AZt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UNWUadE8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92E6710EA5B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:09:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61A1B10E28C
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:11:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,27 +22,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=pdInN5rrJC8hl/Sh3zAdQqXt/QfdPZmxf3X9+cn7zUo=; b=hHqQ/AZtdG3tKR1lvNPlgjGoIX
- KMIS8VqWJ3fm7zboJu8nBzfHY380HsTxlT2AEOh6HmSOGKmerQKsKrGgNu70pratKSgxshXHyxFg5
- loQ3R+TQoI0FCSsD7MFO+y520VWxf8kcH0viPvyxahDDx/fhQuw+V3LKZKuiXuLsyhGs6w0L49lBa
- wntAUK48KMuOMWNVgXv9650/qkQUbuTREgh1YldGNyVK+/aq/JzVrbJwsptd+F31MSfZPPnOHVPvv
- Ejqdf0seQT8HkYbHHa0o7ESaIKV/+Tr7RHZByrFCLU1Rz46cXDBI6RwtpVp9r0C9G2u69FbOk1hMb
- LTXULorg==;
+ bh=YanfQ9e4m5/p7V1Hb7RAlgUrwwPf8aJj3eos1kKBRxE=; b=UNWUadE8VpF5YwnTl9Lw+O3e9J
+ 1baqQrfIQ5On+k2q0wrNvaKBIQSpQYj8l2+h16bwcx0mBNnhOzM6PPK5/yGARMhBfup5n7WtXrGED
+ gSVnnztyZNVMcPge0wAK9ZVgfJhO+d+Zn/nK4OPoVnKflHLmPPhGqpQGm+HwZDxkxlBADVgxDZ9iZ
+ BhXcKJOhmIBFEYRPFg4pd3cbb65X48Vefz78Qr2AIkhAm0FAvGm8ALReWG0+GmArDA+3mL3MfkyVr
+ 8G7AJ2I7UqjFSohducN+5IU7FsPwtD4oQGWz7gzfEnyOCSQ+ShcqZ3SDEEsgUwVr5bMGcKTPFEzwB
+ gPOuLyrA==;
 Received: from [187.36.213.55] (helo=[192.168.1.212])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sRtYX-00Dhcf-Iu; Thu, 11 Jul 2024 15:09:53 +0200
-Message-ID: <0e4f3ec3-e8dd-4e63-9e89-298e1a51e4f9@igalia.com>
-Date: Thu, 11 Jul 2024 10:09:49 -0300
+ id 1sRtaT-00Dhmf-EZ; Thu, 11 Jul 2024 15:11:53 +0200
+Message-ID: <5fd69674-913c-4e24-9d4f-c7d7810165a7@igalia.com>
+Date: Thu, 11 Jul 2024 10:11:50 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/11] drm/v3d: Validate passed in drm syncobj handles in
- the performance extension
+Subject: Re: [PATCH 06/11] drm/v3d: Move part of copying of reset/copy
+ performance extension to a helper
 To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>, stable@vger.kernel.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 References: <20240711091542.82083-1-tursulin@igalia.com>
- <20240711091542.82083-6-tursulin@igalia.com>
+ <20240711091542.82083-7-tursulin@igalia.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Autocrypt: addr=mcanal@igalia.com; keydata=
@@ -54,7 +53,7 @@ Autocrypt: addr=mcanal@igalia.com; keydata=
  s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
  GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
  pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240711091542.82083-6-tursulin@igalia.com>
+In-Reply-To: <20240711091542.82083-7-tursulin@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,19 +74,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 7/11/24 06:15, Tvrtko Ursulin wrote:
 > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 > 
-> If userspace provides an unknown or invalid handle anywhere in the handle
-> array the rest of the driver will not handle that well.
+> The loop which looks up the syncobj and copies the kperfmon ids is
+> identical so lets move it to a helper.
 > 
-> Fix it by checking handle was looked up successfuly or otherwise fail the
-> extension by jumping into the existing unwind.
-
-I'm not a English-native speaker, but again I need to say that it feels
-to me that it is something missing in this sentence.
-
-I suggested "Fix it by checking if the handle..."
-
-Also, s/successfuly/successfully
-
+> The only change is replacing copy_from_user with get_user when copying a
+> scalar.
 > 
 > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
@@ -96,37 +87,211 @@ Reviewed-by: Maíra Canal <mcanal@igalia.com>
 Best Regards,
 - Maíra
 
-> Fixes: bae7cb5d6800 ("drm/v3d: Create a CPU job extension for the reset performance query job"
-> Cc: Maíra Canal <mcanal@igalia.com>
-> Cc: Iago Toral Quiroga <itoral@igalia.com>
-> Cc: <stable@vger.kernel.org> # v6.8+
 > ---
->   drivers/gpu/drm/v3d/v3d_submit.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   drivers/gpu/drm/v3d/v3d_submit.c | 152 ++++++++++++++-----------------
+>   1 file changed, 68 insertions(+), 84 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-> index e3a00c8394a5..3838ebade45d 100644
+> index 3838ebade45d..ce56e31a027d 100644
 > --- a/drivers/gpu/drm/v3d/v3d_submit.c
 > +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-> @@ -710,6 +710,10 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
->   		}
+> @@ -644,15 +644,64 @@ v3d_get_cpu_copy_query_results_params(struct drm_file *file_priv,
+>   	return err;
+>   }
 >   
->   		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
-> +		if (!job->performance_query.queries[i].syncobj) {
+> +static int
+> +v3d_copy_query_info(struct v3d_performance_query_info *query_info,
+> +		    unsigned int count,
+> +		    unsigned int nperfmons,
+> +		    u32 __user *syncs,
+> +		    u64 __user *kperfmon_ids,
+> +		    struct drm_file *file_priv)
+> +{
+> +	unsigned int i, j;
+> +	int err;
+> +
+> +	for (i = 0; i < count; i++) {
+> +		struct v3d_performance_query *query = &query_info->queries[i];
+> +		u32 __user *ids_pointer;
+> +		u32 sync, id;
+> +		u64 ids;
+> +
+> +		if (get_user(sync, syncs++)) {
+> +			err = -EFAULT;
+> +			goto error;
+> +		}
+> +
+> +		if (get_user(ids, kperfmon_ids++)) {
+> +			err = -EFAULT;
+> +			goto error;
+> +		}
+> +
+> +		ids_pointer = u64_to_user_ptr(ids);
+> +
+> +		for (j = 0; j < nperfmons; j++) {
+> +			if (get_user(id, ids_pointer++)) {
+> +				err = -EFAULT;
+> +				goto error;
+> +			}
+> +
+> +			query->kperfmon_ids[j] = id;
+> +		}
+> +
+> +		query->syncobj = drm_syncobj_find(file_priv, sync);
+> +		if (!query->syncobj) {
 > +			err = -ENOENT;
 > +			goto error;
 > +		}
->   	}
+> +	}
+> +
+> +	return 0;
+> +
+> +error:
+> +	v3d_performance_query_info_free(query_info, i);
+> +	return err;
+> +}
+> +
+>   static int
+>   v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
+>   				     struct drm_v3d_extension __user *ext,
+>   				     struct v3d_cpu_job *job)
+>   {
+> -	u32 __user *syncs;
+> -	u64 __user *kperfmon_ids;
+>   	struct drm_v3d_reset_performance_query reset;
+> -	unsigned int i, j;
+>   	int err;
+>   
+>   	if (!job) {
+> @@ -679,50 +728,19 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
+>   	if (!job->performance_query.queries)
+>   		return -ENOMEM;
+>   
+> -	syncs = u64_to_user_ptr(reset.syncs);
+> -	kperfmon_ids = u64_to_user_ptr(reset.kperfmon_ids);
+> +	err = v3d_copy_query_info(&job->performance_query,
+> +				  reset.count,
+> +				  reset.nperfmons,
+> +				  u64_to_user_ptr(reset.syncs),
+> +				  u64_to_user_ptr(reset.kperfmon_ids),
+> +				  file_priv);
+> +	if (err)
+> +		return err;
+>   
+> -	for (i = 0; i < reset.count; i++) {
+> -		u32 sync;
+> -		u64 ids;
+> -		u32 __user *ids_pointer;
+> -		u32 id;
+> -
+> -		if (copy_from_user(&sync, syncs++, sizeof(sync))) {
+> -			err = -EFAULT;
+> -			goto error;
+> -		}
+> -
+> -		if (copy_from_user(&ids, kperfmon_ids++, sizeof(ids))) {
+> -			err = -EFAULT;
+> -			goto error;
+> -		}
+> -
+> -		ids_pointer = u64_to_user_ptr(ids);
+> -
+> -		for (j = 0; j < reset.nperfmons; j++) {
+> -			if (copy_from_user(&id, ids_pointer++, sizeof(id))) {
+> -				err = -EFAULT;
+> -				goto error;
+> -			}
+> -
+> -			job->performance_query.queries[i].kperfmon_ids[j] = id;
+> -		}
+> -
+> -		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
+> -		if (!job->performance_query.queries[i].syncobj) {
+> -			err = -ENOENT;
+> -			goto error;
+> -		}
+> -	}
 >   	job->performance_query.count = reset.count;
 >   	job->performance_query.nperfmons = reset.nperfmons;
-> @@ -790,6 +794,10 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
->   		}
 >   
->   		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
-> +		if (!job->performance_query.queries[i].syncobj) {
-> +			err = -ENOENT;
-> +			goto error;
-> +		}
->   	}
+>   	return 0;
+> -
+> -error:
+> -	v3d_performance_query_info_free(&job->performance_query, i);
+> -	return err;
+>   }
+>   
+>   static int
+> @@ -730,10 +748,7 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
+>   					  struct drm_v3d_extension __user *ext,
+>   					  struct v3d_cpu_job *job)
+>   {
+> -	u32 __user *syncs;
+> -	u64 __user *kperfmon_ids;
+>   	struct drm_v3d_copy_performance_query copy;
+> -	unsigned int i, j;
+>   	int err;
+>   
+>   	if (!job) {
+> @@ -763,42 +778,15 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
+>   	if (!job->performance_query.queries)
+>   		return -ENOMEM;
+>   
+> -	syncs = u64_to_user_ptr(copy.syncs);
+> -	kperfmon_ids = u64_to_user_ptr(copy.kperfmon_ids);
+> +	err = v3d_copy_query_info(&job->performance_query,
+> +				  copy.count,
+> +				  copy.nperfmons,
+> +				  u64_to_user_ptr(copy.syncs),
+> +				  u64_to_user_ptr(copy.kperfmon_ids),
+> +				  file_priv);
+> +	if (err)
+> +		return err;
+>   
+> -	for (int i = 0; i < copy.count; i++) {
+> -		u32 sync;
+> -		u64 ids;
+> -		u32 __user *ids_pointer;
+> -		u32 id;
+> -
+> -		if (copy_from_user(&sync, syncs++, sizeof(sync))) {
+> -			err = -EFAULT;
+> -			goto error;
+> -		}
+> -
+> -		if (copy_from_user(&ids, kperfmon_ids++, sizeof(ids))) {
+> -			err = -EFAULT;
+> -			goto error;
+> -		}
+> -
+> -		ids_pointer = u64_to_user_ptr(ids);
+> -
+> -		for (j = 0; j < copy.nperfmons; j++) {
+> -			if (copy_from_user(&id, ids_pointer++, sizeof(id))) {
+> -				err = -EFAULT;
+> -				goto error;
+> -			}
+> -
+> -			job->performance_query.queries[i].kperfmon_ids[j] = id;
+> -		}
+> -
+> -		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
+> -		if (!job->performance_query.queries[i].syncobj) {
+> -			err = -ENOENT;
+> -			goto error;
+> -		}
+> -	}
 >   	job->performance_query.count = copy.count;
 >   	job->performance_query.nperfmons = copy.nperfmons;
+>   	job->performance_query.ncounters = copy.ncounters;
+> @@ -810,10 +798,6 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
+>   	job->copy.stride = copy.stride;
+>   
+>   	return 0;
+> -
+> -error:
+> -	v3d_performance_query_info_free(&job->performance_query, i);
+> -	return err;
+>   }
+>   
+>   /* Whenever userspace sets ioctl extensions, v3d_get_extensions parses data
