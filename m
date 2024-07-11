@@ -2,169 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC6492EC34
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 18:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4473192EC3E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 18:04:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB4B10E955;
-	Thu, 11 Jul 2024 16:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FFE910EACB;
+	Thu, 11 Jul 2024 16:04:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ohjj471u";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="hA/SF4YN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4647410E2C6
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 16:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720713670; x=1752249670;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=7eEh2WNkKMDqDt5bb4p2Rv7YK9G0UHRNaNWmuOa7quQ=;
- b=Ohjj471uAkrDzlhrfNjWDNIKpgRKIjzNLhVpPC/iDs7Wpn4L8KK4ZuTD
- +jFMFruqPkV9k1NMG4wMnDSHykCoJXdWzITSEKf4nyKVyLuh71YLTso2k
- 5iiDKDzGqVHGDSYbH7iHr7t1vCNFxvyVp0VvtFHDXxGcAxQjaH2bKJFq0
- /nLQ0BassQz1iMWKj9d0jVRar3yUXovGUd3MKtx3c1BURC4ECOEnGQ8Nv
- SbsLTpRUa6ICrfzo5t/IS/66vh7ycbRa9sHI62/W1qurtPKJA1de4n88Y
- u86wg27bfcYv0U2Xi/2kUXfc6tugeUN9lLDsENqjHD+IVrk3Rw2R+L349 g==;
-X-CSE-ConnectionGUID: rdBg2NiMQDCHmfUnz6hgLA==
-X-CSE-MsgGUID: jlS8HdgmQxqFqHZmKiuKOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18249288"
-X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; d="scan'208";a="18249288"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2024 09:01:10 -0700
-X-CSE-ConnectionGUID: 3F/GFqK6TYmn7v7HLNPofg==
-X-CSE-MsgGUID: bFmT5x7ORvmzkJuGG7XucQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; d="scan'208";a="49037144"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 11 Jul 2024 09:01:08 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 11 Jul 2024 09:01:08 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 11 Jul 2024 09:01:08 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 11 Jul 2024 09:01:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LQmZ7ofWgAIU+hDC/PxdG0HwRuJALB4vQybCVAO1PcNg4lBKnofa7HDdzeCIUH4Sc/fDYwp9o/ygjdFHLm/aoWGLFxsEjGroUit+j3OJP8nJQL2//F1Uxw5NoQmVNMfJGjhXRqVADVZL6lGNCFJlU31S12CcDjJLZDgO930KhcIXVTY1WdkA1r72M2giOR6C0ysbrMLsm3yxzNfCxp0RDvL9gLo9zxZFVO2VzgULHFPWkheCGCVTwNPGxCodmQj4MTV0d5EyHWjGvzCfGckTWN9ZxjLKCabPHBSsdNoV63dmWBUcjhFSOh9HTk+Mh5MZgoKtPZGwZcQQYnuwaDjEvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tkZf9pbN6cOOWWue3wLJBDc5IIwMSTgHEvuwyetFJb0=;
- b=q9yMgWSOJAxS3EExMAFoNkY81MY9USwuRLvdEF+VhyMYM/Cp2vudPfCQ0SssinragDgVv0C+KsMbh7ArTMbmu0KD+UMttrVv89XldA3eI3sdaNSYUI4HbalmSVAzFMdb8j9rQjNfmwNl7UBLn8lXbDQeniyyX/66uAvndePitaKWcFhqaqZaQ6abl9+KRyh/BgeSBOfhmHjaJcApP81ziDpSUvA+1/fFdWmeT0dTvyJPKTQlDG6/tuNINVE/0dK0lIJ2+uX0yPgFEc4dSTzw3/F9vo67/HtDAQLOe1DloYaXV/A6I2V+6BdU8WjVH+2iqeywVaNt/D8FpxOUCLesbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DS0PR11MB7788.namprd11.prod.outlook.com (2603:10b6:8:f5::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.22; Thu, 11 Jul
- 2024 16:01:00 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.7762.016; Thu, 11 Jul 2024
- 16:00:58 +0000
-Date: Thu, 11 Jul 2024 16:00:05 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-CC: <thomas.hellstrom@linux.intel.com>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
- header
-Message-ID: <ZpABhdnzqIgzWot1@DUT025-TGLU.fm.intel.com>
-References: <20240710124301.1628-1-christian.koenig@amd.com>
- <20240710124301.1628-5-christian.koenig@amd.com>
- <Zo7QpJKtVNw4RvUd@DUT025-TGLU.fm.intel.com>
- <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
-X-ClientProxiedBy: BY3PR03CA0006.namprd03.prod.outlook.com
- (2603:10b6:a03:39a::11) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+X-Greylist: delayed 449 seconds by postgrey-1.36 at gabe;
+ Thu, 11 Jul 2024 16:04:44 UTC
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 103B910EAC9
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 16:04:43 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20240711155713euoutp011cbfff86f0e4124b0927edd0a3a4051a~hM8BOeD3t1298612986euoutp01Z
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 15:57:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20240711155713euoutp011cbfff86f0e4124b0927edd0a3a4051a~hM8BOeD3t1298612986euoutp01Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1720713433;
+ bh=IQNR4NiRww+C3gtuRdRRDXkVFz57aElZ32912QtY1TI=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=hA/SF4YNoGm7ukjNd3w5beP3VOfSUuPAZrXfD+qqHu7LglCEdy6a/ExdVYvx3FVfK
+ jLlfyBdC48PTzmrPXQMVULkfi5RB7JB58XJ6lBdvKZFqp1zKNQYmblI7CeMEmSStgg
+ jwzWQAlIvnmIXsRp4Ro1HZ3LuCMmnyjtihUk/b4Y=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20240711155713eucas1p267689aa3c9c632c132bf2240445fbb1a~hM8AzVISx1460614606eucas1p2y;
+ Thu, 11 Jul 2024 15:57:13 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 97.6B.09624.9D000966; Thu, 11
+ Jul 2024 16:57:13 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20240711155712eucas1p15dde44bcfc74825341e88a251ffca587~hM8Aam0lV2003220032eucas1p1j;
+ Thu, 11 Jul 2024 15:57:12 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20240711155712eusmtrp10d095fb453960ff8cf6a2afcdbc1f570~hM8AZ2g2v0315103151eusmtrp1q;
+ Thu, 11 Jul 2024 15:57:12 +0000 (GMT)
+X-AuditID: cbfec7f2-bfbff70000002598-e6-669000d9f139
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id F6.B4.08810.8D000966; Thu, 11
+ Jul 2024 16:57:12 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20240711155711eusmtip199a5de6c54892acf1b9703050d60c854~hM7_-PB3d2284222842eusmtip1T;
+ Thu, 11 Jul 2024 15:57:11 +0000 (GMT)
+Message-ID: <7efa1605-bdec-42b1-8a9f-363a70b78017@samsung.com>
+Date: Thu, 11 Jul 2024 17:57:10 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DS0PR11MB7788:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39b96db5-fccc-4ea3-e576-08dca1c2a784
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?9e4FWjz9/AyoyYl1Z/LXfNfVIsMY6kMhHwtsEI2immkHiWvNiMn2l2Bn3w?=
- =?iso-8859-1?Q?6ODGOUolZgSp36hYjk3RbipxcSZPNV09Keh2xqG3GsXVfUafZhRP0tUuzA?=
- =?iso-8859-1?Q?EZjiARqHagwA1QFeuwcuIM2FEOY9a2XP67vTUGvll8CjooPSQ6SQQS16QB?=
- =?iso-8859-1?Q?d/cK5jBtLX5lyLwkw0UGYLXm/iC8r6CIkJy6TIg5y2yt9afQkfDpccDIup?=
- =?iso-8859-1?Q?CD86o36YC5YwKMOS66yEsRkTN1hp8fI7xPf74OzXdVToCGvs5DJbaYAHdQ?=
- =?iso-8859-1?Q?P+75DfDm+SgTBrXXCPggaX5Sxsb7masNTA80/X3otAa5fkLyTORjq/iOql?=
- =?iso-8859-1?Q?lhQ8ARbloLTeipTng+YFh0Geq1SvDhcLd0hJ8h6jZouGpLhsRmvQ4OE9Q3?=
- =?iso-8859-1?Q?a+yvFNm1MZpnYtsvu05zq4uigY/xGZBp4BLuHTdnL5o8sjQN5a5T1xhjV6?=
- =?iso-8859-1?Q?gIJGU1ooOLcfOTrsLy+vmPo1R96GC228GjqmoqLg5CXhLpgUg8sb1QG0Zi?=
- =?iso-8859-1?Q?0vxXB042Djjh6+634VzCNkjTW7yD3a1gM0P2rLav2ipsnbhQCNeSEg0iww?=
- =?iso-8859-1?Q?TFRHUrt6oUu4BYbhJhSE/S/DcnzMpYYtlYBgTbaoRUNO7B8cOjsLEAhX4A?=
- =?iso-8859-1?Q?oebOKrh/4xWcuLOoP0iwu2sXDCkVhieUYnP7q/JyqoFf600TBuRkfFNTfS?=
- =?iso-8859-1?Q?SGXVn2VlyktJ1wYPwtxfAlqTvreyatxqVnR8+YbJuxTOCgLLM03wXz4OZx?=
- =?iso-8859-1?Q?r2cuZwJp4wYL6Cf4O367s6ZKDLpk9bfJgAipaIbNSYR6qczgjiTE8tjTcf?=
- =?iso-8859-1?Q?/SdB3fRrUzFhyNWg2yfedHGkUROstWO0/q/dydOLpC3tb38InLknTRQtHT?=
- =?iso-8859-1?Q?ddcdSwDdgJQaHIO9jJKkiBJH14KovnGIzF1cY91m1mEVakbb0KycD/RnpJ?=
- =?iso-8859-1?Q?znUKfwr3Ne6+wDjIz6MH02ys5bz/k248Zkcw/Im7tXmZ3u+BvKJyXxfGZS?=
- =?iso-8859-1?Q?uOGfEV/hIwpvs5dGKhsDl4jD3OyC9ak4f87m6zemE5mxom21H6udGTvbRu?=
- =?iso-8859-1?Q?SU0fPXkzlbGW3/JeAgzQDp/8mhi9Ji/fcgpVUDwCVO3HDSPd8B5uP4y6Fq?=
- =?iso-8859-1?Q?4IyCKerBWarhD3h5fK3PB7K7sckbENJFk78i03LciZ+S32YA7P5gqe9in6?=
- =?iso-8859-1?Q?g/TyuDWARJDumlxsa04rkplNS2aMqiSo+4eJV4qJUj6zJaiJhc8gt+5L9T?=
- =?iso-8859-1?Q?g8+uWVb8LPfPduJtIKgdfE+8rn2pRd7ihQfUOMOPBGPfp5qby/6F2l1rxo?=
- =?iso-8859-1?Q?7FCe6DubAZeUuvsh/E/T+V/0D+gHTm3lWTgpviU91Qcaaro=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?MJmHNKQ/B/zd67wfAHsO21Cv3f4J5Aa7t5E0rzUl4O9W8LYfLXKVTXPrEs?=
- =?iso-8859-1?Q?2DzExbyAZ2p/N1NZvfhgHazZmy3IiCCg53EOCuyu/AogTRS6TmpnKRTuZh?=
- =?iso-8859-1?Q?Ar3Egh/GgGsfCBaW3gkt9TxMKpmNWumUsKsX3D9QduGK0+xrQn53eWFreC?=
- =?iso-8859-1?Q?lIXJLRMyqYCFYTkJn6tBV7vfiAsKsRlEwWsA1dogdb9dZm9RUVQu6NHL2A?=
- =?iso-8859-1?Q?Ln5TGoxWgmue8JQUQ0eDS8EglaOIdxVFXd2kiuzfcZfGEf/F9n3eFMRouJ?=
- =?iso-8859-1?Q?aybqqIiG7HZN2eUZJXWys5khzyw6yYK3r9JQ7Rw7iO1wZMsFsSzUJN4jGh?=
- =?iso-8859-1?Q?w+QcpL6SvvjpU8l98sj20LXF3TMU79kRcO9lSG1u85H4SjHFnXkQAw/S6J?=
- =?iso-8859-1?Q?ay7SNR4p39rm2CQW6l2R1/jaJiPpCE1hHwN9vE22TBCRB2ebquxEcbEMc2?=
- =?iso-8859-1?Q?C7x8KoN+7lKSxrvCkDeA/cUzF2of+s8/kmCL4FwWfQSp9WIBl2EEFiyb3/?=
- =?iso-8859-1?Q?ukjlH7goHSV0geYgTJaP8wWiQ7ttu8UEJ49NtU5RspQmY+JEGiWH2s59Tg?=
- =?iso-8859-1?Q?94hjbopp9Ro+Idnfef5latPyxBbqG+WknKSLXxLpxWKShDHuaamOh1oDd7?=
- =?iso-8859-1?Q?RgNrFbwu7J1NA2LQVJqkCJGMyVyT1YTyDSPYLotoU10PYzoRjFyT9+4nIk?=
- =?iso-8859-1?Q?egQLWu5LFTZsVNfjagI9yvFLEuZwR91iG5FFonGWIGPiVMdv0Tq8gSzFNI?=
- =?iso-8859-1?Q?xXoJuSwPaT1t5VNJMCslqj+W0albo/7VSD4pCdmef9ySMlxSFIlBPVnI3E?=
- =?iso-8859-1?Q?ec7IJVpWmRIta8N6RyZRJfYl6RgkeyyH7EfiySikTzKmOMwnclDreiPZBd?=
- =?iso-8859-1?Q?PUCFamOqc+iIR3rWthYBZLDFhkjOaEXyHo8BEsrmnKQGRdkopZVrWmMlg8?=
- =?iso-8859-1?Q?EVzXSzDSStAMv8qsFlx8SGpCHBq6fAQD9FORQs+THGr8UapMU3Boo5qBOH?=
- =?iso-8859-1?Q?UoA43tXFuxO439YAJWW9NdlI4+5Nx/k4LfPs/dPl6KlqgkJ69uho0ZKBAi?=
- =?iso-8859-1?Q?qcbvQa1vWw+B/5DvF/Cr+GaleorEF90LI2AgdPJ/N3O2OR6YX9HBAWrEJl?=
- =?iso-8859-1?Q?CywEioJ5050nMzJnRamFpwBYhjlayNBHrSweZleXlryqKnT3kmQlNENxYj?=
- =?iso-8859-1?Q?wZ0qETmQKwtZfUUfy2OSHRTHLAu+njB+zXd4zj2l/cm84kTyHPAswkBmh8?=
- =?iso-8859-1?Q?TCYJDB6YSiKM3ji/n+8HsC1ujtQjzxq0qrXm2mEpVeT0OxgLQOQjTtp1jn?=
- =?iso-8859-1?Q?3+V1d0FNLRfRxnV5hJjmPIMrmoavq2NwSundgs/F/Xqciu5m927Wi084Yb?=
- =?iso-8859-1?Q?+vYMNIwgsCt69E0a1X8sXjvb2TRvlbmXYZRyswwh9Wmny5y80fbof6CK04?=
- =?iso-8859-1?Q?9rnxe4W0tO7MRXIRVE6B+sxI/d/X2vGxvIa/OwNbjd1lfPl3jIvpHRxh9o?=
- =?iso-8859-1?Q?VlmS0Oh4Q3G2x+WEDkSC4l/lFyrLCkXF9kl5DuTiN0/VP0hZXJCLO13Fd7?=
- =?iso-8859-1?Q?5GDdah3cMJBAJLM8QJOJ9obpzaZtRRMgGwks3hYrR+RwIoParzgXKTN7AL?=
- =?iso-8859-1?Q?/l1EaxJLev4MqMDbIOOEkTOs7vM2ZbV2c1hVGujngBMnRlD3zaqTJYPw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39b96db5-fccc-4ea3-e576-08dca1c2a784
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 16:00:58.7804 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UWJmjkJiaU+ak1cJ5QBT/UBDhSARDowP98CwpdOzGNuFzWVYGgz+qsLSGmuZ4GT0H01Wo4DTaxSsb82CHoof5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7788
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm: bridge: samsung-dsim: Initialize bridge on
+ attach
+To: Marek Vasut <marex@denx.de>, Michael Walle <mwalle@kernel.org>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Adam Ford <aford173@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Frieder
+ Schrempf <frieder.schrempf@kontron.de>, Inki Dae <inki.dae@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Lucas Stach
+ <l.stach@pengutronix.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <1867bfd6-ad00-46a7-8bad-4a4441d9854c@denx.de>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SfUxTVxzdfV99ECuPIuGOubF0gUwcVBY2r2AaiCR7IzEy5x/I/nDdeALh
+ o6YV0CUuzACFFqRFjdIO6CziUoU5VgvdSjax0GInm06cfJbMAhNKpINNO5gO+uLGf+d3zrn3
+ nN/NpXGRgYqmC0qOcooSWZGYCiWsA4GhhJEXtId3mJ8I0PiYG0euXy9gaP5MB4Y8piUCPbPq
+ cHT3z0cUqr84RKJGj5ZAy11aCs22dgI06Bsm0JLjPoWmmkcwVKtrE6Av/NcI5Kv+DKDq2nYS
+ rQSacfTINgpQY8sIiSw+HZkWyXb4PSTboncR7KTTjrO/a59ibO9fRoK16ScErKGmiWRN9ocY
+ 22WupVjHsIlkXdo7GDt+z06xLYPvsR6NE2Mb/tnBnrKYQVZ4TujuXK6ooIxTSKQfhuYvqrOO
+ NNDHlty38QpgodQghIZMMuwfXgVqEEqLmC8BPK/SYOuCiFkG8PQVAS8sAVi78iP+/ER9928Y
+ L1wCcKJyAOcHP4AXbINg3SVkpNDXbiTXMcHEwunaeoLnw+FgkzeII5kY6Bk9L1jHEcwBWLVs
+ Dd66hdED6P1uLFgKZzpIaG0cCJbCmSg46m0NYopJguoFdXCLECYVGhbnCd4TA7sXPg9WgkxT
+ KPxed53gi2fAGtUDkscRcM5pEfB4K3SfriP4AyoAjSsejB+0AFbMjgLelQrHh/5ei6PXIrbB
+ r76V8HQ6XLVMCdZpyGyG9xfC+RKbYaP1HM7TQlhTLeLdcVDv7Pwv9vrPd3AtEOs3PIx+w5r6
+ Devo/881AsIMorhSZXEep0wq4coTlbJiZWlJXuLH8uIusPZ/3U+df/SA5jl/Yh/AaNAHII2L
+ twjfvdVwWCTMlR3/hFPIDylKizhlH3iJJsRRwtjcGE7E5MmOcoUcd4RTPFcxOiS6Aqv/6eDN
+ k3MlOYUS0dD0L9uPT98jm5JHvx5JfTNTI9+l6967p+5sVbi3tbtJ1fmNpl2fs2dYve2Gp66t
+ oyJjsjzx8jPb3ZXtBXEp/pT51asJN07E7wqrcb5eWXepPMxvf3kkYb9DGbdJM5u9O/Ox72Rl
+ xKth1ARt6nUErmKSDGnVPntamW7nzrelAVePJNtx8P1b2TPRgnfyDX3u6Zj8N4w5SipyzPOE
+ 2JSpiv/oXM/W5N6b7aLlqbnb83vbUs7Ge40YJ7eWSR/vf/GHDrkvcMqWpX/tYqt8xmAo/DTt
+ YdqM6ZVjGc1vPSiPc/X3T+L7rg2cORAWdSI91W6eWEz/QHyIiRUTynxZUjyuUMr+BY4AsBou
+ BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLKsWRmVeSWpSXmKPExsVy+t/xu7o3GCakGWy5p2lx5/ZpZosT1xcx
+ WbyespbJ4v7izywW/7dNZLa48vU9m0Xv0nOsFpPuT2Cx+LJpApvF8/nrGC1OvrnKYvH5yA02
+ iwdzbzJZdE5cwm6x8ONWFos3bY2MFm2dy1gtfv+cy2zxfuctRotJ826yWmx5M5HVQdRj7cf7
+ rB7zZp1g8bh3fA+zx4sJ/5g89n5bwOKxc9Zddo/ZHTNZPRbvecnksWlVJ5vHkauLWT1OTLjE
+ 5HHn2h42j3knAz3udx9n8uj/a+DRt2UVY4BglJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYml
+ nqGxeayVkamSvp1NSmpOZllqkb5dgl7Gh66Agn6Ois+nLzI3MG5h62Lk5JAQMJHo3f6ICcQW
+ EljKKHFnswREXEbi5LQGVghbWOLPtS6gei6gmveMEg1vN4I18wrYSbxZtgCsiEVAVeJpZy8L
+ RFxQ4uTMJ2C2qIC8xP1bM9hBbGGBEInWL9uYQAaJCMxilLiyYB8ziMMssJ5VomvWLBaIFRuZ
+ JNqnnAAbyywgLnHryXyw+9gEDCW63naBreYUsJaY/eE1C0SNmUTX1i5GCFteYvvbOcwTGIVm
+ IblkFpJRs5C0zELSsoCRZRWjSGppcW56brGhXnFibnFpXrpecn7uJkZgutl27OfmHYzzXn3U
+ O8TIxMF4iFGCg1lJhNfzbH+aEG9KYmVValF+fFFpTmrxIUZTYHBMZJYSTc4HJry8knhDMwNT
+ QxMzSwNTSzNjJXFez4KORCGB9MSS1OzU1ILUIpg+Jg5OqQYmr0OHPv49Mpnzs8qqD7dbJjdN
+ +tXBxCW2+tlHp3Xz1vIL+TSvrz7/OyqvQ0zQNduQhW1PpXsFT18MG68UE1PoEYfK8+6/S097
+ ynIaGkxmYyxXn1DhrDVlXcSeuHfHDr3+PHHXsUuL83SehVuVTr12KXDtiforJqzrzk1a/eHB
+ qYdX1t1du+hB0TrbsP3mM0+/OvTUUNI2lulV/B5R6dcq6+Y9CPFNsVeyt5j2+ah9/L2ACUeL
+ ooQOrMvbtnD64qdxbPPfyIaw3mA9/8Tx3fba4I8/Hsgdz+f1K1bLNJm6yqCAL+HD8YUSqw8k
+ /LN9uJd3ilXR37kPki6HHDZdZjI3+OBvDxOHwgAz6Sv7Lnvv9FdiKc5INNRiLipOBADbq87Q
+ wAMAAA==
+X-CMS-MailID: 20240711155712eucas1p15dde44bcfc74825341e88a251ffca587
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20240711153825eucas1p2f3be863ea60d080e1c15d1b3d6570069
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240711153825eucas1p2f3be863ea60d080e1c15d1b3d6570069
+References: <20240625122824.148163-1-marex@denx.de>
+ <4603431.cEBGB3zze1@steina-w> <f90aa303-f18b-4cca-bb7a-f94f74dfee36@denx.de>
+ <D29SIGP58O7E.3AJ5VRGQ4I1VN@kernel.org>
+ <CGME20240711153825eucas1p2f3be863ea60d080e1c15d1b3d6570069@eucas1p2.samsung.com>
+ <1867bfd6-ad00-46a7-8bad-4a4441d9854c@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,185 +141,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 11, 2024 at 02:01:00PM +0200, Christian König wrote:
-> Am 10.07.24 um 20:19 schrieb Matthew Brost:
-> > On Wed, Jul 10, 2024 at 02:42:58PM +0200, Christian König wrote:
-> > > That is something drivers really shouldn't mess with.
-> > > 
-> > Thomas uses this in Xe to implement a shrinker [1]. Seems to need to
-> > remain available for drivers.
-> 
-> No, that is exactly what I try to prevent with that.
-> 
-> This is an internally thing of TTM and drivers should never use it directly.
-> 
+On 11.07.2024 17:38, Marek Vasut wrote:
+> On 6/26/24 10:02 AM, Michael Walle wrote:
+>> On Wed Jun 26, 2024 at 5:21 AM CEST, Marek Vasut wrote:
+>>> Thank you for testing and keeping up with this. I will wait for more
+>>> feedback if there is any (Frieder? Lucas? Michael?). If there are no
+>>> objections, then I can merge it in a week or two ?
+>>
+>> I'll try to use your approach on the tc358775. Hopefully, I'll find
+>> some time this week.
+>
+> So ... I wonder ... shall I apply these patches or not ?
+>
+> I'll wait about a week or two before applying them, to get some input.
+>
+I've pointed that they break current users of Samsung DSIM: Exynos-DSI 
+and Samsung s6e3ha2/s6e3hf2 panels, but unfortunately I'm not able to 
+provide datasheet nor any other documentation. Due to other tasks and 
+holidays I'm not able to debug it further too, at least till the end of 
+August. Maybe we could keep old behavior for "exynos-dsi" compatible device?
 
-Admittedly having fully gotten through Thomas's shrinker patches so I
-can't reasonably defend how Thomas is using the LRU walker in the Xe
-driver but I will say Thomas is generally correct wrt layering code.
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-I'd say since he for the next month, table this patch until he returns
-and we can all discuss options.
-
-Matt
-
-> Regards,
-> Christian.
-> 
-> > 
-> > Matt
-> > 
-> > [1] https://patchwork.freedesktop.org/patch/602165/?series=131815&rev=6
-> > 
-> > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > ---
-> > >   drivers/gpu/drm/ttm/ttm_bo.c      |  1 +
-> > >   drivers/gpu/drm/ttm/ttm_bo_util.c |  2 +
-> > >   drivers/gpu/drm/ttm/ttm_bo_util.h | 67 +++++++++++++++++++++++++++++++
-> > >   include/drm/ttm/ttm_bo.h          | 35 ----------------
-> > >   4 files changed, 70 insertions(+), 35 deletions(-)
-> > >   create mode 100644 drivers/gpu/drm/ttm/ttm_bo_util.h
-> > > 
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > index 0131ec802066..41bee8696e69 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > @@ -45,6 +45,7 @@
-> > >   #include <linux/dma-resv.h>
-> > >   #include "ttm_module.h"
-> > > +#include "ttm_bo_util.h"
-> > >   static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
-> > >   					struct ttm_placement *placement)
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > index 3c07f4712d5c..03e28e3d0d03 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > @@ -37,6 +37,8 @@
-> > >   #include <drm/drm_cache.h>
-> > > +#include "ttm_bo_util.h"
-> > > +
-> > >   struct ttm_transfer_obj {
-> > >   	struct ttm_buffer_object base;
-> > >   	struct ttm_buffer_object *bo;
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.h b/drivers/gpu/drm/ttm/ttm_bo_util.h
-> > > new file mode 100644
-> > > index 000000000000..c19b50809208
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.h
-> > > @@ -0,0 +1,67 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> > > +/**************************************************************************
-> > > + * Copyright 2024 Advanced Micro Devices, Inc.
-> > > + *
-> > > + * Permission is hereby granted, free of charge, to any person obtaining a
-> > > + * copy of this software and associated documentation files (the "Software"),
-> > > + * to deal in the Software without restriction, including without limitation
-> > > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> > > + * and/or sell copies of the Software, and to permit persons to whom the
-> > > + * Software is furnished to do so, subject to the following conditions:
-> > > + *
-> > > + * The above copyright notice and this permission notice shall be included in
-> > > + * all copies or substantial portions of the Software.
-> > > + *
-> > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> > > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> > > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> > > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> > > + * OTHER DEALINGS IN THE SOFTWARE.
-> > > + *
-> > > + **************************************************************************/
-> > > +#ifndef _TTM_BO_UTIL_H_
-> > > +#define _TTM_BO_UTIL_H_
-> > > +
-> > > +struct ww_acquire_ctx;
-> > > +
-> > > +struct ttm_buffer_object;
-> > > +struct ttm_operation_ctx;
-> > > +struct ttm_lru_walk;
-> > > +
-> > > +/** struct ttm_lru_walk_ops - Operations for a LRU walk. */
-> > > +struct ttm_lru_walk_ops {
-> > > +	/**
-> > > +	 * process_bo - Process this bo.
-> > > +	 * @walk: struct ttm_lru_walk describing the walk.
-> > > +	 * @bo: A locked and referenced buffer object.
-> > > +	 *
-> > > +	 * Return: Negative error code on error, User-defined positive value
-> > > +	 * (typically, but not always, size of the processed bo) on success.
-> > > +	 * On success, the returned values are summed by the walk and the
-> > > +	 * walk exits when its target is met.
-> > > +	 * 0 also indicates success, -EBUSY means this bo was skipped.
-> > > +	 */
-> > > +	s64 (*process_bo)(struct ttm_lru_walk *walk,
-> > > +			  struct ttm_buffer_object *bo);
-> > > +};
-> > > +
-> > > +/**
-> > > + * struct ttm_lru_walk - Structure describing a LRU walk.
-> > > + */
-> > > +struct ttm_lru_walk {
-> > > +	/** @ops: Pointer to the ops structure. */
-> > > +	const struct ttm_lru_walk_ops *ops;
-> > > +	/** @ctx: Pointer to the struct ttm_operation_ctx. */
-> > > +	struct ttm_operation_ctx *ctx;
-> > > +	/** @ticket: The struct ww_acquire_ctx if any. */
-> > > +	struct ww_acquire_ctx *ticket;
-> > > +	/** @tryock_only: Only use trylock for locking. */
-> > > +	bool trylock_only;
-> > > +};
-> > > +
-> > > +s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
-> > > +			   struct ttm_resource_manager *man, s64 target);
-> > > +
-> > > +#endif
-> > > diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> > > index d1a732d56259..5f7c967222a2 100644
-> > > --- a/include/drm/ttm/ttm_bo.h
-> > > +++ b/include/drm/ttm/ttm_bo.h
-> > > @@ -194,41 +194,6 @@ struct ttm_operation_ctx {
-> > >   	uint64_t bytes_moved;
-> > >   };
-> > > -struct ttm_lru_walk;
-> > > -
-> > > -/** struct ttm_lru_walk_ops - Operations for a LRU walk. */
-> > > -struct ttm_lru_walk_ops {
-> > > -	/**
-> > > -	 * process_bo - Process this bo.
-> > > -	 * @walk: struct ttm_lru_walk describing the walk.
-> > > -	 * @bo: A locked and referenced buffer object.
-> > > -	 *
-> > > -	 * Return: Negative error code on error, User-defined positive value
-> > > -	 * (typically, but not always, size of the processed bo) on success.
-> > > -	 * On success, the returned values are summed by the walk and the
-> > > -	 * walk exits when its target is met.
-> > > -	 * 0 also indicates success, -EBUSY means this bo was skipped.
-> > > -	 */
-> > > -	s64 (*process_bo)(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo);
-> > > -};
-> > > -
-> > > -/**
-> > > - * struct ttm_lru_walk - Structure describing a LRU walk.
-> > > - */
-> > > -struct ttm_lru_walk {
-> > > -	/** @ops: Pointer to the ops structure. */
-> > > -	const struct ttm_lru_walk_ops *ops;
-> > > -	/** @ctx: Pointer to the struct ttm_operation_ctx. */
-> > > -	struct ttm_operation_ctx *ctx;
-> > > -	/** @ticket: The struct ww_acquire_ctx if any. */
-> > > -	struct ww_acquire_ctx *ticket;
-> > > -	/** @tryock_only: Only use trylock for locking. */
-> > > -	bool trylock_only;
-> > > -};
-> > > -
-> > > -s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
-> > > -			   struct ttm_resource_manager *man, s64 target);
-> > > -
-> > >   /**
-> > >    * ttm_bo_get - reference a struct ttm_buffer_object
-> > >    *
-> > > -- 
-> > > 2.34.1
-> > > 
-> 
