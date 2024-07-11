@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618FD92E2A8
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 10:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9C392E2BA
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 10:51:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8DA110E9B2;
-	Thu, 11 Jul 2024 08:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDAE10E9A5;
+	Thu, 11 Jul 2024 08:51:07 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="A6K+ZKXq";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 346E910E99E;
- Thu, 11 Jul 2024 08:45:21 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-05 (Coremail) with SMTP id zQCowAC3veWVm49mlSy3Ag--.57394S2;
- Thu, 11 Jul 2024 16:45:17 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, asad.kamal@amd.com, lijo.lazar@amd.com,
- make24@iscas.ac.cn, le.ma@amd.com, kenneth.feng@amd.com, evan.quan@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd/amdgpu: Fix uninitialized variable warnings
-Date: Thu, 11 Jul 2024 16:45:09 +0800
-Message-Id: <20240711084509.2432392-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D70AF10E9A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 08:51:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=TD+6al8ce2H5BBBxJ+FQ1i/d3K1MOtEzoW9hOCI7t6k=; b=A6K+ZKXq8uAsq0cVR2RV+8nG7x
+ 4g/vSonQeYm9lQ7TlWhLZ7GjpQqYG22hyn3dcF/zsrsOYO6SPH8pcIL1b8xEQZULwSJL/Tr3au4YN
+ zUIL3WOEo5ZUD3pFKG0RYEisIRVHngAH6rExtZO6wiSbT4/CzVYHrxaGyM8gBTws90y1UwusENmuE
+ +lU9aZo0lhIO+1ZUZ+awcq9X2o9/uQfzrWMIVmqzxbfZXFvKsoFKSm1lbxlJrt92vJk2NALlcmSyJ
+ Vk+7ly8i9gEfdJUCTYvt59heFkijGXhFlLrSrqxj+HyJf101AdXKiiqVHsCjhrHFF+YD1JLir8U6d
+ o/CIue/g==;
+Received: from [84.69.19.168] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sRpW4-00Dbnq-0L; Thu, 11 Jul 2024 10:51:04 +0200
+Message-ID: <504bfca3-a8cf-4c42-9b04-41e696a2ad0f@igalia.com>
+Date: Thu, 11 Jul 2024 09:51:02 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/12] drm/v3d: Validate passed in drm syncobj handles in
+ the timestamp extension
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Iago Toral Quiroga <itoral@igalia.com>,
+ stable@vger.kernel.org
+References: <20240710134130.17292-1-tursulin@igalia.com>
+ <20240710134130.17292-5-tursulin@igalia.com>
+ <6c4a6268-6e0a-476b-adca-b1c35ea71abc@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <6c4a6268-6e0a-476b-adca-b1c35ea71abc@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAC3veWVm49mlSy3Ag--.57394S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtryrZr45Zr4rWw43Xr1DZFb_yoW3GFX_Kr
- 4UJasrGrn2yF1q9r1UZayFqa42yF98uF4vqas3ta4Fv3yxX343Xr93WrykXF1ruF43C3Zr
- A34UWry5A39IkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb3kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
- YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIda
- VFxhVjvjDU0xZFpf9x0JUQZ23UUUUU=
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,27 +65,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Return 0 to avoid returning an uninitialized variable r.
 
-Fixes: 230dd6bb6117 ("drm/amd/amdgpu: implement mode2 reset on smu_v13_0_10")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 10/07/2024 18:06, Maíra Canal wrote:
+> On 7/10/24 10:41, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> If userspace provides an unknown or invalid handle anywhere in the handle
+>> array the rest of the driver will not handle that well.
+>>
+>> Fix it by checking handle was looked up successfuly or otherwise fail the
+> 
+> I believe you mean "Fix it by checking if the handle..."
+> 
+> Also s/successfuly/successfully
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c b/drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c
-index 04c797d54511..0af648931df5 100644
---- a/drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c
-+++ b/drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c
-@@ -91,7 +91,7 @@ static int smu_v13_0_10_mode2_suspend_ip(struct amdgpu_device *adev)
- 		adev->ip_blocks[i].status.hw = false;
- 	}
- 
--	return r;
-+	return 0;
- }
- 
- static int
--- 
-2.25.1
+Oops, thank you!
 
+> 
+>> extension by jumping into the existing unwind.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Fixes: 9ba0ff3e083f ("drm/v3d: Create a CPU job extension for the 
+>> timestamp query job")
+>> Cc: Maíra Canal <mcanal@igalia.com>
+>> Cc: Iago Toral Quiroga <itoral@igalia.com>
+>> Cc: <stable@vger.kernel.org> # v6.8+
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_submit.c | 12 ++++++++++++
+>>   1 file changed, 12 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c 
+>> b/drivers/gpu/drm/v3d/v3d_submit.c
+>> index ca1b1ad0a75c..3313423080e7 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_submit.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
+>> @@ -497,6 +497,10 @@ v3d_get_cpu_timestamp_query_params(struct 
+>> drm_file *file_priv,
+>>           }
+>>           job->timestamp_query.queries[i].syncobj = 
+>> drm_syncobj_find(file_priv, sync);
+>> +        if (!job->timestamp_query.queries[i].syncobj) {
+>> +            err = -ENOENT;
+> 
+> I'm not sure if err should be -ENOENT or -EINVAL, but based on other 
+> drivers, I believe it should be -EINVAL.
+
+After a quick grep I am inclined to think ENOENT is correct. DRM core 
+uses that, and drivers seem generally confused (split between ENOENT and 
+EINVAL). With one even going for ENODEV!
+
+Regards,
+
+Tvrtko
+>> +            goto error;
+>> +        }
+>>       }
+>>       job->timestamp_query.count = timestamp.count;
+>> @@ -550,6 +554,10 @@ v3d_get_cpu_reset_timestamp_params(struct 
+>> drm_file *file_priv,
+>>           }
+>>           job->timestamp_query.queries[i].syncobj = 
+>> drm_syncobj_find(file_priv, sync);
+>> +        if (!job->timestamp_query.queries[i].syncobj) {
+>> +            err = -ENOENT;
+>> +            goto error;
+>> +        }
+>>       }
+>>       job->timestamp_query.count = reset.count;
+>> @@ -613,6 +621,10 @@ v3d_get_cpu_copy_query_results_params(struct 
+>> drm_file *file_priv,
+>>           }
+>>           job->timestamp_query.queries[i].syncobj = 
+>> drm_syncobj_find(file_priv, sync);
+>> +        if (!job->timestamp_query.queries[i].syncobj) {
+>> +            err = -ENOENT;
+>> +            goto error;
+>> +        }
+>>       }
+>>       job->timestamp_query.count = copy.count;
