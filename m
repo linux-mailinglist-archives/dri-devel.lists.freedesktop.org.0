@@ -2,81 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D05392EEAF
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 20:19:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A4992EEF2
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 20:35:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F25910EA4F;
-	Thu, 11 Jul 2024 18:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B5110E0FB;
+	Thu, 11 Jul 2024 18:35:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KyWBIgoq";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="aLqSaHR2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB28310EA4F
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 18:19:24 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46BDAIYn011423;
- Thu, 11 Jul 2024 18:19:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- agVhWAVpmm91Wd84uytoDSZx3QjLUReLsyq1EBhdfZw=; b=KyWBIgoqwHW6oiDy
- 0eW6FLdrxO1EbH3YDs/LgCdgYDV3caskYl6WQ3OP2i9KyDz6qByBTIr4kcDyXXNx
- OsvWQuF8QVU+LjWIZu7AJkKngieiTZEHmcwXvruTDEju/UnWI+Lqtoa43szkRehF
- sDdk5B2l2bLEdRrhXOgTy41w3ajj22zNou2DaJMjb8KFEsSQWTWBgwK6idlRdhxU
- WEd+j0pkPZZg21OAuxFPnKlhbn9z0qyYDinsCl9xFJMws0/ufEBMGJnrwqILL3Xi
- mXTGxj7Xj4EzxBH7aEFTpgvaKlYwfmcz8/oZVNNEffy0S4xSxTYozLnBEP/DVfsk
- EJypzw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 409vydufgn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jul 2024 18:19:23 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46BIJLlA014594
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jul 2024 18:19:21 GMT
-Received: from [10.81.24.74] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 11 Jul
- 2024 11:19:21 -0700
-Message-ID: <7b7e2952-fb54-48b0-93bc-f96c04e5cdd3@quicinc.com>
-Date: Thu, 11 Jul 2024 11:19:21 -0700
-MIME-Version: 1.0
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2082.outbound.protection.outlook.com [40.107.102.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18E8C10E0FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 18:35:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FRRUOAvbTn8BqgGCrXFYPnyXa5uDo/xoijx961R10y4aberRmNIv9Gze9BDpJ4ojOS6ZfwOgZn4SwzY+B6Ki5+91Xox7SzxSG4Onu3VA6zM8AEM+Qtl7kHhZFj0w2Shd2I+31eC0BtjvbnrKBQZgpz5kw+GbGPQPNZD2XsE8HfWCYgpAmogbm+QDALvJtclvuWszMKwsgZe9sy0tO9kvKWTYeVkOqIJcAuULJmoclIgijzAamu5bJHjNSxkUhaeaS2+w/v57R1Ci0EC2OYWGM+h5KQcoKZT0M+7CcIh9jkvATUkOWX40iccJyoS/LGeCJRszRKk/Ce23eqqzf9J++A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/2aTVP5HqZEYukCPHiP+CDzDDZm8/MsCjqfI9zyspRY=;
+ b=zDOie5fllopjwztU8TLzTgYWV+iM0XXJkgUcOL9c29yGzhNyCOI7iW756k3zR+KUou02OomHEdSN2Mule8PZ/JLDJGd8ut3NxKGc0BOGe6rW9EVPTqXYiQ8+S2yMgOuW4RDbm2LqdKlgYyM7Lqar3SN0rqiLX9W4YAT2P5Q4StM5yjVIQADdzte4j722x57Uepp9m0fJsP1YHs+Q8Bxt6XduLH+ZbaLbf9UPW0ux5cTNuFTpWFIY5vPZ3+zZ6peix8BARoQAW4h0gq8/g1Oef7CWMOs2UleqFCG8FneXpidl2zd1lMag4vTQDvhgqEoGhzWlfjKNl7QHxSQGlB9TPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/2aTVP5HqZEYukCPHiP+CDzDDZm8/MsCjqfI9zyspRY=;
+ b=aLqSaHR2qNzbQMrIJex9xjeVXVoGQl2m2pEstSVkK55C6JYA8XIsPhqyDNYQMLLFmfwc9ThRKD/JaZWf7IR5/AiuWIh2xfVonHYm6aqUJiBVHfxLLhfu2jDhFrETa6jvRk+xOgYTPssmbPFug3hoNIg7X+SaWrcV9A13T7gRbdvC3qsvp7s/h/qTDvzK3tgxgiivD9mUBq5e74zUhx/otic0q32SCTS7ypJgLROz0xhl/PY250RYBoalcnyG4/yhwez5XDuf4EZ9jeQgERgi+A+S87MTFJ+qipEZzdUa4Wj4gYo3+W1OITZ9F3hPbkuUXuyfDM12V+7AzT51j87zug==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
+ by SA3PR12MB7997.namprd12.prod.outlook.com (2603:10b6:806:307::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
+ 2024 18:35:28 +0000
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::2cf4:5198:354a:cd07]) by BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::2cf4:5198:354a:cd07%2]) with mapi id 15.20.7762.016; Thu, 11 Jul 2024
+ 18:35:28 +0000
+Message-ID: <0be43301-9df7-4b7f-9932-b820841712e3@nvidia.com>
+Date: Thu, 11 Jul 2024 11:34:32 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] agp: uninorth: add missing MODULE_DESCRIPTION() macro
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-To: David Airlie <airlied@redhat.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <kernel-janitors@vger.kernel.org>
-References: <20240615-md-powerpc-drivers-char-agp-v1-1-b79bfd07da42@quicinc.com>
- <99d6c483-9291-4bd0-8e62-76022abb762c@quicinc.com>
+Subject: Re: [PATCH net-next v16 12/13] selftests: add ncdevmem, netcat for
+ devmem TCP
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Stanislav Fomichev <sdf@google.com>
+References: <20240710001749.1388631-1-almasrymina@google.com>
+ <20240710001749.1388631-13-almasrymina@google.com>
+ <4b0479b0-1e0f-43db-8333-26b7a1fd791c@nvidia.com>
+ <CAHS8izOc4gZUP-aS747OVf3uyn8KAyfeBcYDx2CQc-L9RnvrXA@mail.gmail.com>
 Content-Language: en-US
-In-Reply-To: <99d6c483-9291-4bd0-8e62-76022abb762c@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: t3DoBf0oDHt2DWiMFEF9lqFxES2RrPDU
-X-Proofpoint-ORIG-GUID: t3DoBf0oDHt2DWiMFEF9lqFxES2RrPDU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-11_13,2024-07-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0
- priorityscore=1501 clxscore=1015 mlxlogscore=999 impostorscore=0
- suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407110127
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <CAHS8izOc4gZUP-aS747OVf3uyn8KAyfeBcYDx2CQc-L9RnvrXA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0175.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::30) To BY5PR12MB4130.namprd12.prod.outlook.com
+ (2603:10b6:a03:20b::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4130:EE_|SA3PR12MB7997:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9e110b21-7099-4809-57c6-08dca1d83c9b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RTdoWE9Qdmo2ZWxoZWcrdkxMd1VIWVkwV2JGNnZ0UTVxTFBlR3ZCcnFNMWps?=
+ =?utf-8?B?Mk9XNnZuWCtTRksyUzFuUUJWT0F2bDI0ZTNud2JEa1dNdjN1UENNSlpEL0VJ?=
+ =?utf-8?B?a0sxZ0RucVFIMmtUTFhQekNQSHNTckZtUFNWSjYwN1IySGV1UnVXYkY5NXF4?=
+ =?utf-8?B?eis2Q1J5WStxVDFzQXRJRmNFTHR5M1kwL1owYnIzK095ZUx3SEJrekxJTUpL?=
+ =?utf-8?B?cStTMExqY0RnTnZCQnlySnp2QUdYUVltUHY4WnMrSlRjN25YYW0xanpuOE00?=
+ =?utf-8?B?Ym5tWFFJZUJQbmZIdzZJd2x3TVgxWVJoNGtpeVA0WXFKcU9CYVlnWCtxY1Ay?=
+ =?utf-8?B?c0kxMTBBQ2ErTDZ3UVFkcDFXWVQyRjdjRE9kT0lWUldCd3VyUGx5LzZueTdu?=
+ =?utf-8?B?VHNaaExCU0VleVE3WGtIUkNrSHA2MzNrNWk5NnMzc1l3blowQ212SHpjVE1X?=
+ =?utf-8?B?Q0FkNGZscGlSZXVaT3FPak1wSjZKWnYzNm03dkRjOHA5Yno4MGt6c3VQWGdI?=
+ =?utf-8?B?dkg5bWhzKzVzdkkyMFRleGFEOHVoS2xCN2JlR2VNUEE2YWNvM1JsWXlHdEFG?=
+ =?utf-8?B?UkRYdEltNnM2eE9VR0crYWJObkRIWHNhRjdCQXNGRUJZTGJmd0lWbU1XK3N3?=
+ =?utf-8?B?M2NwSnd2dHlqWThSaGFGMUhkMnd6MlVvb1Y1czZ5UTZOOGk3dE50YjQxTmxa?=
+ =?utf-8?B?SkFJNndicXhoUS8zeDNCVDRGdENMa2dGYkFqUGY1SUpaM2hRTk10S2djNjZy?=
+ =?utf-8?B?ZkdJc3hxT0d3L0hWRHl6a0dtNjdhejNGRVNFMTE4aGFvZ3Q3OW1SOEJPaTRU?=
+ =?utf-8?B?UlR3RE85N3U3Ump1Ui96dERLM2VBam9CNjBwS2pVWVZqMnpJYjdsWUFvVUxD?=
+ =?utf-8?B?TFJaeURPb3ZMUTdUZU1YUnVBZGptT0tJdW1kdE9rTUJPajdEK2t0THVrRjJq?=
+ =?utf-8?B?WDRrbVhZSW1ka2N1cUtDQWw4L2c5ak9pK1A1WFRwZVJRc2xYUVpqcU9aSDMz?=
+ =?utf-8?B?K0Y3ZjVSK3V2ZjBNcXUxa2IxcFRpNVI0bVFNR1hYS0lTZWlmb0ttTkRPakFj?=
+ =?utf-8?B?L0N5Uzl1ZVhDaEJPcHNrT3JFRm1nRmJFS1lPbmE4OEY5aXBuZFZQQzROY3M5?=
+ =?utf-8?B?STAwSW5pT0NtZjRRamJwS2QzUjhCcHI5MnBmS0d0cUNnMi9kOFZlZ3F4akFN?=
+ =?utf-8?B?OGpnMkFJKzdaWmxISkF5dXllTVFNWUtLU3doSUFCalU2bkpPZXRSMDVjbUFp?=
+ =?utf-8?B?YkJkTWF0Q3EvNk9ma1JVQm5jdnluTkFCNGc5SFdLb2k5OEcwb2tYT01FaHZC?=
+ =?utf-8?B?a0NyVVkwR3MycEw0YTNDdzhnTDhxaGJLR0wvSUQwUHY5bUROd2JubjgxU093?=
+ =?utf-8?B?ODVaYnhEOVdhZjRjY3lqSDdQaUVsM1I1M1F2UjgwaGMzZ0NuU0l1VlBKeG02?=
+ =?utf-8?B?TUF4QmJvTi9GQmxzOFFnVXdVbmpFU1lZOXY4Q0VCU1UxVXllZTNkT2FSeTQz?=
+ =?utf-8?B?ZTBNa0Q5bFV6MEpyaFhRaEgzdzFlZ0VFNmd0WVpiUm82RFlQYXM5QTQrV1VS?=
+ =?utf-8?B?SmRDVmc5dFNXbG1xOU9xdlJOYmF6M2tHVHlJdlFGUk1NeTBLM3JkLzhhRWZ4?=
+ =?utf-8?B?Qm0xZUVIaUE1QXlLcFU3RGdqTjFuUjBGMmJoclFzSTBmOE9jNzFxQmpiMGxG?=
+ =?utf-8?B?ZElTUUg1Z0ErK3MyWUkxUnJLcDl6N3N3aDMzR01SZjFkQnoyZ1dMdFdYaVVP?=
+ =?utf-8?B?YXVJcWYvUlVWeG1kcXQwaXVrV3BhMlIvUlRvbXN2OThNKzB0SERGWXp0WWhS?=
+ =?utf-8?Q?6SukEokheH7eSmtNehzvPrabUKcxEPaQlF0dc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4130.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZW8zVUppOWkrM0JvQXNvR0xFMG9NRkZZa29hT21oanRRMDJNenBuR1ptcCtD?=
+ =?utf-8?B?TzcxeWhSZGFMeG54aCt4Z1Z3MWd4c1l3ckFSRS95cTRrK1RBYVB0UGRQaGdD?=
+ =?utf-8?B?UlRCZHMyYXJnV3VuVmk2Z0NpN2I0MEtpa1Buak5QeVRnNEU5eURvM3dLYmV6?=
+ =?utf-8?B?Q1VHVExkYmZEb1VEblJLSXlUVzBDMjJYQ25zUWNvaUlwTWRHOXd6WlFzazRk?=
+ =?utf-8?B?VnJtTTJSRkpncGhWOHZjbDM3MHR6VWRkOTJPNkhIYkZ3QlJKeHVCdDJDUlV3?=
+ =?utf-8?B?RVU2Y0M3Tjg1SzNnMmsvT3NodDFEakdBL2lOdkFiQXRzYjRnT1MrcnpjN1kr?=
+ =?utf-8?B?bncxY3VEN0RHaFc0Vm11NnJpdWZ5djQzZnRuMHN6TTZpQ214YjJid3EzR0NQ?=
+ =?utf-8?B?cXY4bjFlS2pVdVdLRURVcmFQNWcwRnk1bUJJTWtPcEFoTVNpZVBsQTZhQ01L?=
+ =?utf-8?B?SjVWbC9iRDNDYW41dEFpMG9DTEFlOUJHK2t3M1hOd0NvWHYxMEhiWDd1WXls?=
+ =?utf-8?B?NjNnWTUyRFd4QldsSjRERStOZHFmVDhScWo5a1Z4cTFzSm1ZZUh3L3krSFNj?=
+ =?utf-8?B?RElETlBQUVRaNDFBanovcmsrTXJUUlBwSU5tZzBSYjZDOUVNSTlDUUh6SHJT?=
+ =?utf-8?B?Ujd0ZUNnazQycERhZ1lHL1QvUmJWQWlpVGhaU1FUclNLbGlkVjFIQTQxZkpl?=
+ =?utf-8?B?UEFQbU1wSkVwRHdNbmJGWk9qMUpsRFdYUE1zTld2K1hNZWdxMExpN0wzOXpK?=
+ =?utf-8?B?QUtJb0FITkw1cmIwRklvVTdhN294Z1I0RnVWYTJOcVdZZmxWeGI3WldFUXFk?=
+ =?utf-8?B?dmlTRFlvbUFZZFI4eGl4bHByclBCdkZ2Q0RabUR3dTR6clpHblBUWFFlb0Fl?=
+ =?utf-8?B?SEhBK2YvTGkyTS9OVS9tVzA0MzJ4amlUMUlVR3lIclA5cWs4WlRhKzlPcGV4?=
+ =?utf-8?B?U1NjbVVRc0tCWUdPcjlldVV3V09wNG9NT05EaTFmeEsxTGFMbjBkZjFpaU91?=
+ =?utf-8?B?bjZXTjJSK3FWUCs1Ny8xcVR2N2NXeFlzUUdPUHNYZm0xcDVYZSt2MG9scUZ2?=
+ =?utf-8?B?dDdYeEp1TXZjNVpoTk0zeVFtbmx2V09yNnoxMDZHeml5cDllNGlTTmFDalR6?=
+ =?utf-8?B?SStBTEtia1VORVROTk43Y1pSSFhPM2ZJaDNNdUpOSUs2TmFZMVJDSGRIdmZB?=
+ =?utf-8?B?OHlOTzZXZEFMMWs5TWJhb3ZwOUtDdHRIN3JxaXZYUmh6RHNDRGZWNU9LdGxF?=
+ =?utf-8?B?U1B4dUpxL2EvdUEzWDVGY3FSM00vanZLNEczM2creTY5U1IvMFdaeGcwMERs?=
+ =?utf-8?B?ZHZQRTVIblNGOHRhbjQ3VmVVNHZNa1FzY0dSVWs2dklWZTJIbFRZZ0RCbDh5?=
+ =?utf-8?B?Wmw4QWxvSEZkM1ZuQ0xjeHNidmZEdXJ4VUdPYVIxN3U3NXNqai9pTUtkRTFr?=
+ =?utf-8?B?bHZaZlVHSTRna3lRMWFxb3FIRUdIRFZZYWYvWU1qRUZnbGRTdlRwaUcwRFYz?=
+ =?utf-8?B?Vno1RklBcmhPSDVOSDViVDJveXI3YWJxVlhCcFdGa1gwemhrK2Ryb1pYR1gy?=
+ =?utf-8?B?dHNEa1F0Yzk2eVNSOFJFK3NqcnYycDliQlAzZ1N1a21YdWY1UjRJK1Rwc0xo?=
+ =?utf-8?B?U21SMmh2VzJUOHY5NDdSWElCUVpCRFN0NG02cUlZR2VOZGpFN0NBMHNyTUF4?=
+ =?utf-8?B?bDhWaTBsYjVzY2dVbGFNNjd0Y0NzWmFXc3dEZG53OWdTMlhjMVY1UW5IbWp6?=
+ =?utf-8?B?TnJPdHM5U0lzTTh3ckRCNFlCZ0RDVE5wR2pGWDBwUnBZMG1VNUxtcWNjcVRn?=
+ =?utf-8?B?NWlhUUxNOHdBR2Z2c016bGoxd0xrTmdERmxtY0RBNVhISFhUNm1WcTcwOFZy?=
+ =?utf-8?B?MFBDamE2L1h3YVA0VnY5UU5lN2lFc3hyYjVKMkMrV3ZWQkhtS0JGdVJ5d2tU?=
+ =?utf-8?B?Q1hZVXlNanAzcDlrTm9PSVhBaFE1WStHS29yNmgvMWduYnZUYWxKK1FsKzVZ?=
+ =?utf-8?B?OXY0MzNWRDlMRGRwZlk4aGhMLzJtR0dOMFpDZytvM295V1I4eHBQcVVKUmlq?=
+ =?utf-8?B?TVJXQjQwWTJwRWJFVFV0Z2QyMUtFK1ZEaGIvN1RJVStvSlNCakl2Y0pNVGxw?=
+ =?utf-8?B?TkU3R1l5NUxScTRaWXBVTEtiTUp2VEFYOWNKV1gwRUpWMGdiMUcyMGNWeTRI?=
+ =?utf-8?B?SkE9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e110b21-7099-4809-57c6-08dca1d83c9b
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 18:35:28.2807 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JS5zr7wGl/ysgVSy/CiOlTb7Eh7xhql/9CYf3kYn11Kb7lF0YjuEZyCoAVA/yghpzJ6u/V34ovDSe41lB/5ijg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7997
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,39 +198,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/28/24 20:14, Jeff Johnson wrote:
-> On 6/15/2024 2:01 PM, Jeff Johnson wrote:
->> With ARCH=powerpc, make allmodconfig && make W=1 C=1 reports:
->> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/uninorth-agp.o
+On 7/11/24 8:28 AM, Mina Almasry wrote:
+> On Wed, Jul 10, 2024 at 5:44 PM John Hubbard <jhubbard@nvidia.com> wrote:
 >>
->> Add the missing invocation of the MODULE_DESCRIPTION() macro.
+>> On 7/9/24 5:17 PM, Mina Almasry wrote:
+>> ...
+>>> diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
+>>> index bc3925200637c..39420a6e86b7f 100644
+>>> --- a/tools/testing/selftests/net/Makefile
+>>> +++ b/tools/testing/selftests/net/Makefile
+>>> @@ -95,6 +95,11 @@ TEST_PROGS += fq_band_pktlimit.sh
+>>>    TEST_PROGS += vlan_hw_filter.sh
+>>>    TEST_PROGS += bpf_offload.py
+>>>
+>>> +# YNL files, must be before "include ..lib.mk"
+>>> +EXTRA_CLEAN += $(OUTPUT)/libynl.a
+>>> +YNL_GEN_FILES := ncdevmem
+>>> +TEST_GEN_FILES += $(YNL_GEN_FILES)
+>>> +
+>>>    TEST_FILES := settings
+>>>    TEST_FILES += in_netns.sh lib.sh net_helper.sh setup_loopback.sh setup_veth.sh
+>>>
+>>> @@ -104,6 +109,10 @@ TEST_INCLUDES := forwarding/lib.sh
+>>>
+>>>    include ../lib.mk
+>>>
+>>> +# YNL build
+>>> +YNL_GENS := netdev
+>>> +include ynl.mk
 >>
->> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
->> ---
->>   drivers/char/agp/uninorth-agp.c | 1 +
->>   1 file changed, 1 insertion(+)
+>> This seems to be missing a rule to generate ynl.mk, right?
 >>
->> diff --git a/drivers/char/agp/uninorth-agp.c b/drivers/char/agp/uninorth-agp.c
->> index 84411b13c49f..b8d7115b8c9e 100644
->> --- a/drivers/char/agp/uninorth-agp.c
->> +++ b/drivers/char/agp/uninorth-agp.c
->> @@ -726,4 +726,5 @@ MODULE_PARM_DESC(aperture,
->>   		 "\t\tDefault: " DEFAULT_APERTURE_STRING "M");
->>   
->>   MODULE_AUTHOR("Ben Herrenschmidt & Paul Mackerras");
->> +MODULE_DESCRIPTION("Apple UniNorth & U3 AGP support");
->>   MODULE_LICENSE("GPL");
->>
->> ---
->> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
->> change-id: 20240615-md-powerpc-drivers-char-agp-db644db58c24
 > 
-> Following up to see if anything else is needed from me. Hoping to see this in
-> linux-next so I can remove it from my tracking spreadsheet :)
+> Hi John,
+> 
+> tools/testing/selftests/net/ynl.mk was merged as part of this patch a
+> few days ago:
+> 
+> https://patchwork.kernel.org/project/netdevbpf/patch/20240628003253.1694510-14-almasrymina@google.com/
+> 
+> Is it not working for you by any chance?
+> 
 
-I still don't see this in linux-next.
-Adding Greg KH since he's picked up many of these fixes.
-Hope to have all of these warnings fixed tree-wide in 6.11.
+Aha, I'm just not using the right tree, then. Thanks for clearing that up.
 
-/jeff
+I was attempting this against mainline Linux, just for a quick look at the
+selftests part, and that Doesn't Work. :)
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
 
