@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2887792E33F
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 11:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5509792E339
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 11:15:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6848610E9CA;
-	Thu, 11 Jul 2024 09:15:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6676210E9C5;
+	Thu, 11 Jul 2024 09:15:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nnGgTlLo";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="J1GPKdgt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC9A10E9BF
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 09:15:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0920F10E9BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 09:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,24 +22,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=VejI443YtxixA/xjyMAniE9iKJCTzEIRH7QsVttIPgM=; b=nnGgTlLoG0+lB35kIGzWlBLqK8
- nsPhBONvLv7myhc5oJVp8o4vW4PXOY7tVsi/0WTjsluNMKP/NAnj0m5Xq/eMpXfA51YZK/E+1w5yF
- 9bpdkCUiEl8N7PhTZQoS8AaMOKc5PAPPSUh//TYC1A2SPYdenTiesJKb1E3RTJPQGa2FBOLDMA2rf
- G1Ueo0J+V0wfzMxR7uR7idPZ9XoSgFgZNAiVy5lsyfWFU7Tb48n984+aHOI+P2U64eZnHufsOHU8O
- ij6ExhA84i2YYxr5nk40rT8H0rMgs0Y+exs5vfjxVx9+stgS9yqJuIQH0uuTnvkXsqowd10hDwFTc
- 55KLF8hA==;
+ bh=JaEiVzRQAjKt7nq3CSiQwK6tPgYoE4cvtU8h2lp1Kls=; b=J1GPKdgtt4MXzFOmSpbt2B7cU1
+ USf4x2MLgnCaib85O/EEYtMeReZryWDJyfxycn3jjZ7W/cdLAjcYZeiwhk8TlwgwQFySN4Vwga39L
+ psCOVlcaU+8EZFN34j1hHs+3z9HaPfMzMMzeIz/bUbShdBeF/K6Ct+2fy4dKmfNN5rC8NP0Ws0J1s
+ 1Aboqc4DbKiqcIl8kfuXmg/ZAC6RL4huPbr68RKnBc+D+gFZsaL/+FenE1w+GbwdM66nDMeb2u4xZ
+ lHrO28C9Iu0hTTn3R9ARglQgcwTkBnajSZVwUQTAE0ZhUEtLCmfAd9E0VfBXp6BVvJkGfhEE09gTl
+ TF/sEEvQ==;
 Received: from [84.69.19.168] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sRptz-00DcKj-N9; Thu, 11 Jul 2024 11:15:47 +0200
+ id 1sRpu0-00DcKp-Ag; Thu, 11 Jul 2024 11:15:48 +0200
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH 06/11] drm/v3d: Move part of copying of reset/copy performance
- extension to a helper
-Date: Thu, 11 Jul 2024 10:15:37 +0100
-Message-ID: <20240711091542.82083-7-tursulin@igalia.com>
+Subject: [PATCH 07/11] drm/v3d: Size the kperfmon_ids array at runtime
+Date: Thu, 11 Jul 2024 10:15:38 +0100
+Message-ID: <20240711091542.82083-8-tursulin@igalia.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240711091542.82083-1-tursulin@igalia.com>
 References: <20240711091542.82083-1-tursulin@igalia.com>
@@ -62,221 +61,109 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-The loop which looks up the syncobj and copies the kperfmon ids is
-identical so lets move it to a helper.
+Instead of statically reserving pessimistic space for the kperfmon_ids
+array, make the userspace extension code allocate the exactly required
+amount of space.
 
-The only change is replacing copy_from_user with get_user when copying a
-scalar.
+Apart from saving some memory at runtime, this also removes the need for
+the V3D_MAX_PERFMONS macro whose removal will benefit further driver
+cleanup.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_submit.c | 152 ++++++++++++++-----------------
- 1 file changed, 68 insertions(+), 84 deletions(-)
+ drivers/gpu/drm/v3d/v3d_drv.h    |  6 +-----
+ drivers/gpu/drm/v3d/v3d_sched.c  |  4 +++-
+ drivers/gpu/drm/v3d/v3d_submit.c | 17 +++++++++++------
+ 3 files changed, 15 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index dd3ead4cb8bd..b1dfec49ba7d 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -351,13 +351,9 @@ struct v3d_timestamp_query {
+ 	struct drm_syncobj *syncobj;
+ };
+ 
+-/* Number of perfmons required to handle all supported performance counters */
+-#define V3D_MAX_PERFMONS DIV_ROUND_UP(V3D_MAX_COUNTERS, \
+-				      DRM_V3D_MAX_PERF_COUNTERS)
+-
+ struct v3d_performance_query {
+ 	/* Performance monitor IDs for this query */
+-	u32 kperfmon_ids[V3D_MAX_PERFMONS];
++	u32 *kperfmon_ids;
+ 
+ 	/* Syncobj that indicates the query availability */
+ 	struct drm_syncobj *syncobj;
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 5fbbee47c6b7..7b2195ba4248 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -94,8 +94,10 @@ v3d_performance_query_info_free(struct v3d_performance_query_info *query_info,
+ 	if (query_info->queries) {
+ 		unsigned int i;
+ 
+-		for (i = 0; i < count; i++)
++		for (i = 0; i < count; i++) {
+ 			drm_syncobj_put(query_info->queries[i].syncobj);
++			kvfree(query_info->queries[i].kperfmon_ids);
++		}
+ 
+ 		kvfree(query_info->queries);
+ 	}
 diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index 3838ebade45d..ce56e31a027d 100644
+index ce56e31a027d..d1060e60aafa 100644
 --- a/drivers/gpu/drm/v3d/v3d_submit.c
 +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -644,15 +644,64 @@ v3d_get_cpu_copy_query_results_params(struct drm_file *file_priv,
- 	return err;
- }
+@@ -671,10 +671,20 @@ v3d_copy_query_info(struct v3d_performance_query_info *query_info,
+ 			goto error;
+ 		}
  
-+static int
-+v3d_copy_query_info(struct v3d_performance_query_info *query_info,
-+		    unsigned int count,
-+		    unsigned int nperfmons,
-+		    u32 __user *syncs,
-+		    u64 __user *kperfmon_ids,
-+		    struct drm_file *file_priv)
-+{
-+	unsigned int i, j;
-+	int err;
-+
-+	for (i = 0; i < count; i++) {
-+		struct v3d_performance_query *query = &query_info->queries[i];
-+		u32 __user *ids_pointer;
-+		u32 sync, id;
-+		u64 ids;
-+
-+		if (get_user(sync, syncs++)) {
-+			err = -EFAULT;
++		query->kperfmon_ids =
++			kvmalloc_array(nperfmons,
++				       sizeof(struct v3d_performance_query *),
++				       GFP_KERNEL);
++		if (!query->kperfmon_ids) {
++			err = -ENOMEM;
 +			goto error;
 +		}
 +
-+		if (get_user(ids, kperfmon_ids++)) {
-+			err = -EFAULT;
-+			goto error;
-+		}
-+
-+		ids_pointer = u64_to_user_ptr(ids);
-+
-+		for (j = 0; j < nperfmons; j++) {
-+			if (get_user(id, ids_pointer++)) {
-+				err = -EFAULT;
-+				goto error;
-+			}
-+
-+			query->kperfmon_ids[j] = id;
-+		}
-+
-+		query->syncobj = drm_syncobj_find(file_priv, sync);
-+		if (!query->syncobj) {
-+			err = -ENOENT;
-+			goto error;
-+		}
-+	}
-+
-+	return 0;
-+
-+error:
-+	v3d_performance_query_info_free(query_info, i);
-+	return err;
-+}
-+
- static int
- v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
- 				     struct drm_v3d_extension __user *ext,
- 				     struct v3d_cpu_job *job)
- {
--	u32 __user *syncs;
--	u64 __user *kperfmon_ids;
- 	struct drm_v3d_reset_performance_query reset;
--	unsigned int i, j;
- 	int err;
+ 		ids_pointer = u64_to_user_ptr(ids);
  
- 	if (!job) {
-@@ -679,50 +728,19 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
- 	if (!job->performance_query.queries)
- 		return -ENOMEM;
+ 		for (j = 0; j < nperfmons; j++) {
+ 			if (get_user(id, ids_pointer++)) {
++				kvfree(query->kperfmon_ids);
+ 				err = -EFAULT;
+ 				goto error;
+ 			}
+@@ -684,6 +694,7 @@ v3d_copy_query_info(struct v3d_performance_query_info *query_info,
  
--	syncs = u64_to_user_ptr(reset.syncs);
--	kperfmon_ids = u64_to_user_ptr(reset.kperfmon_ids);
-+	err = v3d_copy_query_info(&job->performance_query,
-+				  reset.count,
-+				  reset.nperfmons,
-+				  u64_to_user_ptr(reset.syncs),
-+				  u64_to_user_ptr(reset.kperfmon_ids),
-+				  file_priv);
-+	if (err)
-+		return err;
+ 		query->syncobj = drm_syncobj_find(file_priv, sync);
+ 		if (!query->syncobj) {
++			kvfree(query->kperfmon_ids);
+ 			err = -ENOENT;
+ 			goto error;
+ 		}
+@@ -717,9 +728,6 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
+ 	if (copy_from_user(&reset, ext, sizeof(reset)))
+ 		return -EFAULT;
  
--	for (i = 0; i < reset.count; i++) {
--		u32 sync;
--		u64 ids;
--		u32 __user *ids_pointer;
--		u32 id;
+-	if (reset.nperfmons > V3D_MAX_PERFMONS)
+-		return -EINVAL;
 -
--		if (copy_from_user(&sync, syncs++, sizeof(sync))) {
--			err = -EFAULT;
--			goto error;
--		}
--
--		if (copy_from_user(&ids, kperfmon_ids++, sizeof(ids))) {
--			err = -EFAULT;
--			goto error;
--		}
--
--		ids_pointer = u64_to_user_ptr(ids);
--
--		for (j = 0; j < reset.nperfmons; j++) {
--			if (copy_from_user(&id, ids_pointer++, sizeof(id))) {
--				err = -EFAULT;
--				goto error;
--			}
--
--			job->performance_query.queries[i].kperfmon_ids[j] = id;
--		}
--
--		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
--		if (!job->performance_query.queries[i].syncobj) {
--			err = -ENOENT;
--			goto error;
--		}
--	}
- 	job->performance_query.count = reset.count;
- 	job->performance_query.nperfmons = reset.nperfmons;
+ 	job->job_type = V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY;
  
- 	return 0;
--
--error:
--	v3d_performance_query_info_free(&job->performance_query, i);
--	return err;
- }
+ 	job->performance_query.queries = kvmalloc_array(reset.count,
+@@ -767,9 +775,6 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
+ 	if (copy.pad)
+ 		return -EINVAL;
  
- static int
-@@ -730,10 +748,7 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
- 					  struct drm_v3d_extension __user *ext,
- 					  struct v3d_cpu_job *job)
- {
--	u32 __user *syncs;
--	u64 __user *kperfmon_ids;
- 	struct drm_v3d_copy_performance_query copy;
--	unsigned int i, j;
- 	int err;
+-	if (copy.nperfmons > V3D_MAX_PERFMONS)
+-		return -EINVAL;
+-
+ 	job->job_type = V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY;
  
- 	if (!job) {
-@@ -763,42 +778,15 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
- 	if (!job->performance_query.queries)
- 		return -ENOMEM;
- 
--	syncs = u64_to_user_ptr(copy.syncs);
--	kperfmon_ids = u64_to_user_ptr(copy.kperfmon_ids);
-+	err = v3d_copy_query_info(&job->performance_query,
-+				  copy.count,
-+				  copy.nperfmons,
-+				  u64_to_user_ptr(copy.syncs),
-+				  u64_to_user_ptr(copy.kperfmon_ids),
-+				  file_priv);
-+	if (err)
-+		return err;
- 
--	for (int i = 0; i < copy.count; i++) {
--		u32 sync;
--		u64 ids;
--		u32 __user *ids_pointer;
--		u32 id;
--
--		if (copy_from_user(&sync, syncs++, sizeof(sync))) {
--			err = -EFAULT;
--			goto error;
--		}
--
--		if (copy_from_user(&ids, kperfmon_ids++, sizeof(ids))) {
--			err = -EFAULT;
--			goto error;
--		}
--
--		ids_pointer = u64_to_user_ptr(ids);
--
--		for (j = 0; j < copy.nperfmons; j++) {
--			if (copy_from_user(&id, ids_pointer++, sizeof(id))) {
--				err = -EFAULT;
--				goto error;
--			}
--
--			job->performance_query.queries[i].kperfmon_ids[j] = id;
--		}
--
--		job->performance_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
--		if (!job->performance_query.queries[i].syncobj) {
--			err = -ENOENT;
--			goto error;
--		}
--	}
- 	job->performance_query.count = copy.count;
- 	job->performance_query.nperfmons = copy.nperfmons;
- 	job->performance_query.ncounters = copy.ncounters;
-@@ -810,10 +798,6 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
- 	job->copy.stride = copy.stride;
- 
- 	return 0;
--
--error:
--	v3d_performance_query_info_free(&job->performance_query, i);
--	return err;
- }
- 
- /* Whenever userspace sets ioctl extensions, v3d_get_extensions parses data
+ 	job->performance_query.queries = kvmalloc_array(copy.count,
 -- 
 2.44.0
 
