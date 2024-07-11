@@ -2,105 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EC692E314
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 11:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B13892E316
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 11:06:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5323B10E2FF;
-	Thu, 11 Jul 2024 09:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED86510E9CC;
+	Thu, 11 Jul 2024 09:06:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jH5FyGxF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CCNHXBZI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0FD10E0DB
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 09:05:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C9E5E61BDC;
- Thu, 11 Jul 2024 09:05:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8F5FC4AF09;
- Thu, 11 Jul 2024 09:05:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720688746;
- bh=NWyzMVDXUKeLPeToQ/9acrPTXN/Uzd3RljPeeuoq4qE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jH5FyGxFtY1wRriHBOlZRbhM+sPpzv324Mt4uFMqwJnw6wUSlTyPOqlZgvq2gAyFo
- pbxdMPEGFlsMeD4VpCfU2Vx9pQAr8mDhglklrrxqg9zCox3Z1AA2/ynqG0/4BxFHkE
- h/fegEOav8H1ld9sohx5wpd8FSyAI8w2AdXeTkR7wweHMaQoXTFjmaA5hqQF6XXpnQ
- FZmOFWfBlgYXPp4Sryr8ZZHtvO3guG8FXR+8Hl6pUIN180SmMgVib5Ym/LnhuWr/sa
- A+QIm4AUPxZEpuU8LUvXfzPcZlxfOACdEYalayK7G1vMLJ91RsClWTV1yqvYPQFcJc
- ecH9tvhW4nTBg==
-Message-ID: <4c1b7af7-e53c-492a-9c41-40cad78f7666@kernel.org>
-Date: Thu, 11 Jul 2024 11:05:37 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB6B710E9C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 09:06:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=AH2owH4tqqbO9ouhBZP2ftz2MUQdHw3HNtAsCJNXMZk=; b=CCNHXBZI78CaI8rLdmtzLDUn7B
+ nnpIl8RQBZIivOY12gC+OSxyB0FmjGjHZ/4p+kdSbWy2nBPnqWBf6Ec4fcSQidAYOLSrniR/UxaXd
+ hnZSAlszUM55A4Jov2+rBIofvvYMvOehQ5NCKWR7jPAK2h0PJni0E94a8F3FsVEigjjsZqJt5ZSzX
+ lEUwdK27PGtqcRu1CV0d0toBykYFvzp9cqqaQ6oED909pKDAkh+JIhxUCjoQ7vKrIo4xNMXyYAXgl
+ aFSDSN44lZ4UWV9LNprbSsoG+kHaUY/zDk5c3qPgXh9Gtmu+E2m4CvPFzejkHgBRT0NjaxFh7D6/9
+ k76Yl4wA==;
+Received: from [84.69.19.168] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sRpkt-00Dc7g-2k; Thu, 11 Jul 2024 11:06:23 +0200
+Message-ID: <8530b128-82e5-408b-bf7a-2ff50fe2c1a3@igalia.com>
+Date: Thu, 11 Jul 2024 10:06:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] drm/bridge: add Microchip DSI controller support for
- sam9x7 SoC series
-To: Manikandan.M@microchip.com
-Cc: Hari.PrasathGE@microchip.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux@armlinux.org.uk, Nicolas.Ferre@microchip.com,
- alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev, arnd@arndb.de,
- Jason@zx2c4.com, palmer@rivosinc.com, mpe@ellerman.id.au,
- rdunlap@infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20240704084837.168075-1-manikandan.m@microchip.com>
- <20240704084837.168075-3-manikandan.m@microchip.com>
- <9ef5a1ba-e404-46e0-8513-5fffbfb5618b@kernel.org>
- <aeaeb5d4-5e55-4a7a-bce7-fa207ebf0616@microchip.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <aeaeb5d4-5e55-4a7a-bce7-fa207ebf0616@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 11/12] drm/v3d: Add some local variables in
+ queries/extensions
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com
+References: <20240710134130.17292-1-tursulin@igalia.com>
+ <20240710134130.17292-12-tursulin@igalia.com>
+ <93222a05-06e0-4dc7-b000-341f113d6e61@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <93222a05-06e0-4dc7-b000-341f113d6e61@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,51 +64,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/07/2024 10:30, Manikandan.M@microchip.com wrote:
-> Hi Krzysztof,
+
+On 10/07/2024 18:43, Maíra Canal wrote:
+> On 7/10/24 10:41, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> Add some local variables to make the code a bit less verbose, with the
+>> main benefit being pulling some lines to under 80 columns wide.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 > 
-> On 04/07/24 4:27 pm, Krzysztof Kozlowski wrote:
->> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
->>
->> On 04/07/2024 10:48, Manikandan Muralidharan wrote:
->>> Add the Microchip's DSI controller wrapper driver that uses
->>> the Synopsys DesignWare MIPI DSI host controller bridge.
->>>
->>> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
->>> ---
->>
->>
->> ...
->>
->>> +
->>> +#define HSTT(_maxfreq, _c_lp2hs, _c_hs2lp, _d_lp2hs, _d_hs2lp)       \
->>> +{                                    \
->>> +     .maxfreq = _maxfreq,            \
->>> +     .timing = {                     \
->>> +             .clk_lp2hs = _c_lp2hs,  \
->>> +             .clk_hs2lp = _c_hs2lp,  \
->>> +             .data_lp2hs = _d_lp2hs, \
->>> +             .data_hs2lp = _d_hs2lp, \
->>> +     }                               \
->>> +}
->>> +
->>> +struct hstt hstt_table[] = {
->>
->> So more globals? No.
+> I'd prefer `query_info`, but anyway:
+
+Yeah it does look nicer - done throughout the series.
+
+I also bumped this patch to be last in the series since I don't 
+"believe" in it that much any more. We probably should drop it.
+
+Regards,
+
+Tvrtko
+
+> Reviewed-by: Maíra Canal <mcanal@igalia.com>
 > 
-> In the sam9x7 datasheet, the high speed transition time for data and
-> clock lane at different freq for the DSI controller ranges are tabulated
-> with constant values.
-> I referred other similar platforms for the functionality and found 
-> similar way of implementation,  only a few had equations to derive the 
-> low power and high speed timings.I am not able to come up with a more 
-> efficient method. If there is something I am missing, please suggest.
-> TIA
-
-Yeah, this should not be a global. Nothing above suggests it.
-
-BTW, no W=1 clang warnings? Are you sure?
-
-Best regards,
-Krzysztof
-
+> Best Regards,
+> - Maíra
+> 
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_submit.c | 79 +++++++++++++++++---------------
+>>   1 file changed, 42 insertions(+), 37 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c 
+>> b/drivers/gpu/drm/v3d/v3d_submit.c
+>> index 34ecd844f16a..b0c2a8e9cb06 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_submit.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
+>> @@ -452,6 +452,7 @@ v3d_get_cpu_timestamp_query_params(struct drm_file 
+>> *file_priv,
+>>   {
+>>       u32 __user *offsets, *syncs;
+>>       struct drm_v3d_timestamp_query timestamp;
+>> +    struct v3d_timestamp_query_info *qinfo = &job->timestamp_query;
+>>       unsigned int i;
+>>       int err;
+>> @@ -473,10 +474,10 @@ v3d_get_cpu_timestamp_query_params(struct 
+>> drm_file *file_priv,
+>>       job->job_type = V3D_CPU_JOB_TYPE_TIMESTAMP_QUERY;
+>> -    job->timestamp_query.queries = kvmalloc_array(timestamp.count,
+>> -                              sizeof(struct v3d_timestamp_query),
+>> -                              GFP_KERNEL);
+>> -    if (!job->timestamp_query.queries)
+>> +    qinfo->queries = kvmalloc_array(timestamp.count,
+>> +                    sizeof(struct v3d_timestamp_query),
+>> +                    GFP_KERNEL);
+>> +    if (!qinfo->queries)
+>>           return -ENOMEM;
+>>       offsets = u64_to_user_ptr(timestamp.offsets);
+>> @@ -490,20 +491,20 @@ v3d_get_cpu_timestamp_query_params(struct 
+>> drm_file *file_priv,
+>>               goto error;
+>>           }
+>> -        job->timestamp_query.queries[i].offset = offset;
+>> +        qinfo->queries[i].offset = offset;
+>>           if (copy_from_user(&sync, syncs++, sizeof(sync))) {
+>>               err = -EFAULT;
+>>               goto error;
+>>           }
+>> -        job->timestamp_query.queries[i].syncobj = 
+>> drm_syncobj_find(file_priv, sync);
+>> -        if (!job->timestamp_query.queries[i].syncobj) {
+>> +        qinfo->queries[i].syncobj = drm_syncobj_find(file_priv, sync);
+>> +        if (!qinfo->queries[i].syncobj) {
+>>               err = -ENOENT;
+>>               goto error;
+>>           }
+>>       }
+>> -    job->timestamp_query.count = timestamp.count;
+>> +    qinfo->count = timestamp.count;
+>>       return 0;
+>> @@ -519,6 +520,7 @@ v3d_get_cpu_reset_timestamp_params(struct drm_file 
+>> *file_priv,
+>>   {
+>>       u32 __user *syncs;
+>>       struct drm_v3d_reset_timestamp_query reset;
+>> +    struct v3d_timestamp_query_info *qinfo = &job->timestamp_query;
+>>       unsigned int i;
+>>       int err;
+>> @@ -537,10 +539,10 @@ v3d_get_cpu_reset_timestamp_params(struct 
+>> drm_file *file_priv,
+>>       job->job_type = V3D_CPU_JOB_TYPE_RESET_TIMESTAMP_QUERY;
+>> -    job->timestamp_query.queries = kvmalloc_array(reset.count,
+>> -                              sizeof(struct v3d_timestamp_query),
+>> -                              GFP_KERNEL);
+>> -    if (!job->timestamp_query.queries)
+>> +    qinfo->queries = kvmalloc_array(reset.count,
+>> +                    sizeof(struct v3d_timestamp_query),
+>> +                    GFP_KERNEL);
+>> +    if (!qinfo->queries)
+>>           return -ENOMEM;
+>>       syncs = u64_to_user_ptr(reset.syncs);
+>> @@ -548,20 +550,20 @@ v3d_get_cpu_reset_timestamp_params(struct 
+>> drm_file *file_priv,
+>>       for (i = 0; i < reset.count; i++) {
+>>           u32 sync;
+>> -        job->timestamp_query.queries[i].offset = reset.offset + 8 * i;
+>> +        qinfo->queries[i].offset = reset.offset + 8 * i;
+>>           if (copy_from_user(&sync, syncs++, sizeof(sync))) {
+>>               err = -EFAULT;
+>>               goto error;
+>>           }
+>> -        job->timestamp_query.queries[i].syncobj = 
+>> drm_syncobj_find(file_priv, sync);
+>> -        if (!job->timestamp_query.queries[i].syncobj) {
+>> +        qinfo->queries[i].syncobj = drm_syncobj_find(file_priv, sync);
+>> +        if (!qinfo->queries[i].syncobj) {
+>>               err = -ENOENT;
+>>               goto error;
+>>           }
+>>       }
+>> -    job->timestamp_query.count = reset.count;
+>> +    qinfo->count = reset.count;
+>>       return 0;
+>> @@ -578,6 +580,7 @@ v3d_get_cpu_copy_query_results_params(struct 
+>> drm_file *file_priv,
+>>   {
+>>       u32 __user *offsets, *syncs;
+>>       struct drm_v3d_copy_timestamp_query copy;
+>> +    struct v3d_timestamp_query_info *qinfo = &job->timestamp_query;
+>>       unsigned int i;
+>>       int err;
+>> @@ -599,10 +602,10 @@ v3d_get_cpu_copy_query_results_params(struct 
+>> drm_file *file_priv,
+>>       job->job_type = V3D_CPU_JOB_TYPE_COPY_TIMESTAMP_QUERY;
+>> -    job->timestamp_query.queries = kvmalloc_array(copy.count,
+>> -                              sizeof(struct v3d_timestamp_query),
+>> -                              GFP_KERNEL);
+>> -    if (!job->timestamp_query.queries)
+>> +    qinfo->queries = kvmalloc_array(copy.count,
+>> +                    sizeof(struct v3d_timestamp_query),
+>> +                    GFP_KERNEL);
+>> +    if (!qinfo->queries)
+>>           return -ENOMEM;
+>>       offsets = u64_to_user_ptr(copy.offsets);
+>> @@ -616,20 +619,20 @@ v3d_get_cpu_copy_query_results_params(struct 
+>> drm_file *file_priv,
+>>               goto error;
+>>           }
+>> -        job->timestamp_query.queries[i].offset = offset;
+>> +        qinfo->queries[i].offset = offset;
+>>           if (copy_from_user(&sync, syncs++, sizeof(sync))) {
+>>               err = -EFAULT;
+>>               goto error;
+>>           }
+>> -        job->timestamp_query.queries[i].syncobj = 
+>> drm_syncobj_find(file_priv, sync);
+>> -        if (!job->timestamp_query.queries[i].syncobj) {
+>> +        qinfo->queries[i].syncobj = drm_syncobj_find(file_priv, sync);
+>> +        if (!qinfo->queries[i].syncobj) {
+>>               err = -ENOENT;
+>>               goto error;
+>>           }
+>>       }
+>> -    job->timestamp_query.count = copy.count;
+>> +    qinfo->count = copy.count;
+>>       job->copy.do_64bit = copy.do_64bit;
+>>       job->copy.do_partial = copy.do_partial;
+>> @@ -712,6 +715,7 @@ v3d_get_cpu_reset_performance_params(struct 
+>> drm_file *file_priv,
+>>                        struct drm_v3d_extension __user *ext,
+>>                        struct v3d_cpu_job *job)
+>>   {
+>> +    struct v3d_performance_query_info *qinfo = &job->performance_query;
+>>       struct drm_v3d_reset_performance_query reset;
+>>       int err;
+>> @@ -730,10 +734,10 @@ v3d_get_cpu_reset_performance_params(struct 
+>> drm_file *file_priv,
+>>       job->job_type = V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY;
+>> -    job->performance_query.queries = kvmalloc_array(reset.count,
+>> -                            sizeof(struct v3d_performance_query),
+>> -                            GFP_KERNEL);
+>> -    if (!job->performance_query.queries)
+>> +    qinfo->queries = kvmalloc_array(reset.count,
+>> +                    sizeof(struct v3d_performance_query),
+>> +                    GFP_KERNEL);
+>> +    if (!qinfo->queries)
+>>           return -ENOMEM;
+>>       err = copy_query_info(qinfo, reset.count, reset.nperfmons,
+>> @@ -743,8 +747,8 @@ v3d_get_cpu_reset_performance_params(struct 
+>> drm_file *file_priv,
+>>       if (err)
+>>           return err;
+>> -    job->performance_query.count = reset.count;
+>> -    job->performance_query.nperfmons = reset.nperfmons;
+>> +    qinfo->count = reset.count;
+>> +    qinfo->nperfmons = reset.nperfmons;
+>>       return 0;
+>>   }
+>> @@ -754,6 +758,7 @@ v3d_get_cpu_copy_performance_query_params(struct 
+>> drm_file *file_priv,
+>>                         struct drm_v3d_extension __user *ext,
+>>                         struct v3d_cpu_job *job)
+>>   {
+>> +    struct v3d_performance_query_info *qinfo = &job->performance_query;
+>>       struct drm_v3d_copy_performance_query copy;
+>>       int err;
+>> @@ -775,10 +780,10 @@ v3d_get_cpu_copy_performance_query_params(struct 
+>> drm_file *file_priv,
+>>       job->job_type = V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY;
+>> -    job->performance_query.queries = kvmalloc_array(copy.count,
+>> -                            sizeof(struct v3d_performance_query),
+>> -                            GFP_KERNEL);
+>> -    if (!job->performance_query.queries)
+>> +    qinfo->queries = kvmalloc_array(copy.count,
+>> +                    sizeof(struct v3d_performance_query),
+>> +                    GFP_KERNEL);
+>> +    if (!qinfo->queries)
+>>           return -ENOMEM;
+>>       err = copy_query_info(qinfo, copy.count, copy.nperfmons,
+>> @@ -788,9 +793,9 @@ v3d_get_cpu_copy_performance_query_params(struct 
+>> drm_file *file_priv,
+>>       if (err)
+>>           return err;
+>> -    job->performance_query.count = copy.count;
+>> -    job->performance_query.nperfmons = copy.nperfmons;
+>> -    job->performance_query.ncounters = copy.ncounters;
+>> +    qinfo->count = copy.count;
+>> +    qinfo->nperfmons = copy.nperfmons;
+>> +    qinfo->ncounters = copy.ncounters;
+>>       job->copy.do_64bit = copy.do_64bit;
+>>       job->copy.do_partial = copy.do_partial;
