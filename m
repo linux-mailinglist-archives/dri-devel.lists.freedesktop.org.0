@@ -2,104 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9C892F07E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 22:57:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2659192F092
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 23:00:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5713D10EB9A;
-	Thu, 11 Jul 2024 20:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D70D410EB9B;
+	Thu, 11 Jul 2024 21:00:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ydYplClx";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="IOBF2/bk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6751310EB9B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 20:57:17 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-e03a8955ae3so1335870276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:57:17 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D79E10EB9B
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 21:00:34 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-367a9ab4d81so746554f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 14:00:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1720731436; x=1721336236;
+ d=google.com; s=20230601; t=1720731633; x=1721336433;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qR1w6TGwRPRKUblfK+cvVsJQzW84NzZB6wHL2Wt2c14=;
- b=ydYplClxMpEztE9PXK3E/S+XRAZKjaNVDdLL74DZXAdSxtE78FujBaS0MjvLJatybh
- Ckzd1ui07mj9XgXCaP++fRo6CvjUJXLW6Gh/8TWlh7oJH34LKksd244mfJe/2aeSUUiW
- /FWV1Ekh3FS2kYDwM6x8rlyXUdFwkTRw2jFdrMkSl7gvKJxCkMz3WzfRsTnrNTjXsG6D
- KPRJrpgQg5tt07g0Rnd4XXTIezRfYxazpKPZ3KJgUMBZdf/NzDNjc++jcAGKUV7pbpuc
- jEIWenoF3JNYaIZAQTfIxVEHeVBf6KxVzMteL94KsL+xb6QCoV3MyNUdylAwZcbwGHi+
- ih/Q==
+ bh=66JmoF/QeR3DsXY/A2yKPCjdhMtDcQtWf+drZ4mBEhA=;
+ b=IOBF2/bkiTXh96og9uDpVMOoTN2UybObEAMyaz6ntCDxyHm1z6qJfUtpOsvGi6Lgzn
+ SK5Zrbl9l87QlA08hz6QcuVOhCww6iGzlFsd+kWs9o4YJPSKqZKztm6jcBJHKnXflIqe
+ qAHpT6Zt8TJP+FchqjElkKLv12jR9Zs7C0OAwsWC7uwVM/c5sDCXOqZAnMkddO41rHcN
+ IgEd56dpRDLscnIl3JeNMrXwRu8eZ/9l2nVCVmgLZJd5mhHXpldp4dEPTWUJVza0ALOp
+ lc3cJ3bOFBRLSczIZR6N5KEAUg7D6S2gRzq4+aLqU8DZhLmTvQ2IVyyKvXC1rvP9jAi2
+ TnDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720731436; x=1721336236;
+ d=1e100.net; s=20230601; t=1720731633; x=1721336433;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qR1w6TGwRPRKUblfK+cvVsJQzW84NzZB6wHL2Wt2c14=;
- b=PqHnE0fYSbo3TwJTbzYLdhxaTEaEGQml6LzX6X/+HkIk4t8HoyLlFQdSWAIVoZ56Vj
- pmt5DSpgpXjQ+XredbAuYOYqKzPaYbUKV4ApjBi9FmvwonysKHbJmQIoq2e4OqHl8A7X
- BxtBtjpb+3v09hsxD/IZoLzVvSOkjcTpq7WL8vBzfEFjoeph9y9dWwBi4SoKhq01H277
- deskckDD9KCq3uPDoN6kr549kvnrDByO0B2mk0Lvz/81wLVBgkfuX7h3jqBL+K7tjBuZ
- /uUhfMj9Tke1l0eiOTcm5C3zPXlq61bl4ftwz3u1KtF1oJAZcbzDXcMVEFNfTQcD5b+Y
- 1CnQ==
+ bh=66JmoF/QeR3DsXY/A2yKPCjdhMtDcQtWf+drZ4mBEhA=;
+ b=buWXpfCs3VnxBYnyT1reRy1+mtmn+VTAseQ9EtUPNEJpPcMOuk55mt4kjEhCwerVeT
+ 3tk8+XrC1t9d++BdiIkXcLlUWqflKFgSQQoJRTV7KCDD1zmFGMi88/M1DLcJ/B3MHHgP
+ SsTyNoD5+15oo0vY2XsuypFjRfoRKUsIqjhHwDVo0mfnWe9YCcH9ouHEr3hLiAZFfglg
+ FlP1Ua9b3cTm9iaZ6aJ1b0e7MWSXw9NugvvaziVIaY5+t36sGKDs0g5h0HDvPA5pzsif
+ +5NLUNsOdkac0XnugWNrSIHZA4w+GorurwG/Cpwxy57jGwunMSwXmMreZvdsr10Llm0e
+ FkRg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWOUZzhcBMiEAsGE7EQaP735wjxXkkmCllZCb232ohEQ2cJqrjbT8X0WC0tv+w7vzIz0IMAPJSgqViztPEbkmVi0wdXqxUMHjHecoxIKIiX
-X-Gm-Message-State: AOJu0YwfLRSD78o8xChOozj9xwEP699D6m7VBQEeP59LqbCIjOtkJknS
- RYlF342rRJVpzhZWo+tNxsmKa39ffvYPyXG2pJbptIJIoxfsobRTkh1LcxMYufwJUcxdidttlFI
- qacngLZ8vlwAczItDXqkjOghMT8efEOgaYjmF
-X-Google-Smtp-Source: AGHT+IEYLltipW2y2jpNMjV5kpiHBN8xdsLzBdnyK43dhH65oHO3BC27aVEWQpPKMVw7hLbmYOjCnlcdqKg1G5wqhvg=
-X-Received: by 2002:a25:d3cf:0:b0:dfb:c6a:643 with SMTP id
- 3f1490d57ef6-e041b070a46mr11240607276.7.1720731436062; 
- Thu, 11 Jul 2024 13:57:16 -0700 (PDT)
+ AJvYcCU6gugjcmKkf6skL0xoxV95JvgQ3el4qer9ZkCZ48HQcDjqVP9SulmJQjd/k8O4YEIF3FIv4kRkgK4SGCvuoksaYKNNy0G4a1/af+16CwEs
+X-Gm-Message-State: AOJu0YxRR2ZhFVzS5wGgIDfS4Ekv6w6EUz6RH/3f4LaKdUQdhChbePVd
+ f9f04NmVJUDG4knubSsWI9iErSNWqVbgNoqVp1NIDFyya7BnurpZ8gm04u7YA7drc2BXEN1h1hR
+ GljbbAfNuI06dYtYyzniPSjwbY+rUOkNB0VVs
+X-Google-Smtp-Source: AGHT+IHapAG+Jct6S7LNUUD+7jqXhZs5azzCnfIkvskET1tubguYLkqX2/UPvGInXhS7BA4uqni+7IG2uwUy4ekTEcY=
+X-Received: by 2002:a5d:4e12:0:b0:366:e1a6:3386 with SMTP id
+ ffacd0b85a97d-367ceacaa9fmr6076279f8f.44.1720731632563; Thu, 11 Jul 2024
+ 14:00:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240710001749.1388631-1-almasrymina@google.com>
- <20240710001749.1388631-6-almasrymina@google.com>
- <20240710094900.0f808684@kernel.org>
- <CAHS8izPTqsNQnQWKpDPTxULTFL4vr4k6j9Zw8TQzJVDBMXWMaA@mail.gmail.com>
- <20240710182322.667f0108@kernel.org>
-In-Reply-To: <20240710182322.667f0108@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 11 Jul 2024 13:57:01 -0700
-Message-ID: <CAHS8izNMsCHhJM4hf7pf2p98sp9-3gxL6o7sC6JQnqThxiWjYw@mail.gmail.com>
-Subject: Re: [PATCH net-next v16 05/13] page_pool: devmem support
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- bpf@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org, 
- Matthew Wilcox <willy@infradead.org>
+References: <20240710140057.347384-1-jfalempe@redhat.com>
+ <20240710140057.347384-5-jfalempe@redhat.com>
+In-Reply-To: <20240710140057.347384-5-jfalempe@redhat.com>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Thu, 11 Jul 2024 23:00:20 +0200
+Message-ID: <CAH5fLgiVqSYcnS3b2=deGHg+VZk0RQK4HVBbrSrhxNMWYGUQ7w@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] drm/panic: Add a QR code panic screen
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@samsung.com>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ Danilo Krummrich <dakr@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,45 +90,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 10, 2024 at 6:23=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
+On Wed, Jul 10, 2024 at 4:01=E2=80=AFPM Jocelyn Falempe <jfalempe@redhat.co=
+m> wrote:
 >
-> On Wed, 10 Jul 2024 16:42:04 -0700 Mina Almasry wrote:
-> > > > +static inline void netmem_set_pp(netmem_ref netmem, struct page_po=
-ol *pool)
-> > > > +{
-> > > > +     __netmem_clear_lsb(netmem)->pp =3D pool;
-> > > > +}
-> > >
-> > > Why is all this stuff in the main header? It's really low level.
-> > > Please put helpers which are only used by the core in a header
-> > > under net/core/, like net/core/dev.h
-> >
-> > Sorry none of those are only used by net/core/*. Pretty much all of
-> > these are used by include/net/page_pool/helpers.h, and some have
-> > callers in net/core/devmem.c or net/core/skbuff.c
-> >
-> > Would you like me to move these pp specific looking ones to
-> > include/net/page_pool/netmem.h or something similar?
+> This patch adds a new panic screen, with a QR code and the kmsg data
+> embedded.
+> If DRM_PANIC_SCREEN_QR_CODE_URL is set, then the kmsg data will be
+> compressed with zlib and encoded as a numerical segment, and appended
+> to the URL as a URL parameter. This allows to save space, and put
+> about ~7500 bytes of kmsg data, in a V40 QR code.
+> Linux distributions can customize the URL, and put a web frontend to
+> directly open a bug report with the kmsg data.
 >
-> That's because some things already in helpers have no real business
-> being there either. Why is page_pool_set_pp_info() in helpers.h?
+> Otherwise the kmsg data will be encoded as a binary segment (ie raw
+> ascii) and only a maximum of 2953 bytes of kmsg data will be
+> available in the QR code.
+>
+> You can also limit the QR code size with DRM_PANIC_SCREEN_QR_VERSION.
+>
+> v2:
+>  * Rewrite the rust comments with Markdown (Alice Ryhl)
+>  * Mark drm_panic_qr_generate() as unsafe (Alice Ryhl)
+>  * Use CStr directly, and remove the call to as_str_unchecked()
+>    (Alice Ryhl)
+>  * Add a check for data_len <=3D data_size (Greg KH)
+>
+> v3:
+>  * Fix all rust comments (typo, punctuation) (Miguel Ojeda)
+>  * Change the wording of safety comments (Alice Ryhl)
+>  * Add a link to the javascript decoder in the Kconfig (Greg KH)
+>  * Fix data_size and tmp_size check in drm_panic_qr_generate()
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
 
-OK, I looked into this a bit. It looks like I can trivially move
-page_pool_set/clear_pp_info() to page_pool_priv.h, and that lets me
-move out a few of these netmem helpers to a header under net/core.
+Overall, it looks reasonable to me. Some comments below.
 
-However, to move more of these netmem helpers to a private header, I
-think I need to move all the page pool dma helpers and reffing helpers
-to a private header or the .c file, which I think will uninline them
-as they're eventually called from drivers.
+The changelog should go below the --- or in the cover letter.
 
-I had guessed the previous authors put those dma and ref helpers in
-the .h file to inline them as they're used in fast paths. Do you think
-the refactor and the uninling is desirable? Or should I just do with
-the trivial moving of the page_pool_set/clear_pp_info() to the private
-file?
+> +       if (stream.total_out > max_qr_data_size) {
+> +               /* too much data for the QR code, so skip the first line =
+and try again */
+> +               kmsg =3D strchr(kmsg + 1, '\n');
+> +               if (!kmsg)
+> +                       return -EINVAL;
+> +               kmsg_len =3D strlen(kmsg);
+> +               goto try_again;
 
---=20
-Thanks,
-Mina
+It seems like kmsg will start with a newline character when this retry
+routine runs. Is that really what you want? Why not instead strchr and
+then do the plus one afterwards?
+
+This would also simplify the logic for why `kmsg + 1` doesn't go out
+of bounds. Right now I have to check that there's no codepath where
+kmsg points at the nul terminator byte.
+
+> +const __LOG_PREFIX: &[u8] =3D b"rust_qrcode\0";
+
+I guess this constant is because you're not using the module! macro?
+
+> +/// C entry point for the rust QR Code generator.
+> +///
+> +/// Write the QR code image in the data buffer, and return the QR code w=
+idth,
+> +/// or 0, if the data doesn't fit in a QR code.
+> +///
+> +/// * `url`: The base URL of the QR code. It will be encoded as Binary s=
+egment.
+> +/// * `data`: A pointer to the binary data, to be encoded. if URL is NUL=
+L, it
+> +///    will be encoded as binary segment, otherwise it will be encoded
+> +///    efficiently as a numeric segment, and appended to the URL.
+> +/// * `data_len`: Length of the data, that needs to be encoded, must be =
+less
+> +///    than data_size.
+> +/// * `data_size`: Size of data buffer, it should be at least 4071 bytes=
+ to hold
+> +///    a V40 QR code. It will then be overwritten with the QR code image=
+.
+> +/// * `tmp`: A temporary buffer that the QR code encoder will use, to wr=
+ite the
+> +///    segments and ECC.
+> +/// * `tmp_size`: Size of the temporary buffer, it must be at least 3706=
+ bytes
+> +///    long for V40.
+> +///
+> +/// # Safety
+> +///
+> +/// * `url` must be null or point at a nul-terminated string.
+> +/// * `data` must be valid for reading and writing for `data_size` bytes=
+.
+> +/// * `tmp` must be valid for reading and writing for `tmp_size` bytes.
+> +///
+> +/// They must remain valid for the duration of the function call.
+> +
+> +#[no_mangle]
+> +pub unsafe extern "C" fn drm_panic_qr_generate(
+> +    url: *const i8,
+> +    data: *mut u8,
+> +    data_len: usize,
+> +    data_size: usize,
+> +    tmp: *mut u8,
+> +    tmp_size: usize,
+> +) -> u8 {
+> +    if data_size < 4071 || tmp_size < 3706 || data_len > data_size {
+> +        return 0;
+> +    }
+> +    // SAFETY: The caller ensures that `data` is a valid pointer for rea=
+ding and
+> +    // writing `data_size` bytes.
+> +    let data_slice: &mut [u8] =3D unsafe { core::slice::from_raw_parts_m=
+ut(data, data_size) };
+> +    // SAFETY: The caller ensures that `tmp` is a valid pointer for read=
+ing and
+> +    // writing `tmp_size` bytes.
+> +    let tmp_slice: &mut [u8] =3D unsafe { core::slice::from_raw_parts_mu=
+t(tmp, tmp_size) };
+> +    if url.is_null() {
+> +        match EncodedMsg::new(&[&Segment::Binary(&data_slice[0..data_len=
+])], tmp_slice) {
+> +            None =3D> 0,
+> +            Some(em) =3D> {
+> +                let qr_image =3D QrImage::new(&em, data_slice);
+> +                qr_image.width
+> +            }
+> +        }
+> +    } else {
+> +        // SAFETY: The caller ensures that `url` is a valid pointer to a
+> +        // nul-terminated string.
+> +        let url_cstr: &CStr =3D unsafe { CStr::from_char_ptr(url) };
+> +        let segments =3D &[
+> +            &Segment::Binary(url_cstr.as_bytes()),
+> +            &Segment::Numeric(&data_slice[0..data_len]),
+> +        ];
+> +        match EncodedMsg::new(segments, tmp_slice) {
+> +            None =3D> 0,
+> +            Some(em) =3D> {
+> +                let qr_image =3D QrImage::new(&em, data_slice);
+> +                qr_image.width
+> +            }
+> +        }
+> +    }
+> +}
+
+This looks good to me. :)
+
+Alice
