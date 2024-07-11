@@ -2,123 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CDF92E2C1
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 10:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F8392E2D7
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 10:57:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACEC10E99E;
-	Thu, 11 Jul 2024 08:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F27910E9A1;
+	Thu, 11 Jul 2024 08:57:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WwROPlC5";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Qu4eOd0d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77ED410E99E
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 08:52:52 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2ee910d6aaeso6331771fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 01:52:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720687970; x=1721292770; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=kHwdkGnmoSLKM2hxNJvFbgQPNEfR5gLkDeEBWIa6jwY=;
- b=WwROPlC5Bnp+xpSBcOk2V/5n9uM5ROzuhESieBFetpQtV7ATADDT3WBKRjURx1wxk7
- cR6YqvW1wjMJZjAvWSnqMy9bBjhybWBBmdBg5xoEtm0wniRMoU35FYjeIbyzFNVKCe2R
- 07PPE2n2aoHZAmtO+CyLl8M1vsRXKXXpJph2fsppeQMDEM4AT/gbzu1Ow6HHWQTe2kvq
- 09R1SsUWyo2Q0WQ4iJxqp7T/SOfBKstdchS+FM6i+q2Io+4MgYGmsnl0liPMQNpAvxAq
- H0XLvi9aOOppQqMzhbrCvhMiZAAqn94ufT/By9Pqw/BsuX9ohPicxHvB29InXmbsV8/D
- pnJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720687970; x=1721292770;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kHwdkGnmoSLKM2hxNJvFbgQPNEfR5gLkDeEBWIa6jwY=;
- b=KMYkLdI24QtI468w+17gs2rhmo2NrL3Fi0FCjxT2OmSIgzADi6P8ncjf2ZrrGKqMO3
- I5sBV586bUAtuQ6sFOIO0EGJ3SL3N770r3bfXGpNI+oSAIcGOgLAAYIfsuPiIg4JZycg
- +N6/MgxM2mAgdRhct1ZVg3Y2tBwUOZ3GcDw0WaJmZSGkG43G3b4GOxdg/o/XYLyHvFfU
- 7q3ETS2O+cn2oQlN0mIs9UE5rV/gWDItA//aJIrP7VoBqkHbb3KpFh7vo5tVT0Cst0lu
- 7+r3oQVhwBE5N6uQQi+ig1CQIZB/taboDTM7RnxPtsIrZ4bExsU55RfbEGbdX8a67g53
- 8Mjw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVinvtAZ4iIL9lOhSuBEAh9C3T5BjD9ft+l2S+2ucuYR3l2ThkHjkEzdcz+32VuXcN0a1c6IShaqNC970/e88HlJhShUYXGrrfUgS+vMPrc
-X-Gm-Message-State: AOJu0YwfntWQ1uQdts37n+wRdJaN0yPK+0CaUtL8t7ASAvi7CC2/T/O2
- /No+q7ty7brI6JexdzAsXVQ/B+sVqlvkP+5KQzJxqp2L1fKDRSl47WNBlsNCk3A=
-X-Google-Smtp-Source: AGHT+IHf9VA36pmAnVlhE9yS1zdg4WgxvTnaeXHCQiQAocTKqb/oAIUth3RBZilvGx0iR6/2N3hrlQ==
-X-Received: by 2002:a2e:9845:0:b0:2ee:7740:aa74 with SMTP id
- 38308e7fff4ca-2eeb30bbf36mr45663571fa.3.1720687970121; 
- Thu, 11 Jul 2024 01:52:50 -0700 (PDT)
-Received: from [192.168.105.194] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-594bda308d7sm3168392a12.91.2024.07.11.01.52.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Jul 2024 01:52:49 -0700 (PDT)
-Message-ID: <b0386995-88be-436a-9398-ddb45d58fd5a@linaro.org>
-Date: Thu, 11 Jul 2024 10:52:46 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF8410E9A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 08:57:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=OXitQpNMG1POGcbL2X2uEZUFGOeoLt0xxw6f6PMPsLw=; b=Qu4eOd0dW/HHrJrL4xorvTQKAO
+ 5I6A9fRraADMMsL5wp++60zarUsDWQ2UFceathk5kHKRqOY3CR+WyE3JXjRfM/00iJQS3tiW7XPD9
+ m/7TErc46yZg0zKe9ospb0fdDR6906qRNsKYK3h0W76vHNH8QXf9GrFU0a9QnRklxT5pSB9WDaaY4
+ ZNObDtFOHJ6obKAFnv0fvKFcUzy4EJcHsUlKB4Srg8qLZCkTfnwVQwjgfrgM8+uWDeSP+NJNstlK7
+ ZOmglI7OfMYnYFtJAx3rz3NOHafDQQ3RB5fWIM2rH+Ai0UsAzt35LALMBpwa2oXruKLg4t4xk8Cex
+ ob0oRxKg==;
+Received: from [84.69.19.168] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sRpca-00DbvE-2j; Thu, 11 Jul 2024 10:57:48 +0200
+Message-ID: <53571f4d-c9fc-4628-9d18-99cb3071daef@igalia.com>
+Date: Thu, 11 Jul 2024 09:57:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/8] arm64: dts: qcom: add OnePlus 8T (kebab)
-To: Caleb Connolly <caleb@postmarketos.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht,
- Frieder Hannenheim <frieder.hannenheim@proton.me>
-References: <20240630-oneplus8-v2-0-c4a1f8da74f1@postmarketos.org>
- <20240630-oneplus8-v2-8-c4a1f8da74f1@postmarketos.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20240630-oneplus8-v2-8-c4a1f8da74f1@postmarketos.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 09/12] drm/v3d: Move perfmon init completely into own unit
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com
+References: <20240710134130.17292-1-tursulin@igalia.com>
+ <20240710134130.17292-10-tursulin@igalia.com>
+ <8c989edc-5e37-4c6b-aea3-219658d1d88f@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <8c989edc-5e37-4c6b-aea3-219658d1d88f@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,164 +63,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30.06.2024 8:36 PM, Caleb Connolly wrote:
-> Initial support for USB, UFS, touchscreen, panel, wifi, and bluetooth.
+
+On 10/07/2024 18:38, Maíra Canal wrote:
+> On 7/10/24 10:41, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> Now that the build time dependencies on various array sizes have been
+>> removed, we can move the perfmon init completely into its own compilation
+>> unit and remove the hardcoded defines.
+>>
+>> This improves on the temporary fix quickly delivered in
+>> 792d16b5375d ("drm/v3d: Move perfmon init completely into own unit").
 > 
-> Co-developed-by: Frieder Hannenheim <frieder.hannenheim@proton.me>
-> Signed-off-by: Frieder Hannenheim <frieder.hannenheim@proton.me>
-> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
-> ---
+> I believe you mean:
+> 
+> 9c3951ec27b9 ("drm/v3d: Fix perfmon build error/warning")
+> 
+> Currently, it is reference the current patch.
 
-[...]
+Well that was a hillarious mistake, well spotted!
 
-> +/delete-node/ &spss_mem;
-> +/delete-node/ &cdsp_secure_heap;
-> +
+Regards,
 
-odd double newline
+Tvrtko
 
-> +
-> +/ {
-
-[...]
-
-> +
-> +		framebuffer@9c000000 {
-> +			reg = <0 0x9c000000 0 0x2300000>;
-
-0x0 for consistency
-
-
-> +			no-map;
-> +		};
-> +	};
-> +
-> +	panel_avdd_5p5: regulator-panel-avdd {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "panel_avdd_5p5";
-> +		regulator-min-microvolt = <5500000>;
-> +		regulator-max-microvolt = <5500000>;
-
-Please unsqash these properties like in e.g. x1e80100-crd
-
-> +		regulator-enable-ramp-delay = <233>;
-> +		gpio = <&tlmm 61 GPIO_ACTIVE_HIGH>;
-> +		regulator-boot-on;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&panel_avdd_pins>;
-
-property-n
-property-names
-
-(theres more occurences in this patch)
-
-> +		vreg_l11c_3p3: ldo11 {
-> +			regulator-name = "vreg_l11c_3p3";
-> +			regulator-min-microvolt = <2900000>;
-> +			regulator-max-microvolt = <3304000>;
-> +			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-> +			regulator-boot-on;
-> +			/* FIXME: we don't yet support power cycling the panel */
-> +			//regulator-always-on;
-
-so should this be in or out?
-
-[...]
-
-> +	/*
-> +	 * Pixelworks Iris 5 @ 26 (i3c) or 22 (i2c)
-> +	 * This is a co-processor for the display which needs to be
-> +	 * initialized along with the panel.
-> +	 */
-
-yikes
-
-> +};
-> +
-> +&i2c15 {
-> +	status = "okay";
-> +
-> +	typec-mux@42 {
-> +		compatible = "fcs,fsa4480";
-> +		reg = <0x42>;
-> +
-> +		vcc-supply = <&vreg_s4a_1p8>;
-> +
-> +		orientation-switch;
-> +
-> +		/* Currently unsupported */
-> +		status = "disabled";
-
-Any particular problems with it?
-
-[...]
-
-> +		/*
-> +		 * FIXME: There is a bug somewhere in the display stack and it isn't
-> +		 * possible to get the panel to a working state after toggling reset.
-> +		 * At best it just shows one or more vertical red lines. So for now
-> +		 * let's skip the reset GPIO.
-> +		 */
-> +		// reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
-
-c++-style comments used not to be cool.. not sure what's the current policy
-
-> +
-> +		pinctrl-0 = <&panel_reset_pins &panel_vsync_pins &panel_vout_pins>;
-
-should panel_vout_pins be modeled as a regulator?
-
-[...]
-
-> +&pm8150_gpios {
-> +	/*
-> +	 * These are marked as reserved in downstream
-> +	 * with no description, without schematics we
-> +	 * don't know what the deal is here.
-> +	 */
-> +	gpio-reserved-ranges = <2 1>, <4 2>, <8 1>;
-
-drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
-
-/* pm8150 has 10 GPIOs with holes on 2, 5, 7 and 8 */
-{ .compatible = "qcom,pm8150-gpio", .data = (void *) 10 },
-
-[...]
-
-> +&pon_resin {
-> +	status = "okay";
-> +
-> +	linux,code = <KEY_VOLUMEDOWN>;
-
-status should go last
-
-[...]
-
-> +&tlmm {
-> +	gpio-reserved-ranges = <28 4>, <40 4>;
-
-Any chance you'd know what they're for?
-
-[...]
-
-> +&usb_1_dwc3 {
-> +	dr_mode = "peripheral";
-
-[...]
-
-> +
-> +	touchscreen@4b {
-> +		compatible = "syna,s3908";
-> +		reg = <0x4B>;
-
-lowercase hex
-
-> +
-> +		pinctrl-0 = <&touch_irq_active &touch_rst_active>;
-> +		pinctrl-names = "default";
-> +
-> +		interrupts-extended = <&tlmm 39 0x2008>;
-
-https://lore.kernel.org/linux-arm-msm/20240605160032.150587-1-krzysztof.kozlowski@linaro.org/
-
-Konrad
+> Apart from this fix, this is
+> 
+> Reviewed-by: Maíra Canal <mcanal@igalia.com>
+> 
+> Best Regards,
+> - Maíra
+> 
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> References: 792d16b5375d ("drm/v3d: Move perfmon init completely into 
+>> own unit")
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_drv.c                 |  9 +---
+>>   drivers/gpu/drm/v3d/v3d_drv.h                 |  6 +--
+>>   drivers/gpu/drm/v3d/v3d_perfmon.c             | 44 +++++++++++--------
+>>   .../gpu/drm/v3d/v3d_performance_counters.h    | 16 ++++---
+>>   4 files changed, 40 insertions(+), 35 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c 
+>> b/drivers/gpu/drm/v3d/v3d_drv.c
+>> index a47f00b443d3..491c638a4d74 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+>> @@ -95,7 +95,7 @@ static int v3d_get_param_ioctl(struct drm_device 
+>> *dev, void *data,
+>>           args->value = 1;
+>>           return 0;
+>>       case DRM_V3D_PARAM_MAX_PERF_COUNTERS:
+>> -        args->value = v3d->max_counters;
+>> +        args->value = v3d->perfmon_info.max_counters;
+>>           return 0;
+>>       default:
+>>           DRM_DEBUG("Unknown parameter %d\n", args->param);
+>> @@ -298,12 +298,7 @@ static int v3d_platform_drm_probe(struct 
+>> platform_device *pdev)
+>>       v3d->cores = V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_NCORES);
+>>       WARN_ON(v3d->cores > 1); /* multicore not yet implemented */
+>> -    if (v3d->ver >= 71)
+>> -        v3d->max_counters = V3D_V71_NUM_PERFCOUNTERS;
+>> -    else if (v3d->ver >= 42)
+>> -        v3d->max_counters = V3D_V42_NUM_PERFCOUNTERS;
+>> -    else
+>> -        v3d->max_counters = 0;
+>> +    v3d_perfmon_init(v3d);
+>>       v3d->reset = devm_reset_control_get_exclusive(dev, NULL);
+>>       if (IS_ERR(v3d->reset)) {
+>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h 
+>> b/drivers/gpu/drm/v3d/v3d_drv.h
+>> index 00fe5d993175..6d2d34cd135c 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+>> @@ -104,10 +104,7 @@ struct v3d_dev {
+>>       int ver;
+>>       bool single_irq_line;
+>> -    /* Different revisions of V3D have different total number of 
+>> performance
+>> -     * counters
+>> -     */
+>> -    unsigned int max_counters;
+>> +    struct v3d_perfmon_info perfmon_info;
+>>       void __iomem *hub_regs;
+>>       void __iomem *core_regs[3];
+>> @@ -568,6 +565,7 @@ int v3d_sched_init(struct v3d_dev *v3d);
+>>   void v3d_sched_fini(struct v3d_dev *v3d);
+>>   /* v3d_perfmon.c */
+>> +void v3d_perfmon_init(struct v3d_dev *v3d);
+>>   void v3d_perfmon_get(struct v3d_perfmon *perfmon);
+>>   void v3d_perfmon_put(struct v3d_perfmon *perfmon);
+>>   void v3d_perfmon_start(struct v3d_dev *v3d, struct v3d_perfmon 
+>> *perfmon);
+>> diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c 
+>> b/drivers/gpu/drm/v3d/v3d_perfmon.c
+>> index b7d0b02e1a95..cd7f1eedf17f 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_perfmon.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
+>> @@ -195,6 +195,23 @@ static const struct v3d_perf_counter_desc 
+>> v3d_v71_performance_counters[] = {
+>>       {"QPU", "QPU-stalls-other", "[QPU] Stalled qcycles waiting for 
+>> any other reason (vary/W/Z)"},
+>>   };
+>> +void v3d_perfmon_init(struct v3d_dev *v3d)
+>> +{
+>> +    const struct v3d_perf_counter_desc *counters = NULL;
+>> +    unsigned int max = 0;
+>> +
+>> +    if (v3d->ver >= 71) {
+>> +        counters = v3d_v71_performance_counters;
+>> +        max = ARRAY_SIZE(v3d_v71_performance_counters);
+>> +    } else if (v3d->ver >= 42) {
+>> +        counters = v3d_v42_performance_counters;
+>> +        max = ARRAY_SIZE(v3d_v42_performance_counters);
+>> +    }
+>> +
+>> +    v3d->perfmon_info.max_counters = max;
+>> +    v3d->perfmon_info.counters = counters;
+>> +}
+>> +
+>>   void v3d_perfmon_get(struct v3d_perfmon *perfmon)
+>>   {
+>>       if (perfmon)
+>> @@ -321,7 +338,7 @@ int v3d_perfmon_create_ioctl(struct drm_device 
+>> *dev, void *data,
+>>       /* Make sure all counters are valid. */
+>>       for (i = 0; i < req->ncounters; i++) {
+>> -        if (req->counters[i] >= v3d->max_counters)
+>> +        if (req->counters[i] >= v3d->perfmon_info.max_counters)
+>>               return -EINVAL;
+>>       }
+>> @@ -416,26 +433,15 @@ int v3d_perfmon_get_counter_ioctl(struct 
+>> drm_device *dev, void *data,
+>>               return -EINVAL;
+>>       }
+>> -    /* Make sure that the counter ID is valid */
+>> -    if (req->counter >= v3d->max_counters)
+>> -        return -EINVAL;
+>> -
+>> -    BUILD_BUG_ON(ARRAY_SIZE(v3d_v42_performance_counters) !=
+>> -             V3D_V42_NUM_PERFCOUNTERS);
+>> -    BUILD_BUG_ON(ARRAY_SIZE(v3d_v71_performance_counters) !=
+>> -             V3D_V71_NUM_PERFCOUNTERS);
+>> -    BUILD_BUG_ON(V3D_MAX_COUNTERS < V3D_V42_NUM_PERFCOUNTERS);
+>> -    BUILD_BUG_ON(V3D_MAX_COUNTERS < V3D_V71_NUM_PERFCOUNTERS);
+>> -    BUILD_BUG_ON((V3D_MAX_COUNTERS != V3D_V42_NUM_PERFCOUNTERS) &&
+>> -             (V3D_MAX_COUNTERS != V3D_V71_NUM_PERFCOUNTERS));
+>> -
+>> -    if (v3d->ver >= 71)
+>> -        counter = &v3d_v71_performance_counters[req->counter];
+>> -    else if (v3d->ver >= 42)
+>> -        counter = &v3d_v42_performance_counters[req->counter];
+>> -    else
+>> +    if (!v3d->perfmon_info.max_counters)
+>>           return -EOPNOTSUPP;
+>> +    /* Make sure that the counter ID is valid */
+>> +    if (req->counter >= v3d->perfmon_info.max_counters)
+>> +        return -EINVAL;
+>> +
+>> +    counter = &v3d->perfmon_info.counters[req->counter];
+>> +
+>>       strscpy(req->name, counter->name, sizeof(req->name));
+>>       strscpy(req->category, counter->category, sizeof(req->category));
+>>       strscpy(req->description, counter->description, 
+>> sizeof(req->description));
+>> diff --git a/drivers/gpu/drm/v3d/v3d_performance_counters.h 
+>> b/drivers/gpu/drm/v3d/v3d_performance_counters.h
+>> index 131b2909522a..d919a2fc9449 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_performance_counters.h
+>> +++ b/drivers/gpu/drm/v3d/v3d_performance_counters.h
+>> @@ -19,11 +19,17 @@ struct v3d_perf_counter_desc {
+>>       char description[256];
+>>   };
+>> +struct v3d_perfmon_info {
+>> +    /*
+>> +     * Different revisions of V3D have different total number of
+>> +     * performance counters.
+>> +     */
+>> +    unsigned int max_counters;
+>> -#define V3D_V42_NUM_PERFCOUNTERS (87)
+>> -#define V3D_V71_NUM_PERFCOUNTERS (93)
+>> -
+>> -/* Maximum number of performance counters supported by any version of 
+>> V3D */
+>> -#define V3D_MAX_COUNTERS (93)
+>> +    /*
+>> +     * Array of counters valid for the platform.
+>> +     */
+>> +    const struct v3d_perf_counter_desc *counters;
+>> +};
+>>   #endif
