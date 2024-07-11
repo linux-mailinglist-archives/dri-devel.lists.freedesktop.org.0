@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C60492E40F
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 12:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5B692E415
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 12:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6F4410E9FE;
-	Thu, 11 Jul 2024 10:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A773D10EA09;
+	Thu, 11 Jul 2024 10:03:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NR1kx2XG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RfN0jibu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71E6310E9FE;
- Thu, 11 Jul 2024 10:03:17 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2eea8ea8bb0so11530431fa.1; 
- Thu, 11 Jul 2024 03:03:17 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD7410EA06;
+ Thu, 11 Jul 2024 10:03:32 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a797c62565aso77596366b.2; 
+ Thu, 11 Jul 2024 03:03:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720692195; x=1721296995; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720692210; x=1721297010; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mpDedd6FGX+sxnS7G9+Mxa2s/rVU6BfMCskO3N0uDSI=;
- b=NR1kx2XG5N+ZXPvPt9WX6Usx7VzqV75ZUhs7jz3Vdmy8ZQJ9bCPadvOF7efog1micr
- 9RLimpGbXdTzJiWCxAu3EnIpLefInMCaDjckyr15AzC8Xqpu7DSs0zBu5LcG/kRZfUod
- nPwzN9HVIhZbb9MFMZJkGG8D3f2L9FFV9mpZuJEfyAbfu31EhfDmC60wVXbHpDGGD8yP
- AbYVa5s4uQRE8DxbAE8LhcpxWgHgyc77EzHvGEft6ji0qr+mCCx3vBBvzsQtCZWHRAtY
- q/tqrUBNFaNviNnN/lLRTBbWgiTVvu8H4BmuILTaD7duU6h1oYMZi60shk3idNrmDRJh
- Uzjg==
+ bh=mbWrWp1/ipfqZHe0g1+cQwdkUxN2iGN29opoxDd0Xq4=;
+ b=RfN0jibu2UfxOw6cVUXvX4woqgSrTae6T5cxkBPMuxYJXHOCRO1SQfZMCL7KJSlLHS
+ AXXO/PN7Fnnx078bry57wpLGxUuvJi/zKFCeG00QiKS4BBBSw3K+urJZMIQ7oB9I8W1n
+ TfiQZ9U49n/hZsiyl4UGa7113F+q4d9cvq3G5X0VCFz/AvYDbVOiHnmoRJjuBIVCY3+C
+ T1rVQOGFmUhtcPpZf1Q0RhGazi1NLC1PXOYSecYo0zukISNjEMkoF7mmiNaJxCldzOIu
+ /2oopkmFJWyxHNFoEOoTWO4GcIE2MIYf1xnjfxcdNsQSO8WMD63bHq8cy4ZU09XfYVcZ
+ xvDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720692195; x=1721296995;
+ d=1e100.net; s=20230601; t=1720692210; x=1721297010;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mpDedd6FGX+sxnS7G9+Mxa2s/rVU6BfMCskO3N0uDSI=;
- b=CoTRtAAU5NmHoGygX5OKKc/j4swuu5TOcoeS8ER5FHgLjHwunpVuAecyrJF+1eLEL5
- CAacW8nh58oWkr5ZqCKh5l6VvUs0RVwGLevW/LVwft7XvbI+Ylm1WDqyaZ72+FVLbzOm
- nI+Zk+fWzJUKcaGTTULLojCBdVm5WXHY5Hd0X+W1N31fpMAGWsEGFlrYJQF8hFWPd3+e
- 7qsSnljxt3mtCaU/xAbS0CZQHuOL1vXuUPRnQnxKJw42p8Ljdqu1vQzlLor+7ltdceXh
- wtOp8GmmU+lLYl7uPIP4i+HnTj1f4byzfuAy+vgHvv6Uu0zip1FQqquRgxyJOhkdxJIU
- lBYg==
+ bh=mbWrWp1/ipfqZHe0g1+cQwdkUxN2iGN29opoxDd0Xq4=;
+ b=mKpbL9E9bON7lQpSTygse6xJVK4QRC1BCRWzw8rkcnjBDO2XrEkMefOftpHvM2FXAk
+ 1pV4pMMMgKXyzEAXkSjxeLz4RIlHMnQFoAHms25sA63Rjmiav/rYTu6R7GetHfdQCkV2
+ qKQq3hCHzdR0uB3F/2KnV09mbIRsceMB+hi9+uRMSZfpjpaqlkCzMQmdMVnIx4szKXFS
+ 8HDLt/5f1Cm9YdbjYY7XhUFn2k8rHoY+1Z3r4rk72ecsYqgeJbljiaoT6GLfp2S33OYN
+ 8lw7OIKxGydApKJAk99QHoRENYcZTYZJzhW0Uqo6lqMozSOYaPgrmBY4hNcCK1ygmqND
+ KcYg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWBn51XNLg/l62AAwOnUu7+C47uwHprrFOYyGKuoNsicpwtSahYo5a1WdyPkm7zjaA6qxtubLDdX0L3dpB8ER98fvIhLbi7SRK6Lvihnr2nFamuGAmrjEDEnGOY/kAgQuAGh96r14FZNDA8D3B4OGOR
-X-Gm-Message-State: AOJu0Yxy0OMUWCkrftC9JRAirIgiW0PskwPldZGIP7oowCkgJsvYivcb
- ZknuatTGsoMdfGKQDabv8eP4X0Bk33COktFmE4Pt88uH7UQihnzJ
-X-Google-Smtp-Source: AGHT+IF+kagTgZb7DqrII/Qk3hyi7AMAFxbVeLFxW2dkrUO2yG/P59umyNCJLiRJCSUtvid+bzrC6A==
-X-Received: by 2002:a2e:a36c:0:b0:2ec:51b5:27be with SMTP id
- 38308e7fff4ca-2eeb30e3c73mr59200321fa.12.1720692195273; 
- Thu, 11 Jul 2024 03:03:15 -0700 (PDT)
+ AJvYcCUFjuy2idk+ZsBZk4dQgMQ26q2fJI6y3jK/fckNVoL4DY9mIpXteJGpQpUVCuazZlqr7n1WX235mQw62ERYP0VSK2HtPfG3yzvw0V3i3EjY5oFqaC11TgZpsxTYsJWmiZ0/kDkeEeD6MDFjKWuMWwEF
+X-Gm-Message-State: AOJu0YyVD9SKucI2dWPs5t3k5iHKzJ2qU2K/Xb47Q49Hn9yNPlRuUNzb
+ 7h49igNJzWkDNYX7NhmJSm2Dpoj67hiZczGbdrIeQjsPqYnamwKZ
+X-Google-Smtp-Source: AGHT+IGluJ7ZgKVaqBpadtRgNKAiusoVX0uA8nM184IeXop66eo7WKEScUlvoqzE6P+9CgBLBTgpWQ==
+X-Received: by 2002:a17:906:cb97:b0:a77:e55a:9e7e with SMTP id
+ a640c23a62f3a-a780b89f4d6mr516656566b.73.1720692210253; 
+ Thu, 11 Jul 2024 03:03:30 -0700 (PDT)
 Received: from localhost.localdomain (public-nat-01.vpngate.v4.open.ad.jp.
  [219.100.37.233]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a780a6bc876sm239207666b.5.2024.07.11.03.03.04
+ a640c23a62f3a-a780a6bc876sm239207666b.5.2024.07.11.03.03.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jul 2024 03:03:14 -0700 (PDT)
+ Thu, 11 Jul 2024 03:03:29 -0700 (PDT)
 From: Vladimir Lypak <vladimir.lypak@gmail.com>
 To: Vladimir Lypak <vladimir.lypak@gmail.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
@@ -67,9 +67,9 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jordan Crouse <jordan@cosmicpenguin.net>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] drm/msm/a5xx: fix races in preemption evaluation stage
-Date: Thu, 11 Jul 2024 10:00:20 +0000
-Message-ID: <20240711100038.268803-4-vladimir.lypak@gmail.com>
+Subject: [PATCH 4/4] drm/msm/a5xx: workaround early ring-buffer emptiness check
+Date: Thu, 11 Jul 2024 10:00:21 +0000
+Message-ID: <20240711100038.268803-5-vladimir.lypak@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240711100038.268803-1-vladimir.lypak@gmail.com>
 References: <20240711100038.268803-1-vladimir.lypak@gmail.com>
@@ -90,166 +90,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On A5XX GPUs when preemption is used it's invietable to enter a soft
-lock-up state in which GPU is stuck at empty ring-buffer doing nothing.
-This appears as full UI lockup and not detected as GPU hang (because
-it's not). This happens due to not triggering preemption when it was
-needed. Sometimes this state can be recovered by some new submit but
-generally it won't happen because applications are waiting for old
-submits to retire.
-
-One of the reasons why this happens is a race between a5xx_submit and
-a5xx_preempt_trigger called from IRQ during submit retire. Former thread
-updates ring->cur of previously empty and not current ring right after
-latter checks it for emptiness. Then both threads can just exit because
-for first one preempt_state wasn't NONE yet and for second one all rings
-appeared to be empty.
-
-To prevent such situations from happening we need to establish guarantee
-for preempt_trigger to be called after each submit. To implement it this
-patch adds trigger call at the end of a5xx_preempt_irq to re-check if we
-should switch to non-empty or higher priority ring. Also we find next
-ring in new preemption state "EVALUATE". If the thread that updated some
-ring with new submit sees this state it should wait until it passes.
+There is another cause for soft lock-up of GPU in empty ring-buffer:
+race between GPU executing last commands and CPU checking ring for
+emptiness. On GPU side IRQ for retire is triggered by CACHE_FLUSH_TS
+event and RPTR shadow (which is used to check ring emptiness) is updated
+a bit later from CP_CONTEXT_SWITCH_YIELD. Thus if GPU is executing its
+last commands slow enough or we check that ring too fast we will miss a
+chance to trigger switch to lower priority ring because current ring isn't
+empty just yet. This can escalate to lock-up situation described in
+previous patch.
+To work-around this issue we keep track of last submit sequence number
+for each ring and compare it with one written to memptrs from GPU during
+execution of CACHE_FLUSH_TS event.
 
 Fixes: b1fc2839d2f9 ("drm/msm: Implement preemption for A5XX targets")
 Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
 ---
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  6 +++---
- drivers/gpu/drm/msm/adreno/a5xx_gpu.h     | 11 +++++++----
- drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 24 +++++++++++++++++++----
- 3 files changed, 30 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c     | 4 ++++
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.h     | 1 +
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 4 ++++
+ 3 files changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index 6c80d3003966..266744ee1d5f 100644
+index 266744ee1d5f..001f11f5febc 100644
 --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -110,7 +110,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
- 	}
+@@ -65,6 +65,8 @@ void a5xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
  
- 	a5xx_flush(gpu, ring, true);
--	a5xx_preempt_trigger(gpu);
-+	a5xx_preempt_trigger(gpu, true);
- 
- 	/* we might not necessarily have a cmd from userspace to
- 	 * trigger an event to know that submit has completed, so
-@@ -240,7 +240,7 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	a5xx_flush(gpu, ring, false);
- 
- 	/* Check to see if we need to start preemption */
--	a5xx_preempt_trigger(gpu);
-+	a5xx_preempt_trigger(gpu, true);
- }
- 
- static const struct adreno_five_hwcg_regs {
-@@ -1296,7 +1296,7 @@ static irqreturn_t a5xx_irq(struct msm_gpu *gpu)
- 		a5xx_gpmu_err_irq(gpu);
- 
- 	if (status & A5XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS) {
--		a5xx_preempt_trigger(gpu);
-+		a5xx_preempt_trigger(gpu, false);
- 		msm_gpu_retire(gpu);
- 	}
- 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
-index c7187bcc5e90..1120824853d4 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
-@@ -57,10 +57,12 @@ void a5xx_debugfs_init(struct msm_gpu *gpu, struct drm_minor *minor);
-  * through the process.
-  *
-  * PREEMPT_NONE - no preemption in progress.  Next state START.
-- * PREEMPT_START - The trigger is evaulating if preemption is possible. Next
-- * states: TRIGGERED, NONE
-+ * PREEMPT_EVALUATE - The trigger is evaulating if preemption is possible. Next
-+ * states: START, ABORT
-  * PREEMPT_ABORT - An intermediate state before moving back to NONE. Next
-  * state: NONE.
-+ * PREEMPT_START - The trigger is preparing for preemption. Next state:
-+ * TRIGGERED
-  * PREEMPT_TRIGGERED: A preemption has been executed on the hardware. Next
-  * states: FAULTED, PENDING
-  * PREEMPT_FAULTED: A preemption timed out (never completed). This will trigger
-@@ -71,8 +73,9 @@ void a5xx_debugfs_init(struct msm_gpu *gpu, struct drm_minor *minor);
- 
- enum preempt_state {
- 	PREEMPT_NONE = 0,
--	PREEMPT_START,
-+	PREEMPT_EVALUATE,
- 	PREEMPT_ABORT,
-+	PREEMPT_START,
- 	PREEMPT_TRIGGERED,
- 	PREEMPT_FAULTED,
- 	PREEMPT_PENDING,
-@@ -156,7 +159,7 @@ void a5xx_set_hwcg(struct msm_gpu *gpu, bool state);
- 
- void a5xx_preempt_init(struct msm_gpu *gpu);
- void a5xx_preempt_hw_init(struct msm_gpu *gpu);
--void a5xx_preempt_trigger(struct msm_gpu *gpu);
-+void a5xx_preempt_trigger(struct msm_gpu *gpu, bool new_submit);
- void a5xx_preempt_irq(struct msm_gpu *gpu);
- void a5xx_preempt_fini(struct msm_gpu *gpu);
- 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-index 67a8ef4adf6b..f8d09a83c5ae 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-@@ -87,21 +87,33 @@ static void a5xx_preempt_timer(struct timer_list *t)
- }
- 
- /* Try to trigger a preemption switch */
--void a5xx_preempt_trigger(struct msm_gpu *gpu)
-+void a5xx_preempt_trigger(struct msm_gpu *gpu, bool new_submit)
+ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit)
  {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
- 	unsigned long flags;
- 	struct msm_ringbuffer *ring;
-+	enum preempt_state state;
++	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
++	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
+ 	struct msm_ringbuffer *ring = submit->ring;
+ 	struct drm_gem_object *obj;
+ 	uint32_t *ptr, dwords;
+@@ -109,6 +111,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
+ 		}
+ 	}
  
- 	if (gpu->nr_rings == 1)
- 		return;
++	a5xx_gpu->last_seqno[ring->id] = submit->seqno;
+ 	a5xx_flush(gpu, ring, true);
+ 	a5xx_preempt_trigger(gpu, true);
+ 
+@@ -210,6 +213,7 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	/* Write the fence to the scratch register */
+ 	OUT_PKT4(ring, REG_A5XX_CP_SCRATCH_REG(2), 1);
+ 	OUT_RING(ring, submit->seqno);
++	a5xx_gpu->last_seqno[ring->id] = submit->seqno;
  
  	/*
--	 * Try to start preemption by moving from NONE to START. If
--	 * unsuccessful, a preemption is already in flight
-+	 * Try to start preemption by moving from NONE to EVALUATE. If current
-+	 * state is EVALUATE/ABORT we can't just quit because then we can't
-+	 * guarantee that preempt_trigger will be called after ring is updated
-+	 * by new submit.
- 	 */
--	if (!try_preempt_state(a5xx_gpu, PREEMPT_NONE, PREEMPT_START))
-+	state = atomic_cmpxchg(&a5xx_gpu->preempt_state, PREEMPT_NONE,
-+			       PREEMPT_EVALUATE);
-+	while (new_submit && (state == PREEMPT_EVALUATE ||
-+			      state == PREEMPT_ABORT)) {
-+		cpu_relax();
-+		state = atomic_cmpxchg(&a5xx_gpu->preempt_state, PREEMPT_NONE,
-+				       PREEMPT_EVALUATE);
-+	}
-+
-+	if (state != PREEMPT_NONE)
- 		return;
+ 	 * Execute a CACHE_FLUSH_TS event. This will ensure that the
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+index 1120824853d4..7269eaab9a7a 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+@@ -34,6 +34,7 @@ struct a5xx_gpu {
+ 	struct drm_gem_object *preempt_counters_bo[MSM_GPU_MAX_RINGS];
+ 	struct a5xx_preempt_record *preempt[MSM_GPU_MAX_RINGS];
+ 	uint64_t preempt_iova[MSM_GPU_MAX_RINGS];
++	uint32_t last_seqno[MSM_GPU_MAX_RINGS];
  
- 	/* Get the next ring to preempt to */
-@@ -130,6 +142,8 @@ void a5xx_preempt_trigger(struct msm_gpu *gpu)
- 		return;
- 	}
+ 	atomic_t preempt_state;
+ 	struct timer_list preempt_timer;
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+index f8d09a83c5ae..6bd92f9b2338 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+@@ -55,6 +55,8 @@ static inline void update_wptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+ /* Return the highest priority ringbuffer with something in it */
+ static struct msm_ringbuffer *get_next_ring(struct msm_gpu *gpu)
+ {
++	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
++	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
+ 	unsigned long flags;
+ 	int i;
  
-+	set_preempt_state(a5xx_gpu, PREEMPT_START);
-+
- 	/* Make sure the wptr doesn't update while we're in motion */
- 	spin_lock_irqsave(&ring->preempt_lock, flags);
- 	a5xx_gpu->preempt[ring->id]->wptr = get_wptr(ring);
-@@ -188,6 +202,8 @@ void a5xx_preempt_irq(struct msm_gpu *gpu)
- 	update_wptr(gpu, a5xx_gpu->cur_ring);
+@@ -64,6 +66,8 @@ static struct msm_ringbuffer *get_next_ring(struct msm_gpu *gpu)
  
- 	set_preempt_state(a5xx_gpu, PREEMPT_NONE);
-+
-+	a5xx_preempt_trigger(gpu, false);
- }
+ 		spin_lock_irqsave(&ring->preempt_lock, flags);
+ 		empty = (get_wptr(ring) == gpu->funcs->get_rptr(gpu, ring));
++		if (!empty && ring == a5xx_gpu->cur_ring)
++			empty = ring->memptrs->fence == a5xx_gpu->last_seqno[i];
+ 		spin_unlock_irqrestore(&ring->preempt_lock, flags);
  
- void a5xx_preempt_hw_init(struct msm_gpu *gpu)
+ 		if (!empty)
 -- 
 2.45.2
 
