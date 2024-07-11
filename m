@@ -2,77 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA60192E673
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 13:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4A392E691
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 13:27:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34D9510E14B;
-	Thu, 11 Jul 2024 11:24:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 818E610EA25;
+	Thu, 11 Jul 2024 11:27:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RhXgsXmc";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gxzGKVt0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B9410E136;
- Thu, 11 Jul 2024 11:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1720697061; x=1752233061;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=o/2EvU8Ne6JzHNgJUsH762dUzuzFgrow+gSs4PLwHAA=;
- b=RhXgsXmcnjKzr6B4rYihs3tmDxiz6p9GyMYYOEhCW4+RZ2y/k+t2FmrO
- mde0V+TzEc6RdR8uD0UbUnwVcDhpzI1G70rSv+kk4wdw4mi+WkYNt6S+G
- j1XJVwC46t2C32+OyX4FITIKoiPAyPImD2HkLDNwG8IL5u8YXJN4wh/GH
- /z5eOs4n1VfxI3BAWj5hO98qfvyMeSgQgultvGfvIlGD1VlCbv5nsMv84
- xJVJahtl6gkt6dls86A6johukKB4Fw2N5AzS6y56lqz2RfJjIxRArqS0z
- 2ITiQyA3gtJk9J7vfw8ojTkYdO7HKP7dOChBHvMQWpl9wrRRDigt4Hdx4 w==;
-X-CSE-ConnectionGUID: jySsi8VdR0a8xm+fola80Q==
-X-CSE-MsgGUID: ns454FkgTJCBymfdoKnmMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="40582711"
-X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; d="scan'208";a="40582711"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2024 04:24:20 -0700
-X-CSE-ConnectionGUID: VsJm3oa9S3yZ6uUi3Zm8Fw==
-X-CSE-MsgGUID: VrbT04LEQ3+kl1RHWDS/FA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; d="scan'208";a="49178595"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.252])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2024 04:24:12 -0700
-Date: Thu, 11 Jul 2024 13:24:09 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>, 
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL GVT-g DRIVERS (Intel GPU Virtualization)"
- <intel-gvt-dev@lists.freedesktop.org>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- Zhi Wang <zhiwang@kernel.org>
-Subject: Re: [PATCH v4 3/6] drm/i915: Make I2C terminology more inclusive
-Message-ID: <Zo_A2Ykh3-YI7Nff@ashyti-mobl2.lan>
-References: <20240711052734.1273652-1-eahariha@linux.microsoft.com>
- <20240711052734.1273652-4-eahariha@linux.microsoft.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E932C10EA21
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 11:27:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1720697232;
+ bh=yYEpV6mgz8Ga+AjpAiMeT63sbhybaoeCYkwkqiyqnac=;
+ h=From:Date:Subject:To:Cc:From;
+ b=gxzGKVt0luCl6OOlv0XQK3+THNu/Uhyz5wMbAEccZfD0XM0QT7SuJjenzhqIVKNoh
+ aUIJd4h7GapobNbaX/77BoMfw2ho1mCc+oBMnFt8K40mKw2TXs9WV9vLTxblXghEqF
+ j4g4eVNTJy/tLRcOC+qPVsDzrN1vTuo3brD1YeD1g+OKfamKswz+aPCOCTrtzJKElE
+ H3GnJE5i10k9BNQW7MPxmBmb+Sf6qv95DNEJ9LBNuF84XH2BbaNF4shu9YKVfSlyaH
+ PaQ96RWNwN7a9DAoZxoGejHxJ3jdIlBWhjYlAjFHXEbyz27zONq3R9m1zJQH3ghulT
+ CeYTimGF7bV+w==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4DAF63781185;
+ Thu, 11 Jul 2024 11:27:12 +0000 (UTC)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Date: Thu, 11 Jul 2024 14:26:55 +0300
+Subject: [PATCH] drm/bridge-connector: Fix double free in error handling paths
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240711052734.1273652-4-eahariha@linux.microsoft.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240711-bridge-connector-fix-dbl-free-v1-1-d558b2d0eb93@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAH7Bj2YC/x2M0QqDMAwAf0XyvEDbFWT+iviwNqkGRiupyED89
+ 4U93h3cBZ1VuMM0XKB8SpdWDfxjgLy968ooZAzBhehG7zGpkNncauV8NMUiX6T0waLM+CJ6hlh
+ cCqMDe+zK1v//ebnvH4bFYfJvAAAA
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,22 +69,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Easwar,
+The recent switch to drmm allocation in drm_bridge_connector_init() may
+cause double free on bridge_connector in some of the error handling
+paths.
 
-On Thu, Jul 11, 2024 at 05:27:31AM +0000, Easwar Hariharan wrote:
-> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
-> with more appropriate terms. Inspired by Wolfram's series to fix drivers/i2c/,
-> fix the terminology for users of I2C_ALGOBIT bitbanging interface, now that
-> the approved verbiage exists in the specification.
-> 
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Acked-by: Zhi Wang <zhiwang@kernel.org>
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+Drop the explicit kfree() calls on bridge_connector.
 
-good job! Thanks for taking care of this!
+Fixes: c12907be57b1 ("drm/bridge-connector: switch to using drmm allocations")
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+ drivers/gpu/drm/drm_bridge_connector.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+index 0869b663f17e..a4fbf1eb7ac5 100644
+--- a/drivers/gpu/drm/drm_bridge_connector.c
++++ b/drivers/gpu/drm/drm_bridge_connector.c
+@@ -443,10 +443,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 			panel_bridge = bridge;
+ 	}
+ 
+-	if (connector_type == DRM_MODE_CONNECTOR_Unknown) {
+-		kfree(bridge_connector);
++	if (connector_type == DRM_MODE_CONNECTOR_Unknown)
+ 		return ERR_PTR(-EINVAL);
+-	}
+ 
+ 	if (bridge_connector->bridge_hdmi)
+ 		ret = drmm_connector_hdmi_init(drm, connector,
+@@ -461,10 +459,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 		ret = drmm_connector_init(drm, connector,
+ 					  &drm_bridge_connector_funcs,
+ 					  connector_type, ddc);
+-	if (ret) {
+-		kfree(bridge_connector);
++	if (ret)
+ 		return ERR_PTR(ret);
+-	}
+ 
+ 	drm_connector_helper_add(connector, &drm_bridge_connector_helper_funcs);
+ 
 
-Thanks,
-Andi
+---
+base-commit: 1eb586a9782cde8e5091b9de74603e0a8386b09e
+change-id: 20240711-bridge-connector-fix-dbl-free-9dd324f0b270
+
