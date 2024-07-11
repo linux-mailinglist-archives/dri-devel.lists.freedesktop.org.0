@@ -2,44 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF8892E9E6
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 15:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B0F92E9E7
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 15:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDF610EA86;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9806110EA8D;
 	Thu, 11 Jul 2024 13:53:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eUD04cQu";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mivHRjbE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 257E510EA86
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9C4910EA86
  for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=GtgVLBaTPP5KXKPxwsnCJiTXJERKdqLZigO1T8/rSW4=; b=eUD04cQuiapwGd8rOLXnIipHkO
- SWf/yzSuzfq+P35vL8C3BR1Y8VPOqhWTxl2CfuDtQ/y7XyLu0kNilIrLy11YwRRWoylT86ER0Sdrn
- gB0cfZhn64XP0BrQzXTjT5eosfN+cL0IGsCPLhF13OCWMtRrrPuwp2j8LtMqde1LU/ykvrL5+0/61
- yumboeSfFIu0m0/4EFmb2MUIbdMlyzXWXDIIPDRfyMAC6J79fazrTeC8Oo484ktwkQLyo8DwJucu5
- 51aAAqryKLIW0ys+G/KzuUoybbHN8Ux68Nn0XjOX3GYZz204jBP1vYAQUrmdxOFHZEhmXZ5VYecKS
- 7uenNBlA==;
+ bh=Q7iLfP5wFpU1dyTQ8u//pl8Ug2inPHMvEM/15Lwrp4U=; b=mivHRjbEEOrr3qEZpIpCULDpG6
+ u9D8N5qn8LDoTWbM9041NW4RnBlf9biZuugjY5QWKlu6mVY7OG2k9EpoxRvJMGQbIvLFzR82j7fRc
+ RQC2KhyRc9f1FCsp4rPqrRLekKCMWqGyou0IDGxkclDjX8yI5N9xFNt+v6ic9PS9GeObUhYl/R3AP
+ UbdPjYweCmzH7O0d46PcAWiAfjmhl088e5qNtBOKKXVVx+B5LLmydtFmdhhDYwmCPhNyJSo0Qz8N+
+ YHfdk//KGhiqVOHwqRS5gH8FouA2FtTIVdmWMtjqQn/0SBpLSQf+gACO4FbP2QBgJauhKH7nJvciD
+ IUfstTpA==;
 Received: from [84.69.19.168] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sRuEw-00Diem-Bf; Thu, 11 Jul 2024 15:53:42 +0200
+ id 1sRuEx-00Dieq-1R; Thu, 11 Jul 2024 15:53:43 +0200
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH v4 00/11] v3d: Perfmon cleanup
-Date: Thu, 11 Jul 2024 14:53:29 +0100
-Message-ID: <20240711135340.84617-1-tursulin@igalia.com>
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>, stable@vger.kernel.org
+Subject: [PATCH 01/11] drm/v3d: Prevent out of bounds access in performance
+ query extensions
+Date: Thu, 11 Jul 2024 14:53:30 +0100
+Message-ID: <20240711135340.84617-2-tursulin@igalia.com>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240711135340.84617-1-tursulin@igalia.com>
+References: <20240711135340.84617-1-tursulin@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -60,60 +64,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-When we had to quickly deal with a tree build issue via merging
-792d16b5375d ("drm/v3d: Move perfmon init completely into own unit"), we
-promised to follow up with a nicer solution.
+Check that the number of perfmons userspace is passing in the copy and
+reset extensions is not greater than the internal kernel storage where
+the ids will be copied into.
 
-As in the process of eliminating the hardcoded defines we have discovered a few
-issues in handling of corner cases and userspace input validation, the fix has
-turned into a larger series, but hopefully the end result is a justifiable
-cleanup.
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Fixes: bae7cb5d6800 ("drm/v3d: Create a CPU job extension for the reset performance query job")
+Cc: Maíra Canal <mcanal@igalia.com>
+Cc: Iago Toral Quiroga <itoral@igalia.com>
+Cc: <stable@vger.kernel.org> # v6.8+
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/v3d/v3d_submit.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-v2:
- * Re-order the patches so fixes come first while last three are optional
-   cleanups.
-
-v3:
- * Fixed a bunch of rebase errors I made when re-ordering patches from v1 to v2.
- * Dropped the double underscore from __v3d_timestamp_query_info_free.
- * Added v3d prefix to v3d_copy_query_info.
- * Renamed qinfo to query_info.
- * Fixed some spelling errors and bad patch references.
- * Added mention to get_user to one commit message.
- * Dropped one patch from the series which became redundant due other
-   re-ordering.
- * Re-ordered last two patches with the view of dropping the last.
-
-v4:
- * Fixed more rebase errors and details in commit messages.
-
- Cc: Maíra Canal <mcanal@igalia.com>
-
-Tvrtko Ursulin (11):
-  drm/v3d: Prevent out of bounds access in performance query extensions
-  drm/v3d: Fix potential memory leak in the timestamp extension
-  drm/v3d: Fix potential memory leak in the performance extension
-  drm/v3d: Validate passed in drm syncobj handles in the timestamp
-    extension
-  drm/v3d: Validate passed in drm syncobj handles in the performance
-    extension
-  drm/v3d: Move part of copying of reset/copy performance extension to a
-    helper
-  drm/v3d: Size the kperfmon_ids array at runtime
-  drm/v3d: Do not use intermediate storage when copying performance
-    query results
-  drm/v3d: Move perfmon init completely into own unit
-  drm/v3d: Prefer get_user for scalar types
-  drm/v3d: Add some local variables in queries/extensions
-
- drivers/gpu/drm/v3d/v3d_drv.c                 |   9 +-
- drivers/gpu/drm/v3d/v3d_drv.h                 |  16 +-
- drivers/gpu/drm/v3d/v3d_perfmon.c             |  44 +--
- .../gpu/drm/v3d/v3d_performance_counters.h    |  16 +-
- drivers/gpu/drm/v3d/v3d_sched.c               | 105 +++++--
- drivers/gpu/drm/v3d/v3d_submit.c              | 294 +++++++++++-------
- 6 files changed, 290 insertions(+), 194 deletions(-)
-
+diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
+index 88f63d526b22..263fefc1d04f 100644
+--- a/drivers/gpu/drm/v3d/v3d_submit.c
++++ b/drivers/gpu/drm/v3d/v3d_submit.c
+@@ -637,6 +637,9 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
+ 	if (copy_from_user(&reset, ext, sizeof(reset)))
+ 		return -EFAULT;
+ 
++	if (reset.nperfmons > V3D_MAX_PERFMONS)
++		return -EINVAL;
++
+ 	job->job_type = V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY;
+ 
+ 	job->performance_query.queries = kvmalloc_array(reset.count,
+@@ -708,6 +711,9 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
+ 	if (copy.pad)
+ 		return -EINVAL;
+ 
++	if (copy.nperfmons > V3D_MAX_PERFMONS)
++		return -EINVAL;
++
+ 	job->job_type = V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY;
+ 
+ 	job->performance_query.queries = kvmalloc_array(copy.count,
 -- 
 2.44.0
 
