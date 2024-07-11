@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5509792E339
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 11:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E012A92E33C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 11:15:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6676210E9C5;
-	Thu, 11 Jul 2024 09:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6121410E9C1;
+	Thu, 11 Jul 2024 09:15:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="J1GPKdgt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gqiqDntE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0920F10E9BF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A263410E9C6
  for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 09:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,23 +22,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=JaEiVzRQAjKt7nq3CSiQwK6tPgYoE4cvtU8h2lp1Kls=; b=J1GPKdgtt4MXzFOmSpbt2B7cU1
- USf4x2MLgnCaib85O/EEYtMeReZryWDJyfxycn3jjZ7W/cdLAjcYZeiwhk8TlwgwQFySN4Vwga39L
- psCOVlcaU+8EZFN34j1hHs+3z9HaPfMzMMzeIz/bUbShdBeF/K6Ct+2fy4dKmfNN5rC8NP0Ws0J1s
- 1Aboqc4DbKiqcIl8kfuXmg/ZAC6RL4huPbr68RKnBc+D+gFZsaL/+FenE1w+GbwdM66nDMeb2u4xZ
- lHrO28C9Iu0hTTn3R9ARglQgcwTkBnajSZVwUQTAE0ZhUEtLCmfAd9E0VfBXp6BVvJkGfhEE09gTl
- TF/sEEvQ==;
+ bh=vM/6h/uPpof/y/u2g6Q8o4ZFzMBDyVWj9WVeVAzq+xg=; b=gqiqDntEnDpCQuDivpDBFo/mDv
+ bj82+oYDPYOvJcp6mT/dfB3LGAIRuhtMR2hgBBB1+pYVtA/m0+CHChStEYcSTJSJNPCdJcc0lBwQL
+ KdAoBMOOhL3jHE6UPC/S0KapAcTlMBwdzl8GcPTin/M3I2TawaNAvESXfSd7R3uNoto9kibM5oSvA
+ 17KoDhuyzNZr89fQAeuU8C2r0wkpyXkkSOeo5Ng0i30CA15D5dECxa5wAnxQDPwI1dfBJU3C/YRda
+ JwubRHB/Ki266zTuiye0Y8zom+jU+wlXjQoSSLAvV6H2Yd8PNImzBm2MrVEO+qbgbBTj6gaunabF7
+ kBjgN8dQ==;
 Received: from [84.69.19.168] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sRpu0-00DcKp-Ag; Thu, 11 Jul 2024 11:15:48 +0200
+ id 1sRpu0-00DcKv-VR; Thu, 11 Jul 2024 11:15:49 +0200
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH 07/11] drm/v3d: Size the kperfmon_ids array at runtime
-Date: Thu, 11 Jul 2024 10:15:38 +0100
-Message-ID: <20240711091542.82083-8-tursulin@igalia.com>
+Subject: [PATCH 08/11] drm/v3d: Do not use intermediate storage when copying
+ performance query results
+Date: Thu, 11 Jul 2024 10:15:39 +0100
+Message-ID: <20240711091542.82083-9-tursulin@igalia.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240711091542.82083-1-tursulin@igalia.com>
 References: <20240711091542.82083-1-tursulin@igalia.com>
@@ -61,109 +62,111 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Instead of statically reserving pessimistic space for the kperfmon_ids
-array, make the userspace extension code allocate the exactly required
-amount of space.
+Removing the intermediate buffer removes the last use of the
+V3D_MAX_COUNTERS define, which will enable further driver cleanup.
 
-Apart from saving some memory at runtime, this also removes the need for
-the V3D_MAX_PERFMONS macro whose removal will benefit further driver
-cleanup.
+While at it pull the 32 vs 64 bit copying decision outside the loop in
+order to reduce the number of conditional instructions.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.h    |  6 +-----
- drivers/gpu/drm/v3d/v3d_sched.c  |  4 +++-
- drivers/gpu/drm/v3d/v3d_submit.c | 17 +++++++++++------
- 3 files changed, 15 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/v3d/v3d_sched.c | 60 ++++++++++++++++++++-------------
+ 1 file changed, 37 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index dd3ead4cb8bd..b1dfec49ba7d 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -351,13 +351,9 @@ struct v3d_timestamp_query {
- 	struct drm_syncobj *syncobj;
- };
- 
--/* Number of perfmons required to handle all supported performance counters */
--#define V3D_MAX_PERFMONS DIV_ROUND_UP(V3D_MAX_COUNTERS, \
--				      DRM_V3D_MAX_PERF_COUNTERS)
--
- struct v3d_performance_query {
- 	/* Performance monitor IDs for this query */
--	u32 kperfmon_ids[V3D_MAX_PERFMONS];
-+	u32 *kperfmon_ids;
- 
- 	/* Syncobj that indicates the query availability */
- 	struct drm_syncobj *syncobj;
 diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 5fbbee47c6b7..7b2195ba4248 100644
+index 7b2195ba4248..2564467735fc 100644
 --- a/drivers/gpu/drm/v3d/v3d_sched.c
 +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -94,8 +94,10 @@ v3d_performance_query_info_free(struct v3d_performance_query_info *query_info,
- 	if (query_info->queries) {
- 		unsigned int i;
+@@ -421,18 +421,23 @@ v3d_reset_timestamp_queries(struct v3d_cpu_job *job)
+ 	v3d_put_bo_vaddr(bo);
+ }
  
--		for (i = 0; i < count; i++)
-+		for (i = 0; i < count; i++) {
- 			drm_syncobj_put(query_info->queries[i].syncobj);
-+			kvfree(query_info->queries[i].kperfmon_ids);
-+		}
- 
- 		kvfree(query_info->queries);
- 	}
-diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index ce56e31a027d..d1060e60aafa 100644
---- a/drivers/gpu/drm/v3d/v3d_submit.c
-+++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -671,10 +671,20 @@ v3d_copy_query_info(struct v3d_performance_query_info *query_info,
- 			goto error;
- 		}
- 
-+		query->kperfmon_ids =
-+			kvmalloc_array(nperfmons,
-+				       sizeof(struct v3d_performance_query *),
-+				       GFP_KERNEL);
-+		if (!query->kperfmon_ids) {
-+			err = -ENOMEM;
-+			goto error;
-+		}
++static void write_to_buffer_32(u32 *dst, unsigned int idx, u32 value)
++{
++	dst[idx] = value;
++}
 +
- 		ids_pointer = u64_to_user_ptr(ids);
- 
- 		for (j = 0; j < nperfmons; j++) {
- 			if (get_user(id, ids_pointer++)) {
-+				kvfree(query->kperfmon_ids);
- 				err = -EFAULT;
- 				goto error;
- 			}
-@@ -684,6 +694,7 @@ v3d_copy_query_info(struct v3d_performance_query_info *query_info,
- 
- 		query->syncobj = drm_syncobj_find(file_priv, sync);
- 		if (!query->syncobj) {
-+			kvfree(query->kperfmon_ids);
- 			err = -ENOENT;
- 			goto error;
- 		}
-@@ -717,9 +728,6 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
- 	if (copy_from_user(&reset, ext, sizeof(reset)))
- 		return -EFAULT;
- 
--	if (reset.nperfmons > V3D_MAX_PERFMONS)
--		return -EINVAL;
++static void write_to_buffer_64(u64 *dst, unsigned int idx, u64 value)
++{
++	dst[idx] = value;
++}
++
+ static void
+-write_to_buffer(void *dst, u32 idx, bool do_64bit, u64 value)
++write_to_buffer(void *dst, unsigned int idx, bool do_64bit, u64 value)
+ {
+-	if (do_64bit) {
+-		u64 *dst64 = (u64 *)dst;
 -
- 	job->job_type = V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY;
- 
- 	job->performance_query.queries = kvmalloc_array(reset.count,
-@@ -767,9 +775,6 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
- 	if (copy.pad)
- 		return -EINVAL;
- 
--	if (copy.nperfmons > V3D_MAX_PERFMONS)
--		return -EINVAL;
+-		dst64[idx] = value;
+-	} else {
+-		u32 *dst32 = (u32 *)dst;
 -
- 	job->job_type = V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY;
+-		dst32[idx] = (u32)value;
+-	}
++	if (do_64bit)
++		write_to_buffer_64(dst, idx, value);
++	else
++		write_to_buffer_32(dst, idx, value);
+ }
  
- 	job->performance_query.queries = kvmalloc_array(copy.count,
+ static void
+@@ -505,18 +510,23 @@ v3d_reset_performance_queries(struct v3d_cpu_job *job)
+ }
+ 
+ static void
+-v3d_write_performance_query_result(struct v3d_cpu_job *job, void *data, u32 query)
++v3d_write_performance_query_result(struct v3d_cpu_job *job, void *data,
++				   unsigned int query)
+ {
+-	struct v3d_performance_query_info *performance_query = &job->performance_query;
+-	struct v3d_copy_query_results_info *copy = &job->copy;
++	struct v3d_performance_query_info *performance_query =
++						&job->performance_query;
+ 	struct v3d_file_priv *v3d_priv = job->base.file->driver_priv;
+ 	struct v3d_dev *v3d = job->base.v3d;
+-	struct v3d_perfmon *perfmon;
+-	u64 counter_values[V3D_MAX_COUNTERS];
++	unsigned int i, j, offset;
+ 
+-	for (int i = 0; i < performance_query->nperfmons; i++) {
+-		perfmon = v3d_perfmon_find(v3d_priv,
+-					   performance_query->queries[query].kperfmon_ids[i]);
++	for (i = 0, offset = 0;
++	     i < performance_query->nperfmons;
++	     i++, offset += DRM_V3D_MAX_PERF_COUNTERS) {
++		struct v3d_performance_query *q =
++				&performance_query->queries[query];
++		struct v3d_perfmon *perfmon;
++
++		perfmon = v3d_perfmon_find(v3d_priv, q->kperfmon_ids[i]);
+ 		if (!perfmon) {
+ 			DRM_DEBUG("Failed to find perfmon.");
+ 			continue;
+@@ -524,14 +534,18 @@ v3d_write_performance_query_result(struct v3d_cpu_job *job, void *data, u32 quer
+ 
+ 		v3d_perfmon_stop(v3d, perfmon, true);
+ 
+-		memcpy(&counter_values[i * DRM_V3D_MAX_PERF_COUNTERS], perfmon->values,
+-		       perfmon->ncounters * sizeof(u64));
++		if (job->copy.do_64bit) {
++			for (j = 0; j < perfmon->ncounters; j++)
++				write_to_buffer_64(data, offset + j,
++						   perfmon->values[j]);
++		} else {
++			for (j = 0; j < perfmon->ncounters; j++)
++				write_to_buffer_32(data, offset + j,
++						   perfmon->values[j]);
++		}
+ 
+ 		v3d_perfmon_put(perfmon);
+ 	}
+-
+-	for (int i = 0; i < performance_query->ncounters; i++)
+-		write_to_buffer(data, i, copy->do_64bit, counter_values[i]);
+ }
+ 
+ static void
 -- 
 2.44.0
 
