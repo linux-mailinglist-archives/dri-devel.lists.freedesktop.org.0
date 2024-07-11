@@ -2,62 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED1A92E516
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 12:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA60192E673
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 13:24:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C80CB10E162;
-	Thu, 11 Jul 2024 10:51:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34D9510E14B;
+	Thu, 11 Jul 2024 11:24:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vG1Cvh4U";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RhXgsXmc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AAC310E162
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 10:51:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B72EACE0F9A;
- Thu, 11 Jul 2024 10:51:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E9B2C116B1;
- Thu, 11 Jul 2024 10:51:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720695101;
- bh=jC+MUII/VUDTpAXbhDbSMtm7zmMjOZiHeuaNeYbo7uQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vG1Cvh4UThE+31U4IPJNPKGKyVZyd5g9xYKaiEaYwqzEey+IsiC1atQ9w0N/1nPrp
- +BUayBEDx6eC0OykLJlfe55FXrTBe+1QNaorEHGyu/8fnc06xhNSCf+fwied2zBtli
- T3UqS9TI3ZI1m/AR8JRW+H+TSMk1z/tk2T4YBPdj/TFFlp0gK6Y65V7ZpchlH+l9xa
- Mnukv2NufgPYlF0VpEw58ZB6YZZhJgF8VgScTuF2Cm0IiMnlXf/soEVxCcGWLHowkT
- f6ZxLV7q5Qvqc/AprabTo/5tafVj5eJy8UulZeqZuPEVRY0g1is2jDsDvpn1jgZEWa
- OxLClsFrmv3Lw==
-Date: Thu, 11 Jul 2024 12:51:38 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: Andy Yan <andyshrk@163.com>, linux-rockchip@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
- andy.yan@rock-chips.com, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- javierm@redhat.com
-Subject: Re: [PATCH] drm/rockchip: cdn-dp: Remove redundant workarounds for
- firmware loading
-Message-ID: <20240711-therapeutic-space-bonobo-b4fed8@houat>
-References: <109c6f19.2559.1907b817a99.Coremail.andyshrk@163.com>
- <0bf4701d98833609b917983718c610aa@manjaro.org>
- <2fd3aabd.785b.190914ec1a6.Coremail.andyshrk@163.com>
- <f0fb9feed2d9262bb4d7c8ade836af62@manjaro.org>
- <909d072.9028.19096c2429a.Coremail.andyshrk@163.com>
- <31062b80d3f9e11c339c400a70464f43@manjaro.org>
- <20240709-exuberant-tentacled-oxpecker-bd1ea0@houat>
- <b6d630447e6c69e913b76650d910f895@manjaro.org>
- <20240710-smooth-hypnotic-raccoon-b91fba@houat>
- <a30067db11e586d8eb2c124abe32052a@manjaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B9410E136;
+ Thu, 11 Jul 2024 11:24:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720697061; x=1752233061;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=o/2EvU8Ne6JzHNgJUsH762dUzuzFgrow+gSs4PLwHAA=;
+ b=RhXgsXmcnjKzr6B4rYihs3tmDxiz6p9GyMYYOEhCW4+RZ2y/k+t2FmrO
+ mde0V+TzEc6RdR8uD0UbUnwVcDhpzI1G70rSv+kk4wdw4mi+WkYNt6S+G
+ j1XJVwC46t2C32+OyX4FITIKoiPAyPImD2HkLDNwG8IL5u8YXJN4wh/GH
+ /z5eOs4n1VfxI3BAWj5hO98qfvyMeSgQgultvGfvIlGD1VlCbv5nsMv84
+ xJVJahtl6gkt6dls86A6johukKB4Fw2N5AzS6y56lqz2RfJjIxRArqS0z
+ 2ITiQyA3gtJk9J7vfw8ojTkYdO7HKP7dOChBHvMQWpl9wrRRDigt4Hdx4 w==;
+X-CSE-ConnectionGUID: jySsi8VdR0a8xm+fola80Q==
+X-CSE-MsgGUID: ns454FkgTJCBymfdoKnmMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="40582711"
+X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; d="scan'208";a="40582711"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2024 04:24:20 -0700
+X-CSE-ConnectionGUID: VsJm3oa9S3yZ6uUi3Zm8Fw==
+X-CSE-MsgGUID: VrbT04LEQ3+kl1RHWDS/FA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; d="scan'208";a="49178595"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.252])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2024 04:24:12 -0700
+Date: Thu, 11 Jul 2024 13:24:09 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>, 
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL GVT-g DRIVERS (Intel GPU Virtualization)"
+ <intel-gvt-dev@lists.freedesktop.org>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ Zhi Wang <zhiwang@kernel.org>
+Subject: Re: [PATCH v4 3/6] drm/i915: Make I2C terminology more inclusive
+Message-ID: <Zo_A2Ykh3-YI7Nff@ashyti-mobl2.lan>
+References: <20240711052734.1273652-1-eahariha@linux.microsoft.com>
+ <20240711052734.1273652-4-eahariha@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="xsbqjcnrsppws4gq"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a30067db11e586d8eb2c124abe32052a@manjaro.org>
+In-Reply-To: <20240711052734.1273652-4-eahariha@linux.microsoft.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,69 +88,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Easwar,
 
---xsbqjcnrsppws4gq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jul 11, 2024 at 05:27:31AM +0000, Easwar Hariharan wrote:
+> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
+> with more appropriate terms. Inspired by Wolfram's series to fix drivers/i2c/,
+> fix the terminology for users of I2C_ALGOBIT bitbanging interface, now that
+> the approved verbiage exists in the specification.
+> 
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Acked-by: Zhi Wang <zhiwang@kernel.org>
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 
-On Wed, Jul 10, 2024 at 04:22:12PM GMT, Dragan Simic wrote:
-> Hello Maxime,
->=20
-> On 2024-07-10 09:13, Maxime Ripard wrote:
-> > On Tue, Jul 09, 2024 at 06:36:08PM GMT, Dragan Simic wrote:
-> > > > > > > As I already wrote earlier, and as the above-linked discussio=
-ns
-> > > > > > > conclude, solving these issues doesn't belong to any specific=
- driver.
-> > > > > > > It should be resolved within the kernel's firmware loading me=
-chanism
-> > > > > > > instead, and no driver should be specific in that regard.
-> > > > > >
-> > > > > > IT would be good if it can be resolved within the kernel's  fir=
-mware
-> > > > > > loading mechanism.
-> > > > >
-> > > > > ... we'll need this as a systemic solution.
-> > > >
-> > > > The general policy has been to put drivers that need a firmware as a
-> > > > module, and just never build them statically.
-> > >=20
-> > > I totally agree, but if Buildroot builds them statically and provides
-> > > no initial ramdisk, we need a better solution than having various
-> > > drivers
-> > > attempt to implement their own workarounds.
-> >=20
-> > Buildroot typically allows custom kernel configurations, so it's not
-> > really "enforcing" anything like another distro does.
-> >=20
-> > It is definitely targetted towards very stripped down systems, so I
-> > guess building the drivers statically is a natural choice, but it works
-> > fine with modules too.
->=20
-> It all leads to a conclusion that we need better in-kernel support
-> for delayed firmware loading, instead of drivers implementing various
-> workarounds, for the layouts in which drivers are built statically
-> into the kernel image, but the required firmware blobs reside on the
-> root filesystem.
->=20
-> I'll start working on it, hopefully today. :)
+good job! Thanks for taking care of this!
 
-I don't want to prevent you from trying, but be aware that similar
-attempts have been shut down repeatedly in the past.
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Maxime
-
---xsbqjcnrsppws4gq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZo+5NAAKCRAnX84Zoj2+
-du2GAYCtFTc7CaphEQgCfqWHKMmGzxp6MqPjwU1kfoPddNDxF8VaZ3EI58nrUdUi
-BytnnJcBf1UldJ4yRFP4F+3O6STBxwc38kR/ZT90xF0JtcAZz52j3JN7AUqtkBkm
-3G+Ypgthcw==
-=9HPF
------END PGP SIGNATURE-----
-
---xsbqjcnrsppws4gq--
+Thanks,
+Andi
