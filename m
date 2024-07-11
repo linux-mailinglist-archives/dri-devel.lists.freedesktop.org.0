@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DFE92E9F5
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 15:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4D992EABC
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 16:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E81E910EA92;
-	Thu, 11 Jul 2024 13:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE70E10EA9F;
+	Thu, 11 Jul 2024 14:28:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="cNkwAxjD";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="KKDfdWpR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64C8310EA8F
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:53:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1082310EA9F
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 14:28:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=G+R1tgFFXsuY1AqY7E00fL7m8S9W89DajHe67vVS+v4=; b=cNkwAxjD08v6ZHD+sPjzek+iYk
- UZ9JGozM5t3nTY5+g+//xpr2/VQzeUhJmknzVu+Bu+ePSc/yq4gcNe5zgDwR+kt01wBb/iPV4FL+U
- X94At5JNgskGpVFcT+0czOlOJkuWoAGs4t+rRCG/TqWwlqJumur9EtZZ54VPCp/E3WwyhVe7zTy7s
- CoPHgOcNztaSqV3HqZudr9hwsbnCKxhkkQTx0WoFng7tddDgzJR5pIeamN90W2PjAw96cTRVIbWmy
- isyux3k2qR8uGPIb2+oS8aiIl5+2fmeJI1RpxQZ5Oisx2gYajhK2LbqjJNaniEYzyTW0W0f4w8+2/
- DOdgwJLQ==;
-Received: from [84.69.19.168] (helo=localhost)
+ bh=6zQsFJN6Y1bC8mnnKXmKInWgSzwk3/kEfY2vtUCjpB8=; b=KKDfdWpRgjlQSLgbNw1SoW5X+P
+ 3melgtIt1uMKayzAoc/TA/xmv8kW85jySJs+W3NxMqiFmPgEM4jCwxVo/05SwuEL0w1Orf86vK52T
+ Uw7H7dzIwr1dHid4SHri0JWrFkI6pg2ruqMyOVwQCPH28gQCfeEHXeIe1tpP7xalWxe+lsHymKJx6
+ gk0rtoXNMA3e6JF5OxauvRumPVfMbfuXmdxwzi73NtiXBzmV5UV3HjQiQdu7OExk4FsDvsGiXt18J
+ D8mNmwQNkwNx4CsDgCpUrL0ZkHUaFigUh3oh2VVNyNQyFcUtSna3GTfIl4kyRhVPuPUysh0cvwxlE
+ 9mQsjQGg==;
+Received: from [187.36.213.55] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sRuF3-00Difv-N2; Thu, 11 Jul 2024 15:53:49 +0200
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH 11/11] drm/v3d: Add some local variables in queries/extensions
-Date: Thu, 11 Jul 2024 14:53:40 +0100
-Message-ID: <20240711135340.84617-12-tursulin@igalia.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240711135340.84617-1-tursulin@igalia.com>
-References: <20240711135340.84617-1-tursulin@igalia.com>
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sRulx-00DjT6-FS; Thu, 11 Jul 2024 16:27:50 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Iago Toral <itoral@igalia.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH] drm/v3d: Expose memory stats through fdinfo
+Date: Thu, 11 Jul 2024 11:25:24 -0300
+Message-ID: <20240711142736.783816-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -60,248 +62,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Use the common DRM function `drm_show_memory_stats()` to expose standard
+fdinfo memory stats.
 
-Add some local variables to make the code a bit less verbose, with the
-main benefit being pulling some lines to under 80 columns wide.
+V3D exposes global GPU memory stats through debugfs. Those stats will be
+preserved while the DRM subsystem doesn't have a standard solution to
+expose global GPU stats.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_submit.c | 88 ++++++++++++++++++--------------
- 1 file changed, 49 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index b282d12571b5..d607aa9c4ec2 100644
---- a/drivers/gpu/drm/v3d/v3d_submit.c
-+++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -452,6 +452,7 @@ v3d_get_cpu_timestamp_query_params(struct drm_file *file_priv,
- {
- 	u32 __user *offsets, *syncs;
- 	struct drm_v3d_timestamp_query timestamp;
-+	struct v3d_timestamp_query_info *query_info = &job->timestamp_query;
- 	unsigned int i;
- 	int err;
+* Example fdinfo output:
+
+$ cat /proc/10100/fdinfo/19
+pos:    0
+flags:  02400002
+mnt_id: 25
+ino:    521
+drm-driver:     v3d
+drm-client-id:  81
+drm-engine-bin:         4916187 ns
+v3d-jobs-bin:   98 jobs
+drm-engine-render:      154563573 ns
+v3d-jobs-render:        98 jobs
+drm-engine-tfu:         10574 ns
+v3d-jobs-tfu:   1 jobs
+drm-engine-csd:         0 ns
+v3d-jobs-csd:   0 jobs
+drm-engine-cache_clean:         0 ns
+v3d-jobs-cache_clean:   0 jobs
+drm-engine-cpu:         0 ns
+v3d-jobs-cpu:   0 jobs
+drm-total-memory:       15168 KiB
+drm-shared-memory:      9336 KiB
+drm-active-memory:      0
+
+* Example gputop output:
+
+DRM minor 128
+  PID      MEM      RSS       bin          render           tfu            csd        cache_clean        cpu       NAME
+10257      19M      19M |  3.6% ▎     || 43.2% ██▋   ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | glmark2
+ 9963       3M       3M |  0.3% ▏     ||  2.6% ▎     ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | glxgears
+ 9965      10M      10M |  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | Xwayland
+10100      14M      14M |  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | chromium-browse
+
+Best Regards,
+- Maíra
+
+ drivers/gpu/drm/v3d/v3d_bo.c  | 12 ++++++++++++
+ drivers/gpu/drm/v3d/v3d_drv.c |  2 ++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+index a165cbcdd27b..ecb80fd75b1a 100644
+--- a/drivers/gpu/drm/v3d/v3d_bo.c
++++ b/drivers/gpu/drm/v3d/v3d_bo.c
+@@ -26,6 +26,17 @@
+ #include "v3d_drv.h"
+ #include "uapi/drm/v3d_drm.h"
  
-@@ -473,10 +474,10 @@ v3d_get_cpu_timestamp_query_params(struct drm_file *file_priv,
++static enum drm_gem_object_status v3d_gem_status(struct drm_gem_object *obj)
++{
++	struct v3d_bo *bo = to_v3d_bo(obj);
++	enum drm_gem_object_status res = 0;
++
++	if (bo->base.pages)
++		res |= DRM_GEM_OBJECT_RESIDENT;
++
++	return res;
++}
++
+ /* Called DRM core on the last userspace/kernel unreference of the
+  * BO.
+  */
+@@ -63,6 +74,7 @@ static const struct drm_gem_object_funcs v3d_gem_funcs = {
+ 	.vmap = drm_gem_shmem_object_vmap,
+ 	.vunmap = drm_gem_shmem_object_vunmap,
+ 	.mmap = drm_gem_shmem_object_mmap,
++	.status = v3d_gem_status,
+ 	.vm_ops = &drm_gem_shmem_vm_ops,
+ };
  
- 	job->job_type = V3D_CPU_JOB_TYPE_TIMESTAMP_QUERY;
- 
--	job->timestamp_query.queries = kvmalloc_array(timestamp.count,
--						      sizeof(struct v3d_timestamp_query),
--						      GFP_KERNEL);
--	if (!job->timestamp_query.queries)
-+	query_info->queries = kvmalloc_array(timestamp.count,
-+					     sizeof(struct v3d_timestamp_query),
-+					     GFP_KERNEL);
-+	if (!query_info->queries)
- 		return -ENOMEM;
- 
- 	offsets = u64_to_user_ptr(timestamp.offsets);
-@@ -490,20 +491,21 @@ v3d_get_cpu_timestamp_query_params(struct drm_file *file_priv,
- 			goto error;
- 		}
- 
--		job->timestamp_query.queries[i].offset = offset;
-+		query_info->queries[i].offset = offset;
- 
- 		if (get_user(sync, syncs++)) {
- 			err = -EFAULT;
- 			goto error;
- 		}
- 
--		job->timestamp_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
--		if (!job->timestamp_query.queries[i].syncobj) {
-+		query_info->queries[i].syncobj = drm_syncobj_find(file_priv,
-+								  sync);
-+		if (!query_info->queries[i].syncobj) {
- 			err = -ENOENT;
- 			goto error;
- 		}
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index a47f00b443d3..e883f405f26a 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -184,6 +184,8 @@ static void v3d_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+ 		drm_printf(p, "v3d-jobs-%s: \t%llu jobs\n",
+ 			   v3d_queue_to_string(queue), jobs_completed);
  	}
--	job->timestamp_query.count = timestamp.count;
-+	query_info->count = timestamp.count;
- 
- 	return 0;
- 
-@@ -519,6 +521,7 @@ v3d_get_cpu_reset_timestamp_params(struct drm_file *file_priv,
- {
- 	u32 __user *syncs;
- 	struct drm_v3d_reset_timestamp_query reset;
-+	struct v3d_timestamp_query_info *query_info = &job->timestamp_query;
- 	unsigned int i;
- 	int err;
- 
-@@ -537,10 +540,10 @@ v3d_get_cpu_reset_timestamp_params(struct drm_file *file_priv,
- 
- 	job->job_type = V3D_CPU_JOB_TYPE_RESET_TIMESTAMP_QUERY;
- 
--	job->timestamp_query.queries = kvmalloc_array(reset.count,
--						      sizeof(struct v3d_timestamp_query),
--						      GFP_KERNEL);
--	if (!job->timestamp_query.queries)
-+	query_info->queries = kvmalloc_array(reset.count,
-+					     sizeof(struct v3d_timestamp_query),
-+					     GFP_KERNEL);
-+	if (!query_info->queries)
- 		return -ENOMEM;
- 
- 	syncs = u64_to_user_ptr(reset.syncs);
-@@ -548,20 +551,21 @@ v3d_get_cpu_reset_timestamp_params(struct drm_file *file_priv,
- 	for (i = 0; i < reset.count; i++) {
- 		u32 sync;
- 
--		job->timestamp_query.queries[i].offset = reset.offset + 8 * i;
-+		query_info->queries[i].offset = reset.offset + 8 * i;
- 
- 		if (get_user(sync, syncs++)) {
- 			err = -EFAULT;
- 			goto error;
- 		}
- 
--		job->timestamp_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
--		if (!job->timestamp_query.queries[i].syncobj) {
-+		query_info->queries[i].syncobj = drm_syncobj_find(file_priv,
-+								  sync);
-+		if (!query_info->queries[i].syncobj) {
- 			err = -ENOENT;
- 			goto error;
- 		}
- 	}
--	job->timestamp_query.count = reset.count;
-+	query_info->count = reset.count;
- 
- 	return 0;
- 
-@@ -578,6 +582,7 @@ v3d_get_cpu_copy_query_results_params(struct drm_file *file_priv,
- {
- 	u32 __user *offsets, *syncs;
- 	struct drm_v3d_copy_timestamp_query copy;
-+	struct v3d_timestamp_query_info *query_info = &job->timestamp_query;
- 	unsigned int i;
- 	int err;
- 
-@@ -599,10 +604,10 @@ v3d_get_cpu_copy_query_results_params(struct drm_file *file_priv,
- 
- 	job->job_type = V3D_CPU_JOB_TYPE_COPY_TIMESTAMP_QUERY;
- 
--	job->timestamp_query.queries = kvmalloc_array(copy.count,
--						      sizeof(struct v3d_timestamp_query),
--						      GFP_KERNEL);
--	if (!job->timestamp_query.queries)
-+	query_info->queries = kvmalloc_array(copy.count,
-+					     sizeof(struct v3d_timestamp_query),
-+					     GFP_KERNEL);
-+	if (!query_info->queries)
- 		return -ENOMEM;
- 
- 	offsets = u64_to_user_ptr(copy.offsets);
-@@ -616,20 +621,21 @@ v3d_get_cpu_copy_query_results_params(struct drm_file *file_priv,
- 			goto error;
- 		}
- 
--		job->timestamp_query.queries[i].offset = offset;
-+		query_info->queries[i].offset = offset;
- 
- 		if (get_user(sync, syncs++)) {
- 			err = -EFAULT;
- 			goto error;
- 		}
- 
--		job->timestamp_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
--		if (!job->timestamp_query.queries[i].syncobj) {
-+		query_info->queries[i].syncobj = drm_syncobj_find(file_priv,
-+								  sync);
-+		if (!query_info->queries[i].syncobj) {
- 			err = -ENOENT;
- 			goto error;
- 		}
- 	}
--	job->timestamp_query.count = copy.count;
-+	query_info->count = copy.count;
- 
- 	job->copy.do_64bit = copy.do_64bit;
- 	job->copy.do_partial = copy.do_partial;
-@@ -712,6 +718,7 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
- 				     struct drm_v3d_extension __user *ext,
- 				     struct v3d_cpu_job *job)
- {
-+	struct v3d_performance_query_info *query_info = &job->performance_query;
- 	struct drm_v3d_reset_performance_query reset;
- 	int err;
- 
-@@ -730,13 +737,14 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
- 
- 	job->job_type = V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY;
- 
--	job->performance_query.queries = kvmalloc_array(reset.count,
--							sizeof(struct v3d_performance_query),
--							GFP_KERNEL);
--	if (!job->performance_query.queries)
-+	query_info->queries =
-+		kvmalloc_array(reset.count,
-+			       sizeof(struct v3d_performance_query),
-+			       GFP_KERNEL);
-+	if (!query_info->queries)
- 		return -ENOMEM;
- 
--	err = v3d_copy_query_info(&job->performance_query,
-+	err = v3d_copy_query_info(query_info,
- 				  reset.count,
- 				  reset.nperfmons,
- 				  u64_to_user_ptr(reset.syncs),
-@@ -745,8 +753,8 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
- 	if (err)
- 		return err;
- 
--	job->performance_query.count = reset.count;
--	job->performance_query.nperfmons = reset.nperfmons;
-+	query_info->count = reset.count;
-+	query_info->nperfmons = reset.nperfmons;
- 
- 	return 0;
++
++	drm_show_memory_stats(p, file);
  }
-@@ -756,6 +764,7 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
- 					  struct drm_v3d_extension __user *ext,
- 					  struct v3d_cpu_job *job)
- {
-+	struct v3d_performance_query_info *query_info = &job->performance_query;
- 	struct drm_v3d_copy_performance_query copy;
- 	int err;
  
-@@ -777,13 +786,14 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
- 
- 	job->job_type = V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY;
- 
--	job->performance_query.queries = kvmalloc_array(copy.count,
--							sizeof(struct v3d_performance_query),
--							GFP_KERNEL);
--	if (!job->performance_query.queries)
-+	query_info->queries =
-+		kvmalloc_array(copy.count,
-+			       sizeof(struct v3d_performance_query),
-+			       GFP_KERNEL);
-+	if (!query_info->queries)
- 		return -ENOMEM;
- 
--	err = v3d_copy_query_info(&job->performance_query,
-+	err = v3d_copy_query_info(query_info,
- 				  copy.count,
- 				  copy.nperfmons,
- 				  u64_to_user_ptr(copy.syncs),
-@@ -792,9 +802,9 @@ v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
- 	if (err)
- 		return err;
- 
--	job->performance_query.count = copy.count;
--	job->performance_query.nperfmons = copy.nperfmons;
--	job->performance_query.ncounters = copy.ncounters;
-+	query_info->count = copy.count;
-+	query_info->nperfmons = copy.nperfmons;
-+	query_info->ncounters = copy.ncounters;
- 
- 	job->copy.do_64bit = copy.do_64bit;
- 	job->copy.do_partial = copy.do_partial;
+ static const struct file_operations v3d_drm_fops = {
 -- 
-2.44.0
+2.45.2
 
