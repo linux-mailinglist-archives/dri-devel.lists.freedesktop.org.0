@@ -2,167 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E848192EAB2
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 16:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DB392EADA
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 16:36:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 097F110EAA1;
-	Thu, 11 Jul 2024 14:26:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C9FB10E250;
+	Thu, 11 Jul 2024 14:36:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sKjanpUR";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0UeI02DQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZmSTSYT0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qDOi9rzC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y5TrOh64";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2041.outbound.protection.outlook.com [40.107.237.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6027F10E2EE
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 14:26:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HYs/EY74wVmW8rgXwlaV8gN1dDs4USHriMKORHVebu346rulPKT7cBcs9K7VRUHrN0AcYDpCkdpcLZYO4MlGraW1+WfX4PaouwUDK9yzcdHA4rk6ofyj3MKfuZxH/wRI9FaNLffU/4R8UlCBsLxF4Zya965zfeVfCcKsY2NsC+kpS7AxieGTpKix4uow9ErQMgjpmNbElzO/N8BENgXchgM/Lob59hds+46pk5hofVqTAVJ3b3WaIeBXtBUDn0xfyh0WaSXdRDbuv4nyWGrj+w108aGkeO9rSGH2GhD2fRlYTqtfDdTsrLboFYs0ZVNlLkcceLq7/CGew8+scFdC9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wrVg6JN1rAI05l1tlksbH/6OV5Rn44XwFKcJMyLxl64=;
- b=U+hVTt5xhHRwgWXqMtVtRGqoWxLPQSVFDOpBhi9lgxD6A7EwbFXm6TU+33SJJxoEL1X8YXzOzqn+Tvku2chp6bQ/E+gVCF70cAkbpX81pdBMUKgfcG+h9w8vAHYedB5przs4x2NVeDX1ewtWr4Flto6Lrq2uhkFL4AkgWEFDXHzekLWWwvtBTdWAZKXi6YLE3uh5ye2xirSLw8NjUk/5srCL2j0qUebPyMWzpEcSWQb/nnoLFAMFqrUHH+i+JDKrTjyDOj0+amnxKt9jSJz7+FlUXyAMxsw7ILUz//FVC/rXvXQdMQrxx49fq1a+gzhDfBXIlpUwZdA4jLPeUnl1ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wrVg6JN1rAI05l1tlksbH/6OV5Rn44XwFKcJMyLxl64=;
- b=sKjanpURwhteP5ZH4uY86CUI4repa1P8M/dR5bLjxKy36VHuFxJJPUnEPsTagwQGogwNJw2dEDeIaRi93KEWwB4eSi3v8BqjUpo8B7FDQmyU1kge3RSTn8pyDFusy3zRHw5ncb3Z+X9qcsXxL0soa5JKB2oKRLfRjcJjA65J1hc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB8525.namprd12.prod.outlook.com (2603:10b6:8:159::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
- 2024 14:26:09 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7762.020; Thu, 11 Jul 2024
- 14:26:09 +0000
-Message-ID: <63237086-223f-44fb-90a0-076a5f56dfdc@amd.com>
-Date: Thu, 11 Jul 2024 16:25:59 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Support direct I/O read and write for memory
- allocated by dmabuf
-To: "T.J. Mercier" <tjmercier@google.com>, Lei Liu <liulei.rjpt@vivo.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
- Muhammad Usama Anjum <usama.anjum@collabora.com>,
- Andrei Vagin <avagin@google.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, Daniel Vetter <daniel@ffwll.ch>,
- "Vetter, Daniel" <daniel.vetter@intel.com>, opensource.kernel@vivo.com,
- quic_sukadev@quicinc.com, quic_cgoldswo@quicinc.com,
- Akilesh Kailash <akailash@google.com>
-References: <20240710135757.25786-1-liulei.rjpt@vivo.com>
- <5e5ee5d3-8a57-478a-9ce7-b40cab60b67d@amd.com>
- <d70cf558-cf34-4909-a33e-58e3a10bbc0c@vivo.com>
- <0393cf47-3fa2-4e32-8b3d-d5d5bdece298@amd.com>
- <e8bfe5ed-130a-4f32-a95a-01477cdd98ca@vivo.com>
- <CABdmKX26f+6m9Gh34Lb+rb2yQB--wSKP3GXRRri6Nxp3Hwxavg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CABdmKX26f+6m9Gh34Lb+rb2yQB--wSKP3GXRRri6Nxp3Hwxavg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0324.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:eb::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61D2510E250
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 14:36:17 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DA39721A80;
+ Thu, 11 Jul 2024 14:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1720708576; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KXDCAXMbp8Z27jOllL1RgSgDjvwny6xi4Uto6eW8uCI=;
+ b=0UeI02DQuM78sfrsT5BGf7QhkZ0gt80N9cJ+jjIqYFX+0W5flCi2+7Sg/gpWRwJTNrboWe
+ HFNJ4PdDIi9U8Rn/6MFOiWKiOuwLhkPy7uMhJqY/BfBlU90zhpGAK1yUm2exaW4WDBKbpB
+ Ldmh7yA+G0wzpZCywPBzENT8AQwX0lU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1720708576;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KXDCAXMbp8Z27jOllL1RgSgDjvwny6xi4Uto6eW8uCI=;
+ b=ZmSTSYT0C/q7BTKQolfY0jOOFIKSsUbWfl1etqw6hu/G1ikZtHVC7tE3n7xb5K9t/DXtEs
+ 7yyv4OPl0tSuubAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1720708575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KXDCAXMbp8Z27jOllL1RgSgDjvwny6xi4Uto6eW8uCI=;
+ b=qDOi9rzCahzIjaAOw3WzzUsJGGRGKYBiLFBJ/iOeE97/xG5Ark1KcxBCJRzUE+p8rvXpzK
+ qa47p+Bxp226cL22HKEKs/zNWD2eGFRFC9Q7tBvcyjloDcafuq8Aja01aDPvFWJhQJORKq
+ e083VxX7tM+EYVaebO4JbkpGyAMDD+g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1720708575;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KXDCAXMbp8Z27jOllL1RgSgDjvwny6xi4Uto6eW8uCI=;
+ b=Y5TrOh64a4/GMvHFah/g5gj9e7x0aoKaDFW3V6LcPPy7qnq1wlCbOyTqHIzV3lCz6agMb8
+ PqPGfcGUWhL5BQCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95B3F136AF;
+ Thu, 11 Jul 2024 14:36:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id VuRNI9/tj2aMEwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 11 Jul 2024 14:36:15 +0000
+Message-ID: <3e77a398-2e10-4fc1-95a4-c35681002d4c@suse.de>
+Date: Thu, 11 Jul 2024 16:36:15 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB8525:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6afa3e9f-9cab-4dce-1c21-08dca1b56833
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Qm1zVlErbitRa2NxZ05XbTF1T3Y3SFZaM0lZMHgvRVAvNDhYT0FDUm5yNWtH?=
- =?utf-8?B?UmJ4TjZoYkw2YUo5cEdGZzM4Z00xTnpBSFJxMVhMSklDT3EwM1BxM1BLTThR?=
- =?utf-8?B?S0l6T0JBV1NPTVBPRzQvWEJWTGRLYXRlM3FIRkRqRmJsdU9tdkUwZ1hTUm13?=
- =?utf-8?B?VUdkOEJ0eE05cStCRWgwWjg2Q2FHZlF4OSt2THhBR0tIeEVXelp5bllma3Nr?=
- =?utf-8?B?bUpnUXZVRFJoSEdBRjkzRWdpR0Z0QW41REx1SVVtTXorNDBXaE1hUERhQmhD?=
- =?utf-8?B?djBXMnNtUXF3WGFySGVhYU4zRi9hdEEwL0tSZlB3U2l4TE9xeTlCMUcwT2Zu?=
- =?utf-8?B?dStOK0s3US9zSUVHK3RGamQ0a3plc0owKzVFMjNKMmlLYUZSZXlaMjdlVE1p?=
- =?utf-8?B?MUlVM002NDdkVFFkdnBKS1AzclM5YjZqcktnS0RDRy9CY29CRDI0WlJXQWt4?=
- =?utf-8?B?bkR4OEdJQ0NTb3JXK2ZwTVhsUkhkcXlCQS8yMlNiZUtOMHRsOFJUUFF4aXZa?=
- =?utf-8?B?czhPelUxdU8xdnpPVEVFaitVOE01TTlRVEJXNWYvK2xUalkvQmtRcHBEYlgx?=
- =?utf-8?B?bWc2VFJ2OE12SDNWM0FrNHM1Vm1QRldVT3l4czQyaDFWL2JRNWxzTkFmOFJP?=
- =?utf-8?B?SHZpMkx0Z2lIZWJYOHJaaHBPMmNIRWZCNGdzcnEvU3p1N01zdG9EcjlsOWNG?=
- =?utf-8?B?Z2IxTUxDZldzeEZBT0JXa0ZBSWs3MkJvV2pvZTU0WmZrUlV6dUxSOHNOckFx?=
- =?utf-8?B?dERvb2NPdmFPT29jNTZtWTdmNmZ0Q09sVjhNVGJ0a2N4VFBLM21HRkRwdnhu?=
- =?utf-8?B?L0FrMGFGWnZWWFBBNFBFMnl2TkJZbmNHLy9SVVRrWkFZcS9pOFRQNjhQZ3Zq?=
- =?utf-8?B?d0QzME4wNjg3TkRCZUkva3k2djVkZE82eDZyZk1LYUozTDNPM1NLcU5sVloz?=
- =?utf-8?B?emMyMXJpSVdkL0JJS3FvaDNERjhoNXVXTGVldE5xM1N5MWpOTGt5RUd3YWlm?=
- =?utf-8?B?OVNYS0NLMVNLaFl2OEFRNUJrWGJNZkhndHVIUTBrOVpNMGxnTWhxek9ubVFV?=
- =?utf-8?B?NWpIYWw4YzhqU3lpSEMvWW5zVlk5K05uUzVra01aUFdPajZIVmlCaEh0dzBT?=
- =?utf-8?B?eVZEMkhxYlBWZEk1RUpIMlEzczc4djI2Z1pzcVZ1cVFWWEc3LzlQNGp1SHdF?=
- =?utf-8?B?ak9ubW1mVnF5TmR6cDNVTHJ6N0p6Z2p3MTVYb3FUYXZOMHZsYWpTM1I0OHJv?=
- =?utf-8?B?SHRuUzZSbWZDRjVMRmFFYk1LM08yeTRRRkFTTmJ4ZDNBRHRiYUYzOXpXYld4?=
- =?utf-8?B?dk9HMzlTYW1iS2tORjRqTkdscWN1cTBDNjRnVXc4WGc0bWgzbStPWTY3SkM3?=
- =?utf-8?B?ZUlKZXMvNXFyZ3hhQU9BRURqUnQrRnZIMVZ3YzlIWWxlZXlGcUM1dEpBb255?=
- =?utf-8?B?VHg3cXlOZjMreTQwMXgxNFE3azM4cUpSdlkrWmRvSDNHbG5NYSs1UG9PeDcw?=
- =?utf-8?B?dXozYWdnWEhNbkVvdWNRazM3eTBzdVNnc0Q0L24zaVRLdXo1YVhzQW5EeG1V?=
- =?utf-8?B?OVFkc01sYTBMRlZIQjRsek9xQjNjM1dMaENodFkyZFVKLzM3S3V2YnlGRGda?=
- =?utf-8?B?N2d3VGZyTFF2Y1BqeFlkRUdEdjRUMHYzQmVYN08xTzByT0F3bXB1ZE0vUit1?=
- =?utf-8?B?QmRURkxCSTc1U3BFUWdVT3U5RmZoSHlPNjhhaXVSZUloTHNPOEVWQzkvOUVx?=
- =?utf-8?B?WG5SWUhCMmpMV3JnMUZtcGhubEJKMWY4cTBvTDIwdWd5NnVIQW01UmtFbDV4?=
- =?utf-8?B?UTZEenVNSUc5Q1BWcXFXZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmJwNFdnT0Mvam5RTE9NMkxWZkpBa2hkbVk5bjZOejNDa2NDazZHWUlUN1RM?=
- =?utf-8?B?UXRxVlJ1Zll6VlhFVzNXTTNsL2NFQkdrcmJsZkZjbS95b2EyUERKQndpNW1S?=
- =?utf-8?B?YUttWFFXSGlrT0tFVE5rSkI3d1FWZmwzQlE0eWQ5VWp6V0hMZVVMRWF6L1Bu?=
- =?utf-8?B?cW8wT3k1UUIxS0Izc1VoWmRmcmtiVXV1Q3RuVFEzOVl4SHJFbHhLd2RtbUNX?=
- =?utf-8?B?d2x0QTZIODlFbDVqYys2N2oyZysvQnUzditIM0lDS2NPUWVPVzhXUG12bXlo?=
- =?utf-8?B?TGtKS0lwOThKc2lNSjJPOTVXMndnWG1PRlVSTVRwbVc3YXRFMDZDNkw4cmpv?=
- =?utf-8?B?Zk91UTZsakZGcmhEbVVVWWNabmF6TktSSGxremlnbEoxM2N6UHhObVl4Rk81?=
- =?utf-8?B?Ky9XZFBseEVaOHVVelVOQjlSUkszR1lFN1dwS2U1RVZ6MjlLSDZ5T1g4TUg3?=
- =?utf-8?B?ZDJ3UnU1cFRoWXZkZmVldnF6dnFZcytBYlJsQnNyTEF4bXR3UHJFU2lOUlBI?=
- =?utf-8?B?OFBtK2ZBMVcxUzJMTVlFRDBvL0gydTk2SFVjWXBpQXgzdkx4dTQzNzJrZDE1?=
- =?utf-8?B?S1NhNndTRkxLamU2SEpvSytVRHFGQVZTb1ZPSXEwNllnZWZGMUloNHp5emcz?=
- =?utf-8?B?eHdRWlJNU1Q3a3FPTEt3K1BQS2tPbis5WlpLNk9scWh1d3dyQWQzUEZiSUlC?=
- =?utf-8?B?cStGekVsNXVEcThCNitTQVpyRzBNZ1dRd1JKeHdSOFZBRUF5Qzg2UzdHT0Q5?=
- =?utf-8?B?RTVIM1I3cFhqU0lUNFJQRitmeEFnU0ZXa2hncVJDQkpVdm5nYkpoYXl2RlY4?=
- =?utf-8?B?eXU0Sm43dC81ZFVSUmpaZ1hJN3dWZjA1WXl2eVN5WkhnNjRPOEsySnRaVER6?=
- =?utf-8?B?REdVRlZWaGlVWXNaQ0Ywa1VYaXAzTlByVmxXamcyM01oVEgrcms1cmRlYTBy?=
- =?utf-8?B?cGx3bWpuZVBHYUpHL2dEMjdqZ1k1T0FiVEhZZVp5U3RkckVpSDJCeEkxbnBl?=
- =?utf-8?B?NmowRVRQbEZETkxIbHFVdFVhRGZrcjJqNmRTOGRSN2ZmczE5SHJXZmkyLzZo?=
- =?utf-8?B?eTMvSWhxU2NNYitOeUpXeDFpOXhqamttKzBYbElaNTc5Y0w5QUxYL3kxanQ2?=
- =?utf-8?B?aThtdW4veGVHa3RqZWI3MG9DYmxFU0JhM2JOb2hwblBQSHNiZlRIZVBYbE1Y?=
- =?utf-8?B?Y2tmMU82MmsxT2IyTGgwN2JoMmQvNXJNVWhLWEVpMlFsb2hzdU1NK2ZtMlZH?=
- =?utf-8?B?NDZIRE9NdmN3bVU5bk5OWFpnVmVramlkU1VWN1Mvd3d4RVFoMXVzdVUxS1pU?=
- =?utf-8?B?MFpwRW42ZTZWMW56T05LNERXYnZ1RWdwQ1NNUVFMazR5QkF1MFBGZjQ4UXJD?=
- =?utf-8?B?RlFtWEszSHFjcWMyVG9GZkhWSnNwSjFqRnZoR0w1Y2RBR3BHaXlKRTB1TlpP?=
- =?utf-8?B?aFowTXZGMzlwMWMxNGZlVjZRNDlhS012Wnh2eEZMc2JFRXVla3lkZFRnUzJk?=
- =?utf-8?B?YTV4ajkxdGNvUjcvUDhRS1JHNFRRdFkzZ0pSV2UzN2FSREdnMERZdXloajI2?=
- =?utf-8?B?SkJ3YjM3Kzg4ZThPa3JhaXRGaGhQeGZtWkxDc3p0Ti8zaFhHb2o5T3ZRdEV3?=
- =?utf-8?B?S1BOeU9TK29Ya1dhQU9iRWNyQ0FmRm9veHoyZ29rSFV3dzB5Vk9kcWlIVTFk?=
- =?utf-8?B?Q0JicURDQzBDdFpvOEpHdHdhZEhITWJOcmozMjhkWHk1cmcwcGhQTXI5aS9r?=
- =?utf-8?B?V2ZKb3N6MmhBUUQ0bVB0SWNwNXpSbi9GWnBwUUFVdFdHWjd4c21Yd25ieVNI?=
- =?utf-8?B?Z0xieXNZV3pBV2svYnlmOGh1blVZSkRwR2poeVBTc1J3TWc2dEVGV0xnM1dy?=
- =?utf-8?B?MllDUGcwUndoV1pmY3hKTTZTcHJHeTAzeW9mK3crcUhMclVPeEpHb1NJK3ZZ?=
- =?utf-8?B?Nk02bjVMS25Dc1VGWWt3ZEg2Mkt6eFlBc1F6dmprV0l2MHRML3FQVlorRTVX?=
- =?utf-8?B?SnBlenFaZ3lVQlNhVmpiZnBOYWY1dk82ZEp1QmUySWF2WXRoMHZMdDhxalZ1?=
- =?utf-8?B?bVd0eTcrRjdBc2ttK1JTWlROaUJOcjVRU1hNWi9xUTE1U0tHQUhiZjZnNVV6?=
- =?utf-8?Q?JzYVFHb6MVlalcsCdvxpsGZnU?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6afa3e9f-9cab-4dce-1c21-08dca1b56833
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 14:26:09.2434 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZGHH1HE1d8iFLz8xXvc97vEp9kKRXBe/F1DUZheoADpSnvGnBkoHn295h0sjN2pp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8525
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ast: add multiple connectors support
+To: oushixiong1025@163.com, Dave Airlie <airlied@redhat.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+References: <20240711090102.352213-1-oushixiong1025@163.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240711090102.352213-1-oushixiong1025@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCVD_TLS_ALL(0.00)[];
+ FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,kylinos.cn];
+ FREEMAIL_TO(0.00)[163.com,redhat.com]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; RCPT_COUNT_SEVEN(0.00)[10];
+ TO_DN_SOME(0.00)[]; FROM_HAS_DN(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com]
+X-Spam-Flag: NO
+X-Spam-Score: -4.29
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,165 +144,215 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.07.24 um 18:34 schrieb T.J. Mercier:
-> On Wed, Jul 10, 2024 at 8:08 AM Lei Liu <liulei.rjpt@vivo.com> wrote:
->> on 2024/7/10 22:48, Christian König wrote:
->>> Am 10.07.24 um 16:35 schrieb Lei Liu:
->>>> on 2024/7/10 22:14, Christian König wrote:
->>>>> Am 10.07.24 um 15:57 schrieb Lei Liu:
->>>>>> Use vm_insert_page to establish a mapping for the memory allocated
->>>>>> by dmabuf, thus supporting direct I/O read and write; and fix the
->>>>>> issue of incorrect memory statistics after mapping dmabuf memory.
->>>>> Well big NAK to that! Direct I/O is intentionally disabled on DMA-bufs.
->>>> Hello! Could you explain why direct_io is disabled on DMABUF? Is
->>>> there any historical reason for this?
->>> It's basically one of the most fundamental design decision of DMA-Buf.
->>> The attachment/map/fence model DMA-buf uses is not really compatible
->>> with direct I/O on the underlying pages.
->> Thank you! Is there any related documentation on this? I would like to
->> understand and learn more about the fundamental reasons for the lack of
->> support.
-> Hi Lei and Christian,
->
-> This is now the third request I've seen from three different companies
-> who are interested in this,
+Hi
 
-Yeah, completely agree. This is a re-occurring pattern :)
+Am 11.07.24 um 11:01 schrieb oushixiong1025@163.com:
+> From: Shixiong Ou <oushixiong@kylinos.cn>
+>
+> [WHY]
+> The AST2600 tx_chip_types will be detected as AST_TX_DP, but some BMC
+> boards that use AST2600 use the VGA interface instead of the DP interface.
+> In this case, it will use Virtual connector as the DP is disconnected.
+>
+> [HOW]
+> Allows multiple physical connectors to exist at the same time.
+>
+> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+> ---
+>   drivers/gpu/drm/ast/ast_drv.h  |  6 ++++-
+>   drivers/gpu/drm/ast/ast_main.c |  8 +++----
+>   drivers/gpu/drm/ast/ast_mode.c | 40 ++++++++++++++++++++--------------
+>   3 files changed, 33 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index ba3d86973995..e326124b3fec 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -150,9 +150,13 @@ static inline struct ast_plane *to_ast_plane(struct drm_plane *plane)
+>    * BMC
+>    */
+>   
+> +#define MAX_CONNECTORS 2
+> +
+>   struct ast_bmc_connector {
+>   	struct drm_connector base;
+> -	struct drm_connector *physical_connector;
+> +
+> +	struct drm_connector *physical_connectors[MAX_CONNECTORS];
+> +	int count;
 
-Maybe we should document the preferred solution for that.
+It won't work like that. Due to userspace limitations, only one 
+connector can be reported as connected as at a time. So we have to build 
+a chain of connectors. I had this on my TODO list anyway, so I can also 
+prioritize.
 
-> but the others are not for reasons of read
-> performance that you mention in the commit message on your first
-> patch. Someone else at Google ran a comparison between a normal read()
-> and a direct I/O read() into a preallocated user buffer and found that
-> with large readahead (16 MB) the throughput can actually be slightly
-> higher than direct I/O. If you have concerns about read performance,
-> have you tried increasing the readahead size?
->
-> The other motivation is to load a gajillion byte file from disk into a
-> dmabuf without evicting the entire contents of pagecache while doing
-> so. Something like this (which does not currently work because read()
-> tries to GUP on the dmabuf memory as you mention):
->
-> static int dmabuf_heap_alloc(int heap_fd, size_t len)
-> {
->      struct dma_heap_allocation_data data = {
->          .len = len,
->          .fd = 0,
->          .fd_flags = O_RDWR | O_CLOEXEC,
->          .heap_flags = 0,
->      };
->      int ret = ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &data);
->      if (ret < 0)
->          return ret;
->      return data.fd;
-> }
->
-> int main(int, char **argv)
-> {
->          const char *file_path = argv[1];
->          printf("File: %s\n", file_path);
->          int file_fd = open(file_path, O_RDONLY | O_DIRECT);
->
->          struct stat st;
->          stat(file_path, &st);
->          ssize_t file_size = st.st_size;
->          ssize_t aligned_size = (file_size + 4095) & ~4095;
->
->          printf("File size: %zd Aligned size: %zd\n", file_size, aligned_size);
->          int heap_fd = open("/dev/dma_heap/system", O_RDONLY);
->          int dmabuf_fd = dmabuf_heap_alloc(heap_fd, aligned_size);
->
->          void *vm = mmap(nullptr, aligned_size, PROT_READ | PROT_WRITE,
-> MAP_SHARED, dmabuf_fd, 0);
->          printf("VM at 0x%lx\n", (unsigned long)vm);
->
->          dma_buf_sync sync_flags { DMA_BUF_SYNC_START |
-> DMA_BUF_SYNC_READ | DMA_BUF_SYNC_WRITE };
->          ioctl(dmabuf_fd, DMA_BUF_IOCTL_SYNC, &sync_flags);
->
->          ssize_t rc = read(file_fd, vm, file_size);
->          printf("Read: %zd %s\n", rc, rc < 0 ? strerror(errno) : "");
->
->          sync_flags.flags = DMA_BUF_SYNC_END | DMA_BUF_SYNC_READ |
-> DMA_BUF_SYNC_WRITE;
->          ioctl(dmabuf_fd, DMA_BUF_IOCTL_SYNC, &sync_flags);
-> }
->
-> Or replace the mmap() + read() with sendfile().
+Best regards
+Thomas
 
-Or copy_file_range(). That's pretty much exactly what I suggested on the 
-other mail thread around that topic as well.
+>   };
+>   
+>   static inline struct ast_bmc_connector *
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+> index 0637abb70361..428529749ae6 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -85,7 +85,7 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
+>   	if (!need_post) {
+>   		jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xff);
+>   		if (jreg & 0x80)
+> -			ast->tx_chip_types = AST_TX_SIL164_BIT;
+> +			ast->tx_chip_types |= AST_TX_SIL164_BIT;
+>   	}
+>   
+>   	if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast) || IS_AST_GEN6(ast)) {
+> @@ -97,7 +97,7 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
+>   		jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1, 0xff);
+>   		switch (jreg) {
+>   		case 0x04:
+> -			ast->tx_chip_types = AST_TX_SIL164_BIT;
+> +			ast->tx_chip_types |= AST_TX_SIL164_BIT;
+>   			break;
+>   		case 0x08:
+>   			ast->dp501_fw_addr = drmm_kzalloc(dev, 32*1024, GFP_KERNEL);
+> @@ -110,12 +110,12 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
+>   			}
+>   			fallthrough;
+>   		case 0x0c:
+> -			ast->tx_chip_types = AST_TX_DP501_BIT;
+> +			ast->tx_chip_types |= AST_TX_DP501_BIT;
+>   		}
+>   	} else if (IS_AST_GEN7(ast)) {
+>   		if (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD1, TX_TYPE_MASK) ==
+>   		    ASTDP_DPMCU_TX) {
+> -			ast->tx_chip_types = AST_TX_ASTDP_BIT;
+> +			ast->tx_chip_types |= AST_TX_ASTDP_BIT;
+>   			ast_dp_launch(&ast->base);
+>   		}
+>   	}
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 6695af70768f..31a49d32e506 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -1717,7 +1717,8 @@ static int ast_bmc_connector_helper_detect_ctx(struct drm_connector *connector,
+>   					       bool force)
+>   {
+>   	struct ast_bmc_connector *bmc_connector = to_ast_bmc_connector(connector);
+> -	struct drm_connector *physical_connector = bmc_connector->physical_connector;
+> +	struct drm_connector *physical_connector;
+> +	int i, count = bmc_connector->count;
+>   
+>   	/*
+>   	 * Most user-space compositors cannot handle more than one connected
+> @@ -1730,10 +1731,13 @@ static int ast_bmc_connector_helper_detect_ctx(struct drm_connector *connector,
+>   	 *        than one connector per CRTC. The BMC should always be connected.
+>   	 */
+>   
+> -	if (physical_connector && physical_connector->status == connector_status_disconnected)
+> -		return connector_status_connected;
+> +	for (i = 0; i < count; i++) {
+> +		physical_connector = bmc_connector->physical_connectors[i];
+> +		if (physical_connector && physical_connector->status == connector_status_connected)
+> +			return connector_status_disconnected;
+> +	}
+>   
+> -	return connector_status_disconnected;
+> +	return connector_status_connected;
+>   }
+>   
+>   static int ast_bmc_connector_helper_get_modes(struct drm_connector *connector)
+> @@ -1756,10 +1760,11 @@ static const struct drm_connector_funcs ast_bmc_connector_funcs = {
+>   
+>   static int ast_bmc_connector_init(struct drm_device *dev,
+>   				  struct ast_bmc_connector *bmc_connector,
+> -				  struct drm_connector *physical_connector)
+> +				  struct drm_connector **physical_connector,
+> +				  int count)
+>   {
+>   	struct drm_connector *connector = &bmc_connector->base;
+> -	int ret;
+> +	int i, ret;
+>   
+>   	ret = drm_connector_init(dev, connector, &ast_bmc_connector_funcs,
+>   				 DRM_MODE_CONNECTOR_VIRTUAL);
+> @@ -1768,13 +1773,16 @@ static int ast_bmc_connector_init(struct drm_device *dev,
+>   
+>   	drm_connector_helper_add(connector, &ast_bmc_connector_helper_funcs);
+>   
+> -	bmc_connector->physical_connector = physical_connector;
+> +	for (i = 0; i < count; i++)
+> +		bmc_connector->physical_connectors[i] = physical_connector[i];
+> +	bmc_connector->count = count;
+>   
+>   	return 0;
+>   }
+>   
+>   static int ast_bmc_output_init(struct ast_device *ast,
+> -			       struct drm_connector *physical_connector)
+> +			       struct drm_connector **physical_connector,
+> +			       int count)
+>   {
+>   	struct drm_device *dev = &ast->base;
+>   	struct drm_crtc *crtc = &ast->crtc;
+> @@ -1790,7 +1798,7 @@ static int ast_bmc_output_init(struct ast_device *ast,
+>   		return ret;
+>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+>   
+> -	ret = ast_bmc_connector_init(dev, bmc_connector, physical_connector);
+> +	ret = ast_bmc_connector_init(dev, bmc_connector, physical_connector, count);
+>   	if (ret)
+>   		return ret;
+>   
+> @@ -1852,8 +1860,8 @@ static const struct drm_mode_config_funcs ast_mode_config_funcs = {
+>   int ast_mode_config_init(struct ast_device *ast)
+>   {
+>   	struct drm_device *dev = &ast->base;
+> -	struct drm_connector *physical_connector = NULL;
+> -	int ret;
+> +	struct drm_connector *physical_connector[MAX_CONNECTORS] = {NULL};
+> +	int count, ret;
+>   
+>   	ret = drmm_mutex_init(dev, &ast->modeset_lock);
+>   	if (ret)
+> @@ -1897,27 +1905,27 @@ int ast_mode_config_init(struct ast_device *ast)
+>   		ret = ast_vga_output_init(ast);
+>   		if (ret)
+>   			return ret;
+> -		physical_connector = &ast->output.vga.connector;
+> +		physical_connector[count++] = &ast->output.vga.connector;
+>   	}
+>   	if (ast->tx_chip_types & AST_TX_SIL164_BIT) {
+>   		ret = ast_sil164_output_init(ast);
+>   		if (ret)
+>   			return ret;
+> -		physical_connector = &ast->output.sil164.connector;
+> +		physical_connector[count++] = &ast->output.sil164.connector;
+>   	}
+>   	if (ast->tx_chip_types & AST_TX_DP501_BIT) {
+>   		ret = ast_dp501_output_init(ast);
+>   		if (ret)
+>   			return ret;
+> -		physical_connector = &ast->output.dp501.connector;
+> +		physical_connector[count++] = &ast->output.dp501.connector;
+>   	}
+>   	if (ast->tx_chip_types & AST_TX_ASTDP_BIT) {
+>   		ret = ast_astdp_output_init(ast);
+>   		if (ret)
+>   			return ret;
+> -		physical_connector = &ast->output.astdp.connector;
+> +		physical_connector[count++] = &ast->output.astdp.connector;
+>   	}
+> -	ret = ast_bmc_output_init(ast, physical_connector);
+> +	ret = ast_bmc_output_init(ast, physical_connector, count);
+>   	if (ret)
+>   		return ret;
+>   
 
-> So I would also like to see the above code (or something else similar)
-> be able to work and I understand some of the reasons why it currently
-> does not, but I don't understand why we should actively prevent this
-> type of behavior entirely.
-
-+1
-
-Regards,
-Christian.
-
->
-> Best,
-> T.J.
->
->
->
->
->
->
->
->
->>>>> We already discussed enforcing that in the DMA-buf framework and
->>>>> this patch probably means that we should really do that.
->>>>>
->>>>> Regards,
->>>>> Christian.
->>>> Thank you for your response. With the application of AI large model
->>>> edgeification, we urgently need support for direct_io on DMABUF to
->>>> read some very large files. Do you have any new solutions or plans
->>>> for this?
->>> We have seen similar projects over the years and all of those turned
->>> out to be complete shipwrecks.
->>>
->>> There is currently a patch set under discussion to give the network
->>> subsystem DMA-buf support. If you are interest in network direct I/O
->>> that could help.
->> Is there a related introduction link for this patch?
->>
->>> Additional to that a lot of GPU drivers support userptr usages, e.g.
->>> to import malloced memory into the GPU driver. You can then also do
->>> direct I/O on that malloced memory and the kernel will enforce correct
->>> handling with the GPU driver through MMU notifiers.
->>>
->>> But as far as I know a general DMA-buf based solution isn't possible.
->> 1.The reason we need to use DMABUF memory here is that we need to share
->> memory between the CPU and APU. Currently, only DMABUF memory is
->> suitable for this purpose. Additionally, we need to read very large files.
->>
->> 2. Are there any other solutions for this? Also, do you have any plans
->> to support direct_io for DMABUF memory in the future?
->>
->>> Regards,
->>> Christian.
->>>
->>>> Regards,
->>>> Lei Liu.
->>>>
->>>>>> Lei Liu (2):
->>>>>>     mm: dmabuf_direct_io: Support direct_io for memory allocated by
->>>>>> dmabuf
->>>>>>     mm: dmabuf_direct_io: Fix memory statistics error for dmabuf
->>>>>> allocated
->>>>>>       memory with direct_io support
->>>>>>
->>>>>>    drivers/dma-buf/heaps/system_heap.c |  5 +++--
->>>>>>    fs/proc/task_mmu.c                  |  8 +++++++-
->>>>>>    include/linux/mm.h                  |  1 +
->>>>>>    mm/memory.c                         | 15 ++++++++++-----
->>>>>>    mm/rmap.c                           |  9 +++++----
->>>>>>    5 files changed, 26 insertions(+), 12 deletions(-)
->>>>>>
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
