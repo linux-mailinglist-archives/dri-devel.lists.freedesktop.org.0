@@ -2,167 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A04592DD68
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 02:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E12292DDAA
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 03:09:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26F0C10E2AB;
-	Thu, 11 Jul 2024 00:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2163410E753;
+	Thu, 11 Jul 2024 01:09:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="DR+EEvwa";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="dAP9R92h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2072.outbound.protection.outlook.com [40.107.96.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53CC510E2AB
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 00:44:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IXDb3JaXlSPblqEwemI37Oz1l2NAHPaun82ABWukTJrFAeJW2VlzyAI0B4r3TRToX/AlCJFM/g4QCvt9UtjPPtcTLUGWDayb8cdSlm8jKOYp7+uh7Q0UammiadJ7suSZIGzyaoVz2kdZvtbPsyoz4ZSmwrj6b7tGjmG2ie0vkoAbZ8eufyNQANCht5aUm7JsjyiT7Q6dcVJKsVpvLUc2m/KZ703vjrTbEe4g9ZHOT8F/ttkpVYL/0RSPySY0qbjGXAj6xp8SX4xRwdwBrNXgwKG65zw5Zl+zo8UBlDE7Wks06MYDefkAyTmwyJYsQJHB9gLi/s6toE6h50ijlW3tjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tUEpflRZnlymYQAGmmjEq3TEcnmsZwEGYMvytPvaT6k=;
- b=aGPnd+jk9lW72uwvB0KtckpzUVJSkgub0TvzeMp8TBQbZ1uC4VWknF98y5Q2P5fCRypG2qsk8lapW7v36rrAPVVdql+ckRuhW19SdV3SDgdIqE1iGCjGZZ/rYu9HqbvKhpta9uljRj8FPcOuyD0nuKuwxq6UAbO0ihnVbAeuUaEHml90b639yf9b7NKlsy5sLRA9Vscy/ZiCQ8RQRPqUkaQZlh/5Wcz21qpspyKos2FXDe8+6QLKcba76xy7wvgm2zjgAVyjDT9M4GQqbOzQg2aBPtoDRgu6Y6ha9bupYEhrrZDWoX5LQcvaj6N6WdPjjknvWflhaWacdeg1dXGR5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tUEpflRZnlymYQAGmmjEq3TEcnmsZwEGYMvytPvaT6k=;
- b=DR+EEvwaeicfPe/Xs04TYlhU8y547JA/5HvuHTBFn9Gs/uTvyBUFk/fTtHS4VNmsZsZxB9szGHSoSuYWzcucDL9AY7mA3LqyjhLHA9K8RB59xf6+h5LaKkYXcJgu8PTQ3G21UDnxEkGnVBfl1RvqsiMONutIlMiV18eBOSq6U8rZxhfClf2zaQvfLfJ7C4J4nNI16qbsU87pCXM+/iqxF6g433L60kvrrt9RtvNrY+pdr0Px2WiqMkhNnxSvAK4SK0VYs1UlaF+Y98Mo4gkJ+wlF+OTLwC6dI8ZRKjeY9OT8iKfxP+bQ5N9Pb7nHDxy0X1U+yw74IIRQamDTfAsjdw==
-Received: from BYAPR01CA0002.prod.exchangelabs.com (2603:10b6:a02:80::15) by
- LV8PR12MB9208.namprd12.prod.outlook.com (2603:10b6:408:182::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
- 2024 00:44:24 +0000
-Received: from SJ1PEPF00001CE2.namprd05.prod.outlook.com
- (2603:10b6:a02:80:cafe::dd) by BYAPR01CA0002.outlook.office365.com
- (2603:10b6:a02:80::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.19 via Frontend
- Transport; Thu, 11 Jul 2024 00:44:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ1PEPF00001CE2.mail.protection.outlook.com (10.167.242.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7762.17 via Frontend Transport; Thu, 11 Jul 2024 00:44:23 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 10 Jul
- 2024 17:44:09 -0700
-Received: from [10.110.48.28] (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 10 Jul
- 2024 17:44:07 -0700
-Message-ID: <4b0479b0-1e0f-43db-8333-26b7a1fd791c@nvidia.com>
-Date: Wed, 10 Jul 2024 17:44:03 -0700
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1373510E753
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 01:09:08 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-2c965efab0fso300011a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2024 18:09:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1720660147; x=1721264947;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mqCvHAYPbXi+bXWOTcgpjsS2oEkHfV0BUOm/T2chX4o=;
+ b=dAP9R92h/r7wqlKtQzK9Epf0ApX43DSBO5gH5ssN0/qPMynJ0w5UsHue0FUlem/C8z
+ ZgCqSU+G/rzm1DnyAxI5v/xLzy76Alm9aPDHEnsR+L5F89f1nKf397XYV4fltly5r8Yb
+ yp/Bfb854tVc2s42rTmcvcezfL8i+/obdvAA3rr36TfzMzsYYKu13ubMAP2axdvZH/g3
+ jN9vJCgxmvuOv0ikGt2r4+3BtZQQ/pj6dM2z0pv6LRf0Q/wAogg3MPU8Su15pDsAMpuI
+ hXdTgVl5rIrOEPgM+qPTvLIo6lqTeM429A4lczNuLwKhenxcZx3g1mNWrFD0VvCHZRWP
+ dVYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720660147; x=1721264947;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mqCvHAYPbXi+bXWOTcgpjsS2oEkHfV0BUOm/T2chX4o=;
+ b=tvdAALUeCQ5fGpuPputYn1rD7LS/WHvopa+Bo32BTaYFPhdVxOGpIkiVukxROB0R6l
+ vtkypPWZnSx/1kIre82vldDgd7g/QnImO2LI3F7R85WeQjP+TV+/EA2ddxsZmBOLZkw2
+ ZV2Pg4DKebaMiyWmH90bBr7i5X8PTwKOGj1hvop7hjWdaNN0pRFIfdEfSrx3L+0eFWyt
+ gwNvEaUtZIWdUPP3gW/eZp5nU+KdqkD2SlP5sxBm42jgd0b7GOiFGkcTOIF+0Ywpa/Rq
+ zS1w3T1zGy4OnHgOdAlDsUNTM+ptVqxLYU55fCU3xIxSiuVOMFqpNCVNvUe2A5sGOU3X
+ g75A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVWSZ0GRVKPJCpdlZfdJXBTUJ6UObjA2Lzme9OyLlQiT5a0Impo3ako5lQaEmt+8joDcAZr99vRHZG5VRenY60n8KiMQ+Ce+CqM6+1YUiP1
+X-Gm-Message-State: AOJu0YzoN1M1FUfnWVXssZgRfJ6RPkyXiZuKQRQEnvzEyCu2SYZAKCzg
+ CVbK+VXjv4l0Gkv2M200WKjC5Q60sos0S7c5OY7L+5x3pa1Sagii37QiKmhvbqn5cFrwvQVxyAQ
+ trRqEko/BgQDT0L0eSrcEV90l7T1oWezNLVSGrE6lnBvU9OnM5us=
+X-Google-Smtp-Source: AGHT+IFyrtGUaUGdRNgeSP7+9iE929t4jQSmmz5maOkAya9CBSMFs5XxwCa8KTcvEuvQSO8TuEpKJpL1DfHMvT+wAeE=
+X-Received: by 2002:a17:90a:69a5:b0:2c9:6f06:8009 with SMTP id
+ 98e67ed59e1d1-2ca35bf40acmr5527910a91.1.1720660147368; Wed, 10 Jul 2024
+ 18:09:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v16 12/13] selftests: add ncdevmem, netcat for
- devmem TCP
-To: Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-alpha@vger.kernel.org>, <linux-mips@vger.kernel.org>,
- <linux-parisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
- <linux-trace-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-CC: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, "Richard
- Henderson" <richard.henderson@linaro.org>, Ivan Kokshaysky
- <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, "Thomas
- Bogendoerfer" <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, "Willem de
- Bruijn" <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, "Christoph
- Hellwig" <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, "Harshitha
- Ramamurthy" <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
-References: <20240710001749.1388631-1-almasrymina@google.com>
- <20240710001749.1388631-13-almasrymina@google.com>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20240710001749.1388631-13-almasrymina@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE2:EE_|LV8PR12MB9208:EE_
-X-MS-Office365-Filtering-Correlation-Id: e027ea6e-9d80-4d4f-6be7-08dca1429c32
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|7416014|1800799024|376014|36860700013|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?amlSczV1cSswOWxjRlpTNDNyMVFMaFU1QVhXVXZ1enErSVNQKzUwNTVKcWpt?=
- =?utf-8?B?MmpSMW4vazFpeEdYZHhidHd0Vm9RVDF3VFJtcnB2ZHJVVm1ncUZQU2tPdEYx?=
- =?utf-8?B?OEQ3eG4yQ2V5MnpFSG1sMzlDdEpjb3Z4NDVpaE5Tdk1FbDdLY1NleGdKL1JV?=
- =?utf-8?B?QzdDQnc3U1hNbjRsYlIyaU1Nb3B3RWRkYTlKLzlRR084WXdIa1hMcFFzWWpa?=
- =?utf-8?B?QmQwMVZ4OUJDTFdZbmdoN05MZ2U4WUd1cGJDVVQ0SmdtUFFJUk44YlpVbDFU?=
- =?utf-8?B?NzVtYTEva1plRnk4NHlGOGtGdElDY20vemx1VWZLYU4rU2s2K1ZPRnV5alk0?=
- =?utf-8?B?Q2taaEUvdE05Smh1aTFOTEJTRk93Q2UxN01XOXo0MG5QUFgxU1YxTXNRU204?=
- =?utf-8?B?cjJyZ0RobGVQSkFwK2ZwemJCQlhZUnVYSmJ2eTcwbUNwd0tNUFpQOU5HWEt1?=
- =?utf-8?B?Q0RpclhsL2hBUHFqamF5czJHRHdIRFViVUxOWVFKZTNrQTE0dUJISncyaGtU?=
- =?utf-8?B?UHlITlpFZlk1bEk1T2dEa1JTMlQ4WHdCaVlCcTk2SURSbGFNdHQ2VWZHNG9x?=
- =?utf-8?B?Y3dFMUREUDFIa1ZLUWZybUxFeUE3S2dQcTI3U1VieERrU2h6c3g1d1lYTXNH?=
- =?utf-8?B?S3RjUXd2eE85eHJrVys1QXphUm42QXhBZXA1NmJ3N2Q4eXIvYUozazR0VzdI?=
- =?utf-8?B?OWlJWGN0V1M4azZWWjdNd1hjZDBra0duUnh0NnF1TkhLdU54bGROK0VXM2h6?=
- =?utf-8?B?SmhCcXNwUjNvUVJUaFJqOXB4bDF2R3BJNmROeDQ2Vng4QUJpM2Y3QkxMQ2hv?=
- =?utf-8?B?NXYzdG9zSWFZbm9UMVQvdTVFQ1hoUkw2K0srTE5ZNUVEY3B5dlVFZnhGMHN0?=
- =?utf-8?B?d0w0bHJ0bzZ3eURnTHhnbGx4RUMzN3h3bXp5NE5EbFE3TTFWYkpLSTVQUjBL?=
- =?utf-8?B?cE1rY3YzNGp2MXVCdjZyT2lwOC9pdTdzMVJFc1U5cHloVys1Tjg1d1VmUmpM?=
- =?utf-8?B?MUR3eDlMVWpacXFQUmhEbm5HU3FaZ2hqTktWeFpBQy9hZWxHWG5qQm9EYnF6?=
- =?utf-8?B?QUhFMmtTWERxd0ljYTc5cUVsbVVoN0ZCdEMyMm1iWFFwODFuc3h3Q1l6ajQv?=
- =?utf-8?B?VHNUYS9zTTlDTjdTQ29Xd0paa2QxbTlIbERXTzRJbjNIQ2Vhdzc3OURJRDJX?=
- =?utf-8?B?SkoyZkQvTmVua2NwWDRMbW9sVVNFSFdkMG94NW9lRU5TRU9ldjN0SDVRRDY5?=
- =?utf-8?B?ZE5BMjJxa0lkT2lEWXNFek95MjlNTmVYeWJ3SVZRRkhiRHlYUTZRTEloeFA5?=
- =?utf-8?B?ZGkxNzhUR3JSM2JoMDFIMEd0R2Q1OXlUYXJVMTAzZUFVMWgxN01DTUlNZVVs?=
- =?utf-8?B?TXpDVU5yR3o5UXVTdVMwd3MveVZGb213U1M3MUQ3SytGMUxWek5lWkpNcVo4?=
- =?utf-8?B?WkJiS1QvUnJoSHdKUTg1TFhia1dKV3RZTVEraE5GQVBMekVNZzloNjlqS1pv?=
- =?utf-8?B?UWMwS1hmVHFYNGxlREJYTDFmMkp0Rk01UXNiQ0VoTTNtS3kzbS9mV3dvVXB4?=
- =?utf-8?B?ais4Y3AzYytkYS9PYjVsTk0vZDh1QW9pVXdoUi80YU0wOXg3WHZ5UkpiZEVE?=
- =?utf-8?B?ZjhwUWprUGlmdnpHb0YvT1NvR09VUHZkOUVqZUhLNlJyanpaWnZTend6Mzdj?=
- =?utf-8?B?MGhGU2FkZmFOZGRwUExUK1dCNUNKeE5TYUxPMldqQ2hxSTFVOXNqZkJzQXdZ?=
- =?utf-8?B?d084NmVSTDV0MGJUb0RkSS9rOWk0MzlVYzdOVHpleXF3YUpNQk05K3JPcGJs?=
- =?utf-8?B?OFExWTE5T1VMdkVlU0VHU1gzWjI1T1Z5eWppVGRtek9WMlJtVU4wVDNFU2d0?=
- =?utf-8?B?V2R1Tks2RjFGRGpFV2poemRvN0pjR0tSWnc0azV3cTBraitTNlZZREpoN0Ry?=
- =?utf-8?B?MHU3MDM2WDMrKzFVeXdHS3ZiTnZRWDY5WjFsVUorMVBLQi84MVdmaHptRnFy?=
- =?utf-8?B?QXVpNXdORzBRPT0=?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(82310400026)(7416014)(1800799024)(376014)(36860700013)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 00:44:23.9137 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e027ea6e-9d80-4d4f-6be7-08dca1429c32
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE2.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9208
+References: <20240710084715.1119935-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240710084715.1119935-5-yangcong5@huaqin.corp-partner.google.com>
+ <D2LQJROQYIY3.2Q88EXS8HUDLQ@kernel.org>
+ <CAD=FV=WAosZPSKdpwR6pjOmiy4hih=jXaMg2guuVgmc+qj-Csw@mail.gmail.com>
+ <D2M42ODWQPAU.I0BMEOLKUP29@kernel.org>
+In-Reply-To: <D2M42ODWQPAU.I0BMEOLKUP29@kernel.org>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Thu, 11 Jul 2024 09:08:56 +0800
+Message-ID: <CAHwB_NJ+YEMoL18Sr9HFmTVH_ErDztyF7vxxPFAE0Y2ta3dO0A@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] drm/panel: ili9806e: Break some CMDS into helper
+ functions
+To: Michael Walle <mwalle@kernel.org>
+Cc: Doug Anderson <dianders@chromium.org>, quic_jesszhan@quicinc.com, 
+ neil.armstrong@linaro.org, linus.walleij@linaro.org, airlied@gmail.com, 
+ dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,37 +87,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/9/24 5:17 PM, Mina Almasry wrote:
-...
-> diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-> index bc3925200637c..39420a6e86b7f 100644
-> --- a/tools/testing/selftests/net/Makefile
-> +++ b/tools/testing/selftests/net/Makefile
-> @@ -95,6 +95,11 @@ TEST_PROGS += fq_band_pktlimit.sh
->   TEST_PROGS += vlan_hw_filter.sh
->   TEST_PROGS += bpf_offload.py
->   
-> +# YNL files, must be before "include ..lib.mk"
-> +EXTRA_CLEAN += $(OUTPUT)/libynl.a
-> +YNL_GEN_FILES := ncdevmem
-> +TEST_GEN_FILES += $(YNL_GEN_FILES)
-> +
->   TEST_FILES := settings
->   TEST_FILES += in_netns.sh lib.sh net_helper.sh setup_loopback.sh setup_veth.sh
->   
-> @@ -104,6 +109,10 @@ TEST_INCLUDES := forwarding/lib.sh
->   
->   include ../lib.mk
->   
-> +# YNL build
-> +YNL_GENS := netdev
-> +include ynl.mk
+Hi,
 
-This seems to be missing a rule to generate ynl.mk, right?
+Michael Walle <mwalle@kernel.org> =E4=BA=8E2024=E5=B9=B47=E6=9C=8811=E6=97=
+=A5=E5=91=A8=E5=9B=9B 03:38=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Wed Jul 10, 2024 at 9:12 PM CEST, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Wed, Jul 10, 2024 at 2:02=E2=80=AFAM Michael Walle <mwalle@kernel.or=
+g> wrote:
+> > >
+> > > On Wed Jul 10, 2024 at 10:47 AM CEST, Cong Yang wrote:
+> > > > Break select page cmds into helper function.
+> > >
+> > > Why though? I don't find that anything easier to read. In fact, I
+> > > deliberately chose not to factor that out into a function. It's just
+> > > a sequence of magic commands, taken straight from the datasheet. So,
+> > > I'd like to keep it that way.
+> >
+> > The consensus of previous discussion on the lists was that folks
+> > agreed that we should, where possible, make it more obvious what these
+> > magic sequences of commands were doing. IMO separating out the page
+> > switch command helps. Certainly I'm always happy to hear other
+> > opinions, though.
+>
+> Fair enough, but in that case, one should take the datasheet (which
+> you can find online) and replace all the magic numbers with the
+> correct command names from it. E.g. 0xff is the ENEXTC register. To
+> be clear, I'm not just talking about the "switch page command".
+>
+> As patch stands, I don't see much value, TBH. On the contrary, you
+> make it harder to compare it with the Ortustech panel datasheet.
+>
+> just my 2c,
+> -michael
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+If all drivers replace all the magic numbers with the correct command names=
+,
+it will be a huge amount of work (assuming that the datasheet can be found)=
+.
+ I am afraid I don't have enough time to complete it.  Thanks.
 
-
+>
+> > > -michael
+> > >
+> > > > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > > > ---
+> > > >  drivers/gpu/drm/panel/panel-ilitek-ili9806e.c | 14 ++++++++++----
+> > > >  1 file changed, 10 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9806e.c b/driver=
+s/gpu/drm/panel/panel-ilitek-ili9806e.c
+> > > > index e4a44cd26c4d..68fb9a1a4d80 100644
+> > > > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9806e.c
+> > > > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9806e.c
+> > > > @@ -35,6 +35,12 @@ struct ili9806e_panel {
+> > > >       enum drm_panel_orientation orientation;
+> > > >  };
+> > > >
+> > > > +#define ILI9806E_DCS_SWITCH_PAGE     0xff
+> > > > +
+> > > > +#define ili9806e_switch_page(ctx, page) \
+> > > > +     mipi_dsi_dcs_write_seq_multi(ctx, ILI9806E_DCS_SWITCH_PAGE, \
+> > > > +                                  0xff, 0x98, 0x06, 0x04, (page))
+> > > > +
+> > > >  static const char * const regulator_names[] =3D {
+> > > >       "vdd",
+> > > >       "vccio",
+> > > > @@ -227,7 +233,7 @@ static void ili9806e_dsi_remove(struct mipi_dsi=
+_device *dsi)
+> > > >  static void com35h3p70ulc_init(struct mipi_dsi_multi_context *ctx)
+> > > >  {
+> > > >       /* Switch to page 1 */
+> > > > -     mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0xff, 0x98, 0x06, 0x0=
+4, 0x01);
+> > > > +     ili9806e_switch_page(ctx, 0x01);
+> >
+> > I think with your change you should remove the "Switch to page X"
+> > comments since they're now obvious. Other than that, I'm happy with:
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
