@@ -2,102 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5105092E016
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 08:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3D192E04D
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 08:49:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5956D10E207;
-	Thu, 11 Jul 2024 06:27:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2431A10E962;
+	Thu, 11 Jul 2024 06:49:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ehe1eXW/";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="Qf6UdGtV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B68310E97B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 06:27:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6786D61C17;
- Thu, 11 Jul 2024 06:27:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37963C116B1;
- Thu, 11 Jul 2024 06:27:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1720679230;
- bh=94EpK8AfuiCjM4ymA1InsAcetALr2xnbHV4v3CDac64=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Ehe1eXW/87eDOZVyoqym61fsr4nXnfTfC6AKlvK3bkfTCX4h3gPiGPPwZQP7n2C+g
- YNR74wiUgw9cc0a1jdDK1I2gTiyl5dBLDcpVHqfQsVxJpuqpFK1cPMvBEY1MDewpDo
- swm0qgt6nN/tGld3gB8c3xvO6SKGgG5Up6QG5hpvUbFs9NuLnfR7Du3Nq+wV7SvniX
- jQcn30+azMEM9IG4sBzBLZVzmdtRClowS4dWMWRJNzvCPFlhLfMA1KBE8RNouzfx//
- xYs0M736kDF3PXp5N2S+1P711lFwOy9lbbHOxd+n9Jzw0iK9RlT2okomS3ocKeoSW6
- yu+jMEVLt6Rkw==
-Message-ID: <b6228510-0f28-4bb3-94ca-9dd274d47958@kernel.org>
-Date: Thu, 11 Jul 2024 08:27:03 +0200
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBBDA10E962;
+ Thu, 11 Jul 2024 06:49:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1720680523; x=1721285323; i=markus.elfring@web.de;
+ bh=6qI8fLIJiGf17J5Ni96D/YTFzWMMohhjRTncnDj8gIg=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=Qf6UdGtVg0C+3CVRbryVw/ff4dGeXSVSTquRkYNDn/jDjj1ReKAhus+X/6P80WH/
+ msiR+5OjWeqY+rtZMqAFwoBgnKv+IGyOQTCx69kAV2gaqX2WJ/QRWFzBOMCw+TZlO
+ iV8aOLR2YDWwYSrJ7SLsVwzCXGn8m7rzXrmBBn3sQeVj0K1MCrrj5LcOWKjokTKFQ
+ rbr8a2bOCXA5XuhBalFPkH4hALZSZZqhqrStomMxG3cJ1wi6WCnSSXWn1EjC42HiU
+ Mi8Qkj/ZGdxokChxM7/c1QB9zbwzrXxSHOMgVSOw2nHQ5AKES36vwG734WaKJ+S/6
+ ujlWJ/d/+YuN6umoag==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MzCED-1sDj8T3pXX-00rMnK; Thu, 11
+ Jul 2024 08:48:43 +0200
+Message-ID: <74b43faa-f212-4542-b7e2-68d5eb9ce474@web.de>
+Date: Thu, 11 Jul 2024 08:48:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] dt-bindings: display: panel: samsung,atna33xc20:
- Document ATNA45AF01
-To: Doug Anderson <dianders@chromium.org>,
- Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>,
- Johan Hovold <johan@kernel.org>
-References: <20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org>
- <20240710-x1e80100-crd-backlight-v1-1-eb242311a23e@linaro.org>
- <CAD=FV=XJuV12mStW3eUm5MHG8BA9W_fn0skN=BrtmqC+fnCZig@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <CAD=FV=XJuV12mStW3eUm5MHG8BA9W_fn0skN=BrtmqC+fnCZig@mail.gmail.com>
+To: make24@iscas.ac.cn, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
+Cc: tech-board@groups.linuxfoundation.org, LKML
+ <linux-kernel@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Chen Jiahao <chenjiahao16@huawei.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Guchun Chen <guchun.chen@amd.com>, Jammy Zhou <Jammy.Zhou@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Shuah Khan <shuah@kernel.org>, Wei Liu <wei.liu@kernel.org>,
+ Xinhui Pan <Xinhui.Pan@amd.com>
+References: <20240711024531.1604757-1-make24@iscas.ac.cn>
+Subject: Re: [PATCH v2] drm/amdgpu: fix a possible null pointer dereference
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240711024531.1604757-1-make24@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SQMLuje8Gr1yokQNLO4dDAgbd+AIGjrCDl1NTgAreYMe3ccfHrM
+ qHW7nk1tIK3Qh3sJg0yZ1UBiSf+em5kL7oH1eIuO/bKFYNuOy9t2z/YIg6SA8ozi1gV/ibU
+ elAPMwnfIeGc4ta0+RTeysexxtXFQtcrQL1v0aH43/mpFGVjgm3nALJUMURbreMljVqOF0Z
+ +aOxRAbBw4/DqyjagFnow==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:F35aPUitlI8=;iUxxLvJdovw+7SO0os6kpsTQkXg
+ AevsvLV/3wAetvXBvxMzDMLKJ81X4uKxpOXUBTzCXnbeKnqMmZ9V/Itdlj6DgpPiqZfLITzLI
+ gE0IaYZzN13JFQIQBGFf1jBQgXPTkFLAAjl3woxxyrL8A9COvOJ8GooNsisumF9Fx9ygLQxPc
+ 04lERQA2dXUCjmvWZ9+w+0lW3AbFEXjEsPQEEdCh1kjliIqTPue5RVzb6nP1uSsLNWPh5iMJv
+ MlFPTRa/8ndIGpktU7pORraE1KHGNXLdxzvCYbBNKjllbE+/V6w0uHKShBb0JyyObQea8pNi+
+ 9YNi/PbP92NRkhlBbpmTA3Xbiu40GmRVvggNkVKiSRK0Us1yE+s9A3kp89JtDMbCC0PkNvom5
+ bEx2yHphgAnm2X2dw6QXw4zYVxaXCfjjyHUEfhYmgEl7jctnpDYFehDMSvts1zKtdwtc4hfbi
+ n/hPVpbSsUVQHQhWAMh3tTjBAGZbHpcnHVQFijlQWZuWPM/xX1E2BjMKB45rqSH+vI/pR/9Wv
+ Oak57OurljQbWCMFup4rKX0r7BD8yFf2ay+vNjRBsvz94tAETcWnh2xOCN1GZiEivzCKwKCvY
+ aY1VFFS2U0aeycECtCAt/UHQZoRoC+aTaf036FTiRAULa+HYi4gLgnk6LIzRHPmLeQYSh6SAy
+ fmitSZaft1XyvWgdGjGNbxFPlfRNZkHmQvtx6hiG2kpDhypZntw1ZKXMs9s7MuVmUL+jdE7ww
+ zDkkKpPV3eOGONJD7zcpoxWb8nIASLEKFqLQgY83dZwboiPyccJMkQIYo61nY17QlkWZRFXIQ
+ 1r+GNaPXAVQZ8DC9EGEmngpg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,48 +87,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/07/2024 19:35, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Jul 10, 2024 at 10:05 AM Stephan Gerhold
-> <stephan.gerhold@linaro.org> wrote:
->>
->> The Samsung ATNA45AF01 panel is an AMOLED eDP panel that has backlight
->> control over the DP AUX channel. While it works almost correctly with the
->> generic "edp-panel" compatible, the backlight needs special handling to
->> work correctly. It is similar to the existing ATNA33XC20 panel, just with
->> a larger resolution and size.
->>
->> Add a new "samsung,atna45af01" compatible to describe this panel in the DT.
->>
->> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
->> ---
->>  .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml       | 6 +++++-
->>  1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
->> index 765ca155c83a..d668e8d0d296 100644
->> --- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
->> @@ -14,7 +14,11 @@ allOf:
->>
->>  properties:
->>    compatible:
->> -    const: samsung,atna33xc20
->> +    enum:
->> +      # Samsung 13.3" FHD (1920x1080 pixels) eDP AMOLED panel
->> +      - samsung,atna33xc20
->> +      # Samsung 14.5" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
->> +      - samsung,atna45af01
-> 
-> Seems OK, but a few thoughts:
-> 
-> 1. Is it worth renaming this file? Something like
-> "samsung,atna-oled-panel.yaml"? I'd be interested in DT maintainer
-> folks' opinions here.
+> In amdgpu_connector_add_common_modes(), the return value of drm_cvt_mode=
+()
+> is assigned to mode, which will lead to a NULL pointer dereference on
+> failure of drm_cvt_mode(). Add a check to avoid npd.
+>
+> Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
 
-No, rather keep existing name, because it should be based on compatible.
+Are you going to adhere to known research and development processes?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/researcher-guidelines.rst?h=3Dv6.10-rc7#n5
 
-Best regards,
-Krzysztof
-
+Regards,
+Markus
