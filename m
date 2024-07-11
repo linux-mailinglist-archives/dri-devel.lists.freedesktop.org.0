@@ -2,76 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3D192E04D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 08:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47DF92E0C2
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 09:24:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2431A10E962;
-	Thu, 11 Jul 2024 06:49:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E997610E975;
+	Thu, 11 Jul 2024 07:24:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="Qf6UdGtV";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oZXCfWx+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Yc4nbYyW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xcVJZmUT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SZejFvVu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBBDA10E962;
- Thu, 11 Jul 2024 06:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1720680523; x=1721285323; i=markus.elfring@web.de;
- bh=6qI8fLIJiGf17J5Ni96D/YTFzWMMohhjRTncnDj8gIg=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=Qf6UdGtVg0C+3CVRbryVw/ff4dGeXSVSTquRkYNDn/jDjj1ReKAhus+X/6P80WH/
- msiR+5OjWeqY+rtZMqAFwoBgnKv+IGyOQTCx69kAV2gaqX2WJ/QRWFzBOMCw+TZlO
- iV8aOLR2YDWwYSrJ7SLsVwzCXGn8m7rzXrmBBn3sQeVj0K1MCrrj5LcOWKjokTKFQ
- rbr8a2bOCXA5XuhBalFPkH4hALZSZZqhqrStomMxG3cJ1wi6WCnSSXWn1EjC42HiU
- Mi8Qkj/ZGdxokChxM7/c1QB9zbwzrXxSHOMgVSOw2nHQ5AKES36vwG734WaKJ+S/6
- ujlWJ/d/+YuN6umoag==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MzCED-1sDj8T3pXX-00rMnK; Thu, 11
- Jul 2024 08:48:43 +0200
-Message-ID: <74b43faa-f212-4542-b7e2-68d5eb9ce474@web.de>
-Date: Thu, 11 Jul 2024 08:48:36 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0440410E974
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 07:24:21 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 533F0218EC;
+ Thu, 11 Jul 2024 07:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1720682659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4l3OKoBh8zOr3/FDgi99zRL81lr5tlV2pFxT5sGFgoM=;
+ b=oZXCfWx+KS0Whp0Ct5F0R0DUw+N1ca2bJZQ6JcmaTphQZPr/JdbPP//Y2ANqTBG0yxotH9
+ U0G2Tr6zFgahDW3/NYNkbp9TjPwSCCcvTm8VcexkHHrSndzHWYUCQ4OMHXk76AVH05dW5O
+ pXbxLxsMrGCAoJ8DrkY5YVaG3yQUAmY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1720682659;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4l3OKoBh8zOr3/FDgi99zRL81lr5tlV2pFxT5sGFgoM=;
+ b=Yc4nbYyWtN4NWQ2NJfeeE1F0vT566CHN4qgpytH0elclMFqWbXwipEVqG5hU3ucUq2Ay3J
+ jYDfiwYtCyAMPyBA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xcVJZmUT;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SZejFvVu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1720682658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4l3OKoBh8zOr3/FDgi99zRL81lr5tlV2pFxT5sGFgoM=;
+ b=xcVJZmUTXiNbTs7dI66rdjLCQUBcUVieOeOJpSln0XYOMjjsBuoMgbOfhb7zeK0M8hl3Uk
+ NtjHfUROU5wxeTtvx+FjL/jmyr/SxDKqv4yy0i3uzcimttmhDGPFIZA0CUZjPpjR0DWMMH
+ s2qaLreJWeagAtwaxFl9mll8DshLjoI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1720682658;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4l3OKoBh8zOr3/FDgi99zRL81lr5tlV2pFxT5sGFgoM=;
+ b=SZejFvVuL00O+9gg2YfXSkTCpgXjm/p224r1YYogI22NW7DuMQVYO2bWE8wsqI1ReLtU8z
+ dzDrijIAZwngMgDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 15AD6139E0;
+ Thu, 11 Jul 2024 07:24:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id DbWxA6KIj2bTDwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 11 Jul 2024 07:24:18 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 0/3] drm/mgag200: Control VIDRST and BMC from CRTC
+Date: Thu, 11 Jul 2024 09:23:03 +0200
+Message-ID: <20240711072415.11831-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: make24@iscas.ac.cn, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
-Cc: tech-board@groups.linuxfoundation.org, LKML
- <linux-kernel@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
- Chen Jiahao <chenjiahao16@huawei.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Guchun Chen <guchun.chen@amd.com>, Jammy Zhou <Jammy.Zhou@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Shuah Khan <shuah@kernel.org>, Wei Liu <wei.liu@kernel.org>,
- Xinhui Pan <Xinhui.Pan@amd.com>
-References: <20240711024531.1604757-1-make24@iscas.ac.cn>
-Subject: Re: [PATCH v2] drm/amdgpu: fix a possible null pointer dereference
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240711024531.1604757-1-make24@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:SQMLuje8Gr1yokQNLO4dDAgbd+AIGjrCDl1NTgAreYMe3ccfHrM
- qHW7nk1tIK3Qh3sJg0yZ1UBiSf+em5kL7oH1eIuO/bKFYNuOy9t2z/YIg6SA8ozi1gV/ibU
- elAPMwnfIeGc4ta0+RTeysexxtXFQtcrQL1v0aH43/mpFGVjgm3nALJUMURbreMljVqOF0Z
- +aOxRAbBw4/DqyjagFnow==
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 533F0218EC
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:F35aPUitlI8=;iUxxLvJdovw+7SO0os6kpsTQkXg
- AevsvLV/3wAetvXBvxMzDMLKJ81X4uKxpOXUBTzCXnbeKnqMmZ9V/Itdlj6DgpPiqZfLITzLI
- gE0IaYZzN13JFQIQBGFf1jBQgXPTkFLAAjl3woxxyrL8A9COvOJ8GooNsisumF9Fx9ygLQxPc
- 04lERQA2dXUCjmvWZ9+w+0lW3AbFEXjEsPQEEdCh1kjliIqTPue5RVzb6nP1uSsLNWPh5iMJv
- MlFPTRa/8ndIGpktU7pORraE1KHGNXLdxzvCYbBNKjllbE+/V6w0uHKShBb0JyyObQea8pNi+
- 9YNi/PbP92NRkhlBbpmTA3Xbiu40GmRVvggNkVKiSRK0Us1yE+s9A3kp89JtDMbCC0PkNvom5
- bEx2yHphgAnm2X2dw6QXw4zYVxaXCfjjyHUEfhYmgEl7jctnpDYFehDMSvts1zKtdwtc4hfbi
- n/hPVpbSsUVQHQhWAMh3tTjBAGZbHpcnHVQFijlQWZuWPM/xX1E2BjMKB45rqSH+vI/pR/9Wv
- Oak57OurljQbWCMFup4rKX0r7BD8yFf2ay+vNjRBsvz94tAETcWnh2xOCN1GZiEivzCKwKCvY
- aY1VFFS2U0aeycECtCAt/UHQZoRoC+aTaf036FTiRAULa+HYi4gLgnk6LIzRHPmLeQYSh6SAy
- fmitSZaft1XyvWgdGjGNbxFPlfRNZkHmQvtx6hiG2kpDhypZntw1ZKXMs9s7MuVmUL+jdE7ww
- zDkkKpPV3eOGONJD7zcpoxWb8nIASLEKFqLQgY83dZwboiPyccJMkQIYo61nY17QlkWZRFXIQ
- 1r+GNaPXAVQZ8DC9EGEmngpg==
+X-Spam-Score: 0.99
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.99 / 50.00]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ RCPT_COUNT_SEVEN(0.00)[8]; FROM_EQ_ENVFROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Spamd-Bar: /
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,17 +116,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> In amdgpu_connector_add_common_modes(), the return value of drm_cvt_mode=
-()
-> is assigned to mode, which will lead to a NULL pointer dereference on
-> failure of drm_cvt_mode(). Add a check to avoid npd.
->
-> Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+(was: drm/mgag200: Handle VIDRST from BMC helpers)
 
-Are you going to adhere to known research and development processes?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/researcher-guidelines.rst?h=3Dv6.10-rc7#n5
+The VIDRST pin controls CRTC synchronization with an external clock
+chip, such as a BMC or TV encoder. This patchset separates the CRTC
+state from the BMC state and streamlines the driver code.
 
-Regards,
-Markus
+v3:
+- don't clear VIDRST bits unnecessarily (Jocelyn)
+v2:
+- run BMC and VIDRST logic from CRTC code (Jocelyn)
+
+Thomas Zimmermann (3):
+  drm/mgag200: Only set VIDRST bits in CRTC modesetting
+  drm/mgag200: Remove vidrst callbacks from struct mgag200_device_funcs
+  drm/mgag200: Rename BMC vidrst names
+
+ drivers/gpu/drm/mgag200/mgag200_bmc.c     |  9 ++-----
+ drivers/gpu/drm/mgag200/mgag200_drv.h     | 31 ++++++++---------------
+ drivers/gpu/drm/mgag200/mgag200_g200er.c  |  9 +++----
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c  |  9 +++----
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  2 --
+ drivers/gpu/drm/mgag200/mgag200_g200se.c  |  9 +++----
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  2 --
+ drivers/gpu/drm/mgag200/mgag200_mode.c    | 27 +++++++++-----------
+ 8 files changed, 34 insertions(+), 64 deletions(-)
+
+-- 
+2.45.2
+
