@@ -2,116 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4387D92E0C3
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 09:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E41F92E0DC
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 09:31:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A16DA10E977;
-	Thu, 11 Jul 2024 07:24:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D88710E1BD;
+	Thu, 11 Jul 2024 07:31:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Y/URtb8v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R7oy9Srt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y/URtb8v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R7oy9Srt";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="wBTa++Mi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EAA210E977
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 07:24:21 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1E2082190C;
- Thu, 11 Jul 2024 07:24:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720682659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9aKnyS125ujoxAu87DBGHyI8sJ7JkLJJTbf5WMtrv8E=;
- b=Y/URtb8vhoCbC4km8b7En+Rm+GmTpGisDRxmOuJo9X6TgwPdsQchjE48QGpiNA/Ymue126
- DD3SdKFEIw6PpHwEHHmdMh9Xco5QIZJFTNVRx+jqnM2vRgdsdo1sH0zqOcVAPSCyvr7CJw
- cu8teECO6wP8BM66tzLv0xHZd6lO52k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720682659;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9aKnyS125ujoxAu87DBGHyI8sJ7JkLJJTbf5WMtrv8E=;
- b=R7oy9Srtwb7BecP1hpr7x/VMT33zJCEQMhI+1plIfpMRUbBrIXWqyve8lwpDE6ZK5zzXEK
- Cjzt4ArKgupaNkAA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Y/URtb8v";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=R7oy9Srt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1720682659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9aKnyS125ujoxAu87DBGHyI8sJ7JkLJJTbf5WMtrv8E=;
- b=Y/URtb8vhoCbC4km8b7En+Rm+GmTpGisDRxmOuJo9X6TgwPdsQchjE48QGpiNA/Ymue126
- DD3SdKFEIw6PpHwEHHmdMh9Xco5QIZJFTNVRx+jqnM2vRgdsdo1sH0zqOcVAPSCyvr7CJw
- cu8teECO6wP8BM66tzLv0xHZd6lO52k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1720682659;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9aKnyS125ujoxAu87DBGHyI8sJ7JkLJJTbf5WMtrv8E=;
- b=R7oy9Srtwb7BecP1hpr7x/VMT33zJCEQMhI+1plIfpMRUbBrIXWqyve8lwpDE6ZK5zzXEK
- Cjzt4ArKgupaNkAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D5B9E13A7B;
- Thu, 11 Jul 2024 07:24:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id CET0MqKIj2bTDwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 11 Jul 2024 07:24:18 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 3/3] drm/mgag200: Rename BMC vidrst names
-Date: Thu, 11 Jul 2024 09:23:06 +0200
-Message-ID: <20240711072415.11831-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240711072415.11831-1-tzimmermann@suse.de>
-References: <20240711072415.11831-1-tzimmermann@suse.de>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5169910E1BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 07:31:25 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 46B7UqjI077813;
+ Thu, 11 Jul 2024 02:30:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1720683053;
+ bh=hgfOmcBPT0l7LpiWRAFVjmyHwAQI8g7arwy3bfYKk/8=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=wBTa++MizJGdrX51N+Z30lV7vkf+U9+LShGQ9M9f3F1/btB8aQQkqGiK5C6dT54ay
+ KTQqR16hDfDAP0X195VyfRRFC6Y0ZWzlAiTY5RbZFxKQM9fbp1EYu65Pxcgup0ErZM
+ 9CJZ/JqomatLK1aX2JwOWiAk4REP+i3ge4zW/2TM=
+Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 46B7UqXY074190
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 11 Jul 2024 02:30:52 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 11
+ Jul 2024 02:30:52 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 11 Jul 2024 02:30:52 -0500
+Received: from [172.24.227.31] (uda0496377.dhcp.ti.com [172.24.227.31])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 46B7Uin0016470;
+ Thu, 11 Jul 2024 02:30:45 -0500
+Message-ID: <3aa27f67-02d5-4bd4-b45e-9d4753a333f8@ti.com>
+Date: Thu, 11 Jul 2024 13:00:44 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/11] drm/bridge: cdns-dsi: Reset the DCS write FIFO
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>
+CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
+ <linux-kernel@vger.kernel.org>, Dominik Haller <d.haller@phytec.de>, Sam
+ Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Praneeth Bajjuri
+ <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, Devarsh Thakkar
+ <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra
+ <j-luthra@ti.com>
+References: <20240622110929.3115714-1-a-bhatia1@ti.com>
+ <20240622110929.3115714-8-a-bhatia1@ti.com>
+ <11bf22b8-4a5a-4c9b-8c78-0454165ae711@ideasonboard.com>
+Content-Language: en-US
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <11bf22b8-4a5a-4c9b-8c78-0454165ae711@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
- RCPT_COUNT_SEVEN(0.00)[8];
- DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 1E2082190C
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,165 +86,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BMC's scanout synchronization is only indirectly related to the
-VIDRST functionality. Do some renaming.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/mgag200/mgag200_bmc.c    |  4 ++--
- drivers/gpu/drm/mgag200/mgag200_drv.h    | 14 +++++++-------
- drivers/gpu/drm/mgag200/mgag200_g200er.c |  4 ++--
- drivers/gpu/drm/mgag200/mgag200_g200ev.c |  4 ++--
- drivers/gpu/drm/mgag200/mgag200_g200se.c |  4 ++--
- drivers/gpu/drm/mgag200/mgag200_mode.c   | 10 +++++-----
- 6 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_bmc.c b/drivers/gpu/drm/mgag200/mgag200_bmc.c
-index 1c7aa4f36787..45e35dffb3ea 100644
---- a/drivers/gpu/drm/mgag200/mgag200_bmc.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_bmc.c
-@@ -14,7 +14,7 @@ static struct mgag200_bmc_connector *to_mgag200_bmc_connector(struct drm_connect
- 	return container_of(connector, struct mgag200_bmc_connector, base);
- }
- 
--void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
-+void mgag200_bmc_stop_scanout(struct mga_device *mdev)
- {
- 	u8 tmp;
- 	int iter_max;
-@@ -73,7 +73,7 @@ void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
- 	}
- }
- 
--void mgag200_bmc_enable_vidrst(struct mga_device *mdev)
-+void mgag200_bmc_start_scanout(struct mga_device *mdev)
- {
- 	u8 tmp;
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 4a46c8c006c8..f97eaa49b089 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -216,8 +216,8 @@ struct mgag200_device_info {
- 	 */
- 	unsigned long max_mem_bandwidth;
- 
--	/* HW has external source (e.g., BMC) to synchronize with */
--	bool has_vidrst:1;
-+	/* Synchronize scanout with BMC */
-+	bool sync_bmc:1;
- 
- 	struct {
- 		unsigned data_bit:3;
-@@ -232,13 +232,13 @@ struct mgag200_device_info {
- };
- 
- #define MGAG200_DEVICE_INFO_INIT(_max_hdisplay, _max_vdisplay, _max_mem_bandwidth, \
--				 _has_vidrst, _i2c_data_bit, _i2c_clock_bit, \
-+				 _sync_bmc, _i2c_data_bit, _i2c_clock_bit, \
- 				 _bug_no_startadd) \
- 	{ \
- 		.max_hdisplay = (_max_hdisplay), \
- 		.max_vdisplay = (_max_vdisplay), \
- 		.max_mem_bandwidth = (_max_mem_bandwidth), \
--		.has_vidrst = (_has_vidrst), \
-+		.sync_bmc = (_sync_bmc), \
- 		.i2c = { \
- 			.data_bit = (_i2c_data_bit), \
- 			.clock_bit = (_i2c_clock_bit), \
-@@ -430,9 +430,9 @@ int mgag200_mode_config_init(struct mga_device *mdev, resource_size_t vram_avail
- /* mgag200_vga.c */
- int mgag200_vga_output_init(struct mga_device *mdev);
- 
--				/* mgag200_bmc.c */
--void mgag200_bmc_disable_vidrst(struct mga_device *mdev);
--void mgag200_bmc_enable_vidrst(struct mga_device *mdev);
-+/* mgag200_bmc.c */
-+void mgag200_bmc_stop_scanout(struct mga_device *mdev);
-+void mgag200_bmc_start_scanout(struct mga_device *mdev);
- int mgag200_bmc_output_init(struct mga_device *mdev, struct drm_connector *physical_connector);
- 
- #endif				/* __MGAG200_DRV_H__ */
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-index b3bb3e9fb0d1..737a48aa9160 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-@@ -206,8 +206,8 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 
- 	mgag200_enable_display(mdev);
- 
--	if (mdev->info->has_vidrst)
--		mgag200_bmc_enable_vidrst(mdev);
-+	if (mdev->info->sync_bmc)
-+		mgag200_bmc_start_scanout(mdev);
- }
- 
- static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-index 3ac0a508e2c5..8d1ccc2ad94a 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-@@ -207,8 +207,8 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 
- 	mgag200_enable_display(mdev);
- 
--	if (mdev->info->has_vidrst)
--		mgag200_bmc_enable_vidrst(mdev);
-+	if (mdev->info->sync_bmc)
-+		mgag200_bmc_start_scanout(mdev);
- }
- 
- static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-index 7a8099eb100c..cf7f6897838f 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-@@ -338,8 +338,8 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 
- 	mgag200_enable_display(mdev);
- 
--	if (mdev->info->has_vidrst)
--		mgag200_bmc_enable_vidrst(mdev);
-+	if (mdev->info->sync_bmc)
-+		mgag200_bmc_start_scanout(mdev);
- }
- 
- static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 276d5d61fe14..ec6f5e9e2d8f 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -608,7 +608,7 @@ int mgag200_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_st
- 	if (ret)
- 		return ret;
- 
--	new_mgag200_crtc_state->set_vidrst = mdev->info->has_vidrst;
-+	new_mgag200_crtc_state->set_vidrst = mdev->info->sync_bmc;
- 
- 	if (new_crtc_state->mode_changed) {
- 		if (funcs->pixpllc_atomic_check) {
-@@ -668,16 +668,16 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
- 
- 	mgag200_enable_display(mdev);
- 
--	if (mdev->info->has_vidrst)
--		mgag200_bmc_enable_vidrst(mdev);
-+	if (mdev->info->sync_bmc)
-+		mgag200_bmc_start_scanout(mdev);
- }
- 
- void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
- {
- 	struct mga_device *mdev = to_mga_device(crtc->dev);
- 
--	if (mdev->info->has_vidrst)
--		mgag200_bmc_disable_vidrst(mdev);
-+	if (mdev->info->sync_bmc)
-+		mgag200_bmc_stop_scanout(mdev);
- 
- 	mgag200_disable_display(mdev);
- }
--- 
-2.45.2
+On 26/06/24 16:33, Tomi Valkeinen wrote:
+> On 22/06/2024 14:09, Aradhya Bhatia wrote:
+>> If any normal DCS write command has already been transmitted prior to
+>> transmitting any Zero-Parameter DCS command, then it is necessary to
+>> clear the TX FIFO by resetting it. Otherwise, the FIFO points to another
+>> location, and the DCS command transmits unnecessary data causing the
+>> panel to not work[0].
+>>
+>> Allow the DCS Write FIFO in the cdns-dsi controller to reset as a rule,
+>> before any DCS packet is transmitted to the DSI peripheral.
+>>
+>> [0]: Section 12.6.5.7.5.2: "Command Mode Settings" in TDA4VM Technical
+>>       Reference Manual: https://www.ti.com/lit/zip/spruil1
+> 
+> Hmm so if I read the doc right, it says: if sending zero-parameter dcs
+> command, clear the FIFO and write zero to direct_cmd_wrdat.
 
+That's right.
+
+> 
+> Your patch seems to always clear the FIFO, not only for zero-parameter
+> commands. Is that a problem (I don't think so, but...)?
+> 
+
+My patch does clear the FIFO every time.
+
+While there is no documentation that says its harmless, I have tested
+the patches with RPi Panel (which doesn't seem to have any
+zero-parameter commands in the driver) - and so far it seems to have
+worked fine.
+
+
+> Also, is the direct_cmd_wrdat written at all when sending zero-parameter
+> dcs command?
+> 
+
+At the moment, no.
+
+Apparently there are 2 types of "Zero parameter" commands.
+
+There is,
+
+a) "MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM" - which has absolutely no
+parameter that needs to be sent, and there is,
+
+b) "MIPI_DSI_DCS_SHORT_WRITE" - which has a 1-byte command value that
+needs to be transmitted.
+
+(Macros referred from mipi_display.h)
+
+In the J721E TRM[0], there is a table[1]  which classifies the
+"MIPI_DSI_DCS_SHORT_WRITE" - the command with 1-byte command parameter -
+as a "zero parameter" command.
+
+For a "MIPI_DSI_DCS_SHORT_WRITE" command, we are still writing the
+1-byte command data into the FIFO.
+
+However, in the other section which talks about resetting the FIFO[2],
+it is mentioned that, for "zero parameter" commands, the FIFO needs to
+be reset and then 0x00 needs to be written to the FIFO.
+
+The second step cannot be done for "MIPI_DSI_DCS_SHORT_WRITE" commands
+because we want to write the 1 byte command parameter instead of 0x00
+into the FIFO.
+
+So, the only logical conclusion is that, the FIFO reset is only required
+for _truly_ zero parameter commands, which is the
+"MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM" command.
+
+So, I am planning to change this patch to do 2 things, under the
+condition that there are absolutely no data bytes that require
+transmission.
+
+a. Reset the FIFO.
+b. Write 0x00 to the FIFO.
+
+
+Regards
+Aradhya
+
+[0]: J721E TRM: https://www.ti.com/lit/zip/spruil1
+[1]: Table: 12-1933: "DSI Main Settings Register Description".
+[2]: Section 12.6.5.7.5.2: "Command Mode Settings"
+
+
+> 
+>>
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>> ---
+>>   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> index 126e4bccd868..cad0c1478ef0 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> @@ -1018,6 +1018,9 @@ static ssize_t cdns_dsi_transfer(struct
+>> mipi_dsi_host *host,
+>>         cdns_dsi_init_link(dsi);
+>>   +    /* Reset the DCS Write FIFO */
+>> +    writel(0x00, dsi->regs + DIRECT_CMD_FIFO_RST);
+>> >>       ret = mipi_dsi_create_packet(&packet, msg);
+>>       if (ret)
+>>           goto out;
+> 
+> 
