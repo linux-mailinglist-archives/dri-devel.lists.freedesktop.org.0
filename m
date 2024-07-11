@@ -2,70 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13AE92F06D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 22:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9C892F07E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 22:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7717710E7D1;
-	Thu, 11 Jul 2024 20:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5713D10EB9A;
+	Thu, 11 Jul 2024 20:57:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=schmorgal.com header.i=@schmorgal.com header.b="CLVIkn17";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ydYplClx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0C3610E7D1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 20:37:18 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-1fb0c2c672dso930875ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:37:18 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6751310EB9B
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 20:57:17 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-e03a8955ae3so1335870276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:57:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=schmorgal.com; s=google; t=1720730238; x=1721335038;
+ d=google.com; s=20230601; t=1720731436; x=1721336236;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:from:content-language
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PQm2wVcFVV2Ej/3DCwFpioRvEPP+XotE4XPlIbOYt9I=;
- b=CLVIkn17e421/sVHYNwW17isdmT0Ybz+r2kYZutWswohifAorbE1WFmHvH+bngemrv
- icH4STXd/zzJBhqXs3l99RTEmDoDDAZ8TwrRt5TefOdVpjCROUXDvPWfsYfVei9iqy0x
- ZTJ9vc6ZEemKeFo4PdA89iHroJVh8KI5F0kDA=
+ bh=qR1w6TGwRPRKUblfK+cvVsJQzW84NzZB6wHL2Wt2c14=;
+ b=ydYplClxMpEztE9PXK3E/S+XRAZKjaNVDdLL74DZXAdSxtE78FujBaS0MjvLJatybh
+ Ckzd1ui07mj9XgXCaP++fRo6CvjUJXLW6Gh/8TWlh7oJH34LKksd244mfJe/2aeSUUiW
+ /FWV1Ekh3FS2kYDwM6x8rlyXUdFwkTRw2jFdrMkSl7gvKJxCkMz3WzfRsTnrNTjXsG6D
+ KPRJrpgQg5tt07g0Rnd4XXTIezRfYxazpKPZ3KJgUMBZdf/NzDNjc++jcAGKUV7pbpuc
+ jEIWenoF3JNYaIZAQTfIxVEHeVBf6KxVzMteL94KsL+xb6QCoV3MyNUdylAwZcbwGHi+
+ ih/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720730238; x=1721335038;
- h=content-transfer-encoding:cc:to:subject:from:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=PQm2wVcFVV2Ej/3DCwFpioRvEPP+XotE4XPlIbOYt9I=;
- b=t9ag1XVY+187HCTtL1q/hjuSBDUMrcCIfTnEj0X/I5nL9A59p3t0/pS7ra1A3cbY24
- ViN8kGyPVmoKz9tp88uv2a7EzzL1LvgicjoCiizx/ePS86bWGgs7ZFU1HkZL2VaoixGg
- iWcQY3Ea0CH5cyTBlxkfAglGkPgnLld77gbBEgEKuOLY/YNtaYw7OBiY1VmvpVRCjrNc
- 97Aw/ANxb+LWxy8ei51yDolMHx8NnWUNzIWC0PXKk5lQba2JQC+zC1OVDmcpwqJvkweU
- ltDi9byxfFbfEx99ZGrgnrIgCMne3hR9jNKWI88WsB0IVdxY7KmfbxvJcl8g12IjxgWc
- B9pA==
-X-Gm-Message-State: AOJu0YwruyOTNPgUXCp2SLmBWYVMgB532b6irHYjipdPh8oB2iMNYqRi
- WrfiCrpNyR0pz3O4A9Bwt120kPEZC9Quh3JB9PNO5hi+z3jEuP0cKV6S8QIyrrE=
-X-Google-Smtp-Source: AGHT+IFxDT1MFtFyDgFQOw+HdKxecmIIfRF0jLmAo+tw80ob7sxgjLLFO1MjXqjSb7A2ok1PhNUK1w==
-X-Received: by 2002:a17:902:e546:b0:1fa:ab4a:fb02 with SMTP id
- d9443c01a7336-1fbdc389e10mr36455985ad.0.1720730238082; 
- Thu, 11 Jul 2024 13:37:18 -0700 (PDT)
-Received: from [192.168.1.33] ([50.120.71.169])
- by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-1fbb6a12cdbsm54481135ad.48.2024.07.11.13.37.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Jul 2024 13:37:17 -0700 (PDT)
-Message-ID: <bd9cb3c7-90e8-435d-bc28-0e38fee58977@schmorgal.com>
-Date: Thu, 11 Jul 2024 13:37:15 -0700
+ d=1e100.net; s=20230601; t=1720731436; x=1721336236;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qR1w6TGwRPRKUblfK+cvVsJQzW84NzZB6wHL2Wt2c14=;
+ b=PqHnE0fYSbo3TwJTbzYLdhxaTEaEGQml6LzX6X/+HkIk4t8HoyLlFQdSWAIVoZ56Vj
+ pmt5DSpgpXjQ+XredbAuYOYqKzPaYbUKV4ApjBi9FmvwonysKHbJmQIoq2e4OqHl8A7X
+ BxtBtjpb+3v09hsxD/IZoLzVvSOkjcTpq7WL8vBzfEFjoeph9y9dWwBi4SoKhq01H277
+ deskckDD9KCq3uPDoN6kr549kvnrDByO0B2mk0Lvz/81wLVBgkfuX7h3jqBL+K7tjBuZ
+ /uUhfMj9Tke1l0eiOTcm5C3zPXlq61bl4ftwz3u1KtF1oJAZcbzDXcMVEFNfTQcD5b+Y
+ 1CnQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWOUZzhcBMiEAsGE7EQaP735wjxXkkmCllZCb232ohEQ2cJqrjbT8X0WC0tv+w7vzIz0IMAPJSgqViztPEbkmVi0wdXqxUMHjHecoxIKIiX
+X-Gm-Message-State: AOJu0YwfLRSD78o8xChOozj9xwEP699D6m7VBQEeP59LqbCIjOtkJknS
+ RYlF342rRJVpzhZWo+tNxsmKa39ffvYPyXG2pJbptIJIoxfsobRTkh1LcxMYufwJUcxdidttlFI
+ qacngLZ8vlwAczItDXqkjOghMT8efEOgaYjmF
+X-Google-Smtp-Source: AGHT+IEYLltipW2y2jpNMjV5kpiHBN8xdsLzBdnyK43dhH65oHO3BC27aVEWQpPKMVw7hLbmYOjCnlcdqKg1G5wqhvg=
+X-Received: by 2002:a25:d3cf:0:b0:dfb:c6a:643 with SMTP id
+ 3f1490d57ef6-e041b070a46mr11240607276.7.1720731436062; 
+ Thu, 11 Jul 2024 13:57:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: Doug Brown <doug@schmorgal.com>
-Subject: [REGRESSION] drm/vmwgfx shows green Xv instead of actual video
- (bisected I think)
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- regressions@lists.linux.dev
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240710001749.1388631-1-almasrymina@google.com>
+ <20240710001749.1388631-6-almasrymina@google.com>
+ <20240710094900.0f808684@kernel.org>
+ <CAHS8izPTqsNQnQWKpDPTxULTFL4vr4k6j9Zw8TQzJVDBMXWMaA@mail.gmail.com>
+ <20240710182322.667f0108@kernel.org>
+In-Reply-To: <20240710182322.667f0108@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 11 Jul 2024 13:57:01 -0700
+Message-ID: <CAHS8izNMsCHhJM4hf7pf2p98sp9-3gxL6o7sC6JQnqThxiWjYw@mail.gmail.com>
+Subject: Re: [PATCH net-next v16 05/13] page_pool: devmem support
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org, 
+ Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,57 +117,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Wed, Jul 10, 2024 at 6:23=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Wed, 10 Jul 2024 16:42:04 -0700 Mina Almasry wrote:
+> > > > +static inline void netmem_set_pp(netmem_ref netmem, struct page_po=
+ol *pool)
+> > > > +{
+> > > > +     __netmem_clear_lsb(netmem)->pp =3D pool;
+> > > > +}
+> > >
+> > > Why is all this stuff in the main header? It's really low level.
+> > > Please put helpers which are only used by the core in a header
+> > > under net/core/, like net/core/dev.h
+> >
+> > Sorry none of those are only used by net/core/*. Pretty much all of
+> > these are used by include/net/page_pool/helpers.h, and some have
+> > callers in net/core/devmem.c or net/core/skbuff.c
+> >
+> > Would you like me to move these pp specific looking ones to
+> > include/net/page_pool/netmem.h or something similar?
+>
+> That's because some things already in helpers have no real business
+> being there either. Why is page_pool_set_pp_info() in helpers.h?
 
-I have discovered a problem in vmwgfx that caused Xv playback to break
-between v6.3 and v6.4-rc1. In v6.3, inside of an Ubuntu 24.04 VMware VM
-with 3D acceleration disabled, I can run the following GStreamer command
-("sudo apt install gstreamer1.0-tools" if you don't already have it):
+OK, I looked into this a bit. It looks like I can trivially move
+page_pool_set/clear_pp_info() to page_pool_priv.h, and that lets me
+move out a few of these netmem helpers to a header under net/core.
 
-gst-launch-1.0 videotestsrc ! 
-video/x-raw,format=YV12,width=640,height=480 ! xvimagesink
+However, to move more of these netmem helpers to a private header, I
+think I need to move all the page pool dma helpers and reffing helpers
+to a private header or the .c file, which I think will uninline them
+as they're eventually called from drivers.
 
-And it works fine, showing a test pattern.
+I had guessed the previous authors put those dma and ref helpers in
+the .h file to inline them as they're used in fast paths. Do you think
+the refactor and the uninling is desirable? Or should I just do with
+the trivial moving of the page_pool_set/clear_pp_info() to the private
+file?
 
-In v6.4-rc1 and all the way up to a build I just made today of Linus's
-latest master branch and also including Zack's latest patchset [1]:
-
-Linux doug-Ubuntu-MATE-2404 6.10.0-rc7+ #55 SMP PREEMPT_DYNAMIC Thu Jul
-11 12:46:06 PDT 2024 x86_64 x86_64 x86_64 GNU/Linux
-
-...if I run the same command, the GStreamer window shows up containing
-solid green rather than the test pattern.
-
-I believe I have bisected the problem to commit:
-
-39985eea5a6d ("drm/vmwgfx: Abstract placement selection")
-
-However, the bisect process was complicated because two earlier commits
-temporarily broke vmwgfx so I had to undo them during bisection, which
-also required some conflict resolution:
-
-180253782038 ("drm/ttm: stop allocating dummy resources during BO 
-creation") and
-f87c1f0b7b79 ("drm/ttm: prevent moving of pinned BOs")
-
-Note that if you have gstreamer1.0-vaapi installed, you should
-temporarily remove it first before testing because there is a separate
-Xorg bug that causes Xorg to crash when you run the above command if
-gstreamer1.0-vaapi is installed.
-
-I'm happy to do any further testing as needed. I've reproduced this
-problem across several different machines and distros. A fully-updated
-Arch Linux is also affected.
-
-As a side note, that same gst-launch-1.0 command is also currently
-broken with 3D acceleration enabled, but that's a separate issue in mesa
-that I've submitted a patch for [2].
-
+--=20
 Thanks,
-Doug
-
-[1] 
-https://lore.kernel.org/all/20240702021254.1610188-1-zack.rusin@broadcom.com/#t
-[2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30116
-
-#regzbot introduced: v6.3..v6.4-rc1
+Mina
