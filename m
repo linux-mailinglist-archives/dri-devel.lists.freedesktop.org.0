@@ -2,90 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A3692EFBF
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 21:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13AE92F06D
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 22:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC92410EADA;
-	Thu, 11 Jul 2024 19:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7717710E7D1;
+	Thu, 11 Jul 2024 20:37:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="S+5C90W1";
+	dkim=pass (1024-bit key; unprotected) header.d=schmorgal.com header.i=@schmorgal.com header.b="CLVIkn17";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3881010EADA
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 19:36:51 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id
- af79cd13be357-79f16c85da0so81610685a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 12:36:51 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C3610E7D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 20:37:18 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1fb0c2c672dso930875ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 13:37:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1720726610; x=1721331410;
+ d=schmorgal.com; s=google; t=1720730238; x=1721335038;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:from:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nYCTn4/p66mHlGbWx9vmwvaVwx5YCoUoX/9c7g8wN78=;
- b=S+5C90W1vH0RzI3iaynEZSZQfiCOzlS5O3ZqML+ll/h8Tb1K5LrTVzA9/XJvLs82UJ
- uRMmNpzQcdLckuyAk82jhnOpb91IXqbtjbWRc8OlzPzq/CAvRjIAbgCYrnsnq0YiKBYt
- 6C6JcOs96kOzKo48W3DuErq/JlMs1ky8ZOWyg=
+ bh=PQm2wVcFVV2Ej/3DCwFpioRvEPP+XotE4XPlIbOYt9I=;
+ b=CLVIkn17e421/sVHYNwW17isdmT0Ybz+r2kYZutWswohifAorbE1WFmHvH+bngemrv
+ icH4STXd/zzJBhqXs3l99RTEmDoDDAZ8TwrRt5TefOdVpjCROUXDvPWfsYfVei9iqy0x
+ ZTJ9vc6ZEemKeFo4PdA89iHroJVh8KI5F0kDA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720726610; x=1721331410;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nYCTn4/p66mHlGbWx9vmwvaVwx5YCoUoX/9c7g8wN78=;
- b=jiri5cISRVwP9i44T9IqOTS9YuX4dgzHW6ooRVBBc4/EcDw0oW2bKzQfisNu+p27O4
- xRdtNhJ0SNFH4leRi82xGNjiuF4jGLtFyh5MHiKMpoaUg7LuzgLcBzwDHs9aig37bjXd
- vmtDE9uvqVW0M3Hl2XPM3MpkqCZ5O53T42SlSHrZ8iHnabhjqTRi1PFv+AMnVdMKkQLp
- 4NjDgAGoRPSZ5fpq4pmXrTm88ZIFCyEkKUy3TjfbceKbhS2pQkAXEk/Qr/jCMujUWyUs
- KCEVqsRAGyxfV09KVo+tfBBMsoj3KQQnAkUhyOO0kR/ai1/ggrrdoQ3akwdaglwsAder
- Ftnw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXeZXEKKVlyiESAuAxrOiR8O6q/5MAJ1fqsbrXxEis/bA4QQrQ/rHr6/7lyCMjhJ6cIAQc4wge4wh3rw58VGPDapAXDIIHnb1IrtdB/ykA/
-X-Gm-Message-State: AOJu0YwSvrZoM2m6K1QUG9mzbnp1g1VnCs2/Uc3hsNZX0o57UpVfz/of
- ZwDAy3oN5UMLJM8bqnuvt40NpqVP3O9Q7aMIxf7Kl8uHYP3t5Rd4vbxU59v+RSaTvLYaGvdsh6k
- =
-X-Google-Smtp-Source: AGHT+IHFcxMVEs5ky2EW6WBQzMPd87ckpr+sCsv6lxk3Eviy9A9EK15PFjEvlTPUulsZXu6cDFoqKQ==
-X-Received: by 2002:a05:620a:494a:b0:79d:7506:f194 with SMTP id
- af79cd13be357-79f19bf214fmr984712385a.48.1720726609556; 
- Thu, 11 Jul 2024 12:36:49 -0700 (PDT)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
- [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-79f190872d7sm322970085a.93.2024.07.11.12.36.48
- for <dri-devel@lists.freedesktop.org>
+ d=1e100.net; s=20230601; t=1720730238; x=1721335038;
+ h=content-transfer-encoding:cc:to:subject:from:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=PQm2wVcFVV2Ej/3DCwFpioRvEPP+XotE4XPlIbOYt9I=;
+ b=t9ag1XVY+187HCTtL1q/hjuSBDUMrcCIfTnEj0X/I5nL9A59p3t0/pS7ra1A3cbY24
+ ViN8kGyPVmoKz9tp88uv2a7EzzL1LvgicjoCiizx/ePS86bWGgs7ZFU1HkZL2VaoixGg
+ iWcQY3Ea0CH5cyTBlxkfAglGkPgnLld77gbBEgEKuOLY/YNtaYw7OBiY1VmvpVRCjrNc
+ 97Aw/ANxb+LWxy8ei51yDolMHx8NnWUNzIWC0PXKk5lQba2JQC+zC1OVDmcpwqJvkweU
+ ltDi9byxfFbfEx99ZGrgnrIgCMne3hR9jNKWI88WsB0IVdxY7KmfbxvJcl8g12IjxgWc
+ B9pA==
+X-Gm-Message-State: AOJu0YwruyOTNPgUXCp2SLmBWYVMgB532b6irHYjipdPh8oB2iMNYqRi
+ WrfiCrpNyR0pz3O4A9Bwt120kPEZC9Quh3JB9PNO5hi+z3jEuP0cKV6S8QIyrrE=
+X-Google-Smtp-Source: AGHT+IFxDT1MFtFyDgFQOw+HdKxecmIIfRF0jLmAo+tw80ob7sxgjLLFO1MjXqjSb7A2ok1PhNUK1w==
+X-Received: by 2002:a17:902:e546:b0:1fa:ab4a:fb02 with SMTP id
+ d9443c01a7336-1fbdc389e10mr36455985ad.0.1720730238082; 
+ Thu, 11 Jul 2024 13:37:18 -0700 (PDT)
+Received: from [192.168.1.33] ([50.120.71.169])
+ by smtp.googlemail.com with ESMTPSA id
+ d9443c01a7336-1fbb6a12cdbsm54481135ad.48.2024.07.11.13.37.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Jul 2024 12:36:48 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-447df43324fso60591cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 12:36:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWkpMkPBsB4Dtrl0hwciXh7JKOPtjXNL6aZRNNDV2XG5K9ZT4lmkqdoHKHEu1tsz3mHxdWf9NeOZ7BfhPsETRys+S1F7uBQUqxv+I89k3/W
-X-Received: by 2002:a05:622a:1808:b0:447:e04d:51b1 with SMTP id
- d75a77b69052e-44e793e5b1fmr549761cf.11.1720726608407; Thu, 11 Jul 2024
- 12:36:48 -0700 (PDT)
+ Thu, 11 Jul 2024 13:37:17 -0700 (PDT)
+Message-ID: <bd9cb3c7-90e8-435d-bc28-0e38fee58977@schmorgal.com>
+Date: Thu, 11 Jul 2024 13:37:15 -0700
 MIME-Version: 1.0
-References: <20240710084715.1119935-1-yangcong5@huaqin.corp-partner.google.com>
- <20240710084715.1119935-5-yangcong5@huaqin.corp-partner.google.com>
- <D2LQJROQYIY3.2Q88EXS8HUDLQ@kernel.org>
- <CAD=FV=WAosZPSKdpwR6pjOmiy4hih=jXaMg2guuVgmc+qj-Csw@mail.gmail.com>
- <D2M42ODWQPAU.I0BMEOLKUP29@kernel.org>
- <CAHwB_NJ+YEMoL18Sr9HFmTVH_ErDztyF7vxxPFAE0Y2ta3dO0A@mail.gmail.com>
-In-Reply-To: <CAHwB_NJ+YEMoL18Sr9HFmTVH_ErDztyF7vxxPFAE0Y2ta3dO0A@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 11 Jul 2024 12:36:33 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VNx5qEyWDvVz6AVDryqvw09tkYRYMjbFuUQS4Wvyok6Q@mail.gmail.com>
-Message-ID: <CAD=FV=VNx5qEyWDvVz6AVDryqvw09tkYRYMjbFuUQS4Wvyok6Q@mail.gmail.com>
-Subject: Re: [PATCH v1 4/4] drm/panel: ili9806e: Break some CMDS into helper
- functions
-To: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: Michael Walle <mwalle@kernel.org>, quic_jesszhan@quicinc.com,
- neil.armstrong@linaro.org, 
- linus.walleij@linaro.org, airlied@gmail.com, dmitry.baryshkov@linaro.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Doug Brown <doug@schmorgal.com>
+Subject: [REGRESSION] drm/vmwgfx shows green Xv instead of actual video
+ (bisected I think)
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ regressions@lists.linux.dev
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,58 +81,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello,
 
-On Wed, Jul 10, 2024 at 6:09=E2=80=AFPM cong yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> Hi,
->
-> Michael Walle <mwalle@kernel.org> =E4=BA=8E2024=E5=B9=B47=E6=9C=8811=E6=
-=97=A5=E5=91=A8=E5=9B=9B 03:38=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Wed Jul 10, 2024 at 9:12 PM CEST, Doug Anderson wrote:
-> > > Hi,
-> > >
-> > > On Wed, Jul 10, 2024 at 2:02=E2=80=AFAM Michael Walle <mwalle@kernel.=
-org> wrote:
-> > > >
-> > > > On Wed Jul 10, 2024 at 10:47 AM CEST, Cong Yang wrote:
-> > > > > Break select page cmds into helper function.
-> > > >
-> > > > Why though? I don't find that anything easier to read. In fact, I
-> > > > deliberately chose not to factor that out into a function. It's jus=
-t
-> > > > a sequence of magic commands, taken straight from the datasheet. So=
-,
-> > > > I'd like to keep it that way.
-> > >
-> > > The consensus of previous discussion on the lists was that folks
-> > > agreed that we should, where possible, make it more obvious what thes=
-e
-> > > magic sequences of commands were doing. IMO separating out the page
-> > > switch command helps. Certainly I'm always happy to hear other
-> > > opinions, though.
-> >
-> > Fair enough, but in that case, one should take the datasheet (which
-> > you can find online) and replace all the magic numbers with the
-> > correct command names from it. E.g. 0xff is the ENEXTC register. To
-> > be clear, I'm not just talking about the "switch page command".
-> >
-> > As patch stands, I don't see much value, TBH. On the contrary, you
-> > make it harder to compare it with the Ortustech panel datasheet.
-> >
-> > just my 2c,
-> > -michael
->
-> If all drivers replace all the magic numbers with the correct command nam=
-es,
-> it will be a huge amount of work (assuming that the datasheet can be foun=
-d).
->  I am afraid I don't have enough time to complete it.  Thanks.
+I have discovered a problem in vmwgfx that caused Xv playback to break
+between v6.3 and v6.4-rc1. In v6.3, inside of an Ubuntu 24.04 VMware VM
+with 3D acceleration disabled, I can run the following GStreamer command
+("sudo apt install gstreamer1.0-tools" if you don't already have it):
 
-Makes sense. I'd be interested in hearing the opinion of others in the
-DRM community about whether they'd prefer to land something long this
-patch as-is or drop it.
+gst-launch-1.0 videotestsrc ! 
+video/x-raw,format=YV12,width=640,height=480 ! xvimagesink
 
--Doug
+And it works fine, showing a test pattern.
+
+In v6.4-rc1 and all the way up to a build I just made today of Linus's
+latest master branch and also including Zack's latest patchset [1]:
+
+Linux doug-Ubuntu-MATE-2404 6.10.0-rc7+ #55 SMP PREEMPT_DYNAMIC Thu Jul
+11 12:46:06 PDT 2024 x86_64 x86_64 x86_64 GNU/Linux
+
+...if I run the same command, the GStreamer window shows up containing
+solid green rather than the test pattern.
+
+I believe I have bisected the problem to commit:
+
+39985eea5a6d ("drm/vmwgfx: Abstract placement selection")
+
+However, the bisect process was complicated because two earlier commits
+temporarily broke vmwgfx so I had to undo them during bisection, which
+also required some conflict resolution:
+
+180253782038 ("drm/ttm: stop allocating dummy resources during BO 
+creation") and
+f87c1f0b7b79 ("drm/ttm: prevent moving of pinned BOs")
+
+Note that if you have gstreamer1.0-vaapi installed, you should
+temporarily remove it first before testing because there is a separate
+Xorg bug that causes Xorg to crash when you run the above command if
+gstreamer1.0-vaapi is installed.
+
+I'm happy to do any further testing as needed. I've reproduced this
+problem across several different machines and distros. A fully-updated
+Arch Linux is also affected.
+
+As a side note, that same gst-launch-1.0 command is also currently
+broken with 3D acceleration enabled, but that's a separate issue in mesa
+that I've submitted a patch for [2].
+
+Thanks,
+Doug
+
+[1] 
+https://lore.kernel.org/all/20240702021254.1610188-1-zack.rusin@broadcom.com/#t
+[2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30116
+
+#regzbot introduced: v6.3..v6.4-rc1
