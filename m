@@ -2,83 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0203692EF9F
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 21:27:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A3692EFBF
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 21:36:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B8B810E2CB;
-	Thu, 11 Jul 2024 19:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC92410EADA;
+	Thu, 11 Jul 2024 19:36:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="K3UvANMn";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="S+5C90W1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABEF510E2CB
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 19:27:27 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46BDLirT007342;
- Thu, 11 Jul 2024 19:27:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 01He2AukA3gNli5ye4GmZPgjjeR1c89/VmEYxkoI18U=; b=K3UvANMnRv7D4o2/
- BMk7fqojcDm81lzaRtLOnH5BVCeeAq4XqM7neX5rnp8uJX+VNkaKzWu9gkMG7BIk
- dL4brSvDYShCD4EnOapEtiE8IWK2gFNX+FlVpUOA/y/qzJvQN3folGTZdmixo+b8
- bCdEHMJLwFznbKQigebJxyPxF9mYHZQSNCmI4gAPGemugdrrUo2F+rRs//3zDTlp
- 1eM5FqEwXxt8bHCZSdrjdVvb5gCnhg0uY8Ol1E2zUO5hM9ErmzMi3mZAi6IcwnXc
- AR027uawPbZ/fkHiRc6kP1qQxZ3EFhb09XADtoFZPm6IifJUducWiD4cUaP3rfoD
- T2kS4g==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 406wg45kq3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jul 2024 19:27:26 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46BJRPPN015571
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jul 2024 19:27:25 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 11 Jul
- 2024 12:27:24 -0700
-Message-ID: <ce7863a7-f84e-42f0-9aa5-54b43edcd260@quicinc.com>
-Date: Thu, 11 Jul 2024 13:27:23 -0600
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3881010EADA
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 19:36:51 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id
+ af79cd13be357-79f16c85da0so81610685a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 12:36:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1720726610; x=1721331410;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nYCTn4/p66mHlGbWx9vmwvaVwx5YCoUoX/9c7g8wN78=;
+ b=S+5C90W1vH0RzI3iaynEZSZQfiCOzlS5O3ZqML+ll/h8Tb1K5LrTVzA9/XJvLs82UJ
+ uRMmNpzQcdLckuyAk82jhnOpb91IXqbtjbWRc8OlzPzq/CAvRjIAbgCYrnsnq0YiKBYt
+ 6C6JcOs96kOzKo48W3DuErq/JlMs1ky8ZOWyg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720726610; x=1721331410;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nYCTn4/p66mHlGbWx9vmwvaVwx5YCoUoX/9c7g8wN78=;
+ b=jiri5cISRVwP9i44T9IqOTS9YuX4dgzHW6ooRVBBc4/EcDw0oW2bKzQfisNu+p27O4
+ xRdtNhJ0SNFH4leRi82xGNjiuF4jGLtFyh5MHiKMpoaUg7LuzgLcBzwDHs9aig37bjXd
+ vmtDE9uvqVW0M3Hl2XPM3MpkqCZ5O53T42SlSHrZ8iHnabhjqTRi1PFv+AMnVdMKkQLp
+ 4NjDgAGoRPSZ5fpq4pmXrTm88ZIFCyEkKUy3TjfbceKbhS2pQkAXEk/Qr/jCMujUWyUs
+ KCEVqsRAGyxfV09KVo+tfBBMsoj3KQQnAkUhyOO0kR/ai1/ggrrdoQ3akwdaglwsAder
+ Ftnw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXeZXEKKVlyiESAuAxrOiR8O6q/5MAJ1fqsbrXxEis/bA4QQrQ/rHr6/7lyCMjhJ6cIAQc4wge4wh3rw58VGPDapAXDIIHnb1IrtdB/ykA/
+X-Gm-Message-State: AOJu0YwSvrZoM2m6K1QUG9mzbnp1g1VnCs2/Uc3hsNZX0o57UpVfz/of
+ ZwDAy3oN5UMLJM8bqnuvt40NpqVP3O9Q7aMIxf7Kl8uHYP3t5Rd4vbxU59v+RSaTvLYaGvdsh6k
+ =
+X-Google-Smtp-Source: AGHT+IHFcxMVEs5ky2EW6WBQzMPd87ckpr+sCsv6lxk3Eviy9A9EK15PFjEvlTPUulsZXu6cDFoqKQ==
+X-Received: by 2002:a05:620a:494a:b0:79d:7506:f194 with SMTP id
+ af79cd13be357-79f19bf214fmr984712385a.48.1720726609556; 
+ Thu, 11 Jul 2024 12:36:49 -0700 (PDT)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
+ [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-79f190872d7sm322970085a.93.2024.07.11.12.36.48
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Jul 2024 12:36:48 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id
+ d75a77b69052e-447df43324fso60591cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 12:36:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWkpMkPBsB4Dtrl0hwciXh7JKOPtjXNL6aZRNNDV2XG5K9ZT4lmkqdoHKHEu1tsz3mHxdWf9NeOZ7BfhPsETRys+S1F7uBQUqxv+I89k3/W
+X-Received: by 2002:a05:622a:1808:b0:447:e04d:51b1 with SMTP id
+ d75a77b69052e-44e793e5b1fmr549761cf.11.1720726608407; Thu, 11 Jul 2024
+ 12:36:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] agp: uninorth: add missing MODULE_DESCRIPTION() macro
-Content-Language: en-US
-To: Jeff Johnson <quic_jjohnson@quicinc.com>, David Airlie
- <airlied@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <kernel-janitors@vger.kernel.org>
-References: <20240615-md-powerpc-drivers-char-agp-v1-1-b79bfd07da42@quicinc.com>
- <99d6c483-9291-4bd0-8e62-76022abb762c@quicinc.com>
- <7b7e2952-fb54-48b0-93bc-f96c04e5cdd3@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <7b7e2952-fb54-48b0-93bc-f96c04e5cdd3@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ADn9gVcQwjMLZ4n9ELF6H4wQf-jPtw3V
-X-Proofpoint-GUID: ADn9gVcQwjMLZ4n9ELF6H4wQf-jPtw3V
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-11_14,2024-07-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 clxscore=1011 impostorscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 spamscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407110134
+References: <20240710084715.1119935-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240710084715.1119935-5-yangcong5@huaqin.corp-partner.google.com>
+ <D2LQJROQYIY3.2Q88EXS8HUDLQ@kernel.org>
+ <CAD=FV=WAosZPSKdpwR6pjOmiy4hih=jXaMg2guuVgmc+qj-Csw@mail.gmail.com>
+ <D2M42ODWQPAU.I0BMEOLKUP29@kernel.org>
+ <CAHwB_NJ+YEMoL18Sr9HFmTVH_ErDztyF7vxxPFAE0Y2ta3dO0A@mail.gmail.com>
+In-Reply-To: <CAHwB_NJ+YEMoL18Sr9HFmTVH_ErDztyF7vxxPFAE0Y2ta3dO0A@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 11 Jul 2024 12:36:33 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VNx5qEyWDvVz6AVDryqvw09tkYRYMjbFuUQS4Wvyok6Q@mail.gmail.com>
+Message-ID: <CAD=FV=VNx5qEyWDvVz6AVDryqvw09tkYRYMjbFuUQS4Wvyok6Q@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] drm/panel: ili9806e: Break some CMDS into helper
+ functions
+To: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: Michael Walle <mwalle@kernel.org>, quic_jesszhan@quicinc.com,
+ neil.armstrong@linaro.org, 
+ linus.walleij@linaro.org, airlied@gmail.com, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,47 +101,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/11/2024 12:19 PM, Jeff Johnson wrote:
-> On 6/28/24 20:14, Jeff Johnson wrote:
->> On 6/15/2024 2:01 PM, Jeff Johnson wrote:
->>> With ARCH=powerpc, make allmodconfig && make W=1 C=1 reports:
->>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>> drivers/char/agp/uninorth-agp.o
->>>
->>> Add the missing invocation of the MODULE_DESCRIPTION() macro.
->>>
->>> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
->>> ---
->>>   drivers/char/agp/uninorth-agp.c | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/char/agp/uninorth-agp.c 
->>> b/drivers/char/agp/uninorth-agp.c
->>> index 84411b13c49f..b8d7115b8c9e 100644
->>> --- a/drivers/char/agp/uninorth-agp.c
->>> +++ b/drivers/char/agp/uninorth-agp.c
->>> @@ -726,4 +726,5 @@ MODULE_PARM_DESC(aperture,
->>>            "\t\tDefault: " DEFAULT_APERTURE_STRING "M");
->>>   MODULE_AUTHOR("Ben Herrenschmidt & Paul Mackerras");
->>> +MODULE_DESCRIPTION("Apple UniNorth & U3 AGP support");
->>>   MODULE_LICENSE("GPL");
->>>
->>> ---
->>> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
->>> change-id: 20240615-md-powerpc-drivers-char-agp-db644db58c24
->>
->> Following up to see if anything else is needed from me. Hoping to see 
->> this in
->> linux-next so I can remove it from my tracking spreadsheet :)
-> 
-> I still don't see this in linux-next.
-> Adding Greg KH since he's picked up many of these fixes.
-> Hope to have all of these warnings fixed tree-wide in 6.11.
+Hi,
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+On Wed, Jul 10, 2024 at 6:09=E2=80=AFPM cong yang
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+>
+> Hi,
+>
+> Michael Walle <mwalle@kernel.org> =E4=BA=8E2024=E5=B9=B47=E6=9C=8811=E6=
+=97=A5=E5=91=A8=E5=9B=9B 03:38=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Wed Jul 10, 2024 at 9:12 PM CEST, Doug Anderson wrote:
+> > > Hi,
+> > >
+> > > On Wed, Jul 10, 2024 at 2:02=E2=80=AFAM Michael Walle <mwalle@kernel.=
+org> wrote:
+> > > >
+> > > > On Wed Jul 10, 2024 at 10:47 AM CEST, Cong Yang wrote:
+> > > > > Break select page cmds into helper function.
+> > > >
+> > > > Why though? I don't find that anything easier to read. In fact, I
+> > > > deliberately chose not to factor that out into a function. It's jus=
+t
+> > > > a sequence of magic commands, taken straight from the datasheet. So=
+,
+> > > > I'd like to keep it that way.
+> > >
+> > > The consensus of previous discussion on the lists was that folks
+> > > agreed that we should, where possible, make it more obvious what thes=
+e
+> > > magic sequences of commands were doing. IMO separating out the page
+> > > switch command helps. Certainly I'm always happy to hear other
+> > > opinions, though.
+> >
+> > Fair enough, but in that case, one should take the datasheet (which
+> > you can find online) and replace all the magic numbers with the
+> > correct command names from it. E.g. 0xff is the ENEXTC register. To
+> > be clear, I'm not just talking about the "switch page command".
+> >
+> > As patch stands, I don't see much value, TBH. On the contrary, you
+> > make it harder to compare it with the Ortustech panel datasheet.
+> >
+> > just my 2c,
+> > -michael
+>
+> If all drivers replace all the magic numbers with the correct command nam=
+es,
+> it will be a huge amount of work (assuming that the datasheet can be foun=
+d).
+>  I am afraid I don't have enough time to complete it.  Thanks.
 
-Dave, this seems like a trivial fix that is stuck, but normally routed 
-through DRM.  I hope I'm not over stepping, but I think I'll drop this 
-in drm-misc-next on the 19th if there isn't any other activity.
+Makes sense. I'd be interested in hearing the opinion of others in the
+DRM community about whether they'd prefer to land something long this
+patch as-is or drop it.
 
--Jeff
+-Doug
