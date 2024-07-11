@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10AB92E407
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 12:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3CF992E40D
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 12:03:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF2B10E9F9;
-	Thu, 11 Jul 2024 10:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8E610E9FD;
+	Thu, 11 Jul 2024 10:03:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GoxtIZRz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QUCX1i3f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA9A210E9F8;
- Thu, 11 Jul 2024 10:02:45 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-595856e2332so852310a12.1; 
- Thu, 11 Jul 2024 03:02:45 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13FAC10E9FC;
+ Thu, 11 Jul 2024 10:03:02 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a689ad8d1f6so78369266b.2; 
+ Thu, 11 Jul 2024 03:03:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720692164; x=1721296964; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1720692180; x=1721296980; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=H3zOMJNB2462M9JwLFhtX90y2MUg8+oUIQDY6w49lDI=;
- b=GoxtIZRzYqtcMJ8YtC1nCs/TBwGsoAiXCB5L9vKlRTPbjljaBGi3QBMieOygh/hZpg
- domogqL9d9upRVDLSnd5qTS4gekbOgnVzyJhGJVMdiNC7hf+nUwKkA7DyeR619SgdUtH
- CQ39b5wdJbp8mPgwJTE11xIH1EHRW1F/HH481ma8Jqrrvpy1vFIYU4PaTAZ+BMvt8Vyw
- +07L9CpJvCGfKKiFKXrpvx8hJ1u9gds9Ya4rv8E9se7tlgwjIRTwXAkX6G2fZoKNRCr9
- aFkgiSBcZ85+f3CIVWmnFf4BpwK4GapB+49ThN5H9Lr4CaPROkOxIJm1ZoVe7yh8qT3Q
- /LDQ==
+ bh=tRz9UumvfZkasiMoFMWu3L5o8EAQpD5HwI3FmH2Nej0=;
+ b=QUCX1i3fMVqzli+qpi3UMPC5oo2cFC0T7wIYLMmWl505kCx1AGhWUsJdrqet31Wpzr
+ Tt9P+ELFTLzoY4fAEwAO9vgn4+9V5qQ2P05uwexY2RsJ9Tc2QV+qCim5VWQ8eNUpQib5
+ Zn5MxbIRx8RMrNglKvYV54ORnLTZxk/A2sid0J7XnHHVbspZnnb4kUGXtU8d6Li2S302
+ Zc4sYrhAMwF1RGSEsicdj4yz+Wyd42OjkdOVHP2kPVYdw432y6vLrw4Kjr+hSa7YEIDO
+ XSABbQ6O4tNWHN4DcF1wZLeEnmD272w4auTfNU5fgz+Xx5yVtaIkvL+9EC5d0sO6EZmY
+ 053w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720692164; x=1721296964;
+ d=1e100.net; s=20230601; t=1720692180; x=1721296980;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=H3zOMJNB2462M9JwLFhtX90y2MUg8+oUIQDY6w49lDI=;
- b=fOlqTI8VX0/D7WGwa416JAO3ge0kzBmTEhDBC5YfBCP/4+nBmfNMkfzSF9odRSDzyt
- GecY1DMwSsizDuLdzg+S3MfY6Gbfh9DHLCgjDPisI3O0sH8AnwEDTJfTErytT9pq0tn+
- hc3KWNTTDhDxK1BpRHn/MaB/QV1IacBVhWt36YGx69As5B4xQwnwGZR9sqVPeL72qwhz
- +rlpt7wZh6BvCQYdcPOgZ/ZwhRWN9WawcyRIuZAs7ef+WlLCbsxgqtYejGs6se2bnA3s
- OFa+GlvaGw2T8GsF2qear3qTFl02/kQgTB0lWqhVbNzaUa+hfGj+vjbZvvtgPzl8Awz9
- elqg==
+ bh=tRz9UumvfZkasiMoFMWu3L5o8EAQpD5HwI3FmH2Nej0=;
+ b=fJLymqfWP77twV6kknf8CQuVUVN5dBzN4ayeHcTgGI7l1BhQYvW0nSlT+JF+rf4PkZ
+ k4MPQDp/uSZfxbXdjR2rwgwMxJ2UXLoOOICEJ+t3de1dIC9krGSXdwHGea9zD6yzA6HN
+ k7IolpCNLu8oZwnjBjZ/HnLxAMFPH1s4KCb+E5qOX0Yd3CPmAFuiU6AMuxhz2j5QpKwk
+ NZ2PE/9bbE4Tutt2RPbhLl/8swh16LOW8JZlEw1Ocx+68Ox0Kf3hfUbt3CHmnwK5sZnn
+ nUMuHHMzOm2icf2aDlJ0Xua0WX2tx8aEhr33QcBpucCbzjecEy/pT8XHJ97siy9r9eYs
+ M3RA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXBa8MwWHPGS7ytwowQvuEzk4SFFrKfEI1KsSPhMt1TgVx+lx53KJh5r0EP0zb9sQa3ABSo1blNOuIxOTBmcZ7aW3JCPjP1LXAP0DEEm1XbuMTQ+P2nISJ5fRXgojWWRebPsjDnTmS19kQPY1xz3mPZ
-X-Gm-Message-State: AOJu0Yw6N2CbrTKE6DejzP5RgJQlR298vKdcnm16K5pfElYC187Cc2uW
- frCZrFY5boor+Sqtg8XbOpfqs+pRVwOC0F7AYTaZsbP9TrEGT2TI
-X-Google-Smtp-Source: AGHT+IEHdoFbH3D6J1HEJpm2T6NckmbaqK1lGl274VU1X6oXcU5CJOiQYUz/agNN9vGf3rQ+KMjNdw==
-X-Received: by 2002:a17:906:24db:b0:a72:6055:788d with SMTP id
- a640c23a62f3a-a780b6ffcd2mr586906266b.42.1720692164055; 
- Thu, 11 Jul 2024 03:02:44 -0700 (PDT)
+ AJvYcCW2a5yElymcvjNaNcjzHVtR0MI6TJyIOTL2nnWTIUrru1CoeqyqnR6rYi0u1fwnxfLvKNa8vhDDUUez8vXk8syQO3Ahy4xSXKtG09yiLJw+IB3r0FaoyLsDNoxuEKE0qNvyqsO00/MNnJW+cJ8Ii7J+
+X-Gm-Message-State: AOJu0YxYu41/heK97b2STGwhs/UMXv8YihpNXtN1AH31cOfUzopc6R96
+ C9Ok91Fyzg9U7XAtoFGG5wV2vaOGKXnBXuaC5uiE9PKl171j0sle
+X-Google-Smtp-Source: AGHT+IFZwmeKYg5L20iCnIHACgbq3BS89SRr31jpLVF1vhxP0+N3lNM44paKbRcnxvAlCyIiP/JmuA==
+X-Received: by 2002:a17:906:129b:b0:a77:e71e:ff8d with SMTP id
+ a640c23a62f3a-a780b89ab24mr466598266b.70.1720692180017; 
+ Thu, 11 Jul 2024 03:03:00 -0700 (PDT)
 Received: from localhost.localdomain (public-nat-01.vpngate.v4.open.ad.jp.
  [219.100.37.233]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a780a6bc876sm239207666b.5.2024.07.11.03.02.32
+ a640c23a62f3a-a780a6bc876sm239207666b.5.2024.07.11.03.02.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jul 2024 03:02:43 -0700 (PDT)
+ Thu, 11 Jul 2024 03:02:59 -0700 (PDT)
 From: Vladimir Lypak <vladimir.lypak@gmail.com>
 To: Vladimir Lypak <vladimir.lypak@gmail.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
@@ -67,9 +67,9 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jordan Crouse <jordan@cosmicpenguin.net>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] drm/msm/a5xx: disable preemption in submits by default
-Date: Thu, 11 Jul 2024 10:00:18 +0000
-Message-ID: <20240711100038.268803-2-vladimir.lypak@gmail.com>
+Subject: [PATCH 2/4] drm/msm/a5xx: properly clear preemption records on resume
+Date: Thu, 11 Jul 2024 10:00:19 +0000
+Message-ID: <20240711100038.268803-3-vladimir.lypak@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240711100038.268803-1-vladimir.lypak@gmail.com>
 References: <20240711100038.268803-1-vladimir.lypak@gmail.com>
@@ -90,43 +90,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fine grain preemption (switching from/to points within submits)
-requires extra handling in command stream of those submits, especially
-when rendering with tiling (using GMEM). However this handling is
-missing at this point in mesa (and always was). For this reason we get
-random GPU faults and hangs if more than one priority level is used
-because local preemption is enabled prior to executing command stream
-from submit.
-With that said it was ahead of time to enable local preemption by
-default considering the fact that even on downstream kernel it is only
-enabled if requested via UAPI.
+Two fields of preempt_record which are used by CP aren't reset on
+resume: "data" and "info". This is the reason behind faults which happen
+when we try to switch to the ring that was active last before suspend.
+In addition those faults can't be recovered from because we use suspend
+and resume to do so (keeping values of those fields again).
 
-Fixes: a7a4c19c36de ("drm/msm/a5xx: fix setting of the CP_PREEMPT_ENABLE_LOCAL register")
+Fixes: b1fc2839d2f9 ("drm/msm: Implement preemption for A5XX targets")
 Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
 ---
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index c0b5373e90d7..6c80d3003966 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -150,9 +150,13 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
- 	OUT_RING(ring, 1);
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+index f58dd564d122..67a8ef4adf6b 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+@@ -204,6 +204,8 @@ void a5xx_preempt_hw_init(struct msm_gpu *gpu)
+ 		return;
  
--	/* Enable local preemption for finegrain preemption */
-+	/*
-+	 * Disable local preemption by default because it requires
-+	 * user-space to be aware of it and provide additional handling
-+	 * to restore rendering state or do various flushes on switch.
-+	 */
- 	OUT_PKT7(ring, CP_PREEMPT_ENABLE_LOCAL, 1);
--	OUT_RING(ring, 0x1);
-+	OUT_RING(ring, 0x0);
- 
- 	/* Allow CP_CONTEXT_SWITCH_YIELD packets in the IB2 */
- 	OUT_PKT7(ring, CP_YIELD_ENABLE, 1);
+ 	for (i = 0; i < gpu->nr_rings; i++) {
++		a5xx_gpu->preempt[i]->data = 0;
++		a5xx_gpu->preempt[i]->info = 0;
+ 		a5xx_gpu->preempt[i]->wptr = 0;
+ 		a5xx_gpu->preempt[i]->rptr = 0;
+ 		a5xx_gpu->preempt[i]->rbase = gpu->rb[i]->iova;
 -- 
 2.45.2
 
