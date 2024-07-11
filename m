@@ -2,57 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BB492DF8D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 07:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE8792E017
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 08:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6B910E937;
-	Thu, 11 Jul 2024 05:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6325910E95A;
+	Thu, 11 Jul 2024 06:27:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="eoGn8Qek";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rGHfp4AO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id D207710E923;
- Thu, 11 Jul 2024 05:29:09 +0000 (UTC)
-Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.159.213])
- by linux.microsoft.com (Postfix) with ESMTPSA id 91CE520B7165;
- Wed, 10 Jul 2024 22:29:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 91CE520B7165
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1720675749;
- bh=4zzt0sxaEK28Q73el3r0U92JO8hyIlQcIdU1sMN5SYU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eoGn8Qek5E9XSsJ2C10alVGfeRI/GzNSHI1/EexKzjrgWsychWzp8Ge+lGek14A/J
- MUw7Gos/0iZHXuMnVkt3Ib9Gd6v9b9vWi3i9BPGB45RuwnW2BN8APCzd4c6a7/vLya
- 0KvnYyDte6YcPv6Z07Lp3J2rdrUZVExWoJeNWNLg=
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-To: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org (open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER
- DRIVER), dri-devel@lists.freedesktop.org (open list:FRAMEBUFFER LAYER),
- linux-kernel@vger.kernel.org (open list)
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Easwar Hariharan <eahariha@linux.microsoft.com>,
- amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list),
- intel-gfx@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
- DRIVERS), 
- intel-xe@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
- DRIVERS), 
- linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM HOST DRIVERS),
- linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 6/6] fbdev/viafb: Make I2C terminology more inclusive
-Date: Thu, 11 Jul 2024 05:27:34 +0000
-Message-Id: <20240711052734.1273652-7-eahariha@linux.microsoft.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240711052734.1273652-1-eahariha@linux.microsoft.com>
-References: <20240711052734.1273652-1-eahariha@linux.microsoft.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A56110E979
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 06:25:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 52723CE17E5;
+ Thu, 11 Jul 2024 06:25:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD8F6C116B1;
+ Thu, 11 Jul 2024 06:25:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1720679152;
+ bh=PleP9t/ax+Sp2aeZHu4QJBNkcPjSGKK8qgyTeC5ChdE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=rGHfp4AOHiWG2s5wcAxRMXKoGxac8gDTtFHOlVixcf4pJ++04/JFJMl3v7Rkpd03v
+ X5pIUGmdpVpTzNr3z/NmwJkIO78997WuhoL87Oj+CXMXQpAOrMeL3CExvg73xSHwHj
+ YFYm5kEL7neWUAgtM/hGMmnKKS1aCT1Dz9mMCF0UbuuXjUgvhYBoc2k2KpTUM61628
+ P1ZHQtXddDtqpAmDkZ5qkkb9UjTBOI8PBGf4ggUGeOZLkW6wrogD1n5uAXDmjSkC4z
+ RVo47taUdgcB0fJHqk9bT7QaN/CgBZdx9y4Olt9HfNhIw/Hhkg4SOcptnUYQWYroF8
+ 4LseV80J4pddQ==
+Message-ID: <467a6379-6ee7-46b0-90c8-340e12f7a556@kernel.org>
+Date: Thu, 11 Jul 2024 08:25:45 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] dt-bindings: display: panel: samsung,atna33xc20:
+ Document ATNA45AF01
+To: Stephan Gerhold <stephan.gerhold@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan@kernel.org>
+References: <20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org>
+ <20240710-x1e80100-crd-backlight-v1-1-eb242311a23e@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240710-x1e80100-crd-backlight-v1-1-eb242311a23e@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,288 +111,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
-with more appropriate terms. Inspired by Wolfram's series to fix drivers/i2c/,
-fix the terminology for users of I2C_ALGOBIT bitbanging interface, now that
-the approved verbiage exists in the specification.
+On 10/07/2024 19:04, Stephan Gerhold wrote:
+> The Samsung ATNA45AF01 panel is an AMOLED eDP panel that has backlight
+> control over the DP AUX channel. While it works almost correctly with the
+> generic "edp-panel" compatible, the backlight needs special handling to
+> work correctly. It is similar to the existing ATNA33XC20 panel, just with
+> a larger resolution and size.
+> 
+> Add a new "samsung,atna45af01" compatible to describe this panel in the DT.
+> 
+> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+> ---
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
----
- drivers/video/fbdev/via/chip.h    |  8 ++++----
- drivers/video/fbdev/via/dvi.c     | 24 ++++++++++++------------
- drivers/video/fbdev/via/lcd.c     |  6 +++---
- drivers/video/fbdev/via/via_aux.h |  2 +-
- drivers/video/fbdev/via/via_i2c.c | 12 ++++++------
- drivers/video/fbdev/via/vt1636.c  |  6 +++---
- 6 files changed, 29 insertions(+), 29 deletions(-)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/video/fbdev/via/chip.h b/drivers/video/fbdev/via/chip.h
-index f0a19cbcb9e5d..f81af13630e28 100644
---- a/drivers/video/fbdev/via/chip.h
-+++ b/drivers/video/fbdev/via/chip.h
-@@ -69,7 +69,7 @@
- #define     VT1632_TMDS             0x01
- #define     INTEGRATED_TMDS         0x42
- 
--/* Definition TMDS Trasmitter I2C Slave Address */
-+/* Definition TMDS Trasmitter I2C Target Address */
- #define     VT1632_TMDS_I2C_ADDR    0x10
- 
- /**************************************************/
-@@ -88,21 +88,21 @@
- #define     TX_DATA_DDR_MODE        0x04
- #define     TX_DATA_SDR_MODE        0x08
- 
--/* Definition LVDS Trasmitter I2C Slave Address */
-+/* Definition LVDS Trasmitter I2C Target Address */
- #define     VT1631_LVDS_I2C_ADDR    0x70
- #define     VT3271_LVDS_I2C_ADDR    0x80
- #define     VT1636_LVDS_I2C_ADDR    0x80
- 
- struct tmds_chip_information {
- 	int tmds_chip_name;
--	int tmds_chip_slave_addr;
-+	int tmds_chip_target_addr;
- 	int output_interface;
- 	int i2c_port;
- };
- 
- struct lvds_chip_information {
- 	int lvds_chip_name;
--	int lvds_chip_slave_addr;
-+	int lvds_chip_target_addr;
- 	int output_interface;
- 	int i2c_port;
- };
-diff --git a/drivers/video/fbdev/via/dvi.c b/drivers/video/fbdev/via/dvi.c
-index 13147e3066ebf..27990a73bfa39 100644
---- a/drivers/video/fbdev/via/dvi.c
-+++ b/drivers/video/fbdev/via/dvi.c
-@@ -70,7 +70,7 @@ bool viafb_tmds_trasmitter_identify(void)
- 	/* Check for VT1632: */
- 	viaparinfo->chip_info->tmds_chip_info.tmds_chip_name = VT1632_TMDS;
- 	viaparinfo->chip_info->
--		tmds_chip_info.tmds_chip_slave_addr = VT1632_TMDS_I2C_ADDR;
-+		tmds_chip_info.tmds_chip_target_addr = VT1632_TMDS_I2C_ADDR;
- 	viaparinfo->chip_info->tmds_chip_info.i2c_port = VIA_PORT_31;
- 	if (check_tmds_chip(VT1632_DEVICE_ID_REG, VT1632_DEVICE_ID)) {
- 		/*
-@@ -128,14 +128,14 @@ bool viafb_tmds_trasmitter_identify(void)
- 	viaparinfo->chip_info->
- 		tmds_chip_info.tmds_chip_name = NON_TMDS_TRANSMITTER;
- 	viaparinfo->chip_info->tmds_chip_info.
--		tmds_chip_slave_addr = VT1632_TMDS_I2C_ADDR;
-+		tmds_chip_target_addr = VT1632_TMDS_I2C_ADDR;
- 	return false;
- }
- 
- static void tmds_register_write(int index, u8 data)
- {
- 	viafb_i2c_writebyte(viaparinfo->chip_info->tmds_chip_info.i2c_port,
--			    viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr,
-+			    viaparinfo->chip_info->tmds_chip_info.tmds_chip_target_addr,
- 			    index, data);
- }
- 
-@@ -144,7 +144,7 @@ static int tmds_register_read(int index)
- 	u8 data;
- 
- 	viafb_i2c_readbyte(viaparinfo->chip_info->tmds_chip_info.i2c_port,
--			   (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr,
-+			   (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_target_addr,
- 			   (u8) index, &data);
- 	return data;
- }
-@@ -152,7 +152,7 @@ static int tmds_register_read(int index)
- static int tmds_register_read_bytes(int index, u8 *buff, int buff_len)
- {
- 	viafb_i2c_readbytes(viaparinfo->chip_info->tmds_chip_info.i2c_port,
--			    (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr,
-+			    (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_target_addr,
- 			    (u8) index, buff, buff_len);
- 	return 0;
- }
-@@ -256,14 +256,14 @@ static int viafb_dvi_query_EDID(void)
- 
- 	DEBUG_MSG(KERN_INFO "viafb_dvi_query_EDID!!\n");
- 
--	restore = viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr;
--	viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr = 0xA0;
-+	restore = viaparinfo->chip_info->tmds_chip_info.tmds_chip_target_addr;
-+	viaparinfo->chip_info->tmds_chip_info.tmds_chip_target_addr = 0xA0;
- 
- 	data0 = (u8) tmds_register_read(0x00);
- 	data1 = (u8) tmds_register_read(0x01);
- 	if ((data0 == 0) && (data1 == 0xFF)) {
- 		viaparinfo->chip_info->
--			tmds_chip_info.tmds_chip_slave_addr = restore;
-+			tmds_chip_info.tmds_chip_target_addr = restore;
- 		return EDID_VERSION_1;	/* Found EDID1 Table */
- 	}
- 
-@@ -280,8 +280,8 @@ static void dvi_get_panel_size_from_DDCv1(
- 
- 	DEBUG_MSG(KERN_INFO "\n dvi_get_panel_size_from_DDCv1 \n");
- 
--	restore = tmds_chip->tmds_chip_slave_addr;
--	tmds_chip->tmds_chip_slave_addr = 0xA0;
-+	restore = tmds_chip->tmds_chip_target_addr;
-+	tmds_chip->tmds_chip_target_addr = 0xA0;
- 	for (i = 0x25; i < 0x6D; i++) {
- 		switch (i) {
- 		case 0x36:
-@@ -306,7 +306,7 @@ static void dvi_get_panel_size_from_DDCv1(
- 
- 	DEBUG_MSG(KERN_INFO "DVI max pixelclock = %d\n",
- 		tmds_setting->max_pixel_clock);
--	tmds_chip->tmds_chip_slave_addr = restore;
-+	tmds_chip->tmds_chip_target_addr = restore;
- }
- 
- /* If Disable DVI, turn off pad */
-@@ -427,7 +427,7 @@ void viafb_dvi_enable(void)
- 				viafb_i2c_writebyte(viaparinfo->chip_info->
- 					tmds_chip_info.i2c_port,
- 					viaparinfo->chip_info->
--					tmds_chip_info.tmds_chip_slave_addr,
-+					tmds_chip_info.tmds_chip_target_addr,
- 					0x08, data);
- 			}
- 		}
-diff --git a/drivers/video/fbdev/via/lcd.c b/drivers/video/fbdev/via/lcd.c
-index beec5c8d4d083..8673fced87492 100644
---- a/drivers/video/fbdev/via/lcd.c
-+++ b/drivers/video/fbdev/via/lcd.c
-@@ -147,7 +147,7 @@ bool viafb_lvds_trasmitter_identify(void)
- 		return true;
- 	/* Check for VT1631: */
- 	viaparinfo->chip_info->lvds_chip_info.lvds_chip_name = VT1631_LVDS;
--	viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr =
-+	viaparinfo->chip_info->lvds_chip_info.lvds_chip_target_addr =
- 		VT1631_LVDS_I2C_ADDR;
- 
- 	if (check_lvds_chip(VT1631_DEVICE_ID_REG, VT1631_DEVICE_ID)) {
-@@ -161,7 +161,7 @@ bool viafb_lvds_trasmitter_identify(void)
- 
- 	viaparinfo->chip_info->lvds_chip_info.lvds_chip_name =
- 		NON_LVDS_TRANSMITTER;
--	viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr =
-+	viaparinfo->chip_info->lvds_chip_info.lvds_chip_target_addr =
- 		VT1631_LVDS_I2C_ADDR;
- 	return false;
- }
-@@ -327,7 +327,7 @@ static int lvds_register_read(int index)
- 	u8 data;
- 
- 	viafb_i2c_readbyte(VIA_PORT_2C,
--			(u8) viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr,
-+			(u8) viaparinfo->chip_info->lvds_chip_info.lvds_chip_target_addr,
- 			(u8) index, &data);
- 	return data;
- }
-diff --git a/drivers/video/fbdev/via/via_aux.h b/drivers/video/fbdev/via/via_aux.h
-index 0933bbf20e588..464723fd514ca 100644
---- a/drivers/video/fbdev/via/via_aux.h
-+++ b/drivers/video/fbdev/via/via_aux.h
-@@ -24,7 +24,7 @@ struct via_aux_drv {
- 	struct list_head chain;		/* chain to support multiple drivers */
- 
- 	struct via_aux_bus *bus;	/* the I2C bus used */
--	u8 addr;			/* the I2C slave address */
-+	u8 addr;			/* the I2C target address */
- 
- 	const char *name;	/* human readable name of the driver */
- 	void *data;		/* private data of this driver */
-diff --git a/drivers/video/fbdev/via/via_i2c.c b/drivers/video/fbdev/via/via_i2c.c
-index 5825028105759..5edd3827ca271 100644
---- a/drivers/video/fbdev/via/via_i2c.c
-+++ b/drivers/video/fbdev/via/via_i2c.c
-@@ -104,7 +104,7 @@ static void via_i2c_setsda(void *data, int state)
- 	spin_unlock_irqrestore(&i2c_vdev->reg_lock, flags);
- }
- 
--int viafb_i2c_readbyte(u8 adap, u8 slave_addr, u8 index, u8 *pdata)
-+int viafb_i2c_readbyte(u8 adap, u8 target_addr, u8 index, u8 *pdata)
- {
- 	int ret;
- 	u8 mm1[] = {0x00};
-@@ -115,7 +115,7 @@ int viafb_i2c_readbyte(u8 adap, u8 slave_addr, u8 index, u8 *pdata)
- 	*pdata = 0;
- 	msgs[0].flags = 0;
- 	msgs[1].flags = I2C_M_RD;
--	msgs[0].addr = msgs[1].addr = slave_addr / 2;
-+	msgs[0].addr = msgs[1].addr = target_addr / 2;
- 	mm1[0] = index;
- 	msgs[0].len = 1; msgs[1].len = 1;
- 	msgs[0].buf = mm1; msgs[1].buf = pdata;
-@@ -128,7 +128,7 @@ int viafb_i2c_readbyte(u8 adap, u8 slave_addr, u8 index, u8 *pdata)
- 	return ret;
- }
- 
--int viafb_i2c_writebyte(u8 adap, u8 slave_addr, u8 index, u8 data)
-+int viafb_i2c_writebyte(u8 adap, u8 target_addr, u8 index, u8 data)
- {
- 	int ret;
- 	u8 msg[2] = { index, data };
-@@ -137,7 +137,7 @@ int viafb_i2c_writebyte(u8 adap, u8 slave_addr, u8 index, u8 data)
- 	if (!via_i2c_par[adap].is_active)
- 		return -ENODEV;
- 	msgs.flags = 0;
--	msgs.addr = slave_addr / 2;
-+	msgs.addr = target_addr / 2;
- 	msgs.len = 2;
- 	msgs.buf = msg;
- 	ret = i2c_transfer(&via_i2c_par[adap].adapter, &msgs, 1);
-@@ -149,7 +149,7 @@ int viafb_i2c_writebyte(u8 adap, u8 slave_addr, u8 index, u8 data)
- 	return ret;
- }
- 
--int viafb_i2c_readbytes(u8 adap, u8 slave_addr, u8 index, u8 *buff, int buff_len)
-+int viafb_i2c_readbytes(u8 adap, u8 target_addr, u8 index, u8 *buff, int buff_len)
- {
- 	int ret;
- 	u8 mm1[] = {0x00};
-@@ -159,7 +159,7 @@ int viafb_i2c_readbytes(u8 adap, u8 slave_addr, u8 index, u8 *buff, int buff_len
- 		return -ENODEV;
- 	msgs[0].flags = 0;
- 	msgs[1].flags = I2C_M_RD;
--	msgs[0].addr = msgs[1].addr = slave_addr / 2;
-+	msgs[0].addr = msgs[1].addr = target_addr / 2;
- 	mm1[0] = index;
- 	msgs[0].len = 1; msgs[1].len = buff_len;
- 	msgs[0].buf = mm1; msgs[1].buf = buff;
-diff --git a/drivers/video/fbdev/via/vt1636.c b/drivers/video/fbdev/via/vt1636.c
-index 8d8cfdb05618f..0d58ca144e190 100644
---- a/drivers/video/fbdev/via/vt1636.c
-+++ b/drivers/video/fbdev/via/vt1636.c
-@@ -44,7 +44,7 @@ u8 viafb_gpio_i2c_read_lvds(struct lvds_setting_information
- 	u8 data;
- 
- 	viafb_i2c_readbyte(plvds_chip_info->i2c_port,
--			   plvds_chip_info->lvds_chip_slave_addr, index, &data);
-+			   plvds_chip_info->lvds_chip_target_addr, index, &data);
- 	return data;
- }
- 
-@@ -60,7 +60,7 @@ void viafb_gpio_i2c_write_mask_lvds(struct lvds_setting_information
- 	data = (data & (~io_data.Mask)) | io_data.Data;
- 
- 	viafb_i2c_writebyte(plvds_chip_info->i2c_port,
--			    plvds_chip_info->lvds_chip_slave_addr, index, data);
-+			    plvds_chip_info->lvds_chip_target_addr, index, data);
- }
- 
- void viafb_init_lvds_vt1636(struct lvds_setting_information
-@@ -113,7 +113,7 @@ bool viafb_lvds_identify_vt1636(u8 i2c_adapter)
- 	DEBUG_MSG(KERN_INFO "viafb_lvds_identify_vt1636.\n");
- 
- 	/* Sense VT1636 LVDS Transmiter */
--	viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr =
-+	viaparinfo->chip_info->lvds_chip_info.lvds_chip_target_addr =
- 		VT1636_LVDS_I2C_ADDR;
- 
- 	/* Check vendor ID first: */
--- 
-2.34.1
+Best regards,
+Krzysztof
 
