@@ -2,49 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6772192EE1D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 19:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 773D192EFD9
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2024 21:40:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7916810EADB;
-	Thu, 11 Jul 2024 17:55:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DEF210EB63;
+	Thu, 11 Jul 2024 19:40:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="bDIN2MpK";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="HJ5oKU4C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
- [95.215.58.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E79E10E025
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 17:55:34 +0000 (UTC)
-X-Envelope-To: mripard@kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1720720532;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2zjtF7hdlVTSTJjmI17thydLodaQQO05xyo5+5Uchd0=;
- b=bDIN2MpKJ7IX9IDSywQJnq12e2e2tnTMCVLmSHkhi04IxLjQqG3c8Uu74vDZduMFCLqPak
- 348PS4D1eXSJasR42+dTm1jTkiO1Y643VRahoqIpdvd1OwuaoqK1rz5Vth1bQX1VjCAuGb
- nPTWSwhHu8rad91Ov5XWZnKK+K8+YN0=
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: sui.jingfeng@linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v3 1/1] drm/loongson: Introduce component framework support
-Date: Fri, 12 Jul 2024 01:55:23 +0800
-Message-ID: <20240711175523.538457-2-sui.jingfeng@linux.dev>
-In-Reply-To: <20240711175523.538457-1-sui.jingfeng@linux.dev>
-References: <20240711175523.538457-1-sui.jingfeng@linux.dev>
-MIME-Version: 1.0
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2062.outbound.protection.outlook.com [40.107.255.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E58E310E97C
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 07:42:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CBeX7sMRLl4UV1jKv2zWAyiJE5z++RXSNaGNbagECAAYpTaAy35+QmL2mShurHK+Pt2ErkekLRjGDzock6uHcNtmOtWKuIJt6EL/JUTq2sYhGvU8aUxuIGF4C+DanjgF758la+qNeKr4Fvvlv4sfvN9geLVhboxXnjSjcVxd6U1atecAcryKLBU3U5d/LAqnYeyUyRYJA8MswS82dxrtW/dDpvPllYKV02DfgCxfFr+zWcf24IwuIu22J8jqk12xzxhtcXxr5SL8rlS6kZKlY+kCnTQe/BFT384CjvA35OVhSQguhCbbETv9xx41xh4a5mYSUbvDHckopMVrO7vqxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BIbJOf9dCI9j2eDOuShE6mlR/of2KYyEOyvcPYvok1w=;
+ b=wQohex7zHwmaHLZUMuZYG6q+f49d2YYIv+MqXoRzYh0FWFu2KNqxqTUen/Au9DO3WTQgNQi2V8pCfS5Q59MMRnNv9dfPojnoal3CFjG/pb9NhJip417EyVOKIjtZUY2daVczL9hYrzLh47jjaoB1xBQ7dzWOTNUzycyFy1jBAS8jr6O1EQp3QybdqxLqrAg20sO1s2B8VEcVehFz0RAYVyuywHogFZYRtDMkLSJvBwR8gqy+gZ0gzcQ84jzN+i9Cjs4MwrkQAem9C5s/ViBBlvpznKH34iH72TeqLdI/7gkotE6O2VVUSZP9o20f7MTH9GYO2ThW3TT5qA5/U/4xEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BIbJOf9dCI9j2eDOuShE6mlR/of2KYyEOyvcPYvok1w=;
+ b=HJ5oKU4CM3KLsnzouaRZXv51WWCdn8/YjPOcBXJykvGpRX4SVw4SXoWBtSdmqZ3l7sppxeN8K2RfqMhW+BmBy4iXdn3kMF3kHIqk09j5+zTQJqdYmxyHZ0EI2vUfv1Z+jvUXdV1vYeqPjP3pgQ5GXjp90C5vcQKwcelvo5W9k4VdgzuJe66/WP//BtYQZdGZKTG6mqZne04pFj9fCv9alhNbBl0D4TvKV9CQucXD34xdtxzDrISr97BzKkGq1v3T6fLnEcv9aYjaaL4OJnBg1BiMPxMZypacRnSgVjUFRhEOFupPP+bkWx87KB1FdE1wGqW5JznGLofoK00zjueNFw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
+ by TYSPR06MB6922.apcprd06.prod.outlook.com (2603:1096:400:46e::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.34; Thu, 11 Jul
+ 2024 07:42:53 +0000
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7741.030; Thu, 11 Jul 2024
+ 07:42:52 +0000
+From: Huan Yang <link@vivo.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc: opensource.kernel@vivo.com,
+	Huan Yang <link@vivo.com>
+Subject: [PATCH 0/2]  Introduce DMA_HEAP_IOCTL_ALLOC_AND_READ
+Date: Thu, 11 Jul 2024 15:42:15 +0800
+Message-ID: <20240711074221.459589-1-link@vivo.com>
+X-Mailer: git-send-email 2.45.2
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR01CA0128.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::32) To PUZPR06MB5676.apcprd06.prod.outlook.com
+ (2603:1096:301:f8::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|TYSPR06MB6922:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f94a543-58ff-4f7c-bf04-08dca17d1229
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|52116014|7416014|366016|1800799024|921020|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7wHOrqzr4ENsPTLznzv5qFh7cuGF9Ap5LDRwInkpShF0UKuE/Y89Kvx4DWAC?=
+ =?us-ascii?Q?gFi+NebAsZV+fLLPRaAfj6fWSBIJmTBpJLJQHPhryuZ2PScxc5YSzjicAqBN?=
+ =?us-ascii?Q?JkNfs/DWixpOLSa+r7jFpCQ52h8YQY+X2lQBI3Ym79SCN/c5b04nLeyKzA3J?=
+ =?us-ascii?Q?sc56Abmf/kbWrmfbIl1RyogiECeaqxgin2l7mmczKyuw2I+Sq9NpW3LbZ93U?=
+ =?us-ascii?Q?hGhjNxosVmZErSxKmyw/SbOT3+FjkfjSNqgvO+se/OrrycJ83CH2rwlPRNBS?=
+ =?us-ascii?Q?ottrAE82fqrTXA5bEtkzNa700VawuxTjpEJ6LGuyqy7hFmIR1dTyP0AKagze?=
+ =?us-ascii?Q?Cpv/rGsBaPOLEmWRpp1qU72WpkeFRMLU15cbhLwfUE2KsDq+sNrVQfwxNXhc?=
+ =?us-ascii?Q?dKyUhPq8ExKJte64DOLlwKJWRe5ROcKpv4GwJQqgEpfziBEYG3iA1yRkHWNJ?=
+ =?us-ascii?Q?ao9OSHAkxAnZNCcmgGCda1hh0nvmYgBbXft6OJisZUwUebvtS5+xB0Kjlqzh?=
+ =?us-ascii?Q?TceTgtlHLRhr06gfcWo6LCa0Y1JrxIjqyj196ffKK0ospxQEnc8oglRsSErW?=
+ =?us-ascii?Q?eQOsena5fG5HFHxrhdgGmxVjUgGCBVrkqLfWPcGR2gEC4NBHzJNiSx/enU5J?=
+ =?us-ascii?Q?1cBBsrDVTNEYPTyuMyBMFIGfXSWR9c7cSFNEbUZq6dbZetSaur83u/Zjr8m+?=
+ =?us-ascii?Q?xscX2tF+/i1TrlHogvxVHfWqxUsK2NIsUeeeyGi3V6Pvdj/3tfdcRcqnsrdo?=
+ =?us-ascii?Q?vtdIIEvTJvNEa//YVJWzPLvFwrJ2hddf0VGf8CQ77uaeH6rfAUolgHsuDSnO?=
+ =?us-ascii?Q?AsQYgKPUcq9/q8w8RUmr5HVMZM6pDE3qFfzUkyr+RUdVCOnPzomMJcMOE7U/?=
+ =?us-ascii?Q?fLD1NwkLH8Ia8Dsc1G1EK3BlWg3ASAw3MruqUSjRpf4IbPTXwkg9+W6b6zWY?=
+ =?us-ascii?Q?ZwEDQJuGFwnDQ3EhKy9J93wuzZ14bGH42VVxToiRwIO3mTFffIwvPZWGu/QY?=
+ =?us-ascii?Q?r4Ye3S53VAtgJVG49a93owscYWDbMHF1i99vIpr59blkTemIjO+Gg+Bgdp1f?=
+ =?us-ascii?Q?76bh5jQpgv71FscWJM9ptOWUCbh/sMYXBNh70zdr9ItjKqdDpzni25TGHuS5?=
+ =?us-ascii?Q?iC8WwvNBpYigDkm9waKPMthPjRIESifapz3KhhbgXjFkIurSptj3+3HItiBn?=
+ =?us-ascii?Q?Jf8YgnULzfMGIjvSdUJi/9TglSuTAA3mXN1OxIHNsZHXqkRUHU5HyxRkFIQe?=
+ =?us-ascii?Q?y8ldhGofzVCvnofFtoLzLn9tkpnVTV++yJsabgREjngWQTk8axpnEDGTp4fx?=
+ =?us-ascii?Q?LIAcmcG0dQ82dPn6vdNsS0PgOCF1lvYQFMHUr6XrqNIzZgmBFoslD7EpWeCq?=
+ =?us-ascii?Q?JVOZRBy2COO0rxYYDSku27yI+U4p?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PUZPR06MB5676.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(52116014)(7416014)(366016)(1800799024)(921020)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YwQsmK/q3Mm2Mf8tnhacv2BAgk5XSoeEwQstW+GIs+R7rTTMRgV+Mqm/FSj1?=
+ =?us-ascii?Q?34r8qlm4hqEqcJthsafR2s7R5p8ggOY5T2MobZ5UqVDNqfcOJA6Uw8nWrQnK?=
+ =?us-ascii?Q?u3CTwnRmMkzSwyk7JC9iUgiOeldYUH/xuwqFR74balPnpab7d1I5HBDPZC1L?=
+ =?us-ascii?Q?g6tqICw69zXsQ53Vp8LgDntdeAxxElwacOdgUFs0fg2KtmEOr6baXZ//0bIM?=
+ =?us-ascii?Q?Tpmsw2bje/xtMTtbfGslmAiuYu2VtMLir8zK1PAQl+cvRD7xP7ubuH2U0ltq?=
+ =?us-ascii?Q?dRHuijdTDOaj/duxAaqVpiAs2wBGwa2pmGCMnNzeGnpj4yqhETHE+Bbo/Ahj?=
+ =?us-ascii?Q?iL+9BaBJFZU5BCEvra8W64uF2C5bt8u7//jGXxJ7pRryw9wlpdLpqiDtDiKy?=
+ =?us-ascii?Q?rr8bKMEof3qGr/bJNqL5w6vQuz0WKiTpYC7QhmVNYGtQ3BmJIn57vc6yryqH?=
+ =?us-ascii?Q?U9cjrOul8JDzYF60P8woJJWKiL/xSZhfPciIxRps+DE3Ql5CP7vLC+98dvwA?=
+ =?us-ascii?Q?5nTf+gcCcPrt21LZ/4G7IhwvaofWjyhphBPCfDDoraRszZJv3H9DHYxaL3Y8?=
+ =?us-ascii?Q?YrgnPJc5SoShFo6ypf4WAhT9ah17TL6cQ2E1wMV8Q579XNaykuEJeFDlCacZ?=
+ =?us-ascii?Q?nkuTFMCuJ1xjXJAc0YWrzPICK6McX0ZNqJ5K0bDI45fLKojgqrJDAbmBksBN?=
+ =?us-ascii?Q?cuZtMy75l0ubBN1S+XGlrFmN8Zs/jmb4XVKsrfDWhZyk7R+ZZVIiAA9+qTjM?=
+ =?us-ascii?Q?PjqB0w/rOyW6/GAoY+IIQJeYnt/uTmTx0jOkzk5t6kdklK4WWYXGK2FO5mTG?=
+ =?us-ascii?Q?fgrgtXAwHJvLjJgRX1KFbDG3XVL36zK2h5Fpjhrj0+0Ax9piT1PEawKkDfbP?=
+ =?us-ascii?Q?Wd+1B1p35cuO+IZ+gl0Z9aEzgnW5nT6dfssXrDBfpI7juVS07pdRVNY9GpWR?=
+ =?us-ascii?Q?kGFa7BkxaHbtuDQMZC3GZunuyHF1oqVlmkbBXfjUts0Qn04KTLUxNAJ1kTjO?=
+ =?us-ascii?Q?L93wRsip4R9/m5fh0w6YQtzax2Xr74R4s8E6+YjB+lb8l+jEUmsPEIEIsBZx?=
+ =?us-ascii?Q?cHR6ulaZvFkEAO7MTMSDZQJOymkjxm7Ilh0wDOV4haOC1yXwRewWBXHXTvvP?=
+ =?us-ascii?Q?IAVuiz9wsglC5pFsdo8TVoo1tNuxIUJrj/w/9UJfGJUb38FiZ/NLePct+L9D?=
+ =?us-ascii?Q?zeFr846JvcoRxkfYmooWCeNAd2pzVLXW71t9Xkpmgm39l03ifmAvagrZMEdV?=
+ =?us-ascii?Q?EeVEsviLPGNy8wL0nwGbRP7t1JgWx60PaPcuQQ4zhozXd7R/FREpN8cgvL/C?=
+ =?us-ascii?Q?ZtKp0oPXccMwUOrCj3XYUDCPsCgvm/rHRrHzPejL1n5XjxkIHhz9IgdRRWhy?=
+ =?us-ascii?Q?jMVSgE/AsRQh+fXxP3JlJBV5sngX/R7NF0qK+8sXZzWH6p/3YG9rckbVFDCZ?=
+ =?us-ascii?Q?+EByLHWVqh1syX18rr0wXf++TF3d08ikdb8GytvPlIpYvNuFMpiMlrw+LUB9?=
+ =?us-ascii?Q?JNm722jAeu9h8mGZlf9HKp70M3RSqdGJsnUEOkeXbtzLleYW8FUaR26vJQus?=
+ =?us-ascii?Q?AnnohBu3NdKzt9UmCn0iGjO+oToPIBFmuez5pRdJ?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f94a543-58ff-4f7c-bf04-08dca17d1229
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 07:42:52.8841 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MtJnhbMvGZVk/TNzrZDhdEEYQorXv85XhIuXjqHKupqOEKgRSvAlz9kW12gJEQiTc/woN90r03yKjVSXHus11g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR06MB6922
+X-Mailman-Approved-At: Thu, 11 Jul 2024 19:40:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,1622 +150,356 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In some display subsystems, the functionality of a PCIe device may too
-complex to be managed by a single driver. A split of the functionality
-into child devices can help to achieve better modularity. For example,
-KMS drivers who has a dependency on external modules will suffer from
-the deferral probe problem of those modules. The problem is that the
-DRM driver has to tear down everything when it receives '-EPROBE_DEFER',
-even though the independent part of the entire driver is not very closely
-related.
+Backgroud
+====
+We are currently facing some challenges when loading the model file into DMA-BUF.
+  1. Our camera application algorithm model has reached the 1GB level.
+  2. Our AI application's 3B model has reached the 1GB level, and the 7B model
+     has reached the 3GB level.
+The above-mentioned internal applications all require reading the model files
+into dma-buf for sharing between the CPU and DMA devices.
 
-For Loongson Graphics, the GPU and the display controller are two distinct
-PCIe devices. Despite hardware units that come along with PCIe are actually
-all ready to be driven, DRM driver still need to wait all of its dependency
-ready before it can register the service to userspace.
+Consider the current pathway for loading model files into DMA-BUF:
+  1. open dma-heap, get heap fd
+  2. open file, get fd
+  3. allocate dma-buf, get dma-buf fd
+  4. mmap dma-buf fd, get vaddr
+  5. read(file_fd, vaddr, file_size) into dma-buf pages
+  6. share, attach, whatever you want
 
-The idea is to migrate(offload) the dependency to submodule, creating
-submodule by creating platform device manually. Such submodules are
-functional as agents, which will be responsible for attaching needed
-external modules for the main body of entire KMS drive. It's also for
-better modularity, as output hardware units are relatively standalone
-IPs.
+IMO, The above process involves two inefficient behaviors:
+  1. we need to wait dma-buf allocate success, and then load file into.
+  2. dma-buf load file need through page cache
+As I mentioned above, we currently have scenarios where we need to load files
+of gigabyte size into DMA-BUF.
+That's mean:
+  1. dma-buf also need to be GB size, so, if avaliable memory is not
+     enough, we need enter slowpath and wait. If we use already allocated
+     memory to load file, it can save time by using a parallel approach.
+  2. GB is too heavy, the page cache is useless for boost file load.(it will
+     be recycled quickly.) And we need double copy to load it into dma-buf.
+     a) load file into page cache
+     b) memcpy from page cache to dma-buf
 
-Add dummy GPU driver as a subcomponent, use the component framework to
-bind those scatter software/hardware entities into one. Move DRM-related
-codes into the loongson_drm_master_bind() function. Move output-related
-things into the submodule, since the encoder/connector/ transcoder are
-sometimes depend on external module. The display controller and GPIO-I2Cs
-go with the PCIe master, as they have no dependency on external modules.
+DMA_HEAP_IOCTL_ALLOC_AND_READ
+===
+This patchset implements a new ioctl, DMA_HEAP_IOCTL_ALLOC_AND_READ, which can
+be used to allocate and read a file into a dma-buf in a single operation.
+This ioctl is similar to DMA_HEAP_IOCTL_ALLOC, but it also reads the file into
+the dma-buf.
 
-Make lsdc PCI driver as a subcomponent as well, creating a platform device
-as proxy. The proxy will responsible attach the common drm routines to our
-hardware, which keep the whole drm driver balanced (and fair) enough for
-both the DC and GPU.
+Different from DMA_HEAP_IOCTL_ALLOC, the user does not need to pass the size
+of the dma-buf, but rather the file descriptor of the opened file.
+User also can offer a `batch`, so if memory allocated reach to it, trigger IO,
+default is 128MB.
 
-The lsdc PCI device is the haidden(implicit) parent, while the proxy is
-the explicit master, which deal with drm related affairs for its parent.
-The master won't bound until all submodules are ready, submodules are
-responsible to return '-EPROBE_DEFER' back to the driver core if it needs
-to do so.
+Both buffered I/O and direct I/O(O_DIRECT) can be accepted, but if file size reach
+to GB, I will warn you if you use buffered I/O.
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/loongson/Makefile             |   5 +
- drivers/gpu/drm/loongson/loonggpu_pci_drv.c   | 156 ++++++++++++
- drivers/gpu/drm/loongson/loonggpu_pci_drv.h   |  33 +++
- drivers/gpu/drm/loongson/loongson_device.c    |   1 +
- drivers/gpu/drm/loongson/loongson_drv.c       | 157 ++++++++++++
- drivers/gpu/drm/loongson/loongson_module.c    |  38 ++-
- drivers/gpu/drm/loongson/loongson_module.h    |  17 ++
- drivers/gpu/drm/loongson/lsdc_drv.c           | 235 ++++++++----------
- drivers/gpu/drm/loongson/lsdc_drv.h           |  56 ++---
- drivers/gpu/drm/loongson/lsdc_i2c.c           |  43 ++--
- drivers/gpu/drm/loongson/lsdc_i2c.h           |  11 +-
- drivers/gpu/drm/loongson/lsdc_irq.c           |  21 +-
- drivers/gpu/drm/loongson/lsdc_output.c        | 208 ++++++++++++++++
- drivers/gpu/drm/loongson/lsdc_output.h        |  36 ++-
- drivers/gpu/drm/loongson/lsdc_output_7a1000.c |   7 +-
- drivers/gpu/drm/loongson/lsdc_output_7a2000.c |  17 +-
- drivers/gpu/drm/loongson/lsdc_ttm.c           |   4 +-
- drivers/gpu/drm/loongson/lsdc_ttm.h           |   2 +-
- 18 files changed, 832 insertions(+), 215 deletions(-)
- create mode 100644 drivers/gpu/drm/loongson/loonggpu_pci_drv.c
- create mode 100644 drivers/gpu/drm/loongson/loonggpu_pci_drv.h
- create mode 100644 drivers/gpu/drm/loongson/loongson_drv.c
- create mode 100644 drivers/gpu/drm/loongson/lsdc_output.c
+In kernel space, heap_fwork_t kthread used to comsume all produced file read work,
+this is single thread for read.(Due to heavy size read, multi-thread may helpless).
 
-diff --git a/drivers/gpu/drm/loongson/Makefile b/drivers/gpu/drm/loongson/Makefile
-index 91e72bd900c1..cdc60ec975e4 100644
---- a/drivers/gpu/drm/loongson/Makefile
-+++ b/drivers/gpu/drm/loongson/Makefile
-@@ -9,6 +9,7 @@ loongson-y := \
- 	lsdc_gfxpll.o \
- 	lsdc_i2c.o \
- 	lsdc_irq.o \
-+	lsdc_output.o \
- 	lsdc_output_7a1000.o \
- 	lsdc_output_7a2000.o \
- 	lsdc_plane.o \
-@@ -16,7 +17,11 @@ loongson-y := \
- 	lsdc_probe.o \
- 	lsdc_ttm.o
- 
-+loongson-y += \
-+	loonggpu_pci_drv.o
-+
- loongson-y += loongson_device.o \
-+	      loongson_drv.o \
- 	      loongson_module.o
- 
- obj-$(CONFIG_DRM_LOONGSON) += loongson.o
-diff --git a/drivers/gpu/drm/loongson/loonggpu_pci_drv.c b/drivers/gpu/drm/loongson/loonggpu_pci_drv.c
-new file mode 100644
-index 000000000000..a34c213171e0
---- /dev/null
-+++ b/drivers/gpu/drm/loongson/loonggpu_pci_drv.c
-@@ -0,0 +1,156 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+/*
-+ * Authors:
-+ *      Sui Jingfeng <sui.jingfeng@linux.dev>
-+ */
-+
-+#include <linux/component.h>
-+#include <linux/pci.h>
-+
-+#include <drm/drm_device.h>
-+#include <drm/drm_print.h>
-+
-+#include "loongson_module.h"
-+#include "loonggpu_pci_drv.h"
-+
-+static int loonggpu_get_version(struct loonggpu_device *gpu)
-+{
-+	u32 hw_info = loong_rreg32(gpu, 0x8C);
-+	u8 host_id;
-+	u8 revision;
-+
-+	/* LoongGPU hardware info */
-+	gpu->ver_major = (hw_info >> 8) & 0x0F;
-+	gpu->ver_minor = (hw_info & 0xF0) >> 4;
-+	revision = hw_info & 0x0F;
-+	host_id = (hw_info >> 16) & 0xFF;
-+
-+	drm_info(gpu->drm, "LoongGPU(TM): LG%x%x0, revision: %x, Host: %s\n",
-+		 gpu->ver_major, gpu->ver_minor, revision,
-+		 host_id ? "LS2K2000" : "LS7A2000");
-+
-+	return 0;
-+}
-+
-+static irqreturn_t loonggpu_irq_handler(int irq, void *arg)
-+{
-+	struct loonggpu_device *gpu = arg;
-+
-+	drm_info(gpu->drm, "LoongGPU interrupted\n");
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int loonggpu_component_bind(struct device *dev,
-+				   struct device *master,
-+				   void *data)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	struct drm_device *drm = data;
-+	struct loonggpu_device *gpu;
-+	int ret;
-+
-+	gpu = devm_kzalloc(dev, sizeof(*gpu), GFP_KERNEL);
-+	if (!gpu)
-+		return -ENOMEM;
-+
-+	gpu->reg_base = pcim_iomap(pdev, 0, 0);
-+	if (!gpu->reg_base)
-+		return -ENOMEM;
-+
-+	gpu->pdev = pdev;
-+	gpu->drm = drm;
-+
-+	loonggpu_get_version(gpu);
-+
-+	dev_set_drvdata(dev, gpu);
-+
-+	ret = devm_request_irq(dev,
-+			       pdev->irq,
-+			       loonggpu_irq_handler,
-+			       IRQF_SHARED,
-+			       dev_name(dev),
-+			       gpu);
-+	if (ret)
-+		return ret;
-+
-+	drm_info(gpu->drm, "LoongGPU irq: %d\n", pdev->irq);
-+
-+	return 0;
-+}
-+
-+static void loonggpu_component_unbind(struct device *dev,
-+				      struct device *master,
-+				      void *data)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	struct loonggpu_device *gpu = dev_get_drvdata(dev);
-+
-+	if (gpu) {
-+		pcim_iounmap(pdev, gpu->reg_base);
-+		devm_kfree(dev, gpu);
-+	}
-+}
-+
-+static const struct component_ops loonggpu_component_ops = {
-+	.bind = loonggpu_component_bind,
-+	.unbind = loonggpu_component_unbind,
-+};
-+
-+static int loonggpu_pci_probe(struct pci_dev *pdev,
-+			      const struct pci_device_id *ent)
-+{
-+	int ret;
-+
-+	ret = pcim_enable_device(pdev);
-+	if (ret)
-+		return ret;
-+
-+	pci_set_master(pdev);
-+
-+	dev_info(&pdev->dev, "LoongGPU PCI driver probed\n");
-+
-+	return component_add(&pdev->dev, &loonggpu_component_ops);
-+}
-+
-+static void loonggpu_pci_remove(struct pci_dev *pdev)
-+{
-+	component_del(&pdev->dev, &loonggpu_component_ops);
-+}
-+
-+static const struct pci_device_id loonggpu_pci_id_list[] = {
-+	{PCI_VDEVICE(LOONGSON, 0x7a25), CHIP_LS7A2000},
-+	{ },
-+};
-+
-+struct pci_driver loonggpu_pci_driver = {
-+	.name = "LoongGPU",
-+	.id_table = loonggpu_pci_id_list,
-+	.probe = loonggpu_pci_probe,
-+	.remove = loonggpu_pci_remove,
-+};
-+
-+void loonggpu_pci_match_add(struct device *master,
-+			    struct component_match **matchptr)
-+{
-+	struct pci_dev *gpu;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(loonggpu_pci_id_list); ++i) {
-+		unsigned int did = loonggpu_pci_id_list[i].device;
-+
-+		gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, did, NULL);
-+		if (gpu) {
-+			component_match_add(master, matchptr,
-+					    component_compare_dev, &gpu->dev);
-+			pci_dev_put(gpu);
-+
-+			dev_dbg(master, "match added, name: %s, %u\n",
-+				dev_name(&gpu->dev), i);
-+			return;
-+		}
-+	}
-+}
-+
-+MODULE_DEVICE_TABLE(pci, loonggpu_pci_id_list);
-diff --git a/drivers/gpu/drm/loongson/loonggpu_pci_drv.h b/drivers/gpu/drm/loongson/loonggpu_pci_drv.h
-new file mode 100644
-index 000000000000..35b176ff01d0
---- /dev/null
-+++ b/drivers/gpu/drm/loongson/loonggpu_pci_drv.h
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+
-+#ifndef __LOONGGPU_PCI_DRV_H__
-+#define __LOONGGPU_PCI_DRV_H__
-+
-+#include <linux/component.h>
-+#include <linux/pci.h>
-+
-+struct loonggpu_device {
-+	struct pci_dev *pdev;
-+	struct drm_device *drm;
-+
-+	void __iomem *reg_base;
-+
-+	u32 ver_major;
-+	u32 ver_minor;
-+	u32 revision;
-+};
-+
-+static inline u32 loong_rreg32(struct loonggpu_device *ldev, u32 offset)
-+{
-+	return readl(ldev->reg_base + offset);
-+}
-+
-+static inline void loong_wreg32(struct loonggpu_device *ldev, u32 offset, u32 val)
-+{
-+	writel(val, ldev->reg_base + offset);
-+}
-+
-+void loonggpu_pci_match_add(struct device *master,
-+			    struct component_match **matchptr);
-+
-+#endif
-diff --git a/drivers/gpu/drm/loongson/loongson_device.c b/drivers/gpu/drm/loongson/loongson_device.c
-index 9986c8a2a255..f0e3d6544291 100644
---- a/drivers/gpu/drm/loongson/loongson_device.c
-+++ b/drivers/gpu/drm/loongson/loongson_device.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/pci.h>
-+#include <linux/platform_device.h>
- 
- #include "lsdc_drv.h"
- 
-diff --git a/drivers/gpu/drm/loongson/loongson_drv.c b/drivers/gpu/drm/loongson/loongson_drv.c
-new file mode 100644
-index 000000000000..b5273bbf03e6
---- /dev/null
-+++ b/drivers/gpu/drm/loongson/loongson_drv.c
-@@ -0,0 +1,157 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+/*
-+ * Authors:
-+ *      Sui Jingfeng <sui.jingfeng@linux.dev>
-+ */
-+
-+#include <linux/component.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#include <drm/drm_aperture.h>
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fbdev_ttm.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_vblank.h>
-+
-+#include "loonggpu_pci_drv.h"
-+#include "loongson_module.h"
-+#include "lsdc_drv.h"
-+#include "lsdc_gem.h"
-+#include "lsdc_output.h"
-+#include "lsdc_ttm.h"
-+
-+static struct platform_device *loongson_dev;
-+
-+static void loongson_device_postfini(void *data)
-+{
-+	struct platform_device *proxy = data;
-+
-+	platform_device_unregister(proxy);
-+}
-+
-+int loongson_device_preinit(struct device *parent, void *data)
-+{
-+	struct platform_device *proxy;
-+	int ret;
-+
-+	proxy = platform_device_register_resndata(parent,
-+						  DRIVER_NAME,
-+						  PLATFORM_DEVID_NONE,
-+						  NULL, 0,
-+						  data, sizeof(void *));
-+	if (IS_ERR(proxy)) {
-+		dev_err(parent, "failed to register loongson proxy device\n");
-+		return PTR_ERR(proxy);
-+	}
-+
-+	ret = devm_add_action_or_reset(parent, loongson_device_postfini, proxy);
-+	if (ret)
-+		return ret;
-+
-+	loongson_dev = proxy;
-+
-+	return 0;
-+}
-+
-+static int loongson_drm_master_bind(struct device *dev)
-+{
-+	struct drm_device *ddev = dev_get_drvdata(dev->parent);
-+	struct lsdc_device *ldev = to_lsdc(ddev);
-+	const struct lsdc_desc *descp = ldev->descp;
-+	int num_pipe = descp->num_of_crtc;
-+	int ret;
-+
-+	loongson_gfxpll_create(&ldev->base, &ldev->gfxpll);
-+
-+	ret = lsdc_mode_config_init(ddev, descp);
-+	if (ret)
-+		return ret;
-+
-+	ret = component_bind_all(dev, ddev);
-+	if (ret) {
-+		dev_err(dev, "master bind all failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = lsdc_modeset_init(ldev, num_pipe, descp->funcs, loongson_vblank);
-+	if (ret)
-+		return ret;
-+
-+	if (loongson_vblank) {
-+		ret = drm_vblank_init(ddev, num_pipe);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	lsdc_gem_init(ddev);
-+
-+	ret = lsdc_ttm_init(ddev);
-+	if (ret) {
-+		drm_err(ddev, "Memory manager init failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	drm_mode_config_reset(ddev);
-+
-+	drmm_kms_helper_poll_init(ddev);
-+
-+	ret = drm_dev_register(ddev, 0);
-+	if (ret)
-+		return ret;
-+
-+	drm_fbdev_ttm_setup(ddev, 32);
-+
-+	return 0;
-+}
-+
-+static void loongson_drm_master_unbind(struct device *dev)
-+{
-+	struct drm_device *ddev = dev_get_drvdata(dev->parent);
-+
-+	drm_atomic_helper_shutdown(ddev);
-+
-+	component_unbind_all(dev, ddev);
-+}
-+
-+static const struct component_master_ops loongson_drm_master_ops = {
-+	.bind = loongson_drm_master_bind,
-+	.unbind = loongson_drm_master_unbind,
-+};
-+
-+static int loongson_drm_driver_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct drm_device *ddev = *(void **)dev->platform_data;
-+	struct component_match *matches = NULL;
-+
-+	dev_set_drvdata(dev, ddev);
-+
-+	lsdc_output_match_add(dev, &matches);
-+
-+	lsdc_pci_match_add(dev, &matches);
-+
-+	loonggpu_pci_match_add(dev, &matches);
-+
-+	return component_master_add_with_match(dev,
-+					       &loongson_drm_master_ops,
-+					       matches);
-+}
-+
-+static void loongson_drm_driver_remove(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+
-+	component_master_del(dev, &loongson_drm_master_ops);
-+}
-+
-+struct platform_driver loongson_drm_platform_driver = {
-+	.probe = loongson_drm_driver_probe,
-+	.remove_new = loongson_drm_driver_remove,
-+	.driver = {
-+		.name = DRIVER_NAME,
-+	},
-+};
-diff --git a/drivers/gpu/drm/loongson/loongson_module.c b/drivers/gpu/drm/loongson/loongson_module.c
-index d2a51bd395f6..836b6a40a9f1 100644
---- a/drivers/gpu/drm/loongson/loongson_module.c
-+++ b/drivers/gpu/drm/loongson/loongson_module.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/pci.h>
-+#include <linux/platform_device.h>
- 
- #include <video/nomodeset.h>
- 
-@@ -19,15 +20,50 @@ module_param_named(vblank, loongson_vblank, int, 0400);
- 
- static int __init loongson_module_init(void)
- {
-+	int ret;
-+
- 	if (!loongson_modeset || video_firmware_drivers_only())
- 		return -ENODEV;
- 
--	return pci_register_driver(&lsdc_pci_driver);
-+	ret = pci_register_driver(&lsdc_pci_driver);
-+	if (ret)
-+		return ret;
-+
-+	ret = pci_register_driver(&loonggpu_pci_driver);
-+	if (ret)
-+		goto unregister_lsdc_pci_driver;
-+
-+	ret = platform_driver_register(&loongson_drm_platform_driver);
-+	if (ret)
-+		goto unregister_loonggpu_pci_driver;
-+
-+	ret = platform_driver_register(&lsdc_output_platform_driver);
-+	if (ret)
-+		goto unregister_loongson_drm_platform_driver;
-+
-+	return 0;
-+
-+unregister_loongson_drm_platform_driver:
-+	platform_driver_unregister(&loongson_drm_platform_driver);
-+
-+unregister_loonggpu_pci_driver:
-+	pci_unregister_driver(&loonggpu_pci_driver);
-+
-+unregister_lsdc_pci_driver:
-+	pci_unregister_driver(&lsdc_pci_driver);
-+
-+	return ret;
- }
- module_init(loongson_module_init);
- 
- static void __exit loongson_module_exit(void)
- {
-+	platform_driver_unregister(&loongson_drm_platform_driver);
-+
- 	pci_unregister_driver(&lsdc_pci_driver);
-+
-+	pci_unregister_driver(&loonggpu_pci_driver);
-+
-+	platform_driver_unregister(&lsdc_output_platform_driver);
- }
- module_exit(loongson_module_exit);
-diff --git a/drivers/gpu/drm/loongson/loongson_module.h b/drivers/gpu/drm/loongson/loongson_module.h
-index 931c17521bf0..ba29eba2e7ef 100644
---- a/drivers/gpu/drm/loongson/loongson_module.h
-+++ b/drivers/gpu/drm/loongson/loongson_module.h
-@@ -6,7 +6,24 @@
- #ifndef __LOONGSON_MODULE_H__
- #define __LOONGSON_MODULE_H__
- 
-+#define DRIVER_AUTHOR               "Sui Jingfeng <sui.jingfeng@linux.dev>"
-+#define DRIVER_NAME                 "loongson"
-+#define DRIVER_DESC                 "drm driver for loongson graphics"
-+#define DRIVER_DATE                 "20220701"
-+#define DRIVER_MAJOR                1
-+#define DRIVER_MINOR                0
-+#define DRIVER_PATCHLEVEL           0
-+
-+enum loongson_chip_id {
-+	CHIP_LS7A1000 = 0,
-+	CHIP_LS7A2000 = 1,
-+	CHIP_LS_LAST,
-+};
-+
- extern int loongson_vblank;
- extern struct pci_driver lsdc_pci_driver;
-+extern struct pci_driver loonggpu_pci_driver;
-+extern struct platform_driver lsdc_output_platform_driver;
-+extern struct platform_driver loongson_drm_platform_driver;
- 
- #endif
-diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
-index adc7344d2f80..28f8ee5c3fc5 100644
---- a/drivers/gpu/drm/loongson/lsdc_drv.c
-+++ b/drivers/gpu/drm/loongson/lsdc_drv.c
-@@ -3,10 +3,12 @@
-  * Copyright (C) 2023 Loongson Technology Corporation Limited
-  */
- 
-+#include <linux/aperture.h>
-+#include <linux/component.h>
- #include <linux/pci.h>
-+#include <linux/platform_device.h>
- #include <linux/vgaarb.h>
- 
--#include <drm/drm_aperture.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
-@@ -22,14 +24,6 @@
- #include "lsdc_gem.h"
- #include "lsdc_ttm.h"
- 
--#define DRIVER_AUTHOR               "Sui Jingfeng <suijingfeng@loongson.cn>"
--#define DRIVER_NAME                 "loongson"
--#define DRIVER_DESC                 "drm driver for loongson graphics"
--#define DRIVER_DATE                 "20220701"
--#define DRIVER_MAJOR                1
--#define DRIVER_MINOR                0
--#define DRIVER_PATCHLEVEL           0
--
- DEFINE_DRM_GEM_FOPS(lsdc_gem_fops);
- 
- static const struct drm_driver lsdc_drm_driver = {
-@@ -57,41 +51,16 @@ static const struct drm_mode_config_funcs lsdc_mode_config_funcs = {
- 
- /* Display related */
- 
--static int lsdc_modeset_init(struct lsdc_device *ldev,
--			     unsigned int num_crtc,
--			     const struct lsdc_kms_funcs *funcs,
--			     bool has_vblank)
-+int lsdc_modeset_init(struct lsdc_device *ldev,
-+		      unsigned int num_crtc,
-+		      const struct lsdc_kms_funcs *funcs,
-+		      bool has_vblank)
- {
- 	struct drm_device *ddev = &ldev->base;
- 	struct lsdc_display_pipe *dispipe;
- 	unsigned int i;
- 	int ret;
- 
--	for (i = 0; i < num_crtc; i++) {
--		dispipe = &ldev->dispipe[i];
--
--		/* We need an index before crtc is initialized */
--		dispipe->index = i;
--
--		ret = funcs->create_i2c(ddev, dispipe, i);
--		if (ret)
--			return ret;
--	}
--
--	for (i = 0; i < num_crtc; i++) {
--		struct i2c_adapter *ddc = NULL;
--
--		dispipe = &ldev->dispipe[i];
--		if (dispipe->li2c)
--			ddc = &dispipe->li2c->adapter;
--
--		ret = funcs->output_init(ddev, dispipe, ddc, i);
--		if (ret)
--			return ret;
--
--		ldev->num_output++;
--	}
--
- 	for (i = 0; i < num_crtc; i++) {
- 		dispipe = &ldev->dispipe[i];
- 
-@@ -120,8 +89,8 @@ static const struct drm_mode_config_helper_funcs lsdc_mode_config_helper_funcs =
- 	.atomic_commit_tail = drm_atomic_helper_commit_tail,
- };
- 
--static int lsdc_mode_config_init(struct drm_device *ddev,
--				 const struct lsdc_desc *descp)
-+int lsdc_mode_config_init(struct drm_device *ddev,
-+			  const struct lsdc_desc *descp)
- {
- 	int ret;
- 
-@@ -177,9 +146,10 @@ static int lsdc_get_dedicated_vram(struct lsdc_device *ldev,
- 	base = pci_resource_start(pdev_gpu, 2);
- 	size = pci_resource_len(pdev_gpu, 2);
- 
-+	pci_dev_put(pdev_gpu);
-+
- 	ldev->vram_base = base;
- 	ldev->vram_size = size;
--	ldev->gpu = pdev_gpu;
- 
- 	drm_info(ddev, "Dedicated vram start: 0x%llx, size: %uMiB\n",
- 		 (u64)base, (u32)(size >> 20));
-@@ -187,80 +157,62 @@ static int lsdc_get_dedicated_vram(struct lsdc_device *ldev,
- 	return (size > SZ_1M) ? 0 : -ENODEV;
- }
- 
--static struct lsdc_device *
--lsdc_create_device(struct pci_dev *pdev,
--		   const struct lsdc_desc *descp,
--		   const struct drm_driver *driver)
--{
--	struct lsdc_device *ldev;
--	struct drm_device *ddev;
--	int ret;
--
--	ldev = devm_drm_dev_alloc(&pdev->dev, driver, struct lsdc_device, base);
--	if (IS_ERR(ldev))
--		return ldev;
--
--	ldev->dc = pdev;
--	ldev->descp = descp;
-+/* For multiple GPU driver instance co-exixt in the system */
- 
--	ddev = &ldev->base;
-+static unsigned int lsdc_vga_set_decode(struct pci_dev *pdev, bool state)
-+{
-+	return VGA_RSRC_NORMAL_IO | VGA_RSRC_NORMAL_MEM;
-+}
- 
--	loongson_gfxpll_create(ddev, &ldev->gfxpll);
-+static int lsdc_component_bind(struct device *dev, struct device *master, void *data)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	struct drm_device *drm = data;
-+	struct lsdc_device *ldev = to_lsdc(drm);
-+	const struct lsdc_desc *descp = ldev->descp;
-+	int ret;
- 
- 	ret = lsdc_get_dedicated_vram(ldev, pdev, descp);
--	if (ret) {
--		drm_err(ddev, "Init VRAM failed: %d\n", ret);
--		return ERR_PTR(ret);
--	}
--
--	ret = drm_aperture_remove_conflicting_framebuffers(ldev->vram_base,
--							   ldev->vram_size,
--							   driver);
--	if (ret) {
--		drm_err(ddev, "Remove firmware framebuffers failed: %d\n", ret);
--		return ERR_PTR(ret);
--	}
--
--	ret = lsdc_ttm_init(ldev);
--	if (ret) {
--		drm_err(ddev, "Memory manager init failed: %d\n", ret);
--		return ERR_PTR(ret);
--	}
--
--	lsdc_gem_init(ddev);
--
--	/* Bar 0 of the DC device contains the MMIO register's base address */
--	ldev->reg_base = pcim_iomap(pdev, 0, 0);
--	if (!ldev->reg_base)
--		return ERR_PTR(-ENODEV);
--
--	spin_lock_init(&ldev->reglock);
-+	if (ret)
-+		return ret;
- 
--	ret = lsdc_mode_config_init(ddev, descp);
-+	ret = aperture_remove_conflicting_devices(ldev->vram_base,
-+						  ldev->vram_size,
-+						  DRIVER_NAME);
- 	if (ret)
--		return ERR_PTR(ret);
-+		return ret;
- 
--	ret = lsdc_modeset_init(ldev, descp->num_of_crtc, descp->funcs,
--				loongson_vblank);
-+	ret = devm_request_irq(dev,
-+			       pdev->irq,
-+			       descp->funcs->irq_handler,
-+			       IRQF_SHARED,
-+			       dev_name(dev),
-+			       drm);
- 	if (ret)
--		return ERR_PTR(ret);
-+		return ret;
- 
--	drm_mode_config_reset(ddev);
-+	dev_info(dev, "lsdc irq: %d\n", pdev->irq);
- 
--	return ldev;
--}
-+	vga_client_register(pdev, lsdc_vga_set_decode);
- 
--/* For multiple GPU driver instance co-exixt in the system */
-+	return 0;
-+}
- 
--static unsigned int lsdc_vga_set_decode(struct pci_dev *pdev, bool state)
-+static void lsdc_component_unbind(struct device *dev, struct device *master, void *data)
- {
--	return VGA_RSRC_NORMAL_IO | VGA_RSRC_NORMAL_MEM;
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+
-+	vga_client_unregister(pdev);
- }
- 
-+static const struct component_ops lsdc_component_ops = {
-+	.bind = lsdc_component_bind,
-+	.unbind = lsdc_component_unbind,
-+};
-+
- static int lsdc_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- {
- 	const struct lsdc_desc *descp;
--	struct drm_device *ddev;
- 	struct lsdc_device *ldev;
- 	int ret;
- 
-@@ -278,58 +230,58 @@ static int lsdc_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		return ret;
- 
--	dev_info(&pdev->dev, "Found %s, revision: %u",
-+	dev_info(&pdev->dev, "Found %s, revision: %u\n",
- 		 to_loongson_gfx(descp)->model, pdev->revision);
- 
--	ldev = lsdc_create_device(pdev, descp, &lsdc_drm_driver);
-+	ldev = devm_drm_dev_alloc(&pdev->dev, &lsdc_drm_driver,
-+				  struct lsdc_device, base);
- 	if (IS_ERR(ldev))
- 		return PTR_ERR(ldev);
- 
--	ddev = &ldev->base;
--
--	pci_set_drvdata(pdev, ddev);
--
--	vga_client_register(pdev, lsdc_vga_set_decode);
-+	pci_set_drvdata(pdev, ldev);
-+	ldev->dc = pdev;
-+	ldev->descp = descp;
- 
--	drm_kms_helper_poll_init(ddev);
-+	/* Bar 0 of the DC device contains the MMIO register's base address */
-+	ldev->reg_base = pcim_iomap(pdev, 0, 0);
-+	if (!ldev->reg_base)
-+		return -ENODEV;
- 
--	if (loongson_vblank) {
--		ret = drm_vblank_init(ddev, descp->num_of_crtc);
--		if (ret)
--			return ret;
-+	spin_lock_init(&ldev->reglock);
- 
--		ret = devm_request_irq(&pdev->dev, pdev->irq,
--				       descp->funcs->irq_handler,
--				       IRQF_SHARED,
--				       dev_name(&pdev->dev), ddev);
--		if (ret) {
--			drm_err(ddev, "Failed to register interrupt: %d\n", ret);
--			return ret;
--		}
-+	ret = lsdc_i2c_preinit(&pdev->dev);
-+	if (ret)
-+		return ret;
- 
--		drm_info(ddev, "registered irq: %u\n", pdev->irq);
-+	ret = lsdc_output_preinit(&pdev->dev, descp);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Output preinit failed: %d\n", ret);
-+		return ret;
- 	}
- 
--	ret = drm_dev_register(ddev, 0);
--	if (ret)
-+	ret = component_add(&pdev->dev, &lsdc_component_ops);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Add as a subcomponent failed: %d\n", ret);
- 		return ret;
-+	}
- 
--	drm_fbdev_ttm_setup(ddev, 32);
-+	ret = loongson_device_preinit(&pdev->dev, (void **)&ldev->base);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Proxy drm device failed: %d\n", ret);
-+		return ret;
-+	}
- 
- 	return 0;
- }
- 
- static void lsdc_pci_remove(struct pci_dev *pdev)
- {
--	struct drm_device *ddev = pci_get_drvdata(pdev);
-+	struct lsdc_device *ldev = pci_get_drvdata(pdev);
-+	struct drm_device *ddev = &ldev->base;
- 
- 	drm_dev_unregister(ddev);
--	drm_atomic_helper_shutdown(ddev);
--}
- 
--static void lsdc_pci_shutdown(struct pci_dev *pdev)
--{
--	drm_atomic_helper_shutdown(pci_get_drvdata(pdev));
-+	component_del(&pdev->dev, &lsdc_component_ops);
- }
- 
- static int lsdc_drm_freeze(struct drm_device *ddev)
-@@ -383,7 +335,8 @@ static int lsdc_drm_freeze(struct drm_device *ddev)
- static int lsdc_drm_resume(struct device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev);
--	struct drm_device *ddev = pci_get_drvdata(pdev);
-+	struct lsdc_device *ldev = pci_get_drvdata(pdev);
-+	struct drm_device *ddev = &ldev->base;
- 
- 	return drm_mode_config_helper_resume(ddev);
- }
-@@ -391,7 +344,8 @@ static int lsdc_drm_resume(struct device *dev)
- static int lsdc_pm_freeze(struct device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev);
--	struct drm_device *ddev = pci_get_drvdata(pdev);
-+	struct lsdc_device *ldev = pci_get_drvdata(pdev);
-+	struct drm_device *ddev = &ldev->base;
- 
- 	return lsdc_drm_freeze(ddev);
- }
-@@ -452,10 +406,31 @@ struct pci_driver lsdc_pci_driver = {
- 	.id_table = lsdc_pciid_list,
- 	.probe = lsdc_pci_probe,
- 	.remove = lsdc_pci_remove,
--	.shutdown = lsdc_pci_shutdown,
- 	.driver.pm = &lsdc_pm_ops,
- };
- 
-+void lsdc_pci_match_add(struct device *master,
-+			struct component_match **matchptr)
-+{
-+	struct pci_dev *dc;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(lsdc_pciid_list); ++i) {
-+		unsigned int did = lsdc_pciid_list[i].device;
-+
-+		dc = pci_get_device(PCI_VENDOR_ID_LOONGSON, did, NULL);
-+		if (dc) {
-+			component_match_add(master, matchptr,
-+					    component_compare_dev, &dc->dev);
-+			pci_dev_put(dc);
-+
-+			dev_dbg(master, "match added, name: %s, %u\n",
-+				dev_name(&dc->dev), i);
-+			return;
-+		}
-+	}
-+}
-+
- MODULE_DEVICE_TABLE(pci, lsdc_pciid_list);
- MODULE_AUTHOR(DRIVER_AUTHOR);
- MODULE_DESCRIPTION(DRIVER_DESC);
-diff --git a/drivers/gpu/drm/loongson/lsdc_drv.h b/drivers/gpu/drm/loongson/lsdc_drv.h
-index fbf2d760ef27..71d7e6288028 100644
---- a/drivers/gpu/drm/loongson/lsdc_drv.h
-+++ b/drivers/gpu/drm/loongson/lsdc_drv.h
-@@ -16,6 +16,8 @@
- #include <drm/drm_plane.h>
- #include <drm/ttm/ttm_device.h>
- 
-+#include "loongson_module.h"
-+
- #include "lsdc_i2c.h"
- #include "lsdc_irq.h"
- #include "lsdc_gfxpll.h"
-@@ -38,15 +40,17 @@
-  * display pipe 1 = crtc1 + dvo1 + encoder1 + connectro1 + cursor1 + primary1
-  */
- 
--enum loongson_chip_id {
--	CHIP_LS7A1000 = 0,
--	CHIP_LS7A2000 = 1,
--	CHIP_LS_LAST,
--};
--
- const struct lsdc_desc *
- lsdc_device_probe(struct pci_dev *pdev, enum loongson_chip_id chip);
- 
-+void lsdc_pci_match_add(struct device *master,
-+			struct component_match **matchptr);
-+
-+int lsdc_mode_config_init(struct drm_device *ddev,
-+			  const struct lsdc_desc *descp);
-+
-+int loongson_device_preinit(struct device *parent, void *data);
-+
- struct lsdc_kms_funcs;
- 
- /* DC specific */
-@@ -167,47 +171,23 @@ struct lsdc_cursor {
- 	struct lsdc_device *ldev;
- };
- 
--struct lsdc_output {
--	struct drm_encoder encoder;
--	struct drm_connector connector;
--};
--
--static inline struct lsdc_output *
--connector_to_lsdc_output(struct drm_connector *connector)
--{
--	return container_of(connector, struct lsdc_output, connector);
--}
--
--static inline struct lsdc_output *
--encoder_to_lsdc_output(struct drm_encoder *encoder)
--{
--	return container_of(encoder, struct lsdc_output, encoder);
--}
--
- struct lsdc_display_pipe {
- 	struct lsdc_crtc crtc;
- 	struct lsdc_primary primary;
- 	struct lsdc_cursor cursor;
--	struct lsdc_output output;
--	struct lsdc_i2c *li2c;
-+	struct lsdc_output *output;
- 	unsigned int index;
- };
- 
--static inline struct lsdc_display_pipe *
--output_to_display_pipe(struct lsdc_output *output)
--{
--	return container_of(output, struct lsdc_display_pipe, output);
--}
--
- struct lsdc_kms_funcs {
- 	irqreturn_t (*irq_handler)(int irq, void *arg);
- 
--	int (*create_i2c)(struct drm_device *ddev,
--			  struct lsdc_display_pipe *dispipe,
--			  unsigned int index);
-+	int (*create_i2c)(struct device *parent,
-+			  unsigned int index,
-+			  struct i2c_adapter **ppadapter);
- 
- 	int (*output_init)(struct drm_device *ddev,
--			   struct lsdc_display_pipe *dispipe,
-+			   struct lsdc_output *output,
- 			   struct i2c_adapter *ddc,
- 			   unsigned int index);
- 
-@@ -284,6 +264,7 @@ struct lsdc_device {
- 	resource_size_t gtt_size;
- 
- 	struct lsdc_display_pipe dispipe[LSDC_NUM_CRTC];
-+	struct i2c_adapter *i2c[LSDC_NUM_CRTC];
- 
- 	struct lsdc_gem gem;
- 
-@@ -341,6 +322,11 @@ int ls7a2000_cursor_plane_init(struct drm_device *ddev,
- 			       struct drm_plane *plane,
- 			       unsigned int index);
- 
-+int lsdc_modeset_init(struct lsdc_device *ldev,
-+		      unsigned int num_crtc,
-+		      const struct lsdc_kms_funcs *funcs,
-+		      bool has_vblank);
-+
- /* Registers access helpers */
- 
- static inline u32 lsdc_rreg32(struct lsdc_device *ldev, u32 offset)
-diff --git a/drivers/gpu/drm/loongson/lsdc_i2c.c b/drivers/gpu/drm/loongson/lsdc_i2c.c
-index ce90c25536d2..0ce5007fc0e6 100644
---- a/drivers/gpu/drm/loongson/lsdc_i2c.c
-+++ b/drivers/gpu/drm/loongson/lsdc_i2c.c
-@@ -15,7 +15,7 @@
-  */
- static void __lsdc_gpio_i2c_set(struct lsdc_i2c * const li2c, int mask, int state)
- {
--	struct lsdc_device *ldev = to_lsdc(li2c->ddev);
-+	struct lsdc_device *ldev = li2c->lsdc;
- 	unsigned long flags;
- 	u8 val;
- 
-@@ -51,7 +51,7 @@ static void __lsdc_gpio_i2c_set(struct lsdc_i2c * const li2c, int mask, int stat
-  */
- static int __lsdc_gpio_i2c_get(struct lsdc_i2c * const li2c, int mask)
- {
--	struct lsdc_device *ldev = to_lsdc(li2c->ddev);
-+	struct lsdc_device *ldev = li2c->lsdc;
- 	unsigned long flags;
- 	u8 val;
- 
-@@ -98,7 +98,7 @@ static int lsdc_gpio_i2c_get_scl(void *i2c)
- 	return __lsdc_gpio_i2c_get(li2c, li2c->scl);
- }
- 
--static void lsdc_destroy_i2c(struct drm_device *ddev, void *data)
-+static void lsdc_destroy_i2c(void *data)
- {
- 	struct lsdc_i2c *li2c = (struct lsdc_i2c *)data;
- 
-@@ -114,11 +114,10 @@ static void lsdc_destroy_i2c(struct drm_device *ddev, void *data)
-  * @reg_base: gpio reg base
-  * @index: output channel index, 0 for PIPE0, 1 for PIPE1
-  */
--int lsdc_create_i2c_chan(struct drm_device *ddev,
--			 struct lsdc_display_pipe *dispipe,
--			 unsigned int index)
-+int lsdc_create_i2c_chan(struct device *parent, unsigned int index,
-+			 struct i2c_adapter **ppadapter)
- {
--	struct lsdc_device *ldev = to_lsdc(ddev);
-+	struct lsdc_device *ldev = dev_get_drvdata(parent);
- 	struct i2c_adapter *adapter;
- 	struct lsdc_i2c *li2c;
- 	int ret;
-@@ -127,8 +126,6 @@ int lsdc_create_i2c_chan(struct drm_device *ddev,
- 	if (!li2c)
- 		return -ENOMEM;
- 
--	dispipe->li2c = li2c;
--
- 	if (index == 0) {
- 		li2c->sda = 0x01;  /* pin 0 */
- 		li2c->scl = 0x02;  /* pin 1 */
-@@ -139,7 +136,7 @@ int lsdc_create_i2c_chan(struct drm_device *ddev,
- 		return -ENOENT;
- 	}
- 
--	li2c->ddev = ddev;
-+	li2c->lsdc = ldev;
- 	li2c->dir_reg = ldev->reg_base + LS7A_DC_GPIO_DIR_REG;
- 	li2c->dat_reg = ldev->reg_base + LS7A_DC_GPIO_DAT_REG;
- 
-@@ -154,7 +151,7 @@ int lsdc_create_i2c_chan(struct drm_device *ddev,
- 	adapter = &li2c->adapter;
- 	adapter->algo_data = &li2c->bit;
- 	adapter->owner = THIS_MODULE;
--	adapter->dev.parent = ddev->dev;
-+	adapter->dev.parent = parent;
- 	adapter->nr = -1;
- 
- 	snprintf(adapter->name, sizeof(adapter->name), "lsdc-i2c%u", index);
-@@ -167,12 +164,30 @@ int lsdc_create_i2c_chan(struct drm_device *ddev,
- 		return ret;
- 	}
- 
--	ret = drmm_add_action_or_reset(ddev, lsdc_destroy_i2c, li2c);
-+	ret = devm_add_action_or_reset(parent, lsdc_destroy_i2c, li2c);
- 	if (ret)
- 		return ret;
- 
--	drm_info(ddev, "%s(sda pin mask=%u, scl pin mask=%u) created\n",
--		 adapter->name, li2c->sda, li2c->scl);
-+	*ppadapter = adapter;
-+
-+	dev_info(parent, "%s(sda pin mask=%u, scl pin mask=%u) created\n",
-+		 dev_name(&adapter->dev), li2c->sda, li2c->scl);
-+
-+	return 0;
-+}
-+
-+int lsdc_i2c_preinit(struct device *parent)
-+{
-+	struct lsdc_device *ldev = dev_get_drvdata(parent);
-+	const struct lsdc_desc *descp = ldev->descp;
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < descp->num_of_crtc; ++i) {
-+		ret = descp->funcs->create_i2c(parent, i, &ldev->i2c[i]);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/loongson/lsdc_i2c.h b/drivers/gpu/drm/loongson/lsdc_i2c.h
-index 88cd1a1817a5..59ed7f90beac 100644
---- a/drivers/gpu/drm/loongson/lsdc_i2c.h
-+++ b/drivers/gpu/drm/loongson/lsdc_i2c.h
-@@ -9,10 +9,12 @@
- #include <linux/i2c.h>
- #include <linux/i2c-algo-bit.h>
- 
-+struct lsdc_device;
-+
- struct lsdc_i2c {
- 	struct i2c_adapter adapter;
- 	struct i2c_algo_bit_data bit;
--	struct drm_device *ddev;
-+	struct lsdc_device *lsdc;
- 	void __iomem *dir_reg;
- 	void __iomem *dat_reg;
- 	/* pin bit mask */
-@@ -20,10 +22,9 @@ struct lsdc_i2c {
- 	u8 scl;
- };
- 
--struct lsdc_display_pipe;
-+int lsdc_create_i2c_chan(struct device *parent, unsigned int index,
-+			 struct i2c_adapter **ppadapter);
- 
--int lsdc_create_i2c_chan(struct drm_device *ddev,
--			 struct lsdc_display_pipe *dispipe,
--			 unsigned int index);
-+int lsdc_i2c_preinit(struct device *parent);
- 
- #endif
-diff --git a/drivers/gpu/drm/loongson/lsdc_irq.c b/drivers/gpu/drm/loongson/lsdc_irq.c
-index efdc4d10792d..c41b82a6e5cf 100644
---- a/drivers/gpu/drm/loongson/lsdc_irq.c
-+++ b/drivers/gpu/drm/loongson/lsdc_irq.c
-@@ -5,6 +5,7 @@
- 
- #include <drm/drm_vblank.h>
- 
-+#include "loongson_module.h"
- #include "lsdc_irq.h"
- 
- /*
-@@ -35,11 +36,13 @@ irqreturn_t ls7a2000_dc_irq_handler(int irq, void *arg)
- 	/* write "1" to clear the interrupt status */
- 	lsdc_wreg32(ldev, LSDC_INT_REG, val);
- 
--	if (ldev->irq_status & INT_CRTC0_VSYNC)
--		drm_handle_vblank(ddev, 0);
-+	if (loongson_vblank) {
-+		if (ldev->irq_status & INT_CRTC0_VSYNC)
-+			drm_handle_vblank(ddev, 0);
- 
--	if (ldev->irq_status & INT_CRTC1_VSYNC)
--		drm_handle_vblank(ddev, 1);
-+		if (ldev->irq_status & INT_CRTC1_VSYNC)
-+			drm_handle_vblank(ddev, 1);
-+	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -64,11 +67,13 @@ irqreturn_t ls7a1000_dc_irq_handler(int irq, void *arg)
- 	val &= ~(INT_CRTC0_VSYNC | INT_CRTC1_VSYNC);
- 	lsdc_wreg32(ldev, LSDC_INT_REG, val);
- 
--	if (ldev->irq_status & INT_CRTC0_VSYNC)
--		drm_handle_vblank(ddev, 0);
-+	if (loongson_vblank) {
-+		if (ldev->irq_status & INT_CRTC0_VSYNC)
-+			drm_handle_vblank(ddev, 0);
- 
--	if (ldev->irq_status & INT_CRTC1_VSYNC)
--		drm_handle_vblank(ddev, 1);
-+		if (ldev->irq_status & INT_CRTC1_VSYNC)
-+			drm_handle_vblank(ddev, 1);
-+	}
- 
- 	return IRQ_HANDLED;
- }
-diff --git a/drivers/gpu/drm/loongson/lsdc_output.c b/drivers/gpu/drm/loongson/lsdc_output.c
-new file mode 100644
-index 000000000000..d5ae032d30d1
---- /dev/null
-+++ b/drivers/gpu/drm/loongson/lsdc_output.c
-@@ -0,0 +1,208 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+/*
-+ * Authors:
-+ *      Sui Jingfeng <sui.jingfeng@linux.dev>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/component.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#include "lsdc_drv.h"
-+#include "lsdc_output.h"
-+
-+static struct platform_device *lsdc_output_agent[LSDC_NUM_CRTC];
-+
-+void lsdc_output_match_add(struct device *master,
-+			   struct component_match **matchptr)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < LSDC_NUM_CRTC; ++i) {
-+		if (!lsdc_output_agent[i])
-+			continue;
-+
-+		component_match_add(master, matchptr, component_compare_dev,
-+				    &lsdc_output_agent[i]->dev);
-+	}
-+}
-+
-+static struct property_entry ls7a1000_output_port_properties[LSDC_NUM_CRTC][3] = {
-+	{
-+		PROPERTY_ENTRY_STRING("type", "DVO"),
-+		PROPERTY_ENTRY_U32("reg", 0),
-+		{ },
-+	},
-+	{
-+		PROPERTY_ENTRY_STRING("type", "DVO"),
-+		PROPERTY_ENTRY_U32("reg", 1),
-+		{ },
-+	},
-+};
-+
-+static struct property_entry ls7a2000_output_port_properties[LSDC_NUM_CRTC][3] = {
-+	{
-+		PROPERTY_ENTRY_STRING("type", "HDMI-or-VGA"),
-+		PROPERTY_ENTRY_U32("reg", 0),
-+		{ },
-+	},
-+	{
-+		PROPERTY_ENTRY_STRING("type", "HDMI"),
-+		PROPERTY_ENTRY_U32("reg", 1),
-+		{ },
-+	},
-+};
-+
-+static struct property_entry *
-+lsdc_output_get_property_entry(const struct lsdc_desc *descp,
-+			       unsigned int index)
-+{
-+	if (index >= LSDC_NUM_CRTC)
-+		goto idx_err_out;
-+
-+	switch (to_loongson_gfx(descp)->chip_id) {
-+	case CHIP_LS7A1000:
-+		return &ls7a1000_output_port_properties[index][0];
-+	case CHIP_LS7A2000:
-+		return &ls7a2000_output_port_properties[index][0];
-+	default:
-+		break;
-+	};
-+
-+idx_err_out:
-+	return ERR_PTR(-ENODEV);
-+}
-+
-+static void lsdc_output_postfini(void *data)
-+{
-+	struct platform_device *agent = data;
-+
-+	platform_device_unregister(agent);
-+}
-+
-+int lsdc_output_preinit(struct device *parent, const struct lsdc_desc *descp)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < descp->num_of_crtc; ++i) {
-+		struct platform_device_info devinfo = {};
-+		struct platform_device *agent;
-+		int ret;
-+
-+		devinfo.parent = parent;
-+		devinfo.name = "lsdc-output";
-+		devinfo.id = i;
-+		devinfo.properties = lsdc_output_get_property_entry(descp, i);
-+
-+		agent = platform_device_register_full(&devinfo);
-+		if (IS_ERR(agent)) {
-+			dev_err(parent, "failed to register output agent\n");
-+			return PTR_ERR(agent);
-+		}
-+
-+		ret = devm_add_action_or_reset(parent, lsdc_output_postfini, agent);
-+		if (ret)
-+			return ret;
-+
-+		lsdc_output_agent[i] = agent;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * @dev: pointer to the port@0 or port@1 of the display output
-+ * @master: pointer to the component master
-+ * @data: pointer to the drm device control structure
-+ */
-+static int lsdc_output_bind(struct device *dev,
-+			    struct device *master,
-+			    void *data)
-+{
-+	struct drm_device *drm = data;
-+	struct lsdc_device *ldev = to_lsdc(drm);
-+	const struct lsdc_kms_funcs *kms_funcs = ldev->descp->funcs;
-+	struct lsdc_output *output = dev_get_drvdata(dev);
-+	unsigned int pipe = output->pipe;
-+	int ret;
-+
-+	ret = kms_funcs->output_init(drm, output, ldev->i2c[pipe], pipe);
-+	if (ret)
-+		return ret;
-+
-+	ldev->dispipe[pipe].output = output;
-+	ldev->num_output++;
-+
-+	return 0;
-+}
-+
-+static void lsdc_output_unbind(struct device *dev,
-+			       struct device *master,
-+			       void *data)
-+{
-+	struct drm_device *drm = data;
-+	struct lsdc_device *ldev = to_lsdc(drm);
-+	struct lsdc_output *output = dev_get_drvdata(dev);
-+	unsigned int pipe = output->pipe;
-+
-+	ldev->dispipe[pipe].output = NULL;
-+}
-+
-+static const struct component_ops lsdc_output_component_ops = {
-+	.bind = lsdc_output_bind,
-+	.unbind = lsdc_output_unbind,
-+};
-+
-+static void lsdc_output_destroy(void *data)
-+{
-+	struct lsdc_output *output = (struct lsdc_output *)data;
-+
-+	kfree(output);
-+}
-+
-+static int lsdc_output_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device *parent = dev->parent;
-+	struct lsdc_output *output;
-+	const char *type;
-+	int ret;
-+
-+	output = kzalloc(sizeof(*output), GFP_KERNEL);
-+	if (!output)
-+		return -ENOMEM;
-+
-+	ret = device_property_read_u32(dev, "reg", &output->pipe);
-+	if (ret)
-+		return ret;
-+
-+	ret = device_property_read_string(dev, "type", &type);
-+	if (ret)
-+		return ret;
-+
-+	output->dev = dev;
-+	dev_set_drvdata(dev, output);
-+
-+	ret = devm_add_action_or_reset(parent, lsdc_output_destroy, output);
-+	if (ret)
-+		return ret;
-+
-+	dev_info(parent, "%s probed, type: %s\n", dev_name(dev), type);
-+
-+	return component_add(dev, &lsdc_output_component_ops);
-+}
-+
-+static void lsdc_output_remove(struct platform_device *pdev)
-+{
-+	component_del(&pdev->dev, &lsdc_output_component_ops);
-+}
-+
-+struct platform_driver lsdc_output_platform_driver = {
-+	.driver = {
-+		.name = "lsdc-output",
-+	},
-+	.probe = lsdc_output_probe,
-+	.remove_new = lsdc_output_remove,
-+};
-diff --git a/drivers/gpu/drm/loongson/lsdc_output.h b/drivers/gpu/drm/loongson/lsdc_output.h
-index 097789051a1d..c7f0933695af 100644
---- a/drivers/gpu/drm/loongson/lsdc_output.h
-+++ b/drivers/gpu/drm/loongson/lsdc_output.h
-@@ -6,16 +6,46 @@
- #ifndef __LSDC_OUTPUT_H__
- #define __LSDC_OUTPUT_H__
- 
--#include "lsdc_drv.h"
-+#include <linux/component.h>
-+
-+#include <drm/drm_encoder.h>
-+#include <drm/drm_connector.h>
-+
-+struct lsdc_desc;
-+
-+struct lsdc_output {
-+	struct device *dev;
-+	struct drm_encoder encoder;
-+	struct drm_connector connector;
-+	unsigned int pipe;
-+};
-+
-+static inline struct lsdc_output *
-+connector_to_lsdc_output(struct drm_connector *connector)
-+{
-+	return container_of(connector, struct lsdc_output, connector);
-+}
-+
-+static inline struct lsdc_output *
-+encoder_to_lsdc_output(struct drm_encoder *encoder)
-+{
-+	return container_of(encoder, struct lsdc_output, encoder);
-+}
- 
- int ls7a1000_output_init(struct drm_device *ddev,
--			 struct lsdc_display_pipe *dispipe,
-+			 struct lsdc_output *output,
- 			 struct i2c_adapter *ddc,
- 			 unsigned int index);
- 
- int ls7a2000_output_init(struct drm_device *ldev,
--			 struct lsdc_display_pipe *dispipe,
-+			 struct lsdc_output *output,
- 			 struct i2c_adapter *ddc,
- 			 unsigned int index);
- 
-+int lsdc_output_preinit(struct device *parent,
-+			const struct lsdc_desc *descp);
-+
-+void lsdc_output_match_add(struct device *parent,
-+			   struct component_match **matchptr);
-+
- #endif
-diff --git a/drivers/gpu/drm/loongson/lsdc_output_7a1000.c b/drivers/gpu/drm/loongson/lsdc_output_7a1000.c
-index 6fc8dd1c7d9a..edb78a19949f 100644
---- a/drivers/gpu/drm/loongson/lsdc_output_7a1000.c
-+++ b/drivers/gpu/drm/loongson/lsdc_output_7a1000.c
-@@ -3,6 +3,8 @@
-  * Copyright (C) 2023 Loongson Technology Corporation Limited
-  */
- 
-+#include <linux/property.h>
-+
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_probe_helper.h>
-@@ -140,11 +142,10 @@ static const struct drm_encoder_funcs ls7a1000_encoder_funcs[2] = {
- };
- 
- int ls7a1000_output_init(struct drm_device *ddev,
--			 struct lsdc_display_pipe *dispipe,
-+			 struct lsdc_output *output,
- 			 struct i2c_adapter *ddc,
- 			 unsigned int index)
- {
--	struct lsdc_output *output = &dispipe->output;
- 	struct drm_encoder *encoder = &output->encoder;
- 	struct drm_connector *connector = &output->connector;
- 	int ret;
-@@ -162,8 +163,6 @@ int ls7a1000_output_init(struct drm_device *ddev,
- 	if (ret)
- 		return ret;
- 
--	drm_info(ddev, "display pipe-%u has a DVO\n", index);
--
- 	drm_connector_helper_add(connector, &ls7a1000_dpi_connector_helpers);
- 
- 	drm_connector_attach_encoder(connector, encoder);
-diff --git a/drivers/gpu/drm/loongson/lsdc_output_7a2000.c b/drivers/gpu/drm/loongson/lsdc_output_7a2000.c
-index ce3dabec887e..c0e18cf85f5b 100644
---- a/drivers/gpu/drm/loongson/lsdc_output_7a2000.c
-+++ b/drivers/gpu/drm/loongson/lsdc_output_7a2000.c
-@@ -284,8 +284,7 @@ static int ls7a2000_hdmi_set_avi_infoframe(struct drm_encoder *encoder,
- 					   struct drm_display_mode *mode)
- {
- 	struct lsdc_output *output = encoder_to_lsdc_output(encoder);
--	struct lsdc_display_pipe *dispipe = output_to_display_pipe(output);
--	unsigned int index = dispipe->index;
-+	unsigned int index = output->pipe;
- 	struct drm_device *ddev = encoder->dev;
- 	struct lsdc_device *ldev = to_lsdc(ddev);
- 	struct hdmi_avi_infoframe infoframe;
-@@ -335,8 +334,7 @@ static void ls7a2000_hdmi_atomic_disable(struct drm_encoder *encoder,
- 					 struct drm_atomic_state *state)
- {
- 	struct lsdc_output *output = encoder_to_lsdc_output(encoder);
--	struct lsdc_display_pipe *dispipe = output_to_display_pipe(output);
--	unsigned int index = dispipe->index;
-+	unsigned int index = output->pipe;
- 	struct drm_device *ddev = encoder->dev;
- 	struct lsdc_device *ldev = to_lsdc(ddev);
- 	u32 val;
-@@ -360,8 +358,7 @@ static void ls7a2000_hdmi_atomic_enable(struct drm_encoder *encoder,
- 	struct drm_device *ddev = encoder->dev;
- 	struct lsdc_device *ldev = to_lsdc(ddev);
- 	struct lsdc_output *output = encoder_to_lsdc_output(encoder);
--	struct lsdc_display_pipe *dispipe = output_to_display_pipe(output);
--	unsigned int index = dispipe->index;
-+	unsigned int index = output->pipe;
- 	u32 val;
- 
- 	/* datasheet say it should larger than 48 */
-@@ -482,8 +479,7 @@ static void ls7a2000_hdmi_atomic_mode_set(struct drm_encoder *encoder,
- 					  struct drm_connector_state *conn_state)
- {
- 	struct lsdc_output *output = encoder_to_lsdc_output(encoder);
--	struct lsdc_display_pipe *dispipe = output_to_display_pipe(output);
--	unsigned int index = dispipe->index;
-+	unsigned int index = output->pipe;
- 	struct drm_device *ddev = encoder->dev;
- 	struct lsdc_device *ldev = to_lsdc(ddev);
- 	struct drm_display_mode *mode = &crtc_state->mode;
-@@ -512,11 +508,10 @@ static const struct drm_encoder_helper_funcs ls7a2000_encoder_helper_funcs = {
-  * writing hdmi register do no harms.
-  */
- int ls7a2000_output_init(struct drm_device *ddev,
--			 struct lsdc_display_pipe *dispipe,
-+			 struct lsdc_output *output,
- 			 struct i2c_adapter *ddc,
- 			 unsigned int pipe)
- {
--	struct lsdc_output *output = &dispipe->output;
- 	struct drm_encoder *encoder = &output->encoder;
- 	struct drm_connector *connector = &output->connector;
- 	int ret;
-@@ -536,8 +531,6 @@ int ls7a2000_output_init(struct drm_device *ddev,
- 	if (ret)
- 		return ret;
- 
--	drm_info(ddev, "display pipe-%u has HDMI %s\n", pipe, pipe ? "" : "and/or VGA");
--
- 	drm_connector_helper_add(connector, &ls7a2000_connector_helpers);
- 
- 	drm_connector_attach_encoder(connector, encoder);
-diff --git a/drivers/gpu/drm/loongson/lsdc_ttm.c b/drivers/gpu/drm/loongson/lsdc_ttm.c
-index 465f622ac05d..72f51993d678 100644
---- a/drivers/gpu/drm/loongson/lsdc_ttm.c
-+++ b/drivers/gpu/drm/loongson/lsdc_ttm.c
-@@ -539,9 +539,9 @@ static void lsdc_ttm_fini(struct drm_device *ddev, void *data)
- 	drm_dbg(ddev, "ttm finished\n");
- }
- 
--int lsdc_ttm_init(struct lsdc_device *ldev)
-+int lsdc_ttm_init(struct drm_device *ddev)
- {
--	struct drm_device *ddev = &ldev->base;
-+	struct lsdc_device *ldev = to_lsdc(ddev);
- 	unsigned long num_vram_pages;
- 	unsigned long num_gtt_pages;
- 	int ret;
-diff --git a/drivers/gpu/drm/loongson/lsdc_ttm.h b/drivers/gpu/drm/loongson/lsdc_ttm.h
-index 843e1475064e..064cf497e090 100644
---- a/drivers/gpu/drm/loongson/lsdc_ttm.h
-+++ b/drivers/gpu/drm/loongson/lsdc_ttm.h
-@@ -93,7 +93,7 @@ void lsdc_bo_clear(struct lsdc_bo *lbo);
- 
- int lsdc_bo_evict_vram(struct drm_device *ddev);
- 
--int lsdc_ttm_init(struct lsdc_device *ldev);
-+int lsdc_ttm_init(struct drm_device *ddev);
- void lsdc_ttm_debugfs_init(struct lsdc_device *ldev);
- 
- #endif
--- 
-2.43.0
+
+Reference
+===
+Currently, we have many patches that aim to make dma-buf support direct I/O in
+userspace.
+
+Recently liu's work:
+https://lore.kernel.org/all/20240710140948.25870-1-liulei.rjpt@vivo.com/
+
+However, this patch is not focused on enabling dma-buf to perform direct I/O in
+userspace. The main goal is to ensure that dma-buf completes the file memory
+loading when the allocation is completed. Buffered I/O and direct I/O are both
+methods to end file read.
+
+
+Performance
+===
+Here a some self-test result:
+
+dd a 3GB file for test, 12G RAM phone, UFS4.0, no memory pressure.
+MemTotal:       11583824 kB
+MemFree:         2307972 kB
+MemAvailable:    7287640 kB
+
+Notice, mtk_mm-uncached is our phone heap, you can use system_heap or other to
+test.(need suit DMA_HEAP_IOCTL_ALLOC_AND_READ)
+
+1. original
+```shel
+# create a model file
+dd if=/dev/zero of=./model.txt bs=1M count=3072
+# drop page cache
+echo 3 > /proc/sys/vm/drop_caches
+./dmabuf-heap-file-read mtk_mm-uncached normal
+> result is total cost 2370513769ns
+```
+
+2.DMA_HEAP_IOCTL_ALLOC_AND_READ O_DIRECT
+```shel
+# create a model file
+dd if=/dev/zero of=./model.txt bs=1M count=3072
+# drop page cache
+echo 3 > /proc/sys/vm/drop_caches
+./dmabuf-heap-file-read mtk_mm-uncached direct_io
+> result is total cost 1269239770ns
+# use direct_io_check can check the content if is same to file.
+```
+
+3. DMA_HEAP_IOCTL_ALLOC_AND_READ BUFFER I/O
+```shel
+# create a model file
+dd if=/dev/zero of=./model.txt bs=1M count=3072
+# drop page cache
+echo 3 > /proc/sys/vm/drop_caches
+./dmabuf-heap-file-read mtk_mm-uncached normal_io
+> result is total cost 2268621769ns
+```
+
+------------------
+dd a 3GB file for test, 12G RAM phone, UFS4.0, stressapptest 4G memory pressure.
+
+1. original
+```shel
+# create a model file
+dd if=/dev/zero of=./model.txt bs=1M count=3072
+# drop page cache
+echo 3 > /proc/sys/vm/drop_caches
+./dmabuf-heap-file-read mtk_mm-uncached normal
+> result is total cost 13087213847ns
+```
+
+2.DMA_HEAP_IOCTL_ALLOC_AND_READ O_DIRECT
+```shel
+# create a model file
+dd if=/dev/zero of=./model.txt bs=1M count=3072
+# drop page cache
+echo 3 > /proc/sys/vm/drop_caches
+./dmabuf-heap-file-read mtk_mm-uncached direct_io
+> result is total cost 2902386846ns
+# use direct_io_check can check the content if is same to file.
+```
+
+3. DMA_HEAP_IOCTL_ALLOC_AND_READ BUFFER I/O
+```shel
+# create a model file
+dd if=/dev/zero of=./model.txt bs=1M count=3072
+# drop page cache
+echo 3 > /proc/sys/vm/drop_caches
+./dmabuf-heap-file-read mtk_mm-uncached normal_io
+> result is total cost 5735579385ns
+```
+
+
+
+Can see, use O_DIRECT can improve 50% performance. Even buffered I/O, also can
+improve a little.
+If given memory pressure, the performance gap will become more significant.
+
+Here are the test file which you can build by self.
+```c
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <unistd.h>
+
+#include <linux/dma-buf.h>
+#include <linux/dma-heap.h>
+#include <dirent.h>
+
+#define HEAP_DEVPATH "/dev/dma_heap"
+
+#define TEST_FILE "./model.txt"
+
+
+enum {
+    NORMAL_DMABUF_TEST,
+    NORMAL_IO_DMABUF_TEST,
+    DIRECT_IO_DMABUF_TEST,
+    DIRECT_IO_DMABUF_CHECK_TEST,
+};
+
+#define assert(as)                             \
+	if (!(as)) {                           \
+		printf("%s is failed\n", #as); \
+		exit(-1);                      \
+	}
+
+int dmabuf_heap_open(char* name) {
+    int ret, fd;
+    char buf[256];
+
+    ret = sprintf(buf, "%s/%s", HEAP_DEVPATH, name);
+    if (ret < 0) {
+        printf("sprintf failed!\n");
+        return ret;
+    }
+
+    fd = open(buf, O_RDWR);
+    if (fd < 0) printf("open %s failed!\n", buf);
+    return fd;
+}
+
+int dmabuf_heap_alloc_read_file(int heap_fd, int file_fd, unsigned int flags,
+int* dmabuf_fd) {
+    struct dma_heap_allocation_file_data data = {
+            .file_fd = file_fd,
+            .fd_flags = O_RDWR | O_CLOEXEC,
+            .heap_flags = flags,
+    };
+    int ret;
+
+    if (dmabuf_fd == NULL) return -EINVAL;
+
+    ret = ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC_AND_READ, &data);
+    if (ret < 0) return ret;
+    *dmabuf_fd = (int)data.fd;
+    return ret;
+}
+
+
+int dmabuf_heap_alloc(int fd, size_t len, unsigned int flags, int* dmabuf_fd) {
+    struct dma_heap_allocation_data data = {
+            .len = len,
+            .fd_flags = O_RDWR | O_CLOEXEC,
+            .heap_flags = flags,
+    };
+    int ret;
+
+    if (dmabuf_fd == NULL) return -EINVAL;
+
+    ret = ioctl(fd, DMA_HEAP_IOCTL_ALLOC, &data);
+    if (ret < 0) return ret;
+    *dmabuf_fd = (int)data.fd;
+    return ret;
+}
+
+void dmabuf_heap_test(int type, char *heap_name) {
+    int heapfd = dmabuf_heap_open(heap_name);
+    assert(heapfd > 0);
+
+    if (type == NORMAL_DMABUF_TEST) {
+        int file_fd = open(TEST_FILE, O_RDONLY);
+        unsigned long fsize;
+        int dma_buf_fd;
+        struct stat ftat;
+        fstat(file_fd, &ftat);
+        fsize = ftat.st_size;
+
+        dmabuf_heap_alloc(heapfd, fsize, 0, &dma_buf_fd);
+        assert(dma_buf_fd > 0);
+
+        void *file_addr = mmap(NULL, fsize, PROT_READ, MAP_SHARED, file_fd, 0);
+        assert(file_addr != MAP_FAILED);
+        void *dma_buf_addr = mmap(NULL, fsize, PROT_WRITE, MAP_SHARED,
+dma_buf_fd, 0);
+        assert(dma_buf_addr != MAP_FAILED);
+
+        memcpy(dma_buf_addr, file_addr, fsize);
+
+        munmap(file_addr, fsize);
+        munmap(dma_buf_addr, fsize);
+        close(file_fd);
+        close(dma_buf_fd);
+    } else {
+        int file_fd;
+        if (type == NORMAL_IO_DMABUF_TEST)
+            file_fd = open(TEST_FILE, O_RDONLY);
+        else
+        	file_fd = open(TEST_FILE, O_RDONLY | O_DIRECT);
+        int dma_buf_fd;
+
+        dmabuf_heap_alloc_read_file(heapfd, file_fd, 0, &dma_buf_fd);
+        assert(dma_buf_fd > 0);
+
+        if (type == DIRECT_IO_DMABUF_CHECK_TEST) {
+            struct stat ftat;
+            fstat(file_fd, &ftat);
+            unsigned long size = ftat.st_size;
+
+            char *dmabuf_addr = (char *)mmap(NULL, size, PROT_READ,
+                    MAP_SHARED, dma_buf_fd, 0);
+            assert(dmabuf_addr != NULL);
+            char *file_addr = (char *)mmap(NULL, size, PROT_READ, MAP_SHARED,
+file_fd, 0);
+            assert(file_addr != NULL);
+
+            unsigned long i = 0;
+            for (; i < size; i += 4096) {
+                if (memcmp(&dmabuf_addr[i], &file_addr[i], 4096) != 0)
+                    printf("cur %lu comp size %d\n", i, size);
+                assert (memcmp(&dmabuf_addr[i], &file_addr[i], 4096) == 0);
+            }
+            munmap(dmabuf_addr, size);
+            munmap(file_addr, size);
+        }
+        close(file_fd);
+        close(dma_buf_fd);
+    }
+    close(heapfd);
+}
+
+int main(int argc, char* argv[]) {
+    char* dmabuf_heap_name;
+    char* type_name;
+    int type;
+    struct timespec ts_start, ts_end;
+	long long start, end;
+    if (argc < 3) {
+        printf("input heap name, copy or trans or normal\n");
+    }
+
+    dmabuf_heap_name = argv[1];
+    type_name = argv[2];
+
+    if (strcmp(type_name, "normal") == 0)
+        type = NORMAL_DMABUF_TEST;
+    else if (strcmp(type_name, "direct_io") == 0)
+        type = DIRECT_IO_DMABUF_TEST;
+    else if (strcmp(type_name, "direct_io_check") == 0)
+        type = DIRECT_IO_DMABUF_CHECK_TEST;
+    else if (strcmp(type_name, "normal_io") == 0)
+        type = NORMAL_IO_DMABUF_TEST;
+    else
+        exit(-1);
+
+    printf("Testing dmabuf %s", dmabuf_heap_name);
+
+    printf("\n---------------------------------------------\n");
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    dmabuf_heap_test(type, dmabuf_heap_name);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+	start = ts_start.tv_sec * 1000000000 + ts_start.tv_nsec;
+	end = ts_end.tv_sec * 1000000000 + ts_end.tv_nsec;
+
+    printf("total cost %lldns\n", end - start);
+
+    return 0;
+}
+```
+
+Huan Yang (2):
+  dma-buf: heaps: DMA_HEAP_IOCTL_ALLOC_READ_FILE framework
+  dma-buf: heaps: system_heap support DMA_HEAP_IOCTL_ALLOC_AND_READ
+
+ drivers/dma-buf/dma-heap.c          | 525 +++++++++++++++++++++++++++-
+ drivers/dma-buf/heaps/system_heap.c |  53 ++-
+ include/linux/dma-heap.h            |  57 ++-
+ include/uapi/linux/dma-heap.h       |  32 ++
+ 4 files changed, 660 insertions(+), 7 deletions(-)
+
+
+base-commit: 523b23f0bee3014a7a752c9bb9f5c54f0eddae88
+--
+2.45.2
 
