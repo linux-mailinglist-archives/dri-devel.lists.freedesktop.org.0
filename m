@@ -2,81 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC3392F87F
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 11:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A59292F893
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 11:59:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E4CB10E1F8;
-	Fri, 12 Jul 2024 09:55:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 940E610EC96;
+	Fri, 12 Jul 2024 09:59:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="dbR6Ekqj";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="C2b6stVM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B9B10E1F8
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 09:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1720778130; x=1721382930; i=markus.elfring@web.de;
- bh=qA8dZxx5ZAywJE0Ce/DvrSCgak1qKg/qBSRGPZMW8gA=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=dbR6EkqjUFukvLWHaRUTvXDZ9Q3eh2KY+bnr9u0PzwHn8JOXU+2s/bLlAU0nLVe9
- QvAFPPlYMy/RuXwut44zlkSZ0xzBv5FeQ/LEAsLp2MhVjkOsM2IOGPAC7cAVr9dAK
- UoCMq5LMERNdaDq6vsLOJ97/1PV8FMtinIrSYNW+2IrFu7yKcIMjjUNLctBZ+Oq+1
- s9u4qmipSYoPLMlLpF1TZhPZG3T0NK7OU50HjWl4KEh9GysgmBCExnchvh92ppN2y
- y97jzSqZeZPemiVieJRZ6Idvuxf9PCEe40iY16M5rK6ST4TBgeoPke+jOfwk2+QwO
- INUGAEyvltYlVPOvQQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MiuSe-1rpYG625Ei-00aqKn; Fri, 12
- Jul 2024 11:55:30 +0200
-Message-ID: <bb82eb1b-e284-45c4-b80f-7bdb65e0449d@web.de>
-Date: Fri, 12 Jul 2024 11:55:24 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C48610EC96
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 09:59:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1720778376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yNK2WNYT4hz6xvV+XWZB4439w5KRVL9zrlSdvQd6Wt8=;
+ b=C2b6stVMh0sFX/L8o3ET/YM9pT5qXTqCNGrleOgFXPx8sR/3mE4jaqKa0BrxX0YC4C1kOB
+ apaUEvjLGVkSiUiW80ldnmhGLD08baZBj9wAIb8HlvR8ksC0T6lZpsYKRc0iaWkRGOrRBj
+ MUusPfbpzQ/bvy5T8iNHkQDUT3aUMYk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-556-qK9vCHlvPXm8lenuHMXLbw-1; Fri, 12 Jul 2024 05:59:34 -0400
+X-MC-Unique: qK9vCHlvPXm8lenuHMXLbw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-367a064472aso1368463f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 02:59:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720778373; x=1721383173;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yNK2WNYT4hz6xvV+XWZB4439w5KRVL9zrlSdvQd6Wt8=;
+ b=PCWLY4iR2sO47LJdIGPo+Q7621uU12MWdH4CgfuhapiH+PSNP+3Lhpn42A6AhaET77
+ LW8vv3EKm41bDofjCzNSZdAOWNQH2osIjxj2mVmB+7CUNQpIrc7Ih+MXxORH4BP3DdlP
+ TdNol5LdnYO32iyuFGkpamcD4mX825VAe1JmL/liYTOV8TT6g9b2SZ/ve1+Lnp89VxBN
+ JxF5oskrYoYfJQxNQ3TSbROHVt0rWbYEDkwYx0T4JHUQWgyvHOBaPmAIEFXdN2lDFlLi
+ kWNd8+/hlCoidnzFmDGANEQ9FQc7FH4ByzjNIS385CCADtnok/FzmLsWQhB69UrklsEX
+ wh3w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWOTERDut4CuxW+s23A0IrbhyM/qNeLtqH95z6bmwmVR4Jz8/sQJN9XczLHxTfc4dEQ4MqTCY0GCUZH5WR+FUKSRG6etVaEAxJI2oedYyS4
+X-Gm-Message-State: AOJu0YxNWMC2mD1lGQX0vqNzgCxsJscksuQNsi6mrrYXfAI9RTflJS/9
+ 30VMYyKnzyt7DiE0RYr/8T06bjW/dgojJiVIzz331j8Hbhod1RHOps2er1ZdtkbfbaEFqQyBq86
+ DiqwJgQKBOTl8GBEdCzRvSo7exFTAj8vM1xXGWg0EFRJjMlHsRKtDI3CvfiRiOj9VJQ==
+X-Received: by 2002:a5d:4c46:0:b0:367:437f:177f with SMTP id
+ ffacd0b85a97d-367cead1d0fmr6978772f8f.55.1720778373321; 
+ Fri, 12 Jul 2024 02:59:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE7RTJBpoqr/TIMIUkrbE+vKpQ5fn0lcejVvLygeHOHW187lQxQdEmkBo0UptM3swvND74cmQ==
+X-Received: by 2002:a5d:4c46:0:b0:367:437f:177f with SMTP id
+ ffacd0b85a97d-367cead1d0fmr6978747f8f.55.1720778372819; 
+ Fri, 12 Jul 2024 02:59:32 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-367cde7e187sm9900714f8f.21.2024.07.12.02.59.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Jul 2024 02:59:32 -0700 (PDT)
+Message-ID: <2d886ba5-950b-4dff-81ea-8748d7d67c55@redhat.com>
+Date: Fri, 12 Jul 2024 11:59:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Liu Ying <victor.liu@nxp.com>, imx@lists.linux.dev,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- kernel@pengutronix.de
-Cc: LKML <linux-kernel@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
- Francesco Dolcini <francesco@dolcini.it>, Frank Li <Frank.Li@nxp.com>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
+Subject: Re: [PATCH v2] printk: Add a short description string to kmsg_dump()
+To: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
+ <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Thomas Zimmermann <tzimmermann@suse.de>, Vinod Koul <vkoul@kernel.org>
-References: <20240712093243.2108456-10-victor.liu@nxp.com>
-Subject: Re: [PATCH v2 09/16] drm/imx: Add i.MX8qxp Display Controller KMS
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240712093243.2108456-10-victor.liu@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:x9ykM0EokxdM3FPtkxqlt9BWgSTGc7SN4QMfykDtXMfy4tE/R4V
- VIutO0wDF9pNtFqDiB2Sw/ippBTdON8SV/JXiqxA1GNrH0RlaXK9gPs+v22H8lJRlDFrZYb
- eg/WVdGIfHbFpD7NNh8SnaBSI5Qrdv4LCw8HoDuVRO4NyLTSmzQVpEiuQ4TQ84UTqmKKBCL
- AksP3YqG6upl26uMsoG4Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:cmvPTZFViww=;IPRzr2aMIAI2Eacf50wbgoYbdk5
- TOdtCR+2fvYykEtrSZrVUcSam1mZVyNtKhdnF4hk7dWgpdkejJ2bs+InkkcWWXphjw7vN7DZN
- Aotcw8N015YTbepLD7+93uloalx9djgetGsf1ELc2534uxqcOtZeGcRJt5UfmZNWBbXbnAyka
- geAXRUXxnHONW0Kic+v1ohsrzvxZFcqvTgXD0vXrsxE4hSme/yzlfAXSOaIVS/elAMIFvGC6A
- QzO0IKkcQrXxur/LyOfiv5zmDZJ6t2tYH9W1o7eE8TExFzFVL7g+NzoDOGkFhtG2LFGogPd4U
- IZ9r4lU84oKckhcj+FPv3ezk2tYrXTo4om2BxH6cqdB/LeExUZ6Q1qiDX3b3j38pW4fo+kJlj
- GJtyxvFEwOjFcXOaBsWsFSnUF/Dde4bKFsq5qPjrOzINVBc2xtbdKASuWr4MCxWDFr/DGggof
- +gUR701hj3xIQB8W4YYecYyynry81nAMDZ93ePD6h08My9PEAewu/jSgZumsa1NthBYX0aKEe
- f1A2WDyeclq67htJ4zOPjtq6SL5vzQT8S6NTIQjSUkEVEVEDAeAMyGzfM97lUxgK9op2adFJp
- yBYYzn033Rxe82PAImS+59rZ1HQCSfkqZVIpvaCKC3gbIoVyk0sASyUB0deNpejYtZSmvO+S8
- aaWSd8ckIIwyqtJ0o2jCDyqdRUk17b//UpHyGdVM5NTyE9Od2sJkCO7EPcPg1ZHs9i/dr9kn1
- gkhTdVRhOUtL7HSlfgLYblcS5DrolohfLnnEDDke/+St7e2CBw5M6yc+0CttQ7AvQSlHqdwwk
- CvIIwV8Mh+WKgvGJ80U/In0g==
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Uros Bizjak <ubizjak@gmail.com>,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-hardening@vger.kernel.org
+References: <20240702122639.248110-1-jfalempe@redhat.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240702122639.248110-1-jfalempe@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,26 +115,324 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> +++ b/drivers/gpu/drm/imx/dc/dc-crtc.c
-> @@ -0,0 +1,578 @@
-=E2=80=A6
-> +static void dc_crtc_queue_state_event(struct drm_crtc_state *crtc_state=
-)
-> +{tglx@linutronix.de
-=E2=80=A6
-> +	spin_lock_irq(&crtc->dev->event_lock);
-> +	if (crtc_state->event) {
-=E2=80=A6
-> +	}
-> +	spin_unlock_irq(&crtc->dev->event_lock);
+On 02/07/2024 14:26, Jocelyn Falempe wrote:
+> kmsg_dump doesn't forward the panic reason string to the kmsg_dumper
+> callback.
+> This patch adds a new struct kmsg_dump_detail, that will hold the
+> reason and description, and pass it to the dump() callback.
+> 
+> To avoid updating all kmsg_dump() call, it adds a kmsg_dump_desc()
+> function and a macro for backward compatibility.
+> 
+> I've written this for drm_panic, but it can be useful for other
+> kmsg_dumper.
+> It allows to see the panic reason, like "sysrq triggered crash"
+> or "VFS: Unable to mount root fs on xxxx" on the drm panic screen.
+> 
+> v2:
+>   * Use a struct kmsg_dump_detail to hold the reason and description
+>     pointer, for more flexibility if we want to add other parameters.
+>     (Kees Cook)
+>   * Fix powerpc/nvram_64 build, as I didn't update the forward
+>     declaration of oops_to_nvram()
+> 
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>   arch/powerpc/kernel/nvram_64.c             |  8 ++++----
+>   arch/powerpc/platforms/powernv/opal-kmsg.c |  4 ++--
+>   arch/um/kernel/kmsg_dump.c                 |  2 +-
+>   drivers/gpu/drm/drm_panic.c                |  4 ++--
+>   drivers/hv/hv_common.c                     |  4 ++--
+>   drivers/mtd/mtdoops.c                      |  2 +-
+>   fs/pstore/platform.c                       | 10 +++++-----
+>   include/linux/kmsg_dump.h                  | 22 +++++++++++++++++++---
+>   kernel/panic.c                             |  2 +-
+>   kernel/printk/printk.c                     | 11 ++++++++---
+>   10 files changed, 45 insertions(+), 24 deletions(-)
+> 
+> diff --git a/arch/powerpc/kernel/nvram_64.c b/arch/powerpc/kernel/nvram_64.c
+> index e385d3164648..f9c6568a9137 100644
+> --- a/arch/powerpc/kernel/nvram_64.c
+> +++ b/arch/powerpc/kernel/nvram_64.c
+> @@ -73,7 +73,7 @@ static const char *nvram_os_partitions[] = {
+>   };
+>   
+>   static void oops_to_nvram(struct kmsg_dumper *dumper,
+> -			  enum kmsg_dump_reason reason);
+> +			  struct kmsg_dump_detail *detail);
+>   
+>   static struct kmsg_dumper nvram_kmsg_dumper = {
+>   	.dump = oops_to_nvram
+> @@ -643,7 +643,7 @@ void __init nvram_init_oops_partition(int rtas_partition_exists)
+>    * partition.  If that's too much, go back and capture uncompressed text.
+>    */
+>   static void oops_to_nvram(struct kmsg_dumper *dumper,
+> -			  enum kmsg_dump_reason reason)
+> +			  struct kmsg_dump_detail *detail)
+>   {
+>   	struct oops_log_info *oops_hdr = (struct oops_log_info *)oops_buf;
+>   	static unsigned int oops_count = 0;
+> @@ -655,7 +655,7 @@ static void oops_to_nvram(struct kmsg_dumper *dumper,
+>   	unsigned int err_type = ERR_TYPE_KERNEL_PANIC_GZ;
+>   	int rc = -1;
+>   
+> -	switch (reason) {
+> +	switch (detail->reason) {
+>   	case KMSG_DUMP_SHUTDOWN:
+>   		/* These are almost always orderly shutdowns. */
+>   		return;
+> @@ -671,7 +671,7 @@ static void oops_to_nvram(struct kmsg_dumper *dumper,
+>   		break;
+>   	default:
+>   		pr_err("%s: ignoring unrecognized KMSG_DUMP_* reason %d\n",
+> -		       __func__, (int) reason);
+> +		       __func__, (int) detail->reason);
+>   		return;
+>   	}
+>   
+> diff --git a/arch/powerpc/platforms/powernv/opal-kmsg.c b/arch/powerpc/platforms/powernv/opal-kmsg.c
+> index 6c3bc4b4da98..bb4218fa796e 100644
+> --- a/arch/powerpc/platforms/powernv/opal-kmsg.c
+> +++ b/arch/powerpc/platforms/powernv/opal-kmsg.c
+> @@ -20,13 +20,13 @@
+>    * message, it just ensures that OPAL completely flushes the console buffer.
+>    */
+>   static void kmsg_dump_opal_console_flush(struct kmsg_dumper *dumper,
+> -				     enum kmsg_dump_reason reason)
+> +				     struct kmsg_dump_detail *detail)
+>   {
+>   	/*
+>   	 * Outside of a panic context the pollers will continue to run,
+>   	 * so we don't need to do any special flushing.
+>   	 */
+> -	if (reason != KMSG_DUMP_PANIC)
+> +	if (detail->reason != KMSG_DUMP_PANIC)
+>   		return;
+>   
+>   	opal_flush_console(0);
+> diff --git a/arch/um/kernel/kmsg_dump.c b/arch/um/kernel/kmsg_dump.c
+> index 4382cf02a6d1..419021175272 100644
+> --- a/arch/um/kernel/kmsg_dump.c
+> +++ b/arch/um/kernel/kmsg_dump.c
+> @@ -8,7 +8,7 @@
+>   #include <os.h>
+>   
+>   static void kmsg_dumper_stdout(struct kmsg_dumper *dumper,
+> -				enum kmsg_dump_reason reason)
+> +				struct kmsg_dump_detail *detail)
+>   {
+>   	static struct kmsg_dump_iter iter;
+>   	static DEFINE_SPINLOCK(lock);
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index 948aed00595e..8794c7f6c0ee 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -655,11 +655,11 @@ static struct drm_plane *to_drm_plane(struct kmsg_dumper *kd)
+>   	return container_of(kd, struct drm_plane, kmsg_panic);
+>   }
+>   
+> -static void drm_panic(struct kmsg_dumper *dumper, enum kmsg_dump_reason reason)
+> +static void drm_panic(struct kmsg_dumper *dumper, struct kmsg_dump_detail *detail)
+>   {
+>   	struct drm_plane *plane = to_drm_plane(dumper);
+>   
+> -	if (reason == KMSG_DUMP_PANIC)
+> +	if (detail->reason == KMSG_DUMP_PANIC)
+>   		draw_panic_plane(plane);
+>   }
+>   
+> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+> index 9c452bfbd571..7a35c82976e0 100644
+> --- a/drivers/hv/hv_common.c
+> +++ b/drivers/hv/hv_common.c
+> @@ -207,13 +207,13 @@ static int hv_die_panic_notify_crash(struct notifier_block *self,
+>    * buffer and call into Hyper-V to transfer the data.
+>    */
+>   static void hv_kmsg_dump(struct kmsg_dumper *dumper,
+> -			 enum kmsg_dump_reason reason)
+> +			 struct kmsg_dump_detail *detail)
+>   {
+>   	struct kmsg_dump_iter iter;
+>   	size_t bytes_written;
+>   
+>   	/* We are only interested in panics. */
+> -	if (reason != KMSG_DUMP_PANIC || !sysctl_record_panic_msg)
+> +	if (detail->reason != KMSG_DUMP_PANIC || !sysctl_record_panic_msg)
+>   		return;
+>   
+>   	/*
+> diff --git a/drivers/mtd/mtdoops.c b/drivers/mtd/mtdoops.c
+> index 2f11585b5613..86d49db9196d 100644
+> --- a/drivers/mtd/mtdoops.c
+> +++ b/drivers/mtd/mtdoops.c
+> @@ -298,7 +298,7 @@ static void find_next_position(struct mtdoops_context *cxt)
+>   }
+>   
+>   static void mtdoops_do_dump(struct kmsg_dumper *dumper,
+> -			    enum kmsg_dump_reason reason)
+> +			    struct kmsg_dump_detail *detail)
+>   {
+>   	struct mtdoops_context *cxt = container_of(dumper,
+>   			struct mtdoops_context, dump);
+> diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
+> index 3497ede88aa0..9c6b7c97fa3c 100644
+> --- a/fs/pstore/platform.c
+> +++ b/fs/pstore/platform.c
+> @@ -275,7 +275,7 @@ void pstore_record_init(struct pstore_record *record,
+>    * end of the buffer.
+>    */
+>   static void pstore_dump(struct kmsg_dumper *dumper,
+> -			enum kmsg_dump_reason reason)
+> +			struct kmsg_dump_detail *detail)
+>   {
+>   	struct kmsg_dump_iter iter;
+>   	unsigned long	total = 0;
+> @@ -285,9 +285,9 @@ static void pstore_dump(struct kmsg_dumper *dumper,
+>   	int		saved_ret = 0;
+>   	int		ret;
+>   
+> -	why = kmsg_dump_reason_str(reason);
+> +	why = kmsg_dump_reason_str(detail->reason);
+>   
+> -	if (pstore_cannot_block_path(reason)) {
+> +	if (pstore_cannot_block_path(detail->reason)) {
+>   		if (!spin_trylock_irqsave(&psinfo->buf_lock, flags)) {
+>   			pr_err("dump skipped in %s path because of concurrent dump\n",
+>   					in_nmi() ? "NMI" : why);
+> @@ -311,7 +311,7 @@ static void pstore_dump(struct kmsg_dumper *dumper,
+>   		pstore_record_init(&record, psinfo);
+>   		record.type = PSTORE_TYPE_DMESG;
+>   		record.count = oopscount;
+> -		record.reason = reason;
+> +		record.reason = detail->reason;
+>   		record.part = part;
+>   		record.buf = psinfo->buf;
+>   
+> @@ -352,7 +352,7 @@ static void pstore_dump(struct kmsg_dumper *dumper,
+>   		}
+>   
+>   		ret = psinfo->write(&record);
+> -		if (ret == 0 && reason == KMSG_DUMP_OOPS) {
+> +		if (ret == 0 && detail->reason == KMSG_DUMP_OOPS) {
+>   			pstore_new_entry = 1;
+>   			pstore_timer_kick();
+>   		} else {
+> diff --git a/include/linux/kmsg_dump.h b/include/linux/kmsg_dump.h
+> index 906521c2329c..65f5a47727bc 100644
+> --- a/include/linux/kmsg_dump.h
+> +++ b/include/linux/kmsg_dump.h
+> @@ -39,6 +39,17 @@ struct kmsg_dump_iter {
+>   	u64	next_seq;
+>   };
+>   
+> +/**
+> + *struct kmsg_dump_detail - kernel crash detail
+> + * @reason: reason for the crash, see kmsg_dump_reason.
+> + * @description: optional short string, to provide additional information.
+> + */
+> +
+> +struct kmsg_dump_detail {
+> +	enum kmsg_dump_reason reason;
+> +	const char *description;
+> +};
+> +
+>   /**
+>    * struct kmsg_dumper - kernel crash message dumper structure
+>    * @list:	Entry in the dumper list (private)
+> @@ -49,13 +60,13 @@ struct kmsg_dump_iter {
+>    */
+>   struct kmsg_dumper {
+>   	struct list_head list;
+> -	void (*dump)(struct kmsg_dumper *dumper, enum kmsg_dump_reason reason);
+> +	void (*dump)(struct kmsg_dumper *dumper, struct kmsg_dump_detail *detail);
+>   	enum kmsg_dump_reason max_reason;
+>   	bool registered;
+>   };
+>   
+>   #ifdef CONFIG_PRINTK
+> -void kmsg_dump(enum kmsg_dump_reason reason);
+> +void kmsg_dump_desc(enum kmsg_dump_reason reason, const char *desc);
+>   
+>   bool kmsg_dump_get_line(struct kmsg_dump_iter *iter, bool syslog,
+>   			char *line, size_t size, size_t *len);
+> @@ -71,7 +82,7 @@ int kmsg_dump_unregister(struct kmsg_dumper *dumper);
+>   
+>   const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason);
+>   #else
+> -static inline void kmsg_dump(enum kmsg_dump_reason reason)
+> +static inline void kmsg_dump_desc(enum kmsg_dump_reason reason, const char *desc)
+>   {
+>   }
+>   
+> @@ -107,4 +118,9 @@ static inline const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
+>   }
+>   #endif
+>   
+> +static inline void kmsg_dump(enum kmsg_dump_reason reason)
+> +{
+> +	kmsg_dump_desc(reason, NULL);
 > +}
-=E2=80=A6
+> +
+>   #endif /* _LINUX_KMSG_DUMP_H */
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index 0843a275531a..0a8b29c44f3c 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -378,7 +378,7 @@ void panic(const char *fmt, ...)
+>   
+>   	panic_print_sys_info(false);
+>   
+> -	kmsg_dump(KMSG_DUMP_PANIC);
+> +	kmsg_dump_desc(KMSG_DUMP_PANIC, buf);
+>   
+>   	/*
+>   	 * If you doubt kdump always works fine in any situation,
+> diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+> index 5dcc05e1aa56..19bc414be5f0 100644
+> --- a/kernel/printk/printk.c
+> +++ b/kernel/printk/printk.c
+> @@ -4272,16 +4272,21 @@ const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
+>   EXPORT_SYMBOL_GPL(kmsg_dump_reason_str);
+>   
+>   /**
+> - * kmsg_dump - dump kernel log to kernel message dumpers.
+> + * kmsg_dump_desc - dump kernel log to kernel message dumpers.
+>    * @reason: the reason (oops, panic etc) for dumping
+> + * @desc: a short string to describe what caused the panic or oops. Can be NULL
+> + * if no additional description is available.
+>    *
+>    * Call each of the registered dumper's dump() callback, which can
+>    * retrieve the kmsg records with kmsg_dump_get_line() or
+>    * kmsg_dump_get_buffer().
+>    */
+> -void kmsg_dump(enum kmsg_dump_reason reason)
+> +void kmsg_dump_desc(enum kmsg_dump_reason reason, const char *desc)
+>   {
+>   	struct kmsg_dumper *dumper;
+> +	struct kmsg_dump_detail detail = {
+> +		.reason = reason,
+> +		.description = desc};
+>   
+>   	rcu_read_lock();
+>   	list_for_each_entry_rcu(dumper, &dump_list, list) {
+> @@ -4299,7 +4304,7 @@ void kmsg_dump(enum kmsg_dump_reason reason)
+>   			continue;
+>   
+>   		/* invoke dumper which will iterate over records */
+> -		dumper->dump(dumper, reason);
+> +		dumper->dump(dumper, &detail);
+>   	}
+>   	rcu_read_unlock();
+>   }
+> 
+> base-commit: 82e4255305c554b0bb18b7ccf2db86041b4c8b6e
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(spinlock_irq)(&crtc->dev->event_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.10-rc7/source/include/linux/spinlock.h=
-#L567
+Gentle ping, I need reviews from powerpc, usermod linux, mtd, pstore and 
+hyperv, to be able to push it in the drm-misc tree.
 
-Regards,
-Markus
+Best regards,
+
+-- 
+
+Jocelyn
+
