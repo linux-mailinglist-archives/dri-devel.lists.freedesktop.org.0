@@ -2,89 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BC792FFE3
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 19:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74ED29300FB
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 21:30:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA2A210ED7D;
-	Fri, 12 Jul 2024 17:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9252C10E151;
+	Fri, 12 Jul 2024 19:30:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Yc4zCgtv";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="DvP/J91q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 732F010ED7D
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 17:39:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720805940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sipNUbj7qIymRT+79qbVwcgrJBEdFVUgDof1TAUYRzU=;
- b=Yc4zCgtvzEiOD9JbqhuimwLozjknBWgDS1uUiY5uDaXB7a8RD8jNE6wz04XG5aovD7K7ks
- frTnONs+Qmks8WFWOwpFFzFrj/wy20d1J8XBJQltanomooVtk2BoZ50j6DD9/sLAZOSdFl
- 1gE2Kpw2xgrXXhH2YtYThb8nsqn9Qls=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-670-w8-X0A8CMjeLsdaBmCkaaw-1; Fri, 12 Jul 2024 13:38:58 -0400
-X-MC-Unique: w8-X0A8CMjeLsdaBmCkaaw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4265464ddc9so13134605e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 10:38:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720805937; x=1721410737;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E69910ED41
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 15:44:20 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-52e99060b41so2300153e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 08:44:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1720799058; x=1721403858;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sipNUbj7qIymRT+79qbVwcgrJBEdFVUgDof1TAUYRzU=;
- b=aesBdY9mT06ns5atqsdbdR3Frk0zcX1uKlZcI25eORWJpwU2BDPelvXFeYmLWnjpf1
- PIdxJXjCZa8+rDRekqPmOlOxp9yFI87NXTwFfkZx80RTkbadhvkeiN74R1KHer/KYKr8
- FCVkDJa0GVIsd9MWoAkBKJFh77qw9oDv4ZwP8IgVaNundkwtUf48XVXkY0ZhbGF1Djtn
- 0grxJ1/+iV0uf6Or8AYjU3nZidmcQTSTcLsmeDp1um5qeHIKYF5Y0tMVXIHzas8zfJu+
- HbGZhyDGex+SxK905HP3hCsbu9ZHghEr8dPHoLuIV+9nI57JMWPW9cRIkUARSIXR/1ub
- uebg==
+ bh=Gm+dL+hq2H7t5EiDDEM1tOdPxkkuckw7URFjri0hY5Y=;
+ b=DvP/J91qtXmUjno5NsvXWeGBdf+jkXFtFPYYWz2XwNPsdppiUcyb2u/8FIaG1/AIk+
+ JCoqroTAPJ0rEubk/PZzyzHMw0JFDLEgnnfv+tsK+vN+OjWP51ifBT8y1J9W31zul+DS
+ F8aJpfGaw/b2c21HMmUNrBXJwm4EgZfYzfI5E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720799058; x=1721403858;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Gm+dL+hq2H7t5EiDDEM1tOdPxkkuckw7URFjri0hY5Y=;
+ b=dPQwD9CcP2G4kSe3P0/Rdg7zu37I02QHTc7wE5yvIPRm/M8AVHrKDniNBeB2fRgmVG
+ 3fB6/URiOl9wdEL14q7fpw4RchYYyXi6ea8HmIWCETrpgSJsPu/Ab8MqP3SNjgcXpCrR
+ Bb8hC4EkKvkgCYyJEEav2n1AgTG7EF5HDMFzPz4A4g8yICdpMtU02cfEuvkwtrqRH3xV
+ FuTgdSA22kgbq1H8D5KPH0G6Wp6IK5JPmlimPLr0o90BLbasgdcCHXUU2WifftM32FbR
+ pIk7RIFh0xcLzDa4KMW4LZJdiR/dPG8w8b95CzFtktQ9SWAdevy5MoGNWRIx4K2pxQpz
+ zd4A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW63NtE9ziGlKck/wNyCxuEnygD5Soi6nF10bOUcWgsKJIk94U2MxDfujCqT4S97b0zovDyGQhJOVLQ6NtpoFv59bQdXQeJVPMp0F6lIaSa
-X-Gm-Message-State: AOJu0YzPRwwgM3QuEsk3TorVaIBoCZb2/BjyKR5HLpzogcv4iYvodSLf
- tlfqVT+gYHNpkQOR1NqybxmYcgc8af8R70JzgfAu0uZgg95yup5O+qsO8Ak6zCgGh7enRmDiA7s
- V8BGpU86qb0nZXKFVlYn2lJAJZGrXAsfQmeAbZnwPa4hlFXhft11W1HjYE4PJYXUqIw==
-X-Received: by 2002:a05:600c:4613:b0:426:526f:4a1f with SMTP id
- 5b1f17b1804b1-4279daf2585mr30621105e9.16.1720805937773; 
- Fri, 12 Jul 2024 10:38:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGwxyB3tY2Z4sxPaWpQBWCpnq//rThRXFxa0CLe10n5BDi1DzzpSy6RoH9nNF6GDL7AeQz3Ow==
-X-Received: by 2002:a05:600c:4613:b0:426:526f:4a1f with SMTP id
- 5b1f17b1804b1-4279daf2585mr30620885e9.16.1720805937464; 
- Fri, 12 Jul 2024 10:38:57 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-367cde890f6sm10676030f8f.53.2024.07.12.10.38.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Jul 2024 10:38:56 -0700 (PDT)
-Message-ID: <6c5ba940-8e18-4b4f-9e30-5608b228ec8b@redhat.com>
-Date: Fri, 12 Jul 2024 19:38:54 +0200
+ AJvYcCWn2nxndZfwmSgXpqYx7FzwbWyiayVcZoYqbwmk/mA8D8N9z9jCMGYXDM5n+x98xom2aHg8HofbXrwvXLbuDYQtNJiFA5WvNoi2Azv/h23O
+X-Gm-Message-State: AOJu0Yw0V1L2O6w5vwb4AS8FP4WcAsl2V73KcftbyKrpqaJ5Kd1TuUwv
+ NcWyT/bQoTRdCZnrWKOlH5ZEnFpSiogrkRvMLDHjqk1DFXlIQpxASxE0CuQQ9tDN+5ETgvDhTB2
+ xQGkZkje0aUL5i/bgFV66elLaf/heESni5tA=
+X-Google-Smtp-Source: AGHT+IH9pJBNkOUybx5L7VzoPfxzDl6G5bgrKTfUB/1jjytiloEd89f5W+QGClFOQf+tuEha2LiMoViJKAOxrZ9jfME=
+X-Received: by 2002:a05:6512:ea1:b0:52c:df6f:a66 with SMTP id
+ 2adb3069b0e04-52eb99d4f5dmr8246097e87.58.1720799058056; Fri, 12 Jul 2024
+ 08:44:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/nouveau: Improve variable names in
- nouveau_sched_init()
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240712062618.8057-1-pstanner@redhat.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20240712062618.8057-1-pstanner@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240702215804.2201271-1-jim.cromie@gmail.com>
+ <ZoR40nWmpEV2Ly_6@bombadil.infradead.org>
+ <CAJfuBxyxamRhOyz8WuL+7=eJkEKSw8jnAWjyAuqU2i7gvg-rsQ@mail.gmail.com>
+In-Reply-To: <CAJfuBxyxamRhOyz8WuL+7=eJkEKSw8jnAWjyAuqU2i7gvg-rsQ@mail.gmail.com>
+From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Date: Fri, 12 Jul 2024 17:44:06 +0200
+Message-ID: <CALwA+NbUCfEj_DzT5eMQ7_pSNpyp-zBe6PEL2XnMZrb303J4_Q@mail.gmail.com>
+Subject: Re: [PATCH v9 00/53] fix CONFIG_DRM_USE_DYNAMIC_DEBUG=y
+To: jim.cromie@gmail.com
+Cc: Luis Chamberlain <mcgrof@kernel.org>, daniel.vetter@ffwll.ch, 
+ tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
+ ville.syrjala@linux.intel.com, jbaron@akamai.com, gregkh@linuxfoundation.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk, joe@perches.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Fri, 12 Jul 2024 19:30:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,48 +84,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/12/24 8:26 AM, Philipp Stanner wrote:
-> nouveau_sched_init() uses the function drm_sched_init(). The latter
-> function has parameters called "hang_limit" and "timeout" in its API
-> documentation.
-> 
-> nouveau_sched_init(), however, defines a variable called
-> "job_hang_limit" which is passed to drm_sched_init()'s "timeout"
-> parameter. The actual "hang_limit" parameter is directly set to 0.
-> 
-> Rename "job_hang_limit" to "timeout".
-> 
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+On Wed, Jul 3, 2024 at 12:14=E2=80=AFAM <jim.cromie@gmail.com> wrote:
+>
+> On Tue, Jul 2, 2024 at 4:01=E2=80=AFPM Luis Chamberlain <mcgrof@kernel.or=
+g> wrote:
+> >
+> > On Tue, Jul 02, 2024 at 03:56:50PM -0600, Jim Cromie wrote:
+> > > This fixes dynamic-debug support for DRM.debug, added via classmaps.
+> > > commit bb2ff6c27bc9 (drm: Disable dynamic debug as broken)
+> > >
+> > > CONFIG_DRM_USE_DYNAMIC_DEBUG=3Dy was marked broken because drm.debug=
+=3Dval
+> > > was applied when drm.ko was modprobed; too early for the yet-to-load
+> > > drivers, which thus missed the enablement.  My testing with
+> > > /etc/modprobe.d/ entries and modprobes with dyndbg=3D$querycmd option=
+s
+> > > obscured this omission.
+> > >
+> > > The fix is to replace invocations of DECLARE_DYNDBG_CLASSMAP with
+> > > DYNDBG_CLASSMAP_DEFINE for core, and DYNDBG_CLASSMAP_USE for drivers.
+> > > The distinction allows dyndbg to also handle the users properly.
+> > >
+> > > DRM is the only current classmaps user, and is not really using it,
+> > > so if you think DRM could benefit from zero-off-cost debugs based on
+> > > static-keys, please test.
+> > >
+> > > HISTORY
+> > >
+> > > 9/4/22  - ee879be38bc8..ace7c4bbb240 commited - classmaps-v1 dyndbg p=
+arts
+> > > 9/11/22 - 0406faf25fb1..16deeb8e18ca commited - classmaps-v1 drm part=
+s
+> > >
+> > > https://lore.kernel.org/lkml/Y3XUrOGAV4I7bB3M@kroah.com/
+> > > greg k-h says:
+> > > This should go through the drm tree now.  The rest probably should al=
+so
+> > > go that way and not through my tree as well.
+> >
+> > Can't this just be defined as a coccinelle smpl patch? Must easier
+> > to read than 53 patches?
+> >
+>
+> perhaps it could - Im not sure that would be easier to review
+> than a file-scoped struct declaration or reference per driver
+>
+> Also, I did it hoping to solicit more Tested-by:s with drm.debug=3D0x1ff
+>
+> Jim
+>
 
-Applied to drm-misc-next, thanks!
+Jim,
 
-> ---
-> Changes in v2:
-> - Remove variable "hang_limit". (Danilo)
-> ---
->   drivers/gpu/drm/nouveau/nouveau_sched.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> index 32fa2e273965..ba4139288a6d 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> @@ -404,7 +404,7 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
->   {
->   	struct drm_gpu_scheduler *drm_sched = &sched->base;
->   	struct drm_sched_entity *entity = &sched->entity;
-> -	long job_hang_limit = msecs_to_jiffies(NOUVEAU_SCHED_JOB_TIMEOUT_MS);
-> +	const long timeout = msecs_to_jiffies(NOUVEAU_SCHED_JOB_TIMEOUT_MS);
->   	int ret;
->   
->   	if (!wq) {
-> @@ -418,7 +418,7 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
->   
->   	ret = drm_sched_init(drm_sched, &nouveau_sched_ops, wq,
->   			     NOUVEAU_SCHED_PRIORITY_COUNT,
-> -			     credit_limit, 0, job_hang_limit,
-> +			     credit_limit, 0, timeout,
->   			     NULL, NULL, "nouveau_sched", drm->dev->dev);
->   	if (ret)
->   		goto fail_wq;
+When testing different combinations of Y/M for TEST_DYNAMIC_DEBUG and
+TEST_DYNAMIC_DEBUG_SUBMOD in virtme-ng I spotted test failures:
 
+When the TEST_DYNAMIC_DEBUG=3DM and TEST_DYNAMIC_DEBUG_SUBMOD=3DM -
+BASIC_TESTS, COMMA_TERMINATOR_TESTS, TEST_PERCENT_SPLITTING,
+TEST_MOD_SUBMOD selftests passed
+When the TEST_DYNAMIC_DEBUG=3DY and TEST_DYNAMIC_DEBUG_SUBMOD=3DM -
+BASIC_TESTS, COMMA_TERMINATOR_TESTS selftests passed, however
+TEST_PERCENT_SPLITTING selftest fails with ": ./dyndbg_selftest.sh:270
+check failed expected 1 on =3Dpf, got 0"
+When the TEST_DYNAMIC_DEBUG=3DY and TEST_DYNAMIC_DEBUG_SUBMOD=3DY -
+BASIC_TESTS, COMMA_TERMINATOR_TESTS selftests passed, however
+TEST_PERCENT_SPLITTING selftest fails also with ":
+./dyndbg_selftest.sh:270 check failed expected 1 on =3Dpf, got 0"
+
+Have I missed something ?
+
+Thanks,
+Lukasz
+
+> >   Luis
+> >
