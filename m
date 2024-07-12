@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB23B92F4B1
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 06:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F178792F536
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 07:52:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873AD10EBEE;
-	Fri, 12 Jul 2024 04:47:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6152010EBE6;
+	Fri, 12 Jul 2024 05:52:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OHo1DPbf";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="b9+cBwOa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E7E10EB22
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 04:47:10 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-58c2e5e8649so3946259a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 21:47:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1720759628; x=1721364428; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pAkn2cTSTcU5jSssfeBuKmvRbIUP8ptqi04m3wwrjB4=;
- b=OHo1DPbf7HDipVKmPAL0Ron5X9RK2jmzoSB03FIvbs4hDNuHpht+EjiAI5RJoMWiC0
- lNxmHneGBNes9ByARYWpSSo+/ZDsByi4EdiQtpI9QtTJJjLtx7ggTAgY0GUpfAH1DhYS
- HHQinNkjSqJsxR1rCN9LRGp+zDoWmnKgT4x43UUzHcfFylx6CrHM0qM5hsIchiCY8wLx
- RUYyG0IRZSwLJY2+1eIJ85RHz4e+BkTQw/+jJLe+I8U5UiJcwtt8JBl4YW1pcn+33pYq
- h35crOF4x5z1aoR9s60IMxzCYTKFS9jWvfQ4W58jtg4ydPiPbvsRpGt+m/pCZmNO7etX
- mKSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720759628; x=1721364428;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pAkn2cTSTcU5jSssfeBuKmvRbIUP8ptqi04m3wwrjB4=;
- b=sohfE6vtyeawkJSRtsVZZpL/anTXv40S1+e7BPD4zVwDwNbjBZbAO1etsrHc2ZyG60
- ocX2yO5zwtyQ9CZrQ0YENZ/eBrF4SHnrB+erfAqTomzBWpuTljP412svprvy+qK24c87
- o7+/aNXvK3Ev+xHhUEORnypNtTmk5qzNm4wsmi05EacpUA1BP33djH/6Oy6+29aaS+qW
- UmB90VyJMZny76b9VXA4aYxSMj6d7hZJECy1IlbKtzdov7FwJ2X7TV4hYsiZTd3WjfMy
- 23uzgDITFVC3R9jKMElFymfHkNR7OpLaZW6jPhgE/8o/G8JDY97GT82OYtZVrrV/6vhx
- GZNQ==
-X-Gm-Message-State: AOJu0YxgKT/z2axz0sQL7taIsherW7ixfEFj3lEC70jRKw8ysWEu/evX
- YagEQlQs/BBGf/2YEPwsCVPqs2JSpmPtj9n860+aX21w/pyGQT0ZzugVbwyEuEMvV+pELj3HkZt
- Vt11mImjb1+shuoocKkU0/OWSbbBbgLcKJp8=
-X-Google-Smtp-Source: AGHT+IFZYBNzXtdjjVzb8dVyNE6tOfvjEVwR/PDhKcvGdCvIxNVO1vIgJ78q/iMjD9YQS0N3JFJqlTWFxpwOckYUnlI=
-X-Received: by 2002:a17:907:7d90:b0:a77:e152:a8e with SMTP id
- a640c23a62f3a-a799cd00609mr126400866b.26.1720759627920; Thu, 11 Jul 2024
- 21:47:07 -0700 (PDT)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEBE10EB27;
+ Fri, 12 Jul 2024 05:52:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1720763537;
+ bh=hb5c4dOKAmQLW7LLgSL/Gn1wgorD0XBHAWs0v69N5f4=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=b9+cBwOaY0INMU+YQnzx0kOqZDiw1R0BIlAfjjUbQCn7CdDWNODHsfk6XjkcZBrgn
+ NvP7TIXt5eHal+Zdyop8oLdBDyaT/s6pU0QvmD2/Lss3Kl7Sm/idU5RTethWwxAXY6
+ vq/4YQr9IOpaOXqe0dfp0tTn2D/IBVoOPkTgliU5s6i9IWE4AlRxp3CEhWhQTqXgA4
+ EXlxZyXAnohtnLKODFQLrH1Uk3+mtI05Y9IVtfDqMFDM0BfUTxneGHlFXdt5V4R+I3
+ APtG33P8dZauTJGr8sjv0edx9NG0AutdcyycU4ebuxbjKR9BDzyGf4JTOayXCamSVJ
+ c9th+Sfj8uUYQ==
+Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5B28F37821F1;
+ Fri, 12 Jul 2024 05:52:14 +0000 (UTC)
+Message-ID: <48fb86a9-b863-468e-ae74-35423b22b76d@collabora.com>
+Date: Fri, 12 Jul 2024 11:22:11 +0530
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 12 Jul 2024 14:46:56 +1000
-Message-ID: <CAPM=9tzVaA1Y4A69HF-gHPy3YEgE7EGKxZa0rFWT4NUKvdF1wg@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.10-rc8
-To: LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: drm-ci: flaky tests for i915 driver testing
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ daniel@ffwll.ch, Daniel Stone <daniels@collabora.com>,
+ Helen Mae Koike Fornazier <helen.koike@collabora.com>,
+ Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
+ Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>
+References: <af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com>
+Content-Language: en-US
+In-Reply-To: <af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,113 +65,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Maintainers,
 
-Back to work, thanks to Sima for last week, not too many fixes as
-expected getting close to release, amdgpu and xe have a couple each,
-and then some other misc ones.
+On 28/05/24 12:07, Vignesh Raman wrote:
+> Hi Maintainers,
+> 
+> There are some flaky tests reported for i915 driver testing in drm-ci 
+> for the below boards.
+> 
+> *)
+> # Board Name: asus-C523NA-A20057-coral
+> # IGT Version: 1.28-g0df7b9b97
+> # Linux Version: 6.9.0-rc7
+> # Failure Rate: 50
+> kms_fb_coherency@memset-crc
+> 
+> *)
+> # Board Name: asus-C436FA-Flip-hatch
+> # IGT Version: 1.28-g0df7b9b97
+> # Linux Version: 6.9.0-rc7
+> # Failure Rate: 50
+> kms_plane_alpha_blend@constant-alpha-min
+> 
+> *)
+> # Board Name: hp-x360-12b-ca0010nr-n4020-octopus
+> # IGT Version: 1.28-g0df7b9b97
+> # Linux Version: 6.9.0-rc7
+> # Failure Rate: 50
+> core_hotunplug@unplug-rescan
+> kms_fb_coherency@memset-crc
+> 
+> *)
+> # Board Name: hp-x360-14-G1-sona
+> # IGT Version: 1.28-g0df7b9b97
+> # Linux Version: 6.9.0-rc7
+> # Failure Rate: 50
+> prime_busy@hang
+> 
+> *)
+> # Board Name: dell-latitude-5400-8665U-sarien
+> # IGT Version: 1.28-g0df7b9b97
+> # Linux Version: 6.9.0-rc7
+> # Failure Rate: 50
+> kms_pm_rpm@modeset-lpsp-stress
+> 
+> *)
+> # Board Name: asus-C433TA-AJ0005-rammus
+> # IGT Version: 1.28-g0df7b9b97
+> # Linux Version: 6.9.0-rc7
+> # Failure Rate: 50
+> i915_hangman@engine-engine-error
+> i915_hangman@gt-engine-hang
+> kms_async_flips@crc
+> kms_universal_plane@cursor-fb-leak
+> 
+> Will add these tests in,
+> drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
+> drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
+> drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
+> drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
+> drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
+> drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70
+> 
+> Please could you have a look at these test results and let us know if 
+> you need more information. Thank you.
 
-Dave.
+There are some flaky tests reported for i915 driver testing in drm-ci 
+with the recent IGT uprev in drm-ci 
+(https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0e7f4e6a20d550252c4f355d5a303b1d9c8ff052)
 
-drm-fixes-2024-07-12:
-drm fixes for 6.10-rc8
+*)
+# Board Name: asus-C433TA-AJ0005-rammus
+# Bug Report: 
+https://lore.kernel.org/intel-gfx/af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com/T/#u
+# Failure Rate: 50
+# IGT Version: 1.28-gf13702b8e
+# Linux Version: 6.10.0-rc5
+kms_sysfs_edid_timing
+i915_hangman@engine-engine-hang
+kms_pm_rpm@modeset-lpsp-stress
 
-amdgpu:
-- PSR-SU fix
-- Reseved VMID fix
+*)
+# Board Name: asus-C436FA-Flip-hatch
+# Bug Report: 
+https://lore.kernel.org/intel-gfx/af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com/T/#u
+# Failure Rate: 50
+# IGT Version: 1.28-gf13702b8e
+# Linux Version: 6.10.0-rc5
+kms_atomic_transition@plane-all-modeset-transition-internal-panels
 
-xe:
-- Use write-back caching mode for system memory on DGFX
-- Do not leak object when finalizing hdcp gsc
+The expectation files have been updated with these tests,
+https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
 
-bridge:
-- adv7511 EDID irq fix
+https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
 
-gma500:
-- NULL mode fixes.
-
-meson:
-- fix resource leak
-The following changes since commit 256abd8e550ce977b728be79a74e1729438b4948=
-:
-
-  Linux 6.10-rc7 (2024-07-07 14:23:46 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-07-12
-
-for you to fetch changes up to 8b68788bebd3f697ae62aa9af3dac35ed112ebd7:
-
-  Merge tag 'amd-drm-fixes-6.10-2024-07-11' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2024-07-12
-13:32:36 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.10-rc8
-
-amdgpu:
-- PSR-SU fix
-- Reseved VMID fix
-
-xe:
-- Use write-back caching mode for system memory on DGFX
-- Do not leak object when finalizing hdcp gsc
-
-bridge:
-- adv7511 EDID irq fix
-
-gma500:
-- NULL mode fixes.
-
-meson:
-- fix resource leak
-
-----------------------------------------------------------------
-Adam Ford (1):
-      drm/bridge: adv7511: Fix Intermittent EDID failures
-
-Christian K=C3=B6nig (1):
-      drm/amdgpu: reject gang submit on reserved VMIDs
-
-Dave Airlie (3):
-      Merge tag 'drm-misc-fixes-2024-07-11' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2024-07-11' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.10-2024-07-11' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Leo Li (1):
-      Revert "drm/amd/display: Reset freesync config before update new stat=
-e"
-
-Ma Ke (2):
-      drm/gma500: fix null pointer dereference in psb_intel_lvds_get_modes
-      drm/gma500: fix null pointer dereference in cdv_intel_lvds_get_modes
-
-Nirmoy Das (1):
-      drm/xe/display/xe_hdcp_gsc: Free arbiter on driver removal
-
-Thomas Hellstr=C3=B6m (1):
-      drm/xe: Use write-back caching mode for system memory on DGFX
-
-Yao Zi (1):
-      drm/meson: fix canvas release in bind function
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c            | 15 ++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c           | 15 +++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ids.h           |  1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  1 -
- drivers/gpu/drm/bridge/adv7511/adv7511.h          |  2 +-
- drivers/gpu/drm/bridge/adv7511/adv7511_cec.c      | 13 +++++--
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c      | 22 ++++++-----
- drivers/gpu/drm/gma500/cdv_intel_lvds.c           |  3 ++
- drivers/gpu/drm/gma500/psb_intel_lvds.c           |  3 ++
- drivers/gpu/drm/meson/meson_drv.c                 | 37 +++++++++---------
- drivers/gpu/drm/xe/display/xe_hdcp_gsc.c          | 12 ++++--
- drivers/gpu/drm/xe/xe_bo.c                        | 47 ++++++++++++++-----=
-----
- drivers/gpu/drm/xe/xe_bo_types.h                  |  3 +-
- include/uapi/drm/xe_drm.h                         |  8 +++-
- 14 files changed, 122 insertions(+), 60 deletions(-)
+Regards,
+Vignesh
