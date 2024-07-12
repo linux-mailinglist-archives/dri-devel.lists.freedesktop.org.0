@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC2892F44C
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 05:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB23B92F4B1
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 06:47:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD71610E038;
-	Fri, 12 Jul 2024 03:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 873AD10EBEE;
+	Fri, 12 Jul 2024 04:47:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="jOv1ke1r";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OHo1DPbf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CBFE10E038
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 03:12:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720753976;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BXY/sZpO06n+Rdcmg5Em3FyGZZSOlUrDiJ4rTK+vojA=;
- b=jOv1ke1rDH2TAwQEBORqbNaj3C9fBblJxVihhQLiq1Dyx/RqYLU4mfq9QPioY+9WuxVn/Q
- bCgmgNFVOZISmdMDTUeRbUuRaFxfxrHxbAoX0gI98C34RWe4/FTtorZtiKqMC8hC13QiS5
- i3nP0qiFMaGqkC5EE7cog3JVBzCKwlQ=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-401-YCC4uzUoPWOess2HZR4tSQ-1; Thu, 11 Jul 2024 23:12:54 -0400
-X-MC-Unique: YCC4uzUoPWOess2HZR4tSQ-1
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-2c9015b0910so1965295a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 20:12:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720753974; x=1721358774;
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04E7E10EB22
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 04:47:10 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-58c2e5e8649so3946259a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2024 21:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1720759628; x=1721364428; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BXY/sZpO06n+Rdcmg5Em3FyGZZSOlUrDiJ4rTK+vojA=;
- b=KARwSBgZmmJzHJQ25pofE8d0skfjyhdysuBFVvvKaAJmwmWzkoYxKFP4GrFhsdIkOC
- opLWKCdLt7QNjmg5bcQrSu5kOrjhxbL/rcVsBUPg4ixlfMSaTxo+YLjlYoAUiBULCfWL
- GqdjxbUOZu0QyCBDzQx0N/x8hQeaDTcgMXr+dON2MxFuLzwQUGgrRZ1AQc2OU9buNE5o
- aKkXu+mgQZh+A+IfGF+9GXPBjIyZGrQofpPC0fv2T6PxcVJdUzm+uDIMF/ZOSUEZNBXH
- +HqgzeR3cyfhU6HYOUorrwDUdx6+kYTXPs/BRtxvSwjZRObPlaU6Su0+30o1htMQ8GBu
- gtsQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUx/FlB36KytVqfl+qXkbOK5/YJbfdT8KDrXWOSMFES4awJIaBdBBhQV+or5xEr+GtN55aitC3pghs1hvIzOqt+YTV6nHUCMLGleqmfc3f0
-X-Gm-Message-State: AOJu0YyDXcNFqz8p7oEPH1CdtlSmSgign8OkaTsQQwk0pEXPrHZ57Poc
- aBn2hjEl9Ll1f+69dQrlrilUYCd4PxZQ4+NMOs96gp5C+k4LPOUW68sOdcMb5KN3DYAcfQu2hX8
- 1fRse+vean2xwssC9zExoWRuFdqFFxysCb0EnkMrf59nyVI7dOYhC9McwhSQ6DlN6DOMeuEv7KJ
- dEhX65Di8B78gJYeQc51bdsPmE1jOEFrzZXo2Cu0u1
-X-Received: by 2002:a17:90b:1bc3:b0:2c8:2236:e2c3 with SMTP id
- 98e67ed59e1d1-2cac509b515mr2201882a91.17.1720753973690; 
- Thu, 11 Jul 2024 20:12:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEtAK2n6iWFwX5bM16eYpsf4GlrruFMJ7fNUbwgy0bcVCD8qdJ7sxCfFWVabHQR0P0ve6dq9fYfAk7ofO0SHvs=
-X-Received: by 2002:a17:90b:1bc3:b0:2c8:2236:e2c3 with SMTP id
- 98e67ed59e1d1-2cac509b515mr2201859a91.17.1720753973198; Thu, 11 Jul 2024
- 20:12:53 -0700 (PDT)
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pAkn2cTSTcU5jSssfeBuKmvRbIUP8ptqi04m3wwrjB4=;
+ b=OHo1DPbf7HDipVKmPAL0Ron5X9RK2jmzoSB03FIvbs4hDNuHpht+EjiAI5RJoMWiC0
+ lNxmHneGBNes9ByARYWpSSo+/ZDsByi4EdiQtpI9QtTJJjLtx7ggTAgY0GUpfAH1DhYS
+ HHQinNkjSqJsxR1rCN9LRGp+zDoWmnKgT4x43UUzHcfFylx6CrHM0qM5hsIchiCY8wLx
+ RUYyG0IRZSwLJY2+1eIJ85RHz4e+BkTQw/+jJLe+I8U5UiJcwtt8JBl4YW1pcn+33pYq
+ h35crOF4x5z1aoR9s60IMxzCYTKFS9jWvfQ4W58jtg4ydPiPbvsRpGt+m/pCZmNO7etX
+ mKSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720759628; x=1721364428;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pAkn2cTSTcU5jSssfeBuKmvRbIUP8ptqi04m3wwrjB4=;
+ b=sohfE6vtyeawkJSRtsVZZpL/anTXv40S1+e7BPD4zVwDwNbjBZbAO1etsrHc2ZyG60
+ ocX2yO5zwtyQ9CZrQ0YENZ/eBrF4SHnrB+erfAqTomzBWpuTljP412svprvy+qK24c87
+ o7+/aNXvK3Ev+xHhUEORnypNtTmk5qzNm4wsmi05EacpUA1BP33djH/6Oy6+29aaS+qW
+ UmB90VyJMZny76b9VXA4aYxSMj6d7hZJECy1IlbKtzdov7FwJ2X7TV4hYsiZTd3WjfMy
+ 23uzgDITFVC3R9jKMElFymfHkNR7OpLaZW6jPhgE/8o/G8JDY97GT82OYtZVrrV/6vhx
+ GZNQ==
+X-Gm-Message-State: AOJu0YxgKT/z2axz0sQL7taIsherW7ixfEFj3lEC70jRKw8ysWEu/evX
+ YagEQlQs/BBGf/2YEPwsCVPqs2JSpmPtj9n860+aX21w/pyGQT0ZzugVbwyEuEMvV+pELj3HkZt
+ Vt11mImjb1+shuoocKkU0/OWSbbBbgLcKJp8=
+X-Google-Smtp-Source: AGHT+IFZYBNzXtdjjVzb8dVyNE6tOfvjEVwR/PDhKcvGdCvIxNVO1vIgJ78q/iMjD9YQS0N3JFJqlTWFxpwOckYUnlI=
+X-Received: by 2002:a17:907:7d90:b0:a77:e152:a8e with SMTP id
+ a640c23a62f3a-a799cd00609mr126400866b.26.1720759627920; Thu, 11 Jul 2024
+ 21:47:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240701191319.087b227e@canb.auug.org.au>
- <20240701171901.GA882812@thelio-3990X>
- <20240712122843.312313a4@canb.auug.org.au>
-In-Reply-To: <20240712122843.312313a4@canb.auug.org.au>
-From: David Airlie <airlied@redhat.com>
-Date: Fri, 12 Jul 2024 13:12:41 +1000
-Message-ID: <CAMwc25oaX1K1Co0vSsN1H3busBLH9xA3-f4OAHZXN4iB4_d=gg@mail.gmail.com>
-Subject: Re: linux-next: build failure after merge of the drm tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- DRI <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux Next Mailing List <linux-next@vger.kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 12 Jul 2024 14:46:56 +1000
+Message-ID: <CAPM=9tzVaA1Y4A69HF-gHPy3YEgE7EGKxZa0rFWT4NUKvdF1wg@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.10-rc8
+To: LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,72 +73,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 12, 2024 at 12:28=E2=80=AFPM Stephen Rothwell <sfr@canb.auug.or=
-g.au> wrote:
->
-> Hi all,
->
-> On Mon, 1 Jul 2024 10:19:01 -0700 Nathan Chancellor <nathan@kernel.org> w=
-rote:
-> >
-> > On Mon, Jul 01, 2024 at 07:13:19PM +1000, Stephen Rothwell wrote:
-> > >
-> > > After merging the drm tree, today's linux-next build (powerpc
-> > > allyesconfig) failed like this:
-> > >
-> > > In file included from arch/powerpc/include/asm/mmu.h:144,
-> > >                  from arch/powerpc/include/asm/paca.h:18,
-> > >                  from arch/powerpc/include/asm/current.h:13,
-> > >                  from include/linux/sched.h:12,
-> > >                  from include/linux/ratelimit.h:6,
-> > >                  from include/linux/dev_printk.h:16,
-> > >                  from include/linux/device.h:15,
-> > >                  from include/linux/dma-mapping.h:8,
-> > >                  from drivers/gpu/drm/omapdrm/omap_gem.c:7:
-> > > drivers/gpu/drm/omapdrm/omap_gem.c: In function 'omap_gem_pin_tiler':
-> > > arch/powerpc/include/asm/page.h:25:33: error: conversion from 'long u=
-nsigned int' to 'u16' {aka 'short unsigned int'} changes value from '65536'=
- to '0' [-Werror=3Doverflow]
-> > >    25 | #define PAGE_SIZE               (ASM_CONST(1) << PAGE_SHIFT)
-> > >       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > drivers/gpu/drm/omapdrm/omap_gem.c:758:42: note: in expansion of macr=
-o 'PAGE_SIZE'
-> > >   758 |                                          PAGE_SIZE);
-> > >       |                                          ^~~~~~~~~
-> > > drivers/gpu/drm/omapdrm/omap_gem.c: In function 'omap_gem_init':
-> > > arch/powerpc/include/asm/page.h:25:33: error: conversion from 'long u=
-nsigned int' to 'u16' {aka 'short unsigned int'} changes value from '65536'=
- to '0' [-Werror=3Doverflow]
-> > >    25 | #define PAGE_SIZE               (ASM_CONST(1) << PAGE_SHIFT)
-> > >       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > drivers/gpu/drm/omapdrm/omap_gem.c:1504:65: note: in expansion of mac=
-ro 'PAGE_SIZE'
-> > >  1504 |                         block =3D tiler_reserve_2d(fmts[i], w=
-, h, PAGE_SIZE);
-> > >       |                                                              =
-   ^~~~~~~~~
-> > > cc1: all warnings being treated as errors
-> > >
-> > > Exposed by commit
-> > >
-> > >   dc6fcaaba5a5 ("drm/omap: Allow build with COMPILE_TEST=3Dy")
-> > >
-> > > PowerPC 64 bit uses 64k pages.
-> > >
-> > > I have reverted that commit for today.
-> >
-> > FWIW, I sent a patch to address this in a bit of a more targeted manner
-> > over a week ago:
-> >
-> > https://lore.kernel.org/20240620-omapdrm-restrict-compile-test-to-sub-6=
-4kb-page-size-v1-1-5e56de71ffca@kernel.org/
-> >
-> > Although somehow, I left off Ville from that patch :/
->
-> I am still reverting that commit (as of yesterday, the failure still
-> occurs) ...
+Hi Linus,
 
-I'll merge this directly to drm-next today.
+Back to work, thanks to Sima for last week, not too many fixes as
+expected getting close to release, amdgpu and xe have a couple each,
+and then some other misc ones.
 
 Dave.
 
+drm-fixes-2024-07-12:
+drm fixes for 6.10-rc8
+
+amdgpu:
+- PSR-SU fix
+- Reseved VMID fix
+
+xe:
+- Use write-back caching mode for system memory on DGFX
+- Do not leak object when finalizing hdcp gsc
+
+bridge:
+- adv7511 EDID irq fix
+
+gma500:
+- NULL mode fixes.
+
+meson:
+- fix resource leak
+The following changes since commit 256abd8e550ce977b728be79a74e1729438b4948=
+:
+
+  Linux 6.10-rc7 (2024-07-07 14:23:46 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-07-12
+
+for you to fetch changes up to 8b68788bebd3f697ae62aa9af3dac35ed112ebd7:
+
+  Merge tag 'amd-drm-fixes-6.10-2024-07-11' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2024-07-12
+13:32:36 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.10-rc8
+
+amdgpu:
+- PSR-SU fix
+- Reseved VMID fix
+
+xe:
+- Use write-back caching mode for system memory on DGFX
+- Do not leak object when finalizing hdcp gsc
+
+bridge:
+- adv7511 EDID irq fix
+
+gma500:
+- NULL mode fixes.
+
+meson:
+- fix resource leak
+
+----------------------------------------------------------------
+Adam Ford (1):
+      drm/bridge: adv7511: Fix Intermittent EDID failures
+
+Christian K=C3=B6nig (1):
+      drm/amdgpu: reject gang submit on reserved VMIDs
+
+Dave Airlie (3):
+      Merge tag 'drm-misc-fixes-2024-07-11' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2024-07-11' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.10-2024-07-11' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Leo Li (1):
+      Revert "drm/amd/display: Reset freesync config before update new stat=
+e"
+
+Ma Ke (2):
+      drm/gma500: fix null pointer dereference in psb_intel_lvds_get_modes
+      drm/gma500: fix null pointer dereference in cdv_intel_lvds_get_modes
+
+Nirmoy Das (1):
+      drm/xe/display/xe_hdcp_gsc: Free arbiter on driver removal
+
+Thomas Hellstr=C3=B6m (1):
+      drm/xe: Use write-back caching mode for system memory on DGFX
+
+Yao Zi (1):
+      drm/meson: fix canvas release in bind function
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c            | 15 ++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c           | 15 +++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.h           |  1 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  1 -
+ drivers/gpu/drm/bridge/adv7511/adv7511.h          |  2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_cec.c      | 13 +++++--
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c      | 22 ++++++-----
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c           |  3 ++
+ drivers/gpu/drm/gma500/psb_intel_lvds.c           |  3 ++
+ drivers/gpu/drm/meson/meson_drv.c                 | 37 +++++++++---------
+ drivers/gpu/drm/xe/display/xe_hdcp_gsc.c          | 12 ++++--
+ drivers/gpu/drm/xe/xe_bo.c                        | 47 ++++++++++++++-----=
+----
+ drivers/gpu/drm/xe/xe_bo_types.h                  |  3 +-
+ include/uapi/drm/xe_drm.h                         |  8 +++-
+ 14 files changed, 122 insertions(+), 60 deletions(-)
