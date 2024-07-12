@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8EC92FAFA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 15:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FA992FB06
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 15:15:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5075210ECFC;
-	Fri, 12 Jul 2024 13:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAD7010EC8D;
+	Fri, 12 Jul 2024 13:15:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="tCUViSfI";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="EirIIQ5c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 922C48992E
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 13:15:19 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46C89Xgj002842;
- Fri, 12 Jul 2024 15:15:10 +0200
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 333CB10EC8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 13:15:51 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46CCPFPl001787;
+ Fri, 12 Jul 2024 15:15:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=selector1; bh=WYgtUxOsPJNb2E3kFeNTvk
- Q2/fdwenANgMvmftG8sr4=; b=tCUViSfIC3FTlXEd1FtbiE6kiTqjiRY/oXQOa9
- CTRy3hvlKrGjzzEUuvFyver4NXftPiuS0sbY7ldNeCGdvgEuLMYJgZoZByMpNE7e
- kSyYhe2FEmaPKFqIDj2w8R4pk9q6jWJg/GFx7hXl1VyEtB4T4yScyRr69ozXdr09
- 6Ni7up/LEAceuYPumr3JcM3WDIsiAszlkm3KaOeFCmzJlp5EZPW/Wti6YLSoDtMS
- 53srUzMCorn5nGopqHYOT0HThkH4hHal5JeltgSvIGQS/veY0TKnlfd6y99y+1rX
- CXSq3Dd2sCD/S+gunvlFx/xkYRL9eHwaliBSFyW6N+wmRhvA==
+ :mime-version:subject:to; s=selector1; bh=S8i/Lg8lwGkalhd/HZ5Iw9
+ 958NPeO5Y47s52u8cAvsc=; b=EirIIQ5c6DNgea278fp+a/clNaD2qis0b5UGJf
+ zwZhn7fx1MjcPWVB3IssJVnhhYLrm8CX4x3knkA+mfI84jI2yTl5WLxdJQMmZGnq
+ 9ENQP1yDkOKhNcsyQU8XI5JK5wKEILL//VMXpV3jyQ2h7Qel5IkVKbrcVzo9/Hl9
+ esVqCCG6BoeD19VSrSMiiptQz/Jsmj9LWCo5CYzk2fCe6BYVen+m5rlt358dC2c8
+ ao9nZqtCPPc5jnGdVs7CbXOoeP0zShjEouNZe0oYfiZ93rs51sqlZVGy34W9hBZC
+ XBlrFImsXbn+qY6P+6h8hRw2LVAApM4zBAVxQcMnBhCsF52w==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 406whj2ejr-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 406wj3anaa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Jul 2024 15:15:10 +0200 (MEST)
+ Fri, 12 Jul 2024 15:15:41 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 622FE4002D;
- Fri, 12 Jul 2024 15:15:06 +0200 (CEST)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id AC8D14002D;
+ Fri, 12 Jul 2024 15:15:37 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4759D20CB27;
- Fri, 12 Jul 2024 15:14:26 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4C35020CB2E;
+ Fri, 12 Jul 2024 15:14:56 +0200 (CEST)
 Received: from localhost (10.252.16.177) by SHFDAG1NODE3.st.com (10.75.129.71)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 12 Jul
- 2024 15:14:25 +0200
+ 2024 15:14:55 +0200
 From: Yannick Fertre <yannick.fertre@foss.st.com>
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
  <raphael.gallais-pou@foss.st.com>, Philippe Cornu
@@ -54,9 +54,9 @@ To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
  <dri-devel@lists.freedesktop.org>,
  <linux-stm32@st-md-mailman.stormreply.com>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/stm: ltdc: add mask for lxcr register
-Date: Fri, 12 Jul 2024 15:14:23 +0200
-Message-ID: <20240712131423.98405-1-yannick.fertre@foss.st.com>
+Subject: [PATCH] drm/stm: ltdc: remove reload interrupt
+Date: Fri, 12 Jul 2024 15:14:53 +0200
+Message-ID: <20240712131453.98597-1-yannick.fertre@foss.st.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -82,54 +82,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The purpose of this mask is to simplify writing to the lxcr
-register and not to forget any fields.
+The reload interrupt is not used by the driver. To avoid
+unnecessary calls of the interrupt routine, don't enable it.
+Solve small typo and add mask to simplify the driver.
 
 Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
 ---
- drivers/gpu/drm/stm/ltdc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/stm/ltdc.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index cb4f08673a64..3876346a1303 100644
+index 3876346a1303..3d9842427083 100644
 --- a/drivers/gpu/drm/stm/ltdc.c
 +++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -187,6 +187,7 @@
- #define LXCR_COLKEN	BIT(1)		/* Color Keying Enable */
- #define LXCR_CLUTEN	BIT(4)		/* Color Look-Up Table ENable */
- #define LXCR_HMEN	BIT(8)		/* Horizontal Mirroring ENable */
-+#define LXCR_MASK (LXCR_LEN | LXCR_COLKEN | LXCR_CLUTEN | LXCR_HMEN)
+@@ -169,6 +169,7 @@
+ #define IER_RRIE	BIT(3)		/* Register Reload Interrupt Enable */
+ #define IER_FUEIE	BIT(6)		/* Fifo Underrun Error Interrupt Enable */
+ #define IER_CRCIE	BIT(7)		/* CRC Error Interrupt Enable */
++#define IER_MASK (IER_LIE | IER_FUWIE | IER_TERRIE | IER_RRIE | IER_FUEIE | IER_CRCIE)
  
- #define LXWHPCR_WHSTPOS	GENMASK(11, 0)	/* Window Horizontal StarT POSition */
- #define LXWHPCR_WHSPPOS	GENMASK(27, 16)	/* Window Horizontal StoP POSition */
-@@ -806,8 +807,7 @@ static void ltdc_crtc_atomic_disable(struct drm_crtc *crtc,
+ #define CPSR_CYPOS	GENMASK(15, 0)	/* Current Y position */
  
- 	/* Disable all layers */
+@@ -785,7 +786,7 @@ static void ltdc_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	regmap_write(ldev->regmap, LTDC_BCCR, BCCR_BCBLACK);
+ 
+ 	/* Enable IRQ */
+-	regmap_set_bits(ldev->regmap, LTDC_IER, IER_FUWIE | IER_FUEIE | IER_RRIE | IER_TERRIE);
++	regmap_set_bits(ldev->regmap, LTDC_IER, IER_FUWIE | IER_FUEIE | IER_TERRIE);
+ 
+ 	/* Commit shadow registers = update planes at next vblank */
+ 	if (!ldev->caps.plane_reg_shadow)
+@@ -809,8 +810,8 @@ static void ltdc_crtc_atomic_disable(struct drm_crtc *crtc,
  	for (layer_index = 0; layer_index < ldev->caps.nb_layers; layer_index++)
--		regmap_write_bits(ldev->regmap, LTDC_L1CR + layer_index * LAY_OFS,
--				  LXCR_CLUTEN | LXCR_LEN, 0);
-+		regmap_write_bits(ldev->regmap, LTDC_L1CR + layer_index * LAY_OFS, LXCR_MASK, 0);
+ 		regmap_write_bits(ldev->regmap, LTDC_L1CR + layer_index * LAY_OFS, LXCR_MASK, 0);
  
- 	/* disable IRQ */
- 	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_FUWIE | IER_FUEIE | IER_RRIE | IER_TERRIE);
-@@ -1474,7 +1474,7 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
- 	if (newstate->rotation & DRM_MODE_REFLECT_X)
- 		val |= LXCR_HMEN;
+-	/* disable IRQ */
+-	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_FUWIE | IER_FUEIE | IER_RRIE | IER_TERRIE);
++	/* Disable IRQ */
++	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_FUWIE | IER_FUEIE | IER_TERRIE);
  
--	regmap_write_bits(ldev->regmap, LTDC_L1CR + lofs, LXCR_LEN | LXCR_CLUTEN | LXCR_HMEN, val);
-+	regmap_write_bits(ldev->regmap, LTDC_L1CR + lofs, LXCR_MASK, val);
+ 	/* immediately commit disable of layers before switching off LTDC */
+ 	if (!ldev->caps.plane_reg_shadow)
+@@ -2016,13 +2017,8 @@ int ltdc_load(struct drm_device *ddev)
+ 		goto err;
+ 	}
  
- 	/* Commit shadow registers = update plane at next vblank */
- 	if (ldev->caps.plane_reg_shadow)
-@@ -1512,7 +1512,7 @@ static void ltdc_plane_atomic_disable(struct drm_plane *plane,
- 	u32 lofs = plane->index * LAY_OFS;
+-	/* Disable interrupts */
+-	if (ldev->caps.fifo_threshold)
+-		regmap_clear_bits(ldev->regmap, LTDC_IER, IER_LIE | IER_RRIE | IER_FUWIE |
+-				  IER_TERRIE);
+-	else
+-		regmap_clear_bits(ldev->regmap, LTDC_IER, IER_LIE | IER_RRIE | IER_FUWIE |
+-				  IER_TERRIE | IER_FUEIE);
++	/* Disable all interrupts */
++	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_MASK);
  
- 	/* Disable layer */
--	regmap_write_bits(ldev->regmap, LTDC_L1CR + lofs, LXCR_LEN | LXCR_CLUTEN |  LXCR_HMEN, 0);
-+	regmap_write_bits(ldev->regmap, LTDC_L1CR + lofs, LXCR_MASK, 0);
+ 	DRM_DEBUG_DRIVER("ltdc hw version 0x%08x\n", ldev->caps.hw_version);
  
- 	/* Reset the layer transparency to hide any related background color */
- 	regmap_write_bits(ldev->regmap, LTDC_L1CACR + lofs, LXCACR_CONSTA, 0x00);
 -- 
 2.34.1
 
