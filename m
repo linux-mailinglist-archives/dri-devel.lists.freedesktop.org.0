@@ -2,90 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4D092FAE5
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 15:09:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EF792FAF6
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 15:15:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1287710ECF9;
-	Fri, 12 Jul 2024 13:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 039BC10EC1E;
+	Fri, 12 Jul 2024 13:15:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="jV4CV9bW";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="6tixkjqE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDC9110ECF9
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 13:08:58 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id
- 6a1803df08f44-6b61bb5f6c0so7338406d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 06:08:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1720789737; x=1721394537; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=B4jYmwN/QXFZLbYovizkcE85YvZFmyIlwRDsiMLcnTs=;
- b=jV4CV9bW023P8GfEe+vQRKREbDlasaZe+8gJU302kqa2/jDsBAD5ewogxSfRRa5cSA
- L4V1WZ5Ft/kumo4Rj/jL/Mwym+cLDzFVRozkeRJ6rfseoBs45xf6m7I7dADKmBY8ZsmI
- z3Qr3mXfRBgjBbjFPXQWmwJ2bXHkRxHaFXKPTt0xfA5EBMfQ/JumPCosdZMVFH+Mote+
- XadM3cteJz3XC4n8Ov6hdEdul+EzirI6GENJuIQO3ONkHC8j8so+IIJWJ0fpVNbp86u/
- xTLQ61sUInmzcBCG3IC66sokxxnYmZRGukkwRvywFa95fca57g8Krdk8MR4Be//PuPna
- pzbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720789737; x=1721394537;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B4jYmwN/QXFZLbYovizkcE85YvZFmyIlwRDsiMLcnTs=;
- b=WDU6YaF2/pX1HVusJXsp84axHX+2db0ru7PJvuTG6xS0nmgNM+elRiD6zq4lvLzNf3
- nhglErncKrETUQR5QdOFvO8AehnBlam3W7SkcvMUmaC5KlKthpfdfqy3UTAZgU1AzdNV
- RR8kbgnxl5+A1j/AG/bafGEICaYkrqPNIopFHpUdPoyjovt40h3WbymMVv6pJN5mL2hl
- o1Lw2nb79q67OsVREbw8VdKDOAT2f7I9QSA/EJtQocjMyyTBY/9cR9ObxK1xTZWex/BR
- epk39b9k3eGxPfZUe4iAyW9qlb/kx1Jg2ugI1WXh3Fu+GIGFJvrbQoSAl3WZcxZ3nFAw
- ZXxQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4MeNgW8qipFjXdBhnApyVWvvDxmwloNYm1M36E20r5XNB+aH/ROopFkAnQOy/zKND/PxsHkehWGLBI50xNR24qrkBJEVf0H+LywxIBmHz
-X-Gm-Message-State: AOJu0YxNMJmKdQ+91Xb79z39Dmci0Fiu5lK01vwWDl7sjlxH7kNiiLa4
- YwNyEgv/aMYCPFdcIdOGqykgBqgj480mmyUIWqjz5CmbTa334DFcdk66SsKFii4=
-X-Google-Smtp-Source: AGHT+IFoKtdu5vK1LEfozhtRvZwJjwwZjN4Ys9l4HkSqkcIyDGM+PoG745Jm0+Iu/Vp9ngs915k4vw==
-X-Received: by 2002:a05:6214:27ee:b0:6b2:d335:e914 with SMTP id
- 6a1803df08f44-6b61c219e19mr144274106d6.52.1720789737313; 
- Fri, 12 Jul 2024 06:08:57 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.80.239]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b61b9c4daasm35005856d6.18.2024.07.12.06.08.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jul 2024 06:08:56 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1sSG1A-000Kbx-Bd;
- Fri, 12 Jul 2024 10:08:56 -0300
-Date: Fri, 12 Jul 2024 10:08:56 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Omer Shpigelman <oshpigelman@habana.ai>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "ogabbay@kernel.org" <ogabbay@kernel.org>,
- Zvika Yehudai <zyehudai@habana.ai>
-Subject: Re: [PATCH 11/15] RDMA/hbl: add habanalabs RDMA driver
-Message-ID: <20240712130856.GB14050@ziepe.ca>
-References: <20240613082208.1439968-1-oshpigelman@habana.ai>
- <20240613082208.1439968-12-oshpigelman@habana.ai>
- <20240613191828.GJ4966@unreal>
- <fbb34afa-8a38-4124-9384-9b858ce2c4e5@habana.ai>
- <20240617190429.GB4025@unreal>
- <461bf44e-fd2f-4c8b-bc41-48d48e5a7fcb@habana.ai>
- <20240618125842.GG4025@unreal>
- <b4bda963-7026-4037-83e6-de74728569bd@habana.ai>
- <20240619105219.GO4025@unreal>
- <a5554266-55b7-4e96-b226-b686b8a6af89@habana.ai>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B7AA10EC1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 13:14:55 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46CCLxRd016528;
+ Fri, 12 Jul 2024 15:14:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=selector1; bh=IYjw4WDQmFzzHm+jIr0oVQ
+ V4uqexoebGmhnt2Vpkcvw=; b=6tixkjqEGfk5Mq04x+OtA1ae2H6GFxqzJ+isH0
+ Zk+QnlIesI6P5FDWCdNxMlgrWZASGqWmrD78LmJvURAuk2lfg7jO2uwjrbmH/X78
+ TflubKRpbjYw8fvyUK2zmR3wUmmZORaLkZUhYuBmAd/QvSqd6qcYPBzdO8QzHv2e
+ 1q97hxKnNWfVWpwOQGQQE+VI10jlg0C1jfNJDPMpDyURPLdxxXV49Gig11Iy1/n6
+ S1Hw42M2+W13lv1zaqkB03e6jtqxBVNPPW765SdEKykZR9UrJVRQ3XTExNoPlhwS
+ kk0z5b8uZipvOClb61ALOHpLoLW4n89soJ6KPahsqwiBmi6w==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 406whj2egu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 Jul 2024 15:14:44 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id D635D40044;
+ Fri, 12 Jul 2024 15:14:34 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6C65820CB1B;
+ Fri, 12 Jul 2024 15:13:51 +0200 (CEST)
+Received: from localhost (10.252.16.177) by SHFDAG1NODE3.st.com (10.75.129.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 12 Jul
+ 2024 15:13:51 +0200
+From: Yannick Fertre <yannick.fertre@foss.st.com>
+To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/stm: ltdc: reset plane transparency after plane disable
+Date: Fri, 12 Jul 2024 15:13:44 +0200
+Message-ID: <20240712131344.98113-1-yannick.fertre@foss.st.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a5554266-55b7-4e96-b226-b686b8a6af89@habana.ai>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.252.16.177]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE3.st.com
+ (10.75.129.71)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-12_09,2024-07-11_01,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,41 +82,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 28, 2024 at 10:24:32AM +0000, Omer Shpigelman wrote:
+The plane's opacity should be reseted while the plane
+is disabled. It prevents from seeing a possible global
+or layer background color set earlier.
 
-> We need the core driver to access the IB driver (and to the ETH driver as
-> well). As you wrote, we can't use exported symbols from our IB driver nor
-> rely on function pointers, but what about providing the core driver an ops
-> structure? meaning exporting a register function from the core driver that
-> should be called by the IB driver during auxiliary device probe.
-> Something like:
-> 
-> int hbl_cn_register_ib_aux_dev(struct auxiliary_device *adev,
-> 			       struct hbl_ib_ops *ops)
-> {
-> ...
-> }
-> EXPORT_SYMBOL(hbl_cn_register_ib_aux_dev);
+Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+---
+ drivers/gpu/drm/stm/ltdc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Definately do not do some kind of double-register like this.
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 5576fdae4962..cb4f08673a64 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -1514,6 +1514,9 @@ static void ltdc_plane_atomic_disable(struct drm_plane *plane,
+ 	/* Disable layer */
+ 	regmap_write_bits(ldev->regmap, LTDC_L1CR + lofs, LXCR_LEN | LXCR_CLUTEN |  LXCR_HMEN, 0);
+ 
++	/* Reset the layer transparency to hide any related background color */
++	regmap_write_bits(ldev->regmap, LTDC_L1CACR + lofs, LXCACR_CONSTA, 0x00);
++
+ 	/* Commit shadow registers = update plane at next vblank */
+ 	if (ldev->caps.plane_reg_shadow)
+ 		regmap_write_bits(ldev->regmap, LTDC_L1RCR + lofs,
+-- 
+2.34.1
 
-The auxiliary_device scheme can already be extended to provide ops for
-each sub device.
-
-Like
-
-struct habana_driver {
-   struct auxiliary_driver base;
-   const struct habana_ops *ops;
-};
-
-If the ops are justified or not is a different question.
-
-> module reference counter. But we also get the ability to access the IB
-> driver from the core driver (to report a HW error for example).
-
-Report a HW error seems reasonable to me
-
-Other driver have used notifier chains for this kind of stuff though.
-
-Jason
