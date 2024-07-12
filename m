@@ -2,90 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6ED92FDA6
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 17:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC75C92FDE6
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 17:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7C210ED32;
-	Fri, 12 Jul 2024 15:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB5DB10E045;
+	Fri, 12 Jul 2024 15:50:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VokgYpON";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Kvd+ZpD3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B0410ED32
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 15:32:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1720798365;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IEz8WMihH5dvgSwOSmQJ46Poh9tPzMYsjL7lTQ558D8=;
- b=VokgYpON2MWkgxPjtoNmxiwufy8DNYXM+mU0bYZ4idf59QNKL8r8RK841NyNygplmC53Hk
- 4Z5uDZsopJVM3o40o+gUoM39ZBXi4/v9s4I+y2d9OSQgkQISki4j9HFT9EWT1Og+Inyhav
- oJ3VT0qHVgGyuyOgB5/tzb4t0TJMFZY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-611-TTpf7JIdOX2pSsegsjjINg-1; Fri, 12 Jul 2024 11:32:44 -0400
-X-MC-Unique: TTpf7JIdOX2pSsegsjjINg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-42490ae735dso19873095e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 08:32:43 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAE5C10E045
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 15:50:53 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-44926081beaso12530061cf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 08:50:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1720799450; x=1721404250;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iG5A4YXtzS1gv1mDoqU9AHeDK5e1XcR6A6PUMNeVCio=;
+ b=Kvd+ZpD3n8r5T8kr22sAI2BHKXL/y1th6uXwzhOo5gmCmg7d8U/hojsyHFF2Yl4ezp
+ VREV6s4gdON1j83qB5z99OKw2DMzFewIYE41MvI3qBPIAc5kqxtXgsONwoaa+6Pwuqu9
+ cqapIOXlh8qsdVLgH06EMJFFpvJltqN0tho9I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720798363; x=1721403163;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IEz8WMihH5dvgSwOSmQJ46Poh9tPzMYsjL7lTQ558D8=;
- b=AY1ctOiQ+/6MCi1md6suTcuWqdKjs+OnwdqgN/eixX378hJqtcDHxMHK7Khqb391DR
- ZTqczMOnRCQCPTMTk5cd0P+0HMS6ALBFe+ClWwmxhg9GnUAuT9NwZUi9cbFygHIbsIw5
- gt6h8AykqJkcTSqGBuo4cPpkrgaiKrJHSuJH4V0Nt9vymbU6QhuMwN1RsJHo3B0chfUh
- mLeokOAKUf0toRZiCqT8Y+hJrKMkKM0fyRE7nPTV8PPr8feHUUsJnrGEzKo+Z4D95jXm
- k9LN9RDtkdjB0/2O0r67zGL6jtQ8/AiXcswv9QShY/LeYurkqiXMMSbFxFDxQMmd+HyT
- jHBg==
+ d=1e100.net; s=20230601; t=1720799450; x=1721404250;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iG5A4YXtzS1gv1mDoqU9AHeDK5e1XcR6A6PUMNeVCio=;
+ b=M2KvFjWKBDUDecoybv8CdQJA9cX2R2RGK9mFWPdnFysWjQ0jO/dMcN4nhUUohKn9LU
+ OvFP56F2pdNRA7Ytg7V48sDiA6kerrjs+h1qVF/eF7on2meFU3Zx7hqMv2e8Fkr2qEju
+ UFizswNXAK5qL56yDxYkulT60Z9LdjQMruIVVYdzf4IdpaPHUIhcOPTLSJyJ8b1t15IU
+ /30L5KoUCYbwgQgV5MN8ugItJYQ2TrgTtYCacBvFTiMU5WUG6gkqL4gng8C7REvykOXV
+ XeJQrr5rzAcI13qypxSYOdkk0D/u8Yaw7tN94LvMTxd5K5Qm2TVSRwfLaNRLze45OvR9
+ kUSA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVJoIZJ2L2JvfSPJNwM4GVl5w6kFwp2ZZr3DHdZ88dNL8ALVPGnzDwn1/LGTvp/90KmPbgt4NYpiH3nQG6cEfO6qrjN7sz+N9ucxjv5Fa2s
-X-Gm-Message-State: AOJu0YyJxR7m7cH0MLI9+IdJl5SbxWJqDSBnCottj4/ZpooE0KrhYghU
- X0NSuhxpueF2i0LStzwSsQWyLEhF56FPMaoEb7v+pIJlFzSQkCBtse5Gx5tsilowbs3AI2792KR
- LdmEauAoYrwIa9k1pRVXpL11PS2x6pS/K6g7aMiejzoZboI1wb3xthCkZgzHvILRpVg==
-X-Received: by 2002:a05:600c:2d84:b0:426:5e8e:aa48 with SMTP id
- 5b1f17b1804b1-426707db6d5mr103615755e9.22.1720798363158; 
- Fri, 12 Jul 2024 08:32:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFBacZIavOtT2JsUQI/j71t/YaxvZW9vrhlVVDFlkJPuemKNmocYH6M4zKWmAbtWgl9yPmxGg==
-X-Received: by 2002:a05:600c:2d84:b0:426:5e8e:aa48 with SMTP id
- 5b1f17b1804b1-426707db6d5mr103615495e9.22.1720798362825; 
- Fri, 12 Jul 2024 08:32:42 -0700 (PDT)
-Received: from cassiopeiae ([2a02:810d:4b3f:ee94:a4d3:4896:56d4:f050])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-367cdfab161sm10420558f8f.91.2024.07.12.08.32.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jul 2024 08:32:42 -0700 (PDT)
-Date: Fri, 12 Jul 2024 17:32:40 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, ojeda@kernel.org,
- lyude@redhat.com, robh@kernel.org, lina@asahilina.net,
- mcanal@igalia.com, airlied@gmail.com,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] drm: panthor: add dev_coredumpv support
-Message-ID: <ZpFMmAEdqo1dhj0s@cassiopeiae>
-References: <20240710225011.275153-1-daniel.almeida@collabora.com>
- <fe84a028-01a8-4987-b1b7-141fb76d263c@arm.com>
- <4344B22F-D859-4C64-A351-69FFB5208362@collabora.com>
- <ZpFDeajsuVONbSYJ@cassiopeiae>
- <0A0C1EFC-29A1-4D73-8B02-CC1C693D6A7A@collabora.com>
+ AJvYcCVVpbeq1CrBdG538+Wq0T6f2ZYoLpcl7Ee95zUl8yCKGrmSNBj30cbsA8F7bwuanLso3sDA7bk1cysQRQRGXuiFbv7IANsz+wndSgqBiTFx
+X-Gm-Message-State: AOJu0YwXXSutQmhjFc91SDtBa9lPOtGKkE4T3su3aK11qiXD3igthEM+
+ 924XHNvcfMlGi6ujzMucHEyDIye2aucSehKYyGFfPPI8luVTs3O2OEG3RhCbYB0uULqjPedmqM0
+ =
+X-Google-Smtp-Source: AGHT+IESSY4mXndjDXJoGSO9f1sXvesgQdvzyn2uzhqGZ4kHbfu37tjXyEGjOduz/GAwoDI8LgNd/w==
+X-Received: by 2002:ac8:5a56:0:b0:446:390f:b06f with SMTP id
+ d75a77b69052e-447fa8c90eemr162202011cf.38.1720799450178; 
+ Fri, 12 Jul 2024 08:50:50 -0700 (PDT)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com.
+ [209.85.160.181]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-447f9b5120asm42093671cf.44.2024.07.12.08.50.48
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Jul 2024 08:50:49 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id
+ d75a77b69052e-447df43324fso263151cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 08:50:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUPhzTfXP7T3gR8CozDfkSvVcxH9dcNzM3qnT4RAUXlAGELbkaNuAbesuB+3w/qAKuQ8ON6c/uYGQyuLToOq1SrNiadnDCAv2a3EThFfXX6
+X-Received: by 2002:ac8:5dd4:0:b0:447:eeb1:3d2 with SMTP id
+ d75a77b69052e-44e9e6589afmr2940221cf.27.1720799448329; Fri, 12 Jul 2024
+ 08:50:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0A0C1EFC-29A1-4D73-8B02-CC1C693D6A7A@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20240710084715.1119935-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240710084715.1119935-5-yangcong5@huaqin.corp-partner.google.com>
+ <D2LQJROQYIY3.2Q88EXS8HUDLQ@kernel.org>
+ <CAD=FV=WAosZPSKdpwR6pjOmiy4hih=jXaMg2guuVgmc+qj-Csw@mail.gmail.com>
+ <D2M42ODWQPAU.I0BMEOLKUP29@kernel.org>
+ <CAHwB_NJ+YEMoL18Sr9HFmTVH_ErDztyF7vxxPFAE0Y2ta3dO0A@mail.gmail.com>
+ <CAD=FV=VNx5qEyWDvVz6AVDryqvw09tkYRYMjbFuUQS4Wvyok6Q@mail.gmail.com>
+ <4f3b24d6-9638-49d0-8308-00da09c7ed76@linaro.org>
+In-Reply-To: <4f3b24d6-9638-49d0-8308-00da09c7ed76@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 12 Jul 2024 08:50:33 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V5fYweYUoeYD=8qa_jTpF2P_ZjHKJrz0o3ikgrH4XJKQ@mail.gmail.com>
+Message-ID: <CAD=FV=V5fYweYUoeYD=8qa_jTpF2P_ZjHKJrz0o3ikgrH4XJKQ@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] drm/panel: ili9806e: Break some CMDS into helper
+ functions
+To: neil.armstrong@linaro.org
+Cc: cong yang <yangcong5@huaqin.corp-partner.google.com>, 
+ Michael Walle <mwalle@kernel.org>, quic_jesszhan@quicinc.com,
+ linus.walleij@linaro.org, airlied@gmail.com, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,37 +103,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 12, 2024 at 12:13:15PM -0300, Daniel Almeida wrote:
-> 
-> 
-> > On 12 Jul 2024, at 11:53, Danilo Krummrich <dakr@redhat.com> wrote:
-> > 
-> > You could also just define those structures in a C header directly and use it
-> > from Rust, can't you?
-> > 
-> 
-> 
-> Sure, I am open to any approach here. Although this looks a bit reversed to me.
-> 
-> i.e.: why should I declare these structs in a separate language and file, and then use them in Rust through bindgen? Sounds clunky.
+Hi,
 
-The kernel exposes the uAPI as C header files. You just choose to do the
-implementation in the kernel in Rust.
+On Fri, Jul 12, 2024 at 7:56=E2=80=AFAM <neil.armstrong@linaro.org> wrote:
+>
+> On 11/07/2024 21:36, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Wed, Jul 10, 2024 at 6:09=E2=80=AFPM cong yang
+> > <yangcong5@huaqin.corp-partner.google.com> wrote:
+> >>
+> >> Hi,
+> >>
+> >> Michael Walle <mwalle@kernel.org> =E4=BA=8E2024=E5=B9=B47=E6=9C=8811=
+=E6=97=A5=E5=91=A8=E5=9B=9B 03:38=E5=86=99=E9=81=93=EF=BC=9A
+> >>>
+> >>> On Wed Jul 10, 2024 at 9:12 PM CEST, Doug Anderson wrote:
+> >>>> Hi,
+> >>>>
+> >>>> On Wed, Jul 10, 2024 at 2:02=E2=80=AFAM Michael Walle <mwalle@kernel=
+.org> wrote:
+> >>>>>
+> >>>>> On Wed Jul 10, 2024 at 10:47 AM CEST, Cong Yang wrote:
+> >>>>>> Break select page cmds into helper function.
+> >>>>>
+> >>>>> Why though? I don't find that anything easier to read. In fact, I
+> >>>>> deliberately chose not to factor that out into a function. It's jus=
+t
+> >>>>> a sequence of magic commands, taken straight from the datasheet. So=
+,
+> >>>>> I'd like to keep it that way.
+> >>>>
+> >>>> The consensus of previous discussion on the lists was that folks
+> >>>> agreed that we should, where possible, make it more obvious what the=
+se
+> >>>> magic sequences of commands were doing. IMO separating out the page
+> >>>> switch command helps. Certainly I'm always happy to hear other
+> >>>> opinions, though.
+> >>>
+> >>> Fair enough, but in that case, one should take the datasheet (which
+> >>> you can find online) and replace all the magic numbers with the
+> >>> correct command names from it. E.g. 0xff is the ENEXTC register. To
+> >>> be clear, I'm not just talking about the "switch page command".
+> >>>
+> >>> As patch stands, I don't see much value, TBH. On the contrary, you
+> >>> make it harder to compare it with the Ortustech panel datasheet.
+> >>>
+> >>> just my 2c,
+> >>> -michael
+> >>
+> >> If all drivers replace all the magic numbers with the correct command =
+names,
+> >> it will be a huge amount of work (assuming that the datasheet can be f=
+ound).
+> >>   I am afraid I don't have enough time to complete it.  Thanks.
+> >
+> > Makes sense. I'd be interested in hearing the opinion of others in the
+> > DRM community about whether they'd prefer to land something long this
+> > patch as-is or drop it.
+>
+> I don't have a strong opinion, but I think only changing the switch
+> page operations doesn't make a lot of sense by itself.
 
-Hence, I'd argue that the uAPI header is the actual source. So, we should
-generate stuff from those headers and not the other way around I think.
+Does that mean you think we should drop this whole series? For the
+"panel-ilitek-ili9806e.c" driver dropping seems fine since the switch
+page command (and many of the other blocks of commands) is commented,
+but for the other panels in this series IMO even just getting the
+switch page adds to the readability... I'm happy to just apply patches
+#1-#3 or just drop the series.
 
-> 
-> Right now, they are declared right next to where they are used in the code, i.e.: in the same Rust file. And so long as they’re #[repr(C)] we know that an equivalent C version can generated by cbindgen.
-> 
-
-I'm not sure whether it's a good idea to generate uAPI header files in general.
-
-How do we ensure that the generated header file are useful for userspace in
-terms of readability and documentation?
-
-How do we (easily) verify that changes in the Rust code don't break the uAPI by
-due to leading to changes in the generated header files?
-
-Do we have guarantees that future releases of cbindgen can't break anything?
-
+-Doug
