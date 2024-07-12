@@ -2,56 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C27930221
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 00:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46EE930250
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 01:11:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47B5710E1B3;
-	Fri, 12 Jul 2024 22:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E39810ECD1;
+	Fri, 12 Jul 2024 23:11:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Uih6pPFi";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xcsZWVea";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19DD110E1B3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 22:32:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id DB915CE1B59;
- Fri, 12 Jul 2024 22:32:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 982EDC32782;
- Fri, 12 Jul 2024 22:32:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1720823543;
- bh=Sb9um4v6rFADbPuFfpnL5WI5TuACgL+7jpgXo5oNcXU=;
- h=Date:From:To:Subject:In-Reply-To:References:From;
- b=Uih6pPFiUkJDfccq0Q8NyMpzls0+QOKHTw6wxNJgTac8i/Ec+l85Gew9XW7IOfM3e
- TPJ2j1hYTNWj+oqMJZDcUkqfSKg7BwRWSf1Ng47d0KAGUStuj/mOrKigJPS2JOWmTi
- BskptDKHQE9N/DoZu3oYYTZPg2mc5LWBtC5GBpkk=
-Date: Fri, 12 Jul 2024 15:32:22 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>, SeongJae Park
- <sj@kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>, David Hildenbrand <david@redhat.com>, Matthew Wilcox
- <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>, Peter Xu
- <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, "Kim, Dongwon"
- <dongwon.kim@intel.com>, "Chang, Junxiao" <junxiao.chang@intel.com>, Jason
- Gunthorpe <jgg@nvidia.com>, "Christoph Hellwig" <hch@lst.de>, Dave Airlie
- <airlied@redhat.com>
-Subject: Re: [PATCH v16 3/9] mm/gup: Introduce memfd_pin_folios() for
- pinning memfd folios
-Message-Id: <20240712153222.dfc15d0c3604eedb76e0ae52@linux-foundation.org>
-In-Reply-To: <20240705155523.2f098948237715f8a0ffa56c@linux-foundation.org>
-References: <20240624063952.1572359-4-vivek.kasireddy@intel.com>
- <20240705204825.109189-1-sj@kernel.org>
- <20240705142320.000b1e520b856b7c034bc829@linux-foundation.org>
- <IA0PR11MB7185570E3FCFAE3E7BDE7991F8DF2@IA0PR11MB7185.namprd11.prod.outlook.com>
- <20240705155523.2f098948237715f8a0ffa56c@linux-foundation.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
+ [209.85.128.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A60F10ECD1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 23:11:37 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-65f9b244018so896837b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 16:11:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1720825896; x=1721430696; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6nIWauyc2Pyvv09dQTByut0YHfXkae1P+Bg8WYz5fXo=;
+ b=xcsZWVeaK6WX7xZ4CGPmPMLLiJ/uB2SscuvFENQEG3wLv29lh2iJIKs7nHWcrneoAC
+ IPIjmQJ1h1SqWnML6PlWlG82E6c+UeExEA7IaXnUmnXjObF1mvr7PGwTRKdpSGpeakzt
+ 8mOVYa5ZnWfSnVuL2RpIqP4BmH3DiluVoLsNzfDL1w8XeAmikSe4D+F66lh7/Bk3Mqs1
+ Gq9FqIwDnJ0GFliQP/vfDNWCxh8SHuP/yladpI8LoxAwj+I2s9rYe0YQUrB1QXhERXGi
+ Fn52pobQnz85tOqYUrF3sME7TfuIVc1wXFPtPuEBwWC+1v+wWv0AcwuXAr8ghSbzFfnD
+ SDBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720825896; x=1721430696;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6nIWauyc2Pyvv09dQTByut0YHfXkae1P+Bg8WYz5fXo=;
+ b=l3GE4/Qr51HpI7L9ooALnWSkliq5ZymObhm+z9gOF9YmuECDgYXJrlW9qK9L8WZ5pQ
+ C+XSDCmSDRkdIZHHeq9TWs800LJzNzYXh405zHNvbEER0u3A4EczYafLzOXgm3QzVamX
+ 7UE4uVpQyGp7YOLw8FGVCZRhmMjuHFGMEnm3ZVeL4Hv7NcTTQp2vGID/chF53YNwCJjO
+ WrZPAm781yn9iM+LeuEe5wj+KqJ0rmMfvgA2t0icafhYKkiYioXLMmVdEMgwRwKrKisX
+ F/f4mC77SQQJbKwW35OrDb/A/xR/AiwWgoCd+x0UEBPh0emMMIDiuoCg75OY8F5v6Zv1
+ BAgg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW/WrXsl4n0WrzLUgH1i/Y1fgoJlgD9CNJv33tB4m/voiy4Ml+H57rKhlQMD0KOAgKuxkSsWGMJPib2xRIrUn8aO1OatpipNdK6GT2Xnqlu
+X-Gm-Message-State: AOJu0Yy3zvZ5s38Ov1u372bP1GJlVZrZmhQRG17SdA60v6NwxNGC6fBJ
+ bKprGNeV9Fk1jeGNCSuOp86f/AXBgHkrd+yz0swYj/BWaHq4HtafS/374KZK+36idWHqaGJHpcq
+ ZZXn0kbnLD69KTBr/npcm95xjN/MXizacP/EZyg==
+X-Google-Smtp-Source: AGHT+IE9KewbbtZ33pRFXKbNTTrznOJsyNetwGPb0x8rJ7HSyLluQ2O/SNwbXNQutrGuY8h078Oh1Z1VgqhfFvsdfh0=
+X-Received: by 2002:a0d:f981:0:b0:64a:f40d:5fd2 with SMTP id
+ 00721157ae682-658eed5debcmr137636897b3.12.1720825896057; Fri, 12 Jul 2024
+ 16:11:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240625-dpu-mode-config-width-v5-0-501d984d634f@linaro.org>
+ <20240625-dpu-mode-config-width-v5-2-501d984d634f@linaro.org>
+ <637fbd36-d6cd-4bb7-af83-8849c0fee8f2@quicinc.com>
+In-Reply-To: <637fbd36-d6cd-4bb7-af83-8849c0fee8f2@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 13 Jul 2024 02:11:24 +0300
+Message-ID: <CAA8EJppxyUrEWYQvMGtw14UVobkQdaPZuwHPeMcONRYrgPp2jw@mail.gmail.com>
+Subject: Re: [PATCH v5 02/16] drm/msm/dpu: fix error condition in
+ dpu_encoder_virt_atomic_mode_set
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Abel Vesa <abel.vesa@linaro.org>, 
+ Johan Hovold <johan+linaro@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,65 +84,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 5 Jul 2024 15:55:23 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+On Fri, 12 Jul 2024 at 22:41, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> On 6/24/2024 2:13 PM, Dmitry Baryshkov wrote:
+> > The commit b954fa6baaca ("drm/msm/dpu: Refactor rm iterator") removed
+> > zero-init of the hw_ctl array, but didn't change the error condition,
+> > that checked for hw_ctl[i] being NULL. Use indices check instead.
+> >
+> > Fixes: b954fa6baaca ("drm/msm/dpu: Refactor rm iterator")
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > index 5d205e09cf45..7613005fbfea 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > @@ -1186,7 +1186,7 @@ static void :tag(struct drm_encoder *drm_enc,
+> >                       return;
+> >               }
+> >
+> > -             if (!hw_ctl[i]) {
+> > +             if (i >= num_ctl) {
+>
+> This is not very clear to me.
+>
+> How will we hit this condition? I dont see i going beyond 1 in this loop
+> and neither should num_ctl
 
-> On Fri, 5 Jul 2024 22:11:14 +0000 "Kasireddy, Vivek" <vivek.kasireddy@intel.com> wrote:
-> 
-> > Hi Andrew and SJ, 
-> > 
-> > > 
-> > > >
-> > > > I didn't look deep into the patch, so unsure if that's a valid fix, though.
-> > > > May I ask your thoughts?
-> > > 
-> > > Perhaps we should propagate the errno which was returned by
-> > > try_grab_folio()?
-> > > 
-> > > I'll do it this way.  Vivek, please check and let us know?
-> > Yeah, memfd_pin_folios() doesn't need the fast version, so replacing with
-> > the slow version (try_grab_folio) should be fine. And, as you suggest,
-> > propagating the errno returned by try_grab_folio() would be the right thing
-> > to do instead of explicitly setting errno to -EINVAL. Either way, this change is
-> > Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> 
-> Cool, thanks.
-> 
-> We could do this to propagate the try_grab_folio() return value:
-> 
-> --- a/mm/gup.c~mm-gup-introduce-memfd_pin_folios-for-pinning-memfd-folios-fix-fix
-> +++ a/mm/gup.c
-> @@ -3848,6 +3848,8 @@ long memfd_pin_folios(struct file *memfd
->  
->  			next_idx = 0;
->  			for (i = 0; i < nr_found; i++) {
-> +				int ret2;
-> +
->  				/*
->  				 * As there can be multiple entries for a
->  				 * given folio in the batch returned by
-> @@ -3860,10 +3862,10 @@ long memfd_pin_folios(struct file *memfd
->  					continue;
->  
->  				folio = page_folio(&fbatch.folios[i]->page);
-> -
-> -				if (try_grab_folio(folio, 1, FOLL_PIN)) {
-> +				ret2 = try_grab_folio(folio, 1, FOLL_PIN);
-> +				if (ret2) {
->  					folio_batch_release(&fbatch);
-> -					ret = -EINVAL;
-> +					ret = ret2;
->  					goto err;
->  				}
->  
-> 
-> But try_grab_folio can return that weird -EREMOTEIO.  The
-> try_grab_folio() kerneldoc doesn't even mention that - it incorrectly
-> claims that only -ENOMEM can be returned. (needs fixing!).
-> 
-> And if memfd_pin_folios() returns -EREMOTEIO then I expect
-> udmabuf_ioctl() will return -EREMOTEIO to userspace.  And userspace
-> will wonder "what the hell is that".  If there's a udmabuf_ioctl
-> manpage then will that explain this errno?  And similar concerns for
-> future callers of memfd_pin_folios().
+Why? the driver doesn't support flushing through a single CTL, so
+num_ctl = num_intf.
 
--ENOREPLY.  I'll drop the above fixup.
+>
+> Will it be just easier to bring back the NULL assignment at the top?
+>
+> struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC] = { NULL };
+>
+> I also see the same issue for other blocks such as hw_dsc, hw_lm
+
+Other blocks loop properly up to the num_resource. I'd prefer to drop
+the NULL init from the DSPP init and use num_dspp instead.
+
+>
+> >                       DPU_ERROR_ENC(dpu_enc,
+> >                               "no ctl block assigned at idx: %d\n", i);
+> >                       return;
+> >
+
+
+
+-- 
+With best wishes
+Dmitry
