@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA70F92F948
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 13:06:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7918092F947
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 13:06:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75C9110E6D6;
-	Fri, 12 Jul 2024 11:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 627BA10E0F2;
+	Fri, 12 Jul 2024 11:06:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D0E010E0F2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34F0B10E0F2
  for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 11:06:19 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=ratatoskr.trumtrar.info)
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <s.trumtrar@pengutronix.de>)
- id 1sSE6G-0001hW-KD; Fri, 12 Jul 2024 13:06:04 +0200
+ id 1sSE6H-0001hW-0H; Fri, 12 Jul 2024 13:06:05 +0200
 From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Date: Fri, 12 Jul 2024 13:05:55 +0200
-Subject: [PATCH 1/2] dt-bindings: display: simple: Document support for
- Innolux G070ACE-LH3
+Date: Fri, 12 Jul 2024 13:05:56 +0200
+Subject: [PATCH 2/2] drm/panel: simple: add Innolux G070ACE-LH3 LVDS
+ display support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240712-b4-v6-10-topic-innolux-v1-1-bb0acf273d0d@pengutronix.de>
+Message-Id: <20240712-b4-v6-10-topic-innolux-v1-2-bb0acf273d0d@pengutronix.de>
 References: <20240712-b4-v6-10-topic-innolux-v1-0-bb0acf273d0d@pengutronix.de>
 In-Reply-To: <20240712-b4-v6-10-topic-innolux-v1-0-bb0acf273d0d@pengutronix.de>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -60,26 +60,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Innolux G070ACE-LH3 7" WVGA (800x480) TFT LCD panel compatible string.
+The G070ACE-LH3 is a 7" TFT Color LCD module with WLED backlight.
+
+https://www.data-modul.com/sites/default/files/products/G070ACE-LH3-specification-12058417.pdf
 
 Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
 ---
- Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 5067f5c0a2723..e9941a077a20d 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -180,6 +180,8 @@ properties:
-       - innolux,at070tn92
-         # Innolux G070ACE-L01 7" WVGA (800x480) TFT LCD panel
-       - innolux,g070ace-l01
-+        # Innolux G070ACE-LH3 7" WVGA (800x480) TFT LCD panel with WLED backlight
-+      - innolux,g070ace-lh3
-         # Innolux G070Y2-L01 7" WVGA (800x480) TFT LCD panel
-       - innolux,g070y2-l01
-         # Innolux G070Y2-T02 7" WVGA (800x480) TFT LCD TTL panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index dcb6d0b6ced06..d3ce78643fd86 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2509,6 +2509,38 @@ static const struct panel_desc innolux_g070y2_l01 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
++static const struct display_timing innolux_g070ace_lh3_timing = {
++	.pixelclock = { 25200000, 25400000, 35700000 },
++	.hactive = { 800, 800, 800 },
++	.hfront_porch = { 32, 32, 32 },
++	.hback_porch = { 31, 31, 31 },
++	.hsync_len = { 1, 1, 1 },
++	.vactive = { 480, 480, 480 },
++	.vfront_porch = { 5, 5, 5 },
++	.vback_porch = { 4, 4, 4 },
++	.vsync_len = { 1, 1, 1 },
++	.flags = DISPLAY_FLAGS_DE_HIGH,
++};
++
++static const struct panel_desc innolux_g070ace_lh3 = {
++	.timings = &innolux_g070ace_lh3_timing,
++	.num_timings = 1,
++	.bpc = 8,
++	.size = {
++		.width = 152,
++		.height = 91,
++	},
++	.delay = {
++		.prepare = 10,
++		.enable = 450,
++		.disable = 200,
++		.unprepare = 510,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++};
++
+ static const struct drm_display_mode innolux_g070y2_t02_mode = {
+ 	.clock = 33333,
+ 	.hdisplay = 800,
+@@ -4599,6 +4631,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "innolux,g070ace-l01",
+ 		.data = &innolux_g070ace_l01,
++	}, {
++		.compatible = "innolux,g070ace-lh3",
++		.data = &innolux_g070ace_lh3,
+ 	}, {
+ 		.compatible = "innolux,g070y2-l01",
+ 		.data = &innolux_g070y2_l01,
 
 -- 
 2.45.1
