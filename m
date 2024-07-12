@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F39B92F7D8
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 11:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D1792F7DA
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2024 11:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B06B010EC76;
-	Fri, 12 Jul 2024 09:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCCC10EC78;
+	Fri, 12 Jul 2024 09:25:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="ocl4Duao";
+	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="YAcdrkz8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com
- (mail-westeuropeazon11011045.outbound.protection.outlook.com [52.101.70.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D807D10EC76
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 09:24:56 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com
+ (mail-northeuropeazon11011068.outbound.protection.outlook.com [52.101.65.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3057F10EC78
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 09:25:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eVwLh8P1AvEa8uiEEcbPtQaGTsAGfum///fXtNn/7D/H7zDbHEqWLIj6+bFZxOwvv+jbwvjx10Lb3vN2RWbfUhcRTRdEQUlORoZH1IZrvykNwqTSObsIxF+R3/gs08mdF7vesOSOkyMMf5IiUs6TN5CMTOfxo7t+cA1aAIxK+fRKamr5jsDfdsh6ommHIaKW/CULGViNvV+I49h9J4oqe6S6i9uVTHd9bYvPydW/FW0MD8tYXGLMMY/p8lgAISLQN+PVYzm31aXijaUOd4jGW7qaros/FxFGntnI3VsjIPqoTqOeBCNZtq9h5KiBZK6VKDU6EHi1rtygXr5ck6LKlA==
+ b=lcSBLDDIT1AlMy5m+18REqwCSi/DlaMWs1RIeZg7OKbd7X7KiypWp/QnzwQyvqsfBymT61KQUaNS5FyrLFaXw1lMpUb8ucQJUyYan3uWLINnmdyef6hOqFF1bcJxFp7beHDGKqBdWS/wMcGVA7/cJCFtURvAgz1jDjX1r1nD86QHEgXAu31kVcXbob5FvLiSGz3QYhCJZbGZ5iDbz82NJ5DPg85h4eOzI3kDo19FHwVdh+ORt2OLQEel1XEqPitUEXmElcfcKGUu1MH9gckMLB6LC2hi8hk70wJWHdCEtE74CvsUE8OuEz/nPYydyPorG/WozGaeMp+1QUBXE9Vemw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CENez7oAf0r0W0vQ5AX0ZaxBA18j2PHzB1COo4ieu+k=;
- b=NhmbL6NjJ67cTdacqEg0dpVR4cmHEbJZpBUczglV/a5g0LPJtD3+8PBXTmEGKTFBSc6w5q0KvfUWuZY6yfFHwwIysEba5eP04zML1AKbrBQAlocAbNu4RIJTxk7zNqiWizhHipx4abge8xfucOWEL4vFl3O78N5aqgby65eLEoXsSBTxxWfaZ7Ei6J2SqNT77ZZ83LHH8HGDpJpbqFb9tRWCEnUOGrCerhPn8Hx6KnXIYXtxgp3tYGnGq9/tsrUeO60dgpLGXHGeu9FcuClrkCrzYCK8vbwja58zPe6IipehgSFYUXVBZWF6xtPI/gLhomwBUToWiKv+IuHECO5VsQ==
+ bh=/KfSvTno9qe5Gx7g0CpogAeVq6qj0WVPG1gvPK3lLzQ=;
+ b=xdcV1TylH/L4YU8pTPbrR8u4RiFdjh7Xs3k6zIl5lLcHOlOrkg0egSJsvkGwmay6MZ6PQ0oD8IdGVF6B/hqUpWuvxvrhN/j6jsOEKGSVsDK8fX0A1pHIzCOPh2dg65GByjoKOoKtE4yM3s16JNswLH/iDVio8PtjdFAKmuLG+z6I4fqSCJuI13TBcGtTRIM5HeUjnnN52LXQ9hiaypswHyibdZc2De+G89gU+5Cs0BjBlwM4ik9YNdp2+ljRvVAEO5uKoCkPDkIWKvS36xfNj8rB7H5PnRNp0CX7EvPnnxphhpohNnASsZ6U93LAHY6Y97eAyevLZhygJwRQRSiOFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CENez7oAf0r0W0vQ5AX0ZaxBA18j2PHzB1COo4ieu+k=;
- b=ocl4DuaoAOMr9XHe1TX3xNKDitihkERoAtYzl90HRV/CrB172u/Oxpa3SYbv1DL6VbLiP5hKOycwJEeesxyNOHvUAb/wWnrfFSFyUDELBLfAbF0tJQNK1omw1cu5BwnXuuHOizW1UY4+fXpn4744zNWaOozXFBEzKHDqLChzupk=
+ bh=/KfSvTno9qe5Gx7g0CpogAeVq6qj0WVPG1gvPK3lLzQ=;
+ b=YAcdrkz8iCyX3RBY5/nij6qqAV3UPzgc2Y0sbUNj0S2rqwxODB10JbmjbJDIY5Mez/+cMni6AlX5b+JX3xHc6dk8Eop3KjyJFmH4K1DQ0u3P7/n9JyWeHF/6jTI3y9/QOn8mS1FiCcbTz/D0xN1GNnGCcXPcXo1HsffM85L6f8I=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by VI0PR04MB10289.eurprd04.prod.outlook.com (2603:10a6:800:242::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.20; Fri, 12 Jul
- 2024 09:24:51 +0000
+ 2024 09:24:58 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%2]) with mapi id 15.20.7762.020; Fri, 12 Jul 2024
- 09:24:51 +0000
+ 09:24:58 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
@@ -52,10 +52,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
  festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org,
  kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org,
  francesco@dolcini.it, frank.li@nxp.com
-Subject: [PATCH v2 02/16] dt-bindings: display: imx: Add i.MX8qxp Display
- Controller display engine
-Date: Fri, 12 Jul 2024 17:32:29 +0800
-Message-Id: <20240712093243.2108456-3-victor.liu@nxp.com>
+Subject: [PATCH v2 03/16] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller pixel engine
+Date: Fri, 12 Jul 2024 17:32:30 +0800
+Message-Id: <20240712093243.2108456-4-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20240712093243.2108456-1-victor.liu@nxp.com>
 References: <20240712093243.2108456-1-victor.liu@nxp.com>
@@ -67,76 +67,75 @@ X-ClientProxiedBy: SI1PR02CA0054.apcprd02.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI0PR04MB10289:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99c34d2a-0926-4a1a-8af3-08dca2547b6e
+X-MS-Office365-Filtering-Correlation-Id: 975c2dde-4b1f-4298-8ea3-08dca2547f96
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|1800799024|52116014|376014|7416014|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5ab8w0A7j4tpM0KoYlzvIhVw/A6Ze8uSad9vZ7KEBtfMk2DkfwFxhYha0ShN?=
- =?us-ascii?Q?V6vDGJXN6gKLRG1aO4ic5ntnu/oe/f1JvpxEzyWqJnYBhFrkyZdNlJvcwjn5?=
- =?us-ascii?Q?pfozZ1lQ4hq4d1bKE3DvTzxSk2rzobZd20m3Niry2WtN1r2gy2t+HdiuV6e6?=
- =?us-ascii?Q?IV4PCxd3ejuxVrng6cXTzvxo2gtof0X4uNowKLpbqMbeBcSgUeD1kNTX9BJ/?=
- =?us-ascii?Q?XcwQXpN7oAatNRY7MoqS79UDEu7/49e6/4bVOafxgoNom83sO1waPiSazOlV?=
- =?us-ascii?Q?tHw255PW8Hs5TXoh8QxO3AcaUyc8hWo1H6TLJCCgpRswEUD/Uk55vHBmEYRN?=
- =?us-ascii?Q?O6uzG+iFD2VVUtCfr4ugyvsnIOwlHhcMB3tFVs3EpxbPWHoBCEDseOS/ljpL?=
- =?us-ascii?Q?7GgMmsqrqg99sb6zeIzagUDTtBKJIy0AkLSGH5xoKZUdhGu1y1Ds7cuAdAqG?=
- =?us-ascii?Q?ch1uEIlIDF1d61qb5YBQ7Mtlax/nT5BzPjvBGOs+CIBIGfp5NQpa8ofr74tm?=
- =?us-ascii?Q?a8DzazwVkyjCVE6DqpiFJyb0SRVc9t3bFdivxh/fkGLZExMXH+aQi+DWLQf8?=
- =?us-ascii?Q?meNYUQKdPhNkHn5Ztfsmni6V1Y91I7+t1z4k5XWJnmmLcYIzylTfRPfLftNV?=
- =?us-ascii?Q?WfppRGqMw2uVcS5uIEpq6j5YpRqC/XNE2amGqOfdr6c8CuaEXMdXJz27wUtN?=
- =?us-ascii?Q?6srxQt1auxHPYM/WDAopVIxR5sk2zidg7D2YeI6Cwic4jOVXdYC33Ww8B5bm?=
- =?us-ascii?Q?TPS327r/g7+9nknM6/M28TFU2qbnkvvMTq07fxK5N0iKXn1CtGlUDooPLZM2?=
- =?us-ascii?Q?wRvsdyTURUotkv7CbTqRHlHfmPBzz9dLOqxZMUOPGvoDYPiMIdvSKNO9UuuJ?=
- =?us-ascii?Q?RcpL8pbrKuFu+E3dK5CukMcrzybmbpbic6gi5UlwsVu+qlWb93WTI9LVdv21?=
- =?us-ascii?Q?9fvdRtcA9Urz/ayf0JPGEEQ3dOkJExAdl9dqWwx/rfQQolftS/SYipTUPy9p?=
- =?us-ascii?Q?YuxlqOPTMhbK7Fm6E2sKyPO1Tjcl8GKmaavs87yOUZXUir0Gx4dSZCJ5cUF2?=
- =?us-ascii?Q?c5y+0tw63YuJklrTerpsMsLuYo7q4eedYfkas2ZsIi3dpCW+ikMrxk4m9oql?=
- =?us-ascii?Q?rmHEumuFx2EReeUdRBZhYaQGF2r4HtAFCKld5YHi4xET9WMhTBhqpF6qTesa?=
- =?us-ascii?Q?zRO9MgdOU9CCXSokpeN9D6JX83A6Q/0W85J4BTOONbmM1QIc3GMbb22XcPCs?=
- =?us-ascii?Q?7rV9jwjII5cC+ngkuFLLbeb900Syxd5Bt2LUoOlSxRUMwS3lCoL3uhZ2WaU7?=
- =?us-ascii?Q?mAOgBjV9ZkUbFcM3RQIdOFTwDVZ3cqsiUY013Ewa5k7lLqo6ttz4hoiASzTM?=
- =?us-ascii?Q?XQpcQVA=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FBUh6UTHoBud+ZZ/+2QRQo7iLBHgqLAo/jOD2orqR3nNYYP1IyfLfvw+Y+DR?=
+ =?us-ascii?Q?2yTLj5npvBWjaoBCnwAj6xHyXtOJ4WhpwSq1b91hXNZ1/A/BWiAq7j9D/hdp?=
+ =?us-ascii?Q?DOAEPYzam/QfxffCjJvfTf5ICNF+dfi18P4akoRtWdp4jd5ns3hlnCcyWxpv?=
+ =?us-ascii?Q?TrlL6X0/5pw7ZivjLYuxZjVxYespLwdPhlPoZv1bdofLekHuPTD8k74c3jK/?=
+ =?us-ascii?Q?xBBkI+cE0JWEKRVUmP0GVKzSXzi7Pn7JecjtNJE+eowTmacI2POXcXBpmKQL?=
+ =?us-ascii?Q?M7Xy+zV7BIQc9rRwzo/3v6CZKqOFvWMqa+tRynFf4a0Vl9bZdZUb5bnfTJuJ?=
+ =?us-ascii?Q?2NjB74QaoEx8ynoP8iOC4UD625yg6FaXHoRGL9OYpBFOuQWn4lT42LAroChe?=
+ =?us-ascii?Q?YMZpm8nZIEPYvxQHb4UGD2xz4MEMWEh1kf56G5IP2ft3tU5JibIdNvNXTD5B?=
+ =?us-ascii?Q?PFTWAmyAynnC7Rk68rTz/K40pfhGOj541bPTfIjNpDCrsTIs4C4x8SFYlTSM?=
+ =?us-ascii?Q?jScQ9VOYMKP5pjqGXn9yMYJrgZYA1fDXTEAXGEQXvPGYgJiBheadHLbGMsMZ?=
+ =?us-ascii?Q?3FE+ekeOmbPAT5aqo3T/fGVmH2+BId/XQeWJmBegzi5C79vw3jD5DMzmQjfz?=
+ =?us-ascii?Q?FWZCwlrLqkGRPLZ8gfGYxqN0ertUWO/BIy9IOv3KsVDbIITDc1lJGXMHU48+?=
+ =?us-ascii?Q?X0vIC4i977aFQxsxZiLpQHfOhoyFKybLV5oFXqomolmrQkYdYjsDQL/3X/SM?=
+ =?us-ascii?Q?NagRRIXXauUMveIqS1WkjL8Q3/tV0w97OpvqoqPjfwUl+Ab2MPssQJigv/bk?=
+ =?us-ascii?Q?fGSHlh++i7SThvOPT8c2l/BbMb+VI4sT9k3YoI/fPVzotIeDKLsIzJq09yFA?=
+ =?us-ascii?Q?tLJStKnCU8WEDueLh1NvdDZKik821cFXUb//nKEK7iDgu8DL95X0sDKbTxhH?=
+ =?us-ascii?Q?9KJaKGFxqAGUKXenccZjEqMO8ynVjOibEuUxZKJ8HY4xDbpvyf4CMcJPQ+JG?=
+ =?us-ascii?Q?McLu4JhTbFeaxKR1qKbyuBbOa1IC7pL4r40HsNNtSIEGX4BX62Ftb1K3R6Em?=
+ =?us-ascii?Q?14wHdT3QGIDr6197CVnfYNEHCicgaLG8iQK6AAGGCTkgYHYXYa3hxhhatjmP?=
+ =?us-ascii?Q?K/jgcTLkK4AS7RDDQ2TBZ9nbkDfifoRyLJ5N2oS7JV80Ppmo6Dl8ZyrLMqxG?=
+ =?us-ascii?Q?7ybjmJKEh8CbQU4VwCNWUptK0c3+r1Q3mryDSuRaZDpr1eBSxXC968l6KdVp?=
+ =?us-ascii?Q?Jwq334x6otZJMzMZZe4feqF0QALjT56roGsgztcOxxWVCkNWYnn9P9Gaoeb3?=
+ =?us-ascii?Q?0i3L6b4q1n+foK2y1E/SfPXfEjINDpc0HwLNeBRYxll4Pg=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?joW09tOUhtV0WHp3S58tXwqUuo/OzzfFup4E09he5hBuH5kRQZ9D2WetZgFp?=
- =?us-ascii?Q?qcimMvD7JIoYCprDHxNHsGUWn1ezmUuztv5NZ9OxTgYItgurPo2Q1RqE03A4?=
- =?us-ascii?Q?Wq+T3JEtjxpXAtmb3iKTG6jRs2X2KcGxXh4pbhwsNEeokkOdQtlHw/QdavR8?=
- =?us-ascii?Q?Q3g+V4qUawugk/K7i8Z8oYawDyx920uMY8382xXLqmgeACY55lyzW2HfiQkS?=
- =?us-ascii?Q?0M1HWo5SPG6iz/MirkV7Yk96aFV2UcDwOIeAozh7lZmoFqHcs+UyEjD6il9q?=
- =?us-ascii?Q?o6OuLJMoRQ/OPDbR5g0s8jZ1G6t0Fz04fDnn9NOGFv+J8W0GRHOUOgjvSlMF?=
- =?us-ascii?Q?7MeFKK3o4v9bFGsZ1BNjyNzG3wFg0afydc+O1rRUzjpyVkvg2/oR457mScue?=
- =?us-ascii?Q?ksmxLGVxEYnECvf27XsOiANVE+2ezke9bG9rMXVBiOYrmK3Xrelua1PPvr9b?=
- =?us-ascii?Q?uT7AiusvSfrhekRjFu+e/jNA6ASrHnxiFfEHxhhC/AvBnlbzLGhQ/ZTz6gnu?=
- =?us-ascii?Q?omH2ZpVYsYJ5t3XZXrStVIyLy82bq9zfT4x15zUrkidUgUL3PpydahIl31j/?=
- =?us-ascii?Q?GR8bhF4XPZ8ELn/Y1Rmoad53eMycaItvpXB+KHptf+v5vNkMCNAorj5/2hdm?=
- =?us-ascii?Q?f9YD+SS30qohcfz3IGzwhLm6Zua6UEHAPpu3tvEmNniyCTEfZVl5BRNU2F0D?=
- =?us-ascii?Q?wGkD5CJXIQNykAPJYulzA8ALs14yXitTKhDFTZuhRgalFBh8od13vm2e2DNG?=
- =?us-ascii?Q?GkTnNER430O6pdca7ohUGjeQu6jOAtPDxVRSEGE+9PsgK9kLT1MNdPB6sPnn?=
- =?us-ascii?Q?Kf++D7UQDqC0e2fsYosZQxkdsESDyf8m2J7v3Uwf9Z09fHBvPlfAU4yCFLn5?=
- =?us-ascii?Q?s8bLHmoVePH7gt3Dpb8OVL5pOrdGx2ur0h7IRbuwAdUyy6d5ZqwXDTd+MDMA?=
- =?us-ascii?Q?qZVttTBG7xyqk84lmglzOn9vy59A4QyEzCELa1oJ+sk1o7dIB7PNXNu8GwmT?=
- =?us-ascii?Q?s1QxlObxmCVaBumbmi2GF0WFLbcNi4RBuOmsHamUtlpZ02yDvmckLUqUr4+j?=
- =?us-ascii?Q?wr0RNssRavlBOYqFGsyfHHPJryFYNELIgiLUTnCpsiN1rcYMD+kJfHHOQ44M?=
- =?us-ascii?Q?T8UVij48+DifUJQHJ9Fs7vVUW2LZdAnEtBh7LQT2PrZBlrG05IRbB7Fbcgdu?=
- =?us-ascii?Q?mwCc59/Qzsp/8b5dy7r1tOXK5socN2viYJ+eupjGeXe4K+an/FOKPeQ6SBeT?=
- =?us-ascii?Q?fpXyq0kzC4158oIAx+vCQFK2w1pJEQMQTMBEdwadBcXdmhW6CUJMQXXGdpBs?=
- =?us-ascii?Q?qzVHubyvz8vk6cBkSWMSFUKn6LNWe7vgfVitDj6cffttBgF9mZ7iiDHwBa6o?=
- =?us-ascii?Q?tysjDKLAYZhkItrXKsHcH0K9zULHVz20BtL2heBt4cTctyV6ds98klhAnNls?=
- =?us-ascii?Q?4n5wIkax4RudybKXkM/eBEpHxFW50m4ff3cbsoHb3bE9i3W7TMgI4Ca1px9B?=
- =?us-ascii?Q?qOm2LuN6ycCszHLfladL28BvJ/2FBEJOgciyb95h4hPd0TUAWM+UxPM7Mn2Y?=
- =?us-ascii?Q?6EsM0466IeaiYWg2aE/NbwmW3B+bqnL6teb3OwVJ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dhNs8R+N4pL0KNhRF3CZ1aCE7VHoeROgbZGNwoccnlWzsrBx/wTYWHXPIVho?=
+ =?us-ascii?Q?uSkwikdc+Nn6yjfQeCxRB1xz0Q1r9R/gvSzkqY0FlDI+p4iSEdc8h9M02R+7?=
+ =?us-ascii?Q?TBEy0fQ7yo2L5d3E/fVJkQgUruTLUSSs186EqDe6qu89JIxOAXJOmVSwTwkW?=
+ =?us-ascii?Q?hJJKXskLJ29C+sX5t11eWFcUrnZ6LqQBxNSwWdlVR2kBilQ0R9egsSWHQmaS?=
+ =?us-ascii?Q?d9lUDkn9J8lpiRBsOUFvYcXWgdkUn+lGhSQv+JdElcd6vvbMPy0syH089Cwa?=
+ =?us-ascii?Q?S9L3uSfW71JFhW3BMFSjWg2NH5nX47nrh87mKrdVy2VvfGivmBOXaKwlOLk1?=
+ =?us-ascii?Q?rJEtm4jA4tXx+Lzeve2N4u47VQNIRDBNHIJqCFjvgtTC0eq4Pn7QdarbtVNp?=
+ =?us-ascii?Q?IyrVq3l0Xv6yOqC4MuQAbK4i5r85fAdIQUgxOSATVswpSa4kErPcWeSrWEHl?=
+ =?us-ascii?Q?ZNp4gad4I3F4DRDROkWZcWKMFN3sd9lVys+WuZqTTZfpzMZZK1HAZPnyCARf?=
+ =?us-ascii?Q?oWhudSpG1jlMXMJlusrLYvAIuaxR+wJRihezplQ3aByyN5/7lN4YnswalQgZ?=
+ =?us-ascii?Q?isO45d8k1lovfRGyBGlERqo9GmPh5NzTiTY+BrDZvkSC4DOamJeniKhCURnK?=
+ =?us-ascii?Q?CwZtiNzXsszA5iaWR7c8PWdH1XVY1bsS2s5it/e4INbOgaKdOyBsreKZWk+k?=
+ =?us-ascii?Q?Fw/RhJFYZBwe85Jlcar3zKSBIBn9VoZUmJb0PG0flov78hq1MwUklOWlVhAB?=
+ =?us-ascii?Q?hTUXizEeBe1EQl87p9lJ9JVJh1GmsLQyHVLMdljyP+5V/GX3lwZfVIfJTdjI?=
+ =?us-ascii?Q?p/LymzJM0kytatLTswLv10w6gXJKcWGoQWvIJTbcJ/jkGh3AZbkhM4kyzVIJ?=
+ =?us-ascii?Q?vjYJ6di+ndtTt31f67xqXGZiGgMChXXeNYeygyGZqsf0sMI/GC2N2qIAulGb?=
+ =?us-ascii?Q?40ZhyyH0z+7WSPYASJgwwOCuMKZYNY8MBzhZ6+MwT4h4J60U8pe3O+JV7HUp?=
+ =?us-ascii?Q?5ovbK2Bgi3n9rIRarm6Ru6lmj6nvWXAIIEDIzb+bYrQA4EGToN4yEUaM/ZxV?=
+ =?us-ascii?Q?sr/90IPX89/endW2hfrs0TIbb8MNEHQUNcU0cd6pD/SEpUQvYBzS4Ut4PY3P?=
+ =?us-ascii?Q?GXjFTD2lfYVq62PzuH59dU7ojFN26estGXjzEI997iG9KljWbW1BOd/ABjGp?=
+ =?us-ascii?Q?I1HXqCEB4bw0qUQw/E3Bq3xHZC/fGLBjVcjzeKBe/7o1r2LRo7iv7dU6GNL1?=
+ =?us-ascii?Q?luKdOQdMwunuHh8uHSR20PGxUJTWuEgBxYpC83sD13yPjJu1DsNAQkeMCcYZ?=
+ =?us-ascii?Q?YJGpOZItwRyXGMZeWIoizjjI++w0e8TGU36AuutPCoonT5g8N1NWL5A21Ynt?=
+ =?us-ascii?Q?cbzPOg9BPl6xyBmGQeHWkVgycpYrfQMizwS2jb0xC/vRMxc2II5GxGRuJGdV?=
+ =?us-ascii?Q?ftFYWX59Hw23798BoEDvRT8C3rY8zy5wuT56/kcnmt292FBFjbk1V41dtnaq?=
+ =?us-ascii?Q?yWcaFnHrRHhFPlQZu6SAxj+30EfLdNBOYVx2eStwrGro9VH67dpwMJSy+VZF?=
+ =?us-ascii?Q?WlygyGHI1pYrAFJa8ZZttyXKa5N0tHAISGOU3Uuf?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99c34d2a-0926-4a1a-8af3-08dca2547b6e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 975c2dde-4b1f-4298-8ea3-08dca2547f96
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2024 09:24:51.3326 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2024 09:24:58.3072 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g34BSq89n/4kQ3lUMPZredtZHJynIakyiVoMoEk6UjaINyif1P6RXMYSMuz5aBKIaUcWvZDdj3gs10LH1vuXPg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y+aKLebGYqvYhNtlyl4GIf6Tr5D2keSUPPoGpGNhyHdFCItapvirbxiH/fxlj1YfdbGJo3+LqEpGN3VFKk564w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10289
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -153,67 +152,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i.MX8qxp Display Controller display engine consists of all processing units
-that operate in a display clock domain.
+i.MX8qxp Display Controller pixel engine consists of all processing units
+that operate in the AXI bus clock domain.  Command sequencer and interrupt
+controller of the Display Controller work with AXI bus clock, but they are
+not in pixel engine.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v2:
-* Drop fsl,dc-*-id DT properties. (Krzysztof)
-* Drop port property. (Krzysztof)
+* Drop fsl,dc-*-id DT properties from example. (Krzysztof)
 * Fix register range sizes in example.
 
- .../imx/fsl,imx8qxp-dc-display-engine.yaml    | 152 ++++++++++++++++++
- 1 file changed, 152 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml
+ .../imx/fsl,imx8qxp-dc-pixel-engine.yaml      | 250 ++++++++++++++++++
+ 1 file changed, 250 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml
 new file mode 100644
-index 000000000000..91f3bb77d8d0
+index 000000000000..633443a6cc38
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine.yaml
-@@ -0,0 +1,152 @@
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml
+@@ -0,0 +1,250 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-display-engine.yaml#
++$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Freescale i.MX8qxp Display Controller Display Engine
++title: Freescale i.MX8qxp Display Controller Pixel Engine
 +
 +description:
-+  All Processing Units that operate in a display clock domain. Pixel pipeline
-+  is driven by a video timing and cannot be stalled. Implements all display
-+  specific processing.
++  All Processing Units that operate in the AXI bus clock domain. Pixel
++  pipelines have the ability to stall when a destination is busy. Implements
++  all communication to memory resources and most of the image processing
++  functions. Interconnection of Processing Units is re-configurable.
 +
 +maintainers:
 +  - Liu Ying <victor.liu@nxp.com>
 +
 +properties:
 +  compatible:
-+    const: fsl,imx8qxp-dc-display-engine
++    const: fsl,imx8qxp-dc-pixel-engine
 +
 +  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: top
-+      - const: cfg
-+
-+  resets:
 +    maxItems: 1
 +
-+  interrupts:
-+    maxItems: 3
-+
-+  interrupt-names:
-+    items:
-+      - const: shdload
-+      - const: framecomplete
-+      - const: seqcomplete
-+
-+  power-domains:
++  clocks:
 +    maxItems: 1
 +
 +  "#address-cells":
@@ -225,29 +209,77 @@ index 000000000000..91f3bb77d8d0
 +  ranges: true
 +
 +patternProperties:
-+  "^dither@[0-9a-f]+$":
++  "^blit-engine@[0-9a-f]+$":
 +    type: object
 +    additionalProperties: true
 +
 +    properties:
 +      compatible:
-+        const: fsl,imx8qxp-dc-dither
++        const: fsl,imx8qxp-dc-blit-engine
 +
-+  "^framegen@[0-9a-f]+$":
++  "^constframe@[0-9a-f]+$":
 +    type: object
 +    additionalProperties: true
 +
 +    properties:
 +      compatible:
-+        const: fsl,imx8qxp-dc-framegen
++        const: fsl,imx8qxp-dc-constframe
 +
-+  "^gammacor@[0-9a-f]+$":
++  "^extdst@[0-9a-f]+$":
 +    type: object
 +    additionalProperties: true
 +
 +    properties:
 +      compatible:
-+        const: fsl,imx8qxp-dc-gammacor
++        const: fsl,imx8qxp-dc-extdst
++
++  "^fetchdecode@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-fetchdecode
++
++  "^fetcheco@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-fetcheco
++
++  "^fetchlayer@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-fetchlayer
++
++  "^fetchwarp@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-fetchwarp
++
++  "^hscaler@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-hscaler
++
++  "^layerblend@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-layerblend
 +
 +  "^matrix@[0-9a-f]+$":
 +    type: object
@@ -257,29 +289,26 @@ index 000000000000..91f3bb77d8d0
 +      compatible:
 +        const: fsl,imx8qxp-dc-matrix
 +
-+  "^signature@[0-9a-f]+$":
++  "^safety@[0-9a-f]+$":
 +    type: object
 +    additionalProperties: true
 +
 +    properties:
 +      compatible:
-+        const: fsl,imx8qxp-dc-signature
++        const: fsl,imx8qxp-dc-safety
 +
-+  "^tcon@[0-9a-f]+$":
++  "^vscaler@[0-9a-f]+$":
 +    type: object
 +    additionalProperties: true
 +
 +    properties:
 +      compatible:
-+        const: fsl,imx8qxp-dc-tcon
++        const: fsl,imx8qxp-dc-vscaler
 +
 +required:
 +  - compatible
 +  - reg
-+  - reg-names
-+  - interrupts
-+  - interrupt-names
-+  - power-domains
++  - clocks
 +  - "#address-cells"
 +  - "#size-cells"
 +  - ranges
@@ -289,40 +318,109 @@ index 000000000000..91f3bb77d8d0
 +examples:
 +  - |
 +    #include <dt-bindings/clock/imx8-lpcg.h>
-+    #include <dt-bindings/firmware/imx/rsrc.h>
 +
-+    display-engine@5618b400 {
-+        compatible = "fsl,imx8qxp-dc-display-engine";
-+        reg = <0x5618b400 0x14>, <0x5618b800 0x1c00>;
-+        reg-names = "top", "cfg";
-+        interrupt-parent = <&dc0_intc>;
-+        interrupts = <15>, <16>, <17>;
-+        interrupt-names = "shdload", "framecomplete", "seqcomplete";
-+        power-domains = <&pd IMX_SC_R_DC_0_PLL_0>;
++    pixel-engine@56180800 {
++        compatible = "fsl,imx8qxp-dc-pixel-engine";
++        reg = <0x56180800 0xac00>;
++        clocks = <&dc0_lpcg IMX_LPCG_CLK_5>;
 +        #address-cells = <1>;
 +        #size-cells = <1>;
 +        ranges;
 +
-+        framegen@5618b800 {
-+            compatible = "fsl,imx8qxp-dc-framegen";
-+            reg = <0x5618b800 0x98>;
-+            clocks = <&dc0_disp_lpcg IMX_LPCG_CLK_0>;
-+            interrupt-parent = <&dc0_intc>;
-+            interrupts = <18>, <19>, <20>, <21>, <41>, <42>, <43>, <44>;
-+            interrupt-names = "int0", "int1", "int2", "int3",
-+                              "primsync_on", "primsync_off",
-+                              "secsync_on", "secsync_off";
++        constframe@56180960 {
++            compatible = "fsl,imx8qxp-dc-constframe";
++            reg = <0x56180960 0xc>, <0x56184400 0x20>;
++            reg-names = "pec", "cfg";
 +        };
 +
-+        tcon@5618c800 {
-+            compatible = "fsl,imx8qxp-dc-tcon";
-+            reg = <0x5618c800 0x588>;
++        extdst@56180980 {
++            compatible = "fsl,imx8qxp-dc-extdst";
++            reg = <0x56180980 0x1c>, <0x56184800 0x28>;
++            reg-names = "pec", "cfg";
++            interrupt-parent = <&dc0_intc>;
++            interrupts = <3>, <4>, <5>;
++            interrupt-names = "shdload", "framecomplete", "seqcomplete";
++        };
 +
-+            port {
-+                dc0_disp0_dc0_pixel_combiner_ch0: endpoint {
-+                    remote-endpoint = <&dc0_pixel_combiner_ch0_dc0_disp0>;
-+                };
-+            };
++        constframe@561809a0 {
++            compatible = "fsl,imx8qxp-dc-constframe";
++            reg = <0x561809a0 0xc>, <0x56184c00 0x20>;
++            reg-names = "pec", "cfg";
++        };
++
++        extdst@561809c0 {
++            compatible = "fsl,imx8qxp-dc-extdst";
++            reg = <0x561809c0 0x1c>, <0x56185000 0x28>;
++            reg-names = "pec", "cfg";
++            interrupt-parent = <&dc0_intc>;
++            interrupts = <6>, <7>, <8>;
++            interrupt-names = "shdload", "framecomplete", "seqcomplete";
++        };
++
++        constframe@561809e0 {
++            compatible = "fsl,imx8qxp-dc-constframe";
++            reg = <0x561809e0 0xc>, <0x56185400 0x20>;
++            reg-names = "pec", "cfg";
++        };
++
++        extdst@56180a00 {
++            compatible = "fsl,imx8qxp-dc-extdst";
++            reg = <0x56180a00 0x1c>, <0x56185800 0x28>;
++            reg-names = "pec", "cfg";
++            interrupt-parent = <&dc0_intc>;
++            interrupts = <9>, <10>, <11>;
++            interrupt-names = "shdload", "framecomplete", "seqcomplete";
++        };
++
++        constframe@56180a20 {
++            compatible = "fsl,imx8qxp-dc-constframe";
++            reg = <0x56180a20 0xc>, <0x56185c00 0x20>;
++            reg-names = "pec", "cfg";
++        };
++
++        extdst@56180a40 {
++            compatible = "fsl,imx8qxp-dc-extdst";
++            reg = <0x56180a40 0x1c>, <0x56186000 0x28>;
++            reg-names = "pec", "cfg";
++            interrupt-parent = <&dc0_intc>;
++            interrupts = <12>, <13>, <14>;
++            interrupt-names = "shdload", "framecomplete", "seqcomplete";
++        };
++
++        fetchwarp@56180a60 {
++            compatible = "fsl,imx8qxp-dc-fetchwarp";
++            reg = <0x56180a60 0x10>, <0x56186400 0x190>;
++            reg-names = "pec", "cfg";
++        };
++
++        fetchlayer@56180ac0 {
++            compatible = "fsl,imx8qxp-dc-fetchlayer";
++            reg = <0x56180ac0 0xc>, <0x56188400 0x404>;
++            reg-names = "pec", "cfg";
++        };
++
++        layerblend@56180ba0 {
++            compatible = "fsl,imx8qxp-dc-layerblend";
++            reg = <0x56180ba0 0x10>, <0x5618a400 0x20>;
++            reg-names = "pec", "cfg";
++        };
++
++        layerblend@56180bc0 {
++            compatible = "fsl,imx8qxp-dc-layerblend";
++            reg = <0x56180bc0 0x10>, <0x5618a800 0x20>;
++            reg-names = "pec", "cfg";
++        };
++
++        layerblend@56180be0 {
++            compatible = "fsl,imx8qxp-dc-layerblend";
++            reg = <0x56180be0 0x10>, <0x5618ac00 0x20>;
++            reg-names = "pec", "cfg";
++        };
++
++        layerblend@56180c00 {
++            compatible = "fsl,imx8qxp-dc-layerblend";
++            reg = <0x56180c00 0x10>, <0x5618b000 0x20>;
++            reg-names = "pec", "cfg";
 +        };
 +    };
 -- 
