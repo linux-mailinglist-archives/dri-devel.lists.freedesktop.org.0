@@ -2,87 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A679302B4
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 02:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968519302DE
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 02:48:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B01410E08E;
-	Sat, 13 Jul 2024 00:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E310C10E1A6;
+	Sat, 13 Jul 2024 00:48:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="I/+vL7S7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P6v5tL4f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42AF210E1A6;
- Sat, 13 Jul 2024 00:25:44 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46CJMqjc028268;
- Sat, 13 Jul 2024 00:25:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 1t5j/dlhCkjiAn8mo7AmoGlFE14c8lHfeb9LaX7JHOQ=; b=I/+vL7S7HOkxhSch
- l1bdXBUheOVv6k7AoLL4qKy0OAkH4UZIgEobxT5R/5/kpw3TbmIjWR0NpV1Zby3H
- FRlIoYJIdA4WudEGUZCenYnYlTcMIUNpUFi6EH28pxvz9nPeFyvQFwkIUQxYU23x
- 8ERVvCey1f8kmfgFTnvqHUaxYTRkO4P0V40v69q+vNpOxy0nifJqh3jbSysuc9j4
- d6vXK7Kc+B8KZBEW+wDKIscaVE39fIxgveUJ4qlw9styQbufRXzE5CKBw2BaPOJV
- 0sFGfR+sVHs3xNkKfyO6i2nPBCc/PvqvlsUknUrwx9CEclfy0xAn/+jP0aCzyEoP
- 5iFbdg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40bakggbw1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 13 Jul 2024 00:25:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46D0PbIY012221
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 13 Jul 2024 00:25:37 GMT
-Received: from [10.110.71.234] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 12 Jul
- 2024 17:25:36 -0700
-Message-ID: <cf1ed8b1-1c70-47f8-8c34-ef62129d44a8@quicinc.com>
-Date: Fri, 12 Jul 2024 17:25:35 -0700
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEE2C10E1A6
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 00:48:49 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-58b0beaf703so3155526a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2024 17:48:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1720831728; x=1721436528; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6HsKtFDDgviwQH1b4AdwR89R/oIpdTxW9lu5rBhyzP8=;
+ b=P6v5tL4fc+F//CzxHPJs0wCJrHXY1rjVD7c29Tdx09x5QJL1dLQ46NpcUM88z0Xpey
+ mrmdeMYLyCAiO10VbAF+DYv/YlSYAXwZ9saED9rqAz+jl7Jmz62ZLWZUmR1W3Lb/KkeY
+ LQCFinERcy5uuEf5GyvA37Hxg4n4U7wRuCSp86jtcdbwtz0k7GMavAYRbUYG8HiCPKeE
+ kmfl5z+B0HXvNQzDWYnzG0Oue+eN/rDEH1dCc6jS40RzMvialD+dOw8lobW2ejn969/x
+ bwl0W+OwlmXHVLA9eEQVzJOzvLvKWUsDllqv0MTw/W5Sdy4zMDDWOjsOO6Cdy3Jm0Nd1
+ 7K0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720831728; x=1721436528;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6HsKtFDDgviwQH1b4AdwR89R/oIpdTxW9lu5rBhyzP8=;
+ b=c0KqFzivRH+OPUYmQi6OF74PnWalFXEIzFBpvNFlXN82fP8cSgYPi9G/TFZi97kif6
+ wUrJvhMObqH1dCgyvP3ok3buX0aPTzQCWlZJZndj+LjoA210xnm6QKdLkQAhBUkZ0CJf
+ K62aDs02DJ6gBV1JnEo+mvpHasJpJd5Wh62zkCvoT7cZdOQi8vpCrv7jfTTqcZ1eQPi0
+ HHh5rjzwKZlcBSOUbbXDdZdwuKAkvR225lo/JO5jWAJM7Le3mgEloHf3kJkfkglZuVdK
+ dH4v8arzHVd4HYiFjBVnTkd1HTViLfWOkY/7to/VTsJlFoo/wmTCTOXjaDqmu8MsizAF
+ Ab7A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUFgsA3SAM5vjpc43/FDyEtDTRD7PDZ8mri/TI4xAW5QVaCOO2iV5iqaQw/Hc3JoyHrX1hQ7G3+31HDd9l/4Klrpc8meA6EuaqA2aWDwBKY
+X-Gm-Message-State: AOJu0YxKrX44xTs5zPSaqXh1f6v6cDs+5dSXLNOLAohKB3sbs8pkwkfn
+ KGjJSeuIrip2ci2kR0Ok5Uu0Hue9l6rHjj9akxUDjv9vuFERm6lecsRtSOrtEdRSRWpg1zHjfmx
+ /ZbFzuB0LD2/vyNxA80yGZd26lqz3dbr5
+X-Google-Smtp-Source: AGHT+IFeeJ3/yWZLz9nMde/4bWSuZg18FBSHV/qNjaFCrj/uBC8/sAe66xVQO4ioF4q/Ni373euOM4ug9j90dYFf/so=
+X-Received: by 2002:a17:906:195a:b0:a77:e48d:bc9 with SMTP id
+ a640c23a62f3a-a780b68a472mr741456766b.16.1720831727888; Fri, 12 Jul 2024
+ 17:48:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/16] drm/msm/dpu: fix error condition in
- dpu_encoder_virt_atomic_mode_set
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240625-dpu-mode-config-width-v5-0-501d984d634f@linaro.org>
- <20240625-dpu-mode-config-width-v5-2-501d984d634f@linaro.org>
- <637fbd36-d6cd-4bb7-af83-8849c0fee8f2@quicinc.com>
- <CAA8EJppxyUrEWYQvMGtw14UVobkQdaPZuwHPeMcONRYrgPp2jw@mail.gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppxyUrEWYQvMGtw14UVobkQdaPZuwHPeMcONRYrgPp2jw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: KrdlgLl30xv7qctTFvoVIT7cW80ppDdE
-X-Proofpoint-GUID: KrdlgLl30xv7qctTFvoVIT7cW80ppDdE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-12_19,2024-07-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- phishscore=0 bulkscore=0 mlxscore=0 malwarescore=0 clxscore=1015
- adultscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407130001
+References: <20240710225011.275153-1-daniel.almeida@collabora.com>
+ <fe84a028-01a8-4987-b1b7-141fb76d263c@arm.com>
+ <4344B22F-D859-4C64-A351-69FFB5208362@collabora.com>
+ <ZpFDeajsuVONbSYJ@cassiopeiae>
+ <0A0C1EFC-29A1-4D73-8B02-CC1C693D6A7A@collabora.com>
+ <ZpFMmAEdqo1dhj0s@cassiopeiae>
+In-Reply-To: <ZpFMmAEdqo1dhj0s@cassiopeiae>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 13 Jul 2024 10:48:36 +1000
+Message-ID: <CAPM=9twNU3Wm02zCqzipSt4mDU3UUF5AyVycpBkPTGqv7fwPAQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm: panthor: add dev_coredumpv support
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ Steven Price <steven.price@arm.com>, 
+ Wedson Almeida Filho <wedsonaf@gmail.com>, ojeda@kernel.org, lyude@redhat.com,
+ robh@kernel.org, 
+ lina@asahilina.net, mcanal@igalia.com, rust-for-linux@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,86 +88,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, 13 Jul 2024 at 01:32, Danilo Krummrich <dakr@redhat.com> wrote:
+>
+> On Fri, Jul 12, 2024 at 12:13:15PM -0300, Daniel Almeida wrote:
+> >
+> >
+> > > On 12 Jul 2024, at 11:53, Danilo Krummrich <dakr@redhat.com> wrote:
+> > >
+> > > You could also just define those structures in a C header directly an=
+d use it
+> > > from Rust, can't you?
+> > >
+> >
+> >
+> > Sure, I am open to any approach here. Although this looks a bit reverse=
+d to me.
+> >
+> > i.e.: why should I declare these structs in a separate language and fil=
+e, and then use them in Rust through bindgen? Sounds clunky.
+>
+> The kernel exposes the uAPI as C header files. You just choose to do the
+> implementation in the kernel in Rust.
+>
+> Hence, I'd argue that the uAPI header is the actual source. So, we should
+> generate stuff from those headers and not the other way around I think.
+>
+> >
+> > Right now, they are declared right next to where they are used in the c=
+ode, i.e.: in the same Rust file. And so long as they=E2=80=99re #[repr(C)]=
+ we know that an equivalent C version can generated by cbindgen.
+> >
+>
+> I'm not sure whether it's a good idea to generate uAPI header files in ge=
+neral.
+>
+> How do we ensure that the generated header file are useful for userspace =
+in
+> terms of readability and documentation?
+>
+> How do we (easily) verify that changes in the Rust code don't break the u=
+API by
+> due to leading to changes in the generated header files?
+>
+> Do we have guarantees that future releases of cbindgen can't break anythi=
+ng?
 
+I think I'm on the uapi should remain in C for now, we define uapi
+types with the kernel types and we have downstream tools to scan and
+parse them to deal with alignments and padding (I know FEX relies on
+it), so I think we should be bindgen from uapi headers into rust for
+now. There might be a future where this changes, but that isn't now
+and I definitely don't want to mix C and rust uapi in one driver.
 
-On 7/12/2024 4:11 PM, Dmitry Baryshkov wrote:
-> On Fri, 12 Jul 2024 at 22:41, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->> On 6/24/2024 2:13 PM, Dmitry Baryshkov wrote:
->>> The commit b954fa6baaca ("drm/msm/dpu: Refactor rm iterator") removed
->>> zero-init of the hw_ctl array, but didn't change the error condition,
->>> that checked for hw_ctl[i] being NULL. Use indices check instead.
->>>
->>> Fixes: b954fa6baaca ("drm/msm/dpu: Refactor rm iterator")
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> index 5d205e09cf45..7613005fbfea 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> @@ -1186,7 +1186,7 @@ static void :tag(struct drm_encoder *drm_enc,
->>>                        return;
->>>                }
->>>
->>> -             if (!hw_ctl[i]) {
->>> +             if (i >= num_ctl) {
->>
->> This is not very clear to me.
->>
->> How will we hit this condition? I dont see i going beyond 1 in this loop
->> and neither should num_ctl
-> 
-> Why? the driver doesn't support flushing through a single CTL, so
-> num_ctl = num_intf.
-> 
-
-num_ctl will be = num_intf, but what I was trying to understand here is 
-that , previously this condition was making sure that we have a ctl 
-assigned for each physical encoder which is actually a requirement for 
-the display pipeline. If we assigned a hw_ctl for one phys encoder and 
-not the other, its an error.
-
-But on closer look, I think even your check will catch that.
-
-
->>
->> Will it be just easier to bring back the NULL assignment at the top?
->>
->> struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC] = { NULL };
->>
->> I also see the same issue for other blocks such as hw_dsc, hw_lm
-> 
-> Other blocks loop properly up to the num_resource. I'd prefer to drop
-> the NULL init from the DSPP init and use num_dspp instead.
-> 
-
-Overall, I think the purpose of NULL init was to make sure that before 
-we call to_dpu_hw_***() macros, we have a valid hw_*.
-
-We could use either num_* or the hw_* as both are returned by RM.
-
-One side-note here is with a proper NULL hw_ctl is that the consumers of 
-hw_ctl should also be able to check for NULL correctly.
-
-So for example dpu_encoder_phys layers use if (!phys->hw_ctl) checks but 
-today we do not set phys->hw_ctl to NULL correctly.
-
-Do you think that instead of the return statements, we should do 
-something like
-
-dpu_enc->hw_ctl = i < num_ctl ? 	
-	to_dpu_hw_ctl(hw_ctl[i]) : NULL;
-
-
-But this will need the NULL init back.
-
->>
->>>                        DPU_ERROR_ENC(dpu_enc,
->>>                                "no ctl block assigned at idx: %d\n", i);
->>>                        return;
->>>
-> 
-> 
-> 
+Dave.
