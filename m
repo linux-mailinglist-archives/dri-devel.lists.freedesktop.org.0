@@ -2,85 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C305B930630
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 17:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1D1930641
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 17:50:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3801610E096;
-	Sat, 13 Jul 2024 15:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27E8110E131;
+	Sat, 13 Jul 2024 15:50:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SKkgBeby";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="rqiku9PL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A53410E096
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 15:38:27 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-52ea2f58448so4076341e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 08:38:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720885105; x=1721489905; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=rrw656yPZ58/He6Z0SljV1MTH9DNc6XhfX4EqtbUZcw=;
- b=SKkgBebyJ5JSwyyRlTRFa/3H7ddeppXKIB5n4bWP9NgM6sJiEgV6HFcd3XbVCkfbWg
- b4Sg1Pn8ktbZWMu2zXTOphJ7T1STOh5njRFu/4UqXhJ124xcog/LoKrEDnzW64B8Ipon
- BDRzU32m5ktJiSFn7LZsWeBc2Bn5BkX79c5+5z82gz2aARUAtH6/siXqhOQO868jSlu4
- /vkGyhu9SUn68qQnQZROggMVWrQG6Ag7Vt8hHbIla/Okdc6x0Qxdn1GeuBoNnV3APfdM
- HB+f32ey6E3Q5mktVK7UYSvISgeCo2ZahyLh17wzbIZwnxuiIwuMlDIkN/IYWmkiRB7e
- xWgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720885105; x=1721489905;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rrw656yPZ58/He6Z0SljV1MTH9DNc6XhfX4EqtbUZcw=;
- b=kPzPfQQcWHNAouWpyaMVrRH8gDF9Zc9RotCp4L9KP0kK+qvS0IWz7VWsUBJUExcTwR
- amoWclBZtCmuuA98vMWDmq/ifTotopoc+2paLAjADQE3KCfonAIWxHroU8WBiroyN59I
- 2QrxN8/rR6u6WUm8Hc8foDNwZEoD5kwD0XOUw0GtSMmbuY2fvzQ8dOH8/5VSVV1ABlrD
- Ng/xDtC3GJ1gscRhZJTNJjvaAXPYTBJTI9kIMzOijGUKxhBHjtpqivaFYHE1DwzXAARy
- q6Ys1wmuM0Zrx5uxY1nkRPpLYB0L6xE0H5eVCuPvoSX8f5gSWmYORZyN1Zbjkrd3cj5U
- JR5Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXoj3T9ngPWYevgR0tl/lx1K/+HhkC4vgn3fgHSt01OJ3HoJ2RsAhj4W5ihI6L2sV6EwTnM06TCFCOsSVBe2YB3N6Hwwjl/uegM8mHyBF35
-X-Gm-Message-State: AOJu0YyJ3Y0lrajr1TN4D0tFg1VVbgWty16ZJDDn3++XmGDHNGsMNh+d
- YTWSAlU4Dn8FDpnzk8NFmaZScaevWu4EeiM3q9kCKPwJxoLsvTAan6GRfYjUgBA=
-X-Google-Smtp-Source: AGHT+IHd1JycgmrKTAmXhfqJQqu17IdmqopYEnNGA4fjNnAG4okwte5I2bl+t6SJIVoBWEeIA7EZqQ==
-X-Received: by 2002:a05:6512:3e19:b0:52e:93d1:57a6 with SMTP id
- 2adb3069b0e04-52eb998e483mr10940314e87.6.1720885105051; 
- Sat, 13 Jul 2024 08:38:25 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ed252d538sm224218e87.141.2024.07.13.08.38.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Jul 2024 08:38:24 -0700 (PDT)
-Date: Sat, 13 Jul 2024 18:38:23 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jordan Crouse <jordan@cosmicpenguin.net>, 
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Rajesh Yadav <ryadav@codeaurora.org>, 
- Sravanthi Kollukuduru <skolluku@codeaurora.org>,
- Archit Taneja <architt@codeaurora.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Jeykumar Sankaran <jsanka@codeaurora.org>
-Subject: Re: [PATCH 2/2] drm/msm/dpu: don't play tricks with debug macros
-Message-ID: <cvizlwetyzmwxwtesd54kgghb4ttnj3kgdnca2ujq6orzntymw@tei6xtsoh3og>
-References: <20240709-dpu-fix-wb-v1-0-448348bfd4cb@linaro.org>
- <20240709-dpu-fix-wb-v1-2-448348bfd4cb@linaro.org>
- <46487222-6818-b0bf-e5cc-2310d62b5fe6@quicinc.com>
- <CAA8EJpq7Lp-3V_AsLxO9ZOt8ZW1ZZ=FjhXV6R9jvH=sQ8XQE9w@mail.gmail.com>
- <fb285034-ed4c-4f20-ab80-cf91d36fc67c@quicinc.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAC5A10E12D
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 15:50:07 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id F1B8A884EA;
+ Sat, 13 Jul 2024 17:50:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1720885806;
+ bh=cA2Q2MbVe9fskbOQDrWM2YYpTo6SJI1WDaOk84HRv6E=;
+ h=From:To:Cc:Subject:Date:From;
+ b=rqiku9PLrtGSmTxzkGlpWeUXVCdxPDgk2i7Hv6kkcYdDs1G9wBO4P5B7So0feFGLW
+ kz6sLNG80uAr9KjwjNyDKejV/yeMNRs/kJSl3SsjokT8fdu0cdNBF3uUwc4p53g86z
+ hWiZBad9VxlyCAI+FtCPlOsnXg0b68TGbeVH2xe6MDoVbh/oZqhRkyyjFF43Ih7h6S
+ R/hBcgFBVtGHZ8hZ5j5GzagLLtm4MmUfGRNE3iWxPnff9/1tmeFUXgaG04bAKAyB6i
+ WIobz/AAixPeEj+dFJ7V6YBLf3g/ee71B582rutt1bL07AT4rxwmRTg6G6EADdG12u
+ J0nliiIJoQfyg==
+From: Marek Vasut <marex@denx.de>
+To: linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH 1/2] gpu: ipu-v3: vdic: Simplify ipu_vdi_setup()
+Date: Sat, 13 Jul 2024 17:48:01 +0200
+Message-ID: <20240713154934.109318-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fb285034-ed4c-4f20-ab80-cf91d36fc67c@quicinc.com>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,76 +66,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 11, 2024 at 11:03:15AM GMT, Abhinav Kumar wrote:
-> 
-> 
-> On 7/10/2024 12:40 AM, Dmitry Baryshkov wrote:
-> > On Tue, 9 Jul 2024 at 22:39, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> > > 
-> > > 
-> > > 
-> > > On 7/9/2024 6:48 AM, Dmitry Baryshkov wrote:
-> > > > DPU debugging macros need to be converted to a proper drm_debug_*
-> > > > macros, however this is a going an intrusive patch, not suitable for a
-> > > > fix. Wire DPU_DEBUG and DPU_DEBUG_DRIVER to always use DRM_DEBUG_DRIVER
-> > > > to make sure that DPU debugging messages always end up in the drm debug
-> > > > messages and are controlled via the usual drm.debug mask.
-> > > > 
-> > > 
-> > > These macros have been deprecated, is this waht you meant by the
-> > > conversion to proper drm_debug_*?
-> > 
-> > Yes. Drop the driver-specific wrappers where they don't make sense.
-> > Use sensible format strings in the cases where it actually does (like
-> > VIDENC or _PLANE)
-> > 
-> 
-> Ack but we need to not just drop the wrappers but drop the usage of these
-> macros as well because it is documented that they are deprecated.
-> 
-> So I assume you want to get this in and do that as a follow up change?
+The 'code' parameter only ever selects between YUV 4:2:0 and 4:2:2
+subsampling, turn it into boolean to select exactly that and update
+related code accordingly.
 
-Yes, somewhere in the long list of cleanups. I have a similar item
-against DP driver, which uses correct macros, 
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+---
+ drivers/gpu/ipu-v3/ipu-vdi.c               | 14 +++-----------
+ drivers/staging/media/imx/imx-media-vdic.c |  3 +--
+ include/video/imx-ipu-v3.h                 |  2 +-
+ 3 files changed, 5 insertions(+), 14 deletions(-)
 
-> > > /* NOTE: this is deprecated in favor of drm_dbg(NULL, ...). */
-> > > #define DRM_DEBUG_DRIVER(fmt, ...)                                      \
-> > >           __drm_dbg(DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-> > > 
-> > > I think all that this macro was doing was to have appropriate DRM_UT_*
-> > > macros enabled before calling the corresponding DRM_DEBUG_* macros. But
-> > > I think what was incorrect here is for DPU_DEBUG, we could have used
-> > > DRM_UT_CORE instead of DRM_UT_KMS.
-> > 
-> > It pretty much tries to overplay the existing drm debugging mechanism
-> > by either sending the messages to the DRM channel or just using
-> > pr_debug. With DYNAMIC_DEBUG being disabled pr_debug is just an empty
-> > macro, so all the messages can end up in /dev/null. We should not be
-> > trying to be too smart, using standard DRM_DEBUG_DRIVER should be
-> > enough. This way all driver-related messages are controlled by
-> > drm.debug including or excluding the 0x02 bit.
-> > 
-> > 
-> > > 
-> > > And DRM_DEBUG_DRIVER should have been used instead of DRM_ERROR.
-> > > 
-> > > Was this causing the issue of the prints not getting enabled?
-> > 
-> > I pretty much think so.
-> > 
-> 
-> Alright, I am okay with the approach, just one minor suggestion, to keep the
-> behavior intact, previously the code wanted DPU_DEBUG to be controlled by
-> DRM_UT_KMS and DPU_DEBUG_DRIVER controlled by DRM_UT_DRIVER.
-> 
-> Keeping that intact, we need to use DRM_DEBUG_KMS for DPU_DEBUG?
-
-I might make that more explicit: I don't think that it is a good idea
-for a generic DPU_DEBUG macro to be tied to DRM_UT_KMS. We are reporting
-a debug message from driver, so by default it should go to the
-DRM_UT_DRIVER channel. While refactoring things we might end up with
-messages going to ATOMIC or KMS, but DRIVER should be the default.
-
+diff --git a/drivers/gpu/ipu-v3/ipu-vdi.c b/drivers/gpu/ipu-v3/ipu-vdi.c
+index a593b232b6d3e..4df2821977c0c 100644
+--- a/drivers/gpu/ipu-v3/ipu-vdi.c
++++ b/drivers/gpu/ipu-v3/ipu-vdi.c
+@@ -117,10 +117,10 @@ void ipu_vdi_set_motion(struct ipu_vdi *vdi, enum ipu_motion_sel motion_sel)
+ }
+ EXPORT_SYMBOL_GPL(ipu_vdi_set_motion);
+ 
+-void ipu_vdi_setup(struct ipu_vdi *vdi, u32 code, int xres, int yres)
++void ipu_vdi_setup(struct ipu_vdi *vdi, bool yuv422not420, int xres, int yres)
+ {
+ 	unsigned long flags;
+-	u32 pixel_fmt, reg;
++	u32 reg;
+ 
+ 	spin_lock_irqsave(&vdi->lock, flags);
+ 
+@@ -131,16 +131,8 @@ void ipu_vdi_setup(struct ipu_vdi *vdi, u32 code, int xres, int yres)
+ 	 * Full motion, only vertical filter is used.
+ 	 * Burst size is 4 accesses
+ 	 */
+-	if (code == MEDIA_BUS_FMT_UYVY8_2X8 ||
+-	    code == MEDIA_BUS_FMT_UYVY8_1X16 ||
+-	    code == MEDIA_BUS_FMT_YUYV8_2X8 ||
+-	    code == MEDIA_BUS_FMT_YUYV8_1X16)
+-		pixel_fmt = VDI_C_CH_422;
+-	else
+-		pixel_fmt = VDI_C_CH_420;
+-
+ 	reg = ipu_vdi_read(vdi, VDI_C);
+-	reg |= pixel_fmt;
++	reg |= yuv422not420 ? VDI_C_CH_422 : VDI_C_CH_420;
+ 	reg |= VDI_C_BURST_SIZE2_4;
+ 	reg |= VDI_C_BURST_SIZE1_4 | VDI_C_VWM1_CLR_2;
+ 	reg |= VDI_C_BURST_SIZE3_4 | VDI_C_VWM3_CLR_2;
+diff --git a/drivers/staging/media/imx/imx-media-vdic.c b/drivers/staging/media/imx/imx-media-vdic.c
+index 09da4103a8dbe..ea5b4ef3573de 100644
+--- a/drivers/staging/media/imx/imx-media-vdic.c
++++ b/drivers/staging/media/imx/imx-media-vdic.c
+@@ -376,8 +376,7 @@ static int vdic_start(struct vdic_priv *priv)
+ 	 * only supports 4:2:2 or 4:2:0, and this subdev will only
+ 	 * negotiate 4:2:2 at its sink pads.
+ 	 */
+-	ipu_vdi_setup(priv->vdi, MEDIA_BUS_FMT_UYVY8_2X8,
+-		      infmt->width, infmt->height);
++	ipu_vdi_setup(priv->vdi, true, infmt->width, infmt->height);
+ 	ipu_vdi_set_field_order(priv->vdi, V4L2_STD_UNKNOWN, infmt->field);
+ 	ipu_vdi_set_motion(priv->vdi, priv->motion);
+ 
+diff --git a/include/video/imx-ipu-v3.h b/include/video/imx-ipu-v3.h
+index c422a403c0990..75f435d024895 100644
+--- a/include/video/imx-ipu-v3.h
++++ b/include/video/imx-ipu-v3.h
+@@ -466,7 +466,7 @@ void ipu_ic_dump(struct ipu_ic *ic);
+ struct ipu_vdi;
+ void ipu_vdi_set_field_order(struct ipu_vdi *vdi, v4l2_std_id std, u32 field);
+ void ipu_vdi_set_motion(struct ipu_vdi *vdi, enum ipu_motion_sel motion_sel);
+-void ipu_vdi_setup(struct ipu_vdi *vdi, u32 code, int xres, int yres);
++void ipu_vdi_setup(struct ipu_vdi *vdi, bool yuv422not420, int xres, int yres);
+ void ipu_vdi_unsetup(struct ipu_vdi *vdi);
+ int ipu_vdi_enable(struct ipu_vdi *vdi);
+ int ipu_vdi_disable(struct ipu_vdi *vdi);
 -- 
-With best wishes
-Dmitry
+2.43.0
+
