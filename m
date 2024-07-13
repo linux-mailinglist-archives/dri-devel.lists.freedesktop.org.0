@@ -2,75 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF919304C4
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 11:49:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F1A930527
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 12:34:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3E910E051;
-	Sat, 13 Jul 2024 09:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB16610E0B0;
+	Sat, 13 Jul 2024 10:34:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lzQNFs+M";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OFHPqiXh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
- [209.85.128.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B73610E1E7
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 09:49:22 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-65f880c56b1so4031607b3.3
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 02:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720864162; x=1721468962; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gUfwJ/Q8PMM5kCwlle/T/cSvHYKyhxEdVJ2Fqw5c4Rc=;
- b=lzQNFs+MkuqW1xn5jOUEHUL3zh1MAOsXw7ZzRvKpZI7brW9Wr/51gLGEsgixDpFEql
- +nJQV+sOzMSlgm8JFTPTW5XQufiYouEY7h1f4wnOSe4te45y56Hjnx8exNwxdTyKOga/
- QMbiEqFEkQOlGuLt7ufBir73kAYZ/RUZX20LAsjiJGbJ72Ik6ne7Nd0NzC671Z79VeRN
- emu5MQ09+OnvSoXOX42GVGbkkLxSdkqpoI/5xJSQZrdAazCwRqaWQWzine+KDSwT4EdD
- zTx23+6kT6CXRwgoI0MoszR5VnqPeSVHXk7fJdfrdGh9v7RNuDHKHYanDNI5tbWuZk4U
- FZ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720864162; x=1721468962;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gUfwJ/Q8PMM5kCwlle/T/cSvHYKyhxEdVJ2Fqw5c4Rc=;
- b=GMKvuITyjitSVfm+ctl01C4HDnOZSJdeVTzqPhjDuUqDOco/WGPGHW46nUjb081wxK
- t2gSFNkzN16TEXx78daZKnDVGKgVCFvbGBeFyhrT6QAGWVK9MxIXNVZS+QyLHJyXiYX8
- 0RkypRnpjdpP8glUbXBfsU1VF8qxU7UdstGAQeXSflRa7GnlyqF6SB8SBItawQVwEz5K
- 0xE07SpwYHu2gX4JtTH+r9NSTLV1LB0Pb3JNWUPzCCjWxV1H4Kkoza37rD7E6nbLvNh4
- FvBRV5M5qLQ0GFjjgJutPjkvCzPZDn+x5ERsjP16NmTeN/xr6lyrSieLq5Fh/Vjd4iFm
- mr3w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXxno3HbgqOHyo7myBLaKXUAUardyMmF0nFg3toIkwdROuKLAzxIUmHoNcJSNWl5gmBx9/KC4+GE52MRPTEZEeTfzwIB8jnhNL+U5uI9PWB
-X-Gm-Message-State: AOJu0YwA59W3arv1kuns3kL7DBtCyvncPGIuRwxsXAEfvtlt6GE97tpF
- NzpwbzCYt2O3Kc6jHnbYmpG5jOFlNmdEjgpKDA9l+0S+Nm11QvOXCfZ2BfWXQCmfn3RSQUpKjEj
- DZk7FLCrn4VElaUzkj2IaHAdjzz5fwt8RMMYJaA==
-X-Google-Smtp-Source: AGHT+IFFhjze0e2IlmLKCdcI5HTMCQ7/JyyIk0Q8Vs81z2ulfIgAdlZFZUZim+vMQAkmh4r7JJ8EzxInoDKgQXWAZoU=
-X-Received: by 2002:a05:690c:6308:b0:64b:a57:8441 with SMTP id
- 00721157ae682-6593e4791femr152355357b3.19.1720864161684; Sat, 13 Jul 2024
- 02:49:21 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2AF10E0B0
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 10:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1720866860; x=1752402860;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ZFb3Vw+/NfiXNX3e2ZwVPTfffIk86eXoQUs0u1dLJKs=;
+ b=OFHPqiXhSYFDyKrNXT8l0azW0W16mKJPfOXik5LRPmQOqkbRo07EWr1u
+ rzG38pRpH1QMZ40Jd92bjRDO2iVsURH/96DHgio0FIr9Mnbm/7TTZst5Y
+ yyWkJM573yQu/qSGrOAgsa/ljAFoQQdFYRakantJrxza5/2d+yxLSYXw/
+ plezWfr+V4AkXOciFIAeAjnXAGxZ6NGOOSSyo8y46RQ3Ixjez/6DaqMRH
+ B6QWPlOXFd0Med5KSXeXYoGk2IWpS1FVVOOMp+bTnXb/CMFCxHUXItLRG
+ dUM99r4wZ6it2IPv9lHU/uGzboJUreX2NqMmg/EtITxH9mSdYLsl/0Gpj Q==;
+X-CSE-ConnectionGUID: VPzjUwT7SpG3W0x+tR6GTw==
+X-CSE-MsgGUID: 2KJ22YkSSBSjAgSRWOQr+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="18178407"
+X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; d="scan'208";a="18178407"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2024 03:34:19 -0700
+X-CSE-ConnectionGUID: qIFVPO+9TQemlVttxrk+UA==
+X-CSE-MsgGUID: 3bcbnXAwR3u/QiMgonZfZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; d="scan'208";a="49231777"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 13 Jul 2024 03:34:16 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sSa4z-000byp-1i;
+ Sat, 13 Jul 2024 10:34:13 +0000
+Date: Sat, 13 Jul 2024 18:33:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Huan Yang <link@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ opensource.kernel@vivo.com, Huan Yang <link@vivo.com>
+Subject: Re: [PATCH 1/2] dma-buf: heaps: DMA_HEAP_IOCTL_ALLOC_READ_FILE
+ framework
+Message-ID: <202407131825.A44mFGu1-lkp@intel.com>
+References: <20240711074221.459589-2-link@vivo.com>
 MIME-Version: 1.0
-References: <20240625-dpu-mode-config-width-v5-0-501d984d634f@linaro.org>
- <20240625-dpu-mode-config-width-v5-2-501d984d634f@linaro.org>
- <637fbd36-d6cd-4bb7-af83-8849c0fee8f2@quicinc.com>
- <CAA8EJppxyUrEWYQvMGtw14UVobkQdaPZuwHPeMcONRYrgPp2jw@mail.gmail.com>
- <cf1ed8b1-1c70-47f8-8c34-ef62129d44a8@quicinc.com>
-In-Reply-To: <cf1ed8b1-1c70-47f8-8c34-ef62129d44a8@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 13 Jul 2024 12:49:10 +0300
-Message-ID: <CAA8EJpqXv2cfN2CC1+FMgwXnwMh3BeocY5ae1sOZazdy0_FCNw@mail.gmail.com>
-Subject: Re: [PATCH v5 02/16] drm/msm/dpu: fix error condition in
- dpu_encoder_virt_atomic_mode_set
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Abel Vesa <abel.vesa@linaro.org>, 
- Johan Hovold <johan+linaro@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240711074221.459589-2-link@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,109 +77,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 13 Jul 2024 at 03:25, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 7/12/2024 4:11 PM, Dmitry Baryshkov wrote:
-> > On Fri, 12 Jul 2024 at 22:41, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >> On 6/24/2024 2:13 PM, Dmitry Baryshkov wrote:
-> >>> The commit b954fa6baaca ("drm/msm/dpu: Refactor rm iterator") removed
-> >>> zero-init of the hw_ctl array, but didn't change the error condition,
-> >>> that checked for hw_ctl[i] being NULL. Use indices check instead.
-> >>>
-> >>> Fixes: b954fa6baaca ("drm/msm/dpu: Refactor rm iterator")
-> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>> ---
-> >>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
-> >>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> >>> index 5d205e09cf45..7613005fbfea 100644
-> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> >>> @@ -1186,7 +1186,7 @@ static void :tag(struct drm_encoder *drm_enc,
-> >>>                        return;
-> >>>                }
-> >>>
-> >>> -             if (!hw_ctl[i]) {
-> >>> +             if (i >= num_ctl) {
-> >>
-> >> This is not very clear to me.
-> >>
-> >> How will we hit this condition? I dont see i going beyond 1 in this loop
-> >> and neither should num_ctl
-> >
-> > Why? the driver doesn't support flushing through a single CTL, so
-> > num_ctl = num_intf.
-> >
->
-> num_ctl will be = num_intf, but what I was trying to understand here is
-> that , previously this condition was making sure that we have a ctl
-> assigned for each physical encoder which is actually a requirement for
-> the display pipeline. If we assigned a hw_ctl for one phys encoder and
-> not the other, its an error.
->
-> But on closer look, I think even your check will catch that.
->
->
-> >>
-> >> Will it be just easier to bring back the NULL assignment at the top?
-> >>
-> >> struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC] = { NULL };
-> >>
-> >> I also see the same issue for other blocks such as hw_dsc, hw_lm
-> >
-> > Other blocks loop properly up to the num_resource. I'd prefer to drop
-> > the NULL init from the DSPP init and use num_dspp instead.
-> >
->
-> Overall, I think the purpose of NULL init was to make sure that before
-> we call to_dpu_hw_***() macros, we have a valid hw_*.
->
-> We could use either num_* or the hw_* as both are returned by RM.
->
-> One side-note here is with a proper NULL hw_ctl is that the consumers of
-> hw_ctl should also be able to check for NULL correctly.
+Hi Huan,
 
-The problem of the NULL checks is that it's too tempting to perform a
-NULL check after to_dpu_hw_ctl conversion. However it's not safe to
-pass NULL pointer to such functions: there is no guarantee that
-conversion will return NULL if it gets passed the NULL pointer.
+kernel test robot noticed the following build warnings:
 
-> So for example dpu_encoder_phys layers use if (!phys->hw_ctl) checks but
-> today we do not set phys->hw_ctl to NULL correctly.
->
-> Do you think that instead of the return statements, we should do
-> something like
->
-> dpu_enc->hw_ctl = i < num_ctl ?
->         to_dpu_hw_ctl(hw_ctl[i]) : NULL;
+[auto build test WARNING on 523b23f0bee3014a7a752c9bb9f5c54f0eddae88]
 
-Yeah, why not.
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/dma-buf-heaps-DMA_HEAP_IOCTL_ALLOC_READ_FILE-framework/20240711-155902
+base:   523b23f0bee3014a7a752c9bb9f5c54f0eddae88
+patch link:    https://lore.kernel.org/r/20240711074221.459589-2-link%40vivo.com
+patch subject: [PATCH 1/2] dma-buf: heaps: DMA_HEAP_IOCTL_ALLOC_READ_FILE framework
+config: i386-buildonly-randconfig-002-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131825.A44mFGu1-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131825.A44mFGu1-lkp@intel.com/reproduce)
 
-Generally, I think we should stop storing the state-related data in
-the non-state structures. Hopefully I'll have time for that at some
-point later on.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407131825.A44mFGu1-lkp@intel.com/
 
->
->
-> But this will need the NULL init back.
+All warnings (new ones prefixed by >>):
 
-It doesn't, as you have the comparison.
+>> drivers/dma-buf/dma-heap.c:293:18: warning: format specifies type 'long' but the argument has type 'ssize_t' (aka 'int') [-Wformat]
+     292 |                         pr_err("failed to use buffer kernel_read_file %s, err=%ld, [%ld, %ld], f_sz=%ld\n",
+         |                                                                               ~~~
+         |                                                                               %zd
+     293 |                                pathp, err, start, fsz, fsz);
+         |                                       ^~~
+   include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:490:60: note: expanded from macro 'printk'
+     490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:462:19: note: expanded from macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+>> drivers/dma-buf/dma-heap.c:293:23: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     292 |                         pr_err("failed to use buffer kernel_read_file %s, err=%ld, [%ld, %ld], f_sz=%ld\n",
+         |                                                                                     ~~~
+         |                                                                                     %zu
+     293 |                                pathp, err, start, fsz, fsz);
+         |                                            ^~~~~
+   include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:490:60: note: expanded from macro 'printk'
+     490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:462:19: note: expanded from macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   drivers/dma-buf/dma-heap.c:293:30: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     292 |                         pr_err("failed to use buffer kernel_read_file %s, err=%ld, [%ld, %ld], f_sz=%ld\n",
+         |                                                                                          ~~~
+         |                                                                                          %zu
+     293 |                                pathp, err, start, fsz, fsz);
+         |                                                   ^~~
+   include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:490:60: note: expanded from macro 'printk'
+     490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:462:19: note: expanded from macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   drivers/dma-buf/dma-heap.c:293:35: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     292 |                         pr_err("failed to use buffer kernel_read_file %s, err=%ld, [%ld, %ld], f_sz=%ld\n",
+         |                                                                                                     ~~~
+         |                                                                                                     %zu
+     293 |                                pathp, err, start, fsz, fsz);
+         |                                                        ^~~
+   include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:490:60: note: expanded from macro 'printk'
+     490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:462:19: note: expanded from macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   drivers/dma-buf/dma-heap.c:367:10: warning: format specifies type 'long' but the argument has type 'ssize_t' (aka 'int') [-Wformat]
+     366 |                 pr_err("use kernel_read_file, err=%ld, [%ld, %ld], f_sz=%ld\n",
+         |                                                   ~~~
+         |                                                   %zd
+     367 |                        err, start, (start + size), heap_file->fsz);
+         |                        ^~~
+   include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:490:60: note: expanded from macro 'printk'
+     490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:462:19: note: expanded from macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   drivers/dma-buf/dma-heap.c:367:15: warning: format specifies type 'long' but the argument has type 'ssize_t' (aka 'int') [-Wformat]
+     366 |                 pr_err("use kernel_read_file, err=%ld, [%ld, %ld], f_sz=%ld\n",
+         |                                                         ~~~
+         |                                                         %zd
+     367 |                        err, start, (start + size), heap_file->fsz);
+         |                             ^~~~~
+   include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:490:60: note: expanded from macro 'printk'
+     490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:462:19: note: expanded from macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   drivers/dma-buf/dma-heap.c:367:22: warning: format specifies type 'long' but the argument has type 'ssize_t' (aka 'int') [-Wformat]
+     366 |                 pr_err("use kernel_read_file, err=%ld, [%ld, %ld], f_sz=%ld\n",
+         |                                                              ~~~
+         |                                                              %zd
+     367 |                        err, start, (start + size), heap_file->fsz);
+         |                                    ^~~~~~~~~~~~~~
+   include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:490:60: note: expanded from macro 'printk'
+     490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:462:19: note: expanded from macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   drivers/dma-buf/dma-heap.c:367:38: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     366 |                 pr_err("use kernel_read_file, err=%ld, [%ld, %ld], f_sz=%ld\n",
+         |                                                                         ~~~
+         |                                                                         %zu
+     367 |                        err, start, (start + size), heap_file->fsz);
+         |                                                    ^~~~~~~~~~~~~~
+   include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:490:60: note: expanded from macro 'printk'
+     490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
 
->
-> >>
-> >>>                        DPU_ERROR_ENC(dpu_enc,
-> >>>                                "no ctl block assigned at idx: %d\n", i);
-> >>>                        return;
-> >>>
-> >
-> >
-> >
 
+vim +293 drivers/dma-buf/dma-heap.c
 
+   239	
+   240	int dma_heap_submit_file_read(struct dma_heap_file_task *heap_ftask)
+   241	{
+   242		struct dma_heap_file_work *heap_fwork = init_file_work(heap_ftask);
+   243		struct page *last = NULL;
+   244		struct dma_heap_file *heap_file = heap_ftask->heap_file;
+   245		size_t start = heap_ftask->roffset;
+   246		struct file *file = heap_file->file;
+   247		size_t fsz = heap_file->fsz;
+   248	
+   249		if (unlikely(!heap_fwork))
+   250			return -ENOMEM;
+   251	
+   252		/**
+   253		 * If file size is not page aligned, direct io can't process the tail.
+   254		 * So, if reach to tail, remain the last page use buffer read.
+   255		 */
+   256		if (heap_file->direct && start + heap_ftask->rsize > fsz) {
+   257			heap_fwork->need_size -= PAGE_SIZE;
+   258			last = heap_ftask->parray[heap_ftask->pindex - 1];
+   259		}
+   260	
+   261		spin_lock(&heap_fctl->lock);
+   262		list_add_tail(&heap_fwork->list, &heap_fctl->works);
+   263		spin_unlock(&heap_fctl->lock);
+   264		atomic_inc(&heap_fctl->nr_work);
+   265	
+   266		wake_up(&heap_fctl->threadwq);
+   267	
+   268		if (last) {
+   269			char *buf, *pathp;
+   270			ssize_t err;
+   271			void *buffer;
+   272	
+   273			buf = kmalloc(PATH_MAX, GFP_KERNEL);
+   274			if (unlikely(!buf))
+   275				return -ENOMEM;
+   276	
+   277			start = PAGE_ALIGN_DOWN(fsz);
+   278	
+   279			pathp = file_path(file, buf, PATH_MAX);
+   280			if (IS_ERR(pathp)) {
+   281				kfree(buf);
+   282				return PTR_ERR(pathp);
+   283			}
+   284	
+   285			buffer = kmap_local_page(last); // use page's kaddr.
+   286			err = kernel_read_file_from_path(pathp, start, &buffer,
+   287							 fsz - start, &fsz,
+   288							 READING_POLICY);
+   289			kunmap_local(buffer);
+   290			kfree(buf);
+   291			if (err < 0) {
+   292				pr_err("failed to use buffer kernel_read_file %s, err=%ld, [%ld, %ld], f_sz=%ld\n",
+ > 293				       pathp, err, start, fsz, fsz);
+   294	
+   295				return err;
+   296			}
+   297		}
+   298	
+   299		heap_ftask->roffset += heap_ftask->rsize;
+   300		heap_ftask->rsize = 0;
+   301		heap_ftask->pindex = 0;
+   302		heap_ftask->rbatch = min_t(size_t,
+   303					   PAGE_ALIGN(fsz) - heap_ftask->roffset,
+   304					   heap_ftask->rbatch);
+   305		return 0;
+   306	}
+   307	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
