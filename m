@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC2493060E
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 16:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D736930615
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 17:06:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD94810E0EE;
-	Sat, 13 Jul 2024 14:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C16B10E07B;
+	Sat, 13 Jul 2024 15:06:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CAZEydLx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qTp6ZLSV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1033610E0EE
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 14:58:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFF5D10E07B
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 15:06:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,27 +22,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=2uav3E+ul5MKOMdkhowuT56kv7DKLoyRdOZKVM19EEY=; b=CAZEydLxUESyjA1vgRrRLZWHEE
- RqgXmGfD0CaroWWf/h61GzwyUFVMfuFlNowiZQVmEzcsyV6TvIdwaBR+cBQeFPMkg9i4xy6FYtIUC
- c8s5O+PjryICK6pbO23V1Wvl+FBn/8kVWhz1if5EEPCj7m2qPGzNwHn5BY3PS3X/AzsM6SxT3bvZn
- XetpBjDB0+R2ZlF98WUd1WXJwIie4s/joow7LOjfjUgUlRUqbyPq0FisETP5QL0hFNWmdi6btayfV
- N3UqQw3cmV2oDoeFqm1QLRgg0IWrXAy23RpiD+tOqCOsX/CpgxDFSWz7I82jnmj6lRNJr18G+290O
- ix5jBiZg==;
+ bh=VlNevCM5uFAGp5+vPkfQ0aM1WZCNMtNiPZxYpXEqtV8=; b=qTp6ZLSVXNR8t/LIljKCVepP6h
+ kteU2upcjTHCFqKftW9jgcYR2EP1JTZRGPG2152ElBkXnngCoQcQmIUDt+b8RmEVNw/CITzPIlJDL
+ mn0Sx6Pth4ceVvILCp5kEeOzdwJ2lb2Ma7qMig6kdjoUBNSQaZNGFY4HvbsnGk08JLHHtQrR826Ld
+ Dnlyg/dvDGjoGtnnjzm/iUSYp6phbiHXw5QbMm8ES/LItgn7gOfVKnV3/yXcsT2ubVi5hpDxaBpx2
+ bN+1wRy9XunM/ZMuogjfAukudYLkJotV71AH3dmRKkzoXk1CIjDZ7AaF+JrARFpyDFf/1e9cOXWVq
+ kD4csnRQ==;
 Received: from [187.36.213.55] (helo=[192.168.1.212])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sSeCF-00Ekth-20; Sat, 13 Jul 2024 16:57:59 +0200
-Message-ID: <b6752bc2-d27c-45fa-a35a-578939371a61@igalia.com>
-Date: Sat, 13 Jul 2024 11:57:53 -0300
+ id 1sSeKb-00El4b-Ml; Sat, 13 Jul 2024 17:06:38 +0200
+Message-ID: <0f5cf733-7f22-4b93-b13e-08916aa3f152@igalia.com>
+Date: Sat, 13 Jul 2024 12:06:31 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Expose memory stats through fdinfo
-To: Iago Toral <itoral@igalia.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+Subject: Re: [PATCH v4 00/11] v3d: Perfmon cleanup
+To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20240711142736.783816-1-mcanal@igalia.com>
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+References: <20240711135340.84617-1-tursulin@igalia.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Autocrypt: addr=mcanal@igalia.com; keydata=
@@ -54,7 +54,7 @@ Autocrypt: addr=mcanal@igalia.com; keydata=
  s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
  GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
  pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240711142736.783816-1-mcanal@igalia.com>
+In-Reply-To: <20240711135340.84617-1-tursulin@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,104 +72,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/11/24 11:25, Maíra Canal wrote:
-> Use the common DRM function `drm_show_memory_stats()` to expose standard
-> fdinfo memory stats.
+On 7/11/24 10:53, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 > 
-> V3D exposes global GPU memory stats through debugfs. Those stats will be
-> preserved while the DRM subsystem doesn't have a standard solution to
-> expose global GPU stats.
+> When we had to quickly deal with a tree build issue via merging
+> 792d16b5375d ("drm/v3d: Move perfmon init completely into own unit"), we
+> promised to follow up with a nicer solution.
 > 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> As in the process of eliminating the hardcoded defines we have discovered a few
+> issues in handling of corner cases and userspace input validation, the fix has
+> turned into a larger series, but hopefully the end result is a justifiable
+> cleanup.
+> 
+> v2:
+>   * Re-order the patches so fixes come first while last three are optional
+>     cleanups.
+> 
+> v3:
+>   * Fixed a bunch of rebase errors I made when re-ordering patches from v1 to v2.
+>   * Dropped the double underscore from __v3d_timestamp_query_info_free.
+>   * Added v3d prefix to v3d_copy_query_info.
+>   * Renamed qinfo to query_info.
+>   * Fixed some spelling errors and bad patch references.
+>   * Added mention to get_user to one commit message.
+>   * Dropped one patch from the series which became redundant due other
+>     re-ordering.
+>   * Re-ordered last two patches with the view of dropping the last.
+> 
+> v4:
+>   * Fixed more rebase errors and details in commit messages.
+> 
+>   Cc: Maíra Canal <mcanal@igalia.com>
+> 
+> Tvrtko Ursulin (11):
+>    drm/v3d: Prevent out of bounds access in performance query extensions
+>    drm/v3d: Fix potential memory leak in the timestamp extension
+>    drm/v3d: Fix potential memory leak in the performance extension
+>    drm/v3d: Validate passed in drm syncobj handles in the timestamp
+>      extension
+>    drm/v3d: Validate passed in drm syncobj handles in the performance
+>      extension
+>    drm/v3d: Move part of copying of reset/copy performance extension to a
+>      helper
+>    drm/v3d: Size the kperfmon_ids array at runtime
+>    drm/v3d: Do not use intermediate storage when copying performance
+>      query results
+>    drm/v3d: Move perfmon init completely into own unit
+>    drm/v3d: Prefer get_user for scalar types
+>    drm/v3d: Add some local variables in queries/extensions
 
-Applied to drm-misc/drm-misc-next!
+I just applied all patches to drm-misc/drm-misc-next!
+
+@Maxime, @Thomas or @Maarten, is it possible to cherry-pick the
+following patches to drm-misc-fixes?
+
+f32b5128d2c4 drm/v3d: Prevent out of bounds access in performance query 
+extensions
+753ce4fea621 drm/v3d: Fix potential memory leak in the timestamp extension
+484de39fa5f5 drm/v3d: Fix potential memory leak in the performance extension
+8d1276d1b8f7 drm/v3d: Validate passed in drm syncobj handles in the 
+timestamp extension
+a546b7e4d73c drm/v3d: Validate passed in drm syncobj handles in the 
+performance extension
+
+Tvrtko made sure to make them independent (Thanks Tvrtko!), so I believe
+it is going to be pretty straight forward to cherry-pick them.
+
+Thanks Tvrtko for the patches and all the maintainers for the great
+work!
 
 Best Regards,
 - Maíra
 
-> ---
 > 
-> * Example fdinfo output:
+>   drivers/gpu/drm/v3d/v3d_drv.c                 |   9 +-
+>   drivers/gpu/drm/v3d/v3d_drv.h                 |  16 +-
+>   drivers/gpu/drm/v3d/v3d_perfmon.c             |  44 +--
+>   .../gpu/drm/v3d/v3d_performance_counters.h    |  16 +-
+>   drivers/gpu/drm/v3d/v3d_sched.c               | 105 +++++--
+>   drivers/gpu/drm/v3d/v3d_submit.c              | 294 +++++++++++-------
+>   6 files changed, 290 insertions(+), 194 deletions(-)
 > 
-> $ cat /proc/10100/fdinfo/19
-> pos:    0
-> flags:  02400002
-> mnt_id: 25
-> ino:    521
-> drm-driver:     v3d
-> drm-client-id:  81
-> drm-engine-bin:         4916187 ns
-> v3d-jobs-bin:   98 jobs
-> drm-engine-render:      154563573 ns
-> v3d-jobs-render:        98 jobs
-> drm-engine-tfu:         10574 ns
-> v3d-jobs-tfu:   1 jobs
-> drm-engine-csd:         0 ns
-> v3d-jobs-csd:   0 jobs
-> drm-engine-cache_clean:         0 ns
-> v3d-jobs-cache_clean:   0 jobs
-> drm-engine-cpu:         0 ns
-> v3d-jobs-cpu:   0 jobs
-> drm-total-memory:       15168 KiB
-> drm-shared-memory:      9336 KiB
-> drm-active-memory:      0
-> 
-> * Example gputop output:
-> 
-> DRM minor 128
->    PID      MEM      RSS       bin          render           tfu            csd        cache_clean        cpu       NAME
-> 10257      19M      19M |  3.6% ▎     || 43.2% ██▋   ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | glmark2
->   9963       3M       3M |  0.3% ▏     ||  2.6% ▎     ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | glxgears
->   9965      10M      10M |  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | Xwayland
-> 10100      14M      14M |  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       ||  0.0%       | chromium-browse
-> 
-> Best Regards,
-> - Maíra
-> 
->   drivers/gpu/drm/v3d/v3d_bo.c  | 12 ++++++++++++
->   drivers/gpu/drm/v3d/v3d_drv.c |  2 ++
->   2 files changed, 14 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-> index a165cbcdd27b..ecb80fd75b1a 100644
-> --- a/drivers/gpu/drm/v3d/v3d_bo.c
-> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
-> @@ -26,6 +26,17 @@
->   #include "v3d_drv.h"
->   #include "uapi/drm/v3d_drm.h"
->   
-> +static enum drm_gem_object_status v3d_gem_status(struct drm_gem_object *obj)
-> +{
-> +	struct v3d_bo *bo = to_v3d_bo(obj);
-> +	enum drm_gem_object_status res = 0;
-> +
-> +	if (bo->base.pages)
-> +		res |= DRM_GEM_OBJECT_RESIDENT;
-> +
-> +	return res;
-> +}
-> +
->   /* Called DRM core on the last userspace/kernel unreference of the
->    * BO.
->    */
-> @@ -63,6 +74,7 @@ static const struct drm_gem_object_funcs v3d_gem_funcs = {
->   	.vmap = drm_gem_shmem_object_vmap,
->   	.vunmap = drm_gem_shmem_object_vunmap,
->   	.mmap = drm_gem_shmem_object_mmap,
-> +	.status = v3d_gem_status,
->   	.vm_ops = &drm_gem_shmem_vm_ops,
->   };
->   
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index a47f00b443d3..e883f405f26a 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -184,6 +184,8 @@ static void v3d_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->   		drm_printf(p, "v3d-jobs-%s: \t%llu jobs\n",
->   			   v3d_queue_to_string(queue), jobs_completed);
->   	}
-> +
-> +	drm_show_memory_stats(p, file);
->   }
->   
->   static const struct file_operations v3d_drm_fops = {
