@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D736930615
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 17:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED91793062C
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2024 17:35:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C16B10E07B;
-	Sat, 13 Jul 2024 15:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC2CC10E025;
+	Sat, 13 Jul 2024 15:35:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qTp6ZLSV";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="skrZZD4L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF5D10E07B
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 15:06:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VlNevCM5uFAGp5+vPkfQ0aM1WZCNMtNiPZxYpXEqtV8=; b=qTp6ZLSVXNR8t/LIljKCVepP6h
- kteU2upcjTHCFqKftW9jgcYR2EP1JTZRGPG2152ElBkXnngCoQcQmIUDt+b8RmEVNw/CITzPIlJDL
- mn0Sx6Pth4ceVvILCp5kEeOzdwJ2lb2Ma7qMig6kdjoUBNSQaZNGFY4HvbsnGk08JLHHtQrR826Ld
- Dnlyg/dvDGjoGtnnjzm/iUSYp6phbiHXw5QbMm8ES/LItgn7gOfVKnV3/yXcsT2ubVi5hpDxaBpx2
- bN+1wRy9XunM/ZMuogjfAukudYLkJotV71AH3dmRKkzoXk1CIjDZ7AaF+JrARFpyDFf/1e9cOXWVq
- kD4csnRQ==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sSeKb-00El4b-Ml; Sat, 13 Jul 2024 17:06:38 +0200
-Message-ID: <0f5cf733-7f22-4b93-b13e-08916aa3f152@igalia.com>
-Date: Sat, 13 Jul 2024 12:06:31 -0300
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7B5410E025
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 15:35:36 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 0747F874AC;
+ Sat, 13 Jul 2024 17:35:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1720884934;
+ bh=R8x8SOnjSlig4/B74pItuN9fRZ0Xwlht5fPrjiL7tgM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=skrZZD4L3XEQqgU+V4vyIzS7I+JCBpVZ5fxx5Cx4x/B9EK9E9hWjyruFvZHAhsCri
+ 7LcSPKnIZIvvvJZ/6XPdf2dRpXDSXvgOIMitIfFu7en6Z1gNTgGLmpbv6NGl+IKMl7
+ x9i/uQicqbnNa5hdzW8w9fq6rOXUdOUj6vQNVaK3Nu8/istUP0khmd1mF3zMDQZDlB
+ QA4w4mM0D3lZ3azOXK6m/jm54/kJT4otgiXRVj/oEHQdA/x4sjEjlYDNfSe3B7LY6N
+ i+LOC5BXX0QoBVlXfz4kuxj/y7NL/YTi0g65Oa4bxsNZnFbKIPZ8HbZBRBxyopvlus
+ uQCevR8gGXLbg==
+From: Marek Vasut <marex@denx.de>
+To: linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH] gpu: ipu-v3: image-convert: Drop unused single conversion
+ request code
+Date: Sat, 13 Jul 2024 17:35:00 +0200
+Message-ID: <20240713153524.107019-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/11] v3d: Perfmon cleanup
-To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-References: <20240711135340.84617-1-tursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240711135340.84617-1-tursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,84 +67,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/11/24 10:53, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> When we had to quickly deal with a tree build issue via merging
-> 792d16b5375d ("drm/v3d: Move perfmon init completely into own unit"), we
-> promised to follow up with a nicer solution.
-> 
-> As in the process of eliminating the hardcoded defines we have discovered a few
-> issues in handling of corner cases and userspace input validation, the fix has
-> turned into a larger series, but hopefully the end result is a justifiable
-> cleanup.
-> 
-> v2:
->   * Re-order the patches so fixes come first while last three are optional
->     cleanups.
-> 
-> v3:
->   * Fixed a bunch of rebase errors I made when re-ordering patches from v1 to v2.
->   * Dropped the double underscore from __v3d_timestamp_query_info_free.
->   * Added v3d prefix to v3d_copy_query_info.
->   * Renamed qinfo to query_info.
->   * Fixed some spelling errors and bad patch references.
->   * Added mention to get_user to one commit message.
->   * Dropped one patch from the series which became redundant due other
->     re-ordering.
->   * Re-ordered last two patches with the view of dropping the last.
-> 
-> v4:
->   * Fixed more rebase errors and details in commit messages.
-> 
->   Cc: Maíra Canal <mcanal@igalia.com>
-> 
-> Tvrtko Ursulin (11):
->    drm/v3d: Prevent out of bounds access in performance query extensions
->    drm/v3d: Fix potential memory leak in the timestamp extension
->    drm/v3d: Fix potential memory leak in the performance extension
->    drm/v3d: Validate passed in drm syncobj handles in the timestamp
->      extension
->    drm/v3d: Validate passed in drm syncobj handles in the performance
->      extension
->    drm/v3d: Move part of copying of reset/copy performance extension to a
->      helper
->    drm/v3d: Size the kperfmon_ids array at runtime
->    drm/v3d: Do not use intermediate storage when copying performance
->      query results
->    drm/v3d: Move perfmon init completely into own unit
->    drm/v3d: Prefer get_user for scalar types
->    drm/v3d: Add some local variables in queries/extensions
+Neither ipu_image_convert_sync() nor ipu_image_convert() is used or call
+from anywhere. Remove this unused code.
 
-I just applied all patches to drm-misc/drm-misc-next!
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+---
+ drivers/gpu/ipu-v3/ipu-image-convert.c | 76 --------------------------
+ include/video/imx-ipu-image-convert.h  | 46 ----------------
+ 2 files changed, 122 deletions(-)
 
-@Maxime, @Thomas or @Maarten, is it possible to cherry-pick the
-following patches to drm-misc-fixes?
+diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+index 841316582ea9d..c87866253eee9 100644
+--- a/drivers/gpu/ipu-v3/ipu-image-convert.c
++++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+@@ -2395,82 +2395,6 @@ void ipu_image_convert_unprepare(struct ipu_image_convert_ctx *ctx)
+ }
+ EXPORT_SYMBOL_GPL(ipu_image_convert_unprepare);
+ 
+-/*
+- * "Canned" asynchronous single image conversion. Allocates and returns
+- * a new conversion run.  On successful return the caller must free the
+- * run and call ipu_image_convert_unprepare() after conversion completes.
+- */
+-struct ipu_image_convert_run *
+-ipu_image_convert(struct ipu_soc *ipu, enum ipu_ic_task ic_task,
+-		  struct ipu_image *in, struct ipu_image *out,
+-		  enum ipu_rotate_mode rot_mode,
+-		  ipu_image_convert_cb_t complete,
+-		  void *complete_context)
+-{
+-	struct ipu_image_convert_ctx *ctx;
+-	struct ipu_image_convert_run *run;
+-	int ret;
+-
+-	ctx = ipu_image_convert_prepare(ipu, ic_task, in, out, rot_mode,
+-					complete, complete_context);
+-	if (IS_ERR(ctx))
+-		return ERR_CAST(ctx);
+-
+-	run = kzalloc(sizeof(*run), GFP_KERNEL);
+-	if (!run) {
+-		ipu_image_convert_unprepare(ctx);
+-		return ERR_PTR(-ENOMEM);
+-	}
+-
+-	run->ctx = ctx;
+-	run->in_phys = in->phys0;
+-	run->out_phys = out->phys0;
+-
+-	ret = ipu_image_convert_queue(run);
+-	if (ret) {
+-		ipu_image_convert_unprepare(ctx);
+-		kfree(run);
+-		return ERR_PTR(ret);
+-	}
+-
+-	return run;
+-}
+-EXPORT_SYMBOL_GPL(ipu_image_convert);
+-
+-/* "Canned" synchronous single image conversion */
+-static void image_convert_sync_complete(struct ipu_image_convert_run *run,
+-					void *data)
+-{
+-	struct completion *comp = data;
+-
+-	complete(comp);
+-}
+-
+-int ipu_image_convert_sync(struct ipu_soc *ipu, enum ipu_ic_task ic_task,
+-			   struct ipu_image *in, struct ipu_image *out,
+-			   enum ipu_rotate_mode rot_mode)
+-{
+-	struct ipu_image_convert_run *run;
+-	struct completion comp;
+-	int ret;
+-
+-	init_completion(&comp);
+-
+-	run = ipu_image_convert(ipu, ic_task, in, out, rot_mode,
+-				image_convert_sync_complete, &comp);
+-	if (IS_ERR(run))
+-		return PTR_ERR(run);
+-
+-	ret = wait_for_completion_timeout(&comp, msecs_to_jiffies(10000));
+-	ret = (ret == 0) ? -ETIMEDOUT : 0;
+-
+-	ipu_image_convert_unprepare(run->ctx);
+-	kfree(run);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(ipu_image_convert_sync);
+-
+ int ipu_image_convert_init(struct ipu_soc *ipu, struct device *dev)
+ {
+ 	struct ipu_image_convert_priv *priv;
+diff --git a/include/video/imx-ipu-image-convert.h b/include/video/imx-ipu-image-convert.h
+index 3c71b8b94b33a..39906b0cbf2d8 100644
+--- a/include/video/imx-ipu-image-convert.h
++++ b/include/video/imx-ipu-image-convert.h
+@@ -149,50 +149,4 @@ int ipu_image_convert_queue(struct ipu_image_convert_run *run);
+  */
+ void ipu_image_convert_abort(struct ipu_image_convert_ctx *ctx);
+ 
+-/**
+- * ipu_image_convert() - asynchronous image conversion request
+- *
+- * @ipu:	the IPU handle to use for the conversion
+- * @ic_task:	the IC task to use for the conversion
+- * @in:		input image format
+- * @out:	output image format
+- * @rot_mode:	rotation mode
+- * @complete:	run completion callback
+- * @complete_context:	a context pointer for the completion callback
+- *
+- * Request a single image conversion. Returns the run that has been queued.
+- * A conversion context is automatically created and is available in run->ctx.
+- * As with ipu_image_convert_prepare(), the input/output formats and rotation
+- * mode must already meet IPU retrictions.
+- *
+- * On successful return the caller can queue more run requests if needed, using
+- * the prepared context in run->ctx. The caller is responsible for unpreparing
+- * the context when no more conversion requests are needed.
+- */
+-struct ipu_image_convert_run *
+-ipu_image_convert(struct ipu_soc *ipu, enum ipu_ic_task ic_task,
+-		  struct ipu_image *in, struct ipu_image *out,
+-		  enum ipu_rotate_mode rot_mode,
+-		  ipu_image_convert_cb_t complete,
+-		  void *complete_context);
+-
+-/**
+- * ipu_image_convert_sync() - synchronous single image conversion request
+- *
+- * @ipu:	the IPU handle to use for the conversion
+- * @ic_task:	the IC task to use for the conversion
+- * @in:		input image format
+- * @out:	output image format
+- * @rot_mode:	rotation mode
+- *
+- * Carry out a single image conversion. Returns when the conversion
+- * completes. The input/output formats and rotation mode must already
+- * meet IPU retrictions. The created context is automatically unprepared
+- * and the run freed on return.
+- */
+-int ipu_image_convert_sync(struct ipu_soc *ipu, enum ipu_ic_task ic_task,
+-			   struct ipu_image *in, struct ipu_image *out,
+-			   enum ipu_rotate_mode rot_mode);
+-
+-
+ #endif /* __IMX_IPU_IMAGE_CONVERT_H__ */
+-- 
+2.43.0
 
-f32b5128d2c4 drm/v3d: Prevent out of bounds access in performance query 
-extensions
-753ce4fea621 drm/v3d: Fix potential memory leak in the timestamp extension
-484de39fa5f5 drm/v3d: Fix potential memory leak in the performance extension
-8d1276d1b8f7 drm/v3d: Validate passed in drm syncobj handles in the 
-timestamp extension
-a546b7e4d73c drm/v3d: Validate passed in drm syncobj handles in the 
-performance extension
-
-Tvrtko made sure to make them independent (Thanks Tvrtko!), so I believe
-it is going to be pretty straight forward to cherry-pick them.
-
-Thanks Tvrtko for the patches and all the maintainers for the great
-work!
-
-Best Regards,
-- Maíra
-
-> 
->   drivers/gpu/drm/v3d/v3d_drv.c                 |   9 +-
->   drivers/gpu/drm/v3d/v3d_drv.h                 |  16 +-
->   drivers/gpu/drm/v3d/v3d_perfmon.c             |  44 +--
->   .../gpu/drm/v3d/v3d_performance_counters.h    |  16 +-
->   drivers/gpu/drm/v3d/v3d_sched.c               | 105 +++++--
->   drivers/gpu/drm/v3d/v3d_submit.c              | 294 +++++++++++-------
->   6 files changed, 290 insertions(+), 194 deletions(-)
-> 
