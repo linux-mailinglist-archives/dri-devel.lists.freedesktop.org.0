@@ -2,77 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5104E9307F6
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2024 00:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF75D93082B
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2024 02:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29DDF10E090;
-	Sat, 13 Jul 2024 22:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEA110E0F4;
+	Sun, 14 Jul 2024 00:01:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UHlwztJ1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FiG2RHHl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60C3F10E090
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 22:55:38 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-52e9a920e73so3511765e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2024 15:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1720911336; x=1721516136; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1ncYPX+7Asq9PPYrO1DJYNdoPMBQuM8Zo8xSB8y/YwE=;
- b=UHlwztJ1nShKruj71RX/sVi6jFYiDSPK+WxsneuV78dI4mnUt9B+ULlWqVKPWivqxf
- XfASi/hzWBwIYH2uvhDpfYN/iIUbxWIB0LwcHyZA6dHukEFLlrGrts+h0tLMzDjpRWmS
- SlV3kBaHC8c+EV0kfeUqXa0m4TEGGjDXKEs6JKkmY/STIkcTzJ+AiAaG7zqMmzXsHSFe
- pHsdlg9mcmn1BxkSmFpZegnBhzVKZhi5CgIvZ7ObsQ0GAm1yb7l6uwBg5bfQYl7z7lJB
- oE7faQCkudPuiZqaF9g2am0oaVNwWM5mSoaeDsD1SLHNaO17+fvaaxMGQmbMJcDR1PFC
- 2fKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1720911336; x=1721516136;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1ncYPX+7Asq9PPYrO1DJYNdoPMBQuM8Zo8xSB8y/YwE=;
- b=kW0Ji4xxpBnr9fP6h7fuUw/EzNmpZslCmW/MQ2Sqed+SbjTwiS98WnAvlYwv0vxoBW
- p/Xeo453FYM7Rs5HnAvsrJ+5pwz0szr5fNRprf3MZRiF0Aautb40SXCK6FKghiD7Sbek
- ygfvf8Z9xu8opbWkjQw1P+z74vwU3TcuLAYrKSRi3qdvJLPUAv7HUDEzgNV7B+XnL80O
- ORfX912w6HVFpIEa9gvJz221vCOrJUYSgEp+sifZsJSdCd5jfAU/OPNP5xB2mzP78VqM
- KlcCfxsYdakk+h807fKdm+Im280L8AQ3cpsoby+R8SeVtc9MxQ7gEjabyFuzBt7Y9zfG
- sNXg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXV1kuUoFPxNPmIo5CbjLDxZ5i3zTArXf7bdVcgIb5G4j/8uX97tFjZZzPOOPjC9ytE/TRC34Fi5G1DXJQ+3ezfgXItuNDT3wEJvr57XaLD
-X-Gm-Message-State: AOJu0YzXSGfsXDwPQEbwkNczb9iUibdUmtEmDLKUlWPPvbJGR1ToWc+3
- fJvrlVQNEHWJkZ5A32GZkIzaqDsukF5QW/cdsMi9w+VZgh7Md8lvUI5xqjcB+30=
-X-Google-Smtp-Source: AGHT+IEhwHVC3K0rEjJohPz1JS1RmLGBZWld5R1IufdJk0BRYdLg0pMSt+FKcRLiIV3Hgn5icbbQ6Q==
-X-Received: by 2002:a05:6512:1384:b0:52e:be1f:bf7f with SMTP id
- 2adb3069b0e04-52ebe1fbfd5mr7917903e87.27.1720911334977; 
- Sat, 13 Jul 2024 15:55:34 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ed252d543sm308907e87.155.2024.07.13.15.55.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Jul 2024 15:55:34 -0700 (PDT)
-Date: Sun, 14 Jul 2024 01:55:32 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- quic_jesszhan@quicinc.com, swboyd@chromium.org, dianders@chromium.org, 
- neil.armstrong@linaro.org, andersson@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dp: enable widebus on all relevant chipsets
-Message-ID: <xmkcy7xjoaodxnyzbskjb7y5xne444qx4jdrtcgoqwh45aqjn2@4rnbkhr5uuby>
-References: <20240711224850.1672662-1-quic_abhinavk@quicinc.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F44510E0F4;
+ Sun, 14 Jul 2024 00:00:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 7588DCE0989;
+ Sun, 14 Jul 2024 00:00:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7AEA5C4AF0C;
+ Sun, 14 Jul 2024 00:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1720915230;
+ bh=koxBQfDdErp+l4IfuBnt4utYBLuPlb0fF2ASoCAI0P0=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=FiG2RHHlMvcJaZjKCBDpDiMsetCw9E/qUeKLPVU0sXDdFvrB1xY0J0V51Rp8cAq/x
+ k2ul5AifAEZFWcQgFQmBAVKoM/JYHzzJONSDQN3hdo0SPW7HpI2bg1uvkd8GCIHhvj
+ 2TKj4Nq0BptJLHcDmfFSv6legeRA4GYlkvhgDKYTJoF7xIudHFnyeLLMN+Jn3DlStR
+ ho9JTKPY942+WdIrl7wgk2K+6mXFAuVuPYaTZTPLjCs04l/MnGOm51tkZSEcUadMGc
+ EJbo7gX8SOptQm4vyUBo7M2zGFJQXPt45hxUYi7auiXKCEn0SZk2Kznu3DwM3iq01S
+ PZzTAImVTY8ew==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 6152ADAE961; Sun, 14 Jul 2024 00:00:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240711224850.1672662-1-quic_abhinavk@quicinc.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4 4/6] sfc: falcon: Make I2C terminology more inclusive
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <172091523039.919.13223034713999192575.git-patchwork-notify@kernel.org>
+Date: Sun, 14 Jul 2024 00:00:30 +0000
+References: <20240711052734.1273652-5-eahariha@linux.microsoft.com>
+In-Reply-To: <20240711052734.1273652-5-eahariha@linux.microsoft.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: ecree.xilinx@gmail.com, habetsm.xilinx@gmail.com, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ netdev@vger.kernel.org, linux-net-drivers@amd.com,
+ linux-kernel@vger.kernel.org, wsa+renesas@sang-engineering.com,
+ andi.shyti@linux.intel.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,27 +67,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 11, 2024 at 03:48:50PM GMT, Abhinav Kumar wrote:
-> Hardware document indicates that widebus is recommended on DP on all
-> MDSS chipsets starting version 5.x.x and above.
+Hello:
+
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu, 11 Jul 2024 05:27:32 +0000 you wrote:
+> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
+> with more appropriate terms. Inspired by Wolfram's series to fix drivers/i2c/,
+> fix the terminology for users of I2C_ALGOBIT bitbanging interface, now that
+> the approved verbiage exists in the specification.
 > 
-> Follow the guideline and mark widebus support on all relevant
-> chipsets for DP.
+> Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
+> Reviewed-by: Simon Horman <horms@kernel.org>
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 > 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
+> [...]
 
-Although it doesn't seem to fix the 4k screen corruption, I think it's
-still a proper patch (and we should be following hardware
-documentation).
+Here is the summary with links:
+  - [v4,4/6] sfc: falcon: Make I2C terminology more inclusive
+    https://git.kernel.org/netdev/net-next/c/ba88b47816a2
 
-With the Fixes tags in place:
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+You are awesome, thank you!
 -- 
-With best wishes
-Dmitry
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
