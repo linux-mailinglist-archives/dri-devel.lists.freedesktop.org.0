@@ -2,55 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8BA930A6F
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2024 16:53:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524E2930ABA
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2024 18:14:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F98310E04F;
-	Sun, 14 Jul 2024 14:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297AD10E044;
+	Sun, 14 Jul 2024 16:14:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="foH/oXHw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gtdxP7Hu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C02C10E04F
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2024 14:53:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=rxHJzhhWWF19thBVT+Q9Fks8oCFjYNtn5pXV8bqdtfE=; b=foH/oXHwgygzJVnr2Vl9ikwDi9
- efkjzVrHo4o2AH6gNuVZk6JI7lIBZPzeXNDeAqxiP1aMC7AhMiD9l+9lh183X2Lotg4V7kNKcm8JZ
- r/pFPJaXxJkt96+VnTShVtsMJkxvz0IR+OTVzTaZlVnKYAl1l1EWBuLFdii8eEbyz9utf8u0uwiVG
- oF5Xu8sf0TFqtoKXMEPR15ODQfuPQrDX1m6+xvOHh38Lf7FtN9LWP7pzmN8eC+a/zeD5eq0u/f2g+
- vv4I/Y7mFs9c6B+np4zOyNLFPUm4SiabVMfD2Zx6143dwwXAjzNAcNaY+h3FVjaH7uP+yPULtEDeA
- dbJXRcFw==;
-Received: from [187.36.213.55] (helo=morissey..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sT0bG-00F4qu-Hu; Sun, 14 Jul 2024 16:53:19 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- =?UTF-8?q?Alejandro=20Pi=C3=B1eiro?= <apinheiro@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH 2/2] drm/v3d: Fix Indirect Dispatch configuration for V3D
- 7.1.6 and later
-Date: Sun, 14 Jul 2024 11:49:12 -0300
-Message-ID: <20240714145243.1223131-2-mcanal@igalia.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240714145243.1223131-1-mcanal@igalia.com>
-References: <20240714145243.1223131-1-mcanal@igalia.com>
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+ [209.85.222.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA14510E033;
+ Sun, 14 Jul 2024 16:14:13 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id
+ a1e0cc1a2514c-81021667125so1178032241.1; 
+ Sun, 14 Jul 2024 09:14:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1720973653; x=1721578453; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6Yyn4bM42Ap4ZrCijPtVJNkueH9wiTy2GjVXWUySv8Q=;
+ b=gtdxP7Hu3+YwXs8OcxeWKvwhCwkY2HVMtP/QtiLl6x1Q01BLaxR+TXX/WZIEx/5cVE
+ SeQSTx8IcNd62S8DQyC4sfkwhiIRhkX016qHHTcjmXmMe/gXVMJWoAH2GIzrMLR4fz8s
+ s7hmhCqIsda0fXnktL+/uc5NEAnrk95STP3uWzGgT77dvjXYxrts0LVOsk5JfeGob5Nl
+ SeWJ8UXb1sFOb4UKNui5/cXmulRo9y92HmWSybbY7FJcYjVVQ780zuCPk2ij90dDcin3
+ 8XPD8WIO8Z2V0xG6psEtBQv1fimrPZZd5/WSIywJfuAm3RIBZqWdxS56hUxGj3BjaJWp
+ mMFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720973653; x=1721578453;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6Yyn4bM42Ap4ZrCijPtVJNkueH9wiTy2GjVXWUySv8Q=;
+ b=hvA4WbMt98jSNSSyuQi+td2cVK5jG0W4NQWYO48VI9z5Uu8L2DzkgXxT0thHkKNj6p
+ 4f+DSwZUlJc8fsKoGCIExNyAUCdBQXOehcfVr+IJFsj4AzOb3531VmDvwAqn+qCyTQk5
+ +vlMYyCzI1O9YaES50xOd8gdl8iIpu+YBSUWkK33aZ3vfdBd4DqF4Jc38imx1pwnEKOZ
+ Pq/JgIoUkUnHE4Z2lgKkiRtR2huBX6XnVR3P8aD7Hwg4WWOuX/T79MHhWGqcZtMsoHjr
+ xOPyC12OXFDOrU8UEjAIu0LuoceMkSbXHnYNKBRIGTXV6zhVRdl0ZjIzT5oa+/JSSxOy
+ o/0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXaxB/8gKZb1Kyaok8wZNiqhfxGPVwiVkO8Zjzz2bymnvRpsvW0CU2Xsc/Bt96r1aTE5oPuLOCMiT5Mm9zhd85tzDj7jvqaWymsMRWgSFqLAWmxqN6UuhVHENd+vRRZsJZJWKnNme1trs4YW2fNEPtVHgS5f7dbEjQXCfevFB0682VCKGJT6ZQmxCyyU8Q9jnP7sjazNGTKHqL7rInRguTdg9Tmca8sOBwPGgSSdd+liimEqeM=
+X-Gm-Message-State: AOJu0Yxp5UAuLFBlv7JWHsG1D0x0NBgCJ6wufAN8PK5dr9HWcE7VIr+0
+ L/ovaaFayfwOO4hWJ58CduGzsrgPrnalEDe4R3PloFUb1LlN/CkF3q62cdMQNLNXIINx3FIpMKQ
+ HohZFM0IBQpUn6+bj+dIHrDhzbGs=
+X-Google-Smtp-Source: AGHT+IGJpHdSKRAkgcgSszPtuJsHHRbse+wAzDBjWHdhQlSC6mBAg6s9Wu/C6A9Crh6oLSWE6phJW+y6tuTOyGtTC6U=
+X-Received: by 2002:a05:6102:32c1:b0:48f:1bea:3c70 with SMTP id
+ ada2fe7eead31-49032147ae1mr19644741137.17.1720973652595; Sun, 14 Jul 2024
+ 09:14:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240702215804.2201271-1-jim.cromie@gmail.com>
+ <20240702215804.2201271-28-jim.cromie@gmail.com>
+ <22bc825c-d726-4a4d-bd3a-508773c04071@collabora.com>
+In-Reply-To: <22bc825c-d726-4a4d-bd3a-508773c04071@collabora.com>
+From: jim.cromie@gmail.com
+Date: Sun, 14 Jul 2024 10:13:46 -0600
+Message-ID: <CAJfuBxzLiWn_t6VDxzYzfjm6GaZcjeASwBX7Nbma6yGBKEtB9A@mail.gmail.com>
+Subject: Re: [PATCH v9 27/52] selftests-dyndbg: check KCONFIG_CONFIG to avoid
+ silly fails
+To: Helen Koike <helen.koike@collabora.com>
+Cc: daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, 
+ jani.nikula@intel.com, ville.syrjala@linux.intel.com, jbaron@akamai.com, 
+ gregkh@linuxfoundation.org, ukaszb@chromium.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ linux@rasmusvillemoes.dk, joe@perches.com, mcgrof@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,55 +86,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-`args->cfg[4]` is configured in Indirect Dispatch using the number of
-batches. Currently, for all V3D tech versions, `args->cfg[4]` equals the
-number of batches subtracted by 1. But, for V3D 7.1.6 and later, we must not
-subtract 1 from the number of batches.
+On Wed, Jul 10, 2024 at 2:23=E2=80=AFPM Helen Koike <helen.koike@collabora.=
+com> wrote:
+>
+>
+>
+> On 02/07/2024 18:57, Jim Cromie wrote:
+> > Several tests are dependent upon config choices. Lets avoid failing
+> > where that is noise.
+> >
+...
+> >
+> > test_mod_submod() recaps the bug found in DRM-CI where drivers werent
+>
+> If this fixes any but listed in drm/ci/xfails folder, please update it to=
+o.
+>
+> Regards,
+> Helen
 
-Implement the fix by checking the V3D tech version and revision.
-
-Fixes several `dEQP-VK.synchronization*` CTS tests related to Indirect Dispatch.
-
-Fixes: 18b8413b25b7 ("drm/v3d: Create a CPU job extension for a indirect CSD job")
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/v3d/v3d_sched.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index d193072703f3..cafa3a298c11 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -353,7 +353,8 @@ v3d_rewrite_csd_job_wg_counts_from_indirect(struct v3d_cpu_job *job)
- 	struct v3d_bo *bo = to_v3d_bo(job->base.bo[0]);
- 	struct v3d_bo *indirect = to_v3d_bo(indirect_csd->indirect);
- 	struct drm_v3d_submit_csd *args = &indirect_csd->job->args;
--	u32 *wg_counts;
-+	struct v3d_dev *v3d = job->base.v3d;
-+	u32 num_batches, *wg_counts;
- 
- 	v3d_get_bo_vaddr(bo);
- 	v3d_get_bo_vaddr(indirect);
-@@ -366,8 +367,17 @@ v3d_rewrite_csd_job_wg_counts_from_indirect(struct v3d_cpu_job *job)
- 	args->cfg[0] = wg_counts[0] << V3D_CSD_CFG012_WG_COUNT_SHIFT;
- 	args->cfg[1] = wg_counts[1] << V3D_CSD_CFG012_WG_COUNT_SHIFT;
- 	args->cfg[2] = wg_counts[2] << V3D_CSD_CFG012_WG_COUNT_SHIFT;
--	args->cfg[4] = DIV_ROUND_UP(indirect_csd->wg_size, 16) *
--		       (wg_counts[0] * wg_counts[1] * wg_counts[2]) - 1;
-+
-+	num_batches = DIV_ROUND_UP(indirect_csd->wg_size, 16) *
-+		      (wg_counts[0] * wg_counts[1] * wg_counts[2]);
-+
-+	/* V3D 7.1.6 and later don't subtract 1 from the number of batches */
-+	if (v3d->ver < 71 || (v3d->ver == 71 && v3d->rev < 6))
-+		args->cfg[4] = num_batches - 1;
-+	else
-+		args->cfg[4] = num_batches;
-+
-+	WARN_ON(args->cfg[4] == ~0);
- 
- 	for (int i = 0; i < 3; i++) {
- 		/* 0xffffffff indicates that the uniform rewrite is not needed */
--- 
-2.45.2
-
+This looks like a good avenue to follow, thanks for the hint
