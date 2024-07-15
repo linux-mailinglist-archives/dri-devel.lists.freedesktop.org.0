@@ -2,70 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC2D9313CC
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 14:13:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A4D9313D8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 14:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 830EC10E377;
-	Mon, 15 Jul 2024 12:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5975710E36A;
+	Mon, 15 Jul 2024 12:16:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fPE6b/eQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kZO+TNso";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94BBC10E372;
- Mon, 15 Jul 2024 12:13:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721045608; x=1752581608;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Zn83j3eNWdHYHMJ+UEUHTLaYD3lLIIF14eNqyo8jTtc=;
- b=fPE6b/eQ8N3oV/Ilu9VwZcAwLbXJD/KQUXP+BMb4jVbeH7ioOkSEW3/U
- 2f5LhTsOAKWrW1x2HY7PoFY69nazHwvpH/3CYU1Zr2zEcO3uMxjbsqoOr
- i3SP7QwhUcd8P01zfJLY0dQ5ZhnLcEtlHtrNi7DB47hz7LuwxE4XuO+l8
- hOMLh4OHjmsMm4bqHQ50JuwzugdGuISBTgvfg02fxO548tq9oqQUlz/kN
- oAZD4YIEiIpZdGsXdDJSuqKbNTRgz+27dQzWNdirLFArdLM8ZPKZ49AaN
- gP29HXOUVqU7ZvNmNCoWP5j6Kmntetgr5xigkCyGQ53Zrt6ywsyxymp7X g==;
-X-CSE-ConnectionGUID: qlffbtaoQSaGWjO6qJlKWA==
-X-CSE-MsgGUID: 0qjKmSCgQ4O1LD1+2C1zPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11133"; a="29010146"
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; d="scan'208";a="29010146"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2024 05:13:28 -0700
-X-CSE-ConnectionGUID: K8N519t3SiGQNzO/0yegBg==
-X-CSE-MsgGUID: 04/0i0imSR6PN1Pm890slQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; d="scan'208";a="50371332"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.245.220])
- ([10.245.245.220])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2024 05:13:23 -0700
-Message-ID: <679e9674-9611-48a8-8f94-4285b080d3f6@intel.com>
-Date: Mon, 15 Jul 2024 14:13:37 +0200
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23DBF10E36F
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 12:16:07 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id
+ 5b1f17b1804b1-4267300145eso32505835e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 05:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1721045765; x=1721650565; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0Vr1Igs6Grx1TdlXBKwpA/hLnY4uL3rKsZy+M8J+TL0=;
+ b=kZO+TNsou/kQDrHT35JkfMVMZme8Ilsz4gK/gUetdX5fY/yNBM1n0Y18pSBE9bGWEN
+ YkEProdlz0j4uXuobgOiF3YQZe5o7Rf6/fayRIoHFJaQEjUIEScUF1Jyl4egPno7XC5e
+ 3dtlD4jZzZMjGpDJnDJoMUZDu8PH8mPcIAxpxJ88Z8qNgBEvIxficuXr6A9XQjepQXH2
+ FyqbrReVyt9dHwoidhxOWI+TdmRrrMMIsFdmiP8ivABF3Dy9eF+oGKryDf8rBgPDR5Mu
+ 49GUvxPQyUj6gdl9jK/gbdhUWWSRyZU7Nyw1wSWFmBJqMUo1Mj38kipRStVmer4IfUlV
+ DU+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721045765; x=1721650565;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0Vr1Igs6Grx1TdlXBKwpA/hLnY4uL3rKsZy+M8J+TL0=;
+ b=tBd+zS4YxAj/n1inGourEFoEmT3sJYMia6SLUdkot0kbkUFBcfTkJVPA7FY/DQJme0
+ HrmXddEUDL36PHGUgkWouX/e/SFbENqVTgiVFZy1kOcwGPjHnjsvvPnpKaZ+2FBnq6UK
+ yXOBLTRWB9tAaz2Y//jWMBBjefkA16VtVCd+U1rHaSbBz1+9CbVhK30NUWAY/eIP7Bkw
+ Tm7NUMrIOk3DvjU3iKjyfFSZGy+z+5QAGV/DdoDT+tTbe+/oCpTB/6tyCA1XBNsHOWb8
+ da71a/5ePTCjdX58mQGxoZaAnGIismrFQsLdZWDhygHjzsOQYag2FJu3evHW6dXBRCnN
+ 2Jjg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXgMTw4iTObq5NTGSIDxK6hYcOxiSTud2xMyxi3ojo0d429VVd8pXCM/gdmajcoa9LiSlfC0uiGNGRyuFt2o6Z27q0ubiWWFJ4oGQ7+avnp
+X-Gm-Message-State: AOJu0Yw8yUdylWm8POYFHMXhHT8TmsNIo/n6xg+tw8bwMryoQT2DM5fm
+ r6vZ37KXuKtxOgkuYhVJH+scHl+Bb9gpjNK4v/J0aCstL1YpXht5YXBYS1sVxWp0Shcgaw8q5zw
+ K+PuxdBiY
+X-Google-Smtp-Source: AGHT+IF1eIglBUYPcY54eeaj425QXF1pkXmSnnMaa3Z7nS7TIbwkFjDf7kr7CW/lZQwMQMB2loSrag==
+X-Received: by 2002:a7b:c052:0:b0:426:5c81:2538 with SMTP id
+ 5b1f17b1804b1-426707cf827mr140078155e9.14.1721045765216; 
+ Mon, 15 Jul 2024 05:16:05 -0700 (PDT)
+Received: from [127.0.0.2] ([2a02:2454:ff1f:b240:886b:1a3a:7569:3d95])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3680d9771aasm6369201f8f.0.2024.07.15.05.16.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Jul 2024 05:16:04 -0700 (PDT)
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+Subject: [PATCH v2 0/4] drm/panel: atna33xc20: Fix the Samsung ATNA45AF01 panel
+Date: Mon, 15 Jul 2024 14:15:36 +0200
+Message-Id: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: build warning after merge of the drm-intel tree
-To: "Golani, Mitulkumar Ajitkumar" <mitulkumar.ajitkumar.golani@intel.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Suraj Kandpal <suraj.kandpal@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20240612141110.3aebb166@canb.auug.org.au>
- <20240715091234.5e8b2701@canb.auug.org.au>
- <774fa28d-b196-0030-2fb2-5d5fb8a7d1cc@intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@intel.com>
-In-Reply-To: <774fa28d-b196-0030-2fb2-5d5fb8a7d1cc@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOgSlWYC/4WNQQ6CMBBFr2K6tmZmSlBceQ/DosAUJhJqpoRgC
+ He3cgGX7yX//c0kVuFk7qfNKC+SJE4Z6Hwy7eCnnq10mQ0BFXBFsCvyDRDAttrZxrevUfphtqW
+ jUDWhciUHk8dv5SDrEX7WmQdJc9TP8bPgz/5NLmjBckMFOURPjh+jTF7jJWpv6n3fvzY3h9C9A
+ AAA
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>, 
+ Johan Hovold <johan@kernel.org>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,32 +93,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+The backlight of the Samsung ATNA45AF01 panel used in the Qualcomm X1E80100
+CRD does not work correctly with the current display panel configuration
+and drivers: It works after boot, but once the display gets disabled it is
+not possible to get it back on. It turns out that the ATNA45AF01 panel
+needs exactly the same non-standard power sequence as implemented for
+ATNA33XC20 in the panel-samsung-atna33xc20 driver.
 
-Den 2024-07-15 kl. 06:21, skrev Golani, Mitulkumar Ajitkumar:
->
-> On 15-07-2024 04:42, Stephen Rothwell wrote:
->> Hi all,
->>
->> On Wed, 12 Jun 2024 14:11:10 +1000 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->>> After merging the drm-intel tree, today's linux-next build (htmldocs)
->>> produced this warning:
->>>
->>> include/drm/display/drm_dp_helper.h:127: warning: Function parameter or struct member 'target_rr_divider' not described in 'drm_dp_as_sdp'
->>>
->>> Introduced by commit
->>>
->>>    a20c6d954d75 ("drm/dp: Add refresh rate divider to struct representing AS SDP")
->> I am now seeing that warning after the merge of the drm tree.
-> Hi Stephen Rothwell,
->
-> I have already floated changes : https://patchwork.freedesktop.org/patch/604143/?series=136072&rev=1
->
-> Need help on Ack from drm-maintainers to merge.
+Move the ATNA45AF01 panel from the generic panel-edp driver to the
+panel-samsung-atna33xc20 driver and fix the panel configuration in the
+x1e80100-crd device tree to make the panel work correctly.
 
-There you go, does it need to go through drm-misc too?
+The panel and DT changes can be picked up independently. Since v2 uses the
+existing "samsung,atna33xc20" compatible as fallback, the DT changes work
+even without the driver changes.
 
-Cheers,
+Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+---
+Changes in v2:
+- Use fallback compatible to avoid changes in driver (Doug)
+- ... this allows applying the DT change as fix, so add Fixes: tag there
+- Add review tags (except Krzysztof's, since the binding changed quite a bit)
+- Link to v1: https://lore.kernel.org/r/20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org
 
-~Maarten
+---
+Stephan Gerhold (4):
+      dt-bindings: display: panel: samsung,atna33xc20: Document ATNA45AF01
+      Revert "drm/panel-edp: Add SDC ATNA45AF01"
+      arm64: dts: qcom: x1e80100-crd: Fix backlight
+      arm64: defconfig: Add CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20
+
+ .../bindings/display/panel/samsung,atna33xc20.yaml      |  8 +++++++-
+ arch/arm64/boot/dts/qcom/x1e80100-crd.dts               | 17 +++++++++++++++--
+ arch/arm64/configs/defconfig                            |  1 +
+ drivers/gpu/drm/panel/panel-edp.c                       |  2 --
+ 4 files changed, 23 insertions(+), 5 deletions(-)
+---
+base-commit: 91e3b24eb7d297d9d99030800ed96944b8652eaf
+change-id: 20240710-x1e80100-crd-backlight-632f9bf936ef
+
+Best regards,
+-- 
+Stephan Gerhold <stephan.gerhold@linaro.org>
 
