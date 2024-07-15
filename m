@@ -2,33 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1CAD930FED
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 10:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B47930FEF
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 10:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BBC910E2F7;
-	Mon, 15 Jul 2024 08:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBBD910E2FA;
+	Mon, 15 Jul 2024 08:38:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="oQV8wSic";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="PErVAzpo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
- Mon, 15 Jul 2024 04:55:49 UTC
 Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF4C10E259
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 04:55:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B2810E259
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 04:58:54 +0000 (UTC)
 From: Philip Mueller <philm@manjaro.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1721018948;
+ t=1721019532;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=Tu3bdPp74SouXC/JHc8HX7zh1cMP9A8QlRZCc1+ISs8=;
- b=oQV8wSicLz7erXNijxghV2AO3pWwADA7H62+HKPr9xog5Iz2KqYVa2if0p23GQRHDUNbED
- kWECjXHQJI/1DeuhHMI6iM4/ODNPjqvhlRqB5Hn5MvDD+pXYnodQ7b1MJVfesg0N45PFnU
- XssEQ9UYXDhFnGi9uXVU1OE6HY5VGBeeJ4uw+MHoMqvSkmqzLMS2aSy2VF5/9B5XgCJx2i
- fkI3PtOsThFTEUEPf8YVBYlr0wYUA0dkzw08IVvjZV1DRoVqJnR70/YKrFDwVghMJ9zgMS
- CHz9hSq8UMQz7dzeW+7PEe9jBrsT+tAhRAkPxcmwrQi+JeBVyyPAhaXYC2i9mg==
+ bh=WQXVb7k5eYZNCeNAVV3C1d6cf65+tYZkEMxdXBXGZNI=;
+ b=PErVAzpoRkd9GjqRuPqllHhq6RLISRBDso1NeTcfgQIEv9e2siRy8pDTx1eQFXqpQNDnr9
+ pj/xpZvMLHo7rydIMggHoK5idvYE1M/JCy08p5vaqYIUoygDpvqEXHI5ToZfecnwJ03Xuk
+ 9jy9AyQ4R8BtDA/MJR7P83B6gzujwJnNj+Z8/RpA8fGRUWhBo+a9ItkB0h2oDPUqEL9EH5
+ V9qNB2cCVK3FsyH1s7+OSGdO+PCtwTTsnhlWKeFnzmFfnLVBG4SvBkS6Aff0JsnA5reJ+4
+ cR+VzGu656ZuiJ/1IyG0HlgcNHATn5gXr3e55/mQxVApgBRc3YoBHBN/IcBVnw==
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -36,9 +34,8 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>
 Cc: Philip Mueller <philm@manjaro.org>
 Subject: [PATCH] drm: panel-orientation-quirks: Add quirk for OrangePi Neo
- This adds a DMI orientation quirk for the OrangePi Neo Linux Gaming Handheld.
-Date: Mon, 15 Jul 2024 11:48:30 +0700
-Message-ID: <20240715044850.1018856-1-philm@manjaro.org>
+Date: Mon, 15 Jul 2024 11:57:49 +0700
+Message-ID: <20240715045818.1019979-1-philm@manjaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Authentication-Results: ORIGINATING;
@@ -58,6 +55,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+
+This adds a DMI orientation quirk for the OrangePi Neo Linux Gaming Handheld.
 
 Signed-off-by: Philip Mueller <philm@manjaro.org>
 ---
