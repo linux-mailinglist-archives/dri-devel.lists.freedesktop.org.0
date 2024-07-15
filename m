@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C8993131E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 13:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E3593136F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 13:49:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52C2110E21A;
-	Mon, 15 Jul 2024 11:32:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA8F310E34A;
+	Mon, 15 Jul 2024 11:49:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gN+RZVhq";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="O3wLl1VU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
- [209.85.219.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1203910E21A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 11:32:40 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-e03a63ec15eso3958565276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 04:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721043159; x=1721647959; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jogpdw07nqWdBOTLr4+aPckD0RPbKM+NzNUz/Z1iCeg=;
- b=gN+RZVhqsnoTVIVQZL0vuhJ6gpLnP0U5kpKYt+nZCz/U/zXtkPL4E4rGk0y4vrJbDg
- OUNhudlCCAdS4m1Ytwf5LbKuJsCKSLqRjtiCaLlCictCPx8fPaoTLwhkwISsr9TBrXxX
- R8DNna5SGtsCZ+c/ft7AXxH4ixByAS3GjJSvbOS1IlwPi98apTAKBCG007ld0oU80JMq
- dxaKTr+mr0a4giSrvryvsOFSA0OwxngwDBfJcNLfFg9kXCHc4fX3B79oVVQc5rZkWtws
- JFwjCFaSsRKV3OJrrdIHv/7dlLApFwQQC5JUoE7PAKh7ToD2SUMyROEW6cHXhIjy1ykN
- aDng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721043159; x=1721647959;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jogpdw07nqWdBOTLr4+aPckD0RPbKM+NzNUz/Z1iCeg=;
- b=PRbSyEWib+599QTYjvt5RsgBjayysVmHUjV+MvrHuTHORb83+hEgmPDnnYBngxJAB6
- w9hJVxCDoHEPJezOOxjbCCLoNVj0uZsp7o5JTI0qdmInJpK2RfBsCS/+UQu2IHYbpwXk
- CgBCYIljIiwKyuCqXpXpY8q0tSvks6plQUWo+DVtgy6o6ruvpLPFTa+msubTDhaHbKql
- NRG3t4x1LPHevSp8JkdLgkAlVIA5z29roLGvKOtmtfFwUjRtoOmdnL7mr8vUq/zMzitR
- W6ZyzQHQWwarMKH4BRAv5ClDQnVZBEBABNqngcIDcAT8syAfSY4oKXaxjgs4RXUg1llJ
- bWvg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUvit2eq+GWWsmon+gskARq0FzWMSCJOMgUaezr2nP6T4gyveke8oLJke3k7L8S6lIG1U8n4FIzNut0DM9z47id/jq+cNcSd/nXuluSNb7p
-X-Gm-Message-State: AOJu0Yx3wft1ScRX8ANJfq6Z0i3r0zkSDtv4MdILkdoxIZigqv/XuHzq
- usEj+7wx4mxDAilVkYDPFjseEmitkdbJwuxY9dyhdde7EVfOcRC3Hw7U534zRZhAmK063H2pKiS
- EfDwVVutIsrLBOQ253MG6ZuKRRVSlFiPf9moWkA==
-X-Google-Smtp-Source: AGHT+IF9lmgFAw7fB03mWJ+kiazuSLnjkXpBjqshoqF+XqRzDmcbRiL7gcCzcPqwVVHx94WtpgGBV68SYHs6dWv1J/U=
-X-Received: by 2002:a25:2704:0:b0:e03:5f7f:1215 with SMTP id
- 3f1490d57ef6-e041b095eb0mr21171574276.38.1721043158913; Mon, 15 Jul 2024
- 04:32:38 -0700 (PDT)
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4A4510E34A;
+ Mon, 15 Jul 2024 11:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1721044105; x=1721648905; i=markus.elfring@web.de;
+ bh=YrYnfXpy81C1jpVdx1iEDBRM93/KVFVJhrGxbIs42Zo=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+ Subject:Content-Type:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=O3wLl1VUF7LITZD1j70BEvsYV49fx/ujqG+DDVpDYes8HrJvUXO9AzWakaFw613B
+ DrJhLF9c2kcXfa1ML4WjXHXssOHuT4sJCtlIY4CzM0VadjwOMixpHgh45GneNF3z7
+ zFldOJ6+TYHjK+LGlz0BGrta8ltOalQxQN6VLSHPdcmOXWc6Dx0Jg1qAkN3grgyiG
+ aiipCJwA83GUcOTKccu5sQixE5uokFz3LM+WFyjgi+G7t1bJ/MbtUoN0TkHymnjbV
+ WCsUGzOaGUhrmEVo8Y4y4BROeQH6nApMkU+xJpzSFjytyku91HvoVhlL6cXfStC8l
+ qLy6c3vndXnifZasMw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MzTLO-1s7Y7N2tOq-00r5Y2; Mon, 15
+ Jul 2024 13:48:25 +0200
+Message-ID: <cb21950b-286b-4630-9052-cff9e7e56337@web.de>
+Date: Mon, 15 Jul 2024 13:48:22 +0200
 MIME-Version: 1.0
-References: <20240715031845.6687-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240715031845.6687-2-lvzhaoxiong@huaqin.corp-partner.google.com>
-In-Reply-To: <20240715031845.6687-2-lvzhaoxiong@huaqin.corp-partner.google.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 15 Jul 2024 14:32:26 +0300
-Message-ID: <CAA8EJpp8LvzKdHR2y-f-qtfx-fLSOwxG_CXTCrtV6JWnzX_YmQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] drm/panel: boe-th101mb31ig002 : Fix the way to get
- porch parameters
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, airlied@gmail.com, 
- mripard@kernel.org, dianders@google.com, hsinyi@google.com, 
- awarnecke002@hotmail.com, quic_jesszhan@quicinc.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org,
+ Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
+ Daniel Vetter <daniel@ffwll.ch>, Danilo Krummrich <dakr@redhat.com>,
+ David Airlie <airlied@gmail.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] drm/nouveau/debugfs: Simplify character output in
+ nouveau_debugfs_vbios_image()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:71gomZOBeHsXTuuGCpKsfKlHuOH458fHULk6qYyu8eYyRHEy6wg
+ vxu79FguCXSArnOkasdaTOv+hNaMNrALYc4QlU5uT+/sl7qPLC4gHFGZkGt7LB9/4vc1+EQ
+ OGojZV0bf1SSPdsA+bzDjf0TCKn7tY9FpoBuDypjHKZpzOwR6qWxHEdWZrisg06jk0Ywm4F
+ kGsFCja0s75FSjAvjjJxQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:zd36QuBqUeY=;DvV/O/HVJgTm6NgAelVqBD1ToEh
+ 1P17qaHVy+oOo1j7GgyIj/vWn/mFdkifai8yneCRsSE7DKGPT+G6FGyTkM5A3zZODdBOlu93Y
+ FD3shkGp90AxoqYvRwH8loeMX1mA2OPusxqv6AntsgvqWnVty4nOsH38gNBa1Tx8ZBhsbtgCb
+ LjdCI0qh12c2dLW5WGa8nuJfoFg4i2IR9MM62/byjibMNHv6IzTHgLdMiR91QVMib+Dg6NduG
+ ezH4qGwWbRVKbCG+MrBd7pbvx4GqRY6IYrw/79BIE1cg24OTaexRN7hXd/9EpwZo4tUKebFAp
+ ut1Pk/pOu7MntiCR1we6TzBVdvILKB8TKWN6osU2Adz4oqmJpPZBB1TswKW83gHT32rr53Mgd
+ Z9OtpuYem3VqacI/Z5S8u3V5SS3ti8SmGPtw4AiHwYtwrkvlNTVd6IHiWchik2Y+RLK7WL3zf
+ 15dxIN5PlILxJk4w813upUQncxFtJO7xKD9q5y5foYtN7TFi4t+rfmwtOnkaOLQ09Xot3wBYp
+ m9T3ZDiO5d2T6lKaBf8ulYIdCIFT+SuuWSkypcXdkV4eKo16hNtyU1wsBZhuYQ/iFN8A7IGDo
+ UZihD49sVxp7XR30Dgjy5/CO5lQX+wfMLTBbAcb3k3DudlUQK1U9HMrZixKP6EwtZzO8r+BmB
+ z5KrTTTZGbw+b/EfKCjJdnSvdku05VnBOTx0abVwQ5DoM0HfJ2+vIafTuEcihysaUjR5zgNcI
+ 9UvFNUKkSD5jl7gTKQE+DNh8wOrQEn8RnlFyHEqfEHED8MgetzIh01SE0ifbaG1idnOAruYO4
+ 239kA1LUUEoiOl/ZFJVNHFCw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,56 +82,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Jul 2024 at 06:19, Zhaoxiong Lv
-<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
->
-> The current driver can only obtain the porch parameters
-> of boe-th101mb31ig002. Modify it to obtain the porch
-> parameters of the panel currently being used.
->
-> Fixes: 24179ff9a2e4524 ("drm/panel: boe-th101mb31ig002 : Make it compatible with other panel.")
->
-> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Mon, 15 Jul 2024 13:36:54 +0200
 
-No empty line between Fixed and Sign-off-by
+Single characters should be put into a sequence.
+Thus use the corresponding function =E2=80=9Cseq_putc=E2=80=9D for one sel=
+ected call.
 
+This issue was transformed by using the Coccinelle software.
 
-> ---
->  drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> index b55cf80c5522..d4e4abd103bb 100644
-> --- a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> +++ b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> @@ -312,15 +312,14 @@ static int boe_th101mb31ig002_get_modes(struct drm_panel *panel,
->         struct boe_th101mb31ig002 *ctx = container_of(panel,
->                                                       struct boe_th101mb31ig002,
->                                                       panel);
-> +       const struct drm_display_mode *desc_mode = ctx->desc->modes;
->         struct drm_display_mode *mode;
->
-> -       mode = drm_mode_duplicate(connector->dev,
-> -                                 &boe_th101mb31ig002_default_mode);
-> +       mode = drm_mode_duplicate(connector->dev, desc_mode);
->         if (!mode) {
->                 dev_err(panel->dev, "Failed to add mode %ux%u@%u\n",
-> -                       boe_th101mb31ig002_default_mode.hdisplay,
-> -                       boe_th101mb31ig002_default_mode.vdisplay,
-> -                       drm_mode_vrefresh(&boe_th101mb31ig002_default_mode));
-> +                       desc_mode->hdisplay, desc_mode->vdisplay,
-> +                       drm_mode_vrefresh(desc_mode));
->                 return -ENOMEM;
+Suggested-by: Christophe Jaillet <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/gpu/drm/nouveau/nouveau_debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please add a followup switching to drm_connector_helper_get_modes_fixed()
+diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/n=
+ouveau/nouveau_debugfs.c
+index e83db051e851..931b62097366 100644
+=2D-- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
++++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+@@ -42,7 +42,7 @@ nouveau_debugfs_vbios_image(struct seq_file *m, void *da=
+ta)
+ 	int i;
 
->         }
->
-> --
-> 2.17.1
->
+ 	for (i =3D 0; i < drm->vbios.length; i++)
+-		seq_printf(m, "%c", drm->vbios.data[i]);
++		seq_putc(m, drm->vbios.data[i]);
+ 	return 0;
+ }
 
+=2D-
+2.45.2
 
--- 
-With best wishes
-Dmitry
