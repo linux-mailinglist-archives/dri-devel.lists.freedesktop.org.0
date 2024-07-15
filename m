@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B47930FEF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 10:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F64930FEE
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 10:38:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBBD910E2FA;
-	Mon, 15 Jul 2024 08:38:06 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="PErVAzpo";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96D310E2F8;
+	Mon, 15 Jul 2024 08:38:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52B2810E259
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 04:58:54 +0000 (UTC)
-From: Philip Mueller <philm@manjaro.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1721019532;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=WQXVb7k5eYZNCeNAVV3C1d6cf65+tYZkEMxdXBXGZNI=;
- b=PErVAzpoRkd9GjqRuPqllHhq6RLISRBDso1NeTcfgQIEv9e2siRy8pDTx1eQFXqpQNDnr9
- pj/xpZvMLHo7rydIMggHoK5idvYE1M/JCy08p5vaqYIUoygDpvqEXHI5ToZfecnwJ03Xuk
- 9jy9AyQ4R8BtDA/MJR7P83B6gzujwJnNj+Z8/RpA8fGRUWhBo+a9ItkB0h2oDPUqEL9EH5
- V9qNB2cCVK3FsyH1s7+OSGdO+PCtwTTsnhlWKeFnzmFfnLVBG4SvBkS6Aff0JsnA5reJ+4
- cR+VzGu656ZuiJ/1IyG0HlgcNHATn5gXr3e55/mQxVApgBRc3YoBHBN/IcBVnw==
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>
-Cc: Philip Mueller <philm@manjaro.org>
-Subject: [PATCH] drm: panel-orientation-quirks: Add quirk for OrangePi Neo
-Date: Mon, 15 Jul 2024 11:57:49 +0700
-Message-ID: <20240715045818.1019979-1-philm@manjaro.org>
+X-Greylist: delayed 1176 seconds by postgrey-1.36 at gabe;
+ Mon, 15 Jul 2024 07:22:08 UTC
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B58810E077
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 07:22:07 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4WMtMS1smCzQldV;
+ Mon, 15 Jul 2024 14:58:28 +0800 (CST)
+Received: from dggpeml500003.china.huawei.com (unknown [7.185.36.200])
+ by mail.maildlp.com (Postfix) with ESMTPS id 657391800A1;
+ Mon, 15 Jul 2024 15:02:29 +0800 (CST)
+Received: from [10.174.177.173] (10.174.177.173) by
+ dggpeml500003.china.huawei.com (7.185.36.200) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 15 Jul 2024 15:02:28 +0800
+Message-ID: <3e66f3b9-668e-06bd-6088-43de9667fce9@huawei.com>
+Date: Mon, 15 Jul 2024 15:02:28 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=philm@manjaro.org smtp.mailfrom=philm@manjaro.org
-X-Mailman-Approved-At: Mon, 15 Jul 2024 08:38:03 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Content-Language: en-US
+From: Yu Liao <liaoyu15@huawei.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <liwei391@huawei.com>
+Subject: [bug report] drm/vblank: Hard lockup in __disable_vblank()
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.177.173]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500003.china.huawei.com (7.185.36.200)
+X-Mailman-Approved-At: Mon, 15 Jul 2024 08:38:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,30 +57,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds a DMI orientation quirk for the OrangePi Neo Linux Gaming Handheld.
+Hi,
 
-Signed-off-by: Philip Mueller <philm@manjaro.org>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+A hard lockup is happened when I do fuzz test with syzkaller.
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 3860a8ce1e2d..903f4bfea7e8 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -414,6 +414,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
- 		},
- 		.driver_data = (void *)&lcd1600x2560_leftside_up,
-+	}, {	/* OrangePi Neo */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "NEO-01"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_rightside_up,
- 	}, {	/* Samsung GalaxyBook 10.6 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
--- 
-2.45.2
+Kernel panic - not syncing: Hard LOCKUP
+CPU: 3 PID: 0 Comm: swapper/3 Not tainted 6.6.0+ #21
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+Call Trace:
+ <IRQ>
+ hrtimer_cancel+0x52/0x70 kernel/time/hrtimer.c:1449
+ __disable_vblank drivers/gpu/drm/drm_vblank.c:434 [inline]
+ drm_vblank_disable_and_save+0x27f/0x3c0 drivers/gpu/drm/drm_vblank.c:478
+ vblank_disable_fn+0x15d/0x1b0 drivers/gpu/drm/drm_vblank.c:495
+ call_timer_fn+0x39/0x280 kernel/time/timer.c:1700
+ expire_timers+0x22d/0x3c0 kernel/time/timer.c:1751
+ __run_timers kernel/time/timer.c:2022 [inline]
+ run_timer_softirq+0x315/0x8a0 kernel/time/timer.c:2035
+ handle_softirqs+0x195/0x580 kernel/softirq.c:553
+ __do_softirq kernel/softirq.c:587 [inline]
+ </IRQ>
 
+This is a deadlock issue as follows:
+
+    CPU3				CPU 7
+
+vblank_disable_fn()
+  drm_vblank_disable_and_save()
+  spin_lock(vblank_time_lock)
+				hrtimer_interrupt()
+				  vkms_vblank_simulate()
+				    drm_handle_vblank()
+				      //wait for CPU3 to release vblank_time_lock
+				      spin_lock(vblank_time_lock)
+    vkms_disable_vblank()
+      //wait for vblank_hrtimer on CPU7 to finish
+      hrtimer_cancel(vblank_hrtimer)
+
+The call of hrtimer_cancel() should not hold locks which would prevent
+completion of the hrtimer's callback function.
+
+Best regards,
+Yu
