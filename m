@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B319493141C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 14:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF3C931413
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 14:22:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D37C910E38B;
-	Mon, 15 Jul 2024 12:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 659FF10E387;
+	Mon, 15 Jul 2024 12:22:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D9F310E37A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E05A10E37C;
  Mon, 15 Jul 2024 12:22:15 +0000 (UTC)
 Received: from ns.iliad.fr (localhost [127.0.0.1])
- by ns.iliad.fr (Postfix) with ESMTP id 10CE620BEB;
+ by ns.iliad.fr (Postfix) with ESMTP id 1BF6F2021F;
  Mon, 15 Jul 2024 14:22:14 +0200 (CEST)
 Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
- by ns.iliad.fr (Postfix) with ESMTP id F279420BAD;
- Mon, 15 Jul 2024 14:22:13 +0200 (CEST)
+ by ns.iliad.fr (Postfix) with ESMTP id 0519620BC3;
+ Mon, 15 Jul 2024 14:22:14 +0200 (CEST)
 From: Marc Gonzalez <mgonzalez@freebox.fr>
-Date: Mon, 15 Jul 2024 14:21:14 +0200
-Subject: [PATCH v6 1/6] dt-bindings: phy: add qcom,hdmi-phy-8998
+Date: Mon, 15 Jul 2024 14:21:15 +0200
+Subject: [PATCH v6 2/6] dt-bindings: display/msm: hdmi: add qcom,hdmi-tx-8998
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240715-hdmi-tx-v6-1-d27f029627ad@freebox.fr>
+Message-Id: <20240715-hdmi-tx-v6-2-d27f029627ad@freebox.fr>
 References: <20240715-hdmi-tx-v6-0-d27f029627ad@freebox.fr>
 In-Reply-To: <20240715-hdmi-tx-v6-0-d27f029627ad@freebox.fr>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -43,7 +43,9 @@ Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, Arnaud Vrac <avrac@freebox.fr>, 
  Pierre-Hugues Husson <phhusson@freebox.fr>, 
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Marc Gonzalez <mgonzalez@freebox.fr>
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Marc Gonzalez <mgonzalez@freebox.fr>
 X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,27 +62,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HDMI PHY block embedded in the APQ8098.
+HDMI TX block embedded in the APQ8098.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Acked-by: Vinod Koul <vkoul@kernel.org>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
 ---
- Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/display/msm/hdmi.yaml      | 28 ++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
-index 83fe4b39b56f4..78607ee3e2e84 100644
---- a/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
-@@ -14,6 +14,7 @@ properties:
-   compatible:
-     enum:
-       - qcom,hdmi-phy-8996
-+      - qcom,hdmi-phy-8998
+diff --git a/Documentation/devicetree/bindings/display/msm/hdmi.yaml b/Documentation/devicetree/bindings/display/msm/hdmi.yaml
+index 47e97669821c3..d4a2033afea8d 100644
+--- a/Documentation/devicetree/bindings/display/msm/hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/msm/hdmi.yaml
+@@ -19,14 +19,15 @@ properties:
+       - qcom,hdmi-tx-8974
+       - qcom,hdmi-tx-8994
+       - qcom,hdmi-tx-8996
++      - qcom,hdmi-tx-8998
+ 
+   clocks:
+     minItems: 1
+-    maxItems: 5
++    maxItems: 8
+ 
+   clock-names:
+     minItems: 1
+-    maxItems: 5
++    maxItems: 8
  
    reg:
-     maxItems: 6
+     minItems: 1
+@@ -142,6 +143,7 @@ allOf:
+       properties:
+         clocks:
+           minItems: 5
++          maxItems: 5
+         clock-names:
+           items:
+             - const: mdp_core
+@@ -151,6 +153,28 @@ allOf:
+             - const: extp
+         hdmi-mux-supplies: false
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,hdmi-tx-8998
++    then:
++      properties:
++        clocks:
++          minItems: 8
++          maxItems: 8
++        clock-names:
++          items:
++            - const: mdp_core
++            - const: iface
++            - const: core
++            - const: alt_iface
++            - const: extp
++            - const: bus
++            - const: mnoc
++            - const: iface_mmss
++
+ additionalProperties: false
+ 
+ examples:
 
 -- 
 2.34.1
