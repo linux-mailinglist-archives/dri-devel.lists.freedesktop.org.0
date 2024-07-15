@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E7E931417
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 14:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A79593143A
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 14:30:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D064A10E372;
-	Mon, 15 Jul 2024 12:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B935410E374;
+	Mon, 15 Jul 2024 12:30:55 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ErlC8vBA";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EA4F10E37E;
- Mon, 15 Jul 2024 12:22:16 +0000 (UTC)
-Received: from ns.iliad.fr (localhost [127.0.0.1])
- by ns.iliad.fr (Postfix) with ESMTP id 2E76520BAE;
- Mon, 15 Jul 2024 14:22:14 +0200 (CEST)
-Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
- by ns.iliad.fr (Postfix) with ESMTP id 2241820C73;
- Mon, 15 Jul 2024 14:22:14 +0200 (CEST)
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-Date: Mon, 15 Jul 2024 14:21:19 +0200
-Subject: [PATCH v6 6/6] arm64: dts: qcom: add HDMI nodes for msm8998
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5846410E374
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 12:30:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B1ED160DFD;
+ Mon, 15 Jul 2024 12:30:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D071C32782;
+ Mon, 15 Jul 2024 12:30:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1721046650;
+ bh=g0Nc90YvDz6QNsUQ8nKoL2I1s30tobIMCfl0uzfoaz8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ErlC8vBA2Kx33XMxd/d+6pZD+y+Slok4/ZH4KYJYJGgKDdo9iwox68J34MdlGFdO7
+ ZkpPZRnh0PB2C2Hps1Owh5S3LTA+CHIZ9SdoG1Tinc7zP1Yra8decpvlZMOeVAFCHJ
+ zCMNitXxJ5IA2YNCqUvOxnNmZ4cBTs4n5otK+gurBgZMDlIkz/bmYECb97nGiax/6u
+ pSAxYOp/8HEeRLGAzStGTDeh7XrfnUkSITuolY6CwRTSqr0WUMaDKYE6e74mDAmQCY
+ wYQct/hwPoRs7kbdevcEuOyZir/aFR/R8OJvUgfJtGwhALcz0xWAwBkRSeAIcCb6Lp
+ /TsAcorzg3a6g==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1sTKqu-000000000MK-0avD;
+ Mon, 15 Jul 2024 14:30:48 +0200
+Date: Mon, 15 Jul 2024 14:30:48 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abel Vesa <abel.vesa@linaro.org>
+Subject: Re: [PATCH v2 2/4] Revert "drm/panel-edp: Add SDC ATNA45AF01"
+Message-ID: <ZpUWeFYjrkvhUaB7@hovoldconsulting.com>
+References: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
+ <20240715-x1e80100-crd-backlight-v2-2-31b7f2f658a3@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240715-hdmi-tx-v6-6-d27f029627ad@freebox.fr>
-References: <20240715-hdmi-tx-v6-0-d27f029627ad@freebox.fr>
-In-Reply-To: <20240715-hdmi-tx-v6-0-d27f029627ad@freebox.fr>
-To: Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, Arnaud Vrac <avrac@freebox.fr>, 
- Pierre-Hugues Husson <phhusson@freebox.fr>, 
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Marc Gonzalez <mgonzalez@freebox.fr>
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240715-x1e80100-crd-backlight-v2-2-31b7f2f658a3@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,143 +69,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnaud Vrac <avrac@freebox.fr>
+On Mon, Jul 15, 2024 at 02:15:38PM +0200, Stephan Gerhold wrote:
+> This reverts commit 8ebb1fc2e69ab8b89a425e402c7bd85e053b7b01.
+> 
+> The panel should be handled through the samsung-atna33xc20 driver for
+> correct power up timings. Otherwise the backlight does not work correctly.
+> 
+> We have existing users of this panel through the generic "edp-panel"
+> compatible (e.g. the Qualcomm X1E80100 CRD), but the screen works only
+> partially in that configuration: It works after boot but once the screen
+> gets disabled it does not turn on again until after reboot. It behaves the
+> same way with the default "conservative" timings, so we might as well drop
+> the configuration from the panel-edp driver. That way, users with old DTBs
+> will get a warning and can move to the new driver.
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
 
-Port device nodes from vendor code.
-
-Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
----
- arch/arm64/boot/dts/qcom/msm8998.dtsi | 100 +++++++++++++++++++++++++++++++++-
- 1 file changed, 99 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
-index ba5e873f0f35f..417c12534823f 100644
---- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
-@@ -2785,7 +2785,7 @@ mmcc: clock-controller@c8c0000 {
- 				 <&mdss_dsi0_phy 0>,
- 				 <&mdss_dsi1_phy 1>,
- 				 <&mdss_dsi1_phy 0>,
--				 <0>,
-+				 <&hdmi_phy 0>,
- 				 <0>,
- 				 <0>,
- 				 <&gcc GCC_MMSS_GPLL0_DIV_CLK>;
-@@ -2890,6 +2890,14 @@ dpu_intf2_out: endpoint {
- 							remote-endpoint = <&mdss_dsi1_in>;
- 						};
- 					};
-+
-+					port@2 {
-+						reg = <2>;
-+
-+						dpu_intf3_out: endpoint {
-+							remote-endpoint = <&hdmi_in>;
-+						};
-+					};
- 				};
- 			};
- 
-@@ -3045,6 +3053,96 @@ mdss_dsi1_phy: phy@c996400 {
- 
- 				status = "disabled";
- 			};
-+
-+			hdmi: hdmi-tx@c9a0000 {
-+				compatible = "qcom,hdmi-tx-8998";
-+				reg =	<0x0c9a0000 0x50c>,
-+					<0x00780000 0x6220>,
-+					<0x0c9e0000 0x2c>;
-+				reg-names = "core_physical",
-+					    "qfprom_physical",
-+					    "hdcp_physical";
-+
-+				interrupt-parent = <&mdss>;
-+				interrupts = <8>;
-+
-+				clocks = <&mmcc MDSS_MDP_CLK>,
-+					 <&mmcc MDSS_AHB_CLK>,
-+					 <&mmcc MDSS_HDMI_CLK>,
-+					 <&mmcc MDSS_HDMI_DP_AHB_CLK>,
-+					 <&mmcc MDSS_EXTPCLK_CLK>,
-+					 <&mmcc MDSS_AXI_CLK>,
-+					 <&mmcc MNOC_AHB_CLK>,
-+					 <&mmcc MISC_AHB_CLK>;
-+				clock-names =
-+					"mdp_core",
-+					"iface",
-+					"core",
-+					"alt_iface",
-+					"extp",
-+					"bus",
-+					"mnoc",
-+					"iface_mmss";
-+
-+				phys = <&hdmi_phy>;
-+				#sound-dai-cells = <1>;
-+
-+				pinctrl-0 = <&hdmi_hpd_default>,
-+					    <&hdmi_ddc_default>,
-+					    <&hdmi_cec_default>;
-+				pinctrl-1 = <&hdmi_hpd_sleep>,
-+					    <&hdmi_ddc_default>,
-+					    <&hdmi_cec_default>;
-+				pinctrl-names = "default", "sleep";
-+
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						hdmi_in: endpoint {
-+							remote-endpoint = <&dpu_intf3_out>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						hdmi_out: endpoint {
-+						};
-+					};
-+				};
-+			};
-+
-+			hdmi_phy: hdmi-phy@c9a0600 {
-+				compatible = "qcom,hdmi-phy-8998";
-+				reg = <0x0c9a0600 0x18b>,
-+				      <0x0c9a0a00 0x38>,
-+				      <0x0c9a0c00 0x38>,
-+				      <0x0c9a0e00 0x38>,
-+				      <0x0c9a1000 0x38>,
-+				      <0x0c9a1200 0x0e8>;
-+				reg-names = "hdmi_pll",
-+					    "hdmi_tx_l0",
-+					    "hdmi_tx_l1",
-+					    "hdmi_tx_l2",
-+					    "hdmi_tx_l3",
-+					    "hdmi_phy";
-+
-+				#clock-cells = <0>;
-+				#phy-cells = <0>;
-+
-+				clocks = <&mmcc MDSS_AHB_CLK>,
-+					 <&gcc GCC_HDMI_CLKREF_CLK>,
-+					 <&rpmcc RPM_SMD_XO_CLK_SRC>;
-+				clock-names = "iface",
-+					      "ref",
-+					      "xo";
-+
-+				status = "disabled";
-+			};
- 		};
- 
- 		venus: video-codec@cc00000 {
-
--- 
-2.34.1
-
+Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+Tested-by: Johan Hovold <johan+linaro@kernel.org>
