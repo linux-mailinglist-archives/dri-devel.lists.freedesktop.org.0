@@ -2,123 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FF5930E0A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 08:33:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDFE6930E8F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 09:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE6710E276;
-	Mon, 15 Jul 2024 06:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6AC10E083;
+	Mon, 15 Jul 2024 07:15:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IicPm27Z";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iuksjxav";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5A7410E285
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 06:33:20 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-52e9f788e7bso4628029e87.0
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2024 23:33:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721025199; x=1721629999; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=cowQ2MZs44p/k7+ocTvDEJFCYMvt/Fw411UD/yRIuZk=;
- b=IicPm27Zzs0iD3sMz3L/+qjGcFQslmqnX/yJyqNXSVHFCocUOz22WdFEpoFtnv6DMm
- w+6/aPCd0JCiPxSg8BmSBsNC2rFBREsR8yE5NcbAwPUF9hlvlMFX9aQZDWgClQMbIJp8
- c7acxd4p3QEd9LZ+5FhF9Pf88187OA9KK5TDymhu+uJN/ta+u38lW6Oq5WpuRP4SLGkw
- 2XFYTfR2di7xi9fEEc18+07tOCwn0uEPoNe5zoQieSGID86F315aZg1wp4MFgh8ZNc2F
- kWRSnVvFX+5oB48jZhf9IspFxRpl1x1QiRLdgByuydmK+Y9AD7+WsaHJZcByuXaWXBix
- Ltww==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBBB10E083
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 07:15:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1721027757;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0Y2AbOnd9Mq1S+7NRXex8Vmbtv9LUYdHTykQN+yx0Do=;
+ b=iuksjxavJUklQpcJqczxwTceq+Uzd61JsRMIg4Gsxkd8rfoFBvYF3XPDk9OdBXpPUJiZDw
+ EZWdRxyULx7RZDzzDXmendE2d+0sE2mIH59I6Dtx2JR6+T6YdLZP4TJtaI6m100G52DUE6
+ qHRRV3GaHKSIbDejLm8Z33tIFzz1e+Q=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-367-WThJoGFwPLm5_k4IGzQCjg-1; Mon, 15 Jul 2024 03:15:53 -0400
+X-MC-Unique: WThJoGFwPLm5_k4IGzQCjg-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-52e9c23da78so486134e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 00:15:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721025199; x=1721629999;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cowQ2MZs44p/k7+ocTvDEJFCYMvt/Fw411UD/yRIuZk=;
- b=RXGhaq0tMuR6sTGT+vNFQt1j0o3aTIG1An3KNqksw9t654plSoUcpptXcvs2kmvx8b
- TYzXBi/vVkvtlOd8nCf4LFUGNFuUHK8AHBWBrO1UvlKRmCSwsUpw12sVdSlnsFmzcHbe
- oqK5rq5Kt5QiKsIIKvg8nWiTfurSyic3m6t8Ho/Kr4jAsio0OSIs+hviAtv5zKUMvSM2
- bMWGIctwIxizAsscC43vfgQMu+iNSOiUS50BqYxmpfJ4d1knmC6ZvHs8I8JSXwNT+0dO
- CvkmoOI3jG9VbjK7AY8XD3/Yafq/rSG1FuUPu81u8X+pngHlLgFbpaKhBHaBoMKYPg8h
- nrUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXOra/IefQHVvFxR0UvyFCUBm8gl9/QKqeGdrpx55f3rfiL/AgktBEFDVFVEp3DnxqURBeYyx+O7CbATF2sckeeEN3NOi9b8+sBe9Xk3wPK
-X-Gm-Message-State: AOJu0YxzkR1VolcjVsJAE4HEFNaSMZwFSiX0m6es6f3ZP9p6m5HU+Kx3
- Z4sPrm9Ne8J2F8BtWIBuIh8FnMuxZ7YB/K8PD2wAIlCJFqskp8WkQEofGJE8uNg=
-X-Google-Smtp-Source: AGHT+IHap4bfADCMMdp+9/m6hrqUOR1BGeplBSV1y4IBIjYw8gKprZmmugJo1TIVKbdLpOyzSTxWyQ==
-X-Received: by 2002:a05:6512:789:b0:52e:954d:3594 with SMTP id
- 2adb3069b0e04-52eb99cafa9mr9724397e87.52.1721025199105; 
- Sun, 14 Jul 2024 23:33:19 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ed24e188esm743543e87.47.2024.07.14.23.33.18
+ d=1e100.net; s=20230601; t=1721027752; x=1721632552;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0Y2AbOnd9Mq1S+7NRXex8Vmbtv9LUYdHTykQN+yx0Do=;
+ b=ByjSL3JKPJNHmiSSgZS5LTX+Ww9pLhB6rRdnhO5ntBKUB2ZovCMjIjrJv782U5R3UC
+ eczUAPhojrDu8uH67aZzGKsw5EHxBMLofEDo28Oq3FMyXZJQDEMrA6skGbPk0r82FyOX
+ WGjzxHZzqrHFUjXF5tpPsDTCNYINRepM98sI5phNLmxvjC2rPiLEt6QeTNesnE20C73h
+ jC2UgBX7w9ZXcU6iHf5zkZTa0kODi2mdTGC+J/OVM2iUd98R9u6oeHN3a20SM021QF8N
+ v3qORdGW/ewe4fxY0xZyZRrXEPJKKuNwJlQ8Yo1OnyUbF6Ds3ZT1U7Tp7c1VpCruZHdg
+ y8rw==
+X-Gm-Message-State: AOJu0YzbphC7ovo7oeblffw6AmVeLA7Pw45plOk60zB+OL8lybK6KEE+
+ RobRxf1+ufEOYn4+ga9GKYSjNB12VmzzLah4a/XX6v/wfRLsC7hFZGijs8Hxe5ZOR/mE4R8O/6J
+ GC0zT1L6HHG2DOhghgd3C3KZrbUpFN3JL6D/JpNBOXSF4oX8s2E6DQTXwBu95yRSJxQ==
+X-Received: by 2002:a2e:9859:0:b0:2ec:4a95:5f05 with SMTP id
+ 38308e7fff4ca-2eec98bbdfcmr57232641fa.3.1721027751666; 
+ Mon, 15 Jul 2024 00:15:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEIxAd6BD5bhLdYSEanXaJBCdpDuS0Tp/uJ2ilToq7YjUr3fTfHTb5q7xuks66ttJZX4xDRWA==
+X-Received: by 2002:a2e:9859:0:b0:2ec:4a95:5f05 with SMTP id
+ 38308e7fff4ca-2eec98bbdfcmr57232551fa.3.1721027751282; 
+ Mon, 15 Jul 2024 00:15:51 -0700 (PDT)
+Received: from pstanner-thinkpadt14sgen1.remote.csb
+ (nat-pool-muc-t.redhat.com. [149.14.88.26])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-426740daf6dsm95815705e9.1.2024.07.15.00.15.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Jul 2024 23:33:18 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 15 Jul 2024 09:33:05 +0300
-Subject: [PATCH v4 5/5] drm/bridge-connector: reset the HDMI connector
- state
+ Mon, 15 Jul 2024 00:15:50 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Philipp Stanner <pstanner@redhat.com>, Marco Pagani <marpagan@redhat.com>
+Subject: [PATCH] drm/scheduler: Use ternary operator in standardized manner
+Date: Mon, 15 Jul 2024 09:15:33 +0200
+Message-ID: <20240715071533.12936-1-pstanner@redhat.com>
+X-Mailer: git-send-email 2.45.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240715-drm-bridge-connector-fix-hdmi-reset-v4-5-61e6417cfd99@linaro.org>
-References: <20240715-drm-bridge-connector-fix-hdmi-reset-v4-0-61e6417cfd99@linaro.org>
-In-Reply-To: <20240715-drm-bridge-connector-fix-hdmi-reset-v4-0-61e6417cfd99@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
- Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
- Edmund Dea <edmund.j.dea@intel.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Kevin Hilman <khilman@baylibre.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Biju Das <biju.das.jz@bp.renesas.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- dri-devel@lists.freedesktop.org, igt-dev@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-tegra@vger.kernel.org
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2305;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=RSj/GL8gZoJdjbJyGkKZjzhqoxsZ6wLfYZiTk6CBwIc=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmlMKpemzG8GiCsYpbPT9S1Ojj9SgO+0jwg1X5y
- 9EPZPxXbKOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZpTCqQAKCRCLPIo+Aiko
- 1RfqCACEDU19Qkxz5DVPRYkK7fDdQdzCC7Ex3ixU9rJztEg0cYygQQ7/N1TTSfpbHd/6dnXTQqr
- 1EgcPH6TE+tH9eXXMheeF1OS/bhTuKARxi2wWkdHQUGUtyMj8mcHkHdrusMxtne+ZhGO/FIJ2xq
- Rbf1R+hLTh4esRtay58HxYpazr137omA9Gw8f5vvDWH+/fN0hvMicz3Eg/9i+0frpzphu+S7qVc
- FVZeAPpLqP6gaJGOvTRZRx1keGxL2vn+faVwbgsOyaVmNQjvZ71zl4YXnlV8oqwC/teMLyW6umJ
- AqBRzDQGS3iL3PzsMCTRPynE0PUtU41rhweY1t1X4Nq8Idxh
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,63 +94,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On HDMI connectors which use drm_bridge_connector and DRM_BRIDGE_OP_HDMI
-IGT chokes on the max_bpc property in several kms_properties tests due
-to the drm_bridge_connector failing to reset HDMI-related
-properties.
+drm_sched_init() omits the middle operand when using the ternary
+operator to set the timeout_wq if one has been passed.
 
-Call __drm_atomic_helper_connector_hdmi_reset() if the
-drm_bridge_connector has bridge_hdmi.
+This is a non-standardized GNU extension to the C language [1].
 
-It is impossible to call this function from HDMI bridges, none of the
-bridge callbacks correspond to the drm_connector_funcs::reset().
+It decreases code readability and might be read as a bug. Furthermore,
+it is not consistent with all other places in drm/scheduler where the
+ternary operator is used.
 
-Fixes: 6b4468b0c6ba ("drm/bridge-connector: implement glue code for HDMI connector")
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Replace the expression with the standard one.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc-14.1.0/gcc/Conditionals.html
+
+Suggested-by: Marco Pagani <marpagan@redhat.com>
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/gpu/drm/display/Kconfig                |  1 +
- drivers/gpu/drm/display/drm_bridge_connector.c | 13 ++++++++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index 8c174ceb0c4d..3763649ba251 100644
---- a/drivers/gpu/drm/display/Kconfig
-+++ b/drivers/gpu/drm/display/Kconfig
-@@ -15,6 +15,7 @@ if DRM_DISPLAY_HELPER
- 
- config DRM_BRIDGE_CONNECTOR
- 	bool
-+	select DRM_DISPLAY_HDMI_STATE_HELPER
- 	help
- 	  DRM connector implementation terminating DRM bridge chains.
- 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 0869b663f17e..7ebb35438459 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -216,8 +216,19 @@ static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
- 	}
- }
- 
-+static void drm_bridge_connector_reset(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+
-+	drm_atomic_helper_connector_reset(connector);
-+	if (bridge_connector->bridge_hdmi)
-+		__drm_atomic_helper_connector_hdmi_reset(connector,
-+							 connector->state);
-+}
-+
- static const struct drm_connector_funcs drm_bridge_connector_funcs = {
--	.reset = drm_atomic_helper_connector_reset,
-+	.reset = drm_bridge_connector_reset,
- 	.detect = drm_bridge_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 7e90c9f95611..02cf9c37a232 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1257,7 +1257,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+ 	sched->credit_limit = credit_limit;
+ 	sched->name = name;
+ 	sched->timeout = timeout;
+-	sched->timeout_wq = timeout_wq ? : system_wq;
++	sched->timeout_wq = timeout_wq ? timeout_wq : system_wq;
+ 	sched->hang_limit = hang_limit;
+ 	sched->score = score ? score : &sched->_score;
+ 	sched->dev = dev;
 -- 
-2.39.2
+2.45.0
 
