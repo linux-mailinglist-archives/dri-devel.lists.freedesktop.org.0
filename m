@@ -2,75 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06659319EB
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 20:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF4A931B0B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 21:33:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2EF710E2A9;
-	Mon, 15 Jul 2024 18:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF7C210E423;
+	Mon, 15 Jul 2024 19:33:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kmdI8MVx";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="D3oUzvE5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
- [209.85.166.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E9F10E156;
- Mon, 15 Jul 2024 18:00:58 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id
- ca18e2360f4ac-8138e2f2f69so38415639f.0; 
- Mon, 15 Jul 2024 11:00:58 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+ [209.85.128.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1A910E423
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 19:33:01 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-64b29539d86so42262767b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 12:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721066457; x=1721671257; darn=lists.freedesktop.org;
+ d=broadcom.com; s=google; t=1721071981; x=1721676781;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oOYbwMrV/O4jAT8P0a8rUtJkT/tF7xf5ebflegYxDG4=;
- b=kmdI8MVxsqruIquCQ19Y+cnOEbx8er3sSiiN1Ng7gH1aoOmTLR7OJ5yQeMCE55RHnt
- De1Y8aThSUijj561+qFfWdzTSR23RZRs7bXnJTYSHtkNNZ/QHdrqoQcwpZxuN9SxEB6m
- FYgP5cuQSWLvr8BB//I4+WyEQNhjrkhbsPf40mh/VdbtgzBRZ0UHh/aat4mjEUKnLaRB
- APgLp8HnYYTI8WM92utSAtFTVDoDKWeRiI91t3aNeR5mG08dtDNcseYNOedpuDTO11jd
- EKXHENjRLccSVFTpSiha0Xvh1A66OXGq0rLthcCCSG7pVRpzL6NRumwSeJEF9BRC8o/S
- f8Qw==
+ bh=wX6VVF5zo6QpIl0GNcjuj6SmcU0Q6kPt3Zxz4lR//To=;
+ b=D3oUzvE5kO2LFTSV2zgW5dC0Og4VLR0ClELgr/LWHoJ/WNNj0pIHgO46iYnTr0sUOC
+ v0cDf0cntfNkZrtg/1cHRLkuc1+gXxOMVKzsCgLMIo9clLa6blurpTTDRbMZNUEPAY8B
+ 6NSI8lFzBHfvH1nV+NZunVMaQXAnmrfcgics4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721066457; x=1721671257;
+ d=1e100.net; s=20230601; t=1721071981; x=1721676781;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oOYbwMrV/O4jAT8P0a8rUtJkT/tF7xf5ebflegYxDG4=;
- b=fb61nafpQ+w2ILpJJSkuGOcJ6wc5ilVoffA9hBFIs2dO1djG5rKslssisyi46GEsHU
- 2mbvu5aX88X35Xec8MklCrH2DLLqkPrTHKNynMczkFKRb6boRW3utmmtSXH/S+x78rOd
- dS4u08bQBVzIanyONbnvL/zWqDsM/SS8dY4T1e/K+a0qQaBmx0hgEfjKIFaBKYx6gfDn
- 1htjcfNC785Js+gqZuSpxSGnmDJSwFxx8qk3/C0Swq0bUtAMIrQ/TON0YFT9QJlC/9Ik
- BRVf0o9vUWH7A94dNA3SMVOgiUzZSOLsp8YcAzIyUnqspQCFios2iHK4w3+traKA7qao
- J4Hw==
+ bh=wX6VVF5zo6QpIl0GNcjuj6SmcU0Q6kPt3Zxz4lR//To=;
+ b=dDHQcksXzVm7H4SNcIlPFoDH295vxwZbozLKtP4n2e6kzDw2PNDSepc68HJ8ocNGGz
+ D4s8Suc4vbnNzpDsPrWeqWd3bvA9IgtUosHtTOl0Ht1P6MsBE+KbKYXmYbsGlZ8m52Ft
+ /s1h2RgIsVS1Bznp0s7zSGgJrXsHKS7oCrCvqb4G1ENu2r1KXzecI+VGXkIPjjtpqkEq
+ YRbbYEl6i3u85Vquj9OOIUt5A8/TkilJSe7hVciY0KCd9u+g9wBUaLxxB4R1KaWHtLcL
+ hs45bm+7vW9NbY72SXWvwGXRUf4Jb4mrqx1fTh1NfUcte7ZRjRRa02RZtSQ7GOMDkGTm
+ 1M5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXU8gqqxJMP6qLQryK/OKBCOdwOj2kvAnutSZA5d6SQlkcmCYNq/FZCm1y8ynMEYl9D3AtrV9YN/J1Fs370qVtNSemZ1z1IebUogVuuEvteHYAmErp+l8pOsMDnb5Xhr8+Zf8Y0v7Rsx0o+K+eUhipcHSJQt2i4yLJzOe4ykdi3gOn1afraNJDZBxflfHfgLIJlN44I+Z5ZR/9M8x40GCYp+Oa5Brofn5mxMWvVb/l3rWCh1Ok=
-X-Gm-Message-State: AOJu0Yw/7ry2uzaXWA0Usdl1xn9SughQsxyxf4YaaE1S3/rG//H2zURg
- liqAOJ06lGnOv2p4P06t2QOXhWD+DtxrGjx13gSVAmNK7tNayslFI+DRPf54K0P6oSnOvTpK6Zc
- xkYpBrf/wNDJ29cDIkYWBkO5d9Fk=
-X-Google-Smtp-Source: AGHT+IFcGuXfUh6AFDn0k76fOiyVn1OhhrJ6yvUnZlqakwLRz4tCX/opcDQa3egBWhhCntMh2a6NU9aloRgRPANMli4=
-X-Received: by 2002:a6b:440b:0:b0:807:4efc:9a64 with SMTP id
- ca18e2360f4ac-81546fc1d08mr43403739f.19.1721066456938; Mon, 15 Jul 2024
- 11:00:56 -0700 (PDT)
+ AJvYcCXXFEaVzEUaW+R/MNIJ3/WUDKtTwOECc0sYKlhfIo8sLB5Zfz0sm36EQXQSjhWy9mtexwo3+uemZ+cUY5Q+EwZ5+kZTtrian4CX72TlxwmZ
+X-Gm-Message-State: AOJu0YygBWHtjLkNV7IjLH3A1ndndCW/ZemNXV3pvJDD9umDT5Xom6U9
+ FmozlEQxl5IymXagBXwNch1LFNuF7duvvifszF0NsF12x68AitXfTuMncIkpmaiHZh64VVphahR
+ Jqcq490WG3X9Y57LxGvSUD6WuSIfiLoP8NzVk
+X-Google-Smtp-Source: AGHT+IFGwqsnaPAj7mqNI8+vo6+/u0K0j2UFb+UYDBq3/3ucIPqVmkkyljDrQrw6oWynXU33+vEOIFDTYxIYzTAJHRs=
+X-Received: by 2002:a0d:c183:0:b0:65f:ca0b:5ad9 with SMTP id
+ 00721157ae682-66354d75631mr5659897b3.25.1721071980901; Mon, 15 Jul 2024
+ 12:33:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240702215804.2201271-1-jim.cromie@gmail.com>
- <ZoR40nWmpEV2Ly_6@bombadil.infradead.org>
- <CAJfuBxyxamRhOyz8WuL+7=eJkEKSw8jnAWjyAuqU2i7gvg-rsQ@mail.gmail.com>
- <CALwA+NbUCfEj_DzT5eMQ7_pSNpyp-zBe6PEL2XnMZrb303J4_Q@mail.gmail.com>
- <CAJfuBxzeYWWV1ikYagFpyFHdAQU4ReYPirksQFHbEzDxhXCfHA@mail.gmail.com>
- <CALwA+Naec_YHxHoKu8Ba_Bnuq2L3VXw1cT3=Tx3qC3mE5_BG1g@mail.gmail.com>
-In-Reply-To: <CALwA+Naec_YHxHoKu8Ba_Bnuq2L3VXw1cT3=Tx3qC3mE5_BG1g@mail.gmail.com>
-From: jim.cromie@gmail.com
-Date: Mon, 15 Jul 2024 12:00:30 -0600
-Message-ID: <CAJfuBxxnTyqeGtS1mPBFqX2MYs7kgK49ZUQeR1oTe4UMC4ct5A@mail.gmail.com>
-Subject: Re: [PATCH v9 00/53] fix CONFIG_DRM_USE_DYNAMIC_DEBUG=y
-To: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, daniel.vetter@ffwll.ch, 
- tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
- ville.syrjala@linux.intel.com, jbaron@akamai.com, gregkh@linuxfoundation.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk, joe@perches.com
+References: <bd9cb3c7-90e8-435d-bc28-0e38fee58977@schmorgal.com>
+In-Reply-To: <bd9cb3c7-90e8-435d-bc28-0e38fee58977@schmorgal.com>
+From: Ian Forbes <ian.forbes@broadcom.com>
+Date: Mon, 15 Jul 2024 14:32:50 -0500
+Message-ID: <CAO6MGtjxnm3Hc=T8jv-upP46XBzAc0ZNmLVF3=KNN8buGBwg1w@mail.gmail.com>
+Subject: Re: [REGRESSION] drm/vmwgfx shows green Xv instead of actual video
+ (bisected I think)
+To: Doug Brown <doug@schmorgal.com>
+Cc: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ regressions@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,178 +79,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 15, 2024 at 4:05=E2=80=AFAM =C5=81ukasz Bartosik <ukaszb@chromi=
-um.org> wrote:
+Hi Doug,
+
+Can you try this patch with 6.10.
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
+b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
+index c45b4724e414..e20f64b67b26 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
+@@ -92,7 +92,7 @@ static int vmw_overlay_send_put(struct vmw_private *dev_p=
+riv,
+ {
+        struct vmw_escape_video_flush *flush;
+        size_t fifo_size;
+-       bool have_so =3D (dev_priv->active_display_unit =3D=3D vmw_du_scree=
+n_object);
++       bool have_so =3D (dev_priv->active_display_unit !=3D vmw_du_legacy)=
+;
+        int i, num_items;
+        SVGAGuestPtr ptr;
+
+
+On Thu, Jul 11, 2024 at 3:37=E2=80=AFPM Doug Brown <doug@schmorgal.com> wro=
+te:
 >
-> On Sat, Jul 13, 2024 at 11:45=E2=80=AFPM <jim.cromie@gmail.com> wrote:
-> >
-> > On Fri, Jul 12, 2024 at 9:44=E2=80=AFAM =C5=81ukasz Bartosik <ukaszb@ch=
-romium.org> wrote:
-> > >
-> > > On Wed, Jul 3, 2024 at 12:14=E2=80=AFAM <jim.cromie@gmail.com> wrote:
-> > > >
-> > > > On Tue, Jul 2, 2024 at 4:01=E2=80=AFPM Luis Chamberlain <mcgrof@ker=
-nel.org> wrote:
-> > > > >
-> > > > > On Tue, Jul 02, 2024 at 03:56:50PM -0600, Jim Cromie wrote:
-> > > > > > This fixes dynamic-debug support for DRM.debug, added via class=
-maps.
-> > > > > > commit bb2ff6c27bc9 (drm: Disable dynamic debug as broken)
-> > > > > >
-> > > > > > CONFIG_DRM_USE_DYNAMIC_DEBUG=3Dy was marked broken because drm.=
-debug=3Dval
-> > > > > > was applied when drm.ko was modprobed; too early for the yet-to=
--load
-> > > > > > drivers, which thus missed the enablement.  My testing with
-> > > > > > /etc/modprobe.d/ entries and modprobes with dyndbg=3D$querycmd =
-options
-> > > > > > obscured this omission.
-> > > > > >
-> > > > > > The fix is to replace invocations of DECLARE_DYNDBG_CLASSMAP wi=
-th
-> > > > > > DYNDBG_CLASSMAP_DEFINE for core, and DYNDBG_CLASSMAP_USE for dr=
-ivers.
-> > > > > > The distinction allows dyndbg to also handle the users properly=
-.
-> > > > > >
-> > > > > > DRM is the only current classmaps user, and is not really using=
- it,
-> > > > > > so if you think DRM could benefit from zero-off-cost debugs bas=
-ed on
-> > > > > > static-keys, please test.
-> > > > > >
-> > > > > > HISTORY
-> > > > > >
-> > > > > > 9/4/22  - ee879be38bc8..ace7c4bbb240 commited - classmaps-v1 dy=
-ndbg parts
-> > > > > > 9/11/22 - 0406faf25fb1..16deeb8e18ca commited - classmaps-v1 dr=
-m parts
-> > > > > >
-> > > > > > https://lore.kernel.org/lkml/Y3XUrOGAV4I7bB3M@kroah.com/
-> > > > > > greg k-h says:
-> > > > > > This should go through the drm tree now.  The rest probably sho=
-uld also
-> > > > > > go that way and not through my tree as well.
-> > > > >
-> > > > > Can't this just be defined as a coccinelle smpl patch? Must easie=
-r
-> > > > > to read than 53 patches?
-> > > > >
-> > > >
-> > > > perhaps it could - Im not sure that would be easier to review
-> > > > than a file-scoped struct declaration or reference per driver
-> > > >
-> > > > Also, I did it hoping to solicit more Tested-by:s with drm.debug=3D=
-0x1ff
-> > > >
-> > > > Jim
-> > > >
-> > >
-> > > Jim,
-> > >
-> > > When testing different combinations of Y/M for TEST_DYNAMIC_DEBUG and
-> > > TEST_DYNAMIC_DEBUG_SUBMOD in virtme-ng I spotted test failures:
-> > >
-> > > When the TEST_DYNAMIC_DEBUG=3DM and TEST_DYNAMIC_DEBUG_SUBMOD=3DM -
-> > > BASIC_TESTS, COMMA_TERMINATOR_TESTS, TEST_PERCENT_SPLITTING,
-> > > TEST_MOD_SUBMOD selftests passed
-> > > When the TEST_DYNAMIC_DEBUG=3DY and TEST_DYNAMIC_DEBUG_SUBMOD=3DM -
-> > > BASIC_TESTS, COMMA_TERMINATOR_TESTS selftests passed, however
-> > > TEST_PERCENT_SPLITTING selftest fails with ": ./dyndbg_selftest.sh:27=
-0
-> > > check failed expected 1 on =3Dpf, got 0"
-> > > When the TEST_DYNAMIC_DEBUG=3DY and TEST_DYNAMIC_DEBUG_SUBMOD=3DY -
-> > > BASIC_TESTS, COMMA_TERMINATOR_TESTS selftests passed, however
-> > > TEST_PERCENT_SPLITTING selftest fails also with ":
-> > > ./dyndbg_selftest.sh:270 check failed expected 1 on =3Dpf, got 0"
-> > >
-> > > Have I missed something ?
-> > >
-> >
-> > I am not seeing those 2 failures on those 2 configs.
-> >
-> > most of my recent testing has been on x86-defconfig + minimals,
-> > built and run using/inside virtme-ng
-> >
-> > the last kernel I installed on this hw was june 16, I will repeat that,
-> > and report soon if I see the failure outside the vm
-> >
-> > I'll also send you my script, to maybe speed isolation of the differenc=
-es.
-> >
+> Hello,
 >
-> Jim,
+> I have discovered a problem in vmwgfx that caused Xv playback to break
+> between v6.3 and v6.4-rc1. In v6.3, inside of an Ubuntu 24.04 VMware VM
+> with 3D acceleration disabled, I can run the following GStreamer command
+> ("sudo apt install gstreamer1.0-tools" if you don't already have it):
 >
-> I know why I saw these failures.
-> I ran dyndbg_selftest.sh directly in thw directory
-> tools/testing/selftests/dynamic_debug/.
-
-thats odd.
-I mostly run it from src-root,
-also whereever make selftest target is/works (I forgot)
-
-I went into that subdir and ran it there
-I got no test differences / failures.
-
-IIRC, the failure was on line 270, just after a modprobe.
-can you further isolate it ?
-
-> All works as expected when I run it from the top kernel directory.
-> Here are the results:
+> gst-launch-1.0 videotestsrc !
+> video/x-raw,format=3DYV12,width=3D640,height=3D480 ! xvimagesink
 >
-> When the TEST_DYNAMIC_DEBUG=3DM and TEST_DYNAMIC_DEBUG_SUBMOD=3DM -
-> BASIC_TESTS, COMMA_TERMINATOR_TESTS, TEST_PERCENT_SPLITTING,
-> TEST_MOD_SUBMOD selftests passed
+> And it works fine, showing a test pattern.
 >
-> When the TEST_DYNAMIC_DEBUG=3DY and TEST_DYNAMIC_DEBUG_SUBMOD=3DM -
-> BASIC_TESTS and COMMA_TERMINATOR_TESTS selftests passed,
-> TEST_PERCENT_SPLITTING and TEST_PERCENT_SPLITTING selftests were
-> skipped
+> In v6.4-rc1 and all the way up to a build I just made today of Linus's
+> latest master branch and also including Zack's latest patchset [1]:
 >
-> When the TEST_DYNAMIC_DEBUG=3DY and TEST_DYNAMIC_DEBUG_SUBMOD=3DY -
-> BASIC_TESTS and COMMA_TERMINATOR_TESTS selftests passed,
-> TEST_PERCENT_SPLITTING and TEST_PERCENT_SPLITTING selftests were
-> skipped
-
-
-thank you for running these config-combo tests.
-
-are you doing these in a VM ?
-and since Im asking, Ive done these combos on virtme-ng builds,
-also installed & running on 2 x86 boxen.
-
-could you add DRM=3Dm and a driver too,
-and boot with drm.debug=3D0x1ff, dynamic_debug.verbose=3D3
-the debug output should show all the class-work on modprobe,
-for your easy inspection/grading ;-)
-
+> Linux doug-Ubuntu-MATE-2404 6.10.0-rc7+ #55 SMP PREEMPT_DYNAMIC Thu Jul
+> 11 12:46:06 PDT 2024 x86_64 x86_64 x86_64 GNU/Linux
 >
-> Based on that maybe it would be worth it for the script to fail when
-> it doesn't find a .config with an error message something like this:
-
-if no config - they get to see more errors now.
-if the solution isnt obvious to them, we can find out more ?
-
-> "Kernel .config not found. Are you running the script from the
-> kernel's top directory?"
+> ...if I run the same command, the GStreamer window shows up containing
+> solid green rather than the test pattern.
 >
-> What do you think ?
-
-the -rc0 window is open, Id rather not fiddle with this now.
-
-Im gonna rebase onto 6.10, resend,
-copy and rebase onto drm-mumble-next
-then try to get into the DRM-CI river, see where that takes me.
-
-thanks Lukas,
-Jim
-
+> I believe I have bisected the problem to commit:
+>
+> 39985eea5a6d ("drm/vmwgfx: Abstract placement selection")
+>
+> However, the bisect process was complicated because two earlier commits
+> temporarily broke vmwgfx so I had to undo them during bisection, which
+> also required some conflict resolution:
+>
+> 180253782038 ("drm/ttm: stop allocating dummy resources during BO
+> creation") and
+> f87c1f0b7b79 ("drm/ttm: prevent moving of pinned BOs")
+>
+> Note that if you have gstreamer1.0-vaapi installed, you should
+> temporarily remove it first before testing because there is a separate
+> Xorg bug that causes Xorg to crash when you run the above command if
+> gstreamer1.0-vaapi is installed.
+>
+> I'm happy to do any further testing as needed. I've reproduced this
+> problem across several different machines and distros. A fully-updated
+> Arch Linux is also affected.
+>
+> As a side note, that same gst-launch-1.0 command is also currently
+> broken with 3D acceleration enabled, but that's a separate issue in mesa
+> that I've submitted a patch for [2].
 >
 > Thanks,
-> Lukasz
+> Doug
 >
-> > > Thanks,
-> > > Lukasz
-> > >
-> > > > >   Luis
-> > > > >
+> [1]
+> https://lore.kernel.org/all/20240702021254.1610188-1-zack.rusin@broadcom.=
+com/#t
+> [2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30116
+>
+> #regzbot introduced: v6.3..v6.4-rc1
