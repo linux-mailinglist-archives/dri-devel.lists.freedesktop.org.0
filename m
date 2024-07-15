@@ -2,92 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B5E931618
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 15:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE0193161C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 15:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8629F10E002;
-	Mon, 15 Jul 2024 13:51:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC4B010E3C2;
+	Mon, 15 Jul 2024 13:52:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KAj1yOGJ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BQ1/isWD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5081710E002
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 13:51:44 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-e03d49ff259so3627887276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 06:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1721051498; x=1721656298;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SxXwbEHWXO/2KvCuP3hi693DOR1kiAPLV7jI7n5DAfw=;
- b=KAj1yOGJr2ZgEhx2wwRrWc+kFuOCZromDz7vO7gHBPy5xSfudQNvIB52p9yqj9Vv4k
- J21DdG4rXJnkVacNb4E9I9WQy2ZAy0T+XokWmt+fzFDJskL2bK6r01BO2ZV6WfOCAHg3
- pqzIszn+xK2dz6AUO2IHXYnEqVBh1tg+AU7Mk=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44F0910E3C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 13:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1721051545;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CMRK0FAuRn48/f8vk7h8IrU23AJ1MPeYBe5TQ+OfZZ8=;
+ b=BQ1/isWD1rDCfgiGBUUc2r+R45yiUoBoUMo/dBSny6BUXESi0kWNELtqT1lUETcaSF3GIC
+ S9NZyPy5IfPqUrbull7Ul4mSxYHKnDp60gk0Yr+wVZGmcWgwmc7v3olRBwCaf9oCkCxMWb
+ KK7/jyaJ5e1Y5poQ/lHDVNhN2K1h36g=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-650-GcGJzuzUPemW3ilaacQRBg-1; Mon, 15 Jul 2024 09:52:23 -0400
+X-MC-Unique: GcGJzuzUPemW3ilaacQRBg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-a77e024eaa4so373972266b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 06:52:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721051498; x=1721656298;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SxXwbEHWXO/2KvCuP3hi693DOR1kiAPLV7jI7n5DAfw=;
- b=CQKk3HRxO+00XDViwbOr9Z3KCZSg4z1egIWfsk7oPs4I50TDgMZewVtvT8fozt34SV
- l9GbDGcHq66PEco11Hgf7Ij+Qn6zDgZ1KAmwGXF6Pi7hS/u22MO3YSlJ/5ZXluCBzumO
- 5ZMnUtyVqnEx7PKKfapYTqLFQFlE4vcedGDIIGW1gazquraNAmbDgBN94aSyRwGWmU4J
- Fgzuzcjw7xp2gRDfamAAzj/nvZqmhRah91DyCZudSkbmQxyHbGLJK/VPuxXcJy7lu/1i
- F+n8Zrakz00qertk0RuPgsOkn4NwR4MNdzKOnydqJJ6zcy7CAY5mGD77ps+oVps84+EC
- 4nIg==
+ d=1e100.net; s=20230601; t=1721051542; x=1721656342;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CMRK0FAuRn48/f8vk7h8IrU23AJ1MPeYBe5TQ+OfZZ8=;
+ b=YBWJV3ZlsSXK3ra5Wa4f7VfH1y6RNsuWsukqg/bJl8jkIu8V/I9KEKgck3Wcg5aGS7
+ 1vHG1vLxHnizNKQo6P47i8NCWxeuwNj7vRkovDb4PoL91s9CzoeaJLUroCWfEr3a19cJ
+ pjNR4S4c1Lky3kChG9FSb4wiZjALF/i3+nD/4N0ItYl2O9ZVaZyBgqSy5iQe0/Cc47r+
+ 7WA2zjB6akUWxcnwGsFpSgmuEgZGEMdXy8BkPeKBCA/DOB9vVPi18X6LNFtbLuCu8KjD
+ 2sgrJbxfXFoyjRXj5xGrqT8M+W4b0EdYeEGxaWLVc7yDt+l2MWsjo9jixH+3EoQCfNFQ
+ GTGg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVMxASq7zGyM00zGx1dvC8TdTlej7A3bfNcwAQyeSSFR2dGiiUnVbercknpj/li+ydzgaqAeJgcUkfYIIdylUssHcniIVH8DTVhv3vxnITZ
-X-Gm-Message-State: AOJu0YwsMN8VM3LlvBdd5z7iSZTDi4j+yJmjFsIEFh9jkjVqdO/bJmhl
- 1mFYUL1SeN3gwwYzisj4RRU4o5HEL5OOSZIfA9m2kuU9AN0UMrzY623j4Iqs0rgQzRStQu3Ssok
- =
-X-Google-Smtp-Source: AGHT+IGkd8aUH+AzOX8lFdEY+2uBSIhY3KBAxB8DYcQDA1Z8LXlNxYbZagGN99x5HE+8U33FhvB2ag==
-X-Received: by 2002:a25:ac43:0:b0:dfa:b64b:48bd with SMTP id
- 3f1490d57ef6-e041b042d6fmr18971878276.1.1721051498179; 
- Mon, 15 Jul 2024 06:51:38 -0700 (PDT)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
- [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b761a0fd68sm21438146d6.75.2024.07.15.06.51.35
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jul 2024 06:51:37 -0700 (PDT)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-447df43324fso493251cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 06:51:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhdvp2E5+jUb8NQQ1QxMhYXJmeyYcSXuok2BaKPt0o9jGyiB7daRkp4TVN+SRuhMXQzWy6k6KhQYSJSrctHszvrp6u0T6TGR/RC9RZmvco
-X-Received: by 2002:a05:622a:124b:b0:447:e728:d9b with SMTP id
- d75a77b69052e-44f5a31e028mr6194241cf.26.1721051494780; Mon, 15 Jul 2024
- 06:51:34 -0700 (PDT)
+ AJvYcCXwoZVfQE88Q8N3TpLoTm/eY1UBvOMiMR7qclsHSDq5YF0UpLHgfRgnaFDKouqzIOg/UEnw02VY4+CrtUZQE591FbzTZnE7B3HHnoFiRRTm
+X-Gm-Message-State: AOJu0YzNBxmgSYkR85EXSzGya9W/CgpIYVGEQUEm9RgXAQtVeXmEUbz7
+ t8PsGo9Avr6qLH6UKzuOIvdoSuEGXFZycScI8RAQ48NBUwIteD7tafc+BaM3rcpVC4BfnJ5KoM/
+ SFDDGwmqQKuc2C4Ui3pAFnqkddB+XkTxQwc2PxCcwPggB8xZYrVs+pKEs/v3OJkB80g==
+X-Received: by 2002:a17:907:9711:b0:a72:6ff6:b932 with SMTP id
+ a640c23a62f3a-a780b8844a1mr1653846366b.51.1721051541853; 
+ Mon, 15 Jul 2024 06:52:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFHwjV8KRnnz7iEjDpqsJ3D7PuPRD+rt8CqWAu8VqRYuDBEHehNYKk7YfxnNje69qgJqdGDIw==
+X-Received: by 2002:a17:907:9711:b0:a72:6ff6:b932 with SMTP id
+ a640c23a62f3a-a780b8844a1mr1653844866b.51.1721051541493; 
+ Mon, 15 Jul 2024 06:52:21 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:ee94:a4d3:4896:56d4:f050])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a79bc5b48dbsm212469066b.57.2024.07.15.06.52.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Jul 2024 06:52:20 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH] drm/gpuvm: fix missing dependency to DRM_EXEC
+Date: Mon, 15 Jul 2024 15:51:33 +0200
+Message-ID: <20240715135158.133287-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
- <20240715-x1e80100-crd-backlight-v2-2-31b7f2f658a3@linaro.org>
- <7daa3c0d-cecf-4f50-be32-ae116b920db0@linaro.org>
- <ZpUcI3KkIa58zC55@linaro.org>
- <d1603248-afe8-4594-9e2e-81ba208dff00@linaro.org>
-In-Reply-To: <d1603248-afe8-4594-9e2e-81ba208dff00@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 15 Jul 2024 06:51:18 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WimxYmDrkfn0+E3MbXp8kS9TicN2kT3AM4eM+SAwYsOg@mail.gmail.com>
-Message-ID: <CAD=FV=WimxYmDrkfn0+E3MbXp8kS9TicN2kT3AM4eM+SAwYsOg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] Revert "drm/panel-edp: Add SDC ATNA45AF01"
-To: neil.armstrong@linaro.org
-Cc: Stephan Gerhold <stephan.gerhold@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,116 +94,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+In commit 50c1a36f594b ("drm/gpuvm: track/lock/validate external/evicted
+objects") we started using drm_exec, but did not select DRM_EXEC in the
+Kconfig for DRM_GPUVM, fix this.
 
-On Mon, Jul 15, 2024 at 6:02=E2=80=AFAM Neil Armstrong
-<neil.armstrong@linaro.org> wrote:
->
-> On 15/07/2024 14:54, Stephan Gerhold wrote:
-> > On Mon, Jul 15, 2024 at 02:42:12PM +0200, Neil Armstrong wrote:
-> >> On 15/07/2024 14:15, Stephan Gerhold wrote:
-> >>> This reverts commit 8ebb1fc2e69ab8b89a425e402c7bd85e053b7b01.
-> >>>
-> >>> The panel should be handled through the samsung-atna33xc20 driver for
-> >>> correct power up timings. Otherwise the backlight does not work corre=
-ctly.
-> >>>
-> >>> We have existing users of this panel through the generic "edp-panel"
-> >>> compatible (e.g. the Qualcomm X1E80100 CRD), but the screen works onl=
-y
-> >>> partially in that configuration: It works after boot but once the scr=
-een
-> >>> gets disabled it does not turn on again until after reboot. It behave=
-s the
-> >>> same way with the default "conservative" timings, so we might as well=
- drop
-> >>> the configuration from the panel-edp driver. That way, users with old=
- DTBs
-> >>> will get a warning and can move to the new driver.
-> >>>
-> >>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> >>> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
-> >>> ---
-> >>>    drivers/gpu/drm/panel/panel-edp.c | 2 --
-> >>>    1 file changed, 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/pane=
-l/panel-edp.c
-> >>> index 3a574a9b46e7..d2d682385e89 100644
-> >>> --- a/drivers/gpu/drm/panel/panel-edp.c
-> >>> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> >>> @@ -1960,8 +1960,6 @@ static const struct edp_panel_entry edp_panels[=
-] =3D {
-> >>>     EDP_PANEL_ENTRY('L', 'G', 'D', 0x05af, &delay_200_500_e200_d200, =
-"Unknown"),
-> >>>     EDP_PANEL_ENTRY('L', 'G', 'D', 0x05f1, &delay_200_500_e200_d200, =
-"Unknown"),
-> >>> -   EDP_PANEL_ENTRY('S', 'D', 'C', 0x416d, &delay_100_500_e200, "ATNA=
-45AF01"),
-> >>> -
-> >>>     EDP_PANEL_ENTRY('S', 'H', 'P', 0x1511, &delay_200_500_e50, "LQ140=
-M1JW48"),
-> >>>     EDP_PANEL_ENTRY('S', 'H', 'P', 0x1523, &delay_80_500_e50, "LQ140M=
-1JW46"),
-> >>>     EDP_PANEL_ENTRY('S', 'H', 'P', 0x153a, &delay_200_500_e50, "LQ140=
-T1JH01"),
-> >>>
-> >>
-> >> How will we handle current/old crd DT with new kernels ?
-> >>
-> >
-> > I think this is answered in the commit message:
-> >
-> >>> We have existing users of this panel through the generic "edp-panel"
-> >>> compatible (e.g. the Qualcomm X1E80100 CRD), but the screen works onl=
-y
-> >>> partially in that configuration: It works after boot but once the scr=
-een
-> >>> gets disabled it does not turn on again until after reboot. It behave=
-s the
-> >>> same way with the default "conservative" timings, so we might as well=
- drop
-> >>> the configuration from the panel-edp driver. That way, users with old=
- DTBs
-> >>> will get a warning and can move to the new driver.
-> >
-> > Basically with the entry removed, the panel-edp driver will fallback to
-> > default "conservative" timings when using old DTBs. There will be a
-> > warning in dmesg, but otherwise the panel will somewhat work just as
-> > before. I think this is a good way to remind users to upgrade.
->
-> I consider this as a regression
->
-> >
-> >> Same question for patch 3, thie serie introduces a bindings that won't=
- be valid
-> >> if we backport patch 3. I don't think patch should be backported, and =
-this patch
-> >> should be dropped.
-> >
-> > There would be a dtbs_check warning, yeah. Functionally, it would work
-> > just fine. Is that reason enough to keep display partially broken for
-> > 6.11? We could also apply the minor binding change for 6.11 if needed.
->
-> I don't know how to answer this, I'll let the DT maintainer comment this.
->
-> The problem is I do not think we can pass the whole patchset as fixes
-> for v6.11, patches 2 & 3 could, patches 1 & 4 definitely can't.
->
-> Neil
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Fixes: 50c1a36f594b ("drm/gpuvm: track/lock/validate external/evicted objects")
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+---
+ drivers/gpu/drm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-IMO: patch #3 (dts) and #4 (CONFIG) go through the Qualcomm tree
-whenever those folks agree to it. If we're worried about the
-dtbs_check breakage I personally wouldn't mind "Ack"ing patch #1 to go
-through the Qualcomm tree as long as it made it into 6.11-rc1. I have
-a hunch that there are going to be more Samsung OLED panels in the
-future that will need to touch the same file, but if the change is in
--rc1 it should make it back into drm-misc quickly, right?
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index d0aa277fc3bf..d08d79bbb0f6 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -254,6 +254,7 @@ config DRM_EXEC
+ config DRM_GPUVM
+ 	tristate
+ 	depends on DRM
++	select DRM_EXEC
+ 	help
+ 	  GPU-VM representation providing helpers to manage a GPUs virtual
+ 	  address space
 
-Personally I think patch #2 could go in anytime since, as people have
-said, things are pretty broken today and the worst that happens is
-that someone gets an extra warning. That would be my preference. That
-being said, we could also snooze that patch for a month or two and
-land it later. There's no real hurry.
+base-commit: 833cd3e9ad8360785b6c23c82dd3856df00732d9
+-- 
+2.45.2
 
--Doug
