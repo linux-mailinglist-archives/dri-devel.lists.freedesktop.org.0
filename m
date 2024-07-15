@@ -2,71 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B96930FE0
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 10:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 687B2930FE1
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 10:34:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A513A10E2F2;
-	Mon, 15 Jul 2024 08:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B863010E2F4;
+	Mon, 15 Jul 2024 08:34:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="SagcaH2C";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZCCy+Tq0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9934B10E2F2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 08:34:39 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46F7qhhC029356;
- Mon, 15 Jul 2024 10:34:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- JW1v9I2QQq6tb8htzQlK+uUAsMhkhshbWkdi6NH34IU=; b=SagcaH2C4xzMgF4c
- c+Ga/kBrOnnKUsu2zRE7GEw8U5aWpvcVCLf9wq356oesQ+SNw/88kxPaD2ApXpnp
- TRfutITol0CmXQp+n63b4/IYUXT9vHrcfESb/TYdkBR4cp3rBrD/ZBZ1dms0OpdP
- x7YoEi3JrrQnlf9TgPORH8JpT07O5PSZMZ74QOAc3UnSKN/ahTkFJk7U/biHSDBN
- /Vn+XKXVr29RoKPsMdNJsdZkql3Up6hd/ciM0zSNI9Y91mSsF58y4sb2HxcPYdxa
- cuQNy8JyBXoGkWVvTUfAIyN2n3VjUOdb6iuiwOeH880mS3AHOQngboI7Wu4+J//q
- mbcvGA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40bgwx5sj6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Jul 2024 10:34:36 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B799940045;
- Mon, 15 Jul 2024 10:34:30 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 447DE20E037;
- Mon, 15 Jul 2024 10:33:57 +0200 (CEST)
-Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 15 Jul
- 2024 10:33:54 +0200
-Message-ID: <ddc81a62-08d5-4f23-b86c-10754fb3e717@foss.st.com>
-Date: Mon, 15 Jul 2024 10:33:53 +0200
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59FA610E313
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 08:34:50 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-52eda846b7eso13678e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 01:34:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1721032488; x=1721637288; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=iVCqckyW7c8V6lxlB2E2A8uvPDhEx4b9vry7kv1USrg=;
+ b=ZCCy+Tq0R2j9Id7WG+0EXKp7RTF4A5GS9ZF0aX0QlLO7FQKBxkepwbiclmqBskXEyg
+ y2zJQYlY2ywS3f/AD7H74Bysyoh913hjiIqCK/k5cc8rDaB53ZnRsdqmoY3rXuYvZltV
+ P+jZ8rrFHkZDIwkdqDaCVkUV69/sqcIV4jbLY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721032488; x=1721637288;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iVCqckyW7c8V6lxlB2E2A8uvPDhEx4b9vry7kv1USrg=;
+ b=YhC3emHOAy9uJ++hC7AGGHmDMUGZejLeKWr1xihHcgJfpEeMlBKkfmuioF3z+EitZm
+ RGXYLOIELSjIqMZDuIRMA9I6h2iuoBzgu+5tsinkD0tFuVW0fEnBavmQhaxXU/P946CO
+ fVYvxFIRca54FOI22Vvy/5Z/UNsp4C0ZdlpC64wHHIGDC7m+XXv+uTo09E8eV4TI2XIc
+ hy53JxkpxLofdx2Hk1nkvwyPsT2Qq/l5ykshvcGesWcOpFmDcP7EDQRm1r/p+PBeKEjP
+ gTUe0Ud/dvK4D9gwANkJ/sPi0Xfr+ugsrzhSpL2bAO3+QGVjRMMJwTES8XFqpgAtGNe4
+ 7Tlw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7fVozrFYovk+QMcCPgagQ1B9Tdm9ixwI6CzohQPmLBuLjRylAi0TPyJk2SUtcIuGuAmSirv8BlCmPCTtYBvyEzLnOs/86kPkAX/XBXpI0
+X-Gm-Message-State: AOJu0YztcOvcQrLZDsWtPNtUfDZX1a8zNeOxgJbAxSeOKX2JIdcLEDLi
+ 21OvN4uQP1eTP43AwfYZGszlwlfvHAiJDmoImVpfmKVO97aeiB61ZivWEGXt6Tg=
+X-Google-Smtp-Source: AGHT+IH5T9YdVXggIpdAzXkSXyX37SMpGlCbN9JJqMdkjy6jqBuP4OMd6gOAeWKCKT6bIEAml4lqfg==
+X-Received: by 2002:ac2:5f54:0:b0:52e:9b18:9a89 with SMTP id
+ 2adb3069b0e04-52ec3e53a53mr4484289e87.1.1721032487982; 
+ Mon, 15 Jul 2024 01:34:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-426725597bdsm138545655e9.0.2024.07.15.01.34.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Jul 2024 01:34:47 -0700 (PDT)
+Date: Mon, 15 Jul 2024 10:34:45 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: Jeff Johnson <quic_jjohnson@quicinc.com>,
+ David Airlie <airlied@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] agp: uninorth: add missing MODULE_DESCRIPTION() macro
+Message-ID: <ZpTfJdscoWCjTaSd@phenom.ffwll.local>
+Mail-Followup-To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jeff Johnson <quic_jjohnson@quicinc.com>,
+ David Airlie <airlied@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+References: <20240615-md-powerpc-drivers-char-agp-v1-1-b79bfd07da42@quicinc.com>
+ <99d6c483-9291-4bd0-8e62-76022abb762c@quicinc.com>
+ <7b7e2952-fb54-48b0-93bc-f96c04e5cdd3@quicinc.com>
+ <ce7863a7-f84e-42f0-9aa5-54b43edcd260@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/stm: ltdc: check memory returned by devm_kzalloc()
-To: Claudiu Beznea <claudiu.beznea@microchip.com>,
- <yannick.fertre@foss.st.com>, <philippe.cornu@foss.st.com>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <mcoquelin.stm32@gmail.com>,
- <alexandre.torgue@foss.st.com>
-CC: <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20230531072854.142629-1-claudiu.beznea@microchip.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20230531072854.142629-1-claudiu.beznea@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.17]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-15_03,2024-07-11_01,2024-05-17_01
+In-Reply-To: <ce7863a7-f84e-42f0-9aa5-54b43edcd260@quicinc.com>
+X-Operating-System: Linux phenom 6.9.7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,29 +95,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jul 11, 2024 at 01:27:23PM -0600, Jeffrey Hugo wrote:
+> On 7/11/2024 12:19 PM, Jeff Johnson wrote:
+> > On 6/28/24 20:14, Jeff Johnson wrote:
+> > > On 6/15/2024 2:01 PM, Jeff Johnson wrote:
+> > > > With ARCH=powerpc, make allmodconfig && make W=1 C=1 reports:
+> > > > WARNING: modpost: missing MODULE_DESCRIPTION() in
+> > > > drivers/char/agp/uninorth-agp.o
+> > > > 
+> > > > Add the missing invocation of the MODULE_DESCRIPTION() macro.
+> > > > 
+> > > > Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> > > > ---
+> > > >   drivers/char/agp/uninorth-agp.c | 1 +
+> > > >   1 file changed, 1 insertion(+)
+> > > > 
+> > > > diff --git a/drivers/char/agp/uninorth-agp.c
+> > > > b/drivers/char/agp/uninorth-agp.c
+> > > > index 84411b13c49f..b8d7115b8c9e 100644
+> > > > --- a/drivers/char/agp/uninorth-agp.c
+> > > > +++ b/drivers/char/agp/uninorth-agp.c
+> > > > @@ -726,4 +726,5 @@ MODULE_PARM_DESC(aperture,
+> > > >            "\t\tDefault: " DEFAULT_APERTURE_STRING "M");
+> > > >   MODULE_AUTHOR("Ben Herrenschmidt & Paul Mackerras");
+> > > > +MODULE_DESCRIPTION("Apple UniNorth & U3 AGP support");
+> > > >   MODULE_LICENSE("GPL");
+> > > > 
+> > > > ---
+> > > > base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+> > > > change-id: 20240615-md-powerpc-drivers-char-agp-db644db58c24
+> > > 
+> > > Following up to see if anything else is needed from me. Hoping to
+> > > see this in
+> > > linux-next so I can remove it from my tracking spreadsheet :)
+> > 
+> > I still don't see this in linux-next.
+> > Adding Greg KH since he's picked up many of these fixes.
+> > Hope to have all of these warnings fixed tree-wide in 6.11.
+> 
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> 
+> Dave, this seems like a trivial fix that is stuck, but normally routed
+> through DRM.  I hope I'm not over stepping, but I think I'll drop this in
+> drm-misc-next on the 19th if there isn't any other activity.
 
-On 5/31/23 09:28, Claudiu Beznea wrote:
-> devm_kzalloc() can fail and return NULL pointer. Check its return status.
-> Identified with Coccinelle (kmerr.cocci script).
->
-> Fixes: 484e72d3146b ("drm/stm: ltdc: add support of ycbcr pixel formats")
-> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
-> ---
->
-> Hi,
->
-> This has been addressed using kmerr.cocci script proposed for update
-> at [1].
->
-> Thank you,
-> Claudiu Beznea
->
-> [1] https://lore.kernel.org/all/20230530074044.1603426-1-claudiu.beznea@microchip.com/
->
-Hi Claudiu,
-
-After some delay: applied on drm-misc-next.
-
-Thank,
-RaphaÃ«l
-
+Committers applying patches is very much welcome and encouraged.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
