@@ -2,84 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687B2930FE1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 10:34:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0097D930FE8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 10:36:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B863010E2F4;
-	Mon, 15 Jul 2024 08:34:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZCCy+Tq0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A17610E2F5;
+	Mon, 15 Jul 2024 08:36:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59FA610E313
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 08:34:50 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-52eda846b7eso13678e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 01:34:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1721032488; x=1721637288; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=iVCqckyW7c8V6lxlB2E2A8uvPDhEx4b9vry7kv1USrg=;
- b=ZCCy+Tq0R2j9Id7WG+0EXKp7RTF4A5GS9ZF0aX0QlLO7FQKBxkepwbiclmqBskXEyg
- y2zJQYlY2ywS3f/AD7H74Bysyoh913hjiIqCK/k5cc8rDaB53ZnRsdqmoY3rXuYvZltV
- P+jZ8rrFHkZDIwkdqDaCVkUV69/sqcIV4jbLY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721032488; x=1721637288;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iVCqckyW7c8V6lxlB2E2A8uvPDhEx4b9vry7kv1USrg=;
- b=YhC3emHOAy9uJ++hC7AGGHmDMUGZejLeKWr1xihHcgJfpEeMlBKkfmuioF3z+EitZm
- RGXYLOIELSjIqMZDuIRMA9I6h2iuoBzgu+5tsinkD0tFuVW0fEnBavmQhaxXU/P946CO
- fVYvxFIRca54FOI22Vvy/5Z/UNsp4C0ZdlpC64wHHIGDC7m+XXv+uTo09E8eV4TI2XIc
- hy53JxkpxLofdx2Hk1nkvwyPsT2Qq/l5ykshvcGesWcOpFmDcP7EDQRm1r/p+PBeKEjP
- gTUe0Ud/dvK4D9gwANkJ/sPi0Xfr+ugsrzhSpL2bAO3+QGVjRMMJwTES8XFqpgAtGNe4
- 7Tlw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW7fVozrFYovk+QMcCPgagQ1B9Tdm9ixwI6CzohQPmLBuLjRylAi0TPyJk2SUtcIuGuAmSirv8BlCmPCTtYBvyEzLnOs/86kPkAX/XBXpI0
-X-Gm-Message-State: AOJu0YztcOvcQrLZDsWtPNtUfDZX1a8zNeOxgJbAxSeOKX2JIdcLEDLi
- 21OvN4uQP1eTP43AwfYZGszlwlfvHAiJDmoImVpfmKVO97aeiB61ZivWEGXt6Tg=
-X-Google-Smtp-Source: AGHT+IH5T9YdVXggIpdAzXkSXyX37SMpGlCbN9JJqMdkjy6jqBuP4OMd6gOAeWKCKT6bIEAml4lqfg==
-X-Received: by 2002:ac2:5f54:0:b0:52e:9b18:9a89 with SMTP id
- 2adb3069b0e04-52ec3e53a53mr4484289e87.1.1721032487982; 
- Mon, 15 Jul 2024 01:34:47 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-426725597bdsm138545655e9.0.2024.07.15.01.34.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jul 2024 01:34:47 -0700 (PDT)
-Date: Mon, 15 Jul 2024 10:34:45 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: Jeff Johnson <quic_jjohnson@quicinc.com>,
- David Airlie <airlied@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] agp: uninorth: add missing MODULE_DESCRIPTION() macro
-Message-ID: <ZpTfJdscoWCjTaSd@phenom.ffwll.local>
-Mail-Followup-To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jeff Johnson <quic_jjohnson@quicinc.com>,
- David Airlie <airlied@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <20240615-md-powerpc-drivers-char-agp-v1-1-b79bfd07da42@quicinc.com>
- <99d6c483-9291-4bd0-8e62-76022abb762c@quicinc.com>
- <7b7e2952-fb54-48b0-93bc-f96c04e5cdd3@quicinc.com>
- <ce7863a7-f84e-42f0-9aa5-54b43edcd260@quicinc.com>
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D44810E2F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 08:36:00 +0000 (UTC)
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-86-9beYldCYNFunpFN5goqRdA-1; Mon,
+ 15 Jul 2024 04:35:56 -0400
+X-MC-Unique: 9beYldCYNFunpFN5goqRdA-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 771CC1955D4B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 08:35:55 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.25])
+ by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 3ABFC1955D42
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 08:35:53 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/test: fix the gem shmem test to map the sg table.
+Date: Mon, 15 Jul 2024 18:35:51 +1000
+Message-ID: <20240715083551.777807-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ce7863a7-f84e-42f0-9aa5-54b43edcd260@quicinc.com>
-X-Operating-System: Linux phenom 6.9.7-amd64 
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,53 +57,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 11, 2024 at 01:27:23PM -0600, Jeffrey Hugo wrote:
-> On 7/11/2024 12:19 PM, Jeff Johnson wrote:
-> > On 6/28/24 20:14, Jeff Johnson wrote:
-> > > On 6/15/2024 2:01 PM, Jeff Johnson wrote:
-> > > > With ARCH=powerpc, make allmodconfig && make W=1 C=1 reports:
-> > > > WARNING: modpost: missing MODULE_DESCRIPTION() in
-> > > > drivers/char/agp/uninorth-agp.o
-> > > > 
-> > > > Add the missing invocation of the MODULE_DESCRIPTION() macro.
-> > > > 
-> > > > Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
-> > > > ---
-> > > >   drivers/char/agp/uninorth-agp.c | 1 +
-> > > >   1 file changed, 1 insertion(+)
-> > > > 
-> > > > diff --git a/drivers/char/agp/uninorth-agp.c
-> > > > b/drivers/char/agp/uninorth-agp.c
-> > > > index 84411b13c49f..b8d7115b8c9e 100644
-> > > > --- a/drivers/char/agp/uninorth-agp.c
-> > > > +++ b/drivers/char/agp/uninorth-agp.c
-> > > > @@ -726,4 +726,5 @@ MODULE_PARM_DESC(aperture,
-> > > >            "\t\tDefault: " DEFAULT_APERTURE_STRING "M");
-> > > >   MODULE_AUTHOR("Ben Herrenschmidt & Paul Mackerras");
-> > > > +MODULE_DESCRIPTION("Apple UniNorth & U3 AGP support");
-> > > >   MODULE_LICENSE("GPL");
-> > > > 
-> > > > ---
-> > > > base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-> > > > change-id: 20240615-md-powerpc-drivers-char-agp-db644db58c24
-> > > 
-> > > Following up to see if anything else is needed from me. Hoping to
-> > > see this in
-> > > linux-next so I can remove it from my tracking spreadsheet :)
-> > 
-> > I still don't see this in linux-next.
-> > Adding Greg KH since he's picked up many of these fixes.
-> > Hope to have all of these warnings fixed tree-wide in 6.11.
-> 
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> 
-> Dave, this seems like a trivial fix that is stuck, but normally routed
-> through DRM.  I hope I'm not over stepping, but I think I'll drop this in
-> drm-misc-next on the 19th if there isn't any other activity.
+From: Dave Airlie <airlied@redhat.com>
 
-Committers applying patches is very much welcome and encouraged.
--Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+The test here creates an sg table, but never maps it, when
+we get to drm_gem_shmem_free, the helper tries to unmap and this
+causes warnings on some platforms and debug kernels.
+
+This also sets a 64-bit dma mask, as I see an swiotlb warning if I
+stick with the default 32-bit one.
+
+Fixes: 93032ae634d4 ("drm/test: add a test suite for GEM objects backed by =
+shmem")
+Cc: stable@vger.kernel.org
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/tests/drm_gem_shmem_test.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/t=
+ests/drm_gem_shmem_test.c
+index 91202e40cde9..eb3a7a84be90 100644
+--- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
++++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+@@ -102,6 +102,17 @@ static void drm_gem_shmem_test_obj_create_private(stru=
+ct kunit *test)
+=20
+ =09sg_init_one(sgt->sgl, buf, TEST_SIZE);
+=20
++=09/*
++=09 * Set the DMA mask to 64-bits and map the sgtables
++=09 * otherwise drm_gem_shmem_free will cause a warning
++=09 * on debug kernels.
++=09 * */
++=09ret =3D dma_set_mask(drm_dev->dev, DMA_BIT_MASK(64));
++=09KUNIT_ASSERT_EQ(test, ret, 0);
++
++=09ret =3D dma_map_sgtable(drm_dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
++=09KUNIT_ASSERT_EQ(test, ret, 0);
++
+ =09/* Init a mock DMA-BUF */
+ =09buf_mock.size =3D TEST_SIZE;
+ =09attach_mock.dmabuf =3D &buf_mock;
+--=20
+2.45.0
+
