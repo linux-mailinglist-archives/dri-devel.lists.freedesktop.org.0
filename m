@@ -2,77 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDE19316E2
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 16:34:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976A99316E8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 16:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFD710E3E3;
-	Mon, 15 Jul 2024 14:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5CEF10E3EE;
+	Mon, 15 Jul 2024 14:36:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Tsqkrk/E";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="C4Pudde5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E28410E3E3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 14:34:27 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id
- d75a77b69052e-447f8aa87bfso604151cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 07:34:27 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C88EE10E3F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 14:35:41 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-52ea5dc3c79so6138907e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 07:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1721054066; x=1721658866;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MB4rQjmug6N4wcn/SME+GV1BbTnQz1HQixJgvDFjtTc=;
- b=Tsqkrk/E2eTlHYjIDihoFzkTJbuPqkClT0ZiJfEoVWV3I1ga6zzzzl8Y2lMDP95alA
- ad3r9efE1/Qx9kKWamc8Och/bBCp7MuXqPGvfpxlwBgN+3OOFd7dAd7R2W+gLIhqiKKI
- 97bCsQHuvgryNRTLbW2ciYl3BgslBCq1OSjR8Jx49iKyctsLWyRo8uMZr8gs1i6Kgndt
- mmGQNYHZvMfaaZLuMKcPsPwcQ6KPTTRMuM+AJ7Mi+RWerL9s5nePZVcb1Jh1XUsB8JTO
- tox5w0Zvv63c/3jvVR78Pd5rQnHk1qPsLxNF5/w28Js/4YlzIBZxLLSBV1ne/E7rsw3v
- 4QMw==
+ d=linaro.org; s=google; t=1721054140; x=1721658940; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=4CA0j0qYgma9RsWWWam732StHneIHgNV9F5zSymaHAA=;
+ b=C4Pudde52N4koPGxCDcIYGQtXgC9mbMvpNog3lwCVJjHs0/VUvhrgC0TWzqBPhCkXh
+ SoIPDXWkpflyF4dxd8GuuEKe0MldHnO9P7cORwo7/g2B3U8jYuhSaVfKc6JMbovgCrY1
+ wdO0uT4/WTlfzJl6sjp1cN3AHZmZ6r8VnYPrOKuyxkAlQUcw4x7Hfnrd9cSWErvPp1AO
+ 9KW2mAPsDbUJbC2ld9d9OjMp7Co6wuk1oVErnn0cPgsoaY8+5YyDDVwkT3G/HGO3RFNx
+ I1dfmBOxM4yZmz/DBvDi5IBupZbjRQkAJicQVeCjz2svwk7xEMl1ObVgWea4MF7vkgG6
+ VYUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721054066; x=1721658866;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MB4rQjmug6N4wcn/SME+GV1BbTnQz1HQixJgvDFjtTc=;
- b=vUDeuY/G+my9m5iMu3n66LFm+ZiE09WybJBpGzPq9kUvJIvrVl0H2ZRu7bxOz/xt49
- lTMKAl1u39iE2C5a1DCas7mnwP+bc5B6ReaOP4HPx9sN7ciNW/8ench0969vNfNkqwVU
- tc/ekwRKsxVshqKTpvXQmnQ45/h/z/WI9AnOnANcZCW57n2twDN6jKDzBlcRrfSvJjof
- +aDT6hnJP5aolNYOFXllRzFkVc9V/ECaLARN4AQykkIjoIM6PvADqhEzEcFtYJGbFJbs
- oOK9W8ZDGpB5TOa0Ye8411ck30r5pLm+5PoNAQlbdjV4tTm3SXUYyvyTwSlr1Sk/4LnZ
- 8d/w==
+ d=1e100.net; s=20230601; t=1721054140; x=1721658940;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4CA0j0qYgma9RsWWWam732StHneIHgNV9F5zSymaHAA=;
+ b=M4rXC0Ss7XZzvuNIzAEa/ERBQpXDIwKi0L2ltyrGuj18FGoP7NYNX8boO+uwEkW360
+ /bmZ3COcFCQN4TzAJqLrjQVdKeGVgTvuVeM5G49YU/Znm05mZ7fQ9aOMECAIQSpL3gaU
+ r4KZZDQE/0a6qaeBPJhsO8v5QnSuLnqiF5zuA+gVax3vylv0rWpGSRJdQ2WEGkRsxS8V
+ R3EFeOguIVxUFHz4ieAs4WYlSX3R+btCipWlrs3FyUWFffTal6Z32wDoyYPW2bg9oPpe
+ 8SkFZuKsBo9IDpVjM6KCFGQtNkRg73zdTNlLlfLncn6hKSXl/sW8RaJuwvlTX361QNVe
+ x30Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUZ8WTCONaBrJDt54oXZXpWHy8aFtBPFVepeGGAxz6k4zW0lGjIgJVSXIn+f9T7nr+Gnq8gbK7XBusC/roPFH9fs0yqoOggbqwKAxMYz74x
-X-Gm-Message-State: AOJu0YzN6B1ylpI7YTWV+ap2zevuUrXxRL+5TibuUDwWoaAYYvSvFaFQ
- QJeNK3oYgU81AzyJ+xg7aIbNX3JpYXEddqxavIQdBqvv1JyDCIWXvXabbbxOUZhgxDW54L/szdo
- jJIa8hjA/3zJkNupXwJuyUrM6E5P4RvJ3uIdq
-X-Google-Smtp-Source: AGHT+IHX3BUsteHRiWVEg9D4BeNaoIXbyh5/FHeFNn3GktcpmPw80Bqv38Kic6vZA9oZXwMEVS705n1HBIXsOi9XxDk=
-X-Received: by 2002:a05:622a:2591:b0:447:f5de:bd18 with SMTP id
- d75a77b69052e-44f5ac8f6b7mr5296781cf.9.1721054066218; Mon, 15 Jul 2024
- 07:34:26 -0700 (PDT)
+ AJvYcCVBRya9oMRElAj84aZWbRQUj8mK4XIHg0Zr93FQDpCMUUxOGM0436p61l3C8F5P9Mr50ElPx/iWan8YHuNAE235vvnDZoybb0EC5aCjO6PO
+X-Gm-Message-State: AOJu0Yw2HSxnjGDHqPaQBE0noX3CxVPxyIkZ7N58LBjhFQL0jZErx2uo
+ A/GjM2Gk2XT9pCG/8NOaOCQYORYSsbFi9Z+I9LZsW0zbz4i15m8SDu6WQ9shXSw=
+X-Google-Smtp-Source: AGHT+IEBt3FSZn+bEEmg7cFHAOhGiDVl/Yrs6OE8f3qL4sJht2Gmf/gnilyQCrhbXPJA9//YuXWhDw==
+X-Received: by 2002:a05:6512:e92:b0:52c:dfa0:dca0 with SMTP id
+ 2adb3069b0e04-52eb99d323bmr15414936e87.43.1721054139884; 
+ Mon, 15 Jul 2024 07:35:39 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52ed2539b80sm863331e87.299.2024.07.15.07.35.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Jul 2024 07:35:39 -0700 (PDT)
+Date: Mon, 15 Jul 2024 17:35:37 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marc Gonzalez <mgonzalez@freebox.fr>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>, 
+ Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH v6 3/6] drm/msm/hdmi: add "qcom,hdmi-tx-8998" compatible
+Message-ID: <ai4d3hmxomr4kavhbqgpi5olsq4r6r5abttjkvhn77lrepfbmj@qq7ytgkswe2i>
+References: <20240715-hdmi-tx-v6-0-d27f029627ad@freebox.fr>
+ <20240715-hdmi-tx-v6-3-d27f029627ad@freebox.fr>
 MIME-Version: 1.0
-References: <20240715073159.25064-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240715073159.25064-2-lvzhaoxiong@huaqin.corp-partner.google.com>
- <CAD=FV=VHDksKiZXrauiipa3HjtK4sE5+dbmXmVfhFoM-RKQP6A@mail.gmail.com>
- <20240715-bunkhouse-freeness-c4367d3c298d@spud>
-In-Reply-To: <20240715-bunkhouse-freeness-c4367d3c298d@spud>
-From: Doug Anderson <dianders@google.com>
-Date: Mon, 15 Jul 2024 07:34:14 -0700
-Message-ID: <CAD=FV=UtBhbfAAx41WWpQspK6SpCh6W5w+ogqFxogPm3omMn_A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: HID: i2c-hid: elan: Introduce Elan
- ekth6a12nay
-To: Conor Dooley <conor@kernel.org>
-Cc: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
- dmitry.torokhov@gmail.com, 
- robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- jikos@kernel.org, linus.walleij@linaro.org, hsinyi@google.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240715-hdmi-tx-v6-3-d27f029627ad@freebox.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,38 +97,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Jul 15, 2024 at 02:21:16PM GMT, Marc Gonzalez wrote:
+> Current driver already supports the msm8998 HDMI TX.
+> We just need to add the compatible string.
+> 
+> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> ---
+>  drivers/gpu/drm/msm/hdmi/hdmi.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-On Mon, Jul 15, 2024 at 7:31=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Mon, Jul 15, 2024 at 07:22:30AM -0700, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Mon, Jul 15, 2024 at 12:32=E2=80=AFAM Zhaoxiong Lv
-> > <lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
-> > >
-> > > The Elan ekth6a12nay touch screen chip same as Elan eKTH6915 controll=
-er
-> > > has a reset gpio. The difference is that they have different
-> > > post_power_delay_ms.
-> > >
-> > > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.c=
-om>
-> > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> >
-> > FWIW things have changed enough between V1 and V2 that you probably
-> > should have removed Conor's "Acked-by" tag here and waited for him to
-> > re-add it.
->
-> Yeah, good spot. I wouldn't have acked this version would asking
-> questions - in v1 it made sense not to have a fallback when "they have a
-> different post power delay ms", but now there is a fallback. Is the
-> fallback actually suitable here, or might it be a naive rebase? Does the
-> ekth6a12nay work with the ekth6915's reset timing?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Oh, good point! Yeah, it should be changed so that "ekth6915" isn't a
-fallback. ...so I will rescind my Reviewed-by until that's handled.
-:-/
 
--Doug
+-- 
+With best wishes
+Dmitry
