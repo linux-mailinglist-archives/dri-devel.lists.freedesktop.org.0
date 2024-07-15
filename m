@@ -2,90 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116829315FC
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 15:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC13393160C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 15:46:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7027210E309;
-	Mon, 15 Jul 2024 13:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9528410E264;
+	Mon, 15 Jul 2024 13:46:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aU+luCxx";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="csaGFB5J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8BB10E38A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 13:43:24 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-447d6edc6b1so24374871cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 06:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1721051000; x=1721655800;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aeGvR/8lk6Nll/J3UVT9i6hjcln5jvzV7Bpthcn/O4s=;
- b=aU+luCxxbKP9VVkqXsyLuBavgUO44hyBB/0WE8rFcwy4ij//45g5kvab5kvEN13MJW
- LIAtJ50Ua0+8RyLYCyBzSjNBPOmz7qlo2HAWOv9Dogd1nvMk/iCMG3WqB9AVuWFpXew5
- wD3MCmkOf7xNPoOZTFTORDOZbvr0wbnMusIhw=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9478B10E264
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 13:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1721051208;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iQQM2Vgmnkg0Q/ZG925IrQsyn3iBSHAJuJ8Uk6m4Psg=;
+ b=csaGFB5JCO8Zj5s+ZmiDe0c957VNd0o5EOgTj0NnpXmxZiyyByjzCiSpQS2qdGcgEGySgE
+ 7TBArZTitrnQ/oBnRVPVAXdWHmfdNGaS0Qu+PyziPXKePKE54oT1Wj/YCHSxJPCS93E2C6
+ ZsIU5r6mCFnXuR+2YzasjTedo5OvsDQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-661-c5Z9hQ5dMS24is8UR4UZRA-1; Mon, 15 Jul 2024 09:46:47 -0400
+X-MC-Unique: c5Z9hQ5dMS24is8UR4UZRA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-58c98ce7d00so3592028a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 06:46:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721051000; x=1721655800;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aeGvR/8lk6Nll/J3UVT9i6hjcln5jvzV7Bpthcn/O4s=;
- b=ds1rLQ4TawLF8NVzBbjDTo0y1pUx3UtymMczyzr8B9TP37Br76A8V/gJ7BrP9yZDnD
- CpdoWc+sLDbaTDeV9uvpXj5hrU4/CwFbaWNLl+V4Sb6I3C0pmX7Lxj071TiQQCCyMyTl
- uez1pU/Sxmw8nAQMRdDVYpSuCKI72ldTolXNAPn1LPXwzl+xPchUum8UBNoGH6Waf46v
- YIzodDJnuqbrlCgfRN2xILONWJIBQXwASKSa/YLl9dYQbjLeMbUkBfSKMjzN7qn3LMo+
- S5KnJSBOTwBof7zAi+iBZGbLBm8jHVesp9Xa/ObCRNGhqd+I1YSsYmGPum2i9xMoMUnW
- Hf7A==
+ d=1e100.net; s=20230601; t=1721051206; x=1721656006;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iQQM2Vgmnkg0Q/ZG925IrQsyn3iBSHAJuJ8Uk6m4Psg=;
+ b=pBFee5Xd3rFRnEaRUjUdfm6rlIPmYONITSmJ+2RwoxhCg/1EVPUusBFE+Z5JTifj9Q
+ bMzO1L/er3Do9TEWNyX0ceYM08CuFtQVGhOihz7ofIe6vi1VuQ1AKWsiW38HOZ61zfEW
+ tpJJ0w4nci+1lufP9Ugmp9nwZpQs4TE8QMFQnedwdy7RT/28U4F6c8sW+OkCyc9IoZSQ
+ tEgnXqrPcsHZ7crwVuHDocds3R+BJW1rigvfei6JOH1CA7Cm1E6WXwdIDWdKm2e9O5YG
+ syJ5mgo9qo/aKHp32aB/3e5aeci782dxwBSWAp+YoQTPBTLxyqlPIT4Ngr9UuNKZh6tv
+ VH0Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVFl5s7yqHqPw2tEglnpKcBoRuq8iV+F4RSEKGDJNaIkAFbupR8C1OXooF4EtDOFRhtcVuxuMif/hk1fVwodVhDGR7WjqSvOAZc640pYOLH
-X-Gm-Message-State: AOJu0YwInnZn2/MDXuxSQ5NtAuI6/Wd5VDQu8hhVqud/+DJZEBe0xjJT
- drbJQMZBWLiQaKDIZ5bKdsju3tItGxbVq61zuw70xPpaneM0wmTn3fmP+RU5/DXQc2eR0VOW+bU
- =
-X-Google-Smtp-Source: AGHT+IFB2tH5QLP18kdwwGrx0L6VjlirzrFcNJJGyG3x3g/6pW+wzZFmD8d2tgL+l9sYGK9U5q5WAg==
-X-Received: by 2002:ac8:5d06:0:b0:447:f7cf:7022 with SMTP id
- d75a77b69052e-447fa8c9cccmr232633691cf.40.1721051000093; 
- Mon, 15 Jul 2024 06:43:20 -0700 (PDT)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com.
- [209.85.160.176]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-44f5b83e143sm24803681cf.86.2024.07.15.06.43.16
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCX2RZWXuOV3PIpHJB2cstW33IQ9UtmWWSk52+se3QnM+k3F2uIVMs1P260GPP2M8Y2Wgt3GP4AdlzduVLXGNFjnyItUOgBWnOTyF/qEOvAW
+X-Gm-Message-State: AOJu0YwxmteYPoCFVssuVSqP3Tfpx5zrSKa9BRfPPC7QgtTqphvJSFu1
+ IZeG39fylkWY25rgr3IumtgQFpq7iHdG2Sq6XKJ8D9ZN6de4+zGmRBQz3vmKPriZNIVVt7AM/5f
+ igHiS0f6fOR2B7z2UR5vrPwD4ZzhNNdNIIL/U0D2bi4/8qet9vWCLnktgYD4EVxbBIQ==
+X-Received: by 2002:a05:6402:40d2:b0:58a:d4f4:e866 with SMTP id
+ 4fb4d7f45d1cf-594b9b06ceemr15731996a12.6.1721051205941; 
+ Mon, 15 Jul 2024 06:46:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFSHFUvMvX6VcA8ROFee0QQTz/GhPiB3M+stkDjPDyUX2+yHI+VQz5H5iEVM8mnZ1l5PRL0wQ==
+X-Received: by 2002:a05:6402:40d2:b0:58a:d4f4:e866 with SMTP id
+ 4fb4d7f45d1cf-594b9b06ceemr15731968a12.6.1721051205496; 
+ Mon, 15 Jul 2024 06:46:45 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-59cfa5dd20esm1640184a12.40.2024.07.15.06.46.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jul 2024 06:43:16 -0700 (PDT)
-Received: by mail-qt1-f176.google.com with SMTP id
- d75a77b69052e-447df43324fso489511cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 06:43:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8GK1Sym3Sja+FX4g7SUmLN1gARr84p7m7QkPklvv2mfQm8DGomGEWQZl3gdQqMCN5N5ff/zCN+jdeCk4bGdxRGeSyH03COyj1SLM5M1g0
-X-Received: by 2002:a05:622a:2446:b0:446:64ad:ee91 with SMTP id
- d75a77b69052e-44f5a31ec80mr5833341cf.20.1721050996122; Mon, 15 Jul 2024
- 06:43:16 -0700 (PDT)
+ Mon, 15 Jul 2024 06:46:45 -0700 (PDT)
+Message-ID: <afc7f155-9442-4603-b276-78f3df1f2b8f@redhat.com>
+Date: Mon, 15 Jul 2024 15:46:44 +0200
 MIME-Version: 1.0
-References: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
- <20240715-x1e80100-crd-backlight-v2-4-31b7f2f658a3@linaro.org>
-In-Reply-To: <20240715-x1e80100-crd-backlight-v2-4-31b7f2f658a3@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 15 Jul 2024 06:43:04 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WLFohKUUFqsPrpRGCer_TPugoM8_Du6=7YcDywFfUkVg@mail.gmail.com>
-Message-ID: <CAD=FV=WLFohKUUFqsPrpRGCer_TPugoM8_Du6=7YcDywFfUkVg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] arm64: defconfig: Add
- CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for OrangePi Neo
+To: Philip Mueller <philm@manjaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240715045818.1019979-1-philm@manjaro.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240715045818.1019979-1-philm@manjaro.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,17 +100,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Jul 15, 2024 at 5:16=E2=80=AFAM Stephan Gerhold
-<stephan.gerhold@linaro.org> wrote:
->
-> This is needed for the display panel to work on the Qualcomm
-> sc7180-trogdor-homestar and x1e80100-crd.
->
-> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+On 7/15/24 6:57 AM, Philip Mueller wrote:
+> This adds a DMI orientation quirk for the OrangePi Neo Linux Gaming Handheld.
+> 
+> Signed-off-by: Philip Mueller <philm@manjaro.org>
+
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+I have pushed this to drm-misc-fixes now.
+
+Regards,
+
+Hans
+
+
+
 > ---
->  arch/arm64/configs/defconfig | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index 3860a8ce1e2d..903f4bfea7e8 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -414,6 +414,12 @@ static const struct dmi_system_id orientation_data[] = {
+>  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
+>  		},
+>  		.driver_data = (void *)&lcd1600x2560_leftside_up,
+> +	}, {	/* OrangePi Neo */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "NEO-01"),
+> +		},
+> +		.driver_data = (void *)&lcd1200x1920_rightside_up,
+>  	}, {	/* Samsung GalaxyBook 10.6 */
+>  		.matches = {
+>  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
 
-I'd assume that this will go through the Qualcomm tree.
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
