@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A4D9313D8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 14:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161D49313E0
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 14:16:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5975710E36A;
-	Mon, 15 Jul 2024 12:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7220D10E36F;
+	Mon, 15 Jul 2024 12:16:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kZO+TNso";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qXNoYxJk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23DBF10E36F
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E14410E375
  for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 12:16:07 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id
- 5b1f17b1804b1-4267300145eso32505835e9.3
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-367ab76d5e1so1190729f8f.3
  for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 05:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721045765; x=1721650565; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0Vr1Igs6Grx1TdlXBKwpA/hLnY4uL3rKsZy+M8J+TL0=;
- b=kZO+TNsou/kQDrHT35JkfMVMZme8Ilsz4gK/gUetdX5fY/yNBM1n0Y18pSBE9bGWEN
- YkEProdlz0j4uXuobgOiF3YQZe5o7Rf6/fayRIoHFJaQEjUIEScUF1Jyl4egPno7XC5e
- 3dtlD4jZzZMjGpDJnDJoMUZDu8PH8mPcIAxpxJ88Z8qNgBEvIxficuXr6A9XQjepQXH2
- FyqbrReVyt9dHwoidhxOWI+TdmRrrMMIsFdmiP8ivABF3Dy9eF+oGKryDf8rBgPDR5Mu
- 49GUvxPQyUj6gdl9jK/gbdhUWWSRyZU7Nyw1wSWFmBJqMUo1Mj38kipRStVmer4IfUlV
- DU+Q==
+ d=linaro.org; s=google; t=1721045766; x=1721650566; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=CwYPDTPYAwmjKmZ1/Gf11accW/fLFhZgeFXsYW2+ut4=;
+ b=qXNoYxJk1EHMIYo+h9XFvAxzzohnKxDok2YABQsYObKPxNh4vw2jHwxQV65ov2RLVJ
+ 3byd6A7SCzvTxjYqXIHbxBP/H84+ZI11TCXhWockSWtnS2cPvTO9xi8Den43gb5yNhS3
+ c+dX75I2a7Q7JcWxG++1G4MfMUdf/9NdbrDiSPlh4rIjNo5zMf9W8IEb3Tv9a3VFPIoP
+ 7ldgljffNCi3XzLRE4cCtyiXqJxzdDSbVFAK08iS7XVGHx2OB7D5DVPqGom8rG9OMChg
+ 7FzZwstf5hgU3qQzVQOkMn91v/Ga8/ta5GfZKZHiZr4eDVWECP0NWWomghY76jtDURec
+ 4OgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721045765; x=1721650565;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0Vr1Igs6Grx1TdlXBKwpA/hLnY4uL3rKsZy+M8J+TL0=;
- b=tBd+zS4YxAj/n1inGourEFoEmT3sJYMia6SLUdkot0kbkUFBcfTkJVPA7FY/DQJme0
- HrmXddEUDL36PHGUgkWouX/e/SFbENqVTgiVFZy1kOcwGPjHnjsvvPnpKaZ+2FBnq6UK
- yXOBLTRWB9tAaz2Y//jWMBBjefkA16VtVCd+U1rHaSbBz1+9CbVhK30NUWAY/eIP7Bkw
- Tm7NUMrIOk3DvjU3iKjyfFSZGy+z+5QAGV/DdoDT+tTbe+/oCpTB/6tyCA1XBNsHOWb8
- da71a/5ePTCjdX58mQGxoZaAnGIismrFQsLdZWDhygHjzsOQYag2FJu3evHW6dXBRCnN
- 2Jjg==
+ d=1e100.net; s=20230601; t=1721045766; x=1721650566;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CwYPDTPYAwmjKmZ1/Gf11accW/fLFhZgeFXsYW2+ut4=;
+ b=WJH1LFiiNZGR1yz6Ob7iMAaFmUHZxflrEcWNBKbwzPNs41KhAeqqCOQYpCuKZgjpzE
+ hffB+fqVJzBI0dcO6kxKpNFaWT7tYb+OblsLsvHfEgsy+npiPQ3dBcZxlwd8DOLyZwf0
+ PYT8n4/mpKTqdb7St69GGHRTMe9KoddD2j5W9iq2nXNpJ6HahumxkoFZ/KlTTXo/5RVS
+ P/Ii5szmaLl7YIcCRYOyOxKITTY85vtkqdlar1DW7QeC9ph8bFGQzyQ76m6LDHX82WLM
+ /jdiFOZ7APHk6Dx3v4X5hBSOwzratmEwBr5dRqzZ0taMRz5s+vD9Yc1i3PIg+f0U08rJ
+ Cm0A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXgMTw4iTObq5NTGSIDxK6hYcOxiSTud2xMyxi3ojo0d429VVd8pXCM/gdmajcoa9LiSlfC0uiGNGRyuFt2o6Z27q0ubiWWFJ4oGQ7+avnp
-X-Gm-Message-State: AOJu0Yw8yUdylWm8POYFHMXhHT8TmsNIo/n6xg+tw8bwMryoQT2DM5fm
- r6vZ37KXuKtxOgkuYhVJH+scHl+Bb9gpjNK4v/J0aCstL1YpXht5YXBYS1sVxWp0Shcgaw8q5zw
- K+PuxdBiY
-X-Google-Smtp-Source: AGHT+IF1eIglBUYPcY54eeaj425QXF1pkXmSnnMaa3Z7nS7TIbwkFjDf7kr7CW/lZQwMQMB2loSrag==
-X-Received: by 2002:a7b:c052:0:b0:426:5c81:2538 with SMTP id
- 5b1f17b1804b1-426707cf827mr140078155e9.14.1721045765216; 
+ AJvYcCUGvy7h/2KUFGo379LvdW0+IekTHJ7zpm7m9EI83P7rYAHMg7X4vmb1n7G+UZqjmVOvQryf1CJZkADPi4Vn56T14jcKbae6IcOPVtKhQ0V6
+X-Gm-Message-State: AOJu0Yx0Ir6DazoJT/nNILb9Wx0w+7xPeX4ApUoGmxYRPIJQKn/hkmT1
+ WOQLR2WN3IHLbtk7uzvH6fjLhWUFr7zshvBAvvAsHu+C7032MJ1+rsxsRVAc8is=
+X-Google-Smtp-Source: AGHT+IGqx28NbMNvmzLw5J0w/TQ3ZQHmxkK+h/DWdncxb76LIdC5qwbxWV7jVF8Ibsfqau3YeIjlGw==
+X-Received: by 2002:a5d:47c3:0:b0:367:8a3b:2098 with SMTP id
+ ffacd0b85a97d-367cea46076mr15982239f8f.3.1721045765987; 
  Mon, 15 Jul 2024 05:16:05 -0700 (PDT)
 Received: from [127.0.0.2] ([2a02:2454:ff1f:b240:886b:1a3a:7569:3d95])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3680d9771aasm6369201f8f.0.2024.07.15.05.16.04
+ ffacd0b85a97d-3680d9771aasm6369201f8f.0.2024.07.15.05.16.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jul 2024 05:16:04 -0700 (PDT)
+ Mon, 15 Jul 2024 05:16:05 -0700 (PDT)
 From: Stephan Gerhold <stephan.gerhold@linaro.org>
-Subject: [PATCH v2 0/4] drm/panel: atna33xc20: Fix the Samsung ATNA45AF01 panel
-Date: Mon, 15 Jul 2024 14:15:36 +0200
-Message-Id: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
+Date: Mon, 15 Jul 2024 14:15:37 +0200
+Subject: [PATCH v2 1/4] dt-bindings: display: panel: samsung,atna33xc20:
+ Document ATNA45AF01
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOgSlWYC/4WNQQ6CMBBFr2K6tmZmSlBceQ/DosAUJhJqpoRgC
- He3cgGX7yX//c0kVuFk7qfNKC+SJE4Z6Hwy7eCnnq10mQ0BFXBFsCvyDRDAttrZxrevUfphtqW
- jUDWhciUHk8dv5SDrEX7WmQdJc9TP8bPgz/5NLmjBckMFOURPjh+jTF7jJWpv6n3fvzY3h9C9A
- AAA
+Message-Id: <20240715-x1e80100-crd-backlight-v2-1-31b7f2f658a3@linaro.org>
+References: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
+In-Reply-To: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Bjorn Andersson <andersson@kernel.org>, 
  Konrad Dybcio <konrad.dybcio@linaro.org>
@@ -93,46 +91,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The backlight of the Samsung ATNA45AF01 panel used in the Qualcomm X1E80100
-CRD does not work correctly with the current display panel configuration
-and drivers: It works after boot, but once the display gets disabled it is
-not possible to get it back on. It turns out that the ATNA45AF01 panel
-needs exactly the same non-standard power sequence as implemented for
-ATNA33XC20 in the panel-samsung-atna33xc20 driver.
+The Samsung ATNA45AF01 panel is an AMOLED eDP panel that has backlight
+control over the DP AUX channel. While it works almost correctly with the
+generic "edp-panel" compatible, the backlight needs special handling to
+work correctly. It is similar to the existing ATNA33XC20 panel, just with
+a larger resolution and size.
 
-Move the ATNA45AF01 panel from the generic panel-edp driver to the
-panel-samsung-atna33xc20 driver and fix the panel configuration in the
-x1e80100-crd device tree to make the panel work correctly.
-
-The panel and DT changes can be picked up independently. Since v2 uses the
-existing "samsung,atna33xc20" compatible as fallback, the DT changes work
-even without the driver changes.
+Add a new "samsung,atna45af01" compatible to describe this panel in the DT.
+Use the existing "samsung,atna33xc20" as fallback compatible since existing
+drivers should work as-is, given that resolution and size are discoverable
+through the eDP link.
 
 Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
 ---
-Changes in v2:
-- Use fallback compatible to avoid changes in driver (Doug)
-- ... this allows applying the DT change as fix, so add Fixes: tag there
-- Add review tags (except Krzysztof's, since the binding changed quite a bit)
-- Link to v1: https://lore.kernel.org/r/20240710-x1e80100-crd-backlight-v1-0-eb242311a23e@linaro.org
+ .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml     | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
----
-Stephan Gerhold (4):
-      dt-bindings: display: panel: samsung,atna33xc20: Document ATNA45AF01
-      Revert "drm/panel-edp: Add SDC ATNA45AF01"
-      arm64: dts: qcom: x1e80100-crd: Fix backlight
-      arm64: defconfig: Add CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
+index 765ca155c83a..5192c93fbd67 100644
+--- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
++++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
+@@ -14,7 +14,13 @@ allOf:
+ 
+ properties:
+   compatible:
+-    const: samsung,atna33xc20
++    oneOf:
++      # Samsung 13.3" FHD (1920x1080 pixels) eDP AMOLED panel
++      - const: samsung,atna33xc20
++      # Samsung 14.5" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
++      - items:
++          - const: samsung,atna45af01
++          - const: samsung,atna33xc20
+ 
+   enable-gpios: true
+   port: true
 
- .../bindings/display/panel/samsung,atna33xc20.yaml      |  8 +++++++-
- arch/arm64/boot/dts/qcom/x1e80100-crd.dts               | 17 +++++++++++++++--
- arch/arm64/configs/defconfig                            |  1 +
- drivers/gpu/drm/panel/panel-edp.c                       |  2 --
- 4 files changed, 23 insertions(+), 5 deletions(-)
----
-base-commit: 91e3b24eb7d297d9d99030800ed96944b8652eaf
-change-id: 20240710-x1e80100-crd-backlight-632f9bf936ef
-
-Best regards,
 -- 
-Stephan Gerhold <stephan.gerhold@linaro.org>
+2.44.1
 
