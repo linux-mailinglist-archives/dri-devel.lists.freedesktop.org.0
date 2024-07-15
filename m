@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8A39318E6
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 18:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845079318ED
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 19:06:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6754E10E2A2;
-	Mon, 15 Jul 2024 16:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFBAE10E42D;
+	Mon, 15 Jul 2024 17:06:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gKg0Ap5P";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IPabq0Aj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2349210E2A2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 16:59:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721062744; x=1752598744;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=scgFjSSIACtSRPD/DAo/8akUXJkptCjN6mKyS8D6w8w=;
- b=gKg0Ap5PsFlFwK7eXqKxwrrLrmKsKjFGGxz1rQfkuKMpd9z943XB+JyL
- TaPcCRkKPnyd5LwR7M5J1uzXT+H6gAA5XYHk3O/hd+WjEe1q8Z0H1ixT6
- TTj5R9rLnqF/Kl+Pm5uT+PnlklPBDxgDK6GqcBoqBZyIo8NgK4EK+Answ
- 7IFiL5jDpJf81ShuakekR8cSYO3xYhACQJ2gLzTzSV851mUIYXo9hZlmr
- ExqwIogld1eGwM/WToNoj2px6D/AboyewYqc6e+XY3UhpD8resMMS2uRY
- pnFGrYoS3OeN5B3CItv+zm0LvsgphOw/HcJneGssJ3zLaTGqPucEjgDqL w==;
-X-CSE-ConnectionGUID: ESOAPatBQWqaz+PKhu0vRQ==
-X-CSE-MsgGUID: 4ZOx4lFFQHOR8/P8Tlh6Gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="22219980"
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; d="scan'208";a="22219980"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2024 09:59:03 -0700
-X-CSE-ConnectionGUID: 2LSqT1mxSfeX9a29XVLGtQ==
-X-CSE-MsgGUID: Z913iehPRHa3YvOYIub/8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; d="scan'208";a="49643021"
-Received: from mwajdecz-mobl.ger.corp.intel.com ([10.94.248.120])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2024 09:59:01 -0700
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Subject: [PATCH] drm/buddy: Fix drm_buddy_print() to work with printk printers
-Date: Mon, 15 Jul 2024 18:58:47 +0200
-Message-Id: <20240715165847.1374-1-michal.wajdeczko@intel.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F91410E42D
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 17:06:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1721063166;
+ bh=MTzvTzAoatx0Q48KY1FTPa7YgzLwWXSImXnZ/96XLmY=;
+ h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
+ b=IPabq0AjwORpneio+GIUvHaQSCAGrJxwa4XH0288QESrg/JDPfdvTcw0TIUoWZ+zh
+ V5N3dU3vYbTpiOWgFuvvW+xi+p5Vttwj3LZAonH6q34e0XPPf8JyeBMxc+UJZOLzVw
+ Kkbto8N2n9zDuxcu4Ds59NUVCVGXADRu58SbzVTkC1A+fxjyDI5IN2BZwaQHbYU0KW
+ vZkOwKM7pVie7w36ao5c/3TipklCyhDNrI2XOUi5WUBvWQpsxcvZKoKca3r7c/VQMx
+ xgqyd9e0ZaTO95kUmMtXsz9uLcEhkAh44XdJIT/BgNSBMn2F45vwYrrHCBNNNb7+bn
+ juoK9dOvmCyQA==
+Received: from smtpclient.apple (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: dwlsalmeida)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7E4A23782193;
+ Mon, 15 Jul 2024 17:06:02 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: Re: [RFC PATCH] drm: panthor: add dev_coredumpv support
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <ZpTl-uUbzmvHGMEH@phenom.ffwll.local>
+Date: Mon, 15 Jul 2024 14:05:49 -0300
+Cc: Danilo Krummrich <dakr@redhat.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, ojeda@kernel.org,
+ lyude@redhat.com, robh@kernel.org, lina@asahilina.net, mcanal@igalia.com,
+ airlied@gmail.com, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <89FFB898-120A-431E-9B18-4D08AFAEFBFD@collabora.com>
+References: <20240710225011.275153-1-daniel.almeida@collabora.com>
+ <d7719653-f270-493d-ac42-6a1291eb7dc0@redhat.com>
+ <ZpTl-uUbzmvHGMEH@phenom.ffwll.local>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+X-Mailer: Apple Mail (2.3774.600.62)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,51 +66,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we try to use printk-based drm_printer, like drm_dbg_printer(),
-output from drm_buddy_print() will be split into several lines:
+Hi Sima!
 
- [drm] chunk_size: 1024KiB, total: 7MiB, free: 7MiB, clear_free: 0MiB
- [drm] order- 2
- [drm] free:        4 MiB
- [drm] , blocks: 1
- [drm] order- 1
- [drm] free:        2 MiB
- [drm] , blocks: 1
- [drm] order- 0
- [drm] free:        1 MiB
- [drm] , blocks: 1
 
-Fix that by using single drm_printf() per line.
+>=20
+> Yeah I'm not sure a partially converted driver where the main driver =
+is
+> still C really works, that pretty much has to throw out all the type
+> safety in the interfaces.
+>=20
+> What I think might work is if such partial drivers register as full =
+rust
+> drivers, and then largely delegate the implementation to their =
+existing C
+> code with a big "safety: trust me, the C side is bug free" comment =
+since
+> it's all going to be unsafe :-)
+>=20
+> It would still be a big change, since all the driver's callbacks need =
+to
+> switch from container_of to upcast to their driver structure to some =
+small
+> rust shim (most likely, I didn't try this out) to get at the driver =
+parts
+> on the C side. And I think you also need a small function to downcast =
+to
+> the drm base class. But that should be all largely mechanical.
+>=20
+> More freely allowing to mix&match is imo going to be endless pains. We
+> kinda tried that with the atomic conversion helpers for legacy kms
+> drivers, and the impendance mismatch was just endless amounts of very
+> subtle pain. Rust will exacerbate this, because it encodes semantics =
+into
+> the types and interfaces. And that was with just one set of helpers, =
+for
+> rust we'll likely need a custom one for each driver that's partially
+> written in rust.
+> -Sima
+>=20
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
----
- drivers/gpu/drm/drm_buddy.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+I humbly disagree here.
 
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index 6a8e45e9d0ec..474a4689269b 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -1139,15 +1139,10 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p)
- 			count++;
- 		}
- 
--		drm_printf(p, "order-%2d ", order);
--
- 		free = count * (mm->chunk_size << order);
--		if (free < SZ_1M)
--			drm_printf(p, "free: %8llu KiB", free >> 10);
--		else
--			drm_printf(p, "free: %8llu MiB", free >> 20);
--
--		drm_printf(p, ", blocks: %llu\n", count);
-+		drm_printf(p, "order-%2d free: %8llu %s, blocks: %llu\n",
-+			   order, free >> (free < SZ_1M ? 10 : 20),
-+			   free < SZ_1M ? "KiB" : "MiB", count);
- 	}
- }
- EXPORT_SYMBOL(drm_buddy_print);
--- 
-2.43.0
+I know this is a bit tangential, but earlier this year I converted a =
+bunch of codec libraries to Rust in v4l2. That worked just fine with the =
+C codec drivers. There were no regressions as per our test tools.
+
+The main idea is that you isolate all unsafety to a single point: so =
+long as the C code upholds the safety guarantees when calling into Rust, =
+the Rust layer will be safe. This is just the same logic used in unsafe =
+blocks in Rust itself, nothing new really.
+
+This is not unlike what is going on here, for example:
+
+
+```
++unsafe extern "C" fn open_callback<T: BaseDriverObject<U>, U: =
+BaseObject>(
++ raw_obj: *mut bindings::drm_gem_object,
++ raw_file: *mut bindings::drm_file,
++) -> core::ffi::c_int {
++ // SAFETY: The pointer we got has to be valid.
++ let file =3D unsafe {
++ file::File::<<<U as IntoGEMObject>::Driver as =
+drv::Driver>::File>::from_raw(raw_file)
++ };
++ let obj =3D
++ <<<U as IntoGEMObject>::Driver as drv::Driver>::Object as =
+IntoGEMObject>::from_gem_obj(
++ raw_obj,
++ );
++
++ // SAFETY: from_gem_obj() returns a valid pointer as long as the type =
+is
++ // correct and the raw_obj we got is valid.
++ match T::open(unsafe { &*obj }, &file) {
++ Err(e) =3D> e.to_errno(),
++ Ok(()) =3D> 0,
++ }
++}
+```
+
+We have to trust that the kernel is passing in a valid pointer. By the =
+same token, we can choose to trust drivers if we so desire.
+
+> that pretty much has to throw out all the type
+> safety in the interfaces.
+
+Can you expand on that?
+
+In particular, I believe that we should ideally be able to convert from =
+a C "struct Foo * " to a Rust =E2=80=9CFooRef" for types whose lifetimes =
+are managed either by the kernel itself or by a C driver. In practical =
+terms, this has run into the issues we=E2=80=99ve been discussing in =
+this thread, but there may be solutions e.g.:
+
+> One thing that comes to my mindis , you could probably create some =
+driver specific
+> "dummy" types to satisfy the type generics of the types you want to =
+use. Not sure
+> how well this works out though.
+
+I haven=E2=80=99t thought of anything yet - which is why I haven=E2=80=99t=
+ replied. OTOH, IIRC, Faith seems to have something in mind that can =
+work with the current abstractions, so I am waiting on her reply.
+
+
+> What I think might work is if such partial drivers register as full =
+rust
+> drivers, and then largely delegate the implementation to their =
+existing C
+> code with a big "safety: trust me, the C side is bug free" comment =
+since
+> it's all going to be unsafe :-)
+
+> with a big "safety: trust me, the C side is bug free" comment since =
+it's all going to be unsafe :-)
+
+This is what I want too :) but I can=E2=80=99t see how your proposed =
+approach is better, at least at a cursory glance. It is a much bigger =
+change, though, which is a clear drawback.
+
+> And that was with just one set of helpers, for
+> rust we'll likely need a custom one for each driver that's partially
+> written in rust.
+
+That=E2=80=99s exactly what I am trying to avoid. In other words, I want =
+to find a way to use the same abstractions and the same APIs so that we =
+do not run precisely into that problem.
+
+=E2=80=94 Daniel
 
