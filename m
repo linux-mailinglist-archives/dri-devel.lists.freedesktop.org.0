@@ -2,66 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E36E93113C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 11:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79058931166
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2024 11:39:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED7510E123;
-	Mon, 15 Jul 2024 09:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2D610E315;
+	Mon, 15 Jul 2024 09:39:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZA5dVWGl";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MV6O9gj6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u1x7WTbQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MV6O9gj6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u1x7WTbQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C24B910E02E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 09:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721035940; x=1752571940;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=n1ctJHkCl+P5uEWWLaeLZw+MgNNGn6pFPiIwDpVt7eU=;
- b=ZA5dVWGlooTR2b3CTewRPrriw3Oxt8yz5LPAk3Bo1M8WRVmqcJvuxzxa
- KauiZa7mlAwkIXZsGCUaUcxLkXFqtaGgRpf3EWYGGy8Pxt43nAfvIaKSy
- dZoWTk3kUaWz+yBMvQErJEbP/B1gNcTdx5vkxCLwJd2+i9J1c61VV2TwV
- faCZSxWdiHbLHVdU5qFt2AlDeIgnW2vlWNZHg6gQO7TPp8J+oj4isltTV
- Puu2cxmWTIYzV5rYti+1YeNl2gR7JtS+YtbAhI9O8c428tHeOUnxTdYLz
- tmbS2vdNwsMorbxdUb56Guq/z9CvVd4iR7ELCL+cShp3W/pAmlnbCfJkv w==;
-X-CSE-ConnectionGUID: +J6ntyEcRMOOlORWUGCQxQ==
-X-CSE-MsgGUID: fsPB4AkQT8eP2c/vP//n4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11133"; a="35834712"
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; d="scan'208";a="35834712"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2024 02:32:20 -0700
-X-CSE-ConnectionGUID: Pqyw6ck8Rr2iym/SmiStLg==
-X-CSE-MsgGUID: Zzt1q+QiTKCV75MrGYv0ZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; d="scan'208";a="54389993"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.246.3.118])
- ([10.246.3.118])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2024 02:32:18 -0700
-Message-ID: <76e6f01e-fcf8-4f6b-9b09-205e92f7ce5a@linux.intel.com>
-Date: Mon, 15 Jul 2024 11:32:14 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85D7210E195
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 09:39:47 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 21F5C1F45A;
+ Mon, 15 Jul 2024 09:39:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1721036386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=FURU0q142+NZCo0ZcC41flbXW16+mlGFlCCO6L5IUbI=;
+ b=MV6O9gj6jl8ssFO5GKGCgr+ccndPL3vaLMlg3wdo7qdqfkeEzLhaFryZFjC0NAaDhHkl83
+ cMLLt1ubbdQgbL3zcvgIEonQGlHEt/odOt78/uIw1XOIoXW2GSPt2LDAz1pceRgdHY2EB1
+ p/vkX/EY3P/576v42svxs0zhFTrpHfA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1721036386;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=FURU0q142+NZCo0ZcC41flbXW16+mlGFlCCO6L5IUbI=;
+ b=u1x7WTbQWNM08/yssIQ0txUKOcMaEJeLmbX25FXOoSqxKCHStwy94GtYgQQEtpFfF1daGj
+ 95o3wIai5ih2zEDQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MV6O9gj6;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=u1x7WTbQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1721036386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=FURU0q142+NZCo0ZcC41flbXW16+mlGFlCCO6L5IUbI=;
+ b=MV6O9gj6jl8ssFO5GKGCgr+ccndPL3vaLMlg3wdo7qdqfkeEzLhaFryZFjC0NAaDhHkl83
+ cMLLt1ubbdQgbL3zcvgIEonQGlHEt/odOt78/uIw1XOIoXW2GSPt2LDAz1pceRgdHY2EB1
+ p/vkX/EY3P/576v42svxs0zhFTrpHfA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1721036386;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=FURU0q142+NZCo0ZcC41flbXW16+mlGFlCCO6L5IUbI=;
+ b=u1x7WTbQWNM08/yssIQ0txUKOcMaEJeLmbX25FXOoSqxKCHStwy94GtYgQQEtpFfF1daGj
+ 95o3wIai5ih2zEDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB79E134AB;
+ Mon, 15 Jul 2024 09:39:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id xFoyNGHulGbTEgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 Jul 2024 09:39:45 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/7] drm/probe-helpers: Work around multi-outputs-per-CRTC
+ problem
+Date: Mon, 15 Jul 2024 11:38:56 +0200
+Message-ID: <20240715093936.793552-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] accel/ivpu: Add missing MODULE_FIRMWARE metadata
-To: "Alexander F. Lent" <lx@xanderlent.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
- Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240709-fix-ivpu-firmware-metadata-v3-1-55f70bba055b@xanderlent.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20240709-fix-ivpu-firmware-metadata-v3-1-55f70bba055b@xanderlent.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 21F5C1F45A
+X-Spam-Flag: NO
+X-Spam-Score: 0.99
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.99 / 50.00]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Spamd-Bar: /
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,56 +118,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next
+Old or simple hardware only supports a single CRTC with multiple
+conenctoed outputs. This breaks most userspace compositors, which
+only support a single output per CRTC. This currently happens with
+ast and mgag200 drivers. The drivers contain a work around that
+dynamically disables all but one connected output.
 
-On 09.07.2024 13:54, Alexander F. Lent wrote:
-> Modules that load firmware from various paths at runtime must declare
-> those paths at compile time, via the MODULE_FIRMWARE macro, so that the
-> firmware paths are included in the module's metadata.
-> 
-> The accel/ivpu driver loads firmware but lacks this metadata,
-> preventing dracut from correctly locating firmware files. Fix it.
-> 
-> Fixes: 9ab43e95f922 ("accel/ivpu: Switch to generation based FW names")
-> Fixes: 02d5b0aacd05 ("accel/ivpu: Implement firmware parsing and booting")
-> Signed-off-by: Alexander F. Lent <lx@xanderlent.com>
-> ---
-> Hi Jacek,
-> 
-> Thanks for catching the error, and for the more succinct comment.
-> Please find v3 attached.
-> ---
-> Changes in v3:
-> - Simplify comment, per review.
-> - Fix typo in 40xx firmware path, per review.
-> - Link to v2: https://lore.kernel.org/r/20240708-fix-ivpu-firmware-metadata-v2-1-78b953172026@xanderlent.com
-> 
-> Changes in v2:
-> - Only annotate the module with the production firmware paths, per review.
-> - Drop macros for de-duping firmware fileames, just use string literals, per review.
-> - Link to v1: https://lore.kernel.org/r/20240705-fix-ivpu-firmware-metadata-v1-1-704b73852d92@xanderlent.com
-> ---
->  drivers/accel/ivpu/ivpu_fw.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-> index 1457300828bf..ef717802a3c8 100644
-> --- a/drivers/accel/ivpu/ivpu_fw.c
-> +++ b/drivers/accel/ivpu/ivpu_fw.c
-> @@ -58,6 +58,10 @@ static struct {
->  	{ IVPU_HW_40XX, "intel/vpu/vpu_40xx_v0.0.bin" },
->  };
->  
-> +/* Production fw_names from the table above */
-> +MODULE_FIRMWARE("intel/vpu/vpu_37xx_v0.0.bin");
-> +MODULE_FIRMWARE("intel/vpu/vpu_40xx_v0.0.bin");
-> +
->  static int ivpu_fw_request(struct ivpu_device *vdev)
->  {
->  	int ret = -ENOENT;
-> 
-> ---
-> base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
-> change-id: 20240704-fix-ivpu-firmware-metadata-3d02bd60768d
-> 
-> Best regards,
+Patches 1 and 2 push the workaround into probe helpers and make it
+configurable in the kernel config. For each connector, the driver
+needs to specify a bitmask of connectors with higher priority. If
+one of them is connected, the connector at hand is always reported
+as disconnected. Connectors without priority bitmask as not affected.
+
+Patches 3 to 5 update and simplify the ast drivers. The new workaround
+now allows to have multiple physical conenctors in ast. So patch 5
+finally allows VGA and DisplayPort on the same device.
+
+Patches 6 and 7 update mgag200.
+
+Any future driver that exposes the same problem as ast and mgag200
+can simply hook into the workaround. Hopefully userspace can be fixed
+at some point.
+
+Thomas Zimmermann (7):
+  drm/probe-helper: Call connector detect functions in single helper
+  drm/probe-helper: Optionally report single connected output per CRTC
+  drm/ast: Set connector priorities
+  drm/ast: Remove struct ast_bmc_connector
+  drm/ast: Support ASTDP and VGA at the same time
+  drm/mgag200: Set connector priorities
+  drm/mgag200: Remove struct mgag200_bmc_connector
+
+ drivers/gpu/drm/Kconfig                   |  15 +++
+ drivers/gpu/drm/ast/ast_drv.h             |  17 +--
+ drivers/gpu/drm/ast/ast_main.c            |   2 +-
+ drivers/gpu/drm/ast/ast_mode.c            |  49 ++------
+ drivers/gpu/drm/drm_probe_helper.c        | 137 +++++++++++++++++++---
+ drivers/gpu/drm/mgag200/mgag200_bmc.c     |  44 +------
+ drivers/gpu/drm/mgag200/mgag200_drv.h     |   9 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c  |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh3.c |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200er.c  |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c  |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200se.c  |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c  |   4 +-
+ include/drm/drm_connector.h               |   2 +
+ include/drm/drm_probe_helper.h            |   2 +
+ 16 files changed, 177 insertions(+), 128 deletions(-)
+
+-- 
+2.45.2
+
