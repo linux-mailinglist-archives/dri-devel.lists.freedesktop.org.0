@@ -2,147 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77184932452
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 12:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7513A932461
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 12:53:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B727110E645;
-	Tue, 16 Jul 2024 10:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F375810E646;
+	Tue, 16 Jul 2024 10:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oszLevyh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O5fuH3sZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G8eDT4nF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ak9jXOyx";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vEUztb23";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80FB210E645
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 10:47:38 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E4FB11F80E;
- Tue, 16 Jul 2024 10:47:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1721126857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MkF3r3D88xBMCmOFI9EQrjbbPZ2tkvqwmCBezDzhjY8=;
- b=oszLevyhgVYxUqt+/KmU56Te2P+Kv0lLgQqgn8/+ONEq9XUeTJYnHlGIPFJ7RGyI1FNJq2
- YVv/j+kBLzWlkEcCr6HY5m97VlTeryrLIhkGBjLSxamSd9I7FWharBiRlwRdUIHDEUwNmC
- FprJuMzg5eWcniE2kT1drTmQ/lXeeA4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1721126857;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MkF3r3D88xBMCmOFI9EQrjbbPZ2tkvqwmCBezDzhjY8=;
- b=O5fuH3sZtbuo5frEpj6ybsyZsmtYNIZbluto7Mtrfinj4Auxvk7UtMY+1axwAz5LRbWf85
- 2+aCpsu8uxIcBgAw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=G8eDT4nF;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ak9jXOyx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1721126856; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MkF3r3D88xBMCmOFI9EQrjbbPZ2tkvqwmCBezDzhjY8=;
- b=G8eDT4nFMrYWR/1U0FKvvmpp3SRydzXwjZ6gvS6tBSd6mLgq6uJ2R7qKEB/dUOd6OLwIrS
- EonjHDzHkpNZOQB+hSYn5WnjiSouSOteBUG/ltourRPFN1zuqJfTk0tSgCAaxMZK+nDfkS
- cR+6/eF3QITrfOBb0IJTYHuZGrCdKS0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1721126856;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MkF3r3D88xBMCmOFI9EQrjbbPZ2tkvqwmCBezDzhjY8=;
- b=ak9jXOyx7t8KUFpNCIUJ97WN6RhH+r03escDtZr8nFf44UafPeb8vM/gVhh33Vy6P4rut1
- ZpY8M0VmADH8GcAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD257136E5;
- Tue, 16 Jul 2024 10:47:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 5Qi9KMhPlmaZNQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 16 Jul 2024 10:47:36 +0000
-Message-ID: <4b9a6327-9d7b-4826-b056-ef67b813c0ff@suse.de>
-Date: Tue, 16 Jul 2024 12:47:36 +0200
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC4810E646
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 10:53:54 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-367b8a60b60so2941417f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 03:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1721127233; x=1721732033; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=nXzIcAqpxHG7tPPh/elMPV6grh+ccM9HxfPCceHHxTA=;
+ b=vEUztb2313Nf+GeCupFc039Cz10DOa4cywNU8gcrP/9IXajGaOZpmK0NqYzv+HdnJ/
+ gp1VaD67ppSpSYpN2CKopy9KXnRS5Giu9AZJ5VJk/YvHsU6yuj/8g7JZumLc18EN/tbg
+ sWZiLIyAY42R8sFgYSMgtces+tjl6E79Qi03HyOHJoFVLHo9j5da7CZfMzMhEXratq5+
+ XFppbCFrhDjoiuAPWBfuaZqgQQQ+2pD764i9ZZMCMYb6nAGaFsMnHxRmvvJ6NYPBJ4TL
+ aQlNmTpH1X6iokXYnyzFin056iN+31Y7A2+k37kKyqgs50OU7bhJ+7NKg0XOio8s5uIf
+ 1SSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721127233; x=1721732033;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=nXzIcAqpxHG7tPPh/elMPV6grh+ccM9HxfPCceHHxTA=;
+ b=Vgg/H12fRvGVj95wp0ClWvDMMnWQQ9USrXsIVMmezPS/iQghUWRLqQXa48BrW6FyWU
+ bZPVUNSnBwToNiCZsoAEHQHXJ4QcFTMi/Gp+oJsYhA/37iRjmpMHw0U7OCM9BdrCjYbn
+ 4GMszeaNhPd/+U1Wz3BLjuEpVYO6j9v8qWIRFHT3prM5cclJczIWdXzkM6RsZaK/+rt7
+ VZcSJhpXBqWfhA+QnIGBXsnj2v7msXVIhPUZfOBq5lNskOmvYbFT9EmTEshQlFBeje66
+ FZ10lEs3EKpHKzpdkYXmDWlkqTpB13KEo93TWbYX8G0VdQDWwCV/oOT/9c6zXnADwuUQ
+ JcpQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVJSoDzAxRRzVR8A0HlTy/VRDPZ0F+8O7h61iTUCeaFcKRa0tNKzMdfeMiAlTtrTaSDbKmUpWaJRpHfSoe+Ltv26N+nhH1ROBLbPM0JH9AZ
+X-Gm-Message-State: AOJu0YyfHieIdq09ud9NKPHWpItxjy63HrPfhpIdtE731sVZJ7Y7x+Or
+ L3PKBLaqsB7ttrbuNaw1j5XGsJjlowHYx4gEHv4Ms7MskvyGY0gmJXMiZOpJFGE=
+X-Google-Smtp-Source: AGHT+IF/XfpK3F6pBtU8SrWLC0nhPop0clUEctwox321fqXnnzwSGm7+wIyzDM/lhazbOaJDVhnWBg==
+X-Received: by 2002:a5d:6646:0:b0:367:8a9e:6bed with SMTP id
+ ffacd0b85a97d-3682635b6e4mr874072f8f.61.1721127232379; 
+ Tue, 16 Jul 2024 03:53:52 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:f5ba:a94c:e43a:d197?
+ ([2a01:e0a:982:cbb0:f5ba:a94c:e43a:d197])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3680dafbf19sm8614509f8f.68.2024.07.16.03.53.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Jul 2024 03:53:52 -0700 (PDT)
+Message-ID: <b35eb84d-5ed4-469c-8df3-d7e895bb910c@linaro.org>
+Date: Tue, 16 Jul 2024 12:53:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] drm/probe-helper: Optionally report single connected
- output per CRTC
-To: Maxime Ripard <mripard@kernel.org>
-Cc: jfalempe@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- dri-devel@lists.freedesktop.org
-References: <20240715093936.793552-1-tzimmermann@suse.de>
- <20240715093936.793552-3-tzimmermann@suse.de>
- <20240716-dexterous-pristine-leech-8ca3f2@houat>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240716-dexterous-pristine-leech-8ca3f2@houat>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
+ shutdown
+To: Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Yuran Pereira <yuran.pereira@hotmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240621134427.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240621134427.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: E4FB11F80E
-X-Spam-Flag: NO
-X-Spam-Score: -0.50
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.50 / 50.00];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; XM_UA_NO_VERSION(0.01)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- FREEMAIL_CC(0.00)[redhat.com,ffwll.ch,gmail.com,linux.intel.com,lists.freedesktop.org];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[7]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:email,
- imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Level: 
-X-Spamd-Bar: /
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,98 +119,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On 21/06/2024 22:44, Douglas Anderson wrote:
+> At shutdown if you've got a _properly_ coded DRM modeset driver then
+> you'll get these two warnings at shutdown time:
+> 
+>    Skipping disable of already disabled panel
+>    Skipping unprepare of already unprepared panel
+> 
+> These warnings are ugly and sound concerning, but they're actually a
+> sign of a properly working system. That's not great.
+> 
+> We're not ready to get rid of the calls to drm_panel_disable() and
+> drm_panel_unprepare() because we're not 100% convinced that all DRM
+> modeset drivers are properly calling drm_atomic_helper_shutdown() or
+> drm_helper_force_disable_all() at the right times. However, having the
+> warning show up for correctly working systems is bad.
+> 
+> As a bit of a workaround, add some "if" tests to try to avoid the
+> warning on correctly working systems. Also add some comments and
+> update the TODO items in the hopes that future developers won't be too
+> confused by what's going on here.
+> 
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> This patch came out of discussion on dri-devel on 2024-06-21
+> [1]. NOTE: I have put all changes into one patch since it didn't seem
+> to add anything to break up the updating of the TODO or the comments
+> in the core into separate patches since the patch is all about one
+> topic and all code is expected to land in the same tree.
+> 
+> Previous versions:
+> v0: https://lore.kernel.org/r/20240604172305.v3.24.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid/
+> v1: https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid
+> 
+> [1] https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&date=2024-06-21
+> 
+>   Documentation/gpu/todo.rst           | 35 +++++++++++++---------------
+>   drivers/gpu/drm/drm_panel.c          | 18 ++++++++++++++
+>   drivers/gpu/drm/panel/panel-edp.c    | 26 ++++++++++++++-------
+>   drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++-------
+>   4 files changed, 68 insertions(+), 37 deletions(-)
+> 
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 2ea6ffc9b22b..96c453980ab6 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -475,25 +475,22 @@ Remove disable/unprepare in remove/shutdown in panel-simple and panel-edp
+>   As of commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
+>   drm_panel"), we have a check in the drm_panel core to make sure nobody
+>   double-calls prepare/enable/disable/unprepare. Eventually that should probably
+> -be turned into a WARN_ON() or somehow made louder, but right now we actually
+> -expect it to trigger and so we don't want it to be too loud.
+> -
+> -Specifically, that warning will trigger for panel-edp and panel-simple at
+> -shutdown time because those panels hardcode a call to drm_panel_disable()
+> -and drm_panel_unprepare() at shutdown and remove time that they call regardless
+> -of panel state. On systems with a properly coded DRM modeset driver that
+> -calls drm_atomic_helper_shutdown() this is pretty much guaranteed to cause
+> -the warning to fire.
+> -
+> -Unfortunately we can't safely remove the calls in panel-edp and panel-simple
+> -until we're sure that all DRM modeset drivers that are used with those panels
+> -properly call drm_atomic_helper_shutdown(). This TODO item is to validate
+> -that all DRM modeset drivers used with panel-edp and panel-simple properly
+> -call drm_atomic_helper_shutdown() and then remove the calls to
+> -disable/unprepare from those panels. Alternatively, this TODO item could be
+> -removed by convincing stakeholders that those calls are fine and downgrading
+> -the error message in drm_panel_disable() / drm_panel_unprepare() to a
+> -debug-level message.
+> +be turned into a WARN_ON() or somehow made louder.
+> +
+> +At the moment, we expect that we may still encounter the warnings in the
+> +drm_panel core when using panel-simple and panel-edp. Since those panel
+> +drivers are used with a lot of different DRM modeset drivers they still
+> +make an extra effort to disable/unprepare the panel themsevles at shutdown
+> +time. Specifically we could still encounter those warnings if the panel
+> +driver gets shutdown() _before_ the DRM modeset driver and the DRM modeset
+> +driver properly calls drm_atomic_helper_shutdown() in its own shutdown()
+> +callback. Warnings could be avoided in such a case by using something like
+> +device links to ensure that the panel gets shutdown() after the DRM modeset
+> +driver.
+> +
+> +Once all DRM modeset drivers are known to shutdown properly, the extra
+> +calls to disable/unprepare in remove/shutdown in panel-simple and panel-edp
+> +should be removed and this TODO item marked complete.
+>   
+>   Contact: Douglas Anderson <dianders@chromium.org>
+>   
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index cfbe020de54e..19ab0a794add 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -161,6 +161,15 @@ int drm_panel_unprepare(struct drm_panel *panel)
+>   	if (!panel)
+>   		return -EINVAL;
+>   
+> +	/*
+> +	 * If you are seeing the warning below it likely means one of two things:
+> +	 * - Your panel driver incorrectly calls drm_panel_unprepare() in its
+> +	 *   shutdown routine. You should delete this.
+> +	 * - You are using panel-edp or panel-simple and your DRM modeset
+> +	 *   driver's shutdown() callback happened after the panel's shutdown().
+> +	 *   In this case the warning is harmless though ideally you should
+> +	 *   figure out how to reverse the order of the shutdown() callbacks.
+> +	 */
+>   	if (!panel->prepared) {
+>   		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
+>   		return 0;
+> @@ -245,6 +254,15 @@ int drm_panel_disable(struct drm_panel *panel)
+>   	if (!panel)
+>   		return -EINVAL;
+>   
+> +	/*
+> +	 * If you are seeing the warning below it likely means one of two things:
+> +	 * - Your panel driver incorrectly calls drm_panel_disable() in its
+> +	 *   shutdown routine. You should delete this.
+> +	 * - You are using panel-edp or panel-simple and your DRM modeset
+> +	 *   driver's shutdown() callback happened after the panel's shutdown().
+> +	 *   In this case the warning is harmless though ideally you should
+> +	 *   figure out how to reverse the order of the shutdown() callbacks.
+> +	 */
+>   	if (!panel->enabled) {
+>   		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
+>   		return 0;
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index 3a574a9b46e7..8723cd190913 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -954,16 +954,24 @@ static void panel_edp_shutdown(struct device *dev)
+>   	 * drm_atomic_helper_shutdown() at shutdown time and that should
+>   	 * cause the panel to be disabled / unprepared if needed. For now,
+>   	 * however, we'll keep these calls due to the sheer number of
+> -	 * different DRM modeset drivers used with panel-edp. The fact that
+> -	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
+> -	 * will try to disable/unprepare means that we can get a warning about
+> -	 * trying to disable/unprepare an already disabled/unprepared panel,
+> -	 * but that's something we'll have to live with until we've confirmed
+> -	 * that all DRM modeset drivers are properly calling
+> -	 * drm_atomic_helper_shutdown().
+> +	 * different DRM modeset drivers used with panel-edp. Once we've
+> +	 * confirmed that all DRM modeset drivers using this panel properly
+> +	 * call drm_atomic_helper_shutdown() we can simply delete the two
+> +	 * calls below.
+> +	 *
+> +	 * TO BE EXPLICIT: THE CALLS BELOW SHOULDN'T BE COPIED TO ANY NEW
+> +	 * PANEL DRIVERS.
+> +	 *
+> +	 * FIXME: If we're still haven't figured out if all DRM modeset
+> +	 * drivers properly call drm_atomic_helper_shutdown() but we _have_
+> +	 * managed to make sure that DRM modeset drivers get their shutdown()
+> +	 * callback before the panel's shutdown() callback (perhaps using
+> +	 * device link), we could add a WARN_ON here to help move forward.
+>   	 */
+> -	drm_panel_disable(&panel->base);
+> -	drm_panel_unprepare(&panel->base);
+> +	if (panel->base.enabled)
+> +		drm_panel_disable(&panel->base);
+> +	if (panel->base.prepared)
+> +		drm_panel_unprepare(&panel->base);
+>   }
+>   
+>   static void panel_edp_remove(struct device *dev)
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 8345ed891f5a..022ffab2324a 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -726,16 +726,24 @@ static void panel_simple_shutdown(struct device *dev)
+>   	 * drm_atomic_helper_shutdown() at shutdown time and that should
+>   	 * cause the panel to be disabled / unprepared if needed. For now,
+>   	 * however, we'll keep these calls due to the sheer number of
+> -	 * different DRM modeset drivers used with panel-simple. The fact that
+> -	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
+> -	 * will try to disable/unprepare means that we can get a warning about
+> -	 * trying to disable/unprepare an already disabled/unprepared panel,
+> -	 * but that's something we'll have to live with until we've confirmed
+> -	 * that all DRM modeset drivers are properly calling
+> -	 * drm_atomic_helper_shutdown().
+> +	 * different DRM modeset drivers used with panel-simple. Once we've
+> +	 * confirmed that all DRM modeset drivers using this panel properly
+> +	 * call drm_atomic_helper_shutdown() we can simply delete the two
+> +	 * calls below.
+> +	 *
+> +	 * TO BE EXPLICIT: THE CALLS BELOW SHOULDN'T BE COPIED TO ANY NEW
+> +	 * PANEL DRIVERS.
+> +	 *
+> +	 * FIXME: If we're still haven't figured out if all DRM modeset
+> +	 * drivers properly call drm_atomic_helper_shutdown() but we _have_
+> +	 * managed to make sure that DRM modeset drivers get their shutdown()
+> +	 * callback before the panel's shutdown() callback (perhaps using
+> +	 * device link), we could add a WARN_ON here to help move forward.
+>   	 */
+> -	drm_panel_disable(&panel->base);
+> -	drm_panel_unprepare(&panel->base);
+> +	if (panel->base.enabled)
+> +		drm_panel_disable(&panel->base);
+> +	if (panel->base.prepared)
+> +		drm_panel_unprepare(&panel->base);
+>   }
+>   
+>   static void panel_simple_remove(struct device *dev)
 
-Am 16.07.24 um 11:01 schrieb Maxime Ripard:
-> Hi,
->
-> On Mon, Jul 15, 2024 at 11:38:58AM GMT, Thomas Zimmermann wrote:
->> For CRTCs with multiple outputs (i.e., encoders plus connectors),
->> only report at most a single connected output to userspace. Make
->> this configurable via CONFIG_DRM_REPORT_SINGLE_CONNECTED_CRTC_OUTPUT.
->>
->> Having multiple connected outputs on the same CRTC complicates
->> display-mode and format selection, so most userspace does not
->> support this. This is mostly not a problem in practice, as modern
->> display hardware provides a separate CRTC for each output.
-> Do they?
+LGTM and see if we have negative feedback
 
-That was my understanding from discussions with Gnome devs. Or at least, 
-it's what they officially support.
-
->
-> At least the RaspberryPi has multiple connectors on a single CRTC, and
-> for multiple CRTCs.
-
-I think userspace wants at least one CRTC per output, but doesn't care 
-about details.
-
->
-> My understanding is that it's definitely expected, and any decent
-> user-space should expect it.
->
-> Did you have any bug with this?
-
-https://gitlab.gnome.org/GNOME/mutter/-/issues/3157
-
-There was also a lengthy discussion on IRC a few months ago IIRC.
-
-> And if it was the case, we wouldn't support cloning at all. I couldn't
-> really find how cloning works exactly, but my understanding was that
-> it's the difference between drm_encoder.possible_crtcs and
-> possible_clones: possible_crtcs lists the CRTCs it can be connected to,
-> and possible_clones the other encoders that can run with in parallel.
-
-I'd prefer to solve this with the possible_clones field. But it didn't 
-work. Any ideas on that?
-
->
->> On old hardware or hardware with BMCs, a single CRTC often drives
->> multiple displays. Only reporting one of them as connected makes
->> the hardware compatible with common userspace.
->>
->> Add the field prioritized_connectors to struct drm_connector. The
->> bitmask signals which other connectors have priority. Also provide
->> the helper drm_probe_helper_prioritize_connectors() that sets
->> default priorities for a given set of connectors. Calling the
->> helper should be enough to set up the functionality for most drivers.
->>
->> With the prioritization bits in place, update connector-status
->> detection to test against prioritized conenctors. So when the probe
->> helpers detect a connector as connected, test against the prioritized
->> connectors. If any is also connected, set the connector status to
->> disconnected.
->>
->> Please note that this functionality is a workaround for limitations
->> in userspace. If your compositor supports multiple outputs per CRTC,
->> CONFIG_DRM_REPORT_SINGLE_CONNECTED_CRTC_OUTPUT should be disabled.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> The whole "is it actually needed" discussion aside, I'm not sure it's a
-> good idea to use a config option for that. Chances are distros will
-> either enable it or disable it depending on what they/their customers
-> workload will typically look like, and it won't make the kernel or
-> compositor's job any easier.
->
-> Could we use a client capability for that maybe?
-
-I like this idea.
-
-Best regards
-Thomas
-
->
-> Maxime
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
