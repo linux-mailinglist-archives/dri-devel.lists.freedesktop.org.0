@@ -2,89 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B685A932C5F
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 17:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D91932CD3
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 17:58:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E520410E798;
-	Tue, 16 Jul 2024 15:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3258510E7A8;
+	Tue, 16 Jul 2024 15:58:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dT2ksDvU";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="y1HimhjU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dSX0Ii/D";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y1HimhjU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dSX0Ii/D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8706410E798
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 15:54:32 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id
- 46e09a7af769-708bf659898so1745630a34.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 08:54:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1721145271; x=1721750071;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/Cptj2CuYa/Zbm4OtWYM2fatIt6ccC2m1uYdd4iqOhs=;
- b=dT2ksDvUhbt9d6jX2iYoA4BdK/H5zXGEa44bFlk0chMgTBpMu/UnSkGQQ4zo92kRIO
- ovTpsNgmn2M7fwzEBGKDfJg/ee4ET9imfX1J3m6Qlz3Og5J1iYB/oAlIHOUaTBNjW2YJ
- YeZNtK0hMR/3beJmtF3Pb8Bt0Ex2/8bHqViGY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721145271; x=1721750071;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/Cptj2CuYa/Zbm4OtWYM2fatIt6ccC2m1uYdd4iqOhs=;
- b=ee6spxQy4or/mIa6l4kpEiDcZypg+fXLYCcoFNkdJbIJOwFfiS/XtvlVj9kbXfuaCn
- DCuGA4HyQ9TCL9wowIFy4ilU2DhGIJOQB7GFgwp3j0YdmkQTxEe0ycaRHvdI5xD6Fqb4
- StuFssUWLIG1Bb/7ln7Z3cETG4BwFhIr6L6o2gKeVthLVwgl706rN49HDmJeAgIWPsQH
- 8Nk5+6vj9re8AlyQ0vtxQnKhQ32uXIbNVsGdo4s3q/198jiGyrr+NcvZQ/ycTagoA7XQ
- 4yfGiXgW+9TJSjbYYdQ3z9dTk5hZPeX+erkU721Aj4f7qWLLI4/KJPiVmAx6zF1aVPT4
- uOTQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhOSuRcFiUwHKyEvk8LX/4ep51Vv5elLrmfycLlW5tb6lmqmvRy2UelIc08/JACHrGlrNH8hajwIk7bCGPkqrq3wBSK12e96qeh8blqpJW
-X-Gm-Message-State: AOJu0YyEc+2gl8v8GuSE90kcrEhe4CJtfLTYqlElG71xBmyvZM6Ie/uv
- 63xMknhh6ji/OObyLwHFzSspcd1HvxYCku2Ngjh6iJIOOGMQIFH5B9MaXZ1DmikRnXSSa11WRWU
- =
-X-Google-Smtp-Source: AGHT+IEPaoMKFUAzCMgHNfY2bMLGNmXUxpC1/9R6GsH6odaVtNv5HApVnss4wDXWo4Tu3kztzQ2m5w==
-X-Received: by 2002:a05:6830:7191:b0:703:6d56:92bd with SMTP id
- 46e09a7af769-708d972a58bmr2853381a34.0.1721145271077; 
- Tue, 16 Jul 2024 08:54:31 -0700 (PDT)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com.
- [209.85.160.179]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b76198d795sm32140816d6.53.2024.07.16.08.54.29
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Jul 2024 08:54:30 -0700 (PDT)
-Received: by mail-qt1-f179.google.com with SMTP id
- d75a77b69052e-447df43324fso347981cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 08:54:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+JnSxcCPv7yP23vxXDxMiqdWX1Sgd7q5iQVXbKphX0ZJ90g3Ayj5VWvrBE4KafH4N3TksccWADHn+cGozN5VsdJcMzBrSv8JsTX3ASE2Z
-X-Received: by 2002:a05:622a:5298:b0:447:e01a:de95 with SMTP id
- d75a77b69052e-44f7a30445dmr4001041cf.0.1721145269303; Tue, 16 Jul 2024
- 08:54:29 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 181D710E0FC;
+ Tue, 16 Jul 2024 15:58:40 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9C6A621B62;
+ Tue, 16 Jul 2024 15:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1721145518; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uQo99kzXBmi2LgOSACGQBs2J3f+N4eldt384D5C1gUM=;
+ b=y1HimhjUw32I0+7Fv1iVe7RevDyvMWJChWIvTdE40EZvxCCeJ/L9DN7kjpcO8Fre9NBKOh
+ jiSOzIRsKM1sZByKxKCyQwCptp23hkKVAXPV8R4MJZiEqVESwWJ/RUCi3M9CHZks/T6Utm
+ jW6HByZlSANqHq/XDEQYEm69qeyXC50=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1721145518;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uQo99kzXBmi2LgOSACGQBs2J3f+N4eldt384D5C1gUM=;
+ b=dSX0Ii/D9Nwh/m5HkF9qSKYPEsy8HHc5mwJ4afEm+1eXebcVlQzoZSh+Pgzd4HRIGjfSJK
+ ++DMX96FY33Wq+Dw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1721145518; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uQo99kzXBmi2LgOSACGQBs2J3f+N4eldt384D5C1gUM=;
+ b=y1HimhjUw32I0+7Fv1iVe7RevDyvMWJChWIvTdE40EZvxCCeJ/L9DN7kjpcO8Fre9NBKOh
+ jiSOzIRsKM1sZByKxKCyQwCptp23hkKVAXPV8R4MJZiEqVESwWJ/RUCi3M9CHZks/T6Utm
+ jW6HByZlSANqHq/XDEQYEm69qeyXC50=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1721145518;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uQo99kzXBmi2LgOSACGQBs2J3f+N4eldt384D5C1gUM=;
+ b=dSX0Ii/D9Nwh/m5HkF9qSKYPEsy8HHc5mwJ4afEm+1eXebcVlQzoZSh+Pgzd4HRIGjfSJK
+ ++DMX96FY33Wq+Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2998313795;
+ Tue, 16 Jul 2024 15:58:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 57A0Ba6YlmbyGwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 16 Jul 2024 15:58:38 +0000
+Message-ID: <d3be8832-a6f2-496e-ac2e-9b29cae9f8f2@suse.de>
+Date: Tue, 16 Jul 2024 17:58:37 +0200
 MIME-Version: 1.0
-References: <20240716121112.14435-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240716121112.14435-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-In-Reply-To: <20240716121112.14435-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 16 Jul 2024 08:54:14 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U+Y551wC99w4b7Xjv7S7YOG2pYm6t1CpjDGbowbAGxbw@mail.gmail.com>
-Message-ID: <CAD=FV=U+Y551wC99w4b7Xjv7S7YOG2pYm6t1CpjDGbowbAGxbw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/panel: boe-th101mb31ig002 : using
- drm_connector_helper_get_modes_fixed()
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, airlied@gmail.com, 
- mripard@kernel.org, hsinyi@google.com, awarnecke002@hotmail.com, 
- quic_jesszhan@quicinc.com, dmitry.baryshkov@linaro.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>, 
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: DisplayPort: handling of HPD events / link training
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, nouveau@lists.freedesktop.org,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
+References: <CAA8EJprfbMs_3PnpebhVg=NVrO5zc23cgx=1f4HAKLnT5b9J6Q@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAA8EJprfbMs_3PnpebhVg=NVrO5zc23cgx=1f4HAKLnT5b9J6Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Flag: NO
+X-Spam-Score: -0.29
+X-Spamd-Result: default: False [-0.29 / 50.00];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; RCPT_COUNT_SEVEN(0.00)[8];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FROM_HAS_DN(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,86 +142,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi
 
-On Tue, Jul 16, 2024 at 5:11=E2=80=AFAM Zhaoxiong Lv
-<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+Am 27.02.24 um 23:40 schrieb Dmitry Baryshkov:
+> Hello,
 >
-> Use public functions(drm_connector_helper_get_modes_fixed()) to
-> get porch parameters.
+> We are currently looking at checking and/or possibly redesigning the
+> way the MSM DRM driver handles the HPD events and link training.
 >
-> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> ---
->  .../drm/panel/panel-boe-th101mb31ig002-28a.c  | 26 ++-----------------
->  1 file changed, 2 insertions(+), 24 deletions(-)
+> After a quick glance at the drivers implementing DP support, I noticed
+> following main approaches:
+> - Perform link training at the atomic_enable time, don't report
+> failures (mtk, analogix, zynqmp, tegra, nouveau)
+> - Perform link training at the atomic_enable time, report errors using
+> link_status property (i915, mhdp8546)
+> - Perform link training on the plug event (msm, it8605).
+> - Perform link training from the DPMS handler, also calling it from
+> the enable callback (AMDGPU, radeon).
 >
-> diff --git a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c b/drive=
-rs/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> index d4e4abd103bb..4a61a11099b6 100644
-> --- a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> +++ b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> @@ -16,6 +16,7 @@
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_modes.h>
->  #include <drm/drm_panel.h>
-> +#include <drm/drm_probe_helper.h>
+> It looks like the majority wins and we should move HPD to
+> atomic_enable time. Is that assumption correct?
+
+Did you ever receive an answer to this question? I currently investigate 
+ast's DP code, which does link training as part of detecting the 
+connector state (in detect_ctx). But most other drivers do this in 
+atomic_enable. I wonder if ast should follow.
+
+Best regards
+Thomas
+
 >
->  struct boe_th101mb31ig002;
+> Also two related questions:
+> - Is there a plan to actually make use of the link_status property?
+> Intel presented it at FOSDEM 2018, but since that time it was not
+> picked up by other drivers.
 >
-> @@ -313,31 +314,8 @@ static int boe_th101mb31ig002_get_modes(struct drm_p=
-anel *panel,
->                                                       struct boe_th101mb3=
-1ig002,
->                                                       panel);
->         const struct drm_display_mode *desc_mode =3D ctx->desc->modes;
-> -       struct drm_display_mode *mode;
+> - Is there any plan to create generic DP link training helpers? After
+> glancing through the DP drivers there is a lot of similar code in the
+> link training functions, with minor differences here and there. And
+> it's those minor differences that bug me. It means that drivers might
+> respond differently to similar devices. Or that there might be minor
+> bugs here and there.
 >
-> -       mode =3D drm_mode_duplicate(connector->dev, desc_mode);
-> -       if (!mode) {
-> -               dev_err(panel->dev, "Failed to add mode %ux%u@%u\n",
-> -                       desc_mode->hdisplay, desc_mode->vdisplay,
-> -                       drm_mode_vrefresh(desc_mode));
-> -               return -ENOMEM;
-> -       }
-> -
-> -       drm_mode_set_name(mode);
-> -
-> -       connector->display_info.bpc =3D 8;
 
-I notice that drm_connector_helper_get_modes_fixed() doesn't seem to
-set bpc. Unless I'm mistaken and that gets set automatically somewhere
-else then you should keep that, right?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-> -       connector->display_info.width_mm =3D mode->width_mm;
-> -       connector->display_info.height_mm =3D mode->height_mm;
-> -
-> -       /*
-> -        * TODO: Remove once all drm drivers call
-> -        * drm_connector_set_orientation_from_panel()
-> -        */
-> -       drm_connector_set_panel_orientation(connector, ctx->orientation);
-
-Are we confident that all the other users of this panel are properly
-getting the orientation and we can remove the above bit of code? It
-looks like one other user is 'rk3566-pinetab2'.
-
-From what I recall, the relevant commits are commit 15b9ca1641f0
-("drm: Config orientation property if panel provides it") and commit
-e3ea1806e4ad ("drm/bridge: panel: Set orientation on panel_bridge
-connector"). I think in all cases the assumption was that, to get the
-right functionality we need to switch to "panel_bridge". That happens
-when we use drmm_of_get_bridge() or devm_drm_of_get_bridge(). ...but
-it looks like Rockchip DRM is directly using
-drm_of_find_panel_or_bridge() and thus hasn't switched to panel
-bridge.
-
-...so, unless I'm mistaken, the other users of this panel driver still
-need the drm_connector_set_panel_orientation() call here and you
-shouldn't remove it. Perhaps Alexander Warnecke could comment about
-whether this is still needed. ...or perhaps someone who maintains
-Rockchip DRM can say whether they have any plans around this area?
-
-If, for some reason, you do remove it then it should at least be
-called out in the description since this is a functionality change.
-
--Doug
