@@ -2,58 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA229322BD
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 11:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE809322DE
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 11:32:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48B9B10E2FF;
-	Tue, 16 Jul 2024 09:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE9A10E48A;
+	Tue, 16 Jul 2024 09:31:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="J8lqRdXl";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="b6zVeaHb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E35010E2FF
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 09:25:49 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9C81220005;
- Tue, 16 Jul 2024 09:25:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1721121947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Bw3XO9TaPkmvJGziVR8FQo3Mg0uUAJduf2jGPmbKZqQ=;
- b=J8lqRdXlo0NUJQV0dpwal+8u80SUlRgAc4EaJBuxlj67X8RvCEF/8rhnGWa3ctBragiO++
- srYgpOWglBXnrh7IslU1mp5KFboj5JJGAODCQurB4ltQ+MyC42nADc4llC+7yrwWGtZRnM
- lh3iKiYpWPMl408zQGR48ansshVH+ZbSy4oEvmJvqUJJWYwg5huvOTwKPrMFZjV66h962J
- hnK0FNxuCaGsPXLGbYJ64X1O77IXZam4lHxdzrkdNgvK7YhesO3JDy2iwDLa7ziqUZVYYc
- skYCVnkJvsi5RXKCeWlE30JooCCKJxyu09qXMit+wTqjV5SpJ7e6u8TS7uqXlw==
-Date: Tue, 16 Jul 2024 11:25:45 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- mairacanal@riseup.net, hamohammed.sa@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/vkms: Fix cpu_to_le16()/le16_to_cpu() warnings
-Message-ID: <ZpY8mS0UtIPUu88i@louis-chauvet-laptop>
-Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
- <jose.exposito89@gmail.com>, 
- rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- mairacanal@riseup.net, hamohammed.sa@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240715151625.6968-2-jose.exposito89@gmail.com>
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3748110E48A
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 09:31:58 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-3679bc8fa9cso158792f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1721122316; x=1721727116; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=bmqE+tUBq0/SZnmu4rbe4uibdP78BlfSNiZLCEbAiTQ=;
+ b=b6zVeaHb8NuYy3mssaPVFRouRQSbQujFOT+s/O8Acfh0r0DFWWavJJ/v3zdXmelJtu
+ 2gNdUKFtWZw2U7JQzHtWBXni556HHezzIE3GiJZ42xlSv+drFimJhZvaocZamLmBh+H/
+ qsAvxA4+4VLzaPV9o/SSwzG5g/IFAS7YREW+k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721122316; x=1721727116;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bmqE+tUBq0/SZnmu4rbe4uibdP78BlfSNiZLCEbAiTQ=;
+ b=alt6lNaSDVCR3JOvs7hRxpO7CE+PyXwdcnC1kSMkXjpq9qNWV359nfsPLMjoNpyCFQ
+ dgXLnlbXqz7qqvY2TxaDTIlxIRsmG65gIXx9oYy8L9FBp6O7xyohZSVEeQBIWNVjQOCL
+ 9sNuP5brtbQdDjylPERp+4bePo+layM2U5igoaW6WGHrY7TVSHjEwQRbeFrNyTOAoodl
+ g7useS7ulUdbfyUk5EQv02Si/GPlaGvTtI+711Ceo82R1kzrMY1c5HHG1Nio29j7eqhK
+ 2If0bqUgxEd/sQDxktQsOxMEfkvEivx/tj08XROJKoaOsfix9RDRbhF4v6ddmQSIcDm7
+ dX2w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWIAdY2T/FtA8f++7GCAMmBlzl3parJAdSdEZCJqqB1A745DIJnrt0B6FwgcTlhUlMDczvTZPQOHE1P2w5rTStOukAq+yZud+Cqzvq3cTCP
+X-Gm-Message-State: AOJu0YxEy0rmAOO22sTg02C/6EO2vbSvGzMOQ0DhwV5gvuoufLhtmxjF
+ Mape22Q56R6BZuowc0IgcXpwc+urFTW9yHFIHMuv0SKXWyWhmVwLIafnl3wfrDc=
+X-Google-Smtp-Source: AGHT+IH/pdOxEOwXcwiFkFydr3Ad0jnhs/61yWLi82ofglrUoK4E94kyYC5hYQMjmbMfPaS16eQmsw==
+X-Received: by 2002:a05:600c:4f89:b0:424:ac9f:5c61 with SMTP id
+ 5b1f17b1804b1-427b88d2cd5mr9618625e9.3.1721122316383; 
+ Tue, 16 Jul 2024 02:31:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3680db038dbsm8356168f8f.95.2024.07.16.02.31.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jul 2024 02:31:55 -0700 (PDT)
+Date: Tue, 16 Jul 2024 11:31:53 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Huan Yang <link@vivo.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+Subject: Re: [PATCH 1/2] dma-buf: heaps: DMA_HEAP_IOCTL_ALLOC_READ_FILE
+ framework
+Message-ID: <ZpY-CfcDdEhzWpxN@phenom.ffwll.local>
+Mail-Followup-To: Huan Yang <link@vivo.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+References: <20240711074221.459589-1-link@vivo.com>
+ <20240711074221.459589-2-link@vivo.com>
+ <5ccbe705-883c-4651-9e66-6b452c414c74@amd.com>
+ <ZpTnzkdolpEwFbtu@phenom.ffwll.local>
+ <99364176-a7f0-4a17-8889-75ff92d5694e@amd.com>
+ <06713006-c5ce-4773-a1b3-ca3bea56ee45@vivo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240715151625.6968-2-jose.exposito89@gmail.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <06713006-c5ce-4773-a1b3-ca3bea56ee45@vivo.com>
+X-Operating-System: Linux phenom 6.9.7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,111 +103,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 15/07/24 - 17:16, Jos� Exp�sito a �crit :
-> Building with Sparse enabled prints this warning for cpu_to_le16()
-> calls:
+On Tue, Jul 16, 2024 at 10:48:40AM +0800, Huan Yang wrote:
+> I just research the udmabuf, Please correct me if I'm wrong.
 > 
->     warning: incorrect type in assignment (different base types)
->         expected unsigned short [usertype]
->         got restricted __le16 [usertype]
-> 
-> And this warning for le16_to_cpu() calls:
-> 
->     warning: cast to restricted __le16
-> 
-> Declare the target buffer as __le16 to fix both warnings.
-> 
-> Signed-off-by: Jos� Exp�sito <jose.exposito89@gmail.com>
-> 
-> ---
-> 
-> v1 -> v2: https://lore.kernel.org/dri-devel/20240712161656.7480-1-jose.exposito89@gmail.com/T/
-> 
->  - Thomas Zimmermann: Declare "pixels" cariable as __le16 instead of
->    multiple casting.
-> ---
->  drivers/gpu/drm/vkms/vkms_formats.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index 36046b12f296..1ff535222bd4 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -75,7 +75,7 @@ static void XRGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixe
->  
->  static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->  {
-> -	u16 *pixels = (u16 *)src_pixels;
-> +	__le16 *pixels = (__force __le16 *)src_pixels;
+> 在 2024/7/15 20:32, Christian König 写道:
+> > Am 15.07.24 um 11:11 schrieb Daniel Vetter:
+> > > On Thu, Jul 11, 2024 at 11:00:02AM +0200, Christian König wrote:
+> > > > Am 11.07.24 um 09:42 schrieb Huan Yang:
+> > > > > Some user may need load file into dma-buf, current
+> > > > > way is:
+> > > > >     1. allocate a dma-buf, get dma-buf fd
+> > > > >     2. mmap dma-buf fd into vaddr
+> > > > >     3. read(file_fd, vaddr, fsz)
+> > > > > This is too heavy if fsz reached to GB.
+> > > > You need to describe a bit more why that is to heavy. I can only
+> > > > assume you
+> > > > need to save memory bandwidth and avoid the extra copy with the CPU.
+> > > > 
+> > > > > This patch implement a feature called DMA_HEAP_IOCTL_ALLOC_READ_FILE.
+> > > > > User need to offer a file_fd which you want to load into
+> > > > > dma-buf, then,
+> > > > > it promise if you got a dma-buf fd, it will contains the file content.
+> > > > Interesting idea, that has at least more potential than trying
+> > > > to enable
+> > > > direct I/O on mmap()ed DMA-bufs.
+> > > > 
+> > > > The approach with the new IOCTL might not work because it is a very
+> > > > specialized use case.
+> > > > 
+> > > > But IIRC there was a copy_file_range callback in the file_operations
+> > > > structure you could use for that. I'm just not sure when and how
+> > > > that's used
+> > > > with the copy_file_range() system call.
+> > > I'm not sure any of those help, because internally they're all still
+> > > based
+> > > on struct page (or maybe in the future on folios). And that's the thing
+> > > dma-buf can't give you, at least without peaking behind the curtain.
+> > > 
+> > > I think an entirely different option would be malloc+udmabuf. That
+> > > essentially handles the impendence-mismatch between direct I/O and
+> > > dma-buf
+> > > on the dma-buf side. The downside is that it'll make the permanently
+> > > pinned memory accounting and tracking issues even more apparent, but I
+> > > guess eventually we do need to sort that one out.
+> > 
+> > Oh, very good idea!
+> > Just one minor correction: it's not malloc+udmabuf, but rather
+> > create_memfd()+udmabuf.
 
-Hi,
+Hm right, it's create_memfd() + mmap(memfd) + udmabuf
 
-I think you don't need __force for this cast, so you can remove it.
-
->  	out_pixel->a = le16_to_cpu(pixels[3]);
->  	out_pixel->r = le16_to_cpu(pixels[2]);
-> @@ -85,7 +85,7 @@ static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_
->  
->  static void XRGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->  {
-> -	u16 *pixels = (u16 *)src_pixels;
-> +	__le16 *pixels = (__force __le16 *)src_pixels;
->  	out_pixel->a = (u16)0xffff;
->  	out_pixel->r = le16_to_cpu(pixels[2]);
-> @@ -95,7 +95,7 @@ static void XRGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_
->  
->  static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->  {
-> -	u16 *pixels = (u16 *)src_pixels;
-> +	__le16 *pixels = (__force __le16 *)src_pixels;
->  
->  	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
->  	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
-> @@ -178,7 +178,7 @@ static void argb_u16_to_XRGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel
->  
->  static void argb_u16_to_ARGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->  {
-> -	u16 *pixels = (u16 *)dst_pixels;
-> +	__le16 *pixels = (__force __le16 *)dst_pixels;
->
->  	pixels[3] = cpu_to_le16(in_pixel->a);
->  	pixels[2] = cpu_to_le16(in_pixel->r);
-> @@ -188,9 +188,9 @@ static void argb_u16_to_ARGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_p
->  
->  static void argb_u16_to_XRGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->  {
-> -	u16 *pixels = (u16 *)dst_pixels;
-> +	__le16 *pixels = (__force __le16 *)dst_pixels;
->
-> -	pixels[3] = 0xffff;
-> +	pixels[3] = (__force __le16)0xffff;
-
-I agree with Thomas Zimmerman, I prefer cpu_to_le16().
-
-With or without those modifications:
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-Thanks,
-Louis Chauvet
-
->  	pixels[2] = cpu_to_le16(in_pixel->r);
->  	pixels[1] = cpu_to_le16(in_pixel->g);
->  	pixels[0] = cpu_to_le16(in_pixel->b);
-> @@ -198,7 +198,7 @@ static void argb_u16_to_XRGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_p
->  
->  static void argb_u16_to_RGB565(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->  {
-> -	u16 *pixels = (u16 *)dst_pixels;
-> +	__le16 *pixels = (__force __le16 *)dst_pixels;
->  
->  	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
->  	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
-> -- 
-> 2.45.2
+> > And you need to complete your direct I/O before creating the udmabuf
+> > since that reference will prevent direct I/O from working.
 > 
+> udmabuf will pin all pages, so, if returned fd, can't trigger direct I/O
+> (same as dmabuf). So, must complete read before pin it.
 
+Why does pinning prevent direct I/O? I haven't tested, but I'd expect the
+rdma folks would be really annoyed if that's the case ...
+
+> But current way is use `memfd_pin_folios` to boost alloc and pin, so maybe
+> need suit it.
+> 
+> 
+> I currently doubt that the udmabuf solution is suitable for our
+> gigabyte-level read operations.
+> 
+> 1. The current mmap operation uses faulting, so frequent page faults will be
+> triggered during reads, resulting in a lot of context switching overhead.
+> 
+> 2. current udmabuf size limit is 64MB, even can change, maybe not good to
+> use in large size?
+
+Yeah that's just a figleaf so we don't have to bother about the accounting
+issue.
+
+> 3. The migration and adaptation of the driver is also a challenge, and
+> currently, we are unable to control it.
+
+Why does a udmabuf fd not work instead of any other dmabuf fd? That
+shouldn't matter for the consuming driver ...
+
+> Perhaps implementing `copy_file_range` would be more suitable for us.
+
+See my other mail, fundamentally these all rely on struct page being
+present, and dma-buf doesn't give you that. Which means you need to go
+below the dma-buf abstraction. And udmabuf is pretty much the thing for
+that, because it wraps normal struct page memory into a dmabuf.
+
+And copy_file_range on the underlying memfd might already work, I haven't
+checked though.
+
+Cheers, Sima
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
