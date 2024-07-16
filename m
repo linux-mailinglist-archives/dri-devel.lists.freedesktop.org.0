@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2776B93314D
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 21:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66A293310A
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 21:00:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53B1210E873;
-	Tue, 16 Jul 2024 19:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99BCA10E859;
+	Tue, 16 Jul 2024 19:00:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ceUxbTXJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y4c67htu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
- [209.85.166.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDBBB10E82A;
- Tue, 16 Jul 2024 18:59:05 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id
- ca18e2360f4ac-8046f65536dso6071739f.1; 
- Tue, 16 Jul 2024 11:59:05 -0700 (PDT)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBDB10E839;
+ Tue, 16 Jul 2024 18:59:07 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id
+ ca18e2360f4ac-7fb93b2e2a3so4689539f.1; 
+ Tue, 16 Jul 2024 11:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721156345; x=1721761145; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721156346; x=1721761146; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y6blOBSVnowRsDepJzeTCLiu7QXKUuExri+0RrzbqrM=;
- b=ceUxbTXJeWK8qSxp7MttHauEyrx1z86KkAtXzTNBis/6aI/jpSlKYUjl6hbVvZpIAz
- oQGz+LgGMFnIfStolHVYMiaNV+p5lQ2VId/jxIMmj5mzrYH0BKvEn7D9bHpLgP2WZDas
- fOL1H7s4HbwbcGb9C1IYk6Cn1EjmsqVlEhRCo5cNTgOPrZo15M7IWfNLA6cRJk3HBmgk
- mlS3CjBAdFrwnPv93kNepQt0E7bk/Wij2kcT1uKBhp0wyI7J7lyTSmGYSUv7kdpOHRRZ
- elbJn0l90QpWjb5PWqxivDfKoaF2U+W0nETH7nRLnb29HgjqaTKn0BdWAYkxj6lmd8xN
- FDMw==
+ bh=wA7EEvNcqBzVLrMMb21MWcD/ne6Fagi31tYXyTCW1gg=;
+ b=Y4c67htun//cMK2tSjgt4HR6pN+cnzND8Lqh8nukiHaDOiJx4Ja0c8V9eQRGEukMQr
+ m9jwtDWBPe6bxcbvPmg/WtPXve7fODjp5aIHacSb/5Aiji5S2+0SQPABojU7MsicdmHs
+ 1PqMN9xVk+6WzLX3dftTtpy96LwzI9w2TCDoceEJ2/nLqRDPPPLZUVPnNzvUaYq2RpRh
+ F4mKpKzWLbsqreVfScMUYov2PuBX2OXIjrgP+7tm9n1I+BfGyudQePZBUhXpkIza1D4j
+ Lh09aKBy5hA7ET/O/2/2cCGE4dOVXNkzNKnqUklDDTAqok46eJylX93JUjrTU54J3ZBY
+ 105w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721156345; x=1721761145;
+ d=1e100.net; s=20230601; t=1721156346; x=1721761146;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=y6blOBSVnowRsDepJzeTCLiu7QXKUuExri+0RrzbqrM=;
- b=XQtbUxb9BKsoQ7xuR2MuVuAvBtv35mTgeV6rJx7U8JCEmsC0fgN0Ar83NWbS9tnyjV
- 3NrqC6o0fy4ctDGR2bp/X+K6xFsGCWLlEebo+qj32NQlTqSAV+QcP1BKeNa/x3QotKLq
- rpcaWufN0r6G6cgYn7dwDIL/sTGI2B4uLmx4T8WCoOPmSUuTSJ2zCG+bI8Qi4RPmzFEc
- Ibkbvs8toZoQrlOV3cmu5DHI9Mp+Bb+AZXg6pz1/OiWeq3qd4qwH7ZBnAh9sZiWMwNJK
- XOKweOjnzWg2AlMezsqCetNcykB9pupxYChQMQFkfueQDc85+jiVi0h5sni3qq5PlNXj
- NwOg==
+ bh=wA7EEvNcqBzVLrMMb21MWcD/ne6Fagi31tYXyTCW1gg=;
+ b=mxXFFkV9/BmDFhpeaxoTa9i0j4p17u1nW601k9CNpRSt5h2DTdPbHnydW+xLHNDwDR
+ /vzLvvMBeR0Y3OA1YZ4qEwv87nqi7RWF9o9iulsdWUn45kV1kNFp33VcKjRCPYx7nFfk
+ /TYJOevOiBPoxt591tmD0YjrICPUypUCLHedL4M5GuECSAhNwmB71ND2b27y/dQGT2MK
+ uR3WTXcf6uJXgukvmQ9Xrxqe6oOu3b+JY6zSj8CAWIWEV1KXpKLLKzdhg0See7bYWeNT
+ LroGyz7nqn5+N8DSe8B7R04qvRVc29pLDC4yqcfilnE11AWMelynL+U3LBjI5IpJ4dWU
+ rnaA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXRVhOffbeh892Args+u+fdLliudKLFWvyypBxbAs0Z0InqATeKwRVeXuL+3BIDYzrfWiiXZAzToPDiCYOj/zlxJXXyv19FbMTTimBkPThMyYJmsms/z6oaqQo8zEGCVHv0niUJ2t6vDuNtIL/7kWJS4NJbSC25JV6iFmOsTXwbbw9uDcI/6s+PH27gzARe/hpIny6l1BjAFmg+JTE3NjxxcOCKfQCUBVDaajnogB8qvOilwiU=
-X-Gm-Message-State: AOJu0YzSVFxrR0w2zTkIxop/mTaBxl9EWbI2/IUhuvkg6jj6COTGaQGu
- kl8yyO6P2N0a2CPEXgtcON8obfsFgXax6SxT1nm+5pqXiPH/lshB
-X-Google-Smtp-Source: AGHT+IHupF215B8HUHSFyCfq+EhhBdI8n2Uwkool8jFM4Uueq2pJrHXQgCTgI0PTVZNLug7iKTYbjA==
-X-Received: by 2002:a05:6602:14c5:b0:803:85ba:3cf9 with SMTP id
- ca18e2360f4ac-816c38c0218mr44418339f.10.1721156345102; 
- Tue, 16 Jul 2024 11:59:05 -0700 (PDT)
+ AJvYcCVEeLLC9Z9bHznSGZcWY6C4ymaNjAM7kmDweOXjx68F3fTK05kTclTSHX8rTeHDKNTLv2w6Is/ZKXgJhXE+zn2PzhggaGDbA1b8d8Uh/hBo9VkM2NJXLDnZKZ4iRglT4WnGLU1epoPUQHtMs/bkHrm1pYF3cudZEFNFNdZgJe1zTi1IV6Q9LzM0gHi7lGDnwuhbnLFTxF6ZHtgR8bVKMlGLbltpYkCa4LDuudFkbjfJ76i31Wc=
+X-Gm-Message-State: AOJu0YxS379pnWRe+mWBa0tyVzqtpMQtuXSk9665A244s/PLNzHtOs6b
+ bxBD4T5fQUk51r7HKTjRXgDz6zCgpVLXAjjcXwfYU5HzxZkF/hlR
+X-Google-Smtp-Source: AGHT+IEhC47yLHdZQK/ojVAnON7EakJJDxnjzB59bSxRuEzqdArkdfVAg42BfhkcRtZiTR0u/zHvDA==
+X-Received: by 2002:a05:6602:15d3:b0:806:f495:3b34 with SMTP id
+ ca18e2360f4ac-816c2a1fbfamr43897839f.2.1721156346283; 
+ Tue, 16 Jul 2024 11:59:06 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-4c210f23f1csm75301173.102.2024.07.16.11.59.04
+ 8926c6da1cb9f-4c210f23f1csm75301173.102.2024.07.16.11.59.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jul 2024 11:59:04 -0700 (PDT)
+ Tue, 16 Jul 2024 11:59:05 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
@@ -68,10 +68,9 @@ Cc: ukaszb@chromium.org, linux@rasmusvillemoes.dk, joe@perches.com,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, kernelnewbies@kernelnewbies.org,
  Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v9-resend 31/54] drm-dyndbg: adapt DRM to invoke
- DYNDBG_CLASSMAP_PARAM
-Date: Tue, 16 Jul 2024 12:57:43 -0600
-Message-ID: <20240716185806.1572048-32-jim.cromie@gmail.com>
+Subject: [PATCH v9-resend 32/54] drm-dyndbg: DRM_CLASSMAP_USE in amdgpu driver
+Date: Tue, 16 Jul 2024 12:57:44 -0600
+Message-ID: <20240716185806.1572048-33-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240716185806.1572048-1-jim.cromie@gmail.com>
 References: <20240716185806.1572048-1-jim.cromie@gmail.com>
@@ -92,54 +91,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Invoke DYNDBG_CLASSMAP_PARAM to hook drm.debug (__drm_debug) to the
-DRM_UT_* classmap, replacing the ad-hoc wiring previously doing it.
+Following the dyndbg-api-fix, replace DECLARE_DYNDBG_CLASSMAP with
+DRM_CLASSMAP_USE.  This refs the defined & exported classmap, rather
+than re-declaring it redundantly, and error-prone-ly.
+
+This resolves the appearance of "class:_UNKNOWN_" in the control file
+for the driver's drm_dbg()s.
+
+Fixes: f158936b60a7 ("drm: POC drm on dyndbg - use in core, 2 helpers, 3 drivers.")
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/drm_print.c | 8 ++------
- include/drm/drm_print.h     | 6 ++++--
- 2 files changed, 6 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 41f167082042..c7455f2076b4 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -69,12 +69,8 @@ DRM_CLASSMAP_DEFINE(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS,
- 		    "DRM_UT_DP",
- 		    "DRM_UT_DRMRES");
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index ea14f1c8f430..83763d37566d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -217,17 +217,7 @@ int amdgpu_damage_clips = -1; /* auto */
  
--static struct ddebug_class_param drm_debug_bitmap = {
--	.bits = &__drm_debug,
--	.flags = "p",
--	.map = &drm_debug_classes,
--};
--module_param_cb(debug, &param_ops_dyndbg_classes, &drm_debug_bitmap, 0600);
-+DRM_CLASSMAP_PARAM_REF(debug, __drm_debug, drm_debug_classes, p);
-+
- #endif
+ static void amdgpu_drv_delayed_reset_work_handler(struct work_struct *work);
  
- void __drm_puts_coredump(struct drm_printer *p, const char *str)
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index b467ee67a281..aa3708c7b6d8 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -141,11 +141,13 @@ enum drm_debug_category {
- };
+-DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+-			"DRM_UT_CORE",
+-			"DRM_UT_DRIVER",
+-			"DRM_UT_KMS",
+-			"DRM_UT_PRIME",
+-			"DRM_UT_ATOMIC",
+-			"DRM_UT_VBL",
+-			"DRM_UT_STATE",
+-			"DRM_UT_LEASE",
+-			"DRM_UT_DP",
+-			"DRM_UT_DRMRES");
++DRM_CLASSMAP_USE(drm_debug_classes);
  
- #ifdef CONFIG_DRM_USE_DYNAMIC_DEBUG
--#define DRM_CLASSMAP_DEFINE(...) DYNDBG_CLASSMAP_DEFINE(__VA_ARGS__)
--#define DRM_CLASSMAP_USE(name)   DYNDBG_CLASSMAP_USE(name)
-+#define DRM_CLASSMAP_DEFINE(...)    DYNDBG_CLASSMAP_DEFINE(__VA_ARGS__)
-+#define DRM_CLASSMAP_USE(name)      DYNDBG_CLASSMAP_USE(name)
-+#define DRM_CLASSMAP_PARAM_REF(...) DYNDBG_CLASSMAP_PARAM_REF(__VA_ARGS__)
- #else
- #define DRM_CLASSMAP_DEFINE(...)
- #define DRM_CLASSMAP_USE(name)
-+#define DRM_CLASSMAP_PARAM_REF(...)
- #endif
- 
- static inline bool drm_debug_enabled_raw(enum drm_debug_category category)
+ struct amdgpu_mgpu_info mgpu_info = {
+ 	.mutex = __MUTEX_INITIALIZER(mgpu_info.mutex),
 -- 
 2.45.2
 
