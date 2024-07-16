@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C379F932855
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 16:25:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7925E932858
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 16:26:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA24410E71B;
-	Tue, 16 Jul 2024 14:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7716D10E720;
+	Tue, 16 Jul 2024 14:26:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FmnxSbAs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Du9dcPuq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3E9410E71C;
- Tue, 16 Jul 2024 14:25:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E997810E71C;
+ Tue, 16 Jul 2024 14:25:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B8DBF60DBA;
- Tue, 16 Jul 2024 14:25:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2148BC116B1;
- Tue, 16 Jul 2024 14:25:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5A8516122C;
+ Tue, 16 Jul 2024 14:25:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 236E1C116B1;
+ Tue, 16 Jul 2024 14:25:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721139950;
- bh=Xn+6qUzEpTK6qfPzPjy3rGiaLoMBOtgvKgPsCnJsxrw=;
+ s=k20201202; t=1721139957;
+ bh=L9vw0SOo7zsmSC9f3Fyo4092LaNKWbBAXxFqQ2talOE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FmnxSbAsnQkWj/lqjVx7qGHXsOObpICYIPisn2JHYdlvpGUbF++S/ahnSQiaXlkoe
- 1Ia6b77eiZA9SWz+kxSXNo2mra5JlKz0w6vpr1nznrsbyDLXxdUy3/JmkZTLghL/T4
- JHziIraQIMIv8mXmBUQ/uUoOR+6QJq9/XpJfcnwx9Ap3pReFJTRqPGxuommu0Luqia
- i7ZJADI5EpVuXUCbk9RpHUgK/B1saR8XtgnJuI+cbnycbMjEbESDJMrxhFjWhZcW1m
- s0UiBlgoCs8iPsX/4mottu7ov1YADDXLLLiEgAuZITv7KpJznACVjJvvPCWmEp6WL0
- 8pqWmXlV+1GUw==
+ b=Du9dcPuqBnXxf+wpWZuhcBsKdFkLhJb905h5Dqs4qXH2FSNOAWwIZRR2d6itWA2bE
+ 5B67JVKGp3IaGltTYsHQIXuS3H0cJ5ZV9pkCQ6Ksd5oxDDndLzIL+nKsg6TPV++MrW
+ upOhQV0Ptcw2JJNLBcW+SzUtwueJkOHh3a7ipoFD5v3homhWiO11zsHwXS45OyoSsi
+ aIHgLJPsndAvCb3m/EVpR5BCHQIptHYP2p/PPMjMapuMHYkth4q8HVhn2uZ5zF1Oz9
+ 0gaE9a9nNgdP2INHZWCfB5qch39ufckUiNA8FOx95JLut5KjJS7PCxVuzFxPqMJvT/
+ DXi2EsWcMDu/w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tom Chung <chiahsuan.chung@amd.com>, Sun peng Li <sunpeng.li@amd.com>,
- Jerry Zuo <jerry.zuo@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: Tom Chung <chiahsuan.chung@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Rodrigo Siqueira <rodrigo.siqueira@amd.com>, Jerry Zuo <jerry.zuo@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, alex.hung@amd.com,
- hamza.mahfooz@amd.com, roman.li@amd.com, mario.limonciello@amd.com,
- joshua@froggi.es, wayne.lin@amd.com, srinivasan.shanmugam@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.9 11/22] drm/amd/display: Reset freesync config
- before update new state
-Date: Tue, 16 Jul 2024 10:24:18 -0400
-Message-ID: <20240716142519.2712487-11-sashal@kernel.org>
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, alex.hung@amd.com, hamza.mahfooz@amd.com,
+ roman.li@amd.com, joshua@froggi.es, wayne.lin@amd.com,
+ srinivasan.shanmugam@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.9 12/22] drm/amd/display: Add refresh rate range
+ check
+Date: Tue, 16 Jul 2024 10:24:19 -0400
+Message-ID: <20240716142519.2712487-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240716142519.2712487-1-sashal@kernel.org>
 References: <20240716142519.2712487-1-sashal@kernel.org>
@@ -70,40 +73,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tom Chung <chiahsuan.chung@amd.com>
 
-[ Upstream commit 6b8487cdf9fc7bae707519ac5b5daeca18d1e85b ]
+[ Upstream commit 74ad26b36d303ac233eccadc5c3a8d7ee4709f31 ]
 
 [Why]
-Sometimes the new_crtc_state->vrr_infopacket did not sync up with the
-current state.
-It will affect the update_freesync_state_on_stream() does not update
-the state correctly.
+We only enable the VRR while monitor usable refresh rate range
+is greater than 10 Hz.
+But we did not check the range in DRM_EDID_FEATURE_CONTINUOUS_FREQ
+case.
 
 [How]
-Reset the freesync config before get_freesync_config_for_crtc() to
-make sure we have the correct new_crtc_state for VRR.
+Add a refresh rate range check before set the freesync_capable flag
+in DRM_EDID_FEATURE_CONTINUOUS_FREQ case.
 
-Reviewed-by: Sun peng Li <sunpeng.li@amd.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
 Signed-off-by: Jerry Zuo <jerry.zuo@amd.com>
 Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index f866a02f4f489..53a55270998cc 100644
+index 53a55270998cc..6f43797e1c060 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10028,6 +10028,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
- 	}
- 
- 	/* Update Freesync settings. */
-+	reset_freesync_config_for_crtc(dm_new_crtc_state);
- 	get_freesync_config_for_crtc(dm_new_crtc_state,
- 				     dm_new_conn_state);
- 
+@@ -11290,9 +11290,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 		if (is_dp_capable_without_timing_msa(adev->dm.dc,
+ 						     amdgpu_dm_connector)) {
+ 			if (edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ) {
+-				freesync_capable = true;
+ 				amdgpu_dm_connector->min_vfreq = connector->display_info.monitor_range.min_vfreq;
+ 				amdgpu_dm_connector->max_vfreq = connector->display_info.monitor_range.max_vfreq;
++				if (amdgpu_dm_connector->max_vfreq -
++				    amdgpu_dm_connector->min_vfreq > 10)
++					freesync_capable = true;
+ 			} else {
+ 				edid_check_required = edid->version > 1 ||
+ 						      (edid->version == 1 &&
 -- 
 2.43.0
 
