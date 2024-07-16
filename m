@@ -2,120 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91AB932601
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 13:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F76932634
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 14:07:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05CB410E683;
-	Tue, 16 Jul 2024 11:56:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BDBE10E68B;
+	Tue, 16 Jul 2024 12:07:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MGpda1pP";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="gRUDObie";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 844BE10E684
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 11:56:49 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a77bf336171so880367366b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 04:56:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721131008; x=1721735808; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=2Q07X/9cHC21L2J2kDcebKLKVfHxULB2QbqEJK6tKlE=;
- b=MGpda1pPcj2c03JB9SdodmAIgmPxzRNmYkOLsLb1JbF/LRkEb+EPH5nx7WgzHj0dcN
- MAsJCWZ+TNc0pt/Xzy2/ndsLteHJuIAlGqDS6GAp1R+wdeGzBFyW4Cd6SkTAOiy2wF6W
- W0oYIHBnQakiE7t5Lzp4rtb5nc8wmKZpTDQj8hRuNcxwNg59MeBYVL8R1JENDkXmyK8o
- 7KBXfE+oFSsk40W3mLHr9EtoHg1xRbhyYmVQXtYDeWO0zGhI9M9OEqSlR5nRz7flXxTb
- mSIPfhesLPBMd6XsuI2tNI8WvAonu5pVly3Z+gVUKuqECS6yTVkISxRMA8tcwsJzFYXD
- 0DUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721131008; x=1721735808;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2Q07X/9cHC21L2J2kDcebKLKVfHxULB2QbqEJK6tKlE=;
- b=OrQRjI/3mof5r/RbyiaXXoxthOhJFkq0+8tTWhcI8QEK+bDnDhBlw6+BEfVGeSK6Uk
- GbtVV2Z1IS9aciNtOQHEG8C2EF9TaNDp8g0p+nR/l7jIX4DDrnv0miZlW0pZi7FP+iUV
- ohiycM0MmPREvT9ABNzlC4HXxlRXA1QiE5qIh6ImGPT4MwijdefEKjrrsIcbsfusqv+I
- 0IEbNi516RDnJ+fu4i86YURPAN764mLUkRf5u3B0K3mYF1gMiP7WbxvMHEHkqeMEIWHL
- S+LtvOQymXATKXr8A0iiCqlqsirHiMjHHiWyh3K9WXeDZWbCYgetvDsZdG3RdnKS2uhD
- I7Cg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVrj+/E3tYpxpD1/SFbZ2P5Y1XcdHgiCF9KXUDZsG5vGqbxrBeRT5ESn1LJWW+tJuGb/spSErv0ANoZ5AWQlVy0MERs+DdeWlPnNI00KiPk
-X-Gm-Message-State: AOJu0YyrzhmfG/GuHKzWPi9SscAwvjSFNbM7jBpRjQbic+xPo0UXjOJx
- UR/vsrA4yZMi+Za1yLQbO1SR6taCFDQALMoSb7SipfRBubONjw4R7wd2s73z/vc=
-X-Google-Smtp-Source: AGHT+IERPmjrIM2aDqr7ZP8eOgQJXvSWAdRl9PJTlPlWacu9qkHu2w5vUbj1p6hAJbTPMyu7yz2lAg==
-X-Received: by 2002:a17:907:20cf:b0:a72:5f3f:27a2 with SMTP id
- a640c23a62f3a-a79edc4bbe5mr141764666b.26.1721131007390; 
- Tue, 16 Jul 2024 04:56:47 -0700 (PDT)
-Received: from [192.168.105.194] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a79bc80d688sm305157866b.189.2024.07.16.04.56.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Jul 2024 04:56:47 -0700 (PDT)
-Message-ID: <8e2ebc97-f455-4f41-81da-af56263e6cf6@linaro.org>
-Date: Tue, 16 Jul 2024 13:56:43 +0200
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2088.outbound.protection.outlook.com [40.107.94.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C21910E68B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 12:07:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ngDGn2xHZN4Ta9Y/Pxp6+dhg5Agw2KR4JmxxbP9ziDfQWAi7TpRkyZSnXtfHTM60xh5huqYEAJVh0gy7VMeGOr7zbKCyYhTnbDyHSXSBYpfWdS5fpfue4q0E15ouneeieMXDbVSREKo/5eVp7Wj1HhNt7ODf8JtQHRCSjR2b2JJpot0UTtr6Fa6S1H0P2g2F/3DKMAKCwFFjRhS2CfGw8HbYBgb6s/5yquVnbWBS1ZpHVh4YtSD/wSAnvyc5heSd6QZUqTqpMFhd4a9odHvLtbxXLVAQlWKhsXezRFt6oj30AXNulIAs/MhmVasYqLGOUWUQZtBE0qwVz9xzG+OP8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GqVCtoy8HHHsrufcKChlmZaC42u0DTdB3Bxv73LBqY4=;
+ b=RgOmQBMDwb/bC1TD7afVhE4gjh6pj9m12TWIc/SuNkCbKpG2B2aLyTlBUuEeO6nOLajz4ibTbfGDk+ZHRYspXKxRHEbXF7jN+zWQn4T1CGQmez5Lb07sfAK/xLvCDuS7bZ2NDida9pmfxWtcYBTlSgJ5eHVXoDJkFDX/PfB2J5/Xb9eMo3hky6bu4MxlbHl0sE8/kqFAow0RefaWRo1ALyTl7Z2vZHaCLCsD7rGcnfY39kc6lMFiNVpIJwqJ1rw1yDFWIkmX/uExFdhJfAd3QAkybxLpkJ5Y9n7g12aKhpuhmgjLnv03q9PSOC1dhcuND/+T7iP0W0QKfiWnzvIO4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GqVCtoy8HHHsrufcKChlmZaC42u0DTdB3Bxv73LBqY4=;
+ b=gRUDObieLuyvQtgx7l9B+Mf2IH4AX84+3Ot6kAPSBZ3lpsJpGSI6GHbuSm5HPgHlNog37LCCd+YgvppOsgMphyH5aJNIdVIf6Jx6JYrGY75WVTet3VN5LbmKbjoTWcywqy7iAATjtWh3iUsMgUblaC1f/mJIWosa+guaPehXO18=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB8722.namprd12.prod.outlook.com (2603:10b6:806:373::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29; Tue, 16 Jul
+ 2024 12:07:27 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7762.027; Tue, 16 Jul 2024
+ 12:07:27 +0000
+Content-Type: multipart/alternative;
+ boundary="------------sM5TImLdZNsao0x2zJkRUKrG"
+Message-ID: <d3ad46ea-df7f-4402-b48a-349e957f198b@amd.com>
+Date: Tue, 16 Jul 2024 14:07:20 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/5] drm/msm/adreno: Implement SMEM-based speed bin
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20240709-topic-smem_speedbin-v5-0-e2146be0c96f@linaro.org>
- <20240709-topic-smem_speedbin-v5-1-e2146be0c96f@linaro.org>
- <20240715200419.l47ng6efa25in6sg@hu-akhilpo-hyd.qualcomm.com>
+Subject: Re: [PATCH 1/2] dma-buf: heaps: DMA_HEAP_IOCTL_ALLOC_READ_FILE
+ framework
+To: Huan Yang <link@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+References: <20240711074221.459589-1-link@vivo.com>
+ <20240711074221.459589-2-link@vivo.com>
+ <5ccbe705-883c-4651-9e66-6b452c414c74@amd.com>
+ <ZpTnzkdolpEwFbtu@phenom.ffwll.local>
+ <99364176-a7f0-4a17-8889-75ff92d5694e@amd.com>
+ <06713006-c5ce-4773-a1b3-ca3bea56ee45@vivo.com>
+ <ZpY-CfcDdEhzWpxN@phenom.ffwll.local>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20240715200419.l47ng6efa25in6sg@hu-akhilpo-hyd.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZpY-CfcDdEhzWpxN@phenom.ffwll.local>
+X-ClientProxiedBy: FR4P281CA0086.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cd::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB8722:EE_
+X-MS-Office365-Filtering-Correlation-Id: c1844897-6f33-4ef0-d591-08dca58fdbef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YTM5VGRPQXI3WEw5YlBUU3IxWGJtS0FOZm5aUi9IWk5SYW9EMDdrZW13V2RH?=
+ =?utf-8?B?eU9PNGxxRzF0M2E3eXFQVnhFamhlQyttR3MreDhFbGg0UmhxV0VoOSt3RHRw?=
+ =?utf-8?B?VDNDS3VuSFNabDRnU0lhRkg4T2NhelFQUmluYnRpVTJJcFJnbTFwb1lYR1BQ?=
+ =?utf-8?B?b3VTS2VLQ25WY01Ed0JrdmNXcFRXN2hhWjcwanNWZ1ZCakpGd2FwREZweTlq?=
+ =?utf-8?B?SzV3SDViWkpjYWRuckVPNlJzWEZVbENpTURBbzZJZzFkOENEV3RIOC9JVXVY?=
+ =?utf-8?B?VWpQUGFQcnNJb1dIb1c3ODVIY21uRzF5YlJod1o5S0RyajJleUZGUU9ZbjBu?=
+ =?utf-8?B?NUJoZ0Y2c016WUxWTEx6VlEwWFFYcUMyWWlPZXJyU1h0eVk2Y0NZVFp6clVl?=
+ =?utf-8?B?Kzd5KzBiMjZ0L1oxWVhwK0RlSmhuWWQwa2hrSStPaytqc1ZRNk5JNEd0Vkhn?=
+ =?utf-8?B?ZzczbzBoT1VCbWlSL1ZMMmJuRi9GK2VzTWFWbktaTGF5dUlXbDB5SFhtV2pm?=
+ =?utf-8?B?TlB2dGljcHlDREs1OVJPc0E1VEVHOGt3SVNXUXlUZDIvTm5UTEtjcUNZQTRG?=
+ =?utf-8?B?RlQvL2swTit0TjZPQW9xZ2VwRFpNa2wvNjF6U285ZktBUUZYV2pXNDZSSTNB?=
+ =?utf-8?B?YUtHcGY2YTdGKzc3YS9IWXlNUGxWVzE4eE5xMHNRYTdwTEpuZi92WGNhSFhn?=
+ =?utf-8?B?RjBQUmpqRFhNMVhONFVWSmxiVGlkbFlERVVxTk9XTGl6eGNJNk1xSjkzb0dY?=
+ =?utf-8?B?YjN3VTlnYnhMU1lpSUN3TVFsR2cra05NWWlIaGM5YUFnZENHMjQwbHdPdDNm?=
+ =?utf-8?B?WW81Y2pUSGZCL2MvWXdPTDBSQTlNM3p0WlFRRkpkWE96LytxSnRCd0FSS1po?=
+ =?utf-8?B?aWlYWHhra0F3bGFxOWRiMjFrV0VwTzdUajl5RXU4TFI5Ym54cHUxQ0cvczU1?=
+ =?utf-8?B?VkZpUGR0T1JJZGdHa1hHVklMeWFJSHZHeE5ZdnlFeUJMVUJ2Rm1NcnJWWkZh?=
+ =?utf-8?B?THpSUjJKbVpaa2JuazdwUTZkb2ZKVGRJNVplVU5lbEFod0ZXakNhdE82U25E?=
+ =?utf-8?B?bGxMaFV4bU9ucDViTmtCYjVHdmMxYTN6Njg0V1o1ZkcwbCs0ODV4UEMvWnJs?=
+ =?utf-8?B?OVdYNzUyTEFmOWR5ZDNSNGs5VTJqNTJtVFRTYnZxdlliVTk1WWp3Y0J5LzI1?=
+ =?utf-8?B?c0dtV3pPSlFqODJMVk1xeFpObCsyVDdSU3NiM1lrbFgyNDdad1MxanN2Unha?=
+ =?utf-8?B?S2pKMllxZ3VhU2lzWjJ3cE5PWkVSZ29UQWdoZFV4NUcvTnlhSEVnZUhPRFE3?=
+ =?utf-8?B?S2JUK2FpbEtsaE15N0twUEo1aXdDMlk4cUp6cm9wZVdoSTdvbU4wdmMyNXV0?=
+ =?utf-8?B?SDBxSUEyNjIwNXpwQklUV3M2cHdMQnRtY2Nka2JQNUg0dlpXUGFTWFdzYzd2?=
+ =?utf-8?B?dGhLOElSQW9hQWYwV0FueUMwMVZjRVp6RlZHSjJiUTBtL0s3bzZVb2pheXh5?=
+ =?utf-8?B?RnBaK1NuVFBVMkRvVG1kc2lFbU9sLzVYa045a0hHSVQ1YmpTbTVmUHk5bnBo?=
+ =?utf-8?B?RGVTbmFCUUNFNDBtZ1N3OWsrMnhFQWsrZzErWlk2Qk5ONWpzdUJVU1pjMWYw?=
+ =?utf-8?B?R094OFJ5VmwxS3dkT3RqRkdtV25uT3hxV011SWREZExkL2Y0SkpBR2JGRllL?=
+ =?utf-8?B?c0JuUVF1WXMxWUJXdi9hdmVyamFsd2ZQMEQwdjBoN2haT2hIbVlEcndDTmdz?=
+ =?utf-8?B?YXhST3huOElldU9WZG4xSEhwaEkrQ1o2ODBic1YxazNpKzgrM3p0TVpPaTQy?=
+ =?utf-8?B?M3JZblI5N0JZRVJHY1pBa0tEVkNhQmJndGcyUTVRbVliSHprVnZxRkc0bmtF?=
+ =?utf-8?Q?/eYKQ43vTq8JY?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnBjclg3dnZmd1ZnK3hQczlnK1hMVXdESDkycFJIWW5KbnlEN1hrc09rQW5B?=
+ =?utf-8?B?RjQzMDZac3pQVXVxVGh3djU3ZHgrMmx0RWtsMGdLS01ML0dzYk5rcjJSdFdu?=
+ =?utf-8?B?WTBRNVlvUDZwYk0xMnAvOFZ1K2E2czdQM0h6cGNhSVpPaFF5SjNTN1pJd2No?=
+ =?utf-8?B?eFluR2lpSDNRT21zNmVEV2pjUzRKYjhORVphRTRkRS9sZ0N1NkhsSnBNT1hu?=
+ =?utf-8?B?TVd0M3FLbmRzNzJYQUZYaS8wWXdmeStQMEhjZ2NqdU1kZDV5UzNzSVRmS0pQ?=
+ =?utf-8?B?WXhSRkZZQ21xalpmajJGQWs4bUozYUR6WDkwWjd5enRLYzAySzVPVUFpS051?=
+ =?utf-8?B?SkpySVdoQXJqZ00reGpmSXVsRERFOU1hNFFxbDJhVUwzcVhWUnBlOFo0ZkIy?=
+ =?utf-8?B?KzZ6YzhacGVQVllGUFVYcHFGZ2ZEVG9HdXY2WDUwcDd6Q0pDWU1Uckt6dWZY?=
+ =?utf-8?B?WFM3eXZhTGMrREJwOXU3b1VILzY2SmNjTEVtaVdWZEtSVEtvOUZFZ01OR0x5?=
+ =?utf-8?B?RlNpVDlQM1kyZkZXR0dJalhyRjZlcndYWnh0NXRhdVhvMmFPa0dhZzdhUHZi?=
+ =?utf-8?B?YkxqTWh4Q1FjaVlXOVUvODhGMzB2UWpyYy84bHZwTllEQVp0QVloWGxVcVoz?=
+ =?utf-8?B?K21tK1ZHc3NCaGEwakh2MElNQWwySGdWVU5BME1SSFJHU3VMbXdpRUlvZ2JX?=
+ =?utf-8?B?TjF0QTByWjk3K24xTHNaTHNYWUdRSWtadWNaRjZDWm1WZjRoRkxydktvYU15?=
+ =?utf-8?B?U2xtaGRGSmhvNlF2NWNJQnNxWEcwODZuamZ1KzdMdC9CTllLTkFPdUJTaU4z?=
+ =?utf-8?B?Tm9odFh3czNvd0ZiR2VJbGRlUzJmc2dmTU5tSDhNTmw5ZlVZTVhzWWFVemVz?=
+ =?utf-8?B?RURIOStaRzF4SlVaOG5OMnIrbTFkUUV5K1lRbW54VlhwZzFxN3BWcGxsNjgv?=
+ =?utf-8?B?UGwxNWp6REdsQU1mMXlCdUIvcTQrajM1WjFMV0xJRW9YemJLMEdLbDRzTkRk?=
+ =?utf-8?B?WXVJSEtYNHFuZHRTQ2ZxamtVZkhVRFBCU2Q2b3Y3OEFzdEVyd1RyOFVDNWlP?=
+ =?utf-8?B?N2pEMUlESXQyL1RSSjVLZmhoQ2RpM3o4Z3lvUFBEb0NMK0JwRjJYSTVBd05j?=
+ =?utf-8?B?VktuQ3gvais0NkJ1NWQ0ckpnc1pseEtVZk92S2F4c28vb2hSTGtrdGdoSjY1?=
+ =?utf-8?B?dTl0YXFvcFFMdTJNWDdGMHhNZlBRR2M1c3BOOWtQTkh3UEs3c2JWR2FhcUlx?=
+ =?utf-8?B?NlQvY0pFWTVWQUlrZTdKV0tPTHNLRjR4azZoSHB3QWdPWi9xSVFoU0hNZ3BW?=
+ =?utf-8?B?L1E3RS9NQStvdVpmaUZYK25RMlVpUzZsS0lwV1ZoRUZzWU9jWEgzeEZFNS9p?=
+ =?utf-8?B?YU1EUFRLa0tUWThaMkpDVE1mdHpOUVE5ODhMMHlLeG8xNlF0SjVZeW9xem1V?=
+ =?utf-8?B?NHpkNjR5YWU5ZUNDZTUzekJpUnJRdHpjUGJFMFN0S211bE5UZjZFRnM4NEh2?=
+ =?utf-8?B?c2gwby94SU9VNUczY3ZtVlRpTTF4YmxMWDVLZTQ3b3RMeEhMckZmN0VQcmlx?=
+ =?utf-8?B?OTZXSEVTakNFVTd5eWVDVzE2Y3ZhSWorb25YSkk1b2JlbXdjeGJvR0p4a05D?=
+ =?utf-8?B?L3lObllveXhMaDRnSXV0cHNtSFVweGRTRkMwOGNYcTRNUnBKMUp5QkFwYUdW?=
+ =?utf-8?B?ekhWWDFWYnB5RWlhazdaQ2kxYUdLYjQ4Q0xxaUF4eUdibURCcXVQZGUrKzFw?=
+ =?utf-8?B?VGwweXNOSjdSaDRUZGNlaDIxVWtKa2V0WkJ6QXhpMDlVek54VmlFcVhnOXRX?=
+ =?utf-8?B?alFTSS9YaktTN1V2RWR4QTB6QUlxMVhHZGpSbTBrZDF6ZTAxVytPNnZqUTJV?=
+ =?utf-8?B?NzJCR1dZcS9LaHhoaEZMZFhib2RsbEN0MlhsblVPZWdTVEtyR0pwZ256bEZo?=
+ =?utf-8?B?Um5XRUljTFBiOFNaQndXdk96d1hObTVWclZpdVcvcFFiNk5kUzgrMUZCWW5G?=
+ =?utf-8?B?d3FPV1A3U0RtQ2pMT2xQRCtuK3ZuTGl5OE9RaHR6RVpUc05XN094YkJtMUtX?=
+ =?utf-8?B?Y292WHhCODRUVGxxc2k1QnhhaDI5L1JtR1oxcGMxNGJsUjRXemdQQm5QVG1o?=
+ =?utf-8?Q?CF1Q=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1844897-6f33-4ef0-d591-08dca58fdbef
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2024 12:07:26.9937 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: os1qn3aFz92lMy/L/XUl8Ve4a2PD9r1aOlRcblvK/FJKKEnu/g73HKq9xn7YXSOT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8722
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,46 +172,280 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15.07.2024 10:04 PM, Akhil P Oommen wrote:
-> On Tue, Jul 09, 2024 at 12:45:29PM +0200, Konrad Dybcio wrote:
->> On recent (SM8550+) Snapdragon platforms, the GPU speed bin data is
->> abstracted through SMEM, instead of being directly available in a fuse.
+--------------sM5TImLdZNsao0x2zJkRUKrG
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Am 16.07.24 um 11:31 schrieb Daniel Vetter:
+> On Tue, Jul 16, 2024 at 10:48:40AM +0800, Huan Yang wrote:
+>> I just research the udmabuf, Please correct me if I'm wrong.
 >>
->> Add support for SMEM-based speed binning, which includes getting
->> "feature code" and "product code" from said source and parsing them
->> to form something that lets us match OPPs against.
+>> 在 2024/7/15 20:32, Christian König 写道:
+>>> Am 15.07.24 um 11:11 schrieb Daniel Vetter:
+>>>> On Thu, Jul 11, 2024 at 11:00:02AM +0200, Christian König wrote:
+>>>>> Am 11.07.24 um 09:42 schrieb Huan Yang:
+>>>>>> Some user may need load file into dma-buf, current
+>>>>>> way is:
+>>>>>>      1. allocate a dma-buf, get dma-buf fd
+>>>>>>      2. mmap dma-buf fd into vaddr
+>>>>>>      3. read(file_fd, vaddr, fsz)
+>>>>>> This is too heavy if fsz reached to GB.
+>>>>> You need to describe a bit more why that is to heavy. I can only
+>>>>> assume you
+>>>>> need to save memory bandwidth and avoid the extra copy with the CPU.
+>>>>>
+>>>>>> This patch implement a feature called DMA_HEAP_IOCTL_ALLOC_READ_FILE.
+>>>>>> User need to offer a file_fd which you want to load into
+>>>>>> dma-buf, then,
+>>>>>> it promise if you got a dma-buf fd, it will contains the file content.
+>>>>> Interesting idea, that has at least more potential than trying
+>>>>> to enable
+>>>>> direct I/O on mmap()ed DMA-bufs.
+>>>>>
+>>>>> The approach with the new IOCTL might not work because it is a very
+>>>>> specialized use case.
+>>>>>
+>>>>> But IIRC there was a copy_file_range callback in the file_operations
+>>>>> structure you could use for that. I'm just not sure when and how
+>>>>> that's used
+>>>>> with the copy_file_range() system call.
+>>>> I'm not sure any of those help, because internally they're all still
+>>>> based
+>>>> on struct page (or maybe in the future on folios). And that's the thing
+>>>> dma-buf can't give you, at least without peaking behind the curtain.
+>>>>
+>>>> I think an entirely different option would be malloc+udmabuf. That
+>>>> essentially handles the impendence-mismatch between direct I/O and
+>>>> dma-buf
+>>>> on the dma-buf side. The downside is that it'll make the permanently
+>>>> pinned memory accounting and tracking issues even more apparent, but I
+>>>> guess eventually we do need to sort that one out.
+>>> Oh, very good idea!
+>>> Just one minor correction: it's not malloc+udmabuf, but rather
+>>> create_memfd()+udmabuf.
+> Hm right, it's create_memfd() + mmap(memfd) + udmabuf
+>
+>>> And you need to complete your direct I/O before creating the udmabuf
+>>> since that reference will prevent direct I/O from working.
+>> udmabuf will pin all pages, so, if returned fd, can't trigger direct I/O
+>> (same as dmabuf). So, must complete read before pin it.
+> Why does pinning prevent direct I/O? I haven't tested, but I'd expect the
+> rdma folks would be really annoyed if that's the case ...
+
+Pinning (or rather taking another page reference) prevents writes from 
+using direct I/O because writes try to find all references and make them 
+read only so that nobody modifies the content while the write is done.
+
+As far as I know the same approach is used for NUMA migration and 
+replacing small pages with big ones in THP. But for the read case here 
+it should still work.
+
+>> But current way is use `memfd_pin_folios` to boost alloc and pin, so maybe
+>> need suit it.
 >>
->> Due to the product code being ignored in the context of Adreno on
->> production parts (as of SM8650), hardcode it to SOCINFO_PC_UNKNOWN.
 >>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
+>> I currently doubt that the udmabuf solution is suitable for our
+>> gigabyte-level read operations.
+>>
+>> 1. The current mmap operation uses faulting, so frequent page faults will be
+>> triggered during reads, resulting in a lot of context switching overhead.
+>>
+>> 2. current udmabuf size limit is 64MB, even can change, maybe not good to
+>> use in large size?
+> Yeah that's just a figleaf so we don't have to bother about the accounting
+> issue.
+>
+>> 3. The migration and adaptation of the driver is also a challenge, and
+>> currently, we are unable to control it.
+> Why does a udmabuf fd not work instead of any other dmabuf fd? That
+> shouldn't matter for the consuming driver ...
+>
+>> Perhaps implementing `copy_file_range` would be more suitable for us.
+> See my other mail, fundamentally these all rely on struct page being
+> present, and dma-buf doesn't give you that. Which means you need to go
+> below the dma-buf abstraction. And udmabuf is pretty much the thing for
+> that, because it wraps normal struct page memory into a dmabuf.
+>
+> And copy_file_range on the underlying memfd might already work, I haven't
+> checked though.
 
-[...]
+Yeah completely agree.
 
->>  
->> -	if (adreno_read_speedbin(dev, &speedbin) || !speedbin)
->> +	if (adreno_read_speedbin(adreno_gpu, dev, &speedbin) || !speedbin)
->>  		speedbin = 0xffff;
->> -	adreno_gpu->speedbin = (uint16_t) (0xffff & speedbin);
->> +	adreno_gpu->speedbin = speedbin;
-> 
-> There are some chipsets which uses both Speedbin and Socinfo data for
-> SKU detection [1].
+Regards,
+Christian.
 
-0_0
+>
+> Cheers, Sima
+
+--------------sM5TImLdZNsao0x2zJkRUKrG
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 16.07.24 um 11:31 schrieb Daniel Vetter:<br>
+    <blockquote type="cite" cite="mid:ZpY-CfcDdEhzWpxN@phenom.ffwll.local">
+      <pre class="moz-quote-pre" wrap="">On Tue, Jul 16, 2024 at 10:48:40AM +0800, Huan Yang wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">I just research the udmabuf, Please correct me if I'm wrong.
+
+在 2024/7/15 20:32, Christian König 写道:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">Am 15.07.24 um 11:11 schrieb Daniel Vetter:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">On Thu, Jul 11, 2024 at 11:00:02AM +0200, Christian König wrote:
+</pre>
+            <blockquote type="cite">
+              <pre class="moz-quote-pre" wrap="">Am 11.07.24 um 09:42 schrieb Huan Yang:
+</pre>
+              <blockquote type="cite">
+                <pre class="moz-quote-pre" wrap="">Some user may need load file into dma-buf, current
+way is:
+&nbsp;&nbsp;&nbsp; 1. allocate a dma-buf, get dma-buf fd
+&nbsp;&nbsp;&nbsp; 2. mmap dma-buf fd into vaddr
+&nbsp;&nbsp;&nbsp; 3. read(file_fd, vaddr, fsz)
+This is too heavy if fsz reached to GB.
+</pre>
+              </blockquote>
+              <pre class="moz-quote-pre" wrap="">You need to describe a bit more why that is to heavy. I can only
+assume you
+need to save memory bandwidth and avoid the extra copy with the CPU.
+
+</pre>
+              <blockquote type="cite">
+                <pre class="moz-quote-pre" wrap="">This patch implement a feature called DMA_HEAP_IOCTL_ALLOC_READ_FILE.
+User need to offer a file_fd which you want to load into
+dma-buf, then,
+it promise if you got a dma-buf fd, it will contains the file content.
+</pre>
+              </blockquote>
+              <pre class="moz-quote-pre" wrap="">Interesting idea, that has at least more potential than trying
+to enable
+direct I/O on mmap()ed DMA-bufs.
+
+The approach with the new IOCTL might not work because it is a very
+specialized use case.
+
+But IIRC there was a copy_file_range callback in the file_operations
+structure you could use for that. I'm just not sure when and how
+that's used
+with the copy_file_range() system call.
+</pre>
+            </blockquote>
+            <pre class="moz-quote-pre" wrap="">I'm not sure any of those help, because internally they're all still
+based
+on struct page (or maybe in the future on folios). And that's the thing
+dma-buf can't give you, at least without peaking behind the curtain.
+
+I think an entirely different option would be malloc+udmabuf. That
+essentially handles the impendence-mismatch between direct I/O and
+dma-buf
+on the dma-buf side. The downside is that it'll make the permanently
+pinned memory accounting and tracking issues even more apparent, but I
+guess eventually we do need to sort that one out.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">
+Oh, very good idea!
+Just one minor correction: it's not malloc+udmabuf, but rather
+create_memfd()+udmabuf.
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Hm right, it's create_memfd() + mmap(memfd) + udmabuf
+
+</pre>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">And you need to complete your direct I/O before creating the udmabuf
+since that reference will prevent direct I/O from working.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+udmabuf will pin all pages, so, if returned fd, can't trigger direct I/O
+(same as dmabuf). So, must complete read before pin it.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Why does pinning prevent direct I/O? I haven't tested, but I'd expect the
+rdma folks would be really annoyed if that's the case ...</pre>
+    </blockquote>
+    <br>
+    Pinning (or rather taking another page reference) prevents writes
+    from using direct I/O because writes try to find all references and
+    make them read only so that nobody modifies the content while the
+    write is done.<br>
+    <br>
+    As far as I know the same approach is used for NUMA migration and
+    replacing small pages with big ones in THP. But for the read case
+    here it should still work.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:ZpY-CfcDdEhzWpxN@phenom.ffwll.local">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">But current way is use `memfd_pin_folios` to boost alloc and pin, so maybe
+need suit it.
 
 
-> We don't need to worry about that logic for now. But
-> I am worried about mixing Speedbin and SKU_ID in the UABI with this patch.
-> It will be difficult when we have to expose both to userspace.
-> 
-> I think we can use a separate bitfield to expose FCODE/PCODE. Currently,
-> the lower 32 bit is reserved for chipid and 33-48 is reserved for speedbin,
-> so I think we can use the rest of the 16 bits for SKU_ID. And within that
-> 16bits, 12 bits should be sufficient for FCODE and the rest 8 bits
-> reserved for future PCODE.
+I currently doubt that the udmabuf solution is suitable for our
+gigabyte-level read operations.
 
-Right, sounds reasonable. Hopefully nothing overflows..
+1. The current mmap operation uses faulting, so frequent page faults will be
+triggered during reads, resulting in a lot of context switching overhead.
 
-Konrad
+2. current udmabuf size limit is 64MB, even can change, maybe not good to
+use in large size?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Yeah that's just a figleaf so we don't have to bother about the accounting
+issue.
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">3. The migration and adaptation of the driver is also a challenge, and
+currently, we are unable to control it.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Why does a udmabuf fd not work instead of any other dmabuf fd? That
+shouldn't matter for the consuming driver ...
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Perhaps implementing `copy_file_range` would be more suitable for us.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+See my other mail, fundamentally these all rely on struct page being
+present, and dma-buf doesn't give you that. Which means you need to go
+below the dma-buf abstraction. And udmabuf is pretty much the thing for
+that, because it wraps normal struct page memory into a dmabuf.
+
+And copy_file_range on the underlying memfd might already work, I haven't
+checked though.</pre>
+    </blockquote>
+    <br>
+    Yeah completely agree.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite" cite="mid:ZpY-CfcDdEhzWpxN@phenom.ffwll.local">
+      <pre class="moz-quote-pre" wrap="">
+
+Cheers, Sima
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------sM5TImLdZNsao0x2zJkRUKrG--
