@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32D9933149
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 21:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3D293312B
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 21:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D5510E871;
-	Tue, 16 Jul 2024 19:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 765FF10E85A;
+	Tue, 16 Jul 2024 19:01:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Je6fm/HD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BPIeR3rW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
- [209.85.166.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7468510E841;
- Tue, 16 Jul 2024 18:59:18 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id
- ca18e2360f4ac-7f70a708f54so6569739f.3; 
- Tue, 16 Jul 2024 11:59:18 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
+ [209.85.166.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9946510E844;
+ Tue, 16 Jul 2024 18:59:19 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-816d9285ebdso1261139f.0; 
+ Tue, 16 Jul 2024 11:59:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721156358; x=1721761158; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721156359; x=1721761159; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BVVliFbCcRiwMu0SQpi190huBei8IpcPa+B6oudggrw=;
- b=Je6fm/HD6CBreDfcngkvHy0dRJwdQKKPlLfkh4rmj4ws4SFl4CemWl3SGOzB41Zb+A
- BjueVL6FVwaxAOkr6AHUnRsc1o+XqG79tRP1R8EX6rYr9Bxnq65rMeb1AIP+w3CJY5bm
- jH2L1zF5SunDmpWCvwXUeEvIDKFEpDgi+GxvpFPFL+6sobSIxfN3mMycwGhBeFg8idHY
- k8wmvOoSqNyjkG7s7vf2BMUbuBW2+wKF4GsIbH0cNCIq/79z6YOXYYJQ1rs3METLCOdo
- 1owRYOb9dqTPvY4gn3MYQjJ1tO5hK/izb3UIa2CTkZJmsiAcxK2o+VuhmemJfm0D/EBZ
- iSYA==
+ bh=pIsdMzCagTnPqkjtDJJFzcS6RuUfrVRwKo+d8V5q9yk=;
+ b=BPIeR3rWK68sWLSMzXgfVzHEOQDHc2D+s9i5or/ljWms9NFkUqSLbXZEl3dAK4NFal
+ mvYgUXef1fLstj5CfHhiz/2V5raY9Wl0+F8rumTrQz5ZSfgClNGyEYb66zmg9y8s44lK
+ m/kH+4nf02dbhWZVAZD5TDHFMkDfJYARiE5f8QbrS9NEeZCQz+/S8LouaAunM7CwvU/0
+ MMmgR/zQ9QNb2jaIsSt3WlKmNf2KD6uIn0M4Wrbih7D7PvBu+mb5cAh2rx+1h9tWeDLF
+ dyCdEsebulHn+5iK/hwcTgyq+bsATFyCGfu9t5ud07AQkDjK201ep/CDHkzV0js2++z9
+ esEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721156358; x=1721761158;
+ d=1e100.net; s=20230601; t=1721156359; x=1721761159;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BVVliFbCcRiwMu0SQpi190huBei8IpcPa+B6oudggrw=;
- b=YZhCqRPcaoMuyMkIRunhU/xOyxdtSKuPvtSDAeZ4rMGWo1hb04ER7QFDMivmVDff9O
- KqZ3UqGVnDUzrZgvVZidoMd/9mDaptcdfyNIQRgoo75sbThTe12SC/uki3PiveQF/Tjp
- qOGqpCT6ESLkMjUy8NAd3HvrPLndwGZo8jRobZETn6566kvehtpBQulN9Xz44W2H8Tav
- m6+Q13wXgTWnhJ6rR03Ah/yLphyhdOxWQHTW9DGUDvKyUc4Y3k6HJ12vsuu57Hfwgssa
- xfxf/gHv2/TD7Mfqs9eTk0BnUl0pxDyhbIJkOExHJMBwYvuMQX2OijuONCJciDLLk2eq
- 1zAw==
+ bh=pIsdMzCagTnPqkjtDJJFzcS6RuUfrVRwKo+d8V5q9yk=;
+ b=d0BPZL8nsbgaKaGz5tzqlvt8nusewoQzr4PBweLGjv9Sw2uc6LqFdHeQAlGdBnQ+lo
+ OFNRnUiHWTOx/HpWDPhvuB6OZQCqSW0w7w8DsusYAPBWDYvFNBpIZ/kGPEUQJlQfjoAe
+ i0qUN9wyuJpFI34qe0cIKQU6ZVH5BHR1BykfnX2SnfNkqRHw2aXqKVt1v1ot5baB4U64
+ 5ZYY/XiGXW1Y3Hxj/wh4HIguZlh70Hp6Wwbvh3HA5KgBSHalg7UsY4/Od4TRZG4AATkP
+ j/Mr2FZ+3hf9fF6RmoFT+KDl4kWg9+atHatKNFaYoz5+G3VERhUsU+Tt41b5vZGCbg+n
+ vrdw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW1+oNu0GKg2laj1oYImW3SFqzVH/5p8yxms1Wha0fRRSMT2usKePIDBasibY56TLJ+Uq/G5Q/3trGY9SZPC4T5OdEVFqO3yZmKbKn/yRMXgvh1wRFY45vVe20R5NS1VNSHFlfhin/AGIK19MlZ4tKaminBgmScQ6paPPZ6AHJKgyqH/sfBaI/ZOao0mLfBP8JxD0pwdFSv3fhAq5i0bFoQHERvNnCxy1p4BDEoLnViUEqz01k=
-X-Gm-Message-State: AOJu0Yxp9jgfg//eEZwrk02/N0Tij605X3g25sOgSFYaoSLIfJPgknPv
- DqM3jNgW27p2/REN1TA39xTepSekrDV/oGWGkfM6+pcAzQhBn390NpK4mpOC
-X-Google-Smtp-Source: AGHT+IG55r3J/+WPjmFCfm4i2FdKqBFiyLji83RgakUJ5UGwMl7NPkDm7WMlJ0D93dK102jpqkJ71Q==
-X-Received: by 2002:a6b:ee19:0:b0:7fb:87d6:64b with SMTP id
- ca18e2360f4ac-816c51c78f3mr33599139f.17.1721156357639; 
- Tue, 16 Jul 2024 11:59:17 -0700 (PDT)
+ AJvYcCWFMazxP8+jlO1H/CYEoJ18v9XElYu+k1CRZrDSt+9M9APFlMrjheGKpjZ55VlC+M87Gh/4I+qCvgC5/fp7M1pyCW/4Fiwa1Le4+tPjkoBwYvG2f//PxraQLKEzkh8ivMhTgSugevsp/vJpmDk/0TuwRmS25kDi0zcpt0OMNS6xtRb3SU7JcktUSAWl/hTrLlKdzrkv+gTQs2qZC32BjuL+zLk9FUczc2v6jatP6Oy/FUwsq1c=
+X-Gm-Message-State: AOJu0YyP91pTXzcz9iWVE7bVJBqn2dC4Z3Yv0vKtDr80eE39OmO7hgqY
+ yYfWj17FZ3QAQwSYmbWgJryvKcBoQj2AvMqlQ6US8DyY4IKRDa9p
+X-Google-Smtp-Source: AGHT+IHNiuOywTynIegoUOvJ19aVvPGNEUWBbbHPTejWdZydJpz41aRG2QF6opmLXH5eEouAFJcPxg==
+X-Received: by 2002:a05:6602:3fc7:b0:7f9:bef6:2068 with SMTP id
+ ca18e2360f4ac-816c35dac54mr41725439f.10.1721156358829; 
+ Tue, 16 Jul 2024 11:59:18 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-4c210f23f1csm75301173.102.2024.07.16.11.59.16
+ 8926c6da1cb9f-4c210f23f1csm75301173.102.2024.07.16.11.59.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jul 2024 11:59:17 -0700 (PDT)
+ Tue, 16 Jul 2024 11:59:18 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
@@ -68,9 +68,9 @@ Cc: ukaszb@chromium.org, linux@rasmusvillemoes.dk, joe@perches.com,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, kernelnewbies@kernelnewbies.org,
  Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v9-resend 41/54] drm-dyndbg: add DRM_CLASSMAP_USE to bochs
-Date: Tue, 16 Jul 2024 12:57:53 -0600
-Message-ID: <20240716185806.1572048-42-jim.cromie@gmail.com>
+Subject: [PATCH v9-resend 42/54] drm-dyndbg: add DRM_CLASSMAP_USE to etnaviv
+Date: Tue, 16 Jul 2024 12:57:54 -0600
+Message-ID: <20240716185806.1572048-43-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240716185806.1572048-1-jim.cromie@gmail.com>
 References: <20240716185806.1572048-1-jim.cromie@gmail.com>
@@ -91,28 +91,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tiny/bochs has 5 DRM_UT_* debugs, make them controllable when
+etnaviv has 5 DRM_UT_CORE debugs, make them controllable when
 CONFIG_DRM_USE_DYNAMIC_DEBUG=y by telling dyndbg that the module has
-class'd debugs.
+class'd debugs as well as plain-old pr_debug()s
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/tiny/bochs.c | 2 ++
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index c23c9f0cf49c..ee98fab5597e 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -54,6 +54,8 @@ static int bochs_modeset = -1;
- static int defx = 1024;
- static int defy = 768;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 6500f3999c5f..1d1ddbedcb5a 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -25,6 +25,8 @@
+ #include "etnaviv_mmu.h"
+ #include "etnaviv_perfmon.h"
  
 +DRM_CLASSMAP_USE(drm_debug_classes);
 +
- module_param_named(modeset, bochs_modeset, int, 0444);
- MODULE_PARM_DESC(modeset, "enable/disable kernel modesetting");
- 
+ /*
+  * DRM operations:
+  */
 -- 
 2.45.2
 
