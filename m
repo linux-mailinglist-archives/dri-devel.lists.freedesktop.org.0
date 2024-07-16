@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8196C931EC8
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 04:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917E2931EED
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 04:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD4F10E0E4;
-	Tue, 16 Jul 2024 02:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6646F10E345;
+	Tue, 16 Jul 2024 02:36:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nnYhkyGA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JXz9XGOb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC7110E0E4
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:23:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1888010E345
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:36:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2A7FCCE108C
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:22:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D7036C4AF16
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:22:57 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id A106CCE0FCB
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:36:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9DE82C4AF15
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:35:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721096577;
- bh=YSQxQy5qu7vNkr5u1mwRwWZRTvyyqx5v+3TCXg+Tqc0=;
+ s=k20201202; t=1721097359;
+ bh=MC7rVFV8wgXsQQ0hhLl1/sz9nowIN+sBbM3p5P8lXeE=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=nnYhkyGAhDLkSPCSv2e0EkSau6c13LD+kajIWq9i2yNJrhiPKKYeOOnQT/bzZ6IsA
- fLFjk92COp74W4t7qZSamWwEhQN9X32Blj1HmjGTdiFCka28lTC5i7VB0g+FqXR/vx
- 0zqq7c+u1jRfjh9ppsxCWDs/CF7jGjvtz/wCo4YM4WVe22ihoJCwrw+Fv4HVyBscUJ
- UTyX182klLLbRvHvsjE8X1CH6tJxO79naikWmpN4plxCjIlsRqHyd5zjmJTHIaP26t
- Pl/v953ieMx9nzsMBEaBk7+OT9Ldc0bSf/OdQxJ//utH5OW6TjSdda2+K9rJ3N9r84
- CDEm6+CQHth9Q==
+ b=JXz9XGObZObWiWoqJp1U+C4N69rTh6jqD/gO0gveKnboCCmwgnZF/tnwQhQFD1Hy7
+ +UQNjKffmuNLZjgC6ibOElzlqJ4o5bB1tezyusru0SQem9JpqH2JqYvEXXfsfFbkvR
+ /EtkslNFSvUeZ0lebQx/S/r0AbnCf37yJh8rp/mJheUAnPdjE5Bq4hc5drjMkwkmj5
+ hX8tyWvXRYB+7IoSSLFtSz2GQ52Z3cWWVomaz76TLh93wD7KIp/7/Qy2aABxwJiJwQ
+ U4z3A025wPfIDKIbj42jwOrztqZac/EUQjOFc/YHyCsTzHqPqP12NzBVBvNw+A4YxV
+ Dn0gsDdtvUwfA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id D1C07C53BA7; Tue, 16 Jul 2024 02:22:57 +0000 (UTC)
+ from userid 48) id 97665C53BB9; Tue, 16 Jul 2024 02:35:59 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 201497] [amdgpu]: '*ERROR* No EDID read' is back in 4.19
-Date: Tue, 16 Jul 2024 02:22:57 +0000
+Date: Tue, 16 Jul 2024 02:35:58 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +50,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-201497-2300-agyBRWc66g@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-201497-2300-0VBsrkP19z@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-201497-2300@https.bugzilla.kernel.org/>
 References: <bug-201497-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,22 +76,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D201497
 
-gabriel barros (gabrielbarros+k@gmail.com) changed:
+--- Comment #30 from gabriel barros (gabrielbarros+k@gmail.com) ---
+Created attachment 306573
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306573&action=3Dedit
+kernel logs, failure when attaching HDMI cable to long running system
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |gabrielbarros+k@gmail.com
-
---- Comment #29 from gabriel barros (gabrielbarros+k@gmail.com) ---
-This bug doesn't have much trigger information. But i arrived here with a
-completely different system than what is on the reports (6650U iGPU, with b=
-oth
-a DP monitor and a hdmi1.2 and 1.4 TVs). Reboot as mentioned in Comment 25
-"solved" it.
-
-The link on Comment 18 is dead, in case anyone want to share the kernel opt=
-ions
-here.
+Adding to Comment 29. I still get the EDID errors even when it "works" afte=
+r a
+reboot-with-monitor-already-plugged. Here are the logs. First the log for t=
+he
+failure, which happens when i plug in the monitor in a long running system
 
 --=20
 You may reply to this email to add a comment.
