@@ -2,75 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068A2931E8D
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 03:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8196C931EC8
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 04:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCF110E4CE;
-	Tue, 16 Jul 2024 01:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD4F10E0E4;
+	Tue, 16 Jul 2024 02:23:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=schmorgal.com header.i=@schmorgal.com header.b="BDGDV0sm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nnYhkyGA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 897DE10E080
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 01:44:35 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id
- 41be03b00d2f7-75abb359fa5so156186a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2024 18:44:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=schmorgal.com; s=google; t=1721094275; x=1721699075;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2Qt/SPI9w4Ydlf5F3lgn/F+VMPpJrd+IRMvd2pRUL/U=;
- b=BDGDV0smd341oy4F6aSTDh2VDWEVSUM314PuW21Z7QI5KXq0XFPoomfVxaxPkTmWM0
- xcDnih1A9LBjyEm33tc2IHaVDzLqJsE26XkfawjsSimBX83x92mUTBkF7BmPQK626MY9
- ax3jAAHmC3JB346v6+GbrVAZlue6pEMTFa+dY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721094275; x=1721699075;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2Qt/SPI9w4Ydlf5F3lgn/F+VMPpJrd+IRMvd2pRUL/U=;
- b=SeTBk6t8nMpvbGqQ9aTnnPSCdDzBGKDc1I81TV+dGqgDaV16kMcMcMoMIUAZfTtikC
- PANGjymsDvShZydPBloFvigw/TeBPqpuS9ZSmRCyPi44CgoSDHqilMsH7Qa5D6wrTO29
- QYGcmYnaZOC5aSnTUDkFAus4RQt0l8KBJmQetW0ZfyZ9InejTTvE+w2R20hlX6vnpwc/
- dha9vHwgwg9jjUISJzKT+oS6TPoiYSRtfbr1OOgmGKRe2Yxt8WKQcpmVAj70pXz/8jjh
- HaXH9B0fT0FvMKYeQmbIFYcqq4elfK9XY79OeUIPhtWbKoNO9MZHD7OFX1sxSf8PqVuY
- PXEQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVsgQCcQjq909USbtSY0LjopoCv6/BkKddcEZzeLusQMiJsGhr7UpAx1N8mUFUH98RayMQT3cP96wxG6R03r/NoQ61p9jBCie8FEFRW39qf
-X-Gm-Message-State: AOJu0YwIlODMISylkKOQ2VKxXl5W22mfx+uurZqO5Y5ubwlfej69GtwC
- A9uq9gBQ1xc8cj4OO+RQSrkC+6RWdxQd+0U29gNRvCknIVQtOn/KtdF+q+IGCH4=
-X-Google-Smtp-Source: AGHT+IHW+WnJXZahgXnwYzOQ47BHvXthzkNIwiv+2EdlxveKcdFOl0yH2UivBrARch0QR2rf9MWqpw==
-X-Received: by 2002:a05:6a00:6584:b0:70b:705f:8b12 with SMTP id
- d2e1a72fcca58-70ba48e76efmr1093813b3a.4.1721094274807; 
- Mon, 15 Jul 2024 18:44:34 -0700 (PDT)
-Received: from [192.168.1.33] ([50.120.71.169])
- by smtp.googlemail.com with ESMTPSA id
- d2e1a72fcca58-70b7eb9c8f2sm5073301b3a.41.2024.07.15.18.44.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jul 2024 18:44:34 -0700 (PDT)
-Message-ID: <1e7be166-30bf-46ee-b5d3-93def3465b07@schmorgal.com>
-Date: Mon, 15 Jul 2024 18:44:33 -0700
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC7110E0E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:23:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 2A7FCCE108C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:22:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D7036C4AF16
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 02:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1721096577;
+ bh=YSQxQy5qu7vNkr5u1mwRwWZRTvyyqx5v+3TCXg+Tqc0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=nnYhkyGAhDLkSPCSv2e0EkSau6c13LD+kajIWq9i2yNJrhiPKKYeOOnQT/bzZ6IsA
+ fLFjk92COp74W4t7qZSamWwEhQN9X32Blj1HmjGTdiFCka28lTC5i7VB0g+FqXR/vx
+ 0zqq7c+u1jRfjh9ppsxCWDs/CF7jGjvtz/wCo4YM4WVe22ihoJCwrw+Fv4HVyBscUJ
+ UTyX182klLLbRvHvsjE8X1CH6tJxO79naikWmpN4plxCjIlsRqHyd5zjmJTHIaP26t
+ Pl/v953ieMx9nzsMBEaBk7+OT9Ldc0bSf/OdQxJ//utH5OW6TjSdda2+K9rJ3N9r84
+ CDEm6+CQHth9Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id D1C07C53BA7; Tue, 16 Jul 2024 02:22:57 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201497] [amdgpu]: '*ERROR* No EDID read' is back in 4.19
+Date: Tue, 16 Jul 2024 02:22:57 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gabrielbarros+k@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201497-2300-agyBRWc66g@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201497-2300@https.bugzilla.kernel.org/>
+References: <bug-201497-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] drm/vmwgfx shows green Xv instead of actual video
- (bisected I think)
-To: Ian Forbes <ian.forbes@broadcom.com>
-Cc: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- regressions@lists.linux.dev
-References: <bd9cb3c7-90e8-435d-bc28-0e38fee58977@schmorgal.com>
- <CAO6MGtjxnm3Hc=T8jv-upP46XBzAc0ZNmLVF3=KNN8buGBwg1w@mail.gmail.com>
-Content-Language: en-US
-From: Doug Brown <doug@schmorgal.com>
-In-Reply-To: <CAO6MGtjxnm3Hc=T8jv-upP46XBzAc0ZNmLVF3=KNN8buGBwg1w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,34 +74,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ian,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201497
 
-On 7/15/2024 12:32 PM, Ian Forbes wrote:
-> Hi Doug,
-> 
-> Can you try this patch with 6.10.
-> 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-> b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-> index c45b4724e414..e20f64b67b26 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-> @@ -92,7 +92,7 @@ static int vmw_overlay_send_put(struct vmw_private *dev_priv,
->  {
->         struct vmw_escape_video_flush *flush;
->         size_t fifo_size;
-> -       bool have_so = (dev_priv->active_display_unit == vmw_du_screen_object);
-> +       bool have_so = (dev_priv->active_display_unit != vmw_du_legacy);
->         int i, num_items;
->         SVGAGuestPtr ptr;
+gabriel barros (gabrielbarros+k@gmail.com) changed:
 
-I can confirm that this patch fixes the problem for me. Nice! I did have
-to manually apply it -- looks like email converted the tabs into spaces.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |gabrielbarros+k@gmail.com
 
-I don't know if I'm supposed to put tags here for you to include in the
-final patch or not, but I'll do it just in case:
+--- Comment #29 from gabriel barros (gabrielbarros+k@gmail.com) ---
+This bug doesn't have much trigger information. But i arrived here with a
+completely different system than what is on the reports (6650U iGPU, with b=
+oth
+a DP monitor and a hdmi1.2 and 1.4 TVs). Reboot as mentioned in Comment 25
+"solved" it.
 
-Tested-by: Doug Brown <doug@schmorgal.com>
+The link on Comment 18 is dead, in case anyone want to share the kernel opt=
+ions
+here.
 
-Thanks!
-Doug
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
