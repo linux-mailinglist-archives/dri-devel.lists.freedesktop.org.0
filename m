@@ -2,88 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B07E9328EA
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 16:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6D4932985
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 16:45:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08D4A10E758;
-	Tue, 16 Jul 2024 14:34:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDB3510E75A;
+	Tue, 16 Jul 2024 14:45:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="sz2KjcpH";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZB8FfcNy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1AEC10E757
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 14:34:15 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4266f3e0df8so37883445e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 07:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1721140453; x=1721745253;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BAVkx3EkWzVPbDhyx+broZi2jeHwnQ+TpjnD/Y0qoIw=;
- b=sz2KjcpHRm3Swjve3Ep3Ux15uQJqR9+qr8A2pd7idjSlkMrwjbct4mvsFSqN4/ZAPf
- d1s/LfCUOXluk+B18qHFBBjZfAzNazQVssHwhgvTNHyruK/H6An2BmfjGpUaNYouX8kD
- qsbJFpg10BcCHDVzGrK/WwgYkPPuaH+Rh5Ab2k20ryqCYCe/1m7spW54FJXKklxaCtQW
- BGG1OKiDaLBsO1vIJqjq+z59mUuzQapgrNqQeULnIyHNaRIGQ47DehkX8veSp4GQG1OP
- cj2dPbygwdu6yalEHdnW6iHPjiKWeEPXHzYePzb6ezIiKj0io2lE2ApCab4yQGtfR2Jy
- cskQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 825E110E75A
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 14:45:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1721141125;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z0PzNj5uFiDGG9fqPOs+yvlX/x5C4rqAeGRn1Y5FqwY=;
+ b=ZB8FfcNyKdP8ZzLKStiZutNxP3fqf7tJjMYMZ5tHtpajbtXWAFIgP/l82PGhmgBxJWc6Ie
+ ddrX7oPoihP0XBq+/WHXkbdAbWQ73kuYbE0TIToTaHLQX2qSPSpbkRJWfOSLHpaIl2PVva
+ lLT42fIlrQ4YYz117CdHo98Jlm/pVxo=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-511-a2-VZyz0Pz2GfgFp5zXWUg-1; Tue, 16 Jul 2024 10:45:24 -0400
+X-MC-Unique: a2-VZyz0Pz2GfgFp5zXWUg-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2ee9308bc8cso58227681fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 07:45:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721140453; x=1721745253;
+ d=1e100.net; s=20230601; t=1721141122; x=1721745922;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BAVkx3EkWzVPbDhyx+broZi2jeHwnQ+TpjnD/Y0qoIw=;
- b=Ff5TWQqZDCa2RI+TrOYXYiUwwMTqIokjHSh7wq2MlOAsIrwX98sAqK8Xys7khWHCgo
- gZ+DMumjRYsbNMkVbInPLeFzdB4clk649zrA+OyBV4paeX5FYRD6HWEke0+p2J/dMDCi
- EXHontRKM2Zn+G1znzWUf0bUsrYJiDxcBsVPHE2W3XM2HJbFjLsNCMoRAKFDvh0a91jK
- 2K9pRWHP9eFpIqplkQvvLcRu0oX5EL6H2MLOdfUFLhtAT+0AHT0NoesBtxojKta5eqO5
- PySJT4IP5FS8BKhg0ngDukAx2SuSbdTdZR7nuu8NLygLtZXUJZ/cZZBVeXj/yTgUKooR
- sN3Q==
+ bh=z0PzNj5uFiDGG9fqPOs+yvlX/x5C4rqAeGRn1Y5FqwY=;
+ b=HUjM5l5g3KOInNe1aaKEokEtA5vqAZLhJ4/m1Es85eZk6pj1QaWJR6j1U3okzDxUcf
+ 1o4MoZKXkbaUP1zRyddPzdkCQHL9n43yRi7vzFt5flPFo1MfcrcX6QUDOWtdqpSLlgSV
+ pXS2QDTc2Zb+nWifwm0AUjuGkYWT32wPLhGC+WpYWY+KAfY6K/DREMnq10vySrFLxDUI
+ wSGSDGWWTKFrinBb3FJO8l4yDzOk1jxGUxsikIjLaDF9713Rw86pNZaffqQNlhlAQ48d
+ IGRuu0OsizkMqXHisFeSTX8R4heHwriHGktFQklUCHfLTPovrwh2HBaJgAh029RJGbI9
+ IYsA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUJiQ043U27TofBnQbyKWiAnJ0QpXJjTEVoiev4PRO+XyI64ArjRPspRfb0sOlPG1FWdNa9YZAdGRmaKTsyKuDfDliY0v5nLZFECjzidQQ8
-X-Gm-Message-State: AOJu0YzMY6+hYdnG6Z1U1LWdyaWjaf/7QlrPNWQayJXuHfWdxikGxXuh
- f5adkrMUIRr1/TSe1AgzB4o23dg7hBEEHjJEMPr65D0Gl/nwklWn+GJTzUM58Ng=
-X-Google-Smtp-Source: AGHT+IEbL3+rGfLtHK1BYT56NOm8qHwhQGVKOUnQvEVJuXEUOqXILPQU0WPNo6DwBmoJFxBi5izxOw==
-X-Received: by 2002:adf:e8c6:0:b0:367:96b5:7852 with SMTP id
- ffacd0b85a97d-36826314363mr1600419f8f.55.1721140453270; 
- Tue, 16 Jul 2024 07:34:13 -0700 (PDT)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3680daccb7bsm9198261f8f.55.2024.07.16.07.34.12
+ AJvYcCXTpj5sAw0QuxB1r3CdEmhPxawp/fApBib/9wnWqOpr1ektEvrQ76Q3dBgORWRaS7JF4ydxZnSt+QrpMr9AygfWnFfcug0Z56HWsxOimZtb
+X-Gm-Message-State: AOJu0YzngXpeGZYFZtJXxiEHTljwTxFHejWXgDwx1vVzpuOdwXwUwBbb
+ TCNxva054aIFayk+DyaFxx2HNetoDhkaDSPImuEhpQHOHbmFA9ZVlm5XU0qf1s29ep62A/Os4EW
+ VPbTsyPTCE1U9HDjs9wz49L9Vl8y2hNPWoa5jD+DCvJnt0dRQROcOVIHdCcZ2BCeG
+X-Received: by 2002:a05:6512:12d2:b0:52e:9f17:8418 with SMTP id
+ 2adb3069b0e04-52edef1076dmr1643629e87.12.1721141122535; 
+ Tue, 16 Jul 2024 07:45:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGXl5d/TUcF8w2QZEtRfVQqpXpss6PCOkJNhnBXjj4zR/8sBfnfqEzg+k/S4N2crKpUtdHb5w==
+X-Received: by 2002:a05:6512:12d2:b0:52e:9f17:8418 with SMTP id
+ 2adb3069b0e04-52edef1076dmr1643607e87.12.1721141122010; 
+ Tue, 16 Jul 2024 07:45:22 -0700 (PDT)
+Received: from [192.168.1.27] (host-82-62-247-97.business.telecomitalia.it.
+ [82.62.247.97]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4279f239883sm166140085e9.10.2024.07.16.07.45.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Jul 2024 07:34:13 -0700 (PDT)
-Message-ID: <b6f6c845-6094-44ce-8ad0-ed4f6d353cec@freebox.fr>
-Date: Tue, 16 Jul 2024 16:34:12 +0200
+ Tue, 16 Jul 2024 07:45:21 -0700 (PDT)
+Message-ID: <6ded1ffe-d589-4333-8a82-68359fb80812@redhat.com>
+Date: Tue, 16 Jul 2024 16:45:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] arm64: dts: qcom: add HDMI nodes for msm8998
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Bjorn Andersson <andersson@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Arnaud Vrac <avrac@freebox.fr>,
- Pierre-Hugues Husson <phhusson@freebox.fr>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>
-References: <20240627-hdmi-tx-v5-0-355d5c1fbc3c@freebox.fr>
- <20240627-hdmi-tx-v5-4-355d5c1fbc3c@freebox.fr>
- <d9898342-2439-4d3d-8e3d-5bf0a7a40245@linaro.org>
+Subject: Re: RE: [PATCH] drm/test: fix the gem shmem test to map the sg table.
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20240715083551.777807-1-airlied@gmail.com>
+ <IA1PR11MB6418165B122159BCF7E37CBFC1A12@IA1PR11MB6418.namprd11.prod.outlook.com>
+ <ZpY-gzNHgJXhrcwx@phenom.ffwll.local>
+ <IA1PR11MB641851E1818CA9716761286FC1A22@IA1PR11MB6418.namprd11.prod.outlook.com>
+From: Marco Pagani <marpagan@redhat.com>
+In-Reply-To: <IA1PR11MB641851E1818CA9716761286FC1A22@IA1PR11MB6418.namprd11.prod.outlook.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <d9898342-2439-4d3d-8e3d-5bf0a7a40245@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,102 +97,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/07/2024 15:11, Konrad Dybcio wrote:
 
-> On 27.06.2024 5:54 PM, Marc Gonzalez wrote:
->
->>  arch/arm64/boot/dts/qcom/msm8998.dtsi | 100 +++++++++++++++++++++++++++++++++-
->>  1 file changed, 99 insertions(+), 1 deletion(-)
+
+On 2024-07-16 14:07, Ruhl, Michael J wrote:
+>> -----Original Message-----
+>> From: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Sent: Tuesday, July 16, 2024 5:34 AM
+>> To: Ruhl, Michael J <michael.j.ruhl@intel.com>
+>> Cc: Dave Airlie <airlied@gmail.com>; dri-devel@lists.freedesktop.org
+>> Subject: Re: [PATCH] drm/test: fix the gem shmem test to map the sg table.
 >>
->> diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
->> index ba5e873f0f35f..417c12534823f 100644
->> --- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
->> @@ -2785,7 +2785,7 @@ mmcc: clock-controller@c8c0000 {
->>  				 <&mdss_dsi0_phy 0>,
->>  				 <&mdss_dsi1_phy 1>,
->>  				 <&mdss_dsi1_phy 0>,
->> -				 <0>,
->> +				 <&hdmi_phy 0>,
->>  				 <0>,
->>  				 <0>,
->>  				 <&gcc GCC_MMSS_GPLL0_DIV_CLK>;
->> @@ -2890,6 +2890,14 @@ dpu_intf2_out: endpoint {
->>  							remote-endpoint = <&mdss_dsi1_in>;
->>  						};
->>  					};
->> +
->> +					port@2 {
->> +						reg = <2>;
->> +
->> +						dpu_intf3_out: endpoint {
->> +							remote-endpoint = <&hdmi_in>;
->> +						};
->> +					};
->>  				};
->>  			};
->>  
->> @@ -3045,6 +3053,96 @@ mdss_dsi1_phy: phy@c996400 {
->>  
->>  				status = "disabled";
->>  			};
->> +
->> +			hdmi: hdmi-tx@c9a0000 {
+>> On Mon, Jul 15, 2024 at 04:07:57PM +0000, Ruhl, Michael J wrote:
+>>>> -----Original Message-----
+>>>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>> Dave
+>>>> Airlie
+>>>> Sent: Monday, July 15, 2024 4:36 AM
+>>>> To: dri-devel@lists.freedesktop.org
+>>>> Subject: [PATCH] drm/test: fix the gem shmem test to map the sg table.
+>>>>
+>>>> From: Dave Airlie <airlied@redhat.com>
+>>>>
+>>>> The test here creates an sg table, but never maps it, when
+>>>> we get to drm_gem_shmem_free, the helper tries to unmap and this
+>>>> causes warnings on some platforms and debug kernels.
+>>>
+>>> This looks pretty straightforward...
+>>>
+>>> However, should drm_gem_shmem_free() really give an error if the mapping
+>>> didn't happen?
+>>>
+>>> I.e. just because you have an sgt pointer, should you also have a mapping?
+>>
+>> Yes, I think only allocating an sgt but not setting it up is a bug. So the
+>> fix looks correct, and isn't just papering over noise.
 > 
-> Please prefix the labels (hdmi: and hdmi_phy:) with mdss_
+> I guess my concern here is that the mapping could fail. 
 > 
-> Otherwise, this looks good
+> If that happens, what is the error path?
 > 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Can I call _shmem_free?
+
+In this case, if the mapping fails, the test case will be aborted, and the
+sg_table will be freed by the action that calls sg_free_table_wrapper().
+However, I also think drm_gem_shmem_free() should behave well even if the
+sg_table is not mapped. Is there any advantage in issuing a warning when
+freeing the object if the sg_table is not mapped?
+
+Reviewed-by: Marco Pagani <marpagan@redhat.com>
+
+Thanks,
+Marco
+
 > 
+> Mike
 > 
-> One thing I noticed (testing on the 8998 MTP), enabling MDSS (not necessarily
-> HDMI, mdss and mdp is enough) results in SMMU lockups about 30% of the time..
+>>> If the errors are really just noise (form the specific platforms), and this patch is
+>> covering
+>>> for that, then:
+>>>
+>>> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+>>
+>> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>
+>> Cheers, Sima
+>>>
+>>> Thanks,
+>>>
+>>> Mike
+>>>
+>>>> This also sets a 64-bit dma mask, as I see an swiotlb warning if I
+>>>> stick with the default 32-bit one.
+>>>>
+>>>> Fixes: 93032ae634d4 ("drm/test: add a test suite for GEM objects backed by
+>>>> shmem")
+>>>> Cc: stable@vger.kernel.org
+>>>> Signed-off-by: Dave Airlie <airlied@redhat.com>
+>>>> ---
+>>>> drivers/gpu/drm/tests/drm_gem_shmem_test.c | 11 +++++++++++
+>>>> 1 file changed, 11 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+>>>> b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+>>>> index 91202e40cde9..eb3a7a84be90 100644
+>>>> --- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+>>>> +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+>>>> @@ -102,6 +102,17 @@ static void
+>>>> drm_gem_shmem_test_obj_create_private(struct kunit *test)
+>>>>
+>>>> 	sg_init_one(sgt->sgl, buf, TEST_SIZE);
+>>>>
+>>>> +	/*
+>>>> +	 * Set the DMA mask to 64-bits and map the sgtables
+>>>> +	 * otherwise drm_gem_shmem_free will cause a warning
+>>>> +	 * on debug kernels.
+>>>> +	 * */
+>>>> +	ret = dma_set_mask(drm_dev->dev, DMA_BIT_MASK(64));
+>>>> +	KUNIT_ASSERT_EQ(test, ret, 0);
+>>>> +
+>>>> +	ret = dma_map_sgtable(drm_dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
+>>>> +	KUNIT_ASSERT_EQ(test, ret, 0);
+>>>> +
+>>>> 	/* Init a mock DMA-BUF */
+>>>> 	buf_mock.size = TEST_SIZE;
+>>>> 	attach_mock.dmabuf = &buf_mock;
+>>>> --
+>>>> 2.45.0
+>>>
+>>
+>> --
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
 > 
-> [    4.911422] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
-> [    4.913412] platform c901000.display-controller: Fixed dependency cycle(s) with /soc@0/display-subsystem@c900000/hdmi-tx@c9a0000
-> [    4.923353] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
-> [    4.927893] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
-> [    4.930647] platform c9a0000.hdmi-tx: Fixed dependency cycle(s) with /soc@0/display-subsystem@c900000/display-controller@c901000
-> [    4.941928] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
-> [    4.944438] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
-> [    4.952338] msm_hdmi_phy c9a0600.hdmi-phy: supply vddio not found, using dummy regulator
-> [    4.956013] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
-> [    4.961055] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
-> [    4.967917] msm_hdmi_phy c9a0600.hdmi-phy: supply vcca not found, using dummy regulator
-> [    4.974565] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
-> [    4.977628] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
-> [    4.984122] Bluetooth: hci0: setting up wcn399x
-> [    4.989670] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
-
-Interesting. I don't think I've noticed any lock-ups
-across multiple reboots.
-
-FWIW, I get similar warnings about "Fixed dependency cycle(s)" on my custom DT.
-
-[    0.055349] platform 1da4000.ufshc: Fixed dependency cycle(s) with /soc@0/phy@1da7000
-[    0.055525] platform 1da4000.ufshc: Fixed dependency cycle(s) with /soc@0/phy@1da7000
-[    0.055584] platform 1da7000.phy: Fixed dependency cycle(s) with /soc@0/ufshc@1da4000
-[    0.060279] platform c8c0000.clock-controller: Fixed dependency cycle(s) with /soc@0/display-subsystem@c900000/hdmi-phy@c9a0600
-[    0.060494] platform c900000.display-subsystem: Fixed dependency cycle(s) with /soc@0/clock-controller@c8c0000
-[    0.062432] platform hdmi-out: Fixed dependency cycle(s) with /soc@0/i2c@c1b5000/tdp158@5e
-...
-[   18.534346] adreno 5000000.gpu: Adding to iommu group 2
-[   18.540215] msm-mdss c900000.display-subsystem: Adding to iommu group 3
-[   18.544695] platform c901000.display-controller: Fixed dependency cycle(s) with /soc@0/display-subsystem@c900000/hdmi-tx@c9a0000
-[   18.551239] platform c901000.display-controller: Fixed dependency cycle(s) with /soc@0/display-subsystem@c900000/hdmi-tx@c9a0000
-[   18.562685] platform c9a0000.hdmi-tx: Fixed dependency cycle(s) with /soc@0/i2c@c1b5000/tdp158@5e
-[   18.574122] platform c9a0000.hdmi-tx: Fixed dependency cycle(s) with /soc@0/display-subsystem@c900000/display-controller@c901000
-[   18.617640] platform c9a0000.hdmi-tx: Fixed dependency cycle(s) with /soc@0/i2c@c1b5000/tdp158@5e
-[   18.618885] i2c 2-005e: Fixed dependency cycle(s) with /soc@0/display-subsystem@c900000/hdmi-tx@c9a0000
-[   18.627768] tdp158-bridge 2-005e: supply vcc not found, using dummy regulator
-[   18.636853] tdp158-bridge 2-005e: supply vdd not found, using dummy regulator
-
-It looks like some of these warnings were pre-existing,
-but some might have been added by my patches?
-
-Do they need looking into?
-I'm slightly confused.
-
-Regards
 
