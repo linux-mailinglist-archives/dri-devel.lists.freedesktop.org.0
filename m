@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B734932882
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 16:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD0B932884
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 16:28:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1C4D10E741;
-	Tue, 16 Jul 2024 14:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08B2210E74E;
+	Tue, 16 Jul 2024 14:28:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z2SJBU4w";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L9fG/GSV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C55010E741;
- Tue, 16 Jul 2024 14:27:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A344D10E73E;
+ Tue, 16 Jul 2024 14:27:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7168E60DF7;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 22FE860DF7;
+ Tue, 16 Jul 2024 14:27:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B746C4AF0F;
  Tue, 16 Jul 2024 14:27:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE62C116B1;
- Tue, 16 Jul 2024 14:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721140077;
- bh=qzeRWfVJsYPA69ERyTfXz/Us38dBeKL224mxFskzwao=;
+ s=k20201202; t=1721140079;
+ bh=hPiZBpPQPKfm8zysLlxT6NXhGRC5lcxwMo3vnGpL6WQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z2SJBU4wYRd7Qx02RDqUn20LZxAp9WSJztz+0uR+HHp7gCuR69LmVR+c45J2fjpqU
- vO+8NrVeXTjTs++sZqRRfxYi+T7tCxh0xLFlUvJxC+soC2p2iJk4p5SZRdnzjFYcKb
- 7OWfJOejFjEpEwWKWaUADEMzrWy/L7bJSdgLg33yvZJIAIj1yAstUvw/3NAzK1TGng
- Zzvy06ardlDvfPRxHfQn1hJ7obIFkNN4EA3S2NMFo3kPU7QdoGIaYzin96ObH9BYMV
- JQdkS2NAPO9X5a88pg1+lh5EjWPyN5Dv5hWZr4JNdAfIzjdX2gZThQrkU3jdL/FbzT
- R9ItERICpaCxA==
+ b=L9fG/GSVKs49p+DnAVxPENOwYZF3xNfXSELB4f7HCVdbLiqI9vAoj7Us8WLLAQaf1
+ XzIL/I38vVasnZqK2+/i3oPqAHJzX1whOxR7OVIo7RRAQfRBCUH+tp1gtSi2qSj4lP
+ 3+WFmHPzPeeEYhKbhsYIgmnY+1Qdt7zwR+TA9QHonMmBEws2m/kdfqf7wKKRh/lMCJ
+ tHN5euwpTMIG8YUu8PlSYWZfoa2WhWEHBrKVFXjqYBQiHZhE7Y9rhE3y+s7te80/es
+ haciGKcsIeKbfMRATp5gyGkVyf60+XpmPkvvtqPSi8oaFKy0FVY7H7rceIYKApgKDB
+ tTgcHOdFcKy/Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tom Chung <chiahsuan.chung@amd.com>, Sun peng Li <sunpeng.li@amd.com>,
- Jerry Zuo <jerry.zuo@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, alex.hung@amd.com,
- hamza.mahfooz@amd.com, roman.li@amd.com, mario.limonciello@amd.com,
- joshua@froggi.es, wayne.lin@amd.com, srinivasan.shanmugam@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 13/18] drm/amd/display: Fix refresh rate range for
- some panel
-Date: Tue, 16 Jul 2024 10:26:48 -0400
-Message-ID: <20240716142713.2712998-13-sashal@kernel.org>
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 14/18] drm/radeon: check bo_va->bo is non-NULL
+ before using it
+Date: Tue, 16 Jul 2024 10:26:49 -0400
+Message-ID: <20240716142713.2712998-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240716142713.2712998-1-sashal@kernel.org>
 References: <20240716142713.2712998-1-sashal@kernel.org>
@@ -68,96 +65,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Chung <chiahsuan.chung@amd.com>
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 
-[ Upstream commit 9ef1548aeaa8858e7aee2152bf95cc71cdcd6dff ]
+[ Upstream commit 6fb15dcbcf4f212930350eaee174bb60ed40a536 ]
 
-[Why]
-Some of the panels does not have the refresh rate range info
-in base EDID and only have the refresh rate range info in
-DisplayID block.
-It will cause the max/min freesync refresh rate set to 0.
+The call to radeon_vm_clear_freed might clear bo_va->bo, so
+we have to check it before dereferencing it.
 
-[How]
-Try to parse the refresh rate range info from DisplayID if the
-max/min refresh rate is 0.
-
-Reviewed-by: Sun peng Li <sunpeng.li@amd.com>
-Signed-off-by: Jerry Zuo <jerry.zuo@amd.com>
-Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 48 +++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ drivers/gpu/drm/radeon/radeon_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 023fd3945e47a..e7664a39bfceb 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10631,6 +10631,49 @@ static bool parse_edid_cea(struct amdgpu_dm_connector *aconnector,
- 	return ret;
- }
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index 3fec3acdaf284..27225d1fe8d2e 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -641,7 +641,7 @@ static void radeon_gem_va_update_vm(struct radeon_device *rdev,
+ 	if (r)
+ 		goto error_unlock;
  
-+static void parse_edid_displayid_vrr(struct drm_connector *connector,
-+		struct edid *edid)
-+{
-+	u8 *edid_ext = NULL;
-+	int i;
-+	int j = 0;
-+	u16 min_vfreq;
-+	u16 max_vfreq;
-+
-+	if (edid == NULL || edid->extensions == 0)
-+		return;
-+
-+	/* Find DisplayID extension */
-+	for (i = 0; i < edid->extensions; i++) {
-+		edid_ext = (void *)(edid + (i + 1));
-+		if (edid_ext[0] == DISPLAYID_EXT)
-+			break;
-+	}
-+
-+	if (edid_ext == NULL)
-+		return;
-+
-+	while (j < EDID_LENGTH) {
-+		/* Get dynamic video timing range from DisplayID if available */
-+		if (EDID_LENGTH - j > 13 && edid_ext[j] == 0x25	&&
-+		    (edid_ext[j+1] & 0xFE) == 0 && (edid_ext[j+2] == 9)) {
-+			min_vfreq = edid_ext[j+9];
-+			if (edid_ext[j+1] & 7)
-+				max_vfreq = edid_ext[j+10] + ((edid_ext[j+11] & 3) << 8);
-+			else
-+				max_vfreq = edid_ext[j+10];
-+
-+			if (max_vfreq && min_vfreq) {
-+				connector->display_info.monitor_range.max_vfreq = max_vfreq;
-+				connector->display_info.monitor_range.min_vfreq = min_vfreq;
-+
-+				return;
-+			}
-+		}
-+		j++;
-+	}
-+}
-+
- static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
- 			  struct edid *edid, struct amdgpu_hdmi_vsdb_info *vsdb_info)
- {
-@@ -10753,6 +10796,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 	if (!adev->dm.freesync_module)
- 		goto update;
+-	if (bo_va->it.start)
++	if (bo_va->it.start && bo_va->bo)
+ 		r = radeon_vm_bo_update(rdev, bo_va, bo_va->bo->tbo.resource);
  
-+	/* Some eDP panels only have the refresh rate range info in DisplayID */
-+	if ((connector->display_info.monitor_range.min_vfreq == 0 ||
-+	     connector->display_info.monitor_range.max_vfreq == 0))
-+		parse_edid_displayid_vrr(connector, edid);
-+
- 	if (edid && (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
- 		     sink->sink_signal == SIGNAL_TYPE_EDP)) {
- 		bool edid_check_required = false;
+ error_unlock:
 -- 
 2.43.0
 
