@@ -2,59 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFF69331BB
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 21:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB46A9331B9
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 21:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3F610E887;
-	Tue, 16 Jul 2024 19:14:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4343610E877;
+	Tue, 16 Jul 2024 19:14:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="dCxNSu3y";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="lvJQ9aB6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB9BD10E877
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 19:14:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E717310E877
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 19:14:19 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D869588722;
- Tue, 16 Jul 2024 21:14:15 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6474E8881D;
+ Tue, 16 Jul 2024 21:14:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1721157257;
- bh=frZaD+kkGJcY4pJY44ZcBHh3Cq2V5642TXFVCdO0nvs=;
+ s=phobos-20191101; t=1721157258;
+ bh=awnqlGqMwGLUHgbLwB8m4Ybfwee+dxX+vxx4wn86s6o=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dCxNSu3yLkhmZ8AB8wwOSXdwhzwelPs+wGfKiY3FVICgAfTsOk1YavHGnfSoRYguI
- TYCUDxYQRmCxIUhVFhPlxPbZGyllCD3jw5q0+ZIHxwTuL65YXSx5m/D1QVZQKLjS4o
- YhhMy2ZkXS+V0nylyapntWNsHyTVyi46XvqWZSoYgUCvhq+NFyCxsnh8rZRoUOpxR3
- lh9H+e8Zk0m7UpS+pKGAUCPNHDAgqtZSoMDlj3cBVpYNWonzVl12Aydr3vcCIvK9kP
- ZEJKDbvnzHuRV6gl7IhNKMHk3bzOw/dCV/oMZhHEN0M2OuhmdEf6jn0oPSSLg7pBpO
- qwTDllOTp7oWQ==
-Message-ID: <4e015a11-d8ca-4cc0-9366-2d836122296d@denx.de>
-Date: Tue, 16 Jul 2024 20:29:46 +0200
+ b=lvJQ9aB6fsnJ5Sc7vr/gEMYaP4nCJf+rsJ5k3mxcycJm2YRmOdwp+v3aYLN836A3G
+ zvdmS4UVABFqsMdkVmWLWimSZQIqo35/+5EddOCNE+Gxx8iEjg9S8wXanw8UyAn7dV
+ YfiqwpmhDvRueZ0B5tZ438vJ9hRGKGwi+bs/Kfhx+exHEAWDqOJ+dzUICqrdi1YrPq
+ nT5XlSgSFeal2Sv34FeTFWYdMM4EWcb98iCGMw7NhkTNWlfgOaP7K3weyS3niOiNpa
+ +Ikgq+08w6CVuPGeN6BHSjjTeiKCCfLqVZidYGPSxfodEbr61TVXfO4oJvie1OwNcv
+ ri4B5FGo+5jpQ==
+Message-ID: <091542bc-7d52-4444-aab8-85f765ad99dc@denx.de>
+Date: Tue, 16 Jul 2024 20:43:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: tc358867: Document
- default DP preemphasis
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
+Subject: Re: [PATCH v2 1/2] drm: bridge: samsung-dsim: Initialize bridge on
+ attach
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michael Walle <mwalle@kernel.org>,
  Alexander Stein <alexander.stein@ew.tq-group.com>,
- Lucas Stach <l.stach@pengutronix.de>, Maxime Ripard <mripard@kernel.org>,
- kernel@dh-electronics.com,
+ dri-devel@lists.freedesktop.org
+Cc: Adam Ford <aford173@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Robert Foss <rfoss@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20240708150130.54484-1-marex@denx.de>
- <172062558439.3107707.14187355988690749078.robh@kernel.org>
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+References: <20240625122824.148163-1-marex@denx.de>
+ <4603431.cEBGB3zze1@steina-w> <f90aa303-f18b-4cca-bb7a-f94f74dfee36@denx.de>
+ <D29SIGP58O7E.3AJ5VRGQ4I1VN@kernel.org>
+ <CGME20240711153825eucas1p2f3be863ea60d080e1c15d1b3d6570069@eucas1p2.samsung.com>
+ <1867bfd6-ad00-46a7-8bad-4a4441d9854c@denx.de>
+ <7efa1605-bdec-42b1-8a9f-363a70b78017@samsung.com>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <172062558439.3107707.14187355988690749078.robh@kernel.org>
+In-Reply-To: <7efa1605-bdec-42b1-8a9f-363a70b78017@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -74,52 +80,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/10/24 5:33 PM, Rob Herring (Arm) wrote:
-> 
-> On Mon, 08 Jul 2024 17:01:13 +0200, Marek Vasut wrote:
->> Document default DP port preemphasis configurable via new DT property
->> "toshiba,pre-emphasis". This is useful in case the DP link properties
->> are known and starting link training from preemphasis setting of 0 dB
->> is not useful. The preemphasis can be set separately for both DP lanes
->> in range 0=0dB, 1=3.5dB, 2=6dB .
+On 7/11/24 5:57 PM, Marek Szyprowski wrote:
+> On 11.07.2024 17:38, Marek Vasut wrote:
+>> On 6/26/24 10:02 AM, Michael Walle wrote:
+>>> On Wed Jun 26, 2024 at 5:21 AM CEST, Marek Vasut wrote:
+>>>> Thank you for testing and keeping up with this. I will wait for more
+>>>> feedback if there is any (Frieder? Lucas? Michael?). If there are no
+>>>> objections, then I can merge it in a week or two ?
+>>>
+>>> I'll try to use your approach on the tc358775. Hopefully, I'll find
+>>> some time this week.
 >>
->> This is an endpoint property, not a port property, because the TC9595
->> datasheet does mention that the DP might operate in some sort of split
->> mode, where each DP lane is used to feed one display, so in that case
->> there might be two endpoints.
+>> So ... I wonder ... shall I apply these patches or not ?
 >>
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> ---
->> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
->> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->> Cc: Conor Dooley <conor+dt@kernel.org>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->> Cc: Jonas Karlman <jonas@kwiboo.se>
->> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
->> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->> Cc: Lucas Stach <l.stach@pengutronix.de>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Neil Armstrong <neil.armstrong@linaro.org>
->> Cc: Rob Herring <robh@kernel.org>
->> Cc: Robert Foss <rfoss@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: devicetree@vger.kernel.org
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: kernel@dh-electronics.com
->> ---
->> V2: - Fix the type to u8 array
->>      - Fix the enum items to match what they represent
->> V3: - Update commit message, expand on this being an endpoint property
->> V4: - Fix ref: /schemas/graph.yaml#/$defs/port-base and add unevaluatedProperties
->> ---
->>   .../display/bridge/toshiba,tc358767.yaml      | 21 ++++++++++++++++++-
->>   1 file changed, 20 insertions(+), 1 deletion(-)
+>> I'll wait about a week or two before applying them, to get some input.
 >>
-> 
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> I've pointed that they break current users of Samsung DSIM: Exynos-DSI
+> and Samsung s6e3ha2/s6e3hf2 panels, but unfortunately I'm not able to
+> provide datasheet nor any other documentation. Due to other tasks and
+> holidays I'm not able to debug it further too, at least till the end of
+> August. Maybe we could keep old behavior for "exynos-dsi" compatible device?
 
-If there are no objections, I will apply these two patches to drm-misc 
-soon ?
+Nope, let's not pile up workarounds. It would be good to figure out why 
+does this display misbehave when the data lanes are in LP11 on start up. 
+It seems most sinks do require data lanes in LP11 on start up, so what 
+is special about this panel ? Do you have access to the datasheet and 
+can you check once you're back ?
