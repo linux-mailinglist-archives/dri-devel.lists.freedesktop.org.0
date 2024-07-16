@@ -2,111 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7513A932461
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 12:53:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAC4932483
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 13:00:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F375810E646;
-	Tue, 16 Jul 2024 10:53:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B9510E652;
+	Tue, 16 Jul 2024 10:59:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vEUztb23";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IEAysSQp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC4810E646
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 10:53:54 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-367b8a60b60so2941417f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 03:53:54 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+ [209.85.128.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4506B10E652
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 10:59:56 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-65f9708c50dso27040057b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 03:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721127233; x=1721732033; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=nXzIcAqpxHG7tPPh/elMPV6grh+ccM9HxfPCceHHxTA=;
- b=vEUztb2313Nf+GeCupFc039Cz10DOa4cywNU8gcrP/9IXajGaOZpmK0NqYzv+HdnJ/
- gp1VaD67ppSpSYpN2CKopy9KXnRS5Giu9AZJ5VJk/YvHsU6yuj/8g7JZumLc18EN/tbg
- sWZiLIyAY42R8sFgYSMgtces+tjl6E79Qi03HyOHJoFVLHo9j5da7CZfMzMhEXratq5+
- XFppbCFrhDjoiuAPWBfuaZqgQQQ+2pD764i9ZZMCMYb6nAGaFsMnHxRmvvJ6NYPBJ4TL
- aQlNmTpH1X6iokXYnyzFin056iN+31Y7A2+k37kKyqgs50OU7bhJ+7NKg0XOio8s5uIf
- 1SSw==
+ d=linaro.org; s=google; t=1721127595; x=1721732395; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=SCpp5TdLu9kk6eRwCAo7oBPRTqvgECiNvL6BaGoRicI=;
+ b=IEAysSQpz7kltOY7K9+fCZmP5S0wHW07JCSkQPkw9C93fSnZVIYbwOTeySkj+R0dBZ
+ rJqkKS6plrNm+i5cA89lW7MzXzqYkQIqm5ugNdvn9p+VA//YQxK40o60oKU+XWFTyeof
+ MWPn/ABiRgTOYPtPkjb7SPwqo9U2rY/bHCAmRyMuXYLuX1LpuSL8daJDxJ7EygSFVSaa
+ bB9Uio9Mb6RZ+gWJPO/DX71RGa5cn3AVUBEus371sN9gqQt/rX3Ad3+8zbf1Pv3z54CO
+ pTghJEue9ELONshpu7+4FZPxEML7UUL714S7ajt0EDNPWOAJNZD77XkxGzhGcGZA+BaE
+ wMHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721127233; x=1721732033;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=nXzIcAqpxHG7tPPh/elMPV6grh+ccM9HxfPCceHHxTA=;
- b=Vgg/H12fRvGVj95wp0ClWvDMMnWQQ9USrXsIVMmezPS/iQghUWRLqQXa48BrW6FyWU
- bZPVUNSnBwToNiCZsoAEHQHXJ4QcFTMi/Gp+oJsYhA/37iRjmpMHw0U7OCM9BdrCjYbn
- 4GMszeaNhPd/+U1Wz3BLjuEpVYO6j9v8qWIRFHT3prM5cclJczIWdXzkM6RsZaK/+rt7
- VZcSJhpXBqWfhA+QnIGBXsnj2v7msXVIhPUZfOBq5lNskOmvYbFT9EmTEshQlFBeje66
- FZ10lEs3EKpHKzpdkYXmDWlkqTpB13KEo93TWbYX8G0VdQDWwCV/oOT/9c6zXnADwuUQ
- JcpQ==
+ d=1e100.net; s=20230601; t=1721127595; x=1721732395;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SCpp5TdLu9kk6eRwCAo7oBPRTqvgECiNvL6BaGoRicI=;
+ b=LZANC58bP921TOpamm6UDNPzfsQw6KU3TFZgEkezQeRlG6QGW4V/I3DWpVOo7nOXmM
+ 5IFQqTmsmcRAHsaCcyC29CqfWSFvoSMCOMLc0fyVmVQrDQ/XVhBcvR+DfRI5lg84OrnO
+ etm/0zf7OHEmOPAqCZCH3WwkpHMPkw5qSrQgPDGe9otkzcmp8S2Z57Fy5ah8UPDZsLIc
+ i1QSmzhS9ZpY/KoVxYzsM45WiYdK1I+dRCw68lKdjmfy8awhwL5eSr4OV3+fqS8SlcXm
+ C/9+MgMUj9WkRjQkmKPBdCP3JAZsqtC2IjRMeMpWUwKcqJe4hMDDAZCeWL7FYHCj+bCi
+ iZZw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVJSoDzAxRRzVR8A0HlTy/VRDPZ0F+8O7h61iTUCeaFcKRa0tNKzMdfeMiAlTtrTaSDbKmUpWaJRpHfSoe+Ltv26N+nhH1ROBLbPM0JH9AZ
-X-Gm-Message-State: AOJu0YyfHieIdq09ud9NKPHWpItxjy63HrPfhpIdtE731sVZJ7Y7x+Or
- L3PKBLaqsB7ttrbuNaw1j5XGsJjlowHYx4gEHv4Ms7MskvyGY0gmJXMiZOpJFGE=
-X-Google-Smtp-Source: AGHT+IF/XfpK3F6pBtU8SrWLC0nhPop0clUEctwox321fqXnnzwSGm7+wIyzDM/lhazbOaJDVhnWBg==
-X-Received: by 2002:a5d:6646:0:b0:367:8a9e:6bed with SMTP id
- ffacd0b85a97d-3682635b6e4mr874072f8f.61.1721127232379; 
- Tue, 16 Jul 2024 03:53:52 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:f5ba:a94c:e43a:d197?
- ([2a01:e0a:982:cbb0:f5ba:a94c:e43a:d197])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3680dafbf19sm8614509f8f.68.2024.07.16.03.53.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Jul 2024 03:53:52 -0700 (PDT)
-Message-ID: <b35eb84d-5ed4-469c-8df3-d7e895bb910c@linaro.org>
-Date: Tue, 16 Jul 2024 12:53:50 +0200
+ AJvYcCW0LYnP3g4EDvxT8bVXDXSEwSizRT7hptcG84K8C+kuSJtqtlgjZ6wQmi7Y+l/WOFbE6Mvde+JJyTdmZuFWnr5XnsRfiD0m8zQI+PeWct3N
+X-Gm-Message-State: AOJu0Yz3HkDEyCtzLP0Ppq5j9FbUo62sgLO88L6LkEgUjLQBwS0slxfd
+ Gh+R7KNQ1josfHz+1fv/pAChYMhnDChwRt3r8Hwu36EcT8Qe6UsSCsghyyPXOkw/i1R3l94puZe
+ ERZu6txUXHJcKmBHaRCdaWLIj4Ieqj1tQu0pVxg==
+X-Google-Smtp-Source: AGHT+IEAYszVmONd9WFRIl8XLspjDCopUYw6S6qPqmgIeZkQQTGphg+e0dz0ezSFN7crgqieY6cxct7ubknDXA63tu0=
+X-Received: by 2002:a81:77c5:0:b0:643:aef1:fb9d with SMTP id
+ 00721157ae682-6637f0c9bd5mr20216307b3.4.1721127595205; Tue, 16 Jul 2024
+ 03:59:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
- shutdown
-To: Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Chris Morgan <macromorgan@hotmail.com>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Jonathan Corbet <corbet@lwn.net>,
+References: <20240627-tdp158-v3-0-fb2fbc808346@freebox.fr>
+ <20240627-tdp158-v3-1-fb2fbc808346@freebox.fr>
+ <20240701-bug-of-great-honeydew-cfb6ef@houat>
+ <e7bbbe4e-7deb-46c3-9cce-1922f9b6b3a2@freebox.fr>
+ <20240708-ethereal-romantic-piculet-d4ae66@houat>
+ <pp3rc5zob3xeghlatw4vnpzplc4yjpjadkea465zmhft55dyl5@3cpoc2zovftv>
+ <20240715-shiny-enigmatic-firefly-2a6dec@houat>
+ <CAA8EJpoJ0132ZYGCO=8xQt8J4Z9w5jDON1H-VRCemFdyV-9nUw@mail.gmail.com>
+ <20240716-exuberant-diligent-beagle-c43ffc@houat>
+In-Reply-To: <20240716-exuberant-diligent-beagle-c43ffc@houat>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 16 Jul 2024 13:59:43 +0300
+Message-ID: <CAA8EJppwWN8vBPv0cE0Fmt5rtP60RS4qgB5n6_CfuaQdLLpGDw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: add TI TDP158
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Marc Gonzalez <mgonzalez@freebox.fr>, Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240621134427.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240621134427.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,211 +94,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/06/2024 22:44, Douglas Anderson wrote:
-> At shutdown if you've got a _properly_ coded DRM modeset driver then
-> you'll get these two warnings at shutdown time:
-> 
->    Skipping disable of already disabled panel
->    Skipping unprepare of already unprepared panel
-> 
-> These warnings are ugly and sound concerning, but they're actually a
-> sign of a properly working system. That's not great.
-> 
-> We're not ready to get rid of the calls to drm_panel_disable() and
-> drm_panel_unprepare() because we're not 100% convinced that all DRM
-> modeset drivers are properly calling drm_atomic_helper_shutdown() or
-> drm_helper_force_disable_all() at the right times. However, having the
-> warning show up for correctly working systems is bad.
-> 
-> As a bit of a workaround, add some "if" tests to try to avoid the
-> warning on correctly working systems. Also add some comments and
-> update the TODO items in the hopes that future developers won't be too
-> confused by what's going on here.
-> 
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> This patch came out of discussion on dri-devel on 2024-06-21
-> [1]. NOTE: I have put all changes into one patch since it didn't seem
-> to add anything to break up the updating of the TODO or the comments
-> in the core into separate patches since the patch is all about one
-> topic and all code is expected to land in the same tree.
-> 
-> Previous versions:
-> v0: https://lore.kernel.org/r/20240604172305.v3.24.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid/
-> v1: https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid
-> 
-> [1] https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&date=2024-06-21
-> 
->   Documentation/gpu/todo.rst           | 35 +++++++++++++---------------
->   drivers/gpu/drm/drm_panel.c          | 18 ++++++++++++++
->   drivers/gpu/drm/panel/panel-edp.c    | 26 ++++++++++++++-------
->   drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++-------
->   4 files changed, 68 insertions(+), 37 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 2ea6ffc9b22b..96c453980ab6 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -475,25 +475,22 @@ Remove disable/unprepare in remove/shutdown in panel-simple and panel-edp
->   As of commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
->   drm_panel"), we have a check in the drm_panel core to make sure nobody
->   double-calls prepare/enable/disable/unprepare. Eventually that should probably
-> -be turned into a WARN_ON() or somehow made louder, but right now we actually
-> -expect it to trigger and so we don't want it to be too loud.
-> -
-> -Specifically, that warning will trigger for panel-edp and panel-simple at
-> -shutdown time because those panels hardcode a call to drm_panel_disable()
-> -and drm_panel_unprepare() at shutdown and remove time that they call regardless
-> -of panel state. On systems with a properly coded DRM modeset driver that
-> -calls drm_atomic_helper_shutdown() this is pretty much guaranteed to cause
-> -the warning to fire.
-> -
-> -Unfortunately we can't safely remove the calls in panel-edp and panel-simple
-> -until we're sure that all DRM modeset drivers that are used with those panels
-> -properly call drm_atomic_helper_shutdown(). This TODO item is to validate
-> -that all DRM modeset drivers used with panel-edp and panel-simple properly
-> -call drm_atomic_helper_shutdown() and then remove the calls to
-> -disable/unprepare from those panels. Alternatively, this TODO item could be
-> -removed by convincing stakeholders that those calls are fine and downgrading
-> -the error message in drm_panel_disable() / drm_panel_unprepare() to a
-> -debug-level message.
-> +be turned into a WARN_ON() or somehow made louder.
-> +
-> +At the moment, we expect that we may still encounter the warnings in the
-> +drm_panel core when using panel-simple and panel-edp. Since those panel
-> +drivers are used with a lot of different DRM modeset drivers they still
-> +make an extra effort to disable/unprepare the panel themsevles at shutdown
-> +time. Specifically we could still encounter those warnings if the panel
-> +driver gets shutdown() _before_ the DRM modeset driver and the DRM modeset
-> +driver properly calls drm_atomic_helper_shutdown() in its own shutdown()
-> +callback. Warnings could be avoided in such a case by using something like
-> +device links to ensure that the panel gets shutdown() after the DRM modeset
-> +driver.
-> +
-> +Once all DRM modeset drivers are known to shutdown properly, the extra
-> +calls to disable/unprepare in remove/shutdown in panel-simple and panel-edp
-> +should be removed and this TODO item marked complete.
->   
->   Contact: Douglas Anderson <dianders@chromium.org>
->   
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index cfbe020de54e..19ab0a794add 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -161,6 +161,15 @@ int drm_panel_unprepare(struct drm_panel *panel)
->   	if (!panel)
->   		return -EINVAL;
->   
-> +	/*
-> +	 * If you are seeing the warning below it likely means one of two things:
-> +	 * - Your panel driver incorrectly calls drm_panel_unprepare() in its
-> +	 *   shutdown routine. You should delete this.
-> +	 * - You are using panel-edp or panel-simple and your DRM modeset
-> +	 *   driver's shutdown() callback happened after the panel's shutdown().
-> +	 *   In this case the warning is harmless though ideally you should
-> +	 *   figure out how to reverse the order of the shutdown() callbacks.
-> +	 */
->   	if (!panel->prepared) {
->   		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
->   		return 0;
-> @@ -245,6 +254,15 @@ int drm_panel_disable(struct drm_panel *panel)
->   	if (!panel)
->   		return -EINVAL;
->   
-> +	/*
-> +	 * If you are seeing the warning below it likely means one of two things:
-> +	 * - Your panel driver incorrectly calls drm_panel_disable() in its
-> +	 *   shutdown routine. You should delete this.
-> +	 * - You are using panel-edp or panel-simple and your DRM modeset
-> +	 *   driver's shutdown() callback happened after the panel's shutdown().
-> +	 *   In this case the warning is harmless though ideally you should
-> +	 *   figure out how to reverse the order of the shutdown() callbacks.
-> +	 */
->   	if (!panel->enabled) {
->   		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
->   		return 0;
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-> index 3a574a9b46e7..8723cd190913 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -954,16 +954,24 @@ static void panel_edp_shutdown(struct device *dev)
->   	 * drm_atomic_helper_shutdown() at shutdown time and that should
->   	 * cause the panel to be disabled / unprepared if needed. For now,
->   	 * however, we'll keep these calls due to the sheer number of
-> -	 * different DRM modeset drivers used with panel-edp. The fact that
-> -	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
-> -	 * will try to disable/unprepare means that we can get a warning about
-> -	 * trying to disable/unprepare an already disabled/unprepared panel,
-> -	 * but that's something we'll have to live with until we've confirmed
-> -	 * that all DRM modeset drivers are properly calling
-> -	 * drm_atomic_helper_shutdown().
-> +	 * different DRM modeset drivers used with panel-edp. Once we've
-> +	 * confirmed that all DRM modeset drivers using this panel properly
-> +	 * call drm_atomic_helper_shutdown() we can simply delete the two
-> +	 * calls below.
-> +	 *
-> +	 * TO BE EXPLICIT: THE CALLS BELOW SHOULDN'T BE COPIED TO ANY NEW
-> +	 * PANEL DRIVERS.
-> +	 *
-> +	 * FIXME: If we're still haven't figured out if all DRM modeset
-> +	 * drivers properly call drm_atomic_helper_shutdown() but we _have_
-> +	 * managed to make sure that DRM modeset drivers get their shutdown()
-> +	 * callback before the panel's shutdown() callback (perhaps using
-> +	 * device link), we could add a WARN_ON here to help move forward.
->   	 */
-> -	drm_panel_disable(&panel->base);
-> -	drm_panel_unprepare(&panel->base);
-> +	if (panel->base.enabled)
-> +		drm_panel_disable(&panel->base);
-> +	if (panel->base.prepared)
-> +		drm_panel_unprepare(&panel->base);
->   }
->   
->   static void panel_edp_remove(struct device *dev)
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 8345ed891f5a..022ffab2324a 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -726,16 +726,24 @@ static void panel_simple_shutdown(struct device *dev)
->   	 * drm_atomic_helper_shutdown() at shutdown time and that should
->   	 * cause the panel to be disabled / unprepared if needed. For now,
->   	 * however, we'll keep these calls due to the sheer number of
-> -	 * different DRM modeset drivers used with panel-simple. The fact that
-> -	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
-> -	 * will try to disable/unprepare means that we can get a warning about
-> -	 * trying to disable/unprepare an already disabled/unprepared panel,
-> -	 * but that's something we'll have to live with until we've confirmed
-> -	 * that all DRM modeset drivers are properly calling
-> -	 * drm_atomic_helper_shutdown().
-> +	 * different DRM modeset drivers used with panel-simple. Once we've
-> +	 * confirmed that all DRM modeset drivers using this panel properly
-> +	 * call drm_atomic_helper_shutdown() we can simply delete the two
-> +	 * calls below.
-> +	 *
-> +	 * TO BE EXPLICIT: THE CALLS BELOW SHOULDN'T BE COPIED TO ANY NEW
-> +	 * PANEL DRIVERS.
-> +	 *
-> +	 * FIXME: If we're still haven't figured out if all DRM modeset
-> +	 * drivers properly call drm_atomic_helper_shutdown() but we _have_
-> +	 * managed to make sure that DRM modeset drivers get their shutdown()
-> +	 * callback before the panel's shutdown() callback (perhaps using
-> +	 * device link), we could add a WARN_ON here to help move forward.
->   	 */
-> -	drm_panel_disable(&panel->base);
-> -	drm_panel_unprepare(&panel->base);
-> +	if (panel->base.enabled)
-> +		drm_panel_disable(&panel->base);
-> +	if (panel->base.prepared)
-> +		drm_panel_unprepare(&panel->base);
->   }
->   
->   static void panel_simple_remove(struct device *dev)
+On Tue, 16 Jul 2024 at 12:24, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> Hi,
+>
+> On Mon, Jul 15, 2024 at 07:38:34PM GMT, Dmitry Baryshkov wrote:
+> > On Mon, 15 Jul 2024 at 17:42, Maxime Ripard <mripard@kernel.org> wrote:
+> > >
+> > > On Mon, Jul 08, 2024 at 11:29:46PM GMT, Dmitry Baryshkov wrote:
+> > > > On Mon, Jul 08, 2024 at 04:59:23PM GMT, Maxime Ripard wrote:
+> > > > > On Mon, Jul 01, 2024 at 05:36:18PM GMT, Marc Gonzalez wrote:
+> > > > > > On 01/07/2024 15:50, Maxime Ripard wrote:
+> > > > > >
+> > > > > > > On Thu, Jun 27, 2024 at 01:13:03PM GMT, Marc Gonzalez wrote:
+> > > > > > >
+> > > > > > >> TDP158 is an AC-coupled DVI / HDMI to TMDS level shifting Redriver.
+> > > > > > >> It supports DVI 1.0, HDMI 1.4b and 2.0b.
+> > > > > > >> It supports 4 TMDS channels, HPD, and a DDC interface.
+> > > > > > >> It supports dual power supply rails (1.1V on VDD, 3.3V on VCC)
+> > > > > > >> for power reduction. Several methods of power management are
+> > > > > > >> implemented to reduce overall power consumption.
+> > > > > > >> It supports fixed receiver EQ gain using I2C or pin strap to
+> > > > > > >> compensate for different lengths input cable or board traces.
+> > > > > > >>
+> > > > > > >> Features
+> > > > > > >>
+> > > > > > >> - AC-coupled TMDS or DisplayPort dual-mode physical layer input
+> > > > > > >> to HDMI 2.0b TMDS physical layer output supporting up to 6Gbps
+> > > > > > >> data rate, compatible with HDMI 2.0b electrical parameters
+> > > > > > >> - DisplayPort dual-mode standard version 1.1
+> > > > > > >> - Programmable fixed receiver equalizer up to 15.5dB
+> > > > > > >> - Global or independent high speed lane control, pre-emphasis
+> > > > > > >> and transmit swing, and slew rate control
+> > > > > > >> - I2C or pin strap programmable
+> > > > > > >> - Configurable as a DisplayPort redriver through I2C
+> > > > > > >> - Full lane swap on main lanes
+> > > > > > >> - Low power consumption (200 mW at 6Gbps, 8 mW in shutdown)
+> > > > > > >>
+> > > > > > >> https://www.ti.com/lit/ds/symlink/tdp158.pdf
+> > > > > > >>
+> > > > > > >> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> > > > > > >> ---
+> > > > > > >>  .../bindings/display/bridge/ti,tdp158.yaml         | 51 ++++++++++++++++++++++
+> > > > > > >>  1 file changed, 51 insertions(+)
+> > > > > > >>
+> > > > > > >> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
+> > > > > > >> new file mode 100644
+> > > > > > >> index 0000000000000..21c8585c3bb2d
+> > > > > > >> --- /dev/null
+> > > > > > >> +++ b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
+> > > > > > >> @@ -0,0 +1,51 @@
+> > > > > > >> +# SPDX-License-Identifier: GPL-2.0-only
+> > > > > > >> +%YAML 1.2
+> > > > > > >> +---
+> > > > > > >> +$id: http://devicetree.org/schemas/display/bridge/ti,tdp158.yaml#
+> > > > > > >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > > >> +
+> > > > > > >> +title: TI TDP158 HDMI to TMDS Redriver
+> > > > > > >> +
+> > > > > > >> +maintainers:
+> > > > > > >> +  - Arnaud Vrac <avrac@freebox.fr>
+> > > > > > >> +  - Pierre-Hugues Husson <phhusson@freebox.fr>
+> > > > > > >> +
+> > > > > > >> +properties:
+> > > > > > >> +  compatible:
+> > > > > > >> +    const: ti,tdp158
+> > > > > > >> +
+> > > > > > >> +  reg:
+> > > > > > >> +    description: I2C address of the device
+> > > > > > >> +
+> > > > > > >> +  enable-gpios:
+> > > > > > >> +    description: GPIO controlling bridge enable
+> > > > > > >> +
+> > > > > > >> +  vcc-supply:
+> > > > > > >> +    description: Power supply 3.3V
+> > > > > > >> +
+> > > > > > >> +  vdd-supply:
+> > > > > > >> +    description: Power supply 1.1V
+> > > > > > >> +
+> > > > > > >> +  ports:
+> > > > > > >> +    $ref: /schemas/graph.yaml#/properties/ports
+> > > > > > >> +
+> > > > > > >> +    properties:
+> > > > > > >> +      port@0:
+> > > > > > >> +        $ref: /schemas/graph.yaml#/properties/port
+> > > > > > >> +        description: Bridge input
+> > > > > > >> +
+> > > > > > >> +      port@1:
+> > > > > > >> +        $ref: /schemas/graph.yaml#/properties/port
+> > > > > > >> +        description: Bridge output
+> > > > > > >> +
+> > > > > > >> +    required:
+> > > > > > >> +      - port@0
+> > > > > > >> +      - port@1
+> > > > > > >
+> > > > > > > The device supports DVI, HDMI or DP input, with various requirements and
+> > > > > > > capabilities depending on the input. Your binding doesn't address that.
+> > > > > > >
+> > > > > > > Similarly, it can do lane-swapping, so we should probably have a
+> > > > > > > property to describe what mapping we want to use.
+> > > > > > >
+> > > > > > > The i2c register access (and the whole behaviour of the device) is
+> > > > > > > constrained on the I2C_EN pin status, and you can't read it from the
+> > > > > > > device, so it's also something we need to have in the DT.
+> > > > > >
+> > > > > > We are using the device in its default configuration.
+> > > > > > (Power on via OE, then it works as expected)
+> > > > >
+> > > > > I know, but that doesn't really matter for a binding.
+> > > > >
+> > > > > > Can we leave any additional properties to be defined by whomever needs
+> > > > > > them in the future?
+> > > > >
+> > > > > If you can guarantee that doing so would be backward compatible, sure.
+> > > > > But that means being able to answer those questions with a reasonable
+> > > > > plan.
+> > > >
+> > > > I think proposed bindings are generic enough to cover other possible
+> > > > usecases in future.
+> > >
+> > > I don't think it is. The current binding is for a I2C device that
+> > > shouldn't be accessed through I2C.
+> > >
+> > > It's working for now because the driver doesn't do any access, so it's
+> > > all great, but as soon as we add support for the other case, then we'll
+> > > have to add a property that states that while it's an i2c device, it
+> > > shouldn't be accessed.
+> > >
+> > > And adding such a property is a compatibility-breaking change.
+> >
+> > Please correct me if I'm wrong. We have following usecases.
+> >
+> > 1. I2C_EN pulled low. TI158 is in the pin strap mode, it is not
+> > connected to the I2C bus. A0, A1, SDA and SCL pins are used for
+> > strapping the settings.
+> >     board DT file should describe the bridge as a platform device
+> > sitting directly under the root node.
+>
+> DT maintainers have required that reg is always present in the other
+> sub-thread.
 
-LGTM and see if we have negative feedback
+If I2C_EN is pulled low, there is no reg, as there is no i2c bus
+whatsoever. I2C pins are repurposed as pin straps, An pins are
+repurposed as pin straps.
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+I think DT maintainers wanted reg for the 2.a. case - in other words
+the bridge is present on the I2C bus, but it is not being programmed.
+
+>
+> > 2. I2C_EN pulled high. TI158 is in the I2C mode. It is connected to
+> > the I2C bus, A0/A1 pins set the I2C bus address. The device is
+> > controlled over the I2C bus
+> >
+> > 2.a. The same as 2, but the device is not controlled at all, default
+> > settings are fine.
+> >
+> > The driver covers usecase 2.a. The bindings allow extending the driver
+> > to the usecase 2 (e.g. via optional properties which specify
+> > bord-specific settings)
+> >
+> > The usecase 1 is a completely separate topic, it requires a different
+> > schema file, specifying no i2c address, only voltages supplies and
+> > enable-gpios.
+>
+> I could have mis-unnderstood, but my understanding was that they were
+> running it with I2C_EN tied low.
+
+That was my initial assumption, but I think Arnoud pointed out that
+the bridge is connected to I2C, just not controlled as defaults are
+sane.
+
+> Of course, that's one of the thing that is completely missing from the
+> commit log, so who knows.
+
+Or from the cover letter :-(
+
+-- 
+With best wishes
+Dmitry
