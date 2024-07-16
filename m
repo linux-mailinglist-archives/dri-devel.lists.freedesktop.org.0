@@ -2,71 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AAAB9321D1
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 10:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE07393222E
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 10:47:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE2D10E5C9;
-	Tue, 16 Jul 2024 08:29:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="VeJ7eq5r";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB8FE10E5D5;
+	Tue, 16 Jul 2024 08:47:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4203410E5CF
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 08:29:14 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-70b09cb7776so3621901b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 01:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1721118554; x=1721723354; darn=lists.freedesktop.org; 
- h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=F4VscS3YS8kYjDJ/yOGc674uy9N5r6MdDESLHfUey0s=;
- b=VeJ7eq5rIErYb3Fsnjp6FA5EFpTeVoKab+gLjgookGG88CWrn93/18GPW0DvJoAHng
- wkSQ9nOlGSD3SgWOD55Lig+tXzDAt0JDYKxvnhXknFd8Ol677SjwUWSHkjp3yifavnMo
- m6sEAayAQ2RlPikF3KnGsvnMLeXHZFFgvkhW9ohbdJG1jmsDQ78XWfUfpFJXG5KoMYnr
- 0JZl1zXu3ScN+SkH82edUjzmvKEnTiaWMrGTfvPNuLYicyXXNnlkJ7HDHpTHzo00DjR/
- 4mpUoCxonGnW6njZQZUKAH/9WGXbMJI7tFK8Y/91C90RKHCjlBWUdBS9IBFbE/81cNy8
- OoCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721118554; x=1721723354;
- h=references:in-reply-to:message-id:date:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F4VscS3YS8kYjDJ/yOGc674uy9N5r6MdDESLHfUey0s=;
- b=e70it2zb/t8ZMXVGb/ek0Afr0EN5YrKufji5Yb2sYavHl18BhquKGbm39wx/19HueQ
- PNdn/XrcmSmriBzz3qGN3n24jqqW2Xm0sTJKb/GN0OIZRVwGRwe1Siby1+ce+EKmzZ1X
- aeFUMy1hPnTGM4sbROMifI4iSoni/iAvmW7HTwnBipMbzlkqOib2u8iliqEp7gus8LF7
- MmfJal59CifxYrb1ogAc4CAdApDmgSgzJELEBgiNKohVJ88EEJKBgo78rTE0TapJBokB
- 2sr1krBCrcbEww/72O1fQYLCN7Pbn3X1NVD1Id3QVf20QOm2AQsxMMq5Fuf2aUNlXL4r
- JhZA==
-X-Gm-Message-State: AOJu0YyTpDNIK76sgZ/ktEuidPs0NamGy37ZI/gnWoEupVOeDecZdCNn
- EkYdCQK1KWrjjxf0/CBHPM4QLfkqyAl0fEawyql/jHX6lihvhnucoZ1yBa/NfVU=
-X-Google-Smtp-Source: AGHT+IFH6uGCvMKeaGDMTFjXeKuRtBVJAm84izd2QqVH5X35wOUvL96rbDdtUAUyInj3udsao+qpmA==
-X-Received: by 2002:a05:6a00:9a7:b0:705:a450:a993 with SMTP id
- d2e1a72fcca58-70c1fbda81fmr1838471b3a.17.1721118553689; 
- Tue, 16 Jul 2024 01:29:13 -0700 (PDT)
-Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-70b7ec7e110sm5714347b3a.121.2024.07.16.01.29.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jul 2024 01:29:13 -0700 (PDT)
-From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-To: dmitry.torokhov@gmail.com, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
- bentiss@kernel.org, linus.walleij@linaro.org, dianders@chromium.org,
- hsinyi@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v3 2/2] HID: i2c-hid: elan: Add elan-ekth6a12nay timing
-Date: Tue, 16 Jul 2024 16:28:51 +0800
-Message-Id: <20240716082851.18173-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240716082851.18173-1-lvzhaoxiong@huaqin.corp-partner.google.com>
-References: <20240716082851.18173-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Tue, 16 Jul 2024 08:47:23 UTC
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF9A910E5D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 08:47:23 +0000 (UTC)
+X-UUID: 4dc2ebf8434f11ef93f4611109254879-20240716
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38, REQID:b0a96405-bd71-4eb7-91c7-f9adbea33fd2, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:82c5f88, CLOUDID:0c9d032ef2420045319e43128f573d74,
+ BulkI
+ D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,URL:1
+ ,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+ NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 4dc2ebf8434f11ef93f4611109254879-20240716
+Received: from node2.com.cn [(10.44.16.197)] by mailgw.kylinos.cn
+ (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1259294220; Tue, 16 Jul 2024 16:42:15 +0800
+Received: from node2.com.cn (localhost [127.0.0.1])
+ by node2.com.cn (NSMail) with SMTP id 94397B8075B2;
+ Tue, 16 Jul 2024 16:42:15 +0800 (CST)
+X-ns-mid: postfix-66963267-3778932
+Received: from [10.42.20.83] (unknown [10.42.20.83])
+ by node2.com.cn (NSMail) with ESMTPA id 2F181B8075B2;
+ Tue, 16 Jul 2024 08:42:12 +0000 (UTC)
+Message-ID: <6c02e6b7-75c8-7f9a-2d00-1627345f40ae@kylinos.cn>
+Date: Tue, 16 Jul 2024 16:42:12 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 5/7] drm/ast: Support ASTDP and VGA at the same time
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ airlied@redhat.com, daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20240715093936.793552-1-tzimmermann@suse.de>
+ <20240715093936.793552-6-tzimmermann@suse.de>
+Content-Language: en-US
+From: oushixiong <oushixiong@kylinos.cn>
+In-Reply-To: <20240715093936.793552-6-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,51 +71,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Elan-ekth6a12nay requires reset to pull down time greater than 10ms,
-so the configuration post_power_delay_ms is 10, and the chipset
-initial time is required to be greater than 300ms,
-so the post_gpio_reset_on_delay_ms is set to 300.
+Tested-by: Shixiong Ou <oushixiong@kylinos.cn>
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
----
-Changes between V3 and V2:
--  2. No changes.
-v2: https://lore.kernel.org/all/20240715073159.25064-3-lvzhaoxiong@huaqin.corp-partner.google.com/
-
-Changes between V2 and V1:
--  1. No changes.
-v1: https://lore.kernel.org/all/20240704085555.11204-3-lvzhaoxiong@huaqin.corp-partner.google.com/
----
- drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-index 091e37933225..3fcff6daa0d3 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-@@ -152,6 +152,13 @@ static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_data = {
- 	.main_supply_name = "vcc33",
- };
- 
-+static const struct elan_i2c_hid_chip_data elan_ekth6a12nay_chip_data = {
-+	.post_power_delay_ms = 10,
-+	.post_gpio_reset_on_delay_ms = 300,
-+	.hid_descriptor_address = 0x0001,
-+	.main_supply_name = "vcc33",
-+};
-+
- static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data = {
- 	.post_power_delay_ms = 1,
- 	.post_gpio_reset_on_delay_ms = 200,
-@@ -174,6 +181,7 @@ static const struct elan_i2c_hid_chip_data ilitek_ili2901_chip_data = {
- 
- static const struct of_device_id elan_i2c_hid_of_match[] = {
- 	{ .compatible = "elan,ekth6915", .data = &elan_ekth6915_chip_data },
-+	{ .compatible = "elan,ekth6a12nay", .data = &elan_ekth6a12nay_chip_data },
- 	{ .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_chip_data },
- 	{ .compatible = "ilitek,ili2901", .data = &ilitek_ili2901_chip_data },
- 	{ }
--- 
-2.17.1
-
+=E5=9C=A8 2024/7/15 17:39, Thomas Zimmermann =E5=86=99=E9=81=93:
+> AST2600 can host VGA and DisplayPort outputs. Support both on the
+> same device. As userspace can often only support a single output per
+> CRTC, connectors are prioritized against each other by the probe
+> helpers.
+>
+> Reported-by: Shixiong Ou <oushixiong@kylinos.cn>
+> Closes: https://lore.kernel.org/dri-devel/20240711090102.352213-1-oushi=
+xiong1025@163.com/
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ast/ast_main.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_m=
+ain.c
+> index 0637abb70361..d43aedaa8dd0 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -115,7 +115,7 @@ static void ast_detect_tx_chip(struct ast_device *a=
+st, bool need_post)
+>   	} else if (IS_AST_GEN7(ast)) {
+>   		if (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD1, TX_TYPE_MASK) =
+=3D=3D
+>   		    ASTDP_DPMCU_TX) {
+> -			ast->tx_chip_types =3D AST_TX_ASTDP_BIT;
+> +			ast->tx_chip_types |=3D AST_TX_ASTDP_BIT;
+>   			ast_dp_launch(&ast->base);
+>   		}
+>   	}
