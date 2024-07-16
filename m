@@ -2,70 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02514933430
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 00:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF7F93344A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 00:40:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5260210E8FE;
-	Tue, 16 Jul 2024 22:25:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDD4010E0B6;
+	Tue, 16 Jul 2024 22:40:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WXSHJIhb";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RMCQaAPU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 078BC10E8FD;
- Tue, 16 Jul 2024 22:25:05 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46GHesmQ031863;
- Tue, 16 Jul 2024 22:25:00 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 746B510E0B6;
+ Tue, 16 Jul 2024 22:40:01 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46GHfI7l024108;
+ Tue, 16 Jul 2024 22:39:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 05xxKaYxYa1oRwc8zqQ9/XPos2PC/6l9sH2GUsjaBYc=; b=WXSHJIhbp+LimyLZ
- yVLJWxf+5RLR7NoCLBvCcCjjmiycCGY44F8U2wsP6ljssyugavBRnDB9G0Cd38gK
- AD0G0hiwGreUtvT7/wE7x0oM4be006jzI9KjsqYKOr4nkyrvSw/M4QWqgu6qOZbw
- tG9cir/XUUOMeRiDRIeng78kn765+boMwBL+zdN5xRFQFQgPb4yWIrm+xHdWYylA
- EwUMkfBUtd+snh/7mwGAD1yFEPip2oAeTqi5b6a2l8snXGMBWhg/UWvMXWLgLFLq
- Pk52CnvMuBnV0YNeq7SPbpczC/hVnCkCzz9OigHblq+zeIooPBHPcUu0/P+gWiBL
- aIqZyg==
+ YUeWnfYukI/qUolZSqFm46A7D57ayOEzLUIbBGxr2hY=; b=RMCQaAPULTjB5OR1
+ eqW4oikhVP0GN6zQgqdjCxDsW18v9D+iAvmmgZmFmUkX2+Txg7OakC2iu3/ADozX
+ 3IR7Rfe6Lwb2oraRtCk2+lJXMcUI/EWAZzgRHlUPs2KHaPvotBIoWEwXVmxeqtr5
+ SDVelSPvsNARZ7s7SjmPJg3YQF0fmGJyNAy2gXqaUihd4JzK0jTjen5/u02xde4f
+ 4w/0wVMsxonohe5nUT8BdKsXQ2iq6zXAyBlBy6BNswyQ+cKXLYRCd0zLNw+ub5NJ
+ Th7TuD2t7jdmClyRLfYfLmbr3NhT++EpCKunoeebLuagMB5xEz/5ri7Hanwfhif4
+ e+tb2Q==
 Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40dwfs0g2k-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40dwfngha4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Jul 2024 22:25:00 +0000 (GMT)
+ Tue, 16 Jul 2024 22:39:56 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
  by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46GMOxZX028539
+ 46GMdsbh015425
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Jul 2024 22:24:59 GMT
+ Tue, 16 Jul 2024 22:39:54 GMT
 Received: from [10.71.110.34] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 16 Jul
- 2024 15:24:58 -0700
-Message-ID: <c023874c-9df2-4195-92ad-c355c67ceccd@quicinc.com>
-Date: Tue, 16 Jul 2024 15:24:58 -0700
+ 2024 15:39:54 -0700
+Message-ID: <cd60db7e-4ff2-445e-a8f8-b22d73d0f2b3@quicinc.com>
+Date: Tue, 16 Jul 2024 15:39:53 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/16] drm/msm/dpu: fix error condition in
+Subject: Re: [PATCH v5 03/16] drm/msm/dpu: move CRTC resource assignment to
  dpu_encoder_virt_atomic_mode_set
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>,
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>, 
  <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <freedreno@lists.freedesktop.org>
 References: <20240625-dpu-mode-config-width-v5-0-501d984d634f@linaro.org>
- <20240625-dpu-mode-config-width-v5-2-501d984d634f@linaro.org>
- <637fbd36-d6cd-4bb7-af83-8849c0fee8f2@quicinc.com>
- <CAA8EJppxyUrEWYQvMGtw14UVobkQdaPZuwHPeMcONRYrgPp2jw@mail.gmail.com>
- <cf1ed8b1-1c70-47f8-8c34-ef62129d44a8@quicinc.com>
- <CAA8EJpqXv2cfN2CC1+FMgwXnwMh3BeocY5ae1sOZazdy0_FCNw@mail.gmail.com>
+ <20240625-dpu-mode-config-width-v5-3-501d984d634f@linaro.org>
 Content-Language: en-US
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpqXv2cfN2CC1+FMgwXnwMh3BeocY5ae1sOZazdy0_FCNw@mail.gmail.com>
+In-Reply-To: <20240625-dpu-mode-config-width-v5-3-501d984d634f@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -74,17 +70,17 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: fvZvILsnwdwyHu_b7GvZNMK0pTYzJQBG
-X-Proofpoint-GUID: fvZvILsnwdwyHu_b7GvZNMK0pTYzJQBG
+X-Proofpoint-GUID: Hhfr_2LJv-Ackefr5toNJFlxI5dZji25
+X-Proofpoint-ORIG-GUID: Hhfr_2LJv-Ackefr5toNJFlxI5dZji25
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-16_02,2024-07-16_02,2024-05-17_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 malwarescore=0 impostorscore=0 bulkscore=0 adultscore=0
- suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407160164
+ impostorscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 clxscore=1015 spamscore=0 mlxscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2407110000 definitions=main-2407160166
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,114 +98,157 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/13/2024 2:49 AM, Dmitry Baryshkov wrote:
-> On Sat, 13 Jul 2024 at 03:25, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 7/12/2024 4:11 PM, Dmitry Baryshkov wrote:
->>> On Fri, 12 Jul 2024 at 22:41, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>> On 6/24/2024 2:13 PM, Dmitry Baryshkov wrote:
->>>>> The commit b954fa6baaca ("drm/msm/dpu: Refactor rm iterator") removed
->>>>> zero-init of the hw_ctl array, but didn't change the error condition,
->>>>> that checked for hw_ctl[i] being NULL. Use indices check instead.
->>>>>
->>>>> Fixes: b954fa6baaca ("drm/msm/dpu: Refactor rm iterator")
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
->>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>> index 5d205e09cf45..7613005fbfea 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>> @@ -1186,7 +1186,7 @@ static void :tag(struct drm_encoder *drm_enc,
->>>>>                         return;
->>>>>                 }
->>>>>
->>>>> -             if (!hw_ctl[i]) {
->>>>> +             if (i >= num_ctl) {
->>>>
->>>> This is not very clear to me.
->>>>
->>>> How will we hit this condition? I dont see i going beyond 1 in this loop
->>>> and neither should num_ctl
->>>
->>> Why? the driver doesn't support flushing through a single CTL, so
->>> num_ctl = num_intf.
->>>
->>
->> num_ctl will be = num_intf, but what I was trying to understand here is
->> that , previously this condition was making sure that we have a ctl
->> assigned for each physical encoder which is actually a requirement for
->> the display pipeline. If we assigned a hw_ctl for one phys encoder and
->> not the other, its an error.
->>
->> But on closer look, I think even your check will catch that.
->>
->>
->>>>
->>>> Will it be just easier to bring back the NULL assignment at the top?
->>>>
->>>> struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC] = { NULL };
->>>>
->>>> I also see the same issue for other blocks such as hw_dsc, hw_lm
->>>
->>> Other blocks loop properly up to the num_resource. I'd prefer to drop
->>> the NULL init from the DSPP init and use num_dspp instead.
->>>
->>
->> Overall, I think the purpose of NULL init was to make sure that before
->> we call to_dpu_hw_***() macros, we have a valid hw_*.
->>
->> We could use either num_* or the hw_* as both are returned by RM.
->>
->> One side-note here is with a proper NULL hw_ctl is that the consumers of
->> hw_ctl should also be able to check for NULL correctly.
+On 6/24/2024 2:13 PM, Dmitry Baryshkov wrote:
+> Historically CRTC resources (LMs and CTLs) were assigned in
+> dpu_crtc_atomic_begin(). The commit 9222cdd27e82 ("drm/msm/dpu: move hw
+> resource tracking to crtc state") simply moved resources to
+> struct dpu_crtc_state, without changing the code sequence. Later on the
+> commit b107603b4ad0 ("drm/msm/dpu: map mixer/ctl hw blocks in encoder
+> modeset") rearanged the code, but still kept the cstate->num_mixers
+> assignment to happen during commit phase. This makes dpu_crtc_state
+> inconsistent between consequent atomic_check() calls.
 > 
-> The problem of the NULL checks is that it's too tempting to perform a
-> NULL check after to_dpu_hw_ctl conversion. However it's not safe to
-> pass NULL pointer to such functions: there is no guarantee that
-> conversion will return NULL if it gets passed the NULL pointer.
+> Move CRTC resource assignment to happen at the end of
+> dpu_encoder_virt_atomic_check().
 > 
+> Fixes: b107603b4ad0 ("drm/msm/dpu: map mixer/ctl hw blocks in encoder modeset")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  3 --
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 60 +++++++++++++++++++----------
+>   2 files changed, 39 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 9f2164782844..7399794d75eb 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1094,9 +1094,6 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
+>   	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
+>   		dpu_encoder_register_frame_event_callback(encoder, NULL, NULL);
+>   
+> -	memset(cstate->mixers, 0, sizeof(cstate->mixers));
+> -	cstate->num_mixers = 0;
+> -
 
-Yes, thats why these checks are there before calling to_dpu_hw_ctl() to 
-make sure we dont pass NULL there.
+Any reason this part was removed?
 
->> So for example dpu_encoder_phys layers use if (!phys->hw_ctl) checks but
->> today we do not set phys->hw_ctl to NULL correctly.
->>
->> Do you think that instead of the return statements, we should do
->> something like
->>
->> dpu_enc->hw_ctl = i < num_ctl ?
->>          to_dpu_hw_ctl(hw_ctl[i]) : NULL;
-> 
-> Yeah, why not.
-> 
-> Generally, I think we should stop storing the state-related data in
-> the non-state structures. Hopefully I'll have time for that at some
-> point later on.
-> 
->>
->>
->> But this will need the NULL init back.
-> 
-> It doesn't, as you have the comparison.
-> 
+I think we still need this part.
 
-Ack, yes thats true. Lets do it this way then. I am fine with that.
+In dpu_encoder_get_topology(), we do not assign topology.num_lm based on 
+state parameters, its based on catalog and intf_count which are decided 
+at init time itself.
 
->>
->>>>
->>>>>                         DPU_ERROR_ENC(dpu_enc,
->>>>>                                 "no ctl block assigned at idx: %d\n", i);
->>>>>                         return;
->>>>>
->>>
->>>
->>>
-> 
-> 
+Which means cstate->num_mixers will remain at a non-zero value even if 
+we have NO_MODE which is what happens when we are disabling the CRTC 
+during suspend or hotplug.
+
+>   	/* disable clk & bw control until clk & bw properties are set */
+>   	cstate->bw_control = false;
+>   	cstate->bw_split_vote = false;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 7613005fbfea..98f3a8d84300 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -628,6 +628,41 @@ static struct msm_display_topology dpu_encoder_get_topology(
+>   	return topology;
+>   }
+>   
+> +static void dpu_encoder_assign_crtc_resources(struct dpu_kms *dpu_kms,
+> +					      struct drm_encoder *drm_enc,
+> +					      struct dpu_global_state *global_state,
+> +					      struct drm_crtc_state *crtc_state)
+> +{
+> +	struct dpu_crtc_state *cstate;
+> +	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
+> +	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+> +	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC];
+> +	int num_lm, num_ctl, num_dspp, i;
+> +
+> +	cstate = to_dpu_crtc_state(crtc_state);
+> +
+> +	memset(cstate->mixers, 0, sizeof(cstate->mixers));
+> +
+> +	num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+> +		drm_enc->base.id, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
+> +	num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+> +		drm_enc->base.id, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
+> +	num_dspp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+> +		drm_enc->base.id, DPU_HW_BLK_DSPP, hw_dspp,
+> +		ARRAY_SIZE(hw_dspp));
+> +
+> +	for (i = 0; i < num_lm; i++) {
+> +		int ctl_idx = (i < num_ctl) ? i : (num_ctl-1);
+> +
+> +		cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
+> +		cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
+> +		if (i < num_dspp)
+
+Will there be a case where num_lm != num_dspp?
+
+> +			cstate->mixers[i].hw_dspp = to_dpu_hw_dspp(hw_dspp[i]);
+> +	}
+> +
+> +	cstate->num_mixers = num_lm;
+> +}
+> +
+>   static int dpu_encoder_virt_atomic_check(
+>   		struct drm_encoder *drm_enc,
+>   		struct drm_crtc_state *crtc_state,
+> @@ -698,6 +733,9 @@ static int dpu_encoder_virt_atomic_check(
+>   					drm_enc, crtc_state, topology);
+>   	}
+>   
+> +	if (!ret)
+> +		dpu_encoder_assign_crtc_resources(dpu_kms, drm_enc, global_state, crtc_state);
+> +
+>   	trace_dpu_enc_atomic_check_flags(DRMID(drm_enc), adj_mode->flags);
+>   
+>   	return ret;
+> @@ -1097,14 +1135,11 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>   	struct dpu_encoder_virt *dpu_enc;
+>   	struct msm_drm_private *priv;
+>   	struct dpu_kms *dpu_kms;
+> -	struct dpu_crtc_state *cstate;
+>   	struct dpu_global_state *global_state;
+>   	struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
+>   	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
+> -	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+> -	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
+>   	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
+> -	int num_lm, num_ctl, num_pp, num_dsc;
+> +	int num_ctl, num_pp, num_dsc;
+>   	unsigned int dsc_mask = 0;
+>   	int i;
+>   
+> @@ -1133,11 +1168,6 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>   		ARRAY_SIZE(hw_pp));
+>   	num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>   		drm_enc->base.id, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
+> -	num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+> -		drm_enc->base.id, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
+> -	dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+> -		drm_enc->base.id, DPU_HW_BLK_DSPP, hw_dspp,
+> -		ARRAY_SIZE(hw_dspp));
+>   
+>   	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
+>   		dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
+> @@ -1163,18 +1193,6 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>   		dpu_enc->cur_master->hw_cdm = hw_cdm ? to_dpu_hw_cdm(hw_cdm) : NULL;
+>   	}
+>   
+> -	cstate = to_dpu_crtc_state(crtc_state);
+> -
+> -	for (i = 0; i < num_lm; i++) {
+> -		int ctl_idx = (i < num_ctl) ? i : (num_ctl-1);
+> -
+> -		cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
+> -		cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
+> -		cstate->mixers[i].hw_dspp = to_dpu_hw_dspp(hw_dspp[i]);
+> -	}
+> -
+> -	cstate->num_mixers = num_lm;
+> -
+>   	dpu_enc->connector = conn_state->connector;
+>   
+>   	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
 > 
