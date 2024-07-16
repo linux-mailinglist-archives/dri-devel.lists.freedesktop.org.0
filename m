@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618299330CE
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 20:58:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F859330DC
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 20:58:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C036D10E5F6;
-	Tue, 16 Jul 2024 18:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C9510E2C5;
+	Tue, 16 Jul 2024 18:58:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gDnwpWi5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G5CeGAEa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
- [209.85.166.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A00AA10E299;
- Tue, 16 Jul 2024 18:58:23 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id
- ca18e2360f4ac-7f97e794f34so4316039f.3; 
- Tue, 16 Jul 2024 11:58:23 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFE0410E718;
+ Tue, 16 Jul 2024 18:58:24 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id
+ ca18e2360f4ac-7fedb09357aso5193839f.2; 
+ Tue, 16 Jul 2024 11:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721156303; x=1721761103; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721156304; x=1721761104; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4gHhZlZC9lRM4IBPTZ/FMwaYyy9pebB6jMENYSRc4Ds=;
- b=gDnwpWi5UfwHOmOvwcoYnEqgoVQHl80oC11Z3ziw0LoyTuWSKje+1tBB6PjzVjFqAg
- QeEuj0cAcuRF+DJMUq4nRpA6wckuHIf1spPLFte9LuAirg9pbSZ+xXLf+vBVH+pEZPDV
- kMShWCBRQJBfgk69pRJtNhxZu6hCUvnkSI9iQhBI+xQBusAUHaGuyklW53gtFcErO5ZE
- LvC28a1LrY9Abrwej0h22duT/FU5HWNqr1ahkA5bniZ3SNn5ZOHswl0ByphxIfqxrmar
- /K3phog9bdP6HWBH0kTid8162fFRhCxVSQheD7jhW0EZz1uECyiOsupnrMT2zbxysF4u
- B0YA==
+ bh=al8xZ+YlvhlhYR2QqHaR49xBruYIKMULtZOXYmr91IY=;
+ b=G5CeGAEaEjShCy3jYqNExGPO9WUQWXE2xoomMHAzWcp+kBVZCDzcB0lbCpSMOM5LJg
+ P0DIIiQ7JMZuZz4mrvb6SOZ1GjuxuqyJqTHsfdmrenlweKVVGeOD+Te6KmmySOw5V6rw
+ sLTILjZl36amhGeH+rKkcaYrZwUOnzYWRQzTd5DMQWF50B6soZivtd/LTRpKuSFCPXy/
+ 4/c+7EFvWf6q93qf7YaJskX0ly2tnr0qKJ6rlD8kYZ0Ou5D5iLCfdKtHTjqoEldlTMIu
+ mKQDw106YOffYov6jhAfvW2LhwP1BFer+MVH2k4HFq80b9NtllIBOKKP/b7J5q57sTVA
+ ++2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721156303; x=1721761103;
+ d=1e100.net; s=20230601; t=1721156304; x=1721761104;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4gHhZlZC9lRM4IBPTZ/FMwaYyy9pebB6jMENYSRc4Ds=;
- b=VUCmLqSJPaDof8DO49sYo9Ic+WJpVHmCPv68lmzGihwLwxK21vRhzeanA/SV5pP8b8
- k29v8UdGUQQtz+3PQbXn+mJAcCgDhmkkZfCD8vBaRfmygmrdvaPePw4CaWr/nYXuza+r
- xhT9Lz0WQkhqmsjQiX7Gm7YyVRqUk5Xhcp3YkAAyaA8kGeLhrx8AXU6rGzc2MD6MPLaw
- ekA/CLyhLEL7xoHcAqNeUHiyxKTvf5tbrJB4g8wB93wSLqDe2tMtZkXsO7y9DUIXA1Hj
- pT3X9dNfrzpQFW4nOkbbUTBZsZCe9vEPtPFA62NXMgsQN1WIgCpGYf9XqrZ82+Rrq8Eh
- UcTw==
+ bh=al8xZ+YlvhlhYR2QqHaR49xBruYIKMULtZOXYmr91IY=;
+ b=C7yrm5ngR5iDHDS3adkjY7pADKvJC9BRK7MbMFqIHSJwCrT4tUVQtFo/mS00UOINYV
+ CmUbsTJiFrsXT/K2fXi7/8nR/DoJRpXPEcoUCCttPBcq18RCOzwfGtyMtuQZfl35goAj
+ np/S3gxcTKIf5ZDml11cw244U1sIgqi0s/EhYiYdJyKCYToiIScrabyMRLrEsrSWm/I6
+ iWcv8SpDGEh4K9F6SdrjNY+SDCo1aYoIkKuBjkQ3oM1fGRV971UUYiNNPgwhkt7a1Sdv
+ 9J940wC8R707PM0mkLwp42dE7TqTBRvwjr9j1iGOLUAVsyw9+AW6eHgc0cbVdl/N8QRa
+ blQw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV9hlphnvRTBespJHe+PW6f30qdaBAeAJsnRqnflKx7gy+vGVt8Z9FcQKlL8hKZlljUNmtCUPHMLnSzzGAD00Wc8HBFGdWIMcXECU3wGoLtacdp05mudVnLMgIp/irLu3dhsKAkyXs06/CmCphZPTJtl44CMfIZri2+e5Hl/3gpzMtJvOkAq0FslGvpUgJG2bZvGFeXc9jifrhlV7JbvkAqnzuzfWae7yDVUWuOq7cMUmWXcdA=
-X-Gm-Message-State: AOJu0YzLOFJS91Svos7z2hunnFLdNzXa+tG3dZ5FdE/PfxHcfIAG14cD
- ozw3lM31dYAGfkzXsg+cZKr677KaeWLGUW/XiYTF5AoyGn9pR+Zf
-X-Google-Smtp-Source: AGHT+IFIRyDhcxDXmtmK1HLnwwi/E2q7SlYEHNYrBcbDILq7EAQB2veK147HqsG4fbMsp7Bh70n8xA==
-X-Received: by 2002:a05:6602:6408:b0:804:411a:16fa with SMTP id
- ca18e2360f4ac-816c34e606bmr41423339f.9.1721156302764; 
- Tue, 16 Jul 2024 11:58:22 -0700 (PDT)
+ AJvYcCXT+hI3N5C3L/gbg/wKNGS2Pnx/GUKpBLRngTaKfsXphcx/yXRmZ/y9H2o/9jdUWlFJvmfZFdkAbNnB+8YigKD0y48wjdakz1SmbqJpw0VdTHykRhJ90p8tVmqob60N326gRbKYn7WkXZiiFLgSaEE8+Cdtg1Ri/0kT9GwLSUi8UDBbcFuWImzYjQoQYHiSTut3vifgNVOTSPtATpsa/37dyTwXJJiIQOotIvOrWtG+DdyUDlk=
+X-Gm-Message-State: AOJu0Yx3dRZBpy93rRUHIPoBAxSAuAhhsgNiAmYoEGO+mHRNGqhFZSON
+ g8e2lxs4bg/rUMNdFu+HR3eh0MeQ5RZQdByMbnr79+jtiz0sitLy
+X-Google-Smtp-Source: AGHT+IEHXZgya8fxlhk9i3WpXa3f6xKgjLFbnVvzZUw1PQJh5tx0JX3MrDcdRp4L7TxET69MO77yeg==
+X-Received: by 2002:a05:6602:3fc7:b0:7f9:bef6:2068 with SMTP id
+ ca18e2360f4ac-816c35dac54mr41417039f.10.1721156303915; 
+ Tue, 16 Jul 2024 11:58:23 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-4c210f23f1csm75301173.102.2024.07.16.11.58.21
+ 8926c6da1cb9f-4c210f23f1csm75301173.102.2024.07.16.11.58.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jul 2024 11:58:22 -0700 (PDT)
+ Tue, 16 Jul 2024 11:58:23 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
@@ -68,10 +68,10 @@ Cc: ukaszb@chromium.org, linux@rasmusvillemoes.dk, joe@perches.com,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, kernelnewbies@kernelnewbies.org,
  Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v9-resend 03/54] dyndbg: reword "class unknown,
- " to "class:_UNKNOWN_"
-Date: Tue, 16 Jul 2024 12:57:15 -0600
-Message-ID: <20240716185806.1572048-4-jim.cromie@gmail.com>
+Subject: [PATCH v9-resend 04/54] dyndbg: make ddebug_class_param union members
+ same size
+Date: Tue, 16 Jul 2024 12:57:16 -0600
+Message-ID: <20240716185806.1572048-5-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240716185806.1572048-1-jim.cromie@gmail.com>
 References: <20240716185806.1572048-1-jim.cromie@gmail.com>
@@ -92,37 +92,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a dyndbg classname is unknown to a kernel module (as before
-previous patch), the callsite is un-addressable via >control queries.
+struct ddebug_class_param keeps a ref to the state-storage of the
+param; make both class-types use the same unsigned long storage type.
 
-The control-file displays this condition as "class unknown,"
-currently.  That spelling is sub-optimal/too-generic, so change it to
-"class:_UNKNOWN_" to loudly announce the erroneous situation, and to
-make it exceedingly greppable.
-
-NB: pr_debugs are only alterable via >control, and to protect class'd
-debug's from unintended alteration, "class name" must be given to
-change them.  Classmaps map known classes to reserved .class_ids (the
-1..64 val range per module).
+ISTM this is simpler and safer; it avoids an irrelevant difference,
+and if 2 users somehow get class-type mixed up (or refer to the wrong
+union member), at least they will both see the same value.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/dynamic_debug.h | 2 +-
+ lib/dynamic_debug.c           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index ff44ec346162..b9afc7731b7c 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -124,7 +124,7 @@ struct _ddebug_info {
+ struct ddebug_class_param {
+ 	union {
+ 		unsigned long *bits;
+-		unsigned int *lvl;
++		unsigned long *lvl;
+ 	};
+ 	char flags[8];
+ 	const struct ddebug_class_map *map;
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index f2c5e7910bb1..73ccf947d4aa 100644
+index 73ccf947d4aa..152b04c05981 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -1154,7 +1154,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
- 		if (class)
- 			seq_printf(m, " class:%s", class);
- 		else
--			seq_printf(m, " class unknown, _id:%d", dp->class_id);
-+			seq_printf(m, " class:_UNKNOWN_ _id:%d", dp->class_id);
- 	}
- 	seq_puts(m, "\n");
+@@ -799,7 +799,7 @@ int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
  
+ 	case DD_CLASS_TYPE_LEVEL_NAMES:
+ 	case DD_CLASS_TYPE_LEVEL_NUM:
+-		return scnprintf(buffer, PAGE_SIZE, "%d\n", *dcp->lvl);
++		return scnprintf(buffer, PAGE_SIZE, "%ld\n", *dcp->lvl);
+ 	default:
+ 		return -1;
+ 	}
 -- 
 2.45.2
 
