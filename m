@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D269327CB
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 15:49:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C379F932855
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 16:25:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3195A10E706;
-	Tue, 16 Jul 2024 13:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA24410E71B;
+	Tue, 16 Jul 2024 14:25:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DQn2nCh/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FmnxSbAs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33AB010E706
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 13:49:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3E9410E71C;
+ Tue, 16 Jul 2024 14:25:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7FFE4610AA;
- Tue, 16 Jul 2024 13:49:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0348CC116B1;
- Tue, 16 Jul 2024 13:49:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B8DBF60DBA;
+ Tue, 16 Jul 2024 14:25:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2148BC116B1;
+ Tue, 16 Jul 2024 14:25:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721137773;
- bh=ZagyeD+CEK9Z3Hve10RQR+fjhAm6R+NptML0r820+WI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DQn2nCh/CorITB3iIkDQDu6EQsG46Ik9SRkS0pO0FNe3PPT65F68SqGZrwVbB16N2
- ROov0kdR2P6oNfhyT7+B7byGa6sRrIQ8MyLcU0a0wDXSseqHCU74QaNTU2fFdgZHA/
- 8UfzeyoTKdu7eO6w5p8AnkZ0jaa90L+MxFrcr3hR/JOsyNu2KVL4mwE6Gr1/jKk6zY
- Psgxerp7VWJUjvLclg01z6yVdPi2iBIsezAjHDhBd4T1DkTSaWfzxn3IR+w0WoigYv
- Afzk6K3VTJNkK065+EsjLx8vRE0Z8uYPKcW2oXMgURvDfSP7ypTUu4D2i4o9UKXnB8
- Uv7UlLOeA3eyA==
-Date: Tue, 16 Jul 2024 07:49:31 -0600
-From: Rob Herring <robh@kernel.org>
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: dmitry.torokhov@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org,
- linus.walleij@linaro.org, dianders@chromium.org, hsinyi@google.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: HID: i2c-hid: elan: Introduce Elan
- ekth6a12nay
-Message-ID: <20240716134931.GA3574060-robh@kernel.org>
-References: <20240716082851.18173-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240716082851.18173-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+ s=k20201202; t=1721139950;
+ bh=Xn+6qUzEpTK6qfPzPjy3rGiaLoMBOtgvKgPsCnJsxrw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=FmnxSbAsnQkWj/lqjVx7qGHXsOObpICYIPisn2JHYdlvpGUbF++S/ahnSQiaXlkoe
+ 1Ia6b77eiZA9SWz+kxSXNo2mra5JlKz0w6vpr1nznrsbyDLXxdUy3/JmkZTLghL/T4
+ JHziIraQIMIv8mXmBUQ/uUoOR+6QJq9/XpJfcnwx9Ap3pReFJTRqPGxuommu0Luqia
+ i7ZJADI5EpVuXUCbk9RpHUgK/B1saR8XtgnJuI+cbnycbMjEbESDJMrxhFjWhZcW1m
+ s0UiBlgoCs8iPsX/4mottu7ov1YADDXLLLiEgAuZITv7KpJznACVjJvvPCWmEp6WL0
+ 8pqWmXlV+1GUw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Tom Chung <chiahsuan.chung@amd.com>, Sun peng Li <sunpeng.li@amd.com>,
+ Jerry Zuo <jerry.zuo@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, alex.hung@amd.com,
+ hamza.mahfooz@amd.com, roman.li@amd.com, mario.limonciello@amd.com,
+ joshua@froggi.es, wayne.lin@amd.com, srinivasan.shanmugam@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.9 11/22] drm/amd/display: Reset freesync config
+ before update new state
+Date: Tue, 16 Jul 2024 10:24:18 -0400
+Message-ID: <20240716142519.2712487-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240716142519.2712487-1-sashal@kernel.org>
+References: <20240716142519.2712487-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240716082851.18173-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.9.9
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,43 +68,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 16, 2024 at 04:28:50PM +0800, Zhaoxiong Lv wrote:
-> The Elan ekth6a12nay touch screen chip same as Elan eKTH6915 controller
-> has a reset gpio. The difference is that they have different
-> post_power_delay_ms.
-> 
-> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> ---
-> Changes between V3 and V2:
-> -  1.  "ekth6915" isn't a fallback, modify it.
-> v2: https://lore.kernel.org/all/20240715073159.25064-2-lvzhaoxiong@huaqin.corp-partner.google.com/
-> 
-> Changes between V2 and V1:
-> -  1.  Respin the series on top of v6.10.
-> v1: https://lore.kernel.org/all/20240704085555.11204-2-lvzhaoxiong@huaqin.corp-partner.google.com/
-> ---
->  Documentation/devicetree/bindings/input/elan,ekth6915.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> index a62916d07a08..f683048fd0c4 100644
-> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> @@ -24,6 +24,7 @@ properties:
->                - elan,ekth5015m
->            - const: elan,ekth6915
->        - const: elan,ekth6915
-> +      - const: elan,ekth6a12nay
+From: Tom Chung <chiahsuan.chung@amd.com>
 
-Combine the 2 const into an enum.
+[ Upstream commit 6b8487cdf9fc7bae707519ac5b5daeca18d1e85b ]
 
-With that,
+[Why]
+Sometimes the new_crtc_state->vrr_infopacket did not sync up with the
+current state.
+It will affect the update_freesync_state_on_stream() does not update
+the state correctly.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+[How]
+Reset the freesync config before get_freesync_config_for_crtc() to
+make sure we have the correct new_crtc_state for VRR.
 
->  
->    reg:
->      const: 0x10
-> -- 
-> 2.17.1
-> 
+Reviewed-by: Sun peng Li <sunpeng.li@amd.com>
+Signed-off-by: Jerry Zuo <jerry.zuo@amd.com>
+Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index f866a02f4f489..53a55270998cc 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -10028,6 +10028,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
+ 	}
+ 
+ 	/* Update Freesync settings. */
++	reset_freesync_config_for_crtc(dm_new_crtc_state);
+ 	get_freesync_config_for_crtc(dm_new_crtc_state,
+ 				     dm_new_conn_state);
+ 
+-- 
+2.43.0
+
