@@ -2,86 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAC4932483
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 13:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91AB932601
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 13:56:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B9510E652;
-	Tue, 16 Jul 2024 10:59:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05CB410E683;
+	Tue, 16 Jul 2024 11:56:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IEAysSQp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MGpda1pP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4506B10E652
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 10:59:56 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-65f9708c50dso27040057b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 03:59:56 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 844BE10E684
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 11:56:49 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a77bf336171so880367366b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 04:56:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721127595; x=1721732395; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SCpp5TdLu9kk6eRwCAo7oBPRTqvgECiNvL6BaGoRicI=;
- b=IEAysSQpz7kltOY7K9+fCZmP5S0wHW07JCSkQPkw9C93fSnZVIYbwOTeySkj+R0dBZ
- rJqkKS6plrNm+i5cA89lW7MzXzqYkQIqm5ugNdvn9p+VA//YQxK40o60oKU+XWFTyeof
- MWPn/ABiRgTOYPtPkjb7SPwqo9U2rY/bHCAmRyMuXYLuX1LpuSL8daJDxJ7EygSFVSaa
- bB9Uio9Mb6RZ+gWJPO/DX71RGa5cn3AVUBEus371sN9gqQt/rX3Ad3+8zbf1Pv3z54CO
- pTghJEue9ELONshpu7+4FZPxEML7UUL714S7ajt0EDNPWOAJNZD77XkxGzhGcGZA+BaE
- wMHg==
+ d=linaro.org; s=google; t=1721131008; x=1721735808; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=2Q07X/9cHC21L2J2kDcebKLKVfHxULB2QbqEJK6tKlE=;
+ b=MGpda1pPcj2c03JB9SdodmAIgmPxzRNmYkOLsLb1JbF/LRkEb+EPH5nx7WgzHj0dcN
+ MAsJCWZ+TNc0pt/Xzy2/ndsLteHJuIAlGqDS6GAp1R+wdeGzBFyW4Cd6SkTAOiy2wF6W
+ W0oYIHBnQakiE7t5Lzp4rtb5nc8wmKZpTDQj8hRuNcxwNg59MeBYVL8R1JENDkXmyK8o
+ 7KBXfE+oFSsk40W3mLHr9EtoHg1xRbhyYmVQXtYDeWO0zGhI9M9OEqSlR5nRz7flXxTb
+ mSIPfhesLPBMd6XsuI2tNI8WvAonu5pVly3Z+gVUKuqECS6yTVkISxRMA8tcwsJzFYXD
+ 0DUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721127595; x=1721732395;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SCpp5TdLu9kk6eRwCAo7oBPRTqvgECiNvL6BaGoRicI=;
- b=LZANC58bP921TOpamm6UDNPzfsQw6KU3TFZgEkezQeRlG6QGW4V/I3DWpVOo7nOXmM
- 5IFQqTmsmcRAHsaCcyC29CqfWSFvoSMCOMLc0fyVmVQrDQ/XVhBcvR+DfRI5lg84OrnO
- etm/0zf7OHEmOPAqCZCH3WwkpHMPkw5qSrQgPDGe9otkzcmp8S2Z57Fy5ah8UPDZsLIc
- i1QSmzhS9ZpY/KoVxYzsM45WiYdK1I+dRCw68lKdjmfy8awhwL5eSr4OV3+fqS8SlcXm
- C/9+MgMUj9WkRjQkmKPBdCP3JAZsqtC2IjRMeMpWUwKcqJe4hMDDAZCeWL7FYHCj+bCi
- iZZw==
+ d=1e100.net; s=20230601; t=1721131008; x=1721735808;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2Q07X/9cHC21L2J2kDcebKLKVfHxULB2QbqEJK6tKlE=;
+ b=OrQRjI/3mof5r/RbyiaXXoxthOhJFkq0+8tTWhcI8QEK+bDnDhBlw6+BEfVGeSK6Uk
+ GbtVV2Z1IS9aciNtOQHEG8C2EF9TaNDp8g0p+nR/l7jIX4DDrnv0miZlW0pZi7FP+iUV
+ ohiycM0MmPREvT9ABNzlC4HXxlRXA1QiE5qIh6ImGPT4MwijdefEKjrrsIcbsfusqv+I
+ 0IEbNi516RDnJ+fu4i86YURPAN764mLUkRf5u3B0K3mYF1gMiP7WbxvMHEHkqeMEIWHL
+ S+LtvOQymXATKXr8A0iiCqlqsirHiMjHHiWyh3K9WXeDZWbCYgetvDsZdG3RdnKS2uhD
+ I7Cg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0LYnP3g4EDvxT8bVXDXSEwSizRT7hptcG84K8C+kuSJtqtlgjZ6wQmi7Y+l/WOFbE6Mvde+JJyTdmZuFWnr5XnsRfiD0m8zQI+PeWct3N
-X-Gm-Message-State: AOJu0Yz3HkDEyCtzLP0Ppq5j9FbUo62sgLO88L6LkEgUjLQBwS0slxfd
- Gh+R7KNQ1josfHz+1fv/pAChYMhnDChwRt3r8Hwu36EcT8Qe6UsSCsghyyPXOkw/i1R3l94puZe
- ERZu6txUXHJcKmBHaRCdaWLIj4Ieqj1tQu0pVxg==
-X-Google-Smtp-Source: AGHT+IEAYszVmONd9WFRIl8XLspjDCopUYw6S6qPqmgIeZkQQTGphg+e0dz0ezSFN7crgqieY6cxct7ubknDXA63tu0=
-X-Received: by 2002:a81:77c5:0:b0:643:aef1:fb9d with SMTP id
- 00721157ae682-6637f0c9bd5mr20216307b3.4.1721127595205; Tue, 16 Jul 2024
- 03:59:55 -0700 (PDT)
+ AJvYcCVrj+/E3tYpxpD1/SFbZ2P5Y1XcdHgiCF9KXUDZsG5vGqbxrBeRT5ESn1LJWW+tJuGb/spSErv0ANoZ5AWQlVy0MERs+DdeWlPnNI00KiPk
+X-Gm-Message-State: AOJu0YyrzhmfG/GuHKzWPi9SscAwvjSFNbM7jBpRjQbic+xPo0UXjOJx
+ UR/vsrA4yZMi+Za1yLQbO1SR6taCFDQALMoSb7SipfRBubONjw4R7wd2s73z/vc=
+X-Google-Smtp-Source: AGHT+IERPmjrIM2aDqr7ZP8eOgQJXvSWAdRl9PJTlPlWacu9qkHu2w5vUbj1p6hAJbTPMyu7yz2lAg==
+X-Received: by 2002:a17:907:20cf:b0:a72:5f3f:27a2 with SMTP id
+ a640c23a62f3a-a79edc4bbe5mr141764666b.26.1721131007390; 
+ Tue, 16 Jul 2024 04:56:47 -0700 (PDT)
+Received: from [192.168.105.194] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a79bc80d688sm305157866b.189.2024.07.16.04.56.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Jul 2024 04:56:47 -0700 (PDT)
+Message-ID: <8e2ebc97-f455-4f41-81da-af56263e6cf6@linaro.org>
+Date: Tue, 16 Jul 2024 13:56:43 +0200
 MIME-Version: 1.0
-References: <20240627-tdp158-v3-0-fb2fbc808346@freebox.fr>
- <20240627-tdp158-v3-1-fb2fbc808346@freebox.fr>
- <20240701-bug-of-great-honeydew-cfb6ef@houat>
- <e7bbbe4e-7deb-46c3-9cce-1922f9b6b3a2@freebox.fr>
- <20240708-ethereal-romantic-piculet-d4ae66@houat>
- <pp3rc5zob3xeghlatw4vnpzplc4yjpjadkea465zmhft55dyl5@3cpoc2zovftv>
- <20240715-shiny-enigmatic-firefly-2a6dec@houat>
- <CAA8EJpoJ0132ZYGCO=8xQt8J4Z9w5jDON1H-VRCemFdyV-9nUw@mail.gmail.com>
- <20240716-exuberant-diligent-beagle-c43ffc@houat>
-In-Reply-To: <20240716-exuberant-diligent-beagle-c43ffc@houat>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 16 Jul 2024 13:59:43 +0300
-Message-ID: <CAA8EJppwWN8vBPv0cE0Fmt5rtP60RS4qgB5n6_CfuaQdLLpGDw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: add TI TDP158
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Marc Gonzalez <mgonzalez@freebox.fr>, Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/5] drm/msm/adreno: Implement SMEM-based speed bin
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>
-Content-Type: text/plain; charset="UTF-8"
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20240709-topic-smem_speedbin-v5-0-e2146be0c96f@linaro.org>
+ <20240709-topic-smem_speedbin-v5-1-e2146be0c96f@linaro.org>
+ <20240715200419.l47ng6efa25in6sg@hu-akhilpo-hyd.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240715200419.l47ng6efa25in6sg@hu-akhilpo-hyd.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,181 +131,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Jul 2024 at 12:24, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi,
->
-> On Mon, Jul 15, 2024 at 07:38:34PM GMT, Dmitry Baryshkov wrote:
-> > On Mon, 15 Jul 2024 at 17:42, Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > On Mon, Jul 08, 2024 at 11:29:46PM GMT, Dmitry Baryshkov wrote:
-> > > > On Mon, Jul 08, 2024 at 04:59:23PM GMT, Maxime Ripard wrote:
-> > > > > On Mon, Jul 01, 2024 at 05:36:18PM GMT, Marc Gonzalez wrote:
-> > > > > > On 01/07/2024 15:50, Maxime Ripard wrote:
-> > > > > >
-> > > > > > > On Thu, Jun 27, 2024 at 01:13:03PM GMT, Marc Gonzalez wrote:
-> > > > > > >
-> > > > > > >> TDP158 is an AC-coupled DVI / HDMI to TMDS level shifting Redriver.
-> > > > > > >> It supports DVI 1.0, HDMI 1.4b and 2.0b.
-> > > > > > >> It supports 4 TMDS channels, HPD, and a DDC interface.
-> > > > > > >> It supports dual power supply rails (1.1V on VDD, 3.3V on VCC)
-> > > > > > >> for power reduction. Several methods of power management are
-> > > > > > >> implemented to reduce overall power consumption.
-> > > > > > >> It supports fixed receiver EQ gain using I2C or pin strap to
-> > > > > > >> compensate for different lengths input cable or board traces.
-> > > > > > >>
-> > > > > > >> Features
-> > > > > > >>
-> > > > > > >> - AC-coupled TMDS or DisplayPort dual-mode physical layer input
-> > > > > > >> to HDMI 2.0b TMDS physical layer output supporting up to 6Gbps
-> > > > > > >> data rate, compatible with HDMI 2.0b electrical parameters
-> > > > > > >> - DisplayPort dual-mode standard version 1.1
-> > > > > > >> - Programmable fixed receiver equalizer up to 15.5dB
-> > > > > > >> - Global or independent high speed lane control, pre-emphasis
-> > > > > > >> and transmit swing, and slew rate control
-> > > > > > >> - I2C or pin strap programmable
-> > > > > > >> - Configurable as a DisplayPort redriver through I2C
-> > > > > > >> - Full lane swap on main lanes
-> > > > > > >> - Low power consumption (200 mW at 6Gbps, 8 mW in shutdown)
-> > > > > > >>
-> > > > > > >> https://www.ti.com/lit/ds/symlink/tdp158.pdf
-> > > > > > >>
-> > > > > > >> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
-> > > > > > >> ---
-> > > > > > >>  .../bindings/display/bridge/ti,tdp158.yaml         | 51 ++++++++++++++++++++++
-> > > > > > >>  1 file changed, 51 insertions(+)
-> > > > > > >>
-> > > > > > >> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
-> > > > > > >> new file mode 100644
-> > > > > > >> index 0000000000000..21c8585c3bb2d
-> > > > > > >> --- /dev/null
-> > > > > > >> +++ b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
-> > > > > > >> @@ -0,0 +1,51 @@
-> > > > > > >> +# SPDX-License-Identifier: GPL-2.0-only
-> > > > > > >> +%YAML 1.2
-> > > > > > >> +---
-> > > > > > >> +$id: http://devicetree.org/schemas/display/bridge/ti,tdp158.yaml#
-> > > > > > >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > >> +
-> > > > > > >> +title: TI TDP158 HDMI to TMDS Redriver
-> > > > > > >> +
-> > > > > > >> +maintainers:
-> > > > > > >> +  - Arnaud Vrac <avrac@freebox.fr>
-> > > > > > >> +  - Pierre-Hugues Husson <phhusson@freebox.fr>
-> > > > > > >> +
-> > > > > > >> +properties:
-> > > > > > >> +  compatible:
-> > > > > > >> +    const: ti,tdp158
-> > > > > > >> +
-> > > > > > >> +  reg:
-> > > > > > >> +    description: I2C address of the device
-> > > > > > >> +
-> > > > > > >> +  enable-gpios:
-> > > > > > >> +    description: GPIO controlling bridge enable
-> > > > > > >> +
-> > > > > > >> +  vcc-supply:
-> > > > > > >> +    description: Power supply 3.3V
-> > > > > > >> +
-> > > > > > >> +  vdd-supply:
-> > > > > > >> +    description: Power supply 1.1V
-> > > > > > >> +
-> > > > > > >> +  ports:
-> > > > > > >> +    $ref: /schemas/graph.yaml#/properties/ports
-> > > > > > >> +
-> > > > > > >> +    properties:
-> > > > > > >> +      port@0:
-> > > > > > >> +        $ref: /schemas/graph.yaml#/properties/port
-> > > > > > >> +        description: Bridge input
-> > > > > > >> +
-> > > > > > >> +      port@1:
-> > > > > > >> +        $ref: /schemas/graph.yaml#/properties/port
-> > > > > > >> +        description: Bridge output
-> > > > > > >> +
-> > > > > > >> +    required:
-> > > > > > >> +      - port@0
-> > > > > > >> +      - port@1
-> > > > > > >
-> > > > > > > The device supports DVI, HDMI or DP input, with various requirements and
-> > > > > > > capabilities depending on the input. Your binding doesn't address that.
-> > > > > > >
-> > > > > > > Similarly, it can do lane-swapping, so we should probably have a
-> > > > > > > property to describe what mapping we want to use.
-> > > > > > >
-> > > > > > > The i2c register access (and the whole behaviour of the device) is
-> > > > > > > constrained on the I2C_EN pin status, and you can't read it from the
-> > > > > > > device, so it's also something we need to have in the DT.
-> > > > > >
-> > > > > > We are using the device in its default configuration.
-> > > > > > (Power on via OE, then it works as expected)
-> > > > >
-> > > > > I know, but that doesn't really matter for a binding.
-> > > > >
-> > > > > > Can we leave any additional properties to be defined by whomever needs
-> > > > > > them in the future?
-> > > > >
-> > > > > If you can guarantee that doing so would be backward compatible, sure.
-> > > > > But that means being able to answer those questions with a reasonable
-> > > > > plan.
-> > > >
-> > > > I think proposed bindings are generic enough to cover other possible
-> > > > usecases in future.
-> > >
-> > > I don't think it is. The current binding is for a I2C device that
-> > > shouldn't be accessed through I2C.
-> > >
-> > > It's working for now because the driver doesn't do any access, so it's
-> > > all great, but as soon as we add support for the other case, then we'll
-> > > have to add a property that states that while it's an i2c device, it
-> > > shouldn't be accessed.
-> > >
-> > > And adding such a property is a compatibility-breaking change.
-> >
-> > Please correct me if I'm wrong. We have following usecases.
-> >
-> > 1. I2C_EN pulled low. TI158 is in the pin strap mode, it is not
-> > connected to the I2C bus. A0, A1, SDA and SCL pins are used for
-> > strapping the settings.
-> >     board DT file should describe the bridge as a platform device
-> > sitting directly under the root node.
->
-> DT maintainers have required that reg is always present in the other
-> sub-thread.
+On 15.07.2024 10:04 PM, Akhil P Oommen wrote:
+> On Tue, Jul 09, 2024 at 12:45:29PM +0200, Konrad Dybcio wrote:
+>> On recent (SM8550+) Snapdragon platforms, the GPU speed bin data is
+>> abstracted through SMEM, instead of being directly available in a fuse.
+>>
+>> Add support for SMEM-based speed binning, which includes getting
+>> "feature code" and "product code" from said source and parsing them
+>> to form something that lets us match OPPs against.
+>>
+>> Due to the product code being ignored in the context of Adreno on
+>> production parts (as of SM8650), hardcode it to SOCINFO_PC_UNKNOWN.
+>>
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> ---
 
-If I2C_EN is pulled low, there is no reg, as there is no i2c bus
-whatsoever. I2C pins are repurposed as pin straps, An pins are
-repurposed as pin straps.
+[...]
 
-I think DT maintainers wanted reg for the 2.a. case - in other words
-the bridge is present on the I2C bus, but it is not being programmed.
+>>  
+>> -	if (adreno_read_speedbin(dev, &speedbin) || !speedbin)
+>> +	if (adreno_read_speedbin(adreno_gpu, dev, &speedbin) || !speedbin)
+>>  		speedbin = 0xffff;
+>> -	adreno_gpu->speedbin = (uint16_t) (0xffff & speedbin);
+>> +	adreno_gpu->speedbin = speedbin;
+> 
+> There are some chipsets which uses both Speedbin and Socinfo data for
+> SKU detection [1].
 
->
-> > 2. I2C_EN pulled high. TI158 is in the I2C mode. It is connected to
-> > the I2C bus, A0/A1 pins set the I2C bus address. The device is
-> > controlled over the I2C bus
-> >
-> > 2.a. The same as 2, but the device is not controlled at all, default
-> > settings are fine.
-> >
-> > The driver covers usecase 2.a. The bindings allow extending the driver
-> > to the usecase 2 (e.g. via optional properties which specify
-> > bord-specific settings)
-> >
-> > The usecase 1 is a completely separate topic, it requires a different
-> > schema file, specifying no i2c address, only voltages supplies and
-> > enable-gpios.
->
-> I could have mis-unnderstood, but my understanding was that they were
-> running it with I2C_EN tied low.
+0_0
 
-That was my initial assumption, but I think Arnoud pointed out that
-the bridge is connected to I2C, just not controlled as defaults are
-sane.
 
-> Of course, that's one of the thing that is completely missing from the
-> commit log, so who knows.
+> We don't need to worry about that logic for now. But
+> I am worried about mixing Speedbin and SKU_ID in the UABI with this patch.
+> It will be difficult when we have to expose both to userspace.
+> 
+> I think we can use a separate bitfield to expose FCODE/PCODE. Currently,
+> the lower 32 bit is reserved for chipid and 33-48 is reserved for speedbin,
+> so I think we can use the rest of the 16 bits for SKU_ID. And within that
+> 16bits, 12 bits should be sufficient for FCODE and the rest 8 bits
+> reserved for future PCODE.
 
-Or from the cover letter :-(
+Right, sounds reasonable. Hopefully nothing overflows..
 
--- 
-With best wishes
-Dmitry
+Konrad
