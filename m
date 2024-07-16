@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5003A9330FA
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 20:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14CF933143
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 21:01:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4BE10E850;
-	Tue, 16 Jul 2024 18:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 075A910E86A;
+	Tue, 16 Jul 2024 19:01:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XfQldDIf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bkLfXdRu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
- [209.85.166.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1804410E835;
- Tue, 16 Jul 2024 18:58:59 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id
- ca18e2360f4ac-7fe8d029fbeso5422539f.3; 
- Tue, 16 Jul 2024 11:58:59 -0700 (PDT)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 635D510E82A;
+ Tue, 16 Jul 2024 18:59:00 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id
+ ca18e2360f4ac-816d9285ebdso1242639f.0; 
+ Tue, 16 Jul 2024 11:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721156338; x=1721761138; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721156339; x=1721761139; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=i/7VuWci/fAdciTJrLUpogyH7arPQhCiQPPhJCx3EJc=;
- b=XfQldDIf6t2WiNTJlUJkT6VIsi4ijSU3SUjjPp13XUv+CvhnnXpw8FBC1HpQ/+ZQJb
- 7jsbqnqErkPKu0sqnmvZa5YYC9SCCv3nSo2eHdhaITN5FDjJBMt5iRziVg77ikvdY+zB
- w8LxOXB0UbzHUePH8dwleACWwcCx1BMm/XBy20UyK/chKnhhSSRVmZHTxo+YKwVg5NxA
- 7sh0Q3Vv7OA+Aexh61bYkZAXapMknVVZ/MFkLl2d70yhkUE2EiNZfTxiL9+iWyhlz5Oq
- 13+7L54t8iW65RH2IpvBNH0lxLiz4q2EsqdUzkn1P5Qbwc3l0wC8ycMvDCoYQoXlXfK3
- ufSQ==
+ bh=Gt92vv+l+QrwNWjlUzQRBip24zXOkaNnGwWlphVTLFQ=;
+ b=bkLfXdRu3V28zkRpJ3DBmdGkVw0RkJzhgfW1a+i1iFeWFg6iCDgVy9BDul05y5lAG8
+ 6ibn1Dj+CX1ZXBIsFLpT3myvZWcRIwdDMBJoILh/mYRxryBCy8NxiI+rFGOfJsmoDXJY
+ XE6lEb+swJRhFNadzxKPRv1ZOWWc4kt3vIB7nvQTiKi3NwQ35WsZbUWFNDXWyU1FdmfD
+ +ZYrspoGdzVnQevMM5KPz4OWQYlb4c/S9equtkfO4WscMUIHhPlos393JP20X8o7472I
+ 8cCgznkWwMFD2ZgYruLHbtJwevxOE5QooDgXuu0YiSH/y378sRvEWK0x8pU9xhBjJYYy
+ JcpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721156338; x=1721761138;
+ d=1e100.net; s=20230601; t=1721156339; x=1721761139;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=i/7VuWci/fAdciTJrLUpogyH7arPQhCiQPPhJCx3EJc=;
- b=U4PeH/ejWLNYnhUVKwJ3IUQ7z3zaULRsdbl+2ojRFfk956CLEJ+1mf8C0j+e3Gk6u0
- isehk9wElfg8/ZjjnbWXFy/tluZy/1pVRzgGf43GumIYZ3anSGzUMGGl7WVYR3mltoUF
- zkOtVZFX1zjldbOIj8TWUZpOqTTfY2UZm+2p+sEHGV6Mro7hX2JOCZrFaWgc9DDzHYS5
- cGFTZ+xA2N107uy9Myxdqw8won2B9D337qSO+yPDWogTTfLKwOsOLnjKWKQ1OsyUCgAC
- Nlx856QsJANomvm+656y0cInHlRglEWNPaPakUS2fwHLawVB7AleZFdtONMO8kJ9iHHk
- JYNg==
+ bh=Gt92vv+l+QrwNWjlUzQRBip24zXOkaNnGwWlphVTLFQ=;
+ b=dPRkT8roZrAX0UYqXhTcjFVM1bP0Atg6Wdl30rWLSAwvNDbz7mU7DqN/H/xkFYxy1c
+ /Znu9yzKwevuKTPRpIpMZFUecmaslFV/G8df4sScymq8ShXjquAERv/4G/TbM/Xqgg+p
+ 5F+Fsu2V4P264YM74vbtNJOWTR0phEiYn9OHfco7t9nZg6cBVR0i9R4NTbHwqcsD5ONV
+ 77KOQYJn58ZjbY8TrL9vfSEAidQGToYAlAOmFBUsbnjVY8c3VsgKjCRJILuf0JTsXNNW
+ 4GRCn4BB68lZZEH8EgKP2UxKQbADv0klEPOsX+ISBkwduKIQMnPlykwcWQigVWQQJdm5
+ wb1A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUO19l3PznSGz+wMuw3K9xcT/qh7vnZw/uvQT3OweO9Aa05+lT9j9AfNOonzWnK+ul39n+KCMLPI3hq+KbgKoTmIWDbTAMytiSRaoArMFFP6Ec3OiauyZxOE60ALjUWJnQ/9Lus/cCwmxFMnunOtbN4GBDouKX/P8SBGLUxGt0I9JKRFeXN9CUFsmIba5khhX8lLhONctoy5rzca8XVw6Sc0V1z/J9kX21GmNSkhfTsZ27EVFY=
-X-Gm-Message-State: AOJu0YwrMUc6DxDC4EX18hi0DCEYRV4OmzWqOs0Cj3nk8dsyxtWJyJ2+
- nesEge4lKHxCuSSxCtiEHJAzzfQZNmOs6m22OE2/5j4FxeTlVQlz
-X-Google-Smtp-Source: AGHT+IHzpE9SbYwkG5siTLQEKUl8Xu5QeKQLe1T8MPzVIFBNpAur8fUdPhqKhgFYHtZREDVfwyEkOA==
-X-Received: by 2002:a05:6602:484:b0:809:83e3:a35c with SMTP id
- ca18e2360f4ac-816c33f0308mr46697739f.7.1721156338284; 
- Tue, 16 Jul 2024 11:58:58 -0700 (PDT)
+ AJvYcCXEPSayxDcLH5WAFWTVX4K8RNoFA0y1gtLE9CgKRBBft+xYzJ1AWVj2d4AozDYpsWhqollJOIC6Sgd5fve2TV2TVxTXKNfO7DduTJPy+rwxDYOJXMkmnRQQNOL6rBhVZmZ4k9SmM1TWu5j/igXyWVuNBskDPBQvAjPokdit2FTAPEEPQWLdNMf5EjKhLfXAMvvjIGjPZ4WT8yStzWSVcVFssOW+NvhzJiM7QwJkox5smkoHgQ8=
+X-Gm-Message-State: AOJu0YwINaG5flbnCXaYmSl+hFoXj072BfQnz+OJgOyt2m0Y9tGJY+wn
+ OB8BtqcImnB8gJhMMGcFk3u8F6nZd6UJ4RTl5ryYONQbt0S1bVi3
+X-Google-Smtp-Source: AGHT+IESuQloCkkuiShxJ11MDx3bp9+KgwgbKFyqWB/fqDDPxPeZjdAkYWwkkPnxEDOpSZ924Swh/g==
+X-Received: by 2002:a05:6602:26c1:b0:7fa:8178:d672 with SMTP id
+ ca18e2360f4ac-816c2a1fd63mr53177739f.4.1721156339610; 
+ Tue, 16 Jul 2024 11:58:59 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-4c210f23f1csm75301173.102.2024.07.16.11.58.57
+ 8926c6da1cb9f-4c210f23f1csm75301173.102.2024.07.16.11.58.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jul 2024 11:58:57 -0700 (PDT)
+ Tue, 16 Jul 2024 11:58:59 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
@@ -68,10 +68,10 @@ Cc: ukaszb@chromium.org, linux@rasmusvillemoes.dk, joe@perches.com,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, kernelnewbies@kernelnewbies.org,
  Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v9-resend 26/54] dyndbg: change __dynamic_func_call_cls*
- macros into expressions
-Date: Tue, 16 Jul 2024 12:57:38 -0600
-Message-ID: <20240716185806.1572048-27-jim.cromie@gmail.com>
+Subject: [PATCH v9-resend 27/54] selftests-dyndbg: check KCONFIG_CONFIG to
+ avoid silly fails
+Date: Tue, 16 Jul 2024 12:57:39 -0600
+Message-ID: <20240716185806.1572048-28-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240716185806.1572048-1-jim.cromie@gmail.com>
 References: <20240716185806.1572048-1-jim.cromie@gmail.com>
@@ -92,56 +92,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Xe driver's XE_IOCTL_DBG macro calls drm_dbg() from inside an if
-(expression).  This breaks when CONFIG_DRM_USE_DYNAMIC_DEBUG=y because
-the invoked macro has a do-while-0 wrapper.
+Several tests are dependent upon config choices. Lets avoid failing
+where that is noise.
 
-   if (cond && (drm_dbg("expr-form"),1)) {
-      ... do some more stuff
-   }
+The KCONFIG_CONFIG var exists to convey the config-file around.  If
+the var names a file, read it and extract the relevant CONFIG items,
+and use them to skip the dependent tests, thus avoiding the fails that
+would follow, and the disruption to whatever CI is running these
+selftests.
 
-Fix it by changing __dynamic_func_call_cls{,_no_desc} macros into
-expressions, by replacing the do-while-0s with a ({ }) wrapper.
+If the envar doesn't name a config-file, ".config" is assumed.
 
-In C, all legal expressions are also legal statements, as converted by
-the trailing semi-colon in a statement-style macro invocation:
+CONFIG_DYNAMIC_DEBUG=y:
 
-   drm_dbg("statement form");
+basic-tests() and comma-terminator-tests() test for the presence of
+the builtin pr_debugs in module/main.c, which I deemed stable and
+therefore safe to count.  That said, the test fails if only
+CONFIG_DYNAMIC_DEBUG_CORE=y is set.  It could be rewritten to test
+against test-dynamic-debug.ko, but that just trades one config
+dependence for another.
+
+CONFIG_TEST_DYNAMIC_DEBUG=m
+
+As written, test_percent_splitting() modprobes test_dynamic_debug,
+enables several classes, and count them.  It could be re-written to
+work for the builtin module also, but builtin test modules are not a
+common or desirable build/config.
+
+CONFIG_TEST_DYNAMIC_DEBUG=m && CONFIG_TEST_DYNAMIC_DEBUG_SUBMOD=m
+
+test_mod_submod() recaps the bug found in DRM-CI where drivers werent
+enabled by drm.debug=<bits>.  It modprobes both test_dynamic_debug &
+test_dynamic_debug_submod, so it depends on a loadable modules config.
+
+It could be rewritten to work in a builtin parent config; DRM=y is
+common enough to be pertinent, but testing that config also wouldn't
+really test anything more fully than all-loadable modules, since they
+default together.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- include/linux/dynamic_debug.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index 4a9b9cd53eb7..c958085e0df4 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -287,20 +287,20 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
-  * (|_cls):	adds in _DPRINT_CLASS_DFLT as needed
-  * (|_no_desc):	former gets callsite descriptor as 1st arg (for prdbgs)
-  */
--#define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {	\
-+#define __dynamic_func_call_cls(id, cls, fmt, func, ...) ({	\
- 	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);	\
- 	if (DYNAMIC_DEBUG_BRANCH(id))				\
- 		func(&id, ##__VA_ARGS__);			\
--} while (0)
-+})
- #define __dynamic_func_call(id, fmt, func, ...)				\
- 	__dynamic_func_call_cls(id, _DPRINTK_CLASS_DFLT, fmt,		\
- 				func, ##__VA_ARGS__)
+fixup-kconfig
+---
+ .../dynamic_debug/dyndbg_selftest.sh          | 45 ++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+index fccd2012b548..d09ef26b2308 100755
+--- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
++++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+@@ -11,6 +11,30 @@ CYAN="\033[0;36m"
+ NC="\033[0;0m"
+ error_msg=""
  
--#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) do {	\
-+#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) ({	\
- 	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);		\
- 	if (DYNAMIC_DEBUG_BRANCH(id))					\
- 		func(__VA_ARGS__);					\
--} while (0)
-+})
- #define __dynamic_func_call_no_desc(id, fmt, func, ...)			\
- 	__dynamic_func_call_cls_no_desc(id, _DPRINTK_CLASS_DFLT,	\
- 					fmt, func, ##__VA_ARGS__)
++[ -e /proc/dynamic_debug/control ] || {
++    echo -e "${RED}: this test requires CONFIG_DYNAMIC_DEBUG=y ${NC}"
++    exit 0 # nothing to test here, no good reason to fail.
++}
++
++# need info to avoid failures due to untestable configs
++
++[ -f "$KCONFIG_CONFIG" ] || KCONFIG_CONFIG=".config"
++if [ -f "$KCONFIG_CONFIG" ]; then
++    echo "# consulting KCONFIG_CONFIG: $KCONFIG_CONFIG"
++    grep -q "CONFIG_DYNAMIC_DEBUG=y" $KCONFIG_CONFIG ; LACK_DD_BUILTIN=$?
++    grep -q "CONFIG_TEST_DYNAMIC_DEBUG=m" $KCONFIG_CONFIG ; LACK_TMOD=$?
++    grep -q "CONFIG_TEST_DYNAMIC_DEBUG_SUBMOD=m" $KCONFIG_CONFIG ; LACK_TMOD_SUBMOD=$?
++    if [ $V -eq 1 ]; then
++	echo LACK_DD_BUILTIN: $LACK_DD_BUILTIN
++	echo LACK_TMOD: $LACK_TMOD
++	echo LACK_TMOD_SUBMOD: $LACK_TMOD_SUBMOD
++    fi
++else
++    LACK_DD_BUILTIN=0
++    LACK_TMOD=0
++    LACK_TMOD_SUBMOD=0
++fi
++
+ function vx () {
+     echo $1 > /sys/module/dynamic_debug/parameters/verbose
+ }
+@@ -192,6 +216,10 @@ function check_err_msg() {
+ 
+ function basic_tests {
+     echo -e "${GREEN}# BASIC_TESTS ${NC}"
++    if [ $LACK_DD_BUILTIN -eq 1 ]; then
++	echo "SKIP"
++	return
++    fi
+     ddcmd =_ # zero everything (except class'd sites)
+     check_match_ct =p 0
+     # there are several main's :-/
+@@ -214,6 +242,10 @@ EOF
+ 
+ function comma_terminator_tests {
+     echo -e "${GREEN}# COMMA_TERMINATOR_TESTS ${NC}"
++    if [ $LACK_DD_BUILTIN -eq 1 ]; then
++	echo "SKIP"
++	return
++    fi
+     # try combos of spaces & commas
+     check_match_ct '\[params\]' 4 -r
+     ddcmd module,params,=_		# commas as spaces
+@@ -226,9 +258,12 @@ function comma_terminator_tests {
+     ddcmd =_
+ }
+ 
+-    
+ function test_percent_splitting {
+     echo -e "${GREEN}# TEST_PERCENT_SPLITTING - multi-command splitting on % ${NC}"
++    if [ $LACK_TMOD -eq 1 ]; then
++	echo "SKIP"
++	return
++    fi
+     ifrmmod test_dynamic_debug_submod
+     ifrmmod test_dynamic_debug
+     ddcmd =_
+@@ -248,6 +283,14 @@ function test_percent_splitting {
+ 
+ function test_mod_submod {
+     echo -e "${GREEN}# TEST_MOD_SUBMOD ${NC}"
++    if [ $LACK_TMOD -eq 1 ]; then
++	echo "SKIP"
++	return
++    fi
++    if [ $LACK_TMOD_SUBMOD -eq 1 ]; then
++	echo "SKIP"
++	return
++    fi
+     ifrmmod test_dynamic_debug_submod
+     ifrmmod test_dynamic_debug
+     ddcmd =_
 -- 
 2.45.2
 
