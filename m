@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A3D9326A6
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 14:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADFEE9326AD
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 14:35:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A979410E6B8;
-	Tue, 16 Jul 2024 12:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A22610E6BC;
+	Tue, 16 Jul 2024 12:35:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EG0MCYLn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VK28f7vP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5079810E6B4
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB60410E6B4
  for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 12:35:26 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-42797289c8bso40423475e9.0
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-427b1d4da32so10721245e9.0
  for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 05:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1721133325; x=1721738125; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=lasyAl9ukDWZ1eqMs/L0VH2cL9OYH2xMgGUg0WBLP7o=;
- b=EG0MCYLnf65fLITq7wHV4Mtmhj0Hb5ihFGQCjsl8TAdGYcaSDWlfHBg73QjLaNp9/a
- wYfKGGAyecgHLfjFW2ePefPhnEZz2m/egm4hJ/PQD/RrqCG0S+UAEuL2oMJfg/iH5cTV
- klmv1W0qEaR/CHe9CqD2b9Ffr78hpFMVaPAuiSy7ME6FqH+eb4Io17UOnOPPyX616LVE
- tYHPa6yJmZcAtN88N6X1g9T6V0CHMDGMajc8OCfQorXyLc6e7Bo2ZwVrWeOrJl3AW72O
- RntDlETZYx+U0FoyBfWMwEm/IHyKHw6sEAA4g5iYqWiq3c7My8aNf2XX8nPdq5kXlqBw
- 1jgQ==
+ :reply-to; bh=fWFqWCTZWMvDWm/KP6ygCaXkxI7hwc90L3wN+uo1b0o=;
+ b=VK28f7vPrAnksKWH6hjMtWURWqv4lWsji+tzAS1HJu9b9iZUpIsxcjnLrzCwUwKWus
+ 9UJbSDMCkcpGEoOUQcXi8EGcLa744+ji3uK1ikAOOX98WK4XaRGIcIqwHgGYiSxk8Us4
+ 3HlB09DpDNNXvutcOcXpUrXV7CPALX/MXPMZGjhUUeMjCCs8+GJw6hstns7g0HfkFLVG
+ eR4t2vnsqntDDkWQ/RT4vjhNjHGu8MWrKC9pOn9lpx4bDiIIHrYJ6qdrWToG7jJaeUBg
+ MkCblWYVtR86e+rEXOBZasNFG0gYNFTVsujxcEfRSDUFCdGEpQg6d+zX++whmXRm/X6W
+ zFOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1721133325; x=1721738125;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lasyAl9ukDWZ1eqMs/L0VH2cL9OYH2xMgGUg0WBLP7o=;
- b=HFs+4rZ+vcXBFW9AOiIDgmQlgWMFegdCfMqeeYqbg+pyMFJOyfAChf1zm5QgcGFArA
- J5ybnXj6ciOKkYMOOAPAk8X4pVR1UTOR0mhYP3xolEwySWJHJgsVWqyRP7YQ8oq9llBy
- gfIWBW4ybag88UuBeemTx797dViuYGXhtObHWIOZjadQXjSYkP+9nVnJujYAPqAYEs18
- 3K5mybg6l958Q+KfRybrO0nvCtdvxlZ9PG+P/z6oVNOkZObEHNnyQenhuNXb3htnOeGz
- TtAkr5RaziQCrMp7i+83QNouAcE3kIvX/xNALxXe+7k530zZJBJ/IzdVesd+aYdvqm3a
- m3wg==
+ bh=fWFqWCTZWMvDWm/KP6ygCaXkxI7hwc90L3wN+uo1b0o=;
+ b=N8AKjGWwCxeJvklMBugvDKuGvwIejACs4N+0yPoge68FwLsrwany+1cumUjkvjGr+t
+ CvwDzzswqfhoJRQowXaYpapk8hg9deKMC5oGeD4qmHvQ5abSzDmx5cnOr3FGDL/nne0O
+ w2XL3opaoqBxIdIb6xpUiFC8Ukp0r+FUv5VKbW68+GAhWlDwrfBk3o9tDDt7ffTCmMBy
+ gKpJsKsxsXFSePVhVqSmqzPqoRcKItTK+ArgSwmMeA+ASsl2FMOPV4F4fc+kOC4D74a/
+ O2dBH22CBVp1pa/bdJLB1LwKzUWDVw4T0GcuY/5yNqDgSxwUZ0DeuMMVtJ17q8K7qvqL
+ aWBw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX8Ztce2YSJdtB71QZiUWuxtfnbi4K9xjlkBAK4GOUo4wtetY1w65F02IPsIqt1uZnxPriBgwvb/2+RTtEgfQvKYhgjb/vcyl+daYD6W44Z
-X-Gm-Message-State: AOJu0YxvNLeoXUbDy7ouX7Aro3OqXzqhhPNQGgdGf5VJrCBhGyveENtg
- Oz1RRQmUsOogJxjBdSYEUMtY1S/dhx0FJ3qAaeZr08RCOA0/WMX/
-X-Google-Smtp-Source: AGHT+IEWLOwSNjN8JE6U3x/+so7IwMAmCp4f9we8Ncs0I6SsYBSSzje14RCOVeTxnRIbaakiO39maA==
-X-Received: by 2002:a05:600c:1c18:b0:426:5d43:e41d with SMTP id
- 5b1f17b1804b1-427ba69ad25mr12531925e9.18.1721133324407; 
- Tue, 16 Jul 2024 05:35:24 -0700 (PDT)
+ AJvYcCUIMl4s6xAq43+N31YhoSv004JR0AKgK+EHEPO+jt2KfrlxMkJZLC1cWKqu33zeAbzD2WPORMvnNdWH3Wg2HNMNkKzGTR/u7m6tq/Vclr5Q
+X-Gm-Message-State: AOJu0YywA1XDAIFEo4/AnFP61Ch3WTJMWZ3E+Ctl0/pABhkBu8pZS8A9
+ VE/leEq/NAQtG8pjKL7auGlPQ1/2JeosC1M34q7WE7YUkfqxaIfE
+X-Google-Smtp-Source: AGHT+IE30yXMUIiq4kagvlPmomPN0bfadbIv2TQM9KeFUW63LqStmJ36YIFgikn186yr6VMBvMAQFw==
+X-Received: by 2002:a05:600c:1396:b0:426:5e32:4857 with SMTP id
+ 5b1f17b1804b1-427bb5f5b32mr12359145e9.0.1721133325061; 
+ Tue, 16 Jul 2024 05:35:25 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:1592:7f00:1c98:7fd3:7b80:1cc1])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-427a5e77493sm127058225e9.7.2024.07.16.05.35.23
+ 5b1f17b1804b1-427a5e77493sm127058225e9.7.2024.07.16.05.35.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 16 Jul 2024 05:35:24 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
@@ -60,9 +60,9 @@ X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: thomas.hellstrom@linux.intel.com, matthew.brost@intel.com,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/9] drm/nouveau: use GEM references instead of TTMs
-Date: Tue, 16 Jul 2024 14:35:13 +0200
-Message-Id: <20240716123519.1884-4-christian.koenig@amd.com>
+Subject: [PATCH 4/9] drm/radeon: use GEM references instead of TTMs
+Date: Tue, 16 Jul 2024 14:35:14 +0200
+Message-Id: <20240716123519.1884-5-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240716123519.1884-1-christian.koenig@amd.com>
 References: <20240716123519.1884-1-christian.koenig@amd.com>
@@ -88,29 +88,48 @@ Instead of a TTM reference grab a GEM reference whenever necessary.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/radeon/radeon_gem.c    | 2 +-
+ drivers/gpu/drm/radeon/radeon_object.c | 7 ++-----
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.h b/drivers/gpu/drm/nouveau/nouveau_bo.h
-index 4e891752c255..74035b16a381 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.h
-@@ -63,13 +63,13 @@ nouveau_bo_ref(struct nouveau_bo *ref, struct nouveau_bo **pnvbo)
- 	prev = *pnvbo;
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index 2ef201a072f1..05df49b3a5c6 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -88,7 +88,7 @@ static void radeon_gem_object_free(struct drm_gem_object *gobj)
  
- 	if (ref) {
--		ttm_bo_get(&ref->bo);
-+		drm_gem_object_get(&ref->bo.base);
- 		*pnvbo = nouveau_bo(&ref->bo);
- 	} else {
- 		*pnvbo = NULL;
+ 	if (robj) {
+ 		radeon_mn_unregister(robj);
+-		radeon_bo_unref(&robj);
++		ttm_bo_put(&robj->tbo);
  	}
- 	if (prev)
--		ttm_bo_put(&prev->bo);
-+		drm_gem_object_put(&prev->bo.base);
- 
- 	return 0;
  }
+ 
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index a955f8a2f7fe..4b972c8c9516 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -256,18 +256,15 @@ struct radeon_bo *radeon_bo_ref(struct radeon_bo *bo)
+ 	if (bo == NULL)
+ 		return NULL;
+ 
+-	ttm_bo_get(&bo->tbo);
++	drm_gem_object_get(&bo->tbo.base);
+ 	return bo;
+ }
+ 
+ void radeon_bo_unref(struct radeon_bo **bo)
+ {
+-	struct ttm_buffer_object *tbo;
+-
+ 	if ((*bo) == NULL)
+ 		return;
+-	tbo = &((*bo)->tbo);
+-	ttm_bo_put(tbo);
++	drm_gem_object_put(&(*bo)->tbo.base);
+ 	*bo = NULL;
+ }
+ 
 -- 
 2.34.1
 
