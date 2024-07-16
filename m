@@ -2,85 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF7F93344A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 00:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3F993344E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 00:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDD4010E0B6;
-	Tue, 16 Jul 2024 22:40:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4690510E8EF;
+	Tue, 16 Jul 2024 22:43:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RMCQaAPU";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="kT9iVsdh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 746B510E0B6;
- Tue, 16 Jul 2024 22:40:01 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46GHfI7l024108;
- Tue, 16 Jul 2024 22:39:56 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB3310E8EF;
+ Tue, 16 Jul 2024 22:43:12 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46GHfbkl024353;
+ Tue, 16 Jul 2024 22:43:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- YUeWnfYukI/qUolZSqFm46A7D57ayOEzLUIbBGxr2hY=; b=RMCQaAPULTjB5OR1
- eqW4oikhVP0GN6zQgqdjCxDsW18v9D+iAvmmgZmFmUkX2+Txg7OakC2iu3/ADozX
- 3IR7Rfe6Lwb2oraRtCk2+lJXMcUI/EWAZzgRHlUPs2KHaPvotBIoWEwXVmxeqtr5
- SDVelSPvsNARZ7s7SjmPJg3YQF0fmGJyNAy2gXqaUihd4JzK0jTjen5/u02xde4f
- 4w/0wVMsxonohe5nUT8BdKsXQ2iq6zXAyBlBy6BNswyQ+cKXLYRCd0zLNw+ub5NJ
- Th7TuD2t7jdmClyRLfYfLmbr3NhT++EpCKunoeebLuagMB5xEz/5ri7Hanwfhif4
- e+tb2Q==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ X0HNYJ6Zl5BBLcsAlGhkH9DCo0hSKmIGYGJnb5+xX8U=; b=kT9iVsdhrlyfogLb
+ GdHoN5QceJQ+C/A6lueNy9FpPM07cWiCpyUuJdS2PBLivd+xV0jVmys9U85n/hxq
+ ExFpOjpg8qJn50rFLh7EsMFAti7OmFrxXfTikk2S+8KYkyhDzFPMBKNjhiZwqk+C
+ VQ+y04ueSbapMUYctBaxq4fYQsSJQOuMZU6Mb4vsPRFEeplgDKj6d4oJtbLtG7M/
+ xdaMxbNq1MSl2X9K78hBWUZ2Q55ULWTPNdlh0q3T8v+r9kVAxl5Q7uucIY7d1CRV
+ qLgzQfSDIasZHhxcfmCQKVd9SolmuTTObOxlK7IKE/aV1gRslU3sGcQolAcT2Isp
+ VPqirQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40dwfngha4-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40dwfu0hju-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Jul 2024 22:39:56 +0000 (GMT)
+ Tue, 16 Jul 2024 22:43:09 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46GMdsbh015425
+ by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 46GMh8Lu006720
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Jul 2024 22:39:54 GMT
+ Tue, 16 Jul 2024 22:43:08 GMT
 Received: from [10.71.110.34] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 16 Jul
- 2024 15:39:54 -0700
-Message-ID: <cd60db7e-4ff2-445e-a8f8-b22d73d0f2b3@quicinc.com>
-Date: Tue, 16 Jul 2024 15:39:53 -0700
+ 2024 15:43:07 -0700
+Message-ID: <6460042b-a2cb-41fa-9f6f-fb11e20f69aa@quicinc.com>
+Date: Tue, 16 Jul 2024 15:43:06 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 03/16] drm/msm/dpu: move CRTC resource assignment to
- dpu_encoder_virt_atomic_mode_set
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-CC: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>, 
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240625-dpu-mode-config-width-v5-0-501d984d634f@linaro.org>
- <20240625-dpu-mode-config-width-v5-3-501d984d634f@linaro.org>
+Subject: Re: [PATCH 5/5] drm/msm/dpu: rate limit snapshot capture for mmu
+ faults
+To: Rob Clark <robdclark@gmail.com>
+CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
+ <swboyd@chromium.org>, <dianders@chromium.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240628214848.4075651-1-quic_abhinavk@quicinc.com>
+ <20240628214848.4075651-6-quic_abhinavk@quicinc.com>
+ <5isw7c5kkef4kql4qcous3gmwhvgwc53ntgjm4staymqr67ktm@iw3cr2gr2iko>
+ <CAF6AEGtVBarvEUqgt7SHzYwXUsjY_rVQS6aMsN00G91Dr1aWAQ@mail.gmail.com>
+ <cf8d00cd-6dc6-42b9-be61-93ef48d42b0c@quicinc.com>
+ <CAF6AEGv2H2FQ4wCWEzgboK0Lz3em-0XkG5pe_HwN1rW2iaGVrw@mail.gmail.com>
 Content-Language: en-US
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240625-dpu-mode-config-width-v5-3-501d984d634f@linaro.org>
+In-Reply-To: <CAF6AEGv2H2FQ4wCWEzgboK0Lz3em-0XkG5pe_HwN1rW2iaGVrw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: Hhfr_2LJv-Ackefr5toNJFlxI5dZji25
-X-Proofpoint-ORIG-GUID: Hhfr_2LJv-Ackefr5toNJFlxI5dZji25
+X-Proofpoint-GUID: LsOaoasqd-g_tbx4W7LBmwroSZzfrS9Q
+X-Proofpoint-ORIG-GUID: LsOaoasqd-g_tbx4W7LBmwroSZzfrS9Q
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-16_02,2024-07-16_02,2024-05-17_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- priorityscore=1501 clxscore=1015 spamscore=0 mlxscore=0 phishscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2407160166
+ mlxlogscore=999 phishscore=0
+ spamscore=0 suspectscore=0 adultscore=0 clxscore=1015 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2407160167
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,157 +103,131 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 6/24/2024 2:13 PM, Dmitry Baryshkov wrote:
-> Historically CRTC resources (LMs and CTLs) were assigned in
-> dpu_crtc_atomic_begin(). The commit 9222cdd27e82 ("drm/msm/dpu: move hw
-> resource tracking to crtc state") simply moved resources to
-> struct dpu_crtc_state, without changing the code sequence. Later on the
-> commit b107603b4ad0 ("drm/msm/dpu: map mixer/ctl hw blocks in encoder
-> modeset") rearanged the code, but still kept the cstate->num_mixers
-> assignment to happen during commit phase. This makes dpu_crtc_state
-> inconsistent between consequent atomic_check() calls.
+On 7/16/2024 2:50 PM, Rob Clark wrote:
+> On Tue, Jul 16, 2024 at 2:45 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 7/15/2024 12:51 PM, Rob Clark wrote:
+>>> On Mon, Jul 1, 2024 at 12:43 PM Dmitry Baryshkov
+>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>
+>>>> On Fri, Jun 28, 2024 at 02:48:47PM GMT, Abhinav Kumar wrote:
+>>>>> There is no recovery mechanism in place yet to recover from mmu
+>>>>> faults for DPU. We can only prevent the faults by making sure there
+>>>>> is no misconfiguration.
+>>>>>
+>>>>> Rate-limit the snapshot capture for mmu faults to once per
+>>>>> msm_kms_init_aspace() as that should be sufficient to capture
+>>>>> the snapshot for debugging otherwise there will be a lot of
+>>>>> dpu snapshots getting captured for the same fault which is
+>>>>> redundant and also might affect capturing even one snapshot
+>>>>> accurately.
+>>>>
+>>>> Please squash this into the first patch. There is no need to add code
+>>>> with a known defficiency.
+>>>>
+>>>> Also, is there a reason why you haven't used <linux/ratelimit.h> ?
+>>>
+>>> So, in some ways devcoredump is ratelimited by userspace needing to
+>>> clear an existing devcore..
+>>>
+>>
+>> Yes, a new devcoredump device will not be created until the previous one
+>> is consumed or times out but here I am trying to limit even the DPU
+>> snapshot capture because DPU register space is really huge and the rate
+>> at which smmu faults occur is quite fast that its causing instability
+>> while snapshots are being captured.
+>>
+>>> What I'd suggest would be more useful is to limit the devcores to once
+>>> per atomic update, ie. if display state hasn't changed, maybe an
+>>> additional devcore isn't useful
+>>>
+>>> BR,
+>>> -R
+>>>
+>>
+>> By display state change, do you mean like the checks we have in
+>> drm_atomic_crtc_needs_modeset()?
+>>
+>> OR do you mean we need to cache the previous (currently picked up by hw)
+>> state and trigger a new devcores if the new state is different by
+>> comparing more things?
+>>
+>> This will help to reduce the snapshots to unique frame updates but I do
+>> not think it will reduce the rate enough for the case where DPU did not
+>> recover from the previous fault.
 > 
-> Move CRTC resource assignment to happen at the end of
-> dpu_encoder_virt_atomic_check().
+> I was thinking the easy thing, of just resetting the counter in
+> msm_atomic_commit_tail().. I suppose we could be clever filter out
+> updates that only change scanout address.  Or hash the atomic state
+> and only generate devcoredumps for unique states.  But I'm not sure
+> how over-complicated we should make this.
 > 
-> Fixes: b107603b4ad0 ("drm/msm/dpu: map mixer/ctl hw blocks in encoder modeset")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  3 --
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 60 +++++++++++++++++++----------
->   2 files changed, 39 insertions(+), 24 deletions(-)
+> BR,
+> -R
+
+Its a good idea actually and I would also like to keep it simple :)
+
+One question, is it okay to assume that all compositors will only issue 
+unique commits? Because we are assuming thats the case with resetting 
+the counter in msm_atomic_commit_tail().
+
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 9f2164782844..7399794d75eb 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1094,9 +1094,6 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
->   	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
->   		dpu_encoder_register_frame_event_callback(encoder, NULL, NULL);
->   
-> -	memset(cstate->mixers, 0, sizeof(cstate->mixers));
-> -	cstate->num_mixers = 0;
-> -
-
-Any reason this part was removed?
-
-I think we still need this part.
-
-In dpu_encoder_get_topology(), we do not assign topology.num_lm based on 
-state parameters, its based on catalog and intf_count which are decided 
-at init time itself.
-
-Which means cstate->num_mixers will remain at a non-zero value even if 
-we have NO_MODE which is what happens when we are disabling the CRTC 
-during suspend or hotplug.
-
->   	/* disable clk & bw control until clk & bw properties are set */
->   	cstate->bw_control = false;
->   	cstate->bw_split_vote = false;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 7613005fbfea..98f3a8d84300 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -628,6 +628,41 @@ static struct msm_display_topology dpu_encoder_get_topology(
->   	return topology;
->   }
->   
-> +static void dpu_encoder_assign_crtc_resources(struct dpu_kms *dpu_kms,
-> +					      struct drm_encoder *drm_enc,
-> +					      struct dpu_global_state *global_state,
-> +					      struct drm_crtc_state *crtc_state)
-> +{
-> +	struct dpu_crtc_state *cstate;
-> +	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
-> +	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
-> +	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC];
-> +	int num_lm, num_ctl, num_dspp, i;
-> +
-> +	cstate = to_dpu_crtc_state(crtc_state);
-> +
-> +	memset(cstate->mixers, 0, sizeof(cstate->mixers));
-> +
-> +	num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-> +		drm_enc->base.id, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
-> +	num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-> +		drm_enc->base.id, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
-> +	num_dspp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-> +		drm_enc->base.id, DPU_HW_BLK_DSPP, hw_dspp,
-> +		ARRAY_SIZE(hw_dspp));
-> +
-> +	for (i = 0; i < num_lm; i++) {
-> +		int ctl_idx = (i < num_ctl) ? i : (num_ctl-1);
-> +
-> +		cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
-> +		cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
-> +		if (i < num_dspp)
-
-Will there be a case where num_lm != num_dspp?
-
-> +			cstate->mixers[i].hw_dspp = to_dpu_hw_dspp(hw_dspp[i]);
-> +	}
-> +
-> +	cstate->num_mixers = num_lm;
-> +}
-> +
->   static int dpu_encoder_virt_atomic_check(
->   		struct drm_encoder *drm_enc,
->   		struct drm_crtc_state *crtc_state,
-> @@ -698,6 +733,9 @@ static int dpu_encoder_virt_atomic_check(
->   					drm_enc, crtc_state, topology);
->   	}
->   
-> +	if (!ret)
-> +		dpu_encoder_assign_crtc_resources(dpu_kms, drm_enc, global_state, crtc_state);
-> +
->   	trace_dpu_enc_atomic_check_flags(DRMID(drm_enc), adj_mode->flags);
->   
->   	return ret;
-> @@ -1097,14 +1135,11 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->   	struct dpu_encoder_virt *dpu_enc;
->   	struct msm_drm_private *priv;
->   	struct dpu_kms *dpu_kms;
-> -	struct dpu_crtc_state *cstate;
->   	struct dpu_global_state *global_state;
->   	struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
->   	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
-> -	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
-> -	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
->   	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
-> -	int num_lm, num_ctl, num_pp, num_dsc;
-> +	int num_ctl, num_pp, num_dsc;
->   	unsigned int dsc_mask = 0;
->   	int i;
->   
-> @@ -1133,11 +1168,6 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->   		ARRAY_SIZE(hw_pp));
->   	num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
->   		drm_enc->base.id, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
-> -	num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-> -		drm_enc->base.id, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
-> -	dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-> -		drm_enc->base.id, DPU_HW_BLK_DSPP, hw_dspp,
-> -		ARRAY_SIZE(hw_dspp));
->   
->   	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
->   		dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
-> @@ -1163,18 +1193,6 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->   		dpu_enc->cur_master->hw_cdm = hw_cdm ? to_dpu_hw_cdm(hw_cdm) : NULL;
->   	}
->   
-> -	cstate = to_dpu_crtc_state(crtc_state);
-> -
-> -	for (i = 0; i < num_lm; i++) {
-> -		int ctl_idx = (i < num_ctl) ? i : (num_ctl-1);
-> -
-> -		cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
-> -		cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
-> -		cstate->mixers[i].hw_dspp = to_dpu_hw_dspp(hw_dspp[i]);
-> -	}
-> -
-> -	cstate->num_mixers = num_lm;
-> -
->   	dpu_enc->connector = conn_state->connector;
->   
->   	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-> 
+>>
+>>>>
+>>>>>
+>>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>>> ---
+>>>>>    drivers/gpu/drm/msm/msm_kms.c | 6 +++++-
+>>>>>    drivers/gpu/drm/msm/msm_kms.h | 3 +++
+>>>>>    2 files changed, 8 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
+>>>>> index d5d3117259cf..90a333920c01 100644
+>>>>> --- a/drivers/gpu/drm/msm/msm_kms.c
+>>>>> +++ b/drivers/gpu/drm/msm/msm_kms.c
+>>>>> @@ -168,7 +168,10 @@ static int msm_kms_fault_handler(void *arg, unsigned long iova, int flags, void
+>>>>>    {
+>>>>>         struct msm_kms *kms = arg;
+>>>>>
+>>>>> -     msm_disp_snapshot_state(kms->dev);
+>>>>> +     if (!kms->fault_snapshot_capture) {
+>>>>> +             msm_disp_snapshot_state(kms->dev);
+>>>>> +             kms->fault_snapshot_capture++;
+>>>>
+>>>> When is it decremented?
+>>>>
+>>>>> +     }
+>>>>>
+>>>>>         return -ENOSYS;
+>>>>>    }
+>>>>> @@ -208,6 +211,7 @@ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
+>>>>>                 mmu->funcs->destroy(mmu);
+>>>>>         }
+>>>>>
+>>>>> +     kms->fault_snapshot_capture = 0;
+>>>>>         msm_mmu_set_fault_handler(aspace->mmu, kms, msm_kms_fault_handler);
+>>>>>
+>>>>>         return aspace;
+>>>>> diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+>>>>> index 1e0c54de3716..240b39e60828 100644
+>>>>> --- a/drivers/gpu/drm/msm/msm_kms.h
+>>>>> +++ b/drivers/gpu/drm/msm/msm_kms.h
+>>>>> @@ -134,6 +134,9 @@ struct msm_kms {
+>>>>>         int irq;
+>>>>>         bool irq_requested;
+>>>>>
+>>>>> +     /* rate limit the snapshot capture to once per attach */
+>>>>> +     int fault_snapshot_capture;
+>>>>> +
+>>>>>         /* mapper-id used to request GEM buffer mapped for scanout: */
+>>>>>         struct msm_gem_address_space *aspace;
+>>>>>
+>>>>> --
+>>>>> 2.44.0
+>>>>>
+>>>>
+>>>> --
+>>>> With best wishes
+>>>> Dmitry
