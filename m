@@ -2,78 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A44932F09
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 19:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFF69331BB
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 21:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDC9F10E574;
-	Tue, 16 Jul 2024 17:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3F610E887;
+	Tue, 16 Jul 2024 19:14:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PBhLFILd";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="dCxNSu3y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E76D510E2A0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 17:25:46 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-52ea952ce70so6155720e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 10:25:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721150745; x=1721755545; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=BIzlW/re+zqWdbXrMFMpZtR9RUNKkE+7zdmZJ+T5ET8=;
- b=PBhLFILdxrYYhIyDCvdLPsgfJp6POjrcRD/06ulW90QzE1nYbzp6p5lxh3lS8IoMtf
- Ib72xeuZu6yZ8E72wwPQbNolWD0DdnXQTpod+DkBWv8JmFgRr+U+8QZukcIne1BJuYIC
- 3Ad0w6Jmhygq9rVAC9oNr852jaelDn1VqMjPNQHHO1xt1PW8XMZxj7gi4gAnradPF9Rd
- DVGmh8C/Xg+qeTRYei9w+iOlJWrjC7VG3YY7ZoMz4I/OiY3DM8+Y85mw8mOAXkjK93ZJ
- xciDRD+1R8w18rWcZdInJsJltX2ra6huVEP1jm6iTDbr5HfF3N9Fp54qpjoGdeYiPlDD
- suHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721150745; x=1721755545;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BIzlW/re+zqWdbXrMFMpZtR9RUNKkE+7zdmZJ+T5ET8=;
- b=L2LySwvM9zoAfLoFXAUBg8NwqDKjTxXnDAjpt48f6pipRrjHX3cNYMrlw2p6J7/bFz
- 5rKjobaaYjPSmCx3GZcTmW70tPEpcgM5hunfrXy7lBZ1mgNa6635jZLW+Uz/J5n/dXJL
- N4KdGboAyDsGwfEsWNCXZIpBdFlczpYFaJDqZx926gWRJ+1IeLSdYpGEaIHZ9XS4EX7y
- yNiHjNj8yYGkzme1v4inyyA77spWN8MR3CWBETBw3+YkuEFkjCDjdxX41ieH50Qa6J85
- sw74hsB7QySAEyLlBngROu92kF9SUjYeMfnEn9ojLpicoXOL76gCCGv1PJ29x866f8aE
- 05SA==
-X-Gm-Message-State: AOJu0YwA4CKMcti3pLJ79ywOPuJMQQsXRhnqLLT9Kr1j6nRrQgkgvRIy
- EAykb08xXVLeLudPpBwjQxIzJKsuxz5mJL4t05RGCPR2o1Xwyg18L1Hwk9GbYoU=
-X-Google-Smtp-Source: AGHT+IGGXs9LQIjcLFKl+/yb9bNVeYQzPggbFyrU2zP9kH7kEuX20Nqc1cSioz/zdX1LY1hUP9w7jg==
-X-Received: by 2002:a05:6512:15a4:b0:52b:bee3:dcc6 with SMTP id
- 2adb3069b0e04-52edf03011emr1612383e87.51.1721150744972; 
- Tue, 16 Jul 2024 10:25:44 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ed24e2a10sm1200582e87.7.2024.07.16.10.25.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jul 2024 10:25:44 -0700 (PDT)
-Date: Tue, 16 Jul 2024 20:25:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <dri-devel@lists.freedesktop.org>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, nouveau@lists.freedesktop.org, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: DisplayPort: handling of HPD events / link training
-Message-ID: <s6kua7scw65q2f43b6qimxjaqmm2a3giszkv4654ffnr4c7q7a@y2xqhp3mgf46>
-References: <CAA8EJprfbMs_3PnpebhVg=NVrO5zc23cgx=1f4HAKLnT5b9J6Q@mail.gmail.com>
- <d3be8832-a6f2-496e-ac2e-9b29cae9f8f2@suse.de>
- <CAA8EJprA3aXHex4ctSE+ChhhWVLLdcXtppsadrNYbnHWi+gKLQ@mail.gmail.com>
- <e924c624-8664-4739-84c5-8229325f78ce@suse.de>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB9BD10E877
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 19:14:18 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D869588722;
+ Tue, 16 Jul 2024 21:14:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1721157257;
+ bh=frZaD+kkGJcY4pJY44ZcBHh3Cq2V5642TXFVCdO0nvs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dCxNSu3yLkhmZ8AB8wwOSXdwhzwelPs+wGfKiY3FVICgAfTsOk1YavHGnfSoRYguI
+ TYCUDxYQRmCxIUhVFhPlxPbZGyllCD3jw5q0+ZIHxwTuL65YXSx5m/D1QVZQKLjS4o
+ YhhMy2ZkXS+V0nylyapntWNsHyTVyi46XvqWZSoYgUCvhq+NFyCxsnh8rZRoUOpxR3
+ lh9H+e8Zk0m7UpS+pKGAUCPNHDAgqtZSoMDlj3cBVpYNWonzVl12Aydr3vcCIvK9kP
+ ZEJKDbvnzHuRV6gl7IhNKMHk3bzOw/dCV/oMZhHEN0M2OuhmdEf6jn0oPSSLg7pBpO
+ qwTDllOTp7oWQ==
+Message-ID: <4e015a11-d8ca-4cc0-9366-2d836122296d@denx.de>
+Date: Tue, 16 Jul 2024 20:29:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e924c624-8664-4739-84c5-8229325f78ce@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: tc358867: Document
+ default DP preemphasis
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Maxime Ripard <mripard@kernel.org>,
+ kernel@dh-electronics.com,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Robert Foss <rfoss@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240708150130.54484-1-marex@denx.de>
+ <172062558439.3107707.14187355988690749078.robh@kernel.org>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <172062558439.3107707.14187355988690749078.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,57 +74,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 16, 2024 at 06:48:12PM GMT, Thomas Zimmermann wrote:
-> Hi
+On 7/10/24 5:33 PM, Rob Herring (Arm) wrote:
 > 
-> Am 16.07.24 um 18:35 schrieb Dmitry Baryshkov:
-> > On Tue, 16 Jul 2024 at 18:58, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > Hi
-> > > 
-> > > Am 27.02.24 um 23:40 schrieb Dmitry Baryshkov:
-> > > > Hello,
-> > > > 
-> > > > We are currently looking at checking and/or possibly redesigning the
-> > > > way the MSM DRM driver handles the HPD events and link training.
-> > > > 
-> > > > After a quick glance at the drivers implementing DP support, I noticed
-> > > > following main approaches:
-> > > > - Perform link training at the atomic_enable time, don't report
-> > > > failures (mtk, analogix, zynqmp, tegra, nouveau)
-> > > > - Perform link training at the atomic_enable time, report errors using
-> > > > link_status property (i915, mhdp8546)
-> > > > - Perform link training on the plug event (msm, it8605).
-> > > > - Perform link training from the DPMS handler, also calling it from
-> > > > the enable callback (AMDGPU, radeon).
-> > > > 
-> > > > It looks like the majority wins and we should move HPD to
-> > > > atomic_enable time. Is that assumption correct?
-> > > Did you ever receive an answer to this question? I currently investigate
-> > > ast's DP code, which does link training as part of detecting the
-> > > connector state (in detect_ctx). But most other drivers do this in
-> > > atomic_enable. I wonder if ast should follow.
-> > Short answer: yes, the only proper place to do it is atomic_enable().
+> On Mon, 08 Jul 2024 17:01:13 +0200, Marek Vasut wrote:
+>> Document default DP port preemphasis configurable via new DT property
+>> "toshiba,pre-emphasis". This is useful in case the DP link properties
+>> are known and starting link training from preemphasis setting of 0 dB
+>> is not useful. The preemphasis can be set separately for both DP lanes
+>> in range 0=0dB, 1=3.5dB, 2=6dB .
+>>
+>> This is an endpoint property, not a port property, because the TC9595
+>> datasheet does mention that the DP might operate in some sort of split
+>> mode, where each DP lane is used to feed one display, so in that case
+>> there might be two endpoints.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> ---
+>> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: Conor Dooley <conor+dt@kernel.org>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Cc: Jonas Karlman <jonas@kwiboo.se>
+>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: devicetree@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: kernel@dh-electronics.com
+>> ---
+>> V2: - Fix the type to u8 array
+>>      - Fix the enum items to match what they represent
+>> V3: - Update commit message, expand on this being an endpoint property
+>> V4: - Fix ref: /schemas/graph.yaml#/$defs/port-base and add unevaluatedProperties
+>> ---
+>>   .../display/bridge/toshiba,tc358767.yaml      | 21 ++++++++++++++++++-
+>>   1 file changed, 20 insertions(+), 1 deletion(-)
+>>
 > 
-> Thanks.
-> 
-> > 
-> > Long answer: I don't see a way to retrigger link training in ast_dp.c
-> > Without such change you are just shifting things around. The
-> > end-result of moving link-training to atomic_enable() is that each
-> > enable can trigger link training, possibly lowering the link rate,
-> > etc. if link training is just a status bit from the firmware that we
-> > don't control, it doesn't make real-real sense to move it.
-> 
-> I have to think about what to do. People tend to copy existing drivers,
-> which alone might be a good argument for using atomic_enable. The link
-> training is indeed just a flag that is set by the firmware. I think it's
-> possible to re-trigger training by powering the port down and up again.
-> atomic_enable could likely do that. The hardware is also somewhat buggy and
-> not fully standard conformant.
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-It stil looks like having an explicit comment ('check LT here becasue
-handled by firmware') might be better.
-
--- 
-With best wishes
-Dmitry
+If there are no objections, I will apply these two patches to drm-misc 
+soon ?
