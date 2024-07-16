@@ -2,74 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80611932D8D
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 18:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F53D932E3C
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2024 18:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E460210E7B9;
-	Tue, 16 Jul 2024 16:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B9B10E2F3;
+	Tue, 16 Jul 2024 16:17:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XBQd67L4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jMxjARrT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90EAC10E7A3;
- Tue, 16 Jul 2024 16:06:36 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-1fc2a194750so23467185ad.1; 
- Tue, 16 Jul 2024 09:06:36 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6642510E2F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 16:17:56 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-427b9dcbb09so7989715e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2024 09:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721145995; x=1721750795; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721146675; x=1721751475; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=u6pCZR4wcgR/cYxgBLBcUrNbMm1B/HCdSgGHK6zUJlk=;
- b=XBQd67L49XdhWnO35XH3rl1FTeRuUKybPAHDn0zTpG0nz3+j/cztA8IztZpzBcwrpK
- 2BeDHrWQtegNUvQkcTFNdVx64ikc2hyxX4/UStoiIrrLLGGmEC/NRkS1nAy9rxN0r2My
- jAXOGubg9luealfvt7oA5bHWVrJXbqPbwqhgY0dMSXHtdUhDGoj1zXdZ/fflTeH/Kkm6
- fe2DYK3xRtvskKAA7oNd3XT/HpNXxF+iFkvlqvdLYVlJAK0RW16Ecn7Mfbw3UsHSyJeH
- zFSK9ydvC6X8X0hVO8lgLiTgo2R+SXADQi6pfMCRAmb105gfa04OxN5D2aC9YJ2wQsGq
- 32Vg==
+ bh=LZeN1JKbn+6j0alFZ89rnlW6N1xknefS8N93zgRlvMA=;
+ b=jMxjARrTjwVoQ0XRfCGx7zQPNwpnmNZLX//GEoToXHhsWJYHTIbIxotbZCEcGkiOdJ
+ Hlj9RJYIvfaAhymaRJQDrHy3qslzWeIZ13ee1bIN08pYPDWQatY9YyPvrME6OlQJPcsr
+ KIQJdZE5of+28A+ib7No8RSLXEa2jzbKUCOY1HpImtnfGHuU9b5IUejV+Srn3HdV/ctf
+ jYLhsTYU0+bDgd4Ou9+CHmVHa4TF8wPoc+woVkYz9yKnW1lacE4noIf5GUM+9DG3oa9v
+ y9ga546OSZVfC44iNbupqp6LG7L1YMo5ZB3y0X7EOfnsqcvD00Npaas1NIVVxfXJGnbF
+ 5Ytg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721145995; x=1721750795;
+ d=1e100.net; s=20230601; t=1721146675; x=1721751475;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=u6pCZR4wcgR/cYxgBLBcUrNbMm1B/HCdSgGHK6zUJlk=;
- b=nB1+5po3NXJZ/iZEUwNTZKOefoAsDg4IO4ZawsBupCEujHtwFjUmO+ghly/GRhb0q1
- b0rfU4vcIlgdFUrvio1OCK+/HHFhSUVb7+XINRSJbEap5Wr2vB80kK2L2ixZlSIQHk8f
- Ex8W/0sSycmQb8zTrM8VQRkOYmuS4hIW/7m6bPVd+93RQelPLva6T3liuLeUTIIKUuBL
- /oOCO5PTG6oZh/ZWjjYYxn9qa8JU6Kzr8mkFpSWhmbUFWUJdwgUQcNwmVzCFMK5utzRj
- 1ClJd0b+GI7iv2tiBBFjWUkN8AVyZH4irUfwN0VSKVV/RFD3DASnNdJlncvYPEGAhk4R
- Frdg==
+ bh=LZeN1JKbn+6j0alFZ89rnlW6N1xknefS8N93zgRlvMA=;
+ b=AfvSdtKq6p8gIAyvas0a42G7VGawNw8il2lFtTPuZ2RSWyKNej58szXTQid6YvnJft
+ QM9RR0HX7J4uDvdBI1W2u62aM+VzLKJXrYobX6QpfRBXjk+gNSjyS3hlObEyBNMzJcZO
+ NZfhC8C4QRZwD8rYbdYW6Qwq+ogrU+9iRd4PyntOkj73LQjfzQnLhqZ3yOIhdz+je7eN
+ D8mFFDGSM/N6UM/R9Nhqv1HnL60QzkpCvsx//4/DZb0oYpj1N38NeW7hO4Vu0INEC20t
+ omOgFq8QqUNQx+MVx8dETlp+ua8n99VqZEGDrFpZN1KW6y+FOSpKSFzbOfjBBzLFKCtb
+ IbSA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWWuabOX2zM4yadH5BQ5DkTjqUkbNgIa6dlZ5KGGw4xY/NWyOyHP31YQ4ryqDRmm9MBLv0gcPVQ6nBrLhp/IA64LYbySGCy35HdiaN4IcWV
-X-Gm-Message-State: AOJu0Yy//hMLzWjCPC32tPtMAmd+KRNZAslALlaYDoe3iQab793OVVbs
- bU2XoBAXYK73Z+BdM9UBbusnorkJVOopS3EMHIUKUwrLezxWp1WZqhetRQ==
-X-Google-Smtp-Source: AGHT+IFkwji5x3Oqvss0h58aBnzkmVskzoPH352Fb2wsLQBiGDCGTRDaXtszAo6wJdGsjuwge9gzbg==
-X-Received: by 2002:a17:902:ea12:b0:1fb:6473:e933 with SMTP id
- d9443c01a7336-1fc3d989ff7mr21155395ad.41.1721145994814; 
- Tue, 16 Jul 2024 09:06:34 -0700 (PDT)
-Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1fc0bb9befbsm60481865ad.74.2024.07.16.09.06.33
+ AJvYcCWikEvQ7FmeE0hBzP92T7X8XN8pT98Tkb6q/8hfGJbnLRQR4gYQyGKkbnkSXN9a5dxHv/3dDJR1KhZmihg3J+nAXCdH6CPbf4416CH1rUV9
+X-Gm-Message-State: AOJu0Yxs5XhpCKI678UWYaHVeixH08ej/PSKhd02UolceEdLRQ1KcFaO
+ FocvK2y5YfcXphs5eTbOBDyGP+5mRvX9Djsc3DeQbSR06Id/fjZ0
+X-Google-Smtp-Source: AGHT+IFJsyBz4QKVZoFptOjpM7uP5mZ4dQVmHAesj63IFhfw0ksphWWFLeYKa7hneCDC3CLTZqPyCA==
+X-Received: by 2002:adf:e64d:0:b0:367:83ea:9a6c with SMTP id
+ ffacd0b85a97d-368261029d5mr1959246f8f.24.1721146674423; 
+ Tue, 16 Jul 2024 09:17:54 -0700 (PDT)
+Received: from fedora.. ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3680daccc9csm9457846f8f.57.2024.07.16.09.17.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jul 2024 09:06:34 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/msm/adreno: Fix error return if missing firmware-name
-Date: Tue, 16 Jul 2024 09:06:30 -0700
-Message-ID: <20240716160631.386713-1-robdclark@gmail.com>
+ Tue, 16 Jul 2024 09:17:53 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: rodrigosiqueiramelo@gmail.com
+Cc: melissa.srw@gmail.com, mairacanal@riseup.net, hamohammed.sa@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, louis.chauvet@bootlin.com,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v3] drm/vkms: Fix cpu_to_le16()/le16_to_cpu() warnings
+Date: Tue, 16 Jul 2024 18:17:26 +0200
+Message-ID: <20240716161725.41408-2-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,32 +83,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Building with Sparse enabled prints this warning for cpu_to_le16()
+calls:
 
--ENODEV is used to signify that there is no zap shader for the platform,
-and the CPU can directly take the GPU out of secure mode.  We want to
-use this return code when there is no zap-shader node.  But not when
-there is, but without a firmware-name property.  This case we want to
-treat as-if the needed fw is not found.
+    warning: incorrect type in assignment (different base types)
+        expected unsigned short [usertype]
+        got restricted __le16 [usertype]
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+And this warning for le16_to_cpu() calls:
+
+    warning: cast to restricted __le16
+
+Declare the target buffer as __le16 to fix both warnings.
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+
 ---
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index b46e7e93b3ed..0d84be3be0b7 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -99,7 +99,7 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
- 		 * was a bad idea, and is only provided for backwards
- 		 * compatibility for older targets.
- 		 */
--		return -ENODEV;
-+		return -ENOENT;
- 	}
+v1 -> v2: https://lore.kernel.org/dri-devel/20240712161656.7480-1-jose.exposito89@gmail.com/T/
+
+ - Thomas Zimmermann: Declare "pixels" cariable as __le16 instead of
+   multiple casting.
+
+v2 -> v3: https://lore.kernel.org/dri-devel/20240715151625.6968-2-jose.exposito89@gmail.com/
+
+ - Thomas Zimmermann: Use cpu_to_le16() instead of casting 0xffff
+ - Reviewed-by Thomas and Louis
+---
+ drivers/gpu/drm/vkms/vkms_formats.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index 36046b12f296..040b7f113a3b 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -75,7 +75,7 @@ static void XRGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixe
  
- 	if (IS_ERR(fw)) {
+ static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+ {
+-	u16 *pixels = (u16 *)src_pixels;
++	__le16 *pixels = (__force __le16 *)src_pixels;
+ 
+ 	out_pixel->a = le16_to_cpu(pixels[3]);
+ 	out_pixel->r = le16_to_cpu(pixels[2]);
+@@ -85,7 +85,7 @@ static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_
+ 
+ static void XRGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+ {
+-	u16 *pixels = (u16 *)src_pixels;
++	__le16 *pixels = (__force __le16 *)src_pixels;
+ 
+ 	out_pixel->a = (u16)0xffff;
+ 	out_pixel->r = le16_to_cpu(pixels[2]);
+@@ -95,7 +95,7 @@ static void XRGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_
+ 
+ static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+ {
+-	u16 *pixels = (u16 *)src_pixels;
++	__le16 *pixels = (__force __le16 *)src_pixels;
+ 
+ 	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+ 	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+@@ -178,7 +178,7 @@ static void argb_u16_to_XRGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel
+ 
+ static void argb_u16_to_ARGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
+ {
+-	u16 *pixels = (u16 *)dst_pixels;
++	__le16 *pixels = (__force __le16 *)dst_pixels;
+ 
+ 	pixels[3] = cpu_to_le16(in_pixel->a);
+ 	pixels[2] = cpu_to_le16(in_pixel->r);
+@@ -188,9 +188,9 @@ static void argb_u16_to_ARGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_p
+ 
+ static void argb_u16_to_XRGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
+ {
+-	u16 *pixels = (u16 *)dst_pixels;
++	__le16 *pixels = (__force __le16 *)dst_pixels;
+ 
+-	pixels[3] = 0xffff;
++	pixels[3] = cpu_to_le16(0xffff);
+ 	pixels[2] = cpu_to_le16(in_pixel->r);
+ 	pixels[1] = cpu_to_le16(in_pixel->g);
+ 	pixels[0] = cpu_to_le16(in_pixel->b);
+@@ -198,7 +198,7 @@ static void argb_u16_to_XRGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_p
+ 
+ static void argb_u16_to_RGB565(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
+ {
+-	u16 *pixels = (u16 *)dst_pixels;
++	__le16 *pixels = (__force __le16 *)dst_pixels;
+ 
+ 	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+ 	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
 -- 
 2.45.2
 
