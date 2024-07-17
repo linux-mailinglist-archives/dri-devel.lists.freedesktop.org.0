@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23AE3933F34
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 17:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87501933F42
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 17:09:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4026710E28D;
-	Wed, 17 Jul 2024 15:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA50F10E290;
+	Wed, 17 Jul 2024 15:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="fV3qnvmF";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="C4v5VMqz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3817E10E297
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 15:04:21 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-427bc3877d0so2000425e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 08:04:21 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE4210E290
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 15:09:00 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-426719e2efeso7786495e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 08:09:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1721228659; x=1721833459; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1721228938; x=1721833738; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=u5pjr/7PlGU0bno59J3w/W6V2Jp6tDpULmroTCCRYAE=;
- b=fV3qnvmFOrcFMD2QqGO/OsIL7wz3QoKfaMcywxAPdFlz30OJR/yzUCkGXPmnBnamF/
- GmXeSXnSA5PnaTQFohkZh2lNhFRD2Nc/njbeLQhztpeEQY0kQ/U5RWTfEoVWfs9rcYdd
- O3pwQbIe5tjBJ6arHRFP/GJwln7AkSkrTDcN4=
+ bh=s77sxARyPcLu/24QtoN8ND9W5Zo8PTRc1Nw51x3CKtQ=;
+ b=C4v5VMqz94ToMv+h8pY0k2DzPV47yLP9Oi1P81YbMgLvAn5pKgVB2MiWVRei+wmJ1y
+ 1mjk4HaAUyxwla0LXOV8Z1NBzOGkOwjZBj48FxGoUo59xG1XsD5UpRlWMk8X5zcBj1TQ
+ 8bvwr3MEKMXl3Otg7vobkqOtIKB0/OILVWQ1Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721228659; x=1721833459;
+ d=1e100.net; s=20230601; t=1721228938; x=1721833738;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=u5pjr/7PlGU0bno59J3w/W6V2Jp6tDpULmroTCCRYAE=;
- b=EHMMZBI1BIlzUtrwUs1m1YY6M0jzMJgc0BwIO6AL/ThYmiqrf6tnfgHtLCOq0/YRRl
- RHTELBFXah+vi19j+jTw0yT3kBd7/SP2xcm0UM+pggbZZ0qNBEW++gNFGm2ZV/mkE1+q
- +c14lgOnb8gj3HgUxVjmbK6ddHyIhT6+Qx6vqnnQiEXeddOoLlkAHrG+NPJtzVh+NmgV
- D6dz0MVIMDYy0DIuZdTB/eMkuguACnW6VRU0ixy/RfXEUkLypnmKnAj0a6ZbfekjqeaP
- 1c2yY0L9gzAkFEyRBR2w5R+ODsAM/HvpXic/IrCGbzxPNf1dUQ7xfQYwInog2XGZNXR2
- cfRw==
+ bh=s77sxARyPcLu/24QtoN8ND9W5Zo8PTRc1Nw51x3CKtQ=;
+ b=iI4kKoMJYZinsLhHQmt+0aB12PXesfxszUaXzSSQgVO2XAqk3N1IvNZV/ds51dous+
+ AvLU1jc/FzPCjDcs3irTXYdBxJp5XcrX0KwKRDTjv+zmeUWeAHsgbqU9xPCAlWdYOs7Q
+ VklXD3FPcg4AL5tKTRGisM8G+UhgiqIDNspSiTcD+vZXakL5pCz3Q3yibvns4/qDwUM5
+ xPaSavFoRdmZAWaRCVApAKUMYZqXHfVr6s4+OCw3s+IEp5raJnyTo3SqQgbVjYjFaAw5
+ LLbwYh86XlhXWQk2Wo2ZlnUGqj5uGCjr8LWd1nMGK4BSK5n3dcYDnN+2eC+pwRaN9zCO
+ nZtA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzmp15WrKauZfwqhyNuxZXDvfmc5aeLdJY+Ri8kSf5Wfk4V+kyINuXQAUfV7e4NIDx557B5xzpdhAULCf1bJupXGI8nc81jfRqR4s8np2W
-X-Gm-Message-State: AOJu0YxaA/q71u/z1r5OGmPNqZN/s8KRqf+eZeJLREdRGy7yosGV3F2U
- zKgfcHLf9uP0kbuychIf5RLYt/jyoHj5aeDgLS92HnxSqJUzo7Np0E3/4jS/Q/I=
-X-Google-Smtp-Source: AGHT+IGnQq5qn3XFcUVytJqVgSB3xoYK5wfjBzWyxNvSmCk4IGCgYkb1mLjSP+9pJg5W/Sm0P9gk8w==
-X-Received: by 2002:a05:600c:1c86:b0:424:ac9f:5c61 with SMTP id
- 5b1f17b1804b1-427c2d0c8eemr8946465e9.3.1721228659021; 
- Wed, 17 Jul 2024 08:04:19 -0700 (PDT)
+ AJvYcCW3CZ8thbKxmUEx+uWyBACHRfDTQgTH1OI2jMNhFBsPwKX+N+8T2ciiEtUzdKRtMfhji9g+nbUHPMDDq5+8fKZJ8gIrSL3YwT5zPKiF/R4i
+X-Gm-Message-State: AOJu0Yz8MwDw5F+VLqwrp5EMPvMTGfE+3Z2n9l9P0jC3o+X2V3Ue1aAT
+ XzPvzUe0h84Po+rsO8rkBOPN8z8cGDD4DAwimWGDtWPH1JakAPXmVHuwYgd3MN0=
+X-Google-Smtp-Source: AGHT+IH1i/w84Z4TRUoKj/BGXwmxibTxvjiniJriyPObqoZKHx+24ILVUcBSnoq6KRs8SxxUKsqewA==
+X-Received: by 2002:a05:600c:3501:b0:426:6a0d:1ae5 with SMTP id
+ 5b1f17b1804b1-427c2c0ef1bmr9093365e9.0.1721228938505; 
+ Wed, 17 Jul 2024 08:08:58 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-427c78076f7sm1074075e9.37.2024.07.17.08.04.17
+ 5b1f17b1804b1-427c77b05aesm1309505e9.14.2024.07.17.08.08.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jul 2024 08:04:18 -0700 (PDT)
-Date: Wed, 17 Jul 2024 17:04:16 +0200
+ Wed, 17 Jul 2024 08:08:58 -0700 (PDT)
+Date: Wed, 17 Jul 2024 17:08:56 +0200
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: Jocelyn Falempe <jfalempe@redhat.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -67,8 +67,8 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Samuel Thibault <samuel.thibault@ens-lyon.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH 2/3] fbcon: Add an option to disable fbcon in panic.
-Message-ID: <ZpfdcC2Es9rweHW_@phenom.ffwll.local>
+Subject: Re: [PATCH 1/3] drm/panic: Add drm_panic_is_enabled()
+Message-ID: <ZpfeiMj48JQTQcOE@phenom.ffwll.local>
 Mail-Followup-To: Jocelyn Falempe <jfalempe@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -82,11 +82,11 @@ Mail-Followup-To: Jocelyn Falempe <jfalempe@redhat.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-fbdev@vger.kernel.org
 References: <20240717090102.968152-1-jfalempe@redhat.com>
- <20240717090102.968152-3-jfalempe@redhat.com>
+ <20240717090102.968152-2-jfalempe@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240717090102.968152-3-jfalempe@redhat.com>
+In-Reply-To: <20240717090102.968152-2-jfalempe@redhat.com>
 X-Operating-System: Linux phenom 6.9.7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,80 +103,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 17, 2024 at 10:48:40AM +0200, Jocelyn Falempe wrote:
-> This is required to avoid conflict between DRM_PANIC, and fbcon. If
-> a drm device already handle panic with drm_panic, it should set
-> the skip_panic field in fb_info, so that fbcon will stay quiet, and
-> not overwrite the panic_screen.
+On Wed, Jul 17, 2024 at 10:48:39AM +0200, Jocelyn Falempe wrote:
+> It allows to check if the drm device supports drm_panic.
+> Prepare the work to have better integration with fbcon and vtconsole.
 > 
 > Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 > ---
->  drivers/gpu/drm/drm_fb_helper.c  | 2 ++
->  drivers/video/fbdev/core/fbcon.c | 7 ++++++-
->  include/linux/fb.h               | 1 +
->  3 files changed, 9 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_panic.c | 20 ++++++++++++++++++++
+>  include/drm/drm_panic.h     |  2 ++
+>  2 files changed, 22 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index e2e19f49342e..3662d664d8f9 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -40,6 +40,7 @@
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_modeset_helper_vtables.h>
-> +#include <drm/drm_panic.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_vblank.h>
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index 948aed00595e..d9a25c2d0a65 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -703,6 +703,26 @@ static void debugfs_register_plane(struct drm_plane *plane, int index)
+>  static void debugfs_register_plane(struct drm_plane *plane, int index) {}
+>  #endif /* CONFIG_DRM_PANIC_DEBUG */
 >  
-> @@ -524,6 +525,7 @@ struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
->  	fb_helper->info = info;
->  	info->skip_vt_switch = true;
->  
-> +	info->skip_panic = drm_panic_is_enabled(fb_helper->dev);
->  	return info;
->  
->  err_release:
+> +/**
+> + * drm_panic_is_enabled
+> + * @dev: the drm device that may supports drm_panic
+> + *
+> + * returns true if the drm device supports drm_panic
+> + */
+> +bool drm_panic_is_enabled(struct drm_device *dev)
+> +{
+> +	struct drm_plane *plane;
+> +
+> +	if (!dev->mode_config.num_total_plane)
+> +		return false;
+> +
+> +	drm_for_each_plane(plane, dev)
+> +		if (plane->helper_private && plane->helper_private->get_scanout_buffer)
+> +			return true;
+> +	return false;
+> +}
+> +EXPORT_SYMBOL(drm_panic_is_enabled);
 
-Bit a bikeshed, but I'd split this patch out since it's for drm's fbdev
-emulation, not the fbcon core code. With that:
+This feels like overkill since you currently only have one user in the
+fbdev emulation code, but maybe useful in some other places ...
+
+> +
+>  /**
+>   * drm_panic_register() - Initialize DRM panic for a device
+>   * @dev: the drm device on which the panic screen will be displayed.
+> diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
+> index 73bb3f3d9ed9..c3a358dc3e27 100644
+> --- a/include/drm/drm_panic.h
+> +++ b/include/drm/drm_panic.h
+> @@ -148,11 +148,13 @@ struct drm_scanout_buffer {
+>  
+>  #ifdef CONFIG_DRM_PANIC
+>  
+> +bool drm_panic_is_enabled(struct drm_device *dev);
+
+Since it's internal only, this should be in
+drivers/gpu/drm/drm_crtc_internal.h and not int he include for drivers.
+With that:
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 3f7333dca508..498d9c07df80 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -270,12 +270,17 @@ static int fbcon_get_rotate(struct fb_info *info)
->  	return (ops) ? ops->rotate : 0;
->  }
+>  void drm_panic_register(struct drm_device *dev);
+>  void drm_panic_unregister(struct drm_device *dev);
+
+These two are only used in drm.ko. Can you please move them to
+drm_crtc_internal.h too and drop the EXPORT_SYMBOL in a follow-up patch?
+We're trying to limit the exported interface and official headers to
+really only the pieces drivers actually need.
+
+Thanks, Sima
+
 >  
-> +static bool fbcon_skip_panic(struct fb_info *info)
-> +{
-> +	return (info->skip_panic && unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID));
-> +}
-> +
->  static inline int fbcon_is_inactive(struct vc_data *vc, struct fb_info *info)
->  {
->  	struct fbcon_ops *ops = info->fbcon_par;
+>  #else
 >  
->  	return (info->state != FBINFO_STATE_RUNNING ||
-> -		vc->vc_mode != KD_TEXT || ops->graphics);
-> +		vc->vc_mode != KD_TEXT || ops->graphics || fbcon_skip_panic(info));
->  }
+> +bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
+>  static inline void drm_panic_register(struct drm_device *dev) {}
+>  static inline void drm_panic_unregister(struct drm_device *dev) {}
 >  
->  static int get_color(struct vc_data *vc, struct fb_info *info,
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index db7d97b10964..865dad03e73e 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -510,6 +510,7 @@ struct fb_info {
->  	void *par;
->  
->  	bool skip_vt_switch; /* no VT switch on suspend/resume required */
-> +	bool skip_panic; /* Do not write to the fb after a panic */
->  };
->  
->  /* This will go away
 > -- 
 > 2.45.2
 > 
