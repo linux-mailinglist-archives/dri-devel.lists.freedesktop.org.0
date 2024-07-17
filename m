@@ -2,81 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B701A934086
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 18:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD6F934093
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 18:36:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8244610E2DF;
-	Wed, 17 Jul 2024 16:34:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C860610E2D9;
+	Wed, 17 Jul 2024 16:36:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TNGHTaHb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UfxMuZwX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B63A610E2DF;
- Wed, 17 Jul 2024 16:33:58 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a77bf336171so180731466b.1; 
- Wed, 17 Jul 2024 09:33:58 -0700 (PDT)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6250410E2D9;
+ Wed, 17 Jul 2024 16:36:42 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-1fb3b7d0d56so39504655ad.1; 
+ Wed, 17 Jul 2024 09:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721234037; x=1721838837; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=GInFX+KjHCh2SZ3uixPMhANVTPTX0s1Mpxztx+WvSTA=;
- b=TNGHTaHbxqE52ywDjRFUDanQ1RTs+BcwoK0fJwTQyPx5IRkkQ0/pkdNQgc4cwuKZjI
- RcHJEyWWEFwVtzrGNwgy/VIGENPlo9avdk2f2PE52J/j+JsFnVb526HU40vzDFtd9I/y
- sBnNj3/tjBWIWOnP9XOF/HfhNLuGxZYdFt7r932Xu6SiVAg8y6SSylaD3IwdT+Wa6yG6
- kU7cBSgTqoHlcKp6y+eZXFjyGwHSB56X9KvNjseEkqsIVB6fJnxa2W2ppm2SRpvP9zGa
- xkTb1R12nHY4YXHLOpXyf/hy1QDIv8ef2UEwage11RnoOWKv0PGOy5aGsxx3uv3ZKEMg
- iIOQ==
+ d=gmail.com; s=20230601; t=1721234201; x=1721839001; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4TKuZ+LLWKFD2SRhsXU6njcd+7Nl5m44Gcrf0C6YsTI=;
+ b=UfxMuZwXM7qcNTPWZEssL6S/gRMs1R39FsOFqcimb6jjVS9TZkbHCq67J7v0RF/Elu
+ Ot8uGW8hNxcZnNSN/4Hr4/sRDQzvNQ0JIs8iayHYWJ9mrlxHxTQAWLe+9M/SkKAPOZqy
+ N6UoIjbPM9jxY+788SZLtxYt7AzJO7kR7AN/KHwpZy1L8yJS2hxI6eDKLFQd7FGt4dRJ
+ ElVNAWDehChqUG0A75pqu69b8q2rdOVEaJTsceQDcknsvK/Rh4sbvJHhZY5jcw5IskEf
+ OrMZ0ZHGqs7y11pBsWgS9T4deWZZILec2KfnEbzTd8Z12tsTOaScuvkWrn9eG8B2175H
+ C3hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721234037; x=1721838837;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GInFX+KjHCh2SZ3uixPMhANVTPTX0s1Mpxztx+WvSTA=;
- b=AozZmr1s5nTLkjb/FO32hmTUp3R43EGTfycri8uJ093b1h4Bw+i5nxViicJqBbIGbH
- HeVbWqpbi/rjjztFM6ImpHtqrnKmTcuo2c3H0LzqQzfqBV41HI1Nx8ByXPg5Ob8vRTQR
- yZJhQkZi81ZK3bTvyKPGMU4bWw/SL7gt7bfxnicZutgD6wC9d3r/5tJapF/LbhB2PvA+
- 5GMT6dMFyrvXvi+jCt7paoVQ5/N9QWd6jUOYuFcxiWT1mqZ5lvNeqepEFFgCqclYGyKY
- XaFW1RC7NW9XWewzys9xbGw98BNIq8U1sQHOZqm45zBuVfojfGTwsd1nwxM26E45Vf2D
- sqFQ==
+ d=1e100.net; s=20230601; t=1721234201; x=1721839001;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4TKuZ+LLWKFD2SRhsXU6njcd+7Nl5m44Gcrf0C6YsTI=;
+ b=LluSjT0yM/RB2o7t4pUGVAG6wXy7FONRNst0ObPoksqGwPAX8BHR5SZk2O91Xr/f5a
+ weFWmDelBFYPxj/Bbg0/kV1qVa9tOlthA9p3VYAt5gXCU45deuqcv705Ct8nXGQ3VvL5
+ qb04YgFGkJYptFAYkQ3kW9ynQ+3Ft280R5tXPu0jwgd57Jm+aD1Z2lxdtoXb54nCzCbt
+ Qj7bQOHQWI7lJIqpMmPbJqbG6f1lvtWqDYAPNq9OkTnGt17CknBsbC27oBBkm6M3OVf8
+ NKPM4GfBSGMrEY+UukLmClnlvLPFlNrxSwv9XZPAfYKahQJb3iYxUCVflTV57sapQJJ2
+ n6GA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX5JlrQUO1CiEBE8vESWekJnkGSQn0HOHEhAxGuA91aV12YfA5jMeuOPoZ7+zZlZUbOFWP1ivhW1o7RWTPjGKef8pFxUtMztEJ11LKpsNQVhBPfxmfxCXpE6rnpE9yBY+QHKic8TKVpytHT+fTo5qwy
-X-Gm-Message-State: AOJu0YzAwIKcHdSyNmP1Ugf8HkTgVekXlZ08eQtRq6Mj5+7G3wioTL6Z
- QoXS2DP+Ax2d74M5sJm9433JKBtnImKUsFSrdRztZwGGEv22Qjdx
-X-Google-Smtp-Source: AGHT+IG+pJCuJO7wqUIo6mEWXUTt+L9f5QLWe2SlWxtz8fE12AIl6KwlmaFJE+tbVXCalbz5FHfNHg==
-X-Received: by 2002:a17:906:af0d:b0:a77:ecf0:84e5 with SMTP id
- a640c23a62f3a-a7a0f13be53mr16604966b.14.1721234036828; 
- Wed, 17 Jul 2024 09:33:56 -0700 (PDT)
-Received: from trashcan (public-nat-01.vpngate.v4.open.ad.jp. [219.100.37.233])
+ AJvYcCXA9pro2ZFN44Y4Za9POty6w2qDxIpDRgWXUXoWJ0QbtEMmO4pMlzFIVYV/NFD4TvOmwKuw3ue7zik8cj5rr+Y3mT67SxxQIE86GnFyy4V5
+X-Gm-Message-State: AOJu0Yze0ehwzuQ5U+jmMNAp9uVMRB196Riz3j6znoVWhJBAdWlArW46
+ IPfv1MseWNVBT7BSGolaI3a7o66Q6kToWyJ9I0oRjAevO7doZF82w2FnRg==
+X-Google-Smtp-Source: AGHT+IHEmLpSAb65L1ZZEAG7DejWL9QRUnhbkb1WfvjNwqFc5ST7wh4b/x5LadbiinMc04M/Mvyhlw==
+X-Received: by 2002:a17:902:eccc:b0:1fb:6ea1:5e with SMTP id
+ d9443c01a7336-1fc4e562501mr19451975ad.44.1721234201188; 
+ Wed, 17 Jul 2024 09:36:41 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a79bc5a342esm463059366b.40.2024.07.17.09.33.46
+ d9443c01a7336-1fc0bc27178sm77113815ad.134.2024.07.17.09.36.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jul 2024 09:33:56 -0700 (PDT)
-Date: Wed, 17 Jul 2024 16:31:59 +0000
-From: Vladimir Lypak <vladimir.lypak@gmail.com>
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Wed, 17 Jul 2024 09:36:40 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ iommu@lists.linux.dev, Will Deacon <will@kernel.org>,
+ Rob Clark <robdclark@chromium.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Joao Martins <joao.m.martins@oracle.com>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ linux-pm@vger.kernel.org (open list:SUSPEND TO RAM),
  Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] fixes for Adreno A5Xx preemption
-Message-ID: <Zpfx_xnRmwoMkSFw@trashcan>
-References: <20240711100038.268803-1-vladimir.lypak@gmail.com>
- <CACu1E7HROtx1Zgyy0EJuHj_HWE8Nd6OtFnxTcrDrHP+2HA5o6A@mail.gmail.com>
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sean Paul <sean@poorly.run>,
+ Steven Price <steven.price@arm.com>
+Subject: [PATCH v6 0/2] io-pgtable-arm + drm/msm: Extend iova fault debugging
+Date: Wed, 17 Jul 2024 09:36:20 -0700
+Message-ID: <20240717163627.43423-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACu1E7HROtx1Zgyy0EJuHj_HWE8Nd6OtFnxTcrDrHP+2HA5o6A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,83 +91,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 17, 2024 at 10:40:26AM +0100, Connor Abbott wrote:
-> On Thu, Jul 11, 2024 at 11:10 AM Vladimir Lypak
-> <vladimir.lypak@gmail.com> wrote:
-> >
-> > There are several issues with preemption on Adreno A5XX GPUs which
-> > render system unusable if more than one priority level is used. Those
-> > issues include persistent GPU faults and hangs, full UI lockups with
-> > idling GPU.
-> >
-> > ---
-> > Vladimir Lypak (4):
-> >   drm/msm/a5xx: disable preemption in submits by default
-> >   drm/msm/a5xx: properly clear preemption records on resume
-> >   drm/msm/a5xx: fix races in preemption evaluation stage
-> >   drm/msm/a5xx: workaround early ring-buffer emptiness check
-> >
-> >  drivers/gpu/drm/msm/adreno/a5xx_gpu.c     | 18 ++++++++++----
-> >  drivers/gpu/drm/msm/adreno/a5xx_gpu.h     | 12 ++++++---
-> >  drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 30 ++++++++++++++++++++---
-> >  3 files changed, 47 insertions(+), 13 deletions(-)
-> > ---
-> > base-commit: 523b23f0bee3014a7a752c9bb9f5c54f0eddae88
-> > --
-> > 2.45.2
-> >
-> 
-> Hi Vladimir,
+From: Rob Clark <robdclark@chromium.org>
 
-Hi Connor!
+This series extends io-pgtable-arm with a method to retrieve the page
+table entries traversed in the process of address translation, and then
+beefs up drm/msm gpu devcore dump to include this (and additional info)
+in the devcore dump.
 
-> 
-> While looking at preemption on a7xx, where the overall logic is pretty
-> much the same, and I've been seeing the same "soft lockups". However
-> even after porting patch 3, it turns out that's not enough because
-> there's a different race. The sequence of events is something like
-> this:
-> 
-> 1. Medium-prio app A submits to ring 2.
-> 2. Ring 0 retires its last job and we start a preemption to ring 2.
-> 3. High-prio app B submits to ring 0. It sees the preemption from step
-> 2 ongoing and doesn't write the WTPR register or try to preempt.
-> 4. The preemption finishes and we update WPTR.
-At this point with patch 3 applied it should switch to ring 0 right away
-because of trigger call in the end of a5xx_preempt_irq. Didn't you
-forget it? Downstream has such call too. Even though it makes preemption
-a little more aggressive it doesn't work without it.
+This is a respin of https://patchwork.freedesktop.org/series/94968/
+(minus a patch that was already merged)
 
-> 5. App A's submit retires. We try to preempt, but the submit and
-> ring->cur write from step 3 happened on a different CPU and the write
-> hasn't landed yet so we skip it.
+v2: Fix an armv7/32b build error in the last patch
+v3: Incorperate Will Deacon's suggestion to make the interface
+    callback based.
+v4: Actually wire up the callback
+v5: Drop the callback approach
+v6: Make walk-data struct pgtable specific and rename
+    io_pgtable_walk_data to arm_lpae_io_pgtable_walk_data
 
-I don't think this is possible on modern CPUs. Could it be that retire
-IRQ appeared earlier (while it was switching from 0 to 2) and you are
-looking at msm_gpu_submit_retired trace event which is called from
-retire work later.
+Rob Clark (2):
+  iommu/io-pgtable-arm: Add way to debug pgtable walk
+  drm/msm: Extend gpu devcore dumps with pgtbl info
 
-> 
-> It's a bit tricky because write reordering is involved, but this seems
-> to be what's happening - everything except my speculation about the
-> delayed write to ring->cur being the problem comes straight from a
-> trace of this happening.
-> 
-> Rob suggested on IRC that we make retire handling happen on the same
-> workqueue as submissions, so that preempt_trigger is always
-> serialized, which IIUC would also make patch 3 unnecessary. What do
-> you think?
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 +++++++
+ drivers/gpu/drm/msm/msm_gpu.c           |  9 +++++++
+ drivers/gpu/drm/msm/msm_gpu.h           |  8 ++++++
+ drivers/gpu/drm/msm/msm_iommu.c         | 22 +++++++++++++++
+ drivers/gpu/drm/msm/msm_mmu.h           |  3 ++-
+ drivers/iommu/io-pgtable-arm.c          | 36 ++++++++++++++++++-------
+ include/linux/io-pgtable.h              | 17 ++++++++++++
+ 7 files changed, 95 insertions(+), 10 deletions(-)
 
-In this patch series i have tried to do least amount of changes so it
-could be easily back-ported. It isn't pretty but it works reliably for
-me. Otherwise it would be fine to just disable preemption like it's done
-on LTS before 5.4 and rework preemption in new kernel releases.
+-- 
+2.45.2
 
-Kind regards,
-
-Vladimir
-
-> 
-> Best regards,
-> 
-> Connor
