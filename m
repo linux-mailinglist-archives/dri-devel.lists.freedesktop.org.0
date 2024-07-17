@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4B893365B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 07:25:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D1F93365D
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 07:25:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6993B10E92D;
-	Wed, 17 Jul 2024 05:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A08F10E931;
+	Wed, 17 Jul 2024 05:25:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oL9SnksI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k0DNpzQR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21A710E927
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA33110E92D
  for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 05:24:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 98CB7CE1695;
+ by sin.source.kernel.org (Postfix) with ESMTP id 99D22CE1698;
  Wed, 17 Jul 2024 05:24:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 445D3C4AF0F;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 51F5BC4AF13;
  Wed, 17 Jul 2024 05:24:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1721193886;
- bh=2NcjMrvwfe1/v2FtKU3wRpvD6ZLIx8HGvtlmvTktZss=;
+ bh=fyYXOHu9fHp+yDLi4tjopWasn0OOj6F3xVVYEta73ZQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=oL9SnksIU07HqB0yz//l1Ae8jsfWsTtmwIEpMjP9LbvGlcAHYuAyxoAj5VQ6PoW7H
- TMtmZ/5aLBp0J/z4HA8Q/VcrzzJ96UbSvPygbQ6sloEJAfwkpAHg9EL/1R0eh7OK5q
- cedeUdh5QTS23yJInAG8s8vhUgE2L3k+MO6wKEFZyaACUW9TnD0C5kY5VVrWB4PebF
- 8miR9ssO/N80D5b50Q9Dulc+8tXbJj73RtYBZHMWbfWQG//Msz0Yc5LDpPMxlc1nUD
- QVffz2qFspHOcEUAHP4Vn7SFIuJez8w9U8Qcdu8+ZPf8481B0i8kQhoyGXcNgtTQpE
- c5c9GvYtQrudA==
+ b=k0DNpzQRDPx8LLqKG59JC5qmy1YOqQNEs5bmabn55M8xUFp+wSFVRridT70TnduvY
+ 7aa/RKNIbJ7RtRBsnY2HBr2yq4y6HFjTg6SeJXr68oIgO7FPb1sL0EXGut/TsIxEgE
+ DHQ7288/sYeqZHYstp0FX65EGpscS1NudXr15mRw7mrmpWRCtgd62xDoTR/jMO040k
+ E1+Q1pG126js6wtx+0kgZLlxl0tj3vCgnZIi2ef/x4iHNcrEh+uSLwpplvqbcX42mp
+ yK7o5nCZeiV/rsy+2uKV7dMv6UfRu8txklj8S/8c4Rn0QLhTk2/DzBZRWDvEMQaeDs
+ d11yircN7bVlg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 37DA0C3DA4B;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 4638FC3DA42;
  Wed, 17 Jul 2024 05:24:46 +0000 (UTC)
 From: Hsiao Chien Sung via B4 Relay
  <devnull+shawn.sung.mediatek.com@kernel.org>
-Date: Wed, 17 Jul 2024 13:24:44 +0800
-Subject: [PATCH v4 4/5] drm/mediatek: Support "Pre-multiplied" blending in
- Mixer
+Date: Wed, 17 Jul 2024 13:24:45 +0800
+Subject: [PATCH v4 5/5] drm/mediatek: Support alpha blending in display driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240717-alpha-blending-v4-4-4b1c806c0749@mediatek.com>
+Message-Id: <20240717-alpha-blending-v4-5-4b1c806c0749@mediatek.com>
 References: <20240717-alpha-blending-v4-0-4b1c806c0749@mediatek.com>
 In-Reply-To: <20240717-alpha-blending-v4-0-4b1c806c0749@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -52,13 +51,13 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>, 
- Hsiao Chien Sung <shawn.sung@mediatek.com>
+ CK Hu <ck.hu@mediatek.com>, Hsiao Chien Sung <shawn.sung@mediatek.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721193884; l=2294;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721193884; l=2210;
  i=shawn.sung@mediatek.com; s=20240710; h=from:subject:message-id;
- bh=DojSZu5PuBzMfoL3foGMBjfvPTLtxxAtfP7xNgOj/lE=;
- b=veMbyMxGW1pG/bwLlWCL/J7zOro6Lxh+WYADC8HkzM+jy+2dPQFP48yTp06NIWcN2alaKOP2y
- gzMwVmdLzrYAnLAxZOI6ycJMbMMChepi3e4sVm3YG7J6YBZJNGEwqwD
+ bh=NXMVY+5up48Xsv5+9pKY3kYmUYHXnlx5rItB6cJy0f4=;
+ b=qPLQi6C96RpE78tAkBytO4OSi0fwdJOcpP6FcHQkDdR6SkrD9IfkRhPs4zgCjQBF2Ay17XZG8
+ NldT43LQNpXDF1jgUO2PAxdkGHLEeBuiGP2EyvG/Km0DHDHnxYI8UgX
 X-Developer-Key: i=shawn.sung@mediatek.com; a=ed25519;
  pk=VRlGZ3diQkQtpDd8fCL9/mx+TpZStm08pg8UPaG1NGc=
 X-Endpoint-Received: by B4 Relay for shawn.sung@mediatek.com/20240710 with
@@ -82,55 +81,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 
-Support "Pre-multiplied" alpha blending mode in Mixer.
-Before this patch, only the coverage mode is supported.
+Support "Pre-multiplied" and "None" blend mode on MediaTek's chips by
+adding correct blend mode property when the planes init.
+Before this patch, only the "Coverage" mode (default) is supported.
 
-To replace the default setting that is set in mtk_ethdr_config(),
-we change mtk_ddp_write_mask() to mtk_ddp_write(), and this change will
-also reset the NON_PREMULTI_SOURCE bit that was assigned in
-mtk_ethdr_config(). Therefore, we must still set NON_PREMULTI_SOURCE bit
-if the blend mode is not DRM_MODE_BLEND_PREMULTI.
+For more information, there are three pixel blend modes in DRM driver:
+"None", "Pre-multiplied", and "Coverage".
 
+To understand the difference between these modes, let's take a look at
+the following two approaches to do alpha blending:
+
+1. Straight:
+dst.RGB = src.RGB * src.A + dst.RGB * (1 - src.A)
+This is straightforward and easy to understand, when the source layer is
+compositing with the destination layer, it's alpha will affect the
+result. This is also known as "post-multiplied", or "Coverage" mode.
+
+2. Pre-multiplied:
+dst.RGB = src.RGB + dst.RGB * (1 - src.A)
+Since the source RGB have already multiplied its alpha, only destination
+RGB need to multiply it. This is the "Pre-multiplied" mode in DRM.
+
+For the "None" blend mode in DRM, it means the pixel alpha is ignored
+when compositing the layers, only the constant alpha for the composited
+layer will take effects.
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_ethdr.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_plane.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-index 80ccdad3741b..d1d9cf8b10e1 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-@@ -36,6 +36,7 @@
- #define MIX_SRC_L0_EN				BIT(0)
- #define MIX_L_SRC_CON(n)		(0x28 + 0x18 * (n))
- #define NON_PREMULTI_SOURCE			(2 << 12)
-+#define PREMULTI_SOURCE				(3 << 12)
- #define MIX_L_SRC_SIZE(n)		(0x30 + 0x18 * (n))
- #define MIX_L_SRC_OFFSET(n)		(0x34 + 0x18 * (n))
- #define MIX_FUNC_DCM0			0x120
-@@ -176,6 +177,11 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 		alpha_con |= state->base.alpha & MIXER_ALPHA;
+diff --git a/drivers/gpu/drm/mediatek/mtk_plane.c b/drivers/gpu/drm/mediatek/mtk_plane.c
+index 1723d4333f37..5bf757a3ef20 100644
+--- a/drivers/gpu/drm/mediatek/mtk_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_plane.c
+@@ -346,6 +346,17 @@ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
+ 			DRM_INFO("Create rotation property failed\n");
  	}
  
-+	if (state->base.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI)
-+		alpha_con |= PREMULTI_SOURCE;
-+	else
-+		alpha_con |= NON_PREMULTI_SOURCE;
++	err = drm_plane_create_alpha_property(plane);
++	if (err)
++		DRM_ERROR("failed to create property: alpha\n");
 +
- 	if ((state->base.fb && !state->base.fb->format->has_alpha) ||
- 	    state->base.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
- 		/*
-@@ -193,8 +199,7 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 	mtk_ddp_write(cmdq_pkt, pending->height << 16 | align_width, &mixer->cmdq_base,
- 		      mixer->regs, MIX_L_SRC_SIZE(idx));
- 	mtk_ddp_write(cmdq_pkt, offset, &mixer->cmdq_base, mixer->regs, MIX_L_SRC_OFFSET(idx));
--	mtk_ddp_write_mask(cmdq_pkt, alpha_con, &mixer->cmdq_base, mixer->regs, MIX_L_SRC_CON(idx),
--			   0x1ff);
-+	mtk_ddp_write(cmdq_pkt, alpha_con, &mixer->cmdq_base, mixer->regs, MIX_L_SRC_CON(idx));
- 	mtk_ddp_write_mask(cmdq_pkt, BIT(idx), &mixer->cmdq_base, mixer->regs, MIX_SRC_CON,
- 			   BIT(idx));
- }
++	err = drm_plane_create_blend_mode_property(plane,
++						   BIT(DRM_MODE_BLEND_PREMULTI) |
++						   BIT(DRM_MODE_BLEND_COVERAGE) |
++						   BIT(DRM_MODE_BLEND_PIXEL_NONE));
++	if (err)
++		DRM_ERROR("failed to create property: blend_mode\n");
++
+ 	drm_plane_helper_add(plane, &mtk_plane_helper_funcs);
+ 
+ 	return 0;
 
 -- 
 2.43.0
