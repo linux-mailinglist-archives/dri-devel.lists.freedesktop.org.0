@@ -2,81 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF44933DFC
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 15:52:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E367E933E12
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 15:57:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48D9D10E0CB;
-	Wed, 17 Jul 2024 13:52:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 011A610E1B4;
+	Wed, 17 Jul 2024 13:57:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="J6U9cufU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EsuHxOIH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8329610E111
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 13:52:51 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2ebe40673d8so87026651fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 06:52:51 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED3F410E0EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 13:57:31 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2ebe3fb5d4dso8604501fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 06:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721224369; x=1721829169; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1721224650; x=1721829450; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qTZ1w34LpY+Iwl2cOExG2kPyEczemOKdDN28ITn5flU=;
- b=J6U9cufUb16vsQSMr46sjlbaG8Bk7ryb/wWJodkOcOSI0bPeg7e5E5pyS1iII3wrYB
- nWm0dqk8VCN6DLbPX+7DxPlM6kv73Ys4ZpF0X4jqO2OgjeZXR8Goxd3t+VbfdHQwTQZI
- y8rRNteE12/2JRkDLgaKZw9pF7aA+7sn2UJfA4e3DRLbKT/M75j+5c8s2aViy93i1mGB
- hH181fMiZXd+pwlKWa1DRndS9MzGnjpWGgWDMDCZViiYiprU5fLz0WJM8JAKw2RE6IMb
- vJhgOzEKGYAPNcrvymC0/bDs64bd5tnfQFKP1NoEUTXKXWG0CXUAf+bXlo7MLN+j+Xr5
- HoSQ==
+ bh=mHJbV+bzx4RI8mDOQI+N5X7vHq/DAFW5fyNCzOVzMjI=;
+ b=EsuHxOIHOl3bmAbc2wORAjAxqQEUxQO9aBbJTnDnAhxCi+mqGPOOw73VyJH+rX13uE
+ oJ7oFUB3QV8EOpapAkwAScMhQKAPTqkdzy4msIc1k23EXVrxHwpQ7fWxtVqmAwJGICcr
+ b1IyFQQegsYI9T8NSf/beIh50gLUJVS7Il48sTjAanghYNEGxKXvwcUB5x3DMCFFDmhy
+ fKA6L4oTgcxOByYne+xYpLhYEQj30eYkIXDiLvnU2znlZiV91+jeGcTbhThOjjrEie7i
+ aHIvOoCH9A1PuQ5+Ztw/DKzyaPKVwZqe4z19HWHjfccB6+5dfLNC1JHuORREjFsSdQeu
+ amiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721224369; x=1721829169;
+ d=1e100.net; s=20230601; t=1721224650; x=1721829450;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qTZ1w34LpY+Iwl2cOExG2kPyEczemOKdDN28ITn5flU=;
- b=SgbeQCtekgREftcbHOyuAUxDLQ5gZxYcpSR48XvnUM71v86MnncMZJ6shLx2w+dJQW
- b0Hy5HQ8uj/hGmmrPwXaPzBPSm4gr3rFouINZB9KpdeeGQbI+SUXgn94ps4zUXRnOA9i
- 1EmdHjGo1v+dfgIpJVThSJA+bU8Cu/dNbbQDOHLE02NOFvWmqhDHM/VUjYMv/SRWUozX
- QU31AszA1L88AHzIck3SWjgfDZVVDUlWV3b0WjkFe4iWWFR+ffoj7knIWYGOpETnRv/K
- OlIvZLi5pgzpmWJRMmSbiV5Icz5sBO0p9mn5uYi9209JNBYJVyY9oqt16/ygAKelUPRU
- yrvg==
+ bh=mHJbV+bzx4RI8mDOQI+N5X7vHq/DAFW5fyNCzOVzMjI=;
+ b=NcC/QH6wbNBpYT1ftRiDD+mtmj/vAW1xl/e4KIUtz91ny4T+v6mdsp70ohJMmevZNT
+ 0sY0UyJaBYGOi/qsTcJ9rAsJjbPJPlbW10fLvwjIB5YeUT2oNB66xN/RpqjZ7J73PzHZ
+ Llma8dTubQjjRxyoHQFbXQdcSNhuIL1DVxdwqa61W60HehKJebeqnKqR/Dfu3nCMc+FD
+ 8duXGSukI9ERVVUFaxiBsxe4VbU48ZQemmHbFZp6gmbUS6Kdd2HGtFICFmSCK5i50lTe
+ /xJ7s1dlw32GoOpYLCKs/SrrPwK0i7o4Ka1O6DtbvLjDaCs+0ebNdp232dJ+ieOEiwVQ
+ LJyw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVheQlPLdbZrK8v5jdbBIWCD1fL5UcX0SkGhXxhlt2lfPPW60bJtUQIq+lPR3b1vMG1+1OJ3yrSB60SqRjl4rx0bwZara22A1u0tU/bowJK
-X-Gm-Message-State: AOJu0YzPFpDxDp+dVhlactXNwwTsqd3mf+/k9f4+ao2HMCUHQ+I2CLd1
- WxP4oLOj/sSgqw0Lp/bONwH/l5gNlqSW0oXDDERkP2nWneSgMVWPY7jWMqZFpV4=
-X-Google-Smtp-Source: AGHT+IE6OoXjvcCZm9Pc74dlkP2dbs85YedF8j5WiIaAFphQI9CaG9G+19xV9GW3eCQ2VKK4rEBu8A==
-X-Received: by 2002:a05:6512:10d5:b0:52c:e402:4dc1 with SMTP id
- 2adb3069b0e04-52ee543da79mr1235817e87.55.1721224369292; 
- Wed, 17 Jul 2024 06:52:49 -0700 (PDT)
+ AJvYcCX99orapVmI6gb1pcSMbQ4zvpmue6T8Dy7DxPWiy6RP0u72TnK2t3WXxx+/L86Ou/gvpS9bwi3ghOL2koa67V2M2HCoNoiz4+/omVItIGgz
+X-Gm-Message-State: AOJu0YzgDb3cmWfwqLHPPl8qDy3SuWydMna0numWO5HapuVGDe1emPGM
+ g37xEqTv9/fwQJx8a5MBQQDfU7k3D3ascwr5R+v9eukg8Xh3FrKIdte2t2U96rQ=
+X-Google-Smtp-Source: AGHT+IG7iDrtCuBBKWvQaoQQbv/0kaeeUtziuz9N7l7vX5y+JvpROqU3u5NL1wFj8j7PpznoM4x7Ww==
+X-Received: by 2002:a05:651c:2213:b0:2ec:1df4:589b with SMTP id
+ 38308e7fff4ca-2eefcd61dd7mr7308201fa.1.1721224648985; 
+ Wed, 17 Jul 2024 06:57:28 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ed252d771sm1482228e87.124.2024.07.17.06.52.48
+ 38308e7fff4ca-2eee19148adsm14501371fa.100.2024.07.17.06.57.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jul 2024 06:52:48 -0700 (PDT)
-Date: Wed, 17 Jul 2024 16:52:47 +0300
+ Wed, 17 Jul 2024 06:57:28 -0700 (PDT)
+Date: Wed, 17 Jul 2024 16:57:26 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge-connector: Fix double free in error handling
- paths
-Message-ID: <7nlj7lexg4hwllwaw27gtfsgvkbhlnodi3u2ckr7uwryvwkhhh@mjc5wduxripy>
-References: <20240711-bridge-connector-fix-dbl-free-v1-1-d558b2d0eb93@collabora.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ Edmund Dea <edmund.j.dea@intel.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ igt-dev@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v4 2/5] drm/drm_property: require DRM_MODE_PROP_IMMUTABLE
+ for single-value props
+Message-ID: <gbcunf7zmafn5z76mrlgldmsy74s7e6jacv53mgpym2l75uq6h@talxrisbufsw>
+References: <20240715-drm-bridge-connector-fix-hdmi-reset-v4-0-61e6417cfd99@linaro.org>
+ <20240715-drm-bridge-connector-fix-hdmi-reset-v4-2-61e6417cfd99@linaro.org>
+ <20240717-bouncy-horned-mamba-5691b8@houat>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240711-bridge-connector-fix-dbl-free-v1-1-d558b2d0eb93@collabora.com>
+In-Reply-To: <20240717-bouncy-horned-mamba-5691b8@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,22 +124,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 11, 2024 at 02:26:55PM GMT, Cristian Ciocaltea wrote:
-> The recent switch to drmm allocation in drm_bridge_connector_init() may
-> cause double free on bridge_connector in some of the error handling
-> paths.
+On Wed, Jul 17, 2024 at 03:42:46PM GMT, Maxime Ripard wrote:
+> Hi,
 > 
-> Drop the explicit kfree() calls on bridge_connector.
+> On Mon, Jul 15, 2024 at 09:33:02AM GMT, Dmitry Baryshkov wrote:
+> > Document that DRM_MODE_PROP_IMMUTABLE must be set for the properties
+> > that are immutable by definition - e.g. ranges with min == max or enums
+> > with a single value. This matches the behaviour of the IGT tests, see
+> > kms_properties.c / validate_range_prop(), validate_enum_prop(),
+> > validate_bitmask_prop().
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
-> Fixes: c12907be57b1 ("drm/bridge-connector: switch to using drmm allocations")
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  drivers/gpu/drm/drm_bridge_connector.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+> We had a discussion yesterday about it on IRC with Sima, Simon and
+> Xaver.
 > 
+> https://oftc.irclog.whitequark.org/dri-devel/2024-07-16#33374622;
+> 
+> The conclusion was that it would create an inconsistency between drivers
+> on whether a given property is immutable or not, which will lead to more
+> troubles for userspace.
+> 
+> It's not clear why Ville added that check in the first place, so the
+> best course of action is to remove the IGT test and get the discussion
+> started there.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+Ack, I'll work on removing those tests later today.
 
 -- 
 With best wishes
