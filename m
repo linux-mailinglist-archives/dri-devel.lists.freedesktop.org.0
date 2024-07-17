@@ -2,113 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E367E933E12
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 15:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91915933E86
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 16:33:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 011A610E1B4;
-	Wed, 17 Jul 2024 13:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF32810E122;
+	Wed, 17 Jul 2024 14:33:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EsuHxOIH";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="urj8wX2S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P+ESAJp7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="urj8wX2S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P+ESAJp7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED3F410E0EF
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 13:57:31 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2ebe3fb5d4dso8604501fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 06:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721224650; x=1721829450; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=mHJbV+bzx4RI8mDOQI+N5X7vHq/DAFW5fyNCzOVzMjI=;
- b=EsuHxOIHOl3bmAbc2wORAjAxqQEUxQO9aBbJTnDnAhxCi+mqGPOOw73VyJH+rX13uE
- oJ7oFUB3QV8EOpapAkwAScMhQKAPTqkdzy4msIc1k23EXVrxHwpQ7fWxtVqmAwJGICcr
- b1IyFQQegsYI9T8NSf/beIh50gLUJVS7Il48sTjAanghYNEGxKXvwcUB5x3DMCFFDmhy
- fKA6L4oTgcxOByYne+xYpLhYEQj30eYkIXDiLvnU2znlZiV91+jeGcTbhThOjjrEie7i
- aHIvOoCH9A1PuQ5+Ztw/DKzyaPKVwZqe4z19HWHjfccB6+5dfLNC1JHuORREjFsSdQeu
- amiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721224650; x=1721829450;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mHJbV+bzx4RI8mDOQI+N5X7vHq/DAFW5fyNCzOVzMjI=;
- b=NcC/QH6wbNBpYT1ftRiDD+mtmj/vAW1xl/e4KIUtz91ny4T+v6mdsp70ohJMmevZNT
- 0sY0UyJaBYGOi/qsTcJ9rAsJjbPJPlbW10fLvwjIB5YeUT2oNB66xN/RpqjZ7J73PzHZ
- Llma8dTubQjjRxyoHQFbXQdcSNhuIL1DVxdwqa61W60HehKJebeqnKqR/Dfu3nCMc+FD
- 8duXGSukI9ERVVUFaxiBsxe4VbU48ZQemmHbFZp6gmbUS6Kdd2HGtFICFmSCK5i50lTe
- /xJ7s1dlw32GoOpYLCKs/SrrPwK0i7o4Ka1O6DtbvLjDaCs+0ebNdp232dJ+ieOEiwVQ
- LJyw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX99orapVmI6gb1pcSMbQ4zvpmue6T8Dy7DxPWiy6RP0u72TnK2t3WXxx+/L86Ou/gvpS9bwi3ghOL2koa67V2M2HCoNoiz4+/omVItIGgz
-X-Gm-Message-State: AOJu0YzgDb3cmWfwqLHPPl8qDy3SuWydMna0numWO5HapuVGDe1emPGM
- g37xEqTv9/fwQJx8a5MBQQDfU7k3D3ascwr5R+v9eukg8Xh3FrKIdte2t2U96rQ=
-X-Google-Smtp-Source: AGHT+IG7iDrtCuBBKWvQaoQQbv/0kaeeUtziuz9N7l7vX5y+JvpROqU3u5NL1wFj8j7PpznoM4x7Ww==
-X-Received: by 2002:a05:651c:2213:b0:2ec:1df4:589b with SMTP id
- 38308e7fff4ca-2eefcd61dd7mr7308201fa.1.1721224648985; 
- Wed, 17 Jul 2024 06:57:28 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2eee19148adsm14501371fa.100.2024.07.17.06.57.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jul 2024 06:57:28 -0700 (PDT)
-Date: Wed, 17 Jul 2024 16:57:26 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
- Edmund Dea <edmund.j.dea@intel.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Kevin Hilman <khilman@baylibre.com>, 
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Biju Das <biju.das.jz@bp.renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Jyri Sarha <jyri.sarha@iki.fi>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- igt-dev@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] drm/drm_property: require DRM_MODE_PROP_IMMUTABLE
- for single-value props
-Message-ID: <gbcunf7zmafn5z76mrlgldmsy74s7e6jacv53mgpym2l75uq6h@talxrisbufsw>
-References: <20240715-drm-bridge-connector-fix-hdmi-reset-v4-0-61e6417cfd99@linaro.org>
- <20240715-drm-bridge-connector-fix-hdmi-reset-v4-2-61e6417cfd99@linaro.org>
- <20240717-bouncy-horned-mamba-5691b8@houat>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B82B10E0D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 14:33:29 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C7F1A21AEB;
+ Wed, 17 Jul 2024 14:33:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1721226807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=aGx18Tet+kIVCVxSDSxCfmIiWEvl6N975D7iBa4EjqU=;
+ b=urj8wX2S+2XPZruqksFgbHfeMwH0VDwoLPKdg64h9VwcP1A7XwSYbLfFix71b7iB9P6wgk
+ UGsanVyl6wfa0DiVEPF0PL5MJtOFxSlqvXwcz9IryfCNAUqCeDSSjNOglxLOvQ9La40Bw4
+ bMzY7SiOPYN8wKbPc/pyvjQdLTcg9C0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1721226807;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=aGx18Tet+kIVCVxSDSxCfmIiWEvl6N975D7iBa4EjqU=;
+ b=P+ESAJp7u36rcbytmsOn8VK0BTa45/ajDfOAtVaz5A+Qn6EBsXETJqZDInsLl+LkCXB6/d
+ lofJTv5c98hoKUDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1721226807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=aGx18Tet+kIVCVxSDSxCfmIiWEvl6N975D7iBa4EjqU=;
+ b=urj8wX2S+2XPZruqksFgbHfeMwH0VDwoLPKdg64h9VwcP1A7XwSYbLfFix71b7iB9P6wgk
+ UGsanVyl6wfa0DiVEPF0PL5MJtOFxSlqvXwcz9IryfCNAUqCeDSSjNOglxLOvQ9La40Bw4
+ bMzY7SiOPYN8wKbPc/pyvjQdLTcg9C0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1721226807;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=aGx18Tet+kIVCVxSDSxCfmIiWEvl6N975D7iBa4EjqU=;
+ b=P+ESAJp7u36rcbytmsOn8VK0BTa45/ajDfOAtVaz5A+Qn6EBsXETJqZDInsLl+LkCXB6/d
+ lofJTv5c98hoKUDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F3CE1368F;
+ Wed, 17 Jul 2024 14:33:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id hCenITfWl2YmCgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 17 Jul 2024 14:33:27 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/5] drm/ast: Fix DP hotplugging and clean up
+Date: Wed, 17 Jul 2024 16:24:15 +0200
+Message-ID: <20240717143319.104012-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240717-bouncy-horned-mamba-5691b8@houat>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,33 +106,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 17, 2024 at 03:42:46PM GMT, Maxime Ripard wrote:
-> Hi,
-> 
-> On Mon, Jul 15, 2024 at 09:33:02AM GMT, Dmitry Baryshkov wrote:
-> > Document that DRM_MODE_PROP_IMMUTABLE must be set for the properties
-> > that are immutable by definition - e.g. ranges with min == max or enums
-> > with a single value. This matches the behaviour of the IGT tests, see
-> > kms_properties.c / validate_range_prop(), validate_enum_prop(),
-> > validate_bitmask_prop().
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> We had a discussion yesterday about it on IRC with Sima, Simon and
-> Xaver.
-> 
-> https://oftc.irclog.whitequark.org/dri-devel/2024-07-16#33374622;
-> 
-> The conclusion was that it would create an inconsistency between drivers
-> on whether a given property is immutable or not, which will lead to more
-> troubles for userspace.
-> 
-> It's not clear why Ville added that check in the first place, so the
-> best course of action is to remove the IGT test and get the discussion
-> started there.
+Here are a number of updates for ast's ASTDP transmitter code.
 
-Ack, I'll work on removing those tests later today.
+So far the ast driver required the DisplayPort to be connected
+at boot. Later detection was not supported. Re-connecting the
+cable was also not supported. Once atomic_disable powered off
+the physical ASTDP connector, there was no way of detecting a
+conencted display. Patch 1 makes Hot Plug Detection work. If
+ncesessary, the connector's detect helper powers up the physical
+connector to read the HPD status.
+
+That's a good oportunity to clean up ast's whole detection code
+for ASTDP transmitters. So patch 2 to 4 remove duplicated status
+tests throughout the ASTDP code.
+
+Patch 5 simplified the code for reading the display's EDID data
+from the firmware.
+
+Tested on AST2600 hardware with an ASTDP transmitter.
+
+Thomas Zimmermann (5):
+  drm/ast: astdp: Wake up during connector status detection
+  drm/ast: astdp: Test firmware status once during probing
+  drm/ast: astdp: Only test HDP state in ast_astdp_is_connected()
+  drm/ast: astdp: Perform link training during atomic_enable
+  drm/ast: astdp: Clean up EDID reading
+
+ drivers/gpu/drm/ast/ast_dp.c   | 186 +++++++++++++++------------------
+ drivers/gpu/drm/ast/ast_drv.h  |   4 +-
+ drivers/gpu/drm/ast/ast_main.c |   6 +-
+ drivers/gpu/drm/ast/ast_mode.c |  31 +++++-
+ drivers/gpu/drm/ast/ast_post.c |   2 +-
+ drivers/gpu/drm/ast/ast_reg.h  |  22 ++--
+ 6 files changed, 126 insertions(+), 125 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.45.2
+
