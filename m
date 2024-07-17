@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF18933814
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 09:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DB1933823
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 09:41:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B3F10E9D6;
-	Wed, 17 Jul 2024 07:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31BAC10E9DE;
+	Wed, 17 Jul 2024 07:41:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t2iTlWay";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="NKmuhs5m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E929310E9D6
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 07:36:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 853E5CE168C;
- Wed, 17 Jul 2024 07:36:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09BD5C32782;
- Wed, 17 Jul 2024 07:36:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721201772;
- bh=DDscfeFdgVitL5WGsurjRFhEaiQNw6wovwBI8OWQiyM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=t2iTlWayEv7uaa8ulrsaBTC3XdATDPEITl8I1CWhBPW3HqnYdwQB6h0UR1D/F6BxS
- YEf37O6bwlCDaVlrXZRYqGlcVk7JeeIcwaT76HgDx1D/7mfuN1sVpDTOsv+C82Ng6g
- AV9ZAvoXG6r0sEqCnwOYqotLoijzlmyWpH3nQLh4bEC4kEckLelc4XgHu3VJQfbaIO
- FP36m4RZvdYfo2xBcuj+5qwl8d5GaPckOktQhi6Yo0iBB66T0xCXRlBoVtTzOLRuFz
- 8n03KzVjW3cwk2z1N8At5bdgec9JY7Ps20O/inY4M8Xi+l4rPXTmAmwb6gNWTcu2gM
- EX9eL1imU7Wug==
-Date: Wed, 17 Jul 2024 10:36:07 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Omer Shpigelman <oshpigelman@habana.ai>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "ogabbay@kernel.org" <ogabbay@kernel.org>,
- Zvika Yehudai <zyehudai@habana.ai>
-Subject: Re: [PATCH 11/15] RDMA/hbl: add habanalabs RDMA driver
-Message-ID: <20240717073607.GF5630@unreal>
-References: <20240617190429.GB4025@unreal>
- <461bf44e-fd2f-4c8b-bc41-48d48e5a7fcb@habana.ai>
- <20240618125842.GG4025@unreal>
- <b4bda963-7026-4037-83e6-de74728569bd@habana.ai>
- <20240619105219.GO4025@unreal>
- <a5554266-55b7-4e96-b226-b686b8a6af89@habana.ai>
- <20240712130856.GB14050@ziepe.ca>
- <2c767517-e24c-416b-9083-d3a220ffc14c@habana.ai>
- <20240716134013.GF14050@ziepe.ca>
- <ca6c3901-c0c5-4f35-934b-2b4c9f1a61dc@habana.ai>
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3320110E9DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 07:41:52 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ca6c3901-c0c5-4f35-934b-2b4c9f1a61dc@habana.ai>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1721202111;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9kdghzpYTLountuHMAHm85KxWPtE0BOZWLjcep8l9Ec=;
+ b=NKmuhs5moRNzolDxH6jfC+IhJtKWryK3UlICMzWitzYON8ZOS1+42mUBhSfuY0AbCbJ4Oc
+ UjjjqpfDcIYqHOONIL+P7Iwd6oslAisgion7C+hTm2sIB049cFVLLDw3yVi6c8JLCkya2J
+ eh0G3aYQc9ZmlRdlzfqevWHEgXsce6r07/5MruObGFYL0195icUk60j/lC2X9JPZrmnie/
+ x11wGANJO7n86hgZJrDgQGItTz/V5nB8c2eqpmAvWggPoKlDWI7OpovGBmrOrXJReG2zdR
+ zjojh08uX5ZyhceBZL1JUVSzXIU03NGAPgrUh9agaJ6EybPqPIHJHWQ2reWLcQ==
+Date: Wed, 17 Jul 2024 09:41:50 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/rockchip: dsi: Reset ISP1 DPHY before powering it on
+In-Reply-To: <pb477qi34clwdvrdrdparff5jvl6emdje3aswpylovejh2wx3q@vzwju366kkji>
+References: <6e0ce232acfe952970e9b37402fe08a3678aa43a.1721196758.git.dsimic@manjaro.org>
+ <e79cbc94804e93464be62e7731def4fa@manjaro.org>
+ <pb477qi34clwdvrdrdparff5jvl6emdje3aswpylovejh2wx3q@vzwju366kkji>
+Message-ID: <287caa145232a310c0e40a8b761bcd9a@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,71 +63,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 17, 2024 at 07:08:59AM +0000, Omer Shpigelman wrote:
-> On 7/16/24 16:40, Jason Gunthorpe wrote:
-> > On Sun, Jul 14, 2024 at 10:18:12AM +0000, Omer Shpigelman wrote:
-> >> On 7/12/24 16:08, Jason Gunthorpe wrote:
-> >>> [You don't often get email from jgg@ziepe.ca. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> >>>
-> >>> On Fri, Jun 28, 2024 at 10:24:32AM +0000, Omer Shpigelman wrote:
-> >>>
-> >>>> We need the core driver to access the IB driver (and to the ETH driver as
-> >>>> well). As you wrote, we can't use exported symbols from our IB driver nor
-> >>>> rely on function pointers, but what about providing the core driver an ops
-> >>>> structure? meaning exporting a register function from the core driver that
-> >>>> should be called by the IB driver during auxiliary device probe.
-> >>>> Something like:
-> >>>>
-> >>>> int hbl_cn_register_ib_aux_dev(struct auxiliary_device *adev,
-> >>>>                              struct hbl_ib_ops *ops)
-> >>>> {
-> >>>> ...
-> >>>> }
-> >>>> EXPORT_SYMBOL(hbl_cn_register_ib_aux_dev);
-> >>>
-> >>> Definately do not do some kind of double-register like this.
-> >>>
-> >>> The auxiliary_device scheme can already be extended to provide ops for
-> >>> each sub device.
-> >>>
-> >>> Like
-> >>>
-> >>> struct habana_driver {
-> >>>    struct auxiliary_driver base;
-> >>>    const struct habana_ops *ops;
-> >>> };
-> >>>
-> >>> If the ops are justified or not is a different question.
-> >>>
-> >>
-> >> Well, I suggested this double-register option because I got a comment that
-> >> the design pattern of embedded ops structure shouldn't be used.
-> >> So I'm confused now...
-> > 
-> > Yeah, don't stick ops in random places, but the device_driver is the
-> > right place.
-> > 
+Hello Ondrej,
+
+On 2024-07-17 09:32, Ondřej Jirman wrote:
+> On Wed, Jul 17, 2024 at 08:48:29AM GMT, Dragan Simic wrote:
+>> Hello all,
+>> 
+>> On 2024-07-17 08:29, Dragan Simic wrote:
+>> > From: Ondrej Jirman <megi@xff.cz>
+>> >
+>> > After a suspend and resume cycle, ISP1 stops receiving data, as observed
+>> > on the Pine64 PinePhone Pro, which is based on the Rockchip RK3399 SoC.
+>> > Re-initializing DPHY during the PHY power-on, if the SoC variant
+>> > supports
+>> > initialization, fixes this issue.
+>> >
+>> > [ dsimic: Added more details to the commit summary and description ]
+>> >
+>> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+>> > Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+>> > ---
+>> >  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 8 ++++++++
+>> >  1 file changed, 8 insertions(+)
+>> >
+>> > diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> > b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> > index 4cc8ed8f4fbd..9ad48c6dfac3 100644
+>> > --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> > +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> > @@ -1240,6 +1240,14 @@ static int dw_mipi_dsi_dphy_power_on(struct phy
+>> > *phy)
+>> >  		goto err_phy_cfg_clk;
+>> >  	}
+>> >
+>> > +	if (dsi->cdata->dphy_rx_init) {
+>> > +		ret = dsi->cdata->dphy_rx_init(phy);
+>> > +		if (ret < 0) {
+>> > +			DRM_DEV_ERROR(dsi->dev, "hardware-specific phy init failed: %d\n",
+>> > ret);
+>> > +			goto err_pwr_on;
+>> > +		}
+>> > +	}
+>> > +
+>> >  	/* do soc-variant specific init */
+>> >  	if (dsi->cdata->dphy_rx_power_on) {
+>> >  		ret = dsi->cdata->dphy_rx_power_on(phy);
+>> 
+>> After thinking a bit more about this patch in its original form [1]
+>> that's preserved above, I think it would be better to move the
+>> additional DPHY initialization to dw_mipi_dsi_rockchip_resume(),
+>> because that function seems to be the right place for such fixes.
+>> 
+>> Please, let me know your thoughts.
 > 
-> Sorry, let me explain again. My original code has an ops structure
-> exactly like you are suggesting now (see struct hbl_aux_dev in the first
-> patch of the series). But I was instructed not to use this ops structure
-> and to rely on exported symbols for inter-driver communication.
-> I'll be happy to use this ops structure like in your example rather than
-> converting my code to use exported symbols.
-> Leon - am I missing anything? what's the verdict here?
+> That also works (see attachment) to fix the original issue in the 
+> commit
+> message, but if you keep the stream on across suspend/resume it does 
+> halt so
+> it's not a complete solution either.
 
-You are missing the main sentence from Jason's response:  "don't stick ops in random places".
+Great, thanks for the attached patch.  I assume that you already have
+a patch that performs the other required operations on suspend and 
+resume,
+i.e. stops the stream and restarts it?
 
-It is fine to have ops in device driver, so the core driver can call them. However, in your
-original code, you added ops everywhere. It caused to the need to implement module reference
-counting and crazy stuff like calls to lock and unlock functions from the aux driver to the core.
+How about dropping my "handled" variant of your patch and having you
+submit the patch you sent as attachment, and the additional patch you
+described as also needed?
 
-Verdict is still the same. Core driver should provide EXPORT_SYMBOLs, so the aux driver can call
-them directly and enjoy from proper module loading and unloading.
-
-The aux driver can have ops in the device driver, so the core driver can call them to perform something
-specific for that aux driver.
-
-Calls between aux drivers should be done via the core driver.
-
-Thanks
+>> [1] 
+>> https://megous.com/git/linux/commit/?h=orange-pi-6.9&id=ed7992f668a1e529719ee6847ca114f9b67efacb
