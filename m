@@ -2,145 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D25493497E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 10:01:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57EE3934B73
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 12:04:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 790FD10E5A2;
-	Thu, 18 Jul 2024 08:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD2010E70A;
+	Thu, 18 Jul 2024 10:04:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="R6+ylzkO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ofrNZWHu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R6+ylzkO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ofrNZWHu";
+	dkim=pass (2048-bit key; unprotected) header.d=compal-corp-partner-google-com.20230601.gappssmtp.com header.i=@compal-corp-partner-google-com.20230601.gappssmtp.com header.b="Pt0ZNOcP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF6F10E5AA
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 08:01:33 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7ADA221C40;
- Thu, 18 Jul 2024 08:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1721289691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=b+cwekz6JNY5OcZ0sruWCrXs6uHUH1Ohiv3TlnBw1UI=;
- b=R6+ylzkObWbAkFxuFJmgR67P6inCSPHnAQiNLlrdz7xRxu4UKhNhhUiZn3sJDnIVN0kxBG
- np7IyQPGqBniOgDkWzFWvRzemtJ+SbZWxNt5jrU3Q1Dpf0n26xZjKkgufJxX01n5Ho6odD
- cRhutD1qErYc9dm7Z/2r7GqbN+XaSWc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1721289691;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=b+cwekz6JNY5OcZ0sruWCrXs6uHUH1Ohiv3TlnBw1UI=;
- b=ofrNZWHuhTqLarU+N8M1MB6zm80fErr+mfuHueKH9yQR/eayYhvPxS9jiRUc8DjoFp+LKM
- gwlhAsTwQSV7AkAQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=R6+ylzkO;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ofrNZWHu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1721289691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=b+cwekz6JNY5OcZ0sruWCrXs6uHUH1Ohiv3TlnBw1UI=;
- b=R6+ylzkObWbAkFxuFJmgR67P6inCSPHnAQiNLlrdz7xRxu4UKhNhhUiZn3sJDnIVN0kxBG
- np7IyQPGqBniOgDkWzFWvRzemtJ+SbZWxNt5jrU3Q1Dpf0n26xZjKkgufJxX01n5Ho6odD
- cRhutD1qErYc9dm7Z/2r7GqbN+XaSWc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1721289691;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=b+cwekz6JNY5OcZ0sruWCrXs6uHUH1Ohiv3TlnBw1UI=;
- b=ofrNZWHuhTqLarU+N8M1MB6zm80fErr+mfuHueKH9yQR/eayYhvPxS9jiRUc8DjoFp+LKM
- gwlhAsTwQSV7AkAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 367EE1379D;
- Thu, 18 Jul 2024 08:01:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id BI75C9vLmGYfHAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 18 Jul 2024 08:01:31 +0000
-Message-ID: <17d35c0e-1389-42d0-b94c-82a0575102f2@suse.de>
-Date: Thu, 18 Jul 2024 10:01:30 +0200
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3E2410E039
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 09:39:30 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-1fb3b7d0d56so36352585ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 02:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=compal-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1721209170; x=1721813970; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=udi6vuEL8EfSoejC7wROBHfbEhYrKfbRvcH4IT6/Cfo=;
+ b=Pt0ZNOcPFFBRF4tukrrHwZP+XyHlQP4ODWm00QHOM/AVvRXKOj3RKdPT45UitE72jt
+ Sma+bIPYoEpXfgj3q62wKNlzWa48VtlEUWQ4s9/R1JzrmxqlCSctb+46btw3jkbaMnhZ
+ rRlAhb4+TqmcPoolOvcoqqtlnoyxAsMb0F7aJdwqhpavHzYIFwlIfb/mH7qGW4k51XH/
+ PanCRpzgHfc0g2nntjYyeFGqgcFfN/sgRqUshSZUSaYw0v++CeEZP2tnBMJENBciieEI
+ HrXyUxC00nIMI9xgaVcWwc5b01WZYgr7EhN5kHFv1mvmVUim6wE0rP98O3iWAqioiutd
+ 5O9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721209170; x=1721813970;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=udi6vuEL8EfSoejC7wROBHfbEhYrKfbRvcH4IT6/Cfo=;
+ b=CXnPzOS0gSCrPbQS/+CeTDrfplIjjj8999VFtCHETwI5oJtJrLYEl+sPS5ML2qZTXv
+ c821I8lpE/OMabT6i/0Me9kpUxddy98jAhvmK4NMLWU9Z5D3XqgRO3xotmBORCs0l3o+
+ VWNx4okvtAPCTWPvCQFLBG6HtEYlLBn8S25gV4RxN9I462DOy45sb9pSxMWaCqk3jWGs
+ w5+4CPcE//nvtU2EXow3qyXgUWUNb4ZV8ODyQSDDtz5OwysWwonbAntiRntW7+4Iuxo+
+ QFuduiwPhxt1XdtsMKeE/qTRTtiHkqalh3v5xIRsSAWaDOPM1SgAsCcY+7d4jHXbYqlF
+ xCOw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX9nfugva5wjRgCJw4uq9RL7jOlfRs8Ya9sjnnfj+bB8H1yqr7z5MKVYETQlTYMkjZLMsNJ6KJ9tvC6ie+zZIpFgKj72W6qgvtotpLBxgC4
+X-Gm-Message-State: AOJu0YxSK/J7RW9Fkr7PdXNR41g3lPY75Fhz3erRBJ2w/HC35ncgkKw0
+ nq6E/sGxFZ2qTi5BAhPURu2u38FmGk/CHlgcfn39t3MNQ8sQnB3gc7N/RO7hRdw=
+X-Google-Smtp-Source: AGHT+IEAwPTOPdboUqTGUd/gpnnVP+Cf23wdFQDk+oEjHsSJVsdqw+rn5rtdH92Al63psF5p75j6Wg==
+X-Received: by 2002:a17:902:f684:b0:1fb:358a:2f65 with SMTP id
+ d9443c01a7336-1fc4e1500c1mr8894425ad.37.1721209170382; 
+ Wed, 17 Jul 2024 02:39:30 -0700 (PDT)
+Received: from terryhsiao-Latitude-5490..
+ (2001-b011-2016-5634-6781-be1d-335b-1af9.dynamic-ip6.hinet.net.
+ [2001:b011:2016:5634:6781:be1d:335b:1af9])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1fc0bb702fbsm71628145ad.28.2024.07.17.02.39.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Jul 2024 02:39:30 -0700 (PDT)
+From: Terry Hsiao <terry_hsiao@compal.corp-partner.google.com>
+To: linux-kernel@vger.kernel.org
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Terry Hsiao <terry_hsiao@compal.corp-partner.google.com>
+Subject: [PATCH v1] drm/panel-edp: Add panels with conservative timings
+Date: Wed, 17 Jul 2024 17:39:25 +0800
+Message-Id: <20240717093925.3017-1-terry_hsiao@compal.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Fix black screen after resume
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jammy Huang <jammy_huang@aspeedtech.com>, jfalempe@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@redhat.com,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Cary Garrett <cogarre@gmail.com>
-References: <20240718030352.654155-1-jammy_huang@aspeedtech.com>
- <4bcb752a-1ef8-453f-a04e-05017920a9d8@suse.de>
-Content-Language: en-US
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <4bcb752a-1ef8-453f-a04e-05017920a9d8@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 7ADA221C40
-X-Spamd-Result: default: False [-1.50 / 50.00];
- DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; XM_UA_NO_VERSION(0.01)[];
- MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FREEMAIL_TO(0.00)[aspeedtech.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,gmail.com];
- MID_RHS_MATCH_FROM(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[10]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:email, suse.de:dkim,
- suse.de:email, imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
-X-Spam-Score: -1.50
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Mailman-Approved-At: Thu, 18 Jul 2024 10:03:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,66 +90,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The 6 panels are used on Mediatek MT8186 Chromebooks
+- B116XAT04.1  (06AF/B4C4)
+- NV116WHM-A4D (09E5/FA0C)
+- N116BCP-EA2  (0DAE/6111)
+- B116XTN02.3  (06AF/AA73)
+- B116XAN06.1  (06AF/99A1)
+- N116BCA-EA2  (0DAE/5D11)
 
+Signed-off-by: Terry Hsiao <terry_hsiao@compal.corp-partner.google.com>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Am 18.07.24 um 08:50 schrieb Thomas Zimmermann:
-> (Cary, this looks like it fixes the problem you reported.)
->
-> Hi Jammy
->
-> Am 18.07.24 um 05:03 schrieb Jammy Huang:
->> Suspend will disable pcie device. Thus, resume should do full hw
->> initialization again.
->> Add some APIs to ast_drm_thaw() before ast_post_gpu() to fix the issue.
->>
->> Fixes: 5b71707dd13 ("drm/ast: Enable and unlock device access early 
->> during init")
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-> Thanks a lot for this fix.
->
-> Best regards
-> Thomas
->
->> ---
->>   drivers/gpu/drm/ast/ast_drv.c | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_drv.c 
->> b/drivers/gpu/drm/ast/ast_drv.c
->> index f8c49ba68e78..45a9c7bf49c8 100644
->> --- a/drivers/gpu/drm/ast/ast_drv.c
->> +++ b/drivers/gpu/drm/ast/ast_drv.c
->> @@ -391,6 +391,11 @@ static int ast_drm_freeze(struct drm_device *dev)
->>     static int ast_drm_thaw(struct drm_device *dev)
->>   {
->> +    struct ast_device *ast = to_ast_device(dev);
->> +
->> +    ast_enable_vga(ioregs);
->> +    ast_open_key(ioregs);
->> +    ast_enable_mmio(dev, ioregs);
-
-BTW I got a build error. I'll fix that up before committing the patch.
-
-Best regards
-Thomas
-
->>       ast_post_gpu(dev);
->>         return drm_mode_config_helper_resume(dev);
->>
->> base-commit: e9d22f7a6655941fc8b2b942ed354ec780936b3e
->> prerequisite-patch-id: a03a33902f33bcc38091e2cdce9d79f630464c30
->> prerequisite-patch-id: 505779a1e2094f2ee2f2a55ad44aac5cd1d5342f
->
-
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index f85a6404ba58..ac280607998f 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1845,8 +1845,11 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x635c, &delay_200_500_e50, "B116XAN06.3"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x639c, &delay_200_500_e50, "B140HAK02.7"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x723c, &delay_200_500_e50, "B140XTN07.2"),
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0x73aa, &delay_200_500_e50, "B116XTN02.3"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133UAN01.0"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xd497, &delay_200_500_e50, "B120XAN01.0"),
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0xa199, &delay_200_500_e50, "B116XAN06.1"),
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0xc4b4, &delay_200_500_e50, "B116XAT04.1"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xf390, &delay_200_500_e50, "B140XTN07.7"),
+ 
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0607, &delay_200_500_e200, "Unknown"),
+@@ -1901,6 +1904,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "NT140FHM-N47"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "NT116WHM-N44"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cfa, &delay_200_500_e50, "NV116WHM-A4D"),
+ 
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1130, &delay_200_500_e50, "N116BGE-EB2"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1132, &delay_200_500_e80_d50, "N116BGE-EA2"),
+@@ -1916,8 +1920,10 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1156, &delay_200_500_e80_d50, "Unknown"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1157, &delay_200_500_e80_d50, "N116BGE-EA2"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115b, &delay_200_500_e80_d50, "N116BCN-EB1"),
++	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115d, &delay_200_500_e80_d50, "N116BCA-EA2"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115e, &delay_200_500_e80_d50, "N116BCA-EA1"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1160, &delay_200_500_e80_d50, "N116BCJ-EAK"),
++	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1161, &delay_200_500_e80, "N116BCP-EA2"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1247, &delay_200_500_e80_d50, "N120ACA-EA1"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x142b, &delay_200_500_e80_d50, "N140HCA-EAC"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x142e, &delay_200_500_e80_d50, "N140BGA-EA4"),
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.34.1
 
