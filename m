@@ -2,94 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91915933E86
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 16:33:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793B4933E7E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 16:33:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF32810E122;
-	Wed, 17 Jul 2024 14:33:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="urj8wX2S";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P+ESAJp7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="urj8wX2S";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P+ESAJp7";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9127B10E0D7;
+	Wed, 17 Jul 2024 14:33:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B82B10E0D7
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 530D010E0C2
  for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 14:33:29 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C7F1A21AEB;
- Wed, 17 Jul 2024 14:33:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1721226807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=aGx18Tet+kIVCVxSDSxCfmIiWEvl6N975D7iBa4EjqU=;
- b=urj8wX2S+2XPZruqksFgbHfeMwH0VDwoLPKdg64h9VwcP1A7XwSYbLfFix71b7iB9P6wgk
- UGsanVyl6wfa0DiVEPF0PL5MJtOFxSlqvXwcz9IryfCNAUqCeDSSjNOglxLOvQ9La40Bw4
- bMzY7SiOPYN8wKbPc/pyvjQdLTcg9C0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1721226807;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=aGx18Tet+kIVCVxSDSxCfmIiWEvl6N975D7iBa4EjqU=;
- b=P+ESAJp7u36rcbytmsOn8VK0BTa45/ajDfOAtVaz5A+Qn6EBsXETJqZDInsLl+LkCXB6/d
- lofJTv5c98hoKUDA==
-Authentication-Results: smtp-out1.suse.de;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 180D61FB84;
+ Wed, 17 Jul 2024 14:33:28 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1721226807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=aGx18Tet+kIVCVxSDSxCfmIiWEvl6N975D7iBa4EjqU=;
- b=urj8wX2S+2XPZruqksFgbHfeMwH0VDwoLPKdg64h9VwcP1A7XwSYbLfFix71b7iB9P6wgk
- UGsanVyl6wfa0DiVEPF0PL5MJtOFxSlqvXwcz9IryfCNAUqCeDSSjNOglxLOvQ9La40Bw4
- bMzY7SiOPYN8wKbPc/pyvjQdLTcg9C0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1721226807;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=aGx18Tet+kIVCVxSDSxCfmIiWEvl6N975D7iBa4EjqU=;
- b=P+ESAJp7u36rcbytmsOn8VK0BTa45/ajDfOAtVaz5A+Qn6EBsXETJqZDInsLl+LkCXB6/d
- lofJTv5c98hoKUDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F3CE1368F;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF0D41396E;
  Wed, 17 Jul 2024 14:33:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id hCenITfWl2YmCgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2L5VMTfWl2YmCgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Wed, 17 Jul 2024 14:33:27 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 0/5] drm/ast: Fix DP hotplugging and clean up
-Date: Wed, 17 Jul 2024 16:24:15 +0200
-Message-ID: <20240717143319.104012-1-tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ stable@vger.kernel.org
+Subject: [PATCH 1/5] drm/ast: astdp: Wake up during connector status detection
+Date: Wed, 17 Jul 2024 16:24:16 +0200
+Message-ID: <20240717143319.104012-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240717143319.104012-1-tzimmermann@suse.de>
+References: <20240717143319.104012-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_SEVEN(0.00)[8];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Rspamd-Queue-Id: 180D61FB84
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
+X-Spam-Score: -4.00
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -106,40 +70,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Here are a number of updates for ast's ASTDP transmitter code.
+Power up the ASTDP connector for connection status detection if the
+connector is not active. Keep it powered if a display is attached.
 
-So far the ast driver required the DisplayPort to be connected
-at boot. Later detection was not supported. Re-connecting the
-cable was also not supported. Once atomic_disable powered off
-the physical ASTDP connector, there was no way of detecting a
-conencted display. Patch 1 makes Hot Plug Detection work. If
-ncesessary, the connector's detect helper powers up the physical
-connector to read the HPD status.
+This fixes a bug where the connector does not come back after
+disconnecting the display. The encoder's atomic_disable turns off
+power on the physical connector. Further HPD reads will fail,
+thus preventing the driver from detecting re-connected displays.
 
-That's a good oportunity to clean up ast's whole detection code
-for ASTDP transmitters. So patch 2 to 4 remove duplicated status
-tests throughout the ASTDP code.
+For connectors that are actively used, only test the HPD flag without
+touching power.
 
-Patch 5 simplified the code for reading the display's EDID data
-from the firmware.
+Fixes: f81bb0ac7872 ("drm/ast: report connection status on Display Port.")
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.6+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ast/ast_dp.c   |  7 +++++++
+ drivers/gpu/drm/ast/ast_drv.h  |  1 +
+ drivers/gpu/drm/ast/ast_mode.c | 29 +++++++++++++++++++++++++++--
+ 3 files changed, 35 insertions(+), 2 deletions(-)
 
-Tested on AST2600 hardware with an ASTDP transmitter.
-
-Thomas Zimmermann (5):
-  drm/ast: astdp: Wake up during connector status detection
-  drm/ast: astdp: Test firmware status once during probing
-  drm/ast: astdp: Only test HDP state in ast_astdp_is_connected()
-  drm/ast: astdp: Perform link training during atomic_enable
-  drm/ast: astdp: Clean up EDID reading
-
- drivers/gpu/drm/ast/ast_dp.c   | 186 +++++++++++++++------------------
- drivers/gpu/drm/ast/ast_drv.h  |   4 +-
- drivers/gpu/drm/ast/ast_main.c |   6 +-
- drivers/gpu/drm/ast/ast_mode.c |  31 +++++-
- drivers/gpu/drm/ast/ast_post.c |   2 +-
- drivers/gpu/drm/ast/ast_reg.h  |  22 ++--
- 6 files changed, 126 insertions(+), 125 deletions(-)
-
+diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+index 1e9259416980..e6c7f0d64e99 100644
+--- a/drivers/gpu/drm/ast/ast_dp.c
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -158,7 +158,14 @@ void ast_dp_launch(struct drm_device *dev)
+ 			       ASTDP_HOST_EDID_READ_DONE);
+ }
+ 
++bool ast_dp_power_is_on(struct ast_device *ast)
++{
++	u8 vgacre3;
++
++	vgacre3 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xe3);
+ 
++	return !(vgacre3 & AST_DP_PHY_SLEEP);
++}
+ 
+ void ast_dp_power_on_off(struct drm_device *dev, bool on)
+ {
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index ba3d86973995..47bab5596c16 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -472,6 +472,7 @@ void ast_init_3rdtx(struct drm_device *dev);
+ bool ast_astdp_is_connected(struct ast_device *ast);
+ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
+ void ast_dp_launch(struct drm_device *dev);
++bool ast_dp_power_is_on(struct ast_device *ast);
+ void ast_dp_power_on_off(struct drm_device *dev, bool no);
+ void ast_dp_set_on_off(struct drm_device *dev, bool no);
+ void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode);
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index dc8f639e82fd..049ee1477c33 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -28,6 +28,7 @@
+  * Authors: Dave Airlie <airlied@redhat.com>
+  */
+ 
++#include <linux/delay.h>
+ #include <linux/export.h>
+ #include <linux/pci.h>
+ 
+@@ -1687,11 +1688,35 @@ static int ast_astdp_connector_helper_detect_ctx(struct drm_connector *connector
+ 						 struct drm_modeset_acquire_ctx *ctx,
+ 						 bool force)
+ {
++	struct drm_device *dev = connector->dev;
+ 	struct ast_device *ast = to_ast_device(connector->dev);
++	enum drm_connector_status status = connector_status_disconnected;
++	struct drm_connector_state *connector_state = connector->state;
++	bool is_active = false;
++
++	mutex_lock(&ast->modeset_lock);
++
++	if (connector_state && connector_state->crtc) {
++		struct drm_crtc_state *crtc_state = connector_state->crtc->state;
++
++		if (crtc_state && crtc_state->active)
++			is_active = true;
++	}
++
++	if (!is_active && !ast_dp_power_is_on(ast)) {
++		ast_dp_power_on_off(dev, true);
++		msleep(50);
++	}
+ 
+ 	if (ast_astdp_is_connected(ast))
+-		return connector_status_connected;
+-	return connector_status_disconnected;
++		status = connector_status_connected;
++
++	if (!is_active && status == connector_status_disconnected)
++		ast_dp_power_on_off(dev, false);
++
++	mutex_unlock(&ast->modeset_lock);
++
++	return status;
+ }
+ 
+ static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs = {
 -- 
 2.45.2
 
