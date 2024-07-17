@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1451C933E81
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 16:33:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3441D933E60
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2024 16:27:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C618810E115;
-	Wed, 17 Jul 2024 14:33:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8ED410E065;
+	Wed, 17 Jul 2024 14:27:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FsjgTS7J";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB7310E0D7
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 14:33:30 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6762610E065
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2024 14:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1721226422;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=03pe0yiUKP1H7BUwfos0BSDGWIzjAknzzyfMZUSQG+U=;
+ b=FsjgTS7JVAqRikJoAr5hYrXjd5Rvhgml00mMLgHwLx8JOhSOgeQrhOiSGCFxgL+iw/OyGG
+ iRlSF4Ml1TGpEQEDfqnVBvOz4p1Xx/3rD0AOD83Yijl3kPXt3Do8NXEPrCoViBDeXRm7MX
+ UsWfxl3RBiyCcRbFZnXxLc1pDAHmlX4=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-16-rYjpjYsQNXmcYKerrJqy_g-1; Wed,
+ 17 Jul 2024 10:26:56 -0400
+X-MC-Unique: rYjpjYsQNXmcYKerrJqy_g-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 198891FCEF;
- Wed, 17 Jul 2024 14:33:29 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D5BDD1396E;
- Wed, 17 Jul 2024 14:33:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id gH7nMjjWl2YmCgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 17 Jul 2024 14:33:28 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 5/5] drm/ast: astdp: Clean up EDID reading
-Date: Wed, 17 Jul 2024 16:24:20 +0200
-Message-ID: <20240717143319.104012-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240717143319.104012-1-tzimmermann@suse.de>
-References: <20240717143319.104012-1-tzimmermann@suse.de>
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 9AC071955D50; Wed, 17 Jul 2024 14:26:53 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.194.18])
+ by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 309AC1955D42; Wed, 17 Jul 2024 14:26:47 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ "Bjorn Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>,
+ Alice Ryhl <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Danilo Krummrich <dakr@redhat.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH v4 0/4] drm/panic: Add a QR code panic screen
+Date: Wed, 17 Jul 2024 16:24:47 +0200
+Message-ID: <20240717142644.1106060-1-jfalempe@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 198891FCEF
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Score: -4.00
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,196 +77,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplify ast_astdp_read_edid(). Rename register constants. Drop
-unnecessary error handling. On success, the helper returns 0; an
-error code otherwise.
+This series adds a new panic screen, with the kmsg data embedded in a QR code.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_dp.c  | 93 ++++++++++++++++-------------------
- drivers/gpu/drm/ast/ast_reg.h | 12 +----
- 2 files changed, 44 insertions(+), 61 deletions(-)
+The main advantage of QR code, is that you can copy/paste the debug data to a bug report.
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 6cbde46f24dc..5d07678b502c 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -17,54 +17,55 @@ bool ast_astdp_is_connected(struct ast_device *ast)
- int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
- {
- 	struct ast_device *ast = to_ast_device(dev);
--	u8 i = 0, j = 0;
-+	int ret = 0;
-+	u8 i;
+The QR code encoder is written in rust, and is very specific to drm panic.
+The reason is that it is called in a panic handler, and thus can't allocate memory, or use locking.
+The rust code uses a few rust core API, and provides only two C entry points.
+There is no particular reason to do it in rust, I just wanted to learn rust, and see if it can work in the kernel.
+
+If you want to see what it looks like, I've put a few screenshots here:
+https://github.com/kdj0c/panic_report/issues/1
+
+v2:
+ * Rewrite the rust comments with Markdown (Alice Ryhl)
+ * Mark drm_panic_qr_generate() as unsafe (Alice Ryhl)
+ * Use CStr directly, and remove the call to as_str_unchecked()
+   (Alice Ryhl)
+ * Add a check for data_len <= data_size (Greg KH)
+
+v3:
+ * Fix all rust comments (typo, punctuation) (Miguel Ojeda)
+ * Change the wording of safety comments (Alice Ryhl)
+ * Add a link to the javascript decoder in the Kconfig (Greg KH)
+ * Fix data_size and tmp_size check in drm_panic_qr_generate()
  
--	/*
--	 * CRE5[b0]: Host reading EDID process is done
--	 */
--	if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, ASTDP_HOST_EDID_READ_DONE_MASK)))
--		goto err_astdp_edid_not_ready;
--
--	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
--							0x00);
-+	/* Start reading EDID data */
-+	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xe5, (u8)~AST_IO_VGACRE5_EDID_READ_DONE, 0x00);
- 
- 	for (i = 0; i < 32; i++) {
-+		unsigned int j;
-+
- 		/*
- 		 * CRE4[7:0]: Read-Pointer for EDID (Unit: 4bytes); valid range: 0~64
- 		 */
--		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE4,
--				       ASTDP_AND_CLEAR_MASK, (u8)i);
--		j = 0;
-+		ast_set_index_reg(ast, AST_IO_VGACRI, 0xe4, i);
- 
- 		/*
- 		 * CRD7[b0]: valid flag for EDID
- 		 * CRD6[b0]: mirror read pointer for EDID
- 		 */
--		while ((ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD7,
--				ASTDP_EDID_VALID_FLAG_MASK) != 0x01) ||
--			(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD6,
--						ASTDP_EDID_READ_POINTER_MASK) != i)) {
-+		for (j = 0; j < 200; ++j) {
-+			u8 vgacrd7, vgacrd6;
-+
- 			/*
- 			 * Delay are getting longer with each retry.
--			 * 1. The Delays are often 2 loops when users request "Display Settings"
-+			 *
-+			 * 1. No delay on first try
-+			 * 2. The Delays are often 2 loops when users request "Display Settings"
- 			 *	  of right-click of mouse.
--			 * 2. The Delays are often longer a lot when system resume from S3/S4.
-+			 * 3. The Delays are often longer a lot when system resume from S3/S4.
- 			 */
--			mdelay(j+1);
--
--			j++;
--			if (j > 200)
--				goto err_astdp_jump_out_loop_of_edid;
-+			if (j)
-+				mdelay(j + 1);
-+
-+			/* Wait for EDID offset to show up in mirror register */
-+			vgacrd7 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd7);
-+			if (vgacrd7 & AST_IO_VGACRD7_EDID_VALID_FLAG) {
-+				vgacrd6 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd6);
-+				if (vgacrd6 == i)
-+					break;
-+			}
-+		}
-+		if (j == 200) {
-+			ret = -EBUSY;
-+			goto out;
- 		}
- 
--		*(ediddata) = ast_get_index_reg_mask(ast, AST_IO_VGACRI,
--							0xD8, ASTDP_EDID_READ_DATA_MASK);
--		*(ediddata + 1) = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD9,
--								ASTDP_EDID_READ_DATA_MASK);
--		*(ediddata + 2) = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDA,
--								ASTDP_EDID_READ_DATA_MASK);
--		*(ediddata + 3) = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDB,
--								ASTDP_EDID_READ_DATA_MASK);
-+		ediddata[0] = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd8);
-+		ediddata[1] = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd9);
-+		ediddata[2] = ast_get_index_reg(ast, AST_IO_VGACRI, 0xda);
-+		ediddata[3] = ast_get_index_reg(ast, AST_IO_VGACRI, 0xdb);
- 
- 		if (i == 31) {
- 			/*
-@@ -76,29 +77,19 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
- 			 *		The Bytes-126 indicates the Number of extensions to
- 			 *		follow. 0 represents noextensions.
- 			 */
--			*(ediddata + 3) = *(ediddata + 3) + *(ediddata + 2);
--			*(ediddata + 2) = 0;
-+			ediddata[3] = ediddata[3] + ediddata[2];
-+			ediddata[2] = 0;
- 		}
- 
- 		ediddata += 4;
- 	}
- 
--	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
--							ASTDP_HOST_EDID_READ_DONE);
--
--	return 0;
--
--err_astdp_jump_out_loop_of_edid:
--	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5,
--							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
--							ASTDP_HOST_EDID_READ_DONE);
--	return (~(j+256) + 1);
--
--err_astdp_edid_not_ready:
--	if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, ASTDP_HOST_EDID_READ_DONE_MASK)))
--		return (~0xE5 + 1);
-+out:
-+	/* Signal end of reading */
-+	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xe5, (u8)~AST_IO_VGACRE5_EDID_READ_DONE,
-+			       AST_IO_VGACRE5_EDID_READ_DONE);
- 
--	return	0;
-+	return ret;
- }
- 
- /*
-@@ -122,9 +113,9 @@ int ast_dp_launch(struct ast_device *ast)
- 		return -ENODEV;
- 	}
- 
--	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5,
--			       (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
--			       ASTDP_HOST_EDID_READ_DONE);
-+	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xe5,
-+			       (u8) ~AST_IO_VGACRE5_EDID_READ_DONE,
-+			       AST_IO_VGACRE5_EDID_READ_DONE);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-index 28bb43f6795b..040961cc1a19 100644
---- a/drivers/gpu/drm/ast/ast_reg.h
-+++ b/drivers/gpu/drm/ast/ast_reg.h
-@@ -38,8 +38,10 @@
- #define AST_IO_VGACRCB_HWC_ENABLED	BIT(1)
- 
- #define AST_IO_VGACRD1_MCU_FW_EXECUTING	BIT(5)
-+#define AST_IO_VGACRD7_EDID_VALID_FLAG	BIT(0)
- #define AST_IO_VGACRDC_LINK_SUCCESS	BIT(0)
- #define AST_IO_VGACRDF_HPD		BIT(0)
-+#define AST_IO_VGACRE5_EDID_READ_DONE	BIT(0)
- 
- #define AST_IO_VGAIR1_R			(0x5A)
- #define AST_IO_VGAIR1_VREFRESH		BIT(3)
-@@ -70,12 +72,6 @@
- #define AST_DP_PHY_SLEEP		BIT(4)
- #define AST_DP_VIDEO_ENABLE		BIT(0)
- 
--/*
-- * CRE5[b0]: Host reading EDID process is done
-- */
--#define ASTDP_HOST_EDID_READ_DONE	BIT(0)
--#define ASTDP_HOST_EDID_READ_DONE_MASK	GENMASK(0, 0)
--
- /*
-  * CRDF[b4]: Mirror of AST_DP_VIDEO_ENABLE
-  * Precondition:	A. ~AST_DP_PHY_SLEEP  &&
-@@ -84,10 +80,6 @@
-  */
- #define ASTDP_MIRROR_VIDEO_ENABLE	BIT(4)
- 
--#define ASTDP_EDID_READ_POINTER_MASK	GENMASK(7, 0)
--#define ASTDP_EDID_VALID_FLAG_MASK	GENMASK(0, 0)
--#define ASTDP_EDID_READ_DATA_MASK	GENMASK(7, 0)
--
- /*
-  * ASTDP setmode registers:
-  * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
+ v4:
+ * Fix the logic to find next line and skip the '\n' (Alice Ryhl)
+ * Remove __LOG_PREFIX as it's not used (Alice Ryhl)
+
+Jocelyn Falempe (4):
+  drm/panic: Add integer scaling to blit()
+  drm/rect: Add drm_rect_overlap()
+  drm/panic: Simplify logo handling
+  drm/panic: Add a QR code panic screen
+
+ drivers/gpu/drm/Kconfig         |   31 +
+ drivers/gpu/drm/Makefile        |    1 +
+ drivers/gpu/drm/drm_drv.c       |    3 +
+ drivers/gpu/drm/drm_panic.c     |  340 +++++++++--
+ drivers/gpu/drm/drm_panic_qr.rs | 1003 +++++++++++++++++++++++++++++++
+ include/drm/drm_panic.h         |    4 +
+ include/drm/drm_rect.h          |   15 +
+ 7 files changed, 1358 insertions(+), 39 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_panic_qr.rs
+
+
+base-commit: e1a261ba599eec97e1c5c7760d5c3698fc24e6a6
 -- 
 2.45.2
 
