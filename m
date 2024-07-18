@@ -2,45 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E48893503B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 17:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A1693504A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 17:58:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9E010E9DF;
-	Thu, 18 Jul 2024 15:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3C4010E9F4;
+	Thu, 18 Jul 2024 15:58:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A/We4EpV";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="GspH/d0Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B822710E9DF
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 15:56:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C3D38CE1987;
- Thu, 18 Jul 2024 15:56:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30B90C116B1;
- Thu, 18 Jul 2024 15:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721318169;
- bh=wFUzftDcteRmA2NyKmVxglS13LnS1utkda/P2FIp9y4=;
- h=Date:From:To:Subject:From;
- b=A/We4EpVLkmBtNutObcnOePbkR1hlJ25HJp7KdxvYECL6I796uRDuyixuchZ9xAdP
- s81JdowqonElXN3CO3FFGBTkSyqQoxmGAseD43XboRPlseBxcOWHv0spuDx569RCHi
- tRQtGSA9rupij0leRbfIYGo0hmuGSo0VleOPJyIwdUi8Qp523L1u2BVK6N97RiwIz2
- i79fgH0Wuow94uOy1k1K+ksl5j1hx1u7i7Kt6t1JprdUV5yooXp9xEmjd3IkcLj38V
- t7if0aqAMlAdrSPqGDSyxX2nRTwsdYWq+UJEUdku1uWjyYf14o02pXEKObEsfKRs9V
- WjFzCrcWSI4dw==
-Date: Thu, 18 Jul 2024 17:56:03 +0200
-From: Helge Deller <deller@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev fixes and cleanups for v6.11-rc1
-Message-ID: <Zpk7E3ZBlh2UdXy2@carbonx1>
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
+ [209.85.167.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75DE610E9F4
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 15:58:09 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id
+ 5614622812f47-3d853e31de8so575495b6e.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 08:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1721318287; x=1721923087;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KI6+OUVJCzVw8+deYC/JOskjFnoamUOWD+xEmu+wUIw=;
+ b=GspH/d0YkScPLfogMrXuKtxtDyHiC1MKAE7TucLvEpC/4ntvYA1sXkbM7SbNLR4kC6
+ x1Yh/+nPiL8mok3Yqy0DhpLDgAsh4g3bV2TcIaddr31Oi6AEJiGMllDkfOmRT5T6bjsV
+ cqtS6bXkkfr7aRkzlrR7LW6tZ3Cc0v1C/bAFE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721318287; x=1721923087;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KI6+OUVJCzVw8+deYC/JOskjFnoamUOWD+xEmu+wUIw=;
+ b=H3Agxxq23zs5o9lzIBOcIqln//Llq+DHibEb2+WkYPJ5srT2XD01nhFEYXzIBYGv/X
+ 2o/xOvyKyToIseFXv9egFoVp5MjccIOpH/2kBxBIFKIwWPmhz3ygbcWWXDG85G0io+Au
+ 9z2kqFBgOoXEK9ycEGgtQr1JUasWpkdUhSolJIRwKQX2g/El2en607PQo9CSDDmdUmzL
+ 9EalLUTR5CLJ8mPZcrx/bf/a3TOkm/wtidgtEn+qIOHyOXVA1dCxW25axW1X5alXsiox
+ IUyLpA2Jj0sUvIB4I/D/vJLhMrCAifWn4MZxLegYvtvuat9NwfEQlhWOFYuzrJJJ1TUl
+ YJ0g==
+X-Gm-Message-State: AOJu0Yz1IIkdfwDFNCbARHlXzuHx76H/dm/D4l6BdAG8123S9FLR3rS5
+ 3p5pxyLvLVhpyP8CsUwqUwQ9uU/KK0sm6jdFaNHhiJWiS9gVQ9HqHJPipske0RPifARweJLG33Y
+ =
+X-Google-Smtp-Source: AGHT+IGzNiuM+pqgN4kBDMa6Y7lLckPcyBzIq2Pk+BQnMj+/uV8QB4K+SyD81iIiW4gpRWYT2UOnrg==
+X-Received: by 2002:a05:6808:1445:b0:3d5:600c:682 with SMTP id
+ 5614622812f47-3dad51f3041mr5424243b6e.13.1721318286834; 
+ Thu, 18 Jul 2024 08:58:06 -0700 (PDT)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com.
+ [209.85.160.170]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7a1939800d5sm37448985a.129.2024.07.18.08.58.05
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Jul 2024 08:58:06 -0700 (PDT)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-447df43324fso157521cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 08:58:05 -0700 (PDT)
+X-Received: by 2002:a05:622a:4116:b0:447:e01a:de95 with SMTP id
+ d75a77b69052e-44f9681efaemr1462911cf.0.1721318285517; Thu, 18 Jul 2024
+ 08:58:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20240717215847.5310-1-robdclark@gmail.com>
+ <CAD=FV=XCOKJHJ-yzENpvm_MD34tMR5LRy2m2jYdcWzZXP4pfXQ@mail.gmail.com>
+ <CAF6AEGuBZqV4zg1asUNbMLvq0-i-iyFwfi37uKS3kWNuRSOU+g@mail.gmail.com>
+In-Reply-To: <CAF6AEGuBZqV4zg1asUNbMLvq0-i-iyFwfi37uKS3kWNuRSOU+g@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 18 Jul 2024 08:57:50 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UMiDTLBBEMk3fpg+TfE_K23fyL+JDZj77Fe9fCY8DyjA@mail.gmail.com>
+Message-ID: <CAD=FV=UMiDTLBBEMk3fpg+TfE_K23fyL+JDZj77Fe9fCY8DyjA@mail.gmail.com>
+Subject: Re: [RFC] drm/panel/simple-edp: Add Samsung ATNA45DC02
+To: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ Rob Clark <robdclark@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,112 +95,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi,
 
-please pull a bunch of usual cleanups for the fbdev drivers for kernel 6.11-rc1.
+On Wed, Jul 17, 2024 at 6:09=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
+te:
+>
+> On Wed, Jul 17, 2024 at 5:19=E2=80=AFPM Doug Anderson <dianders@chromium.=
+org> wrote:
+> >
+> > Hi,
+> >
+> > On Wed, Jul 17, 2024 at 2:58=E2=80=AFPM Rob Clark <robdclark@gmail.com>=
+ wrote:
+> > >
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Just a guess on the panel timings, but they appear to work.
+> > >
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > ---
+> > > This adds the panel I have on my lenovo yoga slim 7x laptop.  I could=
+n't
+> > > find any datasheet so timings is just a guess.  But AFAICT everything
+> > > works fine.
+> > >
+> > >  drivers/gpu/drm/panel/panel-edp.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> >
+> > Given that this is a Samsung ATNA<mumble>, is there any chance it's an
+> > OLED panel? Should it be supported with the Samsung OLED panel driver
+> > like this:
+> >
+> > https://lore.kernel.org/r/20240715-x1e80100-crd-backlight-v2-0-31b7f2f6=
+58a3@linaro.org
+>
+> it is an OLED panel, and I did see that patchset and thought that
+> samsung panel driver would work.  But changing the compat string on
+> the yoga dts only gave me a black screen (and I didn't see any of the
+> other mentioned problems with bl control or dpms with panel-edp).  So
+> :shrug:?  It could be I overlooked something else, but it _seems_ like
+> panel-edp is fine for this panel. Plus, it would avoid awkwardness if
+> it turned out there were other non-samsung 2nd sources, but so far
+> with a sample size of two 100% of these laptops have the same panel
 
-Thanks!
-Helge
+Hmm, OK. One question for you: are you using the "enable" GPIO in
+panel-edp? IMO the code handling that GPIO in panel-edp is somewhat
+dodgy, but it predates my deeper involvement with panels. I've never
+seen an eDP panel that could use panel-edp where it was actually
+required--every instance where someone thought it was required was
+better modeled by using that GPIO as the backlight enable. On the
+other hand, the "enable" GPIO in the Samsung OLED panel driver came
+straight from the panel datasheet and it makes sense for it to be in
+the panel driver since the backlight is handled straight by the
+panel...
 
-----------------------------------------------------------------
-The following changes since commit 83a7eefedc9b56fe7bfeff13b6c7356688ffa670:
+In any case, I guess if things are working it doesn't really hurt to
+take it in panel-edp for now...
 
-  Linux 6.10-rc3 (2024-06-09 14:19:43 -0700)
 
-are available in the Git repository at:
+> But that was the reason for posting this as an RFC.  I was hoping
+> someone had some hint about where to find datasheets (my google'ing
+> was not successful), etc.
 
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.11-rc1
+I don't personally have any hints.
 
-for you to fetch changes up to 8b5ea9029b03efda74292c57e0377a98ed0b7434:
-
-  fbdev: viafb: Make I2C terminology more inclusive (2024-07-11 12:07:48 +0200)
-
-----------------------------------------------------------------
-fbdev fixes and cleanups for 6.11-rc1:
-
-- Detect VGA compatibility from VESA attributes [Thomas Zimmermann]
-- Make I2C terminology more inclusive in smscufx and viafb [Easwar Hariharan]
-- Add lots of missing MODULE_DESCRIPTION() macros [Jeff Johnson]
-- Logo code cleanups [Geert Uytterhoeven]
-- Minor fixes by Chen Ni, Kuninori Morimoto, Uwe Kleine-König and Christophe Jaillett
-
-----------------------------------------------------------------
-Chen Ni (1):
-      fbdev: omap2: Return clk_prepare_enable to transfer the error
-
-Christophe JAILLET (1):
-      fbdev: mmp: Constify struct mmp_overlay_ops
-
-Easwar Hariharan (2):
-      fbdev: smscufx: Make I2C terminology more inclusive
-      fbdev: viafb: Make I2C terminology more inclusive
-
-Geert Uytterhoeven (2):
-      video/logo: Make logo data const again
-      video/logo: Remove linux_serial_image comments
-
-Jeff Johnson (11):
-      fbdev: matroxfb: add missing MODULE_DESCRIPTION() macros
-      fbdev: viafb: add missing MODULE_DESCRIPTION() macro
-      fbdev: kyro: add missing MODULE_DESCRIPTION() macro
-      fbdev: goldfishfb: add missing MODULE_DESCRIPTION() macro
-      fbdev: macmodes: add missing MODULE_DESCRIPTION() macro
-      fbdev: vfb: add missing MODULE_DESCRIPTION() macro
-      fbdev: offb: add missing MODULE_DESCRIPTION() macro
-      fbdev: c2p_planar: add missing MODULE_DESCRIPTION() macro
-      fbdev: amifb: add missing MODULE_DESCRIPTION() macro
-      video: console: add missing MODULE_DESCRIPTION() macros
-      video: agp: add remaining missing MODULE_DESCRIPTION() macros
-
-Kuninori Morimoto (2):
-      fbdev: omapdss: use for_each_endpoint_of_node()
-      fbdev: omapfb: use of_graph_get_remote_port()
-
-Thomas Zimmermann (1):
-      fbdev: vesafb: Detect VGA compatibility from screen info's VESA attributes
-
-Uwe Kleine-König (1):
-      fbdev: Drop explicit initialization of struct i2c_device_id::driver_data to 0
-
- drivers/char/agp/ali-agp.c                         |  1 +
- drivers/char/agp/alpha-agp.c                       |  1 +
- drivers/char/agp/amd-k7-agp.c                      |  1 +
- drivers/char/agp/ati-agp.c                         |  1 +
- drivers/char/agp/efficeon-agp.c                    |  1 +
- drivers/char/agp/nvidia-agp.c                      |  1 +
- drivers/char/agp/parisc-agp.c                      |  1 +
- drivers/char/agp/sworks-agp.c                      |  1 +
- drivers/video/console/mdacon.c                     |  1 +
- drivers/video/console/newport_con.c                |  1 +
- drivers/video/console/sticon.c                     |  1 +
- drivers/video/console/vgacon.c                     |  1 +
- drivers/video/fbdev/amifb.c                        |  1 +
- drivers/video/fbdev/c2p_planar.c                   |  1 +
- drivers/video/fbdev/goldfishfb.c                   |  1 +
- drivers/video/fbdev/kyro/fbdev.c                   |  1 +
- drivers/video/fbdev/macmodes.c                     |  1 +
- drivers/video/fbdev/matrox/matroxfb_DAC1064.c      |  1 +
- drivers/video/fbdev/matrox/matroxfb_Ti3026.c       |  1 +
- drivers/video/fbdev/matrox/matroxfb_accel.c        |  1 +
- drivers/video/fbdev/matrox/matroxfb_maven.c        |  2 +-
- drivers/video/fbdev/mmp/hw/mmp_ctrl.c              |  2 +-
- drivers/video/fbdev/offb.c                         |  1 +
- drivers/video/fbdev/omap2/omapfb/dss/dss-of.c      | 15 +-------------
- .../fbdev/omap2/omapfb/dss/omapdss-boot-init.c     |  3 +--
- drivers/video/fbdev/omap2/omapfb/dss/venc.c        |  4 +---
- drivers/video/fbdev/smscufx.c                      |  4 ++--
- drivers/video/fbdev/ssd1307fb.c                    |  8 ++++----
- drivers/video/fbdev/vesafb.c                       |  2 +-
- drivers/video/fbdev/vfb.c                          |  1 +
- drivers/video/fbdev/via/chip.h                     |  8 ++++----
- drivers/video/fbdev/via/dvi.c                      | 24 +++++++++++-----------
- drivers/video/fbdev/via/lcd.c                      |  6 +++---
- drivers/video/fbdev/via/via_aux.h                  |  2 +-
- drivers/video/fbdev/via/via_i2c.c                  | 12 +++++------
- drivers/video/fbdev/via/viafbdev.c                 |  1 +
- drivers/video/fbdev/via/vt1636.c                   |  6 +++---
- drivers/video/logo/pnmtologo.c                     |  4 ++--
- include/linux/linux_logo.h                         |  3 ---
- include/linux/screen_info.h                        | 10 +++++++++
- include/video/mmp_disp.h                           |  4 ++--
- 41 files changed, 78 insertions(+), 64 deletions(-)
+-Doug
