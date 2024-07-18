@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9568D934DC2
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 15:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B838B934DDC
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 15:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD4910E81B;
-	Thu, 18 Jul 2024 13:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8B7D10E836;
+	Thu, 18 Jul 2024 13:13:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 676DE10E0EB
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 13:05:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F0DD10E84B;
+ Thu, 18 Jul 2024 13:13:45 +0000 (UTC)
 Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-01 (Coremail) with SMTP id qwCowAC3aVQaE5lm7yMRBA--.17514S2;
- Thu, 18 Jul 2024 21:05:42 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowABXX8v7FJlm+nERBA--.708S2;
+ Thu, 18 Jul 2024 21:13:39 +0800 (CST)
 From: Ma Ke <make24@iscas.ac.cn>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, sam@ravnborg.org, noralf@tronnes.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Ma Ke <make24@iscas.ac.cn>, stable@vger.kernel.org
-Subject: [PATCH v2 RESEND] drm/client: fix null pointer dereference in
- drm_client_modeset_probe
-Date: Thu, 18 Jul 2024 21:05:26 +0800
-Message-Id: <20240718130526.740592-1-make24@iscas.ac.cn>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, airlied@linux.ie
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Ma Ke <make24@iscas.ac.cn>,
+ stable@vger.kernel.org
+Subject: [PATCH v2] drm/radeon: fix null pointer dereference in
+ radeon_add_common_modes
+Date: Thu, 18 Jul 2024 21:13:29 +0800
+Message-Id: <20240718131329.756742-1-make24@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAC3aVQaE5lm7yMRBA--.17514S2
-X-Coremail-Antispam: 1UD129KBjvJXoWrtr4DZw13CFy5urW7urW5trb_yoW8Jr18pr
- 43JF90yF4jvrZrKFs2va97CF17A3W3JF48G3W7Aan3u3Z0qry2vryYvr13WFy7Gry3JF1U
- JrnIyFW2qF18CaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
- rcIFxwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
- VFxhVjvjDU0xZFpf9x0JUQZ23UUUUU=
+X-CM-TRANSID: qwCowABXX8v7FJlm+nERBA--.708S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruryxAF1kZryktw4kArWxCrg_yoWDKFc_CF
+ 10qa9rXas0qas5ZF4Uuan3Zr9I93y0yw4kJF1IqaySv347XF1fWFyayFy8Zw47Xa98AFnx
+ J34rKw1fAr4xGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb3xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+ 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8Jw
+ Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
+ YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+ AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+ 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+ IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VU1c4S5UUUUU==
 X-Originating-IP: [183.174.60.14]
 X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,36 +62,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm_client_modeset_probe(), the return value of drm_mode_duplicate() is
-assigned to modeset->mode, which will lead to a possible NULL pointer
-dereference on failure of drm_mode_duplicate(). Add a check to avoid npd.
+In radeon_add_common_modes(), the return value of drm_cvt_mode() is
+assigned to mode, which will lead to a possible NULL pointer dereference
+on failure of drm_cvt_mode(). Add a check to avoid npd.
 
 Cc: stable@vger.kernel.org
-Fixes: cf13909aee05 ("drm/fb-helper: Move out modeset config code")
+Fixes: d50ba256b5f1 ("drm/kms: start adding command line interface using fb.")
 Signed-off-by: Ma Ke <make24@iscas.ac.cn>
 ---
 Changes in v2:
-- added the recipient's email address, due to the prolonged absence of a 
-response from the recipients.
-- added Cc stable.
+- added a blank line;
+- added Cc line.
 ---
- drivers/gpu/drm/drm_client_modeset.c | 3 +++
+ drivers/gpu/drm/radeon/radeon_connectors.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index 31af5cf37a09..cca37b225385 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -880,6 +880,9 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+index b84b58926106..37c56c16af8d 100644
+--- a/drivers/gpu/drm/radeon/radeon_connectors.c
++++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+@@ -520,6 +520,9 @@ static void radeon_add_common_modes(struct drm_encoder *encoder, struct drm_conn
+ 			continue;
  
- 			kfree(modeset->mode);
- 			modeset->mode = drm_mode_duplicate(dev, mode);
-+			if (!modeset->mode)
-+				continue;
+ 		mode = drm_cvt_mode(dev, common_modes[i].w, common_modes[i].h, 60, false, false, false);
++		if (!mode)
++			continue;
 +
- 			drm_connector_get(connector);
- 			modeset->connectors[modeset->num_connectors++] = connector;
- 			modeset->x = offset->x;
+ 		drm_mode_probed_add(connector, mode);
+ 	}
+ }
 -- 
 2.25.1
 
