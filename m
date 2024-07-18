@@ -2,119 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0829937046
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 23:53:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6639370A9
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 00:32:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7095B10E1FC;
-	Thu, 18 Jul 2024 21:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09E6A10E1FF;
+	Thu, 18 Jul 2024 22:32:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="26Ln7dgY";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZjvJV8mx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2064.outbound.protection.outlook.com [40.107.93.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2EB310E1FC;
- Thu, 18 Jul 2024 21:53:21 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2059.outbound.protection.outlook.com [40.107.244.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A21D910E1FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 22:32:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UZJ+EsMl8KE25kadFogfMMiAs/IbUci52QyjhIWhhY/jucXrZiF1bzZPKa5yWABVNUQQ44ZShwFu/Tswe+ATBtGMdHfBVOsifX46K5qGZYRMSCoWVAw13PF8bMRbgtq97y5apE7oSmKMDRKO4aXb9Bx9lkVk0KJ/tAtg1p5isltJDNeQ8GQMZAlBzdDw/2Wl/JtCXyvrLumfjuGmDkhOtmv/1bN0axgZXjZxmlM/tkuMmY2sqg5qTx5n+fNIDz/9ilpy1uzQEXxgmlVr2iv/0NpZGYnzhVlNh4j7PaqGnFKLzc93wWlXvMtlMICAaXQKQyotf9dLtIXOjJNSEtiZzA==
+ b=pYoa5aBI+rrLVPt9T9Y36UXq4AnG9D8g7Ft/F6KLZ5k9VSWEi1s1acQW7aV5FNKWtc2LXgQ5OdUjw3ZtlvWmw5zxijgTyRpGL2ICDPj+Uf1e7GZsaG7wcK0fbyHK0gtLK265ZD6BHDsqiRJUJ3WtRikm/jJZa7pBvGYmf0/CcdFu8JhmtC3yuqTj+hOqF2oc7i4XWDgUi0vxwNWZQA1xd90ZsqiKTqUcZxDVZJ/fiGZCNi4bowaPPU5XoSz1nwJ4/Vv++ci/koWNRDKrLPowFQL1UEMCqFDZw5AuP0SZxYQRDvmfne8xsXV1tEZJZnaEMIGv063GfxHnmZPZQjtHPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RcjhcYmZ+tB31HYXYKn/0RhkunppnV6qmCTjjI9UR+I=;
- b=Vqa7j4ankKQbqrfGRy2202sJQ8X2FRdVyGxLufQl6R2FroptwGAhEdiZliN9mTct7n/Ul4s8OtMywpVBWwBNwXvzUJZ135e+QSTgZR8Vkp5ikEdgGLHIRjNxbQXyhx5xcwbRVHvF+iNGgPo89VWKQ/xcJOgQyL5XUnWImBtmdrWw5pYCU9ZD9i1t4UMk8eAWGeJ8UZ+dN/MTE55HgCNE4iJY4hEVj5Eit5v0Z6XQX/60ehnCtHbCbnPv6KdHsPQnXvJyeWm+DZE9Yi8qdPNHd/Z2VOck/zb3lReS4wSUUZdV+sTbxBI3q9MBNvT7o5x4wv4c3zjVsbKavhIUfvks/w==
+ bh=FB+3yUyy6Vd7aXQq4qBcdEgTPT1bUneD0tNs2bao9vM=;
+ b=Q/RPNNkATb9XfdMR73WIy+wOTmB4Tk2Uoyyr+o8oAZ+07v/jrRYQ3Mn3t+PCZCP1meymE8xGJbz3DVxuaQl4bH+yoISUeDcWoYHXf8x2zR5wstRz/LKFJ6mqbtI0kzF3ybjm2Tbnlsdp5K8nA/nZ2k5Fguq1gW/fyu2EoHEQbtIrriPFVcMNp8sPyH3Kr29SPXjsL2ROCxOAilua6no232W5U8zdoZlC54Nq08jaXfx7u1fBS7PxJsZRF9XpdCrlzh4mKyO6HV+DFDuJOu27+G9M4rPsULHZAWbb/np+Px7yLQEVMQJtKohvIk5PwYt55NUo4HmLObyZGQ6MiF33bw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ 216.228.117.160) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RcjhcYmZ+tB31HYXYKn/0RhkunppnV6qmCTjjI9UR+I=;
- b=26Ln7dgYLXTOtyJxJ8jRh44EuAqF3F0AnEt3ri3InKFUAvKtx9wO2MCxVBAA6zs5FIrsFh08u7LzlO0SuSb+zcxpRzLgESlTMx3MpeS+ETzSbJzLGEa/P4kxgeK3EY1kJk27xvtRkISpeobrzCQP2PNJMgH2du9HfHcd0mxl4fw=
-Received: from BL0PR0102CA0005.prod.exchangelabs.com (2603:10b6:207:18::18) by
- BY5PR12MB4098.namprd12.prod.outlook.com (2603:10b6:a03:205::8) with
+ bh=FB+3yUyy6Vd7aXQq4qBcdEgTPT1bUneD0tNs2bao9vM=;
+ b=ZjvJV8mxTYLVm56cwd08qEEqbxOYOIrBOveWZ0bRdhBvKtqG7/Xvp5aJdHXC5r41BORMV9HDkkAokHccFiEK0B5yzae002gVFnzK79U1px7Hy8gc3JWLzYk4ACoZ5MFyjhultVeR9pXSGQ8IIQEaRmMrK7ef3FwHLlRcoD3zrq2wCbznZr2WnyXUgldyWhL0zl8E/aNeNOGwHUQyd1u84JfXmNKqryVqmrhYFKO8HHE/Ju+WnDNAbYORAkMO/LkQjsUrtj8SWpciNa/3w83HhugUNlfDSSF4vV3AS6B/yB3UvpAhaNBqDfWjWUworbzVhlMs4l0WTnTbN5kD9cHVNA==
+Received: from SJ0PR03CA0230.namprd03.prod.outlook.com (2603:10b6:a03:39f::25)
+ by DM3PR12MB9435.namprd12.prod.outlook.com (2603:10b6:0:40::6) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7784.18; Thu, 18 Jul 2024 21:53:16 +0000
-Received: from BN3PEPF0000B076.namprd04.prod.outlook.com
- (2603:10b6:207:18:cafe::6b) by BL0PR0102CA0005.outlook.office365.com
- (2603:10b6:207:18::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.28 via Frontend
- Transport; Thu, 18 Jul 2024 21:53:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN3PEPF0000B076.mail.protection.outlook.com (10.167.243.121) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7784.11 via Frontend Transport; Thu, 18 Jul 2024 21:53:15 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 18 Jul
- 2024 16:53:14 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu drm-fixes-6.11
-Date: Thu, 18 Jul 2024 17:52:58 -0400
-Message-ID: <20240718215258.79356-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.45.2
+ 15.20.7784.17; Thu, 18 Jul 2024 22:32:40 +0000
+Received: from SJ1PEPF000023DA.namprd21.prod.outlook.com
+ (2603:10b6:a03:39f:cafe::1) by SJ0PR03CA0230.outlook.office365.com
+ (2603:10b6:a03:39f::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29 via Frontend
+ Transport; Thu, 18 Jul 2024 22:32:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SJ1PEPF000023DA.mail.protection.outlook.com (10.167.244.75) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7784.5 via Frontend Transport; Thu, 18 Jul 2024 22:32:40 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 18 Jul
+ 2024 15:32:28 -0700
+Received: from [172.28.173.68] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 18 Jul
+ 2024 15:32:28 -0700
+Message-ID: <eeceb079-2397-447a-9217-64ba01e21b0f@nvidia.com>
+Date: Thu, 18 Jul 2024 15:53:04 +1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] Nouveau fixes for TTM refcount rework
+To: <dri-devel@lists.freedesktop.org>
+References: <20240718165959.3983-1-dakr@kernel.org>
+Content-Language: en-US
+From: Ben Skeggs <bskeggs@nvidia.com>
+In-Reply-To: <20240718165959.3983-1-dakr@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B076:EE_|BY5PR12MB4098:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c6c03b0-16b8-445c-9e2e-08dca7740748
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023DA:EE_|DM3PR12MB9435:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6053bce-f9a7-4e30-8a9f-08dca7798870
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7bZBhyNmjzNv0vn87Wz1UeFc9JBeMNXM7v8XYjbWTaQV9uwxCl2J0CJxpVW4?=
- =?us-ascii?Q?LuqV2WtqXzb3wM1Tc480dkhIs1yqSkdJAzeoSZbzD4hugh80cnTe4qQPkHpu?=
- =?us-ascii?Q?j4Nzu4ckre6yvPI7g99/+zRIQtVpnbUZSs8XAm3DmWyAWMbOjeGBaAs17AEd?=
- =?us-ascii?Q?B3xKQU0iPe8b4IRbOjYxK7ylHCArLWeWJ8caAsIElnVV7jJZJvPOy4pXVe7B?=
- =?us-ascii?Q?3QKMwxZsXpUqGEuIUDNOK1hyBLuFMk8E/MUp04u1tjY+LXmbh3OgjAi8vNOs?=
- =?us-ascii?Q?8MntKumUKhfsJnDGKNdq+BSFM+Vxe7wKVoewG8wGWyBWydUNyilkOy5/oGSD?=
- =?us-ascii?Q?oesAPirbPAbrbe/k8dI2640jlaUcRqJgAxitXollwI18uKzpzM7CsHk7jicn?=
- =?us-ascii?Q?2E8+qMQCBYumJLtcoRHZew9EBgPIBDyBp4QGrZwdJPb3Qod1EGDBHwophbjM?=
- =?us-ascii?Q?l1ElZ8bmaSU2IZBKWZF4hHMAGyawmGWZFblo7c0pugFoVmVj9bZlPYoWB0bz?=
- =?us-ascii?Q?TnstPKIUEq3jiQ3l1MJbZhDXJApjQMf95kbAvLaTdoMAhU4nGtoR6tM7wHwo?=
- =?us-ascii?Q?s7X3BtV0fP1nasuoKDDQV7uUkNR+nVgcIMdGtkhWQPQztqgjNSWd1h4rszA3?=
- =?us-ascii?Q?Rxv8YLDcMvxp3nScd4Ta8OhgDNs8dqbyl2rc3YCh+z09h5jOg/3FBXEHvoeq?=
- =?us-ascii?Q?T9Usp1PWoFe0ws1C6Z+5fhCLzOn+6RPvkfIExJVDnrgoxo7WjZQucyUEn7Gg?=
- =?us-ascii?Q?9f81ffuAsTXsElyuwNZ88E2b7/YovaavHqtsvewIeMI+7oyAL0GJ0y5Va0kL?=
- =?us-ascii?Q?cWK05J0RsQxtarAXA5q0H2wDbW1E1I/E0JPUOD88qieHjo3kB+zvoGlvgLRN?=
- =?us-ascii?Q?x65ikgcsBulD2Rqpklf1sIJB3gCHbTzA+bfdxERult5IT/5vzGUrNaVrjx+P?=
- =?us-ascii?Q?Nu1ADfeihq+3ibqRI/KIy5jHHbtXGuH+kIgfh9OH2Xc4btueTaCTGkqHRUm2?=
- =?us-ascii?Q?sioNdujrBIF6KAKM/1PotWGG3U3oiM1wmK4+jG/M7uTlVtpKqmF403cClMHs?=
- =?us-ascii?Q?DkREPpFFt1/brMF7LPIehE4PkXfgKH5KH0A9sEFYu3lvkP9aT5UEoGT9eSZw?=
- =?us-ascii?Q?TCnAWh8Jnc+JrY/6+sTV3B1CfR/peY+XRS5R+Qs111zC8wPmc3RBIfsCRf8t?=
- =?us-ascii?Q?ySXpWKBxbKv1vdwDp34OyxxgCssLkneH/Acyn9YpWR8ixIwNaZZcdufMtDqC?=
- =?us-ascii?Q?NEyi1bpAw36Gw92pjPjGPt3klRIMa6Rn9sk1r12eOCMeCnGzEcT9J35jMXej?=
- =?us-ascii?Q?TkAEmDCkMLPBgnRKyworGEH4pHAGRD32XcQENiet52jiIakIql9nnQ8a6E1n?=
- =?us-ascii?Q?FrES8yRURZbPlQDWUux0P1UWf7W8?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013); DIR:OUT;
+ ARA:13230040|376014|82310400026|36860700013|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VndPNjMwUEQ3MzZoOTM3Q2lLUnl1QjNwRkZGNkU5RklNcEtxb2ttdHJKRnNU?=
+ =?utf-8?B?K2d1dkVrcEczVlh2bStSOEorTXJ3VWREdUcxR0NRWTlEbXdPZ01tbHF6MWlr?=
+ =?utf-8?B?V2R5WDZGWmRhZm13Y3k1N0QyYnRscWJha1dGZ3JxMTZ1M2ZpTDB2a1Fnbndx?=
+ =?utf-8?B?aXgxS0FHaHZ2ZFVJaS9NV3JQMFNUSGR4Q0MycnFaYThKVlRpSFpqbWFqYWZ3?=
+ =?utf-8?B?bStzaUVxYWtqVXJCY2ZWQlNld24xTWplbnNQWEVtR1dKV2xXMTlKWGlta0Rl?=
+ =?utf-8?B?UmlESW1qVERYWEZ2NE9DbjUvRGU5ZWhhckEzYVdJTDk4YnBWT2RoY1dGaDJh?=
+ =?utf-8?B?OU4wa2s5NHowaU9OQXkwTjhhN1pNUmZQZExDMllaemQ3dUNteXdnZ0dCTVRL?=
+ =?utf-8?B?TVJsOVVYQnd0L1RGSjF1UVRnb2hSTTI3Y1hyTVhpV3ZCTXhHVDVUcWRIUXhT?=
+ =?utf-8?B?S2lPWFpNUUJoS291WXNGcWVhd0RjdkdzdlkzZHlVZGk5SDZtVmtkZjNlUTFz?=
+ =?utf-8?B?d0FHYUhMZzhoM3pTRVoxaDE4WmZZdXR2RytsUklvaXdlSzdQaldzaVBSTTdM?=
+ =?utf-8?B?TnNHNU4wcnlkVzNLR3lYcWZ4bUp0alY5WkJYbXFEaEx6SGtZUXhBRnArbmEz?=
+ =?utf-8?B?NWxkSnY4VW9QSXdPbGdQR1FLNG1uRm1kMG1hUGF3VE5ndmlINEZjNjVzSFl6?=
+ =?utf-8?B?MEhIQnIxMGJPZ0FhUHNqd01HcWdhT2Q0Z2hCUllLd2RScFZic2pybUVaT1hD?=
+ =?utf-8?B?UmozNXNzd0F1L1RlRzhVQ0dLMWRGSFFENUtTanE3Q2hxemc3TTNJenQybVBS?=
+ =?utf-8?B?dTNFVllJTitTK2tKWFFscFVWOUJpODBxa2RtV0lhTkNjU1c4cy83L1NFMUN0?=
+ =?utf-8?B?aWVBM0RJckRqQ2xmdlAxWGFuK3dTbWRBeWJxMmsxdHE4RVc0YVdlbCtqZy9j?=
+ =?utf-8?B?UWlkeHFZb2h6T1pWZlhMalVzak5JSFZsUWpWa3FoNXI5aUhtZ2VoLzB2K3Rr?=
+ =?utf-8?B?NHY0QkhYcTFZZk51TVJ6SzY0VjRwZVdLWTBlVGF3NExPaTNVUUFENkc4SnZS?=
+ =?utf-8?B?VFdMRjZtcGg1LzZHN01BQWYzQ09oNHM3bXhFZm0rU0RtUm9SWWx2Q2ZpZm9L?=
+ =?utf-8?B?QXRHMHkyQ3lweHZjcVlTR0RvenZPeWhQU2FoZ2tCWGNOSWtaRkh0VGlNVUhm?=
+ =?utf-8?B?NDBiOHdXL0NGYW9BRUtCdWxpeVJJeVdWZFFjMnV1VjhUcy9BdTRrTGpNUDZy?=
+ =?utf-8?B?a3lVamU4Y0E0WTZKendlUlRhVFdiOTRjWWQ0cmlOVldFb0pHN0NoNHBtSEhQ?=
+ =?utf-8?B?TnhOMnpNb09la3Z2WnBuMFFxS0E4NjZQMW1NTXdJWTZYSWc2cHZuYjR0amc4?=
+ =?utf-8?B?TDBOemUxK2JGSDJ4WlIwcTQwMEsyVGRxS3ArRDZCVW1ROERZUmFHWStOaUZL?=
+ =?utf-8?B?MjhTTWVxbUV2RG9QM1pwQ0gwN1grUmxmYzJ6M212K1FuME9qQnV5bWZOeVRr?=
+ =?utf-8?B?QzRaOThzT0lId0xtNzBPMklFa3pBN1h2bExGSnpTTW9uTmdYL0tLNU5hU1dr?=
+ =?utf-8?B?dmZ4dExweGExMzdIZFRSd1o4NE13YTdkWnpUVXpKSWQ1aDNzMmYrajR3VGxJ?=
+ =?utf-8?B?aEJwOXF5QWp0Qm5yaVFmN3hYY2JmSGoxUXBMR1pHdTMwbnY0ZXRkZ2hQV29w?=
+ =?utf-8?B?ZWlGWFhxZitQTEtHZVgvc2IxNU5LbWFEczdRM082MUpYNmdSZ2J3OEgzbTBU?=
+ =?utf-8?B?Um02bWNhYnBtY1JGMFM0eXAyaHpJNFZiUHBBQStadERuNGdJblpCZU9LRWVR?=
+ =?utf-8?B?WW54NCtoRDRXS0t0WkRtZTRQdWJJcExmeFhsZGRKUHpkMGpPc1Y5WnNORmxE?=
+ =?utf-8?B?WS9kamJkeHFPc2JyaSs0WUhETVZocU5rVlRXOUt3L3hVSjdNZVMyY0l1SkRM?=
+ =?utf-8?Q?Vjv4A/m1tM4LDMYmb0maFOJBnqIPcGKJ?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
  SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2024 21:53:15.8918 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c6c03b0-16b8-445c-9e2e-08dca7740748
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B076.namprd04.prod.outlook.com
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2024 22:32:40.1413 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6053bce-f9a7-4e30-8a9f-08dca7798870
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000023DA.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4098
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9435
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,84 +146,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+On 19/7/24 02:58, Danilo Krummrich wrote:
 
-Fixes for 6.11.
+> Hi Christian,
+>
+> Those three patches should unblock your series to use GEM references instead of
+> TTM ones.
+>
+> @Lyude, Dave: Can you please double check?
 
-The following changes since commit 1cff1010bef6f325d895db0306b59dc7232ed9b7:
+Hi Danilo,
 
-  drm/amdgpu/mes12: add missing opcode string (2024-07-12 11:46:46 -0400)
+These look fine to me, and appear to resolve the issues I see with just 
+the refcount series applied.
 
-are available in the Git repository at:
+Ben.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.11-2024-07-18
 
-for you to fetch changes up to e3615bd198289f319172c428f20857accb46b830:
+Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
 
-  drm/amd/display: fix corruption with high refresh rates on DCN 3.0 (2024-07-17 17:41:28 -0400)
-
-----------------------------------------------------------------
-amd-drm-fixes-6.11-2024-07-18:
-
-amdgpu:
-- Bump driver version for GFX12 DCC
-- DC documention warning fixes
-- VCN unified queue power fix
-- SMU fix
-- RAS fix
-- Display corruption fix
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amd/display: fix corruption with high refresh rates on DCN 3.0
-
-Alex Hung (1):
-      drm/amd/display: Add doc entry for program_3dlut_size
-
-Aurabindo Pillai (2):
-      drm/amd: Bump KMS_DRIVER_MINOR version
-      drm/amd/display: fix doc entry for bb_from_dmub
-
-Boyuan Zhang (2):
-      drm/amdgpu/vcn: identify unified queue in sw init
-      drm/amdgpu/vcn: not pause dpg for unified queue
-
-Li Ma (1):
-      drm/amd/swsmu: enable Pstates profile levels for SMU v14.0.4
-
-Rodrigo Siqueira (6):
-      drm/amd/display: Move DIO documentation to the right place
-      Documentation/gpu: Remove ':export:' option from DCN documentation
-      Documentation/gpu: Adjust DCN documentation paths
-      drm/amd/display: Add simple struct doc to remove doc build warning
-      Documentation/gpu: Remove undocumented files from dcn-blockshubbub.h
-      Documentation/amdgpu: Fix duplicate declaration
-
-Roman Li (1):
-      drm/amd/display: Add function banner for idle_workqueue
-
-Tim Huang (1):
-      drm/amd/pm: early return if disabling DPMS for GFX IP v11.5.2
-
-YiPeng Chai (1):
-      drm/amdgpu: add mutex to protect ras shared memory
-
- Documentation/gpu/amdgpu/display/dcn-blocks.rst    |  35 +-----
- .../gpu/amdgpu/display/display-manager.rst         |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            | 123 ++++++++++++++-------
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c         |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  53 +++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h            |   1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |  17 ++-
- drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h        |  22 +++-
- drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h        |  14 +++
- drivers/gpu/drm/amd/display/dc/inc/hw/opp.h        |  15 +++
- .../drm/amd/display/dc/link/hwss/link_hwss_dio.c   |  29 +++++
- .../drm/amd/display/dc/link/hwss/link_hwss_dio.h   |   9 --
- .../gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c |  15 +--
- .../gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c |  10 ++
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  16 +--
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_0_ppt.c   |  18 ++-
- 18 files changed, 246 insertions(+), 141 deletions(-)
+>
+> - Danilo
+>
+> Danilo Krummrich (3):
+>    drm/nouveau: prime: fix refcount underflow
+>    drm/nouveau: bo: remove unused functions
+>    drm/nouveau: use GEM references instead of TTMs
+>
+>   drivers/gpu/drm/nouveau/dispnv04/crtc.c | 43 +++++++++++++++------
+>   drivers/gpu/drm/nouveau/dispnv50/disp.c |  4 +-
+>   drivers/gpu/drm/nouveau/nouveau_bo.h    | 50 ++-----------------------
+>   drivers/gpu/drm/nouveau/nouveau_chan.c  |  2 +-
+>   drivers/gpu/drm/nouveau/nouveau_dmem.c  |  4 +-
+>   drivers/gpu/drm/nouveau/nouveau_prime.c |  3 +-
+>   drivers/gpu/drm/nouveau/nv10_fence.c    |  2 +-
+>   drivers/gpu/drm/nouveau/nv17_fence.c    |  2 +-
+>   drivers/gpu/drm/nouveau/nv50_fence.c    |  2 +-
+>   drivers/gpu/drm/nouveau/nv84_fence.c    |  4 +-
+>   10 files changed, 46 insertions(+), 70 deletions(-)
+>
+>
+> base-commit: 99e0fb8b087120b5a7019f1cff6c5c2b5b925ae5
