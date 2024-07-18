@@ -2,75 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD97934C39
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 13:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082F9934C44
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 13:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB6410E77F;
-	Thu, 18 Jul 2024 11:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAC5810E76E;
+	Thu, 18 Jul 2024 11:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="WAMnIcrQ";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="OmwXMokc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 548D310E77F
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 11:10:44 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id
- af79cd13be357-79f178e62d1so11470785a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 04:10:44 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA8410E76E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 11:15:12 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-65f880c56b1so6321657b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 04:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1721301043; x=1721905843;
+ d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1721301311; x=1721906111;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=g2difOvlWIEO63yHi+zzCArMOSeh2R/YOZyOxHPP5y8=;
- b=WAMnIcrQG8rVI92kEkzxPzG9q+d6EGPZ+Gpx+Yc/v5ul9QpWK4ERhtoQZfYO2zNKF4
- 8FAuS1kpqNWfXupzjoCT+1ygvL4ESntdQuz3Z4xJyDsle8AgtUro8FA3f4ALlFUW6cp8
- 87v1Ph4ar9o6jZTTvONm6nyqN7c8BQ9BSQeIO0scZlgtOy6TO/c2QYZg/SuuAVujtRVp
- sJ4VT3BVbVleHUkAepA63LOUfbWgxkPFsld/Doi3Le/TgkEPOZnQR+r76U9SM2XMkrd6
- B5BqZZZKtMvhDm5oqFYAy+dhAEcNZ8/qCGvRoOrZrd0jnKsG55lWqGxth/gSRpljmI6N
- Vnjg==
+ bh=fvLtlvVLIc2uX9Mv4C24Hw1TFHGs1i0AqLl5Tk1HA1I=;
+ b=OmwXMokcf5zBxHsYLSLY3UiC3S/R67TgQB0W+tx/NUiEcChAgdNn36S5SEZvNS6w/3
+ NKvXS3ZAkMBGI2pZHrEGcOR8fGwN5VKCFfXmvjmJ5jYYH/UEydj69znLpLoUjUCVKPwB
+ ud4fQxfnhCEMkC9ew263S979RDAPooK783sY5ACe1sjtdOZJhrFjl0LaJa2EB0IhJRf+
+ 2+HGwshoUpHnviGQwYjDabYGd+70mEm9KClrQHbnhs/O7anMxLF2tIL8m90VhmM9+IIs
+ G3LWpE1wSTQ8hREQDs8uLW7f6oj5zICihnIIbJ0YaLrrbOVLKWwka8Q1Pv2iLxHLfbmj
+ g7wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721301043; x=1721905843;
+ d=1e100.net; s=20230601; t=1721301311; x=1721906111;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=g2difOvlWIEO63yHi+zzCArMOSeh2R/YOZyOxHPP5y8=;
- b=m8Y75/X1l3wFnCNeHH47qIsBwMt8p0dEmKYEFPIwCDSZ0+Z7oLiTgxzVY05VQM8kXK
- wdzjI9jfcvcTjJPoyKgUhyU8J6D/QNtS6AKkl3x8wv9isYfSIkZD1SOEiBSzaxuAfNFm
- k3s6NFWzSFKeafmtI/k5QS1K7G+ogMilBv7d8rsD4//4IhPc7XOKJayjwUQWyNt+uQU3
- vDdf67ICo1zQhl8CHrS0qKRT9f2S9XDu2RMklLH0bsakIXxDlMTQaPK4SEKr2uhIMA8a
- KYroYne5rb+uovfZUzMEMAVUmQGobkcVrq+xbuIbobQIH79X1gHBp/5bF96nyjbs5y2O
- bHiQ==
+ bh=fvLtlvVLIc2uX9Mv4C24Hw1TFHGs1i0AqLl5Tk1HA1I=;
+ b=enDrGCm1fC63FvmoAfMfEgBllcKTWBwSLl3ZwBZbQASOKS4hzDRXCWVWvNgTSgFMEo
+ qQMSAe3Suufzqyj4OrPgwAYBBjLirBSZpRPCb7y0uJ8/1aX/sbVEY/4RkR+/WjCcm2kc
+ Q/KCKitFxYYbECu/6qaeIOCTO17MqxSVs3KCa59x+KwT8HLMRFEIcB+cqDki1QUhJhp7
+ subkJxSSaD5kXU1QM6QJnyUWZQB183GPoELWMduKqMRAsUkvgbqrUsP0tEmoFbuX/44e
+ GXCHZduRCoBu8yPQzXlaJVVaN22M2GptbDRB2zuqpSSa8thzqkOXAlA0HLvHX4e/kx3C
+ 3XHg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW6Bo15+UY+b/+/8EuUCvIUoplUfSUEjxEhbIUN3o+q2OLLjjHmKuleBedg0QImATlHPZ+6TvQOJqkfrVaURl1Y8DwAbAx+E0NV4Hj1Q8uy
-X-Gm-Message-State: AOJu0YymWxG/aR8P/Yufl5meozMKDdnfO/Od5t5/aH/NBx9VPS5SsjjG
- GZ6hZjIcx2jhTut+X89vbx+lfLCHSSCnTB+7nlGNxrSmwWcDzSNjuHJltf6AGsm/KB3G9VSZlTv
- HirZd5d5zFM8EHS8MeevoqCRHvgLJCPFA9MmSvQ==
-X-Google-Smtp-Source: AGHT+IHkpXrj6tfe5GKUAxDloIykkCd7pSLfu610KYCjUhm0uSHpFNmHy8/JsbORj2vqFg5Eb30UAAlM+BNEUmR4XcM=
-X-Received: by 2002:a05:620a:29c6:b0:79b:ea85:9f9f with SMTP id
- af79cd13be357-7a1938c1e9amr47232985a.2.1721301043317; Thu, 18 Jul 2024
- 04:10:43 -0700 (PDT)
+ AJvYcCXlQuXgrmmb/+NhL+8TjT0mmRmPEylVMMGUx616mabKsCVoRrMgj9bXUaUoamCP2qEqyiKmuDxWkJt5zufG+sIXkp5o3uWw80NEiiQ6nvAX
+X-Gm-Message-State: AOJu0YwdnHTkupqd/7PgAiMuac0BYINWnoi+UxvWxmDiVwfo77m+Msm8
+ 7piYOOKsakS1fW+7N/j+8WPLUto9eUB8CJB1oyT5TyU965c4Zi4Bp0zvQLNmYe5CcTPFMmd/lE+
+ edPWJi21Wt/ob0x8m2qxLWhT7fQXsXhrXYoB6NA==
+X-Google-Smtp-Source: AGHT+IHg27/h28x8cH6RNystKqwtN9ObuunzW9wLXPCT62zkr9oqTMXzH3ODAVfWE0/MOqv8X7Ek5YsHXkLmGxcCKWA=
+X-Received: by 2002:a0d:da07:0:b0:64b:630f:9f85 with SMTP id
+ 00721157ae682-664fe45113fmr49718207b3.12.1721301311396; Thu, 18 Jul 2024
+ 04:15:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240718082410.204459-1-angelogioacchino.delregno@collabora.com>
- <CAGXv+5GBg73kWuiDt=9s7M4oJeHhWOF3bPY7Ju+qn1kJgNNaGw@mail.gmail.com>
- <CAC=S1nigoJWAECBrm-Q=Co1-qd_yUhx3R4D9=dYeUV=gr5UYfQ@mail.gmail.com>
- <74e7477b-81c7-4713-80cc-1cb476185bc9@collabora.com>
-In-Reply-To: <74e7477b-81c7-4713-80cc-1cb476185bc9@collabora.com>
+References: <20240718082507.216764-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240718082507.216764-1-angelogioacchino.delregno@collabora.com>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 18 Jul 2024 12:10:32 +0100
-Message-ID: <CAPj87rPZRjmMPjaOY-UH4auTuMS6mh9N7=maRBzxut2OgtALbw@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Set sensible cursor width/height values to
- fix crash
+Date: Thu, 18 Jul 2024 12:15:00 +0100
+Message-ID: <CAPj87rM1dbawwtRnMzDRLLCt6FuOU+851hcJhKDsg1ioRM2Pqw@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: Declare Z Position for all planes
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Fei Shao <fshao@chromium.org>, Chen-Yu Tsai <wenst@chromium.org>,
- chunkuang.hu@kernel.org, 
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch, 
- matthias.bgg@gmail.com, shawn.sung@mediatek.com, ck.hu@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kernel@collabora.com
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
+ daniel@ffwll.ch, matthias.bgg@gmail.com, shawn.sung@mediatek.com, 
+ ck.hu@mediatek.com, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,55 +81,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hi,
 
-On Thu, 18 Jul 2024 at 11:24, AngeloGioacchino Del Regno
+On Thu, 18 Jul 2024 at 09:25, AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
-> Il 18/07/24 11:27, Fei Shao ha scritto:
-> > This matches my preference in [1], so of course I'd like to see it
-> > merged... if maintainers are okay with it.
-> > Given I've tested the exact same change before:
-> > Reviewed-by: Fei Shao <fshao@chromium.org>
-> > Tested-by: Fei Shao <fshao@chromium.org>
+> MediaTek SoCs support multiple planes, one of which is the primary
+> and all the others are overlays (and CURSOR is the last overlay).
 >
-> Thanks!
+> In all currently supported SoCs, the Z order of the overlays can't
+> be changed with any fast muxing action, and can only be changed by
+> swapping the contents of the entire register set of one overlay
+> with the other to internally reorder the layer properties, which
+> is indeed feasible, but probably more expensive than desired.
+>
+> Declare the Z position for all planes with an immutable property
+> at least for now, so that the userspace can take its decisions
+> accordingly.
 
-And:
-Reviewed-by: Daniel Stone <daniels@collabora.com>
+Thanks a lot for this fix!
 
-> >> OOTH, Intel recently added a feature for enumerating "suggested"
-> >> cursor sizes. See https://patchwork.freedesktop.org/patch/583299/
-> >>
-> >> Not sure if other compositors will end up using it or not.
->
-> Yeah, that's good, and we might do that as well in MediaTek DRM... in a slightly
-> different way, as it looks like they are simply hinting the same values as the
-> mode_config is declaring... while we'd be adding a hint with a sensible size that
-> is less than the maximum supported one from the overlay.
->
-> In reality, here, the issue is that the most popular compositors do not support
-> overlay planes (as in, they don't use them at all)... my first idea was to remove
-> the CURSOR plane entirely and declare it as per what it is for real (an OVERLAY),
-> but that would only give a performance penalty as that'd become yet another unused
-> plane and nothing else.
->
-> If at least the most popular compositors did support overlay planes, I'd have done
-> that instead... but oh, well!
->
-> And anyway I hope that the maintainers are okay with this because, well, otherwise
-> MediaTek SoCs won't be usable with any popular WM.
+If I understand your middle paragraph correctly, please don't ever do
+that though. I think what you're suggesting by 'swapping the contents
+of the entire register set' is:
+* plane ID 40 (normally) controls OVL1
+* plane ID 41 controls OVL2
+* userspace configures planes 40 & 41 with a zpos suggesting that 41
+should be below 40
+* the DRM driver 'swaps the contents of the entire register set' by
+making plane 40 control OVL2 instead and plane 41 control OVL1 instead
 
-Every compositor is going to use it, yeah. But until it does, people
-are just going to use cursor_width and cursor_size. A lot of older
-desktop hardware supports only a single fixed dimension for the cursor
-plane (hence the single values), so rather than guess if it needs to
-be 32x32 or 64x64 or whatever, people just allocate to the size. Not
-to mention that the old pre-atomic cursor ioctls actually require that
-you allocate for cursor_width x cursor_height.
+If so - please no. Just declare an immutable zpos, because that
+actually matches the hardware, and then leave userspace to configure
+the planes in a way which makes sense. Looking at the zpos property is
+already required in order to handle overlapping overlay planes, and
+any userspace which supports overlays (including Weston) already looks
+at zpos, handles immutable properties, and will dtrt.
 
-So yeah, this is the right fix - though you could even be more
-aggressive and reduce it to 256x256 - and supporting the CURSOR_SIZE
-property would be even more useful again.
+Anyway, this is:
+Acked-by: Daniel Stone <daniels@collabora.com>
 
 Cheers,
 Daniel
