@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C40E934FC6
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 17:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816A1934FD6
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 17:22:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8ED10E983;
-	Thu, 18 Jul 2024 15:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568DE10E9A5;
+	Thu, 18 Jul 2024 15:22:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EbE45cdK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GLpNtvLp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 282BF10E0EE;
- Thu, 18 Jul 2024 15:18:33 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id
- 46e09a7af769-70364e06dc6so532778a34.0; 
- Thu, 18 Jul 2024 08:18:33 -0700 (PDT)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02EA910E9E9;
+ Thu, 18 Jul 2024 15:22:19 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id
+ 46e09a7af769-7039e4a4a03so501130a34.3; 
+ Thu, 18 Jul 2024 08:22:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721315912; x=1721920712; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721316138; x=1721920938; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=C3pgAhn8Hz+xMofFbtGLdx5btdIDRNI5147fpowYYlc=;
- b=EbE45cdKFJ3dfmtTtWo7HUlws0Kn5RXcwTYADKcztTM8HUPmTkxBfzBApvyUdsjaq0
- bW5+fjKHauEafUSTE/rIC2+pTuoK79PK2i4uMMBSUt3tcFx46qwBHlnt3wdxYESdYOVO
- BdPu1uJiCZB1jxKaAuQTb+f7dmL0m6dJdWMTT75OL3octI3fD4oxx4CPy1BpkALdwOkA
- 9+UFBIAnHALbWtt4/mngJMkh0QOLNMRPdMpEA+RWGuQDaS8ZqwVhwLNweNaJLRkJ97uy
- Q08G3RPP/58jskAildZ/2kp0Dcsti2KPiGvLQbxfZEhIpcXoJcL53w7yesx+I/mEsx3D
- dATA==
+ bh=YQJnSHtMQef7mtUVuS0yssb981i3hZaGT8EB0Q1Pc4E=;
+ b=GLpNtvLpIMotUMjMJ8u5834vENC1Bu/SXPlIgRvTOEKbjLRsW77aA6WTUrtK8XFTWp
+ Oj0Mu9+gWE3VTf27imx7c2/cRUJTO3z7NluDzgSasA0HuUR5i/zkUoS6O19lN381Xeea
+ cUkwTiAK8OjasJdERYiyE9Kjgzu/B0V4c2csPxxfObBsaWFWTdzEbW6woc1bEUCVoOJX
+ /gXqAgSCwxNasG/SYLnDKhbYInAEjwqtB9ASrrYGf6nLiN1exfGTIESPnSzWo8DDXsg5
+ ZfUf6WFR0P0yTXKIyIKGkordaxGdoUjINGctLYZ5RQi55fzUh937f4A1fUTNtqQPewxy
+ NgQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721315912; x=1721920712;
+ d=1e100.net; s=20230601; t=1721316138; x=1721920938;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=C3pgAhn8Hz+xMofFbtGLdx5btdIDRNI5147fpowYYlc=;
- b=BvIcpr/wSQXzU7XrVu8SFdsiFuhJfgcUteAnM1yKc7XcRQ7mhixic86WbcLw53K6rp
- YY2dWSQbixbOAO10wdneZYmQsW/0tfR4/2T6eLguKIoXGjUvrBAeKeRTo+vUzvm5NElb
- eu+ODVH+UuHCpqkExPqDlA2R1X4ABLKhSV6F/grHkaowtJr10T60HtbS/70WG2Sclk0s
- QH+cyfsQBNuafXunyOu52+M3Ak3WLl0cUCJgtv5wxBv7V+j5BKvtkXZ0FteQF8w9PCn3
- r2qblo3UgASlQZrj+6AO2rOMC6ikkw5y0wvBIK0HlwaKDLZVD58Vfn6BfkBEYQQutEwK
- uV4A==
+ bh=YQJnSHtMQef7mtUVuS0yssb981i3hZaGT8EB0Q1Pc4E=;
+ b=wc39qguVsn4hEv/zfQZbRMT6rz7O82QTj3F0utveXdJZi2dqFP9qKuttTB9AxVjuJb
+ 25f6nxSOPdRhyO3G1R93eZIAU0KBh6JXQgEZMicbsTKNJJBe/Gf84oDGr+VFmWiiC8Bb
+ JCpFwKtWZAkHWy/unl93AJYAbo3xtqUCcgmwDKs4/fZEbKTFGh344/3yWHmygXu+XwyV
+ U2ITQOJjD5cpHTcb9oxfAA3nObTNQgaUUj6f7WT2+Fgbi/r+N0e4IQlQ7FaQ0B+s+cxi
+ /4XfdpljxAben+MLwEeMvaJnlLk9QX4VvEg5uLsUxLIKLALOcdjEPYXpq1ViJlcCzl15
+ ncXw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVeiWqry/Alm37NQODkf9fNSMKyjpjVowYInJXeIbYkrM0SkPstTxmGLoflwELaHSaF9Uznomu+1+ejhmyvQ+fb96pe5K5Jlp0iZ13zIod1ipykggFp0TTlrx19n9R8r4lPrw4W1wdkWxQWca3CTQ==
-X-Gm-Message-State: AOJu0YynLdqbt2qTSLs0GGJYjdWbsg/dkWunJP+ggUoi/LVZnPX56wFg
- otzJ9yDIafZwavCHEd3JR7U/ncNvbTV+x5Nr67uXYCY93jWUCKajs7t7zocr2RFFKiw+oT51hGJ
- TaKc1ef8RtTqfqwRvyQm0ONjLoQ4=
-X-Google-Smtp-Source: AGHT+IFOthVJdopFJZrEzMNq3d436b+HpYYgi68VAUJis86seEnZpukZJnPvnMc2OxyBw33I3huvcQ3qV0dx69VJDqo=
-X-Received: by 2002:a05:6830:441e:b0:703:5ac3:3e4e with SMTP id
- 46e09a7af769-708e3798c15mr5541746a34.7.1721315912272; Thu, 18 Jul 2024
- 08:18:32 -0700 (PDT)
+ AJvYcCWid/JjRS5GZoA5A6Lk3u6NC+sS0IKXOlZDxll5RcpjZfv7pQ1WGSDulc3h7RqXi5di2Oa9R7gsTSDy2OKObB3ZNpqDKAVdfnIqXqI0RCJo0/TMu3g8WukhwqK2sjN4LlvbBD8O4HO7n9+ggQ9Pcw==
+X-Gm-Message-State: AOJu0YwysLFGXATmVdo6wn0ogChCIIn6hG5p9sEINaR+mFnMWUExF1Ft
+ pYqOJDmAXKO5OFg8EbqR0kd6ICImcKIlvnSe20gdQC0IIsbTg9TkTkEtHUue7rcRfUOg3nhSBqC
+ nI4BrH3fh5ssVPjxwCWXzE1ZxIVg=
+X-Google-Smtp-Source: AGHT+IEiIcjze2sqfT1hps5RiIp13M1xmJPESEzqUtct0AXla+FiYHuqmHRs8F5ZJiFygKOSV/25hAiBvLnBodoW7Ms=
+X-Received: by 2002:a05:6830:908:b0:708:c1e7:912a with SMTP id
+ 46e09a7af769-708e37889b9mr5937867a34.8.1721316138141; Thu, 18 Jul 2024
+ 08:22:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240718141141.872558-1-make24@iscas.ac.cn>
-In-Reply-To: <20240718141141.872558-1-make24@iscas.ac.cn>
+References: <20240718141735.884347-1-make24@iscas.ac.cn>
+In-Reply-To: <20240718141735.884347-1-make24@iscas.ac.cn>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 18 Jul 2024 11:18:18 -0400
-Message-ID: <CADnq5_NOBrCQ7vK3WCMJ-0TS+9B5Kq0L0MB4=xriPNXdRLmfhQ@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/amdgpu: fix a possible null pointer dereference
+Date: Thu, 18 Jul 2024 11:22:06 -0400
+Message-ID: <CADnq5_MiT9BOdo4cxi=MWABu4u5qTtNvziUbOXsUrEqeUhWPZQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amd/amdgpu: Fix uninitialized variable warnings
 To: Ma Ke <make24@iscas.ac.cn>
 Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, daniel@ffwll.ch, srinivasan.shanmugam@amd.com, 
- chenjiahao16@huawei.com, aurabindo.pillai@amd.com, Jammy.Zhou@amd.com, 
+ airlied@gmail.com, daniel@ffwll.ch, lijo.lazar@amd.com, asad.kamal@amd.com,
+ le.ma@amd.com, kenneth.feng@amd.com, evan.quan@amd.com, 
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -84,43 +84,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Thu, Jul 18, 2024 at 10:12=E2=80=AFAM Ma Ke <make24@iscas.ac.cn> wrote:
+Alex
+
+On Thu, Jul 18, 2024 at 10:17=E2=80=AFAM Ma Ke <make24@iscas.ac.cn> wrote:
 >
-> In amdgpu_connector_add_common_modes(), the return value of drm_cvt_mode(=
-)
-> is assigned to mode, which will lead to a NULL pointer dereference on
-> failure of drm_cvt_mode(). Add a check to avoid npd.
+> Return 0 to avoid returning an uninitialized variable r.
 >
 > Cc: stable@vger.kernel.org
-> Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
+> Fixes: 230dd6bb6117 ("drm/amd/amdgpu: implement mode2 reset on smu_v13_0_=
+10")
 > Signed-off-by: Ma Ke <make24@iscas.ac.cn>
 > ---
-> Changes in v3:
-> - added Cc stable line.
 > Changes in v2:
-> - modified the patch according to suggestions;
-> - added Fixes line.
+> - added Cc stable line.
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_connectors.c
-> index 9caba10315a8..25b51b600f6f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> @@ -458,6 +458,9 @@ static void amdgpu_connector_add_common_modes(struct =
-drm_encoder *encoder,
->                         continue;
->
->                 mode =3D drm_cvt_mode(dev, common_modes[i].w, common_mode=
-s[i].h, 60, false, false, false);
-> +               if (!mode)
-> +                       return;
-> +
->                 drm_mode_probed_add(connector, mode);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c b/drivers/gpu/drm/=
+amd/amdgpu/smu_v13_0_10.c
+> index 04c797d54511..0af648931df5 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c
+> @@ -91,7 +91,7 @@ static int smu_v13_0_10_mode2_suspend_ip(struct amdgpu_=
+device *adev)
+>                 adev->ip_blocks[i].status.hw =3D false;
 >         }
+>
+> -       return r;
+> +       return 0;
 >  }
+>
+>  static int
 > --
 > 2.25.1
 >
