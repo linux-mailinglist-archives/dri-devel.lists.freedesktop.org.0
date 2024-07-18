@@ -2,117 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D327A934D34
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 14:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC974934D3C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 14:32:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1064910E7EF;
-	Thu, 18 Jul 2024 12:27:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 447EC10E7FB;
+	Thu, 18 Jul 2024 12:32:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bNhX74s9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ovIq0grk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B946410E7F9
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 12:27:06 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-52ed741fe46so407480e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 05:27:06 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA85010E7FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 12:31:59 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-52ea5765e75so354337e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 05:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721305625; x=1721910425; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=q2XFn5QQgFe1WnayUef7JKEEQ6sdt3Zxd24uxnNsJOo=;
- b=bNhX74s9ChCP7GnEIWoGrtkSW3FMZDDwiK7QIPk7oJsYCq4iLclHkny/aqWJnRiTo0
- pNjAWJQWhfwTALrvc2jrYkW/FjxYid+1dfl1I+8i4lvP9YXRgsyaJEuaxEpKIgYxRuxW
- Lc6kf9B6uaCZ0tmrOyL1bsn4DVY2dwTUQuscif9ban6RkTE8KQn/DNEMK31Jxq5UfWL0
- ocynCr6zOmGOGR5rhn66PZiFm0P/jnmDW7+St9NLk+/HNqtdPBP+4YY5VdJpNHbzsbVc
- Lg9j9BlONbSHw6eUTuznq1ZiobBhVNKRzRx74QH/ioBdqXHUHLxVlgTzpyUczNSO6o8G
- Hnyw==
+ d=linaro.org; s=google; t=1721305918; x=1721910718; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=7bFckFnWty7GT0h7WRWkKM0jPqUcetmJUm4oCOzxQM0=;
+ b=ovIq0grkAVcWAhdDPyfxfrOAo3VNQtSjg9jC259X4ZwYvKuEXA760PuGgy/Gob9kLm
+ +AU7afpXAADVvhEcNsFvUHH/KIM3QAw4V7hM3PSVg7O3RIG7iaaMArBMGcV25DJM3HEx
+ 8b3/S/do1awTRWqQntguX3TOZQGr3aESI/OabpZVk7GVqgGi+9j5WZ41DhpXeGM8DfXV
+ 07TdjQaxrDd68HkkuUS1yTqNy5PlVUS/mk1JKOmhPg0KBRmZ+CX2xeiMew4LANBP1NFv
+ bWjaDp/oFRHo9JCGBG4sGgYsNbJaoVumvnReGPa/5MNydil91Oh9jqJIObuQeVkyPU3x
+ +yFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721305625; x=1721910425;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q2XFn5QQgFe1WnayUef7JKEEQ6sdt3Zxd24uxnNsJOo=;
- b=eFRgbTq6p8XH0lNV8GhiTY10ikNWlXRsF0DEbKxVbqL5FWe8zBnYCnC8EJZEMOhB7V
- I2gHKWXJ5es1JKuyrEU6lUyBluCu0ovkrGt2o2taDEdWraCTv52bXJ6qlAUTs6mh9B+q
- jtrSmyiuMrh8ptOpMDZOymNHXZSLXgwTzdstz2b490Knetk+IyWTCUN1qXGSYWcGJIZG
- JU4rXsshFTD7GWjq1OLUH8O6RESYlWW1QSLyN0t4Hw4qNyrUaIYie7e3kOZVw1qXiigB
- AAJ1SQMRY6SWz4s4VrhGjs/nMZBYX8mOb6RHAqRxfG0WJ54XcAtHbuhLIYq5zvQLT99f
- reAA==
+ d=1e100.net; s=20230601; t=1721305918; x=1721910718;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7bFckFnWty7GT0h7WRWkKM0jPqUcetmJUm4oCOzxQM0=;
+ b=eT1Vyh5ni85gq/SW/F5cCGRo5n0nBRQCcc2r7z9XsYQ1JMoPCFdx1AYwVk3sf90Xcc
+ 8td6kmIO+Zz0PCVZUgbJ2LT1GohWZGHbNOj2guI/UBjE0tgFWYKYkFgonSe6qwGSBNyK
+ ZssyrVlOCBvx493DhubGq9f2WcPPiqx1ZL4za/Dxr1tvnTpsWYo/Xasn8/oOLdKEIvG0
+ am0IGm0yEymdpyBBhot3ClkyV9DRrMBmSZDX/T3/RII6ABzT2RkCGFnJ8dodnXVeKp1E
+ Qo13F9Z/fUcHt7bVjCgFbzxuTUiyt7iQwp4Wgcin7EvjkaYchcEv85z45g2dDiEsBD4v
+ oigw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUYWgD/fn8jLs89oEeKZ3RJHFH7kwuuRIX/ohrAgbXpQAZXqNHt58cW3gvLkddFKwgMpGm9bo1WP6YCRa1YYk2Hk3R2nu4wOOz13mNVOYcX
-X-Gm-Message-State: AOJu0YzTHXPh7OOsvNjkIC5boWLy9kOI+n9kPC4ivbYocJH5Ob9YbcHn
- +5yfoHngE0DaJx11aJuwWH9y1UYu9q1juwze3yjqTebY9JlGWmtM5RITagMg3fA=
-X-Google-Smtp-Source: AGHT+IFpho18lmDKc7X0msF9sfCuM30i0lyf/vediCfHZae4eLSGRU9CVd8hHv7u8hXrqS7690aQVw==
-X-Received: by 2002:a05:6512:130a:b0:52c:e17c:3741 with SMTP id
- 2adb3069b0e04-52ee53acb53mr3121740e87.5.1721305624269; 
- Thu, 18 Jul 2024 05:27:04 -0700 (PDT)
-Received: from [192.168.105.194] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a79bc5a38c2sm551628566b.44.2024.07.18.05.27.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Jul 2024 05:27:03 -0700 (PDT)
-Message-ID: <fd74e1e5-a652-4fd9-a4fa-d44e1482a9b6@linaro.org>
-Date: Thu, 18 Jul 2024 14:27:01 +0200
+ AJvYcCWSp8Aj0tX3Rc+LbwK9jh5p4JExx4btjNbnvW95LDm1f9YP2Ji2Qm7b3+oBBlpVovLpO0mB6bUOTyv2Ne7rJ+FPa+nfuPQn4lksao7Lj7Bd
+X-Gm-Message-State: AOJu0Yz0nCb3M+BKCDQyqE2cZ0M4lOQRt3s+apWD1Gdn0h3vx1YMsZ2t
+ sgYyzmNxcxSrmJGvFrfkD8OezF0O2qysRDAKxmHseczxPQLrvVzR7Z3XCbvcdlo=
+X-Google-Smtp-Source: AGHT+IHV353nj9C2X6K4hspGVal2ktaseN9D4EwDrW1RpkZb5c5QpQoMkz6JS4I1iUevAj4265AQlQ==
+X-Received: by 2002:a05:6512:1253:b0:52e:9cf0:69db with SMTP id
+ 2adb3069b0e04-52ee5411212mr3381313e87.46.1721305917750; 
+ Thu, 18 Jul 2024 05:31:57 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52ef0744d6esm76255e87.171.2024.07.18.05.31.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Jul 2024 05:31:57 -0700 (PDT)
+Date: Thu, 18 Jul 2024 15:31:55 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>
+Cc: Doug Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC] drm/panel/simple-edp: Add Samsung ATNA45DC02
+Message-ID: <d5vfynn6ba4fwkaw7cegzillhw5qkl5z5huw2xb347j3tv7gnu@etgiotbc2x3r>
+References: <20240717215847.5310-1-robdclark@gmail.com>
+ <CAD=FV=XCOKJHJ-yzENpvm_MD34tMR5LRy2m2jYdcWzZXP4pfXQ@mail.gmail.com>
+ <CAF6AEGuBZqV4zg1asUNbMLvq0-i-iyFwfi37uKS3kWNuRSOU+g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] drm/msm: Extend gpu devcore dumps with pgtbl info
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- iommu@lists.linux.dev, Will Deacon <will@kernel.org>,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240717163627.43423-1-robdclark@gmail.com>
- <20240717163627.43423-3-robdclark@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20240717163627.43423-3-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGuBZqV4zg1asUNbMLvq0-i-iyFwfi37uKS3kWNuRSOU+g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,49 +93,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.07.2024 6:36 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Wed, Jul 17, 2024 at 06:09:29PM GMT, Rob Clark wrote:
+> On Wed, Jul 17, 2024 at 5:19 PM Doug Anderson <dianders@chromium.org> wrote:
+> >
+> > Hi,
+> >
+> > On Wed, Jul 17, 2024 at 2:58 PM Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Just a guess on the panel timings, but they appear to work.
+> > >
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > ---
+> > > This adds the panel I have on my lenovo yoga slim 7x laptop.  I couldn't
+> > > find any datasheet so timings is just a guess.  But AFAICT everything
+> > > works fine.
+> > >
+> > >  drivers/gpu/drm/panel/panel-edp.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> >
+> > Given that this is a Samsung ATNA<mumble>, is there any chance it's an
+> > OLED panel? Should it be supported with the Samsung OLED panel driver
+> > like this:
+> >
+> > https://lore.kernel.org/r/20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org
 > 
-> In the case of iova fault triggered devcore dumps, include additional
-> debug information based on what we think is the current page tables,
-> including the TTBR0 value (which should match what we have in
-> adreno_smmu_fault_info unless things have gone horribly wrong), and
-> the pagetable entries traversed in the process of resolving the
-> faulting iova.
+> it is an OLED panel, and I did see that patchset and thought that
+> samsung panel driver would work.  But changing the compat string on
+> the yoga dts only gave me a black screen (and I didn't see any of the
+> other mentioned problems with bl control or dpms with panel-edp).  So
+> :shrug:?  It could be I overlooked something else, but it _seems_ like
+> panel-edp is fine for this panel. Plus, it would avoid awkwardness if
+> it turned out there were other non-samsung 2nd sources, but so far
+> with a sample size of two 100% of these laptops have the same panel
+> ;-)
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 ++++++++++
->  drivers/gpu/drm/msm/msm_gpu.c           |  9 +++++++++
->  drivers/gpu/drm/msm/msm_gpu.h           |  8 ++++++++
->  drivers/gpu/drm/msm/msm_iommu.c         | 22 ++++++++++++++++++++++
->  drivers/gpu/drm/msm/msm_mmu.h           |  3 ++-
->  5 files changed, 51 insertions(+), 1 deletion(-)
+> But that was the reason for posting this as an RFC.  I was hoping
+> someone had some hint about where to find datasheets (my google'ing
+> was not successful), etc.
+
+Panelook has a datasheet for ATNA45DC01. It's behind a 'register new
+business email' paywall.
+
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 99661af8d941..422dae873b6b 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -861,6 +861,16 @@ void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
->  		drm_printf(p, "  - dir=%s\n", info->flags & IOMMU_FAULT_WRITE ? "WRITE" : "READ");
->  		drm_printf(p, "  - type=%s\n", info->type);
->  		drm_printf(p, "  - source=%s\n", info->block);
-> +
-> +		/* Information extracted from what we think are the current
+> BR,
+> -R
 
-I'll keep poking you for not using
-
-/*
- * foobar
-
-instead :P
-
-> +		 * pgtables.  Hopefully the TTBR0 matches what we've extracted
-> +		 * from the SMMU registers in smmu_info!
-> +		 */
-> +		drm_puts(p, "pgtable-fault-info:\n");
-> +		drm_printf(p, "  - ttbr0: %.16llx\n", (u64)info->pgtbl_ttbr0);> +		drm_printf(p, "  - asid: %d\n", info->asid);
-
-0x%08x?
-
-Konrad
+-- 
+With best wishes
+Dmitry
