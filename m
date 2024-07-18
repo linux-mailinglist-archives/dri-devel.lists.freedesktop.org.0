@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D5A935102
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 19:00:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D202935104
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 19:00:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94DEB10EA51;
-	Thu, 18 Jul 2024 17:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F9B410EA63;
+	Thu, 18 Jul 2024 17:00:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lU/uzVAk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H3remL7r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ECA410EA4F;
- Thu, 18 Jul 2024 17:00:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C2C310EA4F;
+ Thu, 18 Jul 2024 17:00:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AEFAD61B9A;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9766361BA6;
+ Thu, 18 Jul 2024 17:00:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA39EC4AF0A;
  Thu, 18 Jul 2024 17:00:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E37A5C4AF0F;
- Thu, 18 Jul 2024 17:00:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721322013;
- bh=qnfD1Xqe20pbRiYxKLLJvNmxefb5y9pi0lOyNaL4O9w=;
+ s=k20201202; t=1721322015;
+ bh=EPLPHzWrGEOLeJuNaGjh5LgxCTKpZ6gyK3S1PTRsKbA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lU/uzVAkNqHDyO2PLGG8wkkMGhjSdZ/I9s5LEosqLOxukSmJs8yDKB8ZRr7T7pflA
- x7OkNM2FyjMwpimuG7su9f5vKqvMVjs07S9eQOuLRgx9StXTNI4L/tC9kWDbpbZ3i6
- Nrjt6+WGenlrF6w2w9/DZy1BCxNfEglfjW6FOTzMcc+0OvKfNtzdz5mI97nv+VpJyA
- Y64Ed3llHuk198BJ9QZ/qtEfH/BLvhbbAxCjKw+bZqTpEU2ksRhAbRmer1D0jDed0g
- WS+26xRRqsbCzuMS7j8SYzKdBC2S7DnqVuYOF4yOkSwtyNVu4vJjmqvCKWGBSFqca5
- JbzusmJC2jSoQ==
+ b=H3remL7rPxu8MSAAL358JFVnirA2jauibLaDz/JK2cK2DXNDsnSRDrkY+mCk0cIny
+ HLUGidoIJB3Tr+apsQkh6YNGcYEFzJXv2JyFxGKCxBm6kZcjW3RD3/XOqpf6tyfCZX
+ G44p1Cf48xlKlv8VxvKxI2DegZmbowBjV3zR0gfCrmFPTUXk8LBnhsB2q4qhhfIMAs
+ KeCuKOnzhqRLVLkkSSkS0Wvs+zdeds0vK/E2Dr3aY3TnoZXX9TnLal5y1ASgN/85wF
+ IRT2TD3MgF8Jj+NzoMk3JFDKWCk5/7qMRkfYX8HMBUmOCqKZ+8ui/aeyOpkpOc9KBi
+ CiXYpaRZnR7MQ==
 From: Danilo Krummrich <dakr@kernel.org>
 To: lyude@redhat.com,
 	airlied@redhat.com,
 	christian.koenig@amd.com
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 1/3] drm/nouveau: prime: fix refcount underflow
-Date: Thu, 18 Jul 2024 18:58:46 +0200
-Message-ID: <20240718165959.3983-2-dakr@kernel.org>
+Subject: [PATCH 2/3] drm/nouveau: bo: remove unused functions
+Date: Thu, 18 Jul 2024 18:58:47 +0200
+Message-ID: <20240718165959.3983-3-dakr@kernel.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240718165959.3983-1-dakr@kernel.org>
 References: <20240718165959.3983-1-dakr@kernel.org>
@@ -59,32 +59,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Calling nouveau_bo_ref() on a nouveau_bo without initializing it (and
-hence the backing ttm_bo) leads to a refcount underflow.
+nouveau_bo_new_pin_map() and nouveau_bo_unmap_unpin_unref() are unused,
+hence remove them.
 
-Instead of calling nouveau_bo_ref() in the unwind path of
-drm_gem_object_init(), clean things up manually.
-
-Fixes: ab9ccb96a6e6 ("drm/nouveau: use prime helpers")
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_prime.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_bo.h | 29 ----------------------------
+ 1 file changed, 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
-index b58ab595faf8..cd95446d6851 100644
---- a/drivers/gpu/drm/nouveau/nouveau_prime.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
-@@ -64,7 +64,8 @@ struct drm_gem_object *nouveau_gem_prime_import_sg_table(struct drm_device *dev,
- 	 * to the caller, instead of a normal nouveau_bo ttm reference. */
- 	ret = drm_gem_object_init(dev, &nvbo->bo.base, size);
- 	if (ret) {
--		nouveau_bo_ref(NULL, &nvbo);
-+		drm_gem_object_release(&nvbo->bo.base);
-+		kfree(nvbo);
- 		obj = ERR_PTR(-ENOMEM);
- 		goto unlock;
- 	}
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.h b/drivers/gpu/drm/nouveau/nouveau_bo.h
+index 4e891752c255..3b8dfbb621da 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.h
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.h
+@@ -115,35 +115,6 @@ nvbo_kmap_obj_iovirtual(struct nouveau_bo *nvbo)
+ 	return ioptr;
+ }
+ 
+-static inline void
+-nouveau_bo_unmap_unpin_unref(struct nouveau_bo **pnvbo)
+-{
+-	if (*pnvbo) {
+-		nouveau_bo_unmap(*pnvbo);
+-		nouveau_bo_unpin(*pnvbo);
+-		nouveau_bo_ref(NULL, pnvbo);
+-	}
+-}
+-
+-static inline int
+-nouveau_bo_new_pin_map(struct nouveau_cli *cli, u64 size, int align, u32 domain,
+-		       struct nouveau_bo **pnvbo)
+-{
+-	int ret = nouveau_bo_new(cli, size, align, domain,
+-				 0, 0, NULL, NULL, pnvbo);
+-	if (ret == 0) {
+-		ret = nouveau_bo_pin(*pnvbo, domain, true);
+-		if (ret == 0) {
+-			ret = nouveau_bo_map(*pnvbo);
+-			if (ret == 0)
+-				return ret;
+-			nouveau_bo_unpin(*pnvbo);
+-		}
+-		nouveau_bo_ref(NULL, pnvbo);
+-	}
+-	return ret;
+-}
+-
+ int nv04_bo_move_init(struct nouveau_channel *, u32);
+ int nv04_bo_move_m2mf(struct nouveau_channel *, struct ttm_buffer_object *,
+ 		      struct ttm_resource *, struct ttm_resource *);
 -- 
 2.45.2
 
