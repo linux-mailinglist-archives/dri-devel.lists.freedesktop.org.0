@@ -2,33 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D50934BD9
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 12:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE21934BDB
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 12:46:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7353810E73A;
-	Thu, 18 Jul 2024 10:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA1510E745;
+	Thu, 18 Jul 2024 10:45:59 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VeqVOKfc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fxc8A71r";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VeqVOKfc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fxc8A71r";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5DE910E73C
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 10:45:56 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BFCC10E73A
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 10:45:57 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5482B1FBBC;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9E14A219D7;
  Thu, 18 Jul 2024 10:45:55 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1721299555; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U17lOIPtcNaJvJa9GoZsRHtGfzYe9lamX/zI4Fk28oo=;
+ b=VeqVOKfcO192e9Lj7vXPiEVdaP8pgk6rlnJzXJfhaOFlXarW9CWEsVv8JizYvUYEcWYiFg
+ zJy6Xszvns5/VD8yqwYa2ov2/I7ua04qonoxvqn6FgCxSxY28Bs45LbHGCxAKNKvC0mDzV
+ LN16W4gsGxXdGS5ioIvbzsVx2wl5syk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1721299555;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U17lOIPtcNaJvJa9GoZsRHtGfzYe9lamX/zI4Fk28oo=;
+ b=fxc8A71rAcGQD8EdJih3Z+wRNBgTsF2xsut55//iCrFZkFi/d/sbmUwMAsEPWrOqfgSmZS
+ 9rYWYWTfawK9KIDw==
+Authentication-Results: smtp-out1.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1721299555; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U17lOIPtcNaJvJa9GoZsRHtGfzYe9lamX/zI4Fk28oo=;
+ b=VeqVOKfcO192e9Lj7vXPiEVdaP8pgk6rlnJzXJfhaOFlXarW9CWEsVv8JizYvUYEcWYiFg
+ zJy6Xszvns5/VD8yqwYa2ov2/I7ua04qonoxvqn6FgCxSxY28Bs45LbHGCxAKNKvC0mDzV
+ LN16W4gsGxXdGS5ioIvbzsVx2wl5syk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1721299555;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U17lOIPtcNaJvJa9GoZsRHtGfzYe9lamX/zI4Fk28oo=;
+ b=fxc8A71rAcGQD8EdJih3Z+wRNBgTsF2xsut55//iCrFZkFi/d/sbmUwMAsEPWrOqfgSmZS
+ 9rYWYWTfawK9KIDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13DDE136F7;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A344137EB;
  Thu, 18 Jul 2024 10:45:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id GO2rA2PymGbeUAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 8JPLFGPymGbeUAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Thu, 18 Jul 2024 10:45:55 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, airlied@redhat.com, sam@ravnborg.org,
@@ -36,27 +77,31 @@ To: jfalempe@redhat.com, airlied@redhat.com, sam@ravnborg.org,
  mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v5 2/7] drm/mgag200: Align register field names with
- documentation
-Date: Thu, 18 Jul 2024 12:44:12 +0200
-Message-ID: <20240718104551.575912-3-tzimmermann@suse.de>
+Subject: [PATCH v5 3/7] drm/mgag200: Use adjusted mode values for CRTCs
+Date: Thu, 18 Jul 2024 12:44:13 +0200
+Message-ID: <20240718104551.575912-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240718104551.575912-1-tzimmermann@suse.de>
 References: <20240718104551.575912-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 5482B1FBBC
-X-Spamd-Result: default: False [-4.00 / 50.00]; REPLY(-4.00)[];
- TAGGED_RCPT(0.00)[]
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
 X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Score: -4.00
+X-Spam-Score: -1.30
+X-Spamd-Result: default: False [-1.30 / 50.00]; REPLY(-4.00)[];
+ SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,ravnborg.org,gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[10];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
+ TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,115 +117,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In mgag200_set_mode_regs(), align variable names with the field names
-given in the Matrox programming manuals. Makes the code and docs grep-
-able.
+Use the values with the crtc_ prefix from struct drm_display_mode to
+program hardware. The DRM core adjusted these values to the requirements
+of CRTC hardware.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/mgag200/mgag200_mode.c | 54 +++++++++++++-------------
- 1 file changed, 27 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 18b127841dd9..6a0477426c07 100644
+index 6a0477426c07..1174fb79831e 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -204,12 +204,12 @@ void mgag200_init_registers(struct mga_device *mdev)
- void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mode *mode,
- 			   bool set_vidrst)
- {
--	unsigned int hdisplay, hsyncstart, hsyncend, htotal;
--	unsigned int vdisplay, vsyncstart, vsyncend, vtotal;
-+	unsigned int hdispend, hsyncstr, hsyncend, htotal;
-+	unsigned int vdispend, vsyncstr, vsyncend, vtotal;
+@@ -208,19 +208,19 @@ void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mod
+ 	unsigned int vdispend, vsyncstr, vsyncend, vtotal;
  	u8 misc, crtcext1, crtcext2, crtcext5;
  
--	hdisplay = mode->hdisplay / 8 - 1;
--	hsyncstart = mode->hsync_start / 8 - 1;
-+	hdispend = mode->hdisplay / 8 - 1;
-+	hsyncstr = mode->hsync_start / 8 - 1;
- 	hsyncend = mode->hsync_end / 8 - 1;
- 	htotal = mode->htotal / 8 - 1;
+-	hdispend = mode->hdisplay / 8 - 1;
+-	hsyncstr = mode->hsync_start / 8 - 1;
+-	hsyncend = mode->hsync_end / 8 - 1;
+-	htotal = mode->htotal / 8 - 1;
++	hdispend = mode->crtc_hdisplay / 8 - 1;
++	hsyncstr = mode->crtc_hsync_start / 8 - 1;
++	hsyncend = mode->crtc_hsync_end / 8 - 1;
++	htotal = mode->crtc_htotal / 8 - 1;
  
-@@ -217,8 +217,8 @@ void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mod
+ 	/* Work around hardware quirk */
  	if ((htotal & 0x07) == 0x06 || (htotal & 0x07) == 0x04)
  		htotal++;
  
--	vdisplay = mode->vdisplay - 1;
--	vsyncstart = mode->vsync_start - 1;
-+	vdispend = mode->vdisplay - 1;
-+	vsyncstr = mode->vsync_start - 1;
- 	vsyncend = mode->vsync_end - 1;
- 	vtotal = mode->vtotal - 2;
+-	vdispend = mode->vdisplay - 1;
+-	vsyncstr = mode->vsync_start - 1;
+-	vsyncend = mode->vsync_end - 1;
+-	vtotal = mode->vtotal - 2;
++	vdispend = mode->crtc_vdisplay - 1;
++	vsyncstr = mode->crtc_vsync_start - 1;
++	vsyncend = mode->crtc_vsync_end - 1;
++	vtotal = mode->crtc_vtotal - 2;
  
-@@ -235,45 +235,45 @@ void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mod
- 		misc &= ~MGAREG_MISC_VSYNCPOL;
+ 	misc = RREG8(MGA_MISC_IN);
  
- 	crtcext1 = (((htotal - 4) & 0x100) >> 8) |
--		   ((hdisplay & 0x100) >> 7) |
--		   ((hsyncstart & 0x100) >> 6) |
-+		   ((hdispend & 0x100) >> 7) |
-+		   ((hsyncstr & 0x100) >> 6) |
- 		    (htotal & 0x40);
- 	if (set_vidrst)
- 		crtcext1 |= MGAREG_CRTCEXT1_VRSTEN |
- 			    MGAREG_CRTCEXT1_HRSTEN;
- 
- 	crtcext2 = ((vtotal & 0xc00) >> 10) |
--		   ((vdisplay & 0x400) >> 8) |
--		   ((vdisplay & 0xc00) >> 7) |
--		   ((vsyncstart & 0xc00) >> 5) |
--		   ((vdisplay & 0x400) >> 3);
-+		   ((vdispend & 0x400) >> 8) |
-+		   ((vdispend & 0xc00) >> 7) |
-+		   ((vsyncstr & 0xc00) >> 5) |
-+		   ((vdispend & 0x400) >> 3);
- 	crtcext5 = 0x00;
- 
- 	WREG_CRT(0x00, htotal - 4);
--	WREG_CRT(0x01, hdisplay);
--	WREG_CRT(0x02, hdisplay);
-+	WREG_CRT(0x01, hdispend);
-+	WREG_CRT(0x02, hdispend);
- 	WREG_CRT(0x03, (htotal & 0x1f) | 0x80);
--	WREG_CRT(0x04, hsyncstart);
-+	WREG_CRT(0x04, hsyncstr);
- 	WREG_CRT(0x05, ((htotal & 0x20) << 2) | (hsyncend & 0x1f));
- 	WREG_CRT(0x06, vtotal & 0xff);
- 	WREG_CRT(0x07, ((vtotal & 0x100) >> 8) |
--		       ((vdisplay & 0x100) >> 7) |
--		       ((vsyncstart & 0x100) >> 6) |
--		       ((vdisplay & 0x100) >> 5) |
--		       ((vdisplay & 0x100) >> 4) | /* linecomp */
-+		       ((vdispend & 0x100) >> 7) |
-+		       ((vsyncstr & 0x100) >> 6) |
-+		       ((vdispend & 0x100) >> 5) |
-+		       ((vdispend & 0x100) >> 4) | /* linecomp */
- 		       ((vtotal & 0x200) >> 4) |
--		       ((vdisplay & 0x200) >> 3) |
--		       ((vsyncstart & 0x200) >> 2));
--	WREG_CRT(0x09, ((vdisplay & 0x200) >> 4) |
--		       ((vdisplay & 0x200) >> 3));
--	WREG_CRT(0x10, vsyncstart & 0xff);
-+		       ((vdispend & 0x200) >> 3) |
-+		       ((vsyncstr & 0x200) >> 2));
-+	WREG_CRT(0x09, ((vdispend & 0x200) >> 4) |
-+		       ((vdispend & 0x200) >> 3));
-+	WREG_CRT(0x10, vsyncstr & 0xff);
- 	WREG_CRT(0x11, (vsyncend & 0x0f) | 0x20);
--	WREG_CRT(0x12, vdisplay & 0xff);
-+	WREG_CRT(0x12, vdispend & 0xff);
- 	WREG_CRT(0x14, 0);
--	WREG_CRT(0x15, vdisplay & 0xff);
-+	WREG_CRT(0x15, vdispend & 0xff);
- 	WREG_CRT(0x16, (vtotal + 1) & 0xff);
- 	WREG_CRT(0x17, 0xc3);
--	WREG_CRT(0x18, vdisplay & 0xff);
-+	WREG_CRT(0x18, vdispend & 0xff);
- 
- 	WREG_ECRT(0x01, crtcext1);
- 	WREG_ECRT(0x02, crtcext2);
 -- 
 2.45.2
 
