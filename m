@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C549F93515B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 19:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B966A935169
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 20:00:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5579510E806;
-	Thu, 18 Jul 2024 17:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0CC310EA97;
+	Thu, 18 Jul 2024 18:00:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cw2qDgw2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nZOvrB+k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17EA910E806
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 17:51:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5758B10EA97
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 18:00:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 97F8E61B30
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 17:51:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8B820C4AF15
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 17:51:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8490861A46;
+ Thu, 18 Jul 2024 18:00:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D281C116B1;
+ Thu, 18 Jul 2024 18:00:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721325071;
- bh=O09K363cEpKeR/0KwraulOkG1tzee/DUup+TsuEdkwo=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Cw2qDgw2l759GxhLonzRClQkymyyqbf69H3FXZa/+S7q4NPdA5srKk0T9ATNvCixV
- oSqOupEK8J6FxAVk+DSEwKYWKC1R7QvEonTu/EI9hkmKmhqSmFfeHk+wICJXw0ZKzb
- nkHtY4zbN4Upk7+DiYO/r7vOvpIZGnK1DoYGvoFeyyPstvd0iuPoPGltcspPL5L3/1
- PHVEGixD0pLH/XBa6gjORVLCGxCPd7/KbcrmQENgV/eIGy3z4n52fTbmbKLijayAdF
- 3cSzvf2BOGTKZjuEVG2vNKp7d62c5K5GfZfDbbu2dNoqfjKfJgBgL5XCihrFKGs2dx
- 1xD9Jy8OE4a1w==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 85C73C53BC1; Thu, 18 Jul 2024 17:51:11 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201497] [amdgpu]: '*ERROR* No EDID read' is back in 4.19
-Date: Thu, 18 Jul 2024 17:51:10 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-201497-2300-cSy4Gbc6Y4@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201497-2300@https.bugzilla.kernel.org/>
-References: <bug-201497-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+ s=k20201202; t=1721325621;
+ bh=BNxOr+PKf5mfSUnC5XVsqhN7i4Qre/JBnqZaBkvH6ZM=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=nZOvrB+kTmJgF41/lpt3JvwINnD7zBFYCh4igpD4DI8tgIFQ6FFXOsAZfU6cnshhv
+ nvxi4DNh/mRhT3tdh5MmJUWKEnXHQ8/M04dn+l3Qv7WPNgCJHS2XexlqTAvuWWazu6
+ XC6SuSNUcYMAO8UPSP/PESk65RICP5g51m8ijbrD5WjiJnRqj/wEyNqV2xeahtAiCT
+ ON/Td2fBjrJMCq8gAd9K/mxLqY0Xqot23BJpKmDYs53AlJ08VkQb8j3/T5I/0L2jLr
+ 3bHpbjKZIrbcnzgSJ8pLIIhPNpa9TMftyeJDpQa0UXzENORa3SBqbChN7wb5e/C6sN
+ UfSLbVDYD4fPA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 1D1E0C433E9; Thu, 18 Jul 2024 18:00:21 +0000 (UTC)
+Subject: Re: [git pull] drm next for 6.11-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tzsihck03q+ooJQhTdJsuT3eQ96zF6gd5cjDwLFu_zJhA@mail.gmail.com>
+References: <CAPM=9tzsihck03q+ooJQhTdJsuT3eQ96zF6gd5cjDwLFu_zJhA@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9tzsihck03q+ooJQhTdJsuT3eQ96zF6gd5cjDwLFu_zJhA@mail.gmail.com>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-next-2024-07-18
+X-PR-Tracked-Commit-Id: 478a52707b0abe98aac7f8c53ccddb759be66b06
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: b3ce7a30847a54a7f96a35e609303d8afecd460b
+Message-Id: <172132562105.11827.13490312017811279767.pr-tracker-bot@kernel.org>
+Date: Thu, 18 Jul 2024 18:00:21 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,22 +69,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201497
+The pull request you sent on Thu, 18 Jul 2024 15:40:08 +1000:
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2024-07-18
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |aros@gmx.com
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/b3ce7a30847a54a7f96a35e609303d8afecd460b
 
---- Comment #34 from Artem S. Tashkinov (aros@gmx.com) ---
-If no one wants this bug to be fixed, I will close the freedesktop issue. T=
-he
-AMD team can't do much if the affected people are not willing to collaborat=
-e.
+Thank you!
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
