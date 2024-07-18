@@ -2,88 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72300934AE0
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 11:28:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53ED6934AF9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 11:30:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF4BE10E65D;
-	Thu, 18 Jul 2024 09:28:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA8D510E6C1;
+	Thu, 18 Jul 2024 09:30:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="bfhUKnsQ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DtwfGyUm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
- [209.85.221.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E88D810E65D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 09:28:13 +0000 (UTC)
-Received: by mail-vk1-f179.google.com with SMTP id
- 71dfb90a1353d-4f2f24f6470so244343e0c.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 02:28:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1721294892; x=1721899692;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vIVo0OQ1EsBJVsYCtM25PmcXBbJ96Ax/6H8Xf2sBrfU=;
- b=bfhUKnsQJ+/aLpE80PGrj+oSWgKZF4UJUmOD8zGYQje0ZsBpbkLrwol+P/gdR6Qjqg
- LscxiUV3zoz2Y85XcXc75URWM+SKiqOa3Gup4Pv24SZhFCzOjjWmDBNfNdh6OBtDE9lr
- EdltPjaWXJtcqUeT89z1wK+Lopw8ASJAK5PCY=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B72E610E6B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 09:30:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1721295012;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9q9HLC7V8MLZ80zJXfERHHxdoqrkWdriaq68Cy7rAuA=;
+ b=DtwfGyUmC/f3yToMgJEKyPuAxwipU9UvA97oNE3yR1MtVpKpe4nfah7mGJ8K0aRg8KBY3y
+ 5hDMx9IiSd//STsjaih1YcGXqivwgTpxb3h0ymKac4lVqv1ZmPtCoL69PE5ciaVXIFy44e
+ RMEGB+tBBh8LTwPLXChq9z4qINwDygc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-247-EYaAgBgDNped3moY3mcxaA-1; Thu, 18 Jul 2024 05:30:08 -0400
+X-MC-Unique: EYaAgBgDNped3moY3mcxaA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4265464ddc9so584465e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 02:30:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721294892; x=1721899692;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vIVo0OQ1EsBJVsYCtM25PmcXBbJ96Ax/6H8Xf2sBrfU=;
- b=YC3ltCNITgN1mJDhJfzzauOm3KXLHY+6gazNMISWX6jXnROtyKk2i0MQ+FEK1MgDKT
- nUgZcOe8vtFsNiMjNA8vUSd5XC5kVGv3zrSGjp7QlJW/OB6m+cPihyCedK7/8bXyb0MW
- gH/YUwyFd7IJ2MCVrJ38NCEXbQ8db6M/ZJV7Xl30oRbhbMrLpmjPlsqYd1DnipOjx99D
- 2olx3HysHYiEHtMlizwuUQ9z7wARdZSH9nrkEqsgwcLhZbocYzh4rxYoMGwFhxySO9nT
- +1d594MbfCwciR69l4aiaXUlltQtIUv8Lr/mYa0mVucGmIZJM+JOG2It7lmThero18R0
- UmZg==
+ d=1e100.net; s=20230601; t=1721295007; x=1721899807;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9q9HLC7V8MLZ80zJXfERHHxdoqrkWdriaq68Cy7rAuA=;
+ b=No4oCo8XViajr3OAbn39cfzd4tUFJdgeX3Pn2xt+ItbTrS4Ymdn4p21ezJkCATbMcm
+ +VaRxezyJXhbIAo9Z+WbhRVAYf27mab3K7QPZ4t6jjbpp8NhnXLRoA3JEeSX0202Lsv1
+ tRro37o/YYCl1LMX4pTroYIzV+N9tpq2CmmZFV5HWtHq1vVDoL1pxyNEXVgcDp3fC+Uw
+ 2w2pmoR6uxzfiipCk01TtjgxdkkETgo+IOWPjzBuHe+vmc7mYEMx0okYAqDrnLjxgLAZ
+ hNqqB8mtEtM/K9rifDO6YR2g0U5LhEc5QbUvGlS4ucUxjKKhz5TQO3FSYYyfKb7ROF8S
+ faMQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUiA+5MQM8lKB8xSmKCB90J2qzauT3e/NxGpPCVlbLdg2ZqpSaTgZaSFbfdRfpCM1o4Xwz3S7vBWA3CTGsREZ9/knwA0NsmLLOl8273Fq4U
-X-Gm-Message-State: AOJu0YxSptOV5lo+oDuw6yyU/WC+fuVLd37B7QmGUmKsn/gp7gB/F8Oe
- UMq+i6kRx16ZFl9TMsyywNWZimDbBqUZ08l7FA5gVYiGThoriW0LG3uW/z6JHwMoFUMs4zd/a4q
- v3Q==
-X-Google-Smtp-Source: AGHT+IE1xrNhQihJCMhOwMC+sv/6iA5kudlEVoB80GCvXY2ZSCW+yMdaq0p0wz6R8FGMKCy9kw+XOw==
-X-Received: by 2002:a05:6122:2218:b0:4ef:66cf:8745 with SMTP id
- 71dfb90a1353d-4f4df6e5a5bmr5695754e0c.7.1721294892504; 
- Thu, 18 Jul 2024 02:28:12 -0700 (PDT)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com.
- [209.85.221.172]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-4f4ee9bd09csm120826e0c.25.2024.07.18.02.28.11
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCW41I/SjalrSwWIA1ZlzTq7gOlKAHWN/CF9WoKfiVAxdx4uJKKQ1Fpy6m2omUz9uCTJJBQPSsJEJztgrBlu6PycBTjt47gGzYm5zpdjBGGL
+X-Gm-Message-State: AOJu0YwLG/cbUdPhXSOT6J41xeHpKOVTg4Sm813ASD4gmWdpjot9HP7J
+ ykC09/iaoJwRYHoQRMgk0nQQy4MxIG8lNoVLT9o1D4szD1q1WHuVgCN4TQZf409keieWmGhsX8c
+ XtEuysrOuUEVFn84zKyJfrpzXMfPg42/zO77ubiXbGAs9iLIvmQHlnOx+I7Opqu8uCA==
+X-Received: by 2002:a05:600c:1c9d:b0:426:711c:6591 with SMTP id
+ 5b1f17b1804b1-427d2a85815mr2795365e9.4.1721295007407; 
+ Thu, 18 Jul 2024 02:30:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+8ttf1s3egHR+h5cLkePronykxkc0Zd3hb0OjoNA8amSZdiUzePN3sl9hakq1rcMyxyqpXw==
+X-Received: by 2002:a05:600c:1c9d:b0:426:711c:6591 with SMTP id
+ 5b1f17b1804b1-427d2a85815mr2795035e9.4.1721295006929; 
+ Thu, 18 Jul 2024 02:30:06 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-427d2b1f1e1sm3094685e9.30.2024.07.18.02.30.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Jul 2024 02:28:11 -0700 (PDT)
-Received: by mail-vk1-f172.google.com with SMTP id
- 71dfb90a1353d-4f2fad3fb8eso236195e0c.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 02:28:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/WQ0CyOULzEiJNRiA69PqpJ+814J2w2ajKR82VNxHA7DyHg6/Na5TFHFBKFtQOuA2OSQARXIEEPSCR9EXqJKd2GE6jDJ4TzHbFuer50tI
-X-Received: by 2002:a05:6122:3684:b0:4ec:fc9b:a0bc with SMTP id
- 71dfb90a1353d-4f4df688191mr5774468e0c.4.1721294891079; Thu, 18 Jul 2024
- 02:28:11 -0700 (PDT)
+ Thu, 18 Jul 2024 02:30:06 -0700 (PDT)
+Message-ID: <60419d31-f467-4277-97da-23c9573af2bf@redhat.com>
+Date: Thu, 18 Jul 2024 11:30:05 +0200
 MIME-Version: 1.0
-References: <20240718082410.204459-1-angelogioacchino.delregno@collabora.com>
- <CAGXv+5GBg73kWuiDt=9s7M4oJeHhWOF3bPY7Ju+qn1kJgNNaGw@mail.gmail.com>
-In-Reply-To: <CAGXv+5GBg73kWuiDt=9s7M4oJeHhWOF3bPY7Ju+qn1kJgNNaGw@mail.gmail.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Thu, 18 Jul 2024 17:27:33 +0800
-X-Gmail-Original-Message-ID: <CAC=S1nigoJWAECBrm-Q=Co1-qd_yUhx3R4D9=dYeUV=gr5UYfQ@mail.gmail.com>
-Message-ID: <CAC=S1nigoJWAECBrm-Q=Co1-qd_yUhx3R4D9=dYeUV=gr5UYfQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Set sensible cursor width/height values to
- fix crash
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org, 
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch, 
- matthias.bgg@gmail.com, shawn.sung@mediatek.com, ck.hu@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/panic: Add drm_panic_is_enabled()
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>,
+ "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
+References: <20240717090102.968152-1-jfalempe@redhat.com>
+ <20240717090102.968152-2-jfalempe@redhat.com>
+ <ZpfeiMj48JQTQcOE@phenom.ffwll.local>
+ <34305c58-38a6-4b5a-9777-69833aefa003@redhat.com>
+In-Reply-To: <34305c58-38a6-4b5a-9777-69833aefa003@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,76 +105,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 18, 2024 at 4:49=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> (CC-ed Fei Shao)
->
-> On Thu, Jul 18, 2024 at 4:24=E2=80=AFPM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
-> >
-> > Hardware-speaking, there is no feature-reduced cursor specific
-> > plane, so this driver reserves the last all Overlay plane as a
-> > Cursor plane, but sets the maximum cursor width/height to the
-> > maximum value that the full overlay plane can use.
-> >
-> > While this could be ok, it raises issues with common userspace
-> > using libdrm (especially Mutter, but other compositors too) which
-> > will crash upon performing allocations and/or using said cursor
-> > plane.
-> >
-> > Reduce the maximum width/height for the cursor to 512x512 pixels,
-> > value taken from IGT's maximum cursor size test, which succeeds.
-> >
-> > Fixes: a4c9410b31ca ("drm/mediatek: Set DRM mode configs accordingly")
-> > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@co=
-llabora.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/m=
-ediatek/mtk_drm_drv.c
-> > index 6f0b415a978d..b96763664c4f 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > @@ -540,8 +540,8 @@ static int mtk_drm_kms_init(struct drm_device *drm)
-> >         }
-> >
-> >         /* IGT will check if the cursor size is configured */
-> > -       drm->mode_config.cursor_width =3D drm->mode_config.max_width;
-> > -       drm->mode_config.cursor_height =3D drm->mode_config.max_height;
-> > +       drm->mode_config.cursor_width =3D 512;
-> > +       drm->mode_config.cursor_height =3D 512;
->
-> Fei already did the same (?) workaround downstream just recently.
 
-Well, so another userspace gets confused...
-I actually sent a separate userspace (i.e. Chrome) fix where I
-encountered the issue, so I didn't proceed with upstreaming it in the
-end.
 
-This matches my preference in [1], so of course I'd like to see it
-merged... if maintainers are okay with it.
-Given I've tested the exact same change before:
-Reviewed-by: Fei Shao <fshao@chromium.org>
-Tested-by: Fei Shao <fshao@chromium.org>
+On 18/07/2024 09:04, Jocelyn Falempe wrote:
+> 
+> 
+> On 17/07/2024 17:08, Daniel Vetter wrote:
+>> On Wed, Jul 17, 2024 at 10:48:39AM +0200, Jocelyn Falempe wrote:
+>>> It allows to check if the drm device supports drm_panic.
+>>> Prepare the work to have better integration with fbcon and vtconsole.
+>>>
+>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_panic.c | 20 ++++++++++++++++++++
+>>>   include/drm/drm_panic.h     |  2 ++
+>>>   2 files changed, 22 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+>>> index 948aed00595e..d9a25c2d0a65 100644
+>>> --- a/drivers/gpu/drm/drm_panic.c
+>>> +++ b/drivers/gpu/drm/drm_panic.c
+>>> @@ -703,6 +703,26 @@ static void debugfs_register_plane(struct 
+>>> drm_plane *plane, int index)
+>>>   static void debugfs_register_plane(struct drm_plane *plane, int 
+>>> index) {}
+>>>   #endif /* CONFIG_DRM_PANIC_DEBUG */
+>>> +/**
+>>> + * drm_panic_is_enabled
+>>> + * @dev: the drm device that may supports drm_panic
+>>> + *
+>>> + * returns true if the drm device supports drm_panic
+>>> + */
+>>> +bool drm_panic_is_enabled(struct drm_device *dev)
+>>> +{
+>>> +    struct drm_plane *plane;
+>>> +
+>>> +    if (!dev->mode_config.num_total_plane)
+>>> +        return false;
+>>> +
+>>> +    drm_for_each_plane(plane, dev)
+>>> +        if (plane->helper_private && 
+>>> plane->helper_private->get_scanout_buffer)
+>>> +            return true;
+>>> +    return false;
+>>> +}
+>>> +EXPORT_SYMBOL(drm_panic_is_enabled);
+>>
+>> This feels like overkill since you currently only have one user in the
+>> fbdev emulation code, but maybe useful in some other places ...
+>>
+>>> +
+>>>   /**
+>>>    * drm_panic_register() - Initialize DRM panic for a device
+>>>    * @dev: the drm device on which the panic screen will be displayed.
+>>> diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
+>>> index 73bb3f3d9ed9..c3a358dc3e27 100644
+>>> --- a/include/drm/drm_panic.h
+>>> +++ b/include/drm/drm_panic.h
+>>> @@ -148,11 +148,13 @@ struct drm_scanout_buffer {
+>>>   #ifdef CONFIG_DRM_PANIC
+>>> +bool drm_panic_is_enabled(struct drm_device *dev);
+>>
+>> Since it's internal only, this should be in
+>> drivers/gpu/drm/drm_crtc_internal.h and not int he include for drivers.
+> 
+> Yes, that makes sense, drivers won't need that API.
+> 
+>> With that:
+>>
+>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>
+>>>   void drm_panic_register(struct drm_device *dev);
+>>>   void drm_panic_unregister(struct drm_device *dev);
+>>
+>> These two are only used in drm.ko. Can you please move them to
+>> drm_crtc_internal.h too and drop the EXPORT_SYMBOL in a follow-up patch?
+>> We're trying to limit the exported interface and official headers to
+>> really only the pieces drivers actually need.
+> 
+> Sure, I'll add this to my next drm_panic series.
 
-[1]: https://lore.kernel.org/all/CAC=3DS1nhKPo5BUYJ_cHGz3OoPrWNh5eO8rhdyikL=
-imsqSOrZ5Xg@mail.gmail.com/
+I think this also applies to drm_panic_init() and drm_panic_exit(), that 
+I introduce in my QR code series:
+https://patchwork.freedesktop.org/patch/604890/?series=135944&rev=2
+I will move them to drm_crtc_internal.h
 
-Regards,
-Fei
->
-> OOTH, Intel recently added a feature for enumerating "suggested"
-> cursor sizes. See https://patchwork.freedesktop.org/patch/583299/
->
-> Not sure if other compositors will end up using it or not.
->
-> ChenYu
->
-> >         /* Use OVL device for all DMA memory allocations */
-> >         crtc =3D drm_crtc_from_index(drm, 0);
-> > --
-> > 2.45.2
-> >
+> 
+>>
+>> Thanks, Sima
+>>
+>>>   #else
+>>> +bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
+>>>   static inline void drm_panic_register(struct drm_device *dev) {}
+>>>   static inline void drm_panic_unregister(struct drm_device *dev) {}
+>>> -- 
+>>> 2.45.2
+>>>
+>>
+> 
+> Best regards,
+> 
+
