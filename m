@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0768C934C56
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 13:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B4B934C61
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 13:24:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD09710E78E;
-	Thu, 18 Jul 2024 11:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 115CC10E78F;
+	Thu, 18 Jul 2024 11:24:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eRVtoGyN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RR3u2hFP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4A9B10E78E
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 11:23:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1721301787;
- bh=Rhu+ivLN8i4cGGfuNKe45o1pJKIStecWgDqToMVnLUk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=eRVtoGyNQfsWeg4dFxpH5wAPa+R0323lbfRdSK23/AWBENSv+IAO3XPjSge9THc/E
- PZqHjs4HABtU3UnGe0EYzgLA+quFty+o7HbaYM2ueuBQj/5vOKc2M2FXZidiTnCaU1
- lf5JhkTpiidnrL8ssxsLdxAivJhW0mij2wPJzPeDrVWRNno4+ZpKrxpCARnFrEEYbw
- s/JHlZ7qhswD4XVdqDl8KEh5CQjt8zqnTceRAKP2if5Op5phQV3RuBJBDJEnDi0BWR
- M0ibod+QQlL4Pu/12Y9YGAq53aIJJFDv+RZl/3iYWfsqjpuTRdASZYbUQCyfkV/v+Q
- gGySo5cAKzTbQ==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A5FBB378202D;
- Thu, 18 Jul 2024 11:23:06 +0000 (UTC)
-Message-ID: <d6f20609-5127-4010-b691-40cd3b253283@collabora.com>
-Date: Thu, 18 Jul 2024 13:23:05 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA2B10E78F
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 11:24:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2C95061B22;
+ Thu, 18 Jul 2024 11:24:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFF11C116B1;
+ Thu, 18 Jul 2024 11:24:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1721301869;
+ bh=KfFyubN8rXnyBy9yxrEzBz3oAiQBkGpvwEHAWprvlDc=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=RR3u2hFPe99z1pCrlGGQwO40TMQPVFp3zE4eQgi3jnTiI5A30H2lTMAd2L7aNGiVp
+ zHvcWZ3DSBdw4/0B3PmqbOIz8MRus4AiJeMGPNLOiib+Y6uG392kK5Lbv20SEy9TdF
+ kN6h5WrCa0RZnA9sQ1kj7JdXRHcaLWd1HvO+217rMUH/sTsLObty9AzKBS2oRqzwzX
+ Sxs5Or/FMPDQbwxpcoGtBOfUBaj6ZIAhcYS/nPHNKp8j6PQB7pXwsVYPEkZE7RKNpI
+ TVvoja2NyYaFDNv1GOns6ohn/keZJzrNmAvUmHWPV6reY7hvxKn43uJY37aONJ+/wV
+ 1s6jVk/djH5AQ==
+From: Robert Foss <rfoss@kernel.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240703122715.4004765-1-alexander.stein@ew.tq-group.com>
+References: <20240703122715.4004765-1-alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH v5 1/1] drm/bridge: Silence error messages upon probe
+ deferral
+Message-Id: <172130186654.520314.13110263316783512332.b4-ty@kernel.org>
+Date: Thu, 18 Jul 2024 13:24:26 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mediatek: Set sensible cursor width/height values to
- fix crash
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Fei Shao <fshao@chromium.org>, Chen-Yu Tsai <wenst@chromium.org>,
- chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, matthias.bgg@gmail.com, shawn.sung@mediatek.com,
- ck.hu@mediatek.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-References: <20240718082410.204459-1-angelogioacchino.delregno@collabora.com>
- <CAGXv+5GBg73kWuiDt=9s7M4oJeHhWOF3bPY7Ju+qn1kJgNNaGw@mail.gmail.com>
- <CAC=S1nigoJWAECBrm-Q=Co1-qd_yUhx3R4D9=dYeUV=gr5UYfQ@mail.gmail.com>
- <74e7477b-81c7-4713-80cc-1cb476185bc9@collabora.com>
- <CAPj87rPZRjmMPjaOY-UH4auTuMS6mh9N7=maRBzxut2OgtALbw@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <CAPj87rPZRjmMPjaOY-UH4auTuMS6mh9N7=maRBzxut2OgtALbw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,68 +65,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 18/07/24 13:10, Daniel Stone ha scritto:
-> Hi all,
+On Wed, 03 Jul 2024 14:27:15 +0200, Alexander Stein wrote:
+> When -EPROBE_DEFER is returned do not raise an error, but silently return
+> this error instead. Fixes error like this:
+> [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+>   /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+> [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+>   /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
 > 
-> On Thu, 18 Jul 2024 at 11:24, AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->> Il 18/07/24 11:27, Fei Shao ha scritto:
->>> This matches my preference in [1], so of course I'd like to see it
->>> merged... if maintainers are okay with it.
->>> Given I've tested the exact same change before:
->>> Reviewed-by: Fei Shao <fshao@chromium.org>
->>> Tested-by: Fei Shao <fshao@chromium.org>
->>
->> Thanks!
-> 
-> And:
-> Reviewed-by: Daniel Stone <daniels@collabora.com>
-> 
->>>> OOTH, Intel recently added a feature for enumerating "suggested"
->>>> cursor sizes. See https://patchwork.freedesktop.org/patch/583299/
->>>>
->>>> Not sure if other compositors will end up using it or not.
->>
->> Yeah, that's good, and we might do that as well in MediaTek DRM... in a slightly
->> different way, as it looks like they are simply hinting the same values as the
->> mode_config is declaring... while we'd be adding a hint with a sensible size that
->> is less than the maximum supported one from the overlay.
->>
->> In reality, here, the issue is that the most popular compositors do not support
->> overlay planes (as in, they don't use them at all)... my first idea was to remove
->> the CURSOR plane entirely and declare it as per what it is for real (an OVERLAY),
->> but that would only give a performance penalty as that'd become yet another unused
->> plane and nothing else.
->>
->> If at least the most popular compositors did support overlay planes, I'd have done
->> that instead... but oh, well!
->>
->> And anyway I hope that the maintainers are okay with this because, well, otherwise
->> MediaTek SoCs won't be usable with any popular WM.
-> 
-> Every compositor is going to use it, yeah. But until it does, people
-> are just going to use cursor_width and cursor_size. A lot of older
-> desktop hardware supports only a single fixed dimension for the cursor
-> plane (hence the single values), so rather than guess if it needs to
-> be 32x32 or 64x64 or whatever, people just allocate to the size. Not
-> to mention that the old pre-atomic cursor ioctls actually require that
-> you allocate for cursor_width x cursor_height.
-> 
-> So yeah, this is the right fix - though you could even be more
-> aggressive and reduce it to 256x256 - and supporting the CURSOR_SIZE
-> property would be even more useful again.
-> 
+> [...]
 
-I thought about being more aggressive, but then I saw that IGT tests for up to 512
-and that MSM also declares the same, so, making IGT happy because we can indeed
-support that much (since we can support even more, but doesn't make sense) :-)
+Applied, thanks!
 
-Regarding CURSOR_SIZE ... right, I can take a look at that a bit later, most
-probably not for this merge window, though.
+[1/1] drm/bridge: Silence error messages upon probe deferral
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=bc657615e10d
 
-Cheers!
 
-> Cheers,
-> Daniel
+
+Rob
 
 
