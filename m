@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3A2935031
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 17:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E48893503B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 17:56:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39E2C10E9C1;
-	Thu, 18 Jul 2024 15:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9E010E9DF;
+	Thu, 18 Jul 2024 15:56:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mKH5T1rb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A/We4EpV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F22410E9C1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 15:53:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B822710E9DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 15:56:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 72856CE1A8B;
- Thu, 18 Jul 2024 15:53:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 872FDC116B1;
- Thu, 18 Jul 2024 15:53:03 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id C3D38CE1987;
+ Thu, 18 Jul 2024 15:56:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30B90C116B1;
+ Thu, 18 Jul 2024 15:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721317984;
- bh=B6iJ8irjzz/fOi4lxXcJbV9yEeC3eoXu0jTG6TiEPUs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mKH5T1rbFec9wRNcHrkmhjzBr2c1uhMGVcP9KX45hACZt+yoOXyRiclZLBZL5g7MQ
- 7cQkLgnxDCmdLt5++A2K+OuFLyM4frb5WPnyM/NPRwKgGX6mpSYaWqEVqJ6TdWzM7A
- fw44b5e0UH7LYuas5XxKZxFljegRv35N3S2A3opwtT2+NAHy9pDV1kBrSDGutYtZPT
- Lt0nKiTCV8rVeYGHQjPmgO4FMUyBPK3ikcSSiQl9LiPBovx0BwXUsfMLkJFbZN0f8T
- 2Md7mFGAjfTyhfn9ZtImQXKTts+K7GUBXJsgVLu2jw5VaXTAt0aBU3tIHeHwcG4Zk3
- efq+uA0gw5pmQ==
-Date: Thu, 18 Jul 2024 17:53:00 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, 
- conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- kernel@pengutronix.de, festevam@gmail.com, tglx@linutronix.de
-Subject: Re: [PATCH 02/10] dt-bindings: display: imx: Add i.MX8qxp Display
- Controller display engine
-Message-ID: <20240718-watchful-macho-muskrat-dcda01@houat>
-References: <20240705090932.1880496-1-victor.liu@nxp.com>
- <20240705090932.1880496-3-victor.liu@nxp.com>
- <cd558335-6e72-46d1-911b-68ccbb211136@kernel.org>
- <b9583c86-b5ed-4642-9baf-2ac850656ee3@nxp.com>
- <eda90514-e40c-4edd-8c15-18717a5e9784@kernel.org>
- <20240708-mega-nautilus-of-champagne-cd4be6@houat>
- <35667bd4-bfb4-4939-9fd7-328e2e8c228f@kernel.org>
+ s=k20201202; t=1721318169;
+ bh=wFUzftDcteRmA2NyKmVxglS13LnS1utkda/P2FIp9y4=;
+ h=Date:From:To:Subject:From;
+ b=A/We4EpVLkmBtNutObcnOePbkR1hlJ25HJp7KdxvYECL6I796uRDuyixuchZ9xAdP
+ s81JdowqonElXN3CO3FFGBTkSyqQoxmGAseD43XboRPlseBxcOWHv0spuDx569RCHi
+ tRQtGSA9rupij0leRbfIYGo0hmuGSo0VleOPJyIwdUi8Qp523L1u2BVK6N97RiwIz2
+ i79fgH0Wuow94uOy1k1K+ksl5j1hx1u7i7Kt6t1JprdUV5yooXp9xEmjd3IkcLj38V
+ t7if0aqAMlAdrSPqGDSyxX2nRTwsdYWq+UJEUdku1uWjyYf14o02pXEKObEsfKRs9V
+ WjFzCrcWSI4dw==
+Date: Thu, 18 Jul 2024 17:56:03 +0200
+From: Helge Deller <deller@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes and cleanups for v6.11-rc1
+Message-ID: <Zpk7E3ZBlh2UdXy2@carbonx1>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gkwlffv6qrxgj6ri"
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <35667bd4-bfb4-4939-9fd7-328e2e8c228f@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,84 +56,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Linus,
 
---gkwlffv6qrxgj6ri
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+please pull a bunch of usual cleanups for the fbdev drivers for kernel 6.11-rc1.
 
-On Tue, Jul 09, 2024 at 08:50:35AM GMT, Krzysztof Kozlowski wrote:
-> On 08/07/2024 16:52, Maxime Ripard wrote:
-> > On Mon, Jul 08, 2024 at 04:04:21PM GMT, Krzysztof Kozlowski wrote:
-> >> On 08/07/2024 08:40, Liu Ying wrote:
-> >>>>> +
-> >>>>> +  "^framegen@[0-9a-f]+$":
-> >>>>> +    type: object
-> >>>>> +    additionalProperties: true
-> >>>>> +
-> >>>>> +    properties:
-> >>>>> +      compatible:
-> >>>>> +        const: fsl,imx8qxp-dc-framegen
-> >>>>> +
-> >>>>> +  "^gammacor@[0-9a-f]+$":
-> >>>>
-> >>>> This looks like you are organizing bindings per your driver architec=
-ture.
-> >>>
-> >>> As I mentioned in cover letter, this series addresses Maxime's
-> >>> comment for the previous series - split the display controller
-> >>> into multiple internal devices.  Maxime insisted on doing this.
-> >>
-> >> But these are not separate devices. Look:
-> >> 1. parent DC:
-> >> reg =3D <0x56180000 0x40000>;
-> >>
-> >> 2. child interrupt controller:
-> >> reg =3D <0x56180040 0x60>;
-> >>
-> >> That address is within parent.
-> >>
-> >> 3. Then we go to things like:
-> >> reg =3D <0x5618b400 0x14>, <0x5618b800 0x1c00>;
-> >>
-> >> Still within parent's range and just few words in address range. That's
-> >> a clear indication that you choose few registers and call it a "device=
-".
-> >=20
-> > That's never really been a metric though?
-> >=20
-> > If not, one could just create a "soc" device node covering the entire
-> > register map, and since it would overlap despite clearly defined
-> > features, you would claim it's a single device?
->=20
-> Since I do not create such one-address-soc devices, I claim I have
-> separate devices in the SoC. Here is not the case: there is a device
-> covering entire address space.
->=20
-> Soc is a good example, because components/blocks of the SoC are being
-> re-used among different SoCs. Is the case here?
->=20
-> BTW, it could be that some of the sub-devices here are worth to be
-> devices, I agree.
+Thanks!
+Helge
 
-This was the binding of the previous version:
-https://lore.kernel.org/dri-devel/20230822085949.816844-2-victor.liu@nxp.co=
-m/
+----------------------------------------------------------------
+The following changes since commit 83a7eefedc9b56fe7bfeff13b6c7356688ffa670:
 
-To me, the duplication of interrupts, clocks and power domains with
-different indices kind of proves that it's all separate devices
+  Linux 6.10-rc3 (2024-06-09 14:19:43 -0700)
 
-Maxime
+are available in the Git repository at:
 
---gkwlffv6qrxgj6ri
-Content-Type: application/pgp-signature; name="signature.asc"
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.11-rc1
 
------BEGIN PGP SIGNATURE-----
+for you to fetch changes up to 8b5ea9029b03efda74292c57e0377a98ed0b7434:
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZpk6XAAKCRDj7w1vZxhR
-xYY5AQDq8KMOoRmdOKy1XHix4IqZooYahpg3GzvOtZ/WqsMsZwEA8vf7t6Uk7oIc
-BmI0C5iPkUa2dgea9uKW9CpOO3yBXAM=
-=8Z54
------END PGP SIGNATURE-----
+  fbdev: viafb: Make I2C terminology more inclusive (2024-07-11 12:07:48 +0200)
 
---gkwlffv6qrxgj6ri--
+----------------------------------------------------------------
+fbdev fixes and cleanups for 6.11-rc1:
+
+- Detect VGA compatibility from VESA attributes [Thomas Zimmermann]
+- Make I2C terminology more inclusive in smscufx and viafb [Easwar Hariharan]
+- Add lots of missing MODULE_DESCRIPTION() macros [Jeff Johnson]
+- Logo code cleanups [Geert Uytterhoeven]
+- Minor fixes by Chen Ni, Kuninori Morimoto, Uwe Kleine-König and Christophe Jaillett
+
+----------------------------------------------------------------
+Chen Ni (1):
+      fbdev: omap2: Return clk_prepare_enable to transfer the error
+
+Christophe JAILLET (1):
+      fbdev: mmp: Constify struct mmp_overlay_ops
+
+Easwar Hariharan (2):
+      fbdev: smscufx: Make I2C terminology more inclusive
+      fbdev: viafb: Make I2C terminology more inclusive
+
+Geert Uytterhoeven (2):
+      video/logo: Make logo data const again
+      video/logo: Remove linux_serial_image comments
+
+Jeff Johnson (11):
+      fbdev: matroxfb: add missing MODULE_DESCRIPTION() macros
+      fbdev: viafb: add missing MODULE_DESCRIPTION() macro
+      fbdev: kyro: add missing MODULE_DESCRIPTION() macro
+      fbdev: goldfishfb: add missing MODULE_DESCRIPTION() macro
+      fbdev: macmodes: add missing MODULE_DESCRIPTION() macro
+      fbdev: vfb: add missing MODULE_DESCRIPTION() macro
+      fbdev: offb: add missing MODULE_DESCRIPTION() macro
+      fbdev: c2p_planar: add missing MODULE_DESCRIPTION() macro
+      fbdev: amifb: add missing MODULE_DESCRIPTION() macro
+      video: console: add missing MODULE_DESCRIPTION() macros
+      video: agp: add remaining missing MODULE_DESCRIPTION() macros
+
+Kuninori Morimoto (2):
+      fbdev: omapdss: use for_each_endpoint_of_node()
+      fbdev: omapfb: use of_graph_get_remote_port()
+
+Thomas Zimmermann (1):
+      fbdev: vesafb: Detect VGA compatibility from screen info's VESA attributes
+
+Uwe Kleine-König (1):
+      fbdev: Drop explicit initialization of struct i2c_device_id::driver_data to 0
+
+ drivers/char/agp/ali-agp.c                         |  1 +
+ drivers/char/agp/alpha-agp.c                       |  1 +
+ drivers/char/agp/amd-k7-agp.c                      |  1 +
+ drivers/char/agp/ati-agp.c                         |  1 +
+ drivers/char/agp/efficeon-agp.c                    |  1 +
+ drivers/char/agp/nvidia-agp.c                      |  1 +
+ drivers/char/agp/parisc-agp.c                      |  1 +
+ drivers/char/agp/sworks-agp.c                      |  1 +
+ drivers/video/console/mdacon.c                     |  1 +
+ drivers/video/console/newport_con.c                |  1 +
+ drivers/video/console/sticon.c                     |  1 +
+ drivers/video/console/vgacon.c                     |  1 +
+ drivers/video/fbdev/amifb.c                        |  1 +
+ drivers/video/fbdev/c2p_planar.c                   |  1 +
+ drivers/video/fbdev/goldfishfb.c                   |  1 +
+ drivers/video/fbdev/kyro/fbdev.c                   |  1 +
+ drivers/video/fbdev/macmodes.c                     |  1 +
+ drivers/video/fbdev/matrox/matroxfb_DAC1064.c      |  1 +
+ drivers/video/fbdev/matrox/matroxfb_Ti3026.c       |  1 +
+ drivers/video/fbdev/matrox/matroxfb_accel.c        |  1 +
+ drivers/video/fbdev/matrox/matroxfb_maven.c        |  2 +-
+ drivers/video/fbdev/mmp/hw/mmp_ctrl.c              |  2 +-
+ drivers/video/fbdev/offb.c                         |  1 +
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c      | 15 +-------------
+ .../fbdev/omap2/omapfb/dss/omapdss-boot-init.c     |  3 +--
+ drivers/video/fbdev/omap2/omapfb/dss/venc.c        |  4 +---
+ drivers/video/fbdev/smscufx.c                      |  4 ++--
+ drivers/video/fbdev/ssd1307fb.c                    |  8 ++++----
+ drivers/video/fbdev/vesafb.c                       |  2 +-
+ drivers/video/fbdev/vfb.c                          |  1 +
+ drivers/video/fbdev/via/chip.h                     |  8 ++++----
+ drivers/video/fbdev/via/dvi.c                      | 24 +++++++++++-----------
+ drivers/video/fbdev/via/lcd.c                      |  6 +++---
+ drivers/video/fbdev/via/via_aux.h                  |  2 +-
+ drivers/video/fbdev/via/via_i2c.c                  | 12 +++++------
+ drivers/video/fbdev/via/viafbdev.c                 |  1 +
+ drivers/video/fbdev/via/vt1636.c                   |  6 +++---
+ drivers/video/logo/pnmtologo.c                     |  4 ++--
+ include/linux/linux_logo.h                         |  3 ---
+ include/linux/screen_info.h                        | 10 +++++++++
+ include/video/mmp_disp.h                           |  4 ++--
+ 41 files changed, 78 insertions(+), 64 deletions(-)
