@@ -2,70 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082F9934C44
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 13:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF65934C46
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 13:16:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAC5810E76E;
-	Thu, 18 Jul 2024 11:15:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE8FB10E78D;
+	Thu, 18 Jul 2024 11:16:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="OmwXMokc";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="4gHUvNBC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA8410E76E
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 11:15:12 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-65f880c56b1so6321657b3.3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 04:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1721301311; x=1721906111;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fvLtlvVLIc2uX9Mv4C24Hw1TFHGs1i0AqLl5Tk1HA1I=;
- b=OmwXMokcf5zBxHsYLSLY3UiC3S/R67TgQB0W+tx/NUiEcChAgdNn36S5SEZvNS6w/3
- NKvXS3ZAkMBGI2pZHrEGcOR8fGwN5VKCFfXmvjmJ5jYYH/UEydj69znLpLoUjUCVKPwB
- ud4fQxfnhCEMkC9ew263S979RDAPooK783sY5ACe1sjtdOZJhrFjl0LaJa2EB0IhJRf+
- 2+HGwshoUpHnviGQwYjDabYGd+70mEm9KClrQHbnhs/O7anMxLF2tIL8m90VhmM9+IIs
- G3LWpE1wSTQ8hREQDs8uLW7f6oj5zICihnIIbJ0YaLrrbOVLKWwka8Q1Pv2iLxHLfbmj
- g7wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721301311; x=1721906111;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fvLtlvVLIc2uX9Mv4C24Hw1TFHGs1i0AqLl5Tk1HA1I=;
- b=enDrGCm1fC63FvmoAfMfEgBllcKTWBwSLl3ZwBZbQASOKS4hzDRXCWVWvNgTSgFMEo
- qQMSAe3Suufzqyj4OrPgwAYBBjLirBSZpRPCb7y0uJ8/1aX/sbVEY/4RkR+/WjCcm2kc
- Q/KCKitFxYYbECu/6qaeIOCTO17MqxSVs3KCa59x+KwT8HLMRFEIcB+cqDki1QUhJhp7
- subkJxSSaD5kXU1QM6QJnyUWZQB183GPoELWMduKqMRAsUkvgbqrUsP0tEmoFbuX/44e
- GXCHZduRCoBu8yPQzXlaJVVaN22M2GptbDRB2zuqpSSa8thzqkOXAlA0HLvHX4e/kx3C
- 3XHg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlQuXgrmmb/+NhL+8TjT0mmRmPEylVMMGUx616mabKsCVoRrMgj9bXUaUoamCP2qEqyiKmuDxWkJt5zufG+sIXkp5o3uWw80NEiiQ6nvAX
-X-Gm-Message-State: AOJu0YwdnHTkupqd/7PgAiMuac0BYINWnoi+UxvWxmDiVwfo77m+Msm8
- 7piYOOKsakS1fW+7N/j+8WPLUto9eUB8CJB1oyT5TyU965c4Zi4Bp0zvQLNmYe5CcTPFMmd/lE+
- edPWJi21Wt/ob0x8m2qxLWhT7fQXsXhrXYoB6NA==
-X-Google-Smtp-Source: AGHT+IHg27/h28x8cH6RNystKqwtN9ObuunzW9wLXPCT62zkr9oqTMXzH3ODAVfWE0/MOqv8X7Ek5YsHXkLmGxcCKWA=
-X-Received: by 2002:a0d:da07:0:b0:64b:630f:9f85 with SMTP id
- 00721157ae682-664fe45113fmr49718207b3.12.1721301311396; Thu, 18 Jul 2024
- 04:15:11 -0700 (PDT)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77BB910E78D
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 11:16:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1721301385;
+ bh=yzrtypeLSjgTpA1ibO4fLpAZ53cWe3qvHSB3tV2gkzs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=4gHUvNBCDaGrv/F4bxZWI83aaUEK+JY04kcTD9sBaPm+ruAo03sB9dOR3klGcBssb
+ Vi5sSdyvCKc2HSqHqu5gGwSAg4SKfeVIwPn44eiwI1GBkgrry1aoFEPEs4tMrCYQSn
+ jMLtI1zuiT6ig2x2DKFp7tx7uH0FsatIlYYi/7jawjF/EAa7wuZjHonH9vzsXYjsVy
+ aHQipavfr5CGowrt4N4nsMQbtY8l2llZLfXfJBYOHv9dDvifJaDru1AyyDvp6iF8Jy
+ bVkKCStDCKS804lircH60EDoo68KlxMdvM/H5y18RrLrXzeJ5KMx12RSfTf6SrBY6q
+ 5WxEhsvj9Cllw==
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: koike)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 84A5B37813D3;
+ Thu, 18 Jul 2024 11:16:23 +0000 (UTC)
+Message-ID: <6d958123-1e4e-4a40-aedb-9a88de6e7dda@collabora.com>
+Date: Thu, 18 Jul 2024 08:16:22 -0300
 MIME-Version: 1.0
-References: <20240718082507.216764-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240718082507.216764-1-angelogioacchino.delregno@collabora.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 18 Jul 2024 12:15:00 +0100
-Message-ID: <CAPj87rM1dbawwtRnMzDRLLCt6FuOU+851hcJhKDsg1ioRM2Pqw@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Declare Z Position for all planes
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- daniel@ffwll.ch, matthias.bgg@gmail.com, shawn.sung@mediatek.com, 
- ck.hu@mediatek.com, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ci: update link to Gitlab server
+To: Deborah Brouwer <deborah.brouwer@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, vignesh.raman@collabora.com,
+ sergi.blanch.torne@collabora.com, guilherme.gallo@collabora.com,
+ robdclark@gmail.com
+References: <20240717235221.64629-1-deborah.brouwer@collabora.com>
+Content-Language: en-US
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20240717235221.64629-1-deborah.brouwer@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +63,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Thu, 18 Jul 2024 at 09:25, AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
-> MediaTek SoCs support multiple planes, one of which is the primary
-> and all the others are overlays (and CURSOR is the last overlay).
->
-> In all currently supported SoCs, the Z order of the overlays can't
-> be changed with any fast muxing action, and can only be changed by
-> swapping the contents of the entire register set of one overlay
-> with the other to internally reorder the layer properties, which
-> is indeed feasible, but probably more expensive than desired.
->
-> Declare the Z position for all planes with an immutable property
-> at least for now, so that the userspace can take its decisions
-> accordingly.
 
-Thanks a lot for this fix!
+On 17/07/2024 20:52, Deborah Brouwer wrote:
+> Before building an image, the build script looks to see if there are fixes
+> to apply from an upstream repository. The link for the upstream repository
+> git://anongit.freedesktop.org/drm/drm became obsolete with the move to
+> Gitlab server in March 2024. Until recently, this obsolete link was
+> harmless because anongit would at least respond that there were no such
+> fixes available. In the last few days anongit has stopped responding to
+> requests causing the build script to hang indefinitely.
+> 
+> Update the link from anongit to the Gitlab server to prevent the build
+> script from hanging indefinitely.
+> 
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 
-If I understand your middle paragraph correctly, please don't ever do
-that though. I think what you're suggesting by 'swapping the contents
-of the entire register set' is:
-* plane ID 40 (normally) controls OVL1
-* plane ID 41 controls OVL2
-* userspace configures planes 40 & 41 with a zpos suggesting that 41
-should be below 40
-* the DRM driver 'swaps the contents of the entire register set' by
-making plane 40 control OVL2 instead and plane 41 control OVL1 instead
+Acked-by: Helen Koike <helen.koike@collabora.com>
 
-If so - please no. Just declare an immutable zpos, because that
-actually matches the hardware, and then leave userspace to configure
-the planes in a way which makes sense. Looking at the zpos property is
-already required in order to handle overlapping overlay planes, and
-any userspace which supports overlays (including Weston) already looks
-at zpos, handles immutable properties, and will dtrt.
+Thanks
+Helen
 
-Anyway, this is:
-Acked-by: Daniel Stone <daniels@collabora.com>
+> ---
+> Link to pipeline for this change:
+> https://gitlab.freedesktop.org/dbrouwer/kernel/-/pipelines/1226742
+> 
+>   drivers/gpu/drm/ci/gitlab-ci.yml | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+> index b09976c3d2c2..259fb1c9a855 100644
+> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+> @@ -2,7 +2,7 @@ variables:
+>     DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
+>     DRM_CI_COMMIT_SHA: &drm-ci-commit-sha e2b9c5a9e3e4f9b532067af8022eaef8d6fc6c00
+>   
+> -  UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+> +  UPSTREAM_REPO: https://gitlab.freedesktop.org/drm/kernel.git
+>     TARGET_BRANCH: drm-next
+>   
+>     IGT_VERSION: f13702b8e4e847c56da3ef6f0969065d686049c5
 
-Cheers,
-Daniel
