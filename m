@@ -2,63 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CF79350AE
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 18:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79459350B4
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 18:31:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8B8710EA33;
-	Thu, 18 Jul 2024 16:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0423B10EA36;
+	Thu, 18 Jul 2024 16:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZxFw9KLg";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="YmVfHKHx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15EA910EA2E;
- Thu, 18 Jul 2024 16:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721320029; x=1752856029;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=6QBWazy265C6LP9HyuILq4wsh5qDit459zjNSoRwOFE=;
- b=ZxFw9KLgp+Jr1yvq4dNZ12y9TwuAn7KvnJkvD0jerw/QsZsml0UOIsPy
- JMHY5tCBo91dlYBDoy0O8DSV/6iWbUIK5XgxgPDwGQcC0yNYBr0j55LwQ
- N0gIfmF5FeVqBtpjQWvEwIsDmIEFHMDGDnVykY/GjT3NvqFQ1mREpMjtM
- HjRfYJ5gOlfS+KWpbb/YgCbjvAzCyBfSpM7WzVG6HH62VI8Xq7/3Lbzza
- OQaJpsPqFOwlpk2JdImXxeVqgvBmF4gZTfRMknsmnrK1+NiqdtFAOhl+g
- 264eJ6QT3VNIvTBnydvO9Ak8w1/sGzEWiFBXTJ2mPJOlSB+adZGn2vIFG w==;
-X-CSE-ConnectionGUID: Ho3t1KQTSJGnL/HGR/aBiw==
-X-CSE-MsgGUID: 6RAO+y8ESWOdt8IAt9Ke0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="19027080"
-X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; d="scan'208";a="19027080"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2024 09:27:08 -0700
-X-CSE-ConnectionGUID: zF4VZghuTeWPOmHFnoKWJQ==
-X-CSE-MsgGUID: QFzvCoYoTnmS15T+Bbgifg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; d="scan'208";a="55348454"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.244.207])
- ([10.245.244.207])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2024 09:27:06 -0700
-Message-ID: <005ede82-0d72-4ad5-87a4-9a8bfdb81d2a@intel.com>
-Date: Thu, 18 Jul 2024 17:27:04 +0100
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA9B10EA36
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 16:31:28 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id
+ af79cd13be357-79f08b01ba6so44414885a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 09:31:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1721320286; x=1721925086;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kYXM0M2L9/ShtUVFb30rLFi4Wo4QnGam8REPnb23O7o=;
+ b=YmVfHKHxuV1IDoCJ1Aysp62iqJ2Tqs/p/ewgcv1cAKzYWuv5GbussE52Szih1IE5tl
+ d9UKprKjInS8gsiingwAl5SqaF65aJnJnEEW14id1BDUi035qhGym62YMI7luoJUd3EF
+ FQ5LEzJFT2jqRSffbwhHSP8hbaqNlfC51dy4M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721320286; x=1721925086;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kYXM0M2L9/ShtUVFb30rLFi4Wo4QnGam8REPnb23O7o=;
+ b=AGzj1QnneYY5OfMlDnyoxMk8R3V7QVrIasyoZBLvzYqmygRPElDmzvoSikTH9GuZo0
+ i904tMGxElaAIS+63LSj1XUoc4Qar03U1WmMp6EeD8BYHy5FT6/58x/CgSpMfIToj/nh
+ eepCx6BeWIpIONk25t/B1ppK8rltzcVdf1weOf58gVNojOJ7jnrU4oMI3TMYz7w4vMUy
+ zNMK0yuOjGoM+CrhZGNMzwn3NpIZ+2Xlbp6mA+C6Q2wl0nxfyhM9H9ignpHRZz0Zhu07
+ 888X3LsvVKZ6FHiAhuPDRSXEzhJVJYUkqw+Dvy//ZtqwotZUXUyiWI3eNe+pcidFELkI
+ oUUQ==
+X-Gm-Message-State: AOJu0YxA1nbxsfZfCVxgZarizwxpiv7zhrHT5FR5bDtoQluThzDxFR7C
+ jNuEXjlIxasTT//5LAssMnbnMWfJcENxwV1YW2eYkWYmr6FTASSNVjIM59Btl7IN6kOj1AbOBss
+ =
+X-Google-Smtp-Source: AGHT+IFyqKUiW6OdsF0yz61Fu12XAZanJHEaex5GNonuvNi8ugnvMCnQK/mNO55vxY6PPyuxzTeANg==
+X-Received: by 2002:a05:620a:2591:b0:79e:fd1e:6fc4 with SMTP id
+ af79cd13be357-7a193b54b5amr203915985a.34.1721320285845; 
+ Thu, 18 Jul 2024 09:31:25 -0700 (PDT)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com.
+ [209.85.160.179]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7a1938fabefsm40907585a.60.2024.07.18.09.31.24
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Jul 2024 09:31:25 -0700 (PDT)
+Received: by mail-qt1-f179.google.com with SMTP id
+ d75a77b69052e-447f8aa87bfso2361cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 09:31:24 -0700 (PDT)
+X-Received: by 2002:ac8:53cd:0:b0:447:ed90:7396 with SMTP id
+ d75a77b69052e-44f96ac4b5dmr1388311cf.24.1721320284402; Thu, 18 Jul 2024
+ 09:31:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] drm/xe/lnl: Offload system clear page activity to
- GPU
-To: Nirmoy Das <nirmoy.das@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-References: <20240704081841.30212-1-nirmoy.das@intel.com>
- <20240704081841.30212-4-nirmoy.das@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20240704081841.30212-4-nirmoy.das@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240717215847.5310-1-robdclark@gmail.com>
+ <CAD=FV=XCOKJHJ-yzENpvm_MD34tMR5LRy2m2jYdcWzZXP4pfXQ@mail.gmail.com>
+ <CAF6AEGuBZqV4zg1asUNbMLvq0-i-iyFwfi37uKS3kWNuRSOU+g@mail.gmail.com>
+ <CAD=FV=UMiDTLBBEMk3fpg+TfE_K23fyL+JDZj77Fe9fCY8DyjA@mail.gmail.com>
+ <CAF6AEGs22brXntJ-eDv_uTZGc2=rH2q2V4y6Vt8K4s+dsO=4-A@mail.gmail.com>
+In-Reply-To: <CAF6AEGs22brXntJ-eDv_uTZGc2=rH2q2V4y6Vt8K4s+dsO=4-A@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 18 Jul 2024 09:31:07 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WJQBTjt61ma-CoJQeGYKigEyXpA6j25JSyEfikrLeSNQ@mail.gmail.com>
+Message-ID: <CAD=FV=WJQBTjt61ma-CoJQeGYKigEyXpA6j25JSyEfikrLeSNQ@mail.gmail.com>
+Subject: Re: [RFC] drm/panel/simple-edp: Add Samsung ATNA45DC02
+To: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ Rob Clark <robdclark@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,231 +97,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/07/2024 09:18, Nirmoy Das wrote:
-> On LNL because of flat CCS, driver creates a migrate job to clear
-> CCS meta data. Extend that to also clear system pages using GPU.
-> Inform TTM to allocate pages without __GFP_ZERO to avoid double page
-> clearing by clearing out TTM_TT_FLAG_ZERO_ALLOC flag and set
-> TTM_TT_FLAG_CLEARED_ON_FREE while freeing to skip ttm pool's
-> clearn-on-free as XE now takes care of clearing pages. If a bo
-> is in system placement and there is a cpu map then for such BO gpu
-> clear will be avoided as there is no dma mapping for such BO.
-> 
-> To test the patch, created a small test that tries to submit a job
-> after binding various sizes of buffer which shows good gains for larger
-> buffer. For lower buffer sizes, the result is not very reliable as the
-> results vary a lot.
-> 
-> With the patch
-> sudo  ~/igt-gpu-tools/build/tests/xe_exec_store --run
-> basic-store-benchmark
-> IGT-Version: 1.28-g2ed908c0b (x86_64) (Linux: 6.10.0-rc2-xe+ x86_64)
-> Using IGT_SRANDOM=1719237905 for randomisation
-> Opened device: /dev/dri/card0
-> Starting subtest: basic-store-benchmark
-> Starting dynamic subtest: WC
-> Dynamic subtest WC: SUCCESS (0.000s)
-> Time taken for size SZ_4K: 9493 us
-> Time taken for size SZ_2M: 5503 us
-> Time taken for size SZ_64M: 13016 us
-> Time taken for size SZ_128M: 29464 us
-> Time taken for size SZ_256M: 38408 us
-> Time taken for size SZ_1G: 148758 us
-> Starting dynamic subtest: WB
-> Dynamic subtest WB: SUCCESS (0.000s)
-> Time taken for size SZ_4K: 3889 us
-> Time taken for size SZ_2M: 6091 us
-> Time taken for size SZ_64M: 20920 us
-> Time taken for size SZ_128M: 32394 us
-> Time taken for size SZ_256M: 61710 us
-> Time taken for size SZ_1G: 215437 us
-> Subtest basic-store-benchmark: SUCCESS (0.589s)
-> 
-> With the patch:
-> sudo  ~/igt-gpu-tools/build/tests/xe_exec_store --run
-> basic-store-benchmark
-> IGT-Version: 1.28-g2ed908c0b (x86_64) (Linux: 6.10.0-rc2-xe+ x86_64)
-> Using IGT_SRANDOM=1719238062 for randomisation
-> Opened device: /dev/dri/card0
-> Starting subtest: basic-store-benchmark
-> Starting dynamic subtest: WC
-> Dynamic subtest WC: SUCCESS (0.000s)
-> Time taken for size SZ_4K: 11803 us
-> Time taken for size SZ_2M: 4237 us
-> Time taken for size SZ_64M: 8649 us
-> Time taken for size SZ_128M: 14682 us
-> Time taken for size SZ_256M: 22156 us
-> Time taken for size SZ_1G: 74457 us
-> Starting dynamic subtest: WB
-> Dynamic subtest WB: SUCCESS (0.000s)
-> Time taken for size SZ_4K: 5129 us
-> Time taken for size SZ_2M: 12563 us
-> Time taken for size SZ_64M: 14860 us
-> Time taken for size SZ_128M: 26064 us
-> Time taken for size SZ_256M: 47167 us
-> Time taken for size SZ_1G: 170304 us
-> Subtest basic-store-benchmark: SUCCESS (0.417s)
-> 
-> With the patch and init_on_alloc=0
-> sudo  ~/igt-gpu-tools/build/tests/xe_exec_store --run
-> basic-store-benchmark
-> IGT-Version: 1.28-g2ed908c0b (x86_64) (Linux: 6.10.0-rc2-xe+ x86_64)
-> Using IGT_SRANDOM=1719238219 for randomisation
-> Opened device: /dev/dri/card0
-> Starting subtest: basic-store-benchmark
-> Starting dynamic subtest: WC
-> Dynamic subtest WC: SUCCESS (0.000s)
-> Time taken for size SZ_4K: 4803 us
-> Time taken for size SZ_2M: 9212 us
-> Time taken for size SZ_64M: 9643 us
-> Time taken for size SZ_128M: 13479 us
-> Time taken for size SZ_256M: 22429 us
-> Time taken for size SZ_1G: 83110 us
-> Starting dynamic subtest: WB
-> Dynamic subtest WB: SUCCESS (0.000s)
-> Time taken for size SZ_4K: 4003 us
-> Time taken for size SZ_2M: 4443 us
-> Time taken for size SZ_64M: 12960 us
-> Time taken for size SZ_128M: 13741 us
-> Time taken for size SZ_256M: 26841 us
-> Time taken for size SZ_1G: 84746 us
-> Subtest basic-store-benchmark: SUCCESS (0.290s)
-> 
-> v2: Handle regression on dgfx(Himal)
->      Update commit message as no ttm API changes needed.
-> v3: Fix Kunit test.
-> v4: handle data leak on cpu mmap(Thomas)
-> 
-> Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> ---
->   drivers/gpu/drm/xe/xe_bo.c           | 25 ++++++++++++++++++++++++-
->   drivers/gpu/drm/xe/xe_device.c       |  7 +++++++
->   drivers/gpu/drm/xe/xe_device_types.h |  2 ++
->   3 files changed, 33 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> index 4d6315d2ae9a..b76a44fcf3b1 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.c
-> +++ b/drivers/gpu/drm/xe/xe_bo.c
-> @@ -387,6 +387,13 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
->   		caching = ttm_uncached;
->   	}
->   
-> +	/* If the device can support gpu clear pages then set proper ttm
+Hi,
 
-Nit: for multi-line block comment style is usually:
+On Thu, Jul 18, 2024 at 9:25=E2=80=AFAM Rob Clark <robdclark@gmail.com> wro=
+te:
+>
+> On Thu, Jul 18, 2024 at 9:00=E2=80=AFAM Doug Anderson <dianders@chromium.=
+org> wrote:
+> >
+> > Hi,
+> >
+> > On Wed, Jul 17, 2024 at 6:09=E2=80=AFPM Rob Clark <robdclark@gmail.com>=
+ wrote:
+> > >
+> > > On Wed, Jul 17, 2024 at 5:19=E2=80=AFPM Doug Anderson <dianders@chrom=
+ium.org> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > On Wed, Jul 17, 2024 at 2:58=E2=80=AFPM Rob Clark <robdclark@gmail.=
+com> wrote:
+> > > > >
+> > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > >
+> > > > > Just a guess on the panel timings, but they appear to work.
+> > > > >
+> > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > ---
+> > > > > This adds the panel I have on my lenovo yoga slim 7x laptop.  I c=
+ouldn't
+> > > > > find any datasheet so timings is just a guess.  But AFAICT everyt=
+hing
+> > > > > works fine.
+> > > > >
+> > > > >  drivers/gpu/drm/panel/panel-edp.c | 2 ++
+> > > > >  1 file changed, 2 insertions(+)
+> > > >
+> > > > Given that this is a Samsung ATNA<mumble>, is there any chance it's=
+ an
+> > > > OLED panel? Should it be supported with the Samsung OLED panel driv=
+er
+> > > > like this:
+> > > >
+> > > > https://lore.kernel.org/r/20240715-x1e80100-crd-backlight-v2-0-31b7=
+f2f658a3@linaro.org
+> > >
+> > > it is an OLED panel, and I did see that patchset and thought that
+> > > samsung panel driver would work.  But changing the compat string on
+> > > the yoga dts only gave me a black screen (and I didn't see any of the
+> > > other mentioned problems with bl control or dpms with panel-edp).  So
+> > > :shrug:?  It could be I overlooked something else, but it _seems_ lik=
+e
+> > > panel-edp is fine for this panel. Plus, it would avoid awkwardness if
+> > > it turned out there were other non-samsung 2nd sources, but so far
+> > > with a sample size of two 100% of these laptops have the same panel
+> >
+> > Hmm, OK. One question for you: are you using the "enable" GPIO in
+> > panel-edp? IMO the code handling that GPIO in panel-edp is somewhat
+> > dodgy, but it predates my deeper involvement with panels. I've never
+> > seen an eDP panel that could use panel-edp where it was actually
+> > required--every instance where someone thought it was required was
+> > better modeled by using that GPIO as the backlight enable. On the
+> > other hand, the "enable" GPIO in the Samsung OLED panel driver came
+> > straight from the panel datasheet and it makes sense for it to be in
+> > the panel driver since the backlight is handled straight by the
+> > panel...
+>
+> hmm, at least current dts doesn't have an enable gpio.  Which could be
+> why panel-samsung-atna33xc20 wasn't working.
+>
+> It is entirely possible we are relying on something left on by the bootlo=
+ader.
 
-/*
-  * If the device
+That would be my best guess. Is there any way for you to find out if
+there's an enable GPIO?
 
-> +	 * flag. Zeroed pages are only required for ttm_bo_type_device so
-> +	 * unwanted data is leaked to userspace.
 
-not leaked?
+> > In any case, I guess if things are working it doesn't really hurt to
+> > take it in panel-edp for now...
+> >
+>
+> I wonder if using compatible=3D"edp-panel" everywhere isn't a great idea
+> if we want to switch drivers later.  But I guess that is already water
+> under the bridge (so to speak)
 
-> +	 */
-> +	if (ttm_bo->type == ttm_bo_type_device && xe->mem.gpu_page_clear)
-> +		page_flags |= TTM_TT_FLAG_CLEARED_ON_FREE;
-> +
->   	err = ttm_tt_init(&tt->ttm, &bo->ttm, page_flags, caching, extra_pages);
->   	if (err) {
->   		kfree(tt);
-> @@ -408,6 +415,10 @@ static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct ttm_tt *tt,
->   	if (tt->page_flags & TTM_TT_FLAG_EXTERNAL)
->   		return 0;
->   
-> +	/* Clear TTM_TT_FLAG_ZERO_ALLOC when GPU is set to clear pages */
-> +	if (tt->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE)
-> +		tt->page_flags &= ~TTM_TT_FLAG_ZERO_ALLOC;
-> +
->   	err = ttm_pool_alloc(&ttm_dev->pool, tt, ctx);
->   	if (err)
->   		return err;
-> @@ -653,6 +664,14 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
->   
->   	int ret = 0;
->   
-> +	/*
-> +	 * Clear TTM_TT_FLAG_CLEARED_ON_FREE on bo creation path when
-> +	 * moving to system as the bo doesn't dma_mapping.
-> +	 */
+For panels that aren't OLED it's all very standard and we're kinda
+forced to use something generic since manufacturers want lots of 2nd
+(and 3rd and 4th and ...) sourcing. As far as I've been able to tell
+you can't do 2nd sourcing between OLED panels and other panels since
+the wires hooked up to the panels are a little different for the OLED
+panels and the power sequencing is a bit different. It would also be
+pretty obvious to an end user if some of their devices had an OLED
+panel and some didn't. I'm not aware of OLED panels other than the
+Samsung ones, but I haven't done any real research here...
 
-Ok, so I guess with deferred allocation you always get CPU clear, but 
-there is no funny business in the fault hander.
-
-> +	if (!old_mem && ttm && !ttm_tt_is_populated(ttm)) {
-> +		ttm->page_flags &= ~TTM_TT_FLAG_CLEARED_ON_FREE;
-> +	}
-
-Nit: Can drop the {}
-
-> +
->   	/* Bo creation path, moving to system or TT. */
->   	if ((!old_mem && ttm) && !handle_system_ccs) {
->   		if (new_mem->mem_type == XE_PL_TT)
-> @@ -676,7 +695,8 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
->   						(!mem_type_is_vram(old_mem_type) && !tt_has_data);
->   
->   	needs_clear = (ttm && ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC) ||
-> -		(!ttm && ttm_bo->type == ttm_bo_type_device);
-> +		(!ttm && ttm_bo->type == ttm_bo_type_device) ||
-> +		(ttm && ttm->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE);
->   
->   	if (new_mem->mem_type == XE_PL_TT) {
->   		ret = xe_tt_map_sg(ttm);
-> @@ -790,6 +810,9 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
->   					 handle_system_ccs;
->   			bool clear_bo_data = mem_type_is_vram(new_mem->mem_type);
->   
-> +			if (ttm && (ttm->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE))
-> +				clear_bo_data |= true;
-> +
->   			fence = xe_migrate_clear(migrate, bo, new_mem,
->   						 clear_bo_data, clear_ccs);
->   		}
-> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-> index 03492fbcb8fb..7c682a53f06e 100644
-> --- a/drivers/gpu/drm/xe/xe_device.c
-> +++ b/drivers/gpu/drm/xe/xe_device.c
-> @@ -636,6 +636,13 @@ int xe_device_probe(struct xe_device *xe)
->   	if (err)
->   		goto err;
->   
-> +	/**
-
-Nit: can drop the extra * since this is not actual kernel-doc.
-
-> +	 * On iGFX device with flat CCS, we clear CCS metadata, let's extend that
-> +	 * and use GPU to clear pages as well.
-> +	 */
-> +	if (xe_device_has_flat_ccs(xe) && !IS_DGFX(xe))
-> +		xe->mem.gpu_page_clear = true;
-
-Could potentially move this into xe_ttm_sys_mgr_init() ?
-
-> +
->   	err = xe_vram_probe(xe);
->   	if (err)
->   		goto err;
-> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-> index 3bca6d344744..28eaf2ab1f25 100644
-> --- a/drivers/gpu/drm/xe/xe_device_types.h
-> +++ b/drivers/gpu/drm/xe/xe_device_types.h
-> @@ -325,6 +325,8 @@ struct xe_device {
->   		struct xe_mem_region vram;
->   		/** @mem.sys_mgr: system TTM manager */
->   		struct ttm_resource_manager sys_mgr;
-> +		/** @gpu_page_clear: clear pages offloaded to GPU */
-
-@mem.gpu_page_clear?
-
-Should we maybe also rename this to gpu_page_clear_sys or similar? Since 
-we technically already "clear pages offloaded to GPU" for vram.
-
-> +		bool gpu_page_clear;
->   	} mem;
->   
->   	/** @sriov: device level virtualization data */
+-Doug
