@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9298C93509E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 18:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11739350AA
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2024 18:25:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C55A910EA17;
-	Thu, 18 Jul 2024 16:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4102210E187;
+	Thu, 18 Jul 2024 16:25:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="CHHnY9+3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Td/HEUeT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
- [209.85.128.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7F5310EA33
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 16:22:45 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-661369ff30aso9271017b3.2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 09:22:45 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06B7810E187
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 16:25:54 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2eeb2d60efbso15028861fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2024 09:25:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1721319765; x=1721924565;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1721319953; x=1721924753; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xSlw2AHTwry2OBzvgYyscA8XuYc9F1NsOVa6CuSK7aw=;
- b=CHHnY9+3alDXc0faOKhHUaG5WiGD7ouiBy/ktT6gWYx00tXgAUctPtsHzFMicxYNmK
- VvJ5cpXwJwTvWgvt56G5lZrQU1se0J8bxCqyp8R3FzYggTpjrGdKRQ62LsqFAGfcNU0r
- Ul76jGt9FGQYB1HG3CttDHNL35pXMoTEsxd8E=
+ bh=gJQIRnbTYy2sGZ5gk+HAHZWSmrPa0UShn83IpJ2tEh4=;
+ b=Td/HEUeTYq5YMhEX21/Dvczw20oVJWdrfrOKE09GsaQYcK1sjApTY1HrAibILlHsC8
+ zNi0ugKjwW5EA3TrU5X4natdfM2MvBBz5Kee0PkCQ26LcDQTc8p7pqvm5fPl50wqFNYQ
+ 40svb3Ud+m/vPquuYIsR7pajk6NRYeEpqzNIck/MHohyG178HOlyF7RVYQYi5/r0pJNX
+ rPK0GJulucJp/hLpyrU35wJ4oHqmVf2xem42ZL4rnqRkIjwcYhXh1XZgp/aq90JJURDa
+ luQqaF4U1wbGkONFrne8fmvTozhye+71C8ppRLybs4TRjM9ZGPh5oWybvchV9CLUU/N3
+ q8gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721319765; x=1721924565;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1721319953; x=1721924753;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xSlw2AHTwry2OBzvgYyscA8XuYc9F1NsOVa6CuSK7aw=;
- b=Ze43awz1SPChhc352ZyxDhQvbV2MARuZPCsPFF/xeRFk4qa8GUz04XAaNum5G1TOsR
- 4SayBqxp/R3PNM1xBRsGBF8wExcGnbiLD8t1mD9mePDXYiS8i5pplk2muJa8rlAdn+c6
- 6TKEn3pAqgUy6+41KrG2VDporsOwzwPsgM1gQFchT876wiPt3iiUz7HA44pfq/J7Y40M
- EiCj+qX8R5gpx4rZhoFMitmSU8fegnBSyrpVeNP40VsDx2c/0l+nei2sGjGn/XJut527
- BSK77eTRvkT7lGN1+pyzH+6uj01VIr/yaRzjL56poxzCNVd7flwdY5niYwyaH+0eOTEq
- OHHw==
-X-Gm-Message-State: AOJu0YxDj5GUQjKYnThDAPpCB6k4NGi33qMXmIy8pavM22Zh1XHwkB9y
- FYLzOGvbhwRobTyz6B27/DBUBIGkIIKyvm3+pPlZMhuJ1zEAVona4Fo7sp/O2od83pMcbAjkjK5
- /qAjZlkKnoYRdtGNqZ8D1nRmxIyn+PKYrZ9JCEr4wXkZalKv1SRDmy/VM8fkaLsnhqZs2/XNxQZ
- RPwDo+PSkNYJ8kQ6+myyCC/TRbc1z98cdBjeY1ecun2GD/uUhCZg==
-X-Google-Smtp-Source: AGHT+IHpf+WSDTVkHxPcnkwesMozKR0eHD2a9kCwlFqsrUYaRdIHHE5ZkMYVkqlMPFaDG6qOm+BhCg==
-X-Received: by 2002:a05:690c:2c93:b0:64b:9f5f:67b2 with SMTP id
- 00721157ae682-66603510ff7mr34412107b3.31.1721319764767; 
- Thu, 18 Jul 2024 09:22:44 -0700 (PDT)
-Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net.
- [173.49.113.140]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7a1938f8ae8sm39988285a.70.2024.07.18.09.22.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jul 2024 09:22:44 -0700 (PDT)
-From: Zack Rusin <zack.rusin@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Zack Rusin <zack.rusin@broadcom.com>
-Subject: [PATCH v4 4/4] drm/vmwgfx: Add basic support for external buffers
-Date: Thu, 18 Jul 2024 12:21:44 -0400
-Message-ID: <20240718162239.13085-5-zack.rusin@broadcom.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240718162239.13085-1-zack.rusin@broadcom.com>
-References: <20240718162239.13085-1-zack.rusin@broadcom.com>
+ bh=gJQIRnbTYy2sGZ5gk+HAHZWSmrPa0UShn83IpJ2tEh4=;
+ b=bsdrgDwJeubZiDnW785Cy5co2on7OI9w2RDgiPM+c/nw9jMeE9y+aDDXS1SNrzDeyw
+ KkGtxDZcHU0r+G/+RGyOt1sLKnraf5CuHIMlzMFJwyKgPNGatC0ANWFt2uBtCijdlseN
+ Y/PFGGRYUbzAGyIUtYHVR+4HGu4DF9Hxi4JKG6RsrnRyCtNVIWq2xgKP2+4OsfKTqJWw
+ 61AN71vM53L2lnpeqID9qo9poAuN6j3/9X+eTPMWAcC2PxTVRg8x9X+1p15sDUNXBLHq
+ ByruUzyhZKlNdFi8jMXrMe5pVQ2/STGVVyst4czRii/aJakfLzKrU0g4N/rDFcmi/7gz
+ XB9Q==
+X-Gm-Message-State: AOJu0YwVzt1ApbSerCQqV64QWAkFuXkSgXGbpKivIPQzqzcKvj3BgnUu
+ mDiM+s4+xeczns0jkeBmQVue6D7PqoQeiM2/CE32yy0XOTACztxFk/0QjLID/hsi6nA3dFIDJXK
+ Y/9zjpZro+txC6i1P+BM7ce+60/M=
+X-Google-Smtp-Source: AGHT+IG+LN9SE1sQOAD4WTHQhFN5BbXkqVEFuPvsEPI+d/27gk+W67iADV6K6CnQBlGKixrjKAEdN1ZkXxCckNCAcNU=
+X-Received: by 2002:a2e:a541:0:b0:2ee:7dfe:d99c with SMTP id
+ 38308e7fff4ca-2ef05d2ed3fmr24920861fa.31.1721319952621; Thu, 18 Jul 2024
+ 09:25:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240717215847.5310-1-robdclark@gmail.com>
+ <CAD=FV=XCOKJHJ-yzENpvm_MD34tMR5LRy2m2jYdcWzZXP4pfXQ@mail.gmail.com>
+ <CAF6AEGuBZqV4zg1asUNbMLvq0-i-iyFwfi37uKS3kWNuRSOU+g@mail.gmail.com>
+ <CAD=FV=UMiDTLBBEMk3fpg+TfE_K23fyL+JDZj77Fe9fCY8DyjA@mail.gmail.com>
+In-Reply-To: <CAD=FV=UMiDTLBBEMk3fpg+TfE_K23fyL+JDZj77Fe9fCY8DyjA@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 18 Jul 2024 09:25:39 -0700
+Message-ID: <CAF6AEGs22brXntJ-eDv_uTZGc2=rH2q2V4y6Vt8K4s+dsO=4-A@mail.gmail.com>
+Subject: Re: [RFC] drm/panel/simple-edp: Add Samsung ATNA45DC02
+To: Doug Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ Rob Clark <robdclark@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,110 +85,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make vmwgfx go through the dma-buf interface to map/unmap imported
-buffers. The driver used to try to directly manipulate external
-buffers, assuming that everything that was coming to it had to live
-in cpu accessible memory. While technically true because what's in the
-vms is controlled by us, it's semantically completely broken.
+On Thu, Jul 18, 2024 at 9:00=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Wed, Jul 17, 2024 at 6:09=E2=80=AFPM Rob Clark <robdclark@gmail.com> w=
+rote:
+> >
+> > On Wed, Jul 17, 2024 at 5:19=E2=80=AFPM Doug Anderson <dianders@chromiu=
+m.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Wed, Jul 17, 2024 at 2:58=E2=80=AFPM Rob Clark <robdclark@gmail.co=
+m> wrote:
+> > > >
+> > > > From: Rob Clark <robdclark@chromium.org>
+> > > >
+> > > > Just a guess on the panel timings, but they appear to work.
+> > > >
+> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > ---
+> > > > This adds the panel I have on my lenovo yoga slim 7x laptop.  I cou=
+ldn't
+> > > > find any datasheet so timings is just a guess.  But AFAICT everythi=
+ng
+> > > > works fine.
+> > > >
+> > > >  drivers/gpu/drm/panel/panel-edp.c | 2 ++
+> > > >  1 file changed, 2 insertions(+)
+> > >
+> > > Given that this is a Samsung ATNA<mumble>, is there any chance it's a=
+n
+> > > OLED panel? Should it be supported with the Samsung OLED panel driver
+> > > like this:
+> > >
+> > > https://lore.kernel.org/r/20240715-x1e80100-crd-backlight-v2-0-31b7f2=
+f658a3@linaro.org
+> >
+> > it is an OLED panel, and I did see that patchset and thought that
+> > samsung panel driver would work.  But changing the compat string on
+> > the yoga dts only gave me a black screen (and I didn't see any of the
+> > other mentioned problems with bl control or dpms with panel-edp).  So
+> > :shrug:?  It could be I overlooked something else, but it _seems_ like
+> > panel-edp is fine for this panel. Plus, it would avoid awkwardness if
+> > it turned out there were other non-samsung 2nd sources, but so far
+> > with a sample size of two 100% of these laptops have the same panel
+>
+> Hmm, OK. One question for you: are you using the "enable" GPIO in
+> panel-edp? IMO the code handling that GPIO in panel-edp is somewhat
+> dodgy, but it predates my deeper involvement with panels. I've never
+> seen an eDP panel that could use panel-edp where it was actually
+> required--every instance where someone thought it was required was
+> better modeled by using that GPIO as the backlight enable. On the
+> other hand, the "enable" GPIO in the Samsung OLED panel driver came
+> straight from the panel datasheet and it makes sense for it to be in
+> the panel driver since the backlight is handled straight by the
+> panel...
 
-Fix importing of external buffers by forwarding all memory access
-requests to the importer.
+hmm, at least current dts doesn't have an enable gpio.  Which could be
+why panel-samsung-atna33xc20 wasn't working.
 
-Tested by the vmw_prime basic_vgem test.
+It is entirely possible we are relying on something left on by the bootload=
+er.
 
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_gem.c | 62 +++++++++++++++++++++++++++--
- 1 file changed, 58 insertions(+), 4 deletions(-)
+> In any case, I guess if things are working it doesn't really hurt to
+> take it in panel-edp for now...
+>
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-index 07185c108218..b9857f37ca1a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-@@ -1,6 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 OR MIT */
- /*
-- * Copyright 2021-2023 VMware, Inc.
-+ * Copyright (c) 2021-2024 Broadcom. All Rights Reserved. The term
-+ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
-  *
-  * Permission is hereby granted, free of charge, to any person
-  * obtaining a copy of this software and associated documentation
-@@ -78,6 +79,59 @@ static struct sg_table *vmw_gem_object_get_sg_table(struct drm_gem_object *obj)
- 	return drm_prime_pages_to_sg(obj->dev, vmw_tt->dma_ttm.pages, vmw_tt->dma_ttm.num_pages);
- }
- 
-+static int vmw_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
-+{
-+	struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(obj);
-+	int ret;
-+
-+	if (obj->import_attach) {
-+		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
-+		if (!ret) {
-+			if (drm_WARN_ON(obj->dev, map->is_iomem)) {
-+				dma_buf_vunmap(obj->import_attach->dmabuf, map);
-+				return -EIO;
-+			}
-+		}
-+	} else {
-+		ret = ttm_bo_vmap(bo, map);
-+	}
-+
-+	return ret;
-+}
-+
-+static void vmw_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
-+{
-+	if (obj->import_attach)
-+		dma_buf_vunmap(obj->import_attach->dmabuf, map);
-+	else
-+		drm_gem_ttm_vunmap(obj, map);
-+}
-+
-+static int vmw_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+{
-+	int ret;
-+
-+	if (obj->import_attach) {
-+		/*
-+		 * Reset both vm_ops and vm_private_data, so we don't end up with
-+		 * vm_ops pointing to our implementation if the dma-buf backend
-+		 * doesn't set those fields.
-+		 */
-+		vma->vm_private_data = NULL;
-+		vma->vm_ops = NULL;
-+
-+		ret = dma_buf_mmap(obj->dma_buf, vma, 0);
-+
-+		/* Drop the reference drm_gem_mmap_obj() acquired.*/
-+		if (!ret)
-+			drm_gem_object_put(obj);
-+
-+		return ret;
-+	}
-+
-+	return drm_gem_ttm_mmap(obj, vma);
-+}
-+
- static const struct vm_operations_struct vmw_vm_ops = {
- 	.pfn_mkwrite = vmw_bo_vm_mkwrite,
- 	.page_mkwrite = vmw_bo_vm_mkwrite,
-@@ -94,9 +148,9 @@ static const struct drm_gem_object_funcs vmw_gem_object_funcs = {
- 	.pin = vmw_gem_object_pin,
- 	.unpin = vmw_gem_object_unpin,
- 	.get_sg_table = vmw_gem_object_get_sg_table,
--	.vmap = drm_gem_ttm_vmap,
--	.vunmap = drm_gem_ttm_vunmap,
--	.mmap = drm_gem_ttm_mmap,
-+	.vmap = vmw_gem_vmap,
-+	.vunmap = vmw_gem_vunmap,
-+	.mmap = vmw_gem_mmap,
- 	.vm_ops = &vmw_vm_ops,
- };
- 
--- 
-2.43.0
+I wonder if using compatible=3D"edp-panel" everywhere isn't a great idea
+if we want to switch drivers later.  But I guess that is already water
+under the bridge (so to speak)
 
+BR,
+-R
+
+> > But that was the reason for posting this as an RFC.  I was hoping
+> > someone had some hint about where to find datasheets (my google'ing
+> > was not successful), etc.
+>
+> I don't personally have any hints.
+>
+> -Doug
+>
