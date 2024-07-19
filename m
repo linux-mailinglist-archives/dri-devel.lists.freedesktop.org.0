@@ -2,85 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F083937DFC
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 01:20:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA511937E4F
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 02:00:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D795710E00F;
-	Fri, 19 Jul 2024 23:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFB4B10E21D;
+	Sat, 20 Jul 2024 00:00:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DRlxlBg1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ylg76yH6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43ED810E00F;
- Fri, 19 Jul 2024 23:20:15 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46JCaK58018986;
- Fri, 19 Jul 2024 23:20:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ajCd/fFzWDC/10poGqgu/TrgGPcUkVYIIG0EefyGMBw=; b=DRlxlBg13+tPmeQO
- CgFoa2XvJSNXNqK5ydVOquI/ZOyVE1ShPInhRRdGMHpkTcAcPfQrGtTHz8qczI2/
- a2rcG4PtHTE2z3IX9/EtSfsLF2IZd5pSVFG2czvQ9xSlI3LAIXBldl9tC2Zf5wYb
- ymIaahXfnoUa4Q/IjIkEM6iX8K/FkrJve2gYBGkAlg2PfE4+tCvaymwm28Gvj8gC
- HMUTKLBEfp7LWtbPfPUsITdjfmoRlhYpOkWs/Y2nYHeCLGcfI0p9++hP1VfePNA4
- r+rA9q2Zl9+MSftLOyyMRIaOal/HOcItDmsItOCMWXuiHRTKI78AcD+Umo50qEnC
- K+IsTA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40fe352kqq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Jul 2024 23:20:06 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46JNK5Tn012780
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Jul 2024 23:20:05 GMT
-Received: from [10.110.15.12] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 19 Jul
- 2024 16:20:04 -0700
-Message-ID: <734e1b86-f946-4a43-a6f9-304fa3a263ab@quicinc.com>
-Date: Fri, 19 Jul 2024 16:20:03 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 13/16] drm/msm/dpu: move layout setup population out of
- dpu_plane_prepare_fb()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-CC: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>, 
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240625-dpu-mode-config-width-v5-0-501d984d634f@linaro.org>
- <20240625-dpu-mode-config-width-v5-13-501d984d634f@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240625-dpu-mode-config-width-v5-13-501d984d634f@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: -Bj6WZMUPDbLUflBnODsOCPDfxIorQ3o
-X-Proofpoint-ORIG-GUID: -Bj6WZMUPDbLUflBnODsOCPDfxIorQ3o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-19_09,2024-07-18_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=877 clxscore=1015
- mlxscore=0 spamscore=0 adultscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2407190172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9516C10E217;
+ Sat, 20 Jul 2024 00:00:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1721433611; x=1752969611;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=aBoz3VQtKjR347qbQvuPrbIrMs7EZ4ScxRPSRxtCVRg=;
+ b=Ylg76yH610hIrCkf+nkaVe6/qRtbFEvHhajcYw5SEF9Qhxdj2aaJwboo
+ KIq+80D+OVkUfZcYJ1qrw4D8Z7u/Vy5tPfcUVYeA67st1FnpHOj9vQ4nZ
+ mJlRXDthsNZyROlu6si8TS7CvT2aMmS8dpSUHp0y1pcKFHmX8DdLi+pFj
+ dGqkaE8jmfwudyPE8DxE9PU/9VeHuWI/S/+9XrbX90tuIlQ/HjZFwFjh+
+ aY6odzxnc5AakeKlB3RFKxKS3YhTC2vaJiZoVewuynDd+1K0djb7C/9gG
+ mHlMCIg9InrP4QnWi75pF2RCO0VP6sWGlmSvA9vLNBeIx8qjgtNeMpUwg A==;
+X-CSE-ConnectionGUID: 01X+R114QpeuD/ujH2BIGA==
+X-CSE-MsgGUID: orGq40fWT9WdBA7JUc3XJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="19203979"
+X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; d="scan'208";a="19203979"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2024 17:00:11 -0700
+X-CSE-ConnectionGUID: oI8TVU6KT4um5oZlVgTLPQ==
+X-CSE-MsgGUID: E8lOVbDmRJ24D6C40c4QhA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; d="scan'208";a="51902343"
+Received: from akshataa-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.125.49.76])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2024 17:00:10 -0700
+Date: Fri, 19 Jul 2024 16:55:24 -0700
+Message-ID: <87h6clc4yb.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ Jose Souza <jose.souza@intel.com>, dri-devel@lists.freedesktop.org,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>
+Subject: Re: When sysfs is not available (say containers)
+In-Reply-To: <ngf2rtw3xmerq7ghspiog75oy4kzl6pmp6lltvhzm265yld6fj@hbhx72bprba3>
+References: <20240618014609.3233427-1-ashutosh.dixit@intel.com>
+ <20240618014609.3233427-6-ashutosh.dixit@intel.com>
+ <871q3p5nsz.wl-ashutosh.dixit@intel.com>
+ <ngf2rtw3xmerq7ghspiog75oy4kzl6pmp6lltvhzm265yld6fj@hbhx72bprba3>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/29.4 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,24 +77,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 19 Jul 2024 10:26:20 -0700, Lucas De Marchi wrote:
+>
+> On Fri, Jul 19, 2024 at 09:50:04AM GMT, Ashutosh Dixit wrote:
+> > On Mon, 17 Jun 2024 18:45:57 -0700, Ashutosh Dixit wrote:
+> >>
+> >
+> > Folks,
+> >
+> > The below is just an example from one of the earlier OA patches (already
+> > merged):
+> >
+> >> [PATCH 05/17] drm/xe/oa/uapi: Add/remove OA config perf ops
+> >>
+> >> +static ssize_t show_dynamic_id(struct kobject *kobj,
+> >> +			       struct kobj_attribute *attr,
+> >> +			       char *buf)
+> >> +{
+> >> +	struct xe_oa_config *oa_config =
+> >> +		container_of(attr, typeof(*oa_config), sysfs_metric_id);
+> >> +
+> >> +	return sysfs_emit(buf, "%d\n", oa_config->id);
+> >> +}
+> >> +
+> >> +static int create_dynamic_oa_sysfs_entry(struct xe_oa *oa,
+> >> +					 struct xe_oa_config *oa_config)
+> >> +{
+> >> +	sysfs_attr_init(&oa_config->sysfs_metric_id.attr);
+> >> +	oa_config->sysfs_metric_id.attr.name = "id";
+> >> +	oa_config->sysfs_metric_id.attr.mode = 0444;
+> >> +	oa_config->sysfs_metric_id.show = show_dynamic_id;
+> >> +	oa_config->sysfs_metric_id.store = NULL;
+> >> +
+> >> +	oa_config->attrs[0] = &oa_config->sysfs_metric_id.attr;
+> >> +	oa_config->attrs[1] = NULL;
+> >> +
+> >> +	oa_config->sysfs_metric.name = oa_config->uuid;
+> >> +	oa_config->sysfs_metric.attrs = oa_config->attrs;
+> >> +
+> >> +	return sysfs_create_group(oa->metrics_kobj, &oa_config->sysfs_metric);
+> >> +}
+> >
+> > So we often expose things in sysfs. The question is: are there general
+> > guidelines for what to do for environments (such as containers) where
+> > userspace cannot access sysfs? E.g. in such cases, do we expose the
+> > information exposed in sysfs via queries (i.e. an ioctl)? Or another way?
+> > What have we done in the past in drm and what should we do in these cases
+> > for Xe?
+>
+> userspace should be written in a way to handle sysfs potentially not
+> being around and not crash in that case. Providing limited functionality
+> is fine and user can decide what to do in that case. Creating
+> duplicate and alternative API to handle this is not a good solution IMO.
+>
+> For containers, it's common to mount sysfs read-only to give container
+> visibility on the host configuration... or parts of it in case you are
+> giving the container privilege over that part of the system.
+>
+> Related, on another project I maintain (kmod) including systemd folks:
+> https://github.com/kmod-project/kmod/issues/10
+>
+> From https://systemd.io/CONTAINER_INTERFACE/:
+>
+>	Make sure to pre-mount /proc/, /sys/, and /sys/fs/selinux/ before
+>	invoking systemd, and mount /sys/, /sys/fs/selinux/ and /proc/sys/
+>	read-only (the latter via e.g. a read-only bind mount on itself)
+>
+> that page has more information on other parts of sysfs that people make
+> writable/readable for similar issues in other subsystems and is worth
+> reading.
 
+Thanks for the pointers Lucas, this helps :)
 
-On 6/24/2024 2:13 PM, Dmitry Baryshkov wrote:
-> Move the call to dpu_format_populate_plane_sizes() to the atomic_check
-> step, so that any issues with the FB layout can be reported as early as
-> possible.
-> 
-> At the same time move the call to dpu_format_populate_addrs() to
-> dpu_plane_sspp_atomic_update(). This way the all layout management is
-> performed only for the visible planes: the .prepare_fb callback is
-> called for not visible planes too, so keeping dpu_format_populate_addrs
-> in dpu_plane_prepare_fb() will require dpu_format_populate_plane_sizes()
-> to be called for !visible planes too.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 26 +++++++++++---------------
->   1 file changed, 11 insertions(+), 15 deletions(-)
-> 
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Ashutosh
