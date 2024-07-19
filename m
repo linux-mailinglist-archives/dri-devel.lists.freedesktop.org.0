@@ -2,62 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD969376B2
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 12:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C9E9376BE
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 12:47:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9358110E00B;
-	Fri, 19 Jul 2024 10:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A412A10EBD0;
+	Fri, 19 Jul 2024 10:47:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HPJ2fnma";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="lrTrJsCq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A1210E00B
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 10:36:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1721385389;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jXwj7ifnXKi89l9FrVFsPJKFJ+43cNaUJXCnrGtMpWQ=;
- b=HPJ2fnma3HFbleuwkPrjH8OnacYKfH53f5ejmgwwu+d4PKfodjzvtq38Phtseoea/xXeWn
- TrpWnOqLcUvwchEBbcqNaJqOqrcB4vFXnbs5T4n8XmZ5JUmM8fPgev4zFISU7IHafA6MlT
- EGgUEFzEKPPOYLq/1em555vEowi8Xtk=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-687-C8qZnk1MPt6nOZJRKGU0CA-1; Fri,
- 19 Jul 2024 06:36:25 -0400
-X-MC-Unique: C8qZnk1MPt6nOZJRKGU0CA-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 93E7A1944B2A; Fri, 19 Jul 2024 10:36:23 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.194.18])
- by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 76839195605A; Fri, 19 Jul 2024 10:36:20 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- Imre Deak <imre.deak@intel.com>
-Subject: [PATCH] drm/panic: Add missing static inline to drm_panic_is_enabled()
-Date: Fri, 19 Jul 2024 12:36:08 +0200
-Message-ID: <20240719103615.1489714-1-jfalempe@redhat.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7130A10EBD2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 10:47:27 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46J9Zwhn029511;
+ Fri, 19 Jul 2024 12:47:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ RZzj3xHQgxgU107La7qjlbXpfm5eUgRVHoyUDQSd6KY=; b=lrTrJsCqgSQle2Om
+ LxEWA/Dt+ATafATyv5hLaZbFZR3reM+Ko2Z9BRsI2p2Ao+7Kf0D77m1zJpUkF1FV
+ k9FAJj3J/S4hH91GMKvolG9y6o6nHTGaFPDkmrniQ3lgAllZt/27OJ/vhD05/NUO
+ z6wLI/952vYK/8Q0QVyu2jhUVkNj5D5wfZUV1z4BFa+obDN750zZLkhQtdpFX0jq
+ /3OD3f8q/9YO9nNLdyTJmFPOVW/0oHc/0cQhJ9FMZVE3QuuxoMwe4dd31noSLRuw
+ 371mcc5TbZX9nTkRGgLvJbuZVZHJ6SP/BU9+Ek9EBRpzRXorLANtEEnQmB3jW02z
+ BQUapw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40fe1nhyx2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Jul 2024 12:47:12 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id D0C4340044;
+ Fri, 19 Jul 2024 12:47:05 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3173C24DCA3;
+ Fri, 19 Jul 2024 12:46:22 +0200 (CEST)
+Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 19 Jul
+ 2024 12:46:21 +0200
+Message-ID: <2e47028a-fc8c-40d6-a69a-4b7bc3464974@foss.st.com>
+Date: Fri, 19 Jul 2024 12:46:04 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/stm: ltdc: remove reload interrupt
+To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20240712131453.98597-1-yannick.fertre@foss.st.com>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20240712131453.98597-1-yannick.fertre@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-Originating-IP: [10.129.178.17]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-19_06,2024-07-18_01,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,27 +85,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This breaks build if DRM_PANIC is not enabled.
 
-Fixes: de338c754d40 ("drm/panic: Add missing static inline to drm_panic_is_enabled()")
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/drm_crtc_internal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 7/12/24 15:14, Yannick Fertre wrote:
+> The reload interrupt is not used by the driver. To avoid
+> unnecessary calls of the interrupt routine, don't enable it.
+> Solve small typo and add mask to simplify the driver.
+>
+> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
-diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
-index c10de39cbe83..bbac5350774e 100644
---- a/drivers/gpu/drm/drm_crtc_internal.h
-+++ b/drivers/gpu/drm/drm_crtc_internal.h
-@@ -321,7 +321,7 @@ drm_edid_load_firmware(struct drm_connector *connector)
- #ifdef CONFIG_DRM_PANIC
- bool drm_panic_is_enabled(struct drm_device *dev);
- #else
--bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
-+static inline bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
- #endif
- 
- #endif /* __DRM_CRTC_INTERNAL_H__ */
--- 
-2.45.2
+
+Hi Yannick,
+
+Applied on drm-misc-next.
+
+Thanks,
+Raphaël
 
