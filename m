@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407769379D3
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 17:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ECCD9379E5
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 17:28:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1435410E94C;
-	Fri, 19 Jul 2024 15:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5033510EC5E;
+	Fri, 19 Jul 2024 15:28:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HFt+jClm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VkZ0ZHdJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD61E10E94C
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 15:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1721402777;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=f6d0hXH4uLkiXaZ4xSn07DWYcvQaiD8KGm9d+DE/JVs=;
- b=HFt+jClmkBbrM9EBiq8aI0UQA9aWClEls4/WqsNBwBVymEUd2Y+DUw0yPCTXNQD5z0h+/I
- jfh1ETsdmHwztnBtYielm03D0JMY+cKUFttE8V90ZsnxUzF0yI3GP1bDX/J40n7EgOAQOR
- u9wLn/KHTjgVA9jGfsk4lRoIx9ivzjk=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-568-cUiENI3kM0aTQrqC_bjUsA-1; Fri,
- 19 Jul 2024 11:26:12 -0400
-X-MC-Unique: cUiENI3kM0aTQrqC_bjUsA-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id B62CB1955D4E; Fri, 19 Jul 2024 15:26:09 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.194.18])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 5AB361955F40; Fri, 19 Jul 2024 15:26:05 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- Knop Ryszard <ryszard.knop@intel.com>
-Subject: [PATCH] mtd: mtdoops: Fix kmsgdump parameter renaming.
-Date: Fri, 19 Jul 2024 17:24:13 +0200
-Message-ID: <20240719152542.1554440-1-jfalempe@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6DF10EC55
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 15:28:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1721402923; x=1752938923;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=O400daFFa/G3BKwxuAnLFE1c7TEZSJZfbuzcib5iwLk=;
+ b=VkZ0ZHdJE6aWe7VjgiQFRPzFdW0o1YUqL9cVrdx0xlEFBjcAA6ZWwi0z
+ iNAAKEiwklCUDbroPSntOQSlBhGqvpfNQ36KUQHovejxS6zNbsA5cMFYv
+ E3TfJ5MnXfIlNA7JECvYeJthTmzYQfG47C5wbZ/epQOonyCuNCG0Lsapb
+ JotjmxX3onuSqBYuX2YsP43McAnYamfXi4qwYFu10gSyn8JZc1xX0e2f4
+ gTd2aHNFrfsBccBeHFnBCfzMm1qq91tFcO8VZwR0a/gt1gDaP42N1l9Dw
+ l7Do2Socxz6TCJGGY8bJbLwciKLbjFH7JJmZw1kw5zEUBp/9vPCG8/ra6 Q==;
+X-CSE-ConnectionGUID: CfQ8UdYtTkKL0Ag8NA1h7g==
+X-CSE-MsgGUID: qyrGpHrwQZqDXgIlaHEMFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="44445404"
+X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; d="scan'208";a="44445404"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2024 08:28:41 -0700
+X-CSE-ConnectionGUID: grGiz4aNQpioYEm6B+EVgg==
+X-CSE-MsgGUID: KvYirWC6TOCadnClvrjp9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; d="scan'208";a="51761812"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by orviesa007.jf.intel.com with ESMTP; 19 Jul 2024 08:28:39 -0700
+Received: from [10.245.82.99] (mwajdecz-MOBL.ger.corp.intel.com [10.245.82.99])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id 7BB132816F;
+ Fri, 19 Jul 2024 16:28:37 +0100 (IST)
+Message-ID: <0bc6a8d1-d206-4d64-b170-bd70c7129f80@intel.com>
+Date: Fri, 19 Jul 2024 17:28:35 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panic: Add missing static inline to
+ drm_panic_is_enabled()
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Imre Deak <imre.deak@intel.com>
+References: <20240719122051.1507927-1-jfalempe@redhat.com>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20240719122051.1507927-1-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,45 +76,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the kmsg_dumper callback parameter changed, the reason variable
-in mtdoops_do_dump() was not updated accordingly.
-This breaks the build with mtdoops.
 
-Fixes: e1a261ba599e ("printk: Add a short description string to kmsg_dump()")
-Reported-by: Knop Ryszard <ryszard.knop@intel.com>
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
 
-The offended commit is in the drm-misc tree, because it was needed
-by drm_panic. So I will push the fix there too.
+On 19.07.2024 14:20, Jocelyn Falempe wrote:
+> This breaks build if DRM_PANIC is not enabled.
+> Also add the missing include drm_crtc_internal.h in drm_panic.c
+> 
+> Fixes: 9f774c42a908 ("drm/panic: Add drm_panic_is_enabled()")
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_crtc_internal.h | 2 +-
+>  drivers/gpu/drm/drm_panic.c         | 2 ++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+> index c10de39cbe83..bbac5350774e 100644
+> --- a/drivers/gpu/drm/drm_crtc_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+> @@ -321,7 +321,7 @@ drm_edid_load_firmware(struct drm_connector *connector)
+>  #ifdef CONFIG_DRM_PANIC
+>  bool drm_panic_is_enabled(struct drm_device *dev);
+>  #else
+> -bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
+> +static inline bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
+>  #endif
 
- drivers/mtd/mtdoops.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+shouldn't this whole chunk be part of <drm/drm_panic.h> ?
+other exported drm_panic functions have forward declarations there
 
-diff --git a/drivers/mtd/mtdoops.c b/drivers/mtd/mtdoops.c
-index 86d49db9196d..7bf3777e1f13 100644
---- a/drivers/mtd/mtdoops.c
-+++ b/drivers/mtd/mtdoops.c
-@@ -305,7 +305,7 @@ static void mtdoops_do_dump(struct kmsg_dumper *dumper,
- 	struct kmsg_dump_iter iter;
- 
- 	/* Only dump oopses if dump_oops is set */
--	if (reason == KMSG_DUMP_OOPS && !dump_oops)
-+	if (detail->reason == KMSG_DUMP_OOPS && !dump_oops)
- 		return;
- 
- 	kmsg_dump_rewind(&iter);
-@@ -317,7 +317,7 @@ static void mtdoops_do_dump(struct kmsg_dumper *dumper,
- 			     record_size - sizeof(struct mtdoops_hdr), NULL);
- 	clear_bit(0, &cxt->oops_buf_busy);
- 
--	if (reason != KMSG_DUMP_OOPS) {
-+	if (detail->reason != KMSG_DUMP_OOPS) {
- 		/* Panics must be written immediately */
- 		mtdoops_write(cxt, 1);
- 	} else {
+>  
+>  #endif /* __DRM_CRTC_INTERNAL_H__ */
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index 9f1a3568e62d..072752b658f0 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -27,6 +27,8 @@
+>  #include <drm/drm_plane.h>
+>  #include <drm/drm_print.h>
+>  
+> +#include "drm_crtc_internal.h"
 
-base-commit: 26dbffb2a4c4d4639c7b336f6b74a437c23dadd4
--- 
-2.45.2
+then you will not need this include here
 
+> +
+>  MODULE_AUTHOR("Jocelyn Falempe");
+>  MODULE_DESCRIPTION("DRM panic handler");
+>  MODULE_LICENSE("GPL");
