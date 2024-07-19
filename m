@@ -2,85 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 066ED93747F
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 09:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BE1937497
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 09:55:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 898F610E7E3;
-	Fri, 19 Jul 2024 07:40:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF94210E937;
+	Fri, 19 Jul 2024 07:55:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PsqgUOJH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cuAaoJgc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B46B810E7E3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 07:40:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1721374800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=4kxYdIrHu4b00o0zuiOs8N/yg0Z0AcAqiSsUuf4gK9Y=;
- b=PsqgUOJHsP5Utrfu5XCM40TBT2RCL8fe6F5gca5Bi7syJ7+he7M8qxSVKaO54s8PtPPq2U
- +Kj1skgit1NFM68mEUM1QdabhpFVDTSUUcs5ZNNAQxzKcvr8TkUh4NJlHkKy1LeKGXSdGQ
- As7DkqRg2UdaWbSSF+Jh24YkQFIvCoo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-248-mhrVj4DBO0yEzVJp-fnjKg-1; Fri, 19 Jul 2024 03:39:57 -0400
-X-MC-Unique: mhrVj4DBO0yEzVJp-fnjKg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-367a058fa21so314342f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 00:39:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721374796; x=1721979596;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4kxYdIrHu4b00o0zuiOs8N/yg0Z0AcAqiSsUuf4gK9Y=;
- b=PtVWrw+V4HsAUHuA7HxPqqa/aArvpHJldKq0xE6YG+AzZKGcbV8CimRDXYu8ZHaosW
- MxlfLKkTfiIxuvUaMtKtURz5pOwl3F1rDhwjSpIaphFi4vsw5XvhrefGp4x67WilhRku
- cJsdXr/QqNPEddi/PxGnI1C6Nn0Y8/PNB7QjT+hrDy6+l+g5ZOZ6CLnO3ucYO8N0c+hf
- ntcyBikJPBcL3J+5cid8UtQ2j113+mcxF53iQpTVC0Bn7TqvTWr4pxmOvGUm/jgRSj9p
- xePz2cgMTizBgkB35bxre4xUiDq8lYOPjedMMHqKmvdG1FXzSomJKIispwvQOGWq0UUX
- LxFA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW75pmyrts1G+PzJZb61c6p7SbLQRcRZHZrKJVcP6wka+OESAOaI4VoHD6HNJOY/L8wzcJnjDp3+HRzqSx7Lu26XbWGRSZ/zfTzhgQSgOcK
-X-Gm-Message-State: AOJu0YwNJXcp2EDJ1wpNetFhp2pZR9dpESda/D/mN0cxCF4ulT6NP3z7
- 61enMFdgnf9RlL385bW8+Ttl5X3ZRt0yYh/V4hGLw353zbfxkV58fqsOZgBfa3rm/BqAWT7t/FS
- FzOkNnXq2F4xAXcTvX2EozjbQSbAunWZXe6V2WeJdQY2hGiVRl6pI5Afk4GrtYt54bQ==
-X-Received: by 2002:a05:6000:100c:b0:368:377a:e8bb with SMTP id
- ffacd0b85a97d-36874027587mr896396f8f.28.1721374796049; 
- Fri, 19 Jul 2024 00:39:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHj8idIyc+IRNzwwG6x5fdHgk4zHPBp8GCc3h83ZY13uWqnImlcSxnUYfuF4t8oZH8vJ5F6Qw==
-X-Received: by 2002:a05:6000:100c:b0:368:377a:e8bb with SMTP id
- ffacd0b85a97d-36874027587mr896376f8f.28.1721374795651; 
- Fri, 19 Jul 2024 00:39:55 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-368786848basm857701f8f.15.2024.07.19.00.39.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jul 2024 00:39:55 -0700 (PDT)
-Date: Fri, 19 Jul 2024 09:39:54 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C5E10E937
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 07:55:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id ACE2ECE1AF2;
+ Fri, 19 Jul 2024 07:55:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6A34C32782;
+ Fri, 19 Jul 2024 07:54:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1721375701;
+ bh=W8wSaMuFu+gkCLCSzJa/gXpVw17QnJMqwKbE6WN4SoY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=cuAaoJgcFF7G7yMkmbxqhagURXqIBNBcHzGWT66VKHJQWmeQ3vMSX8E1vKcT0DhTf
+ DiIQb7Kxf75yxPi7oU3rbtqiBD5OIORapwQYl8X+VxT7NyglWrUhTMGpNG/ljvKBKg
+ ztlt80iaOjIoo1pAgnT0PhMKF1riF34/gmkZ6gAEcnX97K4gHpvOYPk/GMFgY5vhMP
+ mAXUWpi6k9AAqfPFVjG3CjGO69OMA7+Pad3m/P8KS1MbllsDijmyxWItjC/BI8aj3V
+ TtHWcwxVQWyTnGw3nb2CTjo4/IlosQSv2nTYmpfAL1DVrOpLIEHZ2FmsU8N3e1d3Bj
+ NxOys413qGOeQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20240719-emerald-newt-of-skill-89b54a@houat>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/stm: add COMMON_CLK dependency
+Date: Fri, 19 Jul 2024 09:54:41 +0200
+Message-Id: <20240719075454.3595358-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="mnbsingi4eabsfox"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,59 +65,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Arnd Bergmann <arnd@arndb.de>
 
---mnbsingi4eabsfox
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The added lvds driver and a change in the dsi driver resulted in failed
+builds when COMMON_CLK is disabled:
 
-Hi,
+x86_64-linux-ld: drivers/gpu/drm/stm/dw_mipi_dsi-stm.o: in function `dw_mipi_dsi_stm_remove':
+dw_mipi_dsi-stm.c:(.text+0x51e): undefined reference to `clk_hw_unregister'
 
-Here's this week drm-misc-next-fixes PR
+x86_64-linux-ld: drivers/gpu/drm/stm/lvds.o: in function `lvds_remove':
+lvds.c:(.text+0xe3): undefined reference to `of_clk_del_provider'
+x86_64-linux-ld: lvds.c:(.text+0xec): undefined reference to `clk_hw_unregister'
+x86_64-linux-ld: drivers/gpu/drm/stm/lvds.o: in function `lvds_pll_config':
+lvds.c:(.text+0xb5d): undefined reference to `clk_hw_get_rate'
+x86_64-linux-ld: drivers/gpu/drm/stm/lvds.o: in function `lvds_probe':
+lvds.c:(.text+0x1476): undefined reference to `clk_hw_register'
+x86_64-linux-ld: lvds.c:(.text+0x148b): undefined reference to `of_clk_hw_simple_get'
+x86_64-linux-ld: lvds.c:(.text+0x1493): undefined reference to `of_clk_add_hw_provider'
+x86_64-linux-ld: lvds.c:(.text+0x1535): undefined reference to `clk_hw_unregister'
 
-Thanks!
-Maxime
+Add this as a dependency for the stm driver itself, since it will be
+required in practice anyway.
 
-drm-misc-next-fixes-2024-07-19:
-Two fixes for v3d to fix an array indexing on newer V3D revisions.
-The following changes since commit c537fb4e3d36e7cd1a0837dd577cd30d3d64f1bc:
+Fixes: 185f99b61442 ("drm/stm: dsi: expose DSI PHY internal clock")
+Fixes: aca1cbc1c986 ("drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/stm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-  drm/qxl: Pin buffer objects for internal mappings (2024-07-10 09:12:42 +0=
-200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-fix=
-es-2024-07-19
-
-for you to fetch changes up to 1fe1c66274fb80cc1ac42e0d38917d53adc7d7a3:
-
-  drm/v3d: Fix Indirect Dispatch configuration for V3D 7.1.6 and later (202=
-4-07-15 12:49:52 -0300)
-
-----------------------------------------------------------------
-Two fixes for v3d to fix an array indexing on newer V3D revisions.
-
-----------------------------------------------------------------
-Ma=EDra Canal (2):
-      drm/v3d: Add V3D tech revision to the device information
-      drm/v3d: Fix Indirect Dispatch configuration for V3D 7.1.6 and later
-
- drivers/gpu/drm/v3d/v3d_drv.c   |  5 ++++-
- drivers/gpu/drm/v3d/v3d_drv.h   |  8 +++++---
- drivers/gpu/drm/v3d/v3d_sched.c | 16 +++++++++++++---
- 3 files changed, 22 insertions(+), 7 deletions(-)
-
---mnbsingi4eabsfox
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZpoYSgAKCRDj7w1vZxhR
-xTJFAQCZxg8Rb0UtvvZy0VN+QIFodVbw1dOcJELCGWf5x/QzogD/T+7JqgDk187n
-/55o0MtDBa5ItxE0R7eggdl9iZoUQwA=
-=8lBw
------END PGP SIGNATURE-----
-
---mnbsingi4eabsfox--
+diff --git a/drivers/gpu/drm/stm/Kconfig b/drivers/gpu/drm/stm/Kconfig
+index 1cc6b6cbdfa9..d7f41a87808e 100644
+--- a/drivers/gpu/drm/stm/Kconfig
++++ b/drivers/gpu/drm/stm/Kconfig
+@@ -2,6 +2,7 @@
+ config DRM_STM
+ 	tristate "DRM Support for STMicroelectronics SoC Series"
+ 	depends on DRM && (ARCH_STM32 || COMPILE_TEST)
++	depends on COMMON_CLK
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
+ 	select DRM_PANEL_BRIDGE
+-- 
+2.39.2
 
