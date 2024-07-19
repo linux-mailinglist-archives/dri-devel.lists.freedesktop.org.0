@@ -2,82 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F120937CB8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 20:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE877937CF3
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 21:26:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3D110E055;
-	Fri, 19 Jul 2024 18:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD5F10E04B;
+	Fri, 19 Jul 2024 19:26:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b329oRgo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fdjp/qpa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE83710E055
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 18:52:59 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-781f5007950so1684000a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 11:52:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721415179; x=1722019979; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dj3Ki2W2OtNa0imFslO05z8HqONyNDJOqw2DrKzHWQg=;
- b=b329oRgoSL8YSPNwRoahU4avsoe3MLIzBc7Qn0AhaRM/U8qNiqjGiMGQVw2A0t7dO2
- 6fM7zuvQll5UZvbhoeidyhGuHNk6WD42bUjJrJsvOmG1qYH2zgwiddNvLNZfP883armU
- aVwN6JyCtPAQaIT90/qu13tB7dZyt0Ox0J583d8VkXcZCYzwG+o19+BFYVDp5LgJH+fs
- vEpbZjUy36r1kzR+4S677O9Vd0mtZRucmGC2mV26LBXGihhSxfvZEyljXW1z+mhlSoL/
- AcsgcmLuwKV2nVS5Toan7XPPg4Pd2200cAKTQRPdbENKw3WvLQPse2dwBvdcSuiUqMyp
- +AEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721415179; x=1722019979;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dj3Ki2W2OtNa0imFslO05z8HqONyNDJOqw2DrKzHWQg=;
- b=Yy3O55xDMHizH5843kDIpNwajiPzE/y4d00YgxIoB2SBXA7PD2n0ItiALqRtvRBIEN
- yx6BFL0JMR8wHAt4mGhQRxG02JigMtc4vN2JVVq2p6nJL1o6pZkb1q82Cm5Uwzy5fWPD
- mEO/TerFuvSxX+GP0Z5ytih1AAbA0dgIeSy6B+l05cmOjgTyQDbihspT5D5y5+YCeXZs
- I2uh4LDphf8u5HwoDJrnbVR8tL6dnf1otd3b7fNwEx4KPUwiTqgRB4Z3SZfUP/IUjgnE
- uXLuTl/Zv2OwDUvoeE7h1911s5nwOcuRgrKRfJmRCo6uTH4PvjCGkr4tOv6lkg6ts4/V
- CkqA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLE6XRItOzPDx9UQiUvUUzDWoIUS5BXKdJBCL6D83fiFzaMlkb2OTKvRVC9sVNHSTYTRImG8YKqJFyC+6t8fMDajaCzgtQH86l5MMyyJyM
-X-Gm-Message-State: AOJu0YwvEHvmdSTb/2BLjFcklsFuK3m/9Cu7rUIU1lF4ubwxFnPZC8hC
- sYkxpa+rgiSpjNcoLUNwpFsUyZfGA37r7i941KlZzuyFjvWnCfjO
-X-Google-Smtp-Source: AGHT+IG5pZnGFRXks8I592vO7nXbmZsKzukEcxgXihuHqf8RLj8pK+ihV/nLswlewmDJIZL/45jZLg==
-X-Received: by 2002:a05:6a20:2452:b0:1c2:88eb:1d2c with SMTP id
- adf61e73a8af0-1c422999c0fmr1274962637.47.1721415179052; 
- Fri, 19 Jul 2024 11:52:59 -0700 (PDT)
-Received: from localhost ([2a00:79e1:2e00:1301:3279:d3cd:5dde:c799])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2ccf7c77486sm2035424a91.34.2024.07.19.11.52.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jul 2024 11:52:58 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: linux-arm-msm@vger.kernel.org
-Cc: Doug Anderson <dianders@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, Rob Clark <robdclark@chromium.org>,
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED65610E02C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 19:26:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 7DA58CE1C71;
+ Fri, 19 Jul 2024 19:26:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63A42C32782;
+ Fri, 19 Jul 2024 19:26:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1721417209;
+ bh=GXID7sUUJz5rZS31UruWZvQ5m2atDnWZSGvi6Hj6dI0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fdjp/qpa9dofertM7AsvUjrc701tNHXdXsMFDwE9mNOsxbAN13Q12T+LxFVeTFZTV
+ Qbq6P4Zs41ZrIFVwVSnzws0QCaqF5VFjKQ4DJcfIJIq3WC7RtDiDlDg2MN4v6YpeD4
+ +GlbeKlvthIPV+WNorij4ShEN/mH5ijRt1T2arwLVKa16TyojThOOX8x2xZlhMXecd
+ dX03BLBPut1V9QVmzEdvto3Uyvbye03VJkRHihzuKTNmaHXA7aWkPqr90PtDvthWTX
+ 23qWlxa9l+5PtxZbGJ7CFXcd6eIIKKqwJQfM/WEj2ksvuUdycJuaBrfvD8Xoehzl0d
+ GUjnYP0Pf6rSw==
+Date: Fri, 19 Jul 2024 20:26:44 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+ Stephan Gerhold <stephan.gerhold@linaro.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- dri-devel@lists.freedesktop.org (open list:DRM PANEL DRIVERS),
- devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE
- BINDINGS), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 1/2] dt-bindings: display: panel: samsung,
- atna45dc02: Document ATNA45DC02
-Date: Fri, 19 Jul 2024 11:52:49 -0700
-Message-ID: <20240719185250.4877-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.45.2
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>,
+ Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v2 1/4] dt-bindings: display: panel: samsung,atna33xc20:
+ Document ATNA45AF01
+Message-ID: <20240719-abnormal-repulsive-fdefb72bdbe3@spud>
+References: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
+ <20240715-x1e80100-crd-backlight-v2-1-31b7f2f658a3@linaro.org>
+ <20240715-scorn-canning-a7f23b9e2039@spud>
+ <CAD=FV=U-nOMu-JDQ3T=ZRJ-rZ0BTtyzFVfnzbtCJdbRzAq3YMg@mail.gmail.com>
+ <e017259b-bc62-4b57-9276-b834237225e1@kernel.org>
+ <CAD=FV=VY5Ug3TfUo1RctiVQrHUjuod15HA8BxAyWdd_0bK8_Dw@mail.gmail.com>
+ <20240718-frightful-naturist-a049ea7c0548@spud>
+ <CAD=FV=VaGXMf6Srix6v=Me35BUN4B6ZHwebycka4Dbavqa5Vbw@mail.gmail.com>
+ <CAD=FV=WyDF8LkPeHXTgsyDA74n+AjuHPQ1896ECDE17aYB9rtg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="etBnI+HPKfHkVQk5"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=WyDF8LkPeHXTgsyDA74n+AjuHPQ1896ECDE17aYB9rtg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,31 +76,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
 
-The Samsung ATNA45DC02 panel is an AMOLED eDP panel, similar to the
-existing ATNA45AF01 and ATNA33XC20 panel but with a higher resolution.
+--etBnI+HPKfHkVQk5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+On Fri, Jul 19, 2024 at 10:07:29AM -0700, Doug Anderson wrote:
+> Hi,
+>=20
+> On Thu, Jul 18, 2024 at 7:59=E2=80=AFAM Doug Anderson <dianders@chromium.=
+org> wrote:
+> >
+> > Hi,
+> >
+> > On Thu, Jul 18, 2024 at 7:56=E2=80=AFAM Conor Dooley <conor@kernel.org>=
+ wrote:
+> > >
+> > > On Thu, Jul 18, 2024 at 07:45:57AM -0700, Doug Anderson wrote:
+> > > > Hi,
+> > > >
+> > > > On Wed, Jul 17, 2024 at 11:19=E2=80=AFPM Krzysztof Kozlowski <krzk@=
+kernel.org> wrote:
+> > > > >
+> > > > > On 18/07/2024 02:21, Doug Anderson wrote:
+> > > > > > Conor (and/or) Krzysztof and Rob,
+> > > > > >
+> > > > > > On Mon, Jul 15, 2024 at 8:31=E2=80=AFAM Conor Dooley <conor@ker=
+nel.org> wrote:
+> > > > > >>
+> > > > > >> On Mon, Jul 15, 2024 at 02:15:37PM +0200, Stephan Gerhold wrot=
+e:
+> > > > > >>> The Samsung ATNA45AF01 panel is an AMOLED eDP panel that has =
+backlight
+> > > > > >>> control over the DP AUX channel. While it works almost correc=
+tly with the
+> > > > > >>> generic "edp-panel" compatible, the backlight needs special h=
+andling to
+> > > > > >>> work correctly. It is similar to the existing ATNA33XC20 pane=
+l, just with
+> > > > > >>> a larger resolution and size.
+> > > > > >>>
+> > > > > >>> Add a new "samsung,atna45af01" compatible to describe this pa=
+nel in the DT.
+> > > > > >>> Use the existing "samsung,atna33xc20" as fallback compatible =
+since existing
+> > > > > >>> drivers should work as-is, given that resolution and size are=
+ discoverable
+> > > > > >>> through the eDP link.
+> > > > > >>>
+> > > > > >>> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+> > > > > >>
+> > > > > >> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > > > > >
+> > > > > > Can you comment on whether you would consider this bindings a "=
+Fix"
+> > > > > > since it's a dependency for later patches in this series (which=
+ are
+> > > > > > "Fix"es) to pass dtbs_check? See:
+> > > > > >
+> > > > > > https://lore.kernel.org/r/4bca316a-2334-425b-87a6-e1bb241d26b5@=
+linaro.org
+> > > > >
+> > > > > The patch itself is not a fix, for sure, but it might be a depend=
+ency of
+> > > > > a fix (which you wrote above), thus could be pulled to stable as a
+> > > > > dependency.
+> > > > >
+> > > > > I do not care about dtbs_check warnings in stable kernels, mostly
+> > > > > because dtbs_check warnings depend heavily on dtschema and dtsche=
+ma
+> > > > > follows mainline kernel. Basically if you had warnings-free v6.8 =
+but try
+> > > > > to run dtbs_check now with latest dtschema, your results will dif=
+fer.
+> > > > >
+> > > > > At some point in the future, I could imagine "no new dtbs_check w=
+arnings
+> > > > > in stable kernels" requirement or at least preference, but so far=
+ I
+> > > > > don't think there is any benefit.
+> > > >
+> > > > In this case it's not about whether it makes it to the stable kernel
+> > > > but about which main kernel it goes through.
+> > > >
+> > > > If we land the bindings in drm-misc-next right now then it'll be a
+> > > > long time before it makes it into Linus's tree because of the way t=
+hat
+> > > > drm-misc-next merges. It will make it to Linus's tree at 6.12. You =
+can
+> > > > see the drm-misc merging strategy at:
+> > > >
+> > > > https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
+> > > >
+> > > > If we land the dts change (a fix) through the Qualcomm tree as a fix
+> > > > then it should target 6.11.
+> > > >
+> > > > This means that the 6.11 tree will have a dtbs_check error because =
+it
+> > > > has the dts change (a fix) but not the bindings change (not a fix).
+> > > >
+> > > > One way to resolve this would be to treat this bindings as a "fix" =
+and
+> > > > land it through "drm-misc-fixes". That would make the bindings and
+> > > > device tree change meet up in Linux 6.11.
+> > > >
+> > > > Did I get that all correct?
+> > >
+> > > Is not not fairly established that a dependency for a fix can go onto=
+ a
+> > > fixes branch even if it is not a fix in and of itself?
+> >
+> > That would certainly be my take on it, but DT folks confirmation was
+> > requested by Neil in:
+> >
+> > https://lore.kernel.org/all/4bca316a-2334-425b-87a6-e1bb241d26b5@linaro=
+=2Eorg/
+>=20
+> FWIW, I'd rather not let this stagnate too long.
 
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-index 5192c93fbd67..3ec9b8c79b5f 100644
---- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-@@ -21,6 +21,10 @@ properties:
-       - items:
-           - const: samsung,atna45af01
-           - const: samsung,atna33xc20
-+      # Samsung 14.5" 3K (2944x1840 pixels) eDP AMOLED panel
-+      - items:
-+          - const: samsung,atna45dc02
-+          - const: samsung,atna33xc20
- 
-   enable-gpios: true
-   port: true
--- 
-2.45.2
+I dunno if you were waiting for me (or Krzk/Rob) to reply, but I didn't
+cos I figured I'd already pretty much said there was nothing wrong with
+the prereq being on -fixes too.
 
+> I'm fairly confident
+> in my assertion that this should go into drm-misc-fixes. I'll give it
+> until Monday and then I'm just going to land this bindings change in
+> drm-misc-fixes. Shout soon if you feel strongly that I shouldn't do
+> this. If someone wants to flame me after the fact then so be it.
+
+
+--etBnI+HPKfHkVQk5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZpq99AAKCRB4tDGHoIJi
+0l0OAQDgDeKH7xkylyak8cTIADfNinnQbAx11DwQn+bi/deCCQEA0wO9wfmFIs+C
+NcBqzAwjH7/KD1GefPSzjhaFBOMX9w4=
+=DvMW
+-----END PGP SIGNATURE-----
+
+--etBnI+HPKfHkVQk5--
