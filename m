@@ -2,88 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24681937DE9
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 00:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F083937DFC
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 01:20:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9726510E1AA;
-	Fri, 19 Jul 2024 22:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D795710E00F;
+	Fri, 19 Jul 2024 23:20:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FW+Tc4o/";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DRlxlBg1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9C8B10E11D
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 22:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1721429348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Io88iqfqHNOrudTOIiEJvQ9kU3mjxid7fB+v6ka1qww=;
- b=FW+Tc4o/gmPXEN8u3Abvv1wI7r0zfRfSsH3bvtIOF+P/VgF+aDhenqaPpmJfmjaqGfXqHG
- e4Zyt+CDmfHHMj1lkY4SX3ysagIysAdkG/IWSf+xwCyfzg4Xopk8PKxdHeLvoe55dgrq2F
- v3WZcc43b83FSfZAiSuu3CKv8CMKtHk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-QvdJi2j_N7y7FgqsjfByzw-1; Fri, 19 Jul 2024 18:49:05 -0400
-X-MC-Unique: QvdJi2j_N7y7FgqsjfByzw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-368665a3fdfso969784f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 15:49:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721429344; x=1722034144;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Io88iqfqHNOrudTOIiEJvQ9kU3mjxid7fB+v6ka1qww=;
- b=sAOnKA2zs+PJ/jFA408cGMsQFUvEmN1vsSUa5x4zSTs3ToSQTJJxTNA/EIkcgXEDAd
- QWEinf0C6U64kqI53SwpwkFxU1VFmaX4rPAoHiUzIzgYNn8X52tQHRrOOfFMwq6ingOk
- dZHq6ErYoDN+Ikmd+7QmD9JUY8VX+RFNmzFp4NU/+FdWmSUSZvs6qJq2HDWRTMalqQ9W
- pNy6N71USaMe3b6U8AH7uPThGgHBMa6Yzg3VjK57b9i9WjNAedQW5Sjca/e+5tIFmf/I
- MUYTjvJO5iTeDgWj+N9oqSAgclKyZgicJ5LRXbXBdDHf4KACa8dWfZBL/Xlkb6ktI+hL
- 4xLw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXf3DQvnEHe0OcBkxy/6v9YCW7pAyGWMMovzsP6zrhxU/VZYn91VGpGx67ZVuFD9f2pnyup6yHNgndoyh+8CXHIZYV7RxpEb6PNWMDo3J6C
-X-Gm-Message-State: AOJu0Yw6cXM5NFhwZlEhEbsMge4PnvkAr37TtNuElnnwIMKAatNH+Hjb
- 0I9L/SS1SkFbnN1RP+iH7onz5VZGkLw2HiDcy4OU5E5efVwJPoSS3xzNcMvTh4GLHK4cufEWK6h
- 1OdRKV8Z/MwuMoDqBn+XeXkZCxCHQIvyyflxJhW4oBYSjgb6OOE0dlUMwaRCCgx3EQL0z5TMjag
- ==
-X-Received: by 2002:adf:f6c8:0:b0:367:95e8:3aef with SMTP id
- ffacd0b85a97d-3683175bbfcmr5901867f8f.42.1721429344086; 
- Fri, 19 Jul 2024 15:49:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHMScCNcf+AfBIVjhLIJPGzRj2PTHiebFRdmCxU6EUN1sA4Iix3zhS++EVd1a2kt2uwP7NoQw==
-X-Received: by 2002:adf:f6c8:0:b0:367:95e8:3aef with SMTP id
- ffacd0b85a97d-3683175bbfcmr5901860f8f.42.1721429343668; 
- Fri, 19 Jul 2024 15:49:03 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-427d2a8e47csm65652875e9.29.2024.07.19.15.49.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Jul 2024 15:49:03 -0700 (PDT)
-Message-ID: <521bb823-16b5-40d9-b9d6-f79ef9d7fbbe@redhat.com>
-Date: Sat, 20 Jul 2024 00:49:02 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43ED810E00F;
+ Fri, 19 Jul 2024 23:20:15 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46JCaK58018986;
+ Fri, 19 Jul 2024 23:20:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ ajCd/fFzWDC/10poGqgu/TrgGPcUkVYIIG0EefyGMBw=; b=DRlxlBg13+tPmeQO
+ CgFoa2XvJSNXNqK5ydVOquI/ZOyVE1ShPInhRRdGMHpkTcAcPfQrGtTHz8qczI2/
+ a2rcG4PtHTE2z3IX9/EtSfsLF2IZd5pSVFG2czvQ9xSlI3LAIXBldl9tC2Zf5wYb
+ ymIaahXfnoUa4Q/IjIkEM6iX8K/FkrJve2gYBGkAlg2PfE4+tCvaymwm28Gvj8gC
+ HMUTKLBEfp7LWtbPfPUsITdjfmoRlhYpOkWs/Y2nYHeCLGcfI0p9++hP1VfePNA4
+ r+rA9q2Zl9+MSftLOyyMRIaOal/HOcItDmsItOCMWXuiHRTKI78AcD+Umo50qEnC
+ K+IsTA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40fe352kqq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Jul 2024 23:20:06 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 46JNK5Tn012780
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Jul 2024 23:20:05 GMT
+Received: from [10.110.15.12] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 19 Jul
+ 2024 16:20:04 -0700
+Message-ID: <734e1b86-f946-4a43-a6f9-304fa3a263ab@quicinc.com>
+Date: Fri, 19 Jul 2024 16:20:03 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/panic: Add missing static inline to
- drm_panic_is_enabled()
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>
-References: <20240719122051.1507927-1-jfalempe@redhat.com>
- <0bc6a8d1-d206-4d64-b170-bd70c7129f80@intel.com>
- <f9f2f13a-b66e-461f-88c9-92a42e36bcd5@redhat.com>
- <cccc02bb-9082-4451-8246-bd2303afa6a3@intel.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <cccc02bb-9082-4451-8246-bd2303afa6a3@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5 13/16] drm/msm/dpu: move layout setup population out of
+ dpu_plane_prepare_fb()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>, 
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240625-dpu-mode-config-width-v5-0-501d984d634f@linaro.org>
+ <20240625-dpu-mode-config-width-v5-13-501d984d634f@linaro.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240625-dpu-mode-config-width-v5-13-501d984d634f@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: -Bj6WZMUPDbLUflBnODsOCPDfxIorQ3o
+X-Proofpoint-ORIG-GUID: -Bj6WZMUPDbLUflBnODsOCPDfxIorQ3o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-19_09,2024-07-18_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=877 clxscore=1015
+ mlxscore=0 spamscore=0 adultscore=0 priorityscore=1501 impostorscore=0
+ suspectscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2407190172
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,92 +98,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 19/07/2024 20:26, Michal Wajdeczko wrote:
+On 6/24/2024 2:13 PM, Dmitry Baryshkov wrote:
+> Move the call to dpu_format_populate_plane_sizes() to the atomic_check
+> step, so that any issues with the FB layout can be reported as early as
+> possible.
 > 
+> At the same time move the call to dpu_format_populate_addrs() to
+> dpu_plane_sspp_atomic_update(). This way the all layout management is
+> performed only for the visible planes: the .prepare_fb callback is
+> called for not visible planes too, so keeping dpu_format_populate_addrs
+> in dpu_plane_prepare_fb() will require dpu_format_populate_plane_sizes()
+> to be called for !visible planes too.
 > 
-> On 19.07.2024 17:37, Jocelyn Falempe wrote:
->>
->>
->> On 19/07/2024 17:28, Michal Wajdeczko wrote:
->>>
->>>
->>> On 19.07.2024 14:20, Jocelyn Falempe wrote:
->>>> This breaks build if DRM_PANIC is not enabled.
->>>> Also add the missing include drm_crtc_internal.h in drm_panic.c
->>>>
->>>> Fixes: 9f774c42a908 ("drm/panic: Add drm_panic_is_enabled()")
->>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>>> ---
->>>>    drivers/gpu/drm/drm_crtc_internal.h | 2 +-
->>>>    drivers/gpu/drm/drm_panic.c         | 2 ++
->>>>    2 files changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_crtc_internal.h
->>>> b/drivers/gpu/drm/drm_crtc_internal.h
->>>> index c10de39cbe83..bbac5350774e 100644
->>>> --- a/drivers/gpu/drm/drm_crtc_internal.h
->>>> +++ b/drivers/gpu/drm/drm_crtc_internal.h
->>>> @@ -321,7 +321,7 @@ drm_edid_load_firmware(struct drm_connector
->>>> *connector)
->>>>    #ifdef CONFIG_DRM_PANIC
->>>>    bool drm_panic_is_enabled(struct drm_device *dev);
->>>>    #else
->>>> -bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
->>>> +static inline bool drm_panic_is_enabled(struct drm_device *dev)
->>>> {return false; }
-> 
-> btw, missing space after opening {
-> 
-> did you run checkpatch.pl ?
-
-Yes, but it looks like he doesn't check this case.
-I got the same:
-./scripts/checkpatch.pl -g HEAD
-total: 0 errors, 0 warnings, 16 lines checked
-
-with or without space here.
-> 
->>>>    #endif
->>>
->>> shouldn't this whole chunk be part of <drm/drm_panic.h> ?
->>> other exported drm_panic functions have forward declarations there
->>>
->> drm/drm_panic.h is for GPU drivers implementing drm_panic.
->> And they don't need this function.
->>
->> This function is only for drm internal (it's called from drm_fb_helper.c).
->>
->> Sima suggested this change in my previous series:
->> https://lists.freedesktop.org/archives/dri-devel/2024-July/462375.html
->>
->> I will move drm_panic_[un]register() prototypes there for the same
->> reason in follow-up patch.
->>
-> 
-> hmm, but then IMO there is a little (?) problem with the layering, as
-> drm_panic.h no longer matches drm_panic.c and forward decls for
-> functions from drm_panic.c are in some random internal header
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 26 +++++++++++---------------
+>   1 file changed, 11 insertions(+), 15 deletions(-)
 > 
 
-The problem it want to solve is to avoid external kernel modules to rely 
-on internal functions.
-Maybe for something cleaner, I could create a drm_panic_internal.h, but 
-I find it a bit too much.
-
-I will submit the patch to move drm_panic_[un]register() next week, and 
-we will discuss that here.
-
-> but that's probably topic for another discussion, and now we need to fix
-> the drm-tip ASAP, so with above nit fixed:
-> 
-> Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> 
-
-Thanks a lot, I will push it asap to unblock the build.
-
-Best regards,
-
--- 
-
-Jocelyn
-
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
