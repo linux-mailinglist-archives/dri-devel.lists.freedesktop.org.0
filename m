@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555CE9376C0
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 12:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D87E9376C4
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 12:48:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C893910EBD2;
-	Fri, 19 Jul 2024 10:47:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F12C510EBD3;
+	Fri, 19 Jul 2024 10:48:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="oHzqhXAQ";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="rZDhHyMu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
  [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 849EE10EBD2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 10:47:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E163C10EBD3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 10:48:10 +0000 (UTC)
 Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46J9Ocbp010375;
- Fri, 19 Jul 2024 12:47:33 +0200
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46J9RJFn010370;
+ Fri, 19 Jul 2024 12:48:01 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=selector1; bh=
- xvyI+WGXqWRZXoeNUQj2HzWk/pc5qUbVmwJwZRTL30o=; b=oHzqhXAQKjeh29+W
- rTMoGDvrWksbkOqlfCQ1s6ojPJ+mY7tU8+hF6/VtDh31JOzAHX1/r/mmNxo9lAX/
- 9r65rJwrbzMfI54QCqGelsD9HutInNctqAdQLWT6VbS/5S73a+RuAlss9e6Es2Ce
- r4bUazmIFKE9D6IC+9bHx5mKekY3c+0MzbjPAMC6D+gfuQGIwFFufHDt7lRpSE4t
- StlrTlAgxoHVXfIzp2YRBF9Ka+xhcRPx5oDNKIU7qyvA3vFsI3u4BTWBGJp9gMCG
- 4xRrFT2EhcfbN3XahD3U3TplzUvvZTPVfiQZiWoRlnyeCpjEBvtRTtG8KsgeiVWt
- u02cSw==
+ 6v9mXPTP2gc6lkDgu/ArdtuvjDBIS/gGTRxcEZCHv1o=; b=rZDhHyMun4/53BuU
+ +9QWLUT/eVCruYA4C3tkEraS5AfXQ5pojtaT/hbz9kgsJ/KoUNOF7g2I+keWKUDC
+ /5Sk5Fs3IwMadbzTTJnt4qshuKF3W8QiGCUV7RjztBrpa5H71rAIeohvGMqiEVSf
+ 2Hb+27lDCw1mGxsmCwwlFpdAaEqB6njLGEQ8rpl6gZOX8r+PPCj5Es8N+h8INIuV
+ /u9BDXnqqLA8zI5/6FxlidC5nOfT/zGPQMoi+jx7gKL+efxLN2ArKB7jXZDbx6wl
+ 1cUwA1OCnyTeE3G4ZkOHB5/PL1vpBm9g1vH0zAh5DJi3heZ7+S9M9qDNoMDJwH9t
+ 8XYM4Q==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40fe179ysd-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40fe179yuu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Jul 2024 12:47:33 +0200 (MEST)
+ Fri, 19 Jul 2024 12:48:01 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 6457A4002D;
- Fri, 19 Jul 2024 12:47:28 +0200 (CEST)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 261BF4002D;
+ Fri, 19 Jul 2024 12:47:57 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B7CB224F382;
- Fri, 19 Jul 2024 12:46:47 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 800D924F390;
+ Fri, 19 Jul 2024 12:47:28 +0200 (CEST)
 Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
  (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 19 Jul
- 2024 12:46:46 +0200
-Message-ID: <f7685e3e-3da3-48f1-8752-f5091bb0a889@foss.st.com>
-Date: Fri, 19 Jul 2024 12:46:46 +0200
+ 2024 12:47:25 +0200
+Message-ID: <fca733ed-198a-4aa5-b180-f6746e6e37d8@foss.st.com>
+Date: Fri, 19 Jul 2024 12:47:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/stm: ltdc: add mask for lxcr register
+Subject: Re: [PATCH] drm/stm: ltdc: reset plane transparency after plane
+ disable
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
  <philippe.cornu@foss.st.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
@@ -58,10 +59,10 @@ To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
  <dri-devel@lists.freedesktop.org>,
  <linux-stm32@st-md-mailman.stormreply.com>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20240712131423.98405-1-yannick.fertre@foss.st.com>
+References: <20240712131344.98113-1-yannick.fertre@foss.st.com>
 Content-Language: en-US
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20240712131423.98405-1-yannick.fertre@foss.st.com>
+In-Reply-To: <20240712131344.98113-1-yannick.fertre@foss.st.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.129.178.17]
@@ -86,12 +87,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 7/12/24 15:14, Yannick Fertre wrote:
-> The purpose of this mask is to simplify writing to the lxcr
-> register and not to forget any fields.
+On 7/12/24 15:13, Yannick Fertre wrote:
+> The plane's opacity should be reseted while the plane
+> is disabled. It prevents from seeing a possible global
+> or layer background color set earlier.
 >
 > Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
-
 
 Hi Yannick,
 
