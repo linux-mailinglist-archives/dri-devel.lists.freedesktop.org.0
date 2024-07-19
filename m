@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EC4937705
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 13:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31335937734
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 13:38:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC84810EBE4;
-	Fri, 19 Jul 2024 11:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8785C10EBE8;
+	Fri, 19 Jul 2024 11:38:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="wBqBFAtx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gqzs6BzV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB0D10EBE4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 11:12:14 +0000 (UTC)
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46J9GNwR009690
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 13:12:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- UNW0BvAxj2Pn7uxNn6Z5bxfQwwbcSUhtuOjKXXpCXa8=; b=wBqBFAtxCEAzlN2Z
- PKOnpQwhxVQZY1hRqC3PgavdXo+Os/8Hna7+U+/fdoI18tks6AMuv0AbQ3VbyV8s
- A3hslM9KzTYgrQq7EW2kMLBcgB9wAAPsWjTgoQaL0j3OQzG4OyKY87YRVJj02R7t
- wCW+orfIqGNPsZmxAYZDitBCHsVXgTAOzZOo3Kgn+7vuSLvXXKyM85GR1rXq7pNI
- iujjjAzJbdMyRPY1EGcZXPg//J/i0iWkAdvIIsE9w2/JOdN2vJoBekYqV9d3uAgl
- h6woaoAkDu4ZNm+E4NB6RoE3wtpWS0jk9FGi4OGN8Li9k/HyIw6ztQOPtVoul5uZ
- LQ03RA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40fdwdj3b9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 13:12:13 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id AF9BB4002D
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 13:12:08 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1EE6F232E7C
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 13:12:03 +0200 (CEST)
-Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 19 Jul
- 2024 13:12:02 +0200
-Message-ID: <c3d0757a-07c0-4f83-9f06-c3ad205aa1e9@foss.st.com>
-Date: Fri, 19 Jul 2024 13:12:01 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EBC410EBE8
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 11:38:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1721389135; x=1752925135;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=lFkoFn00Ha6ybgDCQdfb/iShZNrZfw5oqmw6ngTrYcM=;
+ b=gqzs6BzV5XhOjT0l+mUF0C32cLAzgoEzH2gr6KqQTqnABIAWi8RI0C9G
+ ZU7EbBTeYpxwmHCvNJ4HEPh4PYJi4I+tysiUagKEyc7MbXVWR4Tq6Pzf3
+ TW1vCht/CrNzZVKsugMws7uviPhJYyjH8+IwO3OBn/MhPS+rkg3lOZO7+
+ pJm/F+xcnOZN6eAK3IO1F50x9T+BpBf/CKy13BfPTIqkOzvWxCSri/NE4
+ nbjgFot8KEOhdaekuDzwYF6BNXBFu8Y0rlZbyMOTK7+OgStSllP4bcuGt
+ nhzbW8fLa9X9iEPEEdkhfL/6GGGSXMUdTXSYjEUnsEnm/bVFI+J40UaHS A==;
+X-CSE-ConnectionGUID: TgZG0wX1SXqyQtd1a5Y9Wg==
+X-CSE-MsgGUID: s/wSn6TMRoS/cLxa9HE9xQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="44417530"
+X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; d="scan'208";a="44417530"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2024 04:38:54 -0700
+X-CSE-ConnectionGUID: 4GK3yfM2RQ6FSKN1OH79/g==
+X-CSE-MsgGUID: VvR7Fs2XTLCU3eCkILScQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; d="scan'208";a="51800584"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2024 04:38:51 -0700
+Date: Fri, 19 Jul 2024 14:39:05 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/panic: Add missing static inline to
+ drm_panic_is_enabled()
+Message-ID: <ZppQWb05llyndFh-@ideak-desk.fi.intel.com>
+References: <20240719103615.1489714-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/stm: add COMMON_CLK dependency
-To: <dri-devel@lists.freedesktop.org>
-References: <20240719075454.3595358-1-arnd@kernel.org>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20240719075454.3595358-1-arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.17]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-19_06,2024-07-18_01,2024-05-17_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240719103615.1489714-1-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,41 +70,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jul 19, 2024 at 12:36:08PM +0200, Jocelyn Falempe wrote:
+> This breaks build if DRM_PANIC is not enabled.
+> 
+> Fixes: de338c754d40 ("drm/panic: Add missing static inline to drm_panic_is_enabled()")
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-On 7/19/24 09:54, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The added lvds driver and a change in the dsi driver resulted in failed
-> builds when COMMON_CLK is disabled:
->
-> x86_64-linux-ld: drivers/gpu/drm/stm/dw_mipi_dsi-stm.o: in function `dw_mipi_dsi_stm_remove':
-> dw_mipi_dsi-stm.c:(.text+0x51e): undefined reference to `clk_hw_unregister'
->
-> x86_64-linux-ld: drivers/gpu/drm/stm/lvds.o: in function `lvds_remove':
-> lvds.c:(.text+0xe3): undefined reference to `of_clk_del_provider'
-> x86_64-linux-ld: lvds.c:(.text+0xec): undefined reference to `clk_hw_unregister'
-> x86_64-linux-ld: drivers/gpu/drm/stm/lvds.o: in function `lvds_pll_config':
-> lvds.c:(.text+0xb5d): undefined reference to `clk_hw_get_rate'
-> x86_64-linux-ld: drivers/gpu/drm/stm/lvds.o: in function `lvds_probe':
-> lvds.c:(.text+0x1476): undefined reference to `clk_hw_register'
-> x86_64-linux-ld: lvds.c:(.text+0x148b): undefined reference to `of_clk_hw_simple_get'
-> x86_64-linux-ld: lvds.c:(.text+0x1493): undefined reference to `of_clk_add_hw_provider'
-> x86_64-linux-ld: lvds.c:(.text+0x1535): undefined reference to `clk_hw_unregister'
->
-> Add this as a dependency for the stm driver itself, since it will be
-> required in practice anyway.
->
-> Fixes: 185f99b61442 ("drm/stm: dsi: expose DSI PHY internal clock")
-> Fixes: aca1cbc1c986 ("drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Thanks for the quick fix:
+Reviewed-by: Imre Deak <imre.deak@intel.com>
 
-Hi Arnd
-
-I've applied your patch to the drm-misc-next.
-
-Thanks,
-Raphaël
-
+> ---
+>  drivers/gpu/drm/drm_crtc_internal.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+> index c10de39cbe83..bbac5350774e 100644
+> --- a/drivers/gpu/drm/drm_crtc_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+> @@ -321,7 +321,7 @@ drm_edid_load_firmware(struct drm_connector *connector)
+>  #ifdef CONFIG_DRM_PANIC
+>  bool drm_panic_is_enabled(struct drm_device *dev);
+>  #else
+> -bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
+> +static inline bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
+>  #endif
+>  
+>  #endif /* __DRM_CRTC_INTERNAL_H__ */
+> -- 
+> 2.45.2
+> 
