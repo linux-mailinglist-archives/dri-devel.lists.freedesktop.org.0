@@ -2,75 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D87E9376C4
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 12:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BDF69376FC
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 13:06:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F12C510EBD3;
-	Fri, 19 Jul 2024 10:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C792B10EBCF;
+	Fri, 19 Jul 2024 11:06:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="rZDhHyMu";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="h8mtVvga";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E163C10EBD3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 10:48:10 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46J9RJFn010370;
- Fri, 19 Jul 2024 12:48:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- 6v9mXPTP2gc6lkDgu/ArdtuvjDBIS/gGTRxcEZCHv1o=; b=rZDhHyMun4/53BuU
- +9QWLUT/eVCruYA4C3tkEraS5AfXQ5pojtaT/hbz9kgsJ/KoUNOF7g2I+keWKUDC
- /5Sk5Fs3IwMadbzTTJnt4qshuKF3W8QiGCUV7RjztBrpa5H71rAIeohvGMqiEVSf
- 2Hb+27lDCw1mGxsmCwwlFpdAaEqB6njLGEQ8rpl6gZOX8r+PPCj5Es8N+h8INIuV
- /u9BDXnqqLA8zI5/6FxlidC5nOfT/zGPQMoi+jx7gKL+efxLN2ArKB7jXZDbx6wl
- 1cUwA1OCnyTeE3G4ZkOHB5/PL1vpBm9g1vH0zAh5DJi3heZ7+S9M9qDNoMDJwH9t
- 8XYM4Q==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40fe179yuu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Jul 2024 12:48:01 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 261BF4002D;
- Fri, 19 Jul 2024 12:47:57 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 800D924F390;
- Fri, 19 Jul 2024 12:47:28 +0200 (CEST)
-Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 19 Jul
- 2024 12:47:25 +0200
-Message-ID: <fca733ed-198a-4aa5-b180-f6746e6e37d8@foss.st.com>
-Date: Fri, 19 Jul 2024 12:47:24 +0200
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A862610EBCF
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 11:06:30 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1fd66cddd07so3500135ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 04:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1721387190; x=1721991990;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=CvBFlpbYXm8DRw134Gwy2tFTrnf08dD4R+UNnPp1igc=;
+ b=h8mtVvgaGYYlr3PW1VMPwq0vPgrz/dwgGxme4ZH9eLpmt07beSG0lSREm4vWKY1weK
+ ZYJXhcgmoQA8cg864ZN9eg1juxWk4z2S/vSpBdman4qakq4NK1i9bjkROuFMswpgCtcE
+ Q/8zxGc8/hIR6/zXnawHIcN8MP6lwc6aTmoGk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721387190; x=1721991990;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CvBFlpbYXm8DRw134Gwy2tFTrnf08dD4R+UNnPp1igc=;
+ b=IKY33On7DZHGdL+dynVrJQlvsNQzfkmaHGn3jo+/UmSs5ZqAEzHGGvKf/e2hIdpJZ9
+ wE09iZQiyQ+B+pPbEkqpDKLxl8OGRxjAAv/oecIDsMvd9lVoPxfuBMURi4T54aeSvhtW
+ vgX2cqfjulYWV3Mab1fO6UHQqen9f/fWQwJaYMJWQUUpln5z1Bpfewksw3BI+iB7Wlei
+ PRzaVE5qF7CDi2J/GFlRD0Ejj++09Y5gFWO+4ukJ8eoXsJ8108OmCsvRwooT+iukQJNU
+ 4h88XPBKT+CAOn9FAkBVjmXkKcoRrmNA3j08mpvEzik9P3MCLJ515/Xc/mQFLQemiFrp
+ bR8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWS9NwiccHI1kb4PiX6HQv5b2adO7of9ywcKX4XWovlNbflUvlDdr63NNBcaKAoQEIBhV4W4qndKHNX7Lo5B6/bXiJ4+daYhZ4uRh8rpf0t
+X-Gm-Message-State: AOJu0YznIK6o3a2VoWVYbVqyC8CQhyxJMHAFIh6NQWaRvJqYcGGZwA48
+ pneQsxMmNCZ6QIAafCAbi4boxqe8gPiLYoyaLcw3phWTCYjQd4nQFe82yFiYKA==
+X-Google-Smtp-Source: AGHT+IFk5azqwBo31OImo8c8UJI5EX9rWaEosQnZRF79smxG3gHpMq/Sp6tvKC9bRIB55rbQcwEegg==
+X-Received: by 2002:a17:902:ebc6:b0:1fb:247b:aa2a with SMTP id
+ d9443c01a7336-1fc4e7049c6mr65879635ad.59.1721387190107; 
+ Fri, 19 Jul 2024 04:06:30 -0700 (PDT)
+Received: from treapking.tpe.corp.google.com
+ ([2401:fa00:1:10:28a4:97a8:4541:cf90])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1fd6f3181ffsm2136795ad.155.2024.07.19.04.06.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Jul 2024 04:06:29 -0700 (PDT)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Kuro Chung <kuro.chung@ite.com.tw>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Pin-yen Lin <treapking@chromium.org>
+Subject: [PATCH] drm/bridge: it6505: Disable IRQ when powered off
+Date: Fri, 19 Jul 2024 19:05:36 +0800
+Message-ID: <20240719110623.1850021-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.45.2.1089.g2a221341d9-goog
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/stm: ltdc: reset plane transparency after plane
- disable
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20240712131344.98113-1-yannick.fertre@foss.st.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20240712131344.98113-1-yannick.fertre@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.17]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-19_06,2024-07-18_01,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,18 +83,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When the bridge is powered off, disable the IRQ until the next power on
+to workaround an interrupt storm on some badly-designed hardware.
 
-On 7/12/24 15:13, Yannick Fertre wrote:
-> The plane's opacity should be reseted while the plane
-> is disabled. It prevents from seeing a possible global
-> or layer background color set earlier.
->
-> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+---
 
-Hi Yannick,
+ drivers/gpu/drm/bridge/ite-it6505.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-Applied on drm-misc-next.
-
-Thanks,
-Raphaël
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 1e1c06fdf206..87b8545fccc0 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -460,6 +460,8 @@ struct it6505 {
+ 	bool enable_drv_hold;
+ 
+ 	const struct drm_edid *cached_edid;
++
++	int irq;
+ };
+ 
+ struct it6505_step_train_para {
+@@ -2624,6 +2626,8 @@ static int it6505_poweron(struct it6505 *it6505)
+ 	it6505_init(it6505);
+ 	it6505_lane_off(it6505);
+ 
++	enable_irq(it6505->irq);
++
+ 	return 0;
+ }
+ 
+@@ -2640,6 +2644,8 @@ static int it6505_poweroff(struct it6505 *it6505)
+ 		return 0;
+ 	}
+ 
++	disable_irq_nosync(it6505->irq);
++
+ 	if (pdata->gpiod_reset)
+ 		gpiod_set_value_cansleep(pdata->gpiod_reset, 0);
+ 
+@@ -3389,7 +3395,7 @@ static int it6505_i2c_probe(struct i2c_client *client)
+ 	struct it6505 *it6505;
+ 	struct device *dev = &client->dev;
+ 	struct extcon_dev *extcon;
+-	int err, intp_irq;
++	int err;
+ 
+ 	it6505 = devm_kzalloc(&client->dev, sizeof(*it6505), GFP_KERNEL);
+ 	if (!it6505)
+@@ -3430,17 +3436,18 @@ static int it6505_i2c_probe(struct i2c_client *client)
+ 
+ 	it6505_parse_dt(it6505);
+ 
+-	intp_irq = client->irq;
++	it6505->irq = client->irq;
+ 
+-	if (!intp_irq) {
++	if (!it6505->irq) {
+ 		dev_err(dev, "Failed to get INTP IRQ");
+ 		err = -ENODEV;
+ 		return err;
+ 	}
+ 
+-	err = devm_request_threaded_irq(&client->dev, intp_irq, NULL,
++	err = devm_request_threaded_irq(&client->dev, it6505->irq, NULL,
+ 					it6505_int_threaded_handler,
+-					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
++					IRQF_TRIGGER_LOW | IRQF_ONESHOT |
++					IRQF_NO_AUTOEN,
+ 					"it6505-intp", it6505);
+ 	if (err) {
+ 		dev_err(dev, "Failed to request INTP threaded IRQ: %d", err);
+-- 
+2.45.2.1089.g2a221341d9-goog
 
