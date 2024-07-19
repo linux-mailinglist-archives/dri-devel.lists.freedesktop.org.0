@@ -2,94 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC2D93756C
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 11:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F01E893759D
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 11:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B59D510EB7C;
-	Fri, 19 Jul 2024 09:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB1610EB87;
+	Fri, 19 Jul 2024 09:20:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IwJSa3ub";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="VdOah8/+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
- [209.85.217.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C92510EB7C
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 09:02:01 +0000 (UTC)
-Received: by mail-vs1-f45.google.com with SMTP id
- ada2fe7eead31-48fe6ddc33bso574849137.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 02:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721379720; x=1721984520; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=e8NqB4UXXfRhq7xibWmOKgLLvVoy7/cBoXSoL07ZZd8=;
- b=IwJSa3ubGzr7sqVf/pS6BppAZVxoxRps3Hl06iMSfIg/wscvCCLYWqM4Yor/QKUA/d
- eYTGUwMvlqmJYxRvu4MM8UMJNXntvlLhgf5K1dnJTOPyBMDJ7LOYCaOShAoUicWFRxor
- d1gUKQsPLInSpg3QqNiac8WQrYegJl/uc4wmUnPW55awls3/BvO6DeQ4tPlvBmPYO9h8
- Oca+VZmfdgVq3/8Mzjadz6XqgTeVyvdbCmpnuNtlFJzwk4+xy7B8eivW4hzY4/J+dUO6
- NZKPTfPtmAEwA0RY2bIGGTm3InU8maiaUN8FiMNVVjyt3gTjW1kVqyVTh8WAWsCNuKV4
- v+Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721379720; x=1721984520;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=e8NqB4UXXfRhq7xibWmOKgLLvVoy7/cBoXSoL07ZZd8=;
- b=UWbPxlQXwc5ceGumsZvTrP8kZ2vkkTndg2iWmxalxS/7JdRttkUdTQ0w9+JWNW+yor
- +Vw66T26MACK4AIz0ifXC9bA8SMPffXCair78lxI7Fs+SkINZtwf6mlfGSELY5wagPTR
- VmiEDuxWJJ3tJYiFDRbBKbu/sZ1FWrhDpTsv5aWEwN+jgY485NV4mj82dbDsAlaZYf2W
- MTCdZzDXnIcvJRnzwaTxPzwver2guACW4clJPKBwbijFLNBD9Vq8hmrxSbjjDBiUPwUn
- GsgW/CPtLHaQC0JUllLM9hiMekzt5F2HrjAgEo9w/b7xkQgL4eiZ2uguld7c96sEVsKT
- zPTQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX+TBput0CgVhW1MlZbRlD87fNLZgy3H7NCbZTPmW26/OlSC6sDCZ2Zo0PReLk/zAffYgBdaXTq+M2DAp5CT4MTT8DMRTwbK7lujH1qgGYP
-X-Gm-Message-State: AOJu0YwK9boGht+THHkgCArPaAh6wjXAcaYWxvkUsc1nJaP9Jr4qiL1y
- qbUg/9SsEN6WL4i71W7oJ4j87ztLqh2rllazxo0+M2Dcj6qG3rFVyReAvroz8GGr+zGE/FInxNM
- KGSMoWqZ/kz8z1OC9W0BIBZQZQYU=
-X-Google-Smtp-Source: AGHT+IEEXrAtw5qdg+6Tlto0/IkkAm7AL1K/G5e76SlvQXcdxQq43WWyLQGsGDvFSp5tU2oxcT8DtAITdKNEJ/5OAbQ=
-X-Received: by 2002:a05:6102:512a:b0:48f:eb37:fd86 with SMTP id
- ada2fe7eead31-491599ec471mr8207968137.30.1721379719734; Fri, 19 Jul 2024
- 02:01:59 -0700 (PDT)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20BB110EB87
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 09:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1721380805;
+ bh=yAETZC0ppWDyfmBdfHX8Kz6iCIh8buKJ8L4qqK40C4M=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=VdOah8/+V/XtUxxIeVO4oIpiIH0uCMgVd99oNApZzhhpP3jQV5Kljtp9IeuvGwNXB
+ e2skTMRVBepNfeZO52MHmQMCeVo/k3JiAnLmji+QAvdPtChjV5azSSkVAsWW4XnYbv
+ U7LIw1ghoUkOPUzSPRgCwacR5Qiy8O4/6hFQEE5V773FAd5HLYJ/DNigf9qQyGFm3b
+ pHHNxN/cR4drlZg5v2+6rYcKBy/I1fBMnPpbqb5zIspHImL1NM4apEP0CITd0p1d/B
+ UeeSScaI2QHoygyMFiMCa9mnxInK/BXRnQe8X8ehq8RDyVU27h5otNIM6T1BY9biSW
+ PGjRwfbOlrPCg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id D57D73782063;
+ Fri, 19 Jul 2024 09:20:04 +0000 (UTC)
+Message-ID: <c5ba072f-5a38-4faf-9b8f-906bc896881d@collabora.com>
+Date: Fri, 19 Jul 2024 11:20:04 +0200
 MIME-Version: 1.0
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-2-e3f6662017ac@gmail.com>
- <wnf3mfgdm4p4f5wrxdtlx4wccnizdvohc7iiyu5t22eeb67r57@xun3r73hksrg>
- <ad04e203-4244-4cd3-9c9a-fae002962990@linaro.org>
- <lwrz4rvn6ogseea5v6j7plc3yi3xnzo76dvrsl3muat3iswlkb@zmwa3xo3xgw4>
- <85e03d10-59a2-4f15-bb85-7b2c0354a5d1@linaro.org>
-In-Reply-To: <85e03d10-59a2-4f15-bb85-7b2c0354a5d1@linaro.org>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Fri, 19 Jul 2024 12:01:48 +0300
-Message-ID: <CABTCjFBxOEdpbdYnbvPyf2MRE5m-3gfvHtaPbDF5PmkQZ2kV1w@mail.gmail.com>
-Subject: Re: [PATCH v3 02/23] gcc-sdm845: Add rates to the GP clocks
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sebastian Reichel <sre@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Lee Jones <lee@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- phone-devel@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
- linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/mediatek: Set sensible cursor width/height values to
+ fix crash
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "daniel@fooishbar.org" <daniel@fooishbar.org>
+Cc: "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "fshao@chromium.org" <fshao@chromium.org>
+References: <20240718082410.204459-1-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5GBg73kWuiDt=9s7M4oJeHhWOF3bPY7Ju+qn1kJgNNaGw@mail.gmail.com>
+ <CAC=S1nigoJWAECBrm-Q=Co1-qd_yUhx3R4D9=dYeUV=gr5UYfQ@mail.gmail.com>
+ <74e7477b-81c7-4713-80cc-1cb476185bc9@collabora.com>
+ <CAPj87rPZRjmMPjaOY-UH4auTuMS6mh9N7=maRBzxut2OgtALbw@mail.gmail.com>
+ <d6f20609-5127-4010-b691-40cd3b253283@collabora.com>
+ <e74e25b01f85fb33d95e073f18a8049288b5c70d.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <e74e25b01f85fb33d95e073f18a8049288b5c70d.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,45 +81,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Why cannot max values be defined as ((2 ^ mnd_width) - 1) and ((2 ^
-hid_width) - 1)?
+Il 19/07/24 10:42, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
+> 
+> On Thu, 2024-07-18 at 13:23 +0200, AngeloGioacchino Del Regno wrote:
+>> Il 18/07/24 13:10, Daniel Stone ha scritto:
+>>> Hi all,
+>>>
+>>> On Thu, 18 Jul 2024 at 11:24, AngeloGioacchino Del Regno
+>>> <angelogioacchino.delregno@collabora.com> wrote:
+>>>> Il 18/07/24 11:27, Fei Shao ha scritto:
+>>>>> This matches my preference in [1], so of course I'd like to see it
+>>>>> merged... if maintainers are okay with it.
+>>>>> Given I've tested the exact same change before:
+>>>>> Reviewed-by: Fei Shao <fshao@chromium.org>
+>>>>> Tested-by: Fei Shao <fshao@chromium.org>
+>>>>
+>>>> Thanks!
+>>>
+>>> And:
+>>> Reviewed-by: Daniel Stone <daniels@collabora.com>
+>>>
+>>>>>> OOTH, Intel recently added a feature for enumerating "suggested"
+>>>>>> cursor sizes. See https://urldefense.com/v3/__https://patchwork.freedesktop.org/patch/583299/__;!!CTRNKA9wMg0ARbw!nRf6mf-9tnE7vLYracLE6Xq_oblRvtENffF73fRzgz_E3zPc3yxeQPE5yPw95sj-ZeoiYJCQSIPWFZ0C3HCXpBkHikWK$
+>>>>>>
+>>>>>> Not sure if other compositors will end up using it or not.
+>>>>
+>>>> Yeah, that's good, and we might do that as well in MediaTek DRM... in a slightly
+>>>> different way, as it looks like they are simply hinting the same values as the
+>>>> mode_config is declaring... while we'd be adding a hint with a sensible size that
+>>>> is less than the maximum supported one from the overlay.
+>>>>
+>>>> In reality, here, the issue is that the most popular compositors do not support
+>>>> overlay planes (as in, they don't use them at all)... my first idea was to remove
+>>>> the CURSOR plane entirely and declare it as per what it is for real (an OVERLAY),
+>>>> but that would only give a performance penalty as that'd become yet another unused
+>>>> plane and nothing else.
+>>>>
+>>>> If at least the most popular compositors did support overlay planes, I'd have done
+>>>> that instead... but oh, well!
+>>>>
+>>>> And anyway I hope that the maintainers are okay with this because, well, otherwise
+>>>> MediaTek SoCs won't be usable with any popular WM.
+>>>
+>>> Every compositor is going to use it, yeah. But until it does, people
+>>> are just going to use cursor_width and cursor_size. A lot of older
+>>> desktop hardware supports only a single fixed dimension for the cursor
+>>> plane (hence the single values), so rather than guess if it needs to
+>>> be 32x32 or 64x64 or whatever, people just allocate to the size. Not
+>>> to mention that the old pre-atomic cursor ioctls actually require that
+>>> you allocate for cursor_width x cursor_height.
+>>>
+>>> So yeah, this is the right fix - though you could even be more
+>>> aggressive and reduce it to 256x256 - and supporting the CURSOR_SIZE
+>>> property would be even more useful again.
+>>>
+>>
+>> I thought about being more aggressive, but then I saw that IGT tests for up to 512
+>> and that MSM also declares the same, so, making IGT happy because we can indeed
+>> support that much (since we can support even more, but doesn't make sense) :-)
+>>
+>> Regarding CURSOR_SIZE ... right, I can take a look at that a bit later, most
+>> probably not for this merge window, though.
+> 
+> This patch looks acceptable but it could be better.
+> It's urgent to fix the crash, if better solution does not come out soon,
+> I would apply this patch first.
+> 
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> 
+> I will remove the Fixes tag because Shawn's patch has no logical problem but the system resource is not enough.
+> 
+> It's a dilemma that small size has no resource problem but application is limited
+> and large size has resource problem but support more application.
+> 
 
-=D0=B2=D1=82, 18 =D0=B8=D1=8E=D0=BD. 2024=E2=80=AF=D0=B3. =D0=B2 22:12, Kon=
-rad Dybcio <konrad.dybcio@linaro.org>:
->
->
->
-> On 6/18/24 20:55, Dmitry Baryshkov wrote:
-> > On Tue, Jun 18, 2024 at 08:50:52PM GMT, Konrad Dybcio wrote:
-> >>
-> >>
-> >> On 6/18/24 19:50, Dmitry Baryshkov wrote:
-> >>> On Tue, Jun 18, 2024 at 04:59:36PM GMT, Dzmitry Sankouski wrote:
-> >>>> sdm845 has "General Purpose" clocks that can be muxed to
-> >>>> SoC pins.
-> >>>>
-> >>>> Those clocks may be used as e.g. PWM sources for external peripheral=
-s.
-> >>>> Add more frequencies to the table for those clocks so it's possible
-> >>>> for arbitrary peripherals to make use of them.
-> >>>>
-> >>>> See also: bf8bb8eaccf(clk: qcom: gcc-msm8916: Add rates to the GP cl=
-ocks)
-> >>>
-> >>> Each time I look at the table attached to the GP CLK, I feel that it'=
-s
-> >>> plain wrong. In the end the GPCLK can in theory have arbitrary value
-> >>> depending on the usecase.
-> >>>
-> >>> Bjorn, Konrad, maybe we should add special clk_ops for GP CLK which
-> >>> allow more flexibility than a default clk_rcg2_ops?
-> >>
-> >> If we can somehow get max m/n/d values for all possible parents, sure
-> >
-> > Calculate them at runtime?
->
-> We'd be calculating the mnd values for a frequency that's either equal or
-> reasonably close to the one requested. My worry is that we somehow need
-> to get the maximum values they can take (unless they're well-known)
->
-> Konrad
+Thanks, but the Fixes tag is important, as otherwise v6.11 will be unusable :-)
+
+Regards,
+Angelo
+
+> Regards,
+> CK
+> 
+>>
+>> Cheers!
+>>
+>>> Cheers,
+>>> Daniel
+>>
+>>
+
