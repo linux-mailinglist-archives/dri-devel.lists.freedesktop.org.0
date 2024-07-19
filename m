@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFEA937681
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 12:11:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5729D937682
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 12:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5DE10EBB0;
-	Fri, 19 Jul 2024 10:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68C610EBB2;
+	Fri, 19 Jul 2024 10:11:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WZRgYO5t";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Pvv1R8mj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFB410EBAC;
- Fri, 19 Jul 2024 10:11:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1549510EBB2;
+ Fri, 19 Jul 2024 10:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721383876; x=1752919876;
+ t=1721383878; x=1752919878;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=d6UNNu1NMf7asf5jb8J1BVauPEvuoTMYVqSequJVJeU=;
- b=WZRgYO5tMmQDJ1PaTJsCbP7B/5uMqde80fbtnOPY9f79ioKVQqBByMGx
- Mr5n8qAoL+MjEnlZpMTuuvRxqEI8YVmpysKnJeUgrriWhkfS4XjdbUH5c
- +uTbwKTEFIqjvedKAntSgriKmGz7M3VI1TrxcgPIYJ5KVqAaG5URRbtiN
- adEhOINA7hFw0Wy0XzvqnoXbY3amjNpqF8GUx/Jh5upioMxFNkUvcB1d9
- iudo7PfdGVvYLvxMckWB40EMf+p2y9NUpWAlrmqykvSFqSEvQBuASXh1c
- ugweWnoHQ0FPWGUP0GUNqj/E9R16CrSzjgzauMQ1sI9ES7KpUgU2sFzx0 A==;
-X-CSE-ConnectionGUID: xVrvndyjR++5Ywtkql0PhQ==
-X-CSE-MsgGUID: IcWHm8VcSPuw48XfcVj5zA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="22753312"
-X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; d="scan'208";a="22753312"
+ bh=6snlh21hYGMqimH2sxpok/geLk8LtjhcUDMRHc0u2FM=;
+ b=Pvv1R8mjiF1Neuk7A00izhD2nWUTb7aAdCa0uJljWNBKtMj1N34yo68L
+ 8RnqHjmLa45ZvHJfAfPWyBMzBHSfFIudQk255Nq7mWxFWMwknEWxWwc36
+ +2MKwu9dX4BoNZPTyerjO7kKHFC5wxUN5yaNSQXHAXQG70hKMeIG3rafG
+ BqOJ/6WtDwTxOsHuI0Y6NVBFVWkerLsC8hiF32NqtMTStnWH6UwXsLnv6
+ EWeyT46eC18xFdBSuIZ2onMKi05NyykpGmig5LMzJwYG4jt/4L6O4Ga0C
+ 2iuoliOiPrMzYx/BjANx0bUdYcP8UY0ZIXMKi+OMkyeNbDihb5xqHI0VY w==;
+X-CSE-ConnectionGUID: qniXGPByQK2qitLfqTv6Rw==
+X-CSE-MsgGUID: Rz1w/qQsQMim/r8WnUu9RQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="22753313"
+X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; d="scan'208";a="22753313"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2024 03:11:16 -0700
-X-CSE-ConnectionGUID: 0CTDGIeySPS6kgGfYlOYXw==
-X-CSE-MsgGUID: bcUAiGCCR6KLO6NDf4PUIg==
+ 19 Jul 2024 03:11:18 -0700
+X-CSE-ConnectionGUID: YwXMurHdRr6qJElDVDanTA==
+X-CSE-MsgGUID: gz1HObPbTsaMb+WMRidfIg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; d="scan'208";a="50758623"
+X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; d="scan'208";a="50758630"
 Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2024 03:11:14 -0700
+ 19 Jul 2024 03:11:16 -0700
 From: Nirmoy Das <nirmoy.das@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-xe@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>,
  Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
  Matthew Auld <matthew.auld@intel.com>,
  Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Akshata Jahagirdar <akshata.jahagirdar@intel.com>
-Subject: [PATCH v6 2/3] drm/xe/migrate: Parameterize ccs and bo data clear in
- xe_migrate_clear()
-Date: Fri, 19 Jul 2024 11:55:05 +0200
-Message-ID: <20240719095506.4068-2-nirmoy.das@intel.com>
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v6 3/3] drm/xe/lnl: Offload system clear page activity to GPU
+Date: Fri, 19 Jul 2024 11:55:06 +0200
+Message-ID: <20240719095506.4068-3-nirmoy.das@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20240719095506.4068-1-nirmoy.das@intel.com>
 References: <20240719095506.4068-1-nirmoy.das@intel.com>
@@ -76,211 +74,213 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Parameterize clearing ccs and bo data in xe_migrate_clear() which  higher
-layers can utilize. This patch will be used later on when doing bo data
-clear for igfx as well.
+On LNL because of flat CCS, driver creates a migrate job to clear
+CCS meta data. Extend that to also clear system pages using GPU.
+Inform TTM to allocate pages without __GFP_ZERO to avoid double page
+clearing by clearing out TTM_TT_FLAG_ZERO_ALLOC flag and set
+TTM_TT_FLAG_CLEARED_ON_FREE while freeing to skip ttm pool's
+clearn-on-free as XE now takes care of clearing pages. If a bo
+is in system placement and there is a cpu map then for such BO gpu
+clear will be avoided as there is no dma mapping for such BO at
+that moment.
 
-v2: Replace multiple params with flags in xe_migrate_clear (Matt B)
-v3: s/CLEAR_BO_DATA_FLAG_*/XE_MIGRATE_CLEAR_FLAG_* and move to
-    xe_migrate.h. other nits(Matt B)
+To test the patch, created a small test that tries to submit a job
+after binding various sizes of buffer which shows good gains for larger
+buffer. For lower buffer sizes, the result is not very reliable as the
+results vary a lot for both CPU and GPU page clearing.
+
+With the patch
+sudo  ~/igt-gpu-tools/build/tests/xe_exec_store --run
+basic-store-benchmark
+IGT-Version: 1.28-g2ed908c0b (x86_64) (Linux: 6.10.0-rc2-xe+ x86_64)
+Using IGT_SRANDOM=1719237905 for randomisation
+Opened device: /dev/dri/card0
+Starting subtest: basic-store-benchmark
+Starting dynamic subtest: WC
+Dynamic subtest WC: SUCCESS (0.000s)
+Time taken for size SZ_4K: 9493 us
+Time taken for size SZ_2M: 5503 us
+Time taken for size SZ_64M: 13016 us
+Time taken for size SZ_128M: 29464 us
+Time taken for size SZ_256M: 38408 us
+Time taken for size SZ_1G: 148758 us
+Starting dynamic subtest: WB
+Dynamic subtest WB: SUCCESS (0.000s)
+Time taken for size SZ_4K: 3889 us
+Time taken for size SZ_2M: 6091 us
+Time taken for size SZ_64M: 20920 us
+Time taken for size SZ_128M: 32394 us
+Time taken for size SZ_256M: 61710 us
+Time taken for size SZ_1G: 215437 us
+Subtest basic-store-benchmark: SUCCESS (0.589s)
+
+With the patch:
+sudo  ~/igt-gpu-tools/build/tests/xe_exec_store --run
+basic-store-benchmark
+IGT-Version: 1.28-g2ed908c0b (x86_64) (Linux: 6.10.0-rc2-xe+ x86_64)
+Using IGT_SRANDOM=1719238062 for randomisation
+Opened device: /dev/dri/card0
+Starting subtest: basic-store-benchmark
+Starting dynamic subtest: WC
+Dynamic subtest WC: SUCCESS (0.000s)
+Time taken for size SZ_4K: 11803 us
+Time taken for size SZ_2M: 4237 us
+Time taken for size SZ_64M: 8649 us
+Time taken for size SZ_128M: 14682 us
+Time taken for size SZ_256M: 22156 us
+Time taken for size SZ_1G: 74457 us
+Starting dynamic subtest: WB
+Dynamic subtest WB: SUCCESS (0.000s)
+Time taken for size SZ_4K: 5129 us
+Time taken for size SZ_2M: 12563 us
+Time taken for size SZ_64M: 14860 us
+Time taken for size SZ_128M: 26064 us
+Time taken for size SZ_256M: 47167 us
+Time taken for size SZ_1G: 170304 us
+Subtest basic-store-benchmark: SUCCESS (0.417s)
+
+With the patch and init_on_alloc=0
+sudo  ~/igt-gpu-tools/build/tests/xe_exec_store --run
+basic-store-benchmark
+IGT-Version: 1.28-g2ed908c0b (x86_64) (Linux: 6.10.0-rc2-xe+ x86_64)
+Using IGT_SRANDOM=1719238219 for randomisation
+Opened device: /dev/dri/card0
+Starting subtest: basic-store-benchmark
+Starting dynamic subtest: WC
+Dynamic subtest WC: SUCCESS (0.000s)
+Time taken for size SZ_4K: 4803 us
+Time taken for size SZ_2M: 9212 us
+Time taken for size SZ_64M: 9643 us
+Time taken for size SZ_128M: 13479 us
+Time taken for size SZ_256M: 22429 us
+Time taken for size SZ_1G: 83110 us
+Starting dynamic subtest: WB
+Dynamic subtest WB: SUCCESS (0.000s)
+Time taken for size SZ_4K: 4003 us
+Time taken for size SZ_2M: 4443 us
+Time taken for size SZ_64M: 12960 us
+Time taken for size SZ_128M: 13741 us
+Time taken for size SZ_256M: 26841 us
+Time taken for size SZ_1G: 84746 us
+Subtest basic-store-benchmark: SUCCESS (0.290s)
+
+v2: Handle regression on dgfx(Himal)
+    Update commit message as no ttm API changes needed.
+v3: Fix Kunit test.
+v4: handle data leak on cpu mmap(Thomas)
+v5: s/gpu_page_clear/gpu_page_clear_sys and move setting
+    it to xe_ttm_sys_mgr_init() and other nits (Matt Auld)
 
 Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
 Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-Signed-off-by: Akshata Jahagirdar <akshata.jahagirdar@intel.com>
 ---
- drivers/gpu/drm/xe/tests/xe_bo.c      |  3 ++-
- drivers/gpu/drm/xe/tests/xe_migrate.c | 12 ++++++++----
- drivers/gpu/drm/xe/xe_bo.c            | 12 ++++++++++--
- drivers/gpu/drm/xe/xe_migrate.c       | 27 +++++++++++++++++++--------
- drivers/gpu/drm/xe/xe_migrate.h       |  7 ++++++-
- 5 files changed, 45 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/xe/xe_bo.c           | 26 ++++++++++++++++++++++++--
+ drivers/gpu/drm/xe/xe_device_types.h |  2 ++
+ drivers/gpu/drm/xe/xe_ttm_sys_mgr.c  |  8 ++++++++
+ 3 files changed, 34 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/tests/xe_bo.c b/drivers/gpu/drm/xe/tests/xe_bo.c
-index e2e0ea24757a..600d1772fa87 100644
---- a/drivers/gpu/drm/xe/tests/xe_bo.c
-+++ b/drivers/gpu/drm/xe/tests/xe_bo.c
-@@ -35,7 +35,8 @@ static int ccs_test_migrate(struct xe_tile *tile, struct xe_bo *bo,
- 
- 	/* Optionally clear bo *and* CCS data in VRAM. */
- 	if (clear) {
--		fence = xe_migrate_clear(tile->migrate, bo, bo->ttm.resource);
-+		fence = xe_migrate_clear(tile->migrate, bo, bo->ttm.resource,
-+					 XE_MIGRATE_CLEAR_FLAG_FULL);
- 		if (IS_ERR(fence)) {
- 			KUNIT_FAIL(test, "Failed to submit bo clear.\n");
- 			return PTR_ERR(fence);
-diff --git a/drivers/gpu/drm/xe/tests/xe_migrate.c b/drivers/gpu/drm/xe/tests/xe_migrate.c
-index 48bf7e831014..12a26cf1a521 100644
---- a/drivers/gpu/drm/xe/tests/xe_migrate.c
-+++ b/drivers/gpu/drm/xe/tests/xe_migrate.c
-@@ -104,7 +104,8 @@ static void test_copy(struct xe_migrate *m, struct xe_bo *bo,
- 	}
- 
- 	xe_map_memset(xe, &remote->vmap, 0, 0xd0, remote->size);
--	fence = xe_migrate_clear(m, remote, remote->ttm.resource);
-+	fence = xe_migrate_clear(m, remote, remote->ttm.resource,
-+				 XE_MIGRATE_CLEAR_FLAG_FULL);
- 	if (!sanity_fence_failed(xe, fence, big ? "Clearing remote big bo" :
- 				 "Clearing remote small bo", test)) {
- 		retval = xe_map_rd(xe, &remote->vmap, 0, u64);
-@@ -278,7 +279,8 @@ static void xe_migrate_sanity_test(struct xe_migrate *m, struct kunit *test)
- 	kunit_info(test, "Clearing small buffer object\n");
- 	xe_map_memset(xe, &tiny->vmap, 0, 0x22, tiny->size);
- 	expected = 0;
--	fence = xe_migrate_clear(m, tiny, tiny->ttm.resource);
-+	fence = xe_migrate_clear(m, tiny, tiny->ttm.resource,
-+				 XE_MIGRATE_CLEAR_FLAG_FULL);
- 	if (sanity_fence_failed(xe, fence, "Clearing small bo", test))
- 		goto out;
- 
-@@ -299,7 +301,8 @@ static void xe_migrate_sanity_test(struct xe_migrate *m, struct kunit *test)
- 	kunit_info(test, "Clearing big buffer object\n");
- 	xe_map_memset(xe, &big->vmap, 0, 0x11, big->size);
- 	expected = 0;
--	fence = xe_migrate_clear(m, big, big->ttm.resource);
-+	fence = xe_migrate_clear(m, big, big->ttm.resource,
-+				 XE_MIGRATE_CLEAR_FLAG_FULL);
- 	if (sanity_fence_failed(xe, fence, "Clearing big bo", test))
- 		goto out;
- 
-@@ -600,7 +603,8 @@ static void test_clear(struct xe_device *xe, struct xe_tile *tile,
- 
- 	kunit_info(test, "Clear vram buffer object\n");
- 	expected = 0x0000000000000000;
--	fence = xe_migrate_clear(tile->migrate, vram_bo, vram_bo->ttm.resource);
-+	fence = xe_migrate_clear(tile->migrate, vram_bo, vram_bo->ttm.resource,
-+				 XE_MIGRATE_CLEAR_FLAG_FULL);
- 	if (sanity_fence_failed(xe, fence, "Clear vram_bo", test))
- 		return;
- 	dma_fence_put(fence);
 diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-index 31192d983d9e..0b7202dd4c9e 100644
+index 0b7202dd4c9e..668c4c0f5ff0 100644
 --- a/drivers/gpu/drm/xe/xe_bo.c
 +++ b/drivers/gpu/drm/xe/xe_bo.c
-@@ -793,8 +793,16 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
- 			}
- 		}
- 	} else {
--		if (move_lacks_source)
--			fence = xe_migrate_clear(migrate, bo, new_mem);
-+		if (move_lacks_source) {
-+			u32 flags = 0;
-+
-+			if (mem_type_is_vram(new_mem->mem_type))
-+				flags |= XE_MIGRATE_CLEAR_FLAG_FULL;
-+			else if (handle_system_ccs)
-+				flags |= XE_MIGRATE_CLEAR_FLAG_CCS_DATA;
-+
-+			fence = xe_migrate_clear(migrate, bo, new_mem, flags);
-+		}
- 		else
- 			fence = xe_migrate_copy(migrate, bo, bo, old_mem,
- 						new_mem, handle_system_ccs);
-diff --git a/drivers/gpu/drm/xe/xe_migrate.c b/drivers/gpu/drm/xe/xe_migrate.c
-index c007f68503d4..0ea0bc692c55 100644
---- a/drivers/gpu/drm/xe/xe_migrate.c
-+++ b/drivers/gpu/drm/xe/xe_migrate.c
-@@ -1036,9 +1036,11 @@ static void emit_clear(struct xe_gt *gt, struct xe_bb *bb, u64 src_ofs,
-  * @m: The migration context.
-  * @bo: The buffer object @dst is currently bound to.
-  * @dst: The dst TTM resource to be cleared.
-+ * @clear_flags: flags to specify which data to clear: CCS, BO, or both.
-  *
-- * Clear the contents of @dst to zero. On flat CCS devices,
-- * the CCS metadata is cleared to zero as well on VRAM destinations.
-+ * Clear the contents of @dst to zero when XE_MIGRATE_CLEAR_FLAG_BO_DATA is set.
-+ * On flat CCS devices, the CCS metadata is cleared to zero with XE_MIGRATE_CLEAR_FLAG_CCS_DATA.
-+ * Set XE_MIGRATE_CLEAR_FLAG_FULL to clear bo as well as CCS metadata.
-  * TODO: Eliminate the @bo argument.
-  *
-  * Return: Pointer to a dma_fence representing the last clear batch, or
-@@ -1047,18 +1049,27 @@ static void emit_clear(struct xe_gt *gt, struct xe_bb *bb, u64 src_ofs,
-  */
- struct dma_fence *xe_migrate_clear(struct xe_migrate *m,
- 				   struct xe_bo *bo,
--				   struct ttm_resource *dst)
-+				   struct ttm_resource *dst,
-+				   u32 clear_flags)
- {
- 	bool clear_vram = mem_type_is_vram(dst->mem_type);
-+	bool clear_bo_data = XE_MIGRATE_CLEAR_FLAG_BO_DATA & clear_flags;
-+	bool clear_ccs = XE_MIGRATE_CLEAR_FLAG_CCS_DATA & clear_flags;
- 	struct xe_gt *gt = m->tile->primary_gt;
- 	struct xe_device *xe = gt_to_xe(gt);
--	bool clear_system_ccs = (xe_bo_needs_ccs_pages(bo) && !IS_DGFX(xe)) ? true : false;
-+	bool clear_only_system_ccs = false;
- 	struct dma_fence *fence = NULL;
- 	u64 size = bo->size;
- 	struct xe_res_cursor src_it;
- 	struct ttm_resource *src = dst;
- 	int err;
- 
-+	if (WARN_ON(!clear_bo_data && !clear_ccs))
-+		return NULL;
-+
-+	if (!clear_bo_data && clear_ccs && !IS_DGFX(xe))
-+		clear_only_system_ccs = true;
-+
- 	if (!clear_vram)
- 		xe_res_first_sg(xe_bo_sg(bo), 0, bo->size, &src_it);
- 	else
-@@ -1084,7 +1095,7 @@ struct dma_fence *xe_migrate_clear(struct xe_migrate *m,
- 		batch_size = 2 +
- 			pte_update_size(m, pte_flags, src, &src_it,
- 					&clear_L0, &clear_L0_ofs, &clear_L0_pt,
--					clear_system_ccs ? 0 : emit_clear_cmd_len(gt), 0,
-+					clear_bo_data ? emit_clear_cmd_len(gt) : 0, 0,
- 					avail_pts);
- 
- 		if (xe_migrate_needs_ccs_emit(xe))
-@@ -1106,13 +1117,13 @@ struct dma_fence *xe_migrate_clear(struct xe_migrate *m,
- 		if (clear_vram && xe_migrate_allow_identity(clear_L0, &src_it))
- 			xe_res_next(&src_it, clear_L0);
- 		else
--			emit_pte(m, bb, clear_L0_pt, clear_vram, clear_system_ccs,
-+			emit_pte(m, bb, clear_L0_pt, clear_vram, clear_only_system_ccs,
- 				 &src_it, clear_L0, dst);
- 
- 		bb->cs[bb->len++] = MI_BATCH_BUFFER_END;
- 		update_idx = bb->len;
- 
--		if (!clear_system_ccs)
-+		if (clear_bo_data)
- 			emit_clear(gt, bb, clear_L0_ofs, clear_L0, XE_PAGE_SIZE, clear_vram);
- 
- 		if (xe_migrate_needs_ccs_emit(xe)) {
-@@ -1171,7 +1182,7 @@ struct dma_fence *xe_migrate_clear(struct xe_migrate *m,
- 		return ERR_PTR(err);
+@@ -396,6 +396,14 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
+ 		caching = ttm_uncached;
  	}
  
--	if (clear_system_ccs)
-+	if (clear_ccs)
- 		bo->ccs_cleared = true;
++	/*
++	 * If the device can support gpu clear system pages then set proper ttm
++	 * flag. Zeroed pages are only required for ttm_bo_type_device so
++	 * unwanted data is not leaked to userspace.
++	 */
++	if (ttm_bo->type == ttm_bo_type_device && xe->mem.gpu_page_clear_sys)
++		page_flags |= TTM_TT_FLAG_CLEARED_ON_FREE;
++
+ 	err = ttm_tt_init(&tt->ttm, &bo->ttm, page_flags, caching, extra_pages);
+ 	if (err) {
+ 		kfree(tt);
+@@ -417,6 +425,10 @@ static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct ttm_tt *tt,
+ 	if (tt->page_flags & TTM_TT_FLAG_EXTERNAL)
+ 		return 0;
  
- 	return fence;
-diff --git a/drivers/gpu/drm/xe/xe_migrate.h b/drivers/gpu/drm/xe/xe_migrate.h
-index 453e0ecf5034..7929cc2425e8 100644
---- a/drivers/gpu/drm/xe/xe_migrate.h
-+++ b/drivers/gpu/drm/xe/xe_migrate.h
-@@ -102,9 +102,14 @@ struct dma_fence *xe_migrate_copy(struct xe_migrate *m,
- 				  struct ttm_resource *dst,
- 				  bool copy_only_ccs);
++	/* Clear TTM_TT_FLAG_ZERO_ALLOC when GPU is set to clear system pages */
++	if (tt->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE)
++		tt->page_flags &= ~TTM_TT_FLAG_ZERO_ALLOC;
++
+ 	err = ttm_pool_alloc(&ttm_dev->pool, tt, ctx);
+ 	if (err)
+ 		return err;
+@@ -659,8 +671,16 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 	bool needs_clear;
+ 	bool handle_system_ccs = (!IS_DGFX(xe) && xe_bo_needs_ccs_pages(bo) &&
+ 				  ttm && ttm_tt_is_populated(ttm)) ? true : false;
++	bool clear_system_pages;
+ 	int ret = 0;
  
-+#define XE_MIGRATE_CLEAR_FLAG_BO_DATA		BIT(0)
-+#define XE_MIGRATE_CLEAR_FLAG_CCS_DATA		BIT(1)
-+#define XE_MIGRATE_CLEAR_FLAG_FULL	(XE_MIGRATE_CLEAR_FLAG_BO_DATA | \
-+					XE_MIGRATE_CLEAR_FLAG_CCS_DATA)
- struct dma_fence *xe_migrate_clear(struct xe_migrate *m,
- 				   struct xe_bo *bo,
--				   struct ttm_resource *dst);
-+				   struct ttm_resource *dst,
-+				   u32 clear_flags);
++	/*
++	 * Clear TTM_TT_FLAG_CLEARED_ON_FREE on bo creation path when
++	 * moving to system as the bo doesn't have dma_mapping.
++	 */
++	if (!old_mem && ttm && !ttm_tt_is_populated(ttm))
++		ttm->page_flags &= ~TTM_TT_FLAG_CLEARED_ON_FREE;
++
+ 	/* Bo creation path, moving to system or TT. */
+ 	if ((!old_mem && ttm) && !handle_system_ccs) {
+ 		if (new_mem->mem_type == XE_PL_TT)
+@@ -683,8 +703,10 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 	move_lacks_source = handle_system_ccs ? (!bo->ccs_cleared)  :
+ 						(!mem_type_is_vram(old_mem_type) && !tt_has_data);
  
- struct xe_vm *xe_migrate_get_vm(struct xe_migrate *m);
++	clear_system_pages = ttm && (ttm->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE);
+ 	needs_clear = (ttm && ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC) ||
+-		(!ttm && ttm_bo->type == ttm_bo_type_device);
++		(!ttm && ttm_bo->type == ttm_bo_type_device) ||
++		clear_system_pages;
  
+ 	if (new_mem->mem_type == XE_PL_TT) {
+ 		ret = xe_tt_map_sg(ttm);
+@@ -796,7 +818,7 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 		if (move_lacks_source) {
+ 			u32 flags = 0;
+ 
+-			if (mem_type_is_vram(new_mem->mem_type))
++			if (mem_type_is_vram(new_mem->mem_type) || clear_system_pages)
+ 				flags |= XE_MIGRATE_CLEAR_FLAG_FULL;
+ 			else if (handle_system_ccs)
+ 				flags |= XE_MIGRATE_CLEAR_FLAG_CCS_DATA;
+diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+index 36252d5b1663..203ad50c894e 100644
+--- a/drivers/gpu/drm/xe/xe_device_types.h
++++ b/drivers/gpu/drm/xe/xe_device_types.h
+@@ -332,6 +332,8 @@ struct xe_device {
+ 		struct xe_mem_region vram;
+ 		/** @mem.sys_mgr: system TTM manager */
+ 		struct ttm_resource_manager sys_mgr;
++		/** @mem.gpu_page_clear_sys: clear system pages offloaded to GPU */
++		bool gpu_page_clear_sys;
+ 	} mem;
+ 
+ 	/** @sriov: device level virtualization data */
+diff --git a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
+index 9844a8edbfe1..fde0512a838a 100644
+--- a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
++++ b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
+@@ -117,5 +117,13 @@ int xe_ttm_sys_mgr_init(struct xe_device *xe)
+ 	ttm_resource_manager_init(man, &xe->ttm, gtt_size >> PAGE_SHIFT);
+ 	ttm_set_driver_manager(&xe->ttm, XE_PL_TT, man);
+ 	ttm_resource_manager_set_used(man, true);
++
++	/*
++	 * On iGFX device with flat CCS, we clear CCS metadata, let's extend that
++	 * and use GPU to clear pages as well.
++	 */
++	if (xe_device_has_flat_ccs(xe) && !IS_DGFX(xe))
++		xe->mem.gpu_page_clear_sys = true;
++
+ 	return drmm_add_action_or_reset(&xe->drm, ttm_sys_mgr_fini, xe);
+ }
 -- 
 2.42.0
 
