@@ -2,98 +2,173 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7418C937B6C
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 19:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACC1937B90
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2024 19:26:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 150AF10EC6A;
-	Fri, 19 Jul 2024 17:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4435E10EC6D;
+	Fri, 19 Jul 2024 17:26:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="IvRfVW5U";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O7dYzP9R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEA3E10EC6A
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 17:07:46 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-44f5df38e64so9715621cf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 10:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1721408864; x=1722013664;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aWJBW7qSepD09tUcrnlrHVc592+V670R8bG1ncdQIrM=;
- b=IvRfVW5U/IaXqyp33eZqJPBZBe7HHfpYqFpTNtZWuOIMShork//6HTyK/4tG4/Vl5h
- 0osf/ceawcgNGj812rKnjspQYI7yDP6mUIXnGC7zY79+xtFPNBXsU6hgDzsQBjOpLiy2
- 3zBalYkeMLYB4RVM8MKqXREy177V/+KKQGcgY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721408864; x=1722013664;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aWJBW7qSepD09tUcrnlrHVc592+V670R8bG1ncdQIrM=;
- b=HUZRrEAai0Ghs6D/YjKPgkIXqBHcnOQK81HtD44/LR9pwLo+WAh4XwYGluI/0qlPHN
- WC1STlBQ4+XK6ZGMdBX83s6fACNbKq6ujqD5OT5sEx4pW6aWiOrqI41su3NsKvxekvql
- hRsQSW1kbRJkKrZ+8kxdiecRfqmqnq0NLdq6Hg+o3LweYWSy73GR3iOcoPv27Wb6hBRV
- 7fxjxS5tXN9xuRu0j8PPj2qJdz3gt0uYZDuQF/5DCbqGxUAGM8UM5q+fXKsLMSnvzkul
- kHca6bTpSlLjqocJ9aDDzOl5Gdr2IFY//qh1hVedLe9TtOrAlLzmaL02v5KWa/eHNRNg
- Juvg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWVzRZJKCtpcQlsaUoe9D1Trgp+rd00oqgTTtnbgSovmFzHPjT5jr7yvHRivX7dCmoYYefi6CydSHrn0pvRbGgwy6fz5/yz8DIOVTFgv7DA
-X-Gm-Message-State: AOJu0YweCXR6I0+YcEnbIGnDugu5nOHoKsytbcBfx2rpNp7aAq8gtCzm
- VWY6k2B00A+ZrY3NkwQ3D1MYPveSfsrbyQBlqhyoZ3BXRsiqUVOYDhO84LtT+yrWbQMV4aA6gHQ
- =
-X-Google-Smtp-Source: AGHT+IGJBIu0jUVa7r/2jHQj3u+kEFgPLskx0Q96NAoe+CxvJXImHBgyWXKedIdbgQx2TAV/aKr3qg==
-X-Received: by 2002:a05:622a:3cd:b0:447:f62f:d146 with SMTP id
- d75a77b69052e-44fa5279038mr5451001cf.20.1721408863823; 
- Fri, 19 Jul 2024 10:07:43 -0700 (PDT)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
- [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-44f9cda9e9esm9567431cf.59.2024.07.19.10.07.42
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Jul 2024 10:07:42 -0700 (PDT)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-447df43324fso310461cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 10:07:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWoUy3h20D0ZmRvNO6WeS5peB1h3lUN3mU2I01vfoZq6pTaCLGWx373T+6Bf4RRa/MMPLKwD3UXbpVM2DSKijOGYj+iqY5vFdbJeBtfRSDD
-X-Received: by 2002:a05:622a:191d:b0:447:e0e1:2a7b with SMTP id
- d75a77b69052e-44f9c83d5d8mr2695131cf.23.1721408861491; Fri, 19 Jul 2024
- 10:07:41 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 523E610E8E3;
+ Fri, 19 Jul 2024 17:26:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1721410007; x=1752946007;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=e1RDyNweoJEObxHg8MICsXraPXdqpVJGkE+GDu37VqU=;
+ b=O7dYzP9RMRrnZg3eg1oyeubwT6/g3h6u+SkjJNr492sWg8t/yrMwCOMl
+ 8ky6KRnbiZTcmxL95unHr2pAmnXvLab3wmPf9QoU7zECxXDSoR1seosXR
+ 9fETmL0TwODOtz1PfswdJs/GQ17x8nmh8d1hxwogvCfuw4NwXW7z7O5jc
+ To5b25u315ECVFyR5tC05oUTyjNlGjBC0p4qIS+gpVEj0yfiuC4nhZulw
+ JtHAPmT9E0yqwnL9T8RR8ulpDMCG989xpT0uVa3aNURckwpTOtJ3IjCo3
+ UrYqbL9l0dY4dcjP5efyaJlC4zeEdmqrq9YrzAAopBTKFiWuyiwqnFjYz Q==;
+X-CSE-ConnectionGUID: PBywEpeYTBaAMxSrmPLI+Q==
+X-CSE-MsgGUID: hnfzujKJQsimrx83KTeOlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="18993906"
+X-IronPort-AV: E=Sophos;i="6.09,221,1716274800"; d="scan'208";a="18993906"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2024 10:26:47 -0700
+X-CSE-ConnectionGUID: Q/TAD5j0R1yPOt11SdBfSg==
+X-CSE-MsgGUID: axeQx+hQR9mci2pDpH79ig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,221,1716274800"; d="scan'208";a="51803629"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 19 Jul 2024 10:26:47 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 19 Jul 2024 10:26:46 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 19 Jul 2024 10:26:43 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Fri, 19 Jul 2024 10:26:43 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 19 Jul 2024 10:26:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Zb8HY1q22kRlsOqlh7aWOebdXjXomY211YrJ0ZwPZdR0raxP8pqRpBIIacP3XImCmN3wiPSOz6MyznimP6XT3/v7FLP0EF3SSH5KIJB/Rh4LYxfsuDHVpySwfBwiAZ4vmQT/zhnKavOwgh/QpZBW8SMJpOMcO1binxzEaoDOl+vKKAv9mteOWr4keubUoXXX4zFXgYPOSr9mIzfdsBQrJ9z5Vj4VdBLfhyvYEXMpqYUZot159tJlS5LxXBb0CpZWmYvZvpvRcYeYKukWTwstxcHGnLWV3S598jG6RkzAa+D+q8J81YDWMv9kn195We/hXRU/jymN0Wj9ypEhiR6iRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oNFAGbaA3x0zdSba5SVfCcvDPVqsi8fJcFVtduvGM6w=;
+ b=QWdio9Tkoa1T5/xGU6ZQEIgqHdut1wp1SDnfYASqLAGN7/r17hC0Ijk8bDBCnnUrY+VSIH0ARUOJ+0ORjmNBcJ0fELvitJUBd0NwjumcSOHInpuq1gKF2RsNBAyBVcAJQXb2RxVgWeoLqBjRMurRw0CrKcm2UWdNjBqe+uURE9KtKTTKGc8ltPeex4sZi2zVrwHyMspOvz6lr5ci6XqfEV6tRzDh4K/3x1/UKgsU4jqOxWjeSbJWanXUPtNKRvakJWMiVIdpNlDYl5zMCBGscVz/urymGxZspVymdHfbbLXB7Yam6jn6L79Twq1gLn3Ihi6TrRKM1JYkRiICJ4c9vA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SA1PR11MB5922.namprd11.prod.outlook.com (2603:10b6:806:239::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.16; Fri, 19 Jul
+ 2024 17:26:23 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.7784.017; Fri, 19 Jul 2024
+ 17:26:23 +0000
+Date: Fri, 19 Jul 2024 12:26:20 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+CC: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, <intel-xe@lists.freedesktop.org>, "Umesh Nerlige
+ Ramappa" <umesh.nerlige.ramappa@intel.com>, Jose Souza
+ <jose.souza@intel.com>, <dri-devel@lists.freedesktop.org>, Thomas Hellstrom
+ <thomas.hellstrom@intel.com>
+Subject: Re: When sysfs is not available (say containers)
+Message-ID: <ngf2rtw3xmerq7ghspiog75oy4kzl6pmp6lltvhzm265yld6fj@hbhx72bprba3>
+References: <20240618014609.3233427-1-ashutosh.dixit@intel.com>
+ <20240618014609.3233427-6-ashutosh.dixit@intel.com>
+ <871q3p5nsz.wl-ashutosh.dixit@intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <871q3p5nsz.wl-ashutosh.dixit@intel.com>
+X-ClientProxiedBy: SA1PR03CA0022.namprd03.prod.outlook.com
+ (2603:10b6:806:2d3::27) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-References: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
- <20240715-x1e80100-crd-backlight-v2-1-31b7f2f658a3@linaro.org>
- <20240715-scorn-canning-a7f23b9e2039@spud>
- <CAD=FV=U-nOMu-JDQ3T=ZRJ-rZ0BTtyzFVfnzbtCJdbRzAq3YMg@mail.gmail.com>
- <e017259b-bc62-4b57-9276-b834237225e1@kernel.org>
- <CAD=FV=VY5Ug3TfUo1RctiVQrHUjuod15HA8BxAyWdd_0bK8_Dw@mail.gmail.com>
- <20240718-frightful-naturist-a049ea7c0548@spud>
- <CAD=FV=VaGXMf6Srix6v=Me35BUN4B6ZHwebycka4Dbavqa5Vbw@mail.gmail.com>
-In-Reply-To: <CAD=FV=VaGXMf6Srix6v=Me35BUN4B6ZHwebycka4Dbavqa5Vbw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 19 Jul 2024 10:07:29 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WyDF8LkPeHXTgsyDA74n+AjuHPQ1896ECDE17aYB9rtg@mail.gmail.com>
-Message-ID: <CAD=FV=WyDF8LkPeHXTgsyDA74n+AjuHPQ1896ECDE17aYB9rtg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: display: panel: samsung,atna33xc20:
- Document ATNA45AF01
-To: Conor Dooley <conor@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- Stephan Gerhold <stephan.gerhold@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA1PR11MB5922:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92f3a08a-98e9-49fa-4751-08dca817e993
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?w/0L5zRqM/qnL4eXS4nulsAFh2BOpIL14652jAwKeiijRWvMX2F/wLVrv4R1?=
+ =?us-ascii?Q?p5sv37IbGv63SEuO/R9hnhU5+D8iPQVPJ57/zbXU4M7IIXUJvN5CVt4ikNxd?=
+ =?us-ascii?Q?f/8/8/i12Hh3FsnYfx3nx7k3WODdJYUNxjY6WPsU0T1mAoZuXydE7wh7usTK?=
+ =?us-ascii?Q?wHqdyCCu8GsW7G8D+GdC9wUiGssBCYB0Ndg8IgckhQE8che8rSZatvuEqDGY?=
+ =?us-ascii?Q?bQo0zs/yIj/rBLXlCWS4VXRUetKnGTigq80Cj1Xck3mxIvq6QH/w+gPQ+YJF?=
+ =?us-ascii?Q?c8F8w49nreu/m50fRMhzmEur1Z72T73hrnZjVNAN/ftOVsxTiSrenzTmEsxx?=
+ =?us-ascii?Q?35RgzaYpRpZIFRJRnkAXBB1i987yZUjvrb7CSqcpGf1BM9X1AeZyVcE33mfq?=
+ =?us-ascii?Q?C7CDSyLYc6ZISMjRl+13DVWpls6CyIPJXtlDxJc+wdYsUdgiMXcONmhBnWpT?=
+ =?us-ascii?Q?ecTUvSWCMZfSdXpsO+SY25TyroPxWMH9SOyvHAP91Pe/BlsbSmSWGfDeZ9fL?=
+ =?us-ascii?Q?uX49tm9B/n+0I/lhWYJHbUnqkIWJlo/2W7CmEkmnxDo8KlgdjUUg+tot5IQr?=
+ =?us-ascii?Q?GdIDm9HFJiOXBeIzBOsgeu0+akXwzZUDfmjeQvArFP+DeCS1xBSmMl3DMdgt?=
+ =?us-ascii?Q?j96hRvyMjSq1m5/pOIzPIEsZbSgD0Fks2rrnt68+9KE0o3ZeFrF1nEyTxNQ7?=
+ =?us-ascii?Q?rQOkzA8WPBOyCjDKfLm07Uffq7QS87brvVPbf1+1j9jDbV3gMYXofNdTTtAg?=
+ =?us-ascii?Q?F4OoXuf91u6nivd20JNTh1MFD5aJC/aCq6/QLLu8RoJlLleKB24eNmNgSZdA?=
+ =?us-ascii?Q?1nqsaIXeUlvQ3lTKoPRQAwSR7CZFiOCveF7xgyogiRnYrqGPk7WQIGJ17yAB?=
+ =?us-ascii?Q?56XfdTMroPgV2GmrEHF+BPlRz/JyGlmxvWIbE+ZoaBD/Key81z1Ev2+54lCn?=
+ =?us-ascii?Q?RMxZXYynRRShtrWohJCPJvX7eQsAA0FUxEPtp0XSXo+4L4mJe/bBTPrRJduh?=
+ =?us-ascii?Q?Z3CBGveGOWmhgxjyzI80odSXz7C22OHk1XLqTyx3YMrTViRczGTcLkYp9c6W?=
+ =?us-ascii?Q?adlUIqgGLblbF1Y926X8fZql0466q6dLrLHxVoVFPPcSHhTf6zSc1KQHZwBo?=
+ =?us-ascii?Q?AgOz3BlvPpOynO6xC+ce4SUqGfG2NfAqGOp23hADYPONkfmBJfpnqrnF1+j/?=
+ =?us-ascii?Q?ot2xexi88ZaMFot9t+vNRsXCaUqsnMKRJayhCvXTSrC3GObyFlH96oDPbvov?=
+ =?us-ascii?Q?uAcRxYl0Hi9xOtvbup/kNRrWoBGTA1X3+OMhZUwOCQnTl0MRtPWxgS52QnNZ?=
+ =?us-ascii?Q?9hY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Y5bJ1nYfnHHFuVDBKLGZE3jy3kQlyw5C9PtWH+Re+O/f7+tlPYmQeSOqHpzL?=
+ =?us-ascii?Q?rQCksTSIoBMncQwXQxiO+tSWBkaubfgZBV6pxnkH0yTUYJaX1+sPcSVAby6r?=
+ =?us-ascii?Q?qTmfKARqekM/toWpNK2Lr3254vFfo6paybrERGLAxM+ooBv5wusLk09DHIpj?=
+ =?us-ascii?Q?8jJD6fIBEktzt2y5eKThMJ1YNbLu1Uvo8mPMXFTBEbXBl1kyiOrY7feFlwxJ?=
+ =?us-ascii?Q?g5rLE5cZvVDBFatLZ6BpT7KVjfQfrgeMXpFrbKECtEK60jOAlVR08nuduIsQ?=
+ =?us-ascii?Q?T1qYgZo7Pu6lS8sDYt5dsewQ4mgLS3oElOz1TUT5C6bktjVNGzo4l6x30X1q?=
+ =?us-ascii?Q?z2va03zQrTDGmKRfwzOqtM96mAP7s8nrNMiLbvGWZYyzsTb5/JxAhPDHHgaM?=
+ =?us-ascii?Q?pSxofe+yfdI/AhC/bxUqojTo81h2F94krV8GwV7FZ8m1M+enwDwwORyulW0K?=
+ =?us-ascii?Q?H+y8pDpcMhxKv0sf27l9cT9FPRPy+INsU2LM4PNo0F5FVzHXLo+Pu9U2qVXM?=
+ =?us-ascii?Q?c+MGQarJ4FmGl5R1CVEkiF+iUGUb8ohOGU08yk6K+smx1DmKaLmI1X1oOxyS?=
+ =?us-ascii?Q?Rf0UH6v10kheckJIgY0GY498MT9CwxVc0CYug4xbF0i9/+VeRzGjrgFnJdoL?=
+ =?us-ascii?Q?tQvOFYmtNeBsjtT8w/gTrtpLtT9/QxD5LGQOAGCyIDSEaEaEVOzQtvF1ia5v?=
+ =?us-ascii?Q?Vpd14hqya9QQya36aydVFvXDyBf+05R0tzH/qCBnsW7xpu+4AafgJ5JgEC04?=
+ =?us-ascii?Q?hmcKPimTWKALXgWwkGIqKlgrKgrHYm0JHYI86oPCZv2D1dJK7afuKalC8+U1?=
+ =?us-ascii?Q?5cAm4crBZe9/WyVDMNJCwSw1KtiAaxLmuHReCZUSt7n7GiR/2Urr7bbwqitt?=
+ =?us-ascii?Q?pDie7y8IhsYPc4Imps6L+kEzhDiXNUOBlCuVAnz5HquC8kdGIHO1bpFl3CZB?=
+ =?us-ascii?Q?oiUlZFNl+m+r7+hGsr+BvYYdxiHUFsRUZVCEblE//kfjSwfoiC/iVmeHUg6B?=
+ =?us-ascii?Q?iD7XWajCDM+4YTAKl0Ib0YdKwJ+H/lfJjzatGWzYfp2nEiSGoltPu2/p8IXb?=
+ =?us-ascii?Q?BYpc139iYZJdzI5hO8KioL95jWsivM2yTgfzVJn7jcfZ3769x1PgzqSw8aPq?=
+ =?us-ascii?Q?QR3Kt/WLjj0bm5PBeuV4wB1XEJ5BSg0yrd3kcITzjPtgFJZaiblcBrkodqkW?=
+ =?us-ascii?Q?GhUBcHd+6K+xQEC9uGXNS3TjJX4uBy820+aECA9VE7kkKnfGVBfI0me99tsx?=
+ =?us-ascii?Q?4HgXYzsOulham9KTC1v5X94Klfc7RDjGy62auAMXdkYfXsd81/Y9lRuaY/EL?=
+ =?us-ascii?Q?qwSo10jvyMF/J6sD6Pnkaz7r4D0UalxoapcuBFm6/slXgVY4jGQZTZFvPqWu?=
+ =?us-ascii?Q?/bYoajKJcAl8TWfvAuGngPNoCFMdJZg9ZdXT2grfvjCs++BwlV24vBedq7BH?=
+ =?us-ascii?Q?JmuUQ5dssx70L/S74Xg/gfekDMI+BBHkMR42Fjd0tJtxz0cTmlP4nFCtKEVG?=
+ =?us-ascii?Q?83hZxR3OVjoiflFjYZUJeq7EyOssnl1mWJxuIYn2kVDBFA1JyLRUwLsQx1ew?=
+ =?us-ascii?Q?wox3aCgxoDvAlvSzemmJdw4USPhd73TGwkxJ2sN+4pgsIKAD9UXjbTaKbyj+?=
+ =?us-ascii?Q?JA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92f3a08a-98e9-49fa-4751-08dca817e993
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2024 17:26:23.7181 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XoyoxNmnpwTWn/eJVbDnkR1vR7ajPnPEkA2tE+Xan3NUIbilbPxS3tZc2syN41Vhj47ULa7+SpoLLOSb/5tH6mCZBUmXiof4pzIJKS85cbI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5922
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,115 +184,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Jul 19, 2024 at 09:50:04AM GMT, Ashutosh Dixit wrote:
+>On Mon, 17 Jun 2024 18:45:57 -0700, Ashutosh Dixit wrote:
+>>
+>
+>Folks,
+>
+>The below is just an example from one of the earlier OA patches (already
+>merged):
+>
+>> [PATCH 05/17] drm/xe/oa/uapi: Add/remove OA config perf ops
+>>
+>> +static ssize_t show_dynamic_id(struct kobject *kobj,
+>> +			       struct kobj_attribute *attr,
+>> +			       char *buf)
+>> +{
+>> +	struct xe_oa_config *oa_config =
+>> +		container_of(attr, typeof(*oa_config), sysfs_metric_id);
+>> +
+>> +	return sysfs_emit(buf, "%d\n", oa_config->id);
+>> +}
+>> +
+>> +static int create_dynamic_oa_sysfs_entry(struct xe_oa *oa,
+>> +					 struct xe_oa_config *oa_config)
+>> +{
+>> +	sysfs_attr_init(&oa_config->sysfs_metric_id.attr);
+>> +	oa_config->sysfs_metric_id.attr.name = "id";
+>> +	oa_config->sysfs_metric_id.attr.mode = 0444;
+>> +	oa_config->sysfs_metric_id.show = show_dynamic_id;
+>> +	oa_config->sysfs_metric_id.store = NULL;
+>> +
+>> +	oa_config->attrs[0] = &oa_config->sysfs_metric_id.attr;
+>> +	oa_config->attrs[1] = NULL;
+>> +
+>> +	oa_config->sysfs_metric.name = oa_config->uuid;
+>> +	oa_config->sysfs_metric.attrs = oa_config->attrs;
+>> +
+>> +	return sysfs_create_group(oa->metrics_kobj, &oa_config->sysfs_metric);
+>> +}
+>
+>So we often expose things in sysfs. The question is: are there general
+>guidelines for what to do for environments (such as containers) where
+>userspace cannot access sysfs? E.g. in such cases, do we expose the
+>information exposed in sysfs via queries (i.e. an ioctl)? Or another way?
+>What have we done in the past in drm and what should we do in these cases
+>for Xe?
 
-On Thu, Jul 18, 2024 at 7:59=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Thu, Jul 18, 2024 at 7:56=E2=80=AFAM Conor Dooley <conor@kernel.org> w=
-rote:
-> >
-> > On Thu, Jul 18, 2024 at 07:45:57AM -0700, Doug Anderson wrote:
-> > > Hi,
-> > >
-> > > On Wed, Jul 17, 2024 at 11:19=E2=80=AFPM Krzysztof Kozlowski <krzk@ke=
-rnel.org> wrote:
-> > > >
-> > > > On 18/07/2024 02:21, Doug Anderson wrote:
-> > > > > Conor (and/or) Krzysztof and Rob,
-> > > > >
-> > > > > On Mon, Jul 15, 2024 at 8:31=E2=80=AFAM Conor Dooley <conor@kerne=
-l.org> wrote:
-> > > > >>
-> > > > >> On Mon, Jul 15, 2024 at 02:15:37PM +0200, Stephan Gerhold wrote:
-> > > > >>> The Samsung ATNA45AF01 panel is an AMOLED eDP panel that has ba=
-cklight
-> > > > >>> control over the DP AUX channel. While it works almost correctl=
-y with the
-> > > > >>> generic "edp-panel" compatible, the backlight needs special han=
-dling to
-> > > > >>> work correctly. It is similar to the existing ATNA33XC20 panel,=
- just with
-> > > > >>> a larger resolution and size.
-> > > > >>>
-> > > > >>> Add a new "samsung,atna45af01" compatible to describe this pane=
-l in the DT.
-> > > > >>> Use the existing "samsung,atna33xc20" as fallback compatible si=
-nce existing
-> > > > >>> drivers should work as-is, given that resolution and size are d=
-iscoverable
-> > > > >>> through the eDP link.
-> > > > >>>
-> > > > >>> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
-> > > > >>
-> > > > >> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > > > >
-> > > > > Can you comment on whether you would consider this bindings a "Fi=
-x"
-> > > > > since it's a dependency for later patches in this series (which a=
-re
-> > > > > "Fix"es) to pass dtbs_check? See:
-> > > > >
-> > > > > https://lore.kernel.org/r/4bca316a-2334-425b-87a6-e1bb241d26b5@li=
-naro.org
-> > > >
-> > > > The patch itself is not a fix, for sure, but it might be a dependen=
-cy of
-> > > > a fix (which you wrote above), thus could be pulled to stable as a
-> > > > dependency.
-> > > >
-> > > > I do not care about dtbs_check warnings in stable kernels, mostly
-> > > > because dtbs_check warnings depend heavily on dtschema and dtschema
-> > > > follows mainline kernel. Basically if you had warnings-free v6.8 bu=
-t try
-> > > > to run dtbs_check now with latest dtschema, your results will diffe=
-r.
-> > > >
-> > > > At some point in the future, I could imagine "no new dtbs_check war=
-nings
-> > > > in stable kernels" requirement or at least preference, but so far I
-> > > > don't think there is any benefit.
-> > >
-> > > In this case it's not about whether it makes it to the stable kernel
-> > > but about which main kernel it goes through.
-> > >
-> > > If we land the bindings in drm-misc-next right now then it'll be a
-> > > long time before it makes it into Linus's tree because of the way tha=
-t
-> > > drm-misc-next merges. It will make it to Linus's tree at 6.12. You ca=
-n
-> > > see the drm-misc merging strategy at:
-> > >
-> > > https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
-> > >
-> > > If we land the dts change (a fix) through the Qualcomm tree as a fix
-> > > then it should target 6.11.
-> > >
-> > > This means that the 6.11 tree will have a dtbs_check error because it
-> > > has the dts change (a fix) but not the bindings change (not a fix).
-> > >
-> > > One way to resolve this would be to treat this bindings as a "fix" an=
-d
-> > > land it through "drm-misc-fixes". That would make the bindings and
-> > > device tree change meet up in Linux 6.11.
-> > >
-> > > Did I get that all correct?
-> >
-> > Is not not fairly established that a dependency for a fix can go onto a
-> > fixes branch even if it is not a fix in and of itself?
->
-> That would certainly be my take on it, but DT folks confirmation was
-> requested by Neil in:
->
-> https://lore.kernel.org/all/4bca316a-2334-425b-87a6-e1bb241d26b5@linaro.o=
-rg/
+userspace should be written in a way to handle sysfs potentially not
+being around and not crash in that case. Providing limited functionality
+is fine and user can decide what to do in that case. Creating
+duplicate and alternative API to handle this is not a good solution IMO.
 
-FWIW, I'd rather not let this stagnate too long. I'm fairly confident
-in my assertion that this should go into drm-misc-fixes. I'll give it
-until Monday and then I'm just going to land this bindings change in
-drm-misc-fixes. Shout soon if you feel strongly that I shouldn't do
-this. If someone wants to flame me after the fact then so be it.
+For containers, it's common to mount sysfs read-only to give container
+visibility on the host configuration... or parts of it in case you are
+giving the container privilege over that part of the system.
 
--Doug
+Related, on another project I maintain (kmod) including systemd folks:
+https://github.com/kmod-project/kmod/issues/10
+
+ From https://systemd.io/CONTAINER_INTERFACE/:
+
+	Make sure to pre-mount /proc/, /sys/, and /sys/fs/selinux/ before
+	invoking systemd, and mount /sys/, /sys/fs/selinux/ and /proc/sys/
+	read-only (the latter via e.g. a read-only bind mount on itself)
+
+that page has more information on other parts of sysfs that people make
+writable/readable for similar issues in other subsystems and is worth
+reading.
+
+Lucas De Marchi
