@@ -2,87 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87886937DE6
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 00:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24681937DE9
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 00:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 632B310E0E6;
-	Fri, 19 Jul 2024 22:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9726510E1AA;
+	Fri, 19 Jul 2024 22:49:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jHJyLXOx";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FW+Tc4o/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62DB910E0B4;
- Fri, 19 Jul 2024 22:48:43 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46JC25b5026373;
- Fri, 19 Jul 2024 22:48:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- AkGBtjIYu3XoMKfvLC9dsIP3nI7CxlnKQNQMRzud6Ms=; b=jHJyLXOxfS1/Ffqm
- Jg+BR+N1b/M1kbybrV06jErcq1nYpZXbzzllkY3Jtn6LIUygT6R89hJDbg3kySph
- c+8kHabyfL3vT8iazlVeH/Tde+FHANojbC2PFRY2EIqMLYNpgtt/8IIZSJcyxV06
- sMwQ8lC5+3WCws8QGQ+yi/vJ912jhuOmWPQoZhSgXej9C/hjOTzQQVH9rGZJjoIk
- WVmX9vFaLgg6bAk3MlWtskwrENYDIRVkgzfPv42/6hgFS580Y0Xm+9aTp9QDrvh9
- Xj05cc+CPZkBm84Z/72hxhATvm/4RrZXoBCFqxyi2FztaOd7VUXhGUZTpr3WCNMF
- 7zUkaA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40fe1mam0c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Jul 2024 22:48:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46JMmbO2005759
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Jul 2024 22:48:37 GMT
-Received: from [10.110.15.12] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 19 Jul
- 2024 15:48:36 -0700
-Message-ID: <133cbe76-6df2-42d2-b7c1-67228242ebd1@quicinc.com>
-Date: Fri, 19 Jul 2024 15:48:35 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9C8B10E11D
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 22:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1721429348;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Io88iqfqHNOrudTOIiEJvQ9kU3mjxid7fB+v6ka1qww=;
+ b=FW+Tc4o/gmPXEN8u3Abvv1wI7r0zfRfSsH3bvtIOF+P/VgF+aDhenqaPpmJfmjaqGfXqHG
+ e4Zyt+CDmfHHMj1lkY4SX3ysagIysAdkG/IWSf+xwCyfzg4Xopk8PKxdHeLvoe55dgrq2F
+ v3WZcc43b83FSfZAiSuu3CKv8CMKtHk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-621-QvdJi2j_N7y7FgqsjfByzw-1; Fri, 19 Jul 2024 18:49:05 -0400
+X-MC-Unique: QvdJi2j_N7y7FgqsjfByzw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-368665a3fdfso969784f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2024 15:49:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721429344; x=1722034144;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Io88iqfqHNOrudTOIiEJvQ9kU3mjxid7fB+v6ka1qww=;
+ b=sAOnKA2zs+PJ/jFA408cGMsQFUvEmN1vsSUa5x4zSTs3ToSQTJJxTNA/EIkcgXEDAd
+ QWEinf0C6U64kqI53SwpwkFxU1VFmaX4rPAoHiUzIzgYNn8X52tQHRrOOfFMwq6ingOk
+ dZHq6ErYoDN+Ikmd+7QmD9JUY8VX+RFNmzFp4NU/+FdWmSUSZvs6qJq2HDWRTMalqQ9W
+ pNy6N71USaMe3b6U8AH7uPThGgHBMa6Yzg3VjK57b9i9WjNAedQW5Sjca/e+5tIFmf/I
+ MUYTjvJO5iTeDgWj+N9oqSAgclKyZgicJ5LRXbXBdDHf4KACa8dWfZBL/Xlkb6ktI+hL
+ 4xLw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXf3DQvnEHe0OcBkxy/6v9YCW7pAyGWMMovzsP6zrhxU/VZYn91VGpGx67ZVuFD9f2pnyup6yHNgndoyh+8CXHIZYV7RxpEb6PNWMDo3J6C
+X-Gm-Message-State: AOJu0Yw6cXM5NFhwZlEhEbsMge4PnvkAr37TtNuElnnwIMKAatNH+Hjb
+ 0I9L/SS1SkFbnN1RP+iH7onz5VZGkLw2HiDcy4OU5E5efVwJPoSS3xzNcMvTh4GLHK4cufEWK6h
+ 1OdRKV8Z/MwuMoDqBn+XeXkZCxCHQIvyyflxJhW4oBYSjgb6OOE0dlUMwaRCCgx3EQL0z5TMjag
+ ==
+X-Received: by 2002:adf:f6c8:0:b0:367:95e8:3aef with SMTP id
+ ffacd0b85a97d-3683175bbfcmr5901867f8f.42.1721429344086; 
+ Fri, 19 Jul 2024 15:49:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHMScCNcf+AfBIVjhLIJPGzRj2PTHiebFRdmCxU6EUN1sA4Iix3zhS++EVd1a2kt2uwP7NoQw==
+X-Received: by 2002:adf:f6c8:0:b0:367:95e8:3aef with SMTP id
+ ffacd0b85a97d-3683175bbfcmr5901860f8f.42.1721429343668; 
+ Fri, 19 Jul 2024 15:49:03 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-427d2a8e47csm65652875e9.29.2024.07.19.15.49.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Jul 2024 15:49:03 -0700 (PDT)
+Message-ID: <521bb823-16b5-40d9-b9d6-f79ef9d7fbbe@redhat.com>
+Date: Sat, 20 Jul 2024 00:49:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/16] drm/msm/dpu: drop msm_format from struct
- dpu_hw_fmt_layout
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240625-dpu-mode-config-width-v5-0-501d984d634f@linaro.org>
- <20240625-dpu-mode-config-width-v5-8-501d984d634f@linaro.org>
- <4e19faf3-0fc6-4ef2-abf5-4f9a0579982b@quicinc.com>
- <CAA8EJppGC_u-79YyXqXEeQAc9oBUOm-+ZuUDu_3b8MWnVVAOxg@mail.gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppGC_u-79YyXqXEeQAc9oBUOm-+ZuUDu_3b8MWnVVAOxg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: MboQzn0IN5Zfny6ng2AQDsFOqoVLbd6l
-X-Proofpoint-ORIG-GUID: MboQzn0IN5Zfny6ng2AQDsFOqoVLbd6l
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-19_08,2024-07-18_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=999
- clxscore=1015 bulkscore=0 phishscore=0 malwarescore=0 priorityscore=1501
- spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407190168
+Subject: Re: [PATCH v2] drm/panic: Add missing static inline to
+ drm_panic_is_enabled()
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>
+References: <20240719122051.1507927-1-jfalempe@redhat.com>
+ <0bc6a8d1-d206-4d64-b170-bd70c7129f80@intel.com>
+ <f9f2f13a-b66e-461f-88c9-92a42e36bcd5@redhat.com>
+ <cccc02bb-9082-4451-8246-bd2303afa6a3@intel.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <cccc02bb-9082-4451-8246-bd2303afa6a3@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,96 +101,92 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/17/2024 3:09 PM, Dmitry Baryshkov wrote:
-> On Wed, 17 Jul 2024 at 23:15, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 6/24/2024 2:13 PM, Dmitry Baryshkov wrote:
->>> The struct dpu_hw_fmt_layout defines hardware data layout (addresses,
->>> sizes and pitches. Drop format field from this structure as it's not a
->> Missing closing brace ")" here?
->>
->>> part of the data layout.
->>>
->>
->> Its a bit subjective IMO whether you consider format as part of hardware
->> data layout or not. Registers do have format bitfields too so I am
->> somewhat unsure if this change is really needed.
+On 19/07/2024 20:26, Michal Wajdeczko wrote:
 > 
-> It's not a part of the data buffer layout (num_planes, sizes, pitches
-> and offsets) - the items that are defined by struct dpu_hw_fmt_layout.
-> As such there is no need to store it in the structure. When necessary
-> we can always get it from the framebuffer itself.
+> 
+> On 19.07.2024 17:37, Jocelyn Falempe wrote:
+>>
+>>
+>> On 19/07/2024 17:28, Michal Wajdeczko wrote:
+>>>
+>>>
+>>> On 19.07.2024 14:20, Jocelyn Falempe wrote:
+>>>> This breaks build if DRM_PANIC is not enabled.
+>>>> Also add the missing include drm_crtc_internal.h in drm_panic.c
+>>>>
+>>>> Fixes: 9f774c42a908 ("drm/panic: Add drm_panic_is_enabled()")
+>>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>>> ---
+>>>>    drivers/gpu/drm/drm_crtc_internal.h | 2 +-
+>>>>    drivers/gpu/drm/drm_panic.c         | 2 ++
+>>>>    2 files changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_crtc_internal.h
+>>>> b/drivers/gpu/drm/drm_crtc_internal.h
+>>>> index c10de39cbe83..bbac5350774e 100644
+>>>> --- a/drivers/gpu/drm/drm_crtc_internal.h
+>>>> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+>>>> @@ -321,7 +321,7 @@ drm_edid_load_firmware(struct drm_connector
+>>>> *connector)
+>>>>    #ifdef CONFIG_DRM_PANIC
+>>>>    bool drm_panic_is_enabled(struct drm_device *dev);
+>>>>    #else
+>>>> -bool drm_panic_is_enabled(struct drm_device *dev) {return false; }
+>>>> +static inline bool drm_panic_is_enabled(struct drm_device *dev)
+>>>> {return false; }
+> 
+> btw, missing space after opening {
+> 
+> did you run checkpatch.pl ?
+
+Yes, but it looks like he doesn't check this case.
+I got the same:
+./scripts/checkpatch.pl -g HEAD
+total: 0 errors, 0 warnings, 16 lines checked
+
+with or without space here.
+> 
+>>>>    #endif
+>>>
+>>> shouldn't this whole chunk be part of <drm/drm_panic.h> ?
+>>> other exported drm_panic functions have forward declarations there
+>>>
+>> drm/drm_panic.h is for GPU drivers implementing drm_panic.
+>> And they don't need this function.
+>>
+>> This function is only for drm internal (it's called from drm_fb_helper.c).
+>>
+>> Sima suggested this change in my previous series:
+>> https://lists.freedesktop.org/archives/dri-devel/2024-July/462375.html
+>>
+>> I will move drm_panic_[un]register() prototypes there for the same
+>> reason in follow-up patch.
+>>
+> 
+> hmm, but then IMO there is a little (?) problem with the layering, as
+> drm_panic.h no longer matches drm_panic.c and forward decls for
+> functions from drm_panic.c are in some random internal header
 > 
 
-Alright,
+The problem it want to solve is to avoid external kernel modules to rely 
+on internal functions.
+Maybe for something cleaner, I could create a drm_panic_internal.h, but 
+I find it a bit too much.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+I will submit the patch to move drm_panic_[un]register() next week, and 
+we will discuss that here.
 
->>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    | 31 +++++++---------------
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        | 23 ++++++++--------
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |  2 --
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |  4 +--
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          |  3 ++-
->>>    5 files changed, 25 insertions(+), 38 deletions(-)
->>>
->>
->> <Snip>
->>
->>> @@ -318,15 +318,10 @@ static void dpu_encoder_phys_wb_setup(
->>>    {
->>>        struct dpu_hw_wb *hw_wb = phys_enc->hw_wb;
->>>        struct drm_display_mode mode = phys_enc->cached_mode;
->>> -     struct drm_framebuffer *fb = NULL;
->>>        struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
->>> -     struct drm_writeback_job *wb_job;
->>>        const struct msm_format *format;
->>> -     const struct msm_format *dpu_fmt;
->>>
->>> -     wb_job = wb_enc->wb_job;
->>>        format = msm_framebuffer_format(wb_enc->wb_job->fb);
->>> -     dpu_fmt = mdp_get_format(&phys_enc->dpu_kms->base, format->pixel_format, wb_job->fb->modifier);
->>>
->>
->> This is interesting. I wonder why I just didnt use format directly that
->> time itself :)
->>
->> Maybe I was thinking that mdp_get_format() will also match the modifiers
->> and return the corresponding msm_format.
->>
->>>        DPU_DEBUG("[mode_set:%d, \"%s\",%d,%d]\n",
->>>                        hw_wb->idx - WB_0, mode.name,
->>> @@ -338,9 +333,9 @@ static void dpu_encoder_phys_wb_setup(
->>>
->>>        dpu_encoder_phys_wb_set_qos(phys_enc);
->>>
->>> -     dpu_encoder_phys_wb_setup_fb(phys_enc, fb);
->>> +     dpu_encoder_phys_wb_setup_fb(phys_enc, format);
->>>
->>> -     dpu_encoder_helper_phys_setup_cdm(phys_enc, dpu_fmt, CDM_CDWN_OUTPUT_WB);
->>> +     dpu_encoder_helper_phys_setup_cdm(phys_enc, format, CDM_CDWN_OUTPUT_WB);
->>>
->>>        dpu_encoder_phys_wb_setup_ctl(phys_enc);
->>>    }
->>> @@ -584,14 +579,6 @@ static void dpu_encoder_phys_wb_prepare_wb_job(struct dpu_encoder_phys *phys_enc
->>>
->>>        format = msm_framebuffer_format(job->fb);
->>>
->>> -     wb_cfg->dest.format = mdp_get_format(&phys_enc->dpu_kms->base,
->>> -                                          format->pixel_format, job->fb->modifier);
->>> -     if (!wb_cfg->dest.format) {
->>> -             /* this error should be detected during atomic_check */
->>> -             DPU_ERROR("failed to get format %p4cc\n", &format->pixel_format);
->>> -             return;
->>> -     }
->>> -
->>>        ret = dpu_format_populate_layout(aspace, job->fb, &wb_cfg->dest);
->>>        if (ret) {
->>>                DPU_DEBUG("failed to populate layout %d\n", ret);
+> but that's probably topic for another discussion, and now we need to fix
+> the drm-tip ASAP, so with above nit fixed:
 > 
+> Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > 
-> 
+
+Thanks a lot, I will push it asap to unblock the build.
+
+Best regards,
+
+-- 
+
+Jocelyn
+
