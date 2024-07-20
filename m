@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA7393824D
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 19:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1A2938293
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 20:56:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9023110E205;
-	Sat, 20 Jul 2024 17:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5510110E29B;
+	Sat, 20 Jul 2024 18:56:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Iq6nTDCE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eIiSuVba";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D321210E205
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2024 17:34:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A35D10E29B
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2024 18:56:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721496878; x=1753032878;
+ t=1721501808; x=1753037808;
  h=date:from:to:cc:subject:message-id:mime-version;
- bh=2My1ShpR7Fxg9+mW5hwUe82exYOiyJJeydNoa8xE/xk=;
- b=Iq6nTDCE+F3wdS871tTKAtd0wDGsCF+M1oQaxBfu3sC2ZregcHCeovAf
- tsSuwKNbELyy72XueYNoCka01K/Qp3Aq2H+Tqjwip7lAa6FObXm51AEna
- DwxfxXTD5E1zh8ZKy7d03wtc1isO5whkZ/TBmXp6v8z6PR9V3Qc8A7R2v
- LwUWM8SiOsRkxc4RJfXuf1nDrmqgi0PSN3rNy7bbzzF4bjApoCZRIngPC
- zSHAXW/nktnwCDE77O10MXk0kyGvSRwGwTXF25Q6qiHWPDh6AcPMpDL34
- g4pija1p7e9V435PSglpfaq5sw/XZb71xY0RmjxzLf4iNwahwm6cwzW/y Q==;
-X-CSE-ConnectionGUID: xCHX6h5wTw+OFoe4BZoQgg==
-X-CSE-MsgGUID: kHX+BmpRSaqNsMf9/UUDUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="22972446"
-X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; d="scan'208";a="22972446"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2024 10:34:37 -0700
-X-CSE-ConnectionGUID: W/VYu7fESJmsG79h2+Uv4Q==
-X-CSE-MsgGUID: 9gKtAEV9RPefS9dqp49wdA==
+ bh=S8TcbKH6JM1WQJzQZjxjyPM16V4KOd3DtbrOYkFhO/A=;
+ b=eIiSuVbaWs9undN/WYwASO+mkynOqDW+8AQ094yOTZUPEoDwfuOhmZPl
+ ZF8l3rFxGO2MTEJsPoZEJjytWf7o+4jVe2ZghAU/20ZCU6lVxpoAloV9F
+ e6MNGKNwaxarvyUf4UbI4qrpi9YfY2GB+fS+obKQeiYgkgkScDOUptS4Q
+ JBxChYnuq1bE7ujMJ5CY0NQirzHuhMJZ2vsMW2XmCsODYRiCYSwaUwQyO
+ nVhMSfk01pYP2yU2vA6KHPtG/YVjW7xysIW2CvE4ZCNSI/kEfgi17ab/6
+ bwc+axDd8jDFdE3leMDEj7/7j8K/gR7H+jgKvfnPpJ6zEeWAo12txGTal A==;
+X-CSE-ConnectionGUID: /8ALHdu4TX6SVlYVZ0jvYQ==
+X-CSE-MsgGUID: K1Zf+ZmzS0iiKPsMgiWJBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="22871813"
+X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; d="scan'208";a="22871813"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2024 11:56:48 -0700
+X-CSE-ConnectionGUID: MMhoB/7RQSCXHfUVXJUvIA==
+X-CSE-MsgGUID: drpxeY3rSGORnIic2meRjw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; d="scan'208";a="51491561"
+X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; d="scan'208";a="51410356"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
- by fmviesa010.fm.intel.com with ESMTP; 20 Jul 2024 10:34:36 -0700
+ by fmviesa009.fm.intel.com with ESMTP; 20 Jul 2024 11:56:46 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sVDyb-000jTU-1u;
- Sat, 20 Jul 2024 17:34:33 +0000
-Date: Sun, 21 Jul 2024 01:34:04 +0800
+ (envelope-from <lkp@intel.com>) id 1sVFG7-000jWD-0u;
+ Sat, 20 Jul 2024 18:56:43 +0000
+Date: Sun, 21 Jul 2024 02:56:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org,
  Javier Martinez Canillas <javierm@redhat.com>,
  Daniel Vetter <daniel.vetter@ffwll.ch>
 Subject: [drm-misc:drm-misc-next 4/4] drivers/gpu/drm/drm_panic.c:712:6:
- error: no previous prototype for 'drm_panic_is_enabled'
-Message-ID: <202407210102.CVF3SR4I-lkp@intel.com>
+ error: no previous prototype for function 'drm_panic_is_enabled'
+Message-ID: <202407210209.qmItlGt0-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -76,24 +77,28 @@ First bad commit (maybe != root cause):
 tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 head:   7e33fc2ff6754b5ff39b11297f713cd0841d9962
 commit: 3a9b77cee7502f7450c725d4ead2c4a44924d158 [4/4] drm/panic: Remove build time dependency with FRAMEBUFFER_CONSOLE
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240721/202407210102.CVF3SR4I-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407210102.CVF3SR4I-lkp@intel.com/reproduce)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240721/202407210209.qmItlGt0-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407210209.qmItlGt0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407210102.CVF3SR4I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407210209.qmItlGt0-lkp@intel.com/
 
 Note: the drm-misc/drm-misc-next HEAD 7e33fc2ff6754b5ff39b11297f713cd0841d9962 builds fine.
       It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_panic.c:712:6: error: no previous prototype for 'drm_panic_is_enabled' [-Werror=missing-prototypes]
+>> drivers/gpu/drm/drm_panic.c:712:6: error: no previous prototype for function 'drm_panic_is_enabled' [-Werror,-Wmissing-prototypes]
      712 | bool drm_panic_is_enabled(struct drm_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+         |      ^
+   drivers/gpu/drm/drm_panic.c:712:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     712 | bool drm_panic_is_enabled(struct drm_device *dev)
+         | ^
+         | static 
+   1 error generated.
 
 
 vim +/drm_panic_is_enabled +712 drivers/gpu/drm/drm_panic.c
