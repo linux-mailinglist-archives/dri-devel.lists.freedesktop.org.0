@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF2C938031
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 11:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A788F93804C
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2024 11:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 339FD10E0A8;
-	Sat, 20 Jul 2024 09:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 866B810E077;
+	Sat, 20 Jul 2024 09:29:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3884610E0A8
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2024 09:20:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27FBC10E077
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2024 09:29:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 6E5E3CE0219;
- Sat, 20 Jul 2024 09:20:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BB5EC2BD10;
- Sat, 20 Jul 2024 09:20:38 +0000 (UTC)
-Message-ID: <0aea8161-4288-45b9-a834-a0ebb4904a8c@xs4all.nl>
-Date: Sat, 20 Jul 2024 11:20:37 +0200
+ by sin.source.kernel.org (Postfix) with ESMTP id 39684CE010F;
+ Sat, 20 Jul 2024 09:29:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6FD1C2BD10;
+ Sat, 20 Jul 2024 09:29:18 +0000 (UTC)
+Message-ID: <8c76b9da-bcc2-4316-b372-ea5f0c632d26@xs4all.nl>
+Date: Sat, 20 Jul 2024 11:29:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 02/28] v4l2: handle restricted memory flags in queue
- setup
+Subject: Re: [PATCH v7 03/28] media: videobuf2: calculate restricted memory
+ size
 To: Yunfei Dong <yunfei.dong@mediatek.com>,
  Jeffrey Kardatzke <jkardatzke@google.com>,
  =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
@@ -45,10 +45,10 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com
 References: <20240720071606.27930-1-yunfei.dong@mediatek.com>
- <20240720071606.27930-3-yunfei.dong@mediatek.com>
+ <20240720071606.27930-4-yunfei.dong@mediatek.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240720071606.27930-3-yunfei.dong@mediatek.com>
+In-Reply-To: <20240720071606.27930-4-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,142 +67,97 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/07/2024 09:15, Yunfei Dong wrote:
-> From: Jeffrey Kardatzke <jkardatzke@google.com>
+> Getting the physical address with sg_dma_address for restricted memory,
+> only return the first physical address size since sg may not be physical
+> continuous, then leading to the dmabuf size is small than buf size. Need
+> to bypass continuous checking for restricted memory.
 > 
-> Validates the restricted memory flags when setting up a queue and
-> ensures the queue has the proper capability.
-> 
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> [Yunfei: Change reviewer's comments]
 > ---
->  .../media/common/videobuf2/videobuf2-core.c   | 29 +++++++++++++++++++
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  4 ++-
->  2 files changed, 32 insertions(+), 1 deletion(-)
+>  .../common/videobuf2/videobuf2-dma-contig.c   | 34 +++++++++++++++----
+>  1 file changed, 28 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 0217392fcc0d..44080121f37e 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -830,6 +830,23 @@ static bool verify_coherency_flags(struct vb2_queue *q, bool non_coherent_mem)
->  	return true;
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 3d4fd4ef5310..f0e4652b615f 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -66,6 +66,22 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
+>  	return size;
 >  }
 >  
-> +static bool verify_restricted_mem_flags(struct vb2_queue *q, bool restricted_mem)
+> +/**************************************************/
+> +/*   restricted mem scatterlist table functions   */
+> +/**************************************************/
+> +
+> +static unsigned long vb2_dc_get_res_mem_contiguous_size(struct sg_table *sgt)
 > +{
-> +	if (restricted_mem != q->restricted_mem) {
-> +		dprintk(q, 1, "restricted memory model mismatch\n");
-> +		return false;
-> +	}
+> +	struct scatterlist *s;
+> +	unsigned int i;
+> +	unsigned long size = 0;
 > +
-> +	return true;
+> +	for_each_sgtable_dma_sg(sgt, s, i)
+> +		size += sg_dma_len(s);
+> +
+> +	return size;
 > +}
-> +
-> +static inline int restricted_mem_mismatch(bool restricted_mem, struct vb2_queue *q,
-> +					  enum vb2_memory memory)
-> +{
-> +	return restricted_mem && (!q->allow_restricted_mem || memory != VB2_MEMORY_DMABUF) ?
-> +	       -1 : 0;
 
-Returning -1 is odd, just return a bool here.
+I think it is better to add a 'bool restricted' argument to vb2_dc_get_contiguous_size.
+If true, then skip the 'expected' check there.
 
-> +}
 > +
->  static int vb2_core_allocated_buffers_storage(struct vb2_queue *q)
->  {
->  	if (!q->bufs)
-> @@ -863,6 +880,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
-> +	bool restricted_mem = flags & V4L2_MEMORY_FLAG_RESTRICTED;
->  	unsigned int i, first_index;
->  	int ret = 0;
->  
-> @@ -906,6 +924,9 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  			return 0;
+>  /*********************************************/
+>  /*         callbacks for all buffers         */
+>  /*********************************************/
+> @@ -648,10 +664,13 @@ static void *vb2_dc_get_userptr(struct vb2_buffer *vb, struct device *dev,
+>  		goto fail_sgt_init;
 >  	}
 >  
-> +	if (restricted_mem_mismatch(restricted_mem, q, memory))
-> +		return -EINVAL;
-> +
->  	/*
->  	 * Make sure the requested values and current defaults are sane.
->  	 */
-> @@ -923,6 +944,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	if (ret)
->  		return ret;
->  	set_queue_coherency(q, non_coherent_mem);
-> +	q->restricted_mem = restricted_mem;
->  
->  	/*
->  	 * Ask the driver how many buffers and planes per buffer it requires.
-> @@ -1031,6 +1053,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
->  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
-> +	bool restricted_mem = flags & V4L2_MEMORY_FLAG_RESTRICTED;
->  	bool no_previous_buffers = !q_num_bufs;
->  	int ret = 0;
->  
-> @@ -1039,6 +1062,9 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		return -ENOBUFS;
->  	}
->  
-> +	if (restricted_mem_mismatch(restricted_mem, q, memory))
-> +		return -EINVAL;
-> +
->  	if (no_previous_buffers) {
->  		if (q->waiting_in_dqbuf && *count) {
->  			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
-> @@ -1057,6 +1083,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			return ret;
->  		q->waiting_for_buffers = !q->is_output;
->  		set_queue_coherency(q, non_coherent_mem);
-> +		q->restricted_mem = restricted_mem;
->  	} else {
->  		if (q->memory != memory) {
->  			dprintk(q, 1, "memory model mismatch\n");
-> @@ -1064,6 +1091,8 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		}
->  		if (!verify_coherency_flags(q, non_coherent_mem))
->  			return -EINVAL;
-> +		if (!verify_restricted_mem_flags(q, restricted_mem))
-> +			return -EINVAL;
->  	}
->  
->  	num_buffers = min(*count, q->max_num_buffers - q_num_bufs);
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 293f3d5f1c4e..9ee24e537e0c 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -682,7 +682,7 @@ static void vb2_set_flags_and_caps(struct vb2_queue *q, u32 memory,
->  		*flags = 0;
->  	} else {
->  		/* Clear all unknown flags. */
-> -		*flags &= V4L2_MEMORY_FLAG_NON_COHERENT;
-> +		*flags &= V4L2_MEMORY_FLAG_NON_COHERENT | V4L2_MEMORY_FLAG_RESTRICTED;
->  	}
->  
->  	*caps |= V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
-> @@ -698,6 +698,8 @@ static void vb2_set_flags_and_caps(struct vb2_queue *q, u32 memory,
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
->  	if (q->supports_requests)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
-> +	if (q->allow_restricted_mem && q->io_modes & VB2_DMABUF)
+> -	contig_size = vb2_dc_get_contiguous_size(sgt);
+> +	if (buf->vb->vb2_queue->restricted_mem)
 
-I think this io_modes test can be dropped.
+I think it is better to do the same as with buf->non_coherent_mem,
+so add a 'bool restricted_mem' to struct vb2_dc_buf and set it in
+vb2_dc_alloc(). It makes this code easier to read.
 
-But it might be useful to add a WARN_ON in vb2_core_queue_init where
-this is checked. The WARN_ONs in that function really protect against
-driver bugs, making sure the driver doesn't pass incompatible combinations.
+> +		contig_size = vb2_dc_get_res_mem_contiguous_size(sgt);
+> +	else
+> +		contig_size = vb2_dc_get_contiguous_size(sgt);
+>  	if (contig_size < size) {
+> -		pr_err("contiguous mapping is too small %lu/%lu\n",
+> -			contig_size, size);
+> +		pr_err("contiguous mapping is too small %lu/%lu/%u\n",
+> +		       contig_size, size, buf->vb->vb2_queue->restricted_mem);
+
+Rather than add a "/%u", which is not easy to understand, perhaps do this:
+
+		pr_err("%scontiguous mapping is too small %lu/%lu\n",
+		       buf->vb->vb2_queue->restricted_mem ? "restricted " : "",
+		       contig_size, size);
+
+>  		ret = -EFAULT;
+>  		goto fail_map_sg;
+>  	}
+> @@ -711,10 +730,13 @@ static int vb2_dc_map_dmabuf(void *mem_priv)
+>  	}
+>  
+>  	/* checking if dmabuf is big enough to store contiguous chunk */
+> -	contig_size = vb2_dc_get_contiguous_size(sgt);
+> +	if (buf->vb->vb2_queue->restricted_mem)
+> +		contig_size = vb2_dc_get_res_mem_contiguous_size(sgt);
+> +	else
+> +		contig_size = vb2_dc_get_contiguous_size(sgt);
+>  	if (contig_size < buf->size) {
+> -		pr_err("contiguous chunk is too small %lu/%lu\n",
+> -		       contig_size, buf->size);
+> +		pr_err("contiguous chunk is too small %lu/%lu/%u\n",
+> +		       contig_size, buf->size, buf->vb->vb2_queue->restricted_mem);
+
+Ditto.
+
+>  		dma_buf_unmap_attachment_unlocked(buf->db_attach, sgt,
+>  						  buf->dma_dir);
+>  		return -EFAULT;
 
 Regards,
 
 	Hans
-
-> +		*caps |= V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM;
->  	if (max_num_bufs) {
->  		*max_num_bufs = q->max_num_buffers;
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
-
