@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7659384B9
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jul 2024 15:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F3693854B
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jul 2024 17:37:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC3C510E19F;
-	Sun, 21 Jul 2024 13:35:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1216A10E03D;
+	Sun, 21 Jul 2024 15:37:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fHGLnZLE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rom1nORo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE5E910E19F
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2024 13:35:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D84E10E03D
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2024 15:36:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AC7C460EA6;
- Sun, 21 Jul 2024 13:35:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC4DBC116B1;
- Sun, 21 Jul 2024 13:35:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DCCE560EA6;
+ Sun, 21 Jul 2024 15:36:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D305C116B1;
+ Sun, 21 Jul 2024 15:36:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721568915;
- bh=FfWFnIRv7bJwtBjGmEB+THW3kcX4n2OAzEOePh0liJA=;
+ s=k20201202; t=1721576218;
+ bh=jRjxpOr1/cYTLelTQNj0KsXY+Cyab7rjwhDPjAk0YX4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fHGLnZLEfxK75C9AYsbA+yx2QQNBO0TpAmcYSP6L12MQRSHrc/3sNVceKoSAKL6kH
- a/n4xVAg/HeV6dJ3I5BCEyNdzDYNkpFdAaTZKzAOMuju/7z3z2j4svcdOFY/WSd//M
- lKuOHQrZjaXRm/cLJ2Pu7H1lcHLKYvufVkiZDJag3AR6RBbxaDxqouqv76CQ7rg0SL
- 1uMwYsAf1IBG47nqdRCAVvjNbLvCVPbyTxn32au97aNzqW1AKQ7eKjWFbHEPUthMZV
- RXJauJsK33gVtuqPqZ+MlUTGnOwhHn2mEiDMAZ+HdFfaRFPtyJZROQFdJZnuIeJNB2
- R6uXaM2BGcWIg==
-Message-ID: <c5766369-7f22-4dfe-b242-8aebae6abdfb@kernel.org>
-Date: Sun, 21 Jul 2024 15:35:08 +0200
+ b=rom1nORowJfpuTFrBg0GAZkjWUfUvVoaHqKZfuYJ3e/v0m6HlMs4M8MY0KLOif+Yl
+ dfC0z6JxzFVbRzrgPvlDNZZgVDwLgsxS0dZrT5Ym+wfI5R81WaM2ii2xBRt8wRyBYu
+ /lhBV9NcdB62F3prMeprkBKu/2POTfv372rmW7Dung88+pE7eSJaqFA2DdbnowS6rc
+ +YmyyoFgYHs3UHDBo7/yOSWNNK255pCkZ6i2hOmn91ZFSyS5wngQARFaS7SDCvDPna
+ cwYo5k0Bh2IyfGiiRbbajHqO70k49Jj0AfsTskA6KtCXQDwL2mA283Q1K7NjB37Uqq
+ vuoUq9qTmiQhQ==
+Message-ID: <0144d9b4-e830-44b0-95cd-4d49d5051155@kernel.org>
+Date: Sun, 21 Jul 2024 17:36:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: samsung,atna45dc02:
- Document ATNA45DC02
-To: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org
-Cc: Doug Anderson <dianders@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, Rob Clark <robdclark@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
+Subject: Re: [PATCH v3 2/4] dt-bindings: display: ti: Add schema for AM625
+ OLDI Transmitter
+To: Aradhya Bhatia <a-bhatia1@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-References: <20240719185250.4877-1-robdclark@gmail.com>
+ Conor Dooley <conor+dt@kernel.org>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+ Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
+References: <20240716084248.1393666-1-a-bhatia1@ti.com>
+ <20240716084248.1393666-3-a-bhatia1@ti.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +101,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240719185250.4877-1-robdclark@gmail.com>
+In-Reply-To: <20240716084248.1393666-3-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,31 +119,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/07/2024 20:52, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On 16/07/2024 10:42, Aradhya Bhatia wrote:
+> The OLDI (transmitters) TXes do not have registers of their own, and are
+> dependent on the source video-ports from the DSS to provide
+> configuration data. This hardware doesn't directly sit on the internal
+> bus of the SoC, but does so via the DSS. Hence, the OLDI TXes are
+> supposed to be child nodes under the DSS, and not independent devices.
 > 
-> The Samsung ATNA45DC02 panel is an AMOLED eDP panel, similar to the
-> existing ATNA45AF01 and ATNA33XC20 panel but with a higher resolution.
+> Two of the OLDI TXes can function in tandem to output dual-link OLDI
+> output, or cloned single-link outputs. In these cases, one OLDI will be
+> the primary OLDI, and the other one, a companion.
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> The OLDI functionality is further supported by a system-control module,
+> which contains a few registers to control OLDI IO power and
+> characteristics.
+> 
+> Add devicetree binding schema for AM625 OLDI TXes.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->  .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
+>  .../bindings/display/ti/ti,am625-oldi.yaml    | 153 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 154 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-> index 5192c93fbd67..3ec9b8c79b5f 100644
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-> @@ -21,6 +21,10 @@ properties:
->        - items:
->            - const: samsung,atna45af01
->            - const: samsung,atna33xc20
-> +      # Samsung 14.5" 3K (2944x1840 pixels) eDP AMOLED panel
-> +      - items:
-> +          - const: samsung,atna45dc02
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
+> new file mode 100644
+> index 000000000000..0a96e600bc0b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
+> @@ -0,0 +1,153 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/ti/ti,am625-oldi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments AM625 OLDI Transmitter
+> +
+> +maintainers:
+> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> +  - Aradhya Bhatia <a-bhatia1@ti.com>
+> +
+> +description: |
 
-This should be just enum of above entry (the first compatible).
+Do not need '|' unless you need to preserve formatting.
 
+> +  The AM625 TI Keystone OpenLDI transmitter (OLDI TX) supports serialized RGB
+> +  pixel data transmission between host and flat panel display over LVDS (Low
+> +  Voltage Differential Sampling) interface. The OLDI TX consists of 7-to-1 data
+> +  serializers, and 4-data and 1-clock LVDS outputs. It supports the LVDS output
+> +  formats "jeida-18", "jeida-24" and "vesa-18", and can accept 24-bit RGB or
+> +  padded and un-padded 18-bit RGB bus formats as input.
+> +
+> +properties:
+> +  reg:
+> +    maxItems: 1
+> +
+
+How does it even work without compatible? How is this schema selected?
+If by part of your next patch, then this is not a proper split - this
+patch itself is noop. Squash the patches.
+
+> +  clocks:
+> +    maxItems: 1
+> +    description: serial clock input for the OLDI transmitters
+> +
+> +  clock-names:
+> +    const: s_clk
+
+Drop _clk or name it correctly.
+
+> +
+> +  ti,companion-oldi:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to companion OLDI transmitter. This property is mandatory for the
+> +      primarty OLDI TX if the OLDI TXes are expected to work either in dual-lvds
+> +      mode or in clone mode. This property should point to the secondary OLDI
+> +      TX.
+> +
+> +  ti,secondary-oldi:
+> +    type: boolean
+> +    description: Boolean property to mark an OLDI TX as secondary node.
+
+Why? Lack companion tells it, doesn't it?
+
+> +
+> +  ti,oldi-io-ctrl:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to syscon device node mapping OLDI IO_CTRL registers found in the
+> +      control MMR region. This property is needed for OLDI interface to work.
+
+"This property is needed for OLDI interface to work." tells nothing.
+Everything is needed for everything to work. Be specific.
+
+
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Parallel RGB input port
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: LVDS output port
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        ti,secondary-oldi: true
+
+This does not work... Test your schema.
+
+> +    then:
+> +      properties:
+> +        ti,companion-oldi: false
+> +        ti,oldi-io-ctrl: false
+> +        clocks: false
+> +        clock-names: false
+> +
+> +    else:
+> +      required:
+> +        - ti,oldi-io-ctrl
+> +        - clocks
+> +        - clock-names
+> +
+> +required:
+> +  - reg
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
+> +
+> +    oldi_txes {
+
+No underscores in node names.
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        oldi: oldi@0 {
+What is the "reg" for?
 
 Best regards,
 Krzysztof
