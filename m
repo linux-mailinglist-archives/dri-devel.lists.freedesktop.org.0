@@ -2,108 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA48938550
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jul 2024 17:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523CA938634
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jul 2024 23:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4C910E1E9;
-	Sun, 21 Jul 2024 15:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9FB210E2B0;
+	Sun, 21 Jul 2024 21:43:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W/Kfev4o";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JcW7+WxZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5AB910E1E9
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2024 15:39:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 37FEC60EA6;
- Sun, 21 Jul 2024 15:39:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17017C116B1;
- Sun, 21 Jul 2024 15:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721576372;
- bh=ULRJCRJth84NJo7w7o/Xbr8afmTwqxhkSTU1SwAiMRo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=W/Kfev4orxdaVTyCb3jYjk61za+iJfS4ZjYlCyn8+mQglPduBHGOFsD4KaijXrebj
- mYQkxAzKnm1quapACBmob+Chst/ie3h1B0HD1vvqYflLfkIm5CRNZIY6dZVALt6FHR
- aFNvEuDfTijptv/YyCzZ6bM2yJzI2UoMQU+94sft/Ql7DpbTeXFcGNcTdrWTbO5eej
- VUFg6zJ147Pm+3+/+ZLz+JNnsIbOSPGQikc0tkaYkNEcfEp0q7YdmXcDRkorfNrskg
- XY+6yCjQaHPkFRQ1PYXN7GtNWGezeyflesyWytQhz8GKe+5FqAqeZXCnX3eA+UwGU9
- ijiAIvhaW5/EQ==
-Message-ID: <93844c97-46b7-48bd-9397-2bbba9c09510@kernel.org>
-Date: Sun, 21 Jul 2024 17:39:23 +0200
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD2D110E2B0;
+ Sun, 21 Jul 2024 21:43:19 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id
+ 41be03b00d2f7-656d8b346d2so2010990a12.2; 
+ Sun, 21 Jul 2024 14:43:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1721598199; x=1722202999; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=T4GmvoaTuonLMkgxvdyWZq2weTLspPvsGFuIaeqz+wQ=;
+ b=JcW7+WxZ+FcHNamyil42rOG72pNzo2EaIFgB5jeYBvJ1HCRokyTCaZJQY9C7MqPcsJ
+ Omceb4A3yNsB07gJgsXn76Q/OWjrYFoiNoWLzr2kkDAaP+bGz1B3xs5dHTkQjb2ZHnbw
+ NvqYHPniL7BlnG/2nraXCoKdy/N6rRaqRaAgRwhG8hxXVPQ1LKGFMVZHv3i28UDGgOBT
+ VNLTQM/ZZzL/FOGIsfT1HtXpEAHWdrnPweIk1E8hx1iSFQG0jHTpxrVhM4A6Y8+onwmf
+ sFF2+vHDf1W9/mHoFm+pszJXVbU6D04nIjOWCsECtRrNVAzslsWuJNacpRUeM56Nfn62
+ zaWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721598199; x=1722202999;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=T4GmvoaTuonLMkgxvdyWZq2weTLspPvsGFuIaeqz+wQ=;
+ b=c3rjc8oBmwDhQiBV4bBQ4kKFjQVb2x9SxSkHz3hmceV9ndHKiB2NkevTacznOU2wD2
+ N+0SsyaXHIcoBjPSdHKshUb3CHvtvfotFPs1H9G+O2HDc7oqRL4j8jzE9EXis3DPnheC
+ xq/M6irInkwlV4EDz9u/EMESeJF0OwTFZqKA7Mtz0ImUnxJjIzuvqbsHbLsDDkfaGV3/
+ ySPsYqPZwaV8YU9VuK7SwTzYGs5Pd8c4/TRozUJD9D0UyLfapPh3dWM9Tzx7KWM8s9lX
+ xhwYHQES7IHZ9fqMMSXjC1Np76uU9uyymbGUHSVNrdBOOQhI8dEw+JL/05vX8UWL86bp
+ 7eAg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2jzA3F6i6BJ0TTbL5719G/+CDUO/JLTdoldv2HS4gvCD57+KycVa0Vtf3fPTCk/O/Z5P5U9RW7ZPDbpy+Z7cfqRyroETajB0UBAVNRFdDLPMxT4AwI2FRs724g3UeJ3AXqBYwh5sTesyk6Gmxvr9l
+X-Gm-Message-State: AOJu0YxfwjEgPFLuvn1WQXNevrmownHCPFZNYXZvVo5jzP8O8xB7gbtc
+ mZiXO6HF71m+JUhkwibuk+YQYM3KguU+vEFwnIFD1tSHJw4fgAAc9MUcyRhEexsd0VB//ZkIhlB
+ BJHxkf/PmIozjlXIzREVR3dcsaX0=
+X-Google-Smtp-Source: AGHT+IE0m57M0lv0Bov+KnIzcCurDxaQ9o49WC1ffJ0Ecoi1fU8qWPQY8A0Xw5SNXViRinSgbvyIgc4yEGmAh/O9We8=
+X-Received: by 2002:a05:6a20:1aa6:b0:1c0:f274:c54a with SMTP id
+ adf61e73a8af0-1c4228e96d2mr3567560637.28.1721598199171; Sun, 21 Jul 2024
+ 14:43:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] dt-bindings: display: ti,am65x-dss: Add OLDI
- properties for AM625 DSS
-To: Aradhya Bhatia <a-bhatia1@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
- Devicetree List <devicetree@vger.kernel.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
- <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Francesco Dolcini <francesco@dolcini.it>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
-References: <20240716084248.1393666-1-a-bhatia1@ti.com>
- <20240716084248.1393666-4-a-bhatia1@ti.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240716084248.1393666-4-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240620-a306a-v2-1-0d388e1deebf@gmail.com>
+ <2f10d70a-aed6-4687-8e12-4d649f6a2a5e@linaro.org>
+In-Reply-To: <2f10d70a-aed6-4687-8e12-4d649f6a2a5e@linaro.org>
+From: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
+Date: Sun, 21 Jul 2024 23:43:07 +0200
+Message-ID: <CAGsSOWUoSkDooRx+QUrucj517pBFxwDMiCwoA6tah5o2=q2oGw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/adreno: Add A306A support
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, 
+ 20240618164303.66615-1-robdclark@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,142 +88,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/07/2024 10:42, Aradhya Bhatia wrote:
-> The DSS in AM625 SoC has 2 OLDI TXes. Refer the OLDI schema to add the
-> support for the OLDI TXes.
-> 
-> The AM625 DSS VP1 (port@0) can connect and control 2 OLDI TXes, to use
-> them in dual-link or cloned single-link OLDI modes. Add support for an
-> additional endpoint under the port@0 to accurately depict the data flow
-> path.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
->  .../bindings/display/ti/ti,am65x-dss.yaml     | 135 ++++++++++++++++++
->  1 file changed, 135 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index 399d68986326..249597455d34 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -91,6 +91,24 @@ properties:
->            For AM625 DSS, the internal DPI output port node from video
->            port 1.
->            For AM62A7 DSS, the port is tied off inside the SoC.
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description:
-> +              For AM625 DSS, VP Connection to OLDI0.
-> +              For AM65X DSS, OLDI output from the SoC.
-> +
-> +          endpoint@1:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description:
-> +              For AM625 DSS, VP Connection to OLDI1.
-
-Eh, that's confusing. Why do you have graph to your children? Isn't this
-entirely pointless?
-
-> +
-> +        anyOf:
-> +          - required:
-> +              - endpoint
-> +          - required:
-> +              - endpoint@0
-> +              - endpoint@1
->  
->        port@1:
->          $ref: /schemas/graph.yaml#/properties/port
-> @@ -112,6 +130,23 @@ properties:
->        Input memory (from main memory to dispc) bandwidth limit in
->        bytes per second
->  
-> +  oldi-txes:
-> +    type: object
-> +    additionalProperties: true
-
-Why? This looks wrong.
-
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +    patternProperties:
-> +      '^oldi_tx@[0-1]$':
-
-Please follow DTS coding style for naming.
-
-> +        type: object
-> +        $ref: ti,am625-oldi.yaml#
-> +        unevaluatedProperties: false
-> +        description: OLDI transmitters connected to the DSS VPs
-> +
->  allOf:
->    - if:
->        properties:
-> @@ -123,6 +158,19 @@ allOf:
->          ports:
->            properties:
->              port@0: false
-> +            oldi_txes: false
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,am65x-dss
-> +    then:
-> +      properties:
-> +        oldi_txes: false
-> +        port@0:
-> +          properties:
-> +            endpoint@1: false
->  
->  required:
->    - compatible
-> @@ -171,3 +219,90 @@ examples:
->              };
->          };
->      };
-> +
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-> +
-> +    bus {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +        dss1: dss@30200000 {
-> +            compatible = "ti,am625-dss";
-> +            reg = <0x00 0x30200000 0x00 0x1000>, /* common */
-> +                  <0x00 0x30202000 0x00 0x1000>, /* vidl1 */
-> +                  <0x00 0x30206000 0x00 0x1000>, /* vid */
-> +                  <0x00 0x30207000 0x00 0x1000>, /* ovr1 */
-> +                  <0x00 0x30208000 0x00 0x1000>, /* ovr2 */
-> +                  <0x00 0x3020a000 0x00 0x1000>, /* vp1 */
-> +                  <0x00 0x3020b000 0x00 0x1000>, /* vp2 */
-> +                  <0x00 0x30201000 0x00 0x1000>; /* common1 */
-> +            reg-names = "common", "vidl1", "vid",
-> +                        "ovr1", "ovr2", "vp1", "vp2", "common1";
-> +            power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
-> +            clocks =        <&k3_clks 186 6>,
-> +                            <&vp1_clock>,
-> +                            <&k3_clks 186 2>;
-> +            clock-names = "fck", "vp1", "vp2";
-> +            interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-> +            oldi-txes {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                oldi0: oldi@0 {
-
-You are duplicating the example from previous schema. No need. Keep
-only, one complete example.
-
-Best regards,
-Krzysztof
-
+On Sat, Jun 22, 2024 at 1:36=E2=80=AFPM Konrad Dybcio <konrad.dybcio@linaro=
+.org> wrote:
+>
+> On 20.06.2024 11:52 PM, Barnab=C3=A1s Cz=C3=A9m=C3=A1n wrote:
+> > From: Otto Pfl=C3=BCger <otto.pflueger@abscue.de>
+> >
+> > Add support for Adreno 306A GPU what is found in MSM8917 SoC.
+> > This GPU marketing name is Adreno 308.
+> >
+> > Signed-off-by: Otto Pfl=C3=BCger <otto.pflueger@abscue.de>
+> > [use internal name of the GPU, reword the commit message]
+> > Signed-off-by: Barnab=C3=A1s Cz=C3=A9m=C3=A1n <trabarni@gmail.com>
+> > ---
+> > Changes in v2:
+> > - Rebase on https://patchwork.freedesktop.org/series/127393/
+> > - Link to v1: https://lore.kernel.org/r/20240528-a306a-v1-1-03a66dacd8c=
+7@gmail.com
+> > ---
+> >  drivers/gpu/drm/msm/adreno/a3xx_catalog.c | 11 +++++++++++
+> >  drivers/gpu/drm/msm/adreno/a3xx_gpu.c     | 14 +++++++++++---
+> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  6 ++++++
+> >  3 files changed, 28 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a3xx_catalog.c b/drivers/gpu/dr=
+m/msm/adreno/a3xx_catalog.c
+> > index 0de8465b6cf0..61aeac5054a2 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+> > @@ -41,6 +41,17 @@ static const struct adreno_info a3xx_gpus[] =3D {
+> >               .gmem  =3D SZ_128K,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> >               .init  =3D a3xx_gpu_init,
+> > +     }, {
+> > +             .chip_ids =3D ADRENO_CHIP_IDS(0x03000620),
+> > +             .family =3D ADRENO_3XX,
+> > +             .revn  =3D 308,
+>
+> Double space
+It is similar like other blocks.
+>
+> > +             .fw =3D {
+> > +                     [ADRENO_FW_PM4] =3D "a300_pm4.fw",
+> > +                     [ADRENO_FW_PFP] =3D "a300_pfp.fw",
+> > +             },
+> > +             .gmem  =3D SZ_128K,
+> > +             .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > +             .init  =3D a3xx_gpu_init,
+> >       }, {
+> >               .chip_ids =3D ADRENO_CHIP_IDS(
+> >                       0x03020000,
+> > diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/ms=
+m/adreno/a3xx_gpu.c
+> > index 5273dc849838..b46ff49f47cf 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> > @@ -145,6 +145,10 @@ static int a3xx_hw_init(struct msm_gpu *gpu)
+> >               gpu_write(gpu, REG_A3XX_VBIF_ROUND_ROBIN_QOS_ARB, 0x0003)=
+;
+> >               gpu_write(gpu, REG_A3XX_VBIF_OUT_RD_LIM_CONF0, 0x0000000a=
+);
+> >               gpu_write(gpu, REG_A3XX_VBIF_OUT_WR_LIM_CONF0, 0x0000000a=
+);
+> > +     } else if (adreno_is_a306a(adreno_gpu)) {
+> > +             gpu_write(gpu, REG_A3XX_VBIF_ROUND_ROBIN_QOS_ARB, 0x0003)=
+;
+> > +             gpu_write(gpu, REG_A3XX_VBIF_OUT_RD_LIM_CONF0, 0x00000010=
+);
+> > +             gpu_write(gpu, REG_A3XX_VBIF_OUT_WR_LIM_CONF0, 0x00000010=
+);
+> >       } else if (adreno_is_a320(adreno_gpu)) {
+> >               /* Set up 16 deep read/write request queues: */
+> >               gpu_write(gpu, REG_A3XX_VBIF_IN_RD_LIM_CONF0, 0x10101010)=
+;
+> > @@ -237,7 +241,9 @@ static int a3xx_hw_init(struct msm_gpu *gpu)
+> >       gpu_write(gpu, REG_A3XX_UCHE_CACHE_MODE_CONTROL_REG, 0x00000001);
+> >
+> >       /* Enable Clock gating: */
+> > -     if (adreno_is_a305b(adreno_gpu) || adreno_is_a306(adreno_gpu))
+> > +     if (adreno_is_a305b(adreno_gpu) ||
+> > +         adreno_is_a306(adreno_gpu) ||
+> > +         adreno_is_a306a(adreno_gpu))
+> >               gpu_write(gpu, REG_A3XX_RBBM_CLOCK_CTL, 0xaaaaaaaa);
+> >       else if (adreno_is_a320(adreno_gpu))
+> >               gpu_write(gpu, REG_A3XX_RBBM_CLOCK_CTL, 0xbfffffff);
+> > @@ -334,8 +340,10 @@ static int a3xx_hw_init(struct msm_gpu *gpu)
+> >               gpu_write(gpu, REG_A3XX_CP_PFP_UCODE_DATA, ptr[i]);
+> >
+> >       /* CP ROQ queue sizes (bytes) - RB:16, ST:16, IB1:32, IB2:64 */
+> > -     if (adreno_is_a305(adreno_gpu) || adreno_is_a306(adreno_gpu) ||
+> > -                     adreno_is_a320(adreno_gpu)) {
+> > +     if (adreno_is_a305(adreno_gpu) ||
+> > +         adreno_is_a306(adreno_gpu) ||
+> > +         adreno_is_a306a(adreno_gpu) ||
+> > +         adreno_is_a320(adreno_gpu)) {
+> >               gpu_write(gpu, REG_AXXX_CP_QUEUE_THRESHOLDS,
+> >                               AXXX_CP_QUEUE_THRESHOLDS_CSQ_IB1_START(2)=
+ |
+> >                               AXXX_CP_QUEUE_THRESHOLDS_CSQ_IB2_START(6)=
+ |
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/=
+msm/adreno/adreno_gpu.h
+> > index b8ee9320a315..3b361a077688 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > @@ -292,6 +292,12 @@ static inline bool adreno_is_a306(const struct adr=
+eno_gpu *gpu)
+> >       return adreno_is_revn(gpu, 307);
+> >  }
+> >
+> > +static inline bool adreno_is_a306a(const struct adreno_gpu *gpu)
+> > +{
+> > +     /* a306a marketing name is a308 */
+>
+> "marketing name is a308" could use a (), but it's me being picky..
+/* a306a (marketing name is a308) */ ?
+>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>
+> > +     return adreno_is_revn(gpu, 308);
+> > +}
+> > +
+> >  static inline bool adreno_is_a320(const struct adreno_gpu *gpu)
+> >  {
+> >       return adreno_is_revn(gpu, 320);
+> >
+> > ---
+> > base-commit: b992b79ca8bc336fa8e2c80990b5af80ed8f36fd
+> > change-id: 20240528-a306a-48e173724d6c
+> > prerequisite-message-id: <20240618164303.66615-1-robdclark@gmail.com>
+> > prerequisite-patch-id: b26cd6e5aa23ea623fec94f938a06d1e3359de55
+> > prerequisite-patch-id: 301e8fe4c2687a4606ee7debce95a5ada732e27f
+> > prerequisite-patch-id: 24a5654d9b52079c010b0594d8599d84af1659c7
+> > prerequisite-patch-id: b09a3d28d04b7ebe968e05835ebf8397c27f8d7d
+> > prerequisite-patch-id: a74556e25862c22f0ec543b8a7c7d92cb2e55099
+>
+> b4 is amazing
+>
+> Konrad
