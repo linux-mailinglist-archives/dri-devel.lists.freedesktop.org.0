@@ -2,83 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1F493B1E1
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 15:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3B193B1DC
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 15:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA0B010E6C3;
-	Wed, 24 Jul 2024 13:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4120310E6BD;
+	Wed, 24 Jul 2024 13:42:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (4096-bit key; unprotected) header.d=davidgow.net header.i=@davidgow.net header.b="mIA5CQg6";
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="Ua19Yot6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ftXvG2yP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 600 seconds by postgrey-1.36 at gabe;
- Mon, 22 Jul 2024 07:56:02 UTC
-Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A007E89143;
- Mon, 22 Jul 2024 07:56:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
- s=201606; t=1721634357;
- bh=sIsoIaEC5q4HVUj+ZnhPfTbfbDCCvrTzn9RJcdcWQUw=;
- h=From:To:Cc:Subject:Date:From;
- b=mIA5CQg6rnbZ8zDRl565hbTnTil3DQkCyj5SHvZm41PbGSu0w8KLQhulzDOjENO+r
- YUXI6xDQSVSu2MlR8/j9uD4MIos4on+wbuxWEuvRJSvJUC5+u6XruZcyPeKrWTSFxm
- lnfuIbSnbP0BMRdRuZdDSRkoURFXTnZnAZ9UHCjfsrCl9cHXJdPZh5PoYfErRvq112
- tnCWD320jPIDOSG1JpLH/Ca+A1xua1SBghqknLMDXH83CuB+GvRMPuioK1rSeRcSCs
- 5KoKIHAxAgT/88QKsiofLyDL9+eq2qinFBQK7jBLi4y4c2X7pLXjlQ8IoWfZ2cw82V
- YFK/bfvccJcrUJvrObsP1Gg61Vhx3j63EAwKPXXRCFZ7GZiAxRhqkf3ygATrShcYVI
- BKdpre76pbXWvIcd5QkPRls99l0MKXHuVoBMVhslbrS57DWcNlHKbMiUweSLWXQgiI
- QxQPoGH20hXC0PPRCIUBBaXmlWyDniaQQL8cHw+r7kuOxSoDcHClyKh71ZhUpYJsMw
- ioD7jLSf39wxPhDVJ6bykEkQWnqV2a58K3aNYz/6EeZD8wfrINtXEeU9/fPODNrp5h
- K5S8de7FV3bsFARGdLOPJM7JdwFODGqzr5K0uiNhSAORuKJU3iVm/uIlrlWR0kR2ol
- RG5yfkNKqM7dFHCd6sofDKiY=
-Received: by sphereful.davidgow.net (Postfix, from userid 119)
- id 53ACF1DBB7C; Mon, 22 Jul 2024 15:45:57 +0800 (AWST)
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
- sphereful.davidgow.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU autolearn=unavailable autolearn_force=no
- version=3.4.6
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
- s=201606; t=1721634355;
- bh=sIsoIaEC5q4HVUj+ZnhPfTbfbDCCvrTzn9RJcdcWQUw=;
- h=From:To:Cc:Subject:Date:From;
- b=Ua19Yot6XTtFZsoc06vjBWA6nh8nCIjfjBldirI1IlLivXLtPf5rvPoKkL2AwnDhd
- l9gaB9eEcwjC2vTkjhOG5JNcMUV1MOL24pcf4TV6Pltze5SlZkZDZiY8B+9R7YiBSr
- dunv6f6NiFG18aWxfjpbiZertqef+BD4LAO5J/kyMvl9OgeH3Q06NepUmom/8TET8z
- wHB1YDOSzvfK2zxjyLsInM0HPLDmhHssIvkLiU5YwfQ86pASMji30h7lGS6hT/Paq6
- +48xJ/9s/k3tDnPvQUMVFlRru3Hi3k0O+jvB+3eihEWktIR0Sb9RGijf/8AmkGrKwR
- ksFutMtBvPd9iIRaO5MoZeRPOBKnxbTOulrlmbwPZ4z+7JARYsgFRSDLIjR26t/bx7
- 6VPd6oUJWfNMAN7u0khwjivEfUCBuoFYDKf2L5HUmAoT4VR1r1yX/GycJWJagzp3QZ
- krg1N18B5ZqQeYuwPVvDv6BLWxsJEu7W0OJP5Ktcy67nrl/Jt8MZLgdkGlrMImiiCx
- A2vFS9fB4YAny2qO7x15aANA7wgFV9KOurGCYYNjQPLCCGGI6/Pboz8s+9UFHx+o+F
- 5t6OGvxJhoawV6w93iTXPH0anXaFIB8FKIsGRlUz+0AyXK0c/+8zzWWOmrZje2uXZW
- zqN7Wgj571uR0aGN34o+/V5w=
-Received: from sparky.lan (unknown [IPv6:2001:8003:8824:9e00::bec])
- by sphereful.davidgow.net (Postfix) with ESMTPSA id 1C2881DBB78;
- Mon, 22 Jul 2024 15:45:55 +0800 (AWST)
-From: David Gow <david@davidgow.net>
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Gow <david@davidgow.net>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/i915: Allow evicting to use the requested placement
-Date: Mon, 22 Jul 2024 15:45:38 +0800
-Message-ID: <20240722074540.15295-1-david@davidgow.net>
-X-Mailer: git-send-email 2.45.2
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+ [209.85.210.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6265F10E3CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 07:59:57 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id
+ 46e09a7af769-708cf5138b6so3163695a34.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 00:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1721635196; x=1722239996; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UVLVoBrSBIABdH8HVi5V5EvdQRfT90TgTG6ticvnc8Q=;
+ b=ftXvG2yPmhGJmsI7pzkf7zk58qcd7P1GFvLHSBjxGOsqtCQz6ZtumW+kHbS4X0Tb/F
+ ioWbunm2WN5GLLH1Ws0eX5AsiHLiejPNaJPvlS5aENbKQzNwnAeS8ZN1j7AXxE7wYSIt
+ 6iEUu2YCz9NnZoX7zjxRK5bf69B6pa7qXIscjPAU2pOy4ufrLpETyL6gJ9zedKMToTgy
+ 56REUdrKb9RuiNLkm7jaJs8e5k3mjDB3sByl1HU0e14N7EbjXI/XxLntwG29tuPA9Ree
+ VFGdA8Xf59gZaz1tDUuWVRWOHVlGIQkgCgUZx2aYB+17HTVVrzj7cQHkSK7aSL7ExoLK
+ PCoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721635196; x=1722239996;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UVLVoBrSBIABdH8HVi5V5EvdQRfT90TgTG6ticvnc8Q=;
+ b=rp+5Z1/52DRq95KIP6qxw8yy256TjeihcXZ+ETvMnDN1rz/RW18P/Ymiz4mLeq+tXv
+ 2/+lJuIeUXkAd1p8vRDY5IKielzIaAYmblZWXu/d/XZ0BiKIXELnswsUQVaF4Ai3BQT4
+ esQdvWkR6sHlwt3WAMYk23jdq4uEP8KW91Qx0BclogFlMcet1pSeT/vlmhnSQhcPRr5t
+ fR3MttyHYuTHeX1C9LCEb/4IUfwbHbYkt/FTbbeolAKb5Zs46UMCOIkmnlRa+pnra8+y
+ 4cTOhL9oAnpRw/t1zjcIrlP/Trea+bIQAGNSLCuVipTKss1GwlujgUxM/LQF1qlAKTpN
+ SWew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUzDRDu/vopmVSBlGu4IQcjQM6ZiVu2qWENy0SBQFSqwYCvDhBHV69vk/I+7/DkkApdHw4EDFr+J7pxU5zfWYRMkq6K5y9ELymXZyalTsQc
+X-Gm-Message-State: AOJu0Yxv6ELixl3fTMwq5x3lvp/864WUW/o407QnSk7D+P7rTFj9WN2U
+ TNDsJUQHR+EqQjH4jSiY/OletimfUgGr+r4lD7LCW5GxWBAMxQk0wpGDc3bp+hmYqmuk16V1H2Q
+ 1HDZ8EVtDeFCw18SRU4gclMGVm/o=
+X-Google-Smtp-Source: AGHT+IFUVAP4yCPxQNkNXhJFNJxMnQsofIn15s5YDS4IN3h0ofNDy5sFWJzr5lQhswyLC0ffiBD77t00NaabnKZvsFI=
+X-Received: by 2002:a05:6830:7302:b0:703:5db8:80a with SMTP id
+ 46e09a7af769-709009042e5mr8949781a34.8.1721635196448; Mon, 22 Jul 2024
+ 00:59:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240129104106.43141-1-raphael.gallais-pou@foss.st.com>
+ <21f4d43d-4abd-4aca-7abb-7321bcfa0f1d@foss.st.com>
+In-Reply-To: <21f4d43d-4abd-4aca-7abb-7321bcfa0f1d@foss.st.com>
+From: Yanjun Yang <yangyj.ee@gmail.com>
+Date: Mon, 22 Jul 2024 15:59:45 +0800
+Message-ID: <CAE8JAfwMqiZxGPm4LK_22iWdCa=BS7SX3gbwhrCTOdx=K4yNzA@mail.gmail.com>
+Subject: Re: [Linux-stm32] [PATCH RESEND v3 0/3] Update STM DSI PHY driver
+To: Philippe CORNU <philippe.cornu@foss.st.com>
+Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: multipart/alternative; boundary="000000000000513b13061dd16e08"
 X-Mailman-Approved-At: Wed, 24 Jul 2024 13:42:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,64 +88,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In a78a8da5 ("drm/ttm: replace busy placement with flags v6"), the old
-system of having a separate placement list (for placements which should
-be used without eviction) and a 'busy' placement list (for placements
-which should be attempted if eviction is required) was replaced with a
-new one where placements could be marked 'FALLBACK' (to be attempted if
-eviction is required) or 'DESIRED' (to be attempted first, but not if
-eviction is required).
+--000000000000513b13061dd16e08
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-i915 had always included the requested placement in the list of
-'busy' placements: i.e., the placement could be used either if eviction
-is required or not. But when the new system was put in place, the
-requested (first) placement was marked 'DESIRED', so would never be used
-if eviction became necessary. While a bug in the original commit
-prevented this flag from working, when this was fixed in
-4a0e7b3c ("drm/i915: fix applying placement flag"), it caused long hangs
-on DG2 systems with small BAR.
+On Fri, Jun 28, 2024 at 8:47=E2=80=AFPM Philippe CORNU <philippe.cornu@foss=
+.st.com>
+wrote:
 
-Don't mark the requested placement DESIRED (or FALLBACK), allowing it to
-be used in both situations. This matches the old behaviour, and resolves
-the hangs.
+>
+>
+> On 1/29/24 11:41, Raphael Gallais-Pou wrote:
+> >
+> > This patch series aims to add several features of the dw-mipi-dsi phy
+> > driver that are missing or need to be updated.
+> >
+> > First patch update a PM macro.
+> >
+> > Second patch adds runtime PM functionality to the driver.
+> >
+> > Third patch adds a clock provider generated by the PHY itself.  As
+> > explained in the commit log of the second patch, a clock declaration is
+> > missing.  Since this clock is parent of 'dsi_k', it leads to an orphan
+> > clock.  Most importantly this patch is an anticipation for future
+> > versions of the DSI PHY, and its inclusion within the display subsystem
+> > and the DRM framework.
+> >
+> > Last patch fixes a corner effect introduced previously.  Since 'dsi' an=
+d
+> > 'dsi_k' are gated by the same bit on the same register, both reference
+> > work as peripheral clock in the device-tree.
+> >
 
-Thanks to Justin Brewer for bisecting the issue.
 
-Fixes: a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
-Fixes: 4a0e7b3c3753 ("drm/i915: fix applying placement flag")
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/11255
-Signed-off-by: David Gow <david@davidgow.net>
----
+This patch (commit id:185f99b614427360) seems to break the dsi of stm32f469
+chip.
+I'm not familiar with the drm and the clock framework, maybe it's because
+there is no
+ "ck_dsi_phy" defined for stm32f469.
 
-I'm not 100% sure I understand exactly what went wrong here: I'm pretty
-sure the patch is correct, but let me know if the commit description is
-way off base.
 
-My system works much better with this applied, but it's possible that it
-could work better still with further changes: the buddy allocator is
-still chewing up a lot of the CPU, and there are still cases where this
-notably affects performance (though, in my experience, these are now
-'hitches' rather than multi-minute hangs).
+>
+> > ---
+> > Changes in v3-resend:
+> >       - Removed last patch as it has been merged
+> >
+> https://lore.kernel.org/lkml/bf49f4c9-9e81-4c91-972d-13782d996aaa@foss.st=
+.com/
+> >
+> > Changes in v3:
+> >       - Fix smatch warning (disable dsi->pclk when clk_register fails)
+> >
+> > Changes in v2:
+> >       - Added patch 1/4 to use SYSTEM_SLEEP_PM_OPS instead of old macro
+> >         and removed __maybe_used for accordingly
+> >       - Changed SET_RUNTIME_PM_OPS to RUNTIME_PM_OPS
+> >
+> > Raphael Gallais-Pou (3):
+> >    drm/stm: dsi: use new SYSTEM_SLEEP_PM_OPS() macro
+> >    drm/stm: dsi: expose DSI PHY internal clock
+> >
+> > Yannick Fertre (1):
+> >    drm/stm: dsi: add pm runtime ops
+> >
+> >   drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 279 ++++++++++++++++++++++---=
+-
+> >   1 file changed, 238 insertions(+), 41 deletions(-)
+> >
+>
+> Hi Rapha=C3=ABl & Yannick,
+> Applied on drm-misc-next.
+> Many thanks,
+> Philippe :-)
+> _______________________________________________
+> Linux-stm32 mailing list
+> Linux-stm32@st-md-mailman.stormreply.com
+> https://st-md-mailman.stormreply.com/mailman/listinfo/linux-stm32
+>
 
-Cheers,
--- David
+--000000000000513b13061dd16e08
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 1 -
- 1 file changed, 1 deletion(-)
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jun 28, 2024 at 8:47=E2=
+=80=AFPM Philippe CORNU &lt;<a href=3D"mailto:philippe.cornu@foss.st.com">p=
+hilippe.cornu@foss.st.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><br>
+<br>
+On 1/29/24 11:41, Raphael Gallais-Pou wrote:<br>
+&gt; <br>
+&gt; This patch series aims to add several features of the dw-mipi-dsi phy<=
+br>
+&gt; driver that are missing or need to be updated.<br>
+&gt; <br>
+&gt; First patch update a PM macro.<br>
+&gt; <br>
+&gt; Second patch adds runtime PM functionality to the driver.<br>
+&gt; <br>
+&gt; Third patch adds a clock provider generated by the PHY itself.=C2=A0 A=
+s<br>
+&gt; explained in the commit log of the second patch, a clock declaration i=
+s<br>
+&gt; missing.=C2=A0 Since this clock is parent of &#39;dsi_k&#39;, it leads=
+ to an orphan<br>
+&gt; clock.=C2=A0 Most importantly this patch is an anticipation for future=
+<br>
+&gt; versions of the DSI PHY, and its inclusion within the display subsyste=
+m<br>
+&gt; and the DRM framework.<br>
+&gt; <br>
+&gt; Last patch fixes a corner effect introduced previously.=C2=A0 Since &#=
+39;dsi&#39; and<br>
+&gt; &#39;dsi_k&#39; are gated by the same bit on the same register, both r=
+eference<br>
+&gt; work as peripheral clock in the device-tree.<br>
+&gt;</blockquote><div><br></div><div>This patch (commit id:185f99b614427360=
+)=C2=A0seems to break the dsi of stm32f469 chip.=C2=A0</div><div>I&#39;m no=
+t familiar with the drm and the clock framework, maybe it&#39;s because the=
+re is no</div><div>=C2=A0&quot;ck_dsi_phy&quot; defined for stm32f469.</div=
+><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"> <br>
+&gt; ---<br>
+&gt; Changes in v3-resend:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0- Removed last patch as it has been merged<b=
+r>
+&gt; <a href=3D"https://lore.kernel.org/lkml/bf49f4c9-9e81-4c91-972d-13782d=
+996aaa@foss.st.com/" rel=3D"noreferrer" target=3D"_blank">https://lore.kern=
+el.org/lkml/bf49f4c9-9e81-4c91-972d-13782d996aaa@foss.st.com/</a><br>
+&gt; <br>
+&gt; Changes in v3:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0- Fix smatch warning (disable dsi-&gt;pclk w=
+hen clk_register fails)<br>
+&gt; <br>
+&gt; Changes in v2:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0- Added patch 1/4 to use SYSTEM_SLEEP_PM_OPS=
+ instead of old macro<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0and removed __maybe_used for accordin=
+gly<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0- Changed SET_RUNTIME_PM_OPS to RUNTIME_PM_O=
+PS<br>
+&gt; <br>
+&gt; Raphael Gallais-Pou (3):<br>
+&gt;=C2=A0 =C2=A0 drm/stm: dsi: use new SYSTEM_SLEEP_PM_OPS() macro<br>
+&gt;=C2=A0 =C2=A0 drm/stm: dsi: expose DSI PHY internal clock<br>
+&gt; <br>
+&gt; Yannick Fertre (1):<br>
+&gt;=C2=A0 =C2=A0 drm/stm: dsi: add pm runtime ops<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 279 ++++++++++++++=
+++++++++----<br>
+&gt;=C2=A0 =C2=A01 file changed, 238 insertions(+), 41 deletions(-)<br>
+&gt; <br>
+<br>
+Hi Rapha=C3=ABl &amp; Yannick,<br>
+Applied on drm-misc-next.<br>
+Many thanks,<br>
+Philippe :-)<br>
+_______________________________________________<br>
+Linux-stm32 mailing list<br>
+<a href=3D"mailto:Linux-stm32@st-md-mailman.stormreply.com" target=3D"_blan=
+k">Linux-stm32@st-md-mailman.stormreply.com</a><br>
+<a href=3D"https://st-md-mailman.stormreply.com/mailman/listinfo/linux-stm3=
+2" rel=3D"noreferrer" target=3D"_blank">https://st-md-mailman.stormreply.co=
+m/mailman/listinfo/linux-stm32</a><br>
+</blockquote></div></div>
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index e6f177183c0f..fb848fd8ba15 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -165,7 +165,6 @@ i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
- 	i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
- 				   obj->mm.region, &places[0], obj->bo_offset,
- 				   obj->base.size, flags);
--	places[0].flags |= TTM_PL_FLAG_DESIRED;
- 
- 	/* Cache this on object? */
- 	for (i = 0; i < num_allowed; ++i) {
--- 
-2.45.2
-
+--000000000000513b13061dd16e08--
