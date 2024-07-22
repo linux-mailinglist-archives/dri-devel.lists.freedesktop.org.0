@@ -2,91 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558EC93939F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 20:38:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316EB9393C5
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 20:43:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1750810E059;
-	Mon, 22 Jul 2024 18:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3755810E0EF;
+	Mon, 22 Jul 2024 18:43:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="I4iTSIAo";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="ZAO/9QzM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEB5010E059
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 18:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1721673507; x=1722278307; i=markus.elfring@web.de;
- bh=ZWBanF7ancu1eZNKQrcMwj3+MkIgAZbQm2LNdRgEOCs=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=I4iTSIAobGyOd+AymvOsGwuGnjZUqOv/TqDFglY00EC4Nkc3lIJVgH5Q1ouSe2br
- 45pPLt3Uu9z3WboNK7hNKOGBRvEYo0WGIoHTO5CulEhiNpkU0LoboFH0erUEgpH91
- nCFBdPhy542VWyRoNy30j5R/tryZQ80XbE1u7ZXVE0EAPMxYA9wXlBvMNCMaw2W39
- QSMyYTjAM4/cXvH5ohnuNS48foxkbUqAz7fYC6eHfUH/GZgLpXEC8a3djDJf+xGnA
- 88PbcOn7Lk2+0OvN20lkoYJPCPe6wAxxXy+CTCxtyTvGd2OZBy5EXdGgLjthYBXmN
- UjGruqdPANY4d/6Ecw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MxYbD-1s7zzu1CqP-00xc8g; Mon, 22
- Jul 2024 20:38:27 +0200
-Message-ID: <7c0e8a0e-3282-4d4e-a5b8-bcd979da3bfa@web.de>
-Date: Mon, 22 Jul 2024 20:38:23 +0200
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78C0710E272
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 18:43:24 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id
+ 46e09a7af769-7035c367c4cso2545766a34.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 11:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1721673803; x=1722278603;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LfSvAb06oqKelT4dZ1Tzhrs0Aj85QwCtxm1RWqjCJao=;
+ b=ZAO/9QzMtfWdCI8ejruFwfVxH5+YF5cGzXi6BMS6DinOo+NivQ//EMBBs4qo+i+9p0
+ 0IbySzLUEh4DcXjhQwdlqkNUV/Sp9SVp+e095j5Mtb42QpxeMJG1DnTeNNUcx+5B0pjn
+ jwQ6SV42PB4fRwHbDoCEyrVpXUCfQhMhHxDu4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721673803; x=1722278603;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LfSvAb06oqKelT4dZ1Tzhrs0Aj85QwCtxm1RWqjCJao=;
+ b=JpZUeuKby86eW3G7MWqMj1xit4c0JnxFWOnvOw8q0TaNcGgrIhC861lU3xCGFKYzMP
+ yoZtkJGmBo1nw9l4aH2Wt+Jbz2AZn43iLFyTgWTMtRxzh3OjIO/ZFUFSFnav96ouY3/L
+ CTzFwUS6VT/Ui14Xp+rLvb78qOJqKFhssQjO2addB4lxaze9S54povI195IO0nzbugav
+ bEPJIpYGX83jOUTsT1QBa39MoLB8LjZDwCM9fgf7AWqh2kEx8SuU/UzbiiXUwlR497ZI
+ QWk4CRUZ3Cx1COWimLhXohbzY7mDS2amqExEum+5l0hkw6cUdDD/bejyDr851YCQj6Rh
+ fvRA==
+X-Gm-Message-State: AOJu0YyfBo8U+8L5rfvuhM1X9g8RdF8F3SoDhmaYZz7jGyss5PF/YrIj
+ kZcn080ORFACkJFhqUU2uenOW8cr691TwgImZjPHhfASsLlYmrAxlcBfVlPmUTLQbia3u6oh5e/
+ 2rzjXQUD48F56sroNSGwCp/2Hiu0ttzR8bbxMVkqDjkttMwp5VKqmpbu0rT0vHd/JoYr3iT7nIm
+ q9iocYDQhoACZ+If5fg29gJ7CFxQHilGg6q4RMT46+DMSX26rVFg==
+X-Google-Smtp-Source: AGHT+IHICo7kMIG/1R5KBMcSJqF7A4M7bG9P8qG2eO8s43RF8bpCD0VWFtoE8murT6nv7VT+89n4dg==
+X-Received: by 2002:a05:6830:6d17:b0:708:7dbe:61f6 with SMTP id
+ 46e09a7af769-709009ddfb6mr11312290a34.29.1721673803305; 
+ Mon, 22 Jul 2024 11:43:23 -0700 (PDT)
+Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net.
+ [173.49.113.140]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6b7acafdb01sm38261466d6.129.2024.07.22.11.43.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jul 2024 11:43:23 -0700 (PDT)
+From: Zack Rusin <zack.rusin@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
+ Zack Rusin <zack.rusin@broadcom.com>
+Subject: [PATCH v5 0/4] Fix various buffer mapping/import issues
+Date: Mon, 22 Jul 2024 14:41:12 -0400
+Message-ID: <20240722184313.181318-1-zack.rusin@broadcom.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 05/28] dma-heap: Add proper kref handling on dma-buf
- heaps
-To: John Stultz <jstultz@google.com>, "T. J. Mercier" <tjmercier@google.com>, 
- Yong Wu <yong.wu@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Nathan Hebert <nhebert@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Tomasz Figa <tfiga@chromium.org>, LKML <linux-kernel@vger.kernel.org>,
- Brian Starkey <Brian.Starkey@arm.com>, Chen-Yu Tsai <wenst@chromium.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Fritz_K=C3=B6nig?=
- <frkoenig@chromium.org>, Hsin-yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Steve Cho
- <stevecho@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>
-References: <20240720071606.27930-6-yunfei.dong@mediatek.com>
- <2f5e5e81-21e1-421d-94ac-e4507b323680@web.de>
- <CANDhNCqzme0q7vey1jc84T0HJPiOSQF2fkyBfBLntdiyafEzYA@mail.gmail.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <CANDhNCqzme0q7vey1jc84T0HJPiOSQF2fkyBfBLntdiyafEzYA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GUZxA/Aux5PMQCDi3hxau4Wsl2vvcaVXo8wngueekGYUSpLKpTZ
- SZ+IkMcGhDyOu7j4TOaus2e6WUeeytvl7jOYhQjntSgL0UusCDupvyPI0aSvEzrhTH+t2k1
- e1NVUTk+FeAJcAzHmGE9z+kk0ieRGaYH5NxGNR3jGF/f2iK9INYl2UO+y1UbNctEegCUcue
- ZHTwISnzOUpyr5bexuTFg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:bhFioqfY1wU=;Kv7lhJ+Q4TRnO+ldpI1Gz2iy26A
- pANDVEbpH4EydeHjXK71eW28xjh18xq5JfjQvHCQl+F17L4AyXNPsC6GcFLS9VFgb7kdjE5em
- QnAMeV/0La7mktwt+cl8iJS+dRSbb5ItdlNCUNGVB86sfJs4gCwhxWGZjXqV7x54GbJbMq0Kf
- fIqbNQE6vaxgOFXiyqSz+jqgfgVUhJqtZiW7erQpdiXSlthth7tMRQ9wkPjG5kcj2xEhudjOg
- pcmRtMhLRL9ti202DzpemmZkXAnYdvd3Vt/2dJuQ10ysPsHPEPweRmNVdHQlWATkm61WPn2PD
- 3KNyabzkSPAfHhIYDNKthb6N53EGpdEzmwVUCtIW2L2CW4+8Eyx8+Z/hNqwcsaHTGpHBbC7yg
- J0EOTOf/UqYoldI6LRKEjAWa+Un6X/BcSVGZiNPcyl5yY3Zoph64mlx8ptMjkm5NuqquJtukc
- YY7eDBFUkjUla+LYRuqiZTrube6fLqXb53czu/NilHVb0h0qbFwGKR7+CewhgqzYTZSYWNTta
- InM0lpqFxLJiZQWUcoFAp4xDPOD3MmCwUvs+0F0w7FoOd0cNdQ2WsVkS26ghFSJxYClfsXgq6
- BTCkzzJmjGwr2oHuFwHLM/Nlbx3trNTCQd2dIzm0yhwYSbPO9z1hb+NYxgoBCCGYNgtY6PN2C
- rDWGoLwKUpU7sVQJkOzTDxC+0o+Bp/rhKvsFXBQQC/hibLG+XHEa8g7d/nt7oyTzGs5zjs8EZ
- EKOVs9AH/OHOlWZYic6+E4pKHnqG1cFaq7ZJuZJ9iigQ595a6AP0AyEsk0lr5SOf2PS0Kx8/8
- 28KGCtFSpm6jv+2f2bDFVfaQ==
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,38 +80,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->> =E2=80=A6
->>> +++ b/drivers/dma-buf/dma-heap.c
->> =E2=80=A6
->>> +static void dma_heap_release(struct kref *ref)
->>> +{
->> =E2=80=A6
->>> +     mutex_lock(&heap_list_lock);
->>> +     list_del(&heap->list);
->>> +     mutex_unlock(&heap_list_lock);
->> =E2=80=A6
->>
->> Under which circumstances would you become interested to apply a statem=
-ent
->> like =E2=80=9Cguard(mutex)(&heap_list_lock);=E2=80=9D?
->> https://elixir.bootlin.com/linux/v6.10/source/include/linux/mutex.h#L19=
-6
->
-> This strikes me as a strange place to apply it, as it seems like it
-> would grow the lock hold time to the entire scope of the function
-> unless one created a subscope for just the list_del, at which point
-> you're not saving much or really improving readability.  I definitely
-> think guard usage is very interesting in places where locks are
-> released in multiple exit paths, etc. but this is a very trivial and
-> straightforward lock/unlock usage, so I fret I don't quite understand
-> the suggestion.
+This small series fixes all known prime/dumb_buffer/buffer dirty
+tracking issues. Fixing of dumb-buffers turned out to be a lot more
+complex than I wanted it to be. There's not much that can be done
+there because the driver has to support old userspace (our Xorg driver
+expects those to not be gem buffers and special cases a bunch of
+functionality) and new userspace (which expects the handles to be
+gem buffers, at least to issue GEM_CLOSE).
 
-I propose to take further design possibilities better into account for
-applications of scope-based resource management.
-Additional compound statements may be constructed on demand by adding
-extra curly brackets.
-You might occasionally find scoped guards more appealing.
-https://elixir.bootlin.com/linux/v6.10/source/include/linux/cleanup.h#L137
+The third patch deals with it by making the objects returned from
+dumb-buffers both (raw buffers and surfaces referenced by the same
+handle), which always works and doesn't require any changes in userspace.
 
-Regards,
-Markus
+This fixes the known KDE (KWin's) buffer rendering issues.
+
+v2: Fix compute_crc in the second patch, as spotted by Martin
+v3: Simplify the first change which fixes the deadlock in the dma-buf
+fence polling
+v4: Fix mouse cursor races due to buffer mapping not being reserved in
+the third patch
+v5: Use map.virtual to check whether an user buffer is mapped instead
+of map.bo. There's no change in functionality but we do use map.virtual
+to check whether a buffer has been mapped elsewhere so usage of it
+is more consistent. Spotted by Ian.
+
+Zack Rusin (4):
+  drm/vmwgfx: Fix a deadlock in dma buf fence polling
+  drm/vmwgfx: Make sure the screen surface is ref counted
+  drm/vmwgfx: Fix handling of dumb buffers
+  drm/vmwgfx: Add basic support for external buffers
+
+ drivers/gpu/drm/vmwgfx/vmw_surface_cache.h |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         | 127 +++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h         |  15 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  40 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c      |  17 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c        |  62 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 502 +++++++++------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h        |  17 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c        |  14 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_prime.c      |  32 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c   |  27 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  33 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       | 145 +++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c    | 280 +++++++++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c       |  40 +-
+ 15 files changed, 827 insertions(+), 534 deletions(-)
+
+-- 
+2.43.0
+
