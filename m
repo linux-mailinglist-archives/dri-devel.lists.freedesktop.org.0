@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DF6939518
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 23:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7248393951F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 23:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C19EE10E31A;
-	Mon, 22 Jul 2024 21:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E559C10E327;
+	Mon, 22 Jul 2024 21:07:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RstZZjE9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mnubm4qa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD87510E310;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39B310E321;
  Mon, 22 Jul 2024 21:07:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721682422; x=1753218422;
+ t=1721682423; x=1753218423;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nCWirGS4RNaVcvVR02+jAYuMtNUcmS9KoGdmjQU7cuo=;
- b=RstZZjE9cumo6yOXRrdZxIHcKBm+0nVj8rLPzY4Pgciy8cyuEGEPe6Gn
- nOh/cEQKfLFF4WdEAylw4LcU94IDoHgUGSgIhBayzrI3AxfTvtPziOdmX
- lJbkApgJSwwdPoc8Vr779SSm3IGbMQRDcpu2U+Epxhpfwj/OH83Pkw+BK
- D2t9FuJlfsWsPqrW42nAr9/TCC/5y32sxX++Kq8VBIbFKFxZBdqAjTcAr
- 1yKla3VuNKWvG8oCZB5SK/C2U7647HK8l6g0Vl7+SkkQbQeqnNdOs9wP7
- cKiBkMI5P2GQHUVgSX6gBfKdrFhBgSKPO0PsI24DSJ3z6ui8/Jwwrbu6j g==;
-X-CSE-ConnectionGUID: iitCh+QKRdGGczhGzAK5cA==
-X-CSE-MsgGUID: buGSdYkRS8CWtcOfidsrQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="30428308"
-X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="30428308"
+ bh=s/KEULd10DAnPOptOFmXVIG1knuSR32VEkwPLEise+Y=;
+ b=mnubm4qaev7rrk5ZAEY2jufgxGeWEqpBtk5bOHr8DMua1VcJAmM4hEQu
+ ZyujjVesA9dq0DN96BqHaLUBn98uX++x3+Is3v9AsrAj+ZceVaoNt/f9h
+ yuNWv5lNxvxAESjLjFFrbHvbGSvPeB8H8IGhxKWtO0dK1O6PnljwImKGf
+ 2jzmGqgOMufAYON5t5wo5EUQhXZKuDODmLy6T/mUstEi+yeOqGLv9HHdE
+ tuak7rG6rwMwdelAlv/RjgJr9Txe8+bPELSqPbjwtKyYnDGn2lMtx+Iwl
+ Sk7YFcA1IcfspRwV4LA2GFluPjkztqCHbPVPpK3eD656K1S+Y8q+8+BV3 Q==;
+X-CSE-ConnectionGUID: yFwvr8Z8QfSeBiOcTOUCFA==
+X-CSE-MsgGUID: PRkanw/PTtuuEqmIBy6/rQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="30428316"
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="30428316"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jul 2024 14:07:02 -0700
-X-CSE-ConnectionGUID: krU/uHwVR3O9O5JSh/ylmA==
-X-CSE-MsgGUID: DMCosN1SRa24cuA9dxzvYQ==
+X-CSE-ConnectionGUID: oco+0Mr7Qq21jwMdRCTvSg==
+X-CSE-MsgGUID: YFa/qX3XQcKBR01IvlORGg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="51653296"
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="51653301"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2024 14:07:01 -0700
+ 22 Jul 2024 14:07:02 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	linux-perf-users@vger.kernel.org
@@ -48,9 +48,9 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  dri-devel@lists.freedesktop.org, Peter Zijlstra <peterz@infradead.org>,
  Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
  linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH 4/7] drm/i915/pmu: Drop is_igp()
-Date: Mon, 22 Jul 2024 14:06:45 -0700
-Message-ID: <20240722210648.80892-5-lucas.demarchi@intel.com>
+Subject: [PATCH 5/7] drm/i915/pmu: Let resource survive unbind
+Date: Mon, 22 Jul 2024 14:06:46 -0700
+Message-ID: <20240722210648.80892-6-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240722210648.80892-1-lucas.demarchi@intel.com>
 References: <20240722210648.80892-1-lucas.demarchi@intel.com>
@@ -71,63 +71,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no reason to hardcode checking for integrated graphics on a
-specific pci slot. That information is already available per platform an
-can be checked with IS_DGFX().
+There's no need to free the resources during unbind. Since perf events
+may still access them due to open events, it's safer to free them when
+dropping the last i915 reference.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/i915_pmu.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/i915/i915_pmu.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
-index 3a8bd11b87e7..b5d14dd318e4 100644
+index b5d14dd318e4..8708f905f4f4 100644
 --- a/drivers/gpu/drm/i915/i915_pmu.c
 +++ b/drivers/gpu/drm/i915/i915_pmu.c
-@@ -1235,17 +1235,6 @@ static void i915_pmu_unregister_cpuhp_state(struct i915_pmu *pmu)
- 	cpuhp_state_remove_instance(cpuhp_slot, &pmu->cpuhp.node);
+@@ -5,6 +5,7 @@
+  */
+ 
+ #include <linux/pm_runtime.h>
++#include <drm/drm_managed.h>
+ 
+ #include "gt/intel_engine.h"
+ #include "gt/intel_engine_pm.h"
+@@ -1152,6 +1153,17 @@ static void free_event_attributes(struct i915_pmu *pmu)
+ 	pmu->pmu_attr = NULL;
  }
  
--static bool is_igp(struct drm_i915_private *i915)
--{
--	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
--
--	/* IGP is 0000:00:02.0 */
--	return pci_domain_nr(pdev->bus) == 0 &&
--	       pdev->bus->number == 0 &&
--	       PCI_SLOT(pdev->devfn) == 2 &&
--	       PCI_FUNC(pdev->devfn) == 0;
--}
--
- void i915_pmu_register(struct drm_i915_private *i915)
++static void free_pmu(struct drm_device *dev, void *res)
++{
++	struct i915_pmu *pmu = res;
++	struct drm_i915_private *i915 = pmu_to_i915(pmu);
++
++	free_event_attributes(pmu);
++	kfree(pmu->base.attr_groups);
++	if (IS_DGFX(i915))
++		kfree(pmu->name);
++}
++
+ static int i915_pmu_cpu_online(unsigned int cpu, struct hlist_node *node)
  {
- 	struct i915_pmu *pmu = &i915->pmu;
-@@ -1269,7 +1258,7 @@ void i915_pmu_register(struct drm_i915_private *i915)
- 	pmu->cpuhp.cpu = -1;
- 	init_rc6(pmu);
+ 	struct i915_pmu *pmu = hlist_entry_safe(node, typeof(*pmu), cpuhp.node);
+@@ -1302,6 +1314,9 @@ void i915_pmu_register(struct drm_i915_private *i915)
+ 	if (ret)
+ 		goto err_unreg;
  
--	if (!is_igp(i915)) {
-+	if (IS_DGFX(i915)) {
- 		pmu->name = kasprintf(GFP_KERNEL,
- 				      "i915_%s",
- 				      dev_name(i915->drm.dev));
-@@ -1323,7 +1312,7 @@ void i915_pmu_register(struct drm_i915_private *i915)
- 	pmu->base.event_init = NULL;
- 	free_event_attributes(pmu);
- err_name:
--	if (!is_igp(i915))
-+	if (IS_DGFX(i915))
- 		kfree(pmu->name);
- err:
- 	drm_notice(&i915->drm, "Failed to register PMU!\n");
-@@ -1351,7 +1340,7 @@ void i915_pmu_unregister(struct drm_i915_private *i915)
++	if (drmm_add_action_or_reset(&i915->drm, free_pmu, pmu))
++		goto err_unreg;
++
+ 	return;
+ 
+ err_unreg:
+@@ -1336,11 +1351,7 @@ void i915_pmu_unregister(struct drm_i915_private *i915)
+ 	hrtimer_cancel(&pmu->timer);
+ 
+ 	i915_pmu_unregister_cpuhp_state(pmu);
+-
  	perf_pmu_unregister(&pmu->base);
++
  	pmu->base.event_init = NULL;
- 	kfree(pmu->base.attr_groups);
--	if (!is_igp(i915))
-+	if (IS_DGFX(i915))
- 		kfree(pmu->name);
- 	free_event_attributes(pmu);
+-	kfree(pmu->base.attr_groups);
+-	if (IS_DGFX(i915))
+-		kfree(pmu->name);
+-	free_event_attributes(pmu);
  }
 -- 
 2.43.0
