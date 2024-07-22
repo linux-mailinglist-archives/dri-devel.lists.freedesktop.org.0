@@ -2,84 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69288939344
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 19:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89AB2939380
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 20:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77D3810E23E;
-	Mon, 22 Jul 2024 17:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 549D510E25F;
+	Mon, 22 Jul 2024 18:06:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="lHu4Ijo/";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="EWiLnzS+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B88E10E23E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 17:39:25 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-52efc89dbedso1979833e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 10:39:25 -0700 (PDT)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 732F710E25F
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 18:06:26 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-5a28b61b880so1749a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 11:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1721669961; x=1722274761;
+ d=google.com; s=20230601; t=1721671585; x=1722276385;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ku6pNJoPik/cEYLloIWSNS5pM+cd3LpY0Ys/ukb76Ww=;
- b=lHu4Ijo/H4Dvv02wtoIByzedvz6Wpmyx3VK0E/OyLCDP5icQh2fuWggKLOBzl2Ie8V
- WByP4aK4IyCeuCNbXqi0VKfslHyHI8HEkTK2F2j8g3abw1Ai+3Af2DabZFfDJwrNKlM3
- kNi7B0TSp47yyKFuowMJS/ApzTP/wnUEhVA3A=
+ bh=HMK19Nn8t89hi1e3ly4VVQjOLnRO+D3abPmsW8/FOMM=;
+ b=EWiLnzS+T6ls7KghqEyZi5ujcoEJpx+4O5B7Zj/X5aFAO/5N/R4X3ibCRYq/VCOp46
+ N1np9dZoxJGGIot7zOGVtCxNo47+fEi2Z7clGYhk+04FYfK3hUkKgGKF3BoqHsbwovyZ
+ PO8vsmXVsjlL7mvDa7eeOcEWhMWnz74F3aDeqDaBNd+UDc80DzsYv1BpQ/qon6YQZhf5
+ MEeAMIS8Gj4s2g1YGPxBmqxexU3VaI5BaQ1SMREbj+DCZkXioez7XfYmlgBCCFQN0MYL
+ gtE5Zmi91FpfpSwMVUwUjellz9ur/VIKTYGrjrVenNQE+1mJaDkwnBY4kKpsSdbm7CP8
+ uYIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721669961; x=1722274761;
+ d=1e100.net; s=20230601; t=1721671585; x=1722276385;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ku6pNJoPik/cEYLloIWSNS5pM+cd3LpY0Ys/ukb76Ww=;
- b=P45xR3LBFiuYqk/WWlAFywBfyexdVlgST+gHhhTmE3GIK2CPNnfFYsguPHAgey4fyx
- sQe/xDDgDqbU0naBZGuqQF3NHlR/O+ayqD7HAPzI6jx+414HLG3JAOxxpM1WVEsrxBry
- ybH5fw1KcExj6OedZYKQmonm4d8qSbg3gbep7bLsAm15j7gLzaVZVtFl26LV4x1ifVKV
- Oh5a7HuhcYTHfYxGvnMcfSIX6/kWU9IhepWHvBjMtCd4sHycmxiQEVzP4uSvfewHNlk4
- oICoJz5T8CkoEOaVMGCMp/w8WysRbvgq9j8+nrWRpCvDn4pJO3kk/FbgEKJAkZLkYX5t
- zTSQ==
+ bh=HMK19Nn8t89hi1e3ly4VVQjOLnRO+D3abPmsW8/FOMM=;
+ b=TOI6ucnNkzKJBfisnqEnR2QJlVfiIXeyQ7Ql1RDIAdWowS+iryeSVaA4fs1s49eZvT
+ jpVm4gRIadExf8jMc7ho3rMO7NaWJUS4XuVtj8VZqEC9242ST8FuPQ+OAexvBrnqFSzt
+ c8bzEr0j9KNHdg4m09IJIkMiztulw6TKbfZ43QMD5kr5TJgekg8uu2lx0lW+tjuN8ZBZ
+ +7lBDkdNJp96XmQ6HkBU/DEq53bWy5eiv9jfRCzkths3VmTL3dYhZfkTIu8gVYTGkVBs
+ ZwOFsOa/Y8bwFOWw+gixkRqjChnQgOqm8Tw9murQqn5l24EhqkK2/1tQn5gOtK9qF++s
+ UxjQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWObqgb2xYUV4UkErpPdSIoBk4H88qzonIAdVBOLMSeGi+gamNnjDXeuej4QgsBVxOIB9eSyD08aycgD7rZk+7x3VHGsw1bvrVoE6pGiCMf
-X-Gm-Message-State: AOJu0Yx7wn4M8DdT3tjNR63kWPeLKIb/ln7dxWEC0Fwc3CLW/FfmnjeY
- iqJB5W4ecVUo1H+CdRq3Di9T6y/UVl6Oj2p2oBu0+LH6pUBeDZUM55wSahUCc4nIlOINFn3uOQh
- 7wBOe
-X-Google-Smtp-Source: AGHT+IGe+C1PGgzJsRy14TCWoKZBxDcOw9lTHAe39IHRUY0y9xrL2RyoFfoYcFKEyCvGsWR0XVTMcA==
-X-Received: by 2002:a05:6512:3990:b0:52c:e112:4b0c with SMTP id
- 2adb3069b0e04-52fc403db38mr424417e87.9.1721669960820; 
- Mon, 22 Jul 2024 10:39:20 -0700 (PDT)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
- [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7a3c8bebe5sm444196866b.119.2024.07.22.10.39.19
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jul 2024 10:39:20 -0700 (PDT)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5a18a5dbb23so1104a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 10:39:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXijKHYkvx745/G2MilMh8dQYrbWns5VfrZ9O/5nKRSFHhwIL5aVmFy2GhMbtIKQzLs+7gEBhBkjz39Gr1XmsTCW1yVpHxeM9opI9c9TkLX
-X-Received: by 2002:a05:6402:2547:b0:57c:c5e2:2c37 with SMTP id
- 4fb4d7f45d1cf-5a4a842853dmr284928a12.3.1721669958715; Mon, 22 Jul 2024
- 10:39:18 -0700 (PDT)
+ AJvYcCUA5pSs1b/YRelOvjyVILTWrtZtHZXicWRVRUZePV4XeocJjXVDB4rMF5bkr3AYxfzCvH2kCpBDFeS7DByT/Md47keeSosxkSsJUE6zj2+d
+X-Gm-Message-State: AOJu0YyN4j6l79xRnnSk3sMvF4wODdIeAMTrSZyjkACiU0BnXQBC677r
+ z1/v6q41kd5UGhX8c+plTciI27v7ZdN4SyrwpMhcoFdybYSmiGz4SXDR7v1cpB+mz0qm/lq8Rrc
+ qj3oOSuKwZfsTZgq6XI0oeDSCDdTiEMTwWGE=
+X-Google-Smtp-Source: AGHT+IEl8zQov63qHRZlZmLKjP+SxF+AuxkB9AjZcfeGtwHxHIcLoa1XC0lM9boUyhzudCkZuPPMVUrlf0ByNKNURws=
+X-Received: by 2002:a05:6402:2747:b0:59e:9fb1:a0dc with SMTP id
+ 4fb4d7f45d1cf-5a456a628aemr396556a12.6.1721671584394; Mon, 22 Jul 2024
+ 11:06:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240722092428.24499-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240722092428.24499-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-In-Reply-To: <20240722092428.24499-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 22 Jul 2024 10:39:05 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VZ8SuBnPjSTLeCjPUnzFxgTkxUb+BC5+nKs9ECiy3zsw@mail.gmail.com>
-Message-ID: <CAD=FV=VZ8SuBnPjSTLeCjPUnzFxgTkxUb+BC5+nKs9ECiy3zsw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/panel: boe-th101mb31ig002 : using
- drm_connector_helper_get_modes_fixed()
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- hsinyi@google.com, awarnecke002@hotmail.com, dmitry.baryshkov@linaro.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
+References: <20240720071606.27930-6-yunfei.dong@mediatek.com>
+ <2f5e5e81-21e1-421d-94ac-e4507b323680@web.de>
+In-Reply-To: <2f5e5e81-21e1-421d-94ac-e4507b323680@web.de>
+From: John Stultz <jstultz@google.com>
+Date: Mon, 22 Jul 2024 11:06:12 -0700
+Message-ID: <CANDhNCqzme0q7vey1jc84T0HJPiOSQF2fkyBfBLntdiyafEzYA@mail.gmail.com>
+Subject: Re: [PATCH v7 05/28] dma-heap: Add proper kref handling on dma-buf
+ heaps
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: "T. J. Mercier" <tjmercier@google.com>, Yong Wu <yong.wu@mediatek.com>, 
+ Yunfei Dong <yunfei.dong@mediatek.com>, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Jeffrey Kardatzke <jkardatzke@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nathan Hebert <nhebert@chromium.org>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Tomasz Figa <tfiga@chromium.org>, 
+ LKML <linux-kernel@vger.kernel.org>, Brian Starkey <Brian.Starkey@arm.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?B?RnJpdHogS8O2bmln?= <frkoenig@chromium.org>, 
+ Hsin-yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ Steve Cho <stevecho@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,48 +103,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, Jul 22, 2024 at 2:24=E2=80=AFAM Zhaoxiong Lv
-<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+On Sat, Jul 20, 2024 at 8:13=E2=80=AFAM Markus Elfring <Markus.Elfring@web.=
+de> wrote:
 >
-> @@ -313,29 +314,15 @@ static int boe_th101mb31ig002_get_modes(struct drm_=
-panel *panel,
->                                                       struct boe_th101mb3=
-1ig002,
->                                                       panel);
->         const struct drm_display_mode *desc_mode =3D ctx->desc->modes;
-> -       struct drm_display_mode *mode;
-> -
-> -       mode =3D drm_mode_duplicate(connector->dev, desc_mode);
-> -       if (!mode) {
-> -               dev_err(panel->dev, "Failed to add mode %ux%u@%u\n",
-> -                       desc_mode->hdisplay, desc_mode->vdisplay,
-> -                       drm_mode_vrefresh(desc_mode));
-> -               return -ENOMEM;
-> -       }
-> -
-> -       drm_mode_set_name(mode);
+> =E2=80=A6
+> > +++ b/drivers/dma-buf/dma-heap.c
+> =E2=80=A6
+> > +static void dma_heap_release(struct kref *ref)
+> > +{
+> =E2=80=A6
+> > +     mutex_lock(&heap_list_lock);
+> > +     list_del(&heap->list);
+> > +     mutex_unlock(&heap_list_lock);
+> =E2=80=A6
 >
->         connector->display_info.bpc =3D 8;
-> -       connector->display_info.width_mm =3D mode->width_mm;
-> -       connector->display_info.height_mm =3D mode->height_mm;
-> -
->         /*
->          * TODO: Remove once all drm drivers call
->          * drm_connector_set_orientation_from_panel()
->          */
->         drm_connector_set_panel_orientation(connector, ctx->orientation);
->
-> -       drm_mode_probed_add(connector, mode);
-> +       drm_connector_helper_get_modes_fixed(connector, desc_mode);
->
->         return 1;
+> Under which circumstances would you become interested to apply a statemen=
+t
+> like =E2=80=9Cguard(mutex)(&heap_list_lock);=E2=80=9D?
+> https://elixir.bootlin.com/linux/v6.10/source/include/linux/mutex.h#L196
 
-Don't always return 1. This should be:
+This strikes me as a strange place to apply it, as it seems like it
+would grow the lock hold time to the entire scope of the function
+unless one created a subscope for just the list_del, at which point
+you're not saving much or really improving readability.  I definitely
+think guard usage is very interesting in places where locks are
+released in multiple exit paths, etc. but this is a very trivial and
+straightforward lock/unlock usage, so I fret I don't quite understand
+the suggestion.
 
-return drm_connector_helper_get_modes_fixed(connector, desc_mode);
-
-...so if it fails to add a mode then you'll return 0.
-
--Doug
+thanks
+-john
