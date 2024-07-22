@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316EB9393C5
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 20:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300BC9393C6
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 20:43:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3755810E0EF;
-	Mon, 22 Jul 2024 18:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C77A10E283;
+	Mon, 22 Jul 2024 18:43:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="ZAO/9QzM";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="gbZfvNPk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78C0710E272
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 18:43:24 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id
- 46e09a7af769-7035c367c4cso2545766a34.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 11:43:24 -0700 (PDT)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81F1F10E081
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 18:43:25 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id
+ af79cd13be357-7a1a6af9401so169804285a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 11:43:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1721673803; x=1722278603;
+ d=broadcom.com; s=google; t=1721673804; x=1722278604;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LfSvAb06oqKelT4dZ1Tzhrs0Aj85QwCtxm1RWqjCJao=;
- b=ZAO/9QzMtfWdCI8ejruFwfVxH5+YF5cGzXi6BMS6DinOo+NivQ//EMBBs4qo+i+9p0
- 0IbySzLUEh4DcXjhQwdlqkNUV/Sp9SVp+e095j5Mtb42QpxeMJG1DnTeNNUcx+5B0pjn
- jwQ6SV42PB4fRwHbDoCEyrVpXUCfQhMhHxDu4=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D1Q+WtxgLGLDV4vft3U4bEIvX489UvKjK9odMCfURBQ=;
+ b=gbZfvNPk53AWae9Qb6x2VDvrpxVBIE5To+JQOxvqXco8+igYpm+7pzdIvw48LZNyM6
+ o3zLkFvQWDs/75PLUHJ0QCqT3Su3V5wYNLSkSPHvZ8EWfgAc7uA7OIwEm5VmWYvVbtdb
+ NnjpCyhcaOf5BHVajw/Fm0un7VaWNl1N8J2/g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721673803; x=1722278603;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LfSvAb06oqKelT4dZ1Tzhrs0Aj85QwCtxm1RWqjCJao=;
- b=JpZUeuKby86eW3G7MWqMj1xit4c0JnxFWOnvOw8q0TaNcGgrIhC861lU3xCGFKYzMP
- yoZtkJGmBo1nw9l4aH2Wt+Jbz2AZn43iLFyTgWTMtRxzh3OjIO/ZFUFSFnav96ouY3/L
- CTzFwUS6VT/Ui14Xp+rLvb78qOJqKFhssQjO2addB4lxaze9S54povI195IO0nzbugav
- bEPJIpYGX83jOUTsT1QBa39MoLB8LjZDwCM9fgf7AWqh2kEx8SuU/UzbiiXUwlR497ZI
- QWk4CRUZ3Cx1COWimLhXohbzY7mDS2amqExEum+5l0hkw6cUdDD/bejyDr851YCQj6Rh
- fvRA==
-X-Gm-Message-State: AOJu0YyfBo8U+8L5rfvuhM1X9g8RdF8F3SoDhmaYZz7jGyss5PF/YrIj
- kZcn080ORFACkJFhqUU2uenOW8cr691TwgImZjPHhfASsLlYmrAxlcBfVlPmUTLQbia3u6oh5e/
- 2rzjXQUD48F56sroNSGwCp/2Hiu0ttzR8bbxMVkqDjkttMwp5VKqmpbu0rT0vHd/JoYr3iT7nIm
- q9iocYDQhoACZ+If5fg29gJ7CFxQHilGg6q4RMT46+DMSX26rVFg==
-X-Google-Smtp-Source: AGHT+IHICo7kMIG/1R5KBMcSJqF7A4M7bG9P8qG2eO8s43RF8bpCD0VWFtoE8murT6nv7VT+89n4dg==
-X-Received: by 2002:a05:6830:6d17:b0:708:7dbe:61f6 with SMTP id
- 46e09a7af769-709009ddfb6mr11312290a34.29.1721673803305; 
- Mon, 22 Jul 2024 11:43:23 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1721673804; x=1722278604;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=D1Q+WtxgLGLDV4vft3U4bEIvX489UvKjK9odMCfURBQ=;
+ b=nxfE9DNIaTzkh2MD+csBsuGZ39Sho/geh4zKRhL7bI24LH3DZe1FKEiEtqZW4gAExO
+ tflvfgL4Ql2VQEHFmFmZh+g8H2XjBPHPKS4YyxvhS4r31Mpdx6hN0OIMxWs/xoVSjsB/
+ vg0/x3DdE2F/PiqJNityaWowhh0WN8OkB8olJHMJN1dyEKmD+7Ugv/O2BGh5dM1NkfI8
+ pNg6XjAFBujXriOSbVCimz74wUE/kbA5ub3HZBdqRPiEDzJjPiz2OB1w5Tjg+QavTr6k
+ rlgz3b3jSOWUWDMHLY7wNkvBNxuMB+qUKEkD7VFRfG+2vg9B4MLcadqWuDbmFdu7eq9t
+ jEPg==
+X-Gm-Message-State: AOJu0YwA8kGBrJufY126QXc302M3a52gcj88clBntPJtX1LfSBzdDCMV
+ O4AsUhMaiGJMWF5t67KcWN9+xJcA1wzrWjsFJid0WSYQb1JbkR2kFfzp0XHdIuemwuhfbpKqjq1
+ p+RbCOHrmRHCaxc/ob6DMfkdQHvOjzpll3irmRuttn0gmvDmv9OqUGxnnXdaVoKRT/TxyWhwdSS
+ pij6PLAqCC3ZEXRe0hO3NwdwpIFexlOIq8uEmQkX7xG3+tNOAOfQ==
+X-Google-Smtp-Source: AGHT+IFF/GbzZPq76eDZtucxkmDivWerAfkitA5HZ2DK3idQSjKvXTXA7UuPHqhVfUTIICxlmpmRTQ==
+X-Received: by 2002:a05:6214:5093:b0:6b7:6544:c004 with SMTP id
+ 6a1803df08f44-6b96106e06emr110345866d6.1.1721673804048; 
+ Mon, 22 Jul 2024 11:43:24 -0700 (PDT)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net.
  [173.49.113.140]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b7acafdb01sm38261466d6.129.2024.07.22.11.43.22
+ 6a1803df08f44-6b7acafdb01sm38261466d6.129.2024.07.22.11.43.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 22 Jul 2024 11:43:23 -0700 (PDT)
 From: Zack Rusin <zack.rusin@broadcom.com>
@@ -58,11 +59,13 @@ To: dri-devel@lists.freedesktop.org
 Cc: Broadcom internal kernel review list
  <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
  martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Zack Rusin <zack.rusin@broadcom.com>
-Subject: [PATCH v5 0/4] Fix various buffer mapping/import issues
-Date: Mon, 22 Jul 2024 14:41:12 -0400
-Message-ID: <20240722184313.181318-1-zack.rusin@broadcom.com>
+ Zack Rusin <zack.rusin@broadcom.com>, stable@vger.kernel.org
+Subject: [PATCH v5 1/4] drm/vmwgfx: Fix a deadlock in dma buf fence polling
+Date: Mon, 22 Jul 2024 14:41:13 -0400
+Message-ID: <20240722184313.181318-2-zack.rusin@broadcom.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240722184313.181318-1-zack.rusin@broadcom.com>
+References: <20240722184313.181318-1-zack.rusin@broadcom.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,53 +83,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This small series fixes all known prime/dumb_buffer/buffer dirty
-tracking issues. Fixing of dumb-buffers turned out to be a lot more
-complex than I wanted it to be. There's not much that can be done
-there because the driver has to support old userspace (our Xorg driver
-expects those to not be gem buffers and special cases a bunch of
-functionality) and new userspace (which expects the handles to be
-gem buffers, at least to issue GEM_CLOSE).
+Introduce a version of the fence ops that on release doesn't remove
+the fence from the pending list, and thus doesn't require a lock to
+fix poll->fence wait->fence unref deadlocks.
 
-The third patch deals with it by making the objects returned from
-dumb-buffers both (raw buffers and surfaces referenced by the same
-handle), which always works and doesn't require any changes in userspace.
+vmwgfx overwrites the wait callback to iterate over the list of all
+fences and update their status, to do that it holds a lock to prevent
+the list modifcations from other threads. The fence destroy callback
+both deletes the fence and removes it from the list of pending
+fences, for which it holds a lock.
 
-This fixes the known KDE (KWin's) buffer rendering issues.
+dma buf polling cb unrefs a fence after it's been signaled: so the poll
+calls the wait, which signals the fences, which are being destroyed.
+The destruction tries to acquire the lock on the pending fences list
+which it can never get because it's held by the wait from which it
+was called.
 
-v2: Fix compute_crc in the second patch, as spotted by Martin
-v3: Simplify the first change which fixes the deadlock in the dma-buf
-fence polling
-v4: Fix mouse cursor races due to buffer mapping not being reserved in
-the third patch
-v5: Use map.virtual to check whether an user buffer is mapped instead
-of map.bo. There's no change in functionality but we do use map.virtual
-to check whether a buffer has been mapped elsewhere so usage of it
-is more consistent. Spotted by Ian.
+Old bug, but not a lot of userspace apps were using dma-buf polling
+interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
 
-Zack Rusin (4):
-  drm/vmwgfx: Fix a deadlock in dma buf fence polling
-  drm/vmwgfx: Make sure the screen surface is ref counted
-  drm/vmwgfx: Fix handling of dumb buffers
-  drm/vmwgfx: Add basic support for external buffers
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.2+
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
- drivers/gpu/drm/vmwgfx/vmw_surface_cache.h |  10 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         | 127 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.h         |  15 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  40 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c      |  17 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_gem.c        |  62 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 502 +++++++++------------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h        |  17 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c        |  14 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_prime.c      |  32 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c   |  27 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  33 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       | 145 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c    | 280 +++++++++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c       |  40 +-
- 15 files changed, 827 insertions(+), 534 deletions(-)
-
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+index 5efc6a766f64..588d50ababf6 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -32,7 +32,6 @@
+ #define VMW_FENCE_WRAP (1 << 31)
+ 
+ struct vmw_fence_manager {
+-	int num_fence_objects;
+ 	struct vmw_private *dev_priv;
+ 	spinlock_t lock;
+ 	struct list_head fence_list;
+@@ -124,13 +123,13 @@ static void vmw_fence_obj_destroy(struct dma_fence *f)
+ {
+ 	struct vmw_fence_obj *fence =
+ 		container_of(f, struct vmw_fence_obj, base);
+-
+ 	struct vmw_fence_manager *fman = fman_from_fence(fence);
+ 
+-	spin_lock(&fman->lock);
+-	list_del_init(&fence->head);
+-	--fman->num_fence_objects;
+-	spin_unlock(&fman->lock);
++	if (!list_empty(&fence->head)) {
++		spin_lock(&fman->lock);
++		list_del_init(&fence->head);
++		spin_unlock(&fman->lock);
++	}
+ 	fence->destroy(fence);
+ }
+ 
+@@ -257,7 +256,6 @@ static const struct dma_fence_ops vmw_fence_ops = {
+ 	.release = vmw_fence_obj_destroy,
+ };
+ 
+-
+ /*
+  * Execute signal actions on fences recently signaled.
+  * This is done from a workqueue so we don't have to execute
+@@ -355,7 +353,6 @@ static int vmw_fence_obj_init(struct vmw_fence_manager *fman,
+ 		goto out_unlock;
+ 	}
+ 	list_add_tail(&fence->head, &fman->fence_list);
+-	++fman->num_fence_objects;
+ 
+ out_unlock:
+ 	spin_unlock(&fman->lock);
+@@ -403,7 +400,7 @@ static bool vmw_fence_goal_new_locked(struct vmw_fence_manager *fman,
+ 				      u32 passed_seqno)
+ {
+ 	u32 goal_seqno;
+-	struct vmw_fence_obj *fence;
++	struct vmw_fence_obj *fence, *next_fence;
+ 
+ 	if (likely(!fman->seqno_valid))
+ 		return false;
+@@ -413,7 +410,7 @@ static bool vmw_fence_goal_new_locked(struct vmw_fence_manager *fman,
+ 		return false;
+ 
+ 	fman->seqno_valid = false;
+-	list_for_each_entry(fence, &fman->fence_list, head) {
++	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
+ 		if (!list_empty(&fence->seq_passed_actions)) {
+ 			fman->seqno_valid = true;
+ 			vmw_fence_goal_write(fman->dev_priv,
 -- 
 2.43.0
 
