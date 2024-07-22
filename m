@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63CE939506
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 23:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39600939514
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 23:07:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A052F10E19B;
-	Mon, 22 Jul 2024 21:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D397010E310;
+	Mon, 22 Jul 2024 21:07:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m46XLCYz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Eaguog1t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F0310E19B;
- Mon, 22 Jul 2024 21:01:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7BABFCE0BAF;
- Mon, 22 Jul 2024 21:01:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDFC9C116B1;
- Mon, 22 Jul 2024 21:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721682080;
- bh=NI8ymRZG9MIZcjZLm0vLtyw9OIJl09V8sxhdYuvkmX0=;
- h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
- b=m46XLCYzv/rEmFZN0f9j/3LmXum6eaxczRus3erHpJAsAyUYcTV22/mdSqbfGNLfH
- 25PvVKieSrt9g50zmCrh7B8If6aEEbAs7/W8wH/K8WYZFeUQnosyKypbX5/h/eWCO/
- CAjiut/9UrOJhaHKFspkurwHX15qzsJJrWSEFiuk5xDEil/VKqygt22CpE6Deqk3Pt
- FGahHLhyYBxOPktoY+ihPIUfirWMAD/buN6sTzwlVW/otQB0SRTbWsospFHkVLJIby
- y3Ztqdj5/X+N4MOcq8QyVRj+Prt967M18NxS/vbnwZBmtZLIIJtbozi1Pmu/UMjed+
- Ocw86yA6E5UoQ==
-Message-ID: <260f84d6-17dd-471a-a0c2-f21542da9ae2@kernel.org>
-Date: Mon, 22 Jul 2024 23:01:17 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B78DC10E31A;
+ Mon, 22 Jul 2024 21:07:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1721682420; x=1753218420;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=cLNPe9dx4bBLrxya/4PwK4euVFfE/6NBva4Wj7GDAqc=;
+ b=Eaguog1tN7fl8n/EN58cvKRU/ESB6g6O4wDZfuVv3wBpsiK1RPCoDciO
+ U2E13vrLAsy65ZuaUCf94B/TUrJxIXYmLOaumLexMwAKViHgfkLgiDVjj
+ z578V4aQAXJ8EPctc41TKsPwiAAk/4CEFuNOjeEtnTt+pwLtsGJuf7w80
+ +GzbyKVbkL/WWlB7nfRE1g8LgQUbjK61ORKBClcUXEViqPRyD4YYg+Qte
+ tgJhiaxevUP96CBgVqTbsRVmkfQ58HfH2cFXBaPISTFETor4WPsY9mMK6
+ GijY4Cm8BQ8WLF6TXBKDWacX9JVCueuE7d70MY0yPwErHjyBFw0KNmkEZ Q==;
+X-CSE-ConnectionGUID: NpCj4XCuQw280wCYp03KoA==
+X-CSE-MsgGUID: utcUgPHVRD2YUPf1mhdHKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="30428287"
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="30428287"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2024 14:07:00 -0700
+X-CSE-ConnectionGUID: ZHmecsDgS3euI2nR5IUSvg==
+X-CSE-MsgGUID: OAAxfdpqQkmvkBkUg97pwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="51653263"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2024 14:06:59 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	linux-perf-users@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [PATCH 0/7] Fix i915 pmu on bind/unbind
+Date: Mon, 22 Jul 2024 14:06:41 -0700
+Message-ID: <20240722210648.80892-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] Nouveau fixes for TTM refcount rework
-To: Ben Skeggs <bskeggs@nvidia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20240718165959.3983-1-dakr@kernel.org>
- <eeceb079-2397-447a-9217-64ba01e21b0f@nvidia.com>
-Content-Language: en-US
-Cc: dri-devel@lists.freedesktop.org,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>
-From: Danilo Krummrich <dakr@kernel.org>
-In-Reply-To: <eeceb079-2397-447a-9217-64ba01e21b0f@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,52 +69,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/18/24 7:53 AM, Ben Skeggs wrote:
-> On 19/7/24 02:58, Danilo Krummrich wrote:
-> 
->> Hi Christian,
->>
->> Those three patches should unblock your series to use GEM references instead of
->> TTM ones.
->>
->> @Lyude, Dave: Can you please double check?
-> 
-> Hi Danilo,
-> 
-> These look fine to me, and appear to resolve the issues I see with just the refcount series applied.
-> 
-> Ben.
-> 
-> 
-> Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
+This is intended to fix the pmu integration in i915 when the device
+unbinds. I don't have the hardware to test, but I belive a similar issue
+occurs with any driver using perf_pmu_unregister() if they can unbind
+from the device - in drm subsystem, that would be the amd driver.
 
-Thanks for reviewing!
+Previous attempts I could find:
+1) https://lore.kernel.org/lkml/20240115170120.662220-1-tvrtko.ursulin@linux.intel.com/
+2) https://lore.kernel.org/all/20240213180302.47266-1-umesh.nerlige.ramappa@intel.com/
 
-@Christian, I applied the series to drm-misc-next for you to go ahead and
-cherry-picked the bug fix to drm-misc-fixes.
+I think (2) is a no-go as it tries to do everything from the i915 side
+by force-closing the fd.
 
-- Danilo
+I believe this series is simpler* than (1), but that could could also be
+a good alternative if we want to go with that approach.
 
-> 
->>
->> - Danilo
->>
->> Danilo Krummrich (3):
->>    drm/nouveau: prime: fix refcount underflow
->>    drm/nouveau: bo: remove unused functions
->>    drm/nouveau: use GEM references instead of TTMs
->>
->>   drivers/gpu/drm/nouveau/dispnv04/crtc.c | 43 +++++++++++++++------
->>   drivers/gpu/drm/nouveau/dispnv50/disp.c |  4 +-
->>   drivers/gpu/drm/nouveau/nouveau_bo.h    | 50 ++-----------------------
->>   drivers/gpu/drm/nouveau/nouveau_chan.c  |  2 +-
->>   drivers/gpu/drm/nouveau/nouveau_dmem.c  |  4 +-
->>   drivers/gpu/drm/nouveau/nouveau_prime.c |  3 +-
->>   drivers/gpu/drm/nouveau/nv10_fence.c    |  2 +-
->>   drivers/gpu/drm/nouveau/nv17_fence.c    |  2 +-
->>   drivers/gpu/drm/nouveau/nv50_fence.c    |  2 +-
->>   drivers/gpu/drm/nouveau/nv84_fence.c    |  4 +-
->>   10 files changed, 46 insertions(+), 70 deletions(-)
->>
->>
->> base-commit: 99e0fb8b087120b5a7019f1cff6c5c2b5b925ae5
+First patch is to perf. The rest is to i915 that builds on that and
+moves the unregister bit by bit to be done later, after the last
+reference to i915 is dropped.  Peter/Ingo, could I get your opinion on
+this or if (1) would be a good alternative? Thanks.
+
+* simpler, but see downside mentioned in patch 6
+
+Lucas De Marchi (7):
+  perf/core: Add pmu get/put
+  drm/i915/pmu: Fix crash due to use-after-free
+  drm/i915/pmu: Use event_to_pmu()
+  drm/i915/pmu: Drop is_igp()
+  drm/i915/pmu: Let resource survive unbind
+  drm/i915/pmu: Lazy unregister
+  drm/i915/pmu: Do not set event_init to NULL
+
+ drivers/gpu/drm/i915/i915_pmu.c | 103 ++++++++++++++++----------------
+ include/linux/perf_event.h      |   3 +
+ kernel/events/core.c            |  32 ++++++++--
+ 3 files changed, 81 insertions(+), 57 deletions(-)
+
+-- 
+2.43.0
+
