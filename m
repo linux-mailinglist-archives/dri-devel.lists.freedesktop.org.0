@@ -2,79 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800EA939284
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 18:28:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D134939298
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 18:34:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCB2810E1BB;
-	Mon, 22 Jul 2024 16:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9292010E1C4;
+	Mon, 22 Jul 2024 16:33:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RyD52UR6";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="D0QagGet";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA9AE10E1BB;
- Mon, 22 Jul 2024 16:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721665726; x=1753201726;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=O6PV0z1EQeDCS7838sXriVwFRCvZQyidYdmAWxD6its=;
- b=RyD52UR66Vl2OoG1sGDMvoUc1srtB26z+BWXNRgsl8IoXpayxK5aWx/u
- /PcknlmyKQK7MPMBNdH9hy/tacTiYUctjUD9zSpjNCALxrK2ctBlz7+TP
- n9B9uE6K/H3EMPPnl6u6t4ZTd6LOLtlDFJ9r+L1Z9U8LN2ohin9Nean8I
- ILaIVZ/blsIOKgljwBEnvZdtR5641mwhLvJuSCUWfGFVf4Shu5Rc4uEH4
- 20AtLyGIS5s8DaOntCYHm1uwwlgt3VxE9uxSZWE26fhrnvGaCBBJKEEng
- 2LwopIVH+olUYbGx23gjFwhc4hGg4iyyUSrYJS9KG/nCGLHWfH8PCV3w7 Q==;
-X-CSE-ConnectionGUID: JUowsOtaQNG7oPISsUrAlQ==
-X-CSE-MsgGUID: /l9MD98hQgKDRe1i9lEXNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="18864847"
-X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; d="scan'208";a="18864847"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2024 09:27:48 -0700
-X-CSE-ConnectionGUID: Tr6MVFI8SpWBPVLz0HFYVg==
-X-CSE-MsgGUID: VKKt6ttPR/STmKV9N+0CoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; d="scan'208";a="56765396"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.28])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2024 09:27:42 -0700
-Date: Mon, 22 Jul 2024 18:27:37 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>, 
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL GVT-g DRIVERS (Intel GPU Virtualization)"
- <intel-gvt-dev@lists.freedesktop.org>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- Zhi Wang <zhiwang@kernel.org>
-Subject: Re: [PATCH v4 3/6] drm/i915: Make I2C terminology more inclusive
-Message-ID: <Zp6IeYDbdCSeFmo9@ashyti-mobl2.lan>
-References: <20240711052734.1273652-1-eahariha@linux.microsoft.com>
- <20240711052734.1273652-4-eahariha@linux.microsoft.com>
- <Zp5Vq9JoYC_OrA2C@ashyti-mobl2.lan>
- <24fa9e9b-81a8-4bbe-8d13-4d559ee76a96@linux.microsoft.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEA8610E1C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 16:33:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1721666036;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FsMiBIkevMqXBW2DcNPEnH7DY2ezXcbrlK8J00Zf6Qo=;
+ b=D0QagGetdgFC6NGHb3Cr1nFLpyAAxBsUDcs2dRPyHgJvOt4x9yLL8UH2TNQ12TpmhnaLkk
+ B4Jh8cL+WIcXds+rdvPsziyAP0JUgqeUxuq9c2m7jUi2KpIUh0Nqo6pinkF27rrt9Rm27F
+ aUCgMO/4X8j5aFA/QalSd3Y21lxc6us=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-20-rLvhzkdQPc6sXHsYwIfY4A-1; Mon, 22 Jul 2024 12:33:52 -0400
+X-MC-Unique: rLvhzkdQPc6sXHsYwIfY4A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-427d9e61ba8so21859935e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 09:33:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721666031; x=1722270831;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FsMiBIkevMqXBW2DcNPEnH7DY2ezXcbrlK8J00Zf6Qo=;
+ b=b4ocZuhAJ2SxHk0QcC1LCHj0EXoaTDhmqDnNCIZ8cfaNL5LrnngNgwNnERy4y6onTL
+ zPq8Hll/kxyqy4KrJy0VPTYlkPyEKjyNNN2NZMlJUJIF0LynGYFZqfyzDyF7cbq2WxQf
+ axh6G1P+q8xa9f5KNmXGWgtx3dCRl1ZPXDFS1GA/1ky84FZBpupTDDNkyUWAoHUT9aaY
+ RraNnrSAvxMKaxZ+XPHsty7GvpqbK7h7/pPz8YClhGO2U2MHwTQKEv020dxWsqSzhWhm
+ 9qMJlqXaRGlEWczqeauXxawWzkJ0+tLwJJqP4SAcVzKMPZkfHgA01ywVaARhH1D8kevf
+ xVjw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXJHTciT9Gox9ePT6TVTVt/VtchpVkVtmKWZvVGYpCyWJkXpBB2hbO4GAiWqSEMyKXuaAfuJhYKx4ci+1w58Ta97Smu8oQmop9pQr6k0OCd
+X-Gm-Message-State: AOJu0Yz6x7Xu6Klk5oBzecJafuN79iWcA0O79zJ+f6wzlTl+w3AyX212
+ tJSwsg94aY7fjL7gzTkeVFu99OsJOeHw9Uw9zd5JOuYB7WH4/E7yEYLswSnL0pC13fXxUSHTNcC
+ 434tgzB7YKgQVOVFk5n0Dsd9n7k4GBrzYKUcFAmal7L8lhUYC+4b7/r8jr4Foq1sGJQ==
+X-Received: by 2002:a05:600c:5249:b0:426:6710:223c with SMTP id
+ 5b1f17b1804b1-427ecfdfbfdmr3456075e9.9.1721666031478; 
+ Mon, 22 Jul 2024 09:33:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhKPZMMgKyz4fSPYvf9iTPhG7gauOPL0vg5XbFth0P+eIWasAnvRYSb0MhB0GEllFAUXFdAQ==
+X-Received: by 2002:a05:600c:5249:b0:426:6710:223c with SMTP id
+ 5b1f17b1804b1-427ecfdfbfdmr3455885e9.9.1721666031086; 
+ Mon, 22 Jul 2024 09:33:51 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:d3ea:62cf:3052:fac6?
+ ([2a01:e0a:d5:a000:d3ea:62cf:3052:fac6])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-427d2a8e42bsm164383095e9.30.2024.07.22.09.33.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Jul 2024 09:33:50 -0700 (PDT)
+Message-ID: <d7b13cc3-d7b7-4cf2-b08a-4228efe04f53@redhat.com>
+Date: Mon, 22 Jul 2024 18:33:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <24fa9e9b-81a8-4bbe-8d13-4d559ee76a96@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mtd: mtdoops: Fix kmsgdump parameter renaming.
+To: Richard Weinberger <richard@nod.at>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-mtd <linux-mtd@lists.infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Knop Ryszard <ryszard.knop@intel.com>
+References: <20240719152542.1554440-1-jfalempe@redhat.com>
+ <1868573045.102281.1721661681881.JavaMail.zimbra@nod.at>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <1868573045.102281.1721661681881.JavaMail.zimbra@nod.at>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,44 +103,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Easwar,
 
-On Mon, Jul 22, 2024 at 09:15:08AM -0700, Easwar Hariharan wrote:
-> On 7/22/2024 5:50 AM, Andi Shyti wrote:
-> > Hi Easwar,
-> > 
-> > merged to drm-intel-next. Thanks!
-> > 
-> > On Thu, Jul 11, 2024 at 05:27:31AM +0000, Easwar Hariharan wrote:
-> >> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
-> >> with more appropriate terms. Inspired by Wolfram's series to fix drivers/i2c/,
-> >> fix the terminology for users of I2C_ALGOBIT bitbanging interface, now that
-> >> the approved verbiage exists in the specification.
-> >>
-> >> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > 
-> > I realized after pushing that this had the tag:
-> > 
-> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > 
-> > Not a big deal, but it's still a minor mistake.
-> > 
-> > Andi
+
+On 22/07/2024 17:21, Richard Weinberger wrote:
+> ----- Ursprüngliche Mail -----
+>> Betreff: [PATCH] mtd: mtdoops: Fix kmsgdump parameter renaming.
 > 
-> Thank you for the merge, Andi! I'm missing what the mistake is, I added
-> the tags as I got them. Was I supposed to drop the R-B when Rodrigo gave
-> an A-B?
+>> When the kmsg_dumper callback parameter changed, the reason variable
+>> in mtdoops_do_dump() was not updated accordingly.
+>> This breaks the build with mtdoops.
+>>
+>> Fixes: e1a261ba599e ("printk: Add a short description string to kmsg_dump()")
+>> Reported-by: Knop Ryszard <ryszard.knop@intel.com>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> ---
+>>
+>> The offended commit is in the drm-misc tree, because it was needed
+>> by drm_panic. So I will push the fix there too.
+>>
+>> drivers/mtd/mtdoops.c | 4 ++--
+>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/mtd/mtdoops.c b/drivers/mtd/mtdoops.c
+>> index 86d49db9196d..7bf3777e1f13 100644
+>> --- a/drivers/mtd/mtdoops.c
+>> +++ b/drivers/mtd/mtdoops.c
+>> @@ -305,7 +305,7 @@ static void mtdoops_do_dump(struct kmsg_dumper *dumper,
+>> 	struct kmsg_dump_iter iter;
+>>
+>> 	/* Only dump oopses if dump_oops is set */
+>> -	if (reason == KMSG_DUMP_OOPS && !dump_oops)
+>> +	if (detail->reason == KMSG_DUMP_OOPS && !dump_oops)
+>> 		return;
+>>
+>> 	kmsg_dump_rewind(&iter);
+>> @@ -317,7 +317,7 @@ static void mtdoops_do_dump(struct kmsg_dumper *dumper,
+>> 			     record_size - sizeof(struct mtdoops_hdr), NULL);
+>> 	clear_bit(0, &cxt->oops_buf_busy);
+>>
+>> -	if (reason != KMSG_DUMP_OOPS) {
+>> +	if (detail->reason != KMSG_DUMP_OOPS) {
+> 
+> Acked-by: Richard Weinberger <richard@nod.at>
 
-Sorry, it's not yours, it's mine. I should have checked more
-carefully the tag section before pushing. You did everything
-right.
+I pushed it to drm-misc-next.
 
-The dim tool (drm maintianers tool) picked up all the tags added
-and I missed the double tag.
+Thanks a lot.
 
-This was more a message for Rodrigo, in case he wanted to fix it,
-but I guess no one will complain about.
+> 
+> Thanks,
+> //richard
+> 
 
-Thanks a lot for your work and effort!
-Andi
