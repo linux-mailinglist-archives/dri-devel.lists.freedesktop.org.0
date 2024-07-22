@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7248393951F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 23:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA3993952A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 23:07:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E559C10E327;
-	Mon, 22 Jul 2024 21:07:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91ECF10E340;
+	Mon, 22 Jul 2024 21:07:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mnubm4qa";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UaR8S93Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F39B310E321;
- Mon, 22 Jul 2024 21:07:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9113110E31A;
+ Mon, 22 Jul 2024 21:07:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1721682423; x=1753218423;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=s/KEULd10DAnPOptOFmXVIG1knuSR32VEkwPLEise+Y=;
- b=mnubm4qaev7rrk5ZAEY2jufgxGeWEqpBtk5bOHr8DMua1VcJAmM4hEQu
- ZyujjVesA9dq0DN96BqHaLUBn98uX++x3+Is3v9AsrAj+ZceVaoNt/f9h
- yuNWv5lNxvxAESjLjFFrbHvbGSvPeB8H8IGhxKWtO0dK1O6PnljwImKGf
- 2jzmGqgOMufAYON5t5wo5EUQhXZKuDODmLy6T/mUstEi+yeOqGLv9HHdE
- tuak7rG6rwMwdelAlv/RjgJr9Txe8+bPELSqPbjwtKyYnDGn2lMtx+Iwl
- Sk7YFcA1IcfspRwV4LA2GFluPjkztqCHbPVPpK3eD656K1S+Y8q+8+BV3 Q==;
-X-CSE-ConnectionGUID: yFwvr8Z8QfSeBiOcTOUCFA==
-X-CSE-MsgGUID: PRkanw/PTtuuEqmIBy6/rQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="30428316"
-X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="30428316"
+ bh=Vh8XVtwwL74Cr5WG/3P9Ea2rW9L1UOvjDhRm/Vay+hg=;
+ b=UaR8S93YSChAbUwLncz/pC/c346r+2SRP5UXe6krtIpfjhYmoTD4cXzN
+ pMSu/nPupzTU62wvSC5zyhOsJ7pruDUssxvkSIHZUd+iUrjrA8PST4mE6
+ hKjhYOc08QPsvTWnqG1efkPjzNk1RYdny2PQ4GDzwXzMaC5e2KxoQvMmm
+ E3ytN1Mio6OUeXRgFnCaS/QQvH/dltaWxiwlmO/8QL7M29B9mN/LcSUBA
+ L+Qp4b7sX/2xIX+AlW03YVR5jFpcR2mKFevRkifiKlr4Ye742opWyuccJ
+ aBu4Q7wsiSR0wLpz80XvRgaXhvkNf0VnLZG9QiSdf9MJSoCtY3XqBs4iI Q==;
+X-CSE-ConnectionGUID: QuOq4rzzRD2kgRjWeHBaSw==
+X-CSE-MsgGUID: +EJGCpilRR+WUrhi2r58qA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="30428321"
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="30428321"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2024 14:07:02 -0700
-X-CSE-ConnectionGUID: oco+0Mr7Qq21jwMdRCTvSg==
-X-CSE-MsgGUID: YFa/qX3XQcKBR01IvlORGg==
+ 22 Jul 2024 14:07:03 -0700
+X-CSE-ConnectionGUID: /I89/5+VSpmbbL3HpvLYMQ==
+X-CSE-MsgGUID: CZmWqJlhTa+pzStj3jB2Wg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="51653301"
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="51653307"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jul 2024 14:07:02 -0700
@@ -48,9 +48,9 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  dri-devel@lists.freedesktop.org, Peter Zijlstra <peterz@infradead.org>,
  Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
  linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH 5/7] drm/i915/pmu: Let resource survive unbind
-Date: Mon, 22 Jul 2024 14:06:46 -0700
-Message-ID: <20240722210648.80892-6-lucas.demarchi@intel.com>
+Subject: [PATCH 6/7] drm/i915/pmu: Lazy unregister
+Date: Mon, 22 Jul 2024 14:06:47 -0700
+Message-ID: <20240722210648.80892-7-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240722210648.80892-1-lucas.demarchi@intel.com>
 References: <20240722210648.80892-1-lucas.demarchi@intel.com>
@@ -71,67 +71,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no need to free the resources during unbind. Since perf events
-may still access them due to open events, it's safer to free them when
-dropping the last i915 reference.
+Instead of calling perf_pmu_unregister() when unbinding, defer that to
+the destruction of i915 object. Since perf itself holds a reference in
+the event, this only happens when all events are gone, which guarantees
+i915 is not unregistering the pmu with live events.
+
+Previously, running the following sequence would crash the system after
+~2 tries:
+
+	1) bind device to i915
+	2) wait events to show up on sysfs
+	3) start perf  stat -I 1000 -e i915/rcs0-busy/
+	4) unbind driver
+	5) kill perf
+
+Most of the time this crashes in perf_pmu_disable() while accessing the
+percpu pmu_disable_count. This happens because perf_pmu_unregister()
+destroys it with free_percpu(pmu->pmu_disable_count).
+
+With a lazy unbind, the pmu is only unregistered after (5) as opposed to
+after (4). The downside is that if a new bind operation is attempted for
+the same device/driver without killing the perf process, i915 will fail
+to register the pmu (but still load successfully). This seems better
+than completely crashing the system.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/i915_pmu.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/i915_pmu.c | 24 +++++++++---------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
-index b5d14dd318e4..8708f905f4f4 100644
+index 8708f905f4f4..df53a8fe53ec 100644
 --- a/drivers/gpu/drm/i915/i915_pmu.c
 +++ b/drivers/gpu/drm/i915/i915_pmu.c
-@@ -5,6 +5,7 @@
-  */
+@@ -1158,18 +1158,21 @@ static void free_pmu(struct drm_device *dev, void *res)
+ 	struct i915_pmu *pmu = res;
+ 	struct drm_i915_private *i915 = pmu_to_i915(pmu);
  
- #include <linux/pm_runtime.h>
-+#include <drm/drm_managed.h>
- 
- #include "gt/intel_engine.h"
- #include "gt/intel_engine_pm.h"
-@@ -1152,6 +1153,17 @@ static void free_event_attributes(struct i915_pmu *pmu)
- 	pmu->pmu_attr = NULL;
++	perf_pmu_unregister(&pmu->base);
+ 	free_event_attributes(pmu);
+ 	kfree(pmu->base.attr_groups);
+ 	if (IS_DGFX(i915))
+ 		kfree(pmu->name);
++
++	/*
++	 * Make sure all currently running (but shortcut on pmu->closed) are
++	 * gone before proceeding with free'ing the pmu object embedded in i915.
++	 */
++	synchronize_rcu();
  }
  
-+static void free_pmu(struct drm_device *dev, void *res)
-+{
-+	struct i915_pmu *pmu = res;
-+	struct drm_i915_private *i915 = pmu_to_i915(pmu);
-+
-+	free_event_attributes(pmu);
-+	kfree(pmu->base.attr_groups);
-+	if (IS_DGFX(i915))
-+		kfree(pmu->name);
-+}
-+
  static int i915_pmu_cpu_online(unsigned int cpu, struct hlist_node *node)
  {
- 	struct i915_pmu *pmu = hlist_entry_safe(node, typeof(*pmu), cpuhp.node);
-@@ -1302,6 +1314,9 @@ void i915_pmu_register(struct drm_i915_private *i915)
- 	if (ret)
- 		goto err_unreg;
- 
-+	if (drmm_add_action_or_reset(&i915->drm, free_pmu, pmu))
-+		goto err_unreg;
-+
- 	return;
- 
- err_unreg:
-@@ -1336,11 +1351,7 @@ void i915_pmu_unregister(struct drm_i915_private *i915)
- 	hrtimer_cancel(&pmu->timer);
- 
- 	i915_pmu_unregister_cpuhp_state(pmu);
+-	struct i915_pmu *pmu = hlist_entry_safe(node, typeof(*pmu), cpuhp.node);
 -
- 	perf_pmu_unregister(&pmu->base);
-+
+-	GEM_BUG_ON(!pmu->base.event_init);
+-
+ 	/* Select the first online CPU as a designated reader. */
+ 	if (cpumask_empty(&i915_pmu_cpumask))
+ 		cpumask_set_cpu(cpu, &i915_pmu_cpumask);
+@@ -1182,8 +1185,6 @@ static int i915_pmu_cpu_offline(unsigned int cpu, struct hlist_node *node)
+ 	struct i915_pmu *pmu = hlist_entry_safe(node, typeof(*pmu), cpuhp.node);
+ 	unsigned int target = i915_pmu_target_cpu;
+ 
+-	GEM_BUG_ON(!pmu->base.event_init);
+-
+ 	/*
+ 	 * Unregistering an instance generates a CPU offline event which we must
+ 	 * ignore to avoid incorrectly modifying the shared i915_pmu_cpumask.
+@@ -1337,21 +1338,14 @@ void i915_pmu_unregister(struct drm_i915_private *i915)
+ {
+ 	struct i915_pmu *pmu = &i915->pmu;
+ 
+-	if (!pmu->base.event_init)
+-		return;
+-
+ 	/*
+-	 * "Disconnect" the PMU callbacks - since all are atomic synchronize_rcu
+-	 * ensures all currently executing ones will have exited before we
+-	 * proceed with unregistration.
++	 * "Disconnect" the PMU callbacks - unregistering the pmu will be done
++	 * later when all currently open events are gone
+ 	 */
+ 	pmu->closed = true;
+-	synchronize_rcu();
+ 
+ 	hrtimer_cancel(&pmu->timer);
+-
+ 	i915_pmu_unregister_cpuhp_state(pmu);
+-	perf_pmu_unregister(&pmu->base);
+ 
  	pmu->base.event_init = NULL;
--	kfree(pmu->base.attr_groups);
--	if (IS_DGFX(i915))
--		kfree(pmu->name);
--	free_event_attributes(pmu);
  }
 -- 
 2.43.0
