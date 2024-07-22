@@ -2,50 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E029388FB
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 08:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D34938920
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 08:53:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A027F10E373;
-	Mon, 22 Jul 2024 06:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D264010E37D;
+	Mon, 22 Jul 2024 06:53:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="JaTA7zee";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="s2EhQBBA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CDCF10E373
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 06:37:41 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBB3F10E37D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 06:53:39 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a7a47e2179dso164788066b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2024 23:53:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1721631218; x=1722236018;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BsrM127hygYKA5jk1G0EVcptPCJlWj0AZyBnpIgIvho=;
+ b=s2EhQBBA9JGnayyVT9MV9lZqZXS0Tb+frDzPEbrF4ygfOQU4OMVhO8of19ch3lyR69
+ HUMFpTs2kDKx+8muUZ2DZXer1L3Yfooxb+xOdRMlsPRHAsBXD5sXEB3p3gNsbh5TuO13
+ mbh5wTCf3qzYik5FUK1/mIueX7yFaiYwVPPushV2th62J0py3gROECU2wFRgoj3b281L
+ kDR/fSpT3fOC1KKkSILLlYrL2nc0kzNVcNKSiFuyrMiCnY9qsdFN8CucaqVHndI0P1Wi
+ eNe3w9wYfcPF+E53E7j9c0wIspXqBaWqvksXU8ZPaIEpahmkMWwhmc/eF4tty6eEmb+/
+ dqFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721631218; x=1722236018;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BsrM127hygYKA5jk1G0EVcptPCJlWj0AZyBnpIgIvho=;
+ b=KuLz3A2gX2QoNiEGkLbFt6zsaRXc1gQsYaLCCuu2CNHPSqC9cp8/R/Ic1GLeAjfrKY
+ HyNWmp/xM9XLzVxU11uRZGEQwzv+p6Wkih91VTXW25UGOcmcqapml9122IovXJVttBx2
+ 9ZMwJtBUYEGKFwP3dwHTVPz0Mxfk0jqHVJK8naYnJ8XHUB9jf0mVFFYO/kEKsIvcfQRy
+ B4+iifpKB3OEWBwBgYvLJRpPKnyHJ9Vgckz917muduEuZYq0Lpv74Z9kQo+I+gRa4BP7
+ vZxaNh+YMx+rjnuGBj5MPUgC8uyjLxo9w6zVaKx6I7n4RBpM3GBVulqR2Gz0sKgVAzCw
+ 1opA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVh0N9BZpVP5BwYICJwBaBWq5+OSXt63deGac90dARvHE7/Q074fb8++zhDaeVKPSjW+Z8b+2oKTWf9Dj1js06NQQ74lv9YG+ISNqVSACVL
+X-Gm-Message-State: AOJu0YzqXkTGbfa+aGQfbaaYuvbaecr1Wmtko+jjOh7wye76Ytsm4RQR
+ E7JUcCSYq+ZtgbGZwNKbriU4d0g4utwyhHhlxw4s3nFde/A0FKuZ4BzyFIU2E0s=
+X-Google-Smtp-Source: AGHT+IH3U3WRnoemJHGFKrE09/s6jiFcFzPvzOfWrRW2m3vaQHFJvKOZl0vjwbNGOkeCjY76dXDxjA==
+X-Received: by 2002:a17:907:7d86:b0:a75:35d3:e917 with SMTP id
+ a640c23a62f3a-a7a4c010585mr381555766b.21.1721631217476; 
+ Sun, 21 Jul 2024 23:53:37 -0700 (PDT)
+Received: from [127.0.1.1] (158.22.5.93.rev.sfr.net. [93.5.22.158])
+ by smtp.googlemail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5a69c1f56a0sm1982126a12.64.2024.07.21.23.53.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 21 Jul 2024 23:53:37 -0700 (PDT)
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: [PATCH v7 00/16] Add audio support for the MediaTek Genio 350-evk
+ board
+Date: Mon, 22 Jul 2024 08:53:29 +0200
+Message-Id: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1721630259;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2X4G9phBgH8Lk9uVjmD3QFcV2wSgIIyVsCvsrmO1ghw=;
- b=JaTA7zeeVx9970mf1M4mWXUmDuKsVkDbenJ3dQ47aJdGLMe6Xf7Ek6TyVk5yHKdcDe99kq
- ogyCxxM8uFFjKf6318Mj1RtDTm5vdXpzOatgtmHbT9gBDlRBdWSwrYI3f6YU+8NHapxpvd
- uPZj9e5bWQTbyfWzOxO3u9QtSsrd1YXLddceWwkk3IifxEGqRtHmrmv545cO2OniV9G5uw
- OqeZdpOXk4Ho5nW8BoaGmgJwRPCEzOnr8EGs7KxJFttAtrsDjflS2N/h7/qcdCDuITpJI/
- ELj+T/tuCXyvU58UMSXhnPZff8WOAqXhuhgG97g0Xjh14LVUiknFYw8v/ru7Wg==
-Date: Mon, 22 Jul 2024 08:37:37 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Piotr Zalewski <pZ010001011111@proton.me>
-Cc: linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, andy.yan@rock-chips.com, heiko@sntech.de,
- hjc@rock-chips.com
-Subject: Re: [PATCH RESEND] rockchip/drm: vop2: add support for gamma LUT
-In-Reply-To: <ZVMxgcrtgHui9fJpnhbN6TSPhofHbbXElh241lImrzzTUl-8WejGpaR8CPzYhBgoqe_xj7N6En8Ny7Z-gsCr0kaFs7apwjYV1MBJJLmLHxs=@proton.me>
-References: <ZVMxgcrtgHui9fJpnhbN6TSPhofHbbXElh241lImrzzTUl-8WejGpaR8CPzYhBgoqe_xj7N6En8Ny7Z-gsCr0kaFs7apwjYV1MBJJLmLHxs=@proton.me>
-Message-ID: <d019761504b540600d9fc7a585d6f95f@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+X-B4-Tracking: v=1; b=H4sIAOkBnmYC/3XOTW7CMBAF4Ksgr2uwx7+w6j0qVI3tCbEECXIgA
+ qHcvU6WVbJ8I33vzYcNVDIN7LT7sEJjHnLf1eC+diy22F2I51QzAwFaAFiOz5R7npURXJOUCYX
+ 3ZAyrIOBAPBTsYjsTvFG5dPg4jHbveYnysNjfeCXsnvdZ3As1+bXM/5xrbvPw6Mt7+WaU83V1e
+ JS8rjcoI6G01jXfAd/XHArtY39jc9MI2xqqVkKrpL1KJNKKVttaVS1tCBCPTkdjVrTe1rpq4SE
+ ASG+TjivabGtTNTkCY4+p0V6uaLutbdWNM5qiRGeV/qenafoDdocqZg8CAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Nicolas Belin <nbelin@baylibre.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6557; i=amergnat@baylibre.com; 
+ h=from:subject:message-id;
+ bh=DNv4ZvpOlWpDysr5DKYpSpPIgYpHmJC889rcRBRLbU4=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmngHwuwh7qZXwmjfRanNAgIDu5pCRf+Ul4LZePbfm
+ 8dUzdaCJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZp4B8AAKCRArRkmdfjHURc+4EA
+ CSeLRrWoEwL/hb7EReC/RrFi6zoHoKx4fGN5zO+WUatY02PYIwyeDNaq3hsVFEveyZCPcHjkMxHid6
+ WfsYNbgu7XqOXh/gQOHTzmDWV1BtVfp0d/aQbqIUWeDrWnRVBPAs9oj2Ny2fE3RE/2+5I9UMpaNtQA
+ KpC9tKpfmRCaXQrwFZF+4DXyOw9FjjacQ4tX0r0b7eNJaeikAXVjMCwY4fmwrz/567bdN8PKvroI2m
+ jvNfbVLtgeMt7MLAkqeOReL3lV/X3UWMXebEiC7JHx/YOswBYG4vmgyWhJWYJbP3+VwTIe+qTbiau+
+ n5RMDRnSuTTOwJrFOktXSLCLgpAgV0CSgVjg4x2Y+r7W5iTy7Fzs0exv/UZrqvGlpH/SlM1v0lMnKh
+ DOd6wLYs0VkFnTSHgmfO/C6xziqUkWTt15EVFxh45M3qCIkkZzsWpoAYZzJ2o0kdgcefU6HHe3Tor8
+ giFMQg0CQaQu8usz+ht0EU5lLT0m0QWcMlR1dnCnjbdcyl2kGJGg1Ck/9q5oREGxqr9f4xViGWzU8V
+ qxJD7bj/Ju8zPmyiik34RV0/puZ6gJu+JY/wYzOi9pMdfjNmpM4u24eBLmhFgl1qOqwbpkx/OxcHt7
+ pbjFJibpzcjYJh9xZcB9dDfatqqdMJJ0XXGaCHY8f13aROFNahnoIQCO3v1A==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,259 +120,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Piotr,
+This serie aim to add the following audio support for the Genio 350-evk:
+- Playback
+  - 2ch Headset Jack (Earphone)
+  - 1ch Line-out Jack (Speaker)
+  - 8ch HDMI Tx
+- Capture
+  - 1ch DMIC (On-board Digital Microphone)
+  - 1ch AMIC (On-board Analogic Microphone)
+  - 1ch Headset Jack (External Analogic Microphone)
 
-Thanks for the patch.  Please see a few general comments below.
+Of course, HDMI playback need the MT8365 display patches [1] and a DTS
+change documented in "mediatek,mt8365-mt6357.yaml".
 
-On 2024-07-21 12:06, Piotr Zalewski wrote:
-> Add support for gamma LUT in VOP2 driver. The implementation is based 
-> on
-> the one found in VOP driver and modified to be compatible with VOP2. 
-> Blue
-> and red channels in gamma LUT register write were swapped with respect 
-> to
-> how gamma LUT values are written in VOP. Write of the current video 
-> port id
-> to VOP2_SYS_LUT_PORT_SEL register was added before the write of 
-> DSP_LUT_EN
-> bit. Gamma size is set and drm color management is enabled for each 
-> video
-> port's CRTC except ones which have no associated device. Tested on 
-> RK3566
-> (Pinetab2).
-> 
-> Signed-off-by: Piotr Zalewski <pZ010001011111@proton.me>
-> ---
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index 9873172e3fd3..16abdc4a59a8 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -278,6 +278,15 @@ static u32 vop2_readl(struct vop2 *vop2, u32 
-> offset)
->  	return val;
->  }
-> 
-> +static u32 vop2_vp_read(struct vop2_video_port *vp, u32 offset)
-> +{
-> +	u32 val;
-> +
-> +	regmap_read(vp->vop2->map, vp->data->offset + offset, &val);
-> +
-> +	return val;
-> +}
-> +
->  static void vop2_win_write(const struct vop2_win *win, unsigned int 
-> reg, u32 v)
->  {
->  	regmap_field_write(win->reg[reg], v);
-> @@ -1482,6 +1491,97 @@ static bool vop2_crtc_mode_fixup(struct drm_crtc 
-> *crtc,
->  	return true;
->  }
-> 
-> +static bool vop2_vp_dsp_lut_is_enabled(struct vop2_video_port *vp)
-> +{
-> +	return (u32) (vop2_vp_read(vp, RK3568_VP_DSP_CTRL) &
-> RK3568_VP_DSP_CTRL__DSP_LUT_EN) >
-> +	    0;
-> +}
-> +
-> +static void vop2_vp_dsp_lut_enable(struct vop2_video_port *vp)
-> +{
-> +	u32 dsp_ctrl = vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
-> +
-> +	dsp_ctrl |= RK3568_VP_DSP_CTRL__DSP_LUT_EN;
-> +	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
-> +}
-> +
-> +static void vop2_vp_dsp_lut_disable(struct vop2_video_port *vp)
-> +{
-> +	u32 dsp_ctrl = vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
-> +
-> +	dsp_ctrl &= ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
-> +	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
-> +}
-> +
-> +static void vop2_crtc_write_gamma_lut(struct vop2 *vop2, struct 
-> drm_crtc *crtc)
-> +{
-> +	const struct vop2_data *vop2_data = vop2->data;
-> +	const struct vop2_video_port *vp = to_vop2_video_port(crtc);
-> +	const struct vop2_video_port_data *vp_data = &vop2_data->vp[vp->id];
+Applied patch:
+- mfd: mt6397-core: register mt6357 sound codec
 
-Perhaps vop2_data could be dropped as a separate variable.
+Test passed:
+- mixer-test log: [3]
+- pcm-test log: [4]
 
-> +
-> +	struct drm_color_lut *lut = crtc->state->gamma_lut->data;
-> +	unsigned int i, bpc = ilog2(vp_data->gamma_lut_len);
-> +	u32 word;
-> +
-> +	for (i = 0; i < crtc->gamma_size; i++) {
-> +		word = (drm_color_lut_extract(lut[i].blue, bpc) << (2 * bpc)) |
-> +		    (drm_color_lut_extract(lut[i].green, bpc) << bpc) |
-> +		    drm_color_lut_extract(lut[i].red, bpc);
-> +
-> +		writel(word, vop2->lut_regs + i * 4);
-> +	}
-> +}
-> +
-> +static void vop2_crtc_gamma_set(struct vop2 *vop2, struct drm_crtc 
-> *crtc,
-> +				struct drm_crtc_state *old_state)
-> +{
-> +	struct drm_crtc_state *state = crtc->state;
-> +	struct vop2_video_port *vp = to_vop2_video_port(crtc);
-> +	u32 dsp_ctrl;
-> +	int ret;
-> +
-> +	if (!vop2->lut_regs)
-> +		return;
-> +
-> +	if (!state->gamma_lut) {
-> +		/*
-> +		 * To disable gamma (gamma_lut is null) or to write
-> +		 * an update to the LUT, clear dsp_lut_en.
-> +		 */
-> +		vop2_lock(vop2);
-> +
-> +		vop2_vp_dsp_lut_disable(vp);
-> +
-> +		vop2_cfg_done(vp);
-> +		vop2_unlock(vop2);
-> +		/*
-> +		 * In order to write the LUT to the internal memory,
-> +		 * we need to first make sure the dsp_lut_en bit is cleared.
-> +		 */
-> +		ret =
-> +		    readx_poll_timeout(vop2_vp_dsp_lut_is_enabled, vp, dsp_ctrl,
-> !dsp_ctrl, 5,
-> +				       30 * 1000);
+[1]: https://lore.kernel.org/all/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com/
+[2]: https://lore.kernel.org/all/20240313110147.1267793-1-angelogioacchino.delregno@collabora.com/
+[3]: https://pastebin.com/pc43AVrT
+[4]: https://pastebin.com/cCtGhDpg
+[5]: https://gitlab.baylibre.com/baylibre/mediatek/bsp/linux/-/commits/sound/for-next/add-i350-audio-support
 
-It would look nicer to keep "ret =" and "readx_poll_timeout(..." in the 
-same line,
-and to introduce line breaks later in the same line.
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+---
+Changes in v7:
+- Rebase to "sound/for-6.11" branch.
+- Move audio-codec properties to the parent node
+- Remove gain values change at init to keep HW default values.
+- Remove spurious function by inlining them directly.
+- Use standard adaptators for regmap.
+- Use "ARRAY_SIZE()" instead of defined value.
+- Remove unused variable which breaks an x86 allmodconfig build.
+- Link to v6: https://lore.kernel.org/r/20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com
 
-> +
-> +		if (ret) {
-> +			DRM_DEV_ERROR(vop2->dev, "display LUT RAM enable timeout!\n");
-> +			return;
-> +		}
-> +
-> +		if (!state->gamma_lut)
-> +			return;
-> +	}
-> +
-> +	vop2_crtc_write_gamma_lut(vop2, crtc);
-> +
-> +	vop2_lock(vop2);
-> +	vop2_writel(vp->vop2, RK3568_LUT_PORT_SEL, vp->id);
-> +
-> +	vop2_vp_dsp_lut_enable(vp);
-> +
-> +	vop2_cfg_done(vp);
-> +	vop2_unlock(vop2);
-> +}
-> +
->  static void vop2_dither_setup(struct drm_crtc *crtc, u32 *dsp_ctrl)
->  {
->  	struct rockchip_crtc_state *vcstate = 
-> to_rockchip_crtc_state(crtc->state);
-> @@ -1925,6 +2025,7 @@ static void vop2_crtc_atomic_enable(struct 
-> drm_crtc *crtc,
->  	const struct vop2_data *vop2_data = vop2->data;
->  	const struct vop2_video_port_data *vp_data = &vop2_data->vp[vp->id];
->  	struct drm_crtc_state *crtc_state =
-> drm_atomic_get_new_crtc_state(state, crtc);
-> +	struct drm_crtc_state *old_state = 
-> drm_atomic_get_old_crtc_state(state, crtc);
->  	struct rockchip_crtc_state *vcstate = 
-> to_rockchip_crtc_state(crtc->state);
->  	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
->  	unsigned long clock = mode->crtc_clock * 1000;
-> @@ -2060,6 +2161,9 @@ static void vop2_crtc_atomic_enable(struct 
-> drm_crtc *crtc,
->  	drm_crtc_vblank_on(crtc);
-> 
->  	vop2_unlock(vop2);
-> +
-> +	if (crtc->state->gamma_lut)
-> +		vop2_crtc_gamma_set(vop2, crtc, old_state);
->  }
-> 
->  static int vop2_crtc_atomic_check(struct drm_crtc *crtc,
-> @@ -2070,6 +2174,16 @@ static int vop2_crtc_atomic_check(struct 
-> drm_crtc *crtc,
->  	int nplanes = 0;
->  	struct drm_crtc_state *crtc_state =
-> drm_atomic_get_new_crtc_state(state, crtc);
-> 
-> +	if (vp->vop2->lut_regs && crtc_state->color_mgmt_changed &&
-> crtc_state->gamma_lut) {
-> +		unsigned int len = drm_color_lut_size(crtc_state->gamma_lut);
-> +
-> +		if (len != crtc->gamma_size) {
-> +			DRM_DEBUG_KMS("Invalid LUT size; got %d, expected %d\n",
-> +				      len, crtc->gamma_size);
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
->  	drm_atomic_crtc_state_for_each_plane(plane, crtc_state)
->  		nplanes++;
-> 
-> @@ -2459,6 +2573,10 @@ static void vop2_setup_dly_for_windows(struct 
-> vop2 *vop2)
->  static void vop2_crtc_atomic_begin(struct drm_crtc *crtc,
->  				   struct drm_atomic_state *state)
->  {
-> +	struct drm_crtc_state *crtc_state = 
-> drm_atomic_get_new_crtc_state(state,
-> +									  crtc);
-> +	struct drm_crtc_state *old_crtc_state = 
-> drm_atomic_get_old_crtc_state(state,
-> +									      crtc);
->  	struct vop2_video_port *vp = to_vop2_video_port(crtc);
->  	struct vop2 *vop2 = vp->vop2;
->  	struct drm_plane *plane;
-> @@ -2482,6 +2600,9 @@ static void vop2_crtc_atomic_begin(struct 
-> drm_crtc *crtc,
->  	vop2_setup_layer_mixer(vp);
->  	vop2_setup_alpha(vp);
->  	vop2_setup_dly_for_windows(vop2);
-> +
-> +	if (crtc_state->color_mgmt_changed && !crtc_state->active_changed)
-> +		vop2_crtc_gamma_set(vop2, crtc, old_crtc_state);
->  }
-> 
->  static void vop2_crtc_atomic_flush(struct drm_crtc *crtc,
-> @@ -2791,6 +2912,14 @@ static int vop2_create_crtcs(struct vop2 *vop2)
-> 
->  		drm_crtc_helper_add(&vp->crtc, &vop2_crtc_helper_funcs);
-> 
-> +		if (vop2->lut_regs && vp->crtc.dev != NULL) {
-> +			const struct vop2_video_port_data *vp_data = 
-> &vop2_data->vp[vp->id];
-> +
-> +			drm_mode_crtc_set_gamma_size(&vp->crtc, vp_data->gamma_lut_len);
-> +			drm_crtc_enable_color_mgmt(&vp->crtc, 0, false,
-> +						   vp_data->gamma_lut_len);
-> +		}
-> +
->  		init_completion(&vp->dsp_hold_completion);
->  	}
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> index 615a16196aff..3a58b73fa876 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> @@ -394,6 +394,7 @@ enum dst_factor_mode {
->  #define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN		BIT(15)
-> 
->  #define RK3568_VP_DSP_CTRL__STANDBY			BIT(31)
-> +#define RK3568_VP_DSP_CTRL__DSP_LUT_EN			BIT(28)
->  #define RK3568_VP_DSP_CTRL__DITHER_DOWN_MODE		BIT(20)
->  #define RK3568_VP_DSP_CTRL__DITHER_DOWN_SEL		GENMASK(19, 18)
->  #define RK3568_VP_DSP_CTRL__DITHER_DOWN_EN		BIT(17)
+Changes in v6:
+- Remove spurious defines
+- all files: replace "Mediatek" by "MediaTek"
+- dts: replace "pins" by "clk-dat-pins"
+- dts: drive-strength: use integer instead of define
+- Link to v5: https://lore.kernel.org/r/20240226-audio-i350-v5-0-e7e2569df481@baylibre.com
+
+Changes in v5:
+- Rebase to "next-20240523" branch.
+- bindings: power supply property moved to the parent node
+- Replace "SoC" by "ASoC" in the patch title (5/16)
+- Move and rename DAI I2S's defines
+- Improve code readability and cleanup
+- Link to v4: https://lore.kernel.org/r/20240226-audio-i350-v4-0-082b22186d4c@baylibre.com
+
+Changes in v4:
+- Rebase to "next-20240422" branch.
+- Re-pass dt_binding_check, functionnal tests, mixer test and pcm test.
+- Remove copyright changes.
+- Move mt6357 audio codec documention from mt6357.yaml
+  to mediatek,mt6357.yaml
+- Fix broken indentation in mt8365-evk.dts
+- Remove empty node.
+- Add more dai link name according to the HW capability.
+- Remove spurious property (mediatek,topckgen)
+  from mediatek,mt8365-afe.yaml
+- Rename "afe" to "audio-controller" in the documentation.
+- Link to v3: https://lore.kernel.org/r/20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com
+
+Changes in v3:
+- Re-order documentation commit to fix dt_binding_check error.
+- Remove $ref and add "mediatek," prefix to vaud28-supply property.
+- Link to v2: https://lore.kernel.org/r/20240226-audio-i350-v2-0-3043d483de0d@baylibre.com
+
+Changes in v2:
+- Documentation fixed:
+  - Remove spurious description.
+  - Change property order to fit with dts coding style rules.
+  - micbias property: use microvolt value instead of index.
+  - mediatek,i2s-shared-clock property removed.
+  - mediatek,dmic-iir-on property removed.
+  - mediatek,dmic-irr-mode property removed.
+  - Change dmic-two-wire-mode => dmic-mode to be aligned with another SoC
+  - Remove the spurious 2nd reg of the afe.
+- Manage IIR filter feature using audio controls.
+- Fix audio controls to pass mixer-test and pcm-test.
+- Refactor some const name according to feedbacks.
+- Rework the codec to remove spurious driver data.
+- Use the new common MTK probe functions for AFE PCM and sound card.
+- Rework pinctrl probe in the soundcard driver.
+- Remove spurious "const" variables in all files.
+- Link to v1: https://lore.kernel.org/r/20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com
+
+---
+Alexandre Mergnat (14):
+      ASoC: dt-bindings: mediatek,mt8365-afe: Add audio afe document
+      ASoC: dt-bindings: mediatek,mt8365-mt6357: Add audio sound card document
+      dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
+      ASoC: mediatek: mt8365: Add common header
+      ASoC: mediatek: mt8365: Add audio clock control support
+      ASoC: mediatek: mt8365: Add I2S DAI support
+      ASoC: mediatek: mt8365: Add ADDA DAI support
+      ASoC: mediatek: mt8365: Add DMIC DAI support
+      ASoC: mediatek: mt8365: Add PCM DAI support
+      ASoC: mediatek: mt8365: Add the AFE driver support
+      ASoC: mediatek: Add MT8365 support
+      arm64: defconfig: enable mt8365 sound
+      arm64: dts: mediatek: add afe support for mt8365 SoC
+      arm64: dts: mediatek: add audio support for mt8365-evk
+
+Nicolas Belin (2):
+      ASoc: mediatek: mt8365: Add a specific soundcard for EVK
+      ASoC: codecs: add MT6357 support
+
+ .../devicetree/bindings/mfd/mediatek,mt6357.yaml   |   21 +
+ .../bindings/sound/mediatek,mt8365-afe.yaml        |  130 ++
+ .../bindings/sound/mediatek,mt8365-mt6357.yaml     |  107 +
+ arch/arm64/boot/dts/mediatek/mt8365-evk.dts        |   86 +
+ arch/arm64/boot/dts/mediatek/mt8365.dtsi           |   43 +-
+ arch/arm64/configs/defconfig                       |    2 +
+ sound/soc/codecs/Kconfig                           |    7 +
+ sound/soc/codecs/Makefile                          |    2 +
+ sound/soc/codecs/mt6357.c                          | 1855 ++++++++++++++++
+ sound/soc/codecs/mt6357.h                          |  660 ++++++
+ sound/soc/mediatek/Kconfig                         |   20 +
+ sound/soc/mediatek/Makefile                        |    1 +
+ sound/soc/mediatek/mt8365/Makefile                 |   15 +
+ sound/soc/mediatek/mt8365/mt8365-afe-clk.c         |  421 ++++
+ sound/soc/mediatek/mt8365/mt8365-afe-clk.h         |   32 +
+ sound/soc/mediatek/mt8365/mt8365-afe-common.h      |  449 ++++
+ sound/soc/mediatek/mt8365/mt8365-afe-pcm.c         | 2275 ++++++++++++++++++++
+ sound/soc/mediatek/mt8365/mt8365-dai-adda.c        |  311 +++
+ sound/soc/mediatek/mt8365/mt8365-dai-dmic.c        |  340 +++
+ sound/soc/mediatek/mt8365/mt8365-dai-i2s.c         |  850 ++++++++
+ sound/soc/mediatek/mt8365/mt8365-dai-pcm.c         |  293 +++
+ sound/soc/mediatek/mt8365/mt8365-mt6357.c          |  345 +++
+ sound/soc/mediatek/mt8365/mt8365-reg.h             |  991 +++++++++
+ 23 files changed, 9254 insertions(+), 2 deletions(-)
+---
+base-commit: f2038c12e8133bf4c6bd4d1127a23310d55d9e21
+change-id: 20240226-audio-i350-4e11da088e55
+
+Best regards,
+-- 
+Alexandre Mergnat <amergnat@baylibre.com>
+
