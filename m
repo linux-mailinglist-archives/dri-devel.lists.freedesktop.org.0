@@ -2,74 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A08993B1D8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 15:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1F493B1E1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 15:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 942B910E4E6;
-	Wed, 24 Jul 2024 13:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA0B010E6C3;
+	Wed, 24 Jul 2024 13:43:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="HTVck0/q";
+	dkim=fail reason="signature verification failed" (4096-bit key; unprotected) header.d=davidgow.net header.i=@davidgow.net header.b="mIA5CQg6";
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="Ua19Yot6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com
- [209.85.161.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0220710E0D3
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2024 11:00:01 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id
- 006d021491bc7-5b97a9a9b4bso1465305eaf.0
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2024 04:00:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1721559601; x=1722164401;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=F4d9hcKyq7mfsinkWFd6mNdwGA6zkLrtbOX7X7kLTzs=;
- b=HTVck0/qWswO5NffU+5bD6Kyl3KbddZaAkCSzluMymtaXXEJqWE+2FIuBh18BoLu7D
- uw7LRbE2T6i/zsDHcK63QXwYCMNvM3JM5Q+7SJaJ5HTB/crk6D4N7UZqrUnh1kebLgaz
- afnBrh2XCra50k6hijnoMZeJIbRCtW842HcPJPDBgo7Yo34i6Ip9zvYWbjnnyjhmdLjo
- DhT0gRBoSObNQ+jjQdyh48f0ekHfpvBRa0fIe1C2ihaYyJ4bqKHUSrpopt0xD3wpwMAE
- dhNUSZgVWE3KADj5/SUnbSdzoVL/k0MBwXf1rS5fDYByv6h9uzXCvos5prJmV7eeT8gX
- NS+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721559601; x=1722164401;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=F4d9hcKyq7mfsinkWFd6mNdwGA6zkLrtbOX7X7kLTzs=;
- b=U1aJO9JCsjCjCneHriS1nUzkSg1/H9ON9P+o86dsVNgN8YzraBOPDcMgqiZBq2HVTP
- IgFd0VqV0e2W3zgfDqYF2SJNsS4AmCNA8taltSiJzxN64iZ3ZIS2JazshwSMebjyaHmd
- aI1z8/sX34m3lbg0PAiuuUBdt3brt8mIgiuMP83ywkU70F63b+SdRxE0yngsdBVEXn9M
- lVj5nqnKmDqGRsorBFR3dUcPCGTuvXPAtDL1AP4N+8zNR2yb8RadeZlhkBFT5woDdJP7
- uEZ9RGBLiazjB0hkr1OHllhnj7bwAHUdf9VzhqYDsYfBaIKVaYLvSOBQJCtsVfoRzB/b
- C4xA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVTSsduxEV0MDiC1cRInmmwO33zigXqFif1xE8vc9B8tMbcXEswbKssJvVHPhnQU1mFR5C9Tmz6VQmLDKkOLWIu/LlpQy5h5BWsIxOh8tPe
-X-Gm-Message-State: AOJu0Yxctyqs0ensPv8cHNFOceLC3bUXGlAEPIvKxIRnErV03BnGqYNp
- KSVzaVZF5q8i8TaiH+2ledcROjKLTgCX7VcjOj8bdZF/H+DjXb/4auk8TgZwakKMY0dcsPOdQ6H
- RiepHV8l31TYiJV0CuLEdIRQh9Sfk1zPZbBKjKw==
-X-Google-Smtp-Source: AGHT+IE4j9WP73i9CWB+IGTcHxkw4R080UwOV/uMJoCT3nUr8mMGASmr4CZyeUGTEVkb/tTv/1AOy0tX12CY2amV0EU=
-X-Received: by 2002:a4a:e901:0:b0:5c4:e8d:58be with SMTP id
- 006d021491bc7-5d564f6409bmr7562481eaf.3.1721559600858; Sun, 21 Jul 2024
- 04:00:00 -0700 (PDT)
+X-Greylist: delayed 600 seconds by postgrey-1.36 at gabe;
+ Mon, 22 Jul 2024 07:56:02 UTC
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A007E89143;
+ Mon, 22 Jul 2024 07:56:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+ s=201606; t=1721634357;
+ bh=sIsoIaEC5q4HVUj+ZnhPfTbfbDCCvrTzn9RJcdcWQUw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mIA5CQg6rnbZ8zDRl565hbTnTil3DQkCyj5SHvZm41PbGSu0w8KLQhulzDOjENO+r
+ YUXI6xDQSVSu2MlR8/j9uD4MIos4on+wbuxWEuvRJSvJUC5+u6XruZcyPeKrWTSFxm
+ lnfuIbSnbP0BMRdRuZdDSRkoURFXTnZnAZ9UHCjfsrCl9cHXJdPZh5PoYfErRvq112
+ tnCWD320jPIDOSG1JpLH/Ca+A1xua1SBghqknLMDXH83CuB+GvRMPuioK1rSeRcSCs
+ 5KoKIHAxAgT/88QKsiofLyDL9+eq2qinFBQK7jBLi4y4c2X7pLXjlQ8IoWfZ2cw82V
+ YFK/bfvccJcrUJvrObsP1Gg61Vhx3j63EAwKPXXRCFZ7GZiAxRhqkf3ygATrShcYVI
+ BKdpre76pbXWvIcd5QkPRls99l0MKXHuVoBMVhslbrS57DWcNlHKbMiUweSLWXQgiI
+ QxQPoGH20hXC0PPRCIUBBaXmlWyDniaQQL8cHw+r7kuOxSoDcHClyKh71ZhUpYJsMw
+ ioD7jLSf39wxPhDVJ6bykEkQWnqV2a58K3aNYz/6EeZD8wfrINtXEeU9/fPODNrp5h
+ K5S8de7FV3bsFARGdLOPJM7JdwFODGqzr5K0uiNhSAORuKJU3iVm/uIlrlWR0kR2ol
+ RG5yfkNKqM7dFHCd6sofDKiY=
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+ id 53ACF1DBB7C; Mon, 22 Jul 2024 15:45:57 +0800 (AWST)
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+ sphereful.davidgow.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.1 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU autolearn=unavailable autolearn_force=no
+ version=3.4.6
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+ s=201606; t=1721634355;
+ bh=sIsoIaEC5q4HVUj+ZnhPfTbfbDCCvrTzn9RJcdcWQUw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Ua19Yot6XTtFZsoc06vjBWA6nh8nCIjfjBldirI1IlLivXLtPf5rvPoKkL2AwnDhd
+ l9gaB9eEcwjC2vTkjhOG5JNcMUV1MOL24pcf4TV6Pltze5SlZkZDZiY8B+9R7YiBSr
+ dunv6f6NiFG18aWxfjpbiZertqef+BD4LAO5J/kyMvl9OgeH3Q06NepUmom/8TET8z
+ wHB1YDOSzvfK2zxjyLsInM0HPLDmhHssIvkLiU5YwfQ86pASMji30h7lGS6hT/Paq6
+ +48xJ/9s/k3tDnPvQUMVFlRru3Hi3k0O+jvB+3eihEWktIR0Sb9RGijf/8AmkGrKwR
+ ksFutMtBvPd9iIRaO5MoZeRPOBKnxbTOulrlmbwPZ4z+7JARYsgFRSDLIjR26t/bx7
+ 6VPd6oUJWfNMAN7u0khwjivEfUCBuoFYDKf2L5HUmAoT4VR1r1yX/GycJWJagzp3QZ
+ krg1N18B5ZqQeYuwPVvDv6BLWxsJEu7W0OJP5Ktcy67nrl/Jt8MZLgdkGlrMImiiCx
+ A2vFS9fB4YAny2qO7x15aANA7wgFV9KOurGCYYNjQPLCCGGI6/Pboz8s+9UFHx+o+F
+ 5t6OGvxJhoawV6w93iTXPH0anXaFIB8FKIsGRlUz+0AyXK0c/+8zzWWOmrZje2uXZW
+ zqN7Wgj571uR0aGN34o+/V5w=
+Received: from sparky.lan (unknown [IPv6:2001:8003:8824:9e00::bec])
+ by sphereful.davidgow.net (Postfix) with ESMTPSA id 1C2881DBB78;
+ Mon, 22 Jul 2024 15:45:55 +0800 (AWST)
+From: David Gow <david@davidgow.net>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Gow <david@davidgow.net>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915: Allow evicting to use the requested placement
+Date: Mon, 22 Jul 2024 15:45:38 +0800
+Message-ID: <20240722074540.15295-1-david@davidgow.net>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20240717093925.3017-1-terry_hsiao@compal.corp-partner.google.com>
- <CAD=FV=XM7X5J6rzu5gDdmDhJ4Ut8raC92HvcnHmRJmWY7_boSA@mail.gmail.com>
-In-Reply-To: <CAD=FV=XM7X5J6rzu5gDdmDhJ4Ut8raC92HvcnHmRJmWY7_boSA@mail.gmail.com>
-From: Terry Hsiao <terry_hsiao@compal.corp-partner.google.com>
-Date: Sun, 21 Jul 2024 18:59:50 +0800
-Message-ID: <CA+hhT3-77s+jjoBGw_fWWjsvO1kDu_JTDHgj=q-pEXcrkzPkLQ@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/panel-edp: Add panels with conservative timings
-To: Doug Anderson <dianders@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 24 Jul 2024 13:42:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,131 +95,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+In a78a8da5 ("drm/ttm: replace busy placement with flags v6"), the old
+system of having a separate placement list (for placements which should
+be used without eviction) and a 'busy' placement list (for placements
+which should be attempted if eviction is required) was replaced with a
+new one where placements could be marked 'FALLBACK' (to be attempted if
+eviction is required) or 'DESIRED' (to be attempted first, but not if
+eviction is required).
 
-Thank you for your reply.
-The patch has been modified and will be sent to you shortly.
+i915 had always included the requested placement in the list of
+'busy' placements: i.e., the placement could be used either if eviction
+is required or not. But when the new system was put in place, the
+requested (first) placement was marked 'DESIRED', so would never be used
+if eviction became necessary. While a bug in the original commit
+prevented this flag from working, when this was fixed in
+4a0e7b3c ("drm/i915: fix applying placement flag"), it caused long hangs
+on DG2 systems with small BAR.
 
-The timings are set based on the panel datasheets in IssueTracker
-(https://partnerissuetracker.corp.google.com/issues/348109270)
-B116XTN02.3: B116XTN02.3(HW 9A)_HP_ Functional Spec_0617Y24.pdf
-B116XAN06.1: B116XAN06.1_7A_HP_ Final Functional Spec 0617Y24.pdf
-B116XAT04.1: B116XAT04.1 HW 0 A(HH)_ Pre Functional Spec_HP_ 0425Y24.pdf
-NV116WHM-A4D: NV116WHM-A4D V8.0 Teacake  Product Specification-20240416.pdf
-N116BCA-EA2: Approval Specification N116BCA-EA2_C3_20231212.pdf
-N116BCP-EA2: TFT-LCD Tentative N116BCP-EA2 C2 for HP Ver 0.2-240502.pdf
+Don't mark the requested placement DESIRED (or FALLBACK), allowing it to
+be used in both situations. This matches the old behaviour, and resolves
+the hangs.
 
-On page 24 of the N116BCP-EA2
-datasheet(https://partnerissuetracker.corp.google.com/action/issues/3481092=
-70/attachments/57530666?download=3Dfalse),
-the value for t9 as disable is "null".
+Thanks to Justin Brewer for bisecting the issue.
 
-If I have misunderstood what you mean, please correct me.
+Fixes: a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
+Fixes: 4a0e7b3c3753 ("drm/i915: fix applying placement flag")
+Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/11255
+Signed-off-by: David Gow <david@davidgow.net>
+---
 
-Thank you,
+I'm not 100% sure I understand exactly what went wrong here: I'm pretty
+sure the patch is correct, but let me know if the commit description is
+way off base.
 
-On Wed, Jul 17, 2024 at 10:58=E2=80=AFPM Doug Anderson <dianders@chromium.o=
-rg> wrote:
->
-> Hi,
->
-> On Wed, Jul 17, 2024 at 2:39=E2=80=AFAM Terry Hsiao
-> <terry_hsiao@compal.corp-partner.google.com> wrote:
-> >
-> > The 6 panels are used on Mediatek MT8186 Chromebooks
-> > - B116XAT04.1  (06AF/B4C4)
-> > - NV116WHM-A4D (09E5/FA0C)
-> > - N116BCP-EA2  (0DAE/6111)
-> > - B116XTN02.3  (06AF/AA73)
-> > - B116XAN06.1  (06AF/99A1)
-> > - N116BCA-EA2  (0DAE/5D11)
-> >
-> > Signed-off-by: Terry Hsiao <terry_hsiao@compal.corp-partner.google.com>
-> > ---
-> >  drivers/gpu/drm/panel/panel-edp.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
->
-> Please resend with a better patch subject, like "drm/panel-edp: Add 6
-> panels used by MT8186 Chromebooks".
->
-> Also: are you adding timings based on the datasheets, or are you just
-> guessing here? The previous patches that added "conservative" timings
-> were because the Chromebooks involved were really old and couldn't be
-> tracked down and folks couldn't find the relevant datasheets. In the
-> case of MT8188 I'd expect you to be adding timings based on the
-> datasheets. Please confirm that you are.
->
-> If possible, it's really nice to have the raw EDIDs for the panels in
-> the commit message in case someone needs it later.
->
->
-> > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/=
-panel-edp.c
-> > index f85a6404ba58..ac280607998f 100644
-> > --- a/drivers/gpu/drm/panel/panel-edp.c
-> > +++ b/drivers/gpu/drm/panel/panel-edp.c
-> > @@ -1845,8 +1845,11 @@ static const struct edp_panel_entry edp_panels[]=
- =3D {
-> >         EDP_PANEL_ENTRY('A', 'U', 'O', 0x635c, &delay_200_500_e50, "B11=
-6XAN06.3"),
-> >         EDP_PANEL_ENTRY('A', 'U', 'O', 0x639c, &delay_200_500_e50, "B14=
-0HAK02.7"),
-> >         EDP_PANEL_ENTRY('A', 'U', 'O', 0x723c, &delay_200_500_e50, "B14=
-0XTN07.2"),
-> > +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x73aa, &delay_200_500_e50, "B11=
-6XTN02.3"),
-> >         EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B13=
-3UAN01.0"),
-> >         EDP_PANEL_ENTRY('A', 'U', 'O', 0xd497, &delay_200_500_e50, "B12=
-0XAN01.0"),
-> > +       EDP_PANEL_ENTRY('A', 'U', 'O', 0xa199, &delay_200_500_e50, "B11=
-6XAN06.1"),
->
-> Please keep this sorted. For instance, 0xa199 should come _before_
-> 0xd497, right?
->
->
-> > +       EDP_PANEL_ENTRY('A', 'U', 'O', 0xc4b4, &delay_200_500_e50, "B11=
-6XAT04.1"),
-> >         EDP_PANEL_ENTRY('A', 'U', 'O', 0xf390, &delay_200_500_e50, "B14=
-0XTN07.7"),
-> >
-> >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0607, &delay_200_500_e200, "Un=
-known"),
-> > @@ -1901,6 +1904,7 @@ static const struct edp_panel_entry edp_panels[] =
-=3D {
-> >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT1=
-40FHM-N47"),
-> >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "NT1=
-40FHM-N47"),
-> >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "NT=
-116WHM-N44"),
-> > +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cfa, &delay_200_500_e50, "NV1=
-16WHM-A4D"),
-> >
-> >         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1130, &delay_200_500_e50, "N11=
-6BGE-EB2"),
-> >         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1132, &delay_200_500_e80_d50, =
-"N116BGE-EA2"),
-> > @@ -1916,8 +1920,10 @@ static const struct edp_panel_entry edp_panels[]=
- =3D {
-> >         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1156, &delay_200_500_e80_d50, =
-"Unknown"),
-> >         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1157, &delay_200_500_e80_d50, =
-"N116BGE-EA2"),
-> >         EDP_PANEL_ENTRY('C', 'M', 'N', 0x115b, &delay_200_500_e80_d50, =
-"N116BCN-EB1"),
-> > +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x115d, &delay_200_500_e80_d50, =
-"N116BCA-EA2"),
-> >         EDP_PANEL_ENTRY('C', 'M', 'N', 0x115e, &delay_200_500_e80_d50, =
-"N116BCA-EA1"),
-> >         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1160, &delay_200_500_e80_d50, =
-"N116BCJ-EAK"),
-> > +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x1161, &delay_200_500_e80, "N11=
-6BCP-EA2"),
->
-> It looks suspicious that all the panels around this one need 50 ms for
-> disable but yours doesn't. While it's certainly possible that things
-> changed for this panel, it's worth double-checking.
->
-> -Doug
+My system works much better with this applied, but it's possible that it
+could work better still with further changes: the buddy allocator is
+still chewing up a lot of the CPU, and there are still cases where this
+notably affects performance (though, in my experience, these are now
+'hitches' rather than multi-minute hangs).
+
+Cheers,
+-- David
+
+---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index e6f177183c0f..fb848fd8ba15 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -165,7 +165,6 @@ i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
+ 	i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
+ 				   obj->mm.region, &places[0], obj->bo_offset,
+ 				   obj->base.size, flags);
+-	places[0].flags |= TTM_PL_FLAG_DESIRED;
+ 
+ 	/* Cache this on object? */
+ 	for (i = 0; i < num_allowed; ++i) {
+-- 
+2.45.2
+
