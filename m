@@ -2,79 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAD0938BB0
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 11:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95666938BFC
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 11:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5F9D10E47B;
-	Mon, 22 Jul 2024 09:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9806110E488;
+	Mon, 22 Jul 2024 09:24:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="z3Eqm3mZ";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="P+p/Rsi2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1960310E47C
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 09:02:24 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4279c10a40eso29179785e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 02:02:24 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42D1110E488
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 09:24:43 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1fd65aaac27so15203595ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 02:24:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1721638942; x=1722243742;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1721640283; x=1722245083; darn=lists.freedesktop.org; 
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qy3prohTdKukbZeeTIm9GnFzCUR4CLmWXZ94N/+yPNg=;
- b=z3Eqm3mZMC3jjGqOA58RskHrdDlpUeYvf92mG3KJu5HdsYRThYN90RmIRhfipcJBc6
- uHo3UM86wPTm1j0CH4WRd7CZZyjs1ZQyfE9abqmhGLf9iihwWv21D9eMcP3VIDqjG/dV
- ozJvdiD3GrNbOZ/qKCY2MRDd9I0SREwnrfbjagunvS/9ESponqlVmfeMNJwl0XWb41YT
- bwSvKhq7fns0P1zi/97F+P4i7xAbgjocXpSfW5IT2iAfyWJ4FOslKLM6oJYZRL9zKNwd
- hG7W7iZS3kFr3j5hYQyiUCsYC/fepi67pr+4rbmTK1nC9vRtLeFAQp6IMXUzA81hfs5b
- Ak6w==
+ bh=VumjMZEwUWBgDMHY2K8ArTMwJEHcLMaWA0OatEGrAqY=;
+ b=P+p/Rsi2qpe/lyNv2uYRaNwdo4StSncSfk7YCpsfSEo7kCEiOO8KHqmuE7+WiOgSql
+ DXKuoLEPxFKKp54h8ryxIEIUweZfotPUA1gTpiQdx/3rwsyNDp1odoF63JXZlP2zQ+pQ
+ XPGWCyqKJwt/TQAXl5kFQeDAGG3OoGONGMaOgmtVp989EEPhGVmqfEbbUI1UgiA2gLv6
+ kJr4afIWVNFnXrL9SfEjVA6RVLECTa3Je3dcc37o40CsT+vJ8EzFrrvPnxBMvPSSTgZD
+ bHvzpkuaTpf2rkR0o85Rem6yilg/banwsWv4KBmFhBJfEVys+LinXCneotRTIIvMENhY
+ E2CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721638942; x=1722243742;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1721640283; x=1722245083;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qy3prohTdKukbZeeTIm9GnFzCUR4CLmWXZ94N/+yPNg=;
- b=rvOl9luz7dnAzpD/6zBwZyd3gWauZAGgUX7UW9HtuL/TXwRT9utGGI89jT4ZIsi2kA
- L/7DZBvFermg+ROgTWLie+2z0glhWFDlQKaK7co6H7pfWNWnV+8djw47mZ6HVKdfl5UD
- JqCpQAA55GN0KolM09Au3UzHvp+iWWQu+tnh503OxUCTySYtjhDVe92f/fN9amqEsVJj
- eDnt8NE57R8vLL8EDoCyPcz3oEOLQnr5u5pf4tS4g05JDbg3QT1K2WftN2FzBklwE5sf
- 5aXWDblKMdl/0Iv0w13e+kPNfiJH3q73mVgMFTRH8/8IAGecM+KULDG5P2Bx8Qr6cTJp
- DRwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWfLDKVTbdBHWFd/z4GdwBZANb8YtnSHL7sgE8ZQltUtPBfblZk+8GLcsWh9SO5jMwZOQqse97pj5Xwjmj2gBnIeMTGbfFyFnujEUsYDHN
-X-Gm-Message-State: AOJu0Ywrduk+JGfvOTpOy9prYyWlZDnY7RCoE8VFdYFdEpMMVoT0i2PE
- OkDAgUhxJE95heXY9lZZPfk+Gb9PqQohg8NeK1PUKiptbnL2fd3GSnt8l0TzAto+sV1YvCSmXa/
- PV1MAbbveUvpHNxHiiskeVx4Tja/L2eEEFkdw
-X-Google-Smtp-Source: AGHT+IEsd5dvn5A2mqFen80qMtQ/JIIOvc7TZZUXavWiZyTt87ua1ZrxMMfyPbkZftrRqdx1QVfeZSkwq8qIrzDoYMM=
-X-Received: by 2002:adf:a382:0:b0:368:3f61:b955 with SMTP id
- ffacd0b85a97d-369bae6b08cmr3273430f8f.38.1721638942107; Mon, 22 Jul 2024
- 02:02:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240717142644.1106060-1-jfalempe@redhat.com>
- <20240717142644.1106060-5-jfalempe@redhat.com>
-In-Reply-To: <20240717142644.1106060-5-jfalempe@redhat.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 22 Jul 2024 11:02:09 +0200
-Message-ID: <CAH5fLgj2v-7Fx8pwrnQCkHXZeR6m7kOBRzBDS94hjh9BsT+vtw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] drm/panic: Add a QR code panic screen
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@samsung.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- Danilo Krummrich <dakr@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ bh=VumjMZEwUWBgDMHY2K8ArTMwJEHcLMaWA0OatEGrAqY=;
+ b=rXWXlSf4W05BNeA5DQuLmDDJB85HLbBPAnSVWyirjbHI6HWnEMh9LHIE5Bo+64V250
+ UCG+kLnuvn7XoP60pElIiKhE1VvN/joAOmcMQdcag6xtrbx60MAWOqICnJL13fBCaYfg
+ DDKTJLEC4+z1ejhaetWIlZzqyIRwoL6LO1iJwn/nVh+ANm/ctE25MLlVyruu6f+tEAuI
+ aT/c7df2R07EBguv7tXv8E/D3lAPJuZot3Lk1o8EN5yDCdwPxwN8MshQtD/xB6nv8VZy
+ oHPdNvGUsm20EtyOFoAoo+bL9OWXJ1QjldB3UHhNVv+FPY6/VNEbhHIp5jA1GxRs3EPP
+ MFXg==
+X-Gm-Message-State: AOJu0Yx/8jGbfgJ8k3S6CD1pUFboaDBcVD1lVKdI4QcmMvtghB0/iPG/
+ TnLrMUKcVVVQXHXzMvi2hgVG/EkAkMAXvCHqMt3UhABEdkn+gN1QLPKkGbhiaogGq9+QahHS39A
+ ILZo=
+X-Google-Smtp-Source: AGHT+IGJ+uvD9+yLKvevm6ajJFqdrqJc1OpiqXZiUgLLrUs/hmPSnu+ZQsCsNmS7e+iL5Byj4jAfaw==
+X-Received: by 2002:a17:903:234a:b0:1fd:7432:16c8 with SMTP id
+ d9443c01a7336-1fd743219a7mr120075385ad.10.1721640282674; 
+ Mon, 22 Jul 2024 02:24:42 -0700 (PDT)
+Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-70d26efe61dsm1639901b3a.149.2024.07.22.02.24.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jul 2024 02:24:42 -0700 (PDT)
+From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ dianders@chromium.org, hsinyi@google.com, awarnecke002@hotmail.com,
+ dmitry.baryshkov@linaro.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v3 0/2] Modify the method of obtaining porch parameters
+Date: Mon, 22 Jul 2024 17:24:26 +0800
+Message-Id: <20240722092428.24499-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,43 +81,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 17, 2024 at 4:27=E2=80=AFPM Jocelyn Falempe <jfalempe@redhat.co=
-m> wrote:
->
-> This patch adds a new panic screen, with a QR code and the kmsg data
-> embedded.
-> If DRM_PANIC_SCREEN_QR_CODE_URL is set, then the kmsg data will be
-> compressed with zlib and encoded as a numerical segment, and appended
-> to the URL as a URL parameter. This allows to save space, and put
-> about ~7500 bytes of kmsg data, in a V40 QR code.
-> Linux distributions can customize the URL, and put a web frontend to
-> directly open a bug report with the kmsg data.
->
-> Otherwise the kmsg data will be encoded as a binary segment (ie raw
-> ascii) and only a maximum of 2953 bytes of kmsg data will be
-> available in the QR code.
->
-> You can also limit the QR code size with DRM_PANIC_SCREEN_QR_VERSION.
->
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+The current driver can only obtain the porch parameters
+of boe-th101mb31ig002. Modify it to obtain the porch
+parameters of the panel currently being used.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Also switch to the drm_connector_helper_get_modes_fixed() function 
+to get the porch parameters.
 
-Alice
+Changes between V3 and V2:
+- PATCH 1/2: No changes.
+- PATCH 2/2: Keep bpc settings and drm_connector_set_panel_orientation() function.
+- Link to v2: https://lore.kernel.org/all/20240716121112.14435-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-> v2:
->  * Rewrite the rust comments with Markdown (Alice Ryhl)
->  * Mark drm_panic_qr_generate() as unsafe (Alice Ryhl)
->  * Use CStr directly, and remove the call to as_str_unchecked()
->    (Alice Ryhl)
->  * Add a check for data_len <=3D data_size (Greg KH)
->
-> v3:
->  * Fix all rust comments (typo, punctuation) (Miguel Ojeda)
->  * Change the wording of safety comments (Alice Ryhl)
->  * Add a link to the javascript decoder in the Kconfig (Greg KH)
->  * Fix data_size and tmp_size check in drm_panic_qr_generate()
->
-> v4:
->  * Fix the logic to find next line and skip the '\n' (Alic Ryhl)
->  * Remove __LOG_PREFIX as it's not used (Alice Ryhl)
+Changes between V2 and V1:
+- PATCH 1/2: No changes.
+- PATCH 2/2: Switch to the drm_connector_helper_get_modes_fixed().
+- Link to v1: https://lore.kernel.org/all/20240715031845.6687-1-lvzhaoxiong@huaqin.corp-partner.google.com/
+
+Zhaoxiong Lv (2):
+  drm/panel: boe-th101mb31ig002 : Fix the way to get porch parameters
+  drm/panel: boe-th101mb31ig002 : using
+    drm_connector_helper_get_modes_fixed()
+
+ .../drm/panel/panel-boe-th101mb31ig002-28a.c  | 20 +++----------------
+ 1 file changed, 3 insertions(+), 17 deletions(-)
+
+-- 
+2.17.1
+
