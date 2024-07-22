@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0A693899D
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 09:07:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D964D938A0D
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 09:31:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 258F010E393;
-	Mon, 22 Jul 2024 07:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1464C10E39E;
+	Mon, 22 Jul 2024 07:31:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="ZbIE9MZH";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="XG8k8/iF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A47F10E393
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 07:07:22 +0000 (UTC)
-Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4WSBDV1hVszDqFC
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 07:07:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1721632042; bh=xsoO8528D0avOH03gvCuFMU5tujeueLH3Z0pXQqFoiQ=;
- h=From:Date:Subject:To:Cc:From;
- b=ZbIE9MZHYpjb/Wt7BYgyZGdhcP9+gAc25mB5CCJ25ZzJb5Ymz2RpVs/dxOPxMS8u8
- B60hSUPJTonBrnH+o4vv8RD+W7hm+O2jXZ+5kkyaFMLHJiMeULghpRAX00kTOwN44R
- HcyQpeSYS7D2R6J7S9R1csERaUt8NjwmimKNdbMM=
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4WSBDT4kdTz9sqv;
- Mon, 22 Jul 2024 07:07:21 +0000 (UTC)
-X-Riseup-User-ID: D470CD1E37C4D29186DA6EFD9BA40A74E66F303C20FB3AC69D2064775CBDA922
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4WSBDP4tnDzJrbR;
- Mon, 22 Jul 2024 07:07:17 +0000 (UTC)
-From: Dang Huynh <danct12@riseup.net>
-Date: Mon, 22 Jul 2024 14:07:15 +0700
-Subject: [PATCH] drm: panel: boe-bf060y8m-aj0: Enable prepare_prev_first
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240722-bf060y8m-aj0-prepare-prev-v1-1-0e51c0f59d22@riseup.net>
-X-B4-Tracking: v=1; b=H4sIACIFnmYC/x2M3QpAQBBGX0VzbWpMsngVuVh2MMpPuyWSd7dcn
- c6p77shiFcJUCc3eDk06LZGydIE+smuo6C66MDEORlm7AYq6CoXtDPh7mW3Xj4eyK4rjRjnqqq
- AuI9x0PP/btrneQHbyj71awAAAA==
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Dang Huynh <danct12@riseup.net>
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABFE010E39E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 07:31:53 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-7a1c7857a49so343353a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 00:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1721633513; x=1722238313; darn=lists.freedesktop.org; 
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=C2KAgnjwVQOc0ZyTb2UjcVxk7fFjtqOGmwkkRzyiULQ=;
+ b=XG8k8/iFgrcgCpbfeLQHEjY3UjWSRIa8SloPrqHgyXlDsvNO1j02tSlOSy4BZXyomO
+ 1HsM3F0+K1ujg84NVvV1HFUSGPQxDmn1cFtimiF2hMpG3duF9LRBBV4KdtsMEbPhPMx0
+ VI1kBxGPotAX+NZ+iQrxoAhGdJnhct7mO7zYU08mpjHOhJwq827bIynhsMMdLUtDPl6s
+ /Ec9qamqoBBd7mbRMKvqV4SrO3xRxZyEU5Z+D/I3uWf13X3kRonCIDiYexo362xjGwvi
+ 7ybXugGG9rYe38l8b/T5/Dlzf0pL6Nv3uegBLyJi/YhXAIGyz/Wv+WrzRSQNM4FQRw52
+ iJsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721633513; x=1722238313;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=C2KAgnjwVQOc0ZyTb2UjcVxk7fFjtqOGmwkkRzyiULQ=;
+ b=nPgRKIBBNIE2cWbpTpactnGjHT83UBfp0NJ2zXz/eAww8sOinEz8nHe3w5HJEGZ7LO
+ C2UfgZKr31VZagwmzf5PsK4wlthQxku9d7gqwRAB8Aoc59jn0+z3OjAnWJ+yVbDQ7l0l
+ +xylslTJD45WSwarnK2kMpFOLbiOTww0ysEXvC2oS6uwzOmxLaZX+NqxAVhPaS9AaMQf
+ SQcr4jEfNWTfgciqLfmV2P79Hanrs7//rpQtLR6sCaqof0WsDnlQ3ciAaazm+rJf4NM3
+ G9YA/tiKLRuLQB5DkrSXHNHxPlTcS3ghw1QClmV8X6I+tj3kZ0cvgEz8Fe3zWu+UL5pa
+ QZcQ==
+X-Gm-Message-State: AOJu0YyqLzBBSf2hdMLyhTDxuMQnPUZjcqhG8Ml3lvcPi+OQE1th0HtQ
+ mAmXvaoSdNbdmmWyu3BvfGBS1ITlRgX92HqqxAYtY0gSiQp3yNIlvFeRPOjKGBc=
+X-Google-Smtp-Source: AGHT+IGF9DhXIv1Qu8bMdlHQYClv79GhIKxblDYYH1XqHLI7fo+5ZVtusQJQtSx2l3XpJXTjpOMXMA==
+X-Received: by 2002:a05:6a20:4f02:b0:1c2:8d16:c683 with SMTP id
+ adf61e73a8af0-1c4228fd07amr3773629637.32.1721633513114; 
+ Mon, 22 Jul 2024 00:31:53 -0700 (PDT)
+Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-79f0e6c9461sm4081162a12.61.2024.07.22.00.31.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jul 2024 00:31:52 -0700 (PDT)
+From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+To: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org,
+ linus.walleij@linaro.org, dianders@google.com, hsinyi@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v4 0/2] Add Add elan-ekth6a12nay on the basis of elan-ekth6915
+Date: Mon, 22 Jul 2024 15:31:34 +0800
+Message-Id: <20240722073136.8123-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,41 +79,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable prepare_prev_first flag for BF060Y8M-AJ0 panel so that the
-previous controller should be prepared first before the prepare for
-the panel is called.
+Elan-ekth6a12nay requires reset to pull down time greater than 10ms,
+so the configuration post_power_delay_ms is 10, and the chipset
+initial time is required to be greater than 300ms, so the 
+post_gpio_reset_on_delay_ms is set to 300.
 
-This makes sure that the previous controller, likely to be a DSI host
-controller should be initialized to LP-11 before the panel is powered up.
+The Elan-ekth6a12nay touch screen chip same as Elan-eKTH6915 controller
+has a reset gpio. The difference is that they have different
+post_power_delay_ms.
 
-Suggested-by: Marijn Suijten <marijn.suijten@somainline.org>
-Signed-off-by: Dang Huynh <danct12@riseup.net>
----
-This fixes display initialization on some platform/devices such as the
-Fxtec Pro1X.
----
- drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c | 2 ++
- 1 file changed, 2 insertions(+)
+Changes between V4 and V3:
+- PATCH 1/2: Combine the 2 const into an enum.
+- PATCH 2/2: No changes.
+- Link to v3: https://lore.kernel.org/all/20240716082851.18173-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-index e77db8597eb7..7e66db4a88bb 100644
---- a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-+++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-@@ -377,6 +377,8 @@ static int boe_bf060y8m_aj0_probe(struct mipi_dsi_device *dsi)
- 	drm_panel_init(&boe->panel, dev, &boe_bf060y8m_aj0_panel_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
- 
-+	boe->panel.prepare_prev_first = true;
-+
- 	boe->panel.backlight = boe_bf060y8m_aj0_create_backlight(dsi);
- 	if (IS_ERR(boe->panel.backlight))
- 		return dev_err_probe(dev, PTR_ERR(boe->panel.backlight),
+Changes between V3 and V2:
+- PATCH 1/2: "ekth6915" isn't a fallback, modify it.
+- PATCH 2/2: No changes.
+- Link to v2: https://lore.kernel.org/all/20240715073159.25064-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
----
-base-commit: 41c196e567fb1ea97f68a2ffb7faab451cd90854
-change-id: 20240722-bf060y8m-aj0-prepare-prev-2db87e7dd996
+Changes between V2 and V1:
+- PATCH 1/2: Respin the series on top of v6.10.
+- PATCH 2/2: No changes.
+- Link to v1: https://lore.kernel.org/all/20240704085555.11204-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-Best regards,
+Zhaoxiong Lv (2):
+  dt-bindings: HID: i2c-hid: elan: Introduce Elan ekth6a12nay
+  HID: i2c-hid: elan: Add elan-ekth6a12nay timing
+
+ .../devicetree/bindings/input/elan,ekth6915.yaml          | 4 +++-
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c                     | 8 ++++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
 -- 
-Dang Huynh <danct12@riseup.net>
+2.17.1
 
