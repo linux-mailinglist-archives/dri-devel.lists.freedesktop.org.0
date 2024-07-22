@@ -2,73 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AA99393CE
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 20:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8579393CB
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 20:43:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0A310E292;
-	Mon, 22 Jul 2024 18:43:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF7A610E279;
+	Mon, 22 Jul 2024 18:43:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="cz0U7c54";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="u/ofT6VM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6594C10E27E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 18:43:27 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id
- 6a1803df08f44-6b5d3113168so27364146d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 11:43:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1721673806; x=1722278606;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xSlw2AHTwry2OBzvgYyscA8XuYc9F1NsOVa6CuSK7aw=;
- b=cz0U7c54953Qfnm5jfWENLEoTqcfkIZFadWfMyLL3tuvqEWWIg/sWnLYibQ+6bDL5S
- 0fWMZQ7yHJDojuOmRz8gpHsgj8XgkUVaT3/r0mQoToawFh5oSQbxLrU8KuZXtKkoTT4b
- 29yV0AM/k5wlds7d/JXL+nChLZKnHtr/u5VcY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721673806; x=1722278606;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xSlw2AHTwry2OBzvgYyscA8XuYc9F1NsOVa6CuSK7aw=;
- b=npYmIdz+fTgbwe8XOBOd9yLEXxYNc4IAAfc2uHdqxUEumAPPvHn7AHUbMhCP6Qs9O1
- YQCj2fU5LQ5c7EJ92sAJE/6iHk5NqeJMdjZOJ0ZPfldnKrdaoFJWVfLtsfj36rreviV0
- haqJzN/G+CkLCNTMLYUJZhB2aUf/PsPnPDYGSUgYmeWrPDZD0Z7616ptxuTEbWEx+DiW
- Oxw5aBUNiv369ThzM8LKpAS5zmpJ15Fua6F6OcxrFD8/irkzeadv/vA7lFfQzgXktDOw
- AN7iC9NrEEWo353PxYXame8oqUMKRooiYL/fagLIGGbbs7+BqsVo3fV3OpGPM0Hknipv
- IeXw==
-X-Gm-Message-State: AOJu0Yx3bZGnA6dd/yP4dPwohOZ+7HktxsVMmCTLfsepwKq65NZdw4Hu
- H4fD4cw29dp/gJRhS2OHMlByjqaZ0YWhFJbmEI+NCt/TH3VebJnXAMYPuWHSn+gZi9ax/1grqpK
- xDoB/aTg2dEUu6cenBB/kW3EGEj1yf0E8UQyKCiLofsB+Jf+hGAr2jcI+RpqQwo42+bSRsKdTBZ
- InzgWz6fEu5naKWxSle2jT0tWjFzJzfB7m3DjoMKm9PVV+lK3Nmw==
-X-Google-Smtp-Source: AGHT+IFVeq7V/P8oTVR/x2cETSmFZpO+yKYsg/BOPHPPsGdHy2uEVMxL3su71xxukiyhv3h5kR3+9g==
-X-Received: by 2002:a05:6214:d0c:b0:6b4:f644:9d87 with SMTP id
- 6a1803df08f44-6b981a608d0mr9472226d6.21.1721673806171; 
- Mon, 22 Jul 2024 11:43:26 -0700 (PDT)
-Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net.
- [173.49.113.140]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b7acafdb01sm38261466d6.129.2024.07.22.11.43.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jul 2024 11:43:25 -0700 (PDT)
-From: Zack Rusin <zack.rusin@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Zack Rusin <zack.rusin@broadcom.com>
-Subject: [PATCH v5 4/4] drm/vmwgfx: Add basic support for external buffers
-Date: Mon, 22 Jul 2024 14:41:16 -0400
-Message-ID: <20240722184313.181318-5-zack.rusin@broadcom.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240722184313.181318-1-zack.rusin@broadcom.com>
-References: <20240722184313.181318-1-zack.rusin@broadcom.com>
+Received: from smtp37.i.mail.ru (smtp37.i.mail.ru [95.163.41.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8666110E081;
+ Mon, 22 Jul 2024 18:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
+ ; s=mailru;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:From:Sender:Reply-To:To:Cc:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
+ X-Cloud-Ids:Disposition-Notification-To;
+ bh=OPm/EdnXheNgF7FGrsEGZgL6qdviqwNABtAR18c6H0Y=; t=1721673802; x=1721763802; 
+ b=u/ofT6VMO/QE4BhoYP9QDjLHZTE6D/pMbOEtCKmYYwfvkDzijBYvp+ABxMXSZtM/YTxS/jL0xJJ
+ o0a7T3J5/qN8F75i3h7uaaJ8VlMNKTYb1vJzd6wmIyP92Kq6wQwJeaSmB3D0PsAyFS9vNl7rmDR4q
+ 5PhIqkwCh6MIsVLTa3Y=;
+Received: by exim-smtp-65fb4546d8-68565 with esmtpa (envelope-from
+ <danila@jiaxyga.com>)
+ id 1sVy0D-0000000068S-0LmM; Mon, 22 Jul 2024 21:43:18 +0300
+From: Danila Tikhonov <danila@jiaxyga.com>
+To: andersson@kernel.org, konrad.dybcio@linaro.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, robdclark@gmail.com,
+ sean@poorly.run, quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch,
+ fekz115@gmail.com
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, cros-qcom-dts-watchers@chromium.org,
+ Danila Tikhonov <danila@jiaxyga.com>
+Subject: [PATCH 0/2] Add Qualcomm Adreno 642L speedbin and update SC7280 OPPs
+Date: Mon, 22 Jul 2024 21:43:12 +0300
+Message-ID: <20240722184314.36510-1-danila@jiaxyga.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Authentication-Results: exim-smtp-65fb4546d8-68565;
+ auth=pass smtp.auth=danila@jiaxyga.com
+ smtp.mailfrom=danila@jiaxyga.com
+X-Mailru-Src: smtp
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD909E26770D4D56B7CE050A5E50D666DD0D1FDA9CE13C33044182A05F538085040A2FFBD098F5F787B3DE06ABAFEAF6705BEBB65AA4D12FC2F48430ABBF7BBE8AF7F64C579677A1242
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7904AD829351C4442EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637D99F96657F58F1038638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8D7F4317D09BF9B40EEA9110145ECC81A5B4CF0192991BA58CC7F00164DA146DAFE8445B8C89999728AA50765F790063735D2385A5E2B3AC3389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8E753FA5741D1AD02F6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA73AA81AA40904B5D9A18204E546F3947CABB3490C75E892806136E347CC761E074AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C30EC065BD0AE56831BA3038C0950A5D36B5C8C57E37DE458B330BD67F2E7D9AF16D1867E19FE14079C09775C1D3CA48CF7EF884183F8E4D671DD303D21008E298D5E8D9A59859A8B65FF0BFC5AEE34BE675ECD9A6C639B01B78DA827A17800CE7A5E9F351D2B6D545731C566533BA786AA5CC5B56E945C8DA
+X-B7AD71C0: F8D540627A99B4FB7DB86BB5CA128351461DD7A0A9FF8BE1E8F7B195E1C97831E896A1E74BEF4DCA99D32A3E8D98C3BE
+X-C1DE0DAB: 0D63561A33F958A57738EB63184333AE5002B1117B3ED696B4A40075F92D44171BDDAE3D1EA49BEA823CB91A9FED034534781492E4B8EEADEF0AF71940E62277C79554A2A72441328621D336A7BC284946AD531847A6065A535571D14F44ED41
+X-C8649E89: 1C3962B70DF3F0AD75DCE07D45A7499577DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF0A3ABCA45B3627C90D12FA681051EA9C84AFD540A386D13DD03F8F74A4750CD924DE828755D94EE916E58414F0424C726D9B744909E6DAE7172AF92A66CE5F5B5DF44ADC15825ED48100E6DA90CB805802C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojbL9S8ysBdXha/rcnMLv+KTLU88joHekl
+X-Mailru-Sender: 9EB879F2C80682A09F26F806C7394981436F3F81E16DA28EF33F69C7E48EA1FBA7A408BA37DB7622AA1143A990D0E1402C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,110 +74,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make vmwgfx go through the dma-buf interface to map/unmap imported
-buffers. The driver used to try to directly manipulate external
-buffers, assuming that everything that was coming to it had to live
-in cpu accessible memory. While technically true because what's in the
-vms is controlled by us, it's semantically completely broken.
+This patch series adds support for the A642L GPU speedbin (0x81) to the
+Adreno driver and updates the device tree for the SC7280 platform to
+include this new speedbin. The A642L is used in the Qualcomm Snapdragon
+SM7325 SoCs family, which is identical to the SC7280, just as the SM7125 is
+identical to the SC7180. Therefore, the SM7325 will use the SC7280 device
+tree. Patches for the SM7325 will be sent later, but in the meantime, you
+can find them at the following link:
+https://github.com/mainlining/linux/commits/danila/spacewar-upstream
 
-Fix importing of external buffers by forwarding all memory access
-requests to the importer.
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+To: Sean Paul <sean@poorly.run>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Eugene Lepshy <fekz115@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Cc: cros-qcom-dts-watchers@chromium.org
+Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 
-Tested by the vmw_prime basic_vgem test.
+Eugene Lepshy (2):
+  drivers: drm/msm/a6xx_catalog: Add A642L speedbin (0x81)
+  arm64: dts: qcom: sc7280: Add 0x81 Adreno speed bin
 
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_gem.c | 62 +++++++++++++++++++++++++++--
- 1 file changed, 58 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/qcom/sc7280.dtsi      | 8 ++++----
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 1 +
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-index 07185c108218..b9857f37ca1a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-@@ -1,6 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 OR MIT */
- /*
-- * Copyright 2021-2023 VMware, Inc.
-+ * Copyright (c) 2021-2024 Broadcom. All Rights Reserved. The term
-+ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
-  *
-  * Permission is hereby granted, free of charge, to any person
-  * obtaining a copy of this software and associated documentation
-@@ -78,6 +79,59 @@ static struct sg_table *vmw_gem_object_get_sg_table(struct drm_gem_object *obj)
- 	return drm_prime_pages_to_sg(obj->dev, vmw_tt->dma_ttm.pages, vmw_tt->dma_ttm.num_pages);
- }
- 
-+static int vmw_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
-+{
-+	struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(obj);
-+	int ret;
-+
-+	if (obj->import_attach) {
-+		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
-+		if (!ret) {
-+			if (drm_WARN_ON(obj->dev, map->is_iomem)) {
-+				dma_buf_vunmap(obj->import_attach->dmabuf, map);
-+				return -EIO;
-+			}
-+		}
-+	} else {
-+		ret = ttm_bo_vmap(bo, map);
-+	}
-+
-+	return ret;
-+}
-+
-+static void vmw_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
-+{
-+	if (obj->import_attach)
-+		dma_buf_vunmap(obj->import_attach->dmabuf, map);
-+	else
-+		drm_gem_ttm_vunmap(obj, map);
-+}
-+
-+static int vmw_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+{
-+	int ret;
-+
-+	if (obj->import_attach) {
-+		/*
-+		 * Reset both vm_ops and vm_private_data, so we don't end up with
-+		 * vm_ops pointing to our implementation if the dma-buf backend
-+		 * doesn't set those fields.
-+		 */
-+		vma->vm_private_data = NULL;
-+		vma->vm_ops = NULL;
-+
-+		ret = dma_buf_mmap(obj->dma_buf, vma, 0);
-+
-+		/* Drop the reference drm_gem_mmap_obj() acquired.*/
-+		if (!ret)
-+			drm_gem_object_put(obj);
-+
-+		return ret;
-+	}
-+
-+	return drm_gem_ttm_mmap(obj, vma);
-+}
-+
- static const struct vm_operations_struct vmw_vm_ops = {
- 	.pfn_mkwrite = vmw_bo_vm_mkwrite,
- 	.page_mkwrite = vmw_bo_vm_mkwrite,
-@@ -94,9 +148,9 @@ static const struct drm_gem_object_funcs vmw_gem_object_funcs = {
- 	.pin = vmw_gem_object_pin,
- 	.unpin = vmw_gem_object_unpin,
- 	.get_sg_table = vmw_gem_object_get_sg_table,
--	.vmap = drm_gem_ttm_vmap,
--	.vunmap = drm_gem_ttm_vunmap,
--	.mmap = drm_gem_ttm_mmap,
-+	.vmap = vmw_gem_vmap,
-+	.vunmap = vmw_gem_vunmap,
-+	.mmap = vmw_gem_mmap,
- 	.vm_ops = &vmw_vm_ops,
- };
- 
 -- 
-2.43.0
+2.45.2
 
