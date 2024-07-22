@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D41D9396D5
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 01:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39ABE939703
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 01:35:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 168A010E378;
-	Mon, 22 Jul 2024 23:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B93CA10E1B7;
+	Mon, 22 Jul 2024 23:35:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C3il9FYo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UchPDxJA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07BAE10E378
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 23:09:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 59F4E60B33;
- Mon, 22 Jul 2024 23:09:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339C4C116B1;
- Mon, 22 Jul 2024 23:09:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721689782;
- bh=NGlE/zK3V8uU4SAbTwuzZ3cIuKp+b5xQHGxqVgK0RKE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C3il9FYo6wStywXVPl8yU57lWzdCYNYl4/jUfDVPP3/tWLAESEHiwAlOtnRbvmcRm
- nagASD7zR+VkU8RDuvFUMUkIfG2dYhkEbyuUqYbImi/Ec9B12Cp415sWUnSm95Q214
- ol1FtEwWHwTsNXsAwzJSryPP9/pEdsva0p+H4XAdCq0rcl3dmy6IJHMHiZrN6LHj5e
- 2JelYGpV4iJwiGGsmo/KvrtkPYjym/YkVFUjzlySGeYyRekvUtg3AW+Bv945Vh/nJE
- LHGBNnwZRxhGzH5Hg0i/tghY8hjJSm0zlKpIhXgigd8/gDZUy3s+KiwZw7UmYdt1VN
- iB8EdYy9z6rtA==
-Date: Mon, 22 Jul 2024 17:09:34 -0600
-From: Rob Herring <robh@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org,
- kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org,
- francesco@dolcini.it, frank.li@nxp.com
-Subject: Re: [DO NOT MERGE PATCH v2 11/16] dt-bindings: phy:
- mixel,mipi-dsi-phy: Allow assigned-clock* properties
-Message-ID: <20240722230934.GA233475-robh@kernel.org>
-References: <20240712093243.2108456-1-victor.liu@nxp.com>
- <20240712093243.2108456-12-victor.liu@nxp.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240712093243.2108456-12-victor.liu@nxp.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 004EA10E1B7;
+ Mon, 22 Jul 2024 23:35:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1721691351; x=1753227351;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=uHBs++XUB5PWKoO0mZ43r19mbkrWMGRIfh+BSU4Ubuc=;
+ b=UchPDxJAU68UZ9kJSFIkONMxPomeil9UXfK/ILcTO3VZGKyoAhOUfTVe
+ +TPqGdI9n0D1UhthY3eV0us/Okvm2NtsQe7VOWDkSNnEP5mFIwlPPP+Sm
+ uEzZmDm0P+gEwn+21kl5ecj8Vio3vFF5ZCp8W6w6F7ehmoG8uvKLu6U8L
+ TxoYfMQtwNrM5fGDWdMWonV1GpHoIf2/Oy1qT2oG5x03JPEWK14ZE9mMN
+ h8pylaLqC8LigKvLxZnB4SWcTcHhiMd2eN79dPq1e/GmB8zgI2393cqa4
+ zbr1kixA9gYBb0Vyb5zfiBMrLtYi5Vnlj1OnF7ipOn8dEJlPSP5/6MwmE w==;
+X-CSE-ConnectionGUID: w5AJJoK/SuqZkhG/jQhKiw==
+X-CSE-MsgGUID: Ecw6siOTSCqBQvcw8HyqYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="44713378"
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="44713378"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2024 16:35:51 -0700
+X-CSE-ConnectionGUID: Djh7fBLgQL+Ljm5+Kp4vUA==
+X-CSE-MsgGUID: cF1aP7AUTiyovMn8k1nhrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; d="scan'208";a="51929193"
+Received: from dmprieto-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.125.48.92])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2024 16:35:50 -0700
+Date: Mon, 22 Jul 2024 16:25:27 -0700
+Message-ID: <87a5i9c8m0.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/7] drm/i915/pmu: Drop is_igp()
+In-Reply-To: <20240722210648.80892-5-lucas.demarchi@intel.com>
+References: <20240722210648.80892-1-lucas.demarchi@intel.com>
+ <20240722210648.80892-5-lucas.demarchi@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/29.4 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,36 +75,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 12, 2024 at 05:32:38PM +0800, Liu Ying wrote:
-> assigned-clock* properties can be used by default now, so allow them.
-> 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v2:
-> * New patch as needed by MIPI/LVDS subsystems device tree.
+On Mon, 22 Jul 2024 14:06:45 -0700, Lucas De Marchi wrote:
+>
+> There's no reason to hardcode checking for integrated graphics on a
+> specific pci slot. That information is already available per platform an
+> can be checked with IS_DGFX().
 
-Seems like this could go on its own, but if you don't want it merged 
-then I don't need to review it.
-> 
->  .../devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml          | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml b/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml
-> index 3c28ec50f097..286a4fcc977d 100644
-> --- a/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml
-> @@ -72,11 +72,6 @@ allOf:
->            contains:
->              const: fsl,imx8qxp-mipi-dphy
->      then:
-> -      properties:
-> -        assigned-clocks: false
-> -        assigned-clock-parents: false
-> -        assigned-clock-rates: false
+Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_pmu.c | 17 +++--------------
+>  1 file changed, 3 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+> index 3a8bd11b87e7..b5d14dd318e4 100644
+> --- a/drivers/gpu/drm/i915/i915_pmu.c
+> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> @@ -1235,17 +1235,6 @@ static void i915_pmu_unregister_cpuhp_state(struct i915_pmu *pmu)
+>	cpuhp_state_remove_instance(cpuhp_slot, &pmu->cpuhp.node);
+>  }
+>
+> -static bool is_igp(struct drm_i915_private *i915)
+> -{
+> -	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
 > -
->        required:
->          - fsl,syscon
->  
-> -- 
-> 2.34.1
-> 
+> -	/* IGP is 0000:00:02.0 */
+> -	return pci_domain_nr(pdev->bus) == 0 &&
+> -	       pdev->bus->number == 0 &&
+> -	       PCI_SLOT(pdev->devfn) == 2 &&
+> -	       PCI_FUNC(pdev->devfn) == 0;
+> -}
+> -
+>  void i915_pmu_register(struct drm_i915_private *i915)
+>  {
+>	struct i915_pmu *pmu = &i915->pmu;
+> @@ -1269,7 +1258,7 @@ void i915_pmu_register(struct drm_i915_private *i915)
+>	pmu->cpuhp.cpu = -1;
+>	init_rc6(pmu);
+>
+> -	if (!is_igp(i915)) {
+> +	if (IS_DGFX(i915)) {
+>		pmu->name = kasprintf(GFP_KERNEL,
+>				      "i915_%s",
+>				      dev_name(i915->drm.dev));
+> @@ -1323,7 +1312,7 @@ void i915_pmu_register(struct drm_i915_private *i915)
+>	pmu->base.event_init = NULL;
+>	free_event_attributes(pmu);
+>  err_name:
+> -	if (!is_igp(i915))
+> +	if (IS_DGFX(i915))
+>		kfree(pmu->name);
+>  err:
+>	drm_notice(&i915->drm, "Failed to register PMU!\n");
+> @@ -1351,7 +1340,7 @@ void i915_pmu_unregister(struct drm_i915_private *i915)
+>	perf_pmu_unregister(&pmu->base);
+>	pmu->base.event_init = NULL;
+>	kfree(pmu->base.attr_groups);
+> -	if (!is_igp(i915))
+> +	if (IS_DGFX(i915))
+>		kfree(pmu->name);
+>	free_event_attributes(pmu);
+>  }
+> --
+> 2.43.0
+>
