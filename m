@@ -2,92 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D134939298
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 18:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E7793929B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 18:34:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9292010E1C4;
-	Mon, 22 Jul 2024 16:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2230E10E1CA;
+	Mon, 22 Jul 2024 16:34:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="D0QagGet";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TvXvGPfV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEA8610E1C4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 16:33:57 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C65C10E1CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 16:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1721666036;
+ s=mimecast20190719; t=1721666076;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FsMiBIkevMqXBW2DcNPEnH7DY2ezXcbrlK8J00Zf6Qo=;
- b=D0QagGetdgFC6NGHb3Cr1nFLpyAAxBsUDcs2dRPyHgJvOt4x9yLL8UH2TNQ12TpmhnaLkk
- B4Jh8cL+WIcXds+rdvPsziyAP0JUgqeUxuq9c2m7jUi2KpIUh0Nqo6pinkF27rrt9Rm27F
- aUCgMO/4X8j5aFA/QalSd3Y21lxc6us=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lSNEaNP8H5/eGVQlrv1O3IQGVc24IW6Ik8uTzGK8y9g=;
+ b=TvXvGPfVcB0HOkTk9hNsDgrR6qcJwc83J34p+vlPwnx8PKC5iSY+dy6r7+hPetKAHEIOQV
+ 9SKMds2IUQDHoL0ACurUPKyl6e58kytaCSJNg5bHH7lRD77wy5tty9tt9eBBV6+cbT95Ux
+ 1r1JkCj8P1/JCSv6cFV3RUHY05qqrzY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-20-rLvhzkdQPc6sXHsYwIfY4A-1; Mon, 22 Jul 2024 12:33:52 -0400
-X-MC-Unique: rLvhzkdQPc6sXHsYwIfY4A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-427d9e61ba8so21859935e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 09:33:52 -0700 (PDT)
+ us-mta-613-S8zyFAx5OZedWQeUzZ5heg-1; Mon, 22 Jul 2024 12:34:34 -0400
+X-MC-Unique: S8zyFAx5OZedWQeUzZ5heg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-42794cb8251so36853785e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 09:34:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721666031; x=1722270831;
+ d=1e100.net; s=20230601; t=1721666073; x=1722270873;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FsMiBIkevMqXBW2DcNPEnH7DY2ezXcbrlK8J00Zf6Qo=;
- b=b4ocZuhAJ2SxHk0QcC1LCHj0EXoaTDhmqDnNCIZ8cfaNL5LrnngNgwNnERy4y6onTL
- zPq8Hll/kxyqy4KrJy0VPTYlkPyEKjyNNN2NZMlJUJIF0LynGYFZqfyzDyF7cbq2WxQf
- axh6G1P+q8xa9f5KNmXGWgtx3dCRl1ZPXDFS1GA/1ky84FZBpupTDDNkyUWAoHUT9aaY
- RraNnrSAvxMKaxZ+XPHsty7GvpqbK7h7/pPz8YClhGO2U2MHwTQKEv020dxWsqSzhWhm
- 9qMJlqXaRGlEWczqeauXxawWzkJ0+tLwJJqP4SAcVzKMPZkfHgA01ywVaARhH1D8kevf
- xVjw==
+ bh=lSNEaNP8H5/eGVQlrv1O3IQGVc24IW6Ik8uTzGK8y9g=;
+ b=L+sSTdm+9D9KbSY86g4CqUBB/2H8paWLkwom8BNOrOHAyFW2Tb20aCNPcLVbyJhYnK
+ eMwLzaxXNRgt7tgM65sVKLO2suWXliN4i953McM/7gJRwEI+7BZhZNpdO/GJIkE2jbDP
+ VmzuRrQBYI+bzJHqKbMQZPb4Z3oaB76NUc8c2jm4iO0OFgvQoQsz588Xs5ojwlkHiy3I
+ tS8J/DKP4+97z5bmUPmK2DPOCFINtL6pR9BPYJUQ5ryn6ewoBGugLg9QC729jTQRxDp7
+ 3FCq6porJYFm8RZ4w23u6RtmtHDZm13FRHMM9YD5K2cCsUEA5QrnVX0TdRBaNHBMO+1V
+ 8dpA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXJHTciT9Gox9ePT6TVTVt/VtchpVkVtmKWZvVGYpCyWJkXpBB2hbO4GAiWqSEMyKXuaAfuJhYKx4ci+1w58Ta97Smu8oQmop9pQr6k0OCd
-X-Gm-Message-State: AOJu0Yz6x7Xu6Klk5oBzecJafuN79iWcA0O79zJ+f6wzlTl+w3AyX212
- tJSwsg94aY7fjL7gzTkeVFu99OsJOeHw9Uw9zd5JOuYB7WH4/E7yEYLswSnL0pC13fXxUSHTNcC
- 434tgzB7YKgQVOVFk5n0Dsd9n7k4GBrzYKUcFAmal7L8lhUYC+4b7/r8jr4Foq1sGJQ==
-X-Received: by 2002:a05:600c:5249:b0:426:6710:223c with SMTP id
- 5b1f17b1804b1-427ecfdfbfdmr3456075e9.9.1721666031478; 
- Mon, 22 Jul 2024 09:33:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHhKPZMMgKyz4fSPYvf9iTPhG7gauOPL0vg5XbFth0P+eIWasAnvRYSb0MhB0GEllFAUXFdAQ==
-X-Received: by 2002:a05:600c:5249:b0:426:6710:223c with SMTP id
- 5b1f17b1804b1-427ecfdfbfdmr3455885e9.9.1721666031086; 
- Mon, 22 Jul 2024 09:33:51 -0700 (PDT)
+ AJvYcCW02Vl6iDzD7nQSEYpp+KL5sQwJZnt/xVEThmNKMdEcp8hwHLAdIzODF0zalSnIoSUZZXRaYb/MCrMimrgDbauR39lOp2m/yROzehqI3X4d
+X-Gm-Message-State: AOJu0YxpulWYODJYYrCYCULQyuE0NYHFhvdAyigM0raX57Ij4fCHt1j4
+ uMT7zRd0D9O5GNdGsHwTiduaXAzQPbRbkUtpedv1QfkWBk2NnbCsL8OR95/EB8HtoSWvRK6Dysv
+ DAYLXbEHrsEcP57l2iWMBMKinLRs6TKWMEaMw8iidyuYHW0OVMF5UjR0sWGDTRBz8rA==
+X-Received: by 2002:a05:600c:4f0c:b0:426:5f8f:51a4 with SMTP id
+ 5b1f17b1804b1-427daa2815cmr43743015e9.12.1721666073746; 
+ Mon, 22 Jul 2024 09:34:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+OrtOq9aqUKQAvqLUlUdGwmwjBvw3l7GhLZRB22QgBwpQRPohFHgOIA2Kt7hUWTLziSUvXQ==
+X-Received: by 2002:a05:600c:4f0c:b0:426:5f8f:51a4 with SMTP id
+ 5b1f17b1804b1-427daa2815cmr43742815e9.12.1721666073319; 
+ Mon, 22 Jul 2024 09:34:33 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:d5:a000:d3ea:62cf:3052:fac6?
  ([2a01:e0a:d5:a000:d3ea:62cf:3052:fac6])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-427d2a8e42bsm164383095e9.30.2024.07.22.09.33.49
+ 5b1f17b1804b1-427d6900caasm132996285e9.11.2024.07.22.09.34.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jul 2024 09:33:50 -0700 (PDT)
-Message-ID: <d7b13cc3-d7b7-4cf2-b08a-4228efe04f53@redhat.com>
-Date: Mon, 22 Jul 2024 18:33:46 +0200
+ Mon, 22 Jul 2024 09:34:32 -0700 (PDT)
+Message-ID: <db3609fb-9ebc-42b2-a080-26462a8a491f@redhat.com>
+Date: Mon, 22 Jul 2024 18:34:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mtd: mtdoops: Fix kmsgdump parameter renaming.
-To: Richard Weinberger <richard@nod.at>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- linux-mtd <linux-mtd@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Knop Ryszard <ryszard.knop@intel.com>
-References: <20240719152542.1554440-1-jfalempe@redhat.com>
- <1868573045.102281.1721661681881.JavaMail.zimbra@nod.at>
+Subject: Re: [PATCH] fbcon: Use oops_in_progress instead of panic_cpu
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: lkp@intel.com, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev
+References: <202407210203.2ISiIC9m-lkp@intel.com>
+ <20240722114800.174558-1-jfalempe@redhat.com>
+ <Zp5pl4kcu9q6FWTP@phenom.ffwll.local>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <1868573045.102281.1721661681881.JavaMail.zimbra@nod.at>
+In-Reply-To: <Zp5pl4kcu9q6FWTP@phenom.ffwll.local>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,53 +102,63 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 22/07/2024 17:21, Richard Weinberger wrote:
-> ----- Ursprüngliche Mail -----
->> Betreff: [PATCH] mtd: mtdoops: Fix kmsgdump parameter renaming.
-> 
->> When the kmsg_dumper callback parameter changed, the reason variable
->> in mtdoops_do_dump() was not updated accordingly.
->> This breaks the build with mtdoops.
+On 22/07/2024 16:15, Daniel Vetter wrote:
+> On Mon, Jul 22, 2024 at 01:47:51PM +0200, Jocelyn Falempe wrote:
+>> Panic_cpu is not exported, so it can't be used if fbcon is used as
+>> a module. Use oops_in_progress in this case, but non-fatal oops won't
+>> be printed.
 >>
->> Fixes: e1a261ba599e ("printk: Add a short description string to kmsg_dump()")
->> Reported-by: Knop Ryszard <ryszard.knop@intel.com>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Closes: https://lore.kernel.org/oe-kbuild-all/202407210203.2ISiIC9m-lkp@intel.com/
 >> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>
->> The offended commit is in the drm-misc tree, because it was needed
->> by drm_panic. So I will push the fix there too.
->>
->> drivers/mtd/mtdoops.c | 4 ++--
->> 1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/mtd/mtdoops.c b/drivers/mtd/mtdoops.c
->> index 86d49db9196d..7bf3777e1f13 100644
->> --- a/drivers/mtd/mtdoops.c
->> +++ b/drivers/mtd/mtdoops.c
->> @@ -305,7 +305,7 @@ static void mtdoops_do_dump(struct kmsg_dumper *dumper,
->> 	struct kmsg_dump_iter iter;
->>
->> 	/* Only dump oopses if dump_oops is set */
->> -	if (reason == KMSG_DUMP_OOPS && !dump_oops)
->> +	if (detail->reason == KMSG_DUMP_OOPS && !dump_oops)
->> 		return;
->>
->> 	kmsg_dump_rewind(&iter);
->> @@ -317,7 +317,7 @@ static void mtdoops_do_dump(struct kmsg_dumper *dumper,
->> 			     record_size - sizeof(struct mtdoops_hdr), NULL);
->> 	clear_bit(0, &cxt->oops_buf_busy);
->>
->> -	if (reason != KMSG_DUMP_OOPS) {
->> +	if (detail->reason != KMSG_DUMP_OOPS) {
 > 
-> Acked-by: Richard Weinberger <richard@nod.at>
+> Yeah it's not great but gets the job done.
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 I pushed it to drm-misc-next.
 
 Thanks a lot.
 
 > 
-> Thanks,
-> //richard
+> Cheers, Sima
+> 
+>> ---
+>>   drivers/video/fbdev/core/fbcon.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+>> index 498d9c07df80..2e093535884b 100644
+>> --- a/drivers/video/fbdev/core/fbcon.c
+>> +++ b/drivers/video/fbdev/core/fbcon.c
+>> @@ -64,6 +64,8 @@
+>>   #include <linux/console.h>
+>>   #include <linux/string.h>
+>>   #include <linux/kd.h>
+>> +#include <linux/panic.h>
+>> +#include <linux/printk.h>
+>>   #include <linux/slab.h>
+>>   #include <linux/fb.h>
+>>   #include <linux/fbcon.h>
+>> @@ -272,7 +274,14 @@ static int fbcon_get_rotate(struct fb_info *info)
+>>   
+>>   static bool fbcon_skip_panic(struct fb_info *info)
+>>   {
+>> +/* panic_cpu is not exported, and can't be used if built as module. Use
+>> + * oops_in_progress instead, but non-fatal oops won't be printed.
+>> + */
+>> +#if defined(MODULE)
+>> +	return (info->skip_panic && unlikely(oops_in_progress));
+>> +#else
+>>   	return (info->skip_panic && unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID));
+>> +#endif
+>>   }
+>>   
+>>   static inline int fbcon_is_inactive(struct vc_data *vc, struct fb_info *info)
+>>
+>> base-commit: 7e33fc2ff6754b5ff39b11297f713cd0841d9962
+>> -- 
+>> 2.45.2
+>>
 > 
 
