@@ -2,83 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365859388DB
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 08:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E029388FB
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2024 08:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E72010E372;
-	Mon, 22 Jul 2024 06:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A027F10E373;
+	Mon, 22 Jul 2024 06:37:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="l65nNzRL";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="JaTA7zee";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31D0A10E373
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 06:25:33 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46LNrNF2009144;
- Mon, 22 Jul 2024 06:25:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- epzHvjGfNTuW8kWBWUpAehPis3xDQaoIaU0NM0n+f38=; b=l65nNzRLrEmyaPSC
- zlC0XogCCyj19J9HJ9R8TuN747Octzg28oBuDuHCiUeu9Djx3LD5g4i+C/9WfLm0
- pZw6mc6oFHRW6p2vf4T/cJ2TDa/Bjf7qU3+ml0nCPTHdvWTokr/DrJhNVNSDSdJQ
- e3bwsSM9mS5Qj8/WkkY7ECBE/upSJe2mIXPy9EEeNSeWDba+EOSlCgHxKUwnblIl
- I7Y6LPTSpYgb4yoTJDgAZD36S8eue1VbAoZLJFgYZ37IMCeEx3dYF6NzPfkDIahG
- 5qY1INv1VI7dOcDxIK+LG1Yu10k+MFTTXnEEcH3DEat8kSpcSFcmy99odXdBZqdH
- MScrxQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40g487aubw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Jul 2024 06:25:26 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46M6PPWc012603
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Jul 2024 06:25:25 GMT
-Received: from [10.204.65.49] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 21 Jul
- 2024 23:25:22 -0700
-Message-ID: <35e52822-a81f-4b2c-adc1-903785ce1849@quicinc.com>
-Date: Mon, 22 Jul 2024 11:55:19 +0530
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CDCF10E373
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 06:37:41 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] misc: fastrpc: Increase unsigned PD initmem size
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <quic_bkumar@quicinc.com>, <linux-kernel@vger.kernel.org>,
- <quic_chennak@quicinc.com>, <dri-devel@lists.freedesktop.org>,
- <arnd@arndb.de>, stable <stable@kernel.org>
-References: <20240722055437.3467900-1-quic_ekangupt@quicinc.com>
- <20240722055437.3467900-3-quic_ekangupt@quicinc.com>
- <2024072235-daydream-clunky-0272@gregkh>
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-In-Reply-To: <2024072235-daydream-clunky-0272@gregkh>
-Content-Type: text/plain; charset="UTF-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1721630259;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2X4G9phBgH8Lk9uVjmD3QFcV2wSgIIyVsCvsrmO1ghw=;
+ b=JaTA7zeeVx9970mf1M4mWXUmDuKsVkDbenJ3dQ47aJdGLMe6Xf7Ek6TyVk5yHKdcDe99kq
+ ogyCxxM8uFFjKf6318Mj1RtDTm5vdXpzOatgtmHbT9gBDlRBdWSwrYI3f6YU+8NHapxpvd
+ uPZj9e5bWQTbyfWzOxO3u9QtSsrd1YXLddceWwkk3IifxEGqRtHmrmv545cO2OniV9G5uw
+ OqeZdpOXk4Ho5nW8BoaGmgJwRPCEzOnr8EGs7KxJFttAtrsDjflS2N/h7/qcdCDuITpJI/
+ ELj+T/tuCXyvU58UMSXhnPZff8WOAqXhuhgG97g0Xjh14LVUiknFYw8v/ru7Wg==
+Date: Mon, 22 Jul 2024 08:37:37 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, andy.yan@rock-chips.com, heiko@sntech.de,
+ hjc@rock-chips.com
+Subject: Re: [PATCH RESEND] rockchip/drm: vop2: add support for gamma LUT
+In-Reply-To: <ZVMxgcrtgHui9fJpnhbN6TSPhofHbbXElh241lImrzzTUl-8WejGpaR8CPzYhBgoqe_xj7N6En8Ny7Z-gsCr0kaFs7apwjYV1MBJJLmLHxs=@proton.me>
+References: <ZVMxgcrtgHui9fJpnhbN6TSPhofHbbXElh241lImrzzTUl-8WejGpaR8CPzYhBgoqe_xj7N6En8Ny7Z-gsCr0kaFs7apwjYV1MBJJLmLHxs=@proton.me>
+Message-ID: <d019761504b540600d9fc7a585d6f95f@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: g6mNA2sHTMUHVEl96SEUvXV5NRkW6U-8
-X-Proofpoint-GUID: g6mNA2sHTMUHVEl96SEUvXV5NRkW6U-8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-22_02,2024-07-18_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 mlxlogscore=998
- malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2407220048
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,72 +61,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Piotr,
 
+Thanks for the patch.  Please see a few general comments below.
 
-On 7/22/2024 11:30 AM, Greg KH wrote:
-> On Mon, Jul 22, 2024 at 11:24:37AM +0530, Ekansh Gupta wrote:
->> For unsigned PD offloading requirement, additional memory is required
->> because of additional static heap initialization. Without this
->> additional memory, PD initialization would fail. Increase the initmem
->> size by 2MB for unsigned PD initmem buffer allocation. Any additional
->> memory sent to DSP during PD init is used as the PD heap.
->>
->> Fixes: 7f1f481263c3 ("misc: fastrpc: check before loading process to the DSP")
->> Cc: stable <stable@kernel.org>
->> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
->> ---
->>  drivers/misc/fastrpc.c | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->> index a3a5b745936e..18668b020a87 100644
->> --- a/drivers/misc/fastrpc.c
->> +++ b/drivers/misc/fastrpc.c
->> @@ -40,6 +40,7 @@
->>  #define FASTRPC_CTXID_MASK (0xFF0)
->>  #define INIT_FILELEN_MAX (2 * 1024 * 1024)
->>  #define FASTRPC_INITLEN_MIN (3 * 1024 * 1024)
->> +#define FASTRPC_STATIC_HEAP_LEN (2 * 1024 * 1024)
->>  #define INIT_FILE_NAMELEN_MAX (128)
->>  #define FASTRPC_DEVICE_NAME	"fastrpc"
->>  
->> @@ -1411,8 +1412,14 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
->>  			goto err;
->>  	}
->>  
->> +	/* Allocate buffer in kernel for donating to remote process.
->> +	 * Unsigned PD requires additional memory because of the
-> What is "PD"?
-DSP PD(protection domain) is execution environment supported by DSP.
->
->> +	 * additional static heap initialized within the process.
->> +	 */
-> Why are you using networking comment style for a non-networking file?
-I observed similar style in this driver file. I will update this in proper style in the next patch.
->
->>  	memlen = ALIGN(max(FASTRPC_INITLEN_MIN, (int)init.filelen * 4),
->>  		       1024 * 1024);
->> +	if (unsigned_module)
->> +		memlen += FASTRPC_STATIC_HEAP_LEN;
-> I don't understand, why is "static heap length" being added for
-> something that is "unsigned"?  Why isn't this just "SIGNING FREE SPACE"
-> or something like that?
-The difference between signed PD and unsigned PD is:
-Signed PD: Available on all DSPs and requires that the shared objects being loaded in the PD
-are signed with a digital signature.
+On 2024-07-21 12:06, Piotr Zalewski wrote:
+> Add support for gamma LUT in VOP2 driver. The implementation is based 
+> on
+> the one found in VOP driver and modified to be compatible with VOP2. 
+> Blue
+> and red channels in gamma LUT register write were swapped with respect 
+> to
+> how gamma LUT values are written in VOP. Write of the current video 
+> port id
+> to VOP2_SYS_LUT_PORT_SEL register was added before the write of 
+> DSP_LUT_EN
+> bit. Gamma size is set and drm color management is enabled for each 
+> video
+> port's CRTC except ones which have no associated device. Tested on 
+> RK3566
+> (Pinetab2).
+> 
+> Signed-off-by: Piotr Zalewski <pZ010001011111@proton.me>
+> ---
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> index 9873172e3fd3..16abdc4a59a8 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> @@ -278,6 +278,15 @@ static u32 vop2_readl(struct vop2 *vop2, u32 
+> offset)
+>  	return val;
+>  }
+> 
+> +static u32 vop2_vp_read(struct vop2_video_port *vp, u32 offset)
+> +{
+> +	u32 val;
+> +
+> +	regmap_read(vp->vop2->map, vp->data->offset + offset, &val);
+> +
+> +	return val;
+> +}
+> +
+>  static void vop2_win_write(const struct vop2_win *win, unsigned int 
+> reg, u32 v)
+>  {
+>  	regmap_field_write(win->reg[reg], v);
+> @@ -1482,6 +1491,97 @@ static bool vop2_crtc_mode_fixup(struct drm_crtc 
+> *crtc,
+>  	return true;
+>  }
+> 
+> +static bool vop2_vp_dsp_lut_is_enabled(struct vop2_video_port *vp)
+> +{
+> +	return (u32) (vop2_vp_read(vp, RK3568_VP_DSP_CTRL) &
+> RK3568_VP_DSP_CTRL__DSP_LUT_EN) >
+> +	    0;
+> +}
+> +
+> +static void vop2_vp_dsp_lut_enable(struct vop2_video_port *vp)
+> +{
+> +	u32 dsp_ctrl = vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
+> +
+> +	dsp_ctrl |= RK3568_VP_DSP_CTRL__DSP_LUT_EN;
+> +	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+> +}
+> +
+> +static void vop2_vp_dsp_lut_disable(struct vop2_video_port *vp)
+> +{
+> +	u32 dsp_ctrl = vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
+> +
+> +	dsp_ctrl &= ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
+> +	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+> +}
+> +
+> +static void vop2_crtc_write_gamma_lut(struct vop2 *vop2, struct 
+> drm_crtc *crtc)
+> +{
+> +	const struct vop2_data *vop2_data = vop2->data;
+> +	const struct vop2_video_port *vp = to_vop2_video_port(crtc);
+> +	const struct vop2_video_port_data *vp_data = &vop2_data->vp[vp->id];
 
-Unsigned PD: Sandboxed low-rights process that allows signature-free shared objects to run on
-CDSP.
+Perhaps vop2_data could be dropped as a separate variable.
 
-For unsigned PD there are some additional statically initialized heap for which additional memory
-is required. I'll try to come up with a better name.
+> +
+> +	struct drm_color_lut *lut = crtc->state->gamma_lut->data;
+> +	unsigned int i, bpc = ilog2(vp_data->gamma_lut_len);
+> +	u32 word;
+> +
+> +	for (i = 0; i < crtc->gamma_size; i++) {
+> +		word = (drm_color_lut_extract(lut[i].blue, bpc) << (2 * bpc)) |
+> +		    (drm_color_lut_extract(lut[i].green, bpc) << bpc) |
+> +		    drm_color_lut_extract(lut[i].red, bpc);
+> +
+> +		writel(word, vop2->lut_regs + i * 4);
+> +	}
+> +}
+> +
+> +static void vop2_crtc_gamma_set(struct vop2 *vop2, struct drm_crtc 
+> *crtc,
+> +				struct drm_crtc_state *old_state)
+> +{
+> +	struct drm_crtc_state *state = crtc->state;
+> +	struct vop2_video_port *vp = to_vop2_video_port(crtc);
+> +	u32 dsp_ctrl;
+> +	int ret;
+> +
+> +	if (!vop2->lut_regs)
+> +		return;
+> +
+> +	if (!state->gamma_lut) {
+> +		/*
+> +		 * To disable gamma (gamma_lut is null) or to write
+> +		 * an update to the LUT, clear dsp_lut_en.
+> +		 */
+> +		vop2_lock(vop2);
+> +
+> +		vop2_vp_dsp_lut_disable(vp);
+> +
+> +		vop2_cfg_done(vp);
+> +		vop2_unlock(vop2);
+> +		/*
+> +		 * In order to write the LUT to the internal memory,
+> +		 * we need to first make sure the dsp_lut_en bit is cleared.
+> +		 */
+> +		ret =
+> +		    readx_poll_timeout(vop2_vp_dsp_lut_is_enabled, vp, dsp_ctrl,
+> !dsp_ctrl, 5,
+> +				       30 * 1000);
 
-Thanks for the review.
+It would look nicer to keep "ret =" and "readx_poll_timeout(..." in the 
+same line,
+and to introduce line breaks later in the same line.
 
---Ekansh
->
-> thanks,
->
-> greg "naming is hard" k-h
->
-
+> +
+> +		if (ret) {
+> +			DRM_DEV_ERROR(vop2->dev, "display LUT RAM enable timeout!\n");
+> +			return;
+> +		}
+> +
+> +		if (!state->gamma_lut)
+> +			return;
+> +	}
+> +
+> +	vop2_crtc_write_gamma_lut(vop2, crtc);
+> +
+> +	vop2_lock(vop2);
+> +	vop2_writel(vp->vop2, RK3568_LUT_PORT_SEL, vp->id);
+> +
+> +	vop2_vp_dsp_lut_enable(vp);
+> +
+> +	vop2_cfg_done(vp);
+> +	vop2_unlock(vop2);
+> +}
+> +
+>  static void vop2_dither_setup(struct drm_crtc *crtc, u32 *dsp_ctrl)
+>  {
+>  	struct rockchip_crtc_state *vcstate = 
+> to_rockchip_crtc_state(crtc->state);
+> @@ -1925,6 +2025,7 @@ static void vop2_crtc_atomic_enable(struct 
+> drm_crtc *crtc,
+>  	const struct vop2_data *vop2_data = vop2->data;
+>  	const struct vop2_video_port_data *vp_data = &vop2_data->vp[vp->id];
+>  	struct drm_crtc_state *crtc_state =
+> drm_atomic_get_new_crtc_state(state, crtc);
+> +	struct drm_crtc_state *old_state = 
+> drm_atomic_get_old_crtc_state(state, crtc);
+>  	struct rockchip_crtc_state *vcstate = 
+> to_rockchip_crtc_state(crtc->state);
+>  	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+>  	unsigned long clock = mode->crtc_clock * 1000;
+> @@ -2060,6 +2161,9 @@ static void vop2_crtc_atomic_enable(struct 
+> drm_crtc *crtc,
+>  	drm_crtc_vblank_on(crtc);
+> 
+>  	vop2_unlock(vop2);
+> +
+> +	if (crtc->state->gamma_lut)
+> +		vop2_crtc_gamma_set(vop2, crtc, old_state);
+>  }
+> 
+>  static int vop2_crtc_atomic_check(struct drm_crtc *crtc,
+> @@ -2070,6 +2174,16 @@ static int vop2_crtc_atomic_check(struct 
+> drm_crtc *crtc,
+>  	int nplanes = 0;
+>  	struct drm_crtc_state *crtc_state =
+> drm_atomic_get_new_crtc_state(state, crtc);
+> 
+> +	if (vp->vop2->lut_regs && crtc_state->color_mgmt_changed &&
+> crtc_state->gamma_lut) {
+> +		unsigned int len = drm_color_lut_size(crtc_state->gamma_lut);
+> +
+> +		if (len != crtc->gamma_size) {
+> +			DRM_DEBUG_KMS("Invalid LUT size; got %d, expected %d\n",
+> +				      len, crtc->gamma_size);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+>  	drm_atomic_crtc_state_for_each_plane(plane, crtc_state)
+>  		nplanes++;
+> 
+> @@ -2459,6 +2573,10 @@ static void vop2_setup_dly_for_windows(struct 
+> vop2 *vop2)
+>  static void vop2_crtc_atomic_begin(struct drm_crtc *crtc,
+>  				   struct drm_atomic_state *state)
+>  {
+> +	struct drm_crtc_state *crtc_state = 
+> drm_atomic_get_new_crtc_state(state,
+> +									  crtc);
+> +	struct drm_crtc_state *old_crtc_state = 
+> drm_atomic_get_old_crtc_state(state,
+> +									      crtc);
+>  	struct vop2_video_port *vp = to_vop2_video_port(crtc);
+>  	struct vop2 *vop2 = vp->vop2;
+>  	struct drm_plane *plane;
+> @@ -2482,6 +2600,9 @@ static void vop2_crtc_atomic_begin(struct 
+> drm_crtc *crtc,
+>  	vop2_setup_layer_mixer(vp);
+>  	vop2_setup_alpha(vp);
+>  	vop2_setup_dly_for_windows(vop2);
+> +
+> +	if (crtc_state->color_mgmt_changed && !crtc_state->active_changed)
+> +		vop2_crtc_gamma_set(vop2, crtc, old_crtc_state);
+>  }
+> 
+>  static void vop2_crtc_atomic_flush(struct drm_crtc *crtc,
+> @@ -2791,6 +2912,14 @@ static int vop2_create_crtcs(struct vop2 *vop2)
+> 
+>  		drm_crtc_helper_add(&vp->crtc, &vop2_crtc_helper_funcs);
+> 
+> +		if (vop2->lut_regs && vp->crtc.dev != NULL) {
+> +			const struct vop2_video_port_data *vp_data = 
+> &vop2_data->vp[vp->id];
+> +
+> +			drm_mode_crtc_set_gamma_size(&vp->crtc, vp_data->gamma_lut_len);
+> +			drm_crtc_enable_color_mgmt(&vp->crtc, 0, false,
+> +						   vp_data->gamma_lut_len);
+> +		}
+> +
+>  		init_completion(&vp->dsp_hold_completion);
+>  	}
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> index 615a16196aff..3a58b73fa876 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> @@ -394,6 +394,7 @@ enum dst_factor_mode {
+>  #define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN		BIT(15)
+> 
+>  #define RK3568_VP_DSP_CTRL__STANDBY			BIT(31)
+> +#define RK3568_VP_DSP_CTRL__DSP_LUT_EN			BIT(28)
+>  #define RK3568_VP_DSP_CTRL__DITHER_DOWN_MODE		BIT(20)
+>  #define RK3568_VP_DSP_CTRL__DITHER_DOWN_SEL		GENMASK(19, 18)
+>  #define RK3568_VP_DSP_CTRL__DITHER_DOWN_EN		BIT(17)
