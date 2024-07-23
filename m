@@ -2,70 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F47693A7C3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 21:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9250293A7CA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 21:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF79710E191;
-	Tue, 23 Jul 2024 19:47:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE9D710E308;
+	Tue, 23 Jul 2024 19:49:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="XlBep9ip";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="BC6R/7/G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DDD910E191
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 19:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1721764066; x=1722368866; i=markus.elfring@web.de;
- bh=/DlLWB2Hi8qg00Gcs+GhwwxplxmqxKt2SOLUkNJ2Jf0=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=XlBep9ipTOVtvILAo5sGcLrF4x9FILgxzGeHxYPKdRgHUhrZZcbkSXryFwLI8c90
- Dzx6nZN6phJWS+FyzhW8HnIqvfnENwRI9lKmakXWmjAOAouSl2wc8Bd2Tm31WydyT
- dmrlI7z6bQEUqlNJXfV0Y57kqgXuHyJmmsy0hWW/wrKS9fhUX4u8rvO4VICTXhldr
- qExThizW6T9dTJgYfq4Ior+lmTADyL2ASKJlfDvCb4w9vI5QlAoBTYWwIkmoq8tV4
- /HueSvGbSxm5bH+CQRviBSU0I0NCfxwBGnBXlw5FyY44F+wQBjLDQznGKY5707Txw
- 1mhRuQ82w08ElCY9iw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MODiN-1sutgp1uhN-00Nz1V; Tue, 23
- Jul 2024 21:47:46 +0200
-Message-ID: <5d2c6818-ed05-4e89-9405-859af5f3ede9@web.de>
-Date: Tue, 23 Jul 2024 21:47:42 +0200
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com
+ [209.85.219.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8E210E1E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 19:49:04 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id
+ 6a1803df08f44-6b6199ef089so34858736d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 12:49:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1721764141; x=1722368941;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rk9EMEI4L6lDxsIEgVeMjCp1kcxiTQupiuAAcvpqnrQ=;
+ b=BC6R/7/G9hEdaWBR9NwSykFEikWewicnZPvhjUwxkEENp/b7HnKCi/RZ1Jlja9w1c3
+ tFXpciV1CNipQMS+dlXiFed5UjSwblhqMUpk3XcJ+J9qYd3aei3rjdelv65mkf/UiuHu
+ glm42WsTQzYlDDcFZNtBQ6mKJ3+ws6a8ldNFs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721764141; x=1722368941;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rk9EMEI4L6lDxsIEgVeMjCp1kcxiTQupiuAAcvpqnrQ=;
+ b=Dvjvfx8pax4vg5T7rMYjgRXFyM13nU5CBSdnGJtVQZPIjNjZazkFsJ10TUCiD5R0G5
+ jPuGqRJZFRJgo1Tu37gTlexnic8TrRV689/zPFtjIPdiLvvn8wX4eN+PwBHniUi8B+f/
+ /CjsZmYxfK/Zjc2eSvYJbGp/g4Q6YLKEQUlKsxrKPUiKkvRJR4hWUkqPcnniNDaYcPjl
+ +UkTBW3JfoYi8wMFxJGT/jwkcmgpnxHFtuRelGfUtviMuT5lUMqwjc4q4j76qHziSawN
+ l0AfPy5BI77IP5GRu4Bl1aGiIZ9wykQ4ZPxtPdpCS5gDqRYTRMY9cXUo3yqRCXWfKXsv
+ 9GtQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVo4Rd7E66QZ3gvE5T5G/qHpASef0sFjNb9ohMHHqdV4ne06JQKvgri6RBMPpdSx8dwa2toEDLlp74AZ1pooHFZPLaEFoiLcZepBIBYYKoR
+X-Gm-Message-State: AOJu0Yzp1tSy2OC2w0evT4JkH6aUwJnFFeNJJtxxNYGcU/5xoB/h4N0P
+ qEONCm/TIHswxr8zcj8X0aYZxpFY6lG7ILchodevHliwg04qOjp9ftxuN4xxgq6Mw5XkpTdczlA
+ =
+X-Google-Smtp-Source: AGHT+IFpIPMHeJ7Rqktsndq9US5b08RgP8k2EV9G6Tsu+ta1DU3LXAKOBU9fKMMTc+L1OWdCtOIO3g==
+X-Received: by 2002:a05:6214:624:b0:6b4:fd6b:d492 with SMTP id
+ 6a1803df08f44-6b981a5ede3mr47996246d6.54.1721764141116; 
+ Tue, 23 Jul 2024 12:49:01 -0700 (PDT)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
+ [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6b95cf17789sm39642506d6.7.2024.07.23.12.48.59
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Jul 2024 12:48:59 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id
+ d75a77b69052e-447df43324fso10801cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 12:48:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW5+ZETIxeVoQlPNxWQmT1fgHb1YIr06LGbji3pdWqXC2ECeGhJQqZDdUqQMAjLNDqDT5Wxe77y/NFI1Dtqmfo9zeDMAwXmWgOeAXio3dyZ
+X-Received: by 2002:ac8:7f49:0:b0:447:e423:a463 with SMTP id
+ d75a77b69052e-44fd4a74d29mr921661cf.3.1721764139089; Tue, 23 Jul 2024
+ 12:48:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/1] drm/loongson: Introduce component framework support
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240723183436.216670-1-sui.jingfeng@linux.dev>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240723183436.216670-1-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset=UTF-8
+References: <20240723062615.14796-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240723062615.14796-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240723062615.14796-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 23 Jul 2024 12:48:42 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VD+7hLSLv+F0Egh9=ab1nRCpiB4g+54fqeWg__z7T1-g@mail.gmail.com>
+Message-ID: <CAD=FV=VD+7hLSLv+F0Egh9=ab1nRCpiB4g+54fqeWg__z7T1-g@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] drm/panel: boe-th101mb31ig002 : using
+ drm_connector_helper_get_modes_fixed()
+To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ hsinyi@google.com, awarnecke002@hotmail.com, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zi2dm3AwXyUPaRu3uzc/eWVXzSxbBhQH3Q9FWetpLiBu40som/F
- KomC+HH1opSplbkNM7rjlPJfjop0gIMSV1tO7Z5wRJpLj6esQLpEQwYZtJtnQqGfozfSOMY
- 74IAJI1/fJDqz1pMLuiqZ5wvtRruxJHy4hTJfk1+kcv3jB1OJFQUFxcSQ/+ACKycmT4PAr8
- aRCipQ7z/wdbMiH82EgoA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:W8ntKnAQjxw=;pxlaryYF1akGHYlc4KvPIkDIS80
- hfPb20gWE8TaUqi1oQzGQVafxaeeWX/C8M9crjh7XLLXwxzsbSC4A8sUdURIGdbJM/qmHjcVv
- 009rsNprDN+i+qZ3jm8GSLpSzL9D/4f7vzjN0f7XNcXaCn2VHtyjqRjTj3HXkLJ1tDlz5Alym
- yGal4xR/+aFDeBPajN6cg52xfDvD7qKt1mfNodoXqnNR7fE0UrCwd0Tadg4stwe8rI2EyRowt
- ZQuVOIFg0I3D+dSBx7UcjTgN0mK2yOdDP1JSX+5H+7fL3AAghLIbXBj6vAK5oZjVWhFr1mATS
- 5Q8uXfHFVEFsI5zm2nVJqYQg076pU5kx0rrI6XBl84Gif8MDpEglBFCNXSuVfRYyn3m1u20+e
- PX/uaCF2ptHhyT0GwcyfCEaNg8J0OUq2lDyDGtwb/SFJDj+hw6aTnXIJzxuy/LqW2wOeXg3Zx
- nBPtLEflkWCcl6PrnlR5FQF+mGFebMQx33XXginNq8hri3jf4oXp/QzdmVDuPFUgGLpL0xJVg
- j2TgyWIuda6egU0HWR76balP/bIPEmEI0cvWwCQLsWlYTwbhU3e8hIAqWyDW7vre72kLp0Um7
- ADXHGFwtCpBjyVP0HfDhlZVL4K9r+j11zpVDPPx+0O8fNpaymNimXUOSWNwyYjas/yQtq4hWf
- Rb10gBcHPOCtnH6ZwdAMbKIyr/N/UM6R0zO+J2BCrJ4Uyzmr2nCX7MqydnhGryULDWf4JC3ET
- nEn92YNYf0mmdcHW77p3IC3ydhteHdfnItd7lo6cuIt2NaE1fm+0OkaLEG+R4ttd/HGAPdJg0
- LaSCwePvRKZoEzZHLAiDcIEQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,12 +97,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> v3 -> v4:
-> 	* Tiny refinement and clean up.
+Hi,
 
-I suggest to reconsider the need for a cover letter according to a single =
-patch.
+On Mon, Jul 22, 2024 at 11:26=E2=80=AFPM Zhaoxiong Lv
+<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+>
+> Use public functions( drm_connector_helper_get_modes_fixed()) to
+> get porch parameters.
+>
+> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+> ---
+> Changes between V4 and V3:
+> -  1.Modify the return value, return drm_connector_helper_get_modes_fixed=
+(connector, desc_mode).
+> v3: https://lore.kernel.org/all/20240722092428.24499-3-lvzhaoxiong@huaqin=
+.corp-partner.google.com/
+>
+> Changes between V3 and V2:
+> -  1. Keep bpc settings and drm_connector_set_panel_orientation() functio=
+n..
+> v2: https://lore.kernel.org/all/20240716121112.14435-3-lvzhaoxiong@huaqin=
+.corp-partner.google.com/
+> ---
+>  .../drm/panel/panel-boe-th101mb31ig002-28a.c  | 19 ++-----------------
+>  1 file changed, 2 insertions(+), 17 deletions(-)
 
-Regards,
-Markus
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+I'd assume that Neil or Jessica will apply these two patches assuming
+they agree it looks OK. If this is stagnant for a while then I'll
+apply it.
+
+-Doug
