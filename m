@@ -2,84 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D34893A797
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 21:11:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CF393A7A1
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 21:17:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB7910E59B;
-	Tue, 23 Jul 2024 19:10:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD7710E61E;
+	Tue, 23 Jul 2024 19:17:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZCiTVTg1";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ViAcdTIe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC79510E59B
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 19:10:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1721761847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=sTmt+mPR6Dh8yvYNnj7E89BbgXp2IxTdtH3bFQH013s=;
- b=ZCiTVTg1JGDTRonzjPxuC9+R7XfII4osdGWrTy452aNcnryBAiuqYAM0X7NvdrtGNH2N5c
- HL7EwCe80XWyggLW8hfH7vP1MzwiSTCcaVJuIp5VWLRFqcDmrBuJ6UKKhE4uNJSiLLzbSO
- p65tdGku+MvNiC5FgSg33eKyWCuRItI=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-647-PMQ4E3tTOU2gEdSRGj6CkQ-1; Tue, 23 Jul 2024 15:10:44 -0400
-X-MC-Unique: PMQ4E3tTOU2gEdSRGj6CkQ-1
-Received: by mail-ua1-f71.google.com with SMTP id
- a1e0cc1a2514c-81025ee3f12so1929623241.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 12:10:44 -0700 (PDT)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
+ [209.85.160.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE96C10E61E
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 19:17:45 +0000 (UTC)
+Received: by mail-oa1-f44.google.com with SMTP id
+ 586e51a60fabf-26109c97728so2902922fac.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 12:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1721762265; x=1722367065;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=R0HgeFN0Ay5AIJvxgptlaXcddVWeUebYTJmY/Mw+Yg0=;
+ b=ViAcdTIeWfMcAUlgAhM9yHyh0lb8lF3/qq6PCBpG9KQwfLVUa/gKcnVXke5u7kcU4M
+ v2sr1qmvObUJ0rzGTQ3is3WFbBsKFkFePbSVe4vW0GG9nvGPRDJIcoug4kZO6aiHu6MU
+ fK1++kAL49qSh35k3LluYaXrhNysFxpptnZTc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721761844; x=1722366644;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sTmt+mPR6Dh8yvYNnj7E89BbgXp2IxTdtH3bFQH013s=;
- b=PKo/rOR1pWh9fYGMGZ+iXDtI6Pq1o+DdcxS7KDSk/Z4+UESl72PQJyT1HjRnlRg1BB
- l10vMnWYjqIpmM0Ikqw5F6ThpSnXL/mzM4lkWre/6TYEHzCDpm8jVfkb/vIihCz139tL
- 2CpZmqu90ZG+ZsgVVJaTcW9bMjupksb13+jwWOBsVpc06zW6Hb8+j5CGGIKXsRkSwqkl
- E1YL4rPA4u5ViKrl1YMKPg40UNKIlvtLNHHSOkjtejE1IJPEqvMyf906/3GaY1864lP9
- /PM0zyLVjySfBpX1yh74gzJUMqDL1a8fwhWFKFdAPFeK6LeNUPMA3UPuydsW37hV27Qh
- Lz+A==
+ d=1e100.net; s=20230601; t=1721762265; x=1722367065;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R0HgeFN0Ay5AIJvxgptlaXcddVWeUebYTJmY/Mw+Yg0=;
+ b=BqTe+eawbHHj3UFl2hrtiHoCrTLQrQ0UDuBgbTjNvyjpIY6ULYnjA/WtbzjWvuaDaT
+ wCeNUEEGRO3k/e6KbRgIJ/qdJtV69ICLGnKE0tm/61e3G0qK7Y8BrLJzkLj1cI2b0Pqn
+ ujNxV7K1Qbahzhjdb+MHRj+y+p/G659RoWsfoSMLJcbsZ9hMyDXE9DN7WWJ/+PDBH4H5
+ bT9RUOPs/Wrw0foOWYI/xPl2VwxxYhVUkvYSe+ZIEslesYDUsvMIiAk0W8C0VvAXcZ9g
+ KL3rbSR4zowvIblwCphfsSxHl1KO2KFe0ePRlxXmEApBBpGSZrSwjM2ZGwCDi1ATrCU3
+ BjfA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWWUVMGPLAileHQYopSrq8swbFBLaNoTAOTlhHL2yD/XPi0udFZFRvlxqgHmNcPij6a9twlGPcDdrpyZY4+mD9Waw4m4jVOM2e1AETgK++z
-X-Gm-Message-State: AOJu0YxO8K7katmtN/2TLfADANOGnxHM4dtV8mhk/AMt5x105q8uNPWS
- Vx8aVDbe0H/HLTo+sOdbreCJ77F9dbxw26FAN46WkJ1wsrbpIO8sLzHGsEAdifsqnZ9UUOABb5a
- rFDuM0r8EbhfSzU83Sh8T78mD9lFHNtktzdSBRxtDjVZNeS9MkzheLMcTCR0cqOzN
-X-Received: by 2002:a05:6122:1da3:b0:4f5:1d9a:ad5c with SMTP id
- 71dfb90a1353d-4f51d9ab5f3mr9493108e0c.14.1721761843684; 
- Tue, 23 Jul 2024 12:10:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEbsG3Spdqe024LSLYLFda/r1gVi4vp0VlP6ZUyCQKUEMpONzanpiYNPezzXds561tCZPFRZg==
-X-Received: by 2002:a05:6122:1da3:b0:4f5:1d9a:ad5c with SMTP id
- 71dfb90a1353d-4f51d9ab5f3mr9493080e0c.14.1721761843282; 
- Tue, 23 Jul 2024 12:10:43 -0700 (PDT)
-Received: from klayman.redhat.com
- (host-82-62-247-97.business.telecomitalia.it. [82.62.247.97])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7a198fbd489sm505744085a.31.2024.07.23.12.10.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jul 2024 12:10:42 -0700 (PDT)
-From: Marco Pagani <marpagan@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Marco Pagani <marpagan@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/test: use kunit action wrapper macro in the gem shmem
- test suite
-Date: Tue, 23 Jul 2024 21:10:35 +0200
-Message-ID: <20240723191036.131286-1-marpagan@redhat.com>
-X-Mailer: git-send-email 2.45.2
+ AJvYcCUYycA+obS67pHGEn+Yv1EeYgh9YQIhGEDPQSamLoUj7YWNU+Pi7M6q7F9XAf7jWMXIvGXLWQHzrThCxkB41gV1yStskhSJywDp1GW7E6Ue
+X-Gm-Message-State: AOJu0YxuH/5IbtSeSDXK+ZuvgCXEOJlhnM+gjanwkdbnAZUR1NzMDrmH
+ 2Ab48uoOq2WWMAp7oSHgcXmQyJsVGoPEPW+4ikZeVlLtrBVZnaBOp2jiMfwklRKN1VexctTcmwU
+ =
+X-Google-Smtp-Source: AGHT+IG8WSYjS4xjc+8UnsNgkDSqmLGL/Q7VQiGMpamemRSokepcD/AoPrppaP/vo3K4vsj4pvnR0Q==
+X-Received: by 2002:a05:6870:f10f:b0:261:6bc:9b8e with SMTP id
+ 586e51a60fabf-264876e58b4mr693549fac.26.1721762264836; 
+ Tue, 23 Jul 2024 12:17:44 -0700 (PDT)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com.
+ [209.85.160.174]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7a1990792a0sm506378185a.109.2024.07.23.12.17.44
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Jul 2024 12:17:44 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id
+ d75a77b69052e-447f8aa87bfso91511cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 12:17:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUA6h9AbyIUG+fsTkItfgfGptCyVQoGEkr9d3Ofb33VPMJLjFe6sD3IWuRzfiIJ/YYoHCJseUMLg+PTcOAxELeI/aoQYcAZZVgrxanFe1kx
+X-Received: by 2002:a05:622a:491:b0:447:d81a:9320 with SMTP id
+ d75a77b69052e-44fd4c6382dmr843151cf.20.1721762263871; Tue, 23 Jul 2024
+ 12:17:43 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20240709-topic-sdm450-upstream-tbx605f-panel-v1-0-af473397835d@linaro.org>
+ <20240709-topic-sdm450-upstream-tbx605f-panel-v1-2-af473397835d@linaro.org>
+In-Reply-To: <20240709-topic-sdm450-upstream-tbx605f-panel-v1-2-af473397835d@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 23 Jul 2024 12:17:27 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VL1Wxd0veW7N+0Hy=LdKMzNbBang9_EZ9Zo_d-wZOBfw@mail.gmail.com>
+Message-ID: <CAD=FV=VL1Wxd0veW7N+0Hy=LdKMzNbBang9_EZ9Zo_d-wZOBfw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/panel: add BOE tv101wum-ll2 panel driver
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,56 +99,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace deferred action function wrappers with equivalent ones defined
-using the macro introduced by commit 56778b49c9a2 ("kunit: Add a macro to
-wrap a deferred action function")
+Hi,
 
-Signed-off-by: Marco Pagani <marpagan@redhat.com>
----
- drivers/gpu/drm/tests/drm_gem_shmem_test.c | 27 ++++++----------------
- 1 file changed, 7 insertions(+), 20 deletions(-)
+On Tue, Jul 9, 2024 at 6:06=E2=80=AFAM Neil Armstrong <neil.armstrong@linar=
+o.org> wrote:
+>
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makef=
+ile
+> index 5581387707c6..79c90894b6a4 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -7,6 +7,7 @@ obj-$(CONFIG_DRM_PANEL_BOE_BF060Y8M_AJ0) +=3D panel-boe-b=
+f060y8m-aj0.o
+>  obj-$(CONFIG_DRM_PANEL_BOE_HIMAX8279D) +=3D panel-boe-himax8279d.o
+>  obj-$(CONFIG_DRM_PANEL_BOE_TH101MB31UIG002_28A) +=3D panel-boe-th101mb31=
+ig002-28a.o
+>  obj-$(CONFIG_DRM_PANEL_BOE_TV101WUM_NL6) +=3D panel-boe-tv101wum-nl6.o
+> +obj-$(CONFIG_DRM_PANEL_BOE_TV101WUM_LL2) +=3D panel-boe-tv101wum-ll2.o
 
-diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-index c3758faa1b83..f7f7d8b0f61f 100644
---- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-+++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -23,29 +23,16 @@
- #define TEST_BYTE		0xae
- 
- /*
-- * Wrappers to avoid an explicit type casting when passing action
-- * functions to kunit_add_action().
-+ * Wrappers to avoid cast warnings when passing action functions
-+ * directly to kunit_add_action().
-  */
--static void kfree_wrapper(void *ptr)
--{
--	const void *obj = ptr;
--
--	kfree(obj);
--}
--
--static void sg_free_table_wrapper(void *ptr)
--{
--	struct sg_table *sgt = ptr;
-+KUNIT_DEFINE_ACTION_WRAPPER(kfree_wrapper, kfree, const void *);
- 
--	sg_free_table(sgt);
--}
--
--static void drm_gem_shmem_free_wrapper(void *ptr)
--{
--	struct drm_gem_shmem_object *shmem = ptr;
-+KUNIT_DEFINE_ACTION_WRAPPER(sg_free_table_wrapper, sg_free_table,
-+			    struct sg_table *);
- 
--	drm_gem_shmem_free(shmem);
--}
-+KUNIT_DEFINE_ACTION_WRAPPER(drm_gem_shmem_free_wrapper, drm_gem_shmem_free,
-+			    struct drm_gem_shmem_object *);
- 
- /*
-  * Test creating a shmem GEM object backed by shmem buffer. The test
--- 
-2.45.2
+nit: please sort. L comes before N.
 
+
+>  obj-$(CONFIG_DRM_PANEL_DSI_CM) +=3D panel-dsi-cm.o
+>  obj-$(CONFIG_DRM_PANEL_LVDS) +=3D panel-lvds.o
+>  obj-$(CONFIG_DRM_PANEL_SIMPLE) +=3D panel-simple.o
+> diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c b/drivers/gpu=
+/drm/panel/panel-boe-tv101wum-ll2.c
+> new file mode 100644
+> index 000000000000..5513cb48d949
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c
+> @@ -0,0 +1,240 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Generated with linux-mdss-dsi-panel-driver-generator from vendor devi=
+ce tree:
+> +//   Copyright (c) 2013, The Linux Foundation. All rights reserved.
+> +//   Copyright (c) 2024, Neil Armstrong <neil.armstrong@linaro.org>
+> +
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+
+nit: sort header files?
+
+> +static int boe_tv101wum_ll2_prepare(struct drm_panel *panel)
+> +{
+> +       struct boe_tv101wum_ll2 *ctx =3D to_boe_tv101wum_ll2(panel);
+> +       struct device *dev =3D &ctx->dsi->dev;
+> +       int ret;
+> +
+> +       ret =3D regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
+> +                                   ctx->supplies);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       boe_tv101wum_ll2_reset(ctx);
+> +
+> +       ret =3D boe_tv101wum_ll2_on(ctx);
+> +       if (ret < 0) {
+> +               dev_err(dev, "Failed to initialize panel: %d\n", ret);
+
+nit: Do you really need this error message? The "_multi" variants are
+all chatty and print the error message, so we don't really need this
+here...
+
+
+> +               gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +               return ret;
+
+Shouldn't you turn off the regulators?
+
+
+> +static int boe_tv101wum_ll2_unprepare(struct drm_panel *panel)
+> +{
+> +       struct boe_tv101wum_ll2 *ctx =3D to_boe_tv101wum_ll2(panel);
+> +       struct device *dev =3D &ctx->dsi->dev;
+> +       int ret;
+> +
+> +       ret =3D boe_tv101wum_ll2_off(ctx);
+> +       if (ret < 0)
+> +               dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
+
+nit: Do you really need this error message? The "_multi" variants are
+all chatty and print the error message, so we don't really need this
+here...
+
+
+> +
+> +       gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +
+> +       regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +
+> +       return 0;
+
+Maybe add a comment justifying why you don't return the error code
+that boe_tv101wum_ll2_off() returned?
+
+
+> +static int boe_tv101wum_ll2_get_modes(struct drm_panel *panel,
+> +                                     struct drm_connector *connector)
+> +{
+> +       return drm_connector_helper_get_modes_fixed(connector, &boe_tv101=
+wum_ll2_mode);
+
+Random question for you: on panels that don't use the
+drm_connector_helper the "bpc" gets set here. Is there a reason why
+some panel drivers (like this one) don't set bpc?
+
+
+> +static int boe_tv101wum_ll2_probe(struct mipi_dsi_device *dsi)
+> +{
+> +       struct device *dev =3D &dsi->dev;
+> +       struct boe_tv101wum_ll2 *ctx;
+> +       int ret;
+> +
+> +       ctx =3D devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> +       if (!ctx)
+> +               return -ENOMEM;
+> +
+> +       ctx->supplies[0].supply =3D "vsp";
+> +       ctx->supplies[1].supply =3D "vsn";
+> +
+> +       ret =3D devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(ctx->suppli=
+es),
+> +                                     ctx->supplies);
+
+Any chance I can convince you to use devm_regulator_bulk_get_const()?
+Then you can list your supply structures as "static const" instead of
+having to initialize them via code.
+
+
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       ctx->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> +       if (IS_ERR(ctx->reset_gpio))
+> +               return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+> +                                    "Failed to get reset-gpios\n");
+> +
+> +       ctx->dsi =3D dsi;
+> +       mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +       dsi->lanes =3D 4;
+> +       dsi->format =3D MIPI_DSI_FMT_RGB888;
+> +       dsi->mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BUR=
+ST |
+> +                         MIPI_DSI_MODE_VIDEO_HSE;
+> +
+> +       drm_panel_init(&ctx->panel, dev, &boe_tv101wum_ll2_panel_funcs,
+> +                      DRM_MODE_CONNECTOR_DSI);
+> +       ctx->panel.prepare_prev_first =3D true;
+> +
+> +       ret =3D drm_panel_of_backlight(&ctx->panel);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "Failed to get backlight\n=
+");
+> +
+> +       drm_panel_add(&ctx->panel);
+
+Any chance you could add devm_drm_panel_add() and then use it? Then
+you can fully get rid of your remove and error handling since
+devm_mipi_dsi_attach() already exists. Note that this would not change
+object lifetimes at all since you're already calling
+drm_panel_remove() in your remove code--it would just clean up the
+code...
+
+
+> +static struct mipi_dsi_driver boe_tv101wum_ll2_driver =3D {
+> +       .probe =3D boe_tv101wum_ll2_probe,
+> +       .remove =3D boe_tv101wum_ll2_remove,
+> +       .driver =3D {
+> +               .name =3D "panel-boe-tv101wum_ll2",
+> +               .of_match_table =3D boe_tv101wum_ll2_of_match,
+> +       },
+> +};
+> +module_mipi_dsi_driver(boe_tv101wum_ll2_driver);
+> +
+> +MODULE_DESCRIPTION("DRM driver for Boe TV101WUM-LL2 Panel");
+
+Should "Boe" be "BOE" ?
