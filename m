@@ -2,82 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A58C9398F2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 06:37:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4359399AA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 08:26:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A50ED10E3FA;
-	Tue, 23 Jul 2024 04:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1609110E09B;
+	Tue, 23 Jul 2024 06:26:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MO5ejMxO";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="05eoSRf/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CFC410E3FA
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 04:37:40 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46MMP2bb026365;
- Tue, 23 Jul 2024 04:37:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- RJZP5SvLZT9uydmvhiZ+gjBOkuDGN8SCcvs3Mq+DGbo=; b=MO5ejMxOJULsRUn8
- 3u3eIjQfvRfDdj8alHP7BmRTL7h6JduybLACimcxOTUReZ3dULaeWNn/Vwp3whB2
- /NhiJc3WjRA2K9zTwk2yDIdAjMHpe7VxjWQ4dAs6y8EshJpq9R9bfzcvLCmCAmwP
- HKy4WImocrba63UvF/TwV98yC6iMFB5kkEO8Stod7h4HWA8udEj/CPLRfcqIvy9x
- aZIga8v3envUDlkqaGQe46AYgazCPXsj5346xLvY13FJjVfMdgE+5fTY8Ts8AwmR
- tPaIGgU5Lx2DgCFbUKDgI1ItPUt8Lz64oHMJ+5PrRodTtVtZuC4YN+1LKGb16gvK
- vrtBMA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40g46s5kj2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2024 04:37:35 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46N4bYVr010787
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2024 04:37:34 GMT
-Received: from [10.204.65.49] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 22 Jul
- 2024 21:37:31 -0700
-Message-ID: <396b3e20-19da-4c92-ba03-848627069c25@quicinc.com>
-Date: Tue, 23 Jul 2024 10:07:31 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/2] Fix user PD inimem requirements
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
- <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
-References: <20240722080200.3530850-1-quic_ekangupt@quicinc.com>
- <bob3pkwyu7g3qf4q546uittggzfywc6o5h7b73isx4lijsfj4j@h3uqpaevawgg>
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-In-Reply-To: <bob3pkwyu7g3qf4q546uittggzfywc6o5h7b73isx4lijsfj4j@h3uqpaevawgg>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: vHUMvP8JrHEH1vYuWPYNe2S9dfyHnC9P
-X-Proofpoint-ORIG-GUID: vHUMvP8JrHEH1vYuWPYNe2S9dfyHnC9P
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-22_18,2024-07-23_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- priorityscore=1501 phishscore=0 adultscore=0 suspectscore=0 spamscore=0
- mlxlogscore=862 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407230032
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BCE010E09B
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 06:26:26 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-7163489149eso240301a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 23:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1721715985; x=1722320785; darn=lists.freedesktop.org; 
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=v6SsFIYWxstbmDRzW1IT5LqdPqdbJ83bJMDp+89ci+w=;
+ b=05eoSRf/ulofWiMIXWmeztDVp5ETFziXynhzt1bA7A4rLPSk761eOfgidObUbbZM38
+ QLMpvmUobvacVJzBEtTQQWf4EsmJM+e2xTqPS/RLdD2b/2BzT3taUjlSTMdLv+15TMhM
+ ul/MGTpek8aLW1Hmu3E8mSYU06uOuTRbG0dsCQbcNOpMxpm6uISoWozpvEOgQmj9bN9T
+ RyeGlgkvMiFRs9YjJshr4NOqeW11gmikQ9VcmJoRnMfAq/3KsrP/xVdsWl2c+8cvpk0Y
+ w2fSmbI9sBLd7maaTLdccwofIkaVTr66X8tELxn2NRVhUpguoFx/OxaicWIpzmF0BBsS
+ 8BIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721715985; x=1722320785;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=v6SsFIYWxstbmDRzW1IT5LqdPqdbJ83bJMDp+89ci+w=;
+ b=fOfCg/yMPHOJLjLbXZzUNlAtFS1SrqhSr+kapSfwt80UJpCoGJKI2E3ZYaSoR/HqEg
+ G9IRW4YpUHKAwIMYr6P6pUhrCwhL4nwDGYUbqj2Z7cPKtvq5Xes23WkvOJEw4I+0REYa
+ bVCqiwjOQJQn47u4xXbZ53ch+Oobrayo5AVMHp2/PmNy2vkXRuago5QJuWEM63vt39tH
+ oVp+KxD0KonbldhU6qjfRyrZbbDn/DyVNqchHVjtMEucHGQmAYJu60uIQfEw38+VZF5T
+ uUoBYwvtMpE8uBOM+BzTFqnHHZYWHnQS/KvP7EA7R7mv+lpdJtHjEHDD6ivyOPD6JQzL
+ uolw==
+X-Gm-Message-State: AOJu0YyzDSHn6G5ifXMtbilVnAhDX5Jhyqq8tVJlRYiGbv1lnEWVQGtu
+ 4FVDC4j8LtCp9jgYWLkRJsX/vuNrdOCFPAwtnR/UWifheyOzfhxRChA2ZpJPoCA=
+X-Google-Smtp-Source: AGHT+IFMaHyHBNYiozxEEWli2Jwj4FXXP7MQxh6eCefMVJIrwf06PEaQ158LGZWjwEceHa+RuEv7OQ==
+X-Received: by 2002:a05:6a20:918d:b0:1c0:f5c1:8083 with SMTP id
+ adf61e73a8af0-1c428681001mr13305601637.41.1721715985602; 
+ Mon, 22 Jul 2024 23:26:25 -0700 (PDT)
+Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1fd6f25ab47sm66351465ad.45.2024.07.22.23.26.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jul 2024 23:26:25 -0700 (PDT)
+From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ dianders@chromium.org, hsinyi@google.com, awarnecke002@hotmail.com,
+ dmitry.baryshkov@linaro.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v4 0/2] Modify the method of obtaining porch parameters
+Date: Tue, 23 Jul 2024 14:26:13 +0800
+Message-Id: <20240723062615.14796-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,45 +80,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The current driver can only obtain the porch parameters
+of boe-th101mb31ig002. Modify it to obtain the porch
+parameters of the panel currently being used.
 
+Also switch to the drm_connector_helper_get_modes_fixed() function 
+to get the porch parameters.
 
-On 7/22/2024 1:56 PM, Dmitry Baryshkov wrote:
-> On Mon, Jul 22, 2024 at 01:31:58PM GMT, Ekansh Gupta wrote:
->> This patch series fixes the incorrect initmem size assumptions for
->> signed and unsigned user PD.
->> Previous single patch[v4]: https://lore.kernel.org/all/20240719085708.1764952-1-quic_ekangupt@quicinc.com/
->>
->> Changes in v2:
->>   - Modified commit text.
->>   - Removed size check instead of updating max file size.
->> Changes in v3:
->>   - Added bound check again with a higher max size definition.
->>   - Modified commit text accordingly.
->> Changes in v4:
->>   - Defined new initmem specific MACROs.
->>   - Adding extra memory for unsigned PD.
->>   - Added comment suggesting the reason for this change.
->>   - Modified commit text.
->> Changes in v5:
->>   - Splitted the change into separate patches.
->> Changes in v6:
->>   - Changed Unsigned extra length macro name.
->>   - Add comment in proper format.
-> Please allow reviewers to finish with the previous iteration first. The
-> usual recommendation is to send new iteration once per 24h timeframe.
-Noted.
+Changes between V4 and V3:
+- PATCH 1/2: No changes.
+- PATCH 2/2: Modify the return value.
+- Link to v3: https://lore.kernel.org/all/20240722092428.24499-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-Thanks,
-Ekansh
->
->> Ekansh Gupta (2):
->>   misc: fastrpc: Define a new initmem size for user PD
->>   misc: fastrpc: Increase unsigned PD initmem size
->>
->>  drivers/misc/fastrpc.c | 11 ++++++++++-
->>  1 file changed, 10 insertions(+), 1 deletion(-)
->>
->> -- 
->> 2.34.1
->>
+Changes between V3 and V2:
+- PATCH 1/2: No changes.
+- PATCH 2/2: Keep bpc settings and drm_connector_set_panel_orientation() function.
+- Link to v2: https://lore.kernel.org/all/20240716121112.14435-1-lvzhaoxiong@huaqin.corp-partner.google.com/
+
+Changes between V2 and V1:
+- PATCH 1/2: No changes.
+- PATCH 2/2: Switch to the drm_connector_helper_get_modes_fixed().
+- Link to v1: https://lore.kernel.org/all/20240715031845.6687-1-lvzhaoxiong@huaqin.corp-partner.google.com/
+
+Zhaoxiong Lv (2):
+  drm/panel: boe-th101mb31ig002 : Fix the way to get porch parameters
+  drm/panel: boe-th101mb31ig002 : using
+    drm_connector_helper_get_modes_fixed()
+
+ .../drm/panel/panel-boe-th101mb31ig002-28a.c  | 22 +++----------------
+ 1 file changed, 3 insertions(+), 19 deletions(-)
+
+-- 
+2.17.1
 
