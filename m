@@ -2,97 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84F293A1B1
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 15:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED9F93A1BE
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 15:41:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAB5B10E5DD;
-	Tue, 23 Jul 2024 13:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC9B710E5D2;
+	Tue, 23 Jul 2024 13:41:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="YCwo2kH2";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PBSLDkha";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C58410E5D8
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 13:38:25 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4279c924ca7so40392075e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 06:38:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1721741903; x=1722346703;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=N3K8G5pHeQAwS16+pZRohvo75/Cf2iIKXzbelmWiAXE=;
- b=YCwo2kH2k392XIEHH9fMVewXuZLbSQu17bJykUfqQ87M3kW2EZjRM76XxUDAburCr6
- /ugchPcourouAe1xadNHyDn98rMmySG87HEWVyNABurCR7ABgD9YT1STa+AYmpCR91lQ
- epumwaQUOTbLjJVxo1TjNs7tP6DfBLaox6DRh/1dUPtdVJx+lk4ojHbUfijG7wQhJ2h/
- htKlAQWhCIq8EtMHeTt5FNtnBPI9wibvZxz+2B8qEfOAEgLKOiULOe9ybfJwQnglnJMC
- 5yVLnAXvjeXRWiaE4n3/GiR9w+pO9glHm6lJqrSskwh6NRtPt1d1LWTWexqWODLn5QNF
- LZog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721741903; x=1722346703;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N3K8G5pHeQAwS16+pZRohvo75/Cf2iIKXzbelmWiAXE=;
- b=mt5ZbgvSi5Me7IYOcBWhYfCFdyGPzch7kDU6MpEv8DsCGDvjfptT4fesIERDcY/Uzw
- R6Q0t/Ew6JxCZtht8/DmRd0qV61T4JQ7aXS/i7H5KRmLxWR/RBvOWi55rKaZ5DJUSyYD
- KIye3daMFuIX+cdlXpq3FD5OInkFZJJQf4TtBDb1BrkqcZ72H15f+6poboctLwFQfe5l
- 4b+fDDo22tqlCiRCKFjEf4U5xuQOe45S58BsIIpGhAhQyzN+tx/0JfJSFSiSHfpFbqet
- BR+noaQ//YBYf/o0zXnVFxsEW526tN3zgAeju4t+uOrd+7KWDTessLpI75AnQY3zRlZS
- gErg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWikLzNhVD1dXWCBTCbILyYegegQdpil0VySJM3XsOsZ7FjIqHUnF9M11acwUcST1WnKOECSTJ4FHbiY3HOL9klgDY83s1Y+UypjVPEwVCZ
-X-Gm-Message-State: AOJu0Ywbi7X8VaYHuReSM8olhNecNlrEgIVC90YQt/UM1hR0kGvNcDLj
- XJTJot8j/jp1cmaaDalozLC/pGLivjT5697A0bjTUMC24ZcpLqcs1RTMdB4Ynmc=
-X-Google-Smtp-Source: AGHT+IGbKurHrcBQxOwjoCy3I00Mb7Ii4AMC80qELYY6RamyBgLgQUYcRMumqK9YF+XJH9OtD5bRNQ==
-X-Received: by 2002:a05:600c:4eca:b0:426:6876:83bb with SMTP id
- 5b1f17b1804b1-427dc52921amr59397295e9.17.1721741903494; 
- Tue, 23 Jul 2024 06:38:23 -0700 (PDT)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-427d2a8e420sm203734675e9.35.2024.07.23.06.38.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Jul 2024 06:38:23 -0700 (PDT)
-Message-ID: <a8c7db04-7212-4bf0-b8b1-d371ee33478b@freebox.fr>
-Date: Tue, 23 Jul 2024 15:38:22 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] arm64: dts: qcom: add HDMI nodes for msm8998
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>
-References: <20240627-hdmi-tx-v5-0-355d5c1fbc3c@freebox.fr>
- <20240627-hdmi-tx-v5-4-355d5c1fbc3c@freebox.fr>
- <d9898342-2439-4d3d-8e3d-5bf0a7a40245@linaro.org>
- <b6f6c845-6094-44ce-8ad0-ed4f6d353cec@freebox.fr>
- <CAA8EJpqrAFKCr63JHEpZ3b3zdRfoNXoJP6SqKDOO4sqc=c6YdQ@mail.gmail.com>
- <44101ecd-61f4-4609-bb22-12b40b692552@freebox.fr>
- <CAA8EJpprtmefNM_CJFRbYVNxOWUVVWbedBq44r7GXOdDrQ2WjA@mail.gmail.com>
- <04ef978f-2bfd-46cc-a9f7-40a6f1c507f8@linaro.org>
- <7d34a857-6495-482b-9070-1817c88c9913@freebox.fr>
- <45f5dae6-c606-4612-900a-b719f58d92ce@linaro.org>
-Content-Language: en-US
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <45f5dae6-c606-4612-900a-b719f58d92ce@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A5310E5D4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 13:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1721742084;
+ bh=rGiZce2UvS0TxDn7bviX8P2aUovlh43UO19YvUxtOBI=;
+ h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
+ b=PBSLDkhacll3Cwsx/LZ0H9ehcHmWds+/elFRpMuHuHfL67zY8GNHUX2/cSeJCWOHF
+ OqJqxCrB02qW6oe3L8UGSh9qp7fG3t9B8OwBw46loqYPnVMIC1sOJPr8IVKWU8UjGl
+ qrG/0mui960dEE/k6WdB+qGAxSS/nPGwW2oDg8mFhkwBI59Ime7cnKOztAfMXzS8kB
+ Nebbcd2xrx7vgapJuY//H3+5ZYI00cp86drNDHB3A0e0AaTWwwdsR3A7Su65Xhns8A
+ ObwTNVLohMGM1x304g6r0ics1rd1CXGQOaMnEjz+j2Ua1swO3hzYX1Vc0Y/V+d44K0
+ It9ZUUKZ1usxw==
+Received: from smtpclient.apple (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: dwlsalmeida)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id AA867378143B;
+ Tue, 23 Jul 2024 13:41:21 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: Re: [RFC PATCH] drm: panthor: add dev_coredumpv support
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <CAH5fLghWQQfrKWFr+vd0B4YjxKwEd+pMV5zeiTCnRtX3_1oRYQ@mail.gmail.com>
+Date: Tue, 23 Jul 2024 10:41:08 -0300
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>, lyude@redhat.com, robh@kernel.org,
+ lina@asahilina.net, mcanal@igalia.com, airlied@gmail.com,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4A1B4B2C-7FAB-4656-90AE-B30DC636349E@collabora.com>
+References: <20240710225011.275153-1-daniel.almeida@collabora.com>
+ <CAH5fLghWQQfrKWFr+vd0B4YjxKwEd+pMV5zeiTCnRtX3_1oRYQ@mail.gmail.com>
+To: Alice Ryhl <aliceryhl@google.com>
+X-Mailer: Apple Mail (2.3774.600.62)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,69 +64,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/07/2024 15:08, Konrad Dybcio wrote:
+Hi Alice, thanks for the review!
 
-> On 23.07.2024 2:57 PM, Marc Gonzalez wrote:
->
->> On 23/07/2024 13:45, Konrad Dybcio wrote:
->>
->>> On 23.07.2024 11:59 AM, Dmitry Baryshkov wrote:
->>>
->>>> On Tue, 23 Jul 2024 at 12:48, Marc Gonzalez wrote:
->>>>
->>>>> On 16/07/2024 18:37, Dmitry Baryshkov wrote:
->>>>>
->>>>>> No, that's fine. It is the SMMU issue that Konrad has been asking you
->>>>>> to take a look at.
->>>>>
->>>>> Context:
->>>>>
->>>>> [    4.911422] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
->>>>> [    4.923353] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
->>>>> [    4.927893] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
->>>>> [    4.941928] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
->>>>> [    4.944438] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
->>>>> [    4.956013] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
->>>>> [    4.961055] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
->>>>> [    4.974565] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
->>>>> [    4.977628] arm-smmu cd00000.iommu: FSR    = 00000402 [Format=2 TF], SID=0x0
->>>>> [    4.989670] arm-smmu cd00000.iommu: FSYNR0 = 00000021 [S1CBNDX=0 PNU PLVL=1]
->>>>>
->>>>>
->>>>> As I mentioned, I don't think I've ever seen issues from cd00000.iommu
->>>>> on my board.
->>>>
->>>> Interestingly enough, I can also see iommu errors during WiFi startup
->>>> / shutdown on msm8998 / miix630. This leads me to thinking that it
->>>> well might be that there is a missing quirk in the iommu driver.
->>>>
->>>>> I can test a reboot loop for a few hours, to see if anything shows up.
->>>>
->>>> Yes, please.
->>>
->>> Yeah I do trust you Marc that it actually works for you and I'm not
->>> gonna delay this series because of that, but please go ahead and
->>> reboot-loop your board
->>>
->>> 8998/660 is """famous""" for it's iommu problems
->>
->> [   20.501062] arm-smmu 16c0000.iommu: Unhandled context fault: fsr=0x402, iova=0x00000000, fsynr=0x1, cbfrsynra=0x1900, cb=0
->>
->> I get the above warning pretty reliably.
->> I don't think it's related to the issue(s) you mentioned.
->> System just keeps plodding along.
-> 
-> Yeah that one's "fine"
 
-I booted 40 times in a loop.
+>> +        fn alloc_mem(&mut self, size: usize) -> Option<*mut u8> {
+>> +            assert!(size % 8 =3D=3D 0, "Allocation size must be =
+8-byte aligned");
+>> +            if isize::try_from(size).unwrap() =3D=3D isize::MAX {
+>> +                return None;
+>> +            } else if self.pos + size > self.capacity {
+>> +                kernel::pr_debug!("DumpAllocator out of memory");
+>> +                None
+>> +            } else {
+>> +                let offset =3D self.pos;
+>> +                self.pos +=3D size;
+>> +
+>> +                // Safety: we know that this is a valid allocation, =
+so
+>> +                // dereferencing is safe. We don't ever return two =
+pointers to
+>> +                // the same address, so we adhere to the aliasing =
+rules. We make
+>> +                // sure that the memory is zero-initialized before =
+being handed
+>> +                // out (this happens when the allocator is first =
+created) and we
+>> +                // enforce a 8 byte alignment rule.
+>> +                Some(unsafe { self.mem.as_ptr().offset(offset as =
+isize) as *mut u8 })
+>> +            }
+>> +        }
+>> +
+>> +        pub(crate) fn alloc<T>(&mut self) -> Option<&mut T> {
+>> +            let mem =3D self.alloc_mem(core::mem::size_of::<T>())? =
+as *mut T;
+>> +            // Safety: we uphold safety guarantees in alloc_mem(), =
+so this is
+>> +            // safe to dereference.
+>=20
+> This code doesn't properly handle when T requires a large alignment.
+>=20
 
-`grep -a -i FSYNR console.logs` just returns the same 16c0000.iommu
-"Unhandled context fault" message 76 times (as above).
+Can you expand a bit on this? IIRC the alignment of a structure/enum =
+will be dictated=20
+by the field with the largest alignment requirement, right? Given that =
+the largest primitive
+allowed in the kernel is u64/i64, shouldn=E2=80=99t this suffice, e.g.:
 
-NB: I have maxcpus=1 set in bootargs.
+ +            assert!(size % 8 =3D=3D 0, "Allocation size must be 8-byte =
+aligned");
 
-Could the iommu issue be a race condition, NOT triggered when code
-runs with less parallelism?
 
-Regards
+>> +            Some(unsafe { &mut *mem })
+>> +        }
+>> +
+>> +        pub(crate) fn alloc_bytes(&mut self, num_bytes: usize) -> =
+Option<&mut [u8]> {
+>> +            let mem =3D self.alloc_mem(num_bytes)?;
+>> +
+>> +            // Safety: we uphold safety guarantees in alloc_mem(), =
+so this is
+>> +            // safe to build a slice
+>> +            Some(unsafe { core::slice::from_raw_parts_mut(mem, =
+num_bytes) })
+>> +        }
+>=20
+> Using references for functions that allocate is generally wrong.
+> References imply that you don't have ownership of the memory, but
+> allocator functions would normally return ownership of the allocation.
+> As-is, the code seems to leak these allocations.
+
+All the memory must be given to dev_coredumpv(), which will then take
+ownership.  dev_coredumpv() will free all the memory, so there should be =
+no
+leaks here.
+
+I=E2=80=99ve switched to KVec in v2, so that will also cover the error =
+paths,
+which do leak in this version, sadly.
+
+As-is, all the memory is pre-allocated as a single chunk. When space is =
+carved
+for a given T, a &mut is returned so that the data can be written =
+in-place at
+the right spot in said chunk.
+
+Not only there shouldn=E2=80=99t be any leaks, but I can actually decode =
+this from
+userspace.
+
+I agree that this pattern isn=E2=80=99t usual, but I don=E2=80=99t see =
+anything
+incorrect. Maybe I missed something?
+
+>=20
+>> +        pub(crate) fn alloc_header(&mut self, ty: HeaderType, =
+data_size: u32) -> &mut Header {
+>> +            let hdr: &mut Header =3D self.alloc().unwrap();
+>> +            hdr.magic =3D MAGIC;
+>> +            hdr.ty =3D ty;
+>> +            hdr.header_size =3D core::mem::size_of::<Header>() as =
+u32;
+>> +            hdr.data_size =3D data_size;
+>> +            hdr
+>> +        }
+>> +
+>> +        pub(crate) fn is_end(&self) -> bool {
+>> +            self.pos =3D=3D self.capacity
+>> +        }
+>> +
+>> +        pub(crate) fn dump(self) -> (NonNull<core::ffi::c_void>, =
+usize) {
+>> +            (self.mem, self.capacity)
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +fn dump_registers(alloc: &mut DumpAllocator, args: &DumpArgs) {
+>> +    let sz =3D core::mem::size_of_val(&REGISTERS);
+>> +    alloc.alloc_header(HeaderType::Registers, =
+sz.try_into().unwrap());
+>> +
+>> +    for reg in &REGISTERS {
+>> +        let dumped_reg: &mut RegisterDump =3D =
+alloc.alloc().unwrap();
+>> +        dumped_reg.register =3D *reg;
+>> +        dumped_reg.value =3D reg.read(args.reg_base_addr);
+>> +    }
+>> +}
+>> +
+>> +fn dump_bo(alloc: &mut DumpAllocator, bo: &mut =
+bindings::drm_gem_object) {
+>> +    let mut map =3D bindings::iosys_map::default();
+>> +
+>> +    // Safety: we trust the kernel to provide a valid BO.
+>> +    let ret =3D unsafe { bindings::drm_gem_vmap_unlocked(bo, &mut =
+map as _) };
+>> +    if ret !=3D 0 {
+>> +        pr_warn!("Failed to map BO");
+>> +        return;
+>> +    }
+>> +
+>> +    let sz =3D bo.size;
+>> +
+>> +    // Safety: we know that the vaddr is valid and we know the BO =
+size.
+>> +    let mapped_bo: &mut [u8] =3D
+>> +        unsafe { =
+core::slice::from_raw_parts_mut(map.__bindgen_anon_1.vaddr as *mut _, =
+sz) };
+>=20
+> You don't write to this memory, so I would avoid the mutable =
+reference.
+>=20
+>> +    alloc.alloc_header(HeaderType::Vm, sz as u32);
+>> +
+>> +    let bo_data =3D alloc.alloc_bytes(sz).unwrap();
+>> +    bo_data.copy_from_slice(&mapped_bo[..]);
+>> +
+>> +    // Safety: BO is valid and was previously mapped.
+>> +    unsafe { bindings::drm_gem_vunmap_unlocked(bo, &mut map as _) };
+>=20
+> You don't need `as _` here. You can just pass a mutable reference and
+> Rust will automatically cast it to raw pointer.
+>=20
+>> +}
+>> +
+>> +/// Dumps the current state of the GPU to a file
+>> +///
+>> +/// # Safety
+>> +///
+>> +/// `Args` must be aligned and non-null.
+>> +/// All fields of `DumpArgs` must be valid.
+>> +#[no_mangle]
+>> +pub(crate) extern "C" fn panthor_core_dump(args: *const DumpArgs) -> =
+core::ffi::c_int {
+>> +    assert!(!args.is_null());
+>> +    // Safety: we checked whether the pointer was null. It is =
+assumed to be
+>> +    // aligned as per the safety requirements.
+>> +    let args =3D unsafe { &*args };
+>=20
+> Creating a reference requires that it isn't dangling, so the safety
+> requirements should require that.
+>=20
+> Also, panthor_core_dump should be unsafe.
+>=20
 
