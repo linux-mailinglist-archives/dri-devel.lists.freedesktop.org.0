@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDB993976C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 02:21:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D232939770
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 02:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0AA810E140;
-	Tue, 23 Jul 2024 00:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 035DA10E15F;
+	Tue, 23 Jul 2024 00:22:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AZOJKWfM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ebB1JwQ+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C5D810E140
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 00:21:53 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-5a1c49632deso4382178a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 17:21:53 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B979F10E15F
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 00:22:38 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a77d876273dso4979566b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2024 17:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721694112; x=1722298912; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721694157; x=1722298957; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WxdDwCRz7ozxZHtp57qu+Ykoq2klaLRa7AGSsUAt4yM=;
- b=AZOJKWfM9Vbh6bqdiesYScXynYINEEWW2F8YGDE2aS6HVnS+pFmrQv7Pxw+y3iGy1G
- WI9WeHtzziX6yidx/1t1hYFajN9sOkh2VXxN8rfey1nU1b+hIgRjdmSbHhtp+NB/2C9J
- HJvLcupFdrygebGVQKCJ53rzKSIbJCO+sFLD5ngapCvtTyCyWGZI8m8Mwfy96h+QhkSp
- hiGkxKXWNfpBhE3Pv2cokTH3z3tBLaXn0npG6FQoH3trdShmicfu6xHZ3djln1oSvaFi
- n5JYUw8hvAfBVkMR7U4tXfAcZvXtETR3elieBapPCyTpRXNr7yXh/jwu0/7SNHWLu/uz
- NZhQ==
+ bh=1IDnbLkQQtMQ6kQyTxGOcLjUBXyXI0SK/keZnMNe+rY=;
+ b=ebB1JwQ+bMOj5ROM/TzeAwpljJS1FwJzS3ipLAMY0svhWiMIL3DlX8OV6hvnmnuvNy
+ miSpmpUir3aR6/8GIoMLje3lTSGtOpBGyMnqLyBrqrBPtOoJOJF1eo0C/b5uQY8IEiq1
+ VdWQmz4NY6fISFXNtfXqGWXdmcOXZ7Ne9tGnjGrpz0vN1jauwd5V27tO4Ud2Ld03NzJn
+ eaRqx6tpdiqGCa2w/kh+y/rM+DvBwtKhjPccOVkbHLwxPAxVc12CTqVt0RfiiLhekZ/4
+ dI614Xnh7DorXLworgGdfm4b0SMN3gonIpzOPj9Oxh8xXsW0f2AlWsTRs/yjDb3yjWR9
+ I3Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721694112; x=1722298912;
+ d=1e100.net; s=20230601; t=1721694157; x=1722298957;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WxdDwCRz7ozxZHtp57qu+Ykoq2klaLRa7AGSsUAt4yM=;
- b=eC1Pcg+j+6aDV1ijBLOJBy0g7fVgdN3aYsGt0G+Cf2iqBJW++LkiPmUN0UitOoo+VV
- CNfanppNR4nlA66xnjtfZ+sUqP8ApmChJfuwzfSPIO7BuaRx6vvE/sBca9N7mOpgqLWP
- Lkg++y4utxTeBymAzg8qsMob8f7cwciHA50LWWqsf9CCfTQpBuT39PvR9SPRTymVEQaF
- ArpcbiKKw66FTGGkPYcs4+ACO0i3OHqECR08GHCFFRKiTvCODGKBvbymS/wv+kYtP4JJ
- Llo0sUHmkpqS4x2FAL6reyOIZDodlI+6VXfQJacKm35QbxsWUXOlfwQHA6qKvESDZjSm
- 1e6Q==
+ bh=1IDnbLkQQtMQ6kQyTxGOcLjUBXyXI0SK/keZnMNe+rY=;
+ b=oXJDUjOlmFjqL7B1kkiV7t5mBSk/2o9Xrr+Hfmu3eW1wY/a9x0+j66bXV7WhCwxcWy
+ 1PQfgjbQq38asn075t3C8CC8sjVNKCmYZP3sPi9Arid2N0puZ3sPEdhZ1M3FWiqxtxTI
+ bxXRaDVTpBuyrBXhLU0hLqB6lxydmaaTm0l0JYJyKxxX3SNhwY8gKkuDC94iGfzUMyir
+ JdXUbt64rHPFgepTu26RCRtxBGAjP0MaPsgOjcXDD9gkBtjslpkzBBcvdhW8oyXex2+H
+ t457+2uZXLYVNXnggos9yrYVjTl18URqQ9qVMplg6Ae72RPot+zmbSDSe6qUSiwbA7MQ
+ NrCg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWqEV2vYGf2QtZ8FvpjdAv947MxVdOtrejehDOXMfqKNop8flPXVCY0JlKOlmvQivy2GhB0XE9xBwIJ/7BgC/SC6YqxtHdTnpg2x46CVX9q
-X-Gm-Message-State: AOJu0Yx86NBiLPVZDzXjdtqq6MZZfKuhMbD4LBIy+2Fqlcdovv+n3NRo
- UphPhS31K4Bt+Xwx0v/yfhJdNmrcc1CTy1y+VoAH1gmieniyjX1bHYSpAzxw+efvYmPSX/EO6uh
- HdUMfD6Q1s+9NEEexyWpABt1TPWE=
-X-Google-Smtp-Source: AGHT+IEZvdBDCMwaoXYKZpcMa7a8A6QNTz7LHwDIsJw9zi/h7TsyJ/jr09fN3E4nOwt5sRiLXagUkoZieuL/S32CgrU=
-X-Received: by 2002:a50:a6ce:0:b0:5a1:bda1:3e23 with SMTP id
- 4fb4d7f45d1cf-5a477e833e7mr5028885a12.14.1721694111704; Mon, 22 Jul 2024
- 17:21:51 -0700 (PDT)
+ AJvYcCWTKMc2gtf8pm7mJGGs7zCGSisfE4IqhJiGELn5pkhLQ21QwmkQFVHv7yWtszPncW4Vnp3PR5FXavRGh0fRGKcwikMpkFY8ZmhxWTDpPCvW
+X-Gm-Message-State: AOJu0Yw6YZvx5zItNM/g4zQVMLBJJWS645uCnoD1MjAO+u4DgAX4tVf8
+ uhE4Ilek4xPm5KJPseaEkh94o00Nl/Gw1oF4da0TJgcwRUgijv6GcJ1qe/T+E5SZrWHgUs/EQcf
+ O6yX9lMgf0A2iPgYu4L21Eb9Yq+c=
+X-Google-Smtp-Source: AGHT+IHRrV30Umrj2invF+QgSSaiARUTcgai0f2Y+fcs8EmS40cP4uj1AShQIHt7CW3NCZhxGUnRtzIoM7WD9qX3i4I=
+X-Received: by 2002:a05:6402:3553:b0:5a0:d004:60c6 with SMTP id
+ 4fb4d7f45d1cf-5a479b6fdd6mr6010217a12.18.1721694156778; Mon, 22 Jul 2024
+ 17:22:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240714205009.3408298-1-dmitry.osipenko@collabora.com>
-In-Reply-To: <20240714205009.3408298-1-dmitry.osipenko@collabora.com>
+References: <20240714205502.3409718-1-dmitry.osipenko@collabora.com>
+In-Reply-To: <20240714205502.3409718-1-dmitry.osipenko@collabora.com>
 From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 22 Jul 2024 17:21:39 -0700
-Message-ID: <CAF6AEGutuf_B7fHH-SzBSWC0=tUbCk2MtRo7qWbvGCrqMVTLYg@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/virtio: Fix type of dma-fence context variable
+Date: Mon, 22 Jul 2024 17:22:24 -0700
+Message-ID: <CAF6AEGtcfUUBwYy29y2_mZ=Ej_hTRyY-9w5ApEJKkUumeNuZ7g@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/virtio: Add DRM capset definition
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Cc: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
  Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
@@ -82,37 +82,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 14, 2024 at 1:50=E2=80=AFPM Dmitry Osipenko
+On Sun, Jul 14, 2024 at 1:55=E2=80=AFPM Dmitry Osipenko
 <dmitry.osipenko@collabora.com> wrote:
 >
-> Type of DMA fence context is u64. Fence-waiting code uses u32 for the
-> context variable, fix it.
+> Define DRM native context capset in the VirtIO-GPU protocol header.
 >
-> Fixes: e4812ab8e6b1 ("drm/virtio: Refactor and optimize job submission co=
-de path")
-> Cc: <stable@vger.kernel.org> # v6.4+
 > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
 Reviewed-by: Rob Clark <robdclark@gmail.com>
 
 > ---
->  drivers/gpu/drm/virtio/virtgpu_submit.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/uapi/linux/virtio_gpu.h | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/vi=
-rtio/virtgpu_submit.c
-> index 1c7c7f61a222..7d34cf83f5f2 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> @@ -48,7 +48,7 @@ struct virtio_gpu_submit {
->  static int virtio_gpu_do_fence_wait(struct virtio_gpu_submit *submit,
->                                     struct dma_fence *in_fence)
->  {
-> -       u32 context =3D submit->fence_ctx + submit->ring_idx;
-> +       u64 context =3D submit->fence_ctx + submit->ring_idx;
+> diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_=
+gpu.h
+> index 0e21f3998108..bf2c9cabd207 100644
+> --- a/include/uapi/linux/virtio_gpu.h
+> +++ b/include/uapi/linux/virtio_gpu.h
+> @@ -311,6 +311,7 @@ struct virtio_gpu_cmd_submit {
+>  #define VIRTIO_GPU_CAPSET_VIRGL2 2
+>  /* 3 is reserved for gfxstream */
+>  #define VIRTIO_GPU_CAPSET_VENUS 4
+> +#define VIRTIO_GPU_CAPSET_DRM 6
 >
->         if (dma_fence_match_context(in_fence, context))
->                 return 0;
+>  /* VIRTIO_GPU_CMD_GET_CAPSET_INFO */
+>  struct virtio_gpu_get_capset_info {
 > --
 > 2.45.2
 >
