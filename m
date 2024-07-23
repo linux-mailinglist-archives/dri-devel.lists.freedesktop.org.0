@@ -2,113 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8329893A8D9
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 23:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E73C93A997
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 01:07:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58D9210E547;
-	Tue, 23 Jul 2024 21:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3453210E02F;
+	Tue, 23 Jul 2024 23:07:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="F+Aqq6+/";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="lg9ll7yg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
- [209.85.219.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 889E410E547
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 21:49:49 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-e0354459844so5689221276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 14:49:49 -0700 (PDT)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+ [209.85.160.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F38E110E0A9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 23:07:39 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id
+ d75a77b69052e-447f8aa87bfso193161cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 16:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1721771388; x=1722376188;
+ d=google.com; s=20230601; t=1721776059; x=1722380859;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yF33mP3g3PVeShTJgLfx3fwdjlEE8z1s+DJQDSjcr+Y=;
- b=F+Aqq6+/PAkVhpxPtiAZFi/3PwmVGi0fjaUg5AwjyvXD00uF4mLmiGqqgiZby4FbAF
- WNfMezk5we4clM32nhhASxaGEYxWbJkbaIBjNkBqKGrkPVmxYpJmH4Hc3CUzfFV492AT
- KQSQEAOlk7fjDu7bCWboS1eGdgh3DADVjURo+2ZBkoRXRcp/aHD7skOzWpbZpbQXsPYh
- 6kOpPhm6aCV9lkM8IH3+sYUmn1/1x+6JtD1L0Nd4jnNqA/ilv4F4WnW+p4oI/V6ELvbZ
- xNtXh0Sqdxzbfw0IsrV8+265aJnhFom/pe9RQUGxBoOKv30LMgmSgC3/fq2ccjvDXVJ2
- ZO3A==
+ bh=6C+fkFukNiGp5ISGUxgRcyilQiJzLpuodr5Eof9VBJg=;
+ b=lg9ll7ygi298axPAJ3i4PINIGc0/2/0KQ5K6YbEpDs43HEUkDKfcsuUuncX9kE6IM6
+ oy7wDhvSQI5viXKhCmQJstTVu6i0lyQJVeIyOZ1/6uwN6klIe9l0WkhR5KEL5BBIQy6+
+ UxOwrYsgPIuoRx7Ji1I9sdv3Lq0cFOoq0nY9Le4bk0PmMl0DzZDdsuOSLByn4Z//ZQwE
+ x6FtgZdpLGCFWq4mokGgpswzEeaxDlB/3o0MHLg6Tkj/c/db/Rr4oF1vD8GsNdG/sQ1T
+ cHtjqMhqD7jtmhfwRPmBb9xmGM7VLz84E+ItDxEwbXv6CEMNJhyGrhynxntvWv/EYydl
+ 4mkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721771388; x=1722376188;
+ d=1e100.net; s=20230601; t=1721776059; x=1722380859;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yF33mP3g3PVeShTJgLfx3fwdjlEE8z1s+DJQDSjcr+Y=;
- b=rH/vDcBYCmUKN5F8Io+kp/uYwAsrfkpObZNeLsAK8F4I99f94z7496MFw55tYtp+Mh
- ojq09X10wp9mJN0SGwZFDhXCnYC5BvnIi2GDrtms7WckKEPzUmfiHhpdE+khg2448VgP
- n7RtjexIf1XE1mOqNwu9wjC//KBqApJIqP19LJQo/12na9rWFUYMBWf7E2ccDaZ+jG+2
- 0Rr+2u5ghui6KrFrEpVy+LjAdZrlO8fU4vZSqSptU1HjKcnXnfv3aExYr7qZD7vHbLsp
- 0vpkcD6RywjbdUai4f1F6MAwqp6wwdL8OC9sKIa1cqSWxsK78gNb7JrBY50G63sEk14v
- JoyQ==
+ bh=6C+fkFukNiGp5ISGUxgRcyilQiJzLpuodr5Eof9VBJg=;
+ b=wyhJJHjgL6lcCfBi443Iwf0eksVCxQCf5TMXKhKDU+F9ddBZx4RvmsIE2tNANeqTiJ
+ H5VETKVtaOYzz5BWfQxPrMFYWwFRdy5eEWbZGrkb4zZDuRi/dThPAOeFtJ9zlVDVs0rS
+ nbvu5it9p4iI3mqCtAkjMEfY+GNiqxBflL3Pd+Nf0E2+Wk4R0XsKoInudYovuNXMbueN
+ iNeO5MFscoYa4WbIuBfU98cYqitN6AAgX5hVyWyjU7cnHE9OM0YrtwAn30N06XE5+hAb
+ miA2D/BPLXbvwTkTwZGc1nz+iE5gNDiWBzahmNLuwmA7e88CCGLU6n8pvrKeydbRB3Uy
+ H97g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVOjYdkzoL+CA1cDMklxCtpmQCulM/PuegQxwMriSg8lBeO28ZVE6IcOYOqFC0Ur3JLDuOE8hAUbRmSODvuSJMEPCJJZiHSlXm6pBBmCT89
-X-Gm-Message-State: AOJu0YzKkWDp8nsFJeKRqJDO0KE26ErHzlYwJ+zkAZFxrBhWE5qqid1r
- 4N1gZj+S8o89M7dMmE1M5kVUHkv+aab4m7SKk7m+jgENFypaNGTZ/cX28nm0Q0rIKRSNiz611d5
- AEjyUCg62sWSRLXROfpVM/T69i8dxd5+8WXLX
-X-Google-Smtp-Source: AGHT+IH5JJRTlNbepSdsOAGPfU8tDz3MNG4de1Wtf/RZgU4beT2V9Y9SRFjNnPwNA1SLBZA82p/Z63pCaOnO/csApGk=
-X-Received: by 2002:a05:6902:1108:b0:e08:7607:bbf3 with SMTP id
- 3f1490d57ef6-e0b097d5744mr1316657276.34.1721771388342; Tue, 23 Jul 2024
- 14:49:48 -0700 (PDT)
+ AJvYcCWYUEkdImNY9mvT97an5ad3CZ8vV9W1IlahB928H/Q8a6HMIuo6lrPfF8FtIrAYHYp3z9ZV5vO5rEu0EvYkvMCdeVJt4YhVMjza2thaW7Ur
+X-Gm-Message-State: AOJu0Yx/e47f/l9Z8h8ZgHakWMZksSG602TgNYIyAaLbxKSndHSByE+c
+ RFr5GdgqbGhSIlsf/oC7wzRT4GHP8fH+HWOSgWaZwqRsMCHYRbgHAi6MiKqxx8W+yHOussEBApN
+ oRV5WutAmNcll/PxSsusKZwtQ62Qt6zMEKBwf
+X-Google-Smtp-Source: AGHT+IFgGTZzHeugui0RzmvFiY7doQ86K2Y0h52nLIG0c9YpVHS5634BVNFZRzQv9vFzIFzEs6QM3K+ectPLd0aerco=
+X-Received: by 2002:a05:622a:248:b0:444:ccc5:f4c0 with SMTP id
+ d75a77b69052e-44fd4ac8c3dmr1983041cf.15.1721776058474; Tue, 23 Jul 2024
+ 16:07:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240628003253.1694510-1-almasrymina@google.com>
- <20240628003253.1694510-4-almasrymina@google.com>
- <CAMArcTUqqxam+BPwGExOFOLVi3t=dwA-5sSagKC5dndv07GDLQ@mail.gmail.com>
- <CAHS8izNS5jZjPfc-sARbHV7mzqzH+UhHfAtCTKRRTfSAdhY4Cw@mail.gmail.com>
- <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
-In-Reply-To: <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 23 Jul 2024 14:49:34 -0700
-Message-ID: <CAHS8izMTGgZ+4fOKegUDLqAoxrdVEb+nqjQEt8bP0WLBV=FfrQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to
- netdevice
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, 
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240722210648.80892-1-lucas.demarchi@intel.com>
+ <20240722210648.80892-2-lucas.demarchi@intel.com>
+In-Reply-To: <20240722210648.80892-2-lucas.demarchi@intel.com>
+From: Ian Rogers <irogers@google.com>
+Date: Tue, 23 Jul 2024 16:07:27 -0700
+Message-ID: <CAP-5=fUgxQB-pzxNHZXGzFh1B3yL=ui0izM-dp_K7oubh8UOOg@mail.gmail.com>
+Subject: Re: [PATCH 1/7] perf/core: Add pmu get/put
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-perf-users@vger.kernel.org, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,92 +84,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 9, 2024 at 8:37=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wrot=
-e:
-...
-> Reproducer:
-> ./ncdevmem -f <interface name> -l -p 5201 -v 7 -t 0 -q 2 &
-> sleep 10
-> modprobe -rv bnxt_en
-> killall ncdevmem
+On Mon, Jul 22, 2024 at 2:07=E2=80=AFPM Lucas De Marchi
+<lucas.demarchi@intel.com> wrote:
 >
-> I think it's a devmemTCP core bug so this issue would be reproduced
-> with other drivers.
+> If a pmu is unregistered while there's an active event, perf will still
+> access the pmu via event->pmu, even after the event is destroyed. This
+> makes it difficult for drivers like i915 that take a reference on the
+> device when the event is created and put it when it's destroyed.
+> Currently the following use-after-free happens just after destroying the
+> event:
+>
+>         BUG: KASAN: use-after-free in exclusive_event_destroy+0xd8/0xf0
+>         Read of size 4 at addr ffff88816e2bb63c by task perf/7748
+>
+> Whenever and event is created, get a pmu reference to use in event->pmu
+> and just before calling module_put(), drop the reference..
+>
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> ---
+>  include/linux/perf_event.h |  3 +++
+>  kernel/events/core.c       | 32 ++++++++++++++++++++++++++++----
+>  2 files changed, 31 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+> index a5304ae8c654..7048a505e93c 100644
+> --- a/include/linux/perf_event.h
+> +++ b/include/linux/perf_event.h
+> @@ -540,6 +540,9 @@ struct pmu {
+>          * Check period value for PERF_EVENT_IOC_PERIOD ioctl.
+>          */
+>         int (*check_period)             (struct perf_event *event, u64 va=
+lue); /* optional */
+> +
+> +       struct pmu *(*get)              (struct pmu *pmu); /* optional: g=
+et a reference */
+> +       void (*put)                     (struct pmu *pmu); /* optional: p=
+ut a reference */
+>  };
+>
+>  enum perf_addr_filter_action_t {
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index 1b6f5dc7ed32..cc7541b644b0 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -5208,6 +5208,8 @@ static void perf_addr_filters_splice(struct perf_ev=
+ent *event,
+>
+>  static void _free_event(struct perf_event *event)
+>  {
+> +       struct module *module;
+> +
+>         irq_work_sync(&event->pending_irq);
+>
+>         unaccount_event(event);
+> @@ -5259,7 +5261,13 @@ static void _free_event(struct perf_event *event)
+>                 put_ctx(event->ctx);
+>
+>         exclusive_event_destroy(event);
+> -       module_put(event->pmu->module);
+> +
+> +       module =3D event->pmu->module;
+> +       event->pmu->put(event->pmu);
+> +       /* can't touch pmu anymore */
+> +       event->pmu =3D NULL;
+> +
+> +       module_put(module);
+>
+>         call_rcu(&event->rcu_head, free_event_rcu);
+>  }
+> @@ -11331,6 +11339,11 @@ static int perf_pmu_nop_int(struct pmu *pmu)
+>         return 0;
+>  }
+>
+> +static struct pmu *perf_pmu_nop_pmu(struct pmu *pmu)
+> +{
+> +       return pmu;
+> +}
+> +
+>  static int perf_event_nop_int(struct perf_event *event, u64 value)
+>  {
+>         return 0;
+> @@ -11617,6 +11630,12 @@ int perf_pmu_register(struct pmu *pmu, const cha=
+r *name, int type)
+>         if (!pmu->event_idx)
+>                 pmu->event_idx =3D perf_event_idx_default;
+>
+> +       if (!pmu->get)
+> +               pmu->get =3D perf_pmu_nop_pmu;
+> +
+> +       if (!pmu->put)
+> +               pmu->put =3D perf_pmu_nop_void;
+> +
+>         list_add_rcu(&pmu->entry, &pmus);
+>         atomic_set(&pmu->exclusive_cnt, 0);
+>         ret =3D 0;
+> @@ -11695,7 +11714,8 @@ static int perf_try_init_event(struct pmu *pmu, s=
+truct perf_event *event)
+>                 BUG_ON(!ctx);
+>         }
+>
+> -       event->pmu =3D pmu;
+> +       event->pmu =3D pmu->get(pmu);
+> +
+>         ret =3D pmu->event_init(event);
+>
+>         if (ctx)
+> @@ -11714,8 +11734,12 @@ static int perf_try_init_event(struct pmu *pmu, =
+struct perf_event *event)
+>                         event->destroy(event);
+>         }
+>
+> -       if (ret)
+> -               module_put(pmu->module);
+> +       if (ret) {
+> +               struct module *module =3D pmu->module;
+> +
+> +               pmu->put(pmu);
 
-Sorry for the late reply. I was out at netdev.
+I think this is a great fix, a nit here, wouldn't it be good to do:
 
-I'm also having trouble reproducing this, not because the bug doesn't
-exist, but quirks with my test setup that I need to figure out. AFAICT
-this diff should fix the issue. If you have time to confirm, let me
-know if it doesn't work for you. It should apply on top of v16:
+event->pmu =3D NULL;
 
-commit 795b8ff01906d ("fix for release issue")
-Author: Mina Almasry <almasrymina@google.com>
-Date:   Tue Jul 23 00:18:23 2024 +0000
-
-    fix for release issue
-
-    Change-Id: Ib45a0aa6cba2918db5f7ba535414ffa860911fa4
-
-
-
-diff --git a/include/net/devmem.h b/include/net/devmem.h
-index 51b25ba193c96..df52526bb516a 100644
---- a/include/net/devmem.h
-+++ b/include/net/devmem.h
-@@ -68,6 +68,9 @@ net_devmem_bind_dmabuf(struct net_device *dev,
-unsigned int dmabuf_fd);
- void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding);
- int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
-                                    struct net_devmem_dmabuf_binding *bindi=
-ng);
-+
-+void dev_dmabuf_uninstall(struct net_device *dev);
-+
- struct net_iov *
- net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding);
- void net_devmem_free_dmabuf(struct net_iov *ppiov);
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 5882ddc3f8592..7be084e4936e4 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -11320,6 +11320,7 @@ void unregister_netdevice_many_notify(struct
-list_head *head,
-                dev_tcx_uninstall(dev);
-                dev_xdp_uninstall(dev);
-                bpf_dev_bound_netdev_unregister(dev);
-+               dev_dmabuf_uninstall(dev);
-
-                netdev_offload_xstats_disable_all(dev);
-
-diff --git a/net/core/devmem.c b/net/core/devmem.c
-index e75057ecfa6de..227bcb1070ec0 100644
---- a/net/core/devmem.c
-+++ b/net/core/devmem.c
-@@ -362,4 +362,20 @@ bool mp_dmabuf_devmem_release_page(struct
-page_pool *pool, netmem_ref netmem)
-        return false;
- }
-
-+void dev_dmabuf_uninstall(struct net_device *dev)
-+{
-+       unsigned int i, count =3D dev->num_rx_queues;
-+       struct net_devmem_dmabuf_binding *binding;
-+       struct netdev_rx_queue *rxq;
-+       unsigned long xa_idx;
-+
-+       for (i =3D 0; i < count; i++) {
-+               binding =3D dev->_rx[i].mp_params.mp_priv;
-+               if (binding)
-+                       xa_for_each(&binding->bound_rxqs, xa_idx, rxq)
-+                               if (rxq =3D=3D &dev->_rx[i])
-+                                       xa_erase(&binding->bound_rxqs, xa_i=
-dx);
-+       }
-+}
-+
- #endif
-
---=20
 Thanks,
-Mina
+Ian
+
+> +               module_put(module);
+> +       }
+>
+>         return ret;
+>  }
+> --
+> 2.43.0
+>
+>
