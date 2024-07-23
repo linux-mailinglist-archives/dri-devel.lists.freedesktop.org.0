@@ -2,58 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E98D93A4A5
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 19:04:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E99593A4C2
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 19:14:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AFD610E60F;
-	Tue, 23 Jul 2024 17:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD13A10E613;
+	Tue, 23 Jul 2024 17:14:55 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nv3EsrD7";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
- [209.85.210.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B5E10E60F;
- Tue, 23 Jul 2024 17:04:06 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id
- 46e09a7af769-703775e4d5dso2748066a34.0; 
- Tue, 23 Jul 2024 10:04:06 -0700 (PDT)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF7C10E613;
+ Tue, 23 Jul 2024 17:14:53 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-7669d62b5bfso703709a12.1; 
+ Tue, 23 Jul 2024 10:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1721754892; x=1722359692; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6YR/sRwpB1CCsWUP+4Ph7FU7thUB0l4sYMzG0JevTYg=;
+ b=Nv3EsrD7aewrVvC0agV/nuG/ljLcbLLER04rYYFdwc4R5kYbZtDgyuY0lBKcHnNva0
+ D4uzIppgekIDMptoUngl+LRXdErRhkYY97qjHPWBS8YZtputWBvY+pAYm91CZmw7XRbP
+ DqgGbbKpax+/KmcsaBnp3mh4pxIL3pk8re8C/sQrKX/9KhH7RkFq2dwNo9gQM0ODbi9p
+ RqOVaRFYSFU/WiBmaL7qbzejS6jUxAiUAbITpUA+WXOuOMB7OSBy7foAB1MLp1J2ykje
+ L/svEbzpILDhVHBPl/Bhfw5A1MpfS1op4L8VULOesZlW42RzcEmjK5KUvTI3mgj03/Ul
+ lPCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721754246; x=1722359046;
+ d=1e100.net; s=20230601; t=1721754892; x=1722359692;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=02xnxBX9SHHmM6dl/yiHqxrkZEzkCA7F2H6qwPrp+Fw=;
- b=WOPiKbOzd84hw+5s36x6tOTjOxq2Gn/UefM5Qvqjxtdmhx7wihJCmJpBdM6aW49hZ+
- dTHkQ2sOrYWa/qLqCkWHgZxEasfm8ImDMWbCfQSZQN+62rW8RUkVjtDwZQmTa/xBY7Dz
- uY/CTstZVMyvkiJsQyhXXVeDmz+iPOMD5b3LaHXlK9w33XM6Kfs6x9elg56DlfzuH1Q1
- sPrrANEslO52yuZ4DoFToWm9mhuZ/VDirIn107VI2Nb9RUKfoFSYx0dKILu5JAqxPCzr
- 1SxhFW3Dv2xvuGkbMT6yaIbzbFV0/POf9DkURVJ28fR53j0aSdT2bkvM2gX+1074LDKj
- UAWw==
+ bh=6YR/sRwpB1CCsWUP+4Ph7FU7thUB0l4sYMzG0JevTYg=;
+ b=NWG3r2qQ26dzRPXrDz6awmcN6ZxFrTpDLYll52dcP6uDhUn1LkPnr4hxmaCMx8KhI6
+ UzTlLxBN0IeJ42hNr/iyR7L7Cn/haz/sz6R881paS88RivlyojNBcT4H/b4mKHKlSsQA
+ fnyd+0KMyrHGnS/JwonhBViC5YApLhKID+ZcBAXCCBemYSVsRm7pohWGRUaxxRsKUqTs
+ GjI7HIe5jCeBOoIYm+8WGKmX1/uq9WavUWks7A02MuaP3rjzCYAi1cj/p5RbbjYyxHou
+ amRH6sHxpRC4+388H0O5JSZXezQh0XosurocZKZdRDJCsU1MzmqkoaM7qtRq9na3XCLY
+ Hscw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXa3L8Sniq0sueMZHM6dJNqVXthXhIdQnWYXKJ4cLwdcKRPeljgskid0wylZSxm7BKzFgWMBpfRv9Ul/Ci5+N/2vWkaYWT+sJO3zSEjA9iJ
-X-Gm-Message-State: AOJu0YxVFDAJXdKlf8wAOweL2i+Q0Xme3hKW1kX7PftRew3tvT8CNJAn
- a91PvjQSjAPGakomnfqQYGDywiwMDeGmCc+Gn4BsMaF9TruUypwR4KUQwQFWX0xBzpRPhshkU0S
- WTgy05ACiqaeQd1O8iYSYCcblmZE=
-X-Google-Smtp-Source: AGHT+IHEX97DGXPMq/CzCwVHEuhMRWmstcgLm9QWYKkHmuYX3IYZck/qXxuiBB5Ck1P7O8YAFNAoIm3C8bt8PAfyiV0=
-X-Received: by 2002:a05:6830:498d:b0:708:f88a:e3e7 with SMTP id
- 46e09a7af769-709009f09f2mr14914971a34.34.1721754245650; Tue, 23 Jul 2024
- 10:04:05 -0700 (PDT)
+ AJvYcCWviDgziVcASGhDS3aXncoB6hU6u31TtGhVktZ3RmXMB5l8RgB79iM6nICCXPUDDuaZ2vL4mTkEO+Dw3Giooo/RhED8lH8Po61YaKRliJC+UsqJcFrv4Eiv10guscIEOaCHiPBCI2xIen2+5Eixsg==
+X-Gm-Message-State: AOJu0Ywb6/Db18F9EMjo1t2GPG7tn+jbIqYQ1mlk/kp32Xk4Ntds+e0o
+ saAgjZP4B54m5eek6M+ABj/xcemfzr7oQ6E2W7pouTh95SVVaU0ve7pJo8SAZELxs6XGTa0IyAM
+ Scmja88tQVLKw08ayXZCytLzSQDQ=
+X-Google-Smtp-Source: AGHT+IGOWJh0Vr3vgfLKwgbdET9Ih1+E4GAFHNnhf5BKkoe1va0SUJ3C95dZPt2LE3dvS9NDOXkvc202wsNZKJQrkB0=
+X-Received: by 2002:a17:90b:1e4d:b0:2c8:7897:eb46 with SMTP id
+ 98e67ed59e1d1-2cd274d48c6mr7012879a91.37.1721754892475; Tue, 23 Jul 2024
+ 10:14:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <cb21950b-286b-4630-9052-cff9e7e56337@web.de>
- <CAKb7Uvj513trzg9bVGrjcQ8CfO4anCq7e9mgbD0eZKh=zNLy=Q@mail.gmail.com>
- <147bde68-2b66-4e0c-890d-30571a99eee1@wanadoo.fr>
-In-Reply-To: <147bde68-2b66-4e0c-890d-30571a99eee1@wanadoo.fr>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Tue, 23 Jul 2024 13:03:54 -0400
-Message-ID: <CAKb7UvjE-xLBpV637qQ8DG7odnoLvaPgBK5QRThiGYZF_tgwFg@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/debugfs: Simplify character output in
- nouveau_debugfs_vbios_image()
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- kernel-janitors@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>, 
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Karol Herbst <kherbst@redhat.com>, 
- Lyude Paul <lyude@redhat.com>, LKML <linux-kernel@vger.kernel.org>, 
- Markus Elfring <Markus.Elfring@web.de>
+References: <20240616-amdgpu-edid-bios-v1-1-2874f212b365@weissschuh.net>
+ <ad78ada4-4e31-4994-845b-fe756b52a1ae@t-8ch.de>
+ <CADnq5_OjRgMkqnsep_AtKxonhCxthZZCsv+eNERuGH4-fXw6Ww@mail.gmail.com>
+In-Reply-To: <CADnq5_OjRgMkqnsep_AtKxonhCxthZZCsv+eNERuGH4-fXw6Ww@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 23 Jul 2024 13:14:40 -0400
+Message-ID: <CADnq5_NU51=+QM5OC+Ut4ahU_b-64zCAaTKfLB1BKbZijutHCg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: convert bios_hardcoded_edid to drm_edid
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,74 +84,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 23, 2024 at 12:58=E2=80=AFPM Christophe JAILLET
-<christophe.jaillet@wanadoo.fr> wrote:
+On Tue, Jul 23, 2024 at 12:49=E2=80=AFPM Alex Deucher <alexdeucher@gmail.co=
+m> wrote:
 >
-> Le 15/07/2024 =C3=A0 15:15, Ilia Mirkin a =C3=A9crit :
-> > On Mon, Jul 15, 2024 at 7:49=E2=80=AFAM Markus Elfring <Markus.Elfring@=
-web.de> wrote:
-> >>
-> >> From: Markus Elfring <elfring@users.sourceforge.net>
-> >> Date: Mon, 15 Jul 2024 13:36:54 +0200
-> >>
-> >> Single characters should be put into a sequence.
-> >> Thus use the corresponding function =E2=80=9Cseq_putc=E2=80=9D for one=
- selected call.
-> >>
-> >> This issue was transformed by using the Coccinelle software.
-> >>
-> >> Suggested-by: Christophe Jaillet <christophe.jaillet@wanadoo.fr>
-> >> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> >> ---
-> >>   drivers/gpu/drm/nouveau/nouveau_debugfs.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/d=
-rm/nouveau/nouveau_debugfs.c
-> >> index e83db051e851..931b62097366 100644
-> >> --- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-> >> +++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-> >> @@ -42,7 +42,7 @@ nouveau_debugfs_vbios_image(struct seq_file *m, void=
- *data)
-> >>          int i;
-> >>
-> >>          for (i =3D 0; i < drm->vbios.length; i++)
-> >> -               seq_printf(m, "%c", drm->vbios.data[i]);
-> >> +               seq_putc(m, drm->vbios.data[i]);
+> On Sun, Jun 16, 2024 at 2:32=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weis=
+sschuh.net> wrote:
 > >
-> > Is there some reason this whole thing isn't just
+> > On 2024-06-16 11:12:03+0000, Thomas Wei=C3=9Fschuh wrote:
+> > > Instead of manually passing around 'struct edid *' and its size,
+> > > use 'struct drm_edid', which encapsulates a validated combination of
+> > > both.
+> > >
+> > > As the drm_edid_ can handle NULL gracefully, the explicit checks can =
+be
+> > > dropped.
+> > >
+> > > Also save a few characters by transforming '&array[0]' to the equival=
+ent
+> > > 'array' and using 'max_t(int, ...)' instead of manual casts.
+> > >
+> > > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> > > ---
+> > > While this patch introduces a new user for drm_edid_raw(),
+> > > if amdgpu proper gets migrated to 'struct drm_edid', that usage will =
+go
+> > > away.
+> > >
+> > > This is only compile-tested.
+> > >
+> > > I have some more patches for the rest of amdgpu,
+> > > to move to 'struct drm_edid'.
+> > > This patch is a test-balloon for the general idea.
+> > >
+> > > The same can also be done for drm/radeon.
+> > > ---
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c |  6 +-----
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h       |  4 ++--
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c       |  2 +-
+> > >  drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 21 +++++++---------=
+-----
+> > >  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c         |  2 +-
+> > >  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c         |  2 +-
+> > >  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c          |  2 +-
+> > >  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c          |  2 +-
+> > >  8 files changed, 15 insertions(+), 26 deletions(-)
 > >
-> > seq_write(m, drm->vbios.data, drm->vbios.length)
+> > <snip>
+> >
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers=
+/gpu/drm/amd/amdgpu/atombios_encoders.c
+> > > index 25feab188dfe..90383094ed1e 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> > > @@ -2064,20 +2064,13 @@ amdgpu_atombios_encoder_get_lcd_info(struct a=
+mdgpu_encoder *encoder)
+> > >                               case LCD_FAKE_EDID_PATCH_RECORD_TYPE:
+> > >                                       fake_edid_record =3D (ATOM_FAKE=
+_EDID_PATCH_RECORD *)record;
+> > >                                       if (fake_edid_record->ucFakeEDI=
+DLength) {
+> > > -                                             struct edid *edid;
+> > > -                                             int edid_size =3D
+> > > -                                                     max((int)EDID_L=
+ENGTH, (int)fake_edid_record->ucFakeEDIDLength);
+> > > -                                             edid =3D kmalloc(edid_s=
+ize, GFP_KERNEL);
+> > > -                                             if (edid) {
+> > > -                                                     memcpy((u8 *)ed=
+id, (u8 *)&fake_edid_record->ucFakeEDIDString[0],
+> > > -                                                            fake_edi=
+d_record->ucFakeEDIDLength);
+> > > -
+> > > -                                                     if (drm_edid_is=
+_valid(edid)) {
+> > > -                                                             adev->m=
+ode_info.bios_hardcoded_edid =3D edid;
+> > > -                                                             adev->m=
+ode_info.bios_hardcoded_edid_size =3D edid_size;
+> > > -                                                     } else
+> > > -                                                             kfree(e=
+did);
+> > > -                                             }
+> > > +                                             const struct drm_edid *=
+edid;
+> > > +                                             edid =3D drm_edid_alloc=
+(fake_edid_record->ucFakeEDIDString,
+> > > +                                                                   m=
+ax_t(int, EDID_LENGTH, fake_edid_record->ucFakeEDIDLength));
+> > > +                                             if (drm_edid_valid(edid=
+))
+> > > +                                                     adev->mode_info=
+.bios_hardcoded_edid =3D edid;
+> > > +                                             else
+> > > +                                                     drm_edid_free(e=
+did);
+> >
+> > The old code here seems broken in general.
+> > In drivers/gpu/drm/amd/include/atombios.h the comment for ucFakeEDIDLen=
+gth says:
+> > (I expect the same field in the same struct for amdgpu to have the same=
+ semantics)
+> >
+> >     UCHAR ucFakeEDIDLength;       // =3D 128 means EDID length is 128 b=
+ytes, otherwise the EDID length =3D ucFakeEDIDLength*128
+> >
+> > So as soon as the EDID from the BIOS has extensions, only the first few
+> > bytes will be copied into the allocated memory. drm_edid_is_valid() wil=
+l
+> > then read the uninitialized memory and if the "extensions" field ends u=
+p
+> > non-zero it will happily "validate" past the allocated buffer.
 >
-> Hi,
->
-> I don't know if my answer is relevant or not here but:
->         for () seq_putc();      =3D=3D> will fill 'm' with everything tha=
-t fits in
-> and
->         seq_write()             =3D=3D> is all or nothing. So if 'm' is t=
-oo small, then
-> nothing will be appended.
->
-> I've not looked at the calling tree, but I would expect 'm' to be able
-> to have PAGE_SIZE chars, so most probably 4096.
->
-> And having gpu + "vbios.rom", I would expect it to be bigger than 4096.
->
-> If I'm correct, then changing for seq_write() would just show... nothing.
->
->
-> I don't know if it can happen., but testing should be easy enough to
-> figure it out.
+> I guess the allocation should be changed to something like:
+> if (ucFakeEDIDLength =3D=3D 128)
+>     edid_size =3D ucFakeEDIDLength;
+> else
+>     edid_size =3D ucFakeEDIDLength * 128;
 
-The vbios can definitely be much much larger than 4k. But it does
-currently work as-is, i.e. you don't just get the first 4k, you get
-everything. So I think there's some internal resizing/extension/etc
-going on.
+The record size handling in atombios_encoders.c would also need to be fixed=
+.
 
-But I totally agree -- testing required here. Not sure if the author
-has done that.
+Alex
 
-Cheers,
-
-  -ilia
+>
+> That said, I don't know how many systems actually used this.  IIRC
+> this was only used in GPUs from 15-20 years ago.  No objections to the
+> patch in general.
+>
+> Alex
+>
+>
+> >
+> > The new code won't work either but at least it won't read uninitialized
+> > memory nor will it read past the buffer bounds.
+> >
+> > >                                       }
+> > >                                       record +=3D fake_edid_record->u=
+cFakeEDIDLength ?
+> > >                                                 struct_size(fake_edid=
+_record,
+> >
+> > <snip>
