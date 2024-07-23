@@ -2,69 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E4593A85B
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 22:54:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8329893A8D9
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2024 23:49:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5AD10E644;
-	Tue, 23 Jul 2024 20:54:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58D9210E547;
+	Tue, 23 Jul 2024 21:49:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="X/yI6AuG";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="F+Aqq6+/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70AEB10E644
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 20:54:26 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-25e3d8d9f70so3041711fac.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 13:54:26 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
+ [209.85.219.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 889E410E547
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 21:49:49 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id
+ 3f1490d57ef6-e0354459844so5689221276.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2024 14:49:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721768065; x=1722372865; darn=lists.freedesktop.org;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ d=google.com; s=20230601; t=1721771388; x=1722376188;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ImxAomd/i9Eoc6VqMGA4tkELgzOrDa3gqnjy0bYx30s=;
- b=X/yI6AuG91Ogz+YXjVnbrVHQ/NbUZfmhmEVbI7xnuImOiuRImkW5x7tHyVyorDELMN
- E7kHZM1oVUNswTfmFHIuRKSADkOQYZlnw4c+S0hqGL6qO0LkZU+XRioNl9H/Sy57eH0y
- SvIw8VfSQwqW8T1ne9QRc1dSbQ0EVLl7amISg51nT0BGjx7ojy8yEqFVIggmUCGlt3m2
- L4pvqP12pInMXrJ3irqJwEmEhWbrbXy0HG914if1UF4BCOJ2T/kTxFpVjEpsUSGajTys
- rorhRRKw9/GIUp/kBZ1D4rLNW/znGvQPoG/4zi/m5Y3HLXuq+a71jzOb680rryM+RdBp
- dHwg==
+ bh=yF33mP3g3PVeShTJgLfx3fwdjlEE8z1s+DJQDSjcr+Y=;
+ b=F+Aqq6+/PAkVhpxPtiAZFi/3PwmVGi0fjaUg5AwjyvXD00uF4mLmiGqqgiZby4FbAF
+ WNfMezk5we4clM32nhhASxaGEYxWbJkbaIBjNkBqKGrkPVmxYpJmH4Hc3CUzfFV492AT
+ KQSQEAOlk7fjDu7bCWboS1eGdgh3DADVjURo+2ZBkoRXRcp/aHD7skOzWpbZpbQXsPYh
+ 6kOpPhm6aCV9lkM8IH3+sYUmn1/1x+6JtD1L0Nd4jnNqA/ilv4F4WnW+p4oI/V6ELvbZ
+ xNtXh0Sqdxzbfw0IsrV8+265aJnhFom/pe9RQUGxBoOKv30LMgmSgC3/fq2ccjvDXVJ2
+ ZO3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721768065; x=1722372865;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1721771388; x=1722376188;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ImxAomd/i9Eoc6VqMGA4tkELgzOrDa3gqnjy0bYx30s=;
- b=VnDAYdIgADGxVBly9ukmav4YawwFRio/TbXLx2xce6uxR4a33d7STcyS62PjMDSbpB
- KWRzR6XOFu2KUDGt5yw8ccXAcNhtw9Dz+T9hQ27CgGA41GHv9MMaOgfs8qqoi1Vs3sKe
- 33NykzAMy9P/gTuyclJhlRe6Ki+ZVpdR3wPDhDDvER/xzdQj47oqw/wIvneohhIkwyQx
- zlVuCQHwheaIwFpYDTn3s6FDxmNDZ07cj7syAY4QgybEuRUFCs71G6noCZLFHFvmYboj
- M5r1MfkwNrVpid6+m1EmkTk6C/8HtqN5H97vOEpwweCo5wqO1NLTr+XDIVDMmqZltmM9
- SLXA==
-X-Gm-Message-State: AOJu0YzZvhkf60Biysn3lJkb+Z8HBW7QfUvfo2+9kASUk94u502WxR8N
- JBiM5yQg3HAOVjzH9tf5MjGCCJ4GboxYEMIc1ns/G3ZF5gedcsi084LQzqMN8Y4=
-X-Google-Smtp-Source: AGHT+IE/jnSvRftejyq7R+387CxXDgl+sAmdKuYR+tk94Pz2MkKTdYivJV1h6nHiG9PzMSft2bz3ow==
-X-Received: by 2002:a05:6871:3a13:b0:254:c617:a9a0 with SMTP id
- 586e51a60fabf-264878c36ffmr908015fac.50.1721768065393; 
- Tue, 23 Jul 2024 13:54:25 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:bbf0:72d7:a27a:93ce])
- by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-2610c7162e0sm2357312fac.2.2024.07.23.13.54.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jul 2024 13:54:24 -0700 (PDT)
-Date: Tue, 23 Jul 2024 15:54:22 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: [bug report] drm/v3d: Create a CPU job extension for the reset
- timestamp job
-Message-ID: <3b662018-0ff5-4445-9a50-ff43880807ed@stanley.mountain>
+ bh=yF33mP3g3PVeShTJgLfx3fwdjlEE8z1s+DJQDSjcr+Y=;
+ b=rH/vDcBYCmUKN5F8Io+kp/uYwAsrfkpObZNeLsAK8F4I99f94z7496MFw55tYtp+Mh
+ ojq09X10wp9mJN0SGwZFDhXCnYC5BvnIi2GDrtms7WckKEPzUmfiHhpdE+khg2448VgP
+ n7RtjexIf1XE1mOqNwu9wjC//KBqApJIqP19LJQo/12na9rWFUYMBWf7E2ccDaZ+jG+2
+ 0Rr+2u5ghui6KrFrEpVy+LjAdZrlO8fU4vZSqSptU1HjKcnXnfv3aExYr7qZD7vHbLsp
+ 0vpkcD6RywjbdUai4f1F6MAwqp6wwdL8OC9sKIa1cqSWxsK78gNb7JrBY50G63sEk14v
+ JoyQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVOjYdkzoL+CA1cDMklxCtpmQCulM/PuegQxwMriSg8lBeO28ZVE6IcOYOqFC0Ur3JLDuOE8hAUbRmSODvuSJMEPCJJZiHSlXm6pBBmCT89
+X-Gm-Message-State: AOJu0YzKkWDp8nsFJeKRqJDO0KE26ErHzlYwJ+zkAZFxrBhWE5qqid1r
+ 4N1gZj+S8o89M7dMmE1M5kVUHkv+aab4m7SKk7m+jgENFypaNGTZ/cX28nm0Q0rIKRSNiz611d5
+ AEjyUCg62sWSRLXROfpVM/T69i8dxd5+8WXLX
+X-Google-Smtp-Source: AGHT+IH5JJRTlNbepSdsOAGPfU8tDz3MNG4de1Wtf/RZgU4beT2V9Y9SRFjNnPwNA1SLBZA82p/Z63pCaOnO/csApGk=
+X-Received: by 2002:a05:6902:1108:b0:e08:7607:bbf3 with SMTP id
+ 3f1490d57ef6-e0b097d5744mr1316657276.34.1721771388342; Tue, 23 Jul 2024
+ 14:49:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20240628003253.1694510-1-almasrymina@google.com>
+ <20240628003253.1694510-4-almasrymina@google.com>
+ <CAMArcTUqqxam+BPwGExOFOLVi3t=dwA-5sSagKC5dndv07GDLQ@mail.gmail.com>
+ <CAHS8izNS5jZjPfc-sARbHV7mzqzH+UhHfAtCTKRRTfSAdhY4Cw@mail.gmail.com>
+ <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
+In-Reply-To: <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 23 Jul 2024 14:49:34 -0700
+Message-ID: <CAHS8izMTGgZ+4fOKegUDLqAoxrdVEb+nqjQEt8bP0WLBV=FfrQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to
+ netdevice
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,84 +126,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[ The Smatch integer overflow are too garbage to publish.  We're going to have
-  a BoF about integer overflows at plumbers. - dan ]
+On Tue, Jul 9, 2024 at 8:37=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wrot=
+e:
+...
+> Reproducer:
+> ./ncdevmem -f <interface name> -l -p 5201 -v 7 -t 0 -q 2 &
+> sleep 10
+> modprobe -rv bnxt_en
+> killall ncdevmem
+>
+> I think it's a devmemTCP core bug so this issue would be reproduced
+> with other drivers.
 
-Hello Maíra Canal,
+Sorry for the late reply. I was out at netdev.
 
-Commit 34a101e64296 ("drm/v3d: Create a CPU job extension for the
-reset timestamp job") from Nov 30, 2023 (linux-next), leads to the
-following Smatch static checker warning:
+I'm also having trouble reproducing this, not because the bug doesn't
+exist, but quirks with my test setup that I need to figure out. AFAICT
+this diff should fix the issue. If you have time to confirm, let me
+know if it doesn't work for you. It should apply on top of v16:
 
-	drivers/gpu/drm/v3d/v3d_submit.c:551 v3d_get_cpu_reset_timestamp_params()
-	warn: potential integer overflow from user (local copy) 'reset.offset + 8 * i'
+commit 795b8ff01906d ("fix for release issue")
+Author: Mina Almasry <almasrymina@google.com>
+Date:   Tue Jul 23 00:18:23 2024 +0000
 
-drivers/gpu/drm/v3d/v3d_submit.c
-    515 static int
-    516 v3d_get_cpu_reset_timestamp_params(struct drm_file *file_priv,
-    517                                    struct drm_v3d_extension __user *ext,
-    518                                    struct v3d_cpu_job *job)
-    519 {
-    520         u32 __user *syncs;
-    521         struct drm_v3d_reset_timestamp_query reset;
-    522         unsigned int i;
-    523         int err;
-    524 
-    525         if (!job) {
-    526                 DRM_DEBUG("CPU job extension was attached to a GPU job.\n");
-    527                 return -EINVAL;
-    528         }
-    529 
-    530         if (job->job_type) {
-    531                 DRM_DEBUG("Two CPU job extensions were added to the same CPU job.\n");
-    532                 return -EINVAL;
-    533         }
-    534 
-    535         if (copy_from_user(&reset, ext, sizeof(reset)))
-                                    ^^^^^
-reset.offset is a u32 that comes from the user
+    fix for release issue
 
-    536                 return -EFAULT;
-    537 
-    538         job->job_type = V3D_CPU_JOB_TYPE_RESET_TIMESTAMP_QUERY;
-    539 
-    540         job->timestamp_query.queries = kvmalloc_array(reset.count,
-    541                                                       sizeof(struct v3d_timestamp_query),
-    542                                                       GFP_KERNEL);
-    543         if (!job->timestamp_query.queries)
-    544                 return -ENOMEM;
-    545 
-    546         syncs = u64_to_user_ptr(reset.syncs);
-    547 
-    548         for (i = 0; i < reset.count; i++) {
-    549                 u32 sync;
-    550 
---> 551                 job->timestamp_query.queries[i].offset = reset.offset + 8 * i;
-                                                                 ^^^^^^^^^^^^^^^^^^^^
+    Change-Id: Ib45a0aa6cba2918db5f7ba535414ffa860911fa4
 
-This addition operation could be > U32_MAX.  There needs to be some checking
-that it's within bounds.
 
-    552 
-    553                 if (copy_from_user(&sync, syncs++, sizeof(sync))) {
-    554                         err = -EFAULT;
-    555                         goto error;
-    556                 }
-    557 
-    558                 job->timestamp_query.queries[i].syncobj = drm_syncobj_find(file_priv, sync);
-    559                 if (!job->timestamp_query.queries[i].syncobj) {
-    560                         err = -ENOENT;
-    561                         goto error;
-    562                 }
-    563         }
-    564         job->timestamp_query.count = reset.count;
-    565 
-    566         return 0;
-    567 
-    568 error:
-    569         v3d_timestamp_query_info_free(&job->timestamp_query, i);
-    570         return err;
-    571 }
 
-regards,
-dan carpenter
+diff --git a/include/net/devmem.h b/include/net/devmem.h
+index 51b25ba193c96..df52526bb516a 100644
+--- a/include/net/devmem.h
++++ b/include/net/devmem.h
+@@ -68,6 +68,9 @@ net_devmem_bind_dmabuf(struct net_device *dev,
+unsigned int dmabuf_fd);
+ void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding);
+ int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+                                    struct net_devmem_dmabuf_binding *bindi=
+ng);
++
++void dev_dmabuf_uninstall(struct net_device *dev);
++
+ struct net_iov *
+ net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding);
+ void net_devmem_free_dmabuf(struct net_iov *ppiov);
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 5882ddc3f8592..7be084e4936e4 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -11320,6 +11320,7 @@ void unregister_netdevice_many_notify(struct
+list_head *head,
+                dev_tcx_uninstall(dev);
+                dev_xdp_uninstall(dev);
+                bpf_dev_bound_netdev_unregister(dev);
++               dev_dmabuf_uninstall(dev);
+
+                netdev_offload_xstats_disable_all(dev);
+
+diff --git a/net/core/devmem.c b/net/core/devmem.c
+index e75057ecfa6de..227bcb1070ec0 100644
+--- a/net/core/devmem.c
++++ b/net/core/devmem.c
+@@ -362,4 +362,20 @@ bool mp_dmabuf_devmem_release_page(struct
+page_pool *pool, netmem_ref netmem)
+        return false;
+ }
+
++void dev_dmabuf_uninstall(struct net_device *dev)
++{
++       unsigned int i, count =3D dev->num_rx_queues;
++       struct net_devmem_dmabuf_binding *binding;
++       struct netdev_rx_queue *rxq;
++       unsigned long xa_idx;
++
++       for (i =3D 0; i < count; i++) {
++               binding =3D dev->_rx[i].mp_params.mp_priv;
++               if (binding)
++                       xa_for_each(&binding->bound_rxqs, xa_idx, rxq)
++                               if (rxq =3D=3D &dev->_rx[i])
++                                       xa_erase(&binding->bound_rxqs, xa_i=
+dx);
++       }
++}
++
+ #endif
+
+--=20
+Thanks,
+Mina
