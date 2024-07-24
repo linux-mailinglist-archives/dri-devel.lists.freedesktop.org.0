@@ -2,91 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B7193B653
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 19:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC9393B682
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 20:19:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7286910E788;
-	Wed, 24 Jul 2024 17:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5796310E78B;
+	Wed, 24 Jul 2024 18:19:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="iXqkZy2w";
+	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="cWXfczfG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D439B10E788
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 17:59:24 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-368440b073bso83409f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 10:59:24 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBF3E10E78B
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 18:19:02 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-5a10bb7bcd0so174663a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 11:19:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1721843963; x=1722448763;
+ d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1721845141; x=1722449941;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bB2QAOI7VV4nz4PEqDaYS/ujHUAYYtna7nIFDg5mVV8=;
- b=iXqkZy2wwB3HOI+suBfHT1HEqUcEB0oGN6kTL0rYiyKMt9wbmlt5jo3Qqw7qcqiN8G
- 5HSogXaofJc7aXa1MA1ifuCnfznWfhJP78gCCAtLZWk7uUtzOdcNzZp8OkJjbUbah1F0
- HcClXF7iUrqJH4K1hgnsB/FuYsJ2VC6A8M5Wq8mlzJNXo8uwlZU/BwTi9UvZrrokRc9Y
- c4/y5pex+Is9nrPPZICmLYVNQl55S7Eqd3cvzEyLTDnp75ogCOVBp7F/4JuqoJyKhX99
- 4nghD1dyzwaB9a244zan550mwgUj7CdV+9OGJyBoPw57LtxUJi9gUhe683ow9Zfe1+0e
- 2/dQ==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=u/dAQiFueQuhjl+MjEIf3d+/e2gf4wNWZn6jJ/xAWzw=;
+ b=cWXfczfGApeo0kVPeEKKdMn/c2ThwaC/Dmzc2mWJ8wvcejUTU6fEMuRodfFJHMf6CL
+ GApMwWVDAUZHtguq/NjDNdMlv12c82rV3obY+qCSqCoVQcl5636Qjay09XgY4Rtz3mQ1
+ HR05KkXiT4k+kqdrTuxXjShwrLBBtYdJDhfEJhlTlOzjO6Gc2/RhF/hBeIgyT1wo8ITQ
+ HOTxi+ONxvtUw6FykJk1el7J3XuFDYY4mQxa5xddyCeFLFbESvdXXp5liwv7Y4YNnyNM
+ 6Bp5eNVxQcKRKxZw5lSJQEmJaN7uEL1XTrCuTN+f/WRE4OC6BFcRI6e6B4t0oQGH80yV
+ k4hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721843963; x=1722448763;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bB2QAOI7VV4nz4PEqDaYS/ujHUAYYtna7nIFDg5mVV8=;
- b=kMeDxFLo+OHPr+eYbsyiEdgDWYrkytGjtmA1CyS5HVxrzctNQgQ1IXWNJFjaBPfeWj
- 0uKrAd32Ub8dqRR1vuT/WIZaZrHsrH5RekTqQf1gzJGdKD1QgbFzkMVY6T68iMj9x25U
- iaY0inmKbJs1FGMbP5RGpj0YxrmaHSAmPey2e3jPFW0YJJripz9Qqh6Hl7CRTdIEuOif
- r59DfKN1pHsgEi2AbkKowZKgmJU3G1PEApM5OZfI3YR3l42cQMH146CrVIQAaS4TsEnk
- RJHQaAuXJ68daFjBqtbTWj/MiwQV0iLVNjfRjgSIbM8iwgPOw39y//90HuQhiCVTK3Dy
- 9iCg==
+ d=1e100.net; s=20230601; t=1721845141; x=1722449941;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=u/dAQiFueQuhjl+MjEIf3d+/e2gf4wNWZn6jJ/xAWzw=;
+ b=xIOM1wPVpanwf5fbumv9xilMWrLJOvwEXQPEe1yBTo4dhsKgJmnue4qL2mIrH1Xd4R
+ EhKpMvapfiqb5njHy4QGR5VADWUgN6xqJ9jD1ES8kGJnXAramGzfRaZVeHLXX6FUA6R2
+ qlPQkHK04JEEzvpTzRXgSoyRIG7zGrgTdAO59QMCXjhrwpGwbbuNKlugGjXK8c8wZy5t
+ NVElW6ys/7eRji+yZUImtJFKIAhBUwcmF1tCwHnGcOpVsNa+arH5OD5IFFWHkG4SFctl
+ DbfwG7kp85y20hYNapRcgQtvplHAiXuyRjl4D5wyHSg2PpbGvTDRdzd+ipLlgiUt3Wgt
+ EeIA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxL1uaZwetcp1dqA1UdqbWWRaHwS4fKnIQi0L2ZA+CkpX4Je92loe9Ar0tPNrtU/fOD4vWTPEBP7P9wQna2mMY5lMCqBLhKuIrG8fImFbl
-X-Gm-Message-State: AOJu0YzUj/LavvZoRVWwd4WIET668I2DhmdJo09oN+op2KnC9Vjf8BW7
- xvXcB5NSLa+ZB/xLYEBUPbjVck4rxCDlOE6SuLaFILWTvwBmos/dvaD/8g4kPl4=
-X-Google-Smtp-Source: AGHT+IFYzshvY6vOeAFXLV3Aba9jnBfSJVOk5zJI9cgMfhJjkemmfOUrnmKShd36XZ2Mek+kPAuwhQ==
-X-Received: by 2002:adf:e001:0:b0:368:6bb:f79e with SMTP id
- ffacd0b85a97d-36b31b3092dmr333633f8f.4.1721843962600; 
- Wed, 24 Jul 2024 10:59:22 -0700 (PDT)
-Received: from ?IPV6:2a01:e34:ec24:52e0:fcff:6f45:dab:b3a8?
- ([2a01:e34:ec24:52e0:fcff:6f45:dab:b3a8])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-368787eda2fsm15265721f8f.108.2024.07.24.10.59.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Jul 2024 10:59:22 -0700 (PDT)
-Message-ID: <c302bc47-6492-44af-86a1-3ff6a815e314@freebox.fr>
-Date: Wed, 24 Jul 2024 19:59:21 +0200
+ AJvYcCVvrEYKZJS6CQwA91DK7ElgUZ7YfWoqbJNIAqccHrdx0P1OzAMsTeM5Ll6uGslkXezaA5+NVD3JuJE4Xi7vUQhgGQLUkWPyEhkWYptl3J9S
+X-Gm-Message-State: AOJu0Yx+IGK3TRh/iy9w/gh++H279aVo55JvwbPfpxOAVeth1/z1lsie
+ AOR0TuoA3lC4mermtPovum8B7vQ24NgtO/Te9/DIGQ70TB3FsvMR1C6DQdVxLpE=
+X-Google-Smtp-Source: AGHT+IEcoUjg/H7Tny99gyfAD8CirkS4HB9FW7AtPMpVNqZyQxrRGb//+nTTNOgXurdHH0YDNc7dgw==
+X-Received: by 2002:a50:ccd5:0:b0:5a3:8c9:3c1d with SMTP id
+ 4fb4d7f45d1cf-5ac2a6c2b15mr172141a12.14.1721845140713; 
+ Wed, 24 Jul 2024 11:19:00 -0700 (PDT)
+Received: from fedora.fritz.box (aftr-82-135-80-26.dynamic.mnet-online.de.
+ [82.135.80.26]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5a30aaa30b9sm9101646a12.28.2024.07.24.11.18.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jul 2024 11:19:00 -0700 (PDT)
+From: Thorsten Blum <thorsten.blum@toblux.com>
+To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thorsten Blum <thorsten.blum@toblux.com>
+Subject: [PATCH] drm/xe/oa: Use vma_pages() helper function in xe_oa_mmap()
+Date: Wed, 24 Jul 2024 20:18:27 +0200
+Message-ID: <20240724181826.3163-2-thorsten.blum@toblux.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: add TI TDP158
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20240627-tdp158-v3-0-fb2fbc808346@freebox.fr>
- <20240627-tdp158-v3-1-fb2fbc808346@freebox.fr>
- <20240701-bug-of-great-honeydew-cfb6ef@houat>
- <e55d0f0e-a104-4790-b832-120dbddd93ad@freebox.fr>
- <20240715-stirring-purple-toad-7de58c@houat>
-Content-Language: en-US
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <20240715-stirring-purple-toad-7de58c@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,52 +83,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/07/2024 16:40, Maxime Ripard wrote:
-> On Thu, Jul 04, 2024 at 07:04:41PM GMT, Marc Gonzalez wrote:
->> On 01/07/2024 15:50, Maxime Ripard wrote:
->>
->>> The i2c register access (and the whole behaviour of the device) is
->>> constrained on the I2C_EN pin status, and you can't read it from the
->>> device, so it's also something we need to have in the DT.
->>
->> I think the purpose of the I2C_EN pin might have been misunderstood.
->>
->> I2C_EN is not meant to be toggled, ever, by anyone from this planet.
-> 
-> Toggled, probably not. Connected to a GPIO and the kernel has to assert
-> a level at boot, I've seen worse hardware design already.
-> 
->> I2C_EN is a layout-time setting, decided by a board manufacturer:
->>
->> - If the TDP158 is fully configured once-and-for-all at layout-time,
->> then no I2C bus is required, and I2C_EN is pulled down forever.
->>
->> - If the board manufacturer wants to keep open the possibility
->> to adjust some parameters at run-time, then they must connect
->> the device to an I2C bus, and I2C_EN is pulled up forever.
-> 
-> How do you express both cases in your current binding?
+Use the vma_pages() helper function and remove the following
+Coccinelle/coccicheck warning reported by vma_pages.cocci:
 
-It's not that I'm ignoring your question.
+  WARNING: Consider using vma_pages helper on vma
 
-It's that I don't understand what you're asking.
+Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+---
+ drivers/gpu/drm/xe/xe_oa.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-SITUATION 1
-tdp158 is pin strapped.
-Device node is child of root node.
-Properties in proposed binding are valid (regulators and power-on pin)
-Can be supported via module_platform_driver.
-
-SITUATION 2
-tdp158 is sitting on I2C bus.
-Device node is child of i2c bus node.
-(robh said missing reg prop would be flagged by the compiler)
-Properties in proposed binding are valid (regulators and power-on pin)
-Supported via module_i2c_driver.
-
-
-If some settings-specific properties are added later, like skew,
-they would only be valid for the I2C programmable mode, obviously.
-
-Regards
+diff --git a/drivers/gpu/drm/xe/xe_oa.c b/drivers/gpu/drm/xe/xe_oa.c
+index 6d69f751bf78..133292a9d687 100644
+--- a/drivers/gpu/drm/xe/xe_oa.c
++++ b/drivers/gpu/drm/xe/xe_oa.c
+@@ -1244,8 +1244,7 @@ static int xe_oa_mmap(struct file *file, struct vm_area_struct *vma)
+ 	vm_flags_mod(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP | VM_DONTCOPY,
+ 		     VM_MAYWRITE | VM_MAYEXEC);
+ 
+-	xe_assert(stream->oa->xe, bo->ttm.ttm->num_pages ==
+-		  (vma->vm_end - vma->vm_start) >> PAGE_SHIFT);
++	xe_assert(stream->oa->xe, bo->ttm.ttm->num_pages == vma_pages(vma));
+ 	for (i = 0; i < bo->ttm.ttm->num_pages; i++) {
+ 		ret = remap_pfn_range(vma, start, page_to_pfn(bo->ttm.ttm->pages[i]),
+ 				      PAGE_SIZE, vma->vm_page_prot);
+-- 
+2.45.2
 
