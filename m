@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DB193AAB3
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 03:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B88393AC10
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 06:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B659C10E2EB;
-	Wed, 24 Jul 2024 01:47:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58EA510E099;
+	Wed, 24 Jul 2024 04:56:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Ev6pXWBg";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="eRyzR4KX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D1C10E1F1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 01:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1721785670;
- bh=L0pvZgmeXG6Peu1xnQRC83qGa8HYAp+Rkzy0QRIJZtU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Ev6pXWBgJGCyk0TH+oceaI/oGzaxKDJ2VlXM/IIu1ztLygRIUAZPwwrAeIOSwplC6
- 53uD9PyiYK0qWDAgo/O7RjyQiWGoQZhZMxCjniW7p8V1kiFLTxYFhJbMTEMhOMx3E6
- Hz0FQjRjVOm0WVuPN5mowwt0js6sv1nUCkXATzfq8dpdwKwsGOpg4cqfwQmTwqncM/
- s5pFFIjd0KXpuftzcqnlqovMlXEB9PGPwrFJiKK/aNeocBFuFU+yopez8xnC/o/fMD
- K3e03GQniubslQYD1hNi10xPsggaf4J6y6IF29yTM4puBMOrhwTVsRqF7I/aoTxsJd
- EmRtemjlZYyiA==
-Received: from [10.3.2.176] (zone.collabora.co.uk [167.235.23.81])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 04634378202D;
- Wed, 24 Jul 2024 01:47:44 +0000 (UTC)
-Message-ID: <8aa3d2af-df5b-45b7-ba20-ae41d0b85ca8@collabora.com>
-Date: Tue, 23 Jul 2024 22:47:41 -0300
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0568A10E099
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 04:55:55 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/5] drm/ci: rockchip: add tests for rockchip display
- driver
-To: Vignesh Raman <vignesh.raman@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- deborah.brouwer@collabora.com, robdclark@gmail.com,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240712091549.56635-1-vignesh.raman@collabora.com>
- <20240712091549.56635-6-vignesh.raman@collabora.com>
-Content-Language: en-US
-From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <20240712091549.56635-6-vignesh.raman@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1721796953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NYfbaU+jW9m+V0GxyBSpZLRG4dnH4JjZCovmJZxf+3I=;
+ b=eRyzR4KXosNLImLikuYs18tbLSbpUefXNM8GDI2FyCylrG2jfzid1qvrshtn1g1Z63uDcK
+ 5FIjD0HLXwFWMFBCFVBITA3JXBdA6kHPjW0nXqmhQyqZaXL6W9BJir9RNEoc7mAqMlEMpe
+ yeH/iCxqjS4RNJx6+ut9AmXllF6eF0ioCasLlF4DvmIrp2cWeZkoPldHzsTvLYf9YXVDfu
+ LAvHMW7zz4RLIcjhmWa++CQ01GgBg7Te0Z/uChhAEV6+qdHHXOmcTmIOpWpmsEH3OtH6An
+ k1OkOg072DAIe/q4t7kY9aBaQuW+/jeyIYplXWu0ARvZu3b3dhxq1jwU/t3TUQ==
+Date: Wed, 24 Jul 2024 06:55:52 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, andy.yan@rock-chips.com, heiko@sntech.de,
+ hjc@rock-chips.com
+Subject: Re: [PATCH RESEND] rockchip/drm: vop2: add support for gamma LUT
+In-Reply-To: <1j9TaYWvKClDhffohlNyAKGnqXD7fg9eA7FmPunHO__2SxvClWRZp7a1wNMf5Fl4KWGXzZ745LjQOl2Lmu3w0D3sc-1en-cA8vBmvol6OqM=@proton.me>
+References: <ZVMxgcrtgHui9fJpnhbN6TSPhofHbbXElh241lImrzzTUl-8WejGpaR8CPzYhBgoqe_xj7N6En8Ny7Z-gsCr0kaFs7apwjYV1MBJJLmLHxs=@proton.me>
+ <d019761504b540600d9fc7a585d6f95f@manjaro.org>
+ <1j9TaYWvKClDhffohlNyAKGnqXD7fg9eA7FmPunHO__2SxvClWRZp7a1wNMf5Fl4KWGXzZ745LjQOl2Lmu3w0D3sc-1en-cA8vBmvol6OqM=@proton.me>
+Message-ID: <9736eadf6a9d8e97eef919c6b3d88828@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,581 +63,296 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Piotr,
+
+On 2024-07-22 20:26, Piotr Zalewski wrote:
+> Thank you for the comment/review. Your code styling suggestions are
+> naturally justified. Also, thanks to your comment, I noticed one extra
+> thing. Namely, in my patch, gamma LUT write happens outside of the vop2
+> lock - which should happen inside of the lock.
+
+I haven't had enough time to look at the patch code in detail, but doing
+the LUT adjustment inside the lock certainly makes sense.  If I get a
+chance, I'll perform a detailed review of your patch.
+
+> I'm not sure in what form should I supply corrections to my patch now.
+> Should it be whole new patch with said fixes, or a patch on top of my
+> patch?
+
+You should send the v2, tagged as "[PATCH v2]", with the described fixes
+applied, and with the description of changes in the v2 in the patch 
+notes.
+You may want to have a look at some examples of such v2 submissions, [1]
+and it's the best to produce patch notes using git-notes(1). [2]
+
+[1] 
+https://lore.kernel.org/linux-rockchip/bdb60f1f793166cd65f58ab7aea025347076019c.1719679068.git.dsimic@manjaro.org/
+[2] https://git-scm.com/docs/git-notes
 
 
-On 12/07/2024 06:15, Vignesh Raman wrote:
-> For rockchip rk3288 and rk3399, the display driver is rockchip
-> and gpu driver is panfrost. Currently, in drm-ci for rockchip
-> rk3288 and rk3399, only the gpu driver is tested. Refactor
-> the existing rockchip jobs to test both display and gpu driver
-> and update xfails.
+> On Monday, July 22nd, 2024 at 8:37 AM, Dragan Simic 
+> <dsimic@manjaro.org> wrote:
 > 
-> Since the correct driver name is passed from the job to test gpu
-> and display driver, remove the check to set IGT_FORCE_DRIVER
-> based on driver name for rockchip jobs.
+>> Hello Piotr,
+>> 
+>> Thanks for the patch. Please see a few general comments below.
+>> 
+>> On 2024-07-21 12:06, Piotr Zalewski wrote:
+>> 
+>> > Add support for gamma LUT in VOP2 driver. The implementation is based
+>> > on
+>> > the one found in VOP driver and modified to be compatible with VOP2.
+>> > Blue
+>> > and red channels in gamma LUT register write were swapped with respect
+>> > to
+>> > how gamma LUT values are written in VOP. Write of the current video
+>> > port id
+>> > to VOP2_SYS_LUT_PORT_SEL register was added before the write of
+>> > DSP_LUT_EN
+>> > bit. Gamma size is set and drm color management is enabled for each
+>> > video
+>> > port's CRTC except ones which have no associated device. Tested on
+>> > RK3566
+>> > (Pinetab2).
+>> >
+>> > Signed-off-by: Piotr Zalewski pZ010001011111@proton.me
+>> > ---
+>> >
+>> > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> > b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> > index 9873172e3fd3..16abdc4a59a8 100644
+>> > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> > @@ -278,6 +278,15 @@ static u32 vop2_readl(struct vop2 *vop2, u32
+>> > offset)
+>> > return val;
+>> > }
+>> >
+>> > +static u32 vop2_vp_read(struct vop2_video_port *vp, u32 offset)
+>> > +{
+>> > + u32 val;
+>> > +
+>> > + regmap_read(vp->vop2->map, vp->data->offset + offset, &val);
+>> > +
+>> > + return val;
+>> > +}
+>> > +
+>> > static void vop2_win_write(const struct vop2_win *win, unsigned int
+>> > reg, u32 v)
+>> > {
+>> > regmap_field_write(win->reg[reg], v);
+>> > @@ -1482,6 +1491,97 @@ static bool vop2_crtc_mode_fixup(struct drm_crtc
+>> > *crtc,
+>> > return true;
+>> > }
+>> >
+>> > +static bool vop2_vp_dsp_lut_is_enabled(struct vop2_video_port *vp)
+>> > +{
+>> > + return (u32) (vop2_vp_read(vp, RK3568_VP_DSP_CTRL) &
+>> > RK3568_VP_DSP_CTRL__DSP_LUT_EN) >
+>> > + 0;
+>> > +}
+>> > +
+>> > +static void vop2_vp_dsp_lut_enable(struct vop2_video_port *vp)
+>> > +{
+>> > + u32 dsp_ctrl = vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
+>> > +
+>> > + dsp_ctrl |= RK3568_VP_DSP_CTRL__DSP_LUT_EN;
+>> > + vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+>> > +}
+>> > +
+>> > +static void vop2_vp_dsp_lut_disable(struct vop2_video_port *vp)
+>> > +{
+>> > + u32 dsp_ctrl = vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
+>> > +
+>> > + dsp_ctrl &= ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
+>> > + vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+>> > +}
+>> > +
+>> > +static void vop2_crtc_write_gamma_lut(struct vop2 *vop2, struct
+>> > drm_crtc *crtc)
+>> > +{
+>> > + const struct vop2_data *vop2_data = vop2->data;
+>> > + const struct vop2_video_port *vp = to_vop2_video_port(crtc);
+>> > + const struct vop2_video_port_data *vp_data = &vop2_data->vp[vp->id];
+>> 
+>> 
+>> Perhaps vop2_data could be dropped as a separate variable.
+>> 
+>> > +
+>> > + struct drm_color_lut *lut = crtc->state->gamma_lut->data;
+>> > + unsigned int i, bpc = ilog2(vp_data->gamma_lut_len);
+>> > + u32 word;
+>> > +
+>> > + for (i = 0; i < crtc->gamma_size; i++) {
+>> > + word = (drm_color_lut_extract(lut[i].blue, bpc) << (2 * bpc)) |
+>> > + (drm_color_lut_extract(lut[i].green, bpc) << bpc) |
+>> > + drm_color_lut_extract(lut[i].red, bpc);
+>> > +
+>> > + writel(word, vop2->lut_regs + i * 4);
+>> > + }
+>> > +}
+>> > +
+>> > +static void vop2_crtc_gamma_set(struct vop2 *vop2, struct drm_crtc
+>> > *crtc,
+>> > + struct drm_crtc_state *old_state)
+>> > +{
+>> > + struct drm_crtc_state *state = crtc->state;
+>> > + struct vop2_video_port vp = to_vop2_video_port(crtc);
+>> > + u32 dsp_ctrl;
+>> > + int ret;
+>> > +
+>> > + if (!vop2->lut_regs)
+>> > + return;
+>> > +
+>> > + if (!state->gamma_lut) {
+>> > + /
+>> > + * To disable gamma (gamma_lut is null) or to write
+>> > + * an update to the LUT, clear dsp_lut_en.
+>> > + /
+>> > + vop2_lock(vop2);
+>> > +
+>> > + vop2_vp_dsp_lut_disable(vp);
+>> > +
+>> > + vop2_cfg_done(vp);
+>> > + vop2_unlock(vop2);
+>> > + /
+>> > + * In order to write the LUT to the internal memory,
+>> > + * we need to first make sure the dsp_lut_en bit is cleared.
+>> > + */
+>> > + ret =
+>> > + readx_poll_timeout(vop2_vp_dsp_lut_is_enabled, vp, dsp_ctrl,
+>> > !dsp_ctrl, 5,
+>> > + 30 * 1000);
+>> 
+>> 
+>> It would look nicer to keep "ret =" and "readx_poll_timeout(..." in 
+>> the
+>> same line,
+>> and to introduce line breaks later in the same line.
+>> 
+>> > +
+>> > + if (ret) {
+>> > + DRM_DEV_ERROR(vop2->dev, "display LUT RAM enable timeout!\n");
+>> > + return;
+>> > + }
+>> > +
+>> > + if (!state->gamma_lut)
+>> > + return;
+>> > + }
+>> > +
+>> > + vop2_crtc_write_gamma_lut(vop2, crtc);
+>> > +
 > 
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-
-lgtm
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-Thanks
-Helen
-
-> ---
+> Here the gamma LUT write happens outside of the vop2 lock.
 > 
-> v2:
->    - Refactor the patch to rename job to indicate display driver testing,
->      rename the existing xfail files.
-> 
-> v3:
->    - Add the job name in GPU_VERSION and use it for xfail file names
->      instead of using DRIVER_NAME. Also update xfails.
-> 
-> v4:
->    - Remove the display suffix in job and rename xfails accordingly.
->      Remove the change adding job name in GPU_VERSION.
-> 
-> v5:
->    - Add rockchip-display job and skip driver-specfic tests.
-> 
-> v6:
->    - Squash commits for display and gpu driver testing. Reword the commit message.
-> 
-> v7:
->    - Rebase with recent drm-ci fixes and retest with latest IGT.
-> 
-> ---
->   drivers/gpu/drm/ci/igt_runner.sh              |  3 -
->   drivers/gpu/drm/ci/test.yml                   | 48 +++++++---
->   .../drm/ci/xfails/mediatek-mt8183-fails.txt   |  1 -
->   .../drm/ci/xfails/panfrost-rk3288-fails.txt   |  8 ++
->   .../drm/ci/xfails/panfrost-rk3288-skips.txt   | 71 +++++++++++++++
->   .../drm/ci/xfails/panfrost-rk3399-fails.txt   |  8 ++
->   .../drm/ci/xfails/panfrost-rk3399-flakes.txt  |  6 ++
->   .../drm/ci/xfails/panfrost-rk3399-skips.txt   | 24 +++++
->   .../drm/ci/xfails/rockchip-rk3288-fails.txt   | 21 +++--
->   .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |  6 ++
->   .../drm/ci/xfails/rockchip-rk3288-skips.txt   | 54 +----------
->   .../drm/ci/xfails/rockchip-rk3399-fails.txt   | 90 +++++++++++++++++--
->   .../drm/ci/xfails/rockchip-rk3399-flakes.txt  | 13 ++-
->   .../drm/ci/xfails/rockchip-rk3399-skips.txt   |  7 +-
->   14 files changed, 270 insertions(+), 90 deletions(-)
->   create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
-> 
-> diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
-> index 1578a2a47a54..f38836ec837c 100755
-> --- a/drivers/gpu/drm/ci/igt_runner.sh
-> +++ b/drivers/gpu/drm/ci/igt_runner.sh
-> @@ -20,9 +20,6 @@ cat /sys/kernel/debug/dri/*/state
->   set -e
->   
->   case "$DRIVER_NAME" in
-> -    rockchip)
-> -        export IGT_FORCE_DRIVER="panfrost"
-> -        ;;
->       amdgpu|vkms)
->           # Cannot use HWCI_KERNEL_MODULES as at that point we don't have the module in /lib
->           mv /install/modules/lib/modules/* /lib/modules/. || true
-> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-> index 5ccf57b3bf91..b22b2cf8f06f 100644
-> --- a/drivers/gpu/drm/ci/test.yml
-> +++ b/drivers/gpu/drm/ci/test.yml
-> @@ -160,33 +160,57 @@ msm:sdm845:
->     script:
->       - ./install/bare-metal/cros-servo.sh
->   
-> -rockchip:rk3288:
-> -  extends:
-> -    - .lava-igt:arm32
-> +.rockchip-device:
-> +  variables:
-> +    DTB: ${DEVICE_TYPE}
-> +    BOOT_METHOD: depthcharge
-> +
-> +.rockchip-display:
->     stage: rockchip
->     variables:
->       DRIVER_NAME: rockchip
-> +
-> +.rk3288:
-> +  extends:
-> +    - .lava-igt:arm32
-> +    - .rockchip-device
-> +  variables:
->       DEVICE_TYPE: rk3288-veyron-jaq
-> -    DTB: ${DEVICE_TYPE}
-> -    BOOT_METHOD: depthcharge
-> -    KERNEL_IMAGE_TYPE: "zimage"
->       GPU_VERSION: rk3288
-> +    KERNEL_IMAGE_TYPE: "zimage"
->       RUNNER_TAG: mesa-ci-x86-64-lava-rk3288-veyron-jaq
->   
-> -rockchip:rk3399:
-> +.rk3399:
->     extends:
->       - .lava-igt:arm64
-> -  stage: rockchip
-> +    - .rockchip-device
->     parallel: 2
->     variables:
-> -    DRIVER_NAME: rockchip
->       DEVICE_TYPE: rk3399-gru-kevin
-> -    DTB: ${DEVICE_TYPE}
-> -    BOOT_METHOD: depthcharge
-> -    KERNEL_IMAGE_TYPE: ""
->       GPU_VERSION: rk3399
-> +    KERNEL_IMAGE_TYPE: ""
->       RUNNER_TAG: mesa-ci-x86-64-lava-rk3399-gru-kevin
->   
-> +rockchip:rk3288:
-> +  extends:
-> +    - .rk3288
-> +    - .rockchip-display
-> +
-> +panfrost:rk3288:
-> +  extends:
-> +    - .rk3288
-> +    - .panfrost-gpu
-> +
-> +rockchip:rk3399:
-> +  extends:
-> +    - .rk3399
-> +    - .rockchip-display
-> +
-> +panfrost:rk3399:
-> +  extends:
-> +    - .rk3399
-> +    - .panfrost-gpu
-> +
->   .i915:
->     extends:
->       - .lava-igt:x86_64
-> diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
-> index cf3a747f7cec..826cca5efbff 100644
-> --- a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
-> +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
-> @@ -13,7 +13,6 @@ kms_bw@connected-linear-tiling-1-displays-1920x1080p,Fail
->   kms_bw@connected-linear-tiling-1-displays-2160x1440p,Fail
->   kms_bw@connected-linear-tiling-1-displays-2560x1440p,Fail
->   kms_bw@linear-tiling-1-displays-1920x1080p,Fail
-> -kms_bw@linear-tiling-1-displays-2560x1440p,Fail
->   kms_bw@linear-tiling-1-displays-3840x2160p,Fail
->   kms_color@invalid-gamma-lut-sizes,Fail
->   kms_flip@flip-vs-panning-vs-hang,Fail
-> diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt
-> new file mode 100644
-> index 000000000000..10689906da3a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt
-> @@ -0,0 +1,8 @@
-> +dumb_buffer@create-clear,Crash
-> +dumb_buffer@create-valid-dumb,Crash
-> +dumb_buffer@invalid-bpp,Crash
-> +dumb_buffer@map-invalid-size,Crash
-> +dumb_buffer@map-uaf,Crash
-> +dumb_buffer@map-valid,Crash
-> +panfrost/panfrost_prime@gem-prime-import,Crash
-> +tools_test@tools_test,Crash
-> diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
-> new file mode 100644
-> index 000000000000..b8cb31842323
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
-> @@ -0,0 +1,71 @@
-> +# Suspend to RAM seems to be broken on this machine
-> +.*suspend.*
-> +
-> +# Too unstable, machine ends up hanging after lots of Oopses
-> +kms_cursor_legacy.*
-> +
-> +# Started hanging the machine on Linux 5.19-rc2:
-> +#
-> +# [IGT] kms_plane_lowres: executing
-> +# [IGT] kms_plane_lowres: starting subtest pipe-F-tiling-y
-> +# [IGT] kms_plane_lowres: exiting, ret=77
-> +# Console: switching to colour frame buffer device 170x48
-> +# rockchip-drm display-subsystem: [drm] *ERROR* flip_done timed out
-> +# rockchip-drm display-subsystem: [drm] *ERROR* [CRTC:35:crtc-0] commit wait timed out
-> +# BUG: spinlock bad magic on CPU#3, kms_plane_lowre/482
-> +# 8<--- cut here ---
-> +# Unable to handle kernel paging request at virtual address 7812078e
-> +# [7812078e] *pgd=00000000
-> +# Internal error: Oops: 5 [#1] SMP ARM
-> +# Modules linked in:
-> +# CPU: 3 PID: 482 Comm: kms_plane_lowre Tainted: G        W         5.19.0-rc2-323596-g00535de92171 #1
-> +# Hardware name: Rockchip (Device Tree)
-> +# Process kms_plane_lowre (pid: 482, stack limit = 0x1193ac2b)
-> +#  spin_dump from do_raw_spin_lock+0xa4/0xe8
-> +#  do_raw_spin_lock from wait_for_completion_timeout+0x2c/0x120
-> +#  wait_for_completion_timeout from drm_crtc_commit_wait+0x18/0x7c
-> +#  drm_crtc_commit_wait from drm_atomic_helper_wait_for_dependencies+0x44/0x168
-> +#  drm_atomic_helper_wait_for_dependencies from commit_tail+0x34/0x180
-> +#  commit_tail from drm_atomic_helper_commit+0x164/0x18c
-> +#  drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe4
-> +#  drm_atomic_commit from drm_client_modeset_commit_atomic+0x23c/0x284
-> +#  drm_client_modeset_commit_atomic from drm_client_modeset_commit_locked+0x60/0x1c8
-> +#  drm_client_modeset_commit_locked from drm_client_modeset_commit+0x24/0x40
-> +#  drm_client_modeset_commit from drm_fbdev_client_restore+0x58/0x94
-> +#  drm_fbdev_client_restore from drm_client_dev_restore+0x70/0xbc
-> +#  drm_client_dev_restore from drm_release+0xf4/0x114
-> +#  drm_release from __fput+0x74/0x240
-> +#  __fput from task_work_run+0x84/0xb4
-> +#  task_work_run from do_exit+0x34c/0xa20
-> +#  do_exit from do_group_exit+0x34/0x98
-> +#  do_group_exit from __wake_up_parent+0x0/0x18
-> +# Code: e595c008 12843d19 03e00000 03093168 (15940508)
-> +# ---[ end trace 0000000000000000 ]---
-> +# note: kms_plane_lowre[482] exited with preempt_count 1
-> +# Fixing recursive fault but reboot is needed!
-> +kms_plane_lowres@pipe-F-tiling-y
-> +
-> +# Take too long, we have only two machines, and these are very flaky
-> +kms_cursor_crc.*
-> +
-> +# Machine is hanging in this test, so skip it
-> +kms_pipe_crc_basic@disable-crc-after-crtc
-> +
-> +# Skip driver specific tests
-> +^amdgpu.*
-> +^msm.*
-> +nouveau_.*
-> +^v3d.*
-> +^vc4.*
-> +^vmwgfx*
-> +
-> +# Skip intel specific tests
-> +gem_.*
-> +i915_.*
-> +
-> +# Panfrost is not a KMS driver, so skip the KMS tests
-> +kms_.*
-> +
-> +# Currently fails and causes coverage loss for other tests
-> +# since core_getversion also fails.
-> +core_hotunplug.*
-> diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt
-> new file mode 100644
-> index 000000000000..5b7d623f404b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt
-> @@ -0,0 +1,8 @@
-> +dumb_buffer@create-clear,Fail
-> +dumb_buffer@create-valid-dumb,Fail
-> +dumb_buffer@invalid-bpp,Fail
-> +dumb_buffer@map-invalid-size,Fail
-> +dumb_buffer@map-uaf,Fail
-> +dumb_buffer@map-valid,Fail
-> +panfrost/panfrost_prime@gem-prime-import,Fail
-> +tools_test@tools_test,Fail
-> diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt
-> new file mode 100644
-> index 000000000000..ac4f8f7244d4
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt
-> @@ -0,0 +1,6 @@
-> +# Board Name: rk3399-gru-kevin
-> +# Bug Report: https://lore.kernel.org/dri-devel/5cc34a8b-c1fa-4744-9031-2d33ecf41011@collabora.com/T/#u
-> +# Failure Rate: 50
-> +# IGT Version: 1.28-g0df7b9b97
-> +# Linux Version: 6.9.0-rc7
-> +panfrost/panfrost_submit@pan-unhandled-pagefault
-> diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt
-> new file mode 100644
-> index 000000000000..743f3eeb2f80
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt
-> @@ -0,0 +1,24 @@
-> +# Suspend to RAM seems to be broken on this machine
-> +.*suspend.*
-> +
-> +# Too unstable, machine ends up hanging after lots of Oopses
-> +kms_cursor_legacy.*
-> +
-> +# Skip driver specific tests
-> +^amdgpu.*
-> +^msm.*
-> +nouveau_.*
-> +^v3d.*
-> +^vc4.*
-> +^vmwgfx*
-> +
-> +# Skip intel specific tests
-> +gem_.*
-> +i915_.*
-> +
-> +# Panfrost is not a KMS driver, so skip the KMS tests
-> +kms_.*
-> +
-> +# Currently fails and causes coverage loss for other tests
-> +# since core_getversion also fails.
-> +core_hotunplug.*
-> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-> index 10689906da3a..9961ef307bb4 100644
-> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-> @@ -1,8 +1,19 @@
-> +core_setmaster@master-drop-set-root,Crash
-> +core_setmaster@master-drop-set-user,Crash
-> +core_setmaster_vs_auth,Crash
-> +device_reset@cold-reset-bound,Crash
-> +device_reset@reset-bound,Crash
-> +device_reset@unbind-cold-reset-rebind,Crash
-> +device_reset@unbind-reset-rebind,Crash
->   dumb_buffer@create-clear,Crash
-> -dumb_buffer@create-valid-dumb,Crash
->   dumb_buffer@invalid-bpp,Crash
-> -dumb_buffer@map-invalid-size,Crash
-> -dumb_buffer@map-uaf,Crash
-> -dumb_buffer@map-valid,Crash
-> -panfrost/panfrost_prime@gem-prime-import,Crash
-> +fbdev@pan,Crash
-> +kms_cursor_crc@cursor-onscreen-32x10,Crash
-> +kms_cursor_crc@cursor-onscreen-32x32,Crash
-> +kms_cursor_crc@cursor-random-32x10,Crash
-> +kms_cursor_crc@cursor-sliding-32x32,Crash
-> +kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
-> +kms_cursor_legacy@cursor-vs-flip-legacy,Fail
-> +kms_prop_blob@invalid-set-prop,Crash
-> +kms_prop_blob@invalid-set-prop-any,Crash
->   tools_test@tools_test,Crash
-> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
-> new file mode 100644
-> index 000000000000..1f9f01c88bea
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
-> @@ -0,0 +1,6 @@
-> +# Board Name: rk3288-veyron-jaq
-> +# Bug Report: TBD
-> +# Failure Rate: 100
-> +# IGT Version: 1.28-gf13702b8e
-> +# Linux Version: 6.10.0-rc5
-> +kms_cursor_legacy@flip-vs-cursor-atomic
-> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-> index b8cb31842323..f28241b6581f 100644
-> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-> @@ -1,60 +1,11 @@
->   # Suspend to RAM seems to be broken on this machine
->   .*suspend.*
->   
-> -# Too unstable, machine ends up hanging after lots of Oopses
-> -kms_cursor_legacy.*
-> -
-> -# Started hanging the machine on Linux 5.19-rc2:
-> -#
-> -# [IGT] kms_plane_lowres: executing
-> -# [IGT] kms_plane_lowres: starting subtest pipe-F-tiling-y
-> -# [IGT] kms_plane_lowres: exiting, ret=77
-> -# Console: switching to colour frame buffer device 170x48
-> -# rockchip-drm display-subsystem: [drm] *ERROR* flip_done timed out
-> -# rockchip-drm display-subsystem: [drm] *ERROR* [CRTC:35:crtc-0] commit wait timed out
-> -# BUG: spinlock bad magic on CPU#3, kms_plane_lowre/482
-> -# 8<--- cut here ---
-> -# Unable to handle kernel paging request at virtual address 7812078e
-> -# [7812078e] *pgd=00000000
-> -# Internal error: Oops: 5 [#1] SMP ARM
-> -# Modules linked in:
-> -# CPU: 3 PID: 482 Comm: kms_plane_lowre Tainted: G        W         5.19.0-rc2-323596-g00535de92171 #1
-> -# Hardware name: Rockchip (Device Tree)
-> -# Process kms_plane_lowre (pid: 482, stack limit = 0x1193ac2b)
-> -#  spin_dump from do_raw_spin_lock+0xa4/0xe8
-> -#  do_raw_spin_lock from wait_for_completion_timeout+0x2c/0x120
-> -#  wait_for_completion_timeout from drm_crtc_commit_wait+0x18/0x7c
-> -#  drm_crtc_commit_wait from drm_atomic_helper_wait_for_dependencies+0x44/0x168
-> -#  drm_atomic_helper_wait_for_dependencies from commit_tail+0x34/0x180
-> -#  commit_tail from drm_atomic_helper_commit+0x164/0x18c
-> -#  drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe4
-> -#  drm_atomic_commit from drm_client_modeset_commit_atomic+0x23c/0x284
-> -#  drm_client_modeset_commit_atomic from drm_client_modeset_commit_locked+0x60/0x1c8
-> -#  drm_client_modeset_commit_locked from drm_client_modeset_commit+0x24/0x40
-> -#  drm_client_modeset_commit from drm_fbdev_client_restore+0x58/0x94
-> -#  drm_fbdev_client_restore from drm_client_dev_restore+0x70/0xbc
-> -#  drm_client_dev_restore from drm_release+0xf4/0x114
-> -#  drm_release from __fput+0x74/0x240
-> -#  __fput from task_work_run+0x84/0xb4
-> -#  task_work_run from do_exit+0x34c/0xa20
-> -#  do_exit from do_group_exit+0x34/0x98
-> -#  do_group_exit from __wake_up_parent+0x0/0x18
-> -# Code: e595c008 12843d19 03e00000 03093168 (15940508)
-> -# ---[ end trace 0000000000000000 ]---
-> -# note: kms_plane_lowre[482] exited with preempt_count 1
-> -# Fixing recursive fault but reboot is needed!
-> -kms_plane_lowres@pipe-F-tiling-y
-> -
-> -# Take too long, we have only two machines, and these are very flaky
-> -kms_cursor_crc.*
-> -
-> -# Machine is hanging in this test, so skip it
-> -kms_pipe_crc_basic@disable-crc-after-crtc
-> -
->   # Skip driver specific tests
->   ^amdgpu.*
->   ^msm.*
->   nouveau_.*
-> +^panfrost.*
->   ^v3d.*
->   ^vc4.*
->   ^vmwgfx*
-> @@ -63,9 +14,6 @@ nouveau_.*
->   gem_.*
->   i915_.*
->   
-> -# Panfrost is not a KMS driver, so skip the KMS tests
-> -kms_.*
-> -
->   # Currently fails and causes coverage loss for other tests
->   # since core_getversion also fails.
->   core_hotunplug.*
-> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-> index 5b7d623f404b..3c0862faeaef 100644
-> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-> @@ -1,8 +1,86 @@
-> -dumb_buffer@create-clear,Fail
-> -dumb_buffer@create-valid-dumb,Fail
-> +device_reset@cold-reset-bound,Fail
-> +device_reset@reset-bound,Fail
-> +device_reset@unbind-cold-reset-rebind,Fail
-> +device_reset@unbind-reset-rebind,Fail
-> +dumb_buffer@create-clear,Crash
->   dumb_buffer@invalid-bpp,Fail
-> -dumb_buffer@map-invalid-size,Fail
-> -dumb_buffer@map-uaf,Fail
-> -dumb_buffer@map-valid,Fail
-> -panfrost/panfrost_prime@gem-prime-import,Fail
-> +kms_atomic_transition@modeset-transition,Fail
-> +kms_atomic_transition@modeset-transition-fencing,Fail
-> +kms_atomic_transition@plane-toggle-modeset-transition,Fail
-> +kms_bw@linear-tiling-1-displays-2560x1440p,Fail
-> +kms_color@gamma,Fail
-> +kms_color@legacy-gamma,Fail
-> +kms_cursor_crc@cursor-alpha-opaque,Fail
-> +kms_cursor_crc@cursor-alpha-transparent,Fail
-> +kms_cursor_crc@cursor-dpms,Fail
-> +kms_cursor_crc@cursor-offscreen-32x10,Fail
-> +kms_cursor_crc@cursor-offscreen-32x32,Fail
-> +kms_cursor_crc@cursor-offscreen-64x21,Fail
-> +kms_cursor_crc@cursor-offscreen-64x64,Fail
-> +kms_cursor_crc@cursor-onscreen-32x10,Fail
-> +kms_cursor_crc@cursor-onscreen-32x32,Fail
-> +kms_cursor_crc@cursor-onscreen-64x21,Fail
-> +kms_cursor_crc@cursor-onscreen-64x64,Fail
-> +kms_cursor_crc@cursor-random-32x10,Fail
-> +kms_cursor_crc@cursor-random-32x32,Fail
-> +kms_cursor_crc@cursor-random-64x21,Fail
-> +kms_cursor_crc@cursor-random-64x64,Fail
-> +kms_cursor_crc@cursor-rapid-movement-32x10,Fail
-> +kms_cursor_crc@cursor-rapid-movement-32x32,Fail
-> +kms_cursor_crc@cursor-rapid-movement-64x21,Fail
-> +kms_cursor_crc@cursor-rapid-movement-64x64,Fail
-> +kms_cursor_crc@cursor-size-change,Fail
-> +kms_cursor_crc@cursor-sliding-32x10,Fail
-> +kms_cursor_crc@cursor-sliding-32x32,Fail
-> +kms_cursor_crc@cursor-sliding-64x21,Fail
-> +kms_cursor_crc@cursor-sliding-64x64,Fail
-> +kms_cursor_edge_walk@64x64-left-edge,Fail
-> +kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
-> +kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail
-> +kms_cursor_legacy@cursor-vs-flip-atomic,Fail
-> +kms_cursor_legacy@cursor-vs-flip-legacy,Fail
-> +kms_cursor_legacy@cursor-vs-flip-toggle,Fail
-> +kms_cursor_legacy@flip-vs-cursor-atomic,Fail
-> +kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail
-> +kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail
-> +kms_cursor_legacy@flip-vs-cursor-legacy,Fail
-> +kms_cursor_legacy@long-nonblocking-modeset-vs-cursor-atomic,Fail
-> +kms_flip@basic-flip-vs-wf_vblank,Fail
-> +kms_flip@blocking-wf_vblank,Fail
-> +kms_flip@dpms-vs-vblank-race,Fail
-> +kms_flip@flip-vs-absolute-wf_vblank,Fail
-> +kms_flip@flip-vs-blocking-wf-vblank,Fail
-> +kms_flip@flip-vs-modeset-vs-hang,Fail
-> +kms_flip@flip-vs-panning,Fail
-> +kms_flip@flip-vs-panning-interruptible,Fail
-> +kms_flip@flip-vs-panning-vs-hang,Fail
-> +kms_flip@modeset-vs-vblank-race,Fail
-> +kms_flip@modeset-vs-vblank-race-interruptible,Fail
-> +kms_flip@plain-flip-fb-recreate,Fail
-> +kms_flip@plain-flip-fb-recreate-interruptible,Fail
-> +kms_flip@plain-flip-ts-check,Fail
-> +kms_flip@plain-flip-ts-check-interruptible,Fail
-> +kms_flip@wf_vblank-ts-check,Fail
-> +kms_flip@wf_vblank-ts-check-interruptible,Fail
-> +kms_invalid_mode@int-max-clock,Fail
-> +kms_lease@lease-uevent,Fail
-> +kms_lease@page-flip-implicit-plane,Fail
-> +kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail
-> +kms_pipe_crc_basic@compare-crc-sanitycheck-xr24,Fail
-> +kms_pipe_crc_basic@disable-crc-after-crtc,Fail
-> +kms_pipe_crc_basic@nonblocking-crc,Fail
-> +kms_pipe_crc_basic@nonblocking-crc-frame-sequence,Fail
-> +kms_pipe_crc_basic@read-crc,Fail
-> +kms_pipe_crc_basic@read-crc-frame-sequence,Fail
-> +kms_plane@pixel-format,Crash
-> +kms_plane@pixel-format-source-clamping,Crash
-> +kms_plane@plane-panning-bottom-right,Fail
-> +kms_plane@plane-panning-top-left,Fail
-> +kms_plane@plane-position-covered,Fail
-> +kms_plane@plane-position-hole,Fail
-> +kms_plane@plane-position-hole-dpms,Fail
-> +kms_plane_cursor@primary,Fail
-> +kms_plane_multiple@tiling-none,Fail
-> +kms_rmfb@close-fd,Fail
-> +kms_universal_plane@universal-plane-functional,Fail
->   tools_test@tools_test,Fail
-> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-> index ac4f8f7244d4..107e34f46e61 100644
-> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-> @@ -1,6 +1,11 @@
->   # Board Name: rk3399-gru-kevin
-> -# Bug Report: https://lore.kernel.org/dri-devel/5cc34a8b-c1fa-4744-9031-2d33ecf41011@collabora.com/T/#u
-> +# Bug Report: TBD
->   # Failure Rate: 50
-> -# IGT Version: 1.28-g0df7b9b97
-> -# Linux Version: 6.9.0-rc7
-> -panfrost/panfrost_submit@pan-unhandled-pagefault
-> +# IGT Version: 1.28-gf13702b8e
-> +# Linux Version: 6.10.0-rc5
-> +kms_bw@linear-tiling-1-displays-2560x1440p
-> +kms_cursor_legacy@nonblocking-modeset-vs-cursor-atomic
-> +kms_flip@dpms-vs-vblank-race-interruptible
-> +kms_flip@flip-vs-absolute-wf_vblank-interruptible
-> +kms_flip@flip-vs-wf_vblank-interruptible
-> +kms_setmode@basic
-> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-> index 743f3eeb2f80..f28241b6581f 100644
-> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-> @@ -1,13 +1,11 @@
->   # Suspend to RAM seems to be broken on this machine
->   .*suspend.*
->   
-> -# Too unstable, machine ends up hanging after lots of Oopses
-> -kms_cursor_legacy.*
-> -
->   # Skip driver specific tests
->   ^amdgpu.*
->   ^msm.*
->   nouveau_.*
-> +^panfrost.*
->   ^v3d.*
->   ^vc4.*
->   ^vmwgfx*
-> @@ -16,9 +14,6 @@ nouveau_.*
->   gem_.*
->   i915_.*
->   
-> -# Panfrost is not a KMS driver, so skip the KMS tests
-> -kms_.*
-> -
->   # Currently fails and causes coverage loss for other tests
->   # since core_getversion also fails.
->   core_hotunplug.*
-
+>> > + vop2_lock(vop2);
+>> > + vop2_writel(vp->vop2, RK3568_LUT_PORT_SEL, vp->id);
+>> > +
+>> > + vop2_vp_dsp_lut_enable(vp);
+>> > +
+>> > + vop2_cfg_done(vp);
+>> > + vop2_unlock(vop2);
+>> > +}
+>> > +
+>> > static void vop2_dither_setup(struct drm_crtc *crtc, u32 *dsp_ctrl)
+>> > {
+>> > struct rockchip_crtc_state *vcstate =
+>> > to_rockchip_crtc_state(crtc->state);
+>> > @@ -1925,6 +2025,7 @@ static void vop2_crtc_atomic_enable(struct
+>> > drm_crtc *crtc,
+>> > const struct vop2_data *vop2_data = vop2->data;
+>> > const struct vop2_video_port_data *vp_data = &vop2_data->vp[vp->id];
+>> > struct drm_crtc_state *crtc_state =
+>> > drm_atomic_get_new_crtc_state(state, crtc);
+>> > + struct drm_crtc_state *old_state =
+>> > drm_atomic_get_old_crtc_state(state, crtc);
+>> > struct rockchip_crtc_state *vcstate =
+>> > to_rockchip_crtc_state(crtc->state);
+>> > struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+>> > unsigned long clock = mode->crtc_clock * 1000;
+>> > @@ -2060,6 +2161,9 @@ static void vop2_crtc_atomic_enable(struct
+>> > drm_crtc *crtc,
+>> > drm_crtc_vblank_on(crtc);
+>> >
+>> > vop2_unlock(vop2);
+>> > +
+>> > + if (crtc->state->gamma_lut)
+>> > + vop2_crtc_gamma_set(vop2, crtc, old_state);
+>> > }
+>> >
+>> > static int vop2_crtc_atomic_check(struct drm_crtc *crtc,
+>> > @@ -2070,6 +2174,16 @@ static int vop2_crtc_atomic_check(struct
+>> > drm_crtc *crtc,
+>> > int nplanes = 0;
+>> > struct drm_crtc_state *crtc_state =
+>> > drm_atomic_get_new_crtc_state(state, crtc);
+>> >
+>> > + if (vp->vop2->lut_regs && crtc_state->color_mgmt_changed &&
+>> > crtc_state->gamma_lut) {
+>> > + unsigned int len = drm_color_lut_size(crtc_state->gamma_lut);
+>> > +
+>> > + if (len != crtc->gamma_size) {
+>> > + DRM_DEBUG_KMS("Invalid LUT size; got %d, expected %d\n",
+>> > + len, crtc->gamma_size);
+>> > + return -EINVAL;
+>> > + }
+>> > + }
+>> > +
+>> > drm_atomic_crtc_state_for_each_plane(plane, crtc_state)
+>> > nplanes++;
+>> >
+>> > @@ -2459,6 +2573,10 @@ static void vop2_setup_dly_for_windows(struct
+>> > vop2 *vop2)
+>> > static void vop2_crtc_atomic_begin(struct drm_crtc *crtc,
+>> > struct drm_atomic_state *state)
+>> > {
+>> > + struct drm_crtc_state *crtc_state =
+>> > drm_atomic_get_new_crtc_state(state,
+>> > + crtc);
+>> > + struct drm_crtc_state *old_crtc_state =
+>> > drm_atomic_get_old_crtc_state(state,
+>> > + crtc);
+>> > struct vop2_video_port *vp = to_vop2_video_port(crtc);
+>> > struct vop2 *vop2 = vp->vop2;
+>> > struct drm_plane *plane;
+>> > @@ -2482,6 +2600,9 @@ static void vop2_crtc_atomic_begin(struct
+>> > drm_crtc *crtc,
+>> > vop2_setup_layer_mixer(vp);
+>> > vop2_setup_alpha(vp);
+>> > vop2_setup_dly_for_windows(vop2);
+>> > +
+>> > + if (crtc_state->color_mgmt_changed && !crtc_state->active_changed)
+>> > + vop2_crtc_gamma_set(vop2, crtc, old_crtc_state);
+>> > }
+>> >
+>> > static void vop2_crtc_atomic_flush(struct drm_crtc *crtc,
+>> > @@ -2791,6 +2912,14 @@ static int vop2_create_crtcs(struct vop2 *vop2)
+>> >
+>> > drm_crtc_helper_add(&vp->crtc, &vop2_crtc_helper_funcs);
+>> >
+>> > + if (vop2->lut_regs && vp->crtc.dev != NULL) {
+>> > + const struct vop2_video_port_data *vp_data =
+>> > &vop2_data->vp[vp->id];
+>> > +
+>> > + drm_mode_crtc_set_gamma_size(&vp->crtc, vp_data->gamma_lut_len);
+>> > + drm_crtc_enable_color_mgmt(&vp->crtc, 0, false,
+>> > + vp_data->gamma_lut_len);
+>> > + }
+>> > +
+>> > init_completion(&vp->dsp_hold_completion);
+>> > }
+>> >
+>> > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>> > b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>> > index 615a16196aff..3a58b73fa876 100644
+>> > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>> > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>> > @@ -394,6 +394,7 @@ enum dst_factor_mode {
+>> > #define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN BIT(15)
+>> >
+>> > #define RK3568_VP_DSP_CTRL__STANDBY BIT(31)
+>> > +#define RK3568_VP_DSP_CTRL__DSP_LUT_EN BIT(28)
+>> > #define RK3568_VP_DSP_CTRL__DITHER_DOWN_MODE BIT(20)
+>> > #define RK3568_VP_DSP_CTRL__DITHER_DOWN_SEL GENMASK(19, 18)
+>> > #define RK3568_VP_DSP_CTRL__DITHER_DOWN_EN BIT(17)
