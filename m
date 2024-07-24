@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651B993B60B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 19:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7832993B621
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 19:48:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE9310E780;
-	Wed, 24 Jul 2024 17:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1943B10E77E;
+	Wed, 24 Jul 2024 17:46:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="Wf2ZI1L8";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KyO+DU8X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9CFB10E780
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 17:36:51 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 7B2661C009D; Wed, 24 Jul 2024 19:36:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
- t=1721842610;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=an3NqH+1POnuE0beDev8aj+SC67nRWyTt2QwUTuBvJg=;
- b=Wf2ZI1L80VoiKf0pRGMckpaygLO6rn19EUfxCYXkPO1XwvCDoTea5PyGdak/2bkd7zdqsF
- nSlnfqqQCl/67cUoLvnxx790Kr8iaBslYEh72AWlZ4+URtcNSc7L/U72Q64mO7RcxMjJit
- g6VosIXwfCnhRHl+4jxyzkWlQ6Czq/Y=
-Date: Wed, 24 Jul 2024 19:36:50 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Benjamin Tissoires <bentiss@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>,
- jikos@kernel.org, linux-kernel@vger.kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org,
- linux-leds@vger.kernel.org, Gregor Riepl <onitake@gmail.com>
-Subject: Re: In kernel virtual HID devices (was Future handling of complex
- RGB devices on Linux v3)
-Message-ID: <ZqE7sk0ZW0q8ueul@duo.ucw.cz>
-References: <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
- <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
- <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 854BB10E794
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 17:46:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1721843159;
+ bh=aW/2ENY8chSVdPwvE1cXMgxEIAwFHFG8j53H46Zc8GY=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=KyO+DU8XZx7J6yEyHgQGx/j1xtj9Tq19J7EiaeEtFpTS5u50mLXZUsoN4VoQM9RUt
+ h0ynxXmHRL0nhFuXjdVbvppL2n8VDLbarq6iRH4POvfUUA8n2aFjFlHCftuU8RDoz/
+ bT7s9K8oVpT1GeRxNd31LX+zGa3Xfz6SIF5si0GkY3HvpQjD0V+fhOql1SeHvj2WdF
+ O2ecgo8lQZHtsRTGhp7EnCJfZNTqKZy55zxdjD3I+S4U0cgmBthPCAMQ47cYmXa5ho
+ ik0AoGIgdJUQfVPhtn7NdMZ5kTQx5q62vpoMLBaqvgOhJXCg1LrfwezRx4ucrU5fh7
+ 1S0zZxmISzEHA==
+Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 47E26378020D;
+ Wed, 24 Jul 2024 17:45:58 +0000 (UTC)
+Message-ID: <9cd3aa9e-765d-41fc-b9ee-a683656bd7a1@collabora.com>
+Date: Wed, 24 Jul 2024 20:45:55 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="PO2vVUoo5RSgWJzT"
-Content-Disposition: inline
-In-Reply-To: <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/virtio: Fix type of dma-fence context variable
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com
+References: <20240714205009.3408298-1-dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240714205009.3408298-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,53 +65,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 7/14/24 23:50, Dmitry Osipenko wrote:
+> Type of DMA fence context is u64. Fence-waiting code uses u32 for the
+> context variable, fix it.
+> 
+> Fixes: e4812ab8e6b1 ("drm/virtio: Refactor and optimize job submission code path")
+> Cc: <stable@vger.kernel.org> # v6.4+
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_submit.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/virtio/virtgpu_submit.c
+> index 1c7c7f61a222..7d34cf83f5f2 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
+> @@ -48,7 +48,7 @@ struct virtio_gpu_submit {
+>  static int virtio_gpu_do_fence_wait(struct virtio_gpu_submit *submit,
+>  				    struct dma_fence *in_fence)
+>  {
+> -	u32 context = submit->fence_ctx + submit->ring_idx;
+> +	u64 context = submit->fence_ctx + submit->ring_idx;
+>  
+>  	if (dma_fence_match_context(in_fence, context))
+>  		return 0;
 
---PO2vVUoo5RSgWJzT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to misc-fixes
 
-Hi!
-
-> > IMO working with the HID LampArray is the way forward. So I would
-> > suggest to convert any non-HID RGB "LED display" that we are talking
-> > about as a HID LampArray device through `hid_allocate_device()` in the
-> > kernel. Basically what you are suggesting Hans. It's just that you don't
-> > need a formal transport layer, just a child device that happens to be
-> > HID.
-> >=20
-> > The next question IMO is: do we want the kernel to handle such
-> > machinery? Wouldn't it be simpler to just export the HID device and let
-> > userspace talk to it through hidraw, like what OpenRGB does?
->=20
-> That's already part of my plan: The kernels main goal is to give devices a
-> LampArray interface that don't have one already (e.g. because they are no
-> HID devices to begin with).
->=20
-> The actual handling of LampArray will happen in userspace.
->=20
-> Exception is that maybe it could be useful to implement a small subset of
-> LampArray in a generic leds-subsystem driver for backwards compatibility =
-to
-> userspace applications that only implement that (e.g. UPower). It would
-> treat the whole keyboard as a single led.
-
-Are you sure LampArray is good-enough interface? OpenRGB exposes
-keycode-to-LED interface, how will that work with LampArray?
-
+-- 
 Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+Dmitry
 
---PO2vVUoo5RSgWJzT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZqE7sgAKCRAw5/Bqldv6
-8ga8AJ9BT/RPUldd2PgRbjEZ62iTLLo7HQCgpJKSBBtTvzqxW31MSQlB/aghnwY=
-=B9/0
------END PGP SIGNATURE-----
-
---PO2vVUoo5RSgWJzT--
