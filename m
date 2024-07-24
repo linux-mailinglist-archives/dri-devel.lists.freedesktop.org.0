@@ -2,68 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7AC93B0EA
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 14:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F5393B0E7
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 14:25:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28B4310E6AF;
-	Wed, 24 Jul 2024 12:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0542E10E6A4;
+	Wed, 24 Jul 2024 12:25:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WWndbcm9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aPne3P3E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D106F10E6A4
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 12:25:02 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id
- 41be03b00d2f7-7a03ada9660so684227a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 05:25:02 -0700 (PDT)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8975A10E6A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 12:25:05 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-2cdadce1a57so747047a91.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 05:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721823902; x=1722428702; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6joYOx0BmGiTZxFoD0gHd6sgxiMC43Zesk3xRX+VQmE=;
- b=WWndbcm9YmQgypL7yuJZjO3vUtQBN/ekA4qwZMtxICTGYwUqnFAV6DilPUzkscSm5p
- zmIpaloDEIgbysVtliC3NdSE+t5uaq4Jr/iW4+eBvef4+C0VDCf5fHRmK14ZQNFqyC2n
- sEfTELsIXH3txr29qyTc8dMqO7CZSufnOAkB8A76bad+F7prJt2KjJ+puIm71EgZjMtf
- CyWmBy8w2fkZ2m10w1253dgcvfC2RD5hEznXOKGZV1ltWXReDTwKydk2YUL8bWGp52Km
- DMxTSNsuEe3aCXiqI0EB/kirFAv7NzYmxwiXXEjrnubAqVrG/LBxYP45Nj+kRfTuXW9P
- fVOA==
+ d=gmail.com; s=20230601; t=1721823905; x=1722428705; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4RS7gU16ITnoH4uJ2P4cBrWFJTcLfxSuNNT2bfx+93A=;
+ b=aPne3P3EwEmoz4rMYxfWyvTJnALD84FR3NbsguinKoH8oYScY9BS+iK9tj2nu8jrIG
+ uVk/eUnDuoWp2cKHLQqQeS1SwA6bx37t/6DugNw4czr3ipxFcFOwoXD0Ox5bCGWbSq87
+ A27cOrbFKrg8crRFtAE+OKPKPiSFvRycKRXWGJmJln1OI2zIYDVy7gvbTRWOBrYokXYQ
+ V6BLzMW0Ew8QCaWr6ASjigmLDvXl9fMaVGnjaWQzyddNP9/taeJmYzcjT2VPysx6+3gV
+ d1sa4l7D7nQ5dsUhYQluGx8FkFFZPG7X6XaCRW1PnsG7ZMj0TFCuHjab23bN+teE38xd
+ xuVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721823902; x=1722428702;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6joYOx0BmGiTZxFoD0gHd6sgxiMC43Zesk3xRX+VQmE=;
- b=go5sZZbY+pRT7w/3ilrNprS1UIGLMVwdaUgs+753gW0UpVssrXSofFwD6LXX3OlVsn
- /s7yKWW9mDhcGlfxbSBJ3HG+3gd7cWfXYvX7NKSYEzvRwC5n0PFFZPxtPo1LeFigcd5C
- /OgsTNDeqyXzohr3pS93svUV2WGgZmAGeVksbAgHzxnloreIoga41RQtHsaRheMDH8ug
- HdIFyNDncTpTV/WY6mBPcF1onf3RuN8PK2u70+wqwaJqI1eRys6DuL3cd3KiY9vnpHwO
- yiujYBwatFNV/JrGRc7GaH4oaqzpe0/YzlSkuDV1mkrJ8k8dYr1YApuGuAgAWVDbYblv
- aPtQ==
+ d=1e100.net; s=20230601; t=1721823905; x=1722428705;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4RS7gU16ITnoH4uJ2P4cBrWFJTcLfxSuNNT2bfx+93A=;
+ b=ulF9wJbbXjFFVR3FxThFrUoQCUFYwxye0+U8bEIeaV7VrYyI130dcuk9FkGG9OQ2AD
+ 8c1kbI7vY8+znlYJPuLt+foq6Ap/s9GLH49nyk+jAYKT/HaIEUULsDGS0hGsz634g/Ej
+ RNf6evNMfF1I8Csv25bZ5JDzN+Rw943o1/cjVBzjb+WuyRiGhr9a3d/oKVdL4wEm/eJX
+ WOMecy0enjKi8YWmqclmG3ZQaxNYMantZm5+2BVfjXHYsiVZZhH6LxlC9qfeY+HlympW
+ cop/K2WonXf0nCLezNJq5jUafOV1h+7AYnTYnelxm1Ko/WuA+9VMCyFrLM6bKCAr+0E1
+ LHlg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUALt6gt9Cw1iTG2Nbch9WAqK3pfZbjAMpRFD6BrPtL2xAE5PzkqFd4lVH0+9EmcBi4TvJf0uUj7/cfFwl8zLIG0bNF0uU3BtD9wsAH/o+u
-X-Gm-Message-State: AOJu0YyUFySprpXLEPeedlUCZiMA0+CnMSZy3C9XDltrY7Jv99SCLlq7
- a3iOs2i5jAWFPBsLECZsIA35V8ruc9685TlBCPhMbgAoxYMlVimp
-X-Google-Smtp-Source: AGHT+IEhv78htgJIo9VcY9TZwJxBejeM8ZwITF+GEbARpUDs7CsIgvsAhhu44kAfmwaD3+tS/G78fA==
-X-Received: by 2002:a17:90b:1c03:b0:2c8:87e:c2d9 with SMTP id
- 98e67ed59e1d1-2cd2751d7fdmr9586493a91.39.1721823902201; 
- Wed, 24 Jul 2024 05:25:02 -0700 (PDT)
+ AJvYcCU59pcaKt0h40Tiea/KsVrTXJKak13011gOXaWozaDbcLtKWoPrm+Y2ZGWCMrgOZ8J8u5LlxwFbO/8xrmd/QXDXek9pVD5NL6J+LbWqbKzn
+X-Gm-Message-State: AOJu0YwAT1CIjEwxQ53mQzKmh/riSkq9lVVVZhqJNmpe+UJ8ZEjq9diG
+ d9nIP2bwqXiyjYGmOnoT/fk4toQNB1lcyC82Q4t74JxK2aqzV/lyqSM9BV5qPho=
+X-Google-Smtp-Source: AGHT+IF7OVyonWCCnCVBX9lx5jU8mzF0yeNoeycLEZCNLMHS8GfiaraNhErqelj7XcB9qfI2jnBS2g==
+X-Received: by 2002:a17:90a:d301:b0:2c8:53be:fa21 with SMTP id
+ 98e67ed59e1d1-2cdb51ce903mr2067038a91.34.1721823904996; 
+ Wed, 24 Jul 2024 05:25:04 -0700 (PDT)
 Received: from distilledx.srmu.edu.in ([103.4.221.252])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2cdb76001d6sm1481454a91.48.2024.07.24.05.24.59
+ 98e67ed59e1d1-2cdb76001d6sm1481454a91.48.2024.07.24.05.25.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jul 2024 05:25:01 -0700 (PDT)
+ Wed, 24 Jul 2024 05:25:04 -0700 (PDT)
 From: Tejas Vipin <tejasvipin76@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
 Cc: dianders@chromium.org, airlied@gmail.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH 0/2] Allow errors to be silenced in multi functions
-Date: Wed, 24 Jul 2024 17:54:45 +0530
-Message-ID: <20240724122447.284165-1-tejasvipin76@gmail.com>
+Subject: [PATCH 1/2] drm/mipi-dsi: Add quiet member to mipi_dsi_multi_context
+ struct
+Date: Wed, 24 Jul 2024 17:54:46 +0530
+Message-ID: <20240724122447.284165-2-tejasvipin76@gmail.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240724122447.284165-1-tejasvipin76@gmail.com>
+References: <20240724122447.284165-1-tejasvipin76@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,23 +85,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Multi functions so far always print errors when any function fails. This
-may not always be desirable, so a new member of mipi_dsi_multi_context
-is introduced to allow errors to be silenced.
+A "quiet" member is added to mipi_dsi_multi_context which allows 
+silencing all the errors printed by the multi functions.
 
-The larger implication of this is that all the old non-multi functions
-can be replaced entirely by the multi functions without any loss of
-functionality once all the panels are changed to use multi functions.
+Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+---
+ include/drm/drm_mipi_dsi.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Tejas Vipin (2):
-  drm/mipi-dsi: Add quiet member to mipi_dsi_multi_context struct
-  drm/mipi-dsi: Change multi functions to use quiet member of
-    mipi_dsi_multi_context
-
- drivers/gpu/drm/drm_mipi_dsi.c | 20 ++++++++++++++++++++
- include/drm/drm_mipi_dsi.h     | 10 ++++++++++
- 2 files changed, 30 insertions(+)
-
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 0f520eeeaa8e..75855c1c7dae 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -217,6 +217,16 @@ struct mipi_dsi_multi_context {
+ 	 * end to see if any of them failed.
+ 	 */
+ 	int accum_err;
++
++	/**
++	 * @quiet: Controls if a function calls dev_err or not
++	 *
++	 * Init to 0. When the value of quiet is set to 0, the function
++	 * will  print error messages as required. If this is set to 1,
++	 * the function will not print error messages, but will still
++	 * change the value of accum_err.
++	 */
++	int quiet;
+ };
+ 
+ #define MIPI_DSI_MODULE_PREFIX "mipi-dsi:"
 -- 
 2.45.2
 
