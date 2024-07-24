@@ -2,54 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7832993B621
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 19:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C165C93B630
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 19:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1943B10E77E;
-	Wed, 24 Jul 2024 17:46:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECDAE10E784;
+	Wed, 24 Jul 2024 17:54:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KyO+DU8X";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NrUfRgPS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 854BB10E794
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 17:46:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1721843159;
- bh=aW/2ENY8chSVdPwvE1cXMgxEIAwFHFG8j53H46Zc8GY=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=KyO+DU8XZx7J6yEyHgQGx/j1xtj9Tq19J7EiaeEtFpTS5u50mLXZUsoN4VoQM9RUt
- h0ynxXmHRL0nhFuXjdVbvppL2n8VDLbarq6iRH4POvfUUA8n2aFjFlHCftuU8RDoz/
- bT7s9K8oVpT1GeRxNd31LX+zGa3Xfz6SIF5si0GkY3HvpQjD0V+fhOql1SeHvj2WdF
- O2ecgo8lQZHtsRTGhp7EnCJfZNTqKZy55zxdjD3I+S4U0cgmBthPCAMQ47cYmXa5ho
- ik0AoGIgdJUQfVPhtn7NdMZ5kTQx5q62vpoMLBaqvgOhJXCg1LrfwezRx4ucrU5fh7
- 1S0zZxmISzEHA==
-Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 47E26378020D;
- Wed, 24 Jul 2024 17:45:58 +0000 (UTC)
-Message-ID: <9cd3aa9e-765d-41fc-b9ee-a683656bd7a1@collabora.com>
-Date: Wed, 24 Jul 2024 20:45:55 +0300
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28CDB10E78A;
+ Wed, 24 Jul 2024 17:54:36 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-1fd9e6189d5so302175ad.3; 
+ Wed, 24 Jul 2024 10:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1721843676; x=1722448476; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZeMvaTqF6nVC8+TTPXCBAeC27R72xrtkyB8OCewfWY4=;
+ b=NrUfRgPSsT/4opvgipZH+diKIHmnNxN18AfACIrDQVnisSV82cfpP637kErN/er+rD
+ anEMhZivE9k+wkew2V/lfrFtyAjOHLteJUiok2gOusjpoNe5s0eLjstX3V5MV63+pHWm
+ 76KbrdpuAzXw5YdMSd4MG7X+WRSX+wzYvQnQbA7k78p+xiyW+RmnHrG1xV/pqWOL5PxE
+ 0viRoF3MYdlqqVce7uZTJHNIiOpYc7bEAWTsPXXra3sMxKIkzZHi02TcDSCgftnveQgp
+ xdw/ZAddCFgfp+TRra1XZXh7bDGwRxnw2pGw/KwV3xYskVy6UYOVbt4Q1uLk83yS288n
+ NEKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721843676; x=1722448476;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZeMvaTqF6nVC8+TTPXCBAeC27R72xrtkyB8OCewfWY4=;
+ b=sfeXwKRRhI+aa+1Z4XwNHMApjs5KwcNX3s46E1SK8ACl32SljJ/Jj+aYCVie3+Arjv
+ qeYS7Ov+yYteDF6yMzjwex2jajZqsgwYqo/LVhUhQ32iwbyazfHz7Brtdx4QB7n4WAyo
+ ATIVW//H9TjlDMJvjHLh7/CbKIPc3vLnTXAqFn2MtXHRBUrsNr0jYg1gWGzJhEmtD4tp
+ wYkr0yNIU7xpiFEYJdLzVUQzSSp0pClBqv9K1fUu0/fSvt0kOWtgIS8MSu8oHqTAkST9
+ Vxq1nyNLhMGlbUTdlqRLS94UlFqz/2lmmqTLIDYTXVAn44UDDW5fk3/+fs2shla26c/h
+ 1GtQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW4wfy5evFeO58XDPNYqj74B6aO4sEaHYW8uZQzW1c65OkfUJ+25DOcOD3lI8MBT2IjQtoMls14bdtzT4Ya7eDtNjKKI/Oe1Da9QM8YAd2H
+X-Gm-Message-State: AOJu0YzUajszSWG5AqcE9jfE3tRqRuxeFoK9vSLIEUKjp/A6TVNwlvEd
+ xkVLANrLlAd22ZN2Y4V20+XVs4YscjVQ3+Sr+K0QOx1a3064SeOp
+X-Google-Smtp-Source: AGHT+IFUycfF2BPrsXjk1R8U+2PiWCnVeWgqd/XGw1a2IyeonzKrWsGYZ9XXWG1J32fNw6Xkf6/3Sg==
+X-Received: by 2002:a17:902:e812:b0:1fd:69d6:856d with SMTP id
+ d9443c01a7336-1fed38607cemr4234205ad.17.1721843674654; 
+ Wed, 24 Jul 2024 10:54:34 -0700 (PDT)
+Received: from embed-PC.. ([122.161.119.73]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1fd6f25ac88sm97165815ad.6.2024.07.24.10.54.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jul 2024 10:54:34 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: airlied@gmail.com, daniel@ffwll.ch, harry.wentland@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ rbmarliere@gmail.com, marcelomspessoto@gmail.com, aurabindo.pillai@amd.com,
+ adnelson@amd.com, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] drm/amd/display: Fix documentation warning for mpc.h
+Date: Wed, 24 Jul 2024 23:24:23 +0530
+Message-Id: <20240724175423.18075-1-abhishektamboli9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/virtio: Fix type of dma-fence context variable
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com
-References: <20240714205009.3408298-1-dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240714205009.3408298-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,34 +83,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/14/24 23:50, Dmitry Osipenko wrote:
-> Type of DMA fence context is u64. Fence-waiting code uses u32 for the
-> context variable, fix it.
-> 
-> Fixes: e4812ab8e6b1 ("drm/virtio: Refactor and optimize job submission code path")
-> Cc: <stable@vger.kernel.org> # v6.4+
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_submit.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> index 1c7c7f61a222..7d34cf83f5f2 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> @@ -48,7 +48,7 @@ struct virtio_gpu_submit {
->  static int virtio_gpu_do_fence_wait(struct virtio_gpu_submit *submit,
->  				    struct dma_fence *in_fence)
->  {
-> -	u32 context = submit->fence_ctx + submit->ring_idx;
-> +	u64 context = submit->fence_ctx + submit->ring_idx;
->  
->  	if (dma_fence_match_context(in_fence, context))
->  		return 0;
+Fix documentation compile warning by adding description
+for program_3dlut_size function.
 
-Applied to misc-fixes
+Remove the following warning:
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:1043: warning: Function parameter or struct member 'program_3dlut_size' not described in 'mpc_funcs'
 
+Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+index 40a9b3471208..615c69d966e7 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+@@ -1039,7 +1039,21 @@ struct mpc_funcs {
+ 	*/
+ 	void (*program_lut_mode)(struct mpc *mpc, const enum MCM_LUT_ID id, const enum MCM_LUT_XABLE xable,
+ 			bool lut_bank_a, int mpcc_id);
+-	void (*program_3dlut_size)(struct mpc *mpc, bool is_17x17x17, int mpcc_id);
++	/**
++	 * @program_3dlut_size:
++	 *
++	 * Program 3D LUT size.
++	 *
++	 * Parameters:
++	 * - [in/out] mpc - MPC context.
++	 * - [in] is_17x17x17 - Boolean Flag.
++	 * - [in] mpcc_id - MPCC physical instance.
++	 *
++	 * Return:
++	 *
++	 * void
++	 */
++	 void (*program_3dlut_size)(struct mpc *mpc, bool is_17x17x17, int mpcc_id);
+ };
+ 
+ #endif
 -- 
-Best regards,
-Dmitry
+2.34.1
 
