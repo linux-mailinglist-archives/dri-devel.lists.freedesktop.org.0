@@ -2,66 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DA193B486
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 18:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B1293B48F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 18:10:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0583410E748;
-	Wed, 24 Jul 2024 16:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEBC010E746;
+	Wed, 24 Jul 2024 16:09:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="c6yROS90";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sdmPEOdA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
- [209.85.161.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28B1D10E748
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 16:08:42 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id
- 006d021491bc7-5c66909738fso519076eaf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 09:08:42 -0700 (PDT)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
+ [209.85.160.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12EED10E746
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 16:09:58 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id
+ 586e51a60fabf-260f057aa9bso3743883fac.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 09:09:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721837321; x=1722442121; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1721837397; x=1722442197; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=mT4eYVQs87DJMXQ+M8KCQPXJkwJfWh66QnvkaWHb17g=;
- b=c6yROS90AAl1+AoL1+GrvQzrV6vYdLE3W895o8XZhd5VgjfixKpcQ9mtMcD1zn0bUL
- YmVkngchRH1gtMCkWwWElMwin7Uw3QkikzA+hpdFQpbX1E5aKdHw+qkiyRR9R6pPb/hS
- 2sdTbC7q3YQb75jQeSJ/7mZ+Ms0FDPCD/RgkAhc3aIcQcu7rNamKz2jf4DivuDrreRjy
- 05d7KmdctEbdWEL6T/74m1oK7XUZCm0mbo5BJla3jrort5DpDPk6ldwMJmkjz0aFkNmv
- RrwRazt8ea0MTBawkao7b1g6HvrVO96gdX+Xs5T3p7jNKPGNoAA+Zj/DOVPD6HOoHPJy
- jn9w==
+ bh=O2jZhMoing7DWC/lOhFYXVidQ2q+B0OoDl/QuVCkLmg=;
+ b=sdmPEOdAvUBAo7TIEP0KG0tCcp4xHcEuVG1sP6rS7RcLxmUrkDz2UciJ4ReWUKx4jb
+ N5l8O2EZSH/slaexHU1niV2xjDoqi0dUZ+nSPpEBwLl5TaKLVXf0hKxxMM/U3BE4jKos
+ O58MpLtrCUQTXElr+Qj8S6WJ2Z1D4bFPPLglnqH/+N4A4JM3ds9MKmgwse+G7AYMlAXE
+ 2ySQTa41ygIBpit+1TSNDmSewYTu9Q89eJDfKUTpDIv5w5WgqwNIPbmnwUBpkew7OX9c
+ M1mAvywFfmbeHE3Th84mquZEAwcxHdeoSw1US6bKq115t5MyLNvX+41Ukwn7EBZQ6ZPf
+ cMzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721837321; x=1722442121;
+ d=1e100.net; s=20230601; t=1721837397; x=1722442197;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mT4eYVQs87DJMXQ+M8KCQPXJkwJfWh66QnvkaWHb17g=;
- b=R3MTcW5p3bxdlwM2x/99fPsf6gKjEeOeiO9TS01Z69bGigmxa52Tl1Px55C7FDwa4v
- Cok2TRE6g7LmgUPPo5GWpVFlyE29EbWf96bGUWMI7Kd2mMEiNd0c4lmd5JbmA9Yo3VBc
- Br5oJ2VWeYc0KJeYAEX4/LSe5ax5rP0+bIfrTY/6DJK3wmgVoP0mB3tyk5a24reHvaGE
- +SsbP+V2SJgfrns5dSAtEDqjoqX4LfSSpe9AKqTfIwCWBpbukXo1LfplxyIulyUFjtiu
- 7poockd/47jW/xqKL3owA0SWusF6efNrGmWCHflFkgNoFpTFoXsI45Ef5OjazzauaSEL
- jsRA==
-X-Gm-Message-State: AOJu0YwwVwT9evivyVOKwnBsO2glXSebWpb3HGS13LICyjgiyiNSBGRG
- +juQ/awuYNbD9tOneMjxBBnmrZ7kwtlKF4u69OW6sxBeC0q1JOh0U/mXUE5IVxs=
-X-Google-Smtp-Source: AGHT+IFRBKG5+eehi5W6qAj5lOu83dSm6cD3ucdWeIAZ7OyVviCxXxrY5z92TXNAPPUaowvRrEZ+lg==
-X-Received: by 2002:a05:6870:d1c9:b0:254:a6ab:e10f with SMTP id
- 586e51a60fabf-2649fc89e26mr67909fac.13.1721837320908; 
- Wed, 24 Jul 2024 09:08:40 -0700 (PDT)
+ bh=O2jZhMoing7DWC/lOhFYXVidQ2q+B0OoDl/QuVCkLmg=;
+ b=Gaw7dfnQ7gxORFiRhchsQPHPC3bv4iSFWBJ/GUF1R/r06AzZA/nqg7mQ8giYOSI+2Z
+ O+6LpAq1hbacf35euH/PWYl2feWk3qvxyshuukFUD/Y09ybfcZw0Z9EaFw7icZhrh9Zn
+ gK3vf2EgE7fzuqs5L0CuJWL2B9PFVDhchK0rSLS4t5K0NtDAFxpVFJN4TJGAQoIHPsOm
+ M+mUytdhrrxNcMbpR779/xvKt6G8MpeKISOjoriIzQDF3CEcZnSNpy+FeVt5E/4MYEJL
+ CWAZBIQrukUZNJ9wkKfi21KGpsOgL0FtFQxaoSnhm0k87qOS+jmJxKdOPhDYrB2fgxoj
+ 0yMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBlOamBEA2utfI2YQ7tBzyxqszOdCaczFcaIJPHbjmRPeY2dM0xIph+754jHeTFFaW5N/+FbiIpxLcMnjoi6d6U3hGTn2QaYm05Vw+8dL9
+X-Gm-Message-State: AOJu0YyvnQAbiVir8pZtYdKOPTnzF0MftpPtZGEh/tupGW6QpejquJnA
+ g2exTBUqWkTa5zmTSFLzCWxhHDn20dCTacQZRq7QK3HiZMxPjX5Yac5tvnlEnLqnAk11vaIf9nt
+ P5q0=
+X-Google-Smtp-Source: AGHT+IHCvg+D37qFDPSAV2DjfuTODsZ2i9ctUl1JsN9tBVVXcEXaPTGM2Fzh7+EL/qLQElF4DzvcQw==
+X-Received: by 2002:a05:6870:c190:b0:260:fdda:5068 with SMTP id
+ 586e51a60fabf-2648ca35f3emr2882513fac.4.1721837397103; 
+ Wed, 24 Jul 2024 09:09:57 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:23ae:46cb:84b6:1002])
  by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-708f60a4b4esm2486633a34.15.2024.07.24.09.08.40
+ 5614622812f47-3db0331a01bsm637378b6e.55.2024.07.24.09.09.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jul 2024 09:08:40 -0700 (PDT)
-Date: Wed, 24 Jul 2024 11:08:33 -0500
+ Wed, 24 Jul 2024 09:09:56 -0700 (PDT)
+Date: Wed, 24 Jul 2024 11:09:54 -0500
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tomer Tayar <ttayar@habana.ai>
-Cc: dri-devel@lists.freedesktop.org
-Subject: [bug report] accel/habanalabs: enforce release order of compute
- device and dma-buf
-Message-ID: <71169637-1e35-48d5-ba04-161d30073495@stanley.mountain>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH] drm/client: Fix error code in drm_client_buffer_vmap_local()
+Message-ID: <89d13df3-747c-4c5d-b122-d081aef5110a@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,43 +87,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Tomer Tayar,
+This function accidentally returns zero/success on the failure path.
+It leads to locking issues and an uninitialized *map_copy in the
+caller.
 
-Commit 09524eb8824e ("accel/habanalabs: enforce release order of
-compute device and dma-buf") from Jan 22, 2023 (linux-next), leads to
-the following Smatch static checker warning:
+Fixes: b4b0193e83cb ("drm/fbdev-generic: Fix locking with drm_client_buffer_vmap_local()")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/drm_client.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	drivers/accel/habanalabs/common/memory.c:1844 hl_release_dmabuf()
-	error: dereferencing freed memory 'ctx' (line 1841)
+diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+index 2803ac111bbd..bfedcbf516db 100644
+--- a/drivers/gpu/drm/drm_client.c
++++ b/drivers/gpu/drm/drm_client.c
+@@ -355,7 +355,7 @@ int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer,
+ 
+ err_drm_gem_vmap_unlocked:
+ 	drm_gem_unlock(gem);
+-	return 0;
++	return ret;
+ }
+ EXPORT_SYMBOL(drm_client_buffer_vmap_local);
+ 
+-- 
+2.43.0
 
-drivers/accel/habanalabs/common/memory.c
-    1827 static void hl_release_dmabuf(struct dma_buf *dmabuf)
-    1828 {
-    1829         struct hl_dmabuf_priv *hl_dmabuf = dmabuf->priv;
-    1830         struct hl_ctx *ctx;
-    1831 
-    1832         if (!hl_dmabuf)
-    1833                 return;
-    1834 
-    1835         ctx = hl_dmabuf->ctx;
-    1836 
-    1837         if (hl_dmabuf->memhash_hnode)
-    1838                 memhash_node_export_put(ctx, hl_dmabuf->memhash_hnode);
-    1839 
-    1840         atomic_dec(&ctx->hdev->dmabuf_export_cnt);
-    1841         hl_ctx_put(ctx);
-                            ^^^
-This will free ctx on the last reference
-
-    1842 
-    1843         /* Paired with get_file() in export_dmabuf() */
---> 1844         fput(ctx->hpriv->file_priv->filp);
-                      ^^^
-Potential use after free
-
-    1845 
-    1846         kfree(hl_dmabuf);
-    1847 }
-
-regards,
-dan carpenter
