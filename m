@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4F393AFA2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 12:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6597193AFF2
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 12:44:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE3910E677;
-	Wed, 24 Jul 2024 10:12:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D7710E673;
+	Wed, 24 Jul 2024 10:44:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mUbP34Xd";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lrv574tR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6DD610E677
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 10:12:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C479D10E543
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 10:44:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1721815920;
- bh=18I0p/kEKSfZHTf43kPu+uWYuOzwe0CqfW8X/D46g8w=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mUbP34XdziNf6NaBF0t03uobZpHXq2wFouqDEKlZ90sEOEekvrN+YYajmvFNvdc4l
- NhMScH+JsLcaHtklzvCViqn+i6DNv1YcKz6lIjNXjBGHQ/1YOaVI8vEpRMBQfGkChW
- elRnR+h7i3ceL5A6QsKghzZEY29hqKBKlh+VfMkwub5ouLIecn3bJT0TBtTGYM/Fnv
- LWuPt0RmODe0B94dlNNxAQocZokDtB8hQ0+L8ZEiUXy3nOXHdYV+uuUFNSeiyld01X
- Lk6FCLvT9j8VEgqATs4+0HArhtb3ozvYYXO17he2rIyDiX7UhqnZdG4xLT8eClhJWr
- hGvxW7p9HuGeA==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ s=mail; t=1721817888;
+ bh=aGxT0r4whNVWcuHx9lQ2vuj04q4n7D2hOtv6taXJucI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=lrv574tRvabtWKZKfQNcFiCNLJxs/HH3Hrr4Y9ojqdGAMtSbtl3JuQZjfb52zDZ1k
+ ygxXSnyKn9W21qdJ/ftRDm1JLilPWx8HmV/+yoNMcEdECQAh6m4epwGVJ5YnknJ5Cd
+ Cb1YkPVBpuAJkL1ZrJp50hic3XVcs0bhuNvvwE1kjykRNuXiCWYo4ws4CQcPBDrc3l
+ MOMMldZes1fJxHYFnymihWdt4tCEsose2J3+uvWKBBiPuEkkqKkiU+r0KkF+muYWmW
+ ADoesySsLlevWaR6Y2s8O/d8gXpwnKpaEsnLLTCjJfc1N3voOab/M5IZqccuXrDCzk
+ oqqqHpDZOU3Kg==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id EC91D37820C2;
- Wed, 24 Jul 2024 10:11:57 +0000 (UTC)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, deborah.brouwer@collabora.com,
- robdclark@gmail.com, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v8 5/5] drm/ci: rockchip: add tests for rockchip display driver
-Date: Wed, 24 Jul 2024 15:40:08 +0530
-Message-ID: <20240724101015.523535-6-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240724101015.523535-1-vignesh.raman@collabora.com>
-References: <20240724101015.523535-1-vignesh.raman@collabora.com>
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id C3BD937811D1;
+ Wed, 24 Jul 2024 10:44:47 +0000 (UTC)
+Date: Wed, 24 Jul 2024 12:44:46 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>, Wedson Almeida Filho
+ <wedsonaf@gmail.com>, ojeda@kernel.org, Danilo Krummrich <dakr@redhat.com>,
+ lyude@redhat.com, robh@kernel.org, lina@asahilina.net, mcanal@igalia.com,
+ airlied@gmail.com, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] drm: panthor: add dev_coredumpv support
+Message-ID: <20240724124446.11b23885@collabora.com>
+In-Reply-To: <6ce8fd12-b175-4a8f-8ea9-6221a555b69c@arm.com>
+References: <20240710225011.275153-1-daniel.almeida@collabora.com>
+ <fe84a028-01a8-4987-b1b7-141fb76d263c@arm.com>
+ <4344B22F-D859-4C64-A351-69FFB5208362@collabora.com>
+ <edda856e-3102-495a-8cc6-b79f5f114833@arm.com>
+ <20240723180642.73502856@collabora.com>
+ <6ce8fd12-b175-4a8f-8ea9-6221a555b69c@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,613 +69,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For rockchip rk3288 and rk3399, the display driver is rockchip
-and gpu driver is panfrost. Currently, in drm-ci for rockchip
-rk3288 and rk3399, only the gpu driver is tested. Refactor
-the existing rockchip jobs to test both display and gpu driver
-and update xfails.
+Hi Steve,
 
-Since the correct driver name is passed from the job to test gpu
-and display driver, remove the check to set IGT_FORCE_DRIVER
-based on driver name for rockchip jobs.
+On Wed, 24 Jul 2024 09:59:36 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
+> Hi Boris,
+> 
+> On 23/07/2024 17:06, Boris Brezillon wrote:
+> > Hi Steve,
+> > 
+> > On Mon, 15 Jul 2024 10:12:16 +0100
+> > Steven Price <steven.price@arm.com> wrote:
+> >   
+> >> I note it also shows that the "panthor_regs.rs" would ideally be shared.
+> >> For arm64 we have been moving to generating system register descriptions
+> >> from a text source (see arch/arm64/tools/sysreg) - I'm wondering whether
+> >> something similar is needed for Panthor to generate both C and Rust
+> >> headers? Although perhaps that's overkill, sysregs are certainly
+> >> somewhat more complex.  
+> > 
+> > Just had a long discussion with Daniel regarding this panthor_regs.rs
+> > auto-generation, and, while I agree this is something we'd rather do if
+> > we intend to maintain the C and rust code base forever, I'm not
+> > entirely convinced this is super useful here because:  
+> 
+> So I think we need some more alignment on how the 'Rustification'
+> (oxidation?) of the driver is going to happen.
+> 
+> My understanding was that the intention was to effectively start a
+> completely separate driver (I call it "Rustthor" here) with the view
+> that it would eventually replace (the C) Panthor. Rustthor would be
+> written by taking the C driver and incrementally converting parts to
+> Rust, but as a separate code base so that 'global' refactoring can be
+> done when necessary without risking the stability of Panthor. Then once
+> Rustthor is feature complete the Panthor driver can be dropped.
+> Obviously we'd keep the UABI the same to avoid user space having to care.
 
-v2:
-  - Refactor the patch to rename job to indicate display driver testing,
-    rename the existing xfail files.
+That's indeed what we landed on initially, but my lack of rust
+experience put me in a position where I can't really challenge these
+decisions, which is the very reason we have Daniel working on it :-). I
+must admit his argument of implementing new features in rust and
+progressively converting the other bits is appealing, because this
+reduces the scope of testing for each component conversion...
 
-v3:
-  - Add the job name in GPU_VERSION and use it for xfail file names
-    instead of using DRIVER_NAME. Also update xfails.
+> 
+> I may have got the wrong impression - and I'm certainly not saying the
+> above is how we have to do it. But I think we need to go into it with
+> open-eyes if we're proposing a creeping Rust implementation upstream of
+> the main Mali driver. That approach will make ensuring stability harder
+> and will make the bar for implementing large refactors higher (we'd need
+> significantly more review and testing for each change to ensure there
+> are no regressions).
 
-v4:
-  - Remove the display suffix in job and rename xfails accordingly.
-    Remove the change adding job name in GPU_VERSION.
+... at the risk of breaking the existing driver, that's true. My hope
+was that, by the time we start converting panthor components to rust,
+the testing infrastructure (mesa CI, for the open source driver) would
+be mature enough to catch regressions. But again, I wouldn't trust my
+judgment on anything rust related, so if other experienced rust
+developers think having a mixed rust/c driver is a bad idea (like Sima
+seemed to imply in her reply to Daniel), then I'll just defer to their
+judgment.
 
-v5:
-  - Add rockchip-display job and skip driver-specfic tests.
+> 
+> > 1. the C code base is meant to be entirely replaced by a rust driver.
+> > Of course, that's not going to happen overnight, so maybe it'd be worth
+> > having this autogen script but...  
+> 
+> Just to put my cards on the table. I'm not completely convinced a Rust
+> driver is necessarily an improvement, and I saw this as more of an
+> experiment - let's see what a Rust driver looks like and then we can
+> decide which is preferable. I'd like to be "proved wrong" and be shown a
+> Rust driver which is much cleaner and easier to work with, but I still
+> need convincing ;)
 
-v6:
-  - Squash commits for display and gpu driver testing. Reword the commit message.
+Okay, I was more in the mood of "when will this happen?" rather than
+"will this ever be a viable option?" :-). At this point, there seems
+to be enough traction from various parties to think DRM/rust will be a
+thing and in not a such distant future actually. But yeah, I get your
+point.
 
-v7:
-  - Rebase with recent drm-ci fixes and retest with latest IGT.
+> 
+> > 2. the set of register and register fields seems to be pretty stable.
+> > We might have a few things to update to support v11, v12, etc, but it
+> > doesn't look like the layout will suddenly become completely different.  
+> 
+> Yes, if we ever had a major change to registers we'd probably also want
+> a new driver.
+> 
+> > 3. the number of registers and fields is somewhat reasonable, which
+> > means we should be able to catch mistakes during review. And in case
+> > one slip through, it's not the end of the world either because this
+> > stays internal to the kernel driver. We'll either figure it out when
+> > rust-ifying panthor components, or that simply means the register is
+> > not used and the mistake is harmless until the register starts being
+> > used  
+> 
+> So I think this depends on whether we want a "complete" set of registers
+> in Rust. If we're just going to add registers when needed then fair
+> enough, we can review the new registers against the C header (and/or the
+> specs) to check they look correct. I'd really prefer not to merge a load
+> of wrong Rust code which isn't used.
 
-v8:
-  - Add the link to the flaky test bug report and add header for each flaky test.
+Totally agree with that.
 
----
- drivers/gpu/drm/ci/igt_runner.sh              |  3 -
- drivers/gpu/drm/ci/test.yml                   | 48 +++++++---
- .../drm/ci/xfails/mediatek-mt8183-fails.txt   |  1 -
- .../drm/ci/xfails/panfrost-rk3288-fails.txt   |  8 ++
- .../drm/ci/xfails/panfrost-rk3288-skips.txt   | 71 +++++++++++++++
- .../drm/ci/xfails/panfrost-rk3399-fails.txt   |  8 ++
- .../drm/ci/xfails/panfrost-rk3399-flakes.txt  |  6 ++
- .../drm/ci/xfails/panfrost-rk3399-skips.txt   | 24 +++++
- .../drm/ci/xfails/rockchip-rk3288-fails.txt   | 21 +++--
- .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |  6 ++
- .../drm/ci/xfails/rockchip-rk3288-skips.txt   | 54 +----------
- .../drm/ci/xfails/rockchip-rk3399-fails.txt   | 90 +++++++++++++++++--
- .../drm/ci/xfails/rockchip-rk3399-flakes.txt  | 50 ++++++++++-
- .../drm/ci/xfails/rockchip-rk3399-skips.txt   |  7 +-
- 14 files changed, 307 insertions(+), 90 deletions(-)
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
+> 
+> > 4. we're still unclear on how GPU registers should be exposed in rust,
+> > so any script we develop is likely to require heavy changes every time
+> > we change our mind  
+> 
+> This is the real crux of the matter to my mind. We don't actually know
+> what we want in Rust, so we can't write the Rust. At the moment Daniel
+> has generated (broken) Rust from the C. The benefit of that is that the
+> script can be tweaked to generate a different form in the future if needed.
 
-diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
-index 1578a2a47a54..f38836ec837c 100755
---- a/drivers/gpu/drm/ci/igt_runner.sh
-+++ b/drivers/gpu/drm/ci/igt_runner.sh
-@@ -20,9 +20,6 @@ cat /sys/kernel/debug/dri/*/state
- set -e
- 
- case "$DRIVER_NAME" in
--    rockchip)
--        export IGT_FORCE_DRIVER="panfrost"
--        ;;
-     amdgpu|vkms)
-         # Cannot use HWCI_KERNEL_MODULES as at that point we don't have the module in /lib
-         mv /install/modules/lib/modules/* /lib/modules/. || true
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 5ccf57b3bf91..b22b2cf8f06f 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -160,33 +160,57 @@ msm:sdm845:
-   script:
-     - ./install/bare-metal/cros-servo.sh
- 
--rockchip:rk3288:
--  extends:
--    - .lava-igt:arm32
-+.rockchip-device:
-+  variables:
-+    DTB: ${DEVICE_TYPE}
-+    BOOT_METHOD: depthcharge
-+
-+.rockchip-display:
-   stage: rockchip
-   variables:
-     DRIVER_NAME: rockchip
-+
-+.rk3288:
-+  extends:
-+    - .lava-igt:arm32
-+    - .rockchip-device
-+  variables:
-     DEVICE_TYPE: rk3288-veyron-jaq
--    DTB: ${DEVICE_TYPE}
--    BOOT_METHOD: depthcharge
--    KERNEL_IMAGE_TYPE: "zimage"
-     GPU_VERSION: rk3288
-+    KERNEL_IMAGE_TYPE: "zimage"
-     RUNNER_TAG: mesa-ci-x86-64-lava-rk3288-veyron-jaq
- 
--rockchip:rk3399:
-+.rk3399:
-   extends:
-     - .lava-igt:arm64
--  stage: rockchip
-+    - .rockchip-device
-   parallel: 2
-   variables:
--    DRIVER_NAME: rockchip
-     DEVICE_TYPE: rk3399-gru-kevin
--    DTB: ${DEVICE_TYPE}
--    BOOT_METHOD: depthcharge
--    KERNEL_IMAGE_TYPE: ""
-     GPU_VERSION: rk3399
-+    KERNEL_IMAGE_TYPE: ""
-     RUNNER_TAG: mesa-ci-x86-64-lava-rk3399-gru-kevin
- 
-+rockchip:rk3288:
-+  extends:
-+    - .rk3288
-+    - .rockchip-display
-+
-+panfrost:rk3288:
-+  extends:
-+    - .rk3288
-+    - .panfrost-gpu
-+
-+rockchip:rk3399:
-+  extends:
-+    - .rk3399
-+    - .rockchip-display
-+
-+panfrost:rk3399:
-+  extends:
-+    - .rk3399
-+    - .panfrost-gpu
-+
- .i915:
-   extends:
-     - .lava-igt:x86_64
-diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
-index cf3a747f7cec..826cca5efbff 100644
---- a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
-@@ -13,7 +13,6 @@ kms_bw@connected-linear-tiling-1-displays-1920x1080p,Fail
- kms_bw@connected-linear-tiling-1-displays-2160x1440p,Fail
- kms_bw@connected-linear-tiling-1-displays-2560x1440p,Fail
- kms_bw@linear-tiling-1-displays-1920x1080p,Fail
--kms_bw@linear-tiling-1-displays-2560x1440p,Fail
- kms_bw@linear-tiling-1-displays-3840x2160p,Fail
- kms_color@invalid-gamma-lut-sizes,Fail
- kms_flip@flip-vs-panning-vs-hang,Fail
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt
-new file mode 100644
-index 000000000000..10689906da3a
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt
-@@ -0,0 +1,8 @@
-+dumb_buffer@create-clear,Crash
-+dumb_buffer@create-valid-dumb,Crash
-+dumb_buffer@invalid-bpp,Crash
-+dumb_buffer@map-invalid-size,Crash
-+dumb_buffer@map-uaf,Crash
-+dumb_buffer@map-valid,Crash
-+panfrost/panfrost_prime@gem-prime-import,Crash
-+tools_test@tools_test,Crash
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
-new file mode 100644
-index 000000000000..b8cb31842323
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
-@@ -0,0 +1,71 @@
-+# Suspend to RAM seems to be broken on this machine
-+.*suspend.*
-+
-+# Too unstable, machine ends up hanging after lots of Oopses
-+kms_cursor_legacy.*
-+
-+# Started hanging the machine on Linux 5.19-rc2:
-+#
-+# [IGT] kms_plane_lowres: executing
-+# [IGT] kms_plane_lowres: starting subtest pipe-F-tiling-y
-+# [IGT] kms_plane_lowres: exiting, ret=77
-+# Console: switching to colour frame buffer device 170x48
-+# rockchip-drm display-subsystem: [drm] *ERROR* flip_done timed out
-+# rockchip-drm display-subsystem: [drm] *ERROR* [CRTC:35:crtc-0] commit wait timed out
-+# BUG: spinlock bad magic on CPU#3, kms_plane_lowre/482
-+# 8<--- cut here ---
-+# Unable to handle kernel paging request at virtual address 7812078e
-+# [7812078e] *pgd=00000000
-+# Internal error: Oops: 5 [#1] SMP ARM
-+# Modules linked in:
-+# CPU: 3 PID: 482 Comm: kms_plane_lowre Tainted: G        W         5.19.0-rc2-323596-g00535de92171 #1
-+# Hardware name: Rockchip (Device Tree)
-+# Process kms_plane_lowre (pid: 482, stack limit = 0x1193ac2b)
-+#  spin_dump from do_raw_spin_lock+0xa4/0xe8
-+#  do_raw_spin_lock from wait_for_completion_timeout+0x2c/0x120
-+#  wait_for_completion_timeout from drm_crtc_commit_wait+0x18/0x7c
-+#  drm_crtc_commit_wait from drm_atomic_helper_wait_for_dependencies+0x44/0x168
-+#  drm_atomic_helper_wait_for_dependencies from commit_tail+0x34/0x180
-+#  commit_tail from drm_atomic_helper_commit+0x164/0x18c
-+#  drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe4
-+#  drm_atomic_commit from drm_client_modeset_commit_atomic+0x23c/0x284
-+#  drm_client_modeset_commit_atomic from drm_client_modeset_commit_locked+0x60/0x1c8
-+#  drm_client_modeset_commit_locked from drm_client_modeset_commit+0x24/0x40
-+#  drm_client_modeset_commit from drm_fbdev_client_restore+0x58/0x94
-+#  drm_fbdev_client_restore from drm_client_dev_restore+0x70/0xbc
-+#  drm_client_dev_restore from drm_release+0xf4/0x114
-+#  drm_release from __fput+0x74/0x240
-+#  __fput from task_work_run+0x84/0xb4
-+#  task_work_run from do_exit+0x34c/0xa20
-+#  do_exit from do_group_exit+0x34/0x98
-+#  do_group_exit from __wake_up_parent+0x0/0x18
-+# Code: e595c008 12843d19 03e00000 03093168 (15940508)
-+# ---[ end trace 0000000000000000 ]---
-+# note: kms_plane_lowre[482] exited with preempt_count 1
-+# Fixing recursive fault but reboot is needed!
-+kms_plane_lowres@pipe-F-tiling-y
-+
-+# Take too long, we have only two machines, and these are very flaky
-+kms_cursor_crc.*
-+
-+# Machine is hanging in this test, so skip it
-+kms_pipe_crc_basic@disable-crc-after-crtc
-+
-+# Skip driver specific tests
-+^amdgpu.*
-+^msm.*
-+nouveau_.*
-+^v3d.*
-+^vc4.*
-+^vmwgfx*
-+
-+# Skip intel specific tests
-+gem_.*
-+i915_.*
-+
-+# Panfrost is not a KMS driver, so skip the KMS tests
-+kms_.*
-+
-+# Currently fails and causes coverage loss for other tests
-+# since core_getversion also fails.
-+core_hotunplug.*
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt
-new file mode 100644
-index 000000000000..5b7d623f404b
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt
-@@ -0,0 +1,8 @@
-+dumb_buffer@create-clear,Fail
-+dumb_buffer@create-valid-dumb,Fail
-+dumb_buffer@invalid-bpp,Fail
-+dumb_buffer@map-invalid-size,Fail
-+dumb_buffer@map-uaf,Fail
-+dumb_buffer@map-valid,Fail
-+panfrost/panfrost_prime@gem-prime-import,Fail
-+tools_test@tools_test,Fail
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt
-new file mode 100644
-index 000000000000..ac4f8f7244d4
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt
-@@ -0,0 +1,6 @@
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/dri-devel/5cc34a8b-c1fa-4744-9031-2d33ecf41011@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-g0df7b9b97
-+# Linux Version: 6.9.0-rc7
-+panfrost/panfrost_submit@pan-unhandled-pagefault
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt
-new file mode 100644
-index 000000000000..743f3eeb2f80
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt
-@@ -0,0 +1,24 @@
-+# Suspend to RAM seems to be broken on this machine
-+.*suspend.*
-+
-+# Too unstable, machine ends up hanging after lots of Oopses
-+kms_cursor_legacy.*
-+
-+# Skip driver specific tests
-+^amdgpu.*
-+^msm.*
-+nouveau_.*
-+^v3d.*
-+^vc4.*
-+^vmwgfx*
-+
-+# Skip intel specific tests
-+gem_.*
-+i915_.*
-+
-+# Panfrost is not a KMS driver, so skip the KMS tests
-+kms_.*
-+
-+# Currently fails and causes coverage loss for other tests
-+# since core_getversion also fails.
-+core_hotunplug.*
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-index 10689906da3a..9961ef307bb4 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-@@ -1,8 +1,19 @@
-+core_setmaster@master-drop-set-root,Crash
-+core_setmaster@master-drop-set-user,Crash
-+core_setmaster_vs_auth,Crash
-+device_reset@cold-reset-bound,Crash
-+device_reset@reset-bound,Crash
-+device_reset@unbind-cold-reset-rebind,Crash
-+device_reset@unbind-reset-rebind,Crash
- dumb_buffer@create-clear,Crash
--dumb_buffer@create-valid-dumb,Crash
- dumb_buffer@invalid-bpp,Crash
--dumb_buffer@map-invalid-size,Crash
--dumb_buffer@map-uaf,Crash
--dumb_buffer@map-valid,Crash
--panfrost/panfrost_prime@gem-prime-import,Crash
-+fbdev@pan,Crash
-+kms_cursor_crc@cursor-onscreen-32x10,Crash
-+kms_cursor_crc@cursor-onscreen-32x32,Crash
-+kms_cursor_crc@cursor-random-32x10,Crash
-+kms_cursor_crc@cursor-sliding-32x32,Crash
-+kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
-+kms_cursor_legacy@cursor-vs-flip-legacy,Fail
-+kms_prop_blob@invalid-set-prop,Crash
-+kms_prop_blob@invalid-set-prop-any,Crash
- tools_test@tools_test,Crash
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
-new file mode 100644
-index 000000000000..7ede273aab20
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
-@@ -0,0 +1,6 @@
-+# Board Name: rk3288-veyron-jaq
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 100
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_cursor_legacy@flip-vs-cursor-atomic
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-index b8cb31842323..f28241b6581f 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-@@ -1,60 +1,11 @@
- # Suspend to RAM seems to be broken on this machine
- .*suspend.*
- 
--# Too unstable, machine ends up hanging after lots of Oopses
--kms_cursor_legacy.*
--
--# Started hanging the machine on Linux 5.19-rc2:
--#
--# [IGT] kms_plane_lowres: executing
--# [IGT] kms_plane_lowres: starting subtest pipe-F-tiling-y
--# [IGT] kms_plane_lowres: exiting, ret=77
--# Console: switching to colour frame buffer device 170x48
--# rockchip-drm display-subsystem: [drm] *ERROR* flip_done timed out
--# rockchip-drm display-subsystem: [drm] *ERROR* [CRTC:35:crtc-0] commit wait timed out
--# BUG: spinlock bad magic on CPU#3, kms_plane_lowre/482
--# 8<--- cut here ---
--# Unable to handle kernel paging request at virtual address 7812078e
--# [7812078e] *pgd=00000000
--# Internal error: Oops: 5 [#1] SMP ARM
--# Modules linked in:
--# CPU: 3 PID: 482 Comm: kms_plane_lowre Tainted: G        W         5.19.0-rc2-323596-g00535de92171 #1
--# Hardware name: Rockchip (Device Tree)
--# Process kms_plane_lowre (pid: 482, stack limit = 0x1193ac2b)
--#  spin_dump from do_raw_spin_lock+0xa4/0xe8
--#  do_raw_spin_lock from wait_for_completion_timeout+0x2c/0x120
--#  wait_for_completion_timeout from drm_crtc_commit_wait+0x18/0x7c
--#  drm_crtc_commit_wait from drm_atomic_helper_wait_for_dependencies+0x44/0x168
--#  drm_atomic_helper_wait_for_dependencies from commit_tail+0x34/0x180
--#  commit_tail from drm_atomic_helper_commit+0x164/0x18c
--#  drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe4
--#  drm_atomic_commit from drm_client_modeset_commit_atomic+0x23c/0x284
--#  drm_client_modeset_commit_atomic from drm_client_modeset_commit_locked+0x60/0x1c8
--#  drm_client_modeset_commit_locked from drm_client_modeset_commit+0x24/0x40
--#  drm_client_modeset_commit from drm_fbdev_client_restore+0x58/0x94
--#  drm_fbdev_client_restore from drm_client_dev_restore+0x70/0xbc
--#  drm_client_dev_restore from drm_release+0xf4/0x114
--#  drm_release from __fput+0x74/0x240
--#  __fput from task_work_run+0x84/0xb4
--#  task_work_run from do_exit+0x34c/0xa20
--#  do_exit from do_group_exit+0x34/0x98
--#  do_group_exit from __wake_up_parent+0x0/0x18
--# Code: e595c008 12843d19 03e00000 03093168 (15940508)
--# ---[ end trace 0000000000000000 ]---
--# note: kms_plane_lowre[482] exited with preempt_count 1
--# Fixing recursive fault but reboot is needed!
--kms_plane_lowres@pipe-F-tiling-y
--
--# Take too long, we have only two machines, and these are very flaky
--kms_cursor_crc.*
--
--# Machine is hanging in this test, so skip it
--kms_pipe_crc_basic@disable-crc-after-crtc
--
- # Skip driver specific tests
- ^amdgpu.*
- ^msm.*
- nouveau_.*
-+^panfrost.*
- ^v3d.*
- ^vc4.*
- ^vmwgfx*
-@@ -63,9 +14,6 @@ nouveau_.*
- gem_.*
- i915_.*
- 
--# Panfrost is not a KMS driver, so skip the KMS tests
--kms_.*
--
- # Currently fails and causes coverage loss for other tests
- # since core_getversion also fails.
- core_hotunplug.*
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-index 5b7d623f404b..3c0862faeaef 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-@@ -1,8 +1,86 @@
--dumb_buffer@create-clear,Fail
--dumb_buffer@create-valid-dumb,Fail
-+device_reset@cold-reset-bound,Fail
-+device_reset@reset-bound,Fail
-+device_reset@unbind-cold-reset-rebind,Fail
-+device_reset@unbind-reset-rebind,Fail
-+dumb_buffer@create-clear,Crash
- dumb_buffer@invalid-bpp,Fail
--dumb_buffer@map-invalid-size,Fail
--dumb_buffer@map-uaf,Fail
--dumb_buffer@map-valid,Fail
--panfrost/panfrost_prime@gem-prime-import,Fail
-+kms_atomic_transition@modeset-transition,Fail
-+kms_atomic_transition@modeset-transition-fencing,Fail
-+kms_atomic_transition@plane-toggle-modeset-transition,Fail
-+kms_bw@linear-tiling-1-displays-2560x1440p,Fail
-+kms_color@gamma,Fail
-+kms_color@legacy-gamma,Fail
-+kms_cursor_crc@cursor-alpha-opaque,Fail
-+kms_cursor_crc@cursor-alpha-transparent,Fail
-+kms_cursor_crc@cursor-dpms,Fail
-+kms_cursor_crc@cursor-offscreen-32x10,Fail
-+kms_cursor_crc@cursor-offscreen-32x32,Fail
-+kms_cursor_crc@cursor-offscreen-64x21,Fail
-+kms_cursor_crc@cursor-offscreen-64x64,Fail
-+kms_cursor_crc@cursor-onscreen-32x10,Fail
-+kms_cursor_crc@cursor-onscreen-32x32,Fail
-+kms_cursor_crc@cursor-onscreen-64x21,Fail
-+kms_cursor_crc@cursor-onscreen-64x64,Fail
-+kms_cursor_crc@cursor-random-32x10,Fail
-+kms_cursor_crc@cursor-random-32x32,Fail
-+kms_cursor_crc@cursor-random-64x21,Fail
-+kms_cursor_crc@cursor-random-64x64,Fail
-+kms_cursor_crc@cursor-rapid-movement-32x10,Fail
-+kms_cursor_crc@cursor-rapid-movement-32x32,Fail
-+kms_cursor_crc@cursor-rapid-movement-64x21,Fail
-+kms_cursor_crc@cursor-rapid-movement-64x64,Fail
-+kms_cursor_crc@cursor-size-change,Fail
-+kms_cursor_crc@cursor-sliding-32x10,Fail
-+kms_cursor_crc@cursor-sliding-32x32,Fail
-+kms_cursor_crc@cursor-sliding-64x21,Fail
-+kms_cursor_crc@cursor-sliding-64x64,Fail
-+kms_cursor_edge_walk@64x64-left-edge,Fail
-+kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
-+kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail
-+kms_cursor_legacy@cursor-vs-flip-atomic,Fail
-+kms_cursor_legacy@cursor-vs-flip-legacy,Fail
-+kms_cursor_legacy@cursor-vs-flip-toggle,Fail
-+kms_cursor_legacy@flip-vs-cursor-atomic,Fail
-+kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail
-+kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail
-+kms_cursor_legacy@flip-vs-cursor-legacy,Fail
-+kms_cursor_legacy@long-nonblocking-modeset-vs-cursor-atomic,Fail
-+kms_flip@basic-flip-vs-wf_vblank,Fail
-+kms_flip@blocking-wf_vblank,Fail
-+kms_flip@dpms-vs-vblank-race,Fail
-+kms_flip@flip-vs-absolute-wf_vblank,Fail
-+kms_flip@flip-vs-blocking-wf-vblank,Fail
-+kms_flip@flip-vs-modeset-vs-hang,Fail
-+kms_flip@flip-vs-panning,Fail
-+kms_flip@flip-vs-panning-interruptible,Fail
-+kms_flip@flip-vs-panning-vs-hang,Fail
-+kms_flip@modeset-vs-vblank-race,Fail
-+kms_flip@modeset-vs-vblank-race-interruptible,Fail
-+kms_flip@plain-flip-fb-recreate,Fail
-+kms_flip@plain-flip-fb-recreate-interruptible,Fail
-+kms_flip@plain-flip-ts-check,Fail
-+kms_flip@plain-flip-ts-check-interruptible,Fail
-+kms_flip@wf_vblank-ts-check,Fail
-+kms_flip@wf_vblank-ts-check-interruptible,Fail
-+kms_invalid_mode@int-max-clock,Fail
-+kms_lease@lease-uevent,Fail
-+kms_lease@page-flip-implicit-plane,Fail
-+kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail
-+kms_pipe_crc_basic@compare-crc-sanitycheck-xr24,Fail
-+kms_pipe_crc_basic@disable-crc-after-crtc,Fail
-+kms_pipe_crc_basic@nonblocking-crc,Fail
-+kms_pipe_crc_basic@nonblocking-crc-frame-sequence,Fail
-+kms_pipe_crc_basic@read-crc,Fail
-+kms_pipe_crc_basic@read-crc-frame-sequence,Fail
-+kms_plane@pixel-format,Crash
-+kms_plane@pixel-format-source-clamping,Crash
-+kms_plane@plane-panning-bottom-right,Fail
-+kms_plane@plane-panning-top-left,Fail
-+kms_plane@plane-position-covered,Fail
-+kms_plane@plane-position-hole,Fail
-+kms_plane@plane-position-hole-dpms,Fail
-+kms_plane_cursor@primary,Fail
-+kms_plane_multiple@tiling-none,Fail
-+kms_rmfb@close-fd,Fail
-+kms_universal_plane@universal-plane-functional,Fail
- tools_test@tools_test,Fail
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-index ac4f8f7244d4..d98f6a17343c 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-@@ -1,6 +1,48 @@
- # Board Name: rk3399-gru-kevin
--# Bug Report: https://lore.kernel.org/dri-devel/5cc34a8b-c1fa-4744-9031-2d33ecf41011@collabora.com/T/#u
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
- # Failure Rate: 50
--# IGT Version: 1.28-g0df7b9b97
--# Linux Version: 6.9.0-rc7
--panfrost/panfrost_submit@pan-unhandled-pagefault
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_bw@linear-tiling-1-displays-2560x1440p
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_cursor_legacy@nonblocking-modeset-vs-cursor-atomic
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_flip@dpms-vs-vblank-race-interruptible
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_flip@flip-vs-absolute-wf_vblank-interruptible
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_flip@flip-vs-wf_vblank-interruptible
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_setmode@basic
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_bw@connected-linear-tiling-1-displays-2560x1440p
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-index 743f3eeb2f80..f28241b6581f 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-@@ -1,13 +1,11 @@
- # Suspend to RAM seems to be broken on this machine
- .*suspend.*
- 
--# Too unstable, machine ends up hanging after lots of Oopses
--kms_cursor_legacy.*
--
- # Skip driver specific tests
- ^amdgpu.*
- ^msm.*
- nouveau_.*
-+^panfrost.*
- ^v3d.*
- ^vc4.*
- ^vmwgfx*
-@@ -16,9 +14,6 @@ nouveau_.*
- gem_.*
- i915_.*
- 
--# Panfrost is not a KMS driver, so skip the KMS tests
--kms_.*
--
- # Currently fails and causes coverage loss for other tests
- # since core_getversion also fails.
- core_hotunplug.*
--- 
-2.43.0
+Well, the scope of devcoredump is pretty clear: there's a set of
+GPU/FW register values we need to properly decode a coredump (ringbuf
+address, GPU ID, FW version, ...). I think this should be a starting
+point for the rust GPU/FW abstraction. If we start from the other end
+(C definitions which we try to convert to rust the way they were used
+in C), we're likely to make a wrong choice, and later realize we need
+to redo everything.
+
+This is the very reason I think we should focus on the feature we want
+to implement in rust, come up with a PoC that has some reg values
+manually defined, and then, if we see a need in sharing a common
+register/field definition, develop a script/use a descriptive format
+for those. Otherwise we're just spending time on a script that's going
+to change a hundred times before we get to the rust abstraction we
+agree on.
+
+> 
+> Having a better source format such that the auto-generation can produce
+> correct headers means that the Rust representation can change over time.
+> There's even the possibility of improving the C. Specifically if the
+> constants for the register values were specified better they could be
+> type checked to ensure they are used with the correct register - I see
+> Daniel has thought about this for Rust, it's also possible in C
+> (although admittedly somewhat clunky).
+
+If that's something we're interested in, I'd rather see a script to
+generate the C definitions, since that part is not a moving target
+anymore (or at least more stable than it was a year ago). Just to be
+clear, I'm not opposed to that, I just think the time spent developing
+such a script when the number of regs is small/stable is not worth it,
+but if someone else is willing to spend that time, I'm happy to
+ack/merge the changes :-).
+
+> 
+> > For all these reasons, I think I'd prefer to have Daniel focus on a
+> > proper rust abstraction to expose GPU registers and fields the rust-way,
+> > rather than have him spend days/weeks on a script that is likely to be
+> > used a couple times (if not less) before the driver is entirely
+> > rewritten in rust. I guess the only interesting aspect remaining after
+> > the conversion is done is conciseness of register definitions if we
+> > were using some sort of descriptive format that gets converted to rust
+> > code, but it comes at the cost of maintaining this script. I'd probably
+> > have a completely different opinion if the Mali register layout was a
+> > moving target, but it doesn't seem to be the case.  
+> 
+> That's fine - but if we're not generating the register definitions, then
+> the Rust files need to be hand modified. I.e. fine to start with a quick
+> hack of generating the skeleton (once), but then we (all) throw away the
+> script and review it like a hand-written file. What Daniel posted as
+> obviously machine generated as it had been confused by the (ambiguous) C
+> file.
+
+Yeah, I wasn't even considering auto-generating the panthor_regs.rs
+file in the first place. More of a hand-write every reg/field accessor
+you need for the coredump feature, and extend it as new features
+are added/components are converted. Once the interface is stable, we
+can consider having a script that takes care of the C/rust autogen, but
+when you get to this point, I'm not even sure it's useful, because you
+almost sure you got things right by testing the implementation.
+
+> 
+> But to me this conflicts with the statement that "we're still unclear on
+> how GPU registers should be exposed in rust" - which implies that a
+> script could be useful to make the future refactors easier.
+
+Unless modifying the script becomes more painful than manually
+refactoring the rs file directly :-).
+
+> 
+> > FYI, Daniel has a python script parsing panthor_regs.h and generating
+> > panthor_regs.rs out of it which he can share if you're interested.  
+> 
+> Thanks for sharing this Daniel. I think this demonstrates that the C
+> source (at least as it currently stands) isn't a great input format.
+
+I couldn't agree more.
+
+> AFAICT we have two options:
+> 
+> a) Improve the import format: either fix the C source to make it easier
+> to parse, or better introduce a new format which can generate both Rust
+> and C. Something along the lines of the arm64 sysreg format.
+
+If we go for autogen, I definitely prefer the second option.
+
+> 
+> b) Don't generate either the C or Rust headers. Hand-write the Rust so
+> that it's idiomatic (and correct!). The review of the Rust headers will
+> need to be more careful, but is probably quicker than reviewing/agreeing
+> on a script. The major downside is if the Rust side is going to be
+> refactored (possibly multiple times) as the changes could be a pain to
+> review.
+
+Could be, but if we're exposing a minimal amount of regs/fields until
+we agree on the most appropriate abstraction, the refactoring shouldn't
+be that painful.
+
+> 
+> I really don't mind which, but I do mind if we don't pick an option ;)
+
+Yeah, I agree.
+
+Thanks for valuable your feedback.
+
+Boris
 
