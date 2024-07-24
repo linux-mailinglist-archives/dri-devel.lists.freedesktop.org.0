@@ -2,78 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5FE493AD96
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 09:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE7A93AD9F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 10:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99E2310E3EB;
-	Wed, 24 Jul 2024 07:58:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB28710E474;
+	Wed, 24 Jul 2024 08:00:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AiYQ4xtY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uIxRbB68";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01FB310E3EB
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 07:58:43 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4277a5ed48bso48492325e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 00:58:43 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D56D910E474
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 07:59:59 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-368712acb8dso3151758f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 00:59:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721807922; x=1722412722; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1721807998; x=1722412798; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=cBxL2q4ZEENNODh1jSSBbB8KDmM1LiPizuc1ivIVlTA=;
- b=AiYQ4xtYvhyltKZCmfNtzjok6w5v065+47lWrsUgCTrsDmg++iOqaVks2otdn8rUm+
- n7AC/Mo6uDLvBbXoSv2njPB/xFOZ3BOmVT8WJz89LZzSGFRpazOeR+Z2N0i8HKQ3AO6V
- YIoD9nij7dLWszt9ip1pvthjRbs4C7LTDxxIkmF0CA6JupiallVZ8O9kQ9uJuNUNlMEU
- FrIhDxyupQek5U1KB3miDXiNBgQOwfFcoyMEIVEX87ECL4UMTvdqZLzqNGo7kZvjX9wT
- U42qqtGieMpbBVSo24qU67Dg93hcyt27O/wMpDRCraZwg0/CAfG9Q8gRXoANx/vKmnic
- Oxhw==
+ :reply-to; bh=i5EyQsvTMSzrjZjcPRsb/ozfWVC/E8Z+Cfml4mXV2xc=;
+ b=uIxRbB680XoHuF9O7tETtIpK4rwr0M7Q/uVJIfVIK1fX1A0+ymevXguk/RHzu7tdqP
+ /9UrR/gyf23S7HfuTMVx5yonpUwlIJvPS9GLVXTM5T7qbiNRgNkmGh/oqCxCnywO1SWt
+ OkcZcuYHqeFdJmZKOjUEpabRApqOW3zzF8f7FKMk4JnG8XpRklo+U0wQxs36KTJLfTi2
+ kPNRuIPKhxFHqUNHG23g72B1juHF9y0WzmF+3xCPcAiFdXwMy8d/jKGrlUDZi+3MeB78
+ 5tHjJimrydSusyysdpNGVZiblfBJwdVTKEaKZgD8/w27SE1lyhMzE9JRpy1geksFDKgW
+ 5sZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721807922; x=1722412722;
+ d=1e100.net; s=20230601; t=1721807998; x=1722412798;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=cBxL2q4ZEENNODh1jSSBbB8KDmM1LiPizuc1ivIVlTA=;
- b=mLi/i7NAUW5U0nCt8MD5nSXQGqLvV9UMDkV9U8dFlTjdPFuiXPKF2qt1Owlq0DncNg
- Zxc7dxCMR/obGykK2E3GovNYXmYnexaLEUGS2Z0DwmiIE3pbfOZgELqmWKHm+1NcG8YC
- 7lPnTk8KZmgmryL5uKBjPsulc+Yq5vxlU+/wPQjeOFLSOy5WUKS+vV4f/kDOix+cUKcA
- qK/DHh0t/2kCeBI9v0P6qgzq97pw94L3XgUZIs4YCCpOUIUh63tkKmighTgnrQAXa4zS
- MPfZCCLaMZ0f7cEtfPZJcAFcVKDzgQh6fNbe1Vs6h1ydnv/qMJoeDV2SsxcYQ60A1b9+
- AWew==
+ bh=i5EyQsvTMSzrjZjcPRsb/ozfWVC/E8Z+Cfml4mXV2xc=;
+ b=n7RHcOnit9p/ivavBlAznpyYz/Ssgmr6sY4H16poXn0kdp4jVUQU9dv0VfSgjTBLqk
+ 1w5pZPcZOARbypDczOCdOQRxlNwLeXAxtESyE+cfxU17ebJfP7HyqS3HPQo1nn0AEHxV
+ blfbRpRTli4w/hqUH30E6tsPD9u07sNsM92XZRhC72yenD26NVj855RBntdiaymZNM86
+ tQk5nDb3SGFMw2IFpnRTQSbwVVZ8ww+IFv6gqHI2uUzEueC4XfQ1DcwXfXr+Qsiapdwk
+ RZcQ5YvaHXWj3mGsiY4EmWAS2kZGyI+0YXOiYhhsiIDplP9FE99cqJJ3bz1ycv5apdnj
+ cGhQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVVbibOci/wW+sdVZRPT/rRzx0WDPTaRAz9CmmcRcSIQTvcy8GQQKz64o7RWF/yM/rzmpAEnZOrkSUzBzbRuDpGAmxB4JJ5u43FBnM2b6OA
-X-Gm-Message-State: AOJu0YyZTWqesRMIv/QzrkfoM4UNp1SUHCXEHpZ78QrGkbtKH3W/el8H
- L/SCfMuZd6F9VxK0v3JCC/BZxeBoYYtE4uDXkyUichV36xQVV0UzkU4aJero7ig=
-X-Google-Smtp-Source: AGHT+IFX9k7P7kZ+7uFc23BD6PELmgyVQoQ3HMFzz+K3jDmRNOslW5A1RA0nvQaBndRjgCk1ypvSDg==
-X-Received: by 2002:a5d:664f:0:b0:368:633d:f111 with SMTP id
- ffacd0b85a97d-369f5af3aefmr780613f8f.40.1721807922040; 
- Wed, 24 Jul 2024 00:58:42 -0700 (PDT)
+ AJvYcCWYNZtaB+3H3sIqYzlokeO3iBUqJVOCZj8PWQDSUst0L8nwU/Mw3+4+EPEMJfLPK1AVzX9zXiqfWsmj73kytx20TQSQHSNMqPgePsJsSw6O
+X-Gm-Message-State: AOJu0YyEpSmUUtmVjj4mjiI0yeNsxlXIqfxWjgeO0OFN1ZlmfdEtFEi+
+ dwzFD9mzbttWdqDsfyZ6jJLuXuA9pvu6kGpmFQmr5NSxPUGFkWjYF2hbjPgOGYI=
+X-Google-Smtp-Source: AGHT+IFiBS3rZaeds/X3fnlVO8zQjJeT5kfKSN/FGPkge7QvLsuTZHgFpZklRddPFzAeI59u6xT1lw==
+X-Received: by 2002:adf:e5c9:0:b0:368:584c:3341 with SMTP id
+ ffacd0b85a97d-369dec1e4f5mr3947846f8f.35.1721807997820; 
+ Wed, 24 Jul 2024 00:59:57 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:deff:4fa8:5076:b4c7?
  ([2a01:e0a:982:cbb0:deff:4fa8:5076:b4c7])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3687868ac54sm13535704f8f.28.2024.07.24.00.58.41
+ ffacd0b85a97d-368787ed28dsm13501323f8f.104.2024.07.24.00.59.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Jul 2024 00:58:41 -0700 (PDT)
-Message-ID: <2485acd8-328a-4a35-a7dd-8729f4c7dc89@linaro.org>
-Date: Wed, 24 Jul 2024 09:58:40 +0200
+ Wed, 24 Jul 2024 00:59:57 -0700 (PDT)
+Message-ID: <6766a3b3-82bf-4c37-8631-48a8173d8131@linaro.org>
+Date: Wed, 24 Jul 2024 09:59:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v4 2/2] drm/panel: boe-th101mb31ig002 : using
- drm_connector_helper_get_modes_fixed()
-To: Doug Anderson <dianders@chromium.org>, quic_jesszhan@quicinc.com
-Cc: sam@ravnborg.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, hsinyi@google.com, awarnecke002@hotmail.com,
- dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-References: <20240723062615.14796-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240723062615.14796-3-lvzhaoxiong@huaqin.corp-partner.google.com>
- <CAD=FV=VD+7hLSLv+F0Egh9=ab1nRCpiB4g+54fqeWg__z7T1-g@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] drm/panel: ili9806e: Break some CMDS into helper
+ functions
+To: Doug Anderson <dianders@chromium.org>
+Cc: cong yang <yangcong5@huaqin.corp-partner.google.com>,
+ Michael Walle <mwalle@kernel.org>, quic_jesszhan@quicinc.com,
+ linus.walleij@linaro.org, airlied@gmail.com, dmitry.baryshkov@linaro.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240710084715.1119935-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240710084715.1119935-5-yangcong5@huaqin.corp-partner.google.com>
+ <D2LQJROQYIY3.2Q88EXS8HUDLQ@kernel.org>
+ <CAD=FV=WAosZPSKdpwR6pjOmiy4hih=jXaMg2guuVgmc+qj-Csw@mail.gmail.com>
+ <D2M42ODWQPAU.I0BMEOLKUP29@kernel.org>
+ <CAHwB_NJ+YEMoL18Sr9HFmTVH_ErDztyF7vxxPFAE0Y2ta3dO0A@mail.gmail.com>
+ <CAD=FV=VNx5qEyWDvVz6AVDryqvw09tkYRYMjbFuUQS4Wvyok6Q@mail.gmail.com>
+ <4f3b24d6-9638-49d0-8308-00da09c7ed76@linaro.org>
+ <CAD=FV=V5fYweYUoeYD=8qa_jTpF2P_ZjHKJrz0o3ikgrH4XJKQ@mail.gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -100,7 +106,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <CAD=FV=VD+7hLSLv+F0Egh9=ab1nRCpiB4g+54fqeWg__z7T1-g@mail.gmail.com>
+In-Reply-To: <CAD=FV=V5fYweYUoeYD=8qa_jTpF2P_ZjHKJrz0o3ikgrH4XJKQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,41 +125,71 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
-
-On 23/07/2024 21:48, Doug Anderson wrote:
+On 12/07/2024 17:50, Doug Anderson wrote:
 > Hi,
 > 
-> On Mon, Jul 22, 2024 at 11:26 PM Zhaoxiong Lv
-> <lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+> On Fri, Jul 12, 2024 at 7:56 AM <neil.armstrong@linaro.org> wrote:
 >>
->> Use public functions( drm_connector_helper_get_modes_fixed()) to
->> get porch parameters.
+>> On 11/07/2024 21:36, Doug Anderson wrote:
+>>> Hi,
+>>>
+>>> On Wed, Jul 10, 2024 at 6:09 PM cong yang
+>>> <yangcong5@huaqin.corp-partner.google.com> wrote:
+>>>>
+>>>> Hi,
+>>>>
+>>>> Michael Walle <mwalle@kernel.org> 于2024年7月11日周四 03:38写道：
+>>>>>
+>>>>> On Wed Jul 10, 2024 at 9:12 PM CEST, Doug Anderson wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On Wed, Jul 10, 2024 at 2:02 AM Michael Walle <mwalle@kernel.org> wrote:
+>>>>>>>
+>>>>>>> On Wed Jul 10, 2024 at 10:47 AM CEST, Cong Yang wrote:
+>>>>>>>> Break select page cmds into helper function.
+>>>>>>>
+>>>>>>> Why though? I don't find that anything easier to read. In fact, I
+>>>>>>> deliberately chose not to factor that out into a function. It's just
+>>>>>>> a sequence of magic commands, taken straight from the datasheet. So,
+>>>>>>> I'd like to keep it that way.
+>>>>>>
+>>>>>> The consensus of previous discussion on the lists was that folks
+>>>>>> agreed that we should, where possible, make it more obvious what these
+>>>>>> magic sequences of commands were doing. IMO separating out the page
+>>>>>> switch command helps. Certainly I'm always happy to hear other
+>>>>>> opinions, though.
+>>>>>
+>>>>> Fair enough, but in that case, one should take the datasheet (which
+>>>>> you can find online) and replace all the magic numbers with the
+>>>>> correct command names from it. E.g. 0xff is the ENEXTC register. To
+>>>>> be clear, I'm not just talking about the "switch page command".
+>>>>>
+>>>>> As patch stands, I don't see much value, TBH. On the contrary, you
+>>>>> make it harder to compare it with the Ortustech panel datasheet.
+>>>>>
+>>>>> just my 2c,
+>>>>> -michael
+>>>>
+>>>> If all drivers replace all the magic numbers with the correct command names,
+>>>> it will be a huge amount of work (assuming that the datasheet can be found).
+>>>>    I am afraid I don't have enough time to complete it.  Thanks.
+>>>
+>>> Makes sense. I'd be interested in hearing the opinion of others in the
+>>> DRM community about whether they'd prefer to land something long this
+>>> patch as-is or drop it.
 >>
->> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
->> ---
->> Changes between V4 and V3:
->> -  1.Modify the return value, return drm_connector_helper_get_modes_fixed(connector, desc_mode).
->> v3: https://lore.kernel.org/all/20240722092428.24499-3-lvzhaoxiong@huaqin.corp-partner.google.com/
->>
->> Changes between V3 and V2:
->> -  1. Keep bpc settings and drm_connector_set_panel_orientation() function..
->> v2: https://lore.kernel.org/all/20240716121112.14435-3-lvzhaoxiong@huaqin.corp-partner.google.com/
->> ---
->>   .../drm/panel/panel-boe-th101mb31ig002-28a.c  | 19 ++-----------------
->>   1 file changed, 2 insertions(+), 17 deletions(-)
+>> I don't have a strong opinion, but I think only changing the switch
+>> page operations doesn't make a lot of sense by itself.
 > 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> 
-> I'd assume that Neil or Jessica will apply these two patches assuming
-> they agree it looks OK. If this is stagnant for a while then I'll
-> apply it.
+> Does that mean you think we should drop this whole series? For the
+> "panel-ilitek-ili9806e.c" driver dropping seems fine since the switch
+> page command (and many of the other blocks of commands) is commented,
+> but for the other panels in this series IMO even just getting the
+> switch page adds to the readability... I'm happy to just apply patches
+> #1-#3 or just drop the series.
 
-Thanks for the review, I'm still working this week so I'll apply this serie,
-but I'll be off for the next 3 weeks so feel free to apply reviewed panel patches
-while I'm away (I'll still be pingable on irc if needed!)
+Well since we already have the changes, clean and reviewed, let's apply them!
 
-Thanks,
 Neil
 
 > 
