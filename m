@@ -2,37 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD5493AD0C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 09:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3ED693AD21
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 09:22:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 602F910E1FD;
-	Wed, 24 Jul 2024 07:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE6F610E161;
+	Wed, 24 Jul 2024 07:22:45 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q+FcCjla";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.bix.bg (mail.bix.bg [193.105.196.21])
- by gabe.freedesktop.org (Postfix) with SMTP id 5F11A10E1C7
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 07:13:19 +0000 (UTC)
-Received: (qmail 26546 invoked from network); 24 Jul 2024 07:13:18 -0000
-Received: from d2.declera.com (212.116.131.122)
- by indigo.declera.com with SMTP; 24 Jul 2024 07:13:18 -0000
-Message-ID: <43b8f01904131c9d3461436c0d1c916663f721e2.camel@declera.com>
-Subject: Re: bisected/regression: choopy youtube video on Ryzen IGP -
- 0ddd2ae586d2 drm/ttm: increase ttm pre-fault value to PMD size
-From: Yanko Kaneti <yaneti@declera.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, "Zhu,
- Lingshan" <Lingshan.Zhu@amd.com>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>, 
- "dri-devel@lists.freedesktop.org"	 <dri-devel@lists.freedesktop.org>, Li
- Jingxiang <jingxiang.li@ecarxgroup.com>
-Date: Wed, 24 Jul 2024 10:13:18 +0300
-In-Reply-To: <a7dc49b7-0da2-4fbf-a045-1bcd72ebaa8c@amd.com>
-References: <20240604084934.225738-1-lingshan.zhu@amd.com>
- <26c01e3b726812979846710afcaab81e92da6a40.camel@declera.com>
- <a7dc49b7-0da2-4fbf-a045-1bcd72ebaa8c@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.53.1 (3.53.1-1.fc41) 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E76510E0C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 07:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1721805763; x=1753341763;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Of7mEu5zZnNwfdxK7HBYV1zLVY2+Tq6gKqB1tbOPR7A=;
+ b=Q+FcCjlaQxU//Zqu1pL5Wj7Dv5u1MSbQRZrHyGBvwKWG5Iyluv5H9GsR
+ rfqQ2+2v57icG9q1IiL1xgBF/T6SohZUDMr8hNxpGKbBq75DFHzE7H6ig
+ gPm1kkaXKZ/sC1bms2/bjOefiijGhdc8lVw5w/FjtFeRyzI2t8b6Gy70N
+ Y+H6lNoC8aHCSx6h0Fsc9aQyKkZJrW2mzndgYAE3gJ/ZIqmvjR3fhVGV2
+ 8fMRx7ld7E5dBZTKMzQpSYqAgiPdD1j3xxDLdKCuXDUB0mhYDgtp/Dwku
+ VmSncqoK2VhIZISS3PNlBjjvAZRmYUvkFz3j6x5TLKJBC+u5/xC82ky3Z w==;
+X-CSE-ConnectionGUID: +4wBcX+5RSSazNjUUyLHiA==
+X-CSE-MsgGUID: Vz0T1b9lQP+cVncyArKJPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19593808"
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; d="scan'208";a="19593808"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2024 00:22:25 -0700
+X-CSE-ConnectionGUID: 8XKvgPlwSzixjE5t5kCOTw==
+X-CSE-MsgGUID: DaDFKeZ5QDChxQj29CxfPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; d="scan'208";a="52212229"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.156])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2024 00:22:23 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sefa Eyeoglu <contact@scrumplex.net>, dri-devel@lists.freedesktop.org
+Cc: Sefa Eyeoglu <contact@scrumplex.net>
+Subject: Re: [PATCH] drm/edid: add non-desktop quirk to Pimax VR Headsets
+In-Reply-To: <20240720110437.251252-2-contact@scrumplex.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240720110437.251252-2-contact@scrumplex.net>
+Date: Wed, 24 Jul 2024 10:22:19 +0300
+Message-ID: <87zfq7fe50.fsf@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,52 +68,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sat, 20 Jul 2024, Sefa Eyeoglu <contact@scrumplex.net> wrote:
+> See https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/40
 
-Well, it starts, then within a second or two it begins stuttering with
-long (half a second/second) freezes of the video , while the audio seems
-to work fine. Nothing in the log from chrome or kernel , AFAICS,  to
-show anything is wrong.
+Please attach the relevant EDID blobs to the bug.
 
-Regards
-Yanko
+BR,
+Jani.
 
-On Wed, 2024-07-24 at 09:02 +0200, Christian K=C3=B6nig wrote:
-> Hi Yanko,
->=20
-> interesting. What do you mean with "choppy"? E.g. lag on startup?
->=20
-> Regards,
-> Christian.
->=20
-> Am 23.07.24 um 21:42 schrieb Yanko Kaneti:
-> > Hello,
-> >=20
-> > Noticed and bisected a rawhide (with the new 6.11-rc0 snapshots) regres=
-sion to this commit:
-> >=20
-> >    0ddd2ae586d2 drm/ttm: increase ttm pre-fault value to PMD size
-> >=20
-> > The regression manifests in choppy youtube video playback in google-chr=
-ome-stable.
-> >   https://www.youtube.com/watch?v=3DuOpl2XNOgMA
-> >   google-chrome-stable-126.0.6478.182-1.x86_64
-> >   VP9 video,
-> >   Chrome -> Override software rendering list -> on
-> >   Chrome -> Hardware-accelerated video decode - default enabled
-> >=20
-> > No other visible graphics issues.
-> >=20
-> > Its a desktop system with Ryzen 7 5700GRyzen 7 5700G  IGP
-> > [AMD/ATI] Cezanne [Radeon Vega Series / Radeon Vega Mobile Series] [100=
-2:1638]
-> >=20
-> > Tested with linus tip and just reverting the commit fixes the issue.
-> >=20
-> > Sorry for the brevity, not sure what other details might be relevant.
-> >=20
-> > - Yanko
-> >=20
-> >=20
->=20
+>
+> Signed-off-by: Sefa Eyeoglu <contact@scrumplex.net>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index f68a41eeb1fa..41879d67599d 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -237,6 +237,11 @@ static const struct edid_quirk {
+>  	EDID_QUIRK('S', 'E', 'C', 0x144a, EDID_QUIRK_NON_DESKTOP),
+>  	EDID_QUIRK('A', 'U', 'S', 0xc102, EDID_QUIRK_NON_DESKTOP),
+>  
+> +	/* Pimax VR Headsets */
+> +	EDID_QUIRK('P', 'V', 'R', 0x1019, EDID_QUIRK_NON_DESKTOP),
+> +	EDID_QUIRK('P', 'V', 'R', 0x101a, EDID_QUIRK_NON_DESKTOP),
+> +	EDID_QUIRK('P', 'V', 'R', 0x101b, EDID_QUIRK_NON_DESKTOP),
+> +
+>  	/* Sony PlayStation VR Headset */
+>  	EDID_QUIRK('S', 'N', 'Y', 0x0704, EDID_QUIRK_NON_DESKTOP),
 
+-- 
+Jani Nikula, Intel
