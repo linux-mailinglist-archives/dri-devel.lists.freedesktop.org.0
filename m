@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D5B93B259
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 16:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A98793B25C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 16:09:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5DBC10E6EA;
-	Wed, 24 Jul 2024 14:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 504B210E6E7;
+	Wed, 24 Jul 2024 14:09:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KOGAOlXJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QrYwrmxV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E01B610E6E0;
- Wed, 24 Jul 2024 14:09:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2F6510E6E5;
+ Wed, 24 Jul 2024 14:09:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721830150; x=1753366150;
+ t=1721830155; x=1753366155;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=czB05BS6HT4dbgmuzTPUCyCXBiBfJbeYHzptJ2vMm3M=;
- b=KOGAOlXJKKRlE71hHHVLbFgfm374yPoNv+1oI0n1KPodpFNkdS8Ctnt3
- Q0KSrBONiBqaIZ0B45qmaimeV/GXIOOlCtmX5FriTFFdBPmXgu7mu1oyl
- FpHiDp05Gnr8WOZ+wpIhGB15HJ1SLHWqJOW9ZeBfWn8qrd7eAHhEXtRND
- ZQKFqPa8Ikoc+mmBWGku2gTtZUNH4fA8vcofPDkcfo2OVmcKiTS83ESJS
- ZOAlA5KtYpGVq6lNnDiaZ3ayXWrMTNYqzQJtritg8eVNTkraKrqlvCqHe
- glrWoJAmIShUb/av+xpx1iILlMX8bZr37PYN1Ipee4qAeDqxHU1Q1/eX6 w==;
-X-CSE-ConnectionGUID: X39fOocORfKKtNYQEzIAWQ==
-X-CSE-MsgGUID: 61PiKe+RQ/qKFg8xhJrCCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="30173751"
-X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; d="scan'208";a="30173751"
+ bh=2uaDlZD0uMy4pTVqQ0jeYFWBfu/L/qwRKStrAtd4+nU=;
+ b=QrYwrmxVG8MKyMiipmH1r4DTPnn+Mi/X0/IPkDYpPMmM/GEzUehVPQFz
+ ToIEUIx9RTtTWnp7p3SU+Xd/gaRYjc2AEdXNw4pHtXnN9bc1VpdyujMm7
+ hQa5nOMtRF55eB4QXGTZIo35TwxuW/gMimPodf2MOUJoJst15bFCLAYu+
+ C0apfYGLZz+GQsaObTeMizwPcabzQB7KR4mjK26YKjk4xkIb6N/otW2Bi
+ aLQbeWow9gLAbDQs8KalKE4+RNB0GeSPaunCJrdeHkeXowvjeG747rlGR
+ Hfxx6aiNYm6ruJEi2mvdigpRHSJMLzBlM2K3YRD3/lj8iNMMlMtk8sDVY A==;
+X-CSE-ConnectionGUID: Cya3PBW0TxaDKtq4wace1Q==
+X-CSE-MsgGUID: o7qRePpDRQOIjRcQH8JkTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="30173771"
+X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; d="scan'208";a="30173771"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2024 07:09:09 -0700
-X-CSE-ConnectionGUID: RMp7dZquTCCq0ro+Sq+SvQ==
-X-CSE-MsgGUID: reoZ/hvvQAiE1I727tD2aA==
+ 24 Jul 2024 07:09:14 -0700
+X-CSE-ConnectionGUID: WdKlyL5/T+GQVhLOs5V+wQ==
+X-CSE-MsgGUID: vzcqRJfiQoaC5yPdBjFQhg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; d="scan'208";a="83211453"
+X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; d="scan'208";a="83211476"
 Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2024 07:09:04 -0700
+ 24 Jul 2024 07:09:10 -0700
 From: Alexander Usyskin <alexander.usyskin@intel.com>
 To: Mark Brown <broonie@kernel.org>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
@@ -58,9 +58,9 @@ Cc: Tomas Winkler <tomas.winkler@intel.com>,
  Vitaly Lubart <vitaly.lubart@intel.com>, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 05/12] spi: intel-dg: implement mtd access handlers
-Date: Wed, 24 Jul 2024 17:00:07 +0300
-Message-Id: <20240724140014.428991-6-alexander.usyskin@intel.com>
+Subject: [PATCH v2 06/12] spi: intel-dg: align 64bit read and write
+Date: Wed, 24 Jul 2024 17:00:08 +0300
+Message-Id: <20240724140014.428991-7-alexander.usyskin@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240724140014.428991-1-alexander.usyskin@intel.com>
 References: <20240724140014.428991-1-alexander.usyskin@intel.com>
@@ -81,223 +81,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomas Winkler <tomas.winkler@intel.com>
+GSC SPI HW errors on quad access overlapping 1K border.
+Align 64bit read and write to avoid readq/writeq over 1K border.
 
-Implement mtd read, erase, and write handlers.
-For erase operation address and size should be 4K aligned.
-For write operation address and size has to be 4bytes aligned.
-
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
-CC: Lucas De Marchi <lucas.demarchi@intel.com>
-Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
-Signed-off-by: Vitaly Lubart <vitaly.lubart@intel.com>
 Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
 ---
- drivers/spi/spi-intel-dg.c | 152 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 147 insertions(+), 5 deletions(-)
+ drivers/spi/spi-intel-dg.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/drivers/spi/spi-intel-dg.c b/drivers/spi/spi-intel-dg.c
-index 2ffc2d61fdc8..dc4d6c573522 100644
+index dc4d6c573522..534e99cb336d 100644
 --- a/drivers/spi/spi-intel-dg.c
 +++ b/drivers/spi/spi-intel-dg.c
-@@ -174,7 +174,6 @@ static int intel_dg_spi_is_valid(struct intel_dg_spi *spi)
- 	return 0;
- }
+@@ -231,6 +231,24 @@ static ssize_t spi_write(struct intel_dg_spi *spi, u8 region,
+ 		len_s -= to_shift;
+ 	}
  
--__maybe_unused
- static unsigned int spi_get_region(const struct intel_dg_spi *spi, loff_t from)
- {
- 	unsigned int i;
-@@ -206,7 +205,6 @@ static ssize_t spi_rewrite_partial(struct intel_dg_spi *spi, loff_t to,
- 	return len;
- }
- 
--__maybe_unused
- static ssize_t spi_write(struct intel_dg_spi *spi, u8 region,
- 			 loff_t to, size_t len, const unsigned char *buf)
- {
-@@ -265,7 +263,6 @@ static ssize_t spi_write(struct intel_dg_spi *spi, u8 region,
- 	return len;
- }
- 
--__maybe_unused
- static ssize_t spi_read(struct intel_dg_spi *spi, u8 region,
- 			loff_t from, size_t len, unsigned char *buf)
- {
-@@ -324,7 +321,6 @@ static ssize_t spi_read(struct intel_dg_spi *spi, u8 region,
- 	return len;
- }
- 
--__maybe_unused
- static ssize_t
- spi_erase(struct intel_dg_spi *spi, u8 region, loff_t from, u64 len, u64 *fail_addr)
- {
-@@ -413,18 +409,164 @@ static int intel_dg_spi_init(struct intel_dg_spi *spi, struct device *device)
- 
- static int intel_dg_spi_erase(struct mtd_info *mtd, struct erase_info *info)
- {
--	return 0;
-+	struct intel_dg_spi *spi;
-+	unsigned int idx;
-+	u8 region;
-+	u64 addr;
-+	ssize_t bytes;
-+	loff_t from;
-+	size_t len;
-+	size_t total_len;
-+	int ret = 0;
++	if (!IS_ALIGNED(to, sizeof(u64)) &&
++	    ((to ^ (to + len_s)) & GENMASK(31, 10))) {
++		/*
++		 * Workaround reads/writes across 1k-aligned addresses
++		 * (start u32 before 1k, end u32 after)
++		 * as this fails on hardware.
++		 */
++		u32 data;
 +
-+	if (!mtd || !info)
-+		return -EINVAL;
-+
-+	spi = mtd->priv;
-+	if (WARN_ON(!spi))
-+		return -EINVAL;
-+
-+	if (!IS_ALIGNED(info->addr, SZ_4K) || !IS_ALIGNED(info->len, SZ_4K)) {
-+		dev_err(&mtd->dev, "unaligned erase %llx %llx\n",
-+			info->addr, info->len);
-+		info->fail_addr = MTD_FAIL_ADDR_UNKNOWN;
-+		return -EINVAL;
++		memcpy(&data, &buf[0], sizeof(u32));
++		spi_write32(spi, to, data);
++		if (spi_error(spi))
++			return -EIO;
++		buf += sizeof(u32);
++		to += sizeof(u32);
++		len_s -= sizeof(u32);
 +	}
 +
-+	total_len = info->len;
-+	addr = info->addr;
-+
-+	mutex_lock(&spi->lock);
-+
-+	while (total_len > 0) {
-+		if (!IS_ALIGNED(addr, SZ_4K) || !IS_ALIGNED(total_len, SZ_4K)) {
-+			dev_err(&mtd->dev, "unaligned erase %llx %zx\n", addr, total_len);
-+			info->fail_addr = addr;
-+			ret = -ERANGE;
-+			goto out;
-+		}
-+
-+		idx = spi_get_region(spi, addr);
-+		if (idx >= spi->nregions) {
-+			dev_err(&mtd->dev, "out of range");
-+			info->fail_addr = MTD_FAIL_ADDR_UNKNOWN;
-+			ret = -ERANGE;
-+			goto out;
-+		}
-+
-+		from = addr - spi->regions[idx].offset;
-+		region = spi->regions[idx].id;
-+		len = total_len;
-+		if (len > spi->regions[idx].size - from)
-+			len = spi->regions[idx].size - from;
-+
-+		dev_dbg(&mtd->dev, "erasing region[%d] %s from %llx len %zx\n",
-+			region, spi->regions[idx].name, from, len);
-+
-+		bytes = spi_erase(spi, region, from, len, &info->fail_addr);
-+		if (bytes < 0) {
-+			dev_dbg(&mtd->dev, "erase failed with %zd\n", bytes);
-+			info->fail_addr += spi->regions[idx].offset;
-+			ret = bytes;
-+			goto out;
-+		}
-+
-+		addr += len;
-+		total_len -= len;
-+	}
-+
-+out:
-+	mutex_unlock(&spi->lock);
-+	return ret;
- }
+ 	len8 = ALIGN_DOWN(len_s, sizeof(u64));
+ 	for (i = 0; i < len8; i += sizeof(u64)) {
+ 		u64 data;
+@@ -289,6 +307,23 @@ static ssize_t spi_read(struct intel_dg_spi *spi, u8 region,
+ 		from += from_shift;
+ 	}
  
- static int intel_dg_spi_read(struct mtd_info *mtd, loff_t from, size_t len,
- 			     size_t *retlen, u_char *buf)
- {
-+	struct intel_dg_spi *spi;
-+	ssize_t ret;
-+	unsigned int idx;
-+	u8 region;
++	if (!IS_ALIGNED(from, sizeof(u64)) &&
++	    ((from ^ (from + len_s)) & GENMASK(31, 10))) {
++		/*
++		 * Workaround reads/writes across 1k-aligned addresses
++		 * (start u32 before 1k, end u32 after)
++		 * as this fails on hardware.
++		 */
++		u32 data = spi_read32(spi, from);
 +
-+	if (!mtd)
-+		return -EINVAL;
-+
-+	spi = mtd->priv;
-+	if (WARN_ON(!spi))
-+		return -EINVAL;
-+
-+	idx = spi_get_region(spi, from);
-+
-+	dev_dbg(&mtd->dev, "reading region[%d] %s from %lld len %zd\n",
-+		spi->regions[idx].id, spi->regions[idx].name, from, len);
-+
-+	if (idx >= spi->nregions) {
-+		dev_err(&mtd->dev, "out of ragnge");
-+		return -ERANGE;
++		if (spi_error(spi))
++			return -EIO;
++		memcpy(&buf[0], &data, sizeof(data));
++		len_s -= sizeof(u32);
++		buf += sizeof(u32);
++		from += sizeof(u32);
 +	}
 +
-+	from -= spi->regions[idx].offset;
-+	region = spi->regions[idx].id;
-+	if (len > spi->regions[idx].size - from)
-+		len = spi->regions[idx].size - from;
-+
-+	mutex_lock(&spi->lock);
-+
-+	ret = spi_read(spi, region, from, len, buf);
-+	if (ret < 0) {
-+		dev_dbg(&mtd->dev, "read failed with %zd\n", ret);
-+		mutex_unlock(&spi->lock);
-+		return ret;
-+	}
-+
-+	*retlen = ret;
-+
-+	mutex_unlock(&spi->lock);
- 	return 0;
- }
- 
- static int intel_dg_spi_write(struct mtd_info *mtd, loff_t to, size_t len,
- 			      size_t *retlen, const u_char *buf)
- {
-+	struct intel_dg_spi *spi;
-+	ssize_t ret;
-+	unsigned int idx;
-+	u8 region;
-+
-+	if (!mtd)
-+		return -EINVAL;
-+
-+	spi = mtd->priv;
-+	if (WARN_ON(!spi))
-+		return -EINVAL;
-+
-+	idx = spi_get_region(spi, to);
-+
-+	dev_dbg(&mtd->dev, "writing region[%d] %s to %lld len %zd\n",
-+		spi->regions[idx].id, spi->regions[idx].name, to, len);
-+
-+	if (idx >= spi->nregions) {
-+		dev_err(&mtd->dev, "out of range");
-+		return -ERANGE;
-+	}
-+
-+	to -= spi->regions[idx].offset;
-+	region = spi->regions[idx].id;
-+	if (len > spi->regions[idx].size - to)
-+		len = spi->regions[idx].size - to;
-+
-+	mutex_lock(&spi->lock);
-+
-+	ret = spi_write(spi, region, to, len, buf);
-+	if (ret < 0) {
-+		dev_dbg(&mtd->dev, "write failed with %zd\n", ret);
-+		mutex_unlock(&spi->lock);
-+		return ret;
-+	}
-+
-+	*retlen = ret;
-+
-+	mutex_unlock(&spi->lock);
- 	return 0;
- }
- 
+ 	len8 = ALIGN_DOWN(len_s, sizeof(u64));
+ 	for (i = 0; i < len8; i += sizeof(u64)) {
+ 		u64 data = spi_read64(spi, from + i);
 -- 
 2.34.1
 
