@@ -2,57 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3ED693AD21
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 09:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5B093AD20
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 09:22:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE6F610E161;
-	Wed, 24 Jul 2024 07:22:45 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q+FcCjla";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8976E10E1C7;
+	Wed, 24 Jul 2024 07:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E76510E0C8
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 07:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721805763; x=1753341763;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Of7mEu5zZnNwfdxK7HBYV1zLVY2+Tq6gKqB1tbOPR7A=;
- b=Q+FcCjlaQxU//Zqu1pL5Wj7Dv5u1MSbQRZrHyGBvwKWG5Iyluv5H9GsR
- rfqQ2+2v57icG9q1IiL1xgBF/T6SohZUDMr8hNxpGKbBq75DFHzE7H6ig
- gPm1kkaXKZ/sC1bms2/bjOefiijGhdc8lVw5w/FjtFeRyzI2t8b6Gy70N
- Y+H6lNoC8aHCSx6h0Fsc9aQyKkZJrW2mzndgYAE3gJ/ZIqmvjR3fhVGV2
- 8fMRx7ld7E5dBZTKMzQpSYqAgiPdD1j3xxDLdKCuXDUB0mhYDgtp/Dwku
- VmSncqoK2VhIZISS3PNlBjjvAZRmYUvkFz3j6x5TLKJBC+u5/xC82ky3Z w==;
-X-CSE-ConnectionGUID: +4wBcX+5RSSazNjUUyLHiA==
-X-CSE-MsgGUID: Vz0T1b9lQP+cVncyArKJPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19593808"
-X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; d="scan'208";a="19593808"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2024 00:22:25 -0700
-X-CSE-ConnectionGUID: 8XKvgPlwSzixjE5t5kCOTw==
-X-CSE-MsgGUID: DaDFKeZ5QDChxQj29CxfPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; d="scan'208";a="52212229"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.156])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2024 00:22:23 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sefa Eyeoglu <contact@scrumplex.net>, dri-devel@lists.freedesktop.org
-Cc: Sefa Eyeoglu <contact@scrumplex.net>
-Subject: Re: [PATCH] drm/edid: add non-desktop quirk to Pimax VR Headsets
-In-Reply-To: <20240720110437.251252-2-contact@scrumplex.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240720110437.251252-2-contact@scrumplex.net>
-Date: Wed, 24 Jul 2024 10:22:19 +0300
-Message-ID: <87zfq7fe50.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 607F110E1C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 07:22:23 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:810b:4340:4ee9:4685:ff:fe12:5967])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.3ffe.de (Postfix) with ESMTPSA id 1DC9C4FEC;
+ Wed, 24 Jul 2024 09:22:21 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 24 Jul 2024 09:22:20 +0200
+Message-Id: <D2XL71L5TEZ3.3UXFSWKGQ0KBE@kernel.org>
+Subject: Re: [PATCH 2/2] drm/panel/panel-ilitek-ili9806e: Add Densitron
+ DMT028VGHMCMI-1D TFT to ILI9806E DSI TCON driver
+Cc: "Conor Dooley" <conor+dt@kernel.org>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "David Airlie" <airlied@gmail.com>, "Jessica Zhang"
+ <quic_jesszhan@quicinc.com>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>, "Rob
+ Herring" <robh@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+ <devicetree@vger.kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Marek Vasut" <marex@denx.de>, <dri-devel@lists.freedesktop.org>
+X-Mailer: aerc 0.16.0
+References: <20240724005700.196073-1-marex@denx.de>
+ <20240724005700.196073-2-marex@denx.de>
+In-Reply-To: <20240724005700.196073-2-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,35 +53,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 20 Jul 2024, Sefa Eyeoglu <contact@scrumplex.net> wrote:
-> See https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/40
-
-Please attach the relevant EDID blobs to the bug.
-
-BR,
-Jani.
-
+> Add Densitron DMT028VGHMCMI-1D 480x640 TFT matrix 2.83 inch panel
+> attached to Ilitek ILI9806E DSI TCON into the ILI9806E driver.
 >
-> Signed-off-by: Sefa Eyeoglu <contact@scrumplex.net>
-> ---
->  drivers/gpu/drm/drm_edid.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> Note that the Densitron panels use different TCONs, this driver is for
+> the later panel, use panel-ilitek-st7701.c for the former panel:
+> DMT028VGHMCMI-1A - ST7701
+> DMT028VGHMCMI-1D - ILI9806E
 >
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index f68a41eeb1fa..41879d67599d 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -237,6 +237,11 @@ static const struct edid_quirk {
->  	EDID_QUIRK('S', 'E', 'C', 0x144a, EDID_QUIRK_NON_DESKTOP),
->  	EDID_QUIRK('A', 'U', 'S', 0xc102, EDID_QUIRK_NON_DESKTOP),
->  
-> +	/* Pimax VR Headsets */
-> +	EDID_QUIRK('P', 'V', 'R', 0x1019, EDID_QUIRK_NON_DESKTOP),
-> +	EDID_QUIRK('P', 'V', 'R', 0x101a, EDID_QUIRK_NON_DESKTOP),
-> +	EDID_QUIRK('P', 'V', 'R', 0x101b, EDID_QUIRK_NON_DESKTOP),
-> +
->  	/* Sony PlayStation VR Headset */
->  	EDID_QUIRK('S', 'N', 'Y', 0x0704, EDID_QUIRK_NON_DESKTOP),
+> Signed-off-by: Marek Vasut <marex@denx.de>
 
--- 
-Jani Nikula, Intel
+Reviewed-by: Michael Walle <mwalle@kernel.org>
+
+-michael
