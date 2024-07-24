@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F5393B0E7
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 14:25:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF3E93B0EB
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 14:25:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0542E10E6A4;
-	Wed, 24 Jul 2024 12:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CF4010E032;
+	Wed, 24 Jul 2024 12:25:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aPne3P3E";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gJfP48x4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8975A10E6A6
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 12:25:05 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-2cdadce1a57so747047a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 05:25:05 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E10810E6A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 12:25:08 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1fc49c1f3e5so8432035ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 05:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721823905; x=1722428705; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721823908; x=1722428708; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4RS7gU16ITnoH4uJ2P4cBrWFJTcLfxSuNNT2bfx+93A=;
- b=aPne3P3EwEmoz4rMYxfWyvTJnALD84FR3NbsguinKoH8oYScY9BS+iK9tj2nu8jrIG
- uVk/eUnDuoWp2cKHLQqQeS1SwA6bx37t/6DugNw4czr3ipxFcFOwoXD0Ox5bCGWbSq87
- A27cOrbFKrg8crRFtAE+OKPKPiSFvRycKRXWGJmJln1OI2zIYDVy7gvbTRWOBrYokXYQ
- V6BLzMW0Ew8QCaWr6ASjigmLDvXl9fMaVGnjaWQzyddNP9/taeJmYzcjT2VPysx6+3gV
- d1sa4l7D7nQ5dsUhYQluGx8FkFFZPG7X6XaCRW1PnsG7ZMj0TFCuHjab23bN+teE38xd
- xuVQ==
+ bh=FanJFk8N4d+FovkzKkK+yK0pgkmnrsP9b5F0k2uR1QM=;
+ b=gJfP48x4UsDZWUwM0PJr4IeMEjgmzpwOdi57s8iU9d5sNf9k5Ir8s/oQLdIoWMWp1o
+ 0enmOHOtysDKLHJugLu3yKz7yyC07WCnXLvbYYwn8R4Kpphhr6FBw6TLTwsv+r9BrVtc
+ Gjk5Chj6i5+ObklCq3PAx90RJAnx6gVYbmxGjTO2O3AjMqdnCaTTW8wNr1g/9jiGqASe
+ rAGqa7pnXQkOuPQM2JnosPpT0vp/eJ4Bg4hizsOqOebQ6EH0oVkdF9smkgja2k2WBYFJ
+ rt7v+RFeIFW7o2RGy5vh1Avqgf/I5ijwJAkgFx8gxxI9JADgehpg9atY+CPZXkRq/495
+ eWMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721823905; x=1722428705;
+ d=1e100.net; s=20230601; t=1721823908; x=1722428708;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4RS7gU16ITnoH4uJ2P4cBrWFJTcLfxSuNNT2bfx+93A=;
- b=ulF9wJbbXjFFVR3FxThFrUoQCUFYwxye0+U8bEIeaV7VrYyI130dcuk9FkGG9OQ2AD
- 8c1kbI7vY8+znlYJPuLt+foq6Ap/s9GLH49nyk+jAYKT/HaIEUULsDGS0hGsz634g/Ej
- RNf6evNMfF1I8Csv25bZ5JDzN+Rw943o1/cjVBzjb+WuyRiGhr9a3d/oKVdL4wEm/eJX
- WOMecy0enjKi8YWmqclmG3ZQaxNYMantZm5+2BVfjXHYsiVZZhH6LxlC9qfeY+HlympW
- cop/K2WonXf0nCLezNJq5jUafOV1h+7AYnTYnelxm1Ko/WuA+9VMCyFrLM6bKCAr+0E1
- LHlg==
+ bh=FanJFk8N4d+FovkzKkK+yK0pgkmnrsP9b5F0k2uR1QM=;
+ b=aNUYQNWFoLhMmIgKqQbDw34qyH6u1acr5XywshMRrKMwZ9ENtlvJbVMzmeCtVNYhIa
+ Tydr3WnRRRgs0/aLvbn9VGi1Hil0ZmRfSfpRqMfRp3r5xPdqZsY88Wt0itLbAKRnCEwl
+ xzMf5lFmEQ5+pOHejBFawOliTI3+cX5GU2EMoVwEGi3Lxyh7cXq4AEH7k+yxO6Gi3xHg
+ s2tBmWKntZcnEhiliXjr1VAICBn5n+ko/5dVw4HG3M9D/bDtWAIc91SQ/XTVjOaDDIul
+ +MkKV6TxHHwj6Mnp1atJkGHAI8GsB9XIAi2e3kCQed7NTrhjguJJrImCJgEMcH7Ch0rK
+ iJsQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU59pcaKt0h40Tiea/KsVrTXJKak13011gOXaWozaDbcLtKWoPrm+Y2ZGWCMrgOZ8J8u5LlxwFbO/8xrmd/QXDXek9pVD5NL6J+LbWqbKzn
-X-Gm-Message-State: AOJu0YwAT1CIjEwxQ53mQzKmh/riSkq9lVVVZhqJNmpe+UJ8ZEjq9diG
- d9nIP2bwqXiyjYGmOnoT/fk4toQNB1lcyC82Q4t74JxK2aqzV/lyqSM9BV5qPho=
-X-Google-Smtp-Source: AGHT+IF7OVyonWCCnCVBX9lx5jU8mzF0yeNoeycLEZCNLMHS8GfiaraNhErqelj7XcB9qfI2jnBS2g==
-X-Received: by 2002:a17:90a:d301:b0:2c8:53be:fa21 with SMTP id
- 98e67ed59e1d1-2cdb51ce903mr2067038a91.34.1721823904996; 
- Wed, 24 Jul 2024 05:25:04 -0700 (PDT)
+ AJvYcCUM8YhsEq2z0b7T3Be03+r4LWSGzohysNfUmHyTUjFf0WEi4KWC3KwsH4lKsCi4CJaq8ocU0b4RlNKE8kDrjbigxSVO0mx5U/vu9a1W3jkF
+X-Gm-Message-State: AOJu0YzvzMao0A56XdovBe1KnaunepfDvRkpEXlpP7JprATc/XJIFUAE
+ kGSMni77j9gc/A+01gcusXPJWSawkd/CuZn90KQmF1XOgu0PPdyR
+X-Google-Smtp-Source: AGHT+IESuRKDCEItHRopfV2JwMH2VW29QebUq9NYg/izyx5v/vt6IyizXedg4Aqf+pfc0frWsfVHKg==
+X-Received: by 2002:a17:90b:3143:b0:2c9:7e9e:70b3 with SMTP id
+ 98e67ed59e1d1-2cd161ae448mr10189550a91.33.1721823907823; 
+ Wed, 24 Jul 2024 05:25:07 -0700 (PDT)
 Received: from distilledx.srmu.edu.in ([103.4.221.252])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2cdb76001d6sm1481454a91.48.2024.07.24.05.25.02
+ 98e67ed59e1d1-2cdb76001d6sm1481454a91.48.2024.07.24.05.25.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jul 2024 05:25:04 -0700 (PDT)
+ Wed, 24 Jul 2024 05:25:07 -0700 (PDT)
 From: Tejas Vipin <tejasvipin76@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
 Cc: dianders@chromium.org, airlied@gmail.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH 1/2] drm/mipi-dsi: Add quiet member to mipi_dsi_multi_context
- struct
-Date: Wed, 24 Jul 2024 17:54:46 +0530
-Message-ID: <20240724122447.284165-2-tejasvipin76@gmail.com>
+Subject: [PATCH 2/2] drm/mipi-dsi: Change multi functions to use quiet member
+ of mipi_dsi_multi_context
+Date: Wed, 24 Jul 2024 17:54:47 +0530
+Message-ID: <20240724122447.284165-3-tejasvipin76@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240724122447.284165-1-tejasvipin76@gmail.com>
 References: <20240724122447.284165-1-tejasvipin76@gmail.com>
@@ -85,35 +85,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A "quiet" member is added to mipi_dsi_multi_context which allows 
-silencing all the errors printed by the multi functions.
+Changes all the multi functions to check if the current context requires
+errors to be printed or not using the quiet member.
 
 Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 ---
- include/drm/drm_mipi_dsi.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/drm_mipi_dsi.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 0f520eeeaa8e..75855c1c7dae 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -217,6 +217,16 @@ struct mipi_dsi_multi_context {
- 	 * end to see if any of them failed.
- 	 */
- 	int accum_err;
-+
-+	/**
-+	 * @quiet: Controls if a function calls dev_err or not
-+	 *
-+	 * Init to 0. When the value of quiet is set to 0, the function
-+	 * will  print error messages as required. If this is set to 1,
-+	 * the function will not print error messages, but will still
-+	 * change the value of accum_err.
-+	 */
-+	int quiet;
- };
- 
- #define MIPI_DSI_MODULE_PREFIX "mipi-dsi:"
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index a471c46f5ca6..cbb77342d201 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -814,6 +814,8 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+ 	ret = mipi_dsi_generic_write(dsi, payload, size);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending generic data %*ph failed: %d\n",
+ 			(int)size, payload, ctx->accum_err);
+ 	}
+@@ -958,6 +960,8 @@ void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
+ 	ret = mipi_dsi_dcs_write_buffer(dsi, data, len);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending dcs data %*ph failed: %d\n",
+ 			(int)len, data, ctx->accum_err);
+ 	}
+@@ -1450,6 +1454,8 @@ void mipi_dsi_picture_parameter_set_multi(struct mipi_dsi_multi_context *ctx,
+ 	ret = mipi_dsi_picture_parameter_set(dsi, pps);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending PPS failed: %d\n",
+ 			ctx->accum_err);
+ 	}
+@@ -1481,6 +1487,8 @@ void mipi_dsi_compression_mode_ext_multi(struct mipi_dsi_multi_context *ctx,
+ 	ret = mipi_dsi_compression_mode_ext(dsi, enable, algo, pps_selector);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending COMPRESSION_MODE failed: %d\n",
+ 			ctx->accum_err);
+ 	}
+@@ -1506,6 +1514,8 @@ void mipi_dsi_dcs_nop_multi(struct mipi_dsi_multi_context *ctx)
+ 	ret = mipi_dsi_dcs_nop(dsi);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending DCS NOP failed: %d\n",
+ 			ctx->accum_err);
+ 	}
+@@ -1531,6 +1541,8 @@ void mipi_dsi_dcs_enter_sleep_mode_multi(struct mipi_dsi_multi_context *ctx)
+ 	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending DCS ENTER_SLEEP_MODE failed: %d\n",
+ 			ctx->accum_err);
+ 	}
+@@ -1556,6 +1568,8 @@ void mipi_dsi_dcs_exit_sleep_mode_multi(struct mipi_dsi_multi_context *ctx)
+ 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending DCS EXIT_SLEEP_MODE failed: %d\n",
+ 			ctx->accum_err);
+ 	}
+@@ -1581,6 +1595,8 @@ void mipi_dsi_dcs_set_display_off_multi(struct mipi_dsi_multi_context *ctx)
+ 	ret = mipi_dsi_dcs_set_display_off(dsi);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending DCS SET_DISPLAY_OFF failed: %d\n",
+ 			ctx->accum_err);
+ 	}
+@@ -1606,6 +1622,8 @@ void mipi_dsi_dcs_set_display_on_multi(struct mipi_dsi_multi_context *ctx)
+ 	ret = mipi_dsi_dcs_set_display_on(dsi);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending DCS SET_DISPLAY_ON failed: %d\n",
+ 			ctx->accum_err);
+ 	}
+@@ -1633,6 +1651,8 @@ void mipi_dsi_dcs_set_tear_on_multi(struct mipi_dsi_multi_context *ctx,
+ 	ret = mipi_dsi_dcs_set_tear_on(dsi, mode);
+ 	if (ret < 0) {
+ 		ctx->accum_err = ret;
++		if (ctx->quiet)
++			return;
+ 		dev_err(dev, "sending DCS SET_TEAR_ON failed: %d\n",
+ 			ctx->accum_err);
+ 	}
 -- 
 2.45.2
 
