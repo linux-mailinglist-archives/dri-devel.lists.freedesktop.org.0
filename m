@@ -2,53 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD9293B0FD
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 14:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9E493B166
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 15:15:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 627E810E6A0;
-	Wed, 24 Jul 2024 12:41:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D658810E6B8;
+	Wed, 24 Jul 2024 13:15:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="fhVhrl9/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tescu/Zi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D270710E6A7;
- Wed, 24 Jul 2024 12:41:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=6J6/mCNap2U38NHjqHLrKE4y+Xj/p/3fvwoIUdiyQks=; b=fhVhrl9/nejY93MygJ055QBCdi
- ZIF736PfMqnvAuyabZN57XAf5Fqvlg8FjHxqkWjva739sISm6WP26aPl5jt/8Fwnu8B+bNS5Lim0Q
- RW8dni0aAHR33LU+zIaPhYrDz6HTOnFmqMo7quJV4+PWX1wDMkkmDuzNph1X8CB8MWTrJnF7FJsWv
- g5qWfIP+38/h4biPzaZjbQYa08Iz6ByEI4MjE436qg2kOFazACkY+c54oTCoOLVp7l2IEyONppfpc
- EGFG9MtYCsGnBv/0QAilWyTbziJpctvWxeNiYATTgx6rqGwgHl7yhRWKeLrfgsHnS6bYZxRNPGfNT
- 8MlXJr6A==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84]
- helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1sWbIo-00000007pAr-2cMJ; Wed, 24 Jul 2024 12:41:06 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
- id 36AAD3003EA; Wed, 24 Jul 2024 14:41:05 +0200 (CEST)
-Date: Wed, 24 Jul 2024 14:41:05 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
- linux-perf-users@vger.kernel.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/7] drm/i915/pmu: Lazy unregister
-Message-ID: <20240724124105.GB13387@noisy.programming.kicks-ass.net>
-References: <20240722210648.80892-1-lucas.demarchi@intel.com>
- <20240722210648.80892-7-lucas.demarchi@intel.com>
- <be3871bd-fc25-482e-b4d4-91afc4d5b5a5@ursulin.net>
- <xsuzfv4rzb4c25sibt5gjskn7xyfwf33wgwaw4nkz5jlnvl2ke@ekur5xvhec3z>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58F8710E6B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 13:15:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9B97060AC7
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 13:15:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E48BC4AF09
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 13:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1721826953;
+ bh=+LdJ/ZWwutI+/NpdXPE5DllppVaQ6tXAdOOwXolY8Ag=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Tescu/ZiOWWumgH98ifgyE0x6qOlQgn7mud0YPoNuqPzO0Yp5muFyOZ9521raDE6a
+ ANFYX4zjjyi6slLr4iyvcnr72rVe2SG5knGXbY+Wti8fWezCEE1z/7iXcBomGwqDS0
+ w+AbgNkBiEzSzvWXbeJofF9bbKZtMYjF4Y9KGfddAfJpTXRNCYbf8C9IOww1aTXp+m
+ ZRyhbiudUcMJi4d2jjkUB70tAieZiDIed0qdFScm8RAv1nw5nXyJU0nzCofbsQ3U6U
+ DHtgwY8Osgd/2aq/VMde1pmC1+VuWaaYQnxcqdAr16Xy2VMZQ/VPe+oU3wbWRJG2IH
+ dEoniGbpk948Q==
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-52f04b4abdcso3516810e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 06:15:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9ljrq6ZJDhUBqK89WeRTopz1CvYHjTn5Ijv3xyP9+j45gmCbVxxrC8DxzjGDsFOOCbxKec1C+Pq77BUZ/P1ToePP1u/4oc5uYSnzSGHWr
+X-Gm-Message-State: AOJu0YyXZDS4xssVzbqkb627qDIS26T0p6b7pCoJ6ozsOrUfDCh3PWyr
+ uImcX64yzJD8X2ITLPOQRyY66t1xTkv0ElRnl3a8rU4RV4Un7gRdnWwj0NXvIadjycaKEz1GjoR
+ 2/tVZMl2NrsGVtlicCdizhHhMuw==
+X-Google-Smtp-Source: AGHT+IHklvdgAE7fHJDhbcDGbN3AdRO/07//YyH7VuK1FMgSqyrLmRnJjgV6j60b/4hIS183Gh1b4p+IP9u/dN52GhY=
+X-Received: by 2002:ac2:4c42:0:b0:52c:ec5d:b18b with SMTP id
+ 2adb3069b0e04-52fcf010221mr1772724e87.24.1721826951587; Wed, 24 Jul 2024
+ 06:15:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xsuzfv4rzb4c25sibt5gjskn7xyfwf33wgwaw4nkz5jlnvl2ke@ekur5xvhec3z>
+References: <20240710225011.275153-1-daniel.almeida@collabora.com>
+ <fe84a028-01a8-4987-b1b7-141fb76d263c@arm.com>
+ <4344B22F-D859-4C64-A351-69FFB5208362@collabora.com>
+ <edda856e-3102-495a-8cc6-b79f5f114833@arm.com>
+ <20240723180642.73502856@collabora.com>
+ <6ce8fd12-b175-4a8f-8ea9-6221a555b69c@arm.com>
+In-Reply-To: <6ce8fd12-b175-4a8f-8ea9-6221a555b69c@arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 24 Jul 2024 08:15:38 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+Dr5zO5MKEGq0dW9SuTuawaJMhHziFd73Ef_S1zbOkXw@mail.gmail.com>
+Message-ID: <CAL_Jsq+Dr5zO5MKEGq0dW9SuTuawaJMhHziFd73Ef_S1zbOkXw@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm: panthor: add dev_coredumpv support
+To: Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, ojeda@kernel.org, 
+ Danilo Krummrich <dakr@redhat.com>, lyude@redhat.com, lina@asahilina.net,
+ mcanal@igalia.com, airlied@gmail.com, rust-for-linux@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,68 +79,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 23, 2024 at 10:30:08AM -0500, Lucas De Marchi wrote:
-> On Tue, Jul 23, 2024 at 09:03:25AM GMT, Tvrtko Ursulin wrote:
-> > 
-> > On 22/07/2024 22:06, Lucas De Marchi wrote:
-> > > Instead of calling perf_pmu_unregister() when unbinding, defer that to
-> > > the destruction of i915 object. Since perf itself holds a reference in
-> > > the event, this only happens when all events are gone, which guarantees
-> > > i915 is not unregistering the pmu with live events.
-> > > 
-> > > Previously, running the following sequence would crash the system after
-> > > ~2 tries:
-> > > 
-> > > 	1) bind device to i915
-> > > 	2) wait events to show up on sysfs
-> > > 	3) start perf  stat -I 1000 -e i915/rcs0-busy/
-> > > 	4) unbind driver
-> > > 	5) kill perf
-> > > 
-> > > Most of the time this crashes in perf_pmu_disable() while accessing the
-> > > percpu pmu_disable_count. This happens because perf_pmu_unregister()
-> > > destroys it with free_percpu(pmu->pmu_disable_count).
-> > > 
-> > > With a lazy unbind, the pmu is only unregistered after (5) as opposed to
-> > > after (4). The downside is that if a new bind operation is attempted for
-> > > the same device/driver without killing the perf process, i915 will fail
-> > > to register the pmu (but still load successfully). This seems better
-> > > than completely crashing the system.
-> > 
-> > So effectively allows unbind to succeed without fully unbinding the
-> > driver from the device? That sounds like a significant drawback and if
-> > so, I wonder if a more complicated solution wouldn't be better after
-> > all. Or is there precedence for allowing userspace keeping their paws on
-> > unbound devices in this way?
-> 
-> keeping the resources alive but "unplunged" while the hardware
-> disappeared is a common thing to do... it's the whole point of the
-> drmm-managed resource for example. If you bind the driver and then
-> unbind it while userspace is holding a ref, next time you try to bind it
-> will come up with a different card number. A similar thing that could be
-> done is to adjust the name of the event - currently we add the mangled
-> pci slot.
-> 
-> That said, I agree a better approach would be to allow
-> perf_pmu_unregister() to do its job even when there are open events. On
-> top of that (or as a way to help achieve that), make perf core replace
-> the callbacks with stubs when pmu is unregistered - that would even kill
-> the need for i915's checks on pmu->closed (and fix the lack thereof in
-> other drivers).
-> 
-> It can be a can of worms though and may be pushed back by perf core
-> maintainers, so it'd be good have their feedback.
+On Wed, Jul 24, 2024 at 3:59=E2=80=AFAM Steven Price <steven.price@arm.com>=
+ wrote:
+>
+> Hi Boris,
+>
+> On 23/07/2024 17:06, Boris Brezillon wrote:
+> > Hi Steve,
+> >
+> > On Mon, 15 Jul 2024 10:12:16 +0100
+> > Steven Price <steven.price@arm.com> wrote:
+> >
+> >> I note it also shows that the "panthor_regs.rs" would ideally be share=
+d.
+> >> For arm64 we have been moving to generating system register descriptio=
+ns
+> >> from a text source (see arch/arm64/tools/sysreg) - I'm wondering wheth=
+er
+> >> something similar is needed for Panthor to generate both C and Rust
+> >> headers? Although perhaps that's overkill, sysregs are certainly
+> >> somewhat more complex.
+> >
+> > Just had a long discussion with Daniel regarding this panthor_regs.rs
+> > auto-generation, and, while I agree this is something we'd rather do if
+> > we intend to maintain the C and rust code base forever, I'm not
+> > entirely convinced this is super useful here because:
+>
+> So I think we need some more alignment on how the 'Rustification'
+> (oxidation?) of the driver is going to happen.
+>
+> My understanding was that the intention was to effectively start a
+> completely separate driver (I call it "Rustthor" here) with the view
+> that it would eventually replace (the C) Panthor. Rustthor would be
+> written by taking the C driver and incrementally converting parts to
+> Rust, but as a separate code base so that 'global' refactoring can be
+> done when necessary without risking the stability of Panthor. Then once
+> Rustthor is feature complete the Panthor driver can be dropped.
+> Obviously we'd keep the UABI the same to avoid user space having to care.
 
-I don't think I understand the problem. I also don't understand drivers
-much -- so that might be the problem.
+We did discuss this, but I've come to the conclusion that's the wrong
+approach. Converting is going to need to track kernel closely as there
+are lots of dependencies with the various rust abstractions needed. If
+we just copy over the C driver, that's an invitation to diverge and
+accumulate technical debt. The advice to upstreaming things is never
+go work on a fork for a couple of years and come back with a huge pile
+of code to upstream. I don't think this situation is any different. If
+there's a path to do it in small pieces, we should take it.
 
-So the problem appears to be that the device just disappears without
-warning? How can a GPU go away like that?
+What parts of the current driver are optional that we could leave out?
+Perhaps devfreq and any power mgt. That's not much, so I think the
+rust implementation (complete or partial) will always be feature
+complete.
 
-Since you have a notion of this device, can't you do this stubbing you
-talk about? That is, if your internal device reference becomes NULL, let
-the PMU methods preserve the state like no-ops.
+> I may have got the wrong impression - and I'm certainly not saying the
+> above is how we have to do it. But I think we need to go into it with
+> open-eyes if we're proposing a creeping Rust implementation upstream of
+> the main Mali driver. That approach will make ensuring stability harder
+> and will make the bar for implementing large refactors higher (we'd need
+> significantly more review and testing for each change to ensure there
+> are no regressions).
 
-And then when the last event goes away, tear down the whole thing.
+This sounds to me like the old argument for products running ancient
+kernels. Don't change anything so it is 'stable' and doesn't regress.
+I think it's a question of when, not if we're going to upstream the
+partially converted driver. Pretty much the only reason I see to wait
+(ignoring dependencies) is not technical, but the concerns with
+markets/environments that can't/won't adopt Rust yet. That's probably
+the biggest issue with this patch. If converting the main driver first
+is a requirement (as discussed elsewhere in this thread), I think all
+the dependencies are going to take some time to upstream, so it's not
+something we have to decide anytime soon.
 
-Again, I'm not sure I'm following.
+Speaking of converting the main driver, here's what I've got so far
+doing that[1]. It's a top down conversion with the driver model and
+DRM registration in Rust. All the ioctls are rust wrappers calling
+into driver C code. It's compiling without the top commit.
+
+> > 1. the C code base is meant to be entirely replaced by a rust driver.
+> > Of course, that's not going to happen overnight, so maybe it'd be worth
+> > having this autogen script but...
+>
+> Just to put my cards on the table. I'm not completely convinced a Rust
+> driver is necessarily an improvement, and I saw this as more of an
+> experiment - let's see what a Rust driver looks like and then we can
+> decide which is preferable. I'd like to be "proved wrong" and be shown a
+> Rust driver which is much cleaner and easier to work with, but I still
+> need convincing ;)
+
+Unless your Rust is as good as your C, that's never going to happen.
+
+Rob
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/log/?h=
+=3Drust/panthor-6.10
