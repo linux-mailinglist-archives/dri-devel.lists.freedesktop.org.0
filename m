@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F62793B54C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 18:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FCC93B54F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2024 18:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 750D510E74D;
-	Wed, 24 Jul 2024 16:52:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A503610E753;
+	Wed, 24 Jul 2024 16:53:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Mx1J8R2W";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NhzVBy3v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8036D10E6AB;
- Wed, 24 Jul 2024 16:52:30 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id
- d2e1a72fcca58-70d265e5278so2304198b3a.3; 
- Wed, 24 Jul 2024 09:52:30 -0700 (PDT)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 255BB10E753;
+ Wed, 24 Jul 2024 16:53:50 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id
+ 46e09a7af769-7035d5eec5aso3455932a34.1; 
+ Wed, 24 Jul 2024 09:53:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721839950; x=1722444750; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721840029; x=1722444829; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nHOSXKCOPqcvZd3Rls/ZcliizqiZMqlPEJyXkYPHW+4=;
- b=Mx1J8R2W2vGdu4rqm14CYKMMTEOzwu18Q/B/FE7U3SCRFeGQR4N2lQ+GAkySEtt/zk
- PNrbN9uyRSEr6Wn7XXklqQ4Uth0qPlOQRstiBGf0m6e5Ufdy3DvVqEqmxujea5K032TD
- g3E6zS0U4/HqXI8LvGXsj7BYr9TTCbsSnVfZ/3zLl6rxNb2/6KLo/ojVOGK3XMqtvj8T
- OYe3fg6/rcAQeXheH5tnmV3RiDBSQBcyEbwxVNdG5VXxhql01Iij5t82ZMAn+oTAtUMN
- ufsLakD7gvVub/LPFAAwARyBm/H6lcUnJHxpWyw8T7L1GgzQKPdreBcEEQY22Jfg9/qA
- BiiA==
+ bh=NvLHGP7NtgU2zYg3eBNSuq3Vab7Pm5T+4+N9Ml7WexE=;
+ b=NhzVBy3v0hD0ibfDQuVbo7h+TleY/gHfm28me5OoinfcVap1kARLew/o1EwWfzqg3n
+ Cv6Z/4StyspoQa5b7/O9cJ3O5fuKQqrTKxnj6rIX5kRTVxqO/Yo42OZ9TH7o8r6Vb8J+
+ lQa14vaK+XRkWRUNqksATQMmBD+0jQpp+Vrl8XZ9UZOdqY7/HTsRuXvykQ8u1rmm9wJd
+ mQXiJ/To/WsQ9WPHmMXdxLofPesuwdl6tk8Or4DiQx6XQMd2+aO45WD8v6wrqaoLN6Bp
+ +X4cpl3bRxvbZHDnMDGpiDOWb9Gf34ewrRq2/B5130n0QYDa5yRe80Ip0q7cxp9ogPal
+ RCmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721839950; x=1722444750;
+ d=1e100.net; s=20230601; t=1721840029; x=1722444829;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nHOSXKCOPqcvZd3Rls/ZcliizqiZMqlPEJyXkYPHW+4=;
- b=RzGUHJolaSp213rSn8lxDKCQiAhygGhWlyNaX79Jtxp5ugR6BuzgHo8NtwpqlpfAJN
- xYYYhjeEspbt+LUlmsUXhsywLGmFzsBc6eIGD8E7AjzMihYFccUVvfD/dMUfFWKQg0gD
- wL2JAlRXJJyY/q7pzJbrrdDqgCsMCtYFLFov50MHXfu0bbvIBWHBCN8crVW94B40x6Sd
- 6r4OoKSgI5RSaw5vSuzeNCP7O5HtyrkzdU0PU/wbU3tujAE7m3A3+h3jXZ9SxwLc2Les
- q4lcwRqgQp3xdiDEEHREWcUWaoZwQ7M9MmzBv87gkSCswBoUdLbjlRQadvMefKH2ZmAH
- wYLA==
+ bh=NvLHGP7NtgU2zYg3eBNSuq3Vab7Pm5T+4+N9Ml7WexE=;
+ b=rX5a806Xo7FxkJPKhcV6h46VN1EDFh5fW8aVlwna+dS4ce5VfDgNXMjTGM184vWgJd
+ hC69EnLP5ROgpUGKkQf11Qx7W6nQcDw1ABOXiRYbN0ZqV++/JrM1PLl/d7ccvaWOQLun
+ dAChOpnu8a3tmMMeKclYPM0TWHz+xedKxG2qljv1CUEYoinl7NQ4YUPkEhiNOClny7Io
+ 8LRw5b/UQtcVMjkMtGV1S6Wg+8lsbUGZ7zSeaP4mtTwOLIdJ4ngfm5DherT9PghVuYYc
+ b5xWu5MYzAm/I0yNnA+sA9bS0DS2hRBm8LcFaGedpmebfYn1smZ9WSViIKhaY03+2ZWx
+ ecQA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWsGG0qhAiGl10zk+QMMPZrgxF2aTNkcWN4di9fHA9rJnesAu+9oPx3V+cfpmzGVwWqcOxAt1aDHBYH+SDSpvP1zKx9e9N3D7mTRvPMtIVaFxYOXb58N4NvAqFyi5ctHt6vU8O+3jX1V4yIq0/YpA==
-X-Gm-Message-State: AOJu0Yxo04bkZWe2ienTf1volITsYW3M8ha2ET4IeCn88YqYqnWbh+oE
- pMGBnjOjMtGgpbw0dx5dpR1FcnIgRpZJsGHrWaB8k3v3tdkzZMWO+urwNNJun3+2g1vIOw/BO8X
- OEntqpkbBjgbdMrQIqtiJGbgY95s=
-X-Google-Smtp-Source: AGHT+IGVCG7JOT9xlzQlknfmeT16tN//PMYw1q63fUNnGbcSCCLdEteVrx6kyG3bL5BZWl10luLLhTaTz3653TByswQ=
-X-Received: by 2002:a05:6a00:b51:b0:70e:8e3a:10ee with SMTP id
- d2e1a72fcca58-70eaa8f52camr96225b3a.21.1721839949856; Wed, 24 Jul 2024
- 09:52:29 -0700 (PDT)
+ AJvYcCWLVrAbcisGtSFxSp5UFl7qmTluW97iVQmZCNmbTbEePGW93WE2BsYDYYyy4lmxtizifEgE0r//5W85YDIXNX5IW4u5BlSYHRCCJm6SgWNNL5lMC0HkrxycQLgI5QfN2SOsNBAiN2lSn0RHqxF6JQ==
+X-Gm-Message-State: AOJu0YzQMeeSnoJl3YKP/W1wRMA6rFkg0KHrEhtUeUfAm0Cjz5nf/8rb
+ nnfRiYsjTBGG4oNKW7rYqOMEo6hnuIMtYOF+1M32Y5rg7qPJXKBZbdrH7+STNL5ICCzB2hS43XH
+ 1YAnyiA7vHkVrxHdt3ezcxLRrfWP1tg==
+X-Google-Smtp-Source: AGHT+IEbq31zJ8FEqU0AqZdlXaLrABGr5CixketK3hxxAzSb5AIrpBGwPrOVrdCmrACNXxmgFZzx7TDERf/Ody34MtQ=
+X-Received: by 2002:a05:6871:811:b0:25e:8509:160e with SMTP id
+ 586e51a60fabf-264a0c091e5mr163881fac.3.1721840029071; Wed, 24 Jul 2024
+ 09:53:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240724132428.2468883-1-colin.i.king@gmail.com>
-In-Reply-To: <20240724132428.2468883-1-colin.i.king@gmail.com>
+References: <20240724-amdgpu-dml2-fix-float-enum-warning-again-v1-1-740e7946f77a@kernel.org>
+In-Reply-To: <20240724-amdgpu-dml2-fix-float-enum-warning-again-v1-1-740e7946f77a@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 24 Jul 2024 12:52:18 -0400
-Message-ID: <CADnq5_NHwwva2vN+MjnPohpjmzW0F5uLHN1bby1jUBiqetL6uA@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amd/display: Fix spelling mistake "tolarance"
- -> "tolerance"
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+Date: Wed, 24 Jul 2024 12:53:37 -0400
+Message-ID: <CADnq5_ModC1+noYkpBm1bQMT6heE1vLTi+6CdPKPo2DkbagOgg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Reapply 2fde4fdddc1f
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>, 
+ Chaitanya Dhere <chaitanya.dhere@amd.com>, Jerry Zuo <jerry.zuo@amd.com>, 
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+ llvm@lists.linux.dev, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,43 +87,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Jul 24, 2024 at 9:50=E2=80=AFAM Colin Ian King <colin.i.king@gmail.=
-com> wrote:
+On Wed, Jul 24, 2024 at 11:50=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
+rg> wrote:
 >
-> There is a spelling mistake in a dml2_printf message. Fix it.
+> Commit 2563391e57b5 ("drm/amd/display: DML2.1 resynchronization") blew
+> away the compiler warning fix from commit 2fde4fdddc1f
+> ("drm/amd/display: Avoid -Wenum-float-conversion in
+> add_margin_and_round_to_dfs_grainularity()"), causing the warning to
+> reappear.
 >
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/dml2_=
+dpmm_dcn4.c:183:58: error: arithmetic between enumeration type 'enum dentis=
+t_divider_range' and floating-point type 'double' [-Werror,-Wenum-float-con=
+version]
+>     183 |         divider =3D (unsigned int)(DFS_DIVIDER_RANGE_SCALE_FACT=
+OR * (vco_freq_khz / clock_khz));
+>         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   1 error generated.
+>
+> Apply the fix again to resolve the warning.
+>
+> Fixes: 2563391e57b5 ("drm/amd/display: DML2.1 resynchronization")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 > ---
->  .../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c  | 2 +-
+>  .../gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c    =
+| 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2=
-_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_cor=
-e/dml2_core_dcn4_calcs.c
-> index 0b671c665373..5ba38d51382f 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
-cn4_calcs.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
-cn4_calcs.c
-> @@ -8267,7 +8267,7 @@ static bool dml_core_mode_support(struct dml2_core_=
-calcs_mode_support_ex *in_out
->         dml2_printf("DML::%s: mode_lib->ms.DCFCLK =3D %f\n", __func__, mo=
-de_lib->ms.DCFCLK);
->         dml2_printf("DML::%s: mode_lib->ms.FabricClock =3D %f\n", __func_=
-_, mode_lib->ms.FabricClock);
->         dml2_printf("DML::%s: mode_lib->ms.uclk_freq_mhz =3D %f\n", __fun=
-c__, mode_lib->ms.uclk_freq_mhz);
-> -       dml2_printf("DML::%s: urgent latency tolarance =3D %f\n", __func_=
-_, ((mode_lib->ip.rob_buffer_size_kbytes - mode_lib->ip.pixel_chunk_size_kb=
-ytes) * 1024 / (mode_lib->ms.DCFCLK * mode_lib->soc.return_bus_width_bytes)=
-));
-> +       dml2_printf("DML::%s: urgent latency tolerance =3D %f\n", __func_=
-_, ((mode_lib->ip.rob_buffer_size_kbytes - mode_lib->ip.pixel_chunk_size_kb=
-ytes) * 1024 / (mode_lib->ms.DCFCLK * mode_lib->soc.return_bus_width_bytes)=
-));
->  #endif
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2=
+_dpmm_dcn4.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2=
+_dpmm_dcn4.c
+> index 0021bbaa4b91..f19f6ebaae13 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_d=
+cn4.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_d=
+cn4.c
+> @@ -180,7 +180,7 @@ static bool add_margin_and_round_to_dfs_grainularity(=
+double clock_khz, double ma
 >
->         mode_lib->ms.support.OutstandingRequestsSupport =3D true;
+>         clock_khz *=3D 1.0 + margin;
+>
+> -       divider =3D (unsigned int)(DFS_DIVIDER_RANGE_SCALE_FACTOR * (vco_=
+freq_khz / clock_khz));
+> +       divider =3D (unsigned int)((int)DFS_DIVIDER_RANGE_SCALE_FACTOR * =
+(vco_freq_khz / clock_khz));
+>
+>         /* we want to floor here to get higher clock than required rather=
+ than lower */
+>         if (divider < DFS_DIVIDER_RANGE_2_START) {
+>
+> ---
+> base-commit: bd4bea5ab2bda37ddb092a978218c4d9b46927e6
+> change-id: 20240724-amdgpu-dml2-fix-float-enum-warning-again-647a33789138
+>
+> Best regards,
 > --
-> 2.39.2
+> Nathan Chancellor <nathan@kernel.org>
 >
