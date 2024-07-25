@@ -2,52 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC1493BDF2
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 10:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74B293BDFF
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 10:33:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B71B10E3D4;
-	Thu, 25 Jul 2024 08:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A977410E216;
+	Thu, 25 Jul 2024 08:33:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E7bSXh2Q";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="pm7w8hTW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C813810E3D4
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 08:28:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 93981CE1247;
- Thu, 25 Jul 2024 08:28:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83CD9C32786;
- Thu, 25 Jul 2024 08:28:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721896122;
- bh=R+MoQiq0ezXB3XUgzyXzBvBtjpK07hHk3p2j78N9lh0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E7bSXh2QEpeFLrgo50q77a7Qc+a2y5K4KYSSMnartGgIIq5vN6vsVWubYTfWhdvMd
- Hb6DjsEEDIDysBiAcJgPmyZJN7Ft7TC0exOylfaP3DY2G7JoqMvGptcWtZ8wizpWgv
- TXEWbX5gMf5WG2ZoIYoea+4jhkR+CCrEZSW9WPBbKdjt9hpKYGVAfNTbEsWkNAMTll
- bIxpPK0z6nRrQPKivW0wGqdcizSMc4JajpVFdpskDVhyKf63dMsQy7s0wNV1qzuJXh
- Gu2mmhFSwZD6XkpRRoCmhPqH7UFATGBsU5aBLTalkqY9S7bwvtbg2cq0sQ+CMpzxwJ
- RnTMyouDUfTRw==
-Date: Thu, 25 Jul 2024 10:28:39 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Tejas Vipin <tejasvipin76@gmail.com>, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, dianders@chromium.org,
- airlied@gmail.com, 
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/mipi-dsi: Change multi functions to use quiet
- member of mipi_dsi_multi_context
-Message-ID: <20240725-psychedelic-benevolent-muskrat-c7fd57@houat>
-References: <20240724122447.284165-1-tejasvipin76@gmail.com>
- <20240724122447.284165-3-tejasvipin76@gmail.com>
- <877cdakdq9.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="r2kg2p45e23w6s6x"
-Content-Disposition: inline
-In-Reply-To: <877cdakdq9.fsf@intel.com>
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFA9610E216
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 08:32:59 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-1fc6a017abdso4963305ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 01:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1721896379; x=1722501179; darn=lists.freedesktop.org; 
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fLpK4IsZZXZzigL8BlyMfcfMZdXZGh61R5/l1I9Kec4=;
+ b=pm7w8hTWBlIVivrJlDB714G2urwOFkD5eRrEENSYQdrW8L0r10yOYgNOvMLApZRSas
+ 9h7RTqN7c/msYryfUDB/7unqIn7vag37000tjq4DXTTdX4wyBWV27ERaHOtlRdW79Qra
+ avhnvqCu4jPWrmH6JfghiYB1nF5y4NoP7R8aPBvVs5Gih5YUx1xYUgKNxXHtLVGhnbXS
+ /ygjJ2EeOCvPJiAnMU5TVD+9qKvv64gXaC2miEmQYkPOyt35bqaRfISIQ7Hc5w/Z05dE
+ oLEACRLFPJSfBv9PauYh8v5zxsBipBWxb1F2rlQ1Ib4E1t0mb8zPhHgG8p5xatvM5Hhd
+ K01A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721896379; x=1722501179;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fLpK4IsZZXZzigL8BlyMfcfMZdXZGh61R5/l1I9Kec4=;
+ b=K1ObTIkTxQyCbE/4AhKjD894CNyb1oVhxRa6NHaRwlFZEd3HBc6FbdtW+FtNJL6eNY
+ tfqTW3Cw4HJ3X/qo1cWwYRi5r2fB2ZaC2clKE116WBteyhzM3RgEez6tA0y+PyW3n/NC
+ QZPmUMGdOwGVPQ/ZV2iR1nHha9J+s8yReXK9GDsL3aCiqHEGEf9jqHcL68WEsoGfnvLJ
+ L7JqRFRGMqw1KjHkRZulm+KyhTSdRl7oPsLte9Ulbjnq+E3a/vJuizwAwil2S5yn4u/z
+ 5bKbIXu9UKFaAZsIuIziT2cFHa7sVvLTqwvWPlQ5CFN7ByX1QMcIX+bvXPXsjz8poCbr
+ mTZA==
+X-Gm-Message-State: AOJu0YzoungbUrHdgSKcVPt8dl8tIYg0djiNWaS88Uo4ZIJtR+q6tSp0
+ Eg/UT8OcNWJEe/xy/QTYLuCNPyOuihceY+aYzVcINHIK6Z0+CmdayzHoSJp7Cu0=
+X-Google-Smtp-Source: AGHT+IHy/fBf1qd+/nEshN4ReuVn5u49Z5q+4pzr0GkT9vCyfTYvvnbpFYFwUsXuej3/QfbhLNvy9w==
+X-Received: by 2002:a17:902:d507:b0:1fd:ae10:7246 with SMTP id
+ d9443c01a7336-1fed923f5d3mr12268465ad.5.1721896379132; 
+ Thu, 25 Jul 2024 01:32:59 -0700 (PDT)
+Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1fed7ff9086sm8595595ad.302.2024.07.25.01.32.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Jul 2024 01:32:58 -0700 (PDT)
+From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ dianders@chromium.org, hsinyi@google.com, airlied@gmail.com,
+ daniel@ffwll.ch, jagan@edgeble.ai
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v1 0/2] Modify the method of sending 11/29 commands
+Date: Thu, 25 Jul 2024 16:32:43 +0800
+Message-Id: <20240725083245.12253-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,67 +80,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This 11/29 command needs to be sent in LP mode, so move 11/29 command
+to the init() function.
 
---r2kg2p45e23w6s6x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Modify the Melfas panel init code to satisfy the gamma value of 2.2.
 
-On Wed, Jul 24, 2024 at 06:32:14PM GMT, Jani Nikula wrote:
-> On Wed, 24 Jul 2024, Tejas Vipin <tejasvipin76@gmail.com> wrote:
-> > Changes all the multi functions to check if the current context requires
-> > errors to be printed or not using the quiet member.
-> >
-> > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> > ---
-> >  drivers/gpu/drm/drm_mipi_dsi.c | 20 ++++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_=
-dsi.c
-> > index a471c46f5ca6..cbb77342d201 100644
-> > --- a/drivers/gpu/drm/drm_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/drm_mipi_dsi.c
-> > @@ -814,6 +814,8 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_m=
-ulti_context *ctx,
-> >  	ret =3D mipi_dsi_generic_write(dsi, payload, size);
-> >  	if (ret < 0) {
-> >  		ctx->accum_err =3D ret;
-> > +		if (ctx->quiet)
-> > +			return;
-> >  		dev_err(dev, "sending generic data %*ph failed: %d\n",
-> >  			(int)size, payload, ctx->accum_err);
->=20
-> A maintainability nitpick. Imagine someone wishing to add some more
-> error handling here. Or something else after the block.
->=20
-> IMO the dev_err() should be wrapped in if (!ctx->quiet) instead of
-> adding an early return.
->=20
-> Ditto everywhere.
+Zhaoxiong Lv (2):
+  drm/panel: jd9365da: Move the sending location of the 11/29 command
+  drm/panel: jd9365da: Modify the init code of Melfas
 
-I'm not even sure why we need that parameter in the first place.
+ .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 137 +++++++++---------
+ 1 file changed, 71 insertions(+), 66 deletions(-)
 
-Like, what's the expected use of that parameter? Is it supposed to be
-set in users of that function?
+-- 
+2.17.1
 
-If so, wouldn't it prevent any sort of meaningful debugging if some
-drivers set it and some don't?
-
-It looks to me like you're reimplementing drm.debug.
-
-Maxime
-
---r2kg2p45e23w6s6x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZqIMtwAKCRAnX84Zoj2+
-dlgKAYCM7vThWWKXhQ8H0+codSU+dOKiX3sOnmy+JtM314VYoUeoIkOL/T5in0rI
-XydYT+0BgKduy10xN7iJHLlze+TRKqBWe42kHDIufi1CXCQgHpWfKDiDlyEAVJsS
-b625L4kCgg==
-=LDgv
------END PGP SIGNATURE-----
-
---r2kg2p45e23w6s6x--
