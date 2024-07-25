@@ -2,123 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E24993C751
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 18:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864A793C790
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 19:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0FEF10E891;
-	Thu, 25 Jul 2024 16:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2676E10E899;
+	Thu, 25 Jul 2024 17:13:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WbJrm2Jp";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="IKiIxI3g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2049.outbound.protection.outlook.com [40.107.95.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E12B10E891;
- Thu, 25 Jul 2024 16:43:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AfF/8+OL4sh6KuSjQ0mbnLI4sldq+bVnEyxuUSyZZ6tW+I+J30lWH/iWyBJmFE5k5Q6lA+zCpa9xV5Or1griHT+6OuI3o9g9TXbWdt1oPOTCsohwqD4Ab/xpv1edCRoV0Q96AvNQ7Voi1++aSXxsg2JZbmPSjWIbILlQOjMcZJrlm0MRCFZL1YbZYPs3EaBaCRH2LUiNBNMr086MEUWas9bxC5IINGi/JD/J1SpUjhNYZDnj0+QAP0w4o+FFA99lhTsmaEBZTxfnjZ6eVAKZNWpphWF788nw0lEESxPD9silsWzQOPV3SNvRWqE0TOQuM0ACli+QI4Wl7Oef7UgxSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eRyqxf08luBF5xF86IREQYHZByB58CRnAODGdf3Rtds=;
- b=H+9F+n2PS6/LVKZ5tiorTntfKOYllRwCw6aXQ1LKuV2nJkeMpBXtL12Ql9IUqF8ysNW3mviP6lM91qP4KzgTk53fmxjEi6SfHrpo2vE7vaqMCJt3JWNYWkvOR9UPgmPpgD0asjQ+B1ODOKHR8zlanEkbjlyOfktVOsIa72cQcWfSwv8eE6JaqI5+MvH0ZpHlX8vf7zN2PdOr3Cbxa8F1jziKS8/iVd2s64AC2moDJPSjyfMbmVFI0gkpKelsKUU7SCsO7vJUN5GwTNpPNZOx0uW0exoCKKzPJhJ8pPjaOruL159QB7Nh/97OQTYRzeEov3iWLIfpI8CVXnd4zRUR3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eRyqxf08luBF5xF86IREQYHZByB58CRnAODGdf3Rtds=;
- b=WbJrm2JpoBKh7xlGbGdouFGtzv7x0pGWU9WmohvOwzBIhz+T+01ANsjesWBQWKuaV+WbVHz7cUx8Djm9YsqSRglOF1/n+xWb8Pi9Di6R2uvz8RqNx5b0gDUzibLHEaX0oI72M5N45+MhzhOJ5xJvaxgJ4TIkqWMAgYd7mwwiWTA=
-Received: from BN0PR04CA0191.namprd04.prod.outlook.com (2603:10b6:408:e9::16)
- by SJ1PR12MB6122.namprd12.prod.outlook.com (2603:10b6:a03:45b::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.18; Thu, 25 Jul
- 2024 16:43:53 +0000
-Received: from BN1PEPF0000468E.namprd05.prod.outlook.com
- (2603:10b6:408:e9:cafe::8d) by BN0PR04CA0191.outlook.office365.com
- (2603:10b6:408:e9::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.20 via Frontend
- Transport; Thu, 25 Jul 2024 16:43:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN1PEPF0000468E.mail.protection.outlook.com (10.167.243.139) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7784.11 via Frontend Transport; Thu, 25 Jul 2024 16:43:53 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 25 Jul
- 2024 11:43:52 -0500
-Received: from desktop-host.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 25 Jul 2024 11:43:47 -0500
-From: <vitaly.prosyak@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <jesse.zhang@amd.com>
-CC: Vitaly Prosyak <vitaly.prosyak@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>
-Subject: [PATCH] drm/sched: Add error code parameter to drm_sched_start
-Date: Thu, 25 Jul 2024 12:43:43 -0400
-Message-ID: <20240725164343.250074-1-vitaly.prosyak@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DAA910E899
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 17:13:05 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-595856e2336so1925075a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 10:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1721927582; x=1722532382;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NjrU16gk7V5PUkFrLMr6PZnUJ6/u63NLBDO5kUa3PxY=;
+ b=IKiIxI3gpzL3rE/+b6OW38AFLjoNhJ8F0TSolRqI108oE9z3DgWXBr2I2MLCkBAXuK
+ vtFwtGTBdc2vI4b0ZSJnGdXnOxBdh1eeXAIApkAfxaLt7Rr6wnIEicMNJd6z7i4W8A/C
+ N4t5tXMalMcZwZtFszfixunVWyuArtcgKNENU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721927582; x=1722532382;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NjrU16gk7V5PUkFrLMr6PZnUJ6/u63NLBDO5kUa3PxY=;
+ b=FBbqFHqVKbAccx6/nq/Y36K8c9SXhzagIZrY9i7oFlYLOUomp9cGZA0nSrX74bWCZ9
+ /rZ+CUZPRVUxGP1Y0mjpXBu0pkIApoSa9xvO2zgAQQSiMeOldONdjhw4ybYmOmdZWclC
+ ruQ/W8S1xyVXD/jMQdUmW/W57C4YXoVF7NpIuMeYYuMVv9S3hPvK+ir1C8xCb3jFBfLQ
+ vY6aaKuGNioS0Iunn6A7nhO5e5uZ7PQYTz3GPNPWk7VPQsut+Sd5sxGcAAcKMlPM0hFV
+ CrbcrbMo5fEN1IWM73O+xeiOi3sK+tXdOHa5ZUbZ3NULX2/Ku/hEIXLI2qpEdusaMXSR
+ jj1Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW1rmMXKRB9hzmjX8/dx1Ns2NW8FQ/uQ9K0LZ3x8AZJD0EINXBSNYoZ66McaPMnwJk4fppfaf6hEzsz/ZdDp1zEUOvG6Lh5act6DtgaZRb9
+X-Gm-Message-State: AOJu0YyrQEVFG7QgK8LwTUgk4rm8WuNPP4asg7J/5PohuzVeyl+LXcuY
+ xkp04MPp/24bpwWByCCbqFiv7NORnI7xOn06HYd2r9YEdmtKMkOJnjA9VFMRl94v92KH0jqfaG3
+ ncw==
+X-Google-Smtp-Source: AGHT+IFUMMMqkX4ebet8ASP7dxOLLs073WRywlz5q6CWpC+pJrZHyCUXfbSaJGVfgUQjhLkSDDISqw==
+X-Received: by 2002:a05:6402:2546:b0:57c:614c:56e7 with SMTP id
+ 4fb4d7f45d1cf-5ac148aa3b2mr3810338a12.18.1721927582234; 
+ Thu, 25 Jul 2024 10:13:02 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
+ [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5ac631b052bsm984912a12.15.2024.07.25.10.13.01
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Jul 2024 10:13:01 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-427fc9834deso2325e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 10:13:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3YvPfyqhtWVpqRTDE2dDJEYMj0G/rYcBL3PyUd5n4o9/o3OgGCLvH0r8YZYKyhJxtYDCVeviP4mju5OTCxx1fqQ1Q2HBPbH4IXJAr/tcD
+X-Received: by 2002:a05:600c:4f09:b0:41a:444b:e1d9 with SMTP id
+ 5b1f17b1804b1-42804ba9b91mr1640015e9.4.1721927580731; Thu, 25 Jul 2024
+ 10:13:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB04.amd.com: vitaly.prosyak@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF0000468E:EE_|SJ1PR12MB6122:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0eea1d51-d45e-476d-ee4c-08dcacc8f7ef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|376014|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?s0pCskGYc+ZMv6XTAZ8CEmW/5+NgIfw3AS6BQnkQWn1762FE1vik6bTxd3hK?=
- =?us-ascii?Q?/61ZxYHVyKGvqLAnjr+hLMZlU5kbhj9nkv5+8yPy+n4+0/vSD5V5srPiXjbS?=
- =?us-ascii?Q?vMl71lJP/jYk/c8tz6sE9/KdMpavq3G9jEGSnny2eQCydmRWNID8PbN3/lEt?=
- =?us-ascii?Q?VvNbu5KryXVMpMaDR8jP7pTkUDuQ78G+xiPVbGG8Q1LExvB6ik7yNhr7Kp9p?=
- =?us-ascii?Q?UmrRmT7rkhFea7vE5wknwsIVKGyCMU4JOu5bmbrX8akg/yOD7xoGpEg1z09D?=
- =?us-ascii?Q?k4I3y64X0V+l3ji0wfoA9hb6pjZsw+ccNLKs+e2q4ZccGmKDOVI/o1EbLZCW?=
- =?us-ascii?Q?q6jCOoTQOcPwwuXlo0rkQY6AE1SG+QUkga0eDgUro51UoOEHngpga1mv54xX?=
- =?us-ascii?Q?PQVwCnaRt5Y6UJptrNfTKDA/ioI8fqTgBk8u/yec0C3JVtbe4EoFSWmxJg3c?=
- =?us-ascii?Q?OmYcma1TjixGqxuEBHU2lflJguTHST8V6uwPKkZODHfdwoOfKOBT7WBqcGyH?=
- =?us-ascii?Q?7VK/wkO1A1KQjOjt7V3qgcID1TU8J8qEe/RPz1ykEcHRE5p4cw9JYIGH9rJ+?=
- =?us-ascii?Q?mq/vhpsUFwortNyknrboV3SpJPs8CDq3YglyHeogiPg9LnTf+lLbdqBIcp9X?=
- =?us-ascii?Q?vtxkN+DZVzIARzFBqTYz9T1Kb8HqT7eQeAVFl4CrileBpbmM2XqEx5zCaK0K?=
- =?us-ascii?Q?Qi9fOdGfpa/0aW6KRxu7B8P3/0gbFCrXKE0iMa0CmtnknGpShiMAQJFpY3iY?=
- =?us-ascii?Q?drLO0qksimlYw4UTN1V4/4SID5nS7hoplb2FhAkZXodwksCoMZtnpSQmWFFM?=
- =?us-ascii?Q?oJodJA/ACbA6/7GRNacdDI8jH8vfzD260AkdmAYhJCuL71NKqjpwVGo0Asb7?=
- =?us-ascii?Q?q5j6aF3X9Zg8nqVoOnuLn5Tet/PgfHQr7jHczpqBEw+k8q0h2zFq/y9Crmkv?=
- =?us-ascii?Q?ikeQDllJo/dzS+KQxPOYBiIoKAtZhTipu0lWW3KvhcwHpPDKia2WgZ8tYRNp?=
- =?us-ascii?Q?6wz2aEnmXdNe5czCmlK8twmw/lJ9ZW/gCfzjI+lO0S/A+cydnpl8jg7kCl0j?=
- =?us-ascii?Q?etb2X1UeWHvGN8zbo4x7ILo8L0L9XbLSbFerNIvkNgmjyhnQD3tHR9IEXW0l?=
- =?us-ascii?Q?JEienNvC71Blt8zR4IREAT+1YpuCF71B6uJhobFTpY88KSfBI8cGkNw2phC6?=
- =?us-ascii?Q?KEjvqVUnUPZvETTXggeIWhQNbtVnDhTM7cDcO7j9VYrgkSj/BR/BpQl6GyoA?=
- =?us-ascii?Q?UsLzypnu42Ot+FDYSi3cibnM115hhVP52jst80r7BooQfAYkFk0bISaR7H4L?=
- =?us-ascii?Q?gCzdNHgz8mDci79oKw+65/4EdePE/XEUuecObbw04dnvt0+XNl89KzeEYpa6?=
- =?us-ascii?Q?KnDs8LwGj76iHfJXLrBjQ522KkZ+SdbKzW3uTa1m3ol5BCt4zJif2VOyuTbE?=
- =?us-ascii?Q?AwLsN+/lIdeNEaWoDFu5EHzf+9Z28DQ0?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2024 16:43:53.2275 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0eea1d51-d45e-476d-ee4c-08dcacc8f7ef
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF0000468E.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6122
+References: <20240724122447.284165-1-tejasvipin76@gmail.com>
+ <20240724122447.284165-3-tejasvipin76@gmail.com> <877cdakdq9.fsf@intel.com>
+ <20240725-psychedelic-benevolent-muskrat-c7fd57@houat>
+In-Reply-To: <20240725-psychedelic-benevolent-muskrat-c7fd57@houat>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 25 Jul 2024 10:12:46 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WbXdnM4or3Ae+nYoQW1Sce0jP6FWtCHShsALuEFNhiww@mail.gmail.com>
+Message-ID: <CAD=FV=WbXdnM4or3Ae+nYoQW1Sce0jP6FWtCHShsALuEFNhiww@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/mipi-dsi: Change multi functions to use quiet
+ member of mipi_dsi_multi_context
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Tejas Vipin <tejasvipin76@gmail.com>, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, 
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,114 +98,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vitaly Prosyak <vitaly.prosyak@amd.com>
+Hi,
 
-The current implementation of drm_sched_start uses a hardcoded -ECANCELED to dispose of a job when
-the parent/hw fence is NULL. This results in drm_sched_job_done being called with -ECANCELED for
-each job with a NULL parent in the pending list, making it difficult to distinguish between recovery
-methods, whether a queue reset or a full GPU reset was used.
+On Thu, Jul 25, 2024 at 1:28=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> On Wed, Jul 24, 2024 at 06:32:14PM GMT, Jani Nikula wrote:
+> > On Wed, 24 Jul 2024, Tejas Vipin <tejasvipin76@gmail.com> wrote:
+> > > Changes all the multi functions to check if the current context requi=
+res
+> > > errors to be printed or not using the quiet member.
+> > >
+> > > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_mipi_dsi.c | 20 ++++++++++++++++++++
+> > >  1 file changed, 20 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mip=
+i_dsi.c
+> > > index a471c46f5ca6..cbb77342d201 100644
+> > > --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> > > +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> > > @@ -814,6 +814,8 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi=
+_multi_context *ctx,
+> > >     ret =3D mipi_dsi_generic_write(dsi, payload, size);
+> > >     if (ret < 0) {
+> > >             ctx->accum_err =3D ret;
+> > > +           if (ctx->quiet)
+> > > +                   return;
+> > >             dev_err(dev, "sending generic data %*ph failed: %d\n",
+> > >                     (int)size, payload, ctx->accum_err);
+> >
+> > A maintainability nitpick. Imagine someone wishing to add some more
+> > error handling here. Or something else after the block.
+> >
+> > IMO the dev_err() should be wrapped in if (!ctx->quiet) instead of
+> > adding an early return.
+> >
+> > Ditto everywhere.
+>
+> I'm not even sure why we need that parameter in the first place.
+>
+> Like, what's the expected use of that parameter? Is it supposed to be
+> set in users of that function?
+>
+> If so, wouldn't it prevent any sort of meaningful debugging if some
+> drivers set it and some don't?
+>
+> It looks to me like you're reimplementing drm.debug.
 
-To improve this, we first try a soft recovery for timeout jobs and use the error code -ENODATA.
-If soft recovery fails, we proceed with a queue reset, where the error code remains -ENODATA for
-the job. Finally, for a full GPU reset, we use error codes -ECANCELED or -ETIME. This patch adds
-an error code parameter to drm_sched_start, allowing us to differentiate between queue reset and
-GPU reset failures. This enables user mode and test applications to validate the expected
-correctness of the requested operation. After a successful queue reset, the only way to continue
-normal operation is to call drm_sched_job_done with the specific error code -ENODATA.
+I can explain how we got here and maybe you can explain how it should
+be designed differently.
 
-v1: Initial implementation by Jesse utilized amdgpu_device_lock_reset_domain and
-    amdgpu_device_unlock_reset_domain to allow user mode to track the queue reset status and distinguish
-    between queue reset and GPU reset.
-v2: Christian suggested using the error codes -ENODATA for queue reset and -ECANCELED or -ETIME for GPU
-    reset, returned to amdgpu_cs_wait_ioctl.
-v3: To meet the requirements, we introduce a new function drm_sched_start_ex with an additional parameter
-    to set dma_fence_set_error, allowing us to handle the specific error codes appropriately and dispose
-    of bad jobs with the selected error code depending on whether it was a queue reset or GPU reset.
-v4: Alex suggested using a new name, drm_sched_start_with_recovery_error, which more accurately describes
-    the function's purpose. Additionally, it was recommended to add documentation details about the new method.
-v5: Fixed declaration of new function drm_sched_start_with_recovery_error.(Alex)
+1. The majority of MIPI panels drivers just have a pile of commands
+that need to be sent during panel init time. Each time you send a
+command it technically can fail but it's very unlikely. In order to
+make things debuggable in the unlikely case of failure, you want a
+printout about which command failed. In order to avoid massive numbers
+of printouts in each driver you want the printout in the core. This is
+the impetus behind the "_multi" functions that were introduced
+recently and I think most people who have looked at converted drivers
+are pretty pleased. The functions are readable/non-bloated but still
+check for errors and print messages in the right place.
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
-Signed-off-by: Vitaly Prosyak <vitaly.prosyak@amd.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 30 +++++++++++++++++++++++---
- include/drm/gpu_scheduler.h            |  1 +
- 2 files changed, 28 insertions(+), 3 deletions(-)
+2. As Tejas was adding more "_multi" variants things were starting to
+feel a bit awkward. Dmitry proposed [1] that maybe the answer was that
+we should work to get rid of the non-multi variants and then we don't
+need these awkward wrappers.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 7e90c9f95611..c42449358b3f 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -671,13 +671,24 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
- EXPORT_SYMBOL(drm_sched_stop);
- 
- /**
-- * drm_sched_start - recover jobs after a reset
-+ * drm_sched_start_with_recovery_error - recover jobs after a reset with
-+ * custom error
-  *
-  * @sched: scheduler instance
-  * @full_recovery: proceed with complete sched restart
-+ * @error : err code for set dma_fence_set_error
-+ *
-+ * Starts the scheduler and allows setting a custom dma_fence_set_error,
-+ * which can be used to identify the recovery mechanism actually used.
-  *
-+ * For example:
-+ * - If a soft or queue reset was used, dma_fence_set_error is set to -ENODATA.
-+ * - If an entire GPU reset was used, the error code is set to -ECANCELED.
-+ *
-+ * This approach enables user mode and test applications to know which
-+ * recovery method was used for a given bad job.
-  */
--void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
-+void drm_sched_start_with_recovery_error(struct drm_gpu_scheduler *sched, bool full_recovery, int error)
- {
- 	struct drm_sched_job *s_job, *tmp;
- 	int r;
-@@ -704,7 +715,7 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
- 				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
- 					  r);
- 		} else
--			drm_sched_job_done(s_job, -ECANCELED);
-+			drm_sched_job_done(s_job, error);
- 	}
- 
- 	if (full_recovery)
-@@ -712,6 +723,19 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
- 
- 	drm_sched_wqueue_start(sched);
- }
-+EXPORT_SYMBOL(drm_sched_start_with_recovery_error);
-+
-+/**
-+ * drm_sched_start - recover jobs after a reset
-+ *
-+ * @sched: scheduler instance
-+ * @full_recovery: proceed with complete sched restart
-+ *
-+ */
-+void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
-+{
-+	drm_sched_start_with_recovery_error(sched, full_recovery, -ECANCELED);
-+}
- EXPORT_SYMBOL(drm_sched_start);
- 
- /**
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 5acc64954a88..e80ea947a864 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -580,6 +580,7 @@ void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched);
- void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched);
- void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
- void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery);
-+void drm_sched_start_with_recovery_error(struct drm_gpu_scheduler *sched, bool full_recovery, int error);
- void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
- void drm_sched_increase_karma(struct drm_sched_job *bad);
- void drm_sched_reset_karma(struct drm_sched_job *bad);
--- 
-2.25.1
+3. The issue with telling everyone to use the "_multi" variants is
+that they print the error message for you. While this is the correct
+default behavior and the correct behavior for the vast majority of
+users, I can imagine there being a legitimate case where a driver
+might not want error messages printed. I don't personally know of a
+case, but in my experience there's always some case where you're
+dealing with weird hardware and the driver knows that a command has a
+high chance of failure. Maybe the driver will retry or maybe it'll
+detect /handle the error, but the idea is that the driver wouldn't
+want a printout.
 
+Said another way: I think of the errors of these MIPI initialization
+functions a lot like errors allocating memory. By default kmalloc()
+reports an error so all drivers calling kmalloc() don't need to print,
+but if your driver specifically knows that an allocation failure is
+likely and it knows how to handle it then it can pass a flag to tell
+the core kernel not to print.
+
+
+So I guess options are:
+
+a) Accept what Tejas is doing here as reasonable.
+
+b) Don't accept what Tejas is doing here and always keep the "_multi"
+functions as wrappers.
+
+c) Declare that, since there are no known cases where we want to
+suppress the error printouts, that suppressing the error printouts is
+a "tomorrow" problem. We transition everyone to _multi but don't
+provide a way to suppress the printouts.
+
+d) Declare that the _multi functions are terrible and undo all the
+recent changes. Hopefully we don't do this. :-P
+
+
+[1] https://lore.kernel.org/r/p7fahem6egnooi5org4lv3gtz2elafylvlnyily7buvzc=
+pv2qh@vssvpfci3lwn
