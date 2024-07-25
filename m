@@ -2,55 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BD293B998
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 01:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2085693B9E9
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 02:48:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0734310E067;
-	Wed, 24 Jul 2024 23:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 438B610E11D;
+	Thu, 25 Jul 2024 00:48:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AQeUPTFJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F7uGiS80";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B60E010E02C;
- Wed, 24 Jul 2024 23:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721864612; x=1753400612;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=+issbmYEhiGlATbSKaBJFYe3SQ2jl1QH65/RLRxyuJ4=;
- b=AQeUPTFJnxL7/G7FY2jFJqqsHUE/xHQMTd7GthKoQOwBX/OEmKk5HhgS
- Mtb9t++JaA7xmrbGtkW6xYFcUtVnaPkOZipTKhVkrvXZBSr+STF0HIPYw
- g0fascsQpTWNaVyuC171iclaYFrf/3CkyJCbivz1qos+1sAb1msjBJmqO
- 8ugZxRjHvr8dUPSF4Gb1hV/GCmAHFAOF3AtEg3XPmI56hnlf54ace/n60
- rdr7UwNmEec3Gw+pIhLeobWZXXC/qM4sU4OBWajG3CkChx6BsNu4JewuM
- evgC+hGdu0cETrnsZ4cNaj03PvWTvV8zAP+Zqz+hhSUTJ1XY+oO90ZHoM w==;
-X-CSE-ConnectionGUID: ibJ6UBefRfaY4R6HME4DPg==
-X-CSE-MsgGUID: CTgBoBONRnWTB9nVm6Omag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="19711113"
-X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; d="scan'208";a="19711113"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2024 16:43:30 -0700
-X-CSE-ConnectionGUID: w/p/RwSxTjmQahbfUd8puQ==
-X-CSE-MsgGUID: pDpKBj9vREWnF9I27iurCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; d="scan'208";a="75968423"
-Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2024 16:43:29 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org, christian.koenig@amd.com,
- ltuikov89@gmail.com, daniel@ffwll.ch, felix.kuehling@amd.com
-Subject: [PATCH] drm/sched: Only start TDR in drm_sched_job_begin on first job
-Date: Wed, 24 Jul 2024 16:44:17 -0700
-Message-Id: <20240724234417.1912357-1-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com
+ [209.85.217.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1F210E11D
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 00:48:02 +0000 (UTC)
+Received: by mail-vs1-f41.google.com with SMTP id
+ ada2fe7eead31-492a8333cb1so123554137.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2024 17:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1721868481; x=1722473281; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wHKWUDPIV4clF6YOoBaSMKxb/Zv5MDSd4xPKLGghseo=;
+ b=F7uGiS80m1p3IGIjCBmyDJGbrUghN8qxClFQTiZoxyk/n8PAWrq3j6QJAElZJ0I/8r
+ z+w+lCGOu1K7BZucVUyCEr0kTYA1vy3pJNepef2VAd5el5iIn/yrLq+7Ulxjs4ixGSZw
+ sL6HEzZJuWvR2CWA1atP0qvSDoZpHEl4xp55wc4qWwYNGuc2CYpEbSxDHaVJQXVPVIw1
+ O0xGcYy2Uu3J3qJ86+qZv+W1BhJ51WlZyy+St4kSn5kZm+bGBR/1/EznSNJO9yhn+9Ji
+ CLQADVzD+pxIJOTZt8iRYm1xF6XC0vK8ls+ozOBpAG2EvzWfkzyPq25uvU2OGL9XR1ST
+ kSZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721868481; x=1722473281;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wHKWUDPIV4clF6YOoBaSMKxb/Zv5MDSd4xPKLGghseo=;
+ b=JoyQo/JIw9KGVyuJxacfVb7Oa5wrVeVmal+7OOe5jLmEhMyfYZtZO+pVqtRa+HxKO/
+ pFJgQNbkR4JrJc9sax9h9ml0fW8FXjsB5juJH4BVEE213Gm60MeILqbILc2OrjO8JTW1
+ vi1b+Z+DGbU5DgKThJplahnBQdXgvdj2ZleGT90fLiPAB4wispy09vf6XxkIU0O/CJ4b
+ ckztjehoAiIlhwoUUPaBI1m2ghaBhoMZUc+n3vh8UzaC7//HHyCswNrxqmJA2WIX33VD
+ e/FCrLzbob9Se+yej6DztjvdtqV2wA8aViOn6d86TsbqJ5LzbTGqvpWeZEqGgD7wi5Y7
+ 9geQ==
+X-Gm-Message-State: AOJu0YwsAz5nt3HsbOYUSAcWOGUNA7Ap2naG5RZDS+bqyanSdmAjSkKc
+ HpgwjNXj4M2pEpVcOSaDYgQRfEszWgJpv5QU3WYA682XcEfIZr4B
+X-Google-Smtp-Source: AGHT+IEk+USncAJXYQ/qAoPZDDO3Y90etc9xEl5EV1x0/2+kl+CiyTfU1zbBKBON3fuy2iBElf26HQ==
+X-Received: by 2002:a05:6102:3fac:b0:48f:428a:2379 with SMTP id
+ ada2fe7eead31-493d65425ccmr1622793137.30.1721868480883; 
+ Wed, 24 Jul 2024 17:48:00 -0700 (PDT)
+Received: from localhost.localdomain (ool-1826d901.dyn.optonline.net.
+ [24.38.217.1]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7a1d74353e6sm19339885a.87.2024.07.24.17.47.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jul 2024 17:48:00 -0700 (PDT)
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: mehdi.djait@bootlin.com, Alex Lanzano <lanzano.alex@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Add driver for Sharp Memory LCD
+Date: Wed, 24 Jul 2024 20:47:01 -0400
+Message-ID: <20240725004734.644986-1-lanzano.alex@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,32 +84,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only start in drm_sched_job_begin on first job being added to the
-pending list as if pending list non-empty the TDR has already been
-started. It is problematic to restart the TDR as it will extend TDR
-period for an already running job, potentially leading to dma-fence
-signaling for a very long period of with continous stream of jobs.
+This patch series add support for the monochrome Sharp Memory LCD
+panels. This series is based off of the work done by Mehdi Djait.
 
-Cc: Christian König <christian.koenig@amd.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+References:
+https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
+https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 7e90c9f95611..feeeb9dbeb86 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -540,7 +540,8 @@ static void drm_sched_job_begin(struct drm_sched_job *s_job)
- 
- 	spin_lock(&sched->job_list_lock);
- 	list_add_tail(&s_job->list, &sched->pending_list);
--	drm_sched_start_timeout(sched);
-+	if (list_is_singular(&sched->pending_list))
-+		drm_sched_start_timeout(sched);
- 	spin_unlock(&sched->job_list_lock);
- }
- 
+Alex Lanzano (2):
+  dt-bindings: display: Add Sharp Memory LCD bindings
+  drm/tiny: Add driver for Sharp Memory LCD
+
+ .../bindings/display/sharp,sharp-memory.yaml  |  97 +++
+ MAINTAINERS                                   |   8 +
+ drivers/gpu/drm/tiny/Kconfig                  |  20 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/sharp-memory.c           | 741 ++++++++++++++++++
+ include/dt-bindings/display/sharp-memory.h    |   9 +
+ 6 files changed, 876 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sharp,sharp-memory.yaml
+ create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
+ create mode 100644 include/dt-bindings/display/sharp-memory.h
+
 -- 
-2.34.1
+2.45.2
 
