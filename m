@@ -2,81 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744CF93C290
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 14:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4B393C2CA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 15:20:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08FE010E266;
-	Thu, 25 Jul 2024 12:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2D2D10E7ED;
+	Thu, 25 Jul 2024 13:20:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZgJHokfd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JSu/hGeK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2225710E266
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 12:59:27 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-5a5809a3bb9so136623a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 05:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1721912365; x=1722517165; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6Mol47svduiCaHsnKdTkKvXi18me6mAtfjU4DPCmBkQ=;
- b=ZgJHokfdRVzmY31U5Nl6G8wzlmhL04K2FriBRJ1rqMa7OBFHqh3GLHNpzjU5bP7XKt
- fI3odSg/2cSiXlR5/bJJl2Ry4e+jy6zrTOUHONOmpgJeLV75CPW0tDbgWoDC/TYCaDMZ
- sxPTA1UK+tpfSvypw7DDGyPGGjuxITmIYqxjw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721912365; x=1722517165;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6Mol47svduiCaHsnKdTkKvXi18me6mAtfjU4DPCmBkQ=;
- b=DIAedvTB7rRObblR46BZFhk0bL3OITQtFLzKFDfct13I4yJdZcB6Dd49YnYgU7q3PS
- X2otPCU0nLqFJLlusmVkE5Jwq+S1eKCXDSKhTpixlH9QWQElb7u5EluNfmXPk2PkT9gl
- ENJp1cpEYvZCYMdl1HdoVq7ktMkja46tXUuOY1s8u+7+o6sRW/6cGI0inaWhCGa+UgOI
- yRw3mU0Nyb6yMiil342n5WU9hd9L8OfemfAOeoJzu1aRaLPRgP9g53vNHqQjRT7Hsi7d
- kbH9acmO1MzSb/Tgdv7RGCht1kM0wfeWm3L6aa/QNk2MEZZ4+Gh94Vexvm/5/7xzg+yQ
- 1U7g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUr3CM+AqEFQ3/Fis78zXBPyjE401MnqRenqlq/JbY9XDDYtva9CyJy1yswG6HU5ogc/h8gqa2vLTc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1mY14eCuYFugtb5SqAk7MBXyfJDoqEgEqZF+EYS2D3P8gFh/D
- AcN1Fw79+sCGHb4a8RmKhX0lg2epL5KtXYIwYd3Pt4d/jVfEgRUQRYtWXxiV6Z0KGI7hK6qo2fO
- j
-X-Google-Smtp-Source: AGHT+IELpXnY1wuR/Lf/uOugSgjmN6lRRkW0fqsPCl4qz+7WB0nTWdrMJS8EXcNnsNPBLbmmezjuqQ==
-X-Received: by 2002:a17:906:dc8f:b0:a7a:aa35:409c with SMTP id
- a640c23a62f3a-a7ac5bab2cdmr96193966b.9.1721912365485; 
- Thu, 25 Jul 2024 05:59:25 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7acab2302dsm71116566b.39.2024.07.25.05.59.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jul 2024 05:59:24 -0700 (PDT)
-Date: Thu, 25 Jul 2024 14:59:22 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Marco Pagani <marpagan@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/test: use kunit action wrapper macro in the gem
- shmem test suite
-Message-ID: <ZqJMKvwr6nxPjb9v@phenom.ffwll.local>
-Mail-Followup-To: Marco Pagani <marpagan@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240723191036.131286-1-marpagan@redhat.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 270B610E7ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 13:20:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id C94C2CE135C;
+ Thu, 25 Jul 2024 13:20:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02B95C116B1;
+ Thu, 25 Jul 2024 13:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1721913602;
+ bh=q/87njUpBTK5CKvoQbtBLNFmxeqw7l6bejSeAxR4R0o=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JSu/hGeKQgbRzmREiiGHNwo67KxdHwzjqckJ/KRw83WCoW2oRq38AOO67V3P134Q0
+ ef+u91iBBDrAtupGA2ksrduY3Ir87j6RunrNXQDAif62tZmd1fBoVBzIbp3M2Kf2Kz
+ dJ4nMSPl7OkkAAxqYeyloAaV0hjDhWQ7OCjfjDcHMFL/+h0OUoo5vJI2kBT2/Ym6A5
+ 9SKBEPSNokTzt/it8bq8qtEcCGI1UVY/KEMqiayZkqYV/Nqxe54zAee9LnbUO5nE7D
+ YJlwDYetVCixZOBwkf/iagBAMkTwb4yK53GwfSvTbzj6GANB4dRr52X1IuB9XuCYSR
+ iqDjPA51m4gvw==
+Message-ID: <67aae071-b3d4-431b-8603-92dc79caba0c@kernel.org>
+Date: Thu, 25 Jul 2024 15:19:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240723191036.131286-1-marpagan@redhat.com>
-X-Operating-System: Linux phenom 6.9.7-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8] drm/ttm: revert "Export ttm_bo_get_unless_zero()"
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ dri-devel@lists.freedesktop.org
+References: <20240723121750.2086-1-christian.koenig@amd.com>
+ <20240723121750.2086-6-christian.koenig@amd.com>
+Content-Language: en-US
+From: Danilo Krummrich <dakr@kernel.org>
+In-Reply-To: <20240723121750.2086-6-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,66 +60,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 23, 2024 at 09:10:35PM +0200, Marco Pagani wrote:
-> Replace deferred action function wrappers with equivalent ones defined
-> using the macro introduced by commit 56778b49c9a2 ("kunit: Add a macro to
-> wrap a deferred action function")
+On 7/23/24 2:17 PM, Christian König wrote:
+> This reverts commit 24dc64c1ba5c3ef0463d59fef6df09336754188d.
 > 
-> Signed-off-by: Marco Pagani <marpagan@redhat.com>
+> Shouldn't be needed by drivers any more.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-Merged to drm-misc-next, thanks for your patch.
--Sima
+
+Technically, this series should be a v2, right? I also still think it would be
+good to add the corresponding driver maintainers to the recipient list.
+
+Anyway, for the TTM patches: Reviewed-by: Danilo Krummrich <dakr@kernel.org>
 
 > ---
->  drivers/gpu/drm/tests/drm_gem_shmem_test.c | 27 ++++++----------------
->  1 file changed, 7 insertions(+), 20 deletions(-)
+>   drivers/gpu/drm/ttm/ttm_bo.c          |  1 +
+>   drivers/gpu/drm/ttm/ttm_bo_internal.h | 48 +++++++++++++++++++++++++++
+>   drivers/gpu/drm/ttm/ttm_bo_util.c     |  2 ++
+>   drivers/gpu/drm/ttm/ttm_device.c      |  1 +
+>   include/drm/ttm/ttm_bo.h              | 18 ----------
+>   5 files changed, 52 insertions(+), 18 deletions(-)
+>   create mode 100644 drivers/gpu/drm/ttm/ttm_bo_internal.h
 > 
-> diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-> index c3758faa1b83..f7f7d8b0f61f 100644
-> --- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-> +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-> @@ -23,29 +23,16 @@
->  #define TEST_BYTE		0xae
->  
->  /*
-> - * Wrappers to avoid an explicit type casting when passing action
-> - * functions to kunit_add_action().
-> + * Wrappers to avoid cast warnings when passing action functions
-> + * directly to kunit_add_action().
->   */
-> -static void kfree_wrapper(void *ptr)
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 0131ec802066..fe4638ec0976 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -45,6 +45,7 @@
+>   #include <linux/dma-resv.h>
+>   
+>   #include "ttm_module.h"
+> +#include "ttm_bo_internal.h"
+>   
+>   static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
+>   					struct ttm_placement *placement)
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_internal.h b/drivers/gpu/drm/ttm/ttm_bo_internal.h
+> new file mode 100644
+> index 000000000000..6a7305efd778
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_internal.h
+> @@ -0,0 +1,48 @@
+> +/*
+> + * Copyright 2018 Advanced Micro Devices, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> + * OTHER DEALINGS IN THE SOFTWARE.
+> + *
+> + *
+> + */
+> +
+> +#ifndef _TTM_BO_INTERNAL_H_
+> +#define _TTM_BO_INTERNAL_H_
+> +
+> +#include <drm/ttm/ttm_bo.h>
+> +
+> +/**
+> + * ttm_bo_get_unless_zero - reference a struct ttm_buffer_object unless
+> + * its refcount has already reached zero.
+> + * @bo: The buffer object.
+> + *
+> + * Used to reference a TTM buffer object in lookups where the object is removed
+> + * from the lookup structure during the destructor and for RCU lookups.
+> + *
+> + * Returns: @bo if the referencing was successful, NULL otherwise.
+> + */
+> +static inline __must_check struct ttm_buffer_object *
+> +ttm_bo_get_unless_zero(struct ttm_buffer_object *bo)
+> +{
+> +	if (!kref_get_unless_zero(&bo->kref))
+> +		return NULL;
+> +	return bo;
+> +}
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 3c07f4712d5c..f7143384ef1c 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -37,6 +37,8 @@
+>   
+>   #include <drm/drm_cache.h>
+>   
+> +#include "ttm_bo_internal.h"
+> +
+>   struct ttm_transfer_obj {
+>   	struct ttm_buffer_object base;
+>   	struct ttm_buffer_object *bo;
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index e7cc4954c1bc..2e7fa3a11dc0 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -36,6 +36,7 @@
+>   #include <drm/ttm/ttm_placement.h>
+>   
+>   #include "ttm_module.h"
+> +#include "ttm_bo_internal.h"
+>   
+>   /*
+>    * ttm_global_mutex - protecting the global state
+> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+> index d1a732d56259..31ec7fd34eeb 100644
+> --- a/include/drm/ttm/ttm_bo.h
+> +++ b/include/drm/ttm/ttm_bo.h
+> @@ -239,24 +239,6 @@ static inline void ttm_bo_get(struct ttm_buffer_object *bo)
+>   	kref_get(&bo->kref);
+>   }
+>   
+> -/**
+> - * ttm_bo_get_unless_zero - reference a struct ttm_buffer_object unless
+> - * its refcount has already reached zero.
+> - * @bo: The buffer object.
+> - *
+> - * Used to reference a TTM buffer object in lookups where the object is removed
+> - * from the lookup structure during the destructor and for RCU lookups.
+> - *
+> - * Returns: @bo if the referencing was successful, NULL otherwise.
+> - */
+> -static inline __must_check struct ttm_buffer_object *
+> -ttm_bo_get_unless_zero(struct ttm_buffer_object *bo)
 > -{
-> -	const void *obj = ptr;
-> -
-> -	kfree(obj);
+> -	if (!kref_get_unless_zero(&bo->kref))
+> -		return NULL;
+> -	return bo;
 > -}
 > -
-> -static void sg_free_table_wrapper(void *ptr)
-> -{
-> -	struct sg_table *sgt = ptr;
-> +KUNIT_DEFINE_ACTION_WRAPPER(kfree_wrapper, kfree, const void *);
->  
-> -	sg_free_table(sgt);
-> -}
-> -
-> -static void drm_gem_shmem_free_wrapper(void *ptr)
-> -{
-> -	struct drm_gem_shmem_object *shmem = ptr;
-> +KUNIT_DEFINE_ACTION_WRAPPER(sg_free_table_wrapper, sg_free_table,
-> +			    struct sg_table *);
->  
-> -	drm_gem_shmem_free(shmem);
-> -}
-> +KUNIT_DEFINE_ACTION_WRAPPER(drm_gem_shmem_free_wrapper, drm_gem_shmem_free,
-> +			    struct drm_gem_shmem_object *);
->  
->  /*
->   * Test creating a shmem GEM object backed by shmem buffer. The test
-> -- 
-> 2.45.2
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>   /**
+>    * ttm_bo_reserve:
+>    *
