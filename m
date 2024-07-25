@@ -2,52 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FA593BFD4
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 12:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60CBF93BFE5
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 12:29:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D3810E0E2;
-	Thu, 25 Jul 2024 10:23:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F6D10E5B7;
+	Thu, 25 Jul 2024 10:29:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="mM4OIwkj";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="op7IsPBO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
- [95.215.58.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A89F510E0E2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 10:23:26 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1721903004;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=t4B5CpogFr/6szGnySiBlRSQMQJUsoQdHfG8O0D6Vd0=;
- b=mM4OIwkj418FvPDuuERKrHUMX3ct9zYl0HmYydENQB+MSGBP++IZpMbJ9vp06N+BlRRsi5
- OC/Gn0WwdodBtUHjD6xRhsxDob9PgsQRAWvh1Vm+wP4B7MeuYBd/mSWCzME0jT0EZSrYVI
- GCCKn5qp7bBb4i2Gh0cnYvMVklrfoRSDAGdwux7CudFRR42tN5SUQVQBQ9SexPwHBSNlsG
- 3rESJ1dxGpSHqhTDEv5R68cigBOFa0iRFt0AYWwEjEQbBkFWy4zQnrvOj+MDbkXw5cnm3E
- Fa6SzwUQAj0lry//NyNzXxJxFlJX7BgVnt23OW0n/60TfXNF9dH8UgGUZyqjTA==
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Dragan Simic <dsimic@manjaro.org>, Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
- robh@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- linux-kernel@vger.kernel.org, Furkan Kardame <f.kardame@manjaro.org>,
- stable@vger.kernel.org
-Subject: Re: [PATCH] drm/panfrost: Mark simple_ondemand governor as softdep
-Date: Thu, 25 Jul 2024 12:23:13 +0200
-Message-ID: <3863847.7OiSWjA07a@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <ae62139f-3655-44d0-aeb7-15c6b67eb97c@arm.com>
-References: <4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org>
- <d20667e76aa56fb69c91ef327d467d4a@manjaro.org>
- <ae62139f-3655-44d0-aeb7-15c6b67eb97c@arm.com>
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
+ [209.85.219.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9551F10E5B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 10:29:11 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id
+ 6a1803df08f44-6b7af49e815so5091936d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 03:29:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1721903350; x=1722508150;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lqNON2XzzicgPcrb/MJYjLlf4KFN0gRBiFSG0lWMClg=;
+ b=op7IsPBOi4Okbq7VrYrwcbc+tjusM2qCbJI5/m6bDheRIEXrm0lIEX9LlLIJ8WNkO/
+ lEkDumvg9VGeWksoBt21/cv1DJDP1ejyQml+UoeXsvJLP2/amllB5unpLP2Izn0Y3Ef2
+ oROq/qXta4I+WBkzbMTIKAO8+hhBWYVS78i3ZqGvmolcXIgE82idnkinplfIIndsyO6I
+ Vi/YSwmWV+od0ZXhN/DeZ+fDD85Gblrp1tDFIsdqvKwHnLRjQKx90JOp/KiA8c5aPMhP
+ U7fyDdla1EKwAx66fddpYzodK/mNSuuDKNX40/awSk4gehGlwILM11/jnieJjjLkRfQB
+ xnuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721903350; x=1722508150;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lqNON2XzzicgPcrb/MJYjLlf4KFN0gRBiFSG0lWMClg=;
+ b=eoBCMLutAY62tvNk4ilPLr1FpAyID5LJJukbazFkgoAPzMmRNXdgrvhAQ+KvFekII0
+ XF+f2MkTr23ZAQPodIQetXWvuBqMXUuQdWHWKE9EdZ5Xzwe1uaeeWZT18PCkBHJtKwTt
+ 7p1bSkjpp3MRvTWfboaD88ijHYnaJttIk9ryEc2WOXfvvUsMLpc5gRrcUkbrYc1Oyo4n
+ F0kOymyIodl/Z+Vv44yoYmNh5DAFTtytw42L909Ig6rUnuitORBjznp2BcuO9Wif5GyO
+ fUh3uIly9NBL+bRx95Z7XSU9hpNTa1Lm2xITp6mVH9a4dNSWk6kZZ1WnxEaWJesqshiU
+ lytw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVMXNHcmpOvijYWmIoHX8LKSwzVzjSes3E/llrV+RSktQcfp3kv/b46patuQOyiAisVb4bgW/w83nPsOsv3Tiidq0mQxlqsSvCQubaJlhh8
+X-Gm-Message-State: AOJu0Yzbp3Jo8yG6Wvlzp8a6Qjf5SySvyOLxsWjvr7NRsRJyuMMq8Xig
+ 12DPVHrmzDfVY1e3LfeL14f23IHbIGe/wK+VKvcpxM8elnniu7mVVpsCocCW29XGrk/fadMHLak
+ xxQ+VRhMtIhHDS60oTzfulv6SGdbJ3BQWBqTyfg==
+X-Google-Smtp-Source: AGHT+IH58fYzPz2za1A4wbM/RxniQBXqyWW1aq5VxWvoCjFUwdMxzQTEFxAC6/D8edl0M5w58o3zWa9AamOI0NUg0xw=
+X-Received: by 2002:a05:6214:230c:b0:6b5:a4f6:daa2 with SMTP id
+ 6a1803df08f44-6bb406fcd47mr14595366d6.17.1721903350287; Thu, 25 Jul 2024
+ 03:29:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart3174170.kLLAvsri18";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+References: <TkgKVivuaLFLILPY-n3iZo_8KF-daKdqdu-0_e0HP-5Ar_8DALDeNWog2suwWKjX7eomcbGET0KZe7DlzdhK2YM6CbLbeKeFZr-MJzJMtw0=@proton.me>
+In-Reply-To: <TkgKVivuaLFLILPY-n3iZo_8KF-daKdqdu-0_e0HP-5Ar_8DALDeNWog2suwWKjX7eomcbGET0KZe7DlzdhK2YM6CbLbeKeFZr-MJzJMtw0=@proton.me>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 25 Jul 2024 11:28:58 +0100
+Message-ID: <CAPj87rPwJ-vRTsjM1rWRj1gyjbJM_ryrkTiPRBF3ZF1D7TVDYw@mail.gmail.com>
+Subject: Re: [PATCH v3] rockchip/drm: vop2: add support for gamma LUT
+To: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: "airlied@gmail.com" <airlied@gmail.com>,
+ "andy.yan@rock-chips.com" <andy.yan@rock-chips.com>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "heiko@sntech.de" <heiko@sntech.de>, 
+ "hjc@rock-chips.com" <hjc@rock-chips.com>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,44 +88,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart3174170.kLLAvsri18
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Date: Thu, 25 Jul 2024 12:23:13 +0200
-Message-ID: <3863847.7OiSWjA07a@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <ae62139f-3655-44d0-aeb7-15c6b67eb97c@arm.com>
-MIME-Version: 1.0
+Hi Piotr,
 
-On Thursday, 25 July 2024 11:20:22 CEST Steven Price wrote:
-> [1] Although from my understanding it's firmware which is the real cause
-> of bloat in initramfs size. I guess I need to start paying attention to
-> this for panthor which adds GPU firmware - although currently tiny in
-> comparison to others.
+On Wed, 24 Jul 2024 at 23:06, Piotr Zalewski <pZ010001011111@proton.me> wrote:
+> Add support for gamma LUT in VOP2 driver. The implementation is based on
+> the one found in VOP driver and modified to be compatible with VOP2. Blue
+> and red channels in gamma LUT register write were swapped with respect to
+> how gamma LUT values are written in VOP. Write of the current video port id
+> to VOP2_SYS_LUT_PORT_SEL register was added before the write of DSP_LUT_EN
+> bit. Gamma size is set and drm color management is enabled for each video
+> port's CRTC except ones which have no associated device. Tested on RK3566
+> (Pinetab2).
 
-Can confirm that's the case.
-When using (f.e.?) plymouth, the gpu drivers and corresponding firmware
-gets added to initramfs. If you then have much more and much larger firmware 
-files (nvidia f.e. added 2 fw files of 23 and 38 MB respectively ...) then you 
-get a corresponding much larger initramfs.
-If you add a (fixed) bug in initramfs-tools where symlinks to directories 
-weren't preserved, but full copies were made, you could end up with a single 
-initramfs of 240MB ...
---nextPart3174170.kLLAvsri18
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+Thanks a lot for doing this!
 
------BEGIN PGP SIGNATURE-----
+> +static void vop2_crtc_gamma_set(struct vop2 *vop2, struct drm_crtc *crtc,
+> +                               struct drm_crtc_state *old_state)
+> +{
+> +       [...]
+> +
+> +       vop2_lock(vop2);
+> +       vop2_crtc_write_gamma_lut(vop2, crtc);
+> +       vop2_writel(vp->vop2, RK3568_LUT_PORT_SEL, vp->id);
+> +
+> +       vop2_vp_dsp_lut_enable(vp);
+> +
+> +       vop2_cfg_done(vp);
+> +       vop2_unlock(vop2);
+> +}
+>
+> @@ -2060,6 +2159,9 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+>         drm_crtc_vblank_on(crtc);
+>
+>         vop2_unlock(vop2);
+> +
+> +       if (crtc->state->gamma_lut)
+> +               vop2_crtc_gamma_set(vop2, crtc, old_state);
+>  }
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZqInkQAKCRDXblvOeH7b
-bqhlAP9pNuQEjWf+eKX8vuBpB+yxlxQNwxFBHAmPe/eBLu3cjwD8D9QJdQx86PUn
-WiKv4UAe5v7jglsoI4Tu2tWe41m83A4=
-=Dv1b
------END PGP SIGNATURE-----
+In the atomic_enable callback, we are already holding the VOP lock,
+and waiting to set cfg_done etc - we then do it all over again here.
+This should all be atomic, so that we configure the LUT whilst doing
+the setup, and then only call cfg_done once, to avoid showing the user
+intermediate states which only later converge on the desired final
+state.
 
---nextPart3174170.kLLAvsri18--
-
-
-
+Cheers,
+Daniel
