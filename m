@@ -2,69 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7157093C922
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 21:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE9093C934
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 21:54:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C25910E2A9;
-	Thu, 25 Jul 2024 19:50:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D08A010E307;
+	Thu, 25 Jul 2024 19:54:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ob8yEPbT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SXWz/QTS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E878810E28E;
- Thu, 25 Jul 2024 19:50:08 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-1fc611a0f8cso10537285ad.2; 
- Thu, 25 Jul 2024 12:50:08 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9EF210E307;
+ Thu, 25 Jul 2024 19:54:54 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-1fd640a6454so12889375ad.3; 
+ Thu, 25 Jul 2024 12:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721937008; x=1722541808; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1721937294; x=1722542094; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9VSUodCp0iyrPyR9RoEZrdu/UPubf2TKzJKuqkmoXBY=;
- b=Ob8yEPbTjqPkWp41+wSISqWa/LAq1MoExYk+LPKzlkicqptAhNNlmmGTnZ+AXo8Esy
- uhhnm8eet722+o2EaFdBcEZ+fh0A5opgjpi5H2Yw6P6V8txeUS0epozhvSDPzF/xJ0DC
- uY5IroVKPjFToGZ69GC2mUgHWxNv2IsrtKnaRw4GK+DXguXzGN5J/cL/bRpJK7PQCtDU
- +FPBr0DZBRzwOAm6fLvn9UES9oq8UtxJ2vZn45CK++LczncHRPWlG26OrXX5tx5vWyix
- KoS36PUfBk2fdOa1KnAqtd08dyz3XI7VG1/HWkOYOd36AqC4iAJweiFAQ/sI9ALH2ZGd
- b/3Q==
+ bh=HJ2/3q/bfgdLQ2SKF+xPcpuZtJ5O3OCCf8lNzI6xqq0=;
+ b=SXWz/QTSd1tNt1pWVk2B+zayx8eR6ZbPWwJ/+xsD75DCmYujpejzNNwiUglj8eLxI6
+ R90OEVfGP7X7w34ejXfJY984VUslWQNX6eBPcNXhlQ2BXB/WGG4iQhaFgAi/q+pkJqYS
+ TU41bHEObBDRGnWaJ2pO1a4J/csChet4+BX6JYS5JfjhjeZVaXh4JC+HAywTC1W8Xoui
+ aRwzy6kNe+rFYzjJqPaUGPflt54ve0KJhD+d+jiXQEkATLgUiRcB7xz21UVm56nnRg9a
+ Em6SgN91YsNJd0GoVZ9hMnoUH00n3FTiNrMfhsQPdV2NqB/VlrVCpDpWATzE5lnVI7A+
+ 0dyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721937008; x=1722541808;
+ d=1e100.net; s=20230601; t=1721937294; x=1722542094;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9VSUodCp0iyrPyR9RoEZrdu/UPubf2TKzJKuqkmoXBY=;
- b=g8PcrJP6YKOyXeJNdqeq55nLvWX7oJ/tW2u+KBEYEhjrocTc6J8+xqvrPOTPE5+7h2
- 0WY6A/OtLQ61rlyScFNsYEcbii6c7i3qqyc2Re2MFq6yJVrIZ2f+Wj3leCV19+L80esv
- nFvPdozUsbLDs90YlxUGCiGO5TD+yO7SQovhCZUVQOGwWTHYegc7/eWWdKAKg7V0ocT6
- En398lgWH2og4WrV6cMpC3/rV2WuOSDA2+TpV84oa0hmcI2vAMTurNzMu8MypwsgyJJv
- nFa6HMuIkOL7rLONOPMwsRDBluA8gUu82RQONIhDSkpeXfQryG1fIYInUdUf0bsngIV9
- LoJw==
+ bh=HJ2/3q/bfgdLQ2SKF+xPcpuZtJ5O3OCCf8lNzI6xqq0=;
+ b=Vwu5VFx1oAAzg8ofEAiOE5qNH8UvSH0oDE86flvH1K80gKdi1Au8s1kPZNWnmo3MiR
+ k7rIP3MzSn9DVO253GLV1JZP9sJzWmgdQxHh1/chbUVbvZNV/TjEh2CrSoYj6LcFn7c2
+ Cn8AyhDg7/BCEmQ+7R3MxEIDQJwBkut/EZ2UL+a940anaW6HnddLmyFI/8Txz39PaFT+
+ STuZjSth3KG8T3KBlUUBUHpeE8ISQ9xS5wd0eHh5xUfAc4FawMUYvVZ7XueXlufqVzGX
+ IeYnv5wa/jTcL98blDu2G7jCbCM2twpLHqQ1in+0TrTYEfIvlx8/UdCtcdDFHlnK0k7I
+ KyPA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2kljrWciZfuFmoQKCSGCpCe1tFYyoiRToypsm0/C3/kUa/RWdmbypxDlVLk0KzQ3z9gvznr9XAtDp5x8bekpkQtlgEpsng69qmPnOV2HxLeTVcF/Y+3k5CGUr3GFZ2Rurvqdd207fGD0e6GxOVw==
-X-Gm-Message-State: AOJu0YyXru/RCgu2Jll1bqQj7gcgPfZM8H7Ajxyncufk7vgkAzzRXfqt
- AMJ/PmJcwgdx4D5I39zXEZecvY7CDGB+Oh9itvR9cRQor3+BZl+Ffxd58HHmguBRyasvBCrfbsE
- 3Y6Jqb9WTsOWIq+4vEA05Y0kSMZwGTw==
-X-Google-Smtp-Source: AGHT+IHgrjq7amGcLdexxOnkH/4BLZ1r74+ivIwi5/7IOAGm0XWiiMDVklCFBl5hy5edRCK2xCjHv4+HekMm+tQmBvM=
-X-Received: by 2002:a17:902:e550:b0:1fc:4763:445c with SMTP id
- d9443c01a7336-1fed92752c3mr33830085ad.32.1721937008312; Thu, 25 Jul 2024
- 12:50:08 -0700 (PDT)
+ AJvYcCUw27oC0RSbeZMH3YHh+XiIzQJTrkITkUmmcv3OSmzwEtAND0rqA6G8sMQVBomyd5cCJFIkuKpP83nx85B7wZeZEw9iWf6G+SD6ADFlC3V4F4TN864v5GvnjFEsJpd0W+LFNhp8f63UkOHX6YCM+A==
+X-Gm-Message-State: AOJu0Ywa+atJRSISBPc41QmpiNrIrjN1GqAxAhbQYZDxnrdUSqhdJ34k
+ grQYjVyDvfXDeFiOogrkb9OO/Sl6RPH6l9jFTmx68pw42bjBYvYxTlHBorKJyothWOlYZjuV8SO
+ bINNDGEVl4iYEDnkatkXuvsowLyVfM7iU
+X-Google-Smtp-Source: AGHT+IGlHXz1aSbMBuuCXDUVMJbNQOTZlhgtwLY66bzlvs53OORi8u2Ewst7irO4S9i2tcQNqCkaFe1Pdt6xXP0DHFA=
+X-Received: by 2002:a17:902:c945:b0:1fc:4bdc:d413 with SMTP id
+ d9443c01a7336-1fed3af1d80mr43778135ad.60.1721937294112; Thu, 25 Jul 2024
+ 12:54:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240725015712.50237-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20240725015712.50237-1-jiapeng.chong@linux.alibaba.com>
+References: <20240724175423.18075-1-abhishektamboli9@gmail.com>
+ <qyoun6sfdpdxxzwystaimsiw3o33jwvoqxm3kpawczju2b3dl5@ytjpgyabbzet>
+In-Reply-To: <qyoun6sfdpdxxzwystaimsiw3o33jwvoqxm3kpawczju2b3dl5@ytjpgyabbzet>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 25 Jul 2024 15:49:55 -0400
-Message-ID: <CADnq5_NkOR12Dxcpo6wZe4Act3-4JSoF=oC37464XfwVSqnrqA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: remove unneeded semicolon
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
+Date: Thu, 25 Jul 2024 15:54:42 -0400
+Message-ID: <CADnq5_MHtyUENJGk=f+i-3ODJpGiZc1QFpQuvAh=uaFc9x9-9A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix documentation warning for mpc.h
+To: "Ricardo B. Marliere" <rbmarliere@gmail.com>
+Cc: Abhishek Tamboli <abhishektamboli9@gmail.com>, airlied@gmail.com,
+ daniel@ffwll.ch, 
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
  alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Abaci Robot <abaci@linux.alibaba.com>
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+ marcelomspessoto@gmail.com, aurabindo.pillai@amd.com, adnelson@amd.com, 
+ linux-kernel-mentees@lists.linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,70 +86,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+This is already fixed in:
+https://gitlab.freedesktop.org/agd5f/linux/-/commit/6e169c7e0f842c48c7bf683=
+fb789dbf5a8b1dfd8
 
 Alex
 
-On Wed, Jul 24, 2024 at 10:35=E2=80=AFPM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
+On Wed, Jul 24, 2024 at 3:55=E2=80=AFPM Ricardo B. Marliere
+<rbmarliere@gmail.com> wrote:
 >
-> No functional modification involved.
+> On 24 Jul 24 23:24, Abhishek Tamboli wrote:
+> > Fix documentation compile warning by adding description
+> > for program_3dlut_size function.
+> >
+> > Remove the following warning:
+> > ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:1043: warning: Function p=
+arameter or struct member 'program_3dlut_size' not described in 'mpc_funcs'
+> >
+> > Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> > ---
+> >  drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 16 +++++++++++++++-
+> >  1 file changed, 15 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/=
+drm/amd/display/dc/inc/hw/mpc.h
+> > index 40a9b3471208..615c69d966e7 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+> > +++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+> > @@ -1039,7 +1039,21 @@ struct mpc_funcs {
+> >       */
+> >       void (*program_lut_mode)(struct mpc *mpc, const enum MCM_LUT_ID i=
+d, const enum MCM_LUT_XABLE xable,
+> >                       bool lut_bank_a, int mpcc_id);
+> > -     void (*program_3dlut_size)(struct mpc *mpc, bool is_17x17x17, int=
+ mpcc_id);
+> > +     /**
+> > +      * @program_3dlut_size:
+> > +      *
+> > +      * Program 3D LUT size.
+> > +      *
+> > +      * Parameters:
+> > +      * - [in/out] mpc - MPC context.
+> > +      * - [in] is_17x17x17 - Boolean Flag.
+> > +      * - [in] mpcc_id - MPCC physical instance.
+> > +      *
+> > +      * Return:
+> > +      *
+> > +      * void
+> > +      */
 >
-> ./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_=
-calcs.c:481:2-3: Unneeded semicolon.
-> ./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_=
-calcs.c:3783:168-169: Unneeded semicolon.
-> ./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_=
-calcs.c:3782:166-167: Unneeded semicolon.
+> Reviewed-by: Ricardo B. Marliere <ricardo@marliere.net>
 >
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D9575
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  .../dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c      | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2=
-_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_cor=
-e/dml2_core_dcn4_calcs.c
-> index 0b671c665373..e4a14d41fb85 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
-cn4_calcs.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
-cn4_calcs.c
-> @@ -478,7 +478,7 @@ static unsigned int dml_get_tile_block_size_bytes(enu=
-m dml2_swizzle_mode sw_mode
->         default:
->                 DML2_ASSERT(0);
->                 return 256;
-> -       };
-> +       }
->  }
->
->  static bool dml_is_vertical_rotation(enum dml2_rotation_angle Scan)
-> @@ -3779,8 +3779,8 @@ static void CalculateSwathAndDETConfiguration(struc=
-t dml2_core_internal_scratch
->                         p->SwathHeightC[k] =3D MaximumSwathHeightC[k] / 2=
-;
->                         RoundedUpSwathSizeBytesY[k] =3D p->full_swath_byt=
-es_l[k] / 2;
->                         RoundedUpSwathSizeBytesC[k] =3D p->full_swath_byt=
-es_c[k] / 2;
-> -                       p->request_size_bytes_luma[k] =3D ((p->BytePerPix=
-Y[k] =3D=3D 2) =3D=3D dml_is_vertical_rotation(p->display_cfg->plane_descri=
-ptors[k].composition.rotation_angle)) ? 128 : 64;;
-> -                       p->request_size_bytes_chroma[k] =3D ((p->BytePerP=
-ixC[k] =3D=3D 2) =3D=3D dml_is_vertical_rotation(p->display_cfg->plane_desc=
-riptors[k].composition.rotation_angle)) ? 128 : 64;;
-> +                       p->request_size_bytes_luma[k] =3D ((p->BytePerPix=
-Y[k] =3D=3D 2) =3D=3D dml_is_vertical_rotation(p->display_cfg->plane_descri=
-ptors[k].composition.rotation_angle)) ? 128 : 64;
-> +                       p->request_size_bytes_chroma[k] =3D ((p->BytePerP=
-ixC[k] =3D=3D 2) =3D=3D dml_is_vertical_rotation(p->display_cfg->plane_desc=
-riptors[k].composition.rotation_angle)) ? 128 : 64;
->                 }
->
->                 if (p->SwathHeightC[k] =3D=3D 0)
-> --
-> 2.32.0.3.g01195cf9f
->
+> > +      void (*program_3dlut_size)(struct mpc *mpc, bool is_17x17x17, in=
+t mpcc_id);
+> >  };
+> >
+> >  #endif
+> > --
+> > 2.34.1
+> >
