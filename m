@@ -2,75 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC4793C9FF
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 22:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B324593CA90
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 00:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 292D410E8C4;
-	Thu, 25 Jul 2024 20:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEBBD10E319;
+	Thu, 25 Jul 2024 22:04:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ctpkLevM";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dcSTU7ZV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A6A910E87A;
- Thu, 25 Jul 2024 20:59:29 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-70d25b5b6b0so249548b3a.2; 
- Thu, 25 Jul 2024 13:59:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721941169; x=1722545969; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=I4gCniBGiUh7RbvIXsajAgjTfTdLghfosUa+OF1HFMA=;
- b=ctpkLevMkm4CeTyQrJFzXE4TkfpJKJ241c4UWHCVYib53XYEH3rzWi/PcozzJYAz2j
- EQIyDb4SEDCxDbv+RIvBumoIwepyKzyi7eux+rsFVrASdxpFHX+OVZYztP4NG0ZaBM2P
- IIATaQ22+PfyBY966riNHVg9nTptZYJTP2IMnVZ9++75exPR40xPwnvgts4b/SWyRdjy
- OC6iWm1a1wX0WsvHiL1mWUkJ3GnyBK7vw4Xbak23nxFxr/Os/ZYCApDL7paD4a87zl/0
- z80pt93AqadSNU1+Om1sx3tH6+vUzM9cuV0rhwD5aCPL8POaZVRRWrj8HQ07SJ1Kddaq
- 45XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721941169; x=1722545969;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I4gCniBGiUh7RbvIXsajAgjTfTdLghfosUa+OF1HFMA=;
- b=k8l+sQWXKoD2+UqNZN65xEkpGqlRsrIFgA5gndyoz8sdGrS6gP0xJ68oqybcqXHHi+
- wElOT1iZvK4UJwrZjoY1jwvzLy8ezTax7HINopB40E28/iGY9NyBzwVOAdiCZvfavJn2
- p5oz3gNvN8jnhw0RYiqtMTDtbWfT5yupjd5rFRZveaRkiV2ffmGu5nm+EpvGxCVbgNcE
- joca0rx7exxTarXdq9ZsFJlmYX7u6ndDJ7xkkW0ZQ1Nx5EAnfDiYqjYUPQr7RbBRf8JV
- vs12tIq67P6Ebxtvp7PEQ0xRI9xDXl3zdkQ/Gj4t+hsU0KNe5qifc1aszO4V+e357O/z
- sVXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqaYIsjn9ggww6jaWZpJYZnDBIeH29U4uMdHgeGSCCDOGbx8iwUuOYogXYpuHe6W9I7/ZpfBe2cQVELMxV9URrHFdER0irLwoI1Sig7R6r7hQkZjCRLUdkY9UVaAFuip997ZpZqdjDGutmLBWryA==
-X-Gm-Message-State: AOJu0YxXM9JGWB6Drk9yhh550Pz43i9RVMskzLWt/Kjgy3ttJzIl1CFN
- qhMjWCswuFcav/+JoFrf25gNJ4Vpvh++AWGJyeQ2IYnEP4mQjV4ZXH1PpYaHdLxHdOo4mboRCXB
- vWcAmh+ZpiUqmcM7kcW5ec7c2vDiKjg==
-X-Google-Smtp-Source: AGHT+IFA0VZ111JxLn9HdP00YaL4Z9quBI2prN0idkkDGmhMU4bZZeeTu2CxFkR1MXDUXDfcRnEz5m1mcFb+wqqyzHE=
-X-Received: by 2002:a05:6a20:7494:b0:1c0:bf35:ef4c with SMTP id
- adf61e73a8af0-1c4727aad83mr5501536637.11.1721941168624; Thu, 25 Jul 2024
- 13:59:28 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E432710E262;
+ Thu, 25 Jul 2024 22:04:33 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46PJbVra009144;
+ Thu, 25 Jul 2024 22:03:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=N6UbJAMi1bU7nIh+XutsN6
+ bZa8Is03DzQ1MqeidxQVU=; b=dcSTU7ZV3wtNGUlgKRqMR4/kMp7oSjcnxounf/
+ cIUzENz7kDQjWTH0iXiR/Ey9JNk+a3WCGe5grM0e5/Tm0H9+ypOkPLt566vg5A2Y
+ eEakexNIfOhAZCFdLlzBLvzOwE7yReQAYhL2mcZBY5QC3ISprp06HiujwypMfCQX
+ MQ1VP4Nzb4XO77yp6FF295mbTYlg4/8/Mhqj4Bd1zTG8PvNKHmJY4ELzxKJO9lgP
+ ICfQPGKfkeiNcmZbcQVREL+ivSCLHxFvdbfqRK947YP9omk4BuUNGWOkUc64L+nA
+ 3KCVksikn8+ptCiCVhdIz9oQIiEYF25XV+iuEmEs2Iz8vkfQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40g487pbem-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Jul 2024 22:03:54 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 46PM3rHH013267
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Jul 2024 22:03:53 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 25 Jul 2024 15:03:52 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Guenter Roeck <groeck@chromium.org>, Tanmay Shah
+ <tanmay@codeaurora.org>, Vara Reddy <quic_varar@quicinc.com>, Stephen Boyd
+ <swboyd@chromium.org>
+CC: <dri-devel@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
+ <neil.armstrong@linaro.org>, <abel.vesa@linaro.org>,
+ <quic_khsieh@quicinc.com>, Rob Clark <robdclark@chromium.org>, "Chandan
+ Uddaraju" <chandanu@codeaurora.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/msm/dp: fix the max supported bpp logic
+Date: Thu, 25 Jul 2024 15:03:19 -0700
+Message-ID: <20240725220320.130916-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <20240725180950.15820-1-n.zhandarovich@fintech.ru>
-In-Reply-To: <20240725180950.15820-1-n.zhandarovich@fintech.ru>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 25 Jul 2024 16:59:16 -0400
-Message-ID: <CADnq5_NuAL4=hMyc6G0QkbSrjCXa6qFM-bFtt3A7DY6cCmCt9w@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon/evergreen_cs: fix int overflow errors in cs
- track offsets
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Jerome Glisse <jglisse@redhat.com>, Dave Airlie <airlied@redhat.com>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- lvc-project@linuxtesting.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: ziitW6v3wi2a0z_fAkYGICI3PhFNMyt5
+X-Proofpoint-GUID: ziitW6v3wi2a0z_fAkYGICI3PhFNMyt5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-25_22,2024-07-25_03,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 mlxlogscore=999
+ malwarescore=0 adultscore=0 impostorscore=0 clxscore=1011
+ lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2407110000 definitions=main-2407250151
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,132 +95,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Currently the DP driver hard-codes the max supported bpp to 30.
+This is incorrect because the number of lanes and max data rate
+supported by the lanes need to be taken into account.
 
-Alex
+Replace the hardcoded limit with the appropriate math which accounts
+for the accurate number of lanes and max data rate.
 
-On Thu, Jul 25, 2024 at 2:20=E2=80=AFPM Nikita Zhandarovich
-<n.zhandarovich@fintech.ru> wrote:
->
-> Several cs track offsets (such as 'track->db_s_read_offset')
-> either are initialized with or plainly take big enough values that,
-> once shifted 8 bits left, may be hit with integer overflow if the
-> resulting values end up going over u32 limit.
->
-> Some debug prints take this into account (see according dev_warn() in
-> evergreen_cs_track_validate_stencil()), even if the actual
-> calculated value assigned to local 'offset' variable is missing
-> similar proper expansion.
->
-> Mitigate the problem by casting the type of right operands to the
-> wider type of corresponding left ones in all such cases.
->
-> Found by Linux Verification Center (linuxtesting.org) with static
-> analysis tool SVACE.
->
-> Fixes: 285484e2d55e ("drm/radeon: add support for evergreen/ni tiling inf=
-ormations v11")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-> ---
-> P.S. While I am not certain that track->cb_color_bo_offset[id]
-> actually ends up taking values high enough to cause an overflow,
-> nonetheless I thought it prudent to cast it to ulong as well.
->
->  drivers/gpu/drm/radeon/evergreen_cs.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/evergreen_cs.c b/drivers/gpu/drm/rade=
-on/evergreen_cs.c
-> index 1fe6e0d883c7..d734d221e2da 100644
-> --- a/drivers/gpu/drm/radeon/evergreen_cs.c
-> +++ b/drivers/gpu/drm/radeon/evergreen_cs.c
-> @@ -433,7 +433,7 @@ static int evergreen_cs_track_validate_cb(struct rade=
-on_cs_parser *p, unsigned i
->                 return r;
->         }
->
-> -       offset =3D track->cb_color_bo_offset[id] << 8;
-> +       offset =3D (unsigned long)track->cb_color_bo_offset[id] << 8;
->         if (offset & (surf.base_align - 1)) {
->                 dev_warn(p->dev, "%s:%d cb[%d] bo base %ld not aligned wi=
-th %ld\n",
->                          __func__, __LINE__, id, offset, surf.base_align)=
-;
-> @@ -455,7 +455,7 @@ static int evergreen_cs_track_validate_cb(struct rade=
-on_cs_parser *p, unsigned i
->                                 min =3D surf.nby - 8;
->                         }
->                         bsize =3D radeon_bo_size(track->cb_color_bo[id]);
-> -                       tmp =3D track->cb_color_bo_offset[id] << 8;
-> +                       tmp =3D (unsigned long)track->cb_color_bo_offset[=
-id] << 8;
->                         for (nby =3D surf.nby; nby > min; nby--) {
->                                 size =3D nby * surf.nbx * surf.bpe * surf=
-.nsamples;
->                                 if ((tmp + size * mslice) <=3D bsize) {
-> @@ -476,10 +476,10 @@ static int evergreen_cs_track_validate_cb(struct ra=
-deon_cs_parser *p, unsigned i
->                         }
->                 }
->                 dev_warn(p->dev, "%s:%d cb[%d] bo too small (layer size %=
-d, "
-> -                        "offset %d, max layer %d, bo size %ld, slice %d)=
-\n",
-> +                        "offset %ld, max layer %d, bo size %ld, slice %d=
-)\n",
->                          __func__, __LINE__, id, surf.layer_size,
-> -                       track->cb_color_bo_offset[id] << 8, mslice,
-> -                       radeon_bo_size(track->cb_color_bo[id]), slice);
-> +                       (unsigned long)track->cb_color_bo_offset[id] << 8=
-,
-> +                       mslice, radeon_bo_size(track->cb_color_bo[id]), s=
-lice);
->                 dev_warn(p->dev, "%s:%d problematic surf: (%d %d) (%d %d =
-%d %d %d %d %d)\n",
->                          __func__, __LINE__, surf.nbx, surf.nby,
->                         surf.mode, surf.bpe, surf.nsamples,
-> @@ -608,7 +608,7 @@ static int evergreen_cs_track_validate_stencil(struct=
- radeon_cs_parser *p)
->                 return r;
->         }
->
-> -       offset =3D track->db_s_read_offset << 8;
-> +       offset =3D (unsigned long)track->db_s_read_offset << 8;
->         if (offset & (surf.base_align - 1)) {
->                 dev_warn(p->dev, "%s:%d stencil read bo base %ld not alig=
-ned with %ld\n",
->                          __func__, __LINE__, offset, surf.base_align);
-> @@ -627,7 +627,7 @@ static int evergreen_cs_track_validate_stencil(struct=
- radeon_cs_parser *p)
->                 return -EINVAL;
->         }
->
-> -       offset =3D track->db_s_write_offset << 8;
-> +       offset =3D (unsigned long)track->db_s_write_offset << 8;
->         if (offset & (surf.base_align - 1)) {
->                 dev_warn(p->dev, "%s:%d stencil write bo base %ld not ali=
-gned with %ld\n",
->                          __func__, __LINE__, offset, surf.base_align);
-> @@ -706,7 +706,7 @@ static int evergreen_cs_track_validate_depth(struct r=
-adeon_cs_parser *p)
->                 return r;
->         }
->
-> -       offset =3D track->db_z_read_offset << 8;
-> +       offset =3D (unsigned long)track->db_z_read_offset << 8;
->         if (offset & (surf.base_align - 1)) {
->                 dev_warn(p->dev, "%s:%d stencil read bo base %ld not alig=
-ned with %ld\n",
->                          __func__, __LINE__, offset, surf.base_align);
-> @@ -722,7 +722,7 @@ static int evergreen_cs_track_validate_depth(struct r=
-adeon_cs_parser *p)
->                 return -EINVAL;
->         }
->
-> -       offset =3D track->db_z_write_offset << 8;
-> +       offset =3D (unsigned long)track->db_z_write_offset << 8;
->         if (offset & (surf.base_align - 1)) {
->                 dev_warn(p->dev, "%s:%d stencil write bo base %ld not ali=
-gned with %ld\n",
->                          __func__, __LINE__, offset, surf.base_align);
+Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_panel.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index a916b5f3b317..56ce5e4008f8 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -397,6 +397,7 @@ int dp_panel_init_panel_info(struct dp_panel *dp_panel)
+ {
+ 	struct drm_display_mode *drm_mode;
+ 	struct dp_panel_private *panel;
++	u32 max_supported_bpp;
+ 
+ 	drm_mode = &dp_panel->dp_mode.drm_mode;
+ 
+@@ -423,8 +424,10 @@ int dp_panel_init_panel_info(struct dp_panel *dp_panel)
+ 				drm_mode->clock);
+ 	drm_dbg_dp(panel->drm_dev, "bpp = %d\n", dp_panel->dp_mode.bpp);
+ 
+-	dp_panel->dp_mode.bpp = max_t(u32, 18,
+-				min_t(u32, dp_panel->dp_mode.bpp, 30));
++	max_supported_bpp = dp_panel_get_mode_bpp(dp_panel, dp_panel->dp_mode.bpp,
++						  dp_panel->dp_mode.drm_mode.clock);
++	dp_panel->dp_mode.bpp = max_t(u32, 18, max_supported_bpp);
++
+ 	drm_dbg_dp(panel->drm_dev, "updated bpp = %d\n",
+ 				dp_panel->dp_mode.bpp);
+ 
+-- 
+2.44.0
+
