@@ -2,70 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFBD93C15B
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 14:01:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562CE93C162
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 14:03:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 285E410E761;
-	Thu, 25 Jul 2024 12:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C03F610E775;
+	Thu, 25 Jul 2024 12:02:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="bACGTPxX";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="GLEzvhmz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23A7A10E761
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 12:01:41 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-a7aa74d1ab8so2866466b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 05:01:41 -0700 (PDT)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 555C710E775
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 12:02:58 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-5971b2be6b2so115308a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 05:02:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1721908899; x=1722513699; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1721908977; x=1722513777; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=+9Nd/mlRkfnyYlEn8SnWE7CPsur5peoiPhccqCSrfCE=;
- b=bACGTPxXlb8RZPah2gjFZqBI0I25IzuUW2cGjrQeyXdV8HuR2fPlyFau8si0gQ29tc
- aR1B8xBmhDqO97nZcPDt5z5z4WwW//5axp2d/gUSxVLYBgNUxZwSoF7vNssme2RAnAQk
- GK90ULTnkSsC8OZMeWKBJSx3LaLUrpmaymKEM=
+ bh=mf8aiHGco5imI6f94w6HLonBSVFjSGNh+4DGns98AUw=;
+ b=GLEzvhmzdBLAY8OPSlSh58dNLiAaL+6Qht0FvCti5DxVAIMQLNTAWLGJ4pj+S2kM2h
+ TC5V4lMHKWIiUFDxgq4hy2pJlYRrfjFN5Gqm/zG6Z1OL9Vwq8Gz8g9bUTPBFcem8E0BQ
+ WWDm2Rs9cilZ//5CYUnjJwofehgepIpG27QJA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721908899; x=1722513699;
+ d=1e100.net; s=20230601; t=1721908977; x=1722513777;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+9Nd/mlRkfnyYlEn8SnWE7CPsur5peoiPhccqCSrfCE=;
- b=mAUIN8ZoqRxjAJVZtKfkl6h6t1GxgnGdFxIXRxHx+4h2d25kdcUT0lOB691vzZRz08
- jWHrfknLkV0EAt7N+RdKFkojBzTmOx335seN3NNGakYQYgPEIfq1lM8NEPwls7oYqCeH
- T96osv6sQIMEnLw3uryW3H/pw2GIm6oDKvP41OvsnL98qpgW+eHdQoyukCvmW3dwlNzH
- +24meKi79n5Eg6hxF2xamNLDckg51FAyYhcR5iOu43mMihxdqPvVSwTLE1tY4uF87NrN
- DiBK/ejTUkIEp/qC2NMMBtwjEOMbC6etZIOLyL90Sz9rVQJVyJeiqjthK8fQv4JauBn3
- EnWw==
+ bh=mf8aiHGco5imI6f94w6HLonBSVFjSGNh+4DGns98AUw=;
+ b=t+geqNXkOeD6bJiFHFICNlpljsJRH56sBQzoopyvhiYTmktWsGNGJJV8cfR0QpfL7h
+ 9+4y5WnneXiosvo+zaFtHYh5uTiBFKr1FGotMrIvAV31IfkhMXkDIJqVStefT+JLF6QG
+ oZf+hNMvoMl9T/WcLlv9AduWMUkIwTCGGZ9ec+ELeZ6xkwtc/t+sRQy4qE0mseL1qNZz
+ ViAlqGT1/sv1q72pimcQ6UkcMEiuhbKXyUt/PA8tRsmi6OCHcjmzm67Pz3zOeLKG6C6F
+ olzvzpwqslCYfRcDiUi9WjeJTwrScQbtNQEP91XoAlAKZyQuA4HGjwkE0Pt0rRfSYnIr
+ DnLg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUawj/kicuJ7y+Iu5YgjtSXeroczMmAdS0/XFeS2+z0J2eGFI6UHYTpmb2nUaM7FmyDiP8F2ibgLz4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzv6/A34m53Fv16TYV3RJpTMGikU3DH1rMgZRbFJ79w0SmoZ4dG
- 2MucBbEKPRB7x93gZKO/Hr10m8ZI3tQiYWWX3qUlZDzwVHvyQgr+wUe7b1Q6KZI=
-X-Google-Smtp-Source: AGHT+IE/guvT0Wi1ydapZR9JmAG6k/oPTu1DwBHlDdtSe6FLkhCWGZBvNAumgn5zOWEwFvwe5X0xng==
-X-Received: by 2002:a17:907:7211:b0:a74:4f23:14ca with SMTP id
- a640c23a62f3a-a7ac5b788e6mr109719266b.7.1721908899157; 
- Thu, 25 Jul 2024 05:01:39 -0700 (PDT)
+ AJvYcCWWkbP9zhCVvuHKtBALvqqMEmyGzhZZBg9ZVtgS14PYdo6Vymk55APH/yaNG1ptBTk1p9GW/4huLpY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw8KqQH9Wi8nGHn7Ejq2+ifTZdcrfKoDApKHnTEpOAzwA8l9Q5I
+ hRCtc0uVsf3jcHa4LdO2XGSxiFQKXurn8UGfvxFzI7XKO9kstLJdt2i2VZ7SSpP/+Q0Vjq/vPKL
+ T
+X-Google-Smtp-Source: AGHT+IE6b/GeFAYE2dU0D/tDfJJDSL6dJ/hvmzWxix2ijQW5ph8EzVRo2YU5/oNuNtMYRAMX8OxL1A==
+X-Received: by 2002:a05:6402:26cc:b0:5a0:d481:c409 with SMTP id
+ 4fb4d7f45d1cf-5ac278582e7mr1117164a12.0.1721908976665; 
+ Thu, 25 Jul 2024 05:02:56 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7acab2311asm66392266b.18.2024.07.25.05.01.38
+ 4fb4d7f45d1cf-5ac63b59ca1sm750865a12.52.2024.07.25.05.02.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jul 2024 05:01:38 -0700 (PDT)
-Date: Thu, 25 Jul 2024 14:01:36 +0200
+ Thu, 25 Jul 2024 05:02:56 -0700 (PDT)
+Date: Thu, 25 Jul 2024 14:02:54 +0200
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
 Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/8] drm/amdgpu: use GEM references instead of TTMs
-Message-ID: <ZqI-oMrbSLSybC_p@phenom.ffwll.local>
+Subject: Re: [PATCH 2/8] drm/radeon: use GEM references instead of TTMs
+Message-ID: <ZqI-7hCrXRiy9ptL@phenom.ffwll.local>
 References: <20240723121750.2086-1-christian.koenig@amd.com>
+ <20240723121750.2086-2-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240723121750.2086-1-christian.koenig@amd.com>
+In-Reply-To: <20240723121750.2086-2-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 6.9.7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,53 +84,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 23, 2024 at 02:17:43PM +0200, Christian König wrote:
+On Tue, Jul 23, 2024 at 02:17:44PM +0200, Christian König wrote:
 > Instead of a TTM reference grab a GEM reference whenever necessary.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
 > Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Felix Kuehling <felix.kuehling@amd.com>
 > Cc: amd-gfx@lists.freedesktop.org
-
-I was worried that changing the refcounting for the mmu_interval_notifier
-that this patch does could result in a use-after-free, but the mmu
-notifier code already does the required amount of mmgrab/mmdrop, so we're
-good.
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Cheers, Sima
-
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    | 8 ++++----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 7 ++-----
->  2 files changed, 6 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/radeon/radeon_gem.c    | 2 +-
+>  drivers/gpu/drm/radeon/radeon_object.c | 7 ++-----
+>  2 files changed, 3 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> index 67c234bcf89f..6be3d7cd1c51 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> @@ -87,11 +87,11 @@ static const struct vm_operations_struct amdgpu_gem_vm_ops = {
+> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+> index 2ef201a072f1..05df49b3a5c6 100644
+> --- a/drivers/gpu/drm/radeon/radeon_gem.c
+> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
+> @@ -88,7 +88,7 @@ static void radeon_gem_object_free(struct drm_gem_object *gobj)
 >  
->  static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
->  {
-> -	struct amdgpu_bo *robj = gem_to_amdgpu_bo(gobj);
-> +	struct amdgpu_bo *aobj = gem_to_amdgpu_bo(gobj);
->  
-> -	if (robj) {
-> -		amdgpu_hmm_unregister(robj);
-> -		amdgpu_bo_unref(&robj);
-> +	if (aobj) {
-> +		amdgpu_hmm_unregister(aobj);
-> +		ttm_bo_put(&aobj->tbo);
+>  	if (robj) {
+>  		radeon_mn_unregister(robj);
+> -		radeon_bo_unref(&robj);
+> +		ttm_bo_put(&robj->tbo);
 >  	}
 >  }
 >  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 8d8c39be6129..6c187e310034 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -853,7 +853,7 @@ struct amdgpu_bo *amdgpu_bo_ref(struct amdgpu_bo *bo)
+> diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+> index a955f8a2f7fe..4b972c8c9516 100644
+> --- a/drivers/gpu/drm/radeon/radeon_object.c
+> +++ b/drivers/gpu/drm/radeon/radeon_object.c
+> @@ -256,18 +256,15 @@ struct radeon_bo *radeon_bo_ref(struct radeon_bo *bo)
 >  	if (bo == NULL)
 >  		return NULL;
 >  
@@ -137,18 +124,15 @@ Cheers, Sima
 >  	return bo;
 >  }
 >  
-> @@ -865,13 +865,10 @@ struct amdgpu_bo *amdgpu_bo_ref(struct amdgpu_bo *bo)
->   */
->  void amdgpu_bo_unref(struct amdgpu_bo **bo)
+>  void radeon_bo_unref(struct radeon_bo **bo)
 >  {
 > -	struct ttm_buffer_object *tbo;
 > -
 >  	if ((*bo) == NULL)
 >  		return;
->  
 > -	tbo = &((*bo)->tbo);
 > -	ttm_bo_put(tbo);
-> +	drm_gem_object_get(&(*bo)->tbo.base);
+> +	drm_gem_object_put(&(*bo)->tbo.base);
 >  	*bo = NULL;
 >  }
 >  
