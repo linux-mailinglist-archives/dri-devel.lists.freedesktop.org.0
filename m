@@ -2,48 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4B393C2CA
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 15:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A073C93C380
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 16:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2D2D10E7ED;
-	Thu, 25 Jul 2024 13:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13BA3890BE;
+	Thu, 25 Jul 2024 14:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JSu/hGeK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M3r1L0Mr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 270B610E7ED
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 13:20:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C94C2CE135C;
- Thu, 25 Jul 2024 13:20:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02B95C116B1;
- Thu, 25 Jul 2024 13:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721913602;
- bh=q/87njUpBTK5CKvoQbtBLNFmxeqw7l6bejSeAxR4R0o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JSu/hGeKQgbRzmREiiGHNwo67KxdHwzjqckJ/KRw83WCoW2oRq38AOO67V3P134Q0
- ef+u91iBBDrAtupGA2ksrduY3Ir87j6RunrNXQDAif62tZmd1fBoVBzIbp3M2Kf2Kz
- dJ4nMSPl7OkkAAxqYeyloAaV0hjDhWQ7OCjfjDcHMFL/+h0OUoo5vJI2kBT2/Ym6A5
- 9SKBEPSNokTzt/it8bq8qtEcCGI1UVY/KEMqiayZkqYV/Nqxe54zAee9LnbUO5nE7D
- YJlwDYetVCixZOBwkf/iagBAMkTwb4yK53GwfSvTbzj6GANB4dRr52X1IuB9XuCYSR
- iqDjPA51m4gvw==
-Message-ID: <67aae071-b3d4-431b-8603-92dc79caba0c@kernel.org>
-Date: Thu, 25 Jul 2024 15:19:59 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B6A7910E74F;
+ Thu, 25 Jul 2024 14:05:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1721916320; x=1753452320;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=gED3aOqN/q8cvDC2SzthwKcS2p7mJl+FIYNKfZ2WdBI=;
+ b=M3r1L0Mr02rYbdh5abPKIgc0HzA/GdDkyxlw1/Rnz9jk5nQ4Z3sLobea
+ AN6RR65VRvoa96u90k0glX7RwqD6Xu1WlY1KD+CO+84CI/S8eBUGwr/UC
+ CPUdW2SCs9W/WtExkErEniyq32AWWQqvzSg9KNUoJwPjlJdSIr5lm1gc3
+ G6e7ZTOP0jXOIit1sCJLCn6u2hig6Z65Lx54hmx26ED3F203NX5BiY5u8
+ ubnoWHt4gGLnZNB64U7zyIrpfPz2FoOvlzWy7BlLl2ri64CnoS2QV8cgh
+ 4UIiFFjWq4yzDy8gGUeruxXzs7fvpl3YCxxKfVcsNJkh+lXTRWgsnt8l0 A==;
+X-CSE-ConnectionGUID: rnq7LLcNQ9e5slR7nxYciQ==
+X-CSE-MsgGUID: UYxWDU9/R5WvyzAnHvYe8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="19504631"
+X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; d="scan'208";a="19504631"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2024 07:05:19 -0700
+X-CSE-ConnectionGUID: sBlQhzjXQcGAEK33hi8Fuw==
+X-CSE-MsgGUID: zj6TEOOuQpWdgpdCefgisw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; d="scan'208";a="53007683"
+Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2024 07:05:13 -0700
+From: Alexander Usyskin <alexander.usyskin@intel.com>
+To: Mark Brown <broonie@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Tomas Winkler <tomas.winkler@intel.com>,
+ Alexander Usyskin <alexander.usyskin@intel.com>,
+ Vitaly Lubart <vitaly.lubart@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 00/12] spi: add driver for Intel discrete graphics
+Date: Thu, 25 Jul 2024 16:56:45 +0300
+Message-Id: <20240725135657.1061836-1-alexander.usyskin@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] drm/ttm: revert "Export ttm_bo_get_unless_zero()"
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- dri-devel@lists.freedesktop.org
-References: <20240723121750.2086-1-christian.koenig@amd.com>
- <20240723121750.2086-6-christian.koenig@amd.com>
-Content-Language: en-US
-From: Danilo Krummrich <dakr@kernel.org>
-In-Reply-To: <20240723121750.2086-6-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,146 +79,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/23/24 2:17 PM, Christian König wrote:
-> This reverts commit 24dc64c1ba5c3ef0463d59fef6df09336754188d.
-> 
-> Shouldn't be needed by drivers any more.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Add driver for access to Intel discrete graphics card
+internal SPI device.
+Expose device on auxiliary bus by i915 and Xe drivers and
+provide spi driver to register this device with MTD framework.
 
+This is a rewrite of "drm/i915/spi: spi access for discrete graphics"
+series with connection to the Xe driver and splitting
+the spi driver part to separate module in spi subsystem.
 
-Technically, this series should be a v2, right? I also still think it would be
-good to add the corresponding driver maintainers to the recipient list.
+This series intended to be pushed through drm-xe-next.
 
-Anyway, for the TTM patches: Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+V3: rebase over drm-xe-next to enable CI run
 
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c          |  1 +
->   drivers/gpu/drm/ttm/ttm_bo_internal.h | 48 +++++++++++++++++++++++++++
->   drivers/gpu/drm/ttm/ttm_bo_util.c     |  2 ++
->   drivers/gpu/drm/ttm/ttm_device.c      |  1 +
->   include/drm/ttm/ttm_bo.h              | 18 ----------
->   5 files changed, 52 insertions(+), 18 deletions(-)
->   create mode 100644 drivers/gpu/drm/ttm/ttm_bo_internal.h
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 0131ec802066..fe4638ec0976 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -45,6 +45,7 @@
->   #include <linux/dma-resv.h>
->   
->   #include "ttm_module.h"
-> +#include "ttm_bo_internal.h"
->   
->   static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
->   					struct ttm_placement *placement)
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_internal.h b/drivers/gpu/drm/ttm/ttm_bo_internal.h
-> new file mode 100644
-> index 000000000000..6a7305efd778
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_internal.h
-> @@ -0,0 +1,48 @@
-> +/*
-> + * Copyright 2018 Advanced Micro Devices, Inc.
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the "Software"),
-> + * to deal in the Software without restriction, including without limitation
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> + * OTHER DEALINGS IN THE SOFTWARE.
-> + *
-> + *
-> + */
-> +
-> +#ifndef _TTM_BO_INTERNAL_H_
-> +#define _TTM_BO_INTERNAL_H_
-> +
-> +#include <drm/ttm/ttm_bo.h>
-> +
-> +/**
-> + * ttm_bo_get_unless_zero - reference a struct ttm_buffer_object unless
-> + * its refcount has already reached zero.
-> + * @bo: The buffer object.
-> + *
-> + * Used to reference a TTM buffer object in lookups where the object is removed
-> + * from the lookup structure during the destructor and for RCU lookups.
-> + *
-> + * Returns: @bo if the referencing was successful, NULL otherwise.
-> + */
-> +static inline __must_check struct ttm_buffer_object *
-> +ttm_bo_get_unless_zero(struct ttm_buffer_object *bo)
-> +{
-> +	if (!kref_get_unless_zero(&bo->kref))
-> +		return NULL;
-> +	return bo;
-> +}
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index 3c07f4712d5c..f7143384ef1c 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -37,6 +37,8 @@
->   
->   #include <drm/drm_cache.h>
->   
-> +#include "ttm_bo_internal.h"
-> +
->   struct ttm_transfer_obj {
->   	struct ttm_buffer_object base;
->   	struct ttm_buffer_object *bo;
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-> index e7cc4954c1bc..2e7fa3a11dc0 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -36,6 +36,7 @@
->   #include <drm/ttm/ttm_placement.h>
->   
->   #include "ttm_module.h"
-> +#include "ttm_bo_internal.h"
->   
->   /*
->    * ttm_global_mutex - protecting the global state
-> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> index d1a732d56259..31ec7fd34eeb 100644
-> --- a/include/drm/ttm/ttm_bo.h
-> +++ b/include/drm/ttm/ttm_bo.h
-> @@ -239,24 +239,6 @@ static inline void ttm_bo_get(struct ttm_buffer_object *bo)
->   	kref_get(&bo->kref);
->   }
->   
-> -/**
-> - * ttm_bo_get_unless_zero - reference a struct ttm_buffer_object unless
-> - * its refcount has already reached zero.
-> - * @bo: The buffer object.
-> - *
-> - * Used to reference a TTM buffer object in lookups where the object is removed
-> - * from the lookup structure during the destructor and for RCU lookups.
-> - *
-> - * Returns: @bo if the referencing was successful, NULL otherwise.
-> - */
-> -static inline __must_check struct ttm_buffer_object *
-> -ttm_bo_get_unless_zero(struct ttm_buffer_object *bo)
-> -{
-> -	if (!kref_get_unless_zero(&bo->kref))
-> -		return NULL;
-> -	return bo;
-> -}
-> -
->   /**
->    * ttm_bo_reserve:
->    *
+V2: fix review comments
+    fix signatures order
+    depend spi presence in Xe on special flag,
+     as not all new discrete cards have such spi
+
+Alexander Usyskin (6):
+  spi: add driver for intel graphics on-die spi device
+  spi: intel-dg: align 64bit read and write
+  spi: intel-dg: wake card on operations
+  drm/i915/spi: add support for access mode
+  drm/xe/spi: add on-die spi device
+  drm/xe/spi: add support for access mode
+
+Tomas Winkler (6):
+  spi: intel-dg: implement region enumeration
+  spi: intel-dg: implement spi access functions
+  spi: intel-dg: spi register with mtd
+  spi: intel-dg: implement mtd access handlers
+  drm/i915/spi: add spi device for discrete graphics
+  drm/i915/spi: add intel_spi_region map
+
+ MAINTAINERS                           |   7 +
+ drivers/gpu/drm/i915/Makefile         |   4 +
+ drivers/gpu/drm/i915/i915_driver.c    |   6 +
+ drivers/gpu/drm/i915/i915_drv.h       |   4 +
+ drivers/gpu/drm/i915/i915_reg.h       |   1 +
+ drivers/gpu/drm/i915/spi/intel_spi.c  |  97 +++
+ drivers/gpu/drm/i915/spi/intel_spi.h  |  15 +
+ drivers/gpu/drm/xe/Makefile           |   1 +
+ drivers/gpu/drm/xe/regs/xe_gsc_regs.h |   5 +
+ drivers/gpu/drm/xe/xe_device.c        |   3 +
+ drivers/gpu/drm/xe/xe_device_types.h  |   8 +
+ drivers/gpu/drm/xe/xe_heci_gsc.c      |   5 +-
+ drivers/gpu/drm/xe/xe_pci.c           |   5 +
+ drivers/gpu/drm/xe/xe_spi.c           | 104 ++++
+ drivers/gpu/drm/xe/xe_spi.h           |  15 +
+ drivers/spi/Kconfig                   |  11 +
+ drivers/spi/Makefile                  |   1 +
+ drivers/spi/spi-intel-dg.c            | 863 ++++++++++++++++++++++++++
+ include/linux/intel_dg_spi_aux.h      |  27 +
+ 19 files changed, 1178 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/spi/intel_spi.c
+ create mode 100644 drivers/gpu/drm/i915/spi/intel_spi.h
+ create mode 100644 drivers/gpu/drm/xe/xe_spi.c
+ create mode 100644 drivers/gpu/drm/xe/xe_spi.h
+ create mode 100644 drivers/spi/spi-intel-dg.c
+ create mode 100644 include/linux/intel_dg_spi_aux.h
+
+-- 
+2.34.1
+
