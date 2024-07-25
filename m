@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD4B93BFCB
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 12:19:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FA593BFD4
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 12:23:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6698B10E19C;
-	Thu, 25 Jul 2024 10:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D3810E0E2;
+	Thu, 25 Jul 2024 10:23:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gDvXdBgx";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="mM4OIwkj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5291010E19C
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 10:18:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id ABB58611CB;
- Thu, 25 Jul 2024 10:18:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56FA3C116B1;
- Thu, 25 Jul 2024 10:18:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721902736;
- bh=xcyUsAObjzUoWt+gYb3Nj0AXQctkIgHNhrm+t1FDpHc=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=gDvXdBgxICvZ5rwCX8u757PEZ1xtVnIDnRC06/FBhChJUE8PjgEG5ezRSDt1mnMmX
- mBLwlN2DYnRxSYudrRwn6rkwJq1E43MmnInRWP7bWXeWh+A+Tu3+ccvajCwrbKeljB
- WW8haobavU8KMOtR9vFG/8GGBX4W+7SD27DW+dIYGUVTypt+T1PTTAprK7tk7SCIz+
- DKPIYZ0BNJgXQNlH5wJckZkZ8FSsVYqRTvOa8fqIvOx1q8hZRIQT0PjQjVTJ1eTjXR
- OSaozvJtIPMgVDAiXsuXvVDBXmPd/9sspVKx4JBaQkLQabnmgLlQVVv14FhBP7Ua3l
- zIWUkL7lBiAXg==
-From: Robert Foss <rfoss@kernel.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Pin-yen Lin <treapking@chromium.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Kuro Chung <kuro.chung@ite.com.tw>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-In-Reply-To: <20240719110623.1850021-1-treapking@chromium.org>
-References: <20240719110623.1850021-1-treapking@chromium.org>
-Subject: Re: [PATCH] drm/bridge: it6505: Disable IRQ when powered off
-Message-Id: <172190273302.1592998.13226934023612913257.b4-ty@kernel.org>
-Date: Thu, 25 Jul 2024 12:18:53 +0200
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
+ [95.215.58.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A89F510E0E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 10:23:26 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1721903004;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t4B5CpogFr/6szGnySiBlRSQMQJUsoQdHfG8O0D6Vd0=;
+ b=mM4OIwkj418FvPDuuERKrHUMX3ct9zYl0HmYydENQB+MSGBP++IZpMbJ9vp06N+BlRRsi5
+ OC/Gn0WwdodBtUHjD6xRhsxDob9PgsQRAWvh1Vm+wP4B7MeuYBd/mSWCzME0jT0EZSrYVI
+ GCCKn5qp7bBb4i2Gh0cnYvMVklrfoRSDAGdwux7CudFRR42tN5SUQVQBQ9SexPwHBSNlsG
+ 3rESJ1dxGpSHqhTDEv5R68cigBOFa0iRFt0AYWwEjEQbBkFWy4zQnrvOj+MDbkXw5cnm3E
+ Fa6SzwUQAj0lry//NyNzXxJxFlJX7BgVnt23OW0n/60TfXNF9dH8UgGUZyqjTA==
+From: Diederik de Haas <didi.debian@cknow.org>
+To: Dragan Simic <dsimic@manjaro.org>, Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
+ robh@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ linux-kernel@vger.kernel.org, Furkan Kardame <f.kardame@manjaro.org>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] drm/panfrost: Mark simple_ondemand governor as softdep
+Date: Thu, 25 Jul 2024 12:23:13 +0200
+Message-ID: <3863847.7OiSWjA07a@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <ae62139f-3655-44d0-aeb7-15c6b67eb97c@arm.com>
+References: <4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org>
+ <d20667e76aa56fb69c91ef327d467d4a@manjaro.org>
+ <ae62139f-3655-44d0-aeb7-15c6b67eb97c@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: multipart/signed; boundary="nextPart3174170.kLLAvsri18";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,19 +63,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 19 Jul 2024 19:05:36 +0800, Pin-yen Lin wrote:
-> When the bridge is powered off, disable the IRQ until the next power on
-> to workaround an interrupt storm on some badly-designed hardware.
-> 
-> 
+--nextPart3174170.kLLAvsri18
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Diederik de Haas <didi.debian@cknow.org>
+Date: Thu, 25 Jul 2024 12:23:13 +0200
+Message-ID: <3863847.7OiSWjA07a@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <ae62139f-3655-44d0-aeb7-15c6b67eb97c@arm.com>
+MIME-Version: 1.0
 
-Applied, thanks!
+On Thursday, 25 July 2024 11:20:22 CEST Steven Price wrote:
+> [1] Although from my understanding it's firmware which is the real cause
+> of bloat in initramfs size. I guess I need to start paying attention to
+> this for panthor which adds GPU firmware - although currently tiny in
+> comparison to others.
 
-[1/1] drm/bridge: it6505: Disable IRQ when powered off
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=10ba3753665f
+Can confirm that's the case.
+When using (f.e.?) plymouth, the gpu drivers and corresponding firmware
+gets added to initramfs. If you then have much more and much larger firmware 
+files (nvidia f.e. added 2 fw files of 23 and 38 MB respectively ...) then you 
+get a corresponding much larger initramfs.
+If you add a (fixed) bug in initramfs-tools where symlinks to directories 
+weren't preserved, but full copies were made, you could end up with a single 
+initramfs of 240MB ...
+--nextPart3174170.kLLAvsri18
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZqInkQAKCRDXblvOeH7b
+bqhlAP9pNuQEjWf+eKX8vuBpB+yxlxQNwxFBHAmPe/eBLu3cjwD8D9QJdQx86PUn
+WiKv4UAe5v7jglsoI4Tu2tWe41m83A4=
+=Dv1b
+-----END PGP SIGNATURE-----
 
-Rob
+--nextPart3174170.kLLAvsri18--
+
 
 
