@@ -2,96 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F3A93BC77
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 08:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4463393BCC5
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2024 08:55:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A161F10E2B6;
-	Thu, 25 Jul 2024 06:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBABA10E71C;
+	Thu, 25 Jul 2024 06:55:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TkWmJd9W";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fgKBZ2JZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6E110E2B6
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 06:18:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D9E5ECE11C4;
- Thu, 25 Jul 2024 06:18:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 521BBC32786;
- Thu, 25 Jul 2024 06:18:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721888330;
- bh=BEU3AT7o8i8mr/yhBN5LCnFU6PLegsNE9FA7szrqdsg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TkWmJd9W0twtVGO0uUOTurTTwTP/FGlJwlDPEkLx+zDUm2ZPUBZ0rl/YdeJkTNbNI
- P0fCGRGWnanptWmwxOPu5pL50UhjeykkKNGExwd7vm7bMG3P5ZhqIBvZaBe0PTo7IY
- kzzhUIsDKQVfaYQggFodxpiyvGQaEr/xkSHQZxBRQ31lKWhhdH+R5M+mzpdZLij1hH
- mz+47kWsrHlKoBfVYF9pj4C2jAlwyXox44MVsTpUuW7hnFiU67Wfr3eTeW6Rxd2oao
- L5TAT5F113toi17DvW9pnSB49GrQTkm0UeRrBWL4oqnACsX4IPAnnuHGgaaeb5PsPn
- VYtSctKlEmrQg==
-Message-ID: <b358e743-d264-4c18-95a3-393b9d20a87c@kernel.org>
-Date: Thu, 25 Jul 2024 08:18:44 +0200
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D190310E16F;
+ Thu, 25 Jul 2024 06:55:04 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-426717a2d12so3156285e9.0; 
+ Wed, 24 Jul 2024 23:55:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1721890503; x=1722495303; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DuTN+kDGENu6xXBj1NgEgyRLozzKhv55rcnYOX8KmhY=;
+ b=fgKBZ2JZrFj/U6dpeLbKmYRDW4y3x1u6Nz9CJFIHcewbpbcP+wSfVU36kN9ATjvoNx
+ ALQTZnTNrLRzlSL6DREIQNKfUp5htRALQBruwD+OJ9jVbVmddEDTmL4pQorQAgg0FTA2
+ Efhzm9AglI94KglwFw3r59IPuWj4KJ/eBx2qnkPib8lz3zzkxtPYyVE6ifMTVAL46XwY
+ 0QpsnzJbS0sgJWHoo+VeYXV/eDG9gujUD+sOAvuT/65KN+O94amf0KK2Bmuc0+eXh5ji
+ Z8P0ukBTl6PsqT007gK514Cg/dWBmdvGHVqTOz/uMVMId6v4mDGwlKt13ZL/1xv0/S6y
+ HrwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721890503; x=1722495303;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DuTN+kDGENu6xXBj1NgEgyRLozzKhv55rcnYOX8KmhY=;
+ b=UfY96vvVVRx18auhmM5nN+yg1/oIPIsuCcOrCz3K+qXsMWrSeYKDSyKjYa4Xzfbf+2
+ uuFQjsg8/aReIpYswJJcC4k+mymDDSAVmLaWgmuhw8MlA1SmiBdWn0Z+ZuQpP7brW5UI
+ iypcWnIJm/C0PqmnXgJlaHPtyowtf9YXS3OpfVvuGgDtvI9Jc26tiYr8GRBdi+rZAdyy
+ TslJEUldU7vnARKeypzGj3ddkzS+tXvnDg+AeHhoyTVdihaLshfUkuDq0m0sLjKf8ynb
+ WlqQ5hlrQ8QeZZhR9VQsj6gYEV9deXUX1oFCWXhat/FNtedjMvbXcJCH7MT7hV1ivKlu
+ QgLw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUhSIwq5o6Wav/OCDDWjbBr2aO+HxKhEzAmJXJ5HGZn7z7oyQzIeBvqkoQVI9WOcLioqtf1cJ0XhBMLhohi7lvWoov9c+wq5I50oW3hGAhlfvh+1KYQtwMvTk07xdogGTGogZoCUqqZ2/qFn+/ypg==
+X-Gm-Message-State: AOJu0Ywlazrz81/mTXKufR44sJBmMq75pyeTke/veSNcDFwX6+jetqnn
+ lc0/hPIrBipStEe51bQZTQsZw0vaBT0D59W3URR6E9ajaJQspIqo
+X-Google-Smtp-Source: AGHT+IFDb4sD3pOsedkk0/LWcAY+LieYVY8mqTFh3+iKOmjF2aCcPCDJSzJfeDUWQWKsLRFm3/Y0fw==
+X-Received: by 2002:a05:600c:3147:b0:426:64c1:8388 with SMTP id
+ 5b1f17b1804b1-42803b5b18fmr10801735e9.17.1721890502686; 
+ Wed, 24 Jul 2024 23:55:02 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-427f92c7cb3sm61764035e9.0.2024.07.24.23.55.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Jul 2024 23:55:02 -0700 (PDT)
+Message-ID: <d384eb76-502c-4a46-9aa9-44671440b417@gmail.com>
+Date: Thu, 25 Jul 2024 08:55:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: display: Add Sharp Memory LCD bindings
-To: Alex Lanzano <lanzano.alex@gmail.com>, mehdi.djait@bootlin.com,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240725004734.644986-1-lanzano.alex@gmail.com>
- <20240725004734.644986-2-lanzano.alex@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH -next] drm/amd/display: use swap() in sort()
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, harry.wentland@amd.com
+Cc: sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Abaci Robot <abaci@linux.alibaba.com>
+References: <20240724073749.14338-1-jiapeng.chong@linux.alibaba.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240725004734.644986-2-lanzano.alex@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20240724073749.14338-1-jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -108,24 +88,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/07/2024 02:47, Alex Lanzano wrote:
-> Add device tree bindings for the monochrome Sharp Memory LCD
-> 
-> Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+Am 24.07.24 um 09:37 schrieb Jiapeng Chong:
+> Use existing swap() function rather than duplicating its implementation.
+>
+> ./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c:17:29-30: WARNING opportunity for swap().
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9573
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
->  .../bindings/display/sharp,sharp-memory.yaml  | 97 +++++++++++++++++++
->  include/dt-bindings/display/sharp-memory.h    |  9 ++
->  2 files changed, 106 insertions(+)
+>   .../display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c    | 8 ++------
+>   1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+> index 717536d7bb30..8e68a8094658 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+> @@ -7,16 +7,12 @@
+>   
+>   static void sort(double *list_a, int list_a_size)
+>   {
+> -	double temp;
+>   	// For all elements b[i] in list_b[]
+>   	for (int i = 0; i < list_a_size - 1; i++) {
+>   		// Find the first element of list_a that's larger than b[i]
 
-BTW, look at your original binding:
-https://lore.kernel.org/dri-devel/2a7c51b6e619c02ec175a5c219b0a0fd7a24499d.1701267411.git.mehdi.djait@bootlin.com/
+While at it please also replace all // comments by using /* */.
 
-Why did you decide to introduce mistakes? Eg. dropping all $refs?
+Apart from that looks good to me.
 
-And finally look at the comment:
-https://lore.kernel.org/dri-devel/5dbdf7bd-cfa3-492b-a0a3-fdc323cf11f8@linaro.org/
-You just ignored it completely....
+Regards,
+Christian.
 
-Best regards,
-Krzysztof
+>   		for (int j = i; j < list_a_size - 1; j++) {
+> -			if (list_a[j] > list_a[j + 1]) {
+> -				temp = list_a[j];
+> -				list_a[j] = list_a[j + 1];
+> -				list_a[j + 1] = temp;
+> -			}
+> +			if (list_a[j] > list_a[j + 1])
+> +				swap(list_a[j], list_a[j + 1]);
+>   		}
+>   	}
+>   }
 
