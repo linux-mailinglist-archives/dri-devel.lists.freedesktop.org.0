@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019AD93CF46
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 10:06:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A51093CF9A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 10:26:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3597D10E947;
-	Fri, 26 Jul 2024 08:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01DDF10E2D1;
+	Fri, 26 Jul 2024 08:26:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D0OxV065";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aPxNnRVL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8DF710E947
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 08:06:48 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1332F10E103;
+ Fri, 26 Jul 2024 08:26:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721981208; x=1753517208;
+ t=1721982363; x=1753518363;
  h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=9XgdxMrvIfkd+SJBRa+5xDEpZzmO8H5H5XS3eZbYEog=;
- b=D0OxV065Wb9Q6dVqlQ4YYAfHGdjRYr157ZORGhNYh+IWULUcFGpjdxyV
- QJ/wx6ElSPoQ4W0uJDr2WxuG9E8U+F8Xs8JoazXp5Xoj5N1r7IJ6KvZiP
- /yTZ03S9tJQjkaDKM7JjeZlwdjLfvO8yzcUyhw04iWt0kA6n4LdAwNG4F
- Pw1JPJY1snAalsVK/xxEJbxpHIo7nEGqlMT9BbNtXJpE0qcOonZAvSmn2
- lvj6tWcNH5tlnCxp+aKAYcDrhNcBfzgA87RjUoRihyLigicNRkiC+BOPD
- IOpt5I8ZF0gp2ef5pRYqs00mwwSOuqV2ix48OR3E9d9AXIq5f+wk2/9uw w==;
-X-CSE-ConnectionGUID: qGMV0uyvT8WhCHaC6RQdYA==
-X-CSE-MsgGUID: +k6ivfo7S4eoVG7YB8ZjrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="22679023"
-X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="22679023"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2024 01:06:48 -0700
-X-CSE-ConnectionGUID: r1ab+2STRCmEt3ZuWAdtjQ==
-X-CSE-MsgGUID: QzRcKxs0Q0au6gz37wJ4Bw==
+ message-id:mime-version;
+ bh=dzHtMzHbaJ2yE5UIrMONtQRc75u7v0DvZWr8hP/nT0E=;
+ b=aPxNnRVLt9IxWlwV6Nsi4R/LQiMjHXzTsPW86TKAf65YmvaVJdBQRCHq
+ +rGv224vaC1NBmQBQrNvzs0WOdH3/WoGQAGp/WT13lKvQ7RIQISMUA5cV
+ /rM1gIfm+cphCmRcA+YITExTGjpMX6QH8u2Gbri59gaGiOEiABn5kDo4J
+ BJJaDFJavrKYpvJJk+Ojk+LfJ7Y3MSva2Uex19oh+CyGIC+4bavi1/1hv
+ wlPUf6XIyrCdt5hUY1IxDHLykBUDbvrVEVBo84YfqBQH07kstJY9AoZ9u
+ hvmPn4yb61zkLTheUhngToWui36Q5SCn6cYx4bDlbyFjCqI/FZIAAhjrI Q==;
+X-CSE-ConnectionGUID: 0Eg+Xr6cTGyBCSRJVdDwNA==
+X-CSE-MsgGUID: 1hsJV0LjRcG+pPrpBm7xyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="19892092"
+X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="19892092"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2024 01:26:00 -0700
+X-CSE-ConnectionGUID: khyK4IXFRY6UMJBtoOLvfw==
+X-CSE-MsgGUID: lvwBMgd3Tnq2BcaUZpQp0g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="57984032"
+X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="53214226"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.66])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2024 01:06:43 -0700
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2024 01:25:56 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, dianders@chromium.org, hsinyi@google.com,
- airlied@gmail.com, daniel@ffwll.ch, jagan@edgeble.ai,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] drm/panel: jd9365da: Move the sending location
- of the 11/29 command
-In-Reply-To: <CA+6=WdS5QKMVX2euxdeDqCoHrCpWuqB_cu5vzHGUNdUq4NnPZw@mail.gmail.com>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Ville =?utf-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] drm/i915: Fix possible int overflow in
+ skl_ddi_calculate_wrpll()
+In-Reply-To: <e6c131df-64b6-4856-8778-0fa7e8c7c876@fintech.ru>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240725083245.12253-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240725083245.12253-2-lvzhaoxiong@huaqin.corp-partner.google.com>
- <87o76lzwvr.fsf@intel.com>
- <CA+6=WdS5QKMVX2euxdeDqCoHrCpWuqB_cu5vzHGUNdUq4NnPZw@mail.gmail.com>
-Date: Fri, 26 Jul 2024 11:06:40 +0300
-Message-ID: <87h6cczien.fsf@intel.com>
+References: <20240724184911.12250-1-n.zhandarovich@fintech.ru>
+ <87sevxzy0i.fsf@intel.com>
+ <e6c131df-64b6-4856-8778-0fa7e8c7c876@fintech.ru>
+Date: Fri, 26 Jul 2024 11:25:52 +0300
+Message-ID: <87ed7gzhin.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,203 +77,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 26 Jul 2024, zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.c=
-om> wrote:
-> On Thu, Jul 25, 2024 at 4:41=E2=80=AFPM Jani Nikula <jani.nikula@linux.in=
-tel.com> wrote:
->>
->> On Thu, 25 Jul 2024, Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.googl=
-e.com> wrote:
->> > Move the 11/29 command from enable() to init() function
->>
->> OOC, what is the "11/29" command?
->>
+On Thu, 25 Jul 2024, Nikita Zhandarovich <n.zhandarovich@fintech.ru> wrote:
+> Hi,
+>
+> On 7/25/24 01:17, Jani Nikula wrote:
+>> On Wed, 24 Jul 2024, Nikita Zhandarovich <n.zhandarovich@fintech.ru> wrote:
+>>> On the off chance that clock value ends up being too high (by means
+>>> of skl_ddi_calculate_wrpll() having benn called with big enough
+>>> value of crtc_state->port_clock * 1000), one possible consequence
+>>> may be that the result will not be able to fit into signed int.
+>>>
+>>> Fix this, albeit unlikely, issue by first casting one of the operands
+>>> to u32, then to u64, and thus avoid causing an integer overflow.
+>> 
+>> Okay, thanks for the patch, but please let's not do this.
+>> 
+>> Currently the highest possible port clock is 2000000 kHz, and 1000 times
+>> that fits into 31 bits. When we need to support higher clocks, we'll
+>> need to handle this. But not like this.
+>> 
+>> That (u64)(u32) is just too unintuitive, and assumes the caller has
+>> already passed in something that has overflown. People are just going to
+>> pause there, and wonder what's going on.
+>> 
+>> If we want to appease the static analyzer, I think a better approach
+>> would be to change the parameter to u64 clock_hz, and have the caller
+>> do:
+>> 
+>> 	ret = skl_ddi_calculate_wrpll((u64)crtc_state->port_clock * 1000,
+>> 				      i915->display.dpll.ref_clks.nssc, &wrpll_params);
+>> 
 >> BR,
 >> Jani.
+>> 
 >
-> hi Jani
-> Sorry, maybe I didn't describe it clearly. The 11/29 commands are sent
-> by these two functions.
+> First, I agree that using (u64)(u32) is confusing and not intuitive,
+> even if there are some similar examples in kernel code.
 >
-> mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-> mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+> The reason why I thought I had to opt for it though is the following: I
+> was worried that if the int value of 'clock' in
+> skl_ddi_calculate_wrpll() is big enough (specifically, high bit is 1),
+> then after casting it to long or u64 in this case, the resulting value
+> of wider type will have all its ~32 upper bits also set to 1, per rules
+> of Integer Promotion. Changing the type from signed to unsigned, then to
+> bigger unsigned seems to mitigate *this* particular issue and I can't
+> come up with a more elegant solution at the moment. Correct me if I'm
+> wrong somewhere.
 >
-> MIPI_DCS_EXIT_SLEEP_MODE =3D 0x11,
-> MIPI_DCS_SET_DISPLAY_ON=3D 0x29,
+> Also, while port clock may be able to fit its value timed 1000 into 31
+> bits, multiplying it by 5 to get AFE Clock value, as far as I can see,
+> *will* lead to overflow, as 2,000,000,000 * 5 won't fit into 32 bits.
+>
+> To sum it up, with current max possible port clock values an integer
+> overflow can occur and changing 'clock' parameter from int to u64 may
+> lead to a different issue. If my understanding about integer promotion
+> is flawed, I'll gladly send v2 patch with your solution.
 
-Maybe refer to the commands with their names then? Exit sleep mode and
-set display on.
+This is what I'm suggesting. Cast the clock (which is in kHz) to u64
+before multiplication, and avoid overflows.
 
-BR,
-Jani.
+Option 1, preferred:
 
+diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+index 90998b037349..292d163036b1 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
++++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+@@ -1658,7 +1658,7 @@ static void skl_wrpll_params_populate(struct skl_wrpll_params *params,
+ }
+ 
+ static int
+-skl_ddi_calculate_wrpll(int clock /* in Hz */,
++skl_ddi_calculate_wrpll(int clock,
+ 			int ref_clock,
+ 			struct skl_wrpll_params *wrpll_params)
+ {
+@@ -1683,7 +1683,7 @@ skl_ddi_calculate_wrpll(int clock /* in Hz */,
+ 	};
+ 	unsigned int dco, d, i;
+ 	unsigned int p0, p1, p2;
+-	u64 afe_clock = clock * 5; /* AFE Clock is 5x Pixel clock */
++	u64 afe_clock = (u64)clock * 1000 * 5; /* AFE Clock is 5x Pixel clock, in Hz */
+ 
+ 	for (d = 0; d < ARRAY_SIZE(dividers); d++) {
+ 		for (dco = 0; dco < ARRAY_SIZE(dco_central_freq); dco++) {
+@@ -1808,7 +1808,7 @@ static int skl_ddi_hdmi_pll_dividers(struct intel_crtc_state *crtc_state)
+ 	struct skl_wrpll_params wrpll_params = {};
+ 	int ret;
+ 
+-	ret = skl_ddi_calculate_wrpll(crtc_state->port_clock * 1000,
++	ret = skl_ddi_calculate_wrpll(crtc_state->port_clock,
+ 				      i915->display.dpll.ref_clks.nssc, &wrpll_params);
+ 	if (ret)
+ 		return ret;
+
+Option 2, this is what I suggested earlier:
+
+diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+index 90998b037349..a48a45f30f17 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
++++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+@@ -1658,7 +1658,7 @@ static void skl_wrpll_params_populate(struct skl_wrpll_params *params,
+ }
+ 
+ static int
+-skl_ddi_calculate_wrpll(int clock /* in Hz */,
++skl_ddi_calculate_wrpll(u64 clock_hz,
+ 			int ref_clock,
+ 			struct skl_wrpll_params *wrpll_params)
+ {
+@@ -1683,7 +1683,7 @@ skl_ddi_calculate_wrpll(int clock /* in Hz */,
+ 	};
+ 	unsigned int dco, d, i;
+ 	unsigned int p0, p1, p2;
+-	u64 afe_clock = clock * 5; /* AFE Clock is 5x Pixel clock */
++	u64 afe_clock = clock_hz * 5; /* AFE Clock is 5x Pixel clock */
+ 
+ 	for (d = 0; d < ARRAY_SIZE(dividers); d++) {
+ 		for (dco = 0; dco < ARRAY_SIZE(dco_central_freq); dco++) {
+@@ -1808,7 +1808,7 @@ static int skl_ddi_hdmi_pll_dividers(struct intel_crtc_state *crtc_state)
+ 	struct skl_wrpll_params wrpll_params = {};
+ 	int ret;
+ 
+-	ret = skl_ddi_calculate_wrpll(crtc_state->port_clock * 1000,
++	ret = skl_ddi_calculate_wrpll((u64)crtc_state->port_clock * 1000,
+ 				      i915->display.dpll.ref_clks.nssc, &wrpll_params);
+ 	if (ret)
+ 		return ret;
 
 
 >
-> BR,
->>
->> >
->> > As mentioned in the patch:
->> > https://lore.kernel.org/all/20240624141926.5250-2-lvzhaoxiong@huaqin.c=
-orp-partner.google.com/
->> >
->> > Our DSI host has different modes in prepare() and enable()
->> > functions. prepare() is in LP mode and enable() is in HS mode.
->> > Since the 11/29 command must also be sent in LP mode,
->> > so we also move 11/29 command to the init() function.
->> >
->> > After moving the 11/29 command to the init() function,
->> > we no longer need additional delay judgment, so we delete
->> > variables "exit_sleep_to_display_on_delay_ms" and
->> > "display_on_delay_ms".
->> >
->> > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.co=
-m>
->> > ---
->> >  .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 59 ++++++++++---------
->> >  1 file changed, 32 insertions(+), 27 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/driver=
-s/gpu/drm/panel/panel-jadard-jd9365da-h3.c
->> > index 04d315d96bff..ce73e8cb1db5 100644
->> > --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
->> > +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
->> > @@ -31,8 +31,6 @@ struct jadard_panel_desc {
->> >       bool reset_before_power_off_vcioo;
->> >       unsigned int vcioo_to_lp11_delay_ms;
->> >       unsigned int lp11_to_reset_delay_ms;
->> > -     unsigned int exit_sleep_to_display_on_delay_ms;
->> > -     unsigned int display_on_delay_ms;
->> >       unsigned int backlight_off_to_display_off_delay_ms;
->> >       unsigned int display_off_to_enter_sleep_delay_ms;
->> >       unsigned int enter_sleep_to_reset_down_delay_ms;
->> > @@ -66,26 +64,6 @@ static inline struct jadard *panel_to_jadard(struct=
- drm_panel *panel)
->> >       return container_of(panel, struct jadard, panel);
->> >  }
->> >
->> > -static int jadard_enable(struct drm_panel *panel)
->> > -{
->> > -     struct jadard *jadard =3D panel_to_jadard(panel);
->> > -     struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D jadard->dsi=
- };
->> > -
->> > -     msleep(120);
->> > -
->> > -     mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
->> > -
->> > -     if (jadard->desc->exit_sleep_to_display_on_delay_ms)
->> > -             mipi_dsi_msleep(&dsi_ctx, jadard->desc->exit_sleep_to_di=
-splay_on_delay_ms);
->> > -
->> > -     mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
->> > -
->> > -     if (jadard->desc->display_on_delay_ms)
->> > -             mipi_dsi_msleep(&dsi_ctx, jadard->desc->display_on_delay=
-_ms);
->> > -
->> > -     return dsi_ctx.accum_err;
->> > -}
->> > -
->> >  static int jadard_disable(struct drm_panel *panel)
->> >  {
->> >       struct jadard *jadard =3D panel_to_jadard(panel);
->> > @@ -202,7 +180,6 @@ static const struct drm_panel_funcs jadard_funcs =
-=3D {
->> >       .disable =3D jadard_disable,
->> >       .unprepare =3D jadard_unprepare,
->> >       .prepare =3D jadard_prepare,
->> > -     .enable =3D jadard_enable,
->> >       .get_modes =3D jadard_get_modes,
->> >       .get_orientation =3D jadard_panel_get_orientation,
->> >  };
->> > @@ -382,6 +359,12 @@ static int radxa_display_8hd_ad002_init_cmds(stru=
-ct jadard *jadard)
->> >
->> >       jd9365da_switch_page(&dsi_ctx, 0x00);
->> >
->> > +     mipi_dsi_msleep(&dsi_ctx, 120);
->> > +
->> > +     mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
->> > +
->> > +     mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
->> > +
->> >       return dsi_ctx.accum_err;
->> >  };
->> >
->> > @@ -608,6 +591,12 @@ static int cz101b4001_init_cmds(struct jadard *ja=
-dard)
->> >       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE6, 0x02);
->> >       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE7, 0x0C);
->> >
->> > +     mipi_dsi_msleep(&dsi_ctx, 120);
->> > +
->> > +     mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
->> > +
->> > +     mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
->> > +
->> >       return dsi_ctx.accum_err;
->> >  };
->> >
->> > @@ -831,6 +820,16 @@ static int kingdisplay_kd101ne3_init_cmds(struct =
-jadard *jadard)
->> >
->> >       jd9365da_switch_page(&dsi_ctx, 0x00);
->> >
->> > +     mipi_dsi_msleep(&dsi_ctx, 120);
->> > +
->> > +     mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
->> > +
->> > +     mipi_dsi_msleep(&dsi_ctx, 120);
->> > +
->> > +     mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
->> > +
->> > +     mipi_dsi_msleep(&dsi_ctx, 20);
->> > +
->> >       return dsi_ctx.accum_err;
->> >  };
->> >
->> > @@ -859,8 +858,6 @@ static const struct jadard_panel_desc kingdisplay_=
-kd101ne3_40ti_desc =3D {
->> >       .reset_before_power_off_vcioo =3D true,
->> >       .vcioo_to_lp11_delay_ms =3D 5,
->> >       .lp11_to_reset_delay_ms =3D 10,
->> > -     .exit_sleep_to_display_on_delay_ms =3D 120,
->> > -     .display_on_delay_ms =3D 20,
->> >       .backlight_off_to_display_off_delay_ms =3D 100,
->> >       .display_off_to_enter_sleep_delay_ms =3D 50,
->> >       .enter_sleep_to_reset_down_delay_ms =3D 100,
->> > @@ -1074,6 +1071,16 @@ static int melfas_lmfbx101117480_init_cmds(stru=
-ct jadard *jadard)
->> >       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x02);
->> >       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe7, 0x06);
->> >
->> > +     mipi_dsi_msleep(&dsi_ctx, 120);
->> > +
->> > +     mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
->> > +
->> > +     mipi_dsi_msleep(&dsi_ctx, 120);
->> > +
->> > +     mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
->> > +
->> > +     mipi_dsi_msleep(&dsi_ctx, 20);
->> > +
->> >       return dsi_ctx.accum_err;
->> >  };
->> >
->> > @@ -1102,8 +1109,6 @@ static const struct jadard_panel_desc melfas_lmf=
-bx101117480_desc =3D {
->> >       .reset_before_power_off_vcioo =3D true,
->> >       .vcioo_to_lp11_delay_ms =3D 5,
->> >       .lp11_to_reset_delay_ms =3D 10,
->> > -     .exit_sleep_to_display_on_delay_ms =3D 120,
->> > -     .display_on_delay_ms =3D 20,
->> >       .backlight_off_to_display_off_delay_ms =3D 100,
->> >       .display_off_to_enter_sleep_delay_ms =3D 50,
->> >       .enter_sleep_to_reset_down_delay_ms =3D 100,
->>
->> --
->> Jani Nikula, Intel
+> Regards,
+> Nikita
+>> 
+>>>
+>>> Found by Linux Verification Center (linuxtesting.org) with static
+>>> analysis tool SVACE.
+>>>
+>>> Fixes: fe70b262e781 ("drm/i915: Move a bunch of stuff into rodata from the stack")
+>>> Cc: stable@vger.kernel.org
+>>> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+>>> ---
+>>> Fixes: tag is not entirely correct, as I can't properly identify the
+>>> origin with all the code movement. I opted out for using the most
+>>> recent topical commit instead.
+>>>
+>>>  drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+>>> index 90998b037349..46d4dac6c491 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+>>> @@ -1683,7 +1683,7 @@ skl_ddi_calculate_wrpll(int clock /* in Hz */,
+>>>  	};
+>>>  	unsigned int dco, d, i;
+>>>  	unsigned int p0, p1, p2;
+>>> -	u64 afe_clock = clock * 5; /* AFE Clock is 5x Pixel clock */
+>>> +	u64 afe_clock = (u64)(u32)clock * 5; /* AFE Clock is 5x Pixel clock */
+>>>  
+>>>  	for (d = 0; d < ARRAY_SIZE(dividers); d++) {
+>>>  		for (dco = 0; dco < ARRAY_SIZE(dco_central_freq); dco++) {
+>> 
 
---=20
+-- 
 Jani Nikula, Intel
