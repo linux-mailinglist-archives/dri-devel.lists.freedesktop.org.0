@@ -2,74 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5F493CF1D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 09:55:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E4293CF2A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 10:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 029C110E281;
-	Fri, 26 Jul 2024 07:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AAE310E207;
+	Fri, 26 Jul 2024 08:03:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mth9uDQV";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="YIz3S+HF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B09A310E281;
- Fri, 26 Jul 2024 07:55:54 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-52f008aa351so1427993e87.0; 
- Fri, 26 Jul 2024 00:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1721980552; x=1722585352; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=o+t62m77acSl+UhLiMaVAO82NL7VYdVyAQkALQ1jSHI=;
- b=mth9uDQV24lLbEz5KhveJciY8DxT2cVqmWXCtGis0VbccBJ3OnADfga0aZpzfNp5jg
- AHJP7uHUK9/S1CAaCCKt3WggLaRcINwxiLFUSWFe4RTndomaNExtr8a2amY++AwI+uTh
- la7IE2TDO8/EpZccFm9La8Dw/p2E+4uLgwh6bBBccVCkVCVGdpj82m7ovunSXi+OLa2+
- 6OCc3Vrd0OTS2Qa4XVmV/+yvtE0H4R65bYGMKC/ljn7XPNj0kBhrxZMaoWl5hLpvhbWa
- xEUq9RPgs/jWsW/UqsERYZFIR8UKCW7wOLmigsESKMtHFurEzb531IdNIgOkY5jT3EoN
- G5Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721980552; x=1722585352;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=o+t62m77acSl+UhLiMaVAO82NL7VYdVyAQkALQ1jSHI=;
- b=VRlHG55T8IfdaswlRw/sWoG9SpB9y8SWRIboCP4JvKcXWdEH3kXYtSo5adN/h16+Gd
- EOBck7+JDQfLOjODRQL6M9oxrUOwmd/btiCt+sDlMm5Jm1WY/G0wFgJ8ihMY1eeeP/9X
- 8yNxp+G5byvIaTlNtsqvjMeIZKo8YA/f3iAcJPNglhvBoOFXlm53NnNnv5BJFxXGJefG
- 7zrXuiMWPXm0V6wXu1nCfdxlmKjnzTUFjoetVHpDvntoetD0gYEbO+6/hyEG1kbJ0BYI
- 4o8fePkD1vA9qideZPusCke2H50dCvDtDJ5ZLFlv2oLJK89zLOeHor+FxdlcAs8yr2VA
- cmzA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUFznOq7egG68beh5jD3uFPVNh6IjyxEam+oYsLnPe+ARe1ViLqN8BWTqeyJmzbN5nREv8hDBkhxy6nmBjJi5ibir9yOi1njWlNxVCjFquO
-X-Gm-Message-State: AOJu0Yy5jtMKSQ98S5aTH/z1FPw95MGKjdnHDsKBEbd3TJZXoSwPX6r5
- JMdOKUtdP5q48v3HnPgS61ikz2Md5L8F19EVU5FlpQPcnPoTnXyv8mQwzk2N
-X-Google-Smtp-Source: AGHT+IHKBV2sFyf4alzvsTD3SLbTg/OaM/jkBbe+sNdBwsrKLis+gzfkOJrkHnxnTDuRgAtY10FwRA==
-X-Received: by 2002:a2e:9150:0:b0:2ee:8555:4742 with SMTP id
- 38308e7fff4ca-2f03dba5db7mr27666411fa.27.1721980551637; 
- Fri, 26 Jul 2024 00:55:51 -0700 (PDT)
-Received: from able.fritz.box ([2a00:e180:1587:6200:14d5:ce65:314d:96e4])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4280573fd83sm65989485e9.19.2024.07.26.00.55.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jul 2024 00:55:51 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: alexander.deucher@amd.com,
-	jesse.zhang@amd.com,
-	vitaly.prosyak@amd.com
-Subject: [PATCH] drm/sched: add optional errno to drm_sched_start()
-Date: Fri, 26 Jul 2024 09:55:50 +0200
-Message-Id: <20240726075550.1511-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8174210E207;
+ Fri, 26 Jul 2024 08:03:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1721981025;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R8uPrIS7FtTG+F0LixifOczxNj3Gwa/XPytcYJUQxkc=;
+ b=YIz3S+HFZ1U9kVSIsss+N+OxjbI9a0ZWBIZI3fK5tPzzU1GZw1sqNahDfy6IMXDJ7gqjpQ
+ uzdF241xTodV0FA9IzDGBHEj/5OEhi0r1/kPaBZ9RKCzbAA3pofeTwxlHwlEB9cvupzJtK
+ 929LuUhtOpdaYiaf5b7ZLzJBXCVTMV3wIcGxrlvyMpklpzU50vGtVoD/xiw9r+W7+Ruz6G
+ vwjsKlnIPErcLYosVi4Hnldxd1d/RcUkVFwi0ums4pY8utYXpNKCbI3vPqbRoxfDF+A2ZH
+ Mo1go5tgUXd6KFoMESZTJINIJ6do8PxYv+DJWEEEyY7I7Dy76HK7hBzvo8Ii5A==
+Date: Fri, 26 Jul 2024 10:03:45 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Qiang Yu <yuq825@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ lima@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ linux-kernel@vger.kernel.org, Philip Muller <philm@manjaro.org>, Oliver
+ Smith <ollieparanoid@postmarketos.org>, Daniel Smith <danct12@disroot.org>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] drm/lima: Mark simple_ondemand governor as softdep
+In-Reply-To: <CAKGbVbucXy+5Sn9U55DY69Lw9bQ+emmN1G4L8DQcUC1wdFSP_Q@mail.gmail.com>
+References: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
+ <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
+ <CAKGbVbsM4rCprWdp+aGXE-pvCkb6N7weUyG2z4nXqFpv+y=LrA@mail.gmail.com>
+ <20240618-great-hissing-skink-b7950e@houat>
+ <4813a6885648e5368028cd822e8b2381@manjaro.org>
+ <457ae7654dba38fcd8b50e38a1275461@manjaro.org>
+ <2c072cc4bc800a0c52518fa2476ef9dd@manjaro.org>
+ <CAKGbVbsGm7emEPzGuf0Xn5k22Pbjfg9J9ykJHtvDF3SacfDg6A@mail.gmail.com>
+ <74c69c3bb4498099a195ec890e1a7896@manjaro.org>
+ <4498852466ec9b49cc5288c5f091b3ae@manjaro.org>
+ <CAKGbVbucXy+5Sn9U55DY69Lw9bQ+emmN1G4L8DQcUC1wdFSP_Q@mail.gmail.com>
+Message-ID: <7d1c35d6829f00fa62ea39b6fee656be@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,249 +72,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current implementation of drm_sched_start uses a hardcoded
--ECANCELED to dispose of a job when the parent/hw fence is NULL.
-This results in drm_sched_job_done being called with -ECANCELED for
-each job with a NULL parent in the pending list, making it difficult
-to distinguish between recovery methods, whether a queue reset or a
-full GPU reset was used.
+Hello Qiang Yu,
 
-To improve this, we first try a soft recovery for timeout jobs and
-use the error code -ENODATA. If soft recovery fails, we proceed with
-a queue reset, where the error code remains -ENODATA for the job.
-Finally, for a full GPU reset, we use error codes -ECANCELED or
--ETIME. This patch adds an error code parameter to drm_sched_start,
-allowing us to differentiate between queue reset and GPU reset
-failures. This enables user mode and test applications to validate
-the expected correctness of the requested operation. After a
-successful queue reset, the only way to continue normal operation is
-to call drm_sched_job_done with the specific error code -ENODATA.
+On 2024-07-26 08:07, Qiang Yu wrote:
+> Yeah, I agree weakdep is a better choice here. It solves the confusion
+> of softdep which the depend module is optional.
 
-v1: Initial implementation by Jesse utilized amdgpu_device_lock_reset_domain
-    and amdgpu_device_unlock_reset_domain to allow user mode to track
-    the queue reset status and distinguish between queue reset and
-    GPU reset.
-v2: Christian suggested using the error codes -ENODATA for queue reset
-    and -ECANCELED or -ETIME for GPU reset, returned to
-    amdgpu_cs_wait_ioctl.
-v3: To meet the requirements, we introduce a new function
-    drm_sched_start_ex with an additional parameter to set
-    dma_fence_set_error, allowing us to handle the specific error
-    codes appropriately and dispose of bad jobs with the selected
-    error code depending on whether it was a queue reset or GPU reset.
-v4: Alex suggested using a new name, drm_sched_start_with_recovery_error,
-    which more accurately describes the function's purpose.
-    Additionally, it was recommended to add documentation details
-    about the new method.
-v5: Fixed declaration of new function drm_sched_start_with_recovery_error.(Alex)
-v6 (chk): rebase on upstream changes, cleanup the commit message,
-          drop the new function again and update all callers,
-          apply the errno also to scheduler fences with hw fences
+Thanks, I'm glad that you agree.
 
-Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
-Signed-off-by: Vitaly Prosyak <vitaly.prosyak@amd.com>
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c          | 4 ++--
- drivers/gpu/drm/etnaviv/etnaviv_sched.c             | 4 ++--
- drivers/gpu/drm/imagination/pvr_queue.c             | 4 ++--
- drivers/gpu/drm/lima/lima_sched.c                   | 2 +-
- drivers/gpu/drm/nouveau/nouveau_sched.c             | 2 +-
- drivers/gpu/drm/panfrost/panfrost_job.c             | 2 +-
- drivers/gpu/drm/panthor/panthor_mmu.c               | 2 +-
- drivers/gpu/drm/scheduler/sched_main.c              | 7 ++++---
- drivers/gpu/drm/v3d/v3d_sched.c                     | 2 +-
- include/drm/gpu_scheduler.h                         | 2 +-
- 11 files changed, 17 insertions(+), 16 deletions(-)
+> But I prefer using weakdep directly instead of creating an aliasing of
+> it which has no actual difference.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
-index 2320df51c914..18135d8235f9 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
-@@ -300,7 +300,7 @@ static int suspend_resume_compute_scheduler(struct amdgpu_device *adev, bool sus
- 			if (r)
- 				goto out;
- 		} else {
--			drm_sched_start(&ring->sched);
-+			drm_sched_start(&ring->sched, 0);
- 		}
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index c186fdb198ad..861827deb03f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -5862,7 +5862,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 			if (!amdgpu_ring_sched_ready(ring))
- 				continue;
- 
--			drm_sched_start(&ring->sched);
-+			drm_sched_start(&ring->sched, 0);
- 		}
- 
- 		if (!drm_drv_uses_atomic_modeset(adev_to_drm(tmp_adev)) && !job_signaled)
-@@ -6360,7 +6360,7 @@ void amdgpu_pci_resume(struct pci_dev *pdev)
- 		if (!amdgpu_ring_sched_ready(ring))
- 			continue;
- 
--		drm_sched_start(&ring->sched);
-+		drm_sched_start(&ring->sched, 0);
- 	}
- 
- 	amdgpu_device_unset_mp1_state(adev);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index c53641aa146f..2c8666f8ec4a 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -72,12 +72,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 
- 	drm_sched_resubmit_jobs(&gpu->sched);
- 
--	drm_sched_start(&gpu->sched);
-+	drm_sched_start(&gpu->sched, 0);
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
- 
- out_no_timeout:
- 	/* restart scheduler after GPU is usable again */
--	drm_sched_start(&gpu->sched);
-+	drm_sched_start(&gpu->sched, 0);
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
- }
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
-index 20cb46012082..c4f08432882b 100644
---- a/drivers/gpu/drm/imagination/pvr_queue.c
-+++ b/drivers/gpu/drm/imagination/pvr_queue.c
-@@ -782,7 +782,7 @@ static void pvr_queue_start(struct pvr_queue *queue)
- 		}
- 	}
- 
--	drm_sched_start(&queue->scheduler);
-+	drm_sched_start(&queue->scheduler, 0);
- }
- 
- /**
-@@ -842,7 +842,7 @@ pvr_queue_timedout_job(struct drm_sched_job *s_job)
- 	}
- 	mutex_unlock(&pvr_dev->queues.lock);
- 
--	drm_sched_start(sched);
-+	drm_sched_start(sched, 0);
- 
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
- }
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index 1a944edb6ddc..b40c90e97d7e 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -463,7 +463,7 @@ static enum drm_gpu_sched_stat lima_sched_timedout_job(struct drm_sched_job *job
- 	lima_pm_idle(ldev);
- 
- 	drm_sched_resubmit_jobs(&pipe->base);
--	drm_sched_start(&pipe->base);
-+	drm_sched_start(&pipe->base, 0);
- 
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
- }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-index eb6c3f9a01f5..4412f2711fb5 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-@@ -379,7 +379,7 @@ nouveau_sched_timedout_job(struct drm_sched_job *sched_job)
- 	else
- 		NV_PRINTK(warn, job->cli, "Generic job timeout.\n");
- 
--	drm_sched_start(sched);
-+	drm_sched_start(sched, 0);
- 
- 	return stat;
- }
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index df49d37d0e7e..d140800606bf 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -727,7 +727,7 @@ panfrost_reset(struct panfrost_device *pfdev,
- 
- 	/* Restart the schedulers */
- 	for (i = 0; i < NUM_JOB_SLOTS; i++)
--		drm_sched_start(&pfdev->js->queue[i].sched);
-+		drm_sched_start(&pfdev->js->queue[i].sched, 0);
- 
- 	/* Re-enable job interrupts now that everything has been restarted. */
- 	job_write(pfdev, JOB_INT_MASK,
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index d47972806d50..e630cdf47f99 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -827,7 +827,7 @@ static void panthor_vm_stop(struct panthor_vm *vm)
- 
- static void panthor_vm_start(struct panthor_vm *vm)
- {
--	drm_sched_start(&vm->sched);
-+	drm_sched_start(&vm->sched, 0);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index ab53ab486fe6..f093616fe53c 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -674,9 +674,10 @@ EXPORT_SYMBOL(drm_sched_stop);
-  * drm_sched_start - recover jobs after a reset
-  *
-  * @sched: scheduler instance
-+ * @errno: error to set on the pending fences
-  *
-  */
--void drm_sched_start(struct drm_gpu_scheduler *sched)
-+void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
- {
- 	struct drm_sched_job *s_job, *tmp;
- 
-@@ -691,13 +692,13 @@ void drm_sched_start(struct drm_gpu_scheduler *sched)
- 		atomic_add(s_job->credits, &sched->credit_count);
- 
- 		if (!fence) {
--			drm_sched_job_done(s_job, -ECANCELED);
-+			drm_sched_job_done(s_job, errno ?: -ECANCELED);
- 			continue;
- 		}
- 
- 		if (dma_fence_add_callback(fence, &s_job->cb,
- 					   drm_sched_job_done_cb))
--			drm_sched_job_done(s_job, fence->error);
-+			drm_sched_job_done(s_job, fence->error ?: errno);
- 	}
- 
- 	drm_sched_start_timeout_unlocked(sched);
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 42d4f4a2dba2..cac02284cd19 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -653,7 +653,7 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
- 
- 	/* Unblock schedulers and restart their jobs. */
- 	for (q = 0; q < V3D_MAX_QUEUES; q++) {
--		drm_sched_start(&v3d->queue[q].sched);
-+		drm_sched_start(&v3d->queue[q].sched, 0);
- 	}
- 
- 	mutex_unlock(&v3d->reset_lock);
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index fe8edb917360..a8d19b10f9b8 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -579,7 +579,7 @@ bool drm_sched_wqueue_ready(struct drm_gpu_scheduler *sched);
- void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched);
- void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched);
- void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
--void drm_sched_start(struct drm_gpu_scheduler *sched);
-+void drm_sched_start(struct drm_gpu_scheduler *sched, int errno);
- void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
- void drm_sched_increase_karma(struct drm_sched_job *bad);
- void drm_sched_reset_karma(struct drm_sched_job *bad);
--- 
-2.34.1
+Just checking, did you have a chance to read what I wrote in my earlier
+response on the linux-modules mailing list, [7] which includes a rather
+elaborate explanation of the intent behind MODULE_HARDDEP being 
+currently
+just a proposed alias for MODULE_WEAKDEP?  It also describes why using
+this alias might save use some time and effort in the future.
 
+[7] 
+https://lore.kernel.org/linux-modules/0720a516416a92a8f683053d37ee9481@manjaro.org/
+
+> On Thu, Jul 25, 2024 at 4:21 PM Dragan Simic <dsimic@manjaro.org> 
+> wrote:
+>> 
+>> Hello Qiang,
+>> 
+>> On 2024-06-26 08:49, Dragan Simic wrote:
+>> > On 2024-06-26 03:11, Qiang Yu wrote:
+>> >> On Wed, Jun 26, 2024 at 2:15 AM Dragan Simic <dsimic@manjaro.org>
+>> >> wrote:
+>> >>> Just checking, any further thoughts about this patch?
+>> >>>
+>> >> I'm OK with this as a temp workaround because it's simple and do no
+>> >> harm
+>> >> even it's not perfect. If no other better suggestion for short term,
+>> >> I'll submit
+>> >> this at weekend.
+>> >
+>> > Thanks.  Just as you described it, it's far from perfect, but it's
+>> > still
+>> > fine until there's a better solution, such as harddeps.  I'll continue
+>> > my
+>> > research about the possibility for adding harddeps, which would
+>> > hopefully
+>> > replace quite a few instances of the softdep (ab)use.
+>> 
+>> Another option has become available for expressing additional module
+>> dependencies, weakdeps. [1][2]  Long story short, weakdeps are similar
+>> to softdeps, in the sense of telling the initial ramdisk utilities to
+>> include additional kernel modules, but weakdeps result in no module
+>> loading being performed by userspace.
+>> 
+>> Maybe "weak" isn't the best possible word choice (arguably, "soft" 
+>> also
+>> wasn't the best word choice), but weakdeps should be a better choice 
+>> for
+>> use with Lima and governor_simpleondemand, because weakdeps provide 
+>> the
+>> required information to the utilities used to generate initial 
+>> ramdisk,
+>> while the actual module loading is left to the kernel.
+>> 
+>> The recent addition of weakdeps renders the previously mentioned
+>> harddeps
+>> obsolete, because weakdeps actually do what we need.  Obviously, 
+>> "weak"
+>> doesn't go along very well with the actual nature of the dependency
+>> between
+>> Lima and governor_simpleondemand, but it's pretty much just the 
+>> somewhat
+>> unfortunate word choice.
+>> 
+>> The support for weakdeps has been already added to the kmod [3][4] and
+>> Dracut [5] userspace utilities.  I'll hopefully add support for 
+>> weakdeps
+>> to mkinitcpio [6] rather soon.
+>> 
+>> Maybe we could actually add MODULE_HARDDEP() as some kind of syntactic
+>> sugar, which would currently be an alias for MODULE_WEAKDEP(), so the
+>> actual hard module dependencies could be expressed properly, and
+>> possibly
+>> handled differently in the future, with no need to go back and track 
+>> all
+>> such instances of hard module dependencies.
+>> 
+>> With all this in mind, here's what I'm going to do:
+>> 
+>> 1) Submit a patch that adds MODULE_HARDDEP() as syntactic sugar
+>> 2) Implement support for weakdeps in Arch Linux's mkinitcpio [6]
+>> 3) Depending on what kind of feedback the MODULE_HARDDEP() patch
+>> receives,
+>>     I'll submit follow-up patches for Lima and Panfrost, which will 
+>> swap
+>>     uses of MODULE_SOFTDEP() with MODULE_HARDDEP() or MODULE_WEAKDEP()
+>> 
+>> Looking forward to your thoughts.
+>> 
+>> [1] 
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/linux/module.h?id=61842868de13aa7fd7391c626e889f4d6f1450bf
+>> [2] 
+>> https://lore.kernel.org/linux-kernel/20240724102349.430078-1-jtornosm@redhat.com/T/#u
+>> [3] 
+>> https://github.com/kmod-project/kmod/commit/05828b4a6e9327a63ef94df544a042b5e9ce4fe7
+>> [4] 
+>> https://github.com/kmod-project/kmod/commit/d06712b51404061eef92cb275b8303814fca86ec
+>> [5] 
+>> https://github.com/dracut-ng/dracut-ng/commit/8517a6be5e20f4a6d87e55fce35ee3e29e2a1150
+>> [6] https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio
