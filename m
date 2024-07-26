@@ -2,153 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E675993CE73
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 09:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC66393CE7D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 09:06:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF43B10E92F;
-	Fri, 26 Jul 2024 07:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31D7910E932;
+	Fri, 26 Jul 2024 07:06:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VydKO1qI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="IlQr8PtX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2059.outbound.protection.outlook.com [40.107.101.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB86A10E2B9;
- Fri, 26 Jul 2024 07:05:48 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2069.outbound.protection.outlook.com [40.107.102.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C28510E92E;
+ Fri, 26 Jul 2024 07:06:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vhSJKgCpEaDQ4zaMztaIHfJHVxYuOO8QwyoDWf5iLq5jm0pyRmQV0rEAk3MgdgY9yaWtcgsiVqnoleCBiWFYKFtgsk/QwR0PL9pBFur0qQIaRQmPp1oBR86/ztUxcLMCqKyQnTWvmKUbIwKDvNBLkt0bpWJySdxmEgKyz18UoUs27XtS4GBj/PreUH9dZT6MwC/EU7isGna8wvj3LuVVZrdnz/BFFgjiYaM6Wtno3hDHBIlBLRLUTE/mSq4+p9CGmmQR7QFPr3tpXMvGCxWeKBZ1NIwg0ZP59U+zxCMA2hg17yqZfu8xbV8cATTW1HoyZgl92T8nSjMBwQdtd7c1DA==
+ b=eimu/adX1tSm5YETprCgPn8Xqka3Qc9zEMOA3usEj0l4VmB8dBPgJOKLJ75b/JlFQuY+EYjEXlyuQeDUQ/KDPT6OUu8OAoGPmWZHuyavZgjJs39Da2K6hnphRD9Neep1tb/yZStaPJcUDBPuPr4ntARvS2vlo40/m6f14NQGGUBnP90Nh8xCINXQYVLcUo4226DNMFPegPldaI1pURXePLmw1xmvq/A5TxJjjhJuW6VKzG3UGvD1gpYavEAsdnCD/sMCCVGxGmdpF+pLlo8T/NVmMRsUP1JkBxJZkbyOvogAIdLJYvIiOUA7etdoSDcB4BueBgHRYQL03Lts+/elOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qbISvFNesB+YOBhIskwaroFX32I8IARzN8QE4D0ygkg=;
- b=wu1E3zn4hPW+0U+aE+E/Zh1KRcdGNIGQdwIml7uBYo2yW9dfq8NfTE56/VcM6uJfX7lYUY06BO9VGmet3Uffpe2EATi8zc/hvaTvCrL3ODuJmS29nzmwCPEvVXHSzns16FK8KHMlHI+o0FtTabU3wPKSat4lOM/pXk3BRnCNXe+SKWv7bESwmg/Lbhl8Mos9Mf10J+OijrS369VixMxQ/apN+JIqdGluNPrz7k7butL1LxSQ0p7wrdRV83I/+wo4kbJ4NPPLEwJa4ONO56pNbpyrLIyPtsyk/kDur37clXKWQkIo4C0Dlx/L11oU8tguoXPjIJ6BO/geBJpv70Qwaw==
+ bh=AWMNPnbbIZ4OQsQ8DC6joLsuFC7VHDX4HYE5OCutceM=;
+ b=cqCppQIZe90Gc6AKEdnFYNyquqt6SjEFMXpBa+fVjfShDivcC9oBhbottXrA8TddigiPOH6++AWM9qGM7WtDJ69CzBVUL5LuZyxPoeCkc2oAyjqParU7hdLg2Fpo5IxE4xXBjHHQiRr4qhbpnDibpc9H09Nltoj7FD9tJrZEdRlKPgdNouIddd/GL3Os+uOHqkOEvReSNLYkkaQieVX+bzVCL95uOzyVRckeCFQuJYqNfpmB/hc/1t5S/tIC242tn5p0vQbP8YSSxy/kDpkWLPW+hXBa8Sx5ACNVlXIJZyYdgIfTJ/VJf2AqYAMN9xDeR91qNVi8qH4OJoA0wkzCAg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qbISvFNesB+YOBhIskwaroFX32I8IARzN8QE4D0ygkg=;
- b=VydKO1qIYHiVltphyAOHSMlHXo84LUZhYEaSQ1nVESGJ/dBF7liRxliOVTuCoZiqrOAAvxZD5ueZKIefCjbUTw9k68fQKs+Csd5pbb6D+EAgK9wNEDZlkUk/JfuPt193lbvAZTsR6rjwBES5Z11GwBL0S8VZWK8PWQ2ymx1C0wk=
+ bh=AWMNPnbbIZ4OQsQ8DC6joLsuFC7VHDX4HYE5OCutceM=;
+ b=IlQr8PtX5RBVlGOm5NtjXu2DXdw9ax0DWERwiA5hxW54bdZtigCTjIz13K5qsW8rBMviWO/HOS7L+HI1o1jOHy4yfB9GqXAnFNZ6MpyLXOPJ/RFgsuLwpIYpS87VuiCY/LUtf5cUC8kuPu2BeyW3OwuU0Y9KRwjX9+QSNRKHBtc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
  by DM4PR12MB5841.namprd12.prod.outlook.com (2603:10b6:8:64::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.20; Fri, 26 Jul
- 2024 07:05:46 +0000
+ 2024 07:06:22 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7784.017; Fri, 26 Jul 2024
- 07:05:46 +0000
-Message-ID: <e5199bf0-0861-4b79-8f32-d14a784b116f@amd.com>
-Date: Fri, 26 Jul 2024 09:05:41 +0200
+ 07:06:22 +0000
+Message-ID: <1da9294d-3775-4387-be5f-408592c89bb7@amd.com>
+Date: Fri, 26 Jul 2024 09:06:17 +0200
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/radeon/evergreen_cs: fix int overflow errors in cs
  track offsets
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Jerome Glisse <jglisse@redhat.com>, Dave Airlie <airlied@redhat.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
- stable@vger.kernel.org
+To: Alex Deucher <alexdeucher@gmail.com>,
+ Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan
+ <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jerome Glisse <jglisse@redhat.com>,
+ Dave Airlie <airlied@redhat.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org, stable@vger.kernel.org
 References: <20240725180950.15820-1-n.zhandarovich@fintech.ru>
+ <CADnq5_NuAL4=hMyc6G0QkbSrjCXa6qFM-bFtt3A7DY6cCmCt9w@mail.gmail.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240725180950.15820-1-n.zhandarovich@fintech.ru>
+In-Reply-To: <CADnq5_NuAL4=hMyc6G0QkbSrjCXa6qFM-bFtt3A7DY6cCmCt9w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0400.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cf::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0403.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cf::9) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB5841:EE_
-X-MS-Office365-Filtering-Correlation-Id: 885389e4-d85b-4612-46ca-08dcad415f0c
+X-MS-Office365-Filtering-Correlation-Id: 80cc2e47-5cbf-4b43-3a52-08dcad417480
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?b2RLTjdreng1OFBPZ2tMVFlaY0dNbXhpT3FLS3RBK084dlR5bWYvaWt2R09G?=
- =?utf-8?B?aGVMVXhoT3dnSURSNFNNYWxYK3lvNWorWS9zYTZXZXpCSjFNeUx3MEpma2pZ?=
- =?utf-8?B?MFI2enRMa0craXZmbXd2T3Z3UjR3REszRHZnN3o5VjdpV3ZVTEFkaTFJSS9r?=
- =?utf-8?B?TEhJRmE5c053eEJ0Q1VFeWV1M1JvNjZ2N2hhV1FBdThWZGlaZGVJc05ZeGNz?=
- =?utf-8?B?VnJKeDRQYnNKMGJ1RzdPZ00ydkxNQTlsZjBxUHo1ZXF1cmNBZlB3TTVsNjRI?=
- =?utf-8?B?WjRNUlVIaXAwQzJOUXI5cEVOeTU4aElwcHNYSFBjMndEUEFtazJCWG1FMURD?=
- =?utf-8?B?MnYvb041Y1o5Ry9NSUkrZlVHWEcrelAxZ3N4MXpLeDFqTWJMSERsWmVudzNh?=
- =?utf-8?B?THoveloyT0I1MThrV0NpOEpBUGRvRGFGeHRTSld1TVdtdkJIbHo0aGx6N3U2?=
- =?utf-8?B?RnFUYkc5aUhsbkprbFIwTnhidHJvTE1RdHdyNURLQ2JiMFFKd1VkSkFrRHFs?=
- =?utf-8?B?UTJXVmNwR0hPTGFzeG11Ni9BMHJqZWMxZ3J6VzI3RnI0STZQSkVuMHlJN2Z3?=
- =?utf-8?B?aVBWQ01hOFUxWHdTbkJlQktqZzVTZTZGNnR0NE9SMnZZTDIvTmx1U2d6TkNs?=
- =?utf-8?B?YUpWd0FwWXFxZlVyalN4OTI2V0hVTURMSW1oY0tEdFZnc1FMOW94blZnYmRB?=
- =?utf-8?B?MTg3NERSR0NTaENWamFNamFVZVFxVFBzdUU0Y3pmcUNncmpzUjVtLzhkL3ds?=
- =?utf-8?B?NVNWbUVoQTFPTzNxUzlPeTJiR3ZzaUJWd0FYTWYybzAxS0YxZm1tSmoyY2Va?=
- =?utf-8?B?T2RVdFR1MTNSTjVHbXZKQ1BKMUNrUmR6cnFMcFhTc1RobXFjbXlQQlYraHMr?=
- =?utf-8?B?ODB5YzJyK1d5ZjV5L1U5a3ZBa3ArNkl2UWhLTWI3eCtGK0FrQUhIL3k3d29n?=
- =?utf-8?B?NlZkYVIrQkFOWHBDZG1nUGZlU3dZSGV1OGFyT3M3VDhIMlVOdTBHMFg4WWVR?=
- =?utf-8?B?UnpKK25xRXJNbkxVY0ZKMkZaZmx3UnNrSlFCT2FibHYzYzhKbjZOWFgveWhS?=
- =?utf-8?B?U3RRRlpaTjVLUGZjZERwd3dVSUU4U280ZHV4Tlc5QjVHN3hNYllUNUZ6RG9Y?=
- =?utf-8?B?RnBycDZNdW1LU2pVYk9yMmtCTWU0NkFPb01ST1FVajN4WGI1NlF1REhVQWJi?=
- =?utf-8?B?M3pCQkR2Tk5VV3hwbkVCR25ydEprT1pObXpzYktWVm5VUUpWazMrU0JWRHpF?=
- =?utf-8?B?UmEwOXMyRzdVazJFYXNKYzhNbVdTL2t4Mmg5bWxMNFBvS3hTUXJMOERzWVgy?=
- =?utf-8?B?OVh2aU9yeUN0M215RVorUHZLb0l2Zmw3Y2I3Rk83SlpUSXRocXlMY2FCWEhk?=
- =?utf-8?B?N1RXRGxtYXdzRE5UbGVWdE95ZmRMUU5NcEdKM3p2REEvZVVnQnI2NUxTTHJt?=
- =?utf-8?B?S3paaTZDRmJScUZHSURLUEYybkJNMjZQMG9VN2d3VS9qTnBJbi9JdVFDNDdR?=
- =?utf-8?B?TUJWV1ZDZmpzRUgzTkpFZmx2ampWZ3d4YldWMXdIN3lkQ2xZK3UwYS9aNjQ0?=
- =?utf-8?B?RUxQejIzZDM5ZXlPWEhVeEJmbmoybHBRM2RicWhSSkhScS9LYWlPaWRnR0Jm?=
- =?utf-8?B?eWRzRHlpN3pHaERHclQrcUFaWGtPN25BZkRjNTdORVJqZm9idEcxd0trUHJW?=
- =?utf-8?B?c3RDNUN2dk1KbCtsVnJPU0IyRmJydVdibm5ydE1PckZMU1VDTHlObm1XKzFC?=
- =?utf-8?B?MHAyTTg4c3NSdkhGbG9teUZ4Wk51djVqWXNUSmNib2FucTVnaG1lRjRTTlZm?=
- =?utf-8?B?TEhIVW9CdUhqMEp5d3h1Zz09?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MSt3cVNtTnhQRDcwUXZVaDBGbzVZMVBSZVRmYkMwUmlxb2VkakdpQThLRk4z?=
+ =?utf-8?B?c0tKS1hHcmplRkwwWjIrK1hBeDZFWHVDZnUzdk5YR2d6blVWR2pkQUN5SmIw?=
+ =?utf-8?B?U0VaMEduK0pnRVR4WjNia1p1eGYyZmRzWEJvdWF5MVZ5Vk8xNkw1VWh3QWYw?=
+ =?utf-8?B?NHNXejh6azlRNWpNSWxZL3dNV3lRZ2FMRDdSTGR6WnFxcEdtNFlXV2sycUJ3?=
+ =?utf-8?B?d0Z1aEc3a3FIWTNqN1ZQQTJSelh2K2gyU2lyTG13dWdGTzV5UFg5QjdNSWcr?=
+ =?utf-8?B?NEpHUGJ5WjloQjUzdUNLT0NzbUVYUGR0eURzVGJjVDRCVEcyVnBPZlRFZjlN?=
+ =?utf-8?B?S1duQW5CbmNGQUJDQ1RwVW5nN2RPWnFRcnZlSjJDVlhmemcvUVV5SmowSDZl?=
+ =?utf-8?B?c3BmSFlDdmFqTmFST29IZks0ejRGYjFzK1pPN3ViOGF6SStLWmMxYkNacG1p?=
+ =?utf-8?B?NHN2R0NQYkJpSnpMclNMQTFhSjBXbS9BSlZRMlF6UVVGclBtMTNIV3UxTnU2?=
+ =?utf-8?B?a28ydEFwSWlSWlRMZU9MejhaaWp6c1BCazRSVmszUEVpZG82ME4yY2NkR3BC?=
+ =?utf-8?B?azFYN0w5K3NaakFTczhJZ1Y0ZkM2cjl2dmFNU0hyTk1kMU1tdU5IQThTNkhN?=
+ =?utf-8?B?Z1MxREU0bDF1V3lONzRLQlRvakJ5THRNaG5DZmIzVWNqVXFUTDBpRDNxSjBt?=
+ =?utf-8?B?MzVCSEQ1bGpSbHArMnF2NVhWR2p6RXdsQTRyUG5SS2N5K2FycXczTTRXNlUx?=
+ =?utf-8?B?VlpkZnUweFluSGRoVUJ5cmpjc21Ea0NvaVcvdHJPc21pQ2RXQ1E1TjdjbXIv?=
+ =?utf-8?B?N3N6WW9XOWovOFBkSzV3QXhBRDk3TFc0VTZDZlFGTy82dTBDbkhmYXRzdzRa?=
+ =?utf-8?B?L0Z6UG5YU290RGpOYk9QRWxPOW5nODRVV1o4Wm5pNW8xNGhVa3NsU3k4TWNR?=
+ =?utf-8?B?S1JWaXZxVlJoZnNEMDd5SGhuaFE0c3UvbFNOd3diZGUxLzM5Sm9pcGhMQkJz?=
+ =?utf-8?B?RW1RR3lkVktSRm1mQmVRT2s5SjdHTnRNMDZUMzFyRWk3K2NBUG1EYkZQdTZH?=
+ =?utf-8?B?eTB4TGRKcGpuWWhpcGQyUCtOSjdSelJVc0pnQUhvUm5razFnTmdHRGwzd3BX?=
+ =?utf-8?B?YUlLaVFnZHRwdFo0QVJBQ0Y3dWZ1MGhmOEl0M0hBVzYvUmEvT0xLYkR2anJw?=
+ =?utf-8?B?OG1jQmQ2UTk2YmwzWVA0ODRHWElXOXF4VTNUZmhIZWhZa25IeWNnWjgvbWds?=
+ =?utf-8?B?ZDZxVmNOVnFsdWZFRGc0THcvcW9yU3R4SUVyMmI5Z0EvcFFCTXVwT2VYM01H?=
+ =?utf-8?B?cnhzcDRpLzRSZFdtdnZ2OWJFb3BCeUFNZCtZUEpWS3RzS0hqblhPcm9oTFdU?=
+ =?utf-8?B?NkJvaVNZb1Z2NkcrNytGek1rUFFMUVExemdxdCtsdGFZNGZRM1ljYS9kYUVa?=
+ =?utf-8?B?VXF1TW5jM0UvakxTTzFGSDlHMi9rYnYrNzlNLzJ1RWJqTk11Z0d0OEErTjZV?=
+ =?utf-8?B?QUxxQ2EvK0pMdnVraXBlY0d2VTZMOWpyb25vVjJPQmhSa3ZuVGU4SXI1dzdI?=
+ =?utf-8?B?a1FjRUFGMDVPdmYveEp0M2t0RE9Jd3hDcE92eXVqRTh5M2NxSzhVTXY0eXVG?=
+ =?utf-8?B?d05rME5kSGZqMXhyNFIwTUNGNnVrVnF5anA4Z2U4SThNVG1Ld085RllTTjc1?=
+ =?utf-8?B?Q1RuU0Q3cUZtSnprSElGY1FQUk5CR2M1cVNPOUxQcjNrdE5RN2tOT28xaFgr?=
+ =?utf-8?B?YXdOMmMyQXZnbWtlVEtiZDRkL0orWlQxeWYrSFJTcmt1S2krM1dnRkgyeTkx?=
+ =?utf-8?B?dHhRM05pdEpKVjViaFJYUT09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bGxmQ1BCRkF2Tmc5aFlvV1Y1NlZSeTZtM3FuR2wrT2VLS29HcVBWcXp4UG9R?=
- =?utf-8?B?eEJPT3VXYjRoSzM3Q2dUOTBES1F1R3dlRy9vM29ydmVaUThiREd4Q3JYaVJr?=
- =?utf-8?B?V0duSEhqc1piNnhWRVBoVnA3ejNGWE5FVTZjQ0JaVFRqNnp2aU5EZlk2Nzhj?=
- =?utf-8?B?U0FiOXpPUWVDUGhJakdYeDUvK3JxUUhOTHRyNU9ON0FrUjJxSWNETkhjMVhm?=
- =?utf-8?B?VjNmcXdwMWpTWUVTUHhpSEhHU0U1YXdtZUdUbGFTa1RZUEFSait5L2lkWjd6?=
- =?utf-8?B?UTlwcGZzaTJETUc4VDNuUDVhWUF6bDB6Y2p5UnRSQWY2K0JzQkxoQUs0TGpM?=
- =?utf-8?B?OFJWOUo3RFFUOEpSOEVXODJsZTlkOGRCWjRtZkZvZDZJeEE1OVcwcmxtUHhR?=
- =?utf-8?B?T3luYm0xMXp0Q0kzdHRtLzdvcDBCMDVVWThZMVgxbDlieWJpc2VDdHBSTUln?=
- =?utf-8?B?NDYwRXplM25ibi9VeFYwbDBkV21LV1BERlpVQnY4UGNzcVh5MU51blJvSEJv?=
- =?utf-8?B?QXV1ZjQ1Umc0NlQyOGhsVkx0STdVSERFK1BwVHZxMkg0ZUdEd053SXVQVEhm?=
- =?utf-8?B?Y2VjMmsvdXlYWEhNVTBIUDZmUS9KNmVFUk1KbFZvYlNpak95bGt5REdTNnh4?=
- =?utf-8?B?NTkreDVUUlJGdVJ2WjJiUGFGK0hwTzdpcjRLbkgybklldlFOQ3dnclhiNjB2?=
- =?utf-8?B?YjhEVExSMVRVMU9lM0N5NXplWEFFVlZ2VUJEa0ZSR3ZCVktpSzRHbGdSQVVm?=
- =?utf-8?B?VjNkRnlKUTcxTWFVei9WWUNTckxnSUxOMTVBZkt6MDJkSk5rSjIzRXpWcTNx?=
- =?utf-8?B?Q1lXMkRzV2FtUVVMSC9palIyT0wzOUFlNEY3RmJMS3IrVkNDVzViSzhQUysy?=
- =?utf-8?B?R2JGU1kwYjJMV2RtaUpuVjJWRVRIT2xKV0lJbTRJK0pvZEVVM3JXYWxQS1V6?=
- =?utf-8?B?LzZkbVByWmZHQ3BsanBSUkxaOFMrVzc2OWJDTFEreHZXNDVTSy9sdUowTUla?=
- =?utf-8?B?V1VDenJpV3c4WlZEZERZTTFsRmFoOTVjYzU4ZUVjb0o2aWVlTjlGUmkrVC9a?=
- =?utf-8?B?Q0RZQ1lEdStBc1o1NzhZTjVOdGh6RXBYazRsVXBQL2JxRVE2VytGNVhTQ29p?=
- =?utf-8?B?NDluWjRCUVUwendQZ1lMUzRYR3hnQmhtWVdVSGcwYnNPVDdRcGlhZ1psNXBz?=
- =?utf-8?B?WXZrbzlIYVZPazVqMnBFQTlsYzd6bk1jcEhRRittdFc1ajQvYlNZUk4yTWN5?=
- =?utf-8?B?ejl3ZXhrWjdROUZGTUM2REJvRHlFVGlJL2w3M2RBVWZBd1dLSUpFR0U1bkFl?=
- =?utf-8?B?MnZKU2p3bnBvRlh4a0QxYTlMU1NjOTd5L29xSEszQXJMZTRYMzJUOFByUXdS?=
- =?utf-8?B?UGNzZk54WWgwQnVWcmdTYUYzQ1dncFdmS29BL0w1VjZSVTdtOE1hTGd2Z3NY?=
- =?utf-8?B?WU5heFljTmtqZHA2WlVoSC91VzRwb1dyQXJHRy95clNOOTFiOVJQczlydGov?=
- =?utf-8?B?ZWFoZnF4WEREd24rL1hjYmdWRlBnTnB0emp5MVRUeGVZamdLZWcrQlFWKzU3?=
- =?utf-8?B?Sit5NFVnRitTZDBIV2VzUi8xV3lwc3VyMm5qZ1RjNU93UkhDSGRNbmlJVkNU?=
- =?utf-8?B?SjhNRDVlQ2c2UGFXbTFuakhsaFc5dFJjdms2eUY1Zitwalg4ckcrZUdNVVRC?=
- =?utf-8?B?aG1mdjkvVGNMN0xNTzRnOXgyc0x0Z3VzUDVuMksvZ0J5bHBTdFdDWExyTUhy?=
- =?utf-8?B?K1U4WUVCMXMreFR5UFpVUDhpTEdBVGVVREtvcWdROURCVlcxK3Jub3pvaDl5?=
- =?utf-8?B?MldIdWdrZS92b1BrdGliQWxtU0poVzJYSGFXd3ZObmcyWWVsNTNIMjlZSlJR?=
- =?utf-8?B?emR3SGJ0ZHR6eUF6QWZRMnlVWjlXMzhXV1lqR2NsdUJQRmxQSWFXZnZPcGd1?=
- =?utf-8?B?bVZRTDFlc05vSVJ2bWsyRVZxUm4rR0VRV29FVzdrZGpSWWdxS1hUYnYrd3Ro?=
- =?utf-8?B?TVptV2t5RnNRYnNxK2dkZXZoZmVGb2M3aWNoRmFMUkFoc3Qrd0MxZXJtbFFI?=
- =?utf-8?B?UUdnYUJWWGVyMmsvS2QzWUVjNVU4bW92SUQ0K1JTdUVWNmtnSk9MSlNwdjhM?=
- =?utf-8?Q?uctk=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnJmdGc4WUwrS0xQTUtlS2NVY0F6STN4R2NUbytqaTFqZ0IvL0ZqLzVneWk5?=
+ =?utf-8?B?MStZVUJuT3ozSGwzeGxvM3g5WUJrd1Yya0xITzlJU1ByZ0xIRWJTTmIxUkVw?=
+ =?utf-8?B?bG5GMVVDZW40WnB4cEdVZnUvUEZiV1BxTHJya1BjMUE3R2ZPTVU4OVFDVWZZ?=
+ =?utf-8?B?TmlBOEllY25VNEpNZUx0ZFhleDRPbUNFZ2VGRy9xRnFDem91dm4zTVdhVkhK?=
+ =?utf-8?B?UVY2aktITE1hVm9GbUdnZUJtbWNwNEJIYWxCMmJUZE1PUkpnT2ZwMXhlcGF5?=
+ =?utf-8?B?dVlJQkUwN1VTQ21vd2JKUUQ1VityOCtzaXpUcU5DZHVXd1ZLeEsyTTA2SDBa?=
+ =?utf-8?B?UDVPc1BPZ2NYN3Y2NHZHeGpoVHNkNnVUUmEyWFFUcERnaGxCMlZ1YXFGZTZY?=
+ =?utf-8?B?bDFjMzNwM2JtQit1SXdpcjZ5dUJrN1M5UU5tUWxoNjNBOTIxcXJ5SmZNYnRt?=
+ =?utf-8?B?TG5qcDdpQkF6L1BycE5FYVZNQWZseFNyL29zaUhQeGczSC9mYUNsSzdDd2tT?=
+ =?utf-8?B?UmpnYWxtcFMwcituTVRJem1yM1RZWFRpNGl1Q0ljdEswRjBZKysxVXBTdkU1?=
+ =?utf-8?B?WjU5dVhEb0NZQmFVUFlIbkVrZm54bkVaYWV2QW9EN05JRUh3NisrMzVScWRI?=
+ =?utf-8?B?WS92OUJBa3YyMXpmL1BhUWQyNUJIWjY0Q3NmcXorT09iUTg2K2x1bVIzTFk0?=
+ =?utf-8?B?VnpQdWdISUp0QkRiR3lka0J1cFRZOWR4L1BtWlEydnlMRTZ3Nlp4NC9xcUpQ?=
+ =?utf-8?B?c2NNNzB1cWxRRGRqVk5tdm9neGs2bmNMMXQ5bXI4ZWJpSXVMY09weU5TS0Jy?=
+ =?utf-8?B?YWIwQmFmZlRDaXRWclF2ZWg2c3VnWDhNbnFHV3k1bGlDeDdDVkJ2KzNTR1pU?=
+ =?utf-8?B?ZTl2SFdReVNDY1NpdTREQnpBVExqbEM3RFVyMi9SOXdVKzB2VnFacUFxSU90?=
+ =?utf-8?B?TE5hN0s1S0RPMHQxcE0yQklmMHFBWmhXRXk1QXZwT0hWSWFQbEh4c0VnajFw?=
+ =?utf-8?B?Z0N1a3dGQVQwNnVDdVlHZUVQbmJsV3Rpa1Q2dUVNUTJ1Y1oyYTRCVmMrTHN5?=
+ =?utf-8?B?VGVGZ3ZSKzdKQXNuV0pNdXJqdWZudzljYnpCRmtiQkFyQVJ1SFBOdjVaL2s1?=
+ =?utf-8?B?N1pQN250eFdDZHpGa2QvMSt2ZERLOENXem9tdHZ4bmNMTnNTREE0MjU2OUo1?=
+ =?utf-8?B?Z3g1cG1YazlFNENCeXdRRWtsbW40UGIvaW5ta1B6bFlYM3BIcjF0TTJONlhU?=
+ =?utf-8?B?RXU1Z3YvSmI3OHY0RTFxbzh1QmNzcjAxekJ4M3hJWmNRKytWcEVQZVRiM3JU?=
+ =?utf-8?B?UTlNT1hvdGtiVW1KYmhOZE8rbkZuRklZNGpXMHlrQWl6SFAwZzZENWM4Z0Z3?=
+ =?utf-8?B?QXVkK1ZUejJydG1YQ2xQUmFadG1ndXBVcnZjVTE3T1F2Nm9EbXNxU25xSXZK?=
+ =?utf-8?B?emZTOEc4RkF3VXFNL1JjSjgzK2NUdkpKYnpiZEkxV0Z3aEJWOXE3VXc2bkEz?=
+ =?utf-8?B?MjY1QnUwQUZoaHZPcURNN3FvVDgrTnc3U0NjUjNUc0JxcU4yclpUNWVKY1BP?=
+ =?utf-8?B?aHY0VG5QQklTNjFmaGxXdTV6d284U3lTQU4rbS9SMjd1TXlOY2w4UklHdnlm?=
+ =?utf-8?B?d3BrOUpNNlVDdXJXZHN1eVU4b0h4NW80TTNTNWVkN1RmaEx3dmI0VHlDOGU0?=
+ =?utf-8?B?S1BEaWVaMEdHVW1XSFpUME9WSVQza2xsVXdEV0NVSE5hR1pWTnBYZXBCK2pz?=
+ =?utf-8?B?R3hjYmhqUlBXcThPVk5HWWJmczJKK1gwNEF5cTNJdVFiY2U4eVVMZ2RPUWhC?=
+ =?utf-8?B?b3o5bVNhNnZSTHRqSHQrN1VNTUpxQlFQdjI3Mzl1dkxWRXhaYzVKcTk4M1F4?=
+ =?utf-8?B?MlJDNGJla2RqMTBxdEg3d0dGL25hY2YvMXRRcndQc25YTGlCVmNWQngyNmJT?=
+ =?utf-8?B?c2xIcFhYOEJJakJjcm9CK0k3eklyZ2Rka2N1dlNOV2ZIMjQ4aks3N0wvVUdC?=
+ =?utf-8?B?TzBqRUx2QTArUnF5ekV5allFSFpzZUd0YlZ1cU1YQXh6elg4K2hZR0lFa0t3?=
+ =?utf-8?B?SExwRkJVU3hqUWxwZVdOVW9GNEtjM0x3bjd6RzhUS0ZRMEhiQUxwazVFdXdQ?=
+ =?utf-8?Q?Xza6heF7I4sOtHCetEsbtuOVw?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 885389e4-d85b-4612-46ca-08dcad415f0c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80cc2e47-5cbf-4b43-3a52-08dcad417480
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2024 07:05:45.9983 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2024 07:06:21.9728 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tZW/xhoSeKcAfk/LcrO26agerSDD9kEkwd7sJ2E/XwZo1b+02erlBWQ/wLEVZXvz
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gb7rvFKClmMkIRjdTPEoYdyMDKuPVAlQhXATDNv44sLaN6DEB97ZD9DkWZ1nbus8
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5841
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -165,116 +167,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 25.07.24 um 20:09 schrieb Nikita Zhandarovich:
-> Several cs track offsets (such as 'track->db_s_read_offset')
-> either are initialized with or plainly take big enough values that,
-> once shifted 8 bits left, may be hit with integer overflow if the
-> resulting values end up going over u32 limit.
->
-> Some debug prints take this into account (see according dev_warn() in
-> evergreen_cs_track_validate_stencil()), even if the actual
-> calculated value assigned to local 'offset' variable is missing
-> similar proper expansion.
->
-> Mitigate the problem by casting the type of right operands to the
-> wider type of corresponding left ones in all such cases.
->
-> Found by Linux Verification Center (linuxtesting.org) with static
-> analysis tool SVACE.
->
-> Fixes: 285484e2d55e ("drm/radeon: add support for evergreen/ni tiling informations v11")
-> Cc: stable@vger.kernel.org
+I strongly suggest to revert that again. See my other mail.
 
-Well first of all the long cast doesn't makes the value 64bit, it 
-depends on the architecture.
-
-Then IIRC the underlying hw can only handle a 32bit address space so 
-having the offset as long is incorrect to begin with.
-
-And finally that is absolutely not material for stable.
-
-Regards,
 Christian.
 
-> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-> ---
-> P.S. While I am not certain that track->cb_color_bo_offset[id]
-> actually ends up taking values high enough to cause an overflow,
-> nonetheless I thought it prudent to cast it to ulong as well.
+Am 25.07.24 um 22:59 schrieb Alex Deucher:
+> Applied.  Thanks!
 >
->   drivers/gpu/drm/radeon/evergreen_cs.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
+> Alex
 >
-> diff --git a/drivers/gpu/drm/radeon/evergreen_cs.c b/drivers/gpu/drm/radeon/evergreen_cs.c
-> index 1fe6e0d883c7..d734d221e2da 100644
-> --- a/drivers/gpu/drm/radeon/evergreen_cs.c
-> +++ b/drivers/gpu/drm/radeon/evergreen_cs.c
-> @@ -433,7 +433,7 @@ static int evergreen_cs_track_validate_cb(struct radeon_cs_parser *p, unsigned i
->   		return r;
->   	}
->   
-> -	offset = track->cb_color_bo_offset[id] << 8;
-> +	offset = (unsigned long)track->cb_color_bo_offset[id] << 8;
->   	if (offset & (surf.base_align - 1)) {
->   		dev_warn(p->dev, "%s:%d cb[%d] bo base %ld not aligned with %ld\n",
->   			 __func__, __LINE__, id, offset, surf.base_align);
-> @@ -455,7 +455,7 @@ static int evergreen_cs_track_validate_cb(struct radeon_cs_parser *p, unsigned i
->   				min = surf.nby - 8;
->   			}
->   			bsize = radeon_bo_size(track->cb_color_bo[id]);
-> -			tmp = track->cb_color_bo_offset[id] << 8;
-> +			tmp = (unsigned long)track->cb_color_bo_offset[id] << 8;
->   			for (nby = surf.nby; nby > min; nby--) {
->   				size = nby * surf.nbx * surf.bpe * surf.nsamples;
->   				if ((tmp + size * mslice) <= bsize) {
-> @@ -476,10 +476,10 @@ static int evergreen_cs_track_validate_cb(struct radeon_cs_parser *p, unsigned i
->   			}
->   		}
->   		dev_warn(p->dev, "%s:%d cb[%d] bo too small (layer size %d, "
-> -			 "offset %d, max layer %d, bo size %ld, slice %d)\n",
-> +			 "offset %ld, max layer %d, bo size %ld, slice %d)\n",
->   			 __func__, __LINE__, id, surf.layer_size,
-> -			track->cb_color_bo_offset[id] << 8, mslice,
-> -			radeon_bo_size(track->cb_color_bo[id]), slice);
-> +			(unsigned long)track->cb_color_bo_offset[id] << 8,
-> +			mslice,	radeon_bo_size(track->cb_color_bo[id]), slice);
->   		dev_warn(p->dev, "%s:%d problematic surf: (%d %d) (%d %d %d %d %d %d %d)\n",
->   			 __func__, __LINE__, surf.nbx, surf.nby,
->   			surf.mode, surf.bpe, surf.nsamples,
-> @@ -608,7 +608,7 @@ static int evergreen_cs_track_validate_stencil(struct radeon_cs_parser *p)
->   		return r;
->   	}
->   
-> -	offset = track->db_s_read_offset << 8;
-> +	offset = (unsigned long)track->db_s_read_offset << 8;
->   	if (offset & (surf.base_align - 1)) {
->   		dev_warn(p->dev, "%s:%d stencil read bo base %ld not aligned with %ld\n",
->   			 __func__, __LINE__, offset, surf.base_align);
-> @@ -627,7 +627,7 @@ static int evergreen_cs_track_validate_stencil(struct radeon_cs_parser *p)
->   		return -EINVAL;
->   	}
->   
-> -	offset = track->db_s_write_offset << 8;
-> +	offset = (unsigned long)track->db_s_write_offset << 8;
->   	if (offset & (surf.base_align - 1)) {
->   		dev_warn(p->dev, "%s:%d stencil write bo base %ld not aligned with %ld\n",
->   			 __func__, __LINE__, offset, surf.base_align);
-> @@ -706,7 +706,7 @@ static int evergreen_cs_track_validate_depth(struct radeon_cs_parser *p)
->   		return r;
->   	}
->   
-> -	offset = track->db_z_read_offset << 8;
-> +	offset = (unsigned long)track->db_z_read_offset << 8;
->   	if (offset & (surf.base_align - 1)) {
->   		dev_warn(p->dev, "%s:%d stencil read bo base %ld not aligned with %ld\n",
->   			 __func__, __LINE__, offset, surf.base_align);
-> @@ -722,7 +722,7 @@ static int evergreen_cs_track_validate_depth(struct radeon_cs_parser *p)
->   		return -EINVAL;
->   	}
->   
-> -	offset = track->db_z_write_offset << 8;
-> +	offset = (unsigned long)track->db_z_write_offset << 8;
->   	if (offset & (surf.base_align - 1)) {
->   		dev_warn(p->dev, "%s:%d stencil write bo base %ld not aligned with %ld\n",
->   			 __func__, __LINE__, offset, surf.base_align);
+> On Thu, Jul 25, 2024 at 2:20 PM Nikita Zhandarovich
+> <n.zhandarovich@fintech.ru> wrote:
+>> Several cs track offsets (such as 'track->db_s_read_offset')
+>> either are initialized with or plainly take big enough values that,
+>> once shifted 8 bits left, may be hit with integer overflow if the
+>> resulting values end up going over u32 limit.
+>>
+>> Some debug prints take this into account (see according dev_warn() in
+>> evergreen_cs_track_validate_stencil()), even if the actual
+>> calculated value assigned to local 'offset' variable is missing
+>> similar proper expansion.
+>>
+>> Mitigate the problem by casting the type of right operands to the
+>> wider type of corresponding left ones in all such cases.
+>>
+>> Found by Linux Verification Center (linuxtesting.org) with static
+>> analysis tool SVACE.
+>>
+>> Fixes: 285484e2d55e ("drm/radeon: add support for evergreen/ni tiling informations v11")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+>> ---
+>> P.S. While I am not certain that track->cb_color_bo_offset[id]
+>> actually ends up taking values high enough to cause an overflow,
+>> nonetheless I thought it prudent to cast it to ulong as well.
+>>
+>>   drivers/gpu/drm/radeon/evergreen_cs.c | 18 +++++++++---------
+>>   1 file changed, 9 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/radeon/evergreen_cs.c b/drivers/gpu/drm/radeon/evergreen_cs.c
+>> index 1fe6e0d883c7..d734d221e2da 100644
+>> --- a/drivers/gpu/drm/radeon/evergreen_cs.c
+>> +++ b/drivers/gpu/drm/radeon/evergreen_cs.c
+>> @@ -433,7 +433,7 @@ static int evergreen_cs_track_validate_cb(struct radeon_cs_parser *p, unsigned i
+>>                  return r;
+>>          }
+>>
+>> -       offset = track->cb_color_bo_offset[id] << 8;
+>> +       offset = (unsigned long)track->cb_color_bo_offset[id] << 8;
+>>          if (offset & (surf.base_align - 1)) {
+>>                  dev_warn(p->dev, "%s:%d cb[%d] bo base %ld not aligned with %ld\n",
+>>                           __func__, __LINE__, id, offset, surf.base_align);
+>> @@ -455,7 +455,7 @@ static int evergreen_cs_track_validate_cb(struct radeon_cs_parser *p, unsigned i
+>>                                  min = surf.nby - 8;
+>>                          }
+>>                          bsize = radeon_bo_size(track->cb_color_bo[id]);
+>> -                       tmp = track->cb_color_bo_offset[id] << 8;
+>> +                       tmp = (unsigned long)track->cb_color_bo_offset[id] << 8;
+>>                          for (nby = surf.nby; nby > min; nby--) {
+>>                                  size = nby * surf.nbx * surf.bpe * surf.nsamples;
+>>                                  if ((tmp + size * mslice) <= bsize) {
+>> @@ -476,10 +476,10 @@ static int evergreen_cs_track_validate_cb(struct radeon_cs_parser *p, unsigned i
+>>                          }
+>>                  }
+>>                  dev_warn(p->dev, "%s:%d cb[%d] bo too small (layer size %d, "
+>> -                        "offset %d, max layer %d, bo size %ld, slice %d)\n",
+>> +                        "offset %ld, max layer %d, bo size %ld, slice %d)\n",
+>>                           __func__, __LINE__, id, surf.layer_size,
+>> -                       track->cb_color_bo_offset[id] << 8, mslice,
+>> -                       radeon_bo_size(track->cb_color_bo[id]), slice);
+>> +                       (unsigned long)track->cb_color_bo_offset[id] << 8,
+>> +                       mslice, radeon_bo_size(track->cb_color_bo[id]), slice);
+>>                  dev_warn(p->dev, "%s:%d problematic surf: (%d %d) (%d %d %d %d %d %d %d)\n",
+>>                           __func__, __LINE__, surf.nbx, surf.nby,
+>>                          surf.mode, surf.bpe, surf.nsamples,
+>> @@ -608,7 +608,7 @@ static int evergreen_cs_track_validate_stencil(struct radeon_cs_parser *p)
+>>                  return r;
+>>          }
+>>
+>> -       offset = track->db_s_read_offset << 8;
+>> +       offset = (unsigned long)track->db_s_read_offset << 8;
+>>          if (offset & (surf.base_align - 1)) {
+>>                  dev_warn(p->dev, "%s:%d stencil read bo base %ld not aligned with %ld\n",
+>>                           __func__, __LINE__, offset, surf.base_align);
+>> @@ -627,7 +627,7 @@ static int evergreen_cs_track_validate_stencil(struct radeon_cs_parser *p)
+>>                  return -EINVAL;
+>>          }
+>>
+>> -       offset = track->db_s_write_offset << 8;
+>> +       offset = (unsigned long)track->db_s_write_offset << 8;
+>>          if (offset & (surf.base_align - 1)) {
+>>                  dev_warn(p->dev, "%s:%d stencil write bo base %ld not aligned with %ld\n",
+>>                           __func__, __LINE__, offset, surf.base_align);
+>> @@ -706,7 +706,7 @@ static int evergreen_cs_track_validate_depth(struct radeon_cs_parser *p)
+>>                  return r;
+>>          }
+>>
+>> -       offset = track->db_z_read_offset << 8;
+>> +       offset = (unsigned long)track->db_z_read_offset << 8;
+>>          if (offset & (surf.base_align - 1)) {
+>>                  dev_warn(p->dev, "%s:%d stencil read bo base %ld not aligned with %ld\n",
+>>                           __func__, __LINE__, offset, surf.base_align);
+>> @@ -722,7 +722,7 @@ static int evergreen_cs_track_validate_depth(struct radeon_cs_parser *p)
+>>                  return -EINVAL;
+>>          }
+>>
+>> -       offset = track->db_z_write_offset << 8;
+>> +       offset = (unsigned long)track->db_z_write_offset << 8;
+>>          if (offset & (surf.base_align - 1)) {
+>>                  dev_warn(p->dev, "%s:%d stencil write bo base %ld not aligned with %ld\n",
+>>                           __func__, __LINE__, offset, surf.base_align);
 
