@@ -2,84 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A7D93D86F
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 20:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDF293D93A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 21:45:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CEF210E09C;
-	Fri, 26 Jul 2024 18:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 611E010E294;
+	Fri, 26 Jul 2024 19:45:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LxKHjQ3x";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KBVzz+Kc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC7D10E09C
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 18:39:13 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46QCTACd015435;
- Fri, 26 Jul 2024 18:39:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PKfdBeoNwNM3l/U+Qodf32d/VP9ieMwFD3DYkb1YDfM=; b=LxKHjQ3xQrY0pX+2
- RF7yem0N4gv+fMFZweDj5HMlwum58+dacbIl9sJ9yETo/+LhHYfWR0Q4NZ8BCXg7
- Mw15kZBS9PSd4yMoK/rZwAhFV4crz04fUSoerU3jLT5uxUxGeHMSzThD37byIp/+
- rvvspEX5SaIlzeRXftq/dXTnZ/gO/BPxy0P4xVNN3ra008uO/W+a72LgEC9en933
- b2z5vOHaKbXR4ke6+rM42ypsYVc22VZxlxQxlNCwQq34pom0DwmPbHkP0OF0A5bG
- iWTWkWk+e/YstTe42FM0monq2GK7w3aCsusEO+KLHwUJBEfgBDViLzz753aURjN6
- QL4Pfg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40m1urt7c0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jul 2024 18:39:02 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46QId0L5003832
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jul 2024 18:39:00 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 26 Jul
- 2024 11:38:59 -0700
-Message-ID: <6ae6dda5-1e49-4ed1-8748-b086ad4008a4@quicinc.com>
-Date: Fri, 26 Jul 2024 11:38:50 -0700
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com
+ [209.85.219.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07AF110E294
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 19:45:04 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id
+ 6a1803df08f44-6b7b349a98aso7915936d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 12:45:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722023103; x=1722627903; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ij7udA+D2YyUWRgHBnNSpIqZuzldiGFVb6iQhXMCGwo=;
+ b=KBVzz+KcJyduA6LqR6zXMC0pWFysSViHbovv0ka6GxxtgrkBZ1f+5fgemrpxmZOE9d
+ vKziWzdE/75sHbnrmAyfVBw80i8m6qhSy9ZmSJMndXf8KViIfFyxlBIZ6TB7DglI5Byv
+ CLrDhbVSbInDDYqTp/DXEBBCMPIqHGjlL70WQbZtOg5z1T7XDqNBI7QY1qvy0W4ulrlF
+ 0lbjgDzqDMTyAewYI/IxhGFhHDi7kKfAia1ql6SLG2rd1hOtZDtNqrKFh79nN6R5oKqT
+ nCECqf1fdklAirtFJ9fnS9hUmsatTBZMQLHSKV+aWNQmX0UXdpsxKjX4L6vpKl5MAga8
+ C0bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722023103; x=1722627903;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ij7udA+D2YyUWRgHBnNSpIqZuzldiGFVb6iQhXMCGwo=;
+ b=rR3myGk4/9XUNA1Tvru6aFkgKcp3Va859rk4FmH2qxpWDvCb0LJVlKWVZ5heCHIWrp
+ VyT2y6UyW4LYTGSwUW7MF15Jw7efavxWgqKbzWa8nxJZxBPdbeZORkFyDURKuejDF1cc
+ GGCpaJYUadi5rtF4g6EDV6QV+6RbuuuKJb1Ur0++F9ceQvmkZCgp6h3jXg4OleTQ0fVH
+ ZhZRuwkaeZymiSeYTWYPeQKMOQ8j9KRsN5mmB/Biuw/mZeOuhen92WcH3zwRkK2WZa/d
+ nBMvwQEWh2YbZ2p2T7pWkFZBu/rZ0Zx7PEOpPruml9cVpXNvBQ/5+gQYTQ2jopR5YG/6
+ yFTQ==
+X-Gm-Message-State: AOJu0Yw62c7LfzyifVFsWc+lcSUa3CO30lbfPAmH8ZwNipEGUiO7Kbt5
+ gq0SMSV4F119aKLINNjRZ3OPzoPRJKya7+InnB8bF3Ahq55ouIBp
+X-Google-Smtp-Source: AGHT+IGt5dvyu4jj5Vq78r+w49BboaXBabmT4d7u334UZ2Zv8odJ9lpR08MB7TDHUbxTtGgFjBxY2A==
+X-Received: by 2002:a05:6214:20c3:b0:6b4:fc6f:17ba with SMTP id
+ 6a1803df08f44-6bb55a65896mr12048276d6.33.1722023102861; 
+ Fri, 26 Jul 2024 12:45:02 -0700 (PDT)
+Received: from localhost.localdomain (ool-1826d901.dyn.optonline.net.
+ [24.38.217.1]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6bb3f8f83c9sm19409986d6.38.2024.07.26.12.45.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Jul 2024 12:45:02 -0700 (PDT)
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: mehdi.djait@bootlin.com, christophe.jaillet@wanadoo.fr,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Alex Lanzano <lanzano.alex@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] Add driver for Sharp Memory LCD
+Date: Fri, 26 Jul 2024 15:44:24 -0400
+Message-ID: <20240726194456.1336484-1-lanzano.alex@gmail.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240725004734.644986-1-lanzano.alex@gmail.com>
+References: <20240725004734.644986-1-lanzano.alex@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] drm/panel: jd9365da: Modify the init code of Melfas
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
- <neil.armstrong@linaro.org>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <dianders@chromium.org>,
- <hsinyi@google.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <jagan@edgeble.ai>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20240725083245.12253-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240725083245.12253-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240725083245.12253-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: wujxKLDR5aJkY3RyZA1uY3fsE3RzBz6E
-X-Proofpoint-ORIG-GUID: wujxKLDR5aJkY3RyZA1uY3fsE3RzBz6E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-26_12,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- malwarescore=0 clxscore=1011 priorityscore=1501 spamscore=0 suspectscore=0
- bulkscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2407260125
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,140 +87,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series add support for the monochrome Sharp Memory LCD
+panels. This series is based off of the work done by Mehdi Djait.
 
+References:
+https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
+https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
 
-On 7/25/2024 1:32 AM, Zhaoxiong Lv wrote:
-> Modify the Melfas panel init code to satisfy the gamma
-> value of 2.2
-> 
-> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+---
+Changes in v2:
+- Credited Mehdi Djait in commit messages
+- Renamed sharp,sharp-memory.yaml to sharp,ls010b7dh04.yaml
+- Using strings instead of int for vcom-mode in dt-binding
+- Fixed indentation of binding example
+- Removed binding header
+- Removed extra whitespace in sharp-memory.c
+- Fixed error handling in sharp-memory.c
+- Added match data to of_device_id table to be in-sync with spi_device_id table
+- Replaced redundant function with spi_get_device_match_data
+- Sorted header files in sharp-memory.c
+---
+Alex Lanzano (2):
+  dt-bindings: display: Add Sharp Memory LCD bindings
+  drm/tiny: Add driver for Sharp Memory LCD
 
-Hi Zhaoxiong,
+ .../bindings/display/sharp,ls010b7dh04.yaml   |  93 +++
+ MAINTAINERS                                   |   7 +
+ drivers/gpu/drm/tiny/Kconfig                  |  20 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/sharp-memory.c           | 727 ++++++++++++++++++
+ 5 files changed, 848 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+ create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
 
-Acked-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+-- 
+2.45.2
 
-Thanks,
-
-Jessica Zhang
-
-> ---
->   .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 78 +++++++++----------
->   1 file changed, 39 insertions(+), 39 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> index ce73e8cb1db5..44897e5218a6 100644
-> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> @@ -873,22 +873,22 @@ static int melfas_lmfbx101117480_init_cmds(struct jadard *jadard)
->   	jd9365da_switch_page(&dsi_ctx, 0x01);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x74);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x00);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0xbf);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0xd7);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x01);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x00);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0xbf);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0xd7);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x01);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1f, 0x70);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x20, 0x2d);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x21, 0x2d);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x22, 0x7e);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0xfe);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0xfd);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x19);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x35, 0x28);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x38, 0x05);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x39, 0x08);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3a, 0x12);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3c, 0x78);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3c, 0x7e);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3d, 0xff);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3e, 0xff);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3f, 0x7f);
-> @@ -899,47 +899,47 @@ static int melfas_lmfbx101117480_init_cmds(struct jadard *jadard)
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x74);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x02);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x56, 0x01);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x57, 0x8e);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x57, 0x6a);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x58, 0x09);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x59, 0x0a);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5a, 0x2e);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x1a);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x15);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x7f);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5e, 0x69);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x59);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, 0x4e);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x4c);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x40);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x63, 0x45);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0x30);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x4a);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x66, 0x49);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0x4a);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x68);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x69, 0x57);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6a, 0x5b);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6b, 0x4e);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6c, 0x49);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x73);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5e, 0x56);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x43);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, 0x38);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x36);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x28);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x63, 0x2f);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0x19);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x32);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x66, 0x31);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0x31);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x4f);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x69, 0x3e);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6a, 0x47);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6b, 0x36);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6c, 0x31);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6d, 0x24);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6e, 0x12);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6f, 0x02);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x70, 0x7f);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x71, 0x69);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x72, 0x59);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x73, 0x4e);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x74, 0x4c);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0x40);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x45);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x30);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x4a);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x79, 0x49);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7a, 0x4a);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7b, 0x68);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7c, 0x57);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7d, 0x5b);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7e, 0x4e);
-> -	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7f, 0x49);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x70, 0x73);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x71, 0x56);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x72, 0x43);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x73, 0x38);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x74, 0x36);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0x28);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x2f);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x19);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x32);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x79, 0x31);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7a, 0x31);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7b, 0x4f);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7c, 0x3e);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7d, 0x47);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7e, 0x36);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7f, 0x31);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x24);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x81, 0x12);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x82, 0x02);
-> -- 
-> 2.17.1
-> 
