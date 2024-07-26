@@ -2,136 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F4D93CE46
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 08:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E675993CE73
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 09:05:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25C9010E17A;
-	Fri, 26 Jul 2024 06:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF43B10E92F;
+	Fri, 26 Jul 2024 07:05:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="CAuXMEtt";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VydKO1qI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com
- (mail-westeuropeazon11010026.outbound.protection.outlook.com [52.101.69.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97ED910E17A
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 06:50:18 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2059.outbound.protection.outlook.com [40.107.101.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB86A10E2B9;
+ Fri, 26 Jul 2024 07:05:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Edc4i34XqO37wLn3aTFxMiqyU2fJSuEX+maRJSFqQfNgy/voru1qSJwujk9GtFbxHMAJKE7KaAEunICY58K7/4hSWg6qoECtkImVBCRgaT0PXKXF9ZiPI4whd926SrU5yFfSyWdUG6rw45+1RjSI3lACXVPfOz5zYqKoRr+6Wu8S0NLqGhbXmb1VD/7Rap++lp7OfighxIL3tl6e5CNfFr00eUZiLNrNEF+E2v0uu3Tl/XtqpKkIzWODxYUkGu5fLSbvNlOVt1JpFMqI1TICmmWdkpKaqtEXx8rm19njb/ZDs/yNFmn2odLpzRACh+msiVetcuzpyDee03z6O/pbMA==
+ b=vhSJKgCpEaDQ4zaMztaIHfJHVxYuOO8QwyoDWf5iLq5jm0pyRmQV0rEAk3MgdgY9yaWtcgsiVqnoleCBiWFYKFtgsk/QwR0PL9pBFur0qQIaRQmPp1oBR86/ztUxcLMCqKyQnTWvmKUbIwKDvNBLkt0bpWJySdxmEgKyz18UoUs27XtS4GBj/PreUH9dZT6MwC/EU7isGna8wvj3LuVVZrdnz/BFFgjiYaM6Wtno3hDHBIlBLRLUTE/mSq4+p9CGmmQR7QFPr3tpXMvGCxWeKBZ1NIwg0ZP59U+zxCMA2hg17yqZfu8xbV8cATTW1HoyZgl92T8nSjMBwQdtd7c1DA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=49Wf9uGevXP/V2CbnDdnacO7G3O4CTmL/fdgQijpdx8=;
- b=ySvKk3oDoeC0uDfjfT/UCr4FG1QA4yO6htdKe1kD8jvrlmqi+GYR4XZ73gY4zryNQ7A5BCDuZ9KzITHiBrKr/oQ2z44zr9QVy7LsfgiqIM6GI4+1aEQPvUQfZhotuHp75CCBWcUV5+ia9MxWByp6FZ0SPdzVbvVmJfjNqMqXUpeG9uY99C2rwztDNCAoNvT7nlRulDGTwIqhGhU5/LTvwAyBxEXQ3XEIlWgZuY2leoXZaSTmU448Hzujv6frRKmwQUde7kOD/0RPD83EHjREx8J6w7LbIr1CwnUialN8vwJzde5Dee5wY7Dak446tVWHJRu/0hFDeYVZcu4gFO9fGg==
+ bh=qbISvFNesB+YOBhIskwaroFX32I8IARzN8QE4D0ygkg=;
+ b=wu1E3zn4hPW+0U+aE+E/Zh1KRcdGNIGQdwIml7uBYo2yW9dfq8NfTE56/VcM6uJfX7lYUY06BO9VGmet3Uffpe2EATi8zc/hvaTvCrL3ODuJmS29nzmwCPEvVXHSzns16FK8KHMlHI+o0FtTabU3wPKSat4lOM/pXk3BRnCNXe+SKWv7bESwmg/Lbhl8Mos9Mf10J+OijrS369VixMxQ/apN+JIqdGluNPrz7k7butL1LxSQ0p7wrdRV83I/+wo4kbJ4NPPLEwJa4ONO56pNbpyrLIyPtsyk/kDur37clXKWQkIo4C0Dlx/L11oU8tguoXPjIJ6BO/geBJpv70Qwaw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=49Wf9uGevXP/V2CbnDdnacO7G3O4CTmL/fdgQijpdx8=;
- b=CAuXMEtt0+RlFCCN4ypPDIQYLV5Yq2/BJTh+BesvcjxSOOOwZqnmXnx9o6EGEGWrrvJuT0gic5bydqnjX6tdBW7pbO1Tb/Ofp6PG5kPmG6qo6hKwKRiTuAaqrcptp0ZOSptm6AFWGputiaY3vdTlu3uXuTiUxpD6eZb2fVdATb9/JDpvq9I3mWKh8wVhDDiedWZ57xOphXgWQ9vIWfo/8q236o5PqlXB0L67CRLNGSCX/+JcseaOixmTKctlSLt6MnzmGSULCterSFO4WFr1mVgw+5JdXo4BN/4KfkZjdKVGtNt55Y/moa4izOYRKaIpXf4RoihDcy5hmqjuswjpFw==
+ bh=qbISvFNesB+YOBhIskwaroFX32I8IARzN8QE4D0ygkg=;
+ b=VydKO1qIYHiVltphyAOHSMlHXo84LUZhYEaSQ1nVESGJ/dBF7liRxliOVTuCoZiqrOAAvxZD5ueZKIefCjbUTw9k68fQKs+Csd5pbb6D+EAgK9wNEDZlkUk/JfuPt193lbvAZTsR6rjwBES5Z11GwBL0S8VZWK8PWQ2ymx1C0wk=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DB9PR04MB9775.eurprd04.prod.outlook.com (2603:10a6:10:4ce::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.29; Fri, 26 Jul
- 2024 06:50:15 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%2]) with mapi id 15.20.7784.020; Fri, 26 Jul 2024
- 06:50:14 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, saravanak@google.com
-Subject: [RFC PATCH] ARM: dts: imx53-qsb: Add MCIMX-LVDS1 display module
- support
-Date: Fri, 26 Jul 2024 14:50:12 +0800
-Message-Id: <20240726065012.618606-1-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0043.apcprd02.prod.outlook.com
- (2603:1096:4:196::12) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB5841.namprd12.prod.outlook.com (2603:10b6:8:64::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.20; Fri, 26 Jul
+ 2024 07:05:46 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7784.017; Fri, 26 Jul 2024
+ 07:05:46 +0000
+Message-ID: <e5199bf0-0861-4b79-8f32-d14a784b116f@amd.com>
+Date: Fri, 26 Jul 2024 09:05:41 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/radeon/evergreen_cs: fix int overflow errors in cs
+ track offsets
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+ Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Jerome Glisse <jglisse@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
+ stable@vger.kernel.org
+References: <20240725180950.15820-1-n.zhandarovich@fintech.ru>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240725180950.15820-1-n.zhandarovich@fintech.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0400.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cf::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DB9PR04MB9775:EE_
-X-MS-Office365-Filtering-Correlation-Id: f877974c-56f9-4925-9eb0-08dcad3f33f6
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB5841:EE_
+X-MS-Office365-Filtering-Correlation-Id: 885389e4-d85b-4612-46ca-08dcad415f0c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|52116014|7416014|376014|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?C/3n1W6g3693pVTiPMk08aG8Hj1/tMYB9Kq+Z1JGoSyZ/dBq0l0VwculmgUr?=
- =?us-ascii?Q?QLcCd/JfRPlQPLh7SHih0fS313vxTCLwWpu65PnGHI7dd8rYrn9U3xAVDF8n?=
- =?us-ascii?Q?E/Va4S9+HWhYf29LK64meCgMOm7YBEY+QifkUP2rr93YQAfetoOA0GUjMs0e?=
- =?us-ascii?Q?zOL8HHt4ihH8SUjOA/zl9d6NYBAFlRxhO65aV4UhfMVQBULVK6MA6h4CnMcm?=
- =?us-ascii?Q?jupQuuhzfl4G1FVB7jhjmlTKMFQU3uqVUxeb8gWTksSbO3UFhEMxq4GSyxAo?=
- =?us-ascii?Q?awWrNk8mT0ltXl7Rre0g7LhM5GGKy1qqcHanucNtV9KevPaN6Lk3Jj79o7TG?=
- =?us-ascii?Q?U+yExCUZLtjUtNO4qbneUmFqi8yoXxkpbNS8jnqFlpU+Jl/2dTQTV2uuUJ3t?=
- =?us-ascii?Q?a4OmmxrBoI5SbggAgPXGdc/n0ADGtBHxxSnhmo2cNbjIfmQLM4CKDcH9T4Ss?=
- =?us-ascii?Q?8JYZWjYcThn2NT5Aabg5FikoR73Y4SjjiB7lEOqt0P9Xhpe7TFdgMiuUH26K?=
- =?us-ascii?Q?bGT7kcdOos6DhIPbncm5RqD2SLtdr6bmYE4NuimgRqInyhexqaxoodI72FEZ?=
- =?us-ascii?Q?UQpeiVAHqifNQAVL7w/HO7XIQbW9oIo2CNeSwwcjOnSUR/TIvPh3sk57jAxo?=
- =?us-ascii?Q?aNp+8a5OKqVtryoIZ0n1IsZXdax4C0aMWbXFSdM+rOI/iAAtPVHdNvZBfZuI?=
- =?us-ascii?Q?KBP51k197FAPJdLD7C1qotcV1Se960oJ2Apxw3VFETfA8Cl5f5o6O71nMPXJ?=
- =?us-ascii?Q?u0IjrLMSoTfli7QWjIgVAWWq0Q1ZBe6MPmuek+J8A3T5J/H2xM/gw8VJLBu5?=
- =?us-ascii?Q?0EAmUYr9oUAplFG6w/VyQYd/hGsqfhUZooMs8ibKfhIQgUtY6L2KTFnKw0j4?=
- =?us-ascii?Q?DlVACcTYHDfagVPP3ChIjFV8CpSxgL2GTvGdt0ddhccE2Vyk/BKkiyhvwBpn?=
- =?us-ascii?Q?onnUjpgzpRXVHDRDHPnupwYq/ET9QDQfsH1mei1VFfA0oI0c9wc/nppxR9Hx?=
- =?us-ascii?Q?PfErc3WrUUZByGDHT7Lm+WFA02+ruIGf3ImZskz51kmW1FAdI5N+82huDY2q?=
- =?us-ascii?Q?fW3IcNJYXl1xd0m2r8g4yjX0mVlUz2gf8TSWROQwAk8aBe9IvuNoUqDPOB51?=
- =?us-ascii?Q?mH0a87BF1HRINUyraAYQwmjhZqfhmwCNRX5Q4ozR6sJmmEVvYna6FoldSFAG?=
- =?us-ascii?Q?dR/4jqyxkzLfiHEnNdzTsRq7taquqCnUtScFHnWuRm/UDAewb4UOLB6P7YGd?=
- =?us-ascii?Q?n7uXmLhbQoqgdzQ/FIKZNWlCgCiiODkTBALJk9THFCRqQEHWQmK2kRUnxAI+?=
- =?us-ascii?Q?oF1l4/P444HELOx8C2xi0DRupouJzxs4ya1s1UY7804HndNzcZD45IkhiCFy?=
- =?us-ascii?Q?LVpdlRHPa0rXMAB75TkpQ/bEMwSBACkcAGLnwQ9HLv1pmc5FiQ=3D=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?b2RLTjdreng1OFBPZ2tMVFlaY0dNbXhpT3FLS3RBK084dlR5bWYvaWt2R09G?=
+ =?utf-8?B?aGVMVXhoT3dnSURSNFNNYWxYK3lvNWorWS9zYTZXZXpCSjFNeUx3MEpma2pZ?=
+ =?utf-8?B?MFI2enRMa0craXZmbXd2T3Z3UjR3REszRHZnN3o5VjdpV3ZVTEFkaTFJSS9r?=
+ =?utf-8?B?TEhJRmE5c053eEJ0Q1VFeWV1M1JvNjZ2N2hhV1FBdThWZGlaZGVJc05ZeGNz?=
+ =?utf-8?B?VnJKeDRQYnNKMGJ1RzdPZ00ydkxNQTlsZjBxUHo1ZXF1cmNBZlB3TTVsNjRI?=
+ =?utf-8?B?WjRNUlVIaXAwQzJOUXI5cEVOeTU4aElwcHNYSFBjMndEUEFtazJCWG1FMURD?=
+ =?utf-8?B?MnYvb041Y1o5Ry9NSUkrZlVHWEcrelAxZ3N4MXpLeDFqTWJMSERsWmVudzNh?=
+ =?utf-8?B?THoveloyT0I1MThrV0NpOEpBUGRvRGFGeHRTSld1TVdtdkJIbHo0aGx6N3U2?=
+ =?utf-8?B?RnFUYkc5aUhsbkprbFIwTnhidHJvTE1RdHdyNURLQ2JiMFFKd1VkSkFrRHFs?=
+ =?utf-8?B?UTJXVmNwR0hPTGFzeG11Ni9BMHJqZWMxZ3J6VzI3RnI0STZQSkVuMHlJN2Z3?=
+ =?utf-8?B?aVBWQ01hOFUxWHdTbkJlQktqZzVTZTZGNnR0NE9SMnZZTDIvTmx1U2d6TkNs?=
+ =?utf-8?B?YUpWd0FwWXFxZlVyalN4OTI2V0hVTURMSW1oY0tEdFZnc1FMOW94blZnYmRB?=
+ =?utf-8?B?MTg3NERSR0NTaENWamFNamFVZVFxVFBzdUU0Y3pmcUNncmpzUjVtLzhkL3ds?=
+ =?utf-8?B?NVNWbUVoQTFPTzNxUzlPeTJiR3ZzaUJWd0FYTWYybzAxS0YxZm1tSmoyY2Va?=
+ =?utf-8?B?T2RVdFR1MTNSTjVHbXZKQ1BKMUNrUmR6cnFMcFhTc1RobXFjbXlQQlYraHMr?=
+ =?utf-8?B?ODB5YzJyK1d5ZjV5L1U5a3ZBa3ArNkl2UWhLTWI3eCtGK0FrQUhIL3k3d29n?=
+ =?utf-8?B?NlZkYVIrQkFOWHBDZG1nUGZlU3dZSGV1OGFyT3M3VDhIMlVOdTBHMFg4WWVR?=
+ =?utf-8?B?UnpKK25xRXJNbkxVY0ZKMkZaZmx3UnNrSlFCT2FibHYzYzhKbjZOWFgveWhS?=
+ =?utf-8?B?U3RRRlpaTjVLUGZjZERwd3dVSUU4U280ZHV4Tlc5QjVHN3hNYllUNUZ6RG9Y?=
+ =?utf-8?B?RnBycDZNdW1LU2pVYk9yMmtCTWU0NkFPb01ST1FVajN4WGI1NlF1REhVQWJi?=
+ =?utf-8?B?M3pCQkR2Tk5VV3hwbkVCR25ydEprT1pObXpzYktWVm5VUUpWazMrU0JWRHpF?=
+ =?utf-8?B?UmEwOXMyRzdVazJFYXNKYzhNbVdTL2t4Mmg5bWxMNFBvS3hTUXJMOERzWVgy?=
+ =?utf-8?B?OVh2aU9yeUN0M215RVorUHZLb0l2Zmw3Y2I3Rk83SlpUSXRocXlMY2FCWEhk?=
+ =?utf-8?B?N1RXRGxtYXdzRE5UbGVWdE95ZmRMUU5NcEdKM3p2REEvZVVnQnI2NUxTTHJt?=
+ =?utf-8?B?S3paaTZDRmJScUZHSURLUEYybkJNMjZQMG9VN2d3VS9qTnBJbi9JdVFDNDdR?=
+ =?utf-8?B?TUJWV1ZDZmpzRUgzTkpFZmx2ampWZ3d4YldWMXdIN3lkQ2xZK3UwYS9aNjQ0?=
+ =?utf-8?B?RUxQejIzZDM5ZXlPWEhVeEJmbmoybHBRM2RicWhSSkhScS9LYWlPaWRnR0Jm?=
+ =?utf-8?B?eWRzRHlpN3pHaERHclQrcUFaWGtPN25BZkRjNTdORVJqZm9idEcxd0trUHJW?=
+ =?utf-8?B?c3RDNUN2dk1KbCtsVnJPU0IyRmJydVdibm5ydE1PckZMU1VDTHlObm1XKzFC?=
+ =?utf-8?B?MHAyTTg4c3NSdkhGbG9teUZ4Wk51djVqWXNUSmNib2FucTVnaG1lRjRTTlZm?=
+ =?utf-8?B?TEhIVW9CdUhqMEp5d3h1Zz09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(38350700014);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/3BE7ZpKz5WZFt2dF4qNQ8VhLUvPCB/1UF4q3Nd98LUSs2zeDwQGveb+tmuL?=
- =?us-ascii?Q?DDreh+cVvzCjadeu+QjvvGPIGq+BSe/QX1SqH9Y2AQo5enqVgsD5ZvlbCiSf?=
- =?us-ascii?Q?o+9sHTdocg+1coeS7b96DilEVETmWqDLJb6WuBWhUs3VqLIstmUBHF7kgRpj?=
- =?us-ascii?Q?OW1qGt3gaJygWS0Im9FcQG5aryyo6HA+BWk9jX8QTzMKLLd5fZ/EBxEwMkum?=
- =?us-ascii?Q?dhvKVA+kQznAeziF9LohJ64Tq+zTBAFP7CyxZn0YsBfEx965eTyHJV19Q5YD?=
- =?us-ascii?Q?TLeiVnPR1srKPwIaR7ltej/w3U9SHU9zZ+zXn7k5jkXhuQUUk/Mr2mM3ah/D?=
- =?us-ascii?Q?oAZcjb9txrB3jIjJut3VJqal474ZRrb8i8RXhkTgy+tJ6/RFVfY+s2naDqF/?=
- =?us-ascii?Q?ZwMJv7j/LE2zGXjY4e76PNmtKJROFIGz4U577tx6lvlS83EgAv7I/Y1YpBio?=
- =?us-ascii?Q?DbyKhGOycpe0IHzKE5LBXa/TKARD9H+FAK5rVBBy9wf0FcOGS0T2q+57HOzB?=
- =?us-ascii?Q?C1yri9fAb0pQs48Qey7s6e8mihQFgLLK6USXivYnehjw5NMQyaELZ9dP620w?=
- =?us-ascii?Q?xVHijQgdS4+1NwMxyn0nakUB3tDaYQOLY9l/bcPYXOT3TicXV0aF8iWGyv3t?=
- =?us-ascii?Q?gYQEU1H/TBWOw0SIkIfsBO7ziGjktUm5Ix8vBt0lQDRKOQrBMeG+xDxEhYvm?=
- =?us-ascii?Q?PuJq041q11b7iTrEfMpZ8Ogq67uw1MQbn+GQvf0cSSQ7qW8Si1Z+jHG20uiY?=
- =?us-ascii?Q?lGTuXtthxf6dbGyUMoAY1iGMeDvHeUU/mBZ9yJaJJqgYDtXPCQyK3vmj0sr4?=
- =?us-ascii?Q?QTmMyyefC8rIXFe4pYNdWFkGeDlCVd+Fat4hDUfVHqSqZYvOAsVHDQIDi44v?=
- =?us-ascii?Q?9Qe+Y7hNiClDe6MctlnYDBE4IXntNI9jGNhJFFCMRLvcsk3z95RQXnywOeUi?=
- =?us-ascii?Q?9wVXR4gt8MDft4lB1GodMKW3rdgL/4iI8VPhrPij3etZIL0kCABdEG3R1Awj?=
- =?us-ascii?Q?vaD4IO0XSj5bzN5+yFFrhn7Is508E/x21ALpD58KEquV64cuifDGQXy49bk9?=
- =?us-ascii?Q?LROHJgU01aqfFEujbivS2nRSDd6BRpikrgNtf32BIujvP14r8fgDHW70BqxV?=
- =?us-ascii?Q?wp3mfYUdaYA654re1BH7HYJt/KbWT5eZsn9sO/zdW7fUmm4vzu0vO5oIxlV6?=
- =?us-ascii?Q?jgmbulEHHuGP1lZlh8zw2Ayy1JIGdIPpjWHj8h4cXXu1AQXgo9XDke4OZvmd?=
- =?us-ascii?Q?9Xfh2O2uu3Ay2gbijkGPHXC6P6m2yQQsImIECOTWHmSGyTB9gKZq+emlqYWf?=
- =?us-ascii?Q?Cmmoix33zrZjRlIudPqITukx1TzVxlthBhWkDvRFL28jIFeQgTlBrDiaKCCJ?=
- =?us-ascii?Q?RcL6pvwTRPBi6hwptjunkMgtsgGuIy93cTRLxu4hB/oYrcpgW5+XkUHFOVx+?=
- =?us-ascii?Q?Wmh2SE+A2xFI5zT1zj3uTqxM616WGTrwyNaphoAIA5duqjgSrSzLaHkgaOC+?=
- =?us-ascii?Q?FyMooYB1vc4LCi0Hz3dvZ72TfYb8mE1w9UIA1EftISCiJpN+CiTPcCBVhrgc?=
- =?us-ascii?Q?jcREdMQf6Nzz5MPSl6gmmEh5lGc+exsraEPZHUmo?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f877974c-56f9-4925-9eb0-08dcad3f33f6
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bGxmQ1BCRkF2Tmc5aFlvV1Y1NlZSeTZtM3FuR2wrT2VLS29HcVBWcXp4UG9R?=
+ =?utf-8?B?eEJPT3VXYjRoSzM3Q2dUOTBES1F1R3dlRy9vM29ydmVaUThiREd4Q3JYaVJr?=
+ =?utf-8?B?V0duSEhqc1piNnhWRVBoVnA3ejNGWE5FVTZjQ0JaVFRqNnp2aU5EZlk2Nzhj?=
+ =?utf-8?B?U0FiOXpPUWVDUGhJakdYeDUvK3JxUUhOTHRyNU9ON0FrUjJxSWNETkhjMVhm?=
+ =?utf-8?B?VjNmcXdwMWpTWUVTUHhpSEhHU0U1YXdtZUdUbGFTa1RZUEFSait5L2lkWjd6?=
+ =?utf-8?B?UTlwcGZzaTJETUc4VDNuUDVhWUF6bDB6Y2p5UnRSQWY2K0JzQkxoQUs0TGpM?=
+ =?utf-8?B?OFJWOUo3RFFUOEpSOEVXODJsZTlkOGRCWjRtZkZvZDZJeEE1OVcwcmxtUHhR?=
+ =?utf-8?B?T3luYm0xMXp0Q0kzdHRtLzdvcDBCMDVVWThZMVgxbDlieWJpc2VDdHBSTUln?=
+ =?utf-8?B?NDYwRXplM25ibi9VeFYwbDBkV21LV1BERlpVQnY4UGNzcVh5MU51blJvSEJv?=
+ =?utf-8?B?QXV1ZjQ1Umc0NlQyOGhsVkx0STdVSERFK1BwVHZxMkg0ZUdEd053SXVQVEhm?=
+ =?utf-8?B?Y2VjMmsvdXlYWEhNVTBIUDZmUS9KNmVFUk1KbFZvYlNpak95bGt5REdTNnh4?=
+ =?utf-8?B?NTkreDVUUlJGdVJ2WjJiUGFGK0hwTzdpcjRLbkgybklldlFOQ3dnclhiNjB2?=
+ =?utf-8?B?YjhEVExSMVRVMU9lM0N5NXplWEFFVlZ2VUJEa0ZSR3ZCVktpSzRHbGdSQVVm?=
+ =?utf-8?B?VjNkRnlKUTcxTWFVei9WWUNTckxnSUxOMTVBZkt6MDJkSk5rSjIzRXpWcTNx?=
+ =?utf-8?B?Q1lXMkRzV2FtUVVMSC9palIyT0wzOUFlNEY3RmJMS3IrVkNDVzViSzhQUysy?=
+ =?utf-8?B?R2JGU1kwYjJMV2RtaUpuVjJWRVRIT2xKV0lJbTRJK0pvZEVVM3JXYWxQS1V6?=
+ =?utf-8?B?LzZkbVByWmZHQ3BsanBSUkxaOFMrVzc2OWJDTFEreHZXNDVTSy9sdUowTUla?=
+ =?utf-8?B?V1VDenJpV3c4WlZEZERZTTFsRmFoOTVjYzU4ZUVjb0o2aWVlTjlGUmkrVC9a?=
+ =?utf-8?B?Q0RZQ1lEdStBc1o1NzhZTjVOdGh6RXBYazRsVXBQL2JxRVE2VytGNVhTQ29p?=
+ =?utf-8?B?NDluWjRCUVUwendQZ1lMUzRYR3hnQmhtWVdVSGcwYnNPVDdRcGlhZ1psNXBz?=
+ =?utf-8?B?WXZrbzlIYVZPazVqMnBFQTlsYzd6bk1jcEhRRittdFc1ajQvYlNZUk4yTWN5?=
+ =?utf-8?B?ejl3ZXhrWjdROUZGTUM2REJvRHlFVGlJL2w3M2RBVWZBd1dLSUpFR0U1bkFl?=
+ =?utf-8?B?MnZKU2p3bnBvRlh4a0QxYTlMU1NjOTd5L29xSEszQXJMZTRYMzJUOFByUXdS?=
+ =?utf-8?B?UGNzZk54WWgwQnVWcmdTYUYzQ1dncFdmS29BL0w1VjZSVTdtOE1hTGd2Z3NY?=
+ =?utf-8?B?WU5heFljTmtqZHA2WlVoSC91VzRwb1dyQXJHRy95clNOOTFiOVJQczlydGov?=
+ =?utf-8?B?ZWFoZnF4WEREd24rL1hjYmdWRlBnTnB0emp5MVRUeGVZamdLZWcrQlFWKzU3?=
+ =?utf-8?B?Sit5NFVnRitTZDBIV2VzUi8xV3lwc3VyMm5qZ1RjNU93UkhDSGRNbmlJVkNU?=
+ =?utf-8?B?SjhNRDVlQ2c2UGFXbTFuakhsaFc5dFJjdms2eUY1Zitwalg4ckcrZUdNVVRC?=
+ =?utf-8?B?aG1mdjkvVGNMN0xNTzRnOXgyc0x0Z3VzUDVuMksvZ0J5bHBTdFdDWExyTUhy?=
+ =?utf-8?B?K1U4WUVCMXMreFR5UFpVUDhpTEdBVGVVREtvcWdROURCVlcxK3Jub3pvaDl5?=
+ =?utf-8?B?MldIdWdrZS92b1BrdGliQWxtU0poVzJYSGFXd3ZObmcyWWVsNTNIMjlZSlJR?=
+ =?utf-8?B?emR3SGJ0ZHR6eUF6QWZRMnlVWjlXMzhXV1lqR2NsdUJQRmxQSWFXZnZPcGd1?=
+ =?utf-8?B?bVZRTDFlc05vSVJ2bWsyRVZxUm4rR0VRV29FVzdrZGpSWWdxS1hUYnYrd3Ro?=
+ =?utf-8?B?TVptV2t5RnNRYnNxK2dkZXZoZmVGb2M3aWNoRmFMUkFoc3Qrd0MxZXJtbFFI?=
+ =?utf-8?B?UUdnYUJWWGVyMmsvS2QzWUVjNVU4bW92SUQ0K1JTdUVWNmtnSk9MSlNwdjhM?=
+ =?utf-8?Q?uctk=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 885389e4-d85b-4612-46ca-08dcad415f0c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2024 06:50:14.7889 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2024 07:05:45.9983 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3Uih8CVvpSkya9BgEoD8liHv1F3K3Mxjr0HYmPWFW90c/eEX+T1NStkgZgLIw1qVlpceMR5OkDZjzydv2xJw2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9775
+X-MS-Exchange-CrossTenant-UserPrincipalName: tZW/xhoSeKcAfk/LcrO26agerSDD9kEkwd7sJ2E/XwZo1b+02erlBWQ/wLEVZXvz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5841
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,135 +165,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MCIMX-LVDS1[1] display module integrates a HannStar HSD100PXN1 LVDS
-display panel and a touch IC.  Add an overlay to support the LVDS
-panel on i.MX53 QSB / QSRB platforms.
+Am 25.07.24 um 20:09 schrieb Nikita Zhandarovich:
+> Several cs track offsets (such as 'track->db_s_read_offset')
+> either are initialized with or plainly take big enough values that,
+> once shifted 8 bits left, may be hit with integer overflow if the
+> resulting values end up going over u32 limit.
+>
+> Some debug prints take this into account (see according dev_warn() in
+> evergreen_cs_track_validate_stencil()), even if the actual
+> calculated value assigned to local 'offset' variable is missing
+> similar proper expansion.
+>
+> Mitigate the problem by casting the type of right operands to the
+> wider type of corresponding left ones in all such cases.
+>
+> Found by Linux Verification Center (linuxtesting.org) with static
+> analysis tool SVACE.
+>
+> Fixes: 285484e2d55e ("drm/radeon: add support for evergreen/ni tiling informations v11")
+> Cc: stable@vger.kernel.org
 
-[1] https://www.nxp.com/part/MCIMX-LVDS1
+Well first of all the long cast doesn't makes the value 64bit, it 
+depends on the architecture.
 
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-I mark RFC in patch subject prefix because if the DT overlay is used, both ldb
-and panel devices end up as devices deferred.  However, if the DT overlay is
-not used and the devices are defined in imx53-qsb-common.dtsi, then they can be
-probed ok.
+Then IIRC the underlying hw can only handle a 32bit address space so 
+having the offset as long is incorrect to begin with.
 
-With a dev_err_probe() added to imx_ldb_probe() in imx-ldb.c, devices_deferred
-indicates 53fa8008.ldb and panel-lvds kind of depend on each other.
+And finally that is absolutely not material for stable.
 
-root@imx53qsb:~# cat /sys/kernel/debug/devices_deferred
-53fa8008.ldb    imx-ldb: failed to find panel or bridge for channel0
-panel-lvds      platform: wait for supplier /soc/bus@50000000/ldb@53fa8008/lvds-channel@0
+Regards,
+Christian.
 
-It looks like the issue is related to fw_devlink, because if "fw_devlink=off"
-is added to kernel bootup command line, then the issue doesn't happen.
-
-Saravana, DT folks, any ideas?
-
-Thanks.
-
- arch/arm/boot/dts/nxp/imx/Makefile            |  4 ++
- .../boot/dts/nxp/imx/imx53-qsb-common.dtsi    |  4 +-
- .../dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso    | 43 +++++++++++++++++++
- 3 files changed, 49 insertions(+), 2 deletions(-)
- create mode 100644 arch/arm/boot/dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso
-
-diff --git a/arch/arm/boot/dts/nxp/imx/Makefile b/arch/arm/boot/dts/nxp/imx/Makefile
-index 92e291603ea1..7116889e1515 100644
---- a/arch/arm/boot/dts/nxp/imx/Makefile
-+++ b/arch/arm/boot/dts/nxp/imx/Makefile
-@@ -46,8 +46,10 @@ dtb-$(CONFIG_SOC_IMX53) += \
- 	imx53-ppd.dtb \
- 	imx53-qsb.dtb \
- 	imx53-qsb-hdmi.dtb \
-+	imx53-qsb-mcimx-lvds1.dtb \
- 	imx53-qsrb.dtb \
- 	imx53-qsrb-hdmi.dtb \
-+	imx53-qsrb-mcimx-lvds1.dtb \
- 	imx53-sk-imx53.dtb \
- 	imx53-sk-imx53-atm0700d4-lvds.dtb \
- 	imx53-sk-imx53-atm0700d4-rgb.dtb \
-@@ -57,7 +59,9 @@ dtb-$(CONFIG_SOC_IMX53) += \
- 	imx53-usbarmory.dtb \
- 	imx53-voipac-bsb.dtb
- imx53-qsb-hdmi-dtbs := imx53-qsb.dtb imx53-qsb-hdmi.dtbo
-+imx53-qsb-mcimx-lvds1-dtbs := imx53-qsb.dtb imx53-qsb-mcimx-lvds1.dtbo
- imx53-qsrb-hdmi-dtbs := imx53-qsrb.dtb imx53-qsb-hdmi.dtbo
-+imx53-qsrb-mcimx-lvds1-dtbs := imx53-qsrb.dtb imx53-qsb-mcimx-lvds1.dtbo
- dtb-$(CONFIG_SOC_IMX6Q) += \
- 	imx6dl-alti6p.dtb \
- 	imx6dl-apf6dev.dtb \
-diff --git a/arch/arm/boot/dts/nxp/imx/imx53-qsb-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx53-qsb-common.dtsi
-index 05d7a462ea25..430792a91ccf 100644
---- a/arch/arm/boot/dts/nxp/imx/imx53-qsb-common.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx53-qsb-common.dtsi
-@@ -16,7 +16,7 @@ memory@70000000 {
- 		      <0xb0000000 0x20000000>;
- 	};
- 
--	backlight_parallel: backlight-parallel {
-+	backlight: backlight {
- 		compatible = "pwm-backlight";
- 		pwms = <&pwm2 0 5000000 0>;
- 		brightness-levels = <0 4 8 16 32 64 128 255>;
-@@ -89,7 +89,7 @@ panel_dpi: panel {
- 		compatible = "sii,43wvf1g";
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&pinctrl_display_power>;
--		backlight = <&backlight_parallel>;
-+		backlight = <&backlight>;
- 		enable-gpios = <&gpio3 24 GPIO_ACTIVE_HIGH>;
- 
- 		port {
-diff --git a/arch/arm/boot/dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso b/arch/arm/boot/dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso
-new file mode 100644
-index 000000000000..27f6bedf3d39
---- /dev/null
-+++ b/arch/arm/boot/dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright 2024 NXP
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+&{/} {
-+	panel-lvds {
-+		compatible = "hannstar,hsd100pxn1";
-+		backlight = <&backlight>;
-+		power-supply = <&reg_3p2v>;
-+
-+		port {
-+			panel_lvds_in: endpoint {
-+				remote-endpoint = <&lvds0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&ldb {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	lvds-channel@0 {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		fsl,data-mapping = "spwg";
-+		fsl,data-width = <18>;
-+		status = "okay";
-+
-+		port@2 {
-+			reg = <2>;
-+
-+			lvds0_out: endpoint {
-+				remote-endpoint = <&panel_lvds_in>;
-+			};
-+		};
-+	};
-+};
--- 
-2.34.1
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> ---
+> P.S. While I am not certain that track->cb_color_bo_offset[id]
+> actually ends up taking values high enough to cause an overflow,
+> nonetheless I thought it prudent to cast it to ulong as well.
+>
+>   drivers/gpu/drm/radeon/evergreen_cs.c | 18 +++++++++---------
+>   1 file changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/evergreen_cs.c b/drivers/gpu/drm/radeon/evergreen_cs.c
+> index 1fe6e0d883c7..d734d221e2da 100644
+> --- a/drivers/gpu/drm/radeon/evergreen_cs.c
+> +++ b/drivers/gpu/drm/radeon/evergreen_cs.c
+> @@ -433,7 +433,7 @@ static int evergreen_cs_track_validate_cb(struct radeon_cs_parser *p, unsigned i
+>   		return r;
+>   	}
+>   
+> -	offset = track->cb_color_bo_offset[id] << 8;
+> +	offset = (unsigned long)track->cb_color_bo_offset[id] << 8;
+>   	if (offset & (surf.base_align - 1)) {
+>   		dev_warn(p->dev, "%s:%d cb[%d] bo base %ld not aligned with %ld\n",
+>   			 __func__, __LINE__, id, offset, surf.base_align);
+> @@ -455,7 +455,7 @@ static int evergreen_cs_track_validate_cb(struct radeon_cs_parser *p, unsigned i
+>   				min = surf.nby - 8;
+>   			}
+>   			bsize = radeon_bo_size(track->cb_color_bo[id]);
+> -			tmp = track->cb_color_bo_offset[id] << 8;
+> +			tmp = (unsigned long)track->cb_color_bo_offset[id] << 8;
+>   			for (nby = surf.nby; nby > min; nby--) {
+>   				size = nby * surf.nbx * surf.bpe * surf.nsamples;
+>   				if ((tmp + size * mslice) <= bsize) {
+> @@ -476,10 +476,10 @@ static int evergreen_cs_track_validate_cb(struct radeon_cs_parser *p, unsigned i
+>   			}
+>   		}
+>   		dev_warn(p->dev, "%s:%d cb[%d] bo too small (layer size %d, "
+> -			 "offset %d, max layer %d, bo size %ld, slice %d)\n",
+> +			 "offset %ld, max layer %d, bo size %ld, slice %d)\n",
+>   			 __func__, __LINE__, id, surf.layer_size,
+> -			track->cb_color_bo_offset[id] << 8, mslice,
+> -			radeon_bo_size(track->cb_color_bo[id]), slice);
+> +			(unsigned long)track->cb_color_bo_offset[id] << 8,
+> +			mslice,	radeon_bo_size(track->cb_color_bo[id]), slice);
+>   		dev_warn(p->dev, "%s:%d problematic surf: (%d %d) (%d %d %d %d %d %d %d)\n",
+>   			 __func__, __LINE__, surf.nbx, surf.nby,
+>   			surf.mode, surf.bpe, surf.nsamples,
+> @@ -608,7 +608,7 @@ static int evergreen_cs_track_validate_stencil(struct radeon_cs_parser *p)
+>   		return r;
+>   	}
+>   
+> -	offset = track->db_s_read_offset << 8;
+> +	offset = (unsigned long)track->db_s_read_offset << 8;
+>   	if (offset & (surf.base_align - 1)) {
+>   		dev_warn(p->dev, "%s:%d stencil read bo base %ld not aligned with %ld\n",
+>   			 __func__, __LINE__, offset, surf.base_align);
+> @@ -627,7 +627,7 @@ static int evergreen_cs_track_validate_stencil(struct radeon_cs_parser *p)
+>   		return -EINVAL;
+>   	}
+>   
+> -	offset = track->db_s_write_offset << 8;
+> +	offset = (unsigned long)track->db_s_write_offset << 8;
+>   	if (offset & (surf.base_align - 1)) {
+>   		dev_warn(p->dev, "%s:%d stencil write bo base %ld not aligned with %ld\n",
+>   			 __func__, __LINE__, offset, surf.base_align);
+> @@ -706,7 +706,7 @@ static int evergreen_cs_track_validate_depth(struct radeon_cs_parser *p)
+>   		return r;
+>   	}
+>   
+> -	offset = track->db_z_read_offset << 8;
+> +	offset = (unsigned long)track->db_z_read_offset << 8;
+>   	if (offset & (surf.base_align - 1)) {
+>   		dev_warn(p->dev, "%s:%d stencil read bo base %ld not aligned with %ld\n",
+>   			 __func__, __LINE__, offset, surf.base_align);
+> @@ -722,7 +722,7 @@ static int evergreen_cs_track_validate_depth(struct radeon_cs_parser *p)
+>   		return -EINVAL;
+>   	}
+>   
+> -	offset = track->db_z_write_offset << 8;
+> +	offset = (unsigned long)track->db_z_write_offset << 8;
+>   	if (offset & (surf.base_align - 1)) {
+>   		dev_warn(p->dev, "%s:%d stencil write bo base %ld not aligned with %ld\n",
+>   			 __func__, __LINE__, offset, surf.base_align);
 
