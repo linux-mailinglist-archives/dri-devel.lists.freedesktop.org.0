@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C6F93D45F
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 15:40:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7F993D45E
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 15:40:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D71EE10E990;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1E0710E98B;
 	Fri, 26 Jul 2024 13:40:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="H3am/10L";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="e2c43uYC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F9D810E990;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EBC510E98B;
  Fri, 26 Jul 2024 13:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1722001252;
- bh=yCh3j7AzpbYaYw1lIg+cXANVOhzeBASAYzoBFFZRBMY=;
+ bh=zLLuxR3/V2JlN8OpJMEgWoG2yzJmfvO65eS2FhFFww0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=H3am/10LeRliHMcGqvZ9VX5j2w4kiu/rMdnEhq6Iwv4xjA1XNFJcIPu+U57IZrmeL
- BmpI+4b4JjTxhorEmFdzyJ9c59bOtshrUJEb0iL7SgfkX85kZ9/auNV7BTixPpZixF
- kV6BJwypz8Pbn6ZtnbFeORV6Ta7d4yEBNLHkgacs=
+ b=e2c43uYCSx+UQy0ru8kSGsDvUIh1zIYSL0TfYSFHx07W2ZPuev8WkBemM1p9MXpMM
+ WlVBkfZ9208dnBW9WEyDTKHilQxFDyp2tqGPmsyNhg0PywSdK6O/wtOMUqkBkCk0tV
+ z9JSpYnth123fFk9b/rRrvrfpupSjJIU3dHn5rtc=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Fri, 26 Jul 2024 15:40:15 +0200
-Subject: [PATCH v2 1/2] drm/amdgpu: convert bios_hardcoded_edid to drm_edid
+Date: Fri, 26 Jul 2024 15:40:16 +0200
+Subject: [PATCH v2 2/2] drm/radeon: convert bios_hardcoded_edid to drm_edid
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240726-amdgpu-edid-bios-v2-1-8a0326654253@weissschuh.net>
+Message-Id: <20240726-amdgpu-edid-bios-v2-2-8a0326654253@weissschuh.net>
 References: <20240726-amdgpu-edid-bios-v2-0-8a0326654253@weissschuh.net>
 In-Reply-To: <20240726-amdgpu-edid-bios-v2-0-8a0326654253@weissschuh.net>
 To: Alex Deucher <alexander.deucher@amd.com>, 
@@ -39,11 +39,11 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722001252; l=6641;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722001252; l=6245;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=yCh3j7AzpbYaYw1lIg+cXANVOhzeBASAYzoBFFZRBMY=;
- b=RF6nfFT/E1KPCS4w1LS0C+2C2kK/ejep/KoSDc6u7EQvZVzcNiJQIbjgWJZDGtXDLVg6QEt5r
- Q++PuQX+/RrABVkhu0AUYYeYJS5av2igYxt7+NN39gLTZKqO4Sq2FNe
+ bh=zLLuxR3/V2JlN8OpJMEgWoG2yzJmfvO65eS2FhFFww0=;
+ b=9ND2sB1KDIhpbUs2FjCzipLLAEQJwkB/HTt8Z/JxRNUUSxvSIwYeKKU96tmaLZFnby3Mhupea
+ syJ6iAwiPvXC2fFCmF8mOeG+mGqSa0JgASFcS9JbNS7MXKxrMvLtY9Z
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,73 +73,18 @@ Also save a few characters by transforming '&array[0]' to the equivalent
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c |  6 +-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h       |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c       |  2 +-
- drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 17 ++++++-----------
- drivers/gpu/drm/amd/amdgpu/dce_v10_0.c         |  2 +-
- drivers/gpu/drm/amd/amdgpu/dce_v11_0.c         |  2 +-
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c          |  2 +-
- drivers/gpu/drm/amd/amdgpu/dce_v8_0.c          |  2 +-
- 8 files changed, 14 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/radeon/radeon_atombios.c   | 17 ++++++-----------
+ drivers/gpu/drm/radeon/radeon_combios.c    | 26 +++++---------------------
+ drivers/gpu/drm/radeon/radeon_connectors.c |  4 ++--
+ drivers/gpu/drm/radeon/radeon_display.c    |  2 +-
+ drivers/gpu/drm/radeon/radeon_mode.h       |  4 ++--
+ 5 files changed, 16 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index bd0fbdc5f55d..344e0a9ee08a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -249,11 +249,7 @@ amdgpu_connector_find_encoder(struct drm_connector *connector,
- static struct edid *
- amdgpu_connector_get_hardcoded_edid(struct amdgpu_device *adev)
- {
--	if (adev->mode_info.bios_hardcoded_edid) {
--		return kmemdup((unsigned char *)adev->mode_info.bios_hardcoded_edid,
--			       adev->mode_info.bios_hardcoded_edid_size, GFP_KERNEL);
--	}
--	return NULL;
-+	return drm_edid_duplicate(drm_edid_raw(adev->mode_info.bios_hardcoded_edid));
- }
- 
- static void amdgpu_connector_get_edid(struct drm_connector *connector)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index d002b845d8ac..5e3faefc5510 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -51,6 +51,7 @@ struct amdgpu_encoder;
- struct amdgpu_router;
- struct amdgpu_hpd;
- struct edid;
-+struct drm_edid;
- 
- #define to_amdgpu_crtc(x) container_of(x, struct amdgpu_crtc, base)
- #define to_amdgpu_connector(x) container_of(x, struct amdgpu_connector, base)
-@@ -326,8 +327,7 @@ struct amdgpu_mode_info {
- 	/* FMT dithering */
- 	struct drm_property *dither_property;
- 	/* hardcoded DFP edid from BIOS */
--	struct edid *bios_hardcoded_edid;
--	int bios_hardcoded_edid_size;
-+	const struct drm_edid *bios_hardcoded_edid;
- 
- 	/* firmware flags */
- 	u32 firmware_flags;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-index 6415d0d039e1..e5f508d34ed8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-@@ -549,7 +549,7 @@ static int amdgpu_vkms_sw_fini(void *handle)
- 
- 	adev->mode_info.mode_config_initialized = false;
- 
--	kfree(adev->mode_info.bios_hardcoded_edid);
-+	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
- 	kfree(adev->amdgpu_vkms_output);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-index ebf83fee43bb..8defca3705d5 100644
---- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-@@ -2064,23 +2064,18 @@ amdgpu_atombios_encoder_get_lcd_info(struct amdgpu_encoder *encoder)
+diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/radeon/radeon_atombios.c
+index 168f3f94003b..81a0a91921b9 100644
+--- a/drivers/gpu/drm/radeon/radeon_atombios.c
++++ b/drivers/gpu/drm/radeon/radeon_atombios.c
+@@ -1716,23 +1716,18 @@ struct radeon_encoder_atom_dig *radeon_atombios_get_lvds_info(struct
  				case LCD_FAKE_EDID_PATCH_RECORD_TYPE:
  					fake_edid_record = (ATOM_FAKE_EDID_PATCH_RECORD *)record;
  					if (fake_edid_record->ucFakeEDIDLength) {
@@ -155,72 +100,133 @@ index ebf83fee43bb..8defca3705d5 100644
 -							       edid_size, GFP_KERNEL);
 -						if (edid) {
 -							if (drm_edid_is_valid(edid)) {
--								adev->mode_info.bios_hardcoded_edid = edid;
--								adev->mode_info.bios_hardcoded_edid_size = edid_size;
+-								rdev->mode_info.bios_hardcoded_edid = edid;
+-								rdev->mode_info.bios_hardcoded_edid_size = edid_size;
 -							} else {
 -								kfree(edid);
 -							}
 -						}
 +						edid = drm_edid_alloc(fake_edid_record->ucFakeEDIDString, edid_size);
 +						if (drm_edid_valid(edid))
-+							adev->mode_info.bios_hardcoded_edid = edid;
++							rdev->mode_info.bios_hardcoded_edid = edid;
 +						else
 +							drm_edid_free(edid);
  						record += struct_size(fake_edid_record,
  								      ucFakeEDIDString,
  								      edid_size);
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-index dddb5fe16f2c..742adbc460c9 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-@@ -2846,7 +2846,7 @@ static int dce_v10_0_sw_fini(void *handle)
+diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/radeon/radeon_combios.c
+index 41ddc576f8f8..df8d7f56b028 100644
+--- a/drivers/gpu/drm/radeon/radeon_combios.c
++++ b/drivers/gpu/drm/radeon/radeon_combios.c
+@@ -370,7 +370,7 @@ static uint16_t combios_get_table_offset(struct drm_device *dev,
+ bool radeon_combios_check_hardcoded_edid(struct radeon_device *rdev)
  {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 	int edid_info, size;
+-	struct edid *edid;
++	const struct drm_edid *edid;
+ 	unsigned char *raw;
+ 	edid_info = combios_get_table_offset(rdev_to_drm(rdev), COMBIOS_HARDCODED_EDID_TABLE);
+ 	if (!edid_info)
+@@ -378,19 +378,14 @@ bool radeon_combios_check_hardcoded_edid(struct radeon_device *rdev)
  
--	kfree(adev->mode_info.bios_hardcoded_edid);
-+	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
+ 	raw = rdev->bios + edid_info;
+ 	size = EDID_LENGTH * (raw[0x7e] + 1);
+-	edid = kmalloc(size, GFP_KERNEL);
+-	if (edid == NULL)
+-		return false;
+-
+-	memcpy((unsigned char *)edid, raw, size);
++	edid = drm_edid_alloc(raw, size);
  
- 	drm_kms_helper_poll_fini(adev_to_drm(adev));
+-	if (!drm_edid_is_valid(edid)) {
+-		kfree(edid);
++	if (!drm_edid_valid(edid)) {
++		drm_edid_free(edid);
+ 		return false;
+ 	}
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-index 11780e4d7e9f..8d46ebadfa46 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-@@ -2973,7 +2973,7 @@ static int dce_v11_0_sw_fini(void *handle)
+ 	rdev->mode_info.bios_hardcoded_edid = edid;
+-	rdev->mode_info.bios_hardcoded_edid_size = size;
+ 	return true;
+ }
+ 
+@@ -398,18 +393,7 @@ bool radeon_combios_check_hardcoded_edid(struct radeon_device *rdev)
+ struct edid *
+ radeon_bios_get_hardcoded_edid(struct radeon_device *rdev)
  {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+-	struct edid *edid;
+-
+-	if (rdev->mode_info.bios_hardcoded_edid) {
+-		edid = kmalloc(rdev->mode_info.bios_hardcoded_edid_size, GFP_KERNEL);
+-		if (edid) {
+-			memcpy((unsigned char *)edid,
+-			       (unsigned char *)rdev->mode_info.bios_hardcoded_edid,
+-			       rdev->mode_info.bios_hardcoded_edid_size);
+-			return edid;
+-		}
+-	}
+-	return NULL;
++	return drm_edid_duplicate(drm_edid_raw(rdev->mode_info.bios_hardcoded_edid));
+ }
  
--	kfree(adev->mode_info.bios_hardcoded_edid);
-+	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
+ static struct radeon_i2c_bus_rec combios_setup_i2c_bus(struct radeon_device *rdev,
+diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+index 880edabfc9e3..528a8f3677c2 100644
+--- a/drivers/gpu/drm/radeon/radeon_connectors.c
++++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+@@ -1059,7 +1059,7 @@ radeon_vga_detect(struct drm_connector *connector, bool force)
+ 	 */
+ 	if ((!rdev->is_atom_bios) &&
+ 	    (ret == connector_status_disconnected) &&
+-	    rdev->mode_info.bios_hardcoded_edid_size) {
++	    rdev->mode_info.bios_hardcoded_edid) {
+ 		ret = connector_status_connected;
+ 	}
  
- 	drm_kms_helper_poll_fini(adev_to_drm(adev));
+@@ -1392,7 +1392,7 @@ radeon_dvi_detect(struct drm_connector *connector, bool force)
+ out:
+ 	if ((!rdev->is_atom_bios) &&
+ 	    (ret == connector_status_disconnected) &&
+-	    rdev->mode_info.bios_hardcoded_edid_size) {
++	    rdev->mode_info.bios_hardcoded_edid) {
+ 		radeon_connector->use_digital = true;
+ 		ret = connector_status_connected;
+ 	}
+diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+index 10fd58f400bc..8f5f8abcb1b4 100644
+--- a/drivers/gpu/drm/radeon/radeon_display.c
++++ b/drivers/gpu/drm/radeon/radeon_display.c
+@@ -1658,7 +1658,7 @@ void radeon_modeset_fini(struct radeon_device *rdev)
+ 		rdev->mode_info.mode_config_initialized = false;
+ 	}
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-index 05c0df97f01d..f08dc6a3886f 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-@@ -2745,7 +2745,7 @@ static int dce_v6_0_sw_fini(void *handle)
- {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+-	kfree(rdev->mode_info.bios_hardcoded_edid);
++	drm_edid_free(rdev->mode_info.bios_hardcoded_edid);
  
--	kfree(adev->mode_info.bios_hardcoded_edid);
-+	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
+ 	/* free i2c buses */
+ 	radeon_i2c_fini(rdev);
+diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
+index e0a5af180801..421c83fc70dc 100644
+--- a/drivers/gpu/drm/radeon/radeon_mode.h
++++ b/drivers/gpu/drm/radeon/radeon_mode.h
+@@ -39,6 +39,7 @@
+ #include <linux/i2c-algo-bit.h>
  
- 	drm_kms_helper_poll_fini(adev_to_drm(adev));
+ struct edid;
++struct drm_edid;
+ struct radeon_bo;
+ struct radeon_device;
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-index dc73e301d937..a6a3adf2ae13 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-@@ -2766,7 +2766,7 @@ static int dce_v8_0_sw_fini(void *handle)
- {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+@@ -262,8 +263,7 @@ struct radeon_mode_info {
+ 	/* Output CSC */
+ 	struct drm_property *output_csc_property;
+ 	/* hardcoded DFP edid from BIOS */
+-	struct edid *bios_hardcoded_edid;
+-	int bios_hardcoded_edid_size;
++	const struct drm_edid *bios_hardcoded_edid;
  
--	kfree(adev->mode_info.bios_hardcoded_edid);
-+	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
- 
- 	drm_kms_helper_poll_fini(adev_to_drm(adev));
- 
+ 	/* firmware flags */
+ 	u16 firmware_flags;
 
 -- 
 2.45.2
