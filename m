@@ -2,98 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC43193D22D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 13:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4BF93D24C
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 13:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0DB610E137;
-	Fri, 26 Jul 2024 11:22:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8D6910E0CA;
+	Fri, 26 Jul 2024 11:31:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UsqgcODR";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="OGJ8Sj4r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3896010E137;
- Fri, 26 Jul 2024 11:22:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0DFEE61777;
- Fri, 26 Jul 2024 11:22:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CC14C4AF07;
- Fri, 26 Jul 2024 11:22:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721992938;
- bh=LEUQO2+MQzeVymYBL/y5WvxXo6z+GYdPnvia7nP6//U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UsqgcODRr7BEYNATkMPqX37VLaBlKpF4SEU314vb4fXt6TLm27Z7xequ2g6pkWd9R
- Q+OZpKbacvzuPoS+kfXbO10nVr9hBkTzWvF5lxiTbJGzOHpXA1ql+CPxVBVSs3rwkk
- lTpBGE6U8fZfPzoRtkThJEyqbm865YtBL47aZu24H3r3x9DjKHs2SvzgbmhCnfkg/s
- FblC+9OY/19T2OgbG7jWvLaSpPiEw0/y4+PMyv1dn8ETmHZvkoQU8S+g8ELVb8p/3S
- VpDFkPfN79UMD+O7lGKonIQVSltQT6D3PF5pUe/LjUQtKp4U5ovcs5PjxYlOwjCjyH
- vHf2ssbAfULuw==
-Message-ID: <a783ddc2-6313-419d-936b-0af633c30aad@kernel.org>
-Date: Fri, 26 Jul 2024 13:22:10 +0200
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
+ [209.85.161.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E742810E0CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 11:31:46 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id
+ 006d021491bc7-5d31ef2c73cso539402eaf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 04:31:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1721993506; x=1722598306;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Kmk1JjA2Ls4g+KyqSuHumcBghaFAtTT2atg+wkKZS7s=;
+ b=OGJ8Sj4rH3+nhzMNCDIbiV40Asvzf4LdcL0GU4ZhN/Y2v6sQuZdMKgQO8icEZJ/tnd
+ kETg/9bNSspVOe9KLhHqqijpHdZZb72PEA+jdqfScBS6rZ5BWWe3oT42imNu2FF0mTb6
+ FMcpLJDlzSW4UmPQeoD5ctAE25e9nwd4tOWd6UENut9zUt6a/h4ORMTnNRaVFoHz2RzQ
+ sSwkhEpch6d/p6glYODuV1yGLtkBFDoIGwtGGCeqGYKnL3Gg6MzJHV57NCD3+0tM+0uj
+ 0hIdI5+jZryK+3w+0ELTCEh1Ce9M0wmOoacLE4y+MgtJ0rX8x/6B/gEP2OdiGQ2EaMGv
+ UhOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721993506; x=1722598306;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Kmk1JjA2Ls4g+KyqSuHumcBghaFAtTT2atg+wkKZS7s=;
+ b=NswYV4L8Vt2+zVXKn38yUcNR5B9YauEKAO+P/5jkJaJIBxol2xepIJb8eBokWOKYyM
+ FuTNSt6MROIyJSH7FGr+/qYsGE9VxBwVED3pP5OF7Ogmo0u7YDV+0CjB1ofHl8KxchLZ
+ VOPhtZTPU4Z1qJ7Kn2muF0hVw7uZxk2r0WwMwvzJbg5JjjnfCWgCfDDRpuvfW+sY83a7
+ ke//VaP6qn+7ARcZlNPR5c+YnGzL4BOsMS2kqtzBbAXBK51JkQD8MwXjlBTAFKB7wYWy
+ BuDXR4c/LKaZJuM78BdILIUvllSdg+1M3aJd+Qh8teH6IlkwO4IKFwFwdRzfZZG1uFgo
+ eURQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX22WFfFVHr/xToh8f4bcIqiW9zthdlX+x5q7ZBih3Mj3+0aSQhjkkEvHOZlkHKSJwADPG1wZ22Hd3ie5CYaNJJkRI1krWPioZSGiOYmWNY
+X-Gm-Message-State: AOJu0YxfNxZqgC3Q1nf4bl2l3sTYVfPSpGpp674na+h3keYdm/duaofR
+ xFBSTNtg05lBveCFOrWN8o46V0BwnbnCnoC58fCkNRUH0B3X2E2gYZq7PgLRxCKYRunhR94nPv4
+ jrMOrQWAweBNa9WkldkVQAaBDZjcARBAKEMDc5A==
+X-Google-Smtp-Source: AGHT+IGvPfPntSm/3Bto2qo4lI9AXdvO3Bew6FS2Yq3n8hvJGd9oEEOgF1uuOwWL92xMEZYtBtPacNHYm21W/2FzE+w=
+X-Received: by 2002:a05:6358:280e:b0:1aa:bad6:2ba7 with SMTP id
+ e5c5f4694b2df-1acfb99ed34mr636036055d.25.1721993505839; Fri, 26 Jul 2024
+ 04:31:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] dt-bindings: Batch-update Konrad Dybcio's email
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>
-References: <20240726-topic-konrad_email-v1-0-f94665da2919@kernel.org>
- <20240726-topic-konrad_email-v1-3-f94665da2919@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240726-topic-konrad_email-v1-3-f94665da2919@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <TkgKVivuaLFLILPY-n3iZo_8KF-daKdqdu-0_e0HP-5Ar_8DALDeNWog2suwWKjX7eomcbGET0KZe7DlzdhK2YM6CbLbeKeFZr-MJzJMtw0=@proton.me>
+ <CAPj87rPwJ-vRTsjM1rWRj1gyjbJM_ryrkTiPRBF3ZF1D7TVDYw@mail.gmail.com>
+ <PGDz1uKmBh2U_yB-ut5xcahPHdmxgrIRAwALnJzsEHFuYssmMhQUz8jbHpEyUDBMjVbmQCjlP3K4gbzw3zZ53HhXUsXufBb5YzptnC58aeQ=@proton.me>
+In-Reply-To: <PGDz1uKmBh2U_yB-ut5xcahPHdmxgrIRAwALnJzsEHFuYssmMhQUz8jbHpEyUDBMjVbmQCjlP3K4gbzw3zZ53HhXUsXufBb5YzptnC58aeQ=@proton.me>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 26 Jul 2024 12:31:34 +0100
+Message-ID: <CAPj87rOM=j0zmuWL9frGKV1xzPbJrk=Q9ip7F_HAPYnbCqPouw@mail.gmail.com>
+Subject: Re: [PATCH v3] rockchip/drm: vop2: add support for gamma LUT
+To: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: "airlied@gmail.com" <airlied@gmail.com>,
+ "andy.yan@rock-chips.com" <andy.yan@rock-chips.com>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "heiko@sntech.de" <heiko@sntech.de>, 
+ "hjc@rock-chips.com" <hjc@rock-chips.com>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,18 +90,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/07/2024 13:18, Konrad Dybcio wrote:
-> Use my @kernel.org address everywhere.
-> 
-> Signed-off-by: Konrad Dybcio <konradybcio@kernel.org>
-> ---
+Hi Piotr,
 
-FWIW:
+On Thu, 25 Jul 2024 at 20:06, Piotr Zalewski <pZ010001011111@proton.me> wrote:
+> I based my patch on how gamma LUT is handled in VOP. There, in atomic
+> enable, gamma LUT write takes places at the end too, after the mutex was
+> already first-time unlocked. I understand the concept of DRM atomic state
+> updates and what you wrote makes sense.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Yeah, no problem - the old VOP1 code is clearly incorrect here. I'm
+glad you can improve VOP2. :)
 
-Rob, will you take it directly?
+>  static void vop2_dither_setup(struct drm_crtc *crtc, u32 *dsp_ctrl)
+> @@ -2152,6 +2127,9 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+>
+>         vop2_post_config(crtc);
+>
+> +       if (crtc->state->gamma_lut)
+> +               vop2_crtc_gamma_set(vop2, crtc, old_state, &dsp_ctrl);
 
-Best regards,
-Krzysztof
+I think this call should be unconditional, so that we correctly
+program LUT_DIS if there is no LUT set up during enable.
 
+> @@ -2599,8 +2575,17 @@ static void vop2_crtc_atomic_begin(struct drm_crtc *crtc,
+>         vop2_setup_alpha(vp);
+>         vop2_setup_dly_for_windows(vop2);
+>
+> -       if (crtc_state->color_mgmt_changed && !crtc_state->active_changed)
+> -               vop2_crtc_gamma_set(vop2, crtc, old_crtc_state);
+> +       if (crtc_state->color_mgmt_changed && !crtc_state->active_changed) {
+> +               u32 dsp_ctrl = vop2_vp_read(vp, RK3568_VP_DSP_CTRL);;
+> +
+> +               vop2_lock(vop2);
+> +
+> +               vop2_crtc_gamma_set(vop2, crtc, old_crtc_state, &dsp_ctrl);
+> +
+> +               vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+> +               vop2_cfg_done(vp);
+> +               vop2_unlock(vop2);
+> +       }
+
+Calling lock/set/write/done/unlock here seems like an anti-pattern;
+the cfg_done is already written in atomic_flush, so at least that part
+is not necessary.
+
+On platforms like RK3588, it looks like the new LUT can just be
+written directly from atomic_begin without needing to program
+DSP_CTRL, take locks, or synchronise against anything, so that should
+be an easy straight-line path.
+
+On platforms like RK3568, it would probably be better to set
+mode_changed when the colour management configuration changes. That
+will give you a good point to synchronise the cross-VOP dependencies
+(i.e. claim or release the shared LUT when it is being
+enabled/disabled), and also a hint to userspace that it is not going
+to be a seamless transition as the LUT is disabled, programmed, then
+re-enabled.
+
+I think this would end up in a net reduction of LoC as well as a net
+reduction of code weirdness.
+
+Cheers,
+Daniel
