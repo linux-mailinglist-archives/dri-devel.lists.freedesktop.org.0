@@ -2,63 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6CA93D063
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 11:26:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F91393D099
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 11:47:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9787810E885;
-	Fri, 26 Jul 2024 09:26:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5F9C10E5B1;
+	Fri, 26 Jul 2024 09:47:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AENbfCkK";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="jOWGv1kf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE03E10E885;
- Fri, 26 Jul 2024 09:26:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721985986; x=1753521986;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=BQ4GhWvDEGszw4lnTWN0qHPj27P6TA3C2h9AmB4XPcs=;
- b=AENbfCkKfolPbCI1Ww7HWKR1kzX5nzQhKuukwn2u6Qy4fuxkM7STeTL1
- 1rLGLbHoSXesfc/oY7xo7diEIz7ajeYZELFa/jtjYGqNV0Fxa7k7BX11Y
- P2afI2IfP2cZSBhe5os2IWwdet5uhkdLH3nN8s/jZuNkwipIfoUaWRxkp
- 6GUhGEpOUwNLPPbBM2h7wqX09EzaiOXd4ZSvdHCHGnDFAaHr40PLMsItR
- R2KF0pdSdg7EmtfKn0pgqDBy8u4mpsfPSX7StR9hKehZNr28sx9ebO43Y
- zsAJlKfxdBwo9AqcHA2xRTJGPkLudMErGmObx1f5eSn90kMIVJ2FV90Fb A==;
-X-CSE-ConnectionGUID: itPK7EvwR7a9iXPKdOfLNA==
-X-CSE-MsgGUID: yUw1xOJ9QTe+G6jtSbCKxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="30925144"
-X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="30925144"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2024 02:26:26 -0700
-X-CSE-ConnectionGUID: mbXn2+yjTcquWSfsPw4mXw==
-X-CSE-MsgGUID: tCZ2w0N8QN+CD/6Nwp2akQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="53226183"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2024 02:26:22 -0700
-Date: Fri, 26 Jul 2024 12:26:18 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: "Nilawar, Badal" <badal.nilawar@intel.com>
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
+Received: from out30-111.freemail.mail.aliyun.com
+ (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31C2D10E5B1;
+ Fri, 26 Jul 2024 09:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux.alibaba.com; s=default;
+ t=1721987259; h=From:To:Subject:Date:Message-Id:MIME-Version;
+ bh=K1O75+dU/oxc7RMbWfEpo6GrZGyE2ZFXuZ+LFp9QDcw=;
+ b=jOWGv1kf0f1029Ahsy0Spn2i3SIgsIcfs8c7Q9G7kHyaup6wy9kqjCyUF2iM25XEL8d1PvkPtle2w1pMzqEN+HZ3vhZNY3/LOTQXx2t/JWUOQZMDfGQsLtwwls1g0LJK5YzY4qQM1XSNUDnzuNpEUVfVc031MB7H7niq+BYQ95k=
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033037067109;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=13; SR=0;
+ TI=SMTPD_---0WBLOnXO_1721987249; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0WBLOnXO_1721987249) by smtp.aliyun-inc.com;
+ Fri, 26 Jul 2024 17:47:38 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: harry.wentland@amd.com
+Cc: sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, riana.tauro@intel.com,
- ashutosh.dixit@intel.com, karthik.poosa@intel.com,
- andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH v1] drm/i915/hwmon: expose fan speed
-Message-ID: <ZqNruj3mCH_EYbUD@black.fi.intel.com>
-References: <20240712122356.360613-1-raag.jadav@intel.com>
- <84061e47-3e6b-45c4-bc4b-db70da6b67f8@intel.com>
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next] drm/amd/display: Use ARRAY_SIZE for array length
+Date: Fri, 26 Jul 2024 17:47:28 +0800
+Message-Id: <20240726094728.1161-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <84061e47-3e6b-45c4-bc4b-db70da6b67f8@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,104 +57,204 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 24, 2024 at 02:11:40PM +0530, Nilawar, Badal wrote:
-> 
-> 
-> On 12-07-2024 17:53, Raag Jadav wrote:
-> > Add hwmon support for fan1_input attribute, which will expose fan speed
-> > in RPM. With this in place we can monitor fan speed using lm-sensors tool.
-> > 
-> > $ sensors
-> > i915-pci-0300
-> > Adapter: PCI adapter
-> > in0:         653.00 mV
-> > fan1:        3833 RPM
-> > power1:           N/A  (max =  43.00 W)
-> > energy1:      32.02 kJ
-> > 
-> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/intel_gt_regs.h |  2 +
-> >   drivers/gpu/drm/i915/i915_hwmon.c       | 71 +++++++++++++++++++++++++
-> >   2 files changed, 73 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > index e42b3a5d4e63..407d8152755a 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > @@ -1553,6 +1553,8 @@
-> >   #define VLV_RENDER_C0_COUNT			_MMIO(0x138118)
-> >   #define VLV_MEDIA_C0_COUNT			_MMIO(0x13811c)
-> > +#define GEN12_PWM_FAN_SPEED			_MMIO(0x138140)
-> > +
-> >   #define GEN12_RPSTAT1				_MMIO(0x1381b4)
-> >   #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
-> >   #define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
-> > diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-> > index 49db3e09826c..f829c7837d83 100644
-> > --- a/drivers/gpu/drm/i915/i915_hwmon.c
-> > +++ b/drivers/gpu/drm/i915/i915_hwmon.c
-> > @@ -36,6 +36,7 @@ struct hwm_reg {
-> >   	i915_reg_t pkg_rapl_limit;
-> >   	i915_reg_t energy_status_all;
-> >   	i915_reg_t energy_status_tile;
-> > +	i915_reg_t fan_speed;
-> >   };
-> >   struct hwm_energy_info {
-> > @@ -43,11 +44,17 @@ struct hwm_energy_info {
-> >   	long accum_energy;			/* Accumulated energy for energy1_input */
-> >   };
-> > +struct hwm_fan_info {
-> > +	u32 reg_val_prev;
-> > +	u32 time_prev;
-> > +};
-> > +
-> >   struct hwm_drvdata {
-> >   	struct i915_hwmon *hwmon;
-> >   	struct intel_uncore *uncore;
-> >   	struct device *hwmon_dev;
-> >   	struct hwm_energy_info ei;		/*  Energy info for energy1_input */
-> > +	struct hwm_fan_info fi;			/*  Fan info for fan1_input */
-> >   	char name[12];
-> >   	int gt_n;
-> >   	bool reset_in_progress;
-> > @@ -276,6 +283,7 @@ static const struct hwmon_channel_info * const hwm_info[] = {
-> >   	HWMON_CHANNEL_INFO(power, HWMON_P_MAX | HWMON_P_RATED_MAX | HWMON_P_CRIT),
-> >   	HWMON_CHANNEL_INFO(energy, HWMON_E_INPUT),
-> >   	HWMON_CHANNEL_INFO(curr, HWMON_C_CRIT),
-> > +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
-> >   	NULL
-> >   };
-> > @@ -613,6 +621,55 @@ hwm_curr_write(struct hwm_drvdata *ddat, u32 attr, long val)
-> >   	}
-> >   }
-> > +static umode_t
-> > +hwm_fan_is_visible(const struct hwm_drvdata *ddat, u32 attr)
-> > +{
-> > +	struct i915_hwmon *hwmon = ddat->hwmon;
-> > +
-> > +	switch (attr) {
-> > +	case hwmon_fan_input:
-> > +		return i915_mmio_reg_valid(hwmon->rg.fan_speed) ? 0444 : 0;
-> > +	default:
-> > +		return 0;
-> > +	}
-> > +}
-> > +
-> > +static int
-> > +hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
-> > +{
-> > +	struct i915_hwmon *hwmon = ddat->hwmon;
-> > +	u32 reg_val, rotation, time, time_now;
-> > +	intel_wakeref_t wakeref;
-> > +
-> > +	switch (attr) {
-> > +	case hwmon_fan_input:
-> > +		with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
-> Do we expect fan running when device is in D3? If not then we should use
-> with_intel_runtime_pm_if_active here otherwise report fan speed 0.
+Use of macro ARRAY_SIZE to calculate array size minimizes
+the redundant code and improves code reusability.
 
-Yes, it can be running depending on package temperature.
-So better to rely on hardware value.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1552:57-58: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1561:57-58: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1573:53-54: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1578:53-54: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1592:53-54: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1597:53-54: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1611:50-51: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1616:50-51: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1630:50-51: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1635:50-51: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1649:60-61: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1663:53-54: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1677:52-53: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1691:53-54: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1705:53-54: WARNING: Use ARRAY_SIZE.
+./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1719:54-55: WARNING: Use ARRAY_SIZE.
 
-Raag
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9580
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ .../display/dc/spl/dc_spl_scl_easf_filters.c  | 63 ++++++-------------
+ 1 file changed, 20 insertions(+), 43 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c b/drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c
+index 09bf82f7d468..e847af94419a 100644
+--- a/drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c
++++ b/drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c
+@@ -1530,14 +1530,13 @@ static uint32_t spl_easf_get_scale_ratio_to_reg_value(struct spl_fixed31_32 rati
+ 	value = lookup_table_index_ptr->reg_value;
+ 
+ 	while (count < num_entries) {
+-
+ 		lookup_table_index_ptr = (lookup_table_base_ptr + count);
+ 		if (lookup_table_index_ptr->numer < 0)
+ 			break;
+ 
+ 		if (ratio.value < spl_fixpt_from_fraction(
+-			lookup_table_index_ptr->numer,
+-			lookup_table_index_ptr->denom).value) {
++		    lookup_table_index_ptr->numer,
++		    lookup_table_index_ptr->denom).value) {
+ 			value = lookup_table_index_ptr->reg_value;
+ 			break;
+ 		}
+@@ -1548,21 +1547,13 @@ static uint32_t spl_easf_get_scale_ratio_to_reg_value(struct spl_fixed31_32 rati
+ }
+ uint32_t spl_get_v_bf3_mode(struct spl_fixed31_32 ratio)
+ {
+-	uint32_t value;
+-	unsigned int num_entries = sizeof(easf_v_bf3_mode_lookup) /
+-		sizeof(struct scale_ratio_to_reg_value_lookup);
+-	value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+-		easf_v_bf3_mode_lookup, num_entries);
+-	return value;
++	unsigned int num_entries = ARRAY_SIZE(easf_v_bf3_mode_lookup);
++	return spl_easf_get_scale_ratio_to_reg_value(ratio, easf_v_bf3_mode_lookup, num_entries);
+ }
+ uint32_t spl_get_h_bf3_mode(struct spl_fixed31_32 ratio)
+ {
+-	uint32_t value;
+-	unsigned int num_entries = sizeof(easf_h_bf3_mode_lookup) /
+-		sizeof(struct scale_ratio_to_reg_value_lookup);
+-	value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+-		easf_h_bf3_mode_lookup, num_entries);
+-	return value;
++	unsigned int num_entries = ARRAY_SIZE(easf_h_bf3_mode_lookup);
++	return spl_easf_get_scale_ratio_to_reg_value(ratio, easf_h_bf3_mode_lookup, num_entries);
+ }
+ uint32_t spl_get_reducer_gain6(int taps, struct spl_fixed31_32 ratio)
+ {
+@@ -1570,13 +1561,11 @@ uint32_t spl_get_reducer_gain6(int taps, struct spl_fixed31_32 ratio)
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 4) {
+-		num_entries = sizeof(easf_reducer_gain6_4tap_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_reducer_gain6_4tap_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_reducer_gain6_4tap_lookup, num_entries);
+ 	} else if (taps == 6) {
+-		num_entries = sizeof(easf_reducer_gain6_6tap_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_reducer_gain6_6tap_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_reducer_gain6_6tap_lookup, num_entries);
+ 	} else
+@@ -1589,13 +1578,11 @@ uint32_t spl_get_reducer_gain4(int taps, struct spl_fixed31_32 ratio)
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 4) {
+-		num_entries = sizeof(easf_reducer_gain4_4tap_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_reducer_gain4_4tap_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_reducer_gain4_4tap_lookup, num_entries);
+ 	} else if (taps == 6) {
+-		num_entries = sizeof(easf_reducer_gain4_6tap_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_reducer_gain4_6tap_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_reducer_gain4_6tap_lookup, num_entries);
+ 	} else
+@@ -1608,13 +1595,11 @@ uint32_t spl_get_gainRing6(int taps, struct spl_fixed31_32 ratio)
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 4) {
+-		num_entries = sizeof(easf_gain_ring6_4tap_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_gain_ring6_4tap_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_gain_ring6_4tap_lookup, num_entries);
+ 	} else if (taps == 6) {
+-		num_entries = sizeof(easf_gain_ring6_6tap_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_gain_ring6_6tap_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_gain_ring6_6tap_lookup, num_entries);
+ 	} else
+@@ -1627,13 +1612,11 @@ uint32_t spl_get_gainRing4(int taps, struct spl_fixed31_32 ratio)
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 4) {
+-		num_entries = sizeof(easf_gain_ring4_4tap_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_gain_ring4_4tap_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_gain_ring4_4tap_lookup, num_entries);
+ 	} else if (taps == 6) {
+-		num_entries = sizeof(easf_gain_ring4_6tap_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_gain_ring4_6tap_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_gain_ring4_6tap_lookup, num_entries);
+ 	} else
+@@ -1646,8 +1629,7 @@ uint32_t spl_get_3tap_dntilt_uptilt_offset(int taps, struct spl_fixed31_32 ratio
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 3) {
+-		num_entries = sizeof(easf_3tap_dntilt_uptilt_offset_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_3tap_dntilt_uptilt_offset_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_3tap_dntilt_uptilt_offset_lookup, num_entries);
+ 	} else
+@@ -1660,8 +1642,7 @@ uint32_t spl_get_3tap_uptilt_maxval(int taps, struct spl_fixed31_32 ratio)
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 3) {
+-		num_entries = sizeof(easf_3tap_uptilt_maxval_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_3tap_uptilt_maxval_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_3tap_uptilt_maxval_lookup, num_entries);
+ 	} else
+@@ -1674,8 +1655,7 @@ uint32_t spl_get_3tap_dntilt_slope(int taps, struct spl_fixed31_32 ratio)
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 3) {
+-		num_entries = sizeof(easf_3tap_dntilt_slope_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_3tap_dntilt_slope_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_3tap_dntilt_slope_lookup, num_entries);
+ 	} else
+@@ -1688,8 +1668,7 @@ uint32_t spl_get_3tap_uptilt1_slope(int taps, struct spl_fixed31_32 ratio)
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 3) {
+-		num_entries = sizeof(easf_3tap_uptilt1_slope_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_3tap_uptilt1_slope_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_3tap_uptilt1_slope_lookup, num_entries);
+ 	} else
+@@ -1702,8 +1681,7 @@ uint32_t spl_get_3tap_uptilt2_slope(int taps, struct spl_fixed31_32 ratio)
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 3) {
+-		num_entries = sizeof(easf_3tap_uptilt2_slope_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_3tap_uptilt2_slope_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_3tap_uptilt2_slope_lookup, num_entries);
+ 	} else
+@@ -1716,8 +1694,7 @@ uint32_t spl_get_3tap_uptilt2_offset(int taps, struct spl_fixed31_32 ratio)
+ 	unsigned int num_entries;
+ 
+ 	if (taps == 3) {
+-		num_entries = sizeof(easf_3tap_uptilt2_offset_lookup) /
+-			sizeof(struct scale_ratio_to_reg_value_lookup);
++		num_entries = ARRAY_SIZE(easf_3tap_uptilt2_offset_lookup);
+ 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
+ 			easf_3tap_uptilt2_offset_lookup, num_entries);
+ 	} else
+-- 
+2.32.0.3.g01195cf9f
+
