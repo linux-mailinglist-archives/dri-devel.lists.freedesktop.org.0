@@ -2,99 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9347F93CFC2
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 10:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD7193CFEE
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 10:55:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 492CF10E027;
-	Fri, 26 Jul 2024 08:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F5610E94F;
+	Fri, 26 Jul 2024 08:55:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="laNhUgog";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X59W9Exn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E68BD10E027
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 08:44:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 40FBE60EB2;
- Fri, 26 Jul 2024 08:44:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850DEC32782;
- Fri, 26 Jul 2024 08:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1721983444;
- bh=eejb5Z2iHiQafBsqMRmDNsCTSs9ds9yQSnrjZYsNM6k=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=laNhUgog5zdxQOChAauSSYv6EbLXiS4tVNsuzMZoKntWseRpNRns7yptfpQ3U1TRd
- MPykf72StMZBxhF3WPEjdEjZb9LuJ4pValMuRcwPPK/fvS/p0xBLenLjEPmnIVWU3S
- 4nxGhc2kaV9a6iIo9DYT1TEPtVrdkmlmsWvLM3PilRHF0eISyJKz5aCHHB3YoJUFSb
- 9/BwkBK1id8Bl0Z+1HjbWoab10uaXaDKrJhWCXPo+sK47opZY0eT+gLcUNnsbZXod1
- fqUbwjNmLWxm7uckQSTjQ5kkDTH0TvwQ4ocueSiLDYfYMrn7Trlo5Wy8rJsFxlo2eV
- F1r7eSf2CXeJA==
-Message-ID: <68a75949-a908-4416-bb2c-ad07596f0d29@kernel.org>
-Date: Fri, 26 Jul 2024 10:43:57 +0200
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E93610E94D;
+ Fri, 26 Jul 2024 08:55:06 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-5a3b866ebc9so1924649a12.3; 
+ Fri, 26 Jul 2024 01:55:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1721984105; x=1722588905; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=STqdda2SEZjOE7whuhp/QZewj60K8H9Mte6gIw2bzZk=;
+ b=X59W9Exnbn6BfsswXYi9K/xvnZsWhH3i79sJq7RLvpzYf0uf0LSX27N3SlOqoNq3g8
+ i+T/AaDxxgtSomWmlE35uVyu7wX4mSCLyDG+PFYWFETDPHWY0sLe2su2No9t9pnt9ZNX
+ +1jiznRAqbz5WtFunHQxFgdgtY5IBlyRmKr3WSft1Ud0UlN3U+s6v6XE8evARriALXXU
+ LGjgsvYQ4pkhi+nWgliL+ydSP+Lhzn6xDD8jeZEeyFPlUnG2l2ZM537FezixoLCq2oZu
+ wBDXndPk0inPhCJyIZ3iqCuqoVNZv1d7V+/c2wIb55pTOkV+C9zyi8KwKTqdpZgWSgMF
+ EqvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721984105; x=1722588905;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=STqdda2SEZjOE7whuhp/QZewj60K8H9Mte6gIw2bzZk=;
+ b=sPPd+s4oc3Eky8e5GeOX2AJ1A+HI40+XJHhhOrzUuXNnyDEX7hSJr4eqNHiZpLiUtz
+ /WujHM+mwFhXClAM1q1JqlmoleuQ8hmQypuMV/A77Pk6GINdcFncKxpvecm9/JhjAZLz
+ lA3eGjezhV1MG9eFD3/6wLLikii3/FQsC2NfHHW7sIM+dYzmQN8znSEvM7a8mYJ+NuT/
+ yu5AYOOTashI0A072tkFFqURcnxcQe73DpStCZBt/qUysfCGEoFXUADXVmKQetBnEzSt
+ hgf1Sqd1SDZWpSwxR9r/LMXnMseFtUe6w+PUZpwDsqgTHm7JOZKJJfT/Cv/Mxju8Z6kx
+ ZW3A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXxXq+xr+c++Dhu3xe0XsA7MeEOWYgGzkmCYGlt3J6GPo62O78StK40u7qWkn4KLC6XAniZ1oEkoILh3Pt+BFXxuQbaRMVmxscE5femambv69E45mvSZrknlu3sc0VaV0KBZ8pN29snsk2fPg==
+X-Gm-Message-State: AOJu0YxuiVLpNF1uo9OH3+etyoc9vQwbCC+77MGxc/4x/BVkz6k80Lcp
+ fZ86hsGZebF+shC90R3gS55GTWQ6Y/OyKWm5Uh6I0Pt3m1rGTnaqwewoXpGkDMv/tJ1htN+qd5o
+ Z52hUOIMf1Q1a+gArc8b0brmaGoA=
+X-Google-Smtp-Source: AGHT+IEuCu0LH7RWYE4C2+y6Xq5Gd2lTUbSPZXSufj4wZklvkT/2hJWwi5rBWclTtW6+ZEIpzQUnvUyY0BRiDSmspAE=
+X-Received: by 2002:a50:8d5a:0:b0:5a1:7362:91d9 with SMTP id
+ 4fb4d7f45d1cf-5ac629fb8d8mr3328924a12.22.1721984104539; Fri, 26 Jul 2024
+ 01:55:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/tiny: Add driver for Sharp Memory LCD
-To: Alex Lanzano <lanzano.alex@gmail.com>
-Cc: mehdi.djait@bootlin.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240725004734.644986-1-lanzano.alex@gmail.com>
- <20240725004734.644986-3-lanzano.alex@gmail.com>
- <0f98db88-71d4-43a6-85f7-a9661c50a382@kernel.org>
- <j5laj5fy4lamyhlyelaq5vfu5vfxj4ybrssrbvrbyndbnvmsyh@6voevw6f3xf7>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <j5laj5fy4lamyhlyelaq5vfu5vfxj4ybrssrbvrbyndbnvmsyh@6voevw6f3xf7>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
+ <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
+ <CAKGbVbsM4rCprWdp+aGXE-pvCkb6N7weUyG2z4nXqFpv+y=LrA@mail.gmail.com>
+ <20240618-great-hissing-skink-b7950e@houat>
+ <4813a6885648e5368028cd822e8b2381@manjaro.org>
+ <457ae7654dba38fcd8b50e38a1275461@manjaro.org>
+ <2c072cc4bc800a0c52518fa2476ef9dd@manjaro.org>
+ <CAKGbVbsGm7emEPzGuf0Xn5k22Pbjfg9J9ykJHtvDF3SacfDg6A@mail.gmail.com>
+ <74c69c3bb4498099a195ec890e1a7896@manjaro.org>
+ <4498852466ec9b49cc5288c5f091b3ae@manjaro.org>
+ <CAKGbVbucXy+5Sn9U55DY69Lw9bQ+emmN1G4L8DQcUC1wdFSP_Q@mail.gmail.com>
+ <7d1c35d6829f00fa62ea39b6fee656be@manjaro.org>
+In-Reply-To: <7d1c35d6829f00fa62ea39b6fee656be@manjaro.org>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Fri, 26 Jul 2024 16:54:52 +0800
+Message-ID: <CAKGbVbukwz5naLwe7oW+UU8Ghtz6PmTjZ8k0PNZr2+h1Y20Qzw@mail.gmail.com>
+Subject: Re: [PATCH] drm/lima: Mark simple_ondemand governor as softdep
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org, 
+ lima@lists.freedesktop.org, maarten.lankhorst@linux.intel.com, 
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ linux-kernel@vger.kernel.org, Philip Muller <philm@manjaro.org>, 
+ Oliver Smith <ollieparanoid@postmarketos.org>,
+ Daniel Smith <danct12@disroot.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,51 +94,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/07/2024 03:25, Alex Lanzano wrote:
-> On Thu, Jul 25, 2024 at 08:08:57AM GMT, Krzysztof Kozlowski wrote:
->> On 25/07/2024 02:47, Alex Lanzano wrote:
->>> +static const struct spi_device_id sharp_memory_ids[] = {
->>> +	{"ls010b7dh04", LS010B7DH04},
->>> +	{"ls011b7dh03", LS011B7DH03},
->>> +	{"ls012b7dd01", LS012B7DD01},
->>> +	{"ls013b7dh03", LS013B7DH03},
->>> +	{"ls013b7dh05", LS013B7DH05},
->>> +	{"ls018b7dh02", LS018B7DH02},
->>> +	{"ls027b7dh01", LS027B7DH01},
->>> +	{"ls027b7dh01a", LS027B7DH01A},
->>> +	{"ls032b7dd02", LS032B7DD02},
->>> +	{"ls044q7dh01", LS044Q7DH01},
->>> +	{},
->>> +};
->>> +MODULE_DEVICE_TABLE(spi, sharp_memory_ids);
->>> +
->>> +static const struct of_device_id sharp_memory_of_match[] = {
->>> +	{.compatible = "sharp,ls010b7dh04"},
->>
->> Both ID tables should be in sync. See not-so-recent IIO discussions and
->> commits.
->>
->>> +	{.compatible = "sharp,ls011b7dh03"},
->>> +	{.compatible = "sharp,ls012b7dd01"},
->>> +	{.compatible = "sharp,ls013b7dh03"},
->>> +	{.compatible = "sharp,ls013b7dh05"},
->>> +	{.compatible = "sharp,ls018b7dh02"},
->>> +	{.compatible = "sharp,ls027b7dh01"},
->>> +	{.compatible = "sharp,ls027b7dh01a"},
->>> +	{.compatible = "sharp,ls032b7dd02"},
->>> +	{.compatible = "sharp,ls044q7dh01"},
->>> +	{},
->>> +};
->>> +MODULE_DEVICE_TABLE(of, sharp_memory_of_match);
-> 
-> I'm having some trouble finding the discussions and commits you're referring to.
-> When you say the tables should be in sync are you referring to the ordering of
-> entries in the tables? Like at index x of both tables should define model y?
+On Fri, Jul 26, 2024 at 4:03=E2=80=AFPM Dragan Simic <dsimic@manjaro.org> w=
+rote:
+>
+> Hello Qiang Yu,
+>
+> On 2024-07-26 08:07, Qiang Yu wrote:
+> > Yeah, I agree weakdep is a better choice here. It solves the confusion
+> > of softdep which the depend module is optional.
+>
+> Thanks, I'm glad that you agree.
+>
+> > But I prefer using weakdep directly instead of creating an aliasing of
+> > it which has no actual difference.
+>
+> Just checking, did you have a chance to read what I wrote in my earlier
+> response on the linux-modules mailing list, [7] which includes a rather
+> elaborate explanation of the intent behind MODULE_HARDDEP being
+> currently
+> just a proposed alias for MODULE_WEAKDEP?  It also describes why using
+> this alias might save use some time and effort in the future.
+>
+> [7]
+> https://lore.kernel.org/linux-modules/0720a516416a92a8f683053d37ee9481@ma=
+njaro.org/
+>
+Yeah, I've seen that mail. But I haven't seen clearly how weakdep will chan=
+ge
+in the future which could break our usage here. As an interface exposed to =
+other
+users, I expect it should be stable.
 
-No, the match data.
-
-62d3fb9dcc091ccdf25eb3b716e90e07e3ed861f
-
-Best regards,
-Krzysztof
-
+> > On Thu, Jul 25, 2024 at 4:21=E2=80=AFPM Dragan Simic <dsimic@manjaro.or=
+g>
+> > wrote:
+> >>
+> >> Hello Qiang,
+> >>
+> >> On 2024-06-26 08:49, Dragan Simic wrote:
+> >> > On 2024-06-26 03:11, Qiang Yu wrote:
+> >> >> On Wed, Jun 26, 2024 at 2:15=E2=80=AFAM Dragan Simic <dsimic@manjar=
+o.org>
+> >> >> wrote:
+> >> >>> Just checking, any further thoughts about this patch?
+> >> >>>
+> >> >> I'm OK with this as a temp workaround because it's simple and do no
+> >> >> harm
+> >> >> even it's not perfect. If no other better suggestion for short term=
+,
+> >> >> I'll submit
+> >> >> this at weekend.
+> >> >
+> >> > Thanks.  Just as you described it, it's far from perfect, but it's
+> >> > still
+> >> > fine until there's a better solution, such as harddeps.  I'll contin=
+ue
+> >> > my
+> >> > research about the possibility for adding harddeps, which would
+> >> > hopefully
+> >> > replace quite a few instances of the softdep (ab)use.
+> >>
+> >> Another option has become available for expressing additional module
+> >> dependencies, weakdeps. [1][2]  Long story short, weakdeps are similar
+> >> to softdeps, in the sense of telling the initial ramdisk utilities to
+> >> include additional kernel modules, but weakdeps result in no module
+> >> loading being performed by userspace.
+> >>
+> >> Maybe "weak" isn't the best possible word choice (arguably, "soft"
+> >> also
+> >> wasn't the best word choice), but weakdeps should be a better choice
+> >> for
+> >> use with Lima and governor_simpleondemand, because weakdeps provide
+> >> the
+> >> required information to the utilities used to generate initial
+> >> ramdisk,
+> >> while the actual module loading is left to the kernel.
+> >>
+> >> The recent addition of weakdeps renders the previously mentioned
+> >> harddeps
+> >> obsolete, because weakdeps actually do what we need.  Obviously,
+> >> "weak"
+> >> doesn't go along very well with the actual nature of the dependency
+> >> between
+> >> Lima and governor_simpleondemand, but it's pretty much just the
+> >> somewhat
+> >> unfortunate word choice.
+> >>
+> >> The support for weakdeps has been already added to the kmod [3][4] and
+> >> Dracut [5] userspace utilities.  I'll hopefully add support for
+> >> weakdeps
+> >> to mkinitcpio [6] rather soon.
+> >>
+> >> Maybe we could actually add MODULE_HARDDEP() as some kind of syntactic
+> >> sugar, which would currently be an alias for MODULE_WEAKDEP(), so the
+> >> actual hard module dependencies could be expressed properly, and
+> >> possibly
+> >> handled differently in the future, with no need to go back and track
+> >> all
+> >> such instances of hard module dependencies.
+> >>
+> >> With all this in mind, here's what I'm going to do:
+> >>
+> >> 1) Submit a patch that adds MODULE_HARDDEP() as syntactic sugar
+> >> 2) Implement support for weakdeps in Arch Linux's mkinitcpio [6]
+> >> 3) Depending on what kind of feedback the MODULE_HARDDEP() patch
+> >> receives,
+> >>     I'll submit follow-up patches for Lima and Panfrost, which will
+> >> swap
+> >>     uses of MODULE_SOFTDEP() with MODULE_HARDDEP() or MODULE_WEAKDEP()
+> >>
+> >> Looking forward to your thoughts.
+> >>
+> >> [1]
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
+mit/include/linux/module.h?id=3D61842868de13aa7fd7391c626e889f4d6f1450bf
+> >> [2]
+> >> https://lore.kernel.org/linux-kernel/20240724102349.430078-1-jtornosm@=
+redhat.com/T/#u
+> >> [3]
+> >> https://github.com/kmod-project/kmod/commit/05828b4a6e9327a63ef94df544=
+a042b5e9ce4fe7
+> >> [4]
+> >> https://github.com/kmod-project/kmod/commit/d06712b51404061eef92cb275b=
+8303814fca86ec
+> >> [5]
+> >> https://github.com/dracut-ng/dracut-ng/commit/8517a6be5e20f4a6d87e55fc=
+e35ee3e29e2a1150
+> >> [6] https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio
