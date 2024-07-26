@@ -2,70 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B7893D50E
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 16:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB0293D557
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 16:50:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE74110E9BE;
-	Fri, 26 Jul 2024 14:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 394B310E9C3;
+	Fri, 26 Jul 2024 14:50:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VaSAosNP";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Dn9z+AHt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0CB810E9BC;
- Fri, 26 Jul 2024 14:24:56 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2cb5deb027dso771662a91.1; 
- Fri, 26 Jul 2024 07:24:56 -0700 (PDT)
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com
+ [209.85.161.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E151C10E9C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 14:49:59 +0000 (UTC)
+Received: by mail-oo1-f42.google.com with SMTP id
+ 006d021491bc7-5d5846f7970so620058eaf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 07:49:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722003896; x=1722608696; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1722005398; x=1722610198;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XXgLD0m26HUeKNwihPrfsvZTOawIH1uUPigObJkbBi0=;
- b=VaSAosNPaSk8t83ItOn9qnwD1baKLjX/x4nyoROrwfbbaARy4FNLL8z5prGaKtqrDj
- 38Qg6hueJsB6GjaaGSYroobrQYTEYyenEPfve0/cCp3iMAo/6fX/YaC6jernv6ayXMsA
- wQX0/OfM6RSvZFdo/w9cA6gnsZt2RLlczco3uUz6eqrInQgMaY5a6I61+WhjHeq2634Y
- NFhTVPK74yj0DCK9S+sWiTMOztPV1h81wh1B7ivIH63gkhIpUdUw2aV/MgrRhjOANvQz
- LR8UF+rO5sZXtyKi2oXkyTlBKsUZGOSxikOVChhf4wqZHz0JNY/0LTBXgETeAWOt6mAF
- NzzA==
+ bh=zYw5cml/fOZ5DmE2TFdKPM7OvcGgOZ2eWXn7juyqvGg=;
+ b=Dn9z+AHt+LBw5IZXjke2QUTua6aA0I7KVqLJ6B03aI+IwG/ucWO8CX65wJPH8eHlnK
+ 4uKQFCXIJINPjQEdZZLTJ1Jt03J4ecAqANUQGmtYnCk+c2sbA/AyZrO6J1OUZ9elSEFJ
+ dhaw0GGWz9pKA3FedlaREwieuyyIJ4HYkqrOE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722003896; x=1722608696;
+ d=1e100.net; s=20230601; t=1722005398; x=1722610198;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XXgLD0m26HUeKNwihPrfsvZTOawIH1uUPigObJkbBi0=;
- b=UDjiNlvn4dLP0ISGtiWuKx35sr6pL/obNYtfY95kcvrVGs7adHD9c4bYvPObjSqFqP
- 09d6w0KxY94w/yB23/O08qSbyTt2fWuSTfgug++tGJ3fqaKiFVYOiumNA1z4IStFHraG
- bSGU8GiJeKRGACgbScr4mFwpENV4My99pW8I43llC24RCo6whfGl7aFp8C6mj/WKW+Cd
- P4RssyT3C8wOXByoIc2pTIS2/JfmiqUUiqIjFSoRZsp3DGj4PD5e/VgTnjytdMMC13po
- M58EKrn7tWFQcdM8DWHffbyP1JOhOsjwg4ipw6MUQfIX4cwEGzOIxUKLYN1xnCDYeB0Y
- wCuA==
+ bh=zYw5cml/fOZ5DmE2TFdKPM7OvcGgOZ2eWXn7juyqvGg=;
+ b=mdd/sZWdylxKwQHN7rCWLZJmfsQcj/E5gSg/tem8qZaCTOQ3cMPLKPiUoFfLKsaw4G
+ B4AU24QS3IiAM6gWIOheZ2qEwizyyos/+ZJ7/F48uj9vwo+EDq5ric7G9Z4HaRo88QoE
+ GApTvWdv1rWtnr3sx+pUWOAyAck91L1IOkrPDR93U54TlWT/bPN5OwsUsmnlMuASkBTo
+ Kl4t4m7EPnchLPKHufAHdkK3ndxfIxQBHr89/OqfxWOxgMYGugYnDBZpl4j25KQ1OHYQ
+ cMIkHq0TDnD5f30effUUUNj5xKSTcnLXal8wgm8RdfO43LROfelse9YG9b2wPdcFHhbl
+ sG+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3W0k9t9VPl43JhyPF0moaj6zXneB/rbVM5g7S8tSN6KzpHUCU190eCm/iEMP+BQC3fJuJabDUHehhGVhThx7XQoENt0uK9xMh4Yb9i6eAqtfrX/rax+rZd99WESgTDpUAo1LgFs0J4ND2Kf2WxA==
-X-Gm-Message-State: AOJu0Yym7A7YHLJ1ukvEksp3Wvebo24LcYHgmoDP2e0ady08wL4v2fqe
- 3OK++wzWBeB05Uy3mZgrF1K972Lf4hOqpkmXNv+KZ37PzA6EPKm8StySFVxsPgAobZYboGAz4YP
- M0ZIB+rDoMsZQ2J1ZwPYks6CV7lQ=
-X-Google-Smtp-Source: AGHT+IFctf80aK3DGwTPMnlRmHGKh/s2j0PYO8TK/gc1CZicgQ4YnsnrfZIjmDDtFAEFkNZUB+suhX2Y6Dy2/0Rhxb0=
-X-Received: by 2002:a17:90b:3007:b0:2c4:aa78:b48b with SMTP id
- 98e67ed59e1d1-2cf2ec064bbmr6039798a91.38.1722003896184; Fri, 26 Jul 2024
- 07:24:56 -0700 (PDT)
+ AJvYcCUDI3425/N6T8nvEojW+aWDAZc4AQn1A3Uxu4pUBmIGBCEwP3Q+P+uMOL8ZcM8Qeq86jz63kwH+4e25WXuJz2Ncx2FH/izz2ma2+E0vfcnh
+X-Gm-Message-State: AOJu0Ywig7I/RRB2oeLl4BkHRScS1IaqsT7ikTY8iq8jmDhaWz501H5a
+ Ai9Z/F2f0UgxI26WRAio3oh9TOms5QFbwiAWWwmYHFVFgm+mgAHKDU+JPb+E6u+F1+oXMtWayYc
+ S6A==
+X-Google-Smtp-Source: AGHT+IFui2SnMfbyAEAn4DhymRQ0z9DEyhFzBFYt9NM1EXLAjhtHJEZrmI3o2Kz88pSzbeuHG8KoDw==
+X-Received: by 2002:a05:6358:78b:b0:1ad:5ba:97dd with SMTP id
+ e5c5f4694b2df-1ad05ba9a87mr329061755d.10.1722005398090; 
+ Fri, 26 Jul 2024 07:49:58 -0700 (PDT)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com.
+ [209.85.160.172]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6bb3fac3b21sm17254536d6.114.2024.07.26.07.49.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Jul 2024 07:49:56 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id
+ d75a77b69052e-44fdc70e695so281241cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 07:49:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWVErg7r5lARpqVVY6xCcY98fLTs5VB1rPvQMjY1//QcrEOZwcrc7R0Mhus/Buh8zV65g5ZOF7SYLwklnBXMLvJjK7iHZdTpAeoLjANdaKV
+X-Received: by 2002:ac8:7dc4:0:b0:447:dd54:2cd4 with SMTP id
+ d75a77b69052e-44ff3b37e00mr3262241cf.22.1722005394734; Fri, 26 Jul 2024
+ 07:49:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240726-amdgpu-edid-bios-v2-0-8a0326654253@weissschuh.net>
- <20240726-amdgpu-edid-bios-v2-2-8a0326654253@weissschuh.net>
-In-Reply-To: <20240726-amdgpu-edid-bios-v2-2-8a0326654253@weissschuh.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 26 Jul 2024 10:24:44 -0400
-Message-ID: <CADnq5_NwCJV0exdGJ+nCFKdSZ-D85LsLQqCucF54jxtSa=yvSA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/radeon: convert bios_hardcoded_edid to drm_edid
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Xinhui Pan <Xinhui.Pan@amd.com>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+References: <20240724122447.284165-1-tejasvipin76@gmail.com>
+ <20240724122447.284165-3-tejasvipin76@gmail.com> <877cdakdq9.fsf@intel.com>
+ <20240725-psychedelic-benevolent-muskrat-c7fd57@houat>
+ <CAD=FV=WbXdnM4or3Ae+nYoQW1Sce0jP6FWtCHShsALuEFNhiww@mail.gmail.com>
+ <20240726-cerise-civet-of-reverence-ebeb9d@houat>
+In-Reply-To: <20240726-cerise-civet-of-reverence-ebeb9d@houat>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 26 Jul 2024 07:49:38 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WuupCmLPLkjAQrxr0JOngegoZpoXkR6GjnFem=WnPvGQ@mail.gmail.com>
+Message-ID: <CAD=FV=WuupCmLPLkjAQrxr0JOngegoZpoXkR6GjnFem=WnPvGQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/mipi-dsi: Change multi functions to use quiet
+ member of mipi_dsi_multi_context
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Tejas Vipin <tejasvipin76@gmail.com>, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, 
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -84,216 +100,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series.  Thanks!
+Hi,
 
-Alex
+On Fri, Jul 26, 2024 at 2:15=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> > c) Declare that, since there are no known cases where we want to
+> > suppress the error printouts, that suppressing the error printouts is
+> > a "tomorrow" problem. We transition everyone to _multi but don't
+> > provide a way to suppress the printouts.
+>
+> That's my preferred solution.
 
-On Fri, Jul 26, 2024 at 9:40=E2=80=AFAM Thomas Wei=C3=9Fschuh <linux@weisss=
-chuh.net> wrote:
->
-> Instead of manually passing around 'struct edid *' and its size,
-> use 'struct drm_edid', which encapsulates a validated combination of
-> both.
->
-> As the drm_edid_ can handle NULL gracefully, the explicit checks can be
-> dropped.
->
-> Also save a few characters by transforming '&array[0]' to the equivalent
-> 'array' and using 'max_t(int, ...)' instead of manual casts.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> ---
->  drivers/gpu/drm/radeon/radeon_atombios.c   | 17 ++++++-----------
->  drivers/gpu/drm/radeon/radeon_combios.c    | 26 +++++-------------------=
---
->  drivers/gpu/drm/radeon/radeon_connectors.c |  4 ++--
->  drivers/gpu/drm/radeon/radeon_display.c    |  2 +-
->  drivers/gpu/drm/radeon/radeon_mode.h       |  4 ++--
->  5 files changed, 16 insertions(+), 37 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/r=
-adeon/radeon_atombios.c
-> index 168f3f94003b..81a0a91921b9 100644
-> --- a/drivers/gpu/drm/radeon/radeon_atombios.c
-> +++ b/drivers/gpu/drm/radeon/radeon_atombios.c
-> @@ -1716,23 +1716,18 @@ struct radeon_encoder_atom_dig *radeon_atombios_g=
-et_lvds_info(struct
->                                 case LCD_FAKE_EDID_PATCH_RECORD_TYPE:
->                                         fake_edid_record =3D (ATOM_FAKE_E=
-DID_PATCH_RECORD *)record;
->                                         if (fake_edid_record->ucFakeEDIDL=
-ength) {
-> -                                               struct edid *edid;
-> +                                               const struct drm_edid *ed=
-id;
->                                                 int edid_size;
->
->                                                 if (fake_edid_record->ucF=
-akeEDIDLength =3D=3D 128)
->                                                         edid_size =3D fak=
-e_edid_record->ucFakeEDIDLength;
->                                                 else
->                                                         edid_size =3D fak=
-e_edid_record->ucFakeEDIDLength * 128;
-> -                                               edid =3D kmemdup(&fake_ed=
-id_record->ucFakeEDIDString[0],
-> -                                                              edid_size,=
- GFP_KERNEL);
-> -                                               if (edid) {
-> -                                                       if (drm_edid_is_v=
-alid(edid)) {
-> -                                                               rdev->mod=
-e_info.bios_hardcoded_edid =3D edid;
-> -                                                               rdev->mod=
-e_info.bios_hardcoded_edid_size =3D edid_size;
-> -                                                       } else {
-> -                                                               kfree(edi=
-d);
-> -                                                       }
-> -                                               }
-> +                                               edid =3D drm_edid_alloc(f=
-ake_edid_record->ucFakeEDIDString, edid_size);
-> +                                               if (drm_edid_valid(edid))
-> +                                                       rdev->mode_info.b=
-ios_hardcoded_edid =3D edid;
-> +                                               else
-> +                                                       drm_edid_free(edi=
-d);
->                                                 record +=3D struct_size(f=
-ake_edid_record,
->                                                                       ucF=
-akeEDIDString,
->                                                                       edi=
-d_size);
-> diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/ra=
-deon/radeon_combios.c
-> index 41ddc576f8f8..df8d7f56b028 100644
-> --- a/drivers/gpu/drm/radeon/radeon_combios.c
-> +++ b/drivers/gpu/drm/radeon/radeon_combios.c
-> @@ -370,7 +370,7 @@ static uint16_t combios_get_table_offset(struct drm_d=
-evice *dev,
->  bool radeon_combios_check_hardcoded_edid(struct radeon_device *rdev)
->  {
->         int edid_info, size;
-> -       struct edid *edid;
-> +       const struct drm_edid *edid;
->         unsigned char *raw;
->         edid_info =3D combios_get_table_offset(rdev_to_drm(rdev), COMBIOS=
-_HARDCODED_EDID_TABLE);
->         if (!edid_info)
-> @@ -378,19 +378,14 @@ bool radeon_combios_check_hardcoded_edid(struct rad=
-eon_device *rdev)
->
->         raw =3D rdev->bios + edid_info;
->         size =3D EDID_LENGTH * (raw[0x7e] + 1);
-> -       edid =3D kmalloc(size, GFP_KERNEL);
-> -       if (edid =3D=3D NULL)
-> -               return false;
-> -
-> -       memcpy((unsigned char *)edid, raw, size);
-> +       edid =3D drm_edid_alloc(raw, size);
->
-> -       if (!drm_edid_is_valid(edid)) {
-> -               kfree(edid);
-> +       if (!drm_edid_valid(edid)) {
-> +               drm_edid_free(edid);
->                 return false;
->         }
->
->         rdev->mode_info.bios_hardcoded_edid =3D edid;
-> -       rdev->mode_info.bios_hardcoded_edid_size =3D size;
->         return true;
->  }
->
-> @@ -398,18 +393,7 @@ bool radeon_combios_check_hardcoded_edid(struct rade=
-on_device *rdev)
->  struct edid *
->  radeon_bios_get_hardcoded_edid(struct radeon_device *rdev)
->  {
-> -       struct edid *edid;
-> -
-> -       if (rdev->mode_info.bios_hardcoded_edid) {
-> -               edid =3D kmalloc(rdev->mode_info.bios_hardcoded_edid_size=
-, GFP_KERNEL);
-> -               if (edid) {
-> -                       memcpy((unsigned char *)edid,
-> -                              (unsigned char *)rdev->mode_info.bios_hard=
-coded_edid,
-> -                              rdev->mode_info.bios_hardcoded_edid_size);
-> -                       return edid;
-> -               }
-> -       }
-> -       return NULL;
-> +       return drm_edid_duplicate(drm_edid_raw(rdev->mode_info.bios_hardc=
-oded_edid));
->  }
->
->  static struct radeon_i2c_bus_rec combios_setup_i2c_bus(struct radeon_dev=
-ice *rdev,
-> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm=
-/radeon/radeon_connectors.c
-> index 880edabfc9e3..528a8f3677c2 100644
-> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
-> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-> @@ -1059,7 +1059,7 @@ radeon_vga_detect(struct drm_connector *connector, =
-bool force)
->          */
->         if ((!rdev->is_atom_bios) &&
->             (ret =3D=3D connector_status_disconnected) &&
-> -           rdev->mode_info.bios_hardcoded_edid_size) {
-> +           rdev->mode_info.bios_hardcoded_edid) {
->                 ret =3D connector_status_connected;
->         }
->
-> @@ -1392,7 +1392,7 @@ radeon_dvi_detect(struct drm_connector *connector, =
-bool force)
->  out:
->         if ((!rdev->is_atom_bios) &&
->             (ret =3D=3D connector_status_disconnected) &&
-> -           rdev->mode_info.bios_hardcoded_edid_size) {
-> +           rdev->mode_info.bios_hardcoded_edid) {
->                 radeon_connector->use_digital =3D true;
->                 ret =3D connector_status_connected;
->         }
-> diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/ra=
-deon/radeon_display.c
-> index 10fd58f400bc..8f5f8abcb1b4 100644
-> --- a/drivers/gpu/drm/radeon/radeon_display.c
-> +++ b/drivers/gpu/drm/radeon/radeon_display.c
-> @@ -1658,7 +1658,7 @@ void radeon_modeset_fini(struct radeon_device *rdev=
-)
->                 rdev->mode_info.mode_config_initialized =3D false;
->         }
->
-> -       kfree(rdev->mode_info.bios_hardcoded_edid);
-> +       drm_edid_free(rdev->mode_info.bios_hardcoded_edid);
->
->         /* free i2c buses */
->         radeon_i2c_fini(rdev);
-> diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeo=
-n/radeon_mode.h
-> index e0a5af180801..421c83fc70dc 100644
-> --- a/drivers/gpu/drm/radeon/radeon_mode.h
-> +++ b/drivers/gpu/drm/radeon/radeon_mode.h
-> @@ -39,6 +39,7 @@
->  #include <linux/i2c-algo-bit.h>
->
->  struct edid;
-> +struct drm_edid;
->  struct radeon_bo;
->  struct radeon_device;
->
-> @@ -262,8 +263,7 @@ struct radeon_mode_info {
->         /* Output CSC */
->         struct drm_property *output_csc_property;
->         /* hardcoded DFP edid from BIOS */
-> -       struct edid *bios_hardcoded_edid;
-> -       int bios_hardcoded_edid_size;
-> +       const struct drm_edid *bios_hardcoded_edid;
->
->         /* firmware flags */
->         u16 firmware_flags;
->
-> --
-> 2.45.2
->
+OK, fair enough. So I guess the transition plan would be:
+
+1. Add a wrapper like we're doing today.
+
+2. Transition everyone to the _multi variant.
+
+3. Delete the non-multi variant which will cause us to delete the wrapper.
+
+
+-Doug
