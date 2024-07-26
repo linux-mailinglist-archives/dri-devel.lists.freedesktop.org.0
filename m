@@ -2,46 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F91393D099
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 11:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E1393D0DE
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 12:07:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5F9C10E5B1;
-	Fri, 26 Jul 2024 09:47:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AF4F10E012;
+	Fri, 26 Jul 2024 10:07:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="jOWGv1kf";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="2qaNsi32";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-111.freemail.mail.aliyun.com
- (out30-111.freemail.mail.aliyun.com [115.124.30.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31C2D10E5B1;
- Fri, 26 Jul 2024 09:47:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1721987259; h=From:To:Subject:Date:Message-Id:MIME-Version;
- bh=K1O75+dU/oxc7RMbWfEpo6GrZGyE2ZFXuZ+LFp9QDcw=;
- b=jOWGv1kf0f1029Ahsy0Spn2i3SIgsIcfs8c7Q9G7kHyaup6wy9kqjCyUF2iM25XEL8d1PvkPtle2w1pMzqEN+HZ3vhZNY3/LOTQXx2t/JWUOQZMDfGQsLtwwls1g0LJK5YzY4qQM1XSNUDnzuNpEUVfVc031MB7H7niq+BYQ95k=
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033037067109;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=13; SR=0;
- TI=SMTPD_---0WBLOnXO_1721987249; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0WBLOnXO_1721987249) by smtp.aliyun-inc.com;
- Fri, 26 Jul 2024 17:47:38 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: harry.wentland@amd.com
-Cc: sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] drm/amd/display: Use ARRAY_SIZE for array length
-Date: Fri, 26 Jul 2024 17:47:28 +0800
-Message-Id: <20240726094728.1161-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBF010E012
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 10:07:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1721988446;
+ bh=d6RAV3x+NFkqdpVb86ATPZjPs7X0Voj8XsmWJrljTJQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=2qaNsi32srLc1IjeuNAQNW4FjclHKcJH4eubhhwDHttyzpfCRX3fuKY8K1JZA4wRg
+ qogbBjsOP/IcSAc+mhEhRKEq5yPYhI5Z3DquDZEvgK/meNnW0FWCtEfoSPJtFOXk/6
+ h/FT9qKMqz4eugPJB7gNJcRPdk06dnUPwMrD0YpFH/v/H+Qq+n/oemyeRGS0O/ic71
+ Ws1DmQ0emOCjrewj54u9q7/mOz+4QOBd3uUzpeSZAJq8a3pesHJxh5TyK4Q4k6VG2h
+ B1ydv39K73z/eS+wlRe/+I8/uSBemdxr2Hyw1Qdo4FwO2OM3ircAJ7aeb3LsRj7KDY
+ Rgj+XcRkrX8BQ==
+Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 696E03780BDB;
+ Fri, 26 Jul 2024 10:07:23 +0000 (UTC)
+Message-ID: <27bd3884-51d8-454f-9ddc-6b5765fd744b@collabora.com>
+Date: Fri, 26 Jul 2024 15:37:20 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 5/5] drm/ci: rockchip: add tests for rockchip display
+ driver
+Content-Language: en-US
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
+ helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ deborah.brouwer@collabora.com, robdclark@gmail.com,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240724101015.523535-1-vignesh.raman@collabora.com>
+ <20240724101015.523535-6-vignesh.raman@collabora.com>
+ <CAPj87rMJUSRJ9G1uv-w5a_4qqS0R1dDaUEofoJf=ehbMszdfOw@mail.gmail.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <CAPj87rMJUSRJ9G1uv-w5a_4qqS0R1dDaUEofoJf=ehbMszdfOw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,204 +68,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use of macro ARRAY_SIZE to calculate array size minimizes
-the redundant code and improves code reusability.
+Hi Daniel,
 
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1552:57-58: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1561:57-58: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1573:53-54: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1578:53-54: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1592:53-54: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1597:53-54: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1611:50-51: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1616:50-51: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1630:50-51: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1635:50-51: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1649:60-61: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1663:53-54: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1677:52-53: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1691:53-54: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1705:53-54: WARNING: Use ARRAY_SIZE.
-./drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c:1719:54-55: WARNING: Use ARRAY_SIZE.
+On 26/07/24 13:06, Daniel Stone wrote:
+> Hi Vignesh,
+> 
+> On Wed, 24 Jul 2024 at 11:12, Vignesh Raman <vignesh.raman@collabora.com> wrote:
+>> For rockchip rk3288 and rk3399, the display driver is rockchip
+>> and gpu driver is panfrost. Currently, in drm-ci for rockchip
+>> rk3288 and rk3399, only the gpu driver is tested. Refactor
+>> the existing rockchip jobs to test both display and gpu driver
+>> and update xfails.
+> 
+> Could you also please add RK3588 in a new series (no need to hold this
+> one up), with Rockchip KMS and Panthor GPU? You can use the
+> rk3588-rock5-b device type in LAVA.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9580
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- .../display/dc/spl/dc_spl_scl_easf_filters.c  | 63 ++++++-------------
- 1 file changed, 20 insertions(+), 43 deletions(-)
+Sure. I Will add and send it in a new series.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c b/drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c
-index 09bf82f7d468..e847af94419a 100644
---- a/drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c
-+++ b/drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c
-@@ -1530,14 +1530,13 @@ static uint32_t spl_easf_get_scale_ratio_to_reg_value(struct spl_fixed31_32 rati
- 	value = lookup_table_index_ptr->reg_value;
- 
- 	while (count < num_entries) {
--
- 		lookup_table_index_ptr = (lookup_table_base_ptr + count);
- 		if (lookup_table_index_ptr->numer < 0)
- 			break;
- 
- 		if (ratio.value < spl_fixpt_from_fraction(
--			lookup_table_index_ptr->numer,
--			lookup_table_index_ptr->denom).value) {
-+		    lookup_table_index_ptr->numer,
-+		    lookup_table_index_ptr->denom).value) {
- 			value = lookup_table_index_ptr->reg_value;
- 			break;
- 		}
-@@ -1548,21 +1547,13 @@ static uint32_t spl_easf_get_scale_ratio_to_reg_value(struct spl_fixed31_32 rati
- }
- uint32_t spl_get_v_bf3_mode(struct spl_fixed31_32 ratio)
- {
--	uint32_t value;
--	unsigned int num_entries = sizeof(easf_v_bf3_mode_lookup) /
--		sizeof(struct scale_ratio_to_reg_value_lookup);
--	value = spl_easf_get_scale_ratio_to_reg_value(ratio,
--		easf_v_bf3_mode_lookup, num_entries);
--	return value;
-+	unsigned int num_entries = ARRAY_SIZE(easf_v_bf3_mode_lookup);
-+	return spl_easf_get_scale_ratio_to_reg_value(ratio, easf_v_bf3_mode_lookup, num_entries);
- }
- uint32_t spl_get_h_bf3_mode(struct spl_fixed31_32 ratio)
- {
--	uint32_t value;
--	unsigned int num_entries = sizeof(easf_h_bf3_mode_lookup) /
--		sizeof(struct scale_ratio_to_reg_value_lookup);
--	value = spl_easf_get_scale_ratio_to_reg_value(ratio,
--		easf_h_bf3_mode_lookup, num_entries);
--	return value;
-+	unsigned int num_entries = ARRAY_SIZE(easf_h_bf3_mode_lookup);
-+	return spl_easf_get_scale_ratio_to_reg_value(ratio, easf_h_bf3_mode_lookup, num_entries);
- }
- uint32_t spl_get_reducer_gain6(int taps, struct spl_fixed31_32 ratio)
- {
-@@ -1570,13 +1561,11 @@ uint32_t spl_get_reducer_gain6(int taps, struct spl_fixed31_32 ratio)
- 	unsigned int num_entries;
- 
- 	if (taps == 4) {
--		num_entries = sizeof(easf_reducer_gain6_4tap_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_reducer_gain6_4tap_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_reducer_gain6_4tap_lookup, num_entries);
- 	} else if (taps == 6) {
--		num_entries = sizeof(easf_reducer_gain6_6tap_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_reducer_gain6_6tap_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_reducer_gain6_6tap_lookup, num_entries);
- 	} else
-@@ -1589,13 +1578,11 @@ uint32_t spl_get_reducer_gain4(int taps, struct spl_fixed31_32 ratio)
- 	unsigned int num_entries;
- 
- 	if (taps == 4) {
--		num_entries = sizeof(easf_reducer_gain4_4tap_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_reducer_gain4_4tap_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_reducer_gain4_4tap_lookup, num_entries);
- 	} else if (taps == 6) {
--		num_entries = sizeof(easf_reducer_gain4_6tap_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_reducer_gain4_6tap_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_reducer_gain4_6tap_lookup, num_entries);
- 	} else
-@@ -1608,13 +1595,11 @@ uint32_t spl_get_gainRing6(int taps, struct spl_fixed31_32 ratio)
- 	unsigned int num_entries;
- 
- 	if (taps == 4) {
--		num_entries = sizeof(easf_gain_ring6_4tap_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_gain_ring6_4tap_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_gain_ring6_4tap_lookup, num_entries);
- 	} else if (taps == 6) {
--		num_entries = sizeof(easf_gain_ring6_6tap_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_gain_ring6_6tap_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_gain_ring6_6tap_lookup, num_entries);
- 	} else
-@@ -1627,13 +1612,11 @@ uint32_t spl_get_gainRing4(int taps, struct spl_fixed31_32 ratio)
- 	unsigned int num_entries;
- 
- 	if (taps == 4) {
--		num_entries = sizeof(easf_gain_ring4_4tap_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_gain_ring4_4tap_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_gain_ring4_4tap_lookup, num_entries);
- 	} else if (taps == 6) {
--		num_entries = sizeof(easf_gain_ring4_6tap_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_gain_ring4_6tap_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_gain_ring4_6tap_lookup, num_entries);
- 	} else
-@@ -1646,8 +1629,7 @@ uint32_t spl_get_3tap_dntilt_uptilt_offset(int taps, struct spl_fixed31_32 ratio
- 	unsigned int num_entries;
- 
- 	if (taps == 3) {
--		num_entries = sizeof(easf_3tap_dntilt_uptilt_offset_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_3tap_dntilt_uptilt_offset_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_3tap_dntilt_uptilt_offset_lookup, num_entries);
- 	} else
-@@ -1660,8 +1642,7 @@ uint32_t spl_get_3tap_uptilt_maxval(int taps, struct spl_fixed31_32 ratio)
- 	unsigned int num_entries;
- 
- 	if (taps == 3) {
--		num_entries = sizeof(easf_3tap_uptilt_maxval_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_3tap_uptilt_maxval_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_3tap_uptilt_maxval_lookup, num_entries);
- 	} else
-@@ -1674,8 +1655,7 @@ uint32_t spl_get_3tap_dntilt_slope(int taps, struct spl_fixed31_32 ratio)
- 	unsigned int num_entries;
- 
- 	if (taps == 3) {
--		num_entries = sizeof(easf_3tap_dntilt_slope_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_3tap_dntilt_slope_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_3tap_dntilt_slope_lookup, num_entries);
- 	} else
-@@ -1688,8 +1668,7 @@ uint32_t spl_get_3tap_uptilt1_slope(int taps, struct spl_fixed31_32 ratio)
- 	unsigned int num_entries;
- 
- 	if (taps == 3) {
--		num_entries = sizeof(easf_3tap_uptilt1_slope_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_3tap_uptilt1_slope_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_3tap_uptilt1_slope_lookup, num_entries);
- 	} else
-@@ -1702,8 +1681,7 @@ uint32_t spl_get_3tap_uptilt2_slope(int taps, struct spl_fixed31_32 ratio)
- 	unsigned int num_entries;
- 
- 	if (taps == 3) {
--		num_entries = sizeof(easf_3tap_uptilt2_slope_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_3tap_uptilt2_slope_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_3tap_uptilt2_slope_lookup, num_entries);
- 	} else
-@@ -1716,8 +1694,7 @@ uint32_t spl_get_3tap_uptilt2_offset(int taps, struct spl_fixed31_32 ratio)
- 	unsigned int num_entries;
- 
- 	if (taps == 3) {
--		num_entries = sizeof(easf_3tap_uptilt2_offset_lookup) /
--			sizeof(struct scale_ratio_to_reg_value_lookup);
-+		num_entries = ARRAY_SIZE(easf_3tap_uptilt2_offset_lookup);
- 		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
- 			easf_3tap_uptilt2_offset_lookup, num_entries);
- 	} else
--- 
-2.32.0.3.g01195cf9f
+> 
+>> diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
+>> index cf3a747f7cec..826cca5efbff 100644
+>> --- a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
+>> +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
+> 
+> This is in the wrong patch?
 
+Yes, this needs to be dropped. Thanks for pointing that out.
+
+> 
+>> +++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
+>> @@ -0,0 +1,71 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> +
+>> +# Too unstable, machine ends up hanging after lots of Oopses
+>> +kms_cursor_legacy.*
+>> +
+>> +# Started hanging the machine on Linux 5.19-rc2:
+>> +#
+>> +# [IGT] kms_plane_lowres: executing
+>> +# [IGT] kms_plane_lowres: starting subtest pipe-F-tiling-y
+>> +# [IGT] kms_plane_lowres: exiting, ret=77
+> 
+> ret 77 is a pure skip here, as you'd expect from a pipe F test,
+> because Rockchip doesn't have six CRTCs.
+> 
+>> +# Console: switching to colour frame buffer device 170x48
+>> +# rockchip-drm display-subsystem: [drm] *ERROR* flip_done timed out
+>> +# rockchip-drm display-subsystem: [drm] *ERROR* [CRTC:35:crtc-0] commit wait timed out
+>> +# BUG: spinlock bad magic on CPU#3, kms_plane_lowre/482
+>> +# 8<--- cut here ---
+>> +# Unable to handle kernel paging request at virtual address 7812078e
+>> +# [7812078e] *pgd=00000000
+>> +# Internal error: Oops: 5 [#1] SMP ARM
+>> +# Modules linked in:
+>> +# CPU: 3 PID: 482 Comm: kms_plane_lowre Tainted: G        W         5.19.0-rc2-323596-g00535de92171 #1
+>> +# Hardware name: Rockchip (Device Tree)
+>> +# Process kms_plane_lowre (pid: 482, stack limit = 0x1193ac2b)
+>> +#  spin_dump from do_raw_spin_lock+0xa4/0xe8
+>> +#  do_raw_spin_lock from wait_for_completion_timeout+0x2c/0x120
+>> +#  wait_for_completion_timeout from drm_crtc_commit_wait+0x18/0x7c
+>> +#  drm_crtc_commit_wait from drm_atomic_helper_wait_for_dependencies+0x44/0x168
+>> +#  drm_atomic_helper_wait_for_dependencies from commit_tail+0x34/0x180
+>> +#  commit_tail from drm_atomic_helper_commit+0x164/0x18c
+>> +#  drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe4
+>> +#  drm_atomic_commit from drm_client_modeset_commit_atomic+0x23c/0x284
+>> +#  drm_client_modeset_commit_atomic from drm_client_modeset_commit_locked+0x60/0x1c8
+>> +#  drm_client_modeset_commit_locked from drm_client_modeset_commit+0x24/0x40
+>> +#  drm_client_modeset_commit from drm_fbdev_client_restore+0x58/0x94
+>> +#  drm_fbdev_client_restore from drm_client_dev_restore+0x70/0xbc
+>> +#  drm_client_dev_restore from drm_release+0xf4/0x114
+>> +#  drm_release from __fput+0x74/0x240
+>> +#  __fput from task_work_run+0x84/0xb4
+>> +#  task_work_run from do_exit+0x34c/0xa20
+>> +#  do_exit from do_group_exit+0x34/0x98
+> 
+> So this is pointing to the error being that, when a client exits, the
+> kernel attempts to restore fbdev and then it's broken. Pinning
+> pipe-F-tiling-y as specifically responsible for this seems quite odd
+> to me, given that it doesn't do anything but only skips. Is that maybe
+> just because it's the last test running in the kms_plane_lowres group
+> before it exits? Or does it occur more wildly on other test groups?
+
+This was skipped for Linux 5.19-rc2. I will remove from skips and will 
+check the behavior.
+
+> 
+>> +tools_test@tools_test,Fail
+> 
+> I keep noticing this failing everywhere. What's up with that? Have you
+> reported these logs to the igt list?
+
+I will check this issue and report to igt developers.
+
+Thanks.
+
+Regards,
+Vignesh
