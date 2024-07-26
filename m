@@ -2,74 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F7693D670
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 17:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25ACB93D682
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 18:04:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8874B10E148;
-	Fri, 26 Jul 2024 15:53:31 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dNnbEwV4";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95A5210E28C;
+	Fri, 26 Jul 2024 16:03:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78E2310E148
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 15:53:30 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46QBA21a021948
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 15:53:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=3pwMPD4vKFrH2S0d1j0WGE
- B29+mN3TVnBQryTzNlfEc=; b=dNnbEwV4QhLebUAZxqJzIJ0mtW9BZkZqfjwoE/
- MwpUnY9ILP2pn1AM7EYaE8o2t+8w5vZIDiq+B8Xicvuf0bc4yjuEwCPkxUO3/QMl
- E5lHGspqID5mV/rEDmlw1Gw5TAeNs8Bgbj/K85gOZOQPIVutprHyMshOs3h2hAnu
- 9CvSvgJcQfczXXnXAbmR26b+5aOoRQv2ypyjBdRdZ4Kx6a/qsyzxbHoc0PRriKTr
- +ey/k5eBI84zkI7DTv2Nii55Wq0yHIA1WOofiVPTJAapkGMj+PuQGmUtIc9dPm/3
- cDHio5C5i24hVPUdXCLjyw9IHLnoNGZ7QuG/kAciwZbbtwxA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40m1sv1v1x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 15:53:29 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46QFrSI7006406
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 15:53:28 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 26 Jul 2024 08:53:27 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <quic_carlv@quicinc.com>
-CC: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH] MAINTAINERS: qaic: Drop Pranjal as reviewer
-Date: Fri, 26 Jul 2024 09:53:10 -0600
-Message-ID: <20240726155310.765164-1-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
+ [209.85.219.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E331110E28C
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 16:03:57 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id
+ 3f1490d57ef6-dfe43dca3bfso2245079276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 09:03:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722009837; x=1722614637;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rnrmsk4LAjav0+NDZkmFZGtCIbLnhTN3Oc8OLeZ+jtU=;
+ b=faKsBdIZdxa6495EyRuu+SYQisMK+PmgEXw78S7NGhCFumpelOKb98goIlypNJCdug
+ EWETVV9ynUOOlub/GxxL/E7tcjPtVCZzAmRBPgg8BTJbsUtj+P8kLN3fqHSR/PE1Fray
+ MgwEj3BcP8sttoJLF1jlbbufb8LPy97CL0SuXTBSY89JZJQNX7bO/FOv88YhkV4WmoEz
+ FZ68WdcewMGrS2II2egEtYQyiaxD78nMmjRVYM9HWBc8oB0RZ1tfxKLIUPRBAgPzT4hd
+ ZU1bkdBwVnD/swNvl/wfFEaJKDVQfefze+3k/F70wAokOJAh3MNB5fiDjjwaYFGPaQcr
+ aNhw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVwvVicW2/VzJthn9oh6+O5Rj/S0Cjg/fs8VTq6t8dfNF6gYKmTpfX/BtOfP+VQvUd5usubi2ni5sGvTU5IZSjoMhyj8eojzZtdOXlEOFqB
+X-Gm-Message-State: AOJu0YzMa8sJgT78wxwOmdBayrEgUqUeH6qgP9NJd/VOqUAkfFqoxnUp
+ 8nKQ7qPe5+x5RNVN9eY6eKZ8IFgXbzUIEf6zzHP+wt8alZv4JbO+qUYTJQzg
+X-Google-Smtp-Source: AGHT+IF+Twdld9KH9rcfPFU0Q4QJPlJu7F5osq0J7bFBjhtt9vBU6k1G+5PxeQmcjG0weWZ0WWbGYA==
+X-Received: by 2002:a05:690c:23c1:b0:615:1cbb:7b81 with SMTP id
+ 00721157ae682-67a0a60d184mr2671727b3.46.1722009836663; 
+ Fri, 26 Jul 2024 09:03:56 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com.
+ [209.85.128.174]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-67567b4a883sm9308047b3.58.2024.07.26.09.03.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Jul 2024 09:03:55 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-66ca536621cso24498707b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 09:03:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXrSC/yzQxWpa4Z/GWyRhmUSzOPb6dUUlBgj8QEgTEWQHLWIHp1uSMB8APATxm7kp69h53pQNJUx9cWbrZzbJATHQ3OMz/qBRYn2/0VtI59
+X-Received: by 2002:a05:690c:dd1:b0:644:b209:4de1 with SMTP id
+ 00721157ae682-67a050f3e25mr2849197b3.2.1722009834893; Fri, 26 Jul 2024
+ 09:03:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: hTrW-LVUHI3t2ULCwCW-khvQNYZdNiDY
-X-Proofpoint-GUID: hTrW-LVUHI3t2ULCwCW-khvQNYZdNiDY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-26_12,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=794 mlxscore=0 suspectscore=0 impostorscore=0 bulkscore=0
- phishscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
- adultscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407260107
+References: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
+ <20240709135152.185042-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240709135152.185042-4-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 26 Jul 2024 18:03:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUo_9j84ENEz2zupQnc922bA00XM9qxcisRSKhnZHYdNg@mail.gmail.com>
+Message-ID: <CAMuHMdUo_9j84ENEz2zupQnc922bA00XM9qxcisRSKhnZHYdNg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] dt-bindings: display: renesas,rzg2l-du: Document
+ RZ/G2UL DU bindings
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,25 +90,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pranjal's email address is bouncing.
+On Tue, Jul 9, 2024 at 3:52=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
+> wrote:
+> Document DU found in RZ/G2UL SoC. The DU block is identical to RZ/G2L
+> SoC, but has only DPI interface.
+>
+> While at it, add missing required property port@1 for RZ/G2L and RZ/V2L
+> SoCs. Currently there is no user for the DPI interface and hence there
+> won't be any ABI breakage for adding port@1 as required property for
+> RZ/G2L and RZ/V2L SoCs.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> v1->v2:
+>  * Updated commit description related to non ABI breakage.
+>  * Added Ack from Conor.
 
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 71b739b40921..258f6236ac1c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18461,7 +18461,6 @@ F:	include/dt-bindings/clock/qcom,*
- QUALCOMM CLOUD AI (QAIC) DRIVER
- M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
- R:	Carl Vanderlip <quic_carlv@quicinc.com>
--R:	Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
- L:	linux-arm-msm@vger.kernel.org
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
--- 
-2.34.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
