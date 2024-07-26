@@ -2,72 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4643E93D747
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 19:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B2E93D786
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 19:21:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C080F10E267;
-	Fri, 26 Jul 2024 17:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 089CD10E4A7;
+	Fri, 26 Jul 2024 17:21:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="swInJ+e2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Iw9xdDuF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
- [209.85.210.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72F8D10E267
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 17:05:27 +0000 (UTC)
-Received: by mail-ot1-f43.google.com with SMTP id
- 46e09a7af769-7093705c708so1154239a34.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 10:05:27 -0700 (PDT)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F83810E4A7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 17:21:45 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id
+ 6a1803df08f44-6b5dfcfb165so5063146d6.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 10:21:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722013526; x=1722618326; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7g3uZE3B1tHEr6x/n8vqQ5xj8tJN2flPcuVZUC5ZD/Q=;
- b=swInJ+e2+Up20mnOffdaclJvyqvnFmT+vWwcXHyG78Bz2pi8ohey8dDk9rz6Ha9iFD
- Hhm4l+q9QGEtKupzCdEGxnf5Ja2tV1ZGQhRu3A6/3Zp9ysvB2LYUzZ6RgdxEJZl5QbFQ
- +owxuBJ0WLvul7MitO+lZWd8wEkYIUUloPO2om8FTq/XLlvDJbRV2cMexmU1HJe93EvG
- m8jJewSh1ZRMxCLRns6oReo93ozqIA1bnuqc3eSipO0q4whXJcajn46xyr6sep846w9K
- SJlc4XaOUWpxnB0lKvJcWVS5dyXuE3VqZWAO0WI2EU1Hoin4iZn5VVDHuGMqxxR5+pZn
- dyqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722013526; x=1722618326;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1722014504; x=1722619304;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7g3uZE3B1tHEr6x/n8vqQ5xj8tJN2flPcuVZUC5ZD/Q=;
- b=H2jkCkm+yQiEvDahnzBNfM083aGYJhi2FijcX0o6NJ5BZfrdwuNbqrMWSC+3aQTqOa
- i/1K2glpjpcePUBCGl1NrmYpzuo9+MTZCNHi/Slgupi7Gtk/vnTk+ILSfv09XjeSz/DL
- mC/LF+5NfJDizWelCRHm+kW9N+C7MwjCPCg8fByQeI+lIijXgXC1kdYl6GRREj3hQFqJ
- XBd1KWBIvmuc20B215MvpO7p9zC4uSV18U8CjF0jJ40VhuJeNA9N1Jzqlv1yEdAUkKbU
- WIFN4ECiQJ3SPbajSA0Fwb4NB+ipIgJ0D3LZXEgtH4mwu4iP3Iv9kUjR8fX5QpaN/8DW
- hfAA==
-X-Gm-Message-State: AOJu0Ywgv+xYpdm/RNoH2dQx4ln86qobf4MBEu2bcBNZ/keM+apHaaLw
- Ij2ksbN6tPbxX6ckzetP61Bmp9cFw1q6Gt/peFow5TCFjupkTyDCVSk8V81LH8c=
-X-Google-Smtp-Source: AGHT+IHBrp2264nEll0lxsiOyCpb1iYiLZ8i4xZTRjz5SxDR16mWdqSjhByN0LQCtSQP7wlqJKJgbA==
-X-Received: by 2002:a05:6830:498d:b0:703:638a:7dd2 with SMTP id
- 46e09a7af769-70940c0fe1amr306767a34.10.1722013526605; 
- Fri, 26 Jul 2024 10:05:26 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:928f:fdbe:c604:7b3f])
- by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-7093050a35fsm812936a34.6.2024.07.26.10.05.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jul 2024 10:05:26 -0700 (PDT)
-Date: Fri, 26 Jul 2024 12:05:24 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tomer Tayar <ttayar@habana.ai>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [bug report] accel/habanalabs: enforce release order of compute
- device and dma-buf
-Message-ID: <8af94906-6da6-40cf-a1de-d969c5469028@suswa.mountain>
-References: <71169637-1e35-48d5-ba04-161d30073495@stanley.mountain>
- <cc6716f4-10e0-4f64-b64c-a3e41e1f7113@habana.ai>
- <d70342ef-2b52-4f26-953f-8c924c20b1cd@suswa.mountain>
- <411dd184-f71a-4d0e-ba82-068a1f0c9206@habana.ai>
+ bh=e0M2ezyARf722kO0n/gneWi2HryULYqa+cG+Yc2z4K0=;
+ b=Iw9xdDuFNY2YlJ7OeBs/Q3edL+y6/RzEn88A0XgYbeXNvbxRTl1ByNzIl7m5OyvAHD
+ Ffxd8udM8RcUhMv6FWshGXtUV2hIclUp7rG/H5HA8pfpUO2UysW7FfdJ13IDxz3PhU3l
+ lu5NpRaDSJDSOtUoZ7x/t18ITPXSpdxbxJJ7w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722014504; x=1722619304;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=e0M2ezyARf722kO0n/gneWi2HryULYqa+cG+Yc2z4K0=;
+ b=iF9CdWIY8tfQuxIGuGv8wGhzEbptHHc2FbFDmgLurY212VzO2bm9Tl0+qvsARjfl8M
+ 9DIujalr1fBEDLIOPu2guEPDL7kFQ4C9/5Byx2002UVxaKhTX9VzMDp/X6CAHIDZkoi7
+ /WDtIyyyaIK9pRr85tdYNJte/DvwbWtmzljleZC4dH7dOBt2YlTbTGPg/Zkd7F1GF0/b
+ 0Lb421Yffjg1YZTTLoT3M8wLHz//1tMm20BLnlJ7Uv7Qu8v2sQWPVIquakfmOASAcO/E
+ zTYFGin5noeJstdhGzJnsGvjGjdT669nQpxrC1gj7Oivc/cwFvyFVQ4zUYVbo5FWgLHb
+ Xucg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXj3c5A/MUGq+RIp0/zyjCicCyWXQ7+UT12SF9lW05XMI5RbS9p5S7S97qQFt1TpruHSE7c75PUIgm/zwWsYZwyxn7XOZh6SACkBukS1yyT
+X-Gm-Message-State: AOJu0YzTswkyKn2sE0s2zqCjsbyWLOzvcZJ98JzOT+fgLH8A7P7NaAQG
+ W8d54kNmc/XqcseiFdKUOd9zUoq7S6cIeYJt53KRCJnTxcOhCNwxinwYj0uJRYTBG6+U43mzodU
+ =
+X-Google-Smtp-Source: AGHT+IHTpzBdhBkZuJ6jOzC/L6tCY+qQ00w02O5j4n0w09sM53XfkQjAEmccuG1XboW9qfjR63gynA==
+X-Received: by 2002:a05:6214:40c:b0:6b9:5fb9:113f with SMTP id
+ 6a1803df08f44-6bb55a7a9admr6094416d6.27.1722014503855; 
+ Fri, 26 Jul 2024 10:21:43 -0700 (PDT)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com.
+ [209.85.160.176]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6bb3fb190c0sm18185006d6.146.2024.07.26.10.21.41
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Jul 2024 10:21:41 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-44e534a1fbeso13791cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 10:21:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWboXZCzIlj4NWBCZKEUIfRCFOlbOZcVP+oLUW04RyfR849RcpMhGo8d/muHM257INKJhYhyKhuFabg/3Cnu4AGJ1vOIShpSCpFq37mUfP0
+X-Received: by 2002:a05:622a:60e:b0:447:f891:d41d with SMTP id
+ d75a77b69052e-44ff3b38036mr3576011cf.18.1722014500672; Fri, 26 Jul 2024
+ 10:21:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <411dd184-f71a-4d0e-ba82-068a1f0c9206@habana.ai>
+References: <20240725115229.3416028-1-zhouhaikun5@huaqin.corp-partner.google.com>
+In-Reply-To: <20240725115229.3416028-1-zhouhaikun5@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 26 Jul 2024 10:21:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XGBEB2JjvugPqPRdZhvtr92H+UXy_+_dYBacZrsvpnGA@mail.gmail.com>
+Message-ID: <CAD=FV=XGBEB2JjvugPqPRdZhvtr92H+UXy_+_dYBacZrsvpnGA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add CSW MNB601LS1-4
+To: Haikun Zhou <zhouhaikun5@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,15 +92,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 26, 2024 at 02:56:04PM +0000, Tomer Tayar wrote:
-> 
-> Okay, no problem, I wont change the code.
-> 
-> Unless you are against it, I think I can still add a short comment
-> before calling fput(), explaining why it is okay to access 'ctx' at
-> that point. Thanks, Tomer
+Hi,
 
-A comment would be grand.  Thanks!
+On Thu, Jul 25, 2024 at 4:53=E2=80=AFAM Haikun Zhou
+<zhouhaikun5@huaqin.corp-partner.google.com> wrote:
+>
+> Add support for the CSW MNB601LS1-4, pleace the EDID here for
+> subsequent reference.
+> 00 ff ff ff ff ff ff 00 0e 77 04 11 00 00 00 00
+> 00 22 01 04 a5 1a 0e 78 03 a1 35 9b 5e 58 91 25
+> 1c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 09 1e 56 dc 50 00 28 30 30 20
+> 36 00 00 90 10 00 00 1a 00 00 00 fd 00 28 3c 30
+> 30 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
+> 53 4f 54 20 54 39 0a 20 20 20 20 20 00 00 00 fe
+> 00 4d 4e 42 36 30 31 4c 53 31 2d 34 0a 20 00 20
+>
+> Signed-off-by: Haikun Zhou <zhouhaikun5@huaqin.corp-partner.google.com>
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-regards,
-dan carpenter
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+Applied, thanks!
+
+[1/1] drm/panel-edp: Add CSW MNB601LS1-4
+      commit: 9d8e91439fc3890de55eef2bcfde97470b7dc04d
