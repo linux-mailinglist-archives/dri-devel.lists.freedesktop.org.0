@@ -2,53 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436E793CBC1
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 02:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82EE293CBD5
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 02:07:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9979010E8DE;
-	Fri, 26 Jul 2024 00:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 955D010E8E4;
+	Fri, 26 Jul 2024 00:07:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="B+foPUVY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gFdAH1Q8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC3B10E8DE
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 00:05:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1721952306;
- bh=mN07B61qlyvIVefgbdWzoW4BwXM+ZnsPBIXQtQ3boyU=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=B+foPUVY7V6vCe6Y/ahGM5sTdzg0Ub4bpgQwLndexM2uX0tn1CZIUeFd7a8zO6dPf
- 3jFEDOVjI2VNrn74aG9k6LtESQEL7EVW2vK+AZLu1dSmoOLhl8ADx9BvQpySOmw/Sj
- lnSQJqJO29w4ON0a+3l4wTd9tuujedBKbCkoX3l0x3hzmIq/ctIWz2FQSupY5NHK2v
- dQvNcL3U5qGP1kqS+3zHVUsHSEIqndMhf1O6qpaPVIUcbwaDHcW6TdcSHxBp/pw9qd
- W30AyZDN4BZc2t/QrqjznvrVypB90JJpGhoFaMp+zuw2BlD9nPU7zUu9nSJHbfqbVn
- krYXu0IdJdB0w==
-Received: from [10.3.2.176] (zone.collabora.co.uk [167.235.23.81])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5BD353782039;
- Fri, 26 Jul 2024 00:05:04 +0000 (UTC)
-Message-ID: <72d57079-267f-4cd6-84cd-815c3b2c016b@collabora.com>
-Date: Thu, 25 Jul 2024 21:05:01 -0300
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AB6010E8E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 00:07:06 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-44fea2d40adso663991cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 17:07:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1721952425; x=1722557225; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=9mhrx66p4k+0HqBnVFIS3fmt62myrp/Me7feWqvjhdI=;
+ b=gFdAH1Q8HxpsTBI+TdZWzBJR4MmY2eONZ4bPZRAma+xLSSduuX3BmE09RRiohOnF29
+ 4QMvWiLyDUIBBDi2nG0NBkd2dffwOdos85I21N0LVAg3ZUyLpoKCP8weCUxwvQZdz095
+ ZXjKRM9oaOIs0KXvPlvQFhKDB5WD4yuLFZxYlyXqyTT1cpoZLtpXtj0szBWvrg152slN
+ i+9n6xYXaAcVUhF7N4ypkr7woltksTzV1CUoGizkbayOUo0C4F3SDpI3zduVPBDDCUu4
+ 55UfY9TEf0hSmveB0doHBM81XyvUeiTpURuLg5HhauTjvAdFSWYe2Wm5xK5XuCKiYvvY
+ 1C0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1721952425; x=1722557225;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9mhrx66p4k+0HqBnVFIS3fmt62myrp/Me7feWqvjhdI=;
+ b=oUaGn6XOm3Vqk1WBOlN+GOeZsClOFQ97ThNcZicTuMiMkXxrJjLe3em6bLy+yVOEuh
+ 1yQWfFPysj5SlG3Bs09HkrZ+nOKOrwujADECYXfgLZkoh655GGQcg9DIOYRiqjyoi81c
+ wGjkjWk6cxV+TK1IxbLUvq1CHml+Vg9BvgjTzbCXeHfDj66xeeCSQVXTSZ1n5F8XfHvT
+ SyGq6h6ui6ryihVMVxLtujXLkv4i6io/gcBlOInJlOQ0LJPGni4UXoCCeq5RnEZAEr/Q
+ +K/Ra+MmN6byxEcg8Qt7otUCmU8hqBrALwgh+9AvbFY50tf03/1AF42K+KnAgGaqYgHq
+ QvDw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWnCyvsgZD7P3m3IJcvE/tpT+b2BOSp/hbsmoeuRCMTQk89XjAHrtVAhsJt3ZL3A3Oipq7kJ833XldWMcQStXciFYSIOCTd6Z4jMCUCFFtD
+X-Gm-Message-State: AOJu0Yw5M4murDbGqjfI6egtiMKc9Fx306GG8JT+E1ge2st7bUrpwngR
+ 6uBfGBTxt5cH3fBjweno4qXAseyRYNs3WdS2g5SwRuT5AgpJGgrX
+X-Google-Smtp-Source: AGHT+IGGfUcDRIS2ADeLCH+O/5hJ5jOciW87T8ynnw+FeWzNqY38U4MpJcRIw508BOtTHDbLgyKoBA==
+X-Received: by 2002:a05:6214:da3:b0:6b7:a6eb:c343 with SMTP id
+ 6a1803df08f44-6bb4087082dmr46978076d6.51.1721952425017; 
+ Thu, 25 Jul 2024 17:07:05 -0700 (PDT)
+Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6bb3fab9639sm11506416d6.103.2024.07.25.17.07.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Jul 2024 17:07:04 -0700 (PDT)
+Date: Thu, 25 Jul 2024 20:07:01 -0400
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: mehdi.djait@bootlin.com, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Mehdi Djait <mehdi.djait.k@gmail.com>
+Subject: Re: [PATCH 0/2] Add driver for Sharp Memory LCD
+Message-ID: <vlhicmhpvqkvdbyq2dsgqmofst5a5rjztr3uhp3bwyjhv3kqog@lu5lqtey262n>
+References: <20240725004734.644986-1-lanzano.alex@gmail.com>
+ <20240725074532.65616a26@windsurf>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ci: update link to Gitlab server
-From: Helen Koike <helen.koike@collabora.com>
-To: Deborah Brouwer <deborah.brouwer@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, vignesh.raman@collabora.com,
- sergi.blanch.torne@collabora.com, guilherme.gallo@collabora.com,
- robdclark@gmail.com
-References: <20240717235221.64629-1-deborah.brouwer@collabora.com>
- <6d958123-1e4e-4a40-aedb-9a88de6e7dda@collabora.com>
-Content-Language: en-US
-In-Reply-To: <6d958123-1e4e-4a40-aedb-9a88de6e7dda@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240725074532.65616a26@windsurf>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,57 +89,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 18/07/2024 08:16, Helen Koike wrote:
+On Thu, Jul 25, 2024 at 07:45:32AM GMT, Thomas Petazzoni wrote:
+> Hello Alex,
 > 
+> On Wed, 24 Jul 2024 20:47:01 -0400
+> Alex Lanzano <lanzano.alex@gmail.com> wrote:
 > 
-> On 17/07/2024 20:52, Deborah Brouwer wrote:
->> Before building an image, the build script looks to see if there are 
->> fixes
->> to apply from an upstream repository. The link for the upstream 
->> repository
->> git://anongit.freedesktop.org/drm/drm became obsolete with the move to
->> Gitlab server in March 2024. Until recently, this obsolete link was
->> harmless because anongit would at least respond that there were no such
->> fixes available. In the last few days anongit has stopped responding to
->> requests causing the build script to hang indefinitely.
->>
->> Update the link from anongit to the Gitlab server to prevent the build
->> script from hanging indefinitely.
->>
->> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> > This patch series add support for the monochrome Sharp Memory LCD
+> > panels. This series is based off of the work done by Mehdi Djait.
 > 
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-> 
-> Thanks
-> Helen
-> 
+> Thanks for resuming the effort on this patch series! Since this patch
+> series is clearly heavily based on Mehdi's work, wouldn't it make sense
+> to preserve Mehdi's authorship for the patches?
 
-Applied to drm-misc-next
+Hi! Thanks for the review. 
 
-Thanks
-Helen
-
->> ---
->> Link to pipeline for this change:
->> https://gitlab.freedesktop.org/dbrouwer/kernel/-/pipelines/1226742
->>
->>   drivers/gpu/drm/ci/gitlab-ci.yml | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/ 
->> gitlab-ci.yml
->> index b09976c3d2c2..259fb1c9a855 100644
->> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
->> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
->> @@ -2,7 +2,7 @@ variables:
->>     DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
->>     DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 
->> e2b9c5a9e3e4f9b532067af8022eaef8d6fc6c00
->> -  UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
->> +  UPSTREAM_REPO: https://gitlab.freedesktop.org/drm/kernel.git
->>     TARGET_BRANCH: drm-next
->>     IGT_VERSION: f13702b8e4e847c56da3ef6f0969065d686049c5
-> 
-
+What would be the best way to go about doing this? I'm guessing appending to
+MODULE_AUTHOR and adding a Signed-of-by or Co-Developed-by?
