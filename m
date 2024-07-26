@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9B493D060
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 11:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6CA93D063
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 11:26:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D71A10E0A4;
-	Fri, 26 Jul 2024 09:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9787810E885;
+	Fri, 26 Jul 2024 09:26:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="bFpThItc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AENbfCkK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1CF310E0A4;
- Fri, 26 Jul 2024 09:25:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE03E10E885;
+ Fri, 26 Jul 2024 09:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1721985986; x=1753521986;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=BQ4GhWvDEGszw4lnTWN0qHPj27P6TA3C2h9AmB4XPcs=;
+ b=AENbfCkKfolPbCI1Ww7HWKR1kzX5nzQhKuukwn2u6Qy4fuxkM7STeTL1
+ 1rLGLbHoSXesfc/oY7xo7diEIz7ajeYZELFa/jtjYGqNV0Fxa7k7BX11Y
+ P2afI2IfP2cZSBhe5os2IWwdet5uhkdLH3nN8s/jZuNkwipIfoUaWRxkp
+ 6GUhGEpOUwNLPPbBM2h7wqX09EzaiOXd4ZSvdHCHGnDFAaHr40PLMsItR
+ R2KF0pdSdg7EmtfKn0pgqDBy8u4mpsfPSX7StR9hKehZNr28sx9ebO43Y
+ zsAJlKfxdBwo9AqcHA2xRTJGPkLudMErGmObx1f5eSn90kMIVJ2FV90Fb A==;
+X-CSE-ConnectionGUID: itPK7EvwR7a9iXPKdOfLNA==
+X-CSE-MsgGUID: yUw1xOJ9QTe+G6jtSbCKxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="30925144"
+X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="30925144"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2024 02:26:26 -0700
+X-CSE-ConnectionGUID: mbXn2+yjTcquWSfsPw4mXw==
+X-CSE-MsgGUID: tCZ2w0N8QN+CD/6Nwp2akQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="53226183"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2024 02:26:22 -0700
+Date: Fri, 26 Jul 2024 12:26:18 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: "Nilawar, Badal" <badal.nilawar@intel.com>
+Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ anshuman.gupta@intel.com, riana.tauro@intel.com,
+ ashutosh.dixit@intel.com, karthik.poosa@intel.com,
+ andriy.shevchenko@linux.intel.com
+Subject: Re: [PATCH v1] drm/i915/hwmon: expose fan speed
+Message-ID: <ZqNruj3mCH_EYbUD@black.fi.intel.com>
+References: <20240712122356.360613-1-raag.jadav@intel.com>
+ <84061e47-3e6b-45c4-bc4b-db70da6b67f8@intel.com>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1721985921;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z4ej9uQlkgaVcGVy1Ohgr+yLkgvgk4zC7swvR0qmFzY=;
- b=bFpThItclFSiKz0P0CQXuz6U4XPfxRZbQ9DCtClgFw6JctgzGeyDPLaMwYQCaV+duazz2Q
- T0xj96ENW48yjoEJhVDsD28to17USjGs3kH54ZTTyuulmB40sNVF1PIldcLMt89V1VbF0B
- r88YZEbZ0wYKW2hjHAgdA0Ou9d3/CEHLWp2gYslfEDbV4+RhXW23d3ylJngd7nfmU2TI3Q
- Ezr6DN8dAEwlosUX/yKvsmG/pjAZMt7ZmhhKlVnjWBIQXxw5a2am0iPywsTG4Z2f1HzAH5
- aDzyDfjSjb88/p60PYdRhfaqcdbyTYCgXOXMY1dtHeMowcsSNAMLBvOP/jToVA==
-Date: Fri, 26 Jul 2024 11:25:19 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Qiang Yu <yuq825@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- linux-kernel@vger.kernel.org, Philip Muller <philm@manjaro.org>, Oliver
- Smith <ollieparanoid@postmarketos.org>, Daniel Smith <danct12@disroot.org>,
- stable@vger.kernel.org
-Subject: Re: [PATCH] drm/lima: Mark simple_ondemand governor as softdep
-In-Reply-To: <CAKGbVbukwz5naLwe7oW+UU8Ghtz6PmTjZ8k0PNZr2+h1Y20Qzw@mail.gmail.com>
-References: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
- <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
- <CAKGbVbsM4rCprWdp+aGXE-pvCkb6N7weUyG2z4nXqFpv+y=LrA@mail.gmail.com>
- <20240618-great-hissing-skink-b7950e@houat>
- <4813a6885648e5368028cd822e8b2381@manjaro.org>
- <457ae7654dba38fcd8b50e38a1275461@manjaro.org>
- <2c072cc4bc800a0c52518fa2476ef9dd@manjaro.org>
- <CAKGbVbsGm7emEPzGuf0Xn5k22Pbjfg9J9ykJHtvDF3SacfDg6A@mail.gmail.com>
- <74c69c3bb4498099a195ec890e1a7896@manjaro.org>
- <4498852466ec9b49cc5288c5f091b3ae@manjaro.org>
- <CAKGbVbucXy+5Sn9U55DY69Lw9bQ+emmN1G4L8DQcUC1wdFSP_Q@mail.gmail.com>
- <7d1c35d6829f00fa62ea39b6fee656be@manjaro.org>
- <CAKGbVbukwz5naLwe7oW+UU8Ghtz6PmTjZ8k0PNZr2+h1Y20Qzw@mail.gmail.com>
-Message-ID: <6c24efecbead9b7c58226487adc3065a@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <84061e47-3e6b-45c4-bc4b-db70da6b67f8@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,132 +74,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-07-26 10:54, Qiang Yu wrote:
-> On Fri, Jul 26, 2024 at 4:03 PM Dragan Simic <dsimic@manjaro.org> 
-> wrote:
->> On 2024-07-26 08:07, Qiang Yu wrote:
->> > Yeah, I agree weakdep is a better choice here. It solves the confusion
->> > of softdep which the depend module is optional.
->> 
->> Thanks, I'm glad that you agree.
->> 
->> > But I prefer using weakdep directly instead of creating an aliasing of
->> > it which has no actual difference.
->> 
->> Just checking, did you have a chance to read what I wrote in my 
->> earlier
->> response on the linux-modules mailing list, [7] which includes a 
->> rather
->> elaborate explanation of the intent behind MODULE_HARDDEP being
->> currently
->> just a proposed alias for MODULE_WEAKDEP?  It also describes why using
->> this alias might save use some time and effort in the future.
->> 
->> [7] 
->> https://lore.kernel.org/linux-modules/0720a516416a92a8f683053d37ee9481@manjaro.org/
->> 
-> Yeah, I've seen that mail. But I haven't seen clearly how weakdep will 
-> change
-> in the future which could break our usage here. As an interface exposed 
-> to other
-> users, I expect it should be stable.
+On Wed, Jul 24, 2024 at 02:11:40PM +0530, Nilawar, Badal wrote:
+> 
+> 
+> On 12-07-2024 17:53, Raag Jadav wrote:
+> > Add hwmon support for fan1_input attribute, which will expose fan speed
+> > in RPM. With this in place we can monitor fan speed using lm-sensors tool.
+> > 
+> > $ sensors
+> > i915-pci-0300
+> > Adapter: PCI adapter
+> > in0:         653.00 mV
+> > fan1:        3833 RPM
+> > power1:           N/A  (max =  43.00 W)
+> > energy1:      32.02 kJ
+> > 
+> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/intel_gt_regs.h |  2 +
+> >   drivers/gpu/drm/i915/i915_hwmon.c       | 71 +++++++++++++++++++++++++
+> >   2 files changed, 73 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > index e42b3a5d4e63..407d8152755a 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > @@ -1553,6 +1553,8 @@
+> >   #define VLV_RENDER_C0_COUNT			_MMIO(0x138118)
+> >   #define VLV_MEDIA_C0_COUNT			_MMIO(0x13811c)
+> > +#define GEN12_PWM_FAN_SPEED			_MMIO(0x138140)
+> > +
+> >   #define GEN12_RPSTAT1				_MMIO(0x1381b4)
+> >   #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
+> >   #define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
+> > diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+> > index 49db3e09826c..f829c7837d83 100644
+> > --- a/drivers/gpu/drm/i915/i915_hwmon.c
+> > +++ b/drivers/gpu/drm/i915/i915_hwmon.c
+> > @@ -36,6 +36,7 @@ struct hwm_reg {
+> >   	i915_reg_t pkg_rapl_limit;
+> >   	i915_reg_t energy_status_all;
+> >   	i915_reg_t energy_status_tile;
+> > +	i915_reg_t fan_speed;
+> >   };
+> >   struct hwm_energy_info {
+> > @@ -43,11 +44,17 @@ struct hwm_energy_info {
+> >   	long accum_energy;			/* Accumulated energy for energy1_input */
+> >   };
+> > +struct hwm_fan_info {
+> > +	u32 reg_val_prev;
+> > +	u32 time_prev;
+> > +};
+> > +
+> >   struct hwm_drvdata {
+> >   	struct i915_hwmon *hwmon;
+> >   	struct intel_uncore *uncore;
+> >   	struct device *hwmon_dev;
+> >   	struct hwm_energy_info ei;		/*  Energy info for energy1_input */
+> > +	struct hwm_fan_info fi;			/*  Fan info for fan1_input */
+> >   	char name[12];
+> >   	int gt_n;
+> >   	bool reset_in_progress;
+> > @@ -276,6 +283,7 @@ static const struct hwmon_channel_info * const hwm_info[] = {
+> >   	HWMON_CHANNEL_INFO(power, HWMON_P_MAX | HWMON_P_RATED_MAX | HWMON_P_CRIT),
+> >   	HWMON_CHANNEL_INFO(energy, HWMON_E_INPUT),
+> >   	HWMON_CHANNEL_INFO(curr, HWMON_C_CRIT),
+> > +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
+> >   	NULL
+> >   };
+> > @@ -613,6 +621,55 @@ hwm_curr_write(struct hwm_drvdata *ddat, u32 attr, long val)
+> >   	}
+> >   }
+> > +static umode_t
+> > +hwm_fan_is_visible(const struct hwm_drvdata *ddat, u32 attr)
+> > +{
+> > +	struct i915_hwmon *hwmon = ddat->hwmon;
+> > +
+> > +	switch (attr) {
+> > +	case hwmon_fan_input:
+> > +		return i915_mmio_reg_valid(hwmon->rg.fan_speed) ? 0444 : 0;
+> > +	default:
+> > +		return 0;
+> > +	}
+> > +}
+> > +
+> > +static int
+> > +hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
+> > +{
+> > +	struct i915_hwmon *hwmon = ddat->hwmon;
+> > +	u32 reg_val, rotation, time, time_now;
+> > +	intel_wakeref_t wakeref;
+> > +
+> > +	switch (attr) {
+> > +	case hwmon_fan_input:
+> > +		with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
+> Do we expect fan running when device is in D3? If not then we should use
+> with_intel_runtime_pm_if_active here otherwise report fan speed 0.
 
-Let me clarify, please.
+Yes, it can be running depending on package temperature.
+So better to rely on hardware value.
 
-The intent isn't to prevent breakage, but to future-proof our weakdeps
-that are actually harddeps under the hood.  Of course, weakdeps aren't
-expected to become unsuitable for our needs in the future, but we might
-actually need to treat our uses of weakdeps as harddeps at some point,
-so marking them as (currently aliased) harddeps leaves clear "earmarks"
-for us in the future.
-
-The Btrfs example, which I used in my earlier response on linux-modules,
-shows how such "earmarks" can be useful after some time passes.
-
->> > On Thu, Jul 25, 2024 at 4:21 PM Dragan Simic <dsimic@manjaro.org>
->> > wrote:
->> >>
->> >> Hello Qiang,
->> >>
->> >> On 2024-06-26 08:49, Dragan Simic wrote:
->> >> > On 2024-06-26 03:11, Qiang Yu wrote:
->> >> >> On Wed, Jun 26, 2024 at 2:15 AM Dragan Simic <dsimic@manjaro.org>
->> >> >> wrote:
->> >> >>> Just checking, any further thoughts about this patch?
->> >> >>>
->> >> >> I'm OK with this as a temp workaround because it's simple and do no
->> >> >> harm
->> >> >> even it's not perfect. If no other better suggestion for short term,
->> >> >> I'll submit
->> >> >> this at weekend.
->> >> >
->> >> > Thanks.  Just as you described it, it's far from perfect, but it's
->> >> > still
->> >> > fine until there's a better solution, such as harddeps.  I'll continue
->> >> > my
->> >> > research about the possibility for adding harddeps, which would
->> >> > hopefully
->> >> > replace quite a few instances of the softdep (ab)use.
->> >>
->> >> Another option has become available for expressing additional module
->> >> dependencies, weakdeps. [1][2]  Long story short, weakdeps are similar
->> >> to softdeps, in the sense of telling the initial ramdisk utilities to
->> >> include additional kernel modules, but weakdeps result in no module
->> >> loading being performed by userspace.
->> >>
->> >> Maybe "weak" isn't the best possible word choice (arguably, "soft"
->> >> also
->> >> wasn't the best word choice), but weakdeps should be a better choice
->> >> for
->> >> use with Lima and governor_simpleondemand, because weakdeps provide
->> >> the
->> >> required information to the utilities used to generate initial
->> >> ramdisk,
->> >> while the actual module loading is left to the kernel.
->> >>
->> >> The recent addition of weakdeps renders the previously mentioned
->> >> harddeps
->> >> obsolete, because weakdeps actually do what we need.  Obviously,
->> >> "weak"
->> >> doesn't go along very well with the actual nature of the dependency
->> >> between
->> >> Lima and governor_simpleondemand, but it's pretty much just the
->> >> somewhat
->> >> unfortunate word choice.
->> >>
->> >> The support for weakdeps has been already added to the kmod [3][4] and
->> >> Dracut [5] userspace utilities.  I'll hopefully add support for
->> >> weakdeps
->> >> to mkinitcpio [6] rather soon.
->> >>
->> >> Maybe we could actually add MODULE_HARDDEP() as some kind of syntactic
->> >> sugar, which would currently be an alias for MODULE_WEAKDEP(), so the
->> >> actual hard module dependencies could be expressed properly, and
->> >> possibly
->> >> handled differently in the future, with no need to go back and track
->> >> all
->> >> such instances of hard module dependencies.
->> >>
->> >> With all this in mind, here's what I'm going to do:
->> >>
->> >> 1) Submit a patch that adds MODULE_HARDDEP() as syntactic sugar
->> >> 2) Implement support for weakdeps in Arch Linux's mkinitcpio [6]
->> >> 3) Depending on what kind of feedback the MODULE_HARDDEP() patch
->> >> receives,
->> >>     I'll submit follow-up patches for Lima and Panfrost, which will
->> >> swap
->> >>     uses of MODULE_SOFTDEP() with MODULE_HARDDEP() or MODULE_WEAKDEP()
->> >>
->> >> Looking forward to your thoughts.
->> >>
->> >> [1]
->> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/linux/module.h?id=61842868de13aa7fd7391c626e889f4d6f1450bf
->> >> [2]
->> >> https://lore.kernel.org/linux-kernel/20240724102349.430078-1-jtornosm@redhat.com/T/#u
->> >> [3]
->> >> https://github.com/kmod-project/kmod/commit/05828b4a6e9327a63ef94df544a042b5e9ce4fe7
->> >> [4]
->> >> https://github.com/kmod-project/kmod/commit/d06712b51404061eef92cb275b8303814fca86ec
->> >> [5]
->> >> https://github.com/dracut-ng/dracut-ng/commit/8517a6be5e20f4a6d87e55fce35ee3e29e2a1150
->> >> [6] https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio
+Raag
