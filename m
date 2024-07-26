@@ -2,66 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A51093CF9A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 10:26:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9347F93CFC2
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 10:44:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01DDF10E2D1;
-	Fri, 26 Jul 2024 08:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 492CF10E027;
+	Fri, 26 Jul 2024 08:44:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aPxNnRVL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="laNhUgog";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1332F10E103;
- Fri, 26 Jul 2024 08:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1721982363; x=1753518363;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=dzHtMzHbaJ2yE5UIrMONtQRc75u7v0DvZWr8hP/nT0E=;
- b=aPxNnRVLt9IxWlwV6Nsi4R/LQiMjHXzTsPW86TKAf65YmvaVJdBQRCHq
- +rGv224vaC1NBmQBQrNvzs0WOdH3/WoGQAGp/WT13lKvQ7RIQISMUA5cV
- /rM1gIfm+cphCmRcA+YITExTGjpMX6QH8u2Gbri59gaGiOEiABn5kDo4J
- BJJaDFJavrKYpvJJk+Ojk+LfJ7Y3MSva2Uex19oh+CyGIC+4bavi1/1hv
- wlPUf6XIyrCdt5hUY1IxDHLykBUDbvrVEVBo84YfqBQH07kstJY9AoZ9u
- hvmPn4yb61zkLTheUhngToWui36Q5SCn6cYx4bDlbyFjCqI/FZIAAhjrI Q==;
-X-CSE-ConnectionGUID: 0Eg+Xr6cTGyBCSRJVdDwNA==
-X-CSE-MsgGUID: 1hsJV0LjRcG+pPrpBm7xyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="19892092"
-X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="19892092"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2024 01:26:00 -0700
-X-CSE-ConnectionGUID: khyK4IXFRY6UMJBtoOLvfw==
-X-CSE-MsgGUID: lvwBMgd3Tnq2BcaUZpQp0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; d="scan'208";a="53214226"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.66])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2024 01:25:56 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH] drm/i915: Fix possible int overflow in
- skl_ddi_calculate_wrpll()
-In-Reply-To: <e6c131df-64b6-4856-8778-0fa7e8c7c876@fintech.ru>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240724184911.12250-1-n.zhandarovich@fintech.ru>
- <87sevxzy0i.fsf@intel.com>
- <e6c131df-64b6-4856-8778-0fa7e8c7c876@fintech.ru>
-Date: Fri, 26 Jul 2024 11:25:52 +0300
-Message-ID: <87ed7gzhin.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68BD10E027
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 08:44:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 40FBE60EB2;
+ Fri, 26 Jul 2024 08:44:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850DEC32782;
+ Fri, 26 Jul 2024 08:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1721983444;
+ bh=eejb5Z2iHiQafBsqMRmDNsCTSs9ds9yQSnrjZYsNM6k=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=laNhUgog5zdxQOChAauSSYv6EbLXiS4tVNsuzMZoKntWseRpNRns7yptfpQ3U1TRd
+ MPykf72StMZBxhF3WPEjdEjZb9LuJ4pValMuRcwPPK/fvS/p0xBLenLjEPmnIVWU3S
+ 4nxGhc2kaV9a6iIo9DYT1TEPtVrdkmlmsWvLM3PilRHF0eISyJKz5aCHHB3YoJUFSb
+ 9/BwkBK1id8Bl0Z+1HjbWoab10uaXaDKrJhWCXPo+sK47opZY0eT+gLcUNnsbZXod1
+ fqUbwjNmLWxm7uckQSTjQ5kkDTH0TvwQ4ocueSiLDYfYMrn7Trlo5Wy8rJsFxlo2eV
+ F1r7eSf2CXeJA==
+Message-ID: <68a75949-a908-4416-bb2c-ad07596f0d29@kernel.org>
+Date: Fri, 26 Jul 2024 10:43:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/tiny: Add driver for Sharp Memory LCD
+To: Alex Lanzano <lanzano.alex@gmail.com>
+Cc: mehdi.djait@bootlin.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240725004734.644986-1-lanzano.alex@gmail.com>
+ <20240725004734.644986-3-lanzano.alex@gmail.com>
+ <0f98db88-71d4-43a6-85f7-a9661c50a382@kernel.org>
+ <j5laj5fy4lamyhlyelaq5vfu5vfxj4ybrssrbvrbyndbnvmsyh@6voevw6f3xf7>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <j5laj5fy4lamyhlyelaq5vfu5vfxj4ybrssrbvrbyndbnvmsyh@6voevw6f3xf7>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,167 +110,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 25 Jul 2024, Nikita Zhandarovich <n.zhandarovich@fintech.ru> wrote:
-> Hi,
->
-> On 7/25/24 01:17, Jani Nikula wrote:
->> On Wed, 24 Jul 2024, Nikita Zhandarovich <n.zhandarovich@fintech.ru> wrote:
->>> On the off chance that clock value ends up being too high (by means
->>> of skl_ddi_calculate_wrpll() having benn called with big enough
->>> value of crtc_state->port_clock * 1000), one possible consequence
->>> may be that the result will not be able to fit into signed int.
->>>
->>> Fix this, albeit unlikely, issue by first casting one of the operands
->>> to u32, then to u64, and thus avoid causing an integer overflow.
->> 
->> Okay, thanks for the patch, but please let's not do this.
->> 
->> Currently the highest possible port clock is 2000000 kHz, and 1000 times
->> that fits into 31 bits. When we need to support higher clocks, we'll
->> need to handle this. But not like this.
->> 
->> That (u64)(u32) is just too unintuitive, and assumes the caller has
->> already passed in something that has overflown. People are just going to
->> pause there, and wonder what's going on.
->> 
->> If we want to appease the static analyzer, I think a better approach
->> would be to change the parameter to u64 clock_hz, and have the caller
->> do:
->> 
->> 	ret = skl_ddi_calculate_wrpll((u64)crtc_state->port_clock * 1000,
->> 				      i915->display.dpll.ref_clks.nssc, &wrpll_params);
->> 
->> BR,
->> Jani.
->> 
->
-> First, I agree that using (u64)(u32) is confusing and not intuitive,
-> even if there are some similar examples in kernel code.
->
-> The reason why I thought I had to opt for it though is the following: I
-> was worried that if the int value of 'clock' in
-> skl_ddi_calculate_wrpll() is big enough (specifically, high bit is 1),
-> then after casting it to long or u64 in this case, the resulting value
-> of wider type will have all its ~32 upper bits also set to 1, per rules
-> of Integer Promotion. Changing the type from signed to unsigned, then to
-> bigger unsigned seems to mitigate *this* particular issue and I can't
-> come up with a more elegant solution at the moment. Correct me if I'm
-> wrong somewhere.
->
-> Also, while port clock may be able to fit its value timed 1000 into 31
-> bits, multiplying it by 5 to get AFE Clock value, as far as I can see,
-> *will* lead to overflow, as 2,000,000,000 * 5 won't fit into 32 bits.
->
-> To sum it up, with current max possible port clock values an integer
-> overflow can occur and changing 'clock' parameter from int to u64 may
-> lead to a different issue. If my understanding about integer promotion
-> is flawed, I'll gladly send v2 patch with your solution.
+On 26/07/2024 03:25, Alex Lanzano wrote:
+> On Thu, Jul 25, 2024 at 08:08:57AM GMT, Krzysztof Kozlowski wrote:
+>> On 25/07/2024 02:47, Alex Lanzano wrote:
+>>> +static const struct spi_device_id sharp_memory_ids[] = {
+>>> +	{"ls010b7dh04", LS010B7DH04},
+>>> +	{"ls011b7dh03", LS011B7DH03},
+>>> +	{"ls012b7dd01", LS012B7DD01},
+>>> +	{"ls013b7dh03", LS013B7DH03},
+>>> +	{"ls013b7dh05", LS013B7DH05},
+>>> +	{"ls018b7dh02", LS018B7DH02},
+>>> +	{"ls027b7dh01", LS027B7DH01},
+>>> +	{"ls027b7dh01a", LS027B7DH01A},
+>>> +	{"ls032b7dd02", LS032B7DD02},
+>>> +	{"ls044q7dh01", LS044Q7DH01},
+>>> +	{},
+>>> +};
+>>> +MODULE_DEVICE_TABLE(spi, sharp_memory_ids);
+>>> +
+>>> +static const struct of_device_id sharp_memory_of_match[] = {
+>>> +	{.compatible = "sharp,ls010b7dh04"},
+>>
+>> Both ID tables should be in sync. See not-so-recent IIO discussions and
+>> commits.
+>>
+>>> +	{.compatible = "sharp,ls011b7dh03"},
+>>> +	{.compatible = "sharp,ls012b7dd01"},
+>>> +	{.compatible = "sharp,ls013b7dh03"},
+>>> +	{.compatible = "sharp,ls013b7dh05"},
+>>> +	{.compatible = "sharp,ls018b7dh02"},
+>>> +	{.compatible = "sharp,ls027b7dh01"},
+>>> +	{.compatible = "sharp,ls027b7dh01a"},
+>>> +	{.compatible = "sharp,ls032b7dd02"},
+>>> +	{.compatible = "sharp,ls044q7dh01"},
+>>> +	{},
+>>> +};
+>>> +MODULE_DEVICE_TABLE(of, sharp_memory_of_match);
+> 
+> I'm having some trouble finding the discussions and commits you're referring to.
+> When you say the tables should be in sync are you referring to the ordering of
+> entries in the tables? Like at index x of both tables should define model y?
 
-This is what I'm suggesting. Cast the clock (which is in kHz) to u64
-before multiplication, and avoid overflows.
+No, the match data.
 
-Option 1, preferred:
+62d3fb9dcc091ccdf25eb3b716e90e07e3ed861f
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-index 90998b037349..292d163036b1 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-@@ -1658,7 +1658,7 @@ static void skl_wrpll_params_populate(struct skl_wrpll_params *params,
- }
- 
- static int
--skl_ddi_calculate_wrpll(int clock /* in Hz */,
-+skl_ddi_calculate_wrpll(int clock,
- 			int ref_clock,
- 			struct skl_wrpll_params *wrpll_params)
- {
-@@ -1683,7 +1683,7 @@ skl_ddi_calculate_wrpll(int clock /* in Hz */,
- 	};
- 	unsigned int dco, d, i;
- 	unsigned int p0, p1, p2;
--	u64 afe_clock = clock * 5; /* AFE Clock is 5x Pixel clock */
-+	u64 afe_clock = (u64)clock * 1000 * 5; /* AFE Clock is 5x Pixel clock, in Hz */
- 
- 	for (d = 0; d < ARRAY_SIZE(dividers); d++) {
- 		for (dco = 0; dco < ARRAY_SIZE(dco_central_freq); dco++) {
-@@ -1808,7 +1808,7 @@ static int skl_ddi_hdmi_pll_dividers(struct intel_crtc_state *crtc_state)
- 	struct skl_wrpll_params wrpll_params = {};
- 	int ret;
- 
--	ret = skl_ddi_calculate_wrpll(crtc_state->port_clock * 1000,
-+	ret = skl_ddi_calculate_wrpll(crtc_state->port_clock,
- 				      i915->display.dpll.ref_clks.nssc, &wrpll_params);
- 	if (ret)
- 		return ret;
+Best regards,
+Krzysztof
 
-Option 2, this is what I suggested earlier:
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-index 90998b037349..a48a45f30f17 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-@@ -1658,7 +1658,7 @@ static void skl_wrpll_params_populate(struct skl_wrpll_params *params,
- }
- 
- static int
--skl_ddi_calculate_wrpll(int clock /* in Hz */,
-+skl_ddi_calculate_wrpll(u64 clock_hz,
- 			int ref_clock,
- 			struct skl_wrpll_params *wrpll_params)
- {
-@@ -1683,7 +1683,7 @@ skl_ddi_calculate_wrpll(int clock /* in Hz */,
- 	};
- 	unsigned int dco, d, i;
- 	unsigned int p0, p1, p2;
--	u64 afe_clock = clock * 5; /* AFE Clock is 5x Pixel clock */
-+	u64 afe_clock = clock_hz * 5; /* AFE Clock is 5x Pixel clock */
- 
- 	for (d = 0; d < ARRAY_SIZE(dividers); d++) {
- 		for (dco = 0; dco < ARRAY_SIZE(dco_central_freq); dco++) {
-@@ -1808,7 +1808,7 @@ static int skl_ddi_hdmi_pll_dividers(struct intel_crtc_state *crtc_state)
- 	struct skl_wrpll_params wrpll_params = {};
- 	int ret;
- 
--	ret = skl_ddi_calculate_wrpll(crtc_state->port_clock * 1000,
-+	ret = skl_ddi_calculate_wrpll((u64)crtc_state->port_clock * 1000,
- 				      i915->display.dpll.ref_clks.nssc, &wrpll_params);
- 	if (ret)
- 		return ret;
-
-
->
-> Regards,
-> Nikita
->> 
->>>
->>> Found by Linux Verification Center (linuxtesting.org) with static
->>> analysis tool SVACE.
->>>
->>> Fixes: fe70b262e781 ("drm/i915: Move a bunch of stuff into rodata from the stack")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
->>> ---
->>> Fixes: tag is not entirely correct, as I can't properly identify the
->>> origin with all the code movement. I opted out for using the most
->>> recent topical commit instead.
->>>
->>>  drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
->>> index 90998b037349..46d4dac6c491 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
->>> @@ -1683,7 +1683,7 @@ skl_ddi_calculate_wrpll(int clock /* in Hz */,
->>>  	};
->>>  	unsigned int dco, d, i;
->>>  	unsigned int p0, p1, p2;
->>> -	u64 afe_clock = clock * 5; /* AFE Clock is 5x Pixel clock */
->>> +	u64 afe_clock = (u64)(u32)clock * 5; /* AFE Clock is 5x Pixel clock */
->>>  
->>>  	for (d = 0; d < ARRAY_SIZE(dividers); d++) {
->>>  		for (dco = 0; dco < ARRAY_SIZE(dco_central_freq); dco++) {
->> 
-
--- 
-Jani Nikula, Intel
