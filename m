@@ -2,70 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1A693CAE4
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 00:33:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436E793CBC1
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2024 02:05:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A271210E346;
-	Thu, 25 Jul 2024 22:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9979010E8DE;
+	Fri, 26 Jul 2024 00:05:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Hl9spIrY";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="B+foPUVY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
- [209.85.210.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECCBC10E346
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 22:33:15 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id
- 46e09a7af769-708bf659898so230998a34.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2024 15:33:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1721946795; x=1722551595; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=WXRhM7vDpKgVAUvFwlLby6Ne8OfPDiuk2A603GkEuQE=;
- b=Hl9spIrYQIoC7Ymk/5pMDU2MRIQs31F567cFpzbzSycApCWjhf0xObjVHgU5qxBWKh
- 4M3BdNpURtP35kYYO0Rqb0t9OoXXTPRwqaSRR/WnEb1rN4q7CYimL8sHE2+D1XCfQdul
- 0Z74dEK62q8rlq7X0Nx55iS23syT8f3dYwRv2s/SMrQ3wToPh/GOuECI2egKdiHPsH1r
- RKj6YytAbumBREludagcD3+AEnr5S4g7657UJW8u9THMpyapgbX408fbxAGrktavl1Mr
- Y4Jquwh4eNjXoqkdvGeB4XYiTGxnklBr4P5oi5SVWuSJBVmHG/LBJnA43+fK8hBzI4gr
- Pd1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1721946795; x=1722551595;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WXRhM7vDpKgVAUvFwlLby6Ne8OfPDiuk2A603GkEuQE=;
- b=ffYiY6eX3Z3ULhOrMoZcRqjKgo1q3H32Af8W4hMcExKppAcD95F8Ib7NtC9awEplMz
- RZ8G7ED9G/lACoGVI0VSZeOgqdpq62SkHrFBmG9+ye+QLrcqya9u2ncVAjUaA9psW35p
- 0g17vcAXy7Ed+rgRRkzo9XZT3CjA38TfoEx5sGIbX68p2E3LzZF2urPH7BqRsYgG/0Xw
- GItO70W5YAhWcsFSIE1TIPaKMpE3yVbAL0Vk3Xei6Vu+dsWbvbUGvdkRnUwWSprAO6JF
- aGgtVXAmLj2cxNRQhQhjr36vnaFsRz1Bv6duvq5ys1UY/8c3kdgKF/YjJZrSAmWCm+z1
- Bkzw==
-X-Gm-Message-State: AOJu0Yy95S8gW7yE0AOqJnX+VT8vuNro8IJovPKxv3r1e57hn3IM0Nwd
- hlj2fBI9QEtiBwK/W3yNc/0rraXadSTqb8tuUPVL8+Qso685xXPygS11FK5aC80=
-X-Google-Smtp-Source: AGHT+IEoaG8W49/RqA0bGCYQ0nrXGSfiv2s/Op+ULBrRNzaBTKJBkNyC+boQkKu7DApkVEwlXWx4BQ==
-X-Received: by 2002:a05:6830:dc4:b0:709:3772:8c31 with SMTP id
- 46e09a7af769-70937728ff3mr2074908a34.31.1721946795132; 
- Thu, 25 Jul 2024 15:33:15 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:928f:fdbe:c604:7b3f])
- by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-7093071d443sm493130a34.32.2024.07.25.15.33.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jul 2024 15:33:14 -0700 (PDT)
-Date: Thu, 25 Jul 2024 17:33:12 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tomer Tayar <ttayar@habana.ai>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [bug report] accel/habanalabs: enforce release order of compute
- device and dma-buf
-Message-ID: <d70342ef-2b52-4f26-953f-8c924c20b1cd@suswa.mountain>
-References: <71169637-1e35-48d5-ba04-161d30073495@stanley.mountain>
- <cc6716f4-10e0-4f64-b64c-a3e41e1f7113@habana.ai>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC3B10E8DE
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 00:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1721952306;
+ bh=mN07B61qlyvIVefgbdWzoW4BwXM+ZnsPBIXQtQ3boyU=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=B+foPUVY7V6vCe6Y/ahGM5sTdzg0Ub4bpgQwLndexM2uX0tn1CZIUeFd7a8zO6dPf
+ 3jFEDOVjI2VNrn74aG9k6LtESQEL7EVW2vK+AZLu1dSmoOLhl8ADx9BvQpySOmw/Sj
+ lnSQJqJO29w4ON0a+3l4wTd9tuujedBKbCkoX3l0x3hzmIq/ctIWz2FQSupY5NHK2v
+ dQvNcL3U5qGP1kqS+3zHVUsHSEIqndMhf1O6qpaPVIUcbwaDHcW6TdcSHxBp/pw9qd
+ W30AyZDN4BZc2t/QrqjznvrVypB90JJpGhoFaMp+zuw2BlD9nPU7zUu9nSJHbfqbVn
+ krYXu0IdJdB0w==
+Received: from [10.3.2.176] (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5BD353782039;
+ Fri, 26 Jul 2024 00:05:04 +0000 (UTC)
+Message-ID: <72d57079-267f-4cd6-84cd-815c3b2c016b@collabora.com>
+Date: Thu, 25 Jul 2024 21:05:01 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cc6716f4-10e0-4f64-b64c-a3e41e1f7113@habana.ai>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ci: update link to Gitlab server
+From: Helen Koike <helen.koike@collabora.com>
+To: Deborah Brouwer <deborah.brouwer@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, vignesh.raman@collabora.com,
+ sergi.blanch.torne@collabora.com, guilherme.gallo@collabora.com,
+ robdclark@gmail.com
+References: <20240717235221.64629-1-deborah.brouwer@collabora.com>
+ <6d958123-1e4e-4a40-aedb-9a88de6e7dda@collabora.com>
+Content-Language: en-US
+In-Reply-To: <6d958123-1e4e-4a40-aedb-9a88de6e7dda@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,70 +64,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 25, 2024 at 08:21:51AM +0000, Tomer Tayar wrote:
-> On 24/07/2024 19:08, Dan Carpenter wrote:
-> > Hello Tomer Tayar,
-> >
-> > Commit 09524eb8824e ("accel/habanalabs: enforce release order of
-> > compute device and dma-buf") from Jan 22, 2023 (linux-next), leads to
-> > the following Smatch static checker warning:
-> >
-> > 	drivers/accel/habanalabs/common/memory.c:1844 hl_release_dmabuf()
-> > 	error: dereferencing freed memory 'ctx' (line 1841)
-> >
-> > drivers/accel/habanalabs/common/memory.c
-> >      1827 static void hl_release_dmabuf(struct dma_buf *dmabuf)
-> >      1828 {
-> >      1829         struct hl_dmabuf_priv *hl_dmabuf = dmabuf->priv;
-> >      1830         struct hl_ctx *ctx;
-> >      1831
-> >      1832         if (!hl_dmabuf)
-> >      1833                 return;
-> >      1834
-> >      1835         ctx = hl_dmabuf->ctx;
-> >      1836
-> >      1837         if (hl_dmabuf->memhash_hnode)
-> >      1838                 memhash_node_export_put(ctx, hl_dmabuf->memhash_hnode);
-> >      1839
-> >      1840         atomic_dec(&ctx->hdev->dmabuf_export_cnt);
-> >      1841         hl_ctx_put(ctx);
-> >                              ^^^
-> > This will free ctx on the last reference
-> >
-> >      1842
-> >      1843         /* Paired with get_file() in export_dmabuf() */
-> > --> 1844         fput(ctx->hpriv->file_priv->filp);
-> >                        ^^^
-> > Potential use after free
+
+
+On 18/07/2024 08:16, Helen Koike wrote:
 > 
-> Thanks for notifying us about this warning.
 > 
-> Actually, because of this commit, the call to hl_ctx_put() here cannot 
-> be last.
-> The release of the device file has another reference decrement [ 
-> hl_device_release() -> hl_ctx_mgr_fini() ], and this change prevents 
-> that release as long as a dma-buf object is alive.
-
-Thanks for looking at this.  To be honest, I'm just going to take this
-on trust.  ;)  I looked at the code but refcounting is always a bit
-tricky.
-
+> On 17/07/2024 20:52, Deborah Brouwer wrote:
+>> Before building an image, the build script looks to see if there are 
+>> fixes
+>> to apply from an upstream repository. The link for the upstream 
+>> repository
+>> git://anongit.freedesktop.org/drm/drm became obsolete with the move to
+>> Gitlab server in March 2024. Until recently, this obsolete link was
+>> harmless because anongit would at least respond that there were no such
+>> fixes available. In the last few days anongit has stopped responding to
+>> requests causing the build script to hang indefinitely.
+>>
+>> Update the link from anongit to the Gitlab server to prevent the build
+>> script from hanging indefinitely.
+>>
+>> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 > 
-> However, I will revise the function to get a pointer to 
-> 'ctx->hpriv->file_priv->filp' before calling hl_ctx_put(), so we won't 
-> have the warning.
+> Acked-by: Helen Koike <helen.koike@collabora.com>
+> 
+> Thanks
+> Helen
+> 
 
-Please, don't do things just to make the static checker happy.  These
-refcounted use after free warnings are prone to false positives.  I try
-to do some sanity checking but I'm not a domain expert in this subsystem.
-So, you know, just look at the warning and ignore it if it's wrong.
+Applied to drm-misc-next
 
-These warnings are a one time email.  Everyone who works on the kernel
-is really good about fixing bugs so we assume all old warnings are false
-positives.  Plus if they have questions they can search lore for this
-email thread.
+Thanks
+Helen
 
-regards,
-dan carpenter
-
+>> ---
+>> Link to pipeline for this change:
+>> https://gitlab.freedesktop.org/dbrouwer/kernel/-/pipelines/1226742
+>>
+>>   drivers/gpu/drm/ci/gitlab-ci.yml | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/ 
+>> gitlab-ci.yml
+>> index b09976c3d2c2..259fb1c9a855 100644
+>> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+>> @@ -2,7 +2,7 @@ variables:
+>>     DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
+>>     DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 
+>> e2b9c5a9e3e4f9b532067af8022eaef8d6fc6c00
+>> -  UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+>> +  UPSTREAM_REPO: https://gitlab.freedesktop.org/drm/kernel.git
+>>     TARGET_BRANCH: drm-next
+>>     IGT_VERSION: f13702b8e4e847c56da3ef6f0969065d686049c5
+> 
 
