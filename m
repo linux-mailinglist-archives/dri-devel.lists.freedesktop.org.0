@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C7C93E053
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 19:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7ED93E05F
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 19:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A78910E061;
-	Sat, 27 Jul 2024 17:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D54A910E03E;
+	Sat, 27 Jul 2024 17:45:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i85ZDk/1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dwuGDYmr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687C910E061
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 17:26:09 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-44ff99fcd42so9179731cf.0
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 10:26:09 -0700 (PDT)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
+ [209.85.219.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EF9110E03E
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 17:45:51 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id
+ 6a1803df08f44-6b7aed340daso11051706d6.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 10:45:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722101168; x=1722705968; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1722102350; x=1722707150; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=9mXEidSCbTxCEMvjRmFfWopU+ZWCaSmREcQ6uNlzUY8=;
- b=i85ZDk/1n6IueRnTpTyDNCzdWbByR/8AW4xnU7ohWYkx+6NNsnG8j9bV3s5V24Sb1L
- ZyqIUarqWDIfY49uVmBdrn58VzAkDKqBViRKIWM5hvr8165F5OR1gj1AaSBuRRxp31X3
- GOsgm/v0/7eN5WJqs+TePabafmyc3bxDpxWiD0hQHFBNuuVwUmbL4oURYvmHIYuT/pd/
- xa+6K5XNqhRONJa99mfGo5m5n2XEx0qi0b4autr5sOZWcnRAP07QhizUnHgGuDo3mxMG
- nxkvNv585fps4skmprYE6ps5sjCthVXIrF/UnUuAExTZgqiPK8Taq1ZKrrnP5gB82f0M
- eZbA==
+ bh=8pmwdOzAAYQk9MWD3B/2QLF82FPJ/g3mXDK7WgTp34w=;
+ b=dwuGDYmrqq+YXLaQJ6Ix3w+6lk7+LykSdIDlPV1hw5tAKGt2UtWlDztcST3Kzd55DI
+ BcMDcqnAF04vwF5qynYBm51lqWPvE5zB1fT0EQ5hmY7mV0cIaU1UvEdVNRECkyT2xjPz
+ iIfjxlJuUUVz7DGzIDnfPS6PqMbki9i9c5vPbA48XkKKk1ttsKD6f5ORmvUqDCja5+yz
+ DEHHSJ8dQuysQW3eVKhDrmbwr7MRRgDfjlIvfxm/7w9oFZ0INIY+G6xkMEJ4ssqBmVAZ
+ PKOPyhrcYIPbakNsIFpjtxuTA286mP0kOnDKDsLjG9j+MMiPLReatexRnAlYYATumjWC
+ 8nGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722101168; x=1722705968;
+ d=1e100.net; s=20230601; t=1722102350; x=1722707150;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9mXEidSCbTxCEMvjRmFfWopU+ZWCaSmREcQ6uNlzUY8=;
- b=kxuJ2y/vjzCXGKfWH80Qlrk6hT95nal7IbIzre4BP/hCNcGGU/ayJs9y5FHTam1aa5
- /YTXT7wvqdbUkMnvZVjtQ+MT3YP3zpdrFCkY61MuGib0b9W9VXzY37cWLIKUgUTU+4/n
- Ox1LbL+Uv/X2o7Ij6SoqpsXX5Vy3XzMIVcuHRhgmUb17TCxopYfocrgPEmlsP/It6Bk3
- lVMx2nKzt8P/q7rybwcaYkR0VB5sLfOMlciicBw5eTsQypbH+AKTR7hJVmPOHsOLFv5K
- OX+im3YCMksA26+HiJarF0WKu21vRqZ+KFwGtO/b/VNZVk02EKLyUi3BVtdPdOgq5WfM
- zbDA==
+ bh=8pmwdOzAAYQk9MWD3B/2QLF82FPJ/g3mXDK7WgTp34w=;
+ b=XPI2PA0nDjdgDtysZ8M9YaSwq5RzGbKcQALqxr5JSr0ia1e2rBru93q24gktA6Kg42
+ RzxuZ88IoTWE/Suv/0t73Lnm/vJ+INWKm1f0Wb3NaaAaOzNP3apocVO3aRpili38QB56
+ tba2tRTHg1dbQvbEeGqQR+wgZO1tbj0nmbojYbiss5HLzi7QNOmP02jKrp9tWX0i+cqb
+ S4KPq3OfPXmPURmZAeI/NRzMQJZtYM2CeFBpwYOAGlTEn2RRVTRS9l26IPVir/46tkB4
+ 8x4Lfh5zt0VooZo34s0lSiA0snwiwrChURF8P5NEXYz9OfH8Z1TV/IxxyVE9XDXneSJv
+ 7gww==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUVkX1ihFHIMP4QFVkc8h8ZzO+QU17695sVFOJYH2dAW89FJfs1hpInWuhLL5sCTeuoCBeCAkCHf+DebfdnlAFL586hgilZQ0TedKTfn4W5
-X-Gm-Message-State: AOJu0YyunNdvrne1U4hyqCl8/YWBEeH+fsFYbN4+z3d/ORwS1QeZoiR9
- vIzcmdX9dndFVZJTpR061whOuAXb2Rka8qm9n3MBefThxoh67kJi
-X-Google-Smtp-Source: AGHT+IHZmTWCYaCpj+GEFbm8JxA2Vfn8GpH4Olgk26FftL3v9YKmgGnC9zttm9v5+DghGzE9vJ1fwA==
-X-Received: by 2002:a05:622a:447:b0:447:d867:2aa7 with SMTP id
- d75a77b69052e-45004f3dba3mr38418051cf.46.1722101168180; 
- Sat, 27 Jul 2024 10:26:08 -0700 (PDT)
+ AJvYcCX9ea/cOOfjuAdJ9pe7yK7RnmvHtZTvh1q2iGIUcjxVZ1qHW7EbDEzx3WaXvTM7ye23oaeFCVK1vDjSHSPh0Bsxd1CbWcxkKDoLHR7R6GAr
+X-Gm-Message-State: AOJu0Yzc39g36jP1oqHoeyNhJ4mPNkRgg/YC3h1Xr9caK4IJ1i7Lejgh
+ Is5TNGp8mwn5/khrrYc5IrDGQwRS9XA8rdZhYGCLT13V8D0B5y/2
+X-Google-Smtp-Source: AGHT+IE14pOI2M+jO6I4WVMjoCLnvDHHifoaQC1Cu3BUPD84mSzyABvc6MfZSvqbp0vtmijCMfw3dA==
+X-Received: by 2002:a05:6214:2527:b0:6b5:6a1:f89a with SMTP id
+ 6a1803df08f44-6bb55977e17mr33835136d6.2.1722102350240; 
+ Sat, 27 Jul 2024 10:45:50 -0700 (PDT)
 Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-44fe8123516sm25656831cf.1.2024.07.27.10.26.06
+ 6a1803df08f44-6bb3f904131sm31826886d6.51.2024.07.27.10.45.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Jul 2024 10:26:07 -0700 (PDT)
-Date: Sat, 27 Jul 2024 13:26:05 -0400
+ Sat, 27 Jul 2024 10:45:49 -0700 (PDT)
+Date: Sat, 27 Jul 2024 13:45:47 -0400
 From: Alex Lanzano <lanzano.alex@gmail.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: mehdi.djait@bootlin.com, christophe.jaillet@wanadoo.fr, 
@@ -66,15 +66,16 @@ Cc: mehdi.djait@bootlin.com, christophe.jaillet@wanadoo.fr,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] Add driver for Sharp Memory LCD
-Message-ID: <crnz3y3y3m4yjrovjamtlftmztmqejqx6s2jg33guhkt2slnvl@45cfsfia3pyi>
+Subject: Re: [PATCH v2 2/2] drm/tiny: Add driver for Sharp Memory LCD
+Message-ID: <rm4n7iii4jm6y2nllwh7uwzw5ufmbgiu3juw5t7tzrk7hcympp@hkzi2lqkdtbd>
 References: <20240725004734.644986-1-lanzano.alex@gmail.com>
  <20240726194456.1336484-1-lanzano.alex@gmail.com>
- <a814e348-9837-4cfa-a500-72f47b47c9b7@kernel.org>
+ <20240726194456.1336484-3-lanzano.alex@gmail.com>
+ <3b6297d6-f954-499a-9504-233b27ff686a@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a814e348-9837-4cfa-a500-72f47b47c9b7@kernel.org>
+In-Reply-To: <3b6297d6-f954-499a-9504-233b27ff686a@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,28 +91,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 27, 2024 at 11:00:08AM GMT, Krzysztof Kozlowski wrote:
+On Sat, Jul 27, 2024 at 11:03:19AM GMT, Krzysztof Kozlowski wrote:
 > On 26/07/2024 21:44, Alex Lanzano wrote:
-> > This patch series add support for the monochrome Sharp Memory LCD
-> > panels. This series is based off of the work done by Mehdi Djait.
-> > 
-> > References:
-> > https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
-> > https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
+> > Add support for the monochrome Sharp Memory LCDs.
 > > 
 > > Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
 > > Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
 > > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> > ---
+> >  MAINTAINERS                         |   7 +
+> >  drivers/gpu/drm/tiny/Kconfig        |  20 +
+> >  drivers/gpu/drm/tiny/Makefile       |   1 +
+> >  drivers/gpu/drm/tiny/sharp-memory.c | 726 ++++++++++++++++++++++++++++
+> >  4 files changed, 754 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 71b739b40921..b5b08247a994 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -7123,6 +7123,13 @@ S:	Maintained
+> >  F:	Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+> >  F:	drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+> >  
+> > +DRM DRIVER FOR SHARP MEMORY LCD
+> > +M:	Alex Lanzano <lanzano.alex@gmail.com>
+> > +S:	Maintained
+> > +T:	git git://anongit.freedesktop.org/drm/drm-misc
 > 
-> Do not attach (thread) your patchsets to some other threads (unrelated
-> or older versions). This buries them deep in the mailbox and might
-> interfere with applying entire sets.
+> 
+> Do you have drm-misc commit rights? If not, drop it. There is no point
+> to put some other maintainer's tree in your entry. Git tree is already
+> present in the maintainer's entry who is going to apply the patches.
+> 
+> 
+
+Will remove.
+
+> > +F:	Documentation/devicetree/bindings/display/sharp,sharp-memory.yaml
+> 
+> If you rename the file in your patchset, you must rename it EVERYWHERE.
+> 
+> 
+
+Will do.
+
+> > +F:	drivers/gpu/drm/tiny/sharp-memory.c
+> > +
+> >  DRM DRIVER FOR SITRONIX ST7586 PANELS
+> 
+> 
+> ...
+> 
+
+Oh! Did you need me to rename sharp-memory.c as well?
+
+> > +	smd->spi = spi;
+> > +	drm = &smd->drm;
+> > +	ret = drmm_mode_config_init(drm);
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret, "Failed to initialize drm config\n");
+> > +
+> > +	smd->enable_gpio = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
+> > +	if (smd->enable_gpio == NULL)
+> > +		dev_warn(&spi->dev, "Enable gpio not defined\n");
+> > +
+> > +	/*
+> > +	 * VCOM is a signal that prevents DC bias from being built up in
+> > +	 * the panel resulting in pixels being forever stuck in one state.
+> > +	 *
+> > +	 * This driver supports three different methods to generate this
+> > +	 * signal depending on EXTMODE pin:
+> > +	 *
+> > +	 * software (EXTMODE = L) - This mode uses a kthread to
+> > +	 * periodically send a "maintain display" message to the display,
+> > +	 * toggling the vcom bit on and off with each message
+> > +	 *
+> > +	 * external (EXTMODE = H) - This mode relies on an external
+> > +	 * clock to generate the signal on the EXTCOMM pin
+> > +	 *
+> > +	 * pwm (EXTMODE = H) - This mode uses a pwm device to generate
+> > +	 * the signal on the EXTCOMM pin
+> > +	 *
+> > +	 */
+> > +	smd->vcom = 0;
+> > +	if (device_property_read_string(&spi->dev, "vcom-mode", &vcom_mode_str))
+> > +		return dev_err_probe(dev, -EINVAL,
+> > +				     "Unable to find vcom-mode node in device tree\n");
+> > +
+> > +	if (!strcmp("software", vcom_mode_str)) {
+> > +		smd->vcom_mode = SHARP_MEMORY_SOFTWARE_VCOM;
+> > +
+> > +	} else if (!strcmp("external", vcom_mode_str)) {
+> > +		smd->vcom_mode = SHARP_MEMORY_EXTERNAL_VCOM;
+> > +
+> > +	} else if (!strcmp("pwm", vcom_mode_str)) {
+> > +		smd->vcom_mode = SHARP_MEMORY_PWM_VCOM;
+> > +		ret = sharp_memory_init_pwm_vcom_signal(smd);
+> > +		if (ret)
+> > +			return dev_err_probe(dev, ret,
+> > +					     "Failed to initialize external COM signal\n");
+> > +	} else {
+> > +		return dev_err_probe(dev, -EINVAL, "Invalid value set for vcom-mode\n");
+> > +	}
+> > +
+> > +	drm->mode_config.funcs = &sharp_memory_mode_config_funcs;
+> > +
+> > +	/* Set the DRM display mode depending on panel model */
+> > +	model = (uintptr_t)spi_get_device_match_data(spi);
+> > +	switch (model) {
+> > +	case LS013B7DH03:
+> > +		smd->mode = &sharp_memory_ls013b7dh03_mode;
+> > +		break;
+> > +
+> > +	case LS010B7DH04:
+> > +		smd->mode = &sharp_memory_ls010b7dh04_mode;
+> > +		break;
+> > +
+> > +	case LS011B7DH03:
+> > +		smd->mode = &sharp_memory_ls011b7dh03_mode;
+> > +		break;
+> > +
+> > +	case LS012B7DD01:
+> > +		smd->mode = &sharp_memory_ls012b7dd01_mode;
+> > +		break;
+> > +
+> > +	case LS013B7DH05:
+> > +		smd->mode = &sharp_memory_ls013b7dh05_mode;
+> > +		break;
+> > +
+> > +	case LS018B7DH02:
+> > +		smd->mode = &sharp_memory_ls018b7dh02_mode;
+> > +		break;
+> > +
+> > +	case LS027B7DH01:
+> > +		fallthrough;
+> > +	case LS027B7DH01A:
+> > +		smd->mode = &sharp_memory_ls027b7dh01_mode;
+> > +		break;
+> > +
+> > +	case LS032B7DD02:
+> > +		smd->mode = &sharp_memory_ls032b7dd02_mode;
+> > +		break;
+> > +
+> > +	case LS044Q7DH01:
+> > +		smd->mode = &sharp_memory_ls044q7dh01_mode;
+> > +		break;
+> 
+> This is over-complicated. Just store the mode in device match data.
+> 
+> 
+
+Will simplify in v3
+
+> > +
+> > +	default:
+> > +		return dev_err_probe(&spi->dev, -EINVAL, "Invalid DRM display mode\n");
+> > +	}
+> 
 > 
 > Best regards,
 > Krzysztof
 > 
 
-Will do! Sorry about that
+Thank you for taking the time to review!
 
 Best regards,
 Alex
