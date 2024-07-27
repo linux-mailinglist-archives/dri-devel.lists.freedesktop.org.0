@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8937B93DCDA
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 03:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD84393DCE0
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 03:11:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7731510E2F1;
-	Sat, 27 Jul 2024 01:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3592310E2F3;
+	Sat, 27 Jul 2024 01:11:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ALNuJ2fS";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YLI6HYLT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1713A10E2F1
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 01:10:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47B3910E2F3
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 01:11:52 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E4CE720;
- Sat, 27 Jul 2024 03:09:32 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FAC3720;
+ Sat, 27 Jul 2024 03:11:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1722042572;
- bh=Ci+4rr9QZI0ld75Fty9ApL64ATgr4EhnG5b2V01bEE8=;
+ s=mail; t=1722042666;
+ bh=PLVBc1oRy7Br09cGro6H7t10wTLQqguxJldG0X8mxVE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ALNuJ2fSYwlIqzOW9auMS3umpkmiPls84dDvZAuD9Ebk5BBGsbXt3R/+XkxLD5gnj
- ptNgiFlRHzTyS1R2aAYvV52pA/i3Kwj9iNX7DiS3/m1zvCdtCsTlZ6/HkZwuiJBwa9
- wugpdHLlM6vYxNFBTsd+pv1JzjUx4SNasZKVqMsI=
-Date: Sat, 27 Jul 2024 04:09:58 +0300
+ b=YLI6HYLTSQg7WgV1Ovhxgssw6zXEqRMp8Cd5DnzTqr4R/3s0+pDA9ML/XivnZwQeV
+ Ujmhf5HIjhYU255SOr16+5ka5lucj/8s0GZDFkV3Hy4tCfywFUq/pa3OhxW7DPwCYw
+ dav+b1N1HMXsOK0mDdi/2PCqHcfWIgPgA4KWKmss=
+Date: Sat, 27 Jul 2024 04:11:32 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -43,14 +43,14 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v2 7/9] arm64: dts: renesas: r9a07g043u: Add fcpvd node
-Message-ID: <20240727010958.GI300@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 8/9] arm64: dts: renesas: r9a07g043u: Add DU node
+Message-ID: <20240727011132.GJ300@pendragon.ideasonboard.com>
 References: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
- <20240709135152.185042-8-biju.das.jz@bp.renesas.com>
+ <20240709135152.185042-9-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240709135152.185042-8-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240709135152.185042-9-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +70,54 @@ Hi Biju,
 
 Thank you for the patch.
 
-On Tue, Jul 09, 2024 at 02:51:45PM +0100, Biju Das wrote:
-> Add fcpvd node to RZ/G2UL SoC DTSI.
+On Tue, Jul 09, 2024 at 02:51:46PM +0100, Biju Das wrote:
+> Add DU node to RZ/G2UL SoC DTSI.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
 > ---
 > v1->v2:
 >  * No change.
 > ---
->  arch/arm64/boot/dts/renesas/r9a07g043u.dtsi | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  arch/arm64/boot/dts/renesas/r9a07g043u.dtsi | 25 +++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 > 
 > diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-> index 15e84a5428ef..d88bf23b0782 100644
+> index d88bf23b0782..0a4f24d83791 100644
 > --- a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
 > +++ b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-> @@ -142,6 +142,17 @@ vspd: vsp@10870000 {
->  		renesas,fcp = <&fcpvd>;
+> @@ -153,6 +153,31 @@ fcpvd: fcp@10880000 {
+>  		resets = <&cpg R9A07G043_LCDC_RESET_N>;
 >  	};
 >  
-> +	fcpvd: fcp@10880000 {
-> +		compatible = "renesas,r9a07g043u-fcpvd", "renesas,fcpv";
-> +		reg = <0 0x10880000 0 0x10000>;
+> +	du: display@10890000 {
+> +		compatible = "renesas,r9a07g043u-du";
+> +		reg = <0 0x10890000 0 0x10000>;
+> +		interrupts = <SOC_PERIPHERAL_IRQ(152) IRQ_TYPE_LEVEL_HIGH>;
 > +		clocks = <&cpg CPG_MOD R9A07G043_LCDC_CLK_A>,
 > +			 <&cpg CPG_MOD R9A07G043_LCDC_CLK_P>,
 > +			 <&cpg CPG_MOD R9A07G043_LCDC_CLK_D>;
 > +		clock-names = "aclk", "pclk", "vclk";
 > +		power-domains = <&cpg>;
 > +		resets = <&cpg R9A07G043_LCDC_RESET_N>;
+> +		renesas,vsps = <&vspd 0>;
+> +		status = "disabled";
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@1 {
+> +				reg = <1>;
+
+This may need to change depending on the outcome of the DT bindings
+discussion. Other than that,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +				du_out_rgb: endpoint {
+> +				};
+> +			};
+> +		};
 > +	};
 > +
 >  	irqc: interrupt-controller@110a0000 {
