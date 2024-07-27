@@ -2,56 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C6793DA9A
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 00:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56EB693DC85
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 02:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8664C10E2BF;
-	Fri, 26 Jul 2024 22:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A2410E091;
+	Sat, 27 Jul 2024 00:24:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Ac8iGGH/";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="E4o4mQ1u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-27.smtpout.orange.fr
- [80.12.242.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD05A10E2BF
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 22:12:06 +0000 (UTC)
-Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
- id XTAQsjdCkkc2vXTAQs9rLV; Sat, 27 Jul 2024 00:12:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1722031924;
- bh=fqthNsWy0oH2Iy/PS67VSQTwdel4fdgwtHMQu+8NrBE=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=Ac8iGGH/X4G8xAezKh9iyzgS3yqpgtHDctEn2nwG4hZHl4z64/jLsMWakClqt9hJR
- YoeQEY5COqLGx3qOeRtrInaGO3kvvUVvs+JyyVjw7AL4YLUQr2TG9ReisOAg8jZWRv
- 8cqHMtrRTS0QguWmPZ6O+JyuPiMesS2xldgRY/dDJuhIRbfrNlUGbdxXv+pT5FYfqo
- eLCXzprqtCwXGqCYlgqMdwia23UuhO8mGR8QyxQ8EocjegdtFLtAjSkmAechDE1jWi
- 38854Vwg2TgYlk5aQ67RnM7wj/0ESw5RFKcA7DrCJ4lThbfmoVepI3hjm0PFoj912p
- DJkwYT1G9tsrQ==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sat, 27 Jul 2024 00:12:04 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <0c759c38-eebb-4889-b748-3fd5925d0690@wanadoo.fr>
-Date: Sat, 27 Jul 2024 00:12:01 +0200
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
+ [209.85.219.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5878310E091
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 00:24:37 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id
+ 6a1803df08f44-6b7b349a98aso9166086d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 17:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1722039876; x=1722644676;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=07ogrVS5x8lpQcrfQ9VX3T1kjP2RfniPU+x1JGxiSQI=;
+ b=E4o4mQ1u5ypJvWZ0jWx9xg35WbJfLJYU/4LGMW9LrBZWlI3Cnh1COTN0/1jemQFDVe
+ KsSzPUpXluDmSFRlUBWf6ndG/xPy1ampF2tDnwyeJLFi2P8VSzbC1L+AdvKZVQlYhCfP
+ xYaebMsZVZjt9h9NLyiDR3gUyMt3NKNQKRbd4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722039876; x=1722644676;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=07ogrVS5x8lpQcrfQ9VX3T1kjP2RfniPU+x1JGxiSQI=;
+ b=hJAslZfUetMLwoZJDzKUZN5F6feY5ULY14aju2ZuXf3JRLHaFZ+YxcxP2Zzgk+GxHN
+ TCykI+JVmJkYYcw87ciuUlPhxrhcLuuuvsyZeDmiF3JHw6iFK9lmxrGfueo2kt+O4VZX
+ g+qAGmfxHgZN4DaLBmyEcPukWsUvByOJ3xe03SRG4J/kBSLCMur4z1VxxnOdlwmu/5u/
+ eGx8uCI6aBIwxcL8rWP6CdNzKAAx7rkrpkaMItR8JseMiyQocVDzlVb4T+IZNFu22WNq
+ 3wG04fuoRJ9ArNdCjmrymlKUQOJko7m7srUPhonhSEglKh0aamvtpvFSdWbF1kcdY7il
+ itKQ==
+X-Gm-Message-State: AOJu0YzsdUxakAGgcT6zzyVfXz7UeA00j0IZvgD3jrUS/hQBqQKx42z9
+ vb0x6O+q9oO2tGQae/3hgLkG3DYaH1wSFuS/Tsxe3YazCges89AknutOag1HUpXxF0/d+2TkzSw
+ fVotX+5k5DNwUui+Hl6PQoXY/RqHpUDFt+U0V
+X-Google-Smtp-Source: AGHT+IHpnZkC5VzVD/9wtOuDbyMsVbJocHHwdfZb7aYI9KRRHqHEMH/h3Uk7GOcJxPPS3XvCEOHVuSYaA8p7WV7saKw=
+X-Received: by 2002:a05:6214:19c7:b0:6b5:6b1:6c with SMTP id
+ 6a1803df08f44-6bb55a1533dmr19000576d6.24.1722039876063; Fri, 26 Jul 2024
+ 17:24:36 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 26 Jul 2024 17:24:35 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/tiny: Add driver for Sharp Memory LCD
-To: lanzano.alex@gmail.com
-Cc: airlied@gmail.com, christophe.jaillet@wanadoo.fr, conor+dt@kernel.org,
- daniel@ffwll.ch, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, krzk+dt@kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mehdi.djait@bootlin.com, mripard@kernel.org, robh@kernel.org,
- tzimmermann@suse.de
-References: <20240725004734.644986-1-lanzano.alex@gmail.com>
- <20240726194456.1336484-1-lanzano.alex@gmail.com>
- <20240726194456.1336484-3-lanzano.alex@gmail.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240726194456.1336484-3-lanzano.alex@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240725220320.130916-1-quic_abhinavk@quicinc.com>
+References: <20240725220320.130916-1-quic_abhinavk@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 26 Jul 2024 17:24:35 -0700
+Message-ID: <CAE-0n50mBEX98HH+5BurM-uRyzrxcPXFJ7yLg__hFJHfYjm67Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: fix the max supported bpp logic
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Guenter Roeck <groeck@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Tanmay Shah <tanmay@codeaurora.org>, Vara Reddy <quic_varar@quicinc.com>, 
+ freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com, 
+ neil.armstrong@linaro.org, abel.vesa@linaro.org, quic_khsieh@quicinc.com, 
+ Rob Clark <robdclark@chromium.org>, Chandan Uddaraju <chandanu@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,151 +85,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 26/07/2024 à 21:44, Alex Lanzano a écrit :
-> Add support for the monochrome Sharp Memory LCDs.
-> 
-> Signed-off-by: Alex Lanzano <lanzano.alex-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Co-developed-by: Mehdi Djait <mehdi.djait-LDxbnhwyfcJBDgjK7y7TUQ@public.gmane.org>
-> Signed-off-by: Mehdi Djait <mehdi.djait-LDxbnhwyfcJBDgjK7y7TUQ@public.gmane.org>
-> ---
->   MAINTAINERS                         |   7 +
->   drivers/gpu/drm/tiny/Kconfig        |  20 +
->   drivers/gpu/drm/tiny/Makefile       |   1 +
->   drivers/gpu/drm/tiny/sharp-memory.c | 726 ++++++++++++++++++++++++++++
->   4 files changed, 754 insertions(+)
->   create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
-> 
+Quoting Abhinav Kumar (2024-07-25 15:03:19)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+> index a916b5f3b317..56ce5e4008f8 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+> @@ -423,8 +424,10 @@ int dp_panel_init_panel_info(struct dp_panel *dp_panel)
+>                                 drm_mode->clock);
+>         drm_dbg_dp(panel->drm_dev, "bpp = %d\n", dp_panel->dp_mode.bpp);
+>
+> -       dp_panel->dp_mode.bpp = max_t(u32, 18,
+> -                               min_t(u32, dp_panel->dp_mode.bpp, 30));
+> +       max_supported_bpp = dp_panel_get_mode_bpp(dp_panel, dp_panel->dp_mode.bpp,
+> +                                                 dp_panel->dp_mode.drm_mode.clock);
+> +       dp_panel->dp_mode.bpp = max_t(u32, 18, max_supported_bpp);
 
-Hi,
+Is the max_t() usage still required once 'max_supported_bpp' is also a
+u32? Also, what is 18? Shouldn't that be some sort of define so we know
+what it represents?
 
-below some other tiny comments, hoping it helps.
+Or maybe none of that is required? From what I can tell,
+dp_panel_get_mode_bpp() calls dp_panel_get_supported_bpp() which will
+essentially clamp the bpp range between 18 and 30, unless
+dp_panel->dp_mode.bpp is between 30 and 18 but not divisible by 6, e.g.
+29. Perhaps this patch can be included and the max_t above dropped.
 
-Also "./scripts/checkpatch.pl --strict" gives some hints, should some be 
-of interest.
+---8<--
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c
+b/drivers/gpu/drm/msm/dp/dp_panel.c
+index 07db8f37cd06..5cd7c138afd3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -90,22 +90,22 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
+ static u32 dp_panel_get_supported_bpp(struct dp_panel *dp_panel,
+ 		u32 mode_edid_bpp, u32 mode_pclk_khz)
+ {
+-	struct dp_link_info *link_info;
++	const struct dp_link_info *link_info;
+ 	const u32 max_supported_bpp = 30, min_supported_bpp = 18;
+-	u32 bpp = 0, data_rate_khz = 0;
++	u32 bpp, data_rate_khz;
 
-> +static int sharp_memory_probe(struct spi_device *spi)
-> +{
-> +	int ret;
-> +	struct device *dev;
-> +	struct sharp_memory_device *smd;
-> +	enum sharp_memory_model model;
-> +	struct drm_device *drm;
-> +	const char *vcom_mode_str;
-> +
-> +	ret = spi_setup(spi);
-> +	if (ret < 0)
-> +		return dev_err_probe(&spi->dev, ret, "Failed to setup spi device\n");
-> +
-> +	dev = &spi->dev;
+ 	bpp = min_t(u32, mode_edid_bpp, max_supported_bpp);
 
-6 times below, &spi->dev could be replaced by dev, to slightly simplify 
-things.
+ 	link_info = &dp_panel->link_info;
+ 	data_rate_khz = link_info->num_lanes * link_info->rate * 8;
 
-> +	if (!dev->coherent_dma_mask) {
-> +		ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "Failed to set dma mask\n");
-> +	}
-> +
-> +	smd = devm_drm_dev_alloc(&spi->dev, &sharp_memory_drm_driver,
-> +				 struct sharp_memory_device, drm);
+-	while (bpp > min_supported_bpp) {
++	do {
+ 		if (mode_pclk_khz * bpp <= data_rate_khz)
+-			break;
++			return bpp;
+ 		bpp -= 6;
+-	}
++	} while (bpp > min_supported_bpp);
 
-Missing error handling.
+-	return bpp;
++	return min_supported_bpp;
+ }
 
-> +
-> +	spi_set_drvdata(spi, smd);
-> +
-> +	smd->spi = spi;
-> +	drm = &smd->drm;
-> +	ret = drmm_mode_config_init(drm);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to initialize drm config\n");
-> +
-> +	smd->enable_gpio = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
-> +	if (smd->enable_gpio == NULL)
-
-Nitpick: if (!smd->enable_gpio)
-
-> +		dev_warn(&spi->dev, "Enable gpio not defined\n");
-> +
-> +	/*
-> +	 * VCOM is a signal that prevents DC bias from being built up in
-> +	 * the panel resulting in pixels being forever stuck in one state.
-> +	 *
-> +	 * This driver supports three different methods to generate this
-> +	 * signal depending on EXTMODE pin:
-> +	 *
-> +	 * software (EXTMODE = L) - This mode uses a kthread to
-> +	 * periodically send a "maintain display" message to the display,
-> +	 * toggling the vcom bit on and off with each message
-> +	 *
-> +	 * external (EXTMODE = H) - This mode relies on an external
-> +	 * clock to generate the signal on the EXTCOMM pin
-> +	 *
-> +	 * pwm (EXTMODE = H) - This mode uses a pwm device to generate
-> +	 * the signal on the EXTCOMM pin
-> +	 *
-> +	 */
-> +	smd->vcom = 0;
-
-Nitpick: devm_drm_dev_alloc() already zeroes the allocated memory. So 
-this is useless. Unless you think it gives some useful hint, it could be 
-removed.
-
-> +	if (device_property_read_string(&spi->dev, "vcom-mode", &vcom_mode_str))
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "Unable to find vcom-mode node in device tree\n");
-> +
-> +	if (!strcmp("software", vcom_mode_str)) {
-> +		smd->vcom_mode = SHARP_MEMORY_SOFTWARE_VCOM;
-
-...
-
-> +	smd->pitch = (SHARP_ADDR_PERIOD + smd->mode->hdisplay + SHARP_DUMMY_PERIOD) / 8;
-> +	smd->tx_buffer_size = (SHARP_MODE_PERIOD +
-> +			       (SHARP_ADDR_PERIOD + (smd->mode->hdisplay) + SHARP_DUMMY_PERIOD) *
-> +			       smd->mode->vdisplay) / 8;
-> +
-> +	smd->tx_buffer = devm_kzalloc(&spi->dev, smd->tx_buffer_size, GFP_KERNEL);
-> +	if (!smd->tx_buffer)
-> +		return dev_err_probe(&spi->dev, -ENOMEM, "Unable to alloc tx buffer\n");
-
-There is no need to log a message for memory allocation failure.
-return -ENOMEM; should be just fine IMHO.
-
-> +
-> +	mutex_init(&smd->tx_mutex);
-> +
-> +	drm->mode_config.min_width = smd->mode->hdisplay;
-> +	drm->mode_config.max_width = smd->mode->hdisplay;
-> +	drm->mode_config.min_height = smd->mode->vdisplay;
-> +	drm->mode_config.max_height = smd->mode->vdisplay;
-> +
-> +	ret = sharp_memory_pipe_init(drm, smd,
-> +				     sharp_memory_formats,
-
-Nitpick: you could save 1 LoC if this is put at the end of the previous 
-line.
-
-> +				     ARRAY_SIZE(sharp_memory_formats),
-> +				     NULL);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to initialize display pipeline.\n");
-> +
-> +	drm_plane_enable_fb_damage_clips(&smd->plane);
-> +	drm_mode_config_reset(drm);
-> +
-> +	ret = drm_dev_register(drm, 0);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to register drm device.\n");
-> +
-> +	drm_fbdev_dma_setup(drm, 0);
-> +
-> +	return 0;
-> +}
-
-...
-
-CJ
-
-
+ static int dp_panel_update_modes(struct drm_connector *connector,
