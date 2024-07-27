@@ -2,99 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B71D93DE05
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 11:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E0B93DF1B
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 13:15:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFEB410E08F;
-	Sat, 27 Jul 2024 09:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBBD10E039;
+	Sat, 27 Jul 2024 11:15:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FzmnWdzd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rrhjpaXY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7466710E08F
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 09:06:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 382B3CE126E;
- Sat, 27 Jul 2024 09:06:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80738C32781;
- Sat, 27 Jul 2024 09:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722071172;
- bh=Z4hMzwjlVCw7IekS4CNQPfHlyOxqR5j69BIvedqQkYU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FzmnWdzdi28nnYKKzar3Td0ojsbTV+BNYCbunFUaUEW26slgC+e/wBHnb7SIXh+aY
- PUEmA/vkv/uaZsztqLEdq3jWQO/8VHeUpb3PlkpkVh6U2OOTMmnLUK8urqiz2AUTVx
- 2JC8umjUoW614G+/KiuYtN9r6uoXllcoxbhpHCzN9FNp3pRlfiAOw7ylW5IgM02lJk
- DR6wpflN4JmYrjWEGEaUAmJKBzc9ibOA4snp+iz28S/UdmZU3R+EZchluooNborlDt
- JUYksZa7rLeQxWNyBSZ3bMd2b3Q+1b9uHPaffF9fih6YsG4+4YqPp9UhCRZmSiadVl
- IftGTbEs85aOg==
-Message-ID: <52bf1aa6-449f-4f77-992e-45e510fe6e7f@kernel.org>
-Date: Sat, 27 Jul 2024 11:06:05 +0200
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5145110E039
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 11:15:15 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2ee920b0781so22304711fa.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 04:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1722078913; x=1722683713; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=F6IkcugCt219ovB+QT/C8OnX7+9cAi+LnPtWh9ZzNwI=;
+ b=rrhjpaXY5c42KVCV9i3hn8jr5SA56OD5ZZx2CufVi9UNJ5NqXfi4+r9V26syJcH7A0
+ qRemoZWy1nfT7ZfSWbuLs04vUcWaX8LciJsoolqJ91AFTh74Y4FCmAl4cd3G83KqSwsu
+ KUh3xIlR8hk4OslTGmZCpJG5a2o4ORkulqJ+Xmb3e6yn3zUfyKpPFYHUYR2XwWA8axv9
+ 22kKbtqpYRlJiMWegbmzheoCZjST4SyDsxvyNYULl7zxIkO0Y/AiaqmrgKDNlVY4YkyO
+ hxGeQ0rECzGWd8PLDwXyQIxV+2tGGDy9RABvr6MHzWS3MBuPbjfdiM+/KTJjsGtXzZca
+ 1GXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722078913; x=1722683713;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=F6IkcugCt219ovB+QT/C8OnX7+9cAi+LnPtWh9ZzNwI=;
+ b=FQyC7Nh1PwQMPJ5/r+WPGgenqd9/ilF5owvloRWumuxJU2AUDGXKwHTgY2pOdngrQR
+ p04AQE4dPmBwlbdjQfThnuGBECF3pXLE6snowc5pgBcYxVSH66gEsPB96fUE0CNIZ1Tj
+ zQ//GGYe2F1MhI9c1JnlmTX3lCZN2wjFaN4v/e66ptS+j0/OnFORUL+DTRiQmtnAx5A7
+ uIomiiMbkre+awagua0ZEMNvj0Tdf6CSdbV0lprMTOOqQQhJJgf2xbq5Cs7M6eSnhRrh
+ wRvuICZis3SQ6NvBMwwyYma3sX6hTpGcYowjnZxObBNNXCUT96bWRhm0G1tsncQla0Ac
+ JqlQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUoMhR/mIW1FnKCe6F1+7w9vDL3KwgeC6meefWyG/0Bo3mqc2MV2rrWzDyGW+CPbarxaDStylFLRelUFYltHEOoVogyt3uhE/rL9wJAYrzz
+X-Gm-Message-State: AOJu0YxBQU5CKz2UUY3KsBSCxdYEjpF8EaTHpQSaGh+YcUpOdcZRfced
+ PD0UA/nlmtfI3OdmNfao6NY7LuN/Q6n9OR/7vB/4C/pseuOLswdNwN2NEmsO6aM=
+X-Google-Smtp-Source: AGHT+IFVXUmMe+3AT1Z/H4tmBdr6d67ABfA5prOEZcm0+0GcEzV9I7RRCuZCY8eehOOL6sI8HfvrCg==
+X-Received: by 2002:a2e:9d99:0:b0:2ef:24dd:8d86 with SMTP id
+ 38308e7fff4ca-2f12ee634a8mr12638391fa.49.1722078912885; 
+ Sat, 27 Jul 2024 04:15:12 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2f03cf0f9bfsm6943141fa.16.2024.07.27.04.15.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 27 Jul 2024 04:15:12 -0700 (PDT)
+Date: Sat, 27 Jul 2024 14:15:10 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org, 
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ saravanak@google.com
+Subject: Re: [RFC PATCH] ARM: dts: imx53-qsb: Add MCIMX-LVDS1 display module
+ support
+Message-ID: <xoj4sypxndql62k64ztmco5ufddeysp26fyc46prwr4ezik223@sssy5zmefwtg>
+References: <20240726065012.618606-1-victor.liu@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: Add Sharp Memory LCD bindings
-To: Alex Lanzano <lanzano.alex@gmail.com>, mehdi.djait@bootlin.com,
- christophe.jaillet@wanadoo.fr,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240725004734.644986-1-lanzano.alex@gmail.com>
- <20240726194456.1336484-1-lanzano.alex@gmail.com>
- <20240726194456.1336484-2-lanzano.alex@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240726194456.1336484-2-lanzano.alex@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240726065012.618606-1-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,146 +88,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/07/2024 21:44, Alex Lanzano wrote:
-> Add device tree bindings for the monochrome Sharp Memory LCD
+On Fri, Jul 26, 2024 at 02:50:12PM GMT, Liu Ying wrote:
+> MCIMX-LVDS1[1] display module integrates a HannStar HSD100PXN1 LVDS
+> display panel and a touch IC.  Add an overlay to support the LVDS
+> panel on i.MX53 QSB / QSRB platforms.
 > 
-> Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
-> Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-
-The order of tags is incorrect. Who developed it first? Please read at
-Submitting patches - it explained this case quite precisely.
-
+> [1] https://www.nxp.com/part/MCIMX-LVDS1
+> 
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->  .../bindings/display/sharp,ls010b7dh04.yaml   | 94 +++++++++++++++++++
->  1 file changed, 94 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+> I mark RFC in patch subject prefix because if the DT overlay is used, both ldb
+> and panel devices end up as devices deferred.  However, if the DT overlay is
+> not used and the devices are defined in imx53-qsb-common.dtsi, then they can be
+> probed ok.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml b/Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+> With a dev_err_probe() added to imx_ldb_probe() in imx-ldb.c, devices_deferred
+> indicates 53fa8008.ldb and panel-lvds kind of depend on each other.
+> 
+> root@imx53qsb:~# cat /sys/kernel/debug/devices_deferred
+> 53fa8008.ldb    imx-ldb: failed to find panel or bridge for channel0
+> panel-lvds      platform: wait for supplier /soc/bus@50000000/ldb@53fa8008/lvds-channel@0
+> 
+> It looks like the issue is related to fw_devlink, because if "fw_devlink=off"
+> is added to kernel bootup command line, then the issue doesn't happen.
+
+Could you please fdtdump /sys/firmware/fdt (or just generated DTB files)
+in both cases and compare the dumps for sensible differences?
+
+> 
+> Saravana, DT folks, any ideas?
+> 
+> Thanks.
+> 
+>  arch/arm/boot/dts/nxp/imx/Makefile            |  4 ++
+>  .../boot/dts/nxp/imx/imx53-qsb-common.dtsi    |  4 +-
+>  .../dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso    | 43 +++++++++++++++++++
+>  3 files changed, 49 insertions(+), 2 deletions(-)
+>  create mode 100644 arch/arm/boot/dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso
+> 
+> diff --git a/arch/arm/boot/dts/nxp/imx/Makefile b/arch/arm/boot/dts/nxp/imx/Makefile
+> index 92e291603ea1..7116889e1515 100644
+> --- a/arch/arm/boot/dts/nxp/imx/Makefile
+> +++ b/arch/arm/boot/dts/nxp/imx/Makefile
+> @@ -46,8 +46,10 @@ dtb-$(CONFIG_SOC_IMX53) += \
+>  	imx53-ppd.dtb \
+>  	imx53-qsb.dtb \
+>  	imx53-qsb-hdmi.dtb \
+> +	imx53-qsb-mcimx-lvds1.dtb \
+>  	imx53-qsrb.dtb \
+>  	imx53-qsrb-hdmi.dtb \
+> +	imx53-qsrb-mcimx-lvds1.dtb \
+>  	imx53-sk-imx53.dtb \
+>  	imx53-sk-imx53-atm0700d4-lvds.dtb \
+>  	imx53-sk-imx53-atm0700d4-rgb.dtb \
+> @@ -57,7 +59,9 @@ dtb-$(CONFIG_SOC_IMX53) += \
+>  	imx53-usbarmory.dtb \
+>  	imx53-voipac-bsb.dtb
+>  imx53-qsb-hdmi-dtbs := imx53-qsb.dtb imx53-qsb-hdmi.dtbo
+> +imx53-qsb-mcimx-lvds1-dtbs := imx53-qsb.dtb imx53-qsb-mcimx-lvds1.dtbo
+>  imx53-qsrb-hdmi-dtbs := imx53-qsrb.dtb imx53-qsb-hdmi.dtbo
+> +imx53-qsrb-mcimx-lvds1-dtbs := imx53-qsrb.dtb imx53-qsb-mcimx-lvds1.dtbo
+>  dtb-$(CONFIG_SOC_IMX6Q) += \
+>  	imx6dl-alti6p.dtb \
+>  	imx6dl-apf6dev.dtb \
+> diff --git a/arch/arm/boot/dts/nxp/imx/imx53-qsb-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx53-qsb-common.dtsi
+> index 05d7a462ea25..430792a91ccf 100644
+> --- a/arch/arm/boot/dts/nxp/imx/imx53-qsb-common.dtsi
+> +++ b/arch/arm/boot/dts/nxp/imx/imx53-qsb-common.dtsi
+> @@ -16,7 +16,7 @@ memory@70000000 {
+>  		      <0xb0000000 0x20000000>;
+>  	};
+>  
+> -	backlight_parallel: backlight-parallel {
+> +	backlight: backlight {
+
+Nit: this seems unrelated to the LVDS support
+
+>  		compatible = "pwm-backlight";
+>  		pwms = <&pwm2 0 5000000 0>;
+>  		brightness-levels = <0 4 8 16 32 64 128 255>;
+> @@ -89,7 +89,7 @@ panel_dpi: panel {
+>  		compatible = "sii,43wvf1g";
+>  		pinctrl-names = "default";
+>  		pinctrl-0 = <&pinctrl_display_power>;
+> -		backlight = <&backlight_parallel>;
+> +		backlight = <&backlight>;
+>  		enable-gpios = <&gpio3 24 GPIO_ACTIVE_HIGH>;
+>  
+>  		port {
+> diff --git a/arch/arm/boot/dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso b/arch/arm/boot/dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso
 > new file mode 100644
-> index 000000000000..79bde7bf0d7d
+> index 000000000000..27f6bedf3d39
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
-> @@ -0,0 +1,94 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/sharp,ls010b7dh04.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/arch/arm/boot/dts/nxp/imx/imx53-qsb-mcimx-lvds1.dtso
+> @@ -0,0 +1,43 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright 2024 NXP
+> + */
 > +
-> +title: Sharp Memory LCD panels
+> +/dts-v1/;
+> +/plugin/;
 > +
-> +maintainers:
-> +  - Alex Lanzano <lanzano.alex@gmail.com>
-> +
-> +description:
-> +  Sharp Memory LCDs are a series of monochrome displays that operate over
-> +  a SPI bus when the chip select is high. The displays require a signal (VCOM)
-> +  to be generated to prevent DC bias build up resulting in pixels being
-> +  unable to change. Three modes can be used to provide the VCOM signal
-> +  ("software", "external", "pwm").
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - sharp,ls010b7dh04
-> +      - sharp,ls011b7dh03
-> +      - sharp,ls012b7dd01
-> +      - sharp,ls013b7dh03
-> +      - sharp,ls013b7dh05
-> +      - sharp,ls018b7dh02
-> +      - sharp,ls027b7dh01
-> +      - sharp,ls027b7dh01a
-> +      - sharp,ls032b7dd02
-> +      - sharp,ls044q7dh01
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-cs-high: true
+> +&{/} {
+> +	panel-lvds {
 
-<form letter>
-This is a friendly reminder during the review process.
+Nit: Just 'panel' should be enough.
 
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
+> +		compatible = "hannstar,hsd100pxn1";
+> +		backlight = <&backlight>;
+> +		power-supply = <&reg_3p2v>;
+> +
+> +		port {
+> +			panel_lvds_in: endpoint {
+> +				remote-endpoint = <&lvds0_out>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&ldb {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +	status = "okay";
+> +
+> +	lvds-channel@0 {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		fsl,data-mapping = "spwg";
+> +		fsl,data-width = <18>;
+> +		status = "okay";
+> +
+> +		port@2 {
+> +			reg = <2>;
+> +
+> +			lvds0_out: endpoint {
+> +				remote-endpoint = <&panel_lvds_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> -- 
+> 2.34.1
+> 
 
-Thank you.
-</form letter>
-
-> +
-> +  spi-max-frequency:
-> +    maximum: 2000000
-> +
-> +  sharp,vcom-mode:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    description: |
-> +      software - This mode relies on a software operation to send a
-> +      "maintain display" message to the display, toggling the vcom
-> +      bit on and off with each message
-> +
-> +      external - This mode relies on an external clock to generate
-> +      the signal on the EXTCOMM pin
-
-External clock? Then you might be missing clocks property.
-> +
-> +      pwm - This mode relies on a pwm device to generate the signal
-> +      on the EXTCOMM pin
-
-That's an enum. Otherwise why "pony" would be a correct vcom-mode?
-
-> +
-> +  enable-gpios: true
-> +
-> +  pwms:
-> +    maxItems: 1
-> +    description: External VCOM signal
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - spi-cs-high
-> +  - sharp,vcom-mode
-> +
-> +allOf:
-> +  - $ref: panel/panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +  - if:
-> +      properties:
-> +        sharp,vcom-mode:
-> +          const: pwm
-> +    then:
-> +      required:
-> +        - pwms
-> +
-> +additionalProperties: false
-
-Instead:
-unevaluatedProperties: false
-
-> +
-> +examples:
-> +  - |
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        display@0{
-
-Missing space (see DTS coding style or any DTS)
-
-> +            compatible = "sharp,ls013b7dh03";
-> +            reg = <0>;
-> +            spi-cs-high;
-> +            spi-max-frequency = <1000000>;
-> +            sharp,vcom-mode = "software";
-> +        };
-> +    };
-> +...
-
-Best regards,
-Krzysztof
-
+-- 
+With best wishes
+Dmitry
