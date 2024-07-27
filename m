@@ -2,74 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56EB693DC85
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 02:24:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3647B93DCC3
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2024 02:50:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32A2410E091;
-	Sat, 27 Jul 2024 00:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDE4A10E20B;
+	Sat, 27 Jul 2024 00:50:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="E4o4mQ1u";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fcK7DcCv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5878310E091
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 00:24:37 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-6b7b349a98aso9166086d6.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2024 17:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1722039876; x=1722644676;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=07ogrVS5x8lpQcrfQ9VX3T1kjP2RfniPU+x1JGxiSQI=;
- b=E4o4mQ1u5ypJvWZ0jWx9xg35WbJfLJYU/4LGMW9LrBZWlI3Cnh1COTN0/1jemQFDVe
- KsSzPUpXluDmSFRlUBWf6ndG/xPy1ampF2tDnwyeJLFi2P8VSzbC1L+AdvKZVQlYhCfP
- xYaebMsZVZjt9h9NLyiDR3gUyMt3NKNQKRbd4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722039876; x=1722644676;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=07ogrVS5x8lpQcrfQ9VX3T1kjP2RfniPU+x1JGxiSQI=;
- b=hJAslZfUetMLwoZJDzKUZN5F6feY5ULY14aju2ZuXf3JRLHaFZ+YxcxP2Zzgk+GxHN
- TCykI+JVmJkYYcw87ciuUlPhxrhcLuuuvsyZeDmiF3JHw6iFK9lmxrGfueo2kt+O4VZX
- g+qAGmfxHgZN4DaLBmyEcPukWsUvByOJ3xe03SRG4J/kBSLCMur4z1VxxnOdlwmu/5u/
- eGx8uCI6aBIwxcL8rWP6CdNzKAAx7rkrpkaMItR8JseMiyQocVDzlVb4T+IZNFu22WNq
- 3wG04fuoRJ9ArNdCjmrymlKUQOJko7m7srUPhonhSEglKh0aamvtpvFSdWbF1kcdY7il
- itKQ==
-X-Gm-Message-State: AOJu0YzsdUxakAGgcT6zzyVfXz7UeA00j0IZvgD3jrUS/hQBqQKx42z9
- vb0x6O+q9oO2tGQae/3hgLkG3DYaH1wSFuS/Tsxe3YazCges89AknutOag1HUpXxF0/d+2TkzSw
- fVotX+5k5DNwUui+Hl6PQoXY/RqHpUDFt+U0V
-X-Google-Smtp-Source: AGHT+IHpnZkC5VzVD/9wtOuDbyMsVbJocHHwdfZb7aYI9KRRHqHEMH/h3Uk7GOcJxPPS3XvCEOHVuSYaA8p7WV7saKw=
-X-Received: by 2002:a05:6214:19c7:b0:6b5:6b1:6c with SMTP id
- 6a1803df08f44-6bb55a1533dmr19000576d6.24.1722039876063; Fri, 26 Jul 2024
- 17:24:36 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 26 Jul 2024 17:24:35 -0700
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0992510E20B
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 00:50:18 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADC54720;
+ Sat, 27 Jul 2024 02:49:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1722041372;
+ bh=FMPvc1SZyn/90phKYCnQE41g0GmtXOgYC7qpx+Iema8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fcK7DcCvl0O+twoZb5CN8BBIkni4ls6QM8+qFMmk75Mq3yd9mNAQ5hga5CCyAIFb5
+ /WXaqEVn5hkk+VRKmJo9Qx1EC3XakTB2xVApuEogltnL/SLns9reAQJGaRaTWx/r+o
+ koxdXPaErqkyP0LD8n+UrmD4pLA7REygDMpAT8Sg=
+Date: Sat, 27 Jul 2024 03:49:58 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 3/9] dt-bindings: display: renesas,rzg2l-du: Document
+ RZ/G2UL DU bindings
+Message-ID: <20240727004958.GF300@pendragon.ideasonboard.com>
+References: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
+ <20240709135152.185042-4-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20240725220320.130916-1-quic_abhinavk@quicinc.com>
-References: <20240725220320.130916-1-quic_abhinavk@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Fri, 26 Jul 2024 17:24:35 -0700
-Message-ID: <CAE-0n50mBEX98HH+5BurM-uRyzrxcPXFJ7yLg__hFJHfYjm67Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: fix the max supported bpp logic
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Guenter Roeck <groeck@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Tanmay Shah <tanmay@codeaurora.org>, Vara Reddy <quic_varar@quicinc.com>, 
- freedreno@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com, 
- neil.armstrong@linaro.org, abel.vesa@linaro.org, quic_khsieh@quicinc.com, 
- Rob Clark <robdclark@chromium.org>, Chandan Uddaraju <chandanu@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240709135152.185042-4-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,63 +66,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2024-07-25 15:03:19)
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index a916b5f3b317..56ce5e4008f8 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -423,8 +424,10 @@ int dp_panel_init_panel_info(struct dp_panel *dp_panel)
->                                 drm_mode->clock);
->         drm_dbg_dp(panel->drm_dev, "bpp = %d\n", dp_panel->dp_mode.bpp);
->
-> -       dp_panel->dp_mode.bpp = max_t(u32, 18,
-> -                               min_t(u32, dp_panel->dp_mode.bpp, 30));
-> +       max_supported_bpp = dp_panel_get_mode_bpp(dp_panel, dp_panel->dp_mode.bpp,
-> +                                                 dp_panel->dp_mode.drm_mode.clock);
-> +       dp_panel->dp_mode.bpp = max_t(u32, 18, max_supported_bpp);
+Hi Biju,
 
-Is the max_t() usage still required once 'max_supported_bpp' is also a
-u32? Also, what is 18? Shouldn't that be some sort of define so we know
-what it represents?
+Thank you for the patch.
 
-Or maybe none of that is required? From what I can tell,
-dp_panel_get_mode_bpp() calls dp_panel_get_supported_bpp() which will
-essentially clamp the bpp range between 18 and 30, unless
-dp_panel->dp_mode.bpp is between 30 and 18 but not divisible by 6, e.g.
-29. Perhaps this patch can be included and the max_t above dropped.
+On Tue, Jul 09, 2024 at 02:51:41PM +0100, Biju Das wrote:
+> Document DU found in RZ/G2UL SoC. The DU block is identical to RZ/G2L
+> SoC, but has only DPI interface.
+> 
+> While at it, add missing required property port@1 for RZ/G2L and RZ/V2L
+> SoCs. Currently there is no user for the DPI interface and hence there
+> won't be any ABI breakage for adding port@1 as required property for
+> RZ/G2L and RZ/V2L SoCs.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> v1->v2:
+>  * Updated commit description related to non ABI breakage.
+>  * Added Ack from Conor.
+> ---
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 32 +++++++++++++++++--
+>  1 file changed, 29 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> index 08e5b9478051..c0fec282fa45 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> @@ -18,6 +18,7 @@ properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+> +          - renesas,r9a07g043u-du # RZ/G2UL
+>            - renesas,r9a07g044-du # RZ/G2{L,LC}
+>        - items:
+>            - enum:
+> @@ -60,9 +61,6 @@ properties:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          unevaluatedProperties: false
+>  
+> -    required:
+> -      - port@0
+> -
+>      unevaluatedProperties: false
+>  
+>    renesas,vsps:
+> @@ -88,6 +86,34 @@ required:
+>  
+>  additionalProperties: false
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a07g043u-du
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0: false
+> +            port@1:
+> +              description: DPI
+> +
+> +          required:
+> +            - port@1
 
----8<--
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c
-b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 07db8f37cd06..5cd7c138afd3 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -90,22 +90,22 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
- static u32 dp_panel_get_supported_bpp(struct dp_panel *dp_panel,
- 		u32 mode_edid_bpp, u32 mode_pclk_khz)
- {
--	struct dp_link_info *link_info;
-+	const struct dp_link_info *link_info;
- 	const u32 max_supported_bpp = 30, min_supported_bpp = 18;
--	u32 bpp = 0, data_rate_khz = 0;
-+	u32 bpp, data_rate_khz;
+Why do you use port@1 for the DPI output here, and not port@0 ?
 
- 	bpp = min_t(u32, mode_edid_bpp, max_supported_bpp);
+> +    else:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DSI
+> +            port@1:
+> +              description: DPI
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
 
- 	link_info = &dp_panel->link_info;
- 	data_rate_khz = link_info->num_lanes * link_info->rate * 8;
+You're missing a blank line here.
 
--	while (bpp > min_supported_bpp) {
-+	do {
- 		if (mode_pclk_khz * bpp <= data_rate_khz)
--			break;
-+			return bpp;
- 		bpp -= 6;
--	}
-+	} while (bpp > min_supported_bpp);
+>  examples:
+>    # RZ/G2L DU
+>    - |
 
--	return bpp;
-+	return min_supported_bpp;
- }
+-- 
+Regards,
 
- static int dp_panel_update_modes(struct drm_connector *connector,
+Laurent Pinchart
