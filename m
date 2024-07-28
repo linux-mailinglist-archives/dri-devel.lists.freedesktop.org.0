@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F410093E4D4
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 13:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 859D793E4D9
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 13:45:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 682F610E140;
-	Sun, 28 Jul 2024 11:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E823510E143;
+	Sun, 28 Jul 2024 11:45:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Qksm5P3p";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Xu5kWRqV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEC6310E140
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 11:44:28 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A55A810E143
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 11:45:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1722167052; x=1722771852; i=wahrenst@gmx.net;
- bh=IbGjewfMVvYXbrFbwzubZ45vd9Gh3tFpLWbhBJeYuoI=;
+ s=s31663417; t=1722167115; x=1722771915; i=wahrenst@gmx.net;
+ bh=4q82fafFyhWuE8D9fKAnSbhAEbmOAflZeVN6dmlZRD0=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding:cc:
  content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=Qksm5P3p5CRNNdes+g/NL3jPU3p0HnphU3o6RslsQNc6xdp27JbMo4YFDMPvZEPp
- 1npoVNRq8Ut84Q/9FW3e9K2LYWLKf9NuClS9noeFFCDzIx7gP67rQD1y3m52hMc6m
- qU9CoBFhmrcJeevpkGpCl5+KoovkMajx+0XYLEoL44FFmyk+kyJWN6JAHZU9j+Us0
- xGJYNwpUFNoQBBwn3zqVMQhcr1RtLU+PpMIkW7GLuPJJx0gsfB0K+brveI5BCYVGO
- xbRESKLXnLysz60odoVdsOgsQoSOi+3SqYSmxnDKRVC0cycwthJI1lh32sS/rTl30
- MypypdLKkzA9dQgv1g==
+ b=Xu5kWRqVwRMEHm/f8hCDK1d+uoV2kYeXxQv8i9nSnyXZfHNWFFcUhtvRmypUy3+i
+ WupDtA3vBAqyx7dlVQDHQ9dInJSmfOmYyI6hLBBT3xcCAuvbNSonBHVBxWxyz2vU8
+ CBxfxJTqgs/L1B91WKf8of3Mxbbba5zbH9CFeGsqUe38mtEi6tbeHORu9o1sng5j8
+ 6rLdGvCEYg6f/Lbkh47qmwH0fOCtTCWE4LGx14jTDCQrtIt934dTBaa0sdZ6SfbOE
+ 0AlfOHKBzJ8MeonceBt1D/LE9MTYqSrckUGZ+ezRG4x/vQaE5gRsjvhaMi1mNjlCV
+ nuFyjM0qgyERE0Baqg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTzay-1sgJoM2ID4-00L8m9; Sun, 28
- Jul 2024 13:44:12 +0200
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MbivG-1rzVnY3Ecw-00laEe; Sun, 28
+ Jul 2024 13:45:14 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -50,32 +50,32 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com,
  Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 02/16] mailbox: bcm2835: Fix timeout during suspend mode
-Date: Sun, 28 Jul 2024 13:41:46 +0200
-Message-Id: <20240728114200.75559-3-wahrenst@gmx.net>
+Subject: [PATCH V2 03/16] pmdomain: raspberrypi-power: Adjust packet definition
+Date: Sun, 28 Jul 2024 13:41:47 +0200
+Message-Id: <20240728114200.75559-4-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240728114200.75559-1-wahrenst@gmx.net>
 References: <20240728114200.75559-1-wahrenst@gmx.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8gHlvy2cq7q0FmBdgqfBmCudv2v+AkQkTrbr6+v+4cawgLMRiP7
- I6WYfRp6lfU706qmZLWTww4siOukAG7n+jA1FU86+qu98d+U9UMGhdlkyDy7QS5icxFNBoQ
- NOzJmBmCDlN8gyXryRU/xNOovaw4p4zCkJorOxMb2ZmVx52i6MHgBiBiZH9NahfdXKsFV0r
- 17NLGKp4+sax2g19ulL0g==
+X-Provags-ID: V03:K1:ww2ImHiANw1KUG0kC6NCMNYw2JJ6/w2TlLV8iCX0cp1WhqnY1gf
+ Lrt7Rel1WCNivDng91th4RxlDGK+MD84bbpqap26he9//LsKj8FW02IehVq7aIM7RY1iuQd
+ 5HxfVCxyLYAZflwkRNBYrC7kl0sMXN6RZClcV2ykSweCLdnMcrZtHDg1BiC88GRPcaQxwv4
+ iKPV35Fj2K4jIbxgLcw4g==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:GvHpumZq+Q4=;f1hgc09s2ZL1zFiR+ZdW9uLpm4l
- Dl83J93DYLWs2cENUpRtKq+92lalmUjF3cfldUv8D4vwexvokVVZ3v6vub5l2CHu/uBNi4VFb
- 96xBHlgEsRFrqqd/JeuZ4hzsMPoVDxAou+zwdUcAaDEVML83SSj6WxSAjHamY1O4rYbC9Z1zW
- GpxHei+/kzjv0e1FZduakzXVqURdsOmNfpi1iUyoGaxkpYnQNjI1XTveoVXdMv2uLpvu0a2sE
- 3El1GFJxlm4u+xubtnZjY/AMTFqZwMgbrxX5K3KD1H+FiQ15ikaeHqbZctW9tFkPoJFBarEBu
- snVeFD4taEcrRtuBBjVqWNz9y0RTdO4KaXutvq8CkNCi51MwERHOOV2GNbm8Sa7Q37F1veRuu
- 0Uo88LrN1eQGeC/5KYpDHEhJVdPCsVNzUpr+hBh++B84KxXpogaSvoGl0MSv3thaBu/HrQd1b
- Vii8/RcP0dviPTwenY9KkZbIrP6BX/LTh1fktdIR1zwWb6AMZMPc83cJLRyo0vtFdBhBomTBj
- ffpmoGVvjwUQOrtX7CV75+i5wMIQ28WR5w+8vrJMIo74GxUKUZbjU+JiwE1KM/BgrUPSNzSRG
- 1ssfhtEEh6NFmL6xXeosAaRnjmvZDpl96wCWIGFbyfQ6d7bWS/cXvr7irUcL8Bjbn9u5pwJri
- RwfZjiZyu4SlzmsNfq6IcPb8E7AZaoLstB2zer8eQTeXyrS7+v+LaIdHT5LFFzhTa2VZ6ygXa
- KYC1VR/M+gHjWUHy2roAegzM2+2sZkrRahiQCY1BE4oB4r5B3/D29UlpWOwvBvydCwzxG98wr
- EoDivwl3aXoYFWu89mq048AA==
+UI-OutboundReport: notjunk:1;M01:P0:xHBFILp2AVM=;AtBau9kAHDzAQN2vi/Rlk8IGZWV
+ HgOSGiCxZyBnPoCAlxISFVgPBz4nxSq8OgmABAa56QPjAFV41F/7zbdYbcOdX7pDcpPz4noVk
+ VIz2j7OsZJyAdhfoPPDcUTfT79NqmuCsn4Rz4k39rSIb+WQaggJLNgd8l+V9sxVtwhv1UBfjQ
+ klXTFlTEHhh43Fu1lMDa2TsOCU0ffl3sSurCuLLfmb8jBe3Yz5RH2bAh/GB93DqNnpzYTa/rs
+ GaS5DOcIuEaB3M0QKAWhPVaoj0BMuan8fTJKJIm841XXARfe2kOAUXcMvtnwS2d7aw3wX0POb
+ inEwmjYM7EVFTIWZdsAvBj7w1L+jT3k1fIOnGFJitBe/RbumOGuxtRx+3ZHOA/TrwxRoK55JR
+ CZdyQzLMxsxg51fctS9EbO8Kf/zt2Lcx8Z1AOXmmKLkjMNEfKjw3Kz2jnvAN0NarF9AUpsbxU
+ S2BYtUj6VblFqAKhYpM2TdYLnwTHeqBKFsoL4qrNNO6XLaFezRc4W7pCX9VWBLaq0mIgMJHLx
+ IPjQp/NoLL8lGLUlo80cxqU+Id6dJlcCrFaWZHN2ro1dDBYTgyLPhNJd0sWdJM47QFarEUQf3
+ chte7qnERjYvtg98tk7rvr6ayaS21nsuex3SHfOLU3QZJiJDBdYakBWG5k3o5nUl4LYR07wmE
+ zWWHCJNtTm37OfQM//ty6qfLLiD6PSu6kTUv0k+Py27HAqbL9W7CfY2/nc/MeI2v0a8Q8/4qL
+ 0VHWMOe+qhaP5wIavkG6eaM8V72d65aa+EK7dsYcLXTqlNaugjzqnw1D6Ts+PTs63XAhvzb24
+ Y7s9H8wvrvMMjvWUUPaTDyow==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,72 +91,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During noirq suspend phase the Raspberry Pi power driver suffer of
-firmware property timeouts. The reason is that the IRQ of the underlying
-BCM2835 mailbox is disabled and rpi_firmware_property_list() will always
-run into a timeout [1].
+According to the official Mailbox property interface the second part
+of RPI_FIRMWARE_SET_POWER_STATE ( and so on ...) is named state because
+it represent u32 flags and just the lowest bit is for on/off. So rename it
+to align with documentation and prepare the driver for further changes.
 
-Since the VideoCore side isn't consider as a wakeup source, set the
-IRQF_NO_SUSPEND flag for the mailbox IRQ in order to keep it enabled
-during suspend-resume cycle.
-
-[1]
-PM: late suspend of devices complete after 1.754 msecs
-WARNING: CPU: 0 PID: 438 at drivers/firmware/raspberrypi.c:128
- rpi_firmware_property_list+0x204/0x22c
-Firmware transaction 0x00028001 timeout
-Modules linked in:
-CPU: 0 PID: 438 Comm: bash Tainted: G         C         6.9.3-dirty #17
-Hardware name: BCM2835
-Call trace:
-unwind_backtrace from show_stack+0x18/0x1c
-show_stack from dump_stack_lvl+0x34/0x44
-dump_stack_lvl from __warn+0x88/0xec
-__warn from warn_slowpath_fmt+0x7c/0xb0
-warn_slowpath_fmt from rpi_firmware_property_list+0x204/0x22c
-rpi_firmware_property_list from rpi_firmware_property+0x68/0x8c
-rpi_firmware_property from rpi_firmware_set_power+0x54/0xc0
-rpi_firmware_set_power from _genpd_power_off+0xe4/0x148
-_genpd_power_off from genpd_sync_power_off+0x7c/0x11c
-genpd_sync_power_off from genpd_finish_suspend+0xcc/0xe0
-genpd_finish_suspend from dpm_run_callback+0x78/0xd0
-dpm_run_callback from device_suspend_noirq+0xc0/0x238
-device_suspend_noirq from dpm_suspend_noirq+0xb0/0x168
-dpm_suspend_noirq from suspend_devices_and_enter+0x1b8/0x5ac
-suspend_devices_and_enter from pm_suspend+0x254/0x2e4
-pm_suspend from state_store+0xa8/0xd4
-state_store from kernfs_fop_write_iter+0x154/0x1a0
-kernfs_fop_write_iter from vfs_write+0x12c/0x184
-vfs_write from ksys_write+0x78/0xc0
-ksys_write from ret_fast_syscall+0x0/0x54
-Exception stack(0xcc93dfa8 to 0xcc93dff0)
-[...]
-PM: noirq suspend of devices complete after 3095.584 msecs
-
-Link: https://github.com/raspberrypi/firmware/issues/1894
-Fixes: 0bae6af6d704 ("mailbox: Enable BCM2835 mailbox support")
+Link: https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interf=
+ace
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 =2D--
- drivers/mailbox/bcm2835-mailbox.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/pmdomain/bcm/raspberrypi-power.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/mailbox/bcm2835-mailbox.c b/drivers/mailbox/bcm2835-m=
-ailbox.c
-index fbfd0202047c..ea12fb8d2401 100644
-=2D-- a/drivers/mailbox/bcm2835-mailbox.c
-+++ b/drivers/mailbox/bcm2835-mailbox.c
-@@ -145,7 +145,8 @@ static int bcm2835_mbox_probe(struct platform_device *=
-pdev)
- 	spin_lock_init(&mbox->lock);
+diff --git a/drivers/pmdomain/bcm/raspberrypi-power.c b/drivers/pmdomain/b=
+cm/raspberrypi-power.c
+index 06196ebfe03b..39d9a52200c3 100644
+=2D-- a/drivers/pmdomain/bcm/raspberrypi-power.c
++++ b/drivers/pmdomain/bcm/raspberrypi-power.c
+@@ -41,7 +41,7 @@ struct rpi_power_domains {
+  */
+ struct rpi_power_domain_packet {
+ 	u32 domain;
+-	u32 on;
++	u32 state;
+ };
 
- 	ret =3D devm_request_irq(dev, irq_of_parse_and_map(dev->of_node, 0),
--			       bcm2835_mbox_irq, 0, dev_name(dev), mbox);
-+			       bcm2835_mbox_irq, IRQF_NO_SUSPEND, dev_name(dev),
-+			       mbox);
- 	if (ret) {
- 		dev_err(dev, "Failed to register a mailbox IRQ handler: %d\n",
- 			ret);
+ /*
+@@ -53,7 +53,7 @@ static int rpi_firmware_set_power(struct rpi_power_domai=
+n *rpi_domain, bool on)
+ 	struct rpi_power_domain_packet packet;
+
+ 	packet.domain =3D rpi_domain->domain;
+-	packet.on =3D on;
++	packet.state =3D on;
+ 	return rpi_firmware_property(rpi_domain->fw,
+ 				     rpi_domain->old_interface ?
+ 				     RPI_FIRMWARE_SET_POWER_STATE :
+@@ -142,13 +142,13 @@ rpi_has_new_domain_support(struct rpi_power_domains =
+*rpi_domains)
+ 	int ret;
+
+ 	packet.domain =3D RPI_POWER_DOMAIN_ARM;
+-	packet.on =3D ~0;
++	packet.state =3D ~0;
+
+ 	ret =3D rpi_firmware_property(rpi_domains->fw,
+ 				    RPI_FIRMWARE_GET_DOMAIN_STATE,
+ 				    &packet, sizeof(packet));
+
+-	return ret =3D=3D 0 && packet.on !=3D ~0;
++	return ret =3D=3D 0 && packet.state !=3D ~0;
+ }
+
+ static int rpi_power_probe(struct platform_device *pdev)
 =2D-
 2.34.1
 
