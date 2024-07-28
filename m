@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C0593E65C
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1487E93E65F
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C627510E261;
-	Sun, 28 Jul 2024 15:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A42B10E26C;
+	Sun, 28 Jul 2024 15:47:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tmYnsvka";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ed8/VFCE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0311910E25F;
- Sun, 28 Jul 2024 15:46:59 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFFC10E265;
+ Sun, 28 Jul 2024 15:47:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7186961217;
- Sun, 28 Jul 2024 15:46:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F61C4AF0B;
- Sun, 28 Jul 2024 15:46:55 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id C452FCE0939;
+ Sun, 28 Jul 2024 15:47:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E84FC4AF0B;
+ Sun, 28 Jul 2024 15:47:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722181618;
- bh=y9AQTNZoX6HVK69rQ5l6GNpn9F03KP+rssI2ezZipX8=;
+ s=k20201202; t=1722181625;
+ bh=nzpjBA9ptKnU5Co/7Z/CENazkBdv5cN+Cu4dUVLXdlo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tmYnsvkadAsa58hqcDRgPnvLY0A28jrCiZ+Oinal9Fy90KcnqnjNb+ti8Qc3SNM5/
- dQZuVUrjGZeBbZAcK6OBrCSOYMSYKKZQwVD6Gpp9w244X2aIGGm93LOLp2tHCoVKE9
- DvraSZCysLBVBC5puoY6CBfaBgLr1aZ0r6NCTHBV2vjpOhJ2nCgcZUwYh036yQYU1k
- wCGxav2dzAVho9b+0Bcn2SEWwr0S7UaCyUdel2fx0GdxrXv9N3cSPMDytLTMMgZcbI
- 0+dDwf6+c3SXAVaUMTyiUNak/sRG1pyACZUGH2V86HnXEgH4fFnyJSydJ2CNhBwPro
- PwYmmePCeij0w==
+ b=ed8/VFCEx2iBDYE9QkHJiRyeOX76i4NWl6Mzv+ppGbvMLkyx3Aq9+HewjqOBRVxgv
+ s9ChVCe8AUqKI4EK+IeivdxBR7usDGGZYlZae7/R34F7KqoaPzbf3Oi40EENfD4NFH
+ T4SsMGjd8//jBtfPSlgXCdQ9at1SIh7prJ4V2eVJvKm9NsUFGJFOpjJZ1EyQWyFWwD
+ y9rUBCIuC35YWUSj4aBjprMMbuvu6W8N9O8faOk5ceuoE7X4G4Pk6/2CvkJFvPoe54
+ 9CV2PuEcKZ0GWAl8dCwNKj6dF44vaKJw5Xos9o6q/FiX5yT4NtOTAPaaAC5+M3G3iS
+ iFKjxoYZNSBUA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Bob Zhou <bob.zhou@amd.com>, Tim Huang <Tim.Huang@amd.com>,
+Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- evan.quan@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, mario.limonciello@amd.com,
- ruanjinjie@huawei.com, Jun.Ma2@amd.com, lijo.lazar@amd.com,
+ sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, mwen@igalia.com, joshua@froggi.es,
+ hamza.mahfooz@amd.com, Qingqing.Zhuo@amd.com, Nicholas.Choi@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 09/20] drm/amd/pm: Fix the null pointer
- dereference for vega10_hwmgr
-Date: Sun, 28 Jul 2024 11:45:07 -0400
-Message-ID: <20240728154605.2048490-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 11/20] drm/amd/display: Add NULL check for 'afb'
+ before dereferencing in amdgpu_dm_plane_handle_cursor_update
+Date: Sun, 28 Jul 2024 11:45:09 -0400
+Message-ID: <20240728154605.2048490-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240728154605.2048490-1-sashal@kernel.org>
 References: <20240728154605.2048490-1-sashal@kernel.org>
@@ -66,112 +71,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bob Zhou <bob.zhou@amd.com>
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit 50151b7f1c79a09117837eb95b76c2de76841dab ]
+[ Upstream commit 38e6f715b02b572f74677eb2f29d3b4bc6f1ddff ]
 
-Check return value and conduct null pointer handling to avoid null pointer dereference.
+This commit adds a null check for the 'afb' variable in the
+amdgpu_dm_plane_handle_cursor_update function. Previously, 'afb' was
+assumed to be null, but was used later in the code without a null check.
+This could potentially lead to a null pointer dereference.
 
-Signed-off-by: Bob Zhou <bob.zhou@amd.com>
-Reviewed-by: Tim Huang <Tim.Huang@amd.com>
+Fixes the below:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1298 amdgpu_dm_plane_handle_cursor_update() error: we previously assumed 'afb' could be null (see line 1252)
+
+Cc: Tom Chung <chiahsuan.chung@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Roman Li <roman.li@amd.com>
+Cc: Hersen Wu <hersenxs.wu@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 29 ++++++++++++++++---
- 1 file changed, 25 insertions(+), 4 deletions(-)
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c  | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-index 49c984f14e6b1..d43a530aba0e3 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-@@ -3418,13 +3418,17 @@ static int vega10_find_dpm_states_clocks_in_dpm_table(struct pp_hwmgr *hwmgr, co
- 	const struct vega10_power_state *vega10_ps =
- 			cast_const_phw_vega10_power_state(states->pnew_state);
- 	struct vega10_single_dpm_table *sclk_table = &(data->dpm_table.gfx_table);
--	uint32_t sclk = vega10_ps->performance_levels
--			[vega10_ps->performance_level_count - 1].gfx_clock;
- 	struct vega10_single_dpm_table *mclk_table = &(data->dpm_table.mem_table);
--	uint32_t mclk = vega10_ps->performance_levels
--			[vega10_ps->performance_level_count - 1].mem_clock;
-+	uint32_t sclk, mclk;
- 	uint32_t i;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index cc74dd69acf2b..eb77de95f26f5 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -1225,14 +1225,22 @@ void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
+ {
+ 	struct amdgpu_device *adev = drm_to_adev(plane->dev);
+ 	struct amdgpu_framebuffer *afb = to_amdgpu_framebuffer(plane->state->fb);
+-	struct drm_crtc *crtc = afb ? plane->state->crtc : old_plane_state->crtc;
+-	struct dm_crtc_state *crtc_state = crtc ? to_dm_crtc_state(crtc->state) : NULL;
+-	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	uint64_t address = afb ? afb->address : 0;
++	struct drm_crtc *crtc;
++	struct dm_crtc_state *crtc_state;
++	struct amdgpu_crtc *amdgpu_crtc;
++	u64 address;
+ 	struct dc_cursor_position position = {0};
+ 	struct dc_cursor_attributes attributes;
+ 	int ret;
  
-+	if (vega10_ps == NULL)
-+		return -EINVAL;
-+	sclk = vega10_ps->performance_levels
-+			[vega10_ps->performance_level_count - 1].gfx_clock;
-+	mclk = vega10_ps->performance_levels
-+			[vega10_ps->performance_level_count - 1].mem_clock;
++	if (!afb)
++		return;
 +
- 	for (i = 0; i < sclk_table->count; i++) {
- 		if (sclk == sclk_table->dpm_levels[i].value)
- 			break;
-@@ -3731,6 +3735,9 @@ static int vega10_generate_dpm_level_enable_mask(
- 			cast_const_phw_vega10_power_state(states->pnew_state);
- 	int i;
- 
-+	if (vega10_ps == NULL)
-+		return -EINVAL;
++	crtc = plane->state->crtc ? plane->state->crtc : old_plane_state->crtc;
++	crtc_state = crtc ? to_dm_crtc_state(crtc->state) : NULL;
++	amdgpu_crtc = to_amdgpu_crtc(crtc);
++	address = afb->address;
 +
- 	PP_ASSERT_WITH_CODE(!vega10_trim_dpm_states(hwmgr, vega10_ps),
- 			"Attempt to Trim DPM States Failed!",
- 			return -1);
-@@ -4998,6 +5005,8 @@ static int vega10_check_states_equal(struct pp_hwmgr *hwmgr,
- 
- 	vega10_psa = cast_const_phw_vega10_power_state(pstate1);
- 	vega10_psb = cast_const_phw_vega10_power_state(pstate2);
-+	if (vega10_psa == NULL || vega10_psb == NULL)
-+		return -EINVAL;
- 
- 	/* If the two states don't even have the same number of performance levels
- 	 * they cannot be the same state.
-@@ -5131,6 +5140,8 @@ static int vega10_set_sclk_od(struct pp_hwmgr *hwmgr, uint32_t value)
- 		return -EINVAL;
- 
- 	vega10_ps = cast_phw_vega10_power_state(&ps->hardware);
-+	if (vega10_ps == NULL)
-+		return -EINVAL;
- 
- 	vega10_ps->performance_levels
- 	[vega10_ps->performance_level_count - 1].gfx_clock =
-@@ -5182,6 +5193,8 @@ static int vega10_set_mclk_od(struct pp_hwmgr *hwmgr, uint32_t value)
- 		return -EINVAL;
- 
- 	vega10_ps = cast_phw_vega10_power_state(&ps->hardware);
-+	if (vega10_ps == NULL)
-+		return -EINVAL;
- 
- 	vega10_ps->performance_levels
- 	[vega10_ps->performance_level_count - 1].mem_clock =
-@@ -5423,6 +5436,9 @@ static void vega10_odn_update_power_state(struct pp_hwmgr *hwmgr)
+ 	if (!plane->state->fb && !old_plane_state->fb)
  		return;
  
- 	vega10_ps = cast_phw_vega10_power_state(&ps->hardware);
-+	if (vega10_ps == NULL)
-+		return;
-+
- 	max_level = vega10_ps->performance_level_count - 1;
- 
- 	if (vega10_ps->performance_levels[max_level].gfx_clock !=
-@@ -5445,6 +5461,9 @@ static void vega10_odn_update_power_state(struct pp_hwmgr *hwmgr)
- 
- 	ps = (struct pp_power_state *)((unsigned long)(hwmgr->ps) + hwmgr->ps_size * (hwmgr->num_ps - 1));
- 	vega10_ps = cast_phw_vega10_power_state(&ps->hardware);
-+	if (vega10_ps == NULL)
-+		return;
-+
- 	max_level = vega10_ps->performance_level_count - 1;
- 
- 	if (vega10_ps->performance_levels[max_level].gfx_clock !=
-@@ -5635,6 +5654,8 @@ static int vega10_get_performance_level(struct pp_hwmgr *hwmgr, const struct pp_
- 		return -EINVAL;
- 
- 	vega10_ps = cast_const_phw_vega10_power_state(state);
-+	if (vega10_ps == NULL)
-+		return -EINVAL;
- 
- 	i = index > vega10_ps->performance_level_count - 1 ?
- 			vega10_ps->performance_level_count - 1 : index;
 -- 
 2.43.0
 
