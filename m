@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD32293E543
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 15:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E22F93E548
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 15:06:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE5A10E176;
-	Sun, 28 Jul 2024 13:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE3410E179;
+	Sun, 28 Jul 2024 13:06:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="LmscagCW";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="dAV1RNjt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4D710E176
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 13:05:13 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B503610E179
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 13:06:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1722171897; x=1722776697; i=wahrenst@gmx.net;
- bh=CgyBVhShFPQHZA3QGcWv2/P5EoEiVb+TjGrpEimPkw0=;
+ s=s31663417; t=1722171962; x=1722776762; i=wahrenst@gmx.net;
+ bh=M7r0zgzsdRZMdo8RqGtVt52OP9WEg6pN/Bx4IF1TmGM=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding:cc:
  content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=LmscagCWdykxy8BHKIPNK4bcXTouq8j/oUpumI0X0mp69ItEAEIyO4a+6RpIBkYZ
- 6NF329NP3eJHwTPcEhoiu7JpIMFxjjwksG84J5YRVfGQzrYYJMABi2WI8V5xDNzM8
- cUpRefPt40a42h1X+B3yMcdQOb2uW4W/nY2X11+lGtmXGHwAYYBtTvfISwcD+pF9I
- iJbStJF9oorst5a8YTzG1Bki/NUsb0+3xXRgfWPEyAlZKuNdkiCy7oOVplvBjOYe9
- L54Z1Z188auJMY3svXTwvChidjc5L3ljXMFSaPEigEwHZs1uJusyXUy/+u18XPtQS
- qrmnJtHVd+00Cw9g4A==
+ b=dAV1RNjt6YGmbStVF14ePCj3d4y6nbdTmSJeuW1Dsceuzro7SMgd/8YWqV3R4dEW
+ FpNKi3/pgVxbuPgyErH8Ts7UxyGdceJs4g2lrQZ6Iw9D2gkPaClChovna907KYOgm
+ suMsrbrf5II0gt+gahIlhdTwynx7eED1XDQgA2dfIH6mvGGNcjqMLutMUft0AL65F
+ kahYj09H4Is5vs15TbbGyO9sl0bZkENDFNyRTPUpuE63ioawMnYPRbyNRZBbPf9Jh
+ VwrnQpirN865AsBpcqKauzjvrBpfM2tFhGLaHfoP2NqcqkWVBCHi2JorjTo5s0Txi
+ bt8KOeIaE5sNfpGkPQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Msq6M-1sIjaL0js0-00xHk0; Sun, 28
- Jul 2024 15:04:57 +0200
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mwfac-1sMbJY29z0-016ZFJ; Sun, 28
+ Jul 2024 15:06:02 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -50,33 +50,34 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com,
  Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 13/16] usb: dwc2: Skip clock gating on Broadcom SoCs
-Date: Sun, 28 Jul 2024 15:00:26 +0200
-Message-Id: <20240728130029.78279-5-wahrenst@gmx.net>
+Subject: [PATCH V2 14/16] WIP: usb: dwc2: Implement recovery after PM domain
+ off
+Date: Sun, 28 Jul 2024 15:00:27 +0200
+Message-Id: <20240728130029.78279-6-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240728130029.78279-1-wahrenst@gmx.net>
 References: <20240728114200.75559-1-wahrenst@gmx.net>
  <20240728130029.78279-1-wahrenst@gmx.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:s8dsyj9qqRYRsL8bQxmQ5roOnkmyC1BaDiF5Im83qgwzAe1fvr6
- YXnXSZOZhFMguv09RAYYhDM4htVwDa5FeYuT+H/zRLHpvpAy3embHN092azTN9XIXKqI6LQ
- EqeF4jqQqz0Xe9a4i3mCDUz+PSAKUgHCcZwsaiIzby2QVe8AwODU1/uwi5Y8+rBTJyoqgFR
- 2p/gSxu8/5aOBWD7jcRDQ==
+X-Provags-ID: V03:K1:/o5ph+IO8NWUQ7I1tOJI+ylH+u9cckK4F1uFGzHRwxaErB7jYQj
+ v0WmAZKTvicrUjhuvD9D1YTiywi3lWh/MKt9Jj2ukj4oxsqbwKAdhLfUq2zV8TPAgDYQJL0
+ GPEfbjMbu/Jr8oTZoribnDUU8l8mxBgd9RnwhCrzNB7rjKXQfx6LUvzfmdqLSf96eSHUyJO
+ wNFk8F2pMPA1z506FLssw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:JTYlFqlSooo=;Pk+uJOwCtCXcINyxmO7dEmrah04
- UlqaymRbX4CDsGbuGm87NnD4Zn9nFGfDHkF9XM3X/7qCMlMnukYR9YbOGd1+h/CDfAO/QXR4j
- Mi2OYWa33FGI4McxuWU+k3ftzulYGx/FwCwVrvnMRwcN+0IM9AYCJ+66ykuqV2SKu0KB+0bvD
- CY9dth/UCl9UTQqAnavn+GsgK6M8oeULSmIFCKyWHHxqVmLwunOUfQqgO3EEIojncArkOAii4
- /PVwVRf1NGvHecEiEnugwPkApVZwnPT3S91JTtXLBBZlCvdXhxM+WuznxF53Q76HfCUd7SORq
- h+LO45U2Uph33zEydNLlS2aNgdLD+6cF1iTACUrQJcTxOxtIAYYfzP2v9hjUC+E9HJy9us6fr
- /qIDEwOBsbSDNNSU7WKBPK/IXkyHCOHI8/eT4HW/9mkSdlhqcH7LyKNf5y0qV0jhQ++4XDGC7
- +IXc0XGnvzCIkz/Rv/0oBnCnWU5B72aF3k+w6vTXN4YJ5TFv3RSj5E9E0Q6TyQd6sA9Mr4jmk
- C0x0+lXe2PhRxsH8fpKLWSUyHl7/w7sowHnSLl2VxiALCZtxa8IZmr3Bw4ddDW4l4UUz6HFVU
- kMtmIYztsHjrF23zxLoYPgzujYEvmxbWW+xnAt9jPSUEjs09kaBq1nO+4b6i7KWuHxgPtNSQa
- HURzalESXk+ZB6LBTxFryPcDIlnAn98/xIz+NNaQsDbC1vkN3LdZTb/cBIkHnvf1URGknvGRK
- LeEn0gIHaO/zO85hJoiPuCejMqKbxwdJ9cjQ5+A7+EjcTBULn2AxkjZ6lW7WjoEge/ysaLKGd
- sj4BCm6UWRIQKx6Nheb7bDpoQK+JoNk6fxrIqPkDdPPoM=
+UI-OutboundReport: notjunk:1;M01:P0:VK/dZuUOFOU=;b4VS0LYzeaxQNdiY2u2VWiYUUWd
+ gBDGD/w2EkraBIjMH8a3XhR0JNgHPLQdo7uULm/dp/8eESM77DDng0jQCjYMPuU2m7V1OLKI9
+ nuTo8jBK4DSRabSQTxHRcL/omo2IbUeJXfDTjQceKUi43ju1gpKNu/J78au5U+Me57HyhAbuV
+ QrfSeHUlYSqJGla1egATfFImbGfzcIGyY19pnzAEHzmxAzFJsv7oo65+L0h9VINEJVHmiNUqz
+ ICA/gRHh53H5oSt02aDAbB/0O+ex8Wn27tt4MjeDPEz/pMweF1Sxc2toLB4Bt4oud3XLZetzx
+ 0tJrCA9i8GgsjSaGT3bzM8EDf8YIh2QNiATkduJXOXqsAZBhylu20Oef3Ma0Qit9MNzs1ckhU
+ BSnFo+mjVX48BFl3sMRUQ7l9D8KB2eb1CbZJ0sB1Q/NuOcJj+bffk7lARmbTl/OfXU/01qfu1
+ suXE4hHASx9t4+m7pkk9cgX3B1wGfslPC1HWhz9PKt1LOnzv+2Iw2h1TmnheoKvGNXtVj2V6/
+ JY8IQ5KbdEhmcTP11pw84iHsY02eZarSywd7umdkDspP0txFYvhXdVccev2Ok8OWMIuOvtMpc
+ PT6nSRAuqLpIU61RnMwTigoLv20LyiglmxRId8/4YM8NGY8F5jufCqCF/tKxh6gjo5diiuu0W
+ IcEDc+DLbcruS9RXlJL+JObGbKLdGgUXpeOQpHUvgEdZO6FLY6FNd9tSQqn9ImAj+n68h2xf4
+ TDMaqu5V9KVE92c57pYyGaLIRyWq3Cp6fxvl+bJaMf8gWv5swEhb0VMb2E+Dbo62srXscBuOJ
+ JXuPSsICEil71sfENv3apFXQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,69 +93,317 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On resume of the Raspberry Pi the dwc2 driver fails to enable
-HCD_FLAG_HW_ACCESSIBLE before re-enabling the interrupts.
-This causes a situation where both handler ignore a incoming port
-interrupt and force the upper layers to disable the dwc2 interrupt line.
-This leaves the USB interface in a unusable state:
+DO NOT MERGE
 
-irq 66: nobody cared (try booting with the "irqpoll" option)
-CPU: 0 PID: 0 Comm: swapper/0 Tainted: G W          6.10.0-rc3
-Hardware name: BCM2835
-Call trace:
-unwind_backtrace from show_stack+0x10/0x14
-show_stack from dump_stack_lvl+0x50/0x64
-dump_stack_lvl from __report_bad_irq+0x38/0xc0
-__report_bad_irq from note_interrupt+0x2ac/0x2f4
-note_interrupt from handle_irq_event+0x88/0x8c
-handle_irq_event from handle_level_irq+0xb4/0x1ac
-handle_level_irq from generic_handle_domain_irq+0x24/0x34
-generic_handle_domain_irq from bcm2836_chained_handle_irq+0x24/0x28
-bcm2836_chained_handle_irq from generic_handle_domain_irq+0x24/0x34
-generic_handle_domain_irq from generic_handle_arch_irq+0x34/0x44
-generic_handle_arch_irq from __irq_svc+0x88/0xb0
-Exception stack(0xc1b01f20 to 0xc1b01f68)
-1f20: 0005c0d4 00000001 00000000 00000000 c1b09780 c1d6b32c c1b04e54 c1a5e=
-ae8
-1f40: c1b04e90 00000000 00000000 00000000 c1d6a8a0 c1b01f70 c11d2da8 c11d4=
-160
-1f60: 60000013 ffffffff
-__irq_svc from default_idle_call+0x1c/0xb0
-default_idle_call from do_idle+0x21c/0x284
-do_idle from cpu_startup_entry+0x28/0x2c
-cpu_startup_entry from kernel_init+0x0/0x12c
-handlers:
-[<f539e0f4>] dwc2_handle_common_intr
-[<75cd278b>] usb_hcd_irq
-Disabling IRQ #66
+According to the dt-bindings there are some platforms, which have a
+dedicated USB power domain for DWC2 IP core supply. If the power domain
+is switched off during system suspend then all USB register will lose
+their settings.
 
-Disabling clock gating workaround this issue.
+So use the power on/off notifier in order to save & restore the USB
+registers during system suspend.
 
-Fixes: 0112b7ce68ea ("usb: dwc2: Update dwc2_handle_usb_suspend_intr funct=
-ion.")
-Link: https://lore.kernel.org/linux-usb/3fd0c2fb-4752-45b3-94eb-42352703e1=
-fd@gmx.net/T/
-Link: https://lore.kernel.org/all/5e8cbce0-3260-2971-484f-fc73a3b2bd28@syn=
-opsys.com/
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-Acked-by: Minas Harutyunyan <hminas@synopsys.com>
 =2D--
- drivers/usb/dwc2/params.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
-index 4d73fae80b12..68226defdc60 100644
-=2D-- a/drivers/usb/dwc2/params.c
-+++ b/drivers/usb/dwc2/params.c
-@@ -23,6 +23,7 @@ static void dwc2_set_bcm_params(struct dwc2_hsotg *hsotg=
-)
- 	p->max_transfer_size =3D 65535;
- 	p->max_packet_count =3D 511;
- 	p->ahbcfg =3D 0x10;
-+	p->no_clock_gating =3D true;
+Any feedback is appreciated.
+
+ drivers/usb/dwc2/core.c     | 16 ++++++++++++
+ drivers/usb/dwc2/core.h     | 17 +++++++++++++
+ drivers/usb/dwc2/gadget.c   | 49 +++++++++++++++++++++++++++++++++++++
+ drivers/usb/dwc2/hcd.c      | 49 +++++++++++++++++++++++++++++++++++++
+ drivers/usb/dwc2/platform.c | 32 ++++++++++++++++++++++++
+ 5 files changed, 163 insertions(+)
+
+diff --git a/drivers/usb/dwc2/core.c b/drivers/usb/dwc2/core.c
+index 9919ab725d54..a3263cfdedac 100644
+=2D-- a/drivers/usb/dwc2/core.c
++++ b/drivers/usb/dwc2/core.c
+@@ -391,6 +391,22 @@ int dwc2_exit_hibernation(struct dwc2_hsotg *hsotg, i=
+nt rem_wakeup,
+ 		return dwc2_gadget_exit_hibernation(hsotg, rem_wakeup, reset);
  }
 
- static void dwc2_set_his_params(struct dwc2_hsotg *hsotg)
++int dwc2_enter_poweroff(struct dwc2_hsotg *hsotg)
++{
++	if (dwc2_is_host_mode(hsotg))
++		return dwc2_host_enter_poweroff(hsotg);
++	else
++		return dwc2_gadget_enter_poweroff(hsotg);
++}
++
++int dwc2_exit_poweroff(struct dwc2_hsotg *hsotg)
++{
++	if (dwc2_is_host_mode(hsotg))
++		return dwc2_host_exit_poweroff(hsotg);
++	else
++		return dwc2_gadget_exit_poweroff(hsotg);
++}
++
+ /*
+  * Do core a soft reset of the core.  Be careful with this because it
+  * resets all the internal state machines of the core.
+diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
+index 2bd74f3033ed..9ab755cc3081 100644
+=2D-- a/drivers/usb/dwc2/core.h
++++ b/drivers/usb/dwc2/core.h
+@@ -9,6 +9,7 @@
+ #define __DWC2_CORE_H__
+
+ #include <linux/acpi.h>
++#include <linux/notifier.h>
+ #include <linux/phy/phy.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/usb/gadget.h>
+@@ -1080,6 +1081,8 @@ struct dwc2_hsotg {
+ 	struct regulator *vbus_supply;
+ 	struct regulator *usb33d;
+
++	struct notifier_block genpd_nb;
++
+ 	spinlock_t lock;
+ 	void *priv;
+ 	int     irq;
+@@ -1316,6 +1319,8 @@ int dwc2_exit_partial_power_down(struct dwc2_hsotg *=
+hsotg, int rem_wakeup,
+ int dwc2_enter_hibernation(struct dwc2_hsotg *hsotg, int is_host);
+ int dwc2_exit_hibernation(struct dwc2_hsotg *hsotg, int rem_wakeup,
+ 		int reset, int is_host);
++int dwc2_enter_poweroff(struct dwc2_hsotg *hsotg);
++int dwc2_exit_poweroff(struct dwc2_hsotg *hsotg);
+ void dwc2_init_fs_ls_pclk_sel(struct dwc2_hsotg *hsotg);
+ int dwc2_phy_init(struct dwc2_hsotg *hsotg, bool select_phy);
+
+@@ -1435,6 +1440,8 @@ int dwc2_hsotg_tx_fifo_total_depth(struct dwc2_hsotg=
+ *hsotg);
+ int dwc2_hsotg_tx_fifo_average_depth(struct dwc2_hsotg *hsotg);
+ void dwc2_gadget_init_lpm(struct dwc2_hsotg *hsotg);
+ void dwc2_gadget_program_ref_clk(struct dwc2_hsotg *hsotg);
++int dwc2_gadget_enter_poweroff(struct dwc2_hsotg *hsotg);
++int dwc2_gadget_exit_poweroff(struct dwc2_hsotg *hsotg);
+ static inline void dwc2_clear_fifo_map(struct dwc2_hsotg *hsotg)
+ { hsotg->fifo_map =3D 0; }
+ #else
+@@ -1482,6 +1489,10 @@ static inline int dwc2_hsotg_tx_fifo_average_depth(=
+struct dwc2_hsotg *hsotg)
+ { return 0; }
+ static inline void dwc2_gadget_init_lpm(struct dwc2_hsotg *hsotg) {}
+ static inline void dwc2_gadget_program_ref_clk(struct dwc2_hsotg *hsotg) =
+{}
++static inline int dwc2_gadget_enter_poweroff(struct dwc2_hsotg *hsotg)
++{ return 0; }
++static inline int dwc2_gadget_exit_poweroff(struct dwc2_hsotg *hsotg)
++{ return 0; }
+ static inline void dwc2_clear_fifo_map(struct dwc2_hsotg *hsotg) {}
+ #endif
+
+@@ -1505,6 +1516,8 @@ int dwc2_host_exit_partial_power_down(struct dwc2_hs=
+otg *hsotg,
+ void dwc2_host_enter_clock_gating(struct dwc2_hsotg *hsotg);
+ void dwc2_host_exit_clock_gating(struct dwc2_hsotg *hsotg, int rem_wakeup=
+);
+ bool dwc2_host_can_poweroff_phy(struct dwc2_hsotg *dwc2);
++int dwc2_host_enter_poweroff(struct dwc2_hsotg *hsotg);
++int dwc2_host_exit_poweroff(struct dwc2_hsotg *hsotg);
+ static inline void dwc2_host_schedule_phy_reset(struct dwc2_hsotg *hsotg)
+ { schedule_work(&hsotg->phy_reset_work); }
+ #else
+@@ -1544,6 +1557,10 @@ static inline void dwc2_host_exit_clock_gating(stru=
+ct dwc2_hsotg *hsotg,
+ 					       int rem_wakeup) {}
+ static inline bool dwc2_host_can_poweroff_phy(struct dwc2_hsotg *dwc2)
+ { return false; }
++static inline int dwc2_host_enter_poweroff(struct dwc2_hsotg *hsotg)
++{ return 0; }
++static inline int dwc2_host_exit_poweroff(struct dwc2_hsotg *hsotg)
++{ return 0; }
+ static inline void dwc2_host_schedule_phy_reset(struct dwc2_hsotg *hsotg)=
+ {}
+
+ #endif
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index e7bf9cc635be..38f0112970fe 100644
+=2D-- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -5710,3 +5710,52 @@ void dwc2_gadget_exit_clock_gating(struct dwc2_hsot=
+g *hsotg, int rem_wakeup)
+ 	hsotg->lx_state =3D DWC2_L0;
+ 	hsotg->bus_suspended =3D false;
+ }
++
++int dwc2_gadget_enter_poweroff(struct dwc2_hsotg *hsotg)
++{
++	int ret;
++
++	dev_dbg(hsotg->dev, "Entering device power off.\n");
++
++	/* Backup all registers */
++	ret =3D dwc2_backup_global_registers(hsotg);
++	if (ret) {
++		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
++			__func__);
++		return ret;
++	}
++
++	ret =3D dwc2_backup_device_registers(hsotg);
++	if (ret) {
++		dev_err(hsotg->dev, "%s: failed to backup device registers\n",
++			__func__);
++		return ret;
++	}
++
++	dev_dbg(hsotg->dev, "Entering device power off completed.\n");
++	return 0;
++}
++
++int dwc2_gadget_exit_poweroff(struct dwc2_hsotg *hsotg)
++{
++	int ret;
++
++	dev_dbg(hsotg->dev, "Exiting device power off.\n");
++
++	ret =3D dwc2_restore_global_registers(hsotg);
++	if (ret) {
++		dev_err(hsotg->dev, "%s: failed to restore registers\n",
++			__func__);
++		return ret;
++	}
++
++	ret =3D dwc2_restore_device_registers(hsotg, 0);
++	if (ret) {
++		dev_err(hsotg->dev, "%s: failed to restore device registers\n",
++			__func__);
++		return ret;
++	}
++
++	dev_dbg(hsotg->dev, "Exiting device power off completed.\n");
++	return 0;
++}
+diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
+index cb54390e7de4..22afdafb474e 100644
+=2D-- a/drivers/usb/dwc2/hcd.c
++++ b/drivers/usb/dwc2/hcd.c
+@@ -5993,3 +5993,52 @@ void dwc2_host_exit_clock_gating(struct dwc2_hsotg =
+*hsotg, int rem_wakeup)
+ 			  jiffies + msecs_to_jiffies(71));
+ 	}
+ }
++
++int dwc2_host_enter_poweroff(struct dwc2_hsotg *hsotg)
++{
++	int ret;
++
++	dev_dbg(hsotg->dev, "Entering host power off.\n");
++
++	/* Backup all registers */
++	ret =3D dwc2_backup_global_registers(hsotg);
++	if (ret) {
++		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
++			__func__);
++		return ret;
++	}
++
++	ret =3D dwc2_backup_host_registers(hsotg);
++	if (ret) {
++		dev_err(hsotg->dev, "%s: failed to backup host registers\n",
++			__func__);
++		return ret;
++	}
++
++	dev_dbg(hsotg->dev, "Entering host power off completed.\n");
++	return 0;
++}
++
++int dwc2_host_exit_poweroff(struct dwc2_hsotg *hsotg)
++{
++	int ret;
++
++	dev_dbg(hsotg->dev, "Exiting host power off.\n");
++
++	ret =3D dwc2_restore_global_registers(hsotg);
++	if (ret) {
++		dev_err(hsotg->dev, "%s: failed to restore registers\n",
++			__func__);
++		return ret;
++	}
++
++	ret =3D dwc2_restore_host_registers(hsotg);
++	if (ret) {
++		dev_err(hsotg->dev, "%s: failed to restore host registers\n",
++			__func__);
++		return ret;
++	}
++
++	dev_dbg(hsotg->dev, "Exiting host power off completed.\n");
++	return 0;
++}
+diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+index 7b84416dfc2b..b97eefc18a6b 100644
+=2D-- a/drivers/usb/dwc2/platform.c
++++ b/drivers/usb/dwc2/platform.c
+@@ -16,6 +16,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/phy/phy.h>
+ #include <linux/platform_data/s3c-hsotg.h>
++#include <linux/pm_domain.h>
+ #include <linux/reset.h>
+
+ #include <linux/usb/of.h>
+@@ -307,6 +308,8 @@ static void dwc2_driver_remove(struct platform_device =
+*dev)
+ 	struct dwc2_gregs_backup *gr;
+ 	int ret =3D 0;
+
++	dev_pm_genpd_remove_notifier(&dev->dev);
++
+ 	gr =3D &hsotg->gr_backup;
+
+ 	/* Exit Hibernation when driver is removed. */
+@@ -421,6 +424,31 @@ int dwc2_check_core_version(struct dwc2_hsotg *hsotg)
+ 	return 0;
+ }
+
++static int dwc2_power_notifier(struct notifier_block *nb,
++			       unsigned long action, void *data)
++{
++	struct dwc2_hsotg *hsotg =3D container_of(nb, struct dwc2_hsotg,
++						genpd_nb);
++	int ret;
++
++	switch (action) {
++	case GENPD_NOTIFY_ON:
++		ret =3D dwc2_exit_poweroff(hsotg);
++		if (ret)
++			dev_err(hsotg->dev, "exit poweroff failed\n");
++		break;
++	case GENPD_NOTIFY_PRE_OFF:
++		ret =3D dwc2_enter_poweroff(hsotg);
++		if (ret)
++			dev_err(hsotg->dev, "enter poweroff failed\n");
++		break;
++	default:
++		break;
++	}
++
++	return NOTIFY_OK;
++}
++
+ /**
+  * dwc2_driver_probe() - Called when the DWC_otg core is bound to the DWC=
+_otg
+  * driver
+@@ -620,6 +648,10 @@ static int dwc2_driver_probe(struct platform_device *=
+dev)
+ 		}
+ 	}
+ #endif /* CONFIG_USB_DWC2_PERIPHERAL || CONFIG_USB_DWC2_DUAL_ROLE */
++
++	hsotg->genpd_nb.notifier_call =3D dwc2_power_notifier;
++	dev_pm_genpd_add_notifier(&dev->dev, &hsotg->genpd_nb);
++
+ 	return 0;
+
+ #if IS_ENABLED(CONFIG_USB_DWC2_PERIPHERAL) || \
 =2D-
 2.34.1
 
