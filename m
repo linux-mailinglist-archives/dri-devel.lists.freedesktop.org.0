@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5362393E656
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:46:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D6C93E658
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:46:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B779810E257;
-	Sun, 28 Jul 2024 15:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF48310E25E;
+	Sun, 28 Jul 2024 15:46:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TeL1bYP+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S2Xzk5PD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B05DE10E257;
- Sun, 28 Jul 2024 15:46:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79F2110E256;
+ Sun, 28 Jul 2024 15:46:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0942BCE0950;
- Sun, 28 Jul 2024 15:46:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3216DC32782;
- Sun, 28 Jul 2024 15:46:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 00BB661215;
+ Sun, 28 Jul 2024 15:46:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C54C116B1;
+ Sun, 28 Jul 2024 15:46:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722181604;
- bh=btrlw5K7Y/17sQ+h9eMqp5vAXw/5OjknoCfIgQbwb70=;
+ s=k20201202; t=1722181613;
+ bh=TqmSdvR3Q5ttZfbcV4H5I4Vci47hGan+zqVVas42Tw4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TeL1bYP+d1drnLb+bkH+rgScJAlR3Sw8t/45tmM901jjgb+FJeL8/5/4RzPd9rWM7
- SHI+VFX4OmTzb7NdTXVxKPUaGE3ql0cJ7jZ6buOrXX8FSeIe7RhBk19wosXDRCM/hp
- Jx8I2E94vQtSbWrnnMQ9XO8IV26uo/3vl+nTbGLQ8aWSHeNErw2wa9ouq3a9riDOB0
- n/9pqY9lcURLCpy8+mnoiBBKri0ObJUo7mdwfGz6reboZSBY2bdURM5LDoH/yU+8Ne
- Ny7BTKpDO87+FNAieEGAFpWIvbgX8knvE3V95YokHesLPig2Gq+HaMQgoTrpbUZItg
- 9iJJqigSupvAQ==
+ b=S2Xzk5PDxoCglwd9WSYiIHt71W3qYnBa1XvkddukzMy/2r5L7DWy7VwqOOpt0XFPG
+ sfKQYkZOskq7XvcQjXXC8SnbDqN+j/HaDMeBYJA7m9Wf3vmleeTZ1EwU6j2N3ovCKF
+ PV+6haQrj8IiuvaCh4qtDUb84vFWVS1xvfLsU++ziUos78hEtCa3pFGjAFePV1DsKx
+ xtHvd97Yz49nWf+SCPkVPN7ArhcH68NPgv1GyzFColG3fiKulXL/cMKuuHb3kNJShx
+ fw5mBxRSoHoZKhj9VcLRgSYpK0AmmlYQhhAS/mEbWDy7w/LZXqEMWmRex5w8GMhXzp
+ a9q813VmvaN+w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jesse Zhang <jesse.zhang@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
- Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- Hawking.Zhang@amd.com, Stanley.Yang@amd.com, amd-gfx@lists.freedesktop.org,
+Cc: Victor Skvortsov <victor.skvortsov@amd.com>,
+ Zhigang Luo <zhigang.luo@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, Hawking.Zhang@amd.com, mario.limonciello@amd.com,
+ lijo.lazar@amd.com, Jun.Ma2@amd.com, candice.li@amd.com,
+ victorchengchi.lu@amd.com, andrealmeid@igalia.com, hamza.mahfooz@amd.com,
+ Zhigang.Luo@amd.com, sunran001@208suo.com, surbhi.kakarya@amd.com,
+ chongli2@amd.com, danijel.slivka@amd.com, Jingwen.Chen2@amd.com,
+ YiPeng.Chai@amd.com, bokun.zhang@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 07/20] drm/admgpu: fix dereferencing null pointer
- context
-Date: Sun, 28 Jul 2024 11:45:05 -0400
-Message-ID: <20240728154605.2048490-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 08/20] drm/amdgpu: Add lock around VF RLCG
+ interface
+Date: Sun, 28 Jul 2024 11:45:06 -0400
+Message-ID: <20240728154605.2048490-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240728154605.2048490-1-sashal@kernel.org>
 References: <20240728154605.2048490-1-sashal@kernel.org>
@@ -66,35 +71,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jesse Zhang <jesse.zhang@amd.com>
+From: Victor Skvortsov <victor.skvortsov@amd.com>
 
-[ Upstream commit 030ffd4d43b433bc6671d9ec34fc12c59220b95d ]
+[ Upstream commit e864180ee49b4d30e640fd1e1d852b86411420c9 ]
 
-When user space sets an invalid ta type, the pointer context will be empty.
-So it need to check the pointer context before using it
+flush_gpu_tlb may be called from another thread while
+device_gpu_recover is running.
 
-Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
-Suggested-by: Tim Huang <Tim.Huang@amd.com>
-Reviewed-by: Tim Huang <Tim.Huang@amd.com>
+Both of these threads access registers through the VF
+RLCG interface during VF Full Access. Add a lock around this interface
+to prevent race conditions between these threads.
+
+Signed-off-by: Victor Skvortsov <victor.skvortsov@amd.com>
+Reviewed-by: Zhigang Luo <zhigang.luo@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c   | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h   | 2 ++
+ 3 files changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
-index ca5c86e5f7cd6..8e8afbd237bcd 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
-@@ -334,7 +334,7 @@ static ssize_t ta_if_invoke_debugfs_write(struct file *fp, const char *buf, size
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index e1227b7c71b16..4770ab5e773ee 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -3561,6 +3561,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+ 	mutex_init(&adev->grbm_idx_mutex);
+ 	mutex_init(&adev->mn_lock);
+ 	mutex_init(&adev->virt.vf_errors.lock);
++	mutex_init(&adev->virt.rlcg_reg_lock);
+ 	hash_init(adev->mn_hash);
+ 	mutex_init(&adev->psp.mutex);
+ 	mutex_init(&adev->notifier_lock);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+index 96857ae7fb5bc..ff4f52e07cc0d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+@@ -1003,6 +1003,9 @@ static u32 amdgpu_virt_rlcg_reg_rw(struct amdgpu_device *adev, u32 offset, u32 v
+ 	scratch_reg1 = (void __iomem *)adev->rmmio + 4 * reg_access_ctrl->scratch_reg1;
+ 	scratch_reg2 = (void __iomem *)adev->rmmio + 4 * reg_access_ctrl->scratch_reg2;
+ 	scratch_reg3 = (void __iomem *)adev->rmmio + 4 * reg_access_ctrl->scratch_reg3;
++
++	mutex_lock(&adev->virt.rlcg_reg_lock);
++
+ 	if (reg_access_ctrl->spare_int)
+ 		spare_int = (void __iomem *)adev->rmmio + 4 * reg_access_ctrl->spare_int;
  
- 	set_ta_context_funcs(psp, ta_type, &context);
+@@ -1058,6 +1061,9 @@ static u32 amdgpu_virt_rlcg_reg_rw(struct amdgpu_device *adev, u32 offset, u32 v
+ 	}
  
--	if (!context->initialized) {
-+	if (!context || !context->initialized) {
- 		dev_err(adev->dev, "TA is not initialized\n");
- 		ret = -EINVAL;
- 		goto err_free_shared_buf;
+ 	ret = readl(scratch_reg0);
++
++	mutex_unlock(&adev->virt.rlcg_reg_lock);
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
+index fabb83e9d9aec..23b6efa9d25df 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
+@@ -263,6 +263,8 @@ struct amdgpu_virt {
+ 
+ 	/* the ucode id to signal the autoload */
+ 	uint32_t autoload_ucode_id;
++
++	struct mutex rlcg_reg_lock;
+ };
+ 
+ struct amdgpu_video_codec_info;
 -- 
 2.43.0
 
