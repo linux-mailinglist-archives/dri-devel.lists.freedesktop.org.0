@@ -2,85 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C460093E144
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 00:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D094493E371
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 04:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE5B010E101;
-	Sat, 27 Jul 2024 22:08:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE42C10E0BF;
+	Sun, 28 Jul 2024 02:54:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ih852sWl";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="P4Wtv1z/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C40D810E101
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 22:08:23 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-52efdf02d13so3672323e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2024 15:08:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722118101; x=1722722901; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=mwqWPO6eJP4Qec95t6HNVfe9KGEXFic++ajRHBM7iSo=;
- b=Ih852sWlEqV9bzmfVY+xe9Y4BIk1rrm2kytt9szVdLantQhAkEyEL2Zz2cF1JssqTn
- oDnNhg7COqTh4pS2Z59yMZJxE1UFnD/AVev0pDsZFhs8xnIgHxbwkcpW6PPqoIDgd9hf
- r++22LSzGP0wyTdULgbu8vM33fEoCQyPEb+YQzcpI3EO2fXMxgmurvpOVk4lj4SKScv4
- TqDR79GRfkERToXNkaseYLsp4S6/pmUCjXe5WJLbGkQXxCfMnkwYlMNsOh7IaSKJ3EJB
- +ttW5NgDCc5LJYvOn4hdN5tzpswOZMmp7NOowLJN16UW5Vb3juUbLTXKFSgpUewDvqDB
- gJOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722118101; x=1722722901;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mwqWPO6eJP4Qec95t6HNVfe9KGEXFic++ajRHBM7iSo=;
- b=f7BvWxrodnUzXKPgux/G6w7UTp7fJ9n4KBsLalIxSKtEQbQKWAhMmrWruvX/kq1qLq
- XDTqYWmbjnGdRSexllfI7BFWFaFB+hS1nnexdZ4OvrhKgh9nzEijfwLzTe6It9xc+3+F
- HmFA+VZuH2P0R6ZFmS4oOz0GJr9yXZSaDkq4IDls//o5kitLVO0UY0vE3uzSE4dlJ8X4
- lDTzJ704wSIT2m0MoNiCS+X8JFSDGSGjUHEmqMhuG7T50WbdFVRhi9mGBsGdkprFlbmO
- IG+ILI437wTOR02aVS6n2uT0wZPx/itvYvfz2agzzo6ZPvj8T99psdQkZ3tXuN/TvDgk
- YAcA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV5Ybr9jS8atHWMtp5lDL6zScI/2QY7pVMpLfDJ+PfclfdC2ONXhlDx7ZBjBEUkGEqbym2PzfgVNhKuaBAHq4m5H3POPFCeBl5bN+GzK570
-X-Gm-Message-State: AOJu0YzfTOca50Z16A2f6IPfHfuTFAgTefMfar3DWkZj7fITpv8VxhAj
- RE9YKN5Tp4mowZzgaDxPxMVJN/8umv1npbPK3mBEzEBCOnS6UloGPtOK9d7mPG8=
-X-Google-Smtp-Source: AGHT+IEESjcuV3/3oS+Os1zyf2LB2n6lMR6DUHxbQ1nXgYeN+N3EfPjlTdSC2SKSZtLypC95ksepqA==
-X-Received: by 2002:a05:6512:1296:b0:52e:933f:f1fa with SMTP id
- 2adb3069b0e04-5309b2e0b62mr2773797e87.61.1722118101176; 
- Sat, 27 Jul 2024 15:08:21 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52fd5bd1292sm872881e87.105.2024.07.27.15.08.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Jul 2024 15:08:20 -0700 (PDT)
-Date: Sun, 28 Jul 2024 01:08:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- p.zabel@pengutronix.de, 
- airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- kernel@pengutronix.de, festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org,
- kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org, francesco@dolcini.it,
- frank.li@nxp.com
-Subject: Re: [PATCH v3 00/19] Add Freescale i.MX8qxp Display Controller support
-Message-ID: <no7cgb4vfd4cxhsjoftfeizvzby4vfbq2okvneq4nbxs4ogwvt@ohplzz5bez4j>
-References: <20240724092950.752536-1-victor.liu@nxp.com>
- <wky3mjl7fn773myatyrdsea6oc2xebkvrgmigmmoj36eswgqry@2kox5ad5dynl>
- <aba35ecb-2357-4c4f-8366-08d14e40d436@linux.dev>
- <zr2t6deyvwacawj7s36gols2vxu24fah25x6ofy7xpqyvc4s2d@luavybrlxpaf>
- <8014238b-2668-4602-add1-64a0c6e480ad@linux.dev>
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2081.outbound.protection.outlook.com [40.107.102.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17F5210E063;
+ Sun, 28 Jul 2024 02:54:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SPvFssvGk0pK9g/QErFBSuv2inO3UDui407HSGv2v1n5xdV1sbbyDehsqRnMTb3RKTh/64MzV/2PVyhu8pZhEJnmNxKdiIES8cFO8R0hfSKLD1Q1F3L1w81voB5+q588rE8pEv2HP/UxB8CC1eKd/6LPjiZIfh/CwSCOPpREhHiMasu9JQHNqQZPB4cUxsk9H2n1mRu5eOsCKvKNWAyGIZFYJj56fdPabaR4h8zfHKvJ5FECFB9Y9A4jGDaCANRfcHQIGgUpm+aZg9XQxmuZ9S3Iazzn93ONbM9DGJB9Nyq6E678zhnx5yB/4ju3oqNOIZjrZqaYqHRF0KIpm6KucQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TqKnLDgwk8lj2Nq7KyqUBMDvxCiJGSLHg2SRqYJLH7Q=;
+ b=nXbrjsBVEXtDQIf1Gky17u0pchH8mv3iIeT3tYEKQDJJ0oqY4+Kz1yygR+nJpUY1KdwqIMblkVWsbQ5Z9WjUPV+BiawEITzKaM5YAT4ir7VgpjtzwM0IVuq1zeEZbxQ6bH+t1fr5+1wJzRhtMscGUMKxEtbVW+Dt6XuQ0mu9qIGCesCNoF81Tftu3lQyKJcXSKsqC+p9Qe8mi3Y9kVbxoC6F2L6cCywiUd5/QQILnjtRwRJjUnOjUOQ03m8drHSYGyTQ8y6irRBgrLHG6kdTsfcm40l1pe64kDsrT4WXqs6/iLbz6493G6n1nLtYIKhlFHb4SbeUg5XeRX6cjPTT7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TqKnLDgwk8lj2Nq7KyqUBMDvxCiJGSLHg2SRqYJLH7Q=;
+ b=P4Wtv1z/eu45ki+41B1L3ZrOIGewjGPK1k7I9KAgLOWBO4ES9DQFUOV9ssh6Yv7H8Qzhp5P/bDp3JeVgXZ5lfPLYJw5atMNUWSRBmKJJgUp0L9Wu59Ud3rM2gzIAXL62/o1LCI769b6++c9qLRrcq/1fZYF0avnDV/b3RZTD5tU=
+Received: from BL0PR03CA0023.namprd03.prod.outlook.com (2603:10b6:208:2d::36)
+ by SA1PR12MB7317.namprd12.prod.outlook.com (2603:10b6:806:2ba::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.29; Sun, 28 Jul
+ 2024 02:54:24 +0000
+Received: from BL02EPF00021F6A.namprd02.prod.outlook.com
+ (2603:10b6:208:2d:cafe::63) by BL0PR03CA0023.outlook.office365.com
+ (2603:10b6:208:2d::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.28 via Frontend
+ Transport; Sun, 28 Jul 2024 02:54:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF00021F6A.mail.protection.outlook.com (10.167.249.6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7784.11 via Frontend Transport; Sun, 28 Jul 2024 02:54:23 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sat, 27 Jul
+ 2024 21:54:22 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-6.11
+Date: Sat, 27 Jul 2024 22:54:06 -0400
+Message-ID: <20240728025407.2115881-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8014238b-2668-4602-add1-64a0c6e480ad@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F6A:EE_|SA1PR12MB7317:EE_
+X-MS-Office365-Filtering-Correlation-Id: e355309e-b43b-40bf-40d0-08dcaeb09623
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|82310400026|36860700013|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UzQrUmxoY2V6bmZPcTR2Z2VzY1pncWsrOUVnais3U1ZPb1drREYyY3hvQmxx?=
+ =?utf-8?B?VnJtV215dWZsOStOU0h1cmhPZHZ0UEl4NzhjVDBoeGQzWXVRQjRoM01hZ3BU?=
+ =?utf-8?B?ck91ZUZjaXNTVGF1ZWlCK0dQREwxYk1Dejc2Z0VBU3VBdXN0SDlXb1dqZDU3?=
+ =?utf-8?B?M2ZLZHhwU0N0TjgwWjN4SGlENHR2ZEsybGRBcS8zSFc0SzlrdkkvSGNsQXV1?=
+ =?utf-8?B?MHoxQVpMMlRaT1BxVVdNanpRZnc0blNYeGp0Y2tRdnllQXQ4b2RVRGRMNUpE?=
+ =?utf-8?B?QmdMaHNsVldYN0tLeVU1cUt4TEVHQi95TmpjKzd6TnNZdU9LeVpiMWN0WUNt?=
+ =?utf-8?B?UHg3OHZCQ3l4N3k3dVF3L1VwdGFKVWo0cnN6Q0oycS9hK3Ztd0FnT0hQWDdy?=
+ =?utf-8?B?bXBheU1ENjRjT3JXMTAvd2tQYnBDR05XaHdxc2lGWEVKUnF6NVNXbWJKVk8v?=
+ =?utf-8?B?MVN3RTRWbUsxcWZPUUZnQVFtNXZ2dFpkOStWSUZ6eUFyT09KUFNScWxGbGlY?=
+ =?utf-8?B?dTdoU0N5VXh5UXdxbGllRStWV0hDWHlGbzBnd2FpOTNGQzE3Z1RHbGJJNjlK?=
+ =?utf-8?B?dnIxbk1idFJ2NXVIN1NML0dCYXF0Tkswa3B5L0ZrVHlkZkl1eC90QTdMWFVF?=
+ =?utf-8?B?ZlIxZHk1dzZ3NmdMZHllV2Y5MVVwNysxUFlGUDhGaEJIMFZhYjY5andCUGJU?=
+ =?utf-8?B?eFNWNllMWFJzTWthSlJGUXNnT2x0WWV6ZHpXdWdkOUdoTnh0VmkxMGN3cWtB?=
+ =?utf-8?B?M1BheC9pTms2dDVJakxJYmtuSG5XaWtmVnNxVXYyemhoQVNadlpZUWVWQWdt?=
+ =?utf-8?B?dnFpR2paZDExazZOZkM2VmEwZUx1bmdPWW44MTh1YmJ2czB3RVAzUVBVaVN1?=
+ =?utf-8?B?R2dncDBqL0V4bVNCK1Nsd25hVm94VXpvZkZIS0EzR3E1ZmRydGkwVWlkOGF6?=
+ =?utf-8?B?a2dVQ2ZtVDRaS2NTbERxeXNrQlVBc0VZV3RHengzcVNYd0F0YW8ydkFjS3lL?=
+ =?utf-8?B?bDBTMEYrVlp2bURSWXlINGlHNVZwUjkreGl2Y3NSTmROeStRRDdUV0RBVVZK?=
+ =?utf-8?B?bDI2SjZkNFpvcStPeVVaTUpmSVJrczI5ZHRnREtacDRmNk1FcDZvRm1zL0hH?=
+ =?utf-8?B?N1RwTWdkSUcwSld0MXFLVE5TeVprWGt0N1pvMy9zTWtGaXA4YU9KQWJCdWpQ?=
+ =?utf-8?B?QkVXM0dZS3p6bE95QmZkL05Fa3laNkhSdTNZTUJ6eUZBWi85Mm02Sm1UL252?=
+ =?utf-8?B?QWxBN3VKVmNFOWpUTEh2WXQrZUI2eXBRSzkwYUdLWllKcVAxSEpWaUJzNVBs?=
+ =?utf-8?B?UW5qYlV4aHd2MHBtWjRkZlRkN2hZUWJKQi9rYjM1dXZydlBXUFpyVk9hU2Rj?=
+ =?utf-8?B?MkN0bnVtUnZSTXJuOS9LYWJtNHYzZHZNUko1ZVUzSHpqZ0JhMHc4bTM5Z1pP?=
+ =?utf-8?B?c3R1WmczempscC9WdC8vSkNYWThkdVJ3bCtSdmZ4MU8vM2VleHl3RTE0S1RJ?=
+ =?utf-8?B?NUVlR3FuU0Y5WGErS0dDZEdnckJ5c3drbTJGeWJCM2tGMFluYUN5NWJXVkgx?=
+ =?utf-8?B?OWQwUDJMNjJXcWVVajhzM1UrUGozMXhqUjFmUjArcS9NMWVMalFPTldPSnpW?=
+ =?utf-8?B?aXEyOWpwR1VRVDMrSkR1R2V1eE56bU1iUjJKTUxuMEtyQ252NjdVK1F2cGs1?=
+ =?utf-8?B?TDl2ZkN2WnI2K0tnaTlkOHdINjhEUnZ1RGY0c1lqY3Zabzg2YUsrWCtQam9i?=
+ =?utf-8?B?QXFpKzhMenB3WTlmMlkwdkxjalJMQ3o2ZVFNbmdSYnBOMjI5NmlYSWc2T08w?=
+ =?utf-8?B?Z1g1aHlmaHE0NDYvd3BqTmordzhidGk4VzZ3WjlqYWs1Tm1YTksyTE15dEo1?=
+ =?utf-8?B?U2E1bGRvaEJCeW4wbzBOcUk4K2d4bHRWRkROZkgwbFE0MHc9PQ==?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2024 02:54:23.5356 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e355309e-b43b-40bf-40d0-08dcaeb09623
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00021F6A.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7317
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,159 +138,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 28, 2024 at 05:38:37AM GMT, Sui Jingfeng wrote:
-> Hi,
-> 
-> On 7/28/24 04:28, Dmitry Baryshkov wrote:
-> > On Sun, Jul 28, 2024 at 03:10:21AM GMT, Sui Jingfeng wrote:
-> > > Hi,
-> > > 
-> > > On 7/28/24 00:39, Dmitry Baryshkov wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > This patch series aims to add Freescale i.MX8qxp Display Controller support.
-> > > > > 
-> > > > > The controller is comprised of three main components that include a blit
-> > > > > engine for 2D graphics accelerations, display controller for display output
-> > > > > processing, as well as a command sequencer.
-> > > > > 
-> > > > > Previous patch series attempts to do that can be found at:
-> > > > > https://patchwork.freedesktop.org/series/84524/
-> > > > > 
-> > > > > This series addresses Maxime's comments on the previous one:
-> > > > > a. Split the display controller into multiple internal devices.
-> > > > >      1) List display engine, pixel engine, interrupt controller and more as the
-> > > > >         controller's child devices.
-> > > > >      2) List display engine and pixel engine's processing units as their child
-> > > > >         devices.
-> > > > > 
-> > > > > b. Add minimal feature support.
-> > > > >      Only support two display pipelines with primary planes with XR24 fb,
-> > > > >      backed by two fetchunits.  No fetchunit dynamic allocation logic(to be done
-> > > > >      when necessary).
-> > > > > 
-> > > > > c. Use drm_dev_{enter, exit}().
-> > > > > 
-> > > > > Since this series changes a lot comparing to the previous one, I choose to
-> > > > > send it with a new patch series, not a new version.
-> > > > I'm sorry, I have started reviewing v2 without noticing that there is a
-> > > > v3 already.
-> > > > 
-> > > > Let me summarize my comments:
-> > > > 
-> > > > - You are using OF aliases. Are they documented and acked by DT
-> > > >     maintainers?
-> > > > 
-> > > > - I generally feel that the use of so many small devices to declare
-> > > >     functional blocks is an abuse of the DT. Please consider creating
-> > > >     _small_ units from the driver code directly rather than going throught
-> > > >     the components.
-> > > 
-> > > Well, I really don't think so. I don't agree.
-> > > 
-> > > I have checked the DTSpec[1] before type, the spec isn't define how
-> > > many is considered to be "many", and the spec isn't define to what
-> > > extent is think to be "small" as well.
-> > 
-> > Yeah. However _usually_ we are not defining DT devices for sub-device
-> > components.
-> 
-> I guess, this depended on their hardware (i.MX8qxp) layout, reflecting
-> exactly what their hardware's layout is perfectly valid. It also depend
-> on if specific part of those sub-device will be re-visioned or not. If
-> only a small part of the whole is re-versioned in the future, we can still
-> re-using this same driver with slightly modify(update) the DTS.
-> 
-> The point is to controll the granularity and forward compatibility.
+Hi Dave, Sima,
 
-That's why I asked for the comments or explanations. The cover letter is
-a usual place, as it is an introduction to the series. The reviewers
-don't start the series from 8/N, they start from 00/NN.
+Fixes for 6.11.  A bit early this week because I'll be away from my desk next
+week.
 
-> 
-> > So at least such decisions ought to be described and
-> > explained in the cover letter.
-> 
-> Agree, but I see 08/19 patch has a beautiful schematic. I have learned
-> a lot when reading it. I can't see any abuse of the DT through this
-> bulk series anyway.
-> 
-> 
-> Comments below are not revelant to Ying's patch series itself.
-> 
-> /*----------------------------------------------------------------*/
-> 
-> By the way, the last time that I have ever seen and feel abuse of the
-> DT is the aux-bridge.c[1] and aux-hpd-bridge.c[2]. I strongly feel that
-> those two *small* programs are abuses to the DT and possibily abuse to
-> the auxiliary bus framework.
+The following changes since commit d4ef5d2b7ee0cbb5f2d864716140366a618400d6:
 
-Off-topic should be directed as an answer to the original series. And if
-you tried, you'd have seen the reason and the explanation. And a quick
-glance around would have shown you the ti-sn65dsi86 bridge, which also
-has similar structure for exactly the same reasons.
+  Merge tag 'amd-drm-fixes-6.11-2024-07-25' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2024-07-26 09:52:15 +1000)
 
-Nevertheless, the aux-bridge and aux-hpd-bridge provide a way to link
-two different directions of the probe dependency chains: from the SoC to
-the connector (DRM bridge chains) and from the connector to the SoC
-(USB-C chains).
+are available in the Git repository at:
 
-> 1) It's so *small* that it don't even have a hardware entity (physical
->    device) to corresponding with. As far as I can see, all hardware
->    units in this patch series are bigger than yours. Because your HPD
->    bridge is basically a "virtual wire".
-> 
->    An non-physical-exist wire hold reference to several device node,
->    this is the most awful abuse to the DT I have ever seen. In other
->    words, despite you want to solve some software problems, but then,
->    you could put a device not in the DTS, and let the 'OF' system
->    create a device for you. Just like what this series do.
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.11-2024-07-27
 
-Thank you for your opinion. However you have clearly provided the reason
-why these devices do not have a separate DT node: they are internal
-parts of the existing device.
+for you to fetch changes up to d2860084ecca456ce78b251011f7def8d9136dcc:
 
-> 
-> 2) I feel your HPD fake bridge driver abuse to the philosophy of
->    auxiliary bus [3]. The document of auxiliary bus tell us that
-> 
->    "These individual devices split from the core cannot live on
->     the platform bus as they are not physical devices that are
->     controlled by DT/ACPI"
+  drm/amdgpu: Fix APU handling in amdgpu_pm_load_smu_firmware() (2024-07-27 18:10:34 -0400)
 
-This is correct and two mentioned bridges follow this approach. This
-phrase mostly provides a boundary between platform-based MFD devices
-which usually have MMIO-like addressing for cells and non-MMIO,
-non-platform devices living on the aux bus.
+----------------------------------------------------------------
+amd-drm-fixes-6.11-2024-07-27:
 
->     Which is nearly equivalent to say that devices that are controlled
->     by DT/ACPI have better ways to enforce the control. When using
->     auxiliary bus, we *generally* should not messed with DT. See
->     golden examples[4][5]. At least, their code are able to run on
->     X86, while the code you write just can't.
-> 
-> [0] https://patchwork.freedesktop.org/patch/605555/?series=135786&rev=3
-> [1] https://elixir.bootlin.com/linux/v6.10.2/source/drivers/gpu/drm/bridge/aux-bridge.c
-> [2] https://elixir.bootlin.com/linux/v6.10.2/source/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-> [3] https://www.kernel.org/doc/html/latest/driver-api/auxiliary_bus.html
-> 
-> [4] https://patchwork.freedesktop.org/series/136431/
-> [5] https://patchwork.freedesktop.org/series/134837/
-> 
-> 
-> Best regards
-> Sui
-> 
-> > > 
-> > > [1]
-> > > https://github.com/devicetree-org/devicetree-specification/releases/tag/v0.4
-> > 
-> 
-> -- 
-> Best regards
-> Sui
-> 
+amdgpu:
+- SMU 14.x update
+- Fix contiguous VRAM handling for IB parsing
+- GFX 12 fix
+- Regression fix for old APUs
 
--- 
-With best wishes
-Dmitry
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu: Fix APU handling in amdgpu_pm_load_smu_firmware()
+
+Christian König (1):
+      drm/amdgpu: fix contiguous handling for IB parsing v2
+
+Kenneth Feng (1):
+      drm/amdgpu/pm: support gpu_metrics sysfs interface for smu v14.0.2/3
+
+Michael Chen (1):
+      drm/amdgpu: increase mes log buffer size for gfx12
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             | 16 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c            |  6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |  6 +-
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  2 +
+ drivers/gpu/drm/amd/amdgpu/mes_v12_0.c             |  8 +-
+ drivers/gpu/drm/amd/include/mes_v11_api_def.h      |  3 +
+ drivers/gpu/drm/amd/include/mes_v12_api_def.h      |  3 +
+ drivers/gpu/drm/amd/pm/amdgpu_dpm.c                |  3 +-
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   | 86 +++++++++++++++++++++-
+ 9 files changed, 114 insertions(+), 19 deletions(-)
