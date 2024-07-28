@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF32293E64C
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD10493E650
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:46:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 549AF10E240;
-	Sun, 28 Jul 2024 15:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFC110E254;
+	Sun, 28 Jul 2024 15:46:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jyQwFjAf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gEPQfzcr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5B310E24B;
- Sun, 28 Jul 2024 15:46:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86A2710E250;
+ Sun, 28 Jul 2024 15:46:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8513861212;
- Sun, 28 Jul 2024 15:46:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2402EC32782;
- Sun, 28 Jul 2024 15:46:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0235F61222;
+ Sun, 28 Jul 2024 15:46:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8E0BC4AF0A;
+ Sun, 28 Jul 2024 15:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722181586;
- bh=4bn0QFgpKCi0ANFx0rEErEYRVnrgAbGbvE/dCmYW1Y0=;
+ s=k20201202; t=1722181591;
+ bh=jEzhEmqGGLMTZyA3OJtr1xZIhHmbm5L8/sN4C75lmOE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jyQwFjAfvLA4TG5V5RbXKfef51OhuZCDMVPRPIScje7LXvt4AbP+baqXquJvGM4me
- YdGRsD51Pj04kOOyyjPh94AK0kI+QGQmF8CTBz56z4mpcJYPjHNLGqcbBGwVWtLTfM
- 4ZI/ZfLLTFkkFcj3SR2sbzJEv/pFZZ6csBJFsjy2kNw9SyU0RvovHhNGn7KYENB3lG
- wVh/vxnwxd3A2EGYKU8FGWXD5zZzAVy+TZKB0Poen9VynJHNYw7ZF6g8hKx0Hbjgim
- r8pOD/h7HxdFw/IerWm7jaGc0D3X+DvimL/4mHycqnXRjmR505AGqqNvXDbwKeV97X
- o4RvdT0ZsKHdQ==
+ b=gEPQfzcrAnv4exIvNUvYvfNx9ao0atuEJnjWxPvD29MluIL/4NkTJr/j9/hKZuysq
+ m9ElPJQuWuvXRxIlFXK+nGQed8myE0MXoAeJw1kVvuqjnbX0DKa4QiyDbvi3+fg2Yw
+ MUE0tdYlUYuwlsHP20qzgr5DHlKALqwe51Siru4ERjXAX3Qoo3zWDtxIocU13E3QQp
+ ez91DnvHxR7JByJQ6vPXeD7PVG1V8VcoOi4416B7t1PWUiiiLNrFkB+V1XnslWjPww
+ 1Y4Iw4yBzgg+VD4d+ws5fKM0liQT5P4FDhF2t4SzW7evj7yAPgNmbOQVsXCCUrVNNe
+ FYoTZeckmikPA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ma Jun <Jun.Ma2@amd.com>, Yang Wang <kevinyang.wang@amd.com>,
+Cc: Ma Jun <Jun.Ma2@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- evan.quan@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, mario.limonciello@amd.com,
- alexious@zju.edu.cn, lijo.lazar@amd.com, ruanjinjie@huawei.com,
- sunran001@208suo.com, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, Hawking.Zhang@amd.com, tao.zhou1@amd.com,
+ kevinyang.wang@amd.com, YiPeng.Chai@amd.com, Stanley.Yang@amd.com,
+ candice.li@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 04/20] drm/amdgpu/pm: Fix the null pointer
- dereference for smu7
-Date: Sun, 28 Jul 2024 11:45:02 -0400
-Message-ID: <20240728154605.2048490-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 05/20] drm/amdgpu: Fix the null pointer
+ dereference to ras_manager
+Date: Sun, 28 Jul 2024 11:45:03 -0400
+Message-ID: <20240728154605.2048490-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240728154605.2048490-1-sashal@kernel.org>
 References: <20240728154605.2048490-1-sashal@kernel.org>
@@ -69,95 +69,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ma Jun <Jun.Ma2@amd.com>
 
-[ Upstream commit c02c1960c93eede587576625a1221205a68a904f ]
+[ Upstream commit 4c11d30c95576937c6c35e6f29884761f2dddb43 ]
 
-optimize the code to avoid pass a null pointer (hwmgr->backend)
-to function smu7_update_edc_leakage_table.
+Check ras_manager before using it
 
 Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
-Reviewed-by: Yang Wang <kevinyang.wang@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c   | 50 +++++++++----------
- 1 file changed, 24 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
-index aa91730e4eaff..15515025d995b 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
-@@ -2957,6 +2957,7 @@ static int smu7_update_edc_leakage_table(struct pp_hwmgr *hwmgr)
- 
- static int smu7_hwmgr_backend_init(struct pp_hwmgr *hwmgr)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+index 67b75ff0f7c37..7cba98f8bbdca 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -1780,12 +1780,15 @@ static void amdgpu_ras_interrupt_process_handler(struct work_struct *work)
+ int amdgpu_ras_interrupt_dispatch(struct amdgpu_device *adev,
+ 		struct ras_dispatch_if *info)
  {
-+	struct amdgpu_device *adev = hwmgr->adev;
- 	struct smu7_hwmgr *data;
- 	int result = 0;
+-	struct ras_manager *obj = amdgpu_ras_find_obj(adev, &info->head);
+-	struct ras_ih_data *data = &obj->ih_data;
++	struct ras_manager *obj;
++	struct ras_ih_data *data;
  
-@@ -2993,40 +2994,37 @@ static int smu7_hwmgr_backend_init(struct pp_hwmgr *hwmgr)
- 	/* Initalize Dynamic State Adjustment Rule Settings */
- 	result = phm_initializa_dynamic_state_adjustment_rule_settings(hwmgr);
++	obj = amdgpu_ras_find_obj(adev, &info->head);
+ 	if (!obj)
+ 		return -EINVAL;
  
--	if (0 == result) {
--		struct amdgpu_device *adev = hwmgr->adev;
-+	if (result)
-+		goto fail;
- 
--		data->is_tlu_enabled = false;
-+	data->is_tlu_enabled = false;
- 
--		hwmgr->platform_descriptor.hardwareActivityPerformanceLevels =
-+	hwmgr->platform_descriptor.hardwareActivityPerformanceLevels =
- 							SMU7_MAX_HARDWARE_POWERLEVELS;
--		hwmgr->platform_descriptor.hardwarePerformanceLevels = 2;
--		hwmgr->platform_descriptor.minimumClocksReductionPercentage = 50;
-+	hwmgr->platform_descriptor.hardwarePerformanceLevels = 2;
-+	hwmgr->platform_descriptor.minimumClocksReductionPercentage = 50;
- 
--		data->pcie_gen_cap = adev->pm.pcie_gen_mask;
--		if (data->pcie_gen_cap & CAIL_PCIE_LINK_SPEED_SUPPORT_GEN3)
--			data->pcie_spc_cap = 20;
--		else
--			data->pcie_spc_cap = 16;
--		data->pcie_lane_cap = adev->pm.pcie_mlw_mask;
--
--		hwmgr->platform_descriptor.vbiosInterruptId = 0x20000400; /* IRQ_SOURCE1_SW_INT */
--/* The true clock step depends on the frequency, typically 4.5 or 9 MHz. Here we use 5. */
--		hwmgr->platform_descriptor.clockStep.engineClock = 500;
--		hwmgr->platform_descriptor.clockStep.memoryClock = 500;
--		smu7_thermal_parameter_init(hwmgr);
--	} else {
--		/* Ignore return value in here, we are cleaning up a mess. */
--		smu7_hwmgr_backend_fini(hwmgr);
--	}
-+	data->pcie_gen_cap = adev->pm.pcie_gen_mask;
-+	if (data->pcie_gen_cap & CAIL_PCIE_LINK_SPEED_SUPPORT_GEN3)
-+		data->pcie_spc_cap = 20;
-+	else
-+		data->pcie_spc_cap = 16;
-+	data->pcie_lane_cap = adev->pm.pcie_mlw_mask;
++	data = &obj->ih_data;
 +
-+	hwmgr->platform_descriptor.vbiosInterruptId = 0x20000400; /* IRQ_SOURCE1_SW_INT */
-+	/* The true clock step depends on the frequency, typically 4.5 or 9 MHz. Here we use 5. */
-+	hwmgr->platform_descriptor.clockStep.engineClock = 500;
-+	hwmgr->platform_descriptor.clockStep.memoryClock = 500;
-+	smu7_thermal_parameter_init(hwmgr);
+ 	if (data->inuse == 0)
+ 		return 0;
  
- 	result = smu7_update_edc_leakage_table(hwmgr);
--	if (result) {
--		smu7_hwmgr_backend_fini(hwmgr);
--		return result;
--	}
-+	if (result)
-+		goto fail;
- 
- 	return 0;
-+fail:
-+	smu7_hwmgr_backend_fini(hwmgr);
-+	return result;
- }
- 
- static int smu7_force_dpm_highest(struct pp_hwmgr *hwmgr)
 -- 
 2.43.0
 
