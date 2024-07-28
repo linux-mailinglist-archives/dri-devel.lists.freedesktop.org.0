@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0583493E591
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 15:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257E193E5A8
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 16:24:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56B410E1D6;
-	Sun, 28 Jul 2024 13:49:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC39810E1A0;
+	Sun, 28 Jul 2024 14:23:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PVtwXaa1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ItyVSJB0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A85510E1D6
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 13:49:21 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6439710E1A0
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 14:23:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5DA38CE062A
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 13:49:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 99000C116B1
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 13:49:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9F13760660
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 14:23:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 56DE5C4AF0B
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 14:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722174556;
- bh=tPA6IKpqmrgJK16BLz0LNWO6eNbyzqYexc/hBXclaS0=;
+ s=k20201202; t=1722176637;
+ bh=XpURl/lidMUKHRp1BkCwUWurdpq9ele6TzTtxZC95i4=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=PVtwXaa1OhIixh+m6pVpTdJx5O+T7U0I2cfaZ8yC6paGr3jbcS444rtuM/0G1X3To
- /fJIVY/+NJ4+/CyPYmwk3ea3E5I8ONIulqpk6NXuj01YddhI3RxTwFQse+SFIqNOtE
- gA3GZg+clfiosEtcKiar0HRyKAH52c1Vr5ihyt7luaq9Wxr9onUhdNYMHj1mCnOGZV
- uwpPhzxA7yiIuASk0Mnnx8eZc0bo7pslhcZlfuUg0eilGbtPUJNkBGtPXamiE8GHG+
- sGgoApgMQrJMDnhRvRKD72ux5hgqG244wakWgTp5OemnZ4s0IM7KYTDoCmmUhLTOKR
- OjdmJ8TVqYw1w==
+ b=ItyVSJB0BwQMPH3IMNW/HH8O+IZsIO5wQAoF16JaaXA/XypU26FoiQfCv0f4fbupa
+ lnYCNZMCo+WLpv6rcpT1LxgyW7StrsphsINUu7GuvYTUBBQR1QROpIJvlnPKh2K+pq
+ 9E1+4IA2uyHwdLIykmGGG1vR+J5GRnsDa64dLzBpMni6SLKHyMkopVQ36csfab7DC9
+ RUZmUz/SoBGGctMhPJKmlILFotpGp8NKGMQa7NCofrAd71/JZTsQLdAx/+2pMRea53
+ nkXlHpI6UpdDm7p0kDpYMv68t9vG4pGXaoNE/zQKIT7w/0HOUsyMRJ1PKbZu3+Ketx
+ 6EzGXcuag92dA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8861BC53BB7; Sun, 28 Jul 2024 13:49:16 +0000 (UTC)
+ from userid 48) id 4B24EC53BB8; Sun, 28 Jul 2024 14:23:57 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 219091] amdgpu: after updating to linux 6.10, screen flickering
  occurs
-Date: Sun, 28 Jul 2024 13:49:16 +0000
+Date: Sun, 28 Jul 2024 14:23:57 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,14 +45,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: christian@heusel.eu
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-219091-2300-5Jyibou6KF@https.bugzilla.kernel.org/>
+Message-ID: <bug-219091-2300-xkscsMmMVV@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219091-2300@https.bugzilla.kernel.org/>
 References: <bug-219091-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,14 +77,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219091
 
-Christian Heusel (christian@heusel.eu) changed:
+Alex Deucher (alexdeucher@gmail.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |christian@heusel.eu
+                 CC|                            |alexdeucher@gmail.com
 
---- Comment #2 from Christian Heusel (christian@heusel.eu) ---
-We're currently in the progress of bisecting the issue :)
+--- Comment #3 from Alex Deucher (alexdeucher@gmail.com) ---
+Likely already fixed by:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3De3615bd198289f319172c428f20857accb46b830
 
 --=20
 You may reply to this email to add a comment.
