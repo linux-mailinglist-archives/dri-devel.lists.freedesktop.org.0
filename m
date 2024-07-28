@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5535893E695
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4740693E69F
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:50:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C26E910E299;
-	Sun, 28 Jul 2024 15:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B27BB10E29A;
+	Sun, 28 Jul 2024 15:50:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UxVPO+UM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nMaz6eYN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FCBD10E299;
- Sun, 28 Jul 2024 15:49:49 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDACF10E29A;
+ Sun, 28 Jul 2024 15:50:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8FB8B61221;
- Sun, 28 Jul 2024 15:49:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35D88C4AF0A;
- Sun, 28 Jul 2024 15:49:46 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 29619CE02C2;
+ Sun, 28 Jul 2024 15:50:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22B62C116B1;
+ Sun, 28 Jul 2024 15:50:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722181788;
- bh=OLhg3zlv3O41sjeKlUyRS33KLMD8gij5NCSz3UKGdLQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UxVPO+UM4VXhD0z6duX9d4/0nhomk723toxjFFCeqeL588GGrJ6bS3dhv61pwGplU
- gMbh6WcOiH78FKPJmCA5D6wNqv0eTsdAQGE8jICc0gRrZC38hWuGTXfBMM5VBaVqL+
- GVJiczhCkVAir2a4qyIsLm/QN8mrU6hEA8ihocm2BvkCl/qzL9rsQqjd9WoX1u/GWo
- yIIIrBWNnSbR7XlLQlXCwJyqx63qqQjUzb7O4e2Y9uDvHyMJ5Crj+RQY26GU745hgY
- a7ED4IaEDUIJyTMD62XQOrd5aSWyhoQ53hKQ9d+as6n29tuTq8aDO49ym5sVTzL/FR
- +9fK3NW11WoVQ==
+ s=k20201202; t=1722181818;
+ bh=JGsjm2mSWIPmoNW4I3j8FcvEHbK+k0jSfyDEkRqo08o=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nMaz6eYNE+byWnMom04LnnHcrjT4gLcWBY+slQjfkAhSr8ZyAAPTRjQQkQrxvArZa
+ 8hT7HS8dPReYhfIMCUaotqtu+/loAq6YH2VPQszaYnfr2YHbFxHPo/ZyldhW6ovAXz
+ bzDasW5THREudsdhhsJJa+s+8nLhLLLRYza0pkaNALn73E3z5NcNy9hgxnmcm5LeIO
+ cL9/rfHjtZd0kGJgxUtvi18A4g9D03RbAAlBsmZGeb9CabYsXXh2kBVR6yKUzeLWjO
+ 1uid5wDai50i72NcVFNvGGpTXxu0EzYtTlZX4rHSbl9D9ps2/p64ufLzxyw2baJvoi
+ Xjje0VY/SnVmg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
+Cc: Ma Jun <Jun.Ma2@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, roman.li@amd.com,
- mario.limonciello@amd.com, joshua@froggi.es, wayne.lin@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 04/10] drm/amd/display: Add null checker before
- passing variables
-Date: Sun, 28 Jul 2024 11:49:02 -0400
-Message-ID: <20240728154927.2050160-4-sashal@kernel.org>
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, Hawking.Zhang@amd.com, tao.zhou1@amd.com,
+ kevinyang.wang@amd.com, YiPeng.Chai@amd.com, Stanley.Yang@amd.com,
+ candice.li@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.10 1/7] drm/amdgpu: Fix the null pointer dereference
+ to ras_manager
+Date: Sun, 28 Jul 2024 11:49:55 -0400
+Message-ID: <20240728155014.2050414-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240728154927.2050160-1-sashal@kernel.org>
-References: <20240728154927.2050160-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.164
+X-stable-base: Linux 5.10.223
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,57 +65,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Hung <alex.hung@amd.com>
+From: Ma Jun <Jun.Ma2@amd.com>
 
-[ Upstream commit 8092aa3ab8f7b737a34b71f91492c676a843043a ]
+[ Upstream commit 4c11d30c95576937c6c35e6f29884761f2dddb43 ]
 
-Checks null pointer before passing variables to functions.
+Check ras_manager before using it
 
-This fixes 3 NULL_RETURNS issues reported by Coverity.
-
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index b821abb56ac3b..333be05418935 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2431,7 +2431,8 @@ static int dm_suspend(void *handle)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+index e971d2b9e3c00..56f10679a26d1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -1351,12 +1351,15 @@ static void amdgpu_ras_interrupt_process_handler(struct work_struct *work)
+ int amdgpu_ras_interrupt_dispatch(struct amdgpu_device *adev,
+ 		struct ras_dispatch_if *info)
+ {
+-	struct ras_manager *obj = amdgpu_ras_find_obj(adev, &info->head);
+-	struct ras_ih_data *data = &obj->ih_data;
++	struct ras_manager *obj;
++	struct ras_ih_data *data;
  
- 		dm->cached_dc_state = dc_copy_state(dm->dc->current_state);
++	obj = amdgpu_ras_find_obj(adev, &info->head);
+ 	if (!obj)
+ 		return -EINVAL;
  
--		dm_gpureset_toggle_interrupts(adev, dm->cached_dc_state, false);
-+		if (dm->cached_dc_state)
-+			dm_gpureset_toggle_interrupts(adev, dm->cached_dc_state, false);
++	data = &obj->ih_data;
++
+ 	if (data->inuse == 0)
+ 		return 0;
  
- 		amdgpu_dm_commit_zero_streams(dm->dc);
- 
-@@ -6884,7 +6885,8 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
- 		aconnector->dc_sink = aconnector->dc_link->local_sink ?
- 		aconnector->dc_link->local_sink :
- 		aconnector->dc_em_sink;
--		dc_sink_retain(aconnector->dc_sink);
-+		if (aconnector->dc_sink)
-+			dc_sink_retain(aconnector->dc_sink);
- 	}
- }
- 
-@@ -8218,7 +8220,8 @@ static int amdgpu_dm_connector_get_modes(struct drm_connector *connector)
- 				drm_add_modes_noedid(connector, 640, 480);
- 	} else {
- 		amdgpu_dm_connector_ddc_get_modes(connector, edid);
--		amdgpu_dm_connector_add_common_modes(encoder, connector);
-+		if (encoder)
-+			amdgpu_dm_connector_add_common_modes(encoder, connector);
- 		amdgpu_dm_connector_add_freesync_modes(connector, edid);
- 	}
- 	amdgpu_dm_fbc_init(connector);
 -- 
 2.43.0
 
