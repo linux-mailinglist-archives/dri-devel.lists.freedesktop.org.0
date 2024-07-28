@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14A593E685
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B18E93E68D
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 17:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35A5B10E290;
-	Sun, 28 Jul 2024 15:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1735610E292;
+	Sun, 28 Jul 2024 15:49:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wz6n2HPs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GnJbnuLX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABAEF10E290;
- Sun, 28 Jul 2024 15:48:53 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3760410E288;
+ Sun, 28 Jul 2024 15:49:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 266D7611EF;
- Sun, 28 Jul 2024 15:48:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D4E1C32782;
- Sun, 28 Jul 2024 15:48:50 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 98152CE0937;
+ Sun, 28 Jul 2024 15:49:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFA09C116B1;
+ Sun, 28 Jul 2024 15:49:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722181732;
- bh=3RbZEmv3ueRYc7d2reFUBDA0ITSIHzNnhuy1wfBzJZU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Wz6n2HPsumBcEMmXiZzZtuCjvrQGyOJfVKpTDxtcLBf5mMnTGldXuEVFSr8XlyEiR
- F5rV28CjD+9PEGzugH2KrymnAuV1OJvv7+bnDq2fe0EM1qbJUwhezRKs4gg358rENE
- NzH9mS7zwqdXaUCIwG0ik3I4Dsdp2/8J2trIiQY+96Jl0EouQadBb7ioTxXfwSBCVm
- CF6p80uMTRV9352nciVEA6SODdrVIjHjf4gdSROTDnNqcapJP/q9m9cYMu0hemEysJ
- KEWEESpjtDxCmfIitmYEDdjpbGlObL3M5DGyHlbjPDuwtHxJSD/DbM3rdK1J9T/h8n
- GPdKLF3+a2YKA==
+ s=k20201202; t=1722181770;
+ bh=G8oQTjcYt4EIYN3WqlpBpoy1VAYDrd06NdL+PMqQDdQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=GnJbnuLXEDZycHSo/tY0BjSfW75r2H6bMU2fC5/hL02zGdGLbrXYKU31SWnHlC+zA
+ lPH4dFT5KbcXwvkB2vvS/bynbhvIKNi2YgLh+VDluA1Hg6Lx9c57JwZ7JxdJMcCM7z
+ GQZiGRRlr8Z1EwXqS0xvtai0pzpH6vzLyvHOD1w2MHT8B5dVY9eC2Y9O0N4Fv0OzfT
+ NmD0sk7vjcKCpveTSX4zUi/mxhloH0bu+7AYEnhwMvRgh5Xud57k7wotmNO7DEbkCA
+ nqsabzD/mWQnOxfQSP23XXs3ISL9h1v/E/LYQIt/eZwqOvd0Jn2c0b+0LcXy+j+5/y
+ z4SITfjmp1Pgg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
+Cc: Ma Jun <Jun.Ma2@amd.com>, Yang Wang <kevinyang.wang@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, roman.li@amd.com,
- mario.limonciello@amd.com, joshua@froggi.es, wayne.lin@amd.com,
+ evan.quan@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, mario.limonciello@amd.com,
+ sunran001@208suo.com, alexious@zju.edu.cn, ruanjinjie@huawei.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 09/17] drm/amd/display: Add null checker before
- passing variables
-Date: Sun, 28 Jul 2024 11:47:19 -0400
-Message-ID: <20240728154805.2049226-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 01/10] drm/amdgpu/pm: Fix the null pointer
+ dereference for smu7
+Date: Sun, 28 Jul 2024 11:48:59 -0400
+Message-ID: <20240728154927.2050160-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240728154805.2049226-1-sashal@kernel.org>
-References: <20240728154805.2049226-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.102
+X-stable-base: Linux 5.15.164
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,57 +64,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Hung <alex.hung@amd.com>
+From: Ma Jun <Jun.Ma2@amd.com>
 
-[ Upstream commit 8092aa3ab8f7b737a34b71f91492c676a843043a ]
+[ Upstream commit c02c1960c93eede587576625a1221205a68a904f ]
 
-Checks null pointer before passing variables to functions.
+optimize the code to avoid pass a null pointer (hwmgr->backend)
+to function smu7_update_edc_leakage_table.
 
-This fixes 3 NULL_RETURNS issues reported by Coverity.
-
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+Reviewed-by: Yang Wang <kevinyang.wang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ .../drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c   | 50 +++++++++----------
+ 1 file changed, 24 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 31bae620aeffc..6189685af1fda 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2636,7 +2636,8 @@ static int dm_suspend(void *handle)
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+index 9bfc465d08fb0..2451cec031dda 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+@@ -2907,6 +2907,7 @@ static int smu7_update_edc_leakage_table(struct pp_hwmgr *hwmgr)
  
- 		dm->cached_dc_state = dc_copy_state(dm->dc->current_state);
+ static int smu7_hwmgr_backend_init(struct pp_hwmgr *hwmgr)
+ {
++	struct amdgpu_device *adev = hwmgr->adev;
+ 	struct smu7_hwmgr *data;
+ 	int result = 0;
  
--		dm_gpureset_toggle_interrupts(adev, dm->cached_dc_state, false);
-+		if (dm->cached_dc_state)
-+			dm_gpureset_toggle_interrupts(adev, dm->cached_dc_state, false);
+@@ -2943,40 +2944,37 @@ static int smu7_hwmgr_backend_init(struct pp_hwmgr *hwmgr)
+ 	/* Initalize Dynamic State Adjustment Rule Settings */
+ 	result = phm_initializa_dynamic_state_adjustment_rule_settings(hwmgr);
  
- 		amdgpu_dm_commit_zero_streams(dm->dc);
+-	if (0 == result) {
+-		struct amdgpu_device *adev = hwmgr->adev;
++	if (result)
++		goto fail;
  
-@@ -6388,7 +6389,8 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
- 		aconnector->dc_sink = aconnector->dc_link->local_sink ?
- 		aconnector->dc_link->local_sink :
- 		aconnector->dc_em_sink;
--		dc_sink_retain(aconnector->dc_sink);
-+		if (aconnector->dc_sink)
-+			dc_sink_retain(aconnector->dc_sink);
- 	}
+-		data->is_tlu_enabled = false;
++	data->is_tlu_enabled = false;
+ 
+-		hwmgr->platform_descriptor.hardwareActivityPerformanceLevels =
++	hwmgr->platform_descriptor.hardwareActivityPerformanceLevels =
+ 							SMU7_MAX_HARDWARE_POWERLEVELS;
+-		hwmgr->platform_descriptor.hardwarePerformanceLevels = 2;
+-		hwmgr->platform_descriptor.minimumClocksReductionPercentage = 50;
++	hwmgr->platform_descriptor.hardwarePerformanceLevels = 2;
++	hwmgr->platform_descriptor.minimumClocksReductionPercentage = 50;
+ 
+-		data->pcie_gen_cap = adev->pm.pcie_gen_mask;
+-		if (data->pcie_gen_cap & CAIL_PCIE_LINK_SPEED_SUPPORT_GEN3)
+-			data->pcie_spc_cap = 20;
+-		else
+-			data->pcie_spc_cap = 16;
+-		data->pcie_lane_cap = adev->pm.pcie_mlw_mask;
+-
+-		hwmgr->platform_descriptor.vbiosInterruptId = 0x20000400; /* IRQ_SOURCE1_SW_INT */
+-/* The true clock step depends on the frequency, typically 4.5 or 9 MHz. Here we use 5. */
+-		hwmgr->platform_descriptor.clockStep.engineClock = 500;
+-		hwmgr->platform_descriptor.clockStep.memoryClock = 500;
+-		smu7_thermal_parameter_init(hwmgr);
+-	} else {
+-		/* Ignore return value in here, we are cleaning up a mess. */
+-		smu7_hwmgr_backend_fini(hwmgr);
+-	}
++	data->pcie_gen_cap = adev->pm.pcie_gen_mask;
++	if (data->pcie_gen_cap & CAIL_PCIE_LINK_SPEED_SUPPORT_GEN3)
++		data->pcie_spc_cap = 20;
++	else
++		data->pcie_spc_cap = 16;
++	data->pcie_lane_cap = adev->pm.pcie_mlw_mask;
++
++	hwmgr->platform_descriptor.vbiosInterruptId = 0x20000400; /* IRQ_SOURCE1_SW_INT */
++	/* The true clock step depends on the frequency, typically 4.5 or 9 MHz. Here we use 5. */
++	hwmgr->platform_descriptor.clockStep.engineClock = 500;
++	hwmgr->platform_descriptor.clockStep.memoryClock = 500;
++	smu7_thermal_parameter_init(hwmgr);
+ 
+ 	result = smu7_update_edc_leakage_table(hwmgr);
+-	if (result) {
+-		smu7_hwmgr_backend_fini(hwmgr);
+-		return result;
+-	}
++	if (result)
++		goto fail;
+ 
+ 	return 0;
++fail:
++	smu7_hwmgr_backend_fini(hwmgr);
++	return result;
  }
  
-@@ -7121,7 +7123,8 @@ static int amdgpu_dm_connector_get_modes(struct drm_connector *connector)
- 				drm_add_modes_noedid(connector, 640, 480);
- 	} else {
- 		amdgpu_dm_connector_ddc_get_modes(connector, edid);
--		amdgpu_dm_connector_add_common_modes(encoder, connector);
-+		if (encoder)
-+			amdgpu_dm_connector_add_common_modes(encoder, connector);
- 		amdgpu_dm_connector_add_freesync_modes(connector, edid);
- 	}
- 	amdgpu_dm_fbc_init(connector);
+ static int smu7_force_dpm_highest(struct pp_hwmgr *hwmgr)
 -- 
 2.43.0
 
