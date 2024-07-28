@@ -2,58 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87BCC93E8D3
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 20:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B42A93E8DC
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2024 20:30:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D320910E194;
-	Sun, 28 Jul 2024 18:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BCC410E021;
+	Sun, 28 Jul 2024 18:30:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X8ErhJ79";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="mKJ18isf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4894A10E194
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 18:03:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1722189802; x=1753725802;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=csNZrzmphXa3uGleid9LEBG9Hzb76O1UIwKQNl21+Zo=;
- b=X8ErhJ79JGwfJk+/39KoylgP5jkBdPMm8kURrDna4BWcViCwWWPFg53g
- ff5M65dK++3U5M+5oUV+AucgxrbvCthtODVeqmvJMKVrNWQkmGy8i5BZn
- nEgQh/WCiKswFVPKF0DVl8sGxO6cDqHnsUWX9tgH47ffLFImeie82NPie
- +bXP7BLdyd6P/l5qCjr8ck2gcbbtGMWFbLdkzwSJ5UvrVntfF8KrwMn8f
- 7R1C+JckG+vfkhx2Idj4TpfJKT2P9tCRPK23ilva8IPAEr8+2qpgPRfv4
- 7RjSZpmlM3LsJhh/BakobgxvIHipeJbjfAYNa1NlSk5ypvHSJLg14r+6R w==;
-X-CSE-ConnectionGUID: yfLOqbu7SGa6UyoCCkhLVA==
-X-CSE-MsgGUID: xKxKwS9UTtismL2x5woRbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="20066253"
-X-IronPort-AV: E=Sophos;i="6.09,244,1716274800"; d="scan'208";a="20066253"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2024 11:03:21 -0700
-X-CSE-ConnectionGUID: mhttphoVR12GIP6d/GYGXQ==
-X-CSE-MsgGUID: 20F9d78cQt2B2A147slymQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,244,1716274800"; d="scan'208";a="58579591"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
- by orviesa003.jf.intel.com with ESMTP; 28 Jul 2024 11:03:17 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sY8Ej-000r24-2w;
- Sun, 28 Jul 2024 18:03:13 +0000
-Date: Mon, 29 Jul 2024 02:03:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@kernel.org>
-Subject: [drm-misc:drm-misc-next 2/37]
- drivers/gpu/drm/nouveau/nouveau_platform.c:29:13: warning: unused variable
- 'ret'
-Message-ID: <202407290133.IJZAiy24-lkp@intel.com>
+Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr
+ [80.12.242.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2853110E021
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 18:30:07 +0000 (UTC)
+Received: from fedora.home ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id Y8ehskV3jYjQzY8ehsdEJs; Sun, 28 Jul 2024 20:30:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1722191406;
+ bh=aHRr46GwE+uyksv7tBA8rAadSHSqFFR/MCO6+hVj1uk=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=mKJ18isfp/UdJbLq8eTjt5hzxV/dfxabgAVcoQ2rAdaQF3R2TphCNVVEvEyk7Crnq
+ Qa47ZnqQyvVssPt0mh70NxxDhTdVxbh6U5Kq+q8Om4oYsNuLzV7hJyUqhjUfjVGYjh
+ ktORbHXZsHJjr88ahzm48Wztm+4qlsNiUEYicMzECtX6+dXg6vVy1kDBAo/tzDMtMa
+ XWacCL7jCB+tYoz34cMJRn68ge5VqW7guGKORGI4/2+z96jdEG0wINVC/J3H/u5D/8
+ zw6jamr2TE3F4WOQOc8EE0z73bxTWSBhNYe63fqPJm4NxNCbZ1nHY4KjXg4W4k1KZ9
+ 3cuLhiiu6jpoQ==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 28 Jul 2024 20:30:06 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Helge Deller <deller@gmx.de>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] fbdev/hpfb: Fix an error handling path in hpfb_dio_probe()
+Date: Sun, 28 Jul 2024 20:29:47 +0200
+Message-ID: <dc4fe3d857849ac63131c5620f1bacf1a3d7172e.1722191367.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,52 +58,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   61671d85def2960bbf52db22e9e45b3bf8a5ceb5
-commit: 961ae5f9807bb15af0065485785725768a7269b9 [2/37] drm/nouveau: handle pci/tegra drm_dev_{alloc, register} from common code
-config: arm-randconfig-004-20240728 (https://download.01.org/0day-ci/archive/20240729/202407290133.IJZAiy24-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407290133.IJZAiy24-lkp@intel.com/reproduce)
+If an error occurs after request_mem_region(), a corresponding
+release_mem_region() should be called, as already done in the remove
+function.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407290133.IJZAiy24-lkp@intel.com/
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+*Not* even compile tested only.
+I don't know on what architecture it relies on.
 
-All warnings (new ones prefixed by >>):
+So it is provided as-is
+---
+ drivers/video/fbdev/hpfb.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-   drivers/gpu/drm/nouveau/nouveau_platform.c: In function 'nouveau_platform_probe':
->> drivers/gpu/drm/nouveau/nouveau_platform.c:29:13: warning: unused variable 'ret' [-Wunused-variable]
-      29 |         int ret;
-         |             ^~~
-
-
-vim +/ret +29 drivers/gpu/drm/nouveau/nouveau_platform.c
-
-8ba9ff11632cb0 Alexandre Courbot 2014-06-26  23  
-8ba9ff11632cb0 Alexandre Courbot 2014-06-26  24  static int nouveau_platform_probe(struct platform_device *pdev)
-8ba9ff11632cb0 Alexandre Courbot 2014-06-26  25  {
-e396ecd178c6c8 Alexandre Courbot 2015-09-04  26  	const struct nvkm_device_tegra_func *func;
-870571a5698b2e Thierry Reding    2016-02-24  27  	struct nvkm_device *device = NULL;
-8ba9ff11632cb0 Alexandre Courbot 2014-06-26  28  	struct drm_device *drm;
-43a70661eaa64a Ben Skeggs        2015-08-20 @29  	int ret;
-8ba9ff11632cb0 Alexandre Courbot 2014-06-26  30  
-e396ecd178c6c8 Alexandre Courbot 2015-09-04  31  	func = of_device_get_match_data(&pdev->dev);
-e396ecd178c6c8 Alexandre Courbot 2015-09-04  32  
-e396ecd178c6c8 Alexandre Courbot 2015-09-04  33  	drm = nouveau_platform_device_create(func, pdev, &device);
-43a70661eaa64a Ben Skeggs        2015-08-20  34  	if (IS_ERR(drm))
-43a70661eaa64a Ben Skeggs        2015-08-20  35  		return PTR_ERR(drm);
-8ba9ff11632cb0 Alexandre Courbot 2014-06-26  36  
-43a70661eaa64a Ben Skeggs        2015-08-20  37  	return 0;
-8ba9ff11632cb0 Alexandre Courbot 2014-06-26  38  }
-8ba9ff11632cb0 Alexandre Courbot 2014-06-26  39  
-
-:::::: The code at line 29 was first introduced by commit
-:::::: 43a70661eaa64aa4e36e421eee3b9ded3190837b drm/nouveau/tegra: merge platform setup from nouveau drm
-
-:::::: TO: Ben Skeggs <bskeggs@redhat.com>
-:::::: CC: Ben Skeggs <bskeggs@redhat.com>
-
+diff --git a/drivers/video/fbdev/hpfb.c b/drivers/video/fbdev/hpfb.c
+index 66fac8e5393e..87b8dcdc1cf3 100644
+--- a/drivers/video/fbdev/hpfb.c
++++ b/drivers/video/fbdev/hpfb.c
+@@ -342,12 +342,17 @@ static int hpfb_dio_probe(struct dio_dev *d, const struct dio_device_id *ent)
+ 	}
+ 	printk(KERN_INFO "Topcat found at DIO select code %d "
+ 	       "(secondary id %02x)\n", d->scode, (d->id >> 8) & 0xff);
+-	if (hpfb_init_one(paddr, vaddr)) {
+-		if (d->scode >= DIOII_SCBASE)
+-			iounmap((void *)vaddr);
+-		return -ENOMEM;
+-	}
++	if (hpfb_init_one(paddr, vaddr))
++		goto err_unmap;
++
+ 	return 0;
++
++err_unmap:
++	if (d->scode >= DIOII_SCBASE)
++		iounmap((void *)vaddr);
++	release_mem_region(d->resource.start, resource_size(&d->resource));
++
++	return -ENOMEM;
+ }
+ 
+ static void hpfb_remove_one(struct dio_dev *d)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
