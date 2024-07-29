@@ -2,58 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9650B93ED70
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 08:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27D593ED91
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 08:40:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F44F10E2FD;
-	Mon, 29 Jul 2024 06:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEFC10E302;
+	Mon, 29 Jul 2024 06:40:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="tDoLvKKU";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="eR7DwdKV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF8F10E18B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 06:27:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1722234477;
- bh=c2Gb33yB6AGUPL7oB/bVbgijksIJQN8Vp6pPt6OQkXg=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=tDoLvKKUFH90Zfy4QS9BC3Q8oXlzM1iVsd4bWvx+NrYo5aa8ZvMRU2X2Dgo1TCwOl
- BrHmLD8BRYw0WHcQcvtoe7SXbJgoEM2gZDOsQMvKuE+mB3sZZsunKwZAsNrxb5oToT
- xp/gqCD456E+Fmlcab15zjZvWCR/uqFji4qV0cXAHOl+V/sCCyeth2nJFCBliEedPH
- NghPSHqqMnUCfBz8fN0tYaRTOtrQs0DC2iyAzuc/vYlHVifRpsbyapUvaFI8Qg0yLX
- iYBqqMx7MOF2v1kVu41W33xUHRkYViJbxDucAPR9b3K9TXQZ8mdwQGk8pv1vnhtDkv
- zRe6Pf/5xmm2Q==
-Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 51D4D37813E1;
- Mon, 29 Jul 2024 06:27:54 +0000 (UTC)
-Message-ID: <c790e122-c656-4f2c-8f1d-6e405fc70233@collabora.com>
-Date: Mon, 29 Jul 2024 11:57:52 +0530
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4059D10E302
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 06:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1722235248; x=1722840048; i=markus.elfring@web.de;
+ bh=FKiZLIIW/Rjgk8YYHrGHydi/ayOuoY02w8vk/Q+iTRI=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=eR7DwdKV1Ki7Ix/TNESgSd8z07S7aVyP6Sl2TZWY5SQJcLwt1p52fRMtAOQQm4uf
+ 0KyCDhkaFSH4rppBCEOBA5ABCKue0b3zW7x5/1lDdehxJQ/fo/BjUO86J63SkNWAb
+ TdN7mnDpHhlIJrRgYA7Vp8Z5tJmKysR3z/9xIhrt4yJ/Xc9ULigKhDt3y4racg4+H
+ GdNcLNtRaey51B8c7nDfvC6+PtH2WzzT1ByRmT1JVSunyaa4/zksKIU0Ny0SW1J9/
+ MOH5APZRnJnFCF522PPUI2oVdQlySplrW1TZsB6hxMxRe4C6fH9eyevXvC7iyzjHs
+ koe3qPtRZGdul8IOdg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MoNV4-1rx0ER3VM0-00p3Z4; Mon, 29
+ Jul 2024 08:40:47 +0200
+Message-ID: <6dbe975a-59eb-4d4b-9fea-b930fa44e4ec@web.de>
+Date: Mon, 29 Jul 2024 08:40:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 5/5] drm/ci: rockchip: add tests for rockchip display
- driver
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
- helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- deborah.brouwer@collabora.com, robdclark@gmail.com,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240724101015.523535-1-vignesh.raman@collabora.com>
- <20240724101015.523535-6-vignesh.raman@collabora.com>
- <CAPj87rMJUSRJ9G1uv-w5a_4qqS0R1dDaUEofoJf=ehbMszdfOw@mail.gmail.com>
- <27bd3884-51d8-454f-9ddc-6b5765fd744b@collabora.com>
-Content-Language: en-US
-In-Reply-To: <27bd3884-51d8-454f-9ddc-6b5765fd744b@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5 1/2] drm/loongson: Introduce component framework support
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240728152858.346211-1-sui.jingfeng@linux.dev>
+ <20240728152858.346211-2-sui.jingfeng@linux.dev>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240728152858.346211-2-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:eH8QhXFrNUvKJHFFt4DSSg2TJPzXihfBGfxhTUawe9AS/vs1ZQS
+ 3JR2FAAYsMFu98nrykhrIhcYV4+J7qe9Ikk/Dbwx592stgB7GeugBxET1sB3YtleBX6oKlo
+ yg/X4u+tD2L5XoItJFdPUvZYtxfYXvcVwwXyxiKMamp+5nik+IwdkSiBNcKn5JD0+8w5O+a
+ ASdsnuHnC6TySNX1AynKg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:EXKv7Y05wlU=;8qHZtcsi9/jxerfd/oQY7TiHg4s
+ TIB5YXfpSNGR19gDBXOLIBw0RsCdTwXVp//s11N3HhfD1dGbIrCWXLTxNjkTR8knKycmFZPFc
+ jl82Zj6TDZ33ygVQ7zHLlFRJhS0hrZ6pp8l8+jjWOvMtv0l8OqOXcyhg98SziJdmUafZThxrG
+ CiI5gk7esfvq+Fho6vvG8pXbBqdws5F0i1OZau7VL4sF653NNIwG0F8wwH18vclfqYgC+K8n1
+ Mh9Ak6ETh8gTLjGjE4lVzJLsUtfrGgFNQDgFXZnQDpqRArCIIC5TohqVnWGLVshgCByNg5pq4
+ r+G7iJDtMkBg3B6Mb6m/TXzFA0BoUbzL3Nb99uC+ENVr3Oh/BngWzqfRNjcy64lYCMDoekRKE
+ T2E7jojyJMz+No4FDwd0LuOIfJTCWQ7SxL/xCBFiYOnEtVyP0TwOIh+BsDGijRQt6X30RnkL3
+ 4DkBPmtTNx5Hw4537LlJMFxfWCm7iGzDBwS39ivv3gvZqrziLrtGFdqBhKkX55Pc1nkSJ6Blm
+ Z8aX9v+gj20k5k6BrnN9rEPMIimFv5VybvNyXgBw+rEfGV+EX56QPncTbP/S7rpMhRSJGuJkM
+ LY32x9sCYRxP4ZMLdyNYFPQ5a0pJ6Hov18NdvZhPtAizkCvLGAZsTiRqC273XDQ5DEYVkc+mK
+ n3IjU2U9PsGVj5DmejnYOPY3mWy7SsVUuEJxUqgJ/Q43zSx+8nQtUouauE4AxScBkbozo3RdN
+ yNbl2lPZMbZxA39l9VcOdPl3cpJWDPHte813Ul91eT7zo5wuIen4llQlJZnpC5v9qWDyAX9Ms
+ 8DXG/BOadu2k4vRupwDMpNnw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,117 +81,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+=E2=80=A6
+> +++ b/drivers/gpu/drm/loongson/loongson_drv.h
+> @@ -0,0 +1,108 @@
+=E2=80=A6
+> +#ifndef __LOONGSON_DRV_H__
+> +#define __LOONGSON_DRV_H__
+=E2=80=A6
 
-On 26/07/24 15:37, Vignesh Raman wrote:
-> Hi Daniel,
-> 
-> On 26/07/24 13:06, Daniel Stone wrote:
->> Hi Vignesh,
->>
->> On Wed, 24 Jul 2024 at 11:12, Vignesh Raman 
->> <vignesh.raman@collabora.com> wrote:
->>> For rockchip rk3288 and rk3399, the display driver is rockchip
->>> and gpu driver is panfrost. Currently, in drm-ci for rockchip
->>> rk3288 and rk3399, only the gpu driver is tested. Refactor
->>> the existing rockchip jobs to test both display and gpu driver
->>> and update xfails.
->>
->> Could you also please add RK3588 in a new series (no need to hold this
->> one up), with Rockchip KMS and Panthor GPU? You can use the
->> rk3588-rock5-b device type in LAVA.
-> 
-> Sure. I Will add and send it in a new series.
-> 
->>
->>> diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt 
->>> b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
->>> index cf3a747f7cec..826cca5efbff 100644
->>> --- a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
->>> +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
->>
->> This is in the wrong patch?
-> 
-> Yes, this needs to be dropped. Thanks for pointing that out.
-> 
->>
->>> +++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
->>> @@ -0,0 +1,71 @@
->>> +# Suspend to RAM seems to be broken on this machine
->>> +.*suspend.*
->>> +
->>> +# Too unstable, machine ends up hanging after lots of Oopses
->>> +kms_cursor_legacy.*
->>> +
->>> +# Started hanging the machine on Linux 5.19-rc2:
->>> +#
->>> +# [IGT] kms_plane_lowres: executing
->>> +# [IGT] kms_plane_lowres: starting subtest pipe-F-tiling-y
->>> +# [IGT] kms_plane_lowres: exiting, ret=77
->>
->> ret 77 is a pure skip here, as you'd expect from a pipe F test,
->> because Rockchip doesn't have six CRTCs.
->>
->>> +# Console: switching to colour frame buffer device 170x48
->>> +# rockchip-drm display-subsystem: [drm] *ERROR* flip_done timed out
->>> +# rockchip-drm display-subsystem: [drm] *ERROR* [CRTC:35:crtc-0] 
->>> commit wait timed out
->>> +# BUG: spinlock bad magic on CPU#3, kms_plane_lowre/482
->>> +# 8<--- cut here ---
->>> +# Unable to handle kernel paging request at virtual address 7812078e
->>> +# [7812078e] *pgd=00000000
->>> +# Internal error: Oops: 5 [#1] SMP ARM
->>> +# Modules linked in:
->>> +# CPU: 3 PID: 482 Comm: kms_plane_lowre Tainted: G        W         
->>> 5.19.0-rc2-323596-g00535de92171 #1
->>> +# Hardware name: Rockchip (Device Tree)
->>> +# Process kms_plane_lowre (pid: 482, stack limit = 0x1193ac2b)
->>> +#  spin_dump from do_raw_spin_lock+0xa4/0xe8
->>> +#  do_raw_spin_lock from wait_for_completion_timeout+0x2c/0x120
->>> +#  wait_for_completion_timeout from drm_crtc_commit_wait+0x18/0x7c
->>> +#  drm_crtc_commit_wait from 
->>> drm_atomic_helper_wait_for_dependencies+0x44/0x168
->>> +#  drm_atomic_helper_wait_for_dependencies from commit_tail+0x34/0x180
->>> +#  commit_tail from drm_atomic_helper_commit+0x164/0x18c
->>> +#  drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe4
->>> +#  drm_atomic_commit from drm_client_modeset_commit_atomic+0x23c/0x284
->>> +#  drm_client_modeset_commit_atomic from 
->>> drm_client_modeset_commit_locked+0x60/0x1c8
->>> +#  drm_client_modeset_commit_locked from 
->>> drm_client_modeset_commit+0x24/0x40
->>> +#  drm_client_modeset_commit from drm_fbdev_client_restore+0x58/0x94
->>> +#  drm_fbdev_client_restore from drm_client_dev_restore+0x70/0xbc
->>> +#  drm_client_dev_restore from drm_release+0xf4/0x114
->>> +#  drm_release from __fput+0x74/0x240
->>> +#  __fput from task_work_run+0x84/0xb4
->>> +#  task_work_run from do_exit+0x34c/0xa20
->>> +#  do_exit from do_group_exit+0x34/0x98
->>
->> So this is pointing to the error being that, when a client exits, the
->> kernel attempts to restore fbdev and then it's broken. Pinning
->> pipe-F-tiling-y as specifically responsible for this seems quite odd
->> to me, given that it doesn't do anything but only skips. Is that maybe
->> just because it's the last test running in the kms_plane_lowres group
->> before it exits? Or does it occur more wildly on other test groups?
-> 
-> This was skipped for Linux 5.19-rc2. I will remove from skips and will 
-> check the behavior.
-
-This is for panfrost driver (rk3288). All kms tests are skipped for 
-gpu-only driver. Will remove the other kms tests in this file as we have
-separate skips file for rockchip driver now.
-
->>
->>> +tools_test@tools_test,Fail
->>
->> I keep noticing this failing everywhere. What's up with that? Have you
->> reported these logs to the igt list?
-> 
-> I will check this issue and report to igt developers.
-
-tools_test is a wrapper for running tools/intel_reg and 
-tools/intel_l3_parity. So skip these tests on non-intel platforms.
-
+I suggest to omit leading underscores from such identifiers.
+https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+d=
+efine+a+reserved+identifier
 
 Regards,
-Vignesh
+Markus
