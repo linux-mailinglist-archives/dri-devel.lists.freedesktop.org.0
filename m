@@ -2,73 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F2C93EA56
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 02:37:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088EA93EA8D
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 03:32:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0789610E03D;
-	Mon, 29 Jul 2024 00:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA9210E090;
+	Mon, 29 Jul 2024 01:32:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="VcbaBksO";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BeKUdQVs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
- [209.85.222.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C241910E03D
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 00:37:53 +0000 (UTC)
-Received: by mail-ua1-f47.google.com with SMTP id
- a1e0cc1a2514c-825eaedff30so485438241.0
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 17:37:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1722213472; x=1722818272;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=XgeSIz+XfbTtXVtUjbJV2VQHBXpmwBkdKyJpRDYLYhY=;
- b=VcbaBksOAF9j3KZcpFs2lHBYoIqamrpNUcTp+LRMy9d8Gl7UfJSzpM4OnK7mOOeu79
- y7FbsRi13DC94LHcLGjvG5t6b1A6LLK+I4xXZML1bBYB6xk+gnJphbrLGuOqw+aomoZi
- MPZXFaStn4jS9HI9ONhqEAqRZQ5irdFnVX6p4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722213472; x=1722818272;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XgeSIz+XfbTtXVtUjbJV2VQHBXpmwBkdKyJpRDYLYhY=;
- b=G0WhU+kyVJlz07n47X3h20X0fUszlKpKQ2b3G3Oq/qk6/NYaJ9slwfU5u/S23ZKE9t
- INp1G+rggTqFX9zXU5+8HrxfuAKDXZnc7oG4/0Fp0fPmVWhYSv26d9u2VwPTfACS0W+l
- UfcJMa/KIiBSaXcpauSSTeUwi4+S8y4xnFykpy2X5TSYyGDoxWHDbh4XXoIXmdAgfUeM
- uQHh4b4003JI1kqv3ih7YmrB6JXQkbBAfuCdNfUlriDCi3GxFKqtbrt8u2TF8ZSwU5Ju
- ieCdTXuu5w9Svot4RkW5i3CRNENhgXGbJ5T2xLKWMGoU2T7GaTRqdmAsxn+cp2WqxKiP
- 6EoQ==
-X-Gm-Message-State: AOJu0YzinldksMMhw/U8QYIDhIDq/8HylcSH2DVFoVKSgFEjQjkTsooJ
- lFSpoYDQ1JB82KkYRy2MIhMQjME5FJwN4gf7nrdoi1bXi0v7D8BVJjLnLRHNB+MPoN+Pt50l7XM
- dZvwVHOdObL6Q4+2B7gpBiiKQfnII7GCGYq3D
-X-Google-Smtp-Source: AGHT+IHnc0qYQ/QNoYPa3JLfKJgzufSGeqO7zfkvsDu+SwHrgNq6HfC27UO1CGigP8NDR74vS4JR3C3+McMA5IKTJV0=
-X-Received: by 2002:a05:6102:3e90:b0:493:e66a:793f with SMTP id
- ada2fe7eead31-493fa4594bemr3339662137.23.1722213472288; Sun, 28 Jul 2024
- 17:37:52 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 28 Jul 2024 17:37:51 -0700
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1C0C10E090;
+ Mon, 29 Jul 2024 01:32:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Gu8nc4h8/VPXWYTQQ7jGEnuWToEyWQDwNorGseCJ9kE=; b=BeKUdQVs9T/mOsR2COxlmWS78c
+ 2xBWQJt08Kxs597qByJ1mfcCHTs7202Geo5WnElJsyX9P5Tx/nqI2eH6ct/KEGzPr7IPxgSWfxjzt
+ mlhaXlMQchOT9quFF5wfaiNbkZ3l3k6yiZbPzrKWjvnGodH6jtkPcygAI2hdaAtRmtM5dwKBU6TWU
+ m6GOSQF8MLj1SoCiAq4fpHJvVsAzCurvGB00G14KYogDcu5Uli7z8QSTh9skFuoGMM9bSjFX37SGL
+ 7klgdZOtfcXAm16FBX/9rehZUvU3OND/pGhLNqKF6Hj1X1AOAMFblYRAWswMnX1dZdISiyhftqRxE
+ MdHeHdiw==;
+Received: from [189.6.17.125] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sYFFY-003ITq-VW; Mon, 29 Jul 2024 03:32:33 +0200
+Date: Sun, 28 Jul 2024 22:32:21 -0300
+From: Melissa Wen <mwen@igalia.com>
+To: Alex Hung <alex.hung@amd.com>
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, 
+ daniel@ffwll.ch, Mario Limonciello <mario.limonciello@amd.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v4 01/11] drm/amd/display: clean unused variables for
+ hdmi freesync parser
+Message-ID: <n335sldiuaq4tslcrsybeslq34tfr67d3vigbalp6gtku2yghs@j2guivjhp6ff>
+References: <20240706034004.801329-1-mwen@igalia.com>
+ <20240706034004.801329-2-mwen@igalia.com>
+ <b0017268-5651-4031-901e-45e64319d537@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20240725220450.131245-1-quic_abhinavk@quicinc.com>
-References: <20240725220450.131245-1-quic_abhinavk@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Sun, 28 Jul 2024 17:37:51 -0700
-Message-ID: <CAE-0n52kAq4=Cbdjg8JFVJ9a9ww-cLkUwcJ4BNBP9McXeaSxeQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: reset the link phy params before link training
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com, 
- neil.armstrong@linaro.org, abel.vesa@linaro.org, 
- Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b0017268-5651-4031-901e-45e64319d537@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,14 +66,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2024-07-25 15:04:50)
-> Before re-starting link training reset the link phy params namely
-> the pre-emphasis and voltage swing levels otherwise the next
-> link training begins at the previously cached levels which can result
-> in link training failures.
->
-> Fixes: 8ede2ecc3e5e ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
+On 07/25, Alex Hung wrote:
+> Hi Melissa,
+> 
+> There are no commit messages in this patch.
+> 
+> Also, do you think this can be merged with Patch 5 "drm/amd/display: remove
+> redundant freesync parser for  DP"?
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Hi Alex,
+
+Thanks for your feedback.
+I'll add a brief description in the next version.
+Regarding merging it into patch 5, I'd prefer to keep it detached
+because here we have a non-functional change. I can send it as a
+separate, single patch from this series to reduce noise and make
+validation faster. WDYT?
+
+Melissa
+
+> 
+> On 2024-07-05 21:35, Melissa Wen wrote:
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+> > ---
+> >   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ---
+> >   1 file changed, 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > index 98cf523a629e..1dfa7ec9af35 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > @@ -12108,9 +12108,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+> >   	} else if (edid && sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
+> >   		i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
+> >   		if (i >= 0 && vsdb_info.freesync_supported) {
+> > -			timing  = &edid->detailed_timings[i];
+> > -			data    = &timing->data.other_data;
+> > -
+> >   			amdgpu_dm_connector->min_vfreq = vsdb_info.min_refresh_rate_hz;
+> >   			amdgpu_dm_connector->max_vfreq = vsdb_info.max_refresh_rate_hz;
+> >   			if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
