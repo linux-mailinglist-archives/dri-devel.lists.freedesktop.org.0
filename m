@@ -2,70 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D9A93EB48
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:28:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC5493EB21
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:22:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB6E10E1F1;
-	Mon, 29 Jul 2024 02:28:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7174610E1D3;
+	Mon, 29 Jul 2024 02:22:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="PESXzGEM";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="vJVMmbll";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 902 seconds by postgrey-1.36 at gabe;
- Mon, 29 Jul 2024 02:28:47 UTC
-Received: from mail-m2422.xmail.ntesmail.com (mail-m2422.xmail.ntesmail.com
- [45.195.24.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FADE10E1F1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:28:46 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=PESXzGEM0xRNkeE0+PKHWCeuvpafyeSlgzQlDoP8SDPRBJhxKKG1c76t+Nvg79Z675hxy1WhIiwG2NeKP8eBv8YYwskSm0MERmoY6DT6OW/OZHp786fAGRDORlXXzegoAqcHqvuFuNDM13o6cPh5CpoZo0oMVl4/budz6AH02hI=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=KI9DmiKi71CmcPAM8i2KP9gOWRSiYGoc21G+XUv0QUQ=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTPA id ED373840BA2;
- Mon, 29 Jul 2024 10:04:17 +0800 (CST)
-Message-ID: <bf9022f3-3bc9-4f90-8356-3fd9883d4518@rock-chips.com>
-Date: Mon, 29 Jul 2024 10:04:17 +0800
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B53510E1D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:22:21 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 34250886A7;
+ Mon, 29 Jul 2024 04:22:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1722219739;
+ bh=YaMbFqhcu2EaD0ILHrZLda28agFKudS98OiBGCkFSS4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=vJVMmbllQBeM0Cu+Yih74QhmSwkWbPGYiojLP3+AgwlOZj0nl02Y1MpHTMGxGPEh7
+ CwiLq3SAcOtF5vyvSS0mQOzG2qCPj5KKRdXIUXuPpet0pdyUxIc8opFqzt54r/1Tvi
+ ISrtEMrzEoEDipL+FTtx1RkgzgSvi9zJ8gYl5YtzmgwpSNxqk9L5VwQb0PEXos97F/
+ AOnG2m6IhD1fg51frrufKot5sva0ny3hkXD0e7+ROAm+oMUTeHyTYY+DbjakZ4dAej
+ AG7rQ5G7E3Z1ptZ6Ywa0A5bohfYqD5jgPZ4IF7T+Vg4m4MTDGTd+S8uimC//gBPjOG
+ Q/P96Zk0g7F0Q==
+Message-ID: <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
+Date: Mon, 29 Jul 2024 04:16:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/14] dt-bindings: display: rockchip,dw-hdmi: Add
- compatible for RK3588
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Rob Herring <robh@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, kernel@collabora.com,
- Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>
-References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
- <20240601-b4-rk3588-bridge-upstream-v1-12-f6203753232b@collabora.com>
- <20240605232206.GA3345910-robh@kernel.org>
- <260aa607-099a-4f65-ae59-c4b6ea2256f1@collabora.com>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240724002044.112544-1-marex@denx.de>
+ <20240724002044.112544-2-marex@denx.de>
+ <5e5fba4fd6c3c0c9df23697bd328367e5fdfa923.camel@ndufresne.ca>
 Content-Language: en-US
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <260aa607-099a-4f65-ae59-c4b6ea2256f1@collabora.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <5e5fba4fd6c3c0c9df23697bd328367e5fdfa923.camel@ndufresne.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkJPS1ZPSR5ISUNJSkIZSkxWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a90fc3b3e1d03a4kunmed373840ba2
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PVE6Hxw6AjI6SDNMMz8BOgoR
- UTQKCwFVSlVKTElJSUpDTU5CQk5MVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBQk5ISjcG
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,184 +73,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cristian,
+On 7/24/24 6:08 PM, Nicolas Dufresne wrote:
+> Hi Marek,
 
-On 6/6/24 19:51, Cristian Ciocaltea wrote:
-> On 6/6/24 2:22 AM, Rob Herring wrote:
->> On Sat, Jun 01, 2024 at 04:12:34PM +0300, Cristian Ciocaltea wrote:
->>> Document the Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP) TX controller
->>> found on Rockchip RK3588 SoC family.
->>>
->>> Since RK3588 uses different clocks than previous Rockchip SoCs and also
->>> requires a couple of reset lines and some additional properties, provide
->>> the required changes in the binding to accommodate all variants.
->>>
->>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>> ---
->>>   .../display/rockchip/rockchip,dw-hdmi.yaml         | 127 +++++++++++++++------
->>>   1 file changed, 90 insertions(+), 37 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
->>> index 2aac62219ff6..60d6b815227f 100644
->>> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
->>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
->>> @@ -10,12 +10,10 @@ maintainers:
->>>     - Mark Yao <markyao0591@gmail.com>
->>>   
->>>   description: |
->>> -  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
->>> -  with a companion PHY IP.
->>> -
->>> -allOf:
->>> -  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
->>> -  - $ref: /schemas/sound/dai-common.yaml#
->>> +  For SoCs up to RK3568, the HDMI transmitter is a Synopsys DesignWare
->>> +  HDMI 1.4 TX controller IP with a companion PHY IP.
->>> +  The RK3588 SoC integrates the Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP)
->>> +  TX controller IP and a HDMI/eDP TX Combo PHY based on a Samsung IP block.
->>>   
->>>   properties:
->>>     compatible:
->>> @@ -25,6 +23,7 @@ properties:
->>>         - rockchip,rk3328-dw-hdmi
->>>         - rockchip,rk3399-dw-hdmi
->>>         - rockchip,rk3568-dw-hdmi
->>> +      - rockchip,rk3588-dw-hdmi
->>>   
->>>     reg-io-width:
->>>       const: 4
->>> @@ -40,36 +39,6 @@ properties:
->>>         A 1.8V supply that powers up the SoC internal circuitry. The pin name on the
->>>         SoC usually is HDMI_TX_AVDD_1V8.
->>>   
->>> -  clocks:
->>> -    minItems: 2
->>> -    items:
->>> -      - {}
->>> -      - {}
->>> -      # The next three clocks are all optional, but shall be specified in this
->>> -      # order when present.
->>> -      - description: The HDMI CEC controller main clock
->>> -      - description: Power for GRF IO
->>> -      - description: External clock for some HDMI PHY (old clock name, deprecated)
->>> -      - description: External clock for some HDMI PHY (new name)
->>> -
->>> -  clock-names:
->>> -    minItems: 2
->>> -    items:
->>> -      - {}
->>> -      - {}
->>> -      - enum:
->>> -          - cec
->>> -          - grf
->>> -          - vpll
->>> -          - ref
->>> -      - enum:
->>> -          - grf
->>> -          - vpll
->>> -          - ref
->>> -      - enum:
->>> -          - vpll
->>> -          - ref
->>> -
->>>     ddc-i2c-bus:
->>>       $ref: /schemas/types.yaml#/definitions/phandle
->>>       description:
->>> @@ -131,13 +100,97 @@ properties:
->>>   required:
->>>     - compatible
->>>     - reg
->>> -  - reg-io-width
->>>     - clocks
->>>     - clock-names
->>>     - interrupts
->>>     - ports
->>>     - rockchip,grf
->>>   
->>> +allOf:
->>> +  - $ref: /schemas/sound/dai-common.yaml#
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            enum:
->>> +              - rockchip,rk3588-dw-hdmi
->>> +    then:
->>> +      properties:
->>> +        reg:
->>> +          maxItems: 1
->>> +
->>> +        clocks:
->>> +          minItems: 1
->>> +          items:
->>> +            - description: APB system interface clock
->>> +            # The next clocks are optional, but shall be specified in this
->>> +            # order when present.
->>> +            - description: TMDS/FRL link clock
->>> +            - description: EARC RX biphase clock
->>> +            - description: Reference clock
->>> +            - description: Audio interface clock
->>> +            - description: Video datapath clock
->>> +
->>> +        clock-names:
->>> +          minItems: 1
->>> +          items:
->>> +            - const: pclk
->>> +            - enum: [hdp, earc, ref, aud, hclk_vo1]
->>> +            - enum: [earc, ref, aud, hclk_vo1]
->>> +            - enum: [ref, aud, hclk_vo1]
->>> +            - enum: [aud, hclk_vo1]
->>> +            - const: hclk_vo1
+Hi,
 
-
-For all of these clks:pclk, earc,ref, aud are common clk interface which are belong to synopsys,dw-hdmi-qp
-hdp and hclk_vo are rockchip platform specific.
-
->>> +
->>> +        resets:
->>> +          minItems: 2
->>> +          maxItems: 2
->>> +
->>> +        reset-names:
->>> +          items:
->>> +            - const: ref
->>> +            - const: hdp
->>> +
->>> +        interrupts:
->>> +          minItems: 1
->>> +          maxItems: 5
->>> +
->>> +        rockchip,vo1_grf:
->>> +          $ref: /schemas/types.yaml#/definitions/phandle
->>> +          description: Some QP related data is accessed through VO1 GRF regs
->>> +
->>> +      required:
->>> +        - resets
->>> +        - reset-names
->>> +        - rockchip,vo1_grf
->>> +
->>> +    else:
->>> +      $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> Le mercredi 24 juillet 2024 à 02:19 +0200, Marek Vasut a écrit :
+>> Introduce dedicated memory-to-memory IPUv3 VDI deinterlacer driver.
+>> Currently the IPUv3 can operate VDI in DIRECT mode, from sensor to
+>> memory. This only works for single stream, that is, one input from
+>> one camera is deinterlaced on the fly with a helper buffer in DRAM
+>> and the result is written into memory.
 >>
->> This is odd... With this plus the amount of conditional schema, I think
->> this should be a new schema doc. Doesn't have to have a common
->> schema. You can let the 2nd user of this IP block do that.
+>> The i.MX6Q/QP does support up to four analog cameras via two IPUv3
+>> instances, each containing one VDI deinterlacer block. In order to
+>> deinterlace all four streams from all four analog cameras live, it
+>> is necessary to operate VDI in INDIRECT mode, where the interlaced
+>> streams are written to buffers in memory, and then deinterlaced in
+>> memory using VDI in INDIRECT memory-to-memory mode.
 > 
-> Yes, v2 is going to be a completely separated driver implementation.
-> 
->> Though if you
->> have the Synopsys spec, then it would be good to use it and be sure the
->> binding corresponds to it.
-> 
-> Unfortunately I don't have it.
-> 
-> @Andy: Could you please help identifying the properties which should
-> belong to a common synopsys,dw-hdmi-qp schema?
-> 
-> Thanks,
-> Cristian
-> 
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+> Just a quick design question. Is it possible to chain the deinterlacer and the
+> csc-scaler ?
+
+I think you could do that.
+
+> If so, it would be much more efficient if all this could be
+> combined into the existing m2m driver, since you could save a memory rountrip
+> when needing to deinterlace, change the colorspace and possibly scale too.
+
+The existing PRP/IC driver is similar to what this driver does, yes, but 
+it uses a different DMA path , I believe it is IDMAC->PRP->IC->IDMAC . 
+This driver uses IDMAC->VDI->IC->IDMAC . I am not convinced mixing the 
+two paths into a single driver would be beneficial, but I am reasonably 
+sure it would be very convoluted. Instead, this driver could be extended 
+to do deinterlacing and scaling using the IC if that was needed. I think 
+that would be the cleaner approach.
