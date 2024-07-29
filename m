@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4D493FBE3
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 18:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD9693FBE1
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 18:55:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6B4010E431;
-	Mon, 29 Jul 2024 16:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0091210E420;
+	Mon, 29 Jul 2024 16:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12CEB10E06F;
- Mon, 29 Jul 2024 14:01:14 +0000 (UTC)
-X-QQ-mid: bizesmtp81t1722261547tbxomzu2
-X-QQ-Originating-IP: KlOB/YbZHQp8ShWuktjn3+RmM/yq6LbsM9i04JshJ8E=
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8302310E06F;
+ Mon, 29 Jul 2024 14:00:27 +0000 (UTC)
+X-QQ-mid: bizesmtpsz5t1722261605t0effs2
+X-QQ-Originating-IP: 6T+RBtkSm//PVU4kzjr+8BMsfYPy91XnEsOyGvF5Y5U=
 Received: from localhost.localdomain ( [113.57.152.160])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 29 Jul 2024 21:59:05 +0800 (CST)
+ id ; Mon, 29 Jul 2024 22:00:02 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 1796147500759734024
+X-BIZMAIL-ID: 11452189067432365742
 From: WangYuli <wangyuli@uniontech.com>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, daniel@ffwll.ch, Jingwen.Chen2@amd.com,
@@ -29,14 +29,14 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, guanwentao@uniontech.com,
  shaoyang@uniontech.com, hongao@uniontech.com,
  wenlunpeng <wenlunpeng@uniontech.com>
-Subject: [PATCH] drm/amd/amdgpu: Properly tune the size of struct
-Date: Mon, 29 Jul 2024 21:58:25 +0800
-Message-ID: <2BF9FDD63BBFB1AE+20240729135825.890138-1-wangyuli@uniontech.com>
+Subject: [PATCH v2] drm/amd/amdgpu: Properly tune the size of struct
+Date: Mon, 29 Jul 2024 22:00:00 +0800
+Message-ID: <D51E93EE77EF1231+20240729140000.890760-1-wangyuli@uniontech.com>
 X-Mailer: git-send-email 2.43.4
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
 X-Mailman-Approved-At: Mon, 29 Jul 2024 16:55:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
