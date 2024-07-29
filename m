@@ -2,83 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEE893FFE9
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 22:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA7D940081
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 23:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C3B10E485;
-	Mon, 29 Jul 2024 20:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93D1C10E04B;
+	Mon, 29 Jul 2024 21:35:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IiZrmSIy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EuxuTLXz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE2310E485
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 20:57:36 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-1fc66fc35f2so22357395ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 13:57:36 -0700 (PDT)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
+ [209.85.210.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423BD10E04B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 21:35:40 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id
+ 46e09a7af769-7093d565310so3020000a34.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 14:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722286656; x=1722891456; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XsyB4/IEI7fiDC+zo5ayLI7NX3RD/fWy5l3aPy+UUL8=;
- b=IiZrmSIyYFu5x0NiwlMkDV6ganganSOYDxQMI1GAvbZKU10t5tcuZhMS5W/eQVHlUZ
- JCyrG/JaRkEclD4Me4IEDU+lJvVFOQq5JJiEZ3fGPiy5lmadSiq+sPYEBXKfuJbOniYd
- mEMivHzTxfgjROhYW/PSwQdezdjjYcy0zVmc8eUw7z8SL2Ap/+TdjCb5l4rHfNGCeya1
- SapW2OSPBZ2jCopFfQxb+UZsBocGMLvNbuIwXkKSDpf7rZ2aCxQsQZw8QaJiW9VJ867s
- jDJ9dT7bUzweUXgtBHM1UsZW1cA0iFgmW9bK+rChARl3qDXssTOFZ7NVUR3hr7ziiPSp
- 8I9Q==
+ d=linaro.org; s=google; t=1722288939; x=1722893739; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8jCZ4dJacok9yS/sGhPIVw4hVTsTqbKuUreZrjjqP2I=;
+ b=EuxuTLXzsgxSq6hWS0ECwmUVOVVL0mUjTFduc7seU1I0Vr1cH+l7yRpiHtD9geszuy
+ TCaLukX4hrX/i9d1TQoJe7lUexP2nPyigB2rlSzFQ/TEXWDLJOSorE+ecQwmgf8c0hca
+ OTiPgKKQDGGI49Ufu7O3jqIQ2ocZ895yJ09YbftssR8Y2Gx4FyxWqPsOrsTeJZe9TD/U
+ 6vxel2Fr7Tm41z7LZP5W+DtwcfWfrZZ1WQEetzpZptgLVabf2oLSoJX1hLYN2TvoFApT
+ uKLOC8q3N11hYvZgqrRXqU4Dl3BC45Z9MLu01tnN3OEEpL39YoAYWCR9GuKwxlff12hU
+ QVoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722286656; x=1722891456;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XsyB4/IEI7fiDC+zo5ayLI7NX3RD/fWy5l3aPy+UUL8=;
- b=rw9krd4ke0qbGgY9OSGXqsooQFLdBnd/hnk4T33sHRnSk4no2Kz9AvB7OGnHY0VAsr
- 18LyvA39BoxFyCtmb9b8lHk6rmkVbE/nMARA1vwGdkh6lv5NM2k7YQajtiuRBngNktGL
- UyH165awy/oFwBk8H7ewfIna26rZX+f+JNaDmXFX9+J8gQ6wjcA+TSrIO+hD2fGVMWaI
- cKFFG6/2gCx2eSnjKdXmWnc1RzeVFD6HgNDz02PDYH8qDvJilD7C6IT8BA7/XabbEVzd
- rJa8V4s2Fq//rNXQ+gzH0N4ucgyWvPO8aZZk7DpvBQJeHy3EKuijU0Ejpk6n59IlWB+U
- 0wNQ==
+ d=1e100.net; s=20230601; t=1722288939; x=1722893739;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8jCZ4dJacok9yS/sGhPIVw4hVTsTqbKuUreZrjjqP2I=;
+ b=OFuJo0Ao4zO+gfHTSq3jPXAa3582lJrQKgIDfq/SAsS7hjtIliojAuqjllAsv51GRP
+ 1apHDduwSVrx6XFTrYQSB09qw8rvYiMCreIavbOv5CJvoiYGD6E5LxUCtTMm01ydyNEn
+ V8rqzTXkmiDgXhTHnEenWWQeVkMkl3dAO7gkI5G/7U12q8tck1/p02LLQzEHnn3UZbOH
+ TkfIFHoygM3Nnsjojgd58jS1c6Y5ATxd4KTmEJ1TKP+ii1HfJB1KPkblNcJ5Tx2m3ecT
+ 0skNMU7VI+9jNoa15vqpBRfqWyHfQE7eKDrnN0/RJjFdjd6y5SqEfGLebzLlfk032gYG
+ djRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVpOZ8ty/Jz7g9p7i4GSKxBYlntYwyhtaolY8fi882MO/KU8OX4bDT7QFSr3IPn5FBo7HvQsbj9JAeQdT49dCmq+4gtnwmJ9H/DGJf91j8d
-X-Gm-Message-State: AOJu0YzJmSoATwt4C9Ez4yqQ0rbjBPWgq7iS52g572HvmnNYtjybSVRz
- EW7IbVAsW1iODtxx9bQbNWnTa2uVpuhYcsDWYxTdzRQQ5R8zkGHu
-X-Google-Smtp-Source: AGHT+IE7RlpPM0Ve8QorkWwBam/ulv41RrYw3YyiYgnmag2XmMfjp/FbZt1JmjuYH8DymxzoGN/ZDQ==
-X-Received: by 2002:a17:903:41d2:b0:1fd:6581:93c5 with SMTP id
- d9443c01a7336-1ff04b1c364mr140162675ad.27.1722286655550; 
- Mon, 29 Jul 2024 13:57:35 -0700 (PDT)
-Received: from localhost ([100.84.200.15]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1fed7f6dc27sm87414365ad.237.2024.07.29.13.57.34
+ AJvYcCWlHIxaJL8MV/6El07L/JvkWMdxQleFhB9ZXjWgs98C94xonrhp6v9edxuq5Xgyg2wXI/LEmJqoOPNSpdovtUPqFWQlSYxwsLf4iFRgoQFN
+X-Gm-Message-State: AOJu0YwcuVPHLKu1EqpkGV+j2CO8zHc1pz7h39zO5zcQmRtUiFP6JS7A
+ VxkoStOkJ8Qr2Gly+wttJeL16W2WC/0P4QybNGRTx1cejU4clDSQFInLf/4YO3Y=
+X-Google-Smtp-Source: AGHT+IHDvjNGEn3OlMcAR6Il1gwE9cH+Q82mJfYpkkx7Ley40Dv5Z1neEY9qJN9BU+smiLkpIMX/Og==
+X-Received: by 2002:a05:6870:46a9:b0:254:8afa:6914 with SMTP id
+ 586e51a60fabf-267d4eedec3mr10816825fac.34.1722288939167; 
+ Mon, 29 Jul 2024 14:35:39 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+ by smtp.gmail.com with ESMTPSA id
+ 46e09a7af769-7095aeb0acdsm61008a34.64.2024.07.29.14.35.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jul 2024 13:57:34 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: linux-arm-msm@vger.kernel.org
-Cc: Stephan Gerhold <stephan.gerhold@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Rob Clark <robdclark@chromium.org>,
- Conor Dooley <conor.dooley@microchip.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org (open list:DRM PANEL DRIVERS),
- devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE
- BINDINGS), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 1/2] dt-bindings: display: panel: samsung,
- atna45dc02: Document ATNA45DC02
-Date: Mon, 29 Jul 2024 13:57:24 -0700
-Message-ID: <20240729205726.7923-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.45.2
+ Mon, 29 Jul 2024 14:35:38 -0700 (PDT)
+Date: Mon, 29 Jul 2024 16:35:36 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Helge Deller <deller@gmx.de>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] fbdev/hpfb: Fix an error handling path in hpfb_dio_probe()
+Message-ID: <9cc6ac18-3804-486a-8549-fd13b6ae121e@suswa.mountain>
+References: <dc4fe3d857849ac63131c5620f1bacf1a3d7172e.1722191367.git.christophe.jaillet@wanadoo.fr>
+ <698958fb-4fc8-4288-b067-5843c651b093@gmx.de>
+ <ac4c6712-c47b-4414-9640-3018bf09e8fa@suswa.mountain>
+ <9dbb2b52-4fc9-4bbf-a6a2-ab6ec32adb8f@gmx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9dbb2b52-4fc9-4bbf-a6a2-ab6ec32adb8f@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,38 +86,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Jul 29, 2024 at 10:09:39PM +0200, Helge Deller wrote:
+> On 7/29/24 17:59, Dan Carpenter wrote:
+> > On Mon, Jul 29, 2024 at 10:13:17AM +0200, Helge Deller wrote:
+> > > On 7/28/24 20:29, Christophe JAILLET wrote:
+> > > > If an error occurs after request_mem_region(), a corresponding
+> > > > release_mem_region() should be called, as already done in the remove
+> > > > function.
+> > > 
+> > > True.
+> > > 
+> > > > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > > 
+> > > I think we can drop this "Fixes" tag, as it gives no real info.
+> > 
+> > If we're backporting patches then these tags really are useful.  As
+> > I've been doing more and more backporting, I've come to believe this
+> > more firmly.
+> 
+> Sure, "Fixes" tags are useful, but only if they really refer
+> to another patch which introduced the specific issue.
+> 
+> But the tag 1da177e4c3f4 ("Linux-2.6.12-rc2") isn't useful, as it's
+> just the initial git commit. It has no relation to why release_mem_region()
+> might have been initially missed. See:
 
-The Samsung ATNA45DC02 panel is an AMOLED eDP panel, similar to the
-existing ATNA45AF01 and ATNA33XC20 panel but with a higher resolution.
+In the last couple stable kernels we've backported some pretty serious
+networking commits that have Linux-2.6.12-rc2 for the Fixes tag.  So if
+it's security related that's really important information.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
----
- .../bindings/display/panel/samsung,atna33xc20.yaml       | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+For minor stuff like this, the commit will be backported as far back as
+possible and until it ends up in a list of failed commits.
 
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-index 5192c93fbd67..87c601bcf20a 100644
---- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-@@ -17,10 +17,13 @@ properties:
-     oneOf:
-       # Samsung 13.3" FHD (1920x1080 pixels) eDP AMOLED panel
-       - const: samsung,atna33xc20
--      # Samsung 14.5" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
-       - items:
--          - const: samsung,atna45af01
--          - const: samsung,atna33xc20
-+        - enum:
-+          # Samsung 14.5" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
-+          - samsung,atna45af01
-+          # Samsung 14.5" 3K (2944x1840 pixels) eDP AMOLED panel
-+          - samsung,atna45dc02
-+        - const: samsung,atna33xc20
- 
-   enable-gpios: true
-   port: true
--- 
-2.45.2
+When I'm reviewing the list of failed patches and there is no Fixes tag
+I think maybe it was backported to all the affected kernels?  In that
+case, I could have skipped the manual review if the patch was just
+tagged correctly.  Then I wonder, why wasn't it tagged?  I just assume
+it was sloppiness honestly.  I'm probably not going to spend that much
+time on it, but it's annoying.
+
+When a commit lists Linux-2.6.12-rc2 as the Fixes then it still ends up
+in the failed list.  But it can't affect too many users if we're only
+getting around to fixing it now.  It's easier to ignore.
+
+regards,
+dan carpenter
 
