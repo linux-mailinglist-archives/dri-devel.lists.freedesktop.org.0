@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF8993EB8D
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED36293EBC7
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 05:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2358E10E221;
-	Mon, 29 Jul 2024 02:46:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48F9210E2AC;
+	Mon, 29 Jul 2024 03:09:55 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EDRy8Alj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79F7610E221
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:46:19 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.17])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4WXN142Df4z20krH;
- Mon, 29 Jul 2024 10:42:00 +0800 (CST)
-Received: from kwepemm600007.china.huawei.com (unknown [7.193.23.208])
- by mail.maildlp.com (Postfix) with ESMTPS id 432FE1A0190;
- Mon, 29 Jul 2024 10:46:16 +0800 (CST)
-Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.178.219) by
- kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 29 Jul 2024 10:46:15 +0800
-From: Zenghui Yu <yuzenghui@huawei.com>
-To: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-CC: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
- <Brian.Starkey@arm.com>, <jstultz@google.com>, <tjmercier@google.com>,
- <shuah@kernel.org>, <wanghaibin.wang@huawei.com>, Zenghui Yu
- <yuzenghui@huawei.com>
-Subject: [PATCH v2] kselftests: dmabuf-heaps: Ensure the driver name is
- null-terminated
-Date: Mon, 29 Jul 2024 10:46:04 +0800
-Message-ID: <20240729024604.2046-1-yuzenghui@huawei.com>
-X-Mailer: git-send-email 2.23.0.windows.1
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A79410E2AC;
+ Mon, 29 Jul 2024 03:09:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8DE38CE021D;
+ Mon, 29 Jul 2024 03:09:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25655C116B1;
+ Mon, 29 Jul 2024 03:09:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1722222590;
+ bh=qGGqw71micBXJaxsXmYl7/ikb6fEH786nZP1LH2K67g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EDRy8Alj7pCf8ehwMe8nZmF0kvOxHfoiUpmGC2NTrEnUld/VshbLgo+YpZogWA8Lc
+ OobPt4gVIemc3bubHDY/K2415bYqiUi+ewv/tAFkxV9pQFx364hSHOrfifNY7V2oJ2
+ 8DdhiZJsVDtNO2hsnNRWTNNUxcxJ2YXQp2USESkxTufa4cll5QP36oTQj7DB4mz5+7
+ c4P7ki5V6tMQEQ7/7685GLCK8/jDh2E6Wq2RGRD5FsDUd+H5vxc0pxi8mit7x6gpqw
+ eby+qHk4W4gGJJj9IriXsNL4TL36yGavtfiaHF0Ol1UnWmBH6SwyKu7TFsPGb4Tgma
+ quA+SGf4/OLaQ==
+Date: Sun, 28 Jul 2024 22:09:47 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Danila Tikhonov <danila@jiaxyga.com>
+Cc: konrad.dybcio@linaro.org, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, robdclark@gmail.com, sean@poorly.run,
+ quic_abhinavk@quicinc.com, 
+ dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org, airlied@gmail.com, 
+ daniel@ffwll.ch, fekz115@gmail.com, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, cros-qcom-dts-watchers@chromium.org
+Subject: Re: [PATCH 1/2] drivers: drm/msm/a6xx_catalog: Add A642L speedbin
+ (0x81)
+Message-ID: <4v5kl65wurifvkpious5ae4zhpv7zklejalg4sp4vcjiwhfbv2@o7jee7jil5ke>
+References: <20240722184314.36510-1-danila@jiaxyga.com>
+ <20240722184314.36510-2-danila@jiaxyga.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.178.219]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemm600007.china.huawei.com (7.193.23.208)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240722184314.36510-2-danila@jiaxyga.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,54 +65,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even if a vgem device is configured in, we will skip the import_vgem_fd()
-test almost every time.
+On Mon, Jul 22, 2024 at 09:43:13PM GMT, Danila Tikhonov wrote:
+> From: Eugene Lepshy <fekz115@gmail.com>
+> 
 
-  TAP version 13
-  1..11
-  # Testing heap: system
-  # =======================================
-  # Testing allocation and importing:
-  ok 1 # SKIP Could not open vgem -1
+Please make sure the subject prefix matches other changes in the same
+driver/files.
 
-The problem is that we use the DRM_IOCTL_VERSION ioctl to query the driver
-version information but leave the name field a non-null-terminated string.
-Terminate it properly to actually test against the vgem device.
+Regards,
+Bjorn
 
-While at it, let's check the length of the driver name is exactly 4 bytes
-and return early otherwise (in case there is a name like "vgemfoo" that
-gets converted to "vgem\0" unexpectedly).
-
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
----
-* From v1 [1]:
-  - Check version.name_len is exactly 4 bytes and return early otherwise
-
-[1] https://lore.kernel.org/r/20240708134654.1725-1-yuzenghui@huawei.com
-
-P.S., Maybe worth including the kselftests file into "DMA-BUF HEAPS
-FRAMEWORK" MAINTAINERS entry?
-
- tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-index 5f541522364f..5d0a809dc2df 100644
---- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-+++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-@@ -29,9 +29,11 @@ static int check_vgem(int fd)
- 	version.name = name;
- 
- 	ret = ioctl(fd, DRM_IOCTL_VERSION, &version);
--	if (ret)
-+	if (ret || version.name_len != 4)
- 		return 0;
- 
-+	name[4] = '\0';
-+
- 	return !strcmp(name, "vgem");
- }
- 
--- 
-2.33.0
-
+> According to downstream, A642L's speedbin is 129 and uses 4 as index
+> 
+> Signed-off-by: Eugene Lepshy <fekz115@gmail.com>
+> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> index 68ba9aed5506e..99f0ee1a2edea 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> @@ -869,6 +869,7 @@ static const struct adreno_info a6xx_gpus[] = {
+>  		.speedbins = ADRENO_SPEEDBINS(
+>  			{ 0,   0 },
+>  			{ 117, 0 },
+> +			{ 129, 4 },
+>  			{ 172, 2 }, /* Called speedbin 1 downstream, but let's not break things! */
+>  			{ 190, 1 },
+>  		),
+> -- 
+> 2.45.2
+> 
