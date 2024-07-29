@@ -2,84 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFC693F5EA
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 14:54:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733A893F615
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 15:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE3E10E3BD;
-	Mon, 29 Jul 2024 12:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46EFF10E3C8;
+	Mon, 29 Jul 2024 13:03:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="EDkbKUfH";
+	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="RmZ9YGTy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E86510E3BD
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 12:54:05 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-42816ca782dso14242775e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 05:54:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1722257643; x=1722862443;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=d8CWPRtMQ6i+SW6jqovkol7RV6B7Kvi8g7hg+UsVQpk=;
- b=EDkbKUfHhdS9DHxI/tm97N6Ry0rcyIC8RdiV5uoYpycNSjbfIQZ0EOeDLZ0h98ExpX
- Cez6j11eFvK0SGq4OC7dJ58Q/xjW+OuvjRewBEM2ghz7mTH6Br5MRS+/9JghS1nAl6Nm
- SlT4iBw75V3N9NIZ55OrN2JjgLeNxF+RL8zZBEdXuJoytg0G3UoN94n7+1amhUZsJrIV
- Q/BTvVXnz4jexcD+wDHF6ZHTnXXyVWUqXuAeYPbIPzQ23xwUfVEs23UGeTYwXFmJOzzc
- RJCdlICBlwRGYm7dK/VNKSSgm3B9ip6QUruquWa03SFeW/gXbdPqKJ9DIk9QeKZPGv6e
- HbVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722257643; x=1722862443;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=d8CWPRtMQ6i+SW6jqovkol7RV6B7Kvi8g7hg+UsVQpk=;
- b=dGI/TKIcp8qOTaOXdAZCdJwzpEeEo1EO1xBs1ak0Q0TYLG2nUtJwFcR8KgIgZ9wTVQ
- mY44/iLZQCdRVzdEMXGRK6TfJOaj+ockVDWHJ3V+1wiDpPnvWdJGlyhMpYy0bJzcOoT+
- mtJPIoSCjxOuldcahyzElWGJ128pqAiFq/WcCjzKLFB7hsYSb54KTm4zB25BMGjgu/tI
- fOkNI8pBuJnGLqoXB1QxJIqXX3F4M4ER1bXivoK1XNHXvUMeB0ewLbFeCz3pVGkvTY/w
- +gceiJIqmBzZ1NGGUlPz8O+/uOCT/d+UeXbUQsHIakDCtr2+aDV4yDJARm/aA6e8ShAz
- ySRA==
-X-Gm-Message-State: AOJu0YzAk9m+Dt0W3FYUxqEWi/HUgCRa5Ll3C5vBspf0UBd4hrIuewim
- jCRqwMDXTmQo97W9bqPASvuj9N/ACZ4yqrIMy9AxujWQLrZKUSCOGNL8EVGQ2w8=
-X-Google-Smtp-Source: AGHT+IFAprFQeursk+pLM9WBhRQ6uq4d9IDvkkDE0E5tziAxefBSTePjFLPqqskNa+VnTiufDe0B7Q==
-X-Received: by 2002:a05:600c:474f:b0:426:6696:9e50 with SMTP id
- 5b1f17b1804b1-42811d8a81dmr56313735e9.14.1722257643238; 
- Mon, 29 Jul 2024 05:54:03 -0700 (PDT)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-428057a6283sm176878745e9.32.2024.07.29.05.54.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jul 2024 05:54:02 -0700 (PDT)
-Message-ID: <e137bbaa-65b8-4bf0-86ee-ab1d6efb8ede@freebox.fr>
-Date: Mon, 29 Jul 2024 14:54:02 +0200
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1383010E3C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 13:03:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ sang-engineering.com; h=date:from:to:cc:subject:message-id
+ :references:mime-version:content-type:in-reply-to; s=k1; bh=7Fa3
+ FvYszI2v7tZhjSBxOKf5nK/7KsdWSyZ8VQRbAyE=; b=RmZ9YGTy1Lql42Nce0XQ
+ DCxRz2HxWnTwXJfgPaI/CjbbhJlxrcGTP2v2+BileckUZRVtHwmyvYYZ+GF4sA/T
+ jPNJUNvhpGn9wpbmDQJctHb0vzURBBt33iYrjt/NxsadNySKffvqdAQ2LGwqhyCY
+ nlsGFq06rT1bqOBUn/s9i76a7gzupMZ1XZ/rFG08uxGULDn8lIzcries8WqLiH/a
+ qdwYiMYNFzKRQIeT7Z9aPQOeelP+XwOKscd885b+NoGjfiEUuVxj2asd3tsCH47R
+ Tvmxsu+BcwUe8QUgryD3QNdLaMZAhLVHTSGQQgCIy3hF5GvPUrvWluqAJKnbNSaj
+ wA==
+Received: (qmail 4110312 invoked from network); 29 Jul 2024 15:03:14 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
+ authenticated); 29 Jul 2024 15:03:14 +0200
+X-UD-Smtp-Session: l3s3148p1@8AjSe2Ie+15tKPFk
+Date: Mon, 29 Jul 2024 15:03:12 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Konrad Dybcio <konradybcio@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: update email for Konrad Dybcio
+Message-ID: <ZqeTEGVjMD0VqRRx@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Konrad Dybcio <konradybcio@gmail.com>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-pm@vger.kernel.org
+References: <20240729125225.2090-2-wsa+renesas@sang-engineering.com>
+ <a1ff72a2-7992-4ebd-b48b-2bb85335edaf@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] Basic support for TI TDP158
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Arnaud Vrac <avrac@freebox.fr>,
- Pierre-Hugues Husson <phhusson@freebox.fr>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20240627-tdp158-v3-0-fb2fbc808346@freebox.fr>
-Content-Language: en-US
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <20240627-tdp158-v3-0-fb2fbc808346@freebox.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="/FJwCOto+3YIJsnZ"
+Content-Disposition: inline
+In-Reply-To: <a1ff72a2-7992-4ebd-b48b-2bb85335edaf@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,68 +64,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2024 13:13, Marc Gonzalez wrote:
 
-> Changes in v3:
-> - Add 'select DRM_PANEL_BRIDGE' in driver Kconfig
-> - Fix checkpatch errors
-> - log errors using dev_err (so save dev pointer)
-> - expand a few error messages
-> - expand commit messages with info from the datasheet
-> - mark regulators as required in the DT binding
-> - Link to v2: https://lore.kernel.org/r/20240625-tdp158-v2-0-a3b344707fa7@freebox.fr
+--/FJwCOto+3YIJsnZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Series has been rebased on top of v6.11-rc1
+Hi Konrad,
 
-Current changelog is:
+> Already sent a series of fixups, but thanks for keeping track
 
-Changes in v4:
-- Add blurb about I2C vs pin strap mode in cover letter
-- Add blurb about I2C vs pin strap mode in binding commit message
-- Add blurb about I2C mode in driver commit message
-- Add comment in binding explaining when reg is required
-- Add comment in binding describing Operation Enable / Reset Pin
-- Link to v3: https://lore.kernel.org/r/20240627-tdp158-v3-0-fb2fbc808346@freebox.fr
+Welcome. Cool that you are at it!
+
+Happy hacking,
+
+   Wolfram
 
 
-For reference, binding commit message blurb:
+--/FJwCOto+3YIJsnZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-    Like the TFP410, the TDP158 can be set up in 2 different ways:
-    1) hard-coding its configuration settings using pin-strapping resistors
-    2) placing it on an I2C bus, and defer set-up until run-time
-    
-    The mode is selected via pin 8 = I2C_EN
-    I2C_EN high = I2C Control Mode
-    I2C_EN low  = Pin Strap Mode
-    
-    On our board, I2C_EN is pulled high.
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmankw0ACgkQFA3kzBSg
+KbauLQ//VGH3tiB3g4Zj5iz7b/4cBTixu6XyY7JOrDL2k62xzR2eUiDzJEdR3kP4
+p8umhzW69kiEqeOP1CWsGMNfJ5ypd99zrAevJYo5w+YwFeFLofb4oeI+BqUjIlVL
+GsFD9KKW14EbRRk1oAELInqkfNCH/0SDWKq/6fpSPmke6Qzwei2VeASua8XtoFp7
+Fw8HMjADYi2I0B+EpkL4yzjckLfafmgdtpwrpCWL5hSQ8xKuevEM/OGt+LTTh7lO
+vz7Gm7llwr9IZBxe9sVK0WPxs2oPAPhhuwbk9W++FKF7kGcid2QHg2S3zz4MfVSa
+7JRGwTGusGpNkmRRpew5033VJ8c1UXYcSRxaEtMYnpoU8F8U5g+TDKzvhkVBofin
+aTvK+YdU9+TBzceM/qqfXusoSxvpo6sgNEWrgz1MCg8iSMuygT+G0NK4UCcChSTD
+Ys6QTV10FI5cF4CsNEYTDFOnhALtnq68D8wWMIG5Gsn6Wkpazsg+IeYwmNV6pnG5
+pVrUeM7ETz9/7xoyRDMc4aPEZjNtzy+uB1STUEb50ag/NbhX9EjO2C7U7BIinCzY
+pzvAWFH/cCm8o2yyPSt/3ifNAKe8//lJq9zUZ6c+adHr3GHnKCeO3bjhT15ZrQbR
+rs7xewbujhdqeD5jhrkLFyzIttjRVK/Tnn03cnEnFUl9biTKV7I=
+=44Db
+-----END PGP SIGNATURE-----
 
-driver commit message blurb:
-
-    On our board, I2C_EN is pulled high.
-    Thus, this code defines a module_i2c_driver.
-    
-    The default settings work fine for our use-case.
-    So this basic driver doesn't need to tweak any I2C registers.
-
-
-binding comments:
-
-+# The reg property is required if and only if the device is connected
-+# to an I2C bus. In pin strap mode, reg must not be specified.
-+  reg:
-+    description: I2C address of the device
-+
-+# Pin 36 = Operation Enable / Reset Pin
-+# OE = L: Power Down Mode
-+# OE = H: Normal Operation
-+# Internal weak pullup: device resets on H to L transitions
-+  enable-gpios:
-+    description: GPIO controlling bridge enable
-
-
-I plan to send a formal v4 in a few hours.
-
-Regards
-
+--/FJwCOto+3YIJsnZ--
