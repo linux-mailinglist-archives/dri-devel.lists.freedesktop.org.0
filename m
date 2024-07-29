@@ -2,114 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3FF93EFBA
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 10:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F7493EFA0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 10:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2E9E10E27F;
-	Mon, 29 Jul 2024 08:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF1DD10E1B0;
+	Mon, 29 Jul 2024 08:16:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="GrJVq4wX";
+	dkim=pass (1024-bit key; unprotected) header.d=axis.com header.i=@axis.com header.b="GamRz1qt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 310 seconds by postgrey-1.36 at gabe;
- Mon, 29 Jul 2024 08:18:31 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5BEE10E27F
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 08:18:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1722241110; x=1722845910; i=deller@gmx.de;
- bh=ol9UZCxeHIf9f+MQNbkJKRWQS3R5GYHvb0r5duyqsWs=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=GrJVq4wXDLfw/qQ7dgNgRtvmn0Mli1zYWz078zmFI77KmFQVuuSPm1vZZnCjMQCm
- jO99j/U58R4r4TblkmxvgO5uH9b3H5H0+MSZ9Xs9cuB5g0JowR95r7DmUBWpNpfO+
- +v3aZEXVZwXB6wY8/NoeXpXeyIp3w6TYVyZQWlKBBWkWp+ZkWOC+eBKC70EIdQVdl
- Pf7B+YDyebZoQIb7woMbtllTcclCDsalYqk/VeGudpBHmZlRjBDVhcICwMXpxev+X
- anJojHcpmEq8L44WzfAMqgYhhtOUSFYeYvurHDyGDTN4IulFZSAw0Z+ttWv5+VZz3
- prU8JZeZONPjDeer7Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MHG8m-1sTzvK31Y8-000jXx; Mon, 29
- Jul 2024 10:13:18 +0200
-Message-ID: <698958fb-4fc8-4288-b067-5843c651b093@gmx.de>
-Date: Mon, 29 Jul 2024 10:13:17 +0200
+Received: from DU2PR03CU002.outbound.protection.outlook.com
+ (mail-northeuropeazon11012050.outbound.protection.outlook.com [52.101.66.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AFB510E1B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 08:16:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hoE7GsuHUmd5cXpjpuxtGqvH0prIrR11E7DwpK2S27jkDlZKogVMUcbzCSaV+73BsABIZ/giVmfXEc1Bp1CbSN4TpKOnchqvKkgv7xi1XZZ9zsSyOxEbzw52LheTe+dW6rDRcC7zBlJRr7ccDm7fj9ODVXm8MRPZ0wwrLy0bM+N/flro4CAYwp9VRoK7ThQgnPln20oGcvYOp686q7BI2vp7FxFk/n/2lxjMIkHFaJVUANpJiT0h15hOAvvAgdsLAJaFUYdlBr7IFPdnLN5zpfnZwNpsr8kQgu/GJHFpe2oqEVEVbNsCHbA3zehbSimbrXhR9vEWEUd3U5Z1XhVCCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sgZVatPWfrtgffyCbW787gDtaSnJTPzF8hxm/9ih1Rk=;
+ b=SZWhzSptOtY1ysh2+EiOL4ZL/SkjNQFDjWlU8unTa89bm/LwHa8QBNDgcmqjWI3wigqyohAVvzQEFFOVU/TkwnvNiH+ke7476+hs9P6fhu9qnBV7nrrJteRl1GzVARoX8wnFDEGtbGOCWsSHnrwpw3wayHqhhPfyOyFnGLGvqrX/duEdKnIuJnbLBHoCvawbWWCGBQOcUCn5P/xxgfVZ9g4fN+izG0ORZq/T7xQsGxatyLSdx9Lg/Zt7CxYB21ZezHs54RLBrKYgl1zi1kF1y+XfquDW2L9px+UzquK06/GdDCk5DbeEfWp4ax8GJJHMMT96iY74E664LaUIMHc04Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sgZVatPWfrtgffyCbW787gDtaSnJTPzF8hxm/9ih1Rk=;
+ b=GamRz1qta29WAOvq+c6EoR+YHFqNcdwXIiwwQUj9bDpVriarfUGNDQIlwkL3VDO0Fi6NaARlpNT2EPbPriv10El0kLnCQTp3/2T4K9HZ718Rkgqk8kTe1Ve1/BCbAOSByBF31wARfSOh5EQE1yNGSaEM+2dB07JhzeBo4TAK0EA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+Received: from AS8PR02MB9580.eurprd02.prod.outlook.com (2603:10a6:20b:5a8::19)
+ by DU2PR02MB10181.eurprd02.prod.outlook.com (2603:10a6:10:46d::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Mon, 29 Jul
+ 2024 08:15:57 +0000
+Received: from AS8PR02MB9580.eurprd02.prod.outlook.com
+ ([fe80::9bfe:e236:2425:c887]) by AS8PR02MB9580.eurprd02.prod.outlook.com
+ ([fe80::9bfe:e236:2425:c887%4]) with mapi id 15.20.7807.026; Mon, 29 Jul 2024
+ 08:15:57 +0000
+Date: Mon, 29 Jul 2024 10:15:55 +0200 (CEST)
+From: Ricard Wanderlof <ricardw@axis.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>
+cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, kernel@axis.com
+Subject: Re: [PATCH] drm: bridge: adv7511: Accept audio sample widths of 32
+ bits via I2S
+In-Reply-To: <91472c14-3aeb-766a-1716-8219af6e8782@axis.com>
+Message-ID: <dad42efe-7895-50f5-6bba-9b8abb97f34a@axis.com>
+References: <91472c14-3aeb-766a-1716-8219af6e8782@axis.com>
+Content-Type: text/plain; charset=US-ASCII
+X-ClientProxiedBy: MM0P280CA0083.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:8::24) To AS8PR02MB9580.eurprd02.prod.outlook.com
+ (2603:10a6:20b:5a8::19)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev/hpfb: Fix an error handling path in hpfb_dio_probe()
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <dc4fe3d857849ac63131c5620f1bacf1a3d7172e.1722191367.git.christophe.jaillet@wanadoo.fr>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <dc4fe3d857849ac63131c5620f1bacf1a3d7172e.1722191367.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:t2/FUf63T9cgYV7pKIZRxjc0By4VPKPy92SJsak9wiECptn++hi
- siIigicAFccj9cQwiItNundUMH0nK60z55pnEhDSlmpLwnXfaFuWIwENC1WBy9WML3O3Srl
- 4n3H06ndFRmzX5OGqJXDUxFJm2Fm+O6r6Z1f211yDCRvRz8RMUJPeD2VI9o99L/bg08oQjC
- 5KgintPUV5sVb0ez5AoKw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:qtpGZfmPzjU=;AhYK+J68gUH3lXSP+IiTC+mvS50
- fFFCd5H+RcIbrMN2Wr5bBaPB9oj5Kd+7x4PMSRMgREKN5EvW+vtPMnBBR9W/FxkkauwHVkbCa
- YbokDCZ8dRPTP5BqP8kGCFMLNKTAr4NbbrXLNEY9n/QYFSBaaXogoeA/8kFxMaFoWwz7X0PIS
- 2Cisw6tKxHZEuYw6zeXgGeu9LTflOLyBjz7xt1RTF6snru65EmKZOZxVLw7+pMq3EGdikbdpH
- ibLc4ul0UKfs9fpl6yZBZmutbKauSDPdc8D1k3LmNAfVD7fNJ6+vcOSMHci9GDujEeQACsC2M
- 7uv7HtZCzdcCxZcZR2nNU+PWDmYS7h1u0noL3UTT4xTFAQ7s9YWU/JswQn7fNg4E9jite3s4g
- 4M1IDoYALnqUokDicSCuFKuWvDAYdrTKioj0Qy4Scy7hWeG0dW6pyKTmC8FwXq3Ysbv/qo4xY
- ZJfDrbHTei3ZJTuAz/xeBGXmsIHAh1f5fimM3GrF4oC3ExjUhujvAYW/fU2fHhklAe0exRO1N
- mJXWEdDwXTj4EkxzeOAFSDA3UPejs2ULXPp8hSnhF720g9ksEPuBUWOe1vPujlh1sXdaAAryN
- 88Z1wIOp16pLGYYTE30D8Wq5MIgSbwU2qmLKvywBNqAiGkV+i/jf7m6AGI5clw5gBMEUW1jZ+
- CBFtaEP+mpf6jNKCYUP6cVPkQVhMbNzN5E2zFvok1DNe5DW0Qbf0GN/BajxomwS1coB3a0g1n
- vEfeMueiRV/zF+q+jX6QEDpKOPTZckHDvoQbKGDV6Mnk/99JpiO0cXl/pBouOnpMCs0w2HADT
- pqmm2n7E2CHMvw0fI0UPdijQ==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR02MB9580:EE_|DU2PR02MB10181:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6dba0176-2ba5-4643-b835-08dcafa6ac2f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mkOAdCkkrgrc+a6rnBtpLAziPsWc9EaIaUOMrROVdecEb6yYqkauIQVk+Dk7?=
+ =?us-ascii?Q?A4ADrtm81YlggSYxmJOz86kOlKUAVHDK+03Y84QLHDahU/yCohZEoycPMgV2?=
+ =?us-ascii?Q?c7BxIBhpTdfasbKDreZ4SU91K+4Y8cWAmicpHizeVA+JMDvZFAYnIDH2SNMh?=
+ =?us-ascii?Q?p3EN8/V/sbgOIi/LBX1THa5KU3Hx0a0xVUdwUU0W7/4ZFbQnU8nw9WuzEqf7?=
+ =?us-ascii?Q?QOveflRa1MbFlO+GztxS2iQACzLPvifElQ1F1nIXFj5mBMUGfVCAlLnPpduT?=
+ =?us-ascii?Q?0EJz93GUCxY/2/UbAjCOSdknnNWWrsaB5edir8KYAr+ejUCNcNbqxNHWvfFl?=
+ =?us-ascii?Q?y4x3V6uDHbYmVQKKxn+PCbLn1gHdnHrltf83O45ZBCyYYLcVb3veRJO8KBhd?=
+ =?us-ascii?Q?2cWW4VnOOhbVm8agSLFs+NeDBXYtGnK+hKVul4u6HURKWVMdTMIo7HeA8eMl?=
+ =?us-ascii?Q?CniZXdBcS/9cq+8IZiZCqMM8UiruoWJ9LxZRLmXwPQl0ZKR1Vk4rp95BaWVb?=
+ =?us-ascii?Q?B7NL488bHUrZQvcrDcVN/8KPqB3OP+ncuBXv+ArrfWY0bzz/tRiSXk+7WSyB?=
+ =?us-ascii?Q?F6I3J58brBCCIFXW9k9J+9kaG/PHG07PapxFvaZjfWyBz9omdHt/yh7d/nYD?=
+ =?us-ascii?Q?aF44hmPTQgsl6EPm3JTrreeolW58OPF0An3MtsbyxvRZRNftw+2bCV3h2p1W?=
+ =?us-ascii?Q?z2kAT20UPPi/NP+0tpWqSLQBP1YOgdXV1I9LHXKfbZ0hXtbEVUn1amx/rvd0?=
+ =?us-ascii?Q?qb8fGQAQ1xbn7dr7UNPoZTKpT6kHsKdn0Z1xula2bJlZkzjVyVqaN4tMFdvx?=
+ =?us-ascii?Q?uMT9m3p4z5zlcBtstCwEZiAsTvjqrnMo5P4X5LapIUzzJVVJ1uHOuImBWuTP?=
+ =?us-ascii?Q?KHXb0IilsvvtdoLrF1VjGMIuzylz2wZv0BY0Tfp0RoXVIbs+PLWOQv/2pkJl?=
+ =?us-ascii?Q?HhyTjkc23AwX/1ZX3E+2F/TYwppNhrkTSPJTHsVUIGWLaCerjqXfc4FKHZ1s?=
+ =?us-ascii?Q?cUYDvEit1rLVo4h95+wfr20EVXJ8lCo+Kb1XOpmQFMYAPCs6B4+kkZOS+PRV?=
+ =?us-ascii?Q?5MiXi4oe7fxSmJ77fic8SgkwLD1X48B0q7Mn5Hx7KZg/DgluZyCBPrte9MOY?=
+ =?us-ascii?Q?MBkhlOuW8VTyCfamNsx+KfQ6/GO/E5coEI8pvZRgfhiZklnf+OEvt5hXPxRs?=
+ =?us-ascii?Q?13e8GKwbAbFgSC/Krb1TH1fUUehETCdcl26WsnrENcwSnL7vcvYf683HvsN0?=
+ =?us-ascii?Q?5TYHIKuc7xqnR7UJqackMwKpdZ+8iZC8l9VncelrttVAeIFK1lpEbAjpvJAu?=
+ =?us-ascii?Q?lXqXF7kFG6EeVaZcy9JQOMu127cNeGqrsUyPm3/zbiTu0A=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS8PR02MB9580.eurprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aQwgzTK7+DyvSwQzgTvgZHNHqjs9CKDu6/PMxEOGDi68KofFU7tDgqQ9r4yh?=
+ =?us-ascii?Q?PmKo0WWIN2SOvlXq3v7SAZCjHVPhmHTsTN0LsYhrmwp08/2ILgI3krRV/EHX?=
+ =?us-ascii?Q?x4+8VVWUtVx3OlX1uNFmlkragiQiJhfAtI31c65dYyk0MaP/oxOz0vONnxht?=
+ =?us-ascii?Q?JdX1pxc+TUdEJesRq5SBI1Ikv3ZMAKjkvC9hdfDoBU8tGCwcEpOO0nQBaHak?=
+ =?us-ascii?Q?qadXNEZNS70plAVqTyCt3ZRuATadWJeYPc4UH+W4ldQNrAFvQMQtAeTWoZuk?=
+ =?us-ascii?Q?L7P3mhMhkqjyJAYEp/f8a7//OGXAw5ZzKSn5l3zr5VpW8HPgrpQvnpw7RloJ?=
+ =?us-ascii?Q?e8GIKZWrQUyqL4XaLgVLdfP1OoK/BJsRNa+ey4EDPft+OihdkSwr4F21FhsT?=
+ =?us-ascii?Q?KH01QoIMVK+jo9rlIOhDxHixDvkrsuGXsvc+7jMK1EF+HhbAse5AgORA0uJv?=
+ =?us-ascii?Q?4/tJO8GrGn4Ua9l5WleQA6eOFtWxzAJBncNPYW8Bm/1IfdfQwu2buUljQBtb?=
+ =?us-ascii?Q?g7hx1X6Jb0WUTM8aFPFSm9diQGKz8GxeuszrGhLaATAqLReVdWw3+XUDKrae?=
+ =?us-ascii?Q?iLJUiVi6vRdErrqQSCjAZWUJ83cR8gYTIRv2KlM6e7322Cb5gcy4H8fmPUJs?=
+ =?us-ascii?Q?2fgXki0kW9K6mUyPgXx4y9R3cW4eb5WU0Z458NDjAz/S2IEIho/NCrhxjKIz?=
+ =?us-ascii?Q?Vsy3p6EbKgayhgeKO9aLhl0qiB18/slfNMPPFL5vhgLd4iCma4Wz90weve3R?=
+ =?us-ascii?Q?xUWLEod1Nd98pYT1VnHPCwc9PabruR3C28wLh7x/o3sTY0Agl7UtKI2CCxLF?=
+ =?us-ascii?Q?0lkJTZ6gLqlwixnZXOe27UKLIIL6ZKqREfp8rLCDhWBQ9nCqZNj+86fswi+X?=
+ =?us-ascii?Q?mdSIbycpFLWLXI9AL5p9uVffqz4WU3MC73MRL51lWkUdqPDj+Sv1m5km9vEa?=
+ =?us-ascii?Q?CYyAMPueUwbCQ49vvbwKuBgXbPeqQF8fP1OIlI/Z/V8yOkocCaLt0At0hcLJ?=
+ =?us-ascii?Q?wDsK0g/q+wjIFlz+7lSIO+6ecBpqzNHRLFefMTFcs159uXLXJa4OYfufAcIa?=
+ =?us-ascii?Q?Jl4on/Q5kYjcvw9kYq/bQn2PKAHnQ6QJIZ8ViCIa3iXTIOKHRycDmX8Rz3rL?=
+ =?us-ascii?Q?zghZJBRQaslaPxR3KWhfaW1Gu+F5ZEbW3elDIRBLJb0oIzFx4kHCvjhi9N3y?=
+ =?us-ascii?Q?Ibl3jm8SeAoDOINidKTzHnlBkSQIa45w2fjxWvChJe0XHym/4H0SDKyNQAE+?=
+ =?us-ascii?Q?MjDGE9zMw9QTcAbE5UMY5BsrESpJSzlbHyyhkfsPgyUtYErsAMD5wYtjLeNu?=
+ =?us-ascii?Q?yb9TKQol1tV/44Cij7cqR7a1qrkCKojGkoxLjNSIGlLAyfONMhZVqPFjTTm5?=
+ =?us-ascii?Q?lbNTbDfeaQGrWohF6kvqGUBczM+vRBGk6BxMzWolofhW7aUgC6AA9olOcgY3?=
+ =?us-ascii?Q?s3cN9jfUG4SO+OiCXIpPMGFUD2cHb6ZsjYDdcCw0vlOspv/h52Bvhk7r2CPu?=
+ =?us-ascii?Q?NodSVS9HHQUgPkPYiTJN1ji/vJg1qDQFJ25OBHDbcft/0RapSKWPAS3wrOQo?=
+ =?us-ascii?Q?+AOY0WTwhRDnU+Pk12U=3D?=
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6dba0176-2ba5-4643-b835-08dcafa6ac2f
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR02MB9580.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2024 08:15:57.0924 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AOjm2E1G0Q4GBcRUKrihcKm0T5akmsn4Pd2b/D45dfvWW1rqRhcNm+EAxhB/HECqJH1vSg8qp+3b7GQeuShWVw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR02MB10181
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,71 +150,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/28/24 20:29, Christophe JAILLET wrote:
-> If an error occurs after request_mem_region(), a corresponding
-> release_mem_region() should be called, as already done in the remove
-> function.
 
-True.
+Hi,
 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+I submitted the patch below a while ago (two months) but as far as I can 
+make out it has not been included. There was an initial concern from 
+Dmitry Baryshkov which was subsequently addressed but no other objections. 
 
-I think we can drop this "Fixes" tag, as it gives no real info.
+On Tue, 28 May 2024, Ricard Wanderlof wrote:
 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> 
+> Even though data is truncated to 24 bits, the I2S interface does
+> accept 32 bit data (the slot widths according to the data sheet
+> can be 16 or 32 bits) so let the hw_params callback reflect this,
+> even if the lowest 8 bits are not used when 32 bits are specified.
+> 
+> This is normally how 24 bit audio data is handled (i.e. as 32 bit
+> data, with the LSB:s unused) and this is also reflected in other
+> bridge drivers which handle audio, for instance sii902x.c and
+> synopsis/dw-hdmi-i2s-audio.c .
+> 
+> Signed-off-by: Ricard Wanderlof <ricard.wanderlof@axis.com>
 > ---
-> *Not* even compile tested only.
+>  drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> index 61f4a38e7d2b..4563f5d8136f 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> @@ -101,11 +101,14 @@ static int adv7511_hdmi_hw_params(struct device *dev, void *data,
+>  	case 20:
+>  		len = ADV7511_I2S_SAMPLE_LEN_20;
+>  		break;
+> -	case 32:
+> -		if (fmt->bit_fmt != SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE)
+> -			return -EINVAL;
+> -		fallthrough;
+>  	case 24:
+> +	case 32:
+> +		/*
+> +		 * 32 bits are handled like 24 bits, except that the lowest
+> +		 * 8 bits are discarded. In fact, the accepted I2S slot widths
+> +		 * are 16 and 32 bits, so the chip is fully compatible with
+> +		 * 32 bit data.
+> +		 */
+>  		len = ADV7511_I2S_SAMPLE_LEN_24;
+>  		break;
+>  	default:
+> -- 
+> 2.30.2
+> 
+> 
 
-Ok.
+I recently discovered that the maintainer for the ADV7511 driver (in the 
+I2C) framework is not included by the get_maintainers script, so perhaps 
+this is the reason?
 
-> I don't know on what architecture it relies on.
+Otherwise, please enlighten me on what I need to do to get this patch 
+accepted!
 
-HP300 are old HP machines with an m68k CPU.
-Not sure if someone still has such a machine :-)
-
-> So it is provided as-is
-> ---
->   drivers/video/fbdev/hpfb.c | 15 ++++++++++-----
->   1 file changed, 10 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/video/fbdev/hpfb.c b/drivers/video/fbdev/hpfb.c
-> index 66fac8e5393e..87b8dcdc1cf3 100644
-> --- a/drivers/video/fbdev/hpfb.c
-> +++ b/drivers/video/fbdev/hpfb.c
-> @@ -342,12 +342,17 @@ static int hpfb_dio_probe(struct dio_dev *d, const=
- struct dio_device_id *ent)
->   	}
->   	printk(KERN_INFO "Topcat found at DIO select code %d "
->   	       "(secondary id %02x)\n", d->scode, (d->id >> 8) & 0xff);
-> -	if (hpfb_init_one(paddr, vaddr)) {
-> -		if (d->scode >=3D DIOII_SCBASE)
-> -			iounmap((void *)vaddr);
-
-This driver hasn't changed in years, and I don't expect we will
-have many other changes, so in this case I think simply adding the one lin=
-e:
-+	release_mem_region(d->resource.start, resource_size(&d->resource));
-here is sufficient without adding additional jump targets.
-
-I can fix it up here, or please send a new patch.
-
-Helge
-
-
-> -		return -ENOMEM;
-> -	}
-> +	if (hpfb_init_one(paddr, vaddr))
-> +		goto err_unmap;
-> +
->   	return 0;
-> +
-> +err_unmap:
-> +	if (d->scode >=3D DIOII_SCBASE)
-> +		iounmap((void *)vaddr);
-> +	release_mem_region(d->resource.start, resource_size(&d->resource));
-> +
-> +	return -ENOMEM;
->   }
->
->   static void hpfb_remove_one(struct dio_dev *d)
-
+/Ricard
+-- 
+Ricard Wolf Wanderlof                           ricardw(at)axis.com
+Axis Communications AB, Lund, Sweden            www.axis.com
+Phone +46 46 272 2016                           Fax +46 46 13 61 30
