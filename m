@@ -2,75 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA7D940081
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 23:35:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6BB9400CE
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 00:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93D1C10E04B;
-	Mon, 29 Jul 2024 21:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6F0E10E16A;
+	Mon, 29 Jul 2024 22:03:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EuxuTLXz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="T1TWnwis";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
- [209.85.210.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 423BD10E04B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 21:35:40 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id
- 46e09a7af769-7093d565310so3020000a34.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 14:35:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722288939; x=1722893739; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8jCZ4dJacok9yS/sGhPIVw4hVTsTqbKuUreZrjjqP2I=;
- b=EuxuTLXzsgxSq6hWS0ECwmUVOVVL0mUjTFduc7seU1I0Vr1cH+l7yRpiHtD9geszuy
- TCaLukX4hrX/i9d1TQoJe7lUexP2nPyigB2rlSzFQ/TEXWDLJOSorE+ecQwmgf8c0hca
- OTiPgKKQDGGI49Ufu7O3jqIQ2ocZ895yJ09YbftssR8Y2Gx4FyxWqPsOrsTeJZe9TD/U
- 6vxel2Fr7Tm41z7LZP5W+DtwcfWfrZZ1WQEetzpZptgLVabf2oLSoJX1hLYN2TvoFApT
- uKLOC8q3N11hYvZgqrRXqU4Dl3BC45Z9MLu01tnN3OEEpL39YoAYWCR9GuKwxlff12hU
- QVoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722288939; x=1722893739;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8jCZ4dJacok9yS/sGhPIVw4hVTsTqbKuUreZrjjqP2I=;
- b=OFuJo0Ao4zO+gfHTSq3jPXAa3582lJrQKgIDfq/SAsS7hjtIliojAuqjllAsv51GRP
- 1apHDduwSVrx6XFTrYQSB09qw8rvYiMCreIavbOv5CJvoiYGD6E5LxUCtTMm01ydyNEn
- V8rqzTXkmiDgXhTHnEenWWQeVkMkl3dAO7gkI5G/7U12q8tck1/p02LLQzEHnn3UZbOH
- TkfIFHoygM3Nnsjojgd58jS1c6Y5ATxd4KTmEJ1TKP+ii1HfJB1KPkblNcJ5Tx2m3ecT
- 0skNMU7VI+9jNoa15vqpBRfqWyHfQE7eKDrnN0/RJjFdjd6y5SqEfGLebzLlfk032gYG
- djRA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWlHIxaJL8MV/6El07L/JvkWMdxQleFhB9ZXjWgs98C94xonrhp6v9edxuq5Xgyg2wXI/LEmJqoOPNSpdovtUPqFWQlSYxwsLf4iFRgoQFN
-X-Gm-Message-State: AOJu0YwcuVPHLKu1EqpkGV+j2CO8zHc1pz7h39zO5zcQmRtUiFP6JS7A
- VxkoStOkJ8Qr2Gly+wttJeL16W2WC/0P4QybNGRTx1cejU4clDSQFInLf/4YO3Y=
-X-Google-Smtp-Source: AGHT+IHDvjNGEn3OlMcAR6Il1gwE9cH+Q82mJfYpkkx7Ley40Dv5Z1neEY9qJN9BU+smiLkpIMX/Og==
-X-Received: by 2002:a05:6870:46a9:b0:254:8afa:6914 with SMTP id
- 586e51a60fabf-267d4eedec3mr10816825fac.34.1722288939167; 
- Mon, 29 Jul 2024 14:35:39 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::17c0])
- by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-7095aeb0acdsm61008a34.64.2024.07.29.14.35.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jul 2024 14:35:38 -0700 (PDT)
-Date: Mon, 29 Jul 2024 16:35:36 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Helge Deller <deller@gmx.de>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] fbdev/hpfb: Fix an error handling path in hpfb_dio_probe()
-Message-ID: <9cc6ac18-3804-486a-8549-fd13b6ae121e@suswa.mountain>
-References: <dc4fe3d857849ac63131c5620f1bacf1a3d7172e.1722191367.git.christophe.jaillet@wanadoo.fr>
- <698958fb-4fc8-4288-b067-5843c651b093@gmx.de>
- <ac4c6712-c47b-4414-9640-3018bf09e8fa@suswa.mountain>
- <9dbb2b52-4fc9-4bbf-a6a2-ab6ec32adb8f@gmx.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9dbb2b52-4fc9-4bbf-a6a2-ab6ec32adb8f@gmx.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3859910E16A;
+ Mon, 29 Jul 2024 22:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1722290596; x=1753826596;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=ol66Ovb6L6dfk9I2Y3CG3vRhpnAu8O94EL1p4RYaxlg=;
+ b=T1TWnwisyylD7up+SiK9bAHY0snTKWsGBSVJctE5xnggYtyPKXv+8aQk
+ R248f9Itv9625sOIZcBT04mRN+beTaY+PayBP7mcY/9Dkq7RkMoW7FviN
+ g2upvTsCsU9T04Z1/QRIclsroaap7DhaIClEjc6upoKzLqGE9MNHGxw++
+ /d5aQnFB1dGK8XeGbXLrVpettfNnAMT1/jcB6M8YiOm/NiHV6ClSA6QDM
+ 5eJgSB+fTQGDJJlbxHxdzHXSUiGoHvrN/aYiYCINIZ2WJMURn0K6uVKKf
+ DBwOWRJvqCkjYctXs05y8KR40P4teFyNkcfAjNp426WrGst4Cr2bHkCyl Q==;
+X-CSE-ConnectionGUID: GAxCzwdARG2cKEmsMV6DPg==
+X-CSE-MsgGUID: NCoD9/5FRtqgf8FDZWZrpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="12778047"
+X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; d="scan'208";a="12778047"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2024 15:03:16 -0700
+X-CSE-ConnectionGUID: gVRoIYudRPeCk+kW+aYHgw==
+X-CSE-MsgGUID: shR09AXPTrSts4TbTFmU0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; d="scan'208";a="84768246"
+Received: from jhwillia-mobl2.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.125.96.188])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2024 15:03:16 -0700
+Date: Mon, 29 Jul 2024 14:54:58 -0700
+Message-ID: <87cymv279p.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ =?ISO-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/xe/oa/uapi: Make bit masks unsigned
+In-Reply-To: <s7tjuildazggjsuza53ixn3ts7t6rw2rwy2et4neijbnkx6ve7@nb4pyxmhhquj>
+References: <20240729092634.2227611-1-geert+renesas@glider.be>	<s7tjuildazggjsuza53ixn3ts7t6rw2rwy2et4neijbnkx6ve7@nb4pyxmhhquj>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/29.4 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,49 +72,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 29, 2024 at 10:09:39PM +0200, Helge Deller wrote:
-> On 7/29/24 17:59, Dan Carpenter wrote:
-> > On Mon, Jul 29, 2024 at 10:13:17AM +0200, Helge Deller wrote:
-> > > On 7/28/24 20:29, Christophe JAILLET wrote:
-> > > > If an error occurs after request_mem_region(), a corresponding
-> > > > release_mem_region() should be called, as already done in the remove
-> > > > function.
-> > > 
-> > > True.
-> > > 
-> > > > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> > > 
-> > > I think we can drop this "Fixes" tag, as it gives no real info.
-> > 
-> > If we're backporting patches then these tags really are useful.  As
-> > I've been doing more and more backporting, I've come to believe this
-> > more firmly.
-> 
-> Sure, "Fixes" tags are useful, but only if they really refer
-> to another patch which introduced the specific issue.
-> 
-> But the tag 1da177e4c3f4 ("Linux-2.6.12-rc2") isn't useful, as it's
-> just the initial git commit. It has no relation to why release_mem_region()
-> might have been initially missed. See:
+On Mon, 29 Jul 2024 06:21:20 -0700, Lucas De Marchi wrote:
+>
 
-In the last couple stable kernels we've backported some pretty serious
-networking commits that have Linux-2.6.12-rc2 for the Fixes tag.  So if
-it's security related that's really important information.
+Hi Lucas,
 
-For minor stuff like this, the commit will be backported as far back as
-possible and until it ends up in a list of failed commits.
+> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>
+> That fixes the build, but question to Ashutosh: it's odd to tie the
+> format to a bspec. What happens on next platform if the HW changes?
+> Hopefully it doesn't change in an incompatible way, but looking at this
+> code it seems we could still keep the uapi by untying the HW from the
+> uapi in the documentation.
 
-When I'm reviewing the list of failed patches and there is no Fixes tag
-I think maybe it was backported to all the affected kernels?  In that
-case, I could have skipped the manual review if the patch was just
-tagged correctly.  Then I wonder, why wasn't it tagged?  I just assume
-it was sloppiness honestly.  I'm probably not going to spend that much
-time on it, but it's annoying.
+IMO, in this case, it is not possible to decouple the formats from Bspec
+because that is where they are specified (in Bspec 52198/60942).
 
-When a commit lists Linux-2.6.12-rc2 as the Fixes then it still ends up
-in the failed list.  But it can't affect too many users if we're only
-getting around to fixing it now.  It's easier to ignore.
+In i915 the OA formats were specified by an enum (enum drm_i915_oa_format),
+but I would argue that enum is meaningful only when we refer back to Bspec.
+Also the i915 enum had to constantly updated when HW added new formats.
 
-regards,
-dan carpenter
+For Xe, we changed the way the formats are specified in a way which we
+believe will make the uapi more robust and uapi header update much less
+frequent (hopefully we will never have to update the header and if at all
+we have to, we should be able to do it in a backwards compatible way since
+we have sufficient number of free bits). HW has followed this scheme for
+specifying the formats for years and only recently for Xe2 has added a
+couple of bits and introduced new PEC formats which I think it is not going
+to change now for some time.
 
+But as I said the formats have to refer back to Bspec since that is where
+there are specified and there are too many of them. Any description or enum
+is ambiguous unless it refers back to Bspec. So I don't see how not to
+refer to Bspec in the documentation. If anyone has any ideas about not
+referring to Bspec I am willing to consider it but I think the best way
+forward is to leave the documentation as is:
+
+	/*
+	 * OA_FORMAT's are specified the same way as in PRM/Bspec 52198/60942,
+	 * in terms of the following quantities: a. enum @drm_xe_oa_format_type
+	 * b. Counter select c. Counter size and d. BC report. Also refer to the
+	 * oa_formats array in drivers/gpu/drm/xe/xe_oa.c.
+	 */
+#define DRM_XE_OA_FORMAT_MASK_FMT_TYPE		(0xff << 0)
+#define DRM_XE_OA_FORMAT_MASK_COUNTER_SEL	(0xff << 8)
+#define DRM_XE_OA_FORMAT_MASK_COUNTER_SIZE	(0xff << 16)
+#define DRM_XE_OA_FORMAT_MASK_BC_REPORT		(0xff << 24)
+
+Thanks.
+--
+Ashutosh
