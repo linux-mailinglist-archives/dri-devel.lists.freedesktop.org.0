@@ -2,55 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088EA93EA8D
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 03:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B4893EAA5
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 03:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA9210E090;
-	Mon, 29 Jul 2024 01:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA7D910E0F4;
+	Mon, 29 Jul 2024 01:44:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BeKUdQVs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zd3r79pM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C0C10E090;
- Mon, 29 Jul 2024 01:32:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Gu8nc4h8/VPXWYTQQ7jGEnuWToEyWQDwNorGseCJ9kE=; b=BeKUdQVs9T/mOsR2COxlmWS78c
- 2xBWQJt08Kxs597qByJ1mfcCHTs7202Geo5WnElJsyX9P5Tx/nqI2eH6ct/KEGzPr7IPxgSWfxjzt
- mlhaXlMQchOT9quFF5wfaiNbkZ3l3k6yiZbPzrKWjvnGodH6jtkPcygAI2hdaAtRmtM5dwKBU6TWU
- m6GOSQF8MLj1SoCiAq4fpHJvVsAzCurvGB00G14KYogDcu5Uli7z8QSTh9skFuoGMM9bSjFX37SGL
- 7klgdZOtfcXAm16FBX/9rehZUvU3OND/pGhLNqKF6Hj1X1AOAMFblYRAWswMnX1dZdISiyhftqRxE
- MdHeHdiw==;
-Received: from [189.6.17.125] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sYFFY-003ITq-VW; Mon, 29 Jul 2024 03:32:33 +0200
-Date: Sun, 28 Jul 2024 22:32:21 -0300
-From: Melissa Wen <mwen@igalia.com>
-To: Alex Hung <alex.hung@amd.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, 
- daniel@ffwll.ch, Mario Limonciello <mario.limonciello@amd.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH v4 01/11] drm/amd/display: clean unused variables for
- hdmi freesync parser
-Message-ID: <n335sldiuaq4tslcrsybeslq34tfr67d3vigbalp6gtku2yghs@j2guivjhp6ff>
-References: <20240706034004.801329-1-mwen@igalia.com>
- <20240706034004.801329-2-mwen@igalia.com>
- <b0017268-5651-4031-901e-45e64319d537@amd.com>
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6077B10E0F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 01:44:05 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-44ff6dd158cso17599741cf.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 18:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722217444; x=1722822244; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wuth67ftmePdj07hmFU5SpHSfVn1GlIZOSwGwoav3KI=;
+ b=Zd3r79pMobwwLSp5V1dpv6YbtcC8CckYSj6p1lOadiVmbg8L2GtKN5xclBz3Eib6Ww
+ YWK5briW7ccMWvGPSzF+axuNHAtn+KiLE2x1gbpJFdWorUmTo+3wmoi6SrqF/0nsKPrU
+ 8wpHD2/5oKSaPdF7MdnWdyZK5rfFseKSvHJuCCTx90puUfMVB0jSGFbscEqax6KXogOX
+ izOeogkUvY7sA4Mo7msvbfEOmd6CmjPJSedlM7p160L/PJ/S5Sj2nkGCSpAxNTyK7jCY
+ qgfkom+f6dvxm3s9AJYS+d5NwUdhH/Chqwn3vK1jRC7TwYOjsv1IIDrMYORlrTQP1+gy
+ qkpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722217444; x=1722822244;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wuth67ftmePdj07hmFU5SpHSfVn1GlIZOSwGwoav3KI=;
+ b=KO7R4o4hzyQ0aC4Hlui1NN3eq5paZ1Ht6GETJ1ypbK/pIl/NwP+4l2khPqbbRmhfpF
+ exnqopJ5xgHxfqt9TuMdoyCPdIDa6a4n9Go24VXlGZbaY6vwFmuEoYli6XknS34SDPHi
+ 0tQpa5Gyha+BxCz5tWvj+thpVN7pdvfpjV7grGbWgtJbJBfEEeMmM2pjwBxTTaP1XWhK
+ FRDAriuTt7ejiXftT/3z1ITIJWUPevFboAtS4pQkn609aUALTnvkdOSYZZMRMg9TU8r5
+ fqSysQsmaNoH7Xz75Ycy1zJiTHpYph1pc74MWWeFBIBbzC3vGbnmX/cCWFkS8aEPjVqc
+ U+8g==
+X-Gm-Message-State: AOJu0Yy2Aqgl9boHqhaEodA0OkrecFACqE+Ghct9If4769mliryjRj2I
+ UKUuYn2q7TwqEfANWmSvkk4NReM9C9vCIeDoqwSV9V5fxB4id8hi
+X-Google-Smtp-Source: AGHT+IFHl3+hOoC1WMdUWwOo9snFlWAX46otYQMaNmsyv3yiTJmX+D0F8IHpfFxZOjYQecFKUmincw==
+X-Received: by 2002:ac8:7f14:0:b0:440:6345:257f with SMTP id
+ d75a77b69052e-45004f5e77amr99749301cf.60.1722217444077; 
+ Sun, 28 Jul 2024 18:44:04 -0700 (PDT)
+Received: from localhost.localdomain (ool-1826d901.dyn.optonline.net.
+ [24.38.217.1]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-44fe8199a6fsm37191171cf.58.2024.07.28.18.44.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Jul 2024 18:44:03 -0700 (PDT)
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: christophe.jaillet@wanadoo.fr, Alex Lanzano <lanzano.alex@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mehdi Djait <mehdi.djait@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] Add driver for Sharp Memory LCD
+Date: Sun, 28 Jul 2024 21:42:40 -0400
+Message-ID: <20240729014311.1746371-1-lanzano.alex@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b0017268-5651-4031-901e-45e64319d537@amd.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,43 +84,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/25, Alex Hung wrote:
-> Hi Melissa,
-> 
-> There are no commit messages in this patch.
-> 
-> Also, do you think this can be merged with Patch 5 "drm/amd/display: remove
-> redundant freesync parser for  DP"?
+This patch series add support for the monochrome Sharp Memory LCD
+panels. This series is based off of the work done by Mehdi Djait.
 
-Hi Alex,
+References:
+https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
+https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
 
-Thanks for your feedback.
-I'll add a brief description in the next version.
-Regarding merging it into patch 5, I'd prefer to keep it detached
-because here we have a non-functional change. I can send it as a
-separate, single patch from this series to reduce noise and make
-validation faster. WDYT?
+Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+---
+Changes in v3:
+- Fix file path in MAINTAINERS file
+- Address review comments
+- Simplify mode selection based on match data instead of model
 
-Melissa
+Changes in v2:
+- Credited Mehdi Djait in commit messages
+- Renamed sharp,sharp-memory.yaml to sharp,ls010b7dh04.yaml
+- Using strings instead of int for vcom-mode in dt-binding
+- Fixed indentation of binding example
+- Removed binding header
+- Removed extra whitespace in sharp-memory.c
+- Fixed error handling in sharp-memory.c
+- Added match data to of_device_id table to be in-sync with spi_device_id table
+- Replaced redundant function with spi_get_device_match_data
+- Sorted header files in sharp-memory.c
+---
 
-> 
-> On 2024-07-05 21:35, Melissa Wen wrote:
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > ---
-> >   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ---
-> >   1 file changed, 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > index 98cf523a629e..1dfa7ec9af35 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > @@ -12108,9 +12108,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
-> >   	} else if (edid && sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-> >   		i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
-> >   		if (i >= 0 && vsdb_info.freesync_supported) {
-> > -			timing  = &edid->detailed_timings[i];
-> > -			data    = &timing->data.other_data;
-> > -
-> >   			amdgpu_dm_connector->min_vfreq = vsdb_info.min_refresh_rate_hz;
-> >   			amdgpu_dm_connector->max_vfreq = vsdb_info.max_refresh_rate_hz;
-> >   			if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
+Alex Lanzano (2):
+  dt-bindings: display: Add Sharp Memory LCD bindings
+  drm/tiny: Add driver for Sharp Memory LCD
+
+ .../bindings/display/sharp,ls010b7dh04.yaml   |  92 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/tiny/Kconfig                  |  20 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/sharp-memory.c           | 684 ++++++++++++++++++
+ 5 files changed, 803 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+ create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
+
+-- 
+2.45.2
+
