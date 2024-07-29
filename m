@@ -2,70 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8E893FE21
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 21:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB2093FEC9
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 22:09:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90AFC10E044;
-	Mon, 29 Jul 2024 19:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6F010E47C;
+	Mon, 29 Jul 2024 20:09:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="SMXKYgLp";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="SHE6IYoG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
- [209.85.219.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A67910E044
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 19:16:48 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-dfe43dca3bfso2077509276.0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 12:16:48 -0700 (PDT)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
+ [209.85.210.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B23A10E47B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 20:09:00 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id
+ 46e09a7af769-709465248b7so1487047a34.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 13:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1722280608; x=1722885408;
+ d=chromium.org; s=google; t=1722283739; x=1722888539;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0aSdBNepOuMwe3ip16SyZwC9x3sQ/b3cOtgS+xLwo54=;
- b=SMXKYgLp2Yc+kGj82y0mi0+xOcISZQBb3Sf1IdK8VL/C66HJD2oCMFUItqT/FHP7xq
- oXYbWdb8r8W/aO+OXDeqjbU6Pc7zxq5xp0B5PL+USG/SnvdbBY3GNPvxbM8NggxljUc3
- VpXnm4cvXWbCCRbw7/6PaCWRgvezMzJZasrwA=
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=/jIHXG4vT+DDXeeiF4buw3dVqIn5OLZLpsCUv9QEgTA=;
+ b=SHE6IYoGmPNLBuqWwjs+c/J7y1VDR3mP3cFf79f1S0VQ1sCPtXs+Q7Jpd2S3A/Tpe1
+ nkJPm5QQOUL7JPLLyMy7O+qj32CnZc9Xaf+CudYCoCqpoakxzngpA0y1YwXUG2jKt4fO
+ vc4m8boxIvyKzuopp1EYIP37xw0eUB2RoUFwc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722280608; x=1722885408;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0aSdBNepOuMwe3ip16SyZwC9x3sQ/b3cOtgS+xLwo54=;
- b=dKujG76+pEKQvz7NHJMiwE+qFSOgODU0/OUPIfx5aMCj0BJ4QVgzt9F38xDxzSiUw+
- +GcVPZIMDNxLOos4vOCGiDN2yyVZVnCJIh7APyI3C3zTehc8r5FaLNPXAGGGZgKpIH48
- H9vsUS3rEFveyyzCJ+9SVNg5g7xCrh/HkZnUgP39MFQ2ikcubOJOKobATOUZhk412dEJ
- PkgmqbNrqzz3JATkvKZyLgLkA9P9/GM+miVuk7pyIjjpsebgUUd8gGDgA2h9ju6w7Evg
- vBYRiqvHj1Y+terRAeIYvU0stNqlNbyVg/kuqlLNa+w8Ol2uVP9oF1ljvRN1DRPnMUJl
- GaQg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKf2ROtKg5D24nXG5WkqYe7reIlPgINHG8X17pHuWJnSuaszZTPSojV10CoaPrutKu/gaexHOwr1V9+wlZoA1iP4u25iQVY7eiwlvvGwal
-X-Gm-Message-State: AOJu0Ywy1rcPTiKJ73ZFKRATN5rtKOJjUwyfrHZfJNReBtRAF2b764uQ
- sF0AHnsTmIdQhw54PEZT8mClh6IY5coVP83f+hg7iqUKk09LRa/O2ab6y8t26mAsfXhpZ0ciUGl
- i2FbD/eBngVhOnxQMTeZHkaLcgu/3RHxCO3W7
-X-Google-Smtp-Source: AGHT+IGnAwXRu4C7Y+PVR0T60A7xON2fH9xIYdK2KzYMvBB0JclqD2TJEFzTtyWNuV59HkwKot/gKomKKo9k8ArfpBI=
-X-Received: by 2002:a05:6902:704:b0:e05:fcef:c842 with SMTP id
- 3f1490d57ef6-e0b54600502mr7711564276.44.1722280607875; Mon, 29 Jul 2024
- 12:16:47 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1722283739; x=1722888539;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/jIHXG4vT+DDXeeiF4buw3dVqIn5OLZLpsCUv9QEgTA=;
+ b=XwaAJg5ugvCTKSDjnNEIrI+bjgK9U2DKeTau6u1UbKD5swvOzs5mEWr6FkpSR3cSGj
+ BLA5B5o+8CctRM/tM/8GWhIP+tzrAJJwX/B7aXrNOuvb2Hw6YVm1iHacabYrK0FjmCwK
+ 248ucG6n4H4gCD0QmK1EfykonZUWqkKOlhL0hTtlBdbDCWu2vDwYNlY3SFBWo2IFxTmm
+ Fpb5h128eHAhjmy7COWDnPay6VY0/+CYnpnCvGtJH2kkRZjnfvmx+nZZAYYRTVfDpNiT
+ m/c1F+NWXckNa41ly+BfBT8c4nMAEaGzjF776ZxmaAKHDQVO7VZ718vlSa1xFd3e9plR
+ f5tQ==
+X-Gm-Message-State: AOJu0YyIyd0qozSYw6K84xXb8MoCC65VMUQZUt5zrlGdX2EgybgOfZGU
+ zFui3HRyG4PntARYpG+brezEpLLPAUNsoznPc3/YkA1gJllXA8hjfl4XnYPrisRe+kChLhh4dL0
+ +LbMDr6ZROwn9SUyBV1FCe88YDQ83nQ/sN7xF
+X-Google-Smtp-Source: AGHT+IHpeBg5e8K4m1AjsYDN5Lf6w44ZrVNCRytKZPa/zJpkcs95lHEvp/x4E8DP9QtdgZhxg7CCNODor9FG/pDAGIU=
+X-Received: by 2002:a05:6830:2714:b0:709:3b82:7680 with SMTP id
+ 46e09a7af769-70940c1aa9fmr12988155a34.19.1722283739275; Mon, 29 Jul 2024
+ 13:08:59 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 29 Jul 2024 15:08:58 -0500
 MIME-Version: 1.0
-References: <83d9bb89-1a16-4ca4-80b4-1965fca498c1@stanley.mountain>
-In-Reply-To: <83d9bb89-1a16-4ca4-80b4-1965fca498c1@stanley.mountain>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Mon, 29 Jul 2024 15:16:37 -0400
-Message-ID: <CABQX2QOoq3H=eHdM83_k5vgHiaMu9Zsto=H7S95QHxT-s16jEQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/plane: Fix IS_ERR() vs NULL bug
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+In-Reply-To: <8fa86c0c-183b-4787-9525-38dfe6bcecc6@quicinc.com>
+References: <20240725220320.130916-1-quic_abhinavk@quicinc.com>
+ <CAE-0n50mBEX98HH+5BurM-uRyzrxcPXFJ7yLg__hFJHfYjm67Q@mail.gmail.com>
+ <8fa86c0c-183b-4787-9525-38dfe6bcecc6@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 29 Jul 2024 15:08:58 -0500
+Message-ID: <CAE-0n537mpOMkVWrXGSpjU8cHZtUZXFfdG1YTfevu2SRo1hPTQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: fix the max supported bpp logic
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Guenter Roeck <groeck@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Vara Reddy <quic_varar@quicinc.com>, freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com, 
+ neil.armstrong@linaro.org, abel.vesa@linaro.org, quic_khsieh@quicinc.com, 
+ Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,48 +86,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 27, 2024 at 1:32=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
+Quoting Abhinav Kumar (2024-07-29 11:28:35)
 >
-> The drm_property_create_signed_range() function returns NULL on error,
-> it doesn't return error pointers.  Change the IS_ERR() tests to check
-> for NULL.
+> Thanks for the feedback.
 >
-> Fixes: 8f7179a1027d ("drm/atomic: Add support for mouse hotspots")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/gpu/drm/drm_plane.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Your change looks valid. We can use this and drop the max_t usage.
 >
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index a28b22fdd7a4..4fcb5d486de6 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -328,14 +328,14 @@ static int drm_plane_create_hotspot_properties(stru=
-ct drm_plane *plane)
->
->         prop_x =3D drm_property_create_signed_range(plane->dev, 0, "HOTSP=
-OT_X",
->                                                   INT_MIN, INT_MAX);
-> -       if (IS_ERR(prop_x))
-> -               return PTR_ERR(prop_x);
-> +       if (!prop_x)
-> +               return -ENOMEM;
->
->         prop_y =3D drm_property_create_signed_range(plane->dev, 0, "HOTSP=
-OT_Y",
->                                                   INT_MIN, INT_MAX);
-> -       if (IS_ERR(prop_y)) {
-> +       if (!prop_y) {
->                 drm_property_destroy(plane->dev, prop_x);
-> -               return PTR_ERR(prop_y);
-> +               return -ENOMEM;
->         }
->
->         drm_object_attach_property(&plane->base, prop_x, 0);
+> Let me push this with your Suggested-by credits.
 
-Thanks, that looks good to me.
+You can take my
 
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
-z
+and either squash it in or make a follow-up.
