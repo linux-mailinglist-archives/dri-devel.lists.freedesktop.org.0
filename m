@@ -2,61 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2140B93FBE5
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 18:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1481A93FBE2
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 18:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAFBE10E449;
-	Mon, 29 Jul 2024 16:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5619C10E432;
+	Mon, 29 Jul 2024 16:55:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=holm.dev header.i=@holm.dev header.b="PqEKLtsl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M/Bqhvta";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 527 seconds by postgrey-1.36 at gabe;
- Mon, 29 Jul 2024 13:30:31 UTC
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
- [95.215.58.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D77910E3DB
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 13:30:31 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C718210E3D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 13:28:54 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-70d199fb3dfso2772456b3a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 06:28:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722259734; x=1722864534; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=1yL0QCQNpqeOCAknWlO99YLMk+NffPf4WTYM45aZYO8=;
+ b=M/BqhvtaBDKcBQ/pVW7iZJyVy0VMcNk0KW95OmlxCcRtafozkSe+pa1dp7nnxncpBv
+ lnhXGihSbVj2K8gOqCcMZqn5NlU0ZKQRogOrt7xL6OmNPW+nb/LrW5mg90Ezi65CPG7Q
+ zsTc7JMPxrp18jVXcIQtEpV/t6O9pnObs+xiVO+02tlSAuOjq8D3syW9E8e8da1zdIaD
+ nApYV7Snr6JFdsBqw11UdovGcawhk2568FzkDPCReSd9fTfnLzIbUwjSqnLWWIXz2AfA
+ XVjbJLVFnMO13dKh9udp3t9YkW1Q3srC95rb4/rTC/zYP87lZJiNnL4Prha9odVtorkJ
+ Nyng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722259734; x=1722864534;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1yL0QCQNpqeOCAknWlO99YLMk+NffPf4WTYM45aZYO8=;
+ b=aFz/yXWHErl9XzfJmS1D8kT/T9Zxp/2APwGHeKLn7al6jx3MfSY5/+snDYUbTwlTpO
+ 5IiFqHBrMEO68cGJtMczGoY9nKf4BrHaJZZ+Qj4ERjiLvmXt4+2drJfmrKXL1aBJaEJL
+ bm3qx5unjLaAPBbsdPjYQT4QotsF452bcUzp2bwktR5NHq1N4k3py2YgjNYTy3JIO8QM
+ 3aUJbI4V1/EblY4smLETsqLTjOTZAO/Ic0Q9JSEsuPDdQVHlDh+8fbADdPTGazhXyblu
+ kIjSCfDoO69PAIRR9oKoXOdX+RjUoLFx9eJi4TGkXqOuTo4AE6xaEXvOrg5deLLJoISI
+ H3Yg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX84ihxH7IPUffHt7UWXLu94YqsPOFXH45KN8dUWizMuJClsUA/reEdHaYl8dh8ZgXj/rVy7wyWHWRFxt7MkWrzJsp5Gbld6ZIx8hH5Ggey
+X-Gm-Message-State: AOJu0YycwbprlO/g+z+syDpD5QCWCnFVYMujBZDKfFFR2lVP2mdtyPY6
+ QwkW3u6bbS3yhcgoy+BI3Oc897s5nm8eHfRsYHnZh20jNOOzpmWu
+X-Google-Smtp-Source: AGHT+IESX2PnLeI0EtJGrSeydGADF81jYh2s6zS5/LFhKulfASe7HsgEsqSl8L4xJCRK+QMMjg9fOQ==
+X-Received: by 2002:a05:6a21:78a9:b0:1c1:89f8:8609 with SMTP id
+ adf61e73a8af0-1c4a0e15171mr10085097637.0.1722259734258; 
+ Mon, 29 Jul 2024 06:28:54 -0700 (PDT)
+Received: from void.tail05c47.ts.net ([240c:c001:1:4300:752c:bb84:7d45:2db])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1fed7edd91asm82647505ad.131.2024.07.29.06.28.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Jul 2024 06:28:53 -0700 (PDT)
+Date: Mon, 29 Jul 2024 21:28:48 +0800
+From: Yanjun Yang <yangyj.ee@gmail.com>
+To: Philippe CORNU <philippe.cornu@foss.st.com>
+Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-stm32] [PATCH RESEND v3 0/3] Update STM DSI PHY driver
+Message-ID: <ZqeZEB9peRSQkOLZ@void.tail05c47.ts.net>
+References: <20240129104106.43141-1-raphael.gallais-pou@foss.st.com>
+ <21f4d43d-4abd-4aca-7abb-7321bcfa0f1d@foss.st.com>
+ <CAE8JAfy9NtBa--DnUt2AEZPFnvjU6idj8DqUbaeLaH0DMFvuhw@mail.gmail.com>
+ <e059f157-ff9c-32cb-57a6-48f2331f2555@foss.st.com>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=holm.dev; s=key1;
- t=1722259302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G1Agd5vRjGskPC+jhoG7bLdcvURz2aFKxK/qDcooy8Y=;
- b=PqEKLtsleFSFZPHLbs8jFKP/lXcMKZuWAJLaMSv+BmPZ0SDnt9m8rVAX6HVrpbVRUINwUp
- qMAD26NOhMKIvW/RATtyDc1Rw9gV0wj+fSbZVAZjLXwpxwe7vjkX9v8jinHYHITGdyk+uE
- yu3qx0YUXuFiSe19j5OAfRtkFuchIFScLlHUyU74Hbzy3qlIo+C0rvrOVHtP253xX18/mM
- mrALJB3DFkl/+mcjwhoPEP7Ag6P7R0PCvQ7Q4/Str/2gD9n0N3SonW4FSo9yHBMHzmzTga
- Fuy9oIT4WMFRYp2jh6qgPDRWeBa4/cJc7TsnYs28kBK5SsHYOEq+z+RE2lhezQ==
-Date: Mon, 29 Jul 2024 13:21:40 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: kevin@holm.dev
-Message-ID: <7bf26283474fbb6ea915f93f4db0bc614a627617@holm.dev>
-TLS-Required: No
-Subject: Re: [REGRESSION] No image on 4k display port displays connected
- through usb-c dock in kernel 6.10
-To: "Linux regressions mailing list" <regressions@lists.linux.dev>,
- "Christian Heusel" <christian@heusel.eu>
-Cc: "Greg KH" <gregkh@linuxfoundation.org>, "Lin, Wayne" <Wayne.Lin@amd.com>, 
- stable@vger.kernel.org, "LKML" <linux-kernel@vger.kernel.org>, "ML
- dri-devel" <dri-devel@lists.freedesktop.org>,
- amd-gfx@lists.freedesktop.org, "Wu, Hersen" <hersenxs.wu@amd.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-In-Reply-To: <ca007d54-c204-4f7f-9eca-5a282324b941@leemhuis.info>
-References: <d74a7768e957e6ce88c27a5bece0c64dff132e24@holm.dev>
- <9ca719e4-2790-4804-b2cb-4812899adfe8@leemhuis.info>
- <fd8ece71459cd79f669efcfd25e4ce38b80d4164@holm.dev>
- <CO6PR12MB54897CE472F9271B25883DF6FCB72@CO6PR12MB5489.namprd12.prod.outlook.com>
- <e2050c2e-582f-4c6c-bf5f-54c5abd375cb@leemhuis.info>
- <b7f0f3e1-522b-4763-be31-dcee1948f7b3@heusel.eu>
- <ca007d54-c204-4f7f-9eca-5a282324b941@leemhuis.info>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e059f157-ff9c-32cb-57a6-48f2331f2555@foss.st.com>
 X-Mailman-Approved-At: Mon, 29 Jul 2024 16:55:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,142 +95,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-July 29, 2024 at 11:15 AM, "Linux regression tracking (Thorsten Leemhuis)=
-" <regressions@leemhuis.info> wrote:
+On Fri, Jul 26, 2024 at 09:55:35AM +0200, Philippe CORNU wrote:
+> 
+> 
+> On 7/22/24 10:38, Yanjun Yang wrote:
+> > 
+> > This patch (commit id:185f99b614427360) seems to break the dsi of
+> > stm32f469 chip.
+> > I'm not familiar with the drm and the clock framework, maybe it's
+> > because there is no
+> >   "ck_dsi_phy" defined for stm32f469.
+> > PS:  Sorry for receiving multiple copies of this email, I forgot to
+> > use plain text mode last time.
+> > 
+> 
+> Hi,
+> Thank you for letting us know that there was this error. We should have
+> detected this before merging, really sorry for the problems caused by this
+> patch. We will investigate the issue and get back to you as soon as
+> possible. In the meantime, I think you can revert this patch in your git
+> tree.
+> 
+> Philippe :-)
+> 
 
+Hi,
+After some testing, the reason behind my problem is the parent's name of
+'clk_dsi_phy' for stm32f4 is 'clk-hse' other than 'ck_hse'.  I don't
+know which is the better why to fix it:
+1. Change "ck_hse" to "clk-hse" in where "clk_dsi_phy" is defined.
+2. Use "pll_in_khz = clk_get_rate(dsi->pllref_clk) / 1000" instead of
+   "pll_in_khz = (unsigned int)(parent_rate / 1000)" when get the clock
+   rate.
 
-
->=20
->=20On 29.07.24 10:47, Christian Heusel wrote:
->=20
->=20>=20
->=20> On 24/07/29 10:35AM, Linux regression tracking (Thorsten Leemhuis) =
-wrote:
-> >=20
->=20> >=20
->=20> > [+Greg +stable]
-> > >=20
->=20> >  On 29.07.24 10:16, Lin, Wayne wrote:
-> > >=20
->=20>=20
->=20>  Thanks for the report.
-> >=20
->=20>  Patch fa57924c76d995 ("drm/amd/display: Refactor function dm_dp_ms=
-t_is_port_support_mode()")
-> >=20
->=20>  is kind of correcting problems causing by commit:
-> >=20
->=20>  4df96ba6676034 ("drm/amd/display: Add timing pixel encoding for ms=
-t mode validation")
-> >=20
->=20>  Sorry if it misses fixes tag and would suggest to backport to fix =
-it. Thanks!
-> >=20
->=20> >=20
->=20> > Greg, seem it would be wise to pick up fa57924c76d995 for 6.10.y =
-as
-> > >=20
->=20> >  well, despite a lack of Fixes or stable tags.
-> > >=20
->=20> >  Ciao, Thorsten
-> > >=20
->=20>=20
->=20>=20=20
->=20>=20
->=20>  The issue is that the fixing commit does not apply to the 6.10 ser=
-ies
-> >=20
->=20>  without conflict and the offending commit does not revert cleanly
-> >=20
->=20>  aswell.
-> >=20
->=20
-> Hah, many thx, I should have checked that.
->=20
->=20Lin, Wayne: could you maybe help out here and provide something for 6=
-.10.y?
->=20
->=20Ciao, Thorsten
->
-
-I reverted 4df96ba6676034 from v6.10.2 from the stable/linux git, resolvi=
-ng the conflict by removing everything that git marked as from the curren=
-t branch and kept everything marked as from before the branch to merge. T=
-hat resulted in a patch that is fixing the problem on my machine. Since I=
- don't understand what the code is actually doing it might break things o=
-n other machines.
-
-From cd1674a469cede83f6b0907f320b6af08c3c8950 Mon Sep 17 00:00:00 2001
-From: Kevin Holm <kevin@holm.dev>
-Date: Mon, 29 Jul 2024 13:24:38 +0200
-Subject: [PATCH] Test patch
-
----
- .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 33 +++----------------
- 1 file changed, 5 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c =
-b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index a5e1a93ddaea..5c555a37e367 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -1599,7 +1599,7 @@ enum dc_status dm_dp_mst_is_port_support_mode(
-     struct amdgpu_dm_connector *aconnector,
-     struct dc_stream_state *stream)
- {
--    int pbn, branch_max_throughput_mps =3D 0;
-+    int bpp, pbn, branch_max_throughput_mps =3D 0;
-     struct dc_link_settings cur_link_settings;
-     unsigned int end_to_end_bw_in_kbps =3D 0;
-     unsigned int upper_link_bw_in_kbps =3D 0, down_link_bw_in_kbps =3D 0=
-;
-@@ -1649,34 +1649,11 @@ enum dc_status dm_dp_mst_is_port_support_mode(
-             }
-         }
-     } else {
--        /* Check if mode could be supported within max slot
--         * number of current mst link and full_pbn of mst links.
--         */
--        int pbn_div, slot_num, max_slot_num;
--        enum dc_link_encoding_format link_encoding;
--        uint32_t stream_kbps =3D
--            dc_bandwidth_in_kbps_from_timing(&stream->timing,
--                dc_link_get_highest_encoding_format(stream->link));
--
--        pbn =3D kbps_to_peak_pbn(stream_kbps);
--        pbn_div =3D dm_mst_get_pbn_divider(stream->link);
--        slot_num =3D DIV_ROUND_UP(pbn, pbn_div);
--
--        link_encoding =3D dc_link_get_highest_encoding_format(stream->li=
-nk);
--        if (link_encoding =3D=3D DC_LINK_ENCODING_DP_8b_10b)
--            max_slot_num =3D 63;
--        else if (link_encoding =3D=3D DC_LINK_ENCODING_DP_128b_132b)
--            max_slot_num =3D 64;
--        else {
--            DRM_DEBUG_DRIVER("Invalid link encoding format\n");
-+        /* check if mode could be supported within full_pbn */
-+        bpp =3D convert_dc_color_depth_into_bpc(stream->timing.display_c=
-olor_depth) * 3;
-+        pbn =3D drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, =
-bpp << 4);
-+        if (pbn > aconnector->mst_output_port->full_pbn)
-             return DC_FAIL_BANDWIDTH_VALIDATE;
--        }
--
--        if (slot_num > max_slot_num ||
--            pbn > aconnector->mst_output_port->full_pbn) {
--            DRM_DEBUG_DRIVER("Mode can not be supported within mst links=
-!");
--            return DC_FAIL_BANDWIDTH_VALIDATE;
--        }
-     }
-=20
-=20    /* check is mst dsc output bandwidth branch_overall_throughput_0_m=
-ps */
---=20
-2.45.2
-
-
-Regards,
-Kevin
+Both method can fix my problem. The first one might break other
+platforms. Maybe I should change the clock name of 'clk-hse'. However,
+I can't find the defination of this clock name for stm32f4.
