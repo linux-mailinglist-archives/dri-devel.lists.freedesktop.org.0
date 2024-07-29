@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB2093FEC9
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 22:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1C693FECD
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 22:09:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6F010E47C;
-	Mon, 29 Jul 2024 20:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABED610E0E9;
+	Mon, 29 Jul 2024 20:09:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="SHE6IYoG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r9M/8OaE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
- [209.85.210.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B23A10E47B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 20:09:00 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id
- 46e09a7af769-709465248b7so1487047a34.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 13:08:59 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE0310E0E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 20:09:36 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-65f9e25fffaso25909367b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 13:09:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1722283739; x=1722888539;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=/jIHXG4vT+DDXeeiF4buw3dVqIn5OLZLpsCUv9QEgTA=;
- b=SHE6IYoGmPNLBuqWwjs+c/J7y1VDR3mP3cFf79f1S0VQ1sCPtXs+Q7Jpd2S3A/Tpe1
- nkJPm5QQOUL7JPLLyMy7O+qj32CnZc9Xaf+CudYCoCqpoakxzngpA0y1YwXUG2jKt4fO
- vc4m8boxIvyKzuopp1EYIP37xw0eUB2RoUFwc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722283739; x=1722888539;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1722283775; x=1722888575; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/jIHXG4vT+DDXeeiF4buw3dVqIn5OLZLpsCUv9QEgTA=;
- b=XwaAJg5ugvCTKSDjnNEIrI+bjgK9U2DKeTau6u1UbKD5swvOzs5mEWr6FkpSR3cSGj
- BLA5B5o+8CctRM/tM/8GWhIP+tzrAJJwX/B7aXrNOuvb2Hw6YVm1iHacabYrK0FjmCwK
- 248ucG6n4H4gCD0QmK1EfykonZUWqkKOlhL0hTtlBdbDCWu2vDwYNlY3SFBWo2IFxTmm
- Fpb5h128eHAhjmy7COWDnPay6VY0/+CYnpnCvGtJH2kkRZjnfvmx+nZZAYYRTVfDpNiT
- m/c1F+NWXckNa41ly+BfBT8c4nMAEaGzjF776ZxmaAKHDQVO7VZ718vlSa1xFd3e9plR
- f5tQ==
-X-Gm-Message-State: AOJu0YyIyd0qozSYw6K84xXb8MoCC65VMUQZUt5zrlGdX2EgybgOfZGU
- zFui3HRyG4PntARYpG+brezEpLLPAUNsoznPc3/YkA1gJllXA8hjfl4XnYPrisRe+kChLhh4dL0
- +LbMDr6ZROwn9SUyBV1FCe88YDQ83nQ/sN7xF
-X-Google-Smtp-Source: AGHT+IHpeBg5e8K4m1AjsYDN5Lf6w44ZrVNCRytKZPa/zJpkcs95lHEvp/x4E8DP9QtdgZhxg7CCNODor9FG/pDAGIU=
-X-Received: by 2002:a05:6830:2714:b0:709:3b82:7680 with SMTP id
- 46e09a7af769-70940c1aa9fmr12988155a34.19.1722283739275; Mon, 29 Jul 2024
- 13:08:59 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 29 Jul 2024 15:08:58 -0500
+ bh=qO5YO3gTMJxRN4DD9FtUSuJI3FyT9bz9kOdIwn73kJI=;
+ b=r9M/8OaEYwV+9PXYwfuvxqOSW5BvTNZ0fTKQuqNP4+ZKpYlu8UoDLiM1BN4rL2zduk
+ CDfiU9z+qr87DgJ3zjAyHXWAqjriHHuTC0jOoSl4e926zT21RDniX3pdHNxosDiZMiBv
+ gjjdZ7AA/xPwrEByWeAt+NpNdZEHjCd0+ygABY1lj6bzefAZioSwtn7YTJKK1wRc6UwO
+ 4KEqkOr79bzp5wB2Tb0DIh8whxKsBYdoylAYZ16WHQ1SKXFKPkk5qFB1e91Ryj2fdNTA
+ pqzBykL8vl724JjWi6ZBhe6L7YKzCHkPnWRrJERKKRx/tAUJYLRWU+Kqm/dPVw7cbqKT
+ 06JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722283775; x=1722888575;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qO5YO3gTMJxRN4DD9FtUSuJI3FyT9bz9kOdIwn73kJI=;
+ b=CsWxth6IjdlOE64C8sNCYKIR5CCT7r8FNlk5mfAtS95pMktYSZqT9WNzRHZASKD5uY
+ M2GsgMFZXxHqlGU8IzBu8XUkfaB88/GGZ1xGnLMjD7muJRYAtOoUTKb15tqLXmmYdO49
+ Od/3dcg5u6eEBgRFR98dxUHBE7rGAqy2ZUjw+sbmrNNA4epiZ8t9wSStgbIk0+RiUyES
+ 7Bl+4vmh2WlhlhQvPVjR4fiTWuixnsm200A+W8lOvPkVoPwhdbw7LZfEvCMJ7KstN2w2
+ q5HZXPbkBTTYASgHVhmw9wh+U5xSJUUHJwjc+AhIz390lE2GCxXbtwtoefD3d9fPjFMW
+ ff/w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXv0TyUfbAYZMpDjdY6NliHNVSTB276l+pX0v1Pa+lAEJuWzoYTbcW6FxeMJh450qeDt+xJrfTBUjHYKLRXVcDP5DiUDw+eOypkqaAn3iZW
+X-Gm-Message-State: AOJu0YyMEJZZ0MbpuQmuDcOY6Fyz5OEvcTGxqIyxyEylZLiOqs9dPoCi
+ n8fKwjvg/gRl+r7roQou/m2zm2GISH3mMIk+kMLrzoXuI2sm0DahFhKZAZ7LWzfwgC7oCpDFcRN
+ cgEnec/s6WHSW1keXdbBgJITQH5P4+VlrGpzg9g==
+X-Google-Smtp-Source: AGHT+IHNGA9/9hOvLxvdj7+5y602kFWRi0g00FzF83tJv7u7qWJ8+ORj1d+m/utPMN2nC0Pnz2E1p8NJESCd3fTXz34=
+X-Received: by 2002:a0d:e746:0:b0:65f:9873:73e9 with SMTP id
+ 00721157ae682-67a09593ba6mr101492697b3.33.1722283775155; Mon, 29 Jul 2024
+ 13:09:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8fa86c0c-183b-4787-9525-38dfe6bcecc6@quicinc.com>
-References: <20240725220320.130916-1-quic_abhinavk@quicinc.com>
- <CAE-0n50mBEX98HH+5BurM-uRyzrxcPXFJ7yLg__hFJHfYjm67Q@mail.gmail.com>
- <8fa86c0c-183b-4787-9525-38dfe6bcecc6@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 29 Jul 2024 15:08:58 -0500
-Message-ID: <CAE-0n537mpOMkVWrXGSpjU8cHZtUZXFfdG1YTfevu2SRo1hPTQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: fix the max supported bpp logic
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Guenter Roeck <groeck@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Vara Reddy <quic_varar@quicinc.com>, freedreno@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com, 
- neil.armstrong@linaro.org, abel.vesa@linaro.org, quic_khsieh@quicinc.com, 
- Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org, 
+References: <20240725083245.12253-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240725083245.12253-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <gq5fcttutomphgfrwrtloqzczia3uc5qpont3lrowocan2xjc5@ubfabhsh3mfl>
+ <CA+6=WdQuFYbADjG0i_zWMGYmw95H1U_McqCw4CLW0+Gate50YA@mail.gmail.com>
+In-Reply-To: <CA+6=WdQuFYbADjG0i_zWMGYmw95H1U_McqCw4CLW0+Gate50YA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 29 Jul 2024 23:09:24 +0300
+Message-ID: <CAA8EJppoj1Y2675UOp=JH=-HLdYuuzfr2Sxy1zzkvLosmrRQNw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] drm/panel: jd9365da: Move the sending location of
+ the 11/29 command
+To: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ dianders@chromium.org, hsinyi@google.com, airlied@gmail.com, daniel@ffwll.ch, 
+ jagan@edgeble.ai, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,16 +86,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2024-07-29 11:28:35)
+On Mon, 29 Jul 2024 at 06:10, zhaoxiong lv
+<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
 >
-> Thanks for the feedback.
+> On Sun, Jul 28, 2024 at 12:59=E2=80=AFAM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > On Thu, Jul 25, 2024 at 04:32:44PM GMT, Zhaoxiong Lv wrote:
+> > > Move the 11/29 command from enable() to init() function
+> > >
+> > > As mentioned in the patch:
+> > > https://lore.kernel.org/all/20240624141926.5250-2-lvzhaoxiong@huaqin.=
+corp-partner.google.com/
+> > >
+> > > Our DSI host has different modes in prepare() and enable()
+> > > functions. prepare() is in LP mode and enable() is in HS mode.
+> > > Since the 11/29 command must also be sent in LP mode,
+> > > so we also move 11/29 command to the init() function.
+> > >
+> > > After moving the 11/29 command to the init() function,
+> > > we no longer need additional delay judgment, so we delete
+> > > variables "exit_sleep_to_display_on_delay_ms" and
+> > > "display_on_delay_ms".
+> >
+> > Won't this result in a garbage being displayed on the panel during
+> > startup?
 >
-> Your change looks valid. We can use this and drop the max_t usage.
+> Hi Dmitry
 >
-> Let me push this with your Suggested-by credits.
+> We just moved "Exit sleep mode" and "set display on" from the enable()
+> function to the init() function and did not make any other changes.
+> It seems that many drivers also put the "init code" and "Exit sleep
+> mode" in one function.
 
-You can take my
+You have moved the functions that actually enable the display out. And
+by the definition it's expected that there is no video stream during
+pre_enable(), it gets turned on afterwards. That's why I asked if
+there is any kind of garbage or not.
 
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> In addition, we briefly tested the kingdisplay_kd101ne3 panel and
+> melfas_lmfbx101117480 panel, and it seems that there is no garbage on
+> the panel.
 
-and either squash it in or make a follow-up.
+Ack.
+
+>
+> BR
+> >
+> > >
+> > > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.c=
+om>
+> > > ---
+> > >  .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 59 ++++++++++-------=
+--
+> > >  1 file changed, 32 insertions(+), 27 deletions(-)
+> >
+
+
+
+--=20
+With best wishes
+Dmitry
