@@ -2,76 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A9393F753
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 16:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE8993F864
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 16:40:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAE5610E06F;
-	Mon, 29 Jul 2024 14:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A721210E3FE;
+	Mon, 29 Jul 2024 14:40:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V7FftfET";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="caa3XgGt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com
- [209.85.160.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19F9A10E06F
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 14:10:28 +0000 (UTC)
-Received: by mail-oa1-f47.google.com with SMTP id
- 586e51a60fabf-25e3d8d9f70so2229080fac.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 07:10:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722262227; x=1722867027; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LNp+cQPSoj/8O6JaY8fRlRrTVGCksavAKQMIAp/dl6c=;
- b=V7FftfETW1Tr3849Ku9SCkwn5JndBNQmtWjMRYBqxF7pKGWVp1H2dO6Rhj/NJLHQVI
- HEDc9OM5VaTsMbOWvvNTzQ5x+g7FvPTX3n3g7m5tmy9m+C0wMm7VuKotH5yQkNADay3h
- T3SaKoftF83/RJ+8CBEdEqW8uY0DHoxj8rHmY/jhN5y+LtgqYoD4ziBXnyLNfb83o/n4
- 8IJcXt8A/zLUmh/Bb6srfR8MJsfle9GnekVnKIZxsLMoQddJt++KzQKdSSYd0TfABxbg
- hDYInpznqxDFovEQlfeEMgk9KuT5gsN+54DxZ2s9UlB60MJGwgAsA5C1zNAYfWOYOjXd
- ftLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722262227; x=1722867027;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LNp+cQPSoj/8O6JaY8fRlRrTVGCksavAKQMIAp/dl6c=;
- b=fSqikVDSTIqFS+upodIoPZIQ1+e4qTXSyTXguFR+Z0rLHVAS0ZXSbaOVIWOpbEwiWJ
- oiuWJQTVTBYyYco2py/Qmzh3uXWGhN1NpMbFdar5QXqg/Cvj0m8umcKo+GaYWhqgkeQm
- xa9T0bmLkoqY2ao5mHzTclpoE4Ui2cYiUCxi+VCWs9FxvMW8YTqdzynUF5iTBXDxl5wR
- 9ybVEBFyDpAo1tC0NqHzWv1hdHA5+xf0+i+hvkr1dwLX5F2CFcG4bajUXc4QYt0DHGyS
- zG2wnl+Zd7L1NFVjlIMSd3IEBhhyaawVcdG1Ry3HwjSU6sOaD5Mw5ZbsDZQCKM9ewJsX
- uLIg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUYbpS5Rx1Z9nQ3iR96ATgUd7dDFXJpgZInnIU6t4qDnjjV9fa6RmaJxl77VMNkanJ8eZg97U4aIUW/bAMJEobQfX4JvZOTvGdW0XI+LoNC
-X-Gm-Message-State: AOJu0Yxhy/1ApB6mSq8Fh/gnoBgU2Cm/1slIUylKBhnMIsKAowUg+KOP
- 3vpdkrkbIjTrhPAmhT7TXkz1ZmIxOtmPIFtBhi+F4AIzSY/uPHJHF1pHtxjPajM=
-X-Google-Smtp-Source: AGHT+IE3F+o5CY91JWS1hd0lkqMsJMWrwAKpE0XMh1kK950xmMKvPHuWAQCxIuhFBKMTtCuJb/sdLA==
-X-Received: by 2002:a05:6871:3312:b0:260:e678:b653 with SMTP id
- 586e51a60fabf-267d4ef4399mr9073460fac.42.1722262227161; 
- Mon, 29 Jul 2024 07:10:27 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::17c0])
- by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-70930722531sm2096942a34.38.2024.07.29.07.10.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jul 2024 07:10:26 -0700 (PDT)
-Date: Mon, 29 Jul 2024 09:10:24 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: WangYuli <wangyuli@uniontech.com>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, Jingwen.Chen2@amd.com,
- suhui@nfschina.com, bokun.zhang@amd.com, chongli2@amd.com,
- Luqmaan.Irshad@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- guanwentao@uniontech.com, shaoyang@uniontech.com,
- hongao@uniontech.com, wenlunpeng <wenlunpeng@uniontech.com>
-Subject: Re: [PATCH v2] drm/amd/amdgpu: Properly tune the size of struct
-Message-ID: <93d10611-9fbb-4242-87b8-5860b2606042@suswa.mountain>
-References: <D51E93EE77EF1231+20240729140000.890760-1-wangyuli@uniontech.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1CD610E3FE;
+ Mon, 29 Jul 2024 14:40:25 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46TAKjsC000633;
+ Mon, 29 Jul 2024 14:40:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=xHMB3TmsExJZYf6ASsTzPCkN
+ xehCRJLMBmMI14RE/xo=; b=caa3XgGtjBgyWU1YjINatimkmzlSoYVowb1Ga3kE
+ LU+u1z6DZH+esqs2l9Qgiy85if3UspPyRBV77w1nrJt73NItVe8xSSwWqK2hKaMh
+ z3wo0By4reoWrvND+u00hfcUpiNdDFa/aTnJtPgZyBnx6Pevdl3Xo/utNcmwRtgo
+ j6m5ilYL2+V+pg0UrEowO62KLhjSygW3zv2IlEqwt1WZwlJFD7FaXPBl2WMEdIfI
+ DjwkKfrY68PWCNpho7iJpMqbmr86Bd6aFjvKHy+3JkFAl4YrIfI0mkZyMmsGsgJO
+ QrOF1AHHqvVvmcOuDO+cMeoRs47+18eUucDGxDiPzWBWkg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40mt2kmdp0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Jul 2024 14:40:20 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 46TEeJAb007298
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Jul 2024 14:40:19 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 29 Jul 2024 07:40:14 -0700
+Date: Mon, 29 Jul 2024 20:10:10 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Konrad Dybcio <konradybcio@kernel.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, Elliot Berman <quic_eberman@quicinc.com>
+Subject: Re: [PATCH v5 1/5] drm/msm/adreno: Implement SMEM-based speed bin
+Message-ID: <20240729144010.yj2anp253qgqsuna@hu-akhilpo-hyd.qualcomm.com>
+References: <20240709-topic-smem_speedbin-v5-0-e2146be0c96f@linaro.org>
+ <20240709-topic-smem_speedbin-v5-1-e2146be0c96f@linaro.org>
+ <20240715200419.l47ng6efa25in6sg@hu-akhilpo-hyd.qualcomm.com>
+ <8e2ebc97-f455-4f41-81da-af56263e6cf6@linaro.org>
+ <87607d2c-a4b1-4923-ba9f-9cfc56a0aa38@kernel.org>
+ <aaf74e25-ba24-454c-8bc1-c2b079d549e3@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <D51E93EE77EF1231+20240729140000.890760-1-wangyuli@uniontech.com>
+In-Reply-To: <aaf74e25-ba24-454c-8bc1-c2b079d549e3@kernel.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: pkp9BHs2kNXQ7wplHmUEY4Eti-5alllV
+X-Proofpoint-GUID: pkp9BHs2kNXQ7wplHmUEY4Eti-5alllV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-29_12,2024-07-26_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=679
+ malwarescore=0 spamscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
+ suspectscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2407290098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,39 +100,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 29, 2024 at 10:00:00PM +0800, WangYuli wrote:
-> The struct assertion is failed because sparse cannot parse
-> `#pragma pack(push, 1)` and `#pragma pack(pop)` correctly.
-> GCC's output is still 1-byte-aligned. No harm to memory layout.
+On Mon, Jul 29, 2024 at 02:40:30PM +0200, Konrad Dybcio wrote:
 > 
-> The error can be filtered out by sparse-diff, but sometimes
-> multiple lines queezed into one, making the sparse-diff thinks
-> its a new error. I'm trying to aviod this by fixing errors.
 > 
-> Link: https://lore.kernel.org/all/20230620045919.492128-1-suhui@nfschina.com/
-> Fixes: 1721bc1b2afa ("drm/amdgpu: Update VF2PF interface")
-> Signed-off-by: Su Hui <suhui@nfschina.com>
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Signed-off-by: wenlunpeng <wenlunpeng@uniontech.com>
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
-> ---
+> On 29.07.2024 2:13 PM, Konrad Dybcio wrote:
+> > On 16.07.2024 1:56 PM, Konrad Dybcio wrote:
+> >> On 15.07.2024 10:04 PM, Akhil P Oommen wrote:
+> >>> On Tue, Jul 09, 2024 at 12:45:29PM +0200, Konrad Dybcio wrote:
+> >>>> On recent (SM8550+) Snapdragon platforms, the GPU speed bin data is
+> >>>> abstracted through SMEM, instead of being directly available in a fuse.
+> >>>>
+> >>>> Add support for SMEM-based speed binning, which includes getting
+> >>>> "feature code" and "product code" from said source and parsing them
+> >>>> to form something that lets us match OPPs against.
+> >>>>
+> >>>> Due to the product code being ignored in the context of Adreno on
+> >>>> production parts (as of SM8650), hardcode it to SOCINFO_PC_UNKNOWN.
+> >>>>
+> >>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> >>>> ---
+> >> [...]
+> >>
+> >>>>  
+> >>>> -	if (adreno_read_speedbin(dev, &speedbin) || !speedbin)
+> >>>> +	if (adreno_read_speedbin(adreno_gpu, dev, &speedbin) || !speedbin)
+> >>>>  		speedbin = 0xffff;
+> >>>> -	adreno_gpu->speedbin = (uint16_t) (0xffff & speedbin);
+> >>>> +	adreno_gpu->speedbin = speedbin;
+> >>> There are some chipsets which uses both Speedbin and Socinfo data for
+> >>> SKU detection [1].
+> >> 0_0
+> >>
+> >>
+> >>> We don't need to worry about that logic for now. But
+> >>> I am worried about mixing Speedbin and SKU_ID in the UABI with this patch.
+> >>> It will be difficult when we have to expose both to userspace.
+> >>>
+> >>> I think we can use a separate bitfield to expose FCODE/PCODE. Currently,
+> >>> the lower 32 bit is reserved for chipid and 33-48 is reserved for speedbin,
+> >>> so I think we can use the rest of the 16 bits for SKU_ID. And within that
+> >>> 16bits, 12 bits should be sufficient for FCODE and the rest 8 bits
+> >>> reserved for future PCODE.
+> >> Right, sounds reasonable. Hopefully nothing overflows..
+> > +CC Elliot
+> > 
+> > Would you know whether these sizes ^ are going to be sufficient for
+> > the foreseeable future?
+> 
+> Also Akhil, 12 + 8 > 16.. did you mean 8 bits for both P and FCODE? Or
+> 12 for FCODE and 4 for PCODE?
 
-Thanks for doing this, but these Signed-off-by tags aren't correct.
-Signed-off-by is like signing a legal document.  It came out of the SCO
-lawsuits.  SCO was a scam where SCO claimed that Linux stole their
-source code and tried to get Linux users to pay licensing fees.  (No one
-stole anything and SCO didn't even own the copyrights to Unix, those
-belonged to IBM).
+Sorry, "8 bits" was a typo. You are right, 12 bits for Fcode and 4 bits for PCODE.
 
-You could maybe use the Reported-by: or Suggested-by: tags for Su Hui.
-But the rest of us could just be Cc:
+-Akhil
 
-Cc: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: wenlunpeng <wenlunpeng@uniontech.com>
-Reported-by: Su Hui <suhui@nfschina.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
-
-
-regards,
-dan carpenter
-
+> 
+> Konrad
