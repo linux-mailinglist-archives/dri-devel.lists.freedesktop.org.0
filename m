@@ -2,71 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672BE93EEF0
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 09:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E776193EF3B
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 09:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C09C110E1FD;
-	Mon, 29 Jul 2024 07:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D1210E326;
+	Mon, 29 Jul 2024 07:58:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="kjv8p/go";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nL+owgVJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E103A10E1FD
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 07:48:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1722239327; x=1722844127; i=markus.elfring@web.de;
- bh=3dLNP6ha5L8O6bnFV3P1s/tNTDR77O8ngc2Z3LIdL5M=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=kjv8p/goYjNyWD65H5F25SISxM9y/D49LA4z5+CY0fcTPOWoPHFfgid+uLTnFtzN
- QrTRds5FdYF3Hv0ANHjJfZY52GSrVomdjTr8SuHMrAY+WAWgV7huEGQX7geY270/8
- f0gffgqJsOheq0ObrTUa528+jeaI09h8zHtzsrYbDomNQB0yzppcAi7jPzm6pwOa0
- NvMo11vNgf75qczkPY3B3UUbhq8WfbHl+lufwRSnpy2ubgm0Yhp2GlHgbSiHQCv/G
- 79YznWq84XDlqHZCdfdpAo0nqlcbV6JxLeDHgTh/wVES5T7I42KFvO3vM+cmz+SaC
- tnfxtZ43ZEcwwFOBXg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N7gXQ-1sBuiz3REw-0153pK; Mon, 29
- Jul 2024 09:48:47 +0200
-Message-ID: <439e8600-91ef-4c48-8d5d-f02a497718c4@web.de>
-Date: Mon, 29 Jul 2024 09:48:47 +0200
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B45C10E0C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 07:58:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id ADA7FCE0956;
+ Mon, 29 Jul 2024 07:58:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EF1EC32786;
+ Mon, 29 Jul 2024 07:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1722239884;
+ bh=9/QZoqTnuksutznbHyJiFs5xrF43qpncfmNmxjSTxM4=;
+ h=Subject:To:Cc:From:Date:From;
+ b=nL+owgVJ9GhK/VPa+CKAc5tp7mEEf0BeYKrS7H6RvA9nsyZ/HIlXpLJ1bWcH1NWWp
+ uW847nZ/COJuHre3O/nn3S3S6UjbuEK8xLvHb5fGCbckDAWEDdbOgW7sAEe2nNEUaj
+ f4uPJqt2w9usx2iYNUDGjgpflQ2gz3ZS4xqmEejs=
+Subject: Patch "drm/xe: Use write-back caching mode for system memory on DGFX"
+ has been added to the 6.10-stable tree
+To: dri-devel@lists.freedesktop.org, effie.yu@intel.com,
+ gregkh@linuxfoundation.org, joonas.lahtinen@linux.intel.com,
+ jose.souza@intel.com, lucas.demarchi@intel.com,
+ maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
+ matthew.brost@intel.com, michal.mrozek@intel.com, pallavi.mishra@intel.com,
+ rodrigo.vivi@intel.com, thomas.hellstrom@linux.intel.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 29 Jul 2024 09:57:41 +0200
+Message-ID: <2024072941-squealer-reward-4882@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] drm/loongson: Add dummy gpu driver as a
- subcomponent
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20240728152858.346211-1-sui.jingfeng@linux.dev>
- <20240728152858.346211-3-sui.jingfeng@linux.dev>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240728152858.346211-3-sui.jingfeng@linux.dev>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DwFf8raUcUPakBgYkEZ+Z0vYtFpYB9XQZqXPfzuXX9SQlG0bSwj
- B/ay3HNglCy9UCqpGRbZz29AeJT5NcnhwlyTGUMUDUx2ZkxZ/P4yfbCApSz+3c9PMN3oymI
- A01YRd4EhsZ3hRsQVEcb5qFGCcRNNvPvxDGUMuctioORxXk5rDdBsKhldMN7sFF3Fb50fqi
- 3CHQPG70gH2yS93s/W1Yw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:k8BcT9I67pU=;hgr4dPf7d473opHP9W3cu+dMEq4
- DjiIkqCSYVI6xTaYBbntODw2f4NxoqEBhl2xFaqg8XvZ/4ldW0vdbXLZxmzhg4AgJ8a3sN7Mm
- HlwgDxOi9c+uIMLXKDq0sd08t9QeE/4kB8MMDco5J//JWpRukBIkrW6UdRAolu5Ic/snxkCSD
- abwhIfFHwqUqOYkSYQ5S7ujMnnxWQ/oQudtBRUbWxLW3N/DB1tSav7U30SnxNx+IDVdsFoqOu
- Vfmznw02ZmdsY7D+EMWZrlzyiU1Lf4a0hQ3uSKyV7gidaw0XVLmIwe843bKO0kJaC/Is5SvAZ
- ww/Trww2NYJ1VJgErNcbcKFcFp/1JnENn97k7v8TixNBIGo75VPMDetD1GQdm6JDTZYyi1dgl
- Mfpv+4g7Un13jZIDHcs86y/1EPFDHDFAktQZWhdtVQCOlvLrTh6eYkHWhsfPe3kRX/hzo+d+8
- psJ58/iq17ZcS4bRjLcv4YmKU2uz/iZefER8phA1Gbu9W5sMZWSNWIOWJhgTb+qiEIXc52NaF
- kox/KA8YldML/plCLLQ7BpwFH9psNzmJlDMKDtadV4fZHw3Teyn5YLDRw7AJsNb1DTYZiD3LS
- 297O2guBLwGtIreaIAjpBm+FSTD9Y0GTd9icZBLVou4Gy1Jck64tfvgsAPmtXLNjGr+lE2tAf
- QzxbkCXPOU95QuO0VZO9keW8UFh01yujj1ctbU1eZJj1VdSt4N7AJCbQ7m5yifeS705/ODFs7
- V8mOMVJyFLPzDgF9QRwUvoa+H7Rxj7wERnJZCjy2l7vRJRTCB8IJIj06yefTcr+f+P8CwfcTE
- 53JPTCwBSXmmY5V7kz/ENQew==
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,20 +59,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> +++ b/drivers/gpu/drm/loongson/Makefile
-> @@ -17,6 +17,9 @@ loongson-y :=3D \
->  	lsdc_probe.o \
->  	lsdc_ttm.o
->
-> +loongson-y +=3D \
-> +	loonggpu_pci_drv.o
-> +
->  loongson-y +=3D loongson_device.o \
-=E2=80=A6
 
-Why do you propose to adjust the macro contents multiple times here?
-(Can it be sufficient to specify the desired file dependencies directly?)
+This is a note to let you know that I've just added the patch titled
 
-Regards,
-Markus
+    drm/xe: Use write-back caching mode for system memory on DGFX
+
+to the 6.10-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-xe-use-write-back-caching-mode-for-system-memory-on-dgfx.patch
+and it can be found in the queue-6.10 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 5207c393d3e7dda9aff813d6b3e2264370d241be Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Date: Fri, 5 Jul 2024 15:28:28 +0200
+Subject: drm/xe: Use write-back caching mode for system memory on DGFX
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+commit 5207c393d3e7dda9aff813d6b3e2264370d241be upstream.
+
+The caching mode for buffer objects with VRAM as a possible
+placement was forced to write-combined, regardless of placement.
+
+However, write-combined system memory is expensive to allocate and
+even though it is pooled, the pool is expensive to shrink, since
+it involves global CPU TLB flushes.
+
+Moreover write-combined system memory from TTM is only reliably
+available on x86 and DGFX doesn't have an x86 restriction.
+
+So regardless of the cpu caching mode selected for a bo,
+internally use write-back caching mode for system memory on DGFX.
+
+Coherency is maintained, but user-space clients may perceive a
+difference in cpu access speeds.
+
+v2:
+- Update RB- and Ack tags.
+- Rephrase wording in xe_drm.h (Matt Roper)
+v3:
+- Really rephrase wording.
+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Fixes: 622f709ca629 ("drm/xe/uapi: Add support for CPU caching mode")
+Cc: Pallavi Mishra <pallavi.mishra@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Effie Yu <effie.yu@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Jose Souza <jose.souza@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+Cc: <stable@vger.kernel.org> # v6.8+
+Acked-by: Matthew Auld <matthew.auld@intel.com>
+Acked-by: José Roberto de Souza <jose.souza@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Fixes: 622f709ca629 ("drm/xe/uapi: Add support for CPU caching mode")
+Acked-by: Michal Mrozek <michal.mrozek@intel.com>
+Acked-by: Effie Yu <effie.yu@intel.com> #On chat
+Link: https://patchwork.freedesktop.org/patch/msgid/20240705132828.27714-1-thomas.hellstrom@linux.intel.com
+(cherry picked from commit 01e0cfc994be484ddcb9e121e353e51d8bb837c0)
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/xe/xe_bo.c       |   47 +++++++++++++++++++++++----------------
+ drivers/gpu/drm/xe/xe_bo_types.h |    3 +-
+ include/uapi/drm/xe_drm.h        |    8 +++++-
+ 3 files changed, 37 insertions(+), 21 deletions(-)
+
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -317,7 +317,7 @@ static struct ttm_tt *xe_ttm_tt_create(s
+ 	struct xe_device *xe = xe_bo_device(bo);
+ 	struct xe_ttm_tt *tt;
+ 	unsigned long extra_pages;
+-	enum ttm_caching caching;
++	enum ttm_caching caching = ttm_cached;
+ 	int err;
+ 
+ 	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
+@@ -331,26 +331,35 @@ static struct ttm_tt *xe_ttm_tt_create(s
+ 		extra_pages = DIV_ROUND_UP(xe_device_ccs_bytes(xe, bo->size),
+ 					   PAGE_SIZE);
+ 
+-	switch (bo->cpu_caching) {
+-	case DRM_XE_GEM_CPU_CACHING_WC:
+-		caching = ttm_write_combined;
+-		break;
+-	default:
+-		caching = ttm_cached;
+-		break;
+-	}
+-
+-	WARN_ON((bo->flags & XE_BO_FLAG_USER) && !bo->cpu_caching);
+-
+ 	/*
+-	 * Display scanout is always non-coherent with the CPU cache.
+-	 *
+-	 * For Xe_LPG and beyond, PPGTT PTE lookups are also non-coherent and
+-	 * require a CPU:WC mapping.
++	 * DGFX system memory is always WB / ttm_cached, since
++	 * other caching modes are only supported on x86. DGFX
++	 * GPU system memory accesses are always coherent with the
++	 * CPU.
+ 	 */
+-	if ((!bo->cpu_caching && bo->flags & XE_BO_FLAG_SCANOUT) ||
+-	    (xe->info.graphics_verx100 >= 1270 && bo->flags & XE_BO_FLAG_PAGETABLE))
+-		caching = ttm_write_combined;
++	if (!IS_DGFX(xe)) {
++		switch (bo->cpu_caching) {
++		case DRM_XE_GEM_CPU_CACHING_WC:
++			caching = ttm_write_combined;
++			break;
++		default:
++			caching = ttm_cached;
++			break;
++		}
++
++		WARN_ON((bo->flags & XE_BO_FLAG_USER) && !bo->cpu_caching);
++
++		/*
++		 * Display scanout is always non-coherent with the CPU cache.
++		 *
++		 * For Xe_LPG and beyond, PPGTT PTE lookups are also
++		 * non-coherent and require a CPU:WC mapping.
++		 */
++		if ((!bo->cpu_caching && bo->flags & XE_BO_FLAG_SCANOUT) ||
++		    (xe->info.graphics_verx100 >= 1270 &&
++		     bo->flags & XE_BO_FLAG_PAGETABLE))
++			caching = ttm_write_combined;
++	}
+ 
+ 	err = ttm_tt_init(&tt->ttm, &bo->ttm, page_flags, caching, extra_pages);
+ 	if (err) {
+--- a/drivers/gpu/drm/xe/xe_bo_types.h
++++ b/drivers/gpu/drm/xe/xe_bo_types.h
+@@ -66,7 +66,8 @@ struct xe_bo {
+ 
+ 	/**
+ 	 * @cpu_caching: CPU caching mode. Currently only used for userspace
+-	 * objects.
++	 * objects. Exceptions are system memory on DGFX, which is always
++	 * WB.
+ 	 */
+ 	u16 cpu_caching;
+ 
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -776,7 +776,13 @@ struct drm_xe_gem_create {
+ #define DRM_XE_GEM_CPU_CACHING_WC                      2
+ 	/**
+ 	 * @cpu_caching: The CPU caching mode to select for this object. If
+-	 * mmaping the object the mode selected here will also be used.
++	 * mmaping the object the mode selected here will also be used. The
++	 * exception is when mapping system memory (including data evicted
++	 * to system) on discrete GPUs. The caching mode selected will
++	 * then be overridden to DRM_XE_GEM_CPU_CACHING_WB, and coherency
++	 * between GPU- and CPU is guaranteed. The caching mode of
++	 * existing CPU-mappings will be updated transparently to
++	 * user-space clients.
+ 	 */
+ 	__u16 cpu_caching;
+ 	/** @pad: MBZ */
+
+
+Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
+
+queue-6.10/drm-xe-use-write-back-caching-mode-for-system-memory-on-dgfx.patch
+queue-6.10/drm-ttm-tests-fix-a-warning-in-ttm_bo_unreserve_bulk.patch
