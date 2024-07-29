@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889AA93EB7F
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:44:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF9D293EB87
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:45:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BDC110E23D;
-	Mon, 29 Jul 2024 02:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D50310E253;
+	Mon, 29 Jul 2024 02:45:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cmV0ZuPH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RU4yPuEk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E6410E2B7
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:44:29 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id
- 41be03b00d2f7-6bce380eb96so1461731a12.0
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 19:44:29 -0700 (PDT)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67BD910E253
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:45:46 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-2cb510cd097so2074538a91.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 19:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722221069; x=1722825869; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1722221146; x=1722825946; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hxss6iSMiIilMwCNJtHyPtBSL44EBghXiK4U5v9w5a8=;
- b=cmV0ZuPHzOS6Slvxcdied5UxTXmM2uAV3bThZWNy4i/rSUaI10HfHnaaEB0FM3w+/o
- Aq7flzyqUy5CX456tKAm7ghqDEGdOJzusn6XMEh5BjC0ATzHoojgQEahsWVPY8cbK4oN
- CRN3ghz08EfObLbiJzPdK4v1XndbPust/n8LxZ2H9z40Pht6OKdR+H+5ebYEI3MPC7gj
- ebbQczwQTuOpotrcAKP8OxEQeEPf07VZFpDARyPgjas+ieQws8xIupqF/uU66gAh06sZ
- vOexN9GPYVOMbNfGnaGZ3HsxPI4T/u8Y4Uab501A9jwTzjQWf8dD5+3xeX1g9WWh/DFU
- XnoQ==
+ bh=K/nz1JHR4z8p+ajw1D912vGA5V6XqUcGmzMFKN4JA2M=;
+ b=RU4yPuEk7KS+lowDW/TZZgoFdSR30ur5YqNSMs0ybXSt59UaWbI4teBsc4zURbcnOF
+ xLSWel0hdSXWCvBCjkCZxoS2HMVW09dSiPGwGo0zIkofW/I9J+8UxdxUauPVjVzUoeU9
+ GTqWxBNm2I/IsSh6vpCQUc0D+/qDpayKEIzz88I26R2DQozfIyS3I+yBGdv1ZXCXRj6h
+ kgZaZG0/Sg6Qxt3+jRiL4aNtlZ8y1MKZC1TkQlJYPJzN4V6Yu2I0M8xEtlUStP3btZnZ
+ 77idOJJ9MZR+lI3LM1JvSxdT20qJAs31EFAduDvA2/FsvSWjkgKwa5KQ8s3PXGuH8v3I
+ spRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722221069; x=1722825869;
+ d=1e100.net; s=20230601; t=1722221146; x=1722825946;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hxss6iSMiIilMwCNJtHyPtBSL44EBghXiK4U5v9w5a8=;
- b=YF3VkbrDKwneCNK4s37nJwlu6WSBSBOBh4qIy32G6E4dcEHfhbIYpWDzSFJiRdApIr
- BqWA0dHTZDZdxplc2RwlbzZs69VZKrljz61ELYrGjvs2qVGxwKkVyg8YGHCKYsQVyhq5
- Djlx2NG8oy+N+la7Rqh6NPm1UIYsnQWLkATY+kQnqwTll9WgjosQlv7zr110kCH19xVu
- 6yEWNNiCy4+rXKe/qdStmuw+9dky9c8zj+9J6ZANcWiyqt4sNeGvkslZYB50kJ7r8ecp
- W0F+e+JP4iriyn8K7HdXBbSqT/E8cvGkBSYpeNLSu/qaRWpxPqBtgaZ1AP+HE0qWNGAA
- KpNw==
+ bh=K/nz1JHR4z8p+ajw1D912vGA5V6XqUcGmzMFKN4JA2M=;
+ b=GLhUC3HGb51Osx4hKPtL7wDoHSpfRLJRnJYkM48tlrNfTnLfxkick9E6+Vo00PGMsX
+ YltvJrUwyonRQqjgvF0G6K8mWEVwVtN3bryIvojJnDrekrL+Ng2zKKGbv7vaNnkdd4j/
+ 3t9dgfrIUeNIP4Fx5B3qhXfP8k6297tEaUAGYoTQSHPiDsEUZUrU6fGQ4gbHmrOp4Rpb
+ EFDerL+0FJVXlRfNaCwlqWUtYs1yQTZ+ic1A+sRhkpq8Ekg5CK94Dd8X8OnQVLzHWSdO
+ TKgSBfTH+ccP5EcS/BedTese5g54w1LY27l9IoLvMy29R90qpk3/VMvv+WB8fvc+GH5o
+ PReQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUEqFAyT5memgJpz/skJtbYnON2Laq3hUOtqZOZ/iCV+oDbM3W89z/AAFLzkoBHX60yNNq1rbaAD3tUwbZAbqUOz0UBgYKnh7CagGUVFHG9
-X-Gm-Message-State: AOJu0YzqE7lqsU/GJdnXwW3fTIPrPI7IuAOIqDhgw/zpiE0ecCJuGwZP
- TWd2iZEJaB3ZdLcOL2W3dU51tr3OOcCNqADWhcfd8ULUTG2i5NCv
-X-Google-Smtp-Source: AGHT+IG7/eKYXg7QfYOb1CdYS0BMtkGw6Mkjs56lIRKp/S/546Q1z5Hj0Wkc3TWWQHawrwJ+z6MQVw==
-X-Received: by 2002:a05:6a20:1582:b0:1c4:c7ae:ecea with SMTP id
- adf61e73a8af0-1c4c7aeefb4mr1212793637.11.1722221069087; 
- Sun, 28 Jul 2024 19:44:29 -0700 (PDT)
+ AJvYcCU8Fjil5VlTwWSU6aiAHhdqqey1KnZdryLjF+Joqh3TsXbxd+dDs2DnrAo3Hm+E3sGj5PfV/H5LqAJTZ1OrvzpLvduCtdUGEgkFHP+EV+tQ
+X-Gm-Message-State: AOJu0YwJm5PEfwtC+Q5JW3Ot2flEkxjHZhSHH6QZRbkSaphapQWAARfw
+ Ocwqbvc5K4vBiZZQ9YOLzWStRkkiCldxwtybUTAUpfJe/RF//Ptr
+X-Google-Smtp-Source: AGHT+IENkAKdnpSBtIYs5HSWqyoiT1QcCfPMYBJH+JoZ3TUHyUdae/0TZfvoMrDMQbplggd9XcCiAw==
+X-Received: by 2002:a17:90b:4a03:b0:2ca:4fca:2892 with SMTP id
+ 98e67ed59e1d1-2cf7e095c49mr6901128a91.7.1722221145808; 
+ Sun, 28 Jul 2024 19:45:45 -0700 (PDT)
 Received: from localhost.localdomain ([223.104.210.31])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2cf28c55a38sm7332247a91.10.2024.07.28.19.40.01
+ 98e67ed59e1d1-2cf28c55a38sm7332247a91.10.2024.07.28.19.44.30
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 28 Jul 2024 19:44:28 -0700 (PDT)
+ Sun, 28 Jul 2024 19:45:45 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org
 Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
@@ -64,12 +64,10 @@ Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
  linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
  audit@vger.kernel.org, linux-security-module@vger.kernel.org,
  selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- Simon Horman <horms@kernel.org>, Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v4 06/11] mm/util: Deduplicate code in {kstrdup, kstrndup,
- kmemdup_nul}
-Date: Mon, 29 Jul 2024 10:37:14 +0800
-Message-Id: <20240729023719.1933-7-laoar.shao@gmail.com>
+ dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>
+Subject: [PATCH v4 07/11] mm/kmemleak: Replace strncpy() with __get_task_comm()
+Date: Mon, 29 Jul 2024 10:37:15 +0800
+Message-Id: <20240729023719.1933-8-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20240729023719.1933-1-laoar.shao@gmail.com>
 References: <20240729023719.1933-1-laoar.shao@gmail.com>
@@ -90,119 +88,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These three functions follow the same pattern. To deduplicate the code,
-let's introduce a common helper __kmemdup_nul().
+Since task lock was dropped from __get_task_comm(), it's safe to call it
+from kmemleak.
 
-Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+Using __get_task_comm() to read the task comm ensures that the name is
+always NUL-terminated, regardless of the source string. This approach also
+facilitates future extensions to the task comm.
+
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: Simon Horman <horms@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
 ---
- mm/util.c | 67 +++++++++++++++++++++----------------------------------
- 1 file changed, 26 insertions(+), 41 deletions(-)
+ mm/kmemleak.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/mm/util.c b/mm/util.c
-index 41c7875572ed..62a4686352b9 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -43,33 +43,40 @@ void kfree_const(const void *x)
- EXPORT_SYMBOL(kfree_const);
- 
- /**
-- * kstrdup - allocate space for and copy an existing string
-- * @s: the string to duplicate
-+ * __kmemdup_nul - Create a NUL-terminated string from @s, which might be unterminated.
-+ * @s: The data to copy
-+ * @len: The size of the data, including the null terminator
-  * @gfp: the GFP mask used in the kmalloc() call when allocating memory
-  *
-- * Return: newly allocated copy of @s or %NULL in case of error
-+ * Return: newly allocated copy of @s with NUL-termination or %NULL in
-+ * case of error
-  */
--noinline
--char *kstrdup(const char *s, gfp_t gfp)
-+static __always_inline char *__kmemdup_nul(const char *s, size_t len, gfp_t gfp)
- {
--	size_t len;
- 	char *buf;
- 
--	if (!s)
-+	buf = kmalloc_track_caller(len, gfp);
-+	if (!buf)
- 		return NULL;
- 
--	len = strlen(s) + 1;
--	buf = kmalloc_track_caller(len, gfp);
--	if (buf) {
--		memcpy(buf, s, len);
--		/* During memcpy(), the string might be updated to a new value,
--		 * which could be longer than the string when strlen() is
--		 * called. Therefore, we need to add a null termimator.
+diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+index d5b6fba44fc9..ef29aaab88a0 100644
+--- a/mm/kmemleak.c
++++ b/mm/kmemleak.c
+@@ -663,13 +663,7 @@ static struct kmemleak_object *__alloc_object(gfp_t gfp)
+ 		strncpy(object->comm, "softirq", sizeof(object->comm));
+ 	} else {
+ 		object->pid = current->pid;
+-		/*
+-		 * There is a small chance of a race with set_task_comm(),
+-		 * however using get_task_comm() here may cause locking
+-		 * dependency issues with current->alloc_lock. In the worst
+-		 * case, the command line is not correct.
 -		 */
--		buf[len - 1] = '\0';
--	}
-+	memcpy(buf, s, len);
-+	/* Ensure the buf is always NUL-terminated, regardless of @s. */
-+	buf[len - 1] = '\0';
- 	return buf;
- }
-+
-+/**
-+ * kstrdup - allocate space for and copy an existing string
-+ * @s: the string to duplicate
-+ * @gfp: the GFP mask used in the kmalloc() call when allocating memory
-+ *
-+ * Return: newly allocated copy of @s or %NULL in case of error
-+ */
-+noinline
-+char *kstrdup(const char *s, gfp_t gfp)
-+{
-+	return s ? __kmemdup_nul(s, strlen(s) + 1, gfp) : NULL;
-+}
- EXPORT_SYMBOL(kstrdup);
+-		strncpy(object->comm, current->comm, sizeof(object->comm));
++		__get_task_comm(object->comm, sizeof(object->comm), current);
+ 	}
  
- /**
-@@ -104,19 +111,7 @@ EXPORT_SYMBOL(kstrdup_const);
-  */
- char *kstrndup(const char *s, size_t max, gfp_t gfp)
- {
--	size_t len;
--	char *buf;
--
--	if (!s)
--		return NULL;
--
--	len = strnlen(s, max);
--	buf = kmalloc_track_caller(len+1, gfp);
--	if (buf) {
--		memcpy(buf, s, len);
--		buf[len] = '\0';
--	}
--	return buf;
-+	return s ? __kmemdup_nul(s, strnlen(s, max) + 1, gfp) : NULL;
- }
- EXPORT_SYMBOL(kstrndup);
- 
-@@ -190,17 +185,7 @@ EXPORT_SYMBOL(kvmemdup);
-  */
- char *kmemdup_nul(const char *s, size_t len, gfp_t gfp)
- {
--	char *buf;
--
--	if (!s)
--		return NULL;
--
--	buf = kmalloc_track_caller(len + 1, gfp);
--	if (buf) {
--		memcpy(buf, s, len);
--		buf[len] = '\0';
--	}
--	return buf;
-+	return s ? __kmemdup_nul(s, len + 1, gfp) : NULL;
- }
- EXPORT_SYMBOL(kmemdup_nul);
- 
+ 	/* kernel backtrace */
 -- 
 2.43.5
 
