@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F77693EDDC
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 09:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE6393EDD8
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 09:03:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD6610E30A;
-	Mon, 29 Jul 2024 07:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CDED10E16B;
+	Mon, 29 Jul 2024 07:03:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46EFA10E30A
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 07:03:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83EF310E113
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 07:03:03 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=ratatoskr.trumtrar.info)
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <s.trumtrar@pengutronix.de>)
- id 1sYKP2-0003xR-K1; Mon, 29 Jul 2024 09:02:40 +0200
+ id 1sYKP3-0003xR-F8; Mon, 29 Jul 2024 09:02:41 +0200
 From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Subject: [PATCH v2 0/2] drm/panel: simple: add Innolux G070ACE-LH3
-Date: Mon, 29 Jul 2024 09:02:37 +0200
-Message-Id: <20240729-b4-v6-10-topic-innolux-v2-0-27d32c766ce5@pengutronix.de>
+Date: Mon, 29 Jul 2024 09:02:38 +0200
+Subject: [PATCH v2 1/2] dt-bindings: display: simple: Document support for
+ Innolux G070ACE-LH3
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAI0+p2YC/4WNQQqDMBBFryKz7pRJlApd9R7FhTETHSiJJBoU8
- e5NvUCX78F//4DEUTjBszogcpYkwRfQtwqGqfcjo9jCoEk31CqNpsH8QEW4hFkGFO/DZ92wdsS
- OHNvGKCjjObKT7Qq/u8KTpCXE/frJ6mf/JrNCQmOoH5xua0v2NbMf1yUGL9vdMnTneX4BmGcMi
- MEAAAA=
+Message-Id: <20240729-b4-v6-10-topic-innolux-v2-1-27d32c766ce5@pengutronix.de>
+References: <20240729-b4-v6-10-topic-innolux-v2-0-27d32c766ce5@pengutronix.de>
+In-Reply-To: <20240729-b4-v6-10-topic-innolux-v2-0-27d32c766ce5@pengutronix.de>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -61,30 +60,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds support for the Innolux G070ACE-LH3 to the panel-simple
-driver and adds the according compatible to the devicetree bindings.
+Add Innolux G070ACE-LH3 7" WVGA (800x480) TFT LCD panel compatible string.
 
 Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
-Changes in v2:
-- add acked-by
-- update [vh]blank min/max values
+ Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-- Link to v1: https://lore.kernel.org/r/20240712-b4-v6-10-topic-innolux-v1-0-bb0acf273d0d@pengutronix.de
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 5067f5c0a2723..e9941a077a20d 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -180,6 +180,8 @@ properties:
+       - innolux,at070tn92
+         # Innolux G070ACE-L01 7" WVGA (800x480) TFT LCD panel
+       - innolux,g070ace-l01
++        # Innolux G070ACE-LH3 7" WVGA (800x480) TFT LCD panel with WLED backlight
++      - innolux,g070ace-lh3
+         # Innolux G070Y2-L01 7" WVGA (800x480) TFT LCD panel
+       - innolux,g070y2-l01
+         # Innolux G070Y2-T02 7" WVGA (800x480) TFT LCD TTL panel
 
----
-Steffen Trumtrar (2):
-      dt-bindings: display: simple: Document support for Innolux G070ACE-LH3
-      drm/panel: simple: add Innolux G070ACE-LH3 LVDS display support
-
- .../bindings/display/panel/panel-simple.yaml       |  2 ++
- drivers/gpu/drm/panel/panel-simple.c               | 35 ++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
----
-base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-change-id: 20240712-b4-v6-10-topic-innolux-3f0ef0fed4b1
-
-Best regards,
 -- 
-Steffen Trumtrar <s.trumtrar@pengutronix.de>
+2.45.1
 
