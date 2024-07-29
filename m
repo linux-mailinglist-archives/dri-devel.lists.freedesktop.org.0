@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F10C93EB90
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3411493EB98
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C085510E2A4;
-	Mon, 29 Jul 2024 02:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A450110E2B7;
+	Mon, 29 Jul 2024 02:47:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="U8+nIz0H";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="czY8711t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
- [209.85.215.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 716FD10E2A4
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:46:27 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id
- 41be03b00d2f7-7515437ff16so2242486a12.2
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 19:46:27 -0700 (PDT)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52A4810E2C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:47:19 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-2cb5243766dso2083990a91.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 19:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722221187; x=1722825987; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1722221239; x=1722826039; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aN2V+duoRLP5mjQclolxXRJl1PN7YZIwA2PLtFFVKQo=;
- b=U8+nIz0HHhqKXLzBTSNvA2SRSQ9cccKWMSloHPNCAnh18EtJyI78z+/r2efToqm8+b
- SUqvB18Ih0IO1zRbuEh7wBDGx46uU7YCG1bE/9y2WZlFCFf57nUzHgF0DAenj3v+npoY
- eJn0eYOhb5TU0JNStMPp314XQxunsAUwiuOJ0Zd7x1zDlU7aXDuS3cUocu8fkTQG6aqs
- k+5G11PQidXI6Wi9q0jFH3GaPD2Cq8/Kaf09XvJu13hlTgOQkwSpYdEH6AbOLCn1tbQg
- GdrH+3jBn6X2KoA3LmXFskeA798weg0bh1zk5qEzV9uZxB/cF5dnbwVQY6kWgzgQdt5R
- A89Q==
+ bh=/Cv3tjdGG97YCwgOlXgEBsrvlHrrgiTFYRDjMKYVYxc=;
+ b=czY8711tLze7bidMeH7D3Aae8ApbKvyMhKZHHvdGigZmIKs+mWYRmXWHFYikhKsaV+
+ 49W90mEn5KJZzTNC6wvY8Zc2T1dNUzq+dUXq7kSB1lLTZR6x1JHJec+2QmJTip3PGCFt
+ F7qVaKvRf/uVMd+TMdvZdjq16qFVNuSwN1M+qLDcNV8oCILYdICfxl0wEIm7tsiNoR74
+ jheIJWBThmSbMXMxj3Tpw7OgFA9yZ0mC27vvDFGlfUAIM+Ko6emuSBFHX4OTR3W+OfXq
+ 4fYIguevp3uReieub9W8GuCTvhOlYZE/84chmScBQtuuEepJT4S6qhOHa78K9FR0gOiA
+ 6C1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722221187; x=1722825987;
+ d=1e100.net; s=20230601; t=1722221239; x=1722826039;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aN2V+duoRLP5mjQclolxXRJl1PN7YZIwA2PLtFFVKQo=;
- b=xHqVWO/6ozZI2ZNLwhA13o9QP+lPcehUuUWW2dDbqvCE1jw8RaNuufy1e9wGJezTvZ
- QTcFyFnJCFzoTXf0MyJqNYo63upZeNbwqvWnm0xdnYZcuFuTHsnm6LMfSCm/ZK4W8fQR
- sxthCDll+0uKmcT6hWy2IasPK8MKja/8tllIO0jpnB2suLYOTlSw67F6+38M9kwu+RDC
- 1IQVbEe2Hk2WmGjVYBg/i3N7hMByAGk+HAD/DbUa6t1F6sE3UIndDkWn96sfRLfevSN5
- ToffZo9x2BCjixnLx7cH+VxyuSyRAG9rPJlwQd0CUHzxDJP8gXs43/Pr4CoL+i1eK6m9
- uJQw==
+ bh=/Cv3tjdGG97YCwgOlXgEBsrvlHrrgiTFYRDjMKYVYxc=;
+ b=gW+q80/sVjuMy6ZKW0Lfx4EQHGXYp8qeiL07OGniTEOttFdVSXEdWryIV9oyB5SZuL
+ +QOkjYQuH5tX4eFeOqjBC7nNk3O4gHtCLqCJCpNrbdXcKqKWue0aepC+7/f/ABLtbywb
+ OMDD4Lxj+QxbE6wfBRuD/oIyH12Of9YoDgYjcSk6We3Ut7Sg1frQq3xhr4ltKPq7GrtD
+ ZLniMtlKddubNUEv5hp6vmVzngmwZixYHU2TepMtZzS4rpnJLSyIFubtPqUeG6nXFbkf
+ wymW4GP9yXGQBtyrsMRKaij+12IgCGKxq4t8RBcZV7UjORAvJa5ojuY9Z6tNaEyc65Eh
+ F8Qw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXc/yJdYcJgThI8uodXspMJrxETaJ3qR0uQRuhhzhxtX1Ek3lqi+mihyASTti2zmUi7QVU7av1H0ECED5zDwOpLB/OU73YehEhiCDWekdTx
-X-Gm-Message-State: AOJu0YxXGe/Rh6GW8fLpQLIiGGmfEVRDahvgLaLJW7VvMdq5mcgNbIgV
- g4zpjsWYznfv6TtSDlhIBUtlbg5y6hNItSgf0X1PsTiN7qqkDzPN
-X-Google-Smtp-Source: AGHT+IFg6cYKlkoyAPcpyLktfLarITyb9Rzi/fq7hOtiqCqd30rMJ+pCgZRrHbxyCAgQM++WsL2P3A==
-X-Received: by 2002:a05:6a20:7fa6:b0:1c3:a55e:6199 with SMTP id
- adf61e73a8af0-1c4a14ded25mr9866605637.44.1722221186954; 
- Sun, 28 Jul 2024 19:46:26 -0700 (PDT)
+ AJvYcCXi3vZfb3aANVRuf8vaFQOrM0FTuk+wmYGfoXP0VAVsTlVIAJ4t3g/HiPraycohojfnzNtNVNaDeUWh9bijBYN+5c4Mk4c91VcFbOjV8dg/
+X-Gm-Message-State: AOJu0YwL1XzmuezAFCE+yR9xme4RA5ROok2Qyh0gFWwtMpLbp53K/Ln7
+ X2/+qkjKcH0YHZQijLyRAFe6TF9BDkkP3qxFinCLpO0xsmVCbH+0
+X-Google-Smtp-Source: AGHT+IFj28K/vh2Wo2JpPTzYf/GZmJskWb9fJ0b0sRrDd73+gDsWQ9AUVDG1zRV3AS7zIGO4lNszYQ==
+X-Received: by 2002:a17:90b:4ecc:b0:2c9:6d07:18f4 with SMTP id
+ 98e67ed59e1d1-2cf7e71b7b6mr7068182a91.35.1722221238743; 
+ Sun, 28 Jul 2024 19:47:18 -0700 (PDT)
 Received: from localhost.localdomain ([223.104.210.31])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2cf28c55a38sm7332247a91.10.2024.07.28.19.45.48
+ 98e67ed59e1d1-2cf28c55a38sm7332247a91.10.2024.07.28.19.46.30
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 28 Jul 2024 19:46:26 -0700 (PDT)
+ Sun, 28 Jul 2024 19:47:18 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org
 Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
@@ -64,10 +64,12 @@ Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
  linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
  audit@vger.kernel.org, linux-security-module@vger.kernel.org,
  selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH v4 08/11] tsacct: Replace strncpy() with __get_task_comm()
-Date: Mon, 29 Jul 2024 10:37:16 +0800
-Message-Id: <20240729023719.1933-9-laoar.shao@gmail.com>
+ dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [PATCH v4 09/11] tracing: Replace strncpy() with __get_task_comm()
+Date: Mon, 29 Jul 2024 10:37:17 +0800
+Message-Id: <20240729023719.1933-10-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20240729023719.1933-1-laoar.shao@gmail.com>
 References: <20240729023719.1933-1-laoar.shao@gmail.com>
@@ -93,23 +95,40 @@ always NUL-terminated, regardless of the source string. This approach also
 facilitates future extensions to the task comm.
 
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- kernel/tsacct.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/trace/trace.c             | 2 +-
+ kernel/trace/trace_events_hist.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/tsacct.c b/kernel/tsacct.c
-index 4252f0645b9e..6b094d5d9135 100644
---- a/kernel/tsacct.c
-+++ b/kernel/tsacct.c
-@@ -76,7 +76,7 @@ void bacct_add_tsk(struct user_namespace *user_ns,
- 	stats->ac_minflt = tsk->min_flt;
- 	stats->ac_majflt = tsk->maj_flt;
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index 578a49ff5c32..ce94a86154a2 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -1907,7 +1907,7 @@ __update_max_tr(struct trace_array *tr, struct task_struct *tsk, int cpu)
+ 	max_data->critical_start = data->critical_start;
+ 	max_data->critical_end = data->critical_end;
  
--	strncpy(stats->ac_comm, tsk->comm, sizeof(stats->ac_comm));
-+	__get_task_comm(stats->ac_comm, sizeof(stats->ac_comm), tsk);
+-	strncpy(max_data->comm, tsk->comm, TASK_COMM_LEN);
++	__get_task_comm(max_data->comm, TASK_COMM_LEN, tsk);
+ 	max_data->pid = tsk->pid;
+ 	/*
+ 	 * If tsk == current, then use current_uid(), as that does not use
+diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
+index 6ece1308d36a..721d4758a79f 100644
+--- a/kernel/trace/trace_events_hist.c
++++ b/kernel/trace/trace_events_hist.c
+@@ -1599,7 +1599,7 @@ static inline void save_comm(char *comm, struct task_struct *task)
+ 		return;
+ 	}
+ 
+-	strncpy(comm, task->comm, TASK_COMM_LEN);
++	__get_task_comm(comm, TASK_COMM_LEN, task);
  }
  
- 
+ static void hist_elt_data_free(struct hist_elt_data *elt_data)
 -- 
 2.43.5
 
