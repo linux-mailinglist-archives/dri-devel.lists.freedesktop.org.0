@@ -2,81 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DC793EBA6
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF8993EB8D
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15D1110E2CA;
-	Mon, 29 Jul 2024 02:48:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="br6Lvn+Z";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2358E10E221;
+	Mon, 29 Jul 2024 02:46:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2613610E2CA
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:48:14 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-1fc5549788eso19481465ad.1
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 19:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722221294; x=1722826094; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uws88M38Us6mZwthahlWUK7fM6+CMa7f0lHdNpc5/ec=;
- b=br6Lvn+ZTlJPUggzF0teH/Su8I16hIdWTb3h7XeLYaoO0JzgPu+n4FBaFgeeNujbhR
- ghfEyWAEe0deanyP6bC38zBbkeyo2GHtPcF1AjDOekOj/W57pt5zgzw2jqvOEBAAQbgc
- hZfmMkyp+JXL1RY4MyCZ7687IaYrSsvc6S43y8ifgAJwqGrsKDy1h4o1SYGgHhm9S0Mn
- r5NIbxCeeFK6SHv1HQFraAredUjqk/sqt0nj3zhCn9aYYAQpJ59xQjctTlABqHpSRDVc
- ekIo39b5n/yzoztxl2fIeA+OUgGlahx8arLBjg3IEfDVF+NldZ+bv1c0j2ONP3LRUYKS
- b1xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722221294; x=1722826094;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uws88M38Us6mZwthahlWUK7fM6+CMa7f0lHdNpc5/ec=;
- b=olFdYvCjObLjE5nT/UQZZMwQ/eQUZALNUkXXHlx3KvCZ7RhSz4P0hTkqpatqNj0Nrg
- XnM+Jjpp0X0IVSsFVte0SerE8b1WzIsrpXF5PGOOOE7XQOoHMsFX9HedRIoii5/ewPf9
- whsCa2JVgpWwfg7ftEbPDjqfs3Tzq2WaI8zDyTyamG/I1FuzjKxiElA4h4JpwJyAEhpV
- Yln0dBgAgXUVAi/DWz8SPFeFZ6jD5oQxzvP7W6tHZ8zAz67DL/fTrHB8POufEb00AR80
- icsHn//urtk1gB9Bli2KY65+fZw560l9aOq3cpVmFTruSkyIg5IHbyQcC7NRcweOAMPH
- cvzg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXmyls/U4m1/GvHEZ9VSuYNhM/6Fm88/iQjduVXsZAIs7mbNdLwOgc9MmtlzsF+RyfSJ4OD82pG20EYHKLSdTiL40jfNUp7oM0+IqSvzR5I
-X-Gm-Message-State: AOJu0YxgTMwEn1M9yqhF87qzYR9e+HSH2eZdB+C1JHnD/4hoEf/mnj48
- EYmeO2Ekm4KIRWGks6i2hpx6JQlDu6yVBAfEsIMmuqHO5ZGCkXtf
-X-Google-Smtp-Source: AGHT+IGofcCeds74VK5yzpBY91R2MnaRyI1ieEFwQ1nBe/Bs8+j0QLJHRaMLwHU9stQw4nuIemwGyw==
-X-Received: by 2002:a17:90a:888:b0:2cb:55f9:b7c5 with SMTP id
- 98e67ed59e1d1-2cf7e1df02dmr7584677a91.12.1722221293603; 
- Sun, 28 Jul 2024 19:48:13 -0700 (PDT)
-Received: from localhost.localdomain ([223.104.210.31])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2cf28c55a38sm7332247a91.10.2024.07.28.19.47.55
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 28 Jul 2024 19:48:13 -0700 (PDT)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: akpm@linux-foundation.org
-Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
- alexei.starovoitov@gmail.com, rostedt@goodmis.org, catalin.marinas@arm.com,
- penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- audit@vger.kernel.org, linux-security-module@vger.kernel.org,
- selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
-Subject: [PATCH v4 11/11] drm: Replace strcpy() with __get_task_comm()
-Date: Mon, 29 Jul 2024 10:37:19 +0800
-Message-Id: <20240729023719.1933-12-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20240729023719.1933-1-laoar.shao@gmail.com>
-References: <20240729023719.1933-1-laoar.shao@gmail.com>
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79F7610E221
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:46:19 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4WXN142Df4z20krH;
+ Mon, 29 Jul 2024 10:42:00 +0800 (CST)
+Received: from kwepemm600007.china.huawei.com (unknown [7.193.23.208])
+ by mail.maildlp.com (Postfix) with ESMTPS id 432FE1A0190;
+ Mon, 29 Jul 2024 10:46:16 +0800 (CST)
+Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.178.219) by
+ kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 29 Jul 2024 10:46:15 +0800
+From: Zenghui Yu <yuzenghui@huawei.com>
+To: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+CC: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
+ <Brian.Starkey@arm.com>, <jstultz@google.com>, <tjmercier@google.com>,
+ <shuah@kernel.org>, <wanghaibin.wang@huawei.com>, Zenghui Yu
+ <yuzenghui@huawei.com>
+Subject: [PATCH v2] kselftests: dmabuf-heaps: Ensure the driver name is
+ null-terminated
+Date: Mon, 29 Jul 2024 10:46:04 +0800
+Message-ID: <20240729024604.2046-1-yuzenghui@huawei.com>
+X-Mailer: git-send-email 2.23.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.178.219]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemm600007.china.huawei.com (7.193.23.208)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,47 +56,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prevent erros from occurring when the src string is longer than the
-dst string in strcpy(), we should use __get_task_comm() instead. This
-approach also facilitates future extensions to the task comm.
+Even if a vgem device is configured in, we will skip the import_vgem_fd()
+test almost every time.
 
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
+  TAP version 13
+  1..11
+  # Testing heap: system
+  # =======================================
+  # Testing allocation and importing:
+  ok 1 # SKIP Could not open vgem -1
+
+The problem is that we use the DRM_IOCTL_VERSION ioctl to query the driver
+version information but leave the name field a non-null-terminated string.
+Terminate it properly to actually test against the vgem device.
+
+While at it, let's check the length of the driver name is exactly 4 bytes
+and return early otherwise (in case there is a name like "vgemfoo" that
+gets converted to "vgem\0" unexpectedly).
+
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
 ---
- drivers/gpu/drm/drm_framebuffer.c     | 2 +-
- drivers/gpu/drm/i915/i915_gpu_error.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+* From v1 [1]:
+  - Check version.name_len is exactly 4 bytes and return early otherwise
 
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 888aadb6a4ac..25262b07ffaf 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -868,7 +868,7 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
- 	INIT_LIST_HEAD(&fb->filp_head);
+[1] https://lore.kernel.org/r/20240708134654.1725-1-yuzenghui@huawei.com
+
+P.S., Maybe worth including the kselftests file into "DMA-BUF HEAPS
+FRAMEWORK" MAINTAINERS entry?
+
+ tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+index 5f541522364f..5d0a809dc2df 100644
+--- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
++++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+@@ -29,9 +29,11 @@ static int check_vgem(int fd)
+ 	version.name = name;
  
- 	fb->funcs = funcs;
--	strcpy(fb->comm, current->comm);
-+	__get_task_comm(fb->comm, sizeof(fb->comm), current);
+ 	ret = ioctl(fd, DRM_IOCTL_VERSION, &version);
+-	if (ret)
++	if (ret || version.name_len != 4)
+ 		return 0;
  
- 	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
- 				    false, drm_framebuffer_free);
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 625b3c024540..b2c16a53bd24 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1411,7 +1411,7 @@ static bool record_context(struct i915_gem_context_coredump *e,
- 	rcu_read_lock();
- 	task = pid_task(ctx->pid, PIDTYPE_PID);
- 	if (task) {
--		strcpy(e->comm, task->comm);
-+		__get_task_comm(e->comm, sizeof(e->comm), task);
- 		e->pid = task->pid;
- 	}
- 	rcu_read_unlock();
++	name[4] = '\0';
++
+ 	return !strcmp(name, "vgem");
+ }
+ 
 -- 
-2.43.5
+2.33.0
 
