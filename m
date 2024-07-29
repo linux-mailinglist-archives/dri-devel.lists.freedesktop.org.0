@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CA093F043
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 10:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2360A93F046
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 10:52:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CB7610E34C;
-	Mon, 29 Jul 2024 08:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6514410E354;
+	Mon, 29 Jul 2024 08:52:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GKXqaAZQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XPvK/JKR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F38310E33E;
- Mon, 29 Jul 2024 08:52:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97E8110E351;
+ Mon, 29 Jul 2024 08:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1722243142; x=1753779142;
+ t=1722243147; x=1753779147;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=RXv/8HHQlvGJZSc4bfEumgCJIypGPgEUU9zuekqRKBA=;
- b=GKXqaAZQCcZMJ+P6nbnz/nL/2r53+X0IMMNfDeuEzWTbTpUL+R6yuZ8n
- 1h9Jjst65WuSD5e0bQ7rJH8qUbAHLyAJPij73HX8oceAumr5Xx62jCp6z
- lKB0xfCxPUYaHO+FxfSG1ILCuFgay5ucBhELmD5xFvhtOWHWf/bTp7tpP
- MEXO6ws/GFK1hDqet0ciO0GOBh4T5huJGXhMh9bHDuly8nmcZHUyz/GmY
- +Z2hNljKk7iGoH4IJPGcBR7rSRtS5AEeUFH99gjAhM6gzwVmbmOTnBHl6
- zPCAKqSwuCfNosWBVzP+rbCZxAye+tfJj0tDXXluvPAOv4SQVvNbHYfjY w==;
-X-CSE-ConnectionGUID: yqFQQ+HWRnCyd/0YKd85gw==
-X-CSE-MsgGUID: HT0ybHKaThet5+R5PBtqlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="20129846"
-X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; d="scan'208";a="20129846"
+ bh=eUyFHGpLnm0GiFr6R45QRYKMqFyqBiOPWuSQdcI130g=;
+ b=XPvK/JKRWBwT4tqd6fpq+h/ObBmOLsM5h6UWqKOlFS0SvVF9fCYnT1T9
+ /9h1z0WxHPlcKEzTu5E69wDoEDkI5OEpMixowyXn9riPhdnbEAq6Qv5aX
+ ZxQ7fSg0EzpDyQncXu0LPddkI67SPa8ncMZIwwGdiYM1v1nkUyUbjvpG0
+ sKB0o4NSdGuvR32D+u/A+sJd7fdLGNsZHRf+eSlCIxyMd5J3x9jycHepo
+ sWgwxK+GZmfYYjqxDpX66a0u0buA4F3DvVN2ReJsZdhElFte1gRT3lhEx
+ KDt9pTSDRLgrfSJ2Nobahdht6aazhbdksuRdMvw5C62rEa4SAngQqSYo/ A==;
+X-CSE-ConnectionGUID: rsQZMusnQrqdraalvDzZGg==
+X-CSE-MsgGUID: i4QZlDPbTT+MragGHJ0cWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="20129860"
+X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; d="scan'208";a="20129860"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2024 01:52:22 -0700
-X-CSE-ConnectionGUID: pXreTNDUSkWyrD18VEPS+w==
-X-CSE-MsgGUID: FfHF58rmS0auBndTB9tkKw==
+ 29 Jul 2024 01:52:27 -0700
+X-CSE-ConnectionGUID: lmxSimx4Tg+OFMM5nGJbMQ==
+X-CSE-MsgGUID: pBcDycI5SmCl4XgtgLwGdg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; d="scan'208";a="54708480"
+X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; d="scan'208";a="54708510"
 Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2024 01:52:17 -0700
+ 29 Jul 2024 01:52:22 -0700
 From: Alexander Usyskin <alexander.usyskin@intel.com>
 To: Mark Brown <broonie@kernel.org>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
@@ -58,9 +58,9 @@ Cc: Tomas Winkler <tomas.winkler@intel.com>,
  Vitaly Lubart <vitaly.lubart@intel.com>, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 06/12] spi: intel-dg: align 64bit read and write
-Date: Mon, 29 Jul 2024 11:43:20 +0300
-Message-Id: <20240729084326.2278014-7-alexander.usyskin@intel.com>
+Subject: [PATCH v5 07/12] spi: intel-dg: wake card on operations
+Date: Mon, 29 Jul 2024 11:43:21 +0300
+Message-Id: <20240729084326.2278014-8-alexander.usyskin@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240729084326.2278014-1-alexander.usyskin@intel.com>
 References: <20240729084326.2278014-1-alexander.usyskin@intel.com>
@@ -81,67 +81,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GSC SPI HW errors on quad access overlapping 1K border.
-Align 64bit read and write to avoid readq/writeq over 1K border.
+Enable runtime PM in spi driver to notify graphics driver that
+whole card should be kept awake while spi operations are
+performed through this driver.
 
+CC: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
 ---
- drivers/spi/spi-intel-dg.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ drivers/spi/spi-intel-dg.c | 44 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
 diff --git a/drivers/spi/spi-intel-dg.c b/drivers/spi/spi-intel-dg.c
-index dfb457c43a5d..c76b0a70f8d8 100644
+index c76b0a70f8d8..a14fc3190520 100644
 --- a/drivers/spi/spi-intel-dg.c
 +++ b/drivers/spi/spi-intel-dg.c
-@@ -231,6 +231,24 @@ static ssize_t spi_write(struct intel_dg_spi *spi, u8 region,
- 		len_s -= to_shift;
- 	}
+@@ -12,11 +12,14 @@
+ #include <linux/module.h>
+ #include <linux/mtd/mtd.h>
+ #include <linux/mtd/partitions.h>
++#include <linux/pm_runtime.h>
+ #include <linux/string.h>
+ #include <linux/slab.h>
+ #include <linux/sizes.h>
+ #include <linux/types.h>
  
-+	if (!IS_ALIGNED(to, sizeof(u64)) &&
-+	    ((to ^ (to + len_s)) & GENMASK(31, 10))) {
-+		/*
-+		 * Workaround reads/writes across 1k-aligned addresses
-+		 * (start u32 before 1k, end u32 after)
-+		 * as this fails on hardware.
-+		 */
-+		u32 data;
++#define INTEL_DG_SPI_RPM_TIMEOUT 500
 +
-+		memcpy(&data, &buf[0], sizeof(u32));
-+		spi_write32(spi, to, data);
-+		if (spi_error(spi))
-+			return -EIO;
-+		buf += sizeof(u32);
-+		to += sizeof(u32);
-+		len_s -= sizeof(u32);
+ struct intel_dg_spi {
+ 	struct kref refcnt;
+ 	struct mtd_info mtd;
+@@ -471,6 +474,12 @@ static int intel_dg_spi_erase(struct mtd_info *mtd, struct erase_info *info)
+ 	total_len = info->len;
+ 	addr = info->addr;
+ 
++	ret = pm_runtime_resume_and_get(mtd->dev.parent);
++	if (ret < 0) {
++		dev_err(&mtd->dev, "rpm: get failed %d\n", ret);
++		return ret;
 +	}
 +
- 	len8 = ALIGN_DOWN(len_s, sizeof(u64));
- 	for (i = 0; i < len8; i += sizeof(u64)) {
- 		u64 data;
-@@ -289,6 +307,23 @@ static ssize_t spi_read(struct intel_dg_spi *spi, u8 region,
- 		from += from_shift;
- 	}
+ 	mutex_lock(&spi->lock);
  
-+	if (!IS_ALIGNED(from, sizeof(u64)) &&
-+	    ((from ^ (from + len_s)) & GENMASK(31, 10))) {
-+		/*
-+		 * Workaround reads/writes across 1k-aligned addresses
-+		 * (start u32 before 1k, end u32 after)
-+		 * as this fails on hardware.
-+		 */
-+		u32 data = spi_read32(spi, from);
-+
-+		if (spi_error(spi))
-+			return -EIO;
-+		memcpy(&buf[0], &data, sizeof(data));
-+		len_s -= sizeof(u32);
-+		buf += sizeof(u32);
-+		from += sizeof(u32);
+ 	while (total_len > 0) {
+@@ -512,6 +521,8 @@ static int intel_dg_spi_erase(struct mtd_info *mtd, struct erase_info *info)
+ 
+ out:
+ 	mutex_unlock(&spi->lock);
++	pm_runtime_mark_last_busy(mtd->dev.parent);
++	pm_runtime_put_autosuspend(mtd->dev.parent);
+ 	return ret;
+ }
+ 
+@@ -545,6 +556,12 @@ static int intel_dg_spi_read(struct mtd_info *mtd, loff_t from, size_t len,
+ 	if (len > spi->regions[idx].size - from)
+ 		len = spi->regions[idx].size - from;
+ 
++	ret = pm_runtime_resume_and_get(mtd->dev.parent);
++	if (ret < 0) {
++		dev_err(&mtd->dev, "rpm: get failed %zd\n", ret);
++		return ret;
 +	}
 +
- 	len8 = ALIGN_DOWN(len_s, sizeof(u64));
- 	for (i = 0; i < len8; i += sizeof(u64)) {
- 		u64 data = spi_read64(spi, from + i);
+ 	mutex_lock(&spi->lock);
+ 
+ 	ret = spi_read(spi, region, from, len, buf);
+@@ -557,6 +574,8 @@ static int intel_dg_spi_read(struct mtd_info *mtd, loff_t from, size_t len,
+ 	*retlen = ret;
+ 
+ 	mutex_unlock(&spi->lock);
++	pm_runtime_mark_last_busy(mtd->dev.parent);
++	pm_runtime_put_autosuspend(mtd->dev.parent);
+ 	return 0;
+ }
+ 
+@@ -590,6 +609,12 @@ static int intel_dg_spi_write(struct mtd_info *mtd, loff_t to, size_t len,
+ 	if (len > spi->regions[idx].size - to)
+ 		len = spi->regions[idx].size - to;
+ 
++	ret = pm_runtime_resume_and_get(mtd->dev.parent);
++	if (ret < 0) {
++		dev_err(&mtd->dev, "rpm: get failed %zd\n", ret);
++		return ret;
++	}
++
+ 	mutex_lock(&spi->lock);
+ 
+ 	ret = spi_write(spi, region, to, len, buf);
+@@ -602,6 +627,8 @@ static int intel_dg_spi_write(struct mtd_info *mtd, loff_t to, size_t len,
+ 	*retlen = ret;
+ 
+ 	mutex_unlock(&spi->lock);
++	pm_runtime_mark_last_busy(mtd->dev.parent);
++	pm_runtime_put_autosuspend(mtd->dev.parent);
+ 	return 0;
+ }
+ 
+@@ -747,6 +774,17 @@ static int intel_dg_spi_probe(struct auxiliary_device *aux_dev,
+ 		}
+ 	}
+ 
++	pm_runtime_enable(device);
++
++	pm_runtime_set_autosuspend_delay(device, INTEL_DG_SPI_RPM_TIMEOUT);
++	pm_runtime_use_autosuspend(device);
++
++	ret = pm_runtime_resume_and_get(device);
++	if (ret < 0) {
++		dev_err(device, "rpm: get failed %d\n", ret);
++		goto err_norpm;
++	}
++
+ 	spi->base = devm_ioremap_resource(device, &ispi->bar);
+ 	if (IS_ERR(spi->base)) {
+ 		dev_err(device, "mmio not mapped\n");
+@@ -769,9 +807,13 @@ static int intel_dg_spi_probe(struct auxiliary_device *aux_dev,
+ 
+ 	dev_set_drvdata(&aux_dev->dev, spi);
+ 
++	pm_runtime_put(device);
+ 	return 0;
+ 
+ err:
++	pm_runtime_put(device);
++err_norpm:
++	pm_runtime_disable(device);
+ 	kref_put(&spi->refcnt, intel_dg_spi_release);
+ 	return ret;
+ }
+@@ -783,6 +825,8 @@ static void intel_dg_spi_remove(struct auxiliary_device *aux_dev)
+ 	if (!spi)
+ 		return;
+ 
++	pm_runtime_disable(&aux_dev->dev);
++
+ 	mtd_device_unregister(&spi->mtd);
+ 
+ 	dev_set_drvdata(&aux_dev->dev, NULL);
 -- 
 2.34.1
 
