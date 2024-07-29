@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C52E93EB66
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795FF93EB6C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2024 04:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C42CF10E212;
-	Mon, 29 Jul 2024 02:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E079210E1CC;
+	Mon, 29 Jul 2024 02:39:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kcHQXOIS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fRKuB2rT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
- [209.85.215.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA54810E212
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:39:28 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id
- 41be03b00d2f7-7ae3d7222d4so619089a12.3
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 19:39:28 -0700 (PDT)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A582310E1CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 02:39:42 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id
+ 41be03b00d2f7-75a6c290528so1648396a12.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2024 19:39:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722220768; x=1722825568; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1722220782; x=1722825582; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=J+uQG4RKAtUTljj+c6PuEzvl8DtV0722F0vMFtL07WU=;
- b=kcHQXOISH1q8xWspIVQD5wvjnr/tiSLaLzabcyBWP/mJH4et/g7AY8KEuRGZ3s4em0
- vjzjxdbSb8V4oRV7neE7R1mtc9HJcSxByqR3GUNrgEzWC2Y3rmcfSf5iOtkHkSp8tSgi
- /PAwAOLq2ihbwYNkIZhSYFDIZg4iaOAg6Ot8qG6jkjx6vl0fiY5LdJSQDwh30CI3i2Z7
- r2I4L5/kaltf9lG2AJR75+lDIFIr7fXMuVqMYG5tGp9jk+TFPJj4ao8HtlcIR/+Ys99y
- RUAxua+jTCBr415oI4mrXHF7HY6VHNCGW7aMTFE66FXO3MJMWNyJYFEqNvd0VOLeHTSR
- xeJg==
+ bh=QQdkC9XISn7BWPlTE5/iE7aUj/L2jeLonKoaBsbNpS0=;
+ b=fRKuB2rTJ1d/I99FRtL/8UsRzyg3zJuq9mn7P/ojQ0ShTDPOAYtTJqbRpLk+VXoOUY
+ nh+/eESY2Bnc+E0U9YDGX+Qt5KO4gam3G/kvCPwqpird+cWYcAjpIpfBrIl7mRK/IbIW
+ iTITJcXO50QrxXTP9k4PyCN3xH0ndD52QkXMr7QGfasH73pKy/kLdt/PdVNoOzT57nBW
+ Nyk4qRSh6zYbgPUdSf85GG4DEkbgGSvTkKpiqLepmYAEysQuYSxlIjMr3cnpF/dB/OKR
+ rLYJxpQayEta/72hyJaDGEDWC2DxK3uMMJZmVnhDUCLr3OiHVP33VluwSxj1jS2ckcza
+ R8pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722220768; x=1722825568;
+ d=1e100.net; s=20230601; t=1722220782; x=1722825582;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=J+uQG4RKAtUTljj+c6PuEzvl8DtV0722F0vMFtL07WU=;
- b=Uic8pgDqXUJm6qno9GKCanExsNnKniaPIRDY5goD34uR6ioO1L+jHCxyskVDgyEOcS
- a3GEcS3OFevGiyVI4ePf1brE8Ca9uyyGDCMSiDD8XFmW4uryMPF0v8nX4jYtIq9egmoC
- uA9JTdy0xloXbqUN4MORHs48SyAdyWLb2Q43kyN7mFsuDOBPlNfixxOf5CRLSvEd0v2d
- K6qNh25yPQXaCzo0qCZfTRo+4HaOcalpt9uyE2d/koK775txQXpT2xKDt+ocIGKrBQWr
- uJkntNZ1Dv+8oIlxBHGktMIThzCzVABA5CemSQYnl74HLMzTQBF9zBwIXmc89CMBG3S9
- PitA==
+ bh=QQdkC9XISn7BWPlTE5/iE7aUj/L2jeLonKoaBsbNpS0=;
+ b=rZvubKu1kyJK/SU9gqmAbewaOfFFl6B5jnw4XPmStYTy+clFAD/2pdLeFqNItqQPh7
+ MYrpmAzhu4Fw4MSl7wcq6qPR02DKkykby67ROcQ+DJrmDcfBnSjmofkiEj0cjOwdA8+i
+ SI8CPE3FTFdYwCpG/V9VNfRUyfYvTnOluZCwkoBbnr79TJgaeFN9Ctl5qdJBkq3IqtCr
+ 6Y/KDzoD5NbTv8DTP8hjLZMH5nRb8zZszIO/d0htEBKMZ4OnMQsgG0Jn4ulac2vwP5B6
+ YOrJKb5C1scGzWOU7tFe/qj78/FHqbO0JLNkYv5DyGyHIU0VeRlPmQCBB3EQw9YFaDb6
+ MYgA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUlx7TB+SbH+5b+sSgW6yBtBXy+Tgcejkzfu3IdMHZMN3I1y19jRYWAKfWfrVLI195KaM+uTzAiUQpmUx61iTqL/7R/+OVWDYD2ECKkBeB1
-X-Gm-Message-State: AOJu0YwmW2+dJJPAJk60UpUBc+wYOt4wfZ33M+FZhAX2AbnIdz1B1drv
- bL7Yfm4rS98KMjVvZuHlTTDOQDqkTqefD6CVCqe/Uosq6XCrA8E5
-X-Google-Smtp-Source: AGHT+IGDDVacAHzuqJf1zY2UQsKDkDe/fVaez1tdPtuFhqBPLEHRkdQpCzionBNRtCrdgKFvX6YkKg==
-X-Received: by 2002:a05:6a20:d50a:b0:1c4:8bba:76e9 with SMTP id
- adf61e73a8af0-1c4a153afecmr8452767637.53.1722220768309; 
- Sun, 28 Jul 2024 19:39:28 -0700 (PDT)
+ AJvYcCX1UKyKaZfLZijCMobwk/ubWhNs3Pdt+5kRnZfitCpKNPLZFLgQAqlPfw/yvitTGtAUDH8gbh4mPao19zzMFC37n6opwA+kcDF+cuXwHZWD
+X-Gm-Message-State: AOJu0YzjTmi/0C2OibirIti8OtnRzvb4T7MWbs/Ezi3MgJ56mn/JOnhu
+ fo1q0qAZBywR8CsMa67p0iAXG1QSBaVgJ0IYFXwtPUhHxa/CIal/
+X-Google-Smtp-Source: AGHT+IEB8l3Gwpw2EoLQWPXs9e5ig3IiPuxqtfGfuMuw62eXKcBpM2d5t6Uy/en6iDAcfcY1gaCpLA==
+X-Received: by 2002:a17:90a:6581:b0:2ca:8684:401a with SMTP id
+ 98e67ed59e1d1-2cf7e5f27a9mr4176294a91.32.1722220782084; 
+ Sun, 28 Jul 2024 19:39:42 -0700 (PDT)
 Received: from localhost.localdomain ([223.104.210.31])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2cf28c55a38sm7332247a91.10.2024.07.28.19.39.06
+ 98e67ed59e1d1-2cf28c55a38sm7332247a91.10.2024.07.28.19.39.29
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 28 Jul 2024 19:39:27 -0700 (PDT)
+ Sun, 28 Jul 2024 19:39:41 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org
 Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
@@ -65,13 +65,10 @@ Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
  audit@vger.kernel.org, linux-security-module@vger.kernel.org,
  selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>
-Subject: [PATCH v4 03/11] security: Replace memcpy() with __get_task_comm()
-Date: Mon, 29 Jul 2024 10:37:11 +0800
-Message-Id: <20240729023719.1933-4-laoar.shao@gmail.com>
+ Quentin Monnet <qmo@kernel.org>
+Subject: [PATCH v4 04/11] bpftool: Ensure task comm is always NUL-terminated
+Date: Mon, 29 Jul 2024 10:37:12 +0800
+Message-Id: <20240729023719.1933-5-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20240729023719.1933-1-laoar.shao@gmail.com>
 References: <20240729023719.1933-1-laoar.shao@gmail.com>
@@ -92,62 +89,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoted from Linus [0]:
-
-  selinux never wanted a lock, and never wanted any kind of *consistent*
-  result, it just wanted a *stable* result.
-
-Using __get_task_comm() to read the task comm ensures that the name is
-always NUL-terminated, regardless of the source string. This approach also
-facilitates future extensions to the task comm.
+Let's explicitly ensure the destination string is NUL-terminated. This way,
+it won't be affected by changes to the source string.
 
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-LINK: https://lore.kernel.org/all/CAHk-=wivfrF0_zvf+oj6==Sh=-npJooP8chLPEfaFV0oNYTTBA@mail.gmail.com/ [0]
-Acked-by: Paul Moore <paul@paul-moore.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
-Cc: Ondrej Mosnacek <omosnace@redhat.com>
+Reviewed-by: Quentin Monnet <qmo@kernel.org>
 ---
- security/lsm_audit.c         | 4 ++--
- security/selinux/selinuxfs.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ tools/bpf/bpftool/pids.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-index 849e832719e2..a922e4339dd5 100644
---- a/security/lsm_audit.c
-+++ b/security/lsm_audit.c
-@@ -207,7 +207,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 	BUILD_BUG_ON(sizeof(a->u) > sizeof(void *)*2);
+diff --git a/tools/bpf/bpftool/pids.c b/tools/bpf/bpftool/pids.c
+index 9b898571b49e..23f488cf1740 100644
+--- a/tools/bpf/bpftool/pids.c
++++ b/tools/bpf/bpftool/pids.c
+@@ -54,6 +54,7 @@ static void add_ref(struct hashmap *map, struct pid_iter_entry *e)
+ 		ref = &refs->refs[refs->ref_cnt];
+ 		ref->pid = e->pid;
+ 		memcpy(ref->comm, e->comm, sizeof(ref->comm));
++		ref->comm[sizeof(ref->comm) - 1] = '\0';
+ 		refs->ref_cnt++;
  
- 	audit_log_format(ab, " pid=%d comm=", task_tgid_nr(current));
--	audit_log_untrustedstring(ab, memcpy(comm, current->comm, sizeof(comm)));
-+	audit_log_untrustedstring(ab, __get_task_comm(comm, sizeof(comm), current));
- 
- 	switch (a->type) {
- 	case LSM_AUDIT_DATA_NONE:
-@@ -302,7 +302,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 				char comm[sizeof(tsk->comm)];
- 				audit_log_format(ab, " opid=%d ocomm=", pid);
- 				audit_log_untrustedstring(ab,
--				    memcpy(comm, tsk->comm, sizeof(comm)));
-+				    __get_task_comm(comm, sizeof(comm), tsk));
- 			}
- 		}
- 		break;
-diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
-index e172f182b65c..a8a2ec742576 100644
---- a/security/selinux/selinuxfs.c
-+++ b/security/selinux/selinuxfs.c
-@@ -708,7 +708,7 @@ static ssize_t sel_write_checkreqprot(struct file *file, const char __user *buf,
- 	if (new_value) {
- 		char comm[sizeof(current->comm)];
- 
--		memcpy(comm, current->comm, sizeof(comm));
-+		__get_task_comm(comm, sizeof(comm), current);
- 		pr_err("SELinux: %s (%d) set checkreqprot to 1. This is no longer supported.\n",
- 		       comm, current->pid);
- 	}
+ 		return;
+@@ -77,6 +78,7 @@ static void add_ref(struct hashmap *map, struct pid_iter_entry *e)
+ 	ref = &refs->refs[0];
+ 	ref->pid = e->pid;
+ 	memcpy(ref->comm, e->comm, sizeof(ref->comm));
++	ref->comm[sizeof(ref->comm) - 1] = '\0';
+ 	refs->ref_cnt = 1;
+ 	refs->has_bpf_cookie = e->has_bpf_cookie;
+ 	refs->bpf_cookie = e->bpf_cookie;
 -- 
 2.43.5
 
