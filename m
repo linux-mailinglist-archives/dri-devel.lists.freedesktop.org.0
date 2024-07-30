@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDCA941EF1
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 19:39:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22B1941EFA
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 19:46:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1C7610E477;
-	Tue, 30 Jul 2024 17:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2661510E07C;
+	Tue, 30 Jul 2024 17:46:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="RMXU3LSl";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Q1r4uMXc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
- [91.218.175.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A649910E477
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 17:39:45 +0000 (UTC)
-Message-ID: <11ba9284-db77-405d-80ad-7fbe5cb5c338@linux.dev>
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
+ [95.215.58.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87E1310E07C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 17:46:48 +0000 (UTC)
+Message-ID: <7b34fb4c-abde-47e8-984b-3ea55d4475a7@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1722361183;
+ t=1722361606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RgfltJTn3UKSXJ9jbEJ+7l1SNMwFGrtqOjoLkm7DHjQ=;
- b=RMXU3LSlXhCVuLBpMs/lJsAWVQo3FQ89M1U7GCiKezlbra9znEG4ZagBzgCjiICgAtoRgi
- ZDdlNUZJvKZiFkC0V0OkLgKJTPlNv8Kughh2pxFq2jZwnCu6nO1mlwKtEGqutDUrDcNqAt
- nofWBIZlahP4VdNEoc6X2wtFuh5doII=
-Date: Wed, 31 Jul 2024 01:39:34 +0800
+ bh=i1PkLT7Wa1W5BhecQMpMGwCc4qguu8cW9tK12igjtDs=;
+ b=Q1r4uMXcLcLpHMCejh7/3AzUWmCg7wLrpVz2oRWHPiNbeU8KyE+NPBYmCu84FnWjsFZTBo
+ pDt9FOiKbHnox38QpWbXF/F3tre3DF6dX5oHzBYA+IDbSMloAuTNyaJLeDvBUbgmMx2Pa1
+ WBDSZ9LxYWGoIg7ywOdmOdevoYYdI40=
+Date: Wed, 31 Jul 2024 01:46:36 +0800
 MIME-Version: 1.0
 Subject: Re: [PATCH v5 1/2] drm/loongson: Introduce component framework support
 To: Markus Elfring <Markus.Elfring@web.de>, dri-devel@lists.freedesktop.org
@@ -35,12 +35,12 @@ Cc: LKML <linux-kernel@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>
 References: <20240728152858.346211-1-sui.jingfeng@linux.dev>
  <20240728152858.346211-2-sui.jingfeng@linux.dev>
- <ce9b1d27-75a6-4505-b17c-773b51c173d0@web.de>
+ <6dbe975a-59eb-4d4b-9fea-b930fa44e4ec@web.de>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <ce9b1d27-75a6-4505-b17c-773b51c173d0@web.de>
+In-Reply-To: <6dbe975a-59eb-4d4b-9fea-b930fa44e4ec@web.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -62,25 +62,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 
-On 2024/7/29 15:37, Markus Elfring wrote:
+On 2024/7/29 14:40, Markus Elfring wrote:
 > …
->> +++ b/drivers/gpu/drm/loongson/loongson_drv.c
->> @@ -0,0 +1,298 @@
+>> +++ b/drivers/gpu/drm/loongson/loongson_drv.h
+>> @@ -0,0 +1,108 @@
 > …
->> +static int loongson_drm_driver_probe(struct platform_device *pdev)
->> +{
-> …
->> +	dev_info(&pdev->dev, "probed\n");
-> …
->> +}
+>> +#ifndef __LOONGSON_DRV_H__
+>> +#define __LOONGSON_DRV_H__
 > …
 >
-> Do you find such information really relevant?
+> I suggest to omit leading underscores from such identifiers.
+> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+define+a+reserved+identifier
 
 
-This helps to see the probe order of all drivers,
+I suggest add this rules to the checkpatch.pl script,
 
-this also help us to know the name of the fake master device.
+It's more safe to follow *after* your suggestion is accepted.
+
+After all, the checkpatch.pl is de-facto standard.
+
+checkpatch.pl is happy about my patch for now.
 
 
 > Regards,
