@@ -2,83 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E6F940A21
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 09:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85A7940A22
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 09:44:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8210110E4D5;
-	Tue, 30 Jul 2024 07:44:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 512CF10E4D6;
+	Tue, 30 Jul 2024 07:44:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aXtsESQP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aKqPk131";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADF910E4D5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 07:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1722325445;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TvD0LM0jZNh44gWgcKKwhYbQE9f64EyaroAgXAPRcUU=;
- b=aXtsESQPvpataYrEXkA23vDdricTIj+6NWXRR2VIWs1Uj7ct4L+QdTOYJsa+mXjql45R3S
- emSkWzP+LUQaB3xNwHx8xRxDh5l0ORw93a6DkkU8/PXO+Dj991Dkqdt6Bui5LbLjnCcLok
- opo7lyzHdBxxPm1jxhKUh2BaDHVoQe4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-662-xEzno-nzNyCBZQB5_52U2g-1; Tue, 30 Jul 2024 03:43:59 -0400
-X-MC-Unique: xEzno-nzNyCBZQB5_52U2g-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-36b356a73fcso2044861f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 00:43:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722325438; x=1722930238;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TvD0LM0jZNh44gWgcKKwhYbQE9f64EyaroAgXAPRcUU=;
- b=KlCMOaxiffVrf57QQ3c07hZnwEeIMrzKJNP31a0mQkNQqCp9pTA4kwUHKy09jeeH9l
- zKEeirJC659MC65xIDV4IArKiU4r8Fv0/pDix3VPwpeHe7CRHQC4UseIuTiGUapRdT3E
- IyjcxZLZOwtalpyW+JHmqVbGuDEwNUxt1FeWn/UaiBK+bO/IvOpDOaCIPUatLg+V0C9W
- OBoOwnAysQmI72ON92zQ7gpjPeSyN0JZLerOsJYezp+javFUUoyhpRZ2AvI0J0GDyEqO
- LjhJdBK0FZy3rfCwMQADDVPVszKrtE+nBiaDm/JzKOS5FceOQFeMhSz0Vans7wHW/JDE
- WmFQ==
-X-Gm-Message-State: AOJu0YzIl236YCpzRFFdExM0XARJRFuEFmzfB7eOcdOAz96ZSpr9t+Ds
- 3dW1P/ojdmUhqui4Kg2gLixIEh4WO3osXayJY2+ACL/QIkteguOS6zkpY3ou7+Dj6cdqzxDp+nq
- YPbRG8kJvZIGfTRgmU/5h/owRR6AA7On3afhLwuCgTGI7U1vivUQTc2wy9uLgxnkmXA==
-X-Received: by 2002:a5d:42d0:0:b0:367:8a2e:b550 with SMTP id
- ffacd0b85a97d-36b5d0cd9a7mr5957922f8f.60.1722325438439; 
- Tue, 30 Jul 2024 00:43:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGxtQntXWuJdGH1MxsWrB41fF2lMxnftGGE6iypzTpZvZq+ojxDkr4wu2NFxxjgMpFbwlb7yQ==
-X-Received: by 2002:a5d:42d0:0:b0:367:8a2e:b550 with SMTP id
- ffacd0b85a97d-36b5d0cd9a7mr5957907f8f.60.1722325437873; 
- Tue, 30 Jul 2024 00:43:57 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:d3ea:62cf:3052:fac6?
- ([2a01:e0a:d5:a000:d3ea:62cf:3052:fac6])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-36b36857dcesm13907161f8f.85.2024.07.30.00.43.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jul 2024 00:43:57 -0700 (PDT)
-Message-ID: <eabc8bb2-cf0b-4e42-aa1c-1608a0d6e84c@redhat.com>
-Date: Tue, 30 Jul 2024 09:43:56 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 045A410E4D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 07:44:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 46C2761DBE;
+ Tue, 30 Jul 2024 07:44:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24ADFC32782;
+ Tue, 30 Jul 2024 07:44:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1722325451;
+ bh=1g/t7ljDEEMZaF9QKFLSVrGcCV6DmGX+hiOIu+Dzc0E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=aKqPk131CCKu2OCRZYxmUf2q9yg/o2hqvU0QgKY8jDuxZSbKubqzyGBDof+eVRp7E
+ P7SqGs3O+HWjYndUwjPOxzbQTR2dLa/tPPLv+QrDg9MzySUJ32+yw+rvRwoZ2+lDq4
+ +5dDhEVr85Fdvr/cBIZcjP02wdfVJrbkYxawukWzjfKt19C3HmHW8eEwNeZksZ5yN+
+ z+B2b4KhusPFp/4I840W7HshgOB0/40DMf2WuuTttGm+0sM9Rk9vaxaDwl0/wGhrkn
+ vF8hsaYbO09GeWNRl6UGbMboYr3XpKsL1OuY6lHmS8DTWX5fNwZwEtlEabsCITjyGA
+ SE2aYky5wR5tA==
+Message-ID: <0e7a8d52-6556-4531-882f-73513f99259b@kernel.org>
+Date: Tue, 30 Jul 2024 09:44:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] drm/ast: astdp: Clean up EDID reading
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20240717143319.104012-1-tzimmermann@suse.de>
- <20240717143319.104012-6-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240717143319.104012-6-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v2 07/16] drm/imx: Add i.MX8qxp Display Controller pixel
+ engine
+To: Liu Ying <victor.liu@nxp.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org, kishon@kernel.org,
+ aisheng.dong@nxp.com, agx@sigxcpu.org, francesco@dolcini.it, frank.li@nxp.com
+References: <20240712093243.2108456-1-victor.liu@nxp.com>
+ <20240712093243.2108456-8-victor.liu@nxp.com>
+ <ibdzow7lvbimaefrp2z2aolgp4pytpq3dcr2y3pegjavvknhgm@2e6j3f4zytqp>
+ <107d89b9-e7b8-4613-bc07-9af7b52c2b8a@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <107d89b9-e7b8-4613-bc07-9af7b52c2b8a@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,201 +114,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 17/07/2024 16:24, Thomas Zimmermann wrote:
-> Simplify ast_astdp_read_edid(). Rename register constants. Drop
-> unnecessary error handling. On success, the helper returns 0; an
-> error code otherwise.
-
-Thanks, it looks good to me.
-
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+On 30/07/2024 08:55, Liu Ying wrote:
+> On 07/28/2024, Dmitry Baryshkov wrote:
+>> On Fri, Jul 12, 2024 at 05:32:34PM GMT, Liu Ying wrote:
+>>> i.MX8qxp Display Controller pixel engine consists of all processing
+>>> units that operate in the AXI bus clock domain.  Add drivers for
+>>> ConstFrame, ExtDst, FetchLayer, FetchWarp and LayerBlend units, as
+>>> well as a pixel engine driver, so that two displays with primary
+>>> planes can be supported.  The pixel engine driver as a master binds
+>>> those unit drivers as components.  While at it, the pixel engine
+>>> driver is a component to be bound with the upcoming DRM driver.
+>>
+>> Same question / comment: create subnodes directly, without going
+>> through the subdevices. A lot of small functions that would benefit
+>> being inlined.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/ast/ast_dp.c  | 93 ++++++++++++++++-------------------
->   drivers/gpu/drm/ast/ast_reg.h | 12 +----
->   2 files changed, 44 insertions(+), 61 deletions(-)
+> Like I replied in patch 06/16, I can't create sub devices directly.
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-> index 6cbde46f24dc..5d07678b502c 100644
-> --- a/drivers/gpu/drm/ast/ast_dp.c
-> +++ b/drivers/gpu/drm/ast/ast_dp.c
-> @@ -17,54 +17,55 @@ bool ast_astdp_is_connected(struct ast_device *ast)
->   int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
->   {
->   	struct ast_device *ast = to_ast_device(dev);
-> -	u8 i = 0, j = 0;
-> +	int ret = 0;
-> +	u8 i;
->   
-> -	/*
-> -	 * CRE5[b0]: Host reading EDID process is done
-> -	 */
-> -	if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, ASTDP_HOST_EDID_READ_DONE_MASK)))
-> -		goto err_astdp_edid_not_ready;
-> -
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
-> -							0x00);
-> +	/* Start reading EDID data */
-> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xe5, (u8)~AST_IO_VGACRE5_EDID_READ_DONE, 0x00);
->   
->   	for (i = 0; i < 32; i++) {
-> +		unsigned int j;
-> +
->   		/*
->   		 * CRE4[7:0]: Read-Pointer for EDID (Unit: 4bytes); valid range: 0~64
->   		 */
-> -		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE4,
-> -				       ASTDP_AND_CLEAR_MASK, (u8)i);
-> -		j = 0;
-> +		ast_set_index_reg(ast, AST_IO_VGACRI, 0xe4, i);
->   
->   		/*
->   		 * CRD7[b0]: valid flag for EDID
->   		 * CRD6[b0]: mirror read pointer for EDID
->   		 */
-> -		while ((ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD7,
-> -				ASTDP_EDID_VALID_FLAG_MASK) != 0x01) ||
-> -			(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD6,
-> -						ASTDP_EDID_READ_POINTER_MASK) != i)) {
-> +		for (j = 0; j < 200; ++j) {
-> +			u8 vgacrd7, vgacrd6;
-> +
->   			/*
->   			 * Delay are getting longer with each retry.
-> -			 * 1. The Delays are often 2 loops when users request "Display Settings"
-> +			 *
-> +			 * 1. No delay on first try
-> +			 * 2. The Delays are often 2 loops when users request "Display Settings"
->   			 *	  of right-click of mouse.
-> -			 * 2. The Delays are often longer a lot when system resume from S3/S4.
-> +			 * 3. The Delays are often longer a lot when system resume from S3/S4.
->   			 */
-> -			mdelay(j+1);
-> -
-> -			j++;
-> -			if (j > 200)
-> -				goto err_astdp_jump_out_loop_of_edid;
-> +			if (j)
-> +				mdelay(j + 1);
-> +
-> +			/* Wait for EDID offset to show up in mirror register */
-> +			vgacrd7 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd7);
-> +			if (vgacrd7 & AST_IO_VGACRD7_EDID_VALID_FLAG) {
-> +				vgacrd6 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd6);
-> +				if (vgacrd6 == i)
-> +					break;
-> +			}
-> +		}
-> +		if (j == 200) {
-> +			ret = -EBUSY;
-> +			goto out;
->   		}
->   
-> -		*(ediddata) = ast_get_index_reg_mask(ast, AST_IO_VGACRI,
-> -							0xD8, ASTDP_EDID_READ_DATA_MASK);
-> -		*(ediddata + 1) = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD9,
-> -								ASTDP_EDID_READ_DATA_MASK);
-> -		*(ediddata + 2) = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDA,
-> -								ASTDP_EDID_READ_DATA_MASK);
-> -		*(ediddata + 3) = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDB,
-> -								ASTDP_EDID_READ_DATA_MASK);
-> +		ediddata[0] = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd8);
-> +		ediddata[1] = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd9);
-> +		ediddata[2] = ast_get_index_reg(ast, AST_IO_VGACRI, 0xda);
-> +		ediddata[3] = ast_get_index_reg(ast, AST_IO_VGACRI, 0xdb);
->   
->   		if (i == 31) {
->   			/*
-> @@ -76,29 +77,19 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
->   			 *		The Bytes-126 indicates the Number of extensions to
->   			 *		follow. 0 represents noextensions.
->   			 */
-> -			*(ediddata + 3) = *(ediddata + 3) + *(ediddata + 2);
-> -			*(ediddata + 2) = 0;
-> +			ediddata[3] = ediddata[3] + ediddata[2];
-> +			ediddata[2] = 0;
->   		}
->   
->   		ediddata += 4;
->   	}
->   
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
-> -							ASTDP_HOST_EDID_READ_DONE);
-> -
-> -	return 0;
-> -
-> -err_astdp_jump_out_loop_of_edid:
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5,
-> -							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
-> -							ASTDP_HOST_EDID_READ_DONE);
-> -	return (~(j+256) + 1);
-> -
-> -err_astdp_edid_not_ready:
-> -	if (!(ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xE5, ASTDP_HOST_EDID_READ_DONE_MASK)))
-> -		return (~0xE5 + 1);
-> +out:
-> +	/* Signal end of reading */
-> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xe5, (u8)~AST_IO_VGACRE5_EDID_READ_DONE,
-> +			       AST_IO_VGACRE5_EDID_READ_DONE);
->   
-> -	return	0;
-> +	return ret;
->   }
->   
->   /*
-> @@ -122,9 +113,9 @@ int ast_dp_launch(struct ast_device *ast)
->   		return -ENODEV;
->   	}
->   
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE5,
-> -			       (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
-> -			       ASTDP_HOST_EDID_READ_DONE);
-> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xe5,
-> +			       (u8) ~AST_IO_VGACRE5_EDID_READ_DONE,
-> +			       AST_IO_VGACRE5_EDID_READ_DONE);
->   
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-> index 28bb43f6795b..040961cc1a19 100644
-> --- a/drivers/gpu/drm/ast/ast_reg.h
-> +++ b/drivers/gpu/drm/ast/ast_reg.h
-> @@ -38,8 +38,10 @@
->   #define AST_IO_VGACRCB_HWC_ENABLED	BIT(1)
->   
->   #define AST_IO_VGACRD1_MCU_FW_EXECUTING	BIT(5)
-> +#define AST_IO_VGACRD7_EDID_VALID_FLAG	BIT(0)
->   #define AST_IO_VGACRDC_LINK_SUCCESS	BIT(0)
->   #define AST_IO_VGACRDF_HPD		BIT(0)
-> +#define AST_IO_VGACRE5_EDID_READ_DONE	BIT(0)
->   
->   #define AST_IO_VGAIR1_R			(0x5A)
->   #define AST_IO_VGAIR1_VREFRESH		BIT(3)
-> @@ -70,12 +72,6 @@
->   #define AST_DP_PHY_SLEEP		BIT(4)
->   #define AST_DP_VIDEO_ENABLE		BIT(0)
->   
-> -/*
-> - * CRE5[b0]: Host reading EDID process is done
-> - */
-> -#define ASTDP_HOST_EDID_READ_DONE	BIT(0)
-> -#define ASTDP_HOST_EDID_READ_DONE_MASK	GENMASK(0, 0)
-> -
->   /*
->    * CRDF[b4]: Mirror of AST_DP_VIDEO_ENABLE
->    * Precondition:	A. ~AST_DP_PHY_SLEEP  &&
-> @@ -84,10 +80,6 @@
->    */
->   #define ASTDP_MIRROR_VIDEO_ENABLE	BIT(4)
->   
-> -#define ASTDP_EDID_READ_POINTER_MASK	GENMASK(7, 0)
-> -#define ASTDP_EDID_VALID_FLAG_MASK	GENMASK(0, 0)
-> -#define ASTDP_EDID_READ_DATA_MASK	GENMASK(7, 0)
-> -
->   /*
->    * ASTDP setmode registers:
->    * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
+> Can you please point out typical ones for those small functions if
+> the comment still stands?
+> 
+>>
+>>> +static int dc_cf_bind(struct device *dev, struct device *master, void *data)
+>>> +{
+>>> +	struct platform_device *pdev = to_platform_device(dev);
+>>> +	struct dc_drm_device *dc_drm = data;
+>>> +	struct dc_pe *pe = dc_drm->pe;
+>>> +	struct dc_cf_priv *priv;
+>>> +	int id;
+>>> +
+>>> +	priv = drmm_kzalloc(&dc_drm->base, sizeof(*priv), GFP_KERNEL);
+>>> +	if (!priv)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	priv->reg_cfg = devm_platform_ioremap_resource_byname(pdev, "cfg");
+>>> +	if (IS_ERR(priv->reg_cfg))
+>>> +		return PTR_ERR(priv->reg_cfg);
+>>> +
+>>> +	id = of_alias_get_id(dev->of_node, "dc0-constframe");
+>>
+>> Is it documented? Acked?
+> 
+> Like I replied in patch 06/16, I can add aliases nodes to examples,
+> if needed.
+> 
+> No Nak from DT maintainers I'd say, but I hope there will be direct
+> Ack(s).
+> 
+
+It was not Acked, because there was no documentation added for it.
+Anyway, naming is quite cryptic, e.g. "0" in "dc0" is quite confusing.
+Do you expect different aliases for dc1 or dc9? But anyway, aliases for
+sub-devices of pipeline look wrong.
+
+Best regards,
+Krzysztof
 
