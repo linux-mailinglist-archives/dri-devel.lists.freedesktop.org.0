@@ -2,78 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488C494213E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 22:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CBE941F55
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 20:16:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D217010E43F;
-	Tue, 30 Jul 2024 20:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB0910E0B7;
+	Tue, 30 Jul 2024 18:16:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="T6Q8KReA";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="G7dD2rog";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA3810E55D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 17:33:14 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-52efd08e6d9so7405197e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 10:33:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1722360792; x=1722965592;
- darn=lists.freedesktop.org; 
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=h00l0sE2Da7uVyg6wZl2Hj/cGiCuPnqAm74p2xGEgL0=;
- b=T6Q8KReAtjrulCGIhOiegvFKqQ/PwlVthokxJwAlwGM6DXQh8oxCdfBJQTubLnjKBk
- 9okt1n6DBZ4HkkbDXas9BdEWlgOnOdf4BImWKi7bt7vHbwfYFZA9lxtY9X+g9OnNN1z5
- XIM3mj1M16r3MAvBeLOj0qr+aPc3Hgv7jc1gGFQRIelVIJ8T9xfME0WQPwQZX4tcyxVJ
- 0QRU9oZ93uASIwJR3dmNLDCW54TgKd3nQLk5Y3UtXVS9XMew73IrgK9fU3SrBRp/ik1m
- nSQvF+ejwkqLNgduIAm33YpxGeI7ThNjT51EBVPAeL6FCd4WEiriYtJkLhMkwmxad2A6
- W5Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722360792; x=1722965592;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=h00l0sE2Da7uVyg6wZl2Hj/cGiCuPnqAm74p2xGEgL0=;
- b=o7wTSeXVHvYKXXuoGs9XooOYrUYbp4Vk4wLzmVGfXVyj2ypZFtIl++lm4Y/YlZYKQl
- WlPRtxDGwb4c0IfxFO8K2Ue4D6JR1heNyYFuFgEktyPtGRJoGmkjr7qCPKQPGPwCUta/
- Frzsdq+XfNI1BvmythGPE+pgR1T7E3haUW+8Jaovw0J0r+lOgvfbp9Zx1GdTeNP5VU9o
- oh+IHsMreM969AUZA1IPvEotoUSxbLPpzFY99M+qOyg9gaD/tkTlFHILdmiRKSWY4LuO
- S38MUkaW0wPxDz0azKI0yUIqxIl4NU0HtSC+8ca3be1o8UrIBZVc9926yCpE9gr/1W55
- 9hfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVaLp86D8cFkd1u1q2zNY2zvlivGSLxhMosqX3LMeIa9BH2e8q9uRWinRjeAwak1zVdwsrS4YSJ1x4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsO/Ost0dXh6nSRvBxjAH0C43DYpynrRDGgI9r6CJ3YXbEs1pg
- ga5428h1WarGSKTR7aBYZCG2OQI9Ga8nBweclbvDWY/o+D+OLi4L
-X-Google-Smtp-Source: AGHT+IGeXvMvdZ8y+4r8f5puBzaKVBDHw4yE1urlgsdCM8+TKoaJYHDNWhOa8elJTV37IUpKf5ji+A==
-X-Received: by 2002:ac2:51ce:0:b0:52c:de29:9ff with SMTP id
- 2adb3069b0e04-5309b259c05mr9804677e87.2.1722360791652; 
- Tue, 30 Jul 2024 10:33:11 -0700 (PDT)
-Received: from [192.168.208.87] (ip-109-43-178-158.web.vodafone.de.
- [109.43.178.158]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7acadb8072sm666870866b.196.2024.07.30.10.33.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jul 2024 10:33:10 -0700 (PDT)
-Message-ID: <c7e9c6f462b02b18a2cd2320058ec6dec1fa572e.camel@googlemail.com>
-Subject: Re: [PATCH] drm/bridge: synopsys: dw-mipi-dsi: enable EoTp by default
-From: Christoph Fritz <chf.fritz@googlemail.com>
-To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- NeilArmstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
-Cc: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>, Nicolas Boichat
- <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>
-Date: Tue, 30 Jul 2024 19:33:09 +0200
-In-Reply-To: <6a7293bd06942131161c5a7b7878c51cfbbb807e.camel@googlemail.com>
-References: <6a7293bd06942131161c5a7b7878c51cfbbb807e.camel@googlemail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3 (3.52.3-1.fc40app2) 
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C877210E0B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 18:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1722363386; x=1722968186; i=markus.elfring@web.de;
+ bh=xvaAnFf6R/yIs7ZuTACqMZYriKQLJKKfZREl3DH4mqE=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=G7dD2rogPow9g9kNHtx+FatgXeLLjDSKqalVfu+HzQ/sUJeUWB0BvVnEllz1WSr2
+ zfskXbn02ej6IpQEQ9fn1E63nviQM8gkzFiRjidCf+akM70CokaymCBn4AHYfMCan
+ 8rghg2N+x1NtmNNN38BiHxJLuyu4PU0zkp3kcrUhD30bG7ERv1BUKcFUuuBO2w73V
+ jz2pWzl/BIJcRL/E5iniMwddzLu2C+wmPUPgrKtBxgyDwx2VXAc7VEnr2oxEAIVIC
+ f4EtgtUeeLofhW9kso9/mHcFy+XdeQ8KAdykXmniHdHT23x40cEVQqs8OpxHR3pCR
+ 8fuKz5deQLWNUNW3PA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MgibY-1s36TW24dg-00d2Cu; Tue, 30
+ Jul 2024 20:16:26 +0200
+Message-ID: <5e96cb21-7b2b-4249-8be6-0822fb375808@web.de>
+Date: Tue, 30 Jul 2024 20:16:25 +0200
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 30 Jul 2024 20:02:54 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] drm/loongson: Introduce component framework support
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240728152858.346211-1-sui.jingfeng@linux.dev>
+ <20240728152858.346211-2-sui.jingfeng@linux.dev>
+ <6dbe975a-59eb-4d4b-9fea-b930fa44e4ec@web.de>
+ <7b34fb4c-abde-47e8-984b-3ea55d4475a7@linux.dev>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <7b34fb4c-abde-47e8-984b-3ea55d4475a7@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:MYmOLp4dbwQVpqQg6VnHfEQ1GBInLKqV3JW0VHK+ykxkegfezWJ
+ bQnlvSyPKJ5Br7vWJ7xzio64pzNimUg0UOBbpP6j+QIKIFtf2+4OHvLIHM3hdjLNaaamqRv
+ cd8S55ECbTcc7nhwmlfVQXVGAD2xkfcyU6q7XLublLFiB12EsIBgQ/v+9CSQoY4npe9xdu7
+ b3Pqf96XI9svT6uifc9Rg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:xtAwTzmaKeI=;Lk0GJjW97tsk5e68pLDDGoMUlHp
+ YVaLA8fZjAL9MqrMaWJTZspoCu07tMkbolGkYaQcLb/dd34KfjUkzNWsGO4tRmS/f2ZaIc4DY
+ PG50THGi79+6UV73PCK4zzrvGoPXin2Mx8Pn4/M+XkXMJYQOlIaHIHIAjJMnchOFtfZPTbSLg
+ WO1Sj3IeNcQTgHB1dghC/Tk1b/y3i1w2rpWi7VZJLel2gdSxaGB0j5j6ljlpczh68B3CVoRhP
+ askrMKy8chc5ZCeqC0OUFSurUY2yGEaC6O1yeag0xQo8CpoUlmsoKWjkUabhZEJJf4fNYRgGC
+ ytMlpkiVG5RcGJSUDwdgvk3/31+dzRkvY3XW94QVerbJraDsIQ/59z6f5Bi38hwfg+Ps+DD2r
+ X2HQnCp3JHxehMyRt3PUxXJZzw4SF8BbWnkQjbxauwunLfeHvqHxtg6yRKL3uaXhkKavMguSS
+ tJ99wECGkMb2EyALKTyRWo+lrE9Vgr8SoZvAFz7yBcJBNFphfWe29V4yk6de07ijGeCXwW/Xw
+ 6ny+rR2mworM4zweh8ZHX86voA2Q1iQfrz3Feox+2DeSDkiH8zf+Zf5fPVkRcnffKZiU4mMt+
+ yjtrrOubkJZtU1bzB5TisqMdw7stu12oOQaYjfKDF4jfqEB+Q+EfWdp4655f+d/FnDcVCxZXj
+ e7e8FPS58+F7lrqll3HiIC8n5g42Ipl+S45d/3SNGYmUaRN+0u63BcwHppoOD+y4R4uRgL4pN
+ qS5FldPNIH9a1OXvcOVSGMGBfW4BSTrSE0+Q54mXX9LT86swkKdIMyW39YuiZQA48DJzRCaQs
+ fjZ/CbOe+4hXSL7Fyros7utA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,43 +83,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2024-07-05 at 11:38 +0200, Christoph Fritz wrote:
-> Enable the transmission of an EoTp (end of transmission packet) by
-> default. EoTp should be enabled anyway because it is a Linux
-> necessity
-> that can be disabled by a dsi mod_flag if needed.
->=20
-> EoTp signals the end of an HS transmission, this adds overall
-> robustness
-> at protocol level at the expense of an increased overhead.
->=20
-> Signed-off-by: Christoph Fritz <chf.fritz@googlemail.com>
-> ---
-> =C2=A0drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 7 ++++++-
-> =C2=A01 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index c4e9d96933dce..0fb02e4e7f4e5 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -722,7 +722,12 @@ static void dw_mipi_dsi_dpi_config(struct
-> dw_mipi_dsi *dsi,
-> =C2=A0
-> =C2=A0static void dw_mipi_dsi_packet_handler_config(struct dw_mipi_dsi
-> *dsi)
-> =C2=A0{
-> -	dsi_write(dsi, DSI_PCKHDL_CFG, CRC_RX_EN | ECC_RX_EN |
-> BTA_EN);
-> +	u32 val =3D CRC_RX_EN | ECC_RX_EN | BTA_EN | EOTP_TX_EN;
-> +
-> +	if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
-> +		val &=3D ~EOTP_TX_EN;
-> +
-> +	dsi_write(dsi, DSI_PCKHDL_CFG, val);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void dw_mipi_dsi_video_packet_config(struct dw_mipi_dsi *dsi=
-,
+>> =E2=80=A6
+>>> +++ b/drivers/gpu/drm/loongson/loongson_drv.h
+>>> @@ -0,0 +1,108 @@
+>> =E2=80=A6
+>>> +#ifndef __LOONGSON_DRV_H__
+>>> +#define __LOONGSON_DRV_H__
+>> =E2=80=A6
+>>
+>> I suggest to omit leading underscores from such identifiers.
+=E2=80=A6
+> I suggest add this rules to the checkpatch.pl script,
+=E2=80=A6
 
-*ping*
+I hope that you would also like to reduce risks according to undefined beh=
+aviour
+another bit.
+https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+d=
+efine+a+reserved+identifier#DCL37C.Donotdeclareordefineareservedidentifier=
+-AutomatedDetection
+
+Regards,
+Markus
