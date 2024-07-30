@@ -2,46 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186CB940E2F
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 11:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA9B940EAC
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 12:11:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8EE10E27A;
-	Tue, 30 Jul 2024 09:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B64AB10E077;
+	Tue, 30 Jul 2024 10:11:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="meXB/yLt";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="C94Rw9c7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26FF310E27A
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 09:45:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 307DB61D5F;
- Tue, 30 Jul 2024 09:45:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638CBC32782;
- Tue, 30 Jul 2024 09:45:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1722332727;
- bh=M0ltyQrMsRlYvsiIutR3cGvd6LZCDQg5mHaQM1fEBgU=;
- h=Subject:To:Cc:From:Date:From;
- b=meXB/yLtr16S7tsxXKcgrRnepSog7fLqTziUnBrZse8iTIF8nVlOcm4i4SyfiWlDd
- TBdN3xAxmJEZ9UqC4UVwyoapL05CO9n3ef+z7IsHL8EcyPeBRk/x4x6Zx/KVlOhN9c
- epFf/m8PXvNZJscpy3M6hTmsJ/8D6r89tAPPERCc=
-Subject: Patch "drm/udl: Remove DRM_CONNECTOR_POLL_HPD" has been added to the
- 6.1-stable tree
-To: airlied@redhat.com, alexander.deucher@amd.com,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- jani.nikula@intel.com, sean@poorly.run, tutankhamen@chromium.org,
- tzimmermann@suse.de
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Tue, 30 Jul 2024 11:45:01 +0200
-Message-ID: <2024073059-unused-tiptoeing-c7dc@gregkh>
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB8C810E03F;
+ Tue, 30 Jul 2024 10:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1722334259;
+ bh=kwKNQoRGs15Za4VXh2kjUQHdxhfWjLaz7h4GWTcgp4Q=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=C94Rw9c72yphekMPRbh9BRcAmXHLMbC0clvUEwMzIMuLov5zfnlWp6D2NbaKrjENj
+ diI9mVB1n3Rfpe7YZ4kp8i9EUFhGfpFV4ENWNpyma+t5YmX/6OT4zBMHicMWCrkFbV
+ 1PnsUaY2gipiuj/Ho34cOrzpXaRE9LJdVJFkSAd97mLbcpmqkYLeoITcEGnVfu0FO7
+ czPlAhxqU3mJq8nVPTXL4s2teD5GhlPBs7nQGtOdFkpalT5yi8c90FDfYCI6/dLka0
+ Tsu8JYztEU+fgPkXj+6/Y9qy7QEtrPjFmlKjNuWqr/zwgS9MPkJKp9PAPA84CdvvGI
+ up/qFIB/4G89g==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4WY9wf25hWz4w2K;
+ Tue, 30 Jul 2024 20:10:58 +1000 (AEST)
+Date: Tue, 30 Jul 2024 20:10:56 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@intel.com>, "Golani, Mitulkumar
+ Ajitkumar" <mitulkumar.ajitkumar.golani@intel.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Suraj Kandpal <suraj.kandpal@intel.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build warning after merge of the drm-intel tree
+Message-ID: <20240730201056.70f71496@canb.auug.org.au>
+In-Reply-To: <679e9674-9611-48a8-8f94-4285b080d3f6@intel.com>
+References: <20240612141110.3aebb166@canb.auug.org.au>
+ <20240715091234.5e8b2701@canb.auug.org.au>
+ <774fa28d-b196-0030-2fb2-5d5fb8a7d1cc@intel.com>
+ <679e9674-9611-48a8-8f94-4285b080d3f6@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: multipart/signed; boundary="Sig_/=G3dNmxhcEOQZR/IIswhZ6+";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,64 +67,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/=G3dNmxhcEOQZR/IIswhZ6+
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This is a note to let you know that I've just added the patch titled
+Hi all,
 
-    drm/udl: Remove DRM_CONNECTOR_POLL_HPD
+On Mon, 15 Jul 2024 14:13:37 +0200 Maarten Lankhorst <maarten.lankhorst@int=
+el.com> wrote:
+>
+> Den 2024-07-15 kl. 06:21, skrev Golani, Mitulkumar Ajitkumar:
+> >
+> > On 15-07-2024 04:42, Stephen Rothwell wrote: =20
+> >>
+> >> On Wed, 12 Jun 2024 14:11:10 +1000 Stephen Rothwell <sfr@canb.auug.org=
+.au> wrote: =20
+> >>> After merging the drm-intel tree, today's linux-next build (htmldocs)
+> >>> produced this warning:
+> >>>
+> >>> include/drm/display/drm_dp_helper.h:127: warning: Function parameter =
+or struct member 'target_rr_divider' not described in 'drm_dp_as_sdp'
+> >>>
+> >>> Introduced by commit
+> >>>
+> >>> =C2=A0=C2=A0 a20c6d954d75 ("drm/dp: Add refresh rate divider to struc=
+t representing AS SDP") =20
+> >> I am now seeing that warning after the merge of the drm tree. =20
+> > Hi Stephen Rothwell,
+> >
+> > I have already floated changes : https://patchwork.freedesktop.org/patc=
+h/604143/?series=3D136072&rev=3D1
+> >
+> > Need help on Ack from drm-maintainers to merge. =20
+>=20
+> There you go, does it need to go through drm-misc too?
 
-to the 6.1-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+I am still seeing these warnings.
 
-The filename of the patch is:
-     drm-udl-remove-drm_connector_poll_hpd.patch
-and it can be found in the queue-6.1 subdirectory.
+--=20
+Cheers,
+Stephen Rothwell
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+--Sig_/=G3dNmxhcEOQZR/IIswhZ6+
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
-From 5aed213c7c6c4f5dcb1a3ef146f493f18fe703dc Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Fri, 10 May 2024 17:47:08 +0200
-Subject: drm/udl: Remove DRM_CONNECTOR_POLL_HPD
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmaovDAACgkQAVBC80lX
+0GxhAwf/QRSEG82Aa/sWPYI4rGYGbNFFEXZQyaInF/Azo+K39nV9y47YMdIcWyFx
+MsHH8M6ftbecZO/nb7Kgdux1fM76N/Uuj5X6d+q6OefCVcUdWt6ZFW2qGEIfZGzC
+1XwFhnJCgmJwyofIle5GnozosdJk3sOm1lu8XRVNtuYQTf/xIa6C4VcJIOaasoES
+fa4Oz9JX2LJ6IcUj+2m7Oh6P+8Gh8oAeeksbxsTEldGY8v2owzpPEA7eycC3kYq7
+VxennagkUo91gtE6FnLeIRqux/ZQbHBt4TNPdQMcl21BeWzWRb6W51yQ4mXkC1BB
+L3hiELb8HALzCHTzPNMMfm+lxD9wxg==
+=y++b
+-----END PGP SIGNATURE-----
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit 5aed213c7c6c4f5dcb1a3ef146f493f18fe703dc upstream.
-
-DisplayLink devices do not generate hotplug events. Remove the poll
-flag DRM_CONNECTOR_POLL_HPD, as it may not be specified together with
-DRM_CONNECTOR_POLL_CONNECT or DRM_CONNECTOR_POLL_DISCONNECT.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: afdfc4c6f55f ("drm/udl: Fixed problem with UDL adpater reconnection")
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Cc: Robert Tarasov <tutankhamen@chromium.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v4.15+
-Link: https://patchwork.freedesktop.org/patch/msgid/20240510154841.11370-2-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/udl/udl_modeset.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -527,8 +527,7 @@ struct drm_connector *udl_connector_init
- 
- 	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
- 
--	connector->polled = DRM_CONNECTOR_POLL_HPD |
--			    DRM_CONNECTOR_POLL_CONNECT |
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
- 			    DRM_CONNECTOR_POLL_DISCONNECT;
- 
- 	return connector;
-
-
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
-
+--Sig_/=G3dNmxhcEOQZR/IIswhZ6+--
