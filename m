@@ -2,19 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126DC94035B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 03:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E9B94038F
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 03:25:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B85B10E0BD;
-	Tue, 30 Jul 2024 01:20:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E25110E0B4;
+	Tue, 30 Jul 2024 01:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E86710E0B4
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 01:20:12 +0000 (UTC)
-X-UUID: d9f08bd64e1111efaef563ec20b7f6c9-20240730
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D1F110E0B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 01:25:15 +0000 (UTC)
+X-UUID: 8fab547e4e1211efaef563ec20b7f6c9-20240730
+X-CID-CACHE: Type:Local,Time:202407300920+08,HitQuantity:1
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38, REQID:64204390-4039-4071-af99-967be4d9393b, IP:0,
+X-CID-O-INFO: VERSION:1.1.38, REQID:ebe2b30f-04e0-4160-8b5f-b9754abb213c, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
@@ -26,23 +27,24 @@ X-CID-META: VersionHash:82c5f88, CLOUDID:2f4db1f023c5b71e1a5549170f379908,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: d9f08bd64e1111efaef563ec20b7f6c9-20240730
+X-UUID: 8fab547e4e1211efaef563ec20b7f6c9-20240730
 Received: from node2.com.cn [(10.44.16.197)] by mailgw.kylinos.cn
  (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
- with ESMTP id 2020259093; Tue, 30 Jul 2024 09:20:04 +0800
+ with ESMTP id 980786809; Tue, 30 Jul 2024 09:25:09 +0800
 Received: from node2.com.cn (localhost [127.0.0.1])
- by node2.com.cn (NSMail) with SMTP id BE5CAB8075B2;
- Tue, 30 Jul 2024 09:20:04 +0800 (CST)
-X-ns-mid: postfix-66A83FC4-671480104
+ by node2.com.cn (NSMail) with SMTP id 9E3A6B80758A;
+ Tue, 30 Jul 2024 09:25:09 +0800 (CST)
+X-ns-mid: postfix-66A840F5-527751131
 Received: from [10.42.20.83] (unknown [10.42.20.83])
- by node2.com.cn (NSMail) with ESMTPA id C6FCCB80758A;
- Tue, 30 Jul 2024 01:20:02 +0000 (UTC)
-Message-ID: <9f10d7cf-7173-e524-5e1e-c07ecc356159@kylinos.cn>
-Date: Tue, 30 Jul 2024 09:20:02 +0800
+ by node2.com.cn (NSMail) with ESMTPA id 701DEB80758A;
+ Tue, 30 Jul 2024 01:25:08 +0000 (UTC)
+Message-ID: <e7115a83-844a-d1c6-0fe5-2d80eb6a55e2@kylinos.cn>
+Date: Tue, 30 Jul 2024 09:25:08 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
 Subject: Re: [PATCH] drm/ast: add multiple connectors support
+Content-Language: en-US
 To: Thomas Zimmermann <tzimmermann@suse.de>, oushixiong1025@163.com,
  Dave Airlie <airlied@redhat.com>
 Cc: Jocelyn Falempe <jfalempe@redhat.com>,
@@ -51,10 +53,9 @@ Cc: Jocelyn Falempe <jfalempe@redhat.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20240711090102.352213-1-oushixiong1025@163.com>
- <18d7ea0a-64d7-4432-bd86-0d3b6e699175@suse.de>
-Content-Language: en-US
+ <edb91a7b-e28d-4145-8143-b1be2a9d7d55@suse.de>
 From: oushixiong <oushixiong@kylinos.cn>
-In-Reply-To: <18d7ea0a-64d7-4432-bd86-0d3b6e699175@suse.de>
+In-Reply-To: <edb91a7b-e28d-4145-8143-b1be2a9d7d55@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,12 +73,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just a VGA connector on the board.
+Yes, I have=C2=A0 tested these patches, and these patches fix the problem=
+.
 
 Best regards
 Shixiong
 
-=E5=9C=A8 2024/7/29 20:29, Thomas Zimmermann =E5=86=99=E9=81=93:
+=E5=9C=A8 2024/7/29 20:34, Thomas Zimmermann =E5=86=99=E9=81=93:
 > Hi
 >
 > Am 11.07.24 um 11:01 schrieb oushixiong1025@163.com:
@@ -92,8 +94,11 @@ Shixiong
 >> [HOW]
 >> Allows multiple physical connectors to exist at the same time.
 >
-> I have another question about this patch. Is there a physical=20
-> connector for each type (VGA, DP) on your board? Or just one of them?
+> And another question: does the patch series at
+>
+> =C2=A0 https://patchwork.freedesktop.org/series/136198/
+>
+> fix the problem?
 >
 > Best regards
 > Thomas
