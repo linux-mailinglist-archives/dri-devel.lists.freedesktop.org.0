@@ -2,54 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE5E940468
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 04:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7735B940489
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 04:26:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8318F10E495;
-	Tue, 30 Jul 2024 02:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 051D010E110;
+	Tue, 30 Jul 2024 02:26:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BJhwpa6X";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Uk7FgLev";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B28310E41F;
- Tue, 30 Jul 2024 02:17:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1722305826;
- bh=pMAK4ghJn79zu6qjMPzKmx0UMNpwVcVW8pDsTGD9Ahk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BJhwpa6XXzX7fq7uhuIc5KXBAUnED7e+E1/hVdm48XXLXrhz51+mZ9hqGn0avQu7G
- bSBDPp9zyFaExpEYsZT9adz3pLGIiK6zSsOExphu0u7dUFW71xe55g479Of1nzjZfw
- 3O85oNlW+RFhEmiCFMCKxJwB2eQ86XTL3xJPYAbnRpqQE3+nwoxZH8ChJ/gu9hjVUR
- t6mnqd9EK47gP7MPSyki1ZFcbx8ROJeK9wMBFGn0JT2Kh/GGfzf1+QACp3kWvJ3Ca/
- ECpVBd777AUc/paIbjL9ns0PLDUJiZGlydclo1K1xy+JcV0VvmpWf/Hl7LR3H6PfWT
- X/4eWcZNwsaJA==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1BBFE3782191;
- Tue, 30 Jul 2024 02:17:01 +0000 (UTC)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, deborah.brouwer@collabora.com,
- dmitry.baryshkov@linaro.org, mcanal@igalia.com, melissa.srw@gmail.com,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 6/6] drm/ci: rockchip: add tests for rockchip display driver
-Date: Tue, 30 Jul 2024 07:45:41 +0530
-Message-ID: <20240730021545.912271-7-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240730021545.912271-1-vignesh.raman@collabora.com>
-References: <20240730021545.912271-1-vignesh.raman@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com
+ [209.85.219.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53BA710E110
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 02:26:30 +0000 (UTC)
+Received: by mail-yb1-f201.google.com with SMTP id
+ 3f1490d57ef6-e035949cc4eso5409504276.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2024 19:26:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1722306389; x=1722911189;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=cYpp6YDv/ORMb4tmsR/54ENbd/0vEM5QforRZnoxFtk=;
+ b=Uk7FgLev5ifcMaPJneLsU85RuDZ5mvD+GNH+lwd9b1UuP7K/N7bpOlCWWaJ4GSaGCi
+ dZK3x5B3kaZkxhe5ry/nf+FxX7WyQlvi9c3Tp5Aqytq5cJ+UQPCG3Hg7NMIJyrwbvVU9
+ iwPhC5RXR0uqiBd9rTco2lWhVgTLK6/4g+kN5DaPT0JTm1eh8suiYokq1XGi0lgzrW5c
+ VsftF5XZCnhEHmV3tT7r6pfB0mvqglCXpvVEemFPKyN393nNrsNwSrvjfzRXXomByMf4
+ at5DPSzAvkRW9+uBZOBigPJWowm4hRfeTFKynjwJUw2MlPOAer3dnqNfN+8F5jsElG8P
+ dEzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722306389; x=1722911189;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cYpp6YDv/ORMb4tmsR/54ENbd/0vEM5QforRZnoxFtk=;
+ b=hqqVA+MTAObULZwp8+6R49M042j8VY5MfWMjv0dh4o4WFePUX693RDG7bqK9d/Hkhd
+ YgXhKKFGkeP4omA5Pa8bBuYtqGEcKKiOprbjSg8qBhwK6ZQQdtF6yWjvH7AxBejugP0v
+ NJ4BSo5s2euAilq2HmDwoXd4IMNKhMxyE/s5CoqJ9mtw7GvIaDQtz9d82QnReUfKs+va
+ O6QqJ0mBb6wN1yWTvb5+B1dFYhbuTxWMVKEZ3FXnIL9Rf+fhRuZxKgw9vm92GHDd5x49
+ kuwYh+z2QFQ7yVzzSo36g23KzanyDmGaLWevyWUFXczE5anpMHpf1mkgpYJh6Rio/tn8
+ Fz8Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUSWZqpTe3rUMAekzcyiXMusvxXmMXKrH8pAHLGYTWnzrxexW18aWBQHLk5HaBSu40eTCio2tFmOMsHVZk1GekZq++jAbr77LJB4Ank2Q5N
+X-Gm-Message-State: AOJu0YzT1HvmLBJw6SWr+7Fnx1ReAVX6pa/5enDOoFSjcHe12Cac6+8j
+ EFgFfey7CArG6qr+w1jombbOtmgw/drUPl9Zv5cka99ycsX46wIRX+y3SzN7W+ED74fe2OcUpCC
+ FfH1j5qMDuquB/jjfmdTkPA==
+X-Google-Smtp-Source: AGHT+IGAr2Ox5wAMlJhTGeWjmTSB5CTtPPmHj/fwVsk/kgnOBqJ4IXI+acxUNkXawqZi8vltlGKdpDOqWGPTmnR4iQ==
+X-Received: from almasrymina.c.googlers.com
+ ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
+ (user=almasrymina job=sendgmr) by 2002:a05:6902:1892:b0:e03:5050:acc5 with
+ SMTP id 3f1490d57ef6-e0b545589e5mr727660276.7.1722306389290; Mon, 29 Jul 2024
+ 19:26:29 -0700 (PDT)
+Date: Tue, 30 Jul 2024 02:26:04 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.46.0.rc1.232.g9752f9e123-goog
+Message-ID: <20240730022623.98909-1-almasrymina@google.com>
+Subject: [PATCH net-next v17 00/14] Device Memory TCP
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Cc: Mina Almasry <almasrymina@google.com>,
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, 
+ Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,543 +115,710 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For rockchip rk3288 and rk3399, the display driver is rockchip
-and gpu driver is panfrost. Currently, in drm-ci for rockchip
-rk3288 and rk3399, only the gpu driver is tested. Refactor
-the existing rockchip jobs to test both display and gpu driver
-and update xfails.
+v17: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D869900&s=
+tate=3D*
+=3D=3D=3D=3D
 
-Since the correct driver name is passed from the job to test gpu
-and display driver, remove the check to set IGT_FORCE_DRIVER
-based on driver name for rockchip jobs.
+v16 also got a very thorough review and some testing (thanks again!).
+Thes version addresses all the concerns reported on v15, in terms of
+feedback and issues reported.
 
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
+Major changes:
+- Use ASSERT_RTNL.
+- Moved around some of the page_pool helpers definitions so I can hide
+  some netmem helpers in private files as Jakub suggested.
+- Don't make every net_iov hold a ref on the binding as Jakub suggested.
+- Fix issue reported by Taehee where we access queues after they have
+  been freed.
 
-v2:
-  - Refactor the patch to rename job to indicate display driver testing,
-    rename the existing xfail files.
+Full devmem TCP changes including the full GVE driver implementation is
+here:
 
-v3:
-  - Add the job name in GPU_VERSION and use it for xfail file names
-    instead of using DRIVER_NAME. Also update xfails.
+https://github.com/mina/linux/commits/tcpdevmem-v17/
 
-v4:
-  - Remove the display suffix in job and rename xfails accordingly.
-    Remove the change adding job name in GPU_VERSION.
+v16: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D866353&s=
+tate=3D*
+=3D=3D=3D=3D
 
-v5:
-  - Add rockchip-display job and skip driver-specfic tests.
+v15 got a thorough review and some testing, and this version addresses almo=
+st
+all the feedback. Some more minor comments where the authors said it
+could be done later, I left out.
 
-v6:
-  - Squash commits for display and gpu driver testing. Reword the commit message.
+Major changes:
+- Addition of dma-buf introspection to page-pool-get and queue-get.
+- Fixes to selftests suggested by Taehee.
+- Fixes to documentation suggested by Donald.
+- A couple of suggestions and fixes to TCP patches by Eric and David.
+- Fixes to number assignements suggested by Arnd.
+- Use rtnl_lock()ing to guard against queue reconfiguration while the
+  page_pool initialization is happening. (Jakub).
+- Fixes to a few warnings reproduced by Taehee.
+- Fixes to dma-buf binding suggested by Taehee and Jakub.
+- Fixes to netlink UAPI suggested by Jakub
+- Applied a number of Reviewed-bys and Acked-bys (including ones I lost
+  from v13+).
 
-v7:
-  - Rebase with recent drm-ci fixes and retest with latest IGT.
+Full devmem TCP changes including the full GVE driver implementation is
+here:
 
-v8:
-  - Add the link to the flaky test bug report and add header for each flaky test.
+https://github.com/mina/linux/commits/tcpdevmem-v16/
+
+One caveat: Taehee reproduced a KASAN warning and reported it here:
+
+https://lore.kernel.org/netdev/CAMArcTUdCxOBYGF3vpbq=3DeBvqZfnc44KBaQTN7H-w=
+qdUxZdziw@mail.gmail.com/
+
+I estimate the issue to be minor and easily fixable:
+
+https://lore.kernel.org/netdev/CAHS8izNgaqC--GGE2xd85QB=3DutUnOHmioCsDd1TNx=
+JWKemaD_g@mail.gmail.com/
+
+I hope to be able to follow up with a fix to net tree as net-next closes
+imminently, but if this iteration doesn't make it in, I will repost with
+a fix squashed after net-next reopens, no problem.
+
+v15: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D865481&s=
+tate=3D*
+=3D=3D=3D=3D
+
+No material changes in this version, only a fix to linking against
+libynl.a from the last version. Per Jakub's instructions I've pulled one
+of his patches into this series, and now use the new libynl.a correctly,
+I hope.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v15/
+
+v14: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D865135&a=
+rchive=3Dboth&state=3D*
+=3D=3D=3D=3D
+
+No material changes in this version. Only rebase and re-verification on
+top of net-next. v13, I think, raced with commit ebad6d0334793
+("net/ipv4: Use nested-BH locking for ipv4_tcp_sk.") being merged to
+net-next that caused a patchwork failure to apply. This series should
+apply cleanly on commit c4532232fa2a4 ("selftests: net: remove unneeded
+IP_GRE config").
+
+I did not wait the customary 24hr as Jakub said it's OK to repost as soon
+as I build test the rebased version:
+
+https://lore.kernel.org/netdev/20240625075926.146d769d@kernel.org/
+
+v13: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D861406&a=
+rchive=3Dboth&state=3D*
+=3D=3D=3D=3D
+
+Major changes:
+--------------
+
+This iteration addresses Pavel's review comments, applies his
+reviewed-by's, and seeks to fix the patchwork build error (sorry!).
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v13/
+
+v12: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D859747&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major changes:
+--------------
+
+This iteration only addresses one minor comment from Pavel with regards
+to the trace printing of netmem, and the patchwork build error
+introduced in v11 because I missed doing an allmodconfig build, sorry.
+
+Other than that v11, AFAICT, received no feedback. There is one
+discussion about how the specifics of  plugging io uring memory through
+the page pool, but not relevant to content in this particular patchset,
+AFAICT.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v12/
+
+v11: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D857457&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+v11 addresses feedback received in v10. The major change is the removal
+of the memory provider ops as requested by Christoph. We still
+accomplish the same thing, but utilizing direct function calls with if
+statements rather than generic ops.
+
+Additionally address sparse warnings, bugs and review comments from
+folks that reviewed.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v11/
+
+Detailed changelog:
+-------------------
+
+- Fixes in netdev_rx_queue_restart() from Pavel & David.
+- Remove commit e650e8c3a36f5 ("net: page_pool: create hooks for
+custom page providers") from the series to address Christoph's
+feedback and rebased other patches on the series on this change.
+- Fixed build errors with CONFIG_DMA_SHARED_BUFFER &&
+  !CONFIG_GENERIC_ALLOCATOR build.
+- Fixed sparse warnings pointed out by Paolo.
+- Drop unnecessary gro_pull_from_frag0 checks.
+- Added Bagas reviewed-by to docs.
+
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: Nikolay Aleksandrov <razor@blackwall.org>
+Cc: Taehee Yoo <ap420073@gmail.com>
+Cc: Donald Hunter <donald.hunter@gmail.com>
+
+v10: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D852422&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+v9 was sent right before the merge window closed (sorry!). v10 is almost
+a re-send of the series now that the merge window re-opened. Only
+rebased to latest net-next and addressed some minor iterative comments
+received on v9.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v10/
+
+Detailed changelog:
+-------------------
+
+- Fixed tokens leaking in DONTNEED setsockopt (Nikolay).
+- Moved net_iov_dma_addr() to devmem.c and made it a devmem specific
+  helpers (David).
+- Rename hook alloc_pages to alloc_netmems as alloc_pages is now
+  preprocessor macro defined and causes a build error.
 
 v9:
-  - Skip display functionality tests for GPU-only drivers and update expectation files.
+=3D=3D=3D
 
----
- drivers/gpu/drm/ci/igt_runner.sh              |  3 -
- drivers/gpu/drm/ci/test.yml                   | 48 +++++++---
- .../drm/ci/xfails/panfrost-rk3288-fails.txt   |  1 +
- .../drm/ci/xfails/panfrost-rk3288-skips.txt   | 26 ++++++
- .../drm/ci/xfails/panfrost-rk3399-fails.txt   |  1 +
- .../drm/ci/xfails/panfrost-rk3399-flakes.txt  |  6 ++
- .../drm/ci/xfails/panfrost-rk3399-skips.txt   | 26 ++++++
- .../drm/ci/xfails/rockchip-rk3288-fails.txt   | 21 +++--
- .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |  6 ++
- .../drm/ci/xfails/rockchip-rk3288-skips.txt   | 54 +----------
- .../drm/ci/xfails/rockchip-rk3399-fails.txt   | 89 +++++++++++++++++--
- .../drm/ci/xfails/rockchip-rk3399-flakes.txt  | 50 ++++++++++-
- .../drm/ci/xfails/rockchip-rk3399-skips.txt   |  7 +-
- 13 files changed, 249 insertions(+), 89 deletions(-)
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
+Major Changes:
+--------------
 
-diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
-index 1578a2a47a54..f38836ec837c 100755
---- a/drivers/gpu/drm/ci/igt_runner.sh
-+++ b/drivers/gpu/drm/ci/igt_runner.sh
-@@ -20,9 +20,6 @@ cat /sys/kernel/debug/dri/*/state
- set -e
- 
- case "$DRIVER_NAME" in
--    rockchip)
--        export IGT_FORCE_DRIVER="panfrost"
--        ;;
-     amdgpu|vkms)
-         # Cannot use HWCI_KERNEL_MODULES as at that point we don't have the module in /lib
-         mv /install/modules/lib/modules/* /lib/modules/. || true
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 5ccf57b3bf91..b22b2cf8f06f 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -160,33 +160,57 @@ msm:sdm845:
-   script:
-     - ./install/bare-metal/cros-servo.sh
- 
--rockchip:rk3288:
--  extends:
--    - .lava-igt:arm32
-+.rockchip-device:
-+  variables:
-+    DTB: ${DEVICE_TYPE}
-+    BOOT_METHOD: depthcharge
-+
-+.rockchip-display:
-   stage: rockchip
-   variables:
-     DRIVER_NAME: rockchip
-+
-+.rk3288:
-+  extends:
-+    - .lava-igt:arm32
-+    - .rockchip-device
-+  variables:
-     DEVICE_TYPE: rk3288-veyron-jaq
--    DTB: ${DEVICE_TYPE}
--    BOOT_METHOD: depthcharge
--    KERNEL_IMAGE_TYPE: "zimage"
-     GPU_VERSION: rk3288
-+    KERNEL_IMAGE_TYPE: "zimage"
-     RUNNER_TAG: mesa-ci-x86-64-lava-rk3288-veyron-jaq
- 
--rockchip:rk3399:
-+.rk3399:
-   extends:
-     - .lava-igt:arm64
--  stage: rockchip
-+    - .rockchip-device
-   parallel: 2
-   variables:
--    DRIVER_NAME: rockchip
-     DEVICE_TYPE: rk3399-gru-kevin
--    DTB: ${DEVICE_TYPE}
--    BOOT_METHOD: depthcharge
--    KERNEL_IMAGE_TYPE: ""
-     GPU_VERSION: rk3399
-+    KERNEL_IMAGE_TYPE: ""
-     RUNNER_TAG: mesa-ci-x86-64-lava-rk3399-gru-kevin
- 
-+rockchip:rk3288:
-+  extends:
-+    - .rk3288
-+    - .rockchip-display
-+
-+panfrost:rk3288:
-+  extends:
-+    - .rk3288
-+    - .panfrost-gpu
-+
-+rockchip:rk3399:
-+  extends:
-+    - .rk3399
-+    - .rockchip-display
-+
-+panfrost:rk3399:
-+  extends:
-+    - .rk3399
-+    - .panfrost-gpu
-+
- .i915:
-   extends:
-     - .lava-igt:x86_64
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt
-new file mode 100644
-index 000000000000..4a2f4b6b14c1
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-fails.txt
-@@ -0,0 +1 @@
-+panfrost/panfrost_prime@gem-prime-import,Crash
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
-new file mode 100644
-index 000000000000..feeed89b6c3f
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-skips.txt
-@@ -0,0 +1,26 @@
-+# Suspend to RAM seems to be broken on this machine
-+.*suspend.*
-+
-+# Skip driver specific tests
-+^amdgpu.*
-+^msm.*
-+nouveau_.*
-+^v3d.*
-+^vc4.*
-+^vmwgfx*
-+
-+# Skip intel specific tests
-+gem_.*
-+i915_.*
-+tools_test.*
-+
-+# Panfrost is not a KMS driver, so skip the KMS tests
-+kms_.*
-+
-+# Skip display functionality tests for GPU-only drivers
-+dumb_buffer.*
-+fbdev.*
-+
-+# Currently fails and causes coverage loss for other tests
-+# since core_getversion also fails.
-+core_hotunplug.*
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt
-new file mode 100644
-index 000000000000..fe8ce2ce33e6
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-fails.txt
-@@ -0,0 +1 @@
-+panfrost/panfrost_prime@gem-prime-import,Fail
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt
-new file mode 100644
-index 000000000000..ac4f8f7244d4
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-flakes.txt
-@@ -0,0 +1,6 @@
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/dri-devel/5cc34a8b-c1fa-4744-9031-2d33ecf41011@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-g0df7b9b97
-+# Linux Version: 6.9.0-rc7
-+panfrost/panfrost_submit@pan-unhandled-pagefault
-diff --git a/drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt
-new file mode 100644
-index 000000000000..feeed89b6c3f
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-skips.txt
-@@ -0,0 +1,26 @@
-+# Suspend to RAM seems to be broken on this machine
-+.*suspend.*
-+
-+# Skip driver specific tests
-+^amdgpu.*
-+^msm.*
-+nouveau_.*
-+^v3d.*
-+^vc4.*
-+^vmwgfx*
-+
-+# Skip intel specific tests
-+gem_.*
-+i915_.*
-+tools_test.*
-+
-+# Panfrost is not a KMS driver, so skip the KMS tests
-+kms_.*
-+
-+# Skip display functionality tests for GPU-only drivers
-+dumb_buffer.*
-+fbdev.*
-+
-+# Currently fails and causes coverage loss for other tests
-+# since core_getversion also fails.
-+core_hotunplug.*
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-index 99928a24e636..ea7b2ceb95b9 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-@@ -1,7 +1,18 @@
-+core_setmaster@master-drop-set-root,Crash
-+core_setmaster@master-drop-set-user,Crash
-+core_setmaster_vs_auth,Crash
-+device_reset@cold-reset-bound,Crash
-+device_reset@reset-bound,Crash
-+device_reset@unbind-cold-reset-rebind,Crash
-+device_reset@unbind-reset-rebind,Crash
- dumb_buffer@create-clear,Crash
--dumb_buffer@create-valid-dumb,Crash
- dumb_buffer@invalid-bpp,Crash
--dumb_buffer@map-invalid-size,Crash
--dumb_buffer@map-uaf,Crash
--dumb_buffer@map-valid,Crash
--panfrost/panfrost_prime@gem-prime-import,Crash
-+fbdev@pan,Crash
-+kms_cursor_crc@cursor-onscreen-32x10,Crash
-+kms_cursor_crc@cursor-onscreen-32x32,Crash
-+kms_cursor_crc@cursor-random-32x10,Crash
-+kms_cursor_crc@cursor-sliding-32x32,Crash
-+kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
-+kms_cursor_legacy@cursor-vs-flip-legacy,Fail
-+kms_prop_blob@invalid-set-prop,Crash
-+kms_prop_blob@invalid-set-prop-any,Crash
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
-new file mode 100644
-index 000000000000..7ede273aab20
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
-@@ -0,0 +1,6 @@
-+# Board Name: rk3288-veyron-jaq
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 100
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_cursor_legacy@flip-vs-cursor-atomic
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-index e86ff00dc58a..eb16b29dee48 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-@@ -1,60 +1,11 @@
- # Suspend to RAM seems to be broken on this machine
- .*suspend.*
- 
--# Too unstable, machine ends up hanging after lots of Oopses
--kms_cursor_legacy.*
--
--# Started hanging the machine on Linux 5.19-rc2:
--#
--# [IGT] kms_plane_lowres: executing
--# [IGT] kms_plane_lowres: starting subtest pipe-F-tiling-y
--# [IGT] kms_plane_lowres: exiting, ret=77
--# Console: switching to colour frame buffer device 170x48
--# rockchip-drm display-subsystem: [drm] *ERROR* flip_done timed out
--# rockchip-drm display-subsystem: [drm] *ERROR* [CRTC:35:crtc-0] commit wait timed out
--# BUG: spinlock bad magic on CPU#3, kms_plane_lowre/482
--# 8<--- cut here ---
--# Unable to handle kernel paging request at virtual address 7812078e
--# [7812078e] *pgd=00000000
--# Internal error: Oops: 5 [#1] SMP ARM
--# Modules linked in:
--# CPU: 3 PID: 482 Comm: kms_plane_lowre Tainted: G        W         5.19.0-rc2-323596-g00535de92171 #1
--# Hardware name: Rockchip (Device Tree)
--# Process kms_plane_lowre (pid: 482, stack limit = 0x1193ac2b)
--#  spin_dump from do_raw_spin_lock+0xa4/0xe8
--#  do_raw_spin_lock from wait_for_completion_timeout+0x2c/0x120
--#  wait_for_completion_timeout from drm_crtc_commit_wait+0x18/0x7c
--#  drm_crtc_commit_wait from drm_atomic_helper_wait_for_dependencies+0x44/0x168
--#  drm_atomic_helper_wait_for_dependencies from commit_tail+0x34/0x180
--#  commit_tail from drm_atomic_helper_commit+0x164/0x18c
--#  drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe4
--#  drm_atomic_commit from drm_client_modeset_commit_atomic+0x23c/0x284
--#  drm_client_modeset_commit_atomic from drm_client_modeset_commit_locked+0x60/0x1c8
--#  drm_client_modeset_commit_locked from drm_client_modeset_commit+0x24/0x40
--#  drm_client_modeset_commit from drm_fbdev_client_restore+0x58/0x94
--#  drm_fbdev_client_restore from drm_client_dev_restore+0x70/0xbc
--#  drm_client_dev_restore from drm_release+0xf4/0x114
--#  drm_release from __fput+0x74/0x240
--#  __fput from task_work_run+0x84/0xb4
--#  task_work_run from do_exit+0x34c/0xa20
--#  do_exit from do_group_exit+0x34/0x98
--#  do_group_exit from __wake_up_parent+0x0/0x18
--# Code: e595c008 12843d19 03e00000 03093168 (15940508)
--# ---[ end trace 0000000000000000 ]---
--# note: kms_plane_lowre[482] exited with preempt_count 1
--# Fixing recursive fault but reboot is needed!
--kms_plane_lowres@pipe-F-tiling-y
--
--# Take too long, we have only two machines, and these are very flaky
--kms_cursor_crc.*
--
--# Machine is hanging in this test, so skip it
--kms_pipe_crc_basic@disable-crc-after-crtc
--
- # Skip driver specific tests
- ^amdgpu.*
- ^msm.*
- nouveau_.*
-+^panfrost.*
- ^v3d.*
- ^vc4.*
- ^vmwgfx*
-@@ -64,9 +15,6 @@ gem_.*
- i915_.*
- tools_test.*
- 
--# Panfrost is not a KMS driver, so skip the KMS tests
--kms_.*
--
- # Currently fails and causes coverage loss for other tests
- # since core_getversion also fails.
- core_hotunplug.*
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-index 70053ea74b5d..9309ff15e23a 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-@@ -1,7 +1,84 @@
--dumb_buffer@create-clear,Fail
--dumb_buffer@create-valid-dumb,Fail
-+device_reset@cold-reset-bound,Fail
-+device_reset@reset-bound,Fail
-+device_reset@unbind-cold-reset-rebind,Fail
-+device_reset@unbind-reset-rebind,Fail
-+dumb_buffer@create-clear,Crash
- dumb_buffer@invalid-bpp,Fail
--dumb_buffer@map-invalid-size,Fail
--dumb_buffer@map-uaf,Fail
--dumb_buffer@map-valid,Fail
--panfrost/panfrost_prime@gem-prime-import,Fail
-+kms_atomic_transition@modeset-transition,Fail
-+kms_atomic_transition@modeset-transition-fencing,Fail
-+kms_atomic_transition@plane-toggle-modeset-transition,Fail
-+kms_color@gamma,Fail
-+kms_color@legacy-gamma,Fail
-+kms_cursor_crc@cursor-alpha-opaque,Fail
-+kms_cursor_crc@cursor-alpha-transparent,Fail
-+kms_cursor_crc@cursor-dpms,Fail
-+kms_cursor_crc@cursor-offscreen-32x10,Fail
-+kms_cursor_crc@cursor-offscreen-32x32,Fail
-+kms_cursor_crc@cursor-offscreen-64x21,Fail
-+kms_cursor_crc@cursor-offscreen-64x64,Fail
-+kms_cursor_crc@cursor-onscreen-32x10,Fail
-+kms_cursor_crc@cursor-onscreen-32x32,Fail
-+kms_cursor_crc@cursor-onscreen-64x21,Fail
-+kms_cursor_crc@cursor-onscreen-64x64,Fail
-+kms_cursor_crc@cursor-random-32x10,Fail
-+kms_cursor_crc@cursor-random-32x32,Fail
-+kms_cursor_crc@cursor-random-64x21,Fail
-+kms_cursor_crc@cursor-random-64x64,Fail
-+kms_cursor_crc@cursor-rapid-movement-32x10,Fail
-+kms_cursor_crc@cursor-rapid-movement-32x32,Fail
-+kms_cursor_crc@cursor-rapid-movement-64x21,Fail
-+kms_cursor_crc@cursor-rapid-movement-64x64,Fail
-+kms_cursor_crc@cursor-size-change,Fail
-+kms_cursor_crc@cursor-sliding-32x10,Fail
-+kms_cursor_crc@cursor-sliding-32x32,Fail
-+kms_cursor_crc@cursor-sliding-64x21,Fail
-+kms_cursor_crc@cursor-sliding-64x64,Fail
-+kms_cursor_edge_walk@64x64-left-edge,Fail
-+kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
-+kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail
-+kms_cursor_legacy@cursor-vs-flip-atomic,Fail
-+kms_cursor_legacy@cursor-vs-flip-legacy,Fail
-+kms_cursor_legacy@cursor-vs-flip-toggle,Fail
-+kms_cursor_legacy@flip-vs-cursor-atomic,Fail
-+kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail
-+kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail
-+kms_cursor_legacy@flip-vs-cursor-legacy,Fail
-+kms_cursor_legacy@long-nonblocking-modeset-vs-cursor-atomic,Fail
-+kms_flip@basic-flip-vs-wf_vblank,Fail
-+kms_flip@blocking-wf_vblank,Fail
-+kms_flip@dpms-vs-vblank-race,Fail
-+kms_flip@flip-vs-absolute-wf_vblank,Fail
-+kms_flip@flip-vs-blocking-wf-vblank,Fail
-+kms_flip@flip-vs-modeset-vs-hang,Fail
-+kms_flip@flip-vs-panning,Fail
-+kms_flip@flip-vs-panning-interruptible,Fail
-+kms_flip@flip-vs-panning-vs-hang,Fail
-+kms_flip@modeset-vs-vblank-race,Fail
-+kms_flip@modeset-vs-vblank-race-interruptible,Fail
-+kms_flip@plain-flip-fb-recreate,Fail
-+kms_flip@plain-flip-fb-recreate-interruptible,Fail
-+kms_flip@plain-flip-ts-check,Fail
-+kms_flip@plain-flip-ts-check-interruptible,Fail
-+kms_flip@wf_vblank-ts-check,Fail
-+kms_flip@wf_vblank-ts-check-interruptible,Fail
-+kms_invalid_mode@int-max-clock,Fail
-+kms_lease@lease-uevent,Fail
-+kms_lease@page-flip-implicit-plane,Fail
-+kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail
-+kms_pipe_crc_basic@compare-crc-sanitycheck-xr24,Fail
-+kms_pipe_crc_basic@disable-crc-after-crtc,Fail
-+kms_pipe_crc_basic@nonblocking-crc,Fail
-+kms_pipe_crc_basic@nonblocking-crc-frame-sequence,Fail
-+kms_pipe_crc_basic@read-crc,Fail
-+kms_pipe_crc_basic@read-crc-frame-sequence,Fail
-+kms_plane@pixel-format,Crash
-+kms_plane@pixel-format-source-clamping,Crash
-+kms_plane@plane-panning-bottom-right,Fail
-+kms_plane@plane-panning-top-left,Fail
-+kms_plane@plane-position-covered,Fail
-+kms_plane@plane-position-hole,Fail
-+kms_plane@plane-position-hole-dpms,Fail
-+kms_plane_cursor@primary,Fail
-+kms_plane_multiple@tiling-none,Fail
-+kms_rmfb@close-fd,Fail
-+kms_universal_plane@universal-plane-functional,Fail
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-index ac4f8f7244d4..d98f6a17343c 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-@@ -1,6 +1,48 @@
- # Board Name: rk3399-gru-kevin
--# Bug Report: https://lore.kernel.org/dri-devel/5cc34a8b-c1fa-4744-9031-2d33ecf41011@collabora.com/T/#u
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
- # Failure Rate: 50
--# IGT Version: 1.28-g0df7b9b97
--# Linux Version: 6.9.0-rc7
--panfrost/panfrost_submit@pan-unhandled-pagefault
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_bw@linear-tiling-1-displays-2560x1440p
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_cursor_legacy@nonblocking-modeset-vs-cursor-atomic
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_flip@dpms-vs-vblank-race-interruptible
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_flip@flip-vs-absolute-wf_vblank-interruptible
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_flip@flip-vs-wf_vblank-interruptible
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_setmode@basic
-+
-+# Board Name: rk3399-gru-kevin
-+# Bug Report: https://lore.kernel.org/linux-rockchip/3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com/T/#u
-+# Failure Rate: 50
-+# IGT Version: 1.28-gf13702b8e
-+# Linux Version: 6.10.0-rc5
-+kms_bw@connected-linear-tiling-1-displays-2560x1440p
-diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-index 8f22ff6d8cb7..eb16b29dee48 100644
---- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-+++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-@@ -1,13 +1,11 @@
- # Suspend to RAM seems to be broken on this machine
- .*suspend.*
- 
--# Too unstable, machine ends up hanging after lots of Oopses
--kms_cursor_legacy.*
--
- # Skip driver specific tests
- ^amdgpu.*
- ^msm.*
- nouveau_.*
-+^panfrost.*
- ^v3d.*
- ^vc4.*
- ^vmwgfx*
-@@ -17,9 +15,6 @@ gem_.*
- i915_.*
- tools_test.*
- 
--# Panfrost is not a KMS driver, so skip the KMS tests
--kms_.*
--
- # Currently fails and causes coverage loss for other tests
- # since core_getversion also fails.
- core_hotunplug.*
--- 
-2.43.0
+GVE queue API has been merged. Submitting this version as non-RFC after
+rebasing on top of the merged API, and dropped the out of tree queue API
+I was carrying on github. Addressed the little feedback v8 has received.
+
+Detailed changelog:
+------------------
+- Added new patch from David Wei to this series for
+  netdev_rx_queue_restart()
+  - Fixed sparse error.
+  - Removed CONFIG_ checks in netmem_is_net_iov()
+  - Flipped skb->readable to skb->unreadable
+  - Minor fixes to selftests & docs.
+
+RFC v8:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+- Fixed build error generated by patch-by-patch build.
+- Applied docs suggestions from Randy.
+
+RFC v7:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the feedback
+RFCv6 received from folks, namely Jakub, Yunsheng, Arnd, David, & Pavel.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v7/
+
+Detailed changelog:
+
+- Use admin-perm in netlink API.
+- Addressed feedback from Jakub with regards to netlink API
+  implementation.
+- Renamed devmem.c functions to something more appropriate for that
+  file.
+- Improve the performance seen through the page_pool benchmark.
+- Fix the value definition of all the SO_DEVMEM_* uapi.
+- Various fixes to documentation.
+
+Perf - page-pool benchmark:
+---------------------------
+
+Improved performance of bench_page_pool_simple.ko tests compared to v6:
+
+https://pastebin.com/raw/v5dYRg8L
+
+      net-next base: 8 cycle fast path.
+      RFC v6: 10 cycle fast path.
+      RFC v7: 9 cycle fast path.
+      RFC v7 with CONFIG_DMA_SHARED_BUFFER disabled: 8 cycle fast path,
+                                                     same as baseline.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+Perf is about the same regardless of the changes in v7, namely the
+removal of the static_branch_unlikely to improve the page_pool benchmark
+performance:
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+RFC v6:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the little
+feedback RFCv5 received.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v6/
+
+This version also comes with some performance data recorded in the cover
+letter (see below changelog).
+
+Detailed changelog:
+
+- Rebased on top of the merged netmem_ref changes.
+
+- Converted skb->dmabuf to skb->readable (Pavel). Pavel's original
+  suggestion was to remove the skb->dmabuf flag entirely, but when I
+  looked into it closely, I found the issue that if we remove the flag
+  we have to dereference the shinfo(skb) pointer to obtain the first
+  frag to tell whether an skb is readable or not. This can cause a
+  performance regression if it dirties the cache line when the
+  shinfo(skb) was not really needed. Instead, I converted the skb->dmabuf
+  flag into a generic skb->readable flag which can be re-used by io_uring
+  0-copy RX.
+
+- Squashed a few locking optimizations from Eric Dumazet in the RX path
+  and the DEVMEM_DONTNEED setsockopt.
+
+- Expanded the tests a bit. Added validation for invalid scenarios and
+  added some more coverage.
+
+Perf - page-pool benchmark:
+---------------------------
+
+bench_page_pool_simple.ko tests with and without these changes:
+https://pastebin.com/raw/ncHDwAbn
+
+AFAIK the number that really matters in the perf tests is the
+'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+cycles without the changes but there is some 1 cycle noise in some
+results.
+
+With the patches this regresses to 9 cycles with the changes but there
+is 1 cycle noise occasionally running this test repeatedly.
+
+Lastly I tried disable the static_branch_unlikely() in
+netmem_is_net_iov() check. To my surprise disabling the
+static_branch_unlikely() check reduces the fast path back to 8 cycles,
+but the 1 cycle noise remains.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+Major changes in RFC v5:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Rebased on top of 'Abstract page from net stack' series and used the
+   new netmem type to refer to LSB set pointers instead of re-using
+   struct page.
+
+2. Downgraded this series back to RFC and called it RFC v5. This is
+   because this series is now dependent on 'Abstract page from net
+   stack'[1] and the queue API. Both are removed from the series to
+   reduce the patch # and those bits are fairly independent or
+   pre-requisite work.
+
+3. Reworked the page_pool devmem support to use netmem and for some
+   more unified handling.
+
+4. Reworked the reference counting of net_iov (renamed from
+   page_pool_iov) to use pp_ref_count for refcounting.
+
+The full changes including the dependent series and GVE page pool
+support is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-rfcv5/
+
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D810774
+
+Major changes in v1:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Implemented MVP queue API ndos to remove the userspace-visible
+   driver reset.
+
+2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+
+3. Removed RFC tag.
+
+Many smaller addressed comments across all the patches (patches have
+individual change log).
+
+Full tree including the rest of the GVE driver changes:
+https://github.com/mina/linux/commits/tcpdevmem-v1
+
+Changes in RFC v3:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Pulled in the memory-provider dependency from Jakub's RFC[1] to make the
+   series reviewable and mergeable.
+
+2. Implemented multi-rx-queue binding which was a todo in v2.
+
+3. Fix to cmsg handling.
+
+The sticking point in RFC v2[2] was the device reset required to refill
+the device rx-queues after the dmabuf bind/unbind. The solution
+suggested as I understand is a subset of the per-queue management ops
+Jakub suggested or similar:
+
+https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
+
+This is not addressed in this revision, because:
+
+1. This point was discussed at netconf & netdev and there is openness to
+   using the current approach of requiring a device reset.
+
+2. Implementing individual queue resetting seems to be difficult for my
+   test bed with GVE. My prototype to test this ran into issues with the
+   rx-queues not coming back up properly if reset individually. At the
+   moment I'm unsure if it's a mistake in the POC or a genuine issue in
+   the virtualization stack behind GVE, which currently doesn't test
+   individual rx-queue restart.
+
+3. Our usecases are not bothered by requiring a device reset to refill
+   the buffer queues, and we'd like to support NICs that run into this
+   limitation with resetting individual queues.
+
+My thought is that drivers that have trouble with per-queue configs can
+use the support in this series, while drivers that support new netdev
+ops to reset individual queues can automatically reset the queue as
+part of the dma-buf bind/unbind.
+
+The same approach with device resets is presented again for consideration
+with other sticking points addressed.
+
+This proposal includes the rx devmem path only proposed for merge. For a
+snapshot of my entire tree which includes the GVE POC page pool support &
+device memory support:
+
+https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-v3
+
+[1] https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
+hat.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izOVJGJH5WF68OsRWFKJid1_huzzUK+hpKb=
+LcL4pSOD1Jw@mail.gmail.com/T/
+
+Changes in RFC v2:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+The sticking point in RFC v1[1] was the dma-buf pages approach we used to
+deliver the device memory to the TCP stack. RFC v2 is a proof-of-concept
+that attempts to resolve this by implementing scatterlist support in the
+networking stack, such that we can import the dma-buf scatterlist
+directly. This is the approach proposed at a high level here[2].
+
+Detailed changes:
+1. Replaced dma-buf pages approach with importing scatterlist into the
+   page pool.
+2. Replace the dma-buf pages centric API with a netlink API.
+3. Removed the TX path implementation - there is no issue with
+   implementing the TX path with scatterlist approach, but leaving
+   out the TX path makes it easier to review.
+4. Functionality is tested with this proposal, but I have not conducted
+   perf testing yet. I'm not sure there are regressions, but I removed
+   perf claims from the cover letter until they can be re-confirmed.
+5. Added Signed-off-by: contributors to the implementation.
+6. Fixed some bugs with the RX path since RFC v1.
+
+Any feedback welcome, but specifically the biggest pending questions
+needing feedback IMO are:
+
+1. Feedback on the scatterlist-based approach in general.
+2. Netlink API (Patch 1 & 2).
+3. Approach to handle all the drivers that expect to receive pages from
+   the page pool (Patch 6).
+
+[1] https://lore.kernel.org/netdev/dfe4bae7-13a0-3c5d-d671-f61b375cb0b4@gma=
+il.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jLVO8n=
+zTLXCc=3DH7Nw@mail.gmail.com/
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* TL;DR:
+
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
+
+* Problem:
+
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
+
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+* Patch overview:
+
+** Part 1: netlink API
+
+Gives user ability to bind dma-buf to an RX queue.
+
+** Part 2: scatterlist support
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to process scatterlist.
+
+Approach #1 was attempted in RFC v1. RFC v2 implements approach #2.
+
+** part 3: page pool support
+
+We piggy back on page pool memory providers proposal:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory
+TCP changes from the driver.
+
+** part 4: support for unreadable skb frags
+
+Page pool iovs are not accessible by the host; we implement changes
+throughput the networking stack to correctly handle skbs with unreadable
+frags.
+
+** Part 5: recvmsg() APIs
+
+We define user APIs for the user to send and receive device memory.
+
+Not included with this series is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This series is built on top of net-next with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using device memory
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+** Test Setup
+
+Kernel: net-next with this series and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Cc: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Shailend Chand <shailend@google.com>
+Cc: Harshitha Ramamurthy <hramamurthy@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Jeroen de Borst <jeroendb@google.com>
+Cc: Praveen Kaligineedi <pkaligineedi@google.com>
+
+
+
+Mina Almasry (14):
+  netdev: add netdev_rx_queue_restart()
+  net: netdev netlink api to bind dma-buf to a net device
+  netdev: support binding dma-buf to netdevice
+  netdev: netdevice devmem allocator
+  page_pool: move dmaddr helpers to .c file
+  page_pool: devmem support
+  memory-provider: dmabuf devmem memory provider
+  net: support non paged skb frags
+  net: add support for skbs with unreadable frags
+  tcp: RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+  net: add devmem TCP documentation
+  selftests: add ncdevmem, netcat for devmem TCP
+  netdev: add dmabuf introspection
+
+ Documentation/netlink/specs/netdev.yaml |  61 +++
+ Documentation/networking/devmem.rst     | 269 ++++++++++++
+ Documentation/networking/index.rst      |   1 +
+ arch/alpha/include/uapi/asm/socket.h    |   6 +
+ arch/mips/include/uapi/asm/socket.h     |   6 +
+ arch/parisc/include/uapi/asm/socket.h   |   6 +
+ arch/sparc/include/uapi/asm/socket.h    |   6 +
+ include/linux/skbuff.h                  |  61 ++-
+ include/linux/skbuff_ref.h              |   9 +-
+ include/linux/socket.h                  |   1 +
+ include/net/devmem.h                    | 128 ++++++
+ include/net/mp_dmabuf_devmem.h          |  44 ++
+ include/net/netdev_rx_queue.h           |   5 +
+ include/net/netmem.h                    | 164 +++++++-
+ include/net/page_pool/helpers.h         |  42 +-
+ include/net/page_pool/types.h           |   8 +
+ include/net/sock.h                      |   2 +
+ include/net/tcp.h                       |   5 +-
+ include/trace/events/page_pool.h        |  12 +-
+ include/uapi/asm-generic/socket.h       |   6 +
+ include/uapi/linux/netdev.h             |  13 +
+ include/uapi/linux/uio.h                |  17 +
+ net/core/Makefile                       |   3 +-
+ net/core/datagram.c                     |   6 +
+ net/core/dev.c                          |   7 +-
+ net/core/devmem.c                       | 378 +++++++++++++++++
+ net/core/gro.c                          |   3 +-
+ net/core/netdev-genl-gen.c              |  23 +
+ net/core/netdev-genl-gen.h              |   6 +
+ net/core/netdev-genl.c                  | 111 +++++
+ net/core/netdev_rx_queue.c              |  74 ++++
+ net/core/netmem_priv.h                  |  36 ++
+ net/core/page_pool.c                    | 147 +++++--
+ net/core/page_pool_priv.h               |   3 +
+ net/core/page_pool_user.c               |   4 +
+ net/core/skbuff.c                       |  77 +++-
+ net/core/sock.c                         |  68 +++
+ net/ipv4/esp4.c                         |   3 +-
+ net/ipv4/tcp.c                          | 261 +++++++++++-
+ net/ipv4/tcp_input.c                    |  13 +-
+ net/ipv4/tcp_ipv4.c                     |  16 +
+ net/ipv4/tcp_minisocks.c                |   2 +
+ net/ipv4/tcp_output.c                   |   5 +-
+ net/ipv6/esp6.c                         |   3 +-
+ net/packet/af_packet.c                  |   4 +-
+ tools/include/uapi/linux/netdev.h       |  13 +
+ tools/testing/selftests/net/.gitignore  |   1 +
+ tools/testing/selftests/net/Makefile    |   9 +
+ tools/testing/selftests/net/ncdevmem.c  | 536 ++++++++++++++++++++++++
+ 49 files changed, 2563 insertions(+), 121 deletions(-)
+ create mode 100644 Documentation/networking/devmem.rst
+ create mode 100644 include/net/devmem.h
+ create mode 100644 include/net/mp_dmabuf_devmem.h
+ create mode 100644 net/core/devmem.c
+ create mode 100644 net/core/netdev_rx_queue.c
+ create mode 100644 net/core/netmem_priv.h
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
+
+--=20
+2.46.0.rc1.232.g9752f9e123-goog
 
