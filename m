@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE85941503
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 17:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF66941505
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 17:01:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC8EF10E529;
-	Tue, 30 Jul 2024 15:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD23C10E52F;
+	Tue, 30 Jul 2024 15:01:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBCA310E52F
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 15:01:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 155BD10E533
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 15:01:53 +0000 (UTC)
 Received: from ns.iliad.fr (localhost [127.0.0.1])
- by ns.iliad.fr (Postfix) with ESMTP id 555F720C96;
+ by ns.iliad.fr (Postfix) with ESMTP id 5C65920CBD;
  Tue, 30 Jul 2024 17:01:51 +0200 (CEST)
 Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
- by ns.iliad.fr (Postfix) with ESMTP id 42AE42057C;
+ by ns.iliad.fr (Postfix) with ESMTP id 4A21120A62;
  Tue, 30 Jul 2024 17:01:51 +0200 (CEST)
 From: Marc Gonzalez <mgonzalez@freebox.fr>
-Date: Tue, 30 Jul 2024 17:01:31 +0200
-Subject: [PATCH v4 1/2] dt-bindings: display: bridge: add TI TDP158
+Date: Tue, 30 Jul 2024 17:01:32 +0200
+Subject: [PATCH v4 2/2] drm/bridge: add support for TI TDP158
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240730-tdp158-v4-1-da69001bdea2@freebox.fr>
+Message-Id: <20240730-tdp158-v4-2-da69001bdea2@freebox.fr>
 References: <20240730-tdp158-v4-0-da69001bdea2@freebox.fr>
 In-Reply-To: <20240730-tdp158-v4-0-da69001bdea2@freebox.fr>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -84,84 +84,163 @@ and transmit swing, and slew rate control
 
 https://www.ti.com/lit/ds/symlink/tdp158.pdf
 
-Like the TFP410, the TDP158 can be set up in 2 different ways:
-1) hard-coding its configuration settings using pin-strapping resistors
-2) placing it on an I2C bus, and defer set-up until run-time
-
-The mode is selected via pin 8 = I2C_EN
-I2C_EN high = I2C Control Mode
-I2C_EN low  = Pin Strap Mode
-
 On our board, I2C_EN is pulled high.
+Thus, this code defines a module_i2c_driver.
+
+The default settings work fine for our use-case.
+So this basic driver doesn't need to tweak any I2C registers.
 
 Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
 ---
- .../bindings/display/bridge/ti,tdp158.yaml         | 57 ++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ drivers/gpu/drm/bridge/Kconfig     |   7 +++
+ drivers/gpu/drm/bridge/Makefile    |   1 +
+ drivers/gpu/drm/bridge/ti-tdp158.c | 108 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 116 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index c621be1a99a89..c0ab5b620b57d 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -368,6 +368,13 @@ config DRM_TI_DLPC3433
+ 	  It supports up to 720p resolution with 60 and 120 Hz refresh
+ 	  rates.
+ 
++config DRM_TI_TDP158
++	tristate "TI TDP158 HDMI/TMDS bridge"
++	depends on OF
++	select DRM_PANEL_BRIDGE
++	help
++	  Texas Instruments TDP158 HDMI/TMDS Bridge driver
++
+ config DRM_TI_TFP410
+ 	tristate "TI TFP410 DVI/HDMI bridge"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+index 7df87b582dca3..3daf803ce80b6 100644
+--- a/drivers/gpu/drm/bridge/Makefile
++++ b/drivers/gpu/drm/bridge/Makefile
+@@ -32,6 +32,7 @@ obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
+ obj-$(CONFIG_DRM_TI_DLPC3433) += ti-dlpc3433.o
+ obj-$(CONFIG_DRM_TI_SN65DSI83) += ti-sn65dsi83.o
+ obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
++obj-$(CONFIG_DRM_TI_TDP158) += ti-tdp158.o
+ obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
+ obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
+ obj-$(CONFIG_DRM_NWL_MIPI_DSI) += nwl-dsi.o
+diff --git a/drivers/gpu/drm/bridge/ti-tdp158.c b/drivers/gpu/drm/bridge/ti-tdp158.c
 new file mode 100644
-index 0000000000000..fe3de1534efc1
+index 0000000000000..4ee0ad29874de
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
-@@ -0,0 +1,57 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/ti,tdp158.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/bridge/ti-tdp158.c
+@@ -0,0 +1,108 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright 2024 Freebox SAS
++ */
++#include <drm/drm_bridge.h>
++#include <drm/drm_atomic_helper.h>
++#include <linux/i2c.h>
 +
-+title: TI TDP158 HDMI to TMDS Redriver
++struct tdp158 {
++	struct drm_bridge bridge;
++	struct drm_bridge *next;
++	struct gpio_desc *enable; // Operation Enable - pin 36
++	struct regulator *vcc; // 3.3V
++	struct regulator *vdd; // 1.1V
++	struct device *dev;
++};
 +
-+maintainers:
-+  - Arnaud Vrac <avrac@freebox.fr>
-+  - Pierre-Hugues Husson <phhusson@freebox.fr>
++static void tdp158_enable(struct drm_bridge *bridge, struct drm_bridge_state *prev)
++{
++	int err;
++	struct tdp158 *tdp158 = bridge->driver_private;
 +
-+properties:
-+  compatible:
-+    const: ti,tdp158
++	err = regulator_enable(tdp158->vcc);
++	if (err)
++		dev_err(tdp158->dev, "failed to enable vcc: %d", err);
 +
-+# The reg property is required if and only if the device is connected
-+# to an I2C bus. In pin strap mode, reg must not be specified.
-+  reg:
-+    description: I2C address of the device
++	err = regulator_enable(tdp158->vdd);
++	if (err)
++		dev_err(tdp158->dev, "failed to enable vdd: %d", err);
 +
-+# Pin 36 = Operation Enable / Reset Pin
-+# OE = L: Power Down Mode
-+# OE = H: Normal Operation
-+# Internal weak pullup - device resets on H to L transitions
-+  enable-gpios:
-+    description: GPIO controlling bridge enable
++	gpiod_set_value_cansleep(tdp158->enable, 1);
++}
 +
-+  vcc-supply:
-+    description: Power supply 3.3V
++static void tdp158_disable(struct drm_bridge *bridge, struct drm_bridge_state *prev)
++{
++	struct tdp158 *tdp158 = bridge->driver_private;
 +
-+  vdd-supply:
-+    description: Power supply 1.1V
++	gpiod_set_value_cansleep(tdp158->enable, 0);
++	regulator_disable(tdp158->vdd);
++	regulator_disable(tdp158->vcc);
++}
 +
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
++static int tdp158_attach(struct drm_bridge *bridge, enum drm_bridge_attach_flags flags)
++{
++	struct tdp158 *tdp158 = bridge->driver_private;
 +
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Bridge input
++	return drm_bridge_attach(bridge->encoder, tdp158->next, bridge, flags);
++}
 +
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Bridge output
++static const struct drm_bridge_funcs tdp158_bridge_funcs = {
++	.attach = tdp158_attach,
++	.atomic_enable = tdp158_enable,
++	.atomic_disable = tdp158_disable,
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
++};
 +
-+    required:
-+      - port@0
-+      - port@1
++static int tdp158_probe(struct i2c_client *client)
++{
++	struct tdp158 *tdp158;
++	struct device *dev = &client->dev;
 +
-+required:
-+  - compatible
-+  - vcc-supply
-+  - vdd-supply
-+  - ports
++	tdp158 = devm_kzalloc(dev, sizeof(*tdp158), GFP_KERNEL);
++	if (!tdp158)
++		return -ENOMEM;
 +
-+additionalProperties: false
++	tdp158->next = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
++	if (IS_ERR(tdp158->next))
++		return dev_err_probe(dev, PTR_ERR(tdp158->next), "missing bridge");
++
++	tdp158->vcc = devm_regulator_get(dev, "vcc");
++	if (IS_ERR(tdp158->vcc))
++		return dev_err_probe(dev, PTR_ERR(tdp158->vcc), "vcc");
++
++	tdp158->vdd = devm_regulator_get(dev, "vdd");
++	if (IS_ERR(tdp158->vdd))
++		return dev_err_probe(dev, PTR_ERR(tdp158->vdd), "vdd");
++
++	tdp158->enable = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_LOW);
++	if (IS_ERR(tdp158->enable))
++		return dev_err_probe(dev, PTR_ERR(tdp158->enable), "enable");
++
++	tdp158->bridge.of_node = dev->of_node;
++	tdp158->bridge.funcs = &tdp158_bridge_funcs;
++	tdp158->bridge.driver_private = tdp158;
++	tdp158->dev = dev;
++
++	return devm_drm_bridge_add(dev, &tdp158->bridge);
++}
++
++static const struct of_device_id tdp158_match_table[] = {
++	{ .compatible = "ti,tdp158" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, tdp158_match_table);
++
++static struct i2c_driver tdp158_driver = {
++	.probe = tdp158_probe,
++	.driver = {
++		.name = "tdp158",
++		.of_match_table = tdp158_match_table,
++	},
++};
++module_i2c_driver(tdp158_driver);
++
++MODULE_DESCRIPTION("TI TDP158 driver");
++MODULE_LICENSE("GPL");
 
 -- 
 2.34.1
