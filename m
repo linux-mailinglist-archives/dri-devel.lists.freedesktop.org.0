@@ -2,93 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE12940F97
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 12:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5768E940FB2
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 12:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 592FE10E17C;
-	Tue, 30 Jul 2024 10:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC0410E0A8;
+	Tue, 30 Jul 2024 10:42:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NSR5oPaX";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4ysUP5Py";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28E7910E17F
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 10:38:50 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-52f008aa351so6640363e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 03:38:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722335928; x=1722940728; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+U97O4VKbER7c77DAivCOtGbIut3AV5EqhrmEVNx9ZQ=;
- b=NSR5oPaXdPqc4UsxtuQxf48Vdipqbf6MPu0BF0/61RNKzXUgt0pjeuw2xJ8vOfaT0t
- Bvtpt2+aDAr+EC1zXo7QfIp5+qhmASvUA1lrYsdDrvtnZ/aOVfEghxQUjeHg+C0YMLd0
- 1/HHfdUBWjn9Enuu/gKPnzg+6wKRSFEQ0g0XCRTEptD1LcYC/i49Kb3HDd0sw92B9Fue
- /Ekt1bcTEQbb7r5T55Md3STnKzaGJ9SssmQt52bdflrrSmxsBZvzO5FhH0M4TIT3XNae
- QaeHZKdYyh8YQgU7xgPt3oUH/Lmo86q+RI7yUwoLyenkdHGTmUIipVCNH2ypakHp1CHb
- 6mfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722335928; x=1722940728;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+U97O4VKbER7c77DAivCOtGbIut3AV5EqhrmEVNx9ZQ=;
- b=p3vuguQyd0iGaj+vW/9Mj3LLM+niVSoC6JIsVKdmSNqSmKR9xgS7aOr208VRyUv64H
- WIK7VigOg5GfRGntjLmbF+wKbPw9spyzC0j0k1QQxWFFU9jmI71tS4HuY0VotIbuduYF
- C7j3Fnbc3oIEHZX6m5C9VzbvRxL2WdnMc7sPl/jyYI070j+SEO83lrBMJ3tbO3ZH1YTz
- Xz6nF4czvHIHUkx70OT+wG7e+uUMfatkyfwuHKOEXvyT12R1KS0eL/HDVlexzu49ddcD
- EvrIIklGrEX/fjucx+uEJKvgN7tqwJyG2a8NWUXVviahUrjm3clpYnH/KAAP3WAa1PFA
- vWsQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXynmtG+U90mbh0eC8B3cazAy6tk6JD1N+X98eQBQHc7DZQ7rnGktzBSOta4m5Sswr8fQ/Fw8AiaK1YfYc+mJXQuAWIuofklDSRUpqakbfT
-X-Gm-Message-State: AOJu0YxMwBYzRMdOYUxXceh9zHBGOfuL9qBPRNfagjbz1pYcvabgA00R
- Z75QBIsDtOudErN/fvWUU9+su6Z0YEpkfyrr73XaykxnHwLGw3sKv5TYSwpsjJE=
-X-Google-Smtp-Source: AGHT+IF6VKB4D32RCp9CERdBwiA6MVKDWqI+JR21hITdyzolHsRceFaO1kh1POQ/RRF1GjMQ6ImKsQ==
-X-Received: by 2002:a05:6512:451:b0:52c:8596:5976 with SMTP id
- 2adb3069b0e04-5309b2c5bbcmr6704911e87.55.1722335927871; 
- Tue, 30 Jul 2024 03:38:47 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52fd5bd0a6esm1874512e87.65.2024.07.30.03.38.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jul 2024 03:38:47 -0700 (PDT)
-Date: Tue, 30 Jul 2024 13:38:45 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Marc Gonzalez <mgonzalez@freebox.fr>, 
- Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Arnaud Vrac <avrac@freebox.fr>, 
- Pierre-Hugues Husson <phhusson@freebox.fr>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: add TI TDP158
-Message-ID: <qxovk44ezmgvfmmp44gkpytvegnn627nlui24l5zmiimsbnvlr@pnrcemh2iprl>
-References: <20240627-tdp158-v3-0-fb2fbc808346@freebox.fr>
- <20240627-tdp158-v3-1-fb2fbc808346@freebox.fr>
- <20240701-bug-of-great-honeydew-cfb6ef@houat>
- <e55d0f0e-a104-4790-b832-120dbddd93ad@freebox.fr>
- <20240715-stirring-purple-toad-7de58c@houat>
- <c302bc47-6492-44af-86a1-3ff6a815e314@freebox.fr>
- <20240730-eminent-venomous-condor-8ef421@houat>
- <CAA8EJprQJJ2AuB99RFU+d074PV+NHMPwjFWn_auju7HYQQ8R7w@mail.gmail.com>
- <20240730-miniature-wonderful-okapi-01aa0f@houat>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2072.outbound.protection.outlook.com [40.107.94.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B576310E0A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 10:42:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=i1Wn7VcEE4+M8pXUslBnw5Ssp6bE6hzSTh/jC6AljNEsHE5+8ZRGVg7qKCVKXtpXewzREBXpxNQnskN8gEoOxhCHd6ngh3mH/iyaqbtC9YOikuVlPrbSrHiFW/xXP/BQS8E9dzGbVIq79luu4kTExEI2CNFi4EHh/yP3LMB2bWfjboF4X4CnvL0JmgvuiAgNfYjokbPAE/53qV8pNvNBDYJnNw6uX1Xqzv1/Xg2LFda0VjSdmbworValZRB7uuLNR+PMMfUnSqFTFrKxRzvAS+AzH+59eNoMAX8CMFGQsXcmtJ5/T+tb6Bwh5F/E/VVtc1U2KndffAWJDYXC6z8bNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BNaG8ybCk8w0x7UeGALFBUMfV/mir1cxlbB0JoEL3Y0=;
+ b=RpS79Vy3ITCZUJhXj+p7zUmfiawhjsC3Pmt6ercIuacF3eEWXYLR5TjWLwjo95y92z3IBuAaEY0smbSRsBfJSJGqdjztInyyQDLYILb6LQCbBrDe2Hwl5qG1IhE8dB3I0wOVCt52I5mVlthb/OdnR+Djbdq2Oq9dXDI5aAWE03b1DuiIXG5J9GDDsNaKTnUYnQhcWVUFcK+g3NxNsRPX8BqqkAE9RpxdSM3sz/CreYoh35k5sQU2ZSA0yVFvJ9N5ThC8xnqKfb12Vvp6BO2Y5O6jSk1cnz5ICJn1MbpQjrfeWE2ew9hKrfl8pqmdxW9tiCNtt+wXyTt+BLzqc2nYhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BNaG8ybCk8w0x7UeGALFBUMfV/mir1cxlbB0JoEL3Y0=;
+ b=4ysUP5PyjcO2Aj6jeTFXltPtAkd8KdELYlX+JUSczjAPLiDI67CPtAeS7sD3R1Et+WTwZnr/JI753fF/AnKAPz2CCbfURuRfCmdMxtYjU8YHB55E1isBLZmbIUNlr0HwfrotE+ULgxvEEu4SJ2uSn33FtGPRi+mOGLn0/C9rRx8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB6441.namprd12.prod.outlook.com (2603:10b6:510:1fb::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Tue, 30 Jul
+ 2024 10:42:38 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7828.016; Tue, 30 Jul 2024
+ 10:42:38 +0000
+Message-ID: <fe460c96-fb5f-41e7-8312-a2aa30140042@amd.com>
+Date: Tue, 30 Jul 2024 12:42:30 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+To: Huan Yang <link@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+References: <20240730075755.10941-1-link@vivo.com>
+ <Zqiqv7fomIp1IPS_@phenom.ffwll.local>
+ <25cf34bd-b11f-4097-87b5-39e6b4a27d85@vivo.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <25cf34bd-b11f-4097-87b5-39e6b4a27d85@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0248.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f5::14) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240730-miniature-wonderful-okapi-01aa0f@houat>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB6441:EE_
+X-MS-Office365-Filtering-Correlation-Id: f4d22cc7-88e7-41ce-bdaf-08dcb084545c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|7416014|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?V2s4RWZYYkRJYm5OSnhPSy9meGdJU1ZLSjltLy95MFc0NWo1dThjODZLVHNS?=
+ =?utf-8?B?RFFzTmhVRWxMMkFLR2lLQUtFbHpDOFRxeVdtMzlReEZxUFNTYjdjMlY5REFj?=
+ =?utf-8?B?TEVDTG5Ba1hkcUEyOHdFMXVQck5pQlU4SkxSdzlRK05nbzhKd3MxN3V3bjlC?=
+ =?utf-8?B?UHFnWDNPTEFXWjVBcTN2RmxPS2xrTUZkL29vb05iNDVROXUrSEY3VGhuajN0?=
+ =?utf-8?B?M3lSZElLTjllL0tObGpGVmhlcUhLcExQSlRYdGFyQTBmUGdvRUZ2bkZ0VmV2?=
+ =?utf-8?B?alJUSTV6aUdSeGZiSTBvczMvQ29DODhXT1Z0aUM3cHJsY2FsZ2dZVEZKQlRD?=
+ =?utf-8?B?dmR2aWZ2ZUdHcjJNNFoyVTM1SXFpbE9heTdFUVc1c2F3UC94S01xWWgzdGZL?=
+ =?utf-8?B?NFNTK0pEWFNEc0xKa0grU1JwdGRBemp3K2VkdXVvbFdFMDhLYVhwUk5QZitr?=
+ =?utf-8?B?NUZ0akh1ZUIya3dsL25ZMzRrT1dFd0FPU3BUVFh6UmJoTnlObXROOU1HR3ZM?=
+ =?utf-8?B?aXAycU5NYVIybzlDSXhpbW9jUERWcmxOZFNKLzRoRnFNZFhlY3VTTUtWMVZz?=
+ =?utf-8?B?NW81cEJKd095R1loMjVMOHZwcXR0NVVTUXpsN0NzeDFMVmIwRlQwWHlhOGlz?=
+ =?utf-8?B?Q3pzZzcwVEd5ZUh2N2tabmhWOExEbmZSeGJMOEVBN1BnZmFZRG4rRHUySVFH?=
+ =?utf-8?B?WWFXUW10Q1dqZUNZdzBzRG5Jc3hjUEIrZ01EcEEzUFd4cEptbTJkZEhwc2tn?=
+ =?utf-8?B?dDNKemZxQjNjcnE0WCtuSDlYWXZZUG4wdklGZWIrR3pPTXlzd3JrVkNsT2l1?=
+ =?utf-8?B?ZHNWVmovOWFVYjE1Q1Z5UUkxOHJuQzBING1JZGxVbndDWVZmQ1JjcTR6U0ZR?=
+ =?utf-8?B?RGE2b0tvS0hoT2dFYXVLbjVMMXNDMmZlb3YyRUNqV2pIT1Bmc2V6OUJLYzkr?=
+ =?utf-8?B?Q2N2YlZqZUtOS2tvOEZuWTBGZmdZVDBoemxoTUVPMXcyMVRYYlNuZTRReTE4?=
+ =?utf-8?B?NHVybmlUdE5NYlNaN1JvOWNvUVUrdDk3eXhWbGVFWFI5VTRiaUs4N0graEJw?=
+ =?utf-8?B?WDhIa0g5bnIzcS9xbkhoMUFNTGtjZ3RUTDA0aWg1SGFoK09JNzZkdnEvaVFx?=
+ =?utf-8?B?WjArQ1U0T2ZnT3RSSEhLUlFnaU0xOHpxWGt2SnFaRjI5U05Pc1NXQUhpZ3pS?=
+ =?utf-8?B?RGx2OGNSMGJkUFNPWXlMeDgxc1hXUmZNODExcHJNRTJOdUcxQkdlMjExSXpp?=
+ =?utf-8?B?YXpyRXg1dnB1YWxIVW50NzVTcG14WW41azRUT3kwc0pLNUFuS0VyVGk1YzBn?=
+ =?utf-8?B?TlZkYmd2SGZyU1pGY0s3WWJYbkg5ZncrNFNRdzhwYnpRL0l6S1kzRXNVcE5w?=
+ =?utf-8?B?UXRCL21BMWVQL2txVjJKN1FjcFYvWklVZUt1WWE2cXhKeGNZK1dKcHBybC8w?=
+ =?utf-8?B?akFGSVhET0tLcFJad3hBT3VLcFZySlNOZSt0c240UGtRZktCMVV6WjMvTlIv?=
+ =?utf-8?B?bmNMVFh0MFFsRTFyMGJ2bjFCQ21KdHlvYTNvMURtaXJBTENKaExIVTgrblNm?=
+ =?utf-8?B?a0VjaFZVU0d3Y2I4c0RBMktDYTVyWU94eFlzUWhBQktnSVphdjlQK2JhdCtu?=
+ =?utf-8?B?Z0R3bGpMSlNpMDFUZUkxY2tJd09kc1V0UU04S05jMTBtVWMxb2w4dHBpMUlK?=
+ =?utf-8?B?ZmxRV1dhN2Y0Y0RONTBTVjl0c0dtVDhVNFBsZFFaNmY1aFZaTnlTUERTZWZy?=
+ =?utf-8?B?VVk0bGM5aWtWRTZ4Nk5HZC9wUVA5NDNBbGRnMXJTZDVCSFg5RlJ1RHdyVUJN?=
+ =?utf-8?B?bk9zNkpsUnZBb3NFcCt6dz09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dnI3eUN4R2JzUk83M21qRnA3VnRZV3JlTE1ZSGFkdTRlK1dNZytTRmFubTkx?=
+ =?utf-8?B?SmNOVnZ6aU5IQm1iT2EwWG5CUis3ODJYbXJCNWRBc2kvd0w3ei9pYnBsRVow?=
+ =?utf-8?B?NStqcXBXTW9TcEt0ZE1yeVBLUVZLMnJsb1hyR09yVzNxclFiN09xWjN0M1Nl?=
+ =?utf-8?B?NXVoV1l6cytYQ2tabEpuUmFvamFsNEZMUm5uYlBCNFpDUVowYkxnWm1JZ28x?=
+ =?utf-8?B?cTFmQTJXVkw1REE4c0YyQTI0S3RsU2dKd1pBQXdQYkVqOHluOUxrZ0xhM2gw?=
+ =?utf-8?B?UDY0eUxDS2N5NC9oR2dCU0dwYVVTZTZGWDhHbGR4VjNESnR2UStFZ25jc29a?=
+ =?utf-8?B?cjBzN24weXZKZmtZcTFMamtySDJhOUhBZEhCb2NnY0ZLc2RzRVlHem44aUlp?=
+ =?utf-8?B?N0l0cmk5YXB0NUlnbXVtMWNUZnFob3hQZ2UvK3pTWFUxOTcyajRpdjJPODhm?=
+ =?utf-8?B?MTY5Wm81b2EwY01YRHZjTjFkL2J1dVdnUkdWQUxWMzdhNFg5djFHR1ltdWI3?=
+ =?utf-8?B?Nk5iTk12NkwvS0Q5NStCVm9hVWJtaXIvSlVWdm1RanNzV3RwNWl3Z3pEcjJv?=
+ =?utf-8?B?RCtqbEZmN295YWx2SVFGNHM5R0tCMFZYZERQZDNSa1JVQUlFdTQ2bjBnQmZB?=
+ =?utf-8?B?QTlBeXp2Q2pySjhqUkJWL1NpZDdHUTZxUzYzeVhURXcvbVVyNjRHeXZRdU9T?=
+ =?utf-8?B?MGQvQzVUV0RTTk54b1pWWGxLa2NFWHpab3BZbnRXSEs0VVNpUFArOU5VNTU3?=
+ =?utf-8?B?cTZpUlFSY3Q5RmlVbXVMRkJidUcyUjhKYlNITlI3MHYyVm1XODA4bUpEdDBi?=
+ =?utf-8?B?SHdBRDVrS09wbkV1YysrV0pnUnVCSXNKbEp1d2hoa3pFRTlEL3pqWnAyUklH?=
+ =?utf-8?B?MWpjYWtwV0poM0NDRHN1UVoxRmdGcFU0SEQzeVZIb0ljZm4wUDdBcFZ0N29t?=
+ =?utf-8?B?VFI4Sm9Dd3pjZ2Y1WjlVUnVBV1NrK3FQVUJ2Z0FQaWZ2Mlc1a3dIc0VWOWRz?=
+ =?utf-8?B?ZkZ0dU5taTBvUEhicFpudFZUYU4xeTh2RkVvSzVDdFRRTHpBYUhNdG1xL3l6?=
+ =?utf-8?B?RGllSWdPVGdnYmV2WUg0ZDJ1OGhKWG9DcThYMExJKzE0MzJpTDNJK1crNHdO?=
+ =?utf-8?B?dFBVSXprTy9SY3h2aTd6UHVDVmhoN1ROblprMCtwRHQ1bmJpaGg1c0VPQ3ov?=
+ =?utf-8?B?cG44b1RjNlRVaTBvVFRkZ3h5cUNJd0N3OThtWFQrSkRVOU0wUnNPWWsxU25P?=
+ =?utf-8?B?RDl2WWdHRUNRZ09xZGRINGxON2hGejgwb3ptdnpZSW1pTjQzZUpsWGR4Tlpw?=
+ =?utf-8?B?QWt4WmdGbWcvSE8zNEIwUGFYMi9uMzdkdlNXVlpabGc5bGJJeGxkSzRaZHRT?=
+ =?utf-8?B?a3dwUHJPdGduZFEwNHdRK0Z6b0lYaFJMdHpRby8rVlMzNVhWd3dmTmtrZEkv?=
+ =?utf-8?B?MEZLWE05ZVRMYko3dWlieVdlRW03dWhCK3JHbkcwU0E4SEpxVXNHTzdUOHc1?=
+ =?utf-8?B?RzZhVmpoREs3ekJxV2lBTUU4YXo1c0JjbTRMR0dnY2IzTk1BbEZ1THcxTG9U?=
+ =?utf-8?B?KzFpSVRzS2p4VFJtUWkyVlRCY2JKc1VKdU5yeGR0VGVFMjRvQXdiSmZVT1p3?=
+ =?utf-8?B?SVFDT1dKWFJ2UlNINnpjQ2c4LzhlZ0pzMUNUMXdzeGxJNzJwbVlSZElkN1JV?=
+ =?utf-8?B?aGZoejZrSGpyazdHZGJDMm1mUzJiZUNQdmRXdXhPKyswZHM5TmpLdyt6cHdG?=
+ =?utf-8?B?dC8rMXgyZTlONVhnYjlqMGxYc3U5eURoOEd1blFtdE15NGxkYUkxd0YxLytX?=
+ =?utf-8?B?TFMxYmtRUWxqOExPc3dsQkxXZXJGbnVjS2Zxcjh4NENDNGJhMlpaU0FQYkxo?=
+ =?utf-8?B?dFRBdWpZNjhkckZDNkxxWEU0dUg1bitYNGplMk5oM0lUYkdMWnhiODlmQWJt?=
+ =?utf-8?B?SmllWC9xcGFsd2lxaVplZXc0b0U4YlFYc3ZIY1FVRlBqL1M3NWJlaWZIcEFM?=
+ =?utf-8?B?Tm4vQ2tUd3pQc1dIT01GVHVWN1VUQyt1ZW1Tc0VxOWFPNXNRR2NlQUU5c1hD?=
+ =?utf-8?B?NFJ3aitaM2M4cUdObTc4YlFEbGVhN2hEMUVrUEhHYmx2QVlHRC9qb3o4ZHhQ?=
+ =?utf-8?Q?yRYO6FtgRQx7hSa1TQJ5rK9Lg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4d22cc7-88e7-41ce-bdaf-08dcb084545c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2024 10:42:37.9738 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o10FLmDkpoYIZ40QlTUNsSCJtF2f1htsm/yt/QxdnYPO1KcOGMqmrputGH1vgLFJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6441
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,93 +166,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 30, 2024 at 11:30:01AM GMT, Maxime Ripard wrote:
-> On Tue, Jul 30, 2024 at 11:46:24AM GMT, Dmitry Baryshkov wrote:
-> > On Tue, 30 Jul 2024 at 11:27, Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > On Wed, Jul 24, 2024 at 07:59:21PM GMT, Marc Gonzalez wrote:
-> > > > On 15/07/2024 16:40, Maxime Ripard wrote:
-> > > > > On Thu, Jul 04, 2024 at 07:04:41PM GMT, Marc Gonzalez wrote:
-> > > > >> On 01/07/2024 15:50, Maxime Ripard wrote:
-> > > > >>
-> > > > >>> The i2c register access (and the whole behaviour of the device) is
-> > > > >>> constrained on the I2C_EN pin status, and you can't read it from the
-> > > > >>> device, so it's also something we need to have in the DT.
-> > > > >>
-> > > > >> I think the purpose of the I2C_EN pin might have been misunderstood.
-> > > > >>
-> > > > >> I2C_EN is not meant to be toggled, ever, by anyone from this planet.
-> > > > >
-> > > > > Toggled, probably not. Connected to a GPIO and the kernel has to assert
-> > > > > a level at boot, I've seen worse hardware design already.
-> > > > >
-> > > > >> I2C_EN is a layout-time setting, decided by a board manufacturer:
-> > > > >>
-> > > > >> - If the TDP158 is fully configured once-and-for-all at layout-time,
-> > > > >> then no I2C bus is required, and I2C_EN is pulled down forever.
-> > > > >>
-> > > > >> - If the board manufacturer wants to keep open the possibility
-> > > > >> to adjust some parameters at run-time, then they must connect
-> > > > >> the device to an I2C bus, and I2C_EN is pulled up forever.
-> > > > >
-> > > > > How do you express both cases in your current binding?
-> > > >
-> > > > It's not that I'm ignoring your question.
-> > > >
-> > > > It's that I don't understand what you're asking.
-> > >
-> > > And that's fine, you just need to say so.
-> > >
-> > > Generally speaking, you're focusing on the driver. The driver is not the
-> > > issue here. You can do whatever you want in the driver for all I care,
-> > > we can change that later on as we wish.
-> > >
-> > > The binding however cannot change, so it *has* to ideally cover all
-> > > possible situations the hardware can be used in, or at a minimum leave
-> > > the door open to support those without a compatibility breakage.
-> > >
-> > > That's why I've been asking those questions, because so far the only
-> > > thing you've claimed is that "I can't test the driver for anything
-> > > else", but, again, whether there's a driver or not, or if it's
-> > > functional, is completely missing the point.
-> > >
-> > > > SITUATION 1
-> > > > tdp158 is pin strapped.
-> > > > Device node is child of root node.
-> > > > Properties in proposed binding are valid (regulators and power-on pin)
-> > > > Can be supported via module_platform_driver.
-> > > >
-> > > > SITUATION 2
-> > > > tdp158 is sitting on I2C bus.
-> > > > Device node is child of i2c bus node.
-> > > > (robh said missing reg prop would be flagged by the compiler)
-> > > > Properties in proposed binding are valid (regulators and power-on pin)
-> > > > Supported via module_i2c_driver.
-> > > >
-> > > > If some settings-specific properties are added later, like skew,
-> > > > they would only be valid for the I2C programmable mode, obviously.
-> > >
-> > > I think there's a couple more combinations:
-> > >
-> > >   - The device is connected on an I2C bus, but I2C_EN is tied low
-> > 
-> > No, this is not possible. I2C pins are repurposed if I2C_EN is low.
-> > You can not call that an i2c bus anymore.
-> > 
-> > >   - The device is connected on an I2C bus, but I2C_EN is connected to a
-> > >     GPIO and the kernel needs to assert its state at boot.
-> > 
-> > This is a pretty strange configuration.  The I2C_EN pin isn't supposed
-> > to be toggled dynamically. Anyway, if that happens, I'd use pinctrl /
-> > hog to control the pin.
-> 
-> ACK. I still believe it would be valuable, but I don't really want to be
-> part of that conversation anymore. Marc, do whatever you want.
+Am 30.07.24 um 11:05 schrieb Huan Yang:
+>
+> 在 2024/7/30 16:56, Daniel Vetter 写道:
+>> [????????? daniel.vetter@ffwll.ch ????????? 
+>> https://aka.ms/LearnAboutSenderIdentification?????????????]
+>>
+>> On Tue, Jul 30, 2024 at 03:57:44PM +0800, Huan Yang wrote:
+>>> UDMA-BUF step:
+>>>    1. memfd_create
+>>>    2. open file(buffer/direct)
+>>>    3. udmabuf create
+>>>    4. mmap memfd
+>>>    5. read file into memfd vaddr
+>> Yeah this is really slow and the worst way to do it. You absolutely want
+>> to start _all_ the io before you start creating the dma-buf, ideally 
+>> with
+>> everything running in parallel. But just starting the direct I/O with
+>> async and then creating the umdabuf should be a lot faster and avoid
+> That's greate,  Let me rephrase that, and please correct me if I'm wrong.
+>
+> UDMA-BUF step:
+>   1. memfd_create
+>   2. mmap memfd
+>   3. open file(buffer/direct)
+>   4. start thread to async read
+>   3. udmabuf create
+>
+> With this, can improve
+>
+>> needlessly serialization operations.
+>>
+>> The other issue is that the mmap has some overhead, but might not be too
+>> bad.
+> Yes, the time spent on page fault in mmap should be negligible 
+> compared to the time spent on file read.
 
-Just to explain it, from my way of thinking the I2C_EN pin is the same
-as the address-strapping pins: they are usually hardwired by the device
-manufacturer.
+You should try to avoid mmap as much as possible. Especially the TLB 
+invalidation overhead is really huge on platforms with a large number of 
+CPUs.
 
--- 
-With best wishes
-Dmitry
+Regards,
+Christian.
+
+>> -Sima
+>> -- 
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
+
