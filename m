@@ -2,84 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B8A940C1B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 10:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4C1940C59
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 10:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA80A10E4F4;
-	Tue, 30 Jul 2024 08:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65B9C10E132;
+	Tue, 30 Jul 2024 08:52:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="akPG8Fwz";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cZrFFiUf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JX4xcZ4z";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cZrFFiUf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JX4xcZ4z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5CE110E241
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 08:46:36 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-65f7bd30546so22328537b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 01:46:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722329196; x=1722933996; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=N1SVRoOfwAGT1ArgnhX1cCtDllghjDDbgYirxLnYNzQ=;
- b=akPG8Fwz0ReDbq17N2e/IySb0z/46LMW8/RkGPF3uacPj/GkxG73476UTZLet5G94h
- YcmF2DRou3tFmDQTzQztuOu0yhlvOh6GGFxrf8rDUm3lHZfAeShYeEGmHSDmB5dJRge4
- wrN8FJP2I+2oP5R0vo+zJeeJZ5rttwASeqHTF/Ja4EHWrPpf3Grv9CaHwBp1Mqv++Tpk
- PnaeXxEC3jX6nK8OKAqqsEbIkPXY6+kbhY4ETWzOs2mEZ8N7zYeg48qozKH9oHZfMLJF
- N06hTOSIO2DOz3/jnDAo3UuxxG22YTH+yH7E9uSECQRKoH3uz+xISm/lDJV0PbHUua5m
- D7Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722329196; x=1722933996;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=N1SVRoOfwAGT1ArgnhX1cCtDllghjDDbgYirxLnYNzQ=;
- b=XAodNd3z4FPzIGQvC6c9cjcZz2q0UKbjnElD4p+ZawCgbpmy2GWwyeHr8Df0YnjKic
- kbGKOvVcgksnAEXQbStGpGUn/bvtgpO7sgYKz8FFlylt68xTv6Jdc0KzRwX16iGJhPSo
- zah6QssW+jyh90Q14msfBUEedvt596pxKX0DipYHAvFAi7W++9QZvUQYc3gdZuMxMGxm
- i8Mvu0uY1AUJND5eVlzrkWAdFB9Fr71wNeSriSqQxxPkTAFiDS21V6U57TqhM/jtKzfV
- N7uJStW14Ohs+T8jYsh9oSPIv0O/H0lK2zQ/RYkSTxahFMoPKUi9F6x6wy0XLsE1I2rJ
- 3IZw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUvqDT+08Mhs2LI3XxKsjOkPgUWoSGZ7wwpiP+BipNROyn2oGfQ/HRHKLv7kQYRSrJ6W62Bb/i7yyBdTXueir4/kPs34YQvXDNvOER7NF8w
-X-Gm-Message-State: AOJu0YyV6telE8u6YR78uIA7tvPjfEBea3WdgD1f6UrxAnavlTddk6yX
- I/vHS7vxOuPi8+MBm0OGbl1Sfc4sNvQHi0EJBQSgBroZswvsj9V7y6y4/WKqx1ewXeXnAPTs5nl
- eUQRny7O2oSD/MDOLRIF8aIhGV4E5e07cLogzuw==
-X-Google-Smtp-Source: AGHT+IHjFfHgqjmlzduFLfBafbIgZJ6xlEV6ruFB9cW2gDIL63vUlMWZer/56XD5APUD0hpf/X8faq6H0va63gFoa5w=
-X-Received: by 2002:a0d:fec4:0:b0:65f:cdb7:46a7 with SMTP id
- 00721157ae682-6826d4349a5mr12295097b3.22.1722329195668; Tue, 30 Jul 2024
- 01:46:35 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB05410E258
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 08:52:27 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6054821B5C;
+ Tue, 30 Jul 2024 08:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722329546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VrnSN+Hi+plf1wCIyYH4uh/WBbuBnPEnFiIQu480KFY=;
+ b=cZrFFiUf3bFjrpAh3Yas8Q3/6UQgKFmqcMRuS1SlGmjvvxT8wcRn94GWjpDVE6l84ovysB
+ ScKMWCuyDL+afRRIoQbHsSEU1yX3RZH2scBA/xE5lFpVq1+OPDKH3WpcCDoMGttx1c1B6q
+ teeP3rzyVBevohQYtHsQcOIg5OHaQzo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722329546;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VrnSN+Hi+plf1wCIyYH4uh/WBbuBnPEnFiIQu480KFY=;
+ b=JX4xcZ4zo4ESSb0cpOFNiHPrQxq8RuG6cpTsDtc8kIQ49wEAQmFP+RwFlk7LduM8Kws377
+ Btqqg+MO2aaPnyBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722329546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VrnSN+Hi+plf1wCIyYH4uh/WBbuBnPEnFiIQu480KFY=;
+ b=cZrFFiUf3bFjrpAh3Yas8Q3/6UQgKFmqcMRuS1SlGmjvvxT8wcRn94GWjpDVE6l84ovysB
+ ScKMWCuyDL+afRRIoQbHsSEU1yX3RZH2scBA/xE5lFpVq1+OPDKH3WpcCDoMGttx1c1B6q
+ teeP3rzyVBevohQYtHsQcOIg5OHaQzo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722329546;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VrnSN+Hi+plf1wCIyYH4uh/WBbuBnPEnFiIQu480KFY=;
+ b=JX4xcZ4zo4ESSb0cpOFNiHPrQxq8RuG6cpTsDtc8kIQ49wEAQmFP+RwFlk7LduM8Kws377
+ Btqqg+MO2aaPnyBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2854F13983;
+ Tue, 30 Jul 2024 08:52:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Y2+JCMqpqGY7CQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 30 Jul 2024 08:52:26 +0000
+Message-ID: <f890e750-cd0d-48bb-9452-a41dd1775788@suse.de>
+Date: Tue, 30 Jul 2024 10:52:25 +0200
 MIME-Version: 1.0
-References: <20240627-tdp158-v3-0-fb2fbc808346@freebox.fr>
- <20240627-tdp158-v3-1-fb2fbc808346@freebox.fr>
- <20240701-bug-of-great-honeydew-cfb6ef@houat>
- <e55d0f0e-a104-4790-b832-120dbddd93ad@freebox.fr>
- <20240715-stirring-purple-toad-7de58c@houat>
- <c302bc47-6492-44af-86a1-3ff6a815e314@freebox.fr>
- <20240730-eminent-venomous-condor-8ef421@houat>
-In-Reply-To: <20240730-eminent-venomous-condor-8ef421@houat>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 30 Jul 2024 11:46:24 +0300
-Message-ID: <CAA8EJprQJJ2AuB99RFU+d074PV+NHMPwjFWn_auju7HYQQ8R7w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: add TI TDP158
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Marc Gonzalez <mgonzalez@freebox.fr>, Conor Dooley <conor+dt@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] drm/ast: astdp: Wake up during connector status
+ detection
+To: airlied@redhat.com, jfalempe@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+References: <20240717143319.104012-1-tzimmermann@suse.de>
+ <20240717143319.104012-2-tzimmermann@suse.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240717143319.104012-2-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.09 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCPT_COUNT_SEVEN(0.00)[8];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ TO_DN_NONE(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, imap1.dmz-prg2.suse.org:helo,
+ lists.freedesktop.org:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.09
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,94 +144,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Jul 2024 at 11:27, Maxime Ripard <mripard@kernel.org> wrote:
->
-> On Wed, Jul 24, 2024 at 07:59:21PM GMT, Marc Gonzalez wrote:
-> > On 15/07/2024 16:40, Maxime Ripard wrote:
-> > > On Thu, Jul 04, 2024 at 07:04:41PM GMT, Marc Gonzalez wrote:
-> > >> On 01/07/2024 15:50, Maxime Ripard wrote:
-> > >>
-> > >>> The i2c register access (and the whole behaviour of the device) is
-> > >>> constrained on the I2C_EN pin status, and you can't read it from the
-> > >>> device, so it's also something we need to have in the DT.
-> > >>
-> > >> I think the purpose of the I2C_EN pin might have been misunderstood.
-> > >>
-> > >> I2C_EN is not meant to be toggled, ever, by anyone from this planet.
-> > >
-> > > Toggled, probably not. Connected to a GPIO and the kernel has to assert
-> > > a level at boot, I've seen worse hardware design already.
-> > >
-> > >> I2C_EN is a layout-time setting, decided by a board manufacturer:
-> > >>
-> > >> - If the TDP158 is fully configured once-and-for-all at layout-time,
-> > >> then no I2C bus is required, and I2C_EN is pulled down forever.
-> > >>
-> > >> - If the board manufacturer wants to keep open the possibility
-> > >> to adjust some parameters at run-time, then they must connect
-> > >> the device to an I2C bus, and I2C_EN is pulled up forever.
-> > >
-> > > How do you express both cases in your current binding?
-> >
-> > It's not that I'm ignoring your question.
-> >
-> > It's that I don't understand what you're asking.
->
-> And that's fine, you just need to say so.
->
-> Generally speaking, you're focusing on the driver. The driver is not the
-> issue here. You can do whatever you want in the driver for all I care,
-> we can change that later on as we wish.
->
-> The binding however cannot change, so it *has* to ideally cover all
-> possible situations the hardware can be used in, or at a minimum leave
-> the door open to support those without a compatibility breakage.
->
-> That's why I've been asking those questions, because so far the only
-> thing you've claimed is that "I can't test the driver for anything
-> else", but, again, whether there's a driver or not, or if it's
-> functional, is completely missing the point.
->
-> > SITUATION 1
-> > tdp158 is pin strapped.
-> > Device node is child of root node.
-> > Properties in proposed binding are valid (regulators and power-on pin)
-> > Can be supported via module_platform_driver.
-> >
-> > SITUATION 2
-> > tdp158 is sitting on I2C bus.
-> > Device node is child of i2c bus node.
-> > (robh said missing reg prop would be flagged by the compiler)
-> > Properties in proposed binding are valid (regulators and power-on pin)
-> > Supported via module_i2c_driver.
-> >
-> > If some settings-specific properties are added later, like skew,
-> > they would only be valid for the I2C programmable mode, obviously.
->
-> I think there's a couple more combinations:
->
->   - The device is connected on an I2C bus, but I2C_EN is tied low
+I merged this patch into drm-misc-fixes.
 
-No, this is not possible. I2C pins are repurposed if I2C_EN is low.
-You can not call that an i2c bus anymore.
-
->   - The device is connected on an I2C bus, but I2C_EN is connected to a
->     GPIO and the kernel needs to assert its state at boot.
-
-This is a pretty strange configuration.  The I2C_EN pin isn't supposed
-to be toggled dynamically. Anyway, if that happens, I'd use pinctrl /
-hog to control the pin.
-
+Am 17.07.24 um 16:24 schrieb Thomas Zimmermann:
+> Power up the ASTDP connector for connection status detection if the
+> connector is not active. Keep it powered if a display is attached.
 >
-> The GPIO case can be easily dealt with later on using an optional GPIO
-> in the binding, but the current binding infers the I2C_EN level from the
-> bus it's connected to, and I think we don't have a good way to deal with
-> cases that would break that assumption.
+> This fixes a bug where the connector does not come back after
+> disconnecting the display. The encoder's atomic_disable turns off
+> power on the physical connector. Further HPD reads will fail,
+> thus preventing the driver from detecting re-connected displays.
 >
-> So I think we need an extra property to report the state of the i2c_en
-> pin (and would be mutually exclusive with the GPIO if we ever have to
-> support it).
+> For connectors that are actively used, only test the HPD flag without
+> touching power.
+>
+> Fixes: f81bb0ac7872 ("drm/ast: report connection status on Display Port.")
+> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v6.6+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ast/ast_dp.c   |  7 +++++++
+>   drivers/gpu/drm/ast/ast_drv.h  |  1 +
+>   drivers/gpu/drm/ast/ast_mode.c | 29 +++++++++++++++++++++++++++--
+>   3 files changed, 35 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index 1e9259416980..e6c7f0d64e99 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -158,7 +158,14 @@ void ast_dp_launch(struct drm_device *dev)
+>   			       ASTDP_HOST_EDID_READ_DONE);
+>   }
+>   
+> +bool ast_dp_power_is_on(struct ast_device *ast)
+> +{
+> +	u8 vgacre3;
+> +
+> +	vgacre3 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xe3);
+>   
+> +	return !(vgacre3 & AST_DP_PHY_SLEEP);
+> +}
+>   
+>   void ast_dp_power_on_off(struct drm_device *dev, bool on)
+>   {
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index ba3d86973995..47bab5596c16 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -472,6 +472,7 @@ void ast_init_3rdtx(struct drm_device *dev);
+>   bool ast_astdp_is_connected(struct ast_device *ast);
+>   int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
+>   void ast_dp_launch(struct drm_device *dev);
+> +bool ast_dp_power_is_on(struct ast_device *ast);
+>   void ast_dp_power_on_off(struct drm_device *dev, bool no);
+>   void ast_dp_set_on_off(struct drm_device *dev, bool no);
+>   void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode);
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index dc8f639e82fd..049ee1477c33 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -28,6 +28,7 @@
+>    * Authors: Dave Airlie <airlied@redhat.com>
+>    */
+>   
+> +#include <linux/delay.h>
+>   #include <linux/export.h>
+>   #include <linux/pci.h>
+>   
+> @@ -1687,11 +1688,35 @@ static int ast_astdp_connector_helper_detect_ctx(struct drm_connector *connector
+>   						 struct drm_modeset_acquire_ctx *ctx,
+>   						 bool force)
+>   {
+> +	struct drm_device *dev = connector->dev;
+>   	struct ast_device *ast = to_ast_device(connector->dev);
+> +	enum drm_connector_status status = connector_status_disconnected;
+> +	struct drm_connector_state *connector_state = connector->state;
+> +	bool is_active = false;
+> +
+> +	mutex_lock(&ast->modeset_lock);
+> +
+> +	if (connector_state && connector_state->crtc) {
+> +		struct drm_crtc_state *crtc_state = connector_state->crtc->state;
+> +
+> +		if (crtc_state && crtc_state->active)
+> +			is_active = true;
+> +	}
+> +
+> +	if (!is_active && !ast_dp_power_is_on(ast)) {
+> +		ast_dp_power_on_off(dev, true);
+> +		msleep(50);
+> +	}
+>   
+>   	if (ast_astdp_is_connected(ast))
+> -		return connector_status_connected;
+> -	return connector_status_disconnected;
+> +		status = connector_status_connected;
+> +
+> +	if (!is_active && status == connector_status_disconnected)
+> +		ast_dp_power_on_off(dev, false);
+> +
+> +	mutex_unlock(&ast->modeset_lock);
+> +
+> +	return status;
+>   }
+>   
+>   static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs = {
 
 -- 
-With best wishes
-Dmitry
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
