@@ -2,157 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC60941177
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 14:04:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0BBC941183
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 14:06:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9129D10E50A;
-	Tue, 30 Jul 2024 12:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9FF10E513;
+	Tue, 30 Jul 2024 12:06:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="qYGHgWHZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TZxKxbYw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com
- (mail-tyzapc01on2078.outbound.protection.outlook.com [40.107.117.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBF610E50A
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 12:04:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QJdLgjr5I15R8hAXRpv3jPVLM59EndiUVImeqOD/t6nI39bq2YtpYwIv3nRb3hLvDFrhrKoXMNW1iQM0O8EPM3idbpuDNJTAm2hxIGsSRStz86stwKdmN63XPmtvevaM7hzTIVhSvVdP+pYbfxplZi5azr5eKfBKRqLp4hBBH60DvbxuMhVMEpfWSfWwG539tX+Aa0PSf5k6Gka+1KN9Z1hbZmdJT18cyoNfcx4w3qTTd2biRxh2l9qXv0jYVxThYMhcblSvhE9jfgFX09Hgc0UiuumSFCbb1Wl/+NKdFoLW+IwI15PtvxRkA/jSdCTvx2+n6pSvpytvB7LornXDuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kmdVkcDeU1z0aYSqIMfqjo2tosEpadt428IBbZ+koCk=;
- b=FZop6QIgoFtp9bR8AOLDFaX50rU1jBVfeIBvpPz4VE6Sceuynuv1fk3Zhu+Lpk4PnatEhAhpvvJLYrDwKaChNFIamk9s0Gk2KwmD82PRHZu+o3O2skb3sg1Wfjnszg44Yieu524M7abnNmp2NHAFShmUfjBeFb1jVU6lDe75puGOpgSt1+1ftBSiYwzD1MChYU/audW4gzfe2/z4KPIkSNL9+ipRROrwnJ7sn9CPqEQNEJtGxV65x1L/Gf59lOD+3pCHGFnCQvlwSH2zfc1bzx7Af+A4Ql+/PqROwxhnptYhxn3RJE8a4fIfU/fNyob4Rygb0AAgqh/MttfkW28USg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kmdVkcDeU1z0aYSqIMfqjo2tosEpadt428IBbZ+koCk=;
- b=qYGHgWHZAcBbeMsnGThulD5qj6RRfxyGEOrLWSksOqu8hh95686x9UQMvJdpRJ+JLlL8I9/bHtGCDWXWjkPC6/EgxBSv5L/Gf3k8DZfo0LaioXkjvEpoa09yFrjWeKoEq/hamfK9N3Q4h/jhdQTeGHq9L9KD2cILg+VWxJHDPFG1snBVYSFTq1pv1+4tZdSC7GU9QqTEpsmTfG7mruE2bvN6jPL0c66DgCPwEHIEaRXASdzYks+sHZntsrn6amqdcKu+yO67QGjEKv6to05BgyR7GjP/WllDewoP3ZoZ/4NCv+Rnm321Kx4/D/Mkt/CCKbMAZRFm1ROP3P9J/SweAA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by SEZPR06MB6611.apcprd06.prod.outlook.com (2603:1096:101:18a::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Tue, 30 Jul
- 2024 12:04:09 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7807.026; Tue, 30 Jul 2024
- 12:04:09 +0000
-Message-ID: <37b07e69-df85-45fc-888d-54cb7c4be97a@vivo.com>
-Date: Tue, 30 Jul 2024 20:04:04 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
-From: Huan Yang <link@vivo.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- opensource.kernel@vivo.com
-References: <20240730075755.10941-1-link@vivo.com>
- <Zqiqv7fomIp1IPS_@phenom.ffwll.local>
- <25cf34bd-b11f-4097-87b5-39e6b4a27d85@vivo.com>
-In-Reply-To: <25cf34bd-b11f-4097-87b5-39e6b4a27d85@vivo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR02CA0065.apcprd02.prod.outlook.com
- (2603:1096:4:54::29) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9384810E50E;
+ Tue, 30 Jul 2024 12:06:13 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4281d812d3eso21496595e9.3; 
+ Tue, 30 Jul 2024 05:06:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722341172; x=1722945972; darn=lists.freedesktop.org;
+ h=in-reply-to:from:content-language:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0+PPI5ptX56UXylCNOliKrFQrzFsNcDbw4iztpvTBU0=;
+ b=TZxKxbYw3InSWLkyY58Dv6PDOL9lXB3gEQJgzIng12NcpXJ3DpMsVKZ/VjqDam39Pu
+ CZKVfk4ampuCcTg9v1YB14EqEFKQ4xmJ7LUy/uBS+L/B2KUkYDv7EdOy8qv5PT8AzNxY
+ 7YwFhe4I8mfatYdX4IENg613SIbCwQwlnkUE+Rk2wEKxUez+5mHBPFd/Z58AhBRPsi2X
+ MDQxUV6KZxZC1rxi3o7lrCq89s14dx3oc1gc9PoK7KtJThkYU0/B3xzzKfqxXE4pB0Iz
+ 3hQixFNGmate/8l1sOi5BSVh/Mlz2X7jNpppo7zzk5fNGixUiwJ/UA3kCPzer3+m85Xq
+ xVGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722341172; x=1722945972;
+ h=in-reply-to:from:content-language:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=0+PPI5ptX56UXylCNOliKrFQrzFsNcDbw4iztpvTBU0=;
+ b=pG7hiBYs2N5QmimmvTA1unRii7CdX3wXwY3/fhh5c4Dyjva2CSAiBLOc2p4CLu1Wdy
+ ptv5kQT9Dh5L9AeZh6hUPPXP1a7B4HRzM8Ysvb5HJO9INrsIKfWQlIvJO1Zfn+VlZRq1
+ g1wDPkyO+co9YB4+Kl6n0AG7DjViJjSJHnvqa7IgMCEGrGNO41Ix6Vf8p2q8c6kEbNaO
+ Im3UgHUtBmj0CJuD/ATv1FcEkHHtnKo2lo0r66WO5ZmikTwuzXvnWzFkdNmORXwOpIZ7
+ 1C2QyRBu9USNCcCFgsPvfxGGdv91rBs6dAkFn612LSY6693vbhZpambuqRKBkayKqG2N
+ JXpA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUAAu5LX2n15LfrVth1irQaE1sxfuLRDPo3YeVU/x5yTaE6qyt6hwNUdpBDTlL7T+C+xj74/SLN4wzyt9fEPn24h/L+iSeZf+YII04Ihkvd
+X-Gm-Message-State: AOJu0Yz56i9JODYEnNBdxH2g+Lg7kR/2XMO364Wo/1WGq6uQ5esZpFxI
+ hH7Wz5q38aUWZAYVMGkaU2Hwou7N7nSljuv3m2g+GkFYHOuz8AbAnXdizlVj
+X-Google-Smtp-Source: AGHT+IF9n6J/L08GXQXHj2DAjU8ppmP862nDVWOi4BM47ogW0wPGeMuFXJylfVAycRqqZgC27nsK+A==
+X-Received: by 2002:a05:600c:4f16:b0:426:5d4d:d759 with SMTP id
+ 5b1f17b1804b1-42811dd43d4mr91251995e9.24.1722341171109; 
+ Tue, 30 Jul 2024 05:06:11 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-36b367fd071sm14588556f8f.62.2024.07.30.05.06.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Jul 2024 05:06:10 -0700 (PDT)
+Content-Type: multipart/alternative;
+ boundary="------------H0bsIBiCPahh7Kb3cWpLDiPI"
+Message-ID: <134cd07f-cdaa-426a-9184-e40c31fd6558@gmail.com>
+Date: Tue, 30 Jul 2024 14:06:08 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|SEZPR06MB6611:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc83207f-9537-4df7-4845-08dcb08fb7e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|52116014|1800799024|38350700014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Sm12ajhxU0UwbE5hNEM5YmwyeFdXNlZ4UmhVeFpVTHY4YUlmTFduMWROOC92?=
- =?utf-8?B?TWxzNjNXOXdwMDV2NzRvdDVPUVAzUnNrTWZyWnlEaGVmS1JWaEVSUmZuTlR2?=
- =?utf-8?B?Zk1XSTNwVHBZMkExbzVSOWttdE4wR0t3MXJiYTFHQkFZbTJpc255bWV6R0Er?=
- =?utf-8?B?cmdwNFNwRnE0SUJwSWZOdHBWZm5FajJMSFdRdmowWWdybGY3UWlRTGN6aTBr?=
- =?utf-8?B?blkxV3FjRkg1Zm9hYlhqK3hjTEFhTHVhRHlvbnphdFhrRkljQzlFUytWdkRJ?=
- =?utf-8?B?UlhJSVQzTWJKMHNYT0RCQTR6YzJwSTROMitaZndBWjV1ZmVsblhpbWM4S2R1?=
- =?utf-8?B?QTJ0NFBqb3l1ZnlZcVozb0dkbnczSUk2TUVPN2VkS21tTktIazFvMXlrQ3ds?=
- =?utf-8?B?SloyS1pDU2x4ODV6MmJHSmxhckVGeWRGV1BuNHU1eFp3TkNma25vRXhHcHJO?=
- =?utf-8?B?bUZBOFlGQytiaXpHOHdQL1l1Sm5iSXdsTVl1N1lnRDJ2SG4yME0vdGsvM0ht?=
- =?utf-8?B?STJCUjhjYzZBaGZqTUx5L2w3M3JPVGhpanB5VHhudU9uWkZUVTdYQXZFVms2?=
- =?utf-8?B?MEFHT2xIellud3E2c0VEUHFXSmNyRWc1cEpVSVdSdFpKbHVKOE1ja0JIZXBy?=
- =?utf-8?B?Q3VkL1dtS3NZVWZiZVp4aHZBd0RJRUFOQXI0M3hKQ1ZOeTA1R29PeG11ZUNr?=
- =?utf-8?B?bVY0eWlSUEd3NzV2QVBPSHhQN2NqQjBjLzJ3bFNoY1ZxZDhQMUUxdi8vSjNq?=
- =?utf-8?B?RU9md3VzVE8zWTY4VlFGM1pmLy9UTEUxWktudTJjTUhxZk8zQWxHUkEzNnhh?=
- =?utf-8?B?eFFJOGNzZ2tidkZpWFQ2blgvMGJPWS80M1NuQnpTejNQTkE0QU1PT1dnNnpC?=
- =?utf-8?B?STBUU3FRdlBBaXp5UDIyTkk5UlM0MWl2VXE0L0xoS1kxeTVPb3U2Uktta2Jq?=
- =?utf-8?B?YkxaaFJGckFmOGh3ckU1ak1lc1Rud294WFBqdFQ5VmJIbjd2UjQzaXJJc3dD?=
- =?utf-8?B?SVJxaHdkcXQydlV6OWY3R1lTeTN5b2xUbzR5S1ZCM3dpejZ6OVpGdlJNZ2ti?=
- =?utf-8?B?a09zK3VseEMxdGhSejdLK2FpS1FkbVVGVldkL0NjRmw5cU5zbTlYU2I4aVF6?=
- =?utf-8?B?NWliNUFPdTYvTEJhWDRSYTNJSnBDY1RQK09aeHZEZWVCaGRMVUJSVFdzRmpT?=
- =?utf-8?B?OW5SUzZoc0lvcjQzSndudCtWaVRuU2M5RzZwVG1WMlBNMXJsQ09YNFpnRE5J?=
- =?utf-8?B?c0swVUtZOEpLTEV5RWorYlNqem4zc3VnRndEcFRockU0RkZCS0MwcjJYNkln?=
- =?utf-8?B?RW10Vng1YldjVTBsY25FTldWamhSYWhaWk5JbkxQSmtwak1jcWpJcXAxbnJQ?=
- =?utf-8?B?UkdEdnpONzRXNEpTMlFJOGFadXlSQlVkMTVpVXY4aWR2MWJ5b1hJVDhlSGQ3?=
- =?utf-8?B?am9DU0JkRVFlVVdMcllqdHlHbW85NDdmd3E2anRCY210azEzdzRkNXVXbXVR?=
- =?utf-8?B?NkF2eEtrejFOWDNUQ3BwZHFvTUZQNm1BL2JZL3FPZE92Nm50bU1sUVpKbVN6?=
- =?utf-8?B?WGRZaE5uVXhFN1NQelhPNXM1aGJWQVc5U2dZcXFRZUdHek0rdjNIR2VxekNH?=
- =?utf-8?B?andkeFFONlhpbnNTa0lHQ2dWTzNZaStLbXBTUmc1dFlsdW9Da2hLbW1vUmsy?=
- =?utf-8?B?cGIxbDZlc0V1aEJpcjJSSjk0eElNM2cwVTZuTzJ5WXVRSWVzSjZPYW4vemhk?=
- =?utf-8?B?U2lvVDZkRlI4RnNWS3VlZnptZE82cXdWTUFzbFhINFYxN0Rlb0hzNmh6YkpT?=
- =?utf-8?Q?M28ZD92MVedJM09g1HCCikqfxTSA3BCpFhwPY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PUZPR06MB5676.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(38350700014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cTh5NlhZVEVqSDBVaElPNlhFK1loejFSMWZFOWFvMk5TSVRoRFptaEZuZVBT?=
- =?utf-8?B?WkMvZ2lzZC9Oa3N1aGFPa2N4UmdobHBoYThzSHNWTGpjcVVseEV4Nzh0cHdu?=
- =?utf-8?B?STdyV1p1THNVcHRvenFOVUNhbERhUzByRFgvOGIwak5CMzk1VGNuZGJ5RDRJ?=
- =?utf-8?B?Y1NBTGVObDVOV0I5Z1hGNEpTamNUaUdYSEJNOHowR0h1VWEvWGl1c2tWc2Nk?=
- =?utf-8?B?M3d4bHRVanRKd254dWI5ZFoyQTk5YVN3d0luWmJwWnZWM2JiUTlzVGdxemIx?=
- =?utf-8?B?OEcwa2JuYlVaS0IvL0RkMXNsYWt3QW9yNVkyNmUyY2txR255TTZncWNGN2xO?=
- =?utf-8?B?ZzNQMTQyUk55N1hGVFkwZlhCUnRyVXNYaExIZ01pZ2RPR1BWbWhNd3NjRTlL?=
- =?utf-8?B?bUhGR1RPZlpMaW1pcHNkeHFFUVNYdEFOYldqNVdFd0JrMCtYWFZGMXNNbC93?=
- =?utf-8?B?dmtRNm5LVDdmNFVoZTZKd0pQODdydXhBdThEUmxOcWI2UnNKMzZIQU5SVUM3?=
- =?utf-8?B?dXlLQ2dhZ2xpczJnZUgrRnE1dVg3VVRJcE10SUFmZ3cvc29qQmlLK0pVdzB5?=
- =?utf-8?B?OHFWTThJVThaZlR0MVNxS1B3VWVEZTdzM1JRejhSMGF5TFFjWjdzZ3NTZ2RB?=
- =?utf-8?B?U0ROcitZaVEwWnFIRWtleTA4RCs2WWhVOWU3Z05TbzhUUmpJOE5aOWFCaWMy?=
- =?utf-8?B?V2FwV3piYnpWK254YWZKRnMwcStSQzhPSG1XZXlVVHprcGVabjZ1VDFGbFhE?=
- =?utf-8?B?bWo5bmpoSStQM2dsc1BQK0hUS1RaK21FUm5jVGdZYnV3UVNyN1FTRlVya0pi?=
- =?utf-8?B?Q3lBV1diL01TSkxpYjB4NzhVS2pDWjBNL3dQYW1OM05uQ0xLTUdBM25XNWVW?=
- =?utf-8?B?cjRCenczaWtvM3AwNVpzT3VSb1FXemFNUGV6WkYyMTN4NVA0RlFOZ0RqeGlr?=
- =?utf-8?B?M3J5RlR3UGk0TWdvZEsyL3NEOGV6M2xlbnBZRnBkNGt1WVhKY2JtcUJBTFRY?=
- =?utf-8?B?Nk5ocHBCblBWUDBTK1J0VTgwcDdpSkNnTHB2eWdtNzFVV0JpZ2RyREJQcUJu?=
- =?utf-8?B?Q29IWDZBOGJQK1hUT0NMZk5ucEw2Ulp4NVFtcEJCeU1iOEQvbzhzbXYzT1Va?=
- =?utf-8?B?cVMzTll4R1Q3ek8xNnNqeVdkNE5XR2lSTXJFZTd2dkRrOG05aG5BeTZRcFkw?=
- =?utf-8?B?YjM2bmhaaGNzWWZpTzVja29ObW9DTWdqeWJ5dUR0OEdzeGtNeFVabXdKUCtw?=
- =?utf-8?B?RFdwaDVJR1RXbXlMNnIzK3Nvcm5pdGVPK0YvSTkrS1l1emswU2l0SEZIakdP?=
- =?utf-8?B?TlF5TkxXMVdPU2lQQWdxM3g0aTJqU2xuamowK0REQmQ1ZFk2OFR2QnZod0Ry?=
- =?utf-8?B?bGJLYTVVckRNc0VRd0N2QWJsMFB5VzczQzlRMHZMakJOa0xub0FQZDVtcmVW?=
- =?utf-8?B?ZGlWSXVINlg5eDFZYXJlbnZoL0RDT21SYWpoMjdpSVpoRlNUaW9XbFlyT3JR?=
- =?utf-8?B?SzdUVlRMdE12UWpvd05VeG5HUWd3M2JjSWxORjJ2d3I2bGZ5ZkQzdHFuY0dK?=
- =?utf-8?B?Zkpic2JMRUxpampYcEp1RWJWZmtxVTY1WVY2b1E5dVJEVThvMlJwaStvV1dn?=
- =?utf-8?B?RVV2aFpOaG5kOFAxME1CbnpvYjdGN2hJcFlkS2hwa0gvaUtOMkFrQnVNWVVF?=
- =?utf-8?B?VzVHNVJkN1YxdlNOeXNEem53cFBSb29xYWtJZmcwQVN3Tk5zMFd3RnlnZ3p4?=
- =?utf-8?B?S3k4VkN1a2JPVnRBcDRLd1Q3b3k3SUJpQ0x0TUtDcGN2bG5COUh0a1NKekhy?=
- =?utf-8?B?cXBJbVFpQTlFL1FGYmpVdXFJSEhPQ0QveS9RTFRjMUt2cnhEckhWZlZrVElv?=
- =?utf-8?B?L3l1cFNYNVh3MDZSKzA2Q2dHV1dwUlBROTQ4SjU5T3F6Rm1sM1FjdURBMFJJ?=
- =?utf-8?B?VllSVkRMMjRaeW03d3dORytISTZyNWNaQ0tIU3RBUEVpZ2lZU09WS1d1a3NV?=
- =?utf-8?B?ZUFETFJkZ05oZFNPMEFPdEExSEMrNVBzdG9BQTFwczZYcmtpdEdORXowZ0Zi?=
- =?utf-8?B?c1psSkxCZnVxTTZ3cmgxMWN1cEViWXUwblhQNkNLUUZRWXZVNlc4OWY1aDEz?=
- =?utf-8?Q?1uSFcfhDf3b6B8zgarwC/p+RS?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc83207f-9537-4df7-4845-08dcb08fb7e1
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2024 12:04:09.3480 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nDkBtJTTeXkrce5oOSwiVoLMy1r9RBHZqWnbdcqCFfNAQQnOOTsqvptOEUiCRIKsS+isn5pV5x0GeARmg1Qg/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6611
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: add optional errno to drm_sched_start()
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, jesse.zhang@amd.com, vitaly.prosyak@amd.com
+References: <20240726075550.1511-1-christian.koenig@amd.com>
+ <ZqOw8URrWjr9RN7A@phenom.ffwll.local>
+ <5c634b9f-5b93-4faa-b939-a370ba0d41fd@gmail.com>
+ <ZqimKxfJ947B3tZR@phenom.ffwll.local>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <ZqimKxfJ947B3tZR@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,58 +88,497 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is a multi-part message in MIME format.
+--------------H0bsIBiCPahh7Kb3cWpLDiPI
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-在 2024/7/30 17:05, Huan Yang 写道:
+Am 30.07.24 um 10:36 schrieb Daniel Vetter:
+>> In the end you have a really nice circle dependency.
+> Maybe a follow up, so for arb robustness or vk context where we want the
+> context to die and refuse to accept any more jobs: We can get at that
+> error somehow? I think that's really the only worry I have with a job
+> error approach for all this ...
+
+See drm_sched_entity_error(). The idea is that the driver uses this 
+function in two ways:
+
+1. In it's prepare callback so that when one submission fails all 
+following from the same ctx are marked with an error number as well.
+
+This is intentionally done in a driver callback so that driver decides 
+if they want subsequent submissions to fail or not. That can be helpful 
+for example for in kernel paging queues where submissions don't depend 
+on each other and a failed submission shouldn't cancel all following.
+
+For an example see amdgpu_job_prepare_job().
+
+2. In it's submission IOCTL to reject new submissions and inform 
+userspace that it needs to kick of some error handling.
+
+Cheers,
+Christian.
+
 >
-> 在 2024/7/30 16:56, Daniel Vetter 写道:
->> [????????? daniel.vetter@ffwll.ch ????????? 
->> https://aka.ms/LearnAboutSenderIdentification?????????????]
+>>> If we really want to stuff this into per-job fences then I think we should
+>>> at least try to document this mess in the sync_file uapi, for a bit of
+>>> consistency.
+>> Good point. Going to add some documentation.
+> Sounds good.
+>
+> Cheers, Sima
+>
+>> Regards,
+>> Christian.
 >>
->> On Tue, Jul 30, 2024 at 03:57:44PM +0800, Huan Yang wrote:
->>> UDMA-BUF step:
->>>    1. memfd_create
->>>    2. open file(buffer/direct)
->>>    3. udmabuf create
->>>    4. mmap memfd
->>>    5. read file into memfd vaddr
->> Yeah this is really slow and the worst way to do it. You absolutely want
->> to start _all_ the io before you start creating the dma-buf, ideally 
->> with
->> everything running in parallel. But just starting the direct I/O with
->> async and then creating the umdabuf should be a lot faster and avoid
-> That's greate,  Let me rephrase that, and please correct me if I'm wrong.
->
-> UDMA-BUF step:
->   1. memfd_create
->   2. mmap memfd
->   3. open file(buffer/direct)
->   4. start thread to async read
->   3. udmabuf create
->
-> With this, can improve
+>>> But yeah without the full picture no idea really what we want here.
+>>> -Sima
+>>>
+>>>> ---
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c | 2 +-
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c          | 4 ++--
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_sched.c             | 4 ++--
+>>>>    drivers/gpu/drm/imagination/pvr_queue.c             | 4 ++--
+>>>>    drivers/gpu/drm/lima/lima_sched.c                   | 2 +-
+>>>>    drivers/gpu/drm/nouveau/nouveau_sched.c             | 2 +-
+>>>>    drivers/gpu/drm/panfrost/panfrost_job.c             | 2 +-
+>>>>    drivers/gpu/drm/panthor/panthor_mmu.c               | 2 +-
+>>>>    drivers/gpu/drm/scheduler/sched_main.c              | 7 ++++---
+>>>>    drivers/gpu/drm/v3d/v3d_sched.c                     | 2 +-
+>>>>    include/drm/gpu_scheduler.h                         | 2 +-
+>>>>    11 files changed, 17 insertions(+), 16 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+>>>> index 2320df51c914..18135d8235f9 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+>>>> @@ -300,7 +300,7 @@ static int suspend_resume_compute_scheduler(struct amdgpu_device *adev, bool sus
+>>>>    			if (r)
+>>>>    				goto out;
+>>>>    		} else {
+>>>> -			drm_sched_start(&ring->sched);
+>>>> +			drm_sched_start(&ring->sched, 0);
+>>>>    		}
+>>>>    	}
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>> index c186fdb198ad..861827deb03f 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>> @@ -5862,7 +5862,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+>>>>    			if (!amdgpu_ring_sched_ready(ring))
+>>>>    				continue;
+>>>> -			drm_sched_start(&ring->sched);
+>>>> +			drm_sched_start(&ring->sched, 0);
+>>>>    		}
+>>>>    		if (!drm_drv_uses_atomic_modeset(adev_to_drm(tmp_adev)) && !job_signaled)
+>>>> @@ -6360,7 +6360,7 @@ void amdgpu_pci_resume(struct pci_dev *pdev)
+>>>>    		if (!amdgpu_ring_sched_ready(ring))
+>>>>    			continue;
+>>>> -		drm_sched_start(&ring->sched);
+>>>> +		drm_sched_start(&ring->sched, 0);
+>>>>    	}
+>>>>    	amdgpu_device_unset_mp1_state(adev);
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>>> index c53641aa146f..2c8666f8ec4a 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>>> @@ -72,12 +72,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>>>>    	drm_sched_resubmit_jobs(&gpu->sched);
+>>>> -	drm_sched_start(&gpu->sched);
+>>>> +	drm_sched_start(&gpu->sched, 0);
+>>>>    	return DRM_GPU_SCHED_STAT_NOMINAL;
+>>>>    out_no_timeout:
+>>>>    	/* restart scheduler after GPU is usable again */
+>>>> -	drm_sched_start(&gpu->sched);
+>>>> +	drm_sched_start(&gpu->sched, 0);
+>>>>    	return DRM_GPU_SCHED_STAT_NOMINAL;
+>>>>    }
+>>>> diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+>>>> index 20cb46012082..c4f08432882b 100644
+>>>> --- a/drivers/gpu/drm/imagination/pvr_queue.c
+>>>> +++ b/drivers/gpu/drm/imagination/pvr_queue.c
+>>>> @@ -782,7 +782,7 @@ static void pvr_queue_start(struct pvr_queue *queue)
+>>>>    		}
+>>>>    	}
+>>>> -	drm_sched_start(&queue->scheduler);
+>>>> +	drm_sched_start(&queue->scheduler, 0);
+>>>>    }
+>>>>    /**
+>>>> @@ -842,7 +842,7 @@ pvr_queue_timedout_job(struct drm_sched_job *s_job)
+>>>>    	}
+>>>>    	mutex_unlock(&pvr_dev->queues.lock);
+>>>> -	drm_sched_start(sched);
+>>>> +	drm_sched_start(sched, 0);
+>>>>    	return DRM_GPU_SCHED_STAT_NOMINAL;
+>>>>    }
+>>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+>>>> index 1a944edb6ddc..b40c90e97d7e 100644
+>>>> --- a/drivers/gpu/drm/lima/lima_sched.c
+>>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
+>>>> @@ -463,7 +463,7 @@ static enum drm_gpu_sched_stat lima_sched_timedout_job(struct drm_sched_job *job
+>>>>    	lima_pm_idle(ldev);
+>>>>    	drm_sched_resubmit_jobs(&pipe->base);
+>>>> -	drm_sched_start(&pipe->base);
+>>>> +	drm_sched_start(&pipe->base, 0);
+>>>>    	return DRM_GPU_SCHED_STAT_NOMINAL;
+>>>>    }
+>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>>> index eb6c3f9a01f5..4412f2711fb5 100644
+>>>> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>>> @@ -379,7 +379,7 @@ nouveau_sched_timedout_job(struct drm_sched_job *sched_job)
+>>>>    	else
+>>>>    		NV_PRINTK(warn, job->cli, "Generic job timeout.\n");
+>>>> -	drm_sched_start(sched);
+>>>> +	drm_sched_start(sched, 0);
+>>>>    	return stat;
+>>>>    }
+>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>>> index df49d37d0e7e..d140800606bf 100644
+>>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>>> @@ -727,7 +727,7 @@ panfrost_reset(struct panfrost_device *pfdev,
+>>>>    	/* Restart the schedulers */
+>>>>    	for (i = 0; i < NUM_JOB_SLOTS; i++)
+>>>> -		drm_sched_start(&pfdev->js->queue[i].sched);
+>>>> +		drm_sched_start(&pfdev->js->queue[i].sched, 0);
+>>>>    	/* Re-enable job interrupts now that everything has been restarted. */
+>>>>    	job_write(pfdev, JOB_INT_MASK,
+>>>> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+>>>> index d47972806d50..e630cdf47f99 100644
+>>>> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+>>>> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+>>>> @@ -827,7 +827,7 @@ static void panthor_vm_stop(struct panthor_vm *vm)
+>>>>    static void panthor_vm_start(struct panthor_vm *vm)
+>>>>    {
+>>>> -	drm_sched_start(&vm->sched);
+>>>> +	drm_sched_start(&vm->sched, 0);
+>>>>    }
+>>>>    /**
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> index ab53ab486fe6..f093616fe53c 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> @@ -674,9 +674,10 @@ EXPORT_SYMBOL(drm_sched_stop);
+>>>>     * drm_sched_start - recover jobs after a reset
+>>>>     *
+>>>>     * @sched: scheduler instance
+>>>> + * @errno: error to set on the pending fences
+>>>>     *
+>>>>     */
+>>>> -void drm_sched_start(struct drm_gpu_scheduler *sched)
+>>>> +void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
+>>>>    {
+>>>>    	struct drm_sched_job *s_job, *tmp;
+>>>> @@ -691,13 +692,13 @@ void drm_sched_start(struct drm_gpu_scheduler *sched)
+>>>>    		atomic_add(s_job->credits, &sched->credit_count);
+>>>>    		if (!fence) {
+>>>> -			drm_sched_job_done(s_job, -ECANCELED);
+>>>> +			drm_sched_job_done(s_job, errno ?: -ECANCELED);
+>>>>    			continue;
+>>>>    		}
+>>>>    		if (dma_fence_add_callback(fence, &s_job->cb,
+>>>>    					   drm_sched_job_done_cb))
+>>>> -			drm_sched_job_done(s_job, fence->error);
+>>>> +			drm_sched_job_done(s_job, fence->error ?: errno);
+>>>>    	}
+>>>>    	drm_sched_start_timeout_unlocked(sched);
+>>>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+>>>> index 42d4f4a2dba2..cac02284cd19 100644
+>>>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+>>>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+>>>> @@ -653,7 +653,7 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
+>>>>    	/* Unblock schedulers and restart their jobs. */
+>>>>    	for (q = 0; q < V3D_MAX_QUEUES; q++) {
+>>>> -		drm_sched_start(&v3d->queue[q].sched);
+>>>> +		drm_sched_start(&v3d->queue[q].sched, 0);
+>>>>    	}
+>>>>    	mutex_unlock(&v3d->reset_lock);
+>>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>>>> index fe8edb917360..a8d19b10f9b8 100644
+>>>> --- a/include/drm/gpu_scheduler.h
+>>>> +++ b/include/drm/gpu_scheduler.h
+>>>> @@ -579,7 +579,7 @@ bool drm_sched_wqueue_ready(struct drm_gpu_scheduler *sched);
+>>>>    void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched);
+>>>>    void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched);
+>>>>    void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+>>>> -void drm_sched_start(struct drm_gpu_scheduler *sched);
+>>>> +void drm_sched_start(struct drm_gpu_scheduler *sched, int errno);
+>>>>    void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
+>>>>    void drm_sched_increase_karma(struct drm_sched_job *bad);
+>>>>    void drm_sched_reset_karma(struct drm_sched_job *bad);
+>>>> -- 
+>>>> 2.34.1
+>>>>
 
-I just test with it. Step is:
+--------------H0bsIBiCPahh7Kb3cWpLDiPI
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-UDMA-BUF step:
-   1. memfd_create
-   2. mmap memfd
-   3. open file(buffer/direct)
-   4. start thread to async read
-   5. udmabuf create
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Am 30.07.24 um 10:36 schrieb Daniel Vetter:<br>
+    <blockquote type="cite"
+      cite="mid:ZqimKxfJ947B3tZR@phenom.ffwll.local"><span
+      style="white-space: pre-wrap">
+</span>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">In the end you have a really nice circle dependency.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Maybe a follow up, so for arb robustness or vk context where we want the
+context to die and refuse to accept any more jobs: We can get at that
+error somehow? I think that's really the only worry I have with a job
+error approach for all this ...</pre>
+    </blockquote>
+    <br>
+    See drm_sched_entity_error(). The idea is that the driver uses this
+    function in two ways:<br>
+    <br>
+    1. In it's prepare callback so that when one submission fails all
+    following from the same ctx are marked with an error number as well.<br>
+    <br>
+    This is intentionally done in a driver callback so that driver
+    decides if they want subsequent submissions to fail or not. That can
+    be helpful for example for in kernel paging queues where submissions
+    don't depend on each other and a failed submission shouldn't cancel
+    all following.<br>
+    <br>
+    For an example see amdgpu_job_prepare_job().<br>
+    <br>
+    2. In it's submission IOCTL to reject new submissions and inform
+    userspace that it needs to kick of some error handling.<br>
+    <br>
+    Cheers,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:ZqimKxfJ947B3tZR@phenom.ffwll.local">
+      <pre class="moz-quote-pre" wrap="">
 
-   6 . join wait
+</pre>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">If we really want to stuff this into per-job fences then I think we should
+at least try to document this mess in the sync_file uapi, for a bit of
+consistency.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Good point. Going to add some documentation.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Sounds good.
 
-3G file read all step cost 1,527,103,431ns, it's greate.
+Cheers, Sima
 
->
->> needlessly serialization operations.
->>
->> The other issue is that the mmap has some overhead, but might not be too
->> bad.
-> Yes, the time spent on page fault in mmap should be negligible 
-> compared to the time spent on file read.
->> -Sima
->> -- 
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> http://blog.ffwll.ch
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+Regards,
+Christian.
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+But yeah without the full picture no idea really what we want here.
+-Sima
+
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">---
+  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c | 2 +-
+  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c          | 4 ++--
+  drivers/gpu/drm/etnaviv/etnaviv_sched.c             | 4 ++--
+  drivers/gpu/drm/imagination/pvr_queue.c             | 4 ++--
+  drivers/gpu/drm/lima/lima_sched.c                   | 2 +-
+  drivers/gpu/drm/nouveau/nouveau_sched.c             | 2 +-
+  drivers/gpu/drm/panfrost/panfrost_job.c             | 2 +-
+  drivers/gpu/drm/panthor/panthor_mmu.c               | 2 +-
+  drivers/gpu/drm/scheduler/sched_main.c              | 7 ++++---
+  drivers/gpu/drm/v3d/v3d_sched.c                     | 2 +-
+  include/drm/gpu_scheduler.h                         | 2 +-
+  11 files changed, 17 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+index 2320df51c914..18135d8235f9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+@@ -300,7 +300,7 @@ static int suspend_resume_compute_scheduler(struct amdgpu_device *adev, bool sus
+  			if (r)
+  				goto out;
+  		} else {
+-			drm_sched_start(&amp;ring-&gt;sched);
++			drm_sched_start(&amp;ring-&gt;sched, 0);
+  		}
+  	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index c186fdb198ad..861827deb03f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -5862,7 +5862,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+  			if (!amdgpu_ring_sched_ready(ring))
+  				continue;
+-			drm_sched_start(&amp;ring-&gt;sched);
++			drm_sched_start(&amp;ring-&gt;sched, 0);
+  		}
+  		if (!drm_drv_uses_atomic_modeset(adev_to_drm(tmp_adev)) &amp;&amp; !job_signaled)
+@@ -6360,7 +6360,7 @@ void amdgpu_pci_resume(struct pci_dev *pdev)
+  		if (!amdgpu_ring_sched_ready(ring))
+  			continue;
+-		drm_sched_start(&amp;ring-&gt;sched);
++		drm_sched_start(&amp;ring-&gt;sched, 0);
+  	}
+  	amdgpu_device_unset_mp1_state(adev);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index c53641aa146f..2c8666f8ec4a 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -72,12 +72,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+  	drm_sched_resubmit_jobs(&amp;gpu-&gt;sched);
+-	drm_sched_start(&amp;gpu-&gt;sched);
++	drm_sched_start(&amp;gpu-&gt;sched, 0);
+  	return DRM_GPU_SCHED_STAT_NOMINAL;
+  out_no_timeout:
+  	/* restart scheduler after GPU is usable again */
+-	drm_sched_start(&amp;gpu-&gt;sched);
++	drm_sched_start(&amp;gpu-&gt;sched, 0);
+  	return DRM_GPU_SCHED_STAT_NOMINAL;
+  }
+diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+index 20cb46012082..c4f08432882b 100644
+--- a/drivers/gpu/drm/imagination/pvr_queue.c
++++ b/drivers/gpu/drm/imagination/pvr_queue.c
+@@ -782,7 +782,7 @@ static void pvr_queue_start(struct pvr_queue *queue)
+  		}
+  	}
+-	drm_sched_start(&amp;queue-&gt;scheduler);
++	drm_sched_start(&amp;queue-&gt;scheduler, 0);
+  }
+  /**
+@@ -842,7 +842,7 @@ pvr_queue_timedout_job(struct drm_sched_job *s_job)
+  	}
+  	mutex_unlock(&amp;pvr_dev-&gt;queues.lock);
+-	drm_sched_start(sched);
++	drm_sched_start(sched, 0);
+  	return DRM_GPU_SCHED_STAT_NOMINAL;
+  }
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index 1a944edb6ddc..b40c90e97d7e 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -463,7 +463,7 @@ static enum drm_gpu_sched_stat lima_sched_timedout_job(struct drm_sched_job *job
+  	lima_pm_idle(ldev);
+  	drm_sched_resubmit_jobs(&amp;pipe-&gt;base);
+-	drm_sched_start(&amp;pipe-&gt;base);
++	drm_sched_start(&amp;pipe-&gt;base, 0);
+  	return DRM_GPU_SCHED_STAT_NOMINAL;
+  }
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+index eb6c3f9a01f5..4412f2711fb5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+@@ -379,7 +379,7 @@ nouveau_sched_timedout_job(struct drm_sched_job *sched_job)
+  	else
+  		NV_PRINTK(warn, job-&gt;cli, "Generic job timeout.\n");
+-	drm_sched_start(sched);
++	drm_sched_start(sched, 0);
+  	return stat;
+  }
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index df49d37d0e7e..d140800606bf 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -727,7 +727,7 @@ panfrost_reset(struct panfrost_device *pfdev,
+  	/* Restart the schedulers */
+  	for (i = 0; i &lt; NUM_JOB_SLOTS; i++)
+-		drm_sched_start(&amp;pfdev-&gt;js-&gt;queue[i].sched);
++		drm_sched_start(&amp;pfdev-&gt;js-&gt;queue[i].sched, 0);
+  	/* Re-enable job interrupts now that everything has been restarted. */
+  	job_write(pfdev, JOB_INT_MASK,
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index d47972806d50..e630cdf47f99 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -827,7 +827,7 @@ static void panthor_vm_stop(struct panthor_vm *vm)
+  static void panthor_vm_start(struct panthor_vm *vm)
+  {
+-	drm_sched_start(&amp;vm-&gt;sched);
++	drm_sched_start(&amp;vm-&gt;sched, 0);
+  }
+  /**
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index ab53ab486fe6..f093616fe53c 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -674,9 +674,10 @@ EXPORT_SYMBOL(drm_sched_stop);
+   * drm_sched_start - recover jobs after a reset
+   *
+   * @sched: scheduler instance
++ * @errno: error to set on the pending fences
+   *
+   */
+-void drm_sched_start(struct drm_gpu_scheduler *sched)
++void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
+  {
+  	struct drm_sched_job *s_job, *tmp;
+@@ -691,13 +692,13 @@ void drm_sched_start(struct drm_gpu_scheduler *sched)
+  		atomic_add(s_job-&gt;credits, &amp;sched-&gt;credit_count);
+  		if (!fence) {
+-			drm_sched_job_done(s_job, -ECANCELED);
++			drm_sched_job_done(s_job, errno ?: -ECANCELED);
+  			continue;
+  		}
+  		if (dma_fence_add_callback(fence, &amp;s_job-&gt;cb,
+  					   drm_sched_job_done_cb))
+-			drm_sched_job_done(s_job, fence-&gt;error);
++			drm_sched_job_done(s_job, fence-&gt;error ?: errno);
+  	}
+  	drm_sched_start_timeout_unlocked(sched);
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 42d4f4a2dba2..cac02284cd19 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -653,7 +653,7 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
+  	/* Unblock schedulers and restart their jobs. */
+  	for (q = 0; q &lt; V3D_MAX_QUEUES; q++) {
+-		drm_sched_start(&amp;v3d-&gt;queue[q].sched);
++		drm_sched_start(&amp;v3d-&gt;queue[q].sched, 0);
+  	}
+  	mutex_unlock(&amp;v3d-&gt;reset_lock);
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index fe8edb917360..a8d19b10f9b8 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -579,7 +579,7 @@ bool drm_sched_wqueue_ready(struct drm_gpu_scheduler *sched);
+  void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched);
+  void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched);
+  void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+-void drm_sched_start(struct drm_gpu_scheduler *sched);
++void drm_sched_start(struct drm_gpu_scheduler *sched, int errno);
+  void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
+  void drm_sched_increase_karma(struct drm_sched_job *bad);
+  void drm_sched_reset_karma(struct drm_sched_job *bad);
+-- 
+2.34.1
+
+</pre>
+          </blockquote>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------H0bsIBiCPahh7Kb3cWpLDiPI--
