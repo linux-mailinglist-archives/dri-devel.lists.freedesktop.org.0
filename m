@@ -2,81 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406C2941876
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 18:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987B0941D97
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 19:19:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1729D10E538;
-	Tue, 30 Jul 2024 16:22:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98A5C10E22E;
+	Tue, 30 Jul 2024 17:19:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ngaxm5cM";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="N6lnkm5r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Tue, 30 Jul 2024 08:22:40 UTC
-Received: from out30-124.freemail.mail.aliyun.com
- (out30-124.freemail.mail.aliyun.com [115.124.30.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50CEF10E24C
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 08:22:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1722327758; h=Message-ID:Subject:Date:From:To;
- bh=BL5MMNWBxRZiD5bwdc51aQGuezbk7sZ94pe6i1nz4Vo=;
- b=ngaxm5cMBynNRd1bLhhpLVPV8zuHr90gs3f2wjnUgDCce+4gxFc+EfBO36Cq958Emx0jrEMqwOo8cQAVcL6lauicNFo0I5LPYVElQCbSxAfKtghsOupgmXekqs2LjiBvogzXpufpL0LHZE0vzCDu0aMHzA/LYF4vfg5cZdtiKSo=
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033037067113;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=53; SR=0;
- TI=SMTPD_---0WBexhuz_1722327451; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0WBexhuz_1722327451) by smtp.aliyun-inc.com;
- Tue, 30 Jul 2024 16:17:32 +0800
-Message-ID: <1722327259.5659568-1-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH net-next v17 01/14] netdev: add netdev_rx_queue_restart()
-Date: Tue, 30 Jul 2024 16:14:19 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Mina Almasry <almasrymina@google.com>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20240730022623.98909-1-almasrymina@google.com>
- <20240730022623.98909-2-almasrymina@google.com>
-In-Reply-To: <20240730022623.98909-2-almasrymina@google.com>
-X-Mailman-Approved-At: Tue, 30 Jul 2024 16:22:37 +0000
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD3810E22E
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 17:19:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id DDD0C6200B;
+ Tue, 30 Jul 2024 17:19:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 089FCC32782;
+ Tue, 30 Jul 2024 17:19:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1722359943;
+ bh=zszISfNrirE0HvsHCcAevi+yGsKWq/xBi2hS4Isnk40=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=N6lnkm5r9iNG1MI18VkzE8YJjlmzb6qMQj4OHfLAYhtgxl3Z9nJX73L3DcJkax2/q
+ z787r4dLfYMl0xDNDHg1E3545KgeWmDPH+lAM550BhEr0t+487RprRQ9bMjmhk4f/P
+ VKaQqrHPb611a73nlpPdK3kQdlsHrSLz31IWRR/A=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Pallavi Mishra <pallavi.mishra@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Effie Yu <effie.yu@intel.com>, Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Jose Souza <jose.souza@intel.com>, Michal Mrozek <michal.mrozek@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [PATCH 6.10 557/809] drm/xe: Use write-back caching mode for system
+ memory on DGFX
+Date: Tue, 30 Jul 2024 17:47:13 +0200
+Message-ID: <20240730151746.758213774@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240730151724.637682316@linuxfoundation.org>
+References: <20240730151724.637682316@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,159 +67,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Jul 2024 02:26:05 +0000, Mina Almasry <almasrymina@google.com> wrote:
-> Add netdev_rx_queue_restart() function to netdev_rx_queue.h
+6.10-stable review patch.  If anyone has any objections, please let me know.
+
+------------------
+
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+commit 5207c393d3e7dda9aff813d6b3e2264370d241be upstream.
+
+The caching mode for buffer objects with VRAM as a possible
+placement was forced to write-combined, regardless of placement.
+
+However, write-combined system memory is expensive to allocate and
+even though it is pooled, the pool is expensive to shrink, since
+it involves global CPU TLB flushes.
+
+Moreover write-combined system memory from TTM is only reliably
+available on x86 and DGFX doesn't have an x86 restriction.
+
+So regardless of the cpu caching mode selected for a bo,
+internally use write-back caching mode for system memory on DGFX.
+
+Coherency is maintained, but user-space clients may perceive a
+difference in cpu access speeds.
+
+v2:
+- Update RB- and Ack tags.
+- Rephrase wording in xe_drm.h (Matt Roper)
+v3:
+- Really rephrase wording.
+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Fixes: 622f709ca629 ("drm/xe/uapi: Add support for CPU caching mode")
+Cc: Pallavi Mishra <pallavi.mishra@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Effie Yu <effie.yu@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Jose Souza <jose.souza@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+Cc: <stable@vger.kernel.org> # v6.8+
+Acked-by: Matthew Auld <matthew.auld@intel.com>
+Acked-by: José Roberto de Souza <jose.souza@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Fixes: 622f709ca629 ("drm/xe/uapi: Add support for CPU caching mode")
+Acked-by: Michal Mrozek <michal.mrozek@intel.com>
+Acked-by: Effie Yu <effie.yu@intel.com> #On chat
+Link: https://patchwork.freedesktop.org/patch/msgid/20240705132828.27714-1-thomas.hellstrom@linux.intel.com
+(cherry picked from commit 01e0cfc994be484ddcb9e121e353e51d8bb837c0)
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/xe/xe_bo.c       |   47 +++++++++++++++++++++++----------------
+ drivers/gpu/drm/xe/xe_bo_types.h |    3 +-
+ include/uapi/drm/xe_drm.h        |    8 +++++-
+ 3 files changed, 37 insertions(+), 21 deletions(-)
+
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -317,7 +317,7 @@ static struct ttm_tt *xe_ttm_tt_create(s
+ 	struct xe_device *xe = xe_bo_device(bo);
+ 	struct xe_ttm_tt *tt;
+ 	unsigned long extra_pages;
+-	enum ttm_caching caching;
++	enum ttm_caching caching = ttm_cached;
+ 	int err;
+ 
+ 	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
+@@ -331,26 +331,35 @@ static struct ttm_tt *xe_ttm_tt_create(s
+ 		extra_pages = DIV_ROUND_UP(xe_device_ccs_bytes(xe, bo->size),
+ 					   PAGE_SIZE);
+ 
+-	switch (bo->cpu_caching) {
+-	case DRM_XE_GEM_CPU_CACHING_WC:
+-		caching = ttm_write_combined;
+-		break;
+-	default:
+-		caching = ttm_cached;
+-		break;
+-	}
+-
+-	WARN_ON((bo->flags & XE_BO_FLAG_USER) && !bo->cpu_caching);
+-
+ 	/*
+-	 * Display scanout is always non-coherent with the CPU cache.
+-	 *
+-	 * For Xe_LPG and beyond, PPGTT PTE lookups are also non-coherent and
+-	 * require a CPU:WC mapping.
++	 * DGFX system memory is always WB / ttm_cached, since
++	 * other caching modes are only supported on x86. DGFX
++	 * GPU system memory accesses are always coherent with the
++	 * CPU.
+ 	 */
+-	if ((!bo->cpu_caching && bo->flags & XE_BO_FLAG_SCANOUT) ||
+-	    (xe->info.graphics_verx100 >= 1270 && bo->flags & XE_BO_FLAG_PAGETABLE))
+-		caching = ttm_write_combined;
++	if (!IS_DGFX(xe)) {
++		switch (bo->cpu_caching) {
++		case DRM_XE_GEM_CPU_CACHING_WC:
++			caching = ttm_write_combined;
++			break;
++		default:
++			caching = ttm_cached;
++			break;
++		}
++
++		WARN_ON((bo->flags & XE_BO_FLAG_USER) && !bo->cpu_caching);
++
++		/*
++		 * Display scanout is always non-coherent with the CPU cache.
++		 *
++		 * For Xe_LPG and beyond, PPGTT PTE lookups are also
++		 * non-coherent and require a CPU:WC mapping.
++		 */
++		if ((!bo->cpu_caching && bo->flags & XE_BO_FLAG_SCANOUT) ||
++		    (xe->info.graphics_verx100 >= 1270 &&
++		     bo->flags & XE_BO_FLAG_PAGETABLE))
++			caching = ttm_write_combined;
++	}
+ 
+ 	err = ttm_tt_init(&tt->ttm, &bo->ttm, page_flags, caching, extra_pages);
+ 	if (err) {
+--- a/drivers/gpu/drm/xe/xe_bo_types.h
++++ b/drivers/gpu/drm/xe/xe_bo_types.h
+@@ -66,7 +66,8 @@ struct xe_bo {
+ 
+ 	/**
+ 	 * @cpu_caching: CPU caching mode. Currently only used for userspace
+-	 * objects.
++	 * objects. Exceptions are system memory on DGFX, which is always
++	 * WB.
+ 	 */
+ 	u16 cpu_caching;
+ 
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -776,7 +776,13 @@ struct drm_xe_gem_create {
+ #define DRM_XE_GEM_CPU_CACHING_WC                      2
+ 	/**
+ 	 * @cpu_caching: The CPU caching mode to select for this object. If
+-	 * mmaping the object the mode selected here will also be used.
++	 * mmaping the object the mode selected here will also be used. The
++	 * exception is when mapping system memory (including data evicted
++	 * to system) on discrete GPUs. The caching mode selected will
++	 * then be overridden to DRM_XE_GEM_CPU_CACHING_WB, and coherency
++	 * between GPU- and CPU is guaranteed. The caching mode of
++	 * existing CPU-mappings will be updated transparently to
++	 * user-space clients.
+ 	 */
+ 	__u16 cpu_caching;
+ 	/** @pad: MBZ */
 
 
-Can you say more? As far as I understand, we just release the buffer
-submitted to the rx ring and get a new page pool.
-
-But I personally feel that the interface here is a bit too complicated. In
-particular, we also need to copy the rx struct memory, which means it is a
-dangerous operation for many pointers.
-
-Thanks.
-
-
->
-> Signed-off-by: David Wei <dw@davidwei.uk>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
-> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
->
-> ---
->
-> v17:
-> - Use ASSERT_RTNL() (Jakub).
->
-> v13:
-> - Add reviewed-by from Pavel (thanks!)
-> - Fixed comment (Pavel)
->
-> v11:
-> - Fix not checking dev->queue_mgmt_ops (Pavel).
-> - Fix ndo_queue_mem_free call that passed the wrong pointer (David).
->
-> v9: https://lore.kernel.org/all/20240502045410.3524155-4-dw@davidwei.uk/
-> (submitted by David).
-> - fixed SPDX license identifier (Simon).
-> - Rebased on top of merged queue API definition, and changed
->   implementation to match that.
-> - Replace rtnl_lock() with rtnl_is_locked() to make it useable from my
->   netlink code where rtnl is already locked.
->
-> ---
->  include/net/netdev_rx_queue.h |  3 ++
->  net/core/Makefile             |  1 +
->  net/core/netdev_rx_queue.c    | 74 +++++++++++++++++++++++++++++++++++
->  3 files changed, 78 insertions(+)
->  create mode 100644 net/core/netdev_rx_queue.c
->
-> diff --git a/include/net/netdev_rx_queue.h b/include/net/netdev_rx_queue.h
-> index aa1716fb0e53c..e78ca52d67fbf 100644
-> --- a/include/net/netdev_rx_queue.h
-> +++ b/include/net/netdev_rx_queue.h
-> @@ -54,4 +54,7 @@ get_netdev_rx_queue_index(struct netdev_rx_queue *queue)
->  	return index;
->  }
->  #endif
-> +
-> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq);
-> +
->  #endif
-> diff --git a/net/core/Makefile b/net/core/Makefile
-> index 62be9aef25285..f82232b358a2c 100644
-> --- a/net/core/Makefile
-> +++ b/net/core/Makefile
-> @@ -19,6 +19,7 @@ obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
->
->  obj-y += net-sysfs.o
->  obj-y += hotdata.o
-> +obj-y += netdev_rx_queue.o
->  obj-$(CONFIG_PAGE_POOL) += page_pool.o page_pool_user.o
->  obj-$(CONFIG_PROC_FS) += net-procfs.o
->  obj-$(CONFIG_NET_PKTGEN) += pktgen.o
-> diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
-> new file mode 100644
-> index 0000000000000..da11720a59830
-> --- /dev/null
-> +++ b/net/core/netdev_rx_queue.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#include <linux/netdevice.h>
-> +#include <net/netdev_queues.h>
-> +#include <net/netdev_rx_queue.h>
-> +
-> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq_idx)
-> +{
-> +	void *new_mem, *old_mem;
-> +	int err;
-> +
-> +	if (!dev->queue_mgmt_ops || !dev->queue_mgmt_ops->ndo_queue_stop ||
-> +	    !dev->queue_mgmt_ops->ndo_queue_mem_free ||
-> +	    !dev->queue_mgmt_ops->ndo_queue_mem_alloc ||
-> +	    !dev->queue_mgmt_ops->ndo_queue_start)
-> +		return -EOPNOTSUPP;
-> +
-> +	ASSERT_RTNL();
-> +
-> +	new_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
-> +	if (!new_mem)
-> +		return -ENOMEM;
-> +
-> +	old_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
-> +	if (!old_mem) {
-> +		err = -ENOMEM;
-> +		goto err_free_new_mem;
-> +	}
-> +
-> +	err = dev->queue_mgmt_ops->ndo_queue_mem_alloc(dev, new_mem, rxq_idx);
-> +	if (err)
-> +		goto err_free_old_mem;
-> +
-> +	err = dev->queue_mgmt_ops->ndo_queue_stop(dev, old_mem, rxq_idx);
-> +	if (err)
-> +		goto err_free_new_queue_mem;
-> +
-> +	err = dev->queue_mgmt_ops->ndo_queue_start(dev, new_mem, rxq_idx);
-> +	if (err)
-> +		goto err_start_queue;
-> +
-> +	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, old_mem);
-> +
-> +	kvfree(old_mem);
-> +	kvfree(new_mem);
-> +
-> +	return 0;
-> +
-> +err_start_queue:
-> +	/* Restarting the queue with old_mem should be successful as we haven't
-> +	 * changed any of the queue configuration, and there is not much we can
-> +	 * do to recover from a failure here.
-> +	 *
-> +	 * WARN if we fail to recover the old rx queue, and at least free
-> +	 * old_mem so we don't also leak that.
-> +	 */
-> +	if (dev->queue_mgmt_ops->ndo_queue_start(dev, old_mem, rxq_idx)) {
-> +		WARN(1,
-> +		     "Failed to restart old queue in error path. RX queue %d may be unhealthy.",
-> +		     rxq_idx);
-> +		dev->queue_mgmt_ops->ndo_queue_mem_free(dev, old_mem);
-> +	}
-> +
-> +err_free_new_queue_mem:
-> +	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, new_mem);
-> +
-> +err_free_old_mem:
-> +	kvfree(old_mem);
-> +
-> +err_free_new_mem:
-> +	kvfree(new_mem);
-> +
-> +	return err;
-> +}
-> --
-> 2.46.0.rc1.232.g9752f9e123-goog
->
->
