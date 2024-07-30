@@ -2,78 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1936940A5B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 09:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70E4940A5E
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 09:54:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0C910E4DF;
-	Tue, 30 Jul 2024 07:54:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64C1010E4E3;
+	Tue, 30 Jul 2024 07:54:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GwKzE5PS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WstVNrP4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7A6810E4AB
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 07:10:16 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46TNMFgK011935;
- Tue, 30 Jul 2024 07:10:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=1f6D8j20cHi5d/NqXz9m7T
- BZoHNULVKP779qPhvQ7Vk=; b=GwKzE5PSEZoF49Fehyc/+bzZefDmGW1dp/0GGX
- XU0uvt3BMkK4+43IrbXXji2E+BWggZfpmQIeBNhxZXWANbW41lBHRKN2wUhcEevU
- 6cvwjv96+pvGj4YBO9pL8HlAmgh1FE8rb02BG/0fLz1TcgWS3EsVWL+BqXVioGYA
- RATAoenI1+S5SY/P5L7aPTMer0skrXm4VAnEtJUEg/1boJ1fjXxv/2FPeEiFx5SG
- eC5jPEAlFA77UqLJ006i4jYRGPhppR7t/hOMG39aFasM6v0upW4OGvZS04h4bnhu
- n3HMQkD0J91VTrwHtdPlgkNNRHicYqjQDWjWn39ajAGWAEYQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40mt68pc8e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Jul 2024 07:10:14 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46U7ADAh002377
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Jul 2024 07:10:13 GMT
-Received: from hu-abhishes-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 30 Jul 2024 00:10:10 -0700
-From: Abhishek Singh <quic_abhishes@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>
-CC: Abhishek Singh <quic_abhishes@quicinc.com>, <gregkh@linuxfoundation.org>, 
- <quic_bkumar@quicinc.com>, <linux-kernel@vger.kernel.org>,
- <quic_ktadakam@quicinc.com>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v1] misc: fastrpc: Trigger a panic using BUG_ON in device
- release
-Date: Tue, 30 Jul 2024 12:39:45 +0530
-Message-ID: <20240730070945.4174823-1-quic_abhishes@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6660E10E0A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 07:15:01 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-1fd6ed7688cso28366155ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 00:15:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722323701; x=1722928501; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wGBS2rpr+A3aPueh3D6OD2pyezLrXyWzp0rS6hZNrGo=;
+ b=WstVNrP4WIt6JlZLhggW52bNsVfrRa22MdSio5YYQZOtuZff1rM7zZ6P/48iEFSwxH
+ xP8l2GyHqnecAzNBPiMT9arLCpWlUAv9+I/c4+aVQpV0sj8QO//xGhnRoKnlIIkPq+Hf
+ V5tjH6qj+V6qcg/41ow3S6AprYKSRDQicPydUz/Y9KASDJubbqUOpNQCzHbb+eb3uv/U
+ L+i5kkG9BGqbEai/2k6tmNcChi304Nr6LYNqihtC3AsE3q3h2rtJL+HJt/iOErkd0MbS
+ 4kkXpuUOK1OKImwReLBTMLyuVGrc0sKSGebNQN0x15B/AcXVmSrsvBVOU1iNcnNF77Zp
+ uE0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722323701; x=1722928501;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wGBS2rpr+A3aPueh3D6OD2pyezLrXyWzp0rS6hZNrGo=;
+ b=H2ysDjfI24Y5AYphCaxWh5/BhcacD9YR4lQTzDTx9cXC7aGEIUm22zf1Zcuc/gHgJb
+ wRuP2ahctXNq+FlBQOJli6AeIkQ5m5Nd1btkgeVKfIYwFL658eQ+CCil33bRq9fU2VVt
+ 5oh7mnzAytID2ctPg1pRysi+mK7Mdy5PKeWe7mOXoTjGVkiuD3W5Z/w1cgig4tzKM3r+
+ +9iv8mzNUwZShLSnM5Pnt8CTxpO/g6n3/gRkjhplcBzJTJ/ee9wIEEBOVEs2vTbt/UsK
+ +q7oy7PwlqoSBUVGrzvgZ3cIK7kzBpFg80DgQLO9ZoPrdWJsqEN1R/I1cTXtF9voFGiW
+ 67RA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVK10unTym/TQMGJ/CEgzvDseZxGnAaI4zz41fYAT7R0InBNhtboprhBXC1Imr+W25oNBsZ5u9Fe/K/cZdy5Z7KkppMkbRyIdJdkWm0O3yf
+X-Gm-Message-State: AOJu0Yy4tsTTyhn8JwXni6kUzEvFp10xUMxTZPQm9D+QbRwd0NzPAM9K
+ 7Th/kNn2ZatqOOmA+JF8mZmwP5RoZRyzSTdAqQViuEMAfJt7Fq5T
+X-Google-Smtp-Source: AGHT+IEqaChifI36y9GRjZ1BIZXEH3NXZ4BPZ7FAGlh5To/g48a+6rZQW8YI1/pp2Aw1QDfWYAHgCQ==
+X-Received: by 2002:a17:902:fb08:b0:1fd:a72a:f44 with SMTP id
+ d9443c01a7336-1ff0482b8acmr64992035ad.17.1722323700747; 
+ Tue, 30 Jul 2024 00:15:00 -0700 (PDT)
+Received: from c4897d9ba637.debconf24.debconf.org ([116.89.172.26])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1fed7f1aa18sm94810815ad.190.2024.07.30.00.14.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jul 2024 00:14:59 -0700 (PDT)
+From: Sakirnth Nagarasa <sakirnth@gmail.com>
+To: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: ~lkcamp/patches@lists.sr.ht,
+	helen.koike@collabora.com
+Subject: [PATCH] staging: fbtft: Remove trailing semicolon in macro.
+Date: Tue, 30 Jul 2024 07:14:55 +0000
+Message-Id: <20240730071455.37494-1-sakirnth@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <sakirnth@gmail.com>
+References: <sakirnth@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: nEyyhOn6poZlE8gyoTP7qt0cSrT0Dp5b
-X-Proofpoint-GUID: nEyyhOn6poZlE8gyoTP7qt0cSrT0Dp5b
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-30_07,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 adultscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
- clxscore=1011 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407300052
 X-Mailman-Approved-At: Tue, 30 Jul 2024 07:54:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,49 +86,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The user process on ARM closes the device node while closing the
-session, triggers a remote call to terminate the PD running on the
-DSP. If the DSP is in an unstable state and cannot process the remote
-request from the HLOS, glink fails to deliver the kill request to the
-DSP, resulting in a timeout error. Currently, this error is ignored,
-and the session is closed, causing all the SMMU mappings associated
-with that specific PD to be removed. However, since the PD is still
-operational on the DSP, any attempt to access these SMMU mappings
-results in an SMMU fault, leading to a panic.  As the SMMU mappings
-have already been removed, there is no available information on the
-DSP to determine the root cause of its unresponsiveness to remote
-calls. As the DSP is unresponsive to all process remote calls, use
-BUG_ON to prevent the removal of SMMU mappings and to properly
-identify the root cause of the DSP’s unresponsiveness to the remote
-calls.
+Fix checkpath warning: "WARNING: macros should not use a trailing semicolon
+in fbtft.h:356.
 
-Signed-off-by: Abhishek Singh <quic_abhishes@quicinc.com>
+Signed-off-by: Sakirnth Nagarasa <sakirnth@gmail.com>
+
 ---
- drivers/misc/fastrpc.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 5204fda51da3..bac9c749564c 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -97,6 +97,7 @@
- #define FASTRPC_RMID_INIT_CREATE_STATIC	8
- #define FASTRPC_RMID_INIT_MEM_MAP      10
- #define FASTRPC_RMID_INIT_MEM_UNMAP    11
-+#define PROCESS_KILL_SC 0x01010000
+Hello, this is my first patch to the kernel.
+---
+ drivers/staging/fbtft/fbtft.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index f86ed9d47..45dfc92b8 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -365,7 +365,7 @@ MODULE_DEVICE_TABLE(spi, spi_ids);						\
+ 										\
+ FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)		\
+ 										\
+-module_spi_driver(fbtft_driver_spi_driver);
++module_spi_driver(fbtft_driver_spi_driver)
  
- /* Protection Domain(PD) ids */
- #define ROOT_PD		(0)
-@@ -1128,6 +1129,9 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
- 	fastrpc_context_get(ctx);
+ /* Debug macros */
  
- 	ret = rpmsg_send(cctx->rpdev->ept, (void *)msg, sizeof(*msg));
-+	/* trigger panic if glink communication is broken and the message is for PD kill */
-+	BUG_ON((ret == -ETIMEDOUT) && (handle == FASTRPC_INIT_HANDLE) &&
-+			(ctx->sc == PROCESS_KILL_SC));
- 
- 	if (ret)
- 		fastrpc_context_put(ctx);
 -- 
-2.25.1
+2.20.1
 
