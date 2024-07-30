@@ -2,56 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA9B940EAC
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 12:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD6E940EDA
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 12:20:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B64AB10E077;
-	Tue, 30 Jul 2024 10:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04BEB10E088;
+	Tue, 30 Jul 2024 10:20:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="C94Rw9c7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YTXB4Re0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB8C810E03F;
- Tue, 30 Jul 2024 10:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1722334259;
- bh=kwKNQoRGs15Za4VXh2kjUQHdxhfWjLaz7h4GWTcgp4Q=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=C94Rw9c72yphekMPRbh9BRcAmXHLMbC0clvUEwMzIMuLov5zfnlWp6D2NbaKrjENj
- diI9mVB1n3Rfpe7YZ4kp8i9EUFhGfpFV4ENWNpyma+t5YmX/6OT4zBMHicMWCrkFbV
- 1PnsUaY2gipiuj/Ho34cOrzpXaRE9LJdVJFkSAd97mLbcpmqkYLeoITcEGnVfu0FO7
- czPlAhxqU3mJq8nVPTXL4s2teD5GhlPBs7nQGtOdFkpalT5yi8c90FDfYCI6/dLka0
- Tsu8JYztEU+fgPkXj+6/Y9qy7QEtrPjFmlKjNuWqr/zwgS9MPkJKp9PAPA84CdvvGI
- up/qFIB/4G89g==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4WY9wf25hWz4w2K;
- Tue, 30 Jul 2024 20:10:58 +1000 (AEST)
-Date: Tue, 30 Jul 2024 20:10:56 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@intel.com>, "Golani, Mitulkumar
- Ajitkumar" <mitulkumar.ajitkumar.golani@intel.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Suraj Kandpal <suraj.kandpal@intel.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build warning after merge of the drm-intel tree
-Message-ID: <20240730201056.70f71496@canb.auug.org.au>
-In-Reply-To: <679e9674-9611-48a8-8f94-4285b080d3f6@intel.com>
-References: <20240612141110.3aebb166@canb.auug.org.au>
- <20240715091234.5e8b2701@canb.auug.org.au>
- <774fa28d-b196-0030-2fb2-5d5fb8a7d1cc@intel.com>
- <679e9674-9611-48a8-8f94-4285b080d3f6@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38AAD10E088
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 10:20:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 93C8B61E68;
+ Tue, 30 Jul 2024 10:20:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1044FC32782;
+ Tue, 30 Jul 2024 10:20:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1722334845;
+ bh=xwbo8CgZid8XywgKj08NTyU5S6B6z34ldR9Hj5HGt/I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=YTXB4Re00tyDf8hKnBc0H85WQXLdG2tMhabYYUDB9yehlZW/hcj4zsw28OjHRTZju
+ fxYeGXbDz50Xsn5Bu+4V8C+163X9K+mEWmJtkD9b5dyO8/Zupfl/7NGuNJm4xDehx9
+ vz5U270gjGeTQqkLEMh6lJ0vrKK1AJwwtdZrTDIHFNM0Q9iIEqDBdedU84QIutToOm
+ c1D7KUewbne5mDCkmx2B1DScBXyK1ylCX7HEh5rU9jWritQ8gETNNFd7xi+WA31lzn
+ byZk1ojZWtz70fUMLgcg46L28PwrCWmEfsykOXMpUXLQIcVjoeSJ7wB+ffoWwTxgdG
+ 9WKOpMO/xtE6A==
+Message-ID: <edf48813-3e2e-4fe2-b2e5-80f68ef0172f@kernel.org>
+Date: Tue, 30 Jul 2024 12:20:34 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/=G3dNmxhcEOQZR/IIswhZ6+";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/16] drm/imx: Add i.MX8qxp Display Controller pixel
+ engine
+To: Liu Ying <victor.liu@nxp.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org, kishon@kernel.org,
+ aisheng.dong@nxp.com, agx@sigxcpu.org, francesco@dolcini.it, frank.li@nxp.com
+References: <20240712093243.2108456-1-victor.liu@nxp.com>
+ <20240712093243.2108456-8-victor.liu@nxp.com>
+ <ibdzow7lvbimaefrp2z2aolgp4pytpq3dcr2y3pegjavvknhgm@2e6j3f4zytqp>
+ <107d89b9-e7b8-4613-bc07-9af7b52c2b8a@nxp.com>
+ <0e7a8d52-6556-4531-882f-73513f99259b@kernel.org>
+ <81afd7ef-c4a6-49e8-b232-8007a25aaf51@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <81afd7ef-c4a6-49e8-b232-8007a25aaf51@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,61 +116,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/=G3dNmxhcEOQZR/IIswhZ6+
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 30/07/2024 11:42, Liu Ying wrote:
+> On 07/30/2024, Krzysztof Kozlowski wrote:
+>> On 30/07/2024 08:55, Liu Ying wrote:
+>>> On 07/28/2024, Dmitry Baryshkov wrote:
+>>>> On Fri, Jul 12, 2024 at 05:32:34PM GMT, Liu Ying wrote:
+>>>>> i.MX8qxp Display Controller pixel engine consists of all processing
+>>>>> units that operate in the AXI bus clock domain.  Add drivers for
+>>>>> ConstFrame, ExtDst, FetchLayer, FetchWarp and LayerBlend units, as
+>>>>> well as a pixel engine driver, so that two displays with primary
+>>>>> planes can be supported.  The pixel engine driver as a master binds
+>>>>> those unit drivers as components.  While at it, the pixel engine
+>>>>> driver is a component to be bound with the upcoming DRM driver.
+>>>>
+>>>> Same question / comment: create subnodes directly, without going
+>>>> through the subdevices. A lot of small functions that would benefit
+>>>> being inlined.
+>>>
+>>> Like I replied in patch 06/16, I can't create sub devices directly.
+>>>
+>>> Can you please point out typical ones for those small functions if
+>>> the comment still stands?
+>>>
+>>>>
+>>>>> +static int dc_cf_bind(struct device *dev, struct device *master, void *data)
+>>>>> +{
+>>>>> +	struct platform_device *pdev = to_platform_device(dev);
+>>>>> +	struct dc_drm_device *dc_drm = data;
+>>>>> +	struct dc_pe *pe = dc_drm->pe;
+>>>>> +	struct dc_cf_priv *priv;
+>>>>> +	int id;
+>>>>> +
+>>>>> +	priv = drmm_kzalloc(&dc_drm->base, sizeof(*priv), GFP_KERNEL);
+>>>>> +	if (!priv)
+>>>>> +		return -ENOMEM;
+>>>>> +
+>>>>> +	priv->reg_cfg = devm_platform_ioremap_resource_byname(pdev, "cfg");
+>>>>> +	if (IS_ERR(priv->reg_cfg))
+>>>>> +		return PTR_ERR(priv->reg_cfg);
+>>>>> +
+>>>>> +	id = of_alias_get_id(dev->of_node, "dc0-constframe");
+>>>>
+>>>> Is it documented? Acked?
+>>>
+>>> Like I replied in patch 06/16, I can add aliases nodes to examples,
+>>> if needed.
+>>>
+>>> No Nak from DT maintainers I'd say, but I hope there will be direct
+>>> Ack(s).
+>>>
+>>
+>> It was not Acked, because there was no documentation added for it.
+> 
+> I may add aliases nodes in examples in next version, if no objections.
 
-Hi all,
+Example is just example. It is not a documentation. You must explain it
+in the binding, e.g. description.
 
-On Mon, 15 Jul 2024 14:13:37 +0200 Maarten Lankhorst <maarten.lankhorst@int=
-el.com> wrote:
->
-> Den 2024-07-15 kl. 06:21, skrev Golani, Mitulkumar Ajitkumar:
-> >
-> > On 15-07-2024 04:42, Stephen Rothwell wrote: =20
-> >>
-> >> On Wed, 12 Jun 2024 14:11:10 +1000 Stephen Rothwell <sfr@canb.auug.org=
-.au> wrote: =20
-> >>> After merging the drm-intel tree, today's linux-next build (htmldocs)
-> >>> produced this warning:
-> >>>
-> >>> include/drm/display/drm_dp_helper.h:127: warning: Function parameter =
-or struct member 'target_rr_divider' not described in 'drm_dp_as_sdp'
-> >>>
-> >>> Introduced by commit
-> >>>
-> >>> =C2=A0=C2=A0 a20c6d954d75 ("drm/dp: Add refresh rate divider to struc=
-t representing AS SDP") =20
-> >> I am now seeing that warning after the merge of the drm tree. =20
-> > Hi Stephen Rothwell,
-> >
-> > I have already floated changes : https://patchwork.freedesktop.org/patc=
-h/604143/?series=3D136072&rev=3D1
-> >
-> > Need help on Ack from drm-maintainers to merge. =20
->=20
-> There you go, does it need to go through drm-misc too?
+> 
+>> Anyway, naming is quite cryptic, e.g. "0" in "dc0" is quite confusing.
+>> Do you expect different aliases for dc1 or dc9? But anyway, aliases for
+> 
+> Yes, I do.  If the alias approach is used, DC instance ids need to be
+> specified in aliases.
 
-I am still seeing these warnings.
+Really? Uh, that does not look good. I tend to like this binding less
+and less.
 
---=20
-Cheers,
-Stephen Rothwell
 
---Sig_/=G3dNmxhcEOQZR/IIswhZ6+
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Best regards,
+Krzysztof
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmaovDAACgkQAVBC80lX
-0GxhAwf/QRSEG82Aa/sWPYI4rGYGbNFFEXZQyaInF/Azo+K39nV9y47YMdIcWyFx
-MsHH8M6ftbecZO/nb7Kgdux1fM76N/Uuj5X6d+q6OefCVcUdWt6ZFW2qGEIfZGzC
-1XwFhnJCgmJwyofIle5GnozosdJk3sOm1lu8XRVNtuYQTf/xIa6C4VcJIOaasoES
-fa4Oz9JX2LJ6IcUj+2m7Oh6P+8Gh8oAeeksbxsTEldGY8v2owzpPEA7eycC3kYq7
-VxennagkUo91gtE6FnLeIRqux/ZQbHBt4TNPdQMcl21BeWzWRb6W51yQ4mXkC1BB
-L3hiELb8HALzCHTzPNMMfm+lxD9wxg==
-=y++b
------END PGP SIGNATURE-----
-
---Sig_/=G3dNmxhcEOQZR/IIswhZ6+--
