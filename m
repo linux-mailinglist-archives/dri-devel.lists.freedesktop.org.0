@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DF3941E72
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 19:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60080941C9F
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 19:10:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C241710E315;
-	Tue, 30 Jul 2024 17:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D453110E2F6;
+	Tue, 30 Jul 2024 17:09:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gJPVxAov";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xNnaoF1P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1094710E315
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 17:29:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFAB10E2F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 17:09:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id ECA93CE10FC;
- Tue, 30 Jul 2024 17:29:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5FF0C32782;
- Tue, 30 Jul 2024 17:28:59 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 4B1C5CE10E4;
+ Tue, 30 Jul 2024 17:09:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E524EC4AF0C;
+ Tue, 30 Jul 2024 17:09:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1722360540;
- bh=yKZ8Ik3wwb7sBetybQx5InbmNRjckitTbArcc530e7U=;
+ s=korg; t=1722359394;
+ bh=6ZatLLTONHAXV5//fUoCNtw0Wf3ndGgbZNbk/1eMaU4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gJPVxAovGqAr3ei55a+pH2MGFj+LyP/pXgRMRHpwlnpVgFLS6AIbK6lqm4AKdZbUl
- tr5NFkmWYHUZFz337dsvMDh0DOtvczKXyNK6jLnk/iv7C4iesWtmW3Yk3Qi+UL5psX
- iu5QGxivizPftn6Bl8+etzO9hg39KlWJQiS55ndk=
+ b=xNnaoF1POCMDIFTjY5hXLqD5Zc1sOC+2N87dD+zx4t+3trGAgNhEF3u8pAPfyHq3o
+ 1waXIn8myYSV4SWIs42S/wzFyflWqtTpF5AUL5gDvX64B/EbeCWbl4fohmYs8oUJx8
+ f9dd4fl2w7OKvQwzUwkTdic9OtD0q1cNibiMuKjo=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -35,12 +35,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Robert Tarasov <tutankhamen@chromium.org>,
  Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
  Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 6.10 700/809] drm/udl: Remove DRM_CONNECTOR_POLL_HPD
-Date: Tue, 30 Jul 2024 17:49:36 +0200
-Message-ID: <20240730151752.570932060@linuxfoundation.org>
+Subject: [PATCH 6.6 476/568] drm/udl: Remove DRM_CONNECTOR_POLL_HPD
+Date: Tue, 30 Jul 2024 17:49:43 +0200
+Message-ID: <20240730151658.630434488@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240730151724.637682316@linuxfoundation.org>
-References: <20240730151724.637682316@linuxfoundation.org>
+In-Reply-To: <20240730151639.792277039@linuxfoundation.org>
+References: <20240730151639.792277039@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -61,7 +61,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.10-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -91,7 +91,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/udl/udl_modeset.c
 +++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -527,8 +527,7 @@ struct drm_connector *udl_connector_init
+@@ -512,8 +512,7 @@ struct drm_connector *udl_connector_init
  
  	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
  
