@@ -2,85 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDAA09416F1
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 18:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406C2941876
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 18:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0136010E1DD;
-	Tue, 30 Jul 2024 16:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1729D10E538;
+	Tue, 30 Jul 2024 16:22:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="AYJqmcJq";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ngaxm5cM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784A710E1DD
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 16:05:29 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id
- af79cd13be357-7a1d7a544e7so339885385a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 09:05:29 -0700 (PDT)
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Tue, 30 Jul 2024 08:22:40 UTC
+Received: from out30-124.freemail.mail.aliyun.com
+ (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50CEF10E24C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 08:22:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1722355528; x=1722960328;
- darn=lists.freedesktop.org; 
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=ciJceeDlK4Y/meCsbSLF/LMnhpaQTDx0EUKSZhsR9W4=;
- b=AYJqmcJqVWtCvggGiqJuQbTXJVVB708IHBflwxPkE0g/vh7dOFmm1qeZjQYJ8v2M0O
- vtFEnqsvJU7+eQd3hJdhVS4/LeD7ThV2bAd6EhoSetzbahO8mc8S52iP/t6jEF+BXkjR
- e+HEfx1zlATCbe5uAygMbRzv+hZmWkV/oi5BLr3Py/hzBfN60EqG4vc9xAZe11HrOYAy
- u/QzcqwPWfVmdefRJaSHTDthCvYROCm+hwR1cGTnOX/xdI0wH3U+3ftLwvfZZLuV3m5t
- a5vue2293VuTGUcAue0GptT3u0rj2noxKflVH1aEgbC6Nc8FrYqWHfdujJjG+txGcKXX
- 4P4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722355528; x=1722960328;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ciJceeDlK4Y/meCsbSLF/LMnhpaQTDx0EUKSZhsR9W4=;
- b=vS2LY08rLDzffoP+Bn1kledfYps8LpY++7Dr2Kob39oV5IuSLsSe9y9O65ARDpthkw
- mGVV3P/o71yUnxwSxB7Gyfkjp3TBOY9G9C0Exd81ShfZXZ3mFC1n3mwQ5e0E3aSvsdd6
- 6/KUOEnG3z8nZCAuz/6aPQGpyGojGNsYHVTgpAeUnf1rfCjKV3xNx5hwxot8VkRSPPuw
- Orq9eYHpfKi6wio+RkMMT+dJaIKrdke9ZZg75YGpAH3y9eOaUB6T0ohCyRqwGvejgYIF
- LiTmIPBUdjbab6URPQmqF/5xIGGdmqdtWmBn11rOdRYhv2GFyVTfpk5ztyaKRkN04+wC
- YoQA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUU1qtRGm7rqkD2szM4LOxwf1bd027wW7NoNlrwg/oxnXyMF7I+AhkNGxi5bqkpmbwtAeWOuGRMtU/XNIY8GiEZ3MxUm0dWGfuY68wbuHbw
-X-Gm-Message-State: AOJu0YxPFmghcvOh5FR2sSgJTubLHWhqDS800dzSmNr9AbJKil1tXlv7
- slyPR5CCGXpnO6yo96JRChz+61RqW6KaFnUfdPbQxK4fWtgACImI9cjIyu0uS10=
-X-Google-Smtp-Source: AGHT+IEqLv3C2h4BQ+3fI7pKVhff0eutIQIkZ2jsV14fbu5lHsoFKAnZxlGiOhZ4pHufize9xVS64Q==
-X-Received: by 2002:a05:620a:4090:b0:79b:efe1:1222 with SMTP id
- af79cd13be357-7a1e52fbb32mr1673543485a.63.1722355528312; 
- Tue, 30 Jul 2024 09:05:28 -0700 (PDT)
-Received: from nicolas-tpx395.lan ([2606:6d00:15:820c::580])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7a1d745f06asm644089685a.134.2024.07.30.09.05.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jul 2024 09:05:28 -0700 (PDT)
-Message-ID: <2229769f3a9baf58fbeeed93fa4b0373a02055e3.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
- Estevam <festevam@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, Sascha
- Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Steve
- Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org,  linux-staging@lists.linux.dev
-Date: Tue, 30 Jul 2024 12:05:26 -0400
-In-Reply-To: <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <5e5fba4fd6c3c0c9df23697bd328367e5fdfa923.camel@ndufresne.ca>
- <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
-MIME-Version: 1.0
+ d=linux.alibaba.com; s=default;
+ t=1722327758; h=Message-ID:Subject:Date:From:To;
+ bh=BL5MMNWBxRZiD5bwdc51aQGuezbk7sZ94pe6i1nz4Vo=;
+ b=ngaxm5cMBynNRd1bLhhpLVPV8zuHr90gs3f2wjnUgDCce+4gxFc+EfBO36Cq958Emx0jrEMqwOo8cQAVcL6lauicNFo0I5LPYVElQCbSxAfKtghsOupgmXekqs2LjiBvogzXpufpL0LHZE0vzCDu0aMHzA/LYF4vfg5cZdtiKSo=
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033037067113;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=53; SR=0;
+ TI=SMTPD_---0WBexhuz_1722327451; 
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
+ fp:SMTPD_---0WBexhuz_1722327451) by smtp.aliyun-inc.com;
+ Tue, 30 Jul 2024 16:17:32 +0800
+Message-ID: <1722327259.5659568-1-xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH net-next v17 01/14] netdev: add netdev_rx_queue_restart()
+Date: Tue, 30 Jul 2024 16:14:19 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Mina Almasry <almasrymina@google.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20240730022623.98909-1-almasrymina@google.com>
+ <20240730022623.98909-2-almasrymina@google.com>
+In-Reply-To: <20240730022623.98909-2-almasrymina@google.com>
+X-Mailman-Approved-At: Tue, 30 Jul 2024 16:22:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,61 +92,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le lundi 29 juillet 2024 =C3=A0 04:16 +0200, Marek Vasut a =C3=A9crit=C2=A0=
-:
-> On 7/24/24 6:08 PM, Nicolas Dufresne wrote:
-> > Hi Marek,
->=20
-> Hi,
->=20
-> > Le mercredi 24 juillet 2024 =C3=A0 02:19 +0200, Marek Vasut a =C3=A9cri=
-t=C2=A0:
-> > > Introduce dedicated memory-to-memory IPUv3 VDI deinterlacer driver.
-> > > Currently the IPUv3 can operate VDI in DIRECT mode, from sensor to
-> > > memory. This only works for single stream, that is, one input from
-> > > one camera is deinterlaced on the fly with a helper buffer in DRAM
-> > > and the result is written into memory.
-> > >=20
-> > > The i.MX6Q/QP does support up to four analog cameras via two IPUv3
-> > > instances, each containing one VDI deinterlacer block. In order to
-> > > deinterlace all four streams from all four analog cameras live, it
-> > > is necessary to operate VDI in INDIRECT mode, where the interlaced
-> > > streams are written to buffers in memory, and then deinterlaced in
-> > > memory using VDI in INDIRECT memory-to-memory mode.
-> >=20
-> > Just a quick design question. Is it possible to chain the deinterlacer =
-and the
-> > csc-scaler ?
->=20
-> I think you could do that.
->=20
-> > If so, it would be much more efficient if all this could be
-> > combined into the existing m2m driver, since you could save a memory ro=
-untrip
-> > when needing to deinterlace, change the colorspace and possibly scale t=
-oo.
->=20
-> The existing PRP/IC driver is similar to what this driver does, yes, but=
-=20
-> it uses a different DMA path , I believe it is IDMAC->PRP->IC->IDMAC .=
-=20
-> This driver uses IDMAC->VDI->IC->IDMAC . I am not convinced mixing the=
-=20
-> two paths into a single driver would be beneficial, but I am reasonably=
-=20
-> sure it would be very convoluted. Instead, this driver could be extended=
-=20
-> to do deinterlacing and scaling using the IC if that was needed. I think=
-=20
-> that would be the cleaner approach.
+On Tue, 30 Jul 2024 02:26:05 +0000, Mina Almasry <almasrymina@google.com> wrote:
+> Add netdev_rx_queue_restart() function to netdev_rx_queue.h
 
-Not that I only meant to ask if there was a path to combine
-CSC/Scaling/Deinterlacing without a memory rountrip. If a rountrip is neede=
-d
-anyway, I would rather make separate video nodes, and leave it to userspace=
- to
-deal with. Though, if we can avoid it, a combined driver should be highly
-beneficial.
 
-cheers,
-Nicolas
+Can you say more? As far as I understand, we just release the buffer
+submitted to the rx ring and get a new page pool.
+
+But I personally feel that the interface here is a bit too complicated. In
+particular, we also need to copy the rx struct memory, which means it is a
+dangerous operation for many pointers.
+
+Thanks.
+
+
+>
+> Signed-off-by: David Wei <dw@davidwei.uk>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+>
+> ---
+>
+> v17:
+> - Use ASSERT_RTNL() (Jakub).
+>
+> v13:
+> - Add reviewed-by from Pavel (thanks!)
+> - Fixed comment (Pavel)
+>
+> v11:
+> - Fix not checking dev->queue_mgmt_ops (Pavel).
+> - Fix ndo_queue_mem_free call that passed the wrong pointer (David).
+>
+> v9: https://lore.kernel.org/all/20240502045410.3524155-4-dw@davidwei.uk/
+> (submitted by David).
+> - fixed SPDX license identifier (Simon).
+> - Rebased on top of merged queue API definition, and changed
+>   implementation to match that.
+> - Replace rtnl_lock() with rtnl_is_locked() to make it useable from my
+>   netlink code where rtnl is already locked.
+>
+> ---
+>  include/net/netdev_rx_queue.h |  3 ++
+>  net/core/Makefile             |  1 +
+>  net/core/netdev_rx_queue.c    | 74 +++++++++++++++++++++++++++++++++++
+>  3 files changed, 78 insertions(+)
+>  create mode 100644 net/core/netdev_rx_queue.c
+>
+> diff --git a/include/net/netdev_rx_queue.h b/include/net/netdev_rx_queue.h
+> index aa1716fb0e53c..e78ca52d67fbf 100644
+> --- a/include/net/netdev_rx_queue.h
+> +++ b/include/net/netdev_rx_queue.h
+> @@ -54,4 +54,7 @@ get_netdev_rx_queue_index(struct netdev_rx_queue *queue)
+>  	return index;
+>  }
+>  #endif
+> +
+> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq);
+> +
+>  #endif
+> diff --git a/net/core/Makefile b/net/core/Makefile
+> index 62be9aef25285..f82232b358a2c 100644
+> --- a/net/core/Makefile
+> +++ b/net/core/Makefile
+> @@ -19,6 +19,7 @@ obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
+>
+>  obj-y += net-sysfs.o
+>  obj-y += hotdata.o
+> +obj-y += netdev_rx_queue.o
+>  obj-$(CONFIG_PAGE_POOL) += page_pool.o page_pool_user.o
+>  obj-$(CONFIG_PROC_FS) += net-procfs.o
+>  obj-$(CONFIG_NET_PKTGEN) += pktgen.o
+> diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
+> new file mode 100644
+> index 0000000000000..da11720a59830
+> --- /dev/null
+> +++ b/net/core/netdev_rx_queue.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +#include <linux/netdevice.h>
+> +#include <net/netdev_queues.h>
+> +#include <net/netdev_rx_queue.h>
+> +
+> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq_idx)
+> +{
+> +	void *new_mem, *old_mem;
+> +	int err;
+> +
+> +	if (!dev->queue_mgmt_ops || !dev->queue_mgmt_ops->ndo_queue_stop ||
+> +	    !dev->queue_mgmt_ops->ndo_queue_mem_free ||
+> +	    !dev->queue_mgmt_ops->ndo_queue_mem_alloc ||
+> +	    !dev->queue_mgmt_ops->ndo_queue_start)
+> +		return -EOPNOTSUPP;
+> +
+> +	ASSERT_RTNL();
+> +
+> +	new_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
+> +	if (!new_mem)
+> +		return -ENOMEM;
+> +
+> +	old_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
+> +	if (!old_mem) {
+> +		err = -ENOMEM;
+> +		goto err_free_new_mem;
+> +	}
+> +
+> +	err = dev->queue_mgmt_ops->ndo_queue_mem_alloc(dev, new_mem, rxq_idx);
+> +	if (err)
+> +		goto err_free_old_mem;
+> +
+> +	err = dev->queue_mgmt_ops->ndo_queue_stop(dev, old_mem, rxq_idx);
+> +	if (err)
+> +		goto err_free_new_queue_mem;
+> +
+> +	err = dev->queue_mgmt_ops->ndo_queue_start(dev, new_mem, rxq_idx);
+> +	if (err)
+> +		goto err_start_queue;
+> +
+> +	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, old_mem);
+> +
+> +	kvfree(old_mem);
+> +	kvfree(new_mem);
+> +
+> +	return 0;
+> +
+> +err_start_queue:
+> +	/* Restarting the queue with old_mem should be successful as we haven't
+> +	 * changed any of the queue configuration, and there is not much we can
+> +	 * do to recover from a failure here.
+> +	 *
+> +	 * WARN if we fail to recover the old rx queue, and at least free
+> +	 * old_mem so we don't also leak that.
+> +	 */
+> +	if (dev->queue_mgmt_ops->ndo_queue_start(dev, old_mem, rxq_idx)) {
+> +		WARN(1,
+> +		     "Failed to restart old queue in error path. RX queue %d may be unhealthy.",
+> +		     rxq_idx);
+> +		dev->queue_mgmt_ops->ndo_queue_mem_free(dev, old_mem);
+> +	}
+> +
+> +err_free_new_queue_mem:
+> +	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, new_mem);
+> +
+> +err_free_old_mem:
+> +	kvfree(old_mem);
+> +
+> +err_free_new_mem:
+> +	kvfree(new_mem);
+> +
+> +	return err;
+> +}
+> --
+> 2.46.0.rc1.232.g9752f9e123-goog
+>
+>
