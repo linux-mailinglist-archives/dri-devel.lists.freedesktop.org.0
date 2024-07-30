@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A4A94126E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 14:50:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8FC941276
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 14:51:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4755E10E50F;
-	Tue, 30 Jul 2024 12:50:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4939310E522;
+	Tue, 30 Jul 2024 12:50:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jdBcLdP+";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="D+JpTJ5X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1B1D10E239
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 12:50:38 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-42809d6e719so26934925e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 05:50:38 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A35B110E239
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 12:50:39 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-367ab76d5e1so1501903f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 05:50:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722343837; x=1722948637;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722343838; x=1722948638;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kFGOubNsNVn1OpgYJCvY0DMJojSWylMPMeeJsgWseOI=;
- b=jdBcLdP+wLEQSxg3BCJJzjQUAhT9EhOjvL7e3noaeniuQKsPal2+jT7i1Q9CKKIpqC
- N7UfInVrTUE9xOgefD5lk7rO+nC/MHwks5rxMRgWifaxOIr0zI0rWC7zdVTmTkxCxY1P
- jEiid4P88raam5UXQ42sjIayTl6/5/MtDQr5ItmcRYRe0OTH5crN7zkzQ59kGKmJh/Bb
- yCayrfbiq2DqnoC2k7IHUAhX6zw9Oo2yrvUhBMYj8qZhGdX6Hz9HFnV6j34hBHT3L4Zy
- C+G7SJgd0JdqVA7D/Uuxd0dNLnEhVWNUMpUBsgQDJ4SbT09Xtl4TJY91rmgupKfc+7Si
- qUhg==
+ bh=8FpQIo3/nECT6BJG3YrzIm131E/DRxLPrAjjYNTEWJA=;
+ b=D+JpTJ5XE5gp2b4tavj9IgDqKvK4/Z7u1BXcW/EUkeE0rw1jkafHlTbWlOWhfPCZNH
+ 6LTU5cuEHF/RUl7r2CWEgBQvkpIATl4lJMLRRIbAuqMy/H/1lqzD8jv0jJDf9raWeOeY
+ +hUT0Nv4FIxZJSHIPqiC4ETLfaAF47t3lXpZNrTBaSNU32rMxEt9xMfVopP1nb7cfBwT
+ Vs2DT/WBOnuw+5R8ueDumb3wyuc1CvinMPCuK9O5dDk0yXbwJZUFrnWVa70eczpoGu4j
+ k77cROSJElairgXpY++G4MadgR5mmGwGNkq0xXq77a28Beatcb8KiWDAL1RgzpE7adm1
+ FwbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722343837; x=1722948637;
+ d=1e100.net; s=20230601; t=1722343838; x=1722948638;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kFGOubNsNVn1OpgYJCvY0DMJojSWylMPMeeJsgWseOI=;
- b=trHn8G+VRP3YqWI6R4OLH29sRBn+BK1qfrqZojnial/5fJCvzTV9x7IAR6f4kzb+l5
- we92hWrQWsgZY4U+5URyx1OF2r0z0cml2ir7H60tVUDOvLZQFS9MdpSWXPAz16WCvCP6
- TsrG6PRhUg4fnM9mOQTUZy6SS0YA7m75yZVC7IrSToLVlGAkNS1bPFqEiku6SB4H2VUk
- Sdaqpc7fTfD3yasjHq5SaugHY7a2uQM7Tk2EE7p/tTFcOjBH0Ds364sAq6/8ytzbQTEZ
- WXX9JxSuT67vXfFr/jsSSJJVVJ6x4hAMSIP0tGI8i+SutX4hu6OnV3gMUq8tpfef7rcR
- tqHQ==
+ bh=8FpQIo3/nECT6BJG3YrzIm131E/DRxLPrAjjYNTEWJA=;
+ b=qxDOSF6qu1dmxh6fKOCbUly7xe/i1dSyXd7uM5r0GnHp2i6o2/DqTc5/3Lpm6ZHBNq
+ UttYbuBYsUSNa/S4+x5jRf8O0AKTN3SIK9DoQWR+lV00YAX5GwKwXcpYqR+0Mj4c86Dl
+ G2WboBzpTBrLBuWagOT9ksVa3o2Vfv+TY3oTfG1OI7fMTt9KQUziMajQdzIv+WpC1x+H
+ puFq8XDYWYd5yR3n+rJc5KbQ/RU6P7f3ME1fq+LSeWD8FGllZuYXnNb/6sYITmG7kcQp
+ 1vdzdtjhiC/k+jlJrNOuWC+/omya76Tu2wmtOFXGNKZZFyJTED0Cr3KJPgCOR6y7Zs0i
+ m+eg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU3Kr6ZVcZay8EU0V90kmOKNeQXrzMQvHdXq/jrY8vhZ5+iP4ZJIZiQEblBOZ6EbCbK4lDl+BoyhfA+hEQoObPFTvV65U3Y3Y3/euRComFw
-X-Gm-Message-State: AOJu0YzRrRQ93WnMk7AoOQiADBf5GJdHFqTnmBvYSFGlPTlNg63nwxjJ
- 2Fj20uHf5lgNy8i7NLKKtvdkgK+cTXTuRg8IDTJbYx725GDfhkojNa4YnCI8Fhc=
-X-Google-Smtp-Source: AGHT+IFYy4B/g5w5Y3B19jbk4N8IBnPQwvEBCaNr6l0tavtJI1kbi8Yq6wQAsMTGuLdyiEwuv2pLaA==
-X-Received: by 2002:a05:600c:3b07:b0:426:4978:65f0 with SMTP id
- 5b1f17b1804b1-42811d9e0dcmr82301025e9.18.1722343837035; 
+ AJvYcCW6LdmPxu4xp6L5yERflbv8zOpHeqwmANIQLG3ygjd4oVG6yDTVQ+bpWqRwarS1TqIzijFUc7fNh+PSbZe2NIOLgXwDJzhYPqvk527/xPhV
+X-Gm-Message-State: AOJu0YyMdPzxk9FifrT5Wc5+/7XF+je9vIGY/HdLMhSCt0X2PybIl7zj
+ EMVZIgl6jMnDMGCsv3gShtQ5DP638aBDv0LL2IFbIxRwjwQHRlt8n3bHSHC76RI=
+X-Google-Smtp-Source: AGHT+IFYKETa1maYsbR/lXJacP4Dulbw5t+LnfR9HzWYE5KbSp8mR/aHH1IRgvWxRpjGsQ/h6Ss4mQ==
+X-Received: by 2002:a05:6000:4029:b0:36b:63b5:ed64 with SMTP id
+ ffacd0b85a97d-36b63b5f8e9mr8234742f8f.40.1722343837924; 
  Tue, 30 Jul 2024 05:50:37 -0700 (PDT)
 Received: from toaster.lan ([2a01:e0a:3c5:5fb1:291e:4a48:358e:6f49])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-42805730e68sm216521405e9.9.2024.07.30.05.50.36
+ 5b1f17b1804b1-42805730e68sm216521405e9.9.2024.07.30.05.50.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jul 2024 05:50:36 -0700 (PDT)
+ Tue, 30 Jul 2024 05:50:37 -0700 (PDT)
 From: Jerome Brunet <jbrunet@baylibre.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -67,9 +67,9 @@ Cc: Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
  dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 3/9] drm/meson: dw-hdmi: use generic clock helpers
-Date: Tue, 30 Jul 2024 14:50:13 +0200
-Message-ID: <20240730125023.710237-4-jbrunet@baylibre.com>
+Subject: [PATCH 4/9] drm/meson: dw-hdmi: fix incorrect comment in suspend
+Date: Tue, 30 Jul 2024 14:50:14 +0200
+Message-ID: <20240730125023.710237-5-jbrunet@baylibre.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240730125023.710237-1-jbrunet@baylibre.com>
 References: <20240730125023.710237-1-jbrunet@baylibre.com>
@@ -91,79 +91,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Amlogic HDMI phy driver is not doing anything with the clocks
-besides enabling on probe. CCF provides generic helpers to do that.
+Comment in suspend says TOP is put in suspend, but the register
+poke following is actually de-asserting the reset, like in init.
 
-Use the generic clock helpers rather than using a custom one to get and
-enable clocks.
+It is doing the opposite of what the comment says.
+
+Align the comment with what the code is doing for now and add
+a FIXME note to sort this out later
 
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- drivers/gpu/drm/meson/meson_dw_hdmi.c | 36 +++------------------------
- 1 file changed, 3 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/meson/meson_dw_hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-index bcf4f83582f2..2890796f9d49 100644
+index 2890796f9d49..5cd3264ab874 100644
 --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
 +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-@@ -619,29 +619,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi *meson_dw_hdmi)
+@@ -751,7 +751,7 @@ static int __maybe_unused meson_dw_hdmi_pm_suspend(struct device *dev)
+ 	if (!meson_dw_hdmi)
+ 		return 0;
  
- }
+-	/* Reset TOP */
++	/* FIXME: This actually bring top out reset on suspend, why ? */
+ 	meson_dw_hdmi->data->top_write(meson_dw_hdmi,
+ 				       HDMITX_TOP_SW_RESET, 0);
  
--static void meson_disable_clk(void *data)
--{
--	clk_disable_unprepare(data);
--}
--
--static int meson_enable_clk(struct device *dev, char *name)
--{
--	struct clk *clk;
--	int ret;
--
--	clk = devm_clk_get(dev, name);
--	if (IS_ERR(clk)) {
--		dev_err(dev, "Unable to get %s pclk\n", name);
--		return PTR_ERR(clk);
--	}
--
--	ret = clk_prepare_enable(clk);
--	if (!ret)
--		ret = devm_add_action_or_reset(dev, meson_disable_clk, clk);
--
--	return ret;
--}
--
- static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
- 				void *data)
- {
-@@ -651,6 +628,7 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
- 	struct drm_device *drm = data;
- 	struct meson_drm *priv = drm->dev_private;
- 	struct dw_hdmi_plat_data *dw_plat_data;
-+	struct clk_bulk_data *clks;
- 	int irq;
- 	int ret;
- 
-@@ -701,17 +679,9 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
- 	if (IS_ERR(meson_dw_hdmi->hdmitx))
- 		return PTR_ERR(meson_dw_hdmi->hdmitx);
- 
--	ret = meson_enable_clk(dev, "isfr");
--	if (ret)
--		return ret;
--
--	ret = meson_enable_clk(dev, "iahb");
-+	ret = devm_clk_bulk_get_all_enable(dev, &clks);
- 	if (ret)
--		return ret;
--
--	ret = meson_enable_clk(dev, "venci");
--	if (ret)
--		return ret;
-+		return dev_err_probe(dev, ret, "Failed to enable all clocks\n");
- 
- 	dw_plat_data->regm = devm_regmap_init(dev, NULL, meson_dw_hdmi,
- 					      &meson_dw_hdmi_regmap_config);
 -- 
 2.43.0
 
