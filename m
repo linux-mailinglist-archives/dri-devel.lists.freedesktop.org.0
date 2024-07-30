@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0956F94094F
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 09:16:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E998894095E
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2024 09:17:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10B5510E0A5;
-	Tue, 30 Jul 2024 07:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 713E010E340;
+	Tue, 30 Jul 2024 07:17:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JILJ8j1l";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IEZ5fsGO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45F1C10E0A5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 07:16:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C07BA10E340
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2024 07:17:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8732161D4D;
- Tue, 30 Jul 2024 07:16:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ED3CC4AF0E;
- Tue, 30 Jul 2024 07:16:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2B01E61D4D;
+ Tue, 30 Jul 2024 07:17:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6347EC4AF0F;
+ Tue, 30 Jul 2024 07:17:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1722323812;
- bh=pKfR2aAxJhtBTjH4mpIuTlU+Nn+oYS61uadCT8BtRa8=;
+ s=korg; t=1722323861;
+ bh=VVI1imebOJVZF9QSxnCFZP3BleBHP121TLHTCjh66WQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JILJ8j1luojhCnPGJ7x+Hei/Htq0+AehkP336uLgs0y0eGbngKUPjT2OsaiJmhW4U
- IQFlF5xfDEeC5c3AzRCYHzSfJhQJk5TFe5nkkKlM/zUm5OIUlUQl9SuhLAbdHV+fuI
- tXcm2cy5eZksXfAI/x68Ts0fyq9P3q/LsNmnPE7o=
-Date: Tue, 30 Jul 2024 09:16:49 +0200
+ b=IEZ5fsGOwu84wMRvOs2CcTyBXd/kUDc0zoJP0qAxBcuTP1uIeLCMyNd4QbZyrnn0S
+ txxwzOmm4o6VkwJMWLAE9Y3dvi8gBkBulrn8EI8QszSmR4BVfazjynysN76r6sSmxD
+ jPYFW1etK6uytPRZ3YZ213jqbpmeEJbv4ckRS/FA=
+Date: Tue, 30 Jul 2024 09:17:38 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Abhishek Singh <quic_abhishes@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org,
- quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
- quic_ktadakam@quicinc.com, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1] misc: fastrpc: Trigger a panic using BUG_ON in device
- release
-Message-ID: <2024073007-nickname-payee-20c8@gregkh>
-References: <20240730070945.4174823-1-quic_abhishes@quicinc.com>
+To: Sakirnth Nagarasa <sakirnth@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ ~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com
+Subject: Re: [PATCH] staging: fbtft: Remove trailing semicolon in macro.
+Message-ID: <2024073026-clubhouse-vividness-600d@gregkh>
+References: <sakirnth@gmail.com>
+ <20240730071455.37494-1-sakirnth@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240730070945.4174823-1-quic_abhishes@quicinc.com>
+In-Reply-To: <20240730071455.37494-1-sakirnth@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,49 +56,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 30, 2024 at 12:39:45PM +0530, Abhishek Singh wrote:
-> The user process on ARM closes the device node while closing the
-> session, triggers a remote call to terminate the PD running on the
-> DSP. If the DSP is in an unstable state and cannot process the remote
-> request from the HLOS, glink fails to deliver the kill request to the
-> DSP, resulting in a timeout error. Currently, this error is ignored,
-> and the session is closed, causing all the SMMU mappings associated
-> with that specific PD to be removed. However, since the PD is still
-> operational on the DSP, any attempt to access these SMMU mappings
-> results in an SMMU fault, leading to a panic.  As the SMMU mappings
-> have already been removed, there is no available information on the
-> DSP to determine the root cause of its unresponsiveness to remote
-> calls. As the DSP is unresponsive to all process remote calls, use
-> BUG_ON to prevent the removal of SMMU mappings and to properly
-> identify the root cause of the DSP’s unresponsiveness to the remote
-> calls.
+On Tue, Jul 30, 2024 at 07:14:55AM +0000, Sakirnth Nagarasa wrote:
+> Fix checkpath warning: "WARNING: macros should not use a trailing semicolon
+> in fbtft.h:356.
 > 
-> Signed-off-by: Abhishek Singh <quic_abhishes@quicinc.com>
+> Signed-off-by: Sakirnth Nagarasa <sakirnth@gmail.com>
+> 
 > ---
->  drivers/misc/fastrpc.c | 4 ++++
->  1 file changed, 4 insertions(+)
 > 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 5204fda51da3..bac9c749564c 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -97,6 +97,7 @@
->  #define FASTRPC_RMID_INIT_CREATE_STATIC	8
->  #define FASTRPC_RMID_INIT_MEM_MAP      10
->  #define FASTRPC_RMID_INIT_MEM_UNMAP    11
-> +#define PROCESS_KILL_SC 0x01010000
->  
->  /* Protection Domain(PD) ids */
->  #define ROOT_PD		(0)
-> @@ -1128,6 +1129,9 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
->  	fastrpc_context_get(ctx);
->  
->  	ret = rpmsg_send(cctx->rpdev->ept, (void *)msg, sizeof(*msg));
-> +	/* trigger panic if glink communication is broken and the message is for PD kill */
-> +	BUG_ON((ret == -ETIMEDOUT) && (handle == FASTRPC_INIT_HANDLE) &&
-> +			(ctx->sc == PROCESS_KILL_SC));
+> Hello, this is my first patch to the kernel.
+> ---
+>  drivers/staging/fbtft/fbtft.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+> index f86ed9d47..45dfc92b8 100644
+> --- a/drivers/staging/fbtft/fbtft.h
+> +++ b/drivers/staging/fbtft/fbtft.h
+> @@ -365,7 +365,7 @@ MODULE_DEVICE_TABLE(spi, spi_ids);						\
+>  										\
+>  FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)		\
+>  										\
+> -module_spi_driver(fbtft_driver_spi_driver);
+> +module_spi_driver(fbtft_driver_spi_driver)
 
-You just crashed the machine completely, sorry, but no, properly handle
-the issue and clean up if you can detect it, do not break systems.
+checkpatch is wrong here, the ';' is correct.
+
+thanks,
 
 greg k-h
