@@ -2,58 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27ADA94229E
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 00:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA969422E6
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 00:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C12A10E588;
-	Tue, 30 Jul 2024 22:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D89110E59B;
+	Tue, 30 Jul 2024 22:27:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IQOP5jOV";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="FSvbd6uh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFF9E10E305;
- Tue, 30 Jul 2024 22:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1722377815; x=1753913815;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ND0M1O/b09cO9CGWjH0eDAueXMZa8J6c/uYozl9G1ZY=;
- b=IQOP5jOVoWxrk4+GO89rkdYzNH7v6mm/xui635pWEX41a3V6tXhYcAmI
- l2b3ynaMC/aYkwCp2f+JrjsG/xbZxDzZNajT/Uoj/+wR9UzH1eK7At3mq
- vfbT7bUq8zc5JKbiUBHD0MFi0fCYeRByDv3U/WTkxpO3t+dPeUl17Bn9H
- yeANUsd+T9Ib4QC9L5do9J/IzF6l8zXyic0zXVAasU94g7yAYPgaLyxbB
- u++nbx7omB4zyAnpqiGyT1CeYwqUwQGNBkdTRGH+NIJ+TsvVeF5VLh80D
- ojADyXySgnChh/G9x5gMUXX26Mp7U8wFPCLjgvKns4yGIVtHLsWM/zjwW w==;
-X-CSE-ConnectionGUID: UtVmRzFXS9OApHAEgqDRwA==
-X-CSE-MsgGUID: F5j99xWFT1eExTXfMfmt7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="24094138"
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; d="scan'208";a="24094138"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2024 15:16:55 -0700
-X-CSE-ConnectionGUID: 7WxHhnR9TaueAGKqB2JvwA==
-X-CSE-MsgGUID: pNpF4eF7S02MYcejiLF95Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; d="scan'208";a="58613347"
-Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2024 15:16:56 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: tj@kernel.org, jiangshanlai@gmail.com, christian.koenig@amd.com,
- ltuikov89@gmail.com, daniel@ffwll.ch
-Subject: [RFC PATCH 3/3] drm/xe: Drop GuC submit_wq pool
-Date: Tue, 30 Jul 2024 15:17:42 -0700
-Message-Id: <20240730221742.2248527-4-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240730221742.2248527-1-matthew.brost@intel.com>
-References: <20240730221742.2248527-1-matthew.brost@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D046210E59A;
+ Tue, 30 Jul 2024 22:27:05 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46UGQnps029490;
+ Tue, 30 Jul 2024 22:26:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=KZ07eW1MjWQldYXNbI+WkX6P
+ ZeZCOQDsp629TXOfbpk=; b=FSvbd6uhUcdi7JSPckjriqZaKv/R9ODk1Fehui9I
+ WU1QNLk7zRpqSKyX1J8VdRQzZ1y+QJKtNDSzWktTs8/aqBHcIvzuALTpsEO1HGih
+ 6celm9orTmaoFtWIxxv8/HQon7tqx8R/3/zue13VT02VY/HBO/DxIqp6xBRVCo4p
+ UWklZZHQbBJUfDy3LDinkAa7fX/L6CXowPOvFelQT80rdRWOx7OqHBq9+l65HyJM
+ 9k1ylk+VlzwaSqPjT/MbRh4s9Po5+3bq+3ZX7MUzfR9r5kewYnDPaH7BLkwhR6+u
+ 6NVFvHwIhwBDL8NRs9keiu7xbFui5QyHfzky7dt7tHbPeg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40pw442bsw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Jul 2024 22:26:58 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 46UMQvcs005954
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Jul 2024 22:26:57 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 30 Jul 2024 15:26:56 -0700
+Date: Tue, 30 Jul 2024 15:26:55 -0700
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Abel Vesa
+ <abel.vesa@linaro.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
+ <swboyd@chromium.org>, <dianders@chromium.org>, <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] drm/msm/dp: enable widebus on all relevant chipsets
+Message-ID: <Zqlor3Ug70d65rLT@hu-bjorande-lv.qualcomm.com>
+References: <20240730195012.2595980-1-quic_abhinavk@quicinc.com>
+ <CAA8EJpp0pQ9j6qQbQajUj=qHdYWeiB2nedT0oQhxsGjs3t53CA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpp0pQ9j6qQbQajUj=qHdYWeiB2nedT0oQhxsGjs3t53CA@mail.gmail.com>
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: rYfh4UGK0Cd5v76EZQFxqmNeVV0CRrQr
+X-Proofpoint-ORIG-GUID: rYfh4UGK0Cd5v76EZQFxqmNeVV0CRrQr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-30_18,2024-07-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ priorityscore=1501 adultscore=0 mlxlogscore=999 clxscore=1011
+ impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2407300155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,123 +95,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that drm sched uses a single lockdep map for all submit_wq, drop the
-GuC submit_wq pool hack.
+On Tue, Jul 30, 2024 at 11:58:19PM +0300, Dmitry Baryshkov wrote:
+> Hi Abhinav,
+> 
+> On Tue, 30 Jul 2024 at 22:50, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >
+> > Hardware document indicates that widebus is recommended on DP on all
+> > MDSS chipsets starting version 5.x.x and above.
+> >
+> > Follow the guideline and mark widebus support on all relevant
+> > chipsets for DP.
+> >
+> > Fixes: 766f705204a0 ("drm/msm/dp: Remove now unused connector_type from desc")
+> > Fixes: 1b2d98bdd7b7 ("drm/msm/dp: Add DisplayPort controller for SM8650")
+> 
+> The issues are present in the following commits. Please consider using
+> them instead:
+> 
+> Fixes: 757a2f36ab09 ("drm/msm/dp: enable widebus feature for display port")
+> Fixes: 1b2d98bdd7b7 ("drm/msm/dp: Add DisplayPort controller for SM8650")
+> 
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_guc_submit.c | 60 +-----------------------------
- drivers/gpu/drm/xe/xe_guc_types.h  |  7 ----
- 2 files changed, 1 insertion(+), 66 deletions(-)
+But are we really fixing any bugs/issues here? While the docs do
+recommend widebus, we're effectively enabling more harware/features.
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-index 460808507947..882cef3a10dc 100644
---- a/drivers/gpu/drm/xe/xe_guc_submit.c
-+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@ -224,64 +224,11 @@ static bool exec_queue_killed_or_banned_or_wedged(struct xe_exec_queue *q)
- 		 EXEC_QUEUE_STATE_BANNED));
- }
- 
--#ifdef CONFIG_PROVE_LOCKING
--static int alloc_submit_wq(struct xe_guc *guc)
--{
--	int i;
--
--	for (i = 0; i < NUM_SUBMIT_WQ; ++i) {
--		guc->submission_state.submit_wq_pool[i] =
--			alloc_ordered_workqueue("submit_wq", 0);
--		if (!guc->submission_state.submit_wq_pool[i])
--			goto err_free;
--	}
--
--	return 0;
--
--err_free:
--	while (i)
--		destroy_workqueue(guc->submission_state.submit_wq_pool[--i]);
--
--	return -ENOMEM;
--}
--
--static void free_submit_wq(struct xe_guc *guc)
--{
--	int i;
--
--	for (i = 0; i < NUM_SUBMIT_WQ; ++i)
--		destroy_workqueue(guc->submission_state.submit_wq_pool[i]);
--}
--
--static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
--{
--	int idx = guc->submission_state.submit_wq_idx++ % NUM_SUBMIT_WQ;
--
--	return guc->submission_state.submit_wq_pool[idx];
--}
--#else
--static int alloc_submit_wq(struct xe_guc *guc)
--{
--	return 0;
--}
--
--static void free_submit_wq(struct xe_guc *guc)
--{
--
--}
--
--static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
--{
--	return NULL;
--}
--#endif
--
- static void guc_submit_fini(struct drm_device *drm, void *arg)
- {
- 	struct xe_guc *guc = arg;
- 
- 	xa_destroy(&guc->submission_state.exec_queue_lookup);
--	free_submit_wq(guc);
- }
- 
- static void guc_submit_wedged_fini(struct drm_device *drm, void *arg)
-@@ -337,10 +284,6 @@ int xe_guc_submit_init(struct xe_guc *guc, unsigned int num_ids)
- 	if (err)
- 		return err;
- 
--	err = alloc_submit_wq(guc);
--	if (err)
--		return err;
--
- 	gt->exec_queue_ops = &guc_exec_queue_ops;
- 
- 	xa_init(&guc->submission_state.exec_queue_lookup);
-@@ -1445,8 +1388,7 @@ static int guc_exec_queue_init(struct xe_exec_queue *q)
- 	timeout = (q->vm && xe_vm_in_lr_mode(q->vm)) ? MAX_SCHEDULE_TIMEOUT :
- 		  msecs_to_jiffies(q->sched_props.job_timeout_ms);
- 	err = xe_sched_init(&ge->sched, &drm_sched_ops, &xe_sched_ops,
--			    get_submit_wq(guc),
--			    q->lrc[0]->ring.size / MAX_JOB_SIZE_BYTES, 64,
-+			    NULL, q->lrc[0]->ring.size / MAX_JOB_SIZE_BYTES, 64,
- 			    timeout, guc_to_gt(guc)->ordered_wq, NULL,
- 			    q->name, gt_to_xe(q->gt)->drm.dev);
- 	if (err)
-diff --git a/drivers/gpu/drm/xe/xe_guc_types.h b/drivers/gpu/drm/xe/xe_guc_types.h
-index 546ac6350a31..585f5c274f09 100644
---- a/drivers/gpu/drm/xe/xe_guc_types.h
-+++ b/drivers/gpu/drm/xe/xe_guc_types.h
-@@ -72,13 +72,6 @@ struct xe_guc {
- 		atomic_t stopped;
- 		/** @submission_state.lock: protects submission state */
- 		struct mutex lock;
--#ifdef CONFIG_PROVE_LOCKING
--#define NUM_SUBMIT_WQ	256
--		/** @submission_state.submit_wq_pool: submission ordered workqueues pool */
--		struct workqueue_struct *submit_wq_pool[NUM_SUBMIT_WQ];
--		/** @submission_state.submit_wq_idx: submission ordered workqueue index */
--		int submit_wq_idx;
--#endif
- 		/** @submission_state.enabled: submission is enabled */
- 		bool enabled;
- 	} submission_state;
--- 
-2.34.1
+Unless there's a strong reason (which I'm not confident that the commit
+message entails), I think we should drop the fixes-tags and just bring
+this to 6.12...
 
+Regards,
+Bjorn
+
+> 
+> > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/msm/dp/dp_display.c | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> -- 
+> With best wishes
+> Dmitry
