@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADDA94349A
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 19:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD6494349B
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 19:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C236C10E062;
-	Wed, 31 Jul 2024 17:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F88F10E1BE;
+	Wed, 31 Jul 2024 17:00:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="En1ua2B4";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="KDT8pI8E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28E5610E168;
- Wed, 31 Jul 2024 17:00:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 291B910E1BE;
+ Wed, 31 Jul 2024 17:00:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1722445249;
- bh=rQaVG/O25AerGy2gOaY8XL7CTvpz0JJwpNoEJXB80TY=;
+ bh=43fWu65ahIpq44m9rON/hw4CQ9V4doMziHt54yTlBJw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=En1ua2B4t6o6KKMCIr8w5/9rTs4IM6+m6dhQ9SqHfnN/VORWqNLMG7PhKj6AEHHz8
- v1tyRP8rJrHDd/ttf/dbtIZ+h1nFtAb9aTY1DjWUi84h3eU3QTclIHQWPFaHyNijVZ
- mYN2fFcgl6A3r8Qj4SWE6UeEnEgAaR7cb6vvUxQA=
+ b=KDT8pI8EDndfMwfy6JXzaMlNbU0ntozOhTxAe9Zb9JRmAAYQmIHresilA47UNmRn+
+ Ph9AgnOukvln8Rvv10azxNHwexz6IkngR3kvr4rOV3MVeKw78Ae8tgpzAN/UcBBNom
+ A+rCE3cGTS1WXrvvtrplNBcwehwrPjPX0lICsNHc=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Wed, 31 Jul 2024 19:00:46 +0200
-Subject: [PATCH v3 1/2] drm/connector: add
- drm_connector_get_cmdline_min_brightness_override()
+Date: Wed, 31 Jul 2024 19:00:47 +0200
+Subject: [PATCH v3 2/2] drm/amd/display: implement minimum brightness override
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240731-amdgpu-min-backlight-quirk-v3-1-46d40bb21a62@weissschuh.net>
+Message-Id: <20240731-amdgpu-min-backlight-quirk-v3-2-46d40bb21a62@weissschuh.net>
 References: <20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net>
 In-Reply-To: <20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net>
 To: Alex Deucher <alexander.deucher@amd.com>, 
@@ -46,11 +45,11 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722445249; l=2611;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722445249; l=1442;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=rQaVG/O25AerGy2gOaY8XL7CTvpz0JJwpNoEJXB80TY=;
- b=+3iwRZMLJ9s+ZBHbrf2ZfwWi7C4r4hwIkIIf9rLDxZtzQq2crujBBzQA4QtGx8HvF/5LqHJiQ
- d85gOQcvIjHDNLs7/0/Fyigf5g5FkDZlTmISEHV/A31ZHoqBbmD2xTk
+ bh=43fWu65ahIpq44m9rON/hw4CQ9V4doMziHt54yTlBJw=;
+ b=mvJubKuaHtZBkENwO11yIlMdmHS9DFCZHAPoZXVILB1oIMee6smLON2xWexjvPUb4Av+LndQF
+ QJ5vISGBRbuBA86TkoRc4QVhAqEzrITSdmfwpEC+8Wo+CiCbwMZW5DB
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,8 +67,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a helper which can read a overridden minimum backlight value from the
-kernel cmdline.
 This is useful if the minimum backlight as reported by machines VBT
 does not match the user expectations.
 
@@ -78,72 +75,33 @@ matte panel is too high.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/gpu/drm/drm_connector.c | 34 ++++++++++++++++++++++++++++++++++
- include/drm/drm_connector.h     |  2 ++
- 2 files changed, 36 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index ab6ab7ff7ea8..d0b3d5d6c7c2 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -34,6 +34,7 @@
- #include <drm/drm_utils.h>
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 7e7929f24ae4..ae15465cacfc 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3330,6 +3330,7 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+ 	struct drm_connector *conn_base;
+ 	struct amdgpu_device *adev;
+ 	struct drm_luminance_range_info *luminance_range;
++	int min_input_signal_override;
  
- #include <linux/property.h>
-+#include <linux/string.h>
- #include <linux/uaccess.h>
- 
- #include <video/cmdline.h>
-@@ -3399,3 +3400,36 @@ struct drm_tile_group *drm_mode_create_tile_group(struct drm_device *dev,
- 	return tg;
+ 	if (aconnector->bl_idx == -1 ||
+ 	    aconnector->dc_link->connector_signal != SIGNAL_TYPE_EDP)
+@@ -3364,6 +3365,11 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+ 		caps->aux_min_input_signal = 0;
+ 		caps->aux_max_input_signal = 512;
+ 	}
++
++	min_input_signal_override = drm_connector_get_cmdline_min_brightness_override(conn_base);
++	if (min_input_signal_override >= 0)
++		caps->min_input_signal = min_input_signal_override;
++
  }
- EXPORT_SYMBOL(drm_mode_create_tile_group);
-+
-+/**
-+ * drm_connector_get_cmdline_min_brightness_override - read an overridden
-+ * minimum brightness value from the cmdline
-+ * @connector: connector to query
-+ *
-+ * Read an minimum brightness override from the kernel cmdline if present.
-+ * The parameter takes the form "video=CONNECTOR_NAME:min-brightness=VALUE".
-+ *
-+ * RETURNS:
-+ * negative error or override value in the range [0, 255]
-+ */
-+int drm_connector_get_cmdline_min_brightness_override(struct drm_connector *connector)
-+{
-+	const char *option, *value_str;
-+	int err;
-+	u8 val;
-+
-+	option = video_get_options(connector->name);
-+	if (!option)
-+		return -ENOENT;
-+
-+	value_str = option + str_has_prefix(option, "min-brightness=");
-+	if (value_str == option)
-+		return -EINVAL;
-+
-+	err = kstrtou8(value_str, 10, &val);
-+	if (err)
-+		return err;
-+
-+	return val;
-+}
-+EXPORT_SYMBOL_GPL(drm_connector_get_cmdline_min_brightness_override);
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index c754651044d4..64d86604cc6e 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -2357,6 +2357,8 @@ bool drm_connector_has_possible_encoder(struct drm_connector *connector,
- 					struct drm_encoder *encoder);
- const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
  
-+int drm_connector_get_cmdline_min_brightness_override(struct drm_connector *connector);
-+
- /**
-  * drm_for_each_connector_iter - connector_list iterator macro
-  * @connector: &struct drm_connector pointer used as cursor
+ void amdgpu_dm_update_connector_after_detect(
 
 -- 
 2.46.0
