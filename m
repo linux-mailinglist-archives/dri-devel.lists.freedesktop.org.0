@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09839439FF
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94682943A01
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:09:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6728710E6EC;
-	Thu,  1 Aug 2024 00:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B9810E6EF;
+	Thu,  1 Aug 2024 00:09:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XzggrWKo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XLet+QaI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC7110E6E7;
- Thu,  1 Aug 2024 00:09:20 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68E9310E6EE;
+ Thu,  1 Aug 2024 00:09:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9AE0062569;
- Thu,  1 Aug 2024 00:09:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BD5C116B1;
- Thu,  1 Aug 2024 00:09:16 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 826A1CE1811;
+ Thu,  1 Aug 2024 00:09:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7AC0C32786;
+ Thu,  1 Aug 2024 00:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722470959;
- bh=1yKMbkhAyfPrW+nh7Z+gF1Y+RpRfYc0PmOUjnFEVyI8=;
+ s=k20201202; t=1722470963;
+ bh=sBY+V2qU4wz571bmWgNjlbPpEzs7l4V4b9kJKruLpuI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XzggrWKoHobAGdLDK62yRzy3Q8Hc2QsheQAHyIx9Yevu31aAH4mofeO8CXq7FsK94
- z82lZSG5Fu+Ci8T/TL/oIY9CImB145PjmH1qNWtrEuiz7Liw91KPcYQib2eLDv7V5P
- JYw3/za6UDMT261d5tZK9qRUwK+2gr+nlq7suY/M9yH9QKZNmrsgZcVTp0XWXHJkRW
- n8cYzd+TEmyUCiG6YOIDjuqE2G+Va54yhAWC5ErOy7WHAzAJK6R3JmBhNCGzuioFb5
- ZbYsslnMh+zVaplsRysvyzSUBP/B0pLnKCw5sLMyzoP1QUvi+D0mtsplcWVBH9MpFo
- ALMzan/6gBXwA==
+ b=XLet+QaIT5QNtMCnSg0SMJEHTnyxaGh6qEhZzrLKpDPu81WGqir6OW/4whA9AmdLF
+ nYK7Y7QK55Om/o77crR8Hp2AFLVQ+Rc0PUaMTBJIfmHuu6YNy1b+beyX9IBCo2inZB
+ /Rj7LHGBnGjbH2q3QN8ukHWSzaB3IGIzm8dFPYXZvlJUT+d1mwiwqua+j3m7rZE2Z7
+ V8eIiJdINyczPVXAT9iuMKPnbpPdYEUQjDxiOGA6NZ4dMkB2tDSknHL8wV0jJNLpyo
+ 7tfc5MdnUqlh1SjDTMgxBTTSLTy24ewyziKbMLKkI8ZBxv9Hm7QSPaFAbjQmKgIh+N
+ YNjKbXQIVzuOQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,13 +39,12 @@ Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
  Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- wenjing.liu@amd.com, jun.lei@amd.com, hamza.mahfooz@amd.com,
- alvin.lee2@amd.com, george.shen@amd.com, dillon.varone@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 009/121] drm/amd/display: Ensure array index
- tg_inst won't be -1
-Date: Wed, 31 Jul 2024 19:59:07 -0400
-Message-ID: <20240801000834.3930818-9-sashal@kernel.org>
+ hersenxs.wu@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 010/121] drm/amd/display: Check gpio_id before
+ used as array index
+Date: Wed, 31 Jul 2024 19:59:08 -0400
+Message-ID: <20240801000834.3930818-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -71,13 +70,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 687fe329f18ab0ab0496b20ed2cb003d4879d931 ]
+[ Upstream commit 2a5626eeb3b5eec7a36886f9556113dd93ec8ed6 ]
 
 [WHY & HOW]
-tg_inst will be a negative if timing_generator_count equals 0, which
-should be checked before used.
+GPIO_ID_UNKNOWN (-1) is not a valid value for array index and therefore
+should be checked in advance.
 
-This fixes 2 OVERRUN issues reported by Coverity.
+This fixes 5 OVERRUN issues reported by Coverity.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Acked-by: Tom Chung <chiahsuan.chung@amd.com>
@@ -86,22 +85,61 @@ Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 15819416a2f36..693d05a98c6fb 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -3492,7 +3492,7 @@ static bool acquire_otg_master_pipe_for_stream(
- 		if (pool->dpps[pipe_idx])
- 			pipe_ctx->plane_res.mpcc_inst = pool->dpps[pipe_idx]->inst;
+diff --git a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
+index 663c17f52779c..d19d5c1770222 100644
+--- a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
++++ b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
+@@ -239,6 +239,9 @@ static bool is_pin_busy(
+ 	enum gpio_id id,
+ 	uint32_t en)
+ {
++	if (id == GPIO_ID_UNKNOWN)
++		return false;
++
+ 	return service->busyness[id][en];
+ }
  
--		if (pipe_idx >= pool->timing_generator_count) {
-+		if (pipe_idx >= pool->timing_generator_count && pool->timing_generator_count != 0) {
- 			int tg_inst = pool->timing_generator_count - 1;
+@@ -247,6 +250,9 @@ static void set_pin_busy(
+ 	enum gpio_id id,
+ 	uint32_t en)
+ {
++	if (id == GPIO_ID_UNKNOWN)
++		return;
++
+ 	service->busyness[id][en] = true;
+ }
  
- 			pipe_ctx->stream_res.tg = pool->timing_generators[tg_inst];
+@@ -255,6 +261,9 @@ static void set_pin_free(
+ 	enum gpio_id id,
+ 	uint32_t en)
+ {
++	if (id == GPIO_ID_UNKNOWN)
++		return;
++
+ 	service->busyness[id][en] = false;
+ }
+ 
+@@ -263,7 +272,7 @@ enum gpio_result dal_gpio_service_lock(
+ 	enum gpio_id id,
+ 	uint32_t en)
+ {
+-	if (!service->busyness[id]) {
++	if (id != GPIO_ID_UNKNOWN && !service->busyness[id]) {
+ 		ASSERT_CRITICAL(false);
+ 		return GPIO_RESULT_OPEN_FAILED;
+ 	}
+@@ -277,7 +286,7 @@ enum gpio_result dal_gpio_service_unlock(
+ 	enum gpio_id id,
+ 	uint32_t en)
+ {
+-	if (!service->busyness[id]) {
++	if (id != GPIO_ID_UNKNOWN && !service->busyness[id]) {
+ 		ASSERT_CRITICAL(false);
+ 		return GPIO_RESULT_OPEN_FAILED;
+ 	}
 -- 
 2.43.0
 
