@@ -2,78 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90DB943765
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 22:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75F6943771
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 22:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BADEC10E6C9;
-	Wed, 31 Jul 2024 20:50:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBBC10E6CB;
+	Wed, 31 Jul 2024 20:55:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jWTCYr0f";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="k4OFa/iQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0DF710E6C9
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 20:50:28 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4280921baa2so4596595e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:50:28 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 117E910E6CB
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 20:55:28 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-36874d7f70bso716656f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:55:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1722459027; x=1723063827; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=L1IW9fAfwq5NHi01t4CV5LKiWLlhlBwcc8UFMWZp9sQ=;
- b=jWTCYr0fLsm/WtiVf7iHzi6iCsVMbjPSguMJXmjjYZe+LxHOJCr0S17w+2x3RZLmtO
- LCbAmGwpq/fSHpxyzw25LOkajZ7w+De1IQnTme9goL/2mMRe4W/MjbEK/bsYO6az/Gh4
- PbgrG7hh4tkSNJ2hPfHloXdwiuKN9N3wAHJsw=
+ d=ffwll.ch; s=google; t=1722459326; x=1723064126; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=czXRHy0hc+wPP5wtP/ukRAF9X8vY1DORbIlGLuoSDRQ=;
+ b=k4OFa/iQm/IiLoQ2G804fzGTCcvTJC8JDwbzc6XW9RrpJooWZgwS8HNxf2EuR68/S/
+ l8B1Gbqba79aSkRaxB/pTc+zIJ+bZqhNBVkneOUfDMM9m53mMXF3Tw1h3bKkucJBY2SN
+ mva9KK9XrU/YUsVgAUuWPJgMta60eMzPIpauo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722459027; x=1723063827;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=L1IW9fAfwq5NHi01t4CV5LKiWLlhlBwcc8UFMWZp9sQ=;
- b=ZRmGojVtPUDsvdkLJrDdTfyJOwPVX470r2WCP5D64Wi4TvrZHbv0ekt9GVd/iRQ4il
- 1K7VBFGV/RR05tm+6lmhtxlfKb0NCgVBZzlCjOrilwIk9vPT07YIvu6gatgkvpeailpS
- fZOlvlJ/7CUXjHkAw7rgMcCt3BP997m0wHuQ6Yzyd55ENlkLGAAATATFrwhcSpEpY7jp
- Ct5wgBF/MEeOmPxih7e12roI31GprH+qvBefx4K6pVAOAgedailfbBpITd+slK0lAILJ
- lYjoNQjC1lzbj4f9WuCG3b4YIyTGpwGWII2NDjt9e5NfxJWsE5276EkFFpB2jcd+tDuL
- IW0g==
+ d=1e100.net; s=20230601; t=1722459326; x=1723064126;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=czXRHy0hc+wPP5wtP/ukRAF9X8vY1DORbIlGLuoSDRQ=;
+ b=jSfJNE0Frekn3IirXR2FN9fdVoOGZH1cMN9dM57GkgALlvK/V6rIheFuQgqApmxBpS
+ bJH/8yku5t9ghoVeJif+N4y46/1kJZJyssViT8LVywZ60JmYDzkhS5gJ7Q8gls62U4gM
+ YfVhm2Uw2cvR9/hHrZ1ARkFbnBkUK7PEznC/nJgJlEIiQOlL1JbRAmntHzXrx0EFS1Sp
+ J7pZvrMXf9W+uDYptZHRT5m6a2GYyQhFSfTAgUK/hVlAY4MgvgqVjDODwH8+CggqB/k6
+ X+uq2YO/NDhOi5HBOdq3LYN04yiuwx3A9JX27MBuOhMxDsje3J07HY55j0Uu5THdNMCI
+ Vaqg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVJtTzoGi+LjhXt4XpaQ+uEDu7DgwHeQ4rJX9kLCoQTA3i/5BtsLuX2Iwd4iqdoj6G/ihaMxF+A1aGOkMW7CEu9oCMOzqEYF5ptoBcMWj8W
-X-Gm-Message-State: AOJu0YzDyLMHD8W6ab+rVKJHq7btZPoyNd9N+pd7BrSEm+QIY09daOsR
- iOnUJMOkU9WvKXiHqBFN+T9y1UqygSWKdqB4EF2tqdO9IstnmLQmJaUDKKt+IaA=
-X-Google-Smtp-Source: AGHT+IHiZKSox2G+KBZt85yTqo1If0pNRi36MPMG5PUE38oK6EzOOZBBO76h+Oh0f6kIAO981/aiaA==
-X-Received: by 2002:a05:600c:35c9:b0:425:6962:4253 with SMTP id
- 5b1f17b1804b1-428b8a3da1emr2490685e9.4.1722459026790; 
- Wed, 31 Jul 2024 13:50:26 -0700 (PDT)
+ AJvYcCUUU2/gB2v52FdWHYgQnTDGk9DGaLcRS6DNsUN5rmUJlfT60nNMDgGGLSCT0NOMpirPUVs4Z3c8/sE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyCfDG18mi+uK8Scc/7ZvSdQc+EKCY4CYIq9+l2KHEvilzC2T7v
+ u8tzYUHzDYqQASHM7D3ybMC5FyQmVu/LJ+JZVjB7ea8Ggh3SIhPQn+Gq4YxjaXw=
+X-Google-Smtp-Source: AGHT+IFn6J60Ck+bfFIRb4T0kdCPpvHeHtGytipJFG8R9nAZz1MYoHJtc6h7xwQvbxy+k2zbiO/M8A==
+X-Received: by 2002:a05:6000:1542:b0:366:ea51:be79 with SMTP id
+ ffacd0b85a97d-36baaf4edd0mr199684f8f.6.1722459326061; 
+ Wed, 31 Jul 2024 13:55:26 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4282b8adc7dsm33246505e9.14.2024.07.31.13.50.26
+ ffacd0b85a97d-36b36858179sm17957622f8f.88.2024.07.31.13.55.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Jul 2024 13:50:26 -0700 (PDT)
-Date: Wed, 31 Jul 2024 22:50:24 +0200
+ Wed, 31 Jul 2024 13:55:25 -0700 (PDT)
+Date: Wed, 31 Jul 2024 22:55:23 +0200
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Huan Yang <link@vivo.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+ Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- opensource.kernel@vivo.com
-Subject: Re: [PATCH] udmabuf: use kmem_cache to alloc udmabuf folio
-Message-ID: <ZqqjkCZtDP3jtD_2@phenom.ffwll.local>
-Mail-Followup-To: Huan Yang <link@vivo.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dustin Howett <dustin@howett.net>
+Subject: Re: [PATCH v3 0/2] drm: minimum backlight overrides and
+ implementation for amdgpu
+Message-ID: <Zqqku_zS7CpPGbzW@phenom.ffwll.local>
+Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+ Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- opensource.kernel@vivo.com
-References: <20240731033449.1016195-1-link@vivo.com>
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Matt Hartley <matt.hartley@gmail.com>,
+ Kieran Levin <ktl@framework.net>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dustin Howett <dustin@howett.net>
+References: <20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net>
+ <87v80lwjcz.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240731033449.1016195-1-link@vivo.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87v80lwjcz.fsf@intel.com>
 X-Operating-System: Linux phenom 6.9.10-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,96 +116,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 31, 2024 at 11:34:49AM +0800, Huan Yang wrote:
-> The current udmabuf_folio contains a list_head and the corresponding
-> folio pointer, with a size of 24 bytes. udmabuf_folio uses kmalloc to
-> allocate memory.
+On Wed, Jul 31, 2024 at 08:40:12PM +0300, Jani Nikula wrote:
+> On Wed, 31 Jul 2024, Thomas Weiﬂschuh <linux@weissschuh.net> wrote:
+> > The value of "min_input_signal" returned from ATIF on a Framework AMD 13
+> > is "12". This leads to a fairly bright minimum display backlight.
+> >
+> > Add a generic override helper for the user to override the settings
+> > provided by the firmware through the kernel cmdline.
+> > Also add amdgpu as a user of that helper.
+> >
+> > One solution would be a fixed firmware version, which was announced but
+> > has no timeline.
 > 
-> However, kmalloc is a public pool, starting from 64 bytes. This means
-> that each udmabuf_folio allocation will waste 40 bytes.
+> The flip side is that if we add this now, it pretty much has a timeline:
+> We'll have to carry and support it forever.
 > 
-> Considering that each udmabuf creates a folio corresponding to a
-> udmabuf_folio, the wasted memory can be significant in the case of
-> memory fragmentation.
-> 
-> Furthermore, if udmabuf is frequently used, the allocation and
-> deallocation of udmabuf_folio will also be frequent.
-> 
-> Therefore, this patch adds a kmem_cache dedicated to the allocation and
-> deallocation of udmabuf_folio.This is expected to improve the
-> performance of allocation and deallocation within the expected range,
-> while also avoiding memory waste.
-> 
-> Signed-off-by: Huan Yang <link@vivo.com>
-> ---
->  drivers/dma-buf/udmabuf.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index 047c3cd2ceff..db4de8c745ce 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -24,6 +24,8 @@ static int size_limit_mb = 64;
->  module_param(size_limit_mb, int, 0644);
->  MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf, in megabytes. Default is 64.");
->  
-> +static struct kmem_cache *udmabuf_folio_cachep;
-> +
->  struct udmabuf {
->  	pgoff_t pagecount;
->  	struct folio **folios;
-> @@ -169,7 +171,7 @@ static void unpin_all_folios(struct list_head *unpin_list)
->  		unpin_folio(ubuf_folio->folio);
->  
->  		list_del(&ubuf_folio->list);
-> -		kfree(ubuf_folio);
-> +		kmem_cache_free(udmabuf_folio_cachep, ubuf_folio);
->  	}
->  }
->  
-> @@ -178,7 +180,7 @@ static int add_to_unpin_list(struct list_head *unpin_list,
->  {
->  	struct udmabuf_folio *ubuf_folio;
->  
-> -	ubuf_folio = kzalloc(sizeof(*ubuf_folio), GFP_KERNEL);
-> +	ubuf_folio = kmem_cache_alloc(udmabuf_folio_cachep, GFP_KERNEL);
->  	if (!ubuf_folio)
->  		return -ENOMEM;
->  
-> @@ -492,10 +494,20 @@ static int __init udmabuf_dev_init(void)
->  	if (ret < 0) {
->  		pr_err("Could not setup DMA mask for udmabuf device\n");
->  		misc_deregister(&udmabuf_misc);
+> It's not a great prospect for something so specific. Not to mention that
+> the limits are generally there for electrical minimums that should not
+> be overridden. And before you know it, we'll have bug reports about
+> flickering screens...
 
-misc_deregister() is now called twice in this error path, I think you've
-forgotten to delete this line too?
-
-Otherwise lgtm.
+Yeah I think for this specific case where a fixed firmware is already
+kinda promised, a quirk is the right fix. Otherwise we open up a can of
+worms here ... so personally I like v2 a lot more.
 -Sima
 
-> -		return ret;
-> +		goto err;
-> +	}
-> +
-> +	udmabuf_folio_cachep = KMEM_CACHE(udmabuf_folio, 0);
-> +	if (unlikely(!udmabuf_folio_cachep)) {
-> +		ret = -ENOMEM;
-> +		goto err;
->  	}
->  
->  	return 0;
-> +
-> +err:
-> +	misc_deregister(&udmabuf_misc);
-> +	return ret;
->  }
->  
->  static void __exit udmabuf_dev_exit(void)
 > 
-> base-commit: cd19ac2f903276b820f5d0d89de0c896c27036ed
+> BR,
+> Jani.
+> 
+> 
+> >
+> > This helper does conflict with the mode override via the cmdline.
+> > Only one can be specified.
+> > IMO the mode override can be extended to also handle "min-brightness"
+> > when that becomes necessary.
+> >
+> > ---
+> > Changes in v3:
+> > - Switch to cmdline override parameter
+> > - Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net
+> >
+> > Changes in v2:
+> > - Introduce proper drm backlight quirk infrastructure
+> > - Quirk by EDID and DMI instead of only DMI
+> > - Limit quirk to only single Framework 13 matte panel
+> > - Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
+> >
+> > ---
+> > Thomas Weiﬂschuh (2):
+> >       drm/connector: add drm_connector_get_cmdline_min_brightness_override()
+> >       drm/amd/display: implement minimum brightness override
+> >
+> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  6 ++++
+> >  drivers/gpu/drm/drm_connector.c                   | 34 +++++++++++++++++++++++
+> >  include/drm/drm_connector.h                       |  2 ++
+> >  3 files changed, 42 insertions(+)
+> > ---
+> > base-commit: 36821612eb3091a21f7f4a907b497064725080c3
+> > change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
+> >
+> > Best regards,
+> 
 > -- 
-> 2.45.2
-> 
+> Jani Nikula, Intel
 
 -- 
 Daniel Vetter
