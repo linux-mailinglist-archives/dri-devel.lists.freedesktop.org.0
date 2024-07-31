@@ -2,72 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08307942A3A
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 11:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D29942CD6
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 13:08:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF0510E2B3;
-	Wed, 31 Jul 2024 09:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B99EE10E1FA;
+	Wed, 31 Jul 2024 11:08:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oiEWdOc+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a8PWg0rj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15B1710E5D4
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 09:20:48 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-6512866fa87so35302737b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 02:20:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722417647; x=1723022447; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2iFlXRtsUl8RHMCZ1KZpvt/c6uR1SO46BY0XCxWhf9A=;
- b=oiEWdOc+CbQ0PwHMBPozlDUGlmkMJaovJLVQ1iVmvlz0P5AGqzFPxe3Gp5/WzTtAPc
- GYJ+YS8hjPGEdhtQKplpcVx+1fPhvaqUBLzmDWLd3AEL7HOeoCPNWtLplvuU+UeE3WX9
- o/PTYzC7asAvBeV1tpO92y/hZppn1WkpQdDeh2uEDtj/xcUXdFgcjEN9iPe1h/e+XkJA
- BH/SESRQQXMyjPgZ9tY4Pcv3p8repstFddm6iGos4leW1ZHt9xVBH7WqKHdJUAe7SkHx
- O9ZJD5xCxAbdIuxKuLQC64QZ8ZLDzWq3wxbOzZMMxOpP1icsedUJ1y83aBj/9Ff2D4Lr
- rsqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722417647; x=1723022447;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2iFlXRtsUl8RHMCZ1KZpvt/c6uR1SO46BY0XCxWhf9A=;
- b=DfCaoKmw0avUfopajaqX0dApyzi3LwZde4TXuWa/LBKt9x5mdHeMfxb+sqUA+88R+J
- W386RtpnyuQH1O7o1f6utzCc2hBosNPiPOiRGRSZTie5HQiixIMrkonPy5cbtHlKxs3/
- idyBSpOXyTlbljKBXy3qkLYcw/Lcas7AlChsL4tu99CJ+Glt6L7Rm1JWMopXtOe9FgYF
- WUqaUOJM6lZEMYwOLeYwX9wVb5yqfYoPLzUJysr7bLBCWIieN7ikKklovocLNiom0rg1
- bmjmRFQVJ4c9g6aRUOsBCDlB8fXZzH/Gw2IMot7n6gk/YsKCTtlsi0l2wLELwsB9ZYQW
- te4g==
-X-Gm-Message-State: AOJu0Ywg93inLSQxssgH044nlf3M1e5qYi8Fz8xoPsRTUEgF81AfjbQv
- xZwq4mz20ziUCg/XfWL3uVjG/RsdGyCbeHoKRVFl9HCwbNOkedN7oSLC0JKdwpg5FZCrHR59UIj
- yltnoVKJFJ4YV11nDgweBKFzktUw98AF5vbNL0w==
-X-Google-Smtp-Source: AGHT+IFK9P0uOY/gewuxQvlHRsUZxiZ/hs1xt9TWijy9+GBHNuczQJMetK5xPKTdONpPKeT+HV5EXeZEbeea0eagDfw=
-X-Received: by 2002:a05:690c:6510:b0:647:e079:da73 with SMTP id
- 00721157ae682-67a05b94e00mr146374177b3.10.1722417647000; Wed, 31 Jul 2024
- 02:20:47 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6143B10E1FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 11:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1722424115; x=1753960115;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Y/jwTbl8exAJcAQjeSQ75R4nQbjTbH7374EjfkBBvVQ=;
+ b=a8PWg0rjlpKra23C+Wx+Pp+zbf7Me0ejnJg8GFuLctFxUvtVCJE2dfyR
+ n7YFMsc3Ok6G/tAGm4R09DZiZf1AJV6NFIbA8SqRWJpmVuNk8CkQH1h95
+ wLQsBU9ONtQDHsXobyWT60As44voYR9UKKJ7YEgumD5UabqR5xKnJYem9
+ 0E6xBSMaXSXB4j+mn49LB4n+navth60QJHNNfa2hWgtcBKUWOFYOzxumi
+ xvInGSLBNy7ktVM3/s3zbsw6ClT034JhWlrEZv+fElACfhd4+mFeJSiZT
+ L3jH7eW0PPvwfTjqJq5EyU6B686c6AMGlrRo00C8EjUpSBrdOKBqcUF+o Q==;
+X-CSE-ConnectionGUID: S1lMIV5+Q8GecfdlsjkVqg==
+X-CSE-MsgGUID: FpobkEUXTLa7kPP4FQpAPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="23209725"
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; d="scan'208";a="23209725"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2024 04:08:35 -0700
+X-CSE-ConnectionGUID: ZtK+kAqRSp6niW97SVmTxA==
+X-CSE-MsgGUID: y27S1BV/Tl2KF+5Kv81JYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; d="scan'208";a="54707963"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 31 Jul 2024 04:08:32 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sZ7C2-000uAO-0P;
+ Wed, 31 Jul 2024 11:08:30 +0000
+Date: Wed, 31 Jul 2024 19:08:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Huan Yang <link@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
+ Huan Yang <link@vivo.com>
+Subject: Re: [PATCH v2 1/5] dma-buf: heaps: Introduce
+ DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+Message-ID: <202407311822.ZneNMq5I-lkp@intel.com>
+References: <20240730075755.10941-2-link@vivo.com>
 MIME-Version: 1.0
-References: <20240709074656.1389387-1-arun.r.murthy@intel.com>
- <IA0PR11MB7307E4F207A125F53A23342BBAB72@IA0PR11MB7307.namprd11.prod.outlook.com>
- <jsrh2xyopzcmsi7uardklw2gfzmseq4pldj6bt6ozezhx5qqbs@epk6y7hg6ihv>
- <CH3PR11MB7300ABE65A3E3DCD3CE90DDCBAB02@CH3PR11MB7300.namprd11.prod.outlook.com>
- <CAA8EJppU9GaS8Npy+M5v00BJ4NrZt+BpYG5uAGPgdmZnb1TXnQ@mail.gmail.com>
- <IA0PR11MB7307204A1E7BB969500CAF0CBAB12@IA0PR11MB7307.namprd11.prod.outlook.com>
-In-Reply-To: <IA0PR11MB7307204A1E7BB969500CAF0CBAB12@IA0PR11MB7307.namprd11.prod.outlook.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 31 Jul 2024 12:20:35 +0300
-Message-ID: <CAA8EJppOL-GxE3XY8cQWt4JvM93GZ1kqkyK=JU4tQrXWweRqfA@mail.gmail.com>
-Subject: Re: [PATCH] RFC: drm/drm_plane: Expose the plane capability and
- interoperability
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240730075755.10941-2-link@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,73 +77,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 31 Jul 2024 at 11:48, Murthy, Arun R <arun.r.murthy@intel.com> wrot=
-e:
->
-> > -----Original Message-----
-> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Sent: Wednesday, July 31, 2024 2:04 PM
-> > To: Murthy, Arun R <arun.r.murthy@intel.com>
-> > Cc: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org
-> > Subject: Re: [PATCH] RFC: drm/drm_plane: Expose the plane capability an=
-d
-> > interoperability
-> >
-> > On Tue, 30 Jul 2024 at 07:07, Murthy, Arun R <arun.r.murthy@intel.com>
-> > wrote:
-> > >
-> > > > -----Original Message-----
-> > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > Sent: Tuesday, July 30, 2024 4:21 AM
-> > > > To: Murthy, Arun R <arun.r.murthy@intel.com>
-> > > > Cc: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.or=
-g
-> > > > Subject: Re: [PATCH] RFC: drm/drm_plane: Expose the plane capabilit=
-y
-> > > > and interoperability
-> >
-> > Please fix your email client.
-> >
-> Sorry for that. Sure will fix it.
->
-> > > >
-> > > > On Mon, Jul 29, 2024 at 04:59:14AM GMT, Murthy, Arun R wrote:
-> > > > > Gentle Reminder!
-> > > > > Any comments?
-> > > >
-> > > > First of all, the format is underdocumented. Second, there is a
-> > > > usual requirement for new uAPI: please provide a pointer to IGT
-> > > > patch and to the userspace utilising the property.
-> > > There are some discussions on using this in UMD.
-> > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_=
-2
-> > > 487123
-> >
-> > It should be a MR rather than "some discussion". And IGT patchset too, =
-please.
-> There is no IGT patch yet.
-> >
-> > Regarding the patch itself. It is completely underdocumented. There is =
-no way
-> > for me to understand which of these caps should e.g. be set for the drm=
-/msm
-> > planes.
->
-> I have explained it in the patch header. There are certain plane restrict=
-ions.
-> For example, certain pixel formats are not supported in async flip. If th=
-is is known to the compositor ahead, then compositor sending a flip with th=
-is unsupported formats leads to a flip failure. In order to overcome this i=
-f the KMD sends the list of supported pixel formats, compositor can verify =
-for the same and then send the flip request.
-> This can be achieved in two options. The options are listed below in the =
-patch header and expected some review comments or suggestion as to which op=
-tion to use!
+Hi Huan,
 
-It is impossible to understand what your options / capabilities
-_actually_ mean. I browsed through the patch and I still don't
-understand how to select which options apply to DRM_FORMAT_MOD_QCOM_*
+kernel test robot noticed the following build warnings:
 
---=20
-With best wishes
-Dmitry
+[auto build test WARNING on 931a3b3bccc96e7708c82b30b2b5fa82dfd04890]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/dma-buf-heaps-Introduce-DMA_HEAP_ALLOC_AND_READ_FILE-heap-flag/20240730-170340
+base:   931a3b3bccc96e7708c82b30b2b5fa82dfd04890
+patch link:    https://lore.kernel.org/r/20240730075755.10941-2-link%40vivo.com
+patch subject: [PATCH v2 1/5] dma-buf: heaps: Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240731/202407311822.ZneNMq5I-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407311822.ZneNMq5I-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407311822.ZneNMq5I-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/dma-buf/dma-heap.c:44: warning: Function parameter or struct member 'priv' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:44: warning: Function parameter or struct member 'heap_devt' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:44: warning: Function parameter or struct member 'list' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:44: warning: Function parameter or struct member 'heap_cdev' not described in 'dma_heap'
+>> drivers/dma-buf/dma-heap.c:104: warning: expecting prototype for Trigger sync file read, read into dma(). Prototype was for dma_heap_read_file_sync() instead
+
+
+vim +104 drivers/dma-buf/dma-heap.c
+
+    86	
+    87	/**
+    88	 * Trigger sync file read, read into dma-buf.
+    89	 *
+    90	 * @dmabuf:			which we done alloced and export.
+    91	 * @heap_file:			file info wrapper to read from.
+    92	 *
+    93	 * Whether to use buffer I/O or direct I/O depends on the mode when the
+    94	 * file is opened.
+    95	 * Remember, if use direct I/O, file must be page aligned.
+    96	 * Since the buffer used for file reading is provided by dma-buf, when
+    97	 * using direct I/O, the file content will be directly filled into
+    98	 * dma-buf without the need for additional CPU copying.
+    99	 *
+   100	 * 0 on success, negative if anything wrong.
+   101	 */
+   102	static int dma_heap_read_file_sync(struct dma_buf *dmabuf,
+   103					   struct dma_heap_file *heap_file)
+ > 104	{
+   105		struct iosys_map map;
+   106		ssize_t bytes;
+   107		int ret;
+   108	
+   109		ret = dma_buf_vmap(dmabuf, &map);
+   110		if (ret)
+   111			return ret;
+   112	
+   113		/**
+   114		 * The kernel_read_file function can handle file reading effectively,
+   115		 * and if the return value does not match the file size,
+   116		 * then it indicates an error.
+   117		 */
+   118		bytes = kernel_read_file(heap_file->file, 0, &map.vaddr, dmabuf->size,
+   119					 &heap_file->fsize, READING_POLICY);
+   120		if (bytes != heap_file->fsize)
+   121			ret = -EIO;
+   122	
+   123		dma_buf_vunmap(dmabuf, &map);
+   124	
+   125		return ret;
+   126	}
+   127	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
