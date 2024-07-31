@@ -2,106 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D12C942E3E
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 14:23:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F33942E65
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 14:26:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D38910E5F6;
-	Wed, 31 Jul 2024 12:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89CB110E5FB;
+	Wed, 31 Jul 2024 12:26:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="tA6OZ8G0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M7l9j6WT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tA6OZ8G0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M7l9j6WT";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Af4ga4up";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EB1410E5E5;
- Wed, 31 Jul 2024 12:23:22 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2F70721BD9;
- Wed, 31 Jul 2024 12:23:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1722428600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VUBuUYlHMqSrAtFtl+TE3Ym1lVC2bBk8yu5mK8y4ja4=;
- b=tA6OZ8G0oLWSedHqsSkJ2LICx78H8N13EkeeguunbLlmS4dLsishHPHJONtDK1s1WQaQ3p
- lD+igrb65JIhPOMqivJERecIEfsqCtQnkdkAzLvO1ekf03auewV8CgeCQlwjIehw3ZnAEt
- LWEFwZvzwJ5T/ru3qoGjHV6U4rB6sAA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1722428600;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VUBuUYlHMqSrAtFtl+TE3Ym1lVC2bBk8yu5mK8y4ja4=;
- b=M7l9j6WTh6KkhicAw1Qt3Mvto+RqrhgucySw2J0WCDqdv+UVHyzbbrbDrWOj/ePLILCY9y
- wZipZ+nAPetrezAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1722428600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VUBuUYlHMqSrAtFtl+TE3Ym1lVC2bBk8yu5mK8y4ja4=;
- b=tA6OZ8G0oLWSedHqsSkJ2LICx78H8N13EkeeguunbLlmS4dLsishHPHJONtDK1s1WQaQ3p
- lD+igrb65JIhPOMqivJERecIEfsqCtQnkdkAzLvO1ekf03auewV8CgeCQlwjIehw3ZnAEt
- LWEFwZvzwJ5T/ru3qoGjHV6U4rB6sAA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1722428600;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VUBuUYlHMqSrAtFtl+TE3Ym1lVC2bBk8yu5mK8y4ja4=;
- b=M7l9j6WTh6KkhicAw1Qt3Mvto+RqrhgucySw2J0WCDqdv+UVHyzbbrbDrWOj/ePLILCY9y
- wZipZ+nAPetrezAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD8BE13297;
- Wed, 31 Jul 2024 12:23:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id eDjZNLcsqmacTQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 31 Jul 2024 12:23:19 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Jyri Sarha <jyri.sarha@iki.fi>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00B1510E605
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 12:26:24 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8569918D;
+ Wed, 31 Jul 2024 14:25:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1722428735;
+ bh=0bRzzWrvUBJRSm5QZJQ4+LE+3eTxzq/08T35Gdx45IE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Af4ga4upo8a3O4SIouIqgoYs9UVDLnqz+9/Kh7GlDNpfgOdvnOw8mKenk00CgZE9U
+ nzmN4uGKMuEAqqz7tiDed3qYmb4mKGfU9beOC8SG/g2/q+jQf+vSTM2u17/zmXY8Ec
+ 0ojLE8vG9cS64iFjOFHR+EDAnklKNUHrrLPZafHY=
+Date: Wed, 31 Jul 2024 15:26:02 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dri-devel@lists.freedesktop.org,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 9/9] drm/tilcdc: Use backlight power constants
-Date: Wed, 31 Jul 2024 14:17:21 +0200
-Message-ID: <20240731122311.1143153-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240731122311.1143153-1-tzimmermann@suse.de>
-References: <20240731122311.1143153-1-tzimmermann@suse.de>
+Subject: Re: [bug report] drm/omap: gem: Replace struct_mutex usage with
+ omap_obj private lock
+Message-ID: <20240731122602.GV8146@pendragon.ideasonboard.com>
+References: <511b99d7-aade-4f92-bd3e-63163a13d617@stanley.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.60 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; MIME_GOOD(-0.10)[text/plain];
- MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[11];
- FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -2.60
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <511b99d7-aade-4f92-bd3e-63163a13d617@stanley.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,30 +55,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace FB_BLANK_ constants with their counterparts from the
-backlight subsystem. The values are identical, so there's no
-change in functionality or semantics.
+Hi Dan,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/gpu/drm/tilcdc/tilcdc_panel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+(CC'ing Tomi)
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-index 68093d6b6b16..5f2d1b6f9ee9 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-@@ -49,7 +49,7 @@ static void panel_encoder_dpms(struct drm_encoder *encoder, int mode)
- 
- 	if (backlight) {
- 		backlight->props.power = mode == DRM_MODE_DPMS_ON ?
--					 FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
-+					 BACKLIGHT_POWER_ON : BACKLIGHT_POWER_OFF;
- 		backlight_update_status(backlight);
- 	}
- 
+Thank for the report. It indeed seems that something is wrong.
+
+Tomi, could you handle this and send a fix ?
+
+On Tue, Jul 30, 2024 at 05:01:35PM -0500, Dan Carpenter wrote:
+> Hello Laurent Pinchart,
+> 
+> Commit 3cbd0c587b12 ("drm/omap: gem: Replace struct_mutex usage with
+> omap_obj private lock") from May 26, 2018 (linux-next), leads to the
+> following Smatch static checker warning:
+> 
+> 	drivers/gpu/drm/omapdrm/omap_gem.c:1435 omap_gem_new_dmabuf()
+> 	warn: 'omap_obj' was already freed. (line 1434)
+> 
+> drivers/gpu/drm/omapdrm/omap_gem.c
+>     1386 struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
+>     1387                                            struct sg_table *sgt)
+>     1388 {
+>     1389         struct omap_drm_private *priv = dev->dev_private;
+>     1390         struct omap_gem_object *omap_obj;
+>     1391         struct drm_gem_object *obj;
+>     1392         union omap_gem_size gsize;
+>     1393 
+>     1394         /* Without a DMM only physically contiguous buffers can be supported. */
+>     1395         if (!omap_gem_sgt_is_contiguous(sgt, size) && !priv->has_dmm)
+>     1396                 return ERR_PTR(-EINVAL);
+>     1397 
+>     1398         gsize.bytes = PAGE_ALIGN(size);
+>     1399         obj = omap_gem_new(dev, gsize, OMAP_BO_MEM_DMABUF | OMAP_BO_WC);
+>     1400         if (!obj)
+>     1401                 return ERR_PTR(-ENOMEM);
+>     1402 
+>     1403         omap_obj = to_omap_bo(obj);
+>                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> This is omap_obj
+> 
+>     1404 
+>     1405         mutex_lock(&omap_obj->lock);
+>     1406 
+>     1407         omap_obj->sgt = sgt;
+>     1408 
+>     1409         if (omap_gem_sgt_is_contiguous(sgt, size)) {
+>     1410                 omap_obj->dma_addr = sg_dma_address(sgt->sgl);
+>     1411         } else {
+>     1412                 /* Create pages list from sgt */
+>     1413                 struct page **pages;
+>     1414                 unsigned int npages;
+>     1415                 unsigned int ret;
+>     1416 
+>     1417                 npages = DIV_ROUND_UP(size, PAGE_SIZE);
+>     1418                 pages = kcalloc(npages, sizeof(*pages), GFP_KERNEL);
+>     1419                 if (!pages) {
+>     1420                         omap_gem_free_object(obj);
+>                                                       ^^^
+> It gets free inside this function
+> 
+>     1421                         obj = ERR_PTR(-ENOMEM);
+>     1422                         goto done;
+>     1423                 }
+>     1424 
+>     1425                 omap_obj->pages = pages;
+>     1426                 ret = drm_prime_sg_to_page_array(sgt, pages, npages);
+>     1427                 if (ret) {
+>     1428                         omap_gem_free_object(obj);
+>                                                       ^^^
+> Same
+> 
+>     1429                         obj = ERR_PTR(-ENOMEM);
+>     1430                         goto done;
+> 
+> So I think we can just return directly instead of unlocking.
+> 
+>     1431                 }
+>     1432         }
+>     1433 
+>     1434 done:
+> --> 1435         mutex_unlock(&omap_obj->lock);
+>     1436         return obj;
+>     1437 }
+
 -- 
-2.45.2
+Regards,
 
+Laurent Pinchart
