@@ -2,83 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1B8943104
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 15:35:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B4294310C
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 15:38:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3D710E25D;
-	Wed, 31 Jul 2024 13:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0314910E618;
+	Wed, 31 Jul 2024 13:38:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="q5uPtrnu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="drgC3doj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0CB10E2D7
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:35:17 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2ef2d96164aso66129491fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 06:35:17 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D743010E618
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:37:58 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-52efa16aad9so8654785e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 06:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722432915; x=1723037715; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1722433077; x=1723037877; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2nuFog//dQJyQDurmfY02l3W/M3VEET6dFsY5XpmaxY=;
- b=q5uPtrnuCGoqTn/23Le1wOscn/FfviH3wlrkPQJ8+z03WbMiKcv559DLm4N6euZbES
- Trmpwry10GvwwaqpZ8b10usHR+6CF9yxkON7szzeWMpnLwaB8vK8EMRZLOV6Fkr2tES2
- LNuPiseLQnK28LtlypnTm/TiPmAxw52BeMjzOAb7qcpFzl7T3UglgL4zw0gZhg0azWaM
- lO6f4anaaoXfx3Uwzy6s2x9P+JRjRId6yTS/g9Dq3jrAJ8baHNhog0bc1cHf9nXmXCIy
- zn93hXYX4DTghxwEtl9kQkK/ulYjcD+urg6dP+0Cu1fuzjlWX+D9FIrKDwOjHDpHqb9W
- j3Eg==
+ bh=euZqe8MZJ1dwlC2Y71IAY6QKt2ZvC3bSg9scHU/4CGE=;
+ b=drgC3dojUhAFLWY8vcdAAiWiloNmwKs/SVeKUkq7PDJO9rzDzQ5jfodtrl+xppC6Yh
+ KV/ge3eSIANpJxt2irEhwTdgWQLXbXJUsyYtp8GX4Nm0bzJvqlfAcqM3R9VHqEkjtet4
+ eqSQTIwRdYsQSIaL5cCe1JSC/gOyPa8QdFcQj5SbFgdK8r6GtLYHdZ/VuhGivOrsCJLD
+ cvlaFLcSurZ8V2na1Z1xzfPHnCNpsWr9AozxKJOWunLXTFkKbB6a3b5uRgqaE7R/xIrW
+ 6OH+e4KR5ayeGjPqRGFcO3r5/wjnUz1FPkB6ZkG0l6MiSMy3VVHoAWY+21JEJF0Tsfw1
+ nH8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722432915; x=1723037715;
+ d=1e100.net; s=20230601; t=1722433077; x=1723037877;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2nuFog//dQJyQDurmfY02l3W/M3VEET6dFsY5XpmaxY=;
- b=inzZ9IPV4gh9PE+zIb4KTYqdoPJXKvaogSb6FJxl21sSnOrycumoWMcLc4p+OunfSI
- 7sUzx1nB5Jg/gxXJkGLa7vifSyC04oWWRjkHsTDcRvUcUwYB4isAJgHyjLQwVXg3LLIZ
- s9jonVv5tB1a73O62zU6qDn+3c/yp0qJkcJgxNWHQOjyzDadcYH4OWgcJ8DMpAR/M1XK
- 1szRkfQDzahEB5IZWJkcetsMCQvl+R/9Psx2lewDNUhbdC06aGv3xzTeq5Qt+nDPmbpr
- pF9e1G421ofRiwvDOQiIPz6eW2v6ilYjsuSFMnZuTZKF2urcasNPqHhup5ckLO+w1e+G
- ohOg==
+ bh=euZqe8MZJ1dwlC2Y71IAY6QKt2ZvC3bSg9scHU/4CGE=;
+ b=SmqUKECWHtFtDeSu0paoIqp8DZJe1m/uEye/wTLkJTHNJBd/TQQNqr6elNKeK3Q7of
+ hMEOlga+Vd0x2H/MDVSPIFPoSLMBMGv9qftoMtArLUk/MeDa6V448LJnZISILTLoPpF6
+ q1yJhN4tQdvT5uCJgS3CjL/MdgkmD366kMZMlMsraTHGhYD7Q38z/ZcM3tq6EIkCNk5G
+ Z80GX600JkFKf46EZaU9w35ob1OjAikoq0+iEchiJiTVK1ZCj38Bfb70TQzSX/k3sE3M
+ Bc0p3EcKREKBf/x7XZEFAxRP4ASbyYhZLPvQWOWkHbfigbw81TyVyxMUvy1DoOtQsL5i
+ 2h8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUMCkbPPUJcO7DfDK8n1ciSsDcVNCmk6aEBLnzp2wZJ8NerCmJJEn2vGN9z3R//pCIcX51GQ8tN4xHX4WeixUQLDhkSY8p77drH+5edELrm
-X-Gm-Message-State: AOJu0Ywk5f650CLTAJssrA9Zk7Ap/MU9T43uPqlqhLfU7EfNW6gSvuzr
- am/Et9CjcoisNKEuLsv2vCTw96lyXZgMG9rw82eKCZW/CxBrxWwYJPXGQ2txqMk=
-X-Google-Smtp-Source: AGHT+IGK97ZT6lgO5zmLXsUMfHQ0g2+ejUm5/06nq2BG7Njg79hsOrPZXa8iT9IXsNx5sVJEXLv2jw==
-X-Received: by 2002:a2e:9608:0:b0:2ef:2443:ac8c with SMTP id
- 38308e7fff4ca-2f12ee422eemr90180411fa.31.1722432915136; 
- Wed, 31 Jul 2024 06:35:15 -0700 (PDT)
+ AJvYcCWoFn7sJSKyfFrq/19lKCnoT0Pw1IkZDoYqnsIpRgERsptkcLjAUzkpK72WzoRu/e82q95p+qbkRiAvFHd/rsuIT5BniJOjxQwM49LoWkRQ
+X-Gm-Message-State: AOJu0YzwYBgnELbgwFCBmhL2nm27EJGlbKgNC/hZ6wOA/IuFmbY7GQkY
+ UOBW79ALlBVxQ3jkjrIXzKp9w5/Z0M6FGeGQ0+bY4h339n8eRMG+wuGp/Mu2EAo=
+X-Google-Smtp-Source: AGHT+IGKaoo2n5sBYtF5hcWxbazPmSsCMpENigLQEchBKSKDBDseQvdPfye9t44dyqo8bVsTDtKSeQ==
+X-Received: by 2002:ac2:5968:0:b0:52f:d090:6dae with SMTP id
+ 2adb3069b0e04-5309b2ce519mr9386789e87.52.1722433076670; 
+ Wed, 31 Jul 2024 06:37:56 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f03cf30a74sm19598871fa.41.2024.07.31.06.35.14
+ 2adb3069b0e04-52fd5c19d5fsm2231849e87.204.2024.07.31.06.37.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Jul 2024 06:35:14 -0700 (PDT)
-Date: Wed, 31 Jul 2024 16:35:13 +0300
+ Wed, 31 Jul 2024 06:37:56 -0700 (PDT)
+Date: Wed, 31 Jul 2024 16:37:54 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 3/4] arm64: dts: qcom: sdm670: add gpu
-Message-ID: <l7qdl43tyrdw6yuupd2ym47ztmb2jhb5tzswme4yoitipsqrai@qalxt7hjmt4c>
-References: <20240730013844.41951-6-mailingradian@gmail.com>
- <20240730013844.41951-9-mailingradian@gmail.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, 
+ Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 00/12] drm/imx/ipuv3: switch LDB and parallel-display
+ driver to use drm_bridge_connector
+Message-ID: <pagkojyl72by6mru6ky5niiffqrt2dpny5jqmw4z5aedmr23h7@qmzbbt4laikx>
+References: <20240602-drm-imx-cleanup-v3-0-e549e2a43100@linaro.org>
+ <uqsnphe2pm366xenpdvtsxvpkiewgmxoqyv2zvbgc3ewlx23mp@guesbce35jcm>
+ <e4cf5a6a2be51fe9c7fff54e30cf3bd6f1d3534e.camel@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240730013844.41951-9-mailingradian@gmail.com>
+In-Reply-To: <e4cf5a6a2be51fe9c7fff54e30cf3bd6f1d3534e.camel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,38 +96,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 29, 2024 at 09:38:48PM GMT, Richard Acayan wrote:
-> The Snapdragon 670 has the Adreno A615 GPU. Add it along with its device
-> tree dependencies.
+On Wed, Jul 31, 2024 at 03:12:44PM GMT, Philipp Zabel wrote:
+> Hi Dmitry,
 > 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->  arch/arm64/boot/dts/qcom/sdm670.dtsi | 168 +++++++++++++++++++++++++++
->  1 file changed, 168 insertions(+)
+> On Sa, 2024-07-27 at 14:17 +0300, Dmitry Baryshkov wrote:
+> > On Sun, Jun 02, 2024 at 03:04:40PM GMT, Dmitry Baryshkov wrote:
+> > > The IPUv3 DRM i.MX driver contains several codepaths for different
+> > > usescases: both LDB and paralllel-display drivers handle next-bridge,
+> > > panel and the legacy display-timings DT node on their own.
+> > > 
+> > > Drop unused ddc-i2c-bus and edid handling (none of the DT files merged
+> > > upstream ever used these features), switch to panel-bridge driver,
+> > > removing the need to handle drm_panel codepaths separately and finally
+> > > switch to drm_bridge_connector, removing requirement for the downstream
+> > > bridges to create drm_connector on their own.
+> > > 
+> > > This has been tested on the iMX53 with the DPI panel attached to LDB via
+> > > LVDS decoder, using all possible usecases (lvds-codec + panel, panel
+> > > linked directly to LDB node and the display-timings node).
+> > > 
+> > > To be able to test on the iMX53 QSRB with the HDMI cape apply [1], [2]
+> > > 
+> > > [1] https://lore.kernel.org/all/20240514030718.533169-1-victor.liu@nxp.com/
+> > > [2] https://lore.kernel.org/all/20240602-imx-sii902x-defconfig-v1-1-71a6c382b422@linaro.org/
+> > > 
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > > Changes in v3:
+> > > - Notice (soft) dependencies in the cover letter (Chris)
+> > > - Select DRM_BRIDGE instead of depending on it (Philipp)
+> > > - Dropped unused selection of DRM_PANEL (Philipp)
+> > > - Added missing include of <drm/bridge/imx.h> to parallel-display.c
+> > >   (Philipp)
+> > > - Link to v2: https://lore.kernel.org/r/20240331-drm-imx-cleanup-v2-0-d81c1d1c1026@linaro.org
+> > > 
+> > > Changes in v2:
+> > > - Fixed drm_bridge_attach flags in imx/parallel-display driver.
+> > > - Moved the legacy bridge to drivers/gpu/drm/bridge
+> > > - Added missing EXPORT_SYMBOL_GPL to the iMX legacy bridge
+> > > - Link to v1: https://lore.kernel.org/r/20240311-drm-imx-cleanup-v1-0-e104f05caa51@linaro.org
+> > 
+> > Just a gracious ping, this has been without maintainer's review for
+> > nearly two months.
+> 
+> I don't have any active i.MX6 projects right now, which increases
+> latency. I'll get around to reviewing the remaining changes and testing
+> on i.MX6 this week or next.
 
-> +
-> +		gmu: gmu@506a000 {
-> +			compatible = "qcom,adreno-gmu-615.0", "qcom,adreno-gmu";
-> +
-
-[...]
-
-> +
-> +			status = "disabled";
-
-Probably no need to. The rest LGTM.
-
-> +
-> +			gmu_opp_table: opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-200000000 {
-> +					opp-hz = /bits/ 64 <200000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-> +				};
-> +			};
-> +		};
-> +
+Thanks!
 
 -- 
 With best wishes
