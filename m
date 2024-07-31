@@ -2,51 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F15942D61
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 13:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2B8942D71
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 13:43:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35BDC10E540;
-	Wed, 31 Jul 2024 11:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D26CB10E52A;
+	Wed, 31 Jul 2024 11:43:09 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="BagnoPe/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YN1jljm7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BagnoPe/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YN1jljm7";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EFA510E540
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 11:38:20 +0000 (UTC)
-Received: by mail-io1-f71.google.com with SMTP id
- ca18e2360f4ac-81fc0896188so180310839f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 04:38:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722425899; x=1723030699;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AZQzn55hmwUwe/OLN07Yt1bGgbGwuLAI4PDXp5aGGzQ=;
- b=hjM8FrqsFW7nE8G1ItYBwSK83zuXw0VpGkpYUoT3x2ZdTcydgjW1JiflKfgmqNa038
- rh4FhedK6lVIMcmmnyKoTE5q8DFZ1ewMLkX0WW6fO0FHUoHuD0tyL0ygiS+Outai5bwH
- jVSihXkZAl3/fqqIJX+3nYBAgBS8Ml/BUxYDb1czBaTrDwnkksX13eel/oKQX1pH0y7J
- Rz34wHEQkypiJ+D6242854GBGz+wvkxPlIMt8AB5KlcvAgCgXkQbxSGk98Cpzbfi9Jf6
- +fU/KY6au4DGKx7fKESH+jZfp3ifUXpx1Wfmz64mn5mBO5L3pTmwceMjT0OKe0QvseXv
- 9yXg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUcagIbJ0QB25Yow4iVvPnIjICHMS0D+lDUhwRty4vyHuzHEfQCDUWP9hgYt55y5K+Xmf5/GTDhLqqabhsimGDFne5Y/q38hGLPUJaqO1W4
-X-Gm-Message-State: AOJu0Yyv56f8IIwOKE0KYwNI3eYalan+uV3Lng+qHHuDsAjWbS9Yah+Y
- er00J2OaJVrbMy9i4u18OM01CQCtVB5qJP4S+t/CZjRSftO/rjs5nB9uUPC7OgtrHnD2YAQmSDY
- q8hclv8p570gJxsX6UYrm5yFzpXnr/BPe51qrEACTX021LEHAm5QOnIk=
-X-Google-Smtp-Source: AGHT+IEsBuLENj62DdnzKW8aEcsM1YkZAnwt3UvU7FAzopC0Cd1elTa9/gEeBOr1PiAxcEcNZIuXWDOSPCJBjwP31vXC5zpwLqRx
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE3C510E52A
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 11:43:07 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2F2B321AAE;
+ Wed, 31 Jul 2024 11:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722426186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DLkElBSVR+oGDTEwd3ENh0mPiZ407pF3VSaMOgM+Zc8=;
+ b=BagnoPe/IgULf37UKqYsM8m5gyoJql21BgHTVT2zrQcnpX2TuRl2tRrO/V/gkdjZM9eROf
+ EEjpB2xXGa2REH1wmy5UEwLF+YsgVjm3ehzFfLuA9SaZSXGM/YBjg2Z1KUhDdCG+96cOvr
+ MuXz6ktld0EtWFcczi7lnGMf8j+djo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722426186;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DLkElBSVR+oGDTEwd3ENh0mPiZ407pF3VSaMOgM+Zc8=;
+ b=YN1jljm7wpkPZExn1hQv6RPORprO2AGLpfQrzGqd3r1+deUVMpVCRX99XlfllHWOvfbxD9
+ yKG+sDaZQCLfGNAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722426186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DLkElBSVR+oGDTEwd3ENh0mPiZ407pF3VSaMOgM+Zc8=;
+ b=BagnoPe/IgULf37UKqYsM8m5gyoJql21BgHTVT2zrQcnpX2TuRl2tRrO/V/gkdjZM9eROf
+ EEjpB2xXGa2REH1wmy5UEwLF+YsgVjm3ehzFfLuA9SaZSXGM/YBjg2Z1KUhDdCG+96cOvr
+ MuXz6ktld0EtWFcczi7lnGMf8j+djo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722426186;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DLkElBSVR+oGDTEwd3ENh0mPiZ407pF3VSaMOgM+Zc8=;
+ b=YN1jljm7wpkPZExn1hQv6RPORprO2AGLpfQrzGqd3r1+deUVMpVCRX99XlfllHWOvfbxD9
+ yKG+sDaZQCLfGNAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF9DE1368F;
+ Wed, 31 Jul 2024 11:43:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 5RsCNUkjqmaxQQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 31 Jul 2024 11:43:05 +0000
+Message-ID: <be82fbaa-eaae-4d3a-b54c-dafbccef1b2e@suse.de>
+Date: Wed, 31 Jul 2024 13:43:05 +0200
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:150f:b0:4c0:9a05:44c4 with SMTP id
- 8926c6da1cb9f-4c6352e57admr767806173.0.1722425899452; Wed, 31 Jul 2024
- 04:38:19 -0700 (PDT)
-Date: Wed, 31 Jul 2024 04:38:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e39b37061e898704@google.com>
-Subject: [syzbot] [fbdev?] KASAN: global-out-of-bounds Read in bit_putcs (3)
-From: syzbot <syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com>
-To: daniel@ffwll.ch, deller@gmx.de, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: drm/mgag200: Fix VBLANK interrupt handling
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, airlied@redhat.com,
+ jfalempe@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20240731071004.519566-1-tzimmermann@suse.de>
+ <b9e8fc7a-c05f-42a2-9e6f-57366540161f@linux.dev>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <b9e8fc7a-c05f-42a2-9e6f-57366540161f@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.09 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[10]; ARC_NA(0.00)[];
+ FREEMAIL_TO(0.00)[linux.dev,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,linux.dev:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.09
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,107 +142,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    c912bf709078 Merge remote-tracking branches 'origin/arm64-..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=13b495bd980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=35545feca25ede03
-dashboard link: https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: arm64
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/caeac6485006/disk-c912bf70.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/501c87f28da9/vmlinux-c912bf70.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6812e99b7182/Image-c912bf70.gz.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: global-out-of-bounds in __fb_pad_aligned_buffer include/linux/fb.h:633 [inline]
-BUG: KASAN: global-out-of-bounds in bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
-BUG: KASAN: global-out-of-bounds in bit_putcs+0x9b8/0xe30 drivers/video/fbdev/core/bitblit.c:185
-Read of size 1 at addr ffff80008b830d80 by task syz.1.1270/10828
-
-CPU: 0 PID: 10828 Comm: syz.1.1270 Not tainted 6.10.0-rc7-syzkaller-gc912bf709078 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/07/2024
-Call trace:
- dump_backtrace+0x1b8/0x1e4 arch/arm64/kernel/stacktrace.c:317
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:324
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xe4/0x150 lib/dump_stack.c:114
- print_address_description mm/kasan/report.c:377 [inline]
- print_report+0x198/0x538 mm/kasan/report.c:488
- kasan_report+0xd8/0x138 mm/kasan/report.c:601
- __asan_report_load1_noabort+0x20/0x2c mm/kasan/report_generic.c:378
- __fb_pad_aligned_buffer include/linux/fb.h:633 [inline]
- bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
- bit_putcs+0x9b8/0xe30 drivers/video/fbdev/core/bitblit.c:185
- fbcon_putcs+0x318/0x4e8 drivers/video/fbdev/core/fbcon.c:1288
- do_update_region+0x1e8/0x3d0 drivers/tty/vt/vt.c:609
- update_region+0x1e0/0x478 drivers/tty/vt/vt.c:633
- vcs_write+0x90c/0x10c8 drivers/tty/vt/vc_screen.c:698
- do_loop_readv_writev fs/read_write.c:764 [inline]
- vfs_writev+0x5c8/0xb80 fs/read_write.c:973
- do_writev+0x178/0x304 fs/read_write.c:1018
- __do_sys_writev fs/read_write.c:1091 [inline]
- __se_sys_writev fs/read_write.c:1088 [inline]
- __arm64_sys_writev+0x80/0x94 fs/read_write.c:1088
- __invoke_syscall arch/arm64/kernel/syscall.c:34 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:48
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:131
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:150
- el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:712
- el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:730
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
-
-The buggy address belongs to the variable:
- oid_data+0x340/0x3a0
-
-The buggy address belongs to the virtual mapping at
- [ffff80008b260000, ffff80008ee20000) created by:
- declare_kernel_vmas+0x58/0xb8 arch/arm64/mm/mmu.c:770
-
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1a9430
-flags: 0x5ffc00000002000(reserved|node=0|zone=2|lastcpupid=0x7ff)
-raw: 05ffc00000002000 fffffdffc5a50c08 fffffdffc5a50c08 0000000000000000
-raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff80008b830c80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff80008b830d00: 00 00 00 07 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
->ffff80008b830d80: f9 f9 f9 f9 f9 f9 f9 f9 00 00 00 00 06 f9 f9 f9
-                   ^
- ffff80008b830e00: 05 f9 f9 f9 06 f9 f9 f9 00 00 00 00 00 00 00 00
- ffff80008b830e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 02 f9 f9
-==================================================================
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Am 31.07.24 um 13:29 schrieb Sui Jingfeng:
+> Hi,
+>
+>
+> On 2024/7/31 15:09, Thomas Zimmermann wrote:
+>> Fix support for VBLANK interrupts on G200ER, G200EV and G200SE, which
+>> use a slightly different implementation than the others. The original
+>> commits forgot to update the custom helpers when adding interrupt
+>> handling for VBLANK events.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+>
+> LGTM,
+>
+>
+> Acked-by: sui.jingfeng@linux.dev
+>
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Thanks!
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
