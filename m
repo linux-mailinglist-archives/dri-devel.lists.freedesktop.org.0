@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F649439FD
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09839439FF
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6226110E6E5;
-	Thu,  1 Aug 2024 00:09:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6728710E6EC;
+	Thu,  1 Aug 2024 00:09:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IJWMJZgQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XzggrWKo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA93110E6E4;
- Thu,  1 Aug 2024 00:09:16 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC7110E6E7;
+ Thu,  1 Aug 2024 00:09:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 83AB0CE11E4;
- Thu,  1 Aug 2024 00:09:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F645C116B1;
- Thu,  1 Aug 2024 00:09:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9AE0062569;
+ Thu,  1 Aug 2024 00:09:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BD5C116B1;
+ Thu,  1 Aug 2024 00:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722470953;
- bh=XwiusGyHFFWVp25IovLAQaq2emO6knPkUhXJV+qlmy0=;
+ s=k20201202; t=1722470959;
+ bh=1yKMbkhAyfPrW+nh7Z+gF1Y+RpRfYc0PmOUjnFEVyI8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IJWMJZgQhSQbrOcjFmgdjGDqvBGxxedoHyOLrDW5y+5qSEOtdIuju1fT7N8j8OpzH
- baLWFe7rAgodUVQzqzJXRbeDBPj5SFktQjvCuIl2784EQG27JbLYuNApGjcES1WmAy
- 4xgBdldHIp/laaO22VbfeAOMFulAU0ZBafCbH6H7hgEelL55mDNz1N2NizXHG6TMzO
- rP9zNpyNNTXMDNbZzQkJLb+LyjqN8YSyrmSGCHTlAB1j+jgB4ZP+8IyaYAOalsZIS2
- bfFRcymo3n8eTLcpPZRZ/jXDf//OSuL4Wr+Zj3kJbiJJrfIHdWasGacsrio1wqolMY
- mscCgKvff5nLQ==
+ b=XzggrWKoHobAGdLDK62yRzy3Q8Hc2QsheQAHyIx9Yevu31aAH4mofeO8CXq7FsK94
+ z82lZSG5Fu+Ci8T/TL/oIY9CImB145PjmH1qNWtrEuiz7Liw91KPcYQib2eLDv7V5P
+ JYw3/za6UDMT261d5tZK9qRUwK+2gr+nlq7suY/M9yH9QKZNmrsgZcVTp0XWXHJkRW
+ n8cYzd+TEmyUCiG6YOIDjuqE2G+Va54yhAWC5ErOy7WHAzAJK6R3JmBhNCGzuioFb5
+ ZbYsslnMh+zVaplsRysvyzSUBP/B0pLnKCw5sLMyzoP1QUvi+D0mtsplcWVBH9MpFo
+ ALMzan/6gBXwA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tim Huang <Tim.Huang@amd.com>, Yang Wang <kevinyang.wang@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, lijo.lazar@amd.com, Zhigang.Luo@amd.com,
- Hawking.Zhang@amd.com, victorchengchi.lu@amd.com, victor.skvortsov@amd.com,
- Yunxiang.Li@amd.com, Vignesh.Chander@amd.com, surbhi.kakarya@amd.com,
- danijel.slivka@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 008/121] drm/amdgpu: fix uninitialized scalar
- variable warning
-Date: Wed, 31 Jul 2024 19:59:06 -0400
-Message-ID: <20240801000834.3930818-8-sashal@kernel.org>
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ wenjing.liu@amd.com, jun.lei@amd.com, hamza.mahfooz@amd.com,
+ alvin.lee2@amd.com, george.shen@amd.com, dillon.varone@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 009/121] drm/amd/display: Ensure array index
+ tg_inst won't be -1
+Date: Wed, 31 Jul 2024 19:59:07 -0400
+Message-ID: <20240801000834.3930818-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -68,34 +69,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tim Huang <Tim.Huang@amd.com>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 0fa4c25db8b791f79bc0d5a0cd58aff9ad85186b ]
+[ Upstream commit 687fe329f18ab0ab0496b20ed2cb003d4879d931 ]
 
-Clear warning that field bp is uninitialized when
-calling amdgpu_virt_ras_add_bps.
+[WHY & HOW]
+tg_inst will be a negative if timing_generator_count equals 0, which
+should be checked before used.
 
-Signed-off-by: Tim Huang <Tim.Huang@amd.com>
-Reviewed-by: Yang Wang <kevinyang.wang@amd.com>
+This fixes 2 OVERRUN issues reported by Coverity.
+
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Acked-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-index 54ab51a4ada77..b5fc0e1ad4357 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-@@ -395,6 +395,8 @@ static void amdgpu_virt_add_bad_page(struct amdgpu_device *adev,
- 	else
- 		vram_usage_va = adev->mman.drv_vram_usage_va;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index 15819416a2f36..693d05a98c6fb 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -3492,7 +3492,7 @@ static bool acquire_otg_master_pipe_for_stream(
+ 		if (pool->dpps[pipe_idx])
+ 			pipe_ctx->plane_res.mpcc_inst = pool->dpps[pipe_idx]->inst;
  
-+	memset(&bp, 0, sizeof(bp));
-+
- 	if (bp_block_size) {
- 		bp_cnt = bp_block_size / sizeof(uint64_t);
- 		for (bp_idx = 0; bp_idx < bp_cnt; bp_idx++) {
+-		if (pipe_idx >= pool->timing_generator_count) {
++		if (pipe_idx >= pool->timing_generator_count && pool->timing_generator_count != 0) {
+ 			int tg_inst = pool->timing_generator_count - 1;
+ 
+ 			pipe_ctx->stream_res.tg = pool->timing_generators[tg_inst];
 -- 
 2.43.0
 
