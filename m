@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B58F9423CF
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 02:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B929423CE
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 02:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C02D610E359;
-	Wed, 31 Jul 2024 00:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5B810E341;
+	Wed, 31 Jul 2024 00:30:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Uiuwddvq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EWP6XaRB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D178A10E262;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0168810E04A;
  Wed, 31 Jul 2024 00:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1722385832; x=1753921832;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=g59QcdS841R2ElrGLaqTv8bw9mQqMYsEaa2rIjEi6K4=;
- b=UiuwddvqLQ0dbqhzVSYNPDMOy29cEMJ/sE301lRRDx21SZvuWu85kOHN
- f8pcf5/md23Hm6wilEhpZTY3vfEgQaVjK455oCWiWRYIC0x21qB+Zbuwd
- aoCjsLIeJpWNHyrbTVgw+llPHh81Da9yVaMid0uI6SqwsT2dnVYWitpK6
- 2a+ZRIUY5ifBUL8ktO3yk0M4w3/KKDxa0ew7mAEKGALFw0lL8WrSxHnPy
- mJN+WdLPDrbnEZR4ZAl58sKkNNiEbi3ZcoXvB9Cy6E/AC9MCFSArVFyoL
- zhYnn9CqeX2KbN0u8H7xx+ZhvaU4mKfLet487s17oayKNuAc8/OQTcm6T A==;
-X-CSE-ConnectionGUID: 23n2wYa6Q2+uSBDUPKoutA==
-X-CSE-MsgGUID: d7dcyn8MRMWPwEpCk/uPZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="23156078"
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; d="scan'208";a="23156078"
+ bh=9VB0D6qtSFvrmgUitG4lhcQZt2t0l9f3P97TzqnDp48=;
+ b=EWP6XaRBviGaHq3ogH3qm+plnP+JBaRv6LEMBBVP+BDARFJN+W3QXcyJ
+ MW81UNc7X2sVTUmSLGDLAqg1aS5yG3CfVoabv/aY4fT51ZgudBGMUB3nL
+ ApVdj9z/LxBa+qYeNtQaWBL/P5KxoPQjRhzt2tmtLFhgEwG7HYCdUfnG0
+ uC1rxNoG/eMMumBHHLwRNc/5JWtpPHL3rb0CuV+SzKe+iZLGruDl7GxhX
+ IEPDFftyyUOwg+V6emVTytOIpH3e7WouF4Ae3kp3Fl662zMZ1LlYxuxhJ
+ OIMZ4K+dY7iNprK1Q9Qws0keprJlOPvAhKchzCrHGrdZw5TExr3gXUaE8 g==;
+X-CSE-ConnectionGUID: qv3EXLOaS3Grn35vDxf68g==
+X-CSE-MsgGUID: f0fugzhOQfOmGWH4JnOyTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="23156084"
+X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; d="scan'208";a="23156084"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Jul 2024 17:30:31 -0700
-X-CSE-ConnectionGUID: xjpDosHyThOcHkcd7ZCarw==
-X-CSE-MsgGUID: g+wMVQZpRgysvmnxiUlolQ==
+X-CSE-ConnectionGUID: PcAjtUvuSueJEW9URfTEwQ==
+X-CSE-MsgGUID: zkV+Pj5MRvqcGWfBoTaUkw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; d="scan'208";a="77781797"
+X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; d="scan'208";a="77781798"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Jul 2024 17:30:30 -0700
@@ -46,10 +46,9 @@ To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Cc: tj@kernel.org, jiangshanlai@gmail.com, christian.koenig@amd.com,
  ltuikov89@gmail.com, daniel@ffwll.ch
-Subject: [PATCH v2 1/5] workqueue: Split alloc_workqueue into internal
- function and lockdep init
-Date: Tue, 30 Jul 2024 17:31:15 -0700
-Message-Id: <20240731003119.2422940-2-matthew.brost@intel.com>
+Subject: [PATCH v2 2/5] workqueue: Change workqueue lockdep map to pointer
+Date: Tue, 30 Jul 2024 17:31:16 -0700
+Message-Id: <20240731003119.2422940-3-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240731003119.2422940-1-matthew.brost@intel.com>
 References: <20240731003119.2422940-1-matthew.brost@intel.com>
@@ -76,76 +75,71 @@ Cc: Tejun Heo <tj@kernel.org>
 Cc: Lai Jiangshan <jiangshanlai@gmail.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- kernel/workqueue.c | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+ kernel/workqueue.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index 3fbaecfc88c2..c9bdd6a23a2b 100644
+index c9bdd6a23a2b..b3fa4d044f69 100644
 --- a/kernel/workqueue.c
 +++ b/kernel/workqueue.c
-@@ -5657,9 +5657,9 @@ static void wq_adjust_max_active(struct workqueue_struct *wq)
+@@ -366,7 +366,8 @@ struct workqueue_struct {
+ #ifdef CONFIG_LOCKDEP
+ 	char			*lock_name;
+ 	struct lock_class_key	key;
+-	struct lockdep_map	lockdep_map;
++	struct lockdep_map	__lockdep_map;
++	struct lockdep_map	*lockdep_map;
+ #endif
+ 	char			name[WQ_NAME_LEN]; /* I: workqueue name */
+ 
+@@ -3220,7 +3221,7 @@ __acquires(&pool->lock)
+ 	lockdep_start_depth = lockdep_depth(current);
+ 	/* see drain_dead_softirq_workfn() */
+ 	if (!bh_draining)
+-		lock_map_acquire(&pwq->wq->lockdep_map);
++		lock_map_acquire(pwq->wq->lockdep_map);
+ 	lock_map_acquire(&lockdep_map);
+ 	/*
+ 	 * Strictly speaking we should mark the invariant state without holding
+@@ -3254,7 +3255,7 @@ __acquires(&pool->lock)
+ 	pwq->stats[PWQ_STAT_COMPLETED]++;
+ 	lock_map_release(&lockdep_map);
+ 	if (!bh_draining)
+-		lock_map_release(&pwq->wq->lockdep_map);
++		lock_map_release(pwq->wq->lockdep_map);
+ 
+ 	if (unlikely((worker->task && in_atomic()) ||
+ 		     lockdep_depth(current) != lockdep_start_depth ||
+@@ -3892,8 +3893,8 @@ static void touch_wq_lockdep_map(struct workqueue_struct *wq)
+ 	if (wq->flags & WQ_BH)
+ 		local_bh_disable();
+ 
+-	lock_map_acquire(&wq->lockdep_map);
+-	lock_map_release(&wq->lockdep_map);
++	lock_map_acquire(wq->lockdep_map);
++	lock_map_release(wq->lockdep_map);
+ 
+ 	if (wq->flags & WQ_BH)
+ 		local_bh_enable();
+@@ -3927,7 +3928,7 @@ void __flush_workqueue(struct workqueue_struct *wq)
+ 	struct wq_flusher this_flusher = {
+ 		.list = LIST_HEAD_INIT(this_flusher.list),
+ 		.flush_color = -1,
+-		.done = COMPLETION_INITIALIZER_ONSTACK_MAP(this_flusher.done, wq->lockdep_map),
++		.done = COMPLETION_INITIALIZER_ONSTACK_MAP(this_flusher.done, (*wq->lockdep_map)),
+ 	};
+ 	int next_color;
+ 
+@@ -4788,7 +4789,8 @@ static void wq_init_lockdep(struct workqueue_struct *wq)
+ 		lock_name = wq->name;
+ 
+ 	wq->lock_name = lock_name;
+-	lockdep_init_map(&wq->lockdep_map, lock_name, &wq->key, 0);
++	wq->lockdep_map = &wq->__lockdep_map;
++	lockdep_init_map(wq->lockdep_map, lock_name, &wq->key, 0);
  }
  
- __printf(1, 4)
--struct workqueue_struct *alloc_workqueue(const char *fmt,
--					 unsigned int flags,
--					 int max_active, ...)
-+static struct workqueue_struct *__alloc_workqueue(const char *fmt,
-+						  unsigned int flags,
-+						  int max_active, ...)
- {
- 	va_list args;
- 	struct workqueue_struct *wq;
-@@ -5725,12 +5725,11 @@ struct workqueue_struct *alloc_workqueue(const char *fmt,
- 	INIT_LIST_HEAD(&wq->flusher_overflow);
- 	INIT_LIST_HEAD(&wq->maydays);
- 
--	wq_init_lockdep(wq);
- 	INIT_LIST_HEAD(&wq->list);
- 
- 	if (flags & WQ_UNBOUND) {
- 		if (alloc_node_nr_active(wq->node_nr_active) < 0)
--			goto err_unreg_lockdep;
-+			goto err_free_wq;
- 	}
- 
- 	if (alloc_and_link_pwqs(wq) < 0)
-@@ -5762,9 +5761,6 @@ struct workqueue_struct *alloc_workqueue(const char *fmt,
- err_free_node_nr_active:
- 	if (wq->flags & WQ_UNBOUND)
- 		free_node_nr_active(wq->node_nr_active);
--err_unreg_lockdep:
--	wq_unregister_lockdep(wq);
--	wq_free_lockdep(wq);
- err_free_wq:
- 	free_workqueue_attrs(wq->unbound_attrs);
- 	kfree(wq);
-@@ -5773,6 +5769,25 @@ struct workqueue_struct *alloc_workqueue(const char *fmt,
- 	destroy_workqueue(wq);
- 	return NULL;
- }
-+
-+__printf(1, 4)
-+struct workqueue_struct *alloc_workqueue(const char *fmt,
-+					 unsigned int flags,
-+					 int max_active, ...)
-+{
-+	struct workqueue_struct *wq;
-+	va_list args;
-+
-+	va_start(args, max_active);
-+	wq = __alloc_workqueue(fmt, flags, max_active, args);
-+	va_end(args);
-+	if (!wq)
-+		return NULL;
-+
-+	wq_init_lockdep(wq);
-+
-+	return wq;
-+}
- EXPORT_SYMBOL_GPL(alloc_workqueue);
- 
- static bool pwq_busy(struct pool_workqueue *pwq)
+ static void wq_unregister_lockdep(struct workqueue_struct *wq)
 -- 
 2.34.1
 
