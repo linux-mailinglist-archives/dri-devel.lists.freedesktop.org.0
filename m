@@ -2,101 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480849437AA
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 23:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CEAC9437FF
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 23:30:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E00D10E6CE;
-	Wed, 31 Jul 2024 21:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96EF10E6CF;
+	Wed, 31 Jul 2024 21:30:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Vw4wZs59";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="i/4/lTUk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C21410E2DB
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 21:19:29 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-367990aaef3so3308088f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 14:19:29 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C3D410E6CF
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 21:30:19 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6b78c980981so32921526d6.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 14:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1722460767; x=1723065567;
+ d=chromium.org; s=google; t=1722461416; x=1723066216;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dEiu0hhQh0Jy26qjQV9Cqq27juU/IGB072cpo+oEEG0=;
- b=Vw4wZs59urv/WMa0K3iNu5CL8A03p6JIg+BsAXGWW03mgE1s2JJr3Y6MZLr0fq863g
- axRYXhagqOHCKGJeRzY2MEL5kAuDXmkcvttv2lgEHs9iQpkc4kkz/aeCmKIaxnHgY9U3
- dH6VtgVi7JUy50jXkB/HfF2cJmqQ2OWidlhiEeJtR8PaX+yF9Qks6RIkA3eYYTqfvqsA
- 9Is+dPzFwHpE7a6aZ/rE46oCfrIL2Qjs3k1eBSD1KcygjPetpcFr9AjPjyxAAbnF1CIL
- XU5n6TD8M2TpU0fnxI2TshRvFXzbHsWU6pscWADRKXo8dMggwcjSdHPY7ntc46VgnpHd
- +K4g==
+ bh=7v5MQa7OcjG2quU7CTmYoYXphTBDWw9No993Vj+T1kA=;
+ b=i/4/lTUkbqJ6rfz4jRqbtdDuaUmSRR/NB3BvLXB0tX8HqSZiG/yy0/6d0rmu+J4L7D
+ HatZUPF9fi7kUMilYDV+q3E5ehfInzgaCoIp12vaRQddjEKSgdA+lvhLGO7MQyoppp3i
+ erW1/9I2ZjQQ4t8SanT825/WoiJ6Ck5giE6HU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722460767; x=1723065567;
+ d=1e100.net; s=20230601; t=1722461416; x=1723066216;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dEiu0hhQh0Jy26qjQV9Cqq27juU/IGB072cpo+oEEG0=;
- b=HCnXVLU0NFsCQ1jdLcZXrKcKzIVFGpObGfln9xaYEISESSPV/1aVL/s0KRe4+AAdF4
- a4acnsNJdYsKgDFo2FU/Z7wxDaVQK8ElXDEDdqidoC5B8KMBSSKTUkFsiLTLrb4PkK1h
- BmaJ19g6SesEJBnfAYR3R16oJld/7i/irMJJKncoiLE5AU3YPygh3OqJp7HaDGHjFXXt
- kF9WGAj3MhCeMLOL5TJN+XCYSqFfjTYM7q6fNVWdWB46wJNsLQZGrcRKv0drz87v4LiU
- Aw0yYdy+EliXO94Rql9sViUbW9QDvWgFbIuC+CTruZOYG5Ivtkf9oz7EY5bwt+RgqXgR
- jeig==
+ bh=7v5MQa7OcjG2quU7CTmYoYXphTBDWw9No993Vj+T1kA=;
+ b=MBsrqdlQLmKUM9jYiHim588R0AocYkpUoyy+BFb8q5s0IF/xC+GPxV17EZ9AFuOTPE
+ Oy90UBbagA+G8OiPPdl5JIjaK8SgkaArScYiR7RX1TGC8moeiinZ6vU5FQ+eh2OThYUm
+ 0XkbP33eucFOWsRfadZS3p4NPzof+B0YFQhEuqBKG+q7PrpvZSAYRbPKete/W7Ht6yN+
+ /e0kk8Xy3sNqVYpMFigWYXZx+YED24tVhhCCMfULLBOTjyxlLP/iGcqY0bwgC+MSVEg6
+ TXK3GzWbt08DOk1BdlC4I5nhmnjPHk6d8pvi7ohGtKK8IPsHj2BNLK8y+WAcXO+QT3dK
+ gUWQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUMJ33PrgyNIgapV4dcKmd9aO8FU8/BuzyeGT6Hs7u+iiwJjagqWrfmqpk7V/8UpXIJ2qvo2g0OJ6yyIy4NiFSonlI/Wve4uB5jlDNAMwuF
-X-Gm-Message-State: AOJu0YygZhjcMY2lzp1hWMpN3m1EUpjAui033xU6EfbADH+OM3DJFULk
- U1lJls3uDbXor06wyY1zDQ7+nBImdwtNTjiLSfP9XayRHMrHmB8qxQAmdrm9zQktvlrpb/2E2gd
- 9OXUu5QDv11WaZ7Kw09qXzyWhRQlaJbmQVU95
-X-Google-Smtp-Source: AGHT+IGCGvp/48H8qaH6fLYg7SPbNiiWFxJtKT/J7GEsXh7PoxMKp+lvuqPbXyBiSW9seEuLTTgslLee6nJ92gY4vjU=
-X-Received: by 2002:a5d:4483:0:b0:368:6d75:1bde with SMTP id
- ffacd0b85a97d-36baacdd8aamr351815f8f.15.1722460767120; Wed, 31 Jul 2024
- 14:19:27 -0700 (PDT)
+ AJvYcCWsUFhG11Sj1Uo/a+TEd0q7l7yYNRmoxH0Rv8ENEupKS8VVWM2/G6bqOVcKNmjiB8VTyHWW+pUtzC+wbJMpB+A9ZUeAYyxbD2OPuWhDSF2q
+X-Gm-Message-State: AOJu0YwOxLpw5cWSr7kvpWyG8dmitkuUmzwrwB2blJj93Gdj9qx+jFwI
+ wGFOQZJzYtC6gHvocaFCskb086xyD5TyfC1tvOyPIKWMNn/23c49XQHG61L/dzQs/L3LR5X+5zI
+ =
+X-Google-Smtp-Source: AGHT+IH+CqlCfnh9hE9dRa/GjUlKwonecH2kpfUc9aR5bzl/3IuCF7KMeiS7hM53Sk6D88+KHP9iaQ==
+X-Received: by 2002:a05:6214:3381:b0:6b7:b286:e826 with SMTP id
+ 6a1803df08f44-6bb8d788e69mr7636306d6.38.1722461415753; 
+ Wed, 31 Jul 2024 14:30:15 -0700 (PDT)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com.
+ [209.85.160.178]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6bb3f9148aesm77177706d6.62.2024.07.31.14.30.14
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Jul 2024 14:30:14 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id
+ d75a77b69052e-44fe76fa0b8so475091cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 14:30:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUeucx/IVh8QBH0INPnCRE1svSReudvHDc+3ifQvZMI1V54nYakUBoEYqirmaskkm8mIQrUyb+3FoqkaQ+hX3b1vX1aV+gpltRYaTgaGs0T
+X-Received: by 2002:ac8:5f4e:0:b0:447:ec33:f488 with SMTP id
+ d75a77b69052e-45180991b4amr131431cf.4.1722461413981; Wed, 31 Jul 2024
+ 14:30:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240730022623.98909-1-almasrymina@google.com>
- <20240730022623.98909-2-almasrymina@google.com>
- <1722327259.5659568-1-xuanzhuo@linux.alibaba.com>
-In-Reply-To: <1722327259.5659568-1-xuanzhuo@linux.alibaba.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 31 Jul 2024 17:19:11 -0400
-Message-ID: <CAHS8izMZQLsBWPXWiqPwaQHfupKc5VAuxW+6kpWmzi-vw8JEWQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v17 01/14] netdev: add netdev_rx_queue_restart()
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20240730060659.455953-1-tejasvipin76@gmail.com>
+ <20240730060659.455953-2-tejasvipin76@gmail.com>
+In-Reply-To: <20240730060659.455953-2-tejasvipin76@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 31 Jul 2024 14:29:57 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XGzQN0LK6SBOY_6P8eF-cAuP4hRwsS+NTZEaik_Os7NA@mail.gmail.com>
+Message-ID: <CAD=FV=XGzQN0LK6SBOY_6P8eF-cAuP4hRwsS+NTZEaik_Os7NA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/mipi-dsi: add more multi functions for better
+ error handling
+To: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, airlied@gmail.com, 
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,49 +96,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 30, 2024 at 4:17=E2=80=AFAM Xuan Zhuo <xuanzhuo@linux.alibaba.c=
-om> wrote:
->
-> On Tue, 30 Jul 2024 02:26:05 +0000, Mina Almasry <almasrymina@google.com>=
- wrote:
-> > Add netdev_rx_queue_restart() function to netdev_rx_queue.h
->
->
-> Can you say more? As far as I understand, we just release the buffer
-> submitted to the rx ring and get a new page pool.
->
+Hi,
 
-Yes, I just noticed that this commit message is underwritten. I'll add
-more color. Maybe something like;
+On Mon, Jul 29, 2024 at 11:07=E2=80=AFPM Tejas Vipin <tejasvipin76@gmail.co=
+m> wrote:
+> +/**
+> + * mipi_dsi_dcs_get_display_brightness_multi() - gets the current bright=
+ness value
+> + *    of the display
+> + * @ctx: Context for multiple DSI transactions
+> + * @brightness: brightness value
+> + *
+> + * Like mipi_dsi_dcs_get_display_brightness() but deals with errors in a=
+ way that
+> + * makes it convenient to make several calls in a row.
+> + */
+> +void mipi_dsi_dcs_get_display_brightness_multi(struct mipi_dsi_multi_con=
+text *ctx,
+> +                                              u16 *brightness)
+> +{
+> +       struct mipi_dsi_device *dsi =3D ctx->dsi;
+> +       struct device *dev =3D &dsi->dev;
+> +       int ret;
+> +
+> +       if (ctx->accum_err)
+> +               return;
+> +
+> +       ret =3D mipi_dsi_dcs_get_display_brightness(dsi, brightness);
+> +       if (ret < 0) {
+> +               ctx->accum_err =3D ret;
+> +               dev_err(dev, "Failed to get display brightness: %d\n",
+> +                       ctx->accum_err);
+> +       }
+> +}
+> +EXPORT_SYMBOL(mipi_dsi_dcs_get_display_brightness_multi);
 
-=3D=3D=3D=3D
-Add netdev_rx_queue_restart(), which resets an rx queue using the
-queue API recently merged[1].
+I'd be interested in others' opinions, but this function strikes me as
+one that *shouldn't* be converted to _multi.
 
-The queue API was merged to enable the core net stack reset individual
-rx queues to actuate changes in the rx queue's configuration. In later
-patches in this series, we will use netdev_rx_queue_restart() to reset
-rx queues after binding or unbinding dmabuf configuration, which will
-cause reallocation of the page_pool to repopulate its memory using the
-new configuration.
+Specifically the whole point of the _multi abstraction is that you can
+fire off a whole pile of initialization commands without needing to
+check for errors constantly. You can check for errors once at the end
+of a sequence of commands and you can be sure that an error message
+was printed for the command that failed and that all of the future
+commands didn't do anything.
 
-[1] https://lore.kernel.org/netdev/20240430231420.699177-1-shailend@google.=
-com/T/
-=3D=3D=3D=3D
+I have a hard time believing that _get_ brightness would be part of
+this pile of initialization commands. ...and looking at how you use it
+in the next patch I can see that, indeed, it's a bit awkward using the
+_multi variant in the case you're using it.
 
-> But I personally feel that the interface here is a bit too complicated. I=
-n
-> particular, we also need to copy the rx struct memory, which means it is =
-a
-> dangerous operation for many pointers.
->
+The one advantage of the _multi functions is that they are also
+"chatty" and we don't need to print the error everywhere. However, it
+seems like we could just make the existing function print an error
+message but still return the error directly. If this automatic
+printing an error message is a problem for someone then I guess maybe
+we've already reached the "tomorrow" [1] and need to figure out if we
+need to keep two variants of the function around instead of marking
+one as deprecated.
 
-Understood, but the complication is necessary based on previous
-discussions. Jakub requests that we must allocate memory for a new rx
-queues before bringing down the existing queue, to guard against the
-interface remaining down on ENOMEM error.
+NOTE: If we don't convert this then the "set" function will still be
+_multi but the "get" one won't be. I think that's fine since the "set"
+function could plausibly be in a big sequence of commands but the
+"get" function not so much...
 
-Btw, I notice the series was marked as changes requested; the only
-feedback I got was this one and the incorrect netmem_priv.h header.
-I'll fix and repost. It's just slightly weird because both v16 and v17
-are marked as changes requested in patchwork.
+[1] https://lore.kernel.org/r/CAD=3DFV=3DWbXdnM4or3Ae+nYoQW1Sce0jP6FWtCHShs=
+ALuEFNhiww@mail.gmail.com
