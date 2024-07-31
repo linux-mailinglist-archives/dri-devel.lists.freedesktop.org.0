@@ -2,71 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AA49433D4
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 18:05:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C9C943446
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 18:42:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E71210E674;
-	Wed, 31 Jul 2024 16:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C51210E28C;
+	Wed, 31 Jul 2024 16:42:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BAKtCT/N";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="c8RvytmD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4695F10E67F;
- Wed, 31 Jul 2024 16:05:27 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-5a2a90243c9so7191194a12.0; 
- Wed, 31 Jul 2024 09:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722441925; x=1723046725; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0PK3XROm8AdCzvoF33BbXJKpI9sLb7+6gEw3RJDbeG8=;
- b=BAKtCT/NVpRFL5AxxiqjAHI20FU9nEqp3y1GqsYm3nqVVd/hKk+U3OMT1jebbotjRH
- EFBBSnOaVbhvSLUVHZ7/edKZMpSh8ZyHs90fm10w9Nieh1XFjwsDehC97Vxzg9BluzO8
- Aymnuxe5KXcVuDGRc37jHU3PaWdbTeEsH8xfNg0aYl3YQjWQrJl8lfxlOJClg99mBScl
- spYDajxPK5+Z3i8dgDvBcugGJ98p/Yi0kBPEvmJSF4ABIsIhhTLYz9vbjbxnkSU3U2D/
- m9KQJSpf/sPZ8/L/eIyFvxpBjrYWiMwPo/Mc9uT0Tis+P7qSHawtkx8C5AjILYVrmBqc
- fi+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722441925; x=1723046725;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0PK3XROm8AdCzvoF33BbXJKpI9sLb7+6gEw3RJDbeG8=;
- b=caB3YP3fHWbVHwogjaKSNK/M6UFYgQ0R3lfmPdFY556oM3O1uLJ4NdjoLihT3c15pg
- go0fW2aFkNxpbpj8IxoCRwkVl5aETDb+4UETem7LVl4gbNnJb9Xn9W7WTWXUSrLC7Deh
- FK3CJe7Gwgf9uNn5kd8hRH0ujCFrl2X0ITJehfl8j/5BjV91AsBvprmU9srSWEl4AqVo
- F9IOsf8THvI1OQtbQoA+Ai3EJFy+mnZ0SMxT9mAdQWkwArqA/f8LvVgm1TVl19K3sr+y
- C6GQX2EZP161DeHBAyv1ObdlzBZL0ITDqoG/7WulxjpjSCwyg7VuUfvVs2RvD/8Gak8s
- PzDw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVfp91hY4miXDz9xtty8sKPP/wa3DH1fPl9DXLcOUHtkVrFvfLF5Tpw1yaXYXcmWUqx3F3R2fGWeE6xgPeb5PBFNmytqa+bzFQyGG1bjY/ZEb8wB2tOU6MV2h2UpVJ3PiKnujGHxvuym60/xiiTc7PC
-X-Gm-Message-State: AOJu0YzTZIWVk74JMHiURRAehjimKB2xJdzIXAIKedWKoWFhuuN83ZTD
- NYsrQklJt6B8CY4VUxMmJA4Yt+ASru76d6UGc6MZetfFSoKwcH1kRrPZryQG8A09L7mqy1KCr5W
- KlLXLTzuOsojbbgFCTToH5B1Lv5o=
-X-Google-Smtp-Source: AGHT+IGIujU5BUmectRaXmqxV7kvHeg9YagD7Xq3hkgu9fb0INf/OlW+SsbFPBQWXRkrAlltMQY/ZujPn5Cf9ImCObg=
-X-Received: by 2002:a05:6402:4301:b0:5a3:27bd:e264 with SMTP id
- 4fb4d7f45d1cf-5b0204e024bmr14456021a12.9.1722441925094; Wed, 31 Jul 2024
- 09:05:25 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A105710E28C
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 16:42:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1722444124; x=1723048924; i=wahrenst@gmx.net;
+ bh=8ZYpBCvt2i0jwH+07fKHzqh9A/o3rs6M3lytTmw64OU=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=c8RvytmDsuGD1qMoRMvDVm7e/fkbnBmjPE6iU0f5DDrSFYq3l2taEY9LlZx9C0+d
+ bWH23DxMuUoEg7H5tW2VvFFkfACu7O4iySXegxMLRuXScPlaHSwvxF/QzuT910sKb
+ csYmZA+bQOW7YySAW9tn7lcOoe4nieXY6ZySeI+H0R1NhIr0/SxfGTV7Qege+9+gM
+ 2FC21m3U3QA2KF9+Ox1Cu4r3qCO4lIglILnHGQMgqiKKa0kyRV/aat1xZstBfO0va
+ Mm2cpBAvBKsav5VcGhG0WRQ4x3Ts5QZt9CWjsqFloR1wfeufCeAGUM1wMINqDqFQC
+ TZXbmWmLaVNSPWDLtA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MZTmO-1smru941VG-00OdA3; Wed, 31
+ Jul 2024 18:42:04 +0200
+Message-ID: <b34cc73c-721f-48b6-a7a3-da8190d80dd8@gmx.net>
+Date: Wed, 31 Jul 2024 18:41:59 +0200
 MIME-Version: 1.0
-References: <20240703-msm-tiling-config-v2-0-b9da29ab6608@gmail.com>
-In-Reply-To: <20240703-msm-tiling-config-v2-0-b9da29ab6608@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 31 Jul 2024 09:05:12 -0700
-Message-ID: <CAF6AEGtr70TqFRDS3U9fEJ_vWHC53BC9G4tqgSJbsCD1H92qFA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] drm/msm: Further expose UBWC tiling parameters
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 09/16] drm/vc4: v3d: simplify clock retrieval
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Jiri Slaby <jirislaby@kernel.org>,
+ Minas Harutyunyan <hminas@synopsys.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+ Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+ Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
+References: <20240728114200.75559-1-wahrenst@gmx.net>
+ <20240728130029.78279-1-wahrenst@gmx.net>
+ <581726ae-dd9c-476f-817d-4140f7217ec7@igalia.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <581726ae-dd9c-476f-817d-4140f7217ec7@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:1XEsTB1Yz6QIrPhgICNBxgzWJsapsjgGiS8Z3LpAw8WaXEwOW8H
+ TY9xd1Y3Gt7tRm7ZGLMeLmOzROUaIxpwJt5gUHRfyXmwKOwiWqOrIFF5feu4mDDpvkJ/WFT
+ WBzaxf23DzYY/PwV5nRzoVuxFOniucW/r9qeA3IfdEfg38XlseYE+FAgSpvZt0Z92jsC05A
+ ppO3hoEETMjbrYrWmgnBA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:0t+rf2WRA2Y=;g0vn5Zpq/535/wKbDqIMoQuhU4y
+ Ugr6e6bL6utv6BqL127QxAh0QZZABiONwtJO1ZBk6Bt8ZoHiVzoDnvObxOxayOnHmXiqN2eI2
+ An5IBhQkmy4iKB6LqZacKC5yjPZoOFLEpE/O8Rot9lNLj+yBldRNHhyPfrGjtQdsLpZtCShwL
+ 3iKOsCTcWg3X5wWmOWvNlMl4SRYyEk0GOsyaiJ/beY33Q5e47o+6Z3mT97KVIeF7aR4rCRy9s
+ hB0hOd9gtobYLuSeLFN2lf5mnVWnGdyKCF1a8q64GFk6F+/BJh5Nzd2VSeCLkG2AoJiW8dP/W
+ 58Cy0F72IzBhpLQg/+DaadLHqePdvPx81lTB7Vu7jWIqDbaFGz/2w+aiCiBGOR7+rprYbFoRB
+ oVhZCm6gXQoDwEie8AiPDT3DCrtz7/e8hTllEbKHWcdGoT/5Bq7MrOlkAiGi4pH08RvDxGn/y
+ dMW/AWFGbVjaw4lVrVqjaevaDKLVN9A+WbV+jMCNsURJ6oAmxRNp9P6NyRA00+d90+M+QcqvJ
+ P0fJbhCkoOeHQspJy/3sUEnPX1bEp2GNf4++0q8GMSvIghhJPvm58M9NBpH+uBgw7TPCuq2yP
+ vqLFbH+l2NUeWCoQiQp4ZmXhdXzbm/n1ZtiXkbpNheSSkKD1pkR3qQB09dpiZtUNqhrz7drmv
+ kU1nNHud2/HNIYLekf+tOsnJP8R/nPAHXbQrySkyMSjFUPITGFcyygwbwDn5iYR8a5IjuTRG/
+ fxfNHwkr6o6wa76enkzqyEIy19WXCJ5ubjCW134abbyna8z4hR7Xr5GL5pmB/2Rt/FoNk/wu8
+ 57E9E2fz8d9Gf7fLVcPGOEFg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,84 +95,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 3, 2024 at 3:54=E2=80=AFAM Connor Abbott <cwabbott0@gmail.com> =
-wrote:
->
-> After testing, there are more parameters that we're programming which
-> affect how UBWC tiles are laid out in memory and therefore affect
-> the Mesa implementation of VK_EXT_host_image_copy [1], which includes a
-> CPU implementation of tiling and detiling images. In particular we have:
->
-> 1. ubwc_mode, which is used to enable level 1 bank swizzling to go back
->    to UBWC 1.0 when the implementation supports UBWC 2.0. a610 sets
->    this.
-> 2. macrotile_mode, which we previously left as default but according to
->    downstream we shouldn't for a680.
-> 3. level2_swizzling_dis, which according to downstream has to be set
->    differently for a663.
->
-> I want as much as possible to avoid problems from people trying to
-> upstream Mesa/kernel support not knowing what they're doing and blindly
-> copying things, so let's make this very explicit that you must set the
-> correct parameters in the kernel and then make sure that Mesa always
-> gets the right parameters from the "source of truth" in the kernel by
-> adding two new UAPI parameters. The Mesa MR has already been updated to
-> use this if available.
->
-> A secondary goal is to make the adreno settings look more like the MDSS
-> settings, by combining ubwc_mode and level2_swizzling_dis into a single
-> ubwc_swizzle parameter that matches the MDSS one. This will help with
-> creating a single source of truth for all drivers later. The UAPI also
-> matches this, and it makes the Mesa tiling and detiling implementation
-> simpler/more straightforward.
->
-> For more information on what all these parameters mean, see the comments
-> I've added in the first commit and the giant comment in
-> src/freedreno/fdl/fd6_tiled_memcpy.c I've added in [1].
->
-> Testing of the Mesa MR both with and without this series is appreciated,
-> there are many different SoCs out there with different UBWC
-> configurations and I cannot test them all.
->
-> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/26578
->
-> Signed-off-by: Connor Abbott <cwabbott0@gmail.com>
+Hi Ma=C3=ADra,
 
-for the series,
-
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-
-But could you resend with updated a6xx.xml now that the perf cntrs
-have been corrected (to avoid further churn later)
-
-BR,
--R
-
-> ---
-> Changes in v2:
-> - Move ubwc_config field descriptions to kerneldoc comments on the struct
-> - Link to v1: https://lore.kernel.org/r/20240702-msm-tiling-config-v1-0-a=
-daa6a6e4523@gmail.com
+Am 30.07.24 um 13:23 schrieb Ma=C3=ADra Canal:
+> On 7/28/24 10:00, Stefan Wahren wrote:
+>> Common pattern of handling deferred probe can be simplified with
+>> dev_err_probe() and devm_clk_get_optional(). This results in much
+>> less code.
+>>
+>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+>> ---
+>> =C2=A0 drivers/gpu/drm/vc4/vc4_v3d.c | 13 ++-----------
+>> =C2=A0 1 file changed, 2 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c
+>> b/drivers/gpu/drm/vc4/vc4_v3d.c
+>> index 1ede508a67d3..4bf3a8d24770 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+>> @@ -441,20 +441,11 @@ static int vc4_v3d_bind(struct device *dev,
+>> struct device *master, void *data)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vc4->v3d =3D v3d;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d->vc4 =3D vc4;
+>>
+>> -=C2=A0=C2=A0=C2=A0 v3d->clk =3D devm_clk_get(dev, NULL);
+>> +=C2=A0=C2=A0=C2=A0 v3d->clk =3D devm_clk_get_optional(dev, NULL);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ERR(v3d->clk)) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret =3D PTR_=
+ERR(v3d->clk);
+>>
 >
-> ---
-> Connor Abbott (3):
->       drm/msm: Update a6xx register XML
->       drm/msm: Expand UBWC config setting
->       drm/msm: Expose expanded UBWC config uapi
+> Super nit: you could delete this line ^
+Can you please explain? ret is required for dev_err_probe or do you mean
+the empty line after the declaration?
 >
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |    4 +
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |   34 +-
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c       |    6 +
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h       |   32 +-
->  drivers/gpu/drm/msm/registers/adreno/a6xx.xml | 1617 +++++++++++++++++++=
-+++++-
->  include/uapi/drm/msm_drm.h                    |    2 +
->  6 files changed, 1664 insertions(+), 31 deletions(-)
-> ---
-> base-commit: 269b88cb92e62e52718cd44c07b7517265193157
-> change-id: 20240701-msm-tiling-config-c5f222f5db1c
+> Reviewed-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 >
-> Best regards,
-> --
-> Connor Abbott <cwabbott0@gmail.com>
+> Best Regards,
+> - Ma=C3=ADra
 >
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret =3D=3D -ENOENT) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* =
+bcm2835 didn't have a clock reference in the DT. */
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
+ =3D 0;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d=
+->clk =3D NULL;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
+(ret !=3D -EPROBE_DEFER)
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "Failed to get V3D clock: %d\n",
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
+urn ret;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return dev_err_probe(dev, r=
+et, "Failed to get V3D clock\n");
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D platform_get_irq(pdev, 0);
+>> --
+>> 2.34.1
+>>
+>
+
