@@ -2,67 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBD19430F8
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 15:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1B8943104
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 15:35:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE6CD10E637;
-	Wed, 31 Jul 2024 13:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3D710E25D;
+	Wed, 31 Jul 2024 13:35:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZnHFNj3V";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="q5uPtrnu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73F1910E629
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:34:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 972E9623F6
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:34:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C762C4AF09
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:34:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722432869;
- bh=A+80YZ1JEr//DzbbfCPYd8sgD69akjqIYMI4pV9hTXo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ZnHFNj3VxhaEY5RPZEthUUpJti6CuGvrzLT5UiOZjIqeBX6sW8OshcUR3VfVPpdkA
- SQmCMXJlsQDYqdmtoJ1/cpwhOimBiBUalB+KOO45moiDx2mPC+3zINLaWJnGND6N/B
- AYVlpy+hyWUiZqxGXR5hP/nDn5yq/Bhs/BPtLplu1QhNPBMbFj/jUF2eTfMSPWMsdl
- t6nRWKjSTASv/54p/b53VsXUxdgwJqonT4gv9PvBxNBw28tAdUivjVe456TuyLJqZz
- LX4x0RgYav53nNo7zRnTd/TqWiqEwFRCQuJmQWh3zuT8ZQIOvo/CcXFPBz/hrTZgBP
- pW/QmB7x/TbIw==
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-70d399da0b5so5011003b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 06:34:29 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0CB10E2D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:35:17 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2ef2d96164aso66129491fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 06:35:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1722432915; x=1723037715; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2nuFog//dQJyQDurmfY02l3W/M3VEET6dFsY5XpmaxY=;
+ b=q5uPtrnuCGoqTn/23Le1wOscn/FfviH3wlrkPQJ8+z03WbMiKcv559DLm4N6euZbES
+ Trmpwry10GvwwaqpZ8b10usHR+6CF9yxkON7szzeWMpnLwaB8vK8EMRZLOV6Fkr2tES2
+ LNuPiseLQnK28LtlypnTm/TiPmAxw52BeMjzOAb7qcpFzl7T3UglgL4zw0gZhg0azWaM
+ lO6f4anaaoXfx3Uwzy6s2x9P+JRjRId6yTS/g9Dq3jrAJ8baHNhog0bc1cHf9nXmXCIy
+ zn93hXYX4DTghxwEtl9kQkK/ulYjcD+urg6dP+0Cu1fuzjlWX+D9FIrKDwOjHDpHqb9W
+ j3Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722432915; x=1723037715;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2nuFog//dQJyQDurmfY02l3W/M3VEET6dFsY5XpmaxY=;
+ b=inzZ9IPV4gh9PE+zIb4KTYqdoPJXKvaogSb6FJxl21sSnOrycumoWMcLc4p+OunfSI
+ 7sUzx1nB5Jg/gxXJkGLa7vifSyC04oWWRjkHsTDcRvUcUwYB4isAJgHyjLQwVXg3LLIZ
+ s9jonVv5tB1a73O62zU6qDn+3c/yp0qJkcJgxNWHQOjyzDadcYH4OWgcJ8DMpAR/M1XK
+ 1szRkfQDzahEB5IZWJkcetsMCQvl+R/9Psx2lewDNUhbdC06aGv3xzTeq5Qt+nDPmbpr
+ pF9e1G421ofRiwvDOQiIPz6eW2v6ilYjsuSFMnZuTZKF2urcasNPqHhup5ckLO+w1e+G
+ ohOg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXUYWs2spklTOliZGZaARXlxVJZIi7LurgJwf5nZyXfZeQbxo8/F1Zvk+/eoR8Jr2b8QSfIwcdNU8d1yD4T13dm/ToCYqbHMiHL6/DqvDw6
-X-Gm-Message-State: AOJu0YwPtpxcWepN4acqKne2Af9eFDEv/fk4Vv4MiCF5shHP8wXi/TnH
- rSGdOKXl3diL7LcI05xLzfqRuqVtlU0rCrQpuwIIhOyM9QTzfN6hONiw7u/jk2zKHxNriC/vI/U
- eAnj3VTAR0HAKhc2GqZwEONXAXA==
-X-Google-Smtp-Source: AGHT+IFcXLX+kvOqT2wFnw1+ymXM2RCkqARP0iez8K/CuS6OcnyEGO/v4tJGIFKipqmPugj8auqSb13TYf9e2F5nJRc=
-X-Received: by 2002:a05:6a21:328e:b0:1c4:6be3:f571 with SMTP id
- adf61e73a8af0-1c4a13a375fmr17120024637.39.1722432868814; Wed, 31 Jul 2024
- 06:34:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240717-alpha-blending-v4-0-4b1c806c0749@mediatek.com>
-In-Reply-To: <20240717-alpha-blending-v4-0-4b1c806c0749@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 31 Jul 2024 21:34:39 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8ThuusfHk9Gd5pFP8VhJkG2seuJmkFiruK1rPQFZGBzg@mail.gmail.com>
-Message-ID: <CAAOTY_8ThuusfHk9Gd5pFP8VhJkG2seuJmkFiruK1rPQFZGBzg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] Support alpha blending in MTK display driver
-To: shawn.sung@mediatek.com
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ AJvYcCUMCkbPPUJcO7DfDK8n1ciSsDcVNCmk6aEBLnzp2wZJ8NerCmJJEn2vGN9z3R//pCIcX51GQ8tN4xHX4WeixUQLDhkSY8p77drH+5edELrm
+X-Gm-Message-State: AOJu0Ywk5f650CLTAJssrA9Zk7Ap/MU9T43uPqlqhLfU7EfNW6gSvuzr
+ am/Et9CjcoisNKEuLsv2vCTw96lyXZgMG9rw82eKCZW/CxBrxWwYJPXGQ2txqMk=
+X-Google-Smtp-Source: AGHT+IGK97ZT6lgO5zmLXsUMfHQ0g2+ejUm5/06nq2BG7Njg79hsOrPZXa8iT9IXsNx5sVJEXLv2jw==
+X-Received: by 2002:a2e:9608:0:b0:2ef:2443:ac8c with SMTP id
+ 38308e7fff4ca-2f12ee422eemr90180411fa.31.1722432915136; 
+ Wed, 31 Jul 2024 06:35:15 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2f03cf30a74sm19598871fa.41.2024.07.31.06.35.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Jul 2024 06:35:14 -0700 (PDT)
+Date: Wed, 31 Jul 2024 16:35:13 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>,
- CK Hu <ck.hu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 3/4] arm64: dts: qcom: sdm670: add gpu
+Message-ID: <l7qdl43tyrdw6yuupd2ym47ztmb2jhb5tzswme4yoitipsqrai@qalxt7hjmt4c>
+References: <20240730013844.41951-6-mailingradian@gmail.com>
+ <20240730013844.41951-9-mailingradian@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240730013844.41951-9-mailingradian@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,64 +94,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Shawn:
-
-Hsiao Chien Sung via B4 Relay
-<devnull+shawn.sung.mediatek.com@kernel.org> =E6=96=BC 2024=E5=B9=B47=E6=9C=
-=8817=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=881:24=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> Support "Pre-multiplied" and "None" blend mode on MediaTek's chips by
-> adding correct blend mode property when the planes init.
-> Before this patch, only the "Coverage" mode (default) is supported.
-
-For the whole series, applied to mediatek-drm-next [1], thanks.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
-
-Regards,
-Chun-Kuang.
-
->
-> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.=
-com>
+On Mon, Jul 29, 2024 at 09:38:48PM GMT, Richard Acayan wrote:
+> The Snapdragon 670 has the Adreno A615 GPU. Add it along with its device
+> tree dependencies.
+> 
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 > ---
-> Changes in v4:
-> - Add more information to the commit message
-> - Link to v3: https://lore.kernel.org/r/20240710-alpha-blending-v3-0-289c=
-187f9c6f@mediatek.com
->
-> Changes in v3:
-> - Remove the Change-Id
-> - Link to v2: https://lore.kernel.org/r/20240710-alpha-blending-v2-0-d4b5=
-05e6980a@mediatek.com
->
-> Changes in v2:
-> - Remove unnecessary codes
-> - Add more information to the commit message
-> - Link to v1: https://lore.kernel.org/r/20240620-blend-v1-0-72670072ca20@=
-mediatek.com
->
-> ---
-> Hsiao Chien Sung (5):
->       drm/mediatek: Support "None" blending in OVL
->       drm/mediatek: Support "None" blending in Mixer
->       drm/mediatek: Support "Pre-multiplied" blending in OVL
->       drm/mediatek: Support "Pre-multiplied" blending in Mixer
->       drm/mediatek: Support alpha blending in display driver
->
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 36 +++++++++++++++++++++++++--=
-------
->  drivers/gpu/drm/mediatek/mtk_ethdr.c    | 13 +++++++++---
->  drivers/gpu/drm/mediatek/mtk_plane.c    | 11 ++++++++++
->  3 files changed, 49 insertions(+), 11 deletions(-)
-> ---
-> base-commit: 8ad49a92cff4bab13eb2f2725243f5f31eff3f3b
-> change-id: 20240710-alpha-blending-067295570863
->
-> Best regards,
-> --
-> Hsiao Chien Sung <shawn.sung@mediatek.com>
->
->
+>  arch/arm64/boot/dts/qcom/sdm670.dtsi | 168 +++++++++++++++++++++++++++
+>  1 file changed, 168 insertions(+)
+
+> +
+> +		gmu: gmu@506a000 {
+> +			compatible = "qcom,adreno-gmu-615.0", "qcom,adreno-gmu";
+> +
+
+[...]
+
+> +
+> +			status = "disabled";
+
+Probably no need to. The rest LGTM.
+
+> +
+> +			gmu_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +
+> +				opp-200000000 {
+> +					opp-hz = /bits/ 64 <200000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
+> +				};
+> +			};
+> +		};
+> +
+
+-- 
+With best wishes
+Dmitry
