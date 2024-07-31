@@ -2,53 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC450943A21
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E41E943A25
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:10:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF9E10E709;
-	Thu,  1 Aug 2024 00:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2E6910E70C;
+	Thu,  1 Aug 2024 00:10:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nfvMYTUW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l99PXG/4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1D0410E709;
- Thu,  1 Aug 2024 00:10:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 973E110E70B;
+ Thu,  1 Aug 2024 00:10:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 779D462576;
- Thu,  1 Aug 2024 00:10:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D54EC32786;
- Thu,  1 Aug 2024 00:10:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1E14160B4F;
+ Thu,  1 Aug 2024 00:10:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F08C32786;
+ Thu,  1 Aug 2024 00:10:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471049;
- bh=fxQd2X8/AWGWDdILhCBDxmEVIOC3NkzNyXnUWBQJ46A=;
+ s=k20201202; t=1722471053;
+ bh=lnGsopCdQ3YCETQ6p1SzZFA1vxl8RvJ0QmX27zQcH/Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nfvMYTUWDvxQDbgL9hAWBWcm1t0kR3Rp/p46RZdQDSkE2GMZhiacJzltPHqVzqb7H
- ECszKuO2R1XzGQJMXKaVfDl5rpZkgppHa+ZmXT+V8+2xK4SKNGmrojRm6pEJxDIEFX
- y31hEiuuXZjqq70ABPriZWRnZ45LlN7yoJ+I7oa1al41zDCLBHABjn75LFwDnBSUxu
- INfFLVR+vBKCWycDLjj5/x0pqR0gb6qyDnNiAjhj/+8rPoLIWpoya6J6pK6RvySM7z
- 4u0/BtYQW3dF1I1/MIi5LrN1SvSITtjmqwLLgj75K3umVZQyd1g94jL5pui0dqum9J
- D2/g2vQYcHMpA==
+ b=l99PXG/4W8ab8bWT2T5ns+8DGMYmdygZ+8RZwuupENianq78YSgw1zxxwFg8Jjqiw
+ eQoW664v3mddedHfKp6e069BQY2UK7QXBEeS1CZi7v0MPJjzzrNqJPOuEUKPAmxoQx
+ K5kB1Ko2VGbc9nSxfkJnLVyXMLMu6TWZQUsfwjILPWEhFGdO/TgbbpbSsyCxfyjSo8
+ +7PbS5TiX62hkTYywddhw+KC7sn6DyYYmGoeHoDjsVt/OGWr6t9K3F3aExARjjKMZE
+ Z56idNHAAtOSEPEUeQ85Hcq8E1VgboUkX92+wjLVblZNe2i73PwsA7CQKP5hK06Ydp
+ 6Lpb6FqNmbZVw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hersen Wu <hersenxs.wu@amd.com>, Alex Hung <alex.hung@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
+Cc: Hersen Wu <hersenxs.wu@amd.com>, Harry Wentland <harry.wentland@amd.com>,
  Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- hamza.mahfooz@amd.com, ruanjinjie@huawei.com, dillon.varone@amd.com,
- aurabindo.pillai@amd.com, wayne.lin@amd.com, alvin.lee2@amd.com,
- gabe.teeger@amd.com, charlene.liu@amd.com, sohaib.nadeem@amd.com,
- sunran001@208suo.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 024/121] drm/amd/display: Fix Coverity
- INTERGER_OVERFLOW within construct_integrated_info
-Date: Wed, 31 Jul 2024 19:59:22 -0400
-Message-ID: <20240801000834.3930818-24-sashal@kernel.org>
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, alex.hung@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 025/121] drm/amd/display: Fix Coverity
+ INTEGER_OVERFLOW within dal_gpio_service_create
+Date: Wed, 31 Jul 2024 19:59:23 -0400
+Message-ID: <20240801000834.3930818-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -74,16 +69,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hersen Wu <hersenxs.wu@amd.com>
 
-[ Upstream commit 176abbcc71952e23009a6ed194fd203b99646884 ]
+[ Upstream commit c6077aa66fa230d12f37fef01161ef080d13b726 ]
 
 [Why]
-For substrcation, coverity reports integer overflow
+For subtraction, coverity reports integer overflow
 warning message when variable type is uint32_t.
 
 [How]
-Change varaible type to int32_t.
+Change variable type to int32_t.
 
-Reviewed-by: Alex Hung <alex.hung@amd.com>
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Acked-by: Tom Chung <chiahsuan.chung@amd.com>
 Signed-off-by: Hersen Wu <hersenxs.wu@amd.com>
@@ -91,43 +85,31 @@ Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  | 4 ++--
- drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 7 +++++--
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
-index bc16db69a6636..25fe1a1240298 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
-@@ -2551,8 +2551,8 @@ static enum bp_result construct_integrated_info(
+diff --git a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
+index d19d5c1770222..f344478e9bd47 100644
+--- a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
++++ b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
+@@ -56,7 +56,7 @@ struct gpio_service *dal_gpio_service_create(
+ 	struct dc_context *ctx)
+ {
+ 	struct gpio_service *service;
+-	uint32_t index_of_id;
++	int32_t index_of_id;
  
- 	/* Sort voltage table from low to high*/
- 	if (result == BP_RESULT_OK) {
--		uint32_t i;
--		uint32_t j;
-+		int32_t i;
-+		int32_t j;
+ 	service = kzalloc(sizeof(struct gpio_service), GFP_KERNEL);
  
- 		for (i = 1; i < NUMBER_OF_DISP_CLK_VOLTAGE; ++i) {
- 			for (j = i; j > 0; --j) {
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-index 9fe0020bcb9c2..c8c8587a059d9 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-@@ -2920,8 +2920,11 @@ static enum bp_result construct_integrated_info(
- 	struct atom_common_table_header *header;
- 	struct atom_data_revision revision;
+@@ -112,7 +112,7 @@ struct gpio_service *dal_gpio_service_create(
+ 	return service;
  
--	uint32_t i;
--	uint32_t j;
-+	int32_t i;
-+	int32_t j;
-+
-+	if (!info)
-+		return result;
- 
- 	if (info && DATA_TABLES(integratedsysteminfo)) {
- 		header = GET_IMAGE(struct atom_common_table_header,
+ failure_2:
+-	while (index_of_id) {
++	while (index_of_id > 0) {
+ 		--index_of_id;
+ 		kfree(service->busyness[index_of_id]);
+ 	}
 -- 
 2.43.0
 
