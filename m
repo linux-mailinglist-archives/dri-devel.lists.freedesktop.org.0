@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2649439F7
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3AC79439FB
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2B0210E6E6;
-	Thu,  1 Aug 2024 00:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1727B10E6EB;
+	Thu,  1 Aug 2024 00:09:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dSw/7ObZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cDPj1bsJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDC5A10E6E6;
- Thu,  1 Aug 2024 00:09:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD22610E6E7;
+ Thu,  1 Aug 2024 00:09:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 02471CE182B;
- Thu,  1 Aug 2024 00:09:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 391F6C116B1;
- Thu,  1 Aug 2024 00:09:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 366996266D;
+ Thu,  1 Aug 2024 00:09:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C6CC4AF10;
+ Thu,  1 Aug 2024 00:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722470944;
- bh=it8x9H8/prFHuG9kp3jDVCpzNe8HqqP/uXTNWzbv2no=;
+ s=k20201202; t=1722470948;
+ bh=slZEUwGqc5HulqPdnfKpD6NavuYjpRC2DjrtoG/qlaI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dSw/7ObZNVEolvJ9mIOqOxHN3AgbRO6nVZ7OmZBgJJp5+eE2mIeBBt9u9oeg0ssQs
- bMo8ocxb7lUGFOxpKofM2xzQH0R8LK8Xy+XRhbygbubW8HKSnsYR9hghhIYIVHggYq
- W6sYXS2IEL4wnCxzcnIA9ikesl10kOoktJ9G8S0NWrD1BbdslhLzJbQfE9Kc4C/Maz
- 2T5ChxnOeFmBC8ZoVHL6QLIHqIZXVhxsq03C0EpeyAiPwAIrRaXSd4V+2H7m20urFG
- owOuw+zG+i0GbP1MC3a5cBLsFKqyedixiK1ngckFCEyZJ6cEnK1518o1NoijINIe+X
- fUKnnyrap6TNQ==
+ b=cDPj1bsJp15s661nlKce8CV8S+G+VdcrA3xdhO3gU9Vbzu9atk8/6Z8y8vhZBk+os
+ sqgeDzHqPDkOcwxTJeibdfihxHAmZsUe7SZFfn+qJPHl4bOBfNQDPkfQajSO5hedM7
+ Y2SDLdtTh7RumcZyBhSR7YkX2GQqjwyW/hNbCjqE4vK2oVJZIJ6tJTOTLp0+rVdy+v
+ UhijUFLsjb3dxV1kHWj5quhTBp/HnpJkYgXNvZu24kqJUMBnLCoGUt73N4ZszLmWyh
+ vFfMDpbzSMxU8IMLoM6W/dtUvK1gjV3Ywm6ipthOfMWXdc4nEiEqrWgxGffycVmJwe
+ 7kXdTktsZNS+A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,12 +37,12 @@ Cc: Jesse Zhang <jesse.zhang@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
  Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  Sasha Levin <sashal@kernel.org>, kenneth.feng@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Jun.Ma2@amd.com, kevinyang.wang@amd.com,
- mario.limonciello@amd.com, lijo.lazar@amd.com, yifan1.zhang@amd.com,
+ daniel@ffwll.ch, electrodeyt@gmail.com, samasth.norway.ananda@oracle.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 006/121] drm/amd/pm: Fix negative array index read
-Date: Wed, 31 Jul 2024 19:59:04 -0400
-Message-ID: <20240801000834.3930818-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 007/121] drm/amd/pm: fix the Out-of-bounds read
+ warning
+Date: Wed, 31 Jul 2024 19:59:05 -0400
+Message-ID: <20240801000834.3930818-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -68,90 +68,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jesse Zhang <jesse.zhang@amd.com>
 
-[ Upstream commit c8c19ebf7c0b202a6a2d37a52ca112432723db5f ]
+[ Upstream commit 12c6967428a099bbba9dfd247bb4322a984fcc0b ]
 
-Avoid using the negative values
-for clk_idex as an index into an array pptable->DpmDescriptor.
-
-V2: fix clk_index return check (Tim Huang)
+using index i - 1U may beyond element index
+for mc_data[] when i = 0.
 
 Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
 Reviewed-by: Tim Huang <Tim.Huang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c   | 27 ++++++++++++++-----
- 1 file changed, 21 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-index 5a68d365967f7..c06e0d6e30177 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-@@ -1219,19 +1219,22 @@ static int navi10_get_current_clk_freq_by_table(struct smu_context *smu,
- 					   value);
- }
- 
--static bool navi10_is_support_fine_grained_dpm(struct smu_context *smu, enum smu_clk_type clk_type)
-+static int navi10_is_support_fine_grained_dpm(struct smu_context *smu, enum smu_clk_type clk_type)
- {
- 	PPTable_t *pptable = smu->smu_table.driver_pptable;
- 	DpmDescriptor_t *dpm_desc = NULL;
--	uint32_t clk_index = 0;
-+	int clk_index = 0;
- 
- 	clk_index = smu_cmn_to_asic_specific_index(smu,
- 						   CMN2ASIC_MAPPING_CLK,
- 						   clk_type);
-+	if (clk_index < 0)
-+		return clk_index;
-+
- 	dpm_desc = &pptable->DpmDescriptor[clk_index];
- 
- 	/* 0 - Fine grained DPM, 1 - Discrete DPM */
--	return dpm_desc->SnapToDiscrete == 0;
-+	return dpm_desc->SnapToDiscrete == 0 ? 1 : 0;
- }
- 
- static inline bool navi10_od_feature_is_supported(struct smu_11_0_overdrive_table *od_table, enum SMU_11_0_ODFEATURE_CAP cap)
-@@ -1287,7 +1290,11 @@ static int navi10_emit_clk_levels(struct smu_context *smu,
- 		if (ret)
- 			return ret;
- 
--		if (!navi10_is_support_fine_grained_dpm(smu, clk_type)) {
-+		ret = navi10_is_support_fine_grained_dpm(smu, clk_type);
-+		if (ret < 0)
-+			return ret;
-+
-+		if (!ret) {
- 			for (i = 0; i < count; i++) {
- 				ret = smu_v11_0_get_dpm_freq_by_index(smu,
- 								      clk_type, i, &value);
-@@ -1496,7 +1503,11 @@ static int navi10_print_clk_levels(struct smu_context *smu,
- 		if (ret)
- 			return size;
- 
--		if (!navi10_is_support_fine_grained_dpm(smu, clk_type)) {
-+		ret = navi10_is_support_fine_grained_dpm(smu, clk_type);
-+		if (ret < 0)
-+			return ret;
-+
-+		if (!ret) {
- 			for (i = 0; i < count; i++) {
- 				ret = smu_v11_0_get_dpm_freq_by_index(smu, clk_type, i, &value);
- 				if (ret)
-@@ -1665,7 +1676,11 @@ static int navi10_force_clk_levels(struct smu_context *smu,
- 	case SMU_UCLK:
- 	case SMU_FCLK:
- 		/* There is only 2 levels for fine grained DPM */
--		if (navi10_is_support_fine_grained_dpm(smu, clk_type)) {
-+		ret = navi10_is_support_fine_grained_dpm(smu, clk_type);
-+		if (ret < 0)
-+			return ret;
-+
-+		if (ret) {
- 			soft_max_level = (soft_max_level >= 1 ? 1 : 0);
- 			soft_min_level = (soft_min_level >= 1 ? 1 : 0);
- 		}
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c
+index b1b4c09c34671..b56298d9da98f 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c
+@@ -73,8 +73,9 @@ static int atomctrl_retrieve_ac_timing(
+ 					j++;
+ 				} else if ((table->mc_reg_address[i].uc_pre_reg_data &
+ 							LOW_NIBBLE_MASK) == DATA_EQU_PREV) {
+-					table->mc_reg_table_entry[num_ranges].mc_data[i] =
+-						table->mc_reg_table_entry[num_ranges].mc_data[i-1];
++					if (i)
++						table->mc_reg_table_entry[num_ranges].mc_data[i] =
++							table->mc_reg_table_entry[num_ranges].mc_data[i-1];
+ 				}
+ 			}
+ 			num_ranges++;
 -- 
 2.43.0
 
