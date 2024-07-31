@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8A8943A3C
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAC3943A3F
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:12:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D58810E71D;
-	Thu,  1 Aug 2024 00:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79D1810E71F;
+	Thu,  1 Aug 2024 00:12:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HOYA+5rZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nHGaHB5Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 631F110E71D;
- Thu,  1 Aug 2024 00:12:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 306F810E71F;
+ Thu,  1 Aug 2024 00:12:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 83A6ECE1846;
- Thu,  1 Aug 2024 00:12:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F81CC4AF0C;
- Thu,  1 Aug 2024 00:12:32 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 8CDC3CE182B;
+ Thu,  1 Aug 2024 00:12:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57380C4AF0F;
+ Thu,  1 Aug 2024 00:12:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471153;
- bh=+3L1MknO07wOY49inR3xzFOkxj/UaQNw3ONi5j/xy+A=;
+ s=k20201202; t=1722471157;
+ bh=EhMJgJrj/2d2tPF75dRdU/U4NNPJAwOKjgeYWJT2DaQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HOYA+5rZn+N9JGMWWRGTgtpnPwmqh8PlMgp/pxfEEchHe8Toj9apBxY+pF6+eswC2
- mhwWgZL0k5AaY+dWDJIrO5kEcEXzESnygCDRMf5i9Byu1i8HSpEnuc33/tFgO7xqC3
- DPgTNgU+oUrez56OjFiQy/TVRloEglVWbQV1TmCslDvvdGGhm5jL44uJVGsCgmYuh4
- VOvjm6PHb+a6AYhkhQaZmgBmyJcBlPnyr1yD/acMiCvl894c7nSJRJmUFn9D9N8jDR
- WgXNyJeXU1Xz1QqYzVG//SLxMJ+4j6aOCnwiPqlMNhM+mFX+cCOa+fUjVHZbJJUn2F
- ePPp4BAIernmA==
+ b=nHGaHB5QwIRvxw23y3b/ojdT3jxa3QYHfvuSmYSBHKpEG/wzJb3/y48vZxr5D4sFI
+ J4jIzOYhBSU2NHsmkN0x1qZFpLpuN8Az4aMpVnUWXHenUsC6U8A7sD8bp0IjGDL9X5
+ Erx0Z8LIAvSaF5iMjtPie3CnkCI69txlTjxNzBEtnyVliJmRZVYbiXIwdNqR6Q3FA4
+ WdITXLhpyNsOCv7DjX4HsRnkN/uVRDIQrgrIR0kXw9jphsuSd3dZhsmT/3TACYgk+l
+ sh+LtMPQvlu9iT3TKGWt2v4cUModDZKZip2ED/k0iEmdOyDRGo5oG4UJ5ToFFMMNNW
+ rc1H1EqPvMr/Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ma Jun <Jun.Ma2@amd.com>, Tim Huang <Tim.Huang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 034/121] drm/amdgpu: Fix out-of-bounds read of
- df_v1_7_channel_number
-Date: Wed, 31 Jul 2024 19:59:32 -0400
-Message-ID: <20240801000834.3930818-34-sashal@kernel.org>
+Cc: Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ guchun.chen@amd.com, srinivasan.shanmugam@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 035/121] drm/amdgpu: fix ucode out-of-bounds read
+ warning
+Date: Wed, 31 Jul 2024 19:59:33 -0400
+Message-ID: <20240801000834.3930818-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -65,34 +65,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ma Jun <Jun.Ma2@amd.com>
+From: Tim Huang <Tim.Huang@amd.com>
 
-[ Upstream commit d768394fa99467bcf2703bde74ddc96eeb0b71fa ]
+[ Upstream commit 8944acd0f9db33e17f387fdc75d33bb473d7936f ]
 
-Check the fb_channel_number range to avoid the array out-of-bounds
-read error
+Clear warning that read ucode[] may out-of-bounds.
 
-Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
-Reviewed-by: Tim Huang <Tim.Huang@amd.com>
+Signed-off-by: Tim Huang <Tim.Huang@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/df_v1_7.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/df_v1_7.c b/drivers/gpu/drm/amd/amdgpu/df_v1_7.c
-index 5dfab80ffff21..cd298556f7a60 100644
---- a/drivers/gpu/drm/amd/amdgpu/df_v1_7.c
-+++ b/drivers/gpu/drm/amd/amdgpu/df_v1_7.c
-@@ -70,6 +70,8 @@ static u32 df_v1_7_get_hbm_channel_number(struct amdgpu_device *adev)
- 	int fb_channel_number;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
+index b8280be6225d9..c3d89088123db 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
+@@ -213,6 +213,9 @@ static int amdgpu_cgs_get_firmware_info(struct cgs_device *cgs_device,
+ 		struct amdgpu_firmware_info *ucode;
  
- 	fb_channel_number = adev->df.funcs->get_fb_channel_number(adev);
-+	if (fb_channel_number >= ARRAY_SIZE(df_v1_7_channel_number))
-+		fb_channel_number = 0;
- 
- 	return df_v1_7_channel_number[fb_channel_number];
- }
+ 		id = fw_type_convert(cgs_device, type);
++		if (id >= AMDGPU_UCODE_ID_MAXIMUM)
++			return -EINVAL;
++
+ 		ucode = &adev->firmware.ucode[id];
+ 		if (ucode->fw == NULL)
+ 			return -EINVAL;
 -- 
 2.43.0
 
