@@ -2,68 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E66F94335B
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 17:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA56C9431F6
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 16:25:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 747C710E65B;
-	Wed, 31 Jul 2024 15:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E36E10E636;
+	Wed, 31 Jul 2024 14:25:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XHuGG9nB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I3RGX8ly";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3676910E442
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 11:32:00 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2ef2c56da6cso66267771fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 04:32:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722425518; x=1723030318; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KLlHAYEoQUMdhQZU6kSQMssVwUMCuLr6l/hsX6VH1OM=;
- b=XHuGG9nBhEQG7zkuKc6MrH997BWARnxXGWxecBJ+uqHq4994fNwVmZZdWmBGDU0MFY
- TEg6Fn4LGG0Oj6PDO0Ycke7qZkV1bZw1LhuuaYM44qWEBkbD4hR5+nm+yKV+Xc3NzV3n
- VsppWJahYurgKpGwbUcSUk5RWdjOtCSjc+wdzH8KnM6EyO/953n0lbGomNusXnw41qrT
- sMDWUEchjXXnHEQfpmiFOEQfCIeMmdZwAU9dEn3ohMZTDz93nEdf3M5ShVLlmd1Os3Y8
- EBB7sAj/6fWyiKarRmTAHD9HJpWmg4FEtA89S9Z7Bc1RpyNPtwHflloAnVEGaIYqzQyE
- bzQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722425518; x=1723030318;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KLlHAYEoQUMdhQZU6kSQMssVwUMCuLr6l/hsX6VH1OM=;
- b=Yjfs2It3z4kIKa19ZVzD69FxlXDL4+RIueLDM59l5j1nvx275PQ5kBLwC/PJ3POD58
- XBgDVhOMtEGUjFGIyzTrgTcxK61tCLT5fvPnj3THSATzN0nSRuzFdsyPTbjHrrHd1zmX
- 9c1ShT316mxoXoYRex/csk2Uw/kJZQhKlY9gCHEy3kkbMnfB9CHA4PJo49WUuOzQfTOb
- aP5Y6Old2xfFMvmLJne4rFOUqc+XELogPacOxV53fYZub7jAIFbLo55i/OwgzblY6tv6
- cFNXj87JTiEhsd3GvxkQhaWCp0cliKliaoarMiWtInpOWTv4yvRnjXQsaQn5tlILfbN9
- sXIw==
-X-Gm-Message-State: AOJu0YyIjxNPtzsZ+zfUTpmCK8zr9mLe9SMcSfNagOnSduZHqkDV6Ffe
- ofWi4cOFsRvo14+553NsziPqt3mlTIxDYAxuZFud6Ql0e2e3yFMW0QpCHQ==
-X-Google-Smtp-Source: AGHT+IHIH0VrGy/tyK1ZdY1q1Fu95+HbyGuN4+uVYLkIRgCnHOem6+N/UwSqqnnVau/MYEYtjJq1lw==
-X-Received: by 2002:a2e:8198:0:b0:2ef:28ee:944 with SMTP id
- 38308e7fff4ca-2f12ee2f300mr88229441fa.45.1722425517629; 
- Wed, 31 Jul 2024 04:31:57 -0700 (PDT)
-Received: from localhost.localdomain (2-230-196-213.ip203.fastwebnet.it.
- [2.230.196.213]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4282babaa2esm18724445e9.25.2024.07.31.04.31.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Jul 2024 04:31:57 -0700 (PDT)
-From: Marco Rodolfi <marco.rodolfi.1992@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Marco Rodolfi <marco.rodolfi@tuta.io>
-Subject: [PATCH] drm: panel-orientation-quirks: Also handle rotation for
- DeckHD equipped LCDs units
-Date: Wed, 31 Jul 2024 13:30:56 +0200
-Message-ID: <20240731113055.226440-2-marco.rodolfi.1992@gmail.com>
-X-Mailer: git-send-email 2.46.0
-MIME-Version: 1.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35CA510E636;
+ Wed, 31 Jul 2024 14:25:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6D9ED6245B;
+ Wed, 31 Jul 2024 14:25:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE780C116B1;
+ Wed, 31 Jul 2024 14:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1722435941;
+ bh=iLMn/G9k1cRR/ZvGnS+j1lMkO0nrAGYKNimaeBu6t1U=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=I3RGX8lym/EOh1geccrd6PVCQnKFPmYWLZ5q2JkquVTv1jsee5AVkkxm+SYAq3JZJ
+ uNM4OeEHyNLO5kdR9hr022TmTXz8abOHYq15/wTIuCakLijIONShCtscBCVnOHjb/L
+ BOsjYnFI92tGIU5fReojLwCBoAXSC7zhqKHCT3TZKhYUlOfA8f/ceRfrO2HCea58FZ
+ S+uK2oeFYoqka34nkhRz85VtkPneaKbXXxNid+IUyharxvK3aOB1bSC6XIC4hIXvAa
+ qUzt52WuCRljc9VHz0bxj7E+0sVI28G8O2rOnaDRH8yV7/NsZlmT4rXIGZYZT2r9os
+ cbApfycMneubg==
+Date: Wed, 31 Jul 2024 08:25:39 -0600
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 31 Jul 2024 15:30:09 +0000
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ David Airlie <airlied@gmail.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, devicetree@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Clark <robdclark@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240730013844.41951-6-mailingradian@gmail.com>
+References: <20240730013844.41951-6-mailingradian@gmail.com>
+Message-Id: <172243537297.718676.16575598294797737179.robh@kernel.org>
+Subject: Re: [PATCH 0/4] drm/msm/adreno: Add A615 GPU for SDM670 and Pixel 3a
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,40 +67,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marco Rodolfi <marco.rodolfi@tuta.io>
 
-Signed-off-by: Marco Rodolfi <marco.rodolfi@tuta.io>
+On Mon, 29 Jul 2024 21:38:45 -0400, Richard Acayan wrote:
+> This adds support for the speed-binned A615 GPU on SDM670.
+> 
+> Richard Acayan (4):
+>   dt-bindings: display/msm/gmu: Add SDM670 compatible
+>   drm/msm/adreno: add a615 support
+>   arm64: dts: qcom: sdm670: add gpu
+>   arm64: dts: qcom: sdm670-google-common: enable gpu
+> 
+>  .../devicetree/bindings/display/msm/gmu.yaml  |   1 +
+>  .../boot/dts/qcom/sdm670-google-sargo.dts     |  13 ++
+>  arch/arm64/boot/dts/qcom/sdm670.dtsi          | 168 ++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c     |  27 +++
+>  4 files changed, 209 insertions(+)
+> 
+> --
+> 2.45.2
+> 
+> 
+> 
 
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 3860a8ce1e2d..32582dbdc184 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -420,13 +420,20 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galaxy Book 10.6"),
- 		},
- 		.driver_data = (void *)&lcd1280x1920_rightside_up,
--	}, {	/* Valve Steam Deck (Jupiter) */
-+	}, {	/* Valve Steam Deck (Jupiter) Stock Display */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
- 		},
- 		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* Valve Steam Deck (Jupiter) DeckHD Display */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
-+		},
-+		.driver_data = (void *)&lcd1080x1920_rightside_up,
- 	}, {	/* Valve Steam Deck (Galileo) */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
--- 
-2.46.0
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y qcom/sdm670-google-sargo.dtb' for 20240730013844.41951-6-mailingradian@gmail.com:
+
+arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: iommu@5040000: compatible: 'oneOf' conditional failed, one must be fixed:
+	['qcom,sdm670-smmu-v2', 'qcom,adreno-smmu', 'qcom,smmu-v2'] is too long
+	['qcom,sdm670-smmu-v2', 'qcom,adreno-smmu', 'qcom,smmu-v2'] is too short
+	'qcom,sdm670-smmu-v2' is not one of ['qcom,msm8996-smmu-v2', 'qcom,msm8998-smmu-v2', 'qcom,sdm630-smmu-v2', 'qcom,sm6375-smmu-v2']
+	'qcom,sdm670-smmu-v2' is not one of ['qcom,qcm2290-smmu-500', 'qcom,qdu1000-smmu-500', 'qcom,sa8775p-smmu-500', 'qcom,sc7180-smmu-500', 'qcom,sc7280-smmu-500', 'qcom,sc8180x-smmu-500', 'qcom,sc8280xp-smmu-500', 'qcom,sdm670-smmu-500', 'qcom,sdm845-smmu-500', 'qcom,sdx55-smmu-500', 'qcom,sdx65-smmu-500', 'qcom,sdx75-smmu-500', 'qcom,sm6115-smmu-500', 'qcom,sm6125-smmu-500', 'qcom,sm6350-smmu-500', 'qcom,sm6375-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8250-smmu-500', 'qcom,sm8350-smmu-500', 'qcom,sm8450-smmu-500', 'qcom,sm8550-smmu-500', 'qcom,sm8650-smmu-500', 'qcom,x1e80100-smmu-500']
+	'qcom,sdm670-smmu-v2' is not one of ['qcom,qcm2290-smmu-500', 'qcom,sc7180-smmu-500', 'qcom,sc7280-smmu-500', 'qcom,sc8180x-smmu-500', 'qcom,sc8280xp-smmu-500', 'qcom,sdm845-smmu-500', 'qcom,sm6115-smmu-500', 'qcom,sm6350-smmu-500', 'qcom,sm6375-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8250-smmu-500', 'qcom,sm8350-smmu-500', 'qcom,sm8450-smmu-500']
+	'qcom,sdm670-smmu-v2' is not one of ['qcom,qcm2290-smmu-500', 'qcom,sa8775p-smmu-500', 'qcom,sc7280-smmu-500', 'qcom,sc8180x-smmu-500', 'qcom,sc8280xp-smmu-500', 'qcom,sm6115-smmu-500', 'qcom,sm6125-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8250-smmu-500', 'qcom,sm8350-smmu-500', 'qcom,sm8450-smmu-500', 'qcom,sm8550-smmu-500', 'qcom,sm8650-smmu-500', 'qcom,x1e80100-smmu-500']
+	'qcom,sdm670-smmu-v2' is not one of ['qcom,sc7280-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8250-smmu-500']
+	'qcom,sdm670-smmu-v2' is not one of ['qcom,msm8996-smmu-v2', 'qcom,sc7180-smmu-v2', 'qcom,sdm630-smmu-v2', 'qcom,sdm845-smmu-v2', 'qcom,sm6350-smmu-v2', 'qcom,sm7150-smmu-v2']
+	'qcom,sdm845-smmu-v2' was expected
+	'marvell,ap806-smmu-500' was expected
+	'qcom,sdm670-smmu-v2' is not one of ['nvidia,tegra186-smmu', 'nvidia,tegra194-smmu', 'nvidia,tegra234-smmu']
+	'arm,mmu-500' was expected
+	'qcom,sdm670-smmu-v2' is not one of ['arm,mmu-400', 'arm,mmu-401']
+	'qcom,sdm670-smmu-v2' is not one of ['arm,smmu-v1', 'arm,smmu-v2', 'arm,mmu-400', 'arm,mmu-401', 'arm,mmu-500', 'cavium,smmu-v2']
+	'qcom,smmu-v2' was expected
+	'qcom,smmu-500' was expected
+	'nvidia,smmu-500' was expected
+	'arm,smmu-v2' was expected
+	'arm,smmu-v1' was expected
+	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: /soc@0/iommu@5040000: failed to match any schema with compatible: ['qcom,sdm670-smmu-v2', 'qcom,adreno-smmu', 'qcom,smmu-v2']
+
+
+
+
 
