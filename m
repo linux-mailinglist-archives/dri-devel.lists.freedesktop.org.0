@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF2794349C
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 19:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADDA94349A
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 19:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ECFF10E168;
-	Wed, 31 Jul 2024 17:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C236C10E062;
+	Wed, 31 Jul 2024 17:00:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="KGP9OARd";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="En1ua2B4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2836510E062;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28E5610E168;
  Wed, 31 Jul 2024 17:00:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1722445249;
- bh=5eAvQKO7fvKZZLTwGN3TIF2AiW9AcA9+zhEoKtfkcEo=;
- h=From:Subject:Date:To:Cc:From;
- b=KGP9OARdbzLPR8WMWHLj7Djgx5TdYDtABrhtSENICW8znlx5gr/1xY4uVlxXC8XDP
- dkuCavPtHrJla2qSQtdtChdAT0B3fsYprbXZN3+793zVW5cacN1YPtb4mXNW7wCupu
- i1i2pSxQT52QeJolqaaFaFiidxC+mOB3FA4jNEyk=
+ bh=rQaVG/O25AerGy2gOaY8XL7CTvpz0JJwpNoEJXB80TY=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=En1ua2B4t6o6KKMCIr8w5/9rTs4IM6+m6dhQ9SqHfnN/VORWqNLMG7PhKj6AEHHz8
+ v1tyRP8rJrHDd/ttf/dbtIZ+h1nFtAb9aTY1DjWUi84h3eU3QTclIHQWPFaHyNijVZ
+ mYN2fFcgl6A3r8Qj4SWE6UeEnEgAaR7cb6vvUxQA=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v3 0/2] drm: minimum backlight overrides and implementation
- for amdgpu
-Date: Wed, 31 Jul 2024 19:00:45 +0200
-Message-Id: <20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net>
+Date: Wed, 31 Jul 2024 19:00:46 +0200
+Subject: [PATCH v3 1/2] drm/connector: add
+ drm_connector_get_cmdline_min_brightness_override()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAL1tqmYC/43NSw6CMBSF4a2Qjr2mlLcj92EclHKhN0jBFlBD2
- LuFkYmJcfifwXcW5tASOnYKFmZxJke98REdAqa0NA0CVb6Z4CLmachBdlUzTNCRgVKq9kaNHuE
- +kW0hj7moqxyzKJXMA4PFmp47frn61uTG3r72rznc1r/YOYTQ20mRF4lMSiHPDyTnnNKTPhoc2
- WbP4sMT0U9PAAeFqs7quKhkUX5567q+ARgwZLIZAQAA
+Message-Id: <20240731-amdgpu-min-backlight-quirk-v3-1-46d40bb21a62@weissschuh.net>
+References: <20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net>
+In-Reply-To: <20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net>
 To: Alex Deucher <alexander.deucher@amd.com>, 
  =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
@@ -48,11 +46,11 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722445249; l=1653;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722445249; l=2611;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=5eAvQKO7fvKZZLTwGN3TIF2AiW9AcA9+zhEoKtfkcEo=;
- b=iUggWOXzwHOug9or31VOC62hvfZvFZVJEOaD0p6T55t7hK0c2XQya+a/rnhD10jZj9beut0c4
- dEuDVIlip2PCB/hOo9LYaEQVWGwlijT7Fsvy/R8j+ms8PsukW39WmZ+
+ bh=rQaVG/O25AerGy2gOaY8XL7CTvpz0JJwpNoEJXB80TY=;
+ b=+3iwRZMLJ9s+ZBHbrf2ZfwWi7C4r4hwIkIIf9rLDxZtzQq2crujBBzQA4QtGx8HvF/5LqHJiQ
+ d85gOQcvIjHDNLs7/0/Fyigf5g5FkDZlTmISEHV/A31ZHoqBbmD2xTk
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,46 +68,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The value of "min_input_signal" returned from ATIF on a Framework AMD 13
-is "12". This leads to a fairly bright minimum display backlight.
+Add a helper which can read a overridden minimum backlight value from the
+kernel cmdline.
+This is useful if the minimum backlight as reported by machines VBT
+does not match the user expectations.
 
-Add a generic override helper for the user to override the settings
-provided by the firmware through the kernel cmdline.
-Also add amdgpu as a user of that helper.
+As an example, the minimum backlight brightness on the Framework 13
+matte panel is too high.
 
-One solution would be a fixed firmware version, which was announced but
-has no timeline.
-
-This helper does conflict with the mode override via the cmdline.
-Only one can be specified.
-IMO the mode override can be extended to also handle "min-brightness"
-when that becomes necessary.
-
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-Changes in v3:
-- Switch to cmdline override parameter
-- Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net
+ drivers/gpu/drm/drm_connector.c | 34 ++++++++++++++++++++++++++++++++++
+ include/drm/drm_connector.h     |  2 ++
+ 2 files changed, 36 insertions(+)
 
-Changes in v2:
-- Introduce proper drm backlight quirk infrastructure
-- Quirk by EDID and DMI instead of only DMI
-- Limit quirk to only single Framework 13 matte panel
-- Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index ab6ab7ff7ea8..d0b3d5d6c7c2 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -34,6 +34,7 @@
+ #include <drm/drm_utils.h>
+ 
+ #include <linux/property.h>
++#include <linux/string.h>
+ #include <linux/uaccess.h>
+ 
+ #include <video/cmdline.h>
+@@ -3399,3 +3400,36 @@ struct drm_tile_group *drm_mode_create_tile_group(struct drm_device *dev,
+ 	return tg;
+ }
+ EXPORT_SYMBOL(drm_mode_create_tile_group);
++
++/**
++ * drm_connector_get_cmdline_min_brightness_override - read an overridden
++ * minimum brightness value from the cmdline
++ * @connector: connector to query
++ *
++ * Read an minimum brightness override from the kernel cmdline if present.
++ * The parameter takes the form "video=CONNECTOR_NAME:min-brightness=VALUE".
++ *
++ * RETURNS:
++ * negative error or override value in the range [0, 255]
++ */
++int drm_connector_get_cmdline_min_brightness_override(struct drm_connector *connector)
++{
++	const char *option, *value_str;
++	int err;
++	u8 val;
++
++	option = video_get_options(connector->name);
++	if (!option)
++		return -ENOENT;
++
++	value_str = option + str_has_prefix(option, "min-brightness=");
++	if (value_str == option)
++		return -EINVAL;
++
++	err = kstrtou8(value_str, 10, &val);
++	if (err)
++		return err;
++
++	return val;
++}
++EXPORT_SYMBOL_GPL(drm_connector_get_cmdline_min_brightness_override);
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index c754651044d4..64d86604cc6e 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2357,6 +2357,8 @@ bool drm_connector_has_possible_encoder(struct drm_connector *connector,
+ 					struct drm_encoder *encoder);
+ const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
+ 
++int drm_connector_get_cmdline_min_brightness_override(struct drm_connector *connector);
++
+ /**
+  * drm_for_each_connector_iter - connector_list iterator macro
+  * @connector: &struct drm_connector pointer used as cursor
 
----
-Thomas Weißschuh (2):
-      drm/connector: add drm_connector_get_cmdline_min_brightness_override()
-      drm/amd/display: implement minimum brightness override
-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  6 ++++
- drivers/gpu/drm/drm_connector.c                   | 34 +++++++++++++++++++++++
- include/drm/drm_connector.h                       |  2 ++
- 3 files changed, 42 insertions(+)
----
-base-commit: 36821612eb3091a21f7f4a907b497064725080c3
-change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
-
-Best regards,
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+2.46.0
 
