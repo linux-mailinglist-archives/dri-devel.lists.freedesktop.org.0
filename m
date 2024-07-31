@@ -2,124 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20253943840
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 23:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965979438BD
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 00:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E5D10E330;
-	Wed, 31 Jul 2024 21:50:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3CF810E0E0;
+	Wed, 31 Jul 2024 22:22:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="kiQgguL3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XiGAD2u0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2061.outbound.protection.outlook.com [40.107.237.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B38D310E330
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 21:49:58 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A047110E052;
+ Wed, 31 Jul 2024 22:22:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1722464530; x=1754000530;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=GaJKGddLcyfTDF0AxakhBrGP2dzwwcbQ1LKVOmpK5dI=;
+ b=XiGAD2u0ceQYI/hpsKEVaUIwmdm2vzEm6c/04k1Myp0X4eo9jxd2DOYu
+ 11GZx7HNbOiu2WfIXq7YcZZ0Rjw5XxAVkMMk/GWnR8YSLNBa6TRkrWV/b
+ in453i2MUC5licBkfmXM3AlNd85zdwSmovJLjnI5fSryj78ESRBJhCHaz
+ 4op6lSGI6xQjV/CP2YwZVFQNXfIMqGrLWduwPt/6tAFWHjMsbYt01BbAx
+ 9fUulAxak7TxRIF63n+fclzSfoBh26FoGcZhlkvI5BTKwPDliV+hKSJcY
+ n6zWPoCprdx7QW39DKNaTqaENFnh+E3MLtdcX0KEPoK3s8fAFWopiWeKB Q==;
+X-CSE-ConnectionGUID: SdIT6G63RemiuSxKDCXjkQ==
+X-CSE-MsgGUID: t0e4B7+9SjCiSscdGynKCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="31767143"
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; d="scan'208";a="31767143"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2024 15:22:09 -0700
+X-CSE-ConnectionGUID: BF3qqdQDRie9W7PSZ494Qg==
+X-CSE-MsgGUID: 5JwTrVZRS/eGN+Gg7Qr4kA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; d="scan'208";a="54485688"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 31 Jul 2024 15:22:09 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 31 Jul 2024 15:22:08 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 31 Jul 2024 15:22:08 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.46) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 31 Jul 2024 15:22:07 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wG7OdxWlhjH76rv4seCZ/1ocXjJ9Y+cL3BJuoi7t7YUmZECwIUqrbtjlS5JoS3+V4r9Wrv71gKJWhHna2UjI4akSo5OIj84Nd1b3UkCtAW+jcHdTx8KMhF7Q335ojw8bKghq/+fWozL3EEStsyOLJTbagn2loVFjuWo+gNTVQD2mimQ/xD/O55QnS7KxASd2UjjMerqRQWQomMiDgRKWzSjXMj9kxaevP3TfpO6SRjFELAIccs4Eej3haKxGH0032+PIGcV3XZw7WZkTiYxKKU57HoZeMMpOl5svB9XlYG3guB1sIsclGHXlZ/A+qjQuiLJMMMEdqOEF2x5ecy7sHQ==
+ b=rYqCFrlKvndNCGRdmB75KsYw3S164PLFxcmfGFt/0WK0a795BaO/uUU/RDSMG+g/5k1TDZ2ppTnyr2ouYJLGt8x7aO4n2cR43HjKeJAPNFaWZ5kNNk3B5YhU8HqLGLq9cnqukHCSNqmuR40OsbwrXLzL8Pqcz3a12by6bq/AsjG1Fe8/gU8lmwscBRm4Y+TUI2PJCztcvk5knQDJA6MobmIEMm8Z+riNXqp6KQ13TXVz+4HhDPaWO40D9AGcZUVe5G+fOySYpDU8mry1sVT7QIA4k2KOnxpDWdTJGOXHvo9nBW04O12JaXbePWz/SxeHS78SmBlkEpaqosLsrtJmhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RvR2dThGH3UqLgVy3Oh+bkKd3KIUAx0Ojt8h2qqgUE8=;
- b=Q6U1UwFkDWV56xFOeL0x9Zy8AVgqe6chRGhJWjplP0cfBq5uftEu5bb1eAi+r6r5mc9MMbxrKdNzuVbKE5tQteieKNVrbI7m21ZTKAnssTe99QwIS/IOUdHS7fzCKsaFW5v5uCts9gak/4zy4rdGpCx85sgp9uPCIwjtHgVdXVVvqNDOwrVF2j8qU2n7mahtHEespUdWw7OQJqKYSCpnvttl0M7OYHzSCVxXtXgpB4KyNNHvifbYIxycN7+29uPfrQvJlCP7M1/Rr0yA9LhrN2FCsSToEGr79HX7BH5sAnxNsGoT7PumPRKKVE+fbwXqHjOdseOBuu5y8Jyjvm2jDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RvR2dThGH3UqLgVy3Oh+bkKd3KIUAx0Ojt8h2qqgUE8=;
- b=kiQgguL3YBiwEtLsNIscGv/wsLw5p1c4PZKDHL7w1dKCXNe0t4s1MuOw31JZEhfEJ3miOigMTFfVVuljGdUDJMrYKcY8WxaTsxOEW1+wS3D8q4zUhUpZyXXH3sv7zuPTPCDgB6fY7Xl2aTd5rLAt9f3r6B/JyqStvWDgfe//UsE=
-Received: from SJ0PR13CA0174.namprd13.prod.outlook.com (2603:10b6:a03:2c7::29)
- by SN7PR12MB6959.namprd12.prod.outlook.com (2603:10b6:806:261::13)
+ bh=ZVGXUt/3z+8MwlKJ8FAwM5gQiUZE6KcKsd7gCsAaRTo=;
+ b=ytOyKCI6FTnG8dF10KCd/J1YKVLFNMMQxIpuoLdFKG0kSA2EsJb7X28BOeXmmtLJGJbJ2YUvCQLn4OrbBgdtXMTWKWWeyhYoz6BURFXs6Pxxdm7lnjicoJC/fDFkY4XdKdxajkYVdtYCIQ43wEzond/0w5fXEWSD4kM+ST69kt7gY8otL840YgBwYs6UHyaBV6KdHfXnKw3W0Mx3MBXKtaiYTCjVOUJdhk7/wXjgoOPanlqBw2TjrkxdIz9dcwaPI/0TyT2gnQr4WC5YVBJXnSeJoaoMiOfSzxAdf6f2XSPcit01QInxsdtFhwT7FRcV4CmNOb/WMg361CoflysQzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com (2603:10b6:610:d3::13)
+ by PH8PR11MB7117.namprd11.prod.outlook.com (2603:10b6:510:217::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.21; Wed, 31 Jul
- 2024 21:49:55 +0000
-Received: from CO1PEPF000044F3.namprd05.prod.outlook.com
- (2603:10b6:a03:2c7:cafe::18) by SJ0PR13CA0174.outlook.office365.com
- (2603:10b6:a03:2c7::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.6 via Frontend
- Transport; Wed, 31 Jul 2024 21:49:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044F3.mail.protection.outlook.com (10.167.241.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7828.19 via Frontend Transport; Wed, 31 Jul 2024 21:49:54 +0000
-Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 31 Jul
- 2024 16:49:52 -0500
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter
- <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>, Rodrigo Siqueira
- <rodrigo.siqueira@amd.com>, Harry Wentland <harry.wentland@amd.com>, "Hamza
- Mahfooz" <hamza.mahfooz@amd.com>, Karol Herbst <kherbst@redhat.com>
-Subject: [PATCH v2] drm/edid: add CTA Video Format Data Block support
-Date: Wed, 31 Jul 2024 17:49:41 -0400
-Message-ID: <20240731214941.257975-1-hamza.mahfooz@amd.com>
-X-Mailer: git-send-email 2.45.2
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Wed, 31 Jul
+ 2024 22:22:04 +0000
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::5f89:ba81:ff70:bace]) by CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::5f89:ba81:ff70:bace%6]) with mapi id 15.20.7828.021; Wed, 31 Jul 2024
+ 22:22:04 +0000
+From: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
+To: "Brost, Matthew" <matthew.brost@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Cavitt, Jonathan"
+ <jonathan.cavitt@intel.com>
+Subject: RE: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump printer
+Thread-Topic: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump
+ printer
+Thread-Index: AQHa45EhF36izAgqe0C6OeukODdQmbIRZ+xA
+Date: Wed, 31 Jul 2024 22:22:03 +0000
+Message-ID: <CH0PR11MB5444E19C7B2423D654F3B2AEE5B12@CH0PR11MB5444.namprd11.prod.outlook.com>
+References: <20240731213221.2523989-1-matthew.brost@intel.com>
+ <20240731213221.2523989-3-matthew.brost@intel.com>
+In-Reply-To: <20240731213221.2523989-3-matthew.brost@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH0PR11MB5444:EE_|PH8PR11MB7117:EE_
+x-ms-office365-filtering-correlation-id: 54591a32-6fe6-42f3-0182-08dcb1af349a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?Eo594mxdvd4ggAE3E9qfEOU1/xD0x0fivwQbpyf8d5ME11KGBVbrapl+923U?=
+ =?us-ascii?Q?CFiidmfsC0YSxVZSu7g9VGB7YxL1fzD/cHPqfANLOQA8qiNSeDYj3P/Y2EMz?=
+ =?us-ascii?Q?Z+ZxKN15NnH126N8chwCa5paYYhF6cbBIwJqxDuIAKFNAio4Oq/NlXYrjVhR?=
+ =?us-ascii?Q?GudP2xlYS9W2GIuflyTskgj6hElICsCGBM+9Lbrs4KpkkVhojXz19yg/h7KK?=
+ =?us-ascii?Q?xgA2z3yLvr3PuerwdsYcyQSyzeRxLYeJQKoGM7HXPPI25UWqgbhzkTvInd5W?=
+ =?us-ascii?Q?q1oCim6fdAk4E+KsTjq7qdfDfgibIUU5tkJGVNkKWumLOTzrnURUhY2pt/j6?=
+ =?us-ascii?Q?eIaOzynb1RWLgMrb56I1iUcphaSWOmaM6F6zNSQpG/l9Yrx/77osSu6ZuzW0?=
+ =?us-ascii?Q?6WHDG7Fqk7g3noErnuxvIgc08aH/+E+7DgbRiC3kdSQLCWgrgGftueEn/PDY?=
+ =?us-ascii?Q?iC+NqYipY9IvB+iarmKN558m25p9COgvMbia7Dwzy4IXl7aMQ2mQTxy9XbxY?=
+ =?us-ascii?Q?/rFrdv9SuMu2EsMNDotK/lzpuUXTVNik4LEyOc4oZ5w/cKOfAMKap3BW27wK?=
+ =?us-ascii?Q?W4pyzcQ3WnOyhWeXs5FeB2DG14HR32BQkkcZP2R46BJr/ti+vKmAydhLG050?=
+ =?us-ascii?Q?MoJCfNvK9oxvrFAPK+72oe5ZFJS8nHbCWFDQlH+736NuyRuztkjQJs3rrrop?=
+ =?us-ascii?Q?YaPfHIAVQQWap4bt01efJv6frP2odXmN16K9zXAq39AOMHDDyZ/a0IHXjl4M?=
+ =?us-ascii?Q?38nh3bY4D+yWb2dhLXWbmcqXm/SxfXVSKpbVnNaaCjP7N8uGriZdvnSawXTv?=
+ =?us-ascii?Q?kfbpaSjMeNjZe41YDPiUdyIXD0xW0j+xlMvmH18uf2KOvpOZKPXFbp9aJvQy?=
+ =?us-ascii?Q?Dm8ceqj83CG8ORDOanI/cysGZkEkqWWxiWcl+nO2X+FggVilOJbsAnCfnVJu?=
+ =?us-ascii?Q?/W0/ExQ+cRp9128el7Ymx0aqTBkOle4tVbfpw1GdocWJ7RCX5qonu4o07IEj?=
+ =?us-ascii?Q?Z96bH3I/Xf8DiJCjJWDjUA1HjD6oZ1ZoHisev3/NJbUuvzHXmcHyOQvZo8uE?=
+ =?us-ascii?Q?dLi1VHqFJruZGz0ZKKxtpugZOWw6vieQec10SrYRpGkaPuXqDpi5LrrcTUb+?=
+ =?us-ascii?Q?OTar1G6+LwTQjXeSVjlIxc/tcytLSu6Ua7NXq15d1FNQ4+lCUT0hP3zXjWf+?=
+ =?us-ascii?Q?beEq552IEEuceoyBAD48+17lIQpDj9HRmtd686eMrkDEE0Z3uh2Y515dyWxB?=
+ =?us-ascii?Q?dXfDCFsJ/V2lu7WB2DLPQIJhNgdsZYyW9hzDGBp+x6EXXTsV4kI/7k2M/oSM?=
+ =?us-ascii?Q?Js2bSeB2UFrAoaEp/ZftgX1l47c2cqyQiMhVQuIiai6fXYBH8SjngHltb8gQ?=
+ =?us-ascii?Q?zkqYy/5O5VbOuud9Sz/dYKoOcBxCcimVOc2J1Jq2BV3r6VcnpQ=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR11MB5444.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rSEPSHu0Oft+u2YWYCwrunBMUdIS+KKBE9W5Ua2PAL3GnL/kx5ZM5bTFlHuJ?=
+ =?us-ascii?Q?7bY4/v9qfRJ6c//fWwo5FSN8WpDnBgBaMRbnrsJlMxvKt8TSXvN/tH/ZFaxH?=
+ =?us-ascii?Q?kCma9923Q0z15UvWMgJ0Xc3w8at+UymqcnojexP+Qz6/Eum4t/PsnMklCFb4?=
+ =?us-ascii?Q?kVQfnleYa+i+fiuD3AksCtgXWXaer/WURZnGmLg3QXkflkRHk8L/yqUgMJSA?=
+ =?us-ascii?Q?dx/+uIbw+8kpZgnwETRDbc+nt4PCRAo4QtfTd7Zoa4N++UHPqjNtdzPB71fY?=
+ =?us-ascii?Q?GjkbA4o0jhNudRFvPhOdoGPP7QcY4jbqvtmDY/BuigcLl+Gvd9xMR1Pnv3Mm?=
+ =?us-ascii?Q?8lEklKrzPCDmTUpQBEbQxBbvA0ZER8u5fg0UYYhiZRFQVm7aee/BmzSCTysD?=
+ =?us-ascii?Q?XljpBtFVh0GOAS1IooFaynaE6VS7dqj2Qc6VC5sVXTWqDOgjrHjPVNQfpqPI?=
+ =?us-ascii?Q?4zAH/alcm77mSu7K4iSY8FOxk9GCjpzCoSSSAqWSLy9QL4UgR0QSiQhpM2r2?=
+ =?us-ascii?Q?a+MuVjOHyEymdJ+BCCsbvQs3GjyVwTivOUtJaF6BFO8CAWFHmRKUzCldEA7C?=
+ =?us-ascii?Q?yrWchfG+eQIS4TJkP52cP+vhsD1tB9lumPu0O6nDlXO2TnAZ28YAeglbV5QY?=
+ =?us-ascii?Q?SrLmYWtaHZwmQA9KCMfDVx9+dBHAJKHikxdjP9cioRHO3uctnrZIpnUXCuf8?=
+ =?us-ascii?Q?ygdDWg+InaGBuEsfoRziwXYyEsHQJJB6jgUbmdgK5uVW67EvAHd3879OJOFU?=
+ =?us-ascii?Q?pIRZXDsHk1/L1/OU0VEYFDWyBIHfmXqT2HB12XI+NSO0VfJSQrTMJIYZp+NV?=
+ =?us-ascii?Q?cLh8AiKAp+l3B+A502Oes59lTR9IR9eNx0qeIJWBdTr/EE1ndMU4g0X06gtK?=
+ =?us-ascii?Q?8DFT84K1+GcRRcHtO9uGqVr+wM8M+dry9T1T/6ziJ46ezRua00wexPPDGwur?=
+ =?us-ascii?Q?VXFucn6SuS/v3aCESdmwuge9B+GySmkHLkw4DZhToFZc+KV4FbOEDpjKBZ9N?=
+ =?us-ascii?Q?zeorH3cKBJ/tRS/j8iTZRzgw0gucW0Stkpwr1yDaBknDeLsVkJ8byV8eZM88?=
+ =?us-ascii?Q?ukRUv2+wmZeQJfEiR6AyPbjucmdJcqyeUoa7172/dllXPdF8qy5bm2kDc3a9?=
+ =?us-ascii?Q?uH52/KhJGxRvGo0n4jzp0K/ONGJjb9apJfkw86R2lRlGcsUn0pyKVC5p/XBl?=
+ =?us-ascii?Q?Z7OQwVR7gr76gUG0QkobZo4rN+wxAarDcOlwYPWdLA3527xa/oakZQ40Pp4t?=
+ =?us-ascii?Q?PS+dCd6XOE651A7n8QI7kpKiPJrPeNRw8o6e3OyBJKWPZRBlWuCMYrJGcMNn?=
+ =?us-ascii?Q?AzbVfRl4oqGxGLriqEBTPBtq9FFHZPM2A4XcaeQI0Ehpc3yHmnW3U11mivYD?=
+ =?us-ascii?Q?UKgWKHXJI/6AJ3OMvxmwLqmjQ38JtLITihQ4SVpujV514ysnfCLH/v41U7bl?=
+ =?us-ascii?Q?b9sSM3Ie8/wwnNaE2jINlHKrglRNJn806kp4DVHBfZiIYjFf3AL1HNsNJEMc?=
+ =?us-ascii?Q?Cez5DMsYOVHpfcKwriyKBywtz96b8FNX4QMwo1w1c/KTzBpwPXWbsj9eZTW1?=
+ =?us-ascii?Q?zpmeDn0Ie+KSqU2/fY8RmxPD8qeR8ZexMX5/abof?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F3:EE_|SN7PR12MB6959:EE_
-X-MS-Office365-Filtering-Correlation-Id: 360683a6-d147-458d-c5c8-08dcb1aab6ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2k/R9sBiNYkI1/hctHqNJmfXTjaG9dRd4bVTSJ45LdvAyZIkd/uC3CsoVm8z?=
- =?us-ascii?Q?Rfy7eKRW8O5Z+RToVorzQ7fv0UJRzaQrE3j+MVGSpMMHbroOH8I+9U91b53H?=
- =?us-ascii?Q?fndUvXjTFFJwJI9tDkKKURnJbtPhcgjhI84ljTsbqleQkIvTIYeAs7y5wIPa?=
- =?us-ascii?Q?fWebtQfsJ4l5m/Of4xOIiGUvHeF19S63FTm+WEFTx4dK8mpz51X7VvDaGskf?=
- =?us-ascii?Q?4McTyjHNI0bepb3haSQNGXWnl+bEyyc45qkvetgqGTH0IuzXJuUoD3W6U482?=
- =?us-ascii?Q?L55iU4gH9QrTbMax9uiMTX6oTpMdgvAMzFfRMFOoelGe/s5aBafBPdHfGP3R?=
- =?us-ascii?Q?xy5lZRGT6+oaQBL4APUvrRMPRbuzKQAXvGq4kj1naao8mY9P7UyWWTN1lbb4?=
- =?us-ascii?Q?WC6uo13ZtxA+iIr0SBZ2nu/g+Veiwsu7eP+cXUFpaH9epkIK+qKlD3aeWiKI?=
- =?us-ascii?Q?VwgzvJ7ZEk/4cvpd06IFTLRggds7GWb7qIUDZVH3ie2heRoYk44ZM4QknAps?=
- =?us-ascii?Q?5+yZZPLgz+/bFk8S+TOSnntxOQ6rv2OCJuGQxtTdqDCCDHvgHqzmTIYOiSmQ?=
- =?us-ascii?Q?mRy0NVXqz5U/61K8JAZVwZGIQ/fVlxGXt2RcFNHqqVzB1ChXRrP1jok5GklC?=
- =?us-ascii?Q?woyZsjB7FPmJsAMz55ocmddTcrc1IB/e0TyRkh9YD+m5Qf60EyDGiar/7aoe?=
- =?us-ascii?Q?LqvHO+N2v73fJmr0XV0yOapDk+hvUzqX/HmJD6CQn3NHPPhYl/DrAaiIKmiW?=
- =?us-ascii?Q?vehonO0QqRVAPjHZKPEblYheqZS71W5T7WnWiwolqTzb05nlk7TFGrhfH6uH?=
- =?us-ascii?Q?W2UkgIaDiL7mQmmfNWjkKgX0eu9RFxoBLXPgQWAkcc6Jf2kc4/TTsmdgc6LB?=
- =?us-ascii?Q?fGKEO/wll8S2wcVJ8napyhbVvzYpNBtoe/Nr86oUjMIzx/Ys+qKyKyHkP0KJ?=
- =?us-ascii?Q?b1Kf8PaBl3IXmThlXpEDNPod3IOjSMLM60oIhG6u6Dk0M6pFiIKrNHWYQgw5?=
- =?us-ascii?Q?tj1m5k8+ioXnEwApY9WC7r3vjswdf1CzYPb+rnjI29G1iPnv7hq/JkAnyuRY?=
- =?us-ascii?Q?JnWe1D51zDssUqwsyTCsklGSSkNuW5Iw78HwS5c9r6ktxt+ztfzRAHA9DHwo?=
- =?us-ascii?Q?b5aNv+cJTRARp4uiV7sqSJPNJrSbQGgdsRAO3WnmVn2ifUaPAoQTEJfD8aaV?=
- =?us-ascii?Q?8FgIatIgGX67G3U+uEXIU4hTPgjpnOx/Y1MBCNSBf0L5QG5P6g11faYCWThi?=
- =?us-ascii?Q?3kZHptvacQwu3mnll75eWSs631Dbo+u2AvVCP7FjVzVNbO7A5dDhudI3JcC/?=
- =?us-ascii?Q?rNRYU9D5CcVCjH9MrsijTwYche91JrmJFIR2r6Zu4zU0ID5zqmwuuAkYumeP?=
- =?us-ascii?Q?Mz4CJ9I8xvrFVWOPUo2GeKHn2TN0cJyR+1XSLz/d92pzb+TbgB8EKqRALVl/?=
- =?us-ascii?Q?Csrx8YtZf/YvI1iwb44HhUzTFmCIXiIo?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2024 21:49:54.4600 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 360683a6-d147-458d-c5c8-08dcb1aab6ac
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6959
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5444.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54591a32-6fe6-42f3-0182-08dcb1af349a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2024 22:22:03.9116 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: X09bDYP9ep+sI1Y3tExfQq2oyiv0JXVQZ2E0mPXUn6Zrc6XtVRArwzTwqye8OeJXvHzfhgqcLJh24DPgPOUFf4luLiMUhDS3NYhIfaih264=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7117
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,530 +183,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Video Format Data Blocks (VFDBs) contain the necessary information that
-needs to be fed to the Optimized Video Timings (OVT) Algorithm.
-Also, we require OVT support to cover modes that aren't supported by
-earlier standards (e.g. CVT). So, parse all of the relevant VFDB data
-and feed it to the OVT Algorithm, to extract all of the missing OVT
-modes.
+-----Original Message-----
+From: Intel-xe <intel-xe-bounces@lists.freedesktop.org> On Behalf Of Matthe=
+w Brost
+Sent: Wednesday, July 31, 2024 2:32 PM
+To: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com; Vivi, Rodrigo <rodrigo.vivi@intel.co=
+m>
+Subject: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump printer
+>=20
+> Useful to determine size of devcoreump before writing it out.
+>=20
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-Suggested-by: Karol Herbst <kherbst@redhat.com>
-Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
----
-v2: address comments from Jani
----
- drivers/gpu/drm/drm_edid.c | 456 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 428 insertions(+), 28 deletions(-)
+It seems this patch prevents us from copying strings into the data field if=
+ the data
+field hasn't been initialized.  I'm not certain if it could ever be uniniti=
+alized at this
+point, but I recognize it as good practice to check just in case regardless=
+.
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index f68a41eeb1fa..f608ab4e32ae 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -31,6 +31,7 @@
- #include <linux/bitfield.h>
- #include <linux/byteorder/generic.h>
- #include <linux/cec.h>
-+#include <linux/gcd.h>
- #include <linux/hdmi.h>
- #include <linux/i2c.h>
- #include <linux/kernel.h>
-@@ -741,6 +742,93 @@ static const struct minimode extra_modes[] = {
- 	{ 2048, 1536, 60, 0 },
- };
- 
-+struct cta_rid {
-+	u16 hactive;
-+	u16 vactive;
-+	u8 hratio;
-+	u8 vratio;
-+};
-+
-+/* CTA-861-I Table 11 - Resolution Identification (RID) */
-+static const struct cta_rid rids[] = {
-+	/* RID 0-9 */
-+	{ 0, 0, 0, 0 },
-+	{ 1280, 720, 16, 9 },
-+	{ 1280, 720, 64, 27 },
-+	{ 1680, 720, 64, 27 },
-+	{ 1920, 1080, 16, 9 },
-+	{ 1920, 1080, 64, 27 },
-+	{ 2560, 1080, 64, 27 },
-+	{ 3840, 1080, 32, 9 },
-+	{ 2560, 1440, 16, 9 },
-+	{ 3440, 1440, 64, 27 },
-+	/* RID 10-19 */
-+	{ 5120, 1440, 32, 9 },
-+	{ 3840, 2160, 16, 9 },
-+	{ 3840, 2160, 64, 27 },
-+	{ 5120, 2160, 64, 27 },
-+	{ 7680, 2160, 32, 9 },
-+	{ 5120, 2880, 16, 9 },
-+	{ 5120, 2880, 64, 27 },
-+	{ 6880, 2880, 64, 27 },
-+	{ 10240, 2880, 32, 9 },
-+	{ 7680, 4320, 16, 9 },
-+	/* RID 20-28 */
-+	{ 7680, 4320, 64, 27 },
-+	{ 10240, 4320, 64, 27 },
-+	{ 15360, 4320, 32, 9 },
-+	{ 11520, 6480, 16, 9 },
-+	{ 11520, 6480, 64, 27 },
-+	{ 15360, 6480, 64, 27 },
-+	{ 15360, 8640, 16, 9 },
-+	{ 15360, 8640, 64, 27 },
-+	{ 20480, 8640, 64, 27 },
-+};
-+
-+/* CTA-861-I Table 12 - AVI InfoFrame Video Format Frame Rate */
-+static const u16 cta_vf_fr[] = {
-+	/* Frame Rate 0-7 */
-+	0, 24, 25, 30, 48, 50, 60, 100,
-+	/* Frame Rate 8-15 */
-+	120, 144, 200, 240, 300, 360, 400, 480,
-+};
-+
-+/* CTA-861-I Table 13 - RID To VIC Mapping */
-+static const u8 rid_to_vic[][8] = {
-+	/* RID 0-9 */
-+	{},
-+	{ 60, 61, 62, 108, 19, 4, 41, 47 },
-+	{ 65, 66, 67, 109, 68, 69, 70, 71 },
-+	{ 79, 80, 81, 110, 82, 83, 84, 85 },
-+	{ 32, 33, 34, 111, 31, 16, 64, 63 },
-+	{ 72, 73, 74, 112, 75, 76, 77, 78 },
-+	{ 86, 87, 88, 113, 89, 90, 91, 92 },
-+	{},
-+	{},
-+	{},
-+	/* RID 10-19 */
-+	{},
-+	{ 93, 94, 95, 114, 96, 97, 117, 118 },
-+	{ 103, 104, 105, 116, 106, 107, 119, 120 },
-+	{ 121, 122, 123, 124, 125, 126, 127, 193 },
-+	{},
-+	{},
-+	{},
-+	{},
-+	{},
-+	{ 194, 195, 196, 197, 198, 199, 200, 201 },
-+	/* RID 20-28 */
-+	{ 202, 203, 204, 205, 206, 207, 208, 209 },
-+	{ 210, 211, 212, 213, 214, 215, 216, 217 },
-+	{},
-+	{},
-+	{},
-+	{},
-+	{},
-+	{},
-+	{},
-+};
-+
- /*
-  * From CEA/CTA-861 spec.
-  *
-@@ -4140,6 +4228,7 @@ static int add_detailed_modes(struct drm_connector *connector,
- #define CTA_DB_VIDEO			2
- #define CTA_DB_VENDOR			3
- #define CTA_DB_SPEAKER			4
-+#define CTA_DB_VIDEO_FORMAT		6
- #define CTA_DB_EXTENDED_TAG		7
- 
- /* CTA-861-H Table 62 - CTA Extended Tag Codes */
-@@ -4981,6 +5070,16 @@ struct cea_db {
- 	u8 data[];
- } __packed;
- 
-+struct cta_vfd {
-+	u8 rid;
-+	u8 fr_fact;
-+	bool bfr50;
-+	bool fr24;
-+	bool bfr60;
-+	bool fr144;
-+	bool fr48;
-+};
-+
- static int cea_db_tag(const struct cea_db *db)
- {
- 	return db->tag_length >> 5;
-@@ -5306,34 +5405,6 @@ static void parse_cta_y420cmdb(struct drm_connector *connector,
- 	*y420cmdb_map = map;
- }
- 
--static int add_cea_modes(struct drm_connector *connector,
--			 const struct drm_edid *drm_edid)
--{
--	const struct cea_db *db;
--	struct cea_db_iter iter;
--	int modes;
--
--	/* CTA VDB block VICs parsed earlier */
--	modes = add_cta_vdb_modes(connector);
--
--	cea_db_iter_edid_begin(drm_edid, &iter);
--	cea_db_iter_for_each(db, &iter) {
--		if (cea_db_is_hdmi_vsdb(db)) {
--			modes += do_hdmi_vsdb_modes(connector, (const u8 *)db,
--						    cea_db_payload_len(db));
--		} else if (cea_db_is_y420vdb(db)) {
--			const u8 *vdb420 = cea_db_data(db) + 1;
--
--			/* Add 4:2:0(only) modes present in EDID */
--			modes += do_y420vdb_modes(connector, vdb420,
--						  cea_db_payload_len(db) - 1);
--		}
--	}
--	cea_db_iter_end(&iter);
--
--	return modes;
--}
--
- static void fixup_detailed_cea_mode_clock(struct drm_connector *connector,
- 					  struct drm_display_mode *mode)
- {
-@@ -6018,6 +6089,305 @@ static void parse_cta_vdb(struct drm_connector *connector, const struct cea_db *
- 	}
- }
- 
-+/* CTA-861 Video Format Descriptor (CTA VFD) */
-+static void parse_cta_vfd(struct cta_vfd *vfd, const u8 *data, int vfd_len)
-+{
-+	vfd->rid = data[0] & 0x3f;
-+	vfd->bfr50 = data[0] & 0x80;
-+	vfd->fr24 = data[0] & 0x40;
-+	vfd->bfr60 = vfd_len > 1 ? (data[1] & 0x80) : 0x1;
-+	vfd->fr144 = vfd_len > 1 ? (data[1] & 0x40) : 0x0;
-+	vfd->fr_fact = vfd_len > 1 ? (data[1] & 0x3f) : 0x3;
-+	vfd->fr48 = vfd_len > 2 ? (data[2] & 0x1) : 0x0;
-+}
-+
-+static bool vfd_has_fr(const struct cta_vfd *vfd, int rate_idx)
-+{
-+	static const u8 factors[] = {
-+		1, 2, 4, 8, 12, 16
-+	};
-+	u16 rate = cta_vf_fr[rate_idx];
-+	u16 factor = 0;
-+	unsigned int i;
-+
-+	switch (rate) {
-+	case 24:
-+		return vfd->fr24;
-+	case 48:
-+		return vfd->fr48;
-+	case 144:
-+		return vfd->fr144;
-+	}
-+
-+	if (!(rate % 25)) {
-+		if (!vfd->bfr50)
-+			return false;
-+
-+		factor = rate / 25;
-+	} else if (!(rate % 30)) {
-+		if (!vfd->bfr60)
-+			return false;
-+
-+		factor = rate / 30;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(factors); i++)
-+		if (factor == factors[i] && (vfd->fr_fact & (1 << i)))
-+			return true;
-+
-+	return false;
-+}
-+
-+#define OVT_PIXEL_CLOCK_GRANULARITY	1000		/* Hz */
-+#define OVT_MIN_HTOTAL_GRANULARITY	8		/* pixels */
-+#define OVT_MIN_VBLANK_DURATION	460000000	/* ps */
-+#define OVT_MIN_VBLANK_LINES		20
-+#define OVT_MIN_VSYNC_LEADING_EDGE	400		/* us */
-+#define OVT_MIN_VSYNC_LE_LINES		14
-+#define OVT_MIN_CLOCK_RATE_420		590000000	/* Hz */
-+#define OVT_PIXEL_FACTOR_420		2
-+#define OVT_MIN_HBLANK_444		80		/* pixels */
-+#define OVT_MIN_HBLANK_420		128		/* pixels */
-+#define OVT_MAX_CHUNK_RATE		650000000	/* Hz */
-+#define OVT_AUDIO_PACKET_RATE		195000		/* Hz */
-+#define OVT_AUDIO_PACKET_SIZE		32
-+#define OVT_LINE_OVERHEAD		32
-+#define OVT_HSYNC_WIDTH		32
-+#define OVT_VSYNC_WIDTH		8
-+
-+/* OVT Algorthim as specified in CTA-861-I */
-+static struct drm_display_mode *
-+calculate_ovt_mode(struct drm_connector *connector, const struct cta_rid *rid,
-+		   u16 vrate)
-+{
-+	u32 max_audio_packets_per_line;
-+	struct drm_display_mode *mode;
-+	u32 htotal_granularity_chunk;
-+	u32 resolution_granularity;
-+	u32 vtotal_granularity = 1;
-+	u64 min_pixel_clock_rate;
-+	u32 htotal_granularity;
-+	u32 max_vrate = vrate;
-+	u64 pixel_clock_rate;
-+	u64 max_active_time;
-+	u64 min_resolution;
-+	u32 vsync_position;
-+	u32 min_line_time;
-+	u32 min_line_rate;
-+	u32 min_hblank;
-+	u32 min_htotal;
-+	u32 min_vblank;
-+	u32 min_vtotal;
-+	u32 htotal;
-+	u32 vtotal;
-+	u32 h;
-+	u64 r;
-+	u32 v;
-+
-+	/* step 1 */
-+	switch (vrate) {
-+	case 24:
-+	case 25:
-+		max_vrate = 30;
-+		fallthrough;
-+	case 30:
-+		vtotal_granularity = 20;
-+		break;
-+	case 48:
-+	case 50:
-+		max_vrate = 60;
-+		fallthrough;
-+	case 60:
-+		vtotal_granularity = 20;
-+		break;
-+	case 100:
-+		max_vrate = 120;
-+		fallthrough;
-+	case 120:
-+		vtotal_granularity = 5;
-+		break;
-+	case 200:
-+		max_vrate = 240;
-+		fallthrough;
-+	case 240:
-+		vtotal_granularity = 5;
-+		break;
-+	case 300:
-+		max_vrate = 360;
-+		fallthrough;
-+	case 360:
-+		vtotal_granularity = 5;
-+		break;
-+	case 400:
-+		max_vrate = 480;
-+		fallthrough;
-+	case 480:
-+		vtotal_granularity = 5;
-+		break;
-+	}
-+
-+	/* step 2 */
-+	max_active_time = ((u64)1000000000000 / (u64)max_vrate) -
-+		(u64)OVT_MIN_VBLANK_DURATION;
-+
-+	min_line_time = max_active_time / (u64)rid->vactive;
-+
-+	min_vblank = max_t(u64, (u64)OVT_MIN_VBLANK_LINES,
-+			   DIV64_U64_ROUND_UP(OVT_MIN_VBLANK_DURATION,
-+					      min_line_time));
-+
-+	min_vtotal = rid->vactive + min_vblank;
-+
-+	if (min_vtotal % vtotal_granularity)
-+		min_vtotal += vtotal_granularity - (min_vtotal %
-+						    vtotal_granularity);
-+
-+	/* step 3 */
-+	min_line_rate = max_vrate * min_vtotal;
-+
-+	max_audio_packets_per_line = DIV_ROUND_UP(OVT_AUDIO_PACKET_RATE,
-+						  min_line_rate);
-+
-+	/* step 4 */
-+	min_hblank = OVT_LINE_OVERHEAD + OVT_AUDIO_PACKET_SIZE *
-+		max_audio_packets_per_line;
-+
-+	min_htotal = rid->hactive + max(OVT_MIN_HBLANK_444, min_hblank);
-+
-+	min_pixel_clock_rate = max_vrate * min_htotal * min_vtotal;
-+
-+	htotal_granularity_chunk =
-+		roundup_pow_of_two(DIV_ROUND_UP(min_pixel_clock_rate,
-+						OVT_MAX_CHUNK_RATE));
-+
-+	htotal_granularity = max(OVT_MIN_HTOTAL_GRANULARITY,
-+				 htotal_granularity_chunk);
-+
-+	if (min_htotal % htotal_granularity)
-+		min_htotal += htotal_granularity - (min_htotal %
-+						    htotal_granularity);
-+
-+	resolution_granularity = OVT_PIXEL_CLOCK_GRANULARITY /
-+		gcd(OVT_PIXEL_CLOCK_GRANULARITY, max_vrate);
-+
-+	do {
-+		/* step 5 */
-+		min_resolution = 0;
-+		v = min_vtotal;
-+
-+		goto loop_end;
-+
-+		while (!min_resolution || r <= min_resolution) {
-+			while (r % resolution_granularity ||
-+			       max_vrate * r / (h & ~(h - 1)) >
-+			       OVT_MAX_CHUNK_RATE) {
-+				h += htotal_granularity;
-+				r = (u64)h * (u64)v;
-+			}
-+
-+			if (!min_resolution || r < min_resolution) {
-+				htotal = h;
-+				vtotal = v;
-+				min_resolution = r;
-+			}
-+
-+			v += vtotal_granularity;
-+
-+loop_end:
-+			h = min_htotal;
-+			r = (u64)h * (u64)v;
-+		}
-+
-+		pixel_clock_rate = max_vrate * min_resolution;
-+
-+		/* step 6 */
-+		min_htotal = rid->hactive + max(OVT_MIN_HBLANK_420,
-+						OVT_PIXEL_FACTOR_420 *
-+						min_hblank);
-+	} while (pixel_clock_rate >= OVT_MIN_CLOCK_RATE_420 &&
-+		 htotal < min_htotal);
-+
-+	/* step 7 */
-+	vtotal = vtotal * max_vrate / vrate;
-+
-+	/* step 8 */
-+	vsync_position = max(OVT_MIN_VSYNC_LE_LINES,
-+			     DIV64_U64_ROUND_UP((u64)OVT_MIN_VSYNC_LE_LINES *
-+						(u64)pixel_clock_rate,
-+						(u64)htotal * (u64)1000000));
-+
-+	mode = drm_mode_create(connector->dev);
-+
-+	if (!mode)
-+		return NULL;
-+
-+	mode->clock = pixel_clock_rate / 1000;
-+	mode->hdisplay = rid->hactive;
-+	mode->hsync_start = htotal - OVT_HSYNC_WIDTH * 2;
-+	mode->hsync_end = mode->hsync_start + OVT_HSYNC_WIDTH;
-+	mode->htotal = htotal;
-+
-+	mode->vdisplay = rid->vactive;
-+	mode->vsync_start = vtotal - vsync_position;
-+	mode->vsync_end = mode->vsync_start + OVT_VSYNC_WIDTH;
-+	mode->vtotal = vtotal;
-+
-+	return mode;
-+}
-+
-+/* CTA-861 Video Format Data Block (CTA VFDB) */
-+static int add_modes_from_vfdb(struct drm_connector *connector,
-+			       const struct cea_db *db)
-+{
-+	struct drm_display_info *info = &connector->display_info;
-+	int vfdb_len = cea_db_payload_len(db);
-+	struct drm_display_mode *mode;
-+	struct cta_vfd vfd;
-+	int num_modes = 0;
-+	int vfd_len;
-+	int i;
-+	int j;
-+
-+	if (!vfdb_len)
-+		return 0;
-+
-+	vfd_len = (db->data[0] & 0x3) + 1;
-+
-+	if (!vfd_len)
-+		return 0;
-+
-+	vfdb_len--;
-+
-+	vfdb_len -= (vfdb_len % vfd_len);
-+
-+	for (i = 0; i < vfdb_len; i += vfd_len) {
-+		parse_cta_vfd(&vfd, &db->data[i + 1], vfd_len);
-+
-+		if (!vfd.rid || vfd.rid >= ARRAY_SIZE(rids))
-+			continue;
-+
-+		for (j = 1; j < ARRAY_SIZE(cta_vf_fr); j++) {
-+			if (!vfd_has_fr(&vfd, j) ||
-+			    (cta_vf_fr[j] < 144 && rid_to_vic[vfd.rid][j - 1]))
-+				continue;
-+
-+			mode = calculate_ovt_mode(connector, &rids[vfd.rid],
-+						  cta_vf_fr[j]);
-+
-+			if (!mode)
-+				continue;
-+
-+			mode->height_mm = info->height_mm;
-+			mode->width_mm = info->width_mm;
-+
-+			drm_mode_probed_add(connector, mode);
-+			num_modes++;
-+		}
-+	}
-+
-+	return num_modes;
-+}
-+
- /*
-  * Update y420_cmdb_modes based on previously parsed CTA VDB and Y420CMDB.
-  *
-@@ -6831,6 +7201,36 @@ static int add_displayid_detailed_1_modes(struct drm_connector *connector,
- 	return num_modes;
- }
- 
-+static int add_cea_modes(struct drm_connector *connector,
-+			 const struct drm_edid *drm_edid)
-+{
-+	const struct cea_db *db;
-+	struct cea_db_iter iter;
-+	int modes;
-+
-+	/* CTA VDB block VICs parsed earlier */
-+	modes = add_cta_vdb_modes(connector);
-+
-+	cea_db_iter_edid_begin(drm_edid, &iter);
-+	cea_db_iter_for_each(db, &iter) {
-+		if (cea_db_is_hdmi_vsdb(db)) {
-+			modes += do_hdmi_vsdb_modes(connector, (const u8 *)db,
-+						    cea_db_payload_len(db));
-+		} else if (cea_db_is_y420vdb(db)) {
-+			const u8 *vdb420 = cea_db_data(db) + 1;
-+
-+			/* Add 4:2:0(only) modes present in EDID */
-+			modes += do_y420vdb_modes(connector, vdb420,
-+						  cea_db_payload_len(db) - 1);
-+		} else if (cea_db_tag(db) == CTA_DB_VIDEO_FORMAT) {
-+			modes += add_modes_from_vfdb(connector, db);
-+		}
-+	}
-+	cea_db_iter_end(&iter);
-+
-+	return modes;
-+}
-+
- static int add_displayid_detailed_modes(struct drm_connector *connector,
- 					const struct drm_edid *drm_edid)
- {
--- 
-2.45.2
+Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+-Jonathan Cavitt
 
+> ---
+>  drivers/gpu/drm/drm_print.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index cf24dfdeb6b2..a1a4de9f9c44 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -100,8 +100,9 @@ void __drm_puts_coredump(struct drm_printer *p, const=
+ char *str)
+>  			copy =3D iterator->remain;
+> =20
+>  		/* Copy out the bit of the string that we need */
+> -		memcpy(iterator->data,
+> -			str + (iterator->start - iterator->offset), copy);
+> +		if (iterator->data)
+> +			memcpy(iterator->data,
+> +				str + (iterator->start - iterator->offset), copy);
+> =20
+>  		iterator->offset =3D iterator->start + copy;
+>  		iterator->remain -=3D copy;
+> @@ -110,7 +111,8 @@ void __drm_puts_coredump(struct drm_printer *p, const=
+ char *str)
+> =20
+>  		len =3D min_t(ssize_t, strlen(str), iterator->remain);
+> =20
+> -		memcpy(iterator->data + pos, str, len);
+> +		if (iterator->data)
+> +			memcpy(iterator->data + pos, str, len);
+> =20
+>  		iterator->offset +=3D len;
+>  		iterator->remain -=3D len;
+> @@ -140,8 +142,9 @@ void __drm_printfn_coredump(struct drm_printer *p, st=
+ruct va_format *vaf)
+>  	if ((iterator->offset >=3D iterator->start) && (len < iterator->remain)=
+) {
+>  		ssize_t pos =3D iterator->offset - iterator->start;
+> =20
+> -		snprintf(((char *) iterator->data) + pos,
+> -			iterator->remain, "%pV", vaf);
+> +		if (iterator->data)
+> +			snprintf(((char *) iterator->data) + pos,
+> +				iterator->remain, "%pV", vaf);
+> =20
+>  		iterator->offset +=3D len;
+>  		iterator->remain -=3D len;
+> --=20
+> 2.34.1
+>=20
+>=20
