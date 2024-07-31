@@ -2,84 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3299434AB
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 19:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7099434C5
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 19:11:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18D1810E6A4;
-	Wed, 31 Jul 2024 17:04:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3214A10E665;
+	Wed, 31 Jul 2024 17:11:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xd6IYbeV";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="dvTxmvOJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFBC010E6A4
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 17:04:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1722445457;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xDFdzUtWm1uC35jrgYi2K22RGJ2XdD9baDWAfehO8X4=;
- b=Xd6IYbeVcwh6ZSGo/4IUafvNIo0swzJmB+7I1sgawQ6Z6NzNHgtLvFPZSMqfc8KSJSw4Qe
- xOe3xpWW+QhIT1ADLpliHSJQcAaEoSyVdQuqZNFUvbuSlw0t+j/+wlLWufxFvlKNUmN912
- 0UwefHxtPGtFmgwRKxhpJ6byXmeLlHY=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-197-5PQLeo4ZMeyTkiO85E0tGQ-1; Wed, 31 Jul 2024 13:04:15 -0400
-X-MC-Unique: 5PQLeo4ZMeyTkiO85E0tGQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 38308e7fff4ca-2ef22e62457so58108911fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 10:04:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722445454; x=1723050254;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xDFdzUtWm1uC35jrgYi2K22RGJ2XdD9baDWAfehO8X4=;
- b=Eg8KbB8EOFelCcEmi7u7c1V8/gDRRV1JV5Kn0e71mTuPr+66lVMJ+OHXnS8DaVhZLT
- aPgakpML7xsEoPNoK8E6XRtXP1Tb47J7pV8knOpKS3Jw594Olpty75eUYqX5VXbTSg/j
- 8OMMbqZMwJ63FuF7AeB9bWybzM2sl7lEPXSDHEzpV0VkCQpDswgrgjWV9tOR8ULEalw6
- udBkFJj22bWIGlHB9XmttsiDkaCtbY9parTZFRDU6w5IthNWNqxX0U1PZlfu0HsTzglc
- O6IyxLqMgVnQ6DSwI+rFRm26Ef6Yb2gQO2o7rHDZOBs7ZWtalyTdRyo31Ujx/fld0M2+
- KnFA==
-X-Gm-Message-State: AOJu0YxrSS9hpOfLHcuTn/Lx95z3k1xrS3fa3toLb8S3e0uz/M+IizL9
- NvqGEKPYtLED5C9550DMI966H13m1x6rsC6a52X3gwjqjqihS93JLDLF6GE237wqVPlLKreH4Pk
- gRCb4mHkzqkmyc0DN4/uEuLtt0O+slibVYrkV7/LXFVQ3wc4cqMmSXIRE+tNdo5Xdhg==
-X-Received: by 2002:a2e:7814:0:b0:2ef:2c86:4d47 with SMTP id
- 38308e7fff4ca-2f1530e8e0cmr549491fa.15.1722445453769; 
- Wed, 31 Jul 2024 10:04:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGX09D99+Ytn5uWWP5OX5BoMsNo4vXMCrP6+cmGhCeTzuqAq6U95COpQEHGu0NqRhUAKCnYaQ==
-X-Received: by 2002:a2e:7814:0:b0:2ef:2c86:4d47 with SMTP id
- 38308e7fff4ca-2f1530e8e0cmr549121fa.15.1722445453108; 
- Wed, 31 Jul 2024 10:04:13 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:d3ea:62cf:3052:fac6?
- ([2a01:e0a:d5:a000:d3ea:62cf:3052:fac6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4282bba283fsm27551615e9.46.2024.07.31.10.04.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 Jul 2024 10:04:12 -0700 (PDT)
-Message-ID: <36111c9a-7b44-4655-984c-ab22c755e463@redhat.com>
-Date: Wed, 31 Jul 2024 19:04:11 +0200
+Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr
+ [80.12.242.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F3FA10E665
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 17:11:40 +0000 (UTC)
+Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id ZCrRsJemgWPKVZCrRsG3Ul; Wed, 31 Jul 2024 19:11:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1722445898;
+ bh=l/N7BL6uXIDoiEcTV0sQ9X+6QKDbvzDQWB0h4bM+lFE=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=dvTxmvOJZbGhRxoANl70qmf7S2ZSEKLOcNeA9hLaqEFBvPQUcsA6f9iuxkqiSgiAu
+ MJOoqNaHkAis3+RugHTH6u2kXY+UKzaEFLzfPZwMxF3sTZAm+DeHEmp8yjO3uU9F4/
+ HSwpkttWi+aUh05ALFIE3fLkL1l2S7CFYAmCcXxBYnZ6RRTnafAawtCfja3mIbTWEZ
+ 6A2+ULcm7D39ArVc/5GdclhHK+BrJw5SBb9cp1nSTKfIHbxlA3sxI7pVOwjp+D37d2
+ mKUR4ccBalvZNLsOncet2VLSiWwX5OYVyTA1j2PZVVbsSrR8/EMAhCmdjzjd2Nq9wr
+ Xqk1uLNDRGQzA==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Wed, 31 Jul 2024 19:11:38 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <0fbca32a-d0e9-4884-9839-be1714543398@wanadoo.fr>
+Date: Wed, 31 Jul 2024 19:11:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mgag200: Fix VBLANK interrupt handling
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20240731071004.519566-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240731071004.519566-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH v3] udmabuf: use kmem_cache to alloc udmabuf folio
+To: Huan Yang <link@vivo.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc: opensource.kernel@vivo.com
+References: <20240731073752.1225177-1-link@vivo.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20240731073752.1225177-1-link@vivo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,98 +64,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 31/07/2024 09:09, Thomas Zimmermann wrote:
-> Fix support for VBLANK interrupts on G200ER, G200EV and G200SE, which
-> use a slightly different implementation than the others. The original
-> commits forgot to update the custom helpers when adding interrupt
-> handling for VBLANK events.
-
-Thanks, it looks good to me.
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 89c6ea2006e2 ("drm/mgag200: Add vblank support")
-> Fixes: d5070c9b2944 ("drm/mgag200: Implement struct drm_crtc_funcs.get_vblank_timestamp")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/mgag200/mgag200_g200er.c | 5 ++++-
->   drivers/gpu/drm/mgag200/mgag200_g200ev.c | 5 ++++-
->   drivers/gpu/drm/mgag200/mgag200_g200se.c | 5 ++++-
->   3 files changed, 12 insertions(+), 3 deletions(-)
+Le 31/07/2024 à 09:37, Huan Yang a écrit :
+> The current udmabuf_folio contains a list_head and the corresponding
+> folio pointer, with a size of 24 bytes. udmabuf_folio uses kmalloc to
+> allocate memory.
 > 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> index 6d727ab1a7aa..e65d59173939 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> @@ -209,6 +209,8 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+> However, kmalloc is a public pool, starting from 8,16,32 bytes.
+> Additionally, if the size is not aligned with the kmalloc size, it will
+> be rounded up to the corresponding size.
+> This means that each udmabuf_folio allocation will get 32 bytes, and
+> waste 8 bytes.
+> 
+> Considering that each udmabuf creates a folio corresponding to a
+> udmabuf_folio, the wasted memory can be significant in the case of
+> memory fragmentation.
+> 
+> Furthermore, if udmabuf is frequently used, the allocation and
+> deallocation of udmabuf_folio will also be frequent.
+> 
+> Therefore, this patch adds a kmem_cache dedicated to the allocation and
+> deallocation of udmabuf_folio.This is expected to improve the
+> performance of allocation and deallocation within the expected range,
+> while also avoiding memory waste.
+> 
+> Signed-off-by: Huan Yang <link@vivo.com>
+> ---
+> v3 -> v2: fix error description.
+> v2 -> v1: fix double unregister, remove unlikely.
+>   drivers/dma-buf/udmabuf.c | 19 +++++++++++++++----
+>   1 file changed, 15 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index 047c3cd2ceff..c112c58ef09a 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -24,6 +24,8 @@ static int size_limit_mb = 64;
+>   module_param(size_limit_mb, int, 0644);
+>   MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf, in megabytes. Default is 64.");
 >   
->   	if (mdev->info->sync_bmc)
->   		mgag200_bmc_start_scanout(mdev);
+> +static struct kmem_cache *udmabuf_folio_cachep;
 > +
-> +	drm_crtc_vblank_on(crtc);
+>   struct udmabuf {
+>   	pgoff_t pagecount;
+>   	struct folio **folios;
+> @@ -169,7 +171,7 @@ static void unpin_all_folios(struct list_head *unpin_list)
+>   		unpin_folio(ubuf_folio->folio);
+>   
+>   		list_del(&ubuf_folio->list);
+> -		kfree(ubuf_folio);
+> +		kmem_cache_free(udmabuf_folio_cachep, ubuf_folio);
+>   	}
 >   }
 >   
->   static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
-> @@ -216,7 +218,8 @@ static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
->   	.atomic_check = mgag200_crtc_helper_atomic_check,
->   	.atomic_flush = mgag200_crtc_helper_atomic_flush,
->   	.atomic_enable = mgag200_g200er_crtc_helper_atomic_enable,
-> -	.atomic_disable = mgag200_crtc_helper_atomic_disable
-> +	.atomic_disable = mgag200_crtc_helper_atomic_disable,
-> +	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
->   };
+> @@ -178,7 +180,7 @@ static int add_to_unpin_list(struct list_head *unpin_list,
+>   {
+>   	struct udmabuf_folio *ubuf_folio;
 >   
->   static const struct drm_crtc_funcs mgag200_g200er_crtc_funcs = {
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> index e6c9ba61bf97..a4890b496050 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> @@ -210,6 +210,8 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+> -	ubuf_folio = kzalloc(sizeof(*ubuf_folio), GFP_KERNEL);
+> +	ubuf_folio = kmem_cache_alloc(udmabuf_folio_cachep, GFP_KERNEL);
+>   	if (!ubuf_folio)
+>   		return -ENOMEM;
 >   
->   	if (mdev->info->sync_bmc)
->   		mgag200_bmc_start_scanout(mdev);
+> @@ -491,11 +493,20 @@ static int __init udmabuf_dev_init(void)
+>   					   DMA_BIT_MASK(64));
+>   	if (ret < 0) {
+>   		pr_err("Could not setup DMA mask for udmabuf device\n");
+> -		misc_deregister(&udmabuf_misc);
+> -		return ret;
+> +		goto err;
+> +	}
 > +
-> +	drm_crtc_vblank_on(crtc);
+> +	udmabuf_folio_cachep = KMEM_CACHE(udmabuf_folio, 0);
+> +	if (!udmabuf_folio_cachep) {
+> +		ret = -ENOMEM;
+> +		goto err;
+>   	}
+>   
+>   	return 0;
+> +
+> +err:
+> +	misc_deregister(&udmabuf_misc);
+> +	return ret;
 >   }
 >   
->   static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
-> @@ -217,7 +219,8 @@ static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
->   	.atomic_check = mgag200_crtc_helper_atomic_check,
->   	.atomic_flush = mgag200_crtc_helper_atomic_flush,
->   	.atomic_enable = mgag200_g200ev_crtc_helper_atomic_enable,
-> -	.atomic_disable = mgag200_crtc_helper_atomic_disable
-> +	.atomic_disable = mgag200_crtc_helper_atomic_disable,
-> +	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
->   };
->   
->   static const struct drm_crtc_funcs mgag200_g200ev_crtc_funcs = {
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> index 2a53ebf41539..fcb97e4253c4 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> @@ -341,6 +341,8 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   
->   	if (mdev->info->sync_bmc)
->   		mgag200_bmc_start_scanout(mdev);
-> +
-> +	drm_crtc_vblank_on(crtc);
->   }
->   
->   static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
-> @@ -348,7 +350,8 @@ static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
->   	.atomic_check = mgag200_crtc_helper_atomic_check,
->   	.atomic_flush = mgag200_crtc_helper_atomic_flush,
->   	.atomic_enable = mgag200_g200se_crtc_helper_atomic_enable,
-> -	.atomic_disable = mgag200_crtc_helper_atomic_disable
-> +	.atomic_disable = mgag200_crtc_helper_atomic_disable,
-> +	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
->   };
->   
->   static const struct drm_crtc_funcs mgag200_g200se_crtc_funcs = {
+>   static void __exit udmabuf_dev_exit(void)
+
+Hi,
+
+should a kmem_cache_destroy() be also added in udmabuf_dev_exit()?
+
+CJ
+
+> 
+> base-commit: cd19ac2f903276b820f5d0d89de0c896c27036ed
 
