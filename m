@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28269943A2A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0EC943A2D
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:11:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A70010E70D;
-	Thu,  1 Aug 2024 00:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 421B210E70F;
+	Thu,  1 Aug 2024 00:11:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u1Y0O0ep";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C+zzF/om";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70D8110E70D;
- Thu,  1 Aug 2024 00:11:48 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0EC210E70F;
+ Thu,  1 Aug 2024 00:11:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4F360CE122C;
- Thu,  1 Aug 2024 00:11:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2178BC116B1;
- Thu,  1 Aug 2024 00:11:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 49AEB62569;
+ Thu,  1 Aug 2024 00:11:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78ADEC32786;
+ Thu,  1 Aug 2024 00:11:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471105;
- bh=UhPUGOWV4cC+AFWhzXaxUNo0S/bf7kD05SXEQVu0oTk=;
+ s=k20201202; t=1722471112;
+ bh=0+QL90+Gb8x8GtV7RLEM7xeaiQpl9HP+ymxO9MJ0uHA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u1Y0O0ep5I2ECO93eK9mW0kkjPHF7+AtrhDyokKibsWaEgwF5u9/8Zi26cliNI49K
- FKH9TYPQKnZ3Y1pdT9rdHxL2z56MByHymq/awaNgdKdsST4yFQrR0kb738/jPIV9sv
- QPngS72atSCgdLUnppYCX+Cq+1Gw9kcmPAAnTqPCIoeCPg9qrn6SkWyJNzWeoKdv25
- kmbEUBp+jYbuZjhp+S48VNjfzzCfXR1vva7gf6HvcUYFuNo3vsIhx65eYquUCjThCO
- 4MhZuwAgPBLRMHlTPj+fncIdbTM0GC2UNIndJ7O6MpOLogaiu6pIy23ziF7gjyVq92
- a4jvfFwlQJVsg==
+ b=C+zzF/omcrLeNKsyW+lc/5loWLoDSXR3lxvAYDvKhACfbYLA3AavWeG8ibXV6+dmp
+ Obbb4TlyvcpgR4NjYrKrBhNlncq5FlhlKcyUCxOEX+Xkz0aMsdNug1Cwf31Wp7ZEMw
+ bxjFz26ZYjbWlxYtoIKhYHADsROjA6cagOklDiAeA9uvFNCQ4o9pZwZ8pOKaai43vz
+ JnmT3oPmMsvGUhfaWgqVgtjq8R3+zE5U8DAgI3lYFL4USi7N89QWIkEqtD/oupeBl0
+ H2Ti6QkioFdhmPhvPj9WnGp10f+eRs8dOZhItTa0g+2Sv2/WmYkIZwanWIuXEgmS6T
+ LEMzVW6drEY/g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hersen Wu <hersenxs.wu@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
  Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
  Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- martin.leung@amd.com, moadhuri@amd.com, wayne.lin@amd.com,
- Bhawanpreet.Lakha@amd.com, wenjing.liu@amd.com, hamza.mahfooz@amd.com,
- mghaddar@amd.com, max.tseng@amd.com, nicholas.kazlauskas@amd.com,
- charlene.liu@amd.com, Qingqing.Zhuo@amd.com, ahmed.ahmed@amd.com,
- daniel.miess@amd.com, sungkim@amd.com, amd-gfx@lists.freedesktop.org,
+ hamza.mahfooz@amd.com, roman.li@amd.com, mario.limonciello@amd.com,
+ Wayne.Lin@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 026/121] drm/amd/display: Release clck_src memory
- if clk_src_construct fails
-Date: Wed, 31 Jul 2024 19:59:24 -0400
-Message-ID: <20240801000834.3930818-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 027/121] drm/amd/display: Spinlock before reading
+ event
+Date: Wed, 31 Jul 2024 19:59:25 -0400
+Message-ID: <20240801000834.3930818-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -72,104 +69,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hersen Wu <hersenxs.wu@amd.com>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 674704a5dabe4a434645fdd11e35437f4e06dfc4 ]
+[ Upstream commit ae13c8a5cff92015b9a3eb7cee65ebc75859487f ]
 
-[Why]
-Coverity reports RESOURCE_LEAK for some implemenations
-of clock_source_create. Do not release memory of clk_src
-if contructor fails.
+[WHY & HOW]
+A read of acrtc_attach->base.state->event was not locked so moving it
+inside the spinlock.
 
-[How]
-Free clk_src if contructor fails.
+This fixes a LOCK_EVASION issue reported by Coverity.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Hersen Wu <hersenxs.wu@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/resource/dce80/dce80_resource.c    | 1 +
- .../gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c    | 1 +
- .../gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c  | 4 ++--
- .../gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c    | 1 +
- .../gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c  | 1 +
- 5 files changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dce80/dce80_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dce80/dce80_resource.c
-index 56ee45e12b461..a73d3c6ef4258 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dce80/dce80_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dce80/dce80_resource.c
-@@ -1538,6 +1538,7 @@ struct resource_pool *dce83_create_resource_pool(
- 	if (dce83_construct(num_virtual_links, dc, pool))
- 		return &pool->base;
- 
-+	kfree(pool);
- 	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c
-index d4c3e2754f516..5d1801dce2730 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c
-@@ -1864,6 +1864,7 @@ static struct clock_source *dcn30_clock_source_create(
- 		return &clk_src->base;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index fca6f7d4c28e2..64fdce551e627 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8698,15 +8698,13 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 				bundle->stream_update.vrr_infopacket =
+ 					&acrtc_state->stream->vrr_infopacket;
+ 		}
+-	} else if (cursor_update && acrtc_state->active_planes > 0 &&
+-		   acrtc_attach->base.state->event) {
+-		drm_crtc_vblank_get(pcrtc);
+-
++	} else if (cursor_update && acrtc_state->active_planes > 0) {
+ 		spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
+-
+-		acrtc_attach->event = acrtc_attach->base.state->event;
+-		acrtc_attach->base.state->event = NULL;
+-
++		if (acrtc_attach->base.state->event) {
++			drm_crtc_vblank_get(pcrtc);
++			acrtc_attach->event = acrtc_attach->base.state->event;
++			acrtc_attach->base.state->event = NULL;
++		}
+ 		spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
  	}
  
-+	kfree(clk_src);
- 	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c
-index ff50f43e4c000..da73e842c55c8 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c
-@@ -1660,8 +1660,8 @@ static struct clock_source *dcn31_clock_source_create(
- 		return &clk_src->base;
- 	}
- 
--	BREAK_TO_DEBUGGER();
- 	kfree(clk_src);
-+	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
- 
-@@ -1821,8 +1821,8 @@ static struct clock_source *dcn30_clock_source_create(
- 		return &clk_src->base;
- 	}
- 
--	BREAK_TO_DEBUGGER();
- 	kfree(clk_src);
-+	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-index 2df8a742516c8..28c4599076989 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-@@ -1716,6 +1716,7 @@ static struct clock_source *dcn35_clock_source_create(
- 		return &clk_src->base;
- 	}
- 
-+	kfree(clk_src);
- 	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-index ddf9560ab7722..b7bd0f36125a4 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-@@ -1696,6 +1696,7 @@ static struct clock_source *dcn35_clock_source_create(
- 		return &clk_src->base;
- 	}
- 
-+	kfree(clk_src);
- 	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
 -- 
 2.43.0
 
