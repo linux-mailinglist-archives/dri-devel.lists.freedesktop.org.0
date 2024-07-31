@@ -2,51 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837D4943682
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 21:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDFD9436D6
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 22:03:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D438110E6C0;
-	Wed, 31 Jul 2024 19:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0391410E6C4;
+	Wed, 31 Jul 2024 20:03:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O3lGUVjV";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dkf4OSL+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC41E10E6C0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 19:36:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0E3E762605;
- Wed, 31 Jul 2024 19:36:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F04CC4AF09;
- Wed, 31 Jul 2024 19:36:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722454567;
- bh=Vd8fqkfwlFHhHJNjJJ8PkDDVoKHE/NzxbbiRJuqU6A0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=O3lGUVjVHsx7HxAGvOsQhXjWehnqSCzJRaSafGYfyuPCnIDC8kkVYuBLh/NTlR0MU
- JiSYF37mpYv+0icISrQuZZWIvj2olN6Y/A9/cWG1073dfshcJjHju5ctJMqRcdjzWl
- 7t+Xy/r5iTYrFHtFDgT9/9Ot6jBGYXmvIggEfzpcmUdiG0NfqeC1jwA3HGGCZZCmBK
- /RCUfTUbdHEyCuqW2AiPMz1zS17cG91dyX+K4aTuf9kHVTtL+tjo5xN+YoMcaOOHOc
- znkXmAqpV1sdxfkjPOJHYp1KwZJJ5eLNt8tltPjHIIZPSFQBoRBSoU59+7W1FY5rp8
- Fz7ZQs5+FzpWA==
-Date: Wed, 31 Jul 2024 14:36:05 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Helgaas <bhelgaas@google.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH 0/2] Use pcim_request_region() in vboxvideo
-Message-ID: <20240731193605.GA77260@bhelgaas>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93C2F10E6C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 20:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1722456200;
+ bh=ALLryGFl6MDYaFUXnyF92rskMoQ1mK0GIOJ/exNKv4o=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dkf4OSL+3IQSqZdT7jfZQZiphOWNvh3Ty1GvlrwpE6e6lUZSVizLBr0UHrPXyd7cC
+ D5Geb5S8nwtEXJcI76dVv7mUqbH6QieyhmmJLAqb1V2p67461QpcXur3LMykxhJ4kv
+ sv8aAGOOQ0yAM/M8FCJpFQ9jEao5ycVu/qYTGttmmz15DgAeGETriGmobExipaIWDD
+ AZTfaOIyuLj+ksy6BmchJ+f8HKWrfttCkKohfTzLbVnUCvxJ1MHt5QP30KpAFxjlnI
+ d2gJQ0y6FVjnICY1YU8ZOj2JXAZkHoneJ1n+Xm6Sx3GHoqrqWE9DfsouhV7+6NmBWD
+ Xv9CDfGPnKSzQ==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id E4E2E3782201;
+ Wed, 31 Jul 2024 20:03:19 +0000 (UTC)
+Message-ID: <8d9e8947-5d13-40eb-a887-06a809174fc6@collabora.com>
+Date: Wed, 31 Jul 2024 23:03:19 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240729093625.17561-2-pstanner@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/bridge-connector: Fix double free in error handling
+ paths
+To: Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240711-bridge-connector-fix-dbl-free-v1-1-d558b2d0eb93@collabora.com>
+ <172130413876.532897.864210015976659933.b4-ty@kernel.org>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <172130413876.532897.864210015976659933.b4-ty@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,27 +70,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 29, 2024 at 11:36:24AM +0200, Philipp Stanner wrote:
-> Hi everyone,
-> 
-> Now that we've got the simplified PCI devres API available we can slowly
-> start using it in drivers and step by step phase the more problematic
-> API out.
-> 
-> vboxvideo currently does not have a region request, so it is a suitable
-> first user.
-> 
-> P.
-> 
-> Philipp Stanner (2):
->   PCI: Make pcim_request_region() a public function
->   drm/vboxvideo: Add PCI region request
-> 
->  drivers/gpu/drm/vboxvideo/vbox_main.c | 4 ++++
->  drivers/pci/devres.c                  | 1 +
->  drivers/pci/pci.h                     | 2 --
->  include/linux/pci.h                   | 1 +
->  4 files changed, 6 insertions(+), 2 deletions(-)
+Hi Robert,
 
-Given an ack from the vboxvideo maintainers, I can apply both of these
-via the PCI tree so there's no race during the merge window.
+On 7/18/24 3:02 PM, Robert Foss wrote:
+> On Thu, 11 Jul 2024 14:26:55 +0300, Cristian Ciocaltea wrote:
+>> The recent switch to drmm allocation in drm_bridge_connector_init() may
+>> cause double free on bridge_connector in some of the error handling
+>> paths.
+>>
+>> Drop the explicit kfree() calls on bridge_connector.
+>>
+>>
+>> [...]
+> 
+> Applied, thanks!
+> 
+> [1/1] drm/bridge-connector: Fix double free in error handling paths
+>       https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ca5442ed8f53
+
+The fix is supposed to reach v6.11 tree, hence wondering if this fall
+through the cracks as it haven't shown up in -rc1, neither in linux-next
+- should have been applied to drm-misc-fixes instead of drm-misc?!
+
+Sorry for the noise if this already follows the regular DRM workflow and
+just needs more time to get picked into the target branches.
+
+Thanks,
+Cristian
