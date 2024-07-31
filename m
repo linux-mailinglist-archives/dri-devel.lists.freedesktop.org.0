@@ -2,83 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7432943681
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 21:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837D4943682
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 21:36:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C844D10E6B8;
-	Wed, 31 Jul 2024 19:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D438110E6C0;
+	Wed, 31 Jul 2024 19:36:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WV+3aTGy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O3lGUVjV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC64F10E6B8;
- Wed, 31 Jul 2024 19:36:02 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46VDiXQ0030426;
- Wed, 31 Jul 2024 19:36:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- NT7UQKnSzFK33S9HAkOJuDPnUO8RYziYTLbY6ku6Rxs=; b=WV+3aTGyS1swsakX
- 0YtC7LtRnTVS7AYTInOSYX4+h5FIwa1AJXW8U5OT6aKN6F0F9OBAGTeWE360Nu/I
- TY2Z7Zc04+Sc7FDREs3ahAW9TPl25vBJ3KkHpof/UjTwQB+SklKIJQUDAJ81Trj7
- UVYp9EUhXbOy504FpaX4/yyGGQck2uSP5I6duUh1Kpj80aQWm8AnxJcbA8vLf1Lk
- eYrWhopzyZGQW8CPKHmksZ/ViNZi3vrqSp4Y33s4lPyIuFLi9vCr8mpS83AsECqF
- 3LIi7plzbk9GeU+jdiZpO//IAjKL6qlQ+yRwjdiug6+LARdvLokrlyp3UuVKLOlx
- ujSvnA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40pw445qgx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 Jul 2024 19:36:00 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 46VJZxs5030852
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 Jul 2024 19:35:59 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 31 Jul
- 2024 12:35:58 -0700
-Message-ID: <b2cceeb8-fe81-4212-9b07-b70cad8d3b9b@quicinc.com>
-Date: Wed, 31 Jul 2024 12:35:58 -0700
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC41E10E6C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 19:36:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0E3E762605;
+ Wed, 31 Jul 2024 19:36:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F04CC4AF09;
+ Wed, 31 Jul 2024 19:36:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1722454567;
+ bh=Vd8fqkfwlFHhHJNjJJ8PkDDVoKHE/NzxbbiRJuqU6A0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=O3lGUVjVHsx7HxAGvOsQhXjWehnqSCzJRaSafGYfyuPCnIDC8kkVYuBLh/NTlR0MU
+ JiSYF37mpYv+0icISrQuZZWIvj2olN6Y/A9/cWG1073dfshcJjHju5ctJMqRcdjzWl
+ 7t+Xy/r5iTYrFHtFDgT9/9Ot6jBGYXmvIggEfzpcmUdiG0NfqeC1jwA3HGGCZZCmBK
+ /RCUfTUbdHEyCuqW2AiPMz1zS17cG91dyX+K4aTuf9kHVTtL+tjo5xN+YoMcaOOHOc
+ znkXmAqpV1sdxfkjPOJHYp1KwZJJ5eLNt8tltPjHIIZPSFQBoRBSoU59+7W1FY5rp8
+ Fz7ZQs5+FzpWA==
+Date: Wed, 31 Jul 2024 14:36:05 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Subject: Re: [PATCH 0/2] Use pcim_request_region() in vboxvideo
+Message-ID: <20240731193605.GA77260@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/12] drm/msm/dpu: relax YUV requirements
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240627-dpu-virtual-wide-v5-0-5efb90cbb8be@linaro.org>
- <20240627-dpu-virtual-wide-v5-2-5efb90cbb8be@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240627-dpu-virtual-wide-v5-2-5efb90cbb8be@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Wn5JybqfBLeFCkNXswGN0uEFo1zBsTfu
-X-Proofpoint-ORIG-GUID: Wn5JybqfBLeFCkNXswGN0uEFo1zBsTfu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-31_10,2024-07-31_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxscore=0
- priorityscore=1501 adultscore=0 mlxlogscore=999 clxscore=1015
- impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407310138
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240729093625.17561-2-pstanner@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,42 +62,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 6/26/2024 2:45 PM, Dmitry Baryshkov wrote:
-> YUV formats require only CSC to be enabled. Even decimated formats
-> should not require scaler. Relax the requirement and don't check for the
-> scaler block while checking if YUV format can be enabled.
+On Mon, Jul 29, 2024 at 11:36:24AM +0200, Philipp Stanner wrote:
+> Hi everyone,
 > 
-> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+> Now that we've got the simplified PCI devres API available we can slowly
+> start using it in drivers and step by step phase the more problematic
+> API out.
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 1c3a2657450c..148bd79bdcef 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -743,10 +743,9 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
->   	min_src_size = MSM_FORMAT_IS_YUV(fmt) ? 2 : 1;
->   
->   	if (MSM_FORMAT_IS_YUV(fmt) &&
-> -	    (!pipe->sspp->cap->sblk->scaler_blk.len ||
-> -	     !pipe->sspp->cap->sblk->csc_blk.len)) {
-> +	    !pipe->sspp->cap->sblk->csc_blk.len) {
->   		DPU_DEBUG_PLANE(pdpu,
-> -				"plane doesn't have scaler/csc for yuv\n");
-> +				"plane doesn't have csc for yuv\n");
->   		return -EINVAL;
->   	}
+> vboxvideo currently does not have a region request, so it is a suitable
+> first user.
 > 
-
-Change seems fine, but one question, is there a chipset in the catalog 
-with a Vig SSPP which has only csc but not scaler? Even qcm2290 has 
-neither scaler nor csc
-
-So was this just a code-walkthrough fix or was there any issue hit due 
-to this?
-
+> P.
 > 
+> Philipp Stanner (2):
+>   PCI: Make pcim_request_region() a public function
+>   drm/vboxvideo: Add PCI region request
+> 
+>  drivers/gpu/drm/vboxvideo/vbox_main.c | 4 ++++
+>  drivers/pci/devres.c                  | 1 +
+>  drivers/pci/pci.h                     | 2 --
+>  include/linux/pci.h                   | 1 +
+>  4 files changed, 6 insertions(+), 2 deletions(-)
+
+Given an ack from the vboxvideo maintainers, I can apply both of these
+via the PCI tree so there's no race during the merge window.
