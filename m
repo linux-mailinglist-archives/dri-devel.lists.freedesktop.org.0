@@ -2,85 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B4294310C
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 15:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD8694313E
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 15:47:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0314910E618;
-	Wed, 31 Jul 2024 13:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A608410E1EC;
+	Wed, 31 Jul 2024 13:47:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="drgC3doj";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ejJIiJJe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D743010E618
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:37:58 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-52efa16aad9so8654785e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 06:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722433077; x=1723037877; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=euZqe8MZJ1dwlC2Y71IAY6QKt2ZvC3bSg9scHU/4CGE=;
- b=drgC3dojUhAFLWY8vcdAAiWiloNmwKs/SVeKUkq7PDJO9rzDzQ5jfodtrl+xppC6Yh
- KV/ge3eSIANpJxt2irEhwTdgWQLXbXJUsyYtp8GX4Nm0bzJvqlfAcqM3R9VHqEkjtet4
- eqSQTIwRdYsQSIaL5cCe1JSC/gOyPa8QdFcQj5SbFgdK8r6GtLYHdZ/VuhGivOrsCJLD
- cvlaFLcSurZ8V2na1Z1xzfPHnCNpsWr9AozxKJOWunLXTFkKbB6a3b5uRgqaE7R/xIrW
- 6OH+e4KR5ayeGjPqRGFcO3r5/wjnUz1FPkB6ZkG0l6MiSMy3VVHoAWY+21JEJF0Tsfw1
- nH8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722433077; x=1723037877;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=euZqe8MZJ1dwlC2Y71IAY6QKt2ZvC3bSg9scHU/4CGE=;
- b=SmqUKECWHtFtDeSu0paoIqp8DZJe1m/uEye/wTLkJTHNJBd/TQQNqr6elNKeK3Q7of
- hMEOlga+Vd0x2H/MDVSPIFPoSLMBMGv9qftoMtArLUk/MeDa6V448LJnZISILTLoPpF6
- q1yJhN4tQdvT5uCJgS3CjL/MdgkmD366kMZMlMsraTHGhYD7Q38z/ZcM3tq6EIkCNk5G
- Z80GX600JkFKf46EZaU9w35ob1OjAikoq0+iEchiJiTVK1ZCj38Bfb70TQzSX/k3sE3M
- Bc0p3EcKREKBf/x7XZEFAxRP4ASbyYhZLPvQWOWkHbfigbw81TyVyxMUvy1DoOtQsL5i
- 2h8g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWoFn7sJSKyfFrq/19lKCnoT0Pw1IkZDoYqnsIpRgERsptkcLjAUzkpK72WzoRu/e82q95p+qbkRiAvFHd/rsuIT5BniJOjxQwM49LoWkRQ
-X-Gm-Message-State: AOJu0YzwYBgnELbgwFCBmhL2nm27EJGlbKgNC/hZ6wOA/IuFmbY7GQkY
- UOBW79ALlBVxQ3jkjrIXzKp9w5/Z0M6FGeGQ0+bY4h339n8eRMG+wuGp/Mu2EAo=
-X-Google-Smtp-Source: AGHT+IGKaoo2n5sBYtF5hcWxbazPmSsCMpENigLQEchBKSKDBDseQvdPfye9t44dyqo8bVsTDtKSeQ==
-X-Received: by 2002:ac2:5968:0:b0:52f:d090:6dae with SMTP id
- 2adb3069b0e04-5309b2ce519mr9386789e87.52.1722433076670; 
- Wed, 31 Jul 2024 06:37:56 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52fd5c19d5fsm2231849e87.204.2024.07.31.06.37.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Jul 2024 06:37:56 -0700 (PDT)
-Date: Wed, 31 Jul 2024 16:37:54 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 00/12] drm/imx/ipuv3: switch LDB and parallel-display
- driver to use drm_bridge_connector
-Message-ID: <pagkojyl72by6mru6ky5niiffqrt2dpny5jqmw4z5aedmr23h7@qmzbbt4laikx>
-References: <20240602-drm-imx-cleanup-v3-0-e549e2a43100@linaro.org>
- <uqsnphe2pm366xenpdvtsxvpkiewgmxoqyv2zvbgc3ewlx23mp@guesbce35jcm>
- <e4cf5a6a2be51fe9c7fff54e30cf3bd6f1d3534e.camel@pengutronix.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD1010E1EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 13:47:27 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23DD2F85;
+ Wed, 31 Jul 2024 15:46:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1722433598;
+ bh=bWjUxuw/bFpPMmL/Vpdv20Re4oaTJut4VK2k8K8u2l0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ejJIiJJe54gJ8IfG8PT0fVVh91m8puR/joJoDEeDKuI9DlpvI4lc85KVHMLyyn2f9
+ 90wfBNX6EKhB2JCjhNDaVtm5mEK+29RWLujoC3lPqBKX7QEmmGkcjvoGFDLmr1N2Aj
+ zbLjo6YXpzujDjwzgs3nPkj6UeNPTFlfSVXHibNM=
+Date: Wed, 31 Jul 2024 16:47:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "biju.das.au" <biju.das.au@gmail.com>,
+ Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 3/9] dt-bindings: display: renesas,rzg2l-du: Document
+ RZ/G2UL DU bindings
+Message-ID: <20240731134705.GD12477@pendragon.ideasonboard.com>
+References: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
+ <20240709135152.185042-4-biju.das.jz@bp.renesas.com>
+ <20240727004958.GF300@pendragon.ideasonboard.com>
+ <TY3PR01MB11346C37466562CBB2751F3CD86B72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e4cf5a6a2be51fe9c7fff54e30cf3bd6f1d3534e.camel@pengutronix.de>
+In-Reply-To: <TY3PR01MB11346C37466562CBB2751F3CD86B72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,55 +70,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 31, 2024 at 03:12:44PM GMT, Philipp Zabel wrote:
-> Hi Dmitry,
-> 
-> On Sa, 2024-07-27 at 14:17 +0300, Dmitry Baryshkov wrote:
-> > On Sun, Jun 02, 2024 at 03:04:40PM GMT, Dmitry Baryshkov wrote:
-> > > The IPUv3 DRM i.MX driver contains several codepaths for different
-> > > usescases: both LDB and paralllel-display drivers handle next-bridge,
-> > > panel and the legacy display-timings DT node on their own.
-> > > 
-> > > Drop unused ddc-i2c-bus and edid handling (none of the DT files merged
-> > > upstream ever used these features), switch to panel-bridge driver,
-> > > removing the need to handle drm_panel codepaths separately and finally
-> > > switch to drm_bridge_connector, removing requirement for the downstream
-> > > bridges to create drm_connector on their own.
-> > > 
-> > > This has been tested on the iMX53 with the DPI panel attached to LDB via
-> > > LVDS decoder, using all possible usecases (lvds-codec + panel, panel
-> > > linked directly to LDB node and the display-timings node).
-> > > 
-> > > To be able to test on the iMX53 QSRB with the HDMI cape apply [1], [2]
-> > > 
-> > > [1] https://lore.kernel.org/all/20240514030718.533169-1-victor.liu@nxp.com/
-> > > [2] https://lore.kernel.org/all/20240602-imx-sii902x-defconfig-v1-1-71a6c382b422@linaro.org/
-> > > 
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > ---
-> > > Changes in v3:
-> > > - Notice (soft) dependencies in the cover letter (Chris)
-> > > - Select DRM_BRIDGE instead of depending on it (Philipp)
-> > > - Dropped unused selection of DRM_PANEL (Philipp)
-> > > - Added missing include of <drm/bridge/imx.h> to parallel-display.c
-> > >   (Philipp)
-> > > - Link to v2: https://lore.kernel.org/r/20240331-drm-imx-cleanup-v2-0-d81c1d1c1026@linaro.org
-> > > 
-> > > Changes in v2:
-> > > - Fixed drm_bridge_attach flags in imx/parallel-display driver.
-> > > - Moved the legacy bridge to drivers/gpu/drm/bridge
-> > > - Added missing EXPORT_SYMBOL_GPL to the iMX legacy bridge
-> > > - Link to v1: https://lore.kernel.org/r/20240311-drm-imx-cleanup-v1-0-e104f05caa51@linaro.org
-> > 
-> > Just a gracious ping, this has been without maintainer's review for
-> > nearly two months.
-> 
-> I don't have any active i.MX6 projects right now, which increases
-> latency. I'll get around to reviewing the remaining changes and testing
-> on i.MX6 this week or next.
+Hi Biju,
 
-Thanks!
+On Mon, Jul 29, 2024 at 09:05:59AM +0000, Biju Das wrote:
+> On Saturday, July 27, 2024 1:50 AM, Laurent Pinchart wrote:
+> > On Tue, Jul 09, 2024 at 02:51:41PM +0100, Biju Das wrote:
+> > > Document DU found in RZ/G2UL SoC. The DU block is identical to RZ/G2L
+> > > SoC, but has only DPI interface.
+> > >
+> > > While at it, add missing required property port@1 for RZ/G2L and
+> > > RZ/V2L SoCs. Currently there is no user for the DPI interface and
+> > > hence there won't be any ABI breakage for adding port@1 as required
+> > > property for RZ/G2L and RZ/V2L SoCs.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > > ---
+> > > v1->v2:
+> > >  * Updated commit description related to non ABI breakage.
+> > >  * Added Ack from Conor.
+> > > ---
+> > >  .../bindings/display/renesas,rzg2l-du.yaml    | 32 +++++++++++++++++--
+> > >  1 file changed, 29 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > > b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > > index 08e5b9478051..c0fec282fa45 100644
+> > > --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > > @@ -18,6 +18,7 @@ properties:
+> > >    compatible:
+> > >      oneOf:
+> > >        - enum:
+> > > +          - renesas,r9a07g043u-du # RZ/G2UL
+> > >            - renesas,r9a07g044-du # RZ/G2{L,LC}
+> > >        - items:
+> > >            - enum:
+> > > @@ -60,9 +61,6 @@ properties:
+> > >          $ref: /schemas/graph.yaml#/properties/port
+> > >          unevaluatedProperties: false
+> > >
+> > > -    required:
+> > > -      - port@0
+> > > -
+> > >      unevaluatedProperties: false
+> > >
+> > >    renesas,vsps:
+> > > @@ -88,6 +86,34 @@ required:
+> > >
+> > >  additionalProperties: false
+> > >
+> > > +allOf:
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            const: renesas,r9a07g043u-du
+> > > +    then:
+> > > +      properties:
+> > > +        ports:
+> > > +          properties:
+> > > +            port@0: false
+> > > +            port@1:
+> > > +              description: DPI
+> > > +
+> > > +          required:
+> > > +            - port@1
+> > 
+> > Why do you use port@1 for the DPI output here, and not port@0 ?
+> 
+> Currently the output is based on port number and port = 1 corresponds to DPI. See [1].
+> 
+> For consistency, I documented bindings for RZ/G2L family DU's similar to RZ/G2{H,M,N,E} DU [2].
+> 
+> So please let me know, are you ok with this?
+
+I won't insist strongly, but I don't think that using the port number to
+indicate the output type is the best idea. In the R-Car DU driver at
+least, that wouldn't have scaled. We have multiple outputs of the same
+type on some SoCs. Furthemore, the same DU hardware channel number (i.e.
+the offset of the registers specific to that channel in the DU register
+space) is not the same across SoCs for the same output type. I recommend
+numbering the ports based on the hardware number of the output (the
+exact meaning of this is specific to your device, I haven't checked what
+it means for RZ/G2L), not on the output type.
+
+> [1] https://elixir.bootlin.com/linux/v6.10.2/source/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c#L187
+> 
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/renesas,du.yaml?h=next-20240729#n546
+> 
+> > > +    else:
+> > > +      properties:
+> > > +        ports:
+> > > +          properties:
+> > > +            port@0:
+> > > +              description: DSI
+> > > +            port@1:
+> > > +              description: DPI
+> > > +
+> > > +          required:
+> > > +            - port@0
+> > > +            - port@1
+> > 
+> > You're missing a blank line here.
+> 
+> OK, will fix this'
 
 -- 
-With best wishes
-Dmitry
+Regards,
+
+Laurent Pinchart
