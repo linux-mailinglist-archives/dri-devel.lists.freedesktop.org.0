@@ -2,70 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50239427AF
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 09:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47CF94278B
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2024 09:10:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4A0910E2DD;
-	Wed, 31 Jul 2024 07:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE1C10E097;
+	Wed, 31 Jul 2024 07:10:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="efMfnLFx";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="HNuwuJNr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uao/HULh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HNuwuJNr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uao/HULh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
- [209.85.160.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14F9710E363
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 07:05:18 +0000 (UTC)
-Received: by mail-oa1-f46.google.com with SMTP id
- 586e51a60fabf-260e208e126so3362072fac.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 00:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722409517; x=1723014317; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mrCAXXCSMmjbL6R33sl32ct6gbQlsIym8nsT33zM3Rc=;
- b=efMfnLFxR004XO/A75r8ni5uy0YxOOtX4TkNkKdGV8ZPafeJsRLNCddv+I5v+RB2N3
- AQpLGUgWeKuqp6StDgEcWcD3RgL+r31NtLw1HqRA5EXNi7gktrA084v4AmnxnliUS55g
- cW1zDqksNR3jRl6d5c367XwxbfLwd7vTdi0hCTbhmn7a/8A4TpKvu7GZRmGvZ0Tx+MJA
- QregqIwfhS91MI7wpsA13xLCs9fHrL0xTSx4KbOOb6q7XX30J4I+bkP3CyC+qA8FQpN/
- NNrSap6D9lJnWquSqWlFngiOSZ+Izq6p1o6NxGSfeMLalsSf6IW3QP+53EK4SK9t15I7
- ATcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722409517; x=1723014317;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mrCAXXCSMmjbL6R33sl32ct6gbQlsIym8nsT33zM3Rc=;
- b=QwJjx4CKKJBlRaG+TR2Es4ON0tEhcDW81UpEpk2SGDOypgLg/Eu0dG/e90zr0Eu6O4
- LDsieDte6oW6zIq5/Gs8ZwR1k0fI2tjuQbEg/jElM7RoMtBbQLjR5pN0yXf46y2ZuzWE
- VLocBBN6JQTb9i2gpwtvJVsYW0fj7DQwj/Fu9WSR/OMBBjKVuEQ1oq87b9SMZMmvUCz2
- ggi9EDLCO0LZfybQc3NmHVCxU++qQ7LEaWsCa1m/r+cTk9lqd4mjH/jTDgEjf0a6pkG5
- sPLVP+TW/YUgzuSSJUvjLxBAGlR3JJ//+H4l3zBXrnZ9kANyBzBK5v+NjpElqRL9fjB8
- RtDA==
-X-Gm-Message-State: AOJu0YwdxU4LUotbWfcaKFn28eNHW+MTu+I7BROdDdPmzCWmeLP7I3sr
- GGrULsDtzNYWxpJJVlgkQ8Mld+MdWZRjM5QqERy8if3Ao2NwLzI5UJ1NBKA27+Q=
-X-Google-Smtp-Source: AGHT+IGr572fiibvBQPX2H/P2UU6sDQCN8guL81ZBr4lGrTb8rxtV2x6+RVC46jqxQD7x55AYK4KPA==
-X-Received: by 2002:a05:6870:2d4:b0:261:198f:13cd with SMTP id
- 586e51a60fabf-267d4ef04e5mr16428624fac.32.1722409516886; 
- Wed, 31 Jul 2024 00:05:16 -0700 (PDT)
-Received: from Riyan.inspiron ([122.176.203.252])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-70ead7120f6sm9447234b3a.50.2024.07.31.00.05.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Jul 2024 00:05:16 -0700 (PDT)
-From: Riyan Dhiman <riyandhiman14@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Riyan Dhiman <riyandhiman14@gmail.com>
-Subject: [PATCH] staging: vme_user: vme.h: alignment of closing parenthesis
- should match open parenthesis in function declaration
-Date: Wed, 31 Jul 2024 12:35:07 +0530
-Message-Id: <20240731070507.6290-1-riyandhiman14@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29BFC10E097
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 07:10:10 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 95DB81F846;
+ Wed, 31 Jul 2024 07:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722409808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=EwZjZOFPsXWIS7cnMMHGsZiJ76Hpre6jzRZmxryd7wE=;
+ b=HNuwuJNr2xBwxG1i93ICb56j1+BGIu8kMeHIYuhvqjpC1hJvm03oO/iW5+zCQeI0UKz56l
+ 4WAbd0KUax6YW6JouHKOhfD0bItYST+P5ZOuEhXdrtE4eyAdpFxpCQyz4QRd/sMaN4GXvN
+ VsWu6MEeJuYNeiOSK0wOA2PiEHWXIxo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722409808;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=EwZjZOFPsXWIS7cnMMHGsZiJ76Hpre6jzRZmxryd7wE=;
+ b=uao/HULhPy4zn63TYGkU3g1p0McVXhjXhkyydCM/WcsID2jHOgtmufqscLiLlnznJ94tVM
+ Xm2m1J+8hrcPxIDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722409808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=EwZjZOFPsXWIS7cnMMHGsZiJ76Hpre6jzRZmxryd7wE=;
+ b=HNuwuJNr2xBwxG1i93ICb56j1+BGIu8kMeHIYuhvqjpC1hJvm03oO/iW5+zCQeI0UKz56l
+ 4WAbd0KUax6YW6JouHKOhfD0bItYST+P5ZOuEhXdrtE4eyAdpFxpCQyz4QRd/sMaN4GXvN
+ VsWu6MEeJuYNeiOSK0wOA2PiEHWXIxo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722409808;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=EwZjZOFPsXWIS7cnMMHGsZiJ76Hpre6jzRZmxryd7wE=;
+ b=uao/HULhPy4zn63TYGkU3g1p0McVXhjXhkyydCM/WcsID2jHOgtmufqscLiLlnznJ94tVM
+ Xm2m1J+8hrcPxIDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4778E13297;
+ Wed, 31 Jul 2024 07:10:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id lsg4EFDjqWagcgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 31 Jul 2024 07:10:08 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH] drm/mgag200: Fix VBLANK interrupt handling
+Date: Wed, 31 Jul 2024 09:09:40 +0200
+Message-ID: <20240731071004.519566-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 31 Jul 2024 07:19:04 +0000
+X-Spamd-Result: default: False [-2.60 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; MIME_GOOD(-0.10)[text/plain];
+ MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[10];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.60
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,73 +105,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adhere to Linux kernel coding style.
+Fix support for VBLANK interrupts on G200ER, G200EV and G200SE, which
+use a slightly different implementation than the others. The original
+commits forgot to update the custom helpers when adding interrupt
+handling for VBLANK events.
 
-Reported by checkpatch:
-
-CHECK: Alignment should match open parenthesis
-
-Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 89c6ea2006e2 ("drm/mgag200: Add vblank support")
+Fixes: d5070c9b2944 ("drm/mgag200: Implement struct drm_crtc_funcs.get_vblank_timestamp")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/staging/vme_user/vme.h | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_g200er.c | 5 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c | 5 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200se.c | 5 ++++-
+ 3 files changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
-index 26aa40f78a74..7753e736f9fd 100644
---- a/drivers/staging/vme_user/vme.h
-+++ b/drivers/staging/vme_user/vme.h
-@@ -129,8 +129,7 @@ struct vme_driver {
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+index 6d727ab1a7aa..e65d59173939 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+@@ -209,6 +209,8 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ 
+ 	if (mdev->info->sync_bmc)
+ 		mgag200_bmc_start_scanout(mdev);
++
++	drm_crtc_vblank_on(crtc);
+ }
+ 
+ static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
+@@ -216,7 +218,8 @@ static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
+ 	.atomic_check = mgag200_crtc_helper_atomic_check,
+ 	.atomic_flush = mgag200_crtc_helper_atomic_flush,
+ 	.atomic_enable = mgag200_g200er_crtc_helper_atomic_enable,
+-	.atomic_disable = mgag200_crtc_helper_atomic_disable
++	.atomic_disable = mgag200_crtc_helper_atomic_disable,
++	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
  };
  
- void *vme_alloc_consistent(struct vme_resource *, size_t, dma_addr_t *);
--void vme_free_consistent(struct vme_resource *, size_t,  void *,
--	dma_addr_t);
-+void vme_free_consistent(struct vme_resource *, size_t,  void *, dma_addr_t);
+ static const struct drm_crtc_funcs mgag200_g200er_crtc_funcs = {
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+index e6c9ba61bf97..a4890b496050 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+@@ -210,6 +210,8 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
  
- size_t vme_get_size(struct vme_resource *);
- int vme_check_window(struct vme_bridge *bridge, u32 aspace,
-@@ -138,20 +137,20 @@ int vme_check_window(struct vme_bridge *bridge, u32 aspace,
+ 	if (mdev->info->sync_bmc)
+ 		mgag200_bmc_start_scanout(mdev);
++
++	drm_crtc_vblank_on(crtc);
+ }
  
- struct vme_resource *vme_slave_request(struct vme_dev *, u32, u32);
- int vme_slave_set(struct vme_resource *, int, unsigned long long,
--	unsigned long long, dma_addr_t, u32, u32);
-+		  unsigned long long, dma_addr_t, u32, u32);
- int vme_slave_get(struct vme_resource *, int *, unsigned long long *,
--	unsigned long long *, dma_addr_t *, u32 *, u32 *);
-+		  unsigned long long *, dma_addr_t *, u32 *, u32 *);
- void vme_slave_free(struct vme_resource *);
+ static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
+@@ -217,7 +219,8 @@ static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
+ 	.atomic_check = mgag200_crtc_helper_atomic_check,
+ 	.atomic_flush = mgag200_crtc_helper_atomic_flush,
+ 	.atomic_enable = mgag200_g200ev_crtc_helper_atomic_enable,
+-	.atomic_disable = mgag200_crtc_helper_atomic_disable
++	.atomic_disable = mgag200_crtc_helper_atomic_disable,
++	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
+ };
  
- struct vme_resource *vme_master_request(struct vme_dev *, u32, u32, u32);
- int vme_master_set(struct vme_resource *, int, unsigned long long,
--	unsigned long long, u32, u32, u32);
-+		   unsigned long long, u32, u32, u32);
- int vme_master_get(struct vme_resource *, int *, unsigned long long *,
--	unsigned long long *, u32 *, u32 *, u32 *);
-+		   unsigned long long *, u32 *, u32 *, u32 *);
- ssize_t vme_master_read(struct vme_resource *, void *, size_t, loff_t);
- ssize_t vme_master_write(struct vme_resource *, void *, size_t, loff_t);
- unsigned int vme_master_rmw(struct vme_resource *, unsigned int, unsigned int,
--	unsigned int, loff_t);
-+			    unsigned int, loff_t);
- int vme_master_mmap(struct vme_resource *resource, struct vm_area_struct *vma);
- void vme_master_free(struct vme_resource *);
+ static const struct drm_crtc_funcs mgag200_g200ev_crtc_funcs = {
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+index 2a53ebf41539..fcb97e4253c4 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+@@ -341,6 +341,8 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
  
-@@ -162,13 +161,13 @@ struct vme_dma_attr *vme_dma_pci_attribute(dma_addr_t);
- struct vme_dma_attr *vme_dma_vme_attribute(unsigned long long, u32, u32, u32);
- void vme_dma_free_attribute(struct vme_dma_attr *);
- int vme_dma_list_add(struct vme_dma_list *, struct vme_dma_attr *,
--	struct vme_dma_attr *, size_t);
-+		     struct vme_dma_attr *, size_t);
- int vme_dma_list_exec(struct vme_dma_list *);
- int vme_dma_list_free(struct vme_dma_list *);
- int vme_dma_free(struct vme_resource *);
+ 	if (mdev->info->sync_bmc)
+ 		mgag200_bmc_start_scanout(mdev);
++
++	drm_crtc_vblank_on(crtc);
+ }
  
- int vme_irq_request(struct vme_dev *, int, int,
--	void (*callback)(int, int, void *), void *);
-+		    void (*callback)(int, int, void *), void *);
- void vme_irq_free(struct vme_dev *, int, int);
- int vme_irq_generate(struct vme_dev *, int, int);
+ static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
+@@ -348,7 +350,8 @@ static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
+ 	.atomic_check = mgag200_crtc_helper_atomic_check,
+ 	.atomic_flush = mgag200_crtc_helper_atomic_flush,
+ 	.atomic_enable = mgag200_g200se_crtc_helper_atomic_enable,
+-	.atomic_disable = mgag200_crtc_helper_atomic_disable
++	.atomic_disable = mgag200_crtc_helper_atomic_disable,
++	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
+ };
  
+ static const struct drm_crtc_funcs mgag200_g200se_crtc_funcs = {
 -- 
-2.39.2
+2.45.2
 
