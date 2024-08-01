@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F73943C9A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:39:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7480943C9E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:40:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB95810E86C;
-	Thu,  1 Aug 2024 00:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FFC910E86F;
+	Thu,  1 Aug 2024 00:40:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D3hs8osz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tT2aSMiy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F203610E86E;
- Thu,  1 Aug 2024 00:39:51 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A100210E873;
+ Thu,  1 Aug 2024 00:40:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7990C624A7;
- Thu,  1 Aug 2024 00:39:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA58EC116B1;
- Thu,  1 Aug 2024 00:39:49 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id B91D5CE17AC;
+ Thu,  1 Aug 2024 00:39:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E90C116B1;
+ Thu,  1 Aug 2024 00:39:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472791;
- bh=Zv1R4rBZzoxvmbPtS8MXR+WTTcEsfsWDjXzqJvKFYME=;
+ s=k20201202; t=1722472799;
+ bh=r8EFgXogzRkl5bdeMIqgYvAU62nrklDUVfI4YKX8EP0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=D3hs8oszhFneBIYz8jEKRiZIALO3+V3RJqfMG+qxiOW984dZFE0XldFbGX+SHTnTP
- 5te8J3qTteh2dQ/JTwupbMECZNPwF8zaracziCBD9LqvFdWZd7MtN0Xk1UIYwBIZ5f
- CB/yo4W0CWGSL6MXsc2waOSXzY5JDF9+cY2dJHAH3TjbcTE523sHsZMpMcj8GUK2+9
- ZRsAup8fOzLJw79jm+RpAMyg+2n2Y6Q9zAC1E7+Yy3XpvwBQcTOa7Ez0IhUVa0CpEx
- oaaLyUnMSf2SjxQAPXZjMY8QZ98tgb3OwjYHMKUlB2u5dqfIT7rD4T7qmo2KqTRYo2
- ujUrJgih//wIg==
+ b=tT2aSMiyzLtWapQJv4PRoNZxQO3Z7mBaigzvB8Qo9zj6MQyTSFgZbbMBKAr23ID5u
+ usMbREwr4sIpxNafuKoX2FuNaU63OfIO7ER9VldI4qONA1bwSwkXbO9xy2ZfgmcnwM
+ LEnqNmhz/aFlyxX7gQiQ+L4D8oHxawS3VL2VguBDHFQxWhfmBK18dcHnKNZ3QgD5hW
+ OY9w19PiyDua0dOAz9u2F10Gp2qJtsSMN9eFRWrB30cCcchGwd1F0P/OhNJeNiBrqG
+ ERfoitpO1JfGVL14vrraXfpHzu2C1nlAVYdcfVX9TVl9C5DHI4aV9EebCUObaSDI9N
+ s7iRx9vUpd2JQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Michael Chen <michael.chen@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 08/22] drm/amdkfd: Reconcile the definition and
- use of oem_id in struct kfd_topology_device
-Date: Wed, 31 Jul 2024 20:38:37 -0400
-Message-ID: <20240801003918.3939431-8-sashal@kernel.org>
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.4 11/22] drm/amd/display: Skip
+ wbscl_set_scaler_filter if filter is null
+Date: Wed, 31 Jul 2024 20:38:40 -0400
+Message-ID: <20240801003918.3939431-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801003918.3939431-1-sashal@kernel.org>
 References: <20240801003918.3939431-1-sashal@kernel.org>
@@ -66,68 +66,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Chen <michael.chen@amd.com>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 10f624ef239bd136cdcc5bbc626157a57b938a31 ]
+[ Upstream commit c4d31653c03b90e51515b1380115d1aedad925dd ]
 
-Currently oem_id is defined as uint8_t[6] and casted to uint64_t*
-in some use case. This would lead code scanner to complain about
-access beyond. Re-define it in union to enforce 8-byte size and
-alignment to avoid potential issue.
+Callers can pass null in filter (i.e. from returned from the function
+wbscl_get_filter_coeffs_16p) and a null check is added to ensure that is
+not the case.
 
-Signed-off-by: Michael Chen <michael.chen@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+This fixes 4 NULL_RETURNS issues reported by Coverity.
+
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_crat.h     | 2 --
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 3 +--
- drivers/gpu/drm/amd/amdkfd/kfd_topology.h | 5 ++++-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.h b/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
-index d54ceebd346b7..30c70b3ab17f1 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
-@@ -42,8 +42,6 @@
- #define CRAT_OEMTABLEID_LENGTH	8
- #define CRAT_RESERVED_LENGTH	6
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c
+index cd8bc92ce3ba9..4058a4fd6b224 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c
+@@ -690,6 +690,9 @@ static void wbscl_set_scaler_filter(
+ 	int pair;
+ 	uint16_t odd_coef, even_coef;
  
--#define CRAT_OEMID_64BIT_MASK ((1ULL << (CRAT_OEMID_LENGTH * 8)) - 1)
--
- /* Compute Unit flags */
- #define COMPUTE_UNIT_CPU	(1 << 0)  /* Create Virtual CRAT for CPU */
- #define COMPUTE_UNIT_GPU	(1 << 1)  /* Create Virtual CRAT for GPU */
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index a49e2ab071d68..de892ee147dea 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -883,8 +883,7 @@ static void kfd_update_system_properties(void)
- 	dev = list_last_entry(&topology_device_list,
- 			struct kfd_topology_device, list);
- 	if (dev) {
--		sys_props.platform_id =
--			(*((uint64_t *)dev->oem_id)) & CRAT_OEMID_64BIT_MASK;
-+		sys_props.platform_id = dev->oem_id64;
- 		sys_props.platform_oem = *((uint64_t *)dev->oem_table_id);
- 		sys_props.platform_rev = dev->oem_revision;
- 	}
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-index d4718d58d0f24..7230b5b5bfe5a 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-@@ -172,7 +172,10 @@ struct kfd_topology_device {
- 	struct attribute		attr_gpuid;
- 	struct attribute		attr_name;
- 	struct attribute		attr_props;
--	uint8_t				oem_id[CRAT_OEMID_LENGTH];
-+	union {
-+		uint8_t				oem_id[CRAT_OEMID_LENGTH];
-+		uint64_t			oem_id64;
-+	};
- 	uint8_t				oem_table_id[CRAT_OEMTABLEID_LENGTH];
- 	uint32_t			oem_revision;
- };
++	if (!filter)
++		return;
++
+ 	for (phase = 0; phase < (NUM_PHASES / 2 + 1); phase++) {
+ 		for (pair = 0; pair < tap_pairs; pair++) {
+ 			even_coef = filter[phase * taps + 2 * pair];
 -- 
 2.43.0
 
