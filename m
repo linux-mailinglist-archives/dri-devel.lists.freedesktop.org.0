@@ -2,58 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA53944F80
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 17:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6758C944FBB
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 17:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE49A10E8B6;
-	Thu,  1 Aug 2024 15:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB3F10E909;
+	Thu,  1 Aug 2024 15:57:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W8bFVWA9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ks7d+dOz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 980AE10E033;
- Thu,  1 Aug 2024 15:40:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1722526832; x=1754062832;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2BC4AvINo/3dpxp1thFj6sMz2KD2EUZYa1tRGmcj1m8=;
- b=W8bFVWA98zfGHgLmYDcOJjO8F5NBEWKb3G4/B3ocOXYQJwkYxXYS8wBb
- q/wkHknNjlFcRluSWx278lR7MlBOIfNvawU0rmpNyV9zJflJPZ/9BXkRQ
- iq1332KRP1suGOZsC8PqixVeAiuW+JtVq7XYmx1A/abMLjcsKuaXJsPnL
- L3xLA0YkUfPv7YGcpMdgzDtZZdL0u0c08NvuY+KPHX+HXF9+RGVZ4jYBy
- c4h9O2qtYjiy8TgozsloYkXy1oNSehadfhtPvuRbY2Bi7pOIvpSroEdaj
- 60BUdObSVm7k2ftZY1TOG6/HhZOGcU/oCL6hXvwW9tcCNYu5EBSk1DrWJ w==;
-X-CSE-ConnectionGUID: zrcOFh2ATV6NLKXE/fY0Nw==
-X-CSE-MsgGUID: XQjtijlQSwOlWxTX4/ecug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="23407970"
-X-IronPort-AV: E=Sophos;i="6.09,255,1716274800"; d="scan'208";a="23407970"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2024 08:40:31 -0700
-X-CSE-ConnectionGUID: hAuVPot8QMGiAdi9+DhnpQ==
-X-CSE-MsgGUID: 5MfZAVnqS56Q6Xe1dlsWyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; d="scan'208";a="55047757"
-Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2024 08:40:31 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com,
-	rodrigo.vivi@intel.com
-Subject: [PATCH v5 3/3] drm/xe: Faster devcoredump
-Date: Thu,  1 Aug 2024 08:41:18 -0700
-Message-Id: <20240801154118.2547543-4-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240801154118.2547543-1-matthew.brost@intel.com>
-References: <20240801154118.2547543-1-matthew.brost@intel.com>
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B235310E028;
+ Thu,  1 Aug 2024 15:57:34 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-7a130ae7126so5037111a12.0; 
+ Thu, 01 Aug 2024 08:57:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722527854; x=1723132654; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=q2B7tON8arfSykpERlZXom9AgtP+Guw0ctcqeBOdhY8=;
+ b=ks7d+dOz0J2n9dPqi2mT1qlzdFZ1A7GBJZtDk5gH9ehdgNli/RzGV2AvBYQij5+Yxv
+ r0FRL9oRNPRqNPRJcUW62ARDHjLeqF6v4luKvns3620tYCipjM7YzfdoGVxT6Xh4w24i
+ Ae4tq+dTATQwEYmHdYka3kBRYHRm45SaJB4J7KQfthJz86P/DFR86MTJeOq2XdDpnhAj
+ mA6Htw99ZSLw52daP+qUu83dgjO7uLMc99HpTvMnGNb68HeEJH91bGqLVt4s9Q4AQH8f
+ OvTgD4X+qWVbX1dYtwE9PYjCSL6wgTDzfPlld8nYD36PxaRi0J5DOBT8biT84PhoJA9G
+ OYGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722527854; x=1723132654;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=q2B7tON8arfSykpERlZXom9AgtP+Guw0ctcqeBOdhY8=;
+ b=cCFJ6P1qVWCZoNNsQEjN7sZWLJP3j7oNEYD7bVIHn6iooE5u4vXSLM5AsjCUeQm+hk
+ mrhRPbDn1Jxvu2lhN2+XmHX1F8zI6g1Ii83voBUHczoWyaQ7u9OqYH7ivcnrGfN6ZZfN
+ 7n+al9iZdTV8jmXTceTjOiQqlWNsjw9cd6P2+yP5C5mgF61dmZO800jaxSErR6xOUH06
+ ekL/P7Ukwh7TtfWDal/lpvdDK3QgAn8VPACiBO/hq0jgi+d6TCOFEV3y8n1OLlz9iwdb
+ UL2mdIoYDJwvou1ZMVJ6sS4PdZc0MTYanleaAnlQ24hj3W4HdtSoCY1KkELh6ZEkPJ9M
+ qETQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUOr9+TuGCSk9iyTTqqwCU9Cfsw9gpv/ZdwixfWEbhOSHa+cxMQ9+kSy1aP2Fp+qeDJBHq7oYnFB2haE84s44u7IJEt1saJU/mNzY802MX9erWkK6GDZMaqT3iYLZ0bQ71gnm0OxxBOU1MJMQYklTBQ
+X-Gm-Message-State: AOJu0YzGA8ZF7BDfUqp2rNXZgfga8vT84q4PYerJ/vccDQPMGjmZCzos
+ 4MwlQJERgwLPuTQBmhNVyRh141T0lvK/sEan6JDkDdqyokUCtmLeB5lIsMv0WhgqNJjrQ6dpVFm
+ aKzzbHQhzLIfSH7DZXrkthhpkDys=
+X-Google-Smtp-Source: AGHT+IFS8L0lEo0LTZn+3suL/QglBnkiGXHjt4ybdEgng+l+WUpdECW2Qgxqu7MAYlETSoaKQ3NURgS/Z+uytydyG40=
+X-Received: by 2002:a17:90b:4a52:b0:2c9:7f3d:6aea with SMTP id
+ 98e67ed59e1d1-2cff9559addmr727438a91.32.1722527853952; Thu, 01 Aug 2024
+ 08:57:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240711100038.268803-1-vladimir.lypak@gmail.com>
+ <20240711100038.268803-4-vladimir.lypak@gmail.com>
+ <CACu1E7HkRN7pkBOUeC3G59K5rbsMRj81HvfAocpHuG6XuNbCyQ@mail.gmail.com>
+ <Zqt9Cxu7FsSALi4y@trashcan>
+ <CACu1E7GrWj1EiTgov6f_nUkUR3WPWD6zs4H7OPL7Maw3i2-WQg@mail.gmail.com>
+ <ZquafkbK67ecsp99@trashcan>
+In-Reply-To: <ZquafkbK67ecsp99@trashcan>
+From: Connor Abbott <cwabbott0@gmail.com>
+Date: Thu, 1 Aug 2024 16:57:22 +0100
+Message-ID: <CACu1E7G_zS8UY9unKKNVu-1jL+Dy6NsCUG5sg1EzrZw1fhdM6A@mail.gmail.com>
+Subject: Re: [PATCH 3/4] drm/msm/a5xx: fix races in preemption evaluation stage
+To: Vladimir Lypak <vladimir.lypak@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jordan Crouse <jordan@cosmicpenguin.net>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,210 +91,343 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current algorithm to read out devcoredump is O(N*N) where N is the
-size of coredump due to usage of the drm_coredump_printer in
-xe_devcoredump_read. Switch to a O(N) algorithm which prints the
-devcoredump into a readable format in snapshot work and update
-xe_devcoredump_read to memcpy from the readable format directly.
+On Thu, Aug 1, 2024 at 3:26=E2=80=AFPM Vladimir Lypak <vladimir.lypak@gmail=
+.com> wrote:
+>
+> On Thu, Aug 01, 2024 at 01:52:32PM +0100, Connor Abbott wrote:
+> > On Thu, Aug 1, 2024 at 1:25=E2=80=AFPM Vladimir Lypak <vladimir.lypak@g=
+mail.com> wrote:
+> > >
+> > > On Mon, Jul 29, 2024 at 06:26:45PM +0100, Connor Abbott wrote:
+> > > > On Thu, Jul 11, 2024 at 11:10=E2=80=AFAM Vladimir Lypak
+> > > > <vladimir.lypak@gmail.com> wrote:
+> > > > >
+> > > > > On A5XX GPUs when preemption is used it's invietable to enter a s=
+oft
+> > > > > lock-up state in which GPU is stuck at empty ring-buffer doing no=
+thing.
+> > > > > This appears as full UI lockup and not detected as GPU hang (beca=
+use
+> > > > > it's not). This happens due to not triggering preemption when it =
+was
+> > > > > needed. Sometimes this state can be recovered by some new submit =
+but
+> > > > > generally it won't happen because applications are waiting for ol=
+d
+> > > > > submits to retire.
+> > > > >
+> > > > > One of the reasons why this happens is a race between a5xx_submit=
+ and
+> > > > > a5xx_preempt_trigger called from IRQ during submit retire. Former=
+ thread
+> > > > > updates ring->cur of previously empty and not current ring right =
+after
+> > > > > latter checks it for emptiness. Then both threads can just exit b=
+ecause
+> > > > > for first one preempt_state wasn't NONE yet and for second one al=
+l rings
+> > > > > appeared to be empty.
+> > > > >
+> > > > > To prevent such situations from happening we need to establish gu=
+arantee
+> > > > > for preempt_trigger to be called after each submit. To implement =
+it this
+> > > > > patch adds trigger call at the end of a5xx_preempt_irq to re-chec=
+k if we
+> > > > > should switch to non-empty or higher priority ring. Also we find =
+next
+> > > > > ring in new preemption state "EVALUATE". If the thread that updat=
+ed some
+> > > > > ring with new submit sees this state it should wait until it pass=
+es.
+> > > > >
+> > > > > Fixes: b1fc2839d2f9 ("drm/msm: Implement preemption for A5XX targ=
+ets")
+> > > > > Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  6 +++---
+> > > > >  drivers/gpu/drm/msm/adreno/a5xx_gpu.h     | 11 +++++++----
+> > > > >  drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 24 +++++++++++++++++=
+++----
+> > > > >  3 files changed, 30 insertions(+), 11 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/=
+drm/msm/adreno/a5xx_gpu.c
+> > > > > index 6c80d3003966..266744ee1d5f 100644
+> > > > > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > > > > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > > > > @@ -110,7 +110,7 @@ static void a5xx_submit_in_rb(struct msm_gpu =
+*gpu, struct msm_gem_submit *submit
+> > > > >         }
+> > > > >
+> > > > >         a5xx_flush(gpu, ring, true);
+> > > > > -       a5xx_preempt_trigger(gpu);
+> > > > > +       a5xx_preempt_trigger(gpu, true);
+> > > > >
+> > > > >         /* we might not necessarily have a cmd from userspace to
+> > > > >          * trigger an event to know that submit has completed, so
+> > > > > @@ -240,7 +240,7 @@ static void a5xx_submit(struct msm_gpu *gpu, =
+struct msm_gem_submit *submit)
+> > > > >         a5xx_flush(gpu, ring, false);
+> > > > >
+> > > > >         /* Check to see if we need to start preemption */
+> > > > > -       a5xx_preempt_trigger(gpu);
+> > > > > +       a5xx_preempt_trigger(gpu, true);
+> > > > >  }
+> > > > >
+> > > > >  static const struct adreno_five_hwcg_regs {
+> > > > > @@ -1296,7 +1296,7 @@ static irqreturn_t a5xx_irq(struct msm_gpu =
+*gpu)
+> > > > >                 a5xx_gpmu_err_irq(gpu);
+> > > > >
+> > > > >         if (status & A5XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS) {
+> > > > > -               a5xx_preempt_trigger(gpu);
+> > > > > +               a5xx_preempt_trigger(gpu, false);
+> > > > >                 msm_gpu_retire(gpu);
+> > > > >         }
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h b/drivers/gpu/=
+drm/msm/adreno/a5xx_gpu.h
+> > > > > index c7187bcc5e90..1120824853d4 100644
+> > > > > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+> > > > > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+> > > > > @@ -57,10 +57,12 @@ void a5xx_debugfs_init(struct msm_gpu *gpu, s=
+truct drm_minor *minor);
+> > > > >   * through the process.
+> > > > >   *
+> > > > >   * PREEMPT_NONE - no preemption in progress.  Next state START.
+> > > > > - * PREEMPT_START - The trigger is evaulating if preemption is po=
+ssible. Next
+> > > > > - * states: TRIGGERED, NONE
+> > > > > + * PREEMPT_EVALUATE - The trigger is evaulating if preemption is=
+ possible. Next
+> > > > > + * states: START, ABORT
+> > > > >   * PREEMPT_ABORT - An intermediate state before moving back to N=
+ONE. Next
+> > > > >   * state: NONE.
+> > > > > + * PREEMPT_START - The trigger is preparing for preemption. Next=
+ state:
+> > > > > + * TRIGGERED
+> > > > >   * PREEMPT_TRIGGERED: A preemption has been executed on the hard=
+ware. Next
+> > > > >   * states: FAULTED, PENDING
+> > > > >   * PREEMPT_FAULTED: A preemption timed out (never completed). Th=
+is will trigger
+> > > > > @@ -71,8 +73,9 @@ void a5xx_debugfs_init(struct msm_gpu *gpu, str=
+uct drm_minor *minor);
+> > > > >
+> > > > >  enum preempt_state {
+> > > > >         PREEMPT_NONE =3D 0,
+> > > > > -       PREEMPT_START,
+> > > > > +       PREEMPT_EVALUATE,
+> > > > >         PREEMPT_ABORT,
+> > > > > +       PREEMPT_START,
+> > > > >         PREEMPT_TRIGGERED,
+> > > > >         PREEMPT_FAULTED,
+> > > > >         PREEMPT_PENDING,
+> > > > > @@ -156,7 +159,7 @@ void a5xx_set_hwcg(struct msm_gpu *gpu, bool =
+state);
+> > > > >
+> > > > >  void a5xx_preempt_init(struct msm_gpu *gpu);
+> > > > >  void a5xx_preempt_hw_init(struct msm_gpu *gpu);
+> > > > > -void a5xx_preempt_trigger(struct msm_gpu *gpu);
+> > > > > +void a5xx_preempt_trigger(struct msm_gpu *gpu, bool new_submit);
+> > > > >  void a5xx_preempt_irq(struct msm_gpu *gpu);
+> > > > >  void a5xx_preempt_fini(struct msm_gpu *gpu);
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c b/drivers/=
+gpu/drm/msm/adreno/a5xx_preempt.c
+> > > > > index 67a8ef4adf6b..f8d09a83c5ae 100644
+> > > > > --- a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+> > > > > +++ b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+> > > > > @@ -87,21 +87,33 @@ static void a5xx_preempt_timer(struct timer_l=
+ist *t)
+> > > > >  }
+> > > > >
+> > > > >  /* Try to trigger a preemption switch */
+> > > > > -void a5xx_preempt_trigger(struct msm_gpu *gpu)
+> > > > > +void a5xx_preempt_trigger(struct msm_gpu *gpu, bool new_submit)
+> > > > >  {
+> > > > >         struct adreno_gpu *adreno_gpu =3D to_adreno_gpu(gpu);
+> > > > >         struct a5xx_gpu *a5xx_gpu =3D to_a5xx_gpu(adreno_gpu);
+> > > > >         unsigned long flags;
+> > > > >         struct msm_ringbuffer *ring;
+> > > > > +       enum preempt_state state;
+> > > > >
+> > > > >         if (gpu->nr_rings =3D=3D 1)
+> > > > >                 return;
+> > > > >
+> > > > >         /*
+> > > > > -        * Try to start preemption by moving from NONE to START. =
+If
+> > > > > -        * unsuccessful, a preemption is already in flight
+> > > > > +        * Try to start preemption by moving from NONE to EVALUAT=
+E. If current
+> > > > > +        * state is EVALUATE/ABORT we can't just quit because the=
+n we can't
+> > > > > +        * guarantee that preempt_trigger will be called after ri=
+ng is updated
+> > > > > +        * by new submit.
+> > > > >          */
+> > > > > -       if (!try_preempt_state(a5xx_gpu, PREEMPT_NONE, PREEMPT_ST=
+ART))
+> > > > > +       state =3D atomic_cmpxchg(&a5xx_gpu->preempt_state, PREEMP=
+T_NONE,
+> > > > > +                              PREEMPT_EVALUATE);
+> > > > > +       while (new_submit && (state =3D=3D PREEMPT_EVALUATE ||
+> > > > > +                             state =3D=3D PREEMPT_ABORT)) {
+> > > >
+> > > > This isn't enough because even if new_submit is false then we may
+> > > > still need to guarantee that evaluation happens. We've seen a hang =
+in
+> > > > a scenario like:
+> > > >
+> > > > 1. A job is submitted and executed on ring 0.
+> > > > 2. A job is submitted on ring 2 while ring 0 is still active but
+> > > > almost finished.
+> > > > 3. The submission thread starts evaluating and sees that ring 0 is =
+still busy.
+> > > > 4. The job on ring 0 finishes and a CACHE_FLUSH IRQ is raised.
+> > > > 5. The IRQ tries to trigger a preemption but the state is still
+> > > > PREEMPT_EVALUATE or PREEMPT_ABORT and exits.
+> > > > 6. The submission thread finishes update_wptr() and finally sets th=
+e
+> > > > state to PREEMPT_NONE too late.
+> > > >
+> > > > Then we never preempt to ring 2 and there's a soft lockup.
+> > >
+> > > Thanks, i've missed that. It would need to always wait to prevent suc=
+h
+> > > scenario. The next patch prevented this from happening for me so i ha=
+ve
+> > > overlooked it.
+> > >
+> > > Alternatively there is another approach which should perform better: =
+to
+> > > let evaluation stage run in parallel.
+> > >
+> > > Also i've tried serializing preemption handling on ordered workqueue =
+and
+> > > GPU kthread worker. It's a lot simpler but latency from IRQ doesn't l=
+ook
+> > > good:
+> > >
+> > >            flush-trigger    SW_IRQ-pending   flush_IRQ-trigger
+> > >     uSecs    1    2    3       1    2    3       1    2    3
+> > >      0-10 1515   43   65    4423   39   24     647    0    2
+> > >     10-20 1484  453  103     446  414  309     399    1    1
+> > >     20-40  827 1802  358      19  819  587       2   21    6
+> > >     40-60    7 1264  397       1  368  329       0   30   14
+> > >     60-80    4  311  115       0  181  178       0   24   12
+> > >    80-120    2   36  251       0  250  188       0    9   13
+> > >   120-160    0    4  244       0  176  248       0  226  150
+> > >   160-200    0    1  278       0  221  235       0   86   78
+> > >   200-400    0    2 1266       0 1318 1186       0  476  688
+> > >   400-700    0    0  553       0  745 1028       0  150  106
+> > >  700-1000    0    0  121       0  264  366       0   65   28
+> > > 1000-1500    0    0   61       0  160  205       0   21    8
+> > >     >2000    0    0   12       0   71   48       0    0    0
+> > >
+> > > 1 - current implementation but with evaluation in parallel.
+> > > 2 - serialized on ordered workqueue.
+> > > 3 - serialized on GPU kthread_worker.
+> >
+> > The problem with evaluating in parallel is that evaluating can race
+> > with the rest of the process - it's possible for the thread evaluating
+> > to go to be interrupted just before moving the state to PREEMPT_START
+> > and in the meantime an entire preemption has happened and it's out of
+> > date.
+>
+> Right. This gets complicated to fix for sure.
+>
+> >
+> > What we did was to put a spinlock around the entire evaluation stage,
+> > effectively replacing the busy loop and the EVALUATE stage. It unlocks
+> > only after moving the state to NONE or knowing for certain that we're
+> > starting a preemption. That should be lower latency than a workqueue
+> > while the critical section shouldn't be that large (it's one atomic
+> > operation and checking each ring), and in any case that's what the
+> > spinning loop was doing anyway.
+>
+> Actually this is what i've done initially but i didn't want to introduce
+> another spinlock.
+>
+> Another thing to consider is: to disable IRQs for entire trigger routine
+> and use regular spin_lock instead so once it's decided to do a switch
+> it won't get interrupted (when called from submit).
 
-v2:
- - Fix double free on devcoredump removal (Testing)
- - Set read_data_size after snap work flush
- - Adjust remaining in iterator upon realloc (Testing)
- - Set read_data upon realloc (Testing)
-v3:
- - Kernel doc
-v4:
- - Two pass algorithm to determine size (Maarten)
-v5:
- - Use scope for reading variables (Johnathan)
+Isn't disabling IRQs and a regular spinlock the same as
+spin_lock_irqsave()? We just used the latter, and it seems to work.
+The pseudocode is something like:
 
-Reported-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
-Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/2408
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
----
- drivers/gpu/drm/xe/xe_devcoredump.c       | 111 ++++++++++++++++------
- drivers/gpu/drm/xe/xe_devcoredump_types.h |   8 ++
- 2 files changed, 88 insertions(+), 31 deletions(-)
+spin_lock_irqsave();
+if (!try_preempt_state(NONE, START)) { unlock(); return; }
+if (!evaluate()) {
+    set_preempt_state(ABORT);
+    update_wptr();
+    set_preempt_state(NONE);
+    unlock();
+    return;
+}
+unlock();
+... // trigger the preemption
 
-diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
-index d8d8ca2c19d3..bdb76e834e4c 100644
---- a/drivers/gpu/drm/xe/xe_devcoredump.c
-+++ b/drivers/gpu/drm/xe/xe_devcoredump.c
-@@ -66,22 +66,9 @@ static struct xe_guc *exec_queue_to_guc(struct xe_exec_queue *q)
- 	return &q->gt->uc.guc;
- }
- 
--static void xe_devcoredump_deferred_snap_work(struct work_struct *work)
--{
--	struct xe_devcoredump_snapshot *ss = container_of(work, typeof(*ss), work);
--
--	/* keep going if fw fails as we still want to save the memory and SW data */
--	if (xe_force_wake_get(gt_to_fw(ss->gt), XE_FORCEWAKE_ALL))
--		xe_gt_info(ss->gt, "failed to get forcewake for coredump capture\n");
--	xe_vm_snapshot_capture_delayed(ss->vm);
--	xe_guc_exec_queue_snapshot_capture_delayed(ss->ge);
--	xe_force_wake_put(gt_to_fw(ss->gt), XE_FORCEWAKE_ALL);
--}
--
--static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
--				   size_t count, void *data, size_t datalen)
-+static ssize_t __xe_devcoredump_read(char *buffer, size_t count,
-+				     struct xe_devcoredump *coredump)
- {
--	struct xe_devcoredump *coredump = data;
- 	struct xe_device *xe;
- 	struct xe_devcoredump_snapshot *ss;
- 	struct drm_printer p;
-@@ -89,18 +76,11 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
- 	struct timespec64 ts;
- 	int i;
- 
--	if (!coredump)
--		return -ENODEV;
--
- 	xe = coredump_to_xe(coredump);
- 	ss = &coredump->snapshot;
- 
--	/* Ensure delayed work is captured before continuing */
--	flush_work(&ss->work);
--
- 	iter.data = buffer;
--	iter.offset = 0;
--	iter.start = offset;
-+	iter.start = 0;
- 	iter.remain = count;
- 
- 	p = drm_coredump_printer(&iter);
-@@ -134,10 +114,83 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
- 	return count - iter.remain;
- }
- 
-+static void xe_devcoredump_snapshot_free(struct xe_devcoredump_snapshot *ss)
-+{
-+	int i;
-+
-+	xe_guc_ct_snapshot_free(ss->ct);
-+	ss->ct = NULL;
-+
-+	xe_guc_exec_queue_snapshot_free(ss->ge);
-+	ss->ge = NULL;
-+
-+	xe_sched_job_snapshot_free(ss->job);
-+	ss->job = NULL;
-+
-+	for (i = 0; i < XE_NUM_HW_ENGINES; i++)
-+		if (ss->hwe[i]) {
-+			xe_hw_engine_snapshot_free(ss->hwe[i]);
-+			ss->hwe[i] = NULL;
-+		}
-+
-+	xe_vm_snapshot_free(ss->vm);
-+	ss->vm = NULL;
-+}
-+
-+static void xe_devcoredump_deferred_snap_work(struct work_struct *work)
-+{
-+	struct xe_devcoredump_snapshot *ss = container_of(work, typeof(*ss), work);
-+	struct xe_devcoredump *coredump = container_of(ss, typeof(*coredump), snapshot);
-+
-+	/* keep going if fw fails as we still want to save the memory and SW data */
-+	if (xe_force_wake_get(gt_to_fw(ss->gt), XE_FORCEWAKE_ALL))
-+		xe_gt_info(ss->gt, "failed to get forcewake for coredump capture\n");
-+	xe_vm_snapshot_capture_delayed(ss->vm);
-+	xe_guc_exec_queue_snapshot_capture_delayed(ss->ge);
-+	xe_force_wake_put(gt_to_fw(ss->gt), XE_FORCEWAKE_ALL);
-+
-+	/* Calculate devcoredump size */
-+	ss->read.size = __xe_devcoredump_read(NULL, INT_MAX, coredump);
-+
-+	ss->read.buffer = kvmalloc(ss->read.size, GFP_USER);
-+	if (!ss->read.buffer)
-+		return;
-+
-+	__xe_devcoredump_read(ss->read.buffer, ss->read.size, coredump);
-+	xe_devcoredump_snapshot_free(ss);
-+}
-+
-+static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
-+				   size_t count, void *data, size_t datalen)
-+{
-+	struct xe_devcoredump *coredump = data;
-+	struct xe_devcoredump_snapshot *ss;
-+	ssize_t byte_copied;
-+
-+	if (!coredump)
-+		return -ENODEV;
-+
-+	ss = &coredump->snapshot;
-+
-+	/* Ensure delayed work is captured before continuing */
-+	flush_work(&ss->work);
-+
-+	if (!ss->read.buffer)
-+		return -ENODEV;
-+
-+	if (offset >= ss->read.size)
-+		return 0;
-+
-+	byte_copied = count < ss->read.size - offset ? count :
-+		ss->read.size - offset;
-+	memcpy(buffer, ss->read.buffer + offset, byte_copied);
-+
-+	return byte_copied;
-+}
-+
- static void xe_devcoredump_free(void *data)
- {
- 	struct xe_devcoredump *coredump = data;
--	int i;
- 
- 	/* Our device is gone. Nothing to do... */
- 	if (!data || !coredump_to_xe(coredump))
-@@ -145,13 +198,8 @@ static void xe_devcoredump_free(void *data)
- 
- 	cancel_work_sync(&coredump->snapshot.work);
- 
--	xe_guc_ct_snapshot_free(coredump->snapshot.ct);
--	xe_guc_exec_queue_snapshot_free(coredump->snapshot.ge);
--	xe_sched_job_snapshot_free(coredump->snapshot.job);
--	for (i = 0; i < XE_NUM_HW_ENGINES; i++)
--		if (coredump->snapshot.hwe[i])
--			xe_hw_engine_snapshot_free(coredump->snapshot.hwe[i]);
--	xe_vm_snapshot_free(coredump->snapshot.vm);
-+	xe_devcoredump_snapshot_free(&coredump->snapshot);
-+	kvfree(coredump->snapshot.read.buffer);
- 
- 	/* To prevent stale data on next snapshot, clear everything */
- 	memset(&coredump->snapshot, 0, sizeof(coredump->snapshot));
-@@ -260,4 +308,5 @@ int xe_devcoredump_init(struct xe_device *xe)
- {
- 	return devm_add_action_or_reset(xe->drm.dev, xe_driver_devcoredump_fini, &xe->drm);
- }
-+
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_devcoredump_types.h b/drivers/gpu/drm/xe/xe_devcoredump_types.h
-index 923cdf72a816..440d05d77a5a 100644
---- a/drivers/gpu/drm/xe/xe_devcoredump_types.h
-+++ b/drivers/gpu/drm/xe/xe_devcoredump_types.h
-@@ -46,6 +46,14 @@ struct xe_devcoredump_snapshot {
- 	struct xe_sched_job_snapshot *job;
- 	/** @vm: Snapshot of VM state */
- 	struct xe_vm_snapshot *vm;
-+
-+	/** @read: devcoredump in human readable format */
-+	struct {
-+		/** @read.size: size of devcoredump in human readable format */
-+		ssize_t size;
-+		/** @read.buffer: buffer of devcoredump in human readable format */
-+		char *buffer;
-+	} read;
- };
- 
- /**
--- 
-2.34.1
+If the point is to have interrupts disabled for the entire time,
+that's not necessary - once you unlock the state will be START and any
+IRQ calling preempt_trigger() will immediately exit.
 
+As for introducing another spinlock, this is no different than what
+you're doing already with the spin loop. It's already basically a
+(simple) spinlock. We're just replacing this with a real spinlock
+that's simpler to reason about. However, if the spinlock is somehow
+measurably slower than manually spinning, you can always keep it how
+it is now with the EVALUATE state and manually add the irq
+save/restore to make it safe to spin in the submit thread.
+
+Connor
+
+>
+> Vladimir
+>
+> >
+> > Connor
+> >
+> > >
+> > > Vladimir
+> > >
+> > > >
+> > > > Connor
+> > > >
+> > > > > +               cpu_relax();
+> > > > > +               state =3D atomic_cmpxchg(&a5xx_gpu->preempt_state=
+, PREEMPT_NONE,
+> > > > > +                                      PREEMPT_EVALUATE);
+> > > > > +       }
+> > > > > +
+> > > > > +       if (state !=3D PREEMPT_NONE)
+> > > > >                 return;
+> > > > >
+> > > > >         /* Get the next ring to preempt to */
+> > > > > @@ -130,6 +142,8 @@ void a5xx_preempt_trigger(struct msm_gpu *gpu=
+)
+> > > > >                 return;
+> > > > >         }
+> > > > >
+> > > > > +       set_preempt_state(a5xx_gpu, PREEMPT_START);
+> > > > > +
+> > > > >         /* Make sure the wptr doesn't update while we're in motio=
+n */
+> > > > >         spin_lock_irqsave(&ring->preempt_lock, flags);
+> > > > >         a5xx_gpu->preempt[ring->id]->wptr =3D get_wptr(ring);
+> > > > > @@ -188,6 +202,8 @@ void a5xx_preempt_irq(struct msm_gpu *gpu)
+> > > > >         update_wptr(gpu, a5xx_gpu->cur_ring);
+> > > > >
+> > > > >         set_preempt_state(a5xx_gpu, PREEMPT_NONE);
+> > > > > +
+> > > > > +       a5xx_preempt_trigger(gpu, false);
+> > > > >  }
+> > > > >
+> > > > >  void a5xx_preempt_hw_init(struct msm_gpu *gpu)
+> > > > > --
+> > > > > 2.45.2
+> > > > >
