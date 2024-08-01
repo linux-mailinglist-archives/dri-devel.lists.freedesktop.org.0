@@ -2,63 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3ADE9441EE
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 05:37:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C189C944241
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 06:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0CBA10E880;
-	Thu,  1 Aug 2024 03:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C99B810E009;
+	Thu,  1 Aug 2024 04:41:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cYKyRRsa";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AD342D5n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B951110E880
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 03:37:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D96766276F;
- Thu,  1 Aug 2024 03:37:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5258FC4AF12;
- Thu,  1 Aug 2024 03:37:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722483453;
- bh=Vp0WRXh6a99JG+/ezGQ5ywVjgLg1EA2TbMiWufFAhyY=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=cYKyRRsaeRsQ+vhTxImq00tcnxZdtguLo+p1yishEBW957kN/WnCAs86A3sa4FO5b
- fznqqsk/HmFVZSZgPzjqCXgIidlgW6FKiDlNtWCwaPKRvrxb4zYj3/PoixfyNU/eeY
- yJAXUvrbnDKr0FdMywkEY5tYDmd+QbkuH/TXP5dwLplej8NzyVIuBzhAcVIQ7m3621
- fU6fcXG4LnNiWq1noxeAJGInlscL/a8YT+Q4PlSgOm0Hv6zl2KeaOZ08izcvr3JFpI
- 7sv+RVZ8CmSq8eafJLXtLWCk4hNwRfRGqcjbUNs12F8dh+RPlW+KtIII/nC0T+K2F5
- 7PfJ9q9ecsrBA==
-Date: Wed, 31 Jul 2024 21:37:32 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4071110E009
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 04:41:51 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id
+ ca18e2360f4ac-81f96ea9ff7so221060039f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 21:41:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722487310; x=1723092110; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TrS7ZmWwF7HPF34u2t9hLe1InvTL4w8sJTnePBAV3mg=;
+ b=AD342D5ncFSMjZFu/pcTP/PSwqxA7ebs/dmInJYl5bJR0HONKrM+6pfJwSjlJazUSf
+ WH7EQC4Qt6sOqVs+Km+q2m162Yoplai7ncA3dzlMkMlcnk11ZIg3JCXH96jC5/Z5pg0C
+ xTUc1H+jGhfOEk2CZrlaklX0BZC8r7xQ8rQ6Nt45RNwBVnz48OT/Am+itQi3lbnRnZxb
+ aN9O9zJkHoqFx60yoVV6GYwHPfIBcD+sELD5LjU0aXL2c8kVjis90l0WmoLjqGyg6cfg
+ zzz54+ga8nIKcR+UNO6lo1vt3eHuox/EZ3uEwr23hlwde+TWLTyyjErgAMxStTnBFUCZ
+ nFAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722487310; x=1723092110;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TrS7ZmWwF7HPF34u2t9hLe1InvTL4w8sJTnePBAV3mg=;
+ b=ft1X8Ha8smpNQJFLgiZAQV4GGcAcvUnIz++eQ0WNxwU4IHe/U5BwRsCdiZQj3Go7Ct
+ ruf50L6acf7dDqFkg3aSb2G6TOGOsPid36lb+Nu2KVtJVZ0rQqf3jp24JG2c06UF3jIO
+ 4e7wd4z2tjpsAdcllNzFkuO6oAgCAOpT50u1ikke/sxRWP6UkAJ6E5bfBrwtvYwdHQq/
+ YaHiOpBM97JRiccE2derlt5i8yIcZl5GEEeVQxvk1eQm5EceiIabLhXduVMXsOLrkoCg
+ 5b6xK03TsPwexDsOIhRoaL4TU9+5n/SWS4dz537Fm3m6pYvslUdG9/4qd/HXRdOUR9WN
+ pSsg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUffomqpQz/TNEJF56OC1xGKHih/q77IQ0fev4RmERRkgO0mhRkan9rozFGHYYcJGJPUWiXrL9+DmgRdx9EDIExbDB89De4z4Nj+3ut4W5w
+X-Gm-Message-State: AOJu0YyQMB7gzmbhyHZ8ssIDuRYgtERWx8ce3m/Le2+dcTVbQWUg1r99
+ 8KEzULWFjbAqtYqvJ4R3jkebYA5jZy8U5+wmP3DEYyeUNV84Rf/9
+X-Google-Smtp-Source: AGHT+IHOO+qv2QQwi+jWLgh6b+xMILAAavu2vX5eMe2CcHpvUKecTXPxU7Ozo6PD4cg1UgEckJCnJQ==
+X-Received: by 2002:a05:6e02:1586:b0:398:b5b8:a683 with SMTP id
+ e9e14a558f8ab-39b18362baemr18700575ab.9.1722487310120; 
+ Wed, 31 Jul 2024 21:41:50 -0700 (PDT)
+Received: from [10.3.80.76] ([103.4.222.252]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-7a9f817aebasm11378845a12.28.2024.07.31.21.41.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Jul 2024 21:41:49 -0700 (PDT)
+Message-ID: <96048585-28e4-4bdd-b73c-1e2d6f806f91@gmail.com>
+Date: Thu, 1 Aug 2024 10:11:45 +0530
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andy Yan <andy.yan@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Luis de Arquer <ldearquer@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- David Airlie <airlied@gmail.com>, Alexandre ARNOUD <aarnoud@me.com>, 
- Robert Foss <rfoss@kernel.org>, devicetree@vger.kernel.org, 
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- linux-rockchip@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Mark Yao <markyao0591@gmail.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Jonas Karlman <jonas@kwiboo.se>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
- Sandy Huang <hjc@rock-chips.com>, linux-kernel@vger.kernel.org, 
- kernel@collabora.com, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, 
- Jernej Skrabec <jernej.skrabec@gmail.com>
-In-Reply-To: <20240801-b4-rk3588-bridge-upstream-v2-1-9fa657a4e15b@collabora.com>
-References: <20240801-b4-rk3588-bridge-upstream-v2-0-9fa657a4e15b@collabora.com>
- <20240801-b4-rk3588-bridge-upstream-v2-1-9fa657a4e15b@collabora.com>
-Message-Id: <172248345225.2862796.6921035362248469311.robh@kernel.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: rockchip: Add schema for
- RK3588 HDMI TX Controller
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm/mipi-dsi: add more multi functions for better
+ error handling
+To: Doug Anderson <dianders@chromium.org>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240730060659.455953-1-tejasvipin76@gmail.com>
+ <20240730060659.455953-2-tejasvipin76@gmail.com>
+ <CAD=FV=XGzQN0LK6SBOY_6P8eF-cAuP4hRwsS+NTZEaik_Os7NA@mail.gmail.com>
+Content-Language: en-US
+From: Tejas Vipin <tejasvipin76@gmail.com>
+In-Reply-To: <CAD=FV=XGzQN0LK6SBOY_6P8eF-cAuP4hRwsS+NTZEaik_Os7NA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,44 +90,85 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 01 Aug 2024 05:25:52 +0300, Cristian Ciocaltea wrote:
-> Rockchip RK3588 SoC integrates the Synopsys DesignWare HDMI 2.1
-> Quad-Pixel (QP) TX controller IP.
+
+On 8/1/24 2:59 AM, Doug Anderson wrote:
+> Hi,
 > 
-> Since this is a new IP block, quite different from those used in the
-> previous generations of Rockchip SoCs, add a dedicated binding file.
+> On Mon, Jul 29, 2024 at 11:07 PM Tejas Vipin <tejasvipin76@gmail.com> wrote:
+>> +/**
+>> + * mipi_dsi_dcs_get_display_brightness_multi() - gets the current brightness value
+>> + *    of the display
+>> + * @ctx: Context for multiple DSI transactions
+>> + * @brightness: brightness value
+>> + *
+>> + * Like mipi_dsi_dcs_get_display_brightness() but deals with errors in a way that
+>> + * makes it convenient to make several calls in a row.
+>> + */
+>> +void mipi_dsi_dcs_get_display_brightness_multi(struct mipi_dsi_multi_context *ctx,
+>> +                                              u16 *brightness)
+>> +{
+>> +       struct mipi_dsi_device *dsi = ctx->dsi;
+>> +       struct device *dev = &dsi->dev;
+>> +       int ret;
+>> +
+>> +       if (ctx->accum_err)
+>> +               return;
+>> +
+>> +       ret = mipi_dsi_dcs_get_display_brightness(dsi, brightness);
+>> +       if (ret < 0) {
+>> +               ctx->accum_err = ret;
+>> +               dev_err(dev, "Failed to get display brightness: %d\n",
+>> +                       ctx->accum_err);
+>> +       }
+>> +}
+>> +EXPORT_SYMBOL(mipi_dsi_dcs_get_display_brightness_multi);
 > 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  .../display/rockchip/rockchip,dw-hdmi-qp.yaml      | 188 +++++++++++++++++++++
->  1 file changed, 188 insertions(+)
+> I'd be interested in others' opinions, but this function strikes me as
+> one that *shouldn't* be converted to _multi.
+>
+
+Only reason I converted the function at all was really for uniformity's
+sake. But I don't think that's valid anymore seeing how there's already
+other mipi_dsi funtions that I'm not converting and this function
+probably wouldn't show up in the context of the other multi
+functions.
+
+> Specifically the whole point of the _multi abstraction is that you can
+> fire off a whole pile of initialization commands without needing to
+> check for errors constantly. You can check for errors once at the end
+> of a sequence of commands and you can be sure that an error message
+> was printed for the command that failed and that all of the future
+> commands didn't do anything.
 > 
+> I have a hard time believing that _get_ brightness would be part of
+> this pile of initialization commands. ...and looking at how you use it
+> in the next patch I can see that, indeed, it's a bit awkward using the
+> _multi variant in the case you're using it.
+> 
+> The one advantage of the _multi functions is that they are also
+> "chatty" and we don't need to print the error everywhere. However, it
+> seems like we could just make the existing function print an error
+> message but still return the error directly. If this automatic
+> printing an error message is a problem for someone then I guess maybe
+> we've already reached the "tomorrow" [1] and need to figure out if we
+> need to keep two variants of the function around instead of marking
+> one as deprecated.
+>
 
-My bot found errors running 'make dt_binding_check' on your patch:
+One thing that struck me as odd was that the callers of
+mipi_dsi_dcs_get_display_brightness never bothered to print errors at
+all? If we want to print errors for non-multi functions, then I think it
+would be best to just modify the existing function. And in the case that
+someone doesn't want those errors showing up, I agree with what Maxime
+said [2] and let users handle it.
 
-yamllint warnings/errors:
+> NOTE: If we don't convert this then the "set" function will still be
+> _multi but the "get" one won't be. I think that's fine since the "set"
+> function could plausibly be in a big sequence of commands but the
+> "get" function not so much...
+> 
+> [1] https://lore.kernel.org/r/CAD=FV=WbXdnM4or3Ae+nYoQW1Sce0jP6FWtCHShsALuEFNhiww@mail.gmail.com
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi-qp.example.dtb: hdmi@fde80000: False schema does not allow {'compatible': ['rockchip,rk3588-dw-hdmi-qp'], 'reg': [[0, 4259840000, 0, 131072]], 'clocks': [[4294967295, 528], [4294967295, 529], [4294967295, 530], [4294967295, 564], [4294967295, 594], [4294967295, 717]], 'clock-names': ['pclk', 'earc', 'ref', 'aud', 'hdp', 'hclk_vo1'], 'interrupts': [[0, 169, 4, 0], [0, 170, 4, 0], [0, 171, 4, 0], [0, 172, 4, 0], [0, 360, 4, 0]], 'interrupt-names': ['avp', 'cec', 'earc', 'main', 'hpd'], 'phys': [[4294967295]], 'phy-names': ['hdmi'], 'power-domains': [[4294967295, 26]], 'resets': [[4294967295, 462], [4294967295, 560]], 'reset-names': ['ref', 'hdp'], 'rockchip,grf': [[4294967295]], 'rockchip,vo1_grf': [[4294967295]], '#sound-dai-cells': 0, 'ports': {'#address-cells': 1, '#size-cells': 0, 'port@0': {'reg': [[0]], 'endpoint': {'remote-endpoint': [[4294967295]]}}, 'port@1': {'reg': [[1]]
- , 'endpoint': {'remote-endpoint': [[4294967295]]}}}, '$nodename': ['hdmi@fde80000']}
-	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi-qp.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi-qp.example.dtb: hdmi@fde80000: Unevaluated properties are not allowed ('reg' was unexpected)
-	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi-qp.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240801-b4-rk3588-bridge-upstream-v2-1-9fa657a4e15b@collabora.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+[2] https://lore.kernel.org/all/20240726-cerise-civet-of-reverence-ebeb9d@houat/
+-- 
+Tejas Vipin
