@@ -2,169 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5578944E0C
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 16:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C261944E2E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 16:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D65710E98D;
-	Thu,  1 Aug 2024 14:30:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92F4A10E996;
+	Thu,  1 Aug 2024 14:39:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Pv36+4MM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZaBa7RdR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA3C10E989;
- Thu,  1 Aug 2024 14:30:30 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD0210E996;
+ Thu,  1 Aug 2024 14:39:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1722522631; x=1754058631;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=Hphi8v+RMAorPXq1M+SrSO4FQNcFCKtGDXWbBntc/O4=;
- b=Pv36+4MMunNlWPokqYyXhYP9CgZf+LVpv2tZ5F1OQy5xtiKvqFzTrCtM
- AE141pdh7bc8MNHJUO9/KRDw73GRNg40t7G3EMUAmpE3m70HgP/wB9WmW
- Wf63tPLQ5f5bfP6BaxDo8twF67oMnZGP1f8EncbrUBzg+OK6v2KCQ6Odo
- HWqwRtSXmzA7qhn7cNjN3VSpxZrEQOSY37YFPbElVxHac7wNbWu5gu/AR
- HBEa/HFnyiFtG19IFtPUw3M2/Wg8vIN1wL9ceHCbfZLd1BVeKbgp/1d2f
- mYlOnutapjKux8vsJJF7tLRQWM0aY7IukznnCb8uzls+g1ErxSgTH4jqf Q==;
-X-CSE-ConnectionGUID: u3JSK+7GRf6rHi885SoY8A==
-X-CSE-MsgGUID: 1psea7VDTzChfRt/hn1aaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="31629824"
-X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; d="scan'208";a="31629824"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2024 07:30:30 -0700
-X-CSE-ConnectionGUID: HNM+MAvxQTaELMe5cnKFQg==
-X-CSE-MsgGUID: 7iKP82NqSEy0Q1SsZcQ8Og==
+ t=1722523153; x=1754059153;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=5JLiULkEN4ZmC4MvCYQDObZPoRR3Zf/57JHOcZBsPQ8=;
+ b=ZaBa7RdR2fWigHopPHs+4KPxLd+W8FKw4JGPYXvWl+d8o+QTgcC6+KZi
+ PTPi64UqYlBCHLqjgXbrOEgYYpU4b4DGzzIqo0rQruFEoM9htl2pGik96
+ gemKv7DpCz9USssoQvcXP5O2l3VODal1RABubRxbIP9Rbf9LFv4gHc6ur
+ c1LeiT0qPxTccPDe7fn6l70GLmhmseJiLgx4EdNtYeh3gyAEf+g9OEvXP
+ Bv5C2GjcwK8oivUoNiKzvRhYAtqMVKNsRNB8yB5kxZakRS9EkWhwdaj6/
+ pCuccCYiKdYT9NJ3xuIDg0e/J4q1LnBipyFeO/jpP2HpXUTYHJFfiY2nt w==;
+X-CSE-ConnectionGUID: Aj/5OuInQOyDiAWmNkDP+g==
+X-CSE-MsgGUID: /0v2BE33T4SxntTTqbeZJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="24343759"
+X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; d="scan'208";a="24343759"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2024 07:39:12 -0700
+X-CSE-ConnectionGUID: u9fjroswTY6SjGe+bpUHOA==
+X-CSE-MsgGUID: ehDaSQnnRhCNgEuOZAVhvw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; d="scan'208";a="55297311"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 01 Aug 2024 07:30:30 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; d="scan'208";a="59872807"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 01 Aug 2024 07:39:13 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 1 Aug 2024 07:30:29 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.39; Thu, 1 Aug 2024 07:39:11 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 1 Aug 2024 07:30:29 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Thu, 1 Aug 2024 07:39:11 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 1 Aug 2024 07:30:29 -0700
+ 15.1.2507.39; Thu, 1 Aug 2024 07:39:11 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U70+Uch3Fc75G4lJyavb7YVt2CDjgqvj19JNNLhE/dRutWsqjKbxPYGAb8eSCHoQzgenCUPWTxXOf2SwsvCvQr7GTj0l8D+rOixt+VVgyAZlJYcysb//h106gG43YsN1gcK/qgbgO/BvJ71woCaQCI+KBm/xT8ebtZO7iktfLtwhc5QzHS6p8GZkyhWx8zo4a2TSJP/2piJw0dOfzfiIyJ1i6o549TKO9gOwdes8+YWAMXCFpKmXZ+perB+IJAUMxQkX956DGg12vY+M5ooIhy6qkLZn1qFeaRg8iAtV6EqHlbzT+mz8cXb7F9xPDeH3HHrnANstbTEw05TALQqpSA==
+ b=TLl3Atln5vu+3jMaQh6KmibuC2twp3R+WjVw741w8Lm8R+xtuE3m3NcbNWwwyp26oRmqprZpVrnv57d0W5/aCV6/R0wh/vQMinYlJXNJqEjW8iFpU2lsVByDOHF7ArILbd18SSThi93Q1QDVzMULXK7FWkFDomE1oMvQLPfDJv7xZ7BZugd+pJ0NhqeV7vxI5htHZ+hAENBO1wCytDW9Zt6YkgmDAXfTk0enrLY+CS+GgnhkCqHwbWlYxc8fpP++u1Vrvy8Z3XcibHBFqJuKSVlUImqz4Fa1l9kksLUlnpKWg8Nmdfl6V1DwycwQ80WYcvd5dWZbDvENt0eK2I8/Ag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KkBol0ASicC0JeRiszstyF06yIsNqV0mPAh2tnDjBhg=;
- b=cvDWfKQydjL2eI2x04qS2edOgA43rK+sccy4b5uC132//MR/yU2R3FmPeB5F//EK8qgsK60+bK3SmSu74tR70ArLfSeyZA1Kk/uaEX+JIYmj/vqa+0iNLRKbWLGsCW6IcOmIYMulf+bC0UhUesS3UbGnW5PKqYwKnnXQET2XnleozQH4HPs0knNlNKFmAp4hofoSmByUTlbL9A93p5gDQ1ep8QsYKkEHKeJsJ6SJJXuHEUAld393aq9Dcn653yBLuhAK+roxqiOi/WscvA6m74Y5AAdCixNj5oRfiI6daSRwlTPSvl2sexQ/YEkZgHY2inu8j9uKZYpU5YxXVA2XwQ==
+ bh=dYmH822+k9sv7q7Zfie1OknQkyD2HAAgaM42N9tn51c=;
+ b=cemQY1D8bX7WhOaixRMkRxXX1XChbJAd1+X26wsTztZgGSDVKM31/Mo3ydjnLKPdXDdXnLXgK3ewmDjz41eIhC3fs0QskGcFYE6hcVlgQaId/Z7zEkI4GR1KIgsve2lGZjKg68nojhfRu27SJgLElcLZ9WvlzBMvfig29+ulFXkX93OiXJYwlFm6biFAn8LvWuZRdjdOcI6nCS/6I0Hkby6Tw4FcMBQQRgnhhNyURwmzOojiiXHjheBlSyewDrO6Tnsuk7FgSMqQyozVYZgz30GNdK1RV2SGwfyl+Zk71XntJQ110bIA35b93MfakI/kEuItd414L4cmNQ3vco4LCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DM4PR11MB5995.namprd11.prod.outlook.com (2603:10b6:8:5e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.23; Thu, 1 Aug
- 2024 14:30:25 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.7828.021; Thu, 1 Aug 2024
- 14:30:25 +0000
-Date: Thu, 1 Aug 2024 14:29:30 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com (2603:10b6:610:d3::13)
+ by SN7PR11MB6798.namprd11.prod.outlook.com (2603:10b6:806:262::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Thu, 1 Aug
+ 2024 14:38:59 +0000
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::5f89:ba81:ff70:bace]) by CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::5f89:ba81:ff70:bace%6]) with mapi id 15.20.7828.021; Thu, 1 Aug 2024
+ 14:38:59 +0000
+From: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
+To: "Brost, Matthew" <matthew.brost@intel.com>
 CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump printer
-Message-ID: <ZqubytFqikzQoKtC@DUT025-TGLU.fm.intel.com>
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Cavitt, Jonathan"
+ <jonathan.cavitt@intel.com>
+Subject: RE: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump printer
+Thread-Topic: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump
+ printer
+Thread-Index: AQHa45EhF36izAgqe0C6OeukODdQmbIRZ+xAgAAdMICAAOhMMIAACeYAgAABDTA=
+Date: Thu, 1 Aug 2024 14:38:59 +0000
+Message-ID: <CH0PR11MB5444812AE1294E55338D133AE5B22@CH0PR11MB5444.namprd11.prod.outlook.com>
 References: <20240731213221.2523989-1-matthew.brost@intel.com>
  <20240731213221.2523989-3-matthew.brost@intel.com>
  <CH0PR11MB5444E19C7B2423D654F3B2AEE5B12@CH0PR11MB5444.namprd11.prod.outlook.com>
  <ZqrQn8BwrVdXtdjG@DUT025-TGLU.fm.intel.com>
  <CH0PR11MB5444838A9E768A2E4D990E24E5B22@CH0PR11MB5444.namprd11.prod.outlook.com>
+ <ZqubytFqikzQoKtC@DUT025-TGLU.fm.intel.com>
+In-Reply-To: <ZqubytFqikzQoKtC@DUT025-TGLU.fm.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH0PR11MB5444:EE_|SN7PR11MB6798:EE_
+x-ms-office365-filtering-correlation-id: 915d7649-2348-4bf9-732e-08dcb237ae36
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?D7qygVvkzJ2GahH6r2CgLBzXDEr6iAoTj94gcKR0uHFTowTqNXyqGh+DDrhr?=
+ =?us-ascii?Q?S4gDSSBM49tlHE4TquIJmmAPLRIW5PpIiRy6jbFycEtZKI5vnIk/Lxdy92Do?=
+ =?us-ascii?Q?6otsLhGgmxxOVVZQ8JI2BTCZUYHK2eIhJrtrvRRR7n8JhNApFH2MQupPMYd4?=
+ =?us-ascii?Q?kP0TRHpEkgaQ3St/uiYoa0ZgHLHR7uUJDC/t85TiwSM6ICEQatO4E3qRAtJV?=
+ =?us-ascii?Q?h6sliCdEUDq7rM+xV8lyZm2z2RVR7/Q7pCilXiv3wTbYwPbD56mmuwLV5VO8?=
+ =?us-ascii?Q?qzAStIXx8pH0lNcivcJKuHOqTm9Kv/R26lr8IpwFR+3YXH/Pj/QS+A3LKNgO?=
+ =?us-ascii?Q?jhoKolG7vz2RPmjzx7NxE4TQkqMZhpL32N1+ujVRr+Lv/J7uMswFzkZx2iY+?=
+ =?us-ascii?Q?ffxLnFxhg1+JrEj8hkGFCEM0IRnz7qas8y97jv1KAOBezCnfe/XnvNsmolIb?=
+ =?us-ascii?Q?frfuRuqaC6y0hgNmf+39XXZWq6XLoprteM2FimIQCCowi1XQhsIl/Y7qmg3A?=
+ =?us-ascii?Q?2wLcbb540RCK6grLR+F4lHye510jK6NK5m1a8NzIjxaMiCP9/is2mhCwxqXZ?=
+ =?us-ascii?Q?qzprLbgSh+QvvZPXkVI0SLDecfvN851TJb1HpEW5VdG4zhQnyHv0ZuCRHobD?=
+ =?us-ascii?Q?8Pfup/fm4afAgyAK6k1Sx2gz0hjitES1HOHmIIjZtqo5myokUQgq/OUWzGHL?=
+ =?us-ascii?Q?7rnRhLXK8XKqnMhc8N3m5Qmy69YQIGzWV+5l+To8SXViThgzXVB6VN8o8BB7?=
+ =?us-ascii?Q?lJBLLyjzEUj6K6WYfn5SRoB4NHjvlnP4Dv8KUa2St1gHelCx6MkIHDryeIaU?=
+ =?us-ascii?Q?RijlUvPKTY8dsG+X9TYLzXa8/xI+gNWp02RvMb9/Xsu2QDQT2ria/30H/Vrp?=
+ =?us-ascii?Q?UkewI96AJB2wYKhxh0s+RQm0zX7n2UvmFdVVnO3qaM6OIq4SdHtnHiZvx0QH?=
+ =?us-ascii?Q?RONsiLoHwqGUkuncJNTyl2vJCl9GXzLrFP+/sVY0Mgl1uKOxGWArAjSIjGP5?=
+ =?us-ascii?Q?d27YshxIMfnqN8UXaTOLrM6vYhKmaZzqw0BsXBc68q1GK/IB5TD5cCBJ1FTq?=
+ =?us-ascii?Q?1GUtEtQDbnhCr0bN0IHy2XHDPf32is8PLfmjgyullEbh7x5G+MegiQGwevlm?=
+ =?us-ascii?Q?vtxXv6cMjeGljgBPfYCf94pZbVcFiMpU+E2xyRcTo0rJJ30Rp9xhmoqIizfA?=
+ =?us-ascii?Q?am8ZgUYae9Y5WcrB+6aWhQOK5usgWrsd7k21CbBp5amQWLaAKu1dCWyRA8UO?=
+ =?us-ascii?Q?9AbNQd0nue4ombR17TnvLIG3lUprTnaPjEyBj1WJYRdefm+gZaRrOfVrfjY8?=
+ =?us-ascii?Q?PikCxegOMFY1nqBShI0Kk3Vs00MjVAAkYFQ9U9tEnICdUXDvxOllxY8ih/H/?=
+ =?us-ascii?Q?6+A5zUiLeQ6RW2D/ugZvuqmwjIU4r+RWM/23E33xoQSE+w9c0g=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR11MB5444.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Txe5PFTvQS/EYq8SR4wEAtKbz1FZrx57p9Hewkzum3TTDuNOx05UyfWo+8my?=
+ =?us-ascii?Q?Eqz04OOouLN0/jmTkbvsU64SesJI+1ILfc+fqwDUj+DBBPIJ9wiWd1wrWmJM?=
+ =?us-ascii?Q?VtcmOnRGy21720ruCnjI/lk8tIV7++CHcGVxJ3/PgIqXaPs49j/fPR73cE/H?=
+ =?us-ascii?Q?IP9WbC6+AUasgzu8YihiJnKrRa+9HhoPv9iKQDWqG8rfwCz+oz+WN1JQMYwE?=
+ =?us-ascii?Q?boAbBACHt6EH8SaVm8d9AlI20KxUiBhUzsD6QNKKH3JZVLIfFSs9b31cQmi3?=
+ =?us-ascii?Q?iJ6suX2/BRYANUobJbX0tPpHaOX3FC6QQthBLCg/Nzrsl5WOMuyJzcsMc/ZQ?=
+ =?us-ascii?Q?cp4Ql35fNrAeoBDhU7Z5/X2AFn0JlW03Tsm0H8ONr/M1/hYJLX5BXJV50KL8?=
+ =?us-ascii?Q?9Rdv6oISfvaj+al+wpeZLMfJv8jdtNYoEL9q8cYgECJ7lg6plN4Hl9/U1Dan?=
+ =?us-ascii?Q?i54bHWpceo4iJSqO4L91pD9u0YVq8SNN2/tpBuas4LvwqWZxPZwLIZ9SBkqG?=
+ =?us-ascii?Q?TPcm5LQpzb9ZwWJjqNj44wK/8XiWHk4mcntPIM/dS81gwudtPg87AVpdLITx?=
+ =?us-ascii?Q?Xig1m2lPRlLmr6HOYSPn3TXcVCkCnuZ6FsQZ28xb54TAhBKpEbCINrwBeW65?=
+ =?us-ascii?Q?IrCogc1fLhloHGHKHreLUVgr5+7IIm5j7FVDzc7uZtfEVGZgNqntRVwwvFJF?=
+ =?us-ascii?Q?VbXQHYs4pplvJejdPfQDxoFiBU19kQUsz+/QbnjtgeIB8BUJUqmdStalLerr?=
+ =?us-ascii?Q?OH0tOHF0jPf8rigmr0J2aOuCvgoFzFpdMN+DWADvB3a/ZusrniZIPzfIkPx5?=
+ =?us-ascii?Q?aZOSTeaYpUxpXOdDugH+dmgwXmnpqy4r176C24TVU6QvPTb/jVcdSKkhEM1y?=
+ =?us-ascii?Q?snmaSsHeSDZWp5Mw/n/5fPtctX3+l33fKtz1OxTB6NwcxoUoM/mV9V76oMuy?=
+ =?us-ascii?Q?ZD+jlRKNsbPOp5VkSccEp463AH9lBEAVCSN/+6hgoGthTDVUrGz0MyhCe8W2?=
+ =?us-ascii?Q?+6D4ErocNiGLzgHu0HWVQpu/CBYOge7xY6tMnxxTe7oLQ1P0YhgQkh3cIhVU?=
+ =?us-ascii?Q?ZysauIPxF+41uYOuwZvLgxw1+NW07QGBF9nZlkN6AsLrz+Aini7I9byWB9iY?=
+ =?us-ascii?Q?miD/bySc+U/ViClx7WjJ5maVRhewy3rkEIJXX6MBHPGaVFt1fmaCf+oe5hye?=
+ =?us-ascii?Q?36P+NjfFqe831HdnqpcgsNYV7TB0JGjWul+5bqfpgLk/yQftN3/zJn9Ki3r6?=
+ =?us-ascii?Q?ePxaO6mewHm9K6kZhWzEMGU1DzgACO2VH7V70qRYAVXymJR5LR3C2WcYY3Yc?=
+ =?us-ascii?Q?KWUpFaqcwcNpD5EW49gOtgxf0EK3OtbFRkgahAfrzAHsjaxVgbJ1Wyghgn6B?=
+ =?us-ascii?Q?WHSlQP4I49WKlnRLsat5Af/cSpyZImrdfv8O0rv25OVBG26ECWyKww+GLrr4?=
+ =?us-ascii?Q?0azDJDhbNPx0uVeDsKeUHQ3+ZDmdvDGC5nUdzjHvSyWLF4Sj960UveC5eiAE?=
+ =?us-ascii?Q?6PX1yFihnz8CVevqUiA8kxrgMaepe1eEl9f5cOl7G3CvIZi3esBbiebjscGa?=
+ =?us-ascii?Q?XKdrmDzvJHMhIJmxlM8kuj2MiZKk5zmBsNkeZ38IpeXAI4UhFf9GCWjHlS14?=
+ =?us-ascii?Q?0Q=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CH0PR11MB5444838A9E768A2E4D990E24E5B22@CH0PR11MB5444.namprd11.prod.outlook.com>
-X-ClientProxiedBy: BYAPR08CA0012.namprd08.prod.outlook.com
- (2603:10b6:a03:100::25) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM4PR11MB5995:EE_
-X-MS-Office365-Filtering-Correlation-Id: 48e7db6e-4d78-46db-88f1-08dcb2367bc7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?h4BuPgIOxqMafA5KXlx/v34wz9u3Eo/Sj22sVR+ogY3J6lriIfM2m4qrx1+M?=
- =?us-ascii?Q?g+vQVIVqJW4TpDM4Na4jMRlUuUBrQl2HFGNt30De0n/mBebVXyMm9jg6StQf?=
- =?us-ascii?Q?bbz78b7LUpHSMCmJ66g+oJpLsbMilVazkTj10P9HegIg8jwXj7g2ami/25DG?=
- =?us-ascii?Q?2bqWxgb67pHsdAr1HlTTG87FgR4B4aV6/y4srsTpXGgsBi+sFY6VejKLG8Jc?=
- =?us-ascii?Q?x1cXznkFt3P+cZFDt7SS+dc4gosghWB2FLAYuHiqi5Zv4VEa59ki3eIGpR1M?=
- =?us-ascii?Q?3OhRCi2JX4WnmROA8hvNE0SgWUccRZTs7aEl/ljXKyjYxugJ9v9Uo0ka5nWj?=
- =?us-ascii?Q?WhdtyOupt2aoJTt+rEw/AJkY1Dgd2rHCk3cUh0gL1DK/aqHl+3iQPA9+KfIn?=
- =?us-ascii?Q?fOFIn1LBk2wXm7bDXjISBE0iFDchR1v5KD7nGCR5AOQJ6/d0WhkbyAEccdRm?=
- =?us-ascii?Q?adeDHZaM4kjW6N48ldidtn6XuHthr/BD8cYrmo/XWftLbiVeEKKXiY6sk0HS?=
- =?us-ascii?Q?zjC28sOMVt/DS5FiHktFRWH1qEeBHaUArWzfD7/6bH0zTcaxJ4Przef1y3+U?=
- =?us-ascii?Q?wk+eBhjLWiWz5e/rzQ9oSxaMN1wIDstcri70m6brOVceLzJDtk4Kj4cc6Swg?=
- =?us-ascii?Q?IwR+W3aCaLHtOhYGPkzJ+iv6HMFGdTdhT80UgsOgnSj73qJscNx/RbbD5IOn?=
- =?us-ascii?Q?pk3zPb49reB5BWr0PsH7Y2ULnsv0wwl5++3Qdj6rLTfuKxjCbZtu/rA1ylQU?=
- =?us-ascii?Q?AbA3z/TrUOvoNMrJYvhNGUzj+zK9o/+M6PfQzmCLJEU/iTdW0ix42oA97ltb?=
- =?us-ascii?Q?yUVIz6HbQEMEy7F4o7FNZts7SMGAF4Rzwo6cTZZFpRaV2PSaQJLBFAw6yRQd?=
- =?us-ascii?Q?1N2izdFMt/9INyckO9Rj61PgSKxJ7SfWnKryhQZBOg+yvgDnBHPsEuQnc29Q?=
- =?us-ascii?Q?IxzM0QOEipmGaI7KThuyuoFc9iJKjP2obxIS2Mccw8EL0gW15cPaGd6f2wEH?=
- =?us-ascii?Q?SIj+suSLhD5BeiIP/PKpF2fns4y/Yw07YcHG9Ca3+1lzhUF2iyCYiQlUsb6H?=
- =?us-ascii?Q?kKBmWh2lUnwM2vyMMkLBx7qxgdRerUkBan/HH8cw3lOdS+/pxEWvZeaGV9S7?=
- =?us-ascii?Q?wwNvCh9yde5E0CVXHEOZbwaIMe/HiuvbucEdI/pP7JHjuNR6j4bxDfWmAemZ?=
- =?us-ascii?Q?KLU5JPwCFa3xrMZm2TK3xKWBSm0JjtzVaImThVpDx5l1iZa5gbve8lRe3jWU?=
- =?us-ascii?Q?mXjK44ZTSEgcslqkQyw9CjMZnSDc491NsOpKOKDBNtApwy52lJFIrvN1DhMv?=
- =?us-ascii?Q?1orJEigxha7/3yAxNJtBCWnk+UvH9tDe97NVTG+NsPOwXQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1EB30x7ITsrazpQ8Jjxxf83yMVoXUj7F+lpYQC1Y5qnmqfe3I4WyC7Vl6+G8?=
- =?us-ascii?Q?LnKXsl1hdX94jsEqZrxZsXBmOKl6Li97I4hB9SwlCilH8RSpRNwajJKlgWHO?=
- =?us-ascii?Q?gqBAWnTaV2ddJ9kruUm2P1Nc+We2VVAVDrYlFdmLwvmB4OJBLcJ4v9TIBI+K?=
- =?us-ascii?Q?3IXwWNVE7nUdLK92wFtATAPcaLs1q+8SffjzMdqiJ6Ckec0y9Od75CfYmrH9?=
- =?us-ascii?Q?hK/yGeccaE1/Cs6xyOMSixmjDGXrXGuCD+EQ+j5uacJUBZmKYTps6RPZEXYt?=
- =?us-ascii?Q?2QB0VmzdcW2nW3n1GocBNZydpeo7iX2oeJ2jHYmU7qiRTRavs3UdX1lSm+ag?=
- =?us-ascii?Q?TOIlzekpc8HSwnEwyocQqkySonipd2KZE2nJm4mOeVqAnuHDXMKbjpf1YqgS?=
- =?us-ascii?Q?sncbXoH1unEhSt0h8HaPoquaoSDE82EkBLs8378XdnTkPwC4QRkFFY0/gJ3U?=
- =?us-ascii?Q?7HZY/w5l1sgF8VOQ2t3qLlfOJAlPE23UaEn4iY9NDIJoU66ub8W+VGPKyUJv?=
- =?us-ascii?Q?bXkPBvEgDwDiIjxtfzyHn0dsCsZaCXAR0CQa5JHUUwhM4VoUUWnt3ItvEBg0?=
- =?us-ascii?Q?ttRZ9fh9ESZgeRZyfg/SASmBj4AVqWDFNOa7e/dk2VXK8kCog2VVkW3n9sRb?=
- =?us-ascii?Q?IHhN/oS9VbytzlkSxnkdwj4gfule8XLjS5jH7HhkIa0P7+WNY55QPScodCY9?=
- =?us-ascii?Q?lsrZfYouyxz/bWJxuHEBrzugT4qpDG1UFfgvwGgkLlzA9hRSjjA6+ZAU7flY?=
- =?us-ascii?Q?0QGXy8IPwLA9DHKTJKNs/UertmnWiFywml9iLg8gOTuA5McRWSZWlX0IHVC7?=
- =?us-ascii?Q?tbSqEDzzaJKT12lwOqIvX6dLTh/cP+egVgzMq5xGJ7w2JGu+EEfwOBalZbdJ?=
- =?us-ascii?Q?YGBC0/7D2UqkcfEpx11tAyfjpYHBlq27ZjhC2hUT+01hR4FMlUwnip9XUORc?=
- =?us-ascii?Q?F8X1uMjw/8khqsU8mN6uyso3IT3LMfRN5cAZnQPbaRiyU5vI3JpQMsm/NhLX?=
- =?us-ascii?Q?nlpYCEwuf3Xffj0KURlIsC4CFYGGIZStN9VrrhgItuX51pBMl1SeCSIpzpaF?=
- =?us-ascii?Q?2UEvaken+pV4rGRZVhvP5jUE2Fk/npRinCz3hDesJRCHbyNyU9b1ZvFBvxew?=
- =?us-ascii?Q?jFSCG0tDuZU7InltWyEE+W1awwQxLc5Qfq4KCjHbelUyLGlliWC2Pu/oXo5i?=
- =?us-ascii?Q?18AjrGAsWVlsvnVt5IbcJdiCXygmUQAdYHPPTTu/gUXW3jbeAeJwriT0nKWj?=
- =?us-ascii?Q?oK6vNQwWJiMoADaLn/DYbieK3gG86tj6Aq5ygJ0fobL/pwLVjOkB2iAjq21F?=
- =?us-ascii?Q?dP5ci094TNFjdm2NkTezdzOBMCNVZrm6Nb1tRL0PdRl94HjYhOhHqeeHv1VG?=
- =?us-ascii?Q?Jj+siyiEuiXv/0Z7WV0/uqK8PR8AMZZxgADxrCo4iubowARzlE6AtvgyB81l?=
- =?us-ascii?Q?4Whv98rWerfGx+L1zhc4Q4cDEJaH3I/Ij/nJMS79y4VGhh/6oBXvuFWV716D?=
- =?us-ascii?Q?sQQPl9toByATn6CJxx8QxLgLQf529xiPtoBBXgo6TzTeFJ1lMiANOAHMWRIR?=
- =?us-ascii?Q?g2v0AtMTIaZw3ruOMm/Mx8b7WIVRS4J3N8sl77eN699Lb0l2LUnePZNEnJ27?=
- =?us-ascii?Q?qg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 48e7db6e-4d78-46db-88f1-08dcb2367bc7
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2024 14:30:25.5577 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sZYqO5jvtPKvYZvbYVUVx4ym3MgGGMjjDdtMGaa7pde0YKw7NOSPL8K4Zst5HBFSE3QqwJpHJLGqPRUaXBndVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5995
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5444.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 915d7649-2348-4bf9-732e-08dcb237ae36
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2024 14:38:59.5041 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oMhO7ZNXXFmGiDD3jfJpnWDVsAlu6b35PE2ygH4BEAiuVUDgRc9YfYkTUzD021IDEkh3lk987cQZwvdE8Jkk5OOogFRbcV54YXLniAkO+RA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6798
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -181,96 +188,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 01, 2024 at 08:00:21AM -0600, Cavitt, Jonathan wrote:
-> -----Original Message-----
-> From: Brost, Matthew <matthew.brost@intel.com> 
-> Sent: Wednesday, July 31, 2024 5:03 PM
-> To: Cavitt, Jonathan <jonathan.cavitt@intel.com>
-> Cc: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org; maarten.lankhorst@linux.intel.com; Vivi, Rodrigo <rodrigo.vivi@intel.com>
-> Subject: Re: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump printer
-> > 
-> > On Wed, Jul 31, 2024 at 04:22:03PM -0600, Cavitt, Jonathan wrote:
-> > > -----Original Message-----
-> > > From: Intel-xe <intel-xe-bounces@lists.freedesktop.org> On Behalf Of Matthew Brost
-> > > Sent: Wednesday, July 31, 2024 2:32 PM
-> > > To: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> > > Cc: maarten.lankhorst@linux.intel.com; Vivi, Rodrigo <rodrigo.vivi@intel.com>
-> > > Subject: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump printer
-> > > > 
-> > > > Useful to determine size of devcoreump before writing it out.
-> > > > 
-> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > 
-> > > It seems this patch prevents us from copying strings into the data field if the data
-> > > field hasn't been initialized.  I'm not certain if it could ever be uninitialized at this
-> > > point, but I recognize it as good practice to check just in case regardless.
-> > > 
-> > 
-> > That's not the intent. The intent to call the print functions with NULL
-> > data so the printer can calculate the size of buffer required to print
-> > out all the devcoredump data.
-> 
-> So if iterator->data is NULL, you want to NOT copy into it?
-> -Jonathan Cavitt
+-----Original Message-----
+From: Brost, Matthew <matthew.brost@intel.com>=20
+Sent: Thursday, August 1, 2024 7:30 AM
+To: Cavitt, Jonathan <jonathan.cavitt@intel.com>
+Cc: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org; maarte=
+n.lankhorst@linux.intel.com; Vivi, Rodrigo <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump pri=
+nter
+>=20
+> On Thu, Aug 01, 2024 at 08:00:21AM -0600, Cavitt, Jonathan wrote:
+> > -----Original Message-----
+> > From: Brost, Matthew <matthew.brost@intel.com>=20
+> > Sent: Wednesday, July 31, 2024 5:03 PM
+> > To: Cavitt, Jonathan <jonathan.cavitt@intel.com>
+> > Cc: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org; ma=
+arten.lankhorst@linux.intel.com; Vivi, Rodrigo <rodrigo.vivi@intel.com>
+> > Subject: Re: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump=
+ printer
+> > >=20
+> > > On Wed, Jul 31, 2024 at 04:22:03PM -0600, Cavitt, Jonathan wrote:
+> > > > -----Original Message-----
+> > > > From: Intel-xe <intel-xe-bounces@lists.freedesktop.org> On Behalf O=
+f Matthew Brost
+> > > > Sent: Wednesday, July 31, 2024 2:32 PM
+> > > > To: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> > > > Cc: maarten.lankhorst@linux.intel.com; Vivi, Rodrigo <rodrigo.vivi@=
+intel.com>
+> > > > Subject: [PATCH v4 2/3] drm/printer: Allow NULL data in devcoredump=
+ printer
+> > > > >=20
+> > > > > Useful to determine size of devcoreump before writing it out.
+> > > > >=20
+> > > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > >=20
+> > > > It seems this patch prevents us from copying strings into the data =
+field if the data
+> > > > field hasn't been initialized.  I'm not certain if it could ever be=
+ uninitialized at this
+> > > > point, but I recognize it as good practice to check just in case re=
+gardless.
+> > > >=20
+> > >=20
+> > > That's not the intent. The intent to call the print functions with NU=
+LL
+> > > data so the printer can calculate the size of buffer required to prin=
+t
+> > > out all the devcoredump data.
+> >=20
+> > So if iterator->data is NULL, you want to NOT copy into it?
+> > -Jonathan Cavitt
+>=20
+> Yes, exactly. Run devcoredump printer with NULL data to get size, alloc
+> data based on devcoredump printer offset, run it again with a valid data
+> pointer to print.
 
-Yes, exactly. Run devcoredump printer with NULL data to get size, alloc
-data based on devcoredump printer offset, run it again with a valid data
-pointer to print.
+Okay, I think I understand.  That might be good to add to the commit messag=
+e,
+then.  Something like:
 
-Matt
+"""
+We want to determine the size of the devcoredump before writing it out.
+To that end, we will run the devcoredump printer with NULL data to get
+the size, alloc data based on the generated offset, then run the
+devcorecump again with a valid data pointer to print.  This necessitates
+not writing data to the data pointer on the initial pass, when it is NULL.
+"""
 
-> 
-> > 
-> > Matt
-> > 
-> > > Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> > > -Jonathan Cavitt
-> > > 
-> > > > ---
-> > > >  drivers/gpu/drm/drm_print.c | 13 ++++++++-----
-> > > >  1 file changed, 8 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> > > > index cf24dfdeb6b2..a1a4de9f9c44 100644
-> > > > --- a/drivers/gpu/drm/drm_print.c
-> > > > +++ b/drivers/gpu/drm/drm_print.c
-> > > > @@ -100,8 +100,9 @@ void __drm_puts_coredump(struct drm_printer *p, const char *str)
-> > > >  			copy = iterator->remain;
-> > > >  
-> > > >  		/* Copy out the bit of the string that we need */
-> > > > -		memcpy(iterator->data,
-> > > > -			str + (iterator->start - iterator->offset), copy);
-> > > > +		if (iterator->data)
-> > > > +			memcpy(iterator->data,
-> > > > +				str + (iterator->start - iterator->offset), copy);
-> > > >  
-> > > >  		iterator->offset = iterator->start + copy;
-> > > >  		iterator->remain -= copy;
-> > > > @@ -110,7 +111,8 @@ void __drm_puts_coredump(struct drm_printer *p, const char *str)
-> > > >  
-> > > >  		len = min_t(ssize_t, strlen(str), iterator->remain);
-> > > >  
-> > > > -		memcpy(iterator->data + pos, str, len);
-> > > > +		if (iterator->data)
-> > > > +			memcpy(iterator->data + pos, str, len);
-> > > >  
-> > > >  		iterator->offset += len;
-> > > >  		iterator->remain -= len;
-> > > > @@ -140,8 +142,9 @@ void __drm_printfn_coredump(struct drm_printer *p, struct va_format *vaf)
-> > > >  	if ((iterator->offset >= iterator->start) && (len < iterator->remain)) {
-> > > >  		ssize_t pos = iterator->offset - iterator->start;
-> > > >  
-> > > > -		snprintf(((char *) iterator->data) + pos,
-> > > > -			iterator->remain, "%pV", vaf);
-> > > > +		if (iterator->data)
-> > > > +			snprintf(((char *) iterator->data) + pos,
-> > > > +				iterator->remain, "%pV", vaf);
-> > > >  
-> > > >  		iterator->offset += len;
-> > > >  		iterator->remain -= len;
-> > > > -- 
-> > > > 2.34.1
-> > > > 
-> > > > 
-> > 
+Maybe that's a bit overboard?  In either case, my RB still stands,
+regardless of if the commit message is updated or not.
+-Jonathan Cavitt
+
+>=20
+> Matt
+>=20
+> >=20
+> > >=20
+> > > Matt
+> > >=20
+> > > > Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> > > > -Jonathan Cavitt
+> > > >=20
+> > > > > ---
+> > > > >  drivers/gpu/drm/drm_print.c | 13 ++++++++-----
+> > > > >  1 file changed, 8 insertions(+), 5 deletions(-)
+> > > > >=20
+> > > > > diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_pr=
+int.c
+> > > > > index cf24dfdeb6b2..a1a4de9f9c44 100644
+> > > > > --- a/drivers/gpu/drm/drm_print.c
+> > > > > +++ b/drivers/gpu/drm/drm_print.c
+> > > > > @@ -100,8 +100,9 @@ void __drm_puts_coredump(struct drm_printer *=
+p, const char *str)
+> > > > >  			copy =3D iterator->remain;
+> > > > > =20
+> > > > >  		/* Copy out the bit of the string that we need */
+> > > > > -		memcpy(iterator->data,
+> > > > > -			str + (iterator->start - iterator->offset), copy);
+> > > > > +		if (iterator->data)
+> > > > > +			memcpy(iterator->data,
+> > > > > +				str + (iterator->start - iterator->offset), copy);
+> > > > > =20
+> > > > >  		iterator->offset =3D iterator->start + copy;
+> > > > >  		iterator->remain -=3D copy;
+> > > > > @@ -110,7 +111,8 @@ void __drm_puts_coredump(struct drm_printer *=
+p, const char *str)
+> > > > > =20
+> > > > >  		len =3D min_t(ssize_t, strlen(str), iterator->remain);
+> > > > > =20
+> > > > > -		memcpy(iterator->data + pos, str, len);
+> > > > > +		if (iterator->data)
+> > > > > +			memcpy(iterator->data + pos, str, len);
+> > > > > =20
+> > > > >  		iterator->offset +=3D len;
+> > > > >  		iterator->remain -=3D len;
+> > > > > @@ -140,8 +142,9 @@ void __drm_printfn_coredump(struct drm_printe=
+r *p, struct va_format *vaf)
+> > > > >  	if ((iterator->offset >=3D iterator->start) && (len < iterator-=
+>remain)) {
+> > > > >  		ssize_t pos =3D iterator->offset - iterator->start;
+> > > > > =20
+> > > > > -		snprintf(((char *) iterator->data) + pos,
+> > > > > -			iterator->remain, "%pV", vaf);
+> > > > > +		if (iterator->data)
+> > > > > +			snprintf(((char *) iterator->data) + pos,
+> > > > > +				iterator->remain, "%pV", vaf);
+> > > > > =20
+> > > > >  		iterator->offset +=3D len;
+> > > > >  		iterator->remain -=3D len;
+> > > > > --=20
+> > > > > 2.34.1
+> > > > >=20
+> > > > >=20
+> > >=20
+>=20
