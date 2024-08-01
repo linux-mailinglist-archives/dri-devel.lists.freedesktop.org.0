@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5031E943C48
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2EF943C49
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:36:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C253910E7F2;
-	Thu,  1 Aug 2024 00:36:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA3710E830;
+	Thu,  1 Aug 2024 00:36:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IH82i5Ly";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dIbX0M0Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5143B10E7EF;
- Thu,  1 Aug 2024 00:36:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F2A110E82F;
+ Thu,  1 Aug 2024 00:36:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 68F05CE1764;
- Thu,  1 Aug 2024 00:36:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1A5EC116B1;
- Thu,  1 Aug 2024 00:36:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AFBD461DBF;
+ Thu,  1 Aug 2024 00:36:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FB33C116B1;
+ Thu,  1 Aug 2024 00:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472606;
- bh=Co3rOYWFyMzUQ/iRBOHAF8/nPZFV/WYnqoQl2tPTpws=;
- h=From:To:Cc:Subject:Date:From;
- b=IH82i5LyYE8doxPOf26734EDraM0s0kJXkxZCtENe/HbCFQPkizAn9M44w/XNMJSy
- kKyjJQe+a6MLq/fIEawfaq8J2lsajYNBiVzhF3FuyJ+II7mwqCX6j+DgTm7MElazyf
- DO8ZY4bAEhjtt4kW9v+urWZGRaEY/3iw3rwiakB99vqZLpyXFZIioGE553MznVPsrl
- J8x38wAF4a96vRIn3yGPb8gBU9CLSzTcU5z6YQAMK4XfV+Jj+PwOdOxHkwQMwdGKt3
- SNzOjyhwVe+xrFGOCr7yTAdmYWFZbWglMc2k0Od4+KYlnzpau1ejTlEstMGsjPeFYH
- Rg+d9kuUSt2Dg==
+ s=k20201202; t=1722472611;
+ bh=NiqrHfgRjNUyUmugbUTlAatN3DcyQdZGpSanQx3Masw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=dIbX0M0ZbALzW3XTDOtJSdHBFUWtE1LCPBLryP1pve9Tu8zy/XRxpTomnGwtmdf3/
+ oGezHrz7ZOfxxZk/isuegTQ6+31M4vCoOCOkuPJn30xOgKmZWlvRAhtszMBA5I7//v
+ fcOPKgyxQ7Vs3UPngUu0HSjmhvgnufVe+ITQ8fLd4bLfg/LbSROaxqzqYEoItDzH7I
+ iAMDMKu5GGEO29CQYI0gMMWfGUowAsSiYzsjFAWHuOKmT/58vKwBNNAsQwWnTce9eB
+ t33+kjHubjEIYqdNRILQ9yUbIdtyw6XtAE5SZVthrMTzNjgqNJDG/y6TGv2khIonHU
+ k/roi6TVfXihA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Jun.Ma2@amd.com, shashank.sharma@amd.com,
- hannes@cmpxchg.org, friedrich.vock@gmx.de, andrealmeid@igalia.com,
+Cc: Jesse Zhang <jesse.zhang@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
+ Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, kenneth.feng@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, Jun.Ma2@amd.com, kevinyang.wang@amd.com,
+ ruanjinjie@huawei.com, mario.limonciello@amd.com, bob.zhou@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 01/38] drm/amdgpu: fix overflowed array index
- read warning
-Date: Wed, 31 Jul 2024 20:35:07 -0400
-Message-ID: <20240801003643.3938534-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 02/38] drm/amd/pm: fix warning using
+ uninitialized value of max_vid_step
+Date: Wed, 31 Jul 2024 20:35:08 -0400
+Message-ID: <20240801003643.3938534-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240801003643.3938534-1-sashal@kernel.org>
+References: <20240801003643.3938534-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.10.223
@@ -65,36 +67,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tim Huang <Tim.Huang@amd.com>
+From: Jesse Zhang <jesse.zhang@amd.com>
 
-[ Upstream commit ebbc2ada5c636a6a63d8316a3408753768f5aa9f ]
+[ Upstream commit 17e3bea65cdc453695b2fe4ff26d25d17f5339e9 ]
 
-Clear overflowed array index read warning by cast operation.
+Check the return of pp_atomfwctrl_get_Voltage_table_v4
+as it may fail to initialize max_vid_step
+V2: change the check condition (Tim Huang)
 
-Signed-off-by: Tim Huang <Tim.Huang@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
+Reviewed-by: Tim Huang <Tim.Huang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-index 15ee13c3bd9e1..6976f61be7341 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-@@ -368,8 +368,9 @@ static ssize_t amdgpu_debugfs_ring_read(struct file *f, char __user *buf,
- 					size_t size, loff_t *pos)
- {
- 	struct amdgpu_ring *ring = file_inode(f)->i_private;
--	int r, i;
- 	uint32_t value, result, early[3];
-+	loff_t i;
-+	int r;
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+index 4dc27ec4d012d..04daba8a0fe8e 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+@@ -2572,8 +2572,11 @@ static int vega10_init_smc_table(struct pp_hwmgr *hwmgr)
+ 		}
+ 	}
  
- 	if (*pos & 3 || size & 3)
- 		return -EINVAL;
+-	pp_atomfwctrl_get_voltage_table_v4(hwmgr, VOLTAGE_TYPE_VDDC,
++	result = pp_atomfwctrl_get_voltage_table_v4(hwmgr, VOLTAGE_TYPE_VDDC,
+ 			VOLTAGE_OBJ_SVID2,  &voltage_table);
++	PP_ASSERT_WITH_CODE(!result,
++			"Failed to get voltage table!",
++			return result);
+ 	pp_table->MaxVidStep = voltage_table.max_vid_step;
+ 
+ 	pp_table->GfxDpmVoltageMode =
 -- 
 2.43.0
 
