@@ -2,81 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E3294534F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 21:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA279453C6
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 22:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE8010E92A;
-	Thu,  1 Aug 2024 19:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 637EB10E0F8;
+	Thu,  1 Aug 2024 20:36:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lQ9q+Lh5";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="PAfL57iQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AFE910E92B
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 19:25:14 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-52ed9b802ceso8982869e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 12:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722540312; x=1723145112; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=NrLSwEPusse/MuTuJW5ek+V6ugLF2Iclegua7zatll8=;
- b=lQ9q+Lh51orWwAvANDfq59hI/RChrELI8VdZo3GWr06mpAsPeV+jwlJaACvXoRsVfV
- rON6exMEp0t4X9nDs6lEF9rV0e3QkQlK9copdjnyzZE7TsmvdZnbpr/FmHzKCBY/do7k
- jKqb0dVqxRwAYUNoYoDqO0ySUffVEElNEjPbK9HRU9l6B0hlw66M/rWVApAB26+YGQZy
- 8xTdm+ebwelEEXQSYDOI2d/rvzxGj/eaVA1IjoRuyO+rFo0nKdRXnDXZzLTJxIxLQJy4
- Z3ZAkB5nqWW0drtsQDbTT0qC7ParA0VY/WzavCS7xY13uf289j1L08+4fRT5ENV88ZZa
- Z5Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722540312; x=1723145112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NrLSwEPusse/MuTuJW5ek+V6ugLF2Iclegua7zatll8=;
- b=AfFRC6qJYmI4vzIZ81tovhMGZHSq6NU3aaPNlHt9ewVm8BAtnolStkn1HlWkYXnZuc
- pL+xewYB/k2DUKlA90h9v3XxndNS0/HFps58F2arc1aZwjvGkIcASjn7/wXtdd29L0Lx
- NB+rh5bOu6z0NhmcvmK6GWO1s0onoBtoN/dvCc76YFlcRV2e9xbbpUhr1x2oj/MfEJr/
- xChLf9xjXyxllE5PksotOtpkAn0QD6fJFtprYC1xs2nXdIT/G5gOPgfzhG41dLZvSbqx
- JaRJWOAxJW+rWMAAd6zi2PvGmD/1tXIBww5WWYco5/OjLbFRni4i+zBI6JvOnZ67RSvD
- qf8Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUK2oSGgBn+vzJB2TQu9OXUpCz84S4GYFwwUrmB5PilJ+KP2fRIuFrU9blduRxK7tsAnKWRz1DaiSmGjW+INsO3oeU/fviFVj9ZCpvG5k9N
-X-Gm-Message-State: AOJu0Yyu73Q6B6JUiI0SYdDL/0RaxLBVtLF4N9eK4Y5ZiohIYwv9zcCx
- Rw49IsK5SFbjnfWekbR8K6WTLjjGTSUaDTZ982YjOdBJGxUI2w2a+icVrbiF22k=
-X-Google-Smtp-Source: AGHT+IHyvHO6F0PypSn/UmfAHe+RChPC8zWKCvyEdtI5ipmD0BkNJ+h95UKmnYJ0E129Lj7ff5XZnA==
-X-Received: by 2002:a05:6512:a96:b0:52c:8c4d:f8d6 with SMTP id
- 2adb3069b0e04-530bb39b0b0mr724584e87.45.1722540312231; 
- Thu, 01 Aug 2024 12:25:12 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-530bba10fd9sm35859e87.99.2024.08.01.12.25.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Aug 2024 12:25:11 -0700 (PDT)
-Date: Thu, 1 Aug 2024 22:25:10 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>
-Subject: Re: [PATCH 0/2] Add MSM8996/MSM8953 dpu catalog
-Message-ID: <zeek3j7skstysho5bduxn23xipz3fpqsfwggue66dlyozhepnn@4wnnd7q6xf22>
-References: <20240628-dpu-msm8953-msm8996-v1-0-a31c77248db7@mainlining.org>
+Received: from msa.smtpout.orange.fr (smtp-83.smtpout.orange.fr [80.12.242.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B31810E0F8
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 20:36:02 +0000 (UTC)
+Received: from fedora.home ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id ZcVmsD1jSGdLxZcVnsXLwg; Thu, 01 Aug 2024 22:34:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1722544499;
+ bh=Xt0EwvNrOXd4uCSAzGoq0YIsCyBB78A5L44qPdMyuXU=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=PAfL57iQ0ZLvibrFotWhGKkDVY2G3/37BXsTNpCqDxRURps7ZEsUwvToXKtGVlJ8I
+ TuRAFWL9YSGx53PF6y3SYahGr3hhKfDV2wXbhdzID/gMmLqdtRhLedSqSwRl9v9mQn
+ JkFp0ADsHj+c9eZKNZ8Dyi5ib9qxHFHc38GcNcd7lQz9Ajt2gDuETZ1TY8/ou9tMHb
+ VVVk08XIewv0oWpl1D6aF47B4q8TQbDf62xklc7h0uF5fcATKWzJyIS4UgoIkmh/9n
+ AQSeUxr+aUl5XH5N93Y1iNjGUU64Ozn8dD/QtUFirnAVLBvhSkDXQN7YZn3qbLKkB6
+ /cupi8Id6foVQ==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 01 Aug 2024 22:34:59 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Helge Deller <deller@gmx.de>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] fbdev/hpfb: Fix an error handling path in hpfb_dio_probe()
+Date: Thu,  1 Aug 2024 22:34:39 +0200
+Message-ID: <ec4a9fbbff184e40d50e1f12e6df161ff5119f21.1722544445.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240628-dpu-msm8953-msm8996-v1-0-a31c77248db7@mainlining.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,40 +57,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 28, 2024 at 04:39:38PM GMT, Barnabás Czémán wrote:
-> This patch series add dpu support for MSM8996/MSM8953 devices.
-> 
-> Note, by default these platforms are still handled by the MDP5 driver
-> unless the `msm.prefer_mdp5=false' parameter is provided.
+If an error occurs after request_mem_region(), a corresponding
+release_mem_region() should be called, as already done in the remove
+function.
 
-Could you please provide a summary of features actually tested with the
-DPU driver? Have you tested YUV output? Have you tested RGB planes?
-Which LMs have you tested?
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+*Not* even compile tested only.
+It is provided as-is
 
-> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
-> ---
-> Dmitry Baryshkov (1):
->       drm/msm/dpu: add support for MSM8953
-> 
-> Konrad Dybcio (1):
->       drm/msm/dpu: Add MSM8996 support
-> 
->  .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   | 218 +++++++++++++
->  .../drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h    | 348 +++++++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 106 +++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   2 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +
->  drivers/gpu/drm/msm/msm_drv.c                      |   2 +
->  6 files changed, 678 insertions(+)
-> ---
-> base-commit: df9574a57d02b265322e77fb8628d4d33641dda9
-> change-id: 20240528-dpu-msm8953-msm8996-5d0fb7e387b8
-> 
-> Best regards,
-> -- 
-> Barnabás Czémán <barnabas.czeman@mainlining.org>
-> 
+Changes in v2:
+  - Apply a minimal change   [Helge Deller]
 
+v1: https://lore.kernel.org/all/dc4fe3d857849ac63131c5620f1bacf1a3d7172e.1722191367.git.christophe.jaillet@wanadoo.fr/
+---
+ drivers/video/fbdev/hpfb.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/video/fbdev/hpfb.c b/drivers/video/fbdev/hpfb.c
+index 66fac8e5393e..a1144b150982 100644
+--- a/drivers/video/fbdev/hpfb.c
++++ b/drivers/video/fbdev/hpfb.c
+@@ -345,6 +345,7 @@ static int hpfb_dio_probe(struct dio_dev *d, const struct dio_device_id *ent)
+ 	if (hpfb_init_one(paddr, vaddr)) {
+ 		if (d->scode >= DIOII_SCBASE)
+ 			iounmap((void *)vaddr);
++		release_mem_region(d->resource.start, resource_size(&d->resource));
+ 		return -ENOMEM;
+ 	}
+ 	return 0;
 -- 
-With best wishes
-Dmitry
+2.45.2
+
