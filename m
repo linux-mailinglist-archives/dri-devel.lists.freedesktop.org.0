@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E089C943C1A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:34:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7F8943C1E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:34:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F28FF10E820;
-	Thu,  1 Aug 2024 00:34:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F3910E823;
+	Thu,  1 Aug 2024 00:34:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UhL8nAds";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IK1DfqLI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8AE110E81E;
- Thu,  1 Aug 2024 00:34:17 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF6B010E823;
+ Thu,  1 Aug 2024 00:34:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 445E66246A;
- Thu,  1 Aug 2024 00:34:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A281C4AF10;
- Thu,  1 Aug 2024 00:34:15 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 05484CE1764;
+ Thu,  1 Aug 2024 00:34:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64297C116B1;
+ Thu,  1 Aug 2024 00:34:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472457;
- bh=smsbb38ggI07VwNa479JZwESL/QQKu27Zo1kWpqgAas=;
+ s=k20201202; t=1722472464;
+ bh=5NEfmVVjlkY3mavNY+kw3Xm+FexL9xrhk51HFDeBN0s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UhL8nAdstGi0BWyKB09jPpDKJsgDLnSN+61ST0g9MldVhX7vRBR3JMuonPfYOvw97
- yipuie0Ihpf62BCGOfgkYpFbmPiCyIM8OMSfMOdZou/yzQTpqUJsua1edNlm0hmhCM
- pFU7u3rM4onHwEx/17JqjOUVuvMJ/YjPOqa/UKyvaKMY+08CEoFJvGpwfFfrYXdDLv
- yfdkZP0mWu6y2dlG3UiUcb90lch+4eDZzpGi7eQSJGTmM3xf2oO0ANOjEsVSW10B6W
- D0AMZDcnzOUcacg0phv5jJDnKkn8tpIC9cZpgoZvO+2MUNUNCx0lAVbAwMO5EDhEOv
- QAK4UJOy7bE6A==
+ b=IK1DfqLIOQIRSxThXVk8ULsU8jfQBHzb+j1BrnqkciktMIEqPXjkyErhLkc5gpRej
+ 9nfmJ7AgffwSYcpW05by8D2grOfWl0smrL+O0fXUiZssVrlSVaZkxHv7w77QOS3MqE
+ V8MOfPhMVr1SsvkLv56AajjJmA6gRiztRIMMSBVzw/wZkG/RQ35LqlZac3OyhbeD1J
+ Ck4/XKte9KvNTT3YwEayzbfEA4tkdsZxw596AqdcddBgDnHk570EsEusPD1qcekjOb
+ fvmwoVmpA/eBUz7G9Nqw593SOncZrV9hx9Uno9Ev1HaNwBQuLatxvJu1BoD6CdmOG7
+ F/ag8w7LLpzMw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Michael Chen <michael.chen@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>,
+Cc: Ma Jun <Jun.Ma2@amd.com>, Yang Wang <kevinyang.wang@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 18/47] drm/amdkfd: Reconcile the definition and
- use of oem_id in struct kfd_topology_device
-Date: Wed, 31 Jul 2024 20:31:08 -0400
-Message-ID: <20240801003256.3937416-18-sashal@kernel.org>
+ kenneth.feng@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, mario.limonciello@amd.com,
+ jesse.zhang@amd.com, sunran001@208suo.com, alexious@zju.edu.cn,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.15 19/47] drm/amdgpu/pm: Check input value for
+ CUSTOM profile mode setting on legacy SOCs
+Date: Wed, 31 Jul 2024 20:31:09 -0400
+Message-ID: <20240801003256.3937416-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801003256.3937416-1-sashal@kernel.org>
 References: <20240801003256.3937416-1-sashal@kernel.org>
@@ -66,68 +66,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Chen <michael.chen@amd.com>
+From: Ma Jun <Jun.Ma2@amd.com>
 
-[ Upstream commit 10f624ef239bd136cdcc5bbc626157a57b938a31 ]
+[ Upstream commit df0a9bd92fbbd3fcafcb2bce6463c9228a3e6868 ]
 
-Currently oem_id is defined as uint8_t[6] and casted to uint64_t*
-in some use case. This would lead code scanner to complain about
-access beyond. Re-define it in union to enforce 8-byte size and
-alignment to avoid potential issue.
+Check the input value for CUSTOM profile mode setting on legacy
+SOCs. Otherwise we may use uninitalized value of input[]
 
-Signed-off-by: Michael Chen <michael.chen@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+Reviewed-by: Yang Wang <kevinyang.wang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_crat.h     | 2 --
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 3 +--
- drivers/gpu/drm/amd/amdkfd/kfd_topology.h | 5 ++++-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c   | 2 +-
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c | 8 ++++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.h b/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
-index d54ceebd346b7..30c70b3ab17f1 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
-@@ -42,8 +42,6 @@
- #define CRAT_OEMTABLEID_LENGTH	8
- #define CRAT_RESERVED_LENGTH	6
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+index 9bfc465d08fb0..6ce2719f13530 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+@@ -5596,7 +5596,7 @@ static int smu7_set_power_profile_mode(struct pp_hwmgr *hwmgr, long *input, uint
+ 	mode = input[size];
+ 	switch (mode) {
+ 	case PP_SMC_POWER_PROFILE_CUSTOM:
+-		if (size < 8 && size != 0)
++		if (size != 8 && size != 0)
+ 			return -EINVAL;
+ 		/* If only CUSTOM is passed in, use the saved values. Check
+ 		 * that we actually have a CUSTOM profile by ensuring that
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
+index 299b5c838bf70..0c611a01f5348 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
+@@ -4098,9 +4098,11 @@ static int vega20_set_power_profile_mode(struct pp_hwmgr *hwmgr, long *input, ui
+ 	if (power_profile_mode == PP_SMC_POWER_PROFILE_CUSTOM) {
+ 		struct vega20_hwmgr *data =
+ 			(struct vega20_hwmgr *)(hwmgr->backend);
+-		if (size == 0 && !data->is_custom_profile_set)
++
++		if (size != 10 && size != 0)
+ 			return -EINVAL;
+-		if (size < 10 && size != 0)
++
++		if (size == 0 && !data->is_custom_profile_set)
+ 			return -EINVAL;
  
--#define CRAT_OEMID_64BIT_MASK ((1ULL << (CRAT_OEMID_LENGTH * 8)) - 1)
--
- /* Compute Unit flags */
- #define COMPUTE_UNIT_CPU	(1 << 0)  /* Create Virtual CRAT for CPU */
- #define COMPUTE_UNIT_GPU	(1 << 1)  /* Create Virtual CRAT for GPU */
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index 98cca5f2b27f9..59e7ca0e84703 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -910,8 +910,7 @@ static void kfd_update_system_properties(void)
- 	dev = list_last_entry(&topology_device_list,
- 			struct kfd_topology_device, list);
- 	if (dev) {
--		sys_props.platform_id =
--			(*((uint64_t *)dev->oem_id)) & CRAT_OEMID_64BIT_MASK;
-+		sys_props.platform_id = dev->oem_id64;
- 		sys_props.platform_oem = *((uint64_t *)dev->oem_table_id);
- 		sys_props.platform_rev = dev->oem_revision;
- 	}
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-index a8db017c9b8ed..c2dbd75b9161c 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-@@ -184,7 +184,10 @@ struct kfd_topology_device {
- 	struct attribute		attr_gpuid;
- 	struct attribute		attr_name;
- 	struct attribute		attr_props;
--	uint8_t				oem_id[CRAT_OEMID_LENGTH];
-+	union {
-+		uint8_t				oem_id[CRAT_OEMID_LENGTH];
-+		uint64_t			oem_id64;
-+	};
- 	uint8_t				oem_table_id[CRAT_OEMTABLEID_LENGTH];
- 	uint32_t			oem_revision;
- };
+ 		result = vega20_get_activity_monitor_coeff(hwmgr,
+@@ -4162,6 +4164,8 @@ static int vega20_set_power_profile_mode(struct pp_hwmgr *hwmgr, long *input, ui
+ 			activity_monitor.Fclk_PD_Data_error_coeff = input[8];
+ 			activity_monitor.Fclk_PD_Data_error_rate_coeff = input[9];
+ 			break;
++		default:
++			return -EINVAL;
+ 		}
+ 
+ 		result = vega20_set_activity_monitor_coeff(hwmgr,
 -- 
 2.43.0
 
