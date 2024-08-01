@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5055A943BB5
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C19943BBB
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C575210E7EB;
-	Thu,  1 Aug 2024 00:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3E910E7ED;
+	Thu,  1 Aug 2024 00:30:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="agSbEuXu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OAAGkZf5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F41BC10E7EB;
- Thu,  1 Aug 2024 00:29:54 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89A3D10E7EA;
+ Thu,  1 Aug 2024 00:30:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7A98E6173E;
- Thu,  1 Aug 2024 00:29:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05EC2C116B1;
- Thu,  1 Aug 2024 00:29:51 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 96F5ACE13BD;
+ Thu,  1 Aug 2024 00:29:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE00C4AF0C;
+ Thu,  1 Aug 2024 00:29:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472194;
- bh=HfwLPxSnQMQpUNvWflGQhEO5wetyHsAshCLDwjhOdCo=;
+ s=k20201202; t=1722472198;
+ bh=+R7UltP+hSTzVOJ4hD15m+PpE6pgJdcEl94o1E8adjs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=agSbEuXux+YnHDAEMm+pSwRR6CaONhdrTNdFHsTN+FY17GRYNy1tcz34PLVThftep
- aqGW7eTnBLHPTLcqrTcr31DwPheWpPh+G7Ttd7a14T1JiO/rvurWnCEAEUcs01c9ZS
- FUyXiFHDxWns9D3nfSVbYCXM/FHB+CNLN7e1Xr1k0bhwj2EmGoNHE+qneBrQCshW5N
- HLorRa+J6DTIXQkrbtqdP5id5Fy3/3qz+9uf6fSmmZB0ZC1oqnYhtLQ7IGrQSmq5He
- pBCsVQu+pBQ1FGEOnnirtXz2Y5mg0dN7yN8ekq2xPOYXZb9xANSvpFKg2v4goiNpA+
- VU9tjx5KPFgDw==
+ b=OAAGkZf5v4XZKFFHW1ym6J7zR8PXmxa3OEq/lYmMXIeBcPX8C8N828ti2nbRG/kxJ
+ BTrUz/nYg/imM99A2qsVjeMTX8TNqJNKS3Xdk9EM7y8ycirXRKT6snmHZrzIYVPRDX
+ 7MKuxbophoJ6gCRppnqA8Y8LBCa5v9vy37ox2Ip6YlpcWOHXA76M0TgwAvyWKirIg1
+ +sFEc1YzpTgcjlvKw5iQKRPH9VkBpbIwLCSglHpP5U/VVcgPq6gJog/ybUZGpQV/QR
+ V9FPejqMNxRIdftibGRBqDVWWdLCDdOP1pSUaJebdtseJK58gkA7kGxJqyOmp2nmK2
+ kb+2t2SDsRtnA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,14 +37,13 @@ Cc: Jesse Zhang <jesse.zhang@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
  Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
  Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- Hawking.Zhang@amd.com, lijo.lazar@amd.com, le.ma@amd.com,
- Likun.Gao@amd.com, shiwu.zhang@amd.com, YiPeng.Chai@amd.com,
- kevinyang.wang@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 24/61] drm/amdgpu: fix the waring dereferencing
- hive
-Date: Wed, 31 Jul 2024 20:25:42 -0400
-Message-ID: <20240801002803.3935985-24-sashal@kernel.org>
+ Hawking.Zhang@amd.com, tao.zhou1@amd.com, felix.kuehling@amd.com,
+ candice.li@amd.com, kevinyang.wang@amd.com, lijo.lazar@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 25/61] drm/amdgpu: the warning dereferencing obj
+ for nbio_v7_4
+Date: Wed, 31 Jul 2024 20:25:43 -0400
+Message-ID: <20240801002803.3935985-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801002803.3935985-1-sashal@kernel.org>
 References: <20240801002803.3935985-1-sashal@kernel.org>
@@ -70,32 +69,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jesse Zhang <jesse.zhang@amd.com>
 
-[ Upstream commit 1940708ccf5aff76de4e0b399f99267c93a89193 ]
+[ Upstream commit d190b459b2a4304307c3468ed97477b808381011 ]
 
-Check the amdgpu_hive_info *hive that maybe is NULL.
+if ras_manager obj null, don't print NBIO err data
 
 Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
+Suggested-by: Tim Huang <Tim.Huang@amd.com>
 Reviewed-by: Tim Huang <Tim.Huang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index 8764ff7ed97e0..f8740ad08af41 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -1297,6 +1297,9 @@ static void psp_xgmi_reflect_topology_info(struct psp_context *psp,
- 	uint8_t dst_num_links = node_info.num_links;
+diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c b/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
+index 19455a7259391..7679a4cd55c05 100644
+--- a/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
++++ b/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
+@@ -384,7 +384,7 @@ static void nbio_v7_4_handle_ras_controller_intr_no_bifring(struct amdgpu_device
+ 		else
+ 			WREG32_SOC15(NBIO, 0, mmBIF_DOORBELL_INT_CNTL, bif_doorbell_intr_cntl);
  
- 	hive = amdgpu_get_xgmi_hive(psp->adev);
-+	if (WARN_ON(!hive))
-+		return;
-+
- 	list_for_each_entry(mirror_adev, &hive->device_list, gmc.xgmi.head) {
- 		struct psp_xgmi_topology_info *mirror_top_info;
- 		int j;
+-		if (!ras->disable_ras_err_cnt_harvest) {
++		if (ras && !ras->disable_ras_err_cnt_harvest && obj) {
+ 			/*
+ 			 * clear error status after ras_controller_intr
+ 			 * according to hw team and count ue number
 -- 
 2.43.0
 
