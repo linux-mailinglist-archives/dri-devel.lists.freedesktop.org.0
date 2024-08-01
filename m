@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0FA943A7A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BF0943A7D
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E733B10E744;
-	Thu,  1 Aug 2024 00:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AF2810E74E;
+	Thu,  1 Aug 2024 00:15:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QHf3qrqS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rVVGp33D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9F1310E744;
- Thu,  1 Aug 2024 00:15:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04F5110E74C;
+ Thu,  1 Aug 2024 00:15:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E57BCCE1870;
- Thu,  1 Aug 2024 00:15:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8160C32786;
- Thu,  1 Aug 2024 00:15:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 76E74611D7;
+ Thu,  1 Aug 2024 00:15:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE714C4AF0C;
+ Thu,  1 Aug 2024 00:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471333;
- bh=0TpNNrACWqa3bM5QaUsBF25tZ8stxMvvMpx22jGLU38=;
+ s=k20201202; t=1722471343;
+ bh=Sx3sRZ5AVYDq1GDGcflS5HXYzGIQGcQNw1wxSsHPmcw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QHf3qrqSn7hz+UxO/Isqw8Fb5hKhyXCHQ3TFlR917bk6qdTtOQJECBggWq4T+/Xvl
- 3XWauJS1Mx3Ff23lfT5H8o+hpyhFAhTvaWt+/1rr4PXvigurMxQOza+FpU4/OAVDgT
- pmQdr9ofwr8OA9Nc2/cTIP520NkwDlRMf+4Xlwhg5XU/W5f0ZZw1BSWS1OqMLdZIQf
- ePWFyVIfTXqP/YaNclW9bGiBYIhhOHfjomzf01z4ZfD/2b5L+dpEuYU2gBkSvfJW3k
- 4xP5gViySxh5UXVN9H+uS6ijgf8bI/Qr9NRi0catKPquaY+2SBRXGb2l78fzyzNvdi
- ontIc1HKp9Fuw==
+ b=rVVGp33DR5v78Q2g2JXICh3MLEqtE3a6NOUuuwqDTBrUQ3abeZLGHhhym25Dock+t
+ GwYAez86f9bggkOD0VveIMG0jDMBS83ImvNh85kXIX98ks+dimuF6gqx8aITc8OU1n
+ xmGJAH7auU+iD68jlrpVQXnAbc3/8ptSI0HCqJXqEKwdylvPzqdKrpc+CDDeNNT0xo
+ irCaCYOUXmh70bUAclSaJq6AmkXs31I41NE5JtK/Pk7/GAlmOf8tXVLMBcttmBtN8x
+ D8c3oZ2fGuC8lpoFmO3PvOR+6aFoEpPMm9q/IAHx8c/q8KFTLzaAkshzohjvmQNjqp
+ YVoMVLnIHsQ9w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Wayne Lin <wayne.lin@amd.com>, Jerry Zuo <jerry.zuo@amd.com>,
- Zaeem Mohamed <zaeem.mohamed@amd.com>,
+Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Duncan Ma <duncan.ma@amd.com>, Zaeem Mohamed <zaeem.mohamed@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, alex.hung@amd.com, mwen@igalia.com, joshua@froggi.es,
- Roman.Li@amd.com, mario.limonciello@amd.com, Bhawanpreet.Lakha@amd.com,
- rdunlap@infradead.org, amd-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, charlene.liu@amd.com, Qingqing.Zhuo@amd.com,
+ alvin.lee2@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 075/121] drm/amd/display: Correct the defined
- value for AMDGPU_DMUB_NOTIFICATION_MAX
-Date: Wed, 31 Jul 2024 20:00:13 -0400
-Message-ID: <20240801000834.3930818-75-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 076/121] drm/amd/display: Remove register from
+ DCN35 DMCUB diagnostic collection
+Date: Wed, 31 Jul 2024 20:00:14 -0400
+Message-ID: <20240801000834.3930818-76-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -70,38 +69,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wayne Lin <wayne.lin@amd.com>
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 
-[ Upstream commit ad28d7c3d989fc5689581664653879d664da76f0 ]
+[ Upstream commit 466423c6dd8af23ebb3a69d43434d01aed0db356 ]
 
-[Why & How]
-It actually exposes '6' types in enum dmub_notification_type. Not 5. Using smaller
-number to create array dmub_callback & dmub_thread_offload has potential to access
-item out of array bound. Fix it.
+[Why]
+These registers should not be read from driver and triggering the
+security violation when DMCUB work times out and diagnostics are
+collected blocks Z8 entry.
 
-Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
+[How]
+Remove the register read from DCN35.
+
+Reviewed-by: Duncan Ma <duncan.ma@amd.com>
 Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-Signed-off-by: Wayne Lin <wayne.lin@amd.com>
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 09519b7abf67b..5c9d32dff8538 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -50,7 +50,7 @@
+diff --git a/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c b/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c
+index 70e63aeb8f89b..a330827f900c3 100644
+--- a/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c
++++ b/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c
+@@ -459,7 +459,7 @@ uint32_t dmub_dcn35_get_current_time(struct dmub_srv *dmub)
+ void dmub_dcn35_get_diagnostic_data(struct dmub_srv *dmub, struct dmub_diagnostic_data *diag_data)
+ {
+ 	uint32_t is_dmub_enabled, is_soft_reset, is_sec_reset;
+-	uint32_t is_traceport_enabled, is_cw0_enabled, is_cw6_enabled;
++	uint32_t is_traceport_enabled, is_cw6_enabled;
  
- #define AMDGPU_DM_MAX_NUM_EDP 2
+ 	if (!dmub || !diag_data)
+ 		return;
+@@ -510,9 +510,6 @@ void dmub_dcn35_get_diagnostic_data(struct dmub_srv *dmub, struct dmub_diagnosti
+ 	REG_GET(DMCUB_CNTL, DMCUB_TRACEPORT_EN, &is_traceport_enabled);
+ 	diag_data->is_traceport_en  = is_traceport_enabled;
  
--#define AMDGPU_DMUB_NOTIFICATION_MAX 5
-+#define AMDGPU_DMUB_NOTIFICATION_MAX 6
+-	REG_GET(DMCUB_REGION3_CW0_TOP_ADDRESS, DMCUB_REGION3_CW0_ENABLE, &is_cw0_enabled);
+-	diag_data->is_cw0_enabled = is_cw0_enabled;
+-
+ 	REG_GET(DMCUB_REGION3_CW6_TOP_ADDRESS, DMCUB_REGION3_CW6_ENABLE, &is_cw6_enabled);
+ 	diag_data->is_cw6_enabled = is_cw6_enabled;
  
- #define HDMI_AMD_VENDOR_SPECIFIC_DATA_BLOCK_IEEE_REGISTRATION_ID 0x00001A
- #define AMD_VSDB_VERSION_3_FEATURECAP_REPLAYMODE 0x40
 -- 
 2.43.0
 
