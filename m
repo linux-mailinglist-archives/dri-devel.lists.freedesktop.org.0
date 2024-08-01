@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD81943B12
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC97F943B18
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6F510E7A6;
-	Thu,  1 Aug 2024 00:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C01110E7AA;
+	Thu,  1 Aug 2024 00:23:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pcRwUBf+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vMpnL83N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9663710E7A4;
- Thu,  1 Aug 2024 00:23:07 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A34A10E7A7;
+ Thu,  1 Aug 2024 00:23:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1B7966173C;
- Thu,  1 Aug 2024 00:23:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5591C32786;
- Thu,  1 Aug 2024 00:23:04 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 42555CE1874;
+ Thu,  1 Aug 2024 00:23:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4606C4AF0E;
+ Thu,  1 Aug 2024 00:23:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471786;
- bh=5dv3H7JAxGTY9qF4NzFQWWyQru6NosY6yTo7xygdZMw=;
+ s=k20201202; t=1722471791;
+ bh=mdtSGVThuocfhAncG/yE9HLunHNL+4zIVSo0VUb1UGU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pcRwUBf+hu2YNNsX7ME8A93meKcN3oT8eESOCDkS/E83GZO/0zGGc7eRjQYmJ2NDf
- cViAUKogpCO+95IO7h+20mdFvmj5nWaYWQjXmDcpXIHGlLxXApDhPnQxx+lGpP5Xvf
- eFyBW+LiwbTir8aU1GtGygEkScH8zX+/PbwGjZLHetJGJFWD4PLwchNIyghB8g+11q
- jQjGzetjjWmjUXjWPR0U/sjydbUSMosJzHT3X22Qx4u4mWK+AcDh/PqmYmwtO/5E+B
- x/1NjcLuZMsIeQEftLwOhGYVLnRJxrQ5D+0bCgGfoecw1CaYN1A1ltKCmR6BvERX2N
- V4mOJLXkBov/g==
+ b=vMpnL83NEem4PPUrj1N3Oul2PdhY9E4ixcpqiYo/FIGBSTHELJJkwq3qwfvyNbDoA
+ dTrZMj0a5GNMroUdjQ+pJHJ+c9YW7Wt8nKUy3Ktg7ecTgCWxNIS6Dva778yL3mWMgP
+ DwqfVTVcd1L9QuUuZ9SAThigPmyc8GURaiOfpsi6WdIJagzDnj5W9N7hLYHPBJuM/k
+ wLI3AcrcOProDD5FylOKlUv8HyAEi+N4Zzdnrlyce6KaqHOR4AywiW0DQE/JHAh+CT
+ b1JOuhuvRurkiMWJfJJw8y03x+szpWcq1tGEBarZYvgrEgS3DcE9mAt7Gcrep7z2YF
+ Wsr3h5m6wAvtA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Asad Kamal <asad.kamal@amd.com>,
+Cc: Ma Jun <Jun.Ma2@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Hawking.Zhang@amd.com, mario.limonciello@amd.com,
- candice.li@amd.com, Jun.Ma2@amd.com, victorchengchi.lu@amd.com,
- andrealmeid@igalia.com, hamza.mahfooz@amd.com,
+ daniel@ffwll.ch, shashank.sharma@amd.com, hannes@cmpxchg.org,
+ andrealmeid@igalia.com, friedrich.vock@gmx.de,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 21/83] drm/amd/amdgpu: Check tbo resource pointer
-Date: Wed, 31 Jul 2024 20:17:36 -0400
-Message-ID: <20240801002107.3934037-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 22/83] drm/amdgpu: Fix out-of-bounds write warning
+Date: Wed, 31 Jul 2024 20:17:37 -0400
+Message-ID: <20240801002107.3934037-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801002107.3934037-1-sashal@kernel.org>
 References: <20240801002107.3934037-1-sashal@kernel.org>
@@ -68,35 +67,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Asad Kamal <asad.kamal@amd.com>
+From: Ma Jun <Jun.Ma2@amd.com>
 
-[ Upstream commit 6cd2b872643bb29bba01a8ac739138db7bd79007 ]
+[ Upstream commit be1684930f5262a622d40ce7a6f1423530d87f89 ]
 
-Validate tbo resource pointer, skip if NULL
+Check the ring type value to fix the out-of-bounds
+write warning
 
-Signed-off-by: Asad Kamal <asad.kamal@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Tim Huang <Tim.Huang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index e1227b7c71b16..8c95b877155a3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4479,7 +4479,8 @@ static int amdgpu_device_recover_vram(struct amdgpu_device *adev)
- 		shadow = vmbo->shadow;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+index 0bedffc4eb435..f44b303ae287a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+@@ -352,7 +352,7 @@ int amdgpu_ring_init(struct amdgpu_device *adev, struct amdgpu_ring *ring,
+ 	ring->max_dw = max_dw;
+ 	ring->hw_prio = hw_prio;
  
- 		/* No need to recover an evicted BO */
--		if (shadow->tbo.resource->mem_type != TTM_PL_TT ||
-+		if (!shadow->tbo.resource ||
-+		    shadow->tbo.resource->mem_type != TTM_PL_TT ||
- 		    shadow->tbo.resource->start == AMDGPU_BO_INVALID_OFFSET ||
- 		    shadow->parent->tbo.resource->mem_type != TTM_PL_VRAM)
- 			continue;
+-	if (!ring->no_scheduler) {
++	if (!ring->no_scheduler && ring->funcs->type < AMDGPU_HW_IP_NUM) {
+ 		hw_ip = ring->funcs->type;
+ 		num_sched = &adev->gpu_sched[hw_ip][hw_prio].num_scheds;
+ 		adev->gpu_sched[hw_ip][hw_prio].sched[(*num_sched)++] =
 -- 
 2.43.0
 
