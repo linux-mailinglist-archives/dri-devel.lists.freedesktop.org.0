@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59004943A71
+	by mail.lfdr.de (Postfix) with ESMTPS id B8751943A72
 	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8EDF10E740;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC85F10E741;
 	Thu,  1 Aug 2024 00:15:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UXAQEkJt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M5H6PFjA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0003810E740
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 00:15:12 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23D0810E742;
+ Thu,  1 Aug 2024 00:15:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 19EB1CE1876;
- Thu,  1 Aug 2024 00:15:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF95C4AF0F;
- Thu,  1 Aug 2024 00:15:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9586F6173C;
+ Thu,  1 Aug 2024 00:15:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26D5C116B1;
+ Thu,  1 Aug 2024 00:15:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471310;
- bh=fT+DufGfvPNVO/oTNu6ZcpvepwwnEFNtyq6TQYm4QfQ=;
+ s=k20201202; t=1722471312;
+ bh=4jGE/HMHzC1CdEpHNS0Zke1c5VcLzul6vO3XVwoF4Lo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UXAQEkJtmVlm1D3EJ6PibXn2m33eosIxUbtSelA0hHPlhs7lh+CAdRzhHZy37aZv9
- dFSORX+C4TdweDGhPdVre2yModbLRs+Tvnwz6q4L/VOufbbP1e/D6eWp8OQcRprpzI
- blhMu7Q6kSeesCDlf3r8U8FT9jB3wSlV2nRdrBjgsrwHaLvTKludPs+8bQ1u1n3mSz
- i2ikLIWCIHG7XK7+3/0vkW8PXqL1QYpJID7r+Cy7pHz//4nphfTOB+W12Imm2c8gtE
- igbhI9SisoTCSQoNgTwW34sOXA3SM3Cup1kPfsOxrYYfnL+weY8wGlXZoaX2VA2ks9
- rthb+S2cVmfYg==
+ b=M5H6PFjAacbTEc3ZFhuA78Rhp5eFmWjoWJxUs20y0Xvet6sel+vna2G50iszrEGCd
+ G90RkkD3SguVQsXNa4Exmm6wcMQ4CKQkBUtePs5KPE38egPG+53vSWTelY0/yah1hL
+ OcrGn+Yyp+T+uZ35wzFgj7/BUbx4ZCBp6UcazTIPDHFW64Sq4xVml7wPIStPYAvHHj
+ DrjlHkKuEXTOTKYxuSQ0K7xvSe2DCeKo6zJ2/mDr3exOxicsq/bXGBi5jmZLmOJhBj
+ PV/4rjYsceSF2QryHOyhRI+r3VrC7wLYmjxLsJWuM2aAJDpLx4jqSd7tNCAimVo7Z1
+ t1ZLn2eeo49Pw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Marek Vasut <marex@denx.de>, Robert Foss <rfoss@kernel.org>,
- Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Badal Nilawar <badal.nilawar@intel.com>, Sasha Levin <sashal@kernel.org>,
+ thomas.hellstrom@linux.intel.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 066/121] drm/bridge: tc358767: Check if fully
- initialized before signalling HPD event via IRQ
-Date: Wed, 31 Jul 2024 20:00:04 -0400
-Message-ID: <20240801000834.3930818-66-sashal@kernel.org>
+ daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 067/121] drm/xe: Check valid domain is passed in
+ xe_force_wake_ref
+Date: Wed, 31 Jul 2024 20:00:05 -0400
+Message-ID: <20240801000834.3930818-67-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -65,36 +69,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Vasut <marex@denx.de>
+From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 
-[ Upstream commit 162e48cb1d84c2c966b649b8ac5c9d4f75f6d44f ]
+[ Upstream commit 35feb8dbbca627d118ccc1f2111841788c142703 ]
 
-Make sure the connector is fully initialized before signalling any
-HPD events via drm_kms_helper_hotplug_event(), otherwise this may
-lead to NULL pointer dereference.
+Assert domain is not XE_FORCEWAKE_ALL.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Reviewed-by: Robert Foss <rfoss@kernel.org>
-Signed-off-by: Robert Foss <rfoss@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240531203333.277476-1-marex@denx.de
+v2
+- use domain != XE_FORCEWAKE_ALL (Michal)
+
+v3
+- Fix commit description.
+
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Badal Nilawar <badal.nilawar@intel.com>
+Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240607125741.1407331-2-himal.prasad.ghimiray@intel.com
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/tc358767.c | 2 +-
+ drivers/gpu/drm/xe/xe_force_wake.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 166f9a3e9622d..332f0aa50fee4 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -2135,7 +2135,7 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
- 		dev_err(tc->dev, "syserr %x\n", stat);
- 	}
+diff --git a/drivers/gpu/drm/xe/xe_force_wake.h b/drivers/gpu/drm/xe/xe_force_wake.h
+index 83cb157da7cc6..23b36d13f18a6 100644
+--- a/drivers/gpu/drm/xe/xe_force_wake.h
++++ b/drivers/gpu/drm/xe/xe_force_wake.h
+@@ -24,7 +24,7 @@ static inline int
+ xe_force_wake_ref(struct xe_force_wake *fw,
+ 		  enum xe_force_wake_domains domain)
+ {
+-	xe_gt_assert(fw->gt, domain);
++	xe_gt_assert(fw->gt, domain != XE_FORCEWAKE_ALL);
+ 	return fw->domains[ffs(domain) - 1].ref;
+ }
  
--	if (tc->hpd_pin >= 0 && tc->bridge.dev) {
-+	if (tc->hpd_pin >= 0 && tc->bridge.dev && tc->aux.drm_dev) {
- 		/*
- 		 * H is triggered when the GPIO goes high.
- 		 *
 -- 
 2.43.0
 
