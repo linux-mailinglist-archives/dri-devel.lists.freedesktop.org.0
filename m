@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7480943C9E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:40:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC894943CA7
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:40:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FFC910E86F;
-	Thu,  1 Aug 2024 00:40:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1327C10E091;
+	Thu,  1 Aug 2024 00:40:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tT2aSMiy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G8LjcMnB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A100210E873;
- Thu,  1 Aug 2024 00:40:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10B0510E091;
+ Thu,  1 Aug 2024 00:40:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B91D5CE17AC;
- Thu,  1 Aug 2024 00:39:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E90C116B1;
- Thu,  1 Aug 2024 00:39:57 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 5B00ECE17A6;
+ Thu,  1 Aug 2024 00:40:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB6D0C116B1;
+ Thu,  1 Aug 2024 00:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472799;
- bh=r8EFgXogzRkl5bdeMIqgYvAU62nrklDUVfI4YKX8EP0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tT2aSMiyzLtWapQJv4PRoNZxQO3Z7mBaigzvB8Qo9zj6MQyTSFgZbbMBKAr23ID5u
- usMbREwr4sIpxNafuKoX2FuNaU63OfIO7ER9VldI4qONA1bwSwkXbO9xy2ZfgmcnwM
- LEnqNmhz/aFlyxX7gQiQ+L4D8oHxawS3VL2VguBDHFQxWhfmBK18dcHnKNZ3QgD5hW
- OY9w19PiyDua0dOAz9u2F10Gp2qJtsSMN9eFRWrB30cCcchGwd1F0P/OhNJeNiBrqG
- ERfoitpO1JfGVL14vrraXfpHzu2C1nlAVYdcfVX9TVl9C5DHI4aV9EebCUObaSDI9N
- s7iRx9vUpd2JQ==
+ s=k20201202; t=1722472840;
+ bh=mHrDZThkia9FZr8QpjrKs8MvCfX8yJX7rXP9HOV+t94=;
+ h=From:To:Cc:Subject:Date:From;
+ b=G8LjcMnBkHmCpMTrhW3HqgMu/gNZ+4iTXdcYgEvO0Nl928W28eywJ1GlHKk0AKOC9
+ y3eM08ZfrgEOkIRQNh9QFQBHY7WhgbvdT+bs11djqWAvvPkUeWqpnoRjLlfuVT/8yd
+ kpFvCn63t944i/MAjGe2tj1H1BNDPDWaU2D8vK/DhFSUKDXTWfaoZkz0JWnJ42MRMJ
+ zWxC6ArAyPtcxJXd2mfc5UIYrIhLOACwuBabir5Ue71WMK9AUz9jq+IxKweZ7Lw0CQ
+ z7eaQWHenHRXkDnyMq8BeP/V85FcBbkmCaHtjKRGcXraeoEkQ93PR9Im6jFEQsDfch
+ N8/x+71NmrwXA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 11/22] drm/amd/display: Skip
- wbscl_set_scaler_filter if filter is null
-Date: Wed, 31 Jul 2024 20:38:40 -0400
-Message-ID: <20240801003918.3939431-11-sashal@kernel.org>
+Cc: Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, Jun.Ma2@amd.com, hannes@cmpxchg.org,
+ vitaly.prosyak@amd.com, shashank.sharma@amd.com, andrealmeid@igalia.com,
+ friedrich.vock@gmx.de, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 4.19 01/14] drm/amdgpu: fix overflowed array index
+ read warning
+Date: Wed, 31 Jul 2024 20:40:09 -0400
+Message-ID: <20240801004037.3939932-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240801003918.3939431-1-sashal@kernel.org>
-References: <20240801003918.3939431-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.281
+X-stable-base: Linux 4.19.319
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,39 +66,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Hung <alex.hung@amd.com>
+From: Tim Huang <Tim.Huang@amd.com>
 
-[ Upstream commit c4d31653c03b90e51515b1380115d1aedad925dd ]
+[ Upstream commit ebbc2ada5c636a6a63d8316a3408753768f5aa9f ]
 
-Callers can pass null in filter (i.e. from returned from the function
-wbscl_get_filter_coeffs_16p) and a null check is added to ensure that is
-not the case.
+Clear overflowed array index read warning by cast operation.
 
-This fixes 4 NULL_RETURNS issues reported by Coverity.
-
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Tim Huang <Tim.Huang@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c
-index cd8bc92ce3ba9..4058a4fd6b224 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c
-@@ -690,6 +690,9 @@ static void wbscl_set_scaler_filter(
- 	int pair;
- 	uint16_t odd_coef, even_coef;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+index 93794a85f83d8..d1efab2270340 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+@@ -497,8 +497,9 @@ static ssize_t amdgpu_debugfs_ring_read(struct file *f, char __user *buf,
+ 					size_t size, loff_t *pos)
+ {
+ 	struct amdgpu_ring *ring = file_inode(f)->i_private;
+-	int r, i;
+ 	uint32_t value, result, early[3];
++	loff_t i;
++	int r;
  
-+	if (!filter)
-+		return;
-+
- 	for (phase = 0; phase < (NUM_PHASES / 2 + 1); phase++) {
- 		for (pair = 0; pair < tap_pairs; pair++) {
- 			even_coef = filter[phase * taps + 2 * pair];
+ 	if (*pos & 3 || size & 3)
+ 		return -EINVAL;
 -- 
 2.43.0
 
