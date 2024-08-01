@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F370B943A9F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:17:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BBB943AA1
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:17:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B57A10E766;
-	Thu,  1 Aug 2024 00:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 986B910E75B;
+	Thu,  1 Aug 2024 00:17:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bmrhZARn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oIPh/VdV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4AEE10E75B;
- Thu,  1 Aug 2024 00:17:28 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0070310E75B;
+ Thu,  1 Aug 2024 00:17:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 335B3CE1869;
- Thu,  1 Aug 2024 00:17:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 182C2C32786;
- Thu,  1 Aug 2024 00:17:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6FD7B6125E;
+ Thu,  1 Aug 2024 00:17:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23EAEC32786;
+ Thu,  1 Aug 2024 00:17:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471446;
- bh=H8RbGKnc/apewFn075doefza/w+WhksTdezBBKO8wHk=;
+ s=k20201202; t=1722471451;
+ bh=l755Jq9bxcVcurMsrHOJdoqYBGnGShDlnnL22h02viA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bmrhZARnp7C+2aBZUpgU0FLZPxIuKvK6yCFLyZj0bRfzstW0GOO57BpyKfVMdLPPi
- ySOD2tbhOZAAP1oK6O0dGePtE32ZBmSX29IOcyO3oSBMz0TMeDygCTKZZoWi9S1HoK
- ugJQcHPQED4L55qDgUdi/RHCoKO7RaDcndmHGvYuZ2lgQ8EiqhKonEgAIth1QQ/zBA
- lf+pKSjlf/HLRP/zz2Wh2505eiYTAXXK9oo56P49yg69B9DhmVgGI4rkELYxLBuUW2
- RgfcYUG2NDkub+CnAdtEsOrjxlKqykvHCyehlbayscg/XonSKSKBK/pZJA2IuJT/q6
- Sbr9qle7onx/A==
+ b=oIPh/VdVn+x1eHgPFNX+M10sAL9uLv1nqKPLEQcesQLyuMkNXrRF6Lw5MTbDZY+mN
+ FRe7umWSeC0NsuBIUtQiwXObwopM5jMSCZVxQrbmqfPog4vsYKtIZO8fl7qU5tKB0z
+ kW4FJBwrPVsfSApyU6idMMt5WPtJBQ//OE7VwaUThhWmEKtwHHKj6o9ZB63CTdLuYz
+ nKgL5/5A0Hsl7hFZPMb3xKxNvcYEZ8Oys69o5SM+TgHfny6BS2LvS33ygUESWFiYns
+ svzRLbY/nZs9PzINqMP6gsQXEJK2QsoiHfK29hflJ1gNY5QBZRXqIgpZquTj6vCqEZ
+ OQKVqLiGiOn+Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,13 +38,12 @@ Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, hamza.mahfooz@amd.com, lewis.huang@amd.com,
- mghaddar@amd.com, srinivasan.shanmugam@amd.com, Bhawanpreet.Lakha@amd.com,
+ daniel@ffwll.ch, wenjing.liu@amd.com, marcelomspessoto@gmail.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 098/121] drm/amd/display: Run DC_LOG_DC after
- checking link->link_enc
-Date: Wed, 31 Jul 2024 20:00:36 -0400
-Message-ID: <20240801000834.3930818-98-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 099/121] drm/amd/display: Check HDCP returned
+ status
+Date: Wed, 31 Jul 2024 20:00:37 -0400
+Message-ID: <20240801000834.3930818-99-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -70,12 +69,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 3a82f62b0d9d7687eac47603bb6cd14a50fa718b ]
+[ Upstream commit 5d93060d430b359e16e7c555c8f151ead1ac614b ]
 
-[WHAT]
-The DC_LOG_DC should be run after link->link_enc is checked, not before.
+[WHAT & HOW]
+Check mod_hdcp_execute_and_set() return values in authenticated_dp.
 
-This fixes 1 REVERSE_INULL issue reported by Coverity.
+This fixes 3 CHECKED_RETURN issues reported by Coverity.
 
 Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
@@ -83,31 +82,40 @@ Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/link/link_factory.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../amd/display/modules/hdcp/hdcp1_execution.c    | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
-index 2c3f5d6622851..c5486e6d89bd5 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
-@@ -611,14 +611,14 @@ static bool construct_phy(struct dc_link *link,
- 	link->link_enc =
- 		link->dc->res_pool->funcs->link_enc_create(dc_ctx, &enc_init_data);
- 
--	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
--	DC_LOG_DC("BIOS object table - IS_DP2_CAPABLE: %d", link->link_enc->features.flags.bits.IS_DP2_CAPABLE);
--
- 	if (!link->link_enc) {
- 		DC_ERROR("Failed to create link encoder!\n");
- 		goto link_enc_create_fail;
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+index 182e7532dda8a..d77836cef5635 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+@@ -433,17 +433,20 @@ static enum mod_hdcp_status authenticated_dp(struct mod_hdcp *hdcp,
  	}
  
-+	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
-+	DC_LOG_DC("BIOS object table - IS_DP2_CAPABLE: %d", link->link_enc->features.flags.bits.IS_DP2_CAPABLE);
-+
- 	/* Update link encoder tracking variables. These are used for the dynamic
- 	 * assignment of link encoders to streams.
- 	 */
+ 	if (status == MOD_HDCP_STATUS_SUCCESS)
+-		mod_hdcp_execute_and_set(mod_hdcp_read_bstatus,
++		if (!mod_hdcp_execute_and_set(mod_hdcp_read_bstatus,
+ 				&input->bstatus_read, &status,
+-				hdcp, "bstatus_read");
++				hdcp, "bstatus_read"))
++			goto out;
+ 	if (status == MOD_HDCP_STATUS_SUCCESS)
+-		mod_hdcp_execute_and_set(check_link_integrity_dp,
++		if (!mod_hdcp_execute_and_set(check_link_integrity_dp,
+ 				&input->link_integrity_check, &status,
+-				hdcp, "link_integrity_check");
++				hdcp, "link_integrity_check"))
++			goto out;
+ 	if (status == MOD_HDCP_STATUS_SUCCESS)
+-		mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
++		if (!mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
+ 				&input->reauth_request_check, &status,
+-				hdcp, "reauth_request_check");
++				hdcp, "reauth_request_check"))
++			goto out;
+ out:
+ 	return status;
+ }
 -- 
 2.43.0
 
