@@ -2,87 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9E1944771
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 11:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D1694477B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 11:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B42FC10E37A;
-	Thu,  1 Aug 2024 09:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7786210E8C6;
+	Thu,  1 Aug 2024 09:08:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NqWQgPuP";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="qXD2DlSz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0Ew0Q+oj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0C9b4pU3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u47VYPgM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B99F10E37A
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 09:07:08 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a77ec5d3b0dso798834166b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 02:07:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722503226; x=1723108026; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=0ZBoY3AoVccb/INlrM3z9gGvON8IToRFWiibOBUz5W8=;
- b=NqWQgPuPjuBZ7d8JrS+c/bifUNP0GXvADWhqh88dQabRoynJ7IhZN2WDWF9f8JksDd
- 6BJvY1Hmws87aNCEvilnADjX/c1pJZEYaKPFh/Sm//zUirjCIFdpcQsYw7snRPNzPV/7
- Nq8l1TKA/a8mPFz0W7iDOJja+hYTpOnkQpKJ1JmIIXZ8TtSvrElfwIvQw1ScwM6kK6/U
- IUf4lNAZmLwOfq+gwpOpP1rwMbWxtv4xwfucrb4FDhO07a1efzejTIr/fScVErWEqyZl
- WhjjON0jEmINhrRYjfuQr95KiH1nQDBmJWzgfLbLYhwthu0/BaK2hmVIA4iVFW4vZcYH
- R1Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722503226; x=1723108026;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0ZBoY3AoVccb/INlrM3z9gGvON8IToRFWiibOBUz5W8=;
- b=X6oz8hCn8mDiP8tR5kmrYWtGRYxGd9gwhrnVi6e1Z876E90oiQWd9YDXWTATky4eT5
- mRxErC5OHCVcXpWiPKaUW9AXmpwSrWaEn0DgdlTXF4bwM69fsVbzUHXEq6hSY83XIwMv
- QXknHq24XbZOG6rVjZYKyxdpYVyi4bqyCWH/PJ5/MTWfrNbNdMZis3rpP/QMCnrYjVOh
- VuwwWLfACwE42FfIaiUTlAZkeudd4sYf62ueqUU40D0+2jjek3aaST4ymCvntIHRvw0X
- ccf782ySIodroJjM4BC7itaoCjvHK01SQfozIMkEQoZRgiLBGrFiaK4cxB3t79UX17xD
- HD+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVL5UjvgX4SUhGIr8Q3UWJiX4yMVZMEc2im21Gwkj2iZh0nEvZv458folPw+trUJvVuxKrVQytZVfhQMTB9xlIh5cAFKTMqv2nObbLuxh9Z
-X-Gm-Message-State: AOJu0YzSThVH21zlg3EyFW/fL9bMddBOJLw4YumpyCnRdxB7l8TpmYJM
- cQk5Q/uj1mJhuatXEY/C4OjG25pb6SMTNtqsxhdZpLqGF85sotVD
-X-Google-Smtp-Source: AGHT+IFkXQXLFJ5X+Na5/W+NzBmIf8q3vSnukCimnlNwYhkXd1AhMX9KBCaqr0DDQZcpDbO7MU+hlA==
-X-Received: by 2002:a17:907:2d91:b0:a7d:340e:43a4 with SMTP id
- a640c23a62f3a-a7daf55e504mr102922866b.31.1722503225659; 
- Thu, 01 Aug 2024 02:07:05 -0700 (PDT)
-Received: from ?IPV6:2a04:cec0:1113:4afb:5fa3:8d9c:6e3d:1966?
- ([2a04:cec0:1113:4afb:5fa3:8d9c:6e3d:1966])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7acab4de06sm868138666b.71.2024.08.01.02.07.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Aug 2024 02:07:05 -0700 (PDT)
-Message-ID: <94ecd3a6-3a62-4be6-b384-c8237c818e98@gmail.com>
-Date: Thu, 1 Aug 2024 11:07:03 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74B2B10E8C6
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 09:08:34 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E64FB1F7D2;
+ Thu,  1 Aug 2024 09:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722503313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8CLGoz52zKPxxoWPDdh/ixZ43op1lXLpYfCTNUCzfSY=;
+ b=qXD2DlSzzFWUgMio7zZWFMELsmA2PSy8X8hXcAFTxBc5CoxScwkzoaKMwZW1uTzSnN2L9w
+ rr7iuffb5Zw7QmGPMKcDHSwMijLRdwEJbdshmyhM2ShEC6DKAfhn7ESGaqKpbQH6SfAC+W
+ +VXBNUZlFMEmCrIkEcWacCZF6MdR+PU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722503313;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8CLGoz52zKPxxoWPDdh/ixZ43op1lXLpYfCTNUCzfSY=;
+ b=0Ew0Q+ojsmKR2aJnwkB7JvH5fHokyjzh7ThkUmFqRlLxYdNnwHOrePQ3UX0IMHOYBK0QRK
+ 0wR1KpxoNaGsHDBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722503312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8CLGoz52zKPxxoWPDdh/ixZ43op1lXLpYfCTNUCzfSY=;
+ b=0C9b4pU3dJxYHGf3YbdFnjHYmOdas7PPJ/u/86ZU2q4P3K4FWhhw/vUtJ/GZvgpey+f6L+
+ 2hx6eaCUtEHHr0vrp3RskaDmwbGqMbkzcJhMLYYZVNqh754df6c4VZdpmDx0DDVCPqPema
+ DqHPRu69gWCtXzq0oEEPXEhwx5B0T5c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722503312;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8CLGoz52zKPxxoWPDdh/ixZ43op1lXLpYfCTNUCzfSY=;
+ b=u47VYPgMu7mWYeQJm6pnxUbYZsLq6IkQG9TnUNmcNdbaS9jshsz+yFaCuunJRmT1esjAJR
+ 4M/ec3zktzIFKiAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53DF2136CF;
+ Thu,  1 Aug 2024 09:08:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id kSc4E5BQq2aqHwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 01 Aug 2024 09:08:32 +0000
+Message-ID: <5934b4b2-3a99-4b6b-b3e3-e57eb82b9b16@suse.de>
+Date: Thu, 1 Aug 2024 11:08:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>
-Subject: Re: [Linux-stm32] [PATCH RESEND v3 0/3] Update STM DSI PHY driver
-To: Yanjun Yang <yangyj.ee@gmail.com>,
- Philippe CORNU <philippe.cornu@foss.st.com>, yannick.fertre@foss.st.com
-Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+Subject: Re: [PATCH v15 01/29] drm/connector: Introduce an HDMI connector
+ initialization function
+To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240129104106.43141-1-raphael.gallais-pou@foss.st.com>
- <21f4d43d-4abd-4aca-7abb-7321bcfa0f1d@foss.st.com>
- <CAE8JAfy9NtBa--DnUt2AEZPFnvjU6idj8DqUbaeLaH0DMFvuhw@mail.gmail.com>
- <e059f157-ff9c-32cb-57a6-48f2331f2555@foss.st.com>
- <ZqeZEB9peRSQkOLZ@void.tail05c47.ts.net>
-Content-Language: en-US, fr
-In-Reply-To: <ZqeZEB9peRSQkOLZ@void.tail05c47.ts.net>
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
+ <20240527-kms-hdmi-connector-state-v15-1-c5af16c3aae2@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240527-kms-hdmi-connector-state-v15-1-c5af16c3aae2@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.59 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; XM_UA_NO_VERSION(0.01)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,rock-chips.com,sntech.de,csie.org,sholland.org];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_TWELVE(0.00)[24];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
+ FREEMAIL_CC(0.00)[xs4all.nl,redhat.com,linux.intel.com,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,raspberrypi.com,linux.dev,linaro.org];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TAGGED_RCPT(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email, imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.59
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,78 +157,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
+Am 27.05.24 um 15:57 schrieb Maxime Ripard:
+> A lot of the various HDMI drivers duplicate some logic that depends on
+> the HDMI spec itself and not really a particular hardware
+> implementation.
+>
+> Output BPC or format selection, infoframe generation are good examples
+> of such areas.
+>
+> This creates a lot of boilerplate, with a lot of variations, which makes
+> it hard for userspace to rely on, and makes it difficult to get it right
+> for drivers.
+>
+> In the next patches, we'll add a lot of infrastructure around the
+> drm_connector and drm_connector_state structures, which will allow to
+> abstract away the duplicated logic. This infrastructure comes with a few
+> requirements though, and thus we need a new initialization function.
+>
+> Hopefully, this will make drivers simpler to handle, and their behaviour
+> more consistent.
+>
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/drm_connector.c | 39 +++++++++++++++++++++++++++++++++++++++
+>   include/drm/drm_connector.h     |  5 +++++
+>   2 files changed, 44 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index b0516505f7ae..d9961cce8245 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -450,10 +450,49 @@ int drmm_connector_init(struct drm_device *dev,
+>   
+>   	return 0;
+>   }
+>   EXPORT_SYMBOL(drmm_connector_init);
+>   
+> +/**
+> + * drmm_connector_hdmi_init - Init a preallocated HDMI connector
+> + * @dev: DRM device
+> + * @connector: A pointer to the HDMI connector to init
+> + * @funcs: callbacks for this connector
+> + * @connector_type: user visible type of the connector
+> + * @ddc: optional pointer to the associated ddc adapter
+> + *
+> + * Initialises a preallocated HDMI connector. Connectors can be
+> + * subclassed as part of driver connector objects.
+> + *
+> + * Cleanup is automatically handled with a call to
+> + * drm_connector_cleanup() in a DRM-managed action.
+> + *
+> + * The connector structure should be allocated with drmm_kzalloc().
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int drmm_connector_hdmi_init(struct drm_device *dev,
+> +			     struct drm_connector *connector,
+> +			     const struct drm_connector_funcs *funcs,
+> +			     int connector_type,
+> +			     struct i2c_adapter *ddc)
 
-Le 29/07/2024 à 15:28, Yanjun Yang a écrit :
-> On Fri, Jul 26, 2024 at 09:55:35AM +0200, Philippe CORNU wrote:
->>
->>
->> On 7/22/24 10:38, Yanjun Yang wrote:
->>>
->>> This patch (commit id:185f99b614427360) seems to break the dsi of
->>> stm32f469 chip.
->>> I'm not familiar with the drm and the clock framework, maybe it's
->>> because there is no
->>>    "ck_dsi_phy" defined for stm32f469.
->>> PS:  Sorry for receiving multiple copies of this email, I forgot to
->>> use plain text mode last time.
->>>
->>
->> Hi,
->> Thank you for letting us know that there was this error. We should have
->> detected this before merging, really sorry for the problems caused by this
->> patch. We will investigate the issue and get back to you as soon as
->> possible. In the meantime, I think you can revert this patch in your git
->> tree.
->>
->> Philippe :-)
->>
-> 
-> Hi,
-Hi,
+I know I'm late to the review.
 
-FYI
-DSI clock tree for stm32f469 can be found here:
-https://www.st.com/resource/en/reference_manual/rm0386-stm32f469xx-and-stm32f479xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf
+Wouldn't it be better to make a separate HDMI-setup helper instead of 
+yet another init function? The type of init function to use is mostly 
+about memory management within the driver, while the new HDMI state is 
+about features.
 
-Refer to Figure 17: DSI clock tree.
+Maybe rather add something like drm_connector_init_hdmi_state(), which 
+takes an initialized connector and sets all the values coming the other 
+patches. Drivers would not have to subscribe to a certain way of memory 
+management. AFAICT this would also allow to protect the helper and the 
+new drm_connector.hdmi field behind DRM_DISPLAY_HDMI_STATE_HELPER. Best 
+regards Thomas
+> +{
+> +	int ret;
+> +
+> +	if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> +	      connector_type == DRM_MODE_CONNECTOR_HDMIB))
+> +		return -EINVAL;
+> +
+> +	ret = drmm_connector_init(dev, connector, funcs, connector_type, ddc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drmm_connector_hdmi_init);
+> +
+>   /**
+>    * drm_connector_attach_edid_property - attach edid property.
+>    * @connector: the connector
+>    *
+>    * Some connector types like DRM_MODE_CONNECTOR_VIRTUAL do not get a
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index fe88d7fc6b8f..4491c4c2fb6e 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1902,10 +1902,15 @@ int drm_connector_init_with_ddc(struct drm_device *dev,
+>   int drmm_connector_init(struct drm_device *dev,
+>   			struct drm_connector *connector,
+>   			const struct drm_connector_funcs *funcs,
+>   			int connector_type,
+>   			struct i2c_adapter *ddc);
+> +int drmm_connector_hdmi_init(struct drm_device *dev,
+> +			     struct drm_connector *connector,
+> +			     const struct drm_connector_funcs *funcs,
+> +			     int connector_type,
+> +			     struct i2c_adapter *ddc);
+>   void drm_connector_attach_edid_property(struct drm_connector *connector);
+>   int drm_connector_register(struct drm_connector *connector);
+>   void drm_connector_unregister(struct drm_connector *connector);
+>   int drm_connector_attach_encoder(struct drm_connector *connector,
+>   				      struct drm_encoder *encoder);
+>
 
-After some research I think "ck_dsi_phy" was introduced in stm32h7 
-platforms. There is a mux which interfaces between various clocks (among 
-ck_hse) and the byte lane clock. stm32f469 has a much simpler clock tree 
-in which we did not bother to implement this "go-between" clock, even 
-though they is an equivalent of the mux.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-> After some testing, the reason behind my problem is the parent's name of
-> 'clk_dsi_phy' for stm32f4 is 'clk-hse' other than 'ck_hse'.  I don't
-> know which is the better why to fix it:
-> 1. Change "ck_hse" to "clk-hse" in where "clk_dsi_phy" is defined.
-Doing so will definitely break other platforms.
-
-> 2. Use "pll_in_khz = clk_get_rate(dsi->pllref_clk) / 1000" instead of
->     "pll_in_khz = (unsigned int)(parent_rate / 1000)" when get the clock
->     rate.
-dsi->pllref_clk refers to the HSE clock if you take a look in the 
-device-tree. This is the reason why this work on your setup. I doubt 
-nevertheless that it wouldn't work on other platforms. But this would be 
-a semantic nonsense, since the DSI byte lane clock is not always derived 
-from HSE clock on other platforms.
-
-Looking again at the clk-stm32f4 driver and the DSI clock tree linked, 
-we can maybe implement the desired clock even if it is not represented 
-on the diagram.
-
-Eventually if this solution does not work we will go to the second 
-solution you suggested and we will test it on all platforms.
-
-@Philippe, @Yannick
-Do you agree with this workflow ?
-
-Regards,
-Raphaël
-
-
-> 
-> Both method can fix my problem. The first one might break other
-> platforms. Maybe I should change the clock name of 'clk-hse'. However,
-> I can't find the defination of this clock name for stm32f4.
