@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FDD943B3F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56966943B42
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:24:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58E5D10E7C1;
-	Thu,  1 Aug 2024 00:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C188B10E7C8;
+	Thu,  1 Aug 2024 00:24:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rp6zm/O5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="glsG0Jz2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A296310E7C1;
- Thu,  1 Aug 2024 00:24:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A87210E7C7;
+ Thu,  1 Aug 2024 00:24:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id DF904CE1805;
- Thu,  1 Aug 2024 00:24:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51382C32786;
- Thu,  1 Aug 2024 00:24:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B53BE6173D;
+ Thu,  1 Aug 2024 00:24:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D82C116B1;
+ Thu,  1 Aug 2024 00:24:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471884;
- bh=33K2KQ2UCBY2K6eR3q27pBpmbJri+Oj+oWH2YTGzw2g=;
+ s=k20201202; t=1722471889;
+ bh=sJhZN1nywhtMs+jOxZKuOfxvk//enzoo4plEAcHIS+U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Rp6zm/O50hUO5j8+psm2Sohn9lZbWLXaYK9jfihfDlQ1UYjyOkH3n8VINCE2zFp/W
- OalwymPexHD0HZC+3AMHCEzhswP9o44l+1gGpI7Uvq9kMDxmhVjQ7oa7amHCmDaXxK
- PGEqLR7yl+oBVX1iUGfm7IQOZmJwnKGA+0dSvCFTgCgEE5NxNYQRI/DH46OYW6aIYB
- iZuH74MOTXSTZOeOZMvag4VZNjwB28lhmax775RkxvSnc7v5tR5Cn5Eow3v+DLp3/i
- Uw21u2TjiVFvmQth9bj5DifYt3DeGYKQ7BGnV5KZLtrhV0/TcUg65E0ITonIw1t8zc
- 7EEe8u9WxTiWw==
+ b=glsG0Jz21y825DW9hznmL3OzLEiRlEySeUt9G9eHPobAWpNr61Zk9+uaG3eVHZQ1v
+ ueyNDWbz4dkWXl5tVJv7n1jDexd4rd1KpohXcj9XB98zs80KV1dKvjMFtL3M+KnPC+
+ WDNllW8b8lXNtAdzM7QSOpi3lMhVntSNxE9j8Cfp7t86yeME5noQV+oGAx47x3SC4p
+ Ir7malp2pKAyvHN8IpYfJUWOwDN86kmGta8fAo/fOPLJtpXRS84bHsgOldaL9G7xYf
+ +/9xDPHEW9CieAYBVXKQI6g+j6qB51avH8YP+33TssAiBK04K8+vEjRzpRfCJQ1p3T
+ VfgIl8VbhzOsQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: winstang <winstang@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+Cc: Wayne Lin <wayne.lin@amd.com>, Jerry Zuo <jerry.zuo@amd.com>,
  Zaeem Mohamed <zaeem.mohamed@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, wenjing.liu@amd.com, jun.lei@amd.com, alex.hung@amd.com,
- hamza.mahfooz@amd.com, george.shen@amd.com, dillon.varone@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 51/83] drm/amd/display: added NULL check at start
- of dc_validate_stream
-Date: Wed, 31 Jul 2024 20:18:06 -0400
-Message-ID: <20240801002107.3934037-51-sashal@kernel.org>
+ daniel@ffwll.ch, alex.hung@amd.com, mwen@igalia.com, joshua@froggi.es,
+ mario.limonciello@amd.com, Roman.Li@amd.com, Bhawanpreet.Lakha@amd.com,
+ rdunlap@infradead.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 52/83] drm/amd/display: Correct the defined value
+ for AMDGPU_DMUB_NOTIFICATION_MAX
+Date: Wed, 31 Jul 2024 20:18:07 -0400
+Message-ID: <20240801002107.3934037-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801002107.3934037-1-sashal@kernel.org>
 References: <20240801002107.3934037-1-sashal@kernel.org>
@@ -69,41 +70,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: winstang <winstang@amd.com>
+From: Wayne Lin <wayne.lin@amd.com>
 
-[ Upstream commit 26c56049cc4f1705b498df013949427692a4b0d5 ]
+[ Upstream commit ad28d7c3d989fc5689581664653879d664da76f0 ]
 
-[Why]
-prevent invalid memory access
+[Why & How]
+It actually exposes '6' types in enum dmub_notification_type. Not 5. Using smaller
+number to create array dmub_callback & dmub_thread_offload has potential to access
+item out of array bound. Fix it.
 
-[How]
-check if dc and stream are NULL
-
-Co-authored-by: winstang <winstang@amd.com>
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
 Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-Signed-off-by: winstang <winstang@amd.com>
+Signed-off-by: Wayne Lin <wayne.lin@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 84923c5400d32..733e445331ea5 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -3927,6 +3927,9 @@ void resource_build_bit_depth_reduction_params(struct dc_stream_state *stream,
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index 9e4cc5eeda767..88606b805330d 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -49,7 +49,7 @@
  
- enum dc_status dc_validate_stream(struct dc *dc, struct dc_stream_state *stream)
- {
-+	if (dc == NULL || stream == NULL)
-+		return DC_ERROR_UNEXPECTED;
-+
- 	struct dc_link *link = stream->link;
- 	struct timing_generator *tg = dc->res_pool->timing_generators[0];
- 	enum dc_status res = DC_OK;
+ #define AMDGPU_DM_MAX_NUM_EDP 2
+ 
+-#define AMDGPU_DMUB_NOTIFICATION_MAX 5
++#define AMDGPU_DMUB_NOTIFICATION_MAX 6
+ 
+ #define HDMI_AMD_VENDOR_SPECIFIC_DATA_BLOCK_IEEE_REGISTRATION_ID 0x00001A
+ #define AMD_VSDB_VERSION_3_FEATURECAP_REPLAYMODE 0x40
 -- 
 2.43.0
 
