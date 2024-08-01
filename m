@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD34944AC7
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F24944ACE
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:05:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 994B610E92F;
-	Thu,  1 Aug 2024 12:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5844210E931;
+	Thu,  1 Aug 2024 12:05:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f8tlBfJo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gvfiWWaE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86B2C10E92E
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 12:05:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B73BB10E933
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 12:05:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C012962857;
- Thu,  1 Aug 2024 12:05:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16003C32786;
- Thu,  1 Aug 2024 12:05:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2EA3662767;
+ Thu,  1 Aug 2024 12:05:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54545C4AF0A;
+ Thu,  1 Aug 2024 12:05:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722513934;
- bh=yHsuGHxiLjgWyN5xswDwNMl+wTJR3b2GStP/fjg5kt4=;
+ s=k20201202; t=1722513950;
+ bh=tmgwM3dgC5/IejCxV/AIPdrvW4LX0UJNSQHZ02gdLW4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f8tlBfJo2NqAZZS65pSrGZVWv9Qzy47YMB34cU0sxgOaihlTEZdZKqm2VEHPgGkDm
- YBtp5Ezayj34aO17JzWcQiD5bNmVM89D5Vgbz5cZ9uwEhjfAaIQU5b5OuUECtL9ApT
- wAtu1mg0zSnUHuEM9YvjVumzl2TjaxbdZKYycWliUZZ3YVm2ndz6zkklroAVWWFGKC
- q90fY+es675tl6BfcZEXSK7eu7fl0o5nzAw6ZFbNsAKMp0fFvFVZEcnD5eo0a6DErx
- 3HH2Rp+5F2L+uEvv7OTpE6xyg/0UExPdXLn2TUoERC8loOHJ+SUz742M8AmjqjIKjX
- KNZEXveWw24yg==
+ b=gvfiWWaEChlbMPz+AfspkLZ61MuYBS7G+wsFCQGbi6P0yjWyI2HNKdfHGs4lmN1/v
+ lGn98TonRKMkPC+XvCJ8ar0fnRGygm60hoAJRGmTD392OLrnmsbfJWxFhXJe8JM2tK
+ xJtCQt44Vu3jzdXZWnrxuQEfj3pmdIFSXmTM62twE2bp7cuUfwQafCSZk60FfPZtkn
+ nBgyt0ey7zigfvljc/cePxmzfcduMf8vexja7jP8SdAnfk1ENZ1fEXyd6QJif6XsG7
+ LUzIIOws25GfY9NrGqbdiOe3JuvoJFohiJZjNcloecJNpMm75lxItomAJPaq1t5Agt
+ /9Cdrq2lFMS4w==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Yishai Hadas <yishaih@nvidia.com>,
@@ -42,9 +42,9 @@ Cc: Yishai Hadas <yishaih@nvidia.com>,
  Selvin Xavier <selvin.xavier@broadcom.com>,
  Sumit Semwal <sumit.semwal@linaro.org>, Tariq Toukan <tariqt@nvidia.com>,
  Tatyana Nikolova <tatyana.e.nikolova@intel.com>
-Subject: [PATCH mlx5-next 1/8] net/mlx5: Add IFC related stuff for data direct
-Date: Thu,  1 Aug 2024 15:05:10 +0300
-Message-ID: <82da7f578a567909bb5858a64ba844fe4cc298fa.1722512548.git.leon@kernel.org>
+Subject: [PATCH rdma-next 2/8] RDMA/mlx5: Introduce the 'data direct' driver
+Date: Thu,  1 Aug 2024 15:05:11 +0300
+Message-ID: <b77edecfd476c3f445da96ab6aef499ae47b2829.1722512548.git.leon@kernel.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <cover.1722512548.git.leon@kernel.org>
 References: <cover.1722512548.git.leon@kernel.org>
@@ -67,125 +67,417 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yishai Hadas <yishaih@nvidia.com>
 
-Add IFC related stuff for data direct.
+Introduce the 'data direct' driver for a ConnectX-8 Data Direct device.
+
+The 'data direct' driver functions as the affiliated DMA device for one
+or more capable mlx5_ib devices. This DMA device, as the name suggests,
+is used exclusively for DMA operations. It can be considered a DMA engine
+managed by a PF/VF, lacking network capabilities and having minimal overall
+capabilities.
+
+Consequently, the DMA NIC PF will not be exposed to or directly used by
+software applications. The driver will not have any direct interface or
+interaction with the firmware (no command interface, no capabilities,
+etc.). It will operate solely over PCI to enable its DMA functionality.
+
+Registration and un-registration of the driver are handled as part of
+the mlx5_ib initialization and exit processes, as the mlx5_ib devices
+will effectively be its clients.
+
+The driver will serve as the DMA device for accessing another PCI device
+to achieve optimal performance (both on the same NUMA node, P2P access,
+etc.).
+
+Upon probing, it will read its VUID over PCI to handle mlx5_ib device
+registrations with the same VUID.
+
+Upon removal, it will notify its clients to allow them to clean up the
+resources that were mmaped with its DMA device.
 
 Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- include/linux/mlx5/mlx5_ifc.h | 51 +++++++++++++++++++++++++++++++----
- 1 file changed, 46 insertions(+), 5 deletions(-)
+ drivers/infiniband/hw/mlx5/Makefile      |   1 +
+ drivers/infiniband/hw/mlx5/data_direct.c | 227 +++++++++++++++++++++++
+ drivers/infiniband/hw/mlx5/data_direct.h |  23 +++
+ drivers/infiniband/hw/mlx5/main.c        |  24 +++
+ drivers/infiniband/hw/mlx5/mlx5_ib.h     |   6 +
+ 5 files changed, 281 insertions(+)
+ create mode 100644 drivers/infiniband/hw/mlx5/data_direct.c
+ create mode 100644 drivers/infiniband/hw/mlx5/data_direct.h
 
-diff --git a/include/linux/mlx5/mlx5_ifc.h b/include/linux/mlx5/mlx5_ifc.h
-index cab228cf51c6..970c9d8473ef 100644
---- a/include/linux/mlx5/mlx5_ifc.h
-+++ b/include/linux/mlx5/mlx5_ifc.h
-@@ -313,6 +313,7 @@ enum {
- 	MLX5_CMD_OP_MODIFY_VHCA_STATE             = 0xb0e,
- 	MLX5_CMD_OP_SYNC_CRYPTO                   = 0xb12,
- 	MLX5_CMD_OP_ALLOW_OTHER_VHCA_ACCESS       = 0xb16,
-+	MLX5_CMD_OPCODE_QUERY_VUID                = 0xb22,
- 	MLX5_CMD_OP_MAX
- };
- 
-@@ -1885,7 +1886,8 @@ struct mlx5_ifc_cmd_hca_cap_bits {
- 
- 	u8         reserved_at_5a0[0x10];
- 	u8         enhanced_cqe_compression[0x1];
--	u8         reserved_at_5b1[0x2];
-+	u8         reserved_at_5b1[0x1];
-+	u8         crossing_vhca_mkey[0x1];
- 	u8         log_max_dek[0x5];
- 	u8         reserved_at_5b8[0x4];
- 	u8         mini_cqe_resp_stride_index[0x1];
-@@ -1954,7 +1956,9 @@ struct mlx5_ifc_cmd_hca_cap_bits {
- 	u8	   dynamic_msix_table_size[0xc];
- 	u8	   reserved_at_740[0xc];
- 	u8	   min_dynamic_vf_msix_table_size[0x4];
--	u8	   reserved_at_750[0x4];
-+	u8	   reserved_at_750[0x2];
-+	u8	   data_direct[0x1];
-+	u8	   reserved_at_753[0x1];
- 	u8	   max_dynamic_vf_msix_table_size[0xc];
- 
- 	u8         reserved_at_760[0x3];
-@@ -1982,7 +1986,9 @@ struct mlx5_ifc_cmd_hca_cap_2_bits {
- 	u8	   reserved_at_0[0x80];
- 
- 	u8         migratable[0x1];
--	u8         reserved_at_81[0x1f];
-+	u8         reserved_at_81[0x11];
-+	u8         query_vuid[0x1];
-+	u8         reserved_at_93[0xd];
- 
- 	u8	   max_reformat_insert_size[0x8];
- 	u8	   max_reformat_insert_offset[0x8];
-@@ -4154,6 +4160,7 @@ enum {
- 	MLX5_MKC_ACCESS_MODE_KSM   = 0x3,
- 	MLX5_MKC_ACCESS_MODE_SW_ICM = 0x4,
- 	MLX5_MKC_ACCESS_MODE_MEMIC = 0x5,
-+	MLX5_MKC_ACCESS_MODE_CROSSING = 0x6,
- };
- 
- struct mlx5_ifc_mkc_bits {
-@@ -4196,7 +4203,10 @@ struct mlx5_ifc_mkc_bits {
- 
- 	u8         bsf_octword_size[0x20];
- 
--	u8         reserved_at_120[0x80];
-+	u8         reserved_at_120[0x60];
+diff --git a/drivers/infiniband/hw/mlx5/Makefile b/drivers/infiniband/hw/mlx5/Makefile
+index 72a526236c2e..b38961f5058e 100644
+--- a/drivers/infiniband/hw/mlx5/Makefile
++++ b/drivers/infiniband/hw/mlx5/Makefile
+@@ -6,6 +6,7 @@ mlx5_ib-y := ah.o \
+ 	     cong.o \
+ 	     counters.o \
+ 	     cq.o \
++	     data_direct.o \
+ 	     dm.o \
+ 	     doorbell.o \
+ 	     gsi.o \
+diff --git a/drivers/infiniband/hw/mlx5/data_direct.c b/drivers/infiniband/hw/mlx5/data_direct.c
+new file mode 100644
+index 000000000000..b9ba84afaae2
+--- /dev/null
++++ b/drivers/infiniband/hw/mlx5/data_direct.c
+@@ -0,0 +1,227 @@
++// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
++/*
++ * Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES. All rights reserved
++ */
 +
-+	u8         crossing_target_vhca_id[0x10];
-+	u8         reserved_at_190[0x10];
- 
- 	u8         translations_octword_size[0x20];
- 
-@@ -5124,6 +5134,36 @@ struct mlx5_ifc_query_vport_state_out_bits {
- 	u8         state[0x4];
- };
- 
-+struct mlx5_ifc_array1024_auto_bits {
-+	u8         array1024_auto[32][0x20];
++#include "mlx5_ib.h"
++#include "data_direct.h"
++
++static LIST_HEAD(mlx5_data_direct_dev_list);
++static LIST_HEAD(mlx5_data_direct_reg_list);
++
++/*
++ * This mutex should be held when accessing either of the above lists
++ */
++static DEFINE_MUTEX(mlx5_data_direct_mutex);
++
++struct mlx5_data_direct_registration {
++	struct mlx5_ib_dev *ibdev;
++	char vuid[MLX5_ST_SZ_BYTES(array1024_auto) + 1];
++	struct list_head list;
 +};
 +
-+struct mlx5_ifc_query_vuid_in_bits {
-+	u8         opcode[0x10];
-+	u8         uid[0x10];
-+
-+	u8         reserved_at_20[0x40];
-+
-+	u8         query_vfs_vuid[0x1];
-+	u8         data_direct[0x1];
-+	u8         reserved_at_62[0xe];
-+	u8         vhca_id[0x10];
++static const struct pci_device_id mlx5_data_direct_pci_table[] = {
++	{ PCI_VDEVICE(MELLANOX, 0x2100) }, /* ConnectX-8 Data Direct */
++	{ 0, }
 +};
 +
-+struct mlx5_ifc_query_vuid_out_bits {
-+	u8        status[0x8];
-+	u8        reserved_at_8[0x18];
++static int mlx5_data_direct_vpd_get_vuid(struct mlx5_data_direct_dev *dev)
++{
++	struct pci_dev *pdev = dev->pdev;
++	unsigned int vpd_size, kw_len;
++	u8 *vpd_data;
++	int start;
++	int ret;
 +
-+	u8        syndrome[0x20];
++	vpd_data = pci_vpd_alloc(pdev, &vpd_size);
++	if (IS_ERR(vpd_data)) {
++		pci_err(pdev, "Unable to read VPD, err=%ld\n", PTR_ERR(vpd_data));
++		return PTR_ERR(vpd_data);
++	}
 +
-+	u8        reserved_at_40[0x1a0];
++	start = pci_vpd_find_ro_info_keyword(vpd_data, vpd_size, "VU", &kw_len);
++	if (start < 0) {
++		ret = start;
++		pci_err(pdev, "VU keyword not found, err=%d\n", ret);
++		goto end;
++	}
 +
-+	u8        reserved_at_1e0[0x10];
-+	u8        num_of_entries[0x10];
++	dev->vuid = kmemdup_nul(vpd_data + start, kw_len, GFP_KERNEL);
++	ret = dev->vuid ? 0 : -ENOMEM;
 +
-+	struct mlx5_ifc_array1024_auto_bits vuid[];
++end:
++	kfree(vpd_data);
++	return ret;
++}
++
++static void mlx5_data_direct_shutdown(struct pci_dev *pdev)
++{
++	pci_disable_device(pdev);
++}
++
++static int mlx5_data_direct_set_dma_caps(struct pci_dev *pdev)
++{
++	int err;
++
++	err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
++	if (err) {
++		dev_warn(&pdev->dev,
++			 "Warning: couldn't set 64-bit PCI DMA mask, err=%d\n", err);
++		err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
++		if (err) {
++			dev_err(&pdev->dev, "Can't set PCI DMA mask, err=%d\n", err);
++			return err;
++		}
++	}
++
++	dma_set_max_seg_size(&pdev->dev, SZ_2G);
++	return 0;
++}
++
++int mlx5_data_direct_ib_reg(struct mlx5_ib_dev *ibdev, char *vuid)
++{
++	struct mlx5_data_direct_registration *reg;
++	struct mlx5_data_direct_dev *dev;
++
++	reg = kzalloc(sizeof(*reg), GFP_KERNEL);
++	if (!reg)
++		return -ENOMEM;
++
++	reg->ibdev = ibdev;
++	strcpy(reg->vuid, vuid);
++
++	mutex_lock(&mlx5_data_direct_mutex);
++	list_for_each_entry(dev, &mlx5_data_direct_dev_list, list) {
++		if (strcmp(dev->vuid, vuid) == 0) {
++			mlx5_ib_data_direct_bind(ibdev, dev);
++			break;
++		}
++	}
++
++	/* Add the registration to its global list, to be used upon bind/unbind
++	 * of its affiliated data direct device
++	 */
++	list_add_tail(&reg->list, &mlx5_data_direct_reg_list);
++	mutex_unlock(&mlx5_data_direct_mutex);
++	return 0;
++}
++
++void mlx5_data_direct_ib_unreg(struct mlx5_ib_dev *ibdev)
++{
++	struct mlx5_data_direct_registration *reg;
++
++	mutex_lock(&mlx5_data_direct_mutex);
++	list_for_each_entry(reg, &mlx5_data_direct_reg_list, list) {
++		if (reg->ibdev == ibdev) {
++			list_del(&reg->list);
++			kfree(reg);
++			goto end;
++		}
++	}
++
++	WARN_ON(true);
++end:
++	mutex_unlock(&mlx5_data_direct_mutex);
++}
++
++static void mlx5_data_direct_dev_reg(struct mlx5_data_direct_dev *dev)
++{
++	struct mlx5_data_direct_registration *reg;
++
++	mutex_lock(&mlx5_data_direct_mutex);
++	list_for_each_entry(reg, &mlx5_data_direct_reg_list, list) {
++		if (strcmp(dev->vuid, reg->vuid) == 0)
++			mlx5_ib_data_direct_bind(reg->ibdev, dev);
++	}
++
++	/* Add the data direct device to the global list, further IB devices may
++	 * use it later as well
++	 */
++	list_add_tail(&dev->list, &mlx5_data_direct_dev_list);
++	mutex_unlock(&mlx5_data_direct_mutex);
++}
++
++static void mlx5_data_direct_dev_unreg(struct mlx5_data_direct_dev *dev)
++{
++	struct mlx5_data_direct_registration *reg;
++
++	mutex_lock(&mlx5_data_direct_mutex);
++	/* Prevent any further affiliations */
++	list_del(&dev->list);
++	list_for_each_entry(reg, &mlx5_data_direct_reg_list, list) {
++		if (strcmp(dev->vuid, reg->vuid) == 0)
++			mlx5_ib_data_direct_unbind(reg->ibdev);
++	}
++	mutex_unlock(&mlx5_data_direct_mutex);
++}
++
++static int mlx5_data_direct_probe(struct pci_dev *pdev, const struct pci_device_id *id)
++{
++	struct mlx5_data_direct_dev *dev;
++	int err;
++
++	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
++	if (!dev)
++		return -ENOMEM;
++
++	dev->device = &pdev->dev;
++	dev->pdev = pdev;
++
++	pci_set_drvdata(dev->pdev, dev);
++	err = pci_enable_device(pdev);
++	if (err) {
++		dev_err(dev->device, "Cannot enable PCI device, err=%d\n", err);
++		goto err;
++	}
++
++	pci_set_master(pdev);
++	err = mlx5_data_direct_set_dma_caps(pdev);
++	if (err)
++		goto err_disable;
++
++	if (pci_enable_atomic_ops_to_root(pdev, PCI_EXP_DEVCAP2_ATOMIC_COMP32) &&
++	    pci_enable_atomic_ops_to_root(pdev, PCI_EXP_DEVCAP2_ATOMIC_COMP64) &&
++	    pci_enable_atomic_ops_to_root(pdev, PCI_EXP_DEVCAP2_ATOMIC_COMP128))
++		dev_dbg(dev->device, "Enabling pci atomics failed\n");
++
++	err = mlx5_data_direct_vpd_get_vuid(dev);
++	if (err)
++		goto err_disable;
++
++	mlx5_data_direct_dev_reg(dev);
++	return 0;
++
++err_disable:
++	pci_disable_device(pdev);
++err:
++	kfree(dev);
++	return err;
++}
++
++static void mlx5_data_direct_remove(struct pci_dev *pdev)
++{
++	struct mlx5_data_direct_dev *dev = pci_get_drvdata(pdev);
++
++	mlx5_data_direct_dev_unreg(dev);
++	pci_disable_device(pdev);
++	kfree(dev->vuid);
++	kfree(dev);
++}
++
++static struct pci_driver mlx5_data_direct_driver = {
++	.name = KBUILD_MODNAME,
++	.id_table = mlx5_data_direct_pci_table,
++	.probe = mlx5_data_direct_probe,
++	.remove = mlx5_data_direct_remove,
++	.shutdown = mlx5_data_direct_shutdown,
 +};
 +
- enum {
- 	MLX5_VPORT_STATE_OP_MOD_VNIC_VPORT  = 0x0,
- 	MLX5_VPORT_STATE_OP_MOD_ESW_VPORT   = 0x1,
-@@ -8989,7 +9029,8 @@ struct mlx5_ifc_create_mkey_in_bits {
++int mlx5_data_direct_driver_register(void)
++{
++	return pci_register_driver(&mlx5_data_direct_driver);
++}
++
++void mlx5_data_direct_driver_unregister(void)
++{
++	pci_unregister_driver(&mlx5_data_direct_driver);
++}
+diff --git a/drivers/infiniband/hw/mlx5/data_direct.h b/drivers/infiniband/hw/mlx5/data_direct.h
+new file mode 100644
+index 000000000000..2fd2bdbe8f69
+--- /dev/null
++++ b/drivers/infiniband/hw/mlx5/data_direct.h
+@@ -0,0 +1,23 @@
++/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
++/*
++ * Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES. All rights reserved
++ */
++
++#ifndef _MLX5_IB_DATA_DIRECT_H
++#define _MLX5_IB_DATA_DIRECT_H
++
++struct mlx5_ib_dev;
++
++struct mlx5_data_direct_dev {
++	struct device *device;
++	struct pci_dev *pdev;
++	char *vuid;
++	struct list_head list;
++};
++
++int mlx5_data_direct_ib_reg(struct mlx5_ib_dev *ibdev, char *vuid);
++void mlx5_data_direct_ib_unreg(struct mlx5_ib_dev *ibdev);
++int mlx5_data_direct_driver_register(void);
++void mlx5_data_direct_driver_unregister(void);
++
++#endif
+diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
+index 6048b9ad13bb..de254cf03173 100644
+--- a/drivers/infiniband/hw/mlx5/main.c
++++ b/drivers/infiniband/hw/mlx5/main.c
+@@ -48,6 +48,7 @@
+ #include <rdma/mlx5_user_ioctl_verbs.h>
+ #include <rdma/mlx5_user_ioctl_cmds.h>
+ #include "macsec.h"
++#include "data_direct.h"
  
- 	u8         pg_access[0x1];
- 	u8         mkey_umem_valid[0x1];
--	u8         reserved_at_62[0x1e];
-+	u8         data_direct[0x1];
-+	u8         reserved_at_63[0x1d];
+ #define UVERBS_MODULE_NAME mlx5_ib
+ #include <rdma/uverbs_named_ioctl.h>
+@@ -3866,6 +3867,7 @@ static int mlx5_ib_stage_init_init(struct mlx5_ib_dev *dev)
+ 	dev->ib_dev.num_comp_vectors    = mlx5_comp_vectors_max(mdev);
  
- 	struct mlx5_ifc_mkc_bits memory_key_mkey_entry;
+ 	mutex_init(&dev->cap_mask_mutex);
++	mutex_init(&dev->data_direct_lock);
+ 	INIT_LIST_HEAD(&dev->qp_list);
+ 	spin_lock_init(&dev->reset_flow_resource_lock);
+ 	xa_init(&dev->odp_mkeys);
+@@ -4293,6 +4295,21 @@ static void mlx5_ib_stage_dev_notifier_cleanup(struct mlx5_ib_dev *dev)
+ 	mlx5_notifier_unregister(dev->mdev, &dev->mdev_events);
+ }
  
++void mlx5_ib_data_direct_bind(struct mlx5_ib_dev *ibdev,
++			      struct mlx5_data_direct_dev *dev)
++{
++	mutex_lock(&ibdev->data_direct_lock);
++	ibdev->data_direct_dev = dev;
++	mutex_unlock(&ibdev->data_direct_lock);
++}
++
++void mlx5_ib_data_direct_unbind(struct mlx5_ib_dev *ibdev)
++{
++	mutex_lock(&ibdev->data_direct_lock);
++	ibdev->data_direct_dev = NULL;
++	mutex_unlock(&ibdev->data_direct_lock);
++}
++
+ void __mlx5_ib_remove(struct mlx5_ib_dev *dev,
+ 		      const struct mlx5_ib_profile *profile,
+ 		      int stage)
+@@ -4715,17 +4732,23 @@ static int __init mlx5_ib_init(void)
+ 	ret = mlx5r_rep_init();
+ 	if (ret)
+ 		goto rep_err;
++	ret = mlx5_data_direct_driver_register();
++	if (ret)
++		goto dd_err;
+ 	ret = auxiliary_driver_register(&mlx5r_mp_driver);
+ 	if (ret)
+ 		goto mp_err;
+ 	ret = auxiliary_driver_register(&mlx5r_driver);
+ 	if (ret)
+ 		goto drv_err;
++
+ 	return 0;
+ 
+ drv_err:
+ 	auxiliary_driver_unregister(&mlx5r_mp_driver);
+ mp_err:
++	mlx5_data_direct_driver_unregister();
++dd_err:
+ 	mlx5r_rep_cleanup();
+ rep_err:
+ 	mlx5_ib_qp_event_cleanup();
+@@ -4737,6 +4760,7 @@ static int __init mlx5_ib_init(void)
+ 
+ static void __exit mlx5_ib_cleanup(void)
+ {
++	mlx5_data_direct_driver_unregister();
+ 	auxiliary_driver_unregister(&mlx5r_driver);
+ 	auxiliary_driver_unregister(&mlx5r_mp_driver);
+ 	mlx5r_rep_cleanup();
+diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+index d5eb1b726675..b0d7d8b9e672 100644
+--- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
++++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+@@ -1131,6 +1131,9 @@ struct mlx5_macsec {
+ struct mlx5_ib_dev {
+ 	struct ib_device		ib_dev;
+ 	struct mlx5_core_dev		*mdev;
++	struct mlx5_data_direct_dev	*data_direct_dev;
++	/* protect accessing data_direct_dev */
++	struct mutex			data_direct_lock;
+ 	struct notifier_block		mdev_events;
+ 	int				num_ports;
+ 	/* serialize update of capability mask
+@@ -1425,6 +1428,9 @@ int mlx5_ib_destroy_rwq_ind_table(struct ib_rwq_ind_table *wq_ind_table);
+ struct ib_mr *mlx5_ib_reg_dm_mr(struct ib_pd *pd, struct ib_dm *dm,
+ 				struct ib_dm_mr_attr *attr,
+ 				struct uverbs_attr_bundle *attrs);
++void mlx5_ib_data_direct_bind(struct mlx5_ib_dev *ibdev,
++			      struct mlx5_data_direct_dev *dev);
++void mlx5_ib_data_direct_unbind(struct mlx5_ib_dev *ibdev);
+ 
+ #ifdef CONFIG_INFINIBAND_ON_DEMAND_PAGING
+ int mlx5_ib_odp_init_one(struct mlx5_ib_dev *ibdev);
 -- 
 2.45.2
 
