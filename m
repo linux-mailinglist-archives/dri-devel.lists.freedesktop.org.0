@@ -2,44 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95938943B4D
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:25:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD15D943B52
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE3510E7C3;
-	Thu,  1 Aug 2024 00:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E7910E755;
+	Thu,  1 Aug 2024 00:25:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fIezus4k";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mtRhbAD5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3158810E7C3
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 00:25:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B117010E753;
+ Thu,  1 Aug 2024 00:25:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A055A61446;
- Thu,  1 Aug 2024 00:25:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 589FFC4AF0C;
- Thu,  1 Aug 2024 00:25:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 25D5E6173E;
+ Thu,  1 Aug 2024 00:25:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3593DC116B1;
+ Thu,  1 Aug 2024 00:25:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471920;
- bh=JwoFdsuc3jJQ6SJDjO2il0usDr1uOw6eXVCsT+PTWBU=;
+ s=k20201202; t=1722471935;
+ bh=veTy5hYIktW6fruqh7pQ7drkU4PYX3Gpmz9FNbyPwIs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fIezus4kO+caAgm3TCwE1jCedsntbcyV/Ud50v3mCYoWgzykz49MsizdP+IzsBnR0
- BdcCmEiU6JSChLH78qu+Gw+P1iyvJUd09Xdera38YB+GYEmt3re2NiJOxabMriPxrS
- PvfjRRllHV5i8yUHod6ge36VisJ7k+nIzgprS8FuYtklkxodUoDATbAmFdOHlfzcb9
- u2PKfSanB8MG5WkQNREfkqsfCUPtlOoXSovKcWli+RbVxeBN+7kkViUnQQWxWOcSJV
- THwU7BFyHxAMi5Y9/j/7r7iZJBYEmnusI8iHU5MnmePkyp31GYzc2zTI8exYP20cXc
- hInW2Bc1N1YWw==
+ b=mtRhbAD5iXb4ilMRXL8V4t1XgqLAsghskBwINrSwP846GprzZo3MKiNsBnVx81I6t
+ OShzY3Fvq7/OhHe+Zl4PmKKsFpGBreYJH/i4B2mmuESk+KCWt2j0VLFks2ciZctD2n
+ VtB9CtoElnqq5RzcfvTVju8ThpvyAyEvuBUBVEZvctapfipWv9U02/aYu0au7P76fJ
+ fswgV4emkkemexdFifkafB4J4q752RZIHtVtAefC6pn2GwkJZ400Y+EVSoO9865llI
+ ylRuQSMmS0fUuv3xKomk4vhte44Z2EanUcT4HqonjQ0CCj1G5FjmAq8dvefMT8nnA/
+ Pp+gUVigOxa8g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Rakesh Ughreja <rughreja@habana.ai>, Ofir Bitton <obitton@habana.ai>,
- Sasha Levin <sashal@kernel.org>, ogabbay@kernel.org, ttayar@habana.ai,
+Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, hamza.mahfooz@amd.com, lewis.huang@amd.com,
+ george.shen@amd.com, mghaddar@amd.com, chiahsuan.chung@amd.com,
+ dennis.chan@amd.com, srinivasan.shanmugam@amd.com,
+ Bhawanpreet.Lakha@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 62/83] accel/habanalabs/gaudi2: unsecure edma max
- outstanding register
-Date: Wed, 31 Jul 2024 20:18:17 -0400
-Message-ID: <20240801002107.3934037-62-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 67/83] drm/amd/display: Run DC_LOG_DC after
+ checking link->link_enc
+Date: Wed, 31 Jul 2024 20:18:22 -0400
+Message-ID: <20240801002107.3934037-67-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801002107.3934037-1-sashal@kernel.org>
 References: <20240801002107.3934037-1-sashal@kernel.org>
@@ -63,33 +70,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rakesh Ughreja <rughreja@habana.ai>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 3309887c6ff8ca2ac05a74e1ee5d1c44829f63f2 ]
+[ Upstream commit 3a82f62b0d9d7687eac47603bb6cd14a50fa718b ]
 
-Netowrk EDMAs uses more outstanding transfers so this needs to be
-programmed by EDMA firmware.
+[WHAT]
+The DC_LOG_DC should be run after link->link_enc is checked, not before.
 
-Signed-off-by: Rakesh Ughreja <rughreja@habana.ai>
-Reviewed-by: Ofir Bitton <obitton@habana.ai>
-Signed-off-by: Ofir Bitton <obitton@habana.ai>
+This fixes 1 REVERSE_INULL issue reported by Coverity.
+
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2_security.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/display/dc/link/link_factory.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
-index 2742b1f801eb2..3897db8532004 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
-@@ -479,6 +479,7 @@ static const u32 gaudi2_pb_dcr0_edma0_unsecured_regs[] = {
- 	mmDCORE0_EDMA0_CORE_CTX_TE_NUMROWS,
- 	mmDCORE0_EDMA0_CORE_CTX_IDX,
- 	mmDCORE0_EDMA0_CORE_CTX_IDX_INC,
-+	mmDCORE0_EDMA0_CORE_WR_COMP_MAX_OUTSTAND,
- 	mmDCORE0_EDMA0_CORE_RD_LBW_RATE_LIM_CFG,
- 	mmDCORE0_EDMA0_QM_CQ_CFG0_0,
- 	mmDCORE0_EDMA0_QM_CQ_CFG0_1,
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+index 6fc0cb918b9e5..00119aa395589 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+@@ -629,14 +629,14 @@ static bool construct_phy(struct dc_link *link,
+ 	link->link_enc =
+ 		link->dc->res_pool->funcs->link_enc_create(dc_ctx, &enc_init_data);
+ 
+-	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
+-	DC_LOG_DC("BIOS object table - IS_DP2_CAPABLE: %d", link->link_enc->features.flags.bits.IS_DP2_CAPABLE);
+-
+ 	if (!link->link_enc) {
+ 		DC_ERROR("Failed to create link encoder!\n");
+ 		goto link_enc_create_fail;
+ 	}
+ 
++	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
++	DC_LOG_DC("BIOS object table - IS_DP2_CAPABLE: %d", link->link_enc->features.flags.bits.IS_DP2_CAPABLE);
++
+ 	/* Update link encoder tracking variables. These are used for the dynamic
+ 	 * assignment of link encoders to streams.
+ 	 */
 -- 
 2.43.0
 
