@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A33B9448AA
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 11:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5406D9448C5
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 11:50:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D357E10E8D3;
-	Thu,  1 Aug 2024 09:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5559E10E8D6;
+	Thu,  1 Aug 2024 09:50:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="3DSbziDZ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dIpJjCKA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C31A110E8D3
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 09:43:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4F610E8D6
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 09:50:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1722505399;
- bh=RIgEcQ8M7T7AXs8bBHXfSd4MAegcWjerjXlyDp/HZv0=;
+ s=mail; t=1722505806;
+ bh=++7YBygtyHrsIKH24UC+hO0yBDoc31paLAZPeS2iAeA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=3DSbziDZU5+TjBC5B8vDpoOw8aCNIr06i23+pSszqinx/BJSCcsQoIuowNZ44OKL7
- 1+xyZVsNbnfJBmOJouCnaqvlVLl7rsyQUBoG3XAB/Q07/6Fw5qapAeNkMDa7V/a4mq
- n53FxVfZK/mxesyVGKqhS/DJkhmqGh/zEOw4uH8qk+WTvpTFWG4inTBU5IrHzjPGmO
- G0vnnRn6ckmOMSXN55kO5NZVE9iiByTno1gT5r3c688A1zUSS3t0hnPlOD+0xHwF3+
- k72WpBfsEH5xBWZZBGka4LjZRGlygQK13crS9cX+YrrE2S63fYfnrnfwAZNBrrMR5s
- vYzudfUVd60mw==
+ b=dIpJjCKAqtMZnaGMhWjBrKNVWJ+uLhaCBsWlNlDpsDy9pV1At1Ykqaf24L1+EGUa3
+ y2V8YSsQDVw/jTgmi+Y9i6yRMIBaK4dGoS4eiVdRgShNE4qyXyCQHouEA4UZ0TFfB5
+ cC/w5zcFw6k0QcDlrsOa9Bxu83HAhxd+zM9hwh+px/jhSKvzr2yTX4Dw6Clyze6/8R
+ X8mZdyI+UiIKaQXAHLMQmdF+X2LyAg00r0BlMyZU/QAgbl/8f4vbUJ71ynACX8+pW7
+ LNIovqrtThsU56K38SWNNX8fu7rbSoojnU8iDWJ8fJXT7CTpfw3tv22t4mcB6n52Zu
+ eFIo67TV5CylQ==
 Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: cristicc)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id DCAE8378220A;
- Thu,  1 Aug 2024 09:43:17 +0000 (UTC)
-Message-ID: <274a023a-de27-49e7-aa03-7fd60ddfcb87@collabora.com>
-Date: Thu, 1 Aug 2024 12:43:17 +0300
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 47A71378220A;
+ Thu,  1 Aug 2024 09:50:05 +0000 (UTC)
+Message-ID: <aeeac627-2fce-45f2-b745-9e851a4dbd59@collabora.com>
+Date: Thu, 1 Aug 2024 12:50:04 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/bridge: synopsys: Add DW HDMI QP TX Controller
- driver
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: rockchip: Add schema for
+ RK3588 HDMI TX Controller
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Andy Yan <andy.yan@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Luis de Arquer <ldearquer@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Alexandre ARNOUD <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
-References: <20240801-dw-hdmi-qp-tx-v1-0-148f542de5fd@collabora.com>
- <20240801-dw-hdmi-qp-tx-v1-2-148f542de5fd@collabora.com>
- <19af747f-0911-4896-afba-b63c585554d4@kernel.org>
-Content-Language: en-US
+ David Airlie <airlied@gmail.com>, Alexandre ARNOUD <aarnoud@me.com>,
+ Robert Foss <rfoss@kernel.org>, devicetree@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-rockchip@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, linux-kernel@vger.kernel.org,
+ kernel@collabora.com, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+References: <20240801-b4-rk3588-bridge-upstream-v2-0-9fa657a4e15b@collabora.com>
+ <20240801-b4-rk3588-bridge-upstream-v2-1-9fa657a4e15b@collabora.com>
+ <172248345225.2862796.6921035362248469311.robh@kernel.org>
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <19af747f-0911-4896-afba-b63c585554d4@kernel.org>
+Content-Language: en-US
+In-Reply-To: <172248345225.2862796.6921035362248469311.robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,50 +78,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/1/24 11:50 AM, Krzysztof Kozlowski wrote:
-> On 01/08/2024 04:05, Cristian Ciocaltea wrote:
->> The Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP) TX Controller supports
->> the following features, among others:
-> 
-> ...
-> 
->> +
->> +void dw_hdmi_qp_unbind(struct dw_hdmi_qp *hdmi)
->> +{
->> +}
->> +EXPORT_SYMBOL_GPL(dw_hdmi_qp_unbind);
-> 
-> This looks like quite useless export. Drop.
-> 
-> 
->> +
->> +void dw_hdmi_qp_resume(struct device *dev, struct dw_hdmi_qp *hdmi)
->> +{
->> +	dw_hdmi_qp_init_hw(hdmi);
->> +}
->> +EXPORT_SYMBOL_GPL(dw_hdmi_qp_resume);
->> +
->> +MODULE_AUTHOR("Algea Cao <algea.cao@rock-chips.com>");
->> +MODULE_AUTHOR("Cristian Ciocaltea <cristian.ciocaltea@collabora.com>");
->> +MODULE_DESCRIPTION("DW HDMI QP transmitter driver");
->> +MODULE_LICENSE("GPL");
->> +MODULE_ALIAS("platform:dw-hdmi-qp");
-> 
-> That's not a platform driver. That does not look like driver at all,
-> just some helper code without any user
+On 8/1/24 6:37 AM, Rob Herring (Arm) wrote:
+>=20
+> On Thu, 01 Aug 2024 05:25:52 +0300, Cristian Ciocaltea wrote:
+>> Rockchip RK3588 SoC integrates the Synopsys DesignWare HDMI 2.1
+>> Quad-Pixel (QP) TX controller IP.
+>>
+>> Since this is a new IP block, quite different from those used in the
+>> previous generations of Rockchip SoCs, add a dedicated binding file.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  .../display/rockchip/rockchip,dw-hdmi-qp.yaml      | 188 ++++++++++++=
++++++++++
+>>  1 file changed, 188 insertions(+)
+>>
+>=20
+> My bot found errors running 'make dt_binding_check' on your patch:
 
-This is actually used to provide RK3588 HDMI output support:
+This is because the referenced synopsys,dw-hdmi-qp.yaml is provided by a
+separate patchset:
 
-https://lore.kernel.org/lkml/20240801-b4-rk3588-bridge-upstream-v2-3-9fa657a4e15b@collabora.com/
+https://lore.kernel.org/lkml/20240801-dw-hdmi-qp-tx-v1-1-148f542de5fd@col=
+labora.com/
 
-> 1. Drop alias.
-> 2. Provide users for this code. You cannot add some helper functions
-> which nothing uses.
-> 3. Fix subject, commit msg, module description - there is no driver
-> here, but helper functions. Otherwise how does it bind?
+> yamllint warnings/errors:
+>=20
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
+/display/rockchip/rockchip,dw-hdmi-qp.example.dtb: hdmi@fde80000: False s=
+chema does not allow {'compatible': ['rockchip,rk3588-dw-hdmi-qp'], 'reg'=
+: [[0, 4259840000, 0, 131072]], 'clocks': [[4294967295, 528], [4294967295=
+, 529], [4294967295, 530], [4294967295, 564], [4294967295, 594], [4294967=
+295, 717]], 'clock-names': ['pclk', 'earc', 'ref', 'aud', 'hdp', 'hclk_vo=
+1'], 'interrupts': [[0, 169, 4, 0], [0, 170, 4, 0], [0, 171, 4, 0], [0, 1=
+72, 4, 0], [0, 360, 4, 0]], 'interrupt-names': ['avp', 'cec', 'earc', 'ma=
+in', 'hpd'], 'phys': [[4294967295]], 'phy-names': ['hdmi'], 'power-domain=
+s': [[4294967295, 26]], 'resets': [[4294967295, 462], [4294967295, 560]],=
+ 'reset-names': ['ref', 'hdp'], 'rockchip,grf': [[4294967295]], 'rockchip=
+,vo1_grf': [[4294967295]], '#sound-dai-cells': 0, 'ports': {'#address-cel=
+ls': 1, '#size-cells': 0, 'port@0': {'reg': [[0]], 'endpoint': {'remote-e=
+ndpoint': [[4294967295]]}}, 'port@1': {'reg': [[1]]
+>  , 'endpoint': {'remote-endpoint': [[4294967295]]}}}, '$nodename': ['hd=
+mi@fde80000']}
+> 	from schema $id: http://devicetree.org/schemas/display/rockchip/rockch=
+ip,dw-hdmi-qp.yaml#
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
+/display/rockchip/rockchip,dw-hdmi-qp.example.dtb: hdmi@fde80000: Unevalu=
+ated properties are not allowed ('reg' was unexpected)
+> 	from schema $id: http://devicetree.org/schemas/display/rockchip/rockch=
+ip,dw-hdmi-qp.yaml#
+>=20
+> doc reference errors (make refcheckdocs):
+>=20
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/2024=
+0801-b4-rk3588-bridge-upstream-v2-1-9fa657a4e15b@collabora.com
+>=20
+> The base for the series is generally the latest rc1. A different depend=
+ency
+> should be noted in *this* patch.
+>=20
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to=
 
-Indeed, that's just a left over from the initial dw-hdmi based 
-implementation.  Will clean this up for v2.
-
-Thanks for reviewing,
-Cristian
+> date:
+>=20
+> pip3 install dtschema --upgrade
+>=20
+> Please check and re-submit after running the above command yourself. No=
+te
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checkin=
+g
+> your schema. However, it must be unset to test all examples with your s=
+chema.
+>=20
