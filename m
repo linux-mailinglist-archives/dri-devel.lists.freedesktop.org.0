@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D2B943C8B
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:39:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73CE943C8D
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:39:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B49EF10E861;
-	Thu,  1 Aug 2024 00:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2274910E863;
+	Thu,  1 Aug 2024 00:39:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c2dUSgsK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MNNG2ej8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEB2F10E861;
- Thu,  1 Aug 2024 00:39:27 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC6D10E863;
+ Thu,  1 Aug 2024 00:39:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1B0E9CE185D;
- Thu,  1 Aug 2024 00:39:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9DCDC116B1;
- Thu,  1 Aug 2024 00:39:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A23216242B;
+ Thu,  1 Aug 2024 00:39:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2727AC116B1;
+ Thu,  1 Aug 2024 00:39:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472765;
- bh=e6tCVlq9Gha8Xqm80eYqImuzc4euvjwD/IBv0jKvKZ8=;
+ s=k20201202; t=1722472771;
+ bh=YUOKHtCGRMiJcZsp1siXNPvJs6Y1pBOnUG+ESB4yCrA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c2dUSgsK0l4JpfnC9HWfw2nrf14EMoMhFG+Mt3x5P3Uu5Ira8bfIekk6SGrtzo33M
- tuRkYym3YXUr5imaR8aJOxTFqEinro/Ngb8EZDQw1Bqk+tZycNZ6j3DSaG82Jh+E0T
- 2+haxPGrEkt2FZdCKDeCYLEXuRSWUtNyAqA7EXJxc/nAgUIGPlqrAVY+ut0EyhU32O
- /awbW7wgHN/qUTDbsaEE3P/QxT1ami46XuSUalvJhC+cx7W2RJgmChyOjL6pLR/fSg
- 09b0tYdNzmDQIm7qINaWPhp6wYvpKsXKTojsB1BYpljiEyMy45tjzyVzLC2ltV7nD4
- nWiEtb+LrLLxQ==
+ b=MNNG2ej8g/hVolVWaH9up1VTC4SVQjP9DUgX6NQwITvuqb+dNxG1aZJ9nJk+OtIKM
+ x/pYSjN6AM2pvclIFv0lQA7U+0Hn9LFrZE5FIHSUOEN/BKGs2O90MJrXbUCXNGzwUu
+ 8wFsIzL5iSvsSKs2VtC9hQTT0CPmEvbSw0t3KJ/1/jaI4rmGp/DGmbem2Mor3WwpOi
+ C+dFT/PF7xc4S7hctv5HwrcWp6RpXf6CQFG4aVD5D+37suNYoth1/YXEjmGH3qyUgt
+ itXLSLOqD2IOHNg2fE9xMFzhlyEcRIxeP8f1xSkrjr8b/zSmn6XvkWbedVq8GPLQqN
+ U/ogCEE6lVh4g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+Cc: Hersen Wu <hersenxs.wu@amd.com>, Harry Wentland <harry.wentland@amd.com>,
  Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- hersenxs.wu@amd.com, amd-gfx@lists.freedesktop.org,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, alex.hung@amd.com,
+ hamza.mahfooz@amd.com, roman.li@amd.com, mario.limonciello@amd.com,
+ Wayne.Lin@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 02/22] drm/amd/display: Check gpio_id before used
- as array index
-Date: Wed, 31 Jul 2024 20:38:31 -0400
-Message-ID: <20240801003918.3939431-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 03/22] drm/amd/display: Stop amdgpu_dm initialize
+ when stream nums greater than 6
+Date: Wed, 31 Jul 2024 20:38:32 -0400
+Message-ID: <20240801003918.3939431-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801003918.3939431-1-sashal@kernel.org>
 References: <20240801003918.3939431-1-sashal@kernel.org>
@@ -68,78 +69,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Hung <alex.hung@amd.com>
+From: Hersen Wu <hersenxs.wu@amd.com>
 
-[ Upstream commit 2a5626eeb3b5eec7a36886f9556113dd93ec8ed6 ]
+[ Upstream commit 84723eb6068c50610c5c0893980d230d7afa2105 ]
 
-[WHY & HOW]
-GPIO_ID_UNKNOWN (-1) is not a valid value for array index and therefore
-should be checked in advance.
+[Why]
+Coverity reports OVERRUN warning. Should abort amdgpu_dm
+initialize.
 
-This fixes 5 OVERRUN issues reported by Coverity.
+[How]
+Return failure to amdgpu_dm_init.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Hersen Wu <hersenxs.wu@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
-index 0be817f8cae6b..f76ec0dd29e7b 100644
---- a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
-+++ b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
-@@ -242,6 +242,9 @@ static bool is_pin_busy(
- 	enum gpio_id id,
- 	uint32_t en)
- {
-+	if (id == GPIO_ID_UNKNOWN)
-+		return false;
-+
- 	return service->busyness[id][en];
- }
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 3bfc4aa328c6f..869b38908b28d 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2263,7 +2263,10 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev)
  
-@@ -250,6 +253,9 @@ static void set_pin_busy(
- 	enum gpio_id id,
- 	uint32_t en)
- {
-+	if (id == GPIO_ID_UNKNOWN)
-+		return;
-+
- 	service->busyness[id][en] = true;
- }
+ 	/* There is one primary plane per CRTC */
+ 	primary_planes = dm->dc->caps.max_streams;
+-	ASSERT(primary_planes <= AMDGPU_MAX_PLANES);
++	if (primary_planes > AMDGPU_MAX_PLANES) {
++		DRM_ERROR("DM: Plane nums out of 6 planes\n");
++		return -EINVAL;
++	}
  
-@@ -258,6 +264,9 @@ static void set_pin_free(
- 	enum gpio_id id,
- 	uint32_t en)
- {
-+	if (id == GPIO_ID_UNKNOWN)
-+		return;
-+
- 	service->busyness[id][en] = false;
- }
- 
-@@ -266,7 +275,7 @@ enum gpio_result dal_gpio_service_lock(
- 	enum gpio_id id,
- 	uint32_t en)
- {
--	if (!service->busyness[id]) {
-+	if (id != GPIO_ID_UNKNOWN && !service->busyness[id]) {
- 		ASSERT_CRITICAL(false);
- 		return GPIO_RESULT_OPEN_FAILED;
- 	}
-@@ -280,7 +289,7 @@ enum gpio_result dal_gpio_service_unlock(
- 	enum gpio_id id,
- 	uint32_t en)
- {
--	if (!service->busyness[id]) {
-+	if (id != GPIO_ID_UNKNOWN && !service->busyness[id]) {
- 		ASSERT_CRITICAL(false);
- 		return GPIO_RESULT_OPEN_FAILED;
- 	}
+ 	/*
+ 	 * Initialize primary planes, implicit planes for legacy IOCTLS.
 -- 
 2.43.0
 
