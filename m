@@ -2,98 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF0A944715
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 10:53:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5730944746
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 11:01:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90EC210E8BE;
-	Thu,  1 Aug 2024 08:53:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13AE010E8C3;
+	Thu,  1 Aug 2024 09:01:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ljqf24vx";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TJMVW3q+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95AD910E8BE
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 08:53:03 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 340BB10E37A
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 09:01:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1722502382;
+ s=mimecast20190719; t=1722502865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=23VtBrMdg+e86oIyAKkk0gIRsQUKPk9UYAypqYqSedk=;
- b=Ljqf24vxjPQof20deHOgFN12wTz2Hq17rSXZGNgSvp5CsUx4FLshZVOA+SsxaoPCQM18li
- x+W+chWZuuIdnWniTK9qmSg4YEpS4tltHRbAviXJzMD2sRQfw1jj3vVhv+FOXoElmckCla
- srb8eYsLf/6N74b9lpgSc8ItKzqNDV8=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=VVy04qlicabYGwO9E78vZLpSrWOCtQ9jEqVfKoqcSf8=;
+ b=TJMVW3q+DTu1phb2I+K7WltLcD/Eav1B8jx/ZPh3cRrscAzyDSEBixm8qljTaB3UavNY62
+ 7wsb3haQWie5obM3g6ypWQHe2dxsJM3qcW4kf0nx5uHALN9wogmYYEbzUeyuF8c3wPq86n
+ KkgbsqWIU3nL/UA1h4+pBb3hNnt6dPQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-3GOrauS6Pg-Xk2YC_xnAbg-1; Thu, 01 Aug 2024 04:52:59 -0400
-X-MC-Unique: 3GOrauS6Pg-Xk2YC_xnAbg-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2ef3157ae4cso70722431fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 01:52:59 -0700 (PDT)
+ us-mta-444-2F-cePLxOjWemZPnzdYmnw-1; Thu, 01 Aug 2024 05:01:02 -0400
+X-MC-Unique: 2F-cePLxOjWemZPnzdYmnw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-42808efc688so42124715e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 02:01:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722502378; x=1723107178;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1722502861; x=1723107661;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=23VtBrMdg+e86oIyAKkk0gIRsQUKPk9UYAypqYqSedk=;
- b=ROkM6TOTw5jUBiNX4lGBu6sRkW2Fjk0PAw4WJkqKH8+xtwMm73cc5aqkugJghwixWH
- 7CutaLAcMa3KXB4ByLmEsMQBfiEPEL8vh3NkDH/W1PBbn+Fnbw/WnACyUrnje9CSyCDU
- uJQ+uqsia5Mz+/EckshQaYTaqBQlziDmQIs1N9hWkoyVPq0Cx0LQ9qdT3F3wx5kSwojQ
- C9tWwhzkANf9aJFkd8LkWcza1L6HFWMSoE8nvhyMj1ZCmbeBtY3cJNkWTD97KsSodQMG
- BjfpsB/3G7DAOUHyUnwCdofp4/1fycGboAE6bsSD4iqlNSpung57ZTOru6MSawjjyGYy
- ohYg==
+ bh=VVy04qlicabYGwO9E78vZLpSrWOCtQ9jEqVfKoqcSf8=;
+ b=A6Z7ssHYB7t4dAxGop2hEdZwK+z7ZKRYrHLrqfQEXxx5lCcoWKHBnAta8bkHDfIauQ
+ i2zkL+Js+o5G6PwZwV7stWbm5JMIrOdOw39oZMx0WcU8IcAmoPM4m2ObCbXu/zJ1DC8h
+ teuRW9+0Gv2Mfa/8iEA9KhHqejX2+n5a82VXcMMLABA9t75gXSLM3QScV4DF12hk7Txo
+ V+ysDb9aULAWmLOQpUIFjeOnnGii6tPNS947Hswlh6sHqrHDTrom0paWFYhKvxtxgWFM
+ eLWVdFOCimbq88J4qk1yK02EFBZZ2J0pTEnL9gZa/T0+UinQQUgvlyB0J3JfTxWITmNc
+ m5jQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXGIs314yoxlvLETlWnk0Imr5qz74vayZwwR2Dp7ikajz+43kFzKdyCwAefbi9/ecgNzOTa8tjJxtHnOgoKUDbLOMSIBvVrA/zxhPfZ1P0M
-X-Gm-Message-State: AOJu0YykXoUYlrE/W9FJGe2B9SpZ+At3OalRQ6T02HHKLtoRf2DhuA1w
- Gl5EX2JvEDqedC7sFyYGk0LDYp718zg/rqH4J4d6BAYrdBKT61Yei5qD4njiD9jeHHBdFyIZRpU
- eTydmLOPJo3RTYpzGnMg6wABL5MGrD5KTAaxImU5YmjCAA9mrhusna3kU81N++dnHhw==
-X-Received: by 2002:ac2:418b:0:b0:52f:cd03:a84a with SMTP id
- 2adb3069b0e04-530b61fe66cmr1079616e87.39.1722502377727; 
- Thu, 01 Aug 2024 01:52:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG+DWDFB+/d/kjlinqEN/i6kFpt+27w9S7EzOyAXbtiCJaTdardj0Qe5rVEEOq7V/Tw17rWNA==
-X-Received: by 2002:ac2:418b:0:b0:52f:cd03:a84a with SMTP id
- 2adb3069b0e04-530b61fe66cmr1079590e87.39.1722502377087; 
- Thu, 01 Aug 2024 01:52:57 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ AJvYcCX/oCIPgbGVE3Y2Xv11+atmnb2hLt6JkM07zHAfCDEcoy6oDEiKWM/BXmKR61RIjTr1ktou1eYwgrbBzaZRmr2qojFukBfj7V+GuI2gCmwv
+X-Gm-Message-State: AOJu0YzV+bkR+OSmxI9j+RN9YoMQHEItaw3bwXYPt1enIJyuwycXgQdZ
+ aJdUrHN2IGCr+10LnC8KwSYn2oN6jud3ouv286NyVGe9zSnIOXEG9z4WTZc2qjA1Sjt56qv2mKP
+ 1A3tX/YMB1jdXEdpcsnn8vkwqfj1EtSRtfLhRddqH/t6yoEBBNmE0Bm7ZJRDDl//SUw==
+X-Received: by 2002:a05:600c:4514:b0:428:1c91:bddd with SMTP id
+ 5b1f17b1804b1-428a9bdce8dmr10882295e9.12.1722502861304; 
+ Thu, 01 Aug 2024 02:01:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFOF+RQH/Yfx80fHFFG578G7SW7PC5bILIQjj9sqIa5NcOIdEEPqygjeh3rBRIU/UHPSL0POw==
+X-Received: by 2002:a05:600c:4514:b0:428:1c91:bddd with SMTP id
+ 5b1f17b1804b1-428a9bdce8dmr10882035e9.12.1722502860699; 
+ Thu, 01 Aug 2024 02:01:00 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7acadb8278sm861717666b.202.2024.08.01.01.52.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Aug 2024 01:52:56 -0700 (PDT)
-Message-ID: <1b4bfb81-339d-4582-873c-c720c82c8ba7@redhat.com>
-Date: Thu, 1 Aug 2024 10:52:55 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] drm: minimum backlight overrides and
- implementation for amdgpu
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>,
+ 5b1f17b1804b1-4282baa9071sm49287965e9.13.2024.08.01.02.01.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Aug 2024 02:01:00 -0700 (PDT)
+Date: Thu, 1 Aug 2024 11:00:59 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>,
- Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dustin Howett <dustin@howett.net>
-References: <20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net>
- <87v80lwjcz.fsf@intel.com> <Zqqku_zS7CpPGbzW@phenom.ffwll.local>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Zqqku_zS7CpPGbzW@phenom.ffwll.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20240801-interesting-antique-bat-2fe4c0@houat>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="4x23wimwhbqfwbel"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,84 +96,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 7/31/24 10:55 PM, Daniel Vetter wrote:
-> On Wed, Jul 31, 2024 at 08:40:12PM +0300, Jani Nikula wrote:
->> On Wed, 31 Jul 2024, Thomas Weißschuh <linux@weissschuh.net> wrote:
->>> The value of "min_input_signal" returned from ATIF on a Framework AMD 13
->>> is "12". This leads to a fairly bright minimum display backlight.
->>>
->>> Add a generic override helper for the user to override the settings
->>> provided by the firmware through the kernel cmdline.
->>> Also add amdgpu as a user of that helper.
->>>
->>> One solution would be a fixed firmware version, which was announced but
->>> has no timeline.
->>
->> The flip side is that if we add this now, it pretty much has a timeline:
->> We'll have to carry and support it forever.
->>
->> It's not a great prospect for something so specific. Not to mention that
->> the limits are generally there for electrical minimums that should not
->> be overridden. And before you know it, we'll have bug reports about
->> flickering screens...
-> 
-> Yeah I think for this specific case where a fixed firmware is already
-> kinda promised, a quirk is the right fix. Otherwise we open up a can of
-> worms here ... so personally I like v2 a lot more.
-> -Sima
+--4x23wimwhbqfwbel
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ok, with both Jani and Sima preferring the quirk approach from v2,
-I withdraw my objection against v2. So lets go with that version.
+Hi Dave, Daniel,
 
-Thomas, sorry about this.
+Here's this week drm-misc-fixes PR
 
-I see that other then a remark from Jeff Johnson about a missing
-MODULE_DESCRIPTION() v2 does not have any reviews yet though.
+Maxime
 
-So we will need to review that version now. Might be best for
-visibility of the patches in people's review queue to repost
-v2 as v4 with the MODULE_DESCRIPTION() fixed ?
+drm-misc-fixes-2024-08-01:
+A couple drm_panic fixes, several v3d fixes to increase the new timestamp A=
+PI
+safety, several fixes for vmwgfx for various modesetting issues, PM fixes
+for ast, async flips improvements and two fixes for nouveau to fix
+resource refcounting and buffer placement.
+The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
 
-Regards,
+  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
 
-Hans
+are available in the Git repository at:
 
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-20=
+24-08-01
 
+for you to fetch changes up to 9c685f61722d30a22d55bb8a48f7a48bb2e19bcc:
 
->>> This helper does conflict with the mode override via the cmdline.
->>> Only one can be specified.
->>> IMO the mode override can be extended to also handle "min-brightness"
->>> when that becomes necessary.
->>>
->>> ---
->>> Changes in v3:
->>> - Switch to cmdline override parameter
->>> - Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net
->>>
->>> Changes in v2:
->>> - Introduce proper drm backlight quirk infrastructure
->>> - Quirk by EDID and DMI instead of only DMI
->>> - Limit quirk to only single Framework 13 matte panel
->>> - Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
->>>
->>> ---
->>> Thomas Weißschuh (2):
->>>       drm/connector: add drm_connector_get_cmdline_min_brightness_override()
->>>       drm/amd/display: implement minimum brightness override
->>>
->>>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  6 ++++
->>>  drivers/gpu/drm/drm_connector.c                   | 34 +++++++++++++++++++++++
->>>  include/drm/drm_connector.h                       |  2 ++
->>>  3 files changed, 42 insertions(+)
->>> ---
->>> base-commit: 36821612eb3091a21f7f4a907b497064725080c3
->>> change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
->>>
->>> Best regards,
->>
->> -- 
->> Jani Nikula, Intel
-> 
+  nouveau: set placement to original placement on uvmm validate. (2024-08-0=
+1 01:22:12 +0200)
+
+----------------------------------------------------------------
+A couple drm_panic fixes, several v3d fixes to increase the new timestamp A=
+PI
+safety, several fixes for vmwgfx for various modesetting issues, PM fixes
+for ast, async flips improvements and two fixes for nouveau to fix
+resource refcounting and buffer placement.
+
+----------------------------------------------------------------
+Andr=E9 Almeida (2):
+      drm/atomic: Allow userspace to use explicit sync with atomic async fl=
+ips
+      drm/atomic: Allow userspace to use damage clips with async flips
+
+Dan Carpenter (1):
+      drm/client: Fix error code in drm_client_buffer_vmap_local()
+
+Danilo Krummrich (2):
+      drm/gpuvm: fix missing dependency to DRM_EXEC
+      drm/nouveau: prime: fix refcount underflow
+
+Dave Airlie (1):
+      nouveau: set placement to original placement on uvmm validate.
+
+Dmitry Osipenko (1):
+      drm/virtio: Fix type of dma-fence context variable
+
+Ian Forbes (2):
+      drm/vmwgfx: Fix overlay when using Screen Targets
+      drm/vmwgfx: Trigger a modeset when the screen moves
+
+Jammy Huang (1):
+      drm/ast: Fix black screen after resume
+
+Maxime Ripard (2):
+      Merge drm/drm-fixes into drm-misc-fixes
+      Merge drm-misc/drm-misc-next-fixes into drm-misc-fixes
+
+Philip Mueller (1):
+      drm: panel-orientation-quirks: Add quirk for OrangePi Neo
+
+Qiuxu Zhuo (1):
+      drm/fb-helper: Don't schedule_work() to flush frame buffer during pan=
+ic()
+
+Thomas Zimmermann (1):
+      drm/ast: astdp: Wake up during connector status detection
+
+Tvrtko Ursulin (5):
+      drm/v3d: Prevent out of bounds access in performance query extensions
+      drm/v3d: Fix potential memory leak in the timestamp extension
+      drm/v3d: Fix potential memory leak in the performance extension
+      drm/v3d: Validate passed in drm syncobj handles in the timestamp exte=
+nsion
+      drm/v3d: Validate passed in drm syncobj handles in the performance ex=
+tension
+
+Zack Rusin (4):
+      drm/vmwgfx: Fix a deadlock in dma buf fence polling
+      drm/vmwgfx: Make sure the screen surface is ref counted
+      drm/vmwgfx: Fix handling of dumb buffers
+      drm/vmwgfx: Add basic support for external buffers
+
+Zenghui Yu (1):
+      kselftests: dmabuf-heaps: Ensure the driver name is null-terminated
+
+ drivers/gpu/drm/Kconfig                            |   1 +
+ drivers/gpu/drm/ast/ast_dp.c                       |   7 +
+ drivers/gpu/drm/ast/ast_drv.c                      |   5 +
+ drivers/gpu/drm/ast/ast_drv.h                      |   1 +
+ drivers/gpu/drm/ast/ast_mode.c                     |  29 +-
+ drivers/gpu/drm/drm_atomic_uapi.c                  |   5 +-
+ drivers/gpu/drm/drm_client.c                       |   2 +-
+ drivers/gpu/drm/drm_fb_helper.c                    |  11 +
+ drivers/gpu/drm/drm_panel_orientation_quirks.c     |   6 +
+ drivers/gpu/drm/nouveau/nouveau_prime.c            |   3 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c             |   1 +
+ drivers/gpu/drm/v3d/v3d_drv.h                      |   4 +
+ drivers/gpu/drm/v3d/v3d_sched.c                    |  44 +-
+ drivers/gpu/drm/v3d/v3d_submit.c                   | 121 +++--
+ drivers/gpu/drm/virtio/virtgpu_submit.c            |   2 +-
+ drivers/gpu/drm/vmwgfx/vmw_surface_cache.h         |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 | 127 +++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h                 |  15 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  40 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c              |  17 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                |  62 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                | 504 +++++++++--------=
+----
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                |  17 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |  14 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c            |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_prime.c              |  32 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |  27 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c               |  33 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               | 174 ++++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c            | 280 +++++++++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c               |  40 +-
+ tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c |   4 +-
+ 32 files changed, 1051 insertions(+), 589 deletions(-)
+
+--4x23wimwhbqfwbel
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZqtOywAKCRAnX84Zoj2+
+dkHiAYCxDpXhwry8GZfYbZBBrEyTlauUpCxBdpk+tJUjtnvbxUFo4LHyqcInQKqA
+jaT0Bq4BfRuplso65coad1/JlMMOyu5PKL2ekOdaNPr8Cjj3E1l6j0hw+krUk0w9
+Rf1rlCbNAA==
+=Z73m
+-----END PGP SIGNATURE-----
+
+--4x23wimwhbqfwbel--
 
