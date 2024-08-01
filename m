@@ -2,87 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24E8944B7F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A2A7944B96
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:43:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E56210E94E;
-	Thu,  1 Aug 2024 12:38:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9658E10E94B;
+	Thu,  1 Aug 2024 12:43:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BUG1Y6Zb";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DX/kfkYT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SKhJbyo6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DX/kfkYT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SKhJbyo6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63F5D10E946;
- Thu,  1 Aug 2024 12:38:36 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4717KRDf006305;
- Thu, 1 Aug 2024 12:38:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- VYCw6YwUEX891kBKIdfEmI1nZ+u8bjnlBY6X3MIqy/M=; b=BUG1Y6ZbxLzG7zJd
- ijC3wgkV1NiLUkzcvH5JmYXKej3KLbQjvPLnUj5TPSCqF0wdRonmvn0XRDCRx4AZ
- B8Z/5SUEKkwqQEBN2PkZbXEEAL/OmZMOlayhi1nuzKEq0TlAD115BzKFDAHsBK/u
- SS31BOVc5Rrmqjdtlnyyu96vU7o30Ldn3KJt2F1R12yABBdSHwWqwTCc1vNvXZw8
- Edl3CT6jwGXgjYiaoQudEBgZiDPpZZyunn1siz0dyKj2rclHPyghpRT7CrFlRtz/
- aEn++mJY9LQ2FQpzFs+8k6b6gzpIj5nfSSOt2IKUoYsxQr0xSZhuQYr81Rui9nal
- HZKQrg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40qjpjcenp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Aug 2024 12:38:32 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 471CcVrL029477
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 Aug 2024 12:38:31 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 1 Aug 2024 05:38:27 -0700
-Date: Thu, 1 Aug 2024 18:08:23 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>
-CC: Vladimir Lypak <vladimir.lypak@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jordan Crouse
- <jordan@cosmicpenguin.net>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/4] drm/msm/a5xx: disable preemption in submits by default
-Message-ID: <20240801123823.geauowjux6r2ao72@hu-akhilpo-hyd.qualcomm.com>
-References: <20240711100038.268803-1-vladimir.lypak@gmail.com>
- <20240711100038.268803-2-vladimir.lypak@gmail.com>
- <CAF6AEGsyhQfsfyNwZQa99HSKxy6uXQvf=ikEijjLOBnkXJ=-2g@mail.gmail.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3211610E94B;
+ Thu,  1 Aug 2024 12:43:18 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C4B551FB54;
+ Thu,  1 Aug 2024 12:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722516196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OUtOR/6oW284pMsgnreExOFS6fujk/YU/wo+hsc7g8k=;
+ b=DX/kfkYTgamOBtN2KmMvE8/9Uw03QwbutrXKfRO0LrY8WUMj+2UKWo8CEcXRaIPYUzOo+v
+ vgjG1xc13d/ulbCS6SZcc1Z/+8wNgtwfmfbbg11LCVtBFtDAzsSAQHm5RGd0ytjKpATJqN
+ dNDSOBSxzbFZ3RuXBOZU0Cwawg5x6+Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722516196;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OUtOR/6oW284pMsgnreExOFS6fujk/YU/wo+hsc7g8k=;
+ b=SKhJbyo6qjzvb23BxVkCa2KpGcVBxB0S9y+AJgvIKd6+GUkCuExGbioNqT1l42/cMBc0yf
+ hYi52+HU6EX6O2Dw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="DX/kfkYT";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SKhJbyo6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722516196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OUtOR/6oW284pMsgnreExOFS6fujk/YU/wo+hsc7g8k=;
+ b=DX/kfkYTgamOBtN2KmMvE8/9Uw03QwbutrXKfRO0LrY8WUMj+2UKWo8CEcXRaIPYUzOo+v
+ vgjG1xc13d/ulbCS6SZcc1Z/+8wNgtwfmfbbg11LCVtBFtDAzsSAQHm5RGd0ytjKpATJqN
+ dNDSOBSxzbFZ3RuXBOZU0Cwawg5x6+Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722516196;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OUtOR/6oW284pMsgnreExOFS6fujk/YU/wo+hsc7g8k=;
+ b=SKhJbyo6qjzvb23BxVkCa2KpGcVBxB0S9y+AJgvIKd6+GUkCuExGbioNqT1l42/cMBc0yf
+ hYi52+HU6EX6O2Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5C6D813946;
+ Thu,  1 Aug 2024 12:43:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id RM4JFeSCq2ZFYgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 01 Aug 2024 12:43:16 +0000
+Message-ID: <d302cdd3-acb5-4043-8f36-7c3e02e77eeb@suse.de>
+Date: Thu, 1 Aug 2024 14:43:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGsyhQfsfyNwZQa99HSKxy6uXQvf=ikEijjLOBnkXJ=-2g@mail.gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: wnLHomIJUi7DfauNRmCHQ1nL4fNCY4Aq
-X-Proofpoint-ORIG-GUID: wnLHomIJUi7DfauNRmCHQ1nL4fNCY4Aq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-01_10,2024-08-01_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0 mlxlogscore=999
- spamscore=0 malwarescore=0 bulkscore=0 phishscore=0 priorityscore=1501
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408010082
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] drm/amd: Add power_saving_policy drm property to
+ eDP connectors
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>, amd-gfx@lists.freedesktop.org,
+ Simon Ser <contact@emersion.fr>, Harry Wentland <Harry.Wentland@amd.com>,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@google.com>
+References: <20240606020404.210989-1-mario.limonciello@amd.com>
+ <20240606020404.210989-3-mario.limonciello@amd.com>
+ <bc1d81ef-d9d0-4440-b63f-ecfb735ef783@amd.com>
+ <d637d3c2-34f7-42f8-acbb-6a1730d3fc3c@amd.com>
+ <CAFZQkGy0xuuUw73HQvS8Ce92sUi2rVrRnX25pi1KdNmyQbtBZA@mail.gmail.com>
+ <CAFZQkGz8DeoiVX2MohoBoTMxraJk1Ou41N_wKP3GkqRrPg_6sg@mail.gmail.com>
+ <87wml0v2vv.fsf@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <87wml0v2vv.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-1.80 / 50.00];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim]; SUSPICIOUS_RECIPS(1.50)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ XM_UA_NO_VERSION(0.01)[]; TAGGED_RCPT(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_TO(0.00)[linux.intel.com,gmail.com,amd.com];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[9]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,kde.org:url];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Rspamd-Queue-Id: C4B551FB54
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,59 +159,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 15, 2024 at 02:00:10PM -0700, Rob Clark wrote:
-> On Thu, Jul 11, 2024 at 3:02 AM Vladimir Lypak <vladimir.lypak@gmail.com> wrote:
-> >
-> > Fine grain preemption (switching from/to points within submits)
-> > requires extra handling in command stream of those submits, especially
-> > when rendering with tiling (using GMEM). However this handling is
-> > missing at this point in mesa (and always was). For this reason we get
-> > random GPU faults and hangs if more than one priority level is used
-> > because local preemption is enabled prior to executing command stream
-> > from submit.
-> > With that said it was ahead of time to enable local preemption by
-> > default considering the fact that even on downstream kernel it is only
-> > enabled if requested via UAPI.
-> >
-> > Fixes: a7a4c19c36de ("drm/msm/a5xx: fix setting of the CP_PREEMPT_ENABLE_LOCAL register")
-> > Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > index c0b5373e90d7..6c80d3003966 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > @@ -150,9 +150,13 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
-> >         OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
-> >         OUT_RING(ring, 1);
-> >
-> > -       /* Enable local preemption for finegrain preemption */
-> > +       /*
-> > +        * Disable local preemption by default because it requires
-> > +        * user-space to be aware of it and provide additional handling
-> > +        * to restore rendering state or do various flushes on switch.
-> > +        */
-> >         OUT_PKT7(ring, CP_PREEMPT_ENABLE_LOCAL, 1);
-> > -       OUT_RING(ring, 0x1);
-> > +       OUT_RING(ring, 0x0);
-> 
-> From a quick look at the a530 pfp fw, it looks like
-> CP_PREEMPT_ENABLE_LOCAL is allowed in IB1/IB2 (ie. not restricted to
-> kernel RB).  So we should just disable it in the kernel, and let
-> userspace send a CP_PREEMPT_ENABLE_LOCAL to enable local preemption.
+Hi
 
-Ack. AFAIU about a5x preemption, this should work.
+Am 01.08.24 um 14:33 schrieb Jani Nikula:
+> On Mon, 01 Jul 2024, Xaver Hugl <xaver.hugl@gmail.com> wrote:
+>> Am Do., 20. Juni 2024 um 22:22 Uhr schrieb Xaver Hugl <xaver.hugl@gmail.com>:
+>>> Merging can only happen once a real world userspace application has
+>>> implemented support for it. I'll try to do that sometime next week in
+>>> KWin
+>> Here's the promised implementation:
+>> https://invent.kde.org/plasma/kwin/-/merge_requests/6028
+> The requirement is that the userspace patches must be reviewed and ready
+> for merging into a suitable and canonical upstream project.
+>
+> Are they?
 
--Akhil
+I already saw this series in today's PR for drm-misc-next. :/
 
-> 
+Best regards
+Thomas
+
+>
+>
 > BR,
-> -R
-> 
-> >         /* Allow CP_CONTEXT_SWITCH_YIELD packets in the IB2 */
-> >         OUT_PKT7(ring, CP_YIELD_ENABLE, 1);
-> > --
-> > 2.45.2
-> >
+> Jani.
+>
+>
+>> In testing with the patches on top of kernel 6.9.6, setting the
+>> property to `Require color accuracy` makes the sysfs file correctly
+>> report "Device or resource busy" when trying to change the power
+>> saving level, but setting the property to zero doesn't really work.
+>> Once KWin sets the property to zero, changing the power saving level
+>> "works" but the screen blanks for a moment (might just be a single
+>> frame) and reading from the file returns zero again, with the visuals
+>> and backlight level unchanged as well.
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
