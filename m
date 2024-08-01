@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA5A943C33
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:35:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BF7943C36
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0198810E844;
-	Thu,  1 Aug 2024 00:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 861B710E82A;
+	Thu,  1 Aug 2024 00:35:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aWNrNo3I";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CGg7kvFO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46F0510E83F;
- Thu,  1 Aug 2024 00:35:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 350E910E855;
+ Thu,  1 Aug 2024 00:35:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 95058CE1764;
- Thu,  1 Aug 2024 00:35:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F7F1C116B1;
- Thu,  1 Aug 2024 00:35:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9F6796173E;
+ Thu,  1 Aug 2024 00:35:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55416C116B1;
+ Thu,  1 Aug 2024 00:35:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472505;
- bh=xcoIfImOFi2tDBSbN1yCQgnHc11HHTOxBLdS8rblFww=;
+ s=k20201202; t=1722472522;
+ bh=L7+VrIpIwWLuWLlG8x/fO+bqChqwHUkr6r+2VIkykqM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aWNrNo3Ib141f1PAooq76AlrIGWBSx+vsab+3u57WAe3tr3XUhTAWvxIoL8ejVwmx
- nbZ2TB4qulgMO7qFeEUuwu+RPU1otJ/vWacPJQed3+AcphhFad1CfiK/LPBvE/cIEn
- sIThgG0fD4BCj3Q0Tvf0rGzfzsxqZsM8XUgKRKoPyRP0Uh2pCxJ4M05Kqm0UGgGM8v
- xhKEmVKQsFUxqEYXMbkBxMbvEXY1+/Kx8Kcz4HKXpbWd/3hh/62ekKjxwbdrGvkWM9
- GPbht784wGn9qOuguZ+QEGL4l5oavuu0Axsud64QRFcqcT+MbZg8PPWzUlRM7JGX+s
- D6V8QqlbgBSzA==
+ b=CGg7kvFOOWk2puaFps6tKy1eL2OgSBK9gsKVlg/FB/vmu9JyuGbZYVlpI8KsOvTHb
+ 64mFFINSKYJdgu7oBZ8Q14QKQUqPpUE5hDpM/4JsWCx4qbRHUuoCEBAi4cF1Ro5+wx
+ iJRcWVQqJLKJCRNvdRPrHFwTGtW50IY70vqyX6yEgXWtCfxnwmfbORVuraeUDCvkNp
+ LrPbs+Rbs4Q3vjjwlVysdgt8Z4oaly23R68NFWp2dWjjZnSJcnuE6Z1VZDAVfT44rb
+ FbROTI8UKBqPajXr3BokgcytPmPfKPjmDgNfv6VVWV9wuQOWreTGZl4QtCmX6KZ14T
+ 0XZsXVdDY2Yog==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, marcelomspessoto@gmail.com, wenjing.liu@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 32/47] drm/amd/display: Skip
- wbscl_set_scaler_filter if filter is null
-Date: Wed, 31 Jul 2024 20:31:22 -0400
-Message-ID: <20240801003256.3937416-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 38/47] drm/amd/display: Check HDCP returned status
+Date: Wed, 31 Jul 2024 20:31:28 -0400
+Message-ID: <20240801003256.3937416-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801003256.3937416-1-sashal@kernel.org>
 References: <20240801003256.3937416-1-sashal@kernel.org>
@@ -68,37 +68,53 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit c4d31653c03b90e51515b1380115d1aedad925dd ]
+[ Upstream commit 5d93060d430b359e16e7c555c8f151ead1ac614b ]
 
-Callers can pass null in filter (i.e. from returned from the function
-wbscl_get_filter_coeffs_16p) and a null check is added to ensure that is
-not the case.
+[WHAT & HOW]
+Check mod_hdcp_execute_and_set() return values in authenticated_dp.
 
-This fixes 4 NULL_RETURNS issues reported by Coverity.
+This fixes 3 CHECKED_RETURN issues reported by Coverity.
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c | 3 +++
- 1 file changed, 3 insertions(+)
+ .../amd/display/modules/hdcp/hdcp1_execution.c    | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c
-index 880954ac0b027..1b3cba5b1d749 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb_scl.c
-@@ -690,6 +690,9 @@ static void wbscl_set_scaler_filter(
- 	int pair;
- 	uint16_t odd_coef, even_coef;
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+index 6ec918af3bffc..119b00aadd9a4 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+@@ -433,17 +433,20 @@ static enum mod_hdcp_status authenticated_dp(struct mod_hdcp *hdcp,
+ 	}
  
-+	if (!filter)
-+		return;
-+
- 	for (phase = 0; phase < (NUM_PHASES / 2 + 1); phase++) {
- 		for (pair = 0; pair < tap_pairs; pair++) {
- 			even_coef = filter[phase * taps + 2 * pair];
+ 	if (status == MOD_HDCP_STATUS_SUCCESS)
+-		mod_hdcp_execute_and_set(mod_hdcp_read_bstatus,
++		if (!mod_hdcp_execute_and_set(mod_hdcp_read_bstatus,
+ 				&input->bstatus_read, &status,
+-				hdcp, "bstatus_read");
++				hdcp, "bstatus_read"))
++			goto out;
+ 	if (status == MOD_HDCP_STATUS_SUCCESS)
+-		mod_hdcp_execute_and_set(check_link_integrity_dp,
++		if (!mod_hdcp_execute_and_set(check_link_integrity_dp,
+ 				&input->link_integrity_check, &status,
+-				hdcp, "link_integrity_check");
++				hdcp, "link_integrity_check"))
++			goto out;
+ 	if (status == MOD_HDCP_STATUS_SUCCESS)
+-		mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
++		if (!mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
+ 				&input->reauth_request_check, &status,
+-				hdcp, "reauth_request_check");
++				hdcp, "reauth_request_check"))
++			goto out;
+ out:
+ 	return status;
+ }
 -- 
 2.43.0
 
