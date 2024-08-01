@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DAD7943ADE
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D63943ADF
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:21:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEAFF10E77C;
-	Thu,  1 Aug 2024 00:21:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE7310E77E;
+	Thu,  1 Aug 2024 00:21:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QbjufLQm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jNnIh24n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB8BF10E780;
- Thu,  1 Aug 2024 00:21:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3282D10E77E;
+ Thu,  1 Aug 2024 00:21:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 530EA6173D;
- Thu,  1 Aug 2024 00:21:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB954C32786;
- Thu,  1 Aug 2024 00:21:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9DF8962436;
+ Thu,  1 Aug 2024 00:21:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25487C32786;
+ Thu,  1 Aug 2024 00:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471686;
- bh=N/bSIkhj/XYcZYs6JP3HgkmNpDC86vDoRWk/nTN1TCM=;
+ s=k20201202; t=1722471691;
+ bh=iV1yBKQkswLbdiiikv/UlOnRgKut+ii+yHTJY3+El+o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QbjufLQmAQvdLShBn7PpVK4VtRtzyDgRid2gBw1VFrLPF5qoCqEWfT8eFZu2P2W8M
- 3LRv8Ioi2MATEov1ZjsldSeffAfdr+0f415k4nVMi4YFfh55Loo73KH803AMOa+A2k
- Gr0gZAnP0yOSWLXynzkU9nPoech5wKxMPgzL9TktwwoKip1fHaAZY8Yxqyx00tyTYQ
- UgnId0JoAS2o5v32wJ84/2wXLcYBnM09JCNX0NcRQX3agreAGfPd7ege+TdKsbAJt/
- agHIRRP0Y5fY+QXRsUpO91PIrxCcbb4Jv9wf2eNqLYdCqz7d0hna5Ea5MeGVrNUodu
- mb9DxcSgxFgSw==
+ b=jNnIh24nmSsSRdCVbQ1BOaJUVxVDLJJ05b6YdaZus3rAIo7//eM6fJfPKSTVaM2uY
+ ox2Hvngc26vD5ag3IsQoP1KOOUyC7IuGQCsFrMCjvMPC7i7bP4etqTVZToDz076lSU
+ Ygimlp9va1eXKqTin3m1XQ56GOWozRQfc2ZeDioOFNHwuIZIi9L++v38eFpWpjQzT5
+ Fjdz0+SVRPnftnletaQqyfAAbevJ5Uq9ln4xeI+Tn2TLbvRwdThAhH0ZwORPPeOrX4
+ OLaj8hd9afwe8bQRLImTPKgIwoGM3Z2cT6ZPAoY2f4pZyywgAxagbxb0E4WumtB37d
+ jPsTJ7dm7nzvA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,13 +37,12 @@ Cc: Jesse Zhang <jesse.zhang@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
  Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  Sasha Levin <sashal@kernel.org>, kenneth.feng@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, kevinyang.wang@amd.com, Jun.Ma2@amd.com,
- ruanjinjie@huawei.com, mario.limonciello@amd.com, bob.zhou@amd.com,
+ daniel@ffwll.ch, Jun.Ma2@amd.com, kevinyang.wang@amd.com,
+ mario.limonciello@amd.com, yifan1.zhang@amd.com, lijo.lazar@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 04/83] drm/amd/pm: fix warning using uninitialized
- value of max_vid_step
-Date: Wed, 31 Jul 2024 20:17:19 -0400
-Message-ID: <20240801002107.3934037-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 05/83] drm/amd/pm: Fix negative array index read
+Date: Wed, 31 Jul 2024 20:17:20 -0400
+Message-ID: <20240801002107.3934037-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801002107.3934037-1-sashal@kernel.org>
 References: <20240801002107.3934037-1-sashal@kernel.org>
@@ -69,37 +68,90 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jesse Zhang <jesse.zhang@amd.com>
 
-[ Upstream commit 17e3bea65cdc453695b2fe4ff26d25d17f5339e9 ]
+[ Upstream commit c8c19ebf7c0b202a6a2d37a52ca112432723db5f ]
 
-Check the return of pp_atomfwctrl_get_Voltage_table_v4
-as it may fail to initialize max_vid_step
-V2: change the check condition (Tim Huang)
+Avoid using the negative values
+for clk_idex as an index into an array pptable->DpmDescriptor.
+
+V2: fix clk_index return check (Tim Huang)
 
 Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
 Reviewed-by: Tim Huang <Tim.Huang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c   | 27 ++++++++++++++-----
+ 1 file changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-index 6d6bc6a380b36..cdac0bc420341 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-@@ -2571,8 +2571,11 @@ static int vega10_init_smc_table(struct pp_hwmgr *hwmgr)
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+index c564f6e191f84..b1b23233635a6 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+@@ -1222,19 +1222,22 @@ static int navi10_get_current_clk_freq_by_table(struct smu_context *smu,
+ 					   value);
+ }
+ 
+-static bool navi10_is_support_fine_grained_dpm(struct smu_context *smu, enum smu_clk_type clk_type)
++static int navi10_is_support_fine_grained_dpm(struct smu_context *smu, enum smu_clk_type clk_type)
+ {
+ 	PPTable_t *pptable = smu->smu_table.driver_pptable;
+ 	DpmDescriptor_t *dpm_desc = NULL;
+-	uint32_t clk_index = 0;
++	int clk_index = 0;
+ 
+ 	clk_index = smu_cmn_to_asic_specific_index(smu,
+ 						   CMN2ASIC_MAPPING_CLK,
+ 						   clk_type);
++	if (clk_index < 0)
++		return clk_index;
++
+ 	dpm_desc = &pptable->DpmDescriptor[clk_index];
+ 
+ 	/* 0 - Fine grained DPM, 1 - Discrete DPM */
+-	return dpm_desc->SnapToDiscrete == 0;
++	return dpm_desc->SnapToDiscrete == 0 ? 1 : 0;
+ }
+ 
+ static inline bool navi10_od_feature_is_supported(struct smu_11_0_overdrive_table *od_table, enum SMU_11_0_ODFEATURE_CAP cap)
+@@ -1290,7 +1293,11 @@ static int navi10_emit_clk_levels(struct smu_context *smu,
+ 		if (ret)
+ 			return ret;
+ 
+-		if (!navi10_is_support_fine_grained_dpm(smu, clk_type)) {
++		ret = navi10_is_support_fine_grained_dpm(smu, clk_type);
++		if (ret < 0)
++			return ret;
++
++		if (!ret) {
+ 			for (i = 0; i < count; i++) {
+ 				ret = smu_v11_0_get_dpm_freq_by_index(smu,
+ 								      clk_type, i, &value);
+@@ -1499,7 +1506,11 @@ static int navi10_print_clk_levels(struct smu_context *smu,
+ 		if (ret)
+ 			return size;
+ 
+-		if (!navi10_is_support_fine_grained_dpm(smu, clk_type)) {
++		ret = navi10_is_support_fine_grained_dpm(smu, clk_type);
++		if (ret < 0)
++			return ret;
++
++		if (!ret) {
+ 			for (i = 0; i < count; i++) {
+ 				ret = smu_v11_0_get_dpm_freq_by_index(smu, clk_type, i, &value);
+ 				if (ret)
+@@ -1668,7 +1679,11 @@ static int navi10_force_clk_levels(struct smu_context *smu,
+ 	case SMU_UCLK:
+ 	case SMU_FCLK:
+ 		/* There is only 2 levels for fine grained DPM */
+-		if (navi10_is_support_fine_grained_dpm(smu, clk_type)) {
++		ret = navi10_is_support_fine_grained_dpm(smu, clk_type);
++		if (ret < 0)
++			return ret;
++
++		if (ret) {
+ 			soft_max_level = (soft_max_level >= 1 ? 1 : 0);
+ 			soft_min_level = (soft_min_level >= 1 ? 1 : 0);
  		}
- 	}
- 
--	pp_atomfwctrl_get_voltage_table_v4(hwmgr, VOLTAGE_TYPE_VDDC,
-+	result = pp_atomfwctrl_get_voltage_table_v4(hwmgr, VOLTAGE_TYPE_VDDC,
- 			VOLTAGE_OBJ_SVID2,  &voltage_table);
-+	PP_ASSERT_WITH_CODE(!result,
-+			"Failed to get voltage table!",
-+			return result);
- 	pp_table->MaxVidStep = voltage_table.max_vid_step;
- 
- 	pp_table->GfxDpmVoltageMode =
 -- 
 2.43.0
 
