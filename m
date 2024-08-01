@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8751943A72
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A66943A77
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC85F10E741;
-	Thu,  1 Aug 2024 00:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73B7B10E685;
+	Thu,  1 Aug 2024 00:15:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M5H6PFjA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qGybhEmw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D0810E742;
- Thu,  1 Aug 2024 00:15:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B77DF10E5F5;
+ Thu,  1 Aug 2024 00:15:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9586F6173C;
- Thu,  1 Aug 2024 00:15:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26D5C116B1;
- Thu,  1 Aug 2024 00:15:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 25B6B611D7;
+ Thu,  1 Aug 2024 00:15:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C503C32786;
+ Thu,  1 Aug 2024 00:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471312;
- bh=4jGE/HMHzC1CdEpHNS0Zke1c5VcLzul6vO3XVwoF4Lo=;
+ s=k20201202; t=1722471327;
+ bh=vN/0+PCnxw4RkndSR3E8Lcq/Mu7ZWGdNEZe89/ZZz1w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M5H6PFjAacbTEc3ZFhuA78Rhp5eFmWjoWJxUs20y0Xvet6sel+vna2G50iszrEGCd
- G90RkkD3SguVQsXNa4Exmm6wcMQ4CKQkBUtePs5KPE38egPG+53vSWTelY0/yah1hL
- OcrGn+Yyp+T+uZ35wzFgj7/BUbx4ZCBp6UcazTIPDHFW64Sq4xVml7wPIStPYAvHHj
- DrjlHkKuEXTOTKYxuSQ0K7xvSe2DCeKo6zJ2/mDr3exOxicsq/bXGBi5jmZLmOJhBj
- PV/4rjYsceSF2QryHOyhRI+r3VrC7wLYmjxLsJWuM2aAJDpLx4jqSd7tNCAimVo7Z1
- t1ZLn2eeo49Pw==
+ b=qGybhEmwWiuzKn/BCSl/O25Sruaqp8u8/6+40OruK37ozzhNkOOexbffD2pTppS7d
+ IoezFyb8Nv+o1OavF+ybiJXD8l9ThAMIeLgNGAGCA0rjhb6rLM4b8HFi3ar6aa90Fr
+ AOrFoSomeTBRssntU27nx04AszfBCSLM6GeA8C7vKpgFi3shFchCc4qXpQQ3zn10H3
+ 7uW5X3wHy0VPWGKA32Qrsw09iQ4ZvgOfrdWK9shyOzmmXcPxCyEcYzkSQLKJEa6QnD
+ E6rJSyGLZcu8BUY4NcgK2Z6xlXr0kVswea8QJzY5ZmCBTX/o8oEoxJdEwyOP13MaYp
+ tyn7gi9o/xmVA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Badal Nilawar <badal.nilawar@intel.com>, Sasha Levin <sashal@kernel.org>,
- thomas.hellstrom@linux.intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 067/121] drm/xe: Check valid domain is passed in
- xe_force_wake_ref
-Date: Wed, 31 Jul 2024 20:00:05 -0400
-Message-ID: <20240801000834.3930818-67-sashal@kernel.org>
+Cc: winstang <winstang@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Zaeem Mohamed <zaeem.mohamed@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, wenjing.liu@amd.com, alex.hung@amd.com, jun.lei@amd.com,
+ hamza.mahfooz@amd.com, george.shen@amd.com, dillon.varone@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 074/121] drm/amd/display: added NULL check at
+ start of dc_validate_stream
+Date: Wed, 31 Jul 2024 20:00:12 -0400
+Message-ID: <20240801000834.3930818-74-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -69,44 +69,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+From: winstang <winstang@amd.com>
 
-[ Upstream commit 35feb8dbbca627d118ccc1f2111841788c142703 ]
+[ Upstream commit 26c56049cc4f1705b498df013949427692a4b0d5 ]
 
-Assert domain is not XE_FORCEWAKE_ALL.
+[Why]
+prevent invalid memory access
 
-v2
-- use domain != XE_FORCEWAKE_ALL (Michal)
+[How]
+check if dc and stream are NULL
 
-v3
-- Fix commit description.
-
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Badal Nilawar <badal.nilawar@intel.com>
-Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240607125741.1407331-2-himal.prasad.ghimiray@intel.com
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Co-authored-by: winstang <winstang@amd.com>
+Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+Signed-off-by: winstang <winstang@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_force_wake.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_force_wake.h b/drivers/gpu/drm/xe/xe_force_wake.h
-index 83cb157da7cc6..23b36d13f18a6 100644
---- a/drivers/gpu/drm/xe/xe_force_wake.h
-+++ b/drivers/gpu/drm/xe/xe_force_wake.h
-@@ -24,7 +24,7 @@ static inline int
- xe_force_wake_ref(struct xe_force_wake *fw,
- 		  enum xe_force_wake_domains domain)
- {
--	xe_gt_assert(fw->gt, domain);
-+	xe_gt_assert(fw->gt, domain != XE_FORCEWAKE_ALL);
- 	return fw->domains[ffs(domain) - 1].ref;
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index 76a8e90da0d56..dffc663fd1a10 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -4656,6 +4656,9 @@ void resource_build_bit_depth_reduction_params(struct dc_stream_state *stream,
  
+ enum dc_status dc_validate_stream(struct dc *dc, struct dc_stream_state *stream)
+ {
++	if (dc == NULL || stream == NULL)
++		return DC_ERROR_UNEXPECTED;
++
+ 	struct dc_link *link = stream->link;
+ 	struct timing_generator *tg = dc->res_pool->timing_generators[0];
+ 	enum dc_status res = DC_OK;
 -- 
 2.43.0
 
