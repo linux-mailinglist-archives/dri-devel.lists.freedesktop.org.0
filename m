@@ -2,65 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C510944B63
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24E8944B7F
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:38:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E50E910E949;
-	Thu,  1 Aug 2024 12:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E56210E94E;
+	Thu,  1 Aug 2024 12:38:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SKxV2cj/";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BUG1Y6Zb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B660310E941;
- Thu,  1 Aug 2024 12:33:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1722515637; x=1754051637;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=FRflVe16On00+1DaqFpNLjtQUOuip+Xqpb96kuVda0I=;
- b=SKxV2cj/vhgK32k7p9XB+hpChs9bLAmty60aoJTyWmC/6eUfGYNgjS5U
- sTkpiXeCP55k5tyy6oDOWOFtbfwRszGdjRA4QdlrE80DESrvzLpkUtARn
- 3AuAYxJ2ttDRGLYK1LkoCn72E93U268olIIzQi/s+YJqoJRfVKf/HDGrv
- 1wJmVWAbcKBmB/Ie2KMb/YXa/BhkXFPTcYkNHjcTFK3TUi8sbxPE9+Th5
- 3SCQJpuWlnaOc3tXntrmGCVJE78B6bhrLCxYFNb5kBvU5qDMW/6j2Kgsi
- 0Z/+LUgwaq06DbzEvQHXg671JeruVDAUCfuptPBVS7bmG1hcuzbqK4pyu g==;
-X-CSE-ConnectionGUID: OWWG+6n+S6K+G7pv4pF31w==
-X-CSE-MsgGUID: BfUotcOBSCigca8gTAJ1ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="20407617"
-X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; d="scan'208";a="20407617"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2024 05:33:47 -0700
-X-CSE-ConnectionGUID: WMcvAEc1Rbme2YucJeXXPg==
-X-CSE-MsgGUID: cFBYC76HQwWDxPD5fVQMtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; d="scan'208";a="54931976"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.160])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2024 05:33:44 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Xaver Hugl <xaver.hugl@gmail.com>, Mario Limonciello
- <mario.limonciello@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>, amd-gfx@lists.freedesktop.org, Simon Ser
- <contact@emersion.fr>, Harry Wentland <Harry.Wentland@amd.com>,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@google.com>
-Subject: Re: [PATCH v3 2/2] drm/amd: Add power_saving_policy drm property to
- eDP connectors
-In-Reply-To: <CAFZQkGz8DeoiVX2MohoBoTMxraJk1Ou41N_wKP3GkqRrPg_6sg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240606020404.210989-1-mario.limonciello@amd.com>
- <20240606020404.210989-3-mario.limonciello@amd.com>
- <bc1d81ef-d9d0-4440-b63f-ecfb735ef783@amd.com>
- <d637d3c2-34f7-42f8-acbb-6a1730d3fc3c@amd.com>
- <CAFZQkGy0xuuUw73HQvS8Ce92sUi2rVrRnX25pi1KdNmyQbtBZA@mail.gmail.com>
- <CAFZQkGz8DeoiVX2MohoBoTMxraJk1Ou41N_wKP3GkqRrPg_6sg@mail.gmail.com>
-Date: Thu, 01 Aug 2024 15:33:40 +0300
-Message-ID: <87wml0v2vv.fsf@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63F5D10E946;
+ Thu,  1 Aug 2024 12:38:36 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4717KRDf006305;
+ Thu, 1 Aug 2024 12:38:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ VYCw6YwUEX891kBKIdfEmI1nZ+u8bjnlBY6X3MIqy/M=; b=BUG1Y6ZbxLzG7zJd
+ ijC3wgkV1NiLUkzcvH5JmYXKej3KLbQjvPLnUj5TPSCqF0wdRonmvn0XRDCRx4AZ
+ B8Z/5SUEKkwqQEBN2PkZbXEEAL/OmZMOlayhi1nuzKEq0TlAD115BzKFDAHsBK/u
+ SS31BOVc5Rrmqjdtlnyyu96vU7o30Ldn3KJt2F1R12yABBdSHwWqwTCc1vNvXZw8
+ Edl3CT6jwGXgjYiaoQudEBgZiDPpZZyunn1siz0dyKj2rclHPyghpRT7CrFlRtz/
+ aEn++mJY9LQ2FQpzFs+8k6b6gzpIj5nfSSOt2IKUoYsxQr0xSZhuQYr81Rui9nal
+ HZKQrg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40qjpjcenp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Aug 2024 12:38:32 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 471CcVrL029477
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 1 Aug 2024 12:38:31 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 1 Aug 2024 05:38:27 -0700
+Date: Thu, 1 Aug 2024 18:08:23 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>
+CC: Vladimir Lypak <vladimir.lypak@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jordan Crouse
+ <jordan@cosmicpenguin.net>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/4] drm/msm/a5xx: disable preemption in submits by default
+Message-ID: <20240801123823.geauowjux6r2ao72@hu-akhilpo-hyd.qualcomm.com>
+References: <20240711100038.268803-1-vladimir.lypak@gmail.com>
+ <20240711100038.268803-2-vladimir.lypak@gmail.com>
+ <CAF6AEGsyhQfsfyNwZQa99HSKxy6uXQvf=ikEijjLOBnkXJ=-2g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGsyhQfsfyNwZQa99HSKxy6uXQvf=ikEijjLOBnkXJ=-2g@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: wnLHomIJUi7DfauNRmCHQ1nL4fNCY4Aq
+X-Proofpoint-ORIG-GUID: wnLHomIJUi7DfauNRmCHQ1nL4fNCY4Aq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-01_10,2024-08-01_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0 mlxlogscore=999
+ spamscore=0 malwarescore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408010082
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,34 +98,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 01 Jul 2024, Xaver Hugl <xaver.hugl@gmail.com> wrote:
-> Am Do., 20. Juni 2024 um 22:22 Uhr schrieb Xaver Hugl <xaver.hugl@gmail.com>:
->> Merging can only happen once a real world userspace application has
->> implemented support for it. I'll try to do that sometime next week in
->> KWin
->
-> Here's the promised implementation:
-> https://invent.kde.org/plasma/kwin/-/merge_requests/6028
+On Mon, Jul 15, 2024 at 02:00:10PM -0700, Rob Clark wrote:
+> On Thu, Jul 11, 2024 at 3:02 AM Vladimir Lypak <vladimir.lypak@gmail.com> wrote:
+> >
+> > Fine grain preemption (switching from/to points within submits)
+> > requires extra handling in command stream of those submits, especially
+> > when rendering with tiling (using GMEM). However this handling is
+> > missing at this point in mesa (and always was). For this reason we get
+> > random GPU faults and hangs if more than one priority level is used
+> > because local preemption is enabled prior to executing command stream
+> > from submit.
+> > With that said it was ahead of time to enable local preemption by
+> > default considering the fact that even on downstream kernel it is only
+> > enabled if requested via UAPI.
+> >
+> > Fixes: a7a4c19c36de ("drm/msm/a5xx: fix setting of the CP_PREEMPT_ENABLE_LOCAL register")
+> > Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > index c0b5373e90d7..6c80d3003966 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > @@ -150,9 +150,13 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+> >         OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
+> >         OUT_RING(ring, 1);
+> >
+> > -       /* Enable local preemption for finegrain preemption */
+> > +       /*
+> > +        * Disable local preemption by default because it requires
+> > +        * user-space to be aware of it and provide additional handling
+> > +        * to restore rendering state or do various flushes on switch.
+> > +        */
+> >         OUT_PKT7(ring, CP_PREEMPT_ENABLE_LOCAL, 1);
+> > -       OUT_RING(ring, 0x1);
+> > +       OUT_RING(ring, 0x0);
+> 
+> From a quick look at the a530 pfp fw, it looks like
+> CP_PREEMPT_ENABLE_LOCAL is allowed in IB1/IB2 (ie. not restricted to
+> kernel RB).  So we should just disable it in the kernel, and let
+> userspace send a CP_PREEMPT_ENABLE_LOCAL to enable local preemption.
 
-The requirement is that the userspace patches must be reviewed and ready
-for merging into a suitable and canonical upstream project.
+Ack. AFAIU about a5x preemption, this should work.
 
-Are they?
+-Akhil
 
-
-BR,
-Jani.
-
-
->
-> In testing with the patches on top of kernel 6.9.6, setting the
-> property to `Require color accuracy` makes the sysfs file correctly
-> report "Device or resource busy" when trying to change the power
-> saving level, but setting the property to zero doesn't really work.
-> Once KWin sets the property to zero, changing the power saving level
-> "works" but the screen blanks for a moment (might just be a single
-> frame) and reading from the file returns zero again, with the visuals
-> and backlight level unchanged as well.
-
--- 
-Jani Nikula, Intel
+> 
+> BR,
+> -R
+> 
+> >         /* Allow CP_CONTEXT_SWITCH_YIELD packets in the IB2 */
+> >         OUT_PKT7(ring, CP_YIELD_ENABLE, 1);
+> > --
+> > 2.45.2
+> >
