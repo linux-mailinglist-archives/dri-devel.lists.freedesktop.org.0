@@ -2,55 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8EE943CB2
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D72D943E21
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 03:18:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33CDE10E853;
-	Thu,  1 Aug 2024 00:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A23610E7F1;
+	Thu,  1 Aug 2024 01:18:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dPWbC8xH";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="Lm2uO4v7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87AE310E845;
- Thu,  1 Aug 2024 00:40:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A80A5CE17AC;
- Thu,  1 Aug 2024 00:40:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A5ABC4AF0C;
- Thu,  1 Aug 2024 00:40:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472850;
- bh=Ktu/Dt5N/86ctxjVQKKkwzfC3GgEJmynT6LPMnqCyZU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dPWbC8xHbw1K52wFwxzxM8yP4UpscfB8Oy5Bo5XQOlKJzqj0g0wz12czaWcRAHzhS
- N1A/PXa+Sfwpz4T++qcWNXKMRvJHY9ZSqbhFHZ4h666H7tKS2xaN584a6XaZ+QEIS4
- +nmBiV5AxLKdMQn5KFeWGyXOqgCpUnrDgZSko0LEHJ3wWDcX+siruyA5euE1hVSlc9
- 2Rn0yW79hpPhJ1TC8l8u1V9bEjrTjPfJEP6hg6wAEjq88sHardCUaO9NbjJsATH7NJ
- 8cb7AG/07AtnyTTHmCgkBJlaC2hPOGdi2RT+sSXchwrQf2nC4bnCWMPic9jy2slMLN
- X7xteBZUdd/cg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Michael Chen <michael.chen@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 4.19 04/14] drm/amdkfd: Reconcile the definition and
- use of oem_id in struct kfd_topology_device
-Date: Wed, 31 Jul 2024 20:40:12 -0400
-Message-ID: <20240801004037.3939932-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240801004037.3939932-1-sashal@kernel.org>
-References: <20240801004037.3939932-1-sashal@kernel.org>
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D1310E7F1;
+ Thu,  1 Aug 2024 01:18:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1722475084;
+ bh=tW1zyvH/+6rUIbk5j37lWHaekfpVhhTK6eHLoZm/4/s=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Lm2uO4v7fTcHRevDxyMxdQu+GY2ebNGU5bHwdbc42y7ghNo511pJ/FjkCWAAUUdzC
+ 4GzxseVNmpeEkBjfgwdClfce/vyhlceik1jEjYBhU8s07SyGdncuLkxUCcW7wZqv30
+ PTEuw7TKiMDR+8bZnYUzGfpmh9+W3NhLJRJyIGKD85rAHFXY0hvAA8QZiNERPOK/Da
+ w1nvr6rCj+ADbjqMaHoEca705hmcWiEDwIfgMcCR3wg2jnSNGOdVGIPQcGB4Rg1zWH
+ 2axnKB0LCXr/LiTZBaYnsa0hYymJfZ+TIViYhJn59xG7eZHgs45Qalhm+Vyn84pZ1c
+ qmq38hoyxGqGA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4WZB0q4cg6z4wZx;
+ Thu,  1 Aug 2024 11:18:03 +1000 (AEST)
+Date: Thu, 1 Aug 2024 11:18:02 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: linux-next: manual merge of the drm-misc tree with the
+ drm-misc-fixes tree
+Message-ID: <20240801111802.3723a203@canb.auug.org.au>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.319
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/l3o_30aUQRg51Gmy=WMn7mu";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,68 +59,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Chen <michael.chen@amd.com>
+--Sig_/l3o_30aUQRg51Gmy=WMn7mu
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-[ Upstream commit 10f624ef239bd136cdcc5bbc626157a57b938a31 ]
+Hi all,
 
-Currently oem_id is defined as uint8_t[6] and casted to uint64_t*
-in some use case. This would lead code scanner to complain about
-access beyond. Re-define it in union to enforce 8-byte size and
-alignment to avoid potential issue.
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
-Signed-off-by: Michael Chen <michael.chen@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdkfd/kfd_crat.h     | 2 --
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 3 +--
- drivers/gpu/drm/amd/amdkfd/kfd_topology.h | 5 ++++-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+  drivers/gpu/drm/ast/ast_drv.h
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.h b/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
-index b5cd182b9edd2..037539c0b63fd 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.h
-@@ -42,8 +42,6 @@
- #define CRAT_OEMTABLEID_LENGTH	8
- #define CRAT_RESERVED_LENGTH	6
- 
--#define CRAT_OEMID_64BIT_MASK ((1ULL << (CRAT_OEMID_LENGTH * 8)) - 1)
--
- /* Compute Unit flags */
- #define COMPUTE_UNIT_CPU	(1 << 0)  /* Create Virtual CRAT for CPU */
- #define COMPUTE_UNIT_GPU	(1 << 1)  /* Create Virtual CRAT for GPU */
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index 5cf499a07806a..4072013152925 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -863,8 +863,7 @@ static void kfd_update_system_properties(void)
- 	dev = list_last_entry(&topology_device_list,
- 			struct kfd_topology_device, list);
- 	if (dev) {
--		sys_props.platform_id =
--			(*((uint64_t *)dev->oem_id)) & CRAT_OEMID_64BIT_MASK;
-+		sys_props.platform_id = dev->oem_id64;
- 		sys_props.platform_oem = *((uint64_t *)dev->oem_table_id);
- 		sys_props.platform_rev = dev->oem_revision;
- 	}
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-index 7d9c3f948dff2..e47c0267f2060 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-@@ -164,7 +164,10 @@ struct kfd_topology_device {
- 	struct attribute		attr_gpuid;
- 	struct attribute		attr_name;
- 	struct attribute		attr_props;
--	uint8_t				oem_id[CRAT_OEMID_LENGTH];
-+	union {
-+		uint8_t				oem_id[CRAT_OEMID_LENGTH];
-+		uint64_t			oem_id64;
-+	};
- 	uint8_t				oem_table_id[CRAT_OEMTABLEID_LENGTH];
- 	uint32_t			oem_revision;
- };
--- 
-2.43.0
+between commit:
 
+  0ce91928ec62 ("drm/ast: astdp: Wake up during connector status detection")
+
+from the drm-misc-fixes tree and commit:
+
+  c91d75a3c6a2 ("drm/ast: astdp: Test firmware status once during probing")
+
+from the drm-misc tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/ast/ast_drv.h
+index 47bab5596c16,b54a89676e9f..000000000000
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@@ -471,9 -471,9 +471,10 @@@ void ast_init_3rdtx(struct drm_device *
+  /* aspeed DP */
+  bool ast_astdp_is_connected(struct ast_device *ast);
+  int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
+- void ast_dp_launch(struct drm_device *dev);
++ int ast_dp_launch(struct ast_device *ast);
+ +bool ast_dp_power_is_on(struct ast_device *ast);
+  void ast_dp_power_on_off(struct drm_device *dev, bool no);
++ void ast_dp_link_training(struct ast_device *ast);
+  void ast_dp_set_on_off(struct drm_device *dev, bool no);
+  void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *v=
+bios_mode);
+ =20
+
+--Sig_/l3o_30aUQRg51Gmy=WMn7mu
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmaq4koACgkQAVBC80lX
+0GxA2Af/cbNs2BlwTCMCerVN8tIWLM0msFK9LFtdyB0zCfl+8Gm/Irj+65HHRss5
++lkLZ+ioNnmIOmHWgztZ6aKaw0YEHHHKukg9wYiUH+fG99m83/1axl7pO3V5SjRY
+I92L5jEPjlqLGxjGLZ62m8CXJoaZuL6DyGYCfJ6HwXrDoYoq+gQJIU/cdw+0HZO0
+xJM6jWlUjDDiwbzLkGLxw5VHKtZeLV7CwjwpBpnvikNKIPqH5iyf5og9XxC8JtaG
+zkOErxxoUyj+8BKWFoWYukTrKSqjnsG1wzqoIQAgn2znixBLZg4fVMXtwCK1Q1uS
+etNwUEiLyxVp3LtFJsnLtWnOHXeB5w==
+=Eaeh
+-----END PGP SIGNATURE-----
+
+--Sig_/l3o_30aUQRg51Gmy=WMn7mu--
