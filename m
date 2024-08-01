@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C368943A88
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45655943A89
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:16:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8168C10E74A;
-	Thu,  1 Aug 2024 00:16:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A62C810E750;
+	Thu,  1 Aug 2024 00:16:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KEb0rqN5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bwJrWgXj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DC1410E756;
- Thu,  1 Aug 2024 00:16:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9B910E751;
+ Thu,  1 Aug 2024 00:16:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C8ED1611D7;
- Thu,  1 Aug 2024 00:16:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94452C32786;
- Thu,  1 Aug 2024 00:16:15 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4F2686130B;
+ Thu,  1 Aug 2024 00:16:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13395C32786;
+ Thu,  1 Aug 2024 00:16:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471378;
- bh=Ql4idpPEwSG2odetp/Oqw0NEhP/uQ2tRKugeqUNQb6s=;
+ s=k20201202; t=1722471383;
+ bh=NalIKsMyK2iYXtObGfevdQZYw/GpJOJaN1pzbxhHlR4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KEb0rqN5XhFd4W+w3dY3rv+z52yZfdEvSDeRX2TzfDkXWUZyUnLZA0OOlYin66Adg
- TBrBFBkAkI8EOcFfu6nhBwivSYkcOMM6RbsGwkrHhB2Z63kAYlMzmlW5BgJDhOrL+Z
- shcFrZ7wflHmy46yWDqprU1VAlS5OSJows5AoZgg0bbSTLWWTJa8clNcgZdHIA0B5Q
- ELIkh3hQnt2CnPTXkohw1ll7kCoykp3J585VGeA52M274IZGPbhsC0Q8GopMxdKB5K
- rJUt/iwU9c7n/0p42y3rXtSajFuZwhBMEI85C0GWVrWhZ8BPNbP0J7QAJWk7t4Bneq
- f/PRWgLviZ+Sw==
+ b=bwJrWgXje+vOgLR8Z2VfvH+R0eatfSC1DmfVb81HIa8f2yueT8M9SHOt+T/o8wSFh
+ rQjug4j+XgDc+2My83bnAm2FgDUnrP9Lv44KH7jevr80R9c/P6LjG22MkG7vUPLAts
+ 3yT6KHsSrI2Bm6NnqQWGYn1YsaFRez7KH3I83dd8sjCzIBF/4tCAVyCJKKwgZnY1cU
+ Dyy6+IIPZQLVvZtFEH2OicekzXDsZcrnva+RPaOHnUK0r9exinQsaT4wturxHTkgq8
+ qJHPcztGMtI2vOetf1XyFBeV79yox3OaXX1wbdzHpJMYLNZp4HfiYVjXxmKexYxd1M
+ Mh+2OqiLya8aQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Zaeem Mohamed <zaeem.mohamed@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, chuchang@amd.com, jun.lei@amd.com,
- nicholas.kazlauskas@amd.com, camille.cho@amd.com, lewis.huang@amd.com,
- anthony.koo@amd.com, srinivasan.shanmugam@amd.com, wayne.lin@amd.com,
- dan.carpenter@linaro.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 079/121] drm/amd/display: Avoid overflow from
- uint32_t to uint8_t
-Date: Wed, 31 Jul 2024 20:00:17 -0400
-Message-ID: <20240801000834.3930818-79-sashal@kernel.org>
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ hersenxs.wu@amd.com, dillon.varone@amd.com, ruanjinjie@huawei.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 080/121] drm/amd/display: Check BIOS images
+ before it is used
+Date: Wed, 31 Jul 2024 20:00:18 -0400
+Message-ID: <20240801000834.3930818-80-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -73,51 +69,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit d6b54900c564e35989cf6813e4071504fa0a90e0 ]
+[ Upstream commit 8b0ddf19cca2a352b2a7e01d99d3ba949a99c84c ]
 
-[WHAT & HOW]
-dmub_rb_cmd's ramping_boundary has size of uint8_t and it is assigned
-0xFFFF. Fix it by changing it to uint8_t with value of 0xFF.
+BIOS images may fail to load and null checks are added before they are
+used.
 
-This fixes 2 INTEGER_OVERFLOW issues reported by Coverity.
+This fixes 6 NULL_RETURNS issues reported by Coverity.
 
-Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c       | 2 +-
- drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c
-index b851fc65f5b7c..5c2d6642633d9 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c
-@@ -258,7 +258,7 @@ bool dmub_abm_set_pipe(struct abm *abm,
- {
- 	union dmub_rb_cmd cmd;
- 	struct dc_context *dc = abm->ctx;
--	uint32_t ramping_boundary = 0xFFFF;
-+	uint8_t ramping_boundary = 0xFF;
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+index 25fe1a1240298..3bacf470f7c5b 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+@@ -665,6 +665,9 @@ static enum bp_result get_ss_info_v3_1(
+ 	ss_table_header_include = ((ATOM_ASIC_INTERNAL_SS_INFO_V3 *) bios_get_image(&bp->base,
+ 				DATA_TABLES(ASIC_InternalSS_Info),
+ 				struct_size(ss_table_header_include, asSpreadSpectrum, 1)));
++	if (!ss_table_header_include)
++		return BP_RESULT_UNSUPPORTED;
++
+ 	table_size =
+ 		(le16_to_cpu(ss_table_header_include->sHeader.usStructureSize)
+ 				- sizeof(ATOM_COMMON_TABLE_HEADER))
+@@ -1034,6 +1037,8 @@ static enum bp_result get_ss_info_from_internal_ss_info_tbl_V2_1(
+ 				&bp->base,
+ 				DATA_TABLES(ASIC_InternalSS_Info),
+ 				struct_size(header, asSpreadSpectrum, 1)));
++	if (!header)
++		return result;
  
- 	memset(&cmd, 0, sizeof(cmd));
- 	cmd.abm_set_pipe.header.type = DMUB_CMD__ABM;
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-index 804be977ea47b..3de65a9f0e6f2 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-@@ -142,7 +142,7 @@ static bool dmub_abm_set_pipe(struct abm *abm, uint32_t otg_inst,
- {
- 	union dmub_rb_cmd cmd;
- 	struct dc_context *dc = abm->ctx;
--	uint32_t ramping_boundary = 0xFFFF;
-+	uint8_t ramping_boundary = 0xFF;
+ 	memset(info, 0, sizeof(struct spread_spectrum_info));
  
- 	memset(&cmd, 0, sizeof(cmd));
- 	cmd.abm_set_pipe.header.type = DMUB_CMD__ABM;
+@@ -1107,6 +1112,8 @@ static enum bp_result get_ss_info_from_ss_info_table(
+ 	get_atom_data_table_revision(header, &revision);
+ 
+ 	tbl = GET_IMAGE(ATOM_SPREAD_SPECTRUM_INFO, DATA_TABLES(SS_Info));
++	if (!tbl)
++		return result;
+ 
+ 	if (1 != revision.major || 2 > revision.minor)
+ 		return result;
+@@ -1634,6 +1641,8 @@ static uint32_t get_ss_entry_number_from_ss_info_tbl(
+ 
+ 	tbl = GET_IMAGE(ATOM_SPREAD_SPECTRUM_INFO,
+ 			DATA_TABLES(SS_Info));
++	if (!tbl)
++		return number;
+ 
+ 	if (1 != revision.major || 2 > revision.minor)
+ 		return number;
+@@ -1716,6 +1725,8 @@ static uint32_t get_ss_entry_number_from_internal_ss_info_tbl_v2_1(
+ 				&bp->base,
+ 				DATA_TABLES(ASIC_InternalSS_Info),
+ 				struct_size(header_include, asSpreadSpectrum, 1)));
++	if (!header_include)
++		return 0;
+ 
+ 	size = (le16_to_cpu(header_include->sHeader.usStructureSize)
+ 			- sizeof(ATOM_COMMON_TABLE_HEADER))
+@@ -1755,6 +1766,9 @@ static uint32_t get_ss_entry_number_from_internal_ss_info_tbl_V3_1(
+ 	header_include = ((ATOM_ASIC_INTERNAL_SS_INFO_V3 *) bios_get_image(&bp->base,
+ 				DATA_TABLES(ASIC_InternalSS_Info),
+ 				struct_size(header_include, asSpreadSpectrum, 1)));
++	if (!header_include)
++		return number;
++
+ 	size = (le16_to_cpu(header_include->sHeader.usStructureSize) -
+ 			sizeof(ATOM_COMMON_TABLE_HEADER)) /
+ 					sizeof(ATOM_ASIC_SS_ASSIGNMENT_V3);
 -- 
 2.43.0
 
