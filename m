@@ -2,82 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B21944EDF
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 17:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AD3944EE2
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 17:15:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA4710E14B;
-	Thu,  1 Aug 2024 15:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0B510E5CF;
+	Thu,  1 Aug 2024 15:15:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="M36sgQNk";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X9086Yba";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1319F10E14B
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 15:14:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C3B10E5CF
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 15:15:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1722525268;
+ s=mimecast20190719; t=1722525305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WuCkGuyhUvwr7K6Rptn/zJ7I8ssejuyGxAvNdiT19Sc=;
- b=M36sgQNkx4kFUOCiWiTWWOOlJ4ftnpRCTK62qhmFWiCNMsFqz5atgTqqFPG4EHEHw5cte8
- ZxqcvtxdQqTtkbyPuZRTQ7qXvMyI4l4Mz63ZMni3r4tlp13GTohYQYitH9wnp72aG5fNrp
- s9BMdeiutYPP7yuHL2VzzuimbGelLIA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=x6Gz03hDTttvd+7tl5OFVJE3QFtRiPUFMKGDnDxPPCM=;
+ b=X9086Yba+mAGF7VIIrurHCxsdhWLkiPSkml8WOcFBQFNaIO14nbvZi/HBdU0/TVSheHIeo
+ QSMv9K08Q0yFgZgR7/XwwX1KCyaPZwq+irS9a7Klx7818DvcfuEZ1VyvClmSV8wgILwhLs
+ XtKxqlflZkaMqGR53y1FjQXCtbwE+wQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-638-sjtD6Sv3Mr2CUR2jl7lTfw-1; Thu, 01 Aug 2024 11:14:26 -0400
-X-MC-Unique: sjtD6Sv3Mr2CUR2jl7lTfw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-5a32a9788e7so2901368a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 08:14:26 -0700 (PDT)
+ us-mta-96-0nFOPJjNN0S9bJuNTCj_NQ-1; Thu, 01 Aug 2024 11:15:04 -0400
+X-MC-Unique: 0nFOPJjNN0S9bJuNTCj_NQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-a7d6a72ad99so386120566b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 08:15:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722525265; x=1723130065;
+ d=1e100.net; s=20230601; t=1722525303; x=1723130103;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WuCkGuyhUvwr7K6Rptn/zJ7I8ssejuyGxAvNdiT19Sc=;
- b=Lzp65W4ZYcxH94oBxObr+kvASHZuX0N1ylUSPFrZKassxAiJShKbno/+o6l0ipH/GP
- W6hUf6cOBWdWrK5N3gh/NVvHzLlgm6A/tGmihLi0Dhb4FsI55OzPiqsRrRX/UuKGou+O
- e2OZjdozGF2WXslCK/w886qwgAuJBdxa4nBdV9zmpJ0CDbh1Hsab17CRE+VBbxrMfVoP
- 7MwYGPc2G/b+ipWU8OOQN3ee9ojTUIZLZjHpc2b3Ctq5hXzAGXTWbs/ZCKQZXChEcgVB
- KTSlx8FYLmJrkezesn6FemXooWmP9B+8OKjcVWIsJMQVB3ZierE5UZ/Fl1Ekf0fvOHIE
- D7Tg==
-X-Gm-Message-State: AOJu0YwS9js65zJlfQELwV3oWKfHQkg/F5Zy6je+JG+7oBy0ZeD6Rf0H
- p9B+6MFdvKPUCjw9OCLfyKQh9M5pIK3A636hH8VMHDgp5NigVfykZvZPDuKa3DaVWfWlMnVURs/
- XN8sJsRG3AjksPESCfxQR+RKj82RAQXeSjNbLTzztnGfmjgxizb6iw498VWivDkAvqw==
-X-Received: by 2002:a05:6402:2550:b0:5a0:d5f2:1be with SMTP id
- 4fb4d7f45d1cf-5b77c2907f3mr1879066a12.8.1722525265337; 
- Thu, 01 Aug 2024 08:14:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFj4LCjAaF+V8VlhXK/sqH12Rf7Hd/3c/VAvvA4FypQ6qwCir32eUK1KIAGbf0dTmiuyK+YVA==
-X-Received: by 2002:a05:6402:2550:b0:5a0:d5f2:1be with SMTP id
- 4fb4d7f45d1cf-5b77c2907f3mr1879035a12.8.1722525264801; 
- Thu, 01 Aug 2024 08:14:24 -0700 (PDT)
+ bh=x6Gz03hDTttvd+7tl5OFVJE3QFtRiPUFMKGDnDxPPCM=;
+ b=LWWEPoCtkrcyX1Kxqcp7q3GuEwrYolUw8xLMlv9sI761AYS+Q4PFqasHFV+9IJSFzY
+ tdnwOgD5Jd2PHnptezMtUCEjU5WjL3+IOl4PoM3Cb/Um6XvUmfxlfHE3F++JGtPAzjt5
+ udyRrdlTDFvvnOwavaB36CMzmbESqSPR7/xrTwkHeRQP6GOR7e9DDkwUaPzXuke5qT2c
+ eZWkc5kv0YSW/jYtQCFheMKFrBFQ3egkt/Fz9FcBgLlAV5RGESQnuQ1bFxd8RMfoaWLm
+ my5GQ6styETiURHX66QMgxuHT5CdWqsxfgKBpbh4K/3RjnHDmkg30KNZ/D6LWtoDe19u
+ aLOA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWG/NauPwBrpPssANbYPBnYNNsmE4TaugiVlBebrMs8PSvKWPxaFIiEnIXF+oWT0k0uDmEJoAQ6sYI0IxscHCD8AlVSxmb1XTwID84HcrY6
+X-Gm-Message-State: AOJu0YylHhkWmSFkbU2fB35D2wO1rjvglum4IxEG4JE1nHyanflWixHH
+ koFGwUA7xNJa2hOAuW73BSyMAB8a1SLQ0508SlGPDEbOmCts7925yF9bqRPty0yI1sQ0ybRYv2U
+ OgyhJRn+KTh6GILooaPUM5a72BZcPLKdr2hPulVOsAXGYIjqySLxE9GnIMaU9JxhwZg==
+X-Received: by 2002:a17:907:9689:b0:a7a:b839:8583 with SMTP id
+ a640c23a62f3a-a7dc51c26e5mr32397866b.66.1722525302608; 
+ Thu, 01 Aug 2024 08:15:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEh8sS8ASeCL7tbxerggOYvsOegLjh6xAqrTG3CZcz3y3qa/PkPBjyHfa+gnp10im9bRcd23g==
+X-Received: by 2002:a17:907:9689:b0:a7a:b839:8583 with SMTP id
+ a640c23a62f3a-a7dc51c26e5mr32395666b.66.1722525302110; 
+ Thu, 01 Aug 2024 08:15:02 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
  (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
  [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5ac6358fa5esm10285512a12.32.2024.08.01.08.14.24
+ a640c23a62f3a-a7acad41621sm909036366b.113.2024.08.01.08.15.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Aug 2024 08:14:24 -0700 (PDT)
-Message-ID: <8f6cb906-fb82-4737-89b7-15ab3c92d430@redhat.com>
-Date: Thu, 1 Aug 2024 17:14:23 +0200
+ Thu, 01 Aug 2024 08:15:01 -0700 (PDT)
+Message-ID: <9d9436b3-4a6e-46cb-a98c-f168bfebbe3f@redhat.com>
+Date: Thu, 1 Aug 2024 17:15:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/2] Use pcim_request_region() in vboxvideo
-To: Philipp Stanner <pstanner@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Bjorn Helgaas <helgaas@kernel.org>, Philipp Stanner <pstanner@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Helgaas <bhelgaas@google.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-References: <20240729093625.17561-2-pstanner@redhat.com>
+ Bjorn Helgaas <bhelgaas@google.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+References: <20240731193605.GA77260@bhelgaas>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240729093625.17561-2-pstanner@redhat.com>
+In-Reply-To: <20240731193605.GA77260@bhelgaas>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
@@ -98,32 +99,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Bjorn,
 
-On 7/29/24 11:36 AM, Philipp Stanner wrote:
-> Hi everyone,
+On 7/31/24 9:36 PM, Bjorn Helgaas wrote:
+> On Mon, Jul 29, 2024 at 11:36:24AM +0200, Philipp Stanner wrote:
+>> Hi everyone,
+>>
+>> Now that we've got the simplified PCI devres API available we can slowly
+>> start using it in drivers and step by step phase the more problematic
+>> API out.
+>>
+>> vboxvideo currently does not have a region request, so it is a suitable
+>> first user.
+>>
+>> P.
+>>
+>> Philipp Stanner (2):
+>>   PCI: Make pcim_request_region() a public function
+>>   drm/vboxvideo: Add PCI region request
+>>
+>>  drivers/gpu/drm/vboxvideo/vbox_main.c | 4 ++++
+>>  drivers/pci/devres.c                  | 1 +
+>>  drivers/pci/pci.h                     | 2 --
+>>  include/linux/pci.h                   | 1 +
+>>  4 files changed, 6 insertions(+), 2 deletions(-)
 > 
-> Now that we've got the simplified PCI devres API available we can slowly
-> start using it in drivers and step by step phase the more problematic
-> API out.
-> 
-> vboxvideo currently does not have a region request, so it is a suitable
-> first user.
+> Given an ack from the vboxvideo maintainers, I can apply both of these
+> via the PCI tree so there's no race during the merge window.
 
-I have given both patches a test-run on top of 6.11-rc1 in a VirtualBox
-VM using the vboxsvga virtual vga card:
+I'm the vboxvideo maintainer, merging both through the PCI tree
+sounds good to me:
 
-Tested-by: Hans de Goede <hdegoede@redhat.com>
-
-Also both patches look good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-for the series.
+Acked-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
 
 Hans
+
 
 
 
