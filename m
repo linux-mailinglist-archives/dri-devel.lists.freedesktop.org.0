@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D6E944E52
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 16:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FB1944E58
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 16:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C996B10E999;
-	Thu,  1 Aug 2024 14:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE7BC10E98A;
+	Thu,  1 Aug 2024 14:45:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jWdjicrY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ml2iEl/q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4D4A10E999
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 14:45:07 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DEC710E98A
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 14:45:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id BA0B0CE19CF;
- Thu,  1 Aug 2024 14:45:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE58C32786;
- Thu,  1 Aug 2024 14:44:55 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 06EAB62502;
+ Thu,  1 Aug 2024 14:45:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9D5EC32786;
+ Thu,  1 Aug 2024 14:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722523505;
- bh=TnehU+4nQi/mGzlkRiUy46s0TeIG1voBQaGg+h+RXfQ=;
+ s=k20201202; t=1722523547;
+ bh=ynD7QXa6nbck1NM7QRDpNGZa/07oVXF4giE0qGLrMBM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jWdjicrYFj/X9MQpzJnSBzeCFGlFO8M2k5ZETHfkUcFtqBP8xNa+vnlnHuxVZ22tM
- SO1R0Q5x30MZrxpvslapVEuwB+5NjvBgKWnB6E72HXMVEv0mGVM6wHPvPYXSRX8kDk
- 3itaS9Sf3xrh4W1kmazrGYL92DfXE0lKXUxcLY1BKspx3wjua9WJ6P3crEmgtRqOr0
- AwAR/ub8ST3G1oOwviqd5QQC1Hj8pxQ4tHlcwDXerGPNAu6uiJTOseSWJIYKLTgokh
- XMn0RbK2uwGXEMG2+pl6MNorbuKeh7e1uXwitrs2H7vkr6fkyLTsHgT9w5kl/3T9td
- H6OHQ2jhe2+5Q==
-Message-ID: <2c97429e-4633-46f5-8e7a-ec6903901360@kernel.org>
-Date: Thu, 1 Aug 2024 16:44:53 +0200
+ b=Ml2iEl/qrUF+tU3f8mqi/xDrO0HgBiI00zoJCF/IXfrbRQVBSwrHc6SCD0dcGuGbx
+ 824TddCt25PLx/abt6g+oObHBwAel56iW83eIttgL0jpLGNxvzRleUyhLrnFkyeQH3
+ r7Q9elQqm4pDcYQkkpCqT/izvujZ8958Evf2mSiR8cogAzJx42FEnI6jbrhpevs6Cy
+ 5nqpT9+xvR2TxZwuap3WnnV/b0wmsIowAB6aj1nMuJhN7DuuWrNi45lYWZLdWuqW6l
+ 3EP5l3hGYGrpWry84B9ZfyAUUBLszpnlrMpvVtlGDQvTIHi1K2dz0eC9H75ZaPtFJE
+ +wsL0fagBswBg==
+Message-ID: <fe49a89e-324c-4755-8350-cb6f7b3323d9@kernel.org>
+Date: Thu, 1 Aug 2024 16:45:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: rockchip: Add schema for
- RK3588 HDMI TX Controller
+Subject: Re: [PATCH v2 2/3] drm/rockchip: Explicitly include bits header
 To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Andy Yan <andy.yan@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Luis de Arquer <ldearquer@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Alexandre ARNOUD <aarnoud@me.com>,
- Robert Foss <rfoss@kernel.org>, devicetree@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- linux-rockchip@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Jonas Karlman <jonas@kwiboo.se>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, linux-kernel@vger.kernel.org,
- kernel@collabora.com, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, kernel@collabora.com,
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>
 References: <20240801-b4-rk3588-bridge-upstream-v2-0-9fa657a4e15b@collabora.com>
- <20240801-b4-rk3588-bridge-upstream-v2-1-9fa657a4e15b@collabora.com>
- <172248345225.2862796.6921035362248469311.robh@kernel.org>
- <aeeac627-2fce-45f2-b745-9e851a4dbd59@collabora.com>
+ <20240801-b4-rk3588-bridge-upstream-v2-2-9fa657a4e15b@collabora.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <aeeac627-2fce-45f2-b745-9e851a4dbd59@collabora.com>
+In-Reply-To: <20240801-b4-rk3588-bridge-upstream-v2-2-9fa657a4e15b@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,32 +117,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/08/2024 11:50, Cristian Ciocaltea wrote:
-> On 8/1/24 6:37 AM, Rob Herring (Arm) wrote:
->>
->> On Thu, 01 Aug 2024 05:25:52 +0300, Cristian Ciocaltea wrote:
->>> Rockchip RK3588 SoC integrates the Synopsys DesignWare HDMI 2.1
->>> Quad-Pixel (QP) TX controller IP.
->>>
->>> Since this is a new IP block, quite different from those used in the
->>> previous generations of Rockchip SoCs, add a dedicated binding file.
->>>
->>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>> ---
->>>  .../display/rockchip/rockchip,dw-hdmi-qp.yaml      | 188 +++++++++++++++++++++
->>>  1 file changed, 188 insertions(+)
->>>
->>
->> My bot found errors running 'make dt_binding_check' on your patch:
+On 01/08/2024 04:25, Cristian Ciocaltea wrote:
+> Driver makes use of the BIT() macro, but relies on the bits header being
+> implicitly included.
 > 
-> This is because the referenced synopsys,dw-hdmi-qp.yaml is provided by a
-> separate patchset:
+> Explicitly pull the header in to avoid potential build failures in some
+> configurations.
 > 
-> https://lore.kernel.org/lkml/20240801-dw-hdmi-qp-tx-v1-1-148f542de5fd@collabora.com/
+> While at it, reorder include directives alphabetically.
+> 
+> Fixes: 8c8546546f25 ("drm/rockchip: move output interface related definition to rockchip_drm_drv.h")
 
-
-So you made things untestable. No, this must be one patchset. Do not
-send some library/helper and users of it in separate patchsets.
+There is no bug here to be fixed. Drop. Especially bugfixes should not
+be combined with cleanups.
 
 Best regards,
 Krzysztof
