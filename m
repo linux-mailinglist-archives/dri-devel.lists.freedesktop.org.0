@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38532943B76
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0860943B79
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:28:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A586A10E770;
-	Thu,  1 Aug 2024 00:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6524810E773;
+	Thu,  1 Aug 2024 00:28:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HKL1MrAd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nFiQOSqu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E31DB10E771;
- Thu,  1 Aug 2024 00:28:13 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2272A10E768;
+ Thu,  1 Aug 2024 00:28:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 00955CE1877;
- Thu,  1 Aug 2024 00:28:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA94C116B1;
- Thu,  1 Aug 2024 00:28:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9618461BD9;
+ Thu,  1 Aug 2024 00:28:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 374C0C32786;
+ Thu,  1 Aug 2024 00:28:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472091;
- bh=6tY1AvApnn8sYRmPZ5tGiNkXafrXSm7d+iiI6CS7I/8=;
+ s=k20201202; t=1722472096;
+ bh=YNtRwT8a/UE3UjSgeuGTFUuQ8mKPAAe7QL/qzXUi3cM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HKL1MrAdIlL/iCoWXTC0b/7hym94rvROpo/4MGm4KS3M/lG5kCAhCsNifdsswKNfC
- xBU03gbTzsnQJKx8PBy+fe7tbUyeI9olH8l4lxXvUEWe/g9qyNOugYT0KldWYklWFo
- qxGjUUn8PL4n8i0AqGw0Mlx2GNejbhcp+eLPTR2PhJoU0E0MQH0kw9LOUUrft7f7o6
- j7ssXGN/Ok/lIvgKivATJZtBIlLJKlbChAKyYxNf2tYgG9xAYVCAbIPL2o3ZopnE2r
- Ip50rKz/hPfylbiLqGMaRYjj8s60op170Mn6CdX8YW8cylaiUcxlKe9OfV+RS4WKXD
- mpAIG+EZAK6aQ==
+ b=nFiQOSqucQQU8RYE3JbfNpk++RJJ81TRpJfCmjYq0g2F7800Z0G/qur7B90Irxib8
+ WSZw+q1xbhWEi9cqUHOhb+4gVeorhavrtZZQQ5617Pl7nCNlUJLzeD/MSXvJpKOnmH
+ JajRw7tJ8k8Awceh8OBYPEk2lb4s3lixLTFbllSbvEa25Umthj83oEAbR2SAMsHUu0
+ jv0Mgvyd1qw3JTTqVlhWGLobiXQQ9UhNzJVxHRSM5S6hkCb+Grq9pHTqWz9YiFanI+
+ gOBGIBRu9tW8HsPhgdCTl8/gRDDLxrWtE4LAsYGaH7z7AIPcr9nXD6RJ/NDo08wnFw
+ w4jFFZTSVB0fQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Jun.Ma2@amd.com, hannes@cmpxchg.org,
- andrealmeid@igalia.com, friedrich.vock@gmx.de,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 02/61] drm/amdgpu: fix overflowed array index read
- warning
-Date: Wed, 31 Jul 2024 20:25:20 -0400
-Message-ID: <20240801002803.3935985-2-sashal@kernel.org>
+Cc: Ma Jun <Jun.Ma2@amd.com>, Tim Huang <Tim.Huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ kenneth.feng@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, kevinyang.wang@amd.com,
+ sunran001@208suo.com, jesse.zhang@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 03/61] drm/amdgpu/pm: Check the return value of
+ smum_send_msg_to_smc
+Date: Wed, 31 Jul 2024 20:25:21 -0400
+Message-ID: <20240801002803.3935985-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801002803.3935985-1-sashal@kernel.org>
 References: <20240801002803.3935985-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.102
@@ -67,36 +66,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tim Huang <Tim.Huang@amd.com>
+From: Ma Jun <Jun.Ma2@amd.com>
 
-[ Upstream commit ebbc2ada5c636a6a63d8316a3408753768f5aa9f ]
+[ Upstream commit 579f0c21baec9e7506b6bb3f60f0a9b6d07693b4 ]
 
-Clear overflowed array index read warning by cast operation.
+Check the return value of smum_send_msg_to_smc, otherwise
+we might use an uninitialized variable "now"
 
-Signed-off-by: Tim Huang <Tim.Huang@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+Reviewed-by: Tim Huang <Tim.Huang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-index 296b2d5976af7..2001c7d27a53e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-@@ -434,8 +434,9 @@ static ssize_t amdgpu_debugfs_ring_read(struct file *f, char __user *buf,
- 					size_t size, loff_t *pos)
- {
- 	struct amdgpu_ring *ring = file_inode(f)->i_private;
--	int r, i;
- 	uint32_t value, result, early[3];
-+	loff_t i;
-+	int r;
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
+index 86d6e88c73862..e4d524ae5a772 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
+@@ -1036,7 +1036,9 @@ static int smu10_print_clock_levels(struct pp_hwmgr *hwmgr,
  
- 	if (*pos & 3 || size & 3)
- 		return -EINVAL;
+ 	switch (type) {
+ 	case PP_SCLK:
+-		smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetGfxclkFrequency, &now);
++		ret = smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetGfxclkFrequency, &now);
++		if (ret)
++			return ret;
+ 
+ 	/* driver only know min/max gfx_clk, Add level 1 for all other gfx clks */
+ 		if (now == data->gfx_max_freq_limit/100)
+@@ -1057,7 +1059,9 @@ static int smu10_print_clock_levels(struct pp_hwmgr *hwmgr,
+ 					i == 2 ? "*" : "");
+ 		break;
+ 	case PP_MCLK:
+-		smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetFclkFrequency, &now);
++		ret = smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetFclkFrequency, &now);
++		if (ret)
++			return ret;
+ 
+ 		for (i = 0; i < mclk_table->count; i++)
+ 			size += sprintf(buf + size, "%d: %uMhz %s\n",
 -- 
 2.43.0
 
