@@ -2,44 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115B8943A95
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC72943A9B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:17:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8238B10E759;
-	Thu,  1 Aug 2024 00:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F87710E749;
+	Thu,  1 Aug 2024 00:17:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qSSK+PqO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gAuCpQan";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A7B710E749
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 00:17:01 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8828C10E75B;
+ Thu,  1 Aug 2024 00:17:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8D86BCE182B;
- Thu,  1 Aug 2024 00:16:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0FBFC4AF0C;
- Thu,  1 Aug 2024 00:16:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 01DB86246A;
+ Thu,  1 Aug 2024 00:17:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB1EAC4AF0E;
+ Thu,  1 Aug 2024 00:17:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471418;
- bh=ESNMqqSSifGjTIF9jtKdskNaQNhl1748NcdFTZEQUts=;
+ s=k20201202; t=1722471441;
+ bh=pC+GNYtOW75YVqGZ4bYScRzaCNjNeIHNIryyxjWUm3Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qSSK+PqOEtnOr8AY0NQWITQ8s01+ReSAKOs6EbCeGhMXehLS0urb1UWt5aARzlznH
- c7cEQpHWmPWG+QbRhLEL60RFOBq21EeczIkdHvDN42h7kQ2aoq6eiGT5zU2F6UaTCm
- 7JU4mlJyGa4qbLvt/6esdWAKQVlYYdO2iD3NJBtkJhB/PbDFvnC8mE/lsykjayGGQq
- GpnCC6dpuNpukhv6nF6slKEzl92BKBtJIT7HLVNlfQNjqsc+IYOGFqFF9gbxc2pfZY
- WQOUhV4gKTMNIO4iI65//TeF+18+I/s44+qQ3wcJOiL86Q6q1GcE8Mo+9OOIMm9xNq
- OnO8tMwlJzVoQ==
+ b=gAuCpQanFVaa/0Q3WPLOH3HXjjc3JULIbDvOFRQ1AF3+TTp7BNtLsR9DUaiypnnm1
+ 9qlm3qRGLi8W9ybzORIFBBLy3+cN6A8C2+anj0XF3n1TYm3d0sq6zdFIKL7n0/BJJq
+ WhHp9KFtKziA7VJPLJ+4nZAMjple/wz9V68E5lHFsWXFJLsWGsGnD1An3oeU0VGOMg
+ b01OI+X8idNTGwmZL5nzrP0SJ1/BFEvvdFOT0jQZrIxUgF6e/hbZIqGxEtBlL7DggC
+ THEY/Hyn6FlwcBFSdlxgBtqDWJafZrAWCI0SoS1/xqKZvpoprzbUCIzIYbCjBVwblE
+ A01aNumNwhrFw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Rakesh Ughreja <rughreja@habana.ai>, Ofir Bitton <obitton@habana.ai>,
- Sasha Levin <sashal@kernel.org>, ogabbay@kernel.org, ttayar@habana.ai,
+Cc: Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, Zhigang.Luo@amd.com, yifan1.zhang@amd.com,
+ lijo.lazar@amd.com, victorchengchi.lu@amd.com, Felix.Kuehling@amd.com,
+ srinivasan.shanmugam@amd.com, David.Francis@amd.com,
+ kevinyang.wang@amd.com, lang.yu@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 091/121] accel/habanalabs/gaudi2: unsecure edma
- max outstanding register
-Date: Wed, 31 Jul 2024 20:00:29 -0400
-Message-ID: <20240801000834.3930818-91-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 097/121] drm/amdgpu: Fix register access violation
+Date: Wed, 31 Jul 2024 20:00:35 -0400
+Message-ID: <20240801000834.3930818-97-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -63,33 +67,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rakesh Ughreja <rughreja@habana.ai>
+From: Hawking Zhang <Hawking.Zhang@amd.com>
 
-[ Upstream commit 3309887c6ff8ca2ac05a74e1ee5d1c44829f63f2 ]
+[ Upstream commit 9da0f7736763aa0fbf63bb15060c6827135f3f67 ]
 
-Netowrk EDMAs uses more outstanding transfers so this needs to be
-programmed by EDMA firmware.
+fault_status is read only register. fault_cntl
+is not accessible from guest environment.
 
-Signed-off-by: Rakesh Ughreja <rughreja@habana.ai>
-Reviewed-by: Ofir Bitton <obitton@habana.ai>
-Signed-off-by: Ofir Bitton <obitton@habana.ai>
+Signed-off-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2_security.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c | 8 +++++---
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c    | 3 ++-
+ drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c  | 8 +++++---
+ 3 files changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
-index 34bf80c5a44bf..307ccb912ccd6 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
-@@ -479,6 +479,7 @@ static const u32 gaudi2_pb_dcr0_edma0_unsecured_regs[] = {
- 	mmDCORE0_EDMA0_CORE_CTX_TE_NUMROWS,
- 	mmDCORE0_EDMA0_CORE_CTX_IDX,
- 	mmDCORE0_EDMA0_CORE_CTX_IDX_INC,
-+	mmDCORE0_EDMA0_CORE_WR_COMP_MAX_OUTSTAND,
- 	mmDCORE0_EDMA0_CORE_RD_LBW_RATE_LIM_CFG,
- 	mmDCORE0_EDMA0_QM_CQ_CFG0_0,
- 	mmDCORE0_EDMA0_QM_CQ_CFG0_1,
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
+index 77df8c9cbad2f..9e10e552952e1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
+@@ -627,9 +627,11 @@ static bool gfxhub_v1_2_query_utcl2_poison_status(struct amdgpu_device *adev,
+ 
+ 	status = RREG32_SOC15(GC, GET_INST(GC, xcc_id), regVM_L2_PROTECTION_FAULT_STATUS);
+ 	fed = REG_GET_FIELD(status, VM_L2_PROTECTION_FAULT_STATUS, FED);
+-	/* reset page fault status */
+-	WREG32_P(SOC15_REG_OFFSET(GC, GET_INST(GC, xcc_id),
+-			regVM_L2_PROTECTION_FAULT_STATUS), 1, ~1);
++	if (!amdgpu_sriov_vf(adev)) {
++		/* clear page fault status and address */
++		WREG32_P(SOC15_REG_OFFSET(GC, GET_INST(GC, xcc_id),
++			 regVM_L2_PROTECTION_FAULT_CNTL), 1, ~1);
++	}
+ 
+ 	return fed;
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+index c4ec1358f3aa6..67f36a79c6f41 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+@@ -671,7 +671,8 @@ static int gmc_v9_0_process_interrupt(struct amdgpu_device *adev,
+ 	    (amdgpu_ip_version(adev, GC_HWIP, 0) >= IP_VERSION(9, 4, 2)))
+ 		return 0;
+ 
+-	WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
++	if (!amdgpu_sriov_vf(adev))
++		WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
+ 
+ 	amdgpu_vm_update_fault_cache(adev, entry->pasid, addr, status, vmhub);
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
+index 7a1ff298417ab..8d7267a013d24 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
+@@ -566,9 +566,11 @@ static bool mmhub_v1_8_query_utcl2_poison_status(struct amdgpu_device *adev,
+ 
+ 	status = RREG32_SOC15(MMHUB, hub_inst, regVM_L2_PROTECTION_FAULT_STATUS);
+ 	fed = REG_GET_FIELD(status, VM_L2_PROTECTION_FAULT_STATUS, FED);
+-	/* reset page fault status */
+-	WREG32_P(SOC15_REG_OFFSET(MMHUB, hub_inst,
+-			regVM_L2_PROTECTION_FAULT_STATUS), 1, ~1);
++	if (!amdgpu_sriov_vf(adev)) {
++		/* clear page fault status and address */
++		WREG32_P(SOC15_REG_OFFSET(MMHUB, hub_inst,
++			 regVM_L2_PROTECTION_FAULT_STATUS), 1, ~1);
++	}
+ 
+ 	return fed;
+ }
 -- 
 2.43.0
 
