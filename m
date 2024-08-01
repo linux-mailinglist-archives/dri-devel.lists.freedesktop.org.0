@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9462B944077
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A030944075
 	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 04:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5A2710E871;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F39A10E6C3;
 	Thu,  1 Aug 2024 02:06:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="JVXAorcy";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XqT19Ow7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7BE110E6C3
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 02:06:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C9C10E6C3
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 02:06:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1722477973;
- bh=8ac2r6zPKGWSHuh+tztXRaB0ZOzFaDNys78QgSc5GpQ=;
- h=From:Subject:Date:To:Cc:From;
- b=JVXAorcyrS7ElLGDbx4UY8CBn5IOFXY75Y03rOjYsrxkbEgX5R/5y06idDTEZbrqd
- myr2PvY8DUVOw+BrDhLveWANdg3ch4nNkRFNldVXviCXB0ZNztQOBGCGd5FK5lRSGn
- Plcp+yjbouRtQE7oZbfH+8ybOJd1qlS6a3GnGdwkdHzmNMfTC8sUo2B3WcT7xBaSJR
- H++RhyUvfteit7MSF2DP6Ci8ncvxS/ikbHqQEGBCI27PTvsdSdXG18waE2n7ydNatC
- 9a3YwTTLEd+2CLQQwwW5MztS+ub3s91febTskdQ7kcGMfjHwGzJkHohJQYhg63GLE0
- 4UQoxy+gnIgjA==
+ s=mail; t=1722477974;
+ bh=vyJH9Gt086fk0KcuMrHPYIdfehtCb20GAQk7L4KspyE=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=XqT19Ow7sEw45TyrqSRHNbmVDX2DDmkhA9ycVG3JgnJ9tB4bj2yXWARPa04XGSbIi
+ dbF+Il1Xri4hjMuQjpjY260lgOypTU4TdAEuchHXK5zd+tRlYE7XDA1d37lFc1N6DI
+ //x3hmHE4OCwVmQHfIaJNBNbmuY7XdjijfwWrRnc16LLE/fPr+KLebjsp3Gg0JHf2c
+ N+C89TdDCG0XQd3KEYDPXOyvdLA3rXJXbqRPR/BtZJMEaErNOsU2aMHEwv7pa4vqQo
+ ZLozlBwQK2a1h/5lt1ub2Ad7LvKJfbuX7/wNaAPlzshnz2UXBW8qi727dZSqSRY5dS
+ aQTZ0G2R9W2Pg==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 06B003780BDB;
- Thu,  1 Aug 2024 02:06:13 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 285D63782191;
+ Thu,  1 Aug 2024 02:06:14 +0000 (UTC)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: [PATCH 0/2] Initial support for Synopsys DW HDMI QP TX Controller
-Date: Thu, 01 Aug 2024 05:05:13 +0300
-Message-Id: <20240801-dw-hdmi-qp-tx-v1-0-148f542de5fd@collabora.com>
+Date: Thu, 01 Aug 2024 05:05:14 +0300
+Subject: [PATCH 1/2] dt-bindings: display: bridge: Add schema for Synopsys
+ DW HDMI QP TX IP
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFrtqmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDCwND3ZRy3YyU3EzdwgLdkgpdSxNjS0sjc2NDU3MDJaCegqLUtMwKsHn
- RsbW1AG+VgSlfAAAA
+Message-Id: <20240801-dw-hdmi-qp-tx-v1-1-148f542de5fd@collabora.com>
+References: <20240801-dw-hdmi-qp-tx-v1-0-148f542de5fd@collabora.com>
+In-Reply-To: <20240801-dw-hdmi-qp-tx-v1-0-148f542de5fd@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -56,7 +56,7 @@ Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
  Andy Yan <andy.yan@rock-chips.com>, Alexandre ARNOUD <aarnoud@me.com>, 
- Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+ Luis de Arquer <ldearquer@gmail.com>
 X-Mailer: b4 0.14.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,54 +73,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP) TX Controller IP can
-found on the Rockchip RK3588 SoC family and supports the following
-features, among others:
+Add dt-binding schema containing the common properties for the Synopsys
+DesignWare HDMI QP TX controller.
 
-* Fixed Rate Link (FRL)
-* Display Stream Compression (DSC)
-* 4K@120Hz and 8K@60Hz video modes
-* Variable Refresh Rate (VRR) including Quick Media Switching (QMS)
-* Fast Vactive (FVA)
-* Multi-stream audio
-* Enhanced Audio Return Channel (EARC)
-
-This patch series provides just the basic support, i.e. RGB output up to
-4K@60Hz, without audio, CEC or any HDMI 2.1 related functionality.
-
-Please note it is a reworked version of [1], which relied on a
-commonized dw-hdmi approach.  Since the overall consensus was to handle
-it as an entirely new IP, I dropped all references and dependencies to
-the existing dw-hdmi driver code.
-
-This has been submitted as a separate patchset, as suggested by Neil;
-the Rockchip platform specific glue code enabling HDMI output for RK3588
-will be send as v2 of the initial patch series [2].
-
-Some additional changes worth mentioning:
-* Making use of the new bridge HDMI helpers indicated by Dmitry
-* Dropped connector creation to ensure driver does only support
-  DRM_BRIDGE_ATTACH_NO_CONNECTOR
-* Updated I2C segment handling to properly handle connected DVI displays
-  (reported and fixed by Heiko)
-
-[1]: https://lore.kernel.org/lkml/20240601-b4-rk3588-bridge-upstream-v1-13-f6203753232b@collabora.com/
-[2]: https://lore.kernel.org/lkml/20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com/
+Note this is not a full dt-binding specification, but is meant to be
+referenced by platform-specific bindings for this IP core.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
-Cristian Ciocaltea (2):
-      dt-bindings: display: bridge: Add schema for Synopsys DW HDMI QP TX IP
-      drm/bridge: synopsys: Add DW HDMI QP TX Controller driver
+ .../display/bridge/synopsys,dw-hdmi-qp.yaml        | 66 ++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
- .../display/bridge/synopsys,dw-hdmi-qp.yaml        |  66 ++
- drivers/gpu/drm/bridge/synopsys/Kconfig            |   8 +
- drivers/gpu/drm/bridge/synopsys/Makefile           |   2 +
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       | 748 ++++++++++++++++++
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h       | 834 +++++++++++++++++++++
- include/drm/bridge/dw_hdmi_qp.h                    |  37 +
- 6 files changed, 1695 insertions(+)
----
-base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
-change-id: 20240801-dw-hdmi-qp-tx-943992731570
+diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi-qp.yaml
+new file mode 100644
+index 000000000000..d8aee12b121d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi-qp.yaml
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/synopsys,dw-hdmi-qp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Common Properties for Synopsys DesignWare HDMI QP TX Controller IP
++
++maintainers:
++  - Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
++
++description: |
++  This document defines device tree properties for the Synopsys DesignWare
++  HDMI 2.1 Quad-Pixel (QP) TX controller IP core.
++  It doesn't constitute a device tree binding specification by itself, but
++  is meant to be referenced by platform-specific device tree bindings.
++
++  When referenced from platform device tree bindings, the properties defined
++  in this document are defined as follows. The platform device tree bindings
++  are responsible for defining whether each property is required or optional.
++
++properties:
++  reg:
++    maxItems: 1
++
++  clocks:
++    minItems: 4
++    maxItems: 6
++    items:
++      - description: Peripheral/APB bus clock
++      - description: EARC RX biphase clock
++      - description: Reference clock
++      - description: Audio interface clock
++    additionalItems: true
++
++  clock-names:
++    minItems: 4
++    maxItems: 6
++    items:
++      - const: pclk
++      - const: earc
++      - const: ref
++      - const: aud
++    additionalItems: true
++
++  interrupts:
++    minItems: 4
++    maxItems: 5
++    items:
++      - description: AVP Unit interrupt
++      - description: CEC interrupt
++      - description: eARC RX interrupt
++      - description: Main Unit interrupt
++    additionalItems: true
++
++  interrupt-names:
++    minItems: 4
++    maxItems: 5
++    items:
++      - const: avp
++      - const: cec
++      - const: earc
++      - const: main
++    additionalItems: true
++
++additionalProperties: true
+
+-- 
+2.45.2
 
