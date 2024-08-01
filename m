@@ -2,85 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5730944746
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 11:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9E1944771
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 11:07:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13AE010E8C3;
-	Thu,  1 Aug 2024 09:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B42FC10E37A;
+	Thu,  1 Aug 2024 09:07:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TJMVW3q+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NqWQgPuP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 340BB10E37A
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 09:01:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1722502865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=VVy04qlicabYGwO9E78vZLpSrWOCtQ9jEqVfKoqcSf8=;
- b=TJMVW3q+DTu1phb2I+K7WltLcD/Eav1B8jx/ZPh3cRrscAzyDSEBixm8qljTaB3UavNY62
- 7wsb3haQWie5obM3g6ypWQHe2dxsJM3qcW4kf0nx5uHALN9wogmYYEbzUeyuF8c3wPq86n
- KkgbsqWIU3nL/UA1h4+pBb3hNnt6dPQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-444-2F-cePLxOjWemZPnzdYmnw-1; Thu, 01 Aug 2024 05:01:02 -0400
-X-MC-Unique: 2F-cePLxOjWemZPnzdYmnw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-42808efc688so42124715e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 02:01:02 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B99F10E37A
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 09:07:08 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-a77ec5d3b0dso798834166b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 02:07:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722503226; x=1723108026; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=0ZBoY3AoVccb/INlrM3z9gGvON8IToRFWiibOBUz5W8=;
+ b=NqWQgPuPjuBZ7d8JrS+c/bifUNP0GXvADWhqh88dQabRoynJ7IhZN2WDWF9f8JksDd
+ 6BJvY1Hmws87aNCEvilnADjX/c1pJZEYaKPFh/Sm//zUirjCIFdpcQsYw7snRPNzPV/7
+ Nq8l1TKA/a8mPFz0W7iDOJja+hYTpOnkQpKJ1JmIIXZ8TtSvrElfwIvQw1ScwM6kK6/U
+ IUf4lNAZmLwOfq+gwpOpP1rwMbWxtv4xwfucrb4FDhO07a1efzejTIr/fScVErWEqyZl
+ WhjjON0jEmINhrRYjfuQr95KiH1nQDBmJWzgfLbLYhwthu0/BaK2hmVIA4iVFW4vZcYH
+ R1Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722502861; x=1723107661;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1722503226; x=1723108026;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VVy04qlicabYGwO9E78vZLpSrWOCtQ9jEqVfKoqcSf8=;
- b=A6Z7ssHYB7t4dAxGop2hEdZwK+z7ZKRYrHLrqfQEXxx5lCcoWKHBnAta8bkHDfIauQ
- i2zkL+Js+o5G6PwZwV7stWbm5JMIrOdOw39oZMx0WcU8IcAmoPM4m2ObCbXu/zJ1DC8h
- teuRW9+0Gv2Mfa/8iEA9KhHqejX2+n5a82VXcMMLABA9t75gXSLM3QScV4DF12hk7Txo
- V+ysDb9aULAWmLOQpUIFjeOnnGii6tPNS947Hswlh6sHqrHDTrom0paWFYhKvxtxgWFM
- eLWVdFOCimbq88J4qk1yK02EFBZZ2J0pTEnL9gZa/T0+UinQQUgvlyB0J3JfTxWITmNc
- m5jQ==
+ bh=0ZBoY3AoVccb/INlrM3z9gGvON8IToRFWiibOBUz5W8=;
+ b=X6oz8hCn8mDiP8tR5kmrYWtGRYxGd9gwhrnVi6e1Z876E90oiQWd9YDXWTATky4eT5
+ mRxErC5OHCVcXpWiPKaUW9AXmpwSrWaEn0DgdlTXF4bwM69fsVbzUHXEq6hSY83XIwMv
+ QXknHq24XbZOG6rVjZYKyxdpYVyi4bqyCWH/PJ5/MTWfrNbNdMZis3rpP/QMCnrYjVOh
+ VuwwWLfACwE42FfIaiUTlAZkeudd4sYf62ueqUU40D0+2jjek3aaST4ymCvntIHRvw0X
+ ccf782ySIodroJjM4BC7itaoCjvHK01SQfozIMkEQoZRgiLBGrFiaK4cxB3t79UX17xD
+ HD+A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX/oCIPgbGVE3Y2Xv11+atmnb2hLt6JkM07zHAfCDEcoy6oDEiKWM/BXmKR61RIjTr1ktou1eYwgrbBzaZRmr2qojFukBfj7V+GuI2gCmwv
-X-Gm-Message-State: AOJu0YzV+bkR+OSmxI9j+RN9YoMQHEItaw3bwXYPt1enIJyuwycXgQdZ
- aJdUrHN2IGCr+10LnC8KwSYn2oN6jud3ouv286NyVGe9zSnIOXEG9z4WTZc2qjA1Sjt56qv2mKP
- 1A3tX/YMB1jdXEdpcsnn8vkwqfj1EtSRtfLhRddqH/t6yoEBBNmE0Bm7ZJRDDl//SUw==
-X-Received: by 2002:a05:600c:4514:b0:428:1c91:bddd with SMTP id
- 5b1f17b1804b1-428a9bdce8dmr10882295e9.12.1722502861304; 
- Thu, 01 Aug 2024 02:01:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFOF+RQH/Yfx80fHFFG578G7SW7PC5bILIQjj9sqIa5NcOIdEEPqygjeh3rBRIU/UHPSL0POw==
-X-Received: by 2002:a05:600c:4514:b0:428:1c91:bddd with SMTP id
- 5b1f17b1804b1-428a9bdce8dmr10882035e9.12.1722502860699; 
- Thu, 01 Aug 2024 02:01:00 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
+ AJvYcCVL5UjvgX4SUhGIr8Q3UWJiX4yMVZMEc2im21Gwkj2iZh0nEvZv458folPw+trUJvVuxKrVQytZVfhQMTB9xlIh5cAFKTMqv2nObbLuxh9Z
+X-Gm-Message-State: AOJu0YzSThVH21zlg3EyFW/fL9bMddBOJLw4YumpyCnRdxB7l8TpmYJM
+ cQk5Q/uj1mJhuatXEY/C4OjG25pb6SMTNtqsxhdZpLqGF85sotVD
+X-Google-Smtp-Source: AGHT+IFkXQXLFJ5X+Na5/W+NzBmIf8q3vSnukCimnlNwYhkXd1AhMX9KBCaqr0DDQZcpDbO7MU+hlA==
+X-Received: by 2002:a17:907:2d91:b0:a7d:340e:43a4 with SMTP id
+ a640c23a62f3a-a7daf55e504mr102922866b.31.1722503225659; 
+ Thu, 01 Aug 2024 02:07:05 -0700 (PDT)
+Received: from ?IPV6:2a04:cec0:1113:4afb:5fa3:8d9c:6e3d:1966?
+ ([2a04:cec0:1113:4afb:5fa3:8d9c:6e3d:1966])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4282baa9071sm49287965e9.13.2024.08.01.02.01.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Aug 2024 02:01:00 -0700 (PDT)
-Date: Thu, 1 Aug 2024 11:00:59 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20240801-interesting-antique-bat-2fe4c0@houat>
+ a640c23a62f3a-a7acab4de06sm868138666b.71.2024.08.01.02.07.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Aug 2024 02:07:05 -0700 (PDT)
+Message-ID: <94ecd3a6-3a62-4be6-b384-c8237c818e98@gmail.com>
+Date: Thu, 1 Aug 2024 11:07:03 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="4x23wimwhbqfwbel"
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+From: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>
+Subject: Re: [Linux-stm32] [PATCH RESEND v3 0/3] Update STM DSI PHY driver
+To: Yanjun Yang <yangyj.ee@gmail.com>,
+ Philippe CORNU <philippe.cornu@foss.st.com>, yannick.fertre@foss.st.com
+Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240129104106.43141-1-raphael.gallais-pou@foss.st.com>
+ <21f4d43d-4abd-4aca-7abb-7321bcfa0f1d@foss.st.com>
+ <CAE8JAfy9NtBa--DnUt2AEZPFnvjU6idj8DqUbaeLaH0DMFvuhw@mail.gmail.com>
+ <e059f157-ff9c-32cb-57a6-48f2331f2555@foss.st.com>
+ <ZqeZEB9peRSQkOLZ@void.tail05c47.ts.net>
+Content-Language: en-US, fr
+In-Reply-To: <ZqeZEB9peRSQkOLZ@void.tail05c47.ts.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,148 +99,77 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---4x23wimwhbqfwbel
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Dave, Daniel,
+Le 29/07/2024 à 15:28, Yanjun Yang a écrit :
+> On Fri, Jul 26, 2024 at 09:55:35AM +0200, Philippe CORNU wrote:
+>>
+>>
+>> On 7/22/24 10:38, Yanjun Yang wrote:
+>>>
+>>> This patch (commit id:185f99b614427360) seems to break the dsi of
+>>> stm32f469 chip.
+>>> I'm not familiar with the drm and the clock framework, maybe it's
+>>> because there is no
+>>>    "ck_dsi_phy" defined for stm32f469.
+>>> PS:  Sorry for receiving multiple copies of this email, I forgot to
+>>> use plain text mode last time.
+>>>
+>>
+>> Hi,
+>> Thank you for letting us know that there was this error. We should have
+>> detected this before merging, really sorry for the problems caused by this
+>> patch. We will investigate the issue and get back to you as soon as
+>> possible. In the meantime, I think you can revert this patch in your git
+>> tree.
+>>
+>> Philippe :-)
+>>
+> 
+> Hi,
+Hi,
 
-Here's this week drm-misc-fixes PR
+FYI
+DSI clock tree for stm32f469 can be found here:
+https://www.st.com/resource/en/reference_manual/rm0386-stm32f469xx-and-stm32f479xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf
 
-Maxime
+Refer to Figure 17: DSI clock tree.
 
-drm-misc-fixes-2024-08-01:
-A couple drm_panic fixes, several v3d fixes to increase the new timestamp A=
-PI
-safety, several fixes for vmwgfx for various modesetting issues, PM fixes
-for ast, async flips improvements and two fixes for nouveau to fix
-resource refcounting and buffer placement.
-The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
+After some research I think "ck_dsi_phy" was introduced in stm32h7 
+platforms. There is a mux which interfaces between various clocks (among 
+ck_hse) and the byte lane clock. stm32f469 has a much simpler clock tree 
+in which we did not bother to implement this "go-between" clock, even 
+though they is an equivalent of the mux.
 
-  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
+> After some testing, the reason behind my problem is the parent's name of
+> 'clk_dsi_phy' for stm32f4 is 'clk-hse' other than 'ck_hse'.  I don't
+> know which is the better why to fix it:
+> 1. Change "ck_hse" to "clk-hse" in where "clk_dsi_phy" is defined.
+Doing so will definitely break other platforms.
 
-are available in the Git repository at:
+> 2. Use "pll_in_khz = clk_get_rate(dsi->pllref_clk) / 1000" instead of
+>     "pll_in_khz = (unsigned int)(parent_rate / 1000)" when get the clock
+>     rate.
+dsi->pllref_clk refers to the HSE clock if you take a look in the 
+device-tree. This is the reason why this work on your setup. I doubt 
+nevertheless that it wouldn't work on other platforms. But this would be 
+a semantic nonsense, since the DSI byte lane clock is not always derived 
+from HSE clock on other platforms.
 
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-20=
-24-08-01
+Looking again at the clk-stm32f4 driver and the DSI clock tree linked, 
+we can maybe implement the desired clock even if it is not represented 
+on the diagram.
 
-for you to fetch changes up to 9c685f61722d30a22d55bb8a48f7a48bb2e19bcc:
+Eventually if this solution does not work we will go to the second 
+solution you suggested and we will test it on all platforms.
 
-  nouveau: set placement to original placement on uvmm validate. (2024-08-0=
-1 01:22:12 +0200)
+@Philippe, @Yannick
+Do you agree with this workflow ?
 
-----------------------------------------------------------------
-A couple drm_panic fixes, several v3d fixes to increase the new timestamp A=
-PI
-safety, several fixes for vmwgfx for various modesetting issues, PM fixes
-for ast, async flips improvements and two fixes for nouveau to fix
-resource refcounting and buffer placement.
+Regards,
+Raphaël
 
-----------------------------------------------------------------
-Andr=E9 Almeida (2):
-      drm/atomic: Allow userspace to use explicit sync with atomic async fl=
-ips
-      drm/atomic: Allow userspace to use damage clips with async flips
 
-Dan Carpenter (1):
-      drm/client: Fix error code in drm_client_buffer_vmap_local()
-
-Danilo Krummrich (2):
-      drm/gpuvm: fix missing dependency to DRM_EXEC
-      drm/nouveau: prime: fix refcount underflow
-
-Dave Airlie (1):
-      nouveau: set placement to original placement on uvmm validate.
-
-Dmitry Osipenko (1):
-      drm/virtio: Fix type of dma-fence context variable
-
-Ian Forbes (2):
-      drm/vmwgfx: Fix overlay when using Screen Targets
-      drm/vmwgfx: Trigger a modeset when the screen moves
-
-Jammy Huang (1):
-      drm/ast: Fix black screen after resume
-
-Maxime Ripard (2):
-      Merge drm/drm-fixes into drm-misc-fixes
-      Merge drm-misc/drm-misc-next-fixes into drm-misc-fixes
-
-Philip Mueller (1):
-      drm: panel-orientation-quirks: Add quirk for OrangePi Neo
-
-Qiuxu Zhuo (1):
-      drm/fb-helper: Don't schedule_work() to flush frame buffer during pan=
-ic()
-
-Thomas Zimmermann (1):
-      drm/ast: astdp: Wake up during connector status detection
-
-Tvrtko Ursulin (5):
-      drm/v3d: Prevent out of bounds access in performance query extensions
-      drm/v3d: Fix potential memory leak in the timestamp extension
-      drm/v3d: Fix potential memory leak in the performance extension
-      drm/v3d: Validate passed in drm syncobj handles in the timestamp exte=
-nsion
-      drm/v3d: Validate passed in drm syncobj handles in the performance ex=
-tension
-
-Zack Rusin (4):
-      drm/vmwgfx: Fix a deadlock in dma buf fence polling
-      drm/vmwgfx: Make sure the screen surface is ref counted
-      drm/vmwgfx: Fix handling of dumb buffers
-      drm/vmwgfx: Add basic support for external buffers
-
-Zenghui Yu (1):
-      kselftests: dmabuf-heaps: Ensure the driver name is null-terminated
-
- drivers/gpu/drm/Kconfig                            |   1 +
- drivers/gpu/drm/ast/ast_dp.c                       |   7 +
- drivers/gpu/drm/ast/ast_drv.c                      |   5 +
- drivers/gpu/drm/ast/ast_drv.h                      |   1 +
- drivers/gpu/drm/ast/ast_mode.c                     |  29 +-
- drivers/gpu/drm/drm_atomic_uapi.c                  |   5 +-
- drivers/gpu/drm/drm_client.c                       |   2 +-
- drivers/gpu/drm/drm_fb_helper.c                    |  11 +
- drivers/gpu/drm/drm_panel_orientation_quirks.c     |   6 +
- drivers/gpu/drm/nouveau/nouveau_prime.c            |   3 +-
- drivers/gpu/drm/nouveau/nouveau_uvmm.c             |   1 +
- drivers/gpu/drm/v3d/v3d_drv.h                      |   4 +
- drivers/gpu/drm/v3d/v3d_sched.c                    |  44 +-
- drivers/gpu/drm/v3d/v3d_submit.c                   | 121 +++--
- drivers/gpu/drm/virtio/virtgpu_submit.c            |   2 +-
- drivers/gpu/drm/vmwgfx/vmw_surface_cache.h         |  10 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 | 127 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.h                 |  15 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  40 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c              |  17 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                |  62 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                | 504 +++++++++--------=
-----
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                |  17 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |  14 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c            |   2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_prime.c              |  32 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |  27 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c               |  33 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               | 174 ++++---
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c            | 280 +++++++++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c               |  40 +-
- tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c |   4 +-
- 32 files changed, 1051 insertions(+), 589 deletions(-)
-
---4x23wimwhbqfwbel
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZqtOywAKCRAnX84Zoj2+
-dkHiAYCxDpXhwry8GZfYbZBBrEyTlauUpCxBdpk+tJUjtnvbxUFo4LHyqcInQKqA
-jaT0Bq4BfRuplso65coad1/JlMMOyu5PKL2ekOdaNPr8Cjj3E1l6j0hw+krUk0w9
-Rf1rlCbNAA==
-=Z73m
------END PGP SIGNATURE-----
-
---4x23wimwhbqfwbel--
-
+> 
+> Both method can fix my problem. The first one might break other
+> platforms. Maybe I should change the clock name of 'clk-hse'. However,
+> I can't find the defination of this clock name for stm32f4.
