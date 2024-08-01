@@ -2,54 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0D2943AA5
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:17:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F14943AA7
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:17:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC4810E764;
-	Thu,  1 Aug 2024 00:17:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF30910E767;
+	Thu,  1 Aug 2024 00:17:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MaQNmas0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L6nCt9Ee";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D9FB10E760;
- Thu,  1 Aug 2024 00:17:44 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34E5C10E760;
+ Thu,  1 Aug 2024 00:17:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7AA6ECE17A6;
- Thu,  1 Aug 2024 00:17:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD6EBC116B1;
- Thu,  1 Aug 2024 00:17:37 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A050D6125E;
+ Thu,  1 Aug 2024 00:17:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52912C4AF0C;
+ Thu,  1 Aug 2024 00:17:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471461;
- bh=j2T65Zj5aWyyXrWFynGBkS47SHJUbO+P6xMKcLEqalk=;
+ s=k20201202; t=1722471466;
+ bh=SWgEroS/GkL8CcFagMVaUBw49wtARMIKIVtQQ+y/E0M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MaQNmas0yDX3IpLFqFkLs6uduhx7lRZB1d/iJoRdaxSjBY5lsXKQRE3W+wGoWhYCM
- KyrJJ5kRTqjouGtA6buWJ2j0CqKvXD9sEOlAxubaPCTuhS70l0vf+jNpGLZ67HBjZW
- ANSEVR8H6kiA/CZEYcmFA805mSrisMj2EdZrjENTYJFHg3KIBOIfVLvFoZ+ifK6Y7r
- xIgcKU2RLOddpH8rXqcqWi1buGQP5ZHMWqoVUMoGtJXJhU3v8DhwwwfUd9hArbR5sK
- IVLgI1AtxKzmIzqR/6y1AVll81hcIkmT3pWYxW77rbpPZr11wH580KnF4GB5SkgynL
- Iiw2Jw1FdUHPA==
+ b=L6nCt9Ee8VfopqLNhGT4Es4GqiQivFc4oBhJe2N7ZNcMznWw6xI5vnrCFa+pFVXzY
+ ttOOUBp9tpCLq9F8fz3ohEDI/IRlQzzgaE95nGI0tyqPqPDYmsLpunl8AZI0ILCoOI
+ o0CwuR7GU9U0iYU/nYQnUgBCiFmJxoCOm98UpNrf+tDeiRU/9yzqoHczvpGk/wjIJA
+ 3ckB95gZLq5BPeJBOGHdSWORgrlxANl+VNLUo/piK1uKGMYd6C5F0Oa7gYct0XgIHu
+ 331h2n9m2JwVMaVq2h0zqFVh4+JvxHUq80lXGFMzq0o5Tzr0yfwvSxSP5BLYv3TJ67
+ glWBCE75Ir8qQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+Cc: Bob Zhou <bob.zhou@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
  Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- nicholas.kazlauskas@amd.com, wayne.lin@amd.com, duncan.ma@amd.com,
- alvin.lee2@amd.com, dillon.varone@amd.com, srinivasan.shanmugam@amd.com,
- aurabindo.pillai@amd.com, jinze.xu@amd.com, Qingqing.Zhuo@amd.com,
- hamza.mahfooz@amd.com, martin.leung@amd.com, chaitanya.dhere@amd.com,
- chiahsuan.chung@amd.com, harikrishna.revalla@amd.com, wenjing.liu@amd.com,
- zhikai.zhai@amd.com, arnd@arndb.de, michael.strauss@amd.com,
- sungjoon.kim@amd.com, ivlipski@amd.com, cruise.hung@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 100/121] drm/amd/display: Validate function
- returns
-Date: Wed, 31 Jul 2024 20:00:38 -0400
-Message-ID: <20240801000834.3930818-100-sashal@kernel.org>
+ Felix.Kuehling@amd.com, Yunxiang.Li@amd.com, yifan1.zhang@amd.com,
+ lijo.lazar@amd.com, Hawking.Zhang@amd.com, srinivasan.shanmugam@amd.com,
+ mario.limonciello@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 101/121] drm/amdgpu: add missing error handling
+ in function amdgpu_gmc_flush_gpu_tlb_pasid
+Date: Wed, 31 Jul 2024 20:00:39 -0400
+Message-ID: <20240801000834.3930818-101-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -73,80 +67,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Hung <alex.hung@amd.com>
+From: Bob Zhou <bob.zhou@amd.com>
 
-[ Upstream commit 673f816b9e1e92d1f70e1bf5f21b531e0ff9ad6c ]
+[ Upstream commit 9ff2e14cf013fa887e269bdc5ea3cffacada8635 ]
 
-[WHAT & HOW]
-Function return values must be checked before data can be used
-in subsequent functions.
+Fix the unchecked return value warning reported by Coverity,
+so add error handling.
 
-This fixes 4 CHECKED_RETURN issues reported by Coverity.
-
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Bob Zhou <bob.zhou@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c               | 7 +++++--
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubbub.c        | 3 ++-
- .../drm/amd/display/dc/link/protocols/link_dp_training.c   | 3 +--
- 3 files changed, 8 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-index 2293a92df3bed..22d2ab8ce7f8b 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-+++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-@@ -245,7 +245,9 @@ bool dc_dmub_srv_cmd_run_list(struct dc_dmub_srv *dc_dmub_srv, unsigned int coun
- 			if (status == DMUB_STATUS_POWER_STATE_D3)
- 				return false;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+index 08b9dfb653355..1f02d282cfcd7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+@@ -720,7 +720,11 @@ int amdgpu_gmc_flush_gpu_tlb_pasid(struct amdgpu_device *adev, uint16_t pasid,
+ 			ndw += kiq->pmf->invalidate_tlbs_size;
  
--			dmub_srv_wait_for_idle(dmub, 100000);
-+			status = dmub_srv_wait_for_idle(dmub, 100000);
-+			if (status != DMUB_STATUS_OK)
-+				return false;
+ 		spin_lock(&adev->gfx.kiq[inst].ring_lock);
+-		amdgpu_ring_alloc(ring, ndw);
++		r = amdgpu_ring_alloc(ring, ndw);
++		if (r) {
++			spin_unlock(&adev->gfx.kiq[inst].ring_lock);
++			goto error_unlock_reset;
++		}
+ 		if (adev->gmc.flush_tlb_needs_extra_type_2)
+ 			kiq->pmf->kiq_invalidate_tlbs(ring, pasid, 2, all_hub);
  
- 			/* Requeue the command. */
- 			status = dmub_srv_cmd_queue(dmub, &cmd_list[i]);
-@@ -511,7 +513,8 @@ void dc_dmub_srv_get_visual_confirm_color_cmd(struct dc *dc, struct pipe_ctx *pi
- 	union dmub_rb_cmd cmd = { 0 };
- 	unsigned int panel_inst = 0;
- 
--	dc_get_edp_link_panel_inst(dc, pipe_ctx->stream->link, &panel_inst);
-+	if (!dc_get_edp_link_panel_inst(dc, pipe_ctx->stream->link, &panel_inst))
-+		return;
- 
- 	memset(&cmd, 0, sizeof(cmd));
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubbub.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubbub.c
-index c6f859871d11e..7e4ca2022d649 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubbub.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubbub.c
-@@ -595,7 +595,8 @@ static bool hubbub2_program_watermarks(
- 		hubbub1->base.ctx->dc->clk_mgr->clks.p_state_change_support == false)
- 		safe_to_lower = true;
- 
--	hubbub1_program_pstate_watermarks(hubbub, watermarks, refclk_mhz, safe_to_lower);
-+	if (hubbub1_program_pstate_watermarks(hubbub, watermarks, refclk_mhz, safe_to_lower))
-+		wm_pending = true;
- 
- 	REG_SET(DCHUBBUB_ARB_SAT_LEVEL, 0,
- 			DCHUBBUB_ARB_SAT_LEVEL, 60 * refclk_mhz);
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
-index b8e704dbe9567..8c0dea6f75bf1 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
-@@ -1659,8 +1659,7 @@ bool perform_link_training_with_retries(
- 		if (status == LINK_TRAINING_ABORT) {
- 			enum dc_connection_type type = dc_connection_none;
- 
--			link_detect_connection_type(link, &type);
--			if (type == dc_connection_none) {
-+			if (link_detect_connection_type(link, &type) && type == dc_connection_none) {
- 				DC_LOG_HW_LINK_TRAINING("%s: Aborting training because sink unplugged\n", __func__);
- 				break;
- 			}
 -- 
 2.43.0
 
