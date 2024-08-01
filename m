@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C59B943C27
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:34:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD461943C2A
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53F710E829;
-	Thu,  1 Aug 2024 00:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63F0710E82C;
+	Thu,  1 Aug 2024 00:34:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aajDsqCN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lVwm62Qu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D6A910E828;
- Thu,  1 Aug 2024 00:34:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E86910E82C
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 00:34:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B5888CE1846;
- Thu,  1 Aug 2024 00:34:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7691EC32786;
- Thu,  1 Aug 2024 00:34:39 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 8D25DCE186D;
+ Thu,  1 Aug 2024 00:34:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D9D1C4AF12;
+ Thu,  1 Aug 2024 00:34:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472480;
- bh=m/qLhf7Iy3IXINAWH/3QJcrMjGzV7AuiwKF8xM8HaDQ=;
+ s=k20201202; t=1722472493;
+ bh=chRThpXcXW9d/iADq8PkvJaTDxn7N/vVPE1MpBGR3lc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aajDsqCNOQ57AOMIvBOFtb4zf2yH+u5E9+DS0KvESfUnNZwBOnsv5ZnL6b/XZ1OBQ
- ewUFbfmipkgWlCcT334jmV5nZgjQRKYkDw5ojeW5ZBxss2JThPUfQIWIweaK8xbUNg
- +BWTsStvfPqOOPqyOLVNOlmlUypUAhlKUSM4+SLB18Ej/XbZ20d1SDt0IMyy3GB9JT
- 1dTHRd2Wzy6SUrb3BFAS7akdlig08HG8qelVqP4q5cZuSR12WZghaDZMjVzLVW6znZ
- jHa8IzgQzr8UKz+GZ2tw3rMZx7DZ0saalu/CwwqbrLm0JcWLpM8rGGC4Jdcx3jXABx
- 2xGRo8p7VVbaw==
+ b=lVwm62QuHxu97g9FgLg6O82k1bpExGNqXf6SMXdC+M9W52B7DRHBhE+nFJNxWRm1r
+ oEPrVxdlV0gEShM85Mb47nkOd195SgTKyZ5/hpw0uy22ZRyZ71zgeJCun/C0iG3lVD
+ /AWQ7bwpbid8uJurlQUTnDqZRQBK8g7vRMRYtq+JJodIYInTgNic78VQ2eOZNu0qvJ
+ uSVczPP/PnXSPoxj4t3pDw5zJL9l1IKX8bFP+Yr4Ns9in+kxMo+44x1oqO81a+PmAm
+ Lsw6rY6VONBJIvsN9Rrw/XkUuB0rq/mC2VXkOn3ct8HNHTiSJuP7nTsmGHZ4OeiC5k
+ B4IPUQF4SoieQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tao Zhou <tao.zhou1@amd.com>, Yang Wang <kevinyang.wang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Hawking.Zhang@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 22/47] drm/amdgpu: update type of buf size to u32
- for eeprom functions
-Date: Wed, 31 Jul 2024 20:31:12 -0400
-Message-ID: <20240801003256.3937416-22-sashal@kernel.org>
+Cc: Marek Vasut <marex@denx.de>, Robert Foss <rfoss@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.15 29/47] drm/bridge: tc358767: Check if fully
+ initialized before signalling HPD event via IRQ
+Date: Wed, 31 Jul 2024 20:31:19 -0400
+Message-ID: <20240801003256.3937416-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801003256.3937416-1-sashal@kernel.org>
 References: <20240801003256.3937416-1-sashal@kernel.org>
@@ -65,69 +65,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tao Zhou <tao.zhou1@amd.com>
+From: Marek Vasut <marex@denx.de>
 
-[ Upstream commit 2aadb520bfacec12527effce3566f8df55e5d08e ]
+[ Upstream commit 162e48cb1d84c2c966b649b8ac5c9d4f75f6d44f ]
 
-Avoid overflow issue.
+Make sure the connector is fully initialized before signalling any
+HPD events via drm_kms_helper_hotplug_event(), otherwise this may
+lead to NULL pointer dereference.
 
-Signed-off-by: Tao Zhou <tao.zhou1@amd.com>
-Reviewed-by: Yang Wang <kevinyang.wang@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Reviewed-by: Robert Foss <rfoss@kernel.org>
+Signed-off-by: Robert Foss <rfoss@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240531203333.277476-1-marex@denx.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c | 6 +++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.h | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c
-index 4d9eb0137f8c4..48652c2a17cc0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c
-@@ -177,7 +177,7 @@ static int __amdgpu_eeprom_xfer(struct i2c_adapter *i2c_adap, u32 eeprom_addr,
-  * Returns the number of bytes read/written; -errno on error.
-  */
- static int amdgpu_eeprom_xfer(struct i2c_adapter *i2c_adap, u32 eeprom_addr,
--			      u8 *eeprom_buf, u16 buf_size, bool read)
-+			      u8 *eeprom_buf, u32 buf_size, bool read)
- {
- 	const struct i2c_adapter_quirks *quirks = i2c_adap->quirks;
- 	u16 limit;
-@@ -224,7 +224,7 @@ static int amdgpu_eeprom_xfer(struct i2c_adapter *i2c_adap, u32 eeprom_addr,
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 4c6f3052156bd..3436d39c90b4c 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -1527,7 +1527,7 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
+ 		dev_err(tc->dev, "syserr %x\n", stat);
+ 	}
  
- int amdgpu_eeprom_read(struct i2c_adapter *i2c_adap,
- 		       u32 eeprom_addr, u8 *eeprom_buf,
--		       u16 bytes)
-+		       u32 bytes)
- {
- 	return amdgpu_eeprom_xfer(i2c_adap, eeprom_addr, eeprom_buf, bytes,
- 				  true);
-@@ -232,7 +232,7 @@ int amdgpu_eeprom_read(struct i2c_adapter *i2c_adap,
- 
- int amdgpu_eeprom_write(struct i2c_adapter *i2c_adap,
- 			u32 eeprom_addr, u8 *eeprom_buf,
--			u16 bytes)
-+			u32 bytes)
- {
- 	return amdgpu_eeprom_xfer(i2c_adap, eeprom_addr, eeprom_buf, bytes,
- 				  false);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.h
-index 6935adb2be1f1..8083b8253ef43 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.h
-@@ -28,10 +28,10 @@
- 
- int amdgpu_eeprom_read(struct i2c_adapter *i2c_adap,
- 		       u32 eeprom_addr, u8 *eeprom_buf,
--		       u16 bytes);
-+		       u32 bytes);
- 
- int amdgpu_eeprom_write(struct i2c_adapter *i2c_adap,
- 			u32 eeprom_addr, u8 *eeprom_buf,
--			u16 bytes);
-+			u32 bytes);
- 
- #endif
+-	if (tc->hpd_pin >= 0 && tc->bridge.dev) {
++	if (tc->hpd_pin >= 0 && tc->bridge.dev && tc->aux.drm_dev) {
+ 		/*
+ 		 * H is triggered when the GPIO goes high.
+ 		 *
 -- 
 2.43.0
 
