@@ -2,55 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BF7943C36
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:35:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F67943C2D
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:35:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 861B710E82A;
-	Thu,  1 Aug 2024 00:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7386D10E831;
+	Thu,  1 Aug 2024 00:34:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CGg7kvFO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tvtgMDT9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 350E910E855;
- Thu,  1 Aug 2024 00:35:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9F6796173E;
- Thu,  1 Aug 2024 00:35:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55416C116B1;
- Thu,  1 Aug 2024 00:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472522;
- bh=L7+VrIpIwWLuWLlG8x/fO+bqChqwHUkr6r+2VIkykqM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CGg7kvFOOWk2puaFps6tKy1eL2OgSBK9gsKVlg/FB/vmu9JyuGbZYVlpI8KsOvTHb
- 64mFFINSKYJdgu7oBZ8Q14QKQUqPpUE5hDpM/4JsWCx4qbRHUuoCEBAi4cF1Ro5+wx
- iJRcWVQqJLKJCRNvdRPrHFwTGtW50IY70vqyX6yEgXWtCfxnwmfbORVuraeUDCvkNp
- LrPbs+Rbs4Q3vjjwlVysdgt8Z4oaly23R68NFWp2dWjjZnSJcnuE6Z1VZDAVfT44rb
- FbROTI8UKBqPajXr3BokgcytPmPfKPjmDgNfv6VVWV9wuQOWreTGZl4QtCmX6KZ14T
- 0XZsXVdDY2Yog==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, marcelomspessoto@gmail.com, wenjing.liu@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 38/47] drm/amd/display: Check HDCP returned status
-Date: Wed, 31 Jul 2024 20:31:28 -0400
-Message-ID: <20240801003256.3937416-38-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240801003256.3937416-1-sashal@kernel.org>
-References: <20240801003256.3937416-1-sashal@kernel.org>
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 684BB10E831
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 00:34:58 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-65f880c56b1so49609977b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2024 17:34:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1722472497; x=1723077297; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=M/CELQaNvMQTBTPJnHhuNUlt/nKrqYgz+WkyNAnHqFw=;
+ b=tvtgMDT9WWCD+EUdiUGJJz9EWIL4HHA5d9XRbgsOEteWGzP5CBqfrpBc3gx+rfAdHC
+ qLyJxWdY+n8MMhGbD8/iIz/S/moKcsxx0FX0UBBWm8WZTenoe7le6Z9YzRoGsMbTvBOY
+ zwnHTzQJBbtOqZ+zwZOhwBvwQ6cq3LprYol1CzQvo93MoWFZOJ97BjLUgIfpyLCDT2LV
+ 8gEelrM02se5qsEKNv/lBs1W5eO4Kqxk9wTM0Aq7KwqY1brkDlhvTbfcjOCgEb5Z6C6h
+ HLndTDapgyoNRy64zwxGnX0smBbmOGa9fxNG786BMqSGTifW7fSFGLVUudbmYRwIEkum
+ h5Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722472497; x=1723077297;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=M/CELQaNvMQTBTPJnHhuNUlt/nKrqYgz+WkyNAnHqFw=;
+ b=OGK2ZLyPRoEnZqEzeYKnqQMDkr0wc3YRclQfgfzYiV5gRPGkmf5Mjum9KuDW9YOk9R
+ 6D4CBNV+GI/t87JHcfKbFL6a/HXgFlEzYv41Fbqh5zKhy1YB9eYpnLwP4XuDfKDqJp3C
+ NDe3iQWoYaJlNC1bIS9ROzszzfXHDiCU+VuLM4KOrFIU+wiSOTtYemigreJsUyl2Sl/W
+ JkOLfbdts1pJp+e3NSMPfdNGzRDRZMadMtrXlhNdWD7/xSK449FGD6pWCatLpl66WQwA
+ dYbcupNFBBpDyMVLb38Yb6xhC1mewleHPLSO8ZbnS027+VeRSHp827fanQ8a+DTlw08u
+ EJGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXHY8JAX/jp4Y29Q06WSVEMi48NqZ7Lb2aRrPK8zQzOw9CKllzT45pfu4gG0j+kfRIUjg/jWZ4hMhB4fn52xhzCpKTMzwu8K9WeIvi/Ifag
+X-Gm-Message-State: AOJu0Yw05zbnwiLCrl7m44QSjNW7A45+8hi7aKiBegCDhgyutnchNjQe
+ LKqPAXqwIq2FIhX1g9fsI+rZ/DHiKCxCn5mjRLl7VQdXZbnx8bpcGBvIvnHCA1z2UsDbNKSSevH
+ sBefQJNiOcWIJPYBpzRBSybkN+FO/5vZrOBsubA==
+X-Google-Smtp-Source: AGHT+IGaBGM1AayDPzuZZA1cyOtTi6oJv13xWErQOdKjC4oVXJkICQP5cLrmmu5xwR7QC6Y4C3u8Iwj/z6IN0YJq5QE=
+X-Received: by 2002:a0d:f3c6:0:b0:650:a1cb:b122 with SMTP id
+ 00721157ae682-6874bc631bcmr9370347b3.27.1722472497251; Wed, 31 Jul 2024
+ 17:34:57 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.164
-Content-Transfer-Encoding: 8bit
+References: <20240627-dpu-virtual-wide-v5-0-5efb90cbb8be@linaro.org>
+ <20240627-dpu-virtual-wide-v5-2-5efb90cbb8be@linaro.org>
+ <b2cceeb8-fe81-4212-9b07-b70cad8d3b9b@quicinc.com>
+In-Reply-To: <b2cceeb8-fe81-4212-9b07-b70cad8d3b9b@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 1 Aug 2024 03:34:46 +0300
+Message-ID: <CAA8EJpp2pg1FyrE8ftxGduHUnX=nsu=Zg_mwCrkcdqJqMJZjDw@mail.gmail.com>
+Subject: Re: [PATCH v5 02/12] drm/msm/dpu: relax YUV requirements
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,55 +83,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Hung <alex.hung@amd.com>
+On Wed, 31 Jul 2024 at 22:36, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 6/26/2024 2:45 PM, Dmitry Baryshkov wrote:
+> > YUV formats require only CSC to be enabled. Even decimated formats
+> > should not require scaler. Relax the requirement and don't check for the
+> > scaler block while checking if YUV format can be enabled.
+> >
+> > Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 5 ++---
+> >   1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > index 1c3a2657450c..148bd79bdcef 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -743,10 +743,9 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
+> >       min_src_size = MSM_FORMAT_IS_YUV(fmt) ? 2 : 1;
+> >
+> >       if (MSM_FORMAT_IS_YUV(fmt) &&
+> > -         (!pipe->sspp->cap->sblk->scaler_blk.len ||
+> > -          !pipe->sspp->cap->sblk->csc_blk.len)) {
+> > +         !pipe->sspp->cap->sblk->csc_blk.len) {
+> >               DPU_DEBUG_PLANE(pdpu,
+> > -                             "plane doesn't have scaler/csc for yuv\n");
+> > +                             "plane doesn't have csc for yuv\n");
+> >               return -EINVAL;
+> >       }
+> >
+>
+> Change seems fine, but one question, is there a chipset in the catalog
+> with a Vig SSPP which has only csc but not scaler? Even qcm2290 has
+> neither scaler nor csc
+>
+> So was this just a code-walkthrough fix or was there any issue hit due
+> to this?
 
-[ Upstream commit 5d93060d430b359e16e7c555c8f151ead1ac614b ]
+Just a code walkthrough.
 
-[WHAT & HOW]
-Check mod_hdcp_execute_and_set() return values in authenticated_dp.
 
-This fixes 3 CHECKED_RETURN issues reported by Coverity.
 
-Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../amd/display/modules/hdcp/hdcp1_execution.c    | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
-index 6ec918af3bffc..119b00aadd9a4 100644
---- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
-+++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
-@@ -433,17 +433,20 @@ static enum mod_hdcp_status authenticated_dp(struct mod_hdcp *hdcp,
- 	}
- 
- 	if (status == MOD_HDCP_STATUS_SUCCESS)
--		mod_hdcp_execute_and_set(mod_hdcp_read_bstatus,
-+		if (!mod_hdcp_execute_and_set(mod_hdcp_read_bstatus,
- 				&input->bstatus_read, &status,
--				hdcp, "bstatus_read");
-+				hdcp, "bstatus_read"))
-+			goto out;
- 	if (status == MOD_HDCP_STATUS_SUCCESS)
--		mod_hdcp_execute_and_set(check_link_integrity_dp,
-+		if (!mod_hdcp_execute_and_set(check_link_integrity_dp,
- 				&input->link_integrity_check, &status,
--				hdcp, "link_integrity_check");
-+				hdcp, "link_integrity_check"))
-+			goto out;
- 	if (status == MOD_HDCP_STATUS_SUCCESS)
--		mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
-+		if (!mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
- 				&input->reauth_request_check, &status,
--				hdcp, "reauth_request_check");
-+				hdcp, "reauth_request_check"))
-+			goto out;
- out:
- 	return status;
- }
 -- 
-2.43.0
-
+With best wishes
+Dmitry
