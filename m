@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C54944B12
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:14:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13034944B35
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A15110E18D;
-	Thu,  1 Aug 2024 12:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C8AF10E945;
+	Thu,  1 Aug 2024 12:25:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oF0/9To/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VSC6NQvs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9F110E18D
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 12:14:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 85DBC626EE
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 12:14:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3B02DC4AF09
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 12:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722514480;
- bh=VmOb2j4+TvaNKz1MJ47GvCaxwu1ON52rdaAdKxAvtMs=;
- h=From:To:Subject:Date:From;
- b=oF0/9To/XRU9Ta16a5DZTkSFcUjzO3wgk7i3XRIvcDEzjHVxkGgmGj3k4Od20VMp6
- alQfarRuf2SH6TtdZcghKigitPFLpl5y9sdQaSThX49kta4yYDMqewH+2dtA4CEJol
- xW/WaSMwyCnr6bbbgPQJ/W7A9ZAMVJce9g7UyPSTiBKNMuy0H3HsSBAqd0Xb3dVCAQ
- uQnowVc1B/wZsXwDLpsl2RKpEl6dOpRJ6L7jxeTPg6WnlcgPkA38WR1kv4gl1vvv6+
- J6F7p4l05MyV7mB+EicxBAoKXZ8xMSAwq/jpdeKcCvvVjaDkoEvKPaEXvsNR7uQkIp
- 71J3LlrWQtKgg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 2A49FC53B50; Thu,  1 Aug 2024 12:14:40 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 219117] New: amdgpu: amdgpu_device_ip_init failed
-Date: Thu, 01 Aug 2024 12:14:39 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: jean-christophe@guillain.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys bug_status bug_severity priority
- component assigned_to reporter cf_regression cf_bisect_commit
-Message-ID: <bug-219117-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8614610E946;
+ Thu,  1 Aug 2024 12:25:20 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2f149845fbaso32663361fa.3; 
+ Thu, 01 Aug 2024 05:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722515118; x=1723119918; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=IE6qgZ4rcTyQeTCYx/z4n2FJeaYWlB8FUWK+7JYDiws=;
+ b=VSC6NQvs1t0yjqs36eBKSbBKcOvKtQkH8JVCA2cTAP0UZ0vJ1YkUA0skvIcYxZk/UB
+ EICvYxr8JkphNznUAEOHkrQgobZDd2rIs3nSiehBIXWhkg99fY2LrZ5KrFtHYM/lWC6w
+ YlEETTCxXGjqpiLLDZHBs9zWCVmyonybAMdxaYk/53hdM/uRPJuFvEFkrpLhGic5oa5c
+ 6QgrECAiDAYehf1U6MRkVT+VrmvjjWbpfH7nCzCFN2S6Z/cngDB4ZuwohiSPuNSGKzYK
+ nm7eGL6eFaAIRWjd/vWZvn0AYvJouG//UFoGhNEcXuMRZYJ2pYOT6GiCnBMb7blgUoZC
+ lraw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722515118; x=1723119918;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IE6qgZ4rcTyQeTCYx/z4n2FJeaYWlB8FUWK+7JYDiws=;
+ b=o/Yih1id68QVJveVmc0SWc+OrGCPObQdFXAG64FfiCbwADla7kw0PCIHd1BnGuQsJ8
+ RgJayt9WPdxGMtH8XlqHchKfGh8vVRh7VH045H1jUS6+xY4s/KHDVJFSunqEMLZdLEb7
+ JZOdVctmJ0RCcbJNBtb2Hoiv9A64QOwvlYJ9d2cl376GxfzOQuIk59iokJCqYSjG4GJi
+ FEuZ+SsM4EqcMF3D/H410xYIa77Yqek8i3ORVMIBPfR/emThHWY5TFYUaOhDYnnXr4n0
+ p+o3bQ+eZGH8Jgb/N4DeQ5rZlV2Nz+4fydSGVk0Nv5yGECFYA0tWRVx3iEOO1ysWonsB
+ 9Otg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWLojTopMnl0TC6mwzK19w4uO4zTs9OmtYnpEc2x1YpZRiKJOQ84whPK0CEcmUhYzfoUuTclyZxuwlES0yKZRDHXqrMfFMzicg2cmtBhdGM4l1HrN+Tusc3tjWVjAyV0of2osjpB1f/78nTcZNa/BmD
+X-Gm-Message-State: AOJu0Ywdr33lxTrKFoiKRe1lzR3Gl97Ib1t6pYVCCHdDKkXJHChlYvOl
+ brH/D9FwlvMqyZ3n6OBTyPIFdaufSxVcyOkOkok6yIN0fyDvQjle
+X-Google-Smtp-Source: AGHT+IG943eA0ry+JhccUVZUIMThycHbSJevQ0g1kmn0332vlbW23arsJG6hBeaAFPOswQpq+lnHZg==
+X-Received: by 2002:a2e:9cc9:0:b0:2ef:259f:a569 with SMTP id
+ 38308e7fff4ca-2f15aa872a4mr655561fa.15.1722515117536; 
+ Thu, 01 Aug 2024 05:25:17 -0700 (PDT)
+Received: from trashcan ([222.118.21.173]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-36b367fce64sm19345452f8f.61.2024.08.01.05.25.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Aug 2024 05:25:16 -0700 (PDT)
+Date: Thu, 1 Aug 2024 12:22:29 +0000
+From: Vladimir Lypak <vladimir.lypak@gmail.com>
+To: Connor Abbott <cwabbott0@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] drm/msm/a5xx: fix races in preemption evaluation stage
+Message-ID: <Zqt9Cxu7FsSALi4y@trashcan>
+References: <20240711100038.268803-1-vladimir.lypak@gmail.com>
+ <20240711100038.268803-4-vladimir.lypak@gmail.com>
+ <CACu1E7HkRN7pkBOUeC3G59K5rbsMRj81HvfAocpHuG6XuNbCyQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACu1E7HkRN7pkBOUeC3G59K5rbsMRj81HvfAocpHuG6XuNbCyQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,189 +92,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219117
+On Mon, Jul 29, 2024 at 06:26:45PM +0100, Connor Abbott wrote:
+> On Thu, Jul 11, 2024 at 11:10 AM Vladimir Lypak
+> <vladimir.lypak@gmail.com> wrote:
+> >
+> > On A5XX GPUs when preemption is used it's invietable to enter a soft
+> > lock-up state in which GPU is stuck at empty ring-buffer doing nothing.
+> > This appears as full UI lockup and not detected as GPU hang (because
+> > it's not). This happens due to not triggering preemption when it was
+> > needed. Sometimes this state can be recovered by some new submit but
+> > generally it won't happen because applications are waiting for old
+> > submits to retire.
+> >
+> > One of the reasons why this happens is a race between a5xx_submit and
+> > a5xx_preempt_trigger called from IRQ during submit retire. Former thread
+> > updates ring->cur of previously empty and not current ring right after
+> > latter checks it for emptiness. Then both threads can just exit because
+> > for first one preempt_state wasn't NONE yet and for second one all rings
+> > appeared to be empty.
+> >
+> > To prevent such situations from happening we need to establish guarantee
+> > for preempt_trigger to be called after each submit. To implement it this
+> > patch adds trigger call at the end of a5xx_preempt_irq to re-check if we
+> > should switch to non-empty or higher priority ring. Also we find next
+> > ring in new preemption state "EVALUATE". If the thread that updated some
+> > ring with new submit sees this state it should wait until it passes.
+> >
+> > Fixes: b1fc2839d2f9 ("drm/msm: Implement preemption for A5XX targets")
+> > Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  6 +++---
+> >  drivers/gpu/drm/msm/adreno/a5xx_gpu.h     | 11 +++++++----
+> >  drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 24 +++++++++++++++++++----
+> >  3 files changed, 30 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > index 6c80d3003966..266744ee1d5f 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > @@ -110,7 +110,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
+> >         }
+> >
+> >         a5xx_flush(gpu, ring, true);
+> > -       a5xx_preempt_trigger(gpu);
+> > +       a5xx_preempt_trigger(gpu, true);
+> >
+> >         /* we might not necessarily have a cmd from userspace to
+> >          * trigger an event to know that submit has completed, so
+> > @@ -240,7 +240,7 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+> >         a5xx_flush(gpu, ring, false);
+> >
+> >         /* Check to see if we need to start preemption */
+> > -       a5xx_preempt_trigger(gpu);
+> > +       a5xx_preempt_trigger(gpu, true);
+> >  }
+> >
+> >  static const struct adreno_five_hwcg_regs {
+> > @@ -1296,7 +1296,7 @@ static irqreturn_t a5xx_irq(struct msm_gpu *gpu)
+> >                 a5xx_gpmu_err_irq(gpu);
+> >
+> >         if (status & A5XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS) {
+> > -               a5xx_preempt_trigger(gpu);
+> > +               a5xx_preempt_trigger(gpu, false);
+> >                 msm_gpu_retire(gpu);
+> >         }
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+> > index c7187bcc5e90..1120824853d4 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+> > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+> > @@ -57,10 +57,12 @@ void a5xx_debugfs_init(struct msm_gpu *gpu, struct drm_minor *minor);
+> >   * through the process.
+> >   *
+> >   * PREEMPT_NONE - no preemption in progress.  Next state START.
+> > - * PREEMPT_START - The trigger is evaulating if preemption is possible. Next
+> > - * states: TRIGGERED, NONE
+> > + * PREEMPT_EVALUATE - The trigger is evaulating if preemption is possible. Next
+> > + * states: START, ABORT
+> >   * PREEMPT_ABORT - An intermediate state before moving back to NONE. Next
+> >   * state: NONE.
+> > + * PREEMPT_START - The trigger is preparing for preemption. Next state:
+> > + * TRIGGERED
+> >   * PREEMPT_TRIGGERED: A preemption has been executed on the hardware. Next
+> >   * states: FAULTED, PENDING
+> >   * PREEMPT_FAULTED: A preemption timed out (never completed). This will trigger
+> > @@ -71,8 +73,9 @@ void a5xx_debugfs_init(struct msm_gpu *gpu, struct drm_minor *minor);
+> >
+> >  enum preempt_state {
+> >         PREEMPT_NONE = 0,
+> > -       PREEMPT_START,
+> > +       PREEMPT_EVALUATE,
+> >         PREEMPT_ABORT,
+> > +       PREEMPT_START,
+> >         PREEMPT_TRIGGERED,
+> >         PREEMPT_FAULTED,
+> >         PREEMPT_PENDING,
+> > @@ -156,7 +159,7 @@ void a5xx_set_hwcg(struct msm_gpu *gpu, bool state);
+> >
+> >  void a5xx_preempt_init(struct msm_gpu *gpu);
+> >  void a5xx_preempt_hw_init(struct msm_gpu *gpu);
+> > -void a5xx_preempt_trigger(struct msm_gpu *gpu);
+> > +void a5xx_preempt_trigger(struct msm_gpu *gpu, bool new_submit);
+> >  void a5xx_preempt_irq(struct msm_gpu *gpu);
+> >  void a5xx_preempt_fini(struct msm_gpu *gpu);
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+> > index 67a8ef4adf6b..f8d09a83c5ae 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+> > @@ -87,21 +87,33 @@ static void a5xx_preempt_timer(struct timer_list *t)
+> >  }
+> >
+> >  /* Try to trigger a preemption switch */
+> > -void a5xx_preempt_trigger(struct msm_gpu *gpu)
+> > +void a5xx_preempt_trigger(struct msm_gpu *gpu, bool new_submit)
+> >  {
+> >         struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> >         struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
+> >         unsigned long flags;
+> >         struct msm_ringbuffer *ring;
+> > +       enum preempt_state state;
+> >
+> >         if (gpu->nr_rings == 1)
+> >                 return;
+> >
+> >         /*
+> > -        * Try to start preemption by moving from NONE to START. If
+> > -        * unsuccessful, a preemption is already in flight
+> > +        * Try to start preemption by moving from NONE to EVALUATE. If current
+> > +        * state is EVALUATE/ABORT we can't just quit because then we can't
+> > +        * guarantee that preempt_trigger will be called after ring is updated
+> > +        * by new submit.
+> >          */
+> > -       if (!try_preempt_state(a5xx_gpu, PREEMPT_NONE, PREEMPT_START))
+> > +       state = atomic_cmpxchg(&a5xx_gpu->preempt_state, PREEMPT_NONE,
+> > +                              PREEMPT_EVALUATE);
+> > +       while (new_submit && (state == PREEMPT_EVALUATE ||
+> > +                             state == PREEMPT_ABORT)) {
+> 
+> This isn't enough because even if new_submit is false then we may
+> still need to guarantee that evaluation happens. We've seen a hang in
+> a scenario like:
+> 
+> 1. A job is submitted and executed on ring 0.
+> 2. A job is submitted on ring 2 while ring 0 is still active but
+> almost finished.
+> 3. The submission thread starts evaluating and sees that ring 0 is still busy.
+> 4. The job on ring 0 finishes and a CACHE_FLUSH IRQ is raised.
+> 5. The IRQ tries to trigger a preemption but the state is still
+> PREEMPT_EVALUATE or PREEMPT_ABORT and exits.
+> 6. The submission thread finishes update_wptr() and finally sets the
+> state to PREEMPT_NONE too late.
+> 
+> Then we never preempt to ring 2 and there's a soft lockup.
 
-            Bug ID: 219117
-           Summary: amdgpu: amdgpu_device_ip_init failed
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 6.11.0-rc1
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: blocking
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: jean-christophe@guillain.net
-        Regression: Yes
-           Bisected 064d92436b6924937ef414894d9174fa4465f788
-         commit-id:
+Thanks, i've missed that. It would need to always wait to prevent such
+scenario. The next patch prevented this from happening for me so i have
+overlooked it.
 
-Hello !
+Alternatively there is another approach which should perform better: to
+let evaluation stage run in parallel.
 
-Since the last kernel RC (6.11-rc1), the boot process hangs on my computer
-after a GPU error :
+Also i've tried serializing preemption handling on ordered workqueue and
+GPU kthread worker. It's a lot simpler but latency from IRQ doesn't look
+good:
 
-Jul 30 10:18:10 youpi kernel: amdgpu 0000:00:01.0: [drm:amdgpu_ring_test_he=
-lper
-[amdgpu]] *ERROR* ring gfx test failed (-110)
-Jul 30 10:18:10 youpi kernel: [drm:amdgpu_device_init [amdgpu]] *ERROR* hw_=
-init
-of IP block <gfx_v8_0> failed -110
-Jul 30 10:18:10 youpi kernel: amdgpu 0000:00:01.0: amdgpu:
-amdgpu_device_ip_init failed
-Jul 30 10:18:10 youpi kernel: amdgpu 0000:00:01.0: amdgpu: Fatal error duri=
-ng
-GPU init
-Jul 30 10:18:10 youpi kernel: amdgpu 0000:00:01.0: amdgpu: amdgpu: finishing
-device.
-Jul 30 10:18:10 youpi kernel: ------------[ cut here ]------------
-Jul 30 10:18:10 youpi kernel: WARNING: CPU: 0 PID: 186 at
-drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:631 amdgpu_irq_put+0x45/0x70 [amdgp=
-u]
-Jul 30 10:18:10 youpi kernel: Modules linked in: sd_mod usbhid uas hid
-usb_storage amdgpu(+) amdxcp drm_exec gpu_sched drm_buddy i2c_algo_bit
-drm_suballoc_helper drm>
-Jul 30 10:18:10 youpi kernel: CPU: 0 UID: 0 PID: 186 Comm: (udev-worker) Not
-tainted 6.11.0-rc1-jcg+ #1
-Jul 30 10:18:10 youpi kernel: Hardware name: LENOVO 10VGS02P00/3130, BIOS
-M1XKT57A 02/10/2022
-Jul 30 10:18:10 youpi kernel: RIP: 0010:amdgpu_irq_put+0x45/0x70 [amdgpu]
-Jul 30 10:18:10 youpi kernel: Code: 48 8b 4e 10 48 83 39 00 74 2c 89 d1 48 =
-8d
-04 88 8b 08 85 c9 74 14 f0 ff 08 b8 00 00 00 00 74 05 e9 50 c5 f7 d8 e9 6b =
-fd
-ff ff <0f>
-Jul 30 10:18:10 youpi kernel: RSP: 0018:ffffaf1480677940 EFLAGS: 00010246
-Jul 30 10:18:10 youpi kernel: RAX: ffff94f286417540 RBX: ffff94f285818880 R=
-CX:
-0000000000000000
-Jul 30 10:18:10 youpi kernel: RDX: 0000000000000000 RSI: ffff94f2858254c0 R=
-DI:
-ffff94f285800000
-Jul 30 10:18:10 youpi kernel: RBP: ffff94f285810208 R08: 0000000000000002 R=
-09:
-0000000000000003
-Jul 30 10:18:10 youpi kernel: R10: ffffaf1480677768 R11: ffffffff9a4c96c8 R=
-12:
-ffff94f2858105e8
-Jul 30 10:18:10 youpi kernel: R13: ffff94f285800010 R14: ffff94f285800000 R=
-15:
-ffff94f2858254c0
-Jul 30 10:18:10 youpi kernel: FS:  00007f03450bb8c0(0000)
-GS:ffff94f317600000(0000) knlGS:0000000000000000
-Jul 30 10:18:10 youpi kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
-0033
-Jul 30 10:18:10 youpi kernel: CR2: 00007f03450b2028 CR3: 00000001458d8000 C=
-R4:
-00000000001506f0
-Jul 30 10:18:10 youpi kernel: Call Trace:
-Jul 30 10:18:10 youpi kernel:  <TASK>
-Jul 30 10:18:10 youpi kernel:  ? __warn+0x7c/0x120
-Jul 30 10:18:10 youpi kernel:  ? amdgpu_irq_put+0x45/0x70 [amdgpu]
-Jul 30 10:18:10 youpi kernel:  ? report_bug+0x155/0x170
-Jul 30 10:18:10 youpi kernel:  ? handle_bug+0x3f/0x80
-Jul 30 10:18:10 youpi kernel:  ? exc_invalid_op+0x13/0x60
-Jul 30 10:18:10 youpi kernel:  ? asm_exc_invalid_op+0x16/0x20
-Jul 30 10:18:10 youpi kernel:  ? amdgpu_irq_put+0x45/0x70 [amdgpu]
-Jul 30 10:18:10 youpi kernel:  amdgpu_fence_driver_hw_fini+0xfa/0x130 [amdg=
-pu]
-Jul 30 10:18:10 youpi kernel:  amdgpu_device_fini_hw+0xa2/0x3f0 [amdgpu]
-Jul 30 10:18:10 youpi kernel:  amdgpu_driver_load_kms+0x79/0xb0 [amdgpu]
-Jul 30 10:18:10 youpi kernel:  amdgpu_pci_probe+0x195/0x520 [amdgpu]
-Jul 30 10:18:10 youpi kernel:  local_pci_probe+0x41/0x90
-Jul 30 10:18:10 youpi kernel:  pci_device_probe+0xbb/0x1e0
-Jul 30 10:18:10 youpi kernel:  really_probe+0xd6/0x390
-Jul 30 10:18:10 youpi kernel:  ? __pfx___driver_attach+0x10/0x10
-Jul 30 10:18:10 youpi kernel:  __driver_probe_device+0x78/0x150
-Jul 30 10:18:10 youpi kernel:  driver_probe_device+0x1f/0x90
-Jul 30 10:18:10 youpi kernel:  __driver_attach+0xce/0x1c0
-Jul 30 10:18:10 youpi kernel:  bus_for_each_dev+0x84/0xd0
-Jul 30 10:18:10 youpi kernel:  bus_add_driver+0x10e/0x240
-Jul 30 10:18:10 youpi kernel:  driver_register+0x55/0x100
-Jul 30 10:18:10 youpi kernel:  ? __pfx_amdgpu_init+0x10/0x10 [amdgpu]
-Jul 30 10:18:10 youpi kernel:  do_one_initcall+0x57/0x320
-Jul 30 10:18:10 youpi kernel:  do_init_module+0x60/0x230
-Jul 30 10:18:10 youpi kernel:  init_module_from_file+0x86/0xc0
-Jul 30 10:18:10 youpi kernel:  idempotent_init_module+0x11b/0x2b0
-Jul 30 10:18:10 youpi kernel:  __x64_sys_finit_module+0x5a/0xb0
-Jul 30 10:18:10 youpi kernel:  do_syscall_64+0x7e/0x190
-Jul 30 10:18:10 youpi kernel:  ? syscall_exit_to_user_mode+0xc/0x1d0
-Jul 30 10:18:10 youpi kernel:  ? do_syscall_64+0x8a/0x190
-Jul 30 10:18:10 youpi kernel:  ? do_syscall_64+0x8a/0x190
-Jul 30 10:18:10 youpi kernel:  ? syscall_exit_to_user_mode+0xc/0x1d0
-Jul 30 10:18:10 youpi kernel:  ? do_syscall_64+0x8a/0x190
-Jul 30 10:18:10 youpi kernel:  ? syscall_exit_to_user_mode+0xc/0x1d0
-Jul 30 10:18:10 youpi kernel:  ? do_syscall_64+0x8a/0x190
-Jul 30 10:18:10 youpi kernel:  ? do_syscall_64+0x8a/0x190
-Jul 30 10:18:10 youpi kernel:  ? do_syscall_64+0x8a/0x190
-Jul 30 10:18:10 youpi kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Jul 30 10:18:10 youpi kernel: RIP: 0033:0x7f0344f0f719
-Jul 30 10:18:10 youpi kernel: Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 =
-00
-00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 =
-08
-0f 05 <48>
-Jul 30 10:18:10 youpi kernel: RSP: 002b:00007ffcfd2cf3e8 EFLAGS: 00000246
-ORIG_RAX: 0000000000000139
-Jul 30 10:18:10 youpi kernel: RAX: ffffffffffffffda RBX: 000055e7ba5a8370 R=
-CX:
-00007f0344f0f719
-Jul 30 10:18:10 youpi kernel: RDX: 0000000000000000 RSI: 00007f03450b3efd R=
-DI:
-0000000000000017
-Jul 30 10:18:10 youpi kernel: RBP: 00007f03450b3efd R08: 0000000000000000 R=
-09:
-000055e7ba58a1d0
-Jul 30 10:18:10 youpi kernel: R10: 0000000000000017 R11: 0000000000000246 R=
-12:
-0000000000020000
-Jul 30 10:18:10 youpi kernel: R13: 0000000000000000 R14: 000055e7ba5a6f20 R=
-15:
-00007ffcfd2cf620
-Jul 30 10:18:10 youpi kernel:  </TASK>
-Jul 30 10:18:10 youpi kernel: ---[ end trace 0000000000000000 ]---
-Jul 30 10:18:10 youpi kernel: ------------[ cut here ]------------
+           flush-trigger    SW_IRQ-pending   flush_IRQ-trigger
+    uSecs    1    2    3       1    2    3       1    2    3
+     0-10 1515   43   65    4423   39   24     647    0    2
+    10-20 1484  453  103     446  414  309     399    1    1
+    20-40  827 1802  358      19  819  587       2   21    6
+    40-60    7 1264  397       1  368  329       0   30   14
+    60-80    4  311  115       0  181  178       0   24   12
+   80-120    2   36  251       0  250  188       0    9   13
+  120-160    0    4  244       0  176  248       0  226  150
+  160-200    0    1  278       0  221  235       0   86   78
+  200-400    0    2 1266       0 1318 1186       0  476  688
+  400-700    0    0  553       0  745 1028       0  150  106
+ 700-1000    0    0  121       0  264  366       0   65   28
+1000-1500    0    0   61       0  160  205       0   21    8
+    >2000    0    0   12       0   71   48       0    0    0
 
+1 - current implementation but with evaluation in parallel.
+2 - serialized on ordered workqueue.
+3 - serialized on GPU kthread_worker.
 
+Vladimir
 
-I bisected this issue to the commit :
-[064d92436b6924937ef414894d9174fa4465f788] drm/amd/pm: avoid to load smu
-firmware for APUs
-Author: Tim Huang <Tim.Huang@amd.com>
-Date:   Thu Jun 13 10:34:13 2024 +0800
-
-    drm/amd/pm: avoid to load smu firmware for APUs
-
-    Certain call paths still load the SMU firmware for APUs,
-    which needs to be skipped.
-
-    Signed-off-by: Tim Huang <Tim.Huang@amd.com>
-    Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 8 +++-----
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c | 8 +++-----
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c | 8 +++-----
- drivers/gpu/drm/amd/pm/amdgpu_dpm.c    | 2 +-
- 4 files changed, 10 insertions(+), 16 deletions(-)
-
-
-My PC :
-Lenovo ThinkCentre M715q
-00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] W=
-ani
-[Radeon R5/R6/R7 Graphics] (rev e4)
-
-
-Let me now if you need more information.
-
-Cheers,
-jC
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> 
+> Connor
+> 
+> > +               cpu_relax();
+> > +               state = atomic_cmpxchg(&a5xx_gpu->preempt_state, PREEMPT_NONE,
+> > +                                      PREEMPT_EVALUATE);
+> > +       }
+> > +
+> > +       if (state != PREEMPT_NONE)
+> >                 return;
+> >
+> >         /* Get the next ring to preempt to */
+> > @@ -130,6 +142,8 @@ void a5xx_preempt_trigger(struct msm_gpu *gpu)
+> >                 return;
+> >         }
+> >
+> > +       set_preempt_state(a5xx_gpu, PREEMPT_START);
+> > +
+> >         /* Make sure the wptr doesn't update while we're in motion */
+> >         spin_lock_irqsave(&ring->preempt_lock, flags);
+> >         a5xx_gpu->preempt[ring->id]->wptr = get_wptr(ring);
+> > @@ -188,6 +202,8 @@ void a5xx_preempt_irq(struct msm_gpu *gpu)
+> >         update_wptr(gpu, a5xx_gpu->cur_ring);
+> >
+> >         set_preempt_state(a5xx_gpu, PREEMPT_NONE);
+> > +
+> > +       a5xx_preempt_trigger(gpu, false);
+> >  }
+> >
+> >  void a5xx_preempt_hw_init(struct msm_gpu *gpu)
+> > --
+> > 2.45.2
+> >
