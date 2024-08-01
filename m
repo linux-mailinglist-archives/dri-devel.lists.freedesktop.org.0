@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC72943A9B
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F370B943A9F
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:17:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F87710E749;
-	Thu,  1 Aug 2024 00:17:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B57A10E766;
+	Thu,  1 Aug 2024 00:17:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gAuCpQan";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bmrhZARn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8828C10E75B;
- Thu,  1 Aug 2024 00:17:22 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4AEE10E75B;
+ Thu,  1 Aug 2024 00:17:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 01DB86246A;
- Thu,  1 Aug 2024 00:17:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB1EAC4AF0E;
- Thu,  1 Aug 2024 00:17:18 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 335B3CE1869;
+ Thu,  1 Aug 2024 00:17:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 182C2C32786;
+ Thu,  1 Aug 2024 00:17:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471441;
- bh=pC+GNYtOW75YVqGZ4bYScRzaCNjNeIHNIryyxjWUm3Q=;
+ s=k20201202; t=1722471446;
+ bh=H8RbGKnc/apewFn075doefza/w+WhksTdezBBKO8wHk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gAuCpQanFVaa/0Q3WPLOH3HXjjc3JULIbDvOFRQ1AF3+TTp7BNtLsR9DUaiypnnm1
- 9qlm3qRGLi8W9ybzORIFBBLy3+cN6A8C2+anj0XF3n1TYm3d0sq6zdFIKL7n0/BJJq
- WhHp9KFtKziA7VJPLJ+4nZAMjple/wz9V68E5lHFsWXFJLsWGsGnD1An3oeU0VGOMg
- b01OI+X8idNTGwmZL5nzrP0SJ1/BFEvvdFOT0jQZrIxUgF6e/hbZIqGxEtBlL7DggC
- THEY/Hyn6FlwcBFSdlxgBtqDWJafZrAWCI0SoS1/xqKZvpoprzbUCIzIYbCjBVwblE
- A01aNumNwhrFw==
+ b=bmrhZARnp7C+2aBZUpgU0FLZPxIuKvK6yCFLyZj0bRfzstW0GOO57BpyKfVMdLPPi
+ ySOD2tbhOZAAP1oK6O0dGePtE32ZBmSX29IOcyO3oSBMz0TMeDygCTKZZoWi9S1HoK
+ ugJQcHPQED4L55qDgUdi/RHCoKO7RaDcndmHGvYuZ2lgQ8EiqhKonEgAIth1QQ/zBA
+ lf+pKSjlf/HLRP/zz2Wh2505eiYTAXXK9oo56P49yg69B9DhmVgGI4rkELYxLBuUW2
+ RgfcYUG2NDkub+CnAdtEsOrjxlKqykvHCyehlbayscg/XonSKSKBK/pZJA2IuJT/q6
+ Sbr9qle7onx/A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Zhigang.Luo@amd.com, yifan1.zhang@amd.com,
- lijo.lazar@amd.com, victorchengchi.lu@amd.com, Felix.Kuehling@amd.com,
- srinivasan.shanmugam@amd.com, David.Francis@amd.com,
- kevinyang.wang@amd.com, lang.yu@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 097/121] drm/amdgpu: Fix register access violation
-Date: Wed, 31 Jul 2024 20:00:35 -0400
-Message-ID: <20240801000834.3930818-97-sashal@kernel.org>
+ daniel@ffwll.ch, hamza.mahfooz@amd.com, lewis.huang@amd.com,
+ mghaddar@amd.com, srinivasan.shanmugam@amd.com, Bhawanpreet.Lakha@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 098/121] drm/amd/display: Run DC_LOG_DC after
+ checking link->link_enc
+Date: Wed, 31 Jul 2024 20:00:36 -0400
+Message-ID: <20240801000834.3930818-98-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -67,75 +68,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hawking Zhang <Hawking.Zhang@amd.com>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 9da0f7736763aa0fbf63bb15060c6827135f3f67 ]
+[ Upstream commit 3a82f62b0d9d7687eac47603bb6cd14a50fa718b ]
 
-fault_status is read only register. fault_cntl
-is not accessible from guest environment.
+[WHAT]
+The DC_LOG_DC should be run after link->link_enc is checked, not before.
 
-Signed-off-by: Hawking Zhang <Hawking.Zhang@amd.com>
-Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
+This fixes 1 REVERSE_INULL issue reported by Coverity.
+
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c | 8 +++++---
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c    | 3 ++-
- drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c  | 8 +++++---
- 3 files changed, 12 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/display/dc/link/link_factory.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
-index 77df8c9cbad2f..9e10e552952e1 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
-@@ -627,9 +627,11 @@ static bool gfxhub_v1_2_query_utcl2_poison_status(struct amdgpu_device *adev,
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+index 2c3f5d6622851..c5486e6d89bd5 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+@@ -611,14 +611,14 @@ static bool construct_phy(struct dc_link *link,
+ 	link->link_enc =
+ 		link->dc->res_pool->funcs->link_enc_create(dc_ctx, &enc_init_data);
  
- 	status = RREG32_SOC15(GC, GET_INST(GC, xcc_id), regVM_L2_PROTECTION_FAULT_STATUS);
- 	fed = REG_GET_FIELD(status, VM_L2_PROTECTION_FAULT_STATUS, FED);
--	/* reset page fault status */
--	WREG32_P(SOC15_REG_OFFSET(GC, GET_INST(GC, xcc_id),
--			regVM_L2_PROTECTION_FAULT_STATUS), 1, ~1);
-+	if (!amdgpu_sriov_vf(adev)) {
-+		/* clear page fault status and address */
-+		WREG32_P(SOC15_REG_OFFSET(GC, GET_INST(GC, xcc_id),
-+			 regVM_L2_PROTECTION_FAULT_CNTL), 1, ~1);
-+	}
+-	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
+-	DC_LOG_DC("BIOS object table - IS_DP2_CAPABLE: %d", link->link_enc->features.flags.bits.IS_DP2_CAPABLE);
+-
+ 	if (!link->link_enc) {
+ 		DC_ERROR("Failed to create link encoder!\n");
+ 		goto link_enc_create_fail;
+ 	}
  
- 	return fed;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-index c4ec1358f3aa6..67f36a79c6f41 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-@@ -671,7 +671,8 @@ static int gmc_v9_0_process_interrupt(struct amdgpu_device *adev,
- 	    (amdgpu_ip_version(adev, GC_HWIP, 0) >= IP_VERSION(9, 4, 2)))
- 		return 0;
- 
--	WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
-+	if (!amdgpu_sriov_vf(adev))
-+		WREG32_P(hub->vm_l2_pro_fault_cntl, 1, ~1);
- 
- 	amdgpu_vm_update_fault_cache(adev, entry->pasid, addr, status, vmhub);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
-index 7a1ff298417ab..8d7267a013d24 100644
---- a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
-+++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
-@@ -566,9 +566,11 @@ static bool mmhub_v1_8_query_utcl2_poison_status(struct amdgpu_device *adev,
- 
- 	status = RREG32_SOC15(MMHUB, hub_inst, regVM_L2_PROTECTION_FAULT_STATUS);
- 	fed = REG_GET_FIELD(status, VM_L2_PROTECTION_FAULT_STATUS, FED);
--	/* reset page fault status */
--	WREG32_P(SOC15_REG_OFFSET(MMHUB, hub_inst,
--			regVM_L2_PROTECTION_FAULT_STATUS), 1, ~1);
-+	if (!amdgpu_sriov_vf(adev)) {
-+		/* clear page fault status and address */
-+		WREG32_P(SOC15_REG_OFFSET(MMHUB, hub_inst,
-+			 regVM_L2_PROTECTION_FAULT_STATUS), 1, ~1);
-+	}
- 
- 	return fed;
- }
++	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
++	DC_LOG_DC("BIOS object table - IS_DP2_CAPABLE: %d", link->link_enc->features.flags.bits.IS_DP2_CAPABLE);
++
+ 	/* Update link encoder tracking variables. These are used for the dynamic
+ 	 * assignment of link encoders to streams.
+ 	 */
 -- 
 2.43.0
 
