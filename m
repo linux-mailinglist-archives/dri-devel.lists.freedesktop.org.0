@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99388943C56
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:37:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DF0943C5B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:37:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 069F410E839;
-	Thu,  1 Aug 2024 00:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60EDA10E840;
+	Thu,  1 Aug 2024 00:37:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o6qDz9LK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZkdiGX/r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C460F10E83D;
- Thu,  1 Aug 2024 00:37:16 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45F5610E83F;
+ Thu,  1 Aug 2024 00:37:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3F249624A7;
- Thu,  1 Aug 2024 00:37:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BE08C116B1;
- Thu,  1 Aug 2024 00:37:14 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 5CB40CE17A6;
+ Thu,  1 Aug 2024 00:37:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A73C8C4AF0E;
+ Thu,  1 Aug 2024 00:37:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472636;
- bh=nXnKs/+JsqnjBgbIDB8+2kHNEBoTVbUppRoBRcjxYi8=;
+ s=k20201202; t=1722472641;
+ bh=sjWJYq61EFoAD/TIEm0j2gmZIsXDpnhzZ6p/pPAOqt4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=o6qDz9LKrlRpdPVvG9sfWwGAcLVBvsuvp5hZuDrpYH6KPvWpiWpclddSj/+2WqiDk
- RvYMCdofmILqJzn3gzJut80qOGH9dq8u2FHQJQbaT3eIGgK3ZpiqPsCGIGUQVjlsAh
- 2uDl9WuizJNz+TDhP+8NOKF7sP6ZemkERv5hcDr27bhQRqJbXxzGH4g79OqHqGLIW2
- WmSJgCUSY4owWZQv+/mAwtHGjengPvyaeGbiNCEgw+FEQSvXTe8Cj731CE+Imxcgkc
- wyV3Q+D4jp3rW8d6WUcAspnal2EpQtodktnGA32XXGCX6E4CNSNYad7iKndpY8o9+L
- wC/Ue9aqkZa9A==
+ b=ZkdiGX/rbY17JkmvsXNPl+XUz7W+WT4hxWhBmLiR9HF2x4Z7n5ehW0L5LgjyDH4vy
+ wrXtxsQNUqBSpHhVJeFuLkcXUDdvgvRyYoJbkneL/MaD7UBc0SaUC8kZxO7wJeeX/8
+ O93FmiUEg4KdYHN3B5hr0c2msQsnSaJhhzxyz22GML49kBPG+coTotzCQzayViRawq
+ w2Ds+E3pdJpnirXYY7E7uuZEiJ2Tm845jBDhmcFd9pRtDvUMHquLuRzcCOSmDgBOrn
+ p3zaLUA/CrebDyqa0KJguBxJL9v/cJlTGbA3tiwZQgRzZiw2zqOB/T1MXmDiGtcBpD
+ fsE0tUvgZ3yrw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hersen Wu <hersenxs.wu@amd.com>, Alex Hung <alex.hung@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
  Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, jiapeng.chong@linux.alibaba.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 07/38] drm/amd/display: Add array index check for
- hdcp ddc access
-Date: Wed, 31 Jul 2024 20:35:13 -0400
-Message-ID: <20240801003643.3938534-7-sashal@kernel.org>
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ hamza.mahfooz@amd.com, roman.li@amd.com, joshua.aberback@amd.com,
+ aric.cyr@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.10 08/38] drm/amd/display: Check num_valid_sets
+ before accessing reader_wm_sets[]
+Date: Wed, 31 Jul 2024 20:35:14 -0400
+Message-ID: <20240801003643.3938534-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801003643.3938534-1-sashal@kernel.org>
 References: <20240801003643.3938534-1-sashal@kernel.org>
@@ -68,93 +69,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hersen Wu <hersenxs.wu@amd.com>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 4e70c0f5251c25885c31ee84a31f99a01f7cf50e ]
+[ Upstream commit b38a4815f79b87efb196cd5121579fc51e29a7fb ]
 
-[Why]
-Coverity reports OVERRUN warning. Do not check if array
-index valid.
+[WHY & HOW]
+num_valid_sets needs to be checked to avoid a negative index when
+accessing reader_wm_sets[num_valid_sets - 1].
 
-[How]
-Check msg_id valid and valid array index.
+This fixes an OVERRUN issue reported by Coverity.
 
-Reviewed-by: Alex Hung <alex.hung@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Hersen Wu <hersenxs.wu@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/display/modules/hdcp/hdcp_ddc.c   | 28 ++++++++++++++++---
- 1 file changed, 24 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c
-index 8e9caae7c9559..1b2df97226a3f 100644
---- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c
-+++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c
-@@ -156,11 +156,16 @@ static enum mod_hdcp_status read(struct mod_hdcp *hdcp,
- 	uint32_t cur_size = 0;
- 	uint32_t data_offset = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
+index 0eba391e597fd..40d03f8cde2cf 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
+@@ -455,7 +455,8 @@ static void build_watermark_ranges(struct clk_bw_params *bw_params, struct pp_sm
+ 			ranges->reader_wm_sets[num_valid_sets].max_fill_clk_mhz = PP_SMU_WM_SET_RANGE_CLK_UNCONSTRAINED_MAX;
  
--	if (msg_id == MOD_HDCP_MESSAGE_ID_INVALID) {
-+	if (msg_id == MOD_HDCP_MESSAGE_ID_INVALID ||
-+		msg_id >= MOD_HDCP_MESSAGE_ID_MAX)
- 		return MOD_HDCP_STATUS_DDC_FAILURE;
--	}
- 
- 	if (is_dp_hdcp(hdcp)) {
-+		int num_dpcd_addrs = sizeof(hdcp_dpcd_addrs) /
-+			sizeof(hdcp_dpcd_addrs[0]);
-+		if (msg_id >= num_dpcd_addrs)
-+			return MOD_HDCP_STATUS_DDC_FAILURE;
-+
- 		while (buf_len > 0) {
- 			cur_size = MIN(buf_len, HDCP_MAX_AUX_TRANSACTION_SIZE);
- 			success = hdcp->config.ddc.funcs.read_dpcd(hdcp->config.ddc.handle,
-@@ -175,6 +180,11 @@ static enum mod_hdcp_status read(struct mod_hdcp *hdcp,
- 			data_offset += cur_size;
+ 			/* Modify previous watermark range to cover up to max */
+-			ranges->reader_wm_sets[num_valid_sets - 1].max_fill_clk_mhz = PP_SMU_WM_SET_RANGE_CLK_UNCONSTRAINED_MAX;
++			if (num_valid_sets > 0)
++				ranges->reader_wm_sets[num_valid_sets - 1].max_fill_clk_mhz = PP_SMU_WM_SET_RANGE_CLK_UNCONSTRAINED_MAX;
  		}
- 	} else {
-+		int num_i2c_offsets = sizeof(hdcp_i2c_offsets) /
-+			sizeof(hdcp_i2c_offsets[0]);
-+		if (msg_id >= num_i2c_offsets)
-+			return MOD_HDCP_STATUS_DDC_FAILURE;
-+
- 		success = hdcp->config.ddc.funcs.read_i2c(
- 				hdcp->config.ddc.handle,
- 				HDCP_I2C_ADDR,
-@@ -219,11 +229,16 @@ static enum mod_hdcp_status write(struct mod_hdcp *hdcp,
- 	uint32_t cur_size = 0;
- 	uint32_t data_offset = 0;
- 
--	if (msg_id == MOD_HDCP_MESSAGE_ID_INVALID) {
-+	if (msg_id == MOD_HDCP_MESSAGE_ID_INVALID ||
-+		msg_id >= MOD_HDCP_MESSAGE_ID_MAX)
- 		return MOD_HDCP_STATUS_DDC_FAILURE;
--	}
- 
- 	if (is_dp_hdcp(hdcp)) {
-+		int num_dpcd_addrs = sizeof(hdcp_dpcd_addrs) /
-+			sizeof(hdcp_dpcd_addrs[0]);
-+		if (msg_id >= num_dpcd_addrs)
-+			return MOD_HDCP_STATUS_DDC_FAILURE;
-+
- 		while (buf_len > 0) {
- 			cur_size = MIN(buf_len, HDCP_MAX_AUX_TRANSACTION_SIZE);
- 			success = hdcp->config.ddc.funcs.write_dpcd(
-@@ -239,6 +254,11 @@ static enum mod_hdcp_status write(struct mod_hdcp *hdcp,
- 			data_offset += cur_size;
- 		}
- 	} else {
-+		int num_i2c_offsets = sizeof(hdcp_i2c_offsets) /
-+			sizeof(hdcp_i2c_offsets[0]);
-+		if (msg_id >= num_i2c_offsets)
-+			return MOD_HDCP_STATUS_DDC_FAILURE;
-+
- 		hdcp->buf[0] = hdcp_i2c_offsets[msg_id];
- 		memmove(&hdcp->buf[1], buf, buf_len);
- 		success = hdcp->config.ddc.funcs.write_i2c(
+ 		num_valid_sets++;
+ 	}
 -- 
 2.43.0
 
