@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA643943A83
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C368943A88
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D24010E75F;
-	Thu,  1 Aug 2024 00:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8168C10E74A;
+	Thu,  1 Aug 2024 00:16:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L6PDliWV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KEb0rqN5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04B4A10E758;
- Thu,  1 Aug 2024 00:16:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DC1410E756;
+ Thu,  1 Aug 2024 00:16:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7472D6130B;
- Thu,  1 Aug 2024 00:16:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76435C116B1;
- Thu,  1 Aug 2024 00:16:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C8ED1611D7;
+ Thu,  1 Aug 2024 00:16:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94452C32786;
+ Thu,  1 Aug 2024 00:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471366;
- bh=BevY77iRPP2rcLSSLdc/Qw8M9iWbWGhbWK26o/OAXLQ=;
+ s=k20201202; t=1722471378;
+ bh=Ql4idpPEwSG2odetp/Oqw0NEhP/uQ2tRKugeqUNQb6s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=L6PDliWVkPxhq9W8L3IBIFwvjG66PZil7XgeILDiBh4bkD7DG9wm/NNZl7Ca752vw
- s6D3M99Kl6tuBQJ+YfweoEOXjdojmzhC3EhJOMF7KjGTek2aaX6rLiguMW4VDvQa38
- eRsv29iDlhsPWsMYCcvYm7ptTByGuiwOjWTOqooBjOI1DU3fyqMYJIv5kzfKeNBY2P
- 6YdcEX/q9NIHR1u/PlE2Psp4caHUMg0Anp/TQtIKv+HSQqTeUnKzFkPFOh7ARseG8d
- prYzs1AUtm8walo0LJeBtJ6JEZ95ZcdMrMlqVUbEQShXOdYTulYxKPYn/ncEn3Cisg
- Wgg3OWCQmyUUA==
+ b=KEb0rqN5XhFd4W+w3dY3rv+z52yZfdEvSDeRX2TzfDkXWUZyUnLZA0OOlYin66Adg
+ TBrBFBkAkI8EOcFfu6nhBwivSYkcOMM6RbsGwkrHhB2Z63kAYlMzmlW5BgJDhOrL+Z
+ shcFrZ7wflHmy46yWDqprU1VAlS5OSJows5AoZgg0bbSTLWWTJa8clNcgZdHIA0B5Q
+ ELIkh3hQnt2CnPTXkohw1ll7kCoykp3J585VGeA52M274IZGPbhsC0Q8GopMxdKB5K
+ rJUt/iwU9c7n/0p42y3rXtSajFuZwhBMEI85C0GWVrWhZ8BPNbP0J7QAJWk7t4Bneq
+ f/PRWgLviZ+Sw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Ovidiu Bunea <ovidiu.bunea@amd.com>, Zaeem Mohamed <zaeem.mohamed@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Zaeem Mohamed <zaeem.mohamed@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, charlene.liu@amd.com, Qingqing.Zhuo@amd.com,
- wayne.lin@amd.com, ahmed.ahmed@amd.com, wenjing.liu@amd.com,
- daniel.miess@amd.com, amd-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, chuchang@amd.com, jun.lei@amd.com,
+ nicholas.kazlauskas@amd.com, camille.cho@amd.com, lewis.huang@amd.com,
+ anthony.koo@amd.com, srinivasan.shanmugam@amd.com, wayne.lin@amd.com,
+ dan.carpenter@linaro.org, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 078/121] drm/amd/display: Disable DMCUB timeout
- for DCN35
-Date: Wed, 31 Jul 2024 20:00:16 -0400
-Message-ID: <20240801000834.3930818-78-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 079/121] drm/amd/display: Avoid overflow from
+ uint32_t to uint8_t
+Date: Wed, 31 Jul 2024 20:00:17 -0400
+Message-ID: <20240801000834.3930818-79-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -70,49 +71,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 7c70e60fbf4bff1123f0e8d5cb1ae71df6164d7f ]
+[ Upstream commit d6b54900c564e35989cf6813e4071504fa0a90e0 ]
 
-[Why]
-DMCUB can intermittently take longer than expected to process commands.
+[WHAT & HOW]
+dmub_rb_cmd's ramping_boundary has size of uint8_t and it is assigned
+0xFFFF. Fix it by changing it to uint8_t with value of 0xFF.
 
-Old ASIC policy was to continue while logging a diagnostic error - which
-works fine for ASIC without IPS, but with IPS this could lead to a race
-condition where we attempt to access DCN state while it's inaccessible,
-leading to a system hang when the NIU port is not disabled or register
-accesses that timeout and the display configuration in an undefined
-state.
+This fixes 2 INTEGER_OVERFLOW issues reported by Coverity.
 
-[How]
-We need to investigate why these accesses take longer than expected, but
-for now we should disable the timeout on DCN35 to avoid this race
-condition. Since the waits happen only at lower interrupt levels the
-risk of taking too long at higher IRQ and causing a system watchdog
-timeout are minimal.
-
-Reviewed-by: Ovidiu Bunea <ovidiu.bunea@amd.com>
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
 Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c       | 2 +-
+ drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-index 28c4599076989..915d68cc04e9c 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-@@ -785,6 +785,7 @@ static const struct dc_debug_options debug_defaults_drv = {
- 	.ips2_entry_delay_us = 800,
- 	.disable_dmub_reallow_idle = false,
- 	.static_screen_wait_frames = 2,
-+	.disable_timeout = true,
- };
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c
+index b851fc65f5b7c..5c2d6642633d9 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c
+@@ -258,7 +258,7 @@ bool dmub_abm_set_pipe(struct abm *abm,
+ {
+ 	union dmub_rb_cmd cmd;
+ 	struct dc_context *dc = abm->ctx;
+-	uint32_t ramping_boundary = 0xFFFF;
++	uint8_t ramping_boundary = 0xFF;
  
- static const struct dc_panel_config panel_config_defaults = {
+ 	memset(&cmd, 0, sizeof(cmd));
+ 	cmd.abm_set_pipe.header.type = DMUB_CMD__ABM;
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
+index 804be977ea47b..3de65a9f0e6f2 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
+@@ -142,7 +142,7 @@ static bool dmub_abm_set_pipe(struct abm *abm, uint32_t otg_inst,
+ {
+ 	union dmub_rb_cmd cmd;
+ 	struct dc_context *dc = abm->ctx;
+-	uint32_t ramping_boundary = 0xFFFF;
++	uint8_t ramping_boundary = 0xFF;
+ 
+ 	memset(&cmd, 0, sizeof(cmd));
+ 	cmd.abm_set_pipe.header.type = DMUB_CMD__ABM;
 -- 
 2.43.0
 
