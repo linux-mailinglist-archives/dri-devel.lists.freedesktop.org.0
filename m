@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498F8943BF3
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6B7943BF4
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:33:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4C4810E802;
-	Thu,  1 Aug 2024 00:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A64310E804;
+	Thu,  1 Aug 2024 00:33:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vn/FVhOx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pMdUtXJW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 729E010E801;
- Thu,  1 Aug 2024 00:33:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D6010E803;
+ Thu,  1 Aug 2024 00:33:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E098362436;
- Thu,  1 Aug 2024 00:33:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C937FC32786;
- Thu,  1 Aug 2024 00:33:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8242D62436;
+ Thu,  1 Aug 2024 00:33:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47D5FC116B1;
+ Thu,  1 Aug 2024 00:33:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472388;
- bh=onH4nwG0PEBMdqEH7lbkYWYYlADZyb3z7vMJkMN6TLs=;
+ s=k20201202; t=1722472393;
+ bh=nTM7HYpIjDGojVI8Bjqq5lNQj65xZvmldy11U0D1yYU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Vn/FVhOxcFiHp9d1vJHpmpcTdYRfwRlOgnwl+0F+QE9uZIKvVjoKfqO/BpMAkWcyd
- NlhKHWO5BVSom8V8qbHjy81t0KnylSRhjGQTcLo5dc/At3/C4xo9Mz43H3QS/Omk0m
- gJXzRQk6x8ryPWaaOzgCk1+WkTP3Lc6Cxhe9Iv2ObpfThdtvMf7mBQwEeqXWVWgQ/W
- fUZ30Zn9yNXmBYQ2m+wI35bf6yFY85oPXy5TtmNeAO1qH6/6Wq1ccMLi3PvHrn3KUx
- Pu3Zrd5VisS8AaZpwso79SGuADEx0SZZbOHKIFke/FkCZIUDasv+6ZCXE5rfPm+Gfr
- d8d9aqRhBKPnA==
+ b=pMdUtXJWPQAnSN/7ju/azKl8QnUGDEILMw+735xC4FTZ3L5RaOi4x9FzRkVseKm2g
+ tCl4CubgGrPcpAvCAvbbQTVovRNnLPIK+QIhPNOe0japOX1OssBSOvIgxxVIoqgRQq
+ k5CBR0iQbVWGT0q+4prZWoiGyJd7LwcjaXQLB7TK3Pm9UJvrW54cNWVnrHqPMQKQU6
+ ejVy+1lglN2Rs7wBQPGWVJPc97hiYTTv4oELMkdeB8AggRSHEELsrfpXTiRMmtttjD
+ wWIrXm0SlQlFgWOeN4l93LcDrx6lPke4fqKQC+YRwkmbtEWfhklBgSUMlVdF5cVc0M
+ EhUHCbP8eMZ4w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ma Jun <Jun.Ma2@amd.com>, Tim Huang <Tim.Huang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- kenneth.feng@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, sunran001@208suo.com,
- kevinyang.wang@amd.com, jesse.zhang@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 03/47] drm/amdgpu/pm: Check the return value of
- smum_send_msg_to_smc
-Date: Wed, 31 Jul 2024 20:30:53 -0400
-Message-ID: <20240801003256.3937416-3-sashal@kernel.org>
+Cc: Jesse Zhang <jesse.zhang@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
+ Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, kenneth.feng@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, Jun.Ma2@amd.com, kevinyang.wang@amd.com,
+ ruanjinjie@huawei.com, mario.limonciello@amd.com, bob.zhou@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.15 04/47] drm/amd/pm: fix warning using
+ uninitialized value of max_vid_step
+Date: Wed, 31 Jul 2024 20:30:54 -0400
+Message-ID: <20240801003256.3937416-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801003256.3937416-1-sashal@kernel.org>
 References: <20240801003256.3937416-1-sashal@kernel.org>
@@ -66,47 +67,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ma Jun <Jun.Ma2@amd.com>
+From: Jesse Zhang <jesse.zhang@amd.com>
 
-[ Upstream commit 579f0c21baec9e7506b6bb3f60f0a9b6d07693b4 ]
+[ Upstream commit 17e3bea65cdc453695b2fe4ff26d25d17f5339e9 ]
 
-Check the return value of smum_send_msg_to_smc, otherwise
-we might use an uninitialized variable "now"
+Check the return of pp_atomfwctrl_get_Voltage_table_v4
+as it may fail to initialize max_vid_step
+V2: change the check condition (Tim Huang)
 
-Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
 Reviewed-by: Tim Huang <Tim.Huang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-index cf74621f94a75..8b46214fc6fe3 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-@@ -1026,7 +1026,9 @@ static int smu10_print_clock_levels(struct pp_hwmgr *hwmgr,
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+index e6336654c5655..259bf8e702ce2 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+@@ -2575,8 +2575,11 @@ static int vega10_init_smc_table(struct pp_hwmgr *hwmgr)
+ 		}
+ 	}
  
- 	switch (type) {
- 	case PP_SCLK:
--		smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetGfxclkFrequency, &now);
-+		ret = smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetGfxclkFrequency, &now);
-+		if (ret)
-+			return ret;
+-	pp_atomfwctrl_get_voltage_table_v4(hwmgr, VOLTAGE_TYPE_VDDC,
++	result = pp_atomfwctrl_get_voltage_table_v4(hwmgr, VOLTAGE_TYPE_VDDC,
+ 			VOLTAGE_OBJ_SVID2,  &voltage_table);
++	PP_ASSERT_WITH_CODE(!result,
++			"Failed to get voltage table!",
++			return result);
+ 	pp_table->MaxVidStep = voltage_table.max_vid_step;
  
- 	/* driver only know min/max gfx_clk, Add level 1 for all other gfx clks */
- 		if (now == data->gfx_max_freq_limit/100)
-@@ -1047,7 +1049,9 @@ static int smu10_print_clock_levels(struct pp_hwmgr *hwmgr,
- 					i == 2 ? "*" : "");
- 		break;
- 	case PP_MCLK:
--		smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetFclkFrequency, &now);
-+		ret = smum_send_msg_to_smc(hwmgr, PPSMC_MSG_GetFclkFrequency, &now);
-+		if (ret)
-+			return ret;
- 
- 		for (i = 0; i < mclk_table->count; i++)
- 			size += sprintf(buf + size, "%d: %uMhz %s\n",
+ 	pp_table->GfxDpmVoltageMode =
 -- 
 2.43.0
 
