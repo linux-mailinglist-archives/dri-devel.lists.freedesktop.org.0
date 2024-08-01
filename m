@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BF0943A7D
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90430943A82
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:15:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AF2810E74E;
-	Thu,  1 Aug 2024 00:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0E2410E745;
+	Thu,  1 Aug 2024 00:15:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rVVGp33D";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CbCfuJ0u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F5110E74C;
- Thu,  1 Aug 2024 00:15:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E91110E745;
+ Thu,  1 Aug 2024 00:15:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 76E74611D7;
- Thu,  1 Aug 2024 00:15:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE714C4AF0C;
- Thu,  1 Aug 2024 00:15:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id BD1356143D;
+ Thu,  1 Aug 2024 00:15:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7AB2C32786;
+ Thu,  1 Aug 2024 00:15:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471343;
- bh=Sx3sRZ5AVYDq1GDGcflS5HXYzGIQGcQNw1wxSsHPmcw=;
+ s=k20201202; t=1722471348;
+ bh=dA7l3d8Pd4mirZyG70hAEWoWogxof8a8eZPJp9Xt6PY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rVVGp33DR5v78Q2g2JXICh3MLEqtE3a6NOUuuwqDTBrUQ3abeZLGHhhym25Dock+t
- GwYAez86f9bggkOD0VveIMG0jDMBS83ImvNh85kXIX98ks+dimuF6gqx8aITc8OU1n
- xmGJAH7auU+iD68jlrpVQXnAbc3/8ptSI0HCqJXqEKwdylvPzqdKrpc+CDDeNNT0xo
- irCaCYOUXmh70bUAclSaJq6AmkXs31I41NE5JtK/Pk7/GAlmOf8tXVLMBcttmBtN8x
- D8c3oZ2fGuC8lpoFmO3PvOR+6aFoEpPMm9q/IAHx8c/q8KFTLzaAkshzohjvmQNjqp
- YVoMVLnIHsQ9w==
+ b=CbCfuJ0u5uxEpcD71hLSzZuaSBT6TPaI/rR3MOippjRgcNZXxI/2EJFvCcsBg/XI/
+ Fqwf/Iiw1fmFibMTw/E/9iiUardMIIjYNrH1U2HJJNlrXscYIpUkiJF/0OepEwG2Oe
+ AlAXA3fgq6XVZ4cwGBliLJYsuGhUmEagHLM5f/IOifnEocYrY6NSqAks31xhzP6PkJ
+ 6dCg6N3I8BxpJnnTL7J35mQopHf0eZnozL38tqTbQbLkIWaQnYP1hFGsa2TmYBkL7p
+ n4bHsNLpwUUMy1OfwT2ebltFn4zj7ZC7kgUE+hMR3EhxRvd5v/IUhfMZPFzM9fQC8o
+ kB9Nr78OUPdyQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Duncan Ma <duncan.ma@amd.com>, Zaeem Mohamed <zaeem.mohamed@amd.com>,
+Cc: Wenjing Liu <wenjing.liu@amd.com>, Dillon Varone <dillon.varone@amd.com>,
+ Zaeem Mohamed <zaeem.mohamed@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, charlene.liu@amd.com, Qingqing.Zhuo@amd.com,
- alvin.lee2@amd.com, amd-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, alex.hung@amd.com, george.shen@amd.com,
+ michael.strauss@amd.com, ran.shi@amd.com, sungjoon.kim@amd.com,
+ daniel.sa@amd.com, yao.wang1@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 076/121] drm/amd/display: Remove register from
- DCN35 DMCUB diagnostic collection
-Date: Wed, 31 Jul 2024 20:00:14 -0400
-Message-ID: <20240801000834.3930818-76-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 077/121] drm/amd/display: use preferred link
+ settings for dp signal only
+Date: Wed, 31 Jul 2024 20:00:15 -0400
+Message-ID: <20240801000834.3930818-77-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
 References: <20240801000834.3930818-1-sashal@kernel.org>
@@ -69,51 +70,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Wenjing Liu <wenjing.liu@amd.com>
 
-[ Upstream commit 466423c6dd8af23ebb3a69d43434d01aed0db356 ]
+[ Upstream commit abf34ca465f5cd182b07701d3f3d369c0fc04723 ]
 
-[Why]
-These registers should not be read from driver and triggering the
-security violation when DMCUB work times out and diagnostics are
-collected blocks Z8 entry.
+[why]
+We set preferred link settings for virtual signal. However we don't support
+virtual signal for UHBR link rate. If preferred is set to UHBR link rate, we
+will allow virtual signal with UHBR link rate which causes system crashes.
 
-[How]
-Remove the register read from DCN35.
-
-Reviewed-by: Duncan Ma <duncan.ma@amd.com>
+Reviewed-by: Dillon Varone <dillon.varone@amd.com>
 Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ .../dc/link/protocols/link_dp_capability.c    | 24 ++++++++-----------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c b/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c
-index 70e63aeb8f89b..a330827f900c3 100644
---- a/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c
-+++ b/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c
-@@ -459,7 +459,7 @@ uint32_t dmub_dcn35_get_current_time(struct dmub_srv *dmub)
- void dmub_dcn35_get_diagnostic_data(struct dmub_srv *dmub, struct dmub_diagnostic_data *diag_data)
- {
- 	uint32_t is_dmub_enabled, is_soft_reset, is_sec_reset;
--	uint32_t is_traceport_enabled, is_cw0_enabled, is_cw6_enabled;
-+	uint32_t is_traceport_enabled, is_cw6_enabled;
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+index b26faed3bb206..a3df1b55e48b7 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+@@ -914,21 +914,17 @@ bool link_decide_link_settings(struct dc_stream_state *stream,
  
- 	if (!dmub || !diag_data)
- 		return;
-@@ -510,9 +510,6 @@ void dmub_dcn35_get_diagnostic_data(struct dmub_srv *dmub, struct dmub_diagnosti
- 	REG_GET(DMCUB_CNTL, DMCUB_TRACEPORT_EN, &is_traceport_enabled);
- 	diag_data->is_traceport_en  = is_traceport_enabled;
+ 	memset(link_setting, 0, sizeof(*link_setting));
  
--	REG_GET(DMCUB_REGION3_CW0_TOP_ADDRESS, DMCUB_REGION3_CW0_ENABLE, &is_cw0_enabled);
--	diag_data->is_cw0_enabled = is_cw0_enabled;
+-	/* if preferred is specified through AMDDP, use it, if it's enough
+-	 * to drive the mode
+-	 */
+-	if (link->preferred_link_setting.lane_count !=
+-			LANE_COUNT_UNKNOWN &&
+-			link->preferred_link_setting.link_rate !=
+-					LINK_RATE_UNKNOWN) {
++	if (dc_is_dp_signal(stream->signal)  &&
++			link->preferred_link_setting.lane_count != LANE_COUNT_UNKNOWN &&
++			link->preferred_link_setting.link_rate != LINK_RATE_UNKNOWN) {
++		/* if preferred is specified through AMDDP, use it, if it's enough
++		 * to drive the mode
++		 */
+ 		*link_setting = link->preferred_link_setting;
+-		return true;
+-	}
 -
- 	REG_GET(DMCUB_REGION3_CW6_TOP_ADDRESS, DMCUB_REGION3_CW6_ENABLE, &is_cw6_enabled);
- 	diag_data->is_cw6_enabled = is_cw6_enabled;
- 
+-	/* MST doesn't perform link training for now
+-	 * TODO: add MST specific link training routine
+-	 */
+-	if (stream->signal == SIGNAL_TYPE_DISPLAY_PORT_MST) {
++	} else if (stream->signal == SIGNAL_TYPE_DISPLAY_PORT_MST) {
++		/* MST doesn't perform link training for now
++		 * TODO: add MST specific link training routine
++		 */
+ 		decide_mst_link_settings(link, link_setting);
+ 	} else if (link->connector_signal == SIGNAL_TYPE_EDP) {
+ 		/* enable edp link optimization for DSC eDP case */
 -- 
 2.43.0
 
