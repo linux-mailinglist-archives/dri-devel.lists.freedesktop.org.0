@@ -2,66 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA39944BCC
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A42944C4C
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 15:04:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5C910E23B;
-	Thu,  1 Aug 2024 12:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B134C10E96B;
+	Thu,  1 Aug 2024 13:04:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="S350bHDL";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="inrd5q6R";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B5uiytVY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Upnr259K";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m4r9pP7h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 286C210E159;
- Thu,  1 Aug 2024 12:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1722517002; x=1754053002;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=cCXdHEpMz9c2bBq26e32ONp/13OtXkPy15MjuY9WCkY=;
- b=S350bHDLCALibHu806Ki72S3tMPy9uH9x0sR5jJs1bUAoIkdbfIuIKaD
- JhZt1D2CMwk7Krydhc8jFnyW4VxgiSKXc93TUsrw2VxJn30HgJeyUypVT
- n+5Nj/VxGxfNbRlRNum+Ej6X6aaRdeLAma3+Ov/cmqXIcO7Q3M6KKVERk
- IoDwkL+CuxANL9FBIzdfwvO4+t/6+PK6L0s4CZzdQrYmH8eTUZ2ID7pV8
- vEozyNKxFMSpNvFMpVlOru7wgn2Cs7vGcNPrIUBGBiItAERffSoGnF48p
- GPz524CaawXrhdg+vtSUOK83tepVVq9ZVtzGY3r9QZAD5hA59ZJn/oq12 g==;
-X-CSE-ConnectionGUID: aTc+9iRDTJ2i46att0oLHA==
-X-CSE-MsgGUID: VPMsPkPNQyOYFflPwi5YUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="20587016"
-X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; d="scan'208";a="20587016"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2024 05:56:28 -0700
-X-CSE-ConnectionGUID: g/fx4tHuQmCjbMW5J9x36A==
-X-CSE-MsgGUID: fy/vpjVBR5ybMhSyxQ4pqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; d="scan'208";a="92554780"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.160])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2024 05:56:25 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Xaver Hugl
- <xaver.hugl@gmail.com>, Mario Limonciello <mario.limonciello@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>, amd-gfx@lists.freedesktop.org, Simon Ser
- <contact@emersion.fr>, Harry Wentland <Harry.Wentland@amd.com>,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@google.com>
-Subject: Re: [PATCH v3 2/2] drm/amd: Add power_saving_policy drm property to
- eDP connectors
-In-Reply-To: <d302cdd3-acb5-4043-8f36-7c3e02e77eeb@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240606020404.210989-1-mario.limonciello@amd.com>
- <20240606020404.210989-3-mario.limonciello@amd.com>
- <bc1d81ef-d9d0-4440-b63f-ecfb735ef783@amd.com>
- <d637d3c2-34f7-42f8-acbb-6a1730d3fc3c@amd.com>
- <CAFZQkGy0xuuUw73HQvS8Ce92sUi2rVrRnX25pi1KdNmyQbtBZA@mail.gmail.com>
- <CAFZQkGz8DeoiVX2MohoBoTMxraJk1Ou41N_wKP3GkqRrPg_6sg@mail.gmail.com>
- <87wml0v2vv.fsf@intel.com> <d302cdd3-acb5-4043-8f36-7c3e02e77eeb@suse.de>
-Date: Thu, 01 Aug 2024 15:56:21 +0300
-Message-ID: <87r0b8v1u2.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B396910E96B
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 13:04:55 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 10FA321B6F;
+ Thu,  1 Aug 2024 13:04:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722517494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/vk/D3zb2dfTMzGfsu63xbO4Go9J+M4udjDERwpOVao=;
+ b=inrd5q6RApgN9GDwtaBoC5B0AVtLSZzEriMhc6EX6YN9QT8xTtaRcmWsZLlhHbQc8FzYGx
+ HUTxlb1i0DKtp31bv9K/5kJGaE1mEo6ptucn9KjyEHvYmLjmqgSESJPBQzJ0F6VaMDrNqE
+ xqNZ0UeK6eGT3dSL0gzK9sIkJEZtc30=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722517494;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/vk/D3zb2dfTMzGfsu63xbO4Go9J+M4udjDERwpOVao=;
+ b=B5uiytVYOBBYfABqM5mJl+TIGhWgmPwMvxCS3gYYWvZcXjrcLOh5dj+G5Fo7sbMlXVv8GL
+ hQMtrGKcLCNU4FBA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Upnr259K;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=m4r9pP7h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1722517493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/vk/D3zb2dfTMzGfsu63xbO4Go9J+M4udjDERwpOVao=;
+ b=Upnr259K7k1c/hA5Nh49d828N3lXY6H72jvhKyADybGe/vac7kBBFHVhCBVA/OFUzjui7T
+ c39JP0MNtxX3atMB39lj+0lskoFuM/MUmq6nnbXvUjZMvdObI/L6C/LskT2hlFdds+/qgP
+ vlK6Csvem+SA7dDE9YmL1FA4rlbpNwg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1722517493;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/vk/D3zb2dfTMzGfsu63xbO4Go9J+M4udjDERwpOVao=;
+ b=m4r9pP7h4nO0mtK4/qsMqzzN0O9BSndCSL8l23FdmJ+R3bqQGgbaoBGz2bG8fHuwnYYPeO
+ K8i3RP4KisWrzVCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D6EAF136CF;
+ Thu,  1 Aug 2024 13:04:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 8u4nM/SHq2YLaQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 01 Aug 2024 13:04:52 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/client: Use common display mode for cloned outputs
+Date: Thu,  1 Aug 2024 15:04:36 +0200
+Message-ID: <20240801130449.104645-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-1.81 / 50.00];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,kernel.org,linux.intel.com];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ URIBL_BLOCKED(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -1.81
+X-Rspamd-Queue-Id: 10FA321B6F
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,48 +118,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 01 Aug 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 01.08.24 um 14:33 schrieb Jani Nikula:
->> On Mon, 01 Jul 2024, Xaver Hugl <xaver.hugl@gmail.com> wrote:
->>> Am Do., 20. Juni 2024 um 22:22 Uhr schrieb Xaver Hugl <xaver.hugl@gmail.com>:
->>>> Merging can only happen once a real world userspace application has
->>>> implemented support for it. I'll try to do that sometime next week in
->>>> KWin
->>> Here's the promised implementation:
->>> https://invent.kde.org/plasma/kwin/-/merge_requests/6028
->> The requirement is that the userspace patches must be reviewed and ready
->> for merging into a suitable and canonical upstream project.
->>
->> Are they?
->
-> I already saw this series in today's PR for drm-misc-next. :/
+For cloned outputs, don't pick a default resolution of 1024x768 as
+most hardware can do better. Instead look through the modes of all
+connectors to find a common mode for all of them.
 
-Exactly what triggered the question!
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_client_modeset.c | 54 +++++++++++++++++-----------
+ 1 file changed, 34 insertions(+), 20 deletions(-)
 
-BR,
-Jani.
-
-
->
-> Best regards
-> Thomas
->
->>
->>
->> BR,
->> Jani.
->>
->>
->>> In testing with the patches on top of kernel 6.9.6, setting the
->>> property to `Require color accuracy` makes the sysfs file correctly
->>> report "Device or resource busy" when trying to change the power
->>> saving level, but setting the property to zero doesn't really work.
->>> Once KWin sets the property to zero, changing the power saving level
->>> "works" but the screen blanks for a moment (might just be a single
->>> frame) and reading from the file returns zero again, with the visuals
->>> and backlight level unchanged as well.
-
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+index 31af5cf37a09..67b422dc8e7f 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -266,7 +266,7 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+ {
+ 	int count, i, j;
+ 	bool can_clone = false;
+-	struct drm_display_mode *dmt_mode, *mode;
++	struct drm_display_mode *mode, *common_mode = NULL;
+ 
+ 	/* only contemplate cloning in the single crtc case */
+ 	if (dev->mode_config.num_crtc > 1)
+@@ -309,35 +309,49 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+ 		return true;
+ 	}
+ 
+-	/* try and find a 1024x768 mode on each connector */
+-	can_clone = true;
+-	dmt_mode = drm_mode_find_dmt(dev, 1024, 768, 60, false);
+-
+-	if (!dmt_mode)
+-		goto fail;
++	/* try and find a mode common among connectors */
+ 
++	can_clone = false;
+ 	for (i = 0; i < connector_count; i++) {
+ 		if (!enabled[i])
+ 			continue;
+ 
+-		list_for_each_entry(mode, &connectors[i]->modes, head) {
+-			if (drm_mode_match(mode, dmt_mode,
+-					   DRM_MODE_MATCH_TIMINGS |
+-					   DRM_MODE_MATCH_CLOCK |
+-					   DRM_MODE_MATCH_FLAGS |
+-					   DRM_MODE_MATCH_3D_FLAGS))
+-				modes[i] = mode;
++		list_for_each_entry(common_mode, &connectors[i]->modes, head) {
++			can_clone = true;
++
++			for (j = 1; j < connector_count; j++) {
++				if (!enabled[i])
++					continue;
++
++				can_clone = false;
++				list_for_each_entry(mode, &connectors[j]->modes, head) {
++					can_clone = drm_mode_match(common_mode, mode,
++								   DRM_MODE_MATCH_TIMINGS |
++							    DRM_MODE_MATCH_CLOCK |
++							    DRM_MODE_MATCH_FLAGS |
++							    DRM_MODE_MATCH_3D_FLAGS);
++					if (can_clone)
++						break; // found common mode on connector
++				}
++				if (!can_clone)
++					break; // try next common mode
++			}
++			if (can_clone)
++				break; // found common mode among all connectors
+ 		}
+-		if (!modes[i])
+-			can_clone = false;
++		break;
+ 	}
+-	kfree(dmt_mode);
+-
+ 	if (can_clone) {
+-		drm_dbg_kms(dev, "can clone using 1024x768\n");
++		for (i = 0; i < connector_count; i++) {
++			if (!enabled[i])
++				continue;
++			modes[i] = common_mode;
++
++		}
++		drm_dbg_kms(dev, "can clone using" DRM_MODE_FMT "\n", DRM_MODE_ARG(common_mode));
+ 		return true;
+ 	}
+-fail:
++
+ 	drm_info(dev, "kms: can't enable cloning when we probably wanted to.\n");
+ 	return false;
+ }
 -- 
-Jani Nikula, Intel
+2.45.2
+
