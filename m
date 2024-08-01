@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50578945251
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 19:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AEF6945252
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 19:55:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B4810E079;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 622D710E339;
 	Thu,  1 Aug 2024 17:55:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m5DlU6Wv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LOkAnpy1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7BB110E939
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 12:26:43 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-70ea2f25bfaso5037253b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 05:26:43 -0700 (PDT)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4240110E96B
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 13:03:37 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-7a0c6ab3354so4739733a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2024 06:03:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722515203; x=1723120003; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1722517417; x=1723122217; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BzW25HOmDgu3PFYeFf46/aEJDlCqCkDxgxEWomrUeUU=;
- b=m5DlU6Wv+ZwtbAMGubHSu3nVaVtdNBrTebKZAidyT59IAhd0r6M1ABWfJ5Ohwu+GTW
- kvgjKShrZIokTNetNyiu5ywuGXHIKrF+D9z/NzYVROPV2+u2oUwDQCoZXX9I1nrZ5ORh
- giWA5NRrfLZduFayt+6moNVCHyfnmqY7OShdPMY3yAdWIvNhpVRK+slTkxGB7uhQAsLi
- haUItS77rRFVU7L3o/S2Dx4KJlOiJK2ROjE53tzwYroqGBE2hktG953lhg1AwNqCxFV1
- yUYhXqzY/3ByX8nyyhPdg3Bamr8QwAyjGP7Zy3G1whAeJlPceExj6klc2kYbGjfiBJHw
- mWMQ==
+ bh=6/80Ws2dZKJyd/nQCETf7KVjiCoNcpFK0kEqa0MrzWA=;
+ b=LOkAnpy1P52TKJjoXtmjZWxRXeFRcpeQVccQ3TAzrmlDLHOFe6sh204lqhE9G5/SDy
+ PEQ6prhTsjtlNMI7vm04KUVzIVTKygGrzXQBMWnrluQZPO47F1s//ql1WaZjH+LItU3D
+ rza3+38YMYpdaYl4q/hm1swbELqdP/wMQ/w6z3YH8udNAJvRRkOS9MC9HoQUp9qXWU7I
+ Hgt2gqPRJsAdHd3tY7IpFQYHljfIIE0FbV7/TuOBpCeEMWGZNQW84P0Kj+QxuxBWQQw5
+ fWd8G2ZjCfLZhp5zmQiGWpxSNHL1PjFPZSEssQim2xXUTu7kWNiulBiXSE/4YQ422SXT
+ RANg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722515203; x=1723120003;
+ d=1e100.net; s=20230601; t=1722517417; x=1723122217;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=BzW25HOmDgu3PFYeFf46/aEJDlCqCkDxgxEWomrUeUU=;
- b=E3jYxcNK+0/qCZvUw3r9E+adrGVGh6sY4E0G7PLwsEm9jPCKy6B/xbOe7hM61K+4u4
- 1yJ3hxJe3i++QdIHFuzAjKOecto2KbzxePwQ7HPYDVXYh/ZDxCXkLv45K+0roFUVXItI
- Bsjp8ebYNcFXHD4kY+6wStVgqPc0BXA9pZ2txIsEVPqFOBS6f18vn8gk8U3w4aQFKdI/
- wqFM9oTRu/6LHF3bk0M/kWHxummkjqbFhU4Nj9icnw4iopULNBC3pbXqTEv0yuKMDslA
- OoKau02G0+Pgq6wEVBMofKb7Pdta2hxqCcbghAn+dltsqR1D29FznEsIyq3B2A9bmAOd
- 5cjQ==
+ bh=6/80Ws2dZKJyd/nQCETf7KVjiCoNcpFK0kEqa0MrzWA=;
+ b=ERdugVhI6wSSq25ps/uQTiCUr8ceWy1g2HgUoVdNLiWWJEOVPeqyzgQA2BrtGde2QQ
+ Yy2oIsTiANv5w7/MtdOkSALjhW5KZqqhn1sfA5RzEQehDosBObyGtPwD7u/KR0e+L20R
+ oXXbaRp8jR32nVP1WFIFmswq/u11M24qYpZeYq7e61p3GT3nYo1i08/ENOBz4Dkh+O8M
+ UXHPQ0DLhQXzfO292YVoji+LchhEcgDyML5z0JTqr7qDkj0UlxrC7NHIzDibNBV89fKT
+ G8rN5AqRLBs9Er2uay7IjCx0S9Ik+pGUaD908qmf2YkqOBSJWPJ1Vxuorv6VU3L3ql89
+ TMfQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUbo2nma9uMGkf0SFBOFdmHBuXL5AEXsG1qpbbO4omPVkpyTQ60NXh2NMp7HLcjL28UlnjxOCeIYEOukhzDlNACbbmVulpFTIq5hP8esNyn
-X-Gm-Message-State: AOJu0YzluUZW8k74qa9weZVjsK9I5M12x9Nmh9TzIsuM7SVDn4DFiSiK
- 1hesIsaLNj7eppIzuD3a6bmOiiFyqp4l9n8GaIpCTSvwe8NN01h0
-X-Google-Smtp-Source: AGHT+IFwicjwGeuVIdR66gMdzrlUa/EEPeQWIAuXIp9B6xqMrPvT9RnTWtob2tlFVuJCWCRAEtPYCw==
-X-Received: by 2002:a05:6a20:7f93:b0:1c4:8dc0:8520 with SMTP id
- adf61e73a8af0-1c6993eaa83mr136017637.0.1722515203122; 
- Thu, 01 Aug 2024 05:26:43 -0700 (PDT)
+ AJvYcCWUQI/S6PoYNbZHiAM3AkMz8TgKM+WSv+BEFfBx8UWOJ8r+30PhITollEWoe/f2nFShLytw8d1vKg3OLaecfxb1AAx3KBkpU0ACgHrgEowo
+X-Gm-Message-State: AOJu0Yx1QDkQknqkCayt7OR8ZaZxiUrFYWOpXXU3KhZuMQbSZfLe6Ypu
+ keE3g3sQQBEfQMLSpGDqBNm63eWeE6dQpk1hCDXhRB+tfNF4Iqvf
+X-Google-Smtp-Source: AGHT+IFpSlVTarED15EN70bhN1qHLsuGdh4wsVbq4jNZJLyHvLQOLiKM57H2lvXCF+RQQ+gZdSBOyQ==
+X-Received: by 2002:a17:90b:4016:b0:2c8:8a5:c1b9 with SMTP id
+ 98e67ed59e1d1-2cff94143f4mr130012a91.13.1722517416525; 
+ Thu, 01 Aug 2024 06:03:36 -0700 (PDT)
 Received: from localhost.localdomain
  ([2401:4900:1cb4:cece:78f6:191b:3e2f:ac7d])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-70ead6e0b76sm11407939b3a.36.2024.08.01.05.26.40
+ 98e67ed59e1d1-2cfdc4e3d88sm3210577a91.55.2024.08.01.06.03.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Aug 2024 05:26:42 -0700 (PDT)
+ Thu, 01 Aug 2024 06:03:36 -0700 (PDT)
 From: abid-sayyad <sayyad.abid16@gmail.com>
 To: airlied@gmail.com
 Cc: daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, abid-sayyad <sayyad.abid16@gmail.com>
-Subject: [PATCH] [PATCH v2] drm: Add documentation for struct
- drm_pane_size_hint
-Date: Thu,  1 Aug 2024 17:55:53 +0530
-Message-Id: <20240801122552.1151747-1-sayyad.abid16@gmail.com>
+Subject: [PATCH v2] drm: Add documentation for struct drm_pane_size_hint
+Date: Thu,  1 Aug 2024 18:31:13 +0530
+Message-Id: <20240801130112.1317239-1-sayyad.abid16@gmail.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -92,6 +91,7 @@ Fixed warning for the following:
 
 Signed-off-by: abid-sayyad <sayyad.abid16@gmail.com>
 ---
+My sincere apologies for the spam and the patch subject error
 Changes in v2:
 - Adress review feedback regarding indentation in the fix
 - Link to v1
