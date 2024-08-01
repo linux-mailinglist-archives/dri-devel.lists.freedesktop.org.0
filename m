@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B71C943B1D
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA320943B1F
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:23:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4B9110E7A8;
-	Thu,  1 Aug 2024 00:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 634B910E7AF;
+	Thu,  1 Aug 2024 00:23:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cf2+ExNz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hdkuhXPF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDEA10E7A8;
- Thu,  1 Aug 2024 00:23:25 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDE3E10E7AF;
+ Thu,  1 Aug 2024 00:23:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id F35A9CE1870;
- Thu,  1 Aug 2024 00:23:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B35BAC116B1;
- Thu,  1 Aug 2024 00:23:20 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 40E3C6242B;
+ Thu,  1 Aug 2024 00:23:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17F8AC4AF0C;
+ Thu,  1 Aug 2024 00:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722471802;
- bh=EhMJgJrj/2d2tPF75dRdU/U4NNPJAwOKjgeYWJT2DaQ=;
+ s=k20201202; t=1722471807;
+ bh=Y00lFwOfs8utmAlyqNrsjuufMAzmrSd+JCkb86Z3v0k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Cf2+ExNzLC/UdvmaKBQCNsrGkFfgsLLMXU8oxFXk9BEPkJmYrM1YLRy8mCkgIS8A0
- vZwXKfEUgZPctOCc8tJ6mFBZ2T3Pmz+33Q9069dbd1C5MT1BeVJY655p2MfMfMh0bk
- xZYZD/TcyTa0C6L3ktFw5su2b48Qxwk/JweQwp/sa7XmhedHqtSySpCdJ6gwenKgz4
- QLqUj9I3Nb12xHAtJamFOeV3IaZvBVi7pbSTgWujG8JIU0xbrxqQPTthSMOkvfogCq
- 7+ljWC6D4pw7nLzsfwD3CSDKDN3v1KPyYkfw3MehoMKgFYKfIxejayzRbFIl+acQwA
- 6C6SSJTCsxAyg==
+ b=hdkuhXPFcEYzN+BjGNIY319MNDrvUtQ2K2WyAojNx5Ase0TcP+/ZjRRkDavxp1mYL
+ bJAMgmsMG3DT3oOE3JCyqxqQ2WdXQ/6ZtLp3J/IaRK/7iDtu4EkinuFCYZwVpr1FZ6
+ pgDOfttd4m6macgh/H31xVcc2nkC/d64z6KXS+bmhIMxxhi8m1PVkztFqJmkVdOnJW
+ oaMK9Xf+RZas1fER2fox3JNWnA3csOK3uoMQ/WoyLDGLkUbDIi/UtJGzBRTUAL0sDn
+ mzcbE73VJtw6G0Pwv90V5pPPcYdikDgXKmCGadn1bIBZQ/RFADccxvtLQNF74XB8ob
+ 2L5SmWddKO+Cw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Tim Huang <Tim.Huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- srinivasan.shanmugam@amd.com, guchun.chen@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, lijo.lazar@amd.com,
+ Hawking.Zhang@amd.com, electrodeyt@gmail.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 25/83] drm/amdgpu: fix ucode out-of-bounds read
+Subject: [PATCH AUTOSEL 6.6 26/83] drm/amdgpu: fix mc_data out-of-bounds read
  warning
-Date: Wed, 31 Jul 2024 20:17:40 -0400
-Message-ID: <20240801002107.3934037-25-sashal@kernel.org>
+Date: Wed, 31 Jul 2024 20:17:41 -0400
+Message-ID: <20240801002107.3934037-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801002107.3934037-1-sashal@kernel.org>
 References: <20240801002107.3934037-1-sashal@kernel.org>
@@ -67,32 +67,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tim Huang <Tim.Huang@amd.com>
 
-[ Upstream commit 8944acd0f9db33e17f387fdc75d33bb473d7936f ]
+[ Upstream commit 51dfc0a4d609fe700750a62f41447f01b8c9ea50 ]
 
-Clear warning that read ucode[] may out-of-bounds.
+Clear warning that read mc_data[i-1] may out-of-bounds.
 
 Signed-off-by: Tim Huang <Tim.Huang@amd.com>
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
-index b8280be6225d9..c3d89088123db 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
-@@ -213,6 +213,9 @@ static int amdgpu_cgs_get_firmware_info(struct cgs_device *cgs_device,
- 		struct amdgpu_firmware_info *ucode;
- 
- 		id = fw_type_convert(cgs_device, type);
-+		if (id >= AMDGPU_UCODE_ID_MAXIMUM)
-+			return -EINVAL;
-+
- 		ucode = &adev->firmware.ucode[id];
- 		if (ucode->fw == NULL)
- 			return -EINVAL;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+index dce9e7d5e4ec6..a14a54a734c12 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+@@ -1476,6 +1476,8 @@ int amdgpu_atombios_init_mc_reg_table(struct amdgpu_device *adev,
+ 										(u32)le32_to_cpu(*((u32 *)reg_data + j));
+ 									j++;
+ 								} else if ((reg_table->mc_reg_address[i].pre_reg_data & LOW_NIBBLE_MASK) == DATA_EQU_PREV) {
++									if (i == 0)
++										continue;
+ 									reg_table->mc_reg_table_entry[num_ranges].mc_data[i] =
+ 										reg_table->mc_reg_table_entry[num_ranges].mc_data[i - 1];
+ 								}
 -- 
 2.43.0
 
