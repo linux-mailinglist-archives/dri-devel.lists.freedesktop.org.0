@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30A89453CC
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 22:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83CE9453CF
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 22:48:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECC6710E0C1;
-	Thu,  1 Aug 2024 20:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A10DE10E935;
+	Thu,  1 Aug 2024 20:48:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="TDKAyXJl";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="tf3rDo1A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5C8F10E0C1
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 20:45:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA3110E8E2
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 20:48:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1722545132; x=1723149932; i=deller@gmx.de;
- bh=Val38mT4EFBf83cRJQQiOok/CpEe6U7DASQ5SF4Q5Kc=;
+ s=s31663417; t=1722545284; x=1723150084; i=deller@gmx.de;
+ bh=YZVqWUYXH3wbZaiEOSoyE18e7Vcku7lYY1epSrmPrRA=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=TDKAyXJlZduayWRqQPQA1wZM5Qa0HKKF3Jw6vQCv8FVpP4frBJX5tbkJPeghtw0z
- xanlDrZjr3GXmLH7eiNj7Ui075/uoHXZBpjTxrn793kjiB1eqX+g/O7xPfoym43JY
- mGhs3Xqnv7IQVjoGOq01AiOoCJw3DSQNbLRQ4yS1BG9cr5mwvRIxUivD8p0VymF1w
- K65DxPJ09prmsgD7RpDZlQwQj/yngXjyrgbZkfFzuRD/1MNzaWb9rFQte7sFlGhPM
- DqK3OGrvSSfaiKOXreSu/As5HpfOm5D3OupYGJ++EbKM7hyKqMKWVU+y7g61bl0/x
- Lk14Ac9+OfBxUqClhw==
+ b=tf3rDo1ACPZo/o6IB4YoxfbuMIOAE7ZkspMmZWrpkJZ4n7QIH9GR8EGwghe0HHhP
+ LLTNCjRjG1jpujRUeNPI/0G0bcRr2MSaQDFhkUQn59oEZtFk7A/93sFRKGC7lEeD0
+ +2UJzvnVQtZcgz0CGYxi9oeo3fjOov6258wt6IclVGJe7fRO6cTgJVfBCvxCW1K85
+ i62Hsnia84Lx/A1zkkejVoEADQbI+NFrEOzHhGhOF89JkPZJlX416HfZAqF+i8M9D
+ yya369DxCboswrgvfkPfiJTHizm/crLQelYGw/atJTm+RLDgR+C7ggJYU86gSiKtv
+ u9IGH7SpxAYnz0h/RQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.33]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1McpJg-1rzjd03GUM-00lfVL; Thu, 01
- Aug 2024 22:45:32 +0200
-Message-ID: <a7a1b5b7-9d98-4c3f-a5c4-36c692c12418@gmx.de>
-Date: Thu, 1 Aug 2024 22:45:32 +0200
+Received: from [192.168.20.55] ([109.250.63.33]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N5G9n-1s9o2b1IF3-016vdN; Thu, 01
+ Aug 2024 22:48:04 +0200
+Message-ID: <69fb1b80-cddf-49d6-952d-1fb33dbdb2c0@gmx.de>
+Date: Thu, 1 Aug 2024 22:48:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] video: Handle HAS_IOPORT dependencies
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- linux-kernel@vger.kernel.org
-References: <20240410142329.3567824-1-schnelle@linux.ibm.com>
- <20240410142329.3567824-2-schnelle@linux.ibm.com>
+Subject: Re: [PATCH v2] fbdev/hpfb: Fix an error handling path in
+ hpfb_dio_probe()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <ec4a9fbbff184e40d50e1f12e6df161ff5119f21.1722544445.git.christophe.jaillet@wanadoo.fr>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -89,27 +88,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240410142329.3567824-2-schnelle@linux.ibm.com>
+In-Reply-To: <ec4a9fbbff184e40d50e1f12e6df161ff5119f21.1722544445.git.christophe.jaillet@wanadoo.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lzYvjcjDyDNxEaHtrDlJ0rIuzfB/w2Ev8lE30ZhORoaIL1jTTo2
- WDuOrQkwWQcwBm71GpUHs7kTE5nQpoMP8wNnBda3FotxwQ9YZG6Uahzur+1iOuzT3LO5bY+
- svWo1mySdZKnoAxgO6JVy6mA53kaYjqAK5e7N16QlY/tktEBm10Ko9yvLxPe0LkkJrue95Y
- SGYxdsw/pDGuHnIJl0Vew==
+X-Provags-ID: V03:K1:VA6OnsDRKY9qJpzhMkXV6vBMLgiJ004ZpnVDG4RMkxHYAD9EQJl
+ DEeICFsCUG/cbusSty4Mev/hvmo484q0NLYo3k1BVkm1HfkjTNuI6oI2A+4oiQpn/ln935r
+ znhBofFo8Rsfs+bymSi75r4NYMTNRLE9qEbJ5KJgwbhoTODA6JElpc1sTTmECuLGyJR33aG
+ GA4czI6ll4AtAQE2hDzqw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:/JHtuh+UIs0=;wLU1+TfU5Egd/kMuFonftWx3N52
- stXkP4Wzdoi3LaKPEQAfmDoAKlXT3rCQH6k4Q80BGVottqaFGfYJnL6o+Y9zgSZUg6t7XtneY
- J+Tj0OJCqNBTw1Z/Um5n7wYuD4gUtKtj9SVqFYnkxFaz0SDeNW7W+bu01lotppDxSQOrhWHVK
- IViq4cNsLUCQpIY6SsJEb0WKJRvzyX9Q05BfMVo10mI4U6iKhAtbt70Jaoz++Xfp4giGizR+1
- jwhzVsZo3xLUhm1lrIPYcuJbomzXwM7Bou9Ytr0fo3tlYDNrT+rpixRjlilOR2aiLGF0pigVD
- TEoK3hUxy3lAU9HHYY+XfiIxXW0YQjS5MB4yCgmlkIW6JHSw/Z+T7HlLfeUifFKqYLgtk4Il6
- yqarvNQsAhmGD1W2k4KR8uwYBc/yHpeoHzb9VuKn5mEM0CAdd9Spij9/JqIsK6aTTFQMgqq+q
- 7sk5ZumFCjISV4MbMejlHPMxaYQM4c5Q2S95jL9CZSDEVDV254VWlNM2SGLiX5tgh7N55SRRN
- QF668h4gZJWIqD9Qp6TVfz3RrpueHBt/zzC/ssEiPTKwb4m9AAgwp8ugbGq5ifjfFOHlpazHo
- uH6MAKX0ArH9Ihf3S4pcQiVraVH+rFxRhGeC2rkE6Ya2aBEx08n00YyDq2xnGWcAj/g8075mi
- gx2kppZfk9gt4vP62neoY5+3fFaw8jbmjOEB0i62oPguphL6AcBxF9Xp8USvR1yJEZRoH7p3m
- LjrU3JeExPwrrf587cCbEwJ3ug/m+LaAYB6lZtZJmSZdrvovB3K20nCdytmTBJXzsrXhwN4cF
- yXbSngScbkjlMOmrTaYbGcyQ==
+UI-OutboundReport: notjunk:1;M01:P0:Ke1ygABLCfE=;lODdFpLywd9tjlzaufmyEdFtL8d
+ ogVcPB9VJM8K+D25GeJtPkk+QRHwNNb+NPMnS3eq+WSjoM9a5Bc/pndHyBDuwkZEKmxsM2R0I
+ 6G1t9+640HSRvgZRHfg9gHHG1CS7agLhDXBJW9w8x0exlldvq2DSTXFMWBEBfSjGohBURwBOj
+ KbD2S7a2toGGWRDArh5DQz3sGP6Hao9nRxD2Aj+yvqKp3V7JzTKXpqcIalkjlrtAC5mvwHUGT
+ 0TPEZl/mXMksu74N9Sa4W+Uy1yZ8cEueUqHhhcPWHOtvRB0U2OX8if2quy9SZXA9NOY1XCmbv
+ 2rHw7sH85k9qZBWLUhlFaC7WsuntW5tthm2tatB4Cmxy4Y76I6KCKV6jKt0w0UxB+jIhWTHVE
+ HsaETklA4cm0pV9MXnv0JWIFxF32qtTxOsQOUHfwwQ2orVfim5039cWT8Ht9vSMZIEe4eZCAe
+ 0cgJS9puH3IBI847GsMA9ezpcinjBWcc0W2zftyK/7ZheTc/BgDsrbcfCuwTBRSxm2GijwLfJ
+ XW0FpqFR39e10RKieyC53ef+ZmKXqcQjxhtZSxRgmpmtq8uV92gmEd8fU3nAXgI/usmfsnZbh
+ sbFPixKu6eivTjLbM38uU1Rs6R/WyFVtiPPcd7HCpumIYRwAvt2DO546/harWcxLCXNHnubWu
+ QQRFb5Frg6GJEe/AtF/kTq4d9FZKryVh6P4Y1bhYUUwMw+3yFdK0mL9kQLRLLdHiR9oTIcC3R
+ itHnN7cm6+Yaa3pzwfqarz+9Qn0RUWggx6Z/fbDi9gsWEyTyt8xFF3r4tV/hZYZ7X+l5vqyRu
+ /eg/kuN7/twAWxK7a+C+Iwfg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,184 +124,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/10/24 16:23, Niklas Schnelle wrote:
-> In a future patch HAS_IOPORT=3Dn will disable inb()/outb() and friends a=
-t
-> compile time. We thus need to #ifdef functions and their callsites which
-> unconditionally use these I/O accessors. In the include/video/vga.h
-> these are conveniently all those functions with the vga_io_* prefix.
+On 8/1/24 22:34, Christophe JAILLET wrote:
+> If an error occurs after request_mem_region(), a corresponding
+> release_mem_region() should be called, as already done in the remove
+> function.
 >
-> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-I've applied this patch now to the for-next fbdev git tree.
+I've applied it as-is (with the Fixes tag) to the fbdev git tree.
+Thank you, Christophe!
 
-Please let me know if you prefer another patch....
-
-Thanks!
 Helge
 
-
 > ---
-> Note: This patch does not depend any not-yet-mainline HAS_IOPORT changes
-> and may be merged via subsystem specific trees at your earliest
-> convenience.
+> *Not* even compile tested only.
+> It is provided as-is
 >
->   include/video/vga.h | 35 +++++++++++++++++++++++++----------
->   1 file changed, 25 insertions(+), 10 deletions(-)
+> Changes in v2:
+>    - Apply a minimal change   [Helge Deller]
 >
-> diff --git a/include/video/vga.h b/include/video/vga.h
-> index 947c0abd04ef..ed89295941c4 100644
-> --- a/include/video/vga.h
-> +++ b/include/video/vga.h
-> @@ -201,6 +201,7 @@ extern int restore_vga(struct vgastate *state);
->    * generic VGA port read/write
->    */
+> v1: https://lore.kernel.org/all/dc4fe3d857849ac63131c5620f1bacf1a3d7172e=
+.1722191367.git.christophe.jaillet@wanadoo.fr/
+> ---
+>   drivers/video/fbdev/hpfb.c | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> +#ifdef CONFIG_HAS_IOPORT
->   static inline unsigned char vga_io_r (unsigned short port)
->   {
->   	return inb_p(port);
-> @@ -210,12 +211,12 @@ static inline void vga_io_w (unsigned short port, =
-unsigned char val)
->   {
->   	outb_p(val, port);
->   }
-> -
->   static inline void vga_io_w_fast (unsigned short port, unsigned char r=
-eg,
->   				  unsigned char val)
->   {
->   	outw(VGA_OUT16VAL (val, reg), port);
->   }
-> +#endif /* CONFIG_HAS_IOPORT */
->
->   static inline unsigned char vga_mm_r (void __iomem *regbase, unsigned =
-short port)
->   {
-> @@ -235,28 +236,34 @@ static inline void vga_mm_w_fast (void __iomem *re=
-gbase, unsigned short port,
->
->   static inline unsigned char vga_r (void __iomem *regbase, unsigned sho=
-rt port)
->   {
-> -	if (regbase)
-> -		return vga_mm_r (regbase, port);
-> -	else
-> +#ifdef CONFIG_HAS_IOPORT
-> +	if (!regbase)
->   		return vga_io_r (port);
-> +	else
-> +#endif /* CONFIG_HAS_IOPORT */
-> +		return vga_mm_r (regbase, port);
->   }
->
->   static inline void vga_w (void __iomem *regbase, unsigned short port, =
-unsigned char val)
->   {
-> -	if (regbase)
-> -		vga_mm_w (regbase, port, val);
-> -	else
-> +#ifdef CONFIG_HAS_IOPORT
-> +	if (!regbase)
->   		vga_io_w (port, val);
-> +	else
-> +#endif /* CONFIG_HAS_IOPORT */
-> +		vga_mm_w (regbase, port, val);
->   }
->
->
->   static inline void vga_w_fast (void __iomem *regbase, unsigned short p=
-ort,
->   			       unsigned char reg, unsigned char val)
->   {
-> -	if (regbase)
-> -		vga_mm_w_fast (regbase, port, reg, val);
-> -	else
-> +#ifdef CONFIG_HAS_IOPORT
-> +	if (!regbase)
->   		vga_io_w_fast (port, reg, val);
-> +	else
-> +#endif /* CONFIG_HAS_IOPORT */
-> +		vga_mm_w_fast (regbase, port, reg, val);
->   }
->
->
-> @@ -280,6 +287,7 @@ static inline void vga_wcrt (void __iomem *regbase, =
-unsigned char reg, unsigned
->   #endif /* VGA_OUTW_WRITE */
->   }
->
-> +#ifdef CONFIG_HAS_IOPORT
->   static inline unsigned char vga_io_rcrt (unsigned char reg)
->   {
->           vga_io_w (VGA_CRT_IC, reg);
-> @@ -295,6 +303,7 @@ static inline void vga_io_wcrt (unsigned char reg, u=
-nsigned char val)
->           vga_io_w (VGA_CRT_DC, val);
->   #endif /* VGA_OUTW_WRITE */
->   }
-> +#endif /* CONFIG_HAS_IOPORT */
->
->   static inline unsigned char vga_mm_rcrt (void __iomem *regbase, unsign=
-ed char reg)
->   {
-> @@ -333,6 +342,7 @@ static inline void vga_wseq (void __iomem *regbase, =
-unsigned char reg, unsigned
->   #endif /* VGA_OUTW_WRITE */
->   }
->
-> +#ifdef CONFIG_HAS_IOPORT
->   static inline unsigned char vga_io_rseq (unsigned char reg)
->   {
->           vga_io_w (VGA_SEQ_I, reg);
-> @@ -348,6 +358,7 @@ static inline void vga_io_wseq (unsigned char reg, u=
-nsigned char val)
->           vga_io_w (VGA_SEQ_D, val);
->   #endif /* VGA_OUTW_WRITE */
->   }
-> +#endif /* CONFIG_HAS_IOPORT */
->
->   static inline unsigned char vga_mm_rseq (void __iomem *regbase, unsign=
-ed char reg)
->   {
-> @@ -385,6 +396,7 @@ static inline void vga_wgfx (void __iomem *regbase, =
-unsigned char reg, unsigned
->   #endif /* VGA_OUTW_WRITE */
->   }
->
-> +#ifdef CONFIG_HAS_IOPORT
->   static inline unsigned char vga_io_rgfx (unsigned char reg)
->   {
->           vga_io_w (VGA_GFX_I, reg);
-> @@ -400,6 +412,7 @@ static inline void vga_io_wgfx (unsigned char reg, u=
-nsigned char val)
->           vga_io_w (VGA_GFX_D, val);
->   #endif /* VGA_OUTW_WRITE */
->   }
-> +#endif /* CONFIG_HAS_IOPORT */
->
->   static inline unsigned char vga_mm_rgfx (void __iomem *regbase, unsign=
-ed char reg)
->   {
-> @@ -434,6 +447,7 @@ static inline void vga_wattr (void __iomem *regbase,=
- unsigned char reg, unsigned
->           vga_w (regbase, VGA_ATT_W, val);
->   }
->
-> +#ifdef CONFIG_HAS_IOPORT
->   static inline unsigned char vga_io_rattr (unsigned char reg)
->   {
->           vga_io_w (VGA_ATT_IW, reg);
-> @@ -445,6 +459,7 @@ static inline void vga_io_wattr (unsigned char reg, =
-unsigned char val)
->           vga_io_w (VGA_ATT_IW, reg);
->           vga_io_w (VGA_ATT_W, val);
->   }
-> +#endif /* CONFIG_HAS_IOPORT */
->
->   static inline unsigned char vga_mm_rattr (void __iomem *regbase, unsig=
-ned char reg)
->   {
+> diff --git a/drivers/video/fbdev/hpfb.c b/drivers/video/fbdev/hpfb.c
+> index 66fac8e5393e..a1144b150982 100644
+> --- a/drivers/video/fbdev/hpfb.c
+> +++ b/drivers/video/fbdev/hpfb.c
+> @@ -345,6 +345,7 @@ static int hpfb_dio_probe(struct dio_dev *d, const s=
+truct dio_device_id *ent)
+>   	if (hpfb_init_one(paddr, vaddr)) {
+>   		if (d->scode >=3D DIOII_SCBASE)
+>   			iounmap((void *)vaddr);
+> +		release_mem_region(d->resource.start, resource_size(&d->resource));
+>   		return -ENOMEM;
+>   	}
+>   	return 0;
 
