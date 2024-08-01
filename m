@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4803943B9B
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048C0943B9C
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 02:29:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 614B410E7DD;
-	Thu,  1 Aug 2024 00:29:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631C710E7D9;
+	Thu,  1 Aug 2024 00:29:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m4oa+gSW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hdCfUBxx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126D310E7D9;
- Thu,  1 Aug 2024 00:29:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83B8910E7DA;
+ Thu,  1 Aug 2024 00:29:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7FE726173E;
- Thu,  1 Aug 2024 00:29:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D503FC116B1;
- Thu,  1 Aug 2024 00:29:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id F287661446;
+ Thu,  1 Aug 2024 00:29:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBCF5C4AF0E;
+ Thu,  1 Aug 2024 00:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722472145;
- bh=xPqf615xEatr5jKlkYY1blrVeMrjZRnOk5TNcqL8P2o=;
+ s=k20201202; t=1722472149;
+ bh=fv1f1fLbBCDkLiL1oAGmxdCX7giF0BqILDwkHn88ax8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m4oa+gSW6j+KqKDCHuPHjdzbXB/5JMwq3Uor/pfqUglv3jI/HvuLHJb+u3xYNH2L3
- CjNVSC1fSUNX24zWOcvQ6fHK+I+fiPDk6cBE4GLwFGoeVlnHDOzBNGS1lIsq6/fVu1
- K6Zx/C0aHn0rwq6G7gvKPTmBrzVT6USGCyK2uawD2AqfZMkyAXi463HyYKdGpWXBML
- pNrhxBolE7Asqae3OYPYUf29C1eEsIwUz/82Pc4Qb2Yvjn9AZ02hBAR4PZr+BXFtco
- BF2ORZIFWTKY3M+l5lxVRT3F9vM2Tae9amk1ldst00LuSjFaRm08RyN07ewsL3RZ5g
- jm8QAtvJdd9+w==
+ b=hdCfUBxx4HGYa18/hWqrM73d0CPzyKkngiId3895FpVNtRCaNZDpOgvwg9mG+lB9g
+ smtcR1kif2Rfms/ScwAlMH1pLW5Ee8W0qv6dQDHK9bTUDMalHbAaq3DDn4GjBN13vq
+ c8Qxk5IF2TLLqadHRNXCN0mWOv3Mwx+FaRqglmnt5NyzzwJXdUHLGtVevuvKnvTatK
+ iRvWzGu4XQZ2c/O5bepZLUXGqQo/uvRuIc8ntNp6t4KcvrFE8ToqxbMdbgW9lJ72wu
+ izT9OgAqx/dWi4g+kq4RpX1HZobwgWNvG80p/itO5Wnvt7pqjQb1VqSvuJ5N8+KubH
+ hYxcPKl65kKdA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+Cc: Hersen Wu <hersenxs.wu@amd.com>, Alex Hung <alex.hung@amd.com>,
  Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- hamza.mahfooz@amd.com, roman.li@amd.com, mario.limonciello@amd.com,
- Wayne.Lin@amd.com, amd-gfx@lists.freedesktop.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 13/61] drm/amd/display: Spinlock before reading
- event
-Date: Wed, 31 Jul 2024 20:25:31 -0400
-Message-ID: <20240801002803.3935985-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 14/61] drm/amd/display: Skip inactive planes
+ within ModeSupportAndSystemConfiguration
+Date: Wed, 31 Jul 2024 20:25:32 -0400
+Message-ID: <20240801002803.3935985-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240801002803.3935985-1-sashal@kernel.org>
 References: <20240801002803.3935985-1-sashal@kernel.org>
@@ -69,52 +68,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Hung <alex.hung@amd.com>
+From: Hersen Wu <hersenxs.wu@amd.com>
 
-[ Upstream commit ae13c8a5cff92015b9a3eb7cee65ebc75859487f ]
+[ Upstream commit a54f7e866cc73a4cb71b8b24bb568ba35c8969df ]
 
-[WHY & HOW]
-A read of acrtc_attach->base.state->event was not locked so moving it
-inside the spinlock.
+[Why]
+Coverity reports Memory - illegal accesses.
 
-This fixes a LOCK_EVASION issue reported by Coverity.
+[How]
+Skip inactive planes.
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Reviewed-by: Alex Hung <alex.hung@amd.com>
 Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Hersen Wu <hersenxs.wu@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 160811ac1fb97..2c6caddf1de34 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8052,15 +8052,13 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 				bundle->stream_update.vrr_infopacket =
- 					&acrtc_state->stream->vrr_infopacket;
- 		}
--	} else if (cursor_update && acrtc_state->active_planes > 0 &&
--		   acrtc_attach->base.state->event) {
--		drm_crtc_vblank_get(pcrtc);
--
-+	} else if (cursor_update && acrtc_state->active_planes > 0) {
- 		spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
--
--		acrtc_attach->event = acrtc_attach->base.state->event;
--		acrtc_attach->base.state->event = NULL;
--
-+		if (acrtc_attach->base.state->event) {
-+			drm_crtc_vblank_get(pcrtc);
-+			acrtc_attach->event = acrtc_attach->base.state->event;
-+			acrtc_attach->base.state->event = NULL;
-+		}
- 		spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
- 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c b/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
+index 1070cf8701960..b2ad56c459ba6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
+@@ -1099,8 +1099,13 @@ void ModeSupportAndSystemConfiguration(struct display_mode_lib *mode_lib)
  
+ 	// Total Available Pipes Support Check
+ 	for (k = 0; k < mode_lib->vba.NumberOfActivePlanes; ++k) {
+-		total_pipes += mode_lib->vba.DPPPerPlane[k];
+ 		pipe_idx = get_pipe_idx(mode_lib, k);
++		if (pipe_idx == -1) {
++			ASSERT(0);
++			continue; // skip inactive planes
++		}
++		total_pipes += mode_lib->vba.DPPPerPlane[k];
++
+ 		if (mode_lib->vba.cache_pipes[pipe_idx].clks_cfg.dppclk_mhz > 0.0)
+ 			mode_lib->vba.DPPCLK[k] = mode_lib->vba.cache_pipes[pipe_idx].clks_cfg.dppclk_mhz;
+ 		else
 -- 
 2.43.0
 
