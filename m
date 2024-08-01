@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73A5944ACB
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:05:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E50944ACC
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2024 14:05:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4696810E942;
-	Thu,  1 Aug 2024 12:05:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26AF710E93A;
+	Thu,  1 Aug 2024 12:05:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QUovD0uI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cwCLvLdx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C09C10E92E
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 12:05:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6608610E937
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2024 12:05:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 68697CE18E6;
- Thu,  1 Aug 2024 12:05:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A25C4AF09;
- Thu,  1 Aug 2024 12:05:41 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 872C6CE193B;
+ Thu,  1 Aug 2024 12:05:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 326DEC32786;
+ Thu,  1 Aug 2024 12:05:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722513942;
- bh=wcxbwl6CKHuMSz23l9nyG/Jwc9VoDjJQ+eyO66Z4CGQ=;
+ s=k20201202; t=1722513946;
+ bh=Lrwpx2uyOMMd30miKkZzGs29UF0PiPnGLNhz0BxCTdY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QUovD0uI+exPoZj7LG0ZbfynjF9a9xLRNtYqhlWc+52nyTGMP3++fgWGzw7DYDNXU
- K7DvKNcALnGoaxyQES1Lqh+VDdXy6uspMKr9EhK6ZJMGCD2kPXQSnSf2Om/lC2vFDC
- Re7eo7FDpVG1zwtChmP759+aiaNno/k9bvE0ot2fwqTVkB0bTjwzqxrTuNZ970qzFp
- UZRr54RLQH33lHhQCaod99Ki1F+u4KZ7X85KwaN0GxZ2DGRrifk1VhdTg7frLDT3Px
- 68JWSYEbNztemCJ0qqB0uqobpg1HYDbAgqUzad9DkI4UFW1bWXRPMam8ePei44HcSN
- X91b1LXqbcf7A==
+ b=cwCLvLdxcKpwb7cQ70CLYC6NFRTEF+QAC/gzwzp4xw5PgesySI7OoWnQUVVb+R1rK
+ ZwcCI0ocdUczf4Fmj8OpGqIbdDJ5saXfxCLVfeNWkYZO9jrSrZ/z2YdppZrmkGWaM9
+ DX8eT8AXuBJjqIfTEbGqYVl9QT17vPHC1SQO0Qf7ajeF7javo7gLVsqFeD3w+nbUKW
+ x+kFkd6LxG0b7WgGrlsTT0lMsgTQmFZlHVgIisqy3VXYMS7yMBclo2ZnJkfR9JgfzN
+ q4EEKDj9qEEDtL6IYqmuDOdnpBcdIBW8Ax0XJzY9cCNxqbqrwuEsJkVbbGySuz5KRy
+ /B1kEFuJPW2fQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Yishai Hadas <yishaih@nvidia.com>,
@@ -42,10 +42,10 @@ Cc: Yishai Hadas <yishaih@nvidia.com>,
  Selvin Xavier <selvin.xavier@broadcom.com>,
  Sumit Semwal <sumit.semwal@linaro.org>, Tariq Toukan <tariqt@nvidia.com>,
  Tatyana Nikolova <tatyana.e.nikolova@intel.com>
-Subject: [PATCH rdma-next 4/8] RDMA/umem: Add support for creating pinned
- DMABUF umem with a given dma device
-Date: Thu,  1 Aug 2024 15:05:13 +0300
-Message-ID: <038aad36a43797e5591b20ba81051fc5758124f9.1722512548.git.leon@kernel.org>
+Subject: [PATCH rdma-next 5/8] RDMA/umem: Introduce an option to revoke DMABUF
+ umem
+Date: Thu,  1 Aug 2024 15:05:14 +0300
+Message-ID: <a38270f2fe4a194868ca2312f4c1c760e51bcbff.1722512548.git.leon@kernel.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <cover.1722512548.git.leon@kernel.org>
 References: <cover.1722512548.git.leon@kernel.org>
@@ -68,140 +68,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yishai Hadas <yishaih@nvidia.com>
 
-Add support for creating pinned DMABUF umem with a specified DMA device
-instead of the DMA device of the given IB device.
+Introduce an option to revoke DMABUF umem.
 
-This API will be utilized in the upcoming patches of the series when
-multiple path DMAs are implemented.
+This option will retain the umem allocation while revoking its DMA
+mapping. Furthermore, any subsequent attempts to map the pages should
+fail once the umem has been revoked.
+
+This functionality will be utilized in the upcoming patches in the
+series, where we aim to delay umem deallocation until the mkey
+deregistration. However, we must unmap its pages immediately.
 
 Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/infiniband/core/umem_dmabuf.c | 45 ++++++++++++++++++++-------
- include/rdma/ib_umem.h                | 15 +++++++++
- 2 files changed, 49 insertions(+), 11 deletions(-)
+ drivers/infiniband/core/umem_dmabuf.c | 21 +++++++++++++++++++--
+ include/rdma/ib_umem.h                |  3 +++
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
-index 39357dc2d229..726a09786547 100644
+index 726a09786547..9fcd37761264 100644
 --- a/drivers/infiniband/core/umem_dmabuf.c
 +++ b/drivers/infiniband/core/umem_dmabuf.c
-@@ -110,10 +110,12 @@ void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf)
- }
- EXPORT_SYMBOL(ib_umem_dmabuf_unmap_pages);
+@@ -23,6 +23,9 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
  
--struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
--					  unsigned long offset, size_t size,
--					  int fd, int access,
--					  const struct dma_buf_attach_ops *ops)
-+static struct ib_umem_dmabuf *
-+ib_umem_dmabuf_get_with_dma_device(struct ib_device *device,
-+				   struct device *dma_device,
-+				   unsigned long offset, size_t size,
-+				   int fd, int access,
-+				   const struct dma_buf_attach_ops *ops)
- {
- 	struct dma_buf *dmabuf;
- 	struct ib_umem_dmabuf *umem_dmabuf;
-@@ -152,7 +154,7 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
+ 	dma_resv_assert_held(umem_dmabuf->attach->dmabuf->resv);
  
- 	umem_dmabuf->attach = dma_buf_dynamic_attach(
- 					dmabuf,
--					device->dma_device,
-+					dma_device,
- 					ops,
- 					umem_dmabuf);
- 	if (IS_ERR(umem_dmabuf->attach)) {
-@@ -168,6 +170,15 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
- 	dma_buf_put(dmabuf);
- 	return ret;
- }
++	if (umem_dmabuf->revoked)
++		return -EINVAL;
 +
-+struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
-+					  unsigned long offset, size_t size,
-+					  int fd, int access,
-+					  const struct dma_buf_attach_ops *ops)
-+{
-+	return ib_umem_dmabuf_get_with_dma_device(device, device->dma_device,
-+						  offset, size, fd, access, ops);
-+}
- EXPORT_SYMBOL(ib_umem_dmabuf_get);
+ 	if (umem_dmabuf->sgt)
+ 		goto wait_fence;
  
- static void
-@@ -184,16 +195,18 @@ static struct dma_buf_attach_ops ib_umem_dmabuf_attach_pinned_ops = {
- 	.move_notify = ib_umem_dmabuf_unsupported_move_notify,
- };
- 
--struct ib_umem_dmabuf *ib_umem_dmabuf_get_pinned(struct ib_device *device,
--						 unsigned long offset,
--						 size_t size, int fd,
--						 int access)
-+struct ib_umem_dmabuf *
-+ib_umem_dmabuf_get_pinned_with_dma_device(struct ib_device *device,
-+					  struct device *dma_device,
-+					  unsigned long offset, size_t size,
-+					  int fd, int access)
- {
- 	struct ib_umem_dmabuf *umem_dmabuf;
- 	int err;
- 
--	umem_dmabuf = ib_umem_dmabuf_get(device, offset, size, fd, access,
--					 &ib_umem_dmabuf_attach_pinned_ops);
-+	umem_dmabuf = ib_umem_dmabuf_get_with_dma_device(device, dma_device, offset,
-+							 size, fd, access,
-+							 &ib_umem_dmabuf_attach_pinned_ops);
- 	if (IS_ERR(umem_dmabuf))
- 		return umem_dmabuf;
- 
-@@ -217,6 +230,16 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get_pinned(struct ib_device *device,
- 	ib_umem_release(&umem_dmabuf->umem);
- 	return ERR_PTR(err);
+@@ -242,15 +245,29 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get_pinned(struct ib_device *device,
  }
-+EXPORT_SYMBOL(ib_umem_dmabuf_get_pinned_with_dma_device);
-+
-+struct ib_umem_dmabuf *ib_umem_dmabuf_get_pinned(struct ib_device *device,
-+						 unsigned long offset,
-+						 size_t size, int fd,
-+						 int access)
-+{
-+	return ib_umem_dmabuf_get_pinned_with_dma_device(device, device->dma_device,
-+							 offset, size, fd, access);
-+}
  EXPORT_SYMBOL(ib_umem_dmabuf_get_pinned);
  
- void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf)
+-void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf)
++void ib_umem_dmabuf_revoke(struct ib_umem_dmabuf *umem_dmabuf)
+ {
+ 	struct dma_buf *dmabuf = umem_dmabuf->attach->dmabuf;
+ 
+ 	dma_resv_lock(dmabuf->resv, NULL);
++	if (umem_dmabuf->revoked)
++		goto end;
+ 	ib_umem_dmabuf_unmap_pages(umem_dmabuf);
+-	if (umem_dmabuf->pinned)
++	if (umem_dmabuf->pinned) {
+ 		dma_buf_unpin(umem_dmabuf->attach);
++		umem_dmabuf->pinned = 0;
++	}
++	umem_dmabuf->revoked = 1;
++end:
+ 	dma_resv_unlock(dmabuf->resv);
++}
++EXPORT_SYMBOL(ib_umem_dmabuf_revoke);
++
++void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf)
++{
++	struct dma_buf *dmabuf = umem_dmabuf->attach->dmabuf;
++
++	ib_umem_dmabuf_revoke(umem_dmabuf);
+ 
+ 	dma_buf_detach(dmabuf, umem_dmabuf->attach);
+ 	dma_buf_put(dmabuf);
 diff --git a/include/rdma/ib_umem.h b/include/rdma/ib_umem.h
-index 565a85044541..de05268ed632 100644
+index de05268ed632..7dc7b1cc71b5 100644
 --- a/include/rdma/ib_umem.h
 +++ b/include/rdma/ib_umem.h
-@@ -150,6 +150,11 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get_pinned(struct ib_device *device,
- 						 unsigned long offset,
- 						 size_t size, int fd,
- 						 int access);
-+struct ib_umem_dmabuf *
-+ib_umem_dmabuf_get_pinned_with_dma_device(struct ib_device *device,
-+					  struct device *dma_device,
-+					  unsigned long offset, size_t size,
-+					  int fd, int access);
+@@ -38,6 +38,7 @@ struct ib_umem_dmabuf {
+ 	unsigned long last_sg_trim;
+ 	void *private;
+ 	u8 pinned : 1;
++	u8 revoked : 1;
+ };
+ 
+ static inline struct ib_umem_dmabuf *to_ib_umem_dmabuf(struct ib_umem *umem)
+@@ -158,6 +159,7 @@ ib_umem_dmabuf_get_pinned_with_dma_device(struct ib_device *device,
  int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf);
  void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf);
  void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf);
-@@ -196,6 +201,16 @@ ib_umem_dmabuf_get_pinned(struct ib_device *device, unsigned long offset,
- {
- 	return ERR_PTR(-EOPNOTSUPP);
++void ib_umem_dmabuf_revoke(struct ib_umem_dmabuf *umem_dmabuf);
+ 
+ #else /* CONFIG_INFINIBAND_USER_MEM */
+ 
+@@ -217,6 +219,7 @@ static inline int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
  }
-+
-+static inline struct ib_umem_dmabuf *
-+ib_umem_dmabuf_get_pinned_with_dma_device(struct ib_device *device,
-+					  struct device *dma_device,
-+					  unsigned long offset, size_t size,
-+					  int fd, int access)
-+{
-+	return ERR_PTR(-EOPNOTSUPP);
-+}
-+
- static inline int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
- {
- 	return -EOPNOTSUPP;
+ static inline void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf) { }
+ static inline void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf) { }
++static inline void ib_umem_dmabuf_revoke(struct ib_umem_dmabuf *umem_dmabuf) {}
+ 
+ #endif /* CONFIG_INFINIBAND_USER_MEM */
+ #endif /* IB_UMEM_H */
 -- 
 2.45.2
 
