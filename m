@@ -2,59 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322D1945AF0
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 11:24:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5B5945B2C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 11:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBF510E9E4;
-	Fri,  2 Aug 2024 09:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05BC710E047;
+	Fri,  2 Aug 2024 09:39:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R2DQpku/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S4vBY47g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF8210E047
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2024 09:24:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1722590677; x=1754126677;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=+30Ap14EQ4h2NhyFT3LMwTa6oZGyUzzw/ei5xXqzuqM=;
- b=R2DQpku//7JyY9pP+sUKwMdKZURzcTRkf7EQYSAlULKAzKwuMnwaLCmK
- 1xHWZBwLLn6OyB70eQxztz88QcBwD7Yn4eFsPXkBunaVaZRwOU95HTcEm
- nMXMjr7wgTV0dMViGWTPhGzwifAmcIsJdeiI/JXm5NWnGTWloWMjVZZad
- c/KKGBxxL63rr0GQWeEth9gnKoFYH1hJAbT2oktSkVmWHpt2rSFC2uWgi
- FKm8hlb3m53hKQRpQ8A4PL0v88XhpT63xLoio5+e0vGj6WsG8SZjvsjEb
- Is/4hF25DTQx4r5YEyt7zpBaPO05gtQ/5nbTwCmZykwnvxylE0q7Yjv7d A==;
-X-CSE-ConnectionGUID: aP7VYEgiRkOt7VCKPXzR9Q==
-X-CSE-MsgGUID: ZXzzobvxT5yfYwPBDkF4lQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="38061083"
-X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; d="scan'208";a="38061083"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2024 02:23:59 -0700
-X-CSE-ConnectionGUID: 72nN5EiaRhukFY6hqjb4pg==
-X-CSE-MsgGUID: xdmYLuhAS1qfQXnjSm7nFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; d="scan'208";a="55262104"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.66])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2024 02:23:26 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/client: Use common display mode for cloned outputs
-In-Reply-To: <267474ce-d158-46c5-aeb8-8d839b3b4322@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240801130449.104645-1-tzimmermann@suse.de>
- <878qxf73mg.fsf@intel.com> <267474ce-d158-46c5-aeb8-8d839b3b4322@suse.de>
-Date: Fri, 02 Aug 2024 12:23:21 +0300
-Message-ID: <87wmkz5ldi.fsf@intel.com>
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFD7F10E047;
+ Fri,  2 Aug 2024 09:39:40 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-3687ea0521cso5160723f8f.1; 
+ Fri, 02 Aug 2024 02:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722591579; x=1723196379; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=epsFg+QNub+FqtmHtHz144X/ITFDI4OkHx3ujhgC24A=;
+ b=S4vBY47gZkQT4aXXr6ncxnJCwCJsIOa4uPJmGaOdu4G8s0OhbbkB7Oav0+MsPg3LM/
+ Tf+spNiKtmaaxakTsaJNsKV8G7AE0KF86F/Qpj4QXc62USTyNaMwjlMZc/U5ysbXsILC
+ OMLZ5zILqVK/9nylFn3wLsB77frKbvz7pebXKo/zc7Jglo2NfX6DY79xt7dAeNLfh5Xg
+ yOegFTLYksyuTTIu7g1FcgeF+u/05eWGDkEW7wDUbacf41/Pjvku5vSu7cjnTy24lihI
+ Z6iqkMLa6x4kblwrlZac2GogZEefQuCo+csGKJHbVxEnX6iG39YvfmQh92ptQJUbhklj
+ tQBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722591579; x=1723196379;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=epsFg+QNub+FqtmHtHz144X/ITFDI4OkHx3ujhgC24A=;
+ b=DQH5P7rDwdkfz6Asa6Fu3/8eIdf958tgAjEjBHQAzD7k1X6pSwjblheiBvXL4EEpH1
+ YPFHX8gMBf7B1/u4vuRV5hq/8xahlwM9cRV544pzxt0Vxt9lF57ozaBNdXa6tIGibjYS
+ HWVuucM1U2uvNV69X0nAppXUiT6yOWVeDp83/iDRgactMqNxFvrYh0fw9iV2ZDo7GehD
+ Jy7ykhDdP2Oh3dYdLfrUbqvbkS6mZavhQpAfSyDblRujL4IyYzhKyCnQunZSMjDiYsav
+ RZvOYCsC09hoYa+c5U3sIRMp2gpEhLBhIQdzaqv8p+JwvTKYibP6wfiv856yk+qk6rSO
+ FQfA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWDwHJ0MVaSdf5PWzDbJwuO/6lM8Fbhge7uJ2/krq3ylK66s9hJnCw29iaDUb4RkvryR3WJJR1aYDRCa3b7ZnqyGWRjDMq5A/QvPXbHQ1ikzTmN66SzwD9ANNbvlvEcXre+GTHiOtMY3ExZZHPqxw==
+X-Gm-Message-State: AOJu0YzbVDl1OFGzQ2jFMX10kA1wES+ly3Ec1uDTO9RZHc6M/btwthnX
+ 220P/0iTPJ8v2u0+rZJFVD5P5AMOhVe//Yu7CWgY/BRO0xvK9pQC
+X-Google-Smtp-Source: AGHT+IHNFpNyZLyDG82LlxIHjrUDxrGrZIvbFsdh4WVQj+Ss/wNeTYIUpERWeCU6ixu2lioDvMJyQg==
+X-Received: by 2002:a05:6000:b92:b0:368:7ad8:531f with SMTP id
+ ffacd0b85a97d-36bbc1a5174mr1844283f8f.42.1722591578368; 
+ Fri, 02 Aug 2024 02:39:38 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-36bbd01ee30sm1501150f8f.50.2024.08.02.02.39.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Aug 2024 02:39:37 -0700 (PDT)
+Message-ID: <ce45d800-ad6a-4cef-9c57-480908867490@gmail.com>
+Date: Fri, 2 Aug 2024 11:39:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: add dce6 drm_panic support
+To: Lu Yao <yaolu@kylinos.cn>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, srinivasan.shanmugam@amd.com,
+ sunil.khatri@amd.com
+Cc: airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240802071752.116541-1-yaolu@kylinos.cn>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20240802071752.116541-1-yaolu@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,132 +87,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 02 Aug 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
+Am 02.08.24 um 09:17 schrieb Lu Yao:
+> Add support for the drm_panic module, which displays a pretty user
+> friendly message on the screen when a Linux kernel panic occurs.
 >
-> Am 02.08.24 um 10:03 schrieb Jani Nikula:
->> On Thu, 01 Aug 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>> For cloned outputs, don't pick a default resolution of 1024x768 as
->>> most hardware can do better. Instead look through the modes of all
->>> connectors to find a common mode for all of them.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>   drivers/gpu/drm/drm_client_modeset.c | 54 +++++++++++++++++-----------
->>>   1 file changed, 34 insertions(+), 20 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
->>> index 31af5cf37a09..67b422dc8e7f 100644
->>> --- a/drivers/gpu/drm/drm_client_modeset.c
->>> +++ b/drivers/gpu/drm/drm_client_modeset.c
->>> @@ -266,7 +266,7 @@ static bool drm_client_target_cloned(struct drm_device *dev,
->>>   {
->>>   	int count, i, j;
->>>   	bool can_clone = false;
->>> -	struct drm_display_mode *dmt_mode, *mode;
->>> +	struct drm_display_mode *mode, *common_mode = NULL;
->>>   
->>>   	/* only contemplate cloning in the single crtc case */
->>>   	if (dev->mode_config.num_crtc > 1)
->>> @@ -309,35 +309,49 @@ static bool drm_client_target_cloned(struct drm_device *dev,
->>>   		return true;
->>>   	}
->>>   
->>> -	/* try and find a 1024x768 mode on each connector */
->>> -	can_clone = true;
->>> -	dmt_mode = drm_mode_find_dmt(dev, 1024, 768, 60, false);
->>> -
->>> -	if (!dmt_mode)
->>> -		goto fail;
->>> +	/* try and find a mode common among connectors */
->>>   
->>> +	can_clone = false;
->>>   	for (i = 0; i < connector_count; i++) {
->>>   		if (!enabled[i])
->>>   			continue;
->>>   
->>> -		list_for_each_entry(mode, &connectors[i]->modes, head) {
->>> -			if (drm_mode_match(mode, dmt_mode,
->>> -					   DRM_MODE_MATCH_TIMINGS |
->>> -					   DRM_MODE_MATCH_CLOCK |
->>> -					   DRM_MODE_MATCH_FLAGS |
->>> -					   DRM_MODE_MATCH_3D_FLAGS))
->>> -				modes[i] = mode;
->>> +		list_for_each_entry(common_mode, &connectors[i]->modes, head) {
->>> +			can_clone = true;
->>> +
->>> +			for (j = 1; j < connector_count; j++) {
->> Should this start from i instead of 1?
+> Signed-off-by: Lu Yao <yaolu@kylinos.cn>
+> ---
+> The patch can work properly on the TTY, but after start X, drawn
+> image is messy, it looks like the data isn't linearly arranged.
+> However at this time 'fb->modifier' is 'DRM_FORMAT_MOD_LINEAR'.
 >
-> Right, it would make sense.
+> Another difference I found is:
+>    For TTY, the amdgpu_bo is created with flag
+>    'AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED|AMDGPU_GEM_CREATE_CPU_GTT_USWC|
+>    AMDGPU_GEM_CREATE_VRAM_CLEARED|AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS'.
+>    For X, the amdgpu_bo is created with flag
+>    'AMDGPU_GEM_CREATE_NO_CPU_ACCESS|AMDGPU_GEM_CREATE_CPU_GTT_USWC'
+> I try to use same flag for X, it looks like no difference.
 >
->>
->> Anyway, I have a hard time wrapping my head around this whole thing. I
->> think it would greatly benefit from a helper function to search for a
->> mode from an array of connectors.
+> Can someone provide some insight into this problem or where I am going
+> wrong. Thanks a lot.
 >
-> That's what it does. Here, the outer-most loop tries to find the first 
-> enabled connector. For each of its modes, the inner loops test if that 
-> mode is also present on all other enabled connectors.
+> Test environment: X86 arch + v6.6 kernel + R7340.
+> ---
+>   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c | 32 +++++++++++++++++++++++++++
+>   1 file changed, 32 insertions(+)
 >
-> All of the client's mode-selection code is fairly obscure. I don't 
-> really dare touching it.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> index 05c0df97f01d..12c3801c264a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> @@ -28,6 +28,8 @@
+>   #include <drm/drm_modeset_helper.h>
+>   #include <drm/drm_modeset_helper_vtables.h>
+>   #include <drm/drm_vblank.h>
+> +#include <drm/drm_panic.h>
 
-I mean just refactoring the above loops to smaller pieces.
+> +#include "../../drm_internal.h"
 
-BR,
-Jani.
+Well that this file is named "internal" and not in a common include 
+directory is a strong indicator that you should absolutely *not* include 
+it in a driver.
 
->
-> Best regards
-> Thomas
->
->>
->> BR,
->> Jani.
->>
->>
->>> +				if (!enabled[i])
->>> +					continue;
->>> +
->>> +				can_clone = false;
->>> +				list_for_each_entry(mode, &connectors[j]->modes, head) {
->>> +					can_clone = drm_mode_match(common_mode, mode,
->>> +								   DRM_MODE_MATCH_TIMINGS |
->>> +							    DRM_MODE_MATCH_CLOCK |
->>> +							    DRM_MODE_MATCH_FLAGS |
->>> +							    DRM_MODE_MATCH_3D_FLAGS);
->>> +					if (can_clone)
->>> +						break; // found common mode on connector
->>> +				}
->>> +				if (!can_clone)
->>> +					break; // try next common mode
->>> +			}
->>> +			if (can_clone)
->>> +				break; // found common mode among all connectors
->>>   		}
->>> -		if (!modes[i])
->>> -			can_clone = false;
->>> +		break;
->>>   	}
->>> -	kfree(dmt_mode);
->>> -
->>>   	if (can_clone) {
->>> -		drm_dbg_kms(dev, "can clone using 1024x768\n");
->>> +		for (i = 0; i < connector_count; i++) {
->>> +			if (!enabled[i])
->>> +				continue;
->>> +			modes[i] = common_mode;
->>> +
->>> +		}
->>> +		drm_dbg_kms(dev, "can clone using" DRM_MODE_FMT "\n", DRM_MODE_ARG(common_mode));
->>>   		return true;
->>>   	}
->>> -fail:
->>> +
->>>   	drm_info(dev, "kms: can't enable cloning when we probably wanted to.\n");
->>>   	return false;
->>>   }
+>   
+>   #include "amdgpu.h"
+>   #include "amdgpu_pm.h"
+> @@ -2600,6 +2602,35 @@ static const struct drm_crtc_helper_funcs dce_v6_0_crtc_helper_funcs = {
+>   	.get_scanout_position = amdgpu_crtc_get_scanout_position,
+>   };
+>   
+> +static int dce_v6_0_drm_primary_plane_get_scanout_buffer(struct drm_plane *plane,
+> +							 struct drm_scanout_buffer *sb)
+> +{
+> +	struct drm_framebuffer *fb;
+> +	struct drm_gem_object *obj;
+> +	struct amdgpu_bo *abo;
+> +	int ret = 0;
+> +
+> +	if (!plane->fb || plane->fb->modifier != DRM_FORMAT_MOD_LINEAR)
+> +		return -ENODEV;
+> +
+> +	fb = plane->fb;
+> +	sb->width = fb->width;
+> +	sb->height = fb->height;
+> +	sb->format = fb->format;
+> +	sb->pitch[0] = fb->pitches[0];
+> +
+> +	obj = fb->obj[0];
+> +	abo = gem_to_amdgpu_bo(obj);
+> +	if (!abo || abo->flags & AMDGPU_GEM_CREATE_NO_CPU_ACCESS)
+> +		return -EINVAL;
+> +
+> +	return drm_gem_vmap(obj, &sb->map[0]);
 
--- 
-Jani Nikula, Intel
+Yeah that will almost always not work. Most display buffers are tilled 
+and not CPU accessible.
+
+Regards,
+Christian.
+
+> +}
+> +
+> +static const struct drm_plane_helper_funcs dce_v6_0_drm_primary_plane_helper_funcs = {
+> +	.get_scanout_buffer = dce_v6_0_drm_primary_plane_get_scanout_buffer
+> +};
+> +
+>   static int dce_v6_0_crtc_init(struct amdgpu_device *adev, int index)
+>   {
+>   	struct amdgpu_crtc *amdgpu_crtc;
+> @@ -2627,6 +2658,7 @@ static int dce_v6_0_crtc_init(struct amdgpu_device *adev, int index)
+>   	amdgpu_crtc->encoder = NULL;
+>   	amdgpu_crtc->connector = NULL;
+>   	drm_crtc_helper_add(&amdgpu_crtc->base, &dce_v6_0_crtc_helper_funcs);
+> +	drm_plane_helper_add(amdgpu_crtc->base.primary, &dce_v6_0_drm_primary_plane_helper_funcs);
+>   
+>   	return 0;
+>   }
+
