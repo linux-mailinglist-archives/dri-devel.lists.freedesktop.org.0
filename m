@@ -2,160 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA17945F7E
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 16:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FAC945FC4
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 17:00:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34ADF10E138;
-	Fri,  2 Aug 2024 14:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0449D10E140;
+	Fri,  2 Aug 2024 15:00:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Wzscfxyr";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LRBJl0U+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2085.outbound.protection.outlook.com [40.107.220.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41AC710E118;
- Fri,  2 Aug 2024 14:37:19 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2063.outbound.protection.outlook.com [40.107.243.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9734610E140;
+ Fri,  2 Aug 2024 15:00:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lPebq64jFqHlk414JGRF+Rn7zM6ZYtQ5MmVSEyM4eWpqah+J80lOQrUMoFFM6+TWXMgKFefqZDyvko73Nv9yDijVZaaXjup7BvzY76NlJxsR2/5lYhNbiVFnc3xAyXa4VIYNo64ewPqgR3LZtU5lbCNfOU5VtsykdDRZtS4YG+/cntcDmuNn4u/M3490BX0QEWYP4XM6e6Oq0qumgaAKFuhB1srVcBm7YKrghpduz0AYCx6ejk7hG0Tt0TTR/NlaAzviuIcF68Iz7D3VnpZpaVQ0+SeUNpP89+mnVjjiG6DTxAu98z2Fe+yWmpSj5UcpnWzWxl8akbg5xwk0USf22Q==
+ b=ewK+BwR+IODLSk9JtP5sH7HtLWI6ipt0ykhAwjBlcNGAA9Rln9rYvNrDeyhdY5xSpQzGq97LXHAC1KsIw2JSAnUP+uRLyoJdUMibp+0CObpahRdJbGpduiG2PNIXC225ZkeCR0q74TY4asBmu93YIVaDD8mzuVJTUrAMy8V9BJZPLyeJXYbCgSR8ACvFGJbJwAz8USeghkecbmc72ip89mTRGfCBg4U6tVGIeTd6+7VqG7dIBeGMBJLQn0BT6b4b5c4Bp/A90IHqubJu4YhugDzOQBcmpm5tWXnxxOOZ3N80M0V7IxXMmrqLANfEOfp0Tse9T4LY8qKFIt0CNaV96g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wrraMVgRRvSuY86c2isbrv5/kkGs/0D9FQU+4aGZ5n4=;
- b=jq24UyDVK1Z33lIadj7m5QoXBtPVY7LcYvBitaRw1R3Ac30/V8a5YoemkUJBD5R1Tjv6+MKsa9SP8pzN98LUzMX7GMnUeINEM5HYn4KFi9yHl0RLVLIOKUXVxW56c2dnCNG+1KGVD5Edt5GQCFJQSSzpwzzguxZy8Sg15I5cTk9YO4H/LuuMFU7ow9mZoCzZoqH9cbRnCV36+i+hJ3mT/D5c91fS2eR0ysCgl1kUmF6elDFggbYqojXlof1dFsAbkPWsguUCA8ZSLr7gB2qswdCbUz2sT9/c7Iu211jE1XlkQGa5i8Aa796iOap93tjZKeCI+F0uwarXRjv28iYhgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=OyiYyGA6o/1SZfI+qbzO61aHrb96zX/xwy6/iprPK3Y=;
+ b=TowBkoweN+vtyH+AUVKhDxGAWl+fTgWBWBBOj2BxNh2Y6fthj8qdAPjt+B/zweCgUwZZ6tOUJuLUBU7WAjkyXE3bnUqe+2EMMwbk08k+vC8zHIKJ5a7QLIFECCKFicc/etMgwkhrI8gpAeGmOusZ2j7lxTdFICtSUgUTlNaF7O0vnTkzABb6fGqPDwuFx/5D0cTtWMUCq+gn96mLMXELABWBrQDk7o+MuRZ31oX/NmT96ATxbguZZXWJ5XARCFaZ2j63luwpHgYZVdqLqDuo9geItD4RJrjK1tDlrblDstvkjO4SsgfbmdHvKUxV2vmfz6rJf8Fh9tvkBI3IoSBrpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wrraMVgRRvSuY86c2isbrv5/kkGs/0D9FQU+4aGZ5n4=;
- b=WzscfxyrZC+q86k4Ct+Hk6l3DGfMcbBeW/Zp28WHzubMxv/O7/InfoSP7FMSiVsMFc86vX0FdEOaS6fESn3vUEtuQBrRAkcWTrUQJbGUBarRjndqfo3WWUm+dlI35UOZ9YpxTueYvy8LoudgvjpdOCDeXqySwBQNfyiUvP0fIrI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by IA1PR12MB6579.namprd12.prod.outlook.com (2603:10b6:208:3a1::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.25; Fri, 2 Aug
- 2024 14:37:11 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062%5]) with mapi id 15.20.7828.023; Fri, 2 Aug 2024
- 14:37:11 +0000
-Message-ID: <ce4ce642-39ba-4153-8838-039d8a88c07e@amd.com>
-Date: Fri, 2 Aug 2024 10:37:07 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] drm/amd: Add power_saving_policy drm property to
- eDP connectors
-To: Sebastian Wick <sebastian.wick@redhat.com>,
- Xaver Hugl <xaver.hugl@gmail.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Mario Limonciello <mario.limonciello@amd.com>, Leo Li <sunpeng.li@amd.com>,
- amd-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@google.com>
-References: <20240606020404.210989-1-mario.limonciello@amd.com>
- <20240606020404.210989-3-mario.limonciello@amd.com>
- <bc1d81ef-d9d0-4440-b63f-ecfb735ef783@amd.com>
- <d637d3c2-34f7-42f8-acbb-6a1730d3fc3c@amd.com>
- <CAFZQkGy0xuuUw73HQvS8Ce92sUi2rVrRnX25pi1KdNmyQbtBZA@mail.gmail.com>
- <CAFZQkGz8DeoiVX2MohoBoTMxraJk1Ou41N_wKP3GkqRrPg_6sg@mail.gmail.com>
- <87wml0v2vv.fsf@intel.com>
- <CAFZQkGx=Q0W2r6XWxovt90WkBC5CUg7_X2fM7ZicSOALUg8yJg@mail.gmail.com>
- <CA+hFU4w8kR1XjAZgXeUd7Z-pWDWn3yAv59HBr8o0iGhYruUssw@mail.gmail.com>
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <CA+hFU4w8kR1XjAZgXeUd7Z-pWDWn3yAv59HBr8o0iGhYruUssw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT1PR01CA0093.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2d::32) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+ bh=OyiYyGA6o/1SZfI+qbzO61aHrb96zX/xwy6/iprPK3Y=;
+ b=LRBJl0U+xnMWklpUvTWOzwWkztx71IB7WLods60+TtHrSRWRnaX0ihTBV6BIVszAIWvOFD7tjgRnrWgjRy6lkDgNAjIKe5/V6cNrjs2Kxoz68Ig1oyk7ANBsvLyyiksNAvB+VwSTFjUL9dmR6sKjckdC9vNH4CLi92m/08y1IdQ=
+Received: from CH0PR03CA0422.namprd03.prod.outlook.com (2603:10b6:610:10e::19)
+ by SN7PR12MB7978.namprd12.prod.outlook.com (2603:10b6:806:34b::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Fri, 2 Aug
+ 2024 15:00:08 +0000
+Received: from CH1PEPF0000AD83.namprd04.prod.outlook.com
+ (2603:10b6:610:10e:cafe::b4) by CH0PR03CA0422.outlook.office365.com
+ (2603:10b6:610:10e::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.23 via Frontend
+ Transport; Fri, 2 Aug 2024 15:00:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH1PEPF0000AD83.mail.protection.outlook.com (10.167.244.85) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7828.19 via Frontend Transport; Fri, 2 Aug 2024 15:00:07 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 2 Aug
+ 2024 10:00:05 -0500
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+CC: Harry Wentland <harry.wentland@amd.com>, Sebastian Wick
+ <sebastian.wick@redhat.com>, Xaver Hugl <xaver.hugl@gmail.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Mario Limonciello <mario.limonciello@amd.com>, 
+ Leo Li <sunpeng.li@amd.com>, <amd-gfx@lists.freedesktop.org>, Simon Ser
+ <contact@emersion.fr>, Hamza Mahfooz <hamza.mahfooz@amd.com>
+Subject: [PATCH 1/2] Revert "drm: Introduce 'power saving policy' drm property"
+Date: Fri, 2 Aug 2024 10:59:45 -0400
+Message-ID: <20240802145946.48073-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|IA1PR12MB6579:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0d8e087-7ef1-44d8-6299-08dcb300978d
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD83:EE_|SN7PR12MB7978:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac596cf8-84ba-4b39-ee74-08dcb303ccb9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OE8wMkpvbzkzUXRLY3hQbjZvZllHTnUxVEJXOXUvejczcFBMOVdKZERQREpC?=
- =?utf-8?B?TlU0V3orN2ROcDB5dVNYaitkSTRIRWpReGNtejVYbGlPaHlxczc1SGpZYlA5?=
- =?utf-8?B?QnNyU1JxcTRNMmd5cUlETFMwMkVUSlVEaXExL0hERHNCNys1WGRrZFZRYUFO?=
- =?utf-8?B?WXFKcEwzZmg2MEtHU01pekQzL09hZkJSZGZhTzR2SzNVaXBQWStFZWVWOXN6?=
- =?utf-8?B?TDVsaFFKejJ1eW5VSEQxQndDdU5BYmRkQzlnc0ZkQzJjZ1p2blJObG9zT0g5?=
- =?utf-8?B?L2JIMHZDYURzVlFtTStWei9jTHpRVWJBN3Y4QTNkSWlWK3BEang4ak5UbkFO?=
- =?utf-8?B?Z0Z4L3ZobHVwcjdYM0JTdUEvNjNhakZvSVREKy8xNS82NDcwUHdva2ZlUVph?=
- =?utf-8?B?NVRockFYejNlVmpYUU9pbllXMmI5engwOWVGaHl3eGNjenpmRkJoa1JXTjB2?=
- =?utf-8?B?cUxFamU4MDFmWS9xRGhIK2I1WUwzZ25hdkNGR3Jrd2NiTnlQcWYybmZSL3Av?=
- =?utf-8?B?eUpDWHlRZU1tQkxkdG5qclg4bkhTRm14YXJzUFNNbEM4NDBqbnNRQ0EybVhn?=
- =?utf-8?B?NUdRblprNGVLOVUyV0F0NmZMS2tmRkN5amN2UUdnVEJ5clJzdE5WRmNMeE9h?=
- =?utf-8?B?TjZDdUVwVVM5a25LR3NxeG04OEloUkhTTzdMVDNIZnZCcCtmSmVGWElFRDNq?=
- =?utf-8?B?N0prOG40Qkc0cGpUejRKOXpEQjZUTkEra1pvYlJrQWV5UVEyRzlUOGpCNTRt?=
- =?utf-8?B?TEN1VEhuNndoZVd5eHV2MzRjVXM2VGRYLzVzRE41OW5BK1NxejV2UktvSFpC?=
- =?utf-8?B?b1JjckN2ZDlrRldtcld4M3czWXpOZHBNL054djk5dWIrWE00cTYvYlVNRzF1?=
- =?utf-8?B?RnRvVjJLQ0tqY1dLM1M2SHdLWFd2YVlMNEhuNi9kQ0hOMkgwdStheFBPTmlH?=
- =?utf-8?B?WndTTG5lY3pKbUNMNXR0UFpGdG5Cakd2ZFJVTUR1c0pMTUkrMFQ1c3hlQU84?=
- =?utf-8?B?cTBRaVVDUE9qKzM5VXUzazlKL1M2K3p2VjhGT3M3VWV4SzhCa3VpTE50NU5T?=
- =?utf-8?B?Z2FmcWoyL3RvZWpidnpsblRtY0YrRTNzMnJzajBuTTFDQlljZm1ITGVYMU5B?=
- =?utf-8?B?YlNDbDN3aWRxSFAvM2RyeUhaZjYvdjRNcE1QeTBmWGZpVzcrdzRaN0NlTlI4?=
- =?utf-8?B?TXoyUU9xa2txTTFXMUtQQ0pVWERmVnJBcXVvOUM0TTVRY3U5WmgwREJsYW9G?=
- =?utf-8?B?MFhXdHNOSDZVV0VTTzkvWXZVcVZrak1xTUVPQWtiNHNQQ0s5eGRvNG5hS0Zx?=
- =?utf-8?B?TGRhZjJTYU1jQjJqMkI2MWxleTcyanRWMW5MSzZLRTczYkhDMnkyc2lvMklO?=
- =?utf-8?B?NUtxdHZTQ2o3VCs2djNXOFNQTnZReWRSVWpmTzdUZkVpTmdnc1N6UGhWdW00?=
- =?utf-8?B?a0hIemFEeC9CSHN3L1BpT21lemdqL0VhRkV0eUVwY2ZuT0VIbXM5dDM5WWNN?=
- =?utf-8?B?S2ZrSTY4UWNzMWdzbXVuUHJRR2xUa1dnb3pmenByYXh4QWVhYUY1U2lZanBr?=
- =?utf-8?B?TmxyQWZvOU9FcXRlVGNvbmNyVC9YMnV5ZkIzdVJiTklGSTJOS0ZMM0p5MVZh?=
- =?utf-8?B?S0s0ZXg5VmVXa0daRVp1ZjB2UEZKRUlhQW1FNThURjVOblV4QUE3c0ZWWVR4?=
- =?utf-8?B?UHRGcU1veGVENWUwaDFMdXM5SGZlRy9hWlBYVU1wbE5BYTU0K0tmNEFNNnZv?=
- =?utf-8?Q?Fji/WpXH/veIUSF4rM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WnYrbWs2OTVGVjFLblVySHQ3UmFUcTMxQ0NuZmprTFNTS2RmRzhmRWVmejFO?=
- =?utf-8?B?QXNVMFlFa1FkbmVldlJMakZhKzF2eGxUc3N5c3lHL3hZRGpLaUxOVVFQLzdv?=
- =?utf-8?B?UXpRaUhuL3FHTGV5Q0NrUVpQazRFLzJrYXQ5U0xiZkhod3BLQzh2UTF4NzIv?=
- =?utf-8?B?Unh3a2YvbFcxcFlWKzZmVjlWWkY3NnlrZmdhcy9md29LaHJUNXdVVnpUN1F2?=
- =?utf-8?B?Skk0eEM3Vm52ZlhNOXRVWUtqT2o0SUFHK01wTFVSSzFGMWVLdnZoZHJzaE1k?=
- =?utf-8?B?QU01cnZrbVJtNkY4aUtyRjdqbmZCNTJuLzN0L1c1d1g3OGQra3dIcHhrZW90?=
- =?utf-8?B?ZDgrL0JWdTV1eXlrdnR3YVhFakJoSWFSTWh0UFZUL2RsczR4NVh0REZQdkN4?=
- =?utf-8?B?ZWxzMEtueWU5WXhCVnpydHd4VEJldlBhc0dKazdHUWx1bUdUVWdUQlNxa2tp?=
- =?utf-8?B?aHlJQTU5ZVR1NnJmbkxoeDNsVGI0VUtJdXU1REp3MUFNb0hmVTdCZ2xjS2VY?=
- =?utf-8?B?MU5CNTcyUlByYlgwZGQwTWtFOG1DMXBsYWthdWlIZXREcEdydTlIM1VJS2Ny?=
- =?utf-8?B?V0syVjA1cE4vRVNQRys2VVozZ1ZFUnpJTGFGbGk5bmxyYVY0QjRjUzIxdWNC?=
- =?utf-8?B?dmpqTXpLbENhVlFhU3VieVlVRWlVVnlCRDVUSFl4Smg3eVN3K250TCtBVEFS?=
- =?utf-8?B?MnYyNk9ONnNQSi9OdWh3NDBQMmZyV1dGQjh5M3pjc3JjVERBZXhNdEtrTHdz?=
- =?utf-8?B?MjlDS0FEYkZscStVd3lVdnVEN052cDRyQ3BBQnArY0U2bTdJRWYybkQ4dTVF?=
- =?utf-8?B?dE9DSnJadmNRbHhCcVYvLzFHZ2d5a3B5Y0pSR29LT1RyMlBhRUpTUTR3UENS?=
- =?utf-8?B?cWpBU1FVbGdKRDMzZ1RSVlp5WGU3bm9BcXNJQTNmZ0k3cmo2THFNaE10SUcx?=
- =?utf-8?B?MU9hWGJFU1dkYmtITVlSbVlsVmJGTGQwbWtZUUNMOFdvQjRFSlI0Z1lsZ3RZ?=
- =?utf-8?B?c1krWHVMRGNpT0RLaGM4M0h2bHlld3hIajh0ZndnUmphUHZtQjRBYXR1MmtE?=
- =?utf-8?B?QU53M0ZzYjZkZHczRzQ4ZGltS3lxSjB0TFYwWG8yaWZFQ3NSV3krVnBCZWdw?=
- =?utf-8?B?aStrbHlBSW1NNU8yaFkvUUZBZnBBK3ZWYVhiNTkrT0pDVXFNSjY5K3pyU0Zp?=
- =?utf-8?B?WHlpK0F1L0ZEay9hWUZMSDRWd0FSQTN0U0Y3elo4UHFRU0kwTU5hdXQxcm45?=
- =?utf-8?B?c29YbUZaTndYWjVWZU5xVVQzUitnOU5NMU1JajZyR0JJZ2JCUUp4VmxVTTlK?=
- =?utf-8?B?TUlsTXZHSnVqcXdpaFNiaTlKdTdaVk5MU3I2RzhvMUpGcEw0aTNiT2crOG84?=
- =?utf-8?B?UFAvUDdzY2RweDNBaVVWb29DUTRZNlprQ09kMW1uWlY2R0sxT3ZMM05TcG8w?=
- =?utf-8?B?R1dMQkdTVzVnMWdWS0JDNS9OcDM4eHRwWmJoN0VhT1M2U1pmUVJucFJrVndh?=
- =?utf-8?B?VjkvSGhIR0RwWU9ZQlo3UXhPWWd0aDZqVnBKUkN5NXZaaHErTkMvNlk1Qy93?=
- =?utf-8?B?SENNd0RsbGJTK1grK3laZGc5WHExMlhjT3N0ZkdUMGFQaXN5RWNuVGVpZU9w?=
- =?utf-8?B?UkFEQmFsd0UrV2QwWVR2TTBzNEY3N3pvMjEyTGNLNGhiZ25qRk52NU93YmVE?=
- =?utf-8?B?UWdJNktuVlFBZ0dmYTZNVUtENnkyMXJ1Zmd2b3d4ZXNjQkhRWXJ6b21kdUZa?=
- =?utf-8?B?cWVJTTBUckNSZHlSaGF6VTBRRHRnVllqVlZYa2QrdXU5VHUwamUrd2RLVjd5?=
- =?utf-8?B?VXBZb0Q5dEswdFVVa0o4RXNybzZYckdPeGZVTXBZVlRYa0dBZW54aWpNekt5?=
- =?utf-8?B?Z2UvU0MzM1IxckZZaE9qQ0tuYTkxM2Q2QTV6MDAvYS9EbDI1cjJTZkdWL2pH?=
- =?utf-8?B?Sk9wdkpWdmlnNHowWWJYbU45T21CeGtnY0dzR3hlckdiQzJ2NGRxK0pwZjZ4?=
- =?utf-8?B?NjI5K0V2ZFhPOC94UjZTUDBrV3FaRmJLSDAwbHE5Yy9mWmtHcWdCSmJzb21x?=
- =?utf-8?B?bGhERll0elJ1QVA2QzhVTGhEaHZvVjc0aUNUVG1PWDhwWTN1NmVndlJXbzhr?=
- =?utf-8?Q?Oqdj4pXOtfTDC++j8k7J/haoQ?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|36860700013|1800799024|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?//I0Fd07gGVTR0G4K98qgFEnWF8IIK3UPo80cEgxf2RiuMbJFfqeLpW5xueV?=
+ =?us-ascii?Q?CckpRLTD68JXOxPtnfX60PMSajfZQwB7ITZjI97ApIYBNJAD5BIVXUO9pCsf?=
+ =?us-ascii?Q?ryHC8ZchCAYczmQsbJdATeXZMd032JmAJAHULjl9lCpifQoalYGT+PjNCAQe?=
+ =?us-ascii?Q?eRI4Lx3wKTzDYcFnnN0iyj7y52NzNRp/URhcbuIqmtrOA6t6CyN//hDLtoGJ?=
+ =?us-ascii?Q?bdFuTK0DtFPkBzDO9fogPI4vo9o4I8hfCv30rG0U/d/n31OD/2txnfF8VtUB?=
+ =?us-ascii?Q?VXttGjlImUkoTooayaY5ja1VxDoeth6/Jm7fuOSo4+EuMhlqx5qtAcS++Rsp?=
+ =?us-ascii?Q?gpd63iYk7T+s0LvaL27SS3g575Ter6hfU5YaeksZgMsJzojkHP7lrBUjRBbS?=
+ =?us-ascii?Q?ve569P8tFc6LgVZJrFCdTVUSP1C7Ul+iTkvBqLJ9W+NME58hXJKVOkJ1MxHW?=
+ =?us-ascii?Q?txJ+HHgQADaVha+wt4Z58tTEl+CD96/zPyiTIxb5V5z2dnE3573a0nX9k4DM?=
+ =?us-ascii?Q?M0YK5CI0tSJQN+GWaLWH52nqrLEIX3tXNjKJqFjYCU4IRBbxF7DC09yQcUVP?=
+ =?us-ascii?Q?ztlvbryjtOZXCh+8mOI+R5GVNfCZfji0C2x6l2lbSOsF0Lh/WlgaTsjxSZEh?=
+ =?us-ascii?Q?UK1fsS3vckPa7um9LG22pAvKX1njMt7BTCCbL7GDm+wrSbeU7ssCNz35uohf?=
+ =?us-ascii?Q?LEceAi/GMFlczXtMFFIE3sihoWqNcihbG0/JN4TfNFWkvxUrxrNrCMAZ9pMt?=
+ =?us-ascii?Q?tc919z6UWnRHzK2DDlYcd9D0QxxXzNILRkZn//o+mArfYDDQC8Gkeh+NtppB?=
+ =?us-ascii?Q?ZZkHk6LmNzc6oUbTYM8unxnpwrNaTTOnCCvtb/K2sKjynzuw3IcU5aMZGI6d?=
+ =?us-ascii?Q?GFTiMpnCVf/fHQ4lh8IjCaW4/MFjcnp1b3PJPrYOW9BkMn/QoOGkArSQtjcI?=
+ =?us-ascii?Q?Qn26FNxqemJR0v+KbrF4IYPBGEYKrKwNj7Hf5492W82qi4eJlVdKV6ZIsfnp?=
+ =?us-ascii?Q?tMXhg93OEMg74ksdoB1/2D/rrsoKTXijGSKXjejRQogqj+1QXte8NZNMJd83?=
+ =?us-ascii?Q?ie3o8WYdmyK3mQ4Oo2M5HSBi5CA0vplGeIjjkq/tGAgvS/3tRixnpD5LEB3p?=
+ =?us-ascii?Q?MXi11TJPY56Q0V2zVhE7AN7ndaXBsSTqaQZPqAsjomp4EGWvZSA0pY3UFOpV?=
+ =?us-ascii?Q?FkmDjaEiGXGal5iutXejONkikKr39qqHlvQypleC+u6dsY/7YkBaHUav7jMg?=
+ =?us-ascii?Q?EDDS0PO9FTCMNimTZ7YTi5uvJaWCLWMuOirTyegF8sOZQCVCL7LxI7r4fexb?=
+ =?us-ascii?Q?jHVJh8Kqp2tldGKNuar4syxco6Mj7w6yX9qYWvfw3z5Hj2fxjSn1USKQn0Ki?=
+ =?us-ascii?Q?8ucs3sB6g6ZBd+485B7kCeK157Mpt+Huq/MKNaIM2jgmxWMzau1P+m6lY8Qd?=
+ =?us-ascii?Q?owRmLFpdzK0E/u0VugVLiYOqofacP3gy?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014); DIR:OUT;
+ SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0d8e087-7ef1-44d8-6299-08dcb300978d
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2024 14:37:10.9179 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2024 15:00:07.9841 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac596cf8-84ba-4b39-ee74-08dcb303ccb9
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lDH6D28wUYSp+UKvBJzNm9EZ0EkDlNrtGezBuXaxLMm9OCAQCEkr31dIJdckw5l/CGYMX30y2kwaKXXGv2uJRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6579
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH1PEPF0000AD83.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7978
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,101 +134,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-08-02 09:28, Sebastian Wick wrote:
-> I'm very unhappy about how this has played out.
-> 
-> We have a new sysfs property that controls a feature of the display
-> path that has been set to a default(!) which changes the color
-> behavior! This broke color management for everyone who is on a device
-> which supports this feature.
-> 
+This reverts commit 76299a557f36d624ca32500173ad7856e1ad93c0.
 
-Has this been a problem that people have noticed or complained about?
-Are there bug reports?
+It was merged without meeting userspace requirements.
 
-AFAIK the default is "off" and PPD will enable ABM if in power or
-balanced mode and on battery.
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+ drivers/gpu/drm/drm_connector.c | 48 ---------------------------------
+ include/drm/drm_connector.h     |  2 --
+ include/drm/drm_mode_config.h   |  5 ----
+ include/uapi/drm/drm_mode.h     |  7 -----
+ 4 files changed, 62 deletions(-)
 
-> What should have been done is the following:
-> 
-> * add the KMS property and have it default to "sysfs cannot override this"
-> * add the sysfs property after the KMS property has been introduced so
-> it stays disabled by default
-> * add support for the new property in compositors and let them enable
-> this feature only when they allow colors to randomly get broken
-> 
-> Every other path results in broken colors at least temporarily and is
-> breaking user space! The sysfs property *must* be reverted because it
-> breaks user space. The KMS property *must* be reverted because it
-> didn't meet the merging criteria.
-> 
-
-I agree we should revert the KMS property until we have a userspace
-implementation that is reviewed and ready to be merged. It was merged
-based on a misunderstanding and shouldn't have been merged.
-
-I don't think we should revert the sysfs property. The power savings to
-end-users can be significant. I would like to see compositors take
-control if it via the KMS property.
-
-> Another note: The only way to make sure that this isn't breaking user
-> space is if user space tells the kernel that this is okay. This means
-> that the sysfs property can only be used if the compositor grows
-> support for the new KMS property and at that point, why do we have the
-> sysfs property?
-> 
-
-We have a good handful of widely used compositors. We have one PPD
-with a replacement for it in the works. A sysfs allows all users
-to get the power benefits even if compositors don't explicitly
-enable support for power saving features in KMS. The goal of PPD
-and co. is power savings while that is not always a primary goal
-for all compositors (even though compositors play a large role in
-a system's power usage).
-
-Harry
-
-> On Fri, Aug 2, 2024 at 2:49 PM Xaver Hugl <xaver.hugl@gmail.com> wrote:
->>
->> Am Do., 1. Aug. 2024 um 14:34 Uhr schrieb Jani Nikula
->> <jani.nikula@linux.intel.com>:
->>>
->>> On Mon, 01 Jul 2024, Xaver Hugl <xaver.hugl@gmail.com> wrote:
->>>> Am Do., 20. Juni 2024 um 22:22 Uhr schrieb Xaver Hugl <xaver.hugl@gmail.com>:
->>>>> Merging can only happen once a real world userspace application has
->>>>> implemented support for it. I'll try to do that sometime next week in
->>>>> KWin
->>>>
->>>> Here's the promised implementation:
->>>> https://invent.kde.org/plasma/kwin/-/merge_requests/6028
->>>
->>> The requirement is that the userspace patches must be reviewed and ready
->>> for merging into a suitable and canonical upstream project.
->>>
->>> Are they?
->>
->> I've talked about the property with other KWin developers before, but
->> there's indeed no official review for the MR yet.
->> As some new discussions about alternative approaches have started as
->> well, maybe it should be reverted until we're more certain about how
->> to proceed?
->>
->>> BR,
->>> Jani.
->>>
->>>
->>>>
->>>> In testing with the patches on top of kernel 6.9.6, setting the
->>>> property to `Require color accuracy` makes the sysfs file correctly
->>>> report "Device or resource busy" when trying to change the power
->>>> saving level, but setting the property to zero doesn't really work.
->>>> Once KWin sets the property to zero, changing the power saving level
->>>> "works" but the screen blanks for a moment (might just be a single
->>>> frame) and reading from the file returns zero again, with the visuals
->>>> and backlight level unchanged as well.
->>>
->>> --
->>> Jani Nikula, Intel
->>
-> 
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 7c44e3a1d8e0..b4f4d2f908d1 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -1043,11 +1043,6 @@ static const struct drm_prop_enum_list drm_scaling_mode_enum_list[] = {
+ 	{ DRM_MODE_SCALE_ASPECT, "Full aspect" },
+ };
+ 
+-static const struct drm_prop_enum_list drm_power_saving_policy_enum_list[] = {
+-	{ __builtin_ffs(DRM_MODE_REQUIRE_COLOR_ACCURACY) - 1, "Require color accuracy" },
+-	{ __builtin_ffs(DRM_MODE_REQUIRE_LOW_LATENCY) - 1, "Require low latency" },
+-};
+-
+ static const struct drm_prop_enum_list drm_aspect_ratio_enum_list[] = {
+ 	{ DRM_MODE_PICTURE_ASPECT_NONE, "Automatic" },
+ 	{ DRM_MODE_PICTURE_ASPECT_4_3, "4:3" },
+@@ -1634,16 +1629,6 @@ EXPORT_SYMBOL(drm_hdmi_connector_get_output_format_name);
+  *
+  *	Drivers can set up these properties by calling
+  *	drm_mode_create_tv_margin_properties().
+- * power saving policy:
+- *	This property is used to set the power saving policy for the connector.
+- *	This property is populated with a bitmask of optional requirements set
+- *	by the drm master for the drm driver to respect:
+- *	- "Require color accuracy": Disable power saving features that will
+- *	  affect color fidelity.
+- *	  For example: Hardware assisted backlight modulation.
+- *	- "Require low latency": Disable power saving features that will
+- *	  affect latency.
+- *	  For example: Panel self refresh (PSR)
+  */
+ 
+ int drm_connector_create_standard_properties(struct drm_device *dev)
+@@ -2146,39 +2131,6 @@ int drm_mode_create_scaling_mode_property(struct drm_device *dev)
+ }
+ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
+ 
+-/**
+- * drm_mode_create_power_saving_policy_property - create power saving policy property
+- * @dev: DRM device
+- * @supported_policies: bitmask of supported power saving policies
+- *
+- * Called by a driver the first time it's needed, must be attached to desired
+- * connectors.
+- *
+- * Returns: %0
+- */
+-int drm_mode_create_power_saving_policy_property(struct drm_device *dev,
+-						 uint64_t supported_policies)
+-{
+-	struct drm_property *power_saving;
+-
+-	if (dev->mode_config.power_saving_policy)
+-		return 0;
+-	WARN_ON((supported_policies & DRM_MODE_POWER_SAVING_POLICY_ALL) == 0);
+-
+-	power_saving =
+-		drm_property_create_bitmask(dev, 0, "power saving policy",
+-					    drm_power_saving_policy_enum_list,
+-					    ARRAY_SIZE(drm_power_saving_policy_enum_list),
+-					    supported_policies);
+-	if (!power_saving)
+-		return -ENOMEM;
+-
+-	dev->mode_config.power_saving_policy = power_saving;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(drm_mode_create_power_saving_policy_property);
+-
+ /**
+  * DOC: Variable refresh properties
+  *
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 5ad735253413..e3fa43291f44 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2267,8 +2267,6 @@ int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
+ 					   u32 supported_colorspaces);
+ int drm_mode_create_content_type_property(struct drm_device *dev);
+ int drm_mode_create_suggested_offset_properties(struct drm_device *dev);
+-int drm_mode_create_power_saving_policy_property(struct drm_device *dev,
+-						 uint64_t supported_policies);
+ 
+ int drm_connector_set_path_property(struct drm_connector *connector,
+ 				    const char *path);
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 150f9a3b649f..ab0f167474b1 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -969,11 +969,6 @@ struct drm_mode_config {
+ 	 */
+ 	struct drm_atomic_state *suspend_state;
+ 
+-	/**
+-	 * @power_saving_policy: bitmask for power saving policy requests.
+-	 */
+-	struct drm_property *power_saving_policy;
+-
+ 	const struct drm_mode_config_helper_funcs *helper_private;
+ };
+ 
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 880303c2ad97..d390011b89b4 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -152,13 +152,6 @@ extern "C" {
+ #define DRM_MODE_SCALE_CENTER		2 /* Centered, no scaling */
+ #define DRM_MODE_SCALE_ASPECT		3 /* Full screen, preserve aspect */
+ 
+-/* power saving policy options */
+-#define DRM_MODE_REQUIRE_COLOR_ACCURACY	BIT(0)	/* Compositor requires color accuracy */
+-#define DRM_MODE_REQUIRE_LOW_LATENCY	BIT(1)	/* Compositor requires low latency */
+-
+-#define DRM_MODE_POWER_SAVING_POLICY_ALL	(DRM_MODE_REQUIRE_COLOR_ACCURACY |\
+-						 DRM_MODE_REQUIRE_LOW_LATENCY)
+-
+ /* Dithering mode options */
+ #define DRM_MODE_DITHERING_OFF	0
+ #define DRM_MODE_DITHERING_ON	1
+-- 
+2.45.2
 
