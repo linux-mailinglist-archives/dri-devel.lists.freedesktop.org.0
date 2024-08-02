@@ -2,86 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5FB945E3A
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 15:00:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849F1945EAB
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 15:29:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95C5D10E11A;
-	Fri,  2 Aug 2024 13:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEDF510E045;
+	Fri,  2 Aug 2024 13:29:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="S0uZlbcn";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NuIAl52t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8074410E0BC
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2024 13:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1722603610; x=1723208410; i=wahrenst@gmx.net;
- bh=A2QzoTKTII1WsKG0PH3QuAO0/0n3FuaOu6aOpLAVdNQ=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=S0uZlbcn1w/QQinHP793wsvSDuLscCzWLifIO5Z1tc1YkJuqD1ROvgfz8ZGqzW1F
- 5vZdnLMyF5DVGARxN0JdvBPeRMvrDyCiV1JpWEfG4inyd68A6EPsSXuaPCjI2IVDE
- WRom3o4rqhvTTBOpr7kNH+TtgRdljU870COhJDKQhsXOdQRdTnPmz/JXNTw0xuWCG
- yvvj3PCxseJolIa8mb1Jc6WyQyV9MIxeaede1pM40W32wkFcecbw+mjV9cCvMLZyC
- uZIn+g3AGZNuLV139xDLK2PEQe7057Nky71so6ZdwF4MmbJoQBf7WdD0Sdbl0w8Tz
- d2MUva9YUCX8yyScPw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N2E1G-1s6XwN33GQ-00uTsS; Fri, 02
- Aug 2024 15:00:09 +0200
-Message-ID: <a19767c3-c457-4e52-bc66-8f1898a83193@gmx.net>
-Date: Fri, 2 Aug 2024 15:00:07 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A164510E045
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2024 13:29:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1722605351;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jby6eZfb7DqV7eZt+nmBEx3PMtN18CphSR8+OwRmzkA=;
+ b=NuIAl52timVSXIaOd6djd8Mithq79EWN+OLN/QbFCreSBcC+0YWnQkpmN19pCHKsmXlowO
+ MRCgdYn5H2gg91Xrp9CXtbH2fqQV/6d3iwBddYVn8rI4zDXKn29cmUaMORfm+XP8P81tFl
+ MLy79sQw3CP/SpF8iOdPl3g9j5nbsys=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-413-qDc8MOXXMmiNGnilia30yA-1; Fri, 02 Aug 2024 09:29:10 -0400
+X-MC-Unique: qDc8MOXXMmiNGnilia30yA-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ 2adb3069b0e04-52fcf7eb289so8993022e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Aug 2024 06:29:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722605348; x=1723210148;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Jby6eZfb7DqV7eZt+nmBEx3PMtN18CphSR8+OwRmzkA=;
+ b=glI6udJ7bGeut/+EQ+etF9tHSZtEKs5DeAvIPSZPNmE718+NsSP2Whl6Cg585oFQsN
+ 25Mi0F7HQ4hAQDZpR4Gbh0OYCFUV6BNhbfQlzbZ/iH/+IaWigKyY3WnlxqZG/d1rIgY6
+ oCe89r+QxVLw4fbp6TIIgYaaqVIq4urY5ALGMXu7wi3JQ0zySTzPidagkOu2A+xo85O0
+ 6OUc90ZDQJCCHDRGxlHEerC+T+28qk8aJC2ExDiG0lMuLJKtTGPwCNjdEpb00Rl6P+O9
+ eML+Ejr3Wfu/d6BlVgDzYEIOp+lXeZGOurbDKAQXZS6zQj3Y8nyDmyDejDyIci2QY1lv
+ Z79g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUQNQkaGXGD1W/j+0uqMfA3P8au9DhLIaB2gcNBoBZCAuQP9GVIH5nbBp43bRrp6HMlopuel7iugZERvGLQQc3/r1+JVJzurIdGHKMYIESf
+X-Gm-Message-State: AOJu0Ywdx9qcF8Gml93D8yD/GT/gf1dyG0Qk7Ii+P5bkF6wfZ79Ngzmx
+ cduFGcgU+sTYCvi4zY6SKF+J1M6bLkSfbUkKeBtxhmb4GkKm4Dw8E9AWj95+8wOhJAD7JPdIihA
+ lTQWQPqvYc7C4/2hHyfXTrzrTUQAv1wzDD5gfauiylk8c4FQAmNKaaYiAhZsFjhTGxO55R1IKvg
+ 7Lrp7mUDjQMUBi65LQateLyWeK+Jc1o8Xom/otDuLZ
+X-Received: by 2002:a05:6512:32c7:b0:52c:d76f:7f61 with SMTP id
+ 2adb3069b0e04-530bb3a47f4mr2227540e87.56.1722605348466; 
+ Fri, 02 Aug 2024 06:29:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHZcn6uyOfyziM/LIeOVbLKwyZwKWWQaBANaOEnc4dlTveEf6oUTMNMatPqkGNk4rLeiLcW4dTRY9yOGPPlh3s=
+X-Received: by 2002:a05:6512:32c7:b0:52c:d76f:7f61 with SMTP id
+ 2adb3069b0e04-530bb3a47f4mr2227514e87.56.1722605347842; Fri, 02 Aug 2024
+ 06:29:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 09/16] drm/vc4: v3d: simplify clock retrieval
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Jiri Slaby <jirislaby@kernel.org>,
- Minas Harutyunyan <hminas@synopsys.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
- Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
- Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
-References: <20240728114200.75559-1-wahrenst@gmx.net>
- <20240728130029.78279-1-wahrenst@gmx.net>
- <581726ae-dd9c-476f-817d-4140f7217ec7@igalia.com>
- <b34cc73c-721f-48b6-a7a3-da8190d80dd8@gmx.net>
- <6047643f-e1f5-4be4-b55d-f59576999d91@igalia.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <6047643f-e1f5-4be4-b55d-f59576999d91@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20240606020404.210989-1-mario.limonciello@amd.com>
+ <20240606020404.210989-3-mario.limonciello@amd.com>
+ <bc1d81ef-d9d0-4440-b63f-ecfb735ef783@amd.com>
+ <d637d3c2-34f7-42f8-acbb-6a1730d3fc3c@amd.com>
+ <CAFZQkGy0xuuUw73HQvS8Ce92sUi2rVrRnX25pi1KdNmyQbtBZA@mail.gmail.com>
+ <CAFZQkGz8DeoiVX2MohoBoTMxraJk1Ou41N_wKP3GkqRrPg_6sg@mail.gmail.com>
+ <87wml0v2vv.fsf@intel.com>
+ <CAFZQkGx=Q0W2r6XWxovt90WkBC5CUg7_X2fM7ZicSOALUg8yJg@mail.gmail.com>
+In-Reply-To: <CAFZQkGx=Q0W2r6XWxovt90WkBC5CUg7_X2fM7ZicSOALUg8yJg@mail.gmail.com>
+From: Sebastian Wick <sebastian.wick@redhat.com>
+Date: Fri, 2 Aug 2024 15:28:56 +0200
+Message-ID: <CA+hFU4w8kR1XjAZgXeUd7Z-pWDWn3yAv59HBr8o0iGhYruUssw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/amd: Add power_saving_policy drm property to
+ eDP connectors
+To: Xaver Hugl <xaver.hugl@gmail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ amd-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>, 
+ Harry Wentland <Harry.Wentland@amd.com>, dri-devel@lists.freedesktop.org, 
+ Sean Paul <seanpaul@google.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rSWdEotFxjzjRcS7FB9Jk7LKsLdKnIul40HzxtW2lF3Y2vSxXrn
- l9xU9sr25E9vtAbxZNcStcQNHNcUatMO2WBm/1/EunVjh6qPZWm5qcBUJfEq7ESbuhtXD30
- gZT3GhXutgYSULEvLRlZzQHSLrsiN9NYe9YcN28icOoCSq4imGrBS7R0XaAACHIgK+jNIO3
- 5QgjbTyaFZYeb6fT4XOZg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OZcbhCw+rgg=;Wt5r+cNqth9P7BB10FttMMDVdRY
- 780NMXapa0hd8uQjXxsrCLZ9hm4j1eX/XgNtsG9ccq18VlmYPbhGeX1fNtCcuMqeaZGz7oo0C
- XXqT7v8QoQF4obr/q9WMmnz/ZxjyPk87gqs/NVUJ4isHVmmiGCeXo70exafN/BZY/WrCvz6DF
- vMGWV6FcZLEDFbGmbHF+uS/YRgjVEuTR4llOQl+b9U5/mx3vyzbX1Pcffo7HzBF5H1Xb3oFfh
- uuRli8lhw7t/3jDwONcS8w29Ehv71V1ycS8SM1STA6VKMXJGdgTv5IuBb7seDqhk8CZJfUnCa
- Ca06GbcHD98KaxdldYySk6Lb1eVd6oZJUUc84s7AZDNv6Vj4OTSbHOJobS2rmAsFNNfA1z1gj
- 8p3DX+md6vTXjq0eLRrbI7gO1/HkosGH7q1XmyW9Sbjh3zAziUD0Y+UKcJJRURexaerwJoReU
- MTUhvuPF+DPdV5lk9n+VoKZtFpoBKQNLrqqTrgU4K5eclzp4TmQm9DDIObZT+Hz9UU2OtXSfA
- p0JD7yDP6lK0g4T9XcmGeMcZy/Gus3rjPJ7AbnSEqyr6Hf5R5QN3i//ReMfvklr54QW5tn6kY
- NsCnuWH+HLJDvYaoMHrG5c7pN29pK7cUOJ7GgQtwIptDqoqZ/ERjwYcrsZXxOLdsb2iy8ZFzL
- DKUPhoWu3SS9nQDfnHawFg+WElez+aqLEtOz1XVmCwcmSWy43sU2mEIEUcLwHBH5VsgVRRsgZ
- vuW70tcUcLGg31dD57XAwXO0bA/m6yLG50DZvMRV9wBYyoMioqeqnv+wYVimiPbH8TIXiS2Ly
- wAJBrICu5oSXhF5AtupT3qOw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,88 +99,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ma=C3=ADra,
+I'm very unhappy about how this has played out.
 
-Am 02.08.24 um 14:56 schrieb Ma=C3=ADra Canal:
-> Hi Stefan,
+We have a new sysfs property that controls a feature of the display
+path that has been set to a default(!) which changes the color
+behavior! This broke color management for everyone who is on a device
+which supports this feature.
+
+What should have been done is the following:
+
+* add the KMS property and have it default to "sysfs cannot override this"
+* add the sysfs property after the KMS property has been introduced so
+it stays disabled by default
+* add support for the new property in compositors and let them enable
+this feature only when they allow colors to randomly get broken
+
+Every other path results in broken colors at least temporarily and is
+breaking user space! The sysfs property *must* be reverted because it
+breaks user space. The KMS property *must* be reverted because it
+didn't meet the merging criteria.
+
+Another note: The only way to make sure that this isn't breaking user
+space is if user space tells the kernel that this is okay. This means
+that the sysfs property can only be used if the compositor grows
+support for the new KMS property and at that point, why do we have the
+sysfs property?
+
+On Fri, Aug 2, 2024 at 2:49=E2=80=AFPM Xaver Hugl <xaver.hugl@gmail.com> wr=
+ote:
 >
-> On 7/31/24 13:41, Stefan Wahren wrote:
->> Hi Ma=C3=ADra,
->>
->> Am 30.07.24 um 13:23 schrieb Ma=C3=ADra Canal:
->>> On 7/28/24 10:00, Stefan Wahren wrote:
->>>> Common pattern of handling deferred probe can be simplified with
->>>> dev_err_probe() and devm_clk_get_optional(). This results in much
->>>> less code.
->>>>
->>>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
->>>> ---
->>>> =C2=A0 drivers/gpu/drm/vc4/vc4_v3d.c | 13 ++-----------
->>>> =C2=A0 1 file changed, 2 insertions(+), 11 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c
->>>> b/drivers/gpu/drm/vc4/vc4_v3d.c
->>>> index 1ede508a67d3..4bf3a8d24770 100644
->>>> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
->>>> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
->>>> @@ -441,20 +441,11 @@ static int vc4_v3d_bind(struct device *dev,
->>>> struct device *master, void *data)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vc4->v3d =3D v3d;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d->vc4 =3D vc4;
->>>>
->>>> -=C2=A0=C2=A0=C2=A0 v3d->clk =3D devm_clk_get(dev, NULL);
->>>> +=C2=A0=C2=A0=C2=A0 v3d->clk =3D devm_clk_get_optional(dev, NULL);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ERR(v3d->clk)) {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret =3D PT=
-R_ERR(v3d->clk);
->>>>
->>>
->>> Super nit: you could delete this line ^
->> Can you please explain? ret is required for dev_err_probe or do you mea=
+> Am Do., 1. Aug. 2024 um 14:34 Uhr schrieb Jani Nikula
+> <jani.nikula@linux.intel.com>:
+> >
+> > On Mon, 01 Jul 2024, Xaver Hugl <xaver.hugl@gmail.com> wrote:
+> > > Am Do., 20. Juni 2024 um 22:22 Uhr schrieb Xaver Hugl <xaver.hugl@gma=
+il.com>:
+> > >> Merging can only happen once a real world userspace application has
+> > >> implemented support for it. I'll try to do that sometime next week i=
 n
->> the empty line after the declaration?
+> > >> KWin
+> > >
+> > > Here's the promised implementation:
+> > > https://invent.kde.org/plasma/kwin/-/merge_requests/6028
+> >
+> > The requirement is that the userspace patches must be reviewed and read=
+y
+> > for merging into a suitable and canonical upstream project.
+> >
+> > Are they?
 >
-> Just deleting the empty line after the declaration. It is a super small
-> nit indeed.
-AFAIK an empty line after a declaration is part of the coding style. Or
-is different in drm?
-
-Best regards
+> I've talked about the property with other KWin developers before, but
+> there's indeed no official review for the MR yet.
+> As some new discussions about alternative approaches have started as
+> well, maybe it should be reverted until we're more certain about how
+> to proceed?
 >
-> Best Regards,
-> - Ma=C3=ADra
+> > BR,
+> > Jani.
+> >
+> >
+> > >
+> > > In testing with the patches on top of kernel 6.9.6, setting the
+> > > property to `Require color accuracy` makes the sysfs file correctly
+> > > report "Device or resource busy" when trying to change the power
+> > > saving level, but setting the property to zero doesn't really work.
+> > > Once KWin sets the property to zero, changing the power saving level
+> > > "works" but the screen blanks for a moment (might just be a single
+> > > frame) and reading from the file returns zero again, with the visuals
+> > > and backlight level unchanged as well.
+> >
+> > --
+> > Jani Nikula, Intel
 >
->>>
->>> Reviewed-by: Ma=C3=ADra Canal <mcanal@igalia.com>
->>>
->>> Best Regards,
->>> - Ma=C3=ADra
->>>
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret =3D=3D -ENOENT) {
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /=
-* bcm2835 didn't have a clock reference in the DT. */
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r=
-et =3D 0;
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v=
-3d->clk =3D NULL;
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i=
-f (ret !=3D -EPROBE_DEFER)
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "Failed to get V3D clock: %d\n",
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret);
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r=
-eturn ret;
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return dev_err_probe(dev,=
- ret, "Failed to get V3D clock\n");
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D platform_get_irq(pdev, 0);
->>>> --
->>>> 2.34.1
->>>>
->>>
->>
 
