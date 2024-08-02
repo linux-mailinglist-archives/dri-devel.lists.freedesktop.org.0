@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A771945D57
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 13:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBD1945E1C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 14:49:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 758B110E043;
-	Fri,  2 Aug 2024 11:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89C8D10E09B;
+	Fri,  2 Aug 2024 12:49:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PdDugiyB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a9k1uB90";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB7FF10E043;
- Fri,  2 Aug 2024 11:42:56 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2f0271b0ae9so94768821fa.1; 
- Fri, 02 Aug 2024 04:42:56 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E07710E09B;
+ Fri,  2 Aug 2024 12:49:21 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a7d89bb07e7so574040866b.3; 
+ Fri, 02 Aug 2024 05:49:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722598975; x=1723203775; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=OOwlLJ3ofGI0TikYJvkZxHGMFAPFrL5NOyAVPrWUQ+k=;
- b=PdDugiyBT7d/RSXIYLonsa3nZF2JLJERysGqSRyplxihmcW9Xmo2QFjQL0e2K6pP33
- YiP5kFdh6z/k3FrlymUX5IfB7r+iViGPxa5Lu12gsdx6fysIC+IWM5iwREkobrUQvbw2
- QMCP+hByUkx/givDW/GFViVQ0eHR6R/RzbcsljgAucvNlRTxCw2wlzPFCJ344guTlH+u
- nATZIJYJkojumM9P432jKlb+aKPb8L1KXZmz/UgJ50JlLs3hfK19tpJZs6fgiP8yf2tn
- 24oMQe96swhs0aqiPl8isZ58KlvATa166EWd2hcm1U/Lo6jOKBATBP0DSzzJUiAGSkmW
- 9tCA==
+ d=gmail.com; s=20230601; t=1722602959; x=1723207759; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=oDJYdtS3XDN1VMZkCcTjw0Mh9EPPfsgYwBKITCwsvQk=;
+ b=a9k1uB901fGMcDLz5jkNraFWnP1yhyLNhQSjZ1BzR6J2pWNLYuvKfbTUiUWTl/aGnc
+ lgzlsjGZ3zguDG5V2TiPg7pOHAJPikNCzTheab3ewNjOhcT92ZRPAK8iY1l+EyH+1f7q
+ QhNQSBRnt/apWyYJBCLx0mGIJIknAAPEPoVMOs9q82V8ncWtVVfZhjobUj3RPsxKc3rP
+ it3SGlZX6hbgvpE7F1LYW4WR8HQp5O0trDxlxPv1+QtFonvZy3C9/ELdSUc2KRzLMWEM
+ xdGAilycdM8tAblvwtjWEW4M/11Nbw7lb5lZnaxP75t2GT9CZTdN0fAPNppczrs6C9Cu
+ 6G3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722598975; x=1723203775;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1722602959; x=1723207759;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OOwlLJ3ofGI0TikYJvkZxHGMFAPFrL5NOyAVPrWUQ+k=;
- b=rEnG7s3kpeKalIBeYogaIrzK2Rc2PMPlK62PT3rulbCiLuYlE8dpx2VaYkCo9hSEwq
- 0LbrXLajehIrmxuNM5QLDlHncG34q1EONITB5LXM4tNtTYV+Gt8K16MzrSitK824GRWW
- c3HC+I12T2Suk1uH6F8iyNmlg76eVIujB6m4xdrxdF3F3/l+DjQV2U/E4VDPV1ue4aAL
- XI1/hVBER5BPlKXbtycEGTnZmcLfmJ2kJj24YEtupJJziR0tGhepzN5g7cgLzMKlUNhI
- EwsoNxCZf4h0+KOlUwN8ZaXADjfK6Dmsql3Mcj/cfgHsPUZBuXT3oLlTs1nTf9IFWk74
- 7y9g==
+ bh=oDJYdtS3XDN1VMZkCcTjw0Mh9EPPfsgYwBKITCwsvQk=;
+ b=oWGNkOHjazjzhbdvhWKTcLKCErxltGyg+kpxTQj9TA6KJFDTV7KS6vvQ2zJ3YA4JeW
+ U5snJa+Wn5XxlOdp3KUj/gHh+4X6eXlsF1dSj9vxYd84jPXdR19tZzAgaRzE8ziOs7eb
+ JHyVFsiZ77A5PGL5RdbSTcj+uJy8irrsEBlE4HDOVkG1QlJC1wafNIrSAN2dr8LKA7Zj
+ Op/uUztwBWfoehLWIUjf4WpY+ksPfCuzefcIkhGnYIo0iVI+/xNKVHf1N5Xl4q58AJDB
+ Ry/I3js/QjEOJXkv145hcHY+YCpxqMfH7aFT8F+tpvJ0PtmgPdI4v3Yqn3+NXOodVx+H
+ mLjA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWAUUYwr50ekqKWYErH0AD2pCntpasB1F8oXKPAEEUAHKiMZGM4Ii0vzEbzNrYuwck6+xSHwGYe0ZNMnhSmTwvVHmywlN8P7Mmdqbz2++g4Yg+JbO6jthWFo16sTw6ToRpCDkZOPXUhJXnmofMang==
-X-Gm-Message-State: AOJu0YymztT0EOBDhM11o2n9HYVvovo5jB2fmRM1IYHovobMTvycfBJA
- pb3LDBv6XYVzIWeJaiGqYK6Y6n93W6lsCzeWQP2mx2jfIO+rVvPz
-X-Google-Smtp-Source: AGHT+IG+hjnJrqP5K8N5VX1i9PsnTAXDZwc4jEIMQBxc57qkv2RRrZbZV6TiQhmdzFY+TrIqpfM45w==
-X-Received: by 2002:a2e:4941:0:b0:2ef:28d2:39cc with SMTP id
- 38308e7fff4ca-2f15aa7187bmr22236801fa.3.1722598974134; 
- Fri, 02 Aug 2024 04:42:54 -0700 (PDT)
-Received: from localhost
- (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-428e6cd8d67sm30582345e9.0.2024.08.02.04.42.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Aug 2024 04:42:53 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Chaitanya Dhere <chaitanya.dhere@amd.com>, Jun Lei <jun.lei@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] drm/amd/display: remove extraneous ; after statements
-Date: Fri,  2 Aug 2024 12:42:52 +0100
-Message-Id: <20240802114252.449452-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ AJvYcCVVUfSbZbx7UKShaijXQlH4F7mkUhS3IOkzHlQ9ZwyUJzSY8sTp/kPJk8Vrob49gqKBnn70A2w0AZmeCbONAMLBjF8+pZoUdonjkpYpkhLQ36RDihRHrn1zYDXFljH95Y+u6X2h1AibvRNEfK1L1Q==
+X-Gm-Message-State: AOJu0Yyk1ZTMktMyJCAcGlTq4xizgivTV+KRC1Zj90CDChC40hvorT6L
+ +joFzCEk+pZ5C6APVu/0GTo/owDbX0YcCof75iuysQJd8hJneO1xC3++gDMr+29J/8Sruv0lLNR
+ kaBSOr6kSlXdVYi3t0/+KECGSPRQ=
+X-Google-Smtp-Source: AGHT+IFEsnOhqVj4h9nkNRLTmrUgdEBh/QqLkqJVWO8AHVyZsZ9E4l6UJHbSqv4ngWz2kEVGni3D6BufpN3SZuPiLoU=
+X-Received: by 2002:a17:907:da3:b0:a7a:a892:8e0b with SMTP id
+ a640c23a62f3a-a7dc4e27db7mr220852766b.19.1722602958947; Fri, 02 Aug 2024
+ 05:49:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20240606020404.210989-1-mario.limonciello@amd.com>
+ <20240606020404.210989-3-mario.limonciello@amd.com>
+ <bc1d81ef-d9d0-4440-b63f-ecfb735ef783@amd.com>
+ <d637d3c2-34f7-42f8-acbb-6a1730d3fc3c@amd.com>
+ <CAFZQkGy0xuuUw73HQvS8Ce92sUi2rVrRnX25pi1KdNmyQbtBZA@mail.gmail.com>
+ <CAFZQkGz8DeoiVX2MohoBoTMxraJk1Ou41N_wKP3GkqRrPg_6sg@mail.gmail.com>
+ <87wml0v2vv.fsf@intel.com>
+In-Reply-To: <87wml0v2vv.fsf@intel.com>
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Fri, 2 Aug 2024 14:49:06 +0200
+Message-ID: <CAFZQkGx=Q0W2r6XWxovt90WkBC5CUg7_X2fM7ZicSOALUg8yJg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/amd: Add power_saving_policy drm property to
+ eDP connectors
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ amd-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>, 
+ Harry Wentland <Harry.Wentland@amd.com>, dri-devel@lists.freedesktop.org, 
+ Sean Paul <seanpaul@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,71 +86,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are a several statements with two following semicolons, replace
-these with just one semicolon.
+Am Do., 1. Aug. 2024 um 14:34 Uhr schrieb Jani Nikula
+<jani.nikula@linux.intel.com>:
+>
+> On Mon, 01 Jul 2024, Xaver Hugl <xaver.hugl@gmail.com> wrote:
+> > Am Do., 20. Juni 2024 um 22:22 Uhr schrieb Xaver Hugl <xaver.hugl@gmail.com>:
+> >> Merging can only happen once a real world userspace application has
+> >> implemented support for it. I'll try to do that sometime next week in
+> >> KWin
+> >
+> > Here's the promised implementation:
+> > https://invent.kde.org/plasma/kwin/-/merge_requests/6028
+>
+> The requirement is that the userspace patches must be reviewed and ready
+> for merging into a suitable and canonical upstream project.
+>
+> Are they?
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- .../drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c  | 2 +-
- .../dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c        | 2 +-
- .../display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c    | 4 ++--
- drivers/gpu/drm/amd/display/dc/dml2/dml2_utils.c              | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+I've talked about the property with other KWin developers before, but
+there's indeed no official review for the MR yet.
+As some new discussions about alternative approaches have started as
+well, maybe it should be reverted until we're more certain about how
+to proceed?
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
-index 65776602648d..9956974c4527 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
-@@ -1040,7 +1040,7 @@ void dml21_copy_clocks_to_dc_state(struct dml2_context *in_ctx, struct dc_state
- void dml21_extract_legacy_watermark_set(const struct dc *in_dc, struct dcn_watermarks *watermark, enum dml2_dchub_watermark_reg_set_index reg_set_idx, struct dml2_context *in_ctx)
- {
- 	struct dml2_core_internal_display_mode_lib *mode_lib = &in_ctx->v21.dml_init.dml2_instance->core_instance.clean_me_up.mode_lib;
--	double refclk_freq_in_mhz = (in_ctx->v21.display_config.overrides.hw.dlg_ref_clk_mhz > 0) ? (double)in_ctx->v21.display_config.overrides.hw.dlg_ref_clk_mhz : mode_lib->soc.dchub_refclk_mhz;;
-+	double refclk_freq_in_mhz = (in_ctx->v21.display_config.overrides.hw.dlg_ref_clk_mhz > 0) ? (double)in_ctx->v21.display_config.overrides.hw.dlg_ref_clk_mhz : mode_lib->soc.dchub_refclk_mhz;
- 
- 	if (reg_set_idx >= DML2_DCHUB_WATERMARK_SET_NUM) {
- 		/* invalid register set index */
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-index 13f2c80bad4c..54197d18ab19 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-@@ -7218,7 +7218,7 @@ static bool dml_core_mode_support(struct dml2_core_calcs_mode_support_ex *in_out
- #if defined(DV_BUILD)
- 		// Assume a memory config setting of 3 in 420 mode or get a new ip parameter that reflects the programming.
- 		if (mode_lib->ms.BytePerPixelC[k] != 0.0 && display_cfg->plane_descriptors[k].pixel_format != dml2_rgbe_alpha) {
--			lb_buffer_size_bits_luma = 34620 * 57;;
-+			lb_buffer_size_bits_luma = 34620 * 57;
- 			lb_buffer_size_bits_chroma = 13560 * 57;
- 		}
- #endif
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
-index c54c29711a65..8f3c1c0b1cc1 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
-@@ -6464,8 +6464,8 @@ static void CalculateSwathAndDETConfiguration(struct dml2_core_internal_scratch
- 			p->SwathHeightC[k] = l->MaximumSwathHeightC[k] / 2;
- 			l->RoundedUpSwathSizeBytesY[k] = p->full_swath_bytes_l[k] / 2;
- 			l->RoundedUpSwathSizeBytesC[k] = p->full_swath_bytes_c[k] / 2;
--			p->request_size_bytes_luma[k] = ((p->BytePerPixY[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;;
--			p->request_size_bytes_chroma[k] = ((p->BytePerPixC[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;;
-+			p->request_size_bytes_luma[k] = ((p->BytePerPixY[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;
-+			p->request_size_bytes_chroma[k] = ((p->BytePerPixC[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;
- 		}
- 
- 		if (p->SwathHeightC[k] == 0)
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_utils.c b/drivers/gpu/drm/amd/display/dc/dml2/dml2_utils.c
-index 7655501e75d4..9e8ff3a9718e 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_utils.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_utils.c
-@@ -421,7 +421,7 @@ unsigned int dml2_calc_max_scaled_time(
- 
- void dml2_extract_writeback_wm(struct dc_state *context, struct display_mode_lib_st *dml_core_ctx)
- {
--	int i, j = 0;;
-+	int i, j = 0;
- 	struct mcif_arb_params *wb_arb_params = NULL;
- 	struct dcn_bw_writeback *bw_writeback = NULL;
- 	enum mmhubbub_wbif_mode wbif_mode = PACKED_444_FP16; /*for now*/
--- 
-2.39.2
-
+> BR,
+> Jani.
+>
+>
+> >
+> > In testing with the patches on top of kernel 6.9.6, setting the
+> > property to `Require color accuracy` makes the sysfs file correctly
+> > report "Device or resource busy" when trying to change the power
+> > saving level, but setting the property to zero doesn't really work.
+> > Once KWin sets the property to zero, changing the power saving level
+> > "works" but the screen blanks for a moment (might just be a single
+> > frame) and reading from the file returns zero again, with the visuals
+> > and backlight level unchanged as well.
+>
+> --
+> Jani Nikula, Intel
