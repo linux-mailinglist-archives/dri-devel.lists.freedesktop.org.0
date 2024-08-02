@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47753946164
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 18:10:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BB8946166
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 18:10:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB05010E19F;
-	Fri,  2 Aug 2024 16:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B04310E1A6;
+	Fri,  2 Aug 2024 16:10:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Wyx/TNrX";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mMK/OXM9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A35710E19D
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2024 16:10:08 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 32C501C0007;
- Fri,  2 Aug 2024 16:10:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFF6610E19F
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2024 16:10:09 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7C6511C0009;
+ Fri,  2 Aug 2024 16:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1722615007;
+ t=1722615008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n9/tICouGWNDBPtC6B6Nt4xrk1ea4RmLIeUA2JcfSsY=;
- b=Wyx/TNrXAogfHAbJ3q+CXqNIvGF+wdGvxl9nPODZjYzQL4W8nTQZLyCN6ThghoumtbVIx8
- uTz4+NwX/Ai6h6NzRbSBuM8cEoUoAPzrH5BxSTtiLs33MPI4HFgIcATHVe4ofUeroZV7I+
- CqGpIj0Bwpb6HFlqna+vqrqR8s5gd9dkwHeefYgo8ZxkWEq+lThLld/kHvUeogEgwmJzTJ
- 9VrUzU7yTVsxcefA91jLjbanZv0IkfRRxiT9AMRUwc5zsAtASVtkU9DkQOnjusggBeLh7J
- +2Sq2wJH3dTg/tX+13FMNRH9feWJDIy3JcGouyzRm0ZIra++aap1tL2fGgzJbA==
+ bh=oatrO+Zn6Z2g1+VEXJDjEAV1HZntZ06AW3bzksnypl8=;
+ b=mMK/OXM90OzJ7AjY1Y16keAS3F3m74FooeQVr2My6KGaP4qQ0GIUkDsy2ACwh/N6lG/Bj2
+ KRrBEQ8Yd6/0MN40sm24UhRy3Lsv71Y507PFBxxwcTOvlRVMJrDV4DCW/KoHspkHtX023y
+ qxtywoAQov8I2A+N08l0iryOExYow+gF0AFW1GwZj85C6Lf2YEURY1TjuG7l1pG6979ki7
+ BGEkHhN5G92MtYQ2B9KenxQgs8G7Vt+qy/U99t3Qeca/U7EdbeGBilPVUt5aw5dZ+/Hq7K
+ epxOSJRCUKGnTpWJ4wvt3AryXqNnW/GbL6WNmY6osqvksxI+U1D+g+ieptxENw==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 02 Aug 2024 18:09:46 +0200
-Subject: [PATCH v9 01/17] drm/vkms: Code formatting
+Date: Fri, 02 Aug 2024 18:09:47 +0200
+Subject: [PATCH v9 02/17] drm/vkms: Use drm_frame directly
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240802-yuv-v9-1-08a706669e16@bootlin.com>
+Message-Id: <20240802-yuv-v9-2-08a706669e16@bootlin.com>
 References: <20240802-yuv-v9-0-08a706669e16@bootlin.com>
 In-Reply-To: <20240802-yuv-v9-0-08a706669e16@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -56,21 +56,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Pekka Paalanen <pekka.paalanen@collabora.com>, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4941;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4272;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=EEeFkR6L5CHo4+R7BmVSUADv3KCuYuIy2FxnFbR5Rik=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmrQTZuA5rhRFRFfgv6qldi86nfXHde5eIFnmcz
- F5yNxypyJaJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZq0E2QAKCRAgrS7GWxAs
- 4qkDEADRPWeR3za3PrjAk2+iXAzL0m8uy/Sb5vpRIWkDfpRNZNmssVgVAfxVFbD4wqXlygF5F1h
- 3tnIdS5gceIT6+PNdsjaVvEG2QFgp4BtoNjs6urDEhAikWSHTpBH2Nxmt31wnth5TEn9z5AEYfr
- exClgzwNxI8DJTg4hi3MP+t6+gXZi1XS7mUnPUySnuyST6IczgfJryZULBff1f2wtUqFf5UOsFs
- 8M80MdXBLhdsH6X8K56MPeb62uPZTxAddshW70HkbH/A11lyXuZ7B0r9WyPuNGEZ59oIYDi6ZvX
- b2S6kDYNgdtVJMKwIktp4lylxpWzJXW951lP5H3fxEMZFY8MFrlHM1xG2ryqEdvGwAltLsFxej1
- iKUdQ57Sd42ZTZtoJGrZrWaYjhivepH/TvY5OrPYtDaJrEOImiZ+Q12jgADOaQy9W5HjzLty/tr
- AFQlo6qiQutyINZPRvRy828DXOZrvtoo/lGPLYYWgHdlOmif/xzw54KTrx7mWGZy8XTVYoEuuz4
- YN3WYo0NDp5YH+rnwr2IoJvvZjYjjxyVjCbryj9si7vgcLkc667c/MEuENoUxCtOj8EyixlHlL8
- HkrYoR+zonpDwwOxEPOg9e8mDLGHaDZ7PZ6DqSFW/qOC+V6ue/KaV0PB6Uud+CXr6CU2juSoRN8
- ixwCnX98TlH8sBg==
+ bh=Y21h1r1y+wrDzu5ZKkrZxUMErBBuFIpVTlThoHiWIEY=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmrQTZtxqXd1aFlTAMANKDchc7GjYoVD5e/gW3s
+ 9aF0k9wyS+JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZq0E2QAKCRAgrS7GWxAs
+ 4lNPEACivceb46OE5QCVmJRiuzBar7GvGjQWkQu5aS+YNicJw/8yaK+UUyW0fwFeRhbgSbK/lqu
+ bUUGNeaga1vccMxXpuRn5wYyMpLlMNMgCiRsawfyHSa5Wmsd9C1k2K7SbdPCDDAvArB7a6sEfNY
+ ojATgCsQBBzZ07u1sByuFqiEya2kJgD469ppGwRry/VkBSPg71aKBgMgKrrVGn97PH3dFN0y9UF
+ 5QI5wG6l43MOT2YDtfmR6RTLMbtQWwmRdSjzzpBXB/09w3kzySzsvmfBxtjYAeqpgwvezzEsRv2
+ D1BokWCCTO1YH3WSXKlkxqixADqdNp3YKw9bNchij1pZQ2wZcofVbtPMAlKdwjZcD6RlEYBNbbM
+ rexQjd87gMP69ZB/fyU98Xg/ZRTs2XzPF0NNLLVBttxaDmDy0fdzUtvzF8dJfvyAytyj+oEnNNi
+ OsGLQi8lf9NnoulWWhZTVkTq8nsbj+TG+/is5OkdTe6EHr5gHYRIGUm9WUe6Uovg1z+stFsNPNf
+ 3LKJirJlfadU7m+y4kfv0fzlL/xMuWlTOlITqrgO/hXs+w143oL6aisF9+c0KWFtLEMXmwE6DkL
+ 13RgesY3H3ofQtqSe0aip8WmUg6uO4bsQyc68IHUDeJcfD/1QhD2i31LzhTnwpqa93rfZ8V4ZJv
+ rgaNe8jbaY1irYQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -89,117 +89,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Few no-op changes to remove double spaces and fix wrong alignments.
+From: Arthur Grillo <arthurgrillo@riseup.net>
 
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Remove intermidiary variables and access the variables directly from
+drm_frame. These changes should be noop.
+
+Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+[Louis Chauvet: Applied review from Maíra]
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c | 10 +++++-----
- drivers/gpu/drm/vkms/vkms_crtc.c     |  6 ++----
- drivers/gpu/drm/vkms/vkms_drv.c      |  3 +--
- drivers/gpu/drm/vkms/vkms_plane.c    |  8 ++++----
- 4 files changed, 12 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/vkms/vkms_drv.h       |  3 ---
+ drivers/gpu/drm/vkms/vkms_formats.c   | 11 ++++++-----
+ drivers/gpu/drm/vkms/vkms_plane.c     |  3 ---
+ drivers/gpu/drm/vkms/vkms_writeback.c |  5 -----
+ 4 files changed, 6 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index e7441b227b3c..c6d9b4a65809 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -96,7 +96,7 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
- 	s64 a_fp = drm_int2fixp(a);
- 	s64 b_fp = drm_int2fixp(b);
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 5e46ea5b96dc..8ac320564334 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -31,9 +31,6 @@ struct vkms_frame_info {
+ 	struct drm_rect rotated;
+ 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+ 	unsigned int rotation;
+-	unsigned int offset;
+-	unsigned int pitch;
+-	unsigned int cpp;
+ };
  
--	s64 delta = drm_fixp_mul(b_fp - a_fp,  t);
-+	s64 delta = drm_fixp_mul(b_fp - a_fp, t);
+ struct pixel_argb_u16 {
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index 36046b12f296..d597c48452ac 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -11,8 +11,9 @@
  
- 	return drm_fixp2int(a_fp + delta);
- }
-@@ -302,8 +302,8 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
- void vkms_composer_worker(struct work_struct *work)
+ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
  {
- 	struct vkms_crtc_state *crtc_state = container_of(work,
--						struct vkms_crtc_state,
--						composer_work);
-+							  struct vkms_crtc_state,
-+							  composer_work);
- 	struct drm_crtc *crtc = crtc_state->base.crtc;
- 	struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
- 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-@@ -328,7 +328,7 @@ void vkms_composer_worker(struct work_struct *work)
- 		crtc_state->gamma_lut.base = (struct drm_color_lut *)crtc->state->gamma_lut->data;
- 		crtc_state->gamma_lut.lut_length =
- 			crtc->state->gamma_lut->length / sizeof(struct drm_color_lut);
--		max_lut_index_fp = drm_int2fixp(crtc_state->gamma_lut.lut_length  - 1);
-+		max_lut_index_fp = drm_int2fixp(crtc_state->gamma_lut.lut_length - 1);
- 		crtc_state->gamma_lut.channel_value2index_ratio = drm_fixp_div(max_lut_index_fp,
- 									       u16_max_fp);
- 
-@@ -367,7 +367,7 @@ void vkms_composer_worker(struct work_struct *work)
- 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
+-	return frame_info->offset + (y * frame_info->pitch)
+-				  + (x * frame_info->cpp);
++	struct drm_framebuffer *fb = frame_info->fb;
++
++	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp[0]);
  }
  
--static const char * const pipe_crc_sources[] = {"auto"};
-+static const char *const pipe_crc_sources[] = { "auto" };
+ /*
+@@ -131,12 +132,12 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
+ 	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+ 	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
  
- const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
- 					size_t *count)
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 40b4d084e3ce..06e28305d660 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -188,8 +188,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 		return ret;
+-	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->cpp) {
++	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+ 		int x_pos = get_x_position(frame_info, limit, x);
  
- 	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
--		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state,
--								  plane);
-+		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state, plane);
- 		WARN_ON(!plane_state);
+ 		if (drm_rotation_90_or_270(frame_info->rotation))
+ 			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
+-				+ frame_info->cpp * y;
++				+ frame_info->fb->format->cpp[0] * y;
  
- 		if (!plane_state->visible)
-@@ -205,8 +204,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 
- 	i = 0;
- 	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
--		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state,
--								  plane);
-+		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state, plane);
- 
- 		if (!plane_state->visible)
- 			continue;
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 8dc9dc13896e..6860bee8e981 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -81,8 +81,7 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
- 	drm_atomic_helper_wait_for_flip_done(dev, old_state);
- 
- 	for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
--		struct vkms_crtc_state *vkms_state =
--			to_vkms_crtc_state(old_crtc_state);
-+		struct vkms_crtc_state *vkms_state = to_vkms_crtc_state(old_crtc_state);
- 
- 		flush_work(&vkms_state->composer_work);
+ 		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
  	}
+@@ -223,7 +224,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+ 	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+ 	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
+ 
+-	for (size_t x = 0; x < x_limit; x++, dst_pixels += frame_info->cpp)
++	for (size_t x = 0; x < x_limit; x++, dst_pixels += frame_info->fb->format->cpp[0])
+ 		wb->pixel_write(dst_pixels, &in_pixels[x]);
+ }
+ 
 diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index e5c625ab8e3e..5a8d295e65f2 100644
+index 5a8d295e65f2..21b5adfb44aa 100644
 --- a/drivers/gpu/drm/vkms/vkms_plane.c
 +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -117,10 +117,10 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
- 	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
- 	drm_framebuffer_get(frame_info->fb);
- 	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
--						     DRM_MODE_ROTATE_90 |
--						     DRM_MODE_ROTATE_270 |
--						     DRM_MODE_REFLECT_X |
--						     DRM_MODE_REFLECT_Y);
-+									  DRM_MODE_ROTATE_90 |
-+									  DRM_MODE_ROTATE_270 |
-+									  DRM_MODE_REFLECT_X |
-+									  DRM_MODE_REFLECT_Y);
- 
+@@ -125,9 +125,6 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
  	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
  			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+ 
+-	frame_info->offset = fb->offsets[0];
+-	frame_info->pitch = fb->pitches[0];
+-	frame_info->cpp = fb->format->cpp[0];
+ 	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
+ }
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index bc724cbd5e3a..c8582df1f739 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -149,11 +149,6 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 	crtc_state->active_writeback = active_wb;
+ 	crtc_state->wb_pending = true;
+ 	spin_unlock_irq(&output->composer_lock);
+-
+-	wb_frame_info->offset = fb->offsets[0];
+-	wb_frame_info->pitch = fb->pitches[0];
+-	wb_frame_info->cpp = fb->format->cpp[0];
+-
+ 	drm_writeback_queue_job(wb_conn, connector_state);
+ 	active_wb->pixel_write = get_pixel_write_function(wb_format);
+ 	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
 
 -- 
 2.44.2
