@@ -2,46 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326EE94567D
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 05:00:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5E0945686
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 05:10:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A30A010E035;
-	Fri,  2 Aug 2024 02:59:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 128A910E06C;
+	Fri,  2 Aug 2024 03:10:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Y436ndEi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SgTyTS6O";
 	dkim-atps=neutral
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-97.freemail.mail.aliyun.com
- (out30-97.freemail.mail.aliyun.com [115.124.30.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE5DF10E035;
- Fri,  2 Aug 2024 02:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1722567591; h=From:To:Subject:Date:Message-Id:MIME-Version;
- bh=0kM025x32/0+5dTxxuOpGxTdKPJ7pjJl/LKjasSay0I=;
- b=Y436ndEi16m6hH5Qdvuq/NSFGni9dKUz9ytdzrrrwLPmoSEu79cFyKq39Cvsx0dT6ridFlDYQ4Zwcl9EO17xdTT3MnXt8M+8XLW/fV3btRGxqk/jwvSRsoz9MOsFNwqE+5QCOIu6ng+jGTSz3be6Ac81mWWFhKEquXbnBOVlmoE=
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033037067110;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=15; SR=0;
- TI=SMTPD_---0WBvhqXh_1722567582; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0WBvhqXh_1722567582) by smtp.aliyun-inc.com;
- Fri, 02 Aug 2024 10:59:50 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: chaitanya.dhere@amd.com
-Cc: jun.lei@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
- Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] drm/amd/display: remove unneeded semicolon
-Date: Fri,  2 Aug 2024 10:59:42 +0800
-Message-Id: <20240802025942.62734-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1F610E06C;
+ Fri,  2 Aug 2024 03:10:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1722568253; x=1754104253;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vhM0cZ2l7EcafYxBEVspUn7G9E+419aE5Dz5i33WE8w=;
+ b=SgTyTS6Oyz1GW9V4rInrky2kVoDqVcwYvKQA7Oj/2FxEwABov/66rISe
+ CuSel6v1IZO22ZstH7XennHwUVZdQ+j/pTGWqKRSsUIJs4luneFyHA4HU
+ uOK0N49WYE7TU4sFpx2FP5mAELnfGTPN6qsRzS9OF9v6hex/IU+hGXmuB
+ LVdhrTeV7GVhST6F/RniB/DvOAnDHLvT/GztEnhGRoZES0r38M5DjWtNb
+ wBT18YBVdFGCO1tPxzpqs6sgZtuWPCQaTQhR70uYTwZRu0CM/VGnpx/Gr
+ QekWARIojwVJSeLkjOkD2Us0jPzRNuqPPKMGwUaMlK1XpjtDqExpCxJ/f Q==;
+X-CSE-ConnectionGUID: N/hKpl+MSwe7p1WciJSaqA==
+X-CSE-MsgGUID: fKVEA3TxTJaNfFPUVc4ENg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="38030307"
+X-IronPort-AV: E=Sophos;i="6.09,256,1716274800"; d="scan'208";a="38030307"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2024 20:10:52 -0700
+X-CSE-ConnectionGUID: cKuA64WaQx2tsTvjK+r33w==
+X-CSE-MsgGUID: zfKtEuySSg6iGDK3O1gPXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,256,1716274800"; d="scan'208";a="56033703"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orviesa008.jf.intel.com with ESMTP; 01 Aug 2024 20:10:52 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>
+Subject: [PATCH] drm/i915: ARL requires a newer GSC firmware
+Date: Thu,  1 Aug 2024 20:10:51 -0700
+Message-ID: <20240802031051.3816392-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,32 +66,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No functional modification involved.
+From: John Harrison <John.C.Harrison@Intel.com>
 
-./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c:6463:166-167: Unneeded semicolon.
+ARL and MTL share a single GSC firmware blob. However, ARL requires a
+newer version of it.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9633
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+So add differentiate of the PCI ids for ARL from MTL and create ARL as
+a sub-platform of MTL. That way, all the existing workarounds and such
+still treat ARL as MTL exactly as before. However, now the GSC code
+can check for ARL and do an extra version check on the firmware before
+committing to it.
+
+Also, the version extraction code has various ways of failing but the
+return code was being ignore and so the firmware load would attempt to
+continue anyway. Fix that by propagating the return code to the next
+level out.
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- .../display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 31 +++++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c  | 10 ++++++--
+ drivers/gpu/drm/i915/i915_drv.h           |  2 ++
+ drivers/gpu/drm/i915/intel_device_info.c  |  7 +++++
+ drivers/gpu/drm/i915/intel_device_info.h  |  3 +++
+ include/drm/intel/i915_pciids.h           | 11 +++++---
+ 6 files changed, 58 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
-index c54c29711a65..8f3c1c0b1cc1 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
-@@ -6464,8 +6464,8 @@ static void CalculateSwathAndDETConfiguration(struct dml2_core_internal_scratch
- 			p->SwathHeightC[k] = l->MaximumSwathHeightC[k] / 2;
- 			l->RoundedUpSwathSizeBytesY[k] = p->full_swath_bytes_l[k] / 2;
- 			l->RoundedUpSwathSizeBytesC[k] = p->full_swath_bytes_c[k] / 2;
--			p->request_size_bytes_luma[k] = ((p->BytePerPixY[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;;
--			p->request_size_bytes_chroma[k] = ((p->BytePerPixC[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;;
-+			p->request_size_bytes_luma[k] = ((p->BytePerPixY[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;
-+			p->request_size_bytes_chroma[k] = ((p->BytePerPixC[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+index 3b69bc6616bd3..551b0d7974ff1 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+@@ -212,6 +212,37 @@ int intel_gsc_fw_get_binary_info(struct intel_uc_fw *gsc_fw, const void *data, s
  		}
+ 	}
  
- 		if (p->SwathHeightC[k] == 0)
++	if (IS_ARROWLAKE(gt->i915)) {
++		bool too_old = false;
++
++		/*
++		 * ARL requires a newer firmware than MTL did (102.0.10.1878) but the
++		 * firmware is actually common. So, need to do an explicit version check
++		 * here rather than using a separate table entry. And if the older
++		 * MTL-only version is found, then just don't use GSC rather than aborting
++		 * the driver load.
++		 */
++		if (gsc->release.major < 102) {
++			too_old = true;
++		} else if (gsc->release.major == 102) {
++			if (gsc->release.minor == 0) {
++				if (gsc->release.patch < 10) {
++					too_old = true;
++				} else if (gsc->release.patch == 10) {
++					if (gsc->release.build < 1878)
++						too_old = true;
++				}
++			}
++		}
++
++		if (too_old) {
++			gt_info(gt, "GSC firmware too old for ARL, got %d.%d.%d.%d but need at least 102.0.10.1878",
++				gsc->release.major, gsc->release.minor,
++				gsc->release.patch, gsc->release.build);
++			return -EINVAL;
++		}
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+index d80278eb45d73..ec33ad942115a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+@@ -698,12 +698,18 @@ static int check_gsc_manifest(struct intel_gt *gt,
+ 			      const struct firmware *fw,
+ 			      struct intel_uc_fw *uc_fw)
+ {
++	int ret;
++
+ 	switch (uc_fw->type) {
+ 	case INTEL_UC_FW_TYPE_HUC:
+-		intel_huc_fw_get_binary_info(uc_fw, fw->data, fw->size);
++		ret = intel_huc_fw_get_binary_info(uc_fw, fw->data, fw->size);
++		if (ret)
++			return ret;
+ 		break;
+ 	case INTEL_UC_FW_TYPE_GSC:
+-		intel_gsc_fw_get_binary_info(uc_fw, fw->data, fw->size);
++		ret = intel_gsc_fw_get_binary_info(uc_fw, fw->data, fw->size);
++		if (ret)
++			return ret;
+ 		break;
+ 	default:
+ 		MISSING_CASE(uc_fw->type);
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 02f28a6170c39..17561b53648e2 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -546,6 +546,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ #define IS_LUNARLAKE(i915) (0 && i915)
+ #define IS_BATTLEMAGE(i915)  (0 && i915)
+ 
++#define IS_ARROWLAKE(i915) \
++	IS_SUBPLATFORM(i915, INTEL_METEORLAKE, INTEL_SUBPLATFORM_ARL)
+ #define IS_DG2_G10(i915) \
+ 	IS_SUBPLATFORM(i915, INTEL_DG2, INTEL_SUBPLATFORM_G10)
+ #define IS_DG2_G11(i915) \
+diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+index d26de37719a72..eede5417cb3fe 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.c
++++ b/drivers/gpu/drm/i915/intel_device_info.c
+@@ -203,6 +203,10 @@ static const u16 subplatform_g12_ids[] = {
+ 	INTEL_DG2_G12_IDS(ID),
+ };
+ 
++static const u16 subplatform_arl_ids[] = {
++	INTEL_ARL_IDS(ID),
++};
++
+ static bool find_devid(u16 id, const u16 *p, unsigned int num)
+ {
+ 	for (; num; num--, p++) {
+@@ -260,6 +264,9 @@ static void intel_device_info_subplatform_init(struct drm_i915_private *i915)
+ 	} else if (find_devid(devid, subplatform_g12_ids,
+ 			      ARRAY_SIZE(subplatform_g12_ids))) {
+ 		mask = BIT(INTEL_SUBPLATFORM_G12);
++	} else if (find_devid(devid, subplatform_arl_ids,
++			      ARRAY_SIZE(subplatform_arl_ids))) {
++		mask = BIT(INTEL_SUBPLATFORM_ARL);
+ 	}
+ 
+ 	GEM_BUG_ON(mask & ~INTEL_SUBPLATFORM_MASK);
+diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+index d1a2abc7e5139..df73ef94615dd 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.h
++++ b/drivers/gpu/drm/i915/intel_device_info.h
+@@ -127,6 +127,9 @@ enum intel_platform {
+ #define INTEL_SUBPLATFORM_N    1
+ #define INTEL_SUBPLATFORM_RPLU  2
+ 
++/* MTL */
++#define INTEL_SUBPLATFORM_ARL	0
++
+ enum intel_ppgtt_type {
+ 	INTEL_PPGTT_NONE = I915_GEM_PPGTT_NONE,
+ 	INTEL_PPGTT_ALIASING = I915_GEM_PPGTT_ALIASING,
+diff --git a/include/drm/intel/i915_pciids.h b/include/drm/intel/i915_pciids.h
+index b21374f76df23..2bf03ebfcf73d 100644
+--- a/include/drm/intel/i915_pciids.h
++++ b/include/drm/intel/i915_pciids.h
+@@ -772,15 +772,18 @@
+ 	INTEL_ATS_M75_IDS(MACRO__, ## __VA_ARGS__)
+ 
+ /* MTL */
++#define INTEL_ARL_IDS(MACRO__, ...) \
++	MACRO__(0x7D41, ## __VA_ARGS__), \
++	MACRO__(0x7D51, ## __VA_ARGS__), \
++	MACRO__(0x7D67, ## __VA_ARGS__), \
++	MACRO__(0x7DD1, ## __VA_ARGS__)
++
+ #define INTEL_MTL_IDS(MACRO__, ...) \
++	INTEL_ARL_IDS(MACRO__, ## __VA_ARGS__), \
+ 	MACRO__(0x7D40, ## __VA_ARGS__), \
+-	MACRO__(0x7D41, ## __VA_ARGS__), \
+ 	MACRO__(0x7D45, ## __VA_ARGS__), \
+-	MACRO__(0x7D51, ## __VA_ARGS__), \
+ 	MACRO__(0x7D55, ## __VA_ARGS__), \
+ 	MACRO__(0x7D60, ## __VA_ARGS__), \
+-	MACRO__(0x7D67, ## __VA_ARGS__), \
+-	MACRO__(0x7DD1, ## __VA_ARGS__), \
+ 	MACRO__(0x7DD5, ## __VA_ARGS__)
+ 
+ /* LNL */
 -- 
-2.32.0.3.g01195cf9f
+2.45.2
 
