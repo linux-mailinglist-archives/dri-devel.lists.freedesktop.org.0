@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FAC945FC4
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 17:00:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9685D945FC7
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 17:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0449D10E140;
-	Fri,  2 Aug 2024 15:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7277010E15F;
+	Fri,  2 Aug 2024 15:00:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LRBJl0U+";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bPl7cw7x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2063.outbound.protection.outlook.com [40.107.243.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9734610E140;
- Fri,  2 Aug 2024 15:00:13 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2048.outbound.protection.outlook.com [40.107.237.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 751F310E15D;
+ Fri,  2 Aug 2024 15:00:17 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ewK+BwR+IODLSk9JtP5sH7HtLWI6ipt0ykhAwjBlcNGAA9Rln9rYvNrDeyhdY5xSpQzGq97LXHAC1KsIw2JSAnUP+uRLyoJdUMibp+0CObpahRdJbGpduiG2PNIXC225ZkeCR0q74TY4asBmu93YIVaDD8mzuVJTUrAMy8V9BJZPLyeJXYbCgSR8ACvFGJbJwAz8USeghkecbmc72ip89mTRGfCBg4U6tVGIeTd6+7VqG7dIBeGMBJLQn0BT6b4b5c4Bp/A90IHqubJu4YhugDzOQBcmpm5tWXnxxOOZ3N80M0V7IxXMmrqLANfEOfp0Tse9T4LY8qKFIt0CNaV96g==
+ b=Ja/4XfXjLKZGegNM4Bz3HoyB3IuUzyy/NfAFEQvDTyEpL6xE2Fo5G4XAk5yKxUdbjaR2cbq1QfZAxmu+8e4rd5RREuz8bsisEi+xjRqf4Tdea1XEhFGm5gwyz2IXdlpuCyRd7F86bOEChhoPQz+huWa9zZAVkqRM97kR19SHnjfVLVwZCO7or2EqPjFHfDmPc4VC/uv7ife+/0YPhL29IUc4Rt0lcHEJGPbZUn9w6RElTaSAexfsjUFQi2cKvrpUxQCa+jJujsenNidz4eKYby6yuFAVnprXHv6GJqIsF0/dD48M+b/4VQcKU58AlQCPJHJBW0NlUmtExbKaSbmaJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OyiYyGA6o/1SZfI+qbzO61aHrb96zX/xwy6/iprPK3Y=;
- b=TowBkoweN+vtyH+AUVKhDxGAWl+fTgWBWBBOj2BxNh2Y6fthj8qdAPjt+B/zweCgUwZZ6tOUJuLUBU7WAjkyXE3bnUqe+2EMMwbk08k+vC8zHIKJ5a7QLIFECCKFicc/etMgwkhrI8gpAeGmOusZ2j7lxTdFICtSUgUTlNaF7O0vnTkzABb6fGqPDwuFx/5D0cTtWMUCq+gn96mLMXELABWBrQDk7o+MuRZ31oX/NmT96ATxbguZZXWJ5XARCFaZ2j63luwpHgYZVdqLqDuo9geItD4RJrjK1tDlrblDstvkjO4SsgfbmdHvKUxV2vmfz6rJf8Fh9tvkBI3IoSBrpA==
+ bh=xN5Zt+l1ix4VivzdWxiS2fc0nLk6aKSSVlqjrsC+uBU=;
+ b=mn678nEz11UxiidRGWxsCKfVGmtx4t97vfjkIsl0h2QS5KuDSypPahwg7B02RUZa1fEmT+BJ4GpZbwe6sPLq4za2jHus65s0W2f3GSF0Y1rVVWdhpeWMKPp7l5NBCcRxeR+DsDr9D1IGrjHqMgqMOAgEtIRKXxAgxdJDFKH1kF8Z9iBA8ysE75jG/fwCDu8Fyt+FO/u6+LIU+TvY/kff6grlyEXh7cEWyWg5cTZHorpafiWPPg/VCviXF3/lBRzmyWe+RNsjEOTjRM7PvZnUyT8AX1fStoJGwpEsZ6G6UWmM1UoAf0t10dwn6491dLSw6mCrrL+D6mQMTpZc1EDxCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OyiYyGA6o/1SZfI+qbzO61aHrb96zX/xwy6/iprPK3Y=;
- b=LRBJl0U+xnMWklpUvTWOzwWkztx71IB7WLods60+TtHrSRWRnaX0ihTBV6BIVszAIWvOFD7tjgRnrWgjRy6lkDgNAjIKe5/V6cNrjs2Kxoz68Ig1oyk7ANBsvLyyiksNAvB+VwSTFjUL9dmR6sKjckdC9vNH4CLi92m/08y1IdQ=
-Received: from CH0PR03CA0422.namprd03.prod.outlook.com (2603:10b6:610:10e::19)
- by SN7PR12MB7978.namprd12.prod.outlook.com (2603:10b6:806:34b::9)
+ bh=xN5Zt+l1ix4VivzdWxiS2fc0nLk6aKSSVlqjrsC+uBU=;
+ b=bPl7cw7xixnr3xS8QgoDcRSkCwLrmt5L32sehqxMYacxrbcw3607p0LEIY2E+k6P/9bH43Uj8nSQmhIpdbUCHcen3NroxwJk9ukvWWusFbi/KVzORmXu5jvKSy0ysTao2tfr2wYrQ1sbg7FTO0zm8iZ0BxcslBKENepiaxdQl10=
+Received: from CH0PR03CA0431.namprd03.prod.outlook.com (2603:10b6:610:10e::22)
+ by PH7PR12MB6666.namprd12.prod.outlook.com (2603:10b6:510:1a8::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Fri, 2 Aug
- 2024 15:00:08 +0000
+ 2024 15:00:10 +0000
 Received: from CH1PEPF0000AD83.namprd04.prod.outlook.com
- (2603:10b6:610:10e:cafe::b4) by CH0PR03CA0422.outlook.office365.com
- (2603:10b6:610:10e::19) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:610:10e:cafe::38) by CH0PR03CA0431.outlook.office365.com
+ (2603:10b6:610:10e::22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.23 via Frontend
- Transport; Fri, 2 Aug 2024 15:00:08 +0000
+ Transport; Fri, 2 Aug 2024 15:00:09 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,11 +50,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  CH1PEPF0000AD83.mail.protection.outlook.com (10.167.244.85) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7828.19 via Frontend Transport; Fri, 2 Aug 2024 15:00:07 +0000
+ 15.20.7828.19 via Frontend Transport; Fri, 2 Aug 2024 15:00:09 +0000
 Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 2 Aug
- 2024 10:00:05 -0500
+ 2024 10:00:07 -0500
 From: Hamza Mahfooz <hamza.mahfooz@amd.com>
 To: <dri-devel@lists.freedesktop.org>
 CC: Harry Wentland <harry.wentland@amd.com>, Sebastian Wick
@@ -62,10 +62,13 @@ CC: Harry Wentland <harry.wentland@amd.com>, Sebastian Wick
  <jani.nikula@linux.intel.com>, Mario Limonciello <mario.limonciello@amd.com>, 
  Leo Li <sunpeng.li@amd.com>, <amd-gfx@lists.freedesktop.org>, Simon Ser
  <contact@emersion.fr>, Hamza Mahfooz <hamza.mahfooz@amd.com>
-Subject: [PATCH 1/2] Revert "drm: Introduce 'power saving policy' drm property"
-Date: Fri, 2 Aug 2024 10:59:45 -0400
-Message-ID: <20240802145946.48073-1-hamza.mahfooz@amd.com>
+Subject: [PATCH 2/2] Revert "drm/amd: Add power_saving_policy drm property to
+ eDP connectors"
+Date: Fri, 2 Aug 2024 10:59:46 -0400
+Message-ID: <20240802145946.48073-2-hamza.mahfooz@amd.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240802145946.48073-1-hamza.mahfooz@amd.com>
+References: <20240802145946.48073-1-hamza.mahfooz@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -74,51 +77,51 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD83:EE_|SN7PR12MB7978:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac596cf8-84ba-4b39-ee74-08dcb303ccb9
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD83:EE_|PH7PR12MB6666:EE_
+X-MS-Office365-Filtering-Correlation-Id: b500a0da-1481-47fd-7fe4-08dcb303cdce
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|1800799024|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?//I0Fd07gGVTR0G4K98qgFEnWF8IIK3UPo80cEgxf2RiuMbJFfqeLpW5xueV?=
- =?us-ascii?Q?CckpRLTD68JXOxPtnfX60PMSajfZQwB7ITZjI97ApIYBNJAD5BIVXUO9pCsf?=
- =?us-ascii?Q?ryHC8ZchCAYczmQsbJdATeXZMd032JmAJAHULjl9lCpifQoalYGT+PjNCAQe?=
- =?us-ascii?Q?eRI4Lx3wKTzDYcFnnN0iyj7y52NzNRp/URhcbuIqmtrOA6t6CyN//hDLtoGJ?=
- =?us-ascii?Q?bdFuTK0DtFPkBzDO9fogPI4vo9o4I8hfCv30rG0U/d/n31OD/2txnfF8VtUB?=
- =?us-ascii?Q?VXttGjlImUkoTooayaY5ja1VxDoeth6/Jm7fuOSo4+EuMhlqx5qtAcS++Rsp?=
- =?us-ascii?Q?gpd63iYk7T+s0LvaL27SS3g575Ter6hfU5YaeksZgMsJzojkHP7lrBUjRBbS?=
- =?us-ascii?Q?ve569P8tFc6LgVZJrFCdTVUSP1C7Ul+iTkvBqLJ9W+NME58hXJKVOkJ1MxHW?=
- =?us-ascii?Q?txJ+HHgQADaVha+wt4Z58tTEl+CD96/zPyiTIxb5V5z2dnE3573a0nX9k4DM?=
- =?us-ascii?Q?M0YK5CI0tSJQN+GWaLWH52nqrLEIX3tXNjKJqFjYCU4IRBbxF7DC09yQcUVP?=
- =?us-ascii?Q?ztlvbryjtOZXCh+8mOI+R5GVNfCZfji0C2x6l2lbSOsF0Lh/WlgaTsjxSZEh?=
- =?us-ascii?Q?UK1fsS3vckPa7um9LG22pAvKX1njMt7BTCCbL7GDm+wrSbeU7ssCNz35uohf?=
- =?us-ascii?Q?LEceAi/GMFlczXtMFFIE3sihoWqNcihbG0/JN4TfNFWkvxUrxrNrCMAZ9pMt?=
- =?us-ascii?Q?tc919z6UWnRHzK2DDlYcd9D0QxxXzNILRkZn//o+mArfYDDQC8Gkeh+NtppB?=
- =?us-ascii?Q?ZZkHk6LmNzc6oUbTYM8unxnpwrNaTTOnCCvtb/K2sKjynzuw3IcU5aMZGI6d?=
- =?us-ascii?Q?GFTiMpnCVf/fHQ4lh8IjCaW4/MFjcnp1b3PJPrYOW9BkMn/QoOGkArSQtjcI?=
- =?us-ascii?Q?Qn26FNxqemJR0v+KbrF4IYPBGEYKrKwNj7Hf5492W82qi4eJlVdKV6ZIsfnp?=
- =?us-ascii?Q?tMXhg93OEMg74ksdoB1/2D/rrsoKTXijGSKXjejRQogqj+1QXte8NZNMJd83?=
- =?us-ascii?Q?ie3o8WYdmyK3mQ4Oo2M5HSBi5CA0vplGeIjjkq/tGAgvS/3tRixnpD5LEB3p?=
- =?us-ascii?Q?MXi11TJPY56Q0V2zVhE7AN7ndaXBsSTqaQZPqAsjomp4EGWvZSA0pY3UFOpV?=
- =?us-ascii?Q?FkmDjaEiGXGal5iutXejONkikKr39qqHlvQypleC+u6dsY/7YkBaHUav7jMg?=
- =?us-ascii?Q?EDDS0PO9FTCMNimTZ7YTi5uvJaWCLWMuOirTyegF8sOZQCVCL7LxI7r4fexb?=
- =?us-ascii?Q?jHVJh8Kqp2tldGKNuar4syxco6Mj7w6yX9qYWvfw3z5Hj2fxjSn1USKQn0Ki?=
- =?us-ascii?Q?8ucs3sB6g6ZBd+485B7kCeK157Mpt+Huq/MKNaIM2jgmxWMzau1P+m6lY8Qd?=
- =?us-ascii?Q?owRmLFpdzK0E/u0VugVLiYOqofacP3gy?=
+ ARA:13230040|376014|82310400026|36860700013|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?vu6iIXEQlP3Xnr3hSn6OPkx82wm1udmnlovz+aTdUVzRKn1hCekXR1aO7/2E?=
+ =?us-ascii?Q?38A8mxrjDRnnzXsG5SGGN9fnf6L9CZvhRlF3Y5vd0g6DQfWBKR3XpYrudHSd?=
+ =?us-ascii?Q?8lPwMa3ZxwOb3Po29iiJOePxxMgyU1ybNeWdbZIyY9xu4xLvc5wSZL5cdI6p?=
+ =?us-ascii?Q?K0eCLoqT/+bS04+3tYo/sc+AnfUCFKcNejpC6qUQ3CGSoMW7lwH/pVa2GvLl?=
+ =?us-ascii?Q?+lK3i9LSRT6PS6tTTwixroewEjMQDTYMqmBeHhlOMonWSdrAZXP381XMNfvt?=
+ =?us-ascii?Q?d7oZhFne6H8fqMLYqLg/8Xgqy9MFt5GQwQ7g9SLw0zHG0fkWZaRsN4nT0RtA?=
+ =?us-ascii?Q?LytwUJF9g5M+ZG1FUr+XEqUuSUXluNeb/4W3t6x99JpfTkgSd9ii+j1DQd26?=
+ =?us-ascii?Q?rqMQCyUN9MVl6IvMixmGYkDrIh4uq6dGjwpMnOAjDpKcRAPxqcrVgl7oKkEh?=
+ =?us-ascii?Q?tt4TUaEImvyV9oOnt0IfMUy7Cj4AF/QaNit4CKWpyioYjvcj2nh845bYqzcn?=
+ =?us-ascii?Q?CBZiz8wYOpiNHiA3pvPPw9crEcIHsu9P7HzKPHo2dSteKSrgSXNO4oEYk1KV?=
+ =?us-ascii?Q?JqQJuq0FeXNnujA+UFi+SEtwke9wFBx2nBRlpl8qMsFEDvaZx2/5dUIsq0yE?=
+ =?us-ascii?Q?P7vcJq1YDboJvqk61dGBpiYxfNnEKltdjSRyj5ogn1XdaLbFfG15Xc0p+lUP?=
+ =?us-ascii?Q?70EK9IXl01sgP6nCg9+VE+IQGsv0Ulct/zkdHb7YyqJUInfqPc/AsI5tCGld?=
+ =?us-ascii?Q?hk+JmPj6BuwrZyATCPGSXxEjfsHnRqK5O7SYdzccRPNEKxEHd/EGi2vF+W5s?=
+ =?us-ascii?Q?gh3fg9ols2pluywQinTf0SjETBU2FJp5qzeolOwUPBETh7SCghQMJ0Ba7fVE?=
+ =?us-ascii?Q?+egS2sGG9k0O9EH/DfIS1SXR2fdblYKtl8hATR8iZmrQltwCBitu9Xf1Xlkz?=
+ =?us-ascii?Q?Y8WM6Ym0CaFnoUst3iIYvDpX0kr9d4XB1ddW5f4FdzpXL/ery6C4np4q1lL9?=
+ =?us-ascii?Q?mt59U9VVbO9acYPV7w2RSZJS6pvllgsI1Z6aoZ0q1H5POCBZKqE6FJHmHHyM?=
+ =?us-ascii?Q?Yeusi0t7SFcnSXZtL4xn7XmAJLAoAhndLbLO861ns1GVezhOFadLXpPJXgIb?=
+ =?us-ascii?Q?m+PlTLSEEdWOTo951OHmsBeMZ3wQYDz5NzjNas3VSFsWnMn4DEGCuD/7HIW4?=
+ =?us-ascii?Q?MUodP011WK4LZ0MRBJRQKPRhPfa7rfeBUNGuYSj/NHeoKYD/p3TPYE8Sy845?=
+ =?us-ascii?Q?2lm8TQIT+z3ca9PLaUofmQK6iHxy0rz8Jpbtn+4JWccLRpmK9fdWBWUckQi/?=
+ =?us-ascii?Q?khXT1tQrOGQ5Gt+ViNXcZdOamrGCCCK776oCLSwDU0SUpyoACXACxMqelSyH?=
+ =?us-ascii?Q?aieX2Bekagv06imHC255lQrFGfnNLoJq7KRdE5Z/6QM2zbNeBU8yVdkmWQMC?=
+ =?us-ascii?Q?SncNYJsc46vJm/KsogK0IHjdIHrmbWBV?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014); DIR:OUT;
+ SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2024 15:00:07.9841 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac596cf8-84ba-4b39-ee74-08dcb303ccb9
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2024 15:00:09.7810 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b500a0da-1481-47fd-7fe4-08dcb303cdce
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CH1PEPF0000AD83.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7978
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6666
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,138 +137,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 76299a557f36d624ca32500173ad7856e1ad93c0.
+This reverts commit 9d8c094ddab05db88d183ba82e23be807848cad8.
 
 It was merged without meeting userspace requirements.
 
 Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 ---
- drivers/gpu/drm/drm_connector.c | 48 ---------------------------------
- include/drm/drm_connector.h     |  2 --
- include/drm/drm_mode_config.h   |  5 ----
- include/uapi/drm/drm_mode.h     |  7 -----
- 4 files changed, 62 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  4 --
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 52 ++-----------------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 -
+ 3 files changed, 5 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 7c44e3a1d8e0..b4f4d2f908d1 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1043,11 +1043,6 @@ static const struct drm_prop_enum_list drm_scaling_mode_enum_list[] = {
- 	{ DRM_MODE_SCALE_ASPECT, "Full aspect" },
- };
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 879b4a04c588..092ec11258cd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -1407,10 +1407,6 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
+ 					 "dither",
+ 					 amdgpu_dither_enum_list, sz);
  
--static const struct drm_prop_enum_list drm_power_saving_policy_enum_list[] = {
--	{ __builtin_ffs(DRM_MODE_REQUIRE_COLOR_ACCURACY) - 1, "Require color accuracy" },
--	{ __builtin_ffs(DRM_MODE_REQUIRE_LOW_LATENCY) - 1, "Require low latency" },
--};
+-	if (adev->dc_enabled)
+-		drm_mode_create_power_saving_policy_property(adev_to_drm(adev),
+-							     DRM_MODE_POWER_SAVING_POLICY_ALL);
 -
- static const struct drm_prop_enum_list drm_aspect_ratio_enum_list[] = {
- 	{ DRM_MODE_PICTURE_ASPECT_NONE, "Automatic" },
- 	{ DRM_MODE_PICTURE_ASPECT_4_3, "4:3" },
-@@ -1634,16 +1629,6 @@ EXPORT_SYMBOL(drm_hdmi_connector_get_output_format_name);
-  *
-  *	Drivers can set up these properties by calling
-  *	drm_mode_create_tv_margin_properties().
-- * power saving policy:
-- *	This property is used to set the power saving policy for the connector.
-- *	This property is populated with a bitmask of optional requirements set
-- *	by the drm master for the drm driver to respect:
-- *	- "Require color accuracy": Disable power saving features that will
-- *	  affect color fidelity.
-- *	  For example: Hardware assisted backlight modulation.
-- *	- "Require low latency": Disable power saving features that will
-- *	  affect latency.
-- *	  For example: Panel self refresh (PSR)
-  */
- 
- int drm_connector_create_standard_properties(struct drm_device *dev)
-@@ -2146,39 +2131,6 @@ int drm_mode_create_scaling_mode_property(struct drm_device *dev)
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
  
--/**
-- * drm_mode_create_power_saving_policy_property - create power saving policy property
-- * @dev: DRM device
-- * @supported_policies: bitmask of supported power saving policies
-- *
-- * Called by a driver the first time it's needed, must be attached to desired
-- * connectors.
-- *
-- * Returns: %0
-- */
--int drm_mode_create_power_saving_policy_property(struct drm_device *dev,
--						 uint64_t supported_policies)
--{
--	struct drm_property *power_saving;
--
--	if (dev->mode_config.power_saving_policy)
--		return 0;
--	WARN_ON((supported_policies & DRM_MODE_POWER_SAVING_POLICY_ALL) == 0);
--
--	power_saving =
--		drm_property_create_bitmask(dev, 0, "power saving policy",
--					    drm_power_saving_policy_enum_list,
--					    ARRAY_SIZE(drm_power_saving_policy_enum_list),
--					    supported_policies);
--	if (!power_saving)
--		return -ENOMEM;
--
--	dev->mode_config.power_saving_policy = power_saving;
--
--	return 0;
--}
--EXPORT_SYMBOL(drm_mode_create_power_saving_policy_property);
--
- /**
-  * DOC: Variable refresh properties
-  *
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 5ad735253413..e3fa43291f44 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -2267,8 +2267,6 @@ int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
- 					   u32 supported_colorspaces);
- int drm_mode_create_content_type_property(struct drm_device *dev);
- int drm_mode_create_suggested_offset_properties(struct drm_device *dev);
--int drm_mode_create_power_saving_policy_property(struct drm_device *dev,
--						 uint64_t supported_policies);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 0ce983ab5d65..7e7929f24ae4 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6725,14 +6725,6 @@ int amdgpu_dm_connector_atomic_set_property(struct drm_connector *connector,
+ 	} else if (property == adev->mode_info.underscan_property) {
+ 		dm_new_state->underscan_enable = val;
+ 		ret = 0;
+-	} else if (property == dev->mode_config.power_saving_policy) {
+-		dm_new_state->abm_forbidden = val & DRM_MODE_REQUIRE_COLOR_ACCURACY;
+-		dm_new_state->abm_level = (dm_new_state->abm_forbidden ||
+-					   !dm_old_state->abm_level) ?
+-						ABM_LEVEL_IMMEDIATE_DISABLE :
+-						dm_old_state->abm_level;
+-		dm_new_state->psr_forbidden = val & DRM_MODE_REQUIRE_LOW_LATENCY;
+-		ret = 0;
+ 	}
  
- int drm_connector_set_path_property(struct drm_connector *connector,
- 				    const char *path);
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 150f9a3b649f..ab0f167474b1 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -969,11 +969,6 @@ struct drm_mode_config {
- 	 */
- 	struct drm_atomic_state *suspend_state;
+ 	return ret;
+@@ -6775,13 +6767,6 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
+ 	} else if (property == adev->mode_info.underscan_property) {
+ 		*val = dm_state->underscan_enable;
+ 		ret = 0;
+-	} else if (property == dev->mode_config.power_saving_policy) {
+-		*val = 0;
+-		if (dm_state->psr_forbidden)
+-			*val |= DRM_MODE_REQUIRE_LOW_LATENCY;
+-		if (dm_state->abm_forbidden)
+-			*val |= DRM_MODE_REQUIRE_COLOR_ACCURACY;
+-		ret = 0;
+ 	}
  
--	/**
--	 * @power_saving_policy: bitmask for power saving policy requests.
--	 */
--	struct drm_property *power_saving_policy;
--
- 	const struct drm_mode_config_helper_funcs *helper_private;
- };
+ 	return ret;
+@@ -6808,12 +6793,9 @@ static ssize_t panel_power_savings_show(struct device *device,
+ 	u8 val;
  
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 880303c2ad97..d390011b89b4 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -152,13 +152,6 @@ extern "C" {
- #define DRM_MODE_SCALE_CENTER		2 /* Centered, no scaling */
- #define DRM_MODE_SCALE_ASPECT		3 /* Full screen, preserve aspect */
+ 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+-	if (to_dm_connector_state(connector->state)->abm_forbidden)
+-		val = 0;
+-	else
+-		val = to_dm_connector_state(connector->state)->abm_level ==
+-			ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
+-			to_dm_connector_state(connector->state)->abm_level;
++	val = to_dm_connector_state(connector->state)->abm_level ==
++		ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
++		to_dm_connector_state(connector->state)->abm_level;
+ 	drm_modeset_unlock(&dev->mode_config.connection_mutex);
  
--/* power saving policy options */
--#define DRM_MODE_REQUIRE_COLOR_ACCURACY	BIT(0)	/* Compositor requires color accuracy */
--#define DRM_MODE_REQUIRE_LOW_LATENCY	BIT(1)	/* Compositor requires low latency */
+ 	return sysfs_emit(buf, "%u\n", val);
+@@ -6837,16 +6819,10 @@ static ssize_t panel_power_savings_store(struct device *device,
+ 		return -EINVAL;
+ 
+ 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+-	if (to_dm_connector_state(connector->state)->abm_forbidden)
+-		ret = -EBUSY;
+-	else
+-		to_dm_connector_state(connector->state)->abm_level = val ?:
+-			ABM_LEVEL_IMMEDIATE_DISABLE;
++	to_dm_connector_state(connector->state)->abm_level = val ?:
++		ABM_LEVEL_IMMEDIATE_DISABLE;
+ 	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+ 
+-	if (ret)
+-		return ret;
 -
--#define DRM_MODE_POWER_SAVING_POLICY_ALL	(DRM_MODE_REQUIRE_COLOR_ACCURACY |\
--						 DRM_MODE_REQUIRE_LOW_LATENCY)
+ 	drm_kms_helper_hotplug_event(dev);
+ 
+ 	return count;
+@@ -8040,14 +8016,6 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+ 	aconnector->base.state->max_bpc = 16;
+ 	aconnector->base.state->max_requested_bpc = aconnector->base.state->max_bpc;
+ 
+-	if (connector_type == DRM_MODE_CONNECTOR_eDP &&
+-	    (dc_is_dmcu_initialized(adev->dm.dc) ||
+-	     adev->dm.dc->ctx->dmub_srv)) {
+-		drm_object_attach_property(&aconnector->base.base,
+-					   dm->ddev->mode_config.power_saving_policy,
+-					   0);
+-	}
 -
- /* Dithering mode options */
- #define DRM_MODE_DITHERING_OFF	0
- #define DRM_MODE_DITHERING_ON	1
+ 	if (connector_type == DRM_MODE_CONNECTOR_HDMIA) {
+ 		/* Content Type is currently only implemented for HDMI. */
+ 		drm_connector_attach_content_type_property(&aconnector->base);
+@@ -9748,7 +9716,6 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	for_each_oldnew_connector_in_state(state, connector, old_con_state, new_con_state, i) {
+ 		struct dm_connector_state *dm_new_con_state = to_dm_connector_state(new_con_state);
+ 		struct dm_connector_state *dm_old_con_state = to_dm_connector_state(old_con_state);
+-		struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+ 		struct amdgpu_crtc *acrtc = to_amdgpu_crtc(dm_new_con_state->base.crtc);
+ 		struct dc_surface_update *dummy_updates;
+ 		struct dc_stream_update stream_update;
+@@ -9802,15 +9769,6 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 			stream_update.hdr_static_metadata = &hdr_packet;
+ 		}
+ 
+-		aconnector->disallow_edp_enter_psr = dm_new_con_state->psr_forbidden;
+-
+-		/* immediately disable PSR if disallowed */
+-		if (aconnector->disallow_edp_enter_psr) {
+-			mutex_lock(&dm->dc_lock);
+-			amdgpu_dm_psr_disable(dm_new_crtc_state->stream);
+-			mutex_unlock(&dm->dc_lock);
+-		}
+-
+ 		status = dc_stream_get_status(dm_new_crtc_state->stream);
+ 
+ 		if (WARN_ON(!status))
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index 6ecb17def4aa..2d7755e2b6c3 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -915,8 +915,6 @@ struct dm_connector_state {
+ 	bool underscan_enable;
+ 	bool freesync_capable;
+ 	bool update_hdcp;
+-	bool abm_forbidden;
+-	bool psr_forbidden;
+ 	uint8_t abm_level;
+ 	int vcpi_slots;
+ 	uint64_t pbn;
 -- 
 2.45.2
 
