@@ -2,107 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D796945826
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 08:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 632F79458CE
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2024 09:30:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8AB310E96D;
-	Fri,  2 Aug 2024 06:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2369510E998;
+	Fri,  2 Aug 2024 07:30:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JRiBjb2K";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="zp/TqSzt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 025CE10E96D
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2024 06:46:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 922DD6293F;
- Fri,  2 Aug 2024 06:46:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42213C32782;
- Fri,  2 Aug 2024 06:46:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722581186;
- bh=hHYItzPPdXudvIwlbMNYdnoojTPIoSOU0Gmy0EARHb4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JRiBjb2KhXcHAXXUVbPURw/EJ0UIbZMDA589oPFXAD7IgJ3YDSVJ6c8pQB70qM9oj
- MBYwG+1hfCoiaFWNbXGKlhj1aiRvhBgwOjq0NrMfZnusp+JxC9PPOU2TWJWoZWBtMs
- N/Qz9e7l22gT5O2oa6BbN9sz+Yl/mi0Borbpl0zbFD9wYw0bOO2CTs/HM0ZnE+ospP
- fBmHrjEZ4BzVvd3xNaZ2NuwiZ0clZG22Nek7wjW2OdQrNb3YJpmXPVrruCWTkzL2U7
- zAlDZb6/5cMNRVk8OGpfs/04i5eppck//kIsUtkmEBnyN4mpQpau62fGLyDnMSfRQh
- NKwGraf6ueaHw==
-Message-ID: <a0f0b7a9-db81-4f64-83f0-8e1f93f0be55@kernel.org>
-Date: Fri, 2 Aug 2024 08:46:16 +0200
+X-Greylist: delayed 1810 seconds by postgrey-1.36 at gabe;
+ Fri, 02 Aug 2024 07:30:48 UTC
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABFB010E99D;
+ Fri,  2 Aug 2024 07:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=References:Cc:To:Subject:Message-ID:From:
+ Content-Transfer-Encoding:Content-Type:Date:MIME-Version:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=pNOEhidxMr88WUeRwjolcg948ZGsyDBZIrg4gRDa9l4=; b=zp/TqSztDeBrtRbgdjrSfwz3QT
+ 3IalpkIfeQjyLgkBeC/TOpv++FMXsYcKe3GFm88YWCaABWIOFBT9MnWHVay6jnMqfsW3vkiPbPOvl
+ xLTNzJ8Dtk/YUElZJcwrtKrfh8oAbeqijEs/tgitD1AIYHn6ahOwxMfeEopYV6HtklI0n1OXlCrlu
+ eeoNtryeqXSY3s5MUPCnY81iRgPqsWcpnCAvtcG0T7BRiLckh1Cc/gfGxCcH4rBwvq034ysVCchL/
+ R64dgvXX8sZwl+RjuhPvTUuVvrIMXZtMD/nMQoJMLz8zcVk2ikaeUIVjF6Zc0XYawsH2KrNOXUJ2K
+ yvyK8x/A==;
+Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=rainloop.kapsi.fi)
+ by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <jyri.sarha@iki.fi>) id 1sZmH3-00E0j4-10;
+ Fri, 02 Aug 2024 10:00:25 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: Add schema for Synopsys
- DW HDMI QP TX IP
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Alexandre ARNOUD <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>
-References: <20240801-dw-hdmi-qp-tx-v1-0-148f542de5fd@collabora.com>
- <20240801-dw-hdmi-qp-tx-v1-1-148f542de5fd@collabora.com>
- <ba957155-7a0d-4c88-8326-a1d4d20e4656@kernel.org>
- <e3ce055d-13c9-4e25-a039-dd4a58c8dd7a@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <e3ce055d-13c9-4e25-a039-dd4a58c8dd7a@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Fri, 02 Aug 2024 07:00:23 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+From: jyri.sarha@iki.fi
+Message-ID: <907bfa7ecffde2e2b0550edf183d6c58b6caf42d@iki.fi>
+Subject: Re: [PATCH 9/9] drm/tilcdc: Use backlight power constants
+To: "Thomas Zimmermann" <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, "Jyri
+ Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>
+References: undefined <20240731122311.1143153-1-tzimmermann@suse.de>
+X-SA-Exim-Connect-IP: 91.232.154.200
+X-SA-Exim-Mail-From: jyri.sarha@iki.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,40 +67,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/08/2024 11:29, Cristian Ciocaltea wrote:
->>> +  interrupts:
->>> +    minItems: 4
->>> +    maxItems: 5
->>> +    items:
->>> +      - description: AVP Unit interrupt
->>> +      - description: CEC interrupt
->>> +      - description: eARC RX interrupt
->>> +      - description: Main Unit interrupt
->>> +    additionalItems: true
->>> +
->>> +  interrupt-names:
->>> +    minItems: 4
->>> +    maxItems: 5
->>> +    items:
->>> +      - const: avp
->>> +      - const: cec
->>> +      - const: earc
->>> +      - const: main
->>> +    additionalItems: true
->>
->> Sorry, there is no user of this and nothing here is actually common
->> except first entries in clocks and interrupts properties.
->>
->> I don't see any benefit of this.
-> 
-> Sorry, I should have better indicated this is part of a larger changeset -
-> the cover mentions this is a reworked version of an initial (larger) series
-> and the split has been explicitly suggested during the review.
+July 31, 2024 at 3:17 PM, "Thomas Zimmermann" <tzimmermann@suse.de mailto=
+:tzimmermann@suse.de?to=3D%22Thomas%20Zimmermann%22%20%3Ctzimmermann%40su=
+se.de%3E > wrote:
 
-This split is really odd. It creates unnecessary dependency, blocks
-automated testing and confuses reviewers because reviewers expect common
-code followed by its user.
+>=20
+>=20Replace FB_BLANK_ constants with their counterparts from the
+> backlight subsystem. The values are identical, so there's no
+> change in functionality or semantics.
+>=20
+>=20Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
 
-Best regards,
-Krzysztof
+Acked-by: Jyri Sarha <jyri.sarha@iki.fi>
 
+Thank,
+Jyri
+
+> drivers/gpu/drm/tilcdc/tilcdc_panel.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+>=20diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/=
+tilcdc/tilcdc_panel.c
+> index 68093d6b6b16..5f2d1b6f9ee9 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> @@ -49,7 +49,7 @@ static void panel_encoder_dpms(struct drm_encoder *en=
+coder, int mode)
+>=20
+>=20 if (backlight) {
+>  backlight->props.power =3D mode =3D=3D DRM_MODE_DPMS_ON ?
+> - FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
+> + BACKLIGHT_POWER_ON : BACKLIGHT_POWER_OFF;
+>  backlight_update_status(backlight);
+>  }
+>=20
+>=20--=20
+>=202.45.2
+>
