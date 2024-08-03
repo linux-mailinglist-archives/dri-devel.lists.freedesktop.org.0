@@ -2,82 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0B09466ED
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2024 04:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA8D94674C
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2024 05:59:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D34C610E03D;
-	Sat,  3 Aug 2024 02:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA3110E066;
+	Sat,  3 Aug 2024 03:59:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DPNeQmWq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jUA2e/4p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
- [209.85.219.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A32610E03D;
- Sat,  3 Aug 2024 02:37:58 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id
- 6a1803df08f44-6b7b28442f9so8229286d6.3; 
- Fri, 02 Aug 2024 19:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722652677; x=1723257477; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+tHm0XRKhcukZsBzcu2vuKzIiUg/x7QNB9tMmshFIF8=;
- b=DPNeQmWqFI+pwcraiDYLdmawvJvxe2bOWap1RT74gP2razYhB7tzubjyJtR1mrBlsn
- 7HxHADrQXErGwPHBWXid31qnrhGJvCCCoJEqSYq26XfT/bEQ95Ae5OdWeDKU1qnmUqPZ
- tFPbX8B7tcOTD5ACxH2LAC0HT0QhtJvmVW9AToZWRNiK5kQ0LrKV2mxE1pI8gLX0e0DV
- l33Svugma61u7eHPa/+q6Ibx65pFa2e+rqyZ4/rnGxoTCOeEsWLoKE2s4APRC9MrrdpM
- H7gGycv8FBlLuIKuW0vuw+2ujrHZhcbdVrk+8wLQb9WvHOHZnmVXnS4M6TEjuesk547o
- NB8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722652677; x=1723257477;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+tHm0XRKhcukZsBzcu2vuKzIiUg/x7QNB9tMmshFIF8=;
- b=hIZmogLZMvSZFXBfRHVxUACKzj0btTXFMGEFImCUBQxpOCD68hpNpydqPN4ZKtxsJu
- joSjIETuxx9CO8XPJyns1a32gejhnBEpXf9qHxprjONQCcB1toRzE/rDLmJ1zkpXdgmi
- M7Kod1Qk3l5l2XEW+bVj/t37bUh+TpreBN5Dn4lhwX1ShACUl7K8c9Ubvts8ChQRcOpF
- HXa86askECBhymUm2RcK0i1RO6AHk3b3dLZp87Ts2Ds8Ui8mQXZHMFyVfupUbB2IHsTZ
- iPB8lyhF9O4dekmJh98/kPXSxkzGzPkqd8JJ+EJVQaVXnAiGr8AbHCgokaKza+q4wIet
- fr0g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5OTDvLp/qDl9YYAuKuy0/gMc8JVgGgHQOsZ/O3HW5Os/sZ44T6ttobACfrjo+g/m8wOW8m2ZMpUzvVxS7P/NlsdxXv4ej9JFZfyjDHAyZiiHsC99evGawpJNajPTtxbm+DasrWNLw2VWEpoCTMQT2
-X-Gm-Message-State: AOJu0YzaRojIGkv1g9U73T/8Ok2pTZ561liaEADRsWy6LJ47d1iSU+lf
- we7h70RKYaiqbactySIKd9nmandv2v/IjU6DioE8kUaGlIm+6zi1
-X-Google-Smtp-Source: AGHT+IHeW0oCuAYUKqNSkpMpIeXd9TfeijaXWhrzLO4R4P+EqckTLZqUm5DHdUGJdI1qvA79KSWVFg==
-X-Received: by 2002:a05:6214:4a02:b0:6b7:4398:594c with SMTP id
- 6a1803df08f44-6bb9843efd0mr63557096d6.38.1722652676662; 
- Fri, 02 Aug 2024 19:37:56 -0700 (PDT)
-Received: from localhost ([2607:fea8:52a3:d200:324c:b818:b179:79b])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6bb9c765e4asm12355006d6.25.2024.08.02.19.37.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Aug 2024 19:37:56 -0700 (PDT)
-Date: Fri, 2 Aug 2024 22:37:54 -0400
-From: Richard Acayan <mailingradian@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Cc: Maxime Ripard <mripard@kernel.org>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 190E410E066
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2024 03:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1722657564; x=1754193564;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=e+qVDXBmsBwNXODWzwvDL5ZBlopEsbgmumKXw1KF5h8=;
+ b=jUA2e/4pbSFSW/qA5GtgMI+jbUAzlsG6IHD89GYl4UBsgpoKAtWy0kgb
+ H1y7vHcWQapfnQTqeTnJbrneOCQJVXBoF+A4Q0MFiMSJwaYuunpxuR0yt
+ zC1f8em1GrSQKKSD0PfOmMaoHoHGyR2hvhrd/XHtsFvdbpqcMQboqjEE5
+ 8mIjASWSMw2xN1w1bNHcuMXIlmO0fGYNvphWB0tI7W5+yH/oF6HrVztUD
+ z8w0ueItgtvyQtktfJV0V9i0jNjIEQmXCxaguZgMXR/KX8pXRdT95mQAU
+ fjAu+8/MZlFgv45fRngP86a3pJ9BFwdFqaquYsAUEs+rSRvMDmnOA3KAS Q==;
+X-CSE-ConnectionGUID: wU3WPVu/RkGILgyi79EXzw==
+X-CSE-MsgGUID: mKBwltSRRoqgnNPTmEUjEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="43208570"
+X-IronPort-AV: E=Sophos;i="6.09,259,1716274800"; d="scan'208";a="43208570"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2024 20:59:23 -0700
+X-CSE-ConnectionGUID: oB8BBBZRTGqgHkGvqrfHtg==
+X-CSE-MsgGUID: 9MktIYu1Tp2YXj16ZesuCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,259,1716274800"; d="scan'208";a="59978477"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+ by fmviesa005.fm.intel.com with ESMTP; 02 Aug 2024 20:59:21 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sa5vL-000xzl-05;
+ Sat, 03 Aug 2024 03:59:19 +0000
+Date: Sat, 3 Aug 2024 11:59:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Markus Elfring <elfring@users.sourceforge.net>
+Cc: oe-kbuild-all@lists.linux.dev, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 3/4] arm64: dts: qcom: sdm670: add gpu
-Message-ID: <Zq2YAuxK5wRcNnve@radian>
-References: <20240730013844.41951-6-mailingradian@gmail.com>
- <20240730013844.41951-9-mailingradian@gmail.com>
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: [PATCH v5 1/2] drm/loongson: Introduce component framework support
+Message-ID: <202408031152.PavM0ToR-lkp@intel.com>
+References: <20240728152858.346211-2-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240730013844.41951-9-mailingradian@gmail.com>
+In-Reply-To: <20240728152858.346211-2-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,84 +73,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 29, 2024 at 09:38:48PM -0400, Richard Acayan wrote:
-> The Snapdragon 670 has the Adreno A615 GPU. Add it along with its device
-> tree dependencies.
->
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->  arch/arm64/boot/dts/qcom/sdm670.dtsi | 168 +++++++++++++++++++++++++++
->  1 file changed, 168 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/qcom/sdm670.dtsi b/arch/arm64/boot/dts/qcom/sdm670.dtsi
-> index 187c6698835d..467006ab2bcb 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm670.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+Hi Sui,
 
-[snip]
+kernel test robot noticed the following build warnings:
 
-> +
-> +			gpu_opp_table: opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-780000000 {
-> +					opp-hz = /bits/ 64 <780000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
-> +					opp-peak-kBps = <7216000>;
-> +					opp-supported-hw = <0x8>;
-> +				};
-> +
-> +				opp-750000000 {
-> +					opp-hz = /bits/ 64 <750000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
-> +					opp-peak-kBps = <7216000>;
-> +					opp-supported-hw = <0xc>;
-> +				};
-> +
-> +				opp-650000000 {
-> +					opp-hz = /bits/ 64 <650000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
-> +					opp-peak-kBps = <7216000>;
-> +					opp-supported-hw = <0xc>;
-> +				};
-> +
-> +				opp-565000000 {
-> +					opp-hz = /bits/ 64 <565000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-> +					opp-peak-kBps = <7216000>;
-> +					opp-supported-hw = <0xe>;
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.11-rc1 next-20240802]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The speed bins aren't entirely accurate. There is a single speed bin
-that can reach exactly 504 MHz, but no higher, and one other speed bin
-that can reach exactly 700 MHz. Let's add their exclusive OPPs.
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-loongson-Introduce-component-framework-support/20240728-233029
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240728152858.346211-2-sui.jingfeng%40linux.dev
+patch subject: [PATCH v5 1/2] drm/loongson: Introduce component framework support
+config: mips-randconfig-r111-20240802 (https://download.01.org/0day-ci/archive/20240803/202408031152.PavM0ToR-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 430b90f04533b099d788db2668176038be38c53b)
+reproduce: (https://download.01.org/0day-ci/archive/20240803/202408031152.PavM0ToR-lkp@intel.com/reproduce)
 
-> +				};
-> +
-> +				opp-430000000 {
-> +					opp-hz = /bits/ 64 <430000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-> +					opp-peak-kBps = <7216000>;
-> +					opp-supported-hw = <0xf>;
-> +				};
-> +
-> +				opp-355000000 {
-> +					opp-hz = /bits/ 64 <355000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-> +					opp-peak-kBps = <6220000>;
-> +					opp-supported-hw = <0xf>;
-> +				};
-> +
-> +				opp-267000000 {
-> +					opp-hz = /bits/ 64 <267000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-> +					opp-peak-kBps = <4068000>;
-> +					opp-supported-hw = <0xf>;
-> +				};
-> +
-> +				opp-180000000 {
-> +					opp-hz = /bits/ 64 <180000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-> +					opp-peak-kBps = <1804000>;
-> +					opp-supported-hw = <0xf>;
-> +				};
-> +			};
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408031152.PavM0ToR-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/loongson/lsdc_drv.c:154:28: sparse: sparse: symbol 'lsdc_pci_component_ops' was not declared. Should it be static?
+
+vim +/lsdc_pci_component_ops +154 drivers/gpu/drm/loongson/lsdc_drv.c
+
+   153	
+ > 154	const struct component_ops lsdc_pci_component_ops = {
+   155		.bind = lsdc_pci_component_bind,
+   156		.unbind = lsdc_pci_component_unbind,
+   157	};
+   158	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
