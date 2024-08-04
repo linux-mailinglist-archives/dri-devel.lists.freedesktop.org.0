@@ -2,91 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71B29469DB
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2024 15:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8922F946C34
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 07:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6659D10E00B;
-	Sat,  3 Aug 2024 13:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEFFB10E042;
+	Sun,  4 Aug 2024 05:40:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TQeYd/YE";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QaK5BlsQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEFF910E00B
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2024 13:24:14 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2f16d2f2b68so9387261fa.3
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Aug 2024 06:24:14 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF5510E051
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 05:40:19 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-a7d89bb07e7so753021866b.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 Aug 2024 22:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722691453; x=1723296253; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UzpCCTH0/xwvVQdxzEjUmceihmN3TBWI0uvCFLscZtY=;
- b=TQeYd/YE58nYdg+6iaDRZTwzOAamB+sP7spBN8GSwjgrdk+MFLaCP5oKC7X7cfdeRQ
- 5BHXGL++Oz8yl2ZQZ5lQ8Wd70pe3uL8WoCz8L2orpP8jvy1fXVjBPG5DyxBxkfGyUu3D
- gtWs+10jwYQ71vhKDdJE4toVs/DKs2FCEmDnv7BnXjgdziblFqLb1zUV4IRsNqITGzQR
- KHCVzTMchYf+xIZtDSiuMGOsG8Dz5H0jI0q0FK5BHQWKXU6XginV737g/E/3o14W3bqB
- vvqwnsZzd5lTSLwYn/TfgRj5bBemuCABEVoYEsIh6wvt09xeinldNzbkKo8EcM+7tJem
- LYcw==
+ d=linaro.org; s=google; t=1722750018; x=1723354818; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bV2UO3BH+2H70FIcXfsxxSdrx6CyxPDxlREVUWkdsMc=;
+ b=QaK5BlsQdbxr1xojZEvRXAHriPTrDa8nzBWEFsjFCvXLXiuImhHkxauR3f/oqWd0Mt
+ 0mO8VlL7+DRQJkOjE1U8rRUbApFh+QKVWdTuisXYwNpRJ/7H+VdR8VfEKNl0G4Pj+lw1
+ NtqqhrSBEhdEBGpZ/tAfdJy6PS0F9o2fyiSr7T5gtD1HozzBISd4mcY6xjx+vK6HOVTJ
+ MgNYf5PqA2TBqGQs2komfnF/7YytNBY1WUBky0SJg368BOZvmptPls2+3B17So8snFvc
+ aISEgKDRg7kk3c66fz7MmKjqbPwU3WnRloT3+8Gaarkj7MAMCBGKv727noF+9OYJVyny
+ G1KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722691453; x=1723296253;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UzpCCTH0/xwvVQdxzEjUmceihmN3TBWI0uvCFLscZtY=;
- b=uiF9nNnWdKx++18t2KgLMUcUcwGonSmEMQBuo7r6SpqT010VQiQMXELHh8o591Yc0Z
- hBtlm/Btw498KLAKpW3hGiL0AqgHYGCf+NqQ7wB+3XIs8XUKOIvR1AE2Nj3AqefKZOAA
- OH3zHY529TTWeYfoXLQE8GBcmoM97JUNP0jX0i+x5v+z77+C41cC95Y0aEpAY8B3GWYS
- +Aw+n8BIJdxw7E36EYGl7+m2I/4GhJ0f9BWo9EFGl4ZNn54vNHeHIoHUXogOd4droVSB
- o6vZmjsjVhUlK2MLZipmLIPiaSokqRW23Bbygz4h3pQi6yhag/T4OJAdQpxxIV2loLwR
- NKKg==
+ d=1e100.net; s=20230601; t=1722750018; x=1723354818;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bV2UO3BH+2H70FIcXfsxxSdrx6CyxPDxlREVUWkdsMc=;
+ b=wxZkWOIVHUInQ1EkNJhqlcdPSx06wLRn8vzokCBPwaBye3YhCBf6aYvyCOkEUUKZM8
+ ux7Dd+Zy5TVDXlX7ZSXLIsq2pkAnXtgiCV33/mI4mbd3JlX0+8xEwA1fLOzyEe0GEJZ9
+ pv5FIkAhVHFbXM/WhUh2F2BNVBP+PG5PuHA0kh+CHdCVIT0zEXZgn5sdr/85xy3N+0Ja
+ Vx/6waU35HhjmKEvHqu+azRip4m0di2ej/fvw1rX7O5PZDbkc+i9+0PHFFTP8yLrbLyG
+ w+nju9f4cb2Fq5nJRjOqKzCX0vkZoFjz3XrInhXefwPQgn1/oBL5KTfB4qa9UMmekv4N
+ UHuQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWipS59zrUere42xk7CVaG+5rXxI35cVrWlNTuk2xrQl1O+alPWK0mCaiukmInsFNOhNyDVg69jzvPsQshflOAfmh+e0WzpBI44aHjnug4t
-X-Gm-Message-State: AOJu0YxFo20nkJ/su9yv8J63mxHDnDyi8IZVrKgugXqsPRq0DvNKekfy
- dBoXJdShrG2j3V2HynlIB5xDPTzg8C95Vdlphv4kKU2YUFCdFSIC
-X-Google-Smtp-Source: AGHT+IHxajhrVXECR8o0njI5ofrgVEj/uAk6WTxsocWIGcDjAW3f8TEqykfMjSBHeSmbargLx9MOqw==
-X-Received: by 2002:a2e:b8c7:0:b0:2f1:5d61:937e with SMTP id
- 38308e7fff4ca-2f15d61943dmr51500231fa.29.1722691452413; 
- Sat, 03 Aug 2024 06:24:12 -0700 (PDT)
-Received: from smtpclient.apple (84-10-100-139.static.chello.pl.
- [84.10.100.139]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f16a9ded09sm2451181fa.109.2024.08.03.06.24.07
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 03 Aug 2024 06:24:11 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.15\))
-Subject: Re: [PATCH v2 0/3] Add initial support for the Rockchip RK3588 HDMI
- TX Controller
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <20240801-b4-rk3588-bridge-upstream-v2-0-9fa657a4e15b@collabora.com>
-Date: Sat, 3 Aug 2024 15:24:06 +0200
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>,
- =?utf-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- devicetree@vger.kernel.org, kernel@collabora.com,
- Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
- Algea Cao <algea.cao@rock-chips.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <45B07EAF-4CBA-4DE4-A03B-109767D52B29@gmail.com>
-References: <20240801-b4-rk3588-bridge-upstream-v2-0-9fa657a4e15b@collabora.com>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-X-Mailer: Apple Mail (2.3654.120.0.1.15)
+ AJvYcCVM0hhzmmhBjbyRDAgR7nJ39LtUSqww/uw33QqKDPnhUpgont3HaSh48be736N2ZiDNaWMHKKLR8P1XzdEP/Kh5ZkLNxSEArkGPN09ZedPf
+X-Gm-Message-State: AOJu0Yx3tivshCQstDM89x9EeByccuSteCmtV5Xgmt55akJvVCHXPfvY
+ 2ggoEZsRr1yIAAZxfKMdfh8r9OjFapbKD5T3n4rJYnsKLOmUa1IC2RrHdOjVwas=
+X-Google-Smtp-Source: AGHT+IEDT12fiPA57xX+iwmImdIwGveXHkEDrvXHMWxFxiDJTGmsEb2kKmkBKuleVWzhzq6BApdEQg==
+X-Received: by 2002:a17:907:847:b0:a7a:9f78:fee with SMTP id
+ a640c23a62f3a-a7dc4e282e9mr636574766b.17.1722750018105; 
+ Sat, 03 Aug 2024 22:40:18 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a7dc9bc3bd7sm292248466b.34.2024.08.03.22.40.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 03 Aug 2024 22:40:17 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 00/11] arm64: qcom: set of fixes for SM8350 platform
+Date: Sun, 04 Aug 2024 08:40:04 +0300
+Message-Id: <20240804-sm8350-fixes-v1-0-1149dd8399fe@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADQUr2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDCwMT3eJcC2NTA920zIrUYl3LVHNjwzRzy2RTszQloJaColSwBFBHdGx
+ tLQAQyxSaXgAAAA==
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Jonathan Marek <jonathan@marek.ca>, 
+ Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Georgi Djakov <djakov@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mike Tipton <quic_mdtipton@quicinc.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-pm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, stable@vger.kernel.org
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1823;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=lCsk1q0z8so6Y2tczVGuQeC5mXXz5zbJNYg4kt/XRZE=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmrxQ+ijSCqimrSzppba3nf7rGrom+4OOr65gak
+ B81n9SelkeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZq8UPgAKCRCLPIo+Aiko
+ 1RR5B/4iOJI+9B8r8uW0dwnq5eyzrbGTG/K7BtAZIo/nD+BBhfxtcJV0VW6pVahOnRDsAUmSZIo
+ 9DyIqFj7WIQVwS50imsIIaN+Ew1UEyBQUf5YG8Af1F9v9BH72QF4t0eqXjqd9eNx5fmVWDUQg5n
+ UfP+ik8pv2e1UhQDo2uCMVuu1ykW+UjmT6HDkvWcAsIQQX6zsx1336csEg84SBdCftMLWwVjMEM
+ XgSIYKa8cg8UFT8V2eDhIapjv9KjdVk/cqRWltWw+rVLE69u6kyov69PqxcwOxcdmhmAR13Q7Hg
+ umSDRCCpkGoetDEmftKCAUbolR7wAwzzpjFLN0INL58sRJUi
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,114 +108,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cristian,
+A set of fixes that target stability of the SM8350 platform.
 
-Will you find some time and motivation to add CEC support to Quad-Pixel =
-(QP) TX controller ?
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Dmitry Baryshkov (11):
+      clk: qcom: dispcc-sm8250: use CLK_SET_RATE_PARENT for branch clocks
+      clk: qcom: dispcc-sm8250: use special function for Lucid 5LPE PLL
+      drm/msm/dsi: correct programming sequence for SM8350 / SM8450
+      interconnect: qcom: sm8350: drop DISP nodes
+      interconnect: qcom: sm8450: drop DISP nodes
+      dt-bindings: interconnect: qcom,sm8350: drop DISP nodes
+      dt-bindings: interconnect: qcom,sm8450: drop DISP nodes
+      interconnect: qcom: sm8250: Enable sync_state
+      arm64: dts: qcom: sm8350: add MDSS registers interconnect
+      arm64: dts: qcom: sm8350: add refgen regulator
+      arm64: defconfig: build CONFIG_REGULATOR_QCOM_REFGEN as module
 
-Probably you recall - I added initial CEC support to yours v1 series and =
-i=E2=80=99m stuck with timing issue (cec pulses are 3x too long).
-For me it looks like clock issue.
-I=E2=80=99m out of ideas how to move forward with this timming issue=E2=80=
-=A6.
-=20
+ arch/arm64/boot/dts/qcom/sm8350.dtsi           |  16 ++-
+ arch/arm64/configs/defconfig                   |   1 +
+ drivers/clk/qcom/clk-alpha-pll.c               |  52 +++++++++
+ drivers/clk/qcom/clk-alpha-pll.h               |   2 +
+ drivers/clk/qcom/dispcc-sm8250.c               |  12 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c      |  12 +-
+ drivers/interconnect/qcom/sm8350.c             | 155 +------------------------
+ drivers/interconnect/qcom/sm8350.h             |  10 --
+ drivers/interconnect/qcom/sm8450.c             | 145 -----------------------
+ drivers/interconnect/qcom/sm8450.h             |  12 --
+ include/dt-bindings/interconnect/qcom,sm8350.h |  10 --
+ include/dt-bindings/interconnect/qcom,sm8450.h |  10 --
+ 12 files changed, 91 insertions(+), 346 deletions(-)
+---
+base-commit: 668d33c9ff922c4590c58754ab064aaf53c387dd
+change-id: 20240804-sm8350-fixes-9e731f79c56f
 
-
-> Wiadomo=C5=9B=C4=87 napisana przez Cristian Ciocaltea =
-<cristian.ciocaltea@collabora.com> w dniu 01.08.2024, o godz. 04:25:
->=20
-> The Rockchip RK3588 SoC family integrates the Synopsys DesignWare HDMI
-> 2.1 Quad-Pixel (QP) TX controller [4], which is a new IP block, quite
-> different from those used in the previous generations of Rockchip =
-SoCs.
->=20
-> This is the last component that needs to be supported in order to =
-enable
-> the HDMI output functionality on the RK3588 based SBCs, such as the
-> RADXA Rock 5B. The other components are the Video Output Processor
-> (VOP2) and the Samsung IP based HDMI/eDP TX Combo PHY, for which basic
-> support has been already made available via [1] and [2], respectively.
->=20
-> Please note this is a reworked version of the original series, which
-> relied on a commonized dw-hdmi approach.  Since the general consensus
-> was to handle it as an entirely new IP, I dropped all patches related =
-to
-> the old dw-hdmi and Rockchip glue code - a few of them might still =
-make
-> sense as general improvements and will be submitted separately.
->=20
-> Additionally, as suggested by Neil, I've sent the reworked bridge =
-driver
-> as a separate patchset [4], hence this series handles now just the new
-> Rockchip QP platform driver.
->=20
-> It's worth mentioning the HDMI output support is currently limited to
-> RGB output up to 4K@60Hz, without audio, CEC or any of the HDMI 2.1
-> specific features.  Moreover, the VOP2 driver is not able to properly
-> handle all display modes supported by the connected screens, e.g. it
-> doesn't cope with non-integer refresh rates.
->=20
-> A possible workaround consists of enabling the display controller to
-> make use of the clock provided by the HDMI PHY PLL. This is still work
-> in progress and will be submitted later, as well as the required DTS
-> updates.
->=20
-> To facilitate testing and experimentation, all HDMI output related
-> patches, including those part of this series, as well as the bridge
-> driver, are available at [3].
->=20
-> So far I could only verify this on the RADXA Rock 5B board.
->=20
-> Thanks,
-> Cristian
->=20
-> [1]: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
-> [2]: 553be2830c5f ("phy: rockchip: Add Samsung HDMI/eDP Combo PHY =
-driver")
-> [3]: =
-https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/com=
-mits/rk3588-hdmi-bridge-v6.11-rc1
-> [4]: =
-https://lore.kernel.org/lkml/20240801-dw-hdmi-qp-tx-v1-0-148f542de5fd@coll=
-abora.com/
->=20
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
-> Changes in v2:
-> - Reworked the glue code for RK3588 into a new Rockchip platform =
-driver
-> - Moved bridge driver patches to a separate series [4]
-> - Dropped all the patches touching to the old dw-hdmi and RK platform
->  drivers
-> - Added connector creation to ensure the HDMI QP bridge driver does =
-only
->  support DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> - Link to v1: =
-https://lore.kernel.org/r/20240601-b4-rk3588-bridge-upstream-v1-0-f6203753=
-232b@collabora.com
->=20
-> ---
-> Cristian Ciocaltea (3):
->      dt-bindings: display: rockchip: Add schema for RK3588 HDMI TX =
-Controller
->      drm/rockchip: Explicitly include bits header
->      drm/rockchip: Add basic RK3588 HDMI output support
->=20
-> .../display/rockchip/rockchip,dw-hdmi-qp.yaml      | 188 +++++++++
-> drivers/gpu/drm/rockchip/Kconfig                   |   8 +
-> drivers/gpu/drm/rockchip/Makefile                  |   1 +
-> drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c     | 430 =
-+++++++++++++++++++++
-> drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |   2 +
-> drivers/gpu/drm/rockchip/rockchip_drm_drv.h        |   4 +-
-> 6 files changed, 632 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-> change-id: 20240601-b4-rk3588-bridge-upstream-a27baff1b8fc
->=20
->=20
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
