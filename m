@@ -2,84 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4FF946E4F
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 12:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DAF946F18
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 15:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8650010E03F;
-	Sun,  4 Aug 2024 10:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 342C010E09A;
+	Sun,  4 Aug 2024 13:45:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (4096-bit key; unprotected) header.d=davidgow.net header.i=@davidgow.net header.b="IZqO5DHA";
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="Opf364Oy";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dbleNP7v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BBC610E0DE;
- Sun,  4 Aug 2024 09:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
- s=201606; t=1722763156;
- bh=PUNtupVBkgdPaBkzwexADnKJVGtpOaVaXYTKNh/eqqQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IZqO5DHAAFf9tB7gHeSE6uGHFaV2B4b2HRTH74KOgrtIEQnCoN0cP9muXZf21EwIt
- gIGmD0E7srCvZVp+lqWEqLfTbAfvnI1/+uiz4ES/0XK0HpasQydBgTPv9THWsc+hr/
- pYqSg4sTVxP3visP+q1nDkS+OQbN+yfy4gjj1kIG0rLjvmdURKB8GGkwcy4UwEWWzK
- ZS3uzPnPsxyzxGcENyIx++KORTGQbEXM2U/nsSdpJcdSBFLEkj4gODBf2Jnan4Q82m
- p8Zt5RhBfHodUTDE1EyuAjvxhLk3q0Nm1gM7PZjiplvYy6y2n/yz2j6XArWQqqYxyz
- NuIaj80WIPMaQ2hecJq9Hu5nM9qH2wsSDdVWJU8W2gzSomvO4Ql2zPtK7jYXitVV2A
- sCO6VB/36y53YXaUBLRcLH/rG0mw0LhcnofjqpaENKqRMKwpAPr4A9x8bnir+VJadm
- KnY5Xv5+6oQl74jD3RrFuajs+tpmqPZf/rRZ7B+Xn0ciBqcFNpwX6x6KXs1s3vgD4I
- SryhTL5UKQqJezwk9VxTpBN/9WX/sOE/ueeyv0qiQM7ZvOLGGK2RDh1KJWNZ1aBHo7
- uq+xTYmfBHZ1GXyFMKnaeZy2JO7O9sf+OFHxQouVtHP8AAYIdHLjwV0qWpRn61I+IN
- V61CBmr9/qsyro/Xbdiktlq4=
-Received: by sphereful.davidgow.net (Postfix, from userid 119)
- id 12E561DC09B; Sun,  4 Aug 2024 17:19:16 +0800 (AWST)
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
- sphereful.davidgow.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU autolearn=unavailable autolearn_force=no
- version=3.4.6
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
- s=201606; t=1722763150;
- bh=PUNtupVBkgdPaBkzwexADnKJVGtpOaVaXYTKNh/eqqQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Opf364Oy1QRoUGbBsugeKctsO8VhOkTXLClJwlSx61qOgfSHEStTNrlHLU5cMIbfo
- 6IEYAdAOsCYS7/hoXXPNRD8raEEdVxtIijDjLEzFP7rlDbwG/HNaV0j5zK95aC5aH5
- yeQG7nzlf+A1jl9o8OpWTzF5rqY8/TaXl9dl75L85AtUhcg0xG8iQu7osvMT6TXRRk
- QjSUacWDd3uBwdl57teCOQin6CA+lFqtMmr8Ip6AMMHrZYAmueE/UHqN1Nwkbf+zsr
- CT8YJ3V2zfuo1iKorZZwT1u4+YzPbUxyQsevzowJg5gBatF775JDJPNP4nnepmX+op
- RDVRMHDqO1VvgHazy8UWllt4JYNroz+9xzrmBbbZ12H/yTMHxPG31/xpVQQ2HawtI3
- 6z4F5cNRiqGrDAFfB/+KzN9xXHgLkjvYfR/E1aFb3h4Z/j8GP8ean6P5tWMm0nup3v
- zZH0CFsiF4RGoOfvyL2JraoB7vCRpD5ec9l3xBwEj2uSnKUQwx0u/mfLj/s2c4kYGU
- xxmDnTwUk646X5vaShNWRRZvtLAyNQDr0Wug9nc40GY3v+czD/X+tcC24TPu2ilybB
- cXetXJqbxzi59hLtlE4NNX+VsQulBytz7DmpOQF59FwOd1p1vCJS/LAm9NFPEJOSRs
- JxRFBoqTuL0nG+CUodZsfRUk=
-Received: from sparky.lan (unknown [IPv6:2001:8003:8824:9e00::bec])
- by sphereful.davidgow.net (Postfix) with ESMTPSA id 9512F1DC093;
- Sun,  4 Aug 2024 17:19:10 +0800 (AWST)
-From: David Gow <david@davidgow.net>
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Gow <david@davidgow.net>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/i915: Attempt to get pages without eviction first
-Date: Sun,  4 Aug 2024 17:18:48 +0800
-Message-ID: <20240804091851.122186-3-david@davidgow.net>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240804091851.122186-1-david@davidgow.net>
-References: <20240804091851.122186-1-david@davidgow.net>
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0222010E09A
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 13:45:56 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-5af51684d52so11321212a12.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Aug 2024 06:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1722779155; x=1723383955;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ReIkVircpSdP0oI3Y1azB/Q/+VoBYCB5Sci10Cxi1X8=;
+ b=dbleNP7vA5BMkC6U5pwQu6i4MXSvjuxEfdE1J4VSMu+mMx8PobQYOSEPQARmLPRPzA
+ QuWq5OnGMtwYt2tdTHV+JzHgH6SYQw1NOmkcsAFEGh69vzdyv+yqS30jGNA6wF0LNXra
+ 4m+nlBtOLawWq+VhO6xt0Pcxajq110+sgiuKo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722779155; x=1723383955;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ReIkVircpSdP0oI3Y1azB/Q/+VoBYCB5Sci10Cxi1X8=;
+ b=EtQr8LlN0yxrZckTfS7HxHnEuy/oxz16F4SZIAbtlv8HnSADDFkSTdKIwqxlliycmd
+ BYUv795+MwB1CgX+x+Tgsk3Jajb6BsPKETXNEzHyiwbQoccTYmC45uhcrMt6UxiwU9wI
+ bStO7cIZ0ovBssyi9bQE6Q0W+GzU8gBVFSwtJXcwhVNYiCDjWH/S66z8SNDv1tPuh12c
+ 1HIU2uHw2CHWq8c6vTtzAi9o9VU31Q08ri7DbURu+OuWTC4N05e0PdEt+/nDGT93cDDR
+ EBts/61+V7ULvrEiEHfnnzpTeib0l88950jbD2xgKgTWg0AFFFu1jfJDG/nnTEa1JyW6
+ kX5A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXV29cyu9Qw8ZCVEfvbLgZIVbbvVr1hrJKPiPzxpI2viXiooOaKVR/ZsYWAlPjSESHCwc2u+Mzg4lqMUdeX+HcmoQtVNZRK1NExbVr0GaJf
+X-Gm-Message-State: AOJu0Yw257e+P+Jzsl+9XzUsg3KgH9obkNas+/U+m0iey4GzRn8bJmVH
+ OUQa9C61ybnHX2ix3nFoLd3ZESvsan9kbENAVGU3sIt6VV7rC0OrOddd3F0/dZ3NCv8rjamGF1F
+ 2XYo4k9OaxiSexMJEorVWzgFciMJ8RCyiWIL/
+X-Google-Smtp-Source: AGHT+IHE4tai69TalBII7mKzKksl1jv0KQhKhe6HuyKzpinE/9cv+dKEH9/B6P2pLw5rbJ4JrEY3YTKGp0sRO+4Bhno=
+X-Received: by 2002:a17:907:9492:b0:a7d:3ce8:131c with SMTP id
+ a640c23a62f3a-a7dc50fd837mr511726366b.62.1722779155045; Sun, 04 Aug 2024
+ 06:45:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 04 Aug 2024 10:43:34 +0000
+References: <20240722165503.2084999-1-imre.deak@intel.com>
+ <20240722165503.2084999-4-imre.deak@intel.com>
+In-Reply-To: <20240722165503.2084999-4-imre.deak@intel.com>
+From: Manasi Navare <navaremanasi@chromium.org>
+Date: Sun, 4 Aug 2024 06:45:43 -0700
+Message-ID: <CAE72mNkg06wZGuwrhfGazP+=1yE4ufaXZJe8chVkGV9nw_oF1g@mail.gmail.com>
+Subject: Re: [PATCH 03/14] drm/dp_mst: Simplify the condition when to
+ enumerate path resources
+To: Imre Deak <imre.deak@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,66 +79,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In commit a78a8da51b36 ("drm/ttm: replace busy placement with flags v6"),
-__i915_ttm_get_pages was updated to use flags instead of the separate
-'busy' placement list. However, the behaviour was subtly changed.
-Originally, the function would attempt to use the preferred placement
-without eviction, and give an opportunity to restart the operation
-before falling back to allowing eviction.
+On Mon, Jul 22, 2024 at 9:55=E2=80=AFAM Imre Deak <imre.deak@intel.com> wro=
+te:
+>
+> In the
+>         if (old_ddps !=3D port->ddps || !created)
+>                 if (port->ddps && !port->input)
+>                         ret =3D drm_dp_send_enum_path_resources();
+>
+> sequence the first if's condition is true if the port exists already
+> (!created) or the port was created anew (hence old_ddps=3D=3D0) and it wa=
+s
+> in the plugged state (port->ddps=3D=3D1). The second if's condition is tr=
+ue
+> for output ports in the plugged state. So the function is called for an
+> output port in the plugged state, regardless if it already existed or
+> not and regardless of the old plugged state. In all other cases
+> port->full_pbn can be zeroed as the port is either an input for which
+> full_pbn is never set, or an output in the unplugged state for which
+> full_pbn was already zeroed previously or the port was just created
+> (with port->full_pbn=3D=3D0).
+>
+> Simplify the condition, making it clear that the path resources are
+> always enumerated for an output port in the plugged state.
 
-This was unintentionally changed, as the preferred placement was not
-given the TTM_PL_FLAG_DESIRED flag, and so eviction could be triggered
-in that first pass. This caused thrashing, and a significant performance
-regression on DG2 systems with small BAR. For example, Minecraft and
-Team Fortress 2 would drop to single-digit framerates.
+Would this take care of the cases where a branch device is present
+between source and the sink and
+its properly allocating the resources and advertising UHBR capability
+from branch to sink. This was a bug earlier
+with UHBR on branch device/ MST hub
 
-Restore the original behaviour by marking the initial placement as
-desired on that first attempt. Also, rework this to use a separate
-struct ttm_palcement, as the individual placements are marked 'const',
-so hot-patching the flags is even more dodgy than before.
+Manasi
 
-Thanks to Justin Brewer for bisecting this.
-
-Fixes: a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/11255
-Signed-off-by: David Gow <david@davidgow.net>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index fb848fd8ba15..5c72462d1f57 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -778,13 +778,16 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
- 		.interruptible = true,
- 		.no_wait_gpu = false,
- 	};
--	int real_num_busy;
-+	struct ttm_placement initial_placement;
-+	struct ttm_place initial_place;
- 	int ret;
- 
- 	/* First try only the requested placement. No eviction. */
--	real_num_busy = placement->num_placement;
--	placement->num_placement = 1;
--	ret = ttm_bo_validate(bo, placement, &ctx);
-+	initial_placement.num_placement = 1;
-+	memcpy(&initial_place, placement->placement, sizeof(struct ttm_place));
-+	initial_place.flags |= TTM_PL_FLAG_DESIRED;
-+	initial_placement.placement = &initial_place;
-+	ret = ttm_bo_validate(bo, &initial_placement, &ctx);
- 	if (ret) {
- 		ret = i915_ttm_err_to_gem(ret);
- 		/*
-@@ -799,7 +802,6 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
- 		 * If the initial attempt fails, allow all accepted placements,
- 		 * evicting if necessary.
- 		 */
--		placement->num_placement = real_num_busy;
- 		ret = ttm_bo_validate(bo, placement, &ctx);
- 		if (ret)
- 			return i915_ttm_err_to_gem(ret);
--- 
-2.46.0
-
+>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 19 ++++++++-----------
+>  1 file changed, 8 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/=
+drm/display/drm_dp_mst_topology.c
+> index 70e4bfc3532e0..bcc5bbed9bd04 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -2339,7 +2339,7 @@ drm_dp_mst_handle_link_address_port(struct drm_dp_m=
+st_branch *mstb,
+>  {
+>         struct drm_dp_mst_topology_mgr *mgr =3D mstb->mgr;
+>         struct drm_dp_mst_port *port;
+> -       int old_ddps =3D 0, ret;
+> +       int ret;
+>         u8 new_pdt =3D DP_PEER_DEVICE_NONE;
+>         bool new_mcs =3D 0;
+>         bool created =3D false, send_link_addr =3D false, changed =3D fal=
+se;
+> @@ -2372,7 +2372,6 @@ drm_dp_mst_handle_link_address_port(struct drm_dp_m=
+st_branch *mstb,
+>                  */
+>                 drm_modeset_lock(&mgr->base.lock, NULL);
+>
+> -               old_ddps =3D port->ddps;
+>                 changed =3D port->ddps !=3D port_msg->ddps ||
+>                         (port->ddps &&
+>                          (port->ldps !=3D port_msg->legacy_device_plug_st=
+atus ||
+> @@ -2407,15 +2406,13 @@ drm_dp_mst_handle_link_address_port(struct drm_dp=
+_mst_branch *mstb,
+>          * Reprobe PBN caps on both hotplug, and when re-probing the link
+>          * for our parent mstb
+>          */
+> -       if (old_ddps !=3D port->ddps || !created) {
+> -               if (port->ddps && !port->input) {
+> -                       ret =3D drm_dp_send_enum_path_resources(mgr, mstb=
+,
+> -                                                             port);
+> -                       if (ret =3D=3D 1)
+> -                               changed =3D true;
+> -               } else {
+> -                       port->full_pbn =3D 0;
+> -               }
+> +       if (port->ddps && !port->input) {
+> +               ret =3D drm_dp_send_enum_path_resources(mgr, mstb,
+> +                                                     port);
+> +               if (ret =3D=3D 1)
+> +                       changed =3D true;
+> +       } else {
+> +               port->full_pbn =3D 0;
+>         }
+>
+>         ret =3D drm_dp_port_set_pdt(port, new_pdt, new_mcs);
+> --
+> 2.44.2
+>
