@@ -2,81 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69157946D53
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 09:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC12A946D91
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 10:50:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E184D10E0D7;
-	Sun,  4 Aug 2024 07:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0279A89349;
+	Sun,  4 Aug 2024 08:50:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aCJCLNtG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Cu2Cu+U5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
- [209.85.167.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5F5710E0D7
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 07:59:08 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id
- 5614622812f47-3d9e13ef9aaso6621587b6e.1
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Aug 2024 00:59:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722758348; x=1723363148; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=leoSzvc1irTIRY4t+RZAVg9wXL8E4KK0Ycetp1tzeI4=;
- b=aCJCLNtG1YUZpwXslrWttIeBQOacOPfNc8/UlTxa7mbxQB8cg37XYei6JcpQ2EBRkQ
- Q07NSkv3r84FNZMH4LX5wzwW4m3HrWzNawhQtPuzCpH/9RpNIilfi8FBN4yG1Gjl5ld3
- MB6G3yMZkfZq0pOXtt42m2aL92rHXv9uvlHfNiVWqXKVWH9K4MTzcpi6emJiG/W5K/Hn
- 0bZrkB0PAVNF2dqB05vKFikAZGPTwPDy7Gd7LzgIi5hROZ1jGO5YcMWDeX7oebE/wRJD
- uU/8M/dJA5B6/fupxeNY/UoOOojcQWoLt4SJEM5E4fxry8MzaBs/rkwTAMdVK1mUR2gn
- jemQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722758348; x=1723363148;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=leoSzvc1irTIRY4t+RZAVg9wXL8E4KK0Ycetp1tzeI4=;
- b=R+nSlTlY/U5Mp06TXERrZyLqhdqxblRnqgl4mOMyrFfYfdoCRVIWF5EeNhBsvdAZbK
- 4yGE7tmon3wxJRL/hQ5VIqgwUbGvNqguW+Nr68co9ZdmPAC3jXPacwUqdcSlvzSBJZkv
- FKLHpIKoHZCdk6MBVUhG+LApGXsy1qZFMknAAx80Z3TtkNdlnPxwXlivu6xqodKJBdEr
- PcjvEQRcDtYaIaCENhofhY7j9rwxcMnsnEMC/ouQgCtMVVsk9iz8Go26ucH/CaHHBjoJ
- d7JCQUJT8mgpvnPn+btTzMCSleJVHd8uCyiV+I0FDxIeynB5Kn0amjuJlhZQsbisMhjr
- yAng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUug9NZLttWKRnGXHEUc8sp1A6G5pP5KAz9QaWTZN8DIowq43ZAnsTFT4cRKdUpgMa/cya5X11ncmCpKqTxUVyCaXBXzhONq5IN6V9sq1xO
-X-Gm-Message-State: AOJu0YzpQOAmk/olz0kNKVSKj6KGetZs3QkuWCki0ZDFuOBbHjFwq9qU
- i+lcpBJHLtF9XyeNPvT7rdKwXN91bR1n/RGx3WLHOpoVjy6hqmhR
-X-Google-Smtp-Source: AGHT+IFvxFD9i5t49STUUYBZ5sy63mPUTCqzaYfVU1LOK5V4jv+UubPbJD8tYCgFeYVMewc026EG+Q==
-X-Received: by 2002:a05:6808:10d5:b0:3db:25f6:a62f with SMTP id
- 5614622812f47-3db5580f909mr13121118b6e.28.1722758347849; 
- Sun, 04 Aug 2024 00:59:07 -0700 (PDT)
-Received: from localhost.localdomain ([39.144.105.172])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1ff59178248sm46387605ad.202.2024.08.04.00.58.52
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 04 Aug 2024 00:59:07 -0700 (PDT)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: akpm@linux-foundation.org
-Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
- alexei.starovoitov@gmail.com, rostedt@goodmis.org, catalin.marinas@arm.com,
- penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- audit@vger.kernel.org, linux-security-module@vger.kernel.org,
- selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
-Subject: [PATCH v5 9/9] drm: Replace strcpy() with __get_task_comm()
-Date: Sun,  4 Aug 2024 15:56:19 +0800
-Message-Id: <20240804075619.20804-10-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20240804075619.20804-1-laoar.shao@gmail.com>
-References: <20240804075619.20804-1-laoar.shao@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B667310E0DD;
+ Sun,  4 Aug 2024 08:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1722761426; x=1754297426;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yIfG+y6dlsFmwosbOgh/XZH8KdxpvjTvDeRIGXGIVr0=;
+ b=Cu2Cu+U5NYNS3to77WEK9NDNi/W0EkSEjl59CXQrQkJhmmTXbzkyBsym
+ CRwYX6lAjVKOM1DLGgeW3d5QY95LRWt2wcwH4gLCDxuhV/Q5vQ4C8JuG1
+ UPKoq5N9HCB6vwrtRRGXYuPiE089KH3hR3CiISH90OLMUCyzfyTxaXfJE
+ /s4SfojvvktRXk8/SQ/3f2xkZr1x7I9IR5BE5RsjJeVV/5PZg25wszuO5
+ rkm/tQRUavDpsRVoOet9dUnmek4Fqqa5a9JY6/8MsX1vzs+oDZUZQTemj
+ sS+jrs/3XUB4s+0TVnkfVhHnmep26gTMdB7Lt1+oq5XC3ttg+WotzJjQ+ Q==;
+X-CSE-ConnectionGUID: ODMwwFDvT3a51frFhKfVfg==
+X-CSE-MsgGUID: ZNydYH+HRXSmBw+GKV51jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="24604108"
+X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; d="scan'208";a="24604108"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2024 01:50:25 -0700
+X-CSE-ConnectionGUID: UrOICgroRjqQFrEMOkzUQQ==
+X-CSE-MsgGUID: HU+uer4aQC2wl/DoapeiOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; d="scan'208";a="55520444"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+ by fmviesa007.fm.intel.com with ESMTP; 04 Aug 2024 01:50:19 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1saWwT-0001KQ-1A;
+ Sun, 04 Aug 2024 08:50:17 +0000
+Date: Sun, 4 Aug 2024 16:49:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+ Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Georgi Djakov <djakov@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Mike Tipton <quic_mdtipton@quicinc.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 07/11] dt-bindings: interconnect: qcom,sm8450: drop DISP
+ nodes
+Message-ID: <202408041643.qHy043eG-lkp@intel.com>
+References: <20240804-sm8350-fixes-v1-7-1149dd8399fe@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240804-sm8350-fixes-v1-7-1149dd8399fe@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,47 +88,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prevent erros from occurring when the src string is longer than the
-dst string in strcpy(), we should use __get_task_comm() instead. This
-approach also facilitates future extensions to the task comm.
+Hi Dmitry,
 
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
----
- drivers/gpu/drm/drm_framebuffer.c     | 2 +-
- drivers/gpu/drm/i915/i915_gpu_error.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 888aadb6a4ac..25262b07ffaf 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -868,7 +868,7 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
- 	INIT_LIST_HEAD(&fb->filp_head);
- 
- 	fb->funcs = funcs;
--	strcpy(fb->comm, current->comm);
-+	__get_task_comm(fb->comm, sizeof(fb->comm), current);
- 
- 	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
- 				    false, drm_framebuffer_free);
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 96c6cafd5b9e..163457a6e484 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1412,7 +1412,7 @@ static bool record_context(struct i915_gem_context_coredump *e,
- 	rcu_read_lock();
- 	task = pid_task(ctx->pid, PIDTYPE_PID);
- 	if (task) {
--		strcpy(e->comm, task->comm);
-+		__get_task_comm(e->comm, sizeof(e->comm), task);
- 		e->pid = task->pid;
- 	}
- 	rcu_read_unlock();
+[auto build test ERROR on 668d33c9ff922c4590c58754ab064aaf53c387dd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/clk-qcom-dispcc-sm8250-use-CLK_SET_RATE_PARENT-for-branch-clocks/20240804-134328
+base:   668d33c9ff922c4590c58754ab064aaf53c387dd
+patch link:    https://lore.kernel.org/r/20240804-sm8350-fixes-v1-7-1149dd8399fe%40linaro.org
+patch subject: [PATCH 07/11] dt-bindings: interconnect: qcom,sm8450: drop DISP nodes
+config: arm64-randconfig-051-20240804 (https://download.01.org/0day-ci/archive/20240804/202408041643.qHy043eG-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev8+gf13c181
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408041643.qHy043eG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408041643.qHy043eG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> Error: arch/arm64/boot/dts/qcom/sm8450.dtsi:3055.31-32 syntax error
+   FATAL ERROR: Unable to parse input tree
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
