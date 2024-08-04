@@ -2,84 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38107946DDC
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 11:17:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76B5946DE8
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 11:24:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E45510E0D3;
-	Sun,  4 Aug 2024 09:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A215810E0A5;
+	Sun,  4 Aug 2024 09:24:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="URsJ4CDl";
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="rSvMfWuQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBD4F10E0D3
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 09:17:11 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-65f9708c50dso88569797b3.2
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Aug 2024 02:17:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722763030; x=1723367830; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=mwig1T/GI7J6NZajQWaoVMnmbX4imhd/r3iYNF53W6Y=;
- b=URsJ4CDlyPnCDnoPHqqkFRFT8HpODIUwZLphmCRs/Ao11FeSphcJQKVTY0m6QoFJwe
- RDj1/v7vkSBXt5TjhYTC58X3G73D18Ilv0ri6R2qp1wPxVGJOisdR9/F4P6G2We98Q7Z
- 7rwW90xmk66HWfaZCP6lSYlhSimfo4sJU9Bok+xkxvWI05kqWVc4qI7DrZqdyqW8m/fN
- UmCGJxiV3Uzmb8KdRSwz7yJZPrgo77b47O+i27b7gla7ia7hCGT2OSy4jtmBiTznAvxk
- DS8nFUVX7loaYzaXUpshH3PAU0FzyXaxhX/doe3Yoifx/ZoqboXUbrsSeZc5wMRVc+PM
- 6IOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722763030; x=1723367830;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mwig1T/GI7J6NZajQWaoVMnmbX4imhd/r3iYNF53W6Y=;
- b=qkNSz6QlsqkIGyAY9FlXQwwy4WGJipp1kmv4ZAhTW8/iGW3ffoFZ896Yivsjfz04u7
- 2DaP0KdwOSxQbz24mbVnzx0KtzDp0aCYDhdrAcRvQ1/Rb/7KRoIs11LKIBADnLU8+JdX
- R7ECUHK4xN2fVc18ow105Mv5V3pfFa9UYCJBaIMzS1khYBSRHWKmEhQ7PH39ApgvCQL/
- HXiLjKpZrMP1dTknwMZ1qF6qMQk97Ldhnav9W6DeDZmfDFug+H4CB+FEN16RERujfnxH
- h24e0GO8Fm1ahOQQ9gAMFQFyJJatBUI5w3jrlIFp0PdJlzBB0rHb5lUn84GDE0Pa1qqp
- OH+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW03BDDuxXMw3eeSJkQzKh0WXtjkO8eo/A449UULf6L5F1fIw8Clhp5dODpaCRF+8n/pLNhCYzMAO2mRSGhoL0t82GoIAgZ+urb67kgno0q
-X-Gm-Message-State: AOJu0Yyru77ol1t7wzCmhX4dqcG+9/DcfMROSaV30MCj9WXljekDA2Dt
- usUajXOAiki8v+t9z1AqSCZeNJnoR/uh8OhcHoBz8e/PWcSonhPPrGbGe/tSXx/0nv6+A3P754j
- alU3vPgZujR5ifgDRFA9L63kIrGS4igMmbrv3Vg==
-X-Google-Smtp-Source: AGHT+IEjvRALfHiK20+HqWr/VOyns/i1THpuPrDOhczyqEMfLwxtq9r+VorCam7xfy5I9cowlh1ysHraCKWf6o+C75Q=
-X-Received: by 2002:a0d:c247:0:b0:644:ffb2:5b19 with SMTP id
- 00721157ae682-6895fbdbd45mr94218977b3.9.1722763030652; Sun, 04 Aug 2024
- 02:17:10 -0700 (PDT)
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF9B10E0A5;
+ Sun,  4 Aug 2024 09:24:26 +0000 (UTC)
+Received: from localhost (docker-mailserver-web-1.docker-mailserver_default
+ [172.22.0.5])
+ by mail.mainlining.org (Postfix) with ESMTPSA id 8180FE450D;
+ Sun,  4 Aug 2024 09:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
+ s=psm; t=1722763464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JHrUfDJ8wOPMyYjj64os5C3jTH7IZahgW6h7gmn5AHg=;
+ b=rSvMfWuQrV+Eh9PLNkIh0X6tMnh3DQ0gbYumXjuBD98e9JMoJO1Zt9CY11e+SQ1Kt60TpQ
+ 92gila1c6Q+dO2mdpfLPjiRWtehkex36K8jUKh0CLs2U5S4I5bur9gsMoz76Rskx26E6S5
+ p264V9FHgMMuLr/wfO81DiwtgUmwwzDnVInG0frpJAyNhAbhRfMIht3I8wUh0PeGShjCPu
+ Ah51N2qBEqkjNC1g/BmopVWRXNY+T45ROmsFit1N71uSm/eowSj4VJfgYUTQPngaaCfxZ+
+ yk1bI5gB2rQ6/YgZtLo3ycP9iWqb2v2Bpp4T4kusqqqOD4ukQkasNON3uSTCCQ==
 MIME-Version: 1.0
-References: <20240804-sm8350-fixes-v1-7-1149dd8399fe@linaro.org>
- <202408041643.qHy043eG-lkp@intel.com>
-In-Reply-To: <202408041643.qHy043eG-lkp@intel.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 4 Aug 2024 12:16:59 +0300
-Message-ID: <CAA8EJppbLUvSyq_AEh4Cw4ZOf2h=2-A3EuG5SPuhc2RDChWMFg@mail.gmail.com>
-Subject: Re: [PATCH 07/11] dt-bindings: interconnect: qcom,
- sm8450: drop DISP nodes
-To: kernel test robot <lkp@intel.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- Robert Foss <rfoss@kernel.org>, 
- Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Georgi Djakov <djakov@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Mike Tipton <quic_mdtipton@quicinc.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, oe-kbuild-all@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-pm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Sun, 04 Aug 2024 11:24:24 +0200
+From: barnabas.czeman@mainlining.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>
+Subject: Re: [PATCH 0/2] Add MSM8996/MSM8953 dpu catalog
+In-Reply-To: <zeek3j7skstysho5bduxn23xipz3fpqsfwggue66dlyozhepnn@4wnnd7q6xf22>
+References: <20240628-dpu-msm8953-msm8996-v1-0-a31c77248db7@mainlining.org>
+ <zeek3j7skstysho5bduxn23xipz3fpqsfwggue66dlyozhepnn@4wnnd7q6xf22>
+Message-ID: <202f4237b0019fda0cf860bf55e534e1@mainlining.org>
+X-Sender: barnabas.czeman@mainlining.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,36 +66,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 4 Aug 2024 at 11:50, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Dmitry,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 668d33c9ff922c4590c58754ab064aaf53c387dd]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/clk-qcom-dispcc-sm8250-use-CLK_SET_RATE_PARENT-for-branch-clocks/20240804-134328
-> base:   668d33c9ff922c4590c58754ab064aaf53c387dd
-> patch link:    https://lore.kernel.org/r/20240804-sm8350-fixes-v1-7-1149dd8399fe%40linaro.org
-> patch subject: [PATCH 07/11] dt-bindings: interconnect: qcom,sm8450: drop DISP nodes
-> config: arm64-randconfig-051-20240804 (https://download.01.org/0day-ci/archive/20240804/202408041643.qHy043eG-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.1.0
-> dtschema version: 2024.6.dev8+gf13c181
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408041643.qHy043eG-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408041643.qHy043eG-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> Error: arch/arm64/boot/dts/qcom/sm8450.dtsi:3055.31-32 syntax error
->    FATAL ERROR: Unable to parse input tree
+On 2024-08-01 21:25, Dmitry Baryshkov wrote:
+> On Fri, Jun 28, 2024 at 04:39:38PM GMT, Barnabás Czémán wrote:
+>> This patch series add dpu support for MSM8996/MSM8953 devices.
+>> 
+>> Note, by default these platforms are still handled by the MDP5 driver
+>> unless the `msm.prefer_mdp5=false' parameter is provided.
+> 
+> Could you please provide a summary of features actually tested with the
+> DPU driver? Have you tested YUV output? Have you tested RGB planes?
+> Which LMs have you tested?
+> 
+It was tested in usage on multiple msm8953 (sdm450, msm8953, sdm632) 
+devices like
+- Samsung A6+ LTE (sdm450, cmd panel)
+- Xiaomi Redmi 7 (sdm632, video panel)
+- Xiaomi Redmi 5 (sdm450, video panel)
+- Xiaomi Redmi 5 Plus (msm8953, video panel)
+- Xiaomi Redmi Note 4 (msm8953, video panel)
+- Xiaomi Mi A1 (msm8953, video panel)
+- Xiaomi Mi A2 Lite/Redmi 6 Pro (msm8953, video panel)
+- Xiaomi Redmi S2 (msm8953, video panel)
+- Motorola G5 Plus (msm8953, video panel)
+and couple of msm8996 devices like
+- Xiaomi Mi Note 2 (video panel)
+- Xiaomi Mi5s (cmd panel)
+It was tested with glmark2 and with mobile shells like plasma-mobile 
+(dpu fixes night light) and phosh.
+If you can help how can I test specific features i will do it.
+How can I find out which LM is in use?
 
-I see, I had this patched in my tree. So for sm8450 we have to keep
-backwards compatibility. Please ignore sm8450 patches.
-
--- 
-With best wishes
-Dmitry
+>> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+>> ---
+>> Dmitry Baryshkov (1):
+>>       drm/msm/dpu: add support for MSM8953
+>> 
+>> Konrad Dybcio (1):
+>>       drm/msm/dpu: Add MSM8996 support
+>> 
+>>  .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   | 218 
+>> +++++++++++++
+>>  .../drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h    | 348 
+>> +++++++++++++++++++++
+>>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 106 +++++++
+>>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   2 +
+>>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +
+>>  drivers/gpu/drm/msm/msm_drv.c                      |   2 +
+>>  6 files changed, 678 insertions(+)
+>> ---
+>> base-commit: df9574a57d02b265322e77fb8628d4d33641dda9
+>> change-id: 20240528-dpu-msm8953-msm8996-5d0fb7e387b8
+>> 
+>> Best regards,
+>> --
+>> Barnabás Czémán <barnabas.czeman@mainlining.org>
+>> 
