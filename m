@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A360B946C40
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 07:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E8C946C44
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 07:40:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE2A210E0BD;
-	Sun,  4 Aug 2024 05:40:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9096C10E0D0;
+	Sun,  4 Aug 2024 05:40:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ydonerj9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xe5eBr4b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0768B10E0BD
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 05:40:28 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-5afa207b8bfso10075439a12.0
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Aug 2024 22:40:27 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B40610E0C8
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 05:40:30 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-52f00ad303aso14144641e87.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 Aug 2024 22:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722750026; x=1723354826; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1722750028; x=1723354828; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=TiZnALWAQxF8iYVD1tb/bB08Yu0cJ6IHSObEO/DdoVE=;
- b=Ydonerj9gxf5z8rLIR1jCdmTg4tPxbOEyomn/1mFwg/GeetWYMcHEgVV6NfdD/ksXY
- dhCk9S+eSi/XADiM27hIF7GrDootm7kfUljoJ5BNlJ58onFGv9G+JCdQrFQ7Xbj96Xwz
- 4eAEzBdcn6G5DoY+McV9lAb9jR7haX9VZa4tRBfSxBMUbys8w+dUSktdunX2/nc8rwFw
- qCkvvbDite4QD06Z2+83VupkngjBxNNgORJmId3ROvx4k22mvEP3sj5BSXA1rT5rOpze
- sHYTzvzWJoOWpcZQHBkEgN1h04DHzCe8On4ZLo8oCMpCamokCrWLmg0K7xo26QFpm1kl
- Wvpw==
+ :reply-to; bh=D/cm1jjd1/iMw8x+MPa4aHpCJxIMLcu4Yu6VZJrkd+4=;
+ b=xe5eBr4bL0VCWQuEvTQ1vb3NBT3eKG/KNBhi0mbXp+aV+864b3HsaLaC/Vd2o2lt8W
+ KbK/SA1VZoMqW6EJkmUCBrR+yiNX7iZ6Esiy0RXpovV0HU9qY+DoQjCfbWRLgQhIGN02
+ uY8rcJfxU0mh5PM4Gyiyw5MWyzkdk5vjt94qsxJOcj9FWbwPCofBpZq/sRKG6CwWKFhH
+ grK21e2KzrAkJlK5xhvLWU1cyl5gemYG3RLix0G6Fmz1oUJwBateE8fy/JOPkhvaQ9CY
+ X03KdKqM5ZdnJtz6schCuk4VAkiExq5LYLmyr5cJaLjBZMgycxB6nVnsxau93P3fnZ9/
+ Zb9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722750026; x=1723354826;
+ d=1e100.net; s=20230601; t=1722750028; x=1723354828;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TiZnALWAQxF8iYVD1tb/bB08Yu0cJ6IHSObEO/DdoVE=;
- b=Uo+DxRCEcyTuaA6OKPRCZcnswvNYbq8GU8+Kxe/RrFO32IR/EASf5DBRZhUy6iZxBp
- PSudkmrkHnSIH+DmYwEQ0Lwku2xszu1VvEg9WW2fn2rqrsO17VOXApoPfJiry+HpAarj
- h6bKQZ/vnliDFQacHsptmSgBSDGE3y/umb2UeGEsohzS90TyD7lYDKyM/VAJ91agLWIw
- ukTBwj5qapJ23FJ4inEP8feqBpufU8TphS5Vqv5vYcYCbLYAPOFipXSK4BgiXYs0bYLO
- G+2juA34Fk7fRS7zy8SSaNRrooShmL9m76a+gzb1wneUERf3iT/H1CmQJkPUQPqi0Qh6
- d+cQ==
+ bh=D/cm1jjd1/iMw8x+MPa4aHpCJxIMLcu4Yu6VZJrkd+4=;
+ b=IEDii3CrtbX8akost5lBS4WqlP80dLEx94Cvg5ogEahmh9bgiZO1atQCEOrGnBCupM
+ Ovg7prI3gxFRbjqp5EiWXHdmyxzSC7bE/63FYR43vWqKoHTNUosGGGME0P9X5j2nb4LW
+ TNtJ1fLIFYAjnHcDl9kejhri7CyqzjsBlTR2oZKUIXcLa4DEsoYgK+0SWBXbWnlRCTe7
+ 3gXnLTuniiG/QeD8W9v8k2jJRq7h0mg1kdduBc2zwGx1kejGF6PtqoxrqIA+jJc1yIBr
+ M13Cs3+TzLCg0iqxMeyU3pglkuPHiPoLy/jdy42s/KkqR+PaRStQ7+JfSYTeisdrl1rv
+ o7sg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX6wtdngzeSA49H7+0/9Bhev5vuZbEHoa4y9sJ+JeFdRbc3KUcIi0VpQTUObFxPeZ1CRC9kPKVugfrkQe7ev5H/aVljZEtgQYpb7ObKDKU5
-X-Gm-Message-State: AOJu0YzP4yHcW095lmJ/6rtA2T7IRQ27Dp76Tq+iWul5hbk0+waCOsLg
- RZBboB3ZCdovBFmE0ro+IQw6pGXy6u9Lq712Ehca4Qveh5beIUxGR5GZDWH2D6w=
-X-Google-Smtp-Source: AGHT+IFvfS/OgcbVrrYsEWO4JXW+fzZSh1xCZ71TmWnyRNpi6mH/DWeqN076lOEnJTaUEwR4OV6ixQ==
-X-Received: by 2002:a17:907:3f8b:b0:a7a:9954:1fc1 with SMTP id
- a640c23a62f3a-a7dc4ea981cmr559390966b.24.1722750026376; 
- Sat, 03 Aug 2024 22:40:26 -0700 (PDT)
+ AJvYcCU/FTfqyzyc/+HPzeo/1djzGFGOUrB3Vrl4u42pocJQiXpvc5JgKlPIJFjOpobsp50rQlX9gdolEKzeIh9rOApCT0JAOy/TF7tBpr4MOp4Z
+X-Gm-Message-State: AOJu0YzsI/A3tlRBHXEHePaX8grTurmRU1DqU0I6zhXJIGivDCrHCCqc
+ rvIRVO/Jsk+ivC8Os3na+7+etI075Zcu/rGyr2OCGkuuQnblrBIZ4oJzp64FhUk=
+X-Google-Smtp-Source: AGHT+IE6GCHKaYeu075bskYasZyEb1ipCnNJJfXpONn3eXOF68PSgyACnVQniJRme2MpKU/LdTcexg==
+X-Received: by 2002:a05:6512:eaa:b0:52e:be1f:bf8b with SMTP id
+ 2adb3069b0e04-530bb3d42b1mr5422436e87.47.1722750028079; 
+ Sat, 03 Aug 2024 22:40:28 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7dc9bc3bd7sm292248466b.34.2024.08.03.22.40.24
+ a640c23a62f3a-a7dc9bc3bd7sm292248466b.34.2024.08.03.22.40.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Aug 2024 22:40:26 -0700 (PDT)
+ Sat, 03 Aug 2024 22:40:27 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 04 Aug 2024 08:40:09 +0300
-Subject: [PATCH 05/11] interconnect: qcom: sm8450: drop DISP nodes
+Date: Sun, 04 Aug 2024 08:40:10 +0300
+Subject: [PATCH 06/11] dt-bindings: interconnect: qcom,sm8350: drop DISP nodes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240804-sm8350-fixes-v1-5-1149dd8399fe@linaro.org>
+Message-Id: <20240804-sm8350-fixes-v1-6-1149dd8399fe@linaro.org>
 References: <20240804-sm8350-fixes-v1-0-1149dd8399fe@linaro.org>
 In-Reply-To: <20240804-sm8350-fixes-v1-0-1149dd8399fe@linaro.org>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -80,16 +80,16 @@ Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7277;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1599;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=V2ZoMG0XQ7V5BO7EN50H81+c0HsVA7ayIuEkYqIPZQc=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmrxQ+0RdFIXikZu6YJ0gSar4zzgFVTzMIkQJ4W
- AbO6Ud9B/mJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZq8UPgAKCRCLPIo+Aiko
- 1XBiB/41xzyh7/aKJoyKuLUdDakg2wC5+CZIw9wg05uFFdgtKNpXuKR2fY0/e9o/w1APgDN3pKK
- Joy9zkuMNGqg5nu9Hwoce1pry//4nj19uSs7lVp9GCtzTLA8xVA4KYRYGUMUExTgwpWeHIu+CMr
- z0p5MoNFZGtImsz7X1zv3vhnQhPP85zy7Y3hmgi6pj5GWghhwJHyFUo9guUSRro6gK0PnKc924Q
- uTZedEc6w7NmZc+bXnTlMXQe8royY5p6qpgymADstzag3KAuWss/Sbg2rSLLQrj63wpe6eAB31g
- 4QWxMDrqDHnhPERb+X9jbFLk8t7jFvAub6aP9Z0Te/tyCWPl
+ bh=6M151A/97deCg4Tzy6kbdcdNo2uWiEunw9WlWKXXE4A=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmrxQ/a5ai99IBr5oLB8ihNDDVEDnC6eztQD2HB
+ FkuS5H6ISyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZq8UPwAKCRCLPIo+Aiko
+ 1ViwB/9juYoqen35TB+9r5HLnBBlnG536bV8RJOZZNMkwuu/waZjRhGhQ2VDNJczXk5zaGvPOvG
+ drisN5/S9gg+LmPxTOxmaCZv1CQWFlrokspmyhOPC+aAksf2Qo2dmfMbTMsGQDYVBKrWtiCsame
+ 0gWlHLYx878V+EPtrF/d0XvSJznPWW74EKe90xRKbd5McrDXSsEwIhimLUZH/ZbhbZ+E+LmbGdB
+ MagDA5tAYUGDxowGRVXnmmW87XayUf1XbWy6FJqt0XyWJJjHVm6R6ZISzAKPHVNF/95idOh10ON
+ v68ACSaDApfvmxV2mBKHgVWLDfKCncRi2s4pDsve1YZjiwDV
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,250 +107,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The msm-5.x kernels have additional display RSC and separate display BCM
-voter. Since upstream kernel doesn't yet provide display RSC, we end up
-duplicating several nodes, which can result in incorrect votes being
-cast. Drop *_DISP nodes.
+Vendor msm-5.x kernels declared duplicate indices for some of display
+nodes to be used by separate display RSC and BCM voters. As it is not
+clear how this separate BCM should be modelled upstream and the device
+trees do not use these indices, drop them for now.
 
-Fixes: fafc114a468e ("interconnect: qcom: Add SM8450 interconnect provider driver")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/interconnect/qcom/sm8450.c | 145 -------------------------------------
- drivers/interconnect/qcom/sm8450.h |  12 ---
- 2 files changed, 157 deletions(-)
+ include/dt-bindings/interconnect/qcom,sm8350.h | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/drivers/interconnect/qcom/sm8450.c b/drivers/interconnect/qcom/sm8450.c
-index b3cd0087377c..1c61e606915f 100644
---- a/drivers/interconnect/qcom/sm8450.c
-+++ b/drivers/interconnect/qcom/sm8450.c
-@@ -580,60 +580,6 @@ static struct qcom_icc_node xm_gic = {
- 	.links = { SM8450_SLAVE_SNOC_GEM_NOC_GC },
- };
+diff --git a/include/dt-bindings/interconnect/qcom,sm8350.h b/include/dt-bindings/interconnect/qcom,sm8350.h
+index c7f7ed315aeb..2282f93607bc 100644
+--- a/include/dt-bindings/interconnect/qcom,sm8350.h
++++ b/include/dt-bindings/interconnect/qcom,sm8350.h
+@@ -119,9 +119,6 @@
+ #define SLAVE_SERVICE_GEM_NOC_1		16
+ #define SLAVE_SERVICE_GEM_NOC_2		17
+ #define SLAVE_SERVICE_GEM_NOC		18
+-#define MASTER_MNOC_HF_MEM_NOC_DISP	19
+-#define MASTER_MNOC_SF_MEM_NOC_DISP	20
+-#define SLAVE_LLCC_DISP			21
  
--static struct qcom_icc_node qnm_mnoc_hf_disp = {
--	.name = "qnm_mnoc_hf_disp",
--	.id = SM8450_MASTER_MNOC_HF_MEM_NOC_DISP,
--	.channels = 2,
--	.buswidth = 32,
--	.num_links = 1,
--	.links = { SM8450_SLAVE_LLCC_DISP },
--};
--
--static struct qcom_icc_node qnm_mnoc_sf_disp = {
--	.name = "qnm_mnoc_sf_disp",
--	.id = SM8450_MASTER_MNOC_SF_MEM_NOC_DISP,
--	.channels = 2,
--	.buswidth = 32,
--	.num_links = 1,
--	.links = { SM8450_SLAVE_LLCC_DISP },
--};
--
--static struct qcom_icc_node qnm_pcie_disp = {
--	.name = "qnm_pcie_disp",
--	.id = SM8450_MASTER_ANOC_PCIE_GEM_NOC_DISP,
--	.channels = 1,
--	.buswidth = 16,
--	.num_links = 1,
--	.links = { SM8450_SLAVE_LLCC_DISP },
--};
--
--static struct qcom_icc_node llcc_mc_disp = {
--	.name = "llcc_mc_disp",
--	.id = SM8450_MASTER_LLCC_DISP,
--	.channels = 4,
--	.buswidth = 4,
--	.num_links = 1,
--	.links = { SM8450_SLAVE_EBI1_DISP },
--};
--
--static struct qcom_icc_node qnm_mdp_disp = {
--	.name = "qnm_mdp_disp",
--	.id = SM8450_MASTER_MDP_DISP,
--	.channels = 2,
--	.buswidth = 32,
--	.num_links = 1,
--	.links = { SM8450_SLAVE_MNOC_HF_MEM_NOC_DISP },
--};
--
--static struct qcom_icc_node qnm_rot_disp = {
--	.name = "qnm_rot_disp",
--	.id = SM8450_MASTER_ROTATOR_DISP,
--	.channels = 1,
--	.buswidth = 32,
--	.num_links = 1,
--	.links = { SM8450_SLAVE_MNOC_SF_MEM_NOC_DISP },
--};
--
- static struct qcom_icc_node qns_a1noc_snoc = {
- 	.name = "qns_a1noc_snoc",
- 	.id = SM8450_SLAVE_A1NOC_SNOC,
-@@ -1302,41 +1248,6 @@ static struct qcom_icc_node srvc_snoc = {
- 	.num_links = 0,
- };
+ #define MASTER_CNOC_LPASS_AG_NOC	0
+ #define SLAVE_LPASS_CORE_CFG		1
+@@ -133,8 +130,6 @@
  
--static struct qcom_icc_node qns_llcc_disp = {
--	.name = "qns_llcc_disp",
--	.id = SM8450_SLAVE_LLCC_DISP,
--	.channels = 4,
--	.buswidth = 16,
--	.num_links = 1,
--	.links = { SM8450_MASTER_LLCC_DISP },
--};
--
--static struct qcom_icc_node ebi_disp = {
--	.name = "ebi_disp",
--	.id = SM8450_SLAVE_EBI1_DISP,
--	.channels = 4,
--	.buswidth = 4,
--	.num_links = 0,
--};
--
--static struct qcom_icc_node qns_mem_noc_hf_disp = {
--	.name = "qns_mem_noc_hf_disp",
--	.id = SM8450_SLAVE_MNOC_HF_MEM_NOC_DISP,
--	.channels = 2,
--	.buswidth = 32,
--	.num_links = 1,
--	.links = { SM8450_MASTER_MNOC_HF_MEM_NOC_DISP },
--};
--
--static struct qcom_icc_node qns_mem_noc_sf_disp = {
--	.name = "qns_mem_noc_sf_disp",
--	.id = SM8450_SLAVE_MNOC_SF_MEM_NOC_DISP,
--	.channels = 2,
--	.buswidth = 32,
--	.num_links = 1,
--	.links = { SM8450_MASTER_MNOC_SF_MEM_NOC_DISP },
--};
--
- static struct qcom_icc_bcm bcm_acv = {
- 	.name = "ACV",
- 	.enable_mask = 0x8,
-@@ -1498,46 +1409,6 @@ static struct qcom_icc_bcm bcm_sn7 = {
- 	.nodes = { &qns_pcie_mem_noc },
- };
+ #define MASTER_LLCC			0
+ #define SLAVE_EBI1			1
+-#define MASTER_LLCC_DISP		2
+-#define SLAVE_EBI1_DISP			3
  
--static struct qcom_icc_bcm bcm_acv_disp = {
--	.name = "ACV",
--	.enable_mask = 0x1,
--	.num_nodes = 1,
--	.nodes = { &ebi_disp },
--};
--
--static struct qcom_icc_bcm bcm_mc0_disp = {
--	.name = "MC0",
--	.num_nodes = 1,
--	.nodes = { &ebi_disp },
--};
--
--static struct qcom_icc_bcm bcm_mm0_disp = {
--	.name = "MM0",
--	.num_nodes = 1,
--	.nodes = { &qns_mem_noc_hf_disp },
--};
--
--static struct qcom_icc_bcm bcm_mm1_disp = {
--	.name = "MM1",
--	.enable_mask = 0x1,
--	.num_nodes = 3,
--	.nodes = { &qnm_mdp_disp, &qnm_rot_disp,
--		   &qns_mem_noc_sf_disp },
--};
--
--static struct qcom_icc_bcm bcm_sh0_disp = {
--	.name = "SH0",
--	.num_nodes = 1,
--	.nodes = { &qns_llcc_disp },
--};
--
--static struct qcom_icc_bcm bcm_sh1_disp = {
--	.name = "SH1",
--	.enable_mask = 0x1,
--	.num_nodes = 1,
--	.nodes = { &qnm_pcie_disp },
--};
--
- static struct qcom_icc_bcm * const aggre1_noc_bcms[] = {
- };
+ #define MASTER_CAMNOC_HF		0
+ #define MASTER_CAMNOC_ICP		1
+@@ -149,11 +144,6 @@
+ #define SLAVE_MNOC_HF_MEM_NOC		10
+ #define SLAVE_MNOC_SF_MEM_NOC		11
+ #define SLAVE_SERVICE_MNOC		12
+-#define MASTER_MDP0_DISP		13
+-#define MASTER_MDP1_DISP		14
+-#define MASTER_ROTATOR_DISP		15
+-#define SLAVE_MNOC_HF_MEM_NOC_DISP	16
+-#define SLAVE_MNOC_SF_MEM_NOC_DISP	17
  
-@@ -1680,8 +1551,6 @@ static const struct qcom_icc_desc sm8450_config_noc = {
- static struct qcom_icc_bcm * const gem_noc_bcms[] = {
- 	&bcm_sh0,
- 	&bcm_sh1,
--	&bcm_sh0_disp,
--	&bcm_sh1_disp,
- };
- 
- static struct qcom_icc_node * const gem_noc_nodes[] = {
-@@ -1699,10 +1568,6 @@ static struct qcom_icc_node * const gem_noc_nodes[] = {
- 	[SLAVE_GEM_NOC_CNOC] = &qns_gem_noc_cnoc,
- 	[SLAVE_LLCC] = &qns_llcc,
- 	[SLAVE_MEM_NOC_PCIE_SNOC] = &qns_pcie,
--	[MASTER_MNOC_HF_MEM_NOC_DISP] = &qnm_mnoc_hf_disp,
--	[MASTER_MNOC_SF_MEM_NOC_DISP] = &qnm_mnoc_sf_disp,
--	[MASTER_ANOC_PCIE_GEM_NOC_DISP] = &qnm_pcie_disp,
--	[SLAVE_LLCC_DISP] = &qns_llcc_disp,
- };
- 
- static const struct qcom_icc_desc sm8450_gem_noc = {
-@@ -1737,15 +1602,11 @@ static const struct qcom_icc_desc sm8450_lpass_ag_noc = {
- static struct qcom_icc_bcm * const mc_virt_bcms[] = {
- 	&bcm_acv,
- 	&bcm_mc0,
--	&bcm_acv_disp,
--	&bcm_mc0_disp,
- };
- 
- static struct qcom_icc_node * const mc_virt_nodes[] = {
- 	[MASTER_LLCC] = &llcc_mc,
- 	[SLAVE_EBI1] = &ebi,
--	[MASTER_LLCC_DISP] = &llcc_mc_disp,
--	[SLAVE_EBI1_DISP] = &ebi_disp,
- };
- 
- static const struct qcom_icc_desc sm8450_mc_virt = {
-@@ -1758,8 +1619,6 @@ static const struct qcom_icc_desc sm8450_mc_virt = {
- static struct qcom_icc_bcm * const mmss_noc_bcms[] = {
- 	&bcm_mm0,
- 	&bcm_mm1,
--	&bcm_mm0_disp,
--	&bcm_mm1_disp,
- };
- 
- static struct qcom_icc_node * const mmss_noc_nodes[] = {
-@@ -1777,10 +1636,6 @@ static struct qcom_icc_node * const mmss_noc_nodes[] = {
- 	[SLAVE_MNOC_HF_MEM_NOC] = &qns_mem_noc_hf,
- 	[SLAVE_MNOC_SF_MEM_NOC] = &qns_mem_noc_sf,
- 	[SLAVE_SERVICE_MNOC] = &srvc_mnoc,
--	[MASTER_MDP_DISP] = &qnm_mdp_disp,
--	[MASTER_ROTATOR_DISP] = &qnm_rot_disp,
--	[SLAVE_MNOC_HF_MEM_NOC_DISP] = &qns_mem_noc_hf_disp,
--	[SLAVE_MNOC_SF_MEM_NOC_DISP] = &qns_mem_noc_sf_disp,
- };
- 
- static const struct qcom_icc_desc sm8450_mmss_noc = {
-diff --git a/drivers/interconnect/qcom/sm8450.h b/drivers/interconnect/qcom/sm8450.h
-index a5790ec6767b..e1e91ed3f77e 100644
---- a/drivers/interconnect/qcom/sm8450.h
-+++ b/drivers/interconnect/qcom/sm8450.h
-@@ -153,17 +153,5 @@
- #define SM8450_SLAVE_PCIE_1				590
- #define SM8450_SLAVE_QDSS_STM				591
- #define SM8450_SLAVE_TCU				592
--#define SM8450_MASTER_LLCC_DISP				1000
--#define SM8450_MASTER_MDP_DISP				1001
--#define SM8450_MASTER_MDP0_DISP				SM8450_MASTER_MDP_DISP
--#define SM8450_MASTER_MDP1_DISP				SM8450_MASTER_MDP_DISP
--#define SM8450_MASTER_MNOC_HF_MEM_NOC_DISP		1002
--#define SM8450_MASTER_MNOC_SF_MEM_NOC_DISP		1003
--#define SM8450_MASTER_ANOC_PCIE_GEM_NOC_DISP		1004
--#define SM8450_MASTER_ROTATOR_DISP			1005
--#define SM8450_SLAVE_EBI1_DISP				1512
--#define SM8450_SLAVE_LLCC_DISP				1513
--#define SM8450_SLAVE_MNOC_HF_MEM_NOC_DISP		1514
--#define SM8450_SLAVE_MNOC_SF_MEM_NOC_DISP		1515
- 
- #endif
+ #define MASTER_CDSP_NOC_CFG		0
+ #define MASTER_CDSP_PROC		1
 
 -- 
 2.39.2
