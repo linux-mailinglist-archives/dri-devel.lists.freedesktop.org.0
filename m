@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B2C946C50
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 07:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329E5946C53
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 07:40:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83C0010E0E6;
-	Sun,  4 Aug 2024 05:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81D3010E0C8;
+	Sun,  4 Aug 2024 05:40:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nZ3NC4SN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WsBwzyDA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFAC110E090
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 05:40:36 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-2ef32fea28dso108985181fa.2
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Aug 2024 22:40:36 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C74010E0D6
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 05:40:38 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-52f04b3cb33so20416436e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 Aug 2024 22:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1722750035; x=1723354835; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1722750036; x=1723354836; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=rGZoVd2rDgNeiiA+eJxTSi+RLq7K+EuCeMoKQavvKp8=;
- b=nZ3NC4SNe2leA+m5hFNahe0sK3xpNIcbPkSxSDyICVWgu1kPyd5wnpO8xbrYyUxFAs
- 1ZqY7ZJaursUfr7xLrZtjsWH7psWjMnVtcQUkBWpdN2E42MzLKXOhjUg7M3zAnJFDBnW
- Un9KhgWQQCIL2Peyp40xzvrd901+yTOV+TOT2Ul3RA6vpQuWNIys63oN58FjJZXk5RSv
- 4fhBK7+gle1jpXyYAK0bTSK7+CfET67VqLHBQe53uotk+NqspdXlfPvr1VQcSBY7weu9
- TAdLis7RFRw7Aw4C1sRSVS/sBRODKIaRD9i56TMg6J20Km4A7n162hKiEbBj7HheDvUW
- 8+cw==
+ :reply-to; bh=XXeR89FVIJZ1QYlIHMei/0fKATGUZGncxK0+auVBf0M=;
+ b=WsBwzyDAy2AeYeBi5ifkyojRhMz6V9W5jkwBBQ7F/MV9uVKcgL5Av4JSynHy03YiNn
+ d76Z+l8OYoGh8XKmwH7zg3W4SjcipkPjyEgf+ex7tiSUpdVRagnbP8xNZExYKdAP5I8G
+ ACU7xAba7hY1HDP1caR6V22elHz76+9v+T4hiBG/9kqxBb1LnwvfsIZ3nQPpBpoGJgo5
+ 9fVRp5Vcmmjhapx74D/QNe3DHge8JdgASS15og9Ku/kzZXmTXztifWRKe31U+wtC03BI
+ K0jiz0p5Ibxq4ztZTbVeMHsPh47jJLG2AHcZzTpIE9suqJYWppHpUjEMJg0+FBg7oGIN
+ seTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722750035; x=1723354835;
+ d=1e100.net; s=20230601; t=1722750036; x=1723354836;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rGZoVd2rDgNeiiA+eJxTSi+RLq7K+EuCeMoKQavvKp8=;
- b=fcG6+vE3n+h96giOC4TCZs+Una/2S2KjTsrvUzgZrPYR8J6WqkbiuwC/HTJwi3jEqI
- 5JGnvnfwUfhmGZ2F6EOqldwzOVyJ8k05hf6taqbhzSwofPehR4pi7/wwolzuqST8UocQ
- /L+k4ybNf9/L7I41yCz/hEuw0SvvWVnB9hanvr8h/h0SXHN7eZv2ZIqh7oVGDK0ZK5v/
- XmWkznCH+m7Cwvu9VbnGjfFnb4/8WUvgJb0hDPEvMhIDH6FQXABRLsq0kOCCDx9DLyRG
- 6CFr7oa5XjXayTH1A4oKXS3tt7cji2gRXgsfPjwldSqIggx/nHOk4+eQV8UtJcMgNcV9
- fQzg==
+ bh=XXeR89FVIJZ1QYlIHMei/0fKATGUZGncxK0+auVBf0M=;
+ b=g1KTAklO1CdEG9XCe8Jk5MuxDbVp68e/JPMm2JYSHz9dGpwKDtPEYAsx3/BZqs9Eff
+ ZMr44/WQtLxUh+wNpClcvMWcn69RUzvESkZhU1NWZFbnOJiqfjVqDjFpJGeUg7IPSPA8
+ /QbNTtkNlg3JEFXf5zU+S4Jlie5ZxPAykXn88pnZANLZPs0288zLf4GCX+bjM6gUl2JB
+ fCJER/1ngaEKkvhDhworjLmiuNa1j7ZB/yjOP6XluSF42g0YUfKWJocwJNkvkPJsnR7m
+ Kris1qp/NfoTFDgGh2uCoJYQfRVdqbTyFVqdINbl81nsZyyJKz2k6TefrQIBIE0euWfo
+ cleg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVF2sMqru8B2vwRyRGVAmHlWd2MAB+5vV9HxNBCZwPNDqNLXs02+owKDojaZEo/rnvj0xQKpObC0ov9kqmE3gW+b1DvUMVVfvpSDJ1rLfW4
-X-Gm-Message-State: AOJu0YzmdtvFTpDA/zt1X78JQqbpqC2iD1Dz0g2lwJOW3ni6vNsIsLZ4
- 69fJy1+n3yxnMTDL3k2lJJONfzXZKIvteODkcCmkTk/x9fElxCKLAPXQdMvym5k=
-X-Google-Smtp-Source: AGHT+IEPlAu7+t1OD9xkZBZB+NNWj0yEEWFX5JqjgVG0e9+KB+gZngiGtuqgNS6nmYBsvDyIL2hvxA==
-X-Received: by 2002:a05:6512:12d2:b0:52c:82fa:ef7b with SMTP id
- 2adb3069b0e04-530bb3a351cmr4927864e87.44.1722750034659; 
- Sat, 03 Aug 2024 22:40:34 -0700 (PDT)
+ AJvYcCVWiUqo+vfsNr50ihOFzGUxy+RSfvc2HUrwhiORlVzqSc+7l3zs1KwqG5Ev4ROwXcSj3MZHrNlOFVeYenTTq1YlW3gIA5Zhwybo3Brgp5x+
+X-Gm-Message-State: AOJu0Yww+H8diuwdLxXMjbAvsbp9opHh5V1QW+ZdwLHMyRX37/4h0SQp
+ E4fsK00vzSB54msYuomja7j+vVQZJWPhO9zz4TkNkrn+amz2/mWBUQk4GxMChMg=
+X-Google-Smtp-Source: AGHT+IEzUJcr2/eYzNRxco80M9GSQYJGQHfmdybo4///4ibYBJxjdyGj5/rEDh0x2sR8bPV+/8p/Qw==
+X-Received: by 2002:a05:6512:ba3:b0:52c:df8e:a367 with SMTP id
+ 2adb3069b0e04-530bb3bbfd1mr6797281e87.53.1722750036270; 
+ Sat, 03 Aug 2024 22:40:36 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7dc9bc3bd7sm292248466b.34.2024.08.03.22.40.33
+ a640c23a62f3a-a7dc9bc3bd7sm292248466b.34.2024.08.03.22.40.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Aug 2024 22:40:34 -0700 (PDT)
+ Sat, 03 Aug 2024 22:40:35 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 04 Aug 2024 08:40:14 +0300
-Subject: [PATCH 10/11] arm64: dts: qcom: sm8350: add refgen regulator
+Date: Sun, 04 Aug 2024 08:40:15 +0300
+Subject: [PATCH 11/11] arm64: defconfig: build CONFIG_REGULATOR_QCOM_REFGEN
+ as module
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240804-sm8350-fixes-v1-10-1149dd8399fe@linaro.org>
+Message-Id: <20240804-sm8350-fixes-v1-11-1149dd8399fe@linaro.org>
 References: <20240804-sm8350-fixes-v1-0-1149dd8399fe@linaro.org>
 In-Reply-To: <20240804-sm8350-fixes-v1-0-1149dd8399fe@linaro.org>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -80,16 +81,16 @@ Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1354;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=769;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=jVYTvN/M5oXQ0cuOojPrVIEl/Z9fBYssaRlhkXEzBxU=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ9p6EfvbJs11IWt2KySeq1a453nXk+N4QleS7+4FFfmh7
- 112W23pZDRmYWDkYpAVU2TxKWiZGrMpOezDjqn1MINYmUCmMHBxCsBElrex/xVnkppt/SZk00ar
- XNlFkenx77pbV31njlzh7OjUJ13Q3GwY/XSPo82lVULHrvZ8NNqZZXh065xDLesqVII2VKSdfu5
- arcjOJneoNEL89RtDbb93903q20stEmVC56iv+z2dj+uNkeC+pNtXjKQEVJ1kNJnPrGRb3W5yWf
- Zr/64NMvznzzsmW13fOy0oYLPYJnXLbU8vrz/fuzus9mnQo/81uaYXfPXCum6/4Kj2rl0akxile
- +xCyJ35Armi1uZaiWuYnGXK3Z8vmv9jynIj7w61x9PYvLelyTwOUm46fsu7QM21R1ejaGNWTbj2
- tybFiW83CnZLLDnNoR7vs6dfiGON4BpN1qgvW++tfMsMAA==
+ bh=7W77DHzgi+hLXIXlbdxA6fq9mb4+K6aSLuzwwza3sX8=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmrxQ/eMRA4Offoaww9Ngbll18r3n+dpMYOd4zk
+ 1LX05cPA76JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZq8UPwAKCRCLPIo+Aiko
+ 1fvWB/0R2sNi/9ToQYvmH1y02gU7itzPPtSuSYTjQe3wK3HxfagVOQ+PRhSPWQVs0A7TkiFTAHF
+ 2zh+KOHutngVNaCrW4/J1z9Ht75Z9yBk+oNzuoS7RHXtc3eXoyfBT3NXaRX5+sCBTlSGF5VX2ee
+ njIFhdPDBBM4U2DdRC/bt8XEiT3OvUf89NWxoRJG87uH2jrv+mkWUiTMejKzpM9GynjmEJMI/+j
+ XqromIoKcDYND0GkXZcw/4iuOoU2bOmcX7CJq5vbAX8NN2LmJCIJ2PGlyYQKzLBy1U01AXPK2KV
+ 6+EDFfDZfRvpa9dICunQw3XJDPHE1krN5s3aTxCHpt7law+D
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,47 +108,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On SM8350 platform the DSI internally is using the refgen regulator. Add
-corresponding device node and link it as a supply to the DSI node.
+Enable CONFIG_REGULATOR_QCOM_REFGEN and build it as a module. It is an
+internal supply used by the DSI on SM8350-based platforms (e.g. on the
+SM8350 HDK device).
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8350.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-index 27f36e6366df..37a2aba0d4ca 100644
---- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-@@ -2251,6 +2251,12 @@ usb_2_hsphy: phy@88e4000 {
- 			resets = <&gcc GCC_QUSB2PHY_SEC_BCR>;
- 		};
- 
-+		refgen: regulator@88e7000 {
-+			compatible = "qcom,sm8350-refgen-regulator",
-+				     "qcom,sm8250-refgen-regulator";
-+			reg = <0x0 0x088e7000 0x0 0x84>;
-+		};
-+
- 		usb_1_qmpphy: phy@88e8000 {
- 			compatible = "qcom,sm8350-qmp-usb3-dp-phy";
- 			reg = <0 0x088e8000 0 0x3000>;
-@@ -2710,6 +2716,7 @@ mdss_dsi0: dsi@ae94000 {
- 
- 				operating-points-v2 = <&dsi0_opp_table>;
- 				power-domains = <&rpmhpd RPMHPD_MMCX>;
-+				refgen-supply = <&refgen>;
- 
- 				phys = <&mdss_dsi0_phy>;
- 
-@@ -2808,6 +2815,7 @@ mdss_dsi1: dsi@ae96000 {
- 
- 				operating-points-v2 = <&dsi1_opp_table>;
- 				power-domains = <&rpmhpd RPMHPD_MMCX>;
-+				refgen-supply = <&refgen>;
- 
- 				phys = <&mdss_dsi1_phy>;
- 
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 7d32fca64996..20e07ceaf239 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -785,6 +785,7 @@ CONFIG_REGULATOR_PCA9450=y
+ CONFIG_REGULATOR_PF8X00=y
+ CONFIG_REGULATOR_PFUZE100=y
+ CONFIG_REGULATOR_PWM=y
++CONFIG_REGULATOR_QCOM_REFGEN=m
+ CONFIG_REGULATOR_QCOM_RPMH=y
+ CONFIG_REGULATOR_QCOM_SMD_RPM=y
+ CONFIG_REGULATOR_QCOM_SPMI=y
 
 -- 
 2.39.2
