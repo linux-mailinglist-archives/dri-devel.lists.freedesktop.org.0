@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15C1946C97
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 08:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8C0946C99
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 08:16:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAC3210E05C;
-	Sun,  4 Aug 2024 06:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97AA110E068;
+	Sun,  4 Aug 2024 06:16:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dD1iDKij";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y+S1JBKw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C130310E05C
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 06:16:04 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-1fda7fa60a9so86826335ad.3
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Aug 2024 23:16:04 -0700 (PDT)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B14B10E068
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 06:16:08 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-2cb55418470so6283340a91.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 Aug 2024 23:16:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722752164; x=1723356964; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1722752168; x=1723356968; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xfVv4qodUJxAElU8OCPQKl4LQdnqypaO7KahP1BwXPE=;
- b=dD1iDKijK91vDL0621CLrOZbUQInOor2d5GWGT1y154xj039FloDgBzuqHxhbTAFna
- l90T2Dkj9Uu+1YkAfExd9QTUBOssNR6IUeQRiufHFmgVeqd4sTuUNu/dn+DyVUAST7Hf
- abcAwtfqwpx0jXLjT5WEkF+Ps6y/V74zg8w3dvEXLCslt0CsY967flu40Gn7qPLoS0t8
- bIX7XrXcdGjWKDINAd5abhpwhbvy2wL0IMin8RHaWUXDNmslewNQfHYbl7Es8TbGoR4T
- YvWEWyOBc5aiYsuBQvrtPVcZonifQuvYV2JhpXc6LHCdlr0UHG7FQxrh20SDAO01+jmg
- jdfQ==
+ bh=1QCBHipd9ju2B6kDRIPqyXO7nCYrctm5/4ZaKFrTgHo=;
+ b=Y+S1JBKwJ4p9Smet90IrRkVpgpv+jN5fGnPopYosRuLhr9SCQw6quhCy5rulZfXXof
+ EtBa3EyH2WsCLpPh+FMF2cxGK9YHhtKB5rwnFKK5BbZvld4mBd3d5hX4zOLMVP1oljhj
+ ue/U/JFr2yy0dssIcrvbzkYCKEE0KVBat0Y45dt8K7oYgQhVHUXwutHxOzVfXNiI36Pm
+ o5LXTxmYvR4Ier1sRkEYXGrvrijfMVU/nUChzHLR+2vfCtS0lrL2jnkVt4Y+Qt0EYOBt
+ TkEY17jxY/ciw9W50svcS0BD3iwQ382w1oqCTrMGqPHp/ZHqtD5phezY/7wXMm8Vx1im
+ F+CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722752164; x=1723356964;
+ d=1e100.net; s=20230601; t=1722752168; x=1723356968;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xfVv4qodUJxAElU8OCPQKl4LQdnqypaO7KahP1BwXPE=;
- b=vAfbGAbTKYC6XLW9xYpTeFBoogpO/WbnHod56D+X5IrNhWLxuYnCRalj9nqcJB6fZO
- RAPsA/FIYzsgF5sqXAD9npRA1lHp4EIPGjlakqlPQMU2KGHoEKRfMBuw2/V83DlGXNrg
- pTAt0dX+wYc1YqpIYrVJCtPBZjqWQow8nDaOluoNYkDxftfkcJzgwGRqbA0Kx1Y/X0yg
- 0Du1F1Fx2XxzEq9yWFMFsyayuceBr/UwY8Vzafpsq8pgGPRCOqJAJROuQpTVUL2SD+hQ
- pq5Ah7w6EK9+gTM6QrKpvnjEpk9lawIJvUI7qFcgpHqcmtTFDanu95sgwHXAt7sfWfHw
- g84w==
+ bh=1QCBHipd9ju2B6kDRIPqyXO7nCYrctm5/4ZaKFrTgHo=;
+ b=po4wb/B3S+Klah/jzh5p86g1fBVhuAUBzvx+YRw64DOcwoqHBz/fcFq5Th5InMCQ6w
+ scbbpikfAMP9+fw1HodcDjUKXk3aCB5oTFQR5oo9Gt4PSPownyUd11Yfe98sDYCY+zTQ
+ XfAhAvgKlto98XusE5tGM9mx1NSqib5ioVYKe0xI+/XhdPL0gW5EjjcJGenrzPn3a++W
+ ccuqRqt2pE3Ud1h2GnavMT+R6UslUHjXEUEKbaCBNXbvIb1xUWrLLrv34WQJD4D3YnB2
+ wcsyb83c7lDFSueyhJgR3APeBvlxnO8F1ROhcDp2XW6qo5txGeuW0YMNId9SIoNmY8fR
+ RKSQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWCldlUqt4BTVUbfMfYig6B6FWKNWPKoTrZdHlTGmiTOrsG9qwXPG0xhOA3VfLDDXdAs+c/7fzimNe9KUbM+/YAHWaslDkL/W8wf2una6a4
-X-Gm-Message-State: AOJu0YxlXN5SxUKjam/soDZhulkO42zjT4nTzzZMZYXfpcDK7wKoW1I9
- WOjqfrDLOyTTJvle+qhzMY1bFMQnHlTkJOxXbnwhjD4QAAbLPvy7
-X-Google-Smtp-Source: AGHT+IGF9uRbn73Ub+lUyStmEpuarBXANkQ2ZLjEI6iPTCADnmTxxdPY0aoVpI76cw1nbCAtNWDfZQ==
-X-Received: by 2002:a17:903:24c:b0:1fd:9e6e:7c1f with SMTP id
- d9443c01a7336-1ff5748f366mr113288415ad.56.1722752163856; 
- Sat, 03 Aug 2024 23:16:03 -0700 (PDT)
+ AJvYcCXLMv6dpTmw++C+qzq1rLr0EJhp9sH9rnP47QbVW4nNq3KgQFme/LJSTlbiFCjglclzntqGCxAZ2CkU5lSHPWxK5+K4xFRSZsxBP4/FpgRa
+X-Gm-Message-State: AOJu0Yztg1n0AXrt8eqHSjy34b0SnpvujmPGOD5MPUk6APKuQLl/9YTV
+ ghslO/ntmQpG4Se5dSKyqQeFxV7KWzLshlbXXB6fuCeaRkk0uXQp
+X-Google-Smtp-Source: AGHT+IF2nVOyQC7h9YelKyVOaAywKnE46vjSEtLS5cAVyCk6ig+Yg/Q6vLleff/wH5lSdJpCHHoUng==
+X-Received: by 2002:a17:902:f54b:b0:1fb:74b3:53d5 with SMTP id
+ d9443c01a7336-1ff572d43dcmr93610485ad.35.1722752167823; 
+ Sat, 03 Aug 2024 23:16:07 -0700 (PDT)
 Received: from noel.flets-west.jp ([2405:6586:4480:a10:167:9818:d778:5c14])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1ff58f29ef4sm44194195ad.14.2024.08.03.23.16.00
+ d9443c01a7336-1ff58f29ef4sm44194195ad.14.2024.08.03.23.16.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Aug 2024 23:16:03 -0700 (PDT)
+ Sat, 03 Aug 2024 23:16:07 -0700 (PDT)
 From: Hironori KIKUCHI <kikuchan98@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
@@ -69,9 +69,9 @@ Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org
-Subject: [PATCH v4 1/5] drm/panel: st7701: Rename macros
-Date: Sun,  4 Aug 2024 15:14:45 +0900
-Message-ID: <20240804061503.881283-2-kikuchan98@gmail.com>
+Subject: [PATCH v4 2/5] drm/panel: st7701: Decouple DSI and DRM parts
+Date: Sun,  4 Aug 2024 15:14:46 +0900
+Message-ID: <20240804061503.881283-3-kikuchan98@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240804061503.881283-1-kikuchan98@gmail.com>
 References: <20240804061503.881283-1-kikuchan98@gmail.com>
@@ -92,1017 +92,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename DSI_CMD* macros to ST7701_CMD*, and ST7701_DSI macro to
-ST7701_WRITE, because they do not belong to DSI.
+Split into a DSI-specific part and a DRM-specific part.
+
+Additionally, use devm_add_action_or_reset() to simplify the flow,
+and disable and unprepare the panel on cleanup.
 
 Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7701.c | 736 +++++++++---------
- 1 file changed, 368 insertions(+), 368 deletions(-)
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c | 72 ++++++++++++-------
+ 1 file changed, 45 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-index 421eb4592b6..a9a8fd85057 100644
+index a9a8fd85057..a0644f7a4c8 100644
 --- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
 +++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-@@ -18,75 +18,75 @@
- #include <video/mipi_display.h>
+@@ -539,7 +539,7 @@ static int st7701_get_modes(struct drm_panel *panel,
  
- /* Command2 BKx selection command */
--#define DSI_CMD2BKX_SEL			0xFF
--#define DSI_CMD1			0
--#define DSI_CMD2			BIT(4)
--#define DSI_CMD2BK_MASK			GENMASK(3, 0)
-+#define ST7701_CMD2BKX_SEL			0xFF
-+#define ST7701_CMD1				0
-+#define ST7701_CMD2				BIT(4)
-+#define ST7701_CMD2BK_MASK			GENMASK(3, 0)
+ 	mode = drm_mode_duplicate(connector->dev, desc_mode);
+ 	if (!mode) {
+-		dev_err(&st7701->dsi->dev, "failed to add mode %ux%u@%u\n",
++		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
+ 			desc_mode->hdisplay, desc_mode->vdisplay,
+ 			drm_mode_vrefresh(desc_mode));
+ 		return -ENOMEM;
+@@ -974,42 +974,48 @@ static const struct st7701_panel_desc rg_arc_desc = {
+ 	.gip_sequence = rg_arc_gip_sequence,
+ };
  
- /* Command2, BK0 commands */
--#define DSI_CMD2_BK0_PVGAMCTRL		0xB0 /* Positive Voltage Gamma Control */
--#define DSI_CMD2_BK0_NVGAMCTRL		0xB1 /* Negative Voltage Gamma Control */
--#define DSI_CMD2_BK0_LNESET		0xC0 /* Display Line setting */
--#define DSI_CMD2_BK0_PORCTRL		0xC1 /* Porch control */
--#define DSI_CMD2_BK0_INVSEL		0xC2 /* Inversion selection, Frame Rate Control */
-+#define ST7701_CMD2_BK0_PVGAMCTRL		0xB0 /* Positive Voltage Gamma Control */
-+#define ST7701_CMD2_BK0_NVGAMCTRL		0xB1 /* Negative Voltage Gamma Control */
-+#define ST7701_CMD2_BK0_LNESET			0xC0 /* Display Line setting */
-+#define ST7701_CMD2_BK0_PORCTRL			0xC1 /* Porch control */
-+#define ST7701_CMD2_BK0_INVSEL			0xC2 /* Inversion selection, Frame Rate Control */
- 
- /* Command2, BK1 commands */
--#define DSI_CMD2_BK1_VRHS		0xB0 /* Vop amplitude setting */
--#define DSI_CMD2_BK1_VCOM		0xB1 /* VCOM amplitude setting */
--#define DSI_CMD2_BK1_VGHSS		0xB2 /* VGH Voltage setting */
--#define DSI_CMD2_BK1_TESTCMD		0xB3 /* TEST Command Setting */
--#define DSI_CMD2_BK1_VGLS		0xB5 /* VGL Voltage setting */
--#define DSI_CMD2_BK1_PWCTLR1		0xB7 /* Power Control 1 */
--#define DSI_CMD2_BK1_PWCTLR2		0xB8 /* Power Control 2 */
--#define DSI_CMD2_BK1_SPD1		0xC1 /* Source pre_drive timing set1 */
--#define DSI_CMD2_BK1_SPD2		0xC2 /* Source EQ2 Setting */
--#define DSI_CMD2_BK1_MIPISET1		0xD0 /* MIPI Setting 1 */
-+#define ST7701_CMD2_BK1_VRHS			0xB0 /* Vop amplitude setting */
-+#define ST7701_CMD2_BK1_VCOM			0xB1 /* VCOM amplitude setting */
-+#define ST7701_CMD2_BK1_VGHSS			0xB2 /* VGH Voltage setting */
-+#define ST7701_CMD2_BK1_TESTCMD			0xB3 /* TEST Command Setting */
-+#define ST7701_CMD2_BK1_VGLS			0xB5 /* VGL Voltage setting */
-+#define ST7701_CMD2_BK1_PWCTLR1			0xB7 /* Power Control 1 */
-+#define ST7701_CMD2_BK1_PWCTLR2			0xB8 /* Power Control 2 */
-+#define ST7701_CMD2_BK1_SPD1			0xC1 /* Source pre_drive timing set1 */
-+#define ST7701_CMD2_BK1_SPD2			0xC2 /* Source EQ2 Setting */
-+#define ST7701_CMD2_BK1_MIPISET1		0xD0 /* MIPI Setting 1 */
- 
- /* Command2, BK0 bytes */
--#define DSI_CMD2_BK0_GAMCTRL_AJ_MASK	GENMASK(7, 6)
--#define DSI_CMD2_BK0_GAMCTRL_VC0_MASK	GENMASK(3, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC4_MASK	GENMASK(5, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC8_MASK	GENMASK(5, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC16_MASK	GENMASK(4, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC24_MASK	GENMASK(4, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC52_MASK	GENMASK(3, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC80_MASK	GENMASK(5, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC108_MASK	GENMASK(3, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC147_MASK	GENMASK(3, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC175_MASK	GENMASK(5, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC203_MASK	GENMASK(3, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC231_MASK	GENMASK(4, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC239_MASK	GENMASK(4, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC247_MASK	GENMASK(5, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC251_MASK	GENMASK(5, 0)
--#define DSI_CMD2_BK0_GAMCTRL_VC255_MASK	GENMASK(4, 0)
--#define DSI_CMD2_BK0_LNESET_LINE_MASK	GENMASK(6, 0)
--#define DSI_CMD2_BK0_LNESET_LDE_EN	BIT(7)
--#define DSI_CMD2_BK0_LNESET_LINEDELTA	GENMASK(1, 0)
--#define DSI_CMD2_BK0_PORCTRL_VBP_MASK	GENMASK(7, 0)
--#define DSI_CMD2_BK0_PORCTRL_VFP_MASK	GENMASK(7, 0)
--#define DSI_CMD2_BK0_INVSEL_ONES_MASK	GENMASK(5, 4)
--#define DSI_CMD2_BK0_INVSEL_NLINV_MASK	GENMASK(2, 0)
--#define DSI_CMD2_BK0_INVSEL_RTNI_MASK	GENMASK(4, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_AJ_MASK		GENMASK(7, 6)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC0_MASK	GENMASK(3, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC4_MASK	GENMASK(5, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC8_MASK	GENMASK(5, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC16_MASK	GENMASK(4, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC24_MASK	GENMASK(4, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC52_MASK	GENMASK(3, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC80_MASK	GENMASK(5, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC108_MASK	GENMASK(3, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC147_MASK	GENMASK(3, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC175_MASK	GENMASK(5, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC203_MASK	GENMASK(3, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC231_MASK	GENMASK(4, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC239_MASK	GENMASK(4, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC247_MASK	GENMASK(5, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC251_MASK	GENMASK(5, 0)
-+#define ST7701_CMD2_BK0_GAMCTRL_VC255_MASK	GENMASK(4, 0)
-+#define ST7701_CMD2_BK0_LNESET_LINE_MASK	GENMASK(6, 0)
-+#define ST7701_CMD2_BK0_LNESET_LDE_EN		BIT(7)
-+#define ST7701_CMD2_BK0_LNESET_LINEDELTA	GENMASK(1, 0)
-+#define ST7701_CMD2_BK0_PORCTRL_VBP_MASK	GENMASK(7, 0)
-+#define ST7701_CMD2_BK0_PORCTRL_VFP_MASK	GENMASK(7, 0)
-+#define ST7701_CMD2_BK0_INVSEL_ONES_MASK	GENMASK(5, 4)
-+#define ST7701_CMD2_BK0_INVSEL_NLINV_MASK	GENMASK(2, 0)
-+#define ST7701_CMD2_BK0_INVSEL_RTNI_MASK	GENMASK(4, 0)
- 
- /* Command2, BK1 bytes */
--#define DSI_CMD2_BK1_VRHA_MASK		GENMASK(7, 0)
--#define DSI_CMD2_BK1_VCOM_MASK		GENMASK(7, 0)
--#define DSI_CMD2_BK1_VGHSS_MASK		GENMASK(3, 0)
--#define DSI_CMD2_BK1_TESTCMD_VAL	BIT(7)
--#define DSI_CMD2_BK1_VGLS_ONES		BIT(6)
--#define DSI_CMD2_BK1_VGLS_MASK		GENMASK(3, 0)
--#define DSI_CMD2_BK1_PWRCTRL1_AP_MASK	GENMASK(7, 6)
--#define DSI_CMD2_BK1_PWRCTRL1_APIS_MASK	GENMASK(3, 2)
--#define DSI_CMD2_BK1_PWRCTRL1_APOS_MASK	GENMASK(1, 0)
--#define DSI_CMD2_BK1_PWRCTRL2_AVDD_MASK	GENMASK(5, 4)
--#define DSI_CMD2_BK1_PWRCTRL2_AVCL_MASK	GENMASK(1, 0)
--#define DSI_CMD2_BK1_SPD1_ONES_MASK	GENMASK(6, 4)
--#define DSI_CMD2_BK1_SPD1_T2D_MASK	GENMASK(3, 0)
--#define DSI_CMD2_BK1_SPD2_ONES_MASK	GENMASK(6, 4)
--#define DSI_CMD2_BK1_SPD2_T3D_MASK	GENMASK(3, 0)
--#define DSI_CMD2_BK1_MIPISET1_ONES	BIT(7)
--#define DSI_CMD2_BK1_MIPISET1_EOT_EN	BIT(3)
-+#define ST7701_CMD2_BK1_VRHA_MASK		GENMASK(7, 0)
-+#define ST7701_CMD2_BK1_VCOM_MASK		GENMASK(7, 0)
-+#define ST7701_CMD2_BK1_VGHSS_MASK		GENMASK(3, 0)
-+#define ST7701_CMD2_BK1_TESTCMD_VAL		BIT(7)
-+#define ST7701_CMD2_BK1_VGLS_ONES		BIT(6)
-+#define ST7701_CMD2_BK1_VGLS_MASK		GENMASK(3, 0)
-+#define ST7701_CMD2_BK1_PWRCTRL1_AP_MASK	GENMASK(7, 6)
-+#define ST7701_CMD2_BK1_PWRCTRL1_APIS_MASK	GENMASK(3, 2)
-+#define ST7701_CMD2_BK1_PWRCTRL1_APOS_MASK	GENMASK(1, 0)
-+#define ST7701_CMD2_BK1_PWRCTRL2_AVDD_MASK	GENMASK(5, 4)
-+#define ST7701_CMD2_BK1_PWRCTRL2_AVCL_MASK	GENMASK(1, 0)
-+#define ST7701_CMD2_BK1_SPD1_ONES_MASK		GENMASK(6, 4)
-+#define ST7701_CMD2_BK1_SPD1_T2D_MASK		GENMASK(3, 0)
-+#define ST7701_CMD2_BK1_SPD2_ONES_MASK		GENMASK(6, 4)
-+#define ST7701_CMD2_BK1_SPD2_T3D_MASK		GENMASK(3, 0)
-+#define ST7701_CMD2_BK1_MIPISET1_ONES		BIT(7)
-+#define ST7701_CMD2_BK1_MIPISET1_EOT_EN		BIT(3)
- 
- #define CFIELD_PREP(_mask, _val)					\
- 	(((typeof(_mask))(_val) << (__builtin_ffsll(_mask) - 1)) & (_mask))
-@@ -149,7 +149,7 @@ static inline int st7701_dsi_write(struct st7701 *st7701, const void *seq,
- 	return mipi_dsi_dcs_write_buffer(st7701->dsi, seq, len);
- }
- 
--#define ST7701_DSI(st7701, seq...)				\
-+#define ST7701_WRITE(st7701, seq...)				\
- 	{							\
- 		const u8 d[] = { seq };				\
- 		st7701_dsi_write(st7701, d, ARRAY_SIZE(d));	\
-@@ -185,11 +185,11 @@ static void st7701_switch_cmd_bkx(struct st7701 *st7701, bool cmd2, u8 bkx)
- 	u8 val;
- 
- 	if (cmd2)
--		val = DSI_CMD2 | FIELD_PREP(DSI_CMD2BK_MASK, bkx);
-+		val = ST7701_CMD2 | FIELD_PREP(ST7701_CMD2BK_MASK, bkx);
- 	else
--		val = DSI_CMD1;
-+		val = ST7701_CMD1;
- 
--	ST7701_DSI(st7701, DSI_CMD2BKX_SEL, 0x77, 0x01, 0x00, 0x00, val);
-+	ST7701_WRITE(st7701, ST7701_CMD2BKX_SEL, 0x77, 0x01, 0x00, 0x00, val);
- }
- 
- static void st7701_init_sequence(struct st7701 *st7701)
-@@ -199,21 +199,21 @@ static void st7701_init_sequence(struct st7701 *st7701)
- 	const u8 linecount8 = mode->vdisplay / 8;
- 	const u8 linecountrem2 = (mode->vdisplay % 8) / 2;
- 
--	ST7701_DSI(st7701, MIPI_DCS_SOFT_RESET, 0x00);
-+	ST7701_WRITE(st7701, MIPI_DCS_SOFT_RESET, 0x00);
- 
- 	/* We need to wait 5ms before sending new commands */
- 	msleep(5);
- 
--	ST7701_DSI(st7701, MIPI_DCS_EXIT_SLEEP_MODE, 0x00);
-+	ST7701_WRITE(st7701, MIPI_DCS_EXIT_SLEEP_MODE, 0x00);
- 
- 	msleep(st7701->sleep_delay);
- 
- 	/* Command2, BK0 */
- 	st7701_switch_cmd_bkx(st7701, true, 0);
- 
--	mipi_dsi_dcs_write(st7701->dsi, DSI_CMD2_BK0_PVGAMCTRL,
-+	mipi_dsi_dcs_write(st7701->dsi, ST7701_CMD2_BK0_PVGAMCTRL,
- 			   desc->pv_gamma, ARRAY_SIZE(desc->pv_gamma));
--	mipi_dsi_dcs_write(st7701->dsi, DSI_CMD2_BK0_NVGAMCTRL,
-+	mipi_dsi_dcs_write(st7701->dsi, ST7701_CMD2_BK0_NVGAMCTRL,
- 			   desc->nv_gamma, ARRAY_SIZE(desc->nv_gamma));
- 	/*
- 	 * Vertical line count configuration:
-@@ -226,14 +226,14 @@ static void st7701_init_sequence(struct st7701 *st7701)
- 	 * Total number of vertical lines:
- 	 * LN = ((Line[6:0] + 1) * 8) + (LDE_EN ? Line_delta[1:0] * 2 : 0)
- 	 */
--	ST7701_DSI(st7701, DSI_CMD2_BK0_LNESET,
--		   FIELD_PREP(DSI_CMD2_BK0_LNESET_LINE_MASK, linecount8 - 1) |
--		   (linecountrem2 ? DSI_CMD2_BK0_LNESET_LDE_EN : 0),
--		   FIELD_PREP(DSI_CMD2_BK0_LNESET_LINEDELTA, linecountrem2));
--	ST7701_DSI(st7701, DSI_CMD2_BK0_PORCTRL,
--		   FIELD_PREP(DSI_CMD2_BK0_PORCTRL_VBP_MASK,
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK0_LNESET,
-+		   FIELD_PREP(ST7701_CMD2_BK0_LNESET_LINE_MASK, linecount8 - 1) |
-+		   (linecountrem2 ? ST7701_CMD2_BK0_LNESET_LDE_EN : 0),
-+		   FIELD_PREP(ST7701_CMD2_BK0_LNESET_LINEDELTA, linecountrem2));
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK0_PORCTRL,
-+		   FIELD_PREP(ST7701_CMD2_BK0_PORCTRL_VBP_MASK,
- 			      mode->vtotal - mode->vsync_end),
--		   FIELD_PREP(DSI_CMD2_BK0_PORCTRL_VFP_MASK,
-+		   FIELD_PREP(ST7701_CMD2_BK0_PORCTRL_VFP_MASK,
- 			      mode->vsync_start - mode->vdisplay));
- 	/*
- 	 * Horizontal pixel count configuration:
-@@ -241,70 +241,70 @@ static void st7701_init_sequence(struct st7701 *st7701)
- 	 * The PCLK is number of pixel clock per line, which matches
- 	 * mode htotal. The minimum is 512 PCLK.
- 	 */
--	ST7701_DSI(st7701, DSI_CMD2_BK0_INVSEL,
--		   DSI_CMD2_BK0_INVSEL_ONES_MASK |
--		   FIELD_PREP(DSI_CMD2_BK0_INVSEL_NLINV_MASK, desc->nlinv),
--		   FIELD_PREP(DSI_CMD2_BK0_INVSEL_RTNI_MASK,
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK0_INVSEL,
-+		   ST7701_CMD2_BK0_INVSEL_ONES_MASK |
-+		   FIELD_PREP(ST7701_CMD2_BK0_INVSEL_NLINV_MASK, desc->nlinv),
-+		   FIELD_PREP(ST7701_CMD2_BK0_INVSEL_RTNI_MASK,
- 			      (clamp((u32)mode->htotal, 512U, 1008U) - 512) / 16));
- 
- 	/* Command2, BK1 */
- 	st7701_switch_cmd_bkx(st7701, true, 1);
- 
- 	/* Vop = 3.5375V + (VRHA[7:0] * 0.0125V) */
--	ST7701_DSI(st7701, DSI_CMD2_BK1_VRHS,
--		   FIELD_PREP(DSI_CMD2_BK1_VRHA_MASK,
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_VRHS,
-+		   FIELD_PREP(ST7701_CMD2_BK1_VRHA_MASK,
- 			      DIV_ROUND_CLOSEST(desc->vop_uv - 3537500, 12500)));
- 
- 	/* Vcom = 0.1V + (VCOM[7:0] * 0.0125V) */
--	ST7701_DSI(st7701, DSI_CMD2_BK1_VCOM,
--		   FIELD_PREP(DSI_CMD2_BK1_VCOM_MASK,
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_VCOM,
-+		   FIELD_PREP(ST7701_CMD2_BK1_VCOM_MASK,
- 			      DIV_ROUND_CLOSEST(desc->vcom_uv - 100000, 12500)));
- 
- 	/* Vgh = 11.5V + (VGHSS[7:0] * 0.5V) */
--	ST7701_DSI(st7701, DSI_CMD2_BK1_VGHSS,
--		   FIELD_PREP(DSI_CMD2_BK1_VGHSS_MASK,
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_VGHSS,
-+		   FIELD_PREP(ST7701_CMD2_BK1_VGHSS_MASK,
- 			      DIV_ROUND_CLOSEST(clamp(desc->vgh_mv,
- 						      (u16)11500,
- 						      (u16)17000) - 11500,
- 						500)));
- 
--	ST7701_DSI(st7701, DSI_CMD2_BK1_TESTCMD, DSI_CMD2_BK1_TESTCMD_VAL);
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_TESTCMD, ST7701_CMD2_BK1_TESTCMD_VAL);
- 
- 	/* Vgl is non-linear */
--	ST7701_DSI(st7701, DSI_CMD2_BK1_VGLS,
--		   DSI_CMD2_BK1_VGLS_ONES |
--		   FIELD_PREP(DSI_CMD2_BK1_VGLS_MASK, st7701_vgls_map(st7701)));
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_VGLS,
-+		   ST7701_CMD2_BK1_VGLS_ONES |
-+		   FIELD_PREP(ST7701_CMD2_BK1_VGLS_MASK, st7701_vgls_map(st7701)));
- 
--	ST7701_DSI(st7701, DSI_CMD2_BK1_PWCTLR1,
--		   FIELD_PREP(DSI_CMD2_BK1_PWRCTRL1_AP_MASK,
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_PWCTLR1,
-+		   FIELD_PREP(ST7701_CMD2_BK1_PWRCTRL1_AP_MASK,
- 			      desc->gamma_op_bias) |
--		   FIELD_PREP(DSI_CMD2_BK1_PWRCTRL1_APIS_MASK,
-+		   FIELD_PREP(ST7701_CMD2_BK1_PWRCTRL1_APIS_MASK,
- 			      desc->input_op_bias) |
--		   FIELD_PREP(DSI_CMD2_BK1_PWRCTRL1_APOS_MASK,
-+		   FIELD_PREP(ST7701_CMD2_BK1_PWRCTRL1_APOS_MASK,
- 			      desc->output_op_bias));
- 
- 	/* Avdd = 6.2V + (AVDD[1:0] * 0.2V) , Avcl = -4.4V - (AVCL[1:0] * 0.2V) */
--	ST7701_DSI(st7701, DSI_CMD2_BK1_PWCTLR2,
--		   FIELD_PREP(DSI_CMD2_BK1_PWRCTRL2_AVDD_MASK,
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_PWCTLR2,
-+		   FIELD_PREP(ST7701_CMD2_BK1_PWRCTRL2_AVDD_MASK,
- 			      DIV_ROUND_CLOSEST(desc->avdd_mv - 6200, 200)) |
--		   FIELD_PREP(DSI_CMD2_BK1_PWRCTRL2_AVCL_MASK,
-+		   FIELD_PREP(ST7701_CMD2_BK1_PWRCTRL2_AVCL_MASK,
- 			      DIV_ROUND_CLOSEST(-4400 - desc->avcl_mv, 200)));
- 
- 	/* T2D = 0.2us * T2D[3:0] */
--	ST7701_DSI(st7701, DSI_CMD2_BK1_SPD1,
--		   DSI_CMD2_BK1_SPD1_ONES_MASK |
--		   FIELD_PREP(DSI_CMD2_BK1_SPD1_T2D_MASK,
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_SPD1,
-+		   ST7701_CMD2_BK1_SPD1_ONES_MASK |
-+		   FIELD_PREP(ST7701_CMD2_BK1_SPD1_T2D_MASK,
- 			      DIV_ROUND_CLOSEST(desc->t2d_ns, 200)));
- 
- 	/* T3D = 4us + (0.8us * T3D[3:0]) */
--	ST7701_DSI(st7701, DSI_CMD2_BK1_SPD2,
--		   DSI_CMD2_BK1_SPD2_ONES_MASK |
--		   FIELD_PREP(DSI_CMD2_BK1_SPD2_T3D_MASK,
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_SPD2,
-+		   ST7701_CMD2_BK1_SPD2_ONES_MASK |
-+		   FIELD_PREP(ST7701_CMD2_BK1_SPD2_T3D_MASK,
- 			      DIV_ROUND_CLOSEST(desc->t3d_ns - 4000, 800)));
- 
--	ST7701_DSI(st7701, DSI_CMD2_BK1_MIPISET1,
--		   DSI_CMD2_BK1_MIPISET1_ONES |
--		   (desc->eot_en ? DSI_CMD2_BK1_MIPISET1_EOT_EN : 0));
-+	ST7701_WRITE(st7701, ST7701_CMD2_BK1_MIPISET1,
-+		   ST7701_CMD2_BK1_MIPISET1_ONES |
-+		   (desc->eot_en ? ST7701_CMD2_BK1_MIPISET1_EOT_EN : 0));
- }
- 
- static void ts8550b_gip_sequence(struct st7701 *st7701)
-@@ -313,89 +313,89 @@ static void ts8550b_gip_sequence(struct st7701 *st7701)
- 	 * ST7701_SPEC_V1.2 is unable to provide enough information above this
- 	 * specific command sequence, so grab the same from vendor BSP driver.
- 	 */
--	ST7701_DSI(st7701, 0xE0, 0x00, 0x00, 0x02);
--	ST7701_DSI(st7701, 0xE1, 0x0B, 0x00, 0x0D, 0x00, 0x0C, 0x00, 0x0E,
-+	ST7701_WRITE(st7701, 0xE0, 0x00, 0x00, 0x02);
-+	ST7701_WRITE(st7701, 0xE1, 0x0B, 0x00, 0x0D, 0x00, 0x0C, 0x00, 0x0E,
- 		   0x00, 0x00, 0x44, 0x44);
--	ST7701_DSI(st7701, 0xE2, 0x33, 0x33, 0x44, 0x44, 0x64, 0x00, 0x66,
-+	ST7701_WRITE(st7701, 0xE2, 0x33, 0x33, 0x44, 0x44, 0x64, 0x00, 0x66,
- 		   0x00, 0x65, 0x00, 0x67, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xE3, 0x00, 0x00, 0x33, 0x33);
--	ST7701_DSI(st7701, 0xE4, 0x44, 0x44);
--	ST7701_DSI(st7701, 0xE5, 0x0C, 0x78, 0x3C, 0xA0, 0x0E, 0x78, 0x3C,
-+	ST7701_WRITE(st7701, 0xE3, 0x00, 0x00, 0x33, 0x33);
-+	ST7701_WRITE(st7701, 0xE4, 0x44, 0x44);
-+	ST7701_WRITE(st7701, 0xE5, 0x0C, 0x78, 0x3C, 0xA0, 0x0E, 0x78, 0x3C,
- 		   0xA0, 0x10, 0x78, 0x3C, 0xA0, 0x12, 0x78, 0x3C, 0xA0);
--	ST7701_DSI(st7701, 0xE6, 0x00, 0x00, 0x33, 0x33);
--	ST7701_DSI(st7701, 0xE7, 0x44, 0x44);
--	ST7701_DSI(st7701, 0xE8, 0x0D, 0x78, 0x3C, 0xA0, 0x0F, 0x78, 0x3C,
-+	ST7701_WRITE(st7701, 0xE6, 0x00, 0x00, 0x33, 0x33);
-+	ST7701_WRITE(st7701, 0xE7, 0x44, 0x44);
-+	ST7701_WRITE(st7701, 0xE8, 0x0D, 0x78, 0x3C, 0xA0, 0x0F, 0x78, 0x3C,
- 		   0xA0, 0x11, 0x78, 0x3C, 0xA0, 0x13, 0x78, 0x3C, 0xA0);
--	ST7701_DSI(st7701, 0xEB, 0x02, 0x02, 0x39, 0x39, 0xEE, 0x44, 0x00);
--	ST7701_DSI(st7701, 0xEC, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xED, 0xFF, 0xF1, 0x04, 0x56, 0x72, 0x3F, 0xFF,
-+	ST7701_WRITE(st7701, 0xEB, 0x02, 0x02, 0x39, 0x39, 0xEE, 0x44, 0x00);
-+	ST7701_WRITE(st7701, 0xEC, 0x00, 0x00);
-+	ST7701_WRITE(st7701, 0xED, 0xFF, 0xF1, 0x04, 0x56, 0x72, 0x3F, 0xFF,
- 		   0xFF, 0xFF, 0xFF, 0xF3, 0x27, 0x65, 0x40, 0x1F, 0xFF);
- }
- 
- static void dmt028vghmcmi_1a_gip_sequence(struct st7701 *st7701)
+-static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
++static void st7701_cleanup(void *data)
++{
++	struct st7701 *st7701 = (struct st7701 *)data;
++
++	drm_panel_remove(&st7701->panel);
++	drm_panel_disable(&st7701->panel);
++	drm_panel_unprepare(&st7701->panel);
++}
++
++static int st7701_probe(struct device *dev, int connector_type)
  {
--	ST7701_DSI(st7701, 0xEE, 0x42);
--	ST7701_DSI(st7701, 0xE0, 0x00, 0x00, 0x02);
-+	ST7701_WRITE(st7701, 0xEE, 0x42);
-+	ST7701_WRITE(st7701, 0xE0, 0x00, 0x00, 0x02);
+ 	const struct st7701_panel_desc *desc;
+ 	struct st7701 *st7701;
+ 	int ret;
  
--	ST7701_DSI(st7701, 0xE1,
-+	ST7701_WRITE(st7701, 0xE1,
- 		   0x04, 0xA0, 0x06, 0xA0,
- 			   0x05, 0xA0, 0x07, 0xA0,
- 			   0x00, 0x44, 0x44);
--	ST7701_DSI(st7701, 0xE2,
-+	ST7701_WRITE(st7701, 0xE2,
- 		   0x00, 0x00, 0x00, 0x00,
- 			   0x00, 0x00, 0x00, 0x00,
- 			   0x00, 0x00, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xE3,
-+	ST7701_WRITE(st7701, 0xE3,
- 		   0x00, 0x00, 0x22, 0x22);
--	ST7701_DSI(st7701, 0xE4, 0x44, 0x44);
--	ST7701_DSI(st7701, 0xE5,
-+	ST7701_WRITE(st7701, 0xE4, 0x44, 0x44);
-+	ST7701_WRITE(st7701, 0xE5,
- 		   0x0C, 0x90, 0xA0, 0xA0,
- 			   0x0E, 0x92, 0xA0, 0xA0,
- 			   0x08, 0x8C, 0xA0, 0xA0,
- 			   0x0A, 0x8E, 0xA0, 0xA0);
--	ST7701_DSI(st7701, 0xE6,
-+	ST7701_WRITE(st7701, 0xE6,
- 		   0x00, 0x00, 0x22, 0x22);
--	ST7701_DSI(st7701, 0xE7, 0x44, 0x44);
--	ST7701_DSI(st7701, 0xE8,
-+	ST7701_WRITE(st7701, 0xE7, 0x44, 0x44);
-+	ST7701_WRITE(st7701, 0xE8,
- 		   0x0D, 0x91, 0xA0, 0xA0,
- 			   0x0F, 0x93, 0xA0, 0xA0,
- 			   0x09, 0x8D, 0xA0, 0xA0,
- 			   0x0B, 0x8F, 0xA0, 0xA0);
--	ST7701_DSI(st7701, 0xEB,
-+	ST7701_WRITE(st7701, 0xEB,
- 		   0x00, 0x00, 0xE4, 0xE4,
- 			   0x44, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xED,
-+	ST7701_WRITE(st7701, 0xED,
- 		   0xFF, 0xF5, 0x47, 0x6F,
- 			   0x0B, 0xA1, 0xAB, 0xFF,
- 			   0xFF, 0xBA, 0x1A, 0xB0,
- 			   0xF6, 0x74, 0x5F, 0xFF);
--	ST7701_DSI(st7701, 0xEF,
-+	ST7701_WRITE(st7701, 0xEF,
- 		   0x08, 0x08, 0x08, 0x40,
- 			   0x3F, 0x64);
+-	st7701 = devm_kzalloc(&dsi->dev, sizeof(*st7701), GFP_KERNEL);
++	st7701 = devm_kzalloc(dev, sizeof(*st7701), GFP_KERNEL);
+ 	if (!st7701)
+ 		return -ENOMEM;
  
- 	st7701_switch_cmd_bkx(st7701, false, 0);
+-	desc = of_device_get_match_data(&dsi->dev);
+-	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+-			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
+-	dsi->format = desc->format;
+-	dsi->lanes = desc->lanes;
++	desc = of_device_get_match_data(dev);
++	if (!desc)
++		return -ENODEV;
  
- 	st7701_switch_cmd_bkx(st7701, true, 3);
--	ST7701_DSI(st7701, 0xE6, 0x7C);
--	ST7701_DSI(st7701, 0xE8, 0x00, 0x0E);
-+	ST7701_WRITE(st7701, 0xE6, 0x7C);
-+	ST7701_WRITE(st7701, 0xE8, 0x00, 0x0E);
+ 	st7701->supplies[0].supply = "VCC";
+ 	st7701->supplies[1].supply = "IOVCC";
  
- 	st7701_switch_cmd_bkx(st7701, false, 0);
--	ST7701_DSI(st7701, 0x11);
-+	ST7701_WRITE(st7701, 0x11);
- 	msleep(120);
+-	ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(st7701->supplies),
++	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(st7701->supplies),
+ 				      st7701->supplies);
+ 	if (ret < 0)
+ 		return ret;
  
- 	st7701_switch_cmd_bkx(st7701, true, 3);
--	ST7701_DSI(st7701, 0xE8, 0x00, 0x0C);
-+	ST7701_WRITE(st7701, 0xE8, 0x00, 0x0C);
- 	msleep(10);
--	ST7701_DSI(st7701, 0xE8, 0x00, 0x00);
-+	ST7701_WRITE(st7701, 0xE8, 0x00, 0x00);
+-	st7701->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
++	st7701->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(st7701->reset)) {
+-		dev_err(&dsi->dev, "Couldn't get our reset GPIO\n");
++		dev_err(dev, "Couldn't get our reset GPIO\n");
+ 		return PTR_ERR(st7701->reset);
+ 	}
  
- 	st7701_switch_cmd_bkx(st7701, false, 0);
--	ST7701_DSI(st7701, 0x11);
-+	ST7701_WRITE(st7701, 0x11);
- 	msleep(120);
--	ST7701_DSI(st7701, 0xE8, 0x00, 0x00);
-+	ST7701_WRITE(st7701, 0xE8, 0x00, 0x00);
+-	ret = of_drm_get_panel_orientation(dsi->dev.of_node, &st7701->orientation);
++	ret = of_drm_get_panel_orientation(dev->of_node, &st7701->orientation);
+ 	if (ret < 0)
+-		return dev_err_probe(&dsi->dev, ret, "Failed to get orientation\n");
++		return dev_err_probe(dev, ret, "Failed to get orientation\n");
  
- 	st7701_switch_cmd_bkx(st7701, false, 0);
+-	drm_panel_init(&st7701->panel, &dsi->dev, &st7701_funcs,
+-		       DRM_MODE_CONNECTOR_DSI);
++	drm_panel_init(&st7701->panel, dev, &st7701_funcs, connector_type);
  
--	ST7701_DSI(st7701, 0x3A, 0x70);
-+	ST7701_WRITE(st7701, 0x3A, 0x70);
- }
+ 	/**
+ 	 * Once sleep out has been issued, ST7701 IC required to wait 120ms
+@@ -1028,27 +1034,39 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
  
- static void kd50t048a_gip_sequence(struct st7701 *st7701)
-@@ -404,58 +404,58 @@ static void kd50t048a_gip_sequence(struct st7701 *st7701)
- 	 * ST7701_SPEC_V1.2 is unable to provide enough information above this
- 	 * specific command sequence, so grab the same from vendor BSP driver.
- 	 */
--	ST7701_DSI(st7701, 0xE0, 0x00, 0x00, 0x02);
--	ST7701_DSI(st7701, 0xE1, 0x08, 0x00, 0x0A, 0x00, 0x07, 0x00, 0x09,
-+	ST7701_WRITE(st7701, 0xE0, 0x00, 0x00, 0x02);
-+	ST7701_WRITE(st7701, 0xE1, 0x08, 0x00, 0x0A, 0x00, 0x07, 0x00, 0x09,
- 		   0x00, 0x00, 0x33, 0x33);
--	ST7701_DSI(st7701, 0xE2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	ST7701_WRITE(st7701, 0xE2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 		   0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xE3, 0x00, 0x00, 0x33, 0x33);
--	ST7701_DSI(st7701, 0xE4, 0x44, 0x44);
--	ST7701_DSI(st7701, 0xE5, 0x0E, 0x60, 0xA0, 0xA0, 0x10, 0x60, 0xA0,
-+	ST7701_WRITE(st7701, 0xE3, 0x00, 0x00, 0x33, 0x33);
-+	ST7701_WRITE(st7701, 0xE4, 0x44, 0x44);
-+	ST7701_WRITE(st7701, 0xE5, 0x0E, 0x60, 0xA0, 0xA0, 0x10, 0x60, 0xA0,
- 		   0xA0, 0x0A, 0x60, 0xA0, 0xA0, 0x0C, 0x60, 0xA0, 0xA0);
--	ST7701_DSI(st7701, 0xE6, 0x00, 0x00, 0x33, 0x33);
--	ST7701_DSI(st7701, 0xE7, 0x44, 0x44);
--	ST7701_DSI(st7701, 0xE8, 0x0D, 0x60, 0xA0, 0xA0, 0x0F, 0x60, 0xA0,
-+	ST7701_WRITE(st7701, 0xE6, 0x00, 0x00, 0x33, 0x33);
-+	ST7701_WRITE(st7701, 0xE7, 0x44, 0x44);
-+	ST7701_WRITE(st7701, 0xE8, 0x0D, 0x60, 0xA0, 0xA0, 0x0F, 0x60, 0xA0,
- 		   0xA0, 0x09, 0x60, 0xA0, 0xA0, 0x0B, 0x60, 0xA0, 0xA0);
--	ST7701_DSI(st7701, 0xEB, 0x02, 0x01, 0xE4, 0xE4, 0x44, 0x00, 0x40);
--	ST7701_DSI(st7701, 0xEC, 0x02, 0x01);
--	ST7701_DSI(st7701, 0xED, 0xAB, 0x89, 0x76, 0x54, 0x01, 0xFF, 0xFF,
-+	ST7701_WRITE(st7701, 0xEB, 0x02, 0x01, 0xE4, 0xE4, 0x44, 0x00, 0x40);
-+	ST7701_WRITE(st7701, 0xEC, 0x02, 0x01);
-+	ST7701_WRITE(st7701, 0xED, 0xAB, 0x89, 0x76, 0x54, 0x01, 0xFF, 0xFF,
- 		   0xFF, 0xFF, 0xFF, 0xFF, 0x10, 0x45, 0x67, 0x98, 0xBA);
- }
+ 	drm_panel_add(&st7701->panel);
  
- static void rg_arc_gip_sequence(struct st7701 *st7701)
- {
- 	st7701_switch_cmd_bkx(st7701, true, 3);
--	ST7701_DSI(st7701, 0xEF, 0x08);
-+	ST7701_WRITE(st7701, 0xEF, 0x08);
- 	st7701_switch_cmd_bkx(st7701, true, 0);
--	ST7701_DSI(st7701, 0xC7, 0x04);
--	ST7701_DSI(st7701, 0xCC, 0x38);
-+	ST7701_WRITE(st7701, 0xC7, 0x04);
-+	ST7701_WRITE(st7701, 0xCC, 0x38);
- 	st7701_switch_cmd_bkx(st7701, true, 1);
--	ST7701_DSI(st7701, 0xB9, 0x10);
--	ST7701_DSI(st7701, 0xBC, 0x03);
--	ST7701_DSI(st7701, 0xC0, 0x89);
--	ST7701_DSI(st7701, 0xE0, 0x00, 0x00, 0x02);
--	ST7701_DSI(st7701, 0xE1, 0x04, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00,
-+	ST7701_WRITE(st7701, 0xB9, 0x10);
-+	ST7701_WRITE(st7701, 0xBC, 0x03);
-+	ST7701_WRITE(st7701, 0xC0, 0x89);
-+	ST7701_WRITE(st7701, 0xE0, 0x00, 0x00, 0x02);
-+	ST7701_WRITE(st7701, 0xE1, 0x04, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00,
- 		   0x00, 0x00, 0x20, 0x20);
--	ST7701_DSI(st7701, 0xE2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	ST7701_WRITE(st7701, 0xE2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 		   0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xE3, 0x00, 0x00, 0x33, 0x00);
--	ST7701_DSI(st7701, 0xE4, 0x22, 0x00);
--	ST7701_DSI(st7701, 0xE5, 0x04, 0x5C, 0xA0, 0xA0, 0x06, 0x5C, 0xA0,
-+	ST7701_WRITE(st7701, 0xE3, 0x00, 0x00, 0x33, 0x00);
-+	ST7701_WRITE(st7701, 0xE4, 0x22, 0x00);
-+	ST7701_WRITE(st7701, 0xE5, 0x04, 0x5C, 0xA0, 0xA0, 0x06, 0x5C, 0xA0,
- 		   0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xE6, 0x00, 0x00, 0x33, 0x00);
--	ST7701_DSI(st7701, 0xE7, 0x22, 0x00);
--	ST7701_DSI(st7701, 0xE8, 0x05, 0x5C, 0xA0, 0xA0, 0x07, 0x5C, 0xA0,
-+	ST7701_WRITE(st7701, 0xE6, 0x00, 0x00, 0x33, 0x00);
-+	ST7701_WRITE(st7701, 0xE7, 0x22, 0x00);
-+	ST7701_WRITE(st7701, 0xE8, 0x05, 0x5C, 0xA0, 0xA0, 0x07, 0x5C, 0xA0,
- 		   0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xEB, 0x02, 0x00, 0x40, 0x40, 0x00, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xEC, 0x00, 0x00);
--	ST7701_DSI(st7701, 0xED, 0xFA, 0x45, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF,
-+	ST7701_WRITE(st7701, 0xEB, 0x02, 0x00, 0x40, 0x40, 0x00, 0x00, 0x00);
-+	ST7701_WRITE(st7701, 0xEC, 0x00, 0x00);
-+	ST7701_WRITE(st7701, 0xED, 0xFA, 0x45, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF,
- 		   0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xB0, 0x54, 0xAF);
--	ST7701_DSI(st7701, 0xEF, 0x08, 0x08, 0x08, 0x45, 0x3F, 0x54);
-+	ST7701_WRITE(st7701, 0xEF, 0x08, 0x08, 0x08, 0x45, 0x3F, 0x54);
- 	st7701_switch_cmd_bkx(st7701, false, 0);
--	ST7701_DSI(st7701, MIPI_DCS_SET_ADDRESS_MODE, 0x17);
--	ST7701_DSI(st7701, MIPI_DCS_SET_PIXEL_FORMAT, 0x77);
--	ST7701_DSI(st7701, MIPI_DCS_EXIT_SLEEP_MODE, 0x00);
-+	ST7701_WRITE(st7701, MIPI_DCS_SET_ADDRESS_MODE, 0x17);
-+	ST7701_WRITE(st7701, MIPI_DCS_SET_PIXEL_FORMAT, 0x77);
-+	ST7701_WRITE(st7701, MIPI_DCS_EXIT_SLEEP_MODE, 0x00);
- 	msleep(120);
- }
+-	mipi_dsi_set_drvdata(dsi, st7701);
+-	st7701->dsi = dsi;
++	dev_set_drvdata(dev, st7701);
+ 	st7701->desc = desc;
  
-@@ -490,7 +490,7 @@ static int st7701_enable(struct drm_panel *panel)
- {
- 	struct st7701 *st7701 = panel_to_st7701(panel);
- 
--	ST7701_DSI(st7701, MIPI_DCS_SET_DISPLAY_ON, 0x00);
-+	ST7701_WRITE(st7701, MIPI_DCS_SET_DISPLAY_ON, 0x00);
+-	ret = mipi_dsi_attach(dsi);
+-	if (ret)
+-		goto err_attach;
++	return devm_add_action_or_reset(dev, st7701_cleanup, st7701);
++}
++
++static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
++{
++	struct st7701 *st7701;
++	int err;
++
++	err = st7701_probe(&dsi->dev, DRM_MODE_CONNECTOR_DSI);
++	if (err)
++		return err;
++
++	st7701 = dev_get_drvdata(&dsi->dev);
++	st7701->dsi = dsi;
++
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
++			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
++	dsi->format = st7701->desc->format;
++	dsi->lanes = st7701->desc->lanes;
++
++	err = mipi_dsi_attach(dsi);
++	if (err)
++		return dev_err_probe(&dsi->dev, err, "Failed to init MIPI DSI\n");
  
  	return 0;
+-
+-err_attach:
+-	drm_panel_remove(&st7701->panel);
+-	return ret;
  }
-@@ -499,7 +499,7 @@ static int st7701_disable(struct drm_panel *panel)
+ 
+ static void st7701_dsi_remove(struct mipi_dsi_device *dsi)
  {
- 	struct st7701 *st7701 = panel_to_st7701(panel);
- 
--	ST7701_DSI(st7701, MIPI_DCS_SET_DISPLAY_OFF, 0x00);
-+	ST7701_WRITE(st7701, MIPI_DCS_SET_DISPLAY_OFF, 0x00);
- 
- 	return 0;
+-	struct st7701 *st7701 = mipi_dsi_get_drvdata(dsi);
+-
+ 	mipi_dsi_detach(dsi);
+-	drm_panel_remove(&st7701->panel);
  }
-@@ -508,7 +508,7 @@ static int st7701_unprepare(struct drm_panel *panel)
- {
- 	struct st7701 *st7701 = panel_to_st7701(panel);
  
--	ST7701_DSI(st7701, MIPI_DCS_ENTER_SLEEP_MODE, 0x00);
-+	ST7701_WRITE(st7701, MIPI_DCS_ENTER_SLEEP_MODE, 0x00);
- 
- 	msleep(st7701->sleep_delay);
- 
-@@ -602,62 +602,62 @@ static const struct st7701_panel_desc ts8550b_desc = {
- 	.panel_sleep_delay = 80, /* panel need extra 80ms for sleep out cmd */
- 
- 	.pv_gamma = {
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0xe),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x15),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0xf),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0xe),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x15),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0xf),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x8),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x8),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x23),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x4),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x23),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x4),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x12),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x2b),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x34),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0x12),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x2b),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x34),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
- 	},
- 	.nv_gamma = {
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0xe),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0x2) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x15),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0xf),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0xe),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0x2) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x15),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0xf),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x13),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x7),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x9),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x13),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x7),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x9),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x22),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x4),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x10),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x22),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x4),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x10),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0xe),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x2c),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x34),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0xe),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x2c),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x34),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
- 	},
- 	.nlinv = 7,
- 	.vop_uv = 4400000,
-@@ -703,62 +703,62 @@ static const struct st7701_panel_desc dmt028vghmcmi_1a_desc = {
- 	.panel_sleep_delay = 5, /* panel need extra 5ms for sleep out cmd */
- 
- 	.pv_gamma = {
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0x10),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x17),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0xd),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0x10),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x17),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0xd),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x6),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x5),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x6),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x5),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x7),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x1f),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x4),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x11),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x7),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x1f),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x4),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x11),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0xe),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x29),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x30),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0xe),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x29),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x30),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
- 	},
- 	.nv_gamma = {
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0xd),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x14),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0xe),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0xd),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x14),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0xe),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x6),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x4),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x6),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x4),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x20),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x5),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x20),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x5),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x13),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x26),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x30),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0x13),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x26),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x30),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1f)
- 	},
- 	.nlinv = 1,
- 	.vop_uv = 4800000,
-@@ -802,62 +802,62 @@ static const struct st7701_panel_desc kd50t048a_desc = {
- 	.panel_sleep_delay = 0,
- 
- 	.pv_gamma = {
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0xd),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x14),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0xd),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0xd),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x14),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0xd),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x10),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x5),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x2),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x10),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x5),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x2),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x1e),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x5),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x1e),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x5),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x11),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 2) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x23),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x29),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x18)
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0x11),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 2) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x23),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x29),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x18)
- 	},
- 	.nv_gamma = {
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0xc),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x14),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0xc),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0xc),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x14),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0xc),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x10),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x5),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x3),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x10),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x5),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x3),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x7),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x20),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x5),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x7),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x20),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x5),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x11),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 2) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x24),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x29),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x18)
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0x11),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 2) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x24),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x29),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x18)
- 	},
- 	.nlinv = 1,
- 	.vop_uv = 4887500,
-@@ -901,62 +901,62 @@ static const struct st7701_panel_desc rg_arc_desc = {
- 	.panel_sleep_delay = 80,
- 
- 	.pv_gamma = {
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0x01) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0x16),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x1d),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0x0e),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0x01) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0x16),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x1d),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0x0e),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x12),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x06),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x0c),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x0a),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x12),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x06),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x0c),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x0a),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x09),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x25),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x00),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x03),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x09),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x25),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x00),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x03),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x00),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x3f),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x3f),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1c)
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0x00),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x3f),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x3f),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1c)
- 	},
- 	.nv_gamma = {
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0x01) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0x16),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x1e),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0x0e),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0x01) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC4_MASK, 0x16),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC8_MASK, 0x1e),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC16_MASK, 0x0e),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x06),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x0c),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x08),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC52_MASK, 0x06),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC80_MASK, 0x0c),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC108_MASK, 0x08),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x09),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x26),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x00),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x15),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC147_MASK, 0x09),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC175_MASK, 0x26),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC203_MASK, 0x00),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC231_MASK, 0x15),
- 
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x00),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x3f),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x3f),
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
--		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1c)
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC239_MASK, 0x00),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC247_MASK, 0x3f),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC251_MASK, 0x3f),
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(ST7701_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1c)
- 	},
- 	.nlinv = 0,
- 	.vop_uv = 4500000,
+ static const struct of_device_id st7701_of_match[] = {
 -- 
 2.45.2
 
