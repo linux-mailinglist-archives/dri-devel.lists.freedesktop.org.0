@@ -2,68 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A289946FC3
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 18:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CF2946FED
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 19:06:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD6710E056;
-	Sun,  4 Aug 2024 16:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DDA810E0E2;
+	Sun,  4 Aug 2024 17:06:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosalinux.ru header.i=@rosalinux.ru header.b="VlJEH5hA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J+uNFdqy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 569 seconds by postgrey-1.36 at gabe;
- Sun, 04 Aug 2024 14:08:19 UTC
-Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA10210E0B8
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 14:08:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.rosalinux.ru (Postfix) with ESMTP id 65B60DFA330A7;
- Sun,  4 Aug 2024 16:58:47 +0300 (MSK)
-Received: from mail.rosalinux.ru ([127.0.0.1])
- by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id V0CqRZtZYTbG; Sun,  4 Aug 2024 16:58:47 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
- by mail.rosalinux.ru (Postfix) with ESMTP id 2F402DFA330AE;
- Sun,  4 Aug 2024 16:58:47 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru 2F402DFA330AE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
- s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1722779927;
- bh=darQ1Ny576F9H9QNqgko9qEevQrfo0NSfm0joyfHG88=;
- h=From:To:Date:Message-ID:MIME-Version;
- b=VlJEH5hAs5jukBtwUzHSo3H6uNuxR2ONwnh8Oi7KThkafmYXsxWNVh5kKJjxl4lec
- KB6ubyt2sujZDqjJ8VM2XLYdIOPTvF1gU1SfHEN3qkl747acKReBAU7rNzsm0thjJu
- OUs2dpABVS7/Mrs2juoDQwSbTMe8hobnBcRVvYJD8u6DN+G6rWxcVfslW5Qub4xv5l
- BoHImQXDqHXvOhSgAXvHtNG2IJywqHVIxNgfd/HDw0YqNGeqSIpqKJyd3kYNDkQOxi
- eReSQQUcr/b/Xzge4YS6ca5ub14/Cxp8ukH1kE2uVwRIP4uWicC+HUVpuvRnA69AsS
- GOocwYTgKjMyA==
-X-Virus-Scanned: amavisd-new at rosalinux.ru
-Received: from mail.rosalinux.ru ([127.0.0.1])
- by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 1yrFGckKrxEQ; Sun,  4 Aug 2024 16:58:47 +0300 (MSK)
-Received: from localhost.localdomain (unknown [89.169.48.235])
- by mail.rosalinux.ru (Postfix) with ESMTPSA id C7372DFA330A7;
- Sun,  4 Aug 2024 16:58:46 +0300 (MSK)
-From: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-To: Russell King <linux@armlinux.org.uk>
-Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@intel.com>,
- Thierry Reding <treding@nvidia.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org
-Subject: [PATCH] i2c: Add error handling for
- drm_hdmi_avi_infoframe_from_display_mode in tda998x_write_avi
-Date: Sun,  4 Aug 2024 09:57:35 -0400
-Message-ID: <20240804135737.62663-1-m.lobanov@rosalinux.ru>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B30C10E0E2
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2024 17:06:08 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-428035c0bb2so26869985e9.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Aug 2024 10:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722791167; x=1723395967; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4PeGkAqwlK/5hc67fq6/8GiQEA+H64FAGEN/Ha1SuCA=;
+ b=J+uNFdqywvzzLFbuhyYA97gXJMW0yKWerg3rw07+lhzx/MltJmQOVOPiqoh/gNlZbM
+ zpeVKduPH7EykGK7336fi3DvDkf7nbXQD4N+RbT3Z+SYbuzKCpdLxKcEedUDQXlqbXsh
+ 3SzV69PAEH4Nui6Cku8tbEy3Ooyyb8HYAgVz6f7ZiF/YNmnmun97G36plKN64xhM6k3A
+ DP9DjWfPMGYvJ0gqDVKzFGmIbwkyEeaIXzVZqOC+gXfRlHzhXCLQABl38BtThpjwyz88
+ tq7x2cbQOiR73axYg1Vkpid8oewpWnNKYUNTlOPO4GRu94GUwEd1NczdSYoeyr1zw7OP
+ QApg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722791167; x=1723395967;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4PeGkAqwlK/5hc67fq6/8GiQEA+H64FAGEN/Ha1SuCA=;
+ b=U8WAw/F3ZHJq4jhfqXe2sdiwo418l4ynvXRiDSe53Be+QPNBldPdvB24rr86uK3oOF
+ koEVibNvVUB98lq5PXwhDKFSzN9pFhMxbgTWDlvM2kTYllg9jOcNa0xyxCHLeELy+59q
+ aADYE77vcYgb7dyYFJ3dajX8kU3pBIWru3JqqWuLG3XG1GsxXqqV4Frz17kBsGh2pDnE
+ xXXCVI6YVDPv2q27dj0gvhgpz2RiVFQlgZGcat8Cl3//tEEsNcykDW0Lh7Y5iZaFqQtz
+ OuRjI9qF7HRdjPIb1ZiGCTACN/GLmeHqUpztutXPx93ai9H5JPxoriRH2DaP+iDn8b51
+ lw9g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXnARd+FxAH2vdR2H0b9EQSF1BaGY0awXYk4c9YugmDTAqYWAhlvefLq4YMAiLa+OwEjKpfJbJPgd1atdgqovByPiTFd2gEJyZ95LRJOvQE
+X-Gm-Message-State: AOJu0YxG3oEOfZs8O1PDNpz0bnBLwxhd3FRYaYauWQN8PsrWXqMot9k3
+ GlsznqRBo40wIYoq+aMUiII/8SLlpvvj3ajdSw+m3K+No7dl6eu5
+X-Google-Smtp-Source: AGHT+IEgVvrEgv7hcfvABXrrT21NZew/QZfcRx3nbNREQCfAWCnsVnqz+hurRUO/dy28W87dIgWm9g==
+X-Received: by 2002:a05:6000:bc9:b0:36b:a9e8:6b5 with SMTP id
+ ffacd0b85a97d-36bbbe3f759mr6977726f8f.10.1722791166290; 
+ Sun, 04 Aug 2024 10:06:06 -0700 (PDT)
+Received: from fedora.. ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-36bbd059801sm7424502f8f.83.2024.08.04.10.06.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Aug 2024 10:06:05 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: maarten.lankhorst@linux.intel.com
+Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH] drm/connector: Document destroy hook in drmm init functions
+Date: Sun,  4 Aug 2024 19:05:52 +0200
+Message-ID: <20240804170551.33971-2-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sun, 04 Aug 2024 16:12:49 +0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,46 +82,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds error handling for the return value of the drm_hdmi_avi_i=
-nfoframe_from_display_mode function
-within the tda998x_write_avi function. The function's return value is che=
-cked to ensure that any errors=20
-encountered during the generation of the AVI infoframe are properly handl=
-ed. If the function fails, an error=20
-message is logged and the function exits early to avoid further operation=
-s with invalid data.
+Document that the drm_connector_funcs.destroy hook must be NULL in
+drmm_connector_init() and drmm_connector_hdmi_init().
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Fixes: 13d0add333af ("drm/edid: Pass connector to AVI infoframe functions=
-")
-Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/i2c/tda998x_drv.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_connector.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda9=
-98x_drv.c
-index d8d7de18dd65..6d8b3654d9a9 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -860,8 +860,13 @@ tda998x_write_avi(struct tda998x_priv *priv, const s=
-truct drm_display_mode *mode
- {
- 	union hdmi_infoframe frame;
-=20
--	drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
-+	err =3D drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
- 						 &priv->connector, mode);
-+        if (err < 0) {
-+		dev_err(&priv->connector.dev, "failed to get AVI infoframe: %d\n", err=
-);
-+		return;
-+	}
-+
- 	frame.avi.quantization_range =3D HDMI_QUANTIZATION_RANGE_FULL;
- 	drm_hdmi_avi_infoframe_quant_range(&frame.avi, &priv->connector, mode,
- 					   priv->rgb_quant_range);
---=20
-2.43.0
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 7c44e3a1d8e0..292aaffb6aab 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -426,6 +426,8 @@ static void drm_connector_cleanup_action(struct drm_device *dev,
+  *
+  * The connector structure should be allocated with drmm_kzalloc().
+  *
++ * The @drm_connector_funcs.destroy hook must be NULL.
++ *
+  * Returns:
+  * Zero on success, error code on failure.
+  */
+@@ -474,6 +476,8 @@ EXPORT_SYMBOL(drmm_connector_init);
+  *
+  * The connector structure should be allocated with drmm_kzalloc().
+  *
++ * The @drm_connector_funcs.destroy hook must be NULL.
++ *
+  * Returns:
+  * Zero on success, error code on failure.
+  */
+-- 
+2.45.2
 
