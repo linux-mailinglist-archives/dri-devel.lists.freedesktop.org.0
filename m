@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F46946E50
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 12:43:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4FF946E4F
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2024 12:43:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 728D110E077;
-	Sun,  4 Aug 2024 10:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8650010E03F;
+	Sun,  4 Aug 2024 10:43:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (4096-bit key; unprotected) header.d=davidgow.net header.i=@davidgow.net header.b="RPovt8hv";
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="cC3lp0kU";
+	dkim=fail reason="signature verification failed" (4096-bit key; unprotected) header.d=davidgow.net header.i=@davidgow.net header.b="IZqO5DHA";
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="Opf364Oy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8A510E0DD;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BBC610E0DE;
  Sun,  4 Aug 2024 09:19:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
- s=201606; t=1722763154;
- bh=PEUXQAcLo0EsZ5sdEKiSD3qA6h0wU3l4S5Fvl64PCmk=;
+ s=201606; t=1722763156;
+ bh=PUNtupVBkgdPaBkzwexADnKJVGtpOaVaXYTKNh/eqqQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RPovt8hvJ2vDw+LavVkyDHe8gXNEOdFYrN/3HsQIjCu7KoW9wkz1jsDuD8G8O/AGb
- WnuFIKKoKMNRHRJaAWMANx+Yh/IlCjRMBpfGxnyqQ2a7Ppd0PzDf8E4HkiVJR6xStA
- nIPlQVgeG9+ixogcQhCY194/DjC3oqi+IhH6MDbFy5t28+UklGBP9T5BLt+AsMC+TG
- IwoBVhDgOBBx3DLH/u7ZqkkcXeGGonYZ6o3PY0p7pjcqshokGB14vVspfU4gCh0mKn
- mpsswU3VxIBgTYnIm22DQlb0c3kPFjOj4GIlr2nGMYIMnWIhUfzHT/4/712qe4qv9j
- go6mZvyigCTmdTqn+VPh7oXCTjQFy/Vk9c9Bg2Xmq4Ev2Z8FraYW9b+1zZ4F95drXq
- pqFC44JUDoz32udp9a6Qv/7CgYlquGmqlKS6PCSUkzbtheMdNfs+WE3xaLH0+ZELDk
- uQkEctXOCEdUVp4hZixfnM6nJJC1WIw0gBuQxGbsHVVMnSKatO34TIlgtTFKmDXo6o
- w1s6leLHfccDTWftGF2ZHiqGk5UdEvBqp2NmQlqMz6b5cd63jq6xn4whM8Tg6El16w
- V/D9Fg0Kd889UKvfmbJIOOKBYGi1IPfrrlAvZ08BmbsOJxaPbSTfpjXHdgg+rliOy5
- +Jsict0bRleoPcGVpDQW3HuM=
+ b=IZqO5DHAAFf9tB7gHeSE6uGHFaV2B4b2HRTH74KOgrtIEQnCoN0cP9muXZf21EwIt
+ gIGmD0E7srCvZVp+lqWEqLfTbAfvnI1/+uiz4ES/0XK0HpasQydBgTPv9THWsc+hr/
+ pYqSg4sTVxP3visP+q1nDkS+OQbN+yfy4gjj1kIG0rLjvmdURKB8GGkwcy4UwEWWzK
+ ZS3uzPnPsxyzxGcENyIx++KORTGQbEXM2U/nsSdpJcdSBFLEkj4gODBf2Jnan4Q82m
+ p8Zt5RhBfHodUTDE1EyuAjvxhLk3q0Nm1gM7PZjiplvYy6y2n/yz2j6XArWQqqYxyz
+ NuIaj80WIPMaQ2hecJq9Hu5nM9qH2wsSDdVWJU8W2gzSomvO4Ql2zPtK7jYXitVV2A
+ sCO6VB/36y53YXaUBLRcLH/rG0mw0LhcnofjqpaENKqRMKwpAPr4A9x8bnir+VJadm
+ KnY5Xv5+6oQl74jD3RrFuajs+tpmqPZf/rRZ7B+Xn0ciBqcFNpwX6x6KXs1s3vgD4I
+ SryhTL5UKQqJezwk9VxTpBN/9WX/sOE/ueeyv0qiQM7ZvOLGGK2RDh1KJWNZ1aBHo7
+ uq+xTYmfBHZ1GXyFMKnaeZy2JO7O9sf+OFHxQouVtHP8AAYIdHLjwV0qWpRn61I+IN
+ V61CBmr9/qsyro/Xbdiktlq4=
 Received: by sphereful.davidgow.net (Postfix, from userid 119)
- id 18BD81DC0A3; Sun,  4 Aug 2024 17:19:14 +0800 (AWST)
+ id 12E561DC09B; Sun,  4 Aug 2024 17:19:16 +0800 (AWST)
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
  sphereful.davidgow.net
 X-Spam-Level: 
@@ -41,21 +41,21 @@ X-Spam-Status: No, score=-1.1 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  version=3.4.6
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
  s=201606; t=1722763150;
- bh=PEUXQAcLo0EsZ5sdEKiSD3qA6h0wU3l4S5Fvl64PCmk=;
+ bh=PUNtupVBkgdPaBkzwexADnKJVGtpOaVaXYTKNh/eqqQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cC3lp0kUAN/idgTORACmVH+lFo1vws1WDhLDm7nLam7iwYLAMJn4PKNQ4xv+cp2dw
- xqS9PbLzvFCfyqp9fylBPJZIM7H+b+XV9GPaU8GDpAbQnzOVrxwZJPRFVoS4FO4yaB
- CBmBmVpJVtTsvCjd1KzwryOh0fbS/bvoJ8C3A/5vxXpVdRog3qmwPAtke4bXWz/xTm
- WZwOAjHDQKeR8yWuvV4iHophSnoHAOVhcOu1OgzECPTzJbbE7Zc91eEu5lwpMknZh0
- jP/pBZxT3+p4tcytsU91FReRAdzjt+N2yitC61H+l9kCbPf2vWKbviP8+5t2pOsUlc
- HvKLk8fHCgwUxV6Y6TGzLsMtBwQLex5EpxD+a/3TxX6++1YC92mPbjUxjt2rB0uMnP
- j79h4l3RDCsl09YU6adom8zugxSQRwjpk7Rgc4ndJg5jKEdApo95ltstjnMFpnU2hQ
- Pmma6f9IpUpZNev4aiqg2bDFDEpB8ikjeWi1QqTkIRyf7GDNWRu+ssMX5TDU36jmPW
- HquQQsp3FdBJDn7ydlWHdHKlZMAzGkhvuBB82abq8dRKWXyj9JGHrRVHX4d19NnrlH
- PX/J69JA1WUTxj/hgw9h0Gub9Tf6Pps0JIILkvh3p7uIQ8BGrCWwCl6qx0dt1G8Qtr
- +d0GBwj26Z1axNd44tgN7OWI=
+ b=Opf364Oy1QRoUGbBsugeKctsO8VhOkTXLClJwlSx61qOgfSHEStTNrlHLU5cMIbfo
+ 6IEYAdAOsCYS7/hoXXPNRD8raEEdVxtIijDjLEzFP7rlDbwG/HNaV0j5zK95aC5aH5
+ yeQG7nzlf+A1jl9o8OpWTzF5rqY8/TaXl9dl75L85AtUhcg0xG8iQu7osvMT6TXRRk
+ QjSUacWDd3uBwdl57teCOQin6CA+lFqtMmr8Ip6AMMHrZYAmueE/UHqN1Nwkbf+zsr
+ CT8YJ3V2zfuo1iKorZZwT1u4+YzPbUxyQsevzowJg5gBatF775JDJPNP4nnepmX+op
+ RDVRMHDqO1VvgHazy8UWllt4JYNroz+9xzrmBbbZ12H/yTMHxPG31/xpVQQ2HawtI3
+ 6z4F5cNRiqGrDAFfB/+KzN9xXHgLkjvYfR/E1aFb3h4Z/j8GP8ean6P5tWMm0nup3v
+ zZH0CFsiF4RGoOfvyL2JraoB7vCRpD5ec9l3xBwEj2uSnKUQwx0u/mfLj/s2c4kYGU
+ xxmDnTwUk646X5vaShNWRRZvtLAyNQDr0Wug9nc40GY3v+czD/X+tcC24TPu2ilybB
+ cXetXJqbxzi59hLtlE4NNX+VsQulBytz7DmpOQF59FwOd1p1vCJS/LAm9NFPEJOSRs
+ JxRFBoqTuL0nG+CUodZsfRUk=
 Received: from sparky.lan (unknown [IPv6:2001:8003:8824:9e00::bec])
- by sphereful.davidgow.net (Postfix) with ESMTPSA id 7CA821DC092;
+ by sphereful.davidgow.net (Postfix) with ESMTPSA id 9512F1DC093;
  Sun,  4 Aug 2024 17:19:10 +0800 (AWST)
 From: David Gow <david@davidgow.net>
 To: =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
@@ -71,9 +71,9 @@ Cc: David Gow <david@davidgow.net>, Jani Nikula <jani.nikula@linux.intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm/i915: Allow evicting to use the requested placement
-Date: Sun,  4 Aug 2024 17:18:47 +0800
-Message-ID: <20240804091851.122186-2-david@davidgow.net>
+Subject: [PATCH 2/2] drm/i915: Attempt to get pages without eviction first
+Date: Sun,  4 Aug 2024 17:18:48 +0800
+Message-ID: <20240804091851.122186-3-david@davidgow.net>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240804091851.122186-1-david@davidgow.net>
 References: <20240804091851.122186-1-david@davidgow.net>
@@ -96,48 +96,65 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 In commit a78a8da51b36 ("drm/ttm: replace busy placement with flags v6"),
-the old system of having a separate placement list (for placements
-which should be used without eviction) and a 'busy' placement list (for
-placements which should be attempted if eviction is required) was
-replaced with a new one where placements could be marked 'FALLBACK' (to
-be attempted if eviction is required) or 'DESIRED' (to be attempted
-first, but not if eviction is required).
+__i915_ttm_get_pages was updated to use flags instead of the separate
+'busy' placement list. However, the behaviour was subtly changed.
+Originally, the function would attempt to use the preferred placement
+without eviction, and give an opportunity to restart the operation
+before falling back to allowing eviction.
 
-i915 had always included the requested placement in the list of
-'busy' placements: i.e., the placement could be used either if eviction
-is required or not. But when the new system was put in place, the
-requested (first) placement was marked 'DESIRED', so would never be used
-if eviction became necessary. While a bug in the original commit
-prevented this flag from working, when this was fixed in
-4a0e7b3c ("drm/i915: fix applying placement flag"), it caused long hangs
-on DG2 systems with small BAR.
+This was unintentionally changed, as the preferred placement was not
+given the TTM_PL_FLAG_DESIRED flag, and so eviction could be triggered
+in that first pass. This caused thrashing, and a significant performance
+regression on DG2 systems with small BAR. For example, Minecraft and
+Team Fortress 2 would drop to single-digit framerates.
 
-Don't mark the requested placement DESIRED (or FALLBACK), allowing it to
-be used in both situations. This matches the old behaviour, and resolves
-the hangs.
+Restore the original behaviour by marking the initial placement as
+desired on that first attempt. Also, rework this to use a separate
+struct ttm_palcement, as the individual placements are marked 'const',
+so hot-patching the flags is even more dodgy than before.
 
-Thanks to Justin Brewer for bisecting the issue.
+Thanks to Justin Brewer for bisecting this.
 
 Fixes: a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
-Fixes: 4a0e7b3c3753 ("drm/i915: fix applying placement flag")
 Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/11255
 Signed-off-by: David Gow <david@davidgow.net>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index e6f177183c0f..fb848fd8ba15 100644
+index fb848fd8ba15..5c72462d1f57 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -165,7 +165,6 @@ i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
- 	i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
- 				   obj->mm.region, &places[0], obj->bo_offset,
- 				   obj->base.size, flags);
--	places[0].flags |= TTM_PL_FLAG_DESIRED;
+@@ -778,13 +778,16 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
+ 		.interruptible = true,
+ 		.no_wait_gpu = false,
+ 	};
+-	int real_num_busy;
++	struct ttm_placement initial_placement;
++	struct ttm_place initial_place;
+ 	int ret;
  
- 	/* Cache this on object? */
- 	for (i = 0; i < num_allowed; ++i) {
+ 	/* First try only the requested placement. No eviction. */
+-	real_num_busy = placement->num_placement;
+-	placement->num_placement = 1;
+-	ret = ttm_bo_validate(bo, placement, &ctx);
++	initial_placement.num_placement = 1;
++	memcpy(&initial_place, placement->placement, sizeof(struct ttm_place));
++	initial_place.flags |= TTM_PL_FLAG_DESIRED;
++	initial_placement.placement = &initial_place;
++	ret = ttm_bo_validate(bo, &initial_placement, &ctx);
+ 	if (ret) {
+ 		ret = i915_ttm_err_to_gem(ret);
+ 		/*
+@@ -799,7 +802,6 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
+ 		 * If the initial attempt fails, allow all accepted placements,
+ 		 * evicting if necessary.
+ 		 */
+-		placement->num_placement = real_num_busy;
+ 		ret = ttm_bo_validate(bo, placement, &ctx);
+ 		if (ret)
+ 			return i915_ttm_err_to_gem(ret);
 -- 
 2.46.0
 
