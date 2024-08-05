@@ -2,72 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889B99482B7
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 21:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD419482BE
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 21:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 131B910E2A6;
-	Mon,  5 Aug 2024 19:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0A010E29F;
+	Mon,  5 Aug 2024 19:59:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nl04Fh6J";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="URXr4DmK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27C1F10E2A1;
- Mon,  5 Aug 2024 19:56:39 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-7bb75419123so759438a12.3; 
- Mon, 05 Aug 2024 12:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722887798; x=1723492598; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uNcOQYN/qSiGTFD6/GPizmaarPQsywctbGl3IsVIKsA=;
- b=Nl04Fh6JNN5qnFqpnxpOglpq/8wGRav2JE4eOPJJwh7b4hZ2TcFjpeiqXzJvMCy8sD
- iBK0uBS6a8Tx5lYNvpE4zpQ36Ph40Nn3PyNtxcVZxuIB9QpMxqmWfnK/njoEoAbUfkRn
- vLEdTgS4YXyNv7dzZag+zuiPO9VYDkUCxRjzDTnISr3RqIMAwtFzojbISC89nzDDLsSF
- wlc+kgFq/Ir6n7vcAAu1lecG+KLlSy9nWi8K/SlNquVCKWUGyvlSVIKytlqQ4mAjpQlg
- C/OgbU4yHuLskdD175Z7l9DyBqjVLq8mz6hYvclyO63sCCFOiCe+BRczlyTrTSV/O1cs
- k7Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722887798; x=1723492598;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uNcOQYN/qSiGTFD6/GPizmaarPQsywctbGl3IsVIKsA=;
- b=mJz28zbDkNmD3GUwBm/tqK8ShOfa4jzThxNPpFb9UuNkD+XX+wjfVwwBdfszW+HiDk
- eAFhtdOigq4VxrjKkcHRTJXU6uJntD2nGrKGO8w/qABTdw2mmY6PwIBmSUxUdwJfc/Cd
- oYZd6Y+3IQznQRuVYMiA/ZjAE00i47nJ45/lYdFxjCkbKZn4FhCoF3JEB/N1vU1uuVSG
- hj4/TCPlb1e03q7wEYSoh9qwVsahv43B0pbf0y371LZ2iHLVX/f7nZiQmEXeQyaGXQFO
- dzULgy3tpu1vRKDlfCGypHb4QpICMNFSAeYsmoQHv1OKffi8UyIIrNoMO78r859X7nlZ
- VyIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXey2jsRJOOfJcWATWRQQxk5STeVlqv2vmEN2R2XKTaOzkM2tiUL1JgXfliydN8Z3P2yvxJVJojrVttmJDuyjzesF+HAgS/q4d6IIYB3k/gsNG61PAsU94kCXl8Rnc0lr4FUv/1KJGiPLy6hTuXvA==
-X-Gm-Message-State: AOJu0YxwsTwWCo3CT51Vf8EaemJ/mBFKlrQZdRpu94GKQx+RVhN2LltS
- e0nw/WUzRb43U1b7ZXQ2YodCrugKsjuQmc9WHn3dgsn4uw5vkHltBN1JviEbAoGUw1ro7AXUbkl
- kEUT1trqrrV/EzA4fvrUZhNQkVSLbtg==
-X-Google-Smtp-Source: AGHT+IFIDXUzuaYtUVe9G/vyHgglOXHWrm+LPeM+thU3L+PG1J1Qc3F0nt0E/Bj+1GmCud756KHGJwrkq+K3mv6bPqQ=
-X-Received: by 2002:a17:90a:ac8:b0:2cb:4c32:a7e4 with SMTP id
- 98e67ed59e1d1-2cff943c2fbmr10837771a91.15.1722887798611; Mon, 05 Aug 2024
- 12:56:38 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ABD010E29B;
+ Mon,  5 Aug 2024 19:59:11 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 475BCegj019139;
+ Mon, 5 Aug 2024 19:59:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=3PdDIjWS8xAAF2r3L9gl7F8m
+ AHgdHD0vb2Ts7ffC658=; b=URXr4DmKc1CTdCKsJdcohR/6JZe5zwVmKYrmwHJH
+ TtQsmWdq3l8zWv/VhL7q2R78ThjGZJIfQWRkJRl0uHJWp15XYcYrQGsOzl86HIkO
+ wP1+SD7JBFDni3U8qBtAMHJ6jLfBowIBmRSX14CsuM9UfiNsdJzdWtoLmifzM+dF
+ kv594u9GnQsCcKxjyCjXhnNmatk6+scLK5hyrEyodBFJTOWEvjAE2GElz+3xAAYh
+ DB83Qy4BFDeTzpBVpnrbvm4NRWASg4Chnbjj5raRB1Itv+rN4ZuA+yqaGDbeI7hD
+ 57nTx/ShLMkuFnNX/v9NoDWaBknTuyc1ZLnwBZIk2q3Hug==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40scs2w1nm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Aug 2024 19:59:07 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 475Jx6Qq009040
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 5 Aug 2024 19:59:06 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 5 Aug 2024 12:59:01 -0700
+Date: Tue, 6 Aug 2024 01:28:57 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Vladimir Lypak <vladimir.lypak@gmail.com>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
+ Dybcio" <konrad.dybcio@linaro.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, Jordan Crouse
+ <jordan@cosmicpenguin.net>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 4/4] drm/msm/a5xx: workaround early ring-buffer emptiness
+ check
+Message-ID: <20240805195857.elrbquiazekg6j6p@hu-akhilpo-hyd.qualcomm.com>
+References: <20240711100038.268803-1-vladimir.lypak@gmail.com>
+ <20240711100038.268803-5-vladimir.lypak@gmail.com>
 MIME-Version: 1.0
-References: <20240731055451.15467-1-rbrasga@uci.edu>
-In-Reply-To: <20240731055451.15467-1-rbrasga@uci.edu>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 5 Aug 2024 15:56:27 -0400
-Message-ID: <CADnq5_PxBDtk5m7c6pJX_b1fQw_ry1qGALprAZ6f5xR=9g34kQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/uvd4: fix mask and shift definitions
-To: Remington Brasga <rbrasga@uci.edu>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240711100038.268803-5-vladimir.lypak@gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: j8dBPWIPyBwfOh1OxVP-5lC3tyvVI30j
+X-Proofpoint-GUID: j8dBPWIPyBwfOh1OxVP-5lC3tyvVI30j
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-05_08,2024-08-02_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ suspectscore=0 adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408050141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,45 +96,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Thu, Jul 11, 2024 at 10:00:21AM +0000, Vladimir Lypak wrote:
+> There is another cause for soft lock-up of GPU in empty ring-buffer:
+> race between GPU executing last commands and CPU checking ring for
+> emptiness. On GPU side IRQ for retire is triggered by CACHE_FLUSH_TS
+> event and RPTR shadow (which is used to check ring emptiness) is updated
+> a bit later from CP_CONTEXT_SWITCH_YIELD. Thus if GPU is executing its
+> last commands slow enough or we check that ring too fast we will miss a
+> chance to trigger switch to lower priority ring because current ring isn't
+> empty just yet. This can escalate to lock-up situation described in
+> previous patch.
+> To work-around this issue we keep track of last submit sequence number
+> for each ring and compare it with one written to memptrs from GPU during
+> execution of CACHE_FLUSH_TS event.
+> 
 
-On Wed, Jul 31, 2024 at 3:20=E2=80=AFAM Remington Brasga <rbrasga@uci.edu> =
-wrote:
->
-> A few define's are listed twice with different, incorrect values.
-> This fix sets them appropriately.
->
-> Signed-off-by: Remington Brasga <rbrasga@uci.edu>
+This is interesting! Is this just theoretical or are you able to hit
+this race on your device (after picking other fixes in this series)?
+
+-Akhil.
+
+> Fixes: b1fc2839d2f9 ("drm/msm: Implement preemption for A5XX targets")
+> Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
 > ---
-> The second UVD_LMI_CTRL__RFU_MASK is incorrect, so it was removed. It sho=
-uld be
-> `0xf800 0000`.
-> The first UVD_LMI_CTRL__RFU__SHIFT is incorrect, so it was removed.
-> It should bei `0x1a`.
->
-> This change aligns the uvd definitions, please refer to:
-> drivers/gpu/drm/amd/include/asic_reg/uvd/uvd_3_1_sh_mask.h
-> drivers/gpu/drm/amd/include/asic_reg/uvd/uvd_4_2_sh_mask.h
-> drivers/gpu/drm/amd/include/asic_reg/uvd/uvd_5_0_sh_mask.h
-> drivers/gpu/drm/amd/include/asic_reg/uvd/uvd_6_0_sh_mask.h
->
->  drivers/gpu/drm/amd/include/asic_reg/uvd/uvd_4_0_sh_mask.h | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/include/asic_reg/uvd/uvd_4_0_sh_mask.h b=
-/drivers/gpu/drm/amd/include/asic_reg/uvd/uvd_4_0_sh_mask.h
-> index 8ee3149df5b7..2ef1273e65ab 100644
-> --- a/drivers/gpu/drm/amd/include/asic_reg/uvd/uvd_4_0_sh_mask.h
-> +++ b/drivers/gpu/drm/amd/include/asic_reg/uvd/uvd_4_0_sh_mask.h
-> @@ -340,8 +340,6 @@
->  #define UVD_LMI_CTRL__REQ_MODE_MASK 0x00000200L
->  #define UVD_LMI_CTRL__REQ_MODE__SHIFT 0x00000009
->  #define UVD_LMI_CTRL__RFU_MASK 0xf8000000L
-> -#define UVD_LMI_CTRL__RFU_MASK 0xfc000000L
-> -#define UVD_LMI_CTRL__RFU__SHIFT 0x0000001a
->  #define UVD_LMI_CTRL__RFU__SHIFT 0x0000001b
->  #define UVD_LMI_CTRL__VCPU_DATA_COHERENCY_EN_MASK 0x00200000L
->  #define UVD_LMI_CTRL__VCPU_DATA_COHERENCY_EN__SHIFT 0x00000015
-> --
-> 2.34.1
->
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c     | 4 ++++
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.h     | 1 +
+>  drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 4 ++++
+>  3 files changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> index 266744ee1d5f..001f11f5febc 100644
+> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> @@ -65,6 +65,8 @@ void a5xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>  
+>  static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>  {
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
+>  	struct msm_ringbuffer *ring = submit->ring;
+>  	struct drm_gem_object *obj;
+>  	uint32_t *ptr, dwords;
+> @@ -109,6 +111,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
+>  		}
+>  	}
+>  
+> +	a5xx_gpu->last_seqno[ring->id] = submit->seqno;
+>  	a5xx_flush(gpu, ring, true);
+>  	a5xx_preempt_trigger(gpu, true);
+>  
+> @@ -210,6 +213,7 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>  	/* Write the fence to the scratch register */
+>  	OUT_PKT4(ring, REG_A5XX_CP_SCRATCH_REG(2), 1);
+>  	OUT_RING(ring, submit->seqno);
+> +	a5xx_gpu->last_seqno[ring->id] = submit->seqno;
+>  
+>  	/*
+>  	 * Execute a CACHE_FLUSH_TS event. This will ensure that the
+> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+> index 1120824853d4..7269eaab9a7a 100644
+> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+> @@ -34,6 +34,7 @@ struct a5xx_gpu {
+>  	struct drm_gem_object *preempt_counters_bo[MSM_GPU_MAX_RINGS];
+>  	struct a5xx_preempt_record *preempt[MSM_GPU_MAX_RINGS];
+>  	uint64_t preempt_iova[MSM_GPU_MAX_RINGS];
+> +	uint32_t last_seqno[MSM_GPU_MAX_RINGS];
+>  
+>  	atomic_t preempt_state;
+>  	struct timer_list preempt_timer;
+> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+> index f8d09a83c5ae..6bd92f9b2338 100644
+> --- a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+> +++ b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
+> @@ -55,6 +55,8 @@ static inline void update_wptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+>  /* Return the highest priority ringbuffer with something in it */
+>  static struct msm_ringbuffer *get_next_ring(struct msm_gpu *gpu)
+>  {
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
+>  	unsigned long flags;
+>  	int i;
+>  
+> @@ -64,6 +66,8 @@ static struct msm_ringbuffer *get_next_ring(struct msm_gpu *gpu)
+>  
+>  		spin_lock_irqsave(&ring->preempt_lock, flags);
+>  		empty = (get_wptr(ring) == gpu->funcs->get_rptr(gpu, ring));
+> +		if (!empty && ring == a5xx_gpu->cur_ring)
+> +			empty = ring->memptrs->fence == a5xx_gpu->last_seqno[i];
+>  		spin_unlock_irqrestore(&ring->preempt_lock, flags);
+>  
+>  		if (!empty)
+> -- 
+> 2.45.2
+> 
