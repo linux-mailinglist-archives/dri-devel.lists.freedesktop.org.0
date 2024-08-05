@@ -2,95 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95861947F1C
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 18:20:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAB5947F43
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 18:24:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE79710E245;
-	Mon,  5 Aug 2024 16:20:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0624D10E24B;
+	Mon,  5 Aug 2024 16:24:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bk82L2Su";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ViSrNNRQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
- [209.85.167.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F36310E245
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 16:20:30 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id
- 5614622812f47-3daf0e73a5bso7360314b6e.0
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Aug 2024 09:20:30 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2296C10E24B
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 16:24:19 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-5a1c496335aso7632255a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Aug 2024 09:24:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722874829; x=1723479629; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:subject:cc:to:from:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=o/2gcRJhRF+q0oumC+8pyXKRI+ru5NZw7+q3z+G4VQE=;
- b=bk82L2Sufm4zhn5HsClGDzzyEp3GrrXEH0YY/dG14eqiPs5E1dU6hvIGPWGBrudgqb
- tVCBroRXZk7AqAiFVP73YCeAWbZUwIINvIj50lNVMGwBbIOJ3izdAbTAmjNFpcKQtLYb
- 13Tn8zdLQ/xcVSHOn9vosZ2/ckoW+Nf9BZpankdNHmBHzl9ld5972U4ZmGZiwmM8kK0t
- U5ArZTNYz3l6D9XScPKhE9ZYQiAJWcK54K+wjCw8oSGqZzt+fIpIkLbKoLt1IsA6piwr
- WIIEMdRGXEezNz8q+gfRRIbv+BMPJ0cymKWhhvDvGWbvuBDbwTwlGRDmHH293fvT0e9O
- /SxQ==
+ d=gmail.com; s=20230601; t=1722875057; x=1723479857; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=a8C99+OTElpTmOTtUSQ4jS9OW9GVLl/7moJ7+wx1Mb4=;
+ b=ViSrNNRQMsaVmU+WUSkdowdnlLzfTjmjRktxe1P0f3D6Ghy9nPjVOtNLvOobgM4kxC
+ FwOagXDdFyRsLoDKtxkNK6ZDBo/+eXDN3ZwT6Ho8zqnSoAYYvXd7QYB4ZaP5GqZ6tive
+ NGlsuYfIfHdcc8R6OtsQnjMHqkSWX9iYuTb5PVsSKX3Rv16AO1x70AAiR5qouGA2mn/9
+ wTXB2HQ+dO8dCf82XNojSxlBlaV4Rthv1mBESD6k7ZSiAyzZeLR/INXj1dRXuPWXN7xw
+ diyJ5LYQSETWykZOCjA8OD9myMtOm9brLp9BS10fS7Rfn2458LWcstjpswCazQNGuLhq
+ Ctyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722874829; x=1723479629;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:subject:cc:to:from:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=o/2gcRJhRF+q0oumC+8pyXKRI+ru5NZw7+q3z+G4VQE=;
- b=je1WTIeDS+kLnKSUMtY9gIXzZvLqkHWmB4FjkQX0dNPdPtOz0V1zWGWT62KwWUljxi
- jk/3pDZTHmomT92R/DoARBJZo3eVafcA+rnWq1tS68oDLmhjxx/V5y2B2LIPZ24R91WK
- JAAtAV427HgRLkZgmGgGLC4oQcinXK1vjT/OV++UEgzjT8yN32rZug/Ct/KztjU194hD
- oU18JOhvCJNGCJ8uYr1WTcuhEaJsKYA0xoely0srj6ui633UnrXuwKP2NOvRzlKAo6kF
- 2my7wZSEozUSoyjw1CnSSzyww0k99qtWwX55RO6aQFVxD1wQcKX0whgZp70urQU7KYHm
- JOsg==
+ d=1e100.net; s=20230601; t=1722875057; x=1723479857;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=a8C99+OTElpTmOTtUSQ4jS9OW9GVLl/7moJ7+wx1Mb4=;
+ b=mCTfE4b3HZwBqV82fDhlxDyO2xArKxERBLp/8COGFZzmiwURoL5kQMutN34tsoU1HT
+ HE5gzbOCbzYOK4Iuw49Tb8CExZmKD15ts0R6Dgx483ZlK6YQ1MwpLyQ0h7+deUMRgerf
+ kzRJ3nCIQGZGMbFyJcxl6st/Ds5kA0lsyUKJvMH5F5E7dUlD9e6QmBLu7uZ2iyj4piWm
+ SgYJmUtpwbkvc9irYmRVW2sKhHcPkx2ukYv+t4UmyV5xHH6BWTU/+hHgOAoiOjY63SkD
+ qrKAO9Iuip4HIboFOrLBXimwnEdC0mboIrg+FI3iI4Aoh+nrR+f9FJzbRwXWXETXbPev
+ 3hng==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX3Dzrm7P2H7gOTgthevu2GaboUCKAATaRaRXcvj5qck6A2DV7weHRXOG6OnUSXaULVqEKSoa+N9DNfn+lZdQkzXqBBiOOdjGJ3fMBmPT7F
-X-Gm-Message-State: AOJu0YyZ7Q7XLaIYEV7Xad7cZ467a277U/BmwypG/QptpX0oFKhaHe/Q
- q1H8x86SpmChzvOIspPCqJ5RIIiy+6RPLPhiDt6qFOQnbJBvD/qn
-X-Google-Smtp-Source: AGHT+IGhrdCiVzHF4+sgL6JEIeJjR99KHrosaGVM3KVKN0FUNCYWFamuinYDjmTd4Ylqq3yvu2brxQ==
-X-Received: by 2002:a05:6808:1b2b:b0:3db:22aa:f565 with SMTP id
- 5614622812f47-3db558095ccmr16759128b6e.11.1722874829090; 
- Mon, 05 Aug 2024 09:20:29 -0700 (PDT)
-Received: from neuromancer. ([2600:1700:fb0:1bcf::54])
- by smtp.gmail.com with ESMTPSA id
- 5614622812f47-3db5637b487sm2728598b6e.29.2024.08.05.09.20.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Aug 2024 09:20:28 -0700 (PDT)
-Message-ID: <66b0fbcc.050a0220.30fac7.71ce@mx.google.com>
-X-Google-Original-Message-ID: <ZrD7y/cmGjV3Kpax@neuromancer.>
-Date: Mon, 5 Aug 2024 11:20:27 -0500
-From: Chris Morgan <macroalpha82@gmail.com>
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- devicetree@vger.kernel.org, kernel@collabora.com,
- Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
- Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH v2 0/3] Add initial support for the Rockchip RK3588 HDMI
- TX Controller
-References: <20240801-b4-rk3588-bridge-upstream-v2-0-9fa657a4e15b@collabora.com>
- <45B07EAF-4CBA-4DE4-A03B-109767D52B29@gmail.com>
+ AJvYcCVfI2YCuPDfzQnrWbRY15riOQohtTqqzSAUNmgc3WADtIjW2UQQOH5ZMh9WHo34a19ijsJ6Q31xHMezvn6HaI/uiXT2TqCs57dNd+SgkAm3
+X-Gm-Message-State: AOJu0YwY/f0di5eGCAiJzqcnATavXYlhp0JP5mDKCK1YYtDntR8/kIMb
+ iWT7McZhDoLiGgvZk0QMwVXi957c2PD8x5hey2wS7b/u4IqnxCibSmieABgxdRPhdh1djkMmQjk
+ nmkamz9Pt9+U+dBdt/BX+hwWjm2U=
+X-Google-Smtp-Source: AGHT+IHvyHbFZJE4p8C4OL9f2eMAtF/7nSyBc86q0iTr2swDTqSonp+1rkVReAaAYjc0C810FGILIP+l2ZHt9zaqOEo=
+X-Received: by 2002:a50:e613:0:b0:5a1:a08a:e08 with SMTP id
+ 4fb4d7f45d1cf-5b7f39e07b7mr10209743a12.11.1722875057029; Mon, 05 Aug 2024
+ 09:24:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <45B07EAF-4CBA-4DE4-A03B-109767D52B29@gmail.com>
+References: <20240723114914.53677-1-slp@redhat.com>
+ <942afa37-a24c-48ed-ae10-c811849165bf@collabora.com>
+In-Reply-To: <942afa37-a24c-48ed-ae10-c811849165bf@collabora.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 5 Aug 2024 09:24:04 -0700
+Message-ID: <CAF6AEGvwrYiN6nMSsRAdc3qq+qQGWEvdW_3+xJh6y2iAyW6rkw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Sergio Lopez <slp@redhat.com>, gurchetansingh@chromium.org,
+ tzimmermann@suse.de, 
+ mripard@kernel.org, olvaffe@gmail.com, kraxel@redhat.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, airlied@redhat.com, 
+ linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,102 +84,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 03, 2024 at 03:24:06PM +0200, Piotr Oniszczuk wrote:
-> Hi Cristian,
-> 
-> Will you find some time and motivation to add CEC support to Quad-Pixel (QP) TX controller ?
-> 
-> Probably you recall - I added initial CEC support to yours v1 series and i’m stuck with timing issue (cec pulses are 3x too long).
-> For me it looks like clock issue.
-> I’m out of ideas how to move forward with this timming issue….
+On Wed, Jul 24, 2024 at 12:00=E2=80=AFPM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+>
+> On 7/23/24 14:49, Sergio Lopez wrote:
+> > There's an incresing number of machines supporting multiple page sizes
+> > and on these machines the host and a guest can be running, each one,
+> > with a different page size.
+> >
+> > For what pertains to virtio-gpu, this is not a problem if the page size
+> > of the guest happens to be bigger or equal than the host, but will
+> > potentially lead to failures in memory allocations and/or mappings
+> > otherwise.
+>
+> Please describe concrete problem you're trying to solve. Guest memory
+> allocation consists of guest pages, I don't see how knowledge of host
+> page size helps anything in userspace.
+>
+> I suspect you want this for host blobs, but then it should be
+> virtio_gpu_vram_create() that should use max(host_page_sz,
+> guest_page_size), AFAICT. It's kernel who is responsible for memory
+> management, userspace can't be trusted for doing that.
 
-I wonder if using the cec-gpio on "GPIO4 RK_PC1" for the CEC gpio and
-"GPIO1 RK_PA5" for the HPD gpio is a possibility? Just a thought.
+fwiw virtgpu native context would require this as well, mesa would
+need to know the host page size to correctly align GPU VA allocations
+(which must be a multiple of the host page size).
 
-Chris
+So a-b for adding this and exposing it to userspace.
 
->  
-> 
-> 
-> > Wiadomość napisana przez Cristian Ciocaltea <cristian.ciocaltea@collabora.com> w dniu 01.08.2024, o godz. 04:25:
-> > 
-> > The Rockchip RK3588 SoC family integrates the Synopsys DesignWare HDMI
-> > 2.1 Quad-Pixel (QP) TX controller [4], which is a new IP block, quite
-> > different from those used in the previous generations of Rockchip SoCs.
-> > 
-> > This is the last component that needs to be supported in order to enable
-> > the HDMI output functionality on the RK3588 based SBCs, such as the
-> > RADXA Rock 5B. The other components are the Video Output Processor
-> > (VOP2) and the Samsung IP based HDMI/eDP TX Combo PHY, for which basic
-> > support has been already made available via [1] and [2], respectively.
-> > 
-> > Please note this is a reworked version of the original series, which
-> > relied on a commonized dw-hdmi approach.  Since the general consensus
-> > was to handle it as an entirely new IP, I dropped all patches related to
-> > the old dw-hdmi and Rockchip glue code - a few of them might still make
-> > sense as general improvements and will be submitted separately.
-> > 
-> > Additionally, as suggested by Neil, I've sent the reworked bridge driver
-> > as a separate patchset [4], hence this series handles now just the new
-> > Rockchip QP platform driver.
-> > 
-> > It's worth mentioning the HDMI output support is currently limited to
-> > RGB output up to 4K@60Hz, without audio, CEC or any of the HDMI 2.1
-> > specific features.  Moreover, the VOP2 driver is not able to properly
-> > handle all display modes supported by the connected screens, e.g. it
-> > doesn't cope with non-integer refresh rates.
-> > 
-> > A possible workaround consists of enabling the display controller to
-> > make use of the clock provided by the HDMI PHY PLL. This is still work
-> > in progress and will be submitted later, as well as the required DTS
-> > updates.
-> > 
-> > To facilitate testing and experimentation, all HDMI output related
-> > patches, including those part of this series, as well as the bridge
-> > driver, are available at [3].
-> > 
-> > So far I could only verify this on the RADXA Rock 5B board.
-> > 
-> > Thanks,
-> > Cristian
-> > 
-> > [1]: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
-> > [2]: 553be2830c5f ("phy: rockchip: Add Samsung HDMI/eDP Combo PHY driver")
-> > [3]: https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/commits/rk3588-hdmi-bridge-v6.11-rc1
-> > [4]: https://lore.kernel.org/lkml/20240801-dw-hdmi-qp-tx-v1-0-148f542de5fd@collabora.com/
-> > 
-> > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> > ---
-> > Changes in v2:
-> > - Reworked the glue code for RK3588 into a new Rockchip platform driver
-> > - Moved bridge driver patches to a separate series [4]
-> > - Dropped all the patches touching to the old dw-hdmi and RK platform
-> >  drivers
-> > - Added connector creation to ensure the HDMI QP bridge driver does only
-> >  support DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> > - Link to v1: https://lore.kernel.org/r/20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com
-> > 
-> > ---
-> > Cristian Ciocaltea (3):
-> >      dt-bindings: display: rockchip: Add schema for RK3588 HDMI TX Controller
-> >      drm/rockchip: Explicitly include bits header
-> >      drm/rockchip: Add basic RK3588 HDMI output support
-> > 
-> > .../display/rockchip/rockchip,dw-hdmi-qp.yaml      | 188 +++++++++
-> > drivers/gpu/drm/rockchip/Kconfig                   |   8 +
-> > drivers/gpu/drm/rockchip/Makefile                  |   1 +
-> > drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c     | 430 +++++++++++++++++++++
-> > drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |   2 +
-> > drivers/gpu/drm/rockchip/rockchip_drm_drv.h        |   4 +-
-> > 6 files changed, 632 insertions(+), 1 deletion(-)
-> > ---
-> > base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-> > change-id: 20240601-b4-rk3588-bridge-upstream-a27baff1b8fc
-> > 
-> > 
-> > _______________________________________________
-> > Linux-rockchip mailing list
-> > Linux-rockchip@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-rockchip
-> 
-> 
+BR,
+-R
+
+> --
+> Best regards,
+> Dmitry
+>
