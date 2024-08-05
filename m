@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A2C9474F8
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 08:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD0F9474FE
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 08:00:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14A2C10E121;
-	Mon,  5 Aug 2024 06:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0988D10E0E4;
+	Mon,  5 Aug 2024 06:00:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hzVUV5oa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bVaxxgFD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A1A910E117;
- Mon,  5 Aug 2024 06:00:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57B2C10E0E4;
+ Mon,  5 Aug 2024 06:00:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C3AD460B7B;
- Mon,  5 Aug 2024 06:00:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA49C4AF16;
- Mon,  5 Aug 2024 06:00:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AD80B60B41;
+ Mon,  5 Aug 2024 06:00:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E64FC4AF0C;
+ Mon,  5 Aug 2024 06:00:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722837616;
- bh=FEJF5Z2MyVBZjrdZZfW9XNluKyInOFfsVL8S4c55ThU=;
+ s=k20201202; t=1722837633;
+ bh=bFJ+3aPdN+s1aznR30aPj8yvLBkkGY9WfNq9Bt4xWPY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hzVUV5oa5gXRymdz77Y1RQqsp5dIjsb76ioxGh38fO8FKFb4fS4SkL+ejbLTxjdgO
- t8cgP4llqT1HYDipsF2XiR1+SnoolGa1d36efjicgDH8+VqeE6wyquQV80AwjkuHFa
- wMh/QYJfIwbFolik0PzBQei+TCnDKrxJx0Frd+MVMYjqUcAHeE87ygtDSCCvIHBRgh
- tPI/OC9ivtnCFCcINj/cXMzvckrUfJRd1DEDSfHCC/6kZ9dnUra/atA59P47gPdBz2
- ic2gdWrgiFZwd17dVRptqmJ0wuNfm8hyV1SjavEwdcXH0PwAH6CjZYcsv/bmOMu1mf
- v8v+cr5gMzldA==
-Message-ID: <59bc4a01-81fc-49c0-9693-4c6c9f2094d7@kernel.org>
-Date: Mon, 5 Aug 2024 08:00:02 +0200
+ b=bVaxxgFD9vOZoUAK0SJO/PuucutMIzgT4foYaZUTS35Bqv6aM/wKAs7nEs2nSlDIb
+ hQwFGsxPBqj/7RERjALwx9590soQkkYSn5z+5OrDGV3F7rFBPpCwM4ogzBPAbrgMhB
+ F2GOE6dR8Q66ErlCkD44R3POFdCs+2uSM0Zdi+V7Oz8xd4j4ZVkHFMt0tQlUsRBZXp
+ Jw5Z/Wt7O24UX9SBIe/eOqt6qcx6hJfUnI3FqE+DC0PD4FOvKEStSw5a0/ahUUFnwp
+ F5qpsI0/hq58G4HlDeRM+eHPKulCp4FI+/X1hNLmr1cFrIeUMUKEcuNQ1ijcmrAcru
+ XBxv+W3Syu4vQ==
+Message-ID: <6ab04357-cd27-45f1-8fe2-d50f54de2977@kernel.org>
+Date: Mon, 5 Aug 2024 08:00:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/11] dt-bindings: interconnect: qcom,sm8450: drop DISP
- nodes
+Subject: Re: [PATCH 11/11] arm64: defconfig: build
+ CONFIG_REGULATOR_QCOM_REFGEN as module
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Bjorn Andersson <andersson@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -53,7 +53,7 @@ Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-pm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <20240804-sm8350-fixes-v1-0-1149dd8399fe@linaro.org>
- <20240804-sm8350-fixes-v1-7-1149dd8399fe@linaro.org>
+ <20240804-sm8350-fixes-v1-11-1149dd8399fe@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240804-sm8350-fixes-v1-7-1149dd8399fe@linaro.org>
+In-Reply-To: <20240804-sm8350-fixes-v1-11-1149dd8399fe@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,14 +118,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 04/08/2024 07:40, Dmitry Baryshkov wrote:
-> Vendor msm-5.x kernels declared duplicate indices for some of display
-> nodes to be used by separate display RSC and BCM voters. As it is not
-> clear how this separate BCM should be modelled upstream and the device
-> trees do not use these indices, drop them for now.
+> Enable CONFIG_REGULATOR_QCOM_REFGEN and build it as a module. It is an
+> internal supply used by the DSI on SM8350-based platforms (e.g. on the
+> SM8350 HDK device).
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
