@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8BE94799A
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 12:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A3A94799F
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 12:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C27D510E19C;
-	Mon,  5 Aug 2024 10:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC17110E183;
+	Mon,  5 Aug 2024 10:26:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KyUMD/eF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hxiTBRxl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E847F10E19C;
- Mon,  5 Aug 2024 10:26:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC5B10E183;
+ Mon,  5 Aug 2024 10:26:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1722853587; x=1754389587;
+ t=1722853598; x=1754389598;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=X1ZFFRFIhMBs5KT2PsG5UXEe4EuK7kxomaYoyvQO7xg=;
- b=KyUMD/eFi7Hy2rN8o8dQNNdRyv3vm0zaJzntIxB4dISE8cUXX5aXpjHr
- ZJV8foU4TG4vwRguJLDtoi5JhDjZZZfQvOZF+nlubca5uDNzTtQn0rSvp
- YXI0crhdYVhj7xNFzo9TsoRaE62HxLpuiMcDZyVcr9cfFPErrIWM44jTT
- BGHmEfUH2RqGQYN5DR6nxbnJen3IDiZKIWJd7tPo+kGghzqbE0DuOPxfW
- IimNy/jt4XYC+PjaYyOeoAXkRp4ovG98mskpwfjW/E3rH5UQM0hFsyQEb
- NOAQCpcmjjqDhOA1AAbV9i1BCiElLkGk80yjs0AuDlaQ/EelrnDT9L+49 g==;
-X-CSE-ConnectionGUID: fa9CDqvvT7aWblNogubDyQ==
-X-CSE-MsgGUID: 24nrur7aSnu5Xhaq84qDaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="20948794"
-X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; d="scan'208";a="20948794"
+ bh=uNAY0tVEcFKTilptJ249r4wrRR09B8GAal+Dv99OI8E=;
+ b=hxiTBRxlh4kbIs5ckzheXblqQCFegDa9NAZ5wDDmcOs8tSZh2O7Uth3Y
+ tHkByW+sQGFyN0x6QS2FbwSUL62taqb+clCSvHua9RmnFrl2ZDYyO0VF+
+ 1UiItsKjovZtZR4b4ayr4X5EotxwfASuWQK3BocS2ruXOdD+t1Xn7L0C1
+ 5fVAqu2kBg3NTSLRNhWNG5sG0X8q1wL8iWbCqjUiJ7+rReC96EALnT31b
+ w4PQCqFjXX3cGd0X1tAog6cfpLa+mSHj+27P55wPSAHq8mle1Yg0Uaka7
+ XjwtRdPmKyNdEhsAyENSb+UGZrBEPXZLUzubVUvJkMZnjXwCclIcSxRed g==;
+X-CSE-ConnectionGUID: AL0XCxzASI+kcyR4b/Y3Sw==
+X-CSE-MsgGUID: 6Z20izcdRrqihzCwoJpmZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="20948820"
+X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; d="scan'208";a="20948820"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2024 03:26:26 -0700
-X-CSE-ConnectionGUID: fCOFMRYFSbuM2eaDZjlMfw==
-X-CSE-MsgGUID: HMBgVM99SkiCZMif7Q66/g==
+ 05 Aug 2024 03:26:38 -0700
+X-CSE-ConnectionGUID: es2pxAGjTO+WxePLzK/vOg==
+X-CSE-MsgGUID: lN8AgKg5Q2Wy2kc6IRzeZw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; d="scan'208";a="93647552"
+X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; d="scan'208";a="93647630"
 Received: from fpallare-mobl3.ger.corp.intel.com (HELO intel.com)
  ([10.245.245.249])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2024 03:26:22 -0700
+ 05 Aug 2024 03:26:33 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
@@ -52,10 +52,10 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Chris Wilson <chris.p.wilson@linux.intel.com>,
  Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
  Andi Shyti <andi.shyti@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [PATCH v2 1/2] drm/i915/gem: Adjust vma offset for framebuffer mmap
- offset
-Date: Mon,  5 Aug 2024 11:25:53 +0100
-Message-ID: <20240805102554.154464-2-andi.shyti@linux.intel.com>
+Subject: [PATCH v2 2/2] drm/i915/gem: Fix Virtual Memory mapping boundaries
+ calculation
+Date: Mon,  5 Aug 2024 11:25:54 +0100
+Message-ID: <20240805102554.154464-3-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240805102554.154464-1-andi.shyti@linux.intel.com>
 References: <20240805102554.154464-1-andi.shyti@linux.intel.com>
@@ -76,35 +76,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When mapping a framebuffer object, the virtual memory area (VMA)
-offset ('vm_pgoff') should be adjusted by the start of the
-'vma_node' associated with the object. This ensures that the VMA
-offset is correctly aligned with the corresponding offset within
-the GGTT aperture.
+Calculating the size of the mapped area as the lesser value
+between the requested size and the actual size does not consider
+the partial mapping offset. This can cause page fault access.
 
-Increment vm_pgoff by the start of the vma_node with the offset=
-provided by the user.
+Fix the calculation of the starting and ending addresses, the
+total size is now deduced from the difference between the end and
+start addresses.
 
-Suggested-by: Chris Wilson <chris.p.wilson@linux.intel.com>
+Additionally, the calculations have been rewritten in a clearer
+and more understandable form.
+
+Fixes: c58305af1835 ("drm/i915: Use remap_io_mapping() to prefault all PTE in a single pass")
+Reported-by: Jann Horn <jannh@google.com>
+Co-developed-by: Chris Wilson <chris.p.wilson@linux.intel.com>
+Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: <stable@vger.kernel.org> # v4.9+
+Reviewed-by: Jann Horn <jannh@google.com>
 Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c | 62 +++++++++++++++++++++---
+ 1 file changed, 56 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index a2195e28b625..ce10dd259812 100644
+index ce10dd259812..35e0798d254a 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -1084,6 +1084,8 @@ int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma
- 		mmo = mmap_offset_attach(obj, mmap_type, NULL);
- 		if (IS_ERR(mmo))
- 			return PTR_ERR(mmo);
-+
-+		vma->vm_pgoff += drm_vma_node_start(&mmo->vma_node);
- 	}
+@@ -290,6 +290,48 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
+ 	return i915_error_to_vmf_fault(err);
+ }
  
- 	/*
++static void set_address_limits(struct vm_area_struct *area,
++			       struct i915_vma *vma,
++			       unsigned long obj_offset,
++			       resource_size_t gmadr_start,
++			       unsigned long *start_vaddr,
++			       unsigned long *end_vaddr,
++			       unsigned long *pfn)
++{
++	unsigned long vm_start, vm_end, vma_size; /* user's memory parameters */
++	long start, end; /* memory boundaries */
++
++	/*
++	 * Let's move into the ">> PAGE_SHIFT"
++	 * domain to be sure not to lose bits
++	 */
++	vm_start = area->vm_start >> PAGE_SHIFT;
++	vm_end = area->vm_end >> PAGE_SHIFT;
++	vma_size = vma->size >> PAGE_SHIFT;
++
++	/*
++	 * Calculate the memory boundaries by considering the offset
++	 * provided by the user during memory mapping and the offset
++	 * provided for the partial mapping.
++	 */
++	start = vm_start;
++	start -= obj_offset;
++	start += vma->gtt_view.partial.offset;
++	end = start + vma_size;
++
++	start = max_t(long, start, vm_start);
++	end = min_t(long, end, vm_end);
++
++	/* Let's move back into the "<< PAGE_SHIFT" domain */
++	*start_vaddr = (unsigned long)start << PAGE_SHIFT;
++	*end_vaddr = (unsigned long)end << PAGE_SHIFT;
++
++	*pfn = (gmadr_start + i915_ggtt_offset(vma)) >> PAGE_SHIFT;
++	*pfn += (*start_vaddr - area->vm_start) >> PAGE_SHIFT;
++	*pfn += obj_offset - vma->gtt_view.partial.offset;
++
++}
++
+ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+ {
+ #define MIN_CHUNK_PAGES (SZ_1M >> PAGE_SHIFT)
+@@ -302,14 +344,18 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+ 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 	bool write = area->vm_flags & VM_WRITE;
+ 	struct i915_gem_ww_ctx ww;
++	unsigned long obj_offset;
++	unsigned long start, end; /* memory boundaries */
+ 	intel_wakeref_t wakeref;
+ 	struct i915_vma *vma;
+ 	pgoff_t page_offset;
++	unsigned long pfn;
+ 	int srcu;
+ 	int ret;
+ 
+-	/* We don't use vmf->pgoff since that has the fake offset */
++	obj_offset = area->vm_pgoff - drm_vma_node_start(&mmo->vma_node);
+ 	page_offset = (vmf->address - area->vm_start) >> PAGE_SHIFT;
++	page_offset += obj_offset;
+ 
+ 	trace_i915_gem_object_fault(obj, page_offset, true, write);
+ 
+@@ -402,12 +448,16 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+ 	if (ret)
+ 		goto err_unpin;
+ 
++	/*
++	 * Dump all the necessary parameters in this function to perform the
++	 * arithmetic calculation for the virtual address start and end and
++	 * the PFN (Page Frame Number).
++	 */
++	set_address_limits(area, vma, obj_offset, ggtt->gmadr.start,
++			   &start, &end, &pfn);
++
+ 	/* Finally, remap it using the new GTT offset */
+-	ret = remap_io_mapping(area,
+-			       area->vm_start + (vma->gtt_view.partial.offset << PAGE_SHIFT),
+-			       (ggtt->gmadr.start + i915_ggtt_offset(vma)) >> PAGE_SHIFT,
+-			       min_t(u64, vma->size, area->vm_end - area->vm_start),
+-			       &ggtt->iomap);
++	ret = remap_io_mapping(area, start, pfn, end - start, &ggtt->iomap);
+ 	if (ret)
+ 		goto err_fence;
+ 
 -- 
 2.45.2
 
