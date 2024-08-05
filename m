@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF279480E7
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 19:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D16B9480EA
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 19:59:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 569AC10E278;
-	Mon,  5 Aug 2024 17:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 104FD10E279;
+	Mon,  5 Aug 2024 17:59:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jsdTJP3T";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u+G60gbW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D71A10E278
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 17:59:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4899010E279
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 17:59:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 6F2CACE0939;
- Mon,  5 Aug 2024 17:59:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6763CC32782;
- Mon,  5 Aug 2024 17:59:17 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 34E92CE0939;
+ Mon,  5 Aug 2024 17:59:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19D69C32782;
+ Mon,  5 Aug 2024 17:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722880758;
+ s=k20201202; t=1722880771;
  bh=9ksv/G/aFOuCm5jYIeueKidNCRidn+d+FACT/CaLoco=;
  h=From:To:Cc:Subject:Date:From;
- b=jsdTJP3TPkdZvYzHgwTwO1itvvEzA6DWLBQeapwGdof7bO7MA0ltFFQTWcFoQbxCw
- TPvGjH+TqxG6qwccmlBX/IhMWQ8jmW+WoWm06oHC6ZW7QzJTBcUaE22CeDyX/hBd8g
- VWdUD1adWekF2vIs5lQKq82sXd9G6ZxwRYXOHO9WX8x9q9M4Z1TbY/7UbXw2WCef33
- JceKftE5gjybR6xXDf2xcaixX2VLBa358Ezw7N0YmcYFf7K7FWplsWXWo531MCMdnh
- Dq5G41xOKJr37ClKIG8bn0JLZDxEgIWltj2sTmqQ+XJ0QSxjX+Aad4XpsUpLlkK8e0
- Z63Kmegm3rnKA==
+ b=u+G60gbWEVmC2LZ8+Umm1g6SJqKvB3SFkPdnFAXypTZ7zqqgllzHRBr70OkkRK51S
+ bX6DuUWoB2LtQltvCNIRu+V/bxs9dD1PueBzOetqqlorllU5+j9AHQkXsppsX+xRhm
+ N0Y6RuQE2ilzvl729AYjBydvkE6usyZJk4igcLWnk5vHTTt3SCZjRWiQgVOA2PC7JY
+ z4xSzYBo174iZu5W6EsGoV+ZmI0oM9BT+THCPBzrD73m9iotWGD6Rsr7OpEb4dYO+x
+ ad72qTMCzLPX0N8JtIRDVm2L0pyABZgQFqUFL1qlU28MTubNkIeKRWycaC4rZaoNpK
+ 0w6Y/334qqIQA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,15 +37,15 @@ Cc: Philip Mueller <philm@manjaro.org>, Hans de Goede <hdegoede@redhat.com>,
  Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
  daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 1/4] drm: panel-orientation-quirks: Add quirk for
+Subject: [PATCH AUTOSEL 5.4 1/2] drm: panel-orientation-quirks: Add quirk for
  OrangePi Neo
-Date: Mon,  5 Aug 2024 13:59:08 -0400
-Message-ID: <20240805175916.3257027-1-sashal@kernel.org>
+Date: Mon,  5 Aug 2024 13:59:26 -0400
+Message-ID: <20240805175928.3257720-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.223
+X-stable-base: Linux 5.4.281
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
