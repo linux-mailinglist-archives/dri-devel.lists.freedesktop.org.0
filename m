@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC96E9480D5
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 19:57:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF9E9480DF
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 19:58:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1BB210E274;
-	Mon,  5 Aug 2024 17:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CA910E275;
+	Mon,  5 Aug 2024 17:58:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jnzuUtuT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GBh0ZCI4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0354110E274
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 17:57:42 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D583310E275
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 17:58:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6549D60DDE;
- Mon,  5 Aug 2024 17:57:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE023C4AF1D;
- Mon,  5 Aug 2024 17:57:39 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 0408ECE0B72;
+ Mon,  5 Aug 2024 17:58:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7EFEC4AF0C;
+ Mon,  5 Aug 2024 17:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722880661;
+ s=k20201202; t=1722880718;
  bh=RRDV/CmIBNFMCcfOFkxZeKbtfZsrblNvgdeMEQIeIs8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jnzuUtuTAuO5gPAafJ3dv1E64AY7Zf+h90wZbKFocA+8IrRdLzeBMVf7G+kK2k6Fh
- JMEyWNsVAOsU/tw9Jsu6V4HIVKIIZ2aRqy5p8SkMFvJXRf/SATRsYHKcKoaXJOVARE
- dGHQG0afFX7loql4TqDrJk6MAwR3e4GzDmAictPnZs1gDPyBFktwi8BAlsD2bLIwdp
- 6O9n2bY9kZbyOt0bkPfrwmeNl/FRICG7px7gTdiNpI4Pt9RCuzL2wo3kIhLb27yEH5
- 8DGPlf0Hl1qOhFxyJjgGSYefPeWHmUdK/2nMiFo/G4RterPx3MLBPqQhFUi/kowxxv
- f5xEdT20URosA==
+ h=From:To:Cc:Subject:Date:From;
+ b=GBh0ZCI4QnySrz37BgRiPlRcRhNkkfGr9GBm6BJwC3cuNiQLlWgX+qf7CiqVBPuqj
+ RvsFKInKHeSCPUFpVrFZ/clB8CTbpcLq9MRzkTVN1SPyx5tstKUrOLCyvXi95lOXGF
+ Xr8tspnGsHUgJWIWtIfEwqRcM1eRWHOYjJXRdlh52hXYRERWsUic/Ic99YbRIX+grp
+ 5AOhlVOjCfQPHr4hbrV+UgohqwFnlsgu8pzSCBaMfGvDWMocVJxsPh5qhNUuZ9IGQ/
+ 1kAm43be1glsp+FJk30HRNKOLq7/ohSLa9dWm+welPv2yQATJ9c5iycrbk9A75SynO
+ jGm+8df+l5iWw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,17 +37,15 @@ Cc: Philip Mueller <philm@manjaro.org>, Hans de Goede <hdegoede@redhat.com>,
  Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
  daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 02/15] drm: panel-orientation-quirks: Add quirk
- for OrangePi Neo
-Date: Mon,  5 Aug 2024 13:56:59 -0400
-Message-ID: <20240805175736.3252615-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 1/5] drm: panel-orientation-quirks: Add quirk for
+ OrangePi Neo
+Date: Mon,  5 Aug 2024 13:58:24 -0400
+Message-ID: <20240805175835.3255397-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240805175736.3252615-1-sashal@kernel.org>
-References: <20240805175736.3252615-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.44
+X-stable-base: Linux 6.1.103
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
