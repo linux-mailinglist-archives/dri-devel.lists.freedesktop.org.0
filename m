@@ -2,45 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C98947F2C
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 18:22:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138BB94803B
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 19:25:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382B110E24A;
-	Mon,  5 Aug 2024 16:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4695910E062;
+	Mon,  5 Aug 2024 17:25:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="P5TynTB2";
+	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="UKNdfPz5";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5FCC710E24A
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 16:22:09 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.09,265,1716217200"; d="scan'208";a="218709933"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 06 Aug 2024 01:22:01 +0900
-Received: from localhost.localdomain (unknown [10.226.92.197])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 492BB4008C7C;
- Tue,  6 Aug 2024 00:52:56 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
+X-Greylist: delayed 4502 seconds by postgrey-1.36 at gabe;
+ Mon, 05 Aug 2024 17:25:47 UTC
+Received: from mailrelay2-1.pub.mailoutpod3-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod3-cph3.one.com [46.30.211.241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89DE510E062
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 17:25:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=+5Nqfb5YMT710AixtVrDNejxP1ehFhKM5L8ir5PhOc4=;
+ b=P5TynTB2vYXkyWW9AxFtX6wfXMCj/viurWyva9HvodEpuYxqbrJMfHki3ou0cS/wYn4QM4yYfRYQl
+ gVieja8w8qfSx1+VvFKsTKXBTX8U3yEOKZzzWr5pDiaC6yMmZj128pd3PzNgdGkCAudi8zftk0vWlA
+ p/k7vR/AUL5uIOKXiKL5Omt9ecsZe0EC1bv3OmrzEodD/9sN2PTXGdw3C8HbpIi2KeQ+yLxRJ9r8Yc
+ Bi9o3a30KAxyRLHdfwjlvza3dsDVxgvZwTOctcLv86xkADw2NW98ShvtccqbuGnSRWAq34sHmm9CZA
+ Un2n9sdBEwPEr8K9QLhPUBOLIJO9gcQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=+5Nqfb5YMT710AixtVrDNejxP1ehFhKM5L8ir5PhOc4=;
+ b=UKNdfPz5q5F+W05u/qk0wulGt/VdSbndLOPsd7/bH/pK4Qlr6WtgaXIwA5JYeod5Y0rJqux/vXvcR
+ xsK+trnDQ==
+X-HalOne-ID: 1e9ebc3d-5345-11ef-a8e9-7155eb331864
+Received: from ravnborg.org (2-105-16-150-cable.dk.customer.tdc.net
+ [2.105.16.150])
+ by mailrelay2.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+ id 1e9ebc3d-5345-11ef-a8e9-7155eb331864;
+ Mon, 05 Aug 2024 16:09:42 +0000 (UTC)
+Date: Mon, 5 Aug 2024 18:09:41 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Robert Foss <rfoss@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v3 2/4] drm: renesas: rz-du: Add RZ/G2UL DU Support
-Date: Mon,  5 Aug 2024 16:52:36 +0100
-Message-ID: <20240805155242.151661-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240805155242.151661-1-biju.das.jz@bp.renesas.com>
-References: <20240805155242.151661-1-biju.das.jz@bp.renesas.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] drm/bridge: lt9611uxc: require
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Message-ID: <20240805160941.GA136880@ravnborg.org>
+References: <20240701-lt9611uxc-next-bridge-v1-0-665bce5fdaaa@linaro.org>
+ <CAN6tsi5=VmahLzVYEYfp6TAe=w5pB7hgaEy1SN55s7fsUkyoLg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAN6tsi5=VmahLzVYEYfp6TAe=w5pB7hgaEy1SN55s7fsUkyoLg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,147 +79,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LCD controller is composed of Frame Compression Processor (FCPVD),
-Video Signal Processor (VSPD), and Display Unit (DU).
+Hi Robert,
+On Tue, Jul 30, 2024 at 01:35:36PM +0200, Robert Foss wrote:
+> On Mon, Jul 1, 2024 at 8:20 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > There are no in-kernel DTs that use Lontium LT9611UXC bridge and still
+> > require creation of the drm_connector by the bridge on attachment.
+> > Drop support for !DRM_BRIDGE_ATTACH_NO_CONNECTOR by the driver.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> > Dmitry Baryshkov (2):
+> >       drm/bridge: lt9611uxc: properly attach to a next bridge
+> >       drm/bridge: lt9611uxc: drop support for !DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> >
+> >  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 103 ++++-------------------------
+> >  1 file changed, 12 insertions(+), 91 deletions(-)
+> > ---
+> > base-commit: 74564adfd3521d9e322cfc345fdc132df80f3c79
+> > change-id: 20240625-lt9611uxc-next-bridge-5827d9b17fc1
+> >
+> > Best regards,
+> > --
+> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >
+> >
+> 
+> Snoozing this for 2 weeks, since it is removing functionality.
+Time to un-snooze?
 
-It has DPI interface and supports a maximum resolution of WXGA along
-with 2 RPFs to support the blending of two picture layers and raster
-operations (ROPs).
-
-The DU module is connected to VSPD. Add RZ/G2UL DU support.
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * Avoided the line break in rzg2l_du_start_stop() for rstate.
- * Replaced port->du_output in  struct rzg2l_du_output_routing and
-   dropped using the port number to indicate the output type in
-   rzg2l_du_encoders_init().
- * Updated rzg2l_du_r9a07g043u_info and rzg2l_du_r9a07g044_info
-v1->v2:
- * No change.
----
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |  8 +++++++-
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 18 ++++++++++++++++--
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  5 +++--
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |  4 ++--
- 4 files changed, 28 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-index 6e7aac6219be..fd7675c7f181 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-@@ -28,6 +28,7 @@
- #include "rzg2l_du_vsp.h"
- 
- #define DU_MCR0			0x00
-+#define DU_MCR0_DPI_OE		BIT(0)
- #define DU_MCR0_DI_EN		BIT(8)
- 
- #define DU_DITR0		0x10
-@@ -216,9 +217,14 @@ static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
- 
- static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool start)
- {
-+	struct rzg2l_du_crtc_state *rstate = to_rzg2l_crtc_state(rcrtc->crtc.state);
- 	struct rzg2l_du_device *rcdu = rcrtc->dev;
-+	u32 val = DU_MCR0_DI_EN;
- 
--	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
-+	if (rstate->outputs == BIT(RZG2L_DU_OUTPUT_DPAD0))
-+		val |= DU_MCR0_DPI_OE;
-+
-+	writel(start ? val : 0, rcdu->mmio + DU_MCR0);
- }
- 
- static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-index e5eca8691a33..69b8e216ee1a 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-@@ -25,21 +25,35 @@
-  * Device Information
-  */
- 
-+static const struct rzg2l_du_device_info rzg2l_du_r9a07g043u_info = {
-+	.channels_mask = BIT(0),
-+	.routes = {
-+		[RZG2L_DU_OUTPUT_DSI0] = {
-+			.du_output = RZG2L_DU_OUTPUT_INVALID,
-+		},
-+		[RZG2L_DU_OUTPUT_DPAD0] = {
-+			.possible_outputs = BIT(0),
-+			.du_output = RZG2L_DU_OUTPUT_DPAD0,
-+		},
-+	},
-+};
-+
- static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
- 	.channels_mask = BIT(0),
- 	.routes = {
- 		[RZG2L_DU_OUTPUT_DSI0] = {
- 			.possible_outputs = BIT(0),
--			.port = 0,
-+			.du_output = RZG2L_DU_OUTPUT_DSI0,
- 		},
- 		[RZG2L_DU_OUTPUT_DPAD0] = {
- 			.possible_outputs = BIT(0),
--			.port = 1,
-+			.du_output = RZG2L_DU_OUTPUT_DPAD0,
- 		}
- 	}
- };
- 
- static const struct of_device_id rzg2l_du_of_table[] = {
-+	{ .compatible = "renesas,r9a07g043u-du", .data = &rzg2l_du_r9a07g043u_info },
- 	{ .compatible = "renesas,r9a07g044-du", .data = &rzg2l_du_r9a07g044_info },
- 	{ /* sentinel */ }
- };
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-index 58806c2a8f2b..ab82b5c86d6e 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-@@ -29,7 +29,7 @@ enum rzg2l_du_output {
- /*
-  * struct rzg2l_du_output_routing - Output routing specification
-  * @possible_outputs: bitmask of possible outputs
-- * @port: device tree port number corresponding to this output route
-+ * @du_output: DU output
-  *
-  * The DU has 2 possible outputs (DPAD0, DSI0). Output routing data
-  * specify the valid SoC outputs, which CRTC can drive the output, and the type
-@@ -37,7 +37,7 @@ enum rzg2l_du_output {
-  */
- struct rzg2l_du_output_routing {
- 	unsigned int possible_outputs;
--	unsigned int port;
-+	unsigned int du_output;
- };
- 
- /*
-@@ -53,6 +53,7 @@ struct rzg2l_du_device_info {
- #define RZG2L_DU_MAX_CRTCS		1
- #define RZG2L_DU_MAX_VSPS		1
- #define RZG2L_DU_MAX_DSI		1
-+#define RZG2L_DU_OUTPUT_INVALID		-1
- 
- struct rzg2l_du_device {
- 	struct device *dev;
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-index 07b312b6f81e..361350f2999e 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-@@ -183,8 +183,8 @@ static int rzg2l_du_encoders_init(struct rzg2l_du_device *rcdu)
- 
- 		/* Find the output route corresponding to the port number. */
- 		for (i = 0; i < RZG2L_DU_OUTPUT_MAX; ++i) {
--			if (rcdu->info->routes[i].port == ep.port) {
--				output = i;
-+			if (i == rcdu->info->routes[i].du_output) {
-+				output = rcdu->info->routes[i].du_output;
- 				break;
- 			}
- 		}
--- 
-2.43.0
-
+	Sam
