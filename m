@@ -2,85 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD419482BE
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 21:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3F49482E5
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 22:06:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0A010E29F;
-	Mon,  5 Aug 2024 19:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D20610E2A1;
+	Mon,  5 Aug 2024 20:06:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="URXr4DmK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MrhaOny9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ABD010E29B;
- Mon,  5 Aug 2024 19:59:11 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 475BCegj019139;
- Mon, 5 Aug 2024 19:59:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=3PdDIjWS8xAAF2r3L9gl7F8m
- AHgdHD0vb2Ts7ffC658=; b=URXr4DmKc1CTdCKsJdcohR/6JZe5zwVmKYrmwHJH
- TtQsmWdq3l8zWv/VhL7q2R78ThjGZJIfQWRkJRl0uHJWp15XYcYrQGsOzl86HIkO
- wP1+SD7JBFDni3U8qBtAMHJ6jLfBowIBmRSX14CsuM9UfiNsdJzdWtoLmifzM+dF
- kv594u9GnQsCcKxjyCjXhnNmatk6+scLK5hyrEyodBFJTOWEvjAE2GElz+3xAAYh
- DB83Qy4BFDeTzpBVpnrbvm4NRWASg4Chnbjj5raRB1Itv+rN4ZuA+yqaGDbeI7hD
- 57nTx/ShLMkuFnNX/v9NoDWaBknTuyc1ZLnwBZIk2q3Hug==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40scs2w1nm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Aug 2024 19:59:07 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 475Jx6Qq009040
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 5 Aug 2024 19:59:06 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 5 Aug 2024 12:59:01 -0700
-Date: Tue, 6 Aug 2024 01:28:57 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Vladimir Lypak <vladimir.lypak@gmail.com>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konrad.dybcio@linaro.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, Jordan Crouse
- <jordan@cosmicpenguin.net>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/4] drm/msm/a5xx: workaround early ring-buffer emptiness
- check
-Message-ID: <20240805195857.elrbquiazekg6j6p@hu-akhilpo-hyd.qualcomm.com>
-References: <20240711100038.268803-1-vladimir.lypak@gmail.com>
- <20240711100038.268803-5-vladimir.lypak@gmail.com>
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8296710E2A1;
+ Mon,  5 Aug 2024 20:06:30 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2cb4c584029so8391a91.3; 
+ Mon, 05 Aug 2024 13:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722888390; x=1723493190; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AhhwNjysRV1ApJpRrTYi20sRokbUvK79VIcbcb1hQIU=;
+ b=MrhaOny91/MczerT64sABxYtwSDFWXpRYNH/kT2IvJ2z+jJWxR17f4GLZsAKs+yQYd
+ 5rKz+eCY6JtC/Swyn0CPHWEd5RTT1tpuIkuvjE14j5GmdGrKI639TdW7Lsk5tLLt8dTy
+ ZA8LfLL86BglaGBTlmhzwxT2owUVI1tImT9w9zBwjXG6XjsPWk9PrElTGf/o6ZP0xXZB
+ QSIIdOCuFFjt33qhOQ2l3eZya0dm628Okef2B2lLhkYWKVO4cT5MNN2RRncOi2pPhX4l
+ P2uxEImKQXXSqUgYsJe2DR58LYQHHEyjSlqYF1nzJXWU052sQ6DfHHoZQ3quTxZRit73
+ /ljA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722888390; x=1723493190;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AhhwNjysRV1ApJpRrTYi20sRokbUvK79VIcbcb1hQIU=;
+ b=ptG+4EGdBn248uDKMHcqXsYeBFH1w5lmftldd/cCgef2+FhT/nJcVPflvPOMyqgZNt
+ MVd/2ZMHBurzI5ethjfsL+5IxQEAIt3CQq3tHC9TrmrSTN0iDGRiOhYpat+o9OxKrQEU
+ aqUmCvgZ22E9qhfFeJkTdQsOyzp71tBgz/ZTMi+h4xSMdkJa0CSJzJ07eLGK9mmRkgLR
+ v8T38KI3J+wyuYfOo3bULAPQfFA93jBe0xjGlWN8cLcIdkvJeERWGx8oQjSDnDGmBC1e
+ NmPacfTjkbYpmLqpUTPGMlSw92cqvyxhnhsEH+urETMBKCH7q5/Vgzm3+oB5i0Doq47v
+ 9ugQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUSZ0wl5ynON6h8d4+qaIvsKTAeEu3qaIDdeALRoj5xrvfD5eXj/su9mhsIIOkENuZOSa8Oe7aILcEhtg9dCfU3yLd3W/UC68j7jQYG1L9O
+X-Gm-Message-State: AOJu0YwOHUctAxyABr7iHD+NCMytMelzchY2A+5zf9MfhhDKSPByqgcp
+ W/lSxwSiM5TTcg15uEOkgQXKxiZaWJqPsNoBEwvSu1BWCcCC8LFIDPNQIV22XZHkbCYnpdOS5nf
+ Ng8+457+wTgLID0lS05dEhFaLhTRxMw==
+X-Google-Smtp-Source: AGHT+IFRPNtDJR1LFejyrg8XiakZOiGzS9Uk+4UHp48b7BTue3j4pJ6Q3mck8pz/FbAcnuik1/mUBeAEwTKahh5lHOQ=
+X-Received: by 2002:a17:90a:a417:b0:2c9:6f5e:f5c1 with SMTP id
+ 98e67ed59e1d1-2cff93fe5c5mr12697459a91.10.1722888389853; Mon, 05 Aug 2024
+ 13:06:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240711100038.268803-5-vladimir.lypak@gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: j8dBPWIPyBwfOh1OxVP-5lC3tyvVI30j
-X-Proofpoint-GUID: j8dBPWIPyBwfOh1OxVP-5lC3tyvVI30j
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-05_08,2024-08-02_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- suspectscore=0 adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408050141
+References: <cover.1722778722.git.tjakobi@math.uni-bielefeld.de>
+In-Reply-To: <cover.1722778722.git.tjakobi@math.uni-bielefeld.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 5 Aug 2024 16:06:17 -0400
+Message-ID: <CADnq5_Oeh-pzGQG55xv9u_fYjrdWrcCBy5-rFxX+X8mW5sBYeQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm/amd: some trivial fixes
+To: tjakobi@math.uni-bielefeld.de
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,97 +79,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 11, 2024 at 10:00:21AM +0000, Vladimir Lypak wrote:
-> There is another cause for soft lock-up of GPU in empty ring-buffer:
-> race between GPU executing last commands and CPU checking ring for
-> emptiness. On GPU side IRQ for retire is triggered by CACHE_FLUSH_TS
-> event and RPTR shadow (which is used to check ring emptiness) is updated
-> a bit later from CP_CONTEXT_SWITCH_YIELD. Thus if GPU is executing its
-> last commands slow enough or we check that ring too fast we will miss a
-> chance to trigger switch to lower priority ring because current ring isn't
-> empty just yet. This can escalate to lock-up situation described in
-> previous patch.
-> To work-around this issue we keep track of last submit sequence number
-> for each ring and compare it with one written to memptrs from GPU during
-> execution of CACHE_FLUSH_TS event.
-> 
+Applied the series.  Thanks!
 
-This is interesting! Is this just theoretical or are you able to hit
-this race on your device (after picking other fixes in this series)?
+Alex
 
--Akhil.
-
-> Fixes: b1fc2839d2f9 ("drm/msm: Implement preemption for A5XX targets")
-> Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c     | 4 ++++
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.h     | 1 +
->  drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 4 ++++
->  3 files changed, 9 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> index 266744ee1d5f..001f11f5febc 100644
-> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> @@ -65,6 +65,8 @@ void a5xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->  
->  static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit)
->  {
-> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> +	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
->  	struct msm_ringbuffer *ring = submit->ring;
->  	struct drm_gem_object *obj;
->  	uint32_t *ptr, dwords;
-> @@ -109,6 +111,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
->  		}
->  	}
->  
-> +	a5xx_gpu->last_seqno[ring->id] = submit->seqno;
->  	a5xx_flush(gpu, ring, true);
->  	a5xx_preempt_trigger(gpu, true);
->  
-> @@ -210,6 +213,7 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
->  	/* Write the fence to the scratch register */
->  	OUT_PKT4(ring, REG_A5XX_CP_SCRATCH_REG(2), 1);
->  	OUT_RING(ring, submit->seqno);
-> +	a5xx_gpu->last_seqno[ring->id] = submit->seqno;
->  
->  	/*
->  	 * Execute a CACHE_FLUSH_TS event. This will ensure that the
-> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
-> index 1120824853d4..7269eaab9a7a 100644
-> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
-> @@ -34,6 +34,7 @@ struct a5xx_gpu {
->  	struct drm_gem_object *preempt_counters_bo[MSM_GPU_MAX_RINGS];
->  	struct a5xx_preempt_record *preempt[MSM_GPU_MAX_RINGS];
->  	uint64_t preempt_iova[MSM_GPU_MAX_RINGS];
-> +	uint32_t last_seqno[MSM_GPU_MAX_RINGS];
->  
->  	atomic_t preempt_state;
->  	struct timer_list preempt_timer;
-> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-> index f8d09a83c5ae..6bd92f9b2338 100644
-> --- a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-> +++ b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-> @@ -55,6 +55,8 @@ static inline void update_wptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
->  /* Return the highest priority ringbuffer with something in it */
->  static struct msm_ringbuffer *get_next_ring(struct msm_gpu *gpu)
->  {
-> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> +	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
->  	unsigned long flags;
->  	int i;
->  
-> @@ -64,6 +66,8 @@ static struct msm_ringbuffer *get_next_ring(struct msm_gpu *gpu)
->  
->  		spin_lock_irqsave(&ring->preempt_lock, flags);
->  		empty = (get_wptr(ring) == gpu->funcs->get_rptr(gpu, ring));
-> +		if (!empty && ring == a5xx_gpu->cur_ring)
-> +			empty = ring->memptrs->fence == a5xx_gpu->last_seqno[i];
->  		spin_unlock_irqrestore(&ring->preempt_lock, flags);
->  
->  		if (!empty)
-> -- 
-> 2.45.2
-> 
+On Sun, Aug 4, 2024 at 10:14=E2=80=AFAM <tjakobi@math.uni-bielefeld.de> wro=
+te:
+>
+> From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+>
+> Nothing serious here, just some bits I noticed when reading code.
+>
+> Tobias Jakobi (3):
+>   drm/amd: Make amd_ip_funcs static for SDMA v5.0
+>   drm/amd: Make amd_ip_funcs static for SDMA v5.2
+>   drm/amdgpu/swsmu: fix SMU11 typos (memlk -> memclk)
+>
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c                  | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_0.h                  | 1 -
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c                  | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_2.h                  | 1 -
+>  drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c         | 4 ++--
+>  drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c | 4 ++--
+>  6 files changed, 6 insertions(+), 8 deletions(-)
+>
+> --
+> 2.44.2
+>
