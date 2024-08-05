@@ -2,75 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D649480B5
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 19:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774519480BB
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 19:53:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED34010E229;
-	Mon,  5 Aug 2024 17:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E956210E26F;
+	Mon,  5 Aug 2024 17:53:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="FvenP9BB";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="LB7smZ3S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
- [209.85.221.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0B3B10E298
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 17:51:51 +0000 (UTC)
-Received: by mail-vk1-f169.google.com with SMTP id
- 71dfb90a1353d-4f6d35d59ccso3243781e0c.1
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Aug 2024 10:51:51 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 837AE10E26F
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 17:53:34 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-5b1a00750a4so4657a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Aug 2024 10:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1722880311; x=1723485111;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=6nbW348xf8GM2iQnl+TbCKX6Ev0PICegcIqwB4d0fQU=;
- b=FvenP9BB+VLiZdfynyryVgDJ3d42pcoiu8Io2/fOglz/ZMGEm94DF2BkbZAmF6tall
- jXYXN70iNIgqIbwV1rSG20WE55ztpa2qvz1wc+hjiMmKH/JSZV6uevD6i2eqM0DYoC11
- hf4PUM/HA1qtOGOQFSwZCOs800wqegFdDHiL8=
+ d=ffwll.ch; s=google; t=1722880413; x=1723485213; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=cEa+YT/mVCcUD9GpjPevIJZLtJmVc6lmcDDNejfBO+w=;
+ b=LB7smZ3S3EfTCfaKEiKnkRlc8RZV6UZlgFnCiElX+H+oQj2gZfGVODlemvb4GFLNxj
+ KzUXS6ubRakmELtrIM9Hr5y46xMFI1Mett+DpE+/fP6Lce9gzE9a0dnwg17IIsVAwVkm
+ 94h6yyZ21R7qyNqq8WcjYGkizv9MJZyXMb/s0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722880311; x=1723485111;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6nbW348xf8GM2iQnl+TbCKX6Ev0PICegcIqwB4d0fQU=;
- b=CDIpu2uRgBztKPN/v3glSJU70fkZRQ4CLoDtQqxtD8v16JfHuWqBboLY7ScbI1YKX9
- gAZYLywco0InmHaMNFMMkrCycVT1drNO4TaGcM6PeWzDjNpgL2RJJEXX6+99jP97UejL
- LCCsA9qf1K0w7Nm5c/ykMDrSBi5nbIPVZ0tD/WzKEKSQdnigko0b4Bjioa8jEZgFOU4Q
- t+l5nbkwzENSXqhQMHqr9UwsXC1SXtz91gRSLag3VC3rrsczphYWYv+iyfsvlBYj5yEl
- 6r8/B5xglZu5H+YQjK59VRIHttZSxYz0E6wddLoBs9YIVT98r0j6F5DgJl9AmCcvIcjF
- bumg==
-X-Gm-Message-State: AOJu0YwpwoOes9z//lsAE0Cr5RjIQcYBxkXVWuqCJDSr6o2qZWGFdQiP
- pQJ3wQgf16MVyvbNF9+5Tm+w191D9Rw//pxgTXaNdf7Kq40kQ3//6azZw6wRqAfzXEivsefzMdW
- ImDH3r9C8HNpXRkELC4tZleO9IS1XVnKXPMdM
-X-Google-Smtp-Source: AGHT+IHtSv7JoCebCjJD4wZkVA0SCLR4fN1TlmZof6Lk/RoveBtf7mPpjJXL0Ok2+pD7uFaqEK6RArc9McfQGRl5hOg=
-X-Received: by 2002:a05:6122:915:b0:4f5:2c0c:8528 with SMTP id
- 71dfb90a1353d-4f8a0018979mr10177984e0c.11.1722880310637; Mon, 05 Aug 2024
- 10:51:50 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 5 Aug 2024 10:51:49 -0700
+ d=1e100.net; s=20230601; t=1722880413; x=1723485213;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cEa+YT/mVCcUD9GpjPevIJZLtJmVc6lmcDDNejfBO+w=;
+ b=Tbn1B4HzfYdhYBid1GgEGgKMfyqHwcBURRVNTOTapHFn1xbUG25dKp2Z8l254TQFKb
+ Ibbor8K+bkfM4sq/vUpixJIrXjFT22szHkt1NXXmY8444dHFtauvuHV/L2oSH+ON4N7/
+ Vm8Y44CPUFHXtXUCjXo4i/0wa8YYW77MSfiXJsuUwVDZxY1n4C1q6NUTPcEVUr4CRtCK
+ M0mOWDKjmYzC+T5plYV9Coq7v8oRwP5L9/y1n4jaUVdiz1ko71dBIVOFcT6c5RcIzEZS
+ boETjMuJAJvo8MNyLDUYrrSfalHGmtOKn50rxAiMToUq75/jgP7HH9qt4RfkqV2xSzdp
+ rg4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWYuVGWRlqb1vrzfApQ+XCkoltxp21TUbQfa+l+nh9xG1O06R2PLjGgDeBV2+hmugQmVLa06AMUVjtb6B9X4o5PTCgL3I69GlAHkBpw3M8U
+X-Gm-Message-State: AOJu0YwgiGjGVMObIokNd25eZ4VnW0viS7VYKR3St5VZ20UjJFOEdCwb
+ o9/cbsDY1o1QQPO5upe7xhM/+J1FHuuEdDpMMmORVrFGjunBbD4aiEU3uhDA834=
+X-Google-Smtp-Source: AGHT+IGlF5DiKdBDow/gpp4uHOITP01+3OGMKycpIkbo2FerV/n9VK31oyha5PyJpYnERo4T2I9irQ==
+X-Received: by 2002:a17:907:3f29:b0:a72:499a:e5ba with SMTP id
+ a640c23a62f3a-a7dc50f07d0mr706646266b.7.1722880412461; 
+ Mon, 05 Aug 2024 10:53:32 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a7dc9bcc86asm472899466b.28.2024.08.05.10.53.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Aug 2024 10:53:31 -0700 (PDT)
+Date: Mon, 5 Aug 2024 19:53:30 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Huan Yang <link@vivo.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ opensource.kernel@vivo.com
+Subject: Re: [PATCH v2 0/5] Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+Message-ID: <ZrERmndxBS5xUvuE@phenom.ffwll.local>
+Mail-Followup-To: Huan Yang <link@vivo.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ opensource.kernel@vivo.com
+References: <20240730075755.10941-1-link@vivo.com>
+ <Zqiqv7fomIp1IPS_@phenom.ffwll.local>
+ <25cf34bd-b11f-4097-87b5-39e6b4a27d85@vivo.com>
+ <37b07e69-df85-45fc-888d-54cb7c4be97a@vivo.com>
+ <Zqqing7M2notp6Ou@phenom.ffwll.local>
+ <4e83734a-d0cf-4f8a-9731-d370e1064d65@vivo.com>
 MIME-Version: 1.0
-In-Reply-To: <20240730175541.2549592-1-quic_abhinavk@quicinc.com>
-References: <20240730175541.2549592-1-quic_abhinavk@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 5 Aug 2024 10:51:49 -0700
-Message-ID: <CAE-0n50jN+XivRX8D7cHff26P-kM8hNsQEpj=VBf=bEs9vESGw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/dp: fix the max supported bpp logic
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Chandan Uddaraju <chandanu@codeaurora.org>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Tanmay Shah <tanmay@codeaurora.org>, freedreno@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com, 
- dianders@chromium.org, neil.armstrong@linaro.org, andersson@kernel.org, 
- abel.vesa@linaro.org, Vara Reddy <quic_varar@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4e83734a-d0cf-4f8a-9731-d370e1064d65@vivo.com>
+X-Operating-System: Linux phenom 6.9.10-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,68 +104,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2024-07-30 10:55:40)
-> Fix the dp_panel_get_supported_bpp() API to return the minimum
-> supported bpp correctly for relevant cases and use this API
-> to correct the behavior of DP driver which hard-codes the max supported
-> bpp to 30.
->
-> This is incorrect because the number of lanes and max data rate
-> supported by the lanes need to be taken into account.
->
-> Replace the hardcoded limit with the appropriate math which accounts
-> for the accurate number of lanes and max data rate.
->
-> changes in v2:
->         - Fix the dp_panel_get_supported_bpp() and use it
->         - Drop the max_t usage as dp_panel_get_supported_bpp() already
->           returns the min_bpp correctly now
->
-> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/43
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # SM8350-HDK
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
+On Thu, Aug 01, 2024 at 10:53:45AM +0800, Huan Yang wrote:
+> 
+> 在 2024/8/1 4:46, Daniel Vetter 写道:
+> > On Tue, Jul 30, 2024 at 08:04:04PM +0800, Huan Yang wrote:
+> > > 在 2024/7/30 17:05, Huan Yang 写道:
+> > > > 在 2024/7/30 16:56, Daniel Vetter 写道:
+> > > > > [????????? daniel.vetter@ffwll.ch ?????????
+> > > > > https://aka.ms/LearnAboutSenderIdentification?????????????]
+> > > > > 
+> > > > > On Tue, Jul 30, 2024 at 03:57:44PM +0800, Huan Yang wrote:
+> > > > > > UDMA-BUF step:
+> > > > > >     1. memfd_create
+> > > > > >     2. open file(buffer/direct)
+> > > > > >     3. udmabuf create
+> > > > > >     4. mmap memfd
+> > > > > >     5. read file into memfd vaddr
+> > > > > Yeah this is really slow and the worst way to do it. You absolutely want
+> > > > > to start _all_ the io before you start creating the dma-buf, ideally
+> > > > > with
+> > > > > everything running in parallel. But just starting the direct I/O with
+> > > > > async and then creating the umdabuf should be a lot faster and avoid
+> > > > That's greate,  Let me rephrase that, and please correct me if I'm wrong.
+> > > > 
+> > > > UDMA-BUF step:
+> > > >    1. memfd_create
+> > > >    2. mmap memfd
+> > > >    3. open file(buffer/direct)
+> > > >    4. start thread to async read
+> > > >    3. udmabuf create
+> > > > 
+> > > > With this, can improve
+> > > I just test with it. Step is:
+> > > 
+> > > UDMA-BUF step:
+> > >    1. memfd_create
+> > >    2. mmap memfd
+> > >    3. open file(buffer/direct)
+> > >    4. start thread to async read
+> > >    5. udmabuf create
+> > > 
+> > >    6 . join wait
+> > > 
+> > > 3G file read all step cost 1,527,103,431ns, it's greate.
+> > Ok that's almost the throughput of your patch set, which I think is close
+> > enough. The remaining difference is probably just the mmap overhead, not
+> > sure whether/how we can do direct i/o to an fd directly ... in principle
+> > it's possible for any file that uses the standard pagecache.
+> 
+> Yes, for mmap, IMO, now that we get all folios and pin it. That's mean all
+> pfn it's got when udmabuf created.
+> 
+> So, I think mmap with page fault is helpless for save memory but increase
+> the mmap access cost.(maybe can save a little page table's memory)
+> 
+> I want to offer a patchset to remove it and more suitable for folios
+> operate(And remove unpin list). And contains some fix patch.
+> 
+> I'll send it when I test it's good.
+> 
+> 
+> About fd operation for direct I/O, maybe use sendfile or copy_file_range?
+> 
+> sendfile base pipe buffer, it's low performance when I test is.
+> 
+> copy_file_range can't work due to it's not the same file system.
+> 
+> So, I can't find other way to do it. Can someone give some suggestions?
 
-One note below,
-
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index a916b5f3b317..3777b1abacad 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -90,22 +90,22 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
->  static u32 dp_panel_get_supported_bpp(struct dp_panel *dp_panel,
->                 u32 mode_edid_bpp, u32 mode_pclk_khz)
->  {
-> -       struct dp_link_info *link_info;
-> +       const struct dp_link_info *link_info;
->         const u32 max_supported_bpp = 30, min_supported_bpp = 18;
-> -       u32 bpp = 0, data_rate_khz = 0;
-> +       u32 bpp, data_rate_khz;
->
->         bpp = min_t(u32, mode_edid_bpp, max_supported_bpp);
-
-This can be min() because all types are u32.
-
->
->         link_info = &dp_panel->link_info;
->         data_rate_khz = link_info->num_lanes * link_info->rate * 8;
->
-> -       while (bpp > min_supported_bpp) {
-> +       do {
->                 if (mode_pclk_khz * bpp <= data_rate_khz)
-> -                       break;
-> +                       return bpp;
->                 bpp -= 6;
-> -       }
-> +       } while (bpp > min_supported_bpp);
->
-> -       return bpp;
-> +       return min_supported_bpp;
->  }
->
->  int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
+Yeah direct I/O to pagecache without an mmap might be too niche to be
+supported. Maybe io_uring has something, but I guess as unlikely as
+anything else.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
