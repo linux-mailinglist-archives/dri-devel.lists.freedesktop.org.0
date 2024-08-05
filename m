@@ -2,70 +2,190 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC6D948132
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 20:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A899481B6
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 20:35:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F09CD10E27D;
-	Mon,  5 Aug 2024 18:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F130710E27F;
+	Mon,  5 Aug 2024 18:35:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hG9e7Z9a";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iFIJL/d9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39F6010E27D;
- Mon,  5 Aug 2024 18:06:07 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id
- 6a1803df08f44-6b79775f464so12790406d6.2; 
- Mon, 05 Aug 2024 11:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722881166; x=1723485966; darn=lists.freedesktop.org;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=tuNc5ijq2sTTz1aoHY//bl29OA01mR9/Gm1Cm8jhEsw=;
- b=hG9e7Z9aYy96GNALFglWcRk2W0MutDkGob5EXFloDZyscbv0uZSoVr17anR2jxqecF
- LbXvDvh0uan6NAgZRRevBioFt1TSsTvBatMjvqa7Sew6p1dLSKiG4OxZjAl3LhWQGjiv
- BUtIpBC7ZU4JRIapxrKWxQjJw7atVHYvx4Oquc4rwHzO54XFKccSvg0pewASx4I/HPnL
- 7emHtdDatafrcSqQCOQso9vQp0WDcp9TxB/bykdF194FN7zjIsnVliTwzBUa230SMAG0
- EbwvUOrBRmUiSdVPtObHUMMqHJdqVYX6CHr/e13ghs75BWW3LORgJNEsAmNZVbCvTqtn
- ufpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722881166; x=1723485966;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tuNc5ijq2sTTz1aoHY//bl29OA01mR9/Gm1Cm8jhEsw=;
- b=vU3bCioXZqlYyOB0Mq0Krb05IEpqNWdpPM90izEE4eWtagHhdZmAsURIvIoejp+OPH
- 8H00lh0tlBuW2IOcKLbmGsrfid9ldpeRYqb5yZ1JcPsFFW2bnLFz/rTw9k/7zSres16O
- lvIlY9LzEnqmJBaeSpAVFaI9NTJ09GF76AZywZxkm45NZG4AFBCxc3UC6rd1zF9JJ6So
- f9nzzLgfNKZLS4Nk/VDrAesQqgw/jpV2+rniaKSVU7YuUn64uVyychx9sdS2ISn7Tzhi
- 2P/HFg/PtqeTdB1Wb0N1HAxpsUKvqqVRUktdeTeugJcgOkSdzGKmGpcXkaf/acWJZgDd
- a1nA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVf8DEqGSW8hVbkVQEXkekBUkAr32Kd6JdVJWc2broSo0P/S/etaCZHOWEoRM2K7x3m0hcZczx6@lists.freedesktop.org,
- AJvYcCVjiyokGdRfSpBD2I/dvx/wRkN3i4Aha78n4bAT5jXJyT8J9OdygsvW8//x4Tv4y6LYt96+1L9WgUZ0@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyRACzZzhBaVGDWUnrhlBoSNkeHWAr5f0FzfsJ6NZnhHPJr+wFx
- +N/eiJtAuiOifxesJptAnZw1u1B5TmJJx3TG1zORQ/H1BFuHF6Wi3UY/mvV25kN7UiZ0sojxUx4
- /QJwR3H7N1M+p/h21e/Ida51j6e0=
-X-Google-Smtp-Source: AGHT+IGtKXbr3WIUYML88AgClVnUEVd5wqOjwXLwGek75xH0mlYxuRzER9nHua9J6rDEejJ+C1ibj9q/0xMMTRAjZOQ=
-X-Received: by 2002:a05:6214:e64:b0:6b0:8202:5c4e with SMTP id
- 6a1803df08f44-6bb983f0fa6mr98122976d6.5.1722881165875; Mon, 05 Aug 2024
- 11:06:05 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC6E10E27F;
+ Mon,  5 Aug 2024 18:35:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1722882940; x=1754418940;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=L+jQ/BX3Zb8WuDA2018VXZv6PSDUXcBcO4MOuLK+0/Y=;
+ b=iFIJL/d9kcMY2ViPETwJq55ixy4GtBwuorXKK7sCq4Tdd/K0vWqy7FrV
+ SfWzTxrlybGqpEJq7Dj2RNNg/N1pKMiuX+PSGC1Y2R5mtvGOf323V0zqK
+ B+yZy/TsiOztsiwpYwUioig2+e+W40SwpUcpYdNr1UIlaLVYJQ+H7PXX9
+ XaiDinAV2nQCae2dKnn3p3iiL8CpUXjdobW6yMPsDhYWjzHMbqWcR0IKU
+ J7+IBoK8O+rmqP8UNkKUG6ibjArJFW+f3AM4Ue07qLJPzRYfuyBuvuMoh
+ LRyvvlUSq1EG+v9dqWKaHKegQVbTM//79IznnMvI7KK3CUTO6icJxFOJS w==;
+X-CSE-ConnectionGUID: WyObZhz3RTqO4dhCsELQcQ==
+X-CSE-MsgGUID: lLh1B5ZLTvO4O7Ifj6HG9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="21028378"
+X-IronPort-AV: E=Sophos;i="6.09,265,1716274800"; d="scan'208";a="21028378"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2024 11:35:39 -0700
+X-CSE-ConnectionGUID: Mx3hZ3KOQOyMtsoBl2zb1w==
+X-CSE-MsgGUID: yUzF/E7YQOmmGdGPbJUBTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,265,1716274800"; d="scan'208";a="56461350"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 05 Aug 2024 11:35:39 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 5 Aug 2024 11:35:38 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 5 Aug 2024 11:35:38 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 5 Aug 2024 11:35:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vWUWPMwZwbKbJ464wfcIgeTHOT76eBH/IGHfR0lbSFlG5OYamPXrhzCNA9rK/g/d0B/QJdvPSTncgsuPT0ocDg/BeYxEq0e3N3vt8N1oPynHW4nmds5r0KE6nklMpENZ/31LzumyC0tk5o/EyDhmIrwhlSGnYfOhgxZMTbEHtXswzMzwY5gmKE3auYFCmbgojh8Zcih6uWLlXpN9s6ZkarBy4ALFPDm6qXZJAfJcIguiu9awc+nz6kPzq1DWmlU3085ilPQ80dR81elJz3Q8WgnF1HBpY3yYO3MfKVUQS9jOuPzDBJc72qI8gc0NSVascZjLQzhrxQaZ0FfsToWxEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L+jQ/BX3Zb8WuDA2018VXZv6PSDUXcBcO4MOuLK+0/Y=;
+ b=kPWMOhQ7r4RsgIT8AI91Usg3H1KU0u+LquTV+Bfy3XTTAHT5QzSqPU/E9PngVi5iy9HND4RBdAdQQBduGJstlyrQHcTE94/S8OzA5owcBfnhA8zdp4quJNempq/i144oXisF5fjGWzlZAzZvpJG/bIpLlDsqpQ4G4nT7wy5N08fns3gltEdteO9kF2y/rGqFl3oqhziTJ9TOvFZb4rW5j72DRQb3aED8JBEI+aXlS9gKkPmSHQijodPdFEYjMBOK/UTsjo4rd3GCGJ20YIIFS/z7aXJf2CQ0CGFa0Vnt/3s6OX3i8xps/Lv04gfF09c5mFtvvMAmoLKev7QCfKQTkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB8179.namprd11.prod.outlook.com (2603:10b6:8:18e::22)
+ by IA1PR11MB8099.namprd11.prod.outlook.com (2603:10b6:208:448::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Mon, 5 Aug
+ 2024 18:35:35 +0000
+Received: from DM4PR11MB8179.namprd11.prod.outlook.com
+ ([fe80::f5c2:eb59:d98c:e8ba]) by DM4PR11MB8179.namprd11.prod.outlook.com
+ ([fe80::f5c2:eb59:d98c:e8ba%7]) with mapi id 15.20.7828.023; Mon, 5 Aug 2024
+ 18:35:34 +0000
+From: "Souza, Jose" <jose.souza@intel.com>
+To: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Brost, Matthew" <matthew.brost@intel.com>, "christian.koenig@amd.com"
+ <christian.koenig@amd.com>, "Amaranath.Somalapuram@amd.com"
+ <Amaranath.Somalapuram@amd.com>
+Subject: Re: [PATCH v6 12/12] drm/xe: Increase the XE_PL_TT watermark
+Thread-Topic: [PATCH v6 12/12] drm/xe: Increase the XE_PL_TT watermark
+Thread-Index: AQHazV8g2IMOcl3PpUWWCZZCj43bWbIZMcMA
+Date: Mon, 5 Aug 2024 18:35:34 +0000
+Message-ID: <a9973e37fc9c81046ce5f32a13f5e8eb50d90935.camel@intel.com>
+References: <20240703153813.182001-1-thomas.hellstrom@linux.intel.com>
+ <20240703153813.182001-13-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20240703153813.182001-13-thomas.hellstrom@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB8179:EE_|IA1PR11MB8099:EE_
+x-ms-office365-filtering-correlation-id: 25e28993-da5e-437f-2379-08dcb57d64d3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?Tkcwb01jTGt4NEV4bkM4LzFqaGJ2TVZ6dU1VTHNMbStLbWptODJRSzU5S3lp?=
+ =?utf-8?B?dytYQTVhMElWZXVOVXJPbnFpQUNPeXFtOUZBQ0pWK0xSYUR4YzdOT2xJWElQ?=
+ =?utf-8?B?V3c2QWR2bXp3TGIzRmpNSXlHdEhYMm9lVmlsNHRaVkh4dER6MnJ4TGdMU2Rv?=
+ =?utf-8?B?dmg1aGNYMXd3U2dBZkNFUjdCdForUHFlb2lucVJTTnN2bG9ONVl5WUEveDhS?=
+ =?utf-8?B?MTJRTnpWZ0VROGpCVFFybW0zWS96M0prKzlKTnc0V01NNU9YaDFWUHhsTHlM?=
+ =?utf-8?B?cUR3WmNuK2VqdjYwdzlMWWlqSUtSdE1IdnpTc21mOWdINW9rdlA3SVFFSlNn?=
+ =?utf-8?B?SGIxVnNLVUZrQ2txWk1MMGVub1BaSVE0MHlhVGZIMStQZFQ4Y1hnUzZ0d256?=
+ =?utf-8?B?NER4Ulh5VkJQR3NvdnFnbkptdWh6Zys5bzZqVHpzS3g3ajZIcGNNQUdrU24w?=
+ =?utf-8?B?REFsL0xUdlFzYlRVeHNaM1Ewcmd2NC9YZEtGYlB0VzdzaUwrQ3JqUUpWMlp3?=
+ =?utf-8?B?b3pxMUdlS0pJWElMUElsN3NKd3JYQVBjVTJYVzc0dkh1c3ZzcFlFQS81eHl1?=
+ =?utf-8?B?K0ZuT0ZmNzAwUUtIa2VZODB6RVJzUnVHenY4MnNKQnNZMjZudjZTZXhCUnFY?=
+ =?utf-8?B?azQ3ZE82aVltbnJrM3lpN0R2dytBV2FyTDF4UTdPQ2V2MDgvQjN1M1g1dHp3?=
+ =?utf-8?B?ZWV3clBCSzZPckUvQlpFNTh6YWF5Mmx1ejNQQzBJV0RZUk4rSEhxSTlyYklH?=
+ =?utf-8?B?MVUzUnhkaXpwb3J1VHhjb2dONDZudWd1djBubkZnRCs2MzBvYVpySnpUZUZD?=
+ =?utf-8?B?OFpTTzVJVnVoRzZ4VGxHS0lpaG4rajU2RE12UjFKbmFKVWVDSVd5U2VUM2xa?=
+ =?utf-8?B?WVNWbTNuL05IUXAyRStGb0s3Qm1INTJ5Tk1ndWhMc1pYNnhXbUJpK1dFZHNq?=
+ =?utf-8?B?a1pFWmJDU2UzaU5OanhHQXh5eHU1VW0yY2JjSUZ2U25wV1o5VWI4K3ltejRw?=
+ =?utf-8?B?NUwyMmcxR05lUE9PWUlLNG5aQld4dnBvbzdHWU9BYmdSUFJOV0xWN2FPNDZz?=
+ =?utf-8?B?VVJUNlozS0JtYTdPNDJOU0xLcVJCNjZZQXdkVkVWUEVKeDJkVDhsUE81emhn?=
+ =?utf-8?B?cjVuREFUZUpVZjQ2YjZOdERETmlMNFRNYW5KK2lDRGhkYzZramJKYzRZUHVa?=
+ =?utf-8?B?cmFPZE1VclJ0UWxKYUM1emdUMGhaRy81MGVpV0dibytwMTlDam1XcGVjdVJj?=
+ =?utf-8?B?NjVtZTJLR1htUlBHU3JOOUFKSHlqZVNsWExBUXFrY3lVNHhzWU4wTzFOQ01W?=
+ =?utf-8?B?ZlgvZFgxWkJxYVYrbnhXbU1teVgvdXNGQ3NIWEVuZTZjKzhYN205Z3FuOTMx?=
+ =?utf-8?B?V0xrbFVET255MjVhKyt6bzRncm1oR1ltSEhJOEVrT2NuYldzdmRZbTFiTXND?=
+ =?utf-8?B?VVN6OTJXSlFiUzUzVWthdnVCcnNWWkxxTWhMcTZaNlp2TlpMWHZSZWlJa2JL?=
+ =?utf-8?B?VW52Z0hrSElOS1JLUmwvaThDajNNWlRVNm1WbWMxcEd6T3ljUUtQNUpWekV3?=
+ =?utf-8?B?YzIzV2tST2R3Zm13UzlTb0VFWmhuTnRhUHgyMFRXQUxZOGpGYzg2bmsyS2dj?=
+ =?utf-8?B?alY1ZURwMEQrNnVEdVZCNDk1bURIOGp1eE5XVFdld1ptUC8zMW9GQnFROTI3?=
+ =?utf-8?B?UW01b1NTTFpjWGVSVkZEdXR3TWk0Mk1CeDB2eGJxUTAvcVJ2SnprODRZb0ZK?=
+ =?utf-8?B?cHFMR0FVcVVaekNreHFlanV2SXpHTnhxTmNlbjlXTjUwc1VWaEpCcTFYZU5l?=
+ =?utf-8?B?cy9UMUtiMVRjcFVtNCszaG9idmhMUW5nUi9KcjlOWCtoSWxEN3BxUHoxREli?=
+ =?utf-8?B?YWF5QTFXbGduVFh1NG5Sb09zWTk4Yll0YWxiYXdHVHl2SHc9PQ==?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB8179.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OTJoK2RzaFBranpmMWJVTEVCcnFwZnhWdG14aFZnTzExY3VXNVBOVy9hOGdR?=
+ =?utf-8?B?cjBDQlJKMVBtck9XZUpEYm1HNDhydEwxMjZTMmxCdndTVENIRmJxTEN5TE1L?=
+ =?utf-8?B?M2VTTUZJMWVZem83RUVQNmdybmgzTVJaZmR4dmdxR1g5RTdTeVlhVkErdCtW?=
+ =?utf-8?B?QXRib3Qrbi9vNWdRQS9iTjRIOS9FS2RDR3FjQ0NlYXFyeGtmOU5IVWpONERr?=
+ =?utf-8?B?SmppS3E2MWtObnJnNDRlL3JWbjd4ZS9PbmNLTVoxQVlrUFpDTjZjNzhuU2pE?=
+ =?utf-8?B?Ulpiczk4V3Fody8wazRvMFUzVkVwRStCam9WRCtmUU5jMVg3SDc2SFVFTmZK?=
+ =?utf-8?B?NHZJM0pUUE1lZ2k4NGd3ai9MOFY1QTA3U1Q5T2laSmZqWnRjQk1KanRGMjBT?=
+ =?utf-8?B?WTFYbXJDcWlrTU1BVE0wQkF2QkJic0ZJbm91RUJZeW54dWpaWEhTNWVKOGtS?=
+ =?utf-8?B?VzNLeTNpZUtHUTBURWpQN0xHTzcyVzdqYUlZZllWM0ZsKzlaL2IvRVBobFFL?=
+ =?utf-8?B?bHRmR2I4QzA2eGpEM2UrQko4VjRxVVdWcS9EQmhHejYxQzVoTnVZbGhzNFF3?=
+ =?utf-8?B?UVUya1l2TFpJclNiOFBPMHp4TVdCc2s0K0wvWkVpaitRaFhmeHBhN0E2allm?=
+ =?utf-8?B?U1FHQ2hIWHl1c0RUZXBoWnc5RVcvRjdLcTErOWZnbjBqVEQvUEtMNTgraGEv?=
+ =?utf-8?B?U3BVOS82YUhGY3VhSXV6aVF5VkcrdWxBSzlFekt5VkErWlRNQ0kvdzlQZSta?=
+ =?utf-8?B?bFF1akpXdGhEU2g1MnJPcDE0V2ZmUEtnQ1hHT3ArWTRqSENMcW5TYWhQSFB4?=
+ =?utf-8?B?emxDOU9WYVJXVVZaYjJ0Ykxtb1BvZ0t4RVN0VnFENHROWFgweGVBeFRqRFdr?=
+ =?utf-8?B?OGlnU2RoUkVybW1SbGQ5eGlQeTBjbnlsbWR5TFBNOVFkM0k2U3l2UW8rajY5?=
+ =?utf-8?B?dWFVSFUyQTY4amRJZFJFNTdLNHp5MEIxSElpeVl6TFVWaTJONjRyUHNLeWx0?=
+ =?utf-8?B?VkpzaFpqeEpnL2ljSXZpWW1JM2xMT1BxL1k4MysrVDduV0tDWDV2NmVpWjhp?=
+ =?utf-8?B?V2phdXdGeitSM0JKNTlWeEcweFpJR2x3MmZ4VjcvTWJSWVJYbmlxMW5vMlNj?=
+ =?utf-8?B?Rlp0NWFNd3hRNkg4UktWanF0NkpLUUlta0hwMW5oSkZ5ME1VSHM4bjdvUGNm?=
+ =?utf-8?B?cVF1TnpYZjdhTWNTQVRUbngwS0Nhb3JUNDFua01sN0lSR0dZMVcrSmVyZGw3?=
+ =?utf-8?B?NDNFazlSWEJLbjZ5Q0tDcHZvdWFBRXFlK3JBbDVDbGRXSHR0UEdkMGVOQ3VV?=
+ =?utf-8?B?akw3SlNCRERrYUFnaGF5TWVFTDk4clR4dTZjSmdRelkrdkdDZGpYZUpub1ZN?=
+ =?utf-8?B?VEg1Q1NQR013K1YxK2p6bkdmVEFtek1TR29QazFZaC9MV3BmWUdvaDh5eTky?=
+ =?utf-8?B?MmY5ZDdUQjBoaFJGS0tQVTQ5Sm5qT2pZcDd6K0NtUEthTGRkM1RZUXVjK003?=
+ =?utf-8?B?NmZWK3hnYjZIcm92TDZBM0VGanpSTmNmc3BPMmFDMk8ybUtWR2xFUzV3c3cv?=
+ =?utf-8?B?cUk1WENmMWJhWEpXYW5aUWlJSlRjdE5aK3NDcUJCS3FzQ0tLQWZaY0lZbHpB?=
+ =?utf-8?B?WVhpcVVPVzd3UzN4a2twSis0azlLcEFScEhnWEFkM013L0E3N0xpWXVOREhC?=
+ =?utf-8?B?Z2RCY2dnSWtlOXh3ZFdTa2FhYVJSa3FHZlU2djhTbWRFMGNITjZkY1VBend4?=
+ =?utf-8?B?bStGL3FYL3JQSzlRRDFKUndvSmVMR2sxcHkvbENsd3hnRGpzQU4rRGNMUVg3?=
+ =?utf-8?B?Q0g1bnBnT0Y2OHJjY3pkKzNaMStjWkVFellTM01tY2luS0I1L2JKZm9pS1px?=
+ =?utf-8?B?U2g2UkRoOERPNzQzL3BKeWs3bm9YekROS0loQW9ONXhCb3JkZVNDalN1K2J4?=
+ =?utf-8?B?UXVkS3J5L1cwSXZJWE0vbjhaTGR2eDMrS2hxWDhOUVc2OGZNbFBhKytOQnpl?=
+ =?utf-8?B?N2FXU2VwK3VpTm5kTERiZENjRnNEMzhqUmkwMTYyOFoxaG52d2hIZmwrcFBk?=
+ =?utf-8?B?dW9zS0ZFWVpnNGliYlY0ako0UTBWdVZyZlV2R3M4YWpCYmhEcU9WeUFHSkI1?=
+ =?utf-8?B?RUpYblRxVEpMNVBtVHJGZ1JFQ3laemk2SW92a0t5Z013aXk1V2Q3bXBBajFo?=
+ =?utf-8?B?UFE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0E275A97596E2141AAF556BF7B2F1B6B@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Mon, 5 Aug 2024 23:05:54 +0500
-Message-ID: <CABXGCsNgx6gQCqBq-L2P15ydaN_66sM9CgGa9GQYNzQsaa6Dkg@mail.gmail.com>
-Subject: 6.11/regression/bisected - after commit 1b04dcca4fb1, launching some
- RenPy games causes computer hang
-To: Leo Li <sunpeng.li@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- zaeem.mohamed@amd.com, 
- pekka.paalanen@collabora.com, "Wheeler, Daniel" <daniel.wheeler@amd.com>, 
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, 
- Linux regressions mailing list <regressions@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB8179.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25e28993-da5e-437f-2379-08dcb57d64d3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2024 18:35:34.6325 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PoH3N9tu2qYjDAhqBOhvz5Q5qIXL7UO9oD/q3OlLG6vrwsEpgIvWxIVwlH/sl1Z38qxuXHSydZGBa4Cm92hmqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8099
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,112 +201,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-After commit 1b04dcca4fb1, launching some RenPy games causes computer hang.
-After the hang, even Alt + sysrq + REISUB can't reboot the computer!
-And no trace in the kernel log!
-For demonstration, I'm going to use the game "Find the Orange Narwhal"
-because it is free and has 100% reproducivity for this issue.
-You can find it in the Steam Store:
-https://store.steampowered.com/app/2946010/Find_the_Orange_Narwhal/
-I uploaded demonstration video to youtube: https://youtu.be/yVW6rImRpXw
-
-Unfortunately, I can't check the revert commit 1541d63c5fe2 because of
-conflicts.
-
-mikhail@primary-ws ~/p/g/linux (master)> git reset v6.11-rc1 --hard
-HEAD is now at 8400291e289e Linux 6.11-rc1
-
-mikhail@primary-ws ~/p/g/linux (master)> git revert -n 1b04dcca4fb1
-Auto-merging drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-CONFLICT (content): Merge conflict in
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-Auto-merging drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-Auto-merging drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-Auto-merging drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-CONFLICT (content): Merge conflict in
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-error: could not revert 1b04dcca4fb1... drm/amd/display: Introduce
-overlay cursor mode
-hint: after resolving the conflicts, mark the corrected paths
-hint: with 'git add <paths>' or 'git rm <paths>'
-hint: Disable this message with "git config advice.mergeConflict false"
-
-commit 1b04dcca4fb10dd3834893a60de74edd99f2bfaf
-Author: Leo Li <sunpeng.li@amd.com>
-Date:   Thu Jan 18 16:29:49 2024 -0500
-
-    drm/amd/display: Introduce overlay cursor mode
-
-    [Why]
-
-    DCN is the display hardware for amdgpu. DRM planes are backed by DCN
-    hardware pipes, which carry pixel data from one end (memory), to the
-    other (output encoder).
-
-    Each DCN pipe has the ability to blend in a cursor early on in the
-    pipeline. In other words, there are no dedicated cursor planes in DCN,
-    which makes cursor behavior somewhat unintuitive for compositors.
-
-    For example, if the cursor is in RGB format, but the top-most DRM plane
-    is in YUV format, DCN will not be able to blend them. Because of this,
-    amdgpu_dm rejects all configurations where a cursor needs to be enabled
-    on top of a YUV formatted plane.
-
-    From a compositor's perspective, when computing an allocation for
-    hardware plane offloading, this cursor-on-yuv configuration result in an
-    atomic test failure. Since the failure reason is not obvious at all,
-    compositors will likely fall back to full rendering, which is not ideal.
-
-    Instead, amdgpu_dm can try to accommodate the cursor-on-yuv
-    configuration by opportunistically reserving a separate DCN pipe just
-    for the cursor. We can refer to this as "overlay cursor mode". It is
-    contrasted with "native cursor mode", where the native DCN per-pipe
-    cursor is used.
-
-    [How]
-
-    On each crtc, compute whether the cursor plane should be enabled in
-    overlay mode. If it is, mark the CRTC as requesting overlay cursor mode.
-
-    Overlay cursor should be enabled whenever there exists a underlying
-    plane that has YUV format, or is scaled differently than the cursor. It
-    should also be enabled if there is no underlying plane, or if underlying
-    planes do not cover the entire CRTC.
-
-    During DC validation, attempt to enable a separate DCN pipe for the
-    cursor if it's in overlay mode. If that fails, or if no overlay mode is
-    requested, then fallback to native mode.
-
-    v2:
-    * Update commit message for when overlay cursor should be enabled
-    * Also consider scale and no-underlying-plane case (cursor on crtc bg)
-    * Consider all underlying planes when determinig overlay/native, not
-      just the plane immediately beneath the cursor, as it may not cover the
-      entire CRTC.
-    * Fix typo s/decending/descending/
-    * Force native cursor on pre-DCN hardware
-
-    Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-    Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-    Signed-off-by: Leo Li <sunpeng.li@amd.com>
-    Acked-by: Harry Wentland <harry.wentland@amd.com>
-    Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-    Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c       | 490
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h       |   7 +++
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c  |   1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c |  13 ++++-
- 4 files changed, 389 insertions(+), 122 deletions(-)
-
-
-My hardware specs are: https://linux-hardware.org/?probe=61bd7390a9
-
-Leo, can you look into it, please?
-
--- 
-Best Regards,
-Mike Gavrilov.
+T24gV2VkLCAyMDI0LTA3LTAzIGF0IDE3OjM4ICswMjAwLCBUaG9tYXMgSGVsbHN0csO2bSB3cm90
+ZToNCj4gVGhlIFhFX1BMX1RUIHdhdGVybWFyayB3YXMgc2V0IHRvIDUwJSBvZiBzeXN0ZW0gbWVt
+b3J5Lg0KPiBUaGUgaWRlYSBiZWhpbmQgdGhhdCB3YXMgdW5jbGVhciBzaW5jZSB0aGUgbmV0IGVm
+ZmVjdCBpcyB0aGF0DQo+IFRUIG1lbW9yeSB3aWxsIGJlIGV2aWN0ZWQgdG8gVFRNX1BMX1NZU1RF
+TSBtZW1vcnkgaWYgdGhhdA0KPiB3YXRlcm1hcmsgaXMgZXhjZWVkZWQsIHJlcXVpcmluZyBQUEdU
+VCByZWJpbmRzIGFuZCBkbWENCj4gcmVtYXBwaW5nLiBCdXQgdGhlcmUgaXMgbm8gc2ltaWxhciB3
+YXRlcm1hcmsgZm9yIFRUTV9QTF9TWVNURU0NCj4gbWVtb3J5Lg0KPiANCj4gVGhlIFRUTSBmdW5j
+dGlvbmFsaXR5IHRoYXQgdHJpZXMgdG8gc3dhcCBvdXQgc3lzdGVtIG1lbW9yeSB0bw0KPiBzaG1l
+bSBvYmplY3RzIGlmIGEgNTAlIGxpbWl0IG9mIHRvdGFsIHN5c3RlbSBtZW1vcnkgaXMgcmVhY2hl
+ZA0KPiBpcyBvcnRob2dvbmFsIHRvIHRoaXMsIGFuZCB3aXRoIHRoZSBzaHJpbmtlciBhZGRlZCwg
+aXQncyBubw0KPiBsb25nZXIgaW4gZWZmZWN0Lg0KPiANCj4gUmVwbGFjZSB0aGUgNTAlIFRUTV9Q
+TF9UVCBsaW1pdCB3aXRoIGEgMTAwJSBsaW1pdCwgaW4gZWZmZWN0DQo+IGFsbG93aW5nIGFsbCBn
+cmFwaGljcyBtZW1vcnkgdG8gYmUgYm91bmQgdG8gdGhlIGRldmljZSB1bmxlc3MgaXQNCj4gaGFz
+IGJlZW4gc3dhcHBlZCBvdXQgYnkgdGhlIHNocmlua2VyLg0KDQpTb3JyeSBpZiBJIG1pc3NlZCBz
+b21lIHBhdGNoIGNoYW5naW5nIGl0IGJ1dCBJIGRpZCBub3QgZm91bmQgaW4gdGhpcyBzZXJpZXMg
+YW55dGhpbmcgY2hhbmdpbmcgdGhlIDUwJSBsaW1pdCBpbiB0dG1fZ2xvYmFsX2luaXQoKS4NCldo
+ZW4gSSBkZWJ1Z2dlZCBzb21lIFZ1bGthbiB0ZXN0cyBhbGxvY2F0ZSBhIGxvdCBvZiBtZW1vcnks
+IHRoZSByZWFzb24gdGhhdCBLTUQgd2FzIG5vdCBhbGxvY2F0aW5nIG1lbW9yeSB3YXNoIHRoaXMg
+dHRtX2dsb2JhbCBsaW1pdCB0aGF0IGlzIHNoYXJlZA0Kd2l0aCBhbGwgZGV2aWNlcyB1c2luZyBU
+VE0uDQoNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBIZWxsc3Ryw7ZtIDx0aG9tYXMuaGVs
+bHN0cm9tQGxpbnV4LmludGVsLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0veGUveGVf
+dHRtX3N5c19tZ3IuYyB8IDMgKy0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
+IDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3hlL3hl
+X3R0bV9zeXNfbWdyLmMgYi9kcml2ZXJzL2dwdS9kcm0veGUveGVfdHRtX3N5c19tZ3IuYw0KPiBp
+bmRleCA5ODQ0YThlZGJmZTEuLmQzOGI5MTg3MmRhMyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3hlL3hlX3R0bV9zeXNfbWdyLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3hlL3hl
+X3R0bV9zeXNfbWdyLmMNCj4gQEAgLTEwOCw5ICsxMDgsOCBAQCBpbnQgeGVfdHRtX3N5c19tZ3Jf
+aW5pdChzdHJ1Y3QgeGVfZGV2aWNlICp4ZSkNCj4gIAl1NjQgZ3R0X3NpemU7DQo+ICANCj4gIAlz
+aV9tZW1pbmZvKCZzaSk7DQo+ICsJLyogUG90ZW50aWFsbHkgcmVzdHJpY3QgYW1vdW50IG9mIFRU
+IG1lbW9yeSBoZXJlLiAqLw0KPiAgCWd0dF9zaXplID0gKHU2NClzaS50b3RhbHJhbSAqIHNpLm1l
+bV91bml0Ow0KPiAtCS8qIFRUTSBsaW1pdHMgYWxsb2NhdGlvbiBvZiBhbGwgVFRNIGRldmljZXMg
+YnkgNTAlIG9mIHN5c3RlbSBtZW1vcnkgKi8NCj4gLQlndHRfc2l6ZSAvPSAyOw0KPiAgDQo+ICAJ
+bWFuLT51c2VfdHQgPSB0cnVlOw0KPiAgCW1hbi0+ZnVuYyA9ICZ4ZV90dG1fc3lzX21ncl9mdW5j
+Ow0KDQo=
