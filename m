@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114879474F1
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 08:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A2C9474F8
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 08:00:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D3510E0F3;
-	Mon,  5 Aug 2024 06:00:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A2C10E121;
+	Mon,  5 Aug 2024 06:00:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="suh/guR3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hzVUV5oa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 814D610E0E4;
- Mon,  5 Aug 2024 06:00:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A1A910E117;
+ Mon,  5 Aug 2024 06:00:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id ADDA6601BC;
+ by dfw.source.kernel.org (Postfix) with ESMTP id C3AD460B7B;
+ Mon,  5 Aug 2024 06:00:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA49C4AF16;
  Mon,  5 Aug 2024 06:00:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67247C32782;
- Mon,  5 Aug 2024 05:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722837607;
+ s=k20201202; t=1722837616;
  bh=FEJF5Z2MyVBZjrdZZfW9XNluKyInOFfsVL8S4c55ThU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=suh/guR3rukB66LCk5ztj4b0+W/SOxDfK0jSjcigQDyhLwz7NQgU52h0/T1PLxtV+
- FSXxy+qbPIGA9eMHuu/jrBy5QZB8ddoqhzn3RA+RPiHpmRuv6tFcIjJJJjnNqIYffS
- KOgg9XeLACn0vtEMp8r8kHY+MFfV7BVXVq/HiIt9X+SdlrkKJ7cq8hiS3R3bxBdAzT
- Aup+/PtdURrBz+j9CwS5POzJH5GLsxQpCPg7i2jM788LmUOv4hcKE5MDhecxzefQpL
- WrL8C6gxbUU+0MIRqIBaYioBI9e38d6TKIVhvMwUjJ/WKMuHLHe3JDE9NZFzb5VVDp
- 3sAPFWbaTMeJQ==
-Message-ID: <689b2c3f-b07a-43d4-9273-60339a1d6a23@kernel.org>
-Date: Mon, 5 Aug 2024 07:59:55 +0200
+ b=hzVUV5oa5gXRymdz77Y1RQqsp5dIjsb76ioxGh38fO8FKFb4fS4SkL+ejbLTxjdgO
+ t8cgP4llqT1HYDipsF2XiR1+SnoolGa1d36efjicgDH8+VqeE6wyquQV80AwjkuHFa
+ wMh/QYJfIwbFolik0PzBQei+TCnDKrxJx0Frd+MVMYjqUcAHeE87ygtDSCCvIHBRgh
+ tPI/OC9ivtnCFCcINj/cXMzvckrUfJRd1DEDSfHCC/6kZ9dnUra/atA59P47gPdBz2
+ ic2gdWrgiFZwd17dVRptqmJ0wuNfm8hyV1SjavEwdcXH0PwAH6CjZYcsv/bmOMu1mf
+ v8v+cr5gMzldA==
+Message-ID: <59bc4a01-81fc-49c0-9693-4c6c9f2094d7@kernel.org>
+Date: Mon, 5 Aug 2024 08:00:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/11] dt-bindings: interconnect: qcom,sm8350: drop DISP
+Subject: Re: [PATCH 07/11] dt-bindings: interconnect: qcom,sm8450: drop DISP
  nodes
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Bjorn Andersson <andersson@kernel.org>,
@@ -53,7 +53,7 @@ Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-pm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <20240804-sm8350-fixes-v1-0-1149dd8399fe@linaro.org>
- <20240804-sm8350-fixes-v1-6-1149dd8399fe@linaro.org>
+ <20240804-sm8350-fixes-v1-7-1149dd8399fe@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240804-sm8350-fixes-v1-6-1149dd8399fe@linaro.org>
+In-Reply-To: <20240804-sm8350-fixes-v1-7-1149dd8399fe@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
