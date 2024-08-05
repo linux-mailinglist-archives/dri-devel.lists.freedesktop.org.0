@@ -2,106 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E166947362
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 04:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF55947366
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 04:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA26110E050;
-	Mon,  5 Aug 2024 02:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DC3510E0FC;
+	Mon,  5 Aug 2024 02:38:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=lausen.nl header.i=@lausen.nl header.b="K4lRPsur";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="raFIL7kn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
- Mon, 05 Aug 2024 02:34:25 UTC
-Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07CAA10E0FC
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 02:34:25 +0000 (UTC)
-Received: (qmail 11250 invoked by uid 990); 5 Aug 2024 02:27:43 -0000
-Authentication-Results: devico.uberspace.de;
-	auth=pass (plain)
-Received: from unknown (HELO unkown) (::1)
- by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA;
- Mon, 05 Aug 2024 04:27:43 +0200
-Message-ID: <57cdac1a-1c4d-4299-8fde-92ae054fc6c0@lausen.nl>
-Date: Sun, 4 Aug 2024 22:27:39 -0400
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E57F10E0FC
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 02:38:49 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-5a1337cfbb5so15236815a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Aug 2024 19:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1722825527; x=1723430327;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=P8vWHyjZtR29d9CpbPSiDhP2YMe9PC/XfNzJS8EFIt4=;
+ b=raFIL7kn1tOSCfORknb7Ik0bwuPEBGfOj+YU7C3ZQh45DNYX+YpSuJx/+fhfxbZ9fT
+ 0IuzUDF67a/AeYTUaj+GhlxndE8eyHNqpr4QDVr1Ye+wJDxrVJgouHovQD9yvlGeT25e
+ 4kQ068MQUbEWA8BnpS0tjKuvgzieeiuXSHqvKXDZuu2ehy4/j+4mA+M1qdRIvNL96t8B
+ +5mjuYP9ku3/sD6uNtFO48ZWSTk1g4nOLiW/rwmU8P3jvHIzAmqtotGsGYeA9CpTZsl9
+ RWXWZpFiNSLDhTazmlaw7o1FMvlCe2TlgXkJSk/Yln78fkLZ1vsou5y1MwXyxBl4dLs6
+ O/qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722825527; x=1723430327;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=P8vWHyjZtR29d9CpbPSiDhP2YMe9PC/XfNzJS8EFIt4=;
+ b=tj6+dV7BVk8/VyyThNw4sqFIYC4FujaoHU2cdZcscLIwqGpeLm4jWGqsC4Dhct/VBF
+ gTDVs+KB6M4wS+Poli+6dEFWJb4mtBExOVsSiVgTL4QaUN+Fo+Z6JmY348rEd5JltbMu
+ DAYGu5TCVIfGFpGUksr9RkicdZ5MjMzBAuxbgcfrcomIJVrMG90XS7pK2U1L9JBRMK7a
+ gi9MfQEaq1gIivm9HshO8TZ9lv0Unz5p5dO8tMJktCWsN9YbB1b3BLo4QBWOLYDsM2v1
+ eYcaI8JHaD1pQl6esMwzwZf27kFjkjZn0Ykh6s6C3iEfqdgh05uk9ShOzQLglquU4BPt
+ f0ow==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUErtEWMO/SXmonmcSSgr+WTUHm5rD/Zg+NTRo9NuAdbDeRON0gg7GU6p1VDjqT2zgA+8t3dSs3flGnoHfM49gZR0fZd0IY2oHusDSDzjWS
+X-Gm-Message-State: AOJu0YyK9s5v9O/KX+R/4QVq6upu0Y2ffEeEeN6D54tjJoGzaUBThlM+
+ 2Er5lnNDFpXhzCIk66ged46CQCTaQQAxW7z2QQw1daKPT6J3UFaNY0O+P6MtteFhYI6BuTGeWgJ
+ rbC49y/YsF64ma8mx2goEppQu1bzlJT/MsiMXSQ==
+X-Google-Smtp-Source: AGHT+IF1XZEUzGVo9Lh0nCgnHUnOoZw9jPxqVyDP7B7VGnZfXCG88TKyRuDM5fgTzawr6UswyF/G5ja6h2jVd1fLu5U=
+X-Received: by 2002:a05:6402:2032:b0:5a3:a4d7:caf5 with SMTP id
+ 4fb4d7f45d1cf-5b7f5dc13cemr6532306a12.36.1722825527304; Sun, 04 Aug 2024
+ 19:38:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Leonard Lausen <leonard@lausen.nl>
-Subject: Re: [PATCH v2 1/2] drm/msm/dpu1: don't choke on disabling the
- writeback connector
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jeykumar Sankaran <jsanka@codeaurora.org>, stable@vger.kernel.org
-References: <20240802-dpu-fix-wb-v2-0-7eac9eb8e895@linaro.org>
- <20240802-dpu-fix-wb-v2-1-7eac9eb8e895@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=leonard@lausen.nl; keydata=
- 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 Sw==
-In-Reply-To: <20240802-dpu-fix-wb-v2-1-7eac9eb8e895@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Bar: ---
-X-Rspamd-Report: BAYES_HAM(-2.998928) XM_UA_NO_VERSION(0.01) MIME_GOOD(-0.1)
-X-Rspamd-Score: -3.088928
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lausen.nl; s=uberspace;
- h=from:to:cc:subject:date;
- bh=Ammk7pbwhZIn4b/qhjLJz6McLAm2U1Jsq9rfxEJ51Ik=;
- b=K4lRPsurzOf5+DH8VcDVwQDeFrIIBcwChtPl4rk+OHqwTio585FOtELtOp2zkhs3W9UAKqs/8I
- sAdAn6cYd8Z9xVR1MhADRDTKYNEoxDfEbzS7LzWRJA+tM7tWG+BHpct6c1qqPtXZBmVLkv9d3k6w
- Ox2LqMNFK5d8dO6k5UqfJC/UGEOI03zlffVaxaAp+nh0LKaREp9rcfT/3s8vNYxtKwV7bAM7kxvb
- 3v7xfvkbZMGT+OAo5eCxKH667rXdkAEaHYsi72Phjfo3VaWQ3YWa5JRUEIfka1+D17+eQQBuo0Vp
- pDp0/YWYsto9R0FiIqRuiCpa7Ps+SKyLN+Uz8uoA9mXaozkZZAvGutnJQQaH1wUoB1H7aw5+f5bo
- rEzkBz4upAsABSJfm+mjcna6zWg2vLeroEFf5/OMAL1phbOi+uQnU1eh5tnnWauUzsIpdR9qq5fq
- yDMOsU4sMyzeQwYomscBb9NQx3WNrQTfu+4Aa1tWBXfaBvcBUb1AQllzVp+tqqi1SpYRQ+w79E6o
- SfIOIJS7/hWVCU3jo9D9Fnqxn1ARAcB2rxHU+Nc320Y8OJRUOr6nUiIFI+piG3GnMpUrSR4dcoWm
- B9NplId6tANUyF4Bc9IMsTSa8mEqB49dlSxdW0VusRxaI9fCjx/ymaJcBj6Xned8/dZriQm0hFV1
- c=
+References: <20240725083245.12253-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240725083245.12253-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <gq5fcttutomphgfrwrtloqzczia3uc5qpont3lrowocan2xjc5@ubfabhsh3mfl>
+ <CA+6=WdQuFYbADjG0i_zWMGYmw95H1U_McqCw4CLW0+Gate50YA@mail.gmail.com>
+ <CAA8EJppoj1Y2675UOp=JH=-HLdYuuzfr2Sxy1zzkvLosmrRQNw@mail.gmail.com>
+In-Reply-To: <CAA8EJppoj1Y2675UOp=JH=-HLdYuuzfr2Sxy1zzkvLosmrRQNw@mail.gmail.com>
+From: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Date: Mon, 5 Aug 2024 10:38:36 +0800
+Message-ID: <CA+6=WdQ6q=Zmji8KxCPYK17pFY4UAUBOykd5Tx4N_RZ1MfgOdg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] drm/panel: jd9365da: Move the sending location of
+ the 11/29 command
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ dianders@chromium.org, hsinyi@google.com, airlied@gmail.com, daniel@ffwll.ch, 
+ jagan@edgeble.ai, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,57 +88,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Dmitry,
+Hi all
 
-Thank you for the patch. Unfortunately, the patch triggers a regression with
-respect to DRM CRTC state handling. With the patch applied, suspending and
-resuming a lazor sc7180 with external display connected, looses CRTC state on
-resume and prevents applying a new CRTC state. Without the patch, CRTC state is
-preserved across suspend and resume and it remains possible to change CRTC
-settings after resume. This means the patch regresses the user experience,
-preventing "Night Light" mode to work as expected. I've validated this on
-v6.10.2 vs. v6.10.2 with this patch applied.
+Do you have any other suggestions for this patch?
+Looking forward to your reply, thank you
 
-While the cause for the bug uncovered by this change is likely separate, given
-it's impact, would it be prudent to delay the application of this patch until
-the related bug is identified and fixed? Otherwise we would be fixing a dmesg
-error message "[dpu error]connector not connected 3" that appears to do no harm
-but thereby break more critical user visible behavior.
+BR
 
-Best regards
-Leonard
-
-On 8/2/24 15:47, Dmitry Baryshkov wrote:
-> During suspend/resume process all connectors are explicitly disabled and
-> then reenabled. However resume fails because of the connector_status check:
-> 
-> [ 1185.831970] [dpu error]connector not connected 3
-> 
-> It doesn't make sense to check for the Writeback connected status (and
-> other drivers don't perform such check), so drop the check.
-> 
-> Fixes: 71174f362d67 ("drm/msm/dpu: move writeback's atomic_check to dpu_writeback.c")
-> Cc: stable@vger.kernel.org
-> Reported-by: Leonard Lausen <leonard@lausen.nl>
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/57
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> index 16f144cbc0c9..8ff496082902 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> @@ -42,9 +42,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
->  	if (!conn_state || !conn_state->connector) {
->  		DPU_ERROR("invalid connector state\n");
->  		return -EINVAL;
-> -	} else if (conn_state->connector->status != connector_status_connected) {
-> -		DPU_ERROR("connector not connected %d\n", conn_state->connector->status);
-> -		return -EINVAL;
->  	}
->  
->  	crtc = conn_state->crtc;
-> 
-
+On Tue, Jul 30, 2024 at 4:09=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Mon, 29 Jul 2024 at 06:10, zhaoxiong lv
+> <lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+> >
+> > On Sun, Jul 28, 2024 at 12:59=E2=80=AFAM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > >
+> > > On Thu, Jul 25, 2024 at 04:32:44PM GMT, Zhaoxiong Lv wrote:
+> > > > Move the 11/29 command from enable() to init() function
+> > > >
+> > > > As mentioned in the patch:
+> > > > https://lore.kernel.org/all/20240624141926.5250-2-lvzhaoxiong@huaqi=
+n.corp-partner.google.com/
+> > > >
+> > > > Our DSI host has different modes in prepare() and enable()
+> > > > functions. prepare() is in LP mode and enable() is in HS mode.
+> > > > Since the 11/29 command must also be sent in LP mode,
+> > > > so we also move 11/29 command to the init() function.
+> > > >
+> > > > After moving the 11/29 command to the init() function,
+> > > > we no longer need additional delay judgment, so we delete
+> > > > variables "exit_sleep_to_display_on_delay_ms" and
+> > > > "display_on_delay_ms".
+> > >
+> > > Won't this result in a garbage being displayed on the panel during
+> > > startup?
+> >
+> > Hi Dmitry
+> >
+> > We just moved "Exit sleep mode" and "set display on" from the enable()
+> > function to the init() function and did not make any other changes.
+> > It seems that many drivers also put the "init code" and "Exit sleep
+> > mode" in one function.
+>
+> You have moved the functions that actually enable the display out. And
+> by the definition it's expected that there is no video stream during
+> pre_enable(), it gets turned on afterwards. That's why I asked if
+> there is any kind of garbage or not.
+>
+> > In addition, we briefly tested the kingdisplay_kd101ne3 panel and
+> > melfas_lmfbx101117480 panel, and it seems that there is no garbage on
+> > the panel.
+>
+> Ack.
+>
+> >
+> > BR
+> > >
+> > > >
+> > > > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google=
+.com>
+> > > > ---
+> > > >  .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 59 ++++++++++-----=
+----
+> > > >  1 file changed, 32 insertions(+), 27 deletions(-)
+> > >
+>
+>
+>
+> --
+> With best wishes
+> Dmitry
