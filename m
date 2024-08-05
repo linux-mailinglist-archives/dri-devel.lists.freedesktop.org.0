@@ -2,59 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF62947348
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 04:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E166947362
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2024 04:34:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3F9710E04A;
-	Mon,  5 Aug 2024 02:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA26110E050;
+	Mon,  5 Aug 2024 02:34:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=lausen.nl header.i=@lausen.nl header.b="K4lRPsur";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A247910E04A;
- Mon,  5 Aug 2024 02:14:36 +0000 (UTC)
-X-UUID: 72e0cb0452d011efa216b1d71e6e1362-20240805
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38, REQID:43ed6be6-7cbe-4b97-ae56-1310478da48e, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:82c5f88, CLOUDID:5adb426e6e9d4d6f0c8c5b7e84d66b54,
- BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,URL:0
- ,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
- NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 72e0cb0452d011efa216b1d71e6e1362-20240805
-Received: from node2.com.cn [(10.44.16.197)] by mailgw.kylinos.cn
- (envelope-from <yaolu@kylinos.cn>) (Generic MTA)
- with ESMTP id 1888686787; Mon, 05 Aug 2024 10:14:30 +0800
-Received: from node2.com.cn (localhost [127.0.0.1])
- by node2.com.cn (NSMail) with SMTP id 5D67AB80758A;
- Mon,  5 Aug 2024 10:14:30 +0800 (CST)
-X-ns-mid: postfix-66B03586-254133957
-Received: from [10.42.20.76] (unknown [10.42.20.76])
- by node2.com.cn (NSMail) with ESMTPA id 71359B80758A;
- Mon,  5 Aug 2024 02:14:28 +0000 (UTC)
-Message-ID: <704ff51a-bb86-36e3-011b-1da0e4bd5330@kylinos.cn>
-Date: Mon, 5 Aug 2024 10:14:27 +0800
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Mon, 05 Aug 2024 02:34:25 UTC
+Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07CAA10E0FC
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2024 02:34:25 +0000 (UTC)
+Received: (qmail 11250 invoked by uid 990); 5 Aug 2024 02:27:43 -0000
+Authentication-Results: devico.uberspace.de;
+	auth=pass (plain)
+Received: from unknown (HELO unkown) (::1)
+ by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA;
+ Mon, 05 Aug 2024 04:27:43 +0200
+Message-ID: <57cdac1a-1c4d-4299-8fde-92ae054fc6c0@lausen.nl>
+Date: Sun, 4 Aug 2024 22:27:39 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/amdgpu: add dce6 drm_panic support
+User-Agent: Mozilla Thunderbird
+From: Leonard Lausen <leonard@lausen.nl>
+Subject: Re: [PATCH v2 1/2] drm/msm/dpu1: don't choke on disabling the
+ writeback connector
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, stable@vger.kernel.org
+References: <20240802-dpu-fix-wb-v2-0-7eac9eb8e895@linaro.org>
+ <20240802-dpu-fix-wb-v2-1-7eac9eb8e895@linaro.org>
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- srinivasan.shanmugam@amd.com, sunil.khatri@amd.com
-Cc: airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240802071752.116541-1-yaolu@kylinos.cn>
- <ce45d800-ad6a-4cef-9c57-480908867490@gmail.com>
-From: yaolu <yaolu@kylinos.cn>
-In-Reply-To: <ce45d800-ad6a-4cef-9c57-480908867490@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Autocrypt: addr=leonard@lausen.nl; keydata=
+ xsFNBFDqr+kBEACh9pVkQnCP8c748JdNX3KKYZTtSgRDr9ZFIE5V5S39ws9kTxEOGFgUld4c
+ zP5yU8hSO69khQi+AS9yqwUp/2vV6yQHh9m+aUJYSoI3Lj5/qj/NSaroF+Y5EPws23JgKYhs
+ V/3yF81Z2sYvVMg5wpj+ZXOEd6Jzslu2vtaJ84p4qDXsHWC3JIkPicjGIOuIvuML8BLILPDL
+ UfwYBLHAec4QXoeh8dz6GgDHR2wGjLKna3J11dtP1iD/pxZuSZCe2/rHSoVUI6295mrj10yM
+ zCjYv7vQ3EEDMcMRVge/bN3J96mf252CiRO1uUpvhtB/H2Oq0laCLGhi31cp/f4vy025PNFR
+ jELX/wx4AZhebfuRHwiFy9I+uECF421OA3hRTdS8ckDReXGrPfDkezrrSNhN+KT0WOoHLyng
+ K0+KHwMBUJZqE4Fdiztjy3biQmu4+ELbeGJNW+k8n8olfX51CyGN0pwpuubNozguk6jFsG/7
+ FtbK/RaK9T7oNfQXdcf7ywsebmn1QoPvwMFYPWqZxPWU015duGkDbSp9kt3l9vLreQ6VO+RI
+ tq3jptPvQ6OJhLyliUf8+2Zr65xh/qN7GHVNHuZ1zkVlk7V06VUcaUGADvEtZrPOJZkYugOB
+ A9YsvIRCPd90RjbD6N4sGSOasVQ6cRohfdsXGMGEp/PN5iC0MwARAQABzSJMZW9uYXJkIExh
+ dXNlbiA8bGVvbmFyZEBsYXVzZW4ubmw+wsGXBBMBCgBBAhsDAh4BAheABQsJCAcDBRUKCQgL
+ BRYCAwEAAhkBFiEEelfi8Cpy2ys5+bzjORPXzM1/prwFAmZ8CagFCRlTwL8ACgkQORPXzM1/
+ pry1OhAAi/ylFn6InN/cc3xWBdtgmsFSrSjzifSJiPsmuXG3gyt1ahet6/o7tVFOAgFqQPzL
+ c7Law5opYWmi0QsWYHu3FBiK8g0FhxysW3SXP7FQHsRfP1UxOPinUDPbJmuUiSXGe7c917Qo
+ OxcveA30Q49/T+AUtmIQYoFLGqRgNVN/scn46vDISB30vPLlhSPw7TxZWsVaLrNsO/BOhsoX
+ Vu7IjP0Jgpv31ujVoQALPN0fd87IMVTgqySRa5eECcaJefZx/eLGclZ2OoWrrlU3yfYZkZUR
+ B4460uGnyzZtbGyT1cVIb3v/ZSoHaGGruJIHk8mEcB4pVRc4RFW2dY2/oH/FPMEBHW++fIcf
+ tVQgd34TNuJFZVQTckbwlvTanQuvlkLC1N7gay7/6o3y9GIQ9JLV3KV+uscPEZwxaR+J+iIw
+ NOVFWJIE9BaXVKG+KM2SNmjt/P3CUYGZlk3gIKy5/BUDji14I3r2OU6A11gMtO8HVk+lqQiA
+ u0B4VALri0V/rvno8Pm1rwDkLoZe+oeIW6WKLuTgUldqgnj/dSImvloBtsVyyOyX+E0PFMIY
+ 5PMpQyarTINS2zk1MSIk+vCOd5ZDmRGwhoWt99bqIrZvOHRQvbU3jV3AhQpkssfNJeheiXKx
+ TrzmtW9RB3tRVdq8X/4D216XW+9WeT/JjJQk5vtUAfnOwU0EUOqv6QEQANSFO5XUwDbF13Vv
+ otNX3l6cVbvoIqSQrfH91vRAjrYKxpTsPOiqqaFkclamp+f+s58U52ukbx4vy1VvnVHWkgWb
+ W9qmbGhW5qSbJpsxL4lslZ09vX9x1/EzyjPRjSGFTcSWLfnHphcT8HRjrbj1gpPmznGq2SOC
+ +6urDsL3DZeGjYXeN6RgM0kwIxlFVdg2Mj1PACTbCq3vAmti4YNl9nqqtrPanA/E1urX3XgK
+ +zGk3U6vDa9SZtoTr6/ySATJO3XB4uo+W7jTBUSAtLk5nCTrPnrqf8CBTOryuElFsxbI/R4T
+ CenVJuYj8yUf+xcjQdrB34DppXScCaTQJIZTRIRXa4omPUQej6xxeaRPrrQfpa//ii01t7KV
+ JJ58N2NFius2yrgud00Le0BXTmr1nbEsAntCpTPvgIOL6KTfnvmSYsxg3XVGq0PkCbGQbO8n
+ Z7Br4f6HfHL4TI/Yn0Rze+nBF7d8qguNUrpfPUchbgTz+r7HRzwj0HXFstrC2Lv3hQWj7cEM
+ JmEcZjJY1TRJIY48CqdiLNur9wffqHQrPwPwv8WB8QYN6louQtCR5DuEexY0E+PyEOGSWweP
+ z2rNr53ri/zaWRp2q5ENuwL2zDNxurx+1oFAO7o934cbH1xjGjbWoMq8Cs7cvxg3DLUYwl3B
+ 4XcEvsXLwsO9Jz1g+Fu7ABEBAAHCwXwEGAEKACYCGwwWIQR6V+LwKnLbKzn5vOM5E9fMzX+m
+ vAUCZnwJ2AUJGVPA7wAKCRA5E9fMzX+mvMmLEACBjiRcPaTiBLCk8VTJupCuap8qZGN9EiVC
+ yXBT5s42Rh0j/5A1yI2Wo4LrhSLEDzXyuwOwxLTcb3+zwC53Ggsd39B/k//DD4rOLaBKVw5L
+ vwpKfwMUG/SCCwzyXDSuhHKL+/8drC11i/iLUwz3qNXNJy7f+6U6g5kcm7ECnVpW658zGJ23
+ U12XedIhIxWE60LKmyavFtlQRYYLDGI2LGZq0pO7J0Tztnt6k8c53SJuHL++7iFV6CDMFqCw
+ HeK3MID4P9xy1hr4v4aW6FVV+7RZyU1BuWfySZWixxDsUNg0D7Ad4V0IRrz35FxOs06Usd07
+ UyLdkhPol5x/NaWaKXHM5LjqjDDs3HoJgJX9Py/jL8xacnySx50h6IdzdFAYFwWzMEHxRYBY
+ If8vac26ssYn5jK4/mMPx4wQ3tBvvVI7mQj/II7kQua2f5ndeOMtTG4U0sUxxKTKZJrtlxjb
+ +qAYcACNLbHizXmKAkBgmprOuc5xat52thdz9vHqTf4Lq48W5ptXyxNPqC9MVWDV6C6tb7IY
+ lBYs3LsNw//WuLgj5JSvRhFGZs1+3BirP7e/cLELOriu7hC6W+qbVCSb9wuyGeQrYparvLtn
+ NPHVgeBBAUsUbFlEsaAbsF7q4I6Mv0Cg61IER5/CKqWzQWiVZ9mLSDYZq2LEK4XvhgvBRJ5q Sw==
+In-Reply-To: <20240802-dpu-fix-wb-v2-1-7eac9eb8e895@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Bar: ---
+X-Rspamd-Report: BAYES_HAM(-2.998928) XM_UA_NO_VERSION(0.01) MIME_GOOD(-0.1)
+X-Rspamd-Score: -3.088928
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lausen.nl; s=uberspace;
+ h=from:to:cc:subject:date;
+ bh=Ammk7pbwhZIn4b/qhjLJz6McLAm2U1Jsq9rfxEJ51Ik=;
+ b=K4lRPsurzOf5+DH8VcDVwQDeFrIIBcwChtPl4rk+OHqwTio585FOtELtOp2zkhs3W9UAKqs/8I
+ sAdAn6cYd8Z9xVR1MhADRDTKYNEoxDfEbzS7LzWRJA+tM7tWG+BHpct6c1qqPtXZBmVLkv9d3k6w
+ Ox2LqMNFK5d8dO6k5UqfJC/UGEOI03zlffVaxaAp+nh0LKaREp9rcfT/3s8vNYxtKwV7bAM7kxvb
+ 3v7xfvkbZMGT+OAo5eCxKH667rXdkAEaHYsi72Phjfo3VaWQ3YWa5JRUEIfka1+D17+eQQBuo0Vp
+ pDp0/YWYsto9R0FiIqRuiCpa7Ps+SKyLN+Uz8uoA9mXaozkZZAvGutnJQQaH1wUoB1H7aw5+f5bo
+ rEzkBz4upAsABSJfm+mjcna6zWg2vLeroEFf5/OMAL1phbOi+uQnU1eh5tnnWauUzsIpdR9qq5fq
+ yDMOsU4sMyzeQwYomscBb9NQx3WNrQTfu+4Aa1tWBXfaBvcBUb1AQllzVp+tqqi1SpYRQ+w79E6o
+ SfIOIJS7/hWVCU3jo9D9Fnqxn1ARAcB2rxHU+Nc320Y8OJRUOr6nUiIFI+piG3GnMpUrSR4dcoWm
+ B9NplId6tANUyF4Bc9IMsTSa8mEqB49dlSxdW0VusRxaI9fCjx/ymaJcBj6Xned8/dZriQm0hFV1
+ c=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,126 +117,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Dear Dmitry,
 
-=E5=9C=A8 2024/8/2 17:39, Christian K=C3=B6nig =E5=86=99=E9=81=93:
-> Am 02.08.24 um 09:17 schrieb Lu Yao:
->> Add support for the drm_panic module, which displays a pretty user
->> friendly message on the screen when a Linux kernel panic occurs.
->>
->> Signed-off-by: Lu Yao <yaolu@kylinos.cn>
->> ---
->> The patch can work properly on the TTY, but after start X, drawn
->> image is messy, it looks like the data isn't linearly arranged.
->> However at this time 'fb->modifier' is 'DRM_FORMAT_MOD_LINEAR'.
->>
->> Another difference I found is:
->> =C2=A0=C2=A0 For TTY, the amdgpu_bo is created with flag
->> 'AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED|AMDGPU_GEM_CREATE_CPU_GTT_USWC|
->> AMDGPU_GEM_CREATE_VRAM_CLEARED|AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS'.
->> =C2=A0=C2=A0 For X, the amdgpu_bo is created with flag
->> 'AMDGPU_GEM_CREATE_NO_CPU_ACCESS|AMDGPU_GEM_CREATE_CPU_GTT_USWC'
->> I try to use same flag for X, it looks like no difference.
->>
->> Can someone provide some insight into this problem or where I am going
->> wrong. Thanks a lot.
->>
->> Test environment: X86 arch + v6.6 kernel + R7340.
->> ---
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/dce_v6_0.c | 32 ++++++++++++++++++++=
-+++++++
->> =C2=A0 1 file changed, 32 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c=20
->> b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
->> index 05c0df97f01d..12c3801c264a 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
->> @@ -28,6 +28,8 @@
->> =C2=A0 #include <drm/drm_modeset_helper.h>
->> =C2=A0 #include <drm/drm_modeset_helper_vtables.h>
->> =C2=A0 #include <drm/drm_vblank.h>
->> +#include <drm/drm_panic.h>
->
->> +#include "../../drm_internal.h"
->
-> Well that this file is named "internal" and not in a common include=20
-> directory is a strong indicator that you should absolutely *not*=20
-> include it in a driver.
->
-Okay, I'll fix it.
->> =C2=A0 =C2=A0 #include "amdgpu.h"
->> =C2=A0 #include "amdgpu_pm.h"
->> @@ -2600,6 +2602,35 @@ static const struct drm_crtc_helper_funcs=20
->> dce_v6_0_crtc_helper_funcs =3D {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .get_scanout_position =3D amdgpu_crtc_g=
-et_scanout_position,
->> =C2=A0 };
->> =C2=A0 +static int dce_v6_0_drm_primary_plane_get_scanout_buffer(struc=
-t=20
->> drm_plane *plane,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_scanout_buffer *sb)
->> +{
->> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb;
->> +=C2=A0=C2=A0=C2=A0 struct drm_gem_object *obj;
->> +=C2=A0=C2=A0=C2=A0 struct amdgpu_bo *abo;
->> +=C2=A0=C2=A0=C2=A0 int ret =3D 0;
->> +
->> +=C2=A0=C2=A0=C2=A0 if (!plane->fb || plane->fb->modifier !=3D DRM_FOR=
-MAT_MOD_LINEAR)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENODEV;
->> +
->> +=C2=A0=C2=A0=C2=A0 fb =3D plane->fb;
->> +=C2=A0=C2=A0=C2=A0 sb->width =3D fb->width;
->> +=C2=A0=C2=A0=C2=A0 sb->height =3D fb->height;
->> +=C2=A0=C2=A0=C2=A0 sb->format =3D fb->format;
->> +=C2=A0=C2=A0=C2=A0 sb->pitch[0] =3D fb->pitches[0];
->> +
->> +=C2=A0=C2=A0=C2=A0 obj =3D fb->obj[0];
->> +=C2=A0=C2=A0=C2=A0 abo =3D gem_to_amdgpu_bo(obj);
->> +=C2=A0=C2=A0=C2=A0 if (!abo || abo->flags & AMDGPU_GEM_CREATE_NO_CPU_=
-ACCESS)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->> +
->> +=C2=A0=C2=A0=C2=A0 return drm_gem_vmap(obj, &sb->map[0]);
->
-> Yeah that will almost always not work. Most display buffers are tilled=20
-> and not CPU accessible.
->
-> Regards,
-> Christian.
->
-I did some more tests. After removing the=20
-'AMDGPU_GEM_CREATE_NO_CPU_ACCESS' judgment here, then starting X, it=20
-worked well at '1280x960' resolution, but others (e.g. 1920x1080,=20
-640x480) not.
-So, for this problem, it doesn't seem to matter 'Tiled memory' or 'CPU=20
-can't access'. Or is it just a coincidence ?
+Thank you for the patch. Unfortunately, the patch triggers a regression with
+respect to DRM CRTC state handling. With the patch applied, suspending and
+resuming a lazor sc7180 with external display connected, looses CRTC state on
+resume and prevents applying a new CRTC state. Without the patch, CRTC state is
+preserved across suspend and resume and it remains possible to change CRTC
+settings after resume. This means the patch regresses the user experience,
+preventing "Night Light" mode to work as expected. I've validated this on
+v6.10.2 vs. v6.10.2 with this patch applied.
 
-Thanks,
-Lu Yao
->> +}
->> +
->> +static const struct drm_plane_helper_funcs=20
->> dce_v6_0_drm_primary_plane_helper_funcs =3D {
->> +=C2=A0=C2=A0=C2=A0 .get_scanout_buffer =3D dce_v6_0_drm_primary_plane=
-_get_scanout_buffer
->> +};
->> +
->> =C2=A0 static int dce_v6_0_crtc_init(struct amdgpu_device *adev, int i=
-ndex)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_crtc *amdgpu_crtc;
->> @@ -2627,6 +2658,7 @@ static int dce_v6_0_crtc_init(struct=20
->> amdgpu_device *adev, int index)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 amdgpu_crtc->encoder =3D NULL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 amdgpu_crtc->connector =3D NULL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_crtc_helper_add(&amdgpu_crtc->base,=
-=20
->> &dce_v6_0_crtc_helper_funcs);
->> +=C2=A0=C2=A0=C2=A0 drm_plane_helper_add(amdgpu_crtc->base.primary,=20
->> &dce_v6_0_drm_primary_plane_helper_funcs);
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->> =C2=A0 }
->
+While the cause for the bug uncovered by this change is likely separate, given
+it's impact, would it be prudent to delay the application of this patch until
+the related bug is identified and fixed? Otherwise we would be fixing a dmesg
+error message "[dpu error]connector not connected 3" that appears to do no harm
+but thereby break more critical user visible behavior.
+
+Best regards
+Leonard
+
+On 8/2/24 15:47, Dmitry Baryshkov wrote:
+> During suspend/resume process all connectors are explicitly disabled and
+> then reenabled. However resume fails because of the connector_status check:
+> 
+> [ 1185.831970] [dpu error]connector not connected 3
+> 
+> It doesn't make sense to check for the Writeback connected status (and
+> other drivers don't perform such check), so drop the check.
+> 
+> Fixes: 71174f362d67 ("drm/msm/dpu: move writeback's atomic_check to dpu_writeback.c")
+> Cc: stable@vger.kernel.org
+> Reported-by: Leonard Lausen <leonard@lausen.nl>
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/57
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> index 16f144cbc0c9..8ff496082902 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> @@ -42,9 +42,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
+>  	if (!conn_state || !conn_state->connector) {
+>  		DPU_ERROR("invalid connector state\n");
+>  		return -EINVAL;
+> -	} else if (conn_state->connector->status != connector_status_connected) {
+> -		DPU_ERROR("connector not connected %d\n", conn_state->connector->status);
+> -		return -EINVAL;
+>  	}
+>  
+>  	crtc = conn_state->crtc;
+> 
+
