@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8624D949210
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 15:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBA6949211
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 15:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6791E10E36D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6813A10E36E;
 	Tue,  6 Aug 2024 13:51:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JsJUECnz";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U4oD78TW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C72F10E36C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3FD110E36D
  for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 13:51:03 +0000 (UTC)
 Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 388B8922;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D65A7B2A;
  Tue,  6 Aug 2024 15:50:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1722952209;
- bh=ZjLNaR+u/G8uON1P2WcHYHGgw/Rr1V87B+mZrIVeHRk=;
+ s=mail; t=1722952210;
+ bh=IF8k3H0gE8YhPnz0T6m/pZtJeWAe9wrl+n28Q6+Xvxk=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=JsJUECnzteuFb9xN6LSOopSJG2SGhWFOQP2fRZFnatCojJHbMvE/uPX0wY5737jJ+
- Hxt9jf2jj35i6G4ifOXvnc3trtpq6GT2kD9xSQ53fp5VTVpjw7JUcABbKIPgcpPXu9
- qgqFL8R6kb+ppnWXAwzOahcQIjbQe0Ndfn5CYKw4=
+ b=U4oD78TWkhNztE4ZarFd/OImT3rpDxwE+fGGKn07kaa/9l67rxuuj32rc+w8jQA1p
+ 1GWABhWnfGLlp08hOH93P15TXM/gwNJ3DWl3NeXDQhl8YI/KYVPAR6rx4Or8mX1MOv
+ eQX9Pu4+2OcK5uE8vWJKw3lff2GvCL0xbFCETgHY=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 06 Aug 2024 16:50:27 +0300
-Subject: [PATCH 1/3] drm/omap: Fix possible NULL dereference
+Date: Tue, 06 Aug 2024 16:50:28 +0300
+Subject: [PATCH 2/3] drm/omap: Hide sparse warnings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240806-omapdrm-misc-fixes-v1-1-15d31aea0831@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240806-omapdrm-misc-fixes-v1-2-15d31aea0831@ideasonboard.com>
 References: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
 In-Reply-To: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -41,23 +41,25 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Sebastian Reichel <sebastian.reichel@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ kernel test robot <lkp@intel.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4830;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3192;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=ZjLNaR+u/G8uON1P2WcHYHGgw/Rr1V87B+mZrIVeHRk=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmsipDPPj1reZjT33lXW0RLkLAmOPG8g+/b7uBo
- 9OMSsJrAz6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZrIqQwAKCRD6PaqMvJYe
- 9fuREACu9oLCpfzakd42DZGQyNwffex1cH3W8LhQR3ir800cIiXHbZDsrAcwe7vFUE8FJnMIUia
- ZNLSv8+bXkinIZccO4N+Kf+sgH26ew0UlOcrXOrRTtGCL3dQVLyUmYTDjofNRTquGbi2Y05KdCM
- ltmIhDJfNaZDKUOtRh97eE4mYmfcHegD0dzxCV7T8dAXFKjoMClL1iUXzfqO6wYYTppF+Zbt6cv
- bvN4btA6x4TQ0HyA87Zh65KvwhJpfoUCAL4vOlmbYkcrXCjxkPwoMqmARlbLthO9OqWtEYmuqUt
- tUR8ZbrqiyQGD+RRVp0CfzUg5Zb8h9njTNDQBcX6g+KWoOXqlgKMWUbXBrudnDaTuVP07jmzIDg
- siM0/efoujtfedgHi5abQYlJYuHIkcNvdztTqSrvlj0kbMPBGJ6Iqa9JLQgQaxrv7wKG5TGeqiL
- YYQ0M35pv9g29qq8ukr8hXp6KO+6yk+3BEB7fXaStZIAfz02NP+e/iI1IRPoy1EWpiwdc99UOZW
- BnZqu4nmrzkj5aQmbXka3Eq0PBlJaeEYsYBpveHFaVt65va3EMfn7b+Y40jJEBwK0pU/SRwnxMT
- irCv5hSLQt+GNtChArWsGVuYEpR9hrd2KWczt33nfIV7dTLiaMBMaHht6IfIfbEJGl63Jw4PB89
- 655WI6TWWnnHrTA==
+ bh=IF8k3H0gE8YhPnz0T6m/pZtJeWAe9wrl+n28Q6+Xvxk=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmsipDdr+f3F4HkkT2DmWhyzkwlmOdF+EVZhZmY
+ yJvac+1PuqJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZrIqQwAKCRD6PaqMvJYe
+ 9c1lD/9/lvA0ovq/S7ijSiuWHRwX7jFf+QHum9j/N8Uu4fbONj2p+pkf5W6aMiovnNlx66kKJLs
+ tusPccExK5dolb4giIzH8WBQVbOGU1TdCRhISBKvCEV+IkZFr4xJq4oeGHqAp5qHExsRXMsEwde
+ jiDVIVnM9mbS5VubWf7Z2Y7AMyXyEE1gGP8yERiVl8OJFpBFd3WGR1pInys+6xZPa38uZ7dIK6P
+ Yw6h0VAtdT3VoY/zavl4dejnmrWK6rhuux4CAdbflwRPZG+uIIMBAhVTAhRrxQPAsEjFBsG5Ml9
+ PgZv1QR3Fd34u3ggp4h3Y+agQ2bYB7xGcJhiSS9oVvn7mpw1zIsA7tVngfO5wGbRP/vkau4sZCT
+ B9s/AMk+Rzpblqo7s+QpOpYPMf0LeMo/jkvPv6MJjkN9Fonm1C8K7KvKWwFtq2iFu1EYr989Wbv
+ mzD4id9jDK7SwQe69iTlhgqqsf6eoatQLyFa/fWVzTwwTLJP17Qapq2k5+iTZmvDNqI3YuONO8l
+ sC2oXXbOsKTpCoScPFqZSf3aKQczkgOuumeHISvx8D7RyTqyLX05W2ButyJK8Pu897ElTvE3DPW
+ exQ0ZnSfrKBBWqI+wqjd/SgytdHsyeJtmFwrSMNBS4b8YHX5IsyjmHO7k5L9ss6q2hSkGP5u42/
+ /2RHNT+HvY0+0+Q==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,126 +77,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-smatch reports:
+sparse reports:
 
-drivers/gpu/drm/omapdrm/dss/base.c:176 omapdss_device_disconnect() error: we previously assumed 'src' could be null (see line 169)
+drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16: warning: incorrect type in argument 1 (different address spaces)
+drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16:    expected void const volatile [noderef] __iomem *addr
+drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16:    got unsigned int [usertype] *wa_dma_data
+drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:9: warning: incorrect type in argument 2 (different address spaces)
+drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:9:    expected void volatile [noderef] __iomem *addr
+drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:9:    got unsigned int [usertype] *wa_dma_data
+drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:9: warning: incorrect type in argument 1 (different address spaces)
+drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:9:    expected void const volatile [noderef] __iomem *addr
+drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:9:    got unsigned int *
 
-This code is mostly from a time when omapdrm had its own display device
-model. I can't honestly remember the details, and I don't think it's
-worth digging in deeply into that for a legacy driver.
+These come from pieces of code which do essentially:
 
-However, it looks like we only call omapdss_device_disconnect() and
-omapdss_device_connect() with NULL as the src parameter. We can thus
-drop the src parameter from both functions, and fix the smatch warning.
+p = dma_alloc_coherent()
 
-I don't think omapdss_device_disconnect() ever gets NULL for the dst
-parameter (if it did, we'd crash soon after returning from the
-function), but I have kept the !dst check, just in case, but I added a
-WARN_ON() there.
+dma_transfer_to_p()
+readl(p)
 
-Also, if the dst parameter can be NULL, we can't always get the struct
-dss_device pointer from dst->dss (which is only used for a debug print).
-To make sure we can't hit that issue, do it similarly to the
-omapdss_device_connect() function: add 'struct dss_device *dss' as the
-first parameter, so that we always have it regardless of the dst.
+writel(x, p)
+dma_transfer_from_p()
 
-Fixes: 79107f274b2f ("drm/omap: Add support for drm_bridge")
+I think we would do just fine without readl() and writel(), accessing
+the memory without any extras, but ensuring that the necessary barriers
+are in place. But this code is for a legacy platform, has been working
+for ages, and it's doing work-arounds for hardware issues, and those
+hardware issues are very difficult to trigger... So I would just rather
+leave the code be as it is now.
+
+However, the warnings are not nice. Hide the warnings by a (__iomem void
+*) typecast.
+
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202407311737.VsJ0Sr1w-lkp@intel.com/
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/omapdrm/dss/base.c    | 25 ++++++-------------------
- drivers/gpu/drm/omapdrm/dss/omapdss.h |  3 +--
- drivers/gpu/drm/omapdrm/omap_drv.c    |  4 ++--
- 3 files changed, 9 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_dmm_tiler.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
-index 050ca7eafac5..556e0f9026be 100644
---- a/drivers/gpu/drm/omapdrm/dss/base.c
-+++ b/drivers/gpu/drm/omapdrm/dss/base.c
-@@ -139,21 +139,13 @@ static bool omapdss_device_is_connected(struct omap_dss_device *dssdev)
+diff --git a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+index 1aca3060333e..fcd600024136 100644
+--- a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
++++ b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+@@ -119,7 +119,7 @@ static u32 dmm_read_wa(struct dmm *dmm, u32 reg)
+ 	 * earlier than the DMA finished writing the value to memory.
+ 	 */
+ 	rmb();
+-	return readl(dmm->wa_dma_data);
++	return readl((__iomem void *)dmm->wa_dma_data);
  }
  
- int omapdss_device_connect(struct dss_device *dss,
--			   struct omap_dss_device *src,
- 			   struct omap_dss_device *dst)
- {
--	dev_dbg(&dss->pdev->dev, "connect(%s, %s)\n",
--		src ? dev_name(src->dev) : "NULL",
-+	dev_dbg(&dss->pdev->dev, "connect(%s)\n",
- 		dst ? dev_name(dst->dev) : "NULL");
- 
--	if (!dst) {
--		/*
--		 * The destination is NULL when the source is connected to a
--		 * bridge instead of a DSS device. Stop here, we will attach
--		 * the bridge later when we will have a DRM encoder.
--		 */
--		return src && src->bridge ? 0 : -EINVAL;
--	}
-+	if (!dst)
-+		return -EINVAL;
- 
- 	if (omapdss_device_is_connected(dst))
- 		return -EBUSY;
-@@ -163,19 +155,14 @@ int omapdss_device_connect(struct dss_device *dss,
- 	return 0;
- }
- 
--void omapdss_device_disconnect(struct omap_dss_device *src,
-+void omapdss_device_disconnect(struct dss_device *dss,
- 			       struct omap_dss_device *dst)
- {
--	struct dss_device *dss = src ? src->dss : dst->dss;
--
--	dev_dbg(&dss->pdev->dev, "disconnect(%s, %s)\n",
--		src ? dev_name(src->dev) : "NULL",
-+	dev_dbg(&dss->pdev->dev, "disconnect(%s)\n",
- 		dst ? dev_name(dst->dev) : "NULL");
- 
--	if (!dst) {
--		WARN_ON(!src->bridge);
-+	if (WARN_ON(!dst))
- 		return;
--	}
- 
- 	if (!dst->id && !omapdss_device_is_connected(dst)) {
- 		WARN_ON(1);
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 040d5a3e33d6..4c22c09c93d5 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -242,9 +242,8 @@ struct omap_dss_device *omapdss_device_get(struct omap_dss_device *dssdev);
- void omapdss_device_put(struct omap_dss_device *dssdev);
- struct omap_dss_device *omapdss_find_device_by_node(struct device_node *node);
- int omapdss_device_connect(struct dss_device *dss,
--			   struct omap_dss_device *src,
- 			   struct omap_dss_device *dst);
--void omapdss_device_disconnect(struct omap_dss_device *src,
-+void omapdss_device_disconnect(struct dss_device *dss,
- 			       struct omap_dss_device *dst);
- 
- int omap_dss_get_num_overlay_managers(void);
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index 6598c9c08ba1..d80d24fce79f 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -307,7 +307,7 @@ static void omap_disconnect_pipelines(struct drm_device *ddev)
- 	for (i = 0; i < priv->num_pipes; i++) {
- 		struct omap_drm_pipeline *pipe = &priv->pipes[i];
- 
--		omapdss_device_disconnect(NULL, pipe->output);
-+		omapdss_device_disconnect(priv->dss, pipe->output);
- 
- 		omapdss_device_put(pipe->output);
- 		pipe->output = NULL;
-@@ -325,7 +325,7 @@ static int omap_connect_pipelines(struct drm_device *ddev)
+ static void dmm_write_wa(struct dmm *dmm, u32 val, u32 reg)
+@@ -127,7 +127,7 @@ static void dmm_write_wa(struct dmm *dmm, u32 val, u32 reg)
+ 	dma_addr_t src, dst;
  	int r;
  
- 	for_each_dss_output(output) {
--		r = omapdss_device_connect(priv->dss, NULL, output);
-+		r = omapdss_device_connect(priv->dss, output);
- 		if (r == -EPROBE_DEFER) {
- 			omapdss_device_put(output);
- 			return r;
+-	writel(val, dmm->wa_dma_data);
++	writel(val, (__iomem void *)dmm->wa_dma_data);
+ 	/*
+ 	 * As per i878 workaround, the DMA is used to access the DMM registers.
+ 	 * Make sure that the writel is not moved by the compiler or the CPU, so
+@@ -411,7 +411,7 @@ static int dmm_txn_commit(struct dmm_txn *txn, bool wait)
+ 	 */
+ 
+ 	/* read back to ensure the data is in RAM */
+-	readl(&txn->last_pat->next_pa);
++	readl((__iomem void *)&txn->last_pat->next_pa);
+ 
+ 	/* write to PAT_DESCR to clear out any pending transaction */
+ 	dmm_write(dmm, 0x0, reg[PAT_DESCR][engine->id]);
 
 -- 
 2.43.0
