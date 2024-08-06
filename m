@@ -2,87 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B50949347
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 16:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BBB949414
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 17:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 347ED10E397;
-	Tue,  6 Aug 2024 14:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1CC10E39D;
+	Tue,  6 Aug 2024 15:03:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VDmT+qQH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OZ7nkTR/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65A7A10E399
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 14:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1722955146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lulMY4n2fPx2dahXNVvaLbYmQNJeQbtHnB6R7KxHAis=;
- b=VDmT+qQHq45FyvNBIVcpvCADox685osB3BsHIH3TKtdB3XJxi8B8ozs9Xi1a/RLAmIbgA+
- 6dmJbycrwxQ73NFn5uJGXN1Si4s2g8MYgvNtf7XAbQobVOnU2J6ml10ezHoAgwRIhqu9WF
- Eqqkz41H0RrkaVp2NoKsHtf8suuPlXc=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-503-XjcKeYIiN9WggsvxUeGXEA-1; Tue, 06 Aug 2024 10:39:05 -0400
-X-MC-Unique: XjcKeYIiN9WggsvxUeGXEA-1
-Received: by mail-lj1-f199.google.com with SMTP id
- 38308e7fff4ca-2ef1c0f5966so794051fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 07:39:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722955143; x=1723559943;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lulMY4n2fPx2dahXNVvaLbYmQNJeQbtHnB6R7KxHAis=;
- b=EgxpX767gX9zW+ua0/EdHzU3Tq6a+C1AfMX0tuEb7kqk/OsbL8wS1YLrFYXLShoeg2
- gGgBAK/k5T4PmlKGT4bZ3XQ8/D2gWxEJSod4ZTKT3argsaRSyj24qslvcq6o3pWcF7f3
- TIAuEbRMVxqahdz6fX7EUxrszvmyxCI/MQkSNVA31WG4Dd5Hnt82UC01z7Au7QZsDSUR
- zkgehkpY8431ptYfRJS3AXzebbpAGRQF2Hqi2uVX0Z0d1F6oA5pSTUJIwMD21eHdTP4q
- UFVynUuLiT0azgxxV1eFBiKkBTDro7KpuMr8fUCXIWOdXB6AyCcSsUKwbeDJnUZ80Mua
- eivw==
-X-Gm-Message-State: AOJu0Ywf4WcynHPfzsgYeH/2V+ft1dxUbKfITv3DtV896vdX93cZ+S9P
- 7KQMbunW0Zt/hFcWnqw00J93AJYEOW/FyUZhLgcchLTjnGT/5FSp+b5Q29e2Qrl32gXX6/CHPRR
- Lp+UYwpHV8562xiznF23GD//qMVboY0HGpnWQ9PO30NTHrw4f3iEUoMs7n7G/h3CnsQ==
-X-Received: by 2002:a2e:87d3:0:b0:2f0:1a95:7102 with SMTP id
- 38308e7fff4ca-2f15ab1c215mr55822341fa.6.1722955143370; 
- Tue, 06 Aug 2024 07:39:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG6nTV8TMdweugbmRIe2xn+r+NkGNern8stYSFF2V2rA6O68KoNSruXVS5LUUDKeNLhZZguPg==
-X-Received: by 2002:a2e:87d3:0:b0:2f0:1a95:7102 with SMTP id
- 38308e7fff4ca-2f15ab1c215mr55822181fa.6.1722955142966; 
- Tue, 06 Aug 2024 07:39:02 -0700 (PDT)
-Received: from eisenberg.fritz.box
- (200116b82d165b009a97301f486032f8.dip.versatel-1u1.de.
- [2001:16b8:2d16:5b00:9a97:301f:4860:32f8])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-428e08012d7sm214285905e9.22.2024.08.06.07.39.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Aug 2024 07:39:02 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBCB410E39D
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 15:03:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D861460FC8;
+ Tue,  6 Aug 2024 15:03:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57FF1C32786;
+ Tue,  6 Aug 2024 15:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1722956594;
+ bh=ENTNJkyPlX89nL5MNOvYxxCBQ8yDP7ZF+BIfObGAZJM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OZ7nkTR/4S5vElHLQ4hagaQV5113Lj3/gxJf2sgfoCRIhDuvpx2sW4XfwocCTU028
+ 3pS3UkXr2phokFRO6KYCDzqkbG8qUxNNTNnbKtvNOEmEVG5F6WIariMFCqd1WLgrll
+ 6yCTmndIVGf7YK29VqmU9DmfEpTGJmVO8vpjIxqKFoLtPNM4UV/kLOpuv8xChNrPcV
+ poYnq9PVgo5GOhCc/UyglRYlVtps1SHEdEadmfVcmXDWyeCgVH4zyyyNgcb06U/Iiu
+ YVaN1EOhJDQMTIjYTGibWNU31fLvkX5SrYmf+2YIZS/N48+yhm1d3u6QQJcxplti2r
+ l5uaqrKXrnqbw==
+Date: Tue, 6 Aug 2024 09:03:13 -0600
+From: Rob Herring <robh@kernel.org>
+To: Marc Gonzalez <mgonzalez@freebox.fr>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH 2/2] drm/sched: warn about drm_sched_job_init()'s partial init
-Date: Tue,  6 Aug 2024 16:38:56 +0200
-Message-ID: <20240806143855.29789-3-pstanner@redhat.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240806143855.29789-2-pstanner@redhat.com>
-References: <20240806143855.29789-2-pstanner@redhat.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: add TI TDP158
+Message-ID: <20240806150313.GA1516901-robh@kernel.org>
+References: <20240730-tdp158-v4-0-da69001bdea2@freebox.fr>
+ <20240730-tdp158-v4-1-da69001bdea2@freebox.fr>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240730-tdp158-v4-1-da69001bdea2@freebox.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,54 +71,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_job_init()'s name suggests that after the function succeeded,
-parameter "job" will be fully initialized. This is not the case; some
-members are only later set, notably "job->sched" by drm_sched_job_arm().
+On Tue, Jul 30, 2024 at 05:01:31PM +0200, Marc Gonzalez wrote:
+> TDP158 is an AC-coupled DVI / HDMI to TMDS level shifting Redriver.
+> It supports DVI 1.0, HDMI 1.4b and 2.0b.
+> It supports 4 TMDS channels, HPD, and a DDC interface.
+> It supports dual power supply rails (1.1V on VDD, 3.3V on VCC)
+> for power reduction. Several methods of power management are
+> implemented to reduce overall power consumption.
+> It supports fixed receiver EQ gain using I2C or pin strap to
+> compensate for different lengths input cable or board traces.
+> 
+> Features
+> 
+> - AC-coupled TMDS or DisplayPort dual-mode physical layer input
+> to HDMI 2.0b TMDS physical layer output supporting up to 6Gbps
+> data rate, compatible with HDMI 2.0b electrical parameters
+> - DisplayPort dual-mode standard version 1.1
+> - Programmable fixed receiver equalizer up to 15.5dB
+> - Global or independent high speed lane control, pre-emphasis
+> and transmit swing, and slew rate control
+> - I2C or pin strap programmable
+> - Configurable as a DisplayPort redriver through I2C
+> - Full lane swap on main lanes
+> - Low power consumption (200 mW at 6Gbps, 8 mW in shutdown)
+> 
+> https://www.ti.com/lit/ds/symlink/tdp158.pdf
+> 
+> Like the TFP410, the TDP158 can be set up in 2 different ways:
+> 1) hard-coding its configuration settings using pin-strapping resistors
+> 2) placing it on an I2C bus, and defer set-up until run-time
+> 
+> The mode is selected via pin 8 = I2C_EN
+> I2C_EN high = I2C Control Mode
+> I2C_EN low  = Pin Strap Mode
+> 
+> On our board, I2C_EN is pulled high.
+> 
+> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> ---
+>  .../bindings/display/bridge/ti,tdp158.yaml         | 57 ++++++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
+> new file mode 100644
+> index 0000000000000..fe3de1534efc1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
+> @@ -0,0 +1,57 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
 
-Document that drm_sched_job_init() does not set all struct members.
+For new bindings: GPL-2.0-only OR BSD-2-Clause
 
-Document that job->sched in particular is uninitialized before
-drm_sched_job_arm().
+With that,
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 4 ++++
- include/drm/gpu_scheduler.h            | 7 +++++++
- 2 files changed, 11 insertions(+)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 1498ee3cbf39..2adb13745500 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -911,6 +911,10 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
-  * Drivers must make sure drm_sched_job_cleanup() if this function returns
-  * successfully, even when @job is aborted before drm_sched_job_arm() is called.
-  *
-+ * Note that this function does not assign a valid value to each struct member
-+ * of struct drm_sched_job. Take a look at that struct's documentation to see
-+ * who sets which struct member with what lifetime.
-+ *
-  * WARNING: amdgpu abuses &drm_sched.ready to signal when the hardware
-  * has died, which can mean that there's no valid runqueue for a @entity.
-  * This function returns -ENOENT in this case (which probably should be -EIO as
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index ce15c50d8a10..7df81a07f1f9 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -337,6 +337,13 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
- struct drm_sched_job {
- 	struct spsc_node		queue_node;
- 	struct list_head		list;
-+
-+	/*
-+	 * The scheduler this job is or will be scheduled on.
-+	 *
-+	 * Gets set by drm_sched_arm(). Valid until the scheduler's backend_ops
-+	 * callback "free_job()" is  called.
-+	 */
- 	struct drm_gpu_scheduler	*sched;
- 	struct drm_sched_fence		*s_fence;
- 
--- 
-2.45.2
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
