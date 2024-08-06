@@ -2,51 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CDF9496B4
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 19:28:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1ED19496D3
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 19:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11A6910E046;
-	Tue,  6 Aug 2024 17:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F15D10E06B;
+	Tue,  6 Aug 2024 17:31:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FAXvUE0K";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="RQC6pDPk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72EF410E046
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 17:28:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A3B5461093;
- Tue,  6 Aug 2024 17:28:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A25ADC32786;
- Tue,  6 Aug 2024 17:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722965320;
- bh=Qi5WxmMVqmR0matvwiMljokUy+VSTuQ68dFhDYopPqQ=;
- h=Date:From:To:Cc:Subject:From;
- b=FAXvUE0KIKhlW+bPfH7nEjVfB9pnfTRAVLFxq3YBnRaBNeyQInhLUDkVNQ1Yne4fy
- 1rji3IM/XkY/aW1PHguSfjzwzQu98iEfNi5pJJ3IUWyIkZ2yNjX/LoJRXFU5dO5thy
- QDjrU5CIX1ZsXeIt25qlgPx4T8POowARlFSSu32UltQi9hmb751L6+Dnoz1HzEqmAm
- dUZ7DRZuCUXA7cCWOngjT52mIrgqZxCQWprWnfRYF5/GqtCVIGmtwAcYK/b3UKXLSz
- pQp9ukAAaey9TMGScKUWq38FHIr/ODo+01aCy7rH6Q8pEXYnzbVNa3tBkdjai/iDOo
- Hd3b4NCiL9SPA==
-Date: Tue, 6 Aug 2024 19:28:34 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: akpm@linux-foundation.org, alexei.starovoitov@gmail.com, 
- audit@vger.kernel.org, bpf@vger.kernel.org, catalin.marinas@arm.com, 
- dri-devel@lists.freedesktop.org, ebiederm@xmission.com, laoar.shao@gmail.com, 
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-security-module@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org,
- penguin-kernel@i-love.sakura.ne.jp, 
- rostedt@goodmis.org, selinux@vger.kernel.org, serge@hallyn.com
-Subject: Re: [PATCH v5 0/9] Improve the copy of task comm
-Message-ID: <2jxak5v6dfxlpbxhpm3ey7oup4g2lnr3ueurfbosf5wdo65dk4@srb3hsk72zwq>
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 503DE10E06B
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 17:31:48 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id
+ af79cd13be357-7a1e1f6a924so51450585a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 10:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1722965504; x=1723570304;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gqyeHMahsCOkK3u9LkoMA6WHj+nv0M3p/02yM0qdpV8=;
+ b=RQC6pDPkCT0pdF4F/5MrPv2vCmLOEQgUo1ctAYISl9s/YKybes+TOGIgGPG8fUUghu
+ 5ZAsQlQHm1TJq8967FtUq9vTV8ot7224ye2zjVLpmdb7WaqLFqM3ecdnk5eqmfelJNeA
+ hMRjrp8N5cacwn6RAELqc5leQXZQCWbHmgmhA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722965504; x=1723570304;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gqyeHMahsCOkK3u9LkoMA6WHj+nv0M3p/02yM0qdpV8=;
+ b=NNDvVfUhzxhJIcK7RCSoMQiaFxNZGJdP0u1eV6UTHHlc0It6nE8KR0mGlo2mYYafIg
+ RD3ie2YRl20WwhYcCcmobvPeyoVOZpwOJhN0mB5Mh+uLGYmNqh5h3wCAD/fYaKp/mlUu
+ 32nOxvg9GvykfKcAYN72LyvjGlHHoM0ctVJkfeQtcDVwoP3dR4g0rwQGmMweW4mWwAP9
+ 6Kcq35Gw5jpxvJR/7BY7YDGsJlQd46o/5y8PU8nkmgO7dWu8A1xi+9d3hGSMrnOiBF4G
+ /242670tzvXECLdCrqlmwWiXGqLWbUFFqAupmGC3hz7emE/dDKAEOLnNBr3NxGXdtHyw
+ cyKw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWYvVcEq2HO44u6uUy7+1+LVLGERoxBD7CMN1q1apJycn9UIZ1zhrBV8FU9d0rxrcZxBf0IusXbvzlHJeFd6yAaUhdpNBoUtY2sLe2Cy11K
+X-Gm-Message-State: AOJu0Yw212Fh0RsvZ7JqJ0g8yeEQPh03ViOyGfTXRQ/w0Alxt3F57Sk6
+ g1wcq1Bh9wgqhGBrq58y0z6n+yI29IOLa+FIlyD3cNnpcpvW4/RidNtVdbABXoATT9Y6Lvka8Qz
+ rPFWe
+X-Google-Smtp-Source: AGHT+IGYzfIhTL4iP0mvOKx4wNVAE2t+TIYtwtyuA8jg9YfcQpZlGNQi3LEx3+b/ejgquu7inJ8uKw==
+X-Received: by 2002:a05:620a:244f:b0:7a2:16f:a7d4 with SMTP id
+ af79cd13be357-7a34efe95c0mr1966728085a.59.1722965504133; 
+ Tue, 06 Aug 2024 10:31:44 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
+ [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4518a6aa1cesm39497281cf.6.2024.08.06.10.31.42
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Aug 2024 10:31:42 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-4518d9fa2f4so464761cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 10:31:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV150LltBq45d+8h3sfxxot78+bsuR/fMYZEVz8EHdW24IN6yMeiU239i1PwT6+eFANjURjoxq71mxxfo5W30WvRZUAcCMOqJCUAWMm812H
+X-Received: by 2002:a05:622a:1822:b0:447:fad8:ccc1 with SMTP id
+ d75a77b69052e-451c5a614e8mr1041cf.22.1722965502125; Tue, 06 Aug 2024 10:31:42
+ -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="d4izvc7wnp2wjet3"
-Content-Disposition: inline
+References: <20240806034015.11884-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240806034015.11884-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240806034015.11884-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 6 Aug 2024 10:31:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WrMxyxkuCYEbd=aYFaTJKNqGqXr6Re+V=B_h9jnjHPvg@mail.gmail.com>
+Message-ID: <CAD=FV=WrMxyxkuCYEbd=aYFaTJKNqGqXr6Re+V=B_h9jnjHPvg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/panel: jd9365da: Move the location of "exit
+ sleep mode" and "set display on" commands
+To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ hsinyi@google.com, airlied@gmail.com, daniel@ffwll.ch, jagan@edgeble.ai, 
+ dmitry.baryshkov@linaro.org, jani.nikula@linux.intel.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,179 +98,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---d4izvc7wnp2wjet3
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: akpm@linux-foundation.org, alexei.starovoitov@gmail.com, 
-	audit@vger.kernel.org, bpf@vger.kernel.org, catalin.marinas@arm.com, 
-	dri-devel@lists.freedesktop.org, ebiederm@xmission.com, laoar.shao@gmail.com, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, penguin-kernel@i-love.sakura.ne.jp, 
-	rostedt@goodmis.org, selinux@vger.kernel.org, serge@hallyn.com
-Subject: Re: [PATCH v5 0/9] Improve the copy of task comm
-MIME-Version: 1.0
+On Mon, Aug 5, 2024 at 8:40=E2=80=AFPM Zhaoxiong Lv
+<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+>
+> Move the "exit sleep mode" and "set display on" command from
+> enable() to init() function.
+>
+> As mentioned in the patch:
+> https://lore.kernel.org/all/20240624141926.5250-2-lvzhaoxiong@huaqin.corp=
+-partner.google.com/
+>
+> Our DSI host has different modes in prepare() and enable()
 
-Hi Linus,
-
-Serge let me know about this thread earlier today.
-
-On 2024-08-05, Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> On Mon, 5 Aug 2024 at 20:01, Yafang Shao <laoar.shao@gmail.com> wrote:
-> >
-> > One concern about removing the BUILD_BUG_ON() is that if we extend
-> > TASK_COMM_LEN to a larger size, such as 24, the caller with a
-> > hardcoded 16-byte buffer may overflow.
->=20
-> No, not at all. Because get_task_comm() - and the replacements - would
-> never use TASK_COMM_LEN.
->=20
-> They'd use the size of the *destination*. That's what the code already do=
-es:
->=20
->   #define get_task_comm(buf, tsk) ({                      \
->   ...
->         __get_task_comm(buf, sizeof(buf), tsk);         \
->=20
-> note how it uses "sizeof(buf)".
-
-In shadow.git, we also implemented macros that are named after functions
-and calculate the appropriate number of elements internally.
-
-	$ grepc -h STRNCAT .
-	#define STRNCAT(dst, src)  strncat(dst, src, NITEMS(src))
-	$ grepc -h STRNCPY .
-	#define STRNCPY(dst, src)  strncpy(dst, src, NITEMS(dst))
-	$ grepc -h STRTCPY .
-	#define STRTCPY(dst, src)  strtcpy(dst, src, NITEMS(dst))
-	$ grepc -h STRFTIME .
-	#define STRFTIME(dst, fmt, tm)  strftime(dst, NITEMS(dst), fmt, tm)
-	$ grepc -h DAY_TO_STR .
-	#define DAY_TO_STR(str, day, iso)   day_to_str(NITEMS(str), str, day, iso)
-
-They're quite useful, and when implementing them we found and fixed
-several bugs thanks to them.
-
-> Now, it might be a good idea to also verify that 'buf' is an actual
-> array, and that this code doesn't do some silly "sizeof(ptr)" thing.
-
-I decided to use NITEMS() instead of sizeof() for that reason.
-(NITEMS() is just our name for ARRAY_SIZE().)
-
-	$ grepc -h NITEMS .
-	#define NITEMS(a)            (SIZEOF_ARRAY((a)) / sizeof((a)[0]))
-
-> We do have a helper for that, so we could do something like
->=20
->    #define get_task_comm(buf, tsk) \
->         strscpy_pad(buf, __must_be_array(buf)+sizeof(buf), (tsk)->comm)
-
-We have SIZEOF_ARRAY() for when you want the size of an array:
-
-	$ grepc -h SIZEOF_ARRAY .
-	#define SIZEOF_ARRAY(a)      (sizeof(a) + must_be_array(a))
-
-However, I don't think you want sizeof().  Let me explain why:
-
--  Let's say you want to call wcsncpy(3) (I know nobody should be using
-   that function, not strncpy(3), but I'm using it as a standard example
-   of a wide-character string function).
-
-   You should call wcsncpy(dst, src, NITEMS(dst)).
-   A call wcsncpy(dst, src, sizeof(dst)) is bogus, since the argument is
-   the number of wide characters, not the number of bytes.
-
-   When translating that to normal characters, you want conceptually the
-   same operation, but on (normal) characters.  That is, you want
-   strncpy(dst, src, NITEMS(dst)).  While strncpy(3) with sizeof() works
-   just fine because sizeof(char)=3D=3D1 by definition, it is conceptually
-   wrong to use it.
-
-   By using NITEMS() (i.e., ARRAY_SIZE()), you get the __must_be_array()
-   check for free.
-
-In the end, SIZEOF_ARRAY() is something we very rarely use.  It's there
-only used in the following two cases at the moment:
-
-	#define NITEMS(a)            (SIZEOF_ARRAY((a)) / sizeof((a)[0]))
-	#define MEMZERO(arr)  memzero(arr, SIZEOF_ARRAY(arr))
-
-Does that sound convincing?
-
-For memcpy(3) for example, you do want sizeof(), because you're copying
-raw bytes, but with strings, in which characters are conceptually
-meaningful elements, NITEMS() makes more sense.
-
-BTW, I'm working on a __lengthof__ operator that will soon allow using
-it on function parameters declared with array notation.  That is,
-
-	size_t
-	f(size_t n, int a[n])
-	{
-		return __lengthof__(a);  // This will return n.
-	}
-
-If you're interested in it, I'm developing and discussing it here:
-<https://inbox.sourceware.org/gcc-patches/20240806122218.3827577-1-alx@kern=
-el.org/>
-
->=20
-> as a helper macro for this all.
->=20
-> (Although I'm not convinced we generally want the "_pad()" version,
-> but whatever).
-
-We had problems with it in shadow recently.  In user-space, it's similar
-to strncpy(3) (at least if you wrap it in a macro that makes sure that
-it terminates the string with a null byte).
-
-We had a lot of uses of strncpy(3), from old times where that was used
-to copy strings with truncation.  I audited all of that code (and
-haven't really finished yet), and translated to calls similar to
-strscpy(9) (we call it strtcpy(), as it _t_runcates).  The problem was
-that in some cases the padding was necessary, and in others it was not,
-and it was very hard to distinguish those.
-
-I recommend not zeroing strings unnecessarily, since that will make it
-hard to review the code later.  E.g., twenty years from now, someone
-takes a piece of code with a _pad() call, and has no clue if the zeroing
-was for a reason, or for no reason.
-
-On the other hand, not zeroing may make it easier to explot bugs, so
-whatever you think best.  In the kernel you may need to be more worried
-than in user space.  Whatever.  :)
-
->=20
->                     Linus
-
-Have a lovely day!
-Alex
+nit: it's not obvious to the reader of this patch which DSI host is
+"our"s. Maybe spell out which SoC you're using? I assume this is a
+Mediatek SoC?
 
 
---=20
-<https://www.alejandro-colomar.es/>
+> functions. prepare() is in LP mode and enable() is in HS mode.
+> Since the "exit sleep mode" and "set display on" command must
+> also be sent in LP mode, so we also move "exit sleep mode" and
+> "set display on" command to the init() function.
+>
+> We have no other actions in the enable() function after moves
+> "exit sleep mode" and "set display on", and we checked the call
+> of the enable() function during the "startup" process. It seems
+> that only one judgment was made in drm_panel_enabel(). If the
+> panel does not define enable(), the judgment will skip the
+> enable() and continue execution. This does not seem to have
+> any other effects,and we found that some drivers also seem
 
---d4izvc7wnp2wjet3
-Content-Type: application/pgp-signature; name="signature.asc"
+s/effects,and/effect, and/
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmayXTwACgkQnowa+77/
-2zKkGg//QGKZL+2Xhpb6wdoKoQMt5Ixm8AxcrhEng31CT2FlaXxnveqkjC9CXsUS
-hvuVRQFMFyhrARydHNtx/Ps5q5f/TSv4qX+5PI6hBFPAIJOuHCh2UfXqPEMrCXb5
-iAhq73HPqXL20Igr1+n9W9buunf2ow4fBxTsK+7eMZCPnTAuS3lMkRpmne8d7ks1
-iOHorYSEbJYJqWUyOCq7i/KNufR7nALJzBHzqPcAE47Gsp0/N0DA/NEzO6zbCRS4
-HLODuEC8T6iWnEh+qoBTS0Gn1ksmVNCQPVyLj4OurtSYeX0pGL6NQWxKjMgxCaQ9
-r0rN2v+o8ULJIOBI1ZVKAqlXZdPxtPpwPxyim82IB5Mok0bkqGSZQYMqEL27YkK0
-k/Ec5R/AkO8Zhc/i3YFzTwa8peXA9s4D2xFCB/hYTdTNL138ugVV1fevoPo6qt9t
-eqA/fKesf5pK9OXftXBdqHNqsDGe6Ps76ahK9FsQNj0ZEi1JLTmWoEGRQMHQ6iZ+
-yXlgOkn3625L2Q0Qofv3x943QicRe8eahFyW/YV7a+8B+n7PP9RQEo95DTv1QjGU
-wCP6XYatwx1uKgauYWE2if5RiXyhsUBbCjEAUrXTmLBAxk/5zJ+vSpDl3j3fr4D0
-hm5Pe6kB02HnX7NQKrnlgmPJi7PhBVGSRSDc+Lj4r4q7e3BYDuY=
-=TwdF
------END PGP SIGNATURE-----
+> to have no enable() function added, for example:
+> panel-asus-z00t-tm5p5-n35596 / panel-boe-himax8279d ...
+> In addition, we briefly tested the kingdisplay_kd101ne3 panel and
+> melfas_lmfbx101117480 panel, and it seems that there is no garbage
+> on the panel, so we delete enable() function.
+>
+> After moving the "exit sleep mode" and "set display on" command
+> to the init() function, we no longer need additional delay
+> judgment, so we deletevariables "exit_sleep_to_display_on_delay_ms"
 
---d4izvc7wnp2wjet3--
+nit: s/deletevariables/delete variables/
+
+
+> and "display_on_delay_ms".
+>
+> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+> ---
+> Changes between V2 and V1:
+> -  1. The code has not changed, Modify the commit information.
+> v1: https://lore.kernel.org/all/20240725083245.12253-2-lvzhaoxiong@huaqin=
+.corp-partner.google.com/
+> ---
+>  .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 59 ++++++++++---------
+>  1 file changed, 32 insertions(+), 27 deletions(-)
+
+nit: ${SUBJECT} is a bit long. In general it's worth abbreviating a
+bit more so that the subject doesn't go to crazy.
+
+drm/panel: jd9365da: Move "exit sleep mode" and "set display on" cmds
+
+
+Aside from the above nits, this looks OK to me. I wouldn't object to
+fixing some of my own nits when applying or you could send a v3 if
+there is no other feedback. In any case:
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+
+I'd prefer someone with more MIPI panel experience give a review,
+though, so I'll expect that Jessica or Neil or someone else gives a
+review.
+
+-Doug
