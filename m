@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2761949A62
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 23:45:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7478F949A65
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 23:45:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24CEA10E409;
-	Tue,  6 Aug 2024 21:45:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C3B410E40C;
+	Tue,  6 Aug 2024 21:45:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OFKg6Qla";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UYftF/Me";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
- [209.85.217.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C13FA10E0C1;
- Tue,  6 Aug 2024 21:45:08 +0000 (UTC)
-Received: by mail-vs1-f53.google.com with SMTP id
- ada2fe7eead31-49288fafca9so381881137.3; 
- Tue, 06 Aug 2024 14:45:08 -0700 (PDT)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+ [209.85.167.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F20710E32A;
+ Tue,  6 Aug 2024 21:45:10 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id
+ 5614622812f47-3db130a872fso669253b6e.2; 
+ Tue, 06 Aug 2024 14:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722980707; x=1723585507; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1722980709; x=1723585509; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=miICkqtphbuqoVPCrRUsXPD2jAyziYTMNx3H/IAui6o=;
- b=OFKg6Qlatq1c90zomsXvX9SidWqpSeomEJNax/Kco+WiUYLFa+ctTCwaoyPhiHuLEw
- RAuhYjR96RcKha9C7N64Zf7TQ8NpvKlraYbdvG+otLuO3rB+vRY6Oek0+1YKzg+VHGSD
- JjqSx10J+GtAOeMiPl0Ri41+lIjKTFLMXFIDtV6bdlUYf1AQD4pc+QO8BtYX3icnOlDB
- 2sdm3g8wJvl7THwLCar+ehNB36AZCQ1T7hM7evG4QiiMgI5EiuZDQMSJGjlyIq6rrrid
- Fmfa1CYx6dpJGxjq+nTBjBk5aLf2sZ3MGm5dhvnyMSA55mMfCccE/pLSwnhvxgqanDSI
- NW/A==
+ bh=dSeuCMY2us9pa1SAbHTqv2Z4dVLFCX20r2NmRNPUfIc=;
+ b=UYftF/MedrINrxQ2Jnko5uqzBWsxdo/IjVb7aU75NAomXq8ZbRwRbIxX8SLRCu0751
+ cy0O3i25nYCrmgRlY6/xISeJDVVpOVvI2RUr1XPRcdo1ZO73hpptlFp2RK/0tX9oo+vU
+ hAIZKrzFAI88n81GyjeG9Y/e+tFM3HLbtJFKPHbD2/zmMNs3qgiwUe0C1U/1fHpBkEWz
+ LBK/CwGwC5T1glJ/N7+PMdsHX7W/5zkiqmeFZb0xxKEj5kxdF/YHmy+CleJroo9aUbZ4
+ NO2O1bOmnrlldHf0H53PO/Y0wr/etVwW3D7EyUmpzyJ1d+WuqAKkp3H5Bb+1rxSRoidc
+ DxWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722980707; x=1723585507;
+ d=1e100.net; s=20230601; t=1722980709; x=1723585509;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=miICkqtphbuqoVPCrRUsXPD2jAyziYTMNx3H/IAui6o=;
- b=RaeL42ah/YnJTKXT6R6PFe3HjLFrcdpb6PbvzkluS/7cbUx6G23W6yap78f4A9OZKL
- evFS5TiwMO2HH2Uy3GVkM7XhX9c5KDT3CJf7SsYyvPkTLxUoftFz1nv/LJnLCiUIWqeg
- kTzA8IpYgVXNAI0LrPenbQsImQh+N2HaCiasOY/yKj//pShlwel/+gC3onytBKh4HX8f
- ey1xLRkL9o++LPvSdvp6cF2htQcMmjDq8wlJhlZVrcguAHIvYQLghfZKzz9crrE75P+S
- pEGyXcHPpUl0GvJ+mlZHJdslSdSDtUxhy221zZK/CpeiL358b5+uVVXv+lYhuZgIRaH1
- EaOA==
+ bh=dSeuCMY2us9pa1SAbHTqv2Z4dVLFCX20r2NmRNPUfIc=;
+ b=Mvo0E3PmJ/jr2wCocuT+asXTkAnCj0Jf1Pik7qX07nycHki7iUbeWOUBLTSv6Y/VHm
+ 5lbRKeVkuwCZ/Y3PLOyuyWD1o0AsrpbLC4yIT9Ehs/gFQvQO4gXMAVJnGzkDGZqR5chZ
+ 5O9r1c+wPj3vvuTA2eDEdunCP1S2/91ms8ErHGQsn37zSlhbOLfmNnx+6HoCmorDoD4l
+ kjPho0rgIgWqLCHY6oUrawKA1M1MpEQVF37Gt40jgUMzz/D20hCAzr4gFOLKS5LvqRy8
+ yKZDagh2wv4t1pEkEZFRq4InYkwZ+EfUqnpks14IH5gbGwnGfy1lz8Rwys6SPGC4cWcH
+ Z9+g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVCnKibV7bWrXq35y6yC5isG+a6jeGRVys1rztT+TYgYZcBFHb1feHlGgQ+qMquFsmuCZD/sf234j/Tcsxr9694PV/rDLcKeaOejQsL7b2zEdNC99rSiOYOj/yrJgtJGYdp2XkA/AdCDhS8/NV8sPpE
-X-Gm-Message-State: AOJu0YwRFBHjna3QGtJHvn6AQXBEGZrLOrtSvjpsxYB6X/XzDGilxQ7R
- YUTzr1T2wJw5ELmUkTE/GPyyNvOJSEjXJdq2e3cPdQNMtE7P1+Dm
-X-Google-Smtp-Source: AGHT+IE5r8vnEgfmQl8S4kMnDUmuI+D85mg6HCI9z9cAUB9cKYy5kzfXGy5KxXqa2aS2d60cWur+Tg==
-X-Received: by 2002:a05:6102:374e:b0:492:99d6:e71a with SMTP id
- ada2fe7eead31-4945be1d04emr20422152137.18.1722980707286; 
- Tue, 06 Aug 2024 14:45:07 -0700 (PDT)
+ AJvYcCXB0SLdbJCWx9l/4/rR9ydzo/PelVjIa85OIMrwfeCobKbTsz5u4aFdpQkXw5QHquWAElePE6F3CEoqLDNlSwCKSYz2pdmT3FQlluKB4TLrt+G1m+Ifs9HUbakK8/ZDCaoWsOHxCdsLQ157Lkd73mZv
+X-Gm-Message-State: AOJu0YxDuZtxpOdrPN6vR6gMzkzY/IH15kHVjrcht72YlHOyslsE8XGy
+ DzKg5j4lWbY8ozLTx6Q6J1KwnKK8CEBQseWIHBPpt937lGcW1551
+X-Google-Smtp-Source: AGHT+IHjmCaxtnKid4AHurYbomguGMwczge8XJ8F8ZPGP2TI5AE9qlYWnjEI/J8rCOpJ0CJ3kgo+sA==
+X-Received: by 2002:a05:6808:199e:b0:3db:50dc:de89 with SMTP id
+ 5614622812f47-3db5580f0dfmr20519797b6e.24.1722980708993; 
+ Tue, 06 Aug 2024 14:45:08 -0700 (PDT)
 Received: from localhost ([2607:fea8:52a3:d200:324c:b818:b179:79b])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6bb9c8631d0sm49722606d6.106.2024.08.06.14.45.06
+ d75a77b69052e-4518a7572c3sm41048301cf.60.2024.08.06.14.45.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Aug 2024 14:45:07 -0700 (PDT)
+ Tue, 06 Aug 2024 14:45:08 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -70,9 +70,9 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v2 2/4] drm/msm/adreno: add a615 support
-Date: Tue,  6 Aug 2024 17:44:56 -0400
-Message-ID: <20240806214452.16406-9-mailingradian@gmail.com>
+Subject: [PATCH v2 3/4] arm64: dts: qcom: sdm670: add gpu
+Date: Tue,  6 Aug 2024 17:44:57 -0400
+Message-ID: <20240806214452.16406-10-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240806214452.16406-7-mailingradian@gmail.com>
 References: <20240806214452.16406-7-mailingradian@gmail.com>
@@ -93,51 +93,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Adreno A615 is used in SDM670. Add an entry to support it.
+The Snapdragon 670 has the Adreno A615 GPU. Add it along with its device
+tree dependencies.
 
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 27 +++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ arch/arm64/boot/dts/qcom/sdm670.dtsi | 180 +++++++++++++++++++++++++++
+ 1 file changed, 180 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index 68ba9aed5506..fc4fa2a9547d 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -651,6 +651,33 @@ static const struct adreno_info a6xx_gpus[] = {
- 			{ 157, 3 },
- 			{ 127, 4 },
- 		),
-+	}, {
-+		.chip_ids = ADRENO_CHIP_IDS(0x06010500),
-+		.family = ADRENO_6XX_GEN1,
-+		.revn = 615,
-+		.fw = {
-+			[ADRENO_FW_SQE] = "a630_sqe.fw",
-+			[ADRENO_FW_GMU] = "a630_gmu.bin",
-+		},
-+		.gmem = SZ_512K,
-+		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.init = a6xx_gpu_init,
-+		.zapfw = "a615_zap.mdt",
-+		.a6xx = &(const struct a6xx_info) {
-+			.hwcg = a615_hwcg,
-+			.protect = &a630_protect,
-+		},
-+		.speedbins = ADRENO_SPEEDBINS(
+diff --git a/arch/arm64/boot/dts/qcom/sdm670.dtsi b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+index 187c6698835d..5c274a378848 100644
+--- a/arch/arm64/boot/dts/qcom/sdm670.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+@@ -8,6 +8,7 @@
+ 
+ #include <dt-bindings/clock/qcom,dispcc-sdm845.h>
+ #include <dt-bindings/clock/qcom,gcc-sdm845.h>
++#include <dt-bindings/clock/qcom,gpucc-sdm845.h>
+ #include <dt-bindings/clock/qcom,rpmh.h>
+ #include <dt-bindings/dma/qcom-gpi.h>
+ #include <dt-bindings/gpio/gpio.h>
+@@ -617,6 +618,11 @@ qfprom: qfprom@784000 {
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+ 
++			gpu_speed_bin: gpu_speed_bin@1a2 {
++				reg = <0x1a2 0x2>;
++				bits = <5 8>;
++			};
++
+ 			qusb2_hstx_trim: hstx-trim@1eb {
+ 				reg = <0x1eb 0x1>;
+ 				bits = <1 4>;
+@@ -1299,6 +1305,180 @@ rclk-pins {
+ 			};
+ 		};
+ 
++		gpu: gpu@5000000 {
++			compatible = "qcom,adreno-615.0", "qcom,adreno";
++
++			reg = <0 0x05000000 0 0x40000>, <0 0x0509e000 0 0x10>;
++			reg-names = "kgsl_3d0_reg_memory", "cx_mem";
++
 +			/*
-+			 * The default speed bin (0) has the same values as
-+			 * speed bin 90 which goes up to 432 MHz.
++			 * Look ma, no clocks! The GPU clocks and power are
++			 * controlled entirely by the GMU
 +			 */
-+			{ 0,   0 },
-+			{ 90,  0 },
-+			{ 105, 1 },
-+			{ 146, 2 },
-+			{ 163, 3 },
-+		),
- 	}, {
- 		.machine = "qcom,sm7150",
- 		.chip_ids = ADRENO_CHIP_IDS(0x06010800),
++
++			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++
++			iommus = <&adreno_smmu 0>;
++
++			operating-points-v2 = <&gpu_opp_table>;
++
++			qcom,gmu = <&gmu>;
++
++			interconnects = <&mem_noc MASTER_GRAPHICS_3D 0 &mem_noc SLAVE_EBI_CH0 0>;
++			interconnect-names = "gfx-mem";
++
++			nvmem-cells = <&gpu_speed_bin>;
++			nvmem-cell-names = "speed_bin";
++
++			status = "disabled";
++
++			gpu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-780000000 {
++					opp-hz = /bits/ 64 <780000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
++					opp-peak-kBps = <7216000>;
++					opp-supported-hw = <0x8>;
++				};
++
++				opp-750000000 {
++					opp-hz = /bits/ 64 <750000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
++					opp-peak-kBps = <7216000>;
++					opp-supported-hw = <0x8>;
++				};
++
++				opp-700000000 {
++					opp-hz = /bits/ 64 <700000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
++					opp-peak-kBps = <7216000>;
++					opp-supported-hw = <0x4>;
++				};
++
++				opp-650000000 {
++					opp-hz = /bits/ 64 <650000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
++					opp-peak-kBps = <7216000>;
++					opp-supported-hw = <0xc>;
++				};
++
++				opp-565000000 {
++					opp-hz = /bits/ 64 <565000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
++					opp-peak-kBps = <7216000>;
++					opp-supported-hw = <0xc>;
++				};
++
++				opp-504000000 {
++					opp-hz = /bits/ 64 <504000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
++					opp-peak-kBps = <7216000>;
++					opp-supported-hw = <0x2>;
++				};
++
++				opp-430000000 {
++					opp-hz = /bits/ 64 <430000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
++					opp-peak-kBps = <7216000>;
++					opp-supported-hw = <0xf>;
++				};
++
++				opp-355000000 {
++					opp-hz = /bits/ 64 <355000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
++					opp-peak-kBps = <6220000>;
++					opp-supported-hw = <0xf>;
++				};
++
++				opp-267000000 {
++					opp-hz = /bits/ 64 <267000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
++					opp-peak-kBps = <4068000>;
++					opp-supported-hw = <0xf>;
++				};
++
++				opp-180000000 {
++					opp-hz = /bits/ 64 <180000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++					opp-peak-kBps = <1804000>;
++					opp-supported-hw = <0xf>;
++				};
++			};
++		};
++
++		adreno_smmu: iommu@5040000 {
++			compatible = "qcom,sdm670-smmu-v2", "qcom,adreno-smmu", "qcom,smmu-v2";
++			reg = <0 0x05040000 0 0x10000>;
++			#iommu-cells = <1>;
++			#global-interrupts = <2>;
++			interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 366 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 367 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 368 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 369 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 370 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 371 IRQ_TYPE_EDGE_RISING>;
++			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++				 <&gcc GCC_GPU_CFG_AHB_CLK>;
++			clock-names = "bus", "iface";
++
++			power-domains = <&gpucc GPU_CX_GDSC>;
++		};
++
++		gmu: gmu@506a000 {
++			compatible = "qcom,adreno-gmu-615.0", "qcom,adreno-gmu";
++
++			reg = <0 0x0506a000 0 0x30000>,
++			      <0 0x0b280000 0 0x10000>,
++			      <0 0x0b480000 0 0x10000>;
++			reg-names = "gmu", "gmu_pdc", "gmu_pdc_seq";
++
++			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hfi", "gmu";
++
++			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
++				 <&gpucc GPU_CC_CXO_CLK>,
++				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
++				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>;
++			clock-names = "gmu", "cxo", "axi", "memnoc";
++
++			power-domains = <&gpucc GPU_CX_GDSC>,
++					<&gpucc GPU_GX_GDSC>;
++			power-domain-names = "cx", "gx";
++
++			iommus = <&adreno_smmu 5>;
++
++			operating-points-v2 = <&gmu_opp_table>;
++
++			gmu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-200000000 {
++					opp-hz = /bits/ 64 <200000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++				};
++			};
++		};
++
++		gpucc: clock-controller@5090000 {
++			compatible = "qcom,sdm845-gpucc";
++			reg = <0 0x05090000 0 0x9000>;
++			#clock-cells = <1>;
++			#reset-cells = <1>;
++			#power-domain-cells = <1>;
++			clocks = <&rpmhcc RPMH_CXO_CLK>,
++				 <&gcc GCC_GPU_GPLL0_CLK_SRC>,
++				 <&gcc GCC_GPU_GPLL0_DIV_CLK_SRC>;
++			clock-names = "bi_tcxo",
++				      "gcc_gpu_gpll0_clk_src",
++				      "gcc_gpu_gpll0_div_clk_src";
++		};
++
+ 		usb_1_hsphy: phy@88e2000 {
+ 			compatible = "qcom,sdm670-qusb2-phy", "qcom,qusb2-v2-phy";
+ 			reg = <0 0x088e2000 0 0x400>;
 -- 
 2.46.0
 
