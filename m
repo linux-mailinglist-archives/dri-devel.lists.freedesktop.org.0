@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770A1949BDA
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 01:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62286949BE5
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 01:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6FE510E0F1;
-	Tue,  6 Aug 2024 23:10:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDEE010E13D;
+	Tue,  6 Aug 2024 23:10:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HSoAOz7r";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o+lQ8BSo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835DE10E0F6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C650A10E0F7;
  Tue,  6 Aug 2024 23:10:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 602AB61154;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6FF7961161;
  Tue,  6 Aug 2024 23:10:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 951A6C32786;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AC059C4DDF2;
  Tue,  6 Aug 2024 23:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1722985803;
- bh=gwRv4pCIfpi2yjceV4ySL6EBr771qtq3A547owu3a/w=;
+ bh=9e5HihbYrzW+yqMwPJuNIyYK7+g4nznwrO87MB3vxcw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=HSoAOz7rgsv66grJP/k15A/DykRnOnUycdinS56zDhlh/+0MsznkltnyXqLaIQlS/
- W5IDRxorOQPhKfJ9WYrOqaOxnE5HJiGFn8950C5nnNSnI37BMiY3sOOqu6d6IBFATq
- pMkRLKfDdyW0maVEf47VNRRvnWZ26qYXfGPB3oga6zj+rceMe2ligh62y/KLT7JLG1
- 2cLkO59/ztuT3pDZowD7nauXyY5I9EunHsYsLE8ctnjgYWpXLnq2DH8BSivBpvcXuZ
- usDbMatguOvpXX2SjZlP10dK3Wi8Y8RNXSn7hGVqjZ1Fi5wvyKrOGQnIuPXB0JMClV
- 0VwV4/+XTmR5A==
+ b=o+lQ8BSoR4Ju/qZlqGOlRz8W2f4q625HDTETwcqpRBjBIpAHGmQ4EhMKKTCrVreRQ
+ cIij2h8u3Uj6gXm5CHjB8ZQimA5YafQ9XWOV2o1uu3tZBWOvgIMFI8AFfFiJ0dI92M
+ aoytBlmDJanRB8H64UdAlaPbXPnzN4D/Wc3OFyrsX5han8E3MgpLOUmmDDLWEAHz9y
+ p+5O8jYXU7kKMItQ7ePyHdVWGORIV+pm5SYHGS28lg/JmvXwTxkuGKyTZ97qEWWWqF
+ AjIMrzZ4mMs+L8E3mvHZQYOkKmBB3WEHGFQ6jwmqa8mALLsYxxk4D8WrcyhqZtG2kx
+ h3F7SMY6psQPQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 87479C52D7B;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 9C3E3C52D7C;
  Tue,  6 Aug 2024 23:10:03 +0000 (UTC)
 From: Daniel Gomez via B4 Relay <devnull+da.gomez.samsung.com@kernel.org>
-Date: Wed, 07 Aug 2024 01:09:23 +0200
-Subject: [PATCH 09/12] include: add endian.h support
+Date: Wed, 07 Aug 2024 01:09:24 +0200
+Subject: [PATCH 10/12] scripts/mod: add byteswap support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240807-macos-build-support-v1-9-4cd1ded85694@samsung.com>
+Message-Id: <20240807-macos-build-support-v1-10-4cd1ded85694@samsung.com>
 References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
 In-Reply-To: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, 
@@ -75,11 +75,11 @@ Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
  "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com, 
  Daniel Gomez <da.gomez@samsung.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722985800; l=6952;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722985800; l=5000;
  i=da.gomez@samsung.com; s=20240621; h=from:subject:message-id;
- bh=DtZVbn0fWX0kStQGRH/0NcswkT82D02BPxc7A212O48=;
- b=fHToSejWCNC5a5Y0d5FDWxUWxPOD39gQvn8dIfP7DYUHRLm01btwYrXIxK+zbXzSjEERCFH2E
- Toa//DYARs3Ad+ILXuWzrEr8j9YMAEO2jiTPhk1LqJjkcFnDKwl/eqB
+ bh=Qowyf7kXi1f6DRNle64eE+hm/m7HuihHCLdS1ou6yWA=;
+ b=XP/CA3ITn/u6BrAjNNPHqWBAlVrrGINO1YjcxsqBUDayPo6aLVaS+rjtkAXOWZpLD9D5LKteD
+ curVBFT06iiCK+55uBnnvP0sGKgQlV/aIMRgcPJ3CQmwNbgNCAfx2DS
 X-Developer-Key: i=da.gomez@samsung.com; a=ed25519;
  pk=BqYk31UHkmv0WZShES6pIZcdmPPGay5LbzifAdZ2Ia4=
 X-Endpoint-Received: by B4 Relay for da.gomez@samsung.com/20240621 with
@@ -103,92 +103,78 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Daniel Gomez <da.gomez@samsung.com>
 
-macOS hosts do not include endian.h header required for gen-hyper
-object. Add a copy of the include/endian.h from the GNU C Library
-(glibc), version glib-2.40 into include/endian and a copy of bits/
-uintn-identity.h into include/endian/bits and update the gen-hyper
-Makefile to include the library path.
+macOS hosts do not include byteswap.h header required for modpost
+objects. Add a copy of the string/byteswap.h from the GNU C Library
+(glibc), version glibc-2.40 into include/byteswap and update the modpost
+Makefile to include the library.
 
-Remove the following from glibc include/endian.h:
+Remove the following headers from glibc:
 
-diff --git a/include/endian/endian.h b/include/endian/endian.h
-index fd20a2b1985d..f70e07f1d3c6 100644
---- a/include/endian/endian.h
-+++ b/include/endian/endian.h
-@@ -18,11 +18,6 @@
- #ifndef        _ENDIAN_H
- #define        _ENDIAN_H       1
+diff --git a/include/byteswap/byteswap.h b/include/byteswap/byteswap.h
+index 66efb8fc4327..d27dd5e4bc6a 100644
+--- a/include/byteswap/byteswap.h
++++ b/include/byteswap/byteswap.h
+@@ -19,11 +19,6 @@
+ #ifndef _BYTESWAP_H
+ #define _BYTESWAP_H    1
 
 -#include <features.h>
 -
--/* Get the definitions of __*_ENDIAN, __BYTE_ORDER, and __FLOAT_WORD_ORDER.  */
--#include <bits/endian.h>
+-/* Get the machine specific, optimized definitions.  */
+-#include <bits/byteswap.h>
 -
- #ifdef __USE_MISC
- # define LITTLE_ENDIAN __LITTLE_ENDIAN
- # define BIG_ENDIAN    __BIG_ENDIAN
-@@ -30,9 +25,6 @@
- # define BYTE_ORDER    __BYTE_ORDER
- #endif
 
--#if defined __USE_MISC && !defined __ASSEMBLER__
--/* Conversion interfaces.  */
--# include <bits/byteswap.h>
- # include <bits/uintn-identity.h>
+ /* The following definitions must all be macros, otherwise some
+    of the possible optimizations are not possible.  */
 
- # if __BYTE_ORDER == __LITTLE_ENDIAN
-@@ -67,6 +59,5 @@
- #  define be64toh(x) __uint64_identity (x)
- #  define le64toh(x) __bswap_64 (x)
- # endif
--#endif
+Fixes build error for macOS:
 
- #endif /* endian.h */
+$SUBARCH is [arm64]
+  HOSTCC  scripts/mod/modpost.o
+  HOSTCC  scripts/mod/sumversion.o
+  HOSTCC  scripts/mod/symsearch.o
+  HOSTCC  scripts/mod/file2alias.o
+In file included from scripts/mod/symsearch.c:8:
+scripts/mod/modpost.h:2:10: fatal error: 'byteswap.h' file not found
+         ^~~~~~~~~~~~
+In file included from scripts/mod/sumversion.c:11:
+scripts/mod/modpost.h:2:10: fatal error: 'byteswap.h' file not found
+         ^~~~~~~~~~~~
+In file included from scripts/mod/modpost.c:23:
+scripts/mod/modpost.h:2:10: fatal error: 'byteswap.h' file not found
+         ^~~~~~~~~~~~
+1 error generated.
+make[1]: *** [scripts/Makefile.host:133: scripts/mod/symsearch.o] Error 1
+make[1]: *** Waiting for unfinished jobs....
+1 error generated.
+In file included from scripts/mod/file2alias.c:15:
+scripts/mod/modpost.h:2:10: fatal error: 'byteswap.h' file not found
+         ^~~~~~~~~~~~
+make[1]: *** [scripts/Makefile.host:133: scripts/mod/sumversion.o] Error 1
+1 error generated.
+make[1]: *** [scripts/Makefile.host:133: scripts/mod/modpost.o] Error 1
+1 error generated.
+make[1]: *** [scripts/Makefile.host:133: scripts/mod/file2alias.o] Error 1
+make: *** [Makefile:1191: prepare0] Error 2
+error: Recipe `kernel-build` failed with exit code 2
 
-Remove the following from glibc bits/uintn-identity.h:
-
-diff --git a/include/endian/bits/uintn-identity.h b/include/endian/bits/uintn-identity.h
-index 8104070583c7..0310c9d955da 100644
---- a/include/endian/bits/uintn-identity.h
-+++ b/include/endian/bits/uintn-identity.h
-@@ -23,8 +23,6 @@
- #ifndef _BITS_UINTN_IDENTITY_H
- #define _BITS_UINTN_IDENTITY_H 1
-
--#include <bits/types.h>
--
- /* These inline functions are to ensure the appropriate type
-    conversions and associated diagnostics from macros that convert to
-    a given endianness.  */
+Fixes: bd78c9d71420 ("modpost: define TO_NATIVE() using bswap_*
+functions") build error for macOS.
 
 Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
 ---
- arch/arm64/kvm/hyp/nvhe/Makefile     |  2 +-
- include/endian/bits/uintn-identity.h | 48 +++++++++++++++++++++++++++
- include/endian/endian.h              | 63 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 112 insertions(+), 1 deletion(-)
+ include/byteswap/byteswap.h | 35 +++++++++++++++++++++++++++++++++++
+ scripts/mod/Makefile        |  8 ++++----
+ 2 files changed, 39 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/kvm/hyp/nvhe/Makefile b/arch/arm64/kvm/hyp/nvhe/Makefile
-index 40541c0812bf..1bbe2c2a4aed 100644
---- a/arch/arm64/kvm/hyp/nvhe/Makefile
-+++ b/arch/arm64/kvm/hyp/nvhe/Makefile
-@@ -15,7 +15,7 @@ ccflags-y += -fno-stack-protector	\
- 	     $(DISABLE_STACKLEAK_PLUGIN)
- 
- hostprogs := gen-hyprel
--HOST_EXTRACFLAGS += -I$(objtree)/include -I$(srctree)/include/elf
-+HOST_EXTRACFLAGS += -I$(objtree)/include -I$(srctree)/include/elf -I$(srctree)/include/endian
- 
- lib-objs := clear_page.o copy_page.o memcpy.o memset.o
- lib-objs := $(addprefix ../../../lib/, $(lib-objs))
-diff --git a/include/endian/bits/uintn-identity.h b/include/endian/bits/uintn-identity.h
+diff --git a/include/byteswap/byteswap.h b/include/byteswap/byteswap.h
 new file mode 100644
-index 000000000000..0310c9d955da
+index 000000000000..d27dd5e4bc6a
 --- /dev/null
-+++ b/include/endian/bits/uintn-identity.h
-@@ -0,0 +1,48 @@
-+/* Inline functions to return unsigned integer values unchanged.
-+   Copyright (C) 2017-2024 Free Software Foundation, Inc.
++++ b/include/byteswap/byteswap.h
+@@ -0,0 +1,35 @@
++/* Swap byte order for 16, 32 and 64 bit values
++   Copyright (C) 1997-2024 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -205,105 +191,42 @@ index 000000000000..0310c9d955da
 +   License along with the GNU C Library; if not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#if !defined _NETINET_IN_H && !defined _ENDIAN_H
-+# error "Never use <bits/uintn-identity.h> directly; include <netinet/in.h> or <endian.h> instead."
-+#endif
++#ifndef _BYTESWAP_H
++#define _BYTESWAP_H	1
 +
-+#ifndef _BITS_UINTN_IDENTITY_H
-+#define _BITS_UINTN_IDENTITY_H 1
 +
-+/* These inline functions are to ensure the appropriate type
-+   conversions and associated diagnostics from macros that convert to
-+   a given endianness.  */
++/* The following definitions must all be macros, otherwise some
++   of the possible optimizations are not possible.  */
 +
-+static __inline __uint16_t
-+__uint16_identity (__uint16_t __x)
-+{
-+  return __x;
-+}
++/* Return a value with both bytes in the 16 bit argument swapped.  */
++#define bswap_16(x) __bswap_16 (x)
 +
-+static __inline __uint32_t
-+__uint32_identity (__uint32_t __x)
-+{
-+  return __x;
-+}
++/* Return a value with all bytes in the 32 bit argument swapped.  */
++#define bswap_32(x) __bswap_32 (x)
 +
-+static __inline __uint64_t
-+__uint64_identity (__uint64_t __x)
-+{
-+  return __x;
-+}
++/* Return a value with all bytes in the 64 bit argument swapped.  */
++#define bswap_64(x) __bswap_64 (x)
 +
-+#endif /* _BITS_UINTN_IDENTITY_H.  */
-diff --git a/include/endian/endian.h b/include/endian/endian.h
-new file mode 100644
-index 000000000000..f70e07f1d3c6
---- /dev/null
-+++ b/include/endian/endian.h
-@@ -0,0 +1,63 @@
-+/* Copyright (C) 1992-2024 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef	_ENDIAN_H
-+#define	_ENDIAN_H	1
-+
-+#ifdef __USE_MISC
-+# define LITTLE_ENDIAN	__LITTLE_ENDIAN
-+# define BIG_ENDIAN	__BIG_ENDIAN
-+# define PDP_ENDIAN	__PDP_ENDIAN
-+# define BYTE_ORDER	__BYTE_ORDER
-+#endif
-+
-+# include <bits/uintn-identity.h>
-+
-+# if __BYTE_ORDER == __LITTLE_ENDIAN
-+#  define htobe16(x) __bswap_16 (x)
-+#  define htole16(x) __uint16_identity (x)
-+#  define be16toh(x) __bswap_16 (x)
-+#  define le16toh(x) __uint16_identity (x)
-+
-+#  define htobe32(x) __bswap_32 (x)
-+#  define htole32(x) __uint32_identity (x)
-+#  define be32toh(x) __bswap_32 (x)
-+#  define le32toh(x) __uint32_identity (x)
-+
-+#  define htobe64(x) __bswap_64 (x)
-+#  define htole64(x) __uint64_identity (x)
-+#  define be64toh(x) __bswap_64 (x)
-+#  define le64toh(x) __uint64_identity (x)
-+
-+# else
-+#  define htobe16(x) __uint16_identity (x)
-+#  define htole16(x) __bswap_16 (x)
-+#  define be16toh(x) __uint16_identity (x)
-+#  define le16toh(x) __bswap_16 (x)
-+
-+#  define htobe32(x) __uint32_identity (x)
-+#  define htole32(x) __bswap_32 (x)
-+#  define be32toh(x) __uint32_identity (x)
-+#  define le32toh(x) __bswap_32 (x)
-+
-+#  define htobe64(x) __uint64_identity (x)
-+#  define htole64(x) __bswap_64 (x)
-+#  define be64toh(x) __uint64_identity (x)
-+#  define le64toh(x) __bswap_64 (x)
-+# endif
-+
-+#endif	/* endian.h */
++#endif /* byteswap.h */
+diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
+index 98b4cd8cc7e6..f398dcddef58 100644
+--- a/scripts/mod/Makefile
++++ b/scripts/mod/Makefile
+@@ -8,10 +8,10 @@ modpost-objs	:= modpost.o file2alias.o sumversion.o symsearch.o
+ 
+ devicetable-offsets-file := devicetable-offsets.h
+ 
+-HOSTCFLAGS_modpost.o = -I$(srctree)/include/elf
+-HOSTCFLAGS_file2alias.o = -I$(srctree)/include/elf
+-HOSTCFLAGS_sumversion.o = -I$(srctree)/include/elf
+-HOSTCFLAGS_symsearch.o = -I$(srctree)/include/elf
++HOSTCFLAGS_modpost.o = -I$(srctree)/include/elf -I$(srctree)/include/byteswap
++HOSTCFLAGS_file2alias.o = -I$(srctree)/include/elf -I$(srctree)/include/byteswap
++HOSTCFLAGS_sumversion.o = -I$(srctree)/include/elf -I$(srctree)/include/byteswap
++HOSTCFLAGS_symsearch.o = -I$(srctree)/include/elf -I$(srctree)/include/byteswap
+ HOSTCFLAGS_mk_elfconfig.o = -I$(srctree)/include/elf
+ 
+ $(obj)/$(devicetable-offsets-file): $(obj)/devicetable-offsets.s FORCE
 
 -- 
 Git-146)
