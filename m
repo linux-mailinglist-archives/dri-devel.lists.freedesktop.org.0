@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBA6949211
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 15:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C46949213
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 15:51:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6813A10E36E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6DCF10E372;
 	Tue,  6 Aug 2024 13:51:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U4oD78TW";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pMLv4XFD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3FD110E36D
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 13:51:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39A8810E36D
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 13:51:04 +0000 (UTC)
 Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D65A7B2A;
- Tue,  6 Aug 2024 15:50:09 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 934F9BC0;
+ Tue,  6 Aug 2024 15:50:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1722952210;
- bh=IF8k3H0gE8YhPnz0T6m/pZtJeWAe9wrl+n28Q6+Xvxk=;
+ s=mail; t=1722952211;
+ bh=a7acWR7Le5QkCzpyIDk+oh+JY2htlUFkpLsst2Ppr5g=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=U4oD78TWkhNztE4ZarFd/OImT3rpDxwE+fGGKn07kaa/9l67rxuuj32rc+w8jQA1p
- 1GWABhWnfGLlp08hOH93P15TXM/gwNJ3DWl3NeXDQhl8YI/KYVPAR6rx4Or8mX1MOv
- eQX9Pu4+2OcK5uE8vWJKw3lff2GvCL0xbFCETgHY=
+ b=pMLv4XFDxqgoCHeS+aoTA5qcAOrRGxJ+ZnIcsFsAaO3fg9vgUVfLcWi0v/+E6h42W
+ m1yEx4ayuwIQOZenO2+jRBT6+G932+Bhlg51VWw3ZeJxUBxQoVwVYwf89BrX48u33A
+ Nb9qJty70aqhXNK7ot8n0f3KODqOU1FRPOdhw/4s=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 06 Aug 2024 16:50:28 +0300
-Subject: [PATCH 2/3] drm/omap: Hide sparse warnings
+Date: Tue, 06 Aug 2024 16:50:29 +0300
+Subject: [PATCH 3/3] drm/omap: Fix locking in omap_gem_new_dmabuf()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240806-omapdrm-misc-fixes-v1-2-15d31aea0831@ideasonboard.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240806-omapdrm-misc-fixes-v1-3-15d31aea0831@ideasonboard.com>
 References: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
 In-Reply-To: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -42,24 +42,23 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sebastian Reichel <sebastian.reichel@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- kernel test robot <lkp@intel.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+ Dan Carpenter <dan.carpenter@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3192;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2087;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=IF8k3H0gE8YhPnz0T6m/pZtJeWAe9wrl+n28Q6+Xvxk=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmsipDdr+f3F4HkkT2DmWhyzkwlmOdF+EVZhZmY
- yJvac+1PuqJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZrIqQwAKCRD6PaqMvJYe
- 9c1lD/9/lvA0ovq/S7ijSiuWHRwX7jFf+QHum9j/N8Uu4fbONj2p+pkf5W6aMiovnNlx66kKJLs
- tusPccExK5dolb4giIzH8WBQVbOGU1TdCRhISBKvCEV+IkZFr4xJq4oeGHqAp5qHExsRXMsEwde
- jiDVIVnM9mbS5VubWf7Z2Y7AMyXyEE1gGP8yERiVl8OJFpBFd3WGR1pInys+6xZPa38uZ7dIK6P
- Yw6h0VAtdT3VoY/zavl4dejnmrWK6rhuux4CAdbflwRPZG+uIIMBAhVTAhRrxQPAsEjFBsG5Ml9
- PgZv1QR3Fd34u3ggp4h3Y+agQ2bYB7xGcJhiSS9oVvn7mpw1zIsA7tVngfO5wGbRP/vkau4sZCT
- B9s/AMk+Rzpblqo7s+QpOpYPMf0LeMo/jkvPv6MJjkN9Fonm1C8K7KvKWwFtq2iFu1EYr989Wbv
- mzD4id9jDK7SwQe69iTlhgqqsf6eoatQLyFa/fWVzTwwTLJP17Qapq2k5+iTZmvDNqI3YuONO8l
- sC2oXXbOsKTpCoScPFqZSf3aKQczkgOuumeHISvx8D7RyTqyLX05W2ButyJK8Pu897ElTvE3DPW
- exQ0ZnSfrKBBWqI+wqjd/SgytdHsyeJtmFwrSMNBS4b8YHX5IsyjmHO7k5L9ss6q2hSkGP5u42/
- /2RHNT+HvY0+0+Q==
+ bh=a7acWR7Le5QkCzpyIDk+oh+JY2htlUFkpLsst2Ppr5g=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmsipDMaYFgD5vpr6RkMRCIoSv3wdaUuKlQkb6e
+ c0lVrFNyq6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZrIqQwAKCRD6PaqMvJYe
+ 9bWTD/sER6U4oJPVWCNmpL47P1MhAcA/AeSBxXG1cNtcoiSYfqOQ1thxFi0/e0JAxzqWnTHt+YQ
+ ottXymv3nS3o5+mJIskRtpywgI2oE+IVnSF74BwxwUxIerY58q9bR7O0XpttkpjAqn89RVU20qd
+ 5e7WLWd7w74cbjCLw8iIx+7kEg6k0Pf8t0q0kqk+ET2ZeETO0Mfgbx2WYjZJ/+8d8CcYfyefP/7
+ M3VUH/Ry3MM3gPSHJyvmFNOxlGbPAFp44Q0vI3hOOSizf0Rv2Y2EbbXYnGZRfJmVWkFeZbH8Omd
+ Dgr2mC8dYAN8IlZpwyuc3LTbr07WRu4p5tH+nOTDXfqxG9zJC0PFUA8XUL5UqQ7a1nug9gkNigd
+ 6H3mTl1nD/qYeHnc7sVDfL3J6nBMsTx6mtQb8rLpnKwJxl7CKzXe3qUT/6FBCiiwlg/FP1jFQ9x
+ djWSBbK7HXiIX7sMgsq6ukm3WCVxXteu9mtoI1glUcnska1IOEBdgfBhv3DrV/XiX7cZHtYEWch
+ uCE/Tusn9UjJzZvoG45e803hGjP+gI/Ycb6gAwuyv14bmoxDWrof2yqleyGfUVQpkWzCGcmrq1Y
+ uJ+POEQ44gloEwXZ2if9Rs+FdYweYlIUVsGETkkSN7I6k9l4zH7s1TaK560EVYUr+o3Pc9DpSqN
+ VZJ8Qf+zKwux5OQ==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,77 +76,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-sparse reports:
+omap_gem_new_dmabuf() creates the new gem object, and then takes and
+holds the omap_obj->lock for the rest of the function. This has two
+issues:
 
-drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16: warning: incorrect type in argument 1 (different address spaces)
-drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16:    expected void const volatile [noderef] __iomem *addr
-drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16:    got unsigned int [usertype] *wa_dma_data
-drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:9: warning: incorrect type in argument 2 (different address spaces)
-drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:9:    expected void volatile [noderef] __iomem *addr
-drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:9:    got unsigned int [usertype] *wa_dma_data
-drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:9: warning: incorrect type in argument 1 (different address spaces)
-drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:9:    expected void const volatile [noderef] __iomem *addr
-drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:9:    got unsigned int *
+- omap_gem_free_object(), which is called in the error paths, also takes
+  the same lock, leading to deadlock
+- Even if the above wouldn't happen, in the error cases
+  omap_gem_new_dmabuf() still unlocks omap_obj->lock, even after the
+  omap_obj has already been freed.
 
-These come from pieces of code which do essentially:
+Furthermore, I don't think there's any reason to take the lock at all,
+as the object was just created and not yet shared with anyone else.
 
-p = dma_alloc_coherent()
+To fix all this, drop taking the lock.
 
-dma_transfer_to_p()
-readl(p)
-
-writel(x, p)
-dma_transfer_from_p()
-
-I think we would do just fine without readl() and writel(), accessing
-the memory without any extras, but ensuring that the necessary barriers
-are in place. But this code is for a legacy platform, has been working
-for ages, and it's doing work-arounds for hardware issues, and those
-hardware issues are very difficult to trigger... So I would just rather
-leave the code be as it is now.
-
-However, the warnings are not nice. Hide the warnings by a (__iomem void
-*) typecast.
-
+Fixes: 3cbd0c587b12 ("drm/omap: gem: Replace struct_mutex usage with omap_obj private lock")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/all/511b99d7-aade-4f92-bd3e-63163a13d617@stanley.mountain/
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202407311737.VsJ0Sr1w-lkp@intel.com/
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/omapdrm/omap_dmm_tiler.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_gem.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
-index 1aca3060333e..fcd600024136 100644
---- a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
-+++ b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
-@@ -119,7 +119,7 @@ static u32 dmm_read_wa(struct dmm *dmm, u32 reg)
- 	 * earlier than the DMA finished writing the value to memory.
- 	 */
- 	rmb();
--	return readl(dmm->wa_dma_data);
-+	return readl((__iomem void *)dmm->wa_dma_data);
+diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
+index 9ea0c64c26b5..ebbe80c1c0ef 100644
+--- a/drivers/gpu/drm/omapdrm/omap_gem.c
++++ b/drivers/gpu/drm/omapdrm/omap_gem.c
+@@ -1402,8 +1402,6 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
+ 
+ 	omap_obj = to_omap_bo(obj);
+ 
+-	mutex_lock(&omap_obj->lock);
+-
+ 	omap_obj->sgt = sgt;
+ 
+ 	if (omap_gem_sgt_is_contiguous(sgt, size)) {
+@@ -1418,21 +1416,17 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
+ 		pages = kcalloc(npages, sizeof(*pages), GFP_KERNEL);
+ 		if (!pages) {
+ 			omap_gem_free_object(obj);
+-			obj = ERR_PTR(-ENOMEM);
+-			goto done;
++			return ERR_PTR(-ENOMEM);
+ 		}
+ 
+ 		omap_obj->pages = pages;
+ 		ret = drm_prime_sg_to_page_array(sgt, pages, npages);
+ 		if (ret) {
+ 			omap_gem_free_object(obj);
+-			obj = ERR_PTR(-ENOMEM);
+-			goto done;
++			return ERR_PTR(-ENOMEM);
+ 		}
+ 	}
+ 
+-done:
+-	mutex_unlock(&omap_obj->lock);
+ 	return obj;
  }
  
- static void dmm_write_wa(struct dmm *dmm, u32 val, u32 reg)
-@@ -127,7 +127,7 @@ static void dmm_write_wa(struct dmm *dmm, u32 val, u32 reg)
- 	dma_addr_t src, dst;
- 	int r;
- 
--	writel(val, dmm->wa_dma_data);
-+	writel(val, (__iomem void *)dmm->wa_dma_data);
- 	/*
- 	 * As per i878 workaround, the DMA is used to access the DMM registers.
- 	 * Make sure that the writel is not moved by the compiler or the CPU, so
-@@ -411,7 +411,7 @@ static int dmm_txn_commit(struct dmm_txn *txn, bool wait)
- 	 */
- 
- 	/* read back to ensure the data is in RAM */
--	readl(&txn->last_pat->next_pa);
-+	readl((__iomem void *)&txn->last_pat->next_pa);
- 
- 	/* write to PAT_DESCR to clear out any pending transaction */
- 	dmm_write(dmm, 0x0, reg[PAT_DESCR][engine->id]);
 
 -- 
 2.43.0
