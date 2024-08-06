@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C46949213
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 15:51:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BC5949228
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 15:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6DCF10E372;
-	Tue,  6 Aug 2024 13:51:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE40A10E375;
+	Tue,  6 Aug 2024 13:53:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pMLv4XFD";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Mr76nB06";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A8810E36D
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 13:51:04 +0000 (UTC)
-Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 934F9BC0;
- Tue,  6 Aug 2024 15:50:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1722952211;
- bh=a7acWR7Le5QkCzpyIDk+oh+JY2htlUFkpLsst2Ppr5g=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=pMLv4XFDxqgoCHeS+aoTA5qcAOrRGxJ+ZnIcsFsAaO3fg9vgUVfLcWi0v/+E6h42W
- m1yEx4ayuwIQOZenO2+jRBT6+G932+Bhlg51VWw3ZeJxUBxQoVwVYwf89BrX48u33A
- Nb9qJty70aqhXNK7ot8n0f3KODqOU1FRPOdhw/4s=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 06 Aug 2024 16:50:29 +0300
-Subject: [PATCH 3/3] drm/omap: Fix locking in omap_gem_new_dmabuf()
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF01610E379;
+ Tue,  6 Aug 2024 13:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=3LTBOgJDuXy2JwBI4zDANEzW9GrzludH0YUDes8GtkE=; b=Mr76nB06wQclSyKoqSrIkT4bMj
+ OOgpRUmOKIE5K8IQGUaxR8U2Ue89TpXSxdT0t0LL0HAP3KJDI+995AnE8ngb1af0SEBLQhyErrMhE
+ hjHW2leRMXsNA6TIA0yF5ulOg9hMTxwWkDA7/eicCWGkSVkuUg/PzILn6egqQuTDxpWJ5hpLw8A5Y
+ kpZ3l/J+VEGTtCq4SoUubDju/SqTOjIteVVJcI6v6J6mcqAteBUARvIxjg1AzsJU0gfPFs5ZDK7bS
+ hD0k7/fq/d7KEC7yKQkEOc9iplQjxdb6uYxO1eog0Y2XzBfZarNrOeWHEB5CIwMTXl0pFuIMA01tf
+ 5DgN82Og==;
+Received: from [179.118.186.198] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sbKcd-008buR-1C; Tue, 06 Aug 2024 15:53:07 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
+ daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com,
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH RESEND v8 0/2] drm/atomic: Ease async flip restrictions
+Date: Tue,  6 Aug 2024 10:52:58 -0300
+Message-ID: <20240806135300.114469-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240806-omapdrm-misc-fixes-v1-3-15d31aea0831@ideasonboard.com>
-References: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
-In-Reply-To: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2087;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=a7acWR7Le5QkCzpyIDk+oh+JY2htlUFkpLsst2Ppr5g=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmsipDMaYFgD5vpr6RkMRCIoSv3wdaUuKlQkb6e
- c0lVrFNyq6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZrIqQwAKCRD6PaqMvJYe
- 9bWTD/sER6U4oJPVWCNmpL47P1MhAcA/AeSBxXG1cNtcoiSYfqOQ1thxFi0/e0JAxzqWnTHt+YQ
- ottXymv3nS3o5+mJIskRtpywgI2oE+IVnSF74BwxwUxIerY58q9bR7O0XpttkpjAqn89RVU20qd
- 5e7WLWd7w74cbjCLw8iIx+7kEg6k0Pf8t0q0kqk+ET2ZeETO0Mfgbx2WYjZJ/+8d8CcYfyefP/7
- M3VUH/Ry3MM3gPSHJyvmFNOxlGbPAFp44Q0vI3hOOSizf0Rv2Y2EbbXYnGZRfJmVWkFeZbH8Omd
- Dgr2mC8dYAN8IlZpwyuc3LTbr07WRu4p5tH+nOTDXfqxG9zJC0PFUA8XUL5UqQ7a1nug9gkNigd
- 6H3mTl1nD/qYeHnc7sVDfL3J6nBMsTx6mtQb8rLpnKwJxl7CKzXe3qUT/6FBCiiwlg/FP1jFQ9x
- djWSBbK7HXiIX7sMgsq6ukm3WCVxXteu9mtoI1glUcnska1IOEBdgfBhv3DrV/XiX7cZHtYEWch
- uCE/Tusn9UjJzZvoG45e803hGjP+gI/Ycb6gAwuyv14bmoxDWrof2yqleyGfUVQpkWzCGcmrq1Y
- uJ+POEQ44gloEwXZ2if9Rs+FdYweYlIUVsGETkkSN7I6k9l4zH7s1TaK560EVYUr+o3Pc9DpSqN
- VZJ8Qf+zKwux5OQ==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,67 +66,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-omap_gem_new_dmabuf() creates the new gem object, and then takes and
-holds the omap_obj->lock for the rest of the function. This has two
-issues:
+Hi,
 
-- omap_gem_free_object(), which is called in the error paths, also takes
-  the same lock, leading to deadlock
-- Even if the above wouldn't happen, in the error cases
-  omap_gem_new_dmabuf() still unlocks omap_obj->lock, even after the
-  omap_obj has already been freed.
+As per my previous patchsets, the goal of this work is to find a nice way to
+allow amdgpu to perform async page flips in the overlay plane as well, not
+only on the primary one. Currently, when using the atomic uAPI, this is the only
+type of plane allowed to do async flips, and every driver accepts it.
 
-Furthermore, I don't think there's any reason to take the lock at all,
-as the object was just created and not yet shared with anyone else.
+In my last version, I had created a static field `bool async_flip` for
+drm_planes. When creating new planes, drivers could tell if such plane was
+allowed or not to do async flips. This would be latter checked on the atomic
+uAPI whenever the DRM_MODE_PAGE_FLIP_ASYNC was present.
 
-To fix all this, drop taking the lock.
+However, Dmitry Baryshkov raised a valid point about getting confused with the 
+existing atomic_async_check() code, giving that is an function to do basically
+what I want: to let drivers tell DRM whether a giving plane can do async flips
+or not. It turns out atomic_async_check() is implemented by drivers to deal with
+the legacy cursor update, so it's not wired with the atomic uAPI because is
+something that precedes such API.
 
-Fixes: 3cbd0c587b12 ("drm/omap: gem: Replace struct_mutex usage with omap_obj private lock")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/all/511b99d7-aade-4f92-bd3e-63163a13d617@stanley.mountain/
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/gpu/drm/omapdrm/omap_gem.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+So my new proposal is to just reuse this same function in the atomic uAPI path.
+The plane restrictions defined at atomic_async_check() should work in this
+codepath as well. And I will be able to allow overlays planes by modifying
+amdgpu_dm_plane_atomic_async_check(), and anyone else have a proper place to
+play with async plane restrictions as well.
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
-index 9ea0c64c26b5..ebbe80c1c0ef 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem.c
-+++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-@@ -1402,8 +1402,6 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
- 
- 	omap_obj = to_omap_bo(obj);
- 
--	mutex_lock(&omap_obj->lock);
--
- 	omap_obj->sgt = sgt;
- 
- 	if (omap_gem_sgt_is_contiguous(sgt, size)) {
-@@ -1418,21 +1416,17 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
- 		pages = kcalloc(npages, sizeof(*pages), GFP_KERNEL);
- 		if (!pages) {
- 			omap_gem_free_object(obj);
--			obj = ERR_PTR(-ENOMEM);
--			goto done;
-+			return ERR_PTR(-ENOMEM);
- 		}
- 
- 		omap_obj->pages = pages;
- 		ret = drm_prime_sg_to_page_array(sgt, pages, npages);
- 		if (ret) {
- 			omap_gem_free_object(obj);
--			obj = ERR_PTR(-ENOMEM);
--			goto done;
-+			return ERR_PTR(-ENOMEM);
- 		}
- 	}
- 
--done:
--	mutex_unlock(&omap_obj->lock);
- 	return obj;
- }
- 
+One note is that currently we always allow async flips for primary planes,
+regardless of the drivers, but not every atomic_async_check() implementation
+allows primary planes (because they were writing targeting cursor planes
+anyway...). To avoid regressions, my patch only calls atomic_async_check() for
+non primary planes, and always allows primary ones.
+
+Thoughts?
+
+Changelog
+ v7: https://lore.kernel.org/dri-devel/20240618030024.500532-1-andrealmeid@igalia.com/
+ - Complete rewrite
+
+André Almeida (2):
+  drm/atomic: Let drivers decide which planes to async flip
+  drm/amdgpu: Enable async flip on overlay planes
+
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  3 +--
+ drivers/gpu/drm/drm_atomic_uapi.c             | 23 ++++++++++++++-----
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
 -- 
-2.43.0
+2.46.0
 
