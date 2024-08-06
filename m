@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921EC949A67
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 23:45:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2761949A62
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 23:45:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4124B10E416;
-	Tue,  6 Aug 2024 21:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24CEA10E409;
+	Tue,  6 Aug 2024 21:45:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IRHA8mmp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OFKg6Qla";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49AD110E32A;
- Tue,  6 Aug 2024 21:45:07 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id
- a1e0cc1a2514c-8318b4d9539so344222241.2; 
- Tue, 06 Aug 2024 14:45:07 -0700 (PDT)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
+ [209.85.217.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C13FA10E0C1;
+ Tue,  6 Aug 2024 21:45:08 +0000 (UTC)
+Received: by mail-vs1-f53.google.com with SMTP id
+ ada2fe7eead31-49288fafca9so381881137.3; 
+ Tue, 06 Aug 2024 14:45:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722980706; x=1723585506; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1722980707; x=1723585507; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ExF0I54rVQ6tXCiWTPMayTxL+v0amgllwXMPlStcwYw=;
- b=IRHA8mmphfBAPRa8u+qrigPPJWmLpFqTvLV2QAIecQF7sXGaUqcWnoHke9Wukzz6rS
- HYvd++rVXiuAvn3Fj1MU8cpVGI7+7vdcZnFSCAZxmrexJStBYJTaS8uxJKW7WKs/FJBr
- roX2v3K3qoUfIIt05UizUBbSVOxvnTaAw2p1/Z2Z0WFHZ9WR6E/fWWP1n+98uKjfN4SQ
- lPtIGw2WOR5lcqYGcXYkjpGRuaN6haWIUqwz0Tql8pK0HfP+JbRzaULK92tSJ38lBHKQ
- x6lh9mSQuA89dj/5ofIwJ0NvCsc7VNbB4JjiZlvy13dUf7mznjNAC9yeKa0l+FwanrIw
- flDg==
+ bh=miICkqtphbuqoVPCrRUsXPD2jAyziYTMNx3H/IAui6o=;
+ b=OFKg6Qlatq1c90zomsXvX9SidWqpSeomEJNax/Kco+WiUYLFa+ctTCwaoyPhiHuLEw
+ RAuhYjR96RcKha9C7N64Zf7TQ8NpvKlraYbdvG+otLuO3rB+vRY6Oek0+1YKzg+VHGSD
+ JjqSx10J+GtAOeMiPl0Ri41+lIjKTFLMXFIDtV6bdlUYf1AQD4pc+QO8BtYX3icnOlDB
+ 2sdm3g8wJvl7THwLCar+ehNB36AZCQ1T7hM7evG4QiiMgI5EiuZDQMSJGjlyIq6rrrid
+ Fmfa1CYx6dpJGxjq+nTBjBk5aLf2sZ3MGm5dhvnyMSA55mMfCccE/pLSwnhvxgqanDSI
+ NW/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722980706; x=1723585506;
+ d=1e100.net; s=20230601; t=1722980707; x=1723585507;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ExF0I54rVQ6tXCiWTPMayTxL+v0amgllwXMPlStcwYw=;
- b=jNmANlupkeRiKolLNZDgCh4wjiTyv6rAWTz19w2z3fIItHXnvucsEsF0oc191h9tWv
- 1XV9r3+cM4LW9JRU1pjK6dbkgnQGmvVAVwqa4kwCgpKfiI59LV69g3jeZk3GgKsV1knP
- yLnmgDqQRfbD4YXV0d3x/04IGB8dOPA11HgY9bfYWb5KUaLr+yHCL0R00DFlJGgZZDFF
- FIfbALYxo9Fa3MNpVN9B8WPGLitPgNt9zuCP4qp45DUBr+Z28jDuq/lzjU18NOG8ItWx
- nF42r3gnpbS5xWk7unQCIDv34JHaDAu/im24hJjUAd8jJZnkj9r1NxxGLr5ivlkiwF1J
- IRRQ==
+ bh=miICkqtphbuqoVPCrRUsXPD2jAyziYTMNx3H/IAui6o=;
+ b=RaeL42ah/YnJTKXT6R6PFe3HjLFrcdpb6PbvzkluS/7cbUx6G23W6yap78f4A9OZKL
+ evFS5TiwMO2HH2Uy3GVkM7XhX9c5KDT3CJf7SsYyvPkTLxUoftFz1nv/LJnLCiUIWqeg
+ kTzA8IpYgVXNAI0LrPenbQsImQh+N2HaCiasOY/yKj//pShlwel/+gC3onytBKh4HX8f
+ ey1xLRkL9o++LPvSdvp6cF2htQcMmjDq8wlJhlZVrcguAHIvYQLghfZKzz9crrE75P+S
+ pEGyXcHPpUl0GvJ+mlZHJdslSdSDtUxhy221zZK/CpeiL358b5+uVVXv+lYhuZgIRaH1
+ EaOA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUF0mFDFy5wdH+nMxVLmEovuC5GUVrtGywtjHGI3vLv7S+2xtakKQ2oKNVgBs6sGioebj3YhJz6eZc3hlG6RFkxPrKWoUOIkuLFTnDY9zygIo20Ts14GJr3CrwXdejGjjY57IYYhm8pi3w6aunrMOqe
-X-Gm-Message-State: AOJu0Yxa6bc7OoGSv9KXeuc/jNl2N+B01t6IxL1BZUQ7XcGQQh2Jnx6Q
- 17u305QEU5nroTigCHRnD5/sUU+jbPT3HOn3qMb3nPLug3vNapWK
-X-Google-Smtp-Source: AGHT+IGQSk4H+ekGkXPzhj2MglCcmJb8GS9D3JN1uOWjcxRZMa6l9FsPbXeBM6xvTE4w9nbmcmuNHQ==
-X-Received: by 2002:a05:6102:4194:b0:492:a883:e1d with SMTP id
- ada2fe7eead31-4945bde70cemr21425272137.11.1722980705727; 
- Tue, 06 Aug 2024 14:45:05 -0700 (PDT)
+ AJvYcCVCnKibV7bWrXq35y6yC5isG+a6jeGRVys1rztT+TYgYZcBFHb1feHlGgQ+qMquFsmuCZD/sf234j/Tcsxr9694PV/rDLcKeaOejQsL7b2zEdNC99rSiOYOj/yrJgtJGYdp2XkA/AdCDhS8/NV8sPpE
+X-Gm-Message-State: AOJu0YwRFBHjna3QGtJHvn6AQXBEGZrLOrtSvjpsxYB6X/XzDGilxQ7R
+ YUTzr1T2wJw5ELmUkTE/GPyyNvOJSEjXJdq2e3cPdQNMtE7P1+Dm
+X-Google-Smtp-Source: AGHT+IE5r8vnEgfmQl8S4kMnDUmuI+D85mg6HCI9z9cAUB9cKYy5kzfXGy5KxXqa2aS2d60cWur+Tg==
+X-Received: by 2002:a05:6102:374e:b0:492:99d6:e71a with SMTP id
+ ada2fe7eead31-4945be1d04emr20422152137.18.1722980707286; 
+ Tue, 06 Aug 2024 14:45:07 -0700 (PDT)
 Received: from localhost ([2607:fea8:52a3:d200:324c:b818:b179:79b])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6bb9c7b64b3sm50474396d6.59.2024.08.06.14.45.05
+ 6a1803df08f44-6bb9c8631d0sm49722606d6.106.2024.08.06.14.45.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Aug 2024 14:45:05 -0700 (PDT)
+ Tue, 06 Aug 2024 14:45:07 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -70,9 +70,9 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v2 1/4] dt-bindings: display/msm/gmu: Add SDM670 compatible
-Date: Tue,  6 Aug 2024 17:44:55 -0400
-Message-ID: <20240806214452.16406-8-mailingradian@gmail.com>
+Subject: [PATCH v2 2/4] drm/msm/adreno: add a615 support
+Date: Tue,  6 Aug 2024 17:44:56 -0400
+Message-ID: <20240806214452.16406-9-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240806214452.16406-7-mailingradian@gmail.com>
 References: <20240806214452.16406-7-mailingradian@gmail.com>
@@ -93,26 +93,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Snapdragon 670 has a GMU. Add its compatible.
+The Adreno A615 is used in SDM670. Add an entry to support it.
 
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/gmu.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 27 +++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-index b1bd372996d5..1c055ba64038 100644
---- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-@@ -91,6 +91,7 @@ allOf:
-         compatible:
-           contains:
-             enum:
-+              - qcom,adreno-gmu-615.0
-               - qcom,adreno-gmu-618.0
-               - qcom,adreno-gmu-630.2
-     then:
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+index 68ba9aed5506..fc4fa2a9547d 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+@@ -651,6 +651,33 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			{ 157, 3 },
+ 			{ 127, 4 },
+ 		),
++	}, {
++		.chip_ids = ADRENO_CHIP_IDS(0x06010500),
++		.family = ADRENO_6XX_GEN1,
++		.revn = 615,
++		.fw = {
++			[ADRENO_FW_SQE] = "a630_sqe.fw",
++			[ADRENO_FW_GMU] = "a630_gmu.bin",
++		},
++		.gmem = SZ_512K,
++		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
++		.init = a6xx_gpu_init,
++		.zapfw = "a615_zap.mdt",
++		.a6xx = &(const struct a6xx_info) {
++			.hwcg = a615_hwcg,
++			.protect = &a630_protect,
++		},
++		.speedbins = ADRENO_SPEEDBINS(
++			/*
++			 * The default speed bin (0) has the same values as
++			 * speed bin 90 which goes up to 432 MHz.
++			 */
++			{ 0,   0 },
++			{ 90,  0 },
++			{ 105, 1 },
++			{ 146, 2 },
++			{ 163, 3 },
++		),
+ 	}, {
+ 		.machine = "qcom,sm7150",
+ 		.chip_ids = ADRENO_CHIP_IDS(0x06010800),
 -- 
 2.46.0
 
