@@ -2,85 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D47D949527
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 18:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E72A949617
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 19:01:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF2310E3A7;
-	Tue,  6 Aug 2024 16:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B15C10E3C9;
+	Tue,  6 Aug 2024 17:01:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KhtVjDBE";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="RFNl+eAM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 198EE10E3A7
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 16:04:43 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-5a1337cfbb5so1144387a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 09:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1722960280; x=1723565080;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qRzAg0euV3EPW2AY2mjyCD/GUwO4oXNlXTDtWw9VyLo=;
- b=KhtVjDBExXNsBrYEurudUuXs3D3K7h+uiTWNPX8TZUBM51kRuZQbEXTGWotQBvPaZ+
- jYUOBuFEag1w+Bw240GUyxiOQ4aFWkByNPB3ayRNyQSgOUD1fyI10VXgJ0vTJa2vt8IX
- UHeIgjArtRG5PcuahEfybVkCBa+W4bYyivsbg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722960280; x=1723565080;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qRzAg0euV3EPW2AY2mjyCD/GUwO4oXNlXTDtWw9VyLo=;
- b=lFJFcG8nieMe2d4p55TUuzdM5ao3Pn8P1eeIYyGL8lRnTdBMXXyGjWJUae0n4FmbP9
- XXPYPJ61TgHMaM4XHAlFiPlaEXyaOrndgZ/Sbcr1WNccbDT5WWCl0gm1cdv7HEorob5p
- EmHKTM0ACpH3rpAfny1jWesvnXycJyo5fE95OM4mljlcQOkYNZl8NXvbKVhNpoivkGAJ
- gdOKScwUfQjaXgEmDUZPm/VNA/uY8UJgz5O8R2cMAVaVrGVq80AXmOppEB8Bi+BNgUcT
- +z+PCbqOPNv8tZai7Ga7UzzUlz6yVL2wCxYkaSZZ3sPTh+JKcFQi24jnAOxzJrPJDmHN
- R4kQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVi4yittk/cgdJgmPE66rEYVF/fLUl06MtEsMUxMaJp0AGOsAgOjKa6nfHYrSqgmnYYnqXUeaBdusSY/KKNmxCmdHDTZJszl+N8XL/Qvr1S
-X-Gm-Message-State: AOJu0Yx89XNTOBWsXfAf97njQDqe+CeHn7Z0v/l97gtey0kX/3Y5zvm6
- ryWMAqAC81PuyS/MlQ7ASQ2FTogNQiRgAbboE+VigfPwPortpr5gJ8LiTMVgnGzOh8dUtc8qBKF
- YQw==
-X-Google-Smtp-Source: AGHT+IFK8ME0SBZrshmRLzJXYfii9r6aQOHU4B1fJsqHTpS+eC/RJWoIC6WtF3t1eAZQjVCpUKXhbg==
-X-Received: by 2002:aa7:d34e:0:b0:5a7:448b:4434 with SMTP id
- 4fb4d7f45d1cf-5b7f3adacc6mr12009590a12.9.1722960279666; 
- Tue, 06 Aug 2024 09:04:39 -0700 (PDT)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com.
- [209.85.208.47]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5bacbcf7b58sm3665108a12.83.2024.08.06.09.04.38
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Aug 2024 09:04:39 -0700 (PDT)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-5a1b073d7cdso18708a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 09:04:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU2UX2Sq1NiWNEQ4hnmTM1UiCzTEoCe+6RVJv9aiULfS3ibFeTM+SkCOcnFvtJkox4uevLQcfXJAUhF6B6yv0lddf/67nrAGRZbpMV1TTU6
-X-Received: by 2002:a05:6402:268c:b0:58b:93:b624 with SMTP id
- 4fb4d7f45d1cf-5bb991dd751mr148716a12.1.1722960278303; Tue, 06 Aug 2024
- 09:04:38 -0700 (PDT)
+Received: from IND01-MAX-obe.outbound.protection.outlook.com
+ (mail-maxind01olkn2013.outbound.protection.outlook.com [40.92.102.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12C1810E36C
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 13:46:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=d3Khzy+/syvLMDdWobWmW+fQXGr73Bg9+7snllIJaJVAZhXaoCPtnWBKc6W78RnuRsTrbGPKIAXev6PhfEmihB5G6IMOedAVNDL11uz53NseMzUbVozLEv1Kkc5/3cuzx2voA8ohHxLzyDeY9Tqm+MF5DFW9uNpbpoGpGhOIJaNwsaTW6j2qg5s84J7qjA+4w+MZ73Tmo9KD9VR3KjLDYvKckVQI45h5OiP4fp6o54Ww0naWqRNnsSBotHVXr/OIkssPksbkCwwPfaX3kt877w3VSk9ecmmHn0QDQCZHPaggemXwpy1Gk6yk9YGtAlyRh48Ek+cxdjod9yvbq2AOdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XoSvTHKg6l/zGz7gGWzWGp0Ja3c1HhCjuYKgcbhVug0=;
+ b=krGOVtFA3+rBfWzWVib9C5Cpa1sqDKc3NPRgSQyhi8DU6jIoJI1lvo1knr5QIFc9tC1SYrBnVN4xxwSh9Lw1t9IdphdhmENcz1vhaEyf0YnXNpZN8iWj6G9DctGO8eogL1sTP5MDTbnzsDWBbS4/l28OxIoW4XtGHzW3o4UR8s2raiEXALmMEuwlw4VpBfWH/0pfpQwIv/wmiG6qYyp6JOaKXgevgGH526jDHP1SaDOilGG0VI7ip0VMbqGP8BOcNu/HD6brQaP4L17v+4QWFBDN2HuIbBGfE3bGkWBvSovSo5Luqfm1mX2SvboIgEcU9Z8lUa/TG0Br6dLwwmfgqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XoSvTHKg6l/zGz7gGWzWGp0Ja3c1HhCjuYKgcbhVug0=;
+ b=RFNl+eAMz4EPwOWLJMTFSqtX8ukFQtyx0e0YyveuRqRBPG1GCdmgVSA6V5/1GhT4aGmfzg87ruJ414yY1kgvtRRMipqxEozeGrCjh8ptx2n3l68JXixL1TtjB4hXi/H4crDpM7qzw9UzH+LOejOUOisXVI1Kf55X5qSDz0OOGdWZKLOH2+WeNRBRhFkMCKmyKLAdvCILAJTyzYzeaVF3jMkXDgDb0mE72tJVl7qjj0E8NYmHNlhXgoW7vOP/no1UZ8MwK9eQUi9s/s+Ae3be7qGjqWWW3aS67GXw6M6M1ZscFBGfBYyQjxRIW62Dxdrnz+XQJua1unWIohVinl4EkQ==
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
+ PN3P287MB1605.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:191::12) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7828.26; Tue, 6 Aug 2024 13:46:48 +0000
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a%4]) with mapi id 15.20.7828.023; Tue, 6 Aug 2024
+ 13:46:48 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
+ <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, Jiri Kosina
+ <jikos@kernel.org>, "bentiss@kernel.org" <bentiss@kernel.org>
+CC: Kerem Karabay <kekrby@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-input@vger.kernel.org"
+ <linux-input@vger.kernel.org>, Orlando Chamberlain <orlandoch.dev@gmail.com>
+Subject: [PATCH 0/9] Touch Bar support for T2 Macs
+Thread-Topic: [PATCH 0/9] Touch Bar support for T2 Macs
+Thread-Index: AQHa6AcVBO9C+i1kUUSrZRhqtoN3ag==
+Date: Tue, 6 Aug 2024 13:46:47 +0000
+Message-ID: <021EE0BF-93CA-4A37-863F-851078A0EFB7@live.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [Z64+831Mu7sBFnXjSBh7+a7eqPGY01hsViFe494ugMSmXgABtTGRcv6hTiyF0ar5k0FbWzZcKfg=]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN3P287MB1605:EE_
+x-ms-office365-filtering-correlation-id: 0cdbe1ad-2b98-4491-712b-08dcb61e37a8
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|8060799006|461199028|19110799003|102099032|4302099013|3412199025|440099028|1602099012;
+x-microsoft-antispam-message-info: 2OkfBJ77Aasru40RsNS00Jm1tD75NhH4/Smi5Arz+poiLUDzsXx3BW2R1Be8Nwz1yeNSmuAh8lHsP3dXloKbgpJ5AAu5aA0toB4fiXWZaXMVnlTPJ1GaYdzytk/Bd2yTiofo9PW2DrG4PRw+oiOHqgPUoKKpkT0Ic/A7NhoeA0LNgDHpSbdoBISJO4waQuvC+HPqyxGak1KvcHfA3XWRvnHVt1QQ/6xlXvHxj5aFV27CJYFXzf3YojlWFq/4Oz//D/hnSik/AmGrwHekBmJC3dxvCpxUmGvnlmLMcE8v+Kh6SWvxdcerY8wHWnMA1iisvE2vGGGo8ddzeSYokYeDYLUyldEcUu/RXhktWIXiFTyXDS0SOE30e0JZAz9WWiSOZhgXdGSRc1ZsVFs4p7JGDqDXO5y3GQ3x2m/hbJtfidqs/hnuSE/+IEgDYXRUSBCaccgS1DyImeqt/44F3M/P3++Q5yd+Et4aP9GDzuNpW1lPrHRnxUS1b8p5ngMJqkOTBipB3/phve2jbkYynByy+toyv8+fvtpnGZ5TNxTvCwdOmUYU5mZaYC7UZIPyDORa5r2oMfBHJuv3OfYa/HYi4CC4ODFsn7Oy7Z/ZzbZhoke87Fcax6e1cyz9wQrME1wzP90oyy3I/j8jYp7IvAqKcgehAyVaOe+d0QxCOSSGkAI96a1jOwA+O7pvL+rI94PZwEZuoUpbkZCMVKms/J0bGrgQ+dgKxM9zMymhXOQ86Idldc/mXQymiB/vF4TCDDjJHAXXtWZXuCTBparzOGFi6w==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cZv1PfJRTcJSnVFHZDXzHmmpDAizBtv1Fp69wS1Z+nXgHWowMQqYTj6j1FrV?=
+ =?us-ascii?Q?GgXlYiACMj0zIBzwbFsPZlVNvY+cw8PZxL5LhN0i0PGaTASz+gnJt8E51hRY?=
+ =?us-ascii?Q?Kj5qIgtJ/NnhuG4vbOHrPB0wQEMkngjIhfHGTCvuz9m80e3b1WkHCN2akLmN?=
+ =?us-ascii?Q?jGmv0BGUHu7H8cafVNZXRgzNdaStKzUtxcYPLsbMxGjLQisVOlsuiqIZ4CcM?=
+ =?us-ascii?Q?+VO1xFELF+k//MAses0aXFiMoUzQQlDYpxvYM1ZT2GYuQ8Dgxu8ZXfLGaNRn?=
+ =?us-ascii?Q?wz3YaXtLKvGGDi1HxEDsMRa9ZdaFnkIji0ERDl2ojN7ePy2Ik2dsHlR3wp7w?=
+ =?us-ascii?Q?Br1PJmF22kWxWu7llXN5jS9kGAFvNZrgjbV4uNbmRuoarJgbtZZEopcbJtGC?=
+ =?us-ascii?Q?XEBNTt+9zwGZe4U7GP6agPoXkj/rf4FWsGr8zDIbq67zoXWlr6JAWhP5XPjp?=
+ =?us-ascii?Q?n0iEmRkfAnX/9m9a2n6Gg3rZLXYZF0+XMe7PEw9uCRctiraNg+C+8ujtfTcs?=
+ =?us-ascii?Q?G7UMb2IVLUBVlP0FHdU7YK2r9jffBdnGEDKH05oF1svQ5t1dW5YeBDMpkA28?=
+ =?us-ascii?Q?WfLub9t5Lxx4A9ZQWa5PkZfSSOmGubDSJn0HC4jDTngdfEgyZfDXgG4G6mZW?=
+ =?us-ascii?Q?be9rIduUuYhwmtZug22G9HWWBa9TlvbWQteBMy14zl+ktAfBaclnPRwugJdI?=
+ =?us-ascii?Q?AnEtNyWMoUsXhZMQR4Fm5ept+LTtY5zFTTSPEtDoxerCZgeK4M5yEIy68LUC?=
+ =?us-ascii?Q?KO5NBUSOsViiENcbOEKuK5svYR293OfldIv4oZ++xyyPc6fttZ1BANcd5OPy?=
+ =?us-ascii?Q?QeAGJ9o63fEmnS1pwY9uOdy3Bh8+1DWAIdb5g+b7hri1873kKTqHC9b118Pw?=
+ =?us-ascii?Q?QAeNOyviOlobHKzv1Ok+jttYrtNRk0hnAovMrLFohWE27/zHWZz+JHInbccG?=
+ =?us-ascii?Q?EEOZVmMzfGiYF3GSaGNTA2LZt57jn9S0p3oSzxralIRD6+nIblc3R4Ap+Lhw?=
+ =?us-ascii?Q?yAWER+6iZkdbURK0wUjqqG4LX9g8teNuNlTQaVzOHnDLcZx7dUDZXGar7bwj?=
+ =?us-ascii?Q?WwDDIU1Bk5861AxSyG0MTcZfW4RhY/VyoV7FoKMPaaIk7akiEKJoysqluogz?=
+ =?us-ascii?Q?zMbDo15f4yCMUAzM4LKhRF55IaiIogx45M3GbmqhAcR+1eQXfZSHknCXI0v7?=
+ =?us-ascii?Q?m4YB8m+yo758Y3Y9gTWajn4rYa796weyE0bmPX13pKZO8vmL41Xb2/TY4Dlo?=
+ =?us-ascii?Q?xngFnfi5Jhc6fnRf138Yrlh5eFKykfKaIafBoTUV6vW2mvnbS5ouo1mRgUh8?=
+ =?us-ascii?Q?+bwVlA+N2uT2z1jBmfo1pcOq?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <EF95B0131C079B48AFAF79953689E9DF@INDP287.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20240723114914.53677-1-slp@redhat.com>
- <942afa37-a24c-48ed-ae10-c811849165bf@collabora.com>
- <CAAiTLFV6mAgrMj=itcxoBCibvYRyrAk02wYp-gYJ8kxhF0EPmw@mail.gmail.com>
-In-Reply-To: <CAAiTLFV6mAgrMj=itcxoBCibvYRyrAk02wYp-gYJ8kxhF0EPmw@mail.gmail.com>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Tue, 6 Aug 2024 09:04:25 -0700
-X-Gmail-Original-Message-ID: <CAAfnVBkWKn3+YEhNz0CTmw-T_jjL72axkWqYgkzkSa72t_Gf0A@mail.gmail.com>
-Message-ID: <CAAfnVBkWKn3+YEhNz0CTmw-T_jjL72axkWqYgkzkSa72t_Gf0A@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
-To: Sergio Lopez Pascual <slp@redhat.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>, tzimmermann@suse.de,
- mripard@kernel.org, 
- olvaffe@gmail.com, kraxel@redhat.com, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, airlied@redhat.com, 
- linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/alternative; boundary="0000000000005a5b8b061f05f3ff"
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-bafef.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cdbe1ad-2b98-4491-712b-08dcb61e37a8
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2024 13:46:47.8550 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB1605
+X-Mailman-Approved-At: Tue, 06 Aug 2024 17:01:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,135 +119,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000005a5b8b061f05f3ff
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Maintainers
 
-On Mon, Aug 5, 2024 at 2:14=E2=80=AFAM Sergio Lopez Pascual <slp@redhat.com=
-> wrote:
+The Touch Bars found on x86 Macs support two USB configurations: one
+where the device presents itself as a HID keyboard and can display
+predefined sets of keys, and one where the operating system has full
+control over what is displayed.
 
-> Dmitry Osipenko <dmitry.osipenko@collabora.com> writes:
->
-> > On 7/23/24 14:49, Sergio Lopez wrote:
-> >> There's an incresing number of machines supporting multiple page sizes
-> >> and on these machines the host and a guest can be running, each one,
-> >> with a different page size.
-> >>
-> >> For what pertains to virtio-gpu, this is not a problem if the page siz=
-e
-> >> of the guest happens to be bigger or equal than the host, but will
-> >> potentially lead to failures in memory allocations and/or mappings
-> >> otherwise.
-> >
-> > Please describe concrete problem you're trying to solve. Guest memory
-> > allocation consists of guest pages, I don't see how knowledge of host
-> > page size helps anything in userspace.
-> >
-> > I suspect you want this for host blobs, but then it should be
-> > virtio_gpu_vram_create() that should use max(host_page_sz,
-> > guest_page_size), AFAICT. It's kernel who is responsible for memory
-> > management, userspace can't be trusted for doing that.
->
-> Mesa's Vulkan/Venus uses CREATE_BLOB to request the host the creation
-> and mapping into the guest of device-backed memory and shmem regions.
-> The CREATE_BLOB ioctl doesn't update drm_virtgpu_resource_create->size,
-> so the guest kernel (and, as a consequence, the host kernel) can't
-> override the user's request.
->
-> I'd like Mesa's Vulkan/Venus in the guest to be able to obtain the host
-> page size to align the size of the CREATE_BLOB requests as required.
->
+This patch series adds support for both the configurations.
 
-gfxstream solves this problem by putting the relevant information in the
-capabilities obtained from the host:
+The hid-appletb-bl driver adds support for the backlight of the Touch Bar.
+This enables the user to control the brightness of the Touch Bar from
+userspace. The Touch Bar supports 3 modes here: Max brightness, Dim and Off=
+.
+So, daemons, used to manage Touch Bar can easily manage these modes by writ=
+ing
+to /sys/class/backlight/appletb_backlight/brightness. It is needed by both =
+the
+configurations of the Touch Bar.
 
-https://android.googlesource.com/platform/hardware/google/gfxstream/+/refs/=
-heads/main/host/virtio-gpu-gfxstream-renderer.cpp#1691
+The hid-appletb-kbd adds support for the first (predefined keys) configurat=
+ion.
+There are 4 modes here: Esc key only, Fn mode, Media keys and No keys.
+Mode can be changed by writing to /sys/bus/hid/drivers/hid-appletb-kbd/<dev=
+>/mode
+This configuration is what Windows uses with the official Apple Bootcamp dr=
+ivers.
 
-If you want to be paranoid, you can also validate the
-ResourceCreateBlob::size is properly host-page aligned when that
-request reaches the host.
+Rest patches support the second configuration, where the OS has full contro=
+l
+on what's displayed on the Touch Bar. It is achieved by the patching the
+hid-multitouch driver to add support for touch feedback from the Touch Bar
+and the appletbdrm driver, that displays what we want to on the Touch Bar.
+This configuration is what macOS uses.
 
-So you can probably solve this problem using current interfaces.  Whether
-it's cleaner for all context types to use the capabilities, or have all
-VMMs to expose VIRTIO_GPU_F_HOST_PAGE_SIZE, would be the cost/benefit
-tradeoff.
+The appletbdrm driver is based on the similar driver made for Windows by
+imbushuo [1].
 
+Currently, a daemon named tiny-dfr [2] is being used to display function ke=
+ys
+and media controls using the second configuration for both Apple Silicon an=
+d
+T2 Macs.
 
->
-> Thanks,
-> Sergio.
->
->
+A daemon for the first configuration is being developed, but that's a users=
+pace
+thing.
 
---0000000000005a5b8b061f05f3ff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[1]: https://github.com/imbushuo/DFRDisplayKm
+[2]: https://github.com/WhatAmISupposedToPutHere/tiny-dfr
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 5, 2024 at 2:14=E2=80=AFA=
-M Sergio Lopez Pascual &lt;<a href=3D"mailto:slp@redhat.com">slp@redhat.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Dmitry Osipenko &lt;<a href=3D"mailto:dmitry.osipenko@collabora.com" target=
-=3D"_blank">dmitry.osipenko@collabora.com</a>&gt; writes:<br>
-<br>
-&gt; On 7/23/24 14:49, Sergio Lopez wrote:<br>
-&gt;&gt; There&#39;s an incresing number of machines supporting multiple pa=
-ge sizes<br>
-&gt;&gt; and on these machines the host and a guest can be running, each on=
-e,<br>
-&gt;&gt; with a different page size.<br>
-&gt;&gt;<br>
-&gt;&gt; For what pertains to virtio-gpu, this is not a problem if the page=
- size<br>
-&gt;&gt; of the guest happens to be bigger or equal than the host, but will=
-<br>
-&gt;&gt; potentially lead to failures in memory allocations and/or mappings=
-<br>
-&gt;&gt; otherwise.<br>
-&gt;<br>
-&gt; Please describe concrete problem you&#39;re trying to solve. Guest mem=
-ory<br>
-&gt; allocation consists of guest pages, I don&#39;t see how knowledge of h=
-ost<br>
-&gt; page size helps anything in userspace.<br>
-&gt;<br>
-&gt; I suspect you want this for host blobs, but then it should be<br>
-&gt; virtio_gpu_vram_create() that should use max(host_page_sz,<br>
-&gt; guest_page_size), AFAICT. It&#39;s kernel who is responsible for memor=
-y<br>
-&gt; management, userspace can&#39;t be trusted for doing that.<br>
-<br>
-Mesa&#39;s Vulkan/Venus uses CREATE_BLOB to request the host the creation<b=
-r>
-and mapping into the guest of device-backed memory and shmem regions.<br>
-The CREATE_BLOB ioctl doesn&#39;t update drm_virtgpu_resource_create-&gt;si=
-ze,<br>
-so the guest kernel (and, as a consequence, the host kernel) can&#39;t<br>
-override the user&#39;s request.<br>
-<br>
-I&#39;d like Mesa&#39;s Vulkan/Venus in the guest to be able to obtain the =
-host<br>
-page size to align the size of the CREATE_BLOB requests as required.<br></b=
-lockquote><div><br></div><div>gfxstream solves this problem by putting the =
-relevant information in the capabilities obtained from the host:</div><div>=
-<br></div><div><a href=3D"https://android.googlesource.com/platform/hardwar=
-e/google/gfxstream/+/refs/heads/main/host/virtio-gpu-gfxstream-renderer.cpp=
-#1691">https://android.googlesource.com/platform/hardware/google/gfxstream/=
-+/refs/heads/main/host/virtio-gpu-gfxstream-renderer.cpp#1691</a><br></div>=
-<div><br></div><div>If you want to be paranoid, you can also validate the R=
-esourceCreateBlob::size is properly host-page aligned when that request=C2=
-=A0reaches the host.</div><div><br></div><div>So you can probably solve thi=
-s problem using current interfaces.=C2=A0 Whether it&#39;s cleaner for all =
-context types to use the capabilities, or have all VMMs to expose VIRTIO_GP=
-U_F_HOST_PAGE_SIZE, would be the cost/benefit tradeoff.</div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Thanks,<br>
-Sergio.<br>
-<br>
-</blockquote></div></div>
+Kerem Karabay (9):
+  HID: hid-appletb-bl: add driver for the backlight of Apple Touch Bars
+  HID: hid-appletb-kbd: add driver for the keyboard mode of Apple Touch
+    Bars
+  HID: multitouch: support getting the contact ID from
+    HID_DG_TRANSDUCER_INDEX fields
+  HID: multitouch: support getting the tip state from HID_DG_TOUCH
+    fields
+  HID: multitouch: take cls->maxcontacts into account for devices
+    without a HID_DG_CONTACTMAX field too
+  HID: multitouch: allow specifying if a device is direct in a class
+  HID: multitouch: add device ID for Apple Touch Bars
+  drm/format-helper: add helper for BGR888 to XRGB8888 conversion
+  drm/tiny: add driver for Apple Touch Bars in x86 Macs
 
---0000000000005a5b8b061f05f3ff--
+ .../ABI/testing/sysfs-driver-hid-appletb-kbd  |  13 +
+ MAINTAINERS                                   |  12 +
+ drivers/gpu/drm/drm_format_helper.c           |  54 ++
+ .../gpu/drm/tests/drm_format_helper_test.c    |  81 +++
+ drivers/gpu/drm/tiny/Kconfig                  |  12 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/appletbdrm.c             | 624 ++++++++++++++++++
+ drivers/hid/Kconfig                           |  22 +
+ drivers/hid/Makefile                          |   2 +
+ drivers/hid/hid-appletb-bl.c                  | 206 ++++++
+ drivers/hid/hid-appletb-kbd.c                 | 316 +++++++++
+ drivers/hid/hid-multitouch.c                  |  60 +-
+ drivers/hid/hid-quirks.c                      |   8 +-
+ include/drm/drm_format_helper.h               |   3 +
+ 14 files changed, 1398 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd
+ create mode 100644 drivers/gpu/drm/tiny/appletbdrm.c
+ create mode 100644 drivers/hid/hid-appletb-bl.c
+ create mode 100644 drivers/hid/hid-appletb-kbd.c
+
+--=20
+2.43.0
+
