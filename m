@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB80949977
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 22:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA0394998D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 22:49:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 717C910E3FD;
-	Tue,  6 Aug 2024 20:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 512D810E403;
+	Tue,  6 Aug 2024 20:49:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lJVWCQrD";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="S5Mk2v4T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBF5E10E3FD
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 20:47:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D8DADCE0E7C;
- Tue,  6 Aug 2024 20:47:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10B60C32786;
- Tue,  6 Aug 2024 20:47:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722977231;
- bh=HeETL+5tKib6MH9kgC1zObM+7LwAINK+PlEoC3/qshQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lJVWCQrDDKbsQvjukGMXCuSF87yugWQc8eRoJZgUsHxBiA50NHj8igJpW3o7M3HHd
- 79C9gNRxH+J+CcZPmkDa6ukWiHoYcUVfbmRFRwyuvX1WclRmhh+y4UzX6VQhL3nTeM
- R5p3AjzShDOAF6hUXR2mm53HqxfYWeM0k5C5K6MGIH2TebObE/cUAQ/Um0sdEaem6O
- wzlLmeOb5IJqItDaMLMoLwbM9Tbh+li84r3/OKD9sPt8xZRQXHGP3i9fT2T/ZC9EEK
- W8rDe8+o+cFBWwV+PlFV69qQChiCIaGXsfvDg4psTAABB1428TkKfvhRZiXunEebvX
- 7mVyWaxnYtF6A==
-Date: Tue, 6 Aug 2024 13:47:08 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
- Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v18 04/14] netdev: netdevice devmem allocator
-Message-ID: <20240806134708.0034c4b9@kernel.org>
-In-Reply-To: <20240805212536.2172174-5-almasrymina@google.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-5-almasrymina@google.com>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56FE710E403
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 20:49:52 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-1fd69e44596so1893975ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 13:49:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20230601; t=1722977392; x=1723582192;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bOb7yzxJR8v2Ep13bBP5suT1y7mTdVA2Wy56PSiUs5w=;
+ b=S5Mk2v4Tld75+ehtAs5UTqqP1fMTnSZKEVs18CxudNldQxap7ByYNkqsKvIl5NKZWN
+ 6ZObPhcetKOCyf5h4QLRsvAw4bupnHGJHkQ299lqJQpDBU2DRhQ3fFW+1xyvIr6h5pPU
+ 4kFi6Vo2XXB99tuFauEiXajgfndl4SFJQgk+eYBO1JOEDEFMEoW1YlH4teNHB0e9BIfI
+ 1gBp5rTR0XRXf5d+/bFf3/2c2Pq8eNntFYy7aQRO2AdO3pVZAk8wwOmZP0O6sCklNA/u
+ LG3qBCoJz9NNHS9iyI5uEJT3RYlxiq9n+nsSNHnqgsaAseD4/13BZv19jY2vzoMthtq+
+ Vhzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722977392; x=1723582192;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bOb7yzxJR8v2Ep13bBP5suT1y7mTdVA2Wy56PSiUs5w=;
+ b=m8L2cmmhPOFQslvYoiGFbOIl/NyH/IdADGN+Mwg0MdenKe/56rptkDr/Xa/UZJa2yY
+ RY0F0iTCaDV5pc1JycDJq4gUPYg4LnwgXo37mNjPf9/CzKRNayRqrk949SlFoMuWxZ0B
+ JzE4Xm4VwK8THegPzOpyHohpeutm+QXBRCBQ8k0mxEXsxZyi00bkWzdzCszjkIg2lsz2
+ RB9jLNVx4W/lf91lYQI/bAbt0enU9LfHRwJAEWjb/mLNe+d9HD9mgxh8cOksYIP+Cl8j
+ cgykmtMZSHlA6Yr+eip5klCVXsDIcoLQJAFMrTdX4GiGF6gPPc1SHczQlfx2I+rfoVEU
+ jifg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUkpMa6lni4bs40Jixm/qKazWNexa8+c6HYpDn0PzdWlGg37P4l6HLIw3nwVSxpifNQFZ8kvks7qcz8fIfkSrDsGGoFYTqzwq0/jXh8Zj7n
+X-Gm-Message-State: AOJu0Yx+im4cgZUNqlkSkdYZa1q4gGKjCTC56lbmWhl7BjyuOUktoXyn
+ Ijvu4I7MeEiB6oh6gfjjGokGPtBkpMySR39hM+JnALMVzshkAx7xIJL9GuUyN+qiH6fdgbfpvWU
+ ybax641qxJbKSkNfLwQmzEw5Mmcg=
+X-Google-Smtp-Source: AGHT+IEWfPRU2iaveYmuat0ybCTueo7tRCzgALc58m0y0WIi4uI64eQxtPbB6Cb9+AleElQR9RrKgLFpgvj4b6HwZRI=
+X-Received: by 2002:a17:902:ec86:b0:1ff:39d7:a1c4 with SMTP id
+ d9443c01a7336-2008552d030mr595535ad.25.1722977391739; Tue, 06 Aug 2024
+ 13:49:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240730125023.710237-1-jbrunet@baylibre.com>
+ <20240730125023.710237-6-jbrunet@baylibre.com>
+In-Reply-To: <20240730125023.710237-6-jbrunet@baylibre.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Tue, 6 Aug 2024 22:49:40 +0200
+Message-ID: <CAFBinCCvWFCCvb9gPvv0-eudG=iuKROk5rPSiorKTnHcToDfTQ@mail.gmail.com>
+Subject: Re: [PATCH 5/9] drm/meson: dw-hdmi: split resets out of hw init.
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Kevin Hilman <khilman@baylibre.com>, dri-devel@lists.freedesktop.org, 
+ linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,26 +86,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  5 Aug 2024 21:25:17 +0000 Mina Almasry wrote:
-> +struct net_iov *
-> +net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding)
-> +{
-> +	struct dmabuf_genpool_chunk_owner *owner;
-> +	unsigned long dma_addr;
-> +	struct net_iov *niov;
-> +	ssize_t offset;
-> +	ssize_t index;
-> +
-> +	dma_addr = gen_pool_alloc_owner(binding->chunk_pool, PAGE_SIZE,
-> +					(void **)&owner);
-> +	if (!dma_addr)
-> +		return NULL;
-> +
-> +	offset = dma_addr - owner->base_dma_addr;
-> +	index = offset / PAGE_SIZE;
-> +	niov = &owner->niovs[index];
-> +
-> +	niov->dma_addr = 0;
+Hi Jerome,
 
-Is the dma_addr not constant for a given niov for the entire lifetime
-of the binding? Why flip it back and forth between its value and 0?
+On Tue, Jul 30, 2024 at 2:50=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.com=
+> wrote:
+>
+> This prepares the migration to regmap usage.
+>
+> To properly setup regmap, the APB needs to be in working order.
+> This is easier handled if the resets are not mixed with hw init.
+>
+> More checks are required to determine if the resets are needed
+> on resume or not. Add a note for this.
+>
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> ---
+>  drivers/gpu/drm/meson/meson_dw_hdmi.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meso=
+n/meson_dw_hdmi.c
+> index 5cd3264ab874..47aa3e184e98 100644
+> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> @@ -581,11 +581,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi =
+*meson_dw_hdmi)
+>         /* Bring HDMITX MEM output of power down */
+>         regmap_update_bits(priv->hhi, HHI_MEM_PD_REG0, 0xff << 8, 0);
+>
+> -       /* Reset HDMITX APB & TX & PHY */
+> -       reset_control_reset(meson_dw_hdmi->hdmitx_apb);
+> -       reset_control_reset(meson_dw_hdmi->hdmitx_ctrl);
+> -       reset_control_reset(meson_dw_hdmi->hdmitx_phy);
+> -
+>         /* Enable APB3 fail on error */
+>         if (!meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
+>                 writel_bits_relaxed(BIT(15), BIT(15),
+> @@ -675,6 +670,10 @@ static int meson_dw_hdmi_bind(struct device *dev, st=
+ruct device *master,
+>                 return PTR_ERR(meson_dw_hdmi->hdmitx_phy);
+>         }
+>
+> +       reset_control_reset(meson_dw_hdmi->hdmitx_apb);
+> +       reset_control_reset(meson_dw_hdmi->hdmitx_ctrl);
+> +       reset_control_reset(meson_dw_hdmi->hdmitx_phy);
+The old out of tree vendor driver [0] enables the "isfr" and "iahb"
+(in P_HHI_HDMI_CLK_CNTL and P_HHI_GCLK_MPEG2) clocks before triggering
+the resets.
+Previously meson_dw_hdmi's behavior was identical as it enabled the
+clocks in meson_dw_hdmi_bind() and only later triggered the resets.
+
+I'm totally fine with moving the resets to meson_dw_hdmi_bind() but I
+think it should happen after devm_clk_bulk_get_all_enable() has been
+called (to keep the order and thus avoid side-effects that we don't
+know about yet).
+
+Also out of curiosity: are you planning to convert the driver to use
+devm_reset_control_bulk_get_exclusive()?
+
+
+Best regards,
+Martin
+
+
+[0] https://github.com/endlessm/linux-s905x/blob/master/drivers/amlogic/hdm=
+i/hdmi_tx_20/hw/hdmi_tx_hw.c#L470
