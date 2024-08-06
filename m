@@ -2,74 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C272F9497D5
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 20:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D169498E0
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 22:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE42810E079;
-	Tue,  6 Aug 2024 18:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9F2410E408;
+	Tue,  6 Aug 2024 20:15:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="lqGPTPBg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QSTUtCHC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F5A10E028
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 18:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1722970614; x=1723575414; i=markus.elfring@web.de;
- bh=QsEz/njIOEwlQJd+1jweVyiPy2SWvIy81sbU5T8pWvA=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=lqGPTPBgN8OeUaEeEUOtgSXcziEGan2ywLqShFZwSVnyBr+A1YaPsoe7ZgTOT0pY
- PrxeVMPz8Ee8FHwoU3Jh+t+LooR7LYZfAlkCXtAtMWCLGzDihbDbMP0NGQUILHvpQ
- i7TwtZcoZCsFtbzgLL2qwiUjZT3Rf0oSg2C37hdTnE4bps64JfhCBRxOyyXBv8ugp
- iavT+ZXk+fnzrSPQWV0AB86VKRq1RRTeyDlcrBeVic1qQeTFDBcgu+QBI9/Ta7FiK
- 4L0QZaSty3CiQH1uTIqn60I5JZxG1YOhxSIdi4i7dsCp+oHUv4nyQUsjNNESxnAEF
- hQ1l0o5gJXCD+Zrhbg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MnG2Q-1rucLq0K5U-00l11C; Tue, 06
- Aug 2024 20:56:54 +0200
-Message-ID: <de748b0f-6e05-4c36-a6ad-cc5b09718e0b@web.de>
-Date: Tue, 6 Aug 2024 20:56:53 +0200
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3B0E10E40A
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 20:15:28 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2f0dfdc9e16so12806991fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 13:15:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722975327; x=1723580127; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Dcr4nYm/ORNQ3/y4PL408hIFoTg8Yy+y6wFiPltrL7k=;
+ b=QSTUtCHCtUkawhZZsqngfzdBqnYXj0sJzBdzPjfAp1w8ystGvDd3SeFddYR5mz9TDH
+ O2+l5/prTcW58/nICvQvzxKmHMRunWVgE9Un8oa6QwSOFENSxiXnGnfRiaXU+xUoFkv0
+ z+dzsgQmMEwo4M26euTnsEDi45WihRwN2CPEuJNWeNGCWpaa4soGwSmVvF+gzgz8+e7M
+ po+aK88ZzPb1EgEFHohnfblfqR3owg84fFxjiG1kOkWaGMxiAgNtiMSgHyrpkFz9EE9E
+ C0b7NaVPOb/Ewd+w/zkhqjDKG9oR0iHYzKWMtNLZmQTwYQ/6oCBpzjsK9EkYQXKirxGZ
+ yruw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722975327; x=1723580127;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Dcr4nYm/ORNQ3/y4PL408hIFoTg8Yy+y6wFiPltrL7k=;
+ b=oQFFKO6zhDZ0lc/wOCEP5Eh+KGh0NI/T3p8LKmmXTZcvzOh3ugNV5B1maw8h76xIvP
+ 9i0hAMQFkOdftLsrZNj2LiAGKeXMHlKfauhMbVG1GCtDaTTtcOQvcpFS1zLQN+NFSoFI
+ GrAGJioXyTajO7R3Ari6o1vIvpgZ8cYFeiYwbEa0yE08yrgpXCLZW1xFjHWdwf+Mg0/H
+ K2x5RhYNUHap4LfW2ohgVAJVxiYET47WZaoeA2VSCOCbYm6lDVciKT58bAsnH7UvaIao
+ gSFPH3uGCEnVLeLxvpo/XVRvaIRpCAtp1C7LG+IxqO67VNdC5kVSJVco0opEQOmwW7+C
+ qTww==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVLbG37LXV1SlDPxjPEe+6dEvX+YA6aSAFAk6EZTOxEsUpIL/ld2aNwBODnnMeiGhwE1I+kV/Ks+ET6ncaIi3TlCHba3tbWGkpCMOoYS9A9
+X-Gm-Message-State: AOJu0Yy5Ws3x0ke67AT8GiRrW+vk0hwcOmqvvMki+jxCtb+V/K1WCcqf
+ xi1EULIGGHda0Q+BYuqoV2iE8E2bKbCZw7u6ERuDO3a8pQt7wAFbTECwhddlvW/HGCEwBHU636K
+ ibm7ABJhtcLhbq3EKoaa9xi95DcgQyQ==
+X-Google-Smtp-Source: AGHT+IH3Tp44NrqMDhvMRbQhQ0+Eoa5hP8pm5fmmlYU+SDu3IykCst1EwAebrsLtDb/dcR3chM8jUFPBcOJNtaDvxNA=
+X-Received: by 2002:a05:6512:a8a:b0:52f:ccb0:9ea7 with SMTP id
+ 2adb3069b0e04-530bb3e0ba6mr9551626e87.60.1722975326329; Tue, 06 Aug 2024
+ 13:15:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 00/10] AMD XDNA driver
-To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org,
- Oded Gabbay <ogabbay@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, George Yang <George.Yang@amd.com>,
- king.tam@amd.com, Max Zhen <max.zhen@amd.com>, Min Ma <min.ma@amd.com>,
- Narendra Gutta <VenkataNarendraKumar.Gutta@amd.com>,
- Sonal Santan <sonal.santan@amd.com>
-References: <20240805173959.3181199-1-lizhi.hou@amd.com>
- <f66e2016-d2c8-4a86-9a6f-267770f7fed5@web.de>
- <23f5f0ea-305c-15c0-4578-ef1307621d07@amd.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <23f5f0ea-305c-15c0-4578-ef1307621d07@amd.com>
-Content-Type: text/plain; charset=UTF-8
+References: <20240723114914.53677-1-slp@redhat.com>
+ <942afa37-a24c-48ed-ae10-c811849165bf@collabora.com>
+ <CAAiTLFV6mAgrMj=itcxoBCibvYRyrAk02wYp-gYJ8kxhF0EPmw@mail.gmail.com>
+ <CAAfnVBkWKn3+YEhNz0CTmw-T_jjL72axkWqYgkzkSa72t_Gf0A@mail.gmail.com>
+In-Reply-To: <CAAfnVBkWKn3+YEhNz0CTmw-T_jjL72axkWqYgkzkSa72t_Gf0A@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 6 Aug 2024 13:15:14 -0700
+Message-ID: <CAF6AEGsnpEYFsCfZUAPopWzY=wv_GWn0P5f5D6U9y-JrWGQVnw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Sergio Lopez Pascual <slp@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, tzimmermann@suse.de, 
+ mripard@kernel.org, olvaffe@gmail.com, kraxel@redhat.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, airlied@redhat.com, 
+ linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:J6XKjukaDhMuC6VH8csRFL8lT4765mGsvAbvwWw3KvpbqeZrG9K
- OPHyPJkXwKYZ5wh6Pq7GStAcNjj60V85x2I5Qngcew/gQeuf/jdaEx9KRc7Z4a40PCoc+rO
- t1VAMGkYxbUH//97kTli4ZXTCJi/mIPpenNF44cR5u7Lbd41f90ZL6TFB3zHcZrpZjlaWw6
- iXme0jLWYwpxZrwuQImgQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Cnd4g9rne+o=;F1I9lZDQNZ4ZXNXFHGo+KLJRTz9
- PETRrhfTsFwRxjI8CqJgh6rFg2VTVStFXS+4d0KckQ2jowmfqEKiEdKstZyMC2gOWK/12YjNe
- WnoehIBjYU1dA3++EfgiQUtF3DDG6GpsmzFMyIJJYEtpVEqyXyWTHrLh84rcxe+7I5r/zuzSH
- uWcm+vk9GI+4mLw76PhHD6JMGXHk6F+BRXM2XxFiRv2s/AeDk2ZwrjMVEeXtwdDYrY5i/Zsgl
- dnCuC6q2rsmdQtd6LfxgC18tUCG2M9eckGZkbdIxHO50LukP3/4wH8N1TZ3yNqueuBiMlOiIj
- LF1dV3wkE/HVZW7k/PiMPYrGJkQs3rX/NFt2IWPkULRPFgAnx0xvBtETHlYxqONdV63XzD408
- zJCc0lfTYfYojHwYU+XB9Irx4O4dhyV9/UoG20mkKrkgcKGbbO+ER3Bf+ElT6s+ZsevFw/Yqn
- zCKF7kRvRW8GCWhZupd706ragYUcbShdqBL43BfqSLNuZ4ZqtA0rugCeaLV1hVxYqe9Pc3Ong
- nMKkKvDn1ss/7VwahSBH+0wUChUr+R64eSWl2P4ES7HaWB97cIGjcs0HgQvdc3/XpdbCEnRnj
- LNLU9MINRuL2EShRKzi7wfpFtE+rfrckNRoJKFWRe/tJ8ydIwPvHrjVQ8gr1jXVbfEk+KQWo7
- SRKZyDdIfvWGQsj7x6o3HprfHcQWZg9uDM7AFr2sL1f+ir3MZbhaZc+3NoTfYjcwBMwDYybIa
- IT9O9CoWWhWKwASDP+cPxf5a7x/IYecVy8TOJilYf5By0uA33BUTtCFClzZl/+Evg+1a3pIgT
- sTjxTXUimByzo2mg628gigZg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,31 +86,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->> https://lkml.org/lkml/2024/7/19/803
->> https://lore.kernel.org/linux-kernel/010a46ba-9dc4-e3e3-7894-b28b312c6a=
-b1@amd.com/
->> [01/10] accel/amdxdna: Add a new driver for AMD AI Engine
->> =E2=80=9Cguard looks cleaner. We will use it.=E2=80=9D
-> We reconsidered this request
+On Tue, Aug 6, 2024 at 9:15=E2=80=AFAM Gurchetan Singh
+<gurchetansingh@chromium.org> wrote:
+>
+>
+>
+> On Mon, Aug 5, 2024 at 2:14=E2=80=AFAM Sergio Lopez Pascual <slp@redhat.c=
+om> wrote:
+>>
+>> Dmitry Osipenko <dmitry.osipenko@collabora.com> writes:
+>>
+>> > On 7/23/24 14:49, Sergio Lopez wrote:
+>> >> There's an incresing number of machines supporting multiple page size=
+s
+>> >> and on these machines the host and a guest can be running, each one,
+>> >> with a different page size.
+>> >>
+>> >> For what pertains to virtio-gpu, this is not a problem if the page si=
+ze
+>> >> of the guest happens to be bigger or equal than the host, but will
+>> >> potentially lead to failures in memory allocations and/or mappings
+>> >> otherwise.
+>> >
+>> > Please describe concrete problem you're trying to solve. Guest memory
+>> > allocation consists of guest pages, I don't see how knowledge of host
+>> > page size helps anything in userspace.
+>> >
+>> > I suspect you want this for host blobs, but then it should be
+>> > virtio_gpu_vram_create() that should use max(host_page_sz,
+>> > guest_page_size), AFAICT. It's kernel who is responsible for memory
+>> > management, userspace can't be trusted for doing that.
+>>
+>> Mesa's Vulkan/Venus uses CREATE_BLOB to request the host the creation
+>> and mapping into the guest of device-backed memory and shmem regions.
+>> The CREATE_BLOB ioctl doesn't update drm_virtgpu_resource_create->size,
+>> so the guest kernel (and, as a consequence, the host kernel) can't
+>> override the user's request.
+>>
+>> I'd like Mesa's Vulkan/Venus in the guest to be able to obtain the host
+>> page size to align the size of the CREATE_BLOB requests as required.
+>
+>
+> gfxstream solves this problem by putting the relevant information in the =
+capabilities obtained from the host:
+>
+> https://android.googlesource.com/platform/hardware/google/gfxstream/+/ref=
+s/heads/main/host/virtio-gpu-gfxstream-renderer.cpp#1691
+>
+> If you want to be paranoid, you can also validate the ResourceCreateBlob:=
+:size is properly host-page aligned when that request reaches the host.
+>
+> So you can probably solve this problem using current interfaces.  Whether=
+ it's cleaner for all context types to use the capabilities, or have all VM=
+Ms to expose VIRTIO_GPU_F_HOST_PAGE_SIZE, would be the cost/benefit tradeof=
+f.
+>
 
-Interesting =E2=80=A6
+I guess solving it in a context-type specific way is possible.  But I
+think it is a relatively universal constraint.  And maybe it makes
+sense for virtgpu guest kernel to enforce alignment (at least it can
+return an error synchronously) in addition to the host.
 
+BR,
+-R
 
-> and searched accel and drm subsystem. I did not see it was used.
-
-Do you notice how applications of scope-based resource management are grow=
-ing
-in other subsystem areas?
-
-
-> This does not look like a required change for upstream at this moment.
-
-Maybe.
-
-
-> We would keep the current code for this patch series.
-
-Will further collateral evolution become more attractive anyhow?
-
-Regards,
-Markus
+>>
+>>
+>> Thanks,
+>> Sergio.
+>>
