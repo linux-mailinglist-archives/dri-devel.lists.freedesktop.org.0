@@ -2,43 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A36D948EFD
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 14:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C83948F1F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 14:39:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 996F510E348;
-	Tue,  6 Aug 2024 12:23:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 854F210E039;
+	Tue,  6 Aug 2024 12:39:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CtHPzusY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D42D910E345
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 12:23:45 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sbJE4-0002qq-KH; Tue, 06 Aug 2024 14:23:40 +0200
-Message-ID: <8040eb85dbdef646a3373ef4602a9614f2d468c1.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Remove GFP_HIGHUSER in systems with 32
- address limits
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Xiaolei Wang <xiaolei.wang@windriver.com>,
- linux+etnaviv@armlinux.org.uk,  christian.gmeiner@gmail.com,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Tue, 06 Aug 2024 14:23:39 +0200
-In-Reply-To: <20240806104733.2018783-1-xiaolei.wang@windriver.com>
-References: <20240806104733.2018783-1-xiaolei.wang@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
+ [209.85.221.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF30210E039
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 12:39:36 +0000 (UTC)
+Received: by mail-vk1-f176.google.com with SMTP id
+ 71dfb90a1353d-4f6ac1628dfso259813e0c.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 05:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1722947976; x=1723552776; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:subject:references
+ :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zrdmTtiXVmTM/1NHHOYdmmDXOI3jR7XQcOI+pwOJhWY=;
+ b=CtHPzusYyoOwFU8g6I1ExL6IfaJu5uxvajpqx6Nww1sSRWTNTuQZ5ab3mxU28OSyeQ
+ SrMyLgZLTTuHrH2fTDszrdm6rlj8DQRxLdxJnce+ZNkyrPLeJlphX9fVqHSt/AOOv7r/
+ HkbEdw7KyTaq3hxOhrFtSCvG8fBMxe88RSKv231nTCRBP9NKq+9EB573HrONmS6EZfE/
+ 29w1vlsJAXwnYzbpf509kOermdtOq9aEyevHMmzEHx1PXVBO/ClnUvMHWDSxU/VMrr4Y
+ yKnmN3GPej0EAZuEmwTu/994GQoLq4F5tcsBurowrUHpv8Y0rvMDrJ++8q9b4F+BFX6g
+ 90+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722947976; x=1723552776;
+ h=content-transfer-encoding:mime-version:subject:references
+ :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=zrdmTtiXVmTM/1NHHOYdmmDXOI3jR7XQcOI+pwOJhWY=;
+ b=OJVlDI2z3ICDcA8MmAcCFwZEzluXdrQl2by2q4qc0jowV3JZISY3gHR7q9ZTlr/vFh
+ tMaTjOLV+1QfWFMTtOdGE2wHcODl5G3NZUXxaRxnjgzeC7qfbpc4mDJLE7CaPLfc0OGN
+ 1w8vSTSYtqiiFkHC0pOXf1O8FidX26I8tnb3mtc48Jbu5OpO1nB7910Amb8Yn/8XKFzB
+ zv857AZvwaSpxwLCUslG45SDOpc3SPqsN5XAJtQ+EnxIgO+crpzLVLaGWJIJwmeDgqdD
+ 3w1uaBPGLvgaqdSiD2OljM8G0DoNM/87YXUUV8oWhHP6MRFBs/stUbOfpwoK3wvlUXQJ
+ zGAw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXxEleh6DNMHHjugx8YuFuI8YlHneDuVztaxFQRuYERntQHTHWXBvOquCxiZX2cGXxvNd16ylpwAg8Bunjwq023swusuRaSSz0kLk8kTJBZ
+X-Gm-Message-State: AOJu0YwlTus48EUghseN5gVaCAppz0/GJ2GdvmaOUAHyNmp6DMP72Y9F
+ RtItLEh+hnTiP4hV0H8/VPwXRJXvl3DkApc5hreWf9wVQ1qYZLHA
+X-Google-Smtp-Source: AGHT+IEzF8kEieTvm400vGSAD/FxkfKWUdB+Qp9zmFjvlH9NnaUdLi1L0Oe0+UqgMX4/h+bhgaOPVA==
+X-Received: by 2002:a05:6122:4584:b0:4eb:5cb9:f219 with SMTP id
+ 71dfb90a1353d-4f89fe84d6fmr18355377e0c.0.1722947975581; 
+ Tue, 06 Aug 2024 05:39:35 -0700 (PDT)
+Received: from localhost (73.84.86.34.bc.googleusercontent.com. [34.86.84.73])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7a34f6dce75sm450350985a.14.2024.08.06.05.39.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Aug 2024 05:39:34 -0700 (PDT)
+Date: Tue, 06 Aug 2024 08:39:34 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Markus Elfring <Markus.Elfring@web.de>, 
+ Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Kaiyuan Zhang <kaiyuanz@google.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, 
+ Willem de Bruijn <willemb@google.com>, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
+ Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, 
+ =?UTF-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, 
+ Christoph Hellwig <hch@infradead.org>, David Ahern <dsahern@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, David Wei <dw@davidwei.uk>, 
+ Donald Hunter <donald.hunter@gmail.com>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Helge Deller <deller@gmx.de>, Herbert Xu <herbert@gondor.apana.org.au>, 
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ "James E. J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Jeroen de Borst <jeroendb@google.com>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Matt Turner <mattst88@gmail.com>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Shailend Chand <shailend@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+ Steffen Klassert <steffen.klassert@secunet.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Taehee Yoo <ap420073@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <66b2198686b91_3206cf29453@willemb.c.googlers.com.notmuch>
+In-Reply-To: <9aad36fe-cd4c-4ce5-b4d8-6c8619d10c46@web.de>
+References: <20240730022623.98909-4-almasrymina@google.com>
+ <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
+ <CAHS8izPxfCv1VMFBK1FahGTjVmUSSfrabgY5y6V+XtaszoHQ4w@mail.gmail.com>
+ <9aad36fe-cd4c-4ce5-b4d8-6c8619d10c46@web.de>
+Subject: Re: [PATCH net-next v17 03/14] netdev: support binding dma-buf to
+ netdevice
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,87 +127,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xiaolei,
+Markus Elfring wrote:
+> >> =E2=80=A6
+> >>> +++ b/include/net/devmem.h
+> >>> @@ -0,0 +1,115 @@
+> >> =E2=80=A6
+> >>> +#ifndef _NET_DEVMEM_H
+> >>> +#define _NET_DEVMEM_H
+> >> =E2=80=A6
+> >>
+> >> I suggest to omit leading underscores from such identifiers.
+> >> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declar=
+e+or+define+a+reserved+identifier
+> >>
+> >
+> > I was gonna apply this change, but I ack'd existing files and I find
+> > that all of them include leading underscores, including some very
+> > recently added files like net/core/page_pool_priv.h.
+> >
+> > I would prefer to stick to existing conventions if that's OK, unless
+> > there is widespread agreement to the contrary.
+> =
 
-Am Dienstag, dem 06.08.2024 um 18:47 +0800 schrieb Xiaolei Wang:
-> GFP_HIGHUSER is for userspace allocations that may be mapped
-> to userspace,An example may be a hardware allocation that maps
-> data directly into userspace but has no addressing limitations,
-> this conflicts with GFP_DMA32,The kernel reports a BUG:
->=20
-GFP_HIGHUSER is a combination of GFP_USER | __GFP_HIGHMEM. Only the
-highmem part is incompatible with DMA32. You don't want to clear the
-GFP_USER bit here, as the driver allocated buffers might be mapped to
-userspace.
+> Under which circumstances would you become interested to reduce develop=
+ment risks
+> also according to undefined behaviour?
+> https://wiki.sei.cmu.edu/confluence/display/c/CC.+Undefined+Behavior#CC=
+.UndefinedBehavior-ub_106
 
-Regards,
-Lucas
+This series is following established practice in kernel networking.
 
-> kernel BUG at include/linux/gfp.h:139!
-> Internal error: Oops - BUG: 00000000f2000800 [#1] PREEMPT SMP
-> Modules linked in:
-> Hardware name: NXP i.MX8MPlus EVK board (DT)
-> pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
->  pc : __alloc_pages_noprof+0x5d8/0x72c
->  lr : alloc_pages_mpol_noprof+0x100/0x4e0
->  sp : ffffffc08c6a71c0
->  x29: ffffffc08c6a71c0 x28: ffffffc086e46000 x27: ffffffc086e46a68
->  x26: 1ffffff81122b260 x25: ffffffc089159304 x24: ffffff80da938000
->  x23: 0000000000000000 x22: 0000000000000000 x21: ffffff80da938000
->  x20: 1ffffff8118d4e46 x19: 0000000000146cc6 x18: 0000000000000000
->  x17: ffffffc081b00980 x16: ffffffc081b002a8 x15: 1ffffff8118d4e56
->  x14: 00000000f1f1f1f1 x13: 00000000f3f3f300 x12: 0000000000000000
->  x11: ffffff80da9384c8 x10: ffffff80da938000 x9 : 00000000f2f2f200
->  x8 : 0000000041b58ab3 x7 : 00000000f3000000 x6 : 00000000f3f3f3f3
->  x5 : 1ffffff01b527005 x4 : 000000000000000c x3 : 0000000000000006
->  x2 : 0000000000000000 x1 : 00000000000003a3 x0 : 0000000000000000
->  Call trace:
->   __alloc_pages_noprof+0x5d8/0x72c
->   alloc_pages_mpol_noprof+0x100/0x4e0
->   folio_alloc_mpol_noprof+0x18/0xb8
->   shmem_alloc_folio+0x154/0x1a8
->   shmem_alloc_and_add_folio+0x180/0xee8
->   shmem_get_folio_gfp+0x660/0x103c
->   shmem_read_folio_gfp+0x98/0x104
->   drm_gem_get_pages+0x174/0x5ac
->   etnaviv_gem_shmem_get_pages+0x18/0x5c
->   etnaviv_gem_get_pages+0x100/0x328
->   etnaviv_gem_cpu_prep+0x2e8/0x438
->   etnaviv_ioctl_gem_cpu_prep+0xb0/0x1ac
->   drm_ioctl_kernel+0x158/0x2c8
->   drm_ioctl+0x494/0xb48
->   __arm64_sys_ioctl+0x120/0x18c
->   invoke_syscall+0x6c/0x25c
->   el0_svc_common.constprop.0+0x174/0x278
->   do_el0_svc+0x40/0x58
->   el0_svc+0x50/0xc0
->   el0t_64_sync_handler+0xc0/0xc4
->   el0t_64_sync+0x190/0x194
->  Code: 52800021 39003c01 d4210000 17ffff57 (d4210000)
->=20
-> Fixes: b72af445cd38 ("drm/etnaviv: request pages from DMA32 zone when nee=
-ded")
-> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gpu.c
-> index 7c7f97793ddd..c3f329226bed 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -844,8 +844,10 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->  	 * request pages for our SHM backend buffers from the DMA32 zone to
->  	 * hopefully avoid performance killing SWIOTLB bounce buffering.
->  	 */
-> -	if (dma_addressing_limited(gpu->dev))
-> -		priv->shm_gfp_mask |=3D GFP_DMA32;
-> +	if (dma_addressing_limited(gpu->dev)) {
-> +		priv->shm_gfp_mask |=3D GFP_DMA32 & GFP_USER;
-> +		priv->shm_gfp_mask &=3D ~GFP_HIGHUSER;
-> +	}
-> =20
->  	/* Create buffer: */
->  	ret =3D etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
+If that conflicts with a C standard, then perhaps that needs to be
+resolved project wide.
 
+Forcing an individual feature to diverge just brings inconsistency.
+That said, this appears to be inconsistent already.
+
+Main question is whether this is worth respinning a series already at
+v17 with no more fundamental feedback.
+
+For reference:
+
+$ grep -nrI '^#ifndef\ _\+NET[_A-Z]\+H' include/  | wc -l
+149
+
+$ grep -nrI '^#ifndef\ NET[_A-Z]\+H' include/  | wc -l
+4
+
+$ grep -nrI '^#ifndef\ [_]\+[A-Z][_A-Z]\+H' include/  | wc -l
+3805
+
+$ grep -nrI '^#ifndef\ [A-Z][_A-Z]\+H' include/  | wc -l
+583
