@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4306B9499B7
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 22:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142B19499CF
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 23:03:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63B4E10E0F8;
-	Tue,  6 Aug 2024 20:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F36510E405;
+	Tue,  6 Aug 2024 21:03:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bD3DuZ2+";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="Pu64VaSP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2312610E0F8
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 20:59:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2449A60F08;
- Tue,  6 Aug 2024 20:59:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A82C3C32786;
- Tue,  6 Aug 2024 20:59:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1722977967;
- bh=oQ7qityzvDiPJTZS3Szpb70s0aIQdtnagYi0Qj0kT00=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bD3DuZ2+SxmgaCgzJWHtZH/BYbg66l2gd+LZppP8V0SjvcVqsJKtaaiDssO1v+eTr
- DepGkqmJxITFe54Lre2tS/vEGrc22Vu63ljH1RRMC3HUSH2BP59CbVsybYRx5BroxY
- QzqlaSzYfm+jheMBLL1UJu7QHVFmgQmRAU9zimWldMZ8D1XFiUqchTvoNAaiXS7hzH
- URysUscNMnVRS9xQk9PTPdzDrWF0jmd8XP7i5YGixpWl4NoGrnzp/dD/HTEvG8s/13
- HUuL28HXkNnUqRHm0Cu4xB/2+bNxvDDDYP/Iqrw7CXRtllgNPubXkFhZKGOucEcp/W
- CHGsOnZxxgIOw==
-Date: Tue, 6 Aug 2024 13:59:24 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
- Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240806135924.5bb65ec7@kernel.org>
-In-Reply-To: <20240805212536.2172174-8-almasrymina@google.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-8-almasrymina@google.com>
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7EF10E405
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 21:03:37 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-1fc56fd4de1so1976845ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 14:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20230601; t=1722978217; x=1723583017;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=m2q6pHf2d+29PL7ARSSmco2Uda2QTne6ymuc4cRUvxc=;
+ b=Pu64VaSPjiIgdbWgFMF5TaP/UwZ8YGGUbGNuNd4br37lGi4gsWdS3Vxfi/6DrGyHWi
+ 7QINuKQ/F0GLXv3VyrYc6rSsLdJJMGuqJfDei6b11HtsTQCQiI9HjLzWL3Df5ViFwsU2
+ 7r6J2qVXZKxFKGzNBE476Dd83G/dh8oAMztaBXlH4R0usxWooEToFxEaQEVWdhD5S1jQ
+ kXuzDKlPgkxr2DZ+ShqV2XK5xSv0WGzKGAnQ6JptPGBhq/w1J4bdrUP7YFNsiVvGPijn
+ m8TnMsnH742J+PMfqdETpUyDUJeHO2GHoRKIH/OwTOh6hp068Pqx8Kl+lN0mhjenmG61
+ 0MjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1722978217; x=1723583017;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=m2q6pHf2d+29PL7ARSSmco2Uda2QTne6ymuc4cRUvxc=;
+ b=BTWaDF+JO5jVeJzRUFIgZ7mE8rHYQMyz99P425LAbBKta2HHZE/3r/urnzxH7IPNHP
+ 2glGVOqRqZTOHQJM2BSTktSHp8k7JZf23+bU0bqikexjn3bEDMsvDSY3yyoqf2ypde7Z
+ +TO8yRDdjSspHnvLHW+9Wmm2V1VWySUjwO06Vu6QZ6ANi4fsh0ABe8vx0yJD7Fwah7la
+ ru9oRXAC97U2OKAZl5auGRqXxTJJ6pZp4R6jqh9KTfft5J6T/XL6C03WfSMpA+mWI40u
+ CApZTKVfW/PXsy4nIw/oIrREKuKeFDsNODxbdl2CBlAhT368MX+Lv8xw8FBWEpSpRF2M
+ xIWQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXC4fEP1Wn+UGpVApHwmG8EPUHyzECFc/yAHCIe6SfHnZ2Fmio/8eOqACPTyxBvvHHDr6+gMjawp3I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyO8rPToAjqD8fTtBBehjfc6fX7xjy/2F82pQyP0SjDmyPrmW6R
+ Ugdf6UHyIv9fWYWXm+kIrFjvkZ18RihDahJOGqBMD4TnFoAQ2jhHcQA/wEWE/fBhNGTkjU0ph5e
+ hKwYEf7CUCHlvQD+ntqTREp7altA=
+X-Google-Smtp-Source: AGHT+IHnTsomZEJTNgTr0RHgWmTYrb/mu0Mk5eZcXXey+C/tHk5gZ8CXDzozzaLkZe8gUGsqKmfnGvzIxRoRWUKUOxg=
+X-Received: by 2002:a17:902:f64f:b0:1fb:7654:4a40 with SMTP id
+ d9443c01a7336-20085492a0cmr824815ad.14.1722978217049; Tue, 06 Aug 2024
+ 14:03:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240730125023.710237-1-jbrunet@baylibre.com>
+ <20240730125023.710237-8-jbrunet@baylibre.com>
+In-Reply-To: <20240730125023.710237-8-jbrunet@baylibre.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Tue, 6 Aug 2024 23:03:25 +0200
+Message-ID: <CAFBinCAaZumGU6dOq0RrHRTQV=MejTJ=RW0P_6tQFOG9vybY6g@mail.gmail.com>
+Subject: Re: [PATCH 7/9] drm/meson: dw-hdmi: use matched data
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Kevin Hilman <khilman@baylibre.com>, dri-devel@lists.freedesktop.org, 
+ linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,27 +86,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  5 Aug 2024 21:25:20 +0000 Mina Almasry wrote:
-> +	if (pool->p.queue) {
-> +		/* We rely on rtnl_lock()ing to make sure netdev_rx_queue
-> +		 * configuration doesn't change while we're initializing the
-> +		 * page_pool.
-> +		 */
-> +		ASSERT_RTNL();
-> +		pool->mp_priv = pool->p.queue->mp_params.mp_priv;
+Hi Jerome,
 
-How do you know that the driver:
- - supports net_iov at all (let's not make implicit assumptions based
-   on presence of queue API);
- - supports net_iov in current configuration (eg header-data split is
-   enabled)
- - supports net_iov for _this_ pool (all drivers must have separate
-   buffer pools for headers and data for this to work, some will use
-   page pool for both)
+On Tue, Jul 30, 2024 at 2:50=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.com=
+> wrote:
+[...]
+> +       }, {
+> +               .limit =3D 297000,
+> +               .regs =3D gxbb_3g_regs,
+> +               .reg_num =3D ARRAY_SIZE(gxbb_3g_regs)
+Just as a side-note: this looked odd when reading for the first time
+as I thought that it's a typo (and it should be gxbb_2g97_regs - but
+that name is not used).
 
-What comes to mind is adding an "I can gobble up net_iovs from this
-pool" flag in page pool params (the struct that comes from the driver),
-and then on the installation path we can check if after queue reset
-the refcount of the binding has increased. If it did - driver has
-created a pool as we expected, otherwise - fail, something must be off.
-Maybe that's a bit hacky?
+[...]
+> +static const struct meson_dw_hdmi_speed gxl_speeds[] =3D {
+> +       {
+> +               .limit =3D 371250,
+> +               .regs =3D gxl_3g7_regs,
+> +               .reg_num =3D ARRAY_SIZE(gxl_3g7_regs)
+> +       }, {
+> +               .limit =3D 297000,
+> +               .regs =3D gxl_3g_regs,
+> +               .reg_num =3D ARRAY_SIZE(gxl_3g_regs)
+> +       }, {
+> +               .limit =3D 148500,
+> +               .regs =3D gxl_def_regs,
+> +               .reg_num =3D ARRAY_SIZE(gxl_def_regs)
+this is not consistent with what we have above or below so it either
+needs to be updated or a comment.
+I think this should be called gxl_1g48_regs
+
+> +       }, {
+> +               .regs =3D gxl_270m_regs,
+> +               .reg_num =3D ARRAY_SIZE(gxl_270m_regs)
+and this should be called gxl_def_regs
+
+
+
+Best regards,
+Martin
