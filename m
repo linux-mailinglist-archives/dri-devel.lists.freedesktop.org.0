@@ -2,57 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0609491CB
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 15:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBA194920F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 15:51:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3492310E0EB;
-	Tue,  6 Aug 2024 13:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B190C10E36C;
+	Tue,  6 Aug 2024 13:51:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fris.de header.i=@fris.de header.b="xLsRlk6Q";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="snMa1FEY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 432 seconds by postgrey-1.36 at gabe;
- Tue, 06 Aug 2024 13:41:55 UTC
-Received: from mail.fris.de (mail.fris.de [116.203.77.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8141710E0EB
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 13:41:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 3354DBFBC7; Tue,  6 Aug 2024 15:34:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
- t=1722951289; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding:in-reply-to:references;
- bh=QYOyecr8YSpIqQFw0AXKerk+WzH6pvykimx2Jj7ntNA=;
- b=xLsRlk6Q/yPSMG8KP4VRrhg8f1hOhln+EEP7Og4CdgiTTCgBpH9IefxGaIolEDkOM6QI6+
- 0Wuoa0s3gjfGNifBXeEPpcA/l3h5qBIZpVBxFUyDlSys9g6SAJrblIO05TNvFfPigtseOY
- vkevrW/0NXsXS+Osb8Itu7ShNDmkXHXAEBLzv1e/DeUcp4r0ZrDQMjWBOOLyah7W45NWym
- fEkITiRG+lJAcvpA5BKieZ9SvRmt1eBiX6I46C7iRO6BCYQeKTLbU2i0l/fuHBdJRqj2hr
- ZW5PPCiIzcZpduOG15HEhMArHAINIIuzG8Hg3W9SoUl53uu+5fqKI3zvlhTong==
-From: Frieder Schrempf <frieder@fris.de>
-To: Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Frieder Schrempf <frieder.schrempf@kontron.de>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Subject: [PATCH 2/4] dt-bindings: display: panel-lvds: Add compatible for
- Jenson BL-JT60050-01A
-Date: Tue,  6 Aug 2024 15:33:00 +0200
-Message-ID: <20240806133352.440922-3-frieder@fris.de>
-In-Reply-To: <20240806133352.440922-1-frieder@fris.de>
-References: <20240806133352.440922-1-frieder@fris.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA21E10E36C
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 13:51:02 +0000 (UTC)
+Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F1D74CD;
+ Tue,  6 Aug 2024 15:50:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1722952209;
+ bh=4HSMw/HU7AGAzzVaZuC80Yuo8WSKYY3sDqLnUPMKEzs=;
+ h=From:Subject:Date:To:Cc:From;
+ b=snMa1FEY50ru9jiYiXJfB9qXf/ywoncBxtTuB9jWuREAZ3dOLJkUDVvp1dWteswdz
+ lHPZ35EqvNeoU3eA38umKjnID7b4j5PW8116Gcb/QEbXl9XBH/iy4gb2x5r0w8wyAW
+ 0k/F83mCpVY40zi2TGlBm9f8IDbL2QCDNG4lop4s=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 0/3] drm/omap: Minor fixes
+Date: Tue, 06 Aug 2024 16:50:26 +0300
+Message-Id: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACIqsmYC/x3LQQqAIBBA0avIrBtQi8iuEi0kp5qFFg5EIN49a
+ fn4/AJCmUlgVgUyPSx8pQbTKdhOnw5CDs1gtR30pEe8or9DjhhZNtz5JUFL3lltXB8CQRvvTH9
+ o37LW+gGov5eQZAAAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ kernel test robot <lkp@intel.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=857;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=4HSMw/HU7AGAzzVaZuC80Yuo8WSKYY3sDqLnUPMKEzs=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmsio9r372s623W9DcayrF14x5KJ0kKj8dCIrIL
+ 4DkbYIbXBeJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZrIqPQAKCRD6PaqMvJYe
+ 9dO5D/9wfKM0rKjJvQCyU+XiP1tDzwK1wtBTkUkflysczZXhTLZIv7r9Mng9GqkbgXpZK4vzZG4
+ lDPbYAvnhCfcjRAOuWu/+3HrjwyaULnp/6Y9poXIjxNd3gsggzfOkV9TAkJZuNRbMFJjzh+E7W4
+ iI9v9y8a52lTl5YvpU9ZrJkNXuF1SPsb9RRnRHlSaimzwMCEo46xRETPwhwqAwO6ELuTZQdNe6z
+ UPIgj4hdqOSYs0uc4C25MkRPR9ASuRck1YSMGLC23KAii82mmHJPjSiGnvRWa9ifBsfRTB2v596
+ TC7NHidy+GWbt3AlalAS47W6LsVnH0+1MmRr4GRKmsLHFdXXGVeii+Q8UHiGSnhKJ1rX2U9Bnr9
+ TZS2AGigbOBMBEBuVXbFjYOfrT9t4mcdWxRiZUaunuMnbMQUMrK/wfrgnjBJ2ve0Asv/b0hWwp0
+ u1yxBqMs9smA1RUUDk0dcMb9AQx6UWGdIMHA+vFfsqFDsF+1nU1jAVwPwJBnU1J0gQR18oXYb+8
+ ORry5RJ9EDdpERjofem1EaaQ3ZdY10Pqro1gCpvYqNK9ENJCwGEUCcuwxRDg4nYzDO0qO96n24w
+ bRj6Yci0JMnyxfF88SVSnn1uRmCfDyoppficRj3+I3tDYiCeEM1jTcdtvU+YkDGfBkFrLup9L1T
+ +G20XLENzWH7BvQ==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,28 +79,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
+A few minor fixes to omapdrm, mostly to remove sparse or other checker
+warnings.
 
-The Jenson BL-JT60050-01A is a 7" 1024x600 LVDS display.
+ Tomi
 
-Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- Documentation/devicetree/bindings/display/panel/panel-lvds.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Tomi Valkeinen (3):
+      drm/omap: Fix possible NULL dereference
+      drm/omap: Hide sparse warnings
+      drm/omap: Fix locking in omap_gem_new_dmabuf()
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-index 155d8ffa8f6ef..5af2d69300751 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-@@ -50,6 +50,8 @@ properties:
-           - hannstar,hsd101pww2
-           # Hydis Technologies 7" WXGA (800x1280) TFT LCD LVDS panel
-           - hydis,hv070wx2-1e0
-+          # Jenson Display BL-JT60050-01A 7" WSVGA (1024x600) color TFT LCD LVDS panel
-+          - jenson,bl-jt60050-01a
-           - tbs,a711-panel
- 
-       - const: panel-lvds
+ drivers/gpu/drm/omapdrm/dss/base.c       | 25 ++++++-------------------
+ drivers/gpu/drm/omapdrm/dss/omapdss.h    |  3 +--
+ drivers/gpu/drm/omapdrm/omap_dmm_tiler.c |  6 +++---
+ drivers/gpu/drm/omapdrm/omap_drv.c       |  4 ++--
+ drivers/gpu/drm/omapdrm/omap_gem.c       | 10 ++--------
+ 5 files changed, 14 insertions(+), 34 deletions(-)
+---
+base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
+change-id: 20240806-omapdrm-misc-fixes-2ea920193dde
+
+Best regards,
 -- 
-2.45.2
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
