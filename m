@@ -2,52 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EFA948E3D
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 13:59:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBB5948E75
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 14:08:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBF0310E32D;
-	Tue,  6 Aug 2024 11:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A579410E098;
+	Tue,  6 Aug 2024 12:08:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Prp9mtiM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Po++H5LH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-23.smtpout.orange.fr
- [80.12.242.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3CD410E32D
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 11:59:29 +0000 (UTC)
-Received: from fedora.home ([90.11.132.44]) by smtp.orange.fr with ESMTPA
- id bIqZs62idOGeabIqfs47Hs; Tue, 06 Aug 2024 13:59:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1722945569;
- bh=U1wmPO7Z7uDvQZNVQuE2oZwHbLILE0+Mf/ztBlL3Y7M=;
- h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=Prp9mtiM5plHfJXL5GVci2DPl1AvTEDkTqYeDOstFlrA3VlvCb9SroTXIu6PaLSkm
- 7uibvH2B2qW7S2f4M6stGaBR8RXIusTmY5636yqJp/mJQK1NSMuEZDQc0s3Ylxompr
- wr0dvdIUAll59EQWcD1sEYjQCi0yhb9Wz4Rq58rq8N5iSeJm17dz5So156nWGdVyxG
- I421MuslIUnoh7hZeYOdDjfqyE3P+o0eISFQzCsYJSE7iEHTXmy15yhAIsCYCvaPx8
- kuxSbiJrkxlXr8jZwTl71EZiUQ3ZvmZE6lSq4r4ohTSoiB6zG00g/LchjSaxeglj9I
- Yp4JbXYyFf0Yg==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 06 Aug 2024 13:59:29 +0200
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/dp_mst: Slightly optimize drm_dp_mst_i2c_write() (2/2)
-Date: Tue,  6 Aug 2024 13:59:11 +0200
-Message-ID: <123bc9f79f60de14aad6f46e1c2268cf6f1c27a5.1722945487.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <2705cf4c0df41f335cbe91bfd9984fcd95208788.1722945487.git.christophe.jaillet@wanadoo.fr>
-References: <2705cf4c0df41f335cbe91bfd9984fcd95208788.1722945487.git.christophe.jaillet@wanadoo.fr>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2825210E098;
+ Tue,  6 Aug 2024 12:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1722946130; x=1754482130;
+ h=mime-version:content-transfer-encoding:in-reply-to:
+ references:subject:from:cc:to:date:message-id;
+ bh=S1V02nqUaoyjNuEdgxsvZ5kH8wutgTCmsLH6Pey5JAQ=;
+ b=Po++H5LH8Ra2cWmojpxy7dOAx5zhOP1yedMIB2kxMZW/M44GbDFhp0y8
+ yw7XwjN2E4ho2WcdHpSRQjAgMwUFdIoMwrRjZzIkeIemmv0yfVIdbguzI
+ oD5bhzbu4pR/5U1co6g3HeboigZPErX7jQHnFNS8yDwAkcl2ThlOvNalw
+ 5s7KrncsMXIAXcMQqW05LmXvSAMwP3Waj/+VLxjqh+TB727ZaBPvUIXS9
+ 3RuVw3W8FOmTlsQmSffCeC9RSgE09E4y3BmK2x5UH7b7Mm56pVBt4BMvs
+ 0iZ0qCcdhKn4tM+Td9muDCLNS9Cu4KLnUJi/QDU1wIeXCYim7KrkEukg7 w==;
+X-CSE-ConnectionGUID: VKlakmOZTHG1A8VYe4S5Kw==
+X-CSE-MsgGUID: JsPD7OCRTcKfyDZ+DQsHfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="21105904"
+X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; d="scan'208";a="21105904"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Aug 2024 05:08:49 -0700
+X-CSE-ConnectionGUID: jgCaWL5QTJGw+S2JbgoURQ==
+X-CSE-MsgGUID: qCoQW7X2S4ilZiifII0lhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; d="scan'208";a="61120786"
+Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.66])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Aug 2024 05:08:45 -0700
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ZrHw3y8QKPT87LxP@ashyti-mobl2.lan>
+References: <20240805102554.154464-1-andi.shyti@linux.intel.com>
+ <ZrFMopcHlT6G7p3V@ashyti-mobl2.lan> <2024080640-landfall-doozy-e0d2@gregkh>
+ <ZrHw3y8QKPT87LxP@ashyti-mobl2.lan>
+Subject: Re: [PATCH v2 0/2] Fix mmap memory boundary calculation
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Jann Horn <jannh@google.com>, Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Tue, 06 Aug 2024 15:08:40 +0300
+Message-ID: <172294612086.38654.15621922821489001205@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,43 +80,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'msg' is only used with drm_dp_encode_sideband_req() which takes a
-"const struct drm_dp_sideband_msg_req_body *".
+Quoting Andi Shyti (2024-08-06 12:46:07)
+> Hi Greg,
+>=20
+> same question without the stable mailing list not to trigger the
+> automatic reply.
+>=20
+> > Andi Shyti (2):
+> >   drm/i915/gem: Adjust vma offset for framebuffer mmap offset
+> >   drm/i915/gem: Fix Virtual Memory mapping boundaries calculation
+>=20
+> I have forgotten to actually Cc the stable mailing list here.
+> These two patches need to be merged together even if only the
+> second patch has the "Fixes:" tag.
+>=20
+> I could have used the "Requires:" tag, but the commit id would
+> change in between merges and rebases.
 
-So some initializations can be done only once outside of the for loop.
+The patches were the top two in drm-intel-gt-next and committed
+only few hours ago so I fixed up the patches adding Cc: stable
+and Requires:
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-In case of interest, on x86_64, with allmodconfig, sizeof(*msg) is 420
-bytes.
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Regards, Joonas
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 7bf6157eb3a3..a149ff3f70ad 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -5891,10 +5891,16 @@ static int drm_dp_mst_i2c_write(struct drm_dp_mst_branch *mstb,
- 		ret = -ENOMEM;
- 		goto out;
- 	}
-+
-+	/*
-+	 * 'msg' is not modified by drm_dp_encode_sideband_req(). So
-+	 * some initializations can be done only once.
-+	 */
-+	memset(&msg, 0, sizeof(msg));
-+	msg.req_type = DP_REMOTE_I2C_WRITE;
-+	msg.u.i2c_write.port_number = port->port_num;
-+
- 	for (i = 0; i < num; i++) {
--		memset(&msg, 0, sizeof(msg));
--		msg.req_type = DP_REMOTE_I2C_WRITE;
--		msg.u.i2c_write.port_number = port->port_num;
- 		msg.u.i2c_write.write_i2c_device_id = msgs[i].addr;
- 		msg.u.i2c_write.num_bytes = msgs[i].len;
- 		msg.u.i2c_write.bytes = msgs[i].buf;
--- 
-2.45.2
-
+>=20
+> Is there anything I should still do here? Do you want me to
+> take care and send the backports for kernels starting from 4.19?
+>=20
+> Thanks,
+> Andi
