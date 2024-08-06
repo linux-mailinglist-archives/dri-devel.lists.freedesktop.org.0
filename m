@@ -2,75 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142B19499CF
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 23:03:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213CC949A5F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 23:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F36510E405;
-	Tue,  6 Aug 2024 21:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2BF10E407;
+	Tue,  6 Aug 2024 21:45:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="Pu64VaSP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mlGypOj/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7EF10E405
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 21:03:37 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-1fc56fd4de1so1976845ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 14:03:37 -0700 (PDT)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D971010E40C;
+ Tue,  6 Aug 2024 21:45:05 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id
+ 6a1803df08f44-6bb96ef0e96so6296056d6.2; 
+ Tue, 06 Aug 2024 14:45:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1722978217; x=1723583017;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m2q6pHf2d+29PL7ARSSmco2Uda2QTne6ymuc4cRUvxc=;
- b=Pu64VaSPjiIgdbWgFMF5TaP/UwZ8YGGUbGNuNd4br37lGi4gsWdS3Vxfi/6DrGyHWi
- 7QINuKQ/F0GLXv3VyrYc6rSsLdJJMGuqJfDei6b11HtsTQCQiI9HjLzWL3Df5ViFwsU2
- 7r6J2qVXZKxFKGzNBE476Dd83G/dh8oAMztaBXlH4R0usxWooEToFxEaQEVWdhD5S1jQ
- kXuzDKlPgkxr2DZ+ShqV2XK5xSv0WGzKGAnQ6JptPGBhq/w1J4bdrUP7YFNsiVvGPijn
- m8TnMsnH742J+PMfqdETpUyDUJeHO2GHoRKIH/OwTOh6hp068Pqx8Kl+lN0mhjenmG61
- 0MjA==
+ d=gmail.com; s=20230601; t=1722980704; x=1723585504; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KLSFBItpfPwWFfPLR9boww7jDHN1tVOHaURUpYvMBEE=;
+ b=mlGypOj/y9qsJw6AMFxEfAPEjmPnSntF+2mVp0jHzRl4M6hZ56rQofdsEgc0woNqZr
+ GiDaa6Gve4RLVakVp9F7lxCnD4ey2euUgIy+33eFQd2o5uoi6fWP/V2hRku3ZbqoWgXG
+ POo36E59ZJr8/DtuNl4SMFfll3PBTErGDGTjEjrbn+oPYFvSAVXUlX8xKpO8zEN26Oge
+ i9pDFaUR4pu0HVoPCKXkxrL9rBydJHOwk09SoUQY26hFG4bVu+tLyiXn43THW0WFmM0h
+ 5nRwCd9wm6A+fR6JCKxvoV22NNUdgzdLQZfwA/PAdWoWRNBdIXfDklDdNQwkespTrEWZ
+ D2aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722978217; x=1723583017;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=m2q6pHf2d+29PL7ARSSmco2Uda2QTne6ymuc4cRUvxc=;
- b=BTWaDF+JO5jVeJzRUFIgZ7mE8rHYQMyz99P425LAbBKta2HHZE/3r/urnzxH7IPNHP
- 2glGVOqRqZTOHQJM2BSTktSHp8k7JZf23+bU0bqikexjn3bEDMsvDSY3yyoqf2ypde7Z
- +TO8yRDdjSspHnvLHW+9Wmm2V1VWySUjwO06Vu6QZ6ANi4fsh0ABe8vx0yJD7Fwah7la
- ru9oRXAC97U2OKAZl5auGRqXxTJJ6pZp4R6jqh9KTfft5J6T/XL6C03WfSMpA+mWI40u
- CApZTKVfW/PXsy4nIw/oIrREKuKeFDsNODxbdl2CBlAhT368MX+Lv8xw8FBWEpSpRF2M
- xIWQ==
+ d=1e100.net; s=20230601; t=1722980704; x=1723585504;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KLSFBItpfPwWFfPLR9boww7jDHN1tVOHaURUpYvMBEE=;
+ b=sdhI1y/TRYnIP/JvyU9JTOF97HevZyuAjH2BXjeele7xT48Y0MHxO7/LOSO2ruilM5
+ 5H9bLeZipZGS1JR0ZagR+0RwyN0HcOqxFyVlCRRknkYb/eJPsJ8JmA+z6jDVADvgQPRo
+ E4RAYGztVjCFv3LjuKBnTwOV3/47qtdKDOfYqEi8+t9lD2c96E5nGEg0GJhcK23ioi05
+ 9Ilsbc9OdnqJrCshA0VFcm8+Y0TmU+7l/zzee8IibG87ubFuk+lLtddPLYudTXeCXACs
+ vqfwc35JP3ZXGmCNighy6cyP7x95l0jISnoUlfTUz4n4moc8UQUD70lUd9vKn/hye5Sc
+ 4EEQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXC4fEP1Wn+UGpVApHwmG8EPUHyzECFc/yAHCIe6SfHnZ2Fmio/8eOqACPTyxBvvHHDr6+gMjawp3I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyO8rPToAjqD8fTtBBehjfc6fX7xjy/2F82pQyP0SjDmyPrmW6R
- Ugdf6UHyIv9fWYWXm+kIrFjvkZ18RihDahJOGqBMD4TnFoAQ2jhHcQA/wEWE/fBhNGTkjU0ph5e
- hKwYEf7CUCHlvQD+ntqTREp7altA=
-X-Google-Smtp-Source: AGHT+IHnTsomZEJTNgTr0RHgWmTYrb/mu0Mk5eZcXXey+C/tHk5gZ8CXDzozzaLkZe8gUGsqKmfnGvzIxRoRWUKUOxg=
-X-Received: by 2002:a17:902:f64f:b0:1fb:7654:4a40 with SMTP id
- d9443c01a7336-20085492a0cmr824815ad.14.1722978217049; Tue, 06 Aug 2024
- 14:03:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240730125023.710237-1-jbrunet@baylibre.com>
- <20240730125023.710237-8-jbrunet@baylibre.com>
-In-Reply-To: <20240730125023.710237-8-jbrunet@baylibre.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Tue, 6 Aug 2024 23:03:25 +0200
-Message-ID: <CAFBinCAaZumGU6dOq0RrHRTQV=MejTJ=RW0P_6tQFOG9vybY6g@mail.gmail.com>
-Subject: Re: [PATCH 7/9] drm/meson: dw-hdmi: use matched data
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+ AJvYcCXy1xqQwN6SKR9lLibFsemU020/NyJXUkzJjencG0ryUt63fGXvozhvPRvGfR90OA6f7vmSDeQG8QQY3Y5gAo8chkyM2N97VPbWIXVTjn2Z3riwXhrKLWCws8qk2k5/MB//L//Nhm5ow6jmEtNHdRpZ
+X-Gm-Message-State: AOJu0YwiMsBaEjf7FBvcDE9E+Uz/Py0zmfJ5j+K/as+c6HzESYHiTQSu
+ AGcYJAGnC4h8HErHwhUJfhAiNnI9eUPDVb/e8VMqJZ+xcyEcEmQ4
+X-Google-Smtp-Source: AGHT+IFzOssy1QmsgTWYBcHvTJ6UtXaK9mBa3BKvdzHuAXAXu3NvSanPEiUvUwUK8sWEO6PJLngQLQ==
+X-Received: by 2002:a05:6214:3387:b0:6b0:7eaf:febb with SMTP id
+ 6a1803df08f44-6bb9839db29mr175608146d6.31.1722980704128; 
+ Tue, 06 Aug 2024 14:45:04 -0700 (PDT)
+Received: from localhost ([2607:fea8:52a3:d200:324c:b818:b179:79b])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6bb9c79b875sm50530676d6.49.2024.08.06.14.45.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Aug 2024 14:45:03 -0700 (PDT)
+From: Richard Acayan <mailingradian@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Kevin Hilman <khilman@baylibre.com>, dri-devel@lists.freedesktop.org, 
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Daniel Vetter <daniel@ffwll.ch>, Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH v2 0/4] drm/msm/adreno: Add A615 GPU for SDM670 and Pixel 3a
+Date: Tue,  6 Aug 2024 17:44:54 -0400
+Message-ID: <20240806214452.16406-7-mailingradian@gmail.com>
+X-Mailer: git-send-email 2.46.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +90,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jerome,
+This adds support for the speed-binned A615 GPU on SDM670.
 
-On Tue, Jul 30, 2024 at 2:50=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.com=
-> wrote:
-[...]
-> +       }, {
-> +               .limit =3D 297000,
-> +               .regs =3D gxbb_3g_regs,
-> +               .reg_num =3D ARRAY_SIZE(gxbb_3g_regs)
-Just as a side-note: this looked odd when reading for the first time
-as I thought that it's a typo (and it should be gxbb_2g97_regs - but
-that name is not used).
+Changes since v1 (20240730013844.41951-6-mailingradian@gmail.com):
+- add Acked-by tag (1/4)
+- add OPPs exclusive to some speed bins (3/4)
+- enable GMU by default (3/4)
 
-[...]
-> +static const struct meson_dw_hdmi_speed gxl_speeds[] =3D {
-> +       {
-> +               .limit =3D 371250,
-> +               .regs =3D gxl_3g7_regs,
-> +               .reg_num =3D ARRAY_SIZE(gxl_3g7_regs)
-> +       }, {
-> +               .limit =3D 297000,
-> +               .regs =3D gxl_3g_regs,
-> +               .reg_num =3D ARRAY_SIZE(gxl_3g_regs)
-> +       }, {
-> +               .limit =3D 148500,
-> +               .regs =3D gxl_def_regs,
-> +               .reg_num =3D ARRAY_SIZE(gxl_def_regs)
-this is not consistent with what we have above or below so it either
-needs to be updated or a comment.
-I think this should be called gxl_1g48_regs
+Richard Acayan (4):
+  dt-bindings: display/msm/gmu: Add SDM670 compatible
+  drm/msm/adreno: add a615 support
+  arm64: dts: qcom: sdm670: add gpu
+  arm64: dts: qcom: sdm670-google-sargo: enable gpu
 
-> +       }, {
-> +               .regs =3D gxl_270m_regs,
-> +               .reg_num =3D ARRAY_SIZE(gxl_270m_regs)
-and this should be called gxl_def_regs
+ .../devicetree/bindings/display/msm/gmu.yaml  |   1 +
+ .../boot/dts/qcom/sdm670-google-sargo.dts     |   9 +
+ arch/arm64/boot/dts/qcom/sdm670.dtsi          | 180 ++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c     |  27 +++
+ 4 files changed, 217 insertions(+)
 
+-- 
+2.46.0
 
-
-Best regards,
-Martin
