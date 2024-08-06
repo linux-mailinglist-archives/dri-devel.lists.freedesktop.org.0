@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213CC949A5F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 23:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921EC949A67
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 23:45:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2BF10E407;
-	Tue,  6 Aug 2024 21:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4124B10E416;
+	Tue,  6 Aug 2024 21:45:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mlGypOj/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IRHA8mmp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D971010E40C;
- Tue,  6 Aug 2024 21:45:05 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-6bb96ef0e96so6296056d6.2; 
- Tue, 06 Aug 2024 14:45:05 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49AD110E32A;
+ Tue,  6 Aug 2024 21:45:07 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id
+ a1e0cc1a2514c-8318b4d9539so344222241.2; 
+ Tue, 06 Aug 2024 14:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1722980704; x=1723585504; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KLSFBItpfPwWFfPLR9boww7jDHN1tVOHaURUpYvMBEE=;
- b=mlGypOj/y9qsJw6AMFxEfAPEjmPnSntF+2mVp0jHzRl4M6hZ56rQofdsEgc0woNqZr
- GiDaa6Gve4RLVakVp9F7lxCnD4ey2euUgIy+33eFQd2o5uoi6fWP/V2hRku3ZbqoWgXG
- POo36E59ZJr8/DtuNl4SMFfll3PBTErGDGTjEjrbn+oPYFvSAVXUlX8xKpO8zEN26Oge
- i9pDFaUR4pu0HVoPCKXkxrL9rBydJHOwk09SoUQY26hFG4bVu+tLyiXn43THW0WFmM0h
- 5nRwCd9wm6A+fR6JCKxvoV22NNUdgzdLQZfwA/PAdWoWRNBdIXfDklDdNQwkespTrEWZ
- D2aA==
+ d=gmail.com; s=20230601; t=1722980706; x=1723585506; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ExF0I54rVQ6tXCiWTPMayTxL+v0amgllwXMPlStcwYw=;
+ b=IRHA8mmphfBAPRa8u+qrigPPJWmLpFqTvLV2QAIecQF7sXGaUqcWnoHke9Wukzz6rS
+ HYvd++rVXiuAvn3Fj1MU8cpVGI7+7vdcZnFSCAZxmrexJStBYJTaS8uxJKW7WKs/FJBr
+ roX2v3K3qoUfIIt05UizUBbSVOxvnTaAw2p1/Z2Z0WFHZ9WR6E/fWWP1n+98uKjfN4SQ
+ lPtIGw2WOR5lcqYGcXYkjpGRuaN6haWIUqwz0Tql8pK0HfP+JbRzaULK92tSJ38lBHKQ
+ x6lh9mSQuA89dj/5ofIwJ0NvCsc7VNbB4JjiZlvy13dUf7mznjNAC9yeKa0l+FwanrIw
+ flDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722980704; x=1723585504;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KLSFBItpfPwWFfPLR9boww7jDHN1tVOHaURUpYvMBEE=;
- b=sdhI1y/TRYnIP/JvyU9JTOF97HevZyuAjH2BXjeele7xT48Y0MHxO7/LOSO2ruilM5
- 5H9bLeZipZGS1JR0ZagR+0RwyN0HcOqxFyVlCRRknkYb/eJPsJ8JmA+z6jDVADvgQPRo
- E4RAYGztVjCFv3LjuKBnTwOV3/47qtdKDOfYqEi8+t9lD2c96E5nGEg0GJhcK23ioi05
- 9Ilsbc9OdnqJrCshA0VFcm8+Y0TmU+7l/zzee8IibG87ubFuk+lLtddPLYudTXeCXACs
- vqfwc35JP3ZXGmCNighy6cyP7x95l0jISnoUlfTUz4n4moc8UQUD70lUd9vKn/hye5Sc
- 4EEQ==
+ d=1e100.net; s=20230601; t=1722980706; x=1723585506;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ExF0I54rVQ6tXCiWTPMayTxL+v0amgllwXMPlStcwYw=;
+ b=jNmANlupkeRiKolLNZDgCh4wjiTyv6rAWTz19w2z3fIItHXnvucsEsF0oc191h9tWv
+ 1XV9r3+cM4LW9JRU1pjK6dbkgnQGmvVAVwqa4kwCgpKfiI59LV69g3jeZk3GgKsV1knP
+ yLnmgDqQRfbD4YXV0d3x/04IGB8dOPA11HgY9bfYWb5KUaLr+yHCL0R00DFlJGgZZDFF
+ FIfbALYxo9Fa3MNpVN9B8WPGLitPgNt9zuCP4qp45DUBr+Z28jDuq/lzjU18NOG8ItWx
+ nF42r3gnpbS5xWk7unQCIDv34JHaDAu/im24hJjUAd8jJZnkj9r1NxxGLr5ivlkiwF1J
+ IRRQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXy1xqQwN6SKR9lLibFsemU020/NyJXUkzJjencG0ryUt63fGXvozhvPRvGfR90OA6f7vmSDeQG8QQY3Y5gAo8chkyM2N97VPbWIXVTjn2Z3riwXhrKLWCws8qk2k5/MB//L//Nhm5ow6jmEtNHdRpZ
-X-Gm-Message-State: AOJu0YwiMsBaEjf7FBvcDE9E+Uz/Py0zmfJ5j+K/as+c6HzESYHiTQSu
- AGcYJAGnC4h8HErHwhUJfhAiNnI9eUPDVb/e8VMqJZ+xcyEcEmQ4
-X-Google-Smtp-Source: AGHT+IFzOssy1QmsgTWYBcHvTJ6UtXaK9mBa3BKvdzHuAXAXu3NvSanPEiUvUwUK8sWEO6PJLngQLQ==
-X-Received: by 2002:a05:6214:3387:b0:6b0:7eaf:febb with SMTP id
- 6a1803df08f44-6bb9839db29mr175608146d6.31.1722980704128; 
- Tue, 06 Aug 2024 14:45:04 -0700 (PDT)
+ AJvYcCUF0mFDFy5wdH+nMxVLmEovuC5GUVrtGywtjHGI3vLv7S+2xtakKQ2oKNVgBs6sGioebj3YhJz6eZc3hlG6RFkxPrKWoUOIkuLFTnDY9zygIo20Ts14GJr3CrwXdejGjjY57IYYhm8pi3w6aunrMOqe
+X-Gm-Message-State: AOJu0Yxa6bc7OoGSv9KXeuc/jNl2N+B01t6IxL1BZUQ7XcGQQh2Jnx6Q
+ 17u305QEU5nroTigCHRnD5/sUU+jbPT3HOn3qMb3nPLug3vNapWK
+X-Google-Smtp-Source: AGHT+IGQSk4H+ekGkXPzhj2MglCcmJb8GS9D3JN1uOWjcxRZMa6l9FsPbXeBM6xvTE4w9nbmcmuNHQ==
+X-Received: by 2002:a05:6102:4194:b0:492:a883:e1d with SMTP id
+ ada2fe7eead31-4945bde70cemr21425272137.11.1722980705727; 
+ Tue, 06 Aug 2024 14:45:05 -0700 (PDT)
 Received: from localhost ([2607:fea8:52a3:d200:324c:b818:b179:79b])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6bb9c79b875sm50530676d6.49.2024.08.06.14.45.03
+ 6a1803df08f44-6bb9c7b64b3sm50474396d6.59.2024.08.06.14.45.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Aug 2024 14:45:03 -0700 (PDT)
+ Tue, 06 Aug 2024 14:45:05 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -69,10 +70,12 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v2 0/4] drm/msm/adreno: Add A615 GPU for SDM670 and Pixel 3a
-Date: Tue,  6 Aug 2024 17:44:54 -0400
-Message-ID: <20240806214452.16406-7-mailingradian@gmail.com>
+Subject: [PATCH v2 1/4] dt-bindings: display/msm/gmu: Add SDM670 compatible
+Date: Tue,  6 Aug 2024 17:44:55 -0400
+Message-ID: <20240806214452.16406-8-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240806214452.16406-7-mailingradian@gmail.com>
+References: <20240806214452.16406-7-mailingradian@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,25 +93,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for the speed-binned A615 GPU on SDM670.
+The Snapdragon 670 has a GMU. Add its compatible.
 
-Changes since v1 (20240730013844.41951-6-mailingradian@gmail.com):
-- add Acked-by tag (1/4)
-- add OPPs exclusive to some speed bins (3/4)
-- enable GMU by default (3/4)
+Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ Documentation/devicetree/bindings/display/msm/gmu.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Richard Acayan (4):
-  dt-bindings: display/msm/gmu: Add SDM670 compatible
-  drm/msm/adreno: add a615 support
-  arm64: dts: qcom: sdm670: add gpu
-  arm64: dts: qcom: sdm670-google-sargo: enable gpu
-
- .../devicetree/bindings/display/msm/gmu.yaml  |   1 +
- .../boot/dts/qcom/sdm670-google-sargo.dts     |   9 +
- arch/arm64/boot/dts/qcom/sdm670.dtsi          | 180 ++++++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c     |  27 +++
- 4 files changed, 217 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+index b1bd372996d5..1c055ba64038 100644
+--- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+@@ -91,6 +91,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - qcom,adreno-gmu-615.0
+               - qcom,adreno-gmu-618.0
+               - qcom,adreno-gmu-630.2
+     then:
 -- 
 2.46.0
 
