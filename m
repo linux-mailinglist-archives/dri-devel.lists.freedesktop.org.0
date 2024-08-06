@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC06949920
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 22:30:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414AD949937
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2024 22:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C950910E3FE;
-	Tue,  6 Aug 2024 20:30:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67DD310E3FB;
+	Tue,  6 Aug 2024 20:37:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="bPcEQ0c5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X8YxGWgP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9C010E3FB
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 20:30:54 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-1fc491f9b55so8745025ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Aug 2024 13:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1722976254; x=1723581054;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pGjOP1lRrUIGHHfY/ucyJaa3OokEJdc3Rk3ANgx/cL4=;
- b=bPcEQ0c5HJ8hGYiBBOv4EZoztJlZ5W/fq14FW3+FgPO88/l0iDXXWCX90PLFMADT9b
- 8kXkqiqSo224tXei8OkBcaYApwUtKvu7DXlsPbtER4WXakYiCYwCDEXy1rjdtYoTIFf2
- iNkmp5dbmwrMK+zhslgW8lOfyIsOEfh6sg7XZTJe0NA5vJUR5YrnlCj1bSctgPJkGnGb
- s5pbIL+MQTM2W5yDP3O/HPOczzGUmlRUcXm1Kd0aoEp7ijGEGpD7cGM86gJIHFc8o1uo
- nhYPcqyhK7Px7WQprwe8tb8cYbDDgjBLNkYXMB2TONaBvsWlKWSChgvK4426olIU3GYY
- UjlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1722976254; x=1723581054;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pGjOP1lRrUIGHHfY/ucyJaa3OokEJdc3Rk3ANgx/cL4=;
- b=Jtu/cIOBq+xw6bTUs653ZwnYdpCGASyhhxsPfXPH0JjRinrEZx9pVHvMVs2Hb6B5oB
- crlqstz1KW9f6wCSWkWSmJJnLSopWCgk6TEb7X+N+5RjkXm1+YVUxAzUPy3AN4qd7LxU
- I8npCbdH1QWMA65KLWhwPrwCI8ae5aCf5CtALNgjt7vmxEtx2AsxNz+h53N0tyrNKMKD
- TaSlx90J/1G8ycfjo4fkoGEpGre+g7S8zVxdwfH5E41gRQK1W1oVVj0HO7QQWTW+UTWG
- o3K3skfg7jf23/AoeiP0hLkN/7A3CWUMj4wyn3CEKVaNm2SXBtyzVmgS214Ts0Zpa6sq
- 925g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXMNn7lnW9WKcyDLg8EKam+4esoZ3gLswcOFp/8aOqj9uLcUPBKmknM52uFZAIScYJGGw0H1+zj5iDc2y2yU4z1GFWFJcMnQXDKBM503B5Y
-X-Gm-Message-State: AOJu0Yy+85uTX6XopEyBdYa8EZ3fCG24UR1AW/mvL8ygByACZnIAgry2
- LzrnK5RERVY2GaMKejx+NZ1cNlPPj57VGR46hKFltZhnKFGcT69uK7l0z8JR/tm33b5OSc4YC7j
- b7em8Panuw3IFBxcB1tzeYn+ccfE=
-X-Google-Smtp-Source: AGHT+IEks/oAZa8ntL5YZ2Jy/KZVr3ukaB2BFUAtpfcEpVrc9hTXXkB88UBCo3OXbZXNdpKSoeO+mLzLsyC2xIw91ds=
-X-Received: by 2002:a17:903:18a:b0:1fd:9c2d:2f17 with SMTP id
- d9443c01a7336-1ff573bb69bmr145408745ad.44.1722976253993; Tue, 06 Aug 2024
- 13:30:53 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24DFE10E3FB
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2024 20:37:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 34033CE0AB6;
+ Tue,  6 Aug 2024 20:37:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2EDAC32786;
+ Tue,  6 Aug 2024 20:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1722976642;
+ bh=g7QmdLe9IFWfz7C77+mSFv4ErgmVpHHeVChQmimHYG8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=X8YxGWgP2UMFZzmnwxFTZacJCBIWbq/z7d+2P/PY9Q5HIpRaRo5UUK629pTV5bU+K
+ L3ODKR2S5C8Cly3RBZpnOtbw5A5RD74DNc4Aj4LRaY63F5SOWYn6WNAABfQVNaoSB4
+ FnE3lOClziNlgKZEPEYmJBdLpHfq+tGNeTW7non+xpfZ8H3Lr3TTodHiZ+fYNm7oFa
+ r005iJn+WbIbLd0BIb+hBF88OkmE45EdIBQjJcPcfRT2D2o5UiOYQ/EiQLGXjGO1tH
+ AfKdXhSddmFMc8kSMXFn4WyrWcVQtGQCNAtdpP2AnK1qNaK4TzeqntlXV0d0ds42aS
+ r3Mb4dSi5D2ZA==
+Date: Tue, 6 Aug 2024 13:37:18 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
+ Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH net-next v18 03/14] netdev: support binding dma-buf to
+ netdevice
+Message-ID: <20240806133718.71a53a4f@kernel.org>
+In-Reply-To: <20240805212536.2172174-4-almasrymina@google.com>
+References: <20240805212536.2172174-1-almasrymina@google.com>
+ <20240805212536.2172174-4-almasrymina@google.com>
 MIME-Version: 1.0
-References: <20240730125023.710237-1-jbrunet@baylibre.com>
- <20240730125023.710237-5-jbrunet@baylibre.com>
-In-Reply-To: <20240730125023.710237-5-jbrunet@baylibre.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Tue, 6 Aug 2024 22:30:42 +0200
-Message-ID: <CAFBinCDun9kgPO9ko9seFvWxjZvHwpRO=SaPrdxT1_Yh-FzXVg@mail.gmail.com>
-Subject: Re: [PATCH 4/9] drm/meson: dw-hdmi: fix incorrect comment in suspend
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Kevin Hilman <khilman@baylibre.com>, dri-devel@lists.freedesktop.org, 
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,17 +87,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 30, 2024 at 2:50=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.com=
-> wrote:
->
-> Comment in suspend says TOP is put in suspend, but the register
-> poke following is actually de-asserting the reset, like in init.
->
-> It is doing the opposite of what the comment says.
->
-> Align the comment with what the code is doing for now and add
-> a FIXME note to sort this out later
->
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-(based on public S912 and A311 datasheets)
+On Mon,  5 Aug 2024 21:25:16 +0000 Mina Almasry wrote:
+> +/* Protected by rtnl_lock() */
+> +static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
+
+nit: global variable declarations before any code
+
+> +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	struct netdev_rx_queue *rxq;
+> +	unsigned long xa_idx;
+> +	unsigned int rxq_idx;
+> +
+> +	if (binding->list.next)
+> +		list_del(&binding->list);
+> +
+> +	xa_for_each(&binding->bound_rxqs, xa_idx, rxq) {
+> +		if (rxq->mp_params.mp_priv == binding) {
+> +			rxq->mp_params.mp_priv = NULL;
+> +
+> +			rxq_idx = get_netdev_rx_queue_index(rxq);
+> +
+> +			netdev_rx_queue_restart(binding->dev, rxq_idx);
+
+Throw in a WARN_ON() around this, hopefully we'll get to addressing it
+later..
+
+> +		}
+> +	}
+> +
+> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
+> +
+> +	net_devmem_dmabuf_binding_put(binding);
+> +}
+> +
+> +int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+> +				    struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	struct netdev_rx_queue *rxq;
+> +	u32 xa_idx;
+> +	int err;
+> +
+> +	if (rxq_idx >= dev->real_num_rx_queues)
+> +		return -ERANGE;
+
+If we prevent binding to an inactive queue we should also prevent
+deactivation.
+
+Please take a look at the (two?) callers of
+ethtool_get_max_rxnfc_channel() and ethtool_get_max_rxfh_channel().
+Wrap those into a new function for reading max active channel, and
+take mp binds into account as well (send the refactor separately 
+from the series to avoid making it longer).
+
+> +	rxq = __netif_get_rx_queue(dev, rxq_idx);
+> +	if (rxq->mp_params.mp_priv)
+> +		return -EEXIST;
+> +
+> +	err = xa_alloc(&binding->bound_rxqs, &xa_idx, rxq, xa_limit_32b,
+> +		       GFP_KERNEL);
+> +	if (err)
+> +		return err;
+> +
+> +	rxq->mp_params.mp_priv = binding;
+> +
+> +	err = netdev_rx_queue_restart(dev, rxq_idx);
+> +	if (err)
+> +		goto err_xa_erase;
+> +
+> +	return 0;
+> +
+> +err_xa_erase:
+> +	rxq->mp_params.mp_priv = NULL;
+> +	xa_erase(&binding->bound_rxqs, xa_idx);
+> +
+> +	return err;
+> +}
+
+> +void dev_dmabuf_uninstall(struct net_device *dev)
+> +{
+> +	unsigned int i, count = dev->num_rx_queues;
+
+nit: why stash the value of num_rx_queues ?
+
+> +	struct net_devmem_dmabuf_binding *binding;
+> +	struct netdev_rx_queue *rxq;
+> +	unsigned long xa_idx;
+> +
+> +	for (i = 0; i < count; i++) {
+> +		binding = dev->_rx[i].mp_params.mp_priv;
+> +		if (binding)
+> +			xa_for_each(&binding->bound_rxqs, xa_idx, rxq)
+> +				if (rxq == &dev->_rx[i])
+> +					xa_erase(&binding->bound_rxqs, xa_idx);
+
+nit: Please use "continue", this is too deeply indented
+
+> +	nla_for_each_attr_type(attr, NETDEV_A_DMABUF_QUEUES,
+> +			       genlmsg_data(info->genlhdr),
+> +			       genlmsg_len(info->genlhdr), rem) {
+> +		err = nla_parse_nested(
+> +			tb, ARRAY_SIZE(netdev_queue_id_nl_policy) - 1, attr,
+> +			netdev_queue_id_nl_policy, info->extack);
+> +		if (err < 0)
+> +			goto err_unbind;
+> +
+> +		rxq_idx = nla_get_u32(tb[NETDEV_A_QUEUE_ID]);
+
+How do we know this attribute is present?  NL_REQ_ATTR_CHECK()
+
+> +		err = net_devmem_bind_dmabuf_to_queue(netdev, rxq_idx, binding);
+> +		if (err)
+> +			goto err_unbind;
+> +	}
+> +
+> +	list_add(&binding->list, sock_binding_list);
+> +
+> +	nla_put_u32(rsp, NETDEV_A_DMABUF_ID, binding->id);
+> +	genlmsg_end(rsp, hdr);
+> +
+> +	rtnl_unlock();
+
+nit: for symmetry you should also unlock after list_add(),
+     netlink msg alloc and prep are before rtnl_lock()
+
+> +	return genlmsg_reply(rsp, info);
+> +
+> +err_unbind:
+> +	net_devmem_unbind_dmabuf(binding);
+> +err_unlock:
+> +	rtnl_unlock();
+> +err_genlmsg_free:
+> +	nlmsg_free(rsp);
+> +	return err;
+>  }
+
+> +void netdev_nl_sock_priv_init(struct list_head *priv)
+> +{
+> +	INIT_LIST_HEAD(priv);
+> +}
+> +
+> +void netdev_nl_sock_priv_destroy(struct list_head *priv)
+> +{
+> +	struct net_devmem_dmabuf_binding *binding;
+> +	struct net_devmem_dmabuf_binding *temp;
+> +
+> +	list_for_each_entry_safe(binding, temp, priv, list) {
+> +		rtnl_lock();
+> +		net_devmem_unbind_dmabuf(binding);
+> +		rtnl_unlock();
+> +	}
+> +}
+
+nit: move these before the subsys_initcall.. and what it calls
