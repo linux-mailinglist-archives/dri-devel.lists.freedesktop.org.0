@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE562949BDB
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 01:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9CB949BE7
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 01:10:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D551110E0F7;
-	Tue,  6 Aug 2024 23:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5FD410E14D;
+	Tue,  6 Aug 2024 23:10:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KRo1Yh+M";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aLbLyJxt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A30610E0F1;
- Tue,  6 Aug 2024 23:10:05 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB41210E0F6;
+ Tue,  6 Aug 2024 23:10:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 03AD461069;
+ by sin.source.kernel.org (Postfix) with ESMTP id 871F6CE0FB1;
  Tue,  6 Aug 2024 23:10:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0EC67C4AF1B;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 21795C4AF52;
  Tue,  6 Aug 2024 23:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1722985803;
- bh=Y/65RkebTnQaJk1vPg1V/dSUpJJYPtRYtTmiu8GArpE=;
+ bh=+He+gtxBEfl84UV5f19qlMQcV5CCfyJDOMqxiVvtbII=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=KRo1Yh+MKuM2zphOGYW5HGzc/KIhWNRSVf/+7VfO25MuNFsQrDNXAQbKHrwJEzSQO
- /Gs9jHmiG4IRAnMzVfysvp0g9us4R2yhjf3yYFLCJjkk1UAA0L7HAfV8VEMM/g1OLL
- 8ACRLTePfpM8OdtW3IMjLhwhRp627HZgsPj+Wjz9p78awSL5385MA69s+6GEOSZbAL
- Lb7bgONSqmS/hFdPOqMnwz3XPsIYOj2GC0DOi7wCsBWEL4rEzcJSjInjCTSfejA2LL
- 4RQ5q8bwV0tectV4NJcm5D8rk0JEUBWM77oa3hoy+GetJFKPazFdt2pvF/6Vy/I6GB
- +TcXuL0G6+qiw==
+ b=aLbLyJxtYoDu5TGf0hBkTczCnA5tXznd/CqtRPoDueECJQqPixBgxrK1R6VJU4ALQ
+ wHZifyZwJpUqkcXzqh6ZTUeJXh9uE8lwd+OxU3dU99uZ56ZTSP+q0vSy4QSJktfZ2x
+ /tZyFRY2dnCmPxOfo9NVMRqfVfcLqsZZVeXzBKgqj3BArSKVY8my2wx9g9QVJssTD6
+ gNmwARWq1WXchHb2JkQ5HlE7cifTbfItuWLYcMPM7rUweSS21IVX5l3qCGZP/bNc0S
+ UUfSWuCWYu8/aAQmFYejLcdLA2FzilLeIF0l4Ry824CqiUIGQZq5bXm3UEaPJIRGnc
+ RI9UhDJq7BmUw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id F3CAFC52D7C;
- Tue,  6 Aug 2024 23:10:02 +0000 (UTC)
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 13D5DC52D7D;
+ Tue,  6 Aug 2024 23:10:03 +0000 (UTC)
 From: Daniel Gomez via B4 Relay <devnull+da.gomez.samsung.com@kernel.org>
-Date: Wed, 07 Aug 2024 01:09:18 +0200
-Subject: [PATCH 04/12] drm/xe: xe_gen_wa_oob: fix
- program_invocation_short_name for macos
+Date: Wed, 07 Aug 2024 01:09:19 +0200
+Subject: [PATCH 05/12] accessiblity/speakup: genmap and makemapdata require
+ linux/version.h
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240807-macos-build-support-v1-4-4cd1ded85694@samsung.com>
+Message-Id: <20240807-macos-build-support-v1-5-4cd1ded85694@samsung.com>
 References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
 In-Reply-To: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, 
@@ -76,11 +76,11 @@ Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
  "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com, 
  Daniel Gomez <da.gomez@samsung.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722985800; l=1537;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722985800; l=1496;
  i=da.gomez@samsung.com; s=20240621; h=from:subject:message-id;
- bh=xYJE9WRRAIRv4i+z5sDXuKkMiFQ3KMmcYsQNverwAeg=;
- b=b7BMXAQke1LOkRHzmeWm0G5v1jBPAvdTULfW44FJ1gmeQ2FlQKfG/qqW9uaRzI43lVO8Cvgjq
- vO6Mvk57URgBL7EXOhPLs+fmTIcw6Z85RQzfx1AxgOGdYc6oq2bS1zD
+ bh=D/b2l/ogAQ53pGShlNQZ21O8ea5Cj2WGeFYeW0o1yvE=;
+ b=R4qyiYP+OSMcXzv9ooR7/t6MnLqProoNVp1nlUQ8nIYUNbvpy7GzUbYP6W8c5xRb6Xs1z5qrf
+ NNsKqstejrNCJU8W3NSEixOEN8GSNjVGvk+o0yOAwyi6oB306luifET
 X-Developer-Key: i=da.gomez@samsung.com; a=ed25519;
  pk=BqYk31UHkmv0WZShES6pIZcdmPPGay5LbzifAdZ2Ia4=
 X-Endpoint-Received: by B4 Relay for da.gomez@samsung.com/20240621 with
@@ -104,55 +104,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Daniel Gomez <da.gomez@samsung.com>
 
-Use getprogname() [1] instead of program_invocation_short_name() [2]
-for macOS hosts.
+Both genmap and makemapdata require the linux/version.h header. To
+ensure successful builds on macOS hosts, make sure usr/include is
+included in the HOSTCFLAGS.
 
-[1]:
-https://www.gnu.org/software/gnulib/manual/html_node/
-program_005finvocation_005fshort_005fname.html
+Fixes errors:
+drivers/accessibility/speakup/genmap.c:13:10: fatal error: 'linux/version.h' file not found
+   13 | #include <linux/version.h>
+      |          ^~~~~~~~~~~~~~~~~
+1 error generated.
 
-[2]:
-https://developer.apple.com/library/archive/documentation/System/
-Conceptual/ManPages_iPhoneOS/man3/getprogname.3.html
-
-Fixes build error for macOS hosts:
-
-drivers/gpu/drm/xe/xe_gen_wa_oob.c:34:3: error: use of
-undeclared identifier 'program_invocation_short_name'    34 |
-program_invocation_short_name);       |                 ^ 1 error
-generated.
+drivers/accessibility/speakup/makemapdata.c:13:10: fatal error: 'linux/version.h' file not found
+   13 | #include <linux/version.h>
+      |          ^~~~~~~~~~~~~~~~~
+1 error generated.
 
 Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
 ---
- drivers/gpu/drm/xe/xe_gen_wa_oob.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/accessibility/speakup/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-index 904cf47925aa..079b8870c461 100644
---- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-+++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-@@ -9,6 +9,12 @@
- #include <stdbool.h>
- #include <stdio.h>
- #include <string.h>
-+#define PROG_INV_NAME program_invocation_short_name
-+
-+#ifdef __APPLE__
-+#include <stdlib.h>
-+#define PROG_INV_NAME getprogname()
-+#endif
+diff --git a/drivers/accessibility/speakup/Makefile b/drivers/accessibility/speakup/Makefile
+index 6f6a83565c0d..74ee0c31370f 100644
+--- a/drivers/accessibility/speakup/Makefile
++++ b/drivers/accessibility/speakup/Makefile
+@@ -38,6 +38,7 @@ clean-files := mapdata.h speakupmap.h
+ # Generate mapdata.h from headers
+ hostprogs += makemapdata
+ makemapdata-objs := makemapdata.o
++HOSTCFLAGS_makemapdata.o += -I$(srctree)/usr/include
  
- #define HEADER \
- 	"// SPDX-License-Identifier: MIT\n" \
-@@ -31,7 +37,7 @@
- static void print_usage(FILE *f)
- {
- 	fprintf(f, "usage: %s <input-rule-file> <generated-c-source-file> <generated-c-header-file>\n",
--		program_invocation_short_name);
-+		PROG_INV_NAME);
- }
+ quiet_cmd_mkmap = MKMAP   $@
+       cmd_mkmap = TOPDIR=$(srctree) \
+@@ -51,6 +52,7 @@ $(obj)/mapdata.h: $(obj)/makemapdata
+ # Generate speakupmap.h from mapdata.h
+ hostprogs += genmap
+ genmap-objs := genmap.o
++HOSTCFLAGS_genmap.o += -I$(srctree)/usr/include
+ $(obj)/genmap.o: $(obj)/mapdata.h
  
- static void print_parse_error(const char *err_msg, const char *line,
+ quiet_cmd_genmap = GENMAP  $@
 
 -- 
 Git-146)
