@@ -2,57 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA3194A9C7
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F51B94A9ED
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:19:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA4110E539;
-	Wed,  7 Aug 2024 14:16:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D54AF10E53A;
+	Wed,  7 Aug 2024 14:19:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DWO1bh4D";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U5zk5gh9";
 	dkim-atps=neutral
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDE6310E536;
- Wed,  7 Aug 2024 14:16:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723040196; x=1754576196;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ZyF+qOvsFPL7h7JWPnO742b113SJvysD6Qwn+6M3Gyk=;
- b=DWO1bh4DzRXKYCyVG/IXAUhYTbPdZXX4Uvg6SwjGOZuqdI6FrkIYsIAC
- z3MPSF6FGtoB/c+EDiern+q4TVfRCZkVqCu8u9HSHo+HtMn0uGTmDQNSj
- Z9AvNxYby6N9qRK9aradrtX/uu8sZJEiPeao53BEVRh8CwKKbAfrQPh3Y
- Ynb0WzyeFL9PiRScC8Js+3HjooT9o8EPlYEBgFxkqozjEHiJf1Ez9Idlb
- 0/ihucGCQzNVHoDp55nGISivklw1cIENyQZradR4U+o/EXv5iQQUMCFEV
- TUkh1apkdtN1ZgyUQKoXX/bzRF4eIUvtHxC/WeIbt9NPXRf/Nh6s2NIDr A==;
-X-CSE-ConnectionGUID: Jv5BeYhkRRaEb3rQ1yD+WQ==
-X-CSE-MsgGUID: IrOjlhRLQlSDckw5SGAsvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="20990635"
-X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; d="scan'208";a="20990635"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 07:16:36 -0700
-X-CSE-ConnectionGUID: t1us7xQTSYukxSwtGiIQ9g==
-X-CSE-MsgGUID: QIb9XRKTT76Q1dANTfPOtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; d="scan'208";a="56535269"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO intel.com)
- ([10.245.245.8])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 07:16:34 -0700
-Date: Wed, 7 Aug 2024 15:16:30 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: John.C.Harrison@intel.com
-Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/dg2: Enable Wa_14019159160 for DG2
-Message-ID: <ZrOBvjetl9jK2NW5@ashyti-mobl2.lan>
-References: <20240806005719.215874-1-John.C.Harrison@Intel.com>
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 942D110E54B;
+ Wed,  7 Aug 2024 14:19:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 81B97CE0C0B;
+ Wed,  7 Aug 2024 14:18:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 195CBC32781;
+ Wed,  7 Aug 2024 14:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1723040337;
+ bh=ruDqzUJIFxwXUEMKpcoMsTtq7dxHLYVF5qNLHuT7WR0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=U5zk5gh9o70xsm2UVa6IfL8qN12x9njGZIBv0jZ3z+jxdrm5r2WLPJyND2hRPeQqd
+ HwGNHZj0N7EF2rGxX6UVf73Ha9LqL9Oa4e99gWOAxHHulWR/VKE7z89Lw+8QFpxLLQ
+ JWzbgxoyn4h4VkwhM102ef4o4CoiVq7Hhvmexoog=
+Date: Wed, 7 Aug 2024 16:18:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Daniel Gomez <da.gomez@samsung.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ William Hubbs <w.d.hubbs@gmail.com>,
+ Chris Brannon <chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Jiri Slaby <jirislaby@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "speakup@linux-speakup.org" <speakup@linux-speakup.org>,
+ "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+ "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+ Finn Behrens <me@kloenk.dev>,
+ "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
+ "gost.dev@samsung.com" <gost.dev@samsung.com>
+Subject: Re: [PATCH 08/12] include: add elf.h support
+Message-ID: <2024080720-skyline-recapture-d80d@gregkh>
+References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
+ <20240807-macos-build-support-v1-8-4cd1ded85694@samsung.com>
+ <CGME20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c@eucas1p2.samsung.com>
+ <2024080717-cross-retiree-862e@gregkh>
+ <dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240806005719.215874-1-John.C.Harrison@Intel.com>
+In-Reply-To: <dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,16 +91,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi John,
-
-On Mon, Aug 05, 2024 at 05:57:19PM -0700, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
+On Wed, Aug 07, 2024 at 02:13:57PM +0000, Daniel Gomez wrote:
+> > Also, as this is not internal for the kernel, but rather for userspace
+> > builds, shouldn't the include/ path be different?
 > 
-> The context switch hold out workaround also applies to DG2.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Can you suggest an alternative path or provide documentation that could help
+> identify the correct location? Perhaps usr/include?
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+That is better than the generic include path as you are attempting to
+mix userspace and kernel headers in the same directory :(
 
-Thanks,
-Andi
