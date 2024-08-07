@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1326B94B166
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0018294B168
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80ED610E5D9;
-	Wed,  7 Aug 2024 20:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A57B10E5DB;
+	Wed,  7 Aug 2024 20:34:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ljEav19u";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WhBGuXFw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF0110E5D4;
- Wed,  7 Aug 2024 20:33:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5AE610E5DB;
+ Wed,  7 Aug 2024 20:34:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Ya9gcaLrGulr+6DjIR4TfXSktCC/LhUClx2Mf8MpT9M=; b=ljEav19uVIcd+e39a753Ej5tsS
- zWg4htx7F7ExuzrsSaFp5wgh94lzcnUJuainjCKBsuHFUwkqunzDs0HXGti9P07bS7gdoxABdcpLC
- mt9mq6o+ce8I9CP+cbRkUDTJJ/0/fbtaP3qO1DI+pSNsxe8jS7p2J9F1Q6faTcN3F0aY5oEQJuG5u
- RvZml5ORxl9xhGR1z5rwMuj77zaZp8q57E5WX2DiBNaOiKQ60F8s8ZEeyrawWv/DSLXRTyycHBffY
- 7M3+zAUmtPCGyUxfFZRlGKjbbfSHKzZLIt0Hq09tBwdOvjDISccj7V0gcylusGZM+dLPF+7Qsq1e7
- 8RUcNh6Q==;
+ bh=2oznv3Ez+S8FpnVYWMc/B3ah3gE7uNGOgSh2JyBPm+c=; b=WhBGuXFw4wxrZyX8La+Rf13il3
+ nx7ttM8ZMmewLEzHCrZny9DTa5PmhCIRzBO/o1M3p/8FF2IidqDqyjxuAN25dk3om+WVccYdfgNof
+ RRcVTybhUveRvXKKOu6V4/lIRCTA1+oxcnVN2SStc8zAGaG33B5Q+LkDCi21KYT1IZZNP+BhOxAqS
+ SmlHOVtx4WdsSb/tCf4wxOlNr3iSD78pnoB/FDFTNy8VYRKanvMbP/WLfx4W+NYyus94IEXcvwqOW
+ VsnoSPU3i/cgB0Ve+iAXVlQVrm17cIz94vfWp3cnAZtWrCnb/qO+8rbZKSkfcjTWpdussbOU81Zq0
+ tHapD/5Q==;
 Received: from [189.6.17.125] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sbnLy-0098Re-Uh; Wed, 07 Aug 2024 22:33:51 +0200
+ id 1sbnM3-0098Re-R8; Wed, 07 Aug 2024 22:33:56 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
@@ -41,10 +41,9 @@ Cc: Alex Hung <alex.hung@amd.com>,
  Jani Nikula <jani.nikula@linux.intel.com>, kernel-dev@igalia.com,
  Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 5/9] drm/amd/display: use drm_edid_product_id for parsing
- EDID product info
-Date: Wed,  7 Aug 2024 19:25:07 -0100
-Message-ID: <20240807203207.2830-6-mwen@igalia.com>
+Subject: [PATCH v5 6/9] drm/amd/display: parse display name from drm_eld
+Date: Wed,  7 Aug 2024 19:25:08 -0100
+Message-ID: <20240807203207.2830-7-mwen@igalia.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240807203207.2830-1-mwen@igalia.com>
 References: <20240807203207.2830-1-mwen@igalia.com>
@@ -65,110 +64,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since [1], we can use drm_edid_product_id to get debug info from
-drm_edid instead of directly parsing EDID.
-
-[1] https://lore.kernel.org/dri-devel/cover.1712655867.git.jani.nikula@intel.com/
+We don't need to parse dc_edid to get the display name since it's
+already set in drm_eld which in turn had it values updated when updating
+connector with the opaque drm_edid.
 
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 37 ++++++++++---------
- 1 file changed, 19 insertions(+), 18 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 2e07ce2e89f4..1e454cfcaef2 100644
+index 1e454cfcaef2..89ffd36dafd3 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -45,16 +45,15 @@
- #include "dm_helpers.h"
- #include "ddc_service_types.h"
- 
--static u32 edid_extract_panel_id(struct edid *edid)
-+static u32 edid_extract_panel_id(struct drm_edid_product_id *product_id)
- {
--	return (u32)edid->mfg_id[0] << 24   |
--	       (u32)edid->mfg_id[1] << 16   |
--	       (u32)EDID_PRODUCT_ID(edid);
-+	return (u32)be16_to_cpu(product_id->manufacturer_name) << 16 |
-+	       (u32)le16_to_cpu(product_id->product_code);
+@@ -32,7 +32,7 @@
+ #include <drm/amdgpu_drm.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_fixed.h>
+-
++#include <drm/drm_eld.h>
+ #include "dm_services.h"
+ #include "amdgpu.h"
+ #include "dc.h"
+@@ -77,6 +77,7 @@ static void apply_edid_quirks(struct drm_edid_product_id *product_id, struct dc_
+ 	}
  }
  
--static void apply_edid_quirks(struct edid *edid, struct dc_edid_caps *edid_caps)
-+static void apply_edid_quirks(struct drm_edid_product_id *product_id, struct dc_edid_caps *edid_caps)
- {
--	uint32_t panel_id = edid_extract_panel_id(edid);
-+	uint32_t panel_id = edid_extract_panel_id(product_id);
++#define AMDGPU_ELD_DISPLAY_NAME_SIZE_IN_CHARS 13
+ /**
+  * dm_helpers_parse_edid_caps() - Parse edid caps
+  *
+@@ -118,9 +119,10 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 	edid_caps->manufacture_week = product_id.week_of_manufacture;
+ 	edid_caps->manufacture_year = product_id.year_of_manufacture;
  
- 	switch (panel_id) {
- 	/* Workaround for some monitors which does not work well with FAMS */
-@@ -94,6 +93,8 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- {
- 	struct amdgpu_dm_connector *aconnector = link->priv;
- 	struct drm_connector *connector = &aconnector->base;
-+	const struct drm_edid *drm_edid = aconnector->drm_edid;
-+	struct drm_edid_product_id product_id;
- 	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
- 	struct cea_sad *sads;
- 	int sad_count = -1;
-@@ -109,13 +110,13 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- 	if (!drm_edid_is_valid(edid_buf))
- 		result = EDID_BAD_CHECKSUM;
- 
--	edid_caps->manufacturer_id = (uint16_t) edid_buf->mfg_id[0] |
--					((uint16_t) edid_buf->mfg_id[1])<<8;
--	edid_caps->product_id = (uint16_t) edid_buf->prod_code[0] |
--					((uint16_t) edid_buf->prod_code[1])<<8;
--	edid_caps->serial_number = edid_buf->serial;
--	edid_caps->manufacture_week = edid_buf->mfg_week;
--	edid_caps->manufacture_year = edid_buf->mfg_year;
-+	drm_edid_get_product_id(drm_edid, &product_id);
-+
-+	edid_caps->manufacturer_id = le16_to_cpu(product_id.manufacturer_name);
-+	edid_caps->product_id = le16_to_cpu(product_id.product_code);
-+	edid_caps->serial_number = le32_to_cpu(product_id.serial_number);
-+	edid_caps->manufacture_week = product_id.week_of_manufacture;
-+	edid_caps->manufacture_year = product_id.year_of_manufacture;
- 
- 	drm_edid_get_monitor_name(edid_buf,
- 				  edid_caps->display_name,
-@@ -123,7 +124,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+-	drm_edid_get_monitor_name(edid_buf,
+-				  edid_caps->display_name,
+-				  AUDIO_INFO_DISPLAY_NAME_SIZE_IN_CHARS);
++	memset(edid_caps->display_name, 0, AUDIO_INFO_DISPLAY_NAME_SIZE_IN_CHARS);
++	memcpy(edid_caps->display_name,
++	       &connector->eld[DRM_ELD_MONITOR_NAME_STRING],
++	       AMDGPU_ELD_DISPLAY_NAME_SIZE_IN_CHARS);
  
  	edid_caps->edid_hdmi = connector->display_info.is_hdmi;
  
--	apply_edid_quirks(edid_buf, edid_caps);
-+	apply_edid_quirks(&product_id, edid_caps);
- 
- 	sad_count = drm_edid_to_sad((struct edid *) edid->raw_edid, &sads);
- 	if (sad_count <= 0)
-@@ -909,9 +910,9 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 	 * do check sum and retry to make sure read correct edid.
- 	 */
- 	do {
--
- 		drm_edid = drm_edid_read_ddc(connector, ddc);
- 		drm_edid_connector_update(connector, drm_edid);
-+		aconnector->drm_edid = drm_edid;
- 
- 		/* DP Compliance Test 4.2.2.6 */
- 		if (link->aux_mode && connector->edid_corrupt)
-@@ -929,14 +930,14 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
- 		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
- 
--		/* We don't need the original edid anymore */
--		drm_edid_free(drm_edid);
--
- 		edid_status = dm_helpers_parse_edid_caps(
- 						link,
- 						&sink->dc_edid,
- 						&sink->edid_caps);
- 
-+		/* We don't need the original edid anymore */
-+		drm_edid_free(drm_edid);
-+
- 	} while (edid_status == EDID_BAD_CHECKSUM && --retry > 0);
- 
- 	if (edid_status != EDID_OK)
 -- 
 2.43.0
 
