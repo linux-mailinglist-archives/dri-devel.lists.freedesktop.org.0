@@ -2,83 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6CB94B187
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D0294B1B7
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 23:02:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6BB910E20C;
-	Wed,  7 Aug 2024 20:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9501D10E20A;
+	Wed,  7 Aug 2024 21:02:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Bb/ufnk2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="CAANFnGM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5929A10E20C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 20:40:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1723063247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NuT7wPEgPegJMdZEEQjcUmkz4FbQk34dp23i6B4YFbM=;
- b=Bb/ufnk2XD9i866XW1ip5xypTf6HjwpmvKbHDTLKY194Rwyg6ghxPHueiXIEDC0xkIiaF6
- iYMQcwon0djtW6CfUKshqVX2pu9ucCQHymz3wWsbhHkf5EDsyTc07NZ3ix8Wt6leDzeGwF
- +xraer4WVCP9fWc8vxrSBdoFzR68bA0=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-247-qjKBbCxzOvWVfA1qSnjMmQ-1; Wed, 07 Aug 2024 16:40:45 -0400
-X-MC-Unique: qjKBbCxzOvWVfA1qSnjMmQ-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-650b621f4cdso5082917b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 13:40:45 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE25410E20A
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 21:02:39 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a7a9a7af0d0so32519566b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 14:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1723064557; x=1723669357;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cTYXAHlyuGK4qJh3GSpiuZskKn2nz6H+kdyrHKoET5c=;
+ b=CAANFnGM+S3IOhXaFEdSLe6rVdC8aCVWXtVCBqM+8HkjXjI7FPH537mBLD0UaG4Acc
+ Idoy10LUD6NE5A5Bmyn7b76PJwLDcv/7cGpShxKa2exz78+xI/i4aLQD5xhWQNtvBjJ4
+ wvxhHo84SU1dHwtObO3dVdwOgQS6USWFHO9KI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723063245; x=1723668045;
+ d=1e100.net; s=20230601; t=1723064557; x=1723669357;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NuT7wPEgPegJMdZEEQjcUmkz4FbQk34dp23i6B4YFbM=;
- b=ELZT1+mK0FPX3CsbhQJBCi3GV7r2IpOtQ/08e1SSSwglpktNW3FpIA6obplu95XNxa
- 3cUZHz4WFy6eH+p1FmJtQPqht5AhHRo6LofvAoFidIx8fur/3Vc30Hy2F+y2UNSZxb69
- EUxyZzGsKQUukVM441wJOD4/2vYocvp40ItWRMkpflVCXzg3P42aN3BFTTQt7gt2bsd1
- +YGsZLFBt9fYHOq4HEv194J1AY/ZgVSJOk05tieejzMwMrJ6E5ryKAWDe9kGnajq05tc
- 2SjlTAtZJJdmsL1aFwOLh9k90/2DyWw4KF9L0FMDmQwSVimaD++EoLJwhOxTB4OV9uV4
- sa/Q==
+ bh=cTYXAHlyuGK4qJh3GSpiuZskKn2nz6H+kdyrHKoET5c=;
+ b=h2RJhVC4LpU7q0Le26mSqRz+UFd4rFxC43H5QXc0sVF+eoWOL5IWespgUFztiQnqJH
+ keAjwHsXAG2c8nyJ+Q/2WFzTigsOZKzmArYiTHEsup6H94ldORwQHtx3OpViZ9qqGiBZ
+ ADchLns7a2t/DLStzG4ha6tWAwyZH8mK5a9pwulEo17VMSwkFy68meGtyZm5SgHmQ7tH
+ A4VZtlIfBCsU0nKmrQbHGx2FIGP7Ofo74AZsi4fLDaI2JHKFuRIBq4/IzRnXChYWbiKe
+ 6YeM/ftC1QE8/x3j8rGFylFX9E6zN5/6ViIKPtmfuumaczye+wu2oDkSk6PmoLqIYNuo
+ 7v4g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXHIpulXFjnvlAMsACy2lD5s61s/9XDKjv7zYh92+votJTPFd0wXAtvu2DXJY4Yirh32KbiUxX7Ed5l8JZxa9rK1mMs46XBlx1FAXTBlqkN
-X-Gm-Message-State: AOJu0Yy6IgtvoSg03BCSQSsF5qZRTlUP7K3hQsZuqqByMfgnFkFnUTtA
- 94Ab/Uc8HJ8+2lvQvvv868E/E0GWGtGu/rnkOtLu3NHT6VAPpcgII3PfsTssashuIPB1EBXD4Fh
- ZA2E4uSaBvy1gJU6v9kCeOpDG4Sey7YreSYZZUMksTJEAOm3x5V/wpefuTQfZrLs1AwVikSmnl4
- 7irnQVStld+9/2YNXflGVFSTJAajf3oSgX7bR9zWBq
-X-Received: by 2002:a05:6902:108f:b0:e0b:e6da:83f2 with SMTP id
- 3f1490d57ef6-e0be6da8570mr20071289276.22.1723063245078; 
- Wed, 07 Aug 2024 13:40:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7o6e1QQzQm+QZaPjztNenu/RRqVV+1JEdYvx5ZzNxvqvMPsnDM1pqizaWMoZmY8u96PT7o6OULbbwhXo7QHM=
-X-Received: by 2002:a05:6902:108f:b0:e0b:e6da:83f2 with SMTP id
- 3f1490d57ef6-e0be6da8570mr20071263276.22.1723063244750; Wed, 07 Aug 2024
- 13:40:44 -0700 (PDT)
+ AJvYcCU/jyih2Bas+4lL/n1wRrAFjYy4aPVClP0iv8ZSZg8yzUCRyMTHJq9/xoe1ALC8/+c425Rq+Y2VwJ+98loxk+8eB6MIcnLpUweW5LEEN6e9
+X-Gm-Message-State: AOJu0YwwIgIMkXEzJf/BdWHJEqDopwxMS72OWeOmqZAMDS6BlzGoWkLx
+ 8jKNU6X6Y7qhGUUXmPZDRQgWQ4i2ml7q1cZ/F2pVZsvekhebVn97u7hGHd97gSrnVOeRjKOoggR
+ mCw==
+X-Google-Smtp-Source: AGHT+IHZjIMrcnoX81FZ7yn/qwoE4EwNKXkYZpxRZ4fu6x2ltSELVX5IznUGOZVcoWLJguI7BIV+bA==
+X-Received: by 2002:a17:907:804:b0:a7a:b9dd:7762 with SMTP id
+ a640c23a62f3a-a7dc509885bmr1335257666b.42.1723064557087; 
+ Wed, 07 Aug 2024 14:02:37 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
+ [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a7dc9ec8cd5sm667157066b.213.2024.08.07.14.02.36
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Aug 2024 14:02:36 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-427fc9834deso19955e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 14:02:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUAouu7R8bJsoirw2RdHD4YlzA2IV+3H77lOUdUUWs9d6jh9c8rOjudWCx9E7ymy0m2dZd3p9XQTVUcWcbnaVjxL7NMBWXkmWL5mIbH1IIH
+X-Received: by 2002:a05:600c:a4f:b0:426:6e95:6ea7 with SMTP id
+ 5b1f17b1804b1-42909cdf292mr410945e9.0.1723064555426; Wed, 07 Aug 2024
+ 14:02:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240807083018.8734-2-pstanner@redhat.com>
- <20240807202431.GA110503@bhelgaas>
-In-Reply-To: <20240807202431.GA110503@bhelgaas>
-From: David Airlie <airlied@redhat.com>
-Date: Thu, 8 Aug 2024 06:40:31 +1000
-Message-ID: <CAMwc25q+SnSBFfuKcmw8W39CmsLn4V0ZCuuSbkGTc961WRGhoQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] PCI: Deprecate pcim_iomap_regions() in favor of
- pcim_iomap_region()
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Philipp Stanner <pstanner@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Bjorn Helgaas <bhelgaas@google.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20240624185345.11113-1-michael@amarulasolutions.com>
+ <CAOf5uwkhThmTEuhYAxAgLqg86PEHJ49wWp67RahVhio=O2OfQw@mail.gmail.com>
+In-Reply-To: <CAOf5uwkhThmTEuhYAxAgLqg86PEHJ49wWp67RahVhio=O2OfQw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 7 Aug 2024 14:02:18 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W9=Ynhgi3nrfuM47rz053iWTvsEhhQFkZ5xp_bmwzmLA@mail.gmail.com>
+Message-ID: <CAD=FV=W9=Ynhgi3nrfuM47rz053iWTvsEhhQFkZ5xp_bmwzmLA@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/panel: synaptics-r63353: Fix regulator unbalance
+To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,110 +94,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 8, 2024 at 6:33=E2=80=AFAM Bjorn Helgaas <helgaas@kernel.org> w=
-rote:
->
-> On Wed, Aug 07, 2024 at 10:30:18AM +0200, Philipp Stanner wrote:
-> > pcim_iomap_regions() is a complicated function that uses a bit mask to
-> > determine the BARs the user wishes to request and ioremap. Almost all
-> > users only ever set a single bit in that mask, making that mechanism
-> > questionable.
-> >
-> > pcim_iomap_region() is now available as a more simple replacement.
-> >
-> > Make pcim_iomap_region() a public function.
-> >
-> > Mark pcim_iomap_regions() as deprecated.
-> >
-> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
->
-> The interesting part of this little series is in ast_drv.c, but there
-> may be similar conversions for other drivers coming as well.
->
-> To avoid races during the merge window, I propose merging this via the
-> PCI tree so I can ensure that any other conversions happen after
-> pcim_iomap_region() becomes public.
->
-> That would require an ack from Dave.  But if you'd rather take this
-> yourself, Dave, here's my ack for the PCI piece:
->
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Hi,
 
-I'm fine with it going in via pci.
-
-Acked-by: Dave Airlie <airlied@redhat.com>
-
-Dave.
-
+On Wed, Aug 7, 2024 at 5:39=E2=80=AFAM Michael Nazzareno Trimarchi
+<michael@amarulasolutions.com> wrote:
 >
+> Hi Doug
+>
+> +cc Doug
+>
+> I have seen that you have done some re-working and investigation on
+> drm stack, do you have some
+> suggestion on this case?
+>
+> On Mon, Jun 24, 2024 at 8:53=E2=80=AFPM Michael Trimarchi
+> <michael@amarulasolutions.com> wrote:
+> >
+> > The shutdown function can be called when the display is already
+> > unprepared. For example during reboot this trigger a kernel
+> > backlog. Calling the drm_panel_unprepare, allow us to avoid
+> > to trigger the kernel warning
+> >
+> > Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
 > > ---
-> >  drivers/pci/devres.c | 8 ++++++--
-> >  include/linux/pci.h  | 2 ++
-> >  2 files changed, 8 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-> > index 3780a9f9ec00..89ec26ea1501 100644
-> > --- a/drivers/pci/devres.c
-> > +++ b/drivers/pci/devres.c
-> > @@ -728,7 +728,7 @@ EXPORT_SYMBOL(pcim_iounmap);
-> >   * Mapping and region will get automatically released on driver detach=
-. If
-> >   * desired, release manually only with pcim_iounmap_region().
-> >   */
-> > -static void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
-> > +void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
-> >                                      const char *name)
-> >  {
-> >       int ret;
-> > @@ -761,6 +761,7 @@ static void __iomem *pcim_iomap_region(struct pci_d=
-ev *pdev, int bar,
-> >
-> >       return IOMEM_ERR_PTR(ret);
-> >  }
-> > +EXPORT_SYMBOL(pcim_iomap_region);
-> >
-> >  /**
-> >   * pcim_iounmap_region - Unmap and release a PCI BAR
-> > @@ -783,7 +784,7 @@ static void pcim_iounmap_region(struct pci_dev *pde=
-v, int bar)
-> >  }
-> >
-> >  /**
-> > - * pcim_iomap_regions - Request and iomap PCI BARs
-> > + * pcim_iomap_regions - Request and iomap PCI BARs (DEPRECATED)
-> >   * @pdev: PCI device to map IO resources for
-> >   * @mask: Mask of BARs to request and iomap
-> >   * @name: Name associated with the requests
-> > @@ -791,6 +792,9 @@ static void pcim_iounmap_region(struct pci_dev *pde=
-v, int bar)
-> >   * Returns: 0 on success, negative error code on failure.
-> >   *
-> >   * Request and iomap regions specified by @mask.
-> > + *
-> > + * This function is DEPRECATED. Do not use it in new code.
-> > + * Use pcim_iomap_region() instead.
-> >   */
-> >  int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *nam=
-e)
-> >  {
-> > diff --git a/include/linux/pci.h b/include/linux/pci.h
-> > index 4cf89a4b4cbc..fc30176d28ca 100644
-> > --- a/include/linux/pci.h
-> > +++ b/include/linux/pci.h
-> > @@ -2292,6 +2292,8 @@ static inline void pci_fixup_device(enum pci_fixu=
-p_pass pass,
-> >  void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned long =
-maxlen);
-> >  void pcim_iounmap(struct pci_dev *pdev, void __iomem *addr);
-> >  void __iomem * const *pcim_iomap_table(struct pci_dev *pdev);
-> > +void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
-> > +                                    const char *name);
-> >  int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *nam=
-e);
-> >  int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
-> >                                  const char *name);
-> > --
-> > 2.45.2
-> >
->
+> > It's not obviovus if shutdown can be dropped or this problem depends
+> > on the display stack as it is implmented. More feedback is required
+> > here
 
+In general the shutdown should be dropped and it should be up to the
+display driver to do the shutdown. If your panel needs to be used with
+a DRM Modeset driver that doesn't properly call shutdown then the
+ideal solution would be to fix the DRM Modeset driver. If this is
+somehow impossible, I suspect folks would (begrudgingly) accept some
+other solution.
+
+From a super quick look, I see:
+
+* This panel seems to be used upstream by "imx8mn-bsh-smm-s2-display.dtsi"
+
+* In "imx8mn.dtsi" I see "lcdif" is "fsl,imx6sx-lcdif".
+
+* "fsl,imx6sx-lcdif" seems to be handled by "drivers/gpu/drm/mxsfb/mxsfb_dr=
+v.c"
+
+* Previously I determined that "mxsfb-drm" was indeed calling
+drm_atomic_helper_shutdown() properly [1]
+
+...so it seems like just dropping the shutdown handler in this panel is cor=
+rect.
+
+
+[1] https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f=
+746b93621749c@changeid
+
+-Doug
