@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3774C94AA3D
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:36:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F1594AA41
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C56F510E53F;
-	Wed,  7 Aug 2024 14:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD3710E547;
+	Wed,  7 Aug 2024 14:36:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gvTS9O8e";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DFtmsGQz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 338A310E53F
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 14:35:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F22C910E547
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 14:36:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 091CACE0CF3;
- Wed,  7 Aug 2024 14:35:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73585C32781;
- Wed,  7 Aug 2024 14:35:55 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 85CE7CE0FBB;
+ Wed,  7 Aug 2024 14:36:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F71C32781;
+ Wed,  7 Aug 2024 14:36:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723041355;
- bh=Mu4Pr/o3D28voKoB0/q6RFp3ksd1ak1ZInXnz4zV1Ms=;
+ s=korg; t=1723041390;
+ bh=PzchHwjViK0zNXGHDGhjWRq6SeTT6Q/kcIk0zA1KjQw=;
  h=Subject:To:Cc:From:Date:From;
- b=gvTS9O8eco6lzsmTSJKoYGmdC8BTs7e7LFg/an2J03N1vWErahdKxwH55YCv8uHaq
- c7oQVfMzRBN2eUynwSP578VhJ35Yz49u479Q1l+GG/7CuUq7zC4Or6px2u3mq0wZSd
- 7Y0t+2JCwk+G3ZUHFxnBvQ71v/udaYz57fTHBaGw=
+ b=DFtmsGQzqietUiffmxR+4MNNjmDrd0a1dYx/0Pyw/9m+3tS2QsTLe4v5C9Q9IMUhV
+ sFiTYc3T1zqXhGwzg1a6d9XrZ59j46PDHSU9CreSbqmpOfaiNdZrP4NdJ1BGpQwfGl
+ NU2opi8xtPPoMahnxzK2CfufM3Kao9d7aOHsfxTk=
 Subject: Patch "drm/vmwgfx: Fix a deadlock in dma buf fence polling" has been
- added to the 5.15-stable tree
+ added to the 6.1-stable tree
 To: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, maaz.mombasawala@broadcom.com,
  martin.krastev@broadcom.com, zack.rusin@broadcom.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Wed, 07 Aug 2024 16:35:30 +0200
-Message-ID: <2024080730-finer-unarmored-67b0@gregkh>
+Date: Wed, 07 Aug 2024 16:35:43 +0200
+Message-ID: <2024080743-onlooker-revenue-05d5@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/vmwgfx: Fix a deadlock in dma buf fence polling
 
-to the 5.15-stable tree which can be found at:
+to the 6.1-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-vmwgfx-fix-a-deadlock-in-dma-buf-fence-polling.patch
-and it can be found in the queue-5.15 subdirectory.
+and it can be found in the queue-6.1 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -123,7 +123,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	struct vmw_private *dev_priv;
  	spinlock_t lock;
  	struct list_head fence_list;
-@@ -127,13 +126,13 @@ static void vmw_fence_obj_destroy(struct
+@@ -124,13 +123,13 @@ static void vmw_fence_obj_destroy(struct
  {
  	struct vmw_fence_obj *fence =
  		container_of(f, struct vmw_fence_obj, base);
@@ -142,7 +142,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	fence->destroy(fence);
  }
  
-@@ -260,7 +259,6 @@ static const struct dma_fence_ops vmw_fe
+@@ -257,7 +256,6 @@ static const struct dma_fence_ops vmw_fe
  	.release = vmw_fence_obj_destroy,
  };
  
@@ -150,7 +150,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  /*
   * Execute signal actions on fences recently signaled.
   * This is done from a workqueue so we don't have to execute
-@@ -363,7 +361,6 @@ static int vmw_fence_obj_init(struct vmw
+@@ -355,7 +353,6 @@ static int vmw_fence_obj_init(struct vmw
  		goto out_unlock;
  	}
  	list_add_tail(&fence->head, &fman->fence_list);
@@ -158,7 +158,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  out_unlock:
  	spin_unlock(&fman->lock);
-@@ -411,7 +408,7 @@ static bool vmw_fence_goal_new_locked(st
+@@ -403,7 +400,7 @@ static bool vmw_fence_goal_new_locked(st
  				      u32 passed_seqno)
  {
  	u32 goal_seqno;
@@ -167,7 +167,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	if (likely(!fman->seqno_valid))
  		return false;
-@@ -421,7 +418,7 @@ static bool vmw_fence_goal_new_locked(st
+@@ -413,7 +410,7 @@ static bool vmw_fence_goal_new_locked(st
  		return false;
  
  	fman->seqno_valid = false;
@@ -180,5 +180,6 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
 
-queue-5.15/drm-vmwgfx-fix-a-deadlock-in-dma-buf-fence-polling.patch
-queue-5.15/drm-vmwgfx-fix-overlay-when-using-screen-targets.patch
+queue-6.1/drm-vmwgfx-trigger-a-modeset-when-the-screen-moves.patch
+queue-6.1/drm-vmwgfx-fix-a-deadlock-in-dma-buf-fence-polling.patch
+queue-6.1/drm-vmwgfx-fix-overlay-when-using-screen-targets.patch
