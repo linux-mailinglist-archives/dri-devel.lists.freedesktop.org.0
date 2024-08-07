@@ -2,19 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EF794B12F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:22:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A54494B128
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:21:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 260FF10E5CA;
-	Wed,  7 Aug 2024 20:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E63B10E5BD;
+	Wed,  7 Aug 2024 20:21:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=fjasle.eu header.i=@fjasle.eu header.b="VoD7yIAF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=fjasle.eu header.i=@fjasle.eu header.b="Hgcni6Ox";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 970 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Aug 2024 15:26:14 UTC
 Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A44B10E57B;
- Wed,  7 Aug 2024 15:46:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0FF10E18A;
+ Wed,  7 Aug 2024 15:26:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu; 
  s=ds202307;
  h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
@@ -23,19 +25,19 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gTBEyTDuyGP0OwM2Ld19qm72seDeAonZbOXn4FPGBmg=; b=VoD7yIAF6OddXxsFn+ETucVMrt
- yoQoZo3iAK4Ih3BVYRNmEkN/d0yY1Yf+7yuBwFJh8sCS/byabUEpstH6LD4XxaJe6XRM+7Heizz27
- BgrVIrYLfcsPVV58Lv9H/Zej2YP7ff6lP/MmM/VMOw1QfWJ0LUTxbXdb7m7a8gCzfU6rNuRV7rDrb
- rqFoljkaPwUr8ZC9zHRYgHXTbfnld33EoA0p9Mehk9hbdRizvTYv7POkmihfqHUvni12N2Wr20yIm
- bes95SD99UmlPITXumWSnNpCiiDx3MCTWqY9+EdJY5UFfG8smsRx82sZpwcdH8z51MGHUdd/MuMdj
- c5ye7pYw==;
-Received: from [2001:9e8:9f8:5201:3235:adff:fed0:37e6] (port=35732
+ bh=8p+8xkYytY0kAtRIiarGiLqc+3CeFPeAk9BYp1+Be+o=; b=Hgcni6Ox2D8FDaPA4MfcZbKN6U
+ 9lLSq3Q7GUU3+GllOyhCeZHbJA0tL14j23d4QDpMTl4w/aXYprIt1HdcW/FwqeS04X0pozycGo8im
+ ZG7XpFmgej1m1/Wx1k4TniZ4dzo4Zke7LDpuRIaTpB7yIjPjLjTnZHh5hvzoqvtxxNPxlV14qvR9h
+ 6JOTX9FjdEiSNbs9g4oD/BRv04kpaHEALD2ttmeHLVEVftdyLZ6JtwnavADmeYTL2jzkNEuhkuB7A
+ aHsxYe0qWQ1MMw1F3+LCEHGCE8aeFHNlPAHElLODPwPnr9hrxMTSLQUbpM7aq1d8KhP01oubv1FeU
+ 03Wqun1A==;
+Received: from [2001:9e8:9f8:5201:3235:adff:fed0:37e6] (port=36192
  helo=lindesnes.fjasle.eu)
  by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <nicolas@fjasle.eu>) id 1sbiGJ-009XOB-UK;
- Wed, 07 Aug 2024 17:07:40 +0200
-Date: Wed, 7 Aug 2024 17:07:16 +0200
+ (envelope-from <nicolas@fjasle.eu>) id 1sbiW1-009bha-HL;
+ Wed, 07 Aug 2024 17:23:53 +0200
+Date: Wed, 7 Aug 2024 17:23:27 +0200
 From: Nicolas Schier <nicolas@fjasle.eu>
 To: da.gomez@samsung.com
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
@@ -68,16 +70,15 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>,
  selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  kvmarm@lists.linux.dev, linux-serial@vger.kernel.org,
  llvm@lists.linux.dev, Finn Behrens <me@kloenk.dev>,
- "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
- gost.dev@samsung.com, Nick Desaulniers <nick.desaulniers@gmail.com>
-Subject: Re: [PATCH 01/12] scripts: subarch.include: fix SUBARCH on MacOS hosts
-Message-ID: <20240807-mighty-crazy-dove-3dc8a5@lindesnes>
+ "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com
+Subject: Re: [PATCH 02/12] kbuild: add header_install dependency to scripts
+Message-ID: <20240807-witty-warm-hummingbird-20c9a7@lindesnes>
 References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
- <20240807-macos-build-support-v1-1-4cd1ded85694@samsung.com>
+ <20240807-macos-build-support-v1-2-4cd1ded85694@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240807-macos-build-support-v1-1-4cd1ded85694@samsung.com>
+In-Reply-To: <20240807-macos-build-support-v1-2-4cd1ded85694@samsung.com>
 X-Mailman-Approved-At: Wed, 07 Aug 2024 20:21:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,46 +95,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 07, 2024 at 01:09:15AM +0200, Daniel Gomez via B4 Relay wrote:
-> From: Nick Desaulniers <nick.desaulniers@gmail.com>
+On Wed, Aug 07, 2024 at 01:09:16AM +0200, Daniel Gomez via B4 Relay wrote:
+> From: Daniel Gomez <da.gomez@samsung.com>
 > 
-> When building the Linux kernel on an aarch64 MacOS based host, if we don't
-> specify a value for ARCH when invoking make, we default to arm and thus
-> multi_v7_defconfig rather than the expected arm64 and arm64's defconfig.
+> Export kernel headers necessary for the tools located in scripts/. This
+> ensures kernel headers are generated before building scripts/selinux.
 > 
-> This is because subarch.include invokes `uname -m` which on MacOS hosts
-> evaluates to `arm64` but on Linux hosts evaluates to `aarch64`,
+> Kernel headers required for building are: asm/types.h, asm/bitsperlong.h
+> and asm/poix_types.h.
 > 
-> This allows us to build ARCH=arm64 natively on MacOS (as in ARCH need
-> not be specified on an aarch64-based system).
-> 
-> Utilize a negative lookahead regular expression to avoid matching arm64.
-> 
-> Add a separate expression to support for armv.* as per error reported by
-> Nicolas Schier [1].
-> 
-> [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
-> 
-> Signed-off-by: Nick Desaulniers <nick.desaulniers@gmail.com>
 > Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
 > ---
->  scripts/subarch.include | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/scripts/subarch.include b/scripts/subarch.include
-> index 4bd327d0ae42..5d84ad8c0dee 100644
-> --- a/scripts/subarch.include
-> +++ b/scripts/subarch.include
-> @@ -6,7 +6,8 @@
->  
->  SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
->  				  -e s/sun4u/sparc64/ \
-> -				  -e s/arm.*/arm/ -e s/sa110/arm/ \
-> +				  -e s/armv.*/arm/ \
-> +				  -e s/arm\(?:\(?!64\).*\)/arm/ -e s/sa110/arm/ \
->  				  -e s/s390x/s390/ \
->  				  -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
->  				  -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/ \
-> 
+> diff --git a/Makefile b/Makefile
+> index 44c02a6f60a1..7ac079955a94 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1173,7 +1173,7 @@ include/config/kernel.release: FORCE
+>  # Carefully list dependencies so we do not try to build scripts twice
+>  # in parallel
+>  PHONY += scripts
+> -scripts: scripts_basic scripts_dtc
+> +scripts: headers_install scripts_basic scripts_dtc
+>  	$(Q)$(MAKE) $(build)=$(@)
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+Since commit 59b2bd05f5f4 ("kbuild: add 'headers' target to build up
+uapi headers in usr/include", 2019-06-04), composing the user-space
+header tree is separated from the actual installation to
+$(INSTALL_HDR_PATH)/include.  Thus, you do not want to depend in
+'headers_install' but on 'headers' instead.
+
+Nevertheless, I am suspecting that this leads to trouble.  E.g.: if
+scripts/* include $(objtree)/usr/include/asm/*.h this will probably
+break cross-arch-building.
+
+Kind regards,
+Nicolas
