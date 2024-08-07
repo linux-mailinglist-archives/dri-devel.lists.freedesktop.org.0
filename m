@@ -2,163 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C6494A90E
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 15:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE1294A94C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:03:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEF3910E529;
-	Wed,  7 Aug 2024 13:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9D3F10E52E;
+	Wed,  7 Aug 2024 14:03:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="I333yx/J";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wms3qKcd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2072.outbound.protection.outlook.com [40.107.94.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AED9F10E531;
- Wed,  7 Aug 2024 13:52:55 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C543610E100;
+ Wed,  7 Aug 2024 14:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723039403; x=1754575403;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=B5L/MlxNaB+ZZ5ptarqLxs9e0rNb8YUp4NWwSS38P9o=;
+ b=Wms3qKcdK3nylm0qEFID5bG3Tv+56zdMEIADpguFLuOwWxdfdG9wB+pQ
+ w6DVDyZrRMkcV0VpOuwqDOVY8kYT0UY4k/sBdAax96oe8oZdkAL7aqbCU
+ qBNReHNq6/ke4Frc+W5MV8c1XThUJbpyNPy4kQ5gmYaQlaW39at2J5YN0
+ /ily5IU9Uevw0VzabXmyHQkAGxRDpgmFAMZrhEM0RF7/zcW/mV4m3OwZx
+ 4FYqwUPJDDaT1GnHPgFouX6gBVwxwuey8FU//Q+Ft62y0EatPziS4GEV1
+ EVhsph1mMd8eEaI2PTK0sEdwsj2mwLX7j0fc85I89PcBpXXL9rRl+gyn9 Q==;
+X-CSE-ConnectionGUID: 0G6I6w5PSYGzvE9Fv1u/2Q==
+X-CSE-MsgGUID: bXk5ORm7RK6H8BxsItO8+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="32497588"
+X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; d="scan'208";a="32497588"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2024 07:03:22 -0700
+X-CSE-ConnectionGUID: mVLm1iq/SbOKXH/Gw5EVWw==
+X-CSE-MsgGUID: wigxOjPNRhiSpDcOtCKoyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; d="scan'208";a="87527650"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 07 Aug 2024 07:03:22 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 7 Aug 2024 07:03:21 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 7 Aug 2024 07:03:21 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 7 Aug 2024 07:03:21 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 7 Aug 2024 07:03:21 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ig5wfp8A57r+LZRs6s3wOrOaBqzGCncBDhJD8Kh1GnR+KPxhhl/rZX+2b/Y2MVq4dMEmG+2SANv+56GmTIS2xMzjWePgfFvykcpLqmjhYuwe8QiyX+Xe0jF13WXyxcFkAJUvvdClvmYevRBU7VAo6qbkDMoLE0hCtNaWk/lW/BmIMi5vyi1Je2CujB84xuQ5cQc8Uk/ynDfdFmbIixKNyKlY0bQgHhuEFhXBRj/FgXVG++JSeTNHFXCV8//DmDRMcUnFm44hJYXyqiIFfuMphngsbonHO2pMr4zmBkzTq21pxGlNvI6Ob7uTnAro9FXGEKpTJUmGjbPdO9n+hDYBEA==
+ b=BE9D+hovJ3sew7+TD40Ux7QThiTu1ALRDTXscBNCCIYNb+GXoRTt8vb+idTisiWSlNEm1irxqanXacNS2olj92TqYt5+3EQf9oXcTcRXfwYDYhN9cd5ZJPWamGhkaZUeeMY2EWsjhf8oWTomJk4/JaafR5E/ntFveu0FKF0u7fqJOXy+HQoxdJzIR9rGxei3dJZmYaRquU2fhITxUC3Y16yi490RGpjmjWMFVSsO1Bnf0HPvHqEqacsT7q6xgwtsuKnnO22v1z+xwjWbyB8jIqI1LAzUzEsn4TEN+GQE6gBzKT7om6wPtoOUBDZKGi8AE/YWMxq/kamytSGuwr9UZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YWWQFfZ3wEsrp5gqm2XGfXrjz8wMzTfIfE7fEFuJViQ=;
- b=ElQeksDrWVY+O9nrIPqfK2tCMJxD1+3dg08HguVIYQbyWAVT6nu9pFcSSXYCvSXLSVVoJBsoIv8o5zERUbFtpB8j0rXeFQsIrnCHzK2i8jhW2qzXqDqVmF1nagTFnCOVid7R4VhyOKfzp5q7/b4dpO5VntkKp0pVbbqvxfMEWdOYxL3t4Z/HEHoqsTTdRBES3VYJdG88MNHK3I5LCaO6QZaHtGfTgIxFTVZHSRuJTAD61lkEJmMqkf2+97up+JpuYC0K9A4mbvPWpzUdIPJT959UgmUTCmVyXdo8UndWJn7I+AsJZxPDsHbJ+3fcu/KwHMvLIGSf4G68fYanj6QM4Q==
+ bh=UnZ0/zdl5YbtKKAS60EdDarv/w/rK7Sui3jHuCLuCjw=;
+ b=FF9RMZZNIkcO5wkBQlcjqrW5Ofz8O/+Eh1SLcgZ1ESomto3ADn2MotOKnuKLtodx+toj/Qy6Xrsxch67KgeRMs0pLksFM0LtNqivVQ9Qq/U4+pS43LdiEPVtS2kBaULCOErkbKSwAGrdPmSZfgadXP8e/vShjdnOrUM4wdj0S3hIzkK0XIs9IFjXqktlnwiPHGz9RlsBvzAZANF94qbocFdJl9mIEaU728YdgkSlkPupc/CSziIdX2bmRJuO3fYufSf32N0uJh3RIV9I2kvdYYS/f4jqsgyQK4kWNxLBmW5Jbk8Hq/g+Qf/yYERWu9FEShY/c51i8JqUFYKltx6KhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YWWQFfZ3wEsrp5gqm2XGfXrjz8wMzTfIfE7fEFuJViQ=;
- b=I333yx/JgBH1s3FpmNoHbnFFrVtYkAcnzfSIuP4XJ9V0z7b1Va9GhkdPSn8idFySGXxNwkTGphu2+JjUkA41OCJR4L+aczEzxSVPnOKP9KJvA2gEP7QDzTBHj7bTyIkW+ro5HT8CiNYZrOEPk8AYAxVCcUvZRQscfyHvCvRO+zQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5311.namprd12.prod.outlook.com (2603:10b6:5:39f::7) by
- SN7PR12MB7154.namprd12.prod.outlook.com (2603:10b6:806:2a5::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Wed, 7 Aug
- 2024 13:52:53 +0000
-Received: from DM4PR12MB5311.namprd12.prod.outlook.com
- ([fe80::a846:49eb:e660:1b5b]) by DM4PR12MB5311.namprd12.prod.outlook.com
- ([fe80::a846:49eb:e660:1b5b%3]) with mapi id 15.20.7849.008; Wed, 7 Aug 2024
- 13:52:53 +0000
-Message-ID: <dde7f328-3e38-48fb-83b6-f7daacf04b79@amd.com>
-Date: Wed, 7 Aug 2024 09:52:49 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Revert "drm/amd/display: add panel_power_savings
- sysfs entry to eDP connectors"
-To: Mario Limonciello <superm1@kernel.org>,
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org
-Cc: Sebastian Wick <sebastian@sebastianwick.net>,
- Xaver Hugl <xaver.hugl@gmail.com>, Simon Ser <contact@emersion.fr>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Hung <alex.hung@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>, Roman Li <roman.li@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>, Wayne Lin
- <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240806184214.224672-1-sebastian.wick@redhat.com>
- <20240806184214.224672-2-sebastian.wick@redhat.com>
- <0141fd24-ee8e-4d19-a93c-11e8d54b093a@kernel.org>
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com (2603:10b6:610:d3::13)
+ by CY5PR11MB6368.namprd11.prod.outlook.com (2603:10b6:930:38::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Wed, 7 Aug
+ 2024 14:03:17 +0000
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::5f89:ba81:ff70:bace]) by CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::5f89:ba81:ff70:bace%6]) with mapi id 15.20.7828.023; Wed, 7 Aug 2024
+ 14:03:17 +0000
+From: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx
+ <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>
+CC: "Niemiec, Krzysztof" <krzysztof.niemiec@intel.com>, "Cavitt, Jonathan"
+ <jonathan.cavitt@intel.com>
+Subject: RE: [PATCH] drm/i915/gem: Improve pfn calculation readability in
+ vm_fault_gtt()
+Thread-Topic: [PATCH] drm/i915/gem: Improve pfn calculation readability in
+ vm_fault_gtt()
+Thread-Index: AQHa6LcJjuvKArcA5k60Bp1MFtQh37Ib0zWA
+Date: Wed, 7 Aug 2024 14:03:17 +0000
+Message-ID: <CH0PR11MB5444A31E20E25BCC1E36AD70E5B82@CH0PR11MB5444.namprd11.prod.outlook.com>
+References: <20240807104553.481763-1-andi.shyti@linux.intel.com>
+In-Reply-To: <20240807104553.481763-1-andi.shyti@linux.intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Leo Li <sunpeng.li@amd.com>
-In-Reply-To: <0141fd24-ee8e-4d19-a93c-11e8d54b093a@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4PR01CA0322.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10a::11) To DM4PR12MB5311.namprd12.prod.outlook.com
- (2603:10b6:5:39f::7)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH0PR11MB5444:EE_|CY5PR11MB6368:EE_
+x-ms-office365-filtering-correlation-id: f3d769c9-f265-4764-1fac-08dcb6e9b010
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?iWWrfKqcUiMoxghzeWkRCBmNK++s7L50YNMJfZYP/fdPVJEojl11KtqFX85W?=
+ =?us-ascii?Q?xZ+0BNo+5Jeq2O7nitnaMkD8R4bcizliBD3FTUyKiakJWGqcCRmVCKiDGnAn?=
+ =?us-ascii?Q?LGD1J416vZisYAwPpFVbjCHQ5Zp6Fp2aZZTLtmzJyMs4DG5cLj0TcEUsbfUr?=
+ =?us-ascii?Q?x5K8b3D/3mxSq/FSRNeqfLo3em/BCmaK0o/PH5d2zZy88juOA9DgDM6LM+W+?=
+ =?us-ascii?Q?gnaCkP2CFQnU3fF97Gl/VZj1iV8RKhLqPyD3shA6MvsNfFS94XFx7OrlFJfD?=
+ =?us-ascii?Q?uAxCiovLO5rzMjDzuACQw5iC0vvgi2QH2X/F5Jy8QnBbw8NbNm7H1HZzrl8l?=
+ =?us-ascii?Q?NMKWi3pufLAXgpGGXBLOHIuRLJOEmzfnrzjjII3ZFNDbGJ5Md5HrcjQYeuan?=
+ =?us-ascii?Q?DKNIkfv61fzjcDCTRY4s7DMK25c59kvVaGB2hL7ExtjsioiQbNMiFdBDU6Lw?=
+ =?us-ascii?Q?Km3g11SN2hep2KgDzGQNFuJ4plzauNSLXmQ4f7bDxRdhzXiii8hrPdBECXWh?=
+ =?us-ascii?Q?kW6O7qBkxK3bBsEMO0bEO0iRksQxqGOG7B2WrWU2LdxgwSqZiJB2Vk5EMZtC?=
+ =?us-ascii?Q?6JxMfcJQvNoB1/ZhwW7dMF9lh1w0pVHwIHi0IoHmIf6enPWK2qlWpnQgZfDp?=
+ =?us-ascii?Q?gVhcE9ymtQbgMh5ztktcmtFp0bgCCC3MqxAraSKuOvs8BoMiKPb7/mFXAvv7?=
+ =?us-ascii?Q?j4rgOKZzf0oTJgjHRceorBIGjG2TRYdfbKNRG6TWorHp+L4wwUsRzWAbkgK/?=
+ =?us-ascii?Q?h5WVWOTXpWzotUqcyP41ZopxxyWSaqXIBoXr3EN+oxI8tmLZ6421wMfuxYyU?=
+ =?us-ascii?Q?7fyZjDI9EiRKVgdiypewYx3w+C9otlHsb5WbwviCDpaZAXSGIhNWsPDzByd2?=
+ =?us-ascii?Q?/wakoo7iaXwratJr0JCEsMA7TmGp8a5vYsq+oeNY6zGMdJZ6PcyhSEIuLYxS?=
+ =?us-ascii?Q?yPt+hflrQLDNszB+FO2xgLlfFSskLUl/tiY7GrPLi4SLlGp9K2uAwns2lkbj?=
+ =?us-ascii?Q?KJpA8bqPVE0uAa2q8t7H+1z1EnNe7tplBCYQPAXjctSETLISIy2QTpFt7Yuu?=
+ =?us-ascii?Q?JccSzJM7xSO/cblY11ygPhfxGQe3nM4fun/O8N7Re94ZxnBQqBoF1qoE6JsV?=
+ =?us-ascii?Q?ynUGmxhlAOli8nfnXBvcbnCS/GrX9VG8N+aia4slzOsek/N/NyW/Zp59pl4h?=
+ =?us-ascii?Q?8y1HOguBOgR7+SUpTunHvnzir2o6TYHRN3hLKcmvXs/syLJIxMyKF5wS5XJT?=
+ =?us-ascii?Q?4Yas/7/yLkpzdYccDvlEKMJtayNEJsVCOfcOHQmBKRJoTvNBpMVjcznv4Kr1?=
+ =?us-ascii?Q?4YKTc5+rleKlVZoyZdtCxU/nWqdsXJ64v6o6N3dnZ/XBKmHJie+w+SPKdN7s?=
+ =?us-ascii?Q?LVO3qXxOL2rQEwFQA/V8Tm5iYtbPDyMJAbHSYY3lZqVgOa6KqQ=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR11MB5444.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?9dugtqCa5eSnXzdybwPuAg0kaxumsfoAHiT/u2DVVxf3H5RofmcROpoNRDzq?=
+ =?us-ascii?Q?lk27jiKg25Ka+GhgSh29ScYr8K2AYw/8uOTolUOS8JfVGAfpVo5zMW9vnE1r?=
+ =?us-ascii?Q?pDk7OPHeLAqyhN/rrCBQcEjD6Bsrz0j7er/x2FTtIW65kJQjTlyp3ez7uKtz?=
+ =?us-ascii?Q?ZIk3juv2MQf5IMavuZY574MnSA9FrwdB8/mt8YNrUxasi224/Rk24m5V6WDD?=
+ =?us-ascii?Q?vDoysj91/mDuX3EbqQIqy8REpuBggbwEy1SEne6ll9VhSqlrhjlTPVFq2/b6?=
+ =?us-ascii?Q?xZzSurYDz3EUmrjVgVkPq11dFzkw1Jixud2OD0KfPOWuZzxT0PMEO7WlKs8V?=
+ =?us-ascii?Q?lyxm9uw6kFtzu2XwpvfViON2hLGfi0NHvpfs+gaKI8P3UuCyYzQLS3+rcKy/?=
+ =?us-ascii?Q?0iVjWQC+QcGBnnBtjio7qtH1n+y0QTr5GNROGuLrSUS2HXb1qpP00pW8fxNf?=
+ =?us-ascii?Q?nT02FrUqZ9pZW1ctSd22eV/nXBwDCF4tc/RBc8y+uKaUNrOfOFSsdRSyeOOp?=
+ =?us-ascii?Q?9Qn/2EdlM8OIMTX9qCVXRqpyITa69etho8PsytwTswV+NWUs6Wmy4ZHIWc7e?=
+ =?us-ascii?Q?lgC+5rTXrNCpWTU/sEt1ulBqr3N/7AaR7/cewg4075QmRchJufvq/dlWq9XI?=
+ =?us-ascii?Q?HrNQFcSkPS3x99t327U+VXCXaF5Ct3N/qHfccTkcEnC7TEvaIexmdvO5RZze?=
+ =?us-ascii?Q?VMVkLS2o9+c1qGA1y/emgiQeFXghXjZZaer4SAJglw+WNmxUH+kN11TBmM3E?=
+ =?us-ascii?Q?rSPm3U41RMsvM5SiQv1dILqqfr1v/Xf9+gxrWKsICzF8rY0y4pOQ20C8w5bk?=
+ =?us-ascii?Q?cBpoo3glDaV/FmJjsvcfIRTt9d47Ix7AHwPzA+e7oRXHRYoY51FgEppm8xfj?=
+ =?us-ascii?Q?sPcOkDGwB7I1EXikEgSKLC8a8T4ZWIVhpb6LE8UxZG6X2Lbt4zwNSbM81hbu?=
+ =?us-ascii?Q?oIFjr1XSjmez4K+cwk+q3CSsKk9O2cjCYfD2OvAJ5GI5zo6LI+8yKwM6AIv0?=
+ =?us-ascii?Q?Yj46aXApMqPuKizC00aeOiQZBfZ7J5Uy9fL7I0QEO/dFoJU0W3JVMBtGiKbj?=
+ =?us-ascii?Q?hdlHRtaUCtNp887/kdEKionCqDPQkDiTCsb5VsVxNE81bP7FtzkACbV4d5lK?=
+ =?us-ascii?Q?e5vhv6wHCBvvO9d8s8JQ+dFOxtPkqWbLnwp8yJxnYj0p83aK5vI9TWKtw0tJ?=
+ =?us-ascii?Q?NKU41lqLsvZCbizHm2L5ChdEJadtTMd5kpZy8nI4OAdsuFoqDOkEezQM+ncB?=
+ =?us-ascii?Q?X41PqnfTzIHj6kamBGco6nASIxuZPvhZbm/GJgJRJJSwxUaSivVmeDJU1vfk?=
+ =?us-ascii?Q?V43Oo0Zd+GUmLiKNqQoeMH6vmuG6IxJg4YG7tYtTwwyJfZ16Tnnm3Db6Hj9x?=
+ =?us-ascii?Q?6n91deEnu6YoWcpdX38XvVkiFKD9cW0KudVX/wLf204OlPPPzqRmpbm1y4rB?=
+ =?us-ascii?Q?/nCyTGA8H5T1iYXGuvvIaUiD984p1eGGbNRK82kdzoonyY6YhVndw2RW7hCC?=
+ =?us-ascii?Q?8uuU+Yuy3MJneuFQ8F0gd6qBKDIKQfsBa4XtykFNNMuLjxQAIfHtLSrdWukc?=
+ =?us-ascii?Q?Rmj31iyAXEeppGfx4x4cmBZ1gkwH2TjhXCQpl5C6?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5311:EE_|SN7PR12MB7154:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01166446-51aa-4950-a871-08dcb6e83b86
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TTIyVDhuYlpKNWlIMFdTNmJkbG5pbUhXRVl1OWRqWUZkZUVHVUJNTmxSSnVC?=
- =?utf-8?B?YlluYmYvYzl3YVFlbnFLdE0za1VxYXJLRHA3NHhXOTdYNExIQ2NUYXhEYnZy?=
- =?utf-8?B?RzJYS01xQkJYa0g2Y2dNclhRMmlmbFFxTHl4YmFYNnowVStBNmx6bnk2VFY4?=
- =?utf-8?B?b0N6cTVSOWIvNTZTU1JaZ1JWTzltN1ZibEV4ZG4xclZ0R0kxODNJSG83WVZV?=
- =?utf-8?B?bU9qY0NpcG1lT2g1MkpRTWcrbTQxTjFpSnhwdEhXRUlJTmV0T2tIaS9Nb25x?=
- =?utf-8?B?REhyaHdISTRrQjluZlF2MnJNYlNVL21zWUhGS2JNVGJ1NSt5OWkzSHBKbWZ1?=
- =?utf-8?B?Y2lPalB2WXhnL2laMXdZYzVSRU9zLzRkTXFRb3o3SnBoTnh2K05OVFZXOFRz?=
- =?utf-8?B?Zmc2Qkx3Zm9DeVk0WGlBY1RWai93MDFQbFlPSWhXbXVwZ0t0cDB5TURoMEM2?=
- =?utf-8?B?SExsQkRxdlgrOWdmbTBhUUtENGhiV2ZscXpGalBCWDBGaTEwMUN5U2VRK3lk?=
- =?utf-8?B?dFJZdkVza2FYeVlHTkJsNGpNWFE2R1RQbkovNWF4MG1JOUs1dVVCb0s0eGcz?=
- =?utf-8?B?bnI2QW9FSXorajFRZms2NnNEMjBGdEZIOEwxVko4ZWwwM3BpdkVFcklYMUdP?=
- =?utf-8?B?RWJLbWxDdWlmUnhoWUQ5RlNCRTVWbmhJck40M085Mk5KMHkycUF3eU90U3NW?=
- =?utf-8?B?VkcwY3FKQ09vRTRQTlZyUnhYZTJISXN2UXpIQXZpTWJwYjBiUWZOa0VpcXlM?=
- =?utf-8?B?OEZTU1NmVTZGOCtJVHdpcnpVbUJRcVBqSDdRUms1Qmt4SXVTaUU0ZkR5UE01?=
- =?utf-8?B?NkUwTm1VeXA4TmNjaEVUa05sbTBCd1FCMjdhd1FvYVJiYzdnRlllN09EVjJ3?=
- =?utf-8?B?UStSdDY1RHZKaDVoODB5TGFlWUlyOTFkaG1VdWVHeWV5SkpiNmdHSEoyM3J6?=
- =?utf-8?B?RTZ1a3RGbUp1UStpYS9xQ05SRllBUXJLSEV5bzFmbENscFFrMDJNamVmNnVU?=
- =?utf-8?B?Wmd2OGlTdnNCVmFZWnZCWWtmWTZ0SlI2aitoNTExSjFLd2hwVXZ5NGU3T1Fm?=
- =?utf-8?B?NTZYOWIzZ3J0cmNDTWE1dy96ZzZlN2sxdlcvVkxCcEJpT2I3V1lYMHZSUHYv?=
- =?utf-8?B?MEtFbjhpVlJhZDFnNVVFV1RQdUppTlhFSGNob3k0TGdYS2VxREJFRmZHTVlQ?=
- =?utf-8?B?aXBZbDIrUTBJeFhFVEVkK1o1Zk44Z003WW1aS1FSYktzWVA5dzZ6bHgxZ0o5?=
- =?utf-8?B?OTlSZ3dDbmlXb0xQOGt4Qlk1eEVCMFZoWUs4dGNvbnVnM1hiUDgxV2Nrd05q?=
- =?utf-8?B?Y1Vlc0ZFSVJLRWRxMnJuTHQ2c1Y5dWpwR25CdThsYXVvQ2N3L2dvQ3JxRmNp?=
- =?utf-8?B?c0Fvdy9WazYzb3FJTzNYbi9rZTNDODdxa3l3RnZOdGtGR01vSXFwbEdZNmNr?=
- =?utf-8?B?LzVOUWk0QmhKbG5yd3ViTS9HTTdQL25laU4rWDlaTFptMTh1WkVPbXZjL0RQ?=
- =?utf-8?B?V3F3VHdzZDRjQ28yNVR4YTJIM3pJUU13UnREb0UyZkxVdWpnN09sT2xxaHFG?=
- =?utf-8?B?dlRPK0phZitUWW5JWS9ITk9SOGZjT3owV2tMMzNFMFpJandYSXdCYlB3a0U0?=
- =?utf-8?B?MVNqeE9CM0luMWJUbXZOeUczOXZzR2FCd0ZVbGhyMWppemUzbDU5dS9kQjNw?=
- =?utf-8?B?N0RoYWQ0MUt4YXhzOW9acytXUHd4UkdWbncySlN1Z1hIVWRsT29JZlVGNis4?=
- =?utf-8?Q?3SNvSikqltnPg2O8aY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5311.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UHRkQVZFWlRzS0huVTIyaFd0SFZCQ0NkazJrUldCTEFUVGp0cVF4VEtWOXJn?=
- =?utf-8?B?SmpIMFBoekNocll1YkVRc3lza2dsSkR0eU1LYjB5NFE3cmUvVkQ5aGVtejkz?=
- =?utf-8?B?UEJBM3pUZFdlRHBZZnBOeDYzYUYrbkNYVi9PbFZnOWoybytRUSsrRE9KdkRT?=
- =?utf-8?B?dDBFSXovS3g1eU9HKzQrU1hmMEREcVRWTU9PbFRtcTZwa0MwczRJM3JpbENY?=
- =?utf-8?B?NHdaTmJxREpzekpwRVMxVVFudUdwK0dzblVSVUo5UVA5a3hDQnE4Z3hZMUFt?=
- =?utf-8?B?NG9ZUi96THU3MTlmOHUvWWloenREbDNWbFNJTFFmN0tLUURhZ2ZTODJmR3Fz?=
- =?utf-8?B?NlQ3RGFLMEFkUjFMR2w0Rm9BbUx5VitWaGNTZnZMMTZOQ2RZZnQ0eUV3S1Er?=
- =?utf-8?B?T2QxckNQa0NlZnRVaVdNbWQ5QUYvL3E1Q3B4T2taVmplU3JVSFAvcWJzOUd3?=
- =?utf-8?B?Z2J6ZVFOd1REUnJNSzFQcHRCc3NuU0paS0phYzdhYlMvZVNWaWJVdzc3djcy?=
- =?utf-8?B?eUUvcnpwN2FqTk5rTVl6VVlUVHFWTk8vV2hhRTRGSi9ZZ3EzN2xRamJ1Y3Rt?=
- =?utf-8?B?NlRRUEdmSW5tbXhxOGNNRUxHMEc2Y0JLejlkWmMwUUxXUzFaUXBzMEZaQzNq?=
- =?utf-8?B?K0hSVkFrN3FNTjR6S1VWZ0o5SkJkQzF1WGRhdEpoeVNOTmJWaGQ4bnFIYzR4?=
- =?utf-8?B?am1zdFQxdGxjSmttbzdSQ0ZJRytDdmk0ODB3SEpVQ2FuamxhV1V4c00vTjV0?=
- =?utf-8?B?Wnh5Y1ZVdkxueSsvQUJDOU44Z1FGVXBxVU1MMWd3RndCNkxudytFNFRMSWVV?=
- =?utf-8?B?YUJxTndBL2pxQVZ0aDk5U3FMb1c2UFhCbHpUY3pSUlhnN2tpcUE4eHlnbHJM?=
- =?utf-8?B?RkxXa3pxeGJuQkJjdVhmcFVJTklYUWpoVFllV3pjOEpyY0tPaGR2WXE1b25Z?=
- =?utf-8?B?Yld1NHMyQmI2NHZNbS9rOUJ6TVRtS3ZhZ3dGYUxmTENBZUhjMENHOGtVSGZo?=
- =?utf-8?B?Mi9Jd0xPRWZYSjVSRXlTQXhWQ0Ezc0YycnpPdDN0ZWlhMUsvNk5ORkVFQ3p1?=
- =?utf-8?B?alAvWHNXbjRmeTg4Nmw2K00rU0FKMDUvSnREZlVTUjZuc1RjNHdwWFJSbGls?=
- =?utf-8?B?MGY1bEpkRDBQb2ZGdmFENDR5M2VsemQ4b21nT0paOUVoOVdGSEVQeW1WMDE3?=
- =?utf-8?B?MTJaZytmaXZvY2RwT29KRTdiWnRyMW81bUhpc1dKT0dheGQ4V2RKMXhEeEZY?=
- =?utf-8?B?c0pvcmZqMll0ejVjVXllOS9XM3NyQndhVlJsdXRqRldINkNNTTAzRmpJTkRB?=
- =?utf-8?B?aHNhVGFDWUhDZGpIdzZZRm82MElJaHlubUNlQnUyTk9xSmpGbmJKNWs5d1B1?=
- =?utf-8?B?VFpodmhpNXdnekF4WUxxREdPZGtVWGxWYUh6SjhXWGhOZ2dJYnZ5V0pqZElR?=
- =?utf-8?B?d3BnYUxzOWVVZ01qbWFYVnRwTFVncSs1WWlQb05wWkptNVIzZnQ1aEd3bjJR?=
- =?utf-8?B?eHV1N00xSVdxbVVQend4WjA3SiszTVdYTGt5dFcvTTFQa2pjOWVuMUNTb2Zy?=
- =?utf-8?B?b3FtL3h3dkFIMXdoazdyZ3JPbVJrVGJYSmJXLzR5dzJCY3kzSmc1anFXNDRF?=
- =?utf-8?B?eDJkRjF2SnhzRU43YWl3RXhOdXFsbll4T2NqVGdHOWtnRk85YU52NjE4S01Y?=
- =?utf-8?B?TUZiTHlwb3lPSTEwenpoaHpWL3FqQXAzK2hoRWdCSzY0TzdJd2dKNXNjbm9a?=
- =?utf-8?B?R29acElMaXJDU09HR3dpWjZhQVlMNmVvaHZMNTVPQ2Y0K0w5QTEyZnVKQ1FU?=
- =?utf-8?B?TUVMSm8xaEdueUVkTjdGa0hEQ3dQck1kQXkwWVFMdWYvSEh1YzdldkdIRlZL?=
- =?utf-8?B?eHRnam1rSW8vOEkrMXFCeFJ2d0tYMDVPSHQ3NUhwT1BrbHZCUE9mSjFjajRa?=
- =?utf-8?B?eE56dWdmTjRCUTRJeVB1T2RKUENzbmFhUm5rTFlZZjRRakg4YnhUR3FlOUdp?=
- =?utf-8?B?VXVFeCtnQ0U3bFZCclU1TEV1YXdZZ0hjVEt6RmF6NUVpNEROOHlXSnBkd2Jx?=
- =?utf-8?B?by9LZmhSdWZGWG9ZVkJzUHpHc2JiU3ZPMCthb1o1QkxDR0hGSUZqbEhXc0Zw?=
- =?utf-8?Q?gc+c=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01166446-51aa-4950-a871-08dcb6e83b86
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5311.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2024 13:52:52.8871 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ukx56Ds/z8/5u971olObt7bEiIP7hKodAAapTn3adzXNuJkr7JOGE3RF7wK4Xocv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7154
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5444.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3d769c9-f265-4764-1fac-08dcb6e9b010
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2024 14:03:17.6678 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8BV/C3ZvZ2bKhVXpol8YB3w+emglPA4GB0XVuVQ6e51OSsAJtjTjwxa9T6LxJYe3Ek/+kaAGIkbYpFTOOSeHvPnmby+J0Z0QICCPMZyzqy4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6368
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,192 +186,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+-----Original Message-----
+From: Andi Shyti <andi.shyti@linux.intel.com>=20
+Sent: Wednesday, August 7, 2024 3:46 AM
+To: intel-gfx <intel-gfx@lists.freedesktop.org>; dri-devel <dri-devel@lists=
+.freedesktop.org>
+Cc: Niemiec, Krzysztof <krzysztof.niemiec@intel.com>; Andi Shyti <andi.shyt=
+i@linux.intel.com>; Cavitt, Jonathan <jonathan.cavitt@intel.com>
+Subject: [PATCH] drm/i915/gem: Improve pfn calculation readability in vm_fa=
+ult_gtt()
+>=20
+> By moving the pfn calculation to the set_address_limits()
+> function we improve code readability. This way,
+> set_address_limits() is responsible for calculating all memory
+> mapping paramenters: "start", "end" and "pfn".
+>=20
+> This suggestion from Jonathan was made during the review of
+> commit 8bdd9ef7e9b1 ("drm/i915/gem: Fix Virtual Memory mapping
+> boundaries calculation"), which I liked, but it got lost on the
+> way.
+>=20
+> Suggested-by: Jonathan Cavitt <Jonathan.cavitt@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 
+Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+-Jonathan Cavitt
 
-On 2024-08-07 01:13, Mario Limonciello wrote:
-> On 8/6/24 13:42, Sebastian Wick wrote:
->> From: Sebastian Wick <sebastian@sebastianwick.net>
->>
->> This reverts commit 63d0b87213a0ba241b3fcfba3fe7b0aed0cd1cc5.
->>
->> The panel_power_savings sysfs entry can be used to change the displayed
->> colorimetry which breaks color managed setups.
->>
->> The "do not break userspace" rule which was violated here is enough
->> reason to revert this commit.
-
-Hi Sebastian,
-
-The default pane_power_savings sysfs value is 0, which is ABM disabled, so it
-wouldn't break colorimetry *by default*. It would break colorimetry only if set
-to a non-zero value by the user, or something in userspace.
-
-That said, this sysfs opens a door to "break" colorimetry. But if we make it
-such that it can only be set in a user-aware way, then the user can decide
-whether they want color accuracy, or power. I don't think that's anything new.
-User already decide between setting max backlight for better color, or lower
-backlight for better battery. Setting max cpu freq, or capping it. Either can be
-seen as breaking.
-
-So I think the issue is really in ppd (power profiles daemon), which afaik is
-the only user of this sysfs. It sets a non-zero value by default without the
-user being aware.
-
->>
->> The bigger problem is that this feature is part of the display chain
->> which is supposed to be controlled by KMS. This sysfs entry bypasses the
->> DRM master process and splits control to two independent processes which
->> do not know about each other. This is what caused the broken user space.
->> It also causes modesets which can be extremely confusing for the DRM
->> master process, causing unexpected timings.
->>
->> We should in general not allow anything other than KMS to control the
->> display path. If we make an exception to this rule, this must be first
->> discussed on dri-devel with all the stakeholders approving the
->> exception.
->>
->> This has not happened which is the second reason to revert this commit.
-
-I also agree that ABM/backlight related things that affect colorimetry should be
-under KMS control. However, from the way things are going, getting there will
-take a while, and an interim solution is desired.
-
-We (mostly Mario) proposed a KMS connector property to limit control to KMS as a
-way to improve on the sysfs, but that needs more work with compositor folks.
-After that, each compositor will need to pipe it through to users. So I think
-having something like ppd provide generic support is beneficial in the interim.
-It just needs to be 100% opt in.
-
-If we decide to revert this, I think it's worth noting that ABM will be out of
-reach for users for a very long while.
-
-On the modeset thing, it's not clear to me why ABM needs a modeset, and I wonder
-if it's really necessary. I'll go and find out.
-
-Thanks,
-Leo
-
->>
->> Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
-> 
-> For anyone who hasn't seen it, there has been a bunch of discussions that have 
-> transpired on this topic and what to do about it on [1] as well as some other 
-> linked places on that bug.
-> 
-> Also FWIW there was a discussion on the merits of the sysfs file on dri-devel 
-> during the initial patch submission [2].
-> 
-> If this revert ends up going through, please also revert 
-> 0887054d14ae23061e28e28747cdea7e40be9224 in the same series so the feature can 
-> "at least" be accessed by the compositor and changed at runtime like the sysfs 
-> file had allowed.
-> 
-> [1] https://gitlab.freedesktop.org/upower/power-profiles-daemon/-/issues/159
-> [2] https://lore.kernel.org/dri-devel/20240202152837.7388-1-hamza.mahfooz@amd.com/
-> 
->> ---
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 80 -------------------
->>   1 file changed, 80 deletions(-)
->>
->> diff --git ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c 
->> ../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index 4d4c75173fc3..16c9051d9ccf 100644
->> --- ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ ../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -6772,82 +6772,10 @@ int amdgpu_dm_connector_atomic_get_property(struct 
->> drm_connector *connector,
->>       return ret;
->>   }
->> -/**
->> - * DOC: panel power savings
->> - *
->> - * The display manager allows you to set your desired **panel power savings**
->> - * level (between 0-4, with 0 representing off), e.g. using the following::
->> - *
->> - *   # echo 3 > /sys/class/drm/card0-eDP-1/amdgpu/panel_power_savings
->> - *
->> - * Modifying this value can have implications on color accuracy, so tread
->> - * carefully.
->> - */
->> -
->> -static ssize_t panel_power_savings_show(struct device *device,
->> -                    struct device_attribute *attr,
->> -                    char *buf)
->> -{
->> -    struct drm_connector *connector = dev_get_drvdata(device);
->> -    struct drm_device *dev = connector->dev;
->> -    u8 val;
->> -
->> -    drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
->> -    val = to_dm_connector_state(connector->state)->abm_level ==
->> -        ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
->> -        to_dm_connector_state(connector->state)->abm_level;
->> -    drm_modeset_unlock(&dev->mode_config.connection_mutex);
->> -
->> -    return sysfs_emit(buf, "%u\n", val);
->> -}
->> -
->> -static ssize_t panel_power_savings_store(struct device *device,
->> -                     struct device_attribute *attr,
->> -                     const char *buf, size_t count)
->> -{
->> -    struct drm_connector *connector = dev_get_drvdata(device);
->> -    struct drm_device *dev = connector->dev;
->> -    long val;
->> -    int ret;
->> -
->> -    ret = kstrtol(buf, 0, &val);
->> -
->> -    if (ret)
->> -        return ret;
->> -
->> -    if (val < 0 || val > 4)
->> -        return -EINVAL;
->> -
->> -    drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
->> -    to_dm_connector_state(connector->state)->abm_level = val ?:
->> -        ABM_LEVEL_IMMEDIATE_DISABLE;
->> -    drm_modeset_unlock(&dev->mode_config.connection_mutex);
->> -
->> -    drm_kms_helper_hotplug_event(dev);
->> -
->> -    return count;
->> -}
->> -
->> -static DEVICE_ATTR_RW(panel_power_savings);
->> -
->> -static struct attribute *amdgpu_attrs[] = {
->> -    &dev_attr_panel_power_savings.attr,
->> -    NULL
->> -};
->> -
->> -static const struct attribute_group amdgpu_group = {
->> -    .name = "amdgpu",
->> -    .attrs = amdgpu_attrs
->> -};
->> -
->>   static void amdgpu_dm_connector_unregister(struct drm_connector *connector)
->>   {
->>       struct amdgpu_dm_connector *amdgpu_dm_connector = 
->> to_amdgpu_dm_connector(connector);
->> -    if (connector->connector_type == DRM_MODE_CONNECTOR_eDP &&
->> -        amdgpu_dm_abm_level < 0)
->> -        sysfs_remove_group(&connector->kdev->kobj, &amdgpu_group);
->> -
->>       drm_dp_aux_unregister(&amdgpu_dm_connector->dm_dp_aux.aux);
->>   }
->> @@ -6952,14 +6880,6 @@ amdgpu_dm_connector_late_register(struct drm_connector 
->> *connector)
->>           to_amdgpu_dm_connector(connector);
->>       int r;
->> -    if (connector->connector_type == DRM_MODE_CONNECTOR_eDP &&
->> -        amdgpu_dm_abm_level < 0) {
->> -        r = sysfs_create_group(&connector->kdev->kobj,
->> -                       &amdgpu_group);
->> -        if (r)
->> -            return r;
->> -    }
->> -
->>       amdgpu_dm_register_backlight_device(amdgpu_dm_connector);
->>       if ((connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) ||
-> 
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i=
+915/gem/i915_gem_mman.c
+> index cac6d4184506..e9b2424156f0 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> @@ -293,8 +293,10 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
+>  static void set_address_limits(struct vm_area_struct *area,
+>  			       struct i915_vma *vma,
+>  			       unsigned long obj_offset,
+> +			       resource_size_t gmadr_start,
+>  			       unsigned long *start_vaddr,
+> -			       unsigned long *end_vaddr)
+> +			       unsigned long *end_vaddr,
+> +			       unsigned long *pfn)
+>  {
+>  	unsigned long vm_start, vm_end, vma_size; /* user's memory parameters *=
+/
+>  	long start, end; /* memory boundaries */
+> @@ -323,6 +325,10 @@ static void set_address_limits(struct vm_area_struct=
+ *area,
+>  	/* Let's move back into the "<< PAGE_SHIFT" domain */
+>  	*start_vaddr =3D (unsigned long)start << PAGE_SHIFT;
+>  	*end_vaddr =3D (unsigned long)end << PAGE_SHIFT;
+> +
+> +	*pfn =3D (gmadr_start + i915_ggtt_offset(vma)) >> PAGE_SHIFT;
+> +	*pfn +=3D (*start_vaddr - area->vm_start) >> PAGE_SHIFT;
+> +	*pfn +=3D obj_offset - vma->gtt_view.partial.offset;
+>  }
+> =20
+>  static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+> @@ -441,11 +447,13 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf=
+)
+>  	if (ret)
+>  		goto err_unpin;
+> =20
+> -	set_address_limits(area, vma, obj_offset, &start, &end);
+> -
+> -	pfn =3D (ggtt->gmadr.start + i915_ggtt_offset(vma)) >> PAGE_SHIFT;
+> -	pfn +=3D (start - area->vm_start) >> PAGE_SHIFT;
+> -	pfn +=3D obj_offset - vma->gtt_view.partial.offset;
+> +	/*
+> +	 * Dump all the necessary parameters in this function to perform the
+> +	 * arithmetic calculation for the virtual address start and end and
+> +	 * the PFN (Page Frame Number).
+> +	 */
+> +	set_address_limits(area, vma, obj_offset, ggtt->gmadr.start,
+> +			   &start, &end, &pfn);
+> =20
+>  	/* Finally, remap it using the new GTT offset */
+>  	ret =3D remap_io_mapping(area, start, pfn, end - start, &ggtt->iomap);
+> --=20
+> 2.45.2
+>=20
+>=20
