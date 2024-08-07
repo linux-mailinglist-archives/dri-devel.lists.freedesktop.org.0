@@ -2,148 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24AE94A37A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 10:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB1A94A3B4
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 11:10:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EE1889BA3;
-	Wed,  7 Aug 2024 08:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95DA410E465;
+	Wed,  7 Aug 2024 09:10:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="I2ZRMmUU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YoymDsDx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xu+PnEpF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YYPY+HhL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kQE1QIRv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C10989BA3
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 08:59:28 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EBD3D21C0B;
- Wed,  7 Aug 2024 08:59:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723021167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=egcnL+OjEgIfVD+ZzmHj3+5ro0ueUWWs23oY+r7Ncjk=;
- b=I2ZRMmUUpJ8uH6sEpJn8OWl/v2ZZQ8a0DKaqxcqn+9zZ4f7xpFhXjIyXbRXhPt4Ffk3+gv
- uxKwFa+3OrcVtdMfN0HT3gSfUSKm+GAovmy8oBrlPsl6z/yGIwu284eKcTpboxK63ouXLP
- zsw2tNfAfROfECLTz/Nm/s+OHwobJ8A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723021167;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=egcnL+OjEgIfVD+ZzmHj3+5ro0ueUWWs23oY+r7Ncjk=;
- b=YoymDsDxUPX4wLhwm+voPe8kD7GsoPhlyv7/aY/uXNhG8ZLfWNvggHEhejFNC5cPpW3xYc
- us8pQkeb+xPdupBg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xu+PnEpF;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YYPY+HhL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723021166; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=egcnL+OjEgIfVD+ZzmHj3+5ro0ueUWWs23oY+r7Ncjk=;
- b=xu+PnEpFQVK4WK7Lu0mAqhviAUvedztLU0VzlHlShNWw3ZUGghuSzRpl7LKf9CHG6zKm0w
- LqBMuiu+J/N8JyKXzfQ5lvxnOnSftIbuvNkbaigUY5euxU2JDXM1+kvDhlLPoQr/lG7z5l
- acEUZDzQbjwzVhZmpQgSlC6V4C1H+1U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723021166;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=egcnL+OjEgIfVD+ZzmHj3+5ro0ueUWWs23oY+r7Ncjk=;
- b=YYPY+HhLUNLsA1BolUtDVcjUbBtL6l3nv0m+YYL4cPa2o+Hmpq/lsJO4aMgslLtJ/ls43W
- MhqxyMAtzvzfjZDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A0D613297;
- Wed,  7 Aug 2024 08:59:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id PCS/I243s2btAgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 07 Aug 2024 08:59:26 +0000
-Message-ID: <edb8cf4f-a82c-41be-8316-dd316050d975@suse.de>
-Date: Wed, 7 Aug 2024 10:59:26 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5ED210E058;
+ Wed,  7 Aug 2024 09:10:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723021852; x=1754557852;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=nku2VyyAlaFbHebRPyXL2hKd7GvPsaxYnBfga0f8rZ0=;
+ b=kQE1QIRvtzrRCTzem5yYnGtGltubaL/RPxbBhdMK6ZWA9+OkxuyXO7Vg
+ DGUyqMlUoVIdZZPtT+OK+rm4Sa+rz4Y/hiPsH/CncxPg2r9Y6+OWQ0it7
+ dtwcHWXCcY63m71kTVyffEktNnjSNVmaRuuxDRiFlQYsHxkU5DXsZClF7
+ 5NZzC4eADymLW2YtBfD4z87EtPT9sc2jDfKSWSg3QwTtuK5mO92x39NzV
+ 1qd8SR8i2TpyLq6OSmtuhggjyzepAGOIGNv1soCoXFIue4jUIymTXmxC5
+ ZY2+bObAtT325BJqgEQKMzDflCPkWJ9HJhnX6UPnd3iyEGk+Z78MqQIzZ A==;
+X-CSE-ConnectionGUID: 7NjMmtXGRXm+cyXCdUa2hg==
+X-CSE-MsgGUID: B92EGiviQ+KCalU4ic7TZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="24842651"
+X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; d="scan'208";a="24842651"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2024 02:10:50 -0700
+X-CSE-ConnectionGUID: +l3obtpaTNGoFvm0B+WWhg==
+X-CSE-MsgGUID: YAf8rwaeSlukd/xpdRPjtw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; d="scan'208";a="60914853"
+Received: from fpallare-mobl3.ger.corp.intel.com (HELO intel.com)
+ ([10.245.244.232])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2024 02:10:48 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+Subject: [PATCH] drm/i915/gt: Mark the GT as dead when mmio is unreliable
+Date: Wed,  7 Aug 2024 10:10:14 +0100
+Message-ID: <20240807091014.469992-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/ast: Request PCI BAR with devres
-To: Philipp Stanner <pstanner@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-References: <20240807083018.8734-2-pstanner@redhat.com>
- <20240807083018.8734-4-pstanner@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240807083018.8734-4-pstanner@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; XM_UA_NO_VERSION(0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,google.com];
- ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[11]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim,
- imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.50
-X-Rspamd-Queue-Id: EBD3D21C0B
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,64 +70,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Chris Wilson <chris.p.wilson@intel.com>
 
+After we detect that mmio is returning all 0xff, we believe that the GPU
+has dropped off the pci bus and is dead. Mark the device as wedged such
+that we can propagate the failure back to userspace and wait for
+recovery.
 
-Am 07.08.24 um 10:30 schrieb Philipp Stanner:
-> ast currently ioremaps two PCI BARs using pcim_iomap(). It does not
-> perform a request on the regions, however, which would make the driver a
-> bit more robust.
->
-> PCI now offers pcim_iomap_region(), a managed function which both
-> requests and ioremaps a BAR.
->
-> Replace pcim_iomap() with pcim_iomap_region().
->
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt.h       |  6 ++++++
+ drivers/gpu/drm/i915/gt/intel_gt_types.h |  2 ++
+ drivers/gpu/drm/i915/gt/intel_reset.c    | 12 +++++++++++-
+ drivers/gpu/drm/i915/intel_uncore.c      |  7 +++++--
+ 4 files changed, 24 insertions(+), 3 deletions(-)
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   drivers/gpu/drm/ast/ast_drv.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-> index aae019e79bda..1fadaadfbe39 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.c
-> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> @@ -287,9 +287,9 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->   	if (ret)
->   		return ret;
->   
-> -	regs = pcim_iomap(pdev, 1, 0);
-> -	if (!regs)
-> -		return -EIO;
-> +	regs = pcim_iomap_region(pdev, 1, "ast");
-> +	if (IS_ERR(regs))
-> +		return PTR_ERR(regs);
->   
->   	if (pdev->revision >= 0x40) {
->   		/*
-> @@ -311,9 +311,9 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->   
->   		if (len < AST_IO_MM_LENGTH)
->   			return -EIO;
-> -		ioregs = pcim_iomap(pdev, 2, 0);
-> -		if (!ioregs)
-> -			return -EIO;
-> +		ioregs = pcim_iomap_region(pdev, 2, "ast");
-> +		if (IS_ERR(ioregs))
-> +			return PTR_ERR(ioregs);
->   	} else {
->   		/*
->   		 * Anything else is best effort.
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+index b5e114d284ad..b73555889d50 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+@@ -208,4 +208,10 @@ enum i915_map_type intel_gt_coherent_map_type(struct intel_gt *gt,
+ void intel_gt_bind_context_set_ready(struct intel_gt *gt);
+ void intel_gt_bind_context_set_unready(struct intel_gt *gt);
+ bool intel_gt_is_bind_context_ready(struct intel_gt *gt);
++
++static inline void intel_gt_set_wedged_async(struct intel_gt *gt)
++{
++	queue_work(system_highpri_wq, &gt->wedge);
++}
++
+ #endif /* __INTEL_GT_H__ */
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+index cfdd2ad5e954..bcee084b1f27 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+@@ -292,6 +292,8 @@ struct intel_gt {
+ 	struct gt_defaults defaults;
+ 	struct kobject *sysfs_defaults;
+ 
++	struct work_struct wedge;
++
+ 	struct i915_perf_gt perf;
+ 
+ 	/** link: &ggtt.gt_list */
+diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+index 735cd23a43c6..8f1ea95471ef 100644
+--- a/drivers/gpu/drm/i915/gt/intel_reset.c
++++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+@@ -1013,6 +1013,15 @@ static void __intel_gt_set_wedged(struct intel_gt *gt)
+ 	GT_TRACE(gt, "end\n");
+ }
+ 
++static void set_wedged_work(struct work_struct *w)
++{
++	struct intel_gt *gt = container_of(w, struct intel_gt, wedge);
++	intel_wakeref_t wf;
++
++	with_intel_runtime_pm(gt->uncore->rpm, wf)
++		__intel_gt_set_wedged(gt);
++}
++
+ void intel_gt_set_wedged(struct intel_gt *gt)
+ {
+ 	intel_wakeref_t wakeref;
+@@ -1614,6 +1623,7 @@ void intel_gt_init_reset(struct intel_gt *gt)
+ 	init_waitqueue_head(&gt->reset.queue);
+ 	mutex_init(&gt->reset.mutex);
+ 	init_srcu_struct(&gt->reset.backoff_srcu);
++	INIT_WORK(&gt->wedge, set_wedged_work);
+ 
+ 	/*
+ 	 * While undesirable to wait inside the shrinker, complain anyway.
+@@ -1640,7 +1650,7 @@ static void intel_wedge_me(struct work_struct *work)
+ 	struct intel_wedge_me *w = container_of(work, typeof(*w), work.work);
+ 
+ 	gt_err(w->gt, "%s timed out, cancelling all in-flight rendering.\n", w->name);
+-	intel_gt_set_wedged(w->gt);
++	set_wedged_work(&w->gt->wedge);
+ }
+ 
+ void __intel_init_wedge(struct intel_wedge_me *w,
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index 2eba289d88ad..6aa179a3e92a 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -24,6 +24,7 @@
+ #include <drm/drm_managed.h>
+ #include <linux/pm_runtime.h>
+ 
++#include "gt/intel_gt.h"
+ #include "gt/intel_engine_regs.h"
+ #include "gt/intel_gt_regs.h"
+ 
+@@ -180,14 +181,16 @@ fw_domain_wait_ack_clear(const struct intel_uncore_forcewake_domain *d)
+ 	if (!wait_ack_clear(d, FORCEWAKE_KERNEL))
+ 		return;
+ 
+-	if (fw_ack(d) == ~0)
++	if (fw_ack(d) == ~0) {
+ 		drm_err(&d->uncore->i915->drm,
+ 			"%s: MMIO unreliable (forcewake register returns 0xFFFFFFFF)!\n",
+ 			intel_uncore_forcewake_domain_to_str(d->id));
+-	else
++		intel_gt_set_wedged_async(d->uncore->gt);
++	} else {
+ 		drm_err(&d->uncore->i915->drm,
+ 			"%s: timed out waiting for forcewake ack to clear.\n",
+ 			intel_uncore_forcewake_domain_to_str(d->id));
++	}
+ 
+ 	add_taint_for_CI(d->uncore->i915, TAINT_WARN); /* CI now unreliable */
+ }
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.45.2
 
