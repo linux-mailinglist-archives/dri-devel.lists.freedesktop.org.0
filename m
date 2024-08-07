@@ -2,59 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13BC94A613
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 12:46:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE9594A612
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 12:46:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBDC210E4A1;
-	Wed,  7 Aug 2024 10:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A794410E49D;
+	Wed,  7 Aug 2024 10:46:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AtiYiS6U";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="H7WNOFcd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F1F210E4A1;
- Wed,  7 Aug 2024 10:46:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723027574; x=1754563574;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=e+nFKwejeXfkFoDOgLCsOuT6nnUh6AUOXBM9TIykZTk=;
- b=AtiYiS6Ud9HGIdaaojrXDEFU0rkubyXAS0rkaoQWyDmsgoiTUgYCValD
- RTMrgQfdDAhd+hhVtCBwFYWOyQf0Icm8/Kk9n8ol0rfFvowaFHVIo+EGw
- F8W6KbPajvsK18waNlBP/H9Y/RBBh+0lKEoCyZnmLG2BeEhOSRFAJwx+2
- DA+V30TctB34ztqzQeBJc+Kx76aDPq0dmpR3IuQab292/xmVJCr+XxJ/D
- n/zb7oodm6TIrg54wCFBJpKBx/8oA17bX9BXFzEFhaK0weStJp5J4WTOh
- R0NIW4x2bE4F4Fl4zcDeBK6u3TpsmQZql8bzrc3Yfk1Q/267gCdZBv6dP Q==;
-X-CSE-ConnectionGUID: x/I+98zcRWSxnNdptrdSwQ==
-X-CSE-MsgGUID: QUlFvPUIRW64sLzsJ7p0DA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="43612112"
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; d="scan'208";a="43612112"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 03:46:13 -0700
-X-CSE-ConnectionGUID: fcTzClzQQw29Ab0YuG1NYA==
-X-CSE-MsgGUID: Ol1th6elQQmBv7Oi/lqx0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; d="scan'208";a="60939902"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO intel.com)
- ([10.245.244.245])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 03:46:11 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <Jonathan.cavitt@intel.com>
-Subject: [PATCH] drm/i915/gem: Improve pfn calculation readability in
- vm_fault_gtt()
-Date: Wed,  7 Aug 2024 11:45:53 +0100
-Message-ID: <20240807104553.481763-1-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BEB210E49F
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 10:46:11 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id
+ d9443c01a7336-1fd65aaac27so5384365ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 03:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1723027570; x=1723632370; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=DcfdKUXeiI0RflsU03nEHJTFXU6hNWDJiSM79+Zbsjk=;
+ b=H7WNOFcdWdgAucC3VqmrJkkO1OBKAJDelkZRikpNdEyvRhnh/3tyNH+xsIslRSNJUv
+ D4OCDpNkaAl4lE6rg+uwmLfKkbesaJkAwdvMD/c5P+upcGFvzg46HB7AUoaeo2Q9vQXQ
+ J3lKRgbpHiQqEWF2j9FZbdBISG4XqGc1AEWLNLu8k9x1osvj0TSbJ74ENSF+7jpiHw8q
+ /J9KAg4sKRxaqrU5uvoLQ6ajKLbIier/9vzT9zVbnQiX4N100pBSm7cTNLje/bat//md
+ DrvwDPB1xIz50mcv01xRXswIc3rjJtkpu8+FHF4yfvxU28o3ToSDk42TcmVtKR3mj9TH
+ +rzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723027570; x=1723632370;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DcfdKUXeiI0RflsU03nEHJTFXU6hNWDJiSM79+Zbsjk=;
+ b=RLoBZS772PWwy2TGI0fa0y9t2AVbVtjO3mHQC8zEPt0ZmIYDoRTEZ/seRxcZ4NwaTG
+ IJ2ISfc9n4WzoQmYSEK9jhgZAEe2USnMffWcp2jd76YxNZDBCo07ukxqKdNV287aFqJe
+ sQtPWDTQiRIVUlqRqDALIO6HPBqMFuFDOuSd+G3QSy1friacGbM92EIbrO/KRLzq8LPn
+ B3aWQ9fbs93bPu5thhOB0H/dx7e0Oe2n7S2Gcd+xPnmOuesSZw3eQBxrTG+/NqyJq3PZ
+ 9vK4ydzfVAr4lP+TMRq0AhNR7X5DBggnLu0hTSZXQAE//52q1RRyXTwDEe39mwXM8ma+
+ 30qQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUvc79Fhaz5Beov/XyJkSDMQRP5su+9ZDEcjZIpuUgQSN1wW1J2gq4CMNf5Zp9+ry6UVrKQKta7mrHv8iozeLruWHJPm0UzW/mWbcC9vPNe
+X-Gm-Message-State: AOJu0YyBQ2Q5GrCBPh+X9mvrrcoOBzrAmPgne+1VyAgmqxjIJdKCHHXu
+ DAJLulMo7Wi+iA6AG6chi9ivhN0aQ7XpDwf8d3fP/Rr8XoUxdvH1d39Jr4w7l/A=
+X-Google-Smtp-Source: AGHT+IHj1q9mnqROH1Frx3vYDFQ/RJEPn1e6A0NiqFVGzeKu1qvj297UTqh1jOAY4F0eH5Xa+lNJlg==
+X-Received: by 2002:a17:902:e5c6:b0:1fa:1be4:1e48 with SMTP id
+ d9443c01a7336-20085418b8cmr23058915ad.11.1723027570477; 
+ Wed, 07 Aug 2024 03:46:10 -0700 (PDT)
+Received: from [127.0.0.1] ([182.232.168.81]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1ff592b3fa6sm102793885ad.304.2024.08.07.03.46.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Aug 2024 03:46:10 -0700 (PDT)
+Date: Wed, 07 Aug 2024 17:46:03 +0700
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, stable@vger.kernel.org,
+ Leonard Lausen <leonard@lausen.nl>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_1/2=5D_drm/msm/dpu1=3A_don=27t_c?=
+ =?US-ASCII?Q?hoke_on_disabling_the_writeback_connector?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <800e03d2-01b0-4bde-816a-e45e1acdd039@quicinc.com>
+References: <20240802-dpu-fix-wb-v2-0-7eac9eb8e895@linaro.org>
+ <20240802-dpu-fix-wb-v2-1-7eac9eb8e895@linaro.org>
+ <800e03d2-01b0-4bde-816a-e45e1acdd039@quicinc.com>
+Message-ID: <42B219B7-01DE-47CC-9D31-E27E40C04428@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,68 +91,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By moving the pfn calculation to the set_address_limits()
-function we improve code readability. This way,
-set_address_limits() is responsible for calculating all memory
-mapping paramenters: "start", "end" and "pfn".
+On August 6, 2024 2:19:46 AM GMT+07:00, Abhinav Kumar <quic_abhinavk@quicin=
+c=2Ecom> wrote:
+>
+>
+>On 8/2/2024 12:47 PM, Dmitry Baryshkov wrote:
+>> During suspend/resume process all connectors are explicitly disabled an=
+d
+>> then reenabled=2E However resume fails because of the connector_status =
+check:
+>>=20
+>> [ 1185=2E831970] [dpu error]connector not connected 3
+>>=20
+>> It doesn't make sense to check for the Writeback connected status (and
+>> other drivers don't perform such check), so drop the check=2E
+>>=20
+>> Fixes: 71174f362d67 ("drm/msm/dpu: move writeback's atomic_check to dpu=
+_writeback=2Ec")
+>> Cc: stable@vger=2Ekernel=2Eorg
+>> Reported-by: Leonard Lausen <leonard@lausen=2Enl>
+>> Closes: https://gitlab=2Efreedesktop=2Eorg/drm/msm/-/issues/57
+>> Signed-off-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec | 3 ---
+>>   1 file changed, 3 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec b/drivers/=
+gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec
+>> index 16f144cbc0c9=2E=2E8ff496082902 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec
+>> @@ -42,9 +42,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connec=
+tor *connector,
+>>   	if (!conn_state || !conn_state->connector) {
+>>   		DPU_ERROR("invalid connector state\n");
+>>   		return -EINVAL;
+>> -	} else if (conn_state->connector->status !=3D connector_status_connec=
+ted) {
+>> -		DPU_ERROR("connector not connected %d\n", conn_state->connector->sta=
+tus);
+>> -		return -EINVAL;
+>>   	}
+>
+>For this issue, do we hit the connector->force =3D DRM_FORCE_OFF path?
 
-This suggestion from Jonathan was made during the review of
-commit 8bdd9ef7e9b1 ("drm/i915/gem: Fix Virtual Memory mapping
-boundaries calculation"), which I liked, but it got lost on the
-way.
+It was hit during the suspend/resume, so yes, it is a forced off, but by t=
+he different means=2E
 
-Suggested-by: Jonathan Cavitt <Jonathan.cavitt@intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+>
+>Because otherwise, writeback does not implement =2Edetect() callback toda=
+y so its always connected=2E
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index cac6d4184506..e9b2424156f0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -293,8 +293,10 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
- static void set_address_limits(struct vm_area_struct *area,
- 			       struct i915_vma *vma,
- 			       unsigned long obj_offset,
-+			       resource_size_t gmadr_start,
- 			       unsigned long *start_vaddr,
--			       unsigned long *end_vaddr)
-+			       unsigned long *end_vaddr,
-+			       unsigned long *pfn)
- {
- 	unsigned long vm_start, vm_end, vma_size; /* user's memory parameters */
- 	long start, end; /* memory boundaries */
-@@ -323,6 +325,10 @@ static void set_address_limits(struct vm_area_struct *area,
- 	/* Let's move back into the "<< PAGE_SHIFT" domain */
- 	*start_vaddr = (unsigned long)start << PAGE_SHIFT;
- 	*end_vaddr = (unsigned long)end << PAGE_SHIFT;
-+
-+	*pfn = (gmadr_start + i915_ggtt_offset(vma)) >> PAGE_SHIFT;
-+	*pfn += (*start_vaddr - area->vm_start) >> PAGE_SHIFT;
-+	*pfn += obj_offset - vma->gtt_view.partial.offset;
- }
- 
- static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
-@@ -441,11 +447,13 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
- 	if (ret)
- 		goto err_unpin;
- 
--	set_address_limits(area, vma, obj_offset, &start, &end);
--
--	pfn = (ggtt->gmadr.start + i915_ggtt_offset(vma)) >> PAGE_SHIFT;
--	pfn += (start - area->vm_start) >> PAGE_SHIFT;
--	pfn += obj_offset - vma->gtt_view.partial.offset;
-+	/*
-+	 * Dump all the necessary parameters in this function to perform the
-+	 * arithmetic calculation for the virtual address start and end and
-+	 * the PFN (Page Frame Number).
-+	 */
-+	set_address_limits(area, vma, obj_offset, ggtt->gmadr.start,
-+			   &start, &end, &pfn);
- 
- 	/* Finally, remap it using the new GTT offset */
- 	ret = remap_io_mapping(area, start, pfn, end - start, &ggtt->iomap);
--- 
-2.45.2
+It is undefined/unkown (3), not connected (1)
 
+>
+>But if that was the case how come this error is only for writeback=2E Eve=
+n DP has the same connected check in atomic_check()
+>
+>Change seems fine with me because ideally this seems like a no-op to me b=
+ecause writeback connector is assumed to be always connected but the issue =
+is missing some details here=2E
+>
+>>     	crtc =3D conn_state->crtc;
+>>=20
+
+
+--=20
+With best wishes
+Dmitry
