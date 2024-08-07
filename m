@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 139B794ACD9
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 17:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89ED294ACDB
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 17:26:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 772A810E18A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A813310E570;
 	Wed,  7 Aug 2024 15:26:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="zyqJ3DYa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3+CHSE4Y";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zyqJ3DYa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3+CHSE4Y";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MXHQWiq3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q/J78puK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXHQWiq3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q/J78puK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 051DA10E18A
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E369B10E18A
  for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 15:26:51 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 91DD41FB96;
- Wed,  7 Aug 2024 15:26:49 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 820CD21CFF;
+ Wed,  7 Aug 2024 15:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723044409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1723044410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K8WMcN5aTLqlNS8KglPxh5aEU6v/N8Os3PDJA9fbZ3I=;
- b=zyqJ3DYamR7kHubC7o/Z4M3/7ygkweW9f0yuYuPBQ0rFIzc9R+UMXrmCLbdOqlLv44HfXR
- ieHL38SUxCwezYaEpc7qbyntDdLyrW90z8OaRGgLXSMzoNZluRErtfPkWOetE7sbrVAVZc
- vu9Djk6gIcKDFZLq+ZP3dTm77EJCbqY=
+ bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
+ b=MXHQWiq3cHR1EZT1eHHePh8EZXJTtYBkY/9sPLslUejgW0QvBBiA3EFvf71IvnQVWN0Kmj
+ S2zwRC0Z+Wbanvh9Nq7XxIQlN/Qb6Etu6yVRkAYIPIDlStR+4fk5nxsOIt7OSMB3Ya7dvP
+ qSosRVAbdzcIwyYBfIIr3Igw/82caSE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723044409;
+ s=susede2_ed25519; t=1723044410;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K8WMcN5aTLqlNS8KglPxh5aEU6v/N8Os3PDJA9fbZ3I=;
- b=3+CHSE4Y/I3ANYIp+5/XIjvWXX1tWxpxRYgSc02a3iIhAiNrNEZwWUZT1cFv7MDFsVVNgB
- YZGR3uUFj5rmvxDg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zyqJ3DYa;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3+CHSE4Y
+ bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
+ b=Q/J78puKCjVrziqO7FFGoRKOTvOZG9/ISjOICgbG67qEBbjrRJxxVSeXHxEKW+1YZdXtud
+ Op93dSpjzcVMNyCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723044409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1723044410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K8WMcN5aTLqlNS8KglPxh5aEU6v/N8Os3PDJA9fbZ3I=;
- b=zyqJ3DYamR7kHubC7o/Z4M3/7ygkweW9f0yuYuPBQ0rFIzc9R+UMXrmCLbdOqlLv44HfXR
- ieHL38SUxCwezYaEpc7qbyntDdLyrW90z8OaRGgLXSMzoNZluRErtfPkWOetE7sbrVAVZc
- vu9Djk6gIcKDFZLq+ZP3dTm77EJCbqY=
+ bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
+ b=MXHQWiq3cHR1EZT1eHHePh8EZXJTtYBkY/9sPLslUejgW0QvBBiA3EFvf71IvnQVWN0Kmj
+ S2zwRC0Z+Wbanvh9Nq7XxIQlN/Qb6Etu6yVRkAYIPIDlStR+4fk5nxsOIt7OSMB3Ya7dvP
+ qSosRVAbdzcIwyYBfIIr3Igw/82caSE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723044409;
+ s=susede2_ed25519; t=1723044410;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K8WMcN5aTLqlNS8KglPxh5aEU6v/N8Os3PDJA9fbZ3I=;
- b=3+CHSE4Y/I3ANYIp+5/XIjvWXX1tWxpxRYgSc02a3iIhAiNrNEZwWUZT1cFv7MDFsVVNgB
- YZGR3uUFj5rmvxDg==
+ bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
+ b=Q/J78puKCjVrziqO7FFGoRKOTvOZG9/ISjOICgbG67qEBbjrRJxxVSeXHxEKW+1YZdXtud
+ Op93dSpjzcVMNyCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A67113297;
- Wed,  7 Aug 2024 15:26:49 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36F8E13297;
+ Wed,  7 Aug 2024 15:26:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 2K0hDTmSs2bxewAAD6G6ig
- (envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 15:26:49 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id EBU4DDqSs2bxewAAD6G6ig
+ (envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 15:26:50 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
@@ -82,44 +80,30 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 1/2] drm/bridge: dw-hdmi: Move vmalloc PCM buffer management
- into the driver
-Date: Wed,  7 Aug 2024 17:27:22 +0200
-Message-ID: <20240807152725.18948-2-tiwai@suse.de>
+Subject: [PATCH 2/2] ALSA: pcm: Drop PCM vmalloc buffer helpers
+Date: Wed,  7 Aug 2024 17:27:23 +0200
+Message-ID: <20240807152725.18948-3-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240807152725.18948-1-tiwai@suse.de>
 References: <20240807152725.18948-1-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.51 / 50.00];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim]; SUSPICIOUS_RECIPS(1.50)[];
+X-Spam-Level: *
+X-Spamd-Result: default: False [1.70 / 50.00]; SUSPICIOUS_RECIPS(1.50)[];
  MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TO_DN_SOME(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; RCPT_COUNT_SEVEN(0.00)[11];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ FROM_HAS_DN(0.00)[]; ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[11];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 91DD41FB96
-X-Spam-Level: 
-X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spam-Score: -0.51
+X-Spam-Score: 1.70
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,83 +119,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dw-hdmi drm bridge driver is the only one who still uses the ALSA
-vmalloc helper API functions.  A previous attempt to change the way of
-buffer management wasn't taken for this legacy stuff, as we had little
-chance for test and some risk of major breaking.
-Instead, this patch moves the vmalloc buffer stuff into the dw-hdmi
-driver code itself, so that we can drop them from ALSA core code
-afterwards.
+As the last-standing user of PCM vmalloc buffer helper API took its
+own buffer management, we can finally drop those API functions, which
+were leftover after reorganization of ALSA memalloc code.
 
-There should be no functional changes.
-
-Link: https://lore.kernel.org/20191210154536.29819-1-tiwai@suse.de
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- .../drm/bridge/synopsys/dw-hdmi-ahb-audio.c   | 30 ++++++++++++++++---
- 1 file changed, 26 insertions(+), 4 deletions(-)
+ include/sound/pcm.h     | 42 -----------------------------
+ sound/core/pcm_memory.c | 59 -----------------------------------------
+ 2 files changed, 101 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-index 67b8d17a722a..221e9a4edb40 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-@@ -8,6 +8,7 @@
- #include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/vmalloc.h>
- #include <drm/bridge/dw_hdmi.h>
- #include <drm/drm_edid.h>
- 
-@@ -388,15 +389,36 @@ static int dw_hdmi_close(struct snd_pcm_substream *substream)
- 
- static int dw_hdmi_hw_free(struct snd_pcm_substream *substream)
- {
--	return snd_pcm_lib_free_vmalloc_buffer(substream);
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+
-+	vfree(runtime->dma_area);
-+	runtime->dma_area = NULL;
-+	return 0;
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index ac8f3aef9205..3c56a648bdcd 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -1355,48 +1355,6 @@ snd_pcm_set_fixed_buffer_all(struct snd_pcm *pcm, int type,
+ 	return snd_pcm_set_managed_buffer_all(pcm, type, data, size, 0);
  }
  
- static int dw_hdmi_hw_params(struct snd_pcm_substream *substream,
- 	struct snd_pcm_hw_params *params)
- {
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	size_t size = params_buffer_bytes(params);
-+
- 	/* Allocate the PCM runtime buffer, which is exposed to userspace. */
--	return snd_pcm_lib_alloc_vmalloc_buffer(substream,
--						params_buffer_bytes(params));
-+	if (runtime->dma_area) {
-+		if (runtime->dma_bytes >= size)
-+			return 0; /* already large enough */
-+		vfree(runtime->dma_area);
-+	}
-+	runtime->dma_area = vzalloc(size);
-+	if (!runtime->dma_area)
-+		return -ENOMEM;
-+	runtime->dma_bytes = size;
-+	return 1;
-+}
-+
-+static struct page *dw_hdmi_get_page(struct snd_pcm_substream *substream,
-+				     unsigned long offset)
-+{
-+	return vmalloc_to_page(substream->runtime->dma_area + offset);
+-int _snd_pcm_lib_alloc_vmalloc_buffer(struct snd_pcm_substream *substream,
+-				      size_t size, gfp_t gfp_flags);
+-int snd_pcm_lib_free_vmalloc_buffer(struct snd_pcm_substream *substream);
+-struct page *snd_pcm_lib_get_vmalloc_page(struct snd_pcm_substream *substream,
+-					  unsigned long offset);
+-/**
+- * snd_pcm_lib_alloc_vmalloc_buffer - allocate virtual DMA buffer
+- * @substream: the substream to allocate the buffer to
+- * @size: the requested buffer size, in bytes
+- *
+- * Allocates the PCM substream buffer using vmalloc(), i.e., the memory is
+- * contiguous in kernel virtual space, but not in physical memory.  Use this
+- * if the buffer is accessed by kernel code but not by device DMA.
+- *
+- * Return: 1 if the buffer was changed, 0 if not changed, or a negative error
+- * code.
+- */
+-static inline int snd_pcm_lib_alloc_vmalloc_buffer
+-			(struct snd_pcm_substream *substream, size_t size)
+-{
+-	return _snd_pcm_lib_alloc_vmalloc_buffer(substream, size,
+-						 GFP_KERNEL | __GFP_HIGHMEM | __GFP_ZERO);
+-}
+-
+-/**
+- * snd_pcm_lib_alloc_vmalloc_32_buffer - allocate 32-bit-addressable buffer
+- * @substream: the substream to allocate the buffer to
+- * @size: the requested buffer size, in bytes
+- *
+- * This function works like snd_pcm_lib_alloc_vmalloc_buffer(), but uses
+- * vmalloc_32(), i.e., the pages are allocated from 32-bit-addressable memory.
+- *
+- * Return: 1 if the buffer was changed, 0 if not changed, or a negative error
+- * code.
+- */
+-static inline int snd_pcm_lib_alloc_vmalloc_32_buffer
+-			(struct snd_pcm_substream *substream, size_t size)
+-{
+-	return _snd_pcm_lib_alloc_vmalloc_buffer(substream, size,
+-						 GFP_KERNEL | GFP_DMA32 | __GFP_ZERO);
+-}
+-
+ #define snd_pcm_get_dma_buf(substream) ((substream)->runtime->dma_buffer_p)
+ 
+ /**
+diff --git a/sound/core/pcm_memory.c b/sound/core/pcm_memory.c
+index 506386959f08..8e4c68e3bbd0 100644
+--- a/sound/core/pcm_memory.c
++++ b/sound/core/pcm_memory.c
+@@ -9,7 +9,6 @@
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/moduleparam.h>
+-#include <linux/vmalloc.h>
+ #include <linux/export.h>
+ #include <sound/core.h>
+ #include <sound/pcm.h>
+@@ -497,61 +496,3 @@ int snd_pcm_lib_free_pages(struct snd_pcm_substream *substream)
+ 	return 0;
  }
- 
- static int dw_hdmi_prepare(struct snd_pcm_substream *substream)
-@@ -515,7 +537,7 @@ static const struct snd_pcm_ops snd_dw_hdmi_ops = {
- 	.prepare = dw_hdmi_prepare,
- 	.trigger = dw_hdmi_trigger,
- 	.pointer = dw_hdmi_pointer,
--	.page = snd_pcm_lib_get_vmalloc_page,
-+	.page = dw_hdmi_get_page,
- };
- 
- static int snd_dw_hdmi_probe(struct platform_device *pdev)
+ EXPORT_SYMBOL(snd_pcm_lib_free_pages);
+-
+-int _snd_pcm_lib_alloc_vmalloc_buffer(struct snd_pcm_substream *substream,
+-				      size_t size, gfp_t gfp_flags)
+-{
+-	struct snd_pcm_runtime *runtime;
+-
+-	if (PCM_RUNTIME_CHECK(substream))
+-		return -EINVAL;
+-	runtime = substream->runtime;
+-	if (runtime->dma_area) {
+-		if (runtime->dma_bytes >= size)
+-			return 0; /* already large enough */
+-		vfree(runtime->dma_area);
+-	}
+-	runtime->dma_area = __vmalloc(size, gfp_flags);
+-	if (!runtime->dma_area)
+-		return -ENOMEM;
+-	runtime->dma_bytes = size;
+-	return 1;
+-}
+-EXPORT_SYMBOL(_snd_pcm_lib_alloc_vmalloc_buffer);
+-
+-/**
+- * snd_pcm_lib_free_vmalloc_buffer - free vmalloc buffer
+- * @substream: the substream with a buffer allocated by
+- *	snd_pcm_lib_alloc_vmalloc_buffer()
+- *
+- * Return: Zero if successful, or a negative error code on failure.
+- */
+-int snd_pcm_lib_free_vmalloc_buffer(struct snd_pcm_substream *substream)
+-{
+-	struct snd_pcm_runtime *runtime;
+-
+-	if (PCM_RUNTIME_CHECK(substream))
+-		return -EINVAL;
+-	runtime = substream->runtime;
+-	vfree(runtime->dma_area);
+-	runtime->dma_area = NULL;
+-	return 0;
+-}
+-EXPORT_SYMBOL(snd_pcm_lib_free_vmalloc_buffer);
+-
+-/**
+- * snd_pcm_lib_get_vmalloc_page - map vmalloc buffer offset to page struct
+- * @substream: the substream with a buffer allocated by
+- *	snd_pcm_lib_alloc_vmalloc_buffer()
+- * @offset: offset in the buffer
+- *
+- * This function is to be used as the page callback in the PCM ops.
+- *
+- * Return: The page struct, or %NULL on failure.
+- */
+-struct page *snd_pcm_lib_get_vmalloc_page(struct snd_pcm_substream *substream,
+-					  unsigned long offset)
+-{
+-	return vmalloc_to_page(substream->runtime->dma_area + offset);
+-}
+-EXPORT_SYMBOL(snd_pcm_lib_get_vmalloc_page);
 -- 
 2.43.0
 
