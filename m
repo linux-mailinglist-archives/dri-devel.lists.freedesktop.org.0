@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D5E94A8F7
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 15:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9851594A8FB
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 15:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C699010E51A;
-	Wed,  7 Aug 2024 13:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCEF710E523;
+	Wed,  7 Aug 2024 13:49:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VsKvubBq";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FOoGjA0a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99D9B10E51A
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 13:49:18 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F56910E522
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 13:49:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1723038557;
+ s=mimecast20190719; t=1723038563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OUkKkxHcSQUKYOgRX8M/vkro1yHQIMueYloHwUqWT5M=;
- b=VsKvubBqwd6CV6Q9NgVzELXgVjeqy0/1E+3dFZ81wxB3HfUkd5wsLsprQ3fTxfVNhzbYla
- cHnHzg1jlP4m2XhICijiT05hlcU6edtvDrs8a5Wa7CQN54bc3ZvwU3oPNy1AmcyOV1mhWj
- AIBO41Ecm2E0pa7YtW2grx3ZdHHz/P8=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B09kSIbYSApgPI0VjEak3TdklWaHKDsh4z8WexGbhwU=;
+ b=FOoGjA0aw/eqP+6NN/bMssZmS5Gu7BGhiAsWD0yOD7do/8+StUDvyaKyNQRnvdf5wWgh5R
+ DOofhSCJifKvmplrP/U2jRfD8zk3fXMFlul+GHhNXY+sGa8UxSRlMsmLQSsDItsYNg6SuX
+ kQrvbHfgzATXp7Tf7PIqeltrGFjLoVU=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-503-miAjHzx7Pcqiz6dLKCTGKQ-1; Wed,
- 07 Aug 2024 09:49:14 -0400
-X-MC-Unique: miAjHzx7Pcqiz6dLKCTGKQ-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-548-0-1MwgaHNfqXutWNZ9pOrQ-1; Wed,
+ 07 Aug 2024 09:49:17 -0400
+X-MC-Unique: 0-1MwgaHNfqXutWNZ9pOrQ-1
 Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 8C7EE1944D3A; Wed,  7 Aug 2024 13:49:11 +0000 (UTC)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id E44C61955D63; Wed,  7 Aug 2024 13:49:14 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.39.193.86])
  by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 88E0D19560A3; Wed,  7 Aug 2024 13:49:08 +0000 (UTC)
+ id D7C3219560AE; Wed,  7 Aug 2024 13:49:11 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -49,10 +50,13 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
  Michal Wajdeczko <michal.wajdeczko@intel.com>,
  dri-devel@lists.freedesktop.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v2 0/5] drm/panic: Cleanup and add panic description
-Date: Wed,  7 Aug 2024 15:36:09 +0200
-Message-ID: <20240807134902.458669-1-jfalempe@redhat.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, Diego Viola <diego.viola@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v2 1/5] drm/panic: Remove space before "!" in panic message
+Date: Wed,  7 Aug 2024 15:36:10 +0200
+Message-ID: <20240807134902.458669-2-jfalempe@redhat.com>
+In-Reply-To: <20240807134902.458669-1-jfalempe@redhat.com>
+References: <20240807134902.458669-1-jfalempe@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-Mimecast-Spam-Score: 0
@@ -74,27 +78,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This small series removes unused export symbols, moves internal include to drm_crtc_internal.h, and adds the panic description, now that kmsg_dump provides this information.
+There is no space between the last word, and the punctuation mark in
+English.
 
-v2:
- * Use a macro PANIC_MSG_LINES, instead of directly using the indice in drm_panic_set_description() (Sima)
- * Add drm_panic_clear_description() to make sure the stack allocated pointer won't be used. (Sima)
- * use the macro PANIC_MSG_LINES also in draw_panic_static_user()
+Suggested-by: Diego Viola <diego.viola@gmail.com>
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_panic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Jocelyn Falempe (5):
-  drm/panic: Remove space before "!" in panic message
-  drm/panic: Remove useless export symbols
-  drm/panic: Move drm_panic_register prototype to drm_crtc_internal.h
-  drm/panic: Move copyright notice to the top
-  drm/panic: Add panic description
-
- drivers/gpu/drm/drm_crtc_internal.h |  4 ++
- drivers/gpu/drm/drm_panic.c         | 60 +++++++++++++++++++++--------
- include/drm/drm_panic.h             | 21 +++-------
- 3 files changed, 54 insertions(+), 31 deletions(-)
-
-
-base-commit: f7f3ddb6e5c8dc7b621fd8c0903ea42190d67452
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index 072752b658f0..5e873469856f 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -78,7 +78,7 @@ struct drm_panic_line {
+ #define PANIC_LINE(s) {.len = sizeof(s) - 1, .txt = s}
+ 
+ static struct drm_panic_line panic_msg[] = {
+-	PANIC_LINE("KERNEL PANIC !"),
++	PANIC_LINE("KERNEL PANIC!"),
+ 	PANIC_LINE(""),
+ 	PANIC_LINE("Please reboot your computer."),
+ };
 -- 
 2.45.2
 
