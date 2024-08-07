@@ -2,73 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE72E94B124
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED9A94B137
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:24:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3ABF10E1A3;
-	Wed,  7 Aug 2024 20:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6DF10E5C8;
+	Wed,  7 Aug 2024 20:24:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="zgL+YztH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sPTA7ShV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8B1110E5B4
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 20:21:33 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a7aa212c1c9so30931266b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 13:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1723062092; x=1723666892;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=z4X1/+A4ARSAdI+l8r/PaTc1tSVNBTTGzDxsEIt0H8M=;
- b=zgL+YztHQDDO95gVFdt+o8Y+Z59XelUbVq5kRzsBLcKAC0+WmlCYbh5Yv0U2EEnnP5
- SXYUQ8SZSw/SkCPXr6+lrhdRPLqlNBMcZQNL2inRjH7t0wLoneTCLc+ZrpCFFZ2S+CIk
- BQa4P73IXGM2mDM2naKuVMaDvYfZZVOg1LWZd8DpNVt3IZJzTaJL9cvI2tQMGK0r3Y//
- BWGqQvcRR+E85Z/sBmF+129GDvZqfae35csZmqRx+/0p+UMaEEXmPfyavuseVlHjAL7P
- I6O8y6s6TSuKnPJcyIethVamC3pGUq38Vs9BRcvUmEt+CnFCyHl43QxsZjoB6vGhzU2m
- UgYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723062092; x=1723666892;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z4X1/+A4ARSAdI+l8r/PaTc1tSVNBTTGzDxsEIt0H8M=;
- b=rM0rv1Sg2Gq/v2QlcV4kUVKErmWbVT3IU/MmSdSdku69kJBxcw5wDDx6Nsd5QhhiCl
- oZyNjqC/mprRuxhrjoLb+EarzNCJCu19DAeAGYMjLIV2ymIpkP+x7wwvgJlEwYKbyP0D
- 5pb06NlBMpGttqyHbnWIM+W8nIPWbYxZGt9oxQyp/gBj8N8FVHJJOqe+eCSrYcdtDEHj
- 9oFsmT8FQXTY2m1HSNYiZMUwm2uCpEuQtPXfQoIXXHY4AEagUw9IEOprFhoVU/+vb/Pi
- Ne/invONvTzISN8y57aOjPVS4NS0I+CDrsGZS4D3PlJRTbKryUt9TneY/dPFXswjaZ/+
- SEYQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9PXEUuGvCBqod7I9s/W+7TWDI+DYsj3isrLOp/OIrLAUr0xs1SkFnhOXRJQLw9dSoX4XizVpIX+EgM2enD9KrfKqGwvG4E+U2v/mmQBxP
-X-Gm-Message-State: AOJu0YzUkM2jgalydznDGk+czbf9/WDZTi0ttILME8GjnwYQbcWVaqeQ
- pMnV3g+KSm2dfe8sWHRRBggVOEzP7xczcQObqph8/ycnCAtne9d+uGqZCFr9axE=
-X-Google-Smtp-Source: AGHT+IG3cOPvJ9ZkCZ88ekCEODTh9Bsjt5Em1rI+r3qZ5LW0b41f9BBVAF+DAZPVJBB0M+s39MgZzA==
-X-Received: by 2002:a17:907:2d91:b0:a71:ddb8:9394 with SMTP id
- a640c23a62f3a-a7dc4ff1ad2mr1408109966b.40.1723062091623; 
- Wed, 07 Aug 2024 13:21:31 -0700 (PDT)
-Received: from fedora.fritz.box (pd9e1640a.dip0.t-ipconnect.de.
- [217.225.100.10]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7dc9c0b6casm666122766b.51.2024.08.07.13.21.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Aug 2024 13:21:31 -0700 (PDT)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, jonathan.cavitt@intel.com, andi.shyti@linux.intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [PATCH v3] drm/i915: Explicitly cast divisor and use div_u64()
-Date: Wed,  7 Aug 2024 22:20:39 +0200
-Message-ID: <20240807202040.54796-2-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.45.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 543E010E5C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 20:24:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 92CA7612CB;
+ Wed,  7 Aug 2024 20:24:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E743AC32781;
+ Wed,  7 Aug 2024 20:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723062273;
+ bh=WhdvMlgdDlpl6/yYw+oeDJrQrSgrjDN8HpP89wMcaVc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=sPTA7ShVYhR8gI8KdprRkeCzVxvZunB+J3GmAVos+F3Wgqa/v1hTNCZd3GlhLfSV6
+ LKKceC4Au/0ZT6pdBMd2h+FgGGX7zkaO5hp5tDtAaH2lYU6hwu22GgIOG03JGngml6
+ 6602kCvN01yVUa23o/x0F2SnuZ9TMl37WThbF8zwv4BeYbkENHjyNaiVHKZnWk2t06
+ hvqbFogbMvkJlztxXmZNSdmJkFn/DRR02HYXuQRVYd9BcBgbMvP32VwYCcppD0XFtm
+ FXEv4QvRSEp4sLDfRQ8KXrb4ODoJAPerX/jkrxcaz2Oo8N8O/0YWYrhDOw/GMqtcPY
+ mGjyNFWR+L0hQ==
+Date: Wed, 7 Aug 2024 15:24:31 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>, Dave Airlie <airlied@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/2] PCI: Deprecate pcim_iomap_regions() in favor of
+ pcim_iomap_region()
+Message-ID: <20240807202431.GA110503@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240807083018.8734-2-pstanner@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,56 +63,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the comment explains, the if check ensures that the divisor oa_period
-is a u32. Explicitly cast oa_period to u32 to remove the following
-Coccinelle/coccicheck warning reported by do_div.cocci:
+On Wed, Aug 07, 2024 at 10:30:18AM +0200, Philipp Stanner wrote:
+> pcim_iomap_regions() is a complicated function that uses a bit mask to
+> determine the BARs the user wishes to request and ioremap. Almost all
+> users only ever set a single bit in that mask, making that mechanism
+> questionable.
+> 
+> pcim_iomap_region() is now available as a more simple replacement.
+> 
+> Make pcim_iomap_region() a public function.
+> 
+> Mark pcim_iomap_regions() as deprecated.
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 
-  WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead
+The interesting part of this little series is in ast_drv.c, but there
+may be similar conversions for other drivers coming as well.
 
-Use the preferred div_u64() function instead of the do_div() macro and
-remove the now unnecessary local variable tmp.
+To avoid races during the merge window, I propose merging this via the
+PCI tree so I can ensure that any other conversions happen after
+pcim_iomap_region() becomes public.
 
-Inline the if/else and invert the conditional expression.
+That would require an ack from Dave.  But if you'd rather take this
+yourself, Dave, here's my ack for the PCI piece:
 
-Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
----
-Changes in v2:
-- Use div_u64() instead of do_div() after feedback from Ville Syrjälä
-- Link to v1: https://lore.kernel.org/linux-kernel/20240710074650.419902-2-thorsten.blum@toblux.com/
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-Changes in v3:
-- Inline if/else as suggested by Jonathan Cavitt and Andi Shyti
-- Link to v2: https://lore.kernel.org/linux-kernel/20240802160323.46518-2-thorsten.blum@toblux.com/
----
- drivers/gpu/drm/i915/i915_perf.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index 025a79fe5920..6ff905d2b78f 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -4063,17 +4063,13 @@ static int read_properties_unlocked(struct i915_perf *perf,
- 			oa_period = oa_exponent_to_ns(perf, value);
- 
- 			/* This check is primarily to ensure that oa_period <=
--			 * UINT32_MAX (before passing to do_div which only
-+			 * UINT32_MAX (before passing it to div_u64 which only
- 			 * accepts a u32 denominator), but we can also skip
- 			 * checking anything < 1Hz which implicitly can't be
- 			 * limited via an integer oa_max_sample_rate.
- 			 */
--			if (oa_period <= NSEC_PER_SEC) {
--				u64 tmp = NSEC_PER_SEC;
--				do_div(tmp, oa_period);
--				oa_freq_hz = tmp;
--			} else
--				oa_freq_hz = 0;
-+			oa_freq_hz = oa_period > NSEC_PER_SEC ? 0 :
-+				div_u64(NSEC_PER_SEC, (u32)oa_period);
- 
- 			if (oa_freq_hz > i915_oa_max_sample_rate && !perfmon_capable()) {
- 				drm_dbg(&perf->i915->drm,
--- 
-2.45.2
-
+> ---
+>  drivers/pci/devres.c | 8 ++++++--
+>  include/linux/pci.h  | 2 ++
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
+> index 3780a9f9ec00..89ec26ea1501 100644
+> --- a/drivers/pci/devres.c
+> +++ b/drivers/pci/devres.c
+> @@ -728,7 +728,7 @@ EXPORT_SYMBOL(pcim_iounmap);
+>   * Mapping and region will get automatically released on driver detach. If
+>   * desired, release manually only with pcim_iounmap_region().
+>   */
+> -static void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+> +void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+>  				       const char *name)
+>  {
+>  	int ret;
+> @@ -761,6 +761,7 @@ static void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+>  
+>  	return IOMEM_ERR_PTR(ret);
+>  }
+> +EXPORT_SYMBOL(pcim_iomap_region);
+>  
+>  /**
+>   * pcim_iounmap_region - Unmap and release a PCI BAR
+> @@ -783,7 +784,7 @@ static void pcim_iounmap_region(struct pci_dev *pdev, int bar)
+>  }
+>  
+>  /**
+> - * pcim_iomap_regions - Request and iomap PCI BARs
+> + * pcim_iomap_regions - Request and iomap PCI BARs (DEPRECATED)
+>   * @pdev: PCI device to map IO resources for
+>   * @mask: Mask of BARs to request and iomap
+>   * @name: Name associated with the requests
+> @@ -791,6 +792,9 @@ static void pcim_iounmap_region(struct pci_dev *pdev, int bar)
+>   * Returns: 0 on success, negative error code on failure.
+>   *
+>   * Request and iomap regions specified by @mask.
+> + *
+> + * This function is DEPRECATED. Do not use it in new code.
+> + * Use pcim_iomap_region() instead.
+>   */
+>  int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name)
+>  {
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 4cf89a4b4cbc..fc30176d28ca 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -2292,6 +2292,8 @@ static inline void pci_fixup_device(enum pci_fixup_pass pass,
+>  void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned long maxlen);
+>  void pcim_iounmap(struct pci_dev *pdev, void __iomem *addr);
+>  void __iomem * const *pcim_iomap_table(struct pci_dev *pdev);
+> +void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+> +				       const char *name);
+>  int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name);
+>  int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
+>  				   const char *name);
+> -- 
+> 2.45.2
+> 
