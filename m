@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F6294A83B
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 15:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C30D794A83E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 15:05:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47A8010E4FA;
-	Wed,  7 Aug 2024 13:05:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97E0E10E50B;
+	Wed,  7 Aug 2024 13:05:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RdTSYjFT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nIs/WRe8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDC510E505;
- Wed,  7 Aug 2024 13:05:15 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-3683f56b9bdso1198774f8f.1; 
- Wed, 07 Aug 2024 06:05:15 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3AD310E509;
+ Wed,  7 Aug 2024 13:05:16 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-4280b3a7efaso11937355e9.0; 
+ Wed, 07 Aug 2024 06:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723035914; x=1723640714; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1723035915; x=1723640715; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=X+in5BXb/vtFxcHIZXRWviluH0ffdCxEZJKwCycdffI=;
- b=RdTSYjFTw/2OAUF9ax2hGfeP94rZBkVKxQ0D1LOP3Q79a9q/OfIMIZymPTKY6+Hm7c
- xC8CVrSGlTOLXPYDIz9/RZVRD8LlZf8X137pypvciavWlWHQ7RKVO9ZGTmBUdSYLXPbT
- soSTGNs7xv0sRn/XEFQhqTuykByPmRnG5nu0GEgt+6TFCfKaga3d4LCYOrve3Lqe2bq3
- 75GnhtL3mcxCpjoQPufxXi2yhE6R72+1oD1enVHF8+KuB1aYDYAA6Pba4IXR0ASfXSeU
- erui/2ULvi5TJk857o5Jr1W/OiRTGDmsu274cbnINCyzKjBUlBA+oKZK+L+y5moutWB1
- PJZw==
+ :reply-to; bh=1oksB2lPljdtr262j2OTvXCtWbemaDGwEg2PJlYW6+0=;
+ b=nIs/WRe8i0pjaMg0OBfRCq+N2ZaQPNnSPxyGgTR2JNBr61OuhlLxuh+7TDhqbc1H44
+ opr2eMrJt0xi5VEVbBQJrTDjwtGMuZnep2gB6060soezJEL6ESlovLlwOLWU45bOs9md
+ xcvYRXqnKtlC1Zf8Gva9gtg7W5C8A/dU2PQLzgOH9+MqAwgSdF2jgZ9o9irx6bPzx2Qw
+ r/LErywB/Gg2DSf5F9SrD+Wt5SFlhk3c8Mi8jwWV3LXBOLFpyQcZSHzYgOzbqQbHz75H
+ DWaA6uq6Sizeta24i6V2JM7Ln9ESV4Won6YO+6UfDGlYthXHHhJk/M2lCFVFN+/TSMwX
+ Qmtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723035914; x=1723640714;
+ d=1e100.net; s=20230601; t=1723035915; x=1723640715;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=X+in5BXb/vtFxcHIZXRWviluH0ffdCxEZJKwCycdffI=;
- b=rWofoZBTfjbZ2wElAyABkETKCFhCoPNu75JlD1UfH4CO2w7SVQCQWvedfIIEkXiow3
- Xy5k6s8Hmo4dL/OpHx8Pj3nvNSu6wimOnIwcG71E9uOEfO8e3IRp5aTyz84E1LAM9u0N
- 3U6xlO36yV1kwFhM4pneezzCrVQQyfVw5TLXQh9WdF3Q1+H0+yYZhhG5Wwe7vs/huazg
- qvPW69yvLbfBriAdqlKcEIptdWHh0cVH3lf7lWap7pfcl+tscuyQFF2nHu2rVqOq1xeL
- wbqGJ1RKUWVP/n1TI7LQeqKnyqO0QdewSGlJVw+a/bkI4sVsbMaqOOY1gN03y35Vv0Ku
- LL0A==
+ bh=1oksB2lPljdtr262j2OTvXCtWbemaDGwEg2PJlYW6+0=;
+ b=H6Un5S0n30g5wie7+p5n+RL4+F6iTaNQmnVCWHAbT3F2uVeNGOaBCiQOBMyGD9Y7WJ
+ uHXM6SJJtykilj1G/RlXs8pvwUZDuckXiEOSb+NtxGpT8bnwMNSUwIzWL8c4wvXCqc2x
+ NYTqcM4Ba3g4haSoEaDyUVrSO+JRSQZEu6G9ZiP81XF3BaGcV4S6P6i4xVaqEO3n2JNs
+ P+DSiySON2zi+0mvZ3ZDRH6eZZgq2ybXHWguAMx/m2WSRdHnvWuMe4cx/MQnIJzjL26Z
+ bdI+7u3+XgKFciFh1hA4tlY/QiIqzsI2MtX2CdDaT7TDJpZpq1FQ2xZfGb9qIkYotLd0
+ /VAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVdWNMxG3X9ol2862PAHl7OknO85TsW3aWjjYY7BM8r3Il04vp3ds0cAU2DY4qWsEMvtuHx/tteiuMiB96KQ+wJGjjH2ys/qwuVZ5blKyI4lZWI/yoQ/2USVTrrNiYlIEcG406lODFRsj9wwibFcAvb
-X-Gm-Message-State: AOJu0YyGNaAiXSWEJZ4fvyYrRy45Hkm1cBfQhXJUcvzoiY9e6+nE6Dkr
- z8wViv9IkeAJ4YuhWIPhyWZa3MgWZct63mwOAZDBwEKcav2FPa5l
-X-Google-Smtp-Source: AGHT+IGryRxi5KmB9DpHFGsqNZJS7ZbVWGPc/xzxJkhPbGz4XRaLoFExWXIJS6YW/kfmgunxFy1xrQ==
-X-Received: by 2002:adf:e607:0:b0:367:40b9:e9e6 with SMTP id
- ffacd0b85a97d-36bbc0f5b05mr11537555f8f.21.1723035913757; 
- Wed, 07 Aug 2024 06:05:13 -0700 (PDT)
+ AJvYcCUqdYsfC974zZHLJ8Snoho0MgQqO0RsVfnRwKeiN5uaN2W102o7CiVOn5JychCCvjo8Jlg3ORhxmVfWYxo+vwjMQpDYq8SwbQuJ0heyAMivM2Tx/KmZkM03EBfoafBwAbpNQJKqXqT3DaLFNQWnhcZp
+X-Gm-Message-State: AOJu0YzwgMe73HapB2VnPTSPxDNFPqcmqKgaUrFGeef3dP0cK6Aegzf+
+ EUQsX7Y44w6suKJxclj2py0UF32yRGwKZ13qaYNhHyzgo8sRQwIR
+X-Google-Smtp-Source: AGHT+IF8+PrPZHWV2T+bDUo5FDlFFDLNOBnPVtzIKhRd7aZ73nUs+zF448eTPJkidsAIpuR0rNlmYQ==
+X-Received: by 2002:adf:e644:0:b0:365:980c:d281 with SMTP id
+ ffacd0b85a97d-36bbc1bcce8mr10627386f8f.45.1723035914892; 
+ Wed, 07 Aug 2024 06:05:14 -0700 (PDT)
 Received: from [192.168.0.12]
  (cpc115152-dals23-2-0-cust532.20-2.cable.virginm.net. [86.12.82.21])
  by smtp.gmail.com with ESMTPSA id
  ffacd0b85a97d-36bbd05980csm16072849f8f.76.2024.08.07.06.05.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Aug 2024 06:05:13 -0700 (PDT)
+ Wed, 07 Aug 2024 06:05:14 -0700 (PDT)
 From: Connor Abbott <cwabbott0@gmail.com>
-Date: Wed, 07 Aug 2024 14:04:58 +0100
-Subject: [PATCH v3 3/4] drm/msm: Expose expanded UBWC config uapi
+Date: Wed, 07 Aug 2024 14:04:59 +0100
+Subject: [PATCH v3 4/4] drm/msm: Fix UBWC macrotile_mode for a680
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240807-msm-tiling-config-v3-3-ef1bc26efb4c@gmail.com>
+Message-Id: <20240807-msm-tiling-config-v3-4-ef1bc26efb4c@gmail.com>
 References: <20240807-msm-tiling-config-v3-0-ef1bc26efb4c@gmail.com>
 In-Reply-To: <20240807-msm-tiling-config-v3-0-ef1bc26efb4c@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -73,11 +73,11 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, Connor Abbott <cwabbott0@gmail.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723035909; l=1686;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723035909; l=955;
  i=cwabbott0@gmail.com; s=20240426; h=from:subject:message-id;
- bh=NRBL4jAN6hjfyxISVZD05E8syLttrXlZkKCLenRZkDQ=;
- b=s9YvQa4URwtRyyRrn7r60+3wWfDZ+grUkG7vbmYkOJLhXjDSyozklBEyFds/LrCkjLo+fgccq
- VsJdVKmVLtSBVAt+DGq2jmLUL9W1A2fTqbXbs2S866A04vNgzk3KETJ
+ bh=/7yQqe2NBmmAI7rwVzTr03fHyeDp7IBl0NXw+ehR9bo=;
+ b=NRs0NJvx7j8M5zqZYO/fc7C48wEQeY0hvIuRQ+ibgD3REpZMOSfpYrZ2wBj5shMArAsIl758E
+ qMPqBlBFximDcNQMDNwJW+j/OoXvlGvDhCiIWPK7t6HjJRfEhX8LT1y
 X-Developer-Key: i=cwabbott0@gmail.com; a=ed25519;
  pk=dkpOeRSXLzVgqhy0Idr3nsBr4ranyERLMnoAgR4cHmY=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,45 +95,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds extra parameters that affect UBWC tiling that will be used by
-the Mesa implementation of VK_EXT_host_image_copy.
+Make it match the MDSS settings for sc8180x and downstream.
+
+Note that without the previous commit that exposes the value of
+macrotile_mode to mesa, this will break mesa which expects the legacy
+default value of 0. Therefore we do *not* want to backport it.
 
 Signed-off-by: Connor Abbott <cwabbott0@gmail.com>
 ---
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 6 ++++++
- include/uapi/drm/msm_drm.h              | 2 ++
- 2 files changed, 8 insertions(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 1c6626747b98..a4d3bc2de8df 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -379,6 +379,12 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 	case MSM_PARAM_RAYTRACING:
- 		*value = adreno_gpu->has_ray_tracing;
- 		return 0;
-+	case MSM_PARAM_UBWC_SWIZZLE:
-+		*value = adreno_gpu->ubwc_config.ubwc_swizzle;
-+		return 0;
-+	case MSM_PARAM_MACROTILE_MODE:
-+		*value = adreno_gpu->ubwc_config.macrotile_mode;
-+		return 0;
- 	default:
- 		DBG("%s: invalid param: %u", gpu->name, param);
- 		return -EINVAL;
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 3fca72f73861..2377147b6af0 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -88,6 +88,8 @@ struct drm_msm_timespec {
- #define MSM_PARAM_VA_SIZE    0x0f  /* RO: size of valid GPU iova range (bytes) */
- #define MSM_PARAM_HIGHEST_BANK_BIT 0x10 /* RO */
- #define MSM_PARAM_RAYTRACING 0x11 /* RO */
-+#define MSM_PARAM_UBWC_SWIZZLE 0x12 /* RO */
-+#define MSM_PARAM_MACROTILE_MODE 0x13 /* RO */
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 7c2fdd1e7684..7ceca633ceea 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -519,6 +519,9 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+ 	if (adreno_is_a640_family(gpu))
+ 		gpu->ubwc_config.amsbc = 1;
  
- /* For backwards compat.  The original support for preemption was based on
-  * a single ring per priority level so # of priority levels equals the #
++	if (adreno_is_a680(gpu))
++		gpu->ubwc_config.macrotile_mode = 1;
++
+ 	if (adreno_is_a650(gpu) ||
+ 	    adreno_is_a660(gpu) ||
+ 	    adreno_is_a690(gpu) ||
 
 -- 
 2.31.1
