@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01A094A693
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 13:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 709EA94A69E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 13:07:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5053710E4B2;
-	Wed,  7 Aug 2024 11:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC06410E4AA;
+	Wed,  7 Aug 2024 11:07:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mD4IY8MA";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="W35P9PGG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE2410E4B0;
- Wed,  7 Aug 2024 11:04:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 6EB8CCE10B9;
- Wed,  7 Aug 2024 11:04:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CF93C32782;
- Wed,  7 Aug 2024 11:04:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723028671;
- bh=WryCtfDTwpLJfLb+h3LF6Ld+vO8Q+1flRpuRIuiXoQ8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mD4IY8MA6rHtHW+8SFkOiPXEVM1OG+kbWiATP4mCHzpSliZVHWFUHkwf2C4FP1e/c
- JWNqR5yBj28gofIcY9qiRpWGc2Ju4g5fxjCu+M1agwK/FvJw8aa/A6IAlmA1x9ZGik
- 0vHZFUuhtW7pClhzlx+gUGhjxnEtqrg8XDUQPyjA=
-Date: Wed, 7 Aug 2024 13:04:29 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: da.gomez@samsung.com
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- William Hubbs <w.d.hubbs@gmail.com>,
- Chris Brannon <chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Jiri Slaby <jirislaby@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, speakup@linux-speakup.org,
- selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linux-serial@vger.kernel.org,
- llvm@lists.linux.dev, Finn Behrens <me@kloenk.dev>,
- "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com
-Subject: Re: [PATCH 08/12] include: add elf.h support
-Message-ID: <2024080717-cross-retiree-862e@gregkh>
-References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
- <20240807-macos-build-support-v1-8-4cd1ded85694@samsung.com>
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1B3B10E4AA
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 11:07:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1723028817; x=1723633617; i=markus.elfring@web.de;
+ bh=P9f5JhF5QX/KW3GdX2o9fsJ93F1Bd6JEYTRl89FKqAY=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=W35P9PGG7ZWsQVbLwamHBG09pan21IEfuFK68epnaQRuHGU/2ey8NCS2kVuw+2zZ
+ iWAwZEhT3DaV0elKoyRaq/jlz56q2TyTtwFqLb77Atx0XJ1em/6KVwj2IGTsIwi2Q
+ cU6LUlaCCsyUtPV3sqhq/friXBM5Hl+la/xe62C4I9tljjvaaNtBsZHS0mj6BQjPQ
+ iv6Kw8aCx8VcVkcdqz8AM9iT2j8IMLqvrr3hbAHir1BhhzMYoVFpGqmE3lLa/lF4F
+ SJT8NRYuAexkYkRX3Z23kSio4TBWG7n4cCvDnHAwOv6CwavqpdDeISaUWPlpq4eLa
+ VUMc7aTMNN+Jzddh/g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M2gkl-1se8HW264F-005YAy; Wed, 07
+ Aug 2024 13:06:57 +0200
+Message-ID: <d7b4ea8a-74c5-40db-bf11-f8345f570ef5@web.de>
+Date: Wed, 7 Aug 2024 13:06:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240807-macos-build-support-v1-8-4cd1ded85694@samsung.com>
+User-Agent: Mozilla Thunderbird
+To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org,
+ Oded Gabbay <ogabbay@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, George Yang <George.Yang@amd.com>,
+ king.tam@amd.com, Max Zhen <max.zhen@amd.com>, Min Ma <min.ma@amd.com>,
+ Narendra Gutta <VenkataNarendraKumar.Gutta@amd.com>,
+ Sonal Santan <sonal.santan@amd.com>
+References: <20240805173959.3181199-2-lizhi.hou@amd.com>
+Subject: Re: [PATCH V2 01/10] accel/amdxdna: Add a new driver for AMD AI Engine
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240805173959.3181199-2-lizhi.hou@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:dPQzK6nuAq+WHCYIPbb7mHsmd1leSWJwLf5CRrW/N6LJYR8Tv6Z
+ Xl5xwBc6meBYyFSOCT5fD6pyf2ucKvDEOuu/DhfWzq0RH8hzrL1gSJkhtXx2t4QcSEZaiID
+ gwP7zPWI3zV5zacaXSQ/8iDjgx9fqlYdG+CNnD6s+hLAxQ/yHCCXMSsQkoHaL8kbERjcWHu
+ 26AdwifNcTgYBYcNsdD+A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:N+7wopy3sno=;JGL25eDSvLuu5NT7TWaBH5KpPUd
+ ubtdRdc5AGfIhaH0oOWt+Rqzkp+Rg1Xt0D1IL9QoRiJoJRfj5bgU8dfNUZVCse2ZW3Ar3Z4qH
+ 4dSivU9hWzyMscmOXzdk9JX2L9bCvMk5mXmU+bafww358sa17u7Zc0xtOvoz/b8lIlwpIGfgd
+ JlqGCC8Bb8JqDD8HstXPyqpVRABaXh5HHV5wIX/K9FFGR+rdzgfvMvrmcxDuK/ZIcxXelHqVy
+ VsU59bRt7KJTU8j7kHTbusCFmPrT6nii7eP20YRKObT5EeY4oZG7JTl0avofJrpHIl99eRRVk
+ ayN+V+lkuM6fnfwwbqBp9rpdxcMefWn1x3mBISMtmTsHR5vT23FErz4mIfJSNp0lk0NGmi+ev
+ 6Wu4EU5CJT/8LGAcVOOAeVrXbiX/6sTpQ8HyNxlmSwrtPSao08VY8Zcv0J/OfuPAfTiswJPve
+ y17eckJl6nwsYJo2DRpx2uewszqRBmwisrbduhicUMFzr0gLMskZbmMU5iXQLScARSZMQvkaU
+ bmAkwQ0LnEIDyHopfP4++Ugge7HlroC8c9ci80n6muQ6lYjkWp5tjulGvUjzKPqxww929k8iS
+ XrwjUYgEyM+YJ5xwuO2D99l5yonQT55Je3wFDnv72j1riNX8ykM+zf9y+xt05nGbYyhTNX36r
+ P0b/KGzzRffeal9CgDU82gtkvrMsq0qXYKaFn6lBftfBnwR8rqmPzRO1jn9ceZTKSIJwQhsZV
+ o2dVA1qgYk/gQ71Rj9vdDUbcSCdcj41ScPZI6tDceEbf7N4luG56CYIz+Hu3HLj6l11MNh2J2
+ XeN+8XdFEg30gBMYi6+J9WJw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,92 +82,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 07, 2024 at 01:09:22AM +0200, Daniel Gomez via B4 Relay wrote:
-> From: Daniel Gomez <da.gomez@samsung.com>
-> 
-> Add a copy of elf/elf.h header from the GNU C Library (glibc), version
-> glibc-2.40 into include/elf. Update Makefiles where elf.h header is used
-> to ensure the compiler can find all necessary headers, for macOS host
-> where these headers are not provided by the system.
-> 
-> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
-> ---
->  arch/arm64/kernel/pi/Makefile     |    1 +
->  arch/arm64/kernel/vdso32/Makefile |    1 +
->  arch/arm64/kvm/hyp/nvhe/Makefile  |    2 +-
->  include/elf/elf.h                 | 4491 +++++++++++++++++++++++++++++++++++++
->  scripts/Makefile                  |    3 +-
->  scripts/mod/Makefile              |    6 +
->  6 files changed, 4502 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/kernel/pi/Makefile b/arch/arm64/kernel/pi/Makefile
-> index 4d11a8c29181..eb782aaa6585 100644
-> --- a/arch/arm64/kernel/pi/Makefile
-> +++ b/arch/arm64/kernel/pi/Makefile
-> @@ -20,6 +20,7 @@ KBUILD_CFLAGS	:= $(filter-out $(CC_FLAGS_SCS), $(KBUILD_CFLAGS))
->  KBUILD_CFLAGS	:= $(filter-out $(CC_FLAGS_LTO), $(KBUILD_CFLAGS))
->  
->  hostprogs	:= relacheck
-> +HOSTCFLAGS_relacheck.o = -I$(srctree)/include/elf
->  
->  quiet_cmd_piobjcopy = $(quiet_cmd_objcopy)
->        cmd_piobjcopy = $(cmd_objcopy) && $(obj)/relacheck $(@) $(<)
-> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-> index 25a2cb6317f3..e1ac384e6332 100644
-> --- a/arch/arm64/kernel/vdso32/Makefile
-> +++ b/arch/arm64/kernel/vdso32/Makefile
-> @@ -107,6 +107,7 @@ VDSO_LDFLAGS += --orphan-handling=$(CONFIG_LD_ORPHAN_WARN_LEVEL)
->  # $(hostprogs) with $(obj)
->  munge := ../../../arm/vdso/vdsomunge
->  hostprogs := $(munge)
-> +HOSTCFLAGS_$(munge).o = -I$(objtree)/include/elf
->  
->  c-obj-vdso := note.o
->  c-obj-vdso-gettimeofday := vgettimeofday.o
-> diff --git a/arch/arm64/kvm/hyp/nvhe/Makefile b/arch/arm64/kvm/hyp/nvhe/Makefile
-> index 782b34b004be..40541c0812bf 100644
-> --- a/arch/arm64/kvm/hyp/nvhe/Makefile
-> +++ b/arch/arm64/kvm/hyp/nvhe/Makefile
-> @@ -15,7 +15,7 @@ ccflags-y += -fno-stack-protector	\
->  	     $(DISABLE_STACKLEAK_PLUGIN)
->  
->  hostprogs := gen-hyprel
-> -HOST_EXTRACFLAGS += -I$(objtree)/include
-> +HOST_EXTRACFLAGS += -I$(objtree)/include -I$(srctree)/include/elf
->  
->  lib-objs := clear_page.o copy_page.o memcpy.o memset.o
->  lib-objs := $(addprefix ../../../lib/, $(lib-objs))
-> diff --git a/include/elf/elf.h b/include/elf/elf.h
-> new file mode 100644
-> index 000000000000..33aea7f743b8
-> --- /dev/null
-> +++ b/include/elf/elf.h
-> @@ -0,0 +1,4491 @@
-> +/* This file defines standard ELF types, structures, and macros.
-> +   Copyright (C) 1995-2024 Free Software Foundation, Inc.
-> +   This file is part of the GNU C Library.
+If you temporarily find the circumstances too challenging for applications
+of scope-based resource management, I suggest to use the following stateme=
+nts instead
+(so that a bit of redundant code can be avoided).
+
+
+
+=E2=80=A6
+> +++ b/drivers/accel/amdxdna/aie2_pci.c
+> @@ -0,0 +1,182 @@
+=E2=80=A6
+> +static int aie2_init(struct amdxdna_dev *xdna)
+> +{
+=E2=80=A6
+> +	release_firmware(fw);
+> +	return 0;
+
+	ret =3D 0;
+	goto release_fw;
+
+=E2=80=A6
+> +release_fw:
+> +	release_firmware(fw);
 > +
-> +   The GNU C Library is free software; you can redistribute it and/or
-> +   modify it under the terms of the GNU Lesser General Public
-> +   License as published by the Free Software Foundation; either
-> +   version 2.1 of the License, or (at your option) any later version.
-> +
-> +   The GNU C Library is distributed in the hope that it will be useful,
-> +   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> +   Lesser General Public License for more details.
-> +
-> +   You should have received a copy of the GNU Lesser General Public
-> +   License along with the GNU C Library; if not, see
-> +   <https://www.gnu.org/licenses/>.  */
+> +	return ret;
+> +}
+=E2=80=A6
 
-I understand your want/need for this, but new files need a SPDX license
-header instead of this type of license boilerplate.  Didn't glibc
-already convert to SPDX?
 
-Also, as this is not internal for the kernel, but rather for userspace
-builds, shouldn't the include/ path be different?
+Otherwise (in case further collateral evolution will become more desirable=
+):
+=E2=80=A6
+> +static int aie2_init(struct amdxdna_dev *xdna)
+> +{
+=E2=80=A6
+> +	const struct firmware *fw;
 
-thanks,
+I propose to take another software design option better into account.
 
-greg k-h
+* You may reduce the scope of such a local variable.
+
+* How do you think about to use the attribute =E2=80=9C__free(firmware)=E2=
+=80=9D?
+  https://elixir.bootlin.com/linux/v6.11-rc2/source/include/linux/firmware=
+.h#L214
+
+=E2=80=A6
+> +	ret =3D request_firmware(&fw, ndev->priv->fw_path, &pdev->dev);
+=E2=80=A6
+
+
+Regards,
+Markus
