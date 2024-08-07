@@ -2,61 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66BAF94A509
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 12:05:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4DF94A5FC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 12:44:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0F0D10E482;
-	Wed,  7 Aug 2024 10:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25F1910E497;
+	Wed,  7 Aug 2024 10:44:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GZ/AdvpJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="L8TI01zd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A451210E481;
- Wed,  7 Aug 2024 10:05:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723025153; x=1754561153;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=+Nch4MT1UeHoc7nr+A5ilKRXhbBxbhwsteGiJ2ID8sI=;
- b=GZ/AdvpJw6/O1aud9GYA0TgDE/UodbwtZNzZsJPEXdjb5FK5P8YKN5uu
- pr1qk6Ul7dWmkrjIql8AT827bIRjOeg3wizv8pbEskvdTWYONVQubER0m
- mJ/cma0EMANxj1U+06y1NzUweeW6HwIf5P+pIwc7T+YxsgQ5omfbFzogD
- arH3DSdW4pyl0ByG+zNvx48Ln+l4VZTwy/zKP+9m66d5U32hS4AkVNB0P
- QCiOHlMXVKTFwtqG5S8Lt/Kddjst43Ic7+dw07sUyJGSxR5adnOnXr9oo
- G6UsxUPf/GSAov+pz4QCP0Qijf3PTTIEwBTV9kk0jTZqSH53F9NY3LkLk w==;
-X-CSE-ConnectionGUID: XmZZsu7HS02bPHwNkUnjeQ==
-X-CSE-MsgGUID: x/qDHwQ/Quade+BekkkEsA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="31659914"
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; d="scan'208";a="31659914"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 03:05:53 -0700
-X-CSE-ConnectionGUID: Ibcx9w0nQ5uq3l6668f0GQ==
-X-CSE-MsgGUID: 4xDkojKTSPCEq9r3/NoXpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; d="scan'208";a="57495686"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO intel.com)
- ([10.245.244.245])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 03:05:50 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [PATCH 2/2] drm/i915/gem: Calculate object page offset for partial
- memory mapping
-Date: Wed,  7 Aug 2024 11:05:21 +0100
-Message-ID: <20240807100521.478266-3-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240807100521.478266-1-andi.shyti@linux.intel.com>
-References: <20240807100521.478266-1-andi.shyti@linux.intel.com>
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1973D10E49A
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 10:44:18 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id
+ d9443c01a7336-1fc56fd4de1so5646455ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 03:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1723027457; x=1723632257; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=F3o02Xw7ezzA14Pd+Lgc2BLB9SvalP82R9YVWF/sDxk=;
+ b=L8TI01zdxwBumFpGOfeQ5NGXNPy0tQ5K0W/y3a4p2RI9b/veA4hYi5yLkaWORFue/V
+ H7jFIeM4+z5sXIDvGOhiHqw2z2MVR1jUzHMLCeZhcQppu/ovNxU/LuDYOX/Lw0zak1VP
+ HYhJzYKfKCg+8Hs6f41ZB4Vy/tpZHXKNxvfhtxTiXFOdtWPTyOX5xeooy80vUTlQ/0YT
+ rFNygO9ZL8GVzaRk2IK70g1hGRJQ+HPD03P93UGW8ctroziHdubc5er+08oKACFvmd+Q
+ yBpTz5XRCXTCXiLb4PreG76D1B9fxePGBtouacyrAMg7U2uuHBZtimG6OnsRNECQwvwR
+ iFJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723027457; x=1723632257;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=F3o02Xw7ezzA14Pd+Lgc2BLB9SvalP82R9YVWF/sDxk=;
+ b=MY7FRkmv/7mjuM4P4RYLwy0QXL9KkFVv4YxMPwmer1Zloh3ESgBUGfOIreXeSHa1Jr
+ OgYlR4pgCgJj4rzPhPYGr0WDrhKeP+72MHV7NufVvqjKJYPkMfrlz0FihP0Y4mcwGEGw
+ Y/+H1pzGfe533jVH341PHzFGYGpV76vz+M9E7As4CGShvGp4fnEL1a0RyVR/LAqOicPN
+ WuAuet8HXCeSG/67yMsKXTYrX/zoFk5H5ThV4oy5qnOnjSQxu9Nkd3bkMuZD2+QDGUQn
+ pJgoa8SVJIdceZPIAMRT2vpCVxPKItcykGe2jpK6s4FiW8FqhaWXcYEBuQH86LUkfjvP
+ YlyQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/fjnK5yX4v4xMyagz8fr9PFiBP++ni8HHT+f/Usyd3A5SyKNTVo4JlKtc0uVfWOFK0WMAA9TqbMlMywxQlfnduBvXFIR1arDyVCOFmD1e
+X-Gm-Message-State: AOJu0YxA96Wyx6GNU29hR5kywZDAtHoTOqjNu3XOTsvVk2BkOCdRbrfG
+ FM/ifKOgua20AEM2K4cefQ2ZQGmwn6DAdd9ERGuvzQCrCyRhN+fnHqsSYrXTjX0=
+X-Google-Smtp-Source: AGHT+IFoNLrt1GaF+yeaFvmCHadWYdmm/RDr/6D/Md5qSi81mcUQk94i8uHGUfoK6lIe9cztu7TiAg==
+X-Received: by 2002:a17:903:a88:b0:1f9:ad91:f8d0 with SMTP id
+ d9443c01a7336-200853de85cmr23075065ad.8.1723027457532; 
+ Wed, 07 Aug 2024 03:44:17 -0700 (PDT)
+Received: from [127.0.0.1] ([182.232.168.81]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1ff5905e58fsm103268695ad.177.2024.08.07.03.44.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Aug 2024 03:44:17 -0700 (PDT)
+Date: Wed, 07 Aug 2024 17:44:12 +0700
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Leonard Lausen <leonard@lausen.nl>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, stable@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_1/2=5D_drm/msm/dpu1=3A_don=27t_c?=
+ =?US-ASCII?Q?hoke_on_disabling_the_writeback_connector?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <57cdac1a-1c4d-4299-8fde-92ae054fc6c0@lausen.nl>
+References: <20240802-dpu-fix-wb-v2-0-7eac9eb8e895@linaro.org>
+ <20240802-dpu-fix-wb-v2-1-7eac9eb8e895@linaro.org>
+ <57cdac1a-1c4d-4299-8fde-92ae054fc6c0@lausen.nl>
+Message-ID: <61D52432-DD30-4C43-BD5E-1CC9F84DF5B9@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,97 +91,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To enable partial memory mapping of GPU virtual memory, it's
-necessary to introduce an offset to the object's memory
-(obj->mm.pages) scatterlist. This adjustment compensates for
-instances when userspace mappings do not start from the beginning
-of the object.
+On August 5, 2024 9:27:39 AM GMT+07:00, Leonard Lausen <leonard@lausen=2Enl=
+> wrote:
+>Dear Dmitry,
+>
+>Thank you for the patch=2E Unfortunately, the patch triggers a regression=
+ with
+>respect to DRM CRTC state handling=2E With the patch applied, suspending =
+and
+>resuming a lazor sc7180 with external display connected, looses CRTC stat=
+e on
+>resume and prevents applying a new CRTC state=2E Without the patch, CRTC =
+state is
+>preserved across suspend and resume and it remains possible to change CRT=
+C
+>settings after resume=2E This means the patch regresses the user experien=
+ce,
+>preventing "Night Light" mode to work as expected=2E I've validated this =
+on
+>v6=2E10=2E2 vs=2E v6=2E10=2E2 with this patch applied=2E
+>
 
-Based on a patch by Chris Wilson.
+Could you please clarify, I was under the impression that currently whole =
+suspend/resume is broken, so it's more than a dmesg message=2E
 
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c |  4 +++-
- drivers/gpu/drm/i915/i915_mm.c           | 12 +++++++++++-
- drivers/gpu/drm/i915/i915_mm.h           |  3 ++-
- 3 files changed, 16 insertions(+), 3 deletions(-)
+>While the cause for the bug uncovered by this change is likely separate, =
+given
+>it's impact, would it be prudent to delay the application of this patch u=
+ntil
+>the related bug is identified and fixed? Otherwise we would be fixing a d=
+mesg
+>error message "[dpu error]connector not connected 3" that appears to do n=
+o harm
+>but thereby break more critical user visible behavior=2E
+>
+>Best regards
+>Leonard
+>
+>On 8/2/24 15:47, Dmitry Baryshkov wrote:
+>> During suspend/resume process all connectors are explicitly disabled an=
+d
+>> then reenabled=2E However resume fails because of the connector_status =
+check:
+>>=20
+>> [ 1185=2E831970] [dpu error]connector not connected 3
+>>=20
+>> It doesn't make sense to check for the Writeback connected status (and
+>> other drivers don't perform such check), so drop the check=2E
+>>=20
+>> Fixes: 71174f362d67 ("drm/msm/dpu: move writeback's atomic_check to dpu=
+_writeback=2Ec")
+>> Cc: stable@vger=2Ekernel=2Eorg
+>> Reported-by: Leonard Lausen <leonard@lausen=2Enl>
+>> Closes: https://gitlab=2Efreedesktop=2Eorg/drm/msm/-/issues/57
+>> Signed-off-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
+>> ---
+>>  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec | 3 ---
+>>  1 file changed, 3 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec b/drivers/=
+gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec
+>> index 16f144cbc0c9=2E=2E8ff496082902 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback=2Ec
+>> @@ -42,9 +42,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connec=
+tor *connector,
+>>  	if (!conn_state || !conn_state->connector) {
+>>  		DPU_ERROR("invalid connector state\n");
+>>  		return -EINVAL;
+>> -	} else if (conn_state->connector->status !=3D connector_status_connec=
+ted) {
+>> -		DPU_ERROR("connector not connected %d\n", conn_state->connector->sta=
+tus);
+>> -		return -EINVAL;
+>>  	}
+>> =20
+>>  	crtc =3D conn_state->crtc;
+>>=20
+>
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index d3ee8ef7ea2f..bb00af317d59 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -252,6 +252,7 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
- 	struct vm_area_struct *area = vmf->vma;
- 	struct i915_mmap_offset *mmo = area->vm_private_data;
- 	struct drm_i915_gem_object *obj = mmo->obj;
-+	unsigned long obj_offset;
- 	resource_size_t iomap;
- 	int err;
- 
-@@ -273,10 +274,11 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
- 		iomap -= obj->mm.region->region.start;
- 	}
- 
-+	obj_offset = area->vm_pgoff - drm_vma_node_start(&mmo->vma_node);
- 	/* PTEs are revoked in obj->ops->put_pages() */
- 	err = remap_io_sg(area,
- 			  area->vm_start, area->vm_end - area->vm_start,
--			  obj->mm.pages->sgl, iomap);
-+			  obj->mm.pages->sgl, obj_offset, iomap);
- 
- 	if (area->vm_flags & VM_WRITE) {
- 		GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
-diff --git a/drivers/gpu/drm/i915/i915_mm.c b/drivers/gpu/drm/i915/i915_mm.c
-index 7998bc74ab49..f5c97a620962 100644
---- a/drivers/gpu/drm/i915/i915_mm.c
-+++ b/drivers/gpu/drm/i915/i915_mm.c
-@@ -122,13 +122,15 @@ int remap_io_mapping(struct vm_area_struct *vma,
-  * @addr: target user address to start at
-  * @size: size of map area
-  * @sgl: Start sg entry
-+ * @offset: offset from the start of the page
-  * @iobase: Use stored dma address offset by this address or pfn if -1
-  *
-  *  Note: this is only safe if the mm semaphore is held when called.
-  */
- int remap_io_sg(struct vm_area_struct *vma,
- 		unsigned long addr, unsigned long size,
--		struct scatterlist *sgl, resource_size_t iobase)
-+		struct scatterlist *sgl, unsigned long offset,
-+		resource_size_t iobase)
- {
- 	struct remap_pfn r = {
- 		.mm = vma->vm_mm,
-@@ -141,6 +143,14 @@ int remap_io_sg(struct vm_area_struct *vma,
- 	/* We rely on prevalidation of the io-mapping to skip track_pfn(). */
- 	GEM_BUG_ON((vma->vm_flags & EXPECTED_FLAGS) != EXPECTED_FLAGS);
- 
-+	while (offset >= sg_dma_len(r.sgt.sgp) >> PAGE_SHIFT) {
-+		offset -= sg_dma_len(r.sgt.sgp) >> PAGE_SHIFT;
-+		r.sgt = __sgt_iter(__sg_next(r.sgt.sgp), use_dma(iobase));
-+		if (!r.sgt.sgp)
-+			return -EINVAL;
-+	}
-+	r.sgt.curr = offset << PAGE_SHIFT;
-+
- 	if (!use_dma(iobase))
- 		flush_cache_range(vma, addr, size);
- 
-diff --git a/drivers/gpu/drm/i915/i915_mm.h b/drivers/gpu/drm/i915/i915_mm.h
-index 04c8974d822b..69f9351b1a1c 100644
---- a/drivers/gpu/drm/i915/i915_mm.h
-+++ b/drivers/gpu/drm/i915/i915_mm.h
-@@ -30,6 +30,7 @@ int remap_io_mapping(struct vm_area_struct *vma,
- 
- int remap_io_sg(struct vm_area_struct *vma,
- 		unsigned long addr, unsigned long size,
--		struct scatterlist *sgl, resource_size_t iobase);
-+		struct scatterlist *sgl, unsigned long offset,
-+		resource_size_t iobase);
- 
- #endif /* __I915_MM_H__ */
--- 
-2.45.2
 
+--=20
+With best wishes
+Dmitry
