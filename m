@@ -2,67 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86F894AADD
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854EA94AAFD
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 17:02:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047DC10E118;
-	Wed,  7 Aug 2024 14:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 042E110E55E;
+	Wed,  7 Aug 2024 15:01:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dsQ6GLDo";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lY63lB8H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90AA310E562;
- Wed,  7 Aug 2024 14:58:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723042730; x=1754578730;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2fItWewwxFGqhmsqb2jSiwgO6+kgU3T+Q2F51ZJQ8+I=;
- b=dsQ6GLDo4vaHgtqULpnZlPZwOzG96BFbwJch9nRW9mgswMgOAur4Hsqx
- l/NzNRQxyBbuZBfYq+WN9ZR7SuSnfXcrYrTLsenSvSiqJsgwV9ECMMJUz
- 3Oi5L0+FmVBzaYElKc3I5a3E84uXPWUiSFCvLQkUcYk9Lh8tEp8tt3pdM
- ArM6vTj3ILedT5Grs+gHNmcyjCfLxoE7OMukT2KYTI0ayt0ft2DLJZaEw
- l6GyT0zKSEr1HWKCpGPqCo2hsLInN7D2tL7TEbHBokEMLKKzrOzDgtydV
- 26k0b5sbMhkH/+GJFJkCCofNUcd/WXwFCAO97eG4QD3TPjHBVfkausWNB w==;
-X-CSE-ConnectionGUID: 6mqUkM5wQTiHwp1ILaLtoA==
-X-CSE-MsgGUID: NjD+iQA2RPOG2uJxTlq5IQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="32520888"
-X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; d="scan'208";a="32520888"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 07:58:50 -0700
-X-CSE-ConnectionGUID: VlmhSiYLTeeDTDHJqqa1uA==
-X-CSE-MsgGUID: 0gbQH6ABSa+3Udj6lGs5ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; d="scan'208";a="56970199"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO intel.com)
- ([10.245.245.8])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 07:58:45 -0700
-Date: Wed, 7 Aug 2024 15:58:30 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
-Cc: Thorsten Blum <thorsten.blum@toblux.com>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "tursulin@ursulin.net" <tursulin@ursulin.net>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] drm/i915: Explicitly cast divisor and use div_u64()
-Message-ID: <ZrOLlofTKS_xKWrC@ashyti-mobl2.lan>
-References: <20240802160323.46518-2-thorsten.blum@toblux.com>
- <CH0PR11MB544400E7751E4A4090DBB387E5BE2@CH0PR11MB5444.namprd11.prod.outlook.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1353E10E55E
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 15:01:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 44F0D611C0;
+ Wed,  7 Aug 2024 15:01:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE8EC32781;
+ Wed,  7 Aug 2024 15:01:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1723042915;
+ bh=x3Lm5omW0jZf7Wqjoccp5XHzQMUq3xcVn89L+hodSVs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=lY63lB8HcuU8PygdVq7TcnUCSHl2dfYenOQL3qI3y0v0MdiSVKL1lfPaQ42K6ItE9
+ +GbfEpgsxA9gLe/T97OdxqjeawHe2aUzEtOp95vYJ0Qi8fjxlwEXgkD2Tpd+Q9sTlQ
+ Z3r03aKPhOVv8VB9sjZfMsbXj4E5vlW36vaqgTDA=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ dri-devel@lists.freedesktop.org,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+ Martin Krastev <martin.krastev@broadcom.com>,
+ Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.10 022/123] drm/vmwgfx: Make sure the screen surface is ref
+ counted
+Date: Wed,  7 Aug 2024 16:59:01 +0200
+Message-ID: <20240807150021.538900911@linuxfoundation.org>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240807150020.790615758@linuxfoundation.org>
+References: <20240807150020.790615758@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CH0PR11MB544400E7751E4A4090DBB387E5BE2@CH0PR11MB5444.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,38 +63,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thorsten,
+6.10-stable review patch.  If anyone has any objections, please let me know.
 
-> >  			/* This check is primarily to ensure that oa_period <=
-> > -			 * UINT32_MAX (before passing to do_div which only
-> > +			 * UINT32_MAX (before passing it to div_u64 which only
-> >  			 * accepts a u32 denominator), but we can also skip
-> >  			 * checking anything < 1Hz which implicitly can't be
-> >  			 * limited via an integer oa_max_sample_rate.
-> >  			 */
-> >  			if (oa_period <= NSEC_PER_SEC) {
-> > -				u64 tmp = NSEC_PER_SEC;
-> > -				do_div(tmp, oa_period);
-> > -				oa_freq_hz = tmp;
-> > +				oa_freq_hz = div_u64(NSEC_PER_SEC, (u32)oa_period);
-> >  			} else
-> >  				oa_freq_hz = 0;
-> 
-> Non-blocking suggestion: this looks like it can be inlined.  And if the
-> inline route is taken, it might be best to invert the conditional check
-> like such:
-> 
-> oa_freq_hz = oa_period > NSEC_PER_SEC ? 0 :
->                                      div_u64(NSEC_PER_SEC, (u32)oa_period);
-> 
-> I think this is just a matter of preference, though.  The explicit if-else
-> block is definitely clearer.
+------------------
 
-It's also stylistically wrong given that now the if/else don't
-need the brackets anymore, triggering a checkpatch error.
+From: Zack Rusin <zack.rusin@broadcom.com>
 
-Thorsten do you mind resending it either following Jonathan's
-suggestion (my favourite, as well) or fix the bracket issue
-following the kernel style.
+[ Upstream commit 09f34a00272d2311f6e5d64ed8ad824ef78f7487 ]
 
-Andi
+Fix races issues in virtual crc generation by making sure the surface
+the code uses for crc computation is properly ref counted.
+
+Crc generation was trying to be too clever by allowing the surfaces
+to go in and out of scope, with the hope of always having some kind
+of screen present. That's not always the code, in particular during
+atomic disable, so to make sure the surface, when present, is not
+being actively destroyed at the same time, hold a reference to it.
+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: 7b0062036c3b ("drm/vmwgfx: Implement virtual crc generation")
+Cc: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240722184313.181318-3-zack.rusin@broadcom.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c | 40 +++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
+index 7e93a45948f79..ac002048d8e5e 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
+@@ -76,7 +76,7 @@ vmw_surface_sync(struct vmw_private *vmw,
+ 	return ret;
+ }
+ 
+-static int
++static void
+ compute_crc(struct drm_crtc *crtc,
+ 	    struct vmw_surface *surf,
+ 	    u32 *crc)
+@@ -102,8 +102,6 @@ compute_crc(struct drm_crtc *crtc,
+ 	}
+ 
+ 	vmw_bo_unmap(bo);
+-
+-	return 0;
+ }
+ 
+ static void
+@@ -117,7 +115,6 @@ crc_generate_worker(struct work_struct *work)
+ 	u64 frame_start, frame_end;
+ 	u32 crc32 = 0;
+ 	struct vmw_surface *surf = 0;
+-	int ret;
+ 
+ 	spin_lock_irq(&du->vkms.crc_state_lock);
+ 	crc_pending = du->vkms.crc_pending;
+@@ -131,22 +128,24 @@ crc_generate_worker(struct work_struct *work)
+ 		return;
+ 
+ 	spin_lock_irq(&du->vkms.crc_state_lock);
+-	surf = du->vkms.surface;
++	surf = vmw_surface_reference(du->vkms.surface);
+ 	spin_unlock_irq(&du->vkms.crc_state_lock);
+ 
+-	if (vmw_surface_sync(vmw, surf)) {
+-		drm_warn(crtc->dev, "CRC worker wasn't able to sync the crc surface!\n");
+-		return;
+-	}
++	if (surf) {
++		if (vmw_surface_sync(vmw, surf)) {
++			drm_warn(
++				crtc->dev,
++				"CRC worker wasn't able to sync the crc surface!\n");
++			return;
++		}
+ 
+-	ret = compute_crc(crtc, surf, &crc32);
+-	if (ret)
+-		return;
++		compute_crc(crtc, surf, &crc32);
++		vmw_surface_unreference(&surf);
++	}
+ 
+ 	spin_lock_irq(&du->vkms.crc_state_lock);
+ 	frame_start = du->vkms.frame_start;
+ 	frame_end = du->vkms.frame_end;
+-	crc_pending = du->vkms.crc_pending;
+ 	du->vkms.frame_start = 0;
+ 	du->vkms.frame_end = 0;
+ 	du->vkms.crc_pending = false;
+@@ -165,7 +164,7 @@ vmw_vkms_vblank_simulate(struct hrtimer *timer)
+ 	struct vmw_display_unit *du = container_of(timer, struct vmw_display_unit, vkms.timer);
+ 	struct drm_crtc *crtc = &du->crtc;
+ 	struct vmw_private *vmw = vmw_priv(crtc->dev);
+-	struct vmw_surface *surf = NULL;
++	bool has_surface = false;
+ 	u64 ret_overrun;
+ 	bool locked, ret;
+ 
+@@ -180,10 +179,10 @@ vmw_vkms_vblank_simulate(struct hrtimer *timer)
+ 	WARN_ON(!ret);
+ 	if (!locked)
+ 		return HRTIMER_RESTART;
+-	surf = du->vkms.surface;
++	has_surface = du->vkms.surface != NULL;
+ 	vmw_vkms_unlock(crtc);
+ 
+-	if (du->vkms.crc_enabled && surf) {
++	if (du->vkms.crc_enabled && has_surface) {
+ 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
+ 
+ 		spin_lock(&du->vkms.crc_state_lock);
+@@ -337,6 +336,8 @@ vmw_vkms_crtc_cleanup(struct drm_crtc *crtc)
+ {
+ 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
+ 
++	if (du->vkms.surface)
++		vmw_surface_unreference(&du->vkms.surface);
+ 	WARN_ON(work_pending(&du->vkms.crc_generator_work));
+ 	hrtimer_cancel(&du->vkms.timer);
+ }
+@@ -498,9 +499,12 @@ vmw_vkms_set_crc_surface(struct drm_crtc *crtc,
+ 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
+ 	struct vmw_private *vmw = vmw_priv(crtc->dev);
+ 
+-	if (vmw->vkms_enabled) {
++	if (vmw->vkms_enabled && du->vkms.surface != surf) {
+ 		WARN_ON(atomic_read(&du->vkms.atomic_lock) != VMW_VKMS_LOCK_MODESET);
+-		du->vkms.surface = surf;
++		if (du->vkms.surface)
++			vmw_surface_unreference(&du->vkms.surface);
++		if (surf)
++			du->vkms.surface = vmw_surface_reference(surf);
+ 	}
+ }
+ 
+-- 
+2.43.0
+
+
+
