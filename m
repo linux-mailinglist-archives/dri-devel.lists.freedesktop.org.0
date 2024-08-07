@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F51B94A9ED
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71BE94A9F0
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:19:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D54AF10E53A;
-	Wed,  7 Aug 2024 14:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 483B410E543;
+	Wed,  7 Aug 2024 14:19:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U5zk5gh9";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YAczGrJM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 942D110E54B;
- Wed,  7 Aug 2024 14:19:01 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1A8710E537;
+ Wed,  7 Aug 2024 14:19:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 81B97CE0C0B;
- Wed,  7 Aug 2024 14:18:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 195CBC32781;
- Wed,  7 Aug 2024 14:18:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0DD5261179;
+ Wed,  7 Aug 2024 14:19:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E804C4AF0E;
+ Wed,  7 Aug 2024 14:19:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723040337;
- bh=ruDqzUJIFxwXUEMKpcoMsTtq7dxHLYVF5qNLHuT7WR0=;
+ s=korg; t=1723040385;
+ bh=wkgLS15kdTLvliT36oyzsisWKqBnPHwCzUiy0yCqFCQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U5zk5gh9o70xsm2UVa6IfL8qN12x9njGZIBv0jZ3z+jxdrm5r2WLPJyND2hRPeQqd
- HwGNHZj0N7EF2rGxX6UVf73Ha9LqL9Oa4e99gWOAxHHulWR/VKE7z89Lw+8QFpxLLQ
- JWzbgxoyn4h4VkwhM102ef4o4CoiVq7Hhvmexoog=
-Date: Wed, 7 Aug 2024 16:18:54 +0200
+ b=YAczGrJMpAyxr/f9jMPRPSOGy5+QP2UgLWDtprDt4SHUXFWtjm6k8ab/4XyffRL93
+ TJzwQEOdv0lfhHsHhkcsxfTj8RJ9vQwhIHPQ1sRIBFbnZ05b0+alKHuwjos4btuiel
+ zsvVDu9TZrQn9IB5ZxXT8uzfgAEIcnHyoGBXl5Hw=
+Date: Wed, 7 Aug 2024 16:19:42 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Daniel Gomez <da.gomez@samsung.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
@@ -64,18 +64,18 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>,
  "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
  Finn Behrens <me@kloenk.dev>,
  "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
- "gost.dev@samsung.com" <gost.dev@samsung.com>
-Subject: Re: [PATCH 08/12] include: add elf.h support
-Message-ID: <2024080720-skyline-recapture-d80d@gregkh>
+ "gost.dev@samsung.com" <gost.dev@samsung.com>,
+ Nick Desaulniers <nick.desaulniers@gmail.com>
+Subject: Re: [PATCH 00/12] Enable build system on macOS hosts
+Message-ID: <2024080758-dedicator-smoky-44be@gregkh>
 References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
- <20240807-macos-build-support-v1-8-4cd1ded85694@samsung.com>
- <CGME20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c@eucas1p2.samsung.com>
- <2024080717-cross-retiree-862e@gregkh>
- <dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
+ <CGME20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4@eucas1p2.samsung.com>
+ <2024080753-debug-roulette-8cb1@gregkh>
+ <3jnp6tnkjpvnisefomxagazu2u3uzzt7rcon3r5jssraxzwegb@gsxc7c5sfh7v>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
+In-Reply-To: <3jnp6tnkjpvnisefomxagazu2u3uzzt7rcon3r5jssraxzwegb@gsxc7c5sfh7v>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,13 +91,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 07, 2024 at 02:13:57PM +0000, Daniel Gomez wrote:
-> > Also, as this is not internal for the kernel, but rather for userspace
-> > builds, shouldn't the include/ path be different?
+On Wed, Aug 07, 2024 at 01:56:38PM +0000, Daniel Gomez wrote:
+> On Wed, Aug 07, 2024 at 01:01:08PM GMT, Greg Kroah-Hartman wrote:
+> > On Wed, Aug 07, 2024 at 01:09:14AM +0200, Daniel Gomez via B4 Relay wrote:
+> > > This patch set allows for building the Linux kernel for arm64 in macOS with
+> > > LLVM.
+> > 
+> > Is this a requirement somewhere that this must work?  It seems like an
+> > odd request, what workflows require cross-operating-system builds like
+> > this?
 > 
-> Can you suggest an alternative path or provide documentation that could help
-> identify the correct location? Perhaps usr/include?
+> This isn't a requirement, but it would, for example, support workflows for QEMU
+> users and developers on macOS. They could build/compile the kernel natively and
+> use it to launch QEMU instances, simplifying their process.
 
-That is better than the generic include path as you are attempting to
-mix userspace and kernel headers in the same directory :(
+But that's not a real workload of anyone?  How often does this ever come
+up?  Who is going to maintain this cross-build functionality over time?
 
+thanks,
+
+greg k-h
