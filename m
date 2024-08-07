@@ -2,57 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F5D94A2FF
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 10:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0D394A2BB
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 10:26:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E52E610E125;
-	Wed,  7 Aug 2024 08:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6769610E458;
+	Wed,  7 Aug 2024 08:26:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="ir9NddUu";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="elIQlNeZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 903 seconds by postgrey-1.36 at gabe;
- Wed, 07 Aug 2024 08:36:12 UTC
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D59C10E125
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 08:36:12 +0000 (UTC)
-Delivered-To: daniels@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723018867; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZJElaatvcYXBycHHxoc8eo38AnN55mSSRS6EmA0oITnPEyF4ElJvKEi48h62kahLV66OxVWeh5sOElLbr1/qjU3uwcaZjtTMKAIuNPQH+ebVSEl5C52tUzQPxMRk2/XZOHBtjSDIaASffeoFNCBLt6Svi42uOBACo2Vq+MUfdnk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723018867;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=9HH5J5pheMHQbYtu6UKFxGxCRC6ubAR8RRggZLYoxYE=; 
- b=CADT9bK8zL/AdnqpQnROp39dWq1es6hVB2O3INgmXoQcrn+CWwz0Rp2cQWeUpBv385OnzuDEWA7n9gwB5ClTiaT0wKcIBZ7Raci85t6p62XbSPKh8x3JrgVElFXbzaQmXe7uTSXCw0Ilz2cXLqUh+P+SLnaC2cBCmNdw/+hqfyk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
- dmarc=pass header.from=<vignesh.raman@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723018867; 
- s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=9HH5J5pheMHQbYtu6UKFxGxCRC6ubAR8RRggZLYoxYE=;
- b=ir9NddUuvhMNoqJPg+jCXws4YBQz+6H5rStAtBFN0dpmqJbeqhhh/AgdQZRTjTFn
- H1vZA0xDvoKEnh3O4tWuIAg2ChnDlJig/QyauuMcd2JPE4AhW8AxgLTXTD6SGov2wFN
- 7ssDQhN6QTUH9ric3prOFZumROvZKujfpz0dz/jI=
-Received: by mx.zohomail.com with SMTPS id 1723018865189439.50743036529866;
- Wed, 7 Aug 2024 01:21:05 -0700 (PDT)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, deborah.brouwer@collabora.com,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v1] drm/ci: uprev mesa
-Date: Wed,  7 Aug 2024 13:50:18 +0530
-Message-ID: <20240807082020.429434-1-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF86C10E458
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 08:26:44 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4281d812d3eso14336505e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 01:26:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723019203; x=1723624003;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=JZHByOv0mOQel4KMBZjJK3uZiiCwuwlf50RnLCFOcRk=;
+ b=elIQlNeZFQ4y//evdq524KcLhz7kN0SPKxzJPHO/BzvK9PFt4S1A/OjQZqtORAxokv
+ EXrXBtDxPocI6Kw5ePNPTeYJzt+g+EJRhAGZb4rDk5dE7bO8TZHa51EF1p7wXn+EEEG0
+ KpfbycwMKfjtZCY+zYUPAYNU0SoedH+fe9qXjRTuEe9VHITqtR/rztekBeTiYf2BXvyS
+ vBNkpOt9PYcKsUHiAjYC8HY5KSzx5RZw6XZ5KxYPbWpEGav4WDYSuNU+hHtQMZePwAX1
+ evQwe7wbF33IaECrtPS+1nWDbeAC65NoQ7hSk0QKxadxDRXYidoUDBtn7BZlIFgfTHDa
+ vOAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723019203; x=1723624003;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JZHByOv0mOQel4KMBZjJK3uZiiCwuwlf50RnLCFOcRk=;
+ b=SUwOr1OXXc24kzmmE9xgp8awS5qoT07l6KjtRzRnU05y3nLJcu9b0vC00KInU/4d45
+ qivg0m4o0NBmu9lBga1R4LQaA+05oiMymLqga+U3cdnktLAQUrGshmVfmrMgS2aYlvpg
+ MOzAdlke46q2UAiiYWCPCLJCvmxbWgZqJytbpQwXTeMNbnF5TVTm+SCPrn9YP7ElMZUF
+ SmH7InC1zj25EfU603LCmqt0S2OsHtLw1T5F6+TuSGpacDRRjEcXjl/XwcI62yPkFHn3
+ prAsts3AnzVysPTeZbWZJBPYp0iZdztG7pvA6cPSYvnUWbjHrcRRCIOL/uqMOXd6QE/L
+ 5tqQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWsPopn1OiiCUctX9pbtSSufS5qeosR7zRtKN0FEUkBh+bIc4TQwSjuy/5S01uBQe0zY+Lz29GIKLCU60gYxcfIZTtsQ5nmVzjilUPfwHoo
+X-Gm-Message-State: AOJu0YytTZtqUXHu261lf7APwBNGizcL4P20ZYABGk7QA7XvaBFNB9Mm
+ asE/b+2ght+9SGi1wqZtlEqnX5NDwNKyENPUW9k7r8vAF/uininLEqUTxtKIXmI=
+X-Google-Smtp-Source: AGHT+IFz38MFkpvdt0BKpKNIiKOyIyBho+s/Gh9rbf8GDZAtKNc/QE+/bIeiT1DD/pgoorf5EawALA==
+X-Received: by 2002:a5d:5510:0:b0:368:6606:bd01 with SMTP id
+ ffacd0b85a97d-36bbc1c4abfmr13978046f8f.55.1723019203144; 
+ Wed, 07 Aug 2024 01:26:43 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:90f1:3c4c:261c:b0f5])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4290580cb80sm18381625e9.45.2024.08.07.01.26.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Aug 2024 01:26:42 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
+ <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>,  Kevin Hilman
+ <khilman@baylibre.com>,  dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/9] drm/meson: dw-hdmi: split resets out of hw init.
+In-Reply-To: <CAFBinCCvWFCCvb9gPvv0-eudG=iuKROk5rPSiorKTnHcToDfTQ@mail.gmail.com>
+ (Martin Blumenstingl's message of "Tue, 6 Aug 2024 22:49:40 +0200")
+References: <20240730125023.710237-1-jbrunet@baylibre.com>
+ <20240730125023.710237-6-jbrunet@baylibre.com>
+ <CAFBinCCvWFCCvb9gPvv0-eudG=iuKROk5rPSiorKTnHcToDfTQ@mail.gmail.com>
+Date: Wed, 07 Aug 2024 10:26:42 +0200
+Message-ID: <1ja5hozqkd.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,156 +90,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Uprev mesa to adapt to the latest changes in mesa ci.
-Project 'anholt/deqp-runner' was moved to 'mesa/deqp-runner'.
-So update the link.
+On Tue 06 Aug 2024 at 22:49, Martin Blumenstingl <martin.blumenstingl@googl=
+email.com> wrote:
 
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
+> Hi Jerome,
+>
+> On Tue, Jul 30, 2024 at 2:50=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.c=
+om> wrote:
+>>
+>> This prepares the migration to regmap usage.
+>>
+>> To properly setup regmap, the APB needs to be in working order.
+>> This is easier handled if the resets are not mixed with hw init.
+>>
+>> More checks are required to determine if the resets are needed
+>> on resume or not. Add a note for this.
+>>
+>> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+>> ---
+>>  drivers/gpu/drm/meson/meson_dw_hdmi.c | 14 +++++++++-----
+>>  1 file changed, 9 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/mes=
+on/meson_dw_hdmi.c
+>> index 5cd3264ab874..47aa3e184e98 100644
+>> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+>> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+>> @@ -581,11 +581,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi=
+ *meson_dw_hdmi)
+>>         /* Bring HDMITX MEM output of power down */
+>>         regmap_update_bits(priv->hhi, HHI_MEM_PD_REG0, 0xff << 8, 0);
+>>
+>> -       /* Reset HDMITX APB & TX & PHY */
+>> -       reset_control_reset(meson_dw_hdmi->hdmitx_apb);
+>> -       reset_control_reset(meson_dw_hdmi->hdmitx_ctrl);
+>> -       reset_control_reset(meson_dw_hdmi->hdmitx_phy);
+>> -
+>>         /* Enable APB3 fail on error */
+>>         if (!meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
+>>                 writel_bits_relaxed(BIT(15), BIT(15),
+>> @@ -675,6 +670,10 @@ static int meson_dw_hdmi_bind(struct device *dev, s=
+truct device *master,
+>>                 return PTR_ERR(meson_dw_hdmi->hdmitx_phy);
+>>         }
+>>
+>> +       reset_control_reset(meson_dw_hdmi->hdmitx_apb);
+>> +       reset_control_reset(meson_dw_hdmi->hdmitx_ctrl);
+>> +       reset_control_reset(meson_dw_hdmi->hdmitx_phy);
+> The old out of tree vendor driver [0] enables the "isfr" and "iahb"
+> (in P_HHI_HDMI_CLK_CNTL and P_HHI_GCLK_MPEG2) clocks before triggering
+> the resets.
+> Previously meson_dw_hdmi's behavior was identical as it enabled the
+> clocks in meson_dw_hdmi_bind() and only later triggered the resets.
+>
+> I'm totally fine with moving the resets to meson_dw_hdmi_bind() but I
+> think it should happen after devm_clk_bulk_get_all_enable() has been
+> called (to keep the order and thus avoid side-effects that we don't
+> know about yet).
 
-v1:
-  - Working pipeline link,
-    https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1242911
+Good point.
 
----
- drivers/gpu/drm/ci/container.yml  |  8 ++++++++
- drivers/gpu/drm/ci/gitlab-ci.yml  | 22 ++++++++++++----------
- drivers/gpu/drm/ci/image-tags.yml |  8 ++++----
- drivers/gpu/drm/ci/lava-submit.sh |  1 +
- drivers/gpu/drm/ci/test.yml       |  4 ++--
- 5 files changed, 27 insertions(+), 16 deletions(-)
+I was also thinking about squashing this with the regmap patch.
+I've split it apart for v1 to make things a bit more clear but it only
+really makes sense with the regmap conversion.=20
 
-diff --git a/drivers/gpu/drm/ci/container.yml b/drivers/gpu/drm/ci/container.yml
-index d6edf3635b23..2a94f54ce4cf 100644
---- a/drivers/gpu/drm/ci/container.yml
-+++ b/drivers/gpu/drm/ci/container.yml
-@@ -28,6 +28,14 @@ debian/x86_64_test-vk:
-   rules:
-     - when: never
- 
-+debian/arm64_test-vk:
-+  rules:
-+    - when: never
-+
-+debian/arm64_test-gl:
-+  rules:
-+    - when: never
-+
- fedora/x86_64_build:
-   rules:
-     - when: never
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index 6d2cefa7f15e..eca47d4f816f 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -1,13 +1,13 @@
- variables:
-   DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
--  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha e2b9c5a9e3e4f9b532067af8022eaef8d6fc6c00
-+  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha d9849ac46623797a9f56fb9d46dc52460ac477de
- 
-   UPSTREAM_REPO: https://gitlab.freedesktop.org/drm/kernel.git
-   TARGET_BRANCH: drm-next
- 
-   IGT_VERSION: f13702b8e4e847c56da3ef6f0969065d686049c5
- 
--  DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/anholt/deqp-runner.git
-+  DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/mesa/deqp-runner.git
-   DEQP_RUNNER_GIT_TAG: v0.15.0
- 
-   FDO_UPSTREAM_REPO: helen.fornazier/linux   # The repo where the git-archive daily runs
-@@ -85,22 +85,24 @@ include:
-   - project: *drm-ci-project-path
-     ref: *drm-ci-commit-sha
-     file:
-+      - '/.gitlab-ci/container/gitlab-ci.yml'
-       - '/.gitlab-ci/farm-rules.yml'
-+      - '/.gitlab-ci/lava/lava-gitlab-ci.yml'
-       - '/.gitlab-ci/test-source-dep.yml'
--      - '/.gitlab-ci/container/gitlab-ci.yml'
-       - '/.gitlab-ci/test/gitlab-ci.yml'
--      - '/.gitlab-ci/lava/lava-gitlab-ci.yml'
--      - '/src/microsoft/ci/gitlab-ci-inc.yml'
--      - '/src/gallium/drivers/zink/ci/gitlab-ci-inc.yml'
-+      - '/src/amd/ci/gitlab-ci-inc.yml'
-+      - '/src/freedreno/ci/gitlab-ci-inc.yml'
-       - '/src/gallium/drivers/crocus/ci/gitlab-ci-inc.yml'
--      - '/src/gallium/drivers/softpipe/ci/gitlab-ci-inc.yml'
-       - '/src/gallium/drivers/llvmpipe/ci/gitlab-ci-inc.yml'
--      - '/src/gallium/drivers/virgl/ci/gitlab-ci-inc.yml'
-       - '/src/gallium/drivers/nouveau/ci/gitlab-ci-inc.yml'
-+      - '/src/gallium/drivers/softpipe/ci/gitlab-ci-inc.yml'
-+      - '/src/gallium/drivers/virgl/ci/gitlab-ci-inc.yml'
-+      - '/src/gallium/drivers/zink/ci/gitlab-ci-inc.yml'
-       - '/src/gallium/frontends/lavapipe/ci/gitlab-ci-inc.yml'
-+      - '/src/gallium/frontends/rusticl/ci/gitlab-ci.yml'
-       - '/src/intel/ci/gitlab-ci-inc.yml'
--      - '/src/freedreno/ci/gitlab-ci-inc.yml'
--      - '/src/amd/ci/gitlab-ci-inc.yml'
-+      - '/src/microsoft/ci/gitlab-ci-inc.yml'
-+      - '/src/nouveau/ci/gitlab-ci-inc.yml'
-       - '/src/virtio/ci/gitlab-ci-inc.yml'
-   - drivers/gpu/drm/ci/image-tags.yml
-   - drivers/gpu/drm/ci/container.yml
-diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
-index 13eda37bdf05..2c340d063a96 100644
---- a/drivers/gpu/drm/ci/image-tags.yml
-+++ b/drivers/gpu/drm/ci/image-tags.yml
-@@ -1,15 +1,15 @@
- variables:
--   CONTAINER_TAG: "2024-05-09-mesa-uprev"
-+   CONTAINER_TAG: "2024-08-07-mesa-uprev"
-    DEBIAN_X86_64_BUILD_BASE_IMAGE: "debian/x86_64_build-base"
-    DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
- 
-    DEBIAN_X86_64_BUILD_IMAGE_PATH: "debian/x86_64_build"
--   DEBIAN_BUILD_TAG: "2024-06-10-vkms"
-+   DEBIAN_BUILD_TAG: "${CONTAINER_TAG}"
- 
--   KERNEL_ROOTFS_TAG: "2023-10-06-amd"
-+   KERNEL_ROOTFS_TAG: "${CONTAINER_TAG}"
- 
-    DEBIAN_X86_64_TEST_BASE_IMAGE: "debian/x86_64_test-base"
-    DEBIAN_X86_64_TEST_IMAGE_GL_PATH: "debian/x86_64_test-gl"
--   DEBIAN_X86_64_TEST_GL_TAG: "${CONTAINER_TAG}"
-+   DEBIAN_TEST_GL_TAG: "${CONTAINER_TAG}"
- 
-    ALPINE_X86_64_LAVA_SSH_TAG: "${CONTAINER_TAG}"
-\ No newline at end of file
-diff --git a/drivers/gpu/drm/ci/lava-submit.sh b/drivers/gpu/drm/ci/lava-submit.sh
-index 0707fa706a48..6add15083c78 100755
---- a/drivers/gpu/drm/ci/lava-submit.sh
-+++ b/drivers/gpu/drm/ci/lava-submit.sh
-@@ -44,6 +44,7 @@ PYTHONPATH=artifacts/ artifacts/lava/lava_job_submitter.py \
- 	--first-stage-init artifacts/ci-common/init-stage1.sh \
- 	--ci-project-dir "${CI_PROJECT_DIR}" \
- 	--device-type "${DEVICE_TYPE}" \
-+	--farm "${FARM}" \
- 	--dtb-filename "${DTB}" \
- 	--jwt-file "${S3_JWT_FILE}" \
- 	--kernel-image-name "${KERNEL_IMAGE_NAME}" \
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index b22b2cf8f06f..b6f428cdaf94 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -69,7 +69,7 @@
- .baremetal-igt-arm64:
-   extends:
-     - .baremetal-test-arm64
--    - .use-debian/arm64_test
-+    - .use-debian/baremetal_arm64_test
-     - .test-rules
-   variables:
-     FDO_CI_CONCURRENT: 10
-@@ -79,7 +79,7 @@
-     BM_CMDLINE: "ip=dhcp console=ttyMSM0,115200n8 $BM_KERNEL_EXTRA_ARGS root=/dev/nfs rw nfsrootdebug nfsroot=,tcp,nfsvers=4.2 init=/init $BM_KERNELARGS"
-     FARM: google
-   needs:
--    - debian/arm64_test
-+    - debian/baremetal_arm64_test
-     - job: testing:arm64
-       artifacts: false
-     - igt:arm64
--- 
-2.43.0
+>
+> Also out of curiosity: are you planning to convert the driver to use
+> devm_reset_control_bulk_get_exclusive()?
+>
 
+It's been a while this I've done that. I remember I thought about it.
+I think it was a bit more difficult to use that clocks. I was looking at
+making the driver a bit more clean and simple. It was not really helping
+to move it in that direction IIRC.
+
+>
+> Best regards,
+> Martin
+>
+>
+> [0] https://github.com/endlessm/linux-s905x/blob/master/drivers/amlogic/h=
+dmi/hdmi_tx_20/hw/hdmi_tx_hw.c#L470
+
+--=20
+Jerome
