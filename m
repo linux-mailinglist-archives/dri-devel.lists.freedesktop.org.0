@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6199194AA65
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0BD94AA6B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:39:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D319010E54E;
-	Wed,  7 Aug 2024 14:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B65C10E551;
+	Wed,  7 Aug 2024 14:39:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lkuqNF8o";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="s+48dsXi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 066F410E550
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 14:39:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56D8E10E550
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 14:39:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6A9436100E;
- Wed,  7 Aug 2024 14:39:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37D4C32781;
- Wed,  7 Aug 2024 14:39:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 93ABF6102E;
+ Wed,  7 Aug 2024 14:39:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D04C4AF0D;
+ Wed,  7 Aug 2024 14:39:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723041542;
- bh=op6CS6N0quvdG/tXWolUK15lfuhlESqg3fHGpJVBCXk=;
+ s=korg; t=1723041563;
+ bh=KvSGuAnjRw7mYzIUzWASk0D/KDb1JT7V2l19nk+A2lo=;
  h=Subject:To:Cc:From:Date:From;
- b=lkuqNF8oY63qkZU3NF8pCQis1Pa0QwAYvJSrwyOib39Bw6togE8vQ7TJtbtL8U9L8
- nnPe8U09ZgLXp5th8PtS4h6rBg4iTiEyP2WPBw/Y+UcRsD81xxth1lbgmQYstRie/b
- U9ErKilACsqnf4FozwNMk7CI3PltAD3zsSTFbXWs=
-Subject: Patch "drm/ast: Fix black screen after resume" has been added to the
- 6.10-stable tree
-To: 8ce1e1cc351153a890b65e62fed93b54ccd43f6a.camel@gmail.com,
- airlied@redhat.com, cogarre@gmail.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, jammy_huang@aspeedtech.com, jfalempe@redhat.com,
- tzimmermann@suse.de
+ b=s+48dsXiYFARCasn21JfGHTm5woE//iKRlKP1wAArwhs4k65JTaDim5sW8L7nUuSb
+ 8//qUhEJeDO29bf87ITQgrNfbl/xSfd3+Pa4bzZa7Zy10t4/+S3jICRJQ5jFg5xeJl
+ bt9FE6pcGfFsoqAixT2gLvOqF4waOLvO0v7zRSOs=
+Subject: Patch "drm/vmwgfx: Fix a deadlock in dma buf fence polling" has been
+ added to the 6.10-stable tree
+To: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, maaz.mombasawala@broadcom.com,
+ martin.krastev@broadcom.com, zack.rusin@broadcom.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Wed, 07 Aug 2024 16:36:14 +0200
-Message-ID: <2024080714-corroding-palatable-ecd6@gregkh>
+Date: Wed, 07 Aug 2024 16:36:15 +0200
+Message-ID: <2024080715-aviator-bankroll-aac5@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -60,68 +59,129 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    drm/ast: Fix black screen after resume
+    drm/vmwgfx: Fix a deadlock in dma buf fence polling
 
 to the 6.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     drm-ast-fix-black-screen-after-resume.patch
+     drm-vmwgfx-fix-a-deadlock-in-dma-buf-fence-polling.patch
 and it can be found in the queue-6.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From 12c35c5582acb0fd8f7713ffa75f450766022ff1 Mon Sep 17 00:00:00 2001
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-Date: Thu, 18 Jul 2024 11:03:52 +0800
-Subject: drm/ast: Fix black screen after resume
+From e58337100721f3cc0c7424a18730e4f39844934f Mon Sep 17 00:00:00 2001
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Mon, 22 Jul 2024 14:41:13 -0400
+Subject: drm/vmwgfx: Fix a deadlock in dma buf fence polling
 
-From: Jammy Huang <jammy_huang@aspeedtech.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
 
-commit 12c35c5582acb0fd8f7713ffa75f450766022ff1 upstream.
+commit e58337100721f3cc0c7424a18730e4f39844934f upstream.
 
-Suspend will disable pcie device. Thus, resume should do full hw
-initialization again.
-Add some APIs to ast_drm_thaw() before ast_post_gpu() to fix the issue.
+Introduce a version of the fence ops that on release doesn't remove
+the fence from the pending list, and thus doesn't require a lock to
+fix poll->fence wait->fence unref deadlocks.
 
-v2:
-- fix function-call arguments
+vmwgfx overwrites the wait callback to iterate over the list of all
+fences and update their status, to do that it holds a lock to prevent
+the list modifcations from other threads. The fence destroy callback
+both deletes the fence and removes it from the list of pending
+fences, for which it holds a lock.
 
-Fixes: 5b71707dd13c ("drm/ast: Enable and unlock device access early during init")
-Reported-by: Cary Garrett <cogarre@gmail.com>
-Closes: https://lore.kernel.org/dri-devel/8ce1e1cc351153a890b65e62fed93b54ccd43f6a.camel@gmail.com/
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Dave Airlie <airlied@redhat.com>
+dma buf polling cb unrefs a fence after it's been signaled: so the poll
+calls the wait, which signals the fences, which are being destroyed.
+The destruction tries to acquire the lock on the pending fences list
+which it can never get because it's held by the wait from which it
+was called.
+
+Old bug, but not a lot of userspace apps were using dma-buf polling
+interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.6+
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240718030352.654155-1-jammy_huang@aspeedtech.com
+Cc: <stable@vger.kernel.org> # v6.2+
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240722184313.181318-2-zack.rusin@broadcom.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/ast/ast_drv.c |    5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c |   17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -391,6 +391,11 @@ static int ast_drm_freeze(struct drm_dev
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -32,7 +32,6 @@
+ #define VMW_FENCE_WRAP (1 << 31)
  
- static int ast_drm_thaw(struct drm_device *dev)
+ struct vmw_fence_manager {
+-	int num_fence_objects;
+ 	struct vmw_private *dev_priv;
+ 	spinlock_t lock;
+ 	struct list_head fence_list;
+@@ -124,13 +123,13 @@ static void vmw_fence_obj_destroy(struct
  {
-+	struct ast_device *ast = to_ast_device(dev);
-+
-+	ast_enable_vga(ast->ioregs);
-+	ast_open_key(ast->ioregs);
-+	ast_enable_mmio(dev->dev, ast->ioregs);
- 	ast_post_gpu(dev);
+ 	struct vmw_fence_obj *fence =
+ 		container_of(f, struct vmw_fence_obj, base);
+-
+ 	struct vmw_fence_manager *fman = fman_from_fence(fence);
  
- 	return drm_mode_config_helper_resume(dev);
+-	spin_lock(&fman->lock);
+-	list_del_init(&fence->head);
+-	--fman->num_fence_objects;
+-	spin_unlock(&fman->lock);
++	if (!list_empty(&fence->head)) {
++		spin_lock(&fman->lock);
++		list_del_init(&fence->head);
++		spin_unlock(&fman->lock);
++	}
+ 	fence->destroy(fence);
+ }
+ 
+@@ -257,7 +256,6 @@ static const struct dma_fence_ops vmw_fe
+ 	.release = vmw_fence_obj_destroy,
+ };
+ 
+-
+ /*
+  * Execute signal actions on fences recently signaled.
+  * This is done from a workqueue so we don't have to execute
+@@ -355,7 +353,6 @@ static int vmw_fence_obj_init(struct vmw
+ 		goto out_unlock;
+ 	}
+ 	list_add_tail(&fence->head, &fman->fence_list);
+-	++fman->num_fence_objects;
+ 
+ out_unlock:
+ 	spin_unlock(&fman->lock);
+@@ -403,7 +400,7 @@ static bool vmw_fence_goal_new_locked(st
+ 				      u32 passed_seqno)
+ {
+ 	u32 goal_seqno;
+-	struct vmw_fence_obj *fence;
++	struct vmw_fence_obj *fence, *next_fence;
+ 
+ 	if (likely(!fman->seqno_valid))
+ 		return false;
+@@ -413,7 +410,7 @@ static bool vmw_fence_goal_new_locked(st
+ 		return false;
+ 
+ 	fman->seqno_valid = false;
+-	list_for_each_entry(fence, &fman->fence_list, head) {
++	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
+ 		if (!list_empty(&fence->seq_passed_actions)) {
+ 			fman->seqno_valid = true;
+ 			vmw_fence_goal_write(fman->dev_priv,
 
 
-Patches currently in stable-queue which might be from jammy_huang@aspeedtech.com are
+Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
 
-queue-6.10/drm-ast-fix-black-screen-after-resume.patch
+queue-6.10/drm-vmwgfx-trigger-a-modeset-when-the-screen-moves.patch
+queue-6.10/drm-vmwgfx-fix-a-deadlock-in-dma-buf-fence-polling.patch
+queue-6.10/drm-vmwgfx-make-sure-the-screen-surface-is-ref-count.patch
+queue-6.10/drm-vmwgfx-fix-overlay-when-using-screen-targets.patch
+queue-6.10/drm-vmwgfx-fix-handling-of-dumb-buffers.patch
