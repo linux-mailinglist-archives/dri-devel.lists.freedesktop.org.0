@@ -2,59 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB1A94A3B4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 11:10:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D7194A3D2
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 11:12:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95DA410E465;
-	Wed,  7 Aug 2024 09:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E524710E485;
+	Wed,  7 Aug 2024 09:12:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kQE1QIRv";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1kH+v3HY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5ED210E058;
- Wed,  7 Aug 2024 09:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723021852; x=1754557852;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=nku2VyyAlaFbHebRPyXL2hKd7GvPsaxYnBfga0f8rZ0=;
- b=kQE1QIRvtzrRCTzem5yYnGtGltubaL/RPxbBhdMK6ZWA9+OkxuyXO7Vg
- DGUyqMlUoVIdZZPtT+OK+rm4Sa+rz4Y/hiPsH/CncxPg2r9Y6+OWQ0it7
- dtwcHWXCcY63m71kTVyffEktNnjSNVmaRuuxDRiFlQYsHxkU5DXsZClF7
- 5NZzC4eADymLW2YtBfD4z87EtPT9sc2jDfKSWSg3QwTtuK5mO92x39NzV
- 1qd8SR8i2TpyLq6OSmtuhggjyzepAGOIGNv1soCoXFIue4jUIymTXmxC5
- ZY2+bObAtT325BJqgEQKMzDflCPkWJ9HJhnX6UPnd3iyEGk+Z78MqQIzZ A==;
-X-CSE-ConnectionGUID: 7NjMmtXGRXm+cyXCdUa2hg==
-X-CSE-MsgGUID: B92EGiviQ+KCalU4ic7TZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="24842651"
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; d="scan'208";a="24842651"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 02:10:50 -0700
-X-CSE-ConnectionGUID: +l3obtpaTNGoFvm0B+WWhg==
-X-CSE-MsgGUID: YAf8rwaeSlukd/xpdRPjtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; d="scan'208";a="60914853"
-Received: from fpallare-mobl3.ger.corp.intel.com (HELO intel.com)
- ([10.245.244.232])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 02:10:48 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [PATCH] drm/i915/gt: Mark the GT as dead when mmio is unreliable
-Date: Wed,  7 Aug 2024 10:10:14 +0100
-Message-ID: <20240807091014.469992-1-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F8DD10E485
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 09:12:55 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2f136e23229so16385781fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 02:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723021973; x=1723626773;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=AXJcefWBGwCjqo+n8nUM/WZjz4KUu6Dr7gpS34TWtOM=;
+ b=1kH+v3HYBo3YY+WAMFZfNQPrBFJ98UBgi12MAe07UNCOD5wdP93Zx6vYWSSgdocyj0
+ vzIVYJGd1IL3DYN8wsq8EiQAQ8MPCh4pSUIxjhtAskcGIqToP981OZw7737J+rBGG+NI
+ 97ICRZipTvX48WVTISBkbNQs1JBdv+7O1LphtS3x4Igp6aEfPGvNgH0O7q93WB2T4bGv
+ rwUERnpnmDQZcMJoInVP50XZuRASGpBBRYVQKZJXdVEnYRn7e+ZYXKpH8sT2kZaeRQ0q
+ vtD33sSjIvGYru56sODMLjwnA7vHQJP7jp0WVs+r9dGMRLJvi+lJWKgt6KMvX+xQnssv
+ HfoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723021973; x=1723626773;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AXJcefWBGwCjqo+n8nUM/WZjz4KUu6Dr7gpS34TWtOM=;
+ b=jtyq49Ib9uqhj9OaSNUKYzL/bZyrWjO4ivfqPj/vVCVeCW8hEBYbBJMHlm1kJpaqUi
+ ufyHDQxgPhbtSlFRDNHR0Aw0lfUVr9vCy4tT7E3HrhuQjJlXslYk0Dn7+TAeu/Nt4w25
+ tq/kqiMhP5BZqIvpFAh5R7hZ/KLTi3O+kHeyCnYWoBp7oElstlD2HqF5TLZ42gHl4r3M
+ x42nM9lInEg2yl1XtXDt6wxmucnLqNg1MnoJkHXvBlPnddsZfy8t56NcdwDcYegqV5gj
+ j734qJk6Tz5hT6sJisZTMRRmx5XDdB/SkMJ5QT0BGunraxTADBlR2PBQC447V3wnszfn
+ 7+Dg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUduq0QarHlMhLOFE2v89wLTMJYcwiAXg4+S5YA1iUp6ERhIcCV92mz/AmnnIg1fw/2b+R00hD3mE+ngi37udk+SxwqWCh1qFQTX0e73Bt4
+X-Gm-Message-State: AOJu0YxxEvjsLPxa8sizjtM81Nn2vvaogJ6n93XZQHVGolwysPg6p27A
+ GzT78t6nB4vRwextmyzyPt5GO5QgbPZYTP9C/X78rmtqEeJIZD8i+uYEni7QMy0=
+X-Google-Smtp-Source: AGHT+IFQOHCltwKQCBXQPLStP2Dg6b510B5NipglQzmC2gXIAhpoliwnnvlnRgikWAIyVrNs5a43UQ==
+X-Received: by 2002:a2e:91d0:0:b0:2ef:1c0f:d490 with SMTP id
+ 38308e7fff4ca-2f15ab0c2a1mr126633751fa.39.1723021973213; 
+ Wed, 07 Aug 2024 02:12:53 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:90f1:3c4c:261c:b0f5])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-429059cbfaesm17923005e9.42.2024.08.07.02.12.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Aug 2024 02:12:52 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
+ <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>,  Kevin Hilman
+ <khilman@baylibre.com>,  dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 7/9] drm/meson: dw-hdmi: use matched data
+In-Reply-To: <CAFBinCAaZumGU6dOq0RrHRTQV=MejTJ=RW0P_6tQFOG9vybY6g@mail.gmail.com>
+ (Martin Blumenstingl's message of "Tue, 6 Aug 2024 23:03:25 +0200")
+References: <20240730125023.710237-1-jbrunet@baylibre.com>
+ <20240730125023.710237-8-jbrunet@baylibre.com>
+ <CAFBinCAaZumGU6dOq0RrHRTQV=MejTJ=RW0P_6tQFOG9vybY6g@mail.gmail.com>
+Date: Wed, 07 Aug 2024 11:12:52 +0200
+Message-ID: <1j5xsczoff.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,118 +90,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris.p.wilson@intel.com>
+On Tue 06 Aug 2024 at 23:03, Martin Blumenstingl <martin.blumenstingl@googl=
+email.com> wrote:
 
-After we detect that mmio is returning all 0xff, we believe that the GPU
-has dropped off the pci bus and is dead. Mark the device as wedged such
-that we can propagate the failure back to userspace and wait for
-recovery.
+> Hi Jerome,
+>
+> On Tue, Jul 30, 2024 at 2:50=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.c=
+om> wrote:
+> [...]
+>> +       }, {
+>> +               .limit =3D 297000,
+>> +               .regs =3D gxbb_3g_regs,
+>> +               .reg_num =3D ARRAY_SIZE(gxbb_3g_regs)
+> Just as a side-note: this looked odd when reading for the first time
+> as I thought that it's a typo (and it should be gxbb_2g97_regs - but
+> that name is not used).
 
-Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt.h       |  6 ++++++
- drivers/gpu/drm/i915/gt/intel_gt_types.h |  2 ++
- drivers/gpu/drm/i915/gt/intel_reset.c    | 12 +++++++++++-
- drivers/gpu/drm/i915/intel_uncore.c      |  7 +++++--
- 4 files changed, 24 insertions(+), 3 deletions(-)
+I know it looks odd but there is a (perhaps silly) reason for it.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-index b5e114d284ad..b73555889d50 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-@@ -208,4 +208,10 @@ enum i915_map_type intel_gt_coherent_map_type(struct intel_gt *gt,
- void intel_gt_bind_context_set_ready(struct intel_gt *gt);
- void intel_gt_bind_context_set_unready(struct intel_gt *gt);
- bool intel_gt_is_bind_context_ready(struct intel_gt *gt);
-+
-+static inline void intel_gt_set_wedged_async(struct intel_gt *gt)
-+{
-+	queue_work(system_highpri_wq, &gt->wedge);
-+}
-+
- #endif /* __INTEL_GT_H__ */
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-index cfdd2ad5e954..bcee084b1f27 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-@@ -292,6 +292,8 @@ struct intel_gt {
- 	struct gt_defaults defaults;
- 	struct kobject *sysfs_defaults;
- 
-+	struct work_struct wedge;
-+
- 	struct i915_perf_gt perf;
- 
- 	/** link: &ggtt.gt_list */
-diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-index 735cd23a43c6..8f1ea95471ef 100644
---- a/drivers/gpu/drm/i915/gt/intel_reset.c
-+++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-@@ -1013,6 +1013,15 @@ static void __intel_gt_set_wedged(struct intel_gt *gt)
- 	GT_TRACE(gt, "end\n");
- }
- 
-+static void set_wedged_work(struct work_struct *w)
-+{
-+	struct intel_gt *gt = container_of(w, struct intel_gt, wedge);
-+	intel_wakeref_t wf;
-+
-+	with_intel_runtime_pm(gt->uncore->rpm, wf)
-+		__intel_gt_set_wedged(gt);
-+}
-+
- void intel_gt_set_wedged(struct intel_gt *gt)
- {
- 	intel_wakeref_t wakeref;
-@@ -1614,6 +1623,7 @@ void intel_gt_init_reset(struct intel_gt *gt)
- 	init_waitqueue_head(&gt->reset.queue);
- 	mutex_init(&gt->reset.mutex);
- 	init_srcu_struct(&gt->reset.backoff_srcu);
-+	INIT_WORK(&gt->wedge, set_wedged_work);
- 
- 	/*
- 	 * While undesirable to wait inside the shrinker, complain anyway.
-@@ -1640,7 +1650,7 @@ static void intel_wedge_me(struct work_struct *work)
- 	struct intel_wedge_me *w = container_of(work, typeof(*w), work.work);
- 
- 	gt_err(w->gt, "%s timed out, cancelling all in-flight rendering.\n", w->name);
--	intel_gt_set_wedged(w->gt);
-+	set_wedged_work(&w->gt->wedge);
- }
- 
- void __intel_init_wedge(struct intel_wedge_me *w,
-diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-index 2eba289d88ad..6aa179a3e92a 100644
---- a/drivers/gpu/drm/i915/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/intel_uncore.c
-@@ -24,6 +24,7 @@
- #include <drm/drm_managed.h>
- #include <linux/pm_runtime.h>
- 
-+#include "gt/intel_gt.h"
- #include "gt/intel_engine_regs.h"
- #include "gt/intel_gt_regs.h"
- 
-@@ -180,14 +181,16 @@ fw_domain_wait_ack_clear(const struct intel_uncore_forcewake_domain *d)
- 	if (!wait_ack_clear(d, FORCEWAKE_KERNEL))
- 		return;
- 
--	if (fw_ack(d) == ~0)
-+	if (fw_ack(d) == ~0) {
- 		drm_err(&d->uncore->i915->drm,
- 			"%s: MMIO unreliable (forcewake register returns 0xFFFFFFFF)!\n",
- 			intel_uncore_forcewake_domain_to_str(d->id));
--	else
-+		intel_gt_set_wedged_async(d->uncore->gt);
-+	} else {
- 		drm_err(&d->uncore->i915->drm,
- 			"%s: timed out waiting for forcewake ack to clear.\n",
- 			intel_uncore_forcewake_domain_to_str(d->id));
-+	}
- 
- 	add_taint_for_CI(d->uncore->i915, TAINT_WARN); /* CI now unreliable */
- }
--- 
-2.45.2
+The names are derived from PHY modes used in the Amlogic vendor tree.
+Those are magic pokes and we don't really know anything about it. The
+vendor tree often update and mainline does not always follow. I know
+that we are not 100% aligned right now. No one knows what branch is the
+reference to follow anyway.
 
+Using the same names is way to leave breadcrumbs that may help people
+linking this to vendor code later on (if necessary)
+
+I think the modes are named after the (rounded) bandwidth they provide,
+not necessarily the limit we are using to pick it ... except for def,
+which might just mean 'default' I guess.
+
+https://github.com/khadas/linux/blob/khadas-vims-5.4.y/drivers/amlogic/medi=
+a/vout/hdmitx/hdmi_tx_20/hw/hw_g12a.c#L589
+
+I focused on keeping mainline as it was for the value poked, retaining
+as much information as possible to find our way back.
+
+Your proposed naming convention is fine by me as well.
+
+>
+> [...]
+>> +static const struct meson_dw_hdmi_speed gxl_speeds[] =3D {
+>> +       {
+>> +               .limit =3D 371250,
+>> +               .regs =3D gxl_3g7_regs,
+>> +               .reg_num =3D ARRAY_SIZE(gxl_3g7_regs)
+>> +       }, {
+>> +               .limit =3D 297000,
+>> +               .regs =3D gxl_3g_regs,
+>> +               .reg_num =3D ARRAY_SIZE(gxl_3g_regs)
+>> +       }, {
+>> +               .limit =3D 148500,
+>> +               .regs =3D gxl_def_regs,
+>> +               .reg_num =3D ARRAY_SIZE(gxl_def_regs)
+> this is not consistent with what we have above or below so it either
+> needs to be updated or a comment.
+> I think this should be called gxl_1g48_regs
+>
+>> +       }, {
+>> +               .regs =3D gxl_270m_regs,
+>> +               .reg_num =3D ARRAY_SIZE(gxl_270m_regs)
+> and this should be called gxl_def_regs
+
+def in not the last one, it is another name used by AML
+
+It so happens that on mainline with we have only put the SD/270M for
+gxl. In the AML tree, it does exist for G12 too. Maybe it will be needed so=
+meday.
+
+>
+>
+>
+> Best regards,
+> Martin
+
+--=20
+Jerome
