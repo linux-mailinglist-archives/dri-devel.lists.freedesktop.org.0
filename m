@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B985394AC0A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 17:11:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2582794AC77
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 17:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A253410E166;
-	Wed,  7 Aug 2024 15:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51CE910E185;
+	Wed,  7 Aug 2024 15:15:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FaHeZU/8";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pCTPfgOL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31B1910E166
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 15:11:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 829BD10E185
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 15:15:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 6B9E1CE0FD8;
- Wed,  7 Aug 2024 15:11:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54B4CC32781;
- Wed,  7 Aug 2024 15:11:19 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 51137CE10B5;
+ Wed,  7 Aug 2024 15:15:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7334C4AF0D;
+ Wed,  7 Aug 2024 15:15:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723043479;
- bh=juYEbEonY58n4Qy0yApilqXQH6cfD5nUoGvqWjBPsmA=;
+ s=korg; t=1723043724;
+ bh=Wfis4Q9FbITXkgc4FqU7Rh9TF+niaeIycYKKAP87PcQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FaHeZU/8Sihw/9Z2D+LcRxYtUmANd6GBZj5ZgqwgE/jXoDZhZCnOM8dYggVg3xJer
- mwVHp3hmC92XUj6H0af7w4Gi4wJJ0QPAXbIsgap2ZGmSFDjmoVaFaTcVFwnJhXBHLJ
- EldL2vJNASIRHv0aYsQCqJ/vx7LzT9kuNr56GQpQ=
+ b=pCTPfgOLOqcH8eNRoVKC8C6oEGdutqdZdARCdToj24L9WJD31v+pXQsFZe0uWWnZw
+ ICshFmXX2NEHtYyMLlQVjc3ZaAZJPGgUnoSEmi4XSq0kS/9Law+3oCLBz5X8jJGb/S
+ 4Dt5ZdDhc4Se8I63kdccPFdMAeINORM0WLDOWIWg=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -35,13 +35,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  dri-devel@lists.freedesktop.org,
  Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
  Martin Krastev <martin.krastev@broadcom.com>
-Subject: [PATCH 6.6 106/121] drm/vmwgfx: Fix a deadlock in dma buf fence
- polling
-Date: Wed,  7 Aug 2024 17:00:38 +0200
-Message-ID: <20240807150022.866547640@linuxfoundation.org>
+Subject: [PATCH 6.1 76/86] drm/vmwgfx: Fix a deadlock in dma buf fence polling
+Date: Wed,  7 Aug 2024 17:00:55 +0200
+Message-ID: <20240807150041.797188532@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240807150019.412911622@linuxfoundation.org>
-References: <20240807150019.412911622@linuxfoundation.org>
+In-Reply-To: <20240807150039.247123516@linuxfoundation.org>
+References: <20240807150039.247123516@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -62,7 +61,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
