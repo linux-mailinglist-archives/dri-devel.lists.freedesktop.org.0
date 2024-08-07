@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36FFE94AB45
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 17:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B985394AC0A
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 17:11:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A808910E56C;
-	Wed,  7 Aug 2024 15:05:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A253410E166;
+	Wed,  7 Aug 2024 15:11:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nxu7k2Sz";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FaHeZU/8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B9F310E56C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 15:05:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31B1910E166
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 15:11:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4DB71CE1028;
- Wed,  7 Aug 2024 15:05:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353F5C32781;
- Wed,  7 Aug 2024 15:05:13 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 6B9E1CE0FD8;
+ Wed,  7 Aug 2024 15:11:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54B4CC32781;
+ Wed,  7 Aug 2024 15:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723043113;
- bh=QTE33PFHVpBvJ9sQy/voY3iMwTiKCECkn0humdTieGE=;
+ s=korg; t=1723043479;
+ bh=juYEbEonY58n4Qy0yApilqXQH6cfD5nUoGvqWjBPsmA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nxu7k2SzfFyTRTojNTGEZJhDN67pez+CRjM03JPfFkabIRwKogXjfneFnun44fIIA
- foVuIN7gc+ydkC6cn2JcH2+PllaLZZzSERHrFj4TIq/6OK25XU/zkRxQDkP+xeCWg+
- gkUsuY9+ap85C+2RMvCitIVVAHIidT+OyNTfl7lg=
+ b=FaHeZU/8Sihw/9Z2D+LcRxYtUmANd6GBZj5ZgqwgE/jXoDZhZCnOM8dYggVg3xJer
+ mwVHp3hmC92XUj6H0af7w4Gi4wJJ0QPAXbIsgap2ZGmSFDjmoVaFaTcVFwnJhXBHLJ
+ EldL2vJNASIRHv0aYsQCqJ/vx7LzT9kuNr56GQpQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Cary Garrett <cogarre@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>, Dave Airlie <airlied@redhat.com>,
- dri-devel@lists.freedesktop.org, Jammy Huang <jammy_huang@aspeedtech.com>
-Subject: [PATCH 6.10 094/123] drm/ast: Fix black screen after resume
-Date: Wed,  7 Aug 2024 17:00:13 +0200
-Message-ID: <20240807150023.869690975@linuxfoundation.org>
+ Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ dri-devel@lists.freedesktop.org,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+ Martin Krastev <martin.krastev@broadcom.com>
+Subject: [PATCH 6.6 106/121] drm/vmwgfx: Fix a deadlock in dma buf fence
+ polling
+Date: Wed,  7 Aug 2024 17:00:38 +0200
+Message-ID: <20240807150022.866547640@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240807150020.790615758@linuxfoundation.org>
-References: <20240807150020.790615758@linuxfoundation.org>
+In-Reply-To: <20240807150019.412911622@linuxfoundation.org>
+References: <20240807150019.412911622@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -59,51 +62,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.10-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
-From: Jammy Huang <jammy_huang@aspeedtech.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
 
-commit 12c35c5582acb0fd8f7713ffa75f450766022ff1 upstream.
+commit e58337100721f3cc0c7424a18730e4f39844934f upstream.
 
-Suspend will disable pcie device. Thus, resume should do full hw
-initialization again.
-Add some APIs to ast_drm_thaw() before ast_post_gpu() to fix the issue.
+Introduce a version of the fence ops that on release doesn't remove
+the fence from the pending list, and thus doesn't require a lock to
+fix poll->fence wait->fence unref deadlocks.
 
-v2:
-- fix function-call arguments
+vmwgfx overwrites the wait callback to iterate over the list of all
+fences and update their status, to do that it holds a lock to prevent
+the list modifcations from other threads. The fence destroy callback
+both deletes the fence and removes it from the list of pending
+fences, for which it holds a lock.
 
-Fixes: 5b71707dd13c ("drm/ast: Enable and unlock device access early during init")
-Reported-by: Cary Garrett <cogarre@gmail.com>
-Closes: https://lore.kernel.org/dri-devel/8ce1e1cc351153a890b65e62fed93b54ccd43f6a.camel@gmail.com/
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Dave Airlie <airlied@redhat.com>
+dma buf polling cb unrefs a fence after it's been signaled: so the poll
+calls the wait, which signals the fences, which are being destroyed.
+The destruction tries to acquire the lock on the pending fences list
+which it can never get because it's held by the wait from which it
+was called.
+
+Old bug, but not a lot of userspace apps were using dma-buf polling
+interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.6+
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240718030352.654155-1-jammy_huang@aspeedtech.com
+Cc: <stable@vger.kernel.org> # v6.2+
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240722184313.181318-2-zack.rusin@broadcom.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/ast/ast_drv.c |    5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c |   17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -391,6 +391,11 @@ static int ast_drm_freeze(struct drm_dev
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -32,7 +32,6 @@
+ #define VMW_FENCE_WRAP (1 << 31)
  
- static int ast_drm_thaw(struct drm_device *dev)
+ struct vmw_fence_manager {
+-	int num_fence_objects;
+ 	struct vmw_private *dev_priv;
+ 	spinlock_t lock;
+ 	struct list_head fence_list;
+@@ -124,13 +123,13 @@ static void vmw_fence_obj_destroy(struct
  {
-+	struct ast_device *ast = to_ast_device(dev);
-+
-+	ast_enable_vga(ast->ioregs);
-+	ast_open_key(ast->ioregs);
-+	ast_enable_mmio(dev->dev, ast->ioregs);
- 	ast_post_gpu(dev);
+ 	struct vmw_fence_obj *fence =
+ 		container_of(f, struct vmw_fence_obj, base);
+-
+ 	struct vmw_fence_manager *fman = fman_from_fence(fence);
  
- 	return drm_mode_config_helper_resume(dev);
+-	spin_lock(&fman->lock);
+-	list_del_init(&fence->head);
+-	--fman->num_fence_objects;
+-	spin_unlock(&fman->lock);
++	if (!list_empty(&fence->head)) {
++		spin_lock(&fman->lock);
++		list_del_init(&fence->head);
++		spin_unlock(&fman->lock);
++	}
+ 	fence->destroy(fence);
+ }
+ 
+@@ -257,7 +256,6 @@ static const struct dma_fence_ops vmw_fe
+ 	.release = vmw_fence_obj_destroy,
+ };
+ 
+-
+ /*
+  * Execute signal actions on fences recently signaled.
+  * This is done from a workqueue so we don't have to execute
+@@ -355,7 +353,6 @@ static int vmw_fence_obj_init(struct vmw
+ 		goto out_unlock;
+ 	}
+ 	list_add_tail(&fence->head, &fman->fence_list);
+-	++fman->num_fence_objects;
+ 
+ out_unlock:
+ 	spin_unlock(&fman->lock);
+@@ -403,7 +400,7 @@ static bool vmw_fence_goal_new_locked(st
+ 				      u32 passed_seqno)
+ {
+ 	u32 goal_seqno;
+-	struct vmw_fence_obj *fence;
++	struct vmw_fence_obj *fence, *next_fence;
+ 
+ 	if (likely(!fman->seqno_valid))
+ 		return false;
+@@ -413,7 +410,7 @@ static bool vmw_fence_goal_new_locked(st
+ 		return false;
+ 
+ 	fman->seqno_valid = false;
+-	list_for_each_entry(fence, &fman->fence_list, head) {
++	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
+ 		if (!list_empty(&fence->seq_passed_actions)) {
+ 			fman->seqno_valid = true;
+ 			vmw_fence_goal_write(fman->dev_priv,
 
 
