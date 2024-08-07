@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C6194A87E
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 15:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D5E94A8F7
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 15:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1825810E51E;
-	Wed,  7 Aug 2024 13:24:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C699010E51A;
+	Wed,  7 Aug 2024 13:49:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nHhiS8PP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VsKvubBq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC42F10E4FC;
- Wed,  7 Aug 2024 13:24:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723037077; x=1754573077;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=x/4yPIAf9q1wfWiVA6KbXYBEOAZjBG33Dys3A3QZTL0=;
- b=nHhiS8PPMxsPwBGwVemlOs8Ku6h4e1yY6iRAqH+gjIaS6XtlGl8wa3UX
- WSDmvoNt/GCkOr0ZyMRQtXx4BcG3sA+rsksCAoyoylJamJZ6eY//bY0cs
- nvxsZMkIi1iAEFgd5H5JgarHBirfS3iU9KtSfVNU9rW9vK7KZstxbwmC0
- eCnMG4R1RFDBSOQUhwkL3S8QyaoHFa892dloIfaI5xPe1uk2I+m316zVc
- ykc2ByGQ2I1mtvDFpJOIo+xsvUeqc6skfPAY/DUFF0M3KCYvpcAzADQI9
- hRzVrfj+xzEUDzHFFdj3LFJXsUr4JC2NRuhRx4jF2JEdMOfXzBUwaOZKy g==;
-X-CSE-ConnectionGUID: RRbvFWTRSpWJ8BXSTjZVeg==
-X-CSE-MsgGUID: eVEZOpSqQnOqYCPVef/LeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="21225701"
-X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; d="scan'208";a="21225701"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 06:24:37 -0700
-X-CSE-ConnectionGUID: OI0ZN9nIR0WBrEAzJjhCuQ==
-X-CSE-MsgGUID: aKUXzt+rR32vNNBYELVfPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; d="scan'208";a="56798834"
-Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
- intel.com) ([10.245.245.2])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 06:24:31 -0700
-Date: Wed, 7 Aug 2024 14:24:27 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, linux@roeck-us.net,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, badal.nilawar@intel.com,
- riana.tauro@intel.com, ashutosh.dixit@intel.com,
- karthik.poosa@intel.com, andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH v3] drm/i915/hwmon: expose fan speed
-Message-ID: <ZrN1i2snlz8tSA1M@ashyti-mobl2.lan>
-References: <20240807123018.827506-1-raag.jadav@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D9B10E51A
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 13:49:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1723038557;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OUkKkxHcSQUKYOgRX8M/vkro1yHQIMueYloHwUqWT5M=;
+ b=VsKvubBqwd6CV6Q9NgVzELXgVjeqy0/1E+3dFZ81wxB3HfUkd5wsLsprQ3fTxfVNhzbYla
+ cHnHzg1jlP4m2XhICijiT05hlcU6edtvDrs8a5Wa7CQN54bc3ZvwU3oPNy1AmcyOV1mhWj
+ AIBO41Ecm2E0pa7YtW2grx3ZdHHz/P8=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-503-miAjHzx7Pcqiz6dLKCTGKQ-1; Wed,
+ 07 Aug 2024 09:49:14 -0400
+X-MC-Unique: miAjHzx7Pcqiz6dLKCTGKQ-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 8C7EE1944D3A; Wed,  7 Aug 2024 13:49:11 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.86])
+ by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 88E0D19560A3; Wed,  7 Aug 2024 13:49:08 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH v2 0/5] drm/panic: Cleanup and add panic description
+Date: Wed,  7 Aug 2024 15:36:09 +0200
+Message-ID: <20240807134902.458669-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240807123018.827506-1-raag.jadav@intel.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,82 +74,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raag,
+This small series removes unused export symbols, moves internal include to drm_crtc_internal.h, and adds the panic description, now that kmsg_dump provides this information.
 
-> +static umode_t
-> +hwm_fan_is_visible(const struct hwm_drvdata *ddat, u32 attr)
-> +{
-> +	struct i915_hwmon *hwmon = ddat->hwmon;
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		return i915_mmio_reg_valid(hwmon->rg.fan_speed) ? 0444 : 0;
-> +	default:
-> +		return 0;
-> +	}
+v2:
+ * Use a macro PANIC_MSG_LINES, instead of directly using the indice in drm_panic_set_description() (Sima)
+ * Add drm_panic_clear_description() to make sure the stack allocated pointer won't be used. (Sima)
+ * use the macro PANIC_MSG_LINES also in draw_panic_static_user()
 
-Why do we need switch case here?
-Why can't this function become a single "return " line?
+Jocelyn Falempe (5):
+  drm/panic: Remove space before "!" in panic message
+  drm/panic: Remove useless export symbols
+  drm/panic: Move drm_panic_register prototype to drm_crtc_internal.h
+  drm/panic: Move copyright notice to the top
+  drm/panic: Add panic description
 
-> +}
-> +
-> +static int
-> +hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
-> +{
-> +	struct i915_hwmon *hwmon = ddat->hwmon;
-> +	struct hwm_fan_info *fi = &ddat->fi;
-> +	u32 reg_val, pulses, time, time_now;
-> +	intel_wakeref_t wakeref;
-> +	long rotations;
-> +	int ret = 0;
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		with_intel_runtime_pm(ddat->uncore->rpm, wakeref) {
-> +			mutex_lock(&hwmon->hwmon_lock);
-> +
-> +			reg_val = intel_uncore_read(ddat->uncore, hwmon->rg.fan_speed);
-> +			time_now = jiffies_to_msecs(jiffies);
-> +
-> +			/* Handle overflow */
-> +			if (reg_val >= fi->reg_val_prev)
-> +				pulses = reg_val - fi->reg_val_prev;
-> +			else
-> +				pulses = UINT_MAX - fi->reg_val_prev + reg_val;
-> +
-> +			/*
-> +			 * HW register value is accumulated count of pulses from
-> +			 * PWM fan with the scale of 2 pulses per rotation.
-> +			 */
-> +			rotations = pulses >> 1;
-> +			time = time_now - fi->time_prev;
-> +
-> +			if (unlikely(!time)) {
-> +				ret = -EAGAIN;
-> +				mutex_unlock(&hwmon->hwmon_lock);
-> +				break;
-> +			}
-> +
-> +			/* Convert to minutes for calculating RPM */
-> +			*val = DIV_ROUND_UP(rotations * (60 * MSEC_PER_SEC), time);
-> +
-> +			fi->reg_val_prev = reg_val;
-> +			fi->time_prev = time_now;
-> +
-> +			mutex_unlock(&hwmon->hwmon_lock);
-> +		}
-> +		return ret;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
+ drivers/gpu/drm/drm_crtc_internal.h |  4 ++
+ drivers/gpu/drm/drm_panic.c         | 60 +++++++++++++++++++++--------
+ include/drm/drm_panic.h             | 21 +++-------
+ 3 files changed, 54 insertions(+), 31 deletions(-)
 
-same here, can we make this function:
 
-if (attr != hwmon_fan_input)
-	return -EOPNOTSUPP;
+base-commit: f7f3ddb6e5c8dc7b621fd8c0903ea42190d67452
+-- 
+2.45.2
 
-and then save all the indentation.
-
-Are we expecting more cases here?
-
-Andi
