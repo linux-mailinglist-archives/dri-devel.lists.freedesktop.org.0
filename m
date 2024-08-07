@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED9A94B137
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:24:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BE694B159
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:33:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB6DF10E5C8;
-	Wed,  7 Aug 2024 20:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D73C810E1E5;
+	Wed,  7 Aug 2024 20:33:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sPTA7ShV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DZ84yKfh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 543E010E5C7
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 20:24:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 92CA7612CB;
- Wed,  7 Aug 2024 20:24:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E743AC32781;
- Wed,  7 Aug 2024 20:24:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723062273;
- bh=WhdvMlgdDlpl6/yYw+oeDJrQrSgrjDN8HpP89wMcaVc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=sPTA7ShVYhR8gI8KdprRkeCzVxvZunB+J3GmAVos+F3Wgqa/v1hTNCZd3GlhLfSV6
- LKKceC4Au/0ZT6pdBMd2h+FgGGX7zkaO5hp5tDtAaH2lYU6hwu22GgIOG03JGngml6
- 6602kCvN01yVUa23o/x0F2SnuZ9TMl37WThbF8zwv4BeYbkENHjyNaiVHKZnWk2t06
- hvqbFogbMvkJlztxXmZNSdmJkFn/DRR02HYXuQRVYd9BcBgbMvP32VwYCcppD0XFtm
- FXEv4QvRSEp4sLDfRQ8KXrb4ODoJAPerX/jkrxcaz2Oo8N8O/0YWYrhDOw/GMqtcPY
- mGjyNFWR+L0hQ==
-Date: Wed, 7 Aug 2024 15:24:31 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>, Dave Airlie <airlied@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Helgaas <bhelgaas@google.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH 1/2] PCI: Deprecate pcim_iomap_regions() in favor of
- pcim_iomap_region()
-Message-ID: <20240807202431.GA110503@bhelgaas>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA1B10E1E5;
+ Wed,  7 Aug 2024 20:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=CQ8edwtzyG0J16XiUr2wFd7uhCXmwRC9WSvQBDtaPqk=; b=DZ84yKfhrjvjGWGXMGpwl5gzy8
+ qgyEfp95zHp/hT7QyxDQTFgjzWlW/yQraofWnw1gInnv7JLWQTjg0b7LfaJHiSjIA0cnL4IX9pkuG
+ SbA6+Uydm8xvykz5j9grLHnk85d2LILlZ+yLOq4UkyO4O5WDV7rmMSpLfwbakOaGJn0NKrITQi7P8
+ nAGHTSlrGMEgmf+hsOZlZDKcNHN20J/YzorQV1ipRH6jH7j8TFn2QEeWjJJpatlI4Oo9SyYTayzQV
+ EtFcAcrOeryqLmdyv7UtJQgcqDNcnbuvIxuE75Y6DPARepGwffdj9SrHjEZSfC4pU3lBxLOyLcEMf
+ kq6IUMaw==;
+Received: from [189.6.17.125] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sbnLP-0098Re-W5; Wed, 07 Aug 2024 22:33:16 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ daniel@ffwll.ch, harry.wentland@amd.com, Rodrigo.Siqueira@amd.com,
+ sunpeng.li@amd.com, Xinhui.Pan@amd.com
+Cc: Alex Hung <alex.hung@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, kernel-dev@igalia.com,
+ Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/9] drm/amd/display: switch amdgpu_dm_connector to use
+ struct drm_edid
+Date: Wed,  7 Aug 2024 19:25:02 -0100
+Message-ID: <20240807203207.2830-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240807083018.8734-2-pstanner@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,90 +63,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 07, 2024 at 10:30:18AM +0200, Philipp Stanner wrote:
-> pcim_iomap_regions() is a complicated function that uses a bit mask to
-> determine the BARs the user wishes to request and ioremap. Almost all
-> users only ever set a single bit in that mask, making that mechanism
-> questionable.
-> 
-> pcim_iomap_region() is now available as a more simple replacement.
-> 
-> Make pcim_iomap_region() a public function.
-> 
-> Mark pcim_iomap_regions() as deprecated.
-> 
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+Hi,
 
-The interesting part of this little series is in ast_drv.c, but there
-may be similar conversions for other drivers coming as well.
+Here AMD display driver migrates from open struct edid to opaque
+drm_edid. This version works on top of amd/drm-next branch since
+amd-staging-drm-next doesn't have the commits that support
+drm_edid_product_id[1]. It's mostly addressing Alex Hung's feedback
+from the previous version.
 
-To avoid races during the merge window, I propose merging this via the
-PCI tree so I can ensure that any other conversions happen after
-pcim_iomap_region() becomes public.
+Patches 1-4 works on amd-staging-drm-next.
+- First patch basically changes amd connector to store struct drm_edid
+  instead of edid with some pending rework to get rid of raw edid.
+- 2-4 update the driver code to use drm common-code, removing
+  driver-specific steps already done during drm_edid updates.
 
-That would require an ack from Dave.  But if you'd rather take this
-yourself, Dave, here's my ack for the PCI piece:
+Patches 5-9 depend on drm_edid_product_id, therefore, it doesn't work on
+current amd-staging-drm-next. They parse edid caps from drm_eld and
+drm_edid_product_id data, removing the need of handling raw edid in the
+dm_helpers_parse_edid_caps(), since all callers of this helper has
+updated display info from drm_edid at this point.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+To completely remove raw edid, I changed dc/link_detection in the last
+commit because all calls of dm_helpers_parse_edid_caps in
+link_add_remote_sink are preceded by the setup and update of drm_edid in
+the connector, so we can always use the connector->drm_edid. 
 
-> ---
->  drivers/pci/devres.c | 8 ++++++--
->  include/linux/pci.h  | 2 ++
->  2 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-> index 3780a9f9ec00..89ec26ea1501 100644
-> --- a/drivers/pci/devres.c
-> +++ b/drivers/pci/devres.c
-> @@ -728,7 +728,7 @@ EXPORT_SYMBOL(pcim_iounmap);
->   * Mapping and region will get automatically released on driver detach. If
->   * desired, release manually only with pcim_iounmap_region().
->   */
-> -static void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
-> +void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
->  				       const char *name)
->  {
->  	int ret;
-> @@ -761,6 +761,7 @@ static void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
->  
->  	return IOMEM_ERR_PTR(ret);
->  }
-> +EXPORT_SYMBOL(pcim_iomap_region);
->  
->  /**
->   * pcim_iounmap_region - Unmap and release a PCI BAR
-> @@ -783,7 +784,7 @@ static void pcim_iounmap_region(struct pci_dev *pdev, int bar)
->  }
->  
->  /**
-> - * pcim_iomap_regions - Request and iomap PCI BARs
-> + * pcim_iomap_regions - Request and iomap PCI BARs (DEPRECATED)
->   * @pdev: PCI device to map IO resources for
->   * @mask: Mask of BARs to request and iomap
->   * @name: Name associated with the requests
-> @@ -791,6 +792,9 @@ static void pcim_iounmap_region(struct pci_dev *pdev, int bar)
->   * Returns: 0 on success, negative error code on failure.
->   *
->   * Request and iomap regions specified by @mask.
-> + *
-> + * This function is DEPRECATED. Do not use it in new code.
-> + * Use pcim_iomap_region() instead.
->   */
->  int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name)
->  {
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 4cf89a4b4cbc..fc30176d28ca 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -2292,6 +2292,8 @@ static inline void pci_fixup_device(enum pci_fixup_pass pass,
->  void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned long maxlen);
->  void pcim_iounmap(struct pci_dev *pdev, void __iomem *addr);
->  void __iomem * const *pcim_iomap_table(struct pci_dev *pdev);
-> +void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
-> +				       const char *name);
->  int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name);
->  int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
->  				   const char *name);
-> -- 
-> 2.45.2
-> 
+Finally, there are some pending drm_edid_raw to be addressed in next
+iterations.
+
+Let me know your thoughts.
+
+Melissa
+
+Change log:
+v1: https://lore.kernel.org/amd-gfx/20240126163429.56714-1-mwen@igalia.com/
+- use const to fix compilation warnings (Alex Hung)
+- remove unused variables
+- remove driver-specific parser for connector info in favor of drm_edid
+  common code
+
+v2: https://lore.kernel.org/amd-gfx/20240327165828.288792-1-mwen@igalia.com/
+- fix general protection fault on mst
+
+v3: https://lore.kernel.org/amd-gfx/20240327214953.367126-1-mwen@igalia.com/
+- rename edid to drm_edid in amdgpu_connector (Jani)
+- call drm_edid_connector_update to clear edid in case of NULL (Jani)
+- keep setting NULL instead of free drm_edid (Jani)
+- check drm_edid not NULL, instead of valid (Jani)
+- use drm_edid_product_id to parse product info
+- use drm_eld info to parse edid caps
+
+v4: https://lore.kernel.org/amd-gfx/20240706034004.801329-1-mwen@igalia.com/
+- squash variable cleanup to related common-code cleanup (Alex H)
+- add more informative commit description (Alex H)
+- avoid unnecessary call to drm_edid_raw (Alex H)
+- remove unnecessary cast (Alex H.)
+- remove deprecated comments (Alex H.)
+- fix kernel-doc (kernel test bot)
+
+[1] https://lore.kernel.org/dri-devel/cover.1712655867.git.jani.nikula@intel.com
+
+Melissa Wen (9):
+  drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid
+  drm/amd/display: switch to setting physical address directly
+  drm/amd/display: always call connector_update when parsing
+    freesync_caps
+  drm/amd/display: remove redundant freesync parser for DP
+  drm/amd/display: use drm_edid_product_id for parsing EDID product info
+  drm/amd/display: parse display name from drm_eld
+  drm/amd/display: get SAD from drm_eld when parsing EDID caps
+  drm/amd/display: get SADB from drm_eld when parsing EDID caps
+  drm/amd/display: remove dc_edid handler from
+    dm_helpers_parse_edid_caps
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 196 +++++-------------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   4 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 113 +++++-----
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  32 +--
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h   |   1 -
+ .../drm/amd/display/dc/link/link_detection.c  |   6 +-
+ 6 files changed, 131 insertions(+), 221 deletions(-)
+
+-- 
+2.43.0
+
