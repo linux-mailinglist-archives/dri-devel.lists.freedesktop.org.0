@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2498D94AA49
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:37:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D41894AA68
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 16:39:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D09710E54C;
-	Wed,  7 Aug 2024 14:37:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E05CD10E54F;
+	Wed,  7 Aug 2024 14:39:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DzMGoa4D";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HzcoUmWV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9372410E54C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 14:37:40 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 688E510E54F
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 14:39:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F0B9B61028;
- Wed,  7 Aug 2024 14:37:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51EF9C32781;
- Wed,  7 Aug 2024 14:37:39 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 527DCCE0FBB;
+ Wed,  7 Aug 2024 14:39:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12839C4AF0D;
+ Wed,  7 Aug 2024 14:39:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723041459;
- bh=w9q7N/cXR+ywf2V7kYelGMsCJzGN8TZ3szWi+dSVpNY=;
+ s=korg; t=1723041555;
+ bh=zP4isrAYPTdKKbsDnGNE5YUSabmd68OZlWBeZGXyyxY=;
  h=Subject:To:Cc:From:Date:From;
- b=DzMGoa4DuOKFAd3Xpf3JPr/gMAdhbAI9Spnk4Lu2Udn0hVVa1TVdu71GKAmaBEvEr
- C+4zKRSgS4XHp7cNYqhtHgwzmtsvHOenyoWMEv1Wd6VTyCBPcIQK0R2EVTRqdIE1g9
- LyRbPHcEHuzSRl8SkNQ/9PXssCbqLVUlJLk90up8=
-Subject: Patch "drm/vmwgfx: Fix a deadlock in dma buf fence polling" has been
- added to the 6.6-stable tree
-To: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, maaz.mombasawala@broadcom.com,
- martin.krastev@broadcom.com, zack.rusin@broadcom.com
+ b=HzcoUmWVODW+eIpn3UEXwiAuZHdl/jk4LnIuMSki01+EyD+ZLC1Q+tqSQ+yi67TuS
+ EpWY77T3gEsGHoPyavpVAfVqItZCGJTdEtXF7UC22uxv7XK2t5vLqBvgakzjpDlNHc
+ e/IrG8DQ4P+WQFFMZKgNvNYPJUtnrnaLQkGUiHjs=
+Subject: Patch "drm/ast: astdp: Wake up during connector status detection" has
+ been added to the 6.10-stable tree
+To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, jfalempe@redhat.com, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Wed, 07 Aug 2024 16:35:58 +0200
-Message-ID: <2024080758-snowbound-ditzy-18cf@gregkh>
+Date: Wed, 07 Aug 2024 16:36:14 +0200
+Message-ID: <2024080713-drainage-task-26f9@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -59,127 +58,139 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    drm/vmwgfx: Fix a deadlock in dma buf fence polling
+    drm/ast: astdp: Wake up during connector status detection
 
-to the 6.6-stable tree which can be found at:
+to the 6.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     drm-vmwgfx-fix-a-deadlock-in-dma-buf-fence-polling.patch
-and it can be found in the queue-6.6 subdirectory.
+     drm-ast-astdp-wake-up-during-connector-status-detection.patch
+and it can be found in the queue-6.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From e58337100721f3cc0c7424a18730e4f39844934f Mon Sep 17 00:00:00 2001
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Mon, 22 Jul 2024 14:41:13 -0400
-Subject: drm/vmwgfx: Fix a deadlock in dma buf fence polling
+From 0ce91928ec62d189b5c51816e325f02587b53118 Mon Sep 17 00:00:00 2001
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Wed, 17 Jul 2024 16:24:16 +0200
+Subject: drm/ast: astdp: Wake up during connector status detection
 
-From: Zack Rusin <zack.rusin@broadcom.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit e58337100721f3cc0c7424a18730e4f39844934f upstream.
+commit 0ce91928ec62d189b5c51816e325f02587b53118 upstream.
 
-Introduce a version of the fence ops that on release doesn't remove
-the fence from the pending list, and thus doesn't require a lock to
-fix poll->fence wait->fence unref deadlocks.
+Power up the ASTDP connector for connection status detection if the
+connector is not active. Keep it powered if a display is attached.
 
-vmwgfx overwrites the wait callback to iterate over the list of all
-fences and update their status, to do that it holds a lock to prevent
-the list modifcations from other threads. The fence destroy callback
-both deletes the fence and removes it from the list of pending
-fences, for which it holds a lock.
+This fixes a bug where the connector does not come back after
+disconnecting the display. The encoder's atomic_disable turns off
+power on the physical connector. Further HPD reads will fail,
+thus preventing the driver from detecting re-connected displays.
 
-dma buf polling cb unrefs a fence after it's been signaled: so the poll
-calls the wait, which signals the fences, which are being destroyed.
-The destruction tries to acquire the lock on the pending fences list
-which it can never get because it's held by the wait from which it
-was called.
+For connectors that are actively used, only test the HPD flag without
+touching power.
 
-Old bug, but not a lot of userspace apps were using dma-buf polling
-interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
-
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Fixes: f81bb0ac7872 ("drm/ast: report connection status on Display Port.")
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dave Airlie <airlied@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.2+
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240722184313.181318-2-zack.rusin@broadcom.com
+Cc: <stable@vger.kernel.org> # v6.6+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240717143319.104012-2-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c |   17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/ast/ast_dp.c   |    7 +++++++
+ drivers/gpu/drm/ast/ast_drv.h  |    1 +
+ drivers/gpu/drm/ast/ast_mode.c |   29 +++++++++++++++++++++++++++--
+ 3 files changed, 35 insertions(+), 2 deletions(-)
 
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -32,7 +32,6 @@
- #define VMW_FENCE_WRAP (1 << 31)
- 
- struct vmw_fence_manager {
--	int num_fence_objects;
- 	struct vmw_private *dev_priv;
- 	spinlock_t lock;
- 	struct list_head fence_list;
-@@ -124,13 +123,13 @@ static void vmw_fence_obj_destroy(struct
- {
- 	struct vmw_fence_obj *fence =
- 		container_of(f, struct vmw_fence_obj, base);
--
- 	struct vmw_fence_manager *fman = fman_from_fence(fence);
- 
--	spin_lock(&fman->lock);
--	list_del_init(&fence->head);
--	--fman->num_fence_objects;
--	spin_unlock(&fman->lock);
-+	if (!list_empty(&fence->head)) {
-+		spin_lock(&fman->lock);
-+		list_del_init(&fence->head);
-+		spin_unlock(&fman->lock);
-+	}
- 	fence->destroy(fence);
+--- a/drivers/gpu/drm/ast/ast_dp.c
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -158,7 +158,14 @@ void ast_dp_launch(struct drm_device *de
+ 			       ASTDP_HOST_EDID_READ_DONE);
  }
  
-@@ -257,7 +256,6 @@ static const struct dma_fence_ops vmw_fe
- 	.release = vmw_fence_obj_destroy,
- };
++bool ast_dp_power_is_on(struct ast_device *ast)
++{
++	u8 vgacre3;
++
++	vgacre3 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xe3);
  
--
- /*
-  * Execute signal actions on fences recently signaled.
-  * This is done from a workqueue so we don't have to execute
-@@ -355,7 +353,6 @@ static int vmw_fence_obj_init(struct vmw
- 		goto out_unlock;
- 	}
- 	list_add_tail(&fence->head, &fman->fence_list);
--	++fman->num_fence_objects;
++	return !(vgacre3 & AST_DP_PHY_SLEEP);
++}
  
- out_unlock:
- 	spin_unlock(&fman->lock);
-@@ -403,7 +400,7 @@ static bool vmw_fence_goal_new_locked(st
- 				      u32 passed_seqno)
+ void ast_dp_power_on_off(struct drm_device *dev, bool on)
  {
- 	u32 goal_seqno;
--	struct vmw_fence_obj *fence;
-+	struct vmw_fence_obj *fence, *next_fence;
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -472,6 +472,7 @@ void ast_init_3rdtx(struct drm_device *d
+ bool ast_astdp_is_connected(struct ast_device *ast);
+ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
+ void ast_dp_launch(struct drm_device *dev);
++bool ast_dp_power_is_on(struct ast_device *ast);
+ void ast_dp_power_on_off(struct drm_device *dev, bool no);
+ void ast_dp_set_on_off(struct drm_device *dev, bool no);
+ void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode);
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -28,6 +28,7 @@
+  * Authors: Dave Airlie <airlied@redhat.com>
+  */
  
- 	if (likely(!fman->seqno_valid))
- 		return false;
-@@ -413,7 +410,7 @@ static bool vmw_fence_goal_new_locked(st
- 		return false;
++#include <linux/delay.h>
+ #include <linux/export.h>
+ #include <linux/pci.h>
  
- 	fman->seqno_valid = false;
--	list_for_each_entry(fence, &fman->fence_list, head) {
-+	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
- 		if (!list_empty(&fence->seq_passed_actions)) {
- 			fman->seqno_valid = true;
- 			vmw_fence_goal_write(fman->dev_priv,
+@@ -1641,11 +1642,35 @@ static int ast_astdp_connector_helper_de
+ 						 struct drm_modeset_acquire_ctx *ctx,
+ 						 bool force)
+ {
++	struct drm_device *dev = connector->dev;
+ 	struct ast_device *ast = to_ast_device(connector->dev);
++	enum drm_connector_status status = connector_status_disconnected;
++	struct drm_connector_state *connector_state = connector->state;
++	bool is_active = false;
++
++	mutex_lock(&ast->modeset_lock);
++
++	if (connector_state && connector_state->crtc) {
++		struct drm_crtc_state *crtc_state = connector_state->crtc->state;
++
++		if (crtc_state && crtc_state->active)
++			is_active = true;
++	}
++
++	if (!is_active && !ast_dp_power_is_on(ast)) {
++		ast_dp_power_on_off(dev, true);
++		msleep(50);
++	}
+ 
+ 	if (ast_astdp_is_connected(ast))
+-		return connector_status_connected;
+-	return connector_status_disconnected;
++		status = connector_status_connected;
++
++	if (!is_active && status == connector_status_disconnected)
++		ast_dp_power_on_off(dev, false);
++
++	mutex_unlock(&ast->modeset_lock);
++
++	return status;
+ }
+ 
+ static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs = {
 
 
-Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
+Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.6/drm-vmwgfx-trigger-a-modeset-when-the-screen-moves.patch
-queue-6.6/drm-vmwgfx-fix-a-deadlock-in-dma-buf-fence-polling.patch
-queue-6.6/drm-vmwgfx-fix-overlay-when-using-screen-targets.patch
+queue-6.10/drm-v3d-validate-passed-in-drm-syncobj-handles-in-the-performance-extension.patch
+queue-6.10/drm-ast-astdp-wake-up-during-connector-status-detection.patch
+queue-6.10/drm-ast-fix-black-screen-after-resume.patch
+queue-6.10/drm-v3d-prevent-out-of-bounds-access-in-performance-query-extensions.patch
+queue-6.10/drm-client-fix-error-code-in-drm_client_buffer_vmap_.patch
+queue-6.10/drm-v3d-validate-passed-in-drm-syncobj-handles-in-the-timestamp-extension.patch
+queue-6.10/drm-v3d-fix-potential-memory-leak-in-the-timestamp-extension.patch
+queue-6.10/drm-v3d-fix-potential-memory-leak-in-the-performance-extension.patch
