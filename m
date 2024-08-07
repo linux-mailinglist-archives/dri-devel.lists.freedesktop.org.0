@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C3D94B163
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1326B94B166
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 22:34:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A8E10E5D7;
-	Wed,  7 Aug 2024 20:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80ED610E5D9;
+	Wed,  7 Aug 2024 20:33:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="huzS4dPp";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ljEav19u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FDF110E5D4;
- Wed,  7 Aug 2024 20:33:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF0110E5D4;
+ Wed,  7 Aug 2024 20:33:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ClcG6Zb/4TngvsPRx5J//q3lX+iZH7HttvTQ55YMpBs=; b=huzS4dPpIGkjmsj56t68Ttl6do
- HZhZ2AvixBxdfUKP1n5sxBqmD+RQzP84LUYF/7APaQaaayiHsAW58cBNloAvyvgclhYGeuZs4DjEk
- T0T9jNrz3K3YO/NVcQ9rp+fXzr2gxO8o78BxVsGMRrSh5H/R5UzXNPfm5YgwI+k9VoMSvsvBNvZbI
- IuIpiZ/tcLBB6FT3n5xNcz0+t/pLRpjle0W66WFey2VLcEWcusPLSBNaOCSP+7kn8IuzjTFeqogqC
- Dskv/IZy8IsWc0WlJEwRA1MZb3ooJu0Iwge3BiVpHTH+NrZuJJYvJft7sfBtgy58MrM8E1NgMQ+oD
- fvZp809Q==;
+ bh=Ya9gcaLrGulr+6DjIR4TfXSktCC/LhUClx2Mf8MpT9M=; b=ljEav19uVIcd+e39a753Ej5tsS
+ zWg4htx7F7ExuzrsSaFp5wgh94lzcnUJuainjCKBsuHFUwkqunzDs0HXGti9P07bS7gdoxABdcpLC
+ mt9mq6o+ce8I9CP+cbRkUDTJJ/0/fbtaP3qO1DI+pSNsxe8jS7p2J9F1Q6faTcN3F0aY5oEQJuG5u
+ RvZml5ORxl9xhGR1z5rwMuj77zaZp8q57E5WX2DiBNaOiKQ60F8s8ZEeyrawWv/DSLXRTyycHBffY
+ 7M3+zAUmtPCGyUxfFZRlGKjbbfSHKzZLIt0Hq09tBwdOvjDISccj7V0gcylusGZM+dLPF+7Qsq1e7
+ 8RUcNh6Q==;
 Received: from [189.6.17.125] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sbnLu-0098Re-2o; Wed, 07 Aug 2024 22:33:46 +0200
+ id 1sbnLy-0098Re-Uh; Wed, 07 Aug 2024 22:33:51 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
@@ -41,10 +41,10 @@ Cc: Alex Hung <alex.hung@amd.com>,
  Jani Nikula <jani.nikula@linux.intel.com>, kernel-dev@igalia.com,
  Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 4/9] drm/amd/display: remove redundant freesync parser for
- DP
-Date: Wed,  7 Aug 2024 19:25:06 -0100
-Message-ID: <20240807203207.2830-5-mwen@igalia.com>
+Subject: [PATCH v5 5/9] drm/amd/display: use drm_edid_product_id for parsing
+ EDID product info
+Date: Wed,  7 Aug 2024 19:25:07 -0100
+Message-ID: <20240807203207.2830-6-mwen@igalia.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240807203207.2830-1-mwen@igalia.com>
 References: <20240807203207.2830-1-mwen@igalia.com>
@@ -65,127 +65,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When updating connector under drm_edid infrastructure, many calculations
-and validations are already done and become redundant inside AMD driver.
-Remove those driver-specific code in favor of the DRM common code.
+Since [1], we can use drm_edid_product_id to get debug info from
+drm_edid instead of directly parsing EDID.
 
-v5:
-- squash with unused variabels cleanup (Alex H.)
+[1] https://lore.kernel.org/dri-devel/cover.1712655867.git.jani.nikula@intel.com/
 
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 73 +------------------
- 1 file changed, 4 insertions(+), 69 deletions(-)
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 37 ++++++++++---------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 0ee453d2cd65..a710d0576edd 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -11935,9 +11935,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 				    const struct drm_edid *drm_edid)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 2e07ce2e89f4..1e454cfcaef2 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -45,16 +45,15 @@
+ #include "dm_helpers.h"
+ #include "ddc_service_types.h"
+ 
+-static u32 edid_extract_panel_id(struct edid *edid)
++static u32 edid_extract_panel_id(struct drm_edid_product_id *product_id)
  {
- 	int i = 0;
--	const struct detailed_timing *timing;
--	const struct detailed_non_pixel *data;
--	const struct detailed_data_monitor_range *range;
- 	struct amdgpu_dm_connector *amdgpu_dm_connector =
- 			to_amdgpu_dm_connector(connector);
- 	struct dm_connector_state *dm_con_state = NULL;
-@@ -11964,8 +11961,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+-	return (u32)edid->mfg_id[0] << 24   |
+-	       (u32)edid->mfg_id[1] << 16   |
+-	       (u32)EDID_PRODUCT_ID(edid);
++	return (u32)be16_to_cpu(product_id->manufacturer_name) << 16 |
++	       (u32)le16_to_cpu(product_id->product_code);
+ }
  
- 		amdgpu_dm_connector->min_vfreq = 0;
- 		amdgpu_dm_connector->max_vfreq = 0;
--		connector->display_info.monitor_range.min_vfreq = 0;
--		connector->display_info.monitor_range.max_vfreq = 0;
- 		freesync_capable = false;
+-static void apply_edid_quirks(struct edid *edid, struct dc_edid_caps *edid_caps)
++static void apply_edid_quirks(struct drm_edid_product_id *product_id, struct dc_edid_caps *edid_caps)
+ {
+-	uint32_t panel_id = edid_extract_panel_id(edid);
++	uint32_t panel_id = edid_extract_panel_id(product_id);
  
- 		goto update;
-@@ -11985,67 +11980,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 	switch (panel_id) {
+ 	/* Workaround for some monitors which does not work well with FAMS */
+@@ -94,6 +93,8 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ {
+ 	struct amdgpu_dm_connector *aconnector = link->priv;
+ 	struct drm_connector *connector = &aconnector->base;
++	const struct drm_edid *drm_edid = aconnector->drm_edid;
++	struct drm_edid_product_id product_id;
+ 	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
+ 	struct cea_sad *sads;
+ 	int sad_count = -1;
+@@ -109,13 +110,13 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 	if (!drm_edid_is_valid(edid_buf))
+ 		result = EDID_BAD_CHECKSUM;
  
- 	if (edid && (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
- 		     sink->sink_signal == SIGNAL_TYPE_EDP)) {
--		bool edid_check_required = false;
--
--		if (amdgpu_dm_connector->dc_link &&
--		    amdgpu_dm_connector->dc_link->dpcd_caps.allow_invalid_MSA_timing_param) {
--			if (edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ) {
--				amdgpu_dm_connector->min_vfreq = connector->display_info.monitor_range.min_vfreq;
--				amdgpu_dm_connector->max_vfreq = connector->display_info.monitor_range.max_vfreq;
--				if (amdgpu_dm_connector->max_vfreq -
--				    amdgpu_dm_connector->min_vfreq > 10)
--					freesync_capable = true;
--			} else {
--				edid_check_required = edid->version > 1 ||
--						      (edid->version == 1 &&
--						       edid->revision > 1);
--			}
--		}
--
--		if (edid_check_required) {
--			for (i = 0; i < 4; i++) {
--
--				timing	= &edid->detailed_timings[i];
--				data	= &timing->data.other_data;
--				range	= &data->data.range;
--				/*
--				 * Check if monitor has continuous frequency mode
--				 */
--				if (data->type != EDID_DETAIL_MONITOR_RANGE)
--					continue;
--				/*
--				 * Check for flag range limits only. If flag == 1 then
--				 * no additional timing information provided.
--				 * Default GTF, GTF Secondary curve and CVT are not
--				 * supported
--				 */
--				if (range->flags != 1)
--					continue;
--
--				connector->display_info.monitor_range.min_vfreq = range->min_vfreq;
--				connector->display_info.monitor_range.max_vfreq = range->max_vfreq;
--
--				if (edid->revision >= 4) {
--					if (data->pad2 & DRM_EDID_RANGE_OFFSET_MIN_VFREQ)
--						connector->display_info.monitor_range.min_vfreq += 255;
--					if (data->pad2 & DRM_EDID_RANGE_OFFSET_MAX_VFREQ)
--						connector->display_info.monitor_range.max_vfreq += 255;
--				}
--
--				amdgpu_dm_connector->min_vfreq =
--					connector->display_info.monitor_range.min_vfreq;
--				amdgpu_dm_connector->max_vfreq =
--					connector->display_info.monitor_range.max_vfreq;
--
--				break;
--			}
--
--			if (amdgpu_dm_connector->max_vfreq -
--			    amdgpu_dm_connector->min_vfreq > 10) {
-+		amdgpu_dm_connector->min_vfreq = connector->display_info.monitor_range.min_vfreq;
-+		amdgpu_dm_connector->max_vfreq = connector->display_info.monitor_range.max_vfreq;
-+		if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
-+			freesync_capable = true;
+-	edid_caps->manufacturer_id = (uint16_t) edid_buf->mfg_id[0] |
+-					((uint16_t) edid_buf->mfg_id[1])<<8;
+-	edid_caps->product_id = (uint16_t) edid_buf->prod_code[0] |
+-					((uint16_t) edid_buf->prod_code[1])<<8;
+-	edid_caps->serial_number = edid_buf->serial;
+-	edid_caps->manufacture_week = edid_buf->mfg_week;
+-	edid_caps->manufacture_year = edid_buf->mfg_year;
++	drm_edid_get_product_id(drm_edid, &product_id);
++
++	edid_caps->manufacturer_id = le16_to_cpu(product_id.manufacturer_name);
++	edid_caps->product_id = le16_to_cpu(product_id.product_code);
++	edid_caps->serial_number = le32_to_cpu(product_id.serial_number);
++	edid_caps->manufacture_week = product_id.week_of_manufacture;
++	edid_caps->manufacture_year = product_id.year_of_manufacture;
  
--				freesync_capable = true;
--			}
--		}
- 		parse_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
+ 	drm_edid_get_monitor_name(edid_buf,
+ 				  edid_caps->display_name,
+@@ -123,7 +124,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
  
- 		if (vsdb_info.replay_mode) {
-@@ -12053,13 +11992,9 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 			amdgpu_dm_connector->vsdb_info.amd_vsdb_version = vsdb_info.amd_vsdb_version;
- 			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
- 		}
+ 	edid_caps->edid_hdmi = connector->display_info.is_hdmi;
+ 
+-	apply_edid_quirks(edid_buf, edid_caps);
++	apply_edid_quirks(&product_id, edid_caps);
+ 
+ 	sad_count = drm_edid_to_sad((struct edid *) edid->raw_edid, &sads);
+ 	if (sad_count <= 0)
+@@ -909,9 +910,9 @@ enum dc_edid_status dm_helpers_read_local_edid(
+ 	 * do check sum and retry to make sure read correct edid.
+ 	 */
+ 	do {
 -
- 	} else if (drm_edid && sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
- 		i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
- 		if (i >= 0 && vsdb_info.freesync_supported) {
--			timing  = &edid->detailed_timings[i];
--			data    = &timing->data.other_data;
+ 		drm_edid = drm_edid_read_ddc(connector, ddc);
+ 		drm_edid_connector_update(connector, drm_edid);
++		aconnector->drm_edid = drm_edid;
+ 
+ 		/* DP Compliance Test 4.2.2.6 */
+ 		if (link->aux_mode && connector->edid_corrupt)
+@@ -929,14 +930,14 @@ enum dc_edid_status dm_helpers_read_local_edid(
+ 		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
+ 		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
+ 
+-		/* We don't need the original edid anymore */
+-		drm_edid_free(drm_edid);
 -
- 			amdgpu_dm_connector->min_vfreq = vsdb_info.min_refresh_rate_hz;
- 			amdgpu_dm_connector->max_vfreq = vsdb_info.max_refresh_rate_hz;
- 			if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
+ 		edid_status = dm_helpers_parse_edid_caps(
+ 						link,
+ 						&sink->dc_edid,
+ 						&sink->edid_caps);
+ 
++		/* We don't need the original edid anymore */
++		drm_edid_free(drm_edid);
++
+ 	} while (edid_status == EDID_BAD_CHECKSUM && --retry > 0);
+ 
+ 	if (edid_status != EDID_OK)
 -- 
 2.43.0
 
