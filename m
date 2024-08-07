@@ -2,79 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0D394A2BB
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 10:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42E394A2E0
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 10:30:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6769610E458;
-	Wed,  7 Aug 2024 08:26:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A09A110E467;
+	Wed,  7 Aug 2024 08:30:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="elIQlNeZ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZeG79+zJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF86C10E458
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 08:26:44 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4281d812d3eso14336505e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 01:26:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723019203; x=1723624003;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=JZHByOv0mOQel4KMBZjJK3uZiiCwuwlf50RnLCFOcRk=;
- b=elIQlNeZFQ4y//evdq524KcLhz7kN0SPKxzJPHO/BzvK9PFt4S1A/OjQZqtORAxokv
- EXrXBtDxPocI6Kw5ePNPTeYJzt+g+EJRhAGZb4rDk5dE7bO8TZHa51EF1p7wXn+EEEG0
- KpfbycwMKfjtZCY+zYUPAYNU0SoedH+fe9qXjRTuEe9VHITqtR/rztekBeTiYf2BXvyS
- vBNkpOt9PYcKsUHiAjYC8HY5KSzx5RZw6XZ5KxYPbWpEGav4WDYSuNU+hHtQMZePwAX1
- evQwe7wbF33IaECrtPS+1nWDbeAC65NoQ7hSk0QKxadxDRXYidoUDBtn7BZlIFgfTHDa
- vOAw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B6210E471
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 08:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1723019431;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OfBj6lBAY4VJsMws6sBIFpxuMUursLja0EGRzFyXM78=;
+ b=ZeG79+zJ4qPsNktE62ib3+6pWY8PciiIHLePlZTeKl/sU2p/+W0rPrdoLBnLfqxdc6LPIa
+ rK7Llz3USPmfhh/YAdqz3dz169JWZBpKIjsmxYTBnhG9nGACyht9XQhtdKuaIK3e8yV2LL
+ +LYGCljLFIP4WdUE5fk78T6xYcq//xU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-473-UqEkq9OPOsSRyer_c4M_DQ-1; Wed, 07 Aug 2024 04:30:27 -0400
+X-MC-Unique: UqEkq9OPOsSRyer_c4M_DQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4281d62be91so1293175e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2024 01:30:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723019203; x=1723624003;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JZHByOv0mOQel4KMBZjJK3uZiiCwuwlf50RnLCFOcRk=;
- b=SUwOr1OXXc24kzmmE9xgp8awS5qoT07l6KjtRzRnU05y3nLJcu9b0vC00KInU/4d45
- qivg0m4o0NBmu9lBga1R4LQaA+05oiMymLqga+U3cdnktLAQUrGshmVfmrMgS2aYlvpg
- MOzAdlke46q2UAiiYWCPCLJCvmxbWgZqJytbpQwXTeMNbnF5TVTm+SCPrn9YP7ElMZUF
- SmH7InC1zj25EfU603LCmqt0S2OsHtLw1T5F6+TuSGpacDRRjEcXjl/XwcI62yPkFHn3
- prAsts3AnzVysPTeZbWZJBPYp0iZdztG7pvA6cPSYvnUWbjHrcRRCIOL/uqMOXd6QE/L
- 5tqQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWsPopn1OiiCUctX9pbtSSufS5qeosR7zRtKN0FEUkBh+bIc4TQwSjuy/5S01uBQe0zY+Lz29GIKLCU60gYxcfIZTtsQ5nmVzjilUPfwHoo
-X-Gm-Message-State: AOJu0YytTZtqUXHu261lf7APwBNGizcL4P20ZYABGk7QA7XvaBFNB9Mm
- asE/b+2ght+9SGi1wqZtlEqnX5NDwNKyENPUW9k7r8vAF/uininLEqUTxtKIXmI=
-X-Google-Smtp-Source: AGHT+IFz38MFkpvdt0BKpKNIiKOyIyBho+s/Gh9rbf8GDZAtKNc/QE+/bIeiT1DD/pgoorf5EawALA==
-X-Received: by 2002:a5d:5510:0:b0:368:6606:bd01 with SMTP id
- ffacd0b85a97d-36bbc1c4abfmr13978046f8f.55.1723019203144; 
- Wed, 07 Aug 2024 01:26:43 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:90f1:3c4c:261c:b0f5])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4290580cb80sm18381625e9.45.2024.08.07.01.26.42
+ d=1e100.net; s=20230601; t=1723019426; x=1723624226;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OfBj6lBAY4VJsMws6sBIFpxuMUursLja0EGRzFyXM78=;
+ b=d0EqibrKP0QPzTVnhY9LzeqnLSity57oEDunr+2I80+RW0oUXSrgg5Rgg9b16v6fBl
+ K9atgYTuh3DETPqjkHf0Fv5yBLZi7l08IXPJ4OUJIamkuvBKSooXJ7W3Z8hH6GFBHbS5
+ /heoKDZl1qcSW2Xiy6qf+CfytmpYOMZEz+t0guP9ilqZyNmer1JFkJUq3DewlKsdw1JN
+ Xsxcr1n0af/evoIp6EYP3TT99NI8JsdMikPR3UVEYzkIrUCo7EKPNObelk8efuycZrGI
+ BQ1kHwEHbS5CZJ9P9XUMvCBjQiSgSovZbSQSq1rg7kPUFx1yRVoHHjTsk53LrUbUcha3
+ ioSg==
+X-Gm-Message-State: AOJu0Yz4+vGXdFpJCfiz/0B6CUVhypbcNPUSgivMe7g/uv021cKNJXsW
+ GiBIciDJWHWpe8+5WAdq4Ht19HuqpTTqD3zY1y64/1dX3opVwoD6Y0VfX6CbYZcpKa/IHHLnsjx
+ UvhTN8/s8gRllGmr9BfeZM7TEl7ZnnxANW12IncIbyxmTIOFc8fuCH3UZQeLbfn0DSA==
+X-Received: by 2002:a05:600c:4591:b0:426:6f48:415e with SMTP id
+ 5b1f17b1804b1-428e6aea795mr73821005e9.1.1723019425857; 
+ Wed, 07 Aug 2024 01:30:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHdhIO0KlL48PS+jaZDCPIETER1vQyM9Ppq36CYnKYH6adnAP4mB8NMbC+bOkQ6YfKhAfEWRA==
+X-Received: by 2002:a05:600c:4591:b0:426:6f48:415e with SMTP id
+ 5b1f17b1804b1-428e6aea795mr73820815e9.1.1723019425354; 
+ Wed, 07 Aug 2024 01:30:25 -0700 (PDT)
+Received: from eisenberg.muc.redhat.com (nat-pool-muc-t.redhat.com.
+ [149.14.88.26]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4290580cb80sm18544835e9.45.2024.08.07.01.30.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Aug 2024 01:26:42 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
- <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>,  Kevin Hilman
- <khilman@baylibre.com>,  dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/9] drm/meson: dw-hdmi: split resets out of hw init.
-In-Reply-To: <CAFBinCCvWFCCvb9gPvv0-eudG=iuKROk5rPSiorKTnHcToDfTQ@mail.gmail.com>
- (Martin Blumenstingl's message of "Tue, 6 Aug 2024 22:49:40 +0200")
-References: <20240730125023.710237-1-jbrunet@baylibre.com>
- <20240730125023.710237-6-jbrunet@baylibre.com>
- <CAFBinCCvWFCCvb9gPvv0-eudG=iuKROk5rPSiorKTnHcToDfTQ@mail.gmail.com>
-Date: Wed, 07 Aug 2024 10:26:42 +0200
-Message-ID: <1ja5hozqkd.fsf@starbuckisacylon.baylibre.com>
+ Wed, 07 Aug 2024 01:30:25 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
+Subject: [PATCH 1/2] PCI: Deprecate pcim_iomap_regions() in favor of
+ pcim_iomap_region()
+Date: Wed,  7 Aug 2024 10:30:18 +0200
+Message-ID: <20240807083018.8734-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,87 +93,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 06 Aug 2024 at 22:49, Martin Blumenstingl <martin.blumenstingl@googl=
-email.com> wrote:
+pcim_iomap_regions() is a complicated function that uses a bit mask to
+determine the BARs the user wishes to request and ioremap. Almost all
+users only ever set a single bit in that mask, making that mechanism
+questionable.
 
-> Hi Jerome,
->
-> On Tue, Jul 30, 2024 at 2:50=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.c=
-om> wrote:
->>
->> This prepares the migration to regmap usage.
->>
->> To properly setup regmap, the APB needs to be in working order.
->> This is easier handled if the resets are not mixed with hw init.
->>
->> More checks are required to determine if the resets are needed
->> on resume or not. Add a note for this.
->>
->> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
->> ---
->>  drivers/gpu/drm/meson/meson_dw_hdmi.c | 14 +++++++++-----
->>  1 file changed, 9 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/mes=
-on/meson_dw_hdmi.c
->> index 5cd3264ab874..47aa3e184e98 100644
->> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
->> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
->> @@ -581,11 +581,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi=
- *meson_dw_hdmi)
->>         /* Bring HDMITX MEM output of power down */
->>         regmap_update_bits(priv->hhi, HHI_MEM_PD_REG0, 0xff << 8, 0);
->>
->> -       /* Reset HDMITX APB & TX & PHY */
->> -       reset_control_reset(meson_dw_hdmi->hdmitx_apb);
->> -       reset_control_reset(meson_dw_hdmi->hdmitx_ctrl);
->> -       reset_control_reset(meson_dw_hdmi->hdmitx_phy);
->> -
->>         /* Enable APB3 fail on error */
->>         if (!meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
->>                 writel_bits_relaxed(BIT(15), BIT(15),
->> @@ -675,6 +670,10 @@ static int meson_dw_hdmi_bind(struct device *dev, s=
-truct device *master,
->>                 return PTR_ERR(meson_dw_hdmi->hdmitx_phy);
->>         }
->>
->> +       reset_control_reset(meson_dw_hdmi->hdmitx_apb);
->> +       reset_control_reset(meson_dw_hdmi->hdmitx_ctrl);
->> +       reset_control_reset(meson_dw_hdmi->hdmitx_phy);
-> The old out of tree vendor driver [0] enables the "isfr" and "iahb"
-> (in P_HHI_HDMI_CLK_CNTL and P_HHI_GCLK_MPEG2) clocks before triggering
-> the resets.
-> Previously meson_dw_hdmi's behavior was identical as it enabled the
-> clocks in meson_dw_hdmi_bind() and only later triggered the resets.
->
-> I'm totally fine with moving the resets to meson_dw_hdmi_bind() but I
-> think it should happen after devm_clk_bulk_get_all_enable() has been
-> called (to keep the order and thus avoid side-effects that we don't
-> know about yet).
+pcim_iomap_region() is now available as a more simple replacement.
 
-Good point.
+Make pcim_iomap_region() a public function.
 
-I was also thinking about squashing this with the regmap patch.
-I've split it apart for v1 to make things a bit more clear but it only
-really makes sense with the regmap conversion.=20
+Mark pcim_iomap_regions() as deprecated.
 
->
-> Also out of curiosity: are you planning to convert the driver to use
-> devm_reset_control_bulk_get_exclusive()?
->
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+---
+ drivers/pci/devres.c | 8 ++++++--
+ include/linux/pci.h  | 2 ++
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-It's been a while this I've done that. I remember I thought about it.
-I think it was a bit more difficult to use that clocks. I was looking at
-making the driver a bit more clean and simple. It was not really helping
-to move it in that direction IIRC.
+diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
+index 3780a9f9ec00..89ec26ea1501 100644
+--- a/drivers/pci/devres.c
++++ b/drivers/pci/devres.c
+@@ -728,7 +728,7 @@ EXPORT_SYMBOL(pcim_iounmap);
+  * Mapping and region will get automatically released on driver detach. If
+  * desired, release manually only with pcim_iounmap_region().
+  */
+-static void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
++void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+ 				       const char *name)
+ {
+ 	int ret;
+@@ -761,6 +761,7 @@ static void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+ 
+ 	return IOMEM_ERR_PTR(ret);
+ }
++EXPORT_SYMBOL(pcim_iomap_region);
+ 
+ /**
+  * pcim_iounmap_region - Unmap and release a PCI BAR
+@@ -783,7 +784,7 @@ static void pcim_iounmap_region(struct pci_dev *pdev, int bar)
+ }
+ 
+ /**
+- * pcim_iomap_regions - Request and iomap PCI BARs
++ * pcim_iomap_regions - Request and iomap PCI BARs (DEPRECATED)
+  * @pdev: PCI device to map IO resources for
+  * @mask: Mask of BARs to request and iomap
+  * @name: Name associated with the requests
+@@ -791,6 +792,9 @@ static void pcim_iounmap_region(struct pci_dev *pdev, int bar)
+  * Returns: 0 on success, negative error code on failure.
+  *
+  * Request and iomap regions specified by @mask.
++ *
++ * This function is DEPRECATED. Do not use it in new code.
++ * Use pcim_iomap_region() instead.
+  */
+ int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name)
+ {
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 4cf89a4b4cbc..fc30176d28ca 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -2292,6 +2292,8 @@ static inline void pci_fixup_device(enum pci_fixup_pass pass,
+ void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned long maxlen);
+ void pcim_iounmap(struct pci_dev *pdev, void __iomem *addr);
+ void __iomem * const *pcim_iomap_table(struct pci_dev *pdev);
++void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
++				       const char *name);
+ int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name);
+ int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
+ 				   const char *name);
+-- 
+2.45.2
 
->
-> Best regards,
-> Martin
->
->
-> [0] https://github.com/endlessm/linux-s905x/blob/master/drivers/amlogic/h=
-dmi/hdmi_tx_20/hw/hdmi_tx_hw.c#L470
-
---=20
-Jerome
