@@ -2,108 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89ED294ACDB
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 17:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD2894ACFB
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2024 17:35:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A813310E570;
-	Wed,  7 Aug 2024 15:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066E210E579;
+	Wed,  7 Aug 2024 15:35:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MXHQWiq3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q/J78puK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXHQWiq3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q/J78puK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ATifhC0X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E369B10E18A
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2024 15:26:51 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 820CD21CFF;
- Wed,  7 Aug 2024 15:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723044410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
- b=MXHQWiq3cHR1EZT1eHHePh8EZXJTtYBkY/9sPLslUejgW0QvBBiA3EFvf71IvnQVWN0Kmj
- S2zwRC0Z+Wbanvh9Nq7XxIQlN/Qb6Etu6yVRkAYIPIDlStR+4fk5nxsOIt7OSMB3Ya7dvP
- qSosRVAbdzcIwyYBfIIr3Igw/82caSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723044410;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
- b=Q/J78puKCjVrziqO7FFGoRKOTvOZG9/ISjOICgbG67qEBbjrRJxxVSeXHxEKW+1YZdXtud
- Op93dSpjzcVMNyCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723044410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
- b=MXHQWiq3cHR1EZT1eHHePh8EZXJTtYBkY/9sPLslUejgW0QvBBiA3EFvf71IvnQVWN0Kmj
- S2zwRC0Z+Wbanvh9Nq7XxIQlN/Qb6Etu6yVRkAYIPIDlStR+4fk5nxsOIt7OSMB3Ya7dvP
- qSosRVAbdzcIwyYBfIIr3Igw/82caSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723044410;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
- b=Q/J78puKCjVrziqO7FFGoRKOTvOZG9/ISjOICgbG67qEBbjrRJxxVSeXHxEKW+1YZdXtud
- Op93dSpjzcVMNyCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36F8E13297;
- Wed,  7 Aug 2024 15:26:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id EBU4DDqSs2bxewAAD6G6ig
- (envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 15:26:50 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 2/2] ALSA: pcm: Drop PCM vmalloc buffer helpers
-Date: Wed,  7 Aug 2024 17:27:23 +0200
-Message-ID: <20240807152725.18948-3-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240807152725.18948-1-tiwai@suse.de>
-References: <20240807152725.18948-1-tiwai@suse.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18FE510E577;
+ Wed,  7 Aug 2024 15:35:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2D71F611E2;
+ Wed,  7 Aug 2024 15:35:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B564C4AF49;
+ Wed,  7 Aug 2024 15:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723044919;
+ bh=wm+VWb1rIQaode09oZdE3sEothizpQCW8kQNxXyWPUY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ATifhC0Xqq0fEe+6e3QBEUliaGC/RbH+BLtwnYSFm80CEEuXHBNyAhkdxqzD7/He2
+ PwBneWqEUKypiverT0BJeASdXPA4xWYAl2Fkgm10SugKbi+AvScSanh1joAX8Lfmdz
+ KNRPzst2mgF9+1hD/hVdNmv6TzqF0PgyyUodxI6txDAuQNXQBWeHjjnRiNj0hi9VFR
+ 4s6ZMFW5SFkhmRGf+WuQyky1G/K5ad5iSm4yfiVc+3668PKhJ6odz+5QYopqnVL/FP
+ XR95KBjUkyyEZlo8paXYX4cQdTts2wfmd+JcEtHB6KS9KmZ7swK2irnC/LQ+FHdEOK
+ ieljN71TadH9g==
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-52ed741fe46so2014093e87.0; 
+ Wed, 07 Aug 2024 08:35:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWDltbqqGrBcikkgONxvX+Mpgk7+ExMLu7MjvTphB3CVGfK2K7eagT32bJBvFy3KO4tcYfhZKLKfxcJui0P03NSsKAn21HZifCIatj+TaFtYr8+6/NIwXQdpVcU+wVn1GOyGjeah3PTxCPBtlr5/bs=
+X-Gm-Message-State: AOJu0Yw1fTW5JTt63qVf3M6g3391gzfqcMjlYaPj5KNIvThFG7WxWv79
+ knilA8YPO56e3mpRhCMlHg3XNSg//Si2kW3vbWIIkGUPPAbtmLut9SoskdmiyWEgx8knFrFn28G
+ bbftMlt0dypvm1r7Mn722i6TfChk=
+X-Google-Smtp-Source: AGHT+IE/eDS6clCryBkFSzKDJUwO/cLwR+b8LrrNB5prXOgRnnwpkLjNgCVKxPqUzynolVNIM+yIL57HzFJ8CFIwBnI=
+X-Received: by 2002:a05:6512:3e1e:b0:52c:df51:20bc with SMTP id
+ 2adb3069b0e04-530bb3b1531mr13674055e87.16.1723044917569; Wed, 07 Aug 2024
+ 08:35:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: *
-X-Spamd-Result: default: False [1.70 / 50.00]; SUSPICIOUS_RECIPS(1.50)[];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
- FROM_HAS_DN(0.00)[]; ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[11];
- FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: 1.70
+References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
+ <20240807-macos-build-support-v1-5-4cd1ded85694@samsung.com>
+In-Reply-To: <20240807-macos-build-support-v1-5-4cd1ded85694@samsung.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 8 Aug 2024 00:34:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ4kTWSDuGz-EM2p5vXcu9G4_WoEa4ovAWZ95VTfbreHA@mail.gmail.com>
+Message-ID: <CAK7LNAQ4kTWSDuGz-EM2p5vXcu9G4_WoEa4ovAWZ95VTfbreHA@mail.gmail.com>
+Subject: Re: [PATCH 05/12] accessiblity/speakup: genmap and makemapdata
+ require linux/version.h
+To: da.gomez@samsung.com
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
+ Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Ondrej Mosnacek <omosnace@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, 
+ James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
+ selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
+ Finn Behrens <me@kloenk.dev>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
+ gost.dev@samsung.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,143 +98,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the last-standing user of PCM vmalloc buffer helper API took its
-own buffer management, we can finally drop those API functions, which
-were leftover after reorganization of ALSA memalloc code.
+genmap and makemapdata DO NOT require linux/version.h
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- include/sound/pcm.h     | 42 -----------------------------
- sound/core/pcm_memory.c | 59 -----------------------------------------
- 2 files changed, 101 deletions(-)
 
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index ac8f3aef9205..3c56a648bdcd 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -1355,48 +1355,6 @@ snd_pcm_set_fixed_buffer_all(struct snd_pcm *pcm, int type,
- 	return snd_pcm_set_managed_buffer_all(pcm, type, data, size, 0);
- }
- 
--int _snd_pcm_lib_alloc_vmalloc_buffer(struct snd_pcm_substream *substream,
--				      size_t size, gfp_t gfp_flags);
--int snd_pcm_lib_free_vmalloc_buffer(struct snd_pcm_substream *substream);
--struct page *snd_pcm_lib_get_vmalloc_page(struct snd_pcm_substream *substream,
--					  unsigned long offset);
--/**
-- * snd_pcm_lib_alloc_vmalloc_buffer - allocate virtual DMA buffer
-- * @substream: the substream to allocate the buffer to
-- * @size: the requested buffer size, in bytes
-- *
-- * Allocates the PCM substream buffer using vmalloc(), i.e., the memory is
-- * contiguous in kernel virtual space, but not in physical memory.  Use this
-- * if the buffer is accessed by kernel code but not by device DMA.
-- *
-- * Return: 1 if the buffer was changed, 0 if not changed, or a negative error
-- * code.
-- */
--static inline int snd_pcm_lib_alloc_vmalloc_buffer
--			(struct snd_pcm_substream *substream, size_t size)
--{
--	return _snd_pcm_lib_alloc_vmalloc_buffer(substream, size,
--						 GFP_KERNEL | __GFP_HIGHMEM | __GFP_ZERO);
--}
--
--/**
-- * snd_pcm_lib_alloc_vmalloc_32_buffer - allocate 32-bit-addressable buffer
-- * @substream: the substream to allocate the buffer to
-- * @size: the requested buffer size, in bytes
-- *
-- * This function works like snd_pcm_lib_alloc_vmalloc_buffer(), but uses
-- * vmalloc_32(), i.e., the pages are allocated from 32-bit-addressable memory.
-- *
-- * Return: 1 if the buffer was changed, 0 if not changed, or a negative error
-- * code.
-- */
--static inline int snd_pcm_lib_alloc_vmalloc_32_buffer
--			(struct snd_pcm_substream *substream, size_t size)
--{
--	return _snd_pcm_lib_alloc_vmalloc_buffer(substream, size,
--						 GFP_KERNEL | GFP_DMA32 | __GFP_ZERO);
--}
--
- #define snd_pcm_get_dma_buf(substream) ((substream)->runtime->dma_buffer_p)
- 
- /**
-diff --git a/sound/core/pcm_memory.c b/sound/core/pcm_memory.c
-index 506386959f08..8e4c68e3bbd0 100644
---- a/sound/core/pcm_memory.c
-+++ b/sound/core/pcm_memory.c
-@@ -9,7 +9,6 @@
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/moduleparam.h>
--#include <linux/vmalloc.h>
- #include <linux/export.h>
- #include <sound/core.h>
- #include <sound/pcm.h>
-@@ -497,61 +496,3 @@ int snd_pcm_lib_free_pages(struct snd_pcm_substream *substream)
- 	return 0;
- }
- EXPORT_SYMBOL(snd_pcm_lib_free_pages);
--
--int _snd_pcm_lib_alloc_vmalloc_buffer(struct snd_pcm_substream *substream,
--				      size_t size, gfp_t gfp_flags)
--{
--	struct snd_pcm_runtime *runtime;
--
--	if (PCM_RUNTIME_CHECK(substream))
--		return -EINVAL;
--	runtime = substream->runtime;
--	if (runtime->dma_area) {
--		if (runtime->dma_bytes >= size)
--			return 0; /* already large enough */
--		vfree(runtime->dma_area);
--	}
--	runtime->dma_area = __vmalloc(size, gfp_flags);
--	if (!runtime->dma_area)
--		return -ENOMEM;
--	runtime->dma_bytes = size;
--	return 1;
--}
--EXPORT_SYMBOL(_snd_pcm_lib_alloc_vmalloc_buffer);
--
--/**
-- * snd_pcm_lib_free_vmalloc_buffer - free vmalloc buffer
-- * @substream: the substream with a buffer allocated by
-- *	snd_pcm_lib_alloc_vmalloc_buffer()
-- *
-- * Return: Zero if successful, or a negative error code on failure.
-- */
--int snd_pcm_lib_free_vmalloc_buffer(struct snd_pcm_substream *substream)
--{
--	struct snd_pcm_runtime *runtime;
--
--	if (PCM_RUNTIME_CHECK(substream))
--		return -EINVAL;
--	runtime = substream->runtime;
--	vfree(runtime->dma_area);
--	runtime->dma_area = NULL;
--	return 0;
--}
--EXPORT_SYMBOL(snd_pcm_lib_free_vmalloc_buffer);
--
--/**
-- * snd_pcm_lib_get_vmalloc_page - map vmalloc buffer offset to page struct
-- * @substream: the substream with a buffer allocated by
-- *	snd_pcm_lib_alloc_vmalloc_buffer()
-- * @offset: offset in the buffer
-- *
-- * This function is to be used as the page callback in the PCM ops.
-- *
-- * Return: The page struct, or %NULL on failure.
-- */
--struct page *snd_pcm_lib_get_vmalloc_page(struct snd_pcm_substream *substream,
--					  unsigned long offset)
--{
--	return vmalloc_to_page(substream->runtime->dma_area + offset);
--}
--EXPORT_SYMBOL(snd_pcm_lib_get_vmalloc_page);
--- 
-2.43.0
+Removing bogus "#include <linux/version.h>" is the right fix.
 
+
+
+
+
+
+On Wed, Aug 7, 2024 at 8:10=E2=80=AFAM Daniel Gomez via B4 Relay
+<devnull+da.gomez.samsung.com@kernel.org> wrote:
+>
+> From: Daniel Gomez <da.gomez@samsung.com>
+>
+> Both genmap and makemapdata require the linux/version.h header. To
+> ensure successful builds on macOS hosts, make sure usr/include is
+> included in the HOSTCFLAGS.
+>
+> Fixes errors:
+> drivers/accessibility/speakup/genmap.c:13:10: fatal error: 'linux/version=
+.h' file not found
+>    13 | #include <linux/version.h>
+>       |          ^~~~~~~~~~~~~~~~~
+> 1 error generated.
+>
+> drivers/accessibility/speakup/makemapdata.c:13:10: fatal error: 'linux/ve=
+rsion.h' file not found
+>    13 | #include <linux/version.h>
+>       |          ^~~~~~~~~~~~~~~~~
+> 1 error generated.
+>
+> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+> ---
+>  drivers/accessibility/speakup/Makefile | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/accessibility/speakup/Makefile b/drivers/accessibili=
+ty/speakup/Makefile
+> index 6f6a83565c0d..74ee0c31370f 100644
+> --- a/drivers/accessibility/speakup/Makefile
+> +++ b/drivers/accessibility/speakup/Makefile
+> @@ -38,6 +38,7 @@ clean-files :=3D mapdata.h speakupmap.h
+>  # Generate mapdata.h from headers
+>  hostprogs +=3D makemapdata
+>  makemapdata-objs :=3D makemapdata.o
+> +HOSTCFLAGS_makemapdata.o +=3D -I$(srctree)/usr/include
+>
+>  quiet_cmd_mkmap =3D MKMAP   $@
+>        cmd_mkmap =3D TOPDIR=3D$(srctree) \
+> @@ -51,6 +52,7 @@ $(obj)/mapdata.h: $(obj)/makemapdata
+>  # Generate speakupmap.h from mapdata.h
+>  hostprogs +=3D genmap
+>  genmap-objs :=3D genmap.o
+> +HOSTCFLAGS_genmap.o +=3D -I$(srctree)/usr/include
+>  $(obj)/genmap.o: $(obj)/mapdata.h
+>
+>  quiet_cmd_genmap =3D GENMAP  $@
+>
+> --
+> Git-146)
+>
+>
+
+
+--
+Best Regards
+Masahiro Yamada
