@@ -2,91 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1147694C4F3
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 20:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6563894C583
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 22:06:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9517C10E7E2;
-	Thu,  8 Aug 2024 18:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36D5510E7F5;
+	Thu,  8 Aug 2024 20:06:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="i3+u5Zr+";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="NYEtSdT7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C58E10E7E2
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 18:55:26 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-6b7a0ef0dfcso7188286d6.1
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Aug 2024 11:55:26 -0700 (PDT)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
+ [209.85.210.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 287EC10E7F5
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 20:06:50 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id
+ 46e09a7af769-70b3b62025dso867415a34.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Aug 2024 13:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1723143322; x=1723748122;
+ d=broadcom.com; s=google; t=1723147610; x=1723752410;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ia3gn65ZzmXsv1RewV6q6A0e4ePY6aOjBbUhD4zPmes=;
- b=i3+u5Zr+8/hTIFg6lpCryJRzEDB5SKL4xlPknZtSwQ2zJNEavs2iYppzIAiLbHtQ+M
- ax/ul+XZgo+AwxAGTmPF8ArLYY/yD5SEDFBQZX+Vl1+ygTHMpDaAk7VH7wuKvc+8bsc4
- BQ22VOysSTTsZiDGtdYUQrM7Z/BlIc23hHWZo=
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+d690MXqBd4ZOM3IXz+2UEKXsC/sKhGNvU0C5A0MH10=;
+ b=NYEtSdT7LNMZbW7eTaJzW8Y9pvTxCa5iO8cWv1O6GkuxP94lL5jtHdkj/5o4sGJ7Gd
+ i+tHwdZHpeXVwUBikpcy6qMTGA3eGBkLbnZzhZ0LW8NtDO/rsCm3jX6t+2wz0jhp58TT
+ pSUTZxts1LjPLVeIHVcTggQi6+y8Mt8Il3Euk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723143322; x=1723748122;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ia3gn65ZzmXsv1RewV6q6A0e4ePY6aOjBbUhD4zPmes=;
- b=RTsywV5ZC9uIU0UHldfbVfwJoa+dTWAlTXY4hnJooSbaxjx/7zXQIq9jMYgRYPIzfZ
- 8F2htACDfiEInM4rvucVS6TM+WT81nMTfdfh4wMOl31tuNv51rZvULl3MV94L3yk+1AA
- iwzoSP17nTA10PTnl9G3qw2APDb+RYDWn9d5J6wcORXkP/dgpvt28DpxScBjuuWnvBto
- ATLxxUTuz6uGmqfp3fNgyN0kbNEae1ynU9+4w9G3D/KIVqg6K5MyW+gBpUT5aoLd8P0q
- IPq1YwIz/UJR6mrdNbYVGHlALTUpKmhhOuvYSSESLRCd72MUt6CKCIyZ+GC1dQK4m3Zs
- j85w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXx/wEtWRWk/TZ/42eGhCQ0uzkmYI5yhAEvXK/gWYUJt0ILGOS+S2fItMDA9iW4r7r2ekQLELHzNewwy/Z7Hw3lyN+SbB43+4DR4aJXu6HD
-X-Gm-Message-State: AOJu0Yw3lEnAJF4dL4N2lsxrZAubtHiITZ5veJkYVu2gOODXbN/S3F67
- JinoBu64ZrhUuOEnsUur3GEjioEboftpBKlwPTz4T8xRDW/H3kciYJK05SHQBucLo64rICnVr8O
- T+e6x
-X-Google-Smtp-Source: AGHT+IFQX1h9JG3MOrH65Tt/XuRST7JuL80fQMqqrjqeF0yHMxn7xwbmY/xqDWAYZKvjjwGh+C7CFw==
-X-Received: by 2002:a05:6214:5b0d:b0:6b5:17a2:887c with SMTP id
- 6a1803df08f44-6bd6bcc329dmr38278896d6.10.1723143322274; 
- Thu, 08 Aug 2024 11:55:22 -0700 (PDT)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com.
- [209.85.160.177]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6bb9c7b82d6sm68922096d6.69.2024.08.08.11.55.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Aug 2024 11:55:21 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-44fdc70e695so48441cf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Aug 2024 11:55:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXjOQZ5QpkEii3ac3GHaTWDBJpGfxi6D2z0Tp6NH5KYFWrMNu0x/1dlTZNbzLFGBPwGv1wiekywiIIamYahtLBrv7DvVVJWCDLp/gHGrlyX
-X-Received: by 2002:a05:622a:5797:b0:447:eaaa:c852 with SMTP id
- d75a77b69052e-4530de62980mr344201cf.23.1723143320261; Thu, 08 Aug 2024
- 11:55:20 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1723147610; x=1723752410;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+d690MXqBd4ZOM3IXz+2UEKXsC/sKhGNvU0C5A0MH10=;
+ b=mEJcqgAoFASofX73cIFCGSoljW3PEHfDzgrNkeTmOOc5IbzALsJCNC0FYK/FvmhrGo
+ ghVuE/h00n+plVzPxazboa1uLzRKvdaLnn+cjTEeZ5qYACfVXSaU4CPj4B8cre2azybs
+ 1/S0IEI9SJ9AnBgCwRfRgFlzh4ywlF1TC9AqzYjiwc8lH8qldw7j+ewtHGzmQChlKVU0
+ w2q9B5JCE0ukUhQbd2w7YHv6wFCI7pW25S5ZeJ8Gzuvdhnm3ixZCqW2W70LhKQZvis3v
+ fHBmNlLOzkyhQe3FS1S+pY42Jc7WczoLZB/LLfu6uJ78gdNUgrV8B6Rma6y9vJ0rhjGn
+ +e6g==
+X-Gm-Message-State: AOJu0Yw+kJ4lx4zMfEpBQ7ySw/JcMXM6Pktv4B/Vz6rFdbsmROczsY2v
+ BAja0PY20un6OI2WMhbrlzlfWmcQiWk1aiiPLxfxpaMthATNHM4aPw6KHQNBulQiaYHEF6w7oae
+ MX53r+F6nj8R+0y97d7UW7gw+fgWPWPB1UZwMAAw6LHKIWadrCTtW2d5hD93TcHPrzeYPhrrMJP
+ jSOo9R4rHIdVVZ4YU2Bsiu3ga/atg+EkXOdpTsiniUcJREwm2zwA==
+X-Google-Smtp-Source: AGHT+IH4jfOk2choPm+SaZCcmxtT6fFJjcOYntrFmVS/hxqmYA7IbemKZr29KpwlZpEwa+VvEdCjgQ==
+X-Received: by 2002:a05:6808:1688:b0:3db:1f8a:2aec with SMTP id
+ 5614622812f47-3dc3b41d08amr3191144b6e.19.1723147609848; 
+ Thu, 08 Aug 2024 13:06:49 -0700 (PDT)
+Received: from mtt-opossum.dhcp.broadcom.net ([192.19.144.250])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7a3786e3cdfsm190687785a.128.2024.08.08.13.06.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Aug 2024 13:06:49 -0700 (PDT)
+From: Ian Forbes <ian.forbes@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, ian.forbes@broadcom.com,
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
+ zack.rusin@broadcom.com
+Subject: [PATCH] drm/vmwgfx: Limit display layout ioctl array size to
+ VMWGFX_NUM_DISPLAY_UNITS
+Date: Thu,  8 Aug 2024 15:06:34 -0500
+Message-Id: <20240808200634.1074083-1-ian.forbes@broadcom.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240808114407.1.I099e8e9e36407a0785d846b953031d40ea71e559@changeid>
- <CAJs_Fx7GN1_2xAM0Qg8oezQ2Foxy2smOXb3zMhNiJxCDMPUNug@mail.gmail.com>
-In-Reply-To: <CAJs_Fx7GN1_2xAM0Qg8oezQ2Foxy2smOXb3zMhNiJxCDMPUNug@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 8 Aug 2024 11:55:08 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xt0_yhVGDv3X+uZoVQ-_Wiwq4ENJUpi6__J6dN_aMm0g@mail.gmail.com>
-Message-ID: <CAD=FV=Xt0_yhVGDv3X+uZoVQ-_Wiwq4ENJUpi6__J6dN_aMm0g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: panel: samsung,
- atna45dc02: Fix indentation
-To: Rob Clark <robdclark@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,35 +80,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Currently the array size is only limited by the largest kmalloc size which
+is incorrect. This change will also return a more specific error message
+than ENOMEM to userspace.
 
-On Thu, Aug 8, 2024 at 11:47=E2=80=AFAM Rob Clark <robdclark@chromium.org> =
-wrote:
->
-> On Thu, Aug 8, 2024 at 11:44=E2=80=AFAM Douglas Anderson <dianders@chromi=
-um.org> wrote:
-> >
-> > The yaml had indentation errors:
-> >   ./Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.=
-yaml:21:9:
-> >   [warning] wrong indentation: expected 10 but found 8 (indentation)
-> >   ./Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.=
-yaml:23:11:
-> >   [warning] wrong indentation: expected 12 but found 10 (indentation)
-> >
-> > Fix them.
-> >
-> > Reported-by: Rob Herring <robh@kernel.org>
-> > Closes: https://lore.kernel.org/r/CAL_JsqLRTgQRPcfXy4G9hLoHMd-Uax4_C90B=
-V_OZn4mK+-82kw@mail.gmail.com
-> > Fixes: 1c4a057d01f4 ("dt-bindings: display: panel: samsung,atna45dc02: =
-Document ATNA45DC02")
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
->
-> Reviewed-by: Rob Clark <robdclark@gmail.com>
-> Thanked-by: Rob Clark <robdclark@gmail.com>
+Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 4 +++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h | 3 ---
+ 3 files changed, 5 insertions(+), 6 deletions(-)
 
-Pushed to drm-misc-fixes.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 32f50e595809..888349f2aac1 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -62,7 +62,7 @@
+ #define VMWGFX_DRIVER_MINOR 20
+ #define VMWGFX_DRIVER_PATCHLEVEL 0
+ #define VMWGFX_FIFO_STATIC_SIZE (1024*1024)
+-#define VMWGFX_MAX_DISPLAYS 16
++#define VMWGFX_NUM_DISPLAY_UNITS 8
+ #define VMWGFX_CMD_BOUNCE_INIT_SIZE 32768
+ 
+ #define VMWGFX_MIN_INITIAL_WIDTH 1280
+@@ -82,7 +82,7 @@
+ #define VMWGFX_NUM_GB_CONTEXT 256
+ #define VMWGFX_NUM_GB_SHADER 20000
+ #define VMWGFX_NUM_GB_SURFACE 32768
+-#define VMWGFX_NUM_GB_SCREEN_TARGET VMWGFX_MAX_DISPLAYS
++#define VMWGFX_NUM_GB_SCREEN_TARGET VMWGFX_NUM_DISPLAY_UNITS
+ #define VMWGFX_NUM_DXCONTEXT 256
+ #define VMWGFX_NUM_DXQUERY 512
+ #define VMWGFX_NUM_MOB (VMWGFX_NUM_GB_CONTEXT +\
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 288ed0bb75cb..884804274dfb 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -2225,7 +2225,7 @@ int vmw_kms_update_layout_ioctl(struct drm_device *dev, void *data,
+ 	struct drm_mode_config *mode_config = &dev->mode_config;
+ 	struct drm_vmw_update_layout_arg *arg =
+ 		(struct drm_vmw_update_layout_arg *)data;
+-	void __user *user_rects;
++	const void __user *user_rects;
+ 	struct drm_vmw_rect *rects;
+ 	struct drm_rect *drm_rects;
+ 	unsigned rects_size;
+@@ -2237,6 +2237,8 @@ int vmw_kms_update_layout_ioctl(struct drm_device *dev, void *data,
+ 					    VMWGFX_MIN_INITIAL_HEIGHT};
+ 		vmw_du_update_layout(dev_priv, 1, &def_rect);
+ 		return 0;
++	} else if (arg->num_outputs > VMWGFX_NUM_DISPLAY_UNITS) {
++		return -E2BIG;
+ 	}
+ 
+ 	rects_size = arg->num_outputs * sizeof(struct drm_vmw_rect);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+index 6141fadf81ef..2a6c6d6581e0 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+@@ -199,9 +199,6 @@ struct vmw_kms_dirty {
+ 	s32 unit_y2;
+ };
+ 
+-#define VMWGFX_NUM_DISPLAY_UNITS 8
+-
+-
+ #define vmw_framebuffer_to_vfb(x) \
+ 	container_of(x, struct vmw_framebuffer, base)
+ #define vmw_framebuffer_to_vfbs(x) \
+-- 
+2.34.1
 
-cd9aae921ab6 dt-bindings: display: panel: samsung,atna45dc02: Fix indentati=
-on
