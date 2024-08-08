@@ -2,109 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DF094BD40
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 14:19:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16EEE94BDE9
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 14:47:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 764D410E708;
-	Thu,  8 Aug 2024 12:19:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A217A10E719;
+	Thu,  8 Aug 2024 12:47:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="kfGJwGS6";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RlRADFKG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from IND01-BMX-obe.outbound.protection.outlook.com
- (mail-bmxind01olkn2050.outbound.protection.outlook.com [40.92.103.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E745410E708
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 12:19:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hhij9ym5elw+Zws/PTJaese6SHYltcVXPMraC5UsY1YLTturqZha3b8sonXLBacSrJakfzjKwmKy7m5ugGtOLWQiOecHyAzfXttwMMflTH53QKqb9JlZXE82Z7Y7rNdvogDFIgeKF57M23QOuezROYiaNEef/lz85cDWOFliH2Kv4yEeVRlUJNzhsIMMro+WWHgYiMFFwIrNtdsddlVwI0LCwNyxyBaQzCHrotoBnsbFwIQywQ3Dlk1aYpsMHBArv21czeoTjcsnl8c27zjynqnOkGIBkJSYRJ55/xiMrPpDSITtkEebLoBGanQUnp89RLuRUUu6fVod3zCSTG7zJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tvL36kUzJINyTUexTS/OE4MHvnNDxVVMa7QpbQbDLnE=;
- b=OcO6i2CgIME1I85CzBlbcb6hvwjDxVirE1Sa8a2oEa/qOSf0qlPQGf2xtx+P6vf6ty5owjyuJrUmZw/N0vE5X8SqqIajRobsvn61tHNDxbQtyYH90Vro04lD7vyc1GEjFQAILvQ6ya+/o9T0M9nK+L0pAPatoLZvZRolUcLNAW/uDjK62v5/PWDHuahme32dL+1iVma1tof2MdTRWVbjvTb05RUes64TvAioCC82LYK0jwTUl//3daeZynfdcHOkoQQW6C+d6lH2KXvHYRnIvoKgIAWlEqNQkNFNQS/XiSR7ToXBIWFY4Zho8Lwp3wVoPZjblMs3kvc/yxQPK+MBgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tvL36kUzJINyTUexTS/OE4MHvnNDxVVMa7QpbQbDLnE=;
- b=kfGJwGS645o295Lw4TgWQJ7Y7ZxTuqhZnRR0rhXLxm+Iw8AdTLZFY4mRM6JX7SMXXydRlfZi0kFzlCY5+e7Wt38mHw4DN7xUnWVu7srP6yi89YqZWmsk9Ix5OrnNaPV5yy3khFAnV+tgs1Qj+A0neM4livz1SDiTsmAji4JvUr10T/GydoHcExEKGaSF2di/CWbnmKkhZGBdDVNdxFWV30wuyvHzK/c6yW84PXqhs3yIn0xrgHkUjYTiSzNF0ZkRXvr32xA57TB8fLR6eWndyzSKePiPnRoJAnj97n8/QVpbmwLJBoD2pNHTG65OkLGvoFt/0dI3QVwUCof5p3pJtQ==
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
- MA0P287MB0936.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:e0::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7849.14; Thu, 8 Aug 2024 12:19:38 +0000
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::98d2:3610:b33c:435a%5]) with mapi id 15.20.7849.013; Thu, 8 Aug 2024
- 12:19:38 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
- <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, Jiri Kosina
- <jikos@kernel.org>, "bentiss@kernel.org" <bentiss@kernel.org>
-CC: Kerem Karabay <kekrby@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-input@vger.kernel.org"
- <linux-input@vger.kernel.org>, Orlando Chamberlain <orlandoch.dev@gmail.com>
-Subject: Re: [PATCH 0/9] Touch Bar support for T2 Macs
-Thread-Topic: [PATCH 0/9] Touch Bar support for T2 Macs
-Thread-Index: AQHa6AcVDkG9cKryKEG7+2pjFRiDnLIdSluA
-Date: Thu, 8 Aug 2024 12:19:38 +0000
-Message-ID: <FE390780-D2AA-48D3-9836-9F33D56B22FC@live.com>
-References: <021EE0BF-93CA-4A37-863F-851078A0EFB7@live.com>
-In-Reply-To: <021EE0BF-93CA-4A37-863F-851078A0EFB7@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [F1mvpj4uq9VT+IFIX7WC43hgyM0e14m5KW7IwsFbWwkS9G47gcO59OMtjrd16OTHouMHjWmZJIk=]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MA0P287MB0217:EE_|MA0P287MB0936:EE_
-x-ms-office365-filtering-correlation-id: b1d0e486-b3b7-4c4d-9ffa-08dcb7a45f9c
-x-microsoft-antispam: BCL:0;
- ARA:14566002|15080799003|19110799003|8060799006|461199028|1602099012|4302099013|440099028|3412199025|102099032;
-x-microsoft-antispam-message-info: /obuF4JAfBDwHQvW6dNkEX5d2kKVMJnemr71bjFWTBuMzVIDLuBbLAhicf7WNpF4C9lj/0uph/LkA/JFIOwvndrMJE+zE9sNFjCMj6eUHwPlWXLPqOB6OJVFWUP+HPeSV1ftWgs7OtlT7JNFNZRvxjoskxuZol3WnMyEFYLUWLf48tXsWwUxJjHLvTyn9KmdifnPGEVN/4aCPgwvKh4bd0rLBSdQHpPMQtbaFVzrtMetkB2BO091xZGdjOVfaKsUniuRtsUT1Nuv2NoO5OHYLFNIBXM6BEmIpOMgnIf/ldDKid3/PIrLn0EzQX+/dsunS/bK6twfI/Bst79s9c0vHU0QIkzZ3WKf1aJWLcAT5+tBWk1Swmy9BakjQ5xOk1DrYKLFh+JN5ReRkhR4P57tkCe7RWHiPPDO54DZTH0pf/mlL5k0tsn6hjWLsmpzSaYjLNil/kxTg/DcST/70qWfaHA8sv+X6+/wPZMc3HzVwshUXyGzvN/Nv0+bd5ahWyYFiejKDujKTnsIqHM29c7JOlxAYUdCEtKpQNuM85VqcPOHqYDjnIH3lNPl0zRvsSI+mxfBjRe/q/QxUaaGr3nGJSGK6CJEw5k4IJDdh/V7fpW+dguRzrVHvQS/fFZ9NFBydElbE8le5X8Xxbiv2XMrFGThHNTtl1mNghidmSdqGooyOFSob0MxHtIbJjLwHJLaqydvnUbd5TaDtT+nqDm0J95YyQGz2OTGZsTjEPnKvak+jVD6mxBCI9oug/00hZ4yc5ypiQn564XFO73kgpL5BYoXNG287bZjwaLRfdmUiQo=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?E0ZceOuco4v4e0bll5TaMy73L0rzuew1IJ8jIYVVMH3JRFBRmQDEiXMaEdHW?=
- =?us-ascii?Q?nsw1Vuba5kEFktoiVNGTMK7nAYx1tRDwZfuUU1hvImwf4fdGXWl3DbkpUpu+?=
- =?us-ascii?Q?YsgFC0urEuwCdPgEHq6odSgRV0oclwbC49KNIx6k++ddJaofX4rKmJuQKok0?=
- =?us-ascii?Q?v1nKZHaTShEQ+DmC5Csja9k7UX+fcTq43VjmR6vBJMMep+JFh/nx/tOHNIlz?=
- =?us-ascii?Q?QIiX0rdKg9eJvlSZyihUyRoV3M4coaL6gz00/uBY26MVuRNmKgiKxPfFQLDd?=
- =?us-ascii?Q?eN/7roT9WKDb0ia4FfZuvi690/zxzsv5VHNeKu84hnvB6DsFi86F7kbq+SeG?=
- =?us-ascii?Q?j8gIGQVsxcRZjiUIrdCWAk8wUYkMq3mcQD0cMqVKp14GkIHf2Yc89S8JOONK?=
- =?us-ascii?Q?4JH+szUCDLdI2OiU5MjVwqXgxnjqbY7gezsgZwwzlcKJydG2xLz/MeNO1tR1?=
- =?us-ascii?Q?kJ4UP9hgdHBfnFQtipxBkGxEdAbt3B4aZB32LDP2NKIAkhSiYojxWag9pZ83?=
- =?us-ascii?Q?3Gv0O+4fjzvgt9ewNLZA9Ed/bVmhI+S+KUMiZXmObzjtr+HFSHfDDtQ82BC7?=
- =?us-ascii?Q?9t3Q/2TJj3MKERwG7LKPr3oE29LytI6UzxwJ4MYW6Tqy9YSW71rrYs4I0dib?=
- =?us-ascii?Q?WMdfh9iMuzfhlPeRdKpF4Zczr+EbTTgpkWYmkkS6NLvu2pPru8ZfhAqnkOvw?=
- =?us-ascii?Q?GPZeUN/trdXk4DdlqVATFtdr1GC2/7DjcWaTFuv/uhB06ncyYnQrzhv3l98Y?=
- =?us-ascii?Q?1f2vE/GcfJEduZfc+BQ61hMIX+kf0YHvbJPF1bQejUkgPL0vUdA7lKFMvM7V?=
- =?us-ascii?Q?JJPn3kdiUXbSsq5ErpZhfKCrH6QMWfVy4pqc3JaiQWERmZE+d8KdxaeQS/1h?=
- =?us-ascii?Q?BVwjKlCGl0tIYMDWy9hxRT4c7DryHgDMCYwU7oBlRfVvdyUnRu0G1ugSz2XP?=
- =?us-ascii?Q?b/1UY6AFphuaI9qVmmaWLNdNZ5EjUyf+O7E7WR6BAw0WiXknkzqcqQEaS7IF?=
- =?us-ascii?Q?tqLl0qLXsmJh166C5JuMtvEWrxZifrSMmtxDJXxfcnmmWgyBvNiIjQ3xxqsH?=
- =?us-ascii?Q?xYxEeL4/wjFWWrR63Q7JmekxNuq/58JqGQNB7wYwhGNWOThfiPCmPkyXZMUo?=
- =?us-ascii?Q?Wfz4E79rEFzCZrULZy0MEc1msDyskFp+5iF2c1cR5BRb/YuHyZ1/eTQ24oqe?=
- =?us-ascii?Q?q5e+9PitegSCTapHiAxstmONLj1gOyu94lC5hxgD2ZYR8wetbdeh0SDq1fVU?=
- =?us-ascii?Q?uCDd2LQL9Vnz06qVgr9yNKxrkL22Fmmbq30LjHFu5Mq+ZeovpImQ+xGchK5p?=
- =?us-ascii?Q?hiI9uKCogpAenPv6kFxXJyu6?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <80B93C1F46CDE3459A7914AFD0EE681F@INDP287.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AFA210E719
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 12:47:00 +0000 (UTC)
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
+ [91.156.87.48])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAD73581;
+ Thu,  8 Aug 2024 14:46:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1723121165;
+ bh=3r95vSqewJGTGj04fETIJxNgL7bYGLgbUeY+OW/MYIY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=RlRADFKGe19GVj3VYehZldBxnmHNNkYXOINggk/fdkW067+FRSL1rfE2Ip35103i4
+ tYMTfQV1NeG3huvlATpkRJgWjdDhOe99taAf+JKk4tcGM71G4bpOL7tP+k5gR+/5Zs
+ B+pNUkT9kgLEmdSbsBFm1oEWR+an8j3AjGS3OPhg=
+Message-ID: <f44fd8f1-2e65-4cdd-b6ba-49398f5d8c7c@ideasonboard.com>
+Date: Thu, 8 Aug 2024 15:46:55 +0300
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-24072.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1d0e486-b3b7-4c4d-9ffa-08dcb7a45f9c
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2024 12:19:38.5861 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB0936
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/10] drm: zynqmp_dp: IRQ cleanups and debugfs support
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: linux-arm-kernel@lists.infradead.org, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+References: <20240503192922.2172314-1-sean.anderson@linux.dev>
+ <e5ca9be5-2918-427a-b7eb-28f1915b5d31@ideasonboard.com>
+ <5c5aa8ae-75c4-4f0f-ad19-50ad57c61216@linux.dev>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <5c5aa8ae-75c4-4f0f-ad19-50ad57c61216@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,5 +106,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v2 of the patches sent here:
-https://lore.kernel.org/all/752D8EEA-EE3B-4854-9B5E-F412AFA20048@live.com/
+Hi Sean,
+
+On 17/06/2024 17:48, Sean Anderson wrote:
+> On 6/17/24 03:47, Tomi Valkeinen wrote:
+>> Hi Sean,
+>>
+>> On 03/05/2024 22:29, Sean Anderson wrote:
+>>> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
+>>> that's done, it adds debugfs support. The intent is to enable compliance
+>>> testing or to help debug signal-integrity issues.
+>>>
+>>> Last time I discussed converting the HPD work(s) to a threaded IRQ. I
+>>> did not end up doing that for this series since the steps would be
+>>>
+>>> - Add locking
+>>> - Move link retraining to a work function
+>>> - Harden the IRQ
+>>> - Merge the works into a threaded IRQ (omitted)
+>>>
+>>> Which with the exception of the final step is the same as leaving those
+>>> works as-is. Conversion to a threaded IRQ can be done as a follow-up.
+>>
+>> I tested this, and the "drm: zynqmp_dp: Convert to a hard IRQ" causes a hang for me when unloading the drivers. Unfortunately I'm not in the condition to debug it at the moment.
+>>
+>> I have picked the first three patches into drm-misc-next, though, to decrease the number of patches in the series a bit. They looked independent and safe enough to apply.
+> 
+> Are you running into [1]?
+> 
+> --Sean
+> 
+> [1] https://lore.kernel.org/dri-devel/4d8f4c9b-2efb-4774-9a37-2f257f79b2c9@linux.dev/
+> 
+
+No. Afaics, it breaks because the irq handler is requested with 
+IRQF_SHARED, and that means the handler can be called at any time. The 
+handler reads DP registers, but the DP IP could already be powered off.
+
+You'll probably see it easily if you enable CONFIG_DEBUG_SHIRQ, and 
+unload the module or unbind the device.
+
+  Tomi
+
