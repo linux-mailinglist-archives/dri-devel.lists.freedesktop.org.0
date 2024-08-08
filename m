@@ -2,85 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2DE94B82F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 09:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195E494B858
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 09:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92B0710E060;
-	Thu,  8 Aug 2024 07:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C23F10E685;
+	Thu,  8 Aug 2024 07:58:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JVsmxAbv";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mRmjICj0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABEF510E060
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 07:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1723103322;
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B5AE10E683;
+ Thu,  8 Aug 2024 07:57:59 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4WffXz4Qytz9slv;
+ Thu,  8 Aug 2024 09:57:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1723103875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=1/mxFxMd80/sQ8NPhDNvpUs06idNABoVBpkyN8ZX/Cc=;
- b=JVsmxAbvvFSI73LK0sAGVg1zip1NEH1Te+JO6ySUPTrmlweCJ+j4z6OI9yjBMun4flHRsV
- ImpNs5c5cnomcZtnoSoALHE8xsgfKNhbMwwREUK8ZJUsTa6RvTqBCNvj3gKA34vk3n6l2I
- 0e8u4TA99zUSFISa/mIVAOizSqfBXC4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-252-ZfpGoJIlPg6UA2NLxiVEhA-1; Thu, 08 Aug 2024 03:48:40 -0400
-X-MC-Unique: ZfpGoJIlPg6UA2NLxiVEhA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3687f5a2480so318970f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Aug 2024 00:48:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723103319; x=1723708119;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1/mxFxMd80/sQ8NPhDNvpUs06idNABoVBpkyN8ZX/Cc=;
- b=OS/YSSR/4mDBaxBq8OA51i8sXh1KLILUygMq9LrdO3AsDMWxyw4HnEZpLgFqHkxRo1
- k9DXOfjq+g9OsXP8v5v2f+Z4yFIPrBoffu5fypFQ3Zz/Ozghjcgisja1dW/w3CpKd8Ud
- GoRGwhaXJynmZ5ruFK2zbDawkj82ax48MKp9S9W7srxgPrdSySEJJgF0Glumn8nbWLpU
- K2/x2AWBQ/+MvpwOm2+bBL2VSdYMmP2rpvtESMOY+fckjnfMMlBtyPueIO3np6XrACdK
- RuegnWYSeK8x6kDzIwQbeZfO8FhN4VOjxgA+j21LE139u6ouj7wI6w03fbYtRNLt7v5Y
- sFDQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVDSanTTO6tLDq5+jnbY5zoMalOla6MTZY+mnfLmfUq0Z7IkZE+3rEtgiizGAbLyId3yYpw95uBMGJtDt/XxmdJO/U0z7SCUZn4GB4mKfX5
-X-Gm-Message-State: AOJu0YwqotlgxrX+E3pI00gGT4CDGS84xsKg6XjtdRKPYzm7GKNakmYd
- D0Y5HjdHIX7ylvIfGpdWanHNj/ITCfmhUcWOgKzwNMkbt5o3LPrXKs8EA66HBvId/hO0ot6WEXZ
- TdAwf0N9kB7EiI54c/f6HULjqs+tW7ATcNBYu5qWC/n++yq4ug2pTu/RcDR1ctjqSxA==
-X-Received: by 2002:a05:6000:e4b:b0:368:68d3:32b5 with SMTP id
- ffacd0b85a97d-36d273cfef9mr771592f8f.13.1723103319141; 
- Thu, 08 Aug 2024 00:48:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE2HPaXaG5wW7kZsB+rDvqqCIdeynFkM95W7Myr807Fl35JdF57w/4MCegwuj7+A1xD1AEVog==
-X-Received: by 2002:a05:6000:e4b:b0:368:68d3:32b5 with SMTP id
- ffacd0b85a97d-36d273cfef9mr771561f8f.13.1723103318539; 
- Thu, 08 Aug 2024 00:48:38 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-36d27229116sm1000905f8f.98.2024.08.08.00.48.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Aug 2024 00:48:38 -0700 (PDT)
-Date: Thu, 8 Aug 2024 09:48:37 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20240808-debonair-smoky-mustang-8b6b3f@houat>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zzZFMfNuViTfYHwErDY5YyAjZNT6A7h+prXOvsPN5Wk=;
+ b=mRmjICj00ijZHMKicvNtcdbgW3F4At4Vy+l6gTzgbEmHoaJ77xFit2rpUeYRO23tuL0ro/
+ 2hGA5tAPaGZdPlBI3BXsgLvaPMHYMxxsluIg65WSdIpO8mHtKU7w9NS8J3G2cIUEkjqbgg
+ 3PWqib532ZU2JxgFOiPowwlbVwbZc7ujle8zwK3vqe4QxbRVMJUKpuK76NemhAPR1rsfeh
+ UElJ2l8YsW9/610oo9212/Mv1cFHTPoGdZ8hHg6Wm0pYaQABVloMRz1asJNXjeqoiP/SvE
+ G6Wl5u/wIVzobY4KGtR0VwSFD0WXpzbYoZC2kj4B9pY6qarIx415KsNEhPMC4Q==
+Message-ID: <3c887552-282d-403d-8581-4cbcd8ad9069@mailbox.org>
+Date: Thu, 8 Aug 2024 09:57:52 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ppxfsvitnxaptq4g"
-Content-Disposition: inline
+Subject: Re: [RFC] amdgpu: Add a context flag to disable implicit sync
+To: Joshua Ashton <joshua@froggi.es>, amd-gfx@lists.freedesktop.org,
+ Faith Ekstrand <faith@gfxstrand.net>, dri-devel@lists.freedesktop.org
+Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, =?UTF-8?Q?Michel_D=C3=A4nzer?=
+ <mdaenzer@redhat.com>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+References: <20240807153941.3668940-1-faith.ekstrand@collabora.com>
+ <B37A903E-E670-4548-BDBB-4651D2DC7D15@froggi.es>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA, de-CH-frami
+In-Reply-To: <B37A903E-E670-4548-BDBB-4651D2DC7D15@froggi.es>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: r8a6xjyz36uf8thdcrw3txoof9yj5bzn
+X-MBO-RS-ID: f72af90d3347ddf28ed
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,75 +69,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2024-08-07 21:23, Joshua Ashton wrote:
+> I was thinking about this more recently. I was initially considering "maybe this should be a per-BO import," but I couldn't think of anything in the GL model that would actually benefit given its not "true" bindless and there's no update-after-bind there.
+> 
+> Worth others more familiar with GL asking that question to themselves also. I am definitely not totally up on what's possible there.
+> 
+> Overall, I think I am OK with this approach, even though I think mixing implicit and explicit sync is gross, and I want the pain that is implicit sync to just go away forever. :-)
 
---ppxfsvitnxaptq4g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+It can never go away, at least not in the drivers which have ever supported it. We can never break compatibility.
 
-Hi,
 
-Here's this week drm-misc-fixes PR
-
-Maxime
-
-drm-misc-fixes-2024-08-08:
-A fix for drm/client to prevent a null pointer dereference, a fix for a
-double-free in drm/bridge-connector, a fix for a gem shmem test, and a
-fix for async flips updates.
-The following changes since commit 9c685f61722d30a22d55bb8a48f7a48bb2e19bcc:
-
-  nouveau: set placement to original placement on uvmm validate. (2024-08-01 01:22:12 +0200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-08-08
-
-for you to fetch changes up to 929725bd7eb4eea1f75197d9847f3f1ea5afdad1:
-
-  drm/atomic: allow no-op FB_ID updates for async flips (2024-08-06 20:16:31 +0200)
-
-----------------------------------------------------------------
-A fix for drm/client to prevent a null pointer dereference, a fix for a
-double-free in drm/bridge-connector, a fix for a gem shmem test, and a
-fix for async flips updates.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      drm/omap: add CONFIG_MMU dependency
-
-Cristian Ciocaltea (1):
-      drm/bridge-connector: Fix double free in error handling paths
-
-Dave Airlie (1):
-      drm/test: fix the gem shmem test to map the sg table.
-
-Ma Ke (1):
-      drm/client: fix null pointer dereference in drm_client_modeset_probe
-
-Rob Clark (1):
-      dt-bindings: display: panel: samsung,atna45dc02: Document ATNA45DC02
-
-Simon Ser (1):
-      drm/atomic: allow no-op FB_ID updates for async flips
-
- .../bindings/display/panel/samsung,atna33xc20.yaml        |  9 ++++++---
- drivers/gpu/drm/drm_atomic_uapi.c                         | 15 ++++-----------
- drivers/gpu/drm/drm_bridge_connector.c                    |  8 ++------
- drivers/gpu/drm/drm_client_modeset.c                      |  5 +++++
- drivers/gpu/drm/omapdrm/Kconfig                           |  1 +
- drivers/gpu/drm/tests/drm_gem_shmem_test.c                | 11 +++++++++++
- 6 files changed, 29 insertions(+), 20 deletions(-)
-
---ppxfsvitnxaptq4g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZrR4VQAKCRDj7w1vZxhR
-xVemAQCnUuNAzoMJhskbmhGYTFKnExg7HyCqRBG5QuYF31PTXAD/e0KezrDZg8aw
-BWuFf0D9iu2WlV5Qm6sphURp84guyQw=
-=62bK
------END PGP SIGNATURE-----
-
---ppxfsvitnxaptq4g--
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
 
