@@ -2,89 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBCB94BB59
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 12:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77EF94BB81
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 12:42:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31E8710E6C9;
-	Thu,  8 Aug 2024 10:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DAD110E6CC;
+	Thu,  8 Aug 2024 10:42:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZiTmUFQo";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hG72HH3F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6450610E6C9
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 10:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1723113517;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MRwnpUIdbkqOIA1QwdrH67QxUD8NaDJn9Y50HZQIuz4=;
- b=ZiTmUFQo5VS3f1dlSUdQhzy4/hCtq3Nvkh2IHpEpjrYpsa91IWYTs27dxQ/2ZC1YZMEooZ
- 6tnktsTswxZcbE8MkyAZA58oVNzZ5ITFmMFtHW037zffTKq/bHSfGZSaHriPQVg1tqbWrs
- mp0t97nzh1geZVTryhagG3vcJMjauz8=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-601-DFKrTMjGMsSzK1wiTvUI8A-1; Thu, 08 Aug 2024 06:38:36 -0400
-X-MC-Unique: DFKrTMjGMsSzK1wiTvUI8A-1
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-2cb63abe6f7so1153707a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Aug 2024 03:38:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723113515; x=1723718315;
- h=content-transfer-encoding:cc:to:subject:message-id:date
- :mime-version:references:in-reply-to:from:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=MRwnpUIdbkqOIA1QwdrH67QxUD8NaDJn9Y50HZQIuz4=;
- b=by/eT1D+iRIKrtykq/m7uKbHBySHMj3vkfi1iB1OOk168DWSLnH5LwnuoIhYij6SRq
- lP2300NSNkDJ1ZgzI2/iFZrrOlod2N+BrraFgLJEidMP8M9SSx+j9PRi/ecq3yU6njqG
- HABdbEMM2hoNmv5zOslzV4R27Zt412YqAJouhtyEcBA4l7loqZ1Cx1Zr8nr8GmsD+IAG
- PeDgH7aNf1iOWO2iLWDioznuDkzjEAotTxWi8xAa4PX4ZUuNfo6/t61kb5s+psxPTEgj
- tpk4vR8T5ir9nGv5jjns6PBtnGBrIE9+FcxWhPY84GtQOuhGfLpeTpbZKX/H8GYLGATC
- FwCg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnH3AwRiKNn1CTXqX9z8Uw4ES3bchXY97iIiuQmSmuajBwB3vfCppcA20vykHzBd0/KSKHHMD1pIv65VOiyi/SV/chEHa2dni8QWQHYemq
-X-Gm-Message-State: AOJu0YyDBsItCzkm1g8uwh0w2kVISvWI21Mh81Lz/weS8ebZF86eUfVT
- 2pYpge+GGeRzQAwAw7Cq8Cao3kEyPUzZwQnRlB+8ro770DKSQHvo4pEQfYlWIsZWawEW1ciRhBX
- Aedfd3do4HltRzUWe3GWDbJHpd8Jzi18nEZrhLL4l+RqpDMNxqhyo4d799EGa/SXMyvokDlVzqE
- AG3FwEnRGCkFl3FLOv4z35kUCsMDRNr5MKiGwSlcgv
-X-Received: by 2002:a17:90a:5d12:b0:2cd:3445:f87e with SMTP id
- 98e67ed59e1d1-2d1c3363e33mr1679347a91.2.1723113515120; 
- Thu, 08 Aug 2024 03:38:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFOzJRKQe2DGOfVTSSGEssWue8gMrWTXP9ffNqImYaeYOp5wav62zp54H1TgQfbyYloERWPOSL4qaV62zRFwW0=
-X-Received: by 2002:a17:90a:5d12:b0:2cd:3445:f87e with SMTP id
- 98e67ed59e1d1-2d1c3363e33mr1679323a91.2.1723113514650; Thu, 08 Aug 2024
- 03:38:34 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 8 Aug 2024 05:38:33 -0500
-From: Sergio Lopez Pascual <slp@redhat.com>
-In-Reply-To: <CAAfnVBki816fSPuQ_FcvuwYzbSwiS_WaYsGSA1AyitmAA5OsXg@mail.gmail.com>
-References: <20240723114914.53677-1-slp@redhat.com>
- <942afa37-a24c-48ed-ae10-c811849165bf@collabora.com>
- <CAAiTLFV6mAgrMj=itcxoBCibvYRyrAk02wYp-gYJ8kxhF0EPmw@mail.gmail.com>
- <CAAfnVBkWKn3+YEhNz0CTmw-T_jjL72axkWqYgkzkSa72t_Gf0A@mail.gmail.com>
- <CAF6AEGsnpEYFsCfZUAPopWzY=wv_GWn0P5f5D6U9y-JrWGQVnw@mail.gmail.com>
- <CAAfnVBki816fSPuQ_FcvuwYzbSwiS_WaYsGSA1AyitmAA5OsXg@mail.gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAEB10E6CC
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 10:42:45 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4789SqMQ016234;
+ Thu, 8 Aug 2024 10:42:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=LoHsitVYuIgny8orexSER+
+ Xid6qg1xgSzqtKHOtAqvA=; b=hG72HH3F8uv9bbQqydVY2W/vhkBE47QB/ILR2Z
+ nqQtn9Di5yIfkDvG8GsPsiWQcdubo/B9FrCIt06OKAbqUWR4rfB4x5l0JWHuauvJ
+ hFuCMqeJdJuJfkFaiSosUcfQjXIBgSaOWtP333xfJkVVsa4yf79Eoi+koldqCcbq
+ H/VhhJXmMmVHLGmY5V2QXQuiH+fULuqyYOc309encuuEgC+dzsGAzIsFvhUvUcej
+ dqr1qnY61TPpiO1mDwM9J2uqPums9uRgVPmFc8Ml5VZ1AquTvvd5yFUaSiymiMKA
+ cUA2OhBETPxzo8psixFeLMKjB+BUFzKM4NBZCOWJc54xQEiA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40vue3r6h0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Aug 2024 10:42:40 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 478Agd7R008055
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 8 Aug 2024 10:42:39 GMT
+Received: from hu-ekangupt-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 8 Aug 2024 03:42:36 -0700
+From: Ekansh Gupta <quic_ekangupt@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>
+CC: <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
+ <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
+Subject: [PATCH v3] misc: fastrpc: Add support for multiple PD from one process
+Date: Thu, 8 Aug 2024 16:12:28 +0530
+Message-ID: <20240808104228.839629-1-quic_ekangupt@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Date: Thu, 8 Aug 2024 05:38:33 -0500
-Message-ID: <CAAiTLFUWhP+wy694MbYDvzHgUD_pZZf7Jj=AfVvTj6CWAYZ+zA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- Rob Clark <robdclark@gmail.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>, tzimmermann@suse.de,
- mripard@kernel.org, 
- olvaffe@gmail.com, kraxel@redhat.com, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, airlied@redhat.com, 
- linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
- dri-devel@lists.freedesktop.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: CKFeIJTb51A290SzeGzuZy9Ayd_mJ-gW
+X-Proofpoint-ORIG-GUID: CKFeIJTb51A290SzeGzuZy9Ayd_mJ-gW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-08_11,2024-08-07_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 mlxlogscore=999
+ malwarescore=0 impostorscore=0 bulkscore=0 mlxscore=0 spamscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408080076
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,117 +87,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gurchetan Singh <gurchetansingh@chromium.org> writes:
+Memory intensive applications(which requires more tha 4GB) that wants
+to offload tasks to DSP might have to split the tasks to multiple
+user PD to make the resources available.
 
-> On Tue, Aug 6, 2024 at 1:15=E2=80=AFPM Rob Clark <robdclark@gmail.com> wr=
-ote:
->
->> On Tue, Aug 6, 2024 at 9:15=E2=80=AFAM Gurchetan Singh
->> <gurchetansingh@chromium.org> wrote:
->> >
->> >
->> >
->> > On Mon, Aug 5, 2024 at 2:14=E2=80=AFAM Sergio Lopez Pascual <slp@redha=
-t.com>
->> wrote:
->> >>
->> >> Dmitry Osipenko <dmitry.osipenko@collabora.com> writes:
->> >>
->> >> > On 7/23/24 14:49, Sergio Lopez wrote:
->> >> >> There's an incresing number of machines supporting multiple page
->> sizes
->> >> >> and on these machines the host and a guest can be running, each on=
-e,
->> >> >> with a different page size.
->> >> >>
->> >> >> For what pertains to virtio-gpu, this is not a problem if the page
->> size
->> >> >> of the guest happens to be bigger or equal than the host, but will
->> >> >> potentially lead to failures in memory allocations and/or mappings
->> >> >> otherwise.
->> >> >
->> >> > Please describe concrete problem you're trying to solve. Guest memo=
-ry
->> >> > allocation consists of guest pages, I don't see how knowledge of ho=
-st
->> >> > page size helps anything in userspace.
->> >> >
->> >> > I suspect you want this for host blobs, but then it should be
->> >> > virtio_gpu_vram_create() that should use max(host_page_sz,
->> >> > guest_page_size), AFAICT. It's kernel who is responsible for memory
->> >> > management, userspace can't be trusted for doing that.
->> >>
->> >> Mesa's Vulkan/Venus uses CREATE_BLOB to request the host the creation
->> >> and mapping into the guest of device-backed memory and shmem regions.
->> >> The CREATE_BLOB ioctl doesn't update drm_virtgpu_resource_create->siz=
-e,
->> >> so the guest kernel (and, as a consequence, the host kernel) can't
->> >> override the user's request.
->> >>
->> >> I'd like Mesa's Vulkan/Venus in the guest to be able to obtain the ho=
-st
->> >> page size to align the size of the CREATE_BLOB requests as required.
->> >
->> >
->> > gfxstream solves this problem by putting the relevant information in t=
-he
->> capabilities obtained from the host:
->> >
->> >
->> https://android.googlesource.com/platform/hardware/google/gfxstream/+/re=
-fs/heads/main/host/virtio-gpu-gfxstream-renderer.cpp#1691
->> >
->> > If you want to be paranoid, you can also validate the
->> ResourceCreateBlob::size is properly host-page aligned when that request
->> reaches the host.
->> >
->> > So you can probably solve this problem using current interfaces.
->> Whether it's cleaner for all context types to use the capabilities, or h=
-ave
->> all VMMs to expose VIRTIO_GPU_F_HOST_PAGE_SIZE, would be the cost/benefi=
-t
->> tradeoff.
->> >
->>
->> I guess solving it in a context-type specific way is possible.  But I
->> think it is a relatively universal constraint.  And maybe it makes
->> sense for virtgpu guest kernel to enforce alignment (at least it can
->> return an error synchronously) in addition to the host.
->>
->
-> virtio-media may have support for VIRTIO_MEDIA_CMD_MMAP too, so could run
-> into this issue.
->
-> https://github.com/chromeos/virtio-media?tab=3Dreadme-ov-file#shared-memo=
-ry-regions
->
-> virtio-fs also has the DAX window which uses the same memory mapping
-> mechanism.
->
-> https://virtio-fs.gitlab.io/design.html
->
-> Maybe this should not be a virtio-gpu thing, but a virtio thing?
+For every call to DSP, fastrpc driver passes the process tgid which
+works as an identifier for the DSP to enqueue the tasks to specific PD.
+With current design, if any process opens device node more than once
+and makes PD init request, same tgid will be passed to DSP which will
+be considered a bad request and this will result in failure as the same
+identifier cannot be used for multiple DSP PD.
 
-This is true, but finding a common place to put the page size is really
-hard in practice. I don't think we can borrow space in the feature bits
-for that (and that would probably be abusing its purpose quite a bit)
-and extending the transport configuration registers is quite cumbersome
-and, in general, undesirable.
+Assign and pass a client ID to DSP which would be assigned during device
+open and will be dependent on the index of session allocated for the PD.
+This will allow the same process to open the device more than once and
+spawn multiple dynamic PD for ease of processing.
 
-That leaves us with the device-specific config space, and that implies a
-device-specific feature bit as it's implemented in this series.
+Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+---
+Changes in v2:
+  - Reformatted commit text.
+  - Moved from ida to idr.
+  - Changed dsp_pgid data type.
+  - Resolved memory leak.
+Changes in v3:
+  - Modified commit text.
+  - Removed idr implementation.
+  - Using session index for client id.
 
-The Shared Memory Regions on the VIRTIO spec, while doesn't talk
-specifically about page size, also gives us a hint about this being the
-right direction:
+ drivers/misc/fastrpc.c | 30 ++++++++++++++++--------------
+ 1 file changed, 16 insertions(+), 14 deletions(-)
 
-"
-2.10 Shared Memory Regions
-(...)
-Memory consistency rules vary depending on the region and the device
-and they will be specified as required by each device."
-"
-
-Thanks,
-Sergio.
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index a7a2bcedb37e..0ce1eedcb2c3 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -38,6 +38,7 @@
+ #define FASTRPC_INIT_HANDLE	1
+ #define FASTRPC_DSP_UTILITIES_HANDLE	2
+ #define FASTRPC_CTXID_MASK (0xFF0)
++#define FASTRPC_CLIENTID_MASK (16)
+ #define INIT_FILELEN_MAX (2 * 1024 * 1024)
+ #define INIT_FILE_NAMELEN_MAX (128)
+ #define FASTRPC_DEVICE_NAME	"fastrpc"
+@@ -298,7 +299,7 @@ struct fastrpc_user {
+ 	struct fastrpc_session_ctx *sctx;
+ 	struct fastrpc_buf *init_mem;
+ 
+-	int tgid;
++	int client_id;
+ 	int pd;
+ 	bool is_secure_dev;
+ 	/* Lock for lists */
+@@ -613,7 +614,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+ 	ctx->sc = sc;
+ 	ctx->retval = -1;
+ 	ctx->pid = current->pid;
+-	ctx->tgid = user->tgid;
++	ctx->tgid = user->client_id;
+ 	ctx->cctx = cctx;
+ 	init_completion(&ctx->work);
+ 	INIT_WORK(&ctx->put_work, fastrpc_context_put_wq);
+@@ -1111,7 +1112,7 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
+ 	int ret;
+ 
+ 	cctx = fl->cctx;
+-	msg->pid = fl->tgid;
++	msg->pid = fl->client_id;
+ 	msg->tid = current->pid;
+ 
+ 	if (kernel)
+@@ -1294,7 +1295,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+ 		}
+ 	}
+ 
+-	inbuf.pgid = fl->tgid;
++	inbuf.pgid = fl->client_id;
+ 	inbuf.namelen = init.namelen;
+ 	inbuf.pageslen = 0;
+ 	fl->pd = USER_PD;
+@@ -1396,7 +1397,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+ 		goto err;
+ 	}
+ 
+-	inbuf.pgid = fl->tgid;
++	inbuf.pgid = fl->client_id;
+ 	inbuf.namelen = strlen(current->comm) + 1;
+ 	inbuf.filelen = init.filelen;
+ 	inbuf.pageslen = 1;
+@@ -1470,8 +1471,9 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+ }
+ 
+ static struct fastrpc_session_ctx *fastrpc_session_alloc(
+-					struct fastrpc_channel_ctx *cctx)
++					struct fastrpc_user *fl)
+ {
++	struct fastrpc_channel_ctx *cctx = fl->cctx;
+ 	struct fastrpc_session_ctx *session = NULL;
+ 	unsigned long flags;
+ 	int i;
+@@ -1481,6 +1483,7 @@ static struct fastrpc_session_ctx *fastrpc_session_alloc(
+ 		if (!cctx->session[i].used && cctx->session[i].valid) {
+ 			cctx->session[i].used = true;
+ 			session = &cctx->session[i];
++			fl->client_id = FASTRPC_CLIENTID_MASK | i;
+ 			break;
+ 		}
+ 	}
+@@ -1505,7 +1508,7 @@ static int fastrpc_release_current_dsp_process(struct fastrpc_user *fl)
+ 	int tgid = 0;
+ 	u32 sc;
+ 
+-	tgid = fl->tgid;
++	tgid = fl->client_id;
+ 	args[0].ptr = (u64)(uintptr_t) &tgid;
+ 	args[0].length = sizeof(tgid);
+ 	args[0].fd = -1;
+@@ -1580,11 +1583,10 @@ static int fastrpc_device_open(struct inode *inode, struct file *filp)
+ 	INIT_LIST_HEAD(&fl->maps);
+ 	INIT_LIST_HEAD(&fl->mmaps);
+ 	INIT_LIST_HEAD(&fl->user);
+-	fl->tgid = current->tgid;
+ 	fl->cctx = cctx;
+ 	fl->is_secure_dev = fdevice->secure;
+ 
+-	fl->sctx = fastrpc_session_alloc(cctx);
++	fl->sctx = fastrpc_session_alloc(fl);
+ 	if (!fl->sctx) {
+ 		dev_err(&cctx->rpdev->dev, "No session available\n");
+ 		mutex_destroy(&fl->mutex);
+@@ -1648,7 +1650,7 @@ static int fastrpc_dmabuf_alloc(struct fastrpc_user *fl, char __user *argp)
+ static int fastrpc_init_attach(struct fastrpc_user *fl, int pd)
+ {
+ 	struct fastrpc_invoke_args args[1];
+-	int tgid = fl->tgid;
++	int tgid = fl->client_id;
+ 	u32 sc;
+ 
+ 	args[0].ptr = (u64)(uintptr_t) &tgid;
+@@ -1804,7 +1806,7 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
+ 	int err;
+ 	u32 sc;
+ 
+-	req_msg.pgid = fl->tgid;
++	req_msg.pgid = fl->client_id;
+ 	req_msg.size = buf->size;
+ 	req_msg.vaddr = buf->raddr;
+ 
+@@ -1890,7 +1892,7 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+ 		return err;
+ 	}
+ 
+-	req_msg.pgid = fl->tgid;
++	req_msg.pgid = fl->client_id;
+ 	req_msg.flags = req.flags;
+ 	req_msg.vaddr = req.vaddrin;
+ 	req_msg.num = sizeof(pages);
+@@ -1980,7 +1982,7 @@ static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_me
+ 		return -EINVAL;
+ 	}
+ 
+-	req_msg.pgid = fl->tgid;
++	req_msg.pgid = fl->client_id;
+ 	req_msg.len = map->len;
+ 	req_msg.vaddrin = map->raddr;
+ 	req_msg.fd = map->fd;
+@@ -2033,7 +2035,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
+ 		return err;
+ 	}
+ 
+-	req_msg.pgid = fl->tgid;
++	req_msg.pgid = fl->client_id;
+ 	req_msg.fd = req.fd;
+ 	req_msg.offset = req.offset;
+ 	req_msg.vaddrin = req.vaddrin;
+-- 
+2.34.1
 
