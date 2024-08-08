@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16EEE94BDE9
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 14:47:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9811894BDFA
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 14:54:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A217A10E719;
-	Thu,  8 Aug 2024 12:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B06A10E70F;
+	Thu,  8 Aug 2024 12:54:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RlRADFKG";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FoX53nRn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AFA210E719
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 12:47:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE00C10E70F
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 12:54:12 +0000 (UTC)
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
  [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAD73581;
- Thu,  8 Aug 2024 14:46:04 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17761124E;
+ Thu,  8 Aug 2024 14:53:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1723121165;
- bh=3r95vSqewJGTGj04fETIJxNgL7bYGLgbUeY+OW/MYIY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RlRADFKGe19GVj3VYehZldBxnmHNNkYXOINggk/fdkW067+FRSL1rfE2Ip35103i4
- tYMTfQV1NeG3huvlATpkRJgWjdDhOe99taAf+JKk4tcGM71G4bpOL7tP+k5gR+/5Zs
- B+pNUkT9kgLEmdSbsBFm1oEWR+an8j3AjGS3OPhg=
-Message-ID: <f44fd8f1-2e65-4cdd-b6ba-49398f5d8c7c@ideasonboard.com>
-Date: Thu, 8 Aug 2024 15:46:55 +0300
+ s=mail; t=1723121598;
+ bh=CEyhPGSkXrl72ZDwTH2u/j1kNow6Xs5EFtfn4KS/qHs=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=FoX53nRnOS71ENjY0hXdwC1hxQ3n2cru453tGxW1xwdDMxtjnKrjrHoRQVtvYlECM
+ r7KUmItIBAUbiS2w2m44AQQn4GisPNGBpDb/ZGty3DGX6dRjDkDz67rGeLqD7INCDv
+ Lpq7HGSHR7q81lwOq0vj+nFCroBI9d/lzFe05DLA=
+Message-ID: <d32d9229-9b40-4ebd-adf3-9ae9ef75b58b@ideasonboard.com>
+Date: Thu, 8 Aug 2024 15:54:07 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/10] drm: zynqmp_dp: IRQ cleanups and debugfs support
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: linux-arm-kernel@lists.infradead.org, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>,
+Subject: Re: [PATCH v2 2/4] dt-bindings: display/xlnx/zynqmp-dpsub: Add audio
+ DMAs
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20240503192922.2172314-1-sean.anderson@linux.dev>
- <e5ca9be5-2918-427a-b7eb-28f1915b5d31@ideasonboard.com>
- <5c5aa8ae-75c4-4f0f-ad19-50ad57c61216@linux.dev>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
+References: <20240319-xilinx-dp-audio-v2-0-92d6d3a7ca7e@ideasonboard.com>
+ <20240319-xilinx-dp-audio-v2-2-92d6d3a7ca7e@ideasonboard.com>
+ <20240320153725.GA1771730-robh@kernel.org>
+ <4073c6b5-629e-4e9c-86c2-a4b476fe775e@ideasonboard.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -88,9 +97,9 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <5c5aa8ae-75c4-4f0f-ad19-50ad57c61216@linux.dev>
+In-Reply-To: <4073c6b5-629e-4e9c-86c2-a4b476fe775e@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,45 +115,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sean,
+Hi Rob,
 
-On 17/06/2024 17:48, Sean Anderson wrote:
-> On 6/17/24 03:47, Tomi Valkeinen wrote:
->> Hi Sean,
+On 21/03/2024 07:52, Tomi Valkeinen wrote:
+> On 20/03/2024 17:37, Rob Herring wrote:
+>> On Tue, Mar 19, 2024 at 10:22:37AM +0200, Tomi Valkeinen wrote:
+>>> The DP subsystem for ZynqMP support audio via two channels, and the DP
+>>> DMA has dma-engines for those channels. For some reason the DT binding
+>>> has not specified those channels, even if the picture included in
+>>> xlnx,zynqmp-dpsub.yaml shows "2 x aud" DMAs.
 >>
->> On 03/05/2024 22:29, Sean Anderson wrote:
->>> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
->>> that's done, it adds debugfs support. The intent is to enable compliance
->>> testing or to help debug signal-integrity issues.
->>>
->>> Last time I discussed converting the HPD work(s) to a threaded IRQ. I
->>> did not end up doing that for this series since the steps would be
->>>
->>> - Add locking
->>> - Move link retraining to a work function
->>> - Harden the IRQ
->>> - Merge the works into a threaded IRQ (omitted)
->>>
->>> Which with the exception of the final step is the same as leaving those
->>> works as-is. Conversion to a threaded IRQ can be done as a follow-up.
->>
->> I tested this, and the "drm: zynqmp_dp: Convert to a hard IRQ" causes a hang for me when unloading the drivers. Unfortunately I'm not in the condition to debug it at the moment.
->>
->> I have picked the first three patches into drm-misc-next, though, to decrease the number of patches in the series a bit. They looked independent and safe enough to apply.
+>> New required entries is an ABI change. This message kind of indicates it
+>> was a mistake, but should be a lot more explicit. Are things broken
+>> without the entries? Need 'Fixes'?
 > 
-> Are you running into [1]?
+> I'll improve the desc for the next version.
 > 
-> --Sean
+> So, yes, it's an ABI change, and as far as I can guess (I can't figure 
+> out any other reason), the audio DMAs were left out by mistake or 
+> misunderstanding. The Linux driver has not supported audio, so this has 
+> not been an issue and nothing is broken.
 > 
-> [1] https://lore.kernel.org/dri-devel/4d8f4c9b-2efb-4774-9a37-2f257f79b2c9@linux.dev/
+> Now that this series adds the audio support, I had to add the audio 
+> DMAs. I considered making the DMAs optional in the DT, but that doesn't 
+> sound right, even if that would keep the ABI compatibility (wouldn't 
+> it?). The driver I add in this series does consider the audio DMAs as 
+> optional, though. If they're not present, the driver will continue 
+> without audio support.
 > 
+> So, strictly speaking I think this is a fix to the original commit that 
+> adds the DT node, but as the driver using the audio DMAs comes in only 
+> now, I think there's no need for the 'Fixes' and backporting.
+> 
+> I'm happy to change the approach if you think some other way is better.
 
-No. Afaics, it breaks because the irq handler is requested with 
-IRQF_SHARED, and that means the handler can be called at any time. The 
-handler reads DP registers, but the DP IP could already be powered off.
-
-You'll probably see it easily if you enable CONFIG_DEBUG_SHIRQ, and 
-unload the module or unbind the device.
+Do you have any feedback on the above? Should I mark the audio DMAs as 
+optional in the binding?
 
   Tomi
+
+>   Tomi
+> 
+>>>
+>>> Add the two audio DMAs to the binding.
+>>>
+>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> ---
+>>>   .../devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml    | 10 
+>>> ++++++++--
+>>>   1 file changed, 8 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/xlnx/ 
+>>> xlnx,zynqmp-dpsub.yaml b/Documentation/devicetree/bindings/display/ 
+>>> xlnx/xlnx,zynqmp-dpsub.yaml
+>>> index 554f9d5809d4..6b754d4f260e 100644
+>>> --- a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp- 
+>>> dpsub.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp- 
+>>> dpsub.yaml
+>>> @@ -100,12 +100,16 @@ properties:
+>>>         - description: Video layer, plane 1 (U/V or U)
+>>>         - description: Video layer, plane 2 (V)
+>>>         - description: Graphics layer
+>>> +      - description: Audio channel 0
+>>> +      - description: Audio channel 1
+>>>     dma-names:
+>>>       items:
+>>>         - const: vid0
+>>>         - const: vid1
+>>>         - const: vid2
+>>>         - const: gfx0
+>>> +      - const: aud0
+>>> +      - const: aud1
+>>>     phys:
+>>>       description: PHYs for the DP data lanes
+>>> @@ -194,11 +198,13 @@ examples:
+>>>           power-domains = <&pd_dp>;
+>>>           resets = <&reset ZYNQMP_RESET_DP>;
+>>> -        dma-names = "vid0", "vid1", "vid2", "gfx0";
+>>> +        dma-names = "vid0", "vid1", "vid2", "gfx0", "aud0", "aud1";
+>>>           dmas = <&xlnx_dpdma 0>,
+>>>                  <&xlnx_dpdma 1>,
+>>>                  <&xlnx_dpdma 2>,
+>>> -               <&xlnx_dpdma 3>;
+>>> +               <&xlnx_dpdma 3>,
+>>> +               <&xlnx_dpdma 4>,
+>>> +               <&xlnx_dpdma 5>;
+>>>           phys = <&psgtr 1 PHY_TYPE_DP 0 3>,
+>>>                  <&psgtr 0 PHY_TYPE_DP 1 3>;
+>>>
+>>> -- 
+>>> 2.34.1
+>>>
+> 
 
