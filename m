@@ -2,63 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251D394BB91
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 12:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3E194BB93
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 12:47:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1934410E6D0;
-	Thu,  8 Aug 2024 10:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F76810E6D1;
+	Thu,  8 Aug 2024 10:47:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="SAfcVST/";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZJRqzNtz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0A810E6D0
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 10:46:49 +0000 (UTC)
-Delivered-To: kernel@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723114000; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=azZa5nZN8r5OSARZsTxJtopNC4e7YGJ/gVNjDiT3OiRtcDOpn+mpABebHioN4yPK4MU9lma+S0Yv/x6DEjedR10Vt6Qx/AzsgJKOUBKugOgCJve64sQ7KTwE/KHx4slc6gKklxk2sUKrdlURRD1xJs32L6GswMYmsCJYm3Kzo5Q=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723114000;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=t+M3wOJceEQXPoAOrjXdGi2Q9xB7lebSyy+tJxgoNSw=; 
- b=BfGq3BD/njaLrkcK2c8Pip+FuVFwWeOV/6AZ3Kldd/55hFrSdTX81aHW4ujdb58WtmgWtsMJaJJ2IXd9SVfBKYOULK15bP2VjvH8nqH3mnkot0tV2B1P0ICapDDjtyO0UiTsYvprTulBtntqe93dpMpQybmuE/z8y8hbOK7KDms=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
- dmarc=pass header.from=<mary.guillemard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723114000; 
- s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=t+M3wOJceEQXPoAOrjXdGi2Q9xB7lebSyy+tJxgoNSw=;
- b=SAfcVST/jtPvJ0PH7j76QqnCjrVU9sIoAFZZaNZ26Vtuvz4WA2SeETuV4aSDVqWo
- Rdo7jRNTchUA2yieRGD49E9AlLD+WTtN5QqaXcqjGcA9YyMkK5qOqEGtQPffH4tPnXr
- y+ugi8sC6Vt1CPwyt02MpOTI2v9LjMkdyW3KKl1s=
-Received: by mx.zohomail.com with SMTPS id 1723113999747624.924931961419;
- Thu, 8 Aug 2024 03:46:39 -0700 (PDT)
-Date: Thu, 8 Aug 2024 12:46:34 +0200
-From: Mary Guillemard <mary.guillemard@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/3] drm/panfrost: Add SYSTEM_TIMESTAMP and
- SYSTEM_TIMESTAMP_FREQUENCY parameters
-Message-ID: <ZrSiCvq1mYid2BlA@kuroko.kudu-justice.ts.net>
-References: <20240807160900.149154-1-mary.guillemard@collabora.com>
- <20240807160900.149154-2-mary.guillemard@collabora.com>
- <37be0bd0-219d-4e46-b17e-cde7f960becb@arm.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42FFD10E6D1
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 10:47:17 +0000 (UTC)
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
+ [91.156.87.48])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5368B8D0;
+ Thu,  8 Aug 2024 12:46:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1723113982;
+ bh=6J7iUTSqUnagTCsbz80DBqXWM+nKMfWg0brM0KqfaHc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ZJRqzNtzg+d6fDcQqmAyOEbfNyr93GitWKJIJzWiHt7ccoh59MULtccuxDwgBejd9
+ 1yrhZs2VgUCCXi0q2XmIFsuylen6edeHHUxw2Gs+g6VE4ggFA9eaGRh1w150w+36h5
+ IfAUacmfqyEfBqeWERIN6pYkNjNvBRMkqabzxUJU=
+Message-ID: <2d87f6dc-41c4-4642-a672-2fd5ab7927c6@ideasonboard.com>
+Date: Thu, 8 Aug 2024 13:47:13 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37be0bd0-219d-4e46-b17e-cde7f960becb@arm.com>
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: omapdrm: Add missing check for
+ alloc_ordered_workqueue
+To: Ma Ke <make24@iscas.ac.cn>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ laurent.pinchart@ideasonboard.com
+References: <20240808061336.2796729-1-make24@iscas.ac.cn>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240808061336.2796729-1-make24@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,32 +102,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Steve,
-
-> VK_KHR_calibrated_timestamps says it should query 'quasi simultaneously
-> from two time domains' - but this is purely providing an interface to
-> read a single counter at a time.
+On 08/08/2024 09:13, Ma Ke wrote:
+> As it may return NULL pointer and cause NULL pointer dereference. Add check
+> for the return value of alloc_ordered_workqueue.
 > 
-> It _may_ be useful to report the GPU's view of time and at the same time
-> (or as near as possible) the architectural counters. That can be used to
-> deal with drift between the GPU's counters and arch counters[1].
+> Cc: stable@vger.kernel.org
+> Fixes: 2f95bc6d324a ("drm: omapdrm: Perform initialization/cleanup at probe/remove time")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> ---
+>   drivers/gpu/drm/omapdrm/omap_drv.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> In general we try to avoid providing an interface to something which is
-> unrelated to the GPU, especially when user space already has a mechanism.
-> 
-> Steve
-> 
-> [1] See Mihail's response to the panthor patches for details of
-> differences that might occur.
+> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> index 6598c9c08ba1..94a57f0d1c08 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> @@ -695,6 +695,10 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+>   	soc = soc_device_match(omapdrm_soc_devices);
+>   	priv->omaprev = soc ? (uintptr_t)soc->data : 0;
+>   	priv->wq = alloc_ordered_workqueue("omapdrm", 0);
+> +	if (!priv->wq) {
+> +		ret = -ENOMEM;
+> +		goto err_alloc_workqueue;
+> +	}
+>   
+>   	mutex_init(&priv->list_lock);
+>   	INIT_LIST_HEAD(&priv->obj_list);
+> @@ -753,6 +757,7 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+>   	drm_mode_config_cleanup(ddev);
+>   	omap_gem_deinit(ddev);
+>   	destroy_workqueue(priv->wq);
+> +err_alloc_workqueue:
+>   	omap_disconnect_pipelines(ddev);
+>   	drm_dev_put(ddev);
+>   	return ret;
 
-I initially didn't saw the register to get the GPU timestamp and
-wrongly assumed I would have to query it from the generic arch timer.
+Thanks, I'll pick this up to drm-misc.
 
-I will make SYSTEM_TIMESTAMP returns the value of the timestamp register
-on v2 and keep SYSTEM_TIMESTAMP_FREQUENCY the same way as it is at the
-moment.
-
-Thanks for the review,
-
-Mary
+  Tomi
 
