@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195E494B858
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 09:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACE794B85B
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 09:58:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C23F10E685;
-	Thu,  8 Aug 2024 07:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD65810E686;
+	Thu,  8 Aug 2024 07:58:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mRmjICj0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Xr2QwR/4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B5AE10E683;
- Thu,  8 Aug 2024 07:57:59 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4WffXz4Qytz9slv;
- Thu,  8 Aug 2024 09:57:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1723103875;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zzZFMfNuViTfYHwErDY5YyAjZNT6A7h+prXOvsPN5Wk=;
- b=mRmjICj00ijZHMKicvNtcdbgW3F4At4Vy+l6gTzgbEmHoaJ77xFit2rpUeYRO23tuL0ro/
- 2hGA5tAPaGZdPlBI3BXsgLvaPMHYMxxsluIg65WSdIpO8mHtKU7w9NS8J3G2cIUEkjqbgg
- 3PWqib532ZU2JxgFOiPowwlbVwbZc7ujle8zwK3vqe4QxbRVMJUKpuK76NemhAPR1rsfeh
- UElJ2l8YsW9/610oo9212/Mv1cFHTPoGdZ8hHg6Wm0pYaQABVloMRz1asJNXjeqoiP/SvE
- G6Wl5u/wIVzobY4KGtR0VwSFD0WXpzbYoZC2kj4B9pY6qarIx415KsNEhPMC4Q==
-Message-ID: <3c887552-282d-403d-8581-4cbcd8ad9069@mailbox.org>
-Date: Thu, 8 Aug 2024 09:57:52 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98AE110E686
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 07:58:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A3C63614FA;
+ Thu,  8 Aug 2024 07:58:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10E30C32782;
+ Thu,  8 Aug 2024 07:58:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723103935;
+ bh=lBgKsSZMNn5ItIypje4300VtOpFDmA6vuT10xWV/5tg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Xr2QwR/4R0+Yb+9pUu6BgnmvD4j3cPKIXj9murfquFun6YQ/CtU3vzU8MbgPfxoVB
+ xkYuiK/L381eurFZAGr+8yLDvjaR3DzrA+JEA1NP4Vt+8DfpQV63+glF1dNVLIQsq9
+ 6RBkYf4cl5QgGfcCJ1oif1ZReVXjPbf9VLx/sL5k79gAC60zyJMW6wlzXP12dzF2Rc
+ p4bKCzhJtNliCTOKjwmeTyFJU0Gexb1/mRb2uw8ieff4BFHRFqqAiCcznbtnOjYbgL
+ JV6WcSTcuur9WiLhmc6LF8JIVUwLAzh7TtU9G4P0oFwufwGX278D7l8mKJw9TUCRKf
+ UXtdzQYOEKN6g==
+Date: Thu, 8 Aug 2024 09:58:49 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: torvalds@linux-foundation.org, akpm@linux-foundation.org, 
+ alexei.starovoitov@gmail.com, audit@vger.kernel.org, bpf@vger.kernel.org, 
+ catalin.marinas@arm.com, dri-devel@lists.freedesktop.org, ebiederm@xmission.com,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-security-module@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ penguin-kernel@i-love.sakura.ne.jp, 
+ rostedt@goodmis.org, selinux@vger.kernel.org, serge@hallyn.com
+Subject: Re: [PATCH v5 0/9] Improve the copy of task comm
+Message-ID: <mywl5fk4ob4c4xekplom3ysiyo57h2iqirbiza6wdka3kdoa7q@exrkx5uwn2yc>
+References: <2jxak5v6dfxlpbxhpm3ey7oup4g2lnr3ueurfbosf5wdo65dk4@srb3hsk72zwq>
+ <CALOAHbBKzrvibUbj-1W7Z79AZsvOpMeG--EZ0pf2k0iyuPa1_w@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [RFC] amdgpu: Add a context flag to disable implicit sync
-To: Joshua Ashton <joshua@froggi.es>, amd-gfx@lists.freedesktop.org,
- Faith Ekstrand <faith@gfxstrand.net>, dri-devel@lists.freedesktop.org
-Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, =?UTF-8?Q?Michel_D=C3=A4nzer?=
- <mdaenzer@redhat.com>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-References: <20240807153941.3668940-1-faith.ekstrand@collabora.com>
- <B37A903E-E670-4548-BDBB-4651D2DC7D15@froggi.es>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA, de-CH-frami
-In-Reply-To: <B37A903E-E670-4548-BDBB-4651D2DC7D15@froggi.es>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: r8a6xjyz36uf8thdcrw3txoof9yj5bzn
-X-MBO-RS-ID: f72af90d3347ddf28ed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="qwav3xltx7orscp7"
+Content-Disposition: inline
+In-Reply-To: <CALOAHbBKzrvibUbj-1W7Z79AZsvOpMeG--EZ0pf2k0iyuPa1_w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,17 +65,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-08-07 21:23, Joshua Ashton wrote:
-> I was thinking about this more recently. I was initially considering "maybe this should be a per-BO import," but I couldn't think of anything in the GL model that would actually benefit given its not "true" bindless and there's no update-after-bind there.
-> 
-> Worth others more familiar with GL asking that question to themselves also. I am definitely not totally up on what's possible there.
-> 
-> Overall, I think I am OK with this approach, even though I think mixing implicit and explicit sync is gross, and I want the pain that is implicit sync to just go away forever. :-)
 
-It can never go away, at least not in the drivers which have ever supported it. We can never break compatibility.
+--qwav3xltx7orscp7
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: torvalds@linux-foundation.org, akpm@linux-foundation.org, 
+	alexei.starovoitov@gmail.com, audit@vger.kernel.org, bpf@vger.kernel.org, 
+	catalin.marinas@arm.com, dri-devel@lists.freedesktop.org, ebiederm@xmission.com, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, penguin-kernel@i-love.sakura.ne.jp, 
+	rostedt@goodmis.org, selinux@vger.kernel.org, serge@hallyn.com
+Subject: Re: [PATCH v5 0/9] Improve the copy of task comm
+References: <2jxak5v6dfxlpbxhpm3ey7oup4g2lnr3ueurfbosf5wdo65dk4@srb3hsk72zwq>
+ <CALOAHbBKzrvibUbj-1W7Z79AZsvOpMeG--EZ0pf2k0iyuPa1_w@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CALOAHbBKzrvibUbj-1W7Z79AZsvOpMeG--EZ0pf2k0iyuPa1_w@mail.gmail.com>
 
+Hi Yafang,
 
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+On Thu, Aug 08, 2024 at 10:49:17AM GMT, Yafang Shao wrote:
+> > > Now, it might be a good idea to also verify that 'buf' is an actual
+> > > array, and that this code doesn't do some silly "sizeof(ptr)" thing.
+> >
+> > I decided to use NITEMS() instead of sizeof() for that reason.
+> > (NITEMS() is just our name for ARRAY_SIZE().)
+> >
+> >         $ grepc -h NITEMS .
+> >         #define NITEMS(a)            (SIZEOF_ARRAY((a)) / sizeof((a)[0]=
+))
+> >
+> > > We do have a helper for that, so we could do something like
+> > >
+> > >    #define get_task_comm(buf, tsk) \
+> > >         strscpy_pad(buf, __must_be_array(buf)+sizeof(buf), (tsk)->com=
+m)
+> >
+> > We have SIZEOF_ARRAY() for when you want the size of an array:
+> >
+> >         $ grepc -h SIZEOF_ARRAY .
+> >         #define SIZEOF_ARRAY(a)      (sizeof(a) + must_be_array(a))
+>=20
+> There is already a similar macro in Linux:
+>=20
+>   /**
+>    * ARRAY_SIZE - get the number of elements in array @arr
+>    * @arr: array to be sized
+>    */
+>   #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) +
+> __must_be_array(arr))
 
+This is actually the same as our NITEMS(), not SIZEOF_ARRAY().
+
+> will use it instead of the sizeof().
+
+But yeah, indeed I think you should use ARRAY_SIZE() in
+get_task_comm().  :)
+
+>=20
+> Good point.
+> I will avoid using the _pad().
+
+Nice.  :)
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--qwav3xltx7orscp7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAma0erkACgkQnowa+77/
+2zI/JRAAoVxukBH7uw9FKXnQL5urmTajhZ9amPoHARet43Vg/lzzBNf6fKGg+8Sw
+Ia/9Wj4w2X8FhIeCkj6N9ZS8SaIRgXExdZQxfOdfNWRXk8i+UVm0HzH3maGvLLi7
+uSkYvr0HKnB/bk8tjJWDfvEEwNFS0f6rTlz3gcK2AggiDr9N1ZZBKS1/6qXDTgps
+Z+83Dzqy6UmjYa43Rg9MLoS5hux8uJyepFVgJQ3YzNoLlT4RCnXz99pTQffEGf/u
+Z1pH8dsthc5ObspRQoWHzKVRv2LmatVaitOfoxEnqw7nqcKkwV6hfKYwArb1PR5x
+46De/I8Q2SFzcCT+MjcCHQrlYo4ae7YVGpk2dpIYxkFnH7WCR3UeMamLrsPAkydf
+bAisGt0aUSSnXv6Nx+AyJzqJVYwfXY87aUMBxU6M6tiD1WaBCxMkgEyCqGRI4T4M
+SxLDjWDUNMP3dzrilzfy+7Q5mBSoDP0fyVZD9PvQyj2I3OQuaSco8SiKocb6YPyv
+NlIPR7vs2K7n+Cmbv1FtrW2XTDnYsHpUYs1iI81FGoqQmK0I3JM+M1PSFs1m/VLB
+UMkeE70pWxJlewI3USP3BVhAVMn9LGP3k0r6eRLlea0y8Y8VRx77S8+D7Im1RNqs
+ybegRL10BeXA+FLXX9xvCPi4ClFH2e/r0dFUpNTzg9bDXJG5sr8=
+=hUNj
+-----END PGP SIGNATURE-----
+
+--qwav3xltx7orscp7--
