@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8EF894BAD7
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 12:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C43A494BAED
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 12:28:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBF810E6C0;
-	Thu,  8 Aug 2024 10:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 346F210E6C1;
+	Thu,  8 Aug 2024 10:28:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BnXv3khZ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="knX2YFbF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38F310E6C0
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 10:25:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723112724; x=1754648724;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=fZP8HxgFzg8Q/VBokT/unDJoCN9dymrjvbxzxf0FNFY=;
- b=BnXv3khZNeNfHNOiYhhhhBaO1g9TuXtaJjOAkyQT0b7uxvy01oqCh13Y
- ru6n5ngeteZplVzAz7TooDeQBjteIceOGSpHFedy/Ox8wWHVdx387ZFI8
- xU501ygVaKlgn1B8Y3WcRiRtpajrFT9xHVzmP0P8ArsxJhy2Bo6dlpiOB
- OU2HYfXedFIkYYzKnZvm8R3DJ+RHyaWrGf7hSsdCbDCpBrQA2mbta8Wh9
- tfWrlR9A0hRH2L8sOIW3e4bQeA4tOJPitL+H9qFyOo6C3jbHDpKXdNhBF
- SBndLpha8uKCbtUvCKAp9r3BWo/GJ30yx6jkF9sgSWFZncYUnuqQZGCsR Q==;
-X-CSE-ConnectionGUID: aK8bLZj5QcWxkjpTyv4pOQ==
-X-CSE-MsgGUID: hwkiBZxgQ2eQQBxA5iKF0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="43749110"
-X-IronPort-AV: E=Sophos;i="6.09,272,1716274800"; d="scan'208";a="43749110"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2024 03:25:23 -0700
-X-CSE-ConnectionGUID: e7YznkWoQMuCjEYa1nZS7Q==
-X-CSE-MsgGUID: 1nbyhsx0QneJSAGsF9GiDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,272,1716274800"; d="scan'208";a="57731589"
-Received: from dneilan-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.245.245.71])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2024 03:25:19 -0700
-Date: Thu, 8 Aug 2024 11:25:14 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] fbdev: omapfb: panel-sony-acx565akm: Simplify
- show_cabc_available_modes()
-Message-ID: <ZrSdCtS2okz9ivBW@ashyti-mobl2.lan>
-References: <91fc9049558a4865d441930c8f4732461f478eca.1723110340.git.christophe.jaillet@wanadoo.fr>
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1914A10E6C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 10:28:34 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::226])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id F2E1CC6B38
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 10:26:21 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 43328C0008;
+ Thu,  8 Aug 2024 10:26:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1723112779;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VKqPc2zvztu8ZjTTtHQ7KbDNfyDn+rWRkCx6dA0D/as=;
+ b=knX2YFbF0IkUaVgtfA7NITlpMDxKAXD+0Dcpwpzg2lmoZi/VUqS8S0Ztg+y2bFoFdD3afk
+ 6M2DoTG3UbOxyWDWB1uCT5iRJbjE6vl+iu97LAGIBVXACkdTWYXKWuBvu6vCABxP2FOfAW
+ 2PiLr4QvfcpqPVxEQk6aCutL2z/FsBq1TM9jWpEKxRwrDnXqHBqQ71tpsMqAauWb34/CWd
+ 6MEAXUmtvB20zo98owfxLdkyOAtV88a70kXSoMTY9gkLhmBVWPb4u3BH1DdL6ysMabIxLc
+ YPXHiCjU3Tj61gLaLU1DXVBqUzMqZ1bcZUFoZCOqokM72h2IVfq7oDUW3w7zEg==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Thu, 08 Aug 2024 12:26:14 +0200
+Subject: [PATCH] drm/bridge: ti-sn65dsi83: use dev_err_probe when failing
+ to get panel bridge
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <91fc9049558a4865d441930c8f4732461f478eca.1723110340.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240808-ti-sn65dsi83-dev_err_probe-v1-1-72417aa275ab@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAEWdtGYC/x3MzQpAUBBA4VfRrE1dv11eRRJmMJtLM5KSd3ezO
+ fVtzgPGKmzQJg8oX2Kyh4gsTWDexrAyCkVD7vLSeefxFLRQV2TiCyS+BlYdDt0nxsbTuDiKmTK
+ Ig0N5kfufd/37ft+746tsAAAA
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.0
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,27 +69,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christophe,
+When devm_drm_of_get_bridge() fails, the probe fails silently. Use
+dev_err_probe() instead to log an error or report the deferral reason,
+whichever is applicable.
 
-On Thu, Aug 08, 2024 at 11:46:11AM +0200, Christophe JAILLET wrote:
-> Use sysfs_emit_at() instead of snprintf() + custom logic.
-> Using sysfs_emit_at() is much more simple.
-> 
-> Also, sysfs_emit() is already used in this function, so using
-> sysfs_emit_at() is more consistent.
-> 
-> Also simplify the logic:
->   - always add a space after an entry
->   - change the last space into a '\n'
-> 
-> Finally it is easy to see that, given the size of cabc_modes, PAGE_SIZE
-> can not be reached.
-> So better keep everything simple (and correct).
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-neat!
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 57a7ed13f996..60b9f14d769a 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -606,7 +606,7 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
+ 
+ 	panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 2, 0);
+ 	if (IS_ERR(panel_bridge))
+-		return PTR_ERR(panel_bridge);
++		return dev_err_probe(dev, PTR_ERR(panel_bridge), "Failed to get panel bridge\n");
+ 
+ 	ctx->panel_bridge = panel_bridge;
+ 
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20240808-ti-sn65dsi83-dev_err_probe-98daf0ddafb1
 
-Andi
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
