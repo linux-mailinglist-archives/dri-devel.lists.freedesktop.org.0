@@ -2,78 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF6F94C4C5
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 20:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED6694C4C7
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 20:44:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C65A10E7DB;
-	Thu,  8 Aug 2024 18:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED3E10E7DD;
+	Thu,  8 Aug 2024 18:44:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Gcgwq5Ym";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QUtvbo6c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53EB910E7DB
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 18:44:47 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-710d1de6e79so442329b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Aug 2024 11:44:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1723142687; x=1723747487;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=+FZjS9lLhm8Ss5ACYK4UD0eLeWkBZ4V5hozi46AMmMQ=;
- b=Gcgwq5Ym4K0fbvGfeBGGoF7KAiygiEIo0ZbUZcyRz2iVihHZl3VD4XRYMFpaSkG0rJ
- MmOMeHy47R8g2fzEPZPxQsdvctFcQN/QaODcqgS14QN6r35+3lHslNj1KKnIzbTVbDSa
- D0c+vcdRkOayPF1MhCYF90Rt28vvYl/Izp4vE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723142687; x=1723747487;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+FZjS9lLhm8Ss5ACYK4UD0eLeWkBZ4V5hozi46AMmMQ=;
- b=pvln28tI6hQpEPlsMWkZbDz01aaMu4GPAH/O7hsNHhCHU1BjwZTtf0m4APmMxr2/8M
- TP7RKq1o89axjEkft6ToOKFVVc3+miLfoiBVSpixi5ej6hRHuuSageqqKjtQE95tWFIp
- 7b93+Es4X0jGI77vAxTz1XaKIQkewcN1652OVWTGSm9s1HOKkmKvoD+/AicNGcr+oFCl
- zYaocToXsWWWbkdNJ47hiZ8JsHngYFVVw9widKpmx+VIYCnYJi6WEXbXLF4jMQjcXdEo
- N3zg3wW+8tUuQo7Oz+TRzjoT9kMHpxshEv3dgkWt2ROpSqFdrINx7b2gbo6WzRpTIzxf
- tlgA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU9EoV+esoMp8xg08tBJUXkTfLkZj+yOZF3q7/nII6RQlz+BPvB5FSbVwJR0zBaCtC9PGXOwRjcTxYy86yKDL5K3Fpx0vFmr9Ci+uzmyuBU
-X-Gm-Message-State: AOJu0YyzgYkbi5A6tMyqsvQ0ZMw87y5kTzkk435105tT+6DWqwcQSqoS
- DyBW+BSUXzNb888dmpkXW26Uw9D6rYWjmW+z0gCHXa57VLQjzm7BVcFVEiHccQ==
-X-Google-Smtp-Source: AGHT+IHmMuhdk1NaYfmjsh5fG9/wnslwqUeMbA6OPtLJlYkM8QY7GVj2DKaKMTuWDb1cv34MVl+iAA==
-X-Received: by 2002:a05:6a20:3509:b0:1c8:92ed:7c5e with SMTP id
- adf61e73a8af0-1c892ed7db8mr748828637.23.1723142686764; 
- Thu, 08 Aug 2024 11:44:46 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:66d6:d51f:d7f1:36c4])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-710cb2d50cesm1416640b3a.109.2024.08.08.11.44.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Aug 2024 11:44:46 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCEC10E7DB;
+ Thu,  8 Aug 2024 18:44:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0DACA6158D;
+ Thu,  8 Aug 2024 18:44:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3FDDC4AF09;
+ Thu,  8 Aug 2024 18:44:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723142687;
+ bh=Knrs0jW3Bfq98YOI2drWH0B/HyxqhTToT9D6D+w8+ic=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=QUtvbo6cxKYwImDUWinNxswEj9R9sq0Nz0LUUQjAsJFG96z+volSYwIQkPTPOiRIL
+ dEpPjuyOTMjzfQfKax3YDI9B0TgaBfiRUqZQwpN73s4FXNvV2VN5HdOTULwFKlZUI1
+ 9rr0+nM1ibYgjyydFL1rR8rGub3wqsWZ18o6DewNHYAS2Msg3cxtNeqgxNF1LTUC+1
+ CxEESqnAgQNcvzgN1POIc9/0NYvH/0uxHHf8n6QpkQc9Ywma+MGl7T6j3LByP7gY46
+ B5z0MLJUOGyKj0tzGpylBcfD5fbdNcqxqp2UehQ44K9XqZKSPaevTxoc3sOMvr8LqG
+ YrESoHAyQ2xhA==
+Message-ID: <3b87c155-f35d-4812-a4b3-ac5e0bfe0c18@kernel.org>
+Date: Thu, 8 Aug 2024 20:44:39 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PULL] drm-intel-fixes
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Tvrtko Ursulin <tursulin@igalia.com>, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: display: panel: samsung,
- atna45dc02: Fix indentation
-Date: Thu,  8 Aug 2024 11:44:07 -0700
-Message-ID: <20240808114407.1.I099e8e9e36407a0785d846b953031d40ea71e559@changeid>
-X-Mailer: git-send-email 2.46.0.76.ge559c4bf1a-goog
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+References: <ZrSFpj20b1LbBhCJ@linux>
+ <8f7c531a-ecb9-4c30-b4bb-2bdf3056ff34@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <8f7c531a-ecb9-4c30-b4bb-2bdf3056ff34@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,46 +113,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The yaml had indentation errors:
-  ./Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml:21:9:
-  [warning] wrong indentation: expected 10 but found 8 (indentation)
-  ./Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml:23:11:
-  [warning] wrong indentation: expected 12 but found 10 (indentation)
+On 08/08/2024 20:35, Krzysztof Kozlowski wrote:
+> On 08/08/2024 10:45, Tvrtko Ursulin wrote:
+>>
+>> Hi Dave, Sima,
+>>
+>> A small bunch of fixes for the weekly cycle:
+> 
+> ...
+> 
+>>
+>> ----------------------------------------------------------------
+>> Andi Shyti (2):
+>>       drm/i915/gem: Adjust vma offset for framebuffer mmap offset
+>>       drm/i915/gem: Fix Virtual Memory mapping boundaries calculation
+>>
+>> David Gow (2):
+>>       drm/i915: Allow evicting to use the requested placement
+>>       drm/i915: Attempt to get pages without eviction first
+>>
+>> Dnyaneshwar Bhadane (1):
+>>       drm/i915/display: correct dual pps handling for MTL_PCH+
+> 
+> Several commits have issues. Look:
+> 
+>     Signed-off-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>     Link: https://patchwork.freedesktop.org/patch/msgid ...
+>     (cherry picked from commit 97b6784753da06d9d40232328efc5c5367e53417)
+>     Signed-off-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> 
+> 
+> 1. Duplicated committer SoB.
+> You added SoB. No need to add two. It does not get stronger. You do not
+> change the DCO rules by adding two SoBs. You cannot confirm something
+> more or twice. Read DCO one more time...
+> 
+> 2. Useless cherry pick SHA.
+> fatal: bad object 97b6784753da06d9d40232328efc5c5367e53417
+> (Tried with repo having several maintainer repos and the linux-next)
+> 
+> Only you have 97b6784753da06d9d40232328efc5c5367e53417. Maybe few other
+> people as well, but all other do not. This does not bring any useful
+> information, rather obfuscates public git history.
 
-Fix them.
+... and in case you claim that 97b6784753da06d9d40232328efc5c5367e53417
+is in drm-next, then your workflow is broken because:
+1. You will duplicate the same commit. One in drm-fixes and second in
+drm-next. Just use git features, like branches and merges... First you
+apply on fixes, then you merge it to next, for example. Or any other
+sane way.
 
-Reported-by: Rob Herring <robh@kernel.org>
-Closes: https://lore.kernel.org/r/CAL_JsqLRTgQRPcfXy4G9hLoHMd-Uax4_C90BV_OZn4mK+-82kw@mail.gmail.com
-Fixes: 1c4a057d01f4 ("dt-bindings: display: panel: samsung,atna45dc02: Document ATNA45DC02")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+2. If you rebase drm-next on top of drm-fixes in some time in the
+future, then that cherry-pick SHA will not work and will be totally useless.
 
- .../bindings/display/panel/samsung,atna33xc20.yaml   | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+so either you create duplicate commits (that's how Intel gets stats?) or
+you introduce to git history totally bogus SHAs...
 
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-index 87c601bcf20a..032f783eefc4 100644
---- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-@@ -18,12 +18,12 @@ properties:
-       # Samsung 13.3" FHD (1920x1080 pixels) eDP AMOLED panel
-       - const: samsung,atna33xc20
-       - items:
--        - enum:
--          # Samsung 14.5" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
--          - samsung,atna45af01
--          # Samsung 14.5" 3K (2944x1840 pixels) eDP AMOLED panel
--          - samsung,atna45dc02
--        - const: samsung,atna33xc20
-+          - enum:
-+              # Samsung 14.5" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
-+              - samsung,atna45af01
-+              # Samsung 14.5" 3K (2944x1840 pixels) eDP AMOLED panel
-+              - samsung,atna45dc02
-+          - const: samsung,atna33xc20
- 
-   enable-gpios: true
-   port: true
--- 
-2.46.0.76.ge559c4bf1a-goog
+Best regards,
+Krzysztof
 
