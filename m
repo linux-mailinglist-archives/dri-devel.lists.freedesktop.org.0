@@ -2,64 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7333694B5F6
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 06:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A0294B630
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 07:19:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11D1C10E0CC;
-	Thu,  8 Aug 2024 04:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F03C910E639;
+	Thu,  8 Aug 2024 05:19:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hje+ZgCy";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="uejQ3rPe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pSwN1YJ4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uejQ3rPe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pSwN1YJ4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEF5D10E0CC;
- Thu,  8 Aug 2024 04:42:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723092179; x=1754628179;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4syzyV6hdGjV22Hiflj6sEtCj534I2q+jdzZRjAGewU=;
- b=hje+ZgCy0xygrnTQg5A3S9mGBcXKlDF/RvtZfaTlX2XYMShHcwF9Auq8
- IrxiCb18vFcFMQwACv6a2FSnPKIxB7MpVtqxdSsC6mlZJabGZNfck7Mi9
- KAymtDQ7MJ1MSoVGOra4CuhNS2cMcBKjGQxqhoRXW/4hi23wkzmtA6y/R
- z26zetP7rz17qVF99ppS5SlsGbmP2nUiecvGuAl7qRlky7Pj6T+oQsCvw
- VOJIfTy03pBsIk1esd7zTHbWk/1O8pCloVQ/SChgZG6qY1YM+yFTQwToc
- 8ygEKOdkq1MpuHIwrjUDqctkF1ka4JzMiaiVgbOdeRF8XPi8mAj3qnmrz A==;
-X-CSE-ConnectionGUID: ZHlkCxONR5CM2MPm7i0cRw==
-X-CSE-MsgGUID: D1qlO6BXQkOfsm3zhr1/JQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="31867210"
-X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; d="scan'208";a="31867210"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 21:42:57 -0700
-X-CSE-ConnectionGUID: KXtIwPg7SaG4OrINrtmQ+Q==
-X-CSE-MsgGUID: BT2jfhRmQaSIW27BmDM3lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; d="scan'208";a="61203255"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2024 21:42:54 -0700
-Date: Thu, 8 Aug 2024 07:42:51 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, linux@roeck-us.net,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, badal.nilawar@intel.com,
- riana.tauro@intel.com, ashutosh.dixit@intel.com,
- karthik.poosa@intel.com, andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH v3] drm/i915/hwmon: expose fan speed
-Message-ID: <ZrRMyzUfNdjyL1y6@black.fi.intel.com>
-References: <20240807123018.827506-1-raag.jadav@intel.com>
- <ZrN1i2snlz8tSA1M@ashyti-mobl2.lan>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA3010E637;
+ Thu,  8 Aug 2024 05:19:13 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 997FB21B89;
+ Thu,  8 Aug 2024 05:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723094351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=kAjclbPhXyeg2dEOS+Le239UCzeqLOMey1w4D2nPwSA=;
+ b=uejQ3rPeNClYRFuSPlpf5tGZCvO6JcIMgLdC7Ntqtsb+PMeYgIKQW64g+T4CMF9mIeaV4Y
+ HXHGbs8oeR36Jvgku+iW0xNfYzgLKwCgwoQxEPiB9hdrwOb+/VBrZvDf1tRWNGOvbZZ+zG
+ p3/WdxFEsGGaAPfXw5XbC1bR06wfmjg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723094351;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=kAjclbPhXyeg2dEOS+Le239UCzeqLOMey1w4D2nPwSA=;
+ b=pSwN1YJ44KlIOd+hjc57j7CG8g4TxpMN7fzc3vxTDD0ILJ9EbXFEjqY6Adskndlje/56W0
+ Mmug4rq/cZbSfqAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723094351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=kAjclbPhXyeg2dEOS+Le239UCzeqLOMey1w4D2nPwSA=;
+ b=uejQ3rPeNClYRFuSPlpf5tGZCvO6JcIMgLdC7Ntqtsb+PMeYgIKQW64g+T4CMF9mIeaV4Y
+ HXHGbs8oeR36Jvgku+iW0xNfYzgLKwCgwoQxEPiB9hdrwOb+/VBrZvDf1tRWNGOvbZZ+zG
+ p3/WdxFEsGGaAPfXw5XbC1bR06wfmjg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723094351;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=kAjclbPhXyeg2dEOS+Le239UCzeqLOMey1w4D2nPwSA=;
+ b=pSwN1YJ44KlIOd+hjc57j7CG8g4TxpMN7fzc3vxTDD0ILJ9EbXFEjqY6Adskndlje/56W0
+ Mmug4rq/cZbSfqAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 48BF213770;
+ Thu,  8 Aug 2024 05:19:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id H9d9EE9VtGYMWgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 08 Aug 2024 05:19:11 +0000
+Message-ID: <d9918867-83fe-4859-84fe-684433cd5619@suse.de>
+Date: Thu, 8 Aug 2024 07:19:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZrN1i2snlz8tSA1M@ashyti-mobl2.lan>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/9] drm/amdgpu: Use backlight power constants
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>
+References: <20240731122311.1143153-1-tzimmermann@suse.de>
+ <20240731122311.1143153-2-tzimmermann@suse.de>
+ <BL1PR12MB514410E846FEB773DC0CAEEFF7BE2@BL1PR12MB5144.namprd12.prod.outlook.com>
+ <6156f386-9316-4777-8cdb-f46ca3a9c183@suse.de>
+ <CADnq5_NyVDp2kGK1t-XLyvF0qQL+3NNY+hCeRD8MOeY7wbApEg@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CADnq5_NyVDp2kGK1t-XLyvF0qQL+3NNY+hCeRD8MOeY7wbApEg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.29 / 50.00]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_EQ_ADDR_SOME(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[12]; FREEMAIL_TO(0.00)[gmail.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -1.29
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,90 +154,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 07, 2024 at 02:24:27PM +0100, Andi Shyti wrote:
-> Hi Raag,
-> 
-> > +static umode_t
-> > +hwm_fan_is_visible(const struct hwm_drvdata *ddat, u32 attr)
-> > +{
-> > +	struct i915_hwmon *hwmon = ddat->hwmon;
-> > +
-> > +	switch (attr) {
-> > +	case hwmon_fan_input:
-> > +		return i915_mmio_reg_valid(hwmon->rg.fan_speed) ? 0444 : 0;
-> > +	default:
-> > +		return 0;
-> > +	}
-> 
-> Why do we need switch case here?
+Hi
 
-Just following the file conventions.
+Am 07.08.24 um 21:47 schrieb Alex Deucher:
+> On Tue, Aug 6, 2024 at 3:06 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Hi
+>>
+>> Am 05.08.24 um 21:00 schrieb Deucher, Alexander:
+>>> [Public]
+>>>
+>>>> -----Original Message-----
+>>>> From: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Sent: Wednesday, July 31, 2024 8:17 AM
+>>>> To: maarten.lankhorst@linux.intel.com; mripard@kernel.org;
+>>>> airlied@gmail.com; daniel@ffwll.ch
+>>>> Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; intel-
+>>>> gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; Thomas
+>>>> Zimmermann <tzimmermann@suse.de>; Deucher, Alexander
+>>>> <Alexander.Deucher@amd.com>; Koenig, Christian
+>>>> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>
+>>>> Subject: [PATCH 1/9] drm/amdgpu: Use backlight power constants
+>>>>
+>>>> Replace FB_BLANK_ constants with their counterparts from the backlight
+>>>> subsystem. The values are identical, so there's no change in functionality or
+>>>> semantics.
+>>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>>> Cc: "Christian König" <christian.koenig@amd.com>
+>>>> Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+>>> This patch and the radeon patch are:
+>>> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+>>>
+>>> Feel free to take them via whatever tree makes sense if you are trying to keep the patches together, or let me know if you want me to pick them up.
+>> Thank you for the reviews. Please pick up both patches into the rsp AMD
+>> trees. The i915 patch already went into Intel trees and the rest of the
+>> series will go into drm-misc.
+> What changes do these depend on?  BACKLIGHT_POWER_ON isn't declared in
+> my -next tree yet.  Might be easier to just run them through drm-misc
+> if that's where the change is.
 
-> Why can't this function become a single "return " line?
-> 
-> > +}
-> > +
-> > +static int
-> > +hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
-> > +{
-> > +	struct i915_hwmon *hwmon = ddat->hwmon;
-> > +	struct hwm_fan_info *fi = &ddat->fi;
-> > +	u32 reg_val, pulses, time, time_now;
-> > +	intel_wakeref_t wakeref;
-> > +	long rotations;
-> > +	int ret = 0;
-> > +
-> > +	switch (attr) {
-> > +	case hwmon_fan_input:
-> > +		with_intel_runtime_pm(ddat->uncore->rpm, wakeref) {
-> > +			mutex_lock(&hwmon->hwmon_lock);
-> > +
-> > +			reg_val = intel_uncore_read(ddat->uncore, hwmon->rg.fan_speed);
-> > +			time_now = jiffies_to_msecs(jiffies);
-> > +
-> > +			/* Handle overflow */
-> > +			if (reg_val >= fi->reg_val_prev)
-> > +				pulses = reg_val - fi->reg_val_prev;
-> > +			else
-> > +				pulses = UINT_MAX - fi->reg_val_prev + reg_val;
-> > +
-> > +			/*
-> > +			 * HW register value is accumulated count of pulses from
-> > +			 * PWM fan with the scale of 2 pulses per rotation.
-> > +			 */
-> > +			rotations = pulses >> 1;
-> > +			time = time_now - fi->time_prev;
-> > +
-> > +			if (unlikely(!time)) {
-> > +				ret = -EAGAIN;
-> > +				mutex_unlock(&hwmon->hwmon_lock);
-> > +				break;
-> > +			}
-> > +
-> > +			/* Convert to minutes for calculating RPM */
-> > +			*val = DIV_ROUND_UP(rotations * (60 * MSEC_PER_SEC), time);
-> > +
-> > +			fi->reg_val_prev = reg_val;
-> > +			fi->time_prev = time_now;
-> > +
-> > +			mutex_unlock(&hwmon->hwmon_lock);
-> > +		}
-> > +		return ret;
-> > +	default:
-> > +		return -EOPNOTSUPP;
-> > +	}
-> 
-> same here, can we make this function:
-> 
-> if (attr != hwmon_fan_input)
-> 	return -EOPNOTSUPP;
-> 
-> and then save all the indentation.
+The constants are in commit a1cacb8a8e70 ("backlight: Add 
+BACKLIGHT_POWER_ constants for power states"), available in v6.11-rc1 
+and later.
 
-Makes sense for hwm_fan_read(). Let me try this.
+Please let me know if I should take the AMD patches into drm-misc-next.
 
-> Are we expecting more cases here?
+Best regards
+Thomas
 
-Not for now.
+>
+> Alex
+>
+>> Best regards
+>> Thomas
+>>
+>>> Thanks,
+>>>
+>>> Alex
+>>>
+>>>> ---
+>>>>    drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+>>>> b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+>>>> index 25feab188dfe..650ec95bb40a 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+>>>> @@ -215,7 +215,7 @@ void
+>>>> amdgpu_atombios_encoder_init_backlight(struct amdgpu_encoder
+>>>> *amdgpu_encode
+>>>>         dig->bl_dev = bd;
+>>>>
+>>>>         bd->props.brightness =
+>>>> amdgpu_atombios_encoder_get_backlight_brightness(bd);
+>>>> -     bd->props.power = FB_BLANK_UNBLANK;
+>>>> +     bd->props.power = BACKLIGHT_POWER_ON;
+>>>>         backlight_update_status(bd);
+>>>>
+>>>>         DRM_INFO("amdgpu atom DIG backlight initialized\n");
+>>>> --
+>>>> 2.45.2
+>> --
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Frankenstrasse 146, 90461 Nuernberg, Germany
+>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+>> HRB 36809 (AG Nuernberg)
+>>
 
-Raag
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
