@@ -2,123 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B0694B6D3
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 08:38:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D1194B6D6
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2024 08:39:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0FDC10E65E;
-	Thu,  8 Aug 2024 06:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57C9710E65D;
+	Thu,  8 Aug 2024 06:39:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EbG0aqqQ";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IYmaDoht";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDF6410E65E;
- Thu,  8 Aug 2024 06:38:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xCbv41uWfT9WlG99J5/qzzV40aNyNbTkRiB8hOElphGVcDxCOmsJebgtQ3M/YPO5Y/gcYCahO/ckKkVGS8nlqQXKKa8SwI3ToKCKdebixLg7gJU6UQ7Pb7iJl7m3W1dXYGAMV4PEWSeVx9fhR9IGnIayL1QkGK+U4Z9eBz5r1ijOL4dNUEbJIVr+9bPc7PXkEheLlOL0ILj3x5GmuDUsDlseJxoFe9zxcVAicwX1qZbMsjO75s7XZmpg4Cg/t5/OYbAXDxXq0PPAG40SCJRMWZ1GNXE4dLBGV0czuyRO8pFsgso+yv5afhIq3Ec6FPHchftd74Bc5JqRIr4yfFwhpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YYrOP5vxz/5PPZTkXH3Sy94nb31dLFOZgHAaPDD5O+0=;
- b=J72DgnZxb8aFR9Sx9LPUMiihIHXfd8vjy0MW7fW8VMHbdsLP3V+/8TMCpusFNozRjP9hjnnTN/SKe0uUrlEirTvhp2U4bvUyGeAjp9uUNhHU8tqrKR7e0DokbYHDilIRwynKj65ycSJgpUr3I33YyurwtdDa9+rI3dIPs75ug7bXuZg6Hw2+A+6BXXsVjDVwSHHoVzcdx4pT/Rz5dj0Vok/7fAvzQqi6jB5fRGy0Z8hJ2HJ2DG6XQh39LQBjB9leXb+BUCefCpLe7to+vTxcoYKfTP6fmvqZUDJrMCeSn5rhB3cKyPlkORJtY+ZxfLvTpNocXC6Cx1bq+bwpDHfTzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YYrOP5vxz/5PPZTkXH3Sy94nb31dLFOZgHAaPDD5O+0=;
- b=EbG0aqqQ7oTe2/5E2m/BiI0p8ssw3J+lJeppwoYmpL4vs/pDHj8kdy2RdIfbkF7/Ls2G5Wgoiy7GBbjiuCO6CwjsTO7twi8dqBIZCuokXCTJ5iF164QA0uD9ok89WYK01Z7Vm3hmN1j5ZTA9aTY8PB6pokoiMneeWero4YmWmcg=
-Received: from BN1PR14CA0011.namprd14.prod.outlook.com (2603:10b6:408:e3::16)
- by DS0PR12MB8456.namprd12.prod.outlook.com (2603:10b6:8:161::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.13; Thu, 8 Aug
- 2024 06:38:18 +0000
-Received: from BL6PEPF00022571.namprd02.prod.outlook.com
- (2603:10b6:408:e3:cafe::4b) by BN1PR14CA0011.outlook.office365.com
- (2603:10b6:408:e3::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.13 via Frontend
- Transport; Thu, 8 Aug 2024 06:38:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BL6PEPF00022571.mail.protection.outlook.com (10.167.249.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7849.8 via Frontend Transport; Thu, 8 Aug 2024 06:38:18 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 8 Aug
- 2024 01:38:17 -0500
-Received: from primary-host.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 8 Aug 2024 01:38:15 -0500
-From: Lin.Cao <lincao12@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <matthew.auld@intel.com>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>, <Arunpravin.PaneerSelvam@amd.com>
-CC: <lincao12@amd.com>, <Horace.Chen@amd.com>
-Subject: [PATCH] drm/buddy: fix issue that force_merge cannot free all roots
-Date: Thu, 8 Aug 2024 14:38:12 +0800
-Message-ID: <20240808063812.1293955-1-lincao12@amd.com>
-X-Mailer: git-send-email 2.45.2
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9146010E65D
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2024 06:39:02 +0000 (UTC)
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
+ [91.156.87.48])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2736581;
+ Thu,  8 Aug 2024 08:38:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1723099088;
+ bh=SXc+RIV+mGqbi5Wc2DChC/F8rYRwoBV3CjsJ2SNjkTM=;
+ h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+ b=IYmaDoht6VFBbthGtcniI8e0qMGDdUw72V0U/iSeZtL+wPHp6IyGJFgvjG+cNUkl/
+ lmMTL4grr7qeMi+zXL6AXCkzEUvqDZJuYgDkuKG+nyE8verzjkZ/2+DdmVzX3VGQRF
+ AI01OxJesl3eGWq9M9+fQg2Ox5yxX4wWldNO404E=
+Message-ID: <5c430d9c-0221-491f-94ac-b632fdec7682@ideasonboard.com>
+Date: Thu, 8 Aug 2024 09:38:56 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: lincao12@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00022571:EE_|DS0PR12MB8456:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b8c3695-a42f-4dfc-ee07-08dcb774b07b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?6AaAgSB4NVtGtGZUc+nbWKL5/sPUWietAoUViVziCrwhLmB9+jzsIC5RwRkO?=
- =?us-ascii?Q?S6sR1yJpTgCFN6UuixsI/UZySt+RiueTAcUV3g/hbtuPJfikpeFJcvpoOu9x?=
- =?us-ascii?Q?1HTMT+GdP8p+UjYWPcIXZkIu3m0dTUmnLRMC1Ca+/g5B4eSzA2H9qrqXZZ63?=
- =?us-ascii?Q?aoTMaNJnrSvzP/50zzaIe7wBjjEyFRyhzA60gDCmKEKr1qmHPbG9fEB3hdF3?=
- =?us-ascii?Q?WSiw7f5McumVlkwi5j/wS7mH3sv4iVKjtkMopp5Z4pSpQbNYEstCLqKdhUs6?=
- =?us-ascii?Q?u9FmHmOslhKKwLtQssaiURwU4gnDlhUIouejJiibn9lHou41BkxlRvX3W5oD?=
- =?us-ascii?Q?3OOSveSdw/A/Q0ejF8xgESh1UZPAkP74jqdW/StPkm3cgCKYF60AUXYaHgYZ?=
- =?us-ascii?Q?Hyh6Cc3v373WuRsVZuOZ0ZGP1Ev1/B0fMbWG5ZPX0ZTMI/wfZpzX1XtRRk56?=
- =?us-ascii?Q?ld0kmUeMkrC+QFiy+KMSfff9NiAAZygO8QHHW2WnUTB3lBoQwZSUrHhsUYc1?=
- =?us-ascii?Q?Sa9OexvpahvnoVl9yU/qzX+fW9YBP0xw3JMteEH0Elsmo7g7pNt9s6AGny1y?=
- =?us-ascii?Q?Yw4Pt7mduE5OlqqGsbHU0HOxCNxzbY+KAKW2Zv22i1iwltuz1VgyAaS6HnQS?=
- =?us-ascii?Q?6xGx/ZNhlT52YYDQbbGmcmRRq2bHCKZez+aJaULd+FPvHzrzD5qwLFqepLxC?=
- =?us-ascii?Q?XY9Jo66dUfdVyQx5a8lAp3rTQBNfR7DjbZPBNODZa+7f82JimDkXvsiwWElV?=
- =?us-ascii?Q?d6vCvx+QPCv6mY9LQ07X2G1cnQBwo2siS3Vq+iGGCsUkbe0yx8N7NwzuI8ua?=
- =?us-ascii?Q?6U2hA0BXAO4pWYw3+Gtc8FhWP4E0ctg9OmT3MKQRf21BdjW2lBvnigU+3bE1?=
- =?us-ascii?Q?XWd8kFrmUDv5nBw46qP/TWpLdl9wKUnYVsSvqtPKGf3EQU6H5ooNJKGvzvqN?=
- =?us-ascii?Q?Cdy/X8t8DXV3jMmQ1rv/Wc5vHAU+alSqa0+agwcGZpAUIb/R5xpomPUtESjV?=
- =?us-ascii?Q?4KQtfFaFGiY/hLHWOy2OxZKefrSW55Jduvlneh2FZpsjqSdA3w/8krRgJmxb?=
- =?us-ascii?Q?igmboO5Lnp/fgu/MaIBA2J17jD54vujaKr6lXEKaIySptWzYGNs3zvauUta4?=
- =?us-ascii?Q?DWs6WTvkM/hORDgeW4yvZCSqVdYK8/DFIY+Iz9RfyWDF2BEwNKURWIqEZOr4?=
- =?us-ascii?Q?z3lVHrxmpiJu9h4KK0EahaUoiYtC1viUGAr7pptNQBc5fPcJN7yqb1o1zFKS?=
- =?us-ascii?Q?VoM1qPldMQ5QbjUhBNo0zbC0CqApr8lRpdCHegrGFQEDLmaQNAh4uAIqM4FP?=
- =?us-ascii?Q?C+HzgYf2MjOrb00/WcFzpAhP7ds/gP7O1wybxGYz1MSMdtERpG99WLcRHG+3?=
- =?us-ascii?Q?1LgGAVP5ntnj59oc3id5UqGVVIj6CglCxncVWrdEDkWommO71WoTaKZFaOF+?=
- =?us-ascii?Q?wLwy06ysPxBYe7LSgBuhcA92Tg1UqtxK?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2024 06:38:18.4144 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b8c3695-a42f-4dfc-ee07-08dcb774b07b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF00022571.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8456
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/9] ASoC: test-component: use new of_graph functions
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
+ <87ikwew8li.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-sound@vger.kernel.org
+In-Reply-To: <87ikwew8li.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,41 +111,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If buddy manager have more than one roots and each root have sub-block
-need to be free. When drm_buddy_fini called, the first loop of
-force_merge will merge and free all of the sub block of first root,
-which offset is 0x0 and size is biggest(more than have of the mm size).
-In subsequent force_merge rounds, if we use 0 as start and use remaining
-mm size as end, the block of other roots will be skipped in
-__force_merge function. It will cause the other roots can not be freed.
+On 06/08/2024 07:58, Kuninori Morimoto wrote:
+> Current test-component.c is using for_each_endpoint_of_node()
+> for parsing, but it should use "port" base loop instead of "endpoint",
+> because properties are "port" base, instead of "endpoint".
 
-Solution: use roots' offset as the start could fix this issue.
+The subject of the patch makes this sound like it's just using new 
+helper functions, but the description makes me think this is a bug fix.
 
-Signed-off-by: Lin.Cao <lincao12@amd.com>
----
- drivers/gpu/drm/drm_buddy.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I think it would be good to mention what are the symptoms of the bug.
 
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index 94f8c34fc293..5379687552bc 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -327,12 +327,14 @@ void drm_buddy_fini(struct drm_buddy *mm)
- 	u64 root_size, size;
- 	unsigned int order;
- 	int i;
-+	u64 start = 0;
- 
- 	size = mm->size;
- 
- 	for (i = 0; i < mm->n_roots; ++i) {
- 		order = ilog2(size) - ilog2(mm->chunk_size);
--		__force_merge(mm, 0, size, order);
-+		start = drm_buddy_block_offset(mm->roots[i]);
-+		__force_merge(mm, start, start + size, order);
- 
- 		WARN_ON(!drm_buddy_block_is_free(mm->roots[i]));
- 		drm_block_free(mm, mm->roots[i]);
--- 
-2.45.2
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>   sound/soc/generic/test-component.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
+> index e9e5e235a8a6..6f75da9f86e6 100644
+> --- a/sound/soc/generic/test-component.c
+> +++ b/sound/soc/generic/test-component.c
+> @@ -600,7 +600,7 @@ static int test_driver_probe(struct platform_device *pdev)
+>   	}
+>   
+>   	i = 0;
+> -	for_each_endpoint_of_node(node, ep) {
+> +	for_each_of_graph_port(node, ep) {
+
+"ep" is endpoint, so the variable name should also be changed (even if 
+it's not used).
+
+>   		snprintf(dname[i].name, TEST_NAME_LEN, "%s.%d", node->name, i);
+>   		ddriv[i].name = dname[i].name;
+>   
+
+  Tomi
 
