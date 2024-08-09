@@ -2,175 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A674294D55D
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 19:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F1B94D5B0
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 19:55:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B4E110E9AE;
-	Fri,  9 Aug 2024 17:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5666810E9B8;
+	Fri,  9 Aug 2024 17:55:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kg6CAGHx";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mXgVVnut";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FAAB10E9AE;
- Fri,  9 Aug 2024 17:24:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723224275; x=1754760275;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=IEglh16636q69IjzjKSd9rhbWQ4dgJiZmo2Jz7/6pAU=;
- b=kg6CAGHxelVJXf8nRfma9dGBjZs9S8VJIcPgU+NN+GMLWt0GUF74WioE
- 9tQ7aS8nGBr77cL4CPVweXJZsOoBOLyYhfE6E6j11VyGGdet9DWgVLVYg
- ekLbbjCrtN1LugXsHIm9kPFABMvizn4+IBCAZTdbHBJJEi5HSjW71FdNc
- ntYTlUbX7k66TQhIETf2uJuIdXW2EqVvoS1co35uFk5Gb9yixY3hyUw5t
- SFt4T2jvDfXgpLjYQF9ZGy4B0pCyKu6ThnU287Un5dnwR8yzpJ0DvRnDX
- /hcNRLsnylNHZUK4igiKcCk/oahtkLgtdxeiH65DkFZO13R9+xsr/xbF6 Q==;
-X-CSE-ConnectionGUID: 1AZ8nVwiQgaryZbmCwAbmQ==
-X-CSE-MsgGUID: Ptfd+GPgRTO0kgXgtcPR7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="21382156"
-X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; d="scan'208";a="21382156"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2024 10:24:34 -0700
-X-CSE-ConnectionGUID: Psl/H1ftQvGSKJFzQx4vfw==
-X-CSE-MsgGUID: qLLMVpvsT7qzomXojMel+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; d="scan'208";a="57284079"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 09 Aug 2024 10:24:33 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 9 Aug 2024 10:24:32 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 9 Aug 2024 10:24:32 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 9 Aug 2024 10:24:32 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 9 Aug 2024 10:24:32 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jaEX+wSwrjFJ6KCLWTTVR0Yw5ityIqeunjXkftUx5uj5MQbQ0g0h8aNZOc/owYoF1Zhhka3EJz4Sfw7MTLUI/ThhU7kl8BIM1cTAjsO36ve22AXdzN4waNvlF/H+MPyYlqyzOCVgU5ahlE7ML7S9UBdKliICG4SdgASXQp8CqGW4bxjtDqu5gqSFDu09BrPdctT0JwsNKsAZErN2IZvQcFybXRLnkSmO10i8TmFZfT/qjJbCiqvEqc/YCtAy0wuqMUbSvM/8zO8Djq9kJ9hN3yDOaZ6/1bqhdrtMXyKge3QJUpRwgNu5rH5SFxxmse0Krdqw2M0o4Ve2mL8mousJJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XjdTRro9YAZ58Yr4rpNzjT1fdClaH30Ry01QXxI/XgM=;
- b=d1sSYRLnY/mOe/c10xzFPOXcKCWmQXzv1dzBbZRRLAOrQgeuvg/6kEVK9s1TcryP0kKptJDICnoGBnHUylhM3jdJxNFumcxWr3064UfsxPG3m+3sQKl6hLnBRPli5LRjPNk5UdP9GOxaG+cq39JQnXem7YLkhrEosYUW/UmDI0hJ1Vjhn/xMwW6gFba8HKrsW8AE5stqQ7cX5TnSg0Z+EkhIs68OsGnIKTQsRL6rauupEsJTRXvyI2TZfV68+g7aLKUQrFroKeSf5FtJgtZNvzlVPaxcfqrM/0Fo2r/w3fFOl3gjnmSBGxVzAQ7PyPF4c7THomgXvCrHWvsIH9Zybw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SJ0PR11MB8293.namprd11.prod.outlook.com (2603:10b6:a03:44f::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.21; Fri, 9 Aug
- 2024 17:24:24 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.7828.031; Fri, 9 Aug 2024
- 17:24:23 +0000
-Date: Fri, 9 Aug 2024 17:22:58 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-CC: <intel-xe@lists.freedesktop.org>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Somalapuram Amaranath
- <Amaranath.Somalapuram@amd.com>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v6 11/12] drm/ttm, drm/xe: Add a shrinker for xe bos
-Message-ID: <ZrZQcpR26Pqj/dzp@DUT025-TGLU.fm.intel.com>
-References: <20240703153813.182001-1-thomas.hellstrom@linux.intel.com>
- <20240703153813.182001-12-thomas.hellstrom@linux.intel.com>
- <ZrQhVsgq1cF76v2b@DUT025-TGLU.fm.intel.com>
- <2c5974c448195455c6a46102554bb87c045a19cc.camel@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2c5974c448195455c6a46102554bb87c045a19cc.camel@linux.intel.com>
-X-ClientProxiedBy: BYAPR04CA0036.namprd04.prod.outlook.com
- (2603:10b6:a03:40::49) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F13A810E9B8
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 17:54:58 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AFDD5FF803;
+ Fri,  9 Aug 2024 17:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1723226096;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AwRkJtlBbS22HAQfBxRa3CGbkAzEA/+V2Tup7dlSNwQ=;
+ b=mXgVVnutpFIrLuxnjEyaf57cwZmJRq+w2WqFNOp9mI4Oal3fnmvlPcC4qpIvxx//39ohmf
+ oyVlOP4yN5XfR9sLJ1E+Hx5QKNBy/eGGR1Cg1jqrKdSSL00usKB7VkTRcUDgwQsIb1aGSk
+ HS9PAffyCnLPqEDGSr8B7CnYGSH4Wt/xbG9/jdI55uKPKw2o/A5DF1bdeyQz7p7jIhGj1R
+ Sg8Z32RA3op/5hJidgKas9fchwKi23PnFzJaRppp3lQFotBGf4OZ22smDQVVu1K4dDSPmk
+ U500GwuUfwNdc7IgdVs7whR2NMjsxUvlh24x4jwcX4PKmnEls5Ze+7s7YLWYzQ==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v10 00/16] drm/vkms: Reimplement line-per-line pixel
+ conversion for plane reading
+Date: Fri, 09 Aug 2024 19:54:41 +0200
+Message-Id: <20240809-yuv-v10-0-1a7c764166f7@bootlin.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ0PR11MB8293:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5fc0612-55e8-41b1-767f-08dcb8981c8f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?95M6O76qti4Yh+yXF9kWE+v4IYJ5GT2WLXlzo59EPemKAVXViyWATYmOGJ?=
- =?iso-8859-1?Q?PyreWxYIIr5kXzXvQCeSZURRuw7Sm65jZF8EtV2QLJ+qZnF1GF7jIQFACv?=
- =?iso-8859-1?Q?L+qA9wkkSP4VmIqbeq/tYZAL4vYNuX/u1Q07d6CgIZXErDLOreHycCvXfy?=
- =?iso-8859-1?Q?Oxp7FUvScMbBxKeDCuin8L6nra3Sav3BhsyFFl/tsjGlcd3rXP4fomLL/n?=
- =?iso-8859-1?Q?v1LmnMgz+chN6weEORXbQkmD0Xhht2SF25cM11lhCxmTCQLEZ9J/gY1vGo?=
- =?iso-8859-1?Q?RTZn+BdfaOgYKZBU30vTLLIiA+atgZJ/BLWUYh+SXMcpewixoG8O8TdsJn?=
- =?iso-8859-1?Q?ezXLOvCs7/WIFETMrxzKTyrRWr6wlbIA6J24aCFqEEZmw3Al3rpZ4d079N?=
- =?iso-8859-1?Q?w3FL+jGAMXMsOcD1WaRhbAwvMaS2S/D8CDYJvo94VEJpDzaOYMaMQUiR5A?=
- =?iso-8859-1?Q?2Qc8/LwCjZelPNYhWHEFmFHs4VtzKrOIFqGd0wt8i4wuvPdGR/xtu8bHFI?=
- =?iso-8859-1?Q?cVdkQRkSLpx/4yYYm9Nr9ws2kKDScpICT+6Slw9dqHkGMtzAGtW435YpB+?=
- =?iso-8859-1?Q?5lqOS07x4t3SCYLE8ib4ReamQ4RcqF6Hdms43TJiuQYRRF6wt8sEJ62+jo?=
- =?iso-8859-1?Q?04DPpYlEHph9ZgO1v+hf3vtD5UYO4kuFsGhEnm2PZyJOaJessuxg8VnSUE?=
- =?iso-8859-1?Q?Ex8q9PYhRXH01D7eDyNfL0cZAnS8qnZghFPim1rwZ6OTdTDfnIVu9i3Inn?=
- =?iso-8859-1?Q?9AeqAWeM3Yx1wzmLHnRNAnYHRCCZKNLZ52Y3i69UT7h+mvf5DdseMO5s97?=
- =?iso-8859-1?Q?o3YNry7vVORBfmZS92tMTOaOYLlpXV6wIEw3PVbaW61JquWA/r9THfNjIz?=
- =?iso-8859-1?Q?wi3U4qm6P/LSLzcpHzqvOStc/WyK8U++jHMIGZMYNWqyFjh1H8U8VDZDdk?=
- =?iso-8859-1?Q?6dbQNmvjPNN5TfBozhBCe1eMrbrxJ4skQw5qDH5WGf/02FdYtCTKeN1935?=
- =?iso-8859-1?Q?VoD+KR0AsolsJ6KPtlFxJDLmpVJYy4fqglmH8TaLBhxeffw3zanCSKBRoO?=
- =?iso-8859-1?Q?mdNalrO7SMmczvIDttYTY/nMQiQqd7T2NeDxN+UypK2JHQQ0K4DeVyuHTW?=
- =?iso-8859-1?Q?8Vhjf9rwUo4BCZ7UCJrGJJ2JIMOwOYlj2tNh1yUWFZRiTWvVem5M2xfDqR?=
- =?iso-8859-1?Q?YsS4y6k7gI6FunhG9DA16jCCRv3gJl5euQrtIPVR/ACalxQeNYru2hOQhj?=
- =?iso-8859-1?Q?oQU6u7OkPRIt9vvLsX3kKZl1TBl5Pobe4MIa0Xb91xxllG7bNXVEFKng0/?=
- =?iso-8859-1?Q?IN1v1p/o7Pkk4QaA/Q07mhfSTIVC0RX6ji+xBI3TkvnnLqq9gnw2BppS8A?=
- =?iso-8859-1?Q?442INgBuCHaz65V2oE3DXwG14vSB3s3Q=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?NwMMf7pv2PZhUamz4FhSfqn2UP+f91RKXqXFjBSYmd432rJUUhm/Dj1P/2?=
- =?iso-8859-1?Q?yHOVblyvuEe7vVhm20LIHJqynbKZBs6v7fBUocp8hnSJXCn02RL6z2M4YX?=
- =?iso-8859-1?Q?5vpCqgxTc7NEi3kl0GhIt2ag1fXWL5juNyxwwtmd/OjTI/X+TSX+zUEoIg?=
- =?iso-8859-1?Q?JnD3Y96503shGZWyu5/PTGEW3kyuB4LyiPLIC6XcmN/R+eqGTzmI0xJzcA?=
- =?iso-8859-1?Q?3D8SuMB0dR/GVZz7OM1QyjlPDn+k5QDjNzHDPw8V9kUVlbn9uAfko8eAJv?=
- =?iso-8859-1?Q?LAj+2T73p29LXd7UoFIiHQLfBGkpxetzpKtR02pBoiNqe6oNkr4ZKsfC/f?=
- =?iso-8859-1?Q?lUEAutu+fDh8nT3+GUWBEiaC6OFwJikhkiy9mglcog84VLzZZefRBpxe2R?=
- =?iso-8859-1?Q?L0LrYvYvGjTpB0MtyC/U/JdKHG/iim5dzSZ13F62GoZCgKL2VE44PJQJbJ?=
- =?iso-8859-1?Q?KUBlCVH0RU6v3GUKmAdUtgPGn0CPoAxm3hVa51lzjGd4zy7Onq5U69Cxlk?=
- =?iso-8859-1?Q?igHr/1BdMm2pM7T++ZmR0J5cE+VvT8aXwVrvOffOkTsZ9GEX/H6IM4UNy4?=
- =?iso-8859-1?Q?Q131EI+PT9P5VsPziQoSjpNxybPthPVugvi9PP+7ImyVOQ/wIjbMsKZY2n?=
- =?iso-8859-1?Q?FOTBYEAKEKR1K6NN9PUfSybyG6BtHZnP6Jdzvid6FQuB7Wzy+CuSFrDa4O?=
- =?iso-8859-1?Q?jlgjs6e8CqAvlPdr0151KofklFdKgl4gjsBYt936wISym6bOytTn1NF0Ry?=
- =?iso-8859-1?Q?JbLr7/He7nBXWhlnli3lVa8rDbyYPWXG1Sd3QuomDZXIUWMfjYtiNX0x8a?=
- =?iso-8859-1?Q?Ez25Zm17vWQRrbOO+Uf4v2V9gFP1L7FVGkaEJ/fMAaweIeCgFkpJrmAe3F?=
- =?iso-8859-1?Q?18u2frL2jDx/8QVGLdevbB9u0lOaI3jTQ/fh3PiFvjNL/fwAz3JN6YOPeb?=
- =?iso-8859-1?Q?xGFO5UJramtHHjVgCQ8RCfuEzm2eLneBYgYip1kgz2TBIRiZY9JeZakNNI?=
- =?iso-8859-1?Q?BBD78EMeGsbs2dVjrahADR3mR1EevvE7CtgzusC0of9NEUAyWacuu9w4Hc?=
- =?iso-8859-1?Q?vnzi5Cocn7qeJdaT7tzoxOKUPEnFTC4KOioPQcRwCFEAsEeA6fslSYZ5Rb?=
- =?iso-8859-1?Q?NR36X8dwo4cnFQyvMtroej5oYUYDRfips8Hnv/cfgVVlPCTsyUTHI9l+kz?=
- =?iso-8859-1?Q?OCX7s4gPTdupR5ppV6jnuVkv0idbwJfsuaA/pN7UdMsoIsr52JJm52wCUn?=
- =?iso-8859-1?Q?Gs4EGuEgNp9LdbcGKrQq2mUTJQjkBaHq7650HJ1sL3VBr9n+qUxd3smqHY?=
- =?iso-8859-1?Q?AfQ0J3JlVT6M/SD6cCjDhBrsAottu8RbsRSPaSKdkPSxA9fZD7/Zi3Luns?=
- =?iso-8859-1?Q?3Utav/m/1qwl+1Xm1B3ovi3JiSdnUIfgluBkzdHUSS44m269SUT16csTRd?=
- =?iso-8859-1?Q?1ukbMlxH2CihH4inoH5nsPcZFm4dHrGXb/VyjVmMsTsjaeirAPo7y4U4uz?=
- =?iso-8859-1?Q?/MRlx76k4zakQog9FcEWuXFUFZEjEN12H4m62SIaoh0e4ONHWCqoEdvMT8?=
- =?iso-8859-1?Q?rMT6x4qfdGxGETCeC4i7PpriLqQ3c00gzeS1RL67pQ4M2ibDGiQT9En/Bq?=
- =?iso-8859-1?Q?SUf4fPeijl/xqZE5IJBoZDUWLvixU6lbRk7FM8O36wpSffSggtbA7mGQ?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5fc0612-55e8-41b1-767f-08dcb8981c8f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2024 17:24:23.5110 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BLCbBtztaK4oT3WfCA8KOADueqL+oXL9oOplg0Zjt2LoI7hXmyN7fyHmv6YD8+JqRpJ0S1zYshExvbscI+lZfg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8293
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOFXtmYC/23Sy26DMBAF0F+JWJd2bONXVv2Pqgs/xo2lBFogK
+ FGUf+8QpyIR3eHhHl+EfakG7DMO1XZzqXqc8pC7lhYMXjZV2Ln2C+scaVBx4A1wYPX5ONVMCB0
+ tRCu1qijp3YC1710bdpRtj/s9Db97TPl02/vjk9a7PIxdf75VTWyePm86sRpqEZzQKnGtBH/3X
+ Tfuc/sausPccktLpkraUDokE1UyqhGAT+m5b+IPHVwUxUk5pzxyw7X3eq3Eo7p3CVIpKcUTWNt
+ Ev1bNogQ0RTWkNFW5YNBqK9ZKPih2/0JJChWD4COIJPlaqUU1YItSpCKyIDU3KWpYK70o+del5
+ z9uAG1KGCT802UXZYAXZUmBcRqUUhaZelbXcvQ9/hzpNo3l/MsNofeHPG43sT/UhzyEt7+HusX
+ TSPT6C1rlzhaQAgAA
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ rdunlap@infradead.org, arthurgrillo@riseup.net, 
+ pekka.paalanen@haloniitty.fi
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15059;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=aOnm5LPB+/m6+a8PnnpgdrytTE0NURdPb0Ormw8gceA=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmtlfpvyKAbh1QZcbf6/ejsQzFt38CSMtEbAtur
+ cI1lQlrXTuJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrZX6QAKCRAgrS7GWxAs
+ 4u4SD/4xqthRO9Tst+bcpYJuj44DuJ7QIk3N89pzLF+8txWtVMJBlMOeGej+V6o8k4vC6nyx2ZN
+ e7zV2Lc7Fy1tJjW1hug9+ePDn72NI7djyxYrNp2pzuFxkChi+Bd4cuaB+1eHcN0rGqCCUs823bm
+ 36/yzGLSYVgO94yBk2aVp1BoEbSzyUt8Xl1rq0LiPg605Ayob08z7Q+IKqrTUol3lqFKZXCe4wk
+ ICwafvMJ88flrKvABOmirjdDd7G0UAirRDhOVtbaAuVxo/y0ml3pUrXggnoGv/xC1wX/9UYee5O
+ /zwTQTItdo/jxNQz8P5Esbb+aTFssmJfdu6KhHX8FhtacRhFz8iEUqJOqg9iar0EK4VtSoEVsJF
+ NEB/g4KeDZdjpapeQBGXrAnHk1NYH4Zwft0DBWAAzuC8xbvuPadw1AWtmJvaIcM/wDmgqXdiHPx
+ xUF41TY02gIfBaS/THuP2yDgQIsvbb0/XYeVhf7BK85gEUVmRmppkOIw6vj+eWnMWyeV/qQF9Vq
+ QjJldPJSBu+xWJB9T5qfC/ek1qB6RgzxGPd4Fw23lXin4JzYyP1fFsbiuI9l05F4r7P7aDbcx57
+ 6Sbe1kl95GP7ItcEmGKW2sv8hwWFyYMc1hvLX5gVwv0TlyJR2vh6mTW+fM32k3UOMn7Rm7VdjRn
+ 2+JSyFkE8yevUBg==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,1272 +94,312 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 09, 2024 at 04:31:27PM +0200, Thomas Hellström wrote:
-> On Thu, 2024-08-08 at 01:37 +0000, Matthew Brost wrote:
-> > On Wed, Jul 03, 2024 at 05:38:12PM +0200, Thomas Hellström wrote:
-> > > Rather than relying on the TTM watermark accounting add a shrinker
-> > > for xe_bos in TT or system memory.
-> > > 
-> > > Leverage the newly added TTM per-page shrinking and shmem backup
-> > > support.
-> > > 
-> > > Although xe doesn't fully support WONTNEED (purgeable) bos yet,
-> > > introduce and add shrinker support for purgeable ttm_tts.
-> > > 
-> > > v2:
-> > > - Cleanups bugfixes and a KUNIT shrinker test.
-> > > - Add writeback support, and activate if kswapd.
-> > > v3:
-> > > - Move the try_shrink() helper to core TTM.
-> > > - Minor cleanups.
-> > > v4:
-> > > - Add runtime pm for the shrinker. Shrinking may require an active
-> > >   device for CCS metadata copying.
-> > > v5:
-> > > - Separately purge ghost- and zombie objects in the shrinker.
-> > > - Fix a format specifier - type inconsistency. (Kernel test robot).
-> > > 
-> > > Cc: Christian König <christian.koenig@amd.com>
-> > > Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-> > > Cc: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: <dri-devel@lists.freedesktop.org>
-> > > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > ---
-> > >  drivers/gpu/drm/ttm/ttm_bo_util.c     |  67 ++++++
-> > >  drivers/gpu/drm/xe/Makefile           |   1 +
-> > >  drivers/gpu/drm/xe/tests/xe_bo.c      | 118 +++++++++++
-> > >  drivers/gpu/drm/xe/tests/xe_bo_test.c |   1 +
-> > >  drivers/gpu/drm/xe/tests/xe_bo_test.h |   1 +
-> > >  drivers/gpu/drm/xe/xe_bo.c            | 155 ++++++++++++--
-> > >  drivers/gpu/drm/xe/xe_bo.h            |  26 +++
-> > >  drivers/gpu/drm/xe/xe_device.c        |   8 +
-> > >  drivers/gpu/drm/xe/xe_device_types.h  |   2 +
-> > >  drivers/gpu/drm/xe/xe_shrinker.c      | 287
-> > > ++++++++++++++++++++++++++
-> > >  drivers/gpu/drm/xe/xe_shrinker.h      |  18 ++
-> > >  include/drm/ttm/ttm_bo.h              |   3 +
-> > >  12 files changed, 671 insertions(+), 16 deletions(-)
-> > >  create mode 100644 drivers/gpu/drm/xe/xe_shrinker.c
-> > >  create mode 100644 drivers/gpu/drm/xe/xe_shrinker.h
-> > > 
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > index c4f678f30fc2..563e96a4cf06 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > @@ -924,3 +924,70 @@ long ttm_lru_walk_for_evict(struct
-> > > ttm_lru_walk *walk, struct ttm_device *bdev,
-> > >  
-> > >  	return progress;
-> > >  }
-> > > +EXPORT_SYMBOL(ttm_lru_walk_for_evict);
-> > > +
-> > > +/**
-> > > + * ttm_bo_try_shrink - LRU walk helper to shrink a ttm buffer
-> > > object.
-> > > + * @walk: The struct xe_ttm_lru_walk that describes the walk.
-> > > + * @bo: The buffer object.
-> > > + * @purge: Whether to attempt to purge the bo content since it's
-> > > no
-> > > + * longer needed.
-> > > + * @writeback: If !@purge, attempt to write out to persistent
-> > > storage.
-> > > + *
-> > > + * The function uses the ttm_tt_back_up functionality to back up
-> > > or
-> > > + * purge a struct ttm_tt. If the bo is not in system, it's first
-> > > + * moved there.
-> > > + *
-> > > + * Return: The number of pages shrunken or purged, or
-> > > + * negative error code on failure.
-> > > + */
-> > > +long ttm_bo_try_shrink(struct ttm_lru_walk *walk, struct
-> > > ttm_buffer_object *bo,
-> > > +		       bool purge, bool writeback)
-> > > +{
-> > > +	static const struct ttm_place sys_placement_flags = {
-> > > +		.fpfn = 0,
-> > > +		.lpfn = 0,
-> > > +		.mem_type = TTM_PL_SYSTEM,
-> > > +		.flags = 0,
-> > > +	};
-> > > +	static struct ttm_placement sys_placement = {
-> > > +		.num_placement = 1,
-> > > +		.placement = &sys_placement_flags,
-> > > +	};
-> > > +	struct ttm_operation_ctx *ctx = walk->ctx;
-> > > +	struct ttm_tt *tt = bo->ttm;
-> > > +	long lret;
-> > > +
-> > > +	dma_resv_assert_held(bo->base.resv);
-> > > +
-> > > +	if (!tt || !ttm_tt_is_populated(tt))
-> > > +		return 0;
-> > > +
-> > > +	if (bo->resource->mem_type != TTM_PL_SYSTEM) {
-> > > +		int ret = ttm_bo_validate(bo, &sys_placement,
-> > > ctx);
-> > > +
-> > > +		if (ret) {
-> > > +			if (ret == -EINTR || ret == -EDEADLK ||
-> > > +			    ret == -ERESTARTSYS)
-> > > +				return ret;
-> > 
-> > Can you explain the various error code returns / supression in this
-> > function?
-> 
-> Want me to add a comment in the code or inline here? Anyway, the error
-> codes are codes for which the caller wants to restart. (Signal delivery
-> or deadlock). For other errors just move on to the next bo on the LRU
-> list.
-> 
+This patchset is the second version of [1]. It is almost a complete
+rewrite to use a line-by-line algorithm for the composition.
 
-Yes, that would help make this clear and help ensure correctness.
+During the development of this series Pekka and Arthur found an issue in
+drm core. The YUV part of this series depend on the fix [9]. I'll let
+Arthur extract it and submit a new independant patch.
 
-> > 
-> > > +			return 0;
-> > > +		}
-> > > +	}
-> > > +
-> > > +	lret = ttm_bo_wait_ctx(bo, ctx);
-> > > +	if (lret < 0) {
-> > > +		if (lret == -ERESTARTSYS)
-> > > +			return lret;
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	if (bo->deleted)
-> > > +		lret = ttm_tt_backup(bo->bdev, tt, true,
-> > > writeback);
-> > > +	else
-> > > +		lret = ttm_tt_backup(bo->bdev, tt, purge,
-> > > writeback);
-> > 
-> > Hmm, missed this in my previous review. It is frowned upon having
-> > multiple bools as arguments. Could this be reworked with flags? Same
-> > goes for all functions in the series with multiple bool arguments.
-> 
-> I agree. Ill see if I can make this look betteer.
->
+It can be divided in three parts:
+- PATCH 1 to 4: no functional change is intended, only some formatting and
+  documenting (PATCH 2 is taken from [2])
+- PATCH 5 to 7: Some preparation work not directly related to the
+  line-by-line algorithm
+- PATCH 9: main patch for this series, it reintroduce the
+  line-by-line algorithm
+- PATCH 10: Remove useless drm_simplify_rotation
+- PATCH 11 to 16: taken from Arthur's series [2], with sometimes
+  adaptation to use the pixel-by-pixel algorithm.
+- PATCH 16: Introduce the support for DRM_FORMAT_R1/2/4/8
 
-+1
- 
-> > 
-> > > +	if (lret < 0 && lret != -EINTR)
-> > > +		return 0;
-> > > +
-> > > +	return lret;
-> > > +}
-> > > +EXPORT_SYMBOL(ttm_bo_try_shrink);
-> > > diff --git a/drivers/gpu/drm/xe/Makefile
-> > > b/drivers/gpu/drm/xe/Makefile
-> > > index b1e03bfe4a68..1eba51bdd172 100644
-> > > --- a/drivers/gpu/drm/xe/Makefile
-> > > +++ b/drivers/gpu/drm/xe/Makefile
-> > > @@ -112,6 +112,7 @@ xe-y += xe_bb.o \
-> > >  	xe_ring_ops.o \
-> > >  	xe_sa.o \
-> > >  	xe_sched_job.o \
-> > > +	xe_shrinker.o \
-> > >  	xe_step.o \
-> > >  	xe_sync.o \
-> > >  	xe_tile.o \
-> > > diff --git a/drivers/gpu/drm/xe/tests/xe_bo.c
-> > > b/drivers/gpu/drm/xe/tests/xe_bo.c
-> > > index 9f3c02826464..49617f16dc76 100644
-> > > --- a/drivers/gpu/drm/xe/tests/xe_bo.c
-> > > +++ b/drivers/gpu/drm/xe/tests/xe_bo.c
-> > > @@ -6,6 +6,8 @@
-> > >  #include <kunit/test.h>
-> > >  #include <kunit/visibility.h>
-> > >  
-> > > +#include <uapi/linux/sysinfo.h>
-> > > +
-> > >  #include "tests/xe_bo_test.h"
-> > >  #include "tests/xe_pci_test.h"
-> > >  #include "tests/xe_test.h"
-> > > @@ -350,3 +352,119 @@ void xe_bo_evict_kunit(struct kunit *test)
-> > >  	xe_call_for_each_device(evict_test_run_device);
-> > >  }
-> > >  EXPORT_SYMBOL_IF_KUNIT(xe_bo_evict_kunit);
-> > > +
-> > > +struct xe_bo_link {
-> > > +	struct list_head link;
-> > > +	struct xe_bo *bo;
-> > > +};
-> > > +
-> > > +#define XE_BO_SHRINK_SIZE ((unsigned long)SZ_64M)
-> > > +
-> > > +/*
-> > > + * Try to create system bos corresponding to twice the amount
-> > > + * of available system memory to test shrinker functionality.
-> > > + * If no swap space is available to accommodate the
-> > > + * memory overcommit, mark bos purgeable.
-> > > + */
-> > > +static int shrink_test_run_device(struct xe_device *xe)
-> > > +{
-> > > +	struct kunit *test = xe_cur_kunit();
-> > > +	LIST_HEAD(bos);
-> > > +	struct xe_bo_link *link, *next;
-> > > +	struct sysinfo si;
-> > > +	size_t total, alloced;
-> > > +	unsigned int interrupted = 0, successful = 0;
-> > > +
-> > > +	si_meminfo(&si);
-> > > +	total = si.freeram * si.mem_unit;
-> > > +
-> > > +	kunit_info(test, "Free ram is %lu bytes. Will allocate
-> > > twice of that.\n",
-> > > +		   (unsigned long) total);
-> > > +
-> > > +	total <<= 1;
-> > > +	for (alloced = 0; alloced < total ; alloced +=
-> > > XE_BO_SHRINK_SIZE) {
-> > > +		struct xe_bo *bo;
-> > > +		unsigned int mem_type;
-> > > +
-> > > +		link = kzalloc(sizeof(*link), GFP_KERNEL);
-> > > +		if (!link) {
-> > > +			KUNIT_FAIL(test, "Unexpeced link
-> > > allocation failure\n");
-> > > +			break;
-> > > +		}
-> > > +
-> > > +		INIT_LIST_HEAD(&link->link);
-> > > +
-> > > +		/* We can create bos using WC caching here. But it
-> > > is slower. */
-> > > +		bo = xe_bo_create_user(xe, NULL, NULL,
-> > > XE_BO_SHRINK_SIZE,
-> > > +				       DRM_XE_GEM_CPU_CACHING_WB,
-> > > +				       ttm_bo_type_device,
-> > > +				       XE_BO_FLAG_SYSTEM);
-> > > +		if (IS_ERR(bo)) {
-> > > +			if (bo != ERR_PTR(-ENOMEM) && bo !=
-> > > ERR_PTR(-ENOSPC) &&
-> > > +			    bo != ERR_PTR(-EINTR) && bo !=
-> > > ERR_PTR(-ERESTARTSYS))
-> > > +				KUNIT_FAIL(test, "Error creating
-> > > bo: %pe\n", bo);
-> > > +			kfree(link);
-> > > +			break;
-> > > +		}
-> > > +		link->bo = bo;
-> > > +		list_add_tail(&link->link, &bos);
-> > > +		xe_bo_lock(bo, false);
-> > > +
-> > > +		/*
-> > > +		 * If we're low on swap entries, we can't shrink
-> > > unless the bo
-> > > +		 * is marked purgeable.
-> > > +		 */
-> > > +		if (get_nr_swap_pages() < (XE_BO_SHRINK_SIZE >>
-> > > PAGE_SHIFT) * 128) {
-> > > +			struct xe_ttm_tt *xe_tt =
-> > > +				container_of(bo->ttm.ttm,
-> > > typeof(*xe_tt), ttm);
-> > > +			long num_pages = xe_tt->ttm.num_pages;
-> > > +
-> > > +			xe_tt->purgeable = true;
-> > > +			xe_shrinker_mod_pages(xe->mem.shrinker, -
-> > > num_pages,
-> > > +					      num_pages);
-> > > +		}
-> > > +
-> > > +		mem_type = bo->ttm.resource->mem_type;
-> > > +		xe_bo_unlock(bo);
-> > > +		if (mem_type != XE_PL_TT)
-> > > +			KUNIT_FAIL(test, "Bo in incorrect memory
-> > > type: %u\n",
-> > > +				   bo->ttm.resource->mem_type);
-> > > +		cond_resched();
-> > > +		if (signal_pending(current))
-> > > +			break;
-> > > +	}
-> > > +
-> > > +	/* Read back and destroy bos */
-> > > +	list_for_each_entry_safe_reverse(link, next, &bos, link) {
-> > > +		static struct ttm_operation_ctx ctx =
-> > > {.interruptible = true};
-> > > +		struct xe_bo *bo = link->bo;
-> > > +		int ret;
-> > > +
-> > > +		if (!signal_pending(current)) {
-> > > +			xe_bo_lock(bo, NULL);
-> > > +			ret = ttm_bo_validate(&bo->ttm,
-> > > &tt_placement, &ctx);
-> > > +			xe_bo_unlock(bo);
-> > > +			if (ret && ret != -EINTR)
-> > > +				KUNIT_FAIL(test, "Validation
-> > > failed: %pe\n",
-> > > +					   ERR_PTR(ret));
-> > > +			else if (ret)
-> > > +				interrupted++;
-> > > +			else
-> > > +				successful++;
-> > > +		}
-> > > +		xe_bo_put(link->bo);
-> > > +		list_del(&link->link);
-> > > +		kfree(link);
-> > > +		cond_resched();
-> > > +	}
-> > > +	kunit_info(test, "Readbacks interrupted: %u successful:
-> > > %u\n",
-> > > +		   interrupted, successful);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +void xe_bo_shrink_kunit(struct kunit *test)
-> > > +{
-> > > +	xe_call_for_each_device(shrink_test_run_device);
-> > > +}
-> > > +EXPORT_SYMBOL_IF_KUNIT(xe_bo_shrink_kunit);
-> > > diff --git a/drivers/gpu/drm/xe/tests/xe_bo_test.c
-> > > b/drivers/gpu/drm/xe/tests/xe_bo_test.c
-> > > index a324cde77db8..317fa923e287 100644
-> > > --- a/drivers/gpu/drm/xe/tests/xe_bo_test.c
-> > > +++ b/drivers/gpu/drm/xe/tests/xe_bo_test.c
-> > > @@ -10,6 +10,7 @@
-> > >  static struct kunit_case xe_bo_tests[] = {
-> > >  	KUNIT_CASE(xe_ccs_migrate_kunit),
-> > >  	KUNIT_CASE(xe_bo_evict_kunit),
-> > > +	KUNIT_CASE_SLOW(xe_bo_shrink_kunit),
-> > >  	{}
-> > >  };
-> > >  
-> > > diff --git a/drivers/gpu/drm/xe/tests/xe_bo_test.h
-> > > b/drivers/gpu/drm/xe/tests/xe_bo_test.h
-> > > index 0113ab45066a..7f44d14a45c5 100644
-> > > --- a/drivers/gpu/drm/xe/tests/xe_bo_test.h
-> > > +++ b/drivers/gpu/drm/xe/tests/xe_bo_test.h
-> > > @@ -10,5 +10,6 @@ struct kunit;
-> > >  
-> > >  void xe_ccs_migrate_kunit(struct kunit *test);
-> > >  void xe_bo_evict_kunit(struct kunit *test);
-> > > +void xe_bo_shrink_kunit(struct kunit *test);
-> > >  
-> > >  #endif
-> > > diff --git a/drivers/gpu/drm/xe/xe_bo.c
-> > > b/drivers/gpu/drm/xe/xe_bo.c
-> > > index 65c696966e96..6ab63d1642ae 100644
-> > > --- a/drivers/gpu/drm/xe/xe_bo.c
-> > > +++ b/drivers/gpu/drm/xe/xe_bo.c
-> > > @@ -10,6 +10,7 @@
-> > >  #include <drm/drm_drv.h>
-> > >  #include <drm/drm_gem_ttm_helper.h>
-> > >  #include <drm/drm_managed.h>
-> > > +#include <drm/ttm/ttm_backup.h>
-> > >  #include <drm/ttm/ttm_device.h>
-> > >  #include <drm/ttm/ttm_placement.h>
-> > >  #include <drm/ttm/ttm_tt.h>
-> > > @@ -25,6 +26,7 @@
-> > >  #include "xe_pm.h"
-> > >  #include "xe_preempt_fence.h"
-> > >  #include "xe_res_cursor.h"
-> > > +#include "xe_shrinker.h"
-> > >  #include "xe_trace_bo.h"
-> > >  #include "xe_ttm_stolen_mgr.h"
-> > >  #include "xe_vm.h"
-> > > @@ -278,11 +280,15 @@ static void xe_evict_flags(struct
-> > > ttm_buffer_object *tbo,
-> > >  	}
-> > >  }
-> > >  
-> > > +/* struct xe_ttm_tt - Subclassed ttm_tt for xe */
-> > >  struct xe_ttm_tt {
-> > >  	struct ttm_tt ttm;
-> > > -	struct device *dev;
-> > > +	/** @xe - The xe device */
-> > > +	struct xe_device *xe;
-> > >  	struct sg_table sgt;
-> > >  	struct sg_table *sg;
-> > > +	/** @purgeable - Whether the bo is purgeable (WONTNEED) */
-> > 
-> > So we need to add WONTNEED to our uAPI, right?
-> 
-> Not strictly, but we have work ongoing to implement this. Bos that UMD
-> pool are typically WONTNEED and unless we mark them as such, shrinking
-> of these will not work unless we have swap-space available, and then
-> only with a completely unnecessary copy...
-> 
+The PATCH 9 aims to restore the line-by-line pixel reading algorithm. It
+was introduced in 8ba1648567e2 ("drm: vkms: Refactor the plane composer to
+accept new formats") but removed in 8ba1648567e2 ("drm: vkms: Refactor the
+plane composer to accept new formats") in a over-simplification effort.
+At this time, nobody noticed the performance impact of this commit. After
+the first iteration of my series, poeple notice performance impact, and it
+was the case. Pekka suggested to reimplement the line-by-line algorithm.
 
-Makes sense.
+Expiriments on my side shown great improvement for the line-by-line
+algorithm, and the performances are the same as the original line-by-line
+algorithm. I targeted my effort to make the code working for all the
+rotations and translations. The usage of helpers from drm_rect_* avoid
+reimplementing existing logic.
 
-> > 
-> > > +	bool purgeable;
-> > >  };
-> > >  
-> > >  static int xe_tt_map_sg(struct ttm_tt *tt)
-> > > @@ -291,7 +297,8 @@ static int xe_tt_map_sg(struct ttm_tt *tt)
-> > >  	unsigned long num_pages = tt->num_pages;
-> > >  	int ret;
-> > >  
-> > > -	XE_WARN_ON(tt->page_flags & TTM_TT_FLAG_EXTERNAL);
-> > > +	XE_WARN_ON((tt->page_flags & TTM_TT_FLAG_EXTERNAL) &&
-> > > +		   !(tt->page_flags &
-> > > TTM_TT_FLAG_EXTERNAL_MAPPABLE));
-> > >  
-> > >  	if (xe_tt->sg)
-> > >  		return 0;
-> > > @@ -299,13 +306,13 @@ static int xe_tt_map_sg(struct ttm_tt *tt)
-> > >  	ret = sg_alloc_table_from_pages_segment(&xe_tt->sgt, tt-
-> > > >pages,
-> > >  						num_pages, 0,
-> > >  						(u64)num_pages <<
-> > > PAGE_SHIFT,
-> > > -
-> > > 						xe_sg_segment_size(xe_tt->dev),
-> > > +						xe_sg_segment_size
-> > > (xe_tt->xe->drm.dev),
-> > >  						GFP_KERNEL);
-> > >  	if (ret)
-> > >  		return ret;
-> > >  
-> > >  	xe_tt->sg = &xe_tt->sgt;
-> > > -	ret = dma_map_sgtable(xe_tt->dev, xe_tt->sg,
-> > > DMA_BIDIRECTIONAL,
-> > > +	ret = dma_map_sgtable(xe_tt->xe->drm.dev, xe_tt->sg,
-> > > DMA_BIDIRECTIONAL,
-> > >  			      DMA_ATTR_SKIP_CPU_SYNC);
-> > >  	if (ret) {
-> > >  		sg_free_table(xe_tt->sg);
-> > > @@ -321,7 +328,7 @@ static void xe_tt_unmap_sg(struct ttm_tt *tt)
-> > >  	struct xe_ttm_tt *xe_tt = container_of(tt, struct
-> > > xe_ttm_tt, ttm);
-> > >  
-> > >  	if (xe_tt->sg) {
-> > > -		dma_unmap_sgtable(xe_tt->dev, xe_tt->sg,
-> > > +		dma_unmap_sgtable(xe_tt->xe->drm.dev, xe_tt->sg,
-> > >  				  DMA_BIDIRECTIONAL, 0);
-> > >  		sg_free_table(xe_tt->sg);
-> > >  		xe_tt->sg = NULL;
-> > > @@ -336,21 +343,41 @@ struct sg_table *xe_bo_sg(struct xe_bo *bo)
-> > >  	return xe_tt->sg;
-> > >  }
-> > >  
-> > > +/*
-> > > + * Account ttm pages against the device shrinker's shrinkable and
-> > > + * purgeable counts.
-> > > + */
-> > > +static void xe_ttm_tt_account(struct ttm_tt *tt, bool add)
-> > > +{
-> > 
-> > Again I think bools are frowned upon as arguments. Maybe just two
-> > functions - add / sub?
-> 
-> OK,
-> 
-> > 
-> > > +	struct xe_ttm_tt *xe_tt = container_of(tt, struct
-> > > xe_ttm_tt, ttm);
-> > > +	long num_pages = tt->num_pages;
-> > > +
-> > > +	if (!add)
-> > > +		num_pages = -num_pages;
-> > > +
-> > > +	if (xe_tt->purgeable)
-> > > +		xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, 0,
-> > > num_pages);
-> > > +	else
-> > > +		xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker,
-> > > num_pages, 0);
-> > > +}
-> > > +
-> > >  static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object
-> > > *ttm_bo,
-> > >  				       u32 page_flags)
-> > >  {
-> > >  	struct xe_bo *bo = ttm_to_xe_bo(ttm_bo);
-> > >  	struct xe_device *xe = xe_bo_device(bo);
-> > > -	struct xe_ttm_tt *tt;
-> > > +	struct xe_ttm_tt *xe_tt;
-> > > +	struct ttm_tt *tt;
-> > >  	unsigned long extra_pages;
-> > >  	enum ttm_caching caching;
-> > >  	int err;
-> > >  
-> > > -	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
-> > > -	if (!tt)
-> > > +	xe_tt = kzalloc(sizeof(*xe_tt), GFP_KERNEL);
-> > > +	if (!xe_tt)
-> > >  		return NULL;
-> > >  
-> > > -	tt->dev = xe->drm.dev;
-> > > +	tt = &xe_tt->ttm;
-> > > +	xe_tt->xe = xe;
-> > >  
-> > >  	extra_pages = 0;
-> > >  	if (xe_bo_needs_ccs_pages(bo))
-> > > @@ -387,42 +414,128 @@ static struct ttm_tt
-> > > *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
-> > >  		caching = ttm_uncached;
-> > >  	}
-> > >  
-> > > -	err = ttm_tt_init(&tt->ttm, &bo->ttm, page_flags, caching,
-> > > extra_pages);
-> > > +	if (ttm_bo->type != ttm_bo_type_sg)
-> > > +		page_flags |= TTM_TT_FLAG_EXTERNAL |
-> > > TTM_TT_FLAG_EXTERNAL_MAPPABLE;
-> > > +
-> > > +	err = ttm_tt_init(tt, &bo->ttm, page_flags, caching,
-> > > extra_pages);
-> > >  	if (err) {
-> > > -		kfree(tt);
-> > > +		kfree(xe_tt);
-> > >  		return NULL;
-> > >  	}
-> > >  
-> > > -	return &tt->ttm;
-> > > +	tt->backup = ttm_backup_shmem_create(tt->num_pages <<
-> > > PAGE_SHIFT);
-> > > +	if (IS_ERR(tt->backup)) {
-> > > +		ttm_tt_fini(tt);
-> > 
-> > Mentioned this the previous review I think you need set tt->backup to
-> > NULL here or update ttm_tt_fini to understand IS_ERR(tt->backup).
-> > 
-> > Also maybe dump question but could we just have a global backup for
-> > all
-> > BOs? Would that be better than each BO creating its own backup?
-> 
-> I initially made the code like that, when we had a global backend
-> directly into the swap cache. But I figure shmem wants one file per bo,
-> otherwise we'd need one gigantic shmem object... Not sure if that
-> works...
->
+The only "complex" part remaining is the clipping of the coordinate to
+avoid reading/writing outside of src/dst. Thus I added a lot of comments
+to help when someone will want to add some features (framebuffer resizing
+for example).
 
-If one backup per shmem sense, then let's do that.
+The YUV part is not mandatory for this series, but as my first effort was
+to help the integration of YUV, I decided to rebase Arthur's series on
+mine to help. I took [3], [4], [5] and [6] and adapted them to use the
+line-by-line reading. They were also updated to use 32.32 fixed point
+values for yuv conversion instead of 8.8 fixed points.
 
-I do think we should remove the restriction of only supporting 1 backup
-per BO so if a driver wants to use a global backup it can.
+The last patch of this series introduce DRM_FORMAT_R1/2/4/8 to show how
+the PATCH 7/16 can be used to manage packed pixel formats.
 
-e.g. Don't fini / free the backup in ttm_tt_fini rather have the driver
-completely own the backup field. Kinda goofy for the driver to setup the
-field but TTM to fini / free it.
+To properly test the rotation algorithm, I had to implement a new IGT
+test [8]. This helped to found one issue in the YUV rotation algortihm.
 
-> > 
-> > > +		kfree(xe_tt);
-> > > +		return NULL;
-> > > +	}
-> > > +
-> > > +	return tt;
-> > >  }
-> > >  
-> > >  static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct
-> > > ttm_tt *tt,
-> > >  			      struct ttm_operation_ctx *ctx)
-> > >  {
-> > > +	struct xe_ttm_tt *xe_tt = container_of(tt, struct
-> > > xe_ttm_tt, ttm);
-> > >  	int err;
-> > >  
-> > >  	/*
-> > >  	 * dma-bufs are not populated with pages, and the dma-
-> > >  	 * addresses are set up when moved to XE_PL_TT.
-> > >  	 */
-> > > -	if (tt->page_flags & TTM_TT_FLAG_EXTERNAL)
-> > > +	if ((tt->page_flags & TTM_TT_FLAG_EXTERNAL) &&
-> > > +	    !(tt->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE))
-> > >  		return 0;
-> > >  
-> > >  	err = ttm_pool_alloc(&ttm_dev->pool, tt, ctx);
-> > >  	if (err)
-> > >  		return err;
-> > >  
-> > > -	return err;
-> > > +	xe_tt->purgeable = false;
-> > > +	xe_ttm_tt_account(tt, true);
-> > > +
-> > > +	return 0;
-> > >  }
-> > >  
-> > >  static void xe_ttm_tt_unpopulate(struct ttm_device *ttm_dev,
-> > > struct ttm_tt *tt)
-> > >  {
-> > > -	if (tt->page_flags & TTM_TT_FLAG_EXTERNAL)
-> > > +	if ((tt->page_flags & TTM_TT_FLAG_EXTERNAL) &&
-> > > +	    !(tt->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE))
-> > >  		return;
-> > >  
-> > >  	xe_tt_unmap_sg(tt);
-> > >  
-> > > -	return ttm_pool_free(&ttm_dev->pool, tt);
-> > > +	ttm_pool_free(&ttm_dev->pool, tt);
-> > > +	xe_ttm_tt_account(tt, false);
-> > > +}
-> > > +
-> > > +/**
-> > > + * xe_bo_shrink() - Try to shrink an xe bo.
-> > > + * @walk:  - The walk parameters
-> > > + * @bo: The TTM buffer object
-> > > + * @purge: Only consider purgeable bos.
-> > > + * @writeback: Try to write back to persistent storage.
-> > > + *
-> > > + * Try to shrink- or purge a bo, and if it succeeds, unmap dma.
-> > > + * Note that we need to be able to handle also non xe bos
-> > > + * (ghost bos), but only if the struct ttm_tt is embedded in
-> > > + * a struct xe_ttm_tt.
-> > > + *
-> > > + * Return: The number of pages shrunken or purged, or negative
-> > > error
-> > > + * code on failure.
-> > > + */
-> > > +long xe_bo_shrink(struct ttm_lru_walk *walk, struct
-> > > ttm_buffer_object *bo,
-> > > +		  bool purge, bool writeback)
-> > > +{
-> > > +	struct ttm_tt *tt = bo->ttm;
-> > > +	struct xe_ttm_tt *xe_tt = container_of(tt, struct
-> > > xe_ttm_tt, ttm);
-> > > +	struct ttm_place place = {.mem_type = bo->resource-
-> > > >mem_type};
-> > > +	struct xe_bo *xe_bo = ttm_to_xe_bo(bo);
-> > > +	struct xe_device *xe = xe_tt->xe;
-> > > +	bool needs_rpm;
-> > > +	long lret = 0L;
-> > > +
-> > > +	if (!tt || !ttm_tt_is_populated(tt) ||
-> > > +	    !(tt->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE) ||
-> > > +	    (purge && !xe_tt->purgeable))
-> > > +		return 0L;
-> > > +
-> > > +	if (!ttm_bo_eviction_valuable(bo, &place))
-> > > +		return 0L;
-> > > +
-> > > +	/* Beware of zombies (GEM object refcount == 0) and
-> > > ghosts. */
-> > > +	if (!xe_bo_is_xe_bo(bo) || !xe_bo_get_unless_zero(xe_bo))
-> > > {
-> > > +		struct ttm_placement null_placement = {
-> > > .num_placement = 0 };
-> > > +
-> > > +		lret = ttm_bo_wait_ctx(bo, walk->ctx);
-> > > +		if (lret)
-> > > +			return lret;
-> > > +
-> > > +		/* Purge the bo content! */
-> > > +		ttm_bo_validate(bo, &null_placement, walk->ctx);
-> > > +		return tt->num_pages;
-> > > +	}
-> > > +
-> > > +	/* System CCS needs gpu copy when moving PL_TT ->
-> > > PL_SYSTEM */
-> > > +	needs_rpm = (!IS_DGFX(xe) && bo->resource->mem_type !=
-> > > XE_PL_SYSTEM &&
-> > > +		     xe_bo && xe_bo_needs_ccs_pages(xe_bo) &&
-> > > !xe_tt->purgeable);
-> > 
-> > Is xe_bo check really needed here?
-> 
-> Yes, I think otherwise xe_bo_needs_ccs_pages will be called with NULL
-> for ghost objects that aren't xe_bo.
-> 
+My series was mainly tested with:
+- kms_plane (for color conversions)
+- kms_rotation_crc (for a subset of rotation and formats)
+- kms_rotation (to test all rotation and formats combinations) [8]
+- kms_cursor_crc (for translations)
+The benchmark used to measure the improvment was done with
+kms_fb_stress [10] with some modifications:
+- Fixing the writeback format to XRGB8888
+- Using a primary plane with odd dimension to avoid failures due to YUV
+  alignment
+The KMs structure was:
+	CRTC:
+		rectangle: 4096x2160+0+0
+	primary:
+		format: ABGR16161616
+		rectangle: 3640x2160+101+0
+	writeback:
+		format: XRGB8888
+		rectangle: 4096x2160+0+0
+Results (on my computer):
 
-Got it.
+8356b9790650: drm/test: Add test cases for drm_rect_rotate_inv() (before any regression)
+322d716a3e8a: drm/vkms: isolate pixel conversion functionality (first regression)
+cc4fd2934d41: drm/vkms: Isolate writeback pixel conversion functions (second regression)
+2c3d1bd284c5: drm/panel: simple: Add Microtips Technology MF-103HIEB0GA0 panel (current drm-misc-next)
 
-> > 
-> > > +	if (needs_rpm && !xe_pm_runtime_get_if_active(xe))
-> > > +		goto out_unref;
-> > > +
-> > > +	lret = ttm_bo_try_shrink(walk, bo, xe_tt->purgeable,
-> > > writeback);
-> > > +	if (needs_rpm)
-> > > +		xe_pm_runtime_put(xe);
-> > > +
-> > > +	if (lret > 0) {
-> > > +		xe_assert(xe, !ttm_tt_is_populated(tt));
-> > > +
-> > > +		xe_ttm_tt_account(tt, false);
-> > > +	}
-> > > +
-> > > +out_unref:
-> > > +	xe_bo_put(xe_bo);
-> > > +
-> > > +	return lret;
-> > >  }
-> > >  
-> > >  static void xe_ttm_tt_destroy(struct ttm_device *ttm_dev, struct
-> > > ttm_tt *tt)
-> > > @@ -1238,6 +1351,7 @@ struct xe_bo *___xe_bo_create_locked(struct
-> > > xe_device *xe, struct xe_bo *bo,
-> > >  	struct ttm_operation_ctx ctx = {
-> > >  		.interruptible = true,
-> > >  		.no_wait_gpu = false,
-> > > +		.gfp_retry_mayfail = true,
-> > 
-> > Can you explain why you are setting this?
-> 
-> Hm. We might want this in a separate patch. Without this, bo memory
-> allocation will typically never fail, but instead start the OOM killer.
-> I don't think that's the behaviour we want, but yeah deserves its own
-> patch and review.
-> 
+ Used format  | This series | 2c3d1bd284c5 | cc4fd2934d41 | 322d716a3e8a | 8356b9790650 |
+--------------+-------------+--------------+--------------+--------------+--------------+
+ XRGB8888     |  13.261666s |   14.289582s |   10.731272s |    9.480001s |    9.277507s |
+ XRGB16161616 |  13.282479s |   13.918926s |   10.712616s |    9.776903s |    9.291766s |
+ RGB565       | 136.154163s |  141.646489s |  101.744050s |  103.712164s |   87.860923s |
 
-Sounds good.
+This is a 5-10% improvment of the performance. More work need to be done
+on the writeback to gain more.
 
-> > 
-> > >  	};
-> > >  	struct ttm_placement *placement;
-> > >  	uint32_t alignment;
-> > > @@ -1681,6 +1795,8 @@ int xe_bo_pin_external(struct xe_bo *bo)
-> > >  	}
-> > >  
-> > >  	ttm_bo_pin(&bo->ttm);
-> > > +	if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
-> > > +		xe_ttm_tt_account(bo->ttm.ttm, false);
-> > >  
-> > >  	/*
-> > >  	 * FIXME: If we always use the reserve / unreserve
-> > > functions for locking
-> > > @@ -1739,6 +1855,8 @@ int xe_bo_pin(struct xe_bo *bo)
-> > >  	}
-> > >  
-> > >  	ttm_bo_pin(&bo->ttm);
-> > > +	if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
-> > > +		xe_ttm_tt_account(bo->ttm.ttm, false);
-> > >  
-> > >  	/*
-> > >  	 * FIXME: If we always use the reserve / unreserve
-> > > functions for locking
-> > > @@ -1773,6 +1891,9 @@ void xe_bo_unpin_external(struct xe_bo *bo)
-> > >  	spin_unlock(&xe->pinned.lock);
-> > >  
-> > >  	ttm_bo_unpin(&bo->ttm);
-> > > +	if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
-> > > +		xe_ttm_tt_account(bo->ttm.ttm, true);
-> > > +
-> > 
-> > Nit: Extra newline.
-> Will fix.
-> > 
-> > >  
-> > >  	/*
-> > >  	 * FIXME: If we always use the reserve / unreserve
-> > > functions for locking
-> > > @@ -1801,6 +1922,8 @@ void xe_bo_unpin(struct xe_bo *bo)
-> > >  	}
-> > >  
-> > >  	ttm_bo_unpin(&bo->ttm);
-> > > +	if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
-> > > +		xe_ttm_tt_account(bo->ttm.ttm, true);
-> > >  }
-> > >  
-> > >  /**
-> > > diff --git a/drivers/gpu/drm/xe/xe_bo.h
-> > > b/drivers/gpu/drm/xe/xe_bo.h
-> > > index 6de894c728f5..8463e3f3f6f1 100644
-> > > --- a/drivers/gpu/drm/xe/xe_bo.h
-> > > +++ b/drivers/gpu/drm/xe/xe_bo.h
-> > > @@ -63,6 +63,7 @@
-> > >  #define XE_BO_PROPS_INVALID	(-1)
-> > >  
-> > >  struct sg_table;
-> > > +struct xe_ttm_lru_walk;
-> > >  
-> > >  struct xe_bo *xe_bo_alloc(void);
-> > >  void xe_bo_free(struct xe_bo *bo);
-> > > @@ -126,6 +127,28 @@ static inline struct xe_bo *xe_bo_get(struct
-> > > xe_bo *bo)
-> > >  	return bo;
-> > >  }
-> > >  
-> > > +/*
-> > > + * xe_bo_get_unless_zero() - Conditionally obtain a GEM object
-> > > refcount on an
-> > > + * xe bo
-> > > + * @bo: The bo for which we want to obtain a refcount.
-> > > + *
-> > > + * There is a short window between where the bo's GEM object
-> > > refcount reaches
-> > > + * zero and where we put the final ttm_bo reference. Code in the
-> > > eviction- and
-> > > + * shrinking path should therefore attempt to grab a gem object
-> > > reference before
-> > > + * trying to use members outside of the base class ttm object.
-> > > This function is
-> > > + * intended for that purpose. On successful return, this function
-> > > must be paired
-> > > + * with an xe_bo_put().
-> > > + *
-> > > + * Return: @bo on success, NULL on failure.
-> > > + */
-> > > +static inline __must_check struct xe_bo
-> > > *xe_bo_get_unless_zero(struct xe_bo *bo)
-> > > +{
-> > > +	if (!bo || !kref_get_unless_zero(&bo->ttm.base.refcount))
-> > > +		return NULL;
-> > > +
-> > > +	return bo;
-> > > +}
-> > > +
-> > >  static inline void xe_bo_put(struct xe_bo *bo)
-> > >  {
-> > >  	if (bo)
-> > > @@ -315,6 +338,9 @@ static inline unsigned int
-> > > xe_sg_segment_size(struct device *dev)
-> > >  
-> > >  #define
-> > > i915_gem_object_flush_if_display(obj)		((void)(obj))
-> > >  
-> > > +long xe_bo_shrink(struct ttm_lru_walk *walk, struct
-> > > ttm_buffer_object *bo,
-> > > +		  bool purge, bool writeback);
-> > > +
-> > >  #if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
-> > >  /**
-> > >   * xe_bo_is_mem_type - Whether the bo currently resides in the
-> > > given
-> > > diff --git a/drivers/gpu/drm/xe/xe_device.c
-> > > b/drivers/gpu/drm/xe/xe_device.c
-> > > index cfda7cb5df2c..58fecc4b0a18 100644
-> > > --- a/drivers/gpu/drm/xe/xe_device.c
-> > > +++ b/drivers/gpu/drm/xe/xe_device.c
-> > > @@ -47,6 +47,7 @@
-> > >  #include "xe_perf.h"
-> > >  #include "xe_pm.h"
-> > >  #include "xe_query.h"
-> > > +#include "xe_shrinker.h"
-> > >  #include "xe_sriov.h"
-> > >  #include "xe_tile.h"
-> > >  #include "xe_ttm_stolen_mgr.h"
-> > > @@ -241,6 +242,9 @@ static void xe_device_destroy(struct drm_device
-> > > *dev, void *dummy)
-> > >  	if (xe->unordered_wq)
-> > >  		destroy_workqueue(xe->unordered_wq);
-> > >  
-> > > +	if (!IS_ERR_OR_NULL(xe->mem.shrinker))
-> > > +		xe_shrinker_destroy(xe->mem.shrinker);
-> > > +
-> > >  	ttm_device_fini(&xe->ttm);
-> > >  }
-> > >  
-> > > @@ -270,6 +274,10 @@ struct xe_device *xe_device_create(struct
-> > > pci_dev *pdev,
-> > >  	if (err)
-> > >  		goto err;
-> > >  
-> > > +	xe->mem.shrinker = xe_shrinker_create(xe);
-> > > +	if (IS_ERR(xe->mem.shrinker))
-> > > +		return ERR_CAST(xe->mem.shrinker);
-> > > +
-> > >  	xe->info.devid = pdev->device;
-> > >  	xe->info.revid = pdev->revision;
-> > >  	xe->info.force_execlist = xe_modparam.force_execlist;
-> > > diff --git a/drivers/gpu/drm/xe/xe_device_types.h
-> > > b/drivers/gpu/drm/xe/xe_device_types.h
-> > > index c37be471d11c..3d5440aba52e 100644
-> > > --- a/drivers/gpu/drm/xe/xe_device_types.h
-> > > +++ b/drivers/gpu/drm/xe/xe_device_types.h
-> > > @@ -325,6 +325,8 @@ struct xe_device {
-> > >  		struct xe_mem_region vram;
-> > >  		/** @mem.sys_mgr: system TTM manager */
-> > >  		struct ttm_resource_manager sys_mgr;
-> > > +		/** @mem.sys_mgr: system memory shrinker. */
-> > > +		struct xe_shrinker *shrinker;
-> > >  	} mem;
-> > >  
-> > >  	/** @sriov: device level virtualization data */
-> > > diff --git a/drivers/gpu/drm/xe/xe_shrinker.c
-> > > b/drivers/gpu/drm/xe/xe_shrinker.c
-> > > new file mode 100644
-> > > index 000000000000..3f9554bdc06b
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/xe/xe_shrinker.c
-> > > @@ -0,0 +1,287 @@
-> > > +// SPDX-License-Identifier: MIT
-> > > +/*
-> > > + * Copyright © 2024 Intel Corporation
-> > > + */
-> > > +
-> > > +#include <linux/shrinker.h>
-> > > +#include <linux/swap.h>
-> > > +
-> > > +#include <drm/ttm/ttm_bo.h>
-> > > +#include <drm/ttm/ttm_tt.h>
-> > > +
-> > > +#include "xe_bo.h"
-> > > +#include "xe_pm.h"
-> > > +#include "xe_shrinker.h"
-> > > +
-> > > +/**
-> > > + * struct xe_shrinker - per-device shrinker
-> > > + * @xe: Back pointer to the device.
-> > > + * @lock: Lock protecting accounting.
-> > > + * @shrinkable_pages: Number of pages that are currently
-> > > shrinkable.
-> > > + * @purgeable_pages: Number of pages that are currently purgeable.
-> > > + * @shrink: Pointer to the mm shrinker.
-> > > + * @pm_worker: Worker to wake up the device if required.
-> > > + */
-> > > +struct xe_shrinker {
-> > > +	struct xe_device *xe;
-> > > +	rwlock_t lock;
-> > > +	long shrinkable_pages;
-> > > +	long purgeable_pages;
-> > > +	struct shrinker *shrink;
-> > > +	struct work_struct pm_worker;
-> > > +};
-> > > +
-> > > +/**
-> > > + * struct xe_shrink_lru_walk - lru_walk subclass for shrinker
-> > > + * @walk: The embedded base class.
-> > > + * @xe: Pointer to the xe device.
-> > > + * @purge: Purgeable only request from the srinker.
-> > > + * @writeback: Try to write back to persistent storage.
-> > > + */
-> > > +struct xe_shrink_lru_walk {
-> > > +	struct ttm_lru_walk walk;
-> > > +	struct xe_device *xe;
-> > > +	bool purge;
-> > > +	bool writeback;
-> > > +};
-> > > +
-> > > +static struct xe_shrinker *to_xe_shrinker(struct shrinker *shrink)
-> > > +{
-> > > +	return shrink->private_data;
-> > > +}
-> > > +
-> > > +static struct xe_shrink_lru_walk *
-> > > +to_xe_shrink_lru_walk(struct ttm_lru_walk *walk)
-> > > +{
-> > > +	return container_of(walk, struct xe_shrink_lru_walk,
-> > > walk);
-> > > +}
-> > > +
-> > > +/**
-> > > + * xe_shrinker_mod_pages() - Modify shrinker page accounting
-> > > + * @shrinker: Pointer to the struct xe_shrinker.
-> > > + * @shrinkable: Shrinkable pages delta. May be negative.
-> > > + * @purgeable: Purgeable page delta. May be negative.
-> > > + *
-> > > + * Modifies the shrinkable and purgeable pages accounting.
-> > > + */
-> > > +void
-> > > +xe_shrinker_mod_pages(struct xe_shrinker *shrinker, long
-> > > shrinkable, long purgeable)
-> > > +{
-> > > +	write_lock(&shrinker->lock);
-> > > +	shrinker->shrinkable_pages += shrinkable;
-> > > +	shrinker->purgeable_pages += purgeable;
-> > > +	write_unlock(&shrinker->lock);
-> > > +}
-> > > +
-> > > +static long xe_shrinker_process_bo(struct ttm_lru_walk *walk,
-> > > struct ttm_buffer_object *bo)
-> > > +{
-> > > +	struct xe_shrink_lru_walk *shrink_walk =
-> > > to_xe_shrink_lru_walk(walk);
-> > > +
-> > > +	return xe_bo_shrink(walk, bo, shrink_walk->purge,
-> > > shrink_walk->writeback);
-> > > +}
-> > > +
-> > > +static long xe_shrinker_walk(struct xe_shrink_lru_walk
-> > > *shrink_walk, long target)
-> > > +{
-> > > +	struct xe_device *xe = shrink_walk->xe;
-> > > +	struct ttm_resource_manager *man;
-> > > +	unsigned int mem_type;
-> > > +	long sofar = 0;
-> > > +	long lret;
-> > > +
-> > > +	for (mem_type = XE_PL_SYSTEM; mem_type <= XE_PL_TT;
-> > > ++mem_type) {
-> > > +		man = ttm_manager_type(&xe->ttm, mem_type);
-> > > +		if (!man || !man->use_tt)
-> > > +			continue;
-> > > +
-> > > +		lret = ttm_lru_walk_for_evict(&shrink_walk->walk,
-> > > &xe->ttm, man, target);
-> > > +		if (lret < 0)
-> > > +			return lret;
-> > > +
-> > > +		sofar += lret;
-> > > +		if (sofar >= target)
-> > > +			break;
-> > > +	}
-> > > +
-> > > +	return sofar;
-> > > +}
-> > > +
-> > > +static unsigned long
-> > > +xe_shrinker_count(struct shrinker *shrink, struct shrink_control
-> > > *sc)
-> > > +{
-> > > +	struct xe_shrinker *shrinker = to_xe_shrinker(shrink);
-> > > +	unsigned long num_pages;
-> > > +
-> > > +	num_pages = get_nr_swap_pages();
-> > > +	read_lock(&shrinker->lock);
-> > > +	num_pages = min_t(unsigned long, num_pages, shrinker-
-> > > >shrinkable_pages);
-> > > +	num_pages += shrinker->purgeable_pages;
-> > > +	read_unlock(&shrinker->lock);
-> > > +
-> > > +	return num_pages ? num_pages : SHRINK_EMPTY;
-> > > +}
-> > > +
-> > > +static const struct ttm_lru_walk_ops xe_shrink_ops = {
-> > > +	.process_bo = xe_shrinker_process_bo,
-> > > +};
-> > > +
-> > > +/*
-> > > + * Check if we need runtime pm, and if so try to grab a reference
-> > > if
-> > > + * already active. If grabbing a reference fails, queue a worker
-> > > that
-> > > + * does it for us outside of reclaim, but don't wait for it to
-> > > complete.
-> > > + * If bo shrinking needs an rpm reference and we don't have it
-> > > (yet),
-> > > + * that bo will be skipped anyway.
-> > > + */
-> > > +static bool xe_shrinker_runtime_pm_get(struct xe_shrinker
-> > > *shrinker, bool force,
-> > > +				       unsigned long nr_to_scan)
-> > > +{
-> > > +	struct xe_device *xe = shrinker->xe;
-> > > +
-> > > +	if (IS_DGFX(xe) || !xe_device_has_flat_ccs(xe) ||
-> > > +	    !get_nr_swap_pages())
-> > > +		return false;
-> > > +
-> > > +	if (!force) {
-> > > +		read_lock(&shrinker->lock);
-> > > +		force = (nr_to_scan > shrinker->purgeable_pages);
-> > > +		read_unlock(&shrinker->lock);
-> > > +		if (!force)
-> > > +			return false;
-> > > +	}
-> > > +
-> > > +	if (!xe_pm_runtime_get_if_active(xe)) {
-> > > +		queue_work(xe->unordered_wq, &shrinker-
-> > > >pm_worker);
-> > > +		return false;
-> > > +	}
-> > > +
-> > > +	return true;
-> > > +}
-> > > +
-> > > +static void xe_shrinker_runtime_pm_put(struct xe_shrinker
-> > > *shrinker, bool runtime_pm)
-> > > +{
-> > > +	if (runtime_pm)
-> > > +		xe_pm_runtime_put(shrinker->xe);
-> > > +}
-> > > +
-> > > +static unsigned long xe_shrinker_scan(struct shrinker *shrink,
-> > > struct shrink_control *sc)
-> > > +{
-> > > +	struct xe_shrinker *shrinker = to_xe_shrinker(shrink);
-> > > +	bool is_kswapd = current_is_kswapd();
-> > > +	struct ttm_operation_ctx ctx = {
-> > > +		.interruptible = false,
-> > > +		.no_wait_gpu = !is_kswapd,
-> > > +	};
-> > > +	unsigned long nr_to_scan, freed = 0;
-> > > +	struct xe_shrink_lru_walk shrink_walk = {
-> > > +		.walk = {
-> > > +			.ops = &xe_shrink_ops,
-> > > +			.ctx = &ctx,
-> > > +			.trylock_only = true,
-> > > +		},
-> > > +		.xe = shrinker->xe,
-> > > +		.purge = true,
-> > > +		.writeback = is_kswapd,
-> > > +	};
-> > > +	bool runtime_pm;
-> > > +	bool purgeable;
-> > > +	long ret;
-> > > +
-> > > +	sc->nr_scanned = 0;
-> > > +	nr_to_scan = sc->nr_to_scan;
-> > > +
-> > > +	read_lock(&shrinker->lock);
-> > > +	purgeable = !!shrinker->purgeable_pages;
-> > > +	read_unlock(&shrinker->lock);
-> > > +
-> > > +	/* Might need runtime PM. Try to wake early if it looks
-> > > like it. */
-> > > +	runtime_pm = xe_shrinker_runtime_pm_get(shrinker, false,
-> > > nr_to_scan);
-> > > +
-> > > +	while (purgeable && freed < nr_to_scan) {
-> > > +		ret = xe_shrinker_walk(&shrink_walk, nr_to_scan);
-> > > +		if (ret <= 0)
-> > > +			break;
-> > > +
-> > > +		freed += ret;
-> > > +	}
-> > > +
-> > > +	sc->nr_scanned = freed;
-> > > +	if (freed < nr_to_scan)
-> > > +		nr_to_scan -= freed;
-> > > +	else
-> > > +		nr_to_scan = 0;
-> > > +	if (!nr_to_scan)
-> > > +		goto out;
-> > > +
-> > > +	/* If we didn't wake before, try to do it now if needed.
-> > > */
-> > > +	if (!runtime_pm)
-> > > +		runtime_pm = xe_shrinker_runtime_pm_get(shrinker,
-> > > true, 0);
-> > > +
-> > > +	shrink_walk.purge = false;
-> > > +	nr_to_scan = sc->nr_to_scan;
-> > > +	while (freed < nr_to_scan) {
-> > > +		ret = xe_shrinker_walk(&shrink_walk, nr_to_scan);
-> > > +		if (ret <= 0)
-> > > +			break;
-> > > +
-> > > +		freed += ret;
-> > > +	}
-> > > +
-> > > +	sc->nr_scanned = freed;
-> > > +
-> > > +out:
-> > > +	xe_shrinker_runtime_pm_put(shrinker, runtime_pm);
-> > > +	return freed ? freed : SHRINK_STOP;
-> > > +}
-> > > +
-> > > +/* Wake up the device for shrinking. */
-> > > +static void xe_shrinker_pm(struct work_struct *work)
-> > > +{
-> > > +	struct xe_shrinker *shrinker =
-> > > +		container_of(work, typeof(*shrinker), pm_worker);
-> > > +
-> > > +	xe_pm_runtime_get(shrinker->xe);
-> > > +	xe_pm_runtime_put(shrinker->xe);
-> > 
-> > So I don't really get this. How does this help the shrinker get a PM
-> > ref? The small window between xe_pm_runtime_get / put the shrinker
-> > grabs
-> > one via xe_pm_runtime_get_if_active? Seems fragile.
-> 
-> The pm has a delay after the last put (Typically 1s?), and if the
-> shrinker fails obtaining a reference it will be retried. Typically it
-> will then succeed and when it does start a new delay.
-> 
+[1]: https://lore.kernel.org/all/20240201-yuv-v1-0-3ca376f27632@bootlin.com
+[2]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/
+[3]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-3-952fcaa5a193@riseup.net/
+[4]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-5-952fcaa5a193@riseup.net/
+[5]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-6-952fcaa5a193@riseup.net/
+[6]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-7-952fcaa5a193@riseup.net/
+[8]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
+[9]: https://lore.kernel.org/dri-devel/20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net/
+[10]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
 
-Ah, forgot that their is a delay on the final put. This make sense now.
-Can't really think of a better solution that this at the moment. Maybe
-add a comment indicating this?
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To: Melissa Wen <melissa.srw@gmail.com>
+To: MaÃ­ra Canal <mairacanal@riseup.net>
+To: Haneen Mohammed <hamohammed.sa@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: rdunlap@infradead.org
+To: arthurgrillo@riseup.net
+To: Jonathan Corbet <corbet@lwn.net>
+To: pekka.paalanen@haloniitty.fi
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: jeremie.dautheribes@bootlin.com
+Cc: miquel.raynal@bootlin.com
+Cc: thomas.petazzoni@bootlin.com
+Cc: seanpaul@google.com
+Cc: marcheu@google.com
+Cc: nicolejadeyee@google.com
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Matt
+Note: after my changes, those tests seems to pass, so [7] may need
+updating (I did not check, it was maybe already the case):
+- kms_cursor_legacy@flip-vs-cursor-atomic
+- kms_pipe_crc_basic@nonblocking-crc
+- kms_pipe_crc_basic@nonblocking-crc-frame-sequence
+- kms_writeback@writeback-pixel-formats
+- kms_writeback@writeback-invalid-parameters
+- kms_flip@flip-vs-absolute-wf_vblank-interruptible
+And those tests pass, I did not investigate why the runners fails:
+- kms_flip@flip-vs-expired-vblank-interruptible
+- kms_flip@flip-vs-expired-vblank
+- kms_flip@plain-flip-fb-recreate
+- kms_flip@plain-flip-fb-recreate-interruptible
+- kms_flip@plain-flip-ts-check-interruptible
+- kms_cursor_legacy@cursorA-vs-flipA-toggle
+- kms_pipe_crc_basic@nonblocking-crc
+- kms_prop_blob@invalid-get-prop
+- kms_flip@flip-vs-absolute-wf_vblank-interruptible
+- kms_invalid_mode@zero-hdisplay
+- kms_invalid_mode@bad-vtotal
+- kms_cursor_crc.* (everything is SUCCEED or SKIP, except for
+  rapid_movement)
 
-> This doesn't strictly guarantee shrinking progress, but there's no way
-> we can synchronously delay shrinking until we have the pm reference.
-> 
-> What we could perhaps do is to report back that we actually made
-> progress but postpone the actual shrinking to the worker with writeback
-> set to on; hoping that the shrinking core doesn't give up before it
-> sees the released memory...
-> 
-> But I'd prefer to leave that out until we see that that's actually a
-> real problem.
-> 
-> Best would be if we could have access the LNL CCS memory using the
-> CPU...
-> 
-> /Thomas
-> 
-> 
-> > 
-> > Matt
-> > 
-> > > +}
-> > > +
-> > > +/**
-> > > + * xe_shrinker_create() - Create an xe per-device shrinker
-> > > + * @xe: Pointer to the xe device.
-> > > + *
-> > > + * Returns: A pointer to the created shrinker on success,
-> > > + * Negative error code on failure.
-> > > + */
-> > > +struct xe_shrinker *xe_shrinker_create(struct xe_device *xe)
-> > > +{
-> > > +	struct xe_shrinker *shrinker = kzalloc(sizeof(*shrinker),
-> > > GFP_KERNEL);
-> > > +
-> > > +	if (!shrinker)
-> > > +		return ERR_PTR(-ENOMEM);
-> > > +
-> > > +	shrinker->shrink = shrinker_alloc(0, "xe system
-> > > shrinker");
-> > > +	if (!shrinker->shrink) {
-> > > +		kfree(shrinker);
-> > > +		return ERR_PTR(-ENOMEM);
-> > > +	}
-> > > +
-> > > +	INIT_WORK(&shrinker->pm_worker, xe_shrinker_pm);
-> > > +	shrinker->xe = xe;
-> > > +	rwlock_init(&shrinker->lock);
-> > > +	shrinker->shrink->count_objects = xe_shrinker_count;
-> > > +	shrinker->shrink->scan_objects = xe_shrinker_scan;
-> > > +	shrinker->shrink->private_data = shrinker;
-> > > +	shrinker_register(shrinker->shrink);
-> > > +
-> > > +	return shrinker;
-> > > +}
-> > > +
-> > > +/**
-> > > + * xe_shrinker_destroy() - Destroy an xe per-device shrinker
-> > > + * @shrinker: Pointer to the shrinker to destroy.
-> > > + */
-> > > +void xe_shrinker_destroy(struct xe_shrinker *shrinker)
-> > > +{
-> > > +	xe_assert(shrinker->xe, !shrinker->shrinkable_pages);
-> > > +	xe_assert(shrinker->xe, !shrinker->purgeable_pages);
-> > > +	shrinker_free(shrinker->shrink);
-> > > +	flush_work(&shrinker->pm_worker);
-> > > +	kfree(shrinker);
-> > > +}
-> > > diff --git a/drivers/gpu/drm/xe/xe_shrinker.h
-> > > b/drivers/gpu/drm/xe/xe_shrinker.h
-> > > new file mode 100644
-> > > index 000000000000..28a038f4fcbf
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/xe/xe_shrinker.h
-> > > @@ -0,0 +1,18 @@
-> > > +/* SPDX-License-Identifier: MIT */
-> > > +/*
-> > > + * Copyright © 2024 Intel Corporation
-> > > + */
-> > > +
-> > > +#ifndef _XE_SHRINKER_H_
-> > > +#define _XE_SHRINKER_H_
-> > > +
-> > > +struct xe_shrinker;
-> > > +struct xe_device;
-> > > +
-> > > +void xe_shrinker_mod_pages(struct xe_shrinker *shrinker, long
-> > > shrinkable, long purgeable);
-> > > +
-> > > +struct xe_shrinker *xe_shrinker_create(struct xe_device *xe);
-> > > +
-> > > +void xe_shrinker_destroy(struct xe_shrinker *shrinker);
-> > > +
-> > > +#endif
-> > > diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> > > index e577528f5dfc..c7e81ae025d9 100644
-> > > --- a/include/drm/ttm/ttm_bo.h
-> > > +++ b/include/drm/ttm/ttm_bo.h
-> > > @@ -229,6 +229,9 @@ struct ttm_lru_walk {
-> > >  long ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct
-> > > ttm_device *bdev,
-> > >  			    struct ttm_resource_manager *man, long
-> > > target);
-> > >  
-> > > +long ttm_bo_try_shrink(struct ttm_lru_walk *walk, struct
-> > > ttm_buffer_object *bo,
-> > > +		       bool purge, bool writeback);
-> > > +
-> > >  /**
-> > >   * ttm_bo_get - reference a struct ttm_buffer_object
-> > >   *
-> > > -- 
-> > > 2.44.0
-> > > 
-> 
+[7]: https://lore.kernel.org/all/20240201065346.801038-1-vignesh.raman@collabora.com/
+Changes in v10:
+- Properly remove the patch introducing dummy read/write functions
+- PATCH 8/16: Format fixups
+- PATCH 9/16: Format fixups
+- PATCH 11/16: Format fixups
+- PATCH 14/16: Fix test compilation, add module description
+- Link to v9: https://lore.kernel.org/r/20240802-yuv-v9-0-08a706669e16@bootlin.com
+Changes in v9:
+- PATCH 3/17: Fix docs as MaÃ­ra suggested
+- PATCH 4,6,10,12,15,17/17: Fix sparse warning about __le16 casting
+- Link to v8: https://lore.kernel.org/all/20240516-yuv-v8-0-cf8d6f86430e@bootlin.com/
+Changes in v8:
+- PATCH 7/17: Update pitch access to use the proper value for block
+  formats
+- PATCH 9/17: Update pitch access to use the proper value for block 
+  formats
+- Link to v7: https://lore.kernel.org/r/20240513-yuv-v7-0-380e9ffec502@bootlin.com
+Changes in v7:
+- Some typos and indent fixes
+- Add Review-By, Acked-By
+- PATCH 3/17: Clarify src/dst unit
+- PATCH 9/17: Clarify documentation
+- PATCH 9/17: Restrict conditions for direction
+- PATCH 9/17: Rename get_block_step_byte to get_block_step_bytes
+- PATCH 10/17: Clarify kernel doc for clamp_line_coordinates, blend_line, 
+  pixel_read_line_t
+- PATCH 10/17: Fix the case when src_*_start >= fb->width/height
+- PATCH 10/17: Change y in blend to be an int
+- PATCH 10/17: Clarify documentation for read functions
+- PATCH 12/17: Fix the type of rgb variables in argb_u16_from_yuv888
+- PATCH 12/17: Move comments at the right place, remove useless ones
+- PATCH 12/17: Add missing const
+- PATCH 17/17: Use drm_format_info_bpp and computation to avoid hard-coded 
+  values
+- Link to v6: https://lore.kernel.org/r/20240409-yuv-v6-0-de1c5728fd70@bootlin.com
+Changes in v6:
+- Add Randy
+- Add Review-By and Acked-By
+- PATCH 2/17: Remove useless newline
+- PATCH 3/17: Fix kernel doc
+- PATCH 4/17: Fix typo in git commit
+- PATCH 4/17: Fix kernel doc and simplify brief description of typedef
+- PATCH 5/17: Change black default color to Magenta
+- PATCH 5/17: Fix wording in comment
+- PATCH 7/17: Fix typo in packed_pixel_offset
+- PATCH 7/17: Add WARN_ON for currently not supported formats
+- PATCH 8/17: Rename x_limit to pixel_count
+- PATCH 8/17: Clarify kernel doc for pre_mul_alpha_blend
+- PATCH 9/17: Rename get_step_next_block to get_block_step_bytes
+- PATCH 9/17: Change kernel doc order
+- PATCH 9/17: Rework the direction_for_rotation function to use drm
+  helpers
+- PATCH 9/17: Add a warn in direction_for_rotation if the result is not
+  expected
+- PATCH 10/17: Reword the comment of pixel color conversion functions
+- PATCH 10/17: Refactor the blending function to extract functions
+- PATCH 11/17: Remove useless drm_rotation_simplify
+- PATCH 12/17: Fix typo in comments
+- PATCH 12/17: Remove useless define
+- PATCH 12/17: Fix some comments typo and kernel doc
+- PATCH 12/17: Add a comma at the end of the vkms_formats list
+- PATCH 12/17: Use copy of matrix instead of pointers
+- PATCH 12/17: Use 16 bit range for yuv conversion
+- PATCH 17/17: Add a comma at the end of the vkms_formats list
+- PATCH 17/17: Add assertions
+- PATCH 17/17: Fix color conversion... Next time I will read the doc 
+  twice...
+- Link to v5: https://lore.kernel.org/r/20240313-yuv-v5-0-e610cbd03f52@bootlin.com
+Changes in v5:
+- All patches: fix some formatting issues
+- PATCH 4/16: Use the correct formatter for 4cc code
+- PATCH 7/16: Update the pixel accessors to also return the pixel position
+  inside a block.
+- PATCH 8/16: Fix a temporary bug
+- PATCH 9/16: Update the get_step_1x1 to get_step_next_block and update
+  the documentation
+- PATCH 10/16: Update to uses the new pixel accessors
+- PATCH 10/16: Reword some comments
+- PATCH 11/16: Update to use the new pixel accessors
+- PATCH 11/16: Fix a bug in the subsampling offset for inverted reading
+  (right to left/bottom to top). Found by [8].
+- PATCH 11/16: Apply Arthur's modifications (comments, algorithm
+  clarification)
+- PATCH 11/16: Use the correct formatter for 4cc code
+- PATCH 11/16: Update to use the new get_step_next_block
+- PATCH 14/16: Apply Arthur's modification (comments, compilation issue)
+- PATCH 15/16: Add Arthur's patch to explain the kunit tests
+- PATCH 16/16: Introduce DRM_FORMAT_R* support.
+- Link to v4: https://lore.kernel.org/r/20240304-yuv-v4-0-76beac8e9793@bootlin.com
+Changes in v4:
+- PATCH 3/14: Update comments for get_pixel_* functions
+- PATCH 4/14: Add WARN when trying to get unsupported pixel_* functions
+- PATCH 5/14: Create dummy pixel reader/writer to avoid NULL
+  function pointers and kernel OOPS
+- PATCH 6/14: Added the usage of const pointers when needed
+- PATCH 7/14: Extraction of pixel accessors modification
+- PATCH 8/14: Extraction of the blending function modification
+- PATCH 9/14: Extraction of the pixel_read_direction enum
+- PATCH 10/14: Update direction_for_rotation documentation
+- PATCH 10/14: Rename conversion functions to be explicit
+- PATCH 10/14: Replace while(count) by while(out_pixel<end) in read_line
+  callbacks. It avoid a new variable+addition in the composition hot path.
+- PATCH 11/14: Rename conversion functions to be explicit
+- PATCH 11/14: Update the documentation for get_subsampling_offset
+- PATCH 11/14: Add the matrix_conversion structure to remove a test from
+  the hot path.
+- PATCH 11/14: Upadate matrix values to use 32.32 fixed floats for
+  conversion
+- PATCH 12/14: Update commit message
+- PATCH 14/14: Change kunit expected value
+- Link to v3: https://lore.kernel.org/r/20240226-yuv-v3-0-ff662f0994db@bootlin.com
+Changes in v3:
+- Correction of remaining git-rebase artefacts
+- Added Pekka in copy of this patch
+- Link to v2: https://lore.kernel.org/r/20240223-yuv-v2-0-aa6be2827bb7@bootlin.com
+Changes in v2:
+- Rebased the series on top of drm-misc/drm-misc-net
+- Extract the typedef for pixel_read/pixel_write
+- Introduce the line-by-line algorithm per pixel format
+- Add some documentation for existing and new code
+- Port the series [1] to use line-by-line algorithm
+- Link to v1: https://lore.kernel.org/r/20240201-yuv-v1-0-3ca376f27632@bootlin.com
+
+---
+Arthur Grillo (6):
+      drm/vkms: Use drm_frame directly
+      drm/vkms: Add YUV support
+      drm/vkms: Add range and encoding properties to the plane
+      drm/vkms: Drop YUV formats TODO
+      drm/vkms: Create KUnit tests for YUV conversions
+      drm/vkms: Add how to run the Kunit tests
+
+Louis Chauvet (10):
+      drm/vkms: Code formatting
+      drm/vkms: write/update the documentation for pixel conversion and pixel write functions
+      drm/vkms: Add typedef and documentation for pixel_read and pixel_write functions
+      drm/vkms: Use const for input pointers in pixel_read an pixel_write functions
+      drm/vkms: Update pixels accessor to support packed and multi-plane formats.
+      drm/vkms: Avoid computing blending limits inside pre_mul_alpha_blend
+      drm/vkms: Introduce pixel_read_direction enum
+      drm/vkms: Re-introduce line-per-line composition algorithm
+      drm/vkms: Remove useless drm_rotation_simplify
+      drm/vkms: Add support for DRM_FORMAT_R*
+
+ Documentation/gpu/vkms.rst                    |  14 +-
+ drivers/gpu/drm/vkms/Kconfig                  |  15 +
+ drivers/gpu/drm/vkms/Makefile                 |   1 +
+ drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+ drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c | 232 +++++++
+ drivers/gpu/drm/vkms/vkms_composer.c          | 315 +++++++--
+ drivers/gpu/drm/vkms/vkms_crtc.c              |   6 +-
+ drivers/gpu/drm/vkms/vkms_drv.c               |   3 +-
+ drivers/gpu/drm/vkms/vkms_drv.h               |  84 ++-
+ drivers/gpu/drm/vkms/vkms_formats.c           | 909 ++++++++++++++++++++++----
+ drivers/gpu/drm/vkms/vkms_formats.h           |  13 +-
+ drivers/gpu/drm/vkms/vkms_plane.c             |  46 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c         |   5 -
+ 14 files changed, 1430 insertions(+), 220 deletions(-)
+---
+base-commit: 219b45d023ed0902b05c5902a4f31c2c38bcf68c
+change-id: 20240201-yuv-1337d90d9576
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
