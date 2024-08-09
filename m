@@ -2,80 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4005894C779
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 01:52:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C6C94C783
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 02:06:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBB1010E347;
-	Thu,  8 Aug 2024 23:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A34AA10E835;
+	Fri,  9 Aug 2024 00:06:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="FWNDrtDF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YzDFCsel";
 	dkim-atps=neutral
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 488E510E347;
- Thu,  8 Aug 2024 23:52:43 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 478KdMQg000984;
- Thu, 8 Aug 2024 23:52:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=Y58ptjjUhGCMOz+7FvFiIg
- /x6Y6RLTKIpv6zC/SCqn0=; b=FWNDrtDF6Ha4Pxmfo2guG9Jg/i4Jx3iWfhv8t4
- N9dZHuvmUsgeZcfPJyTHa1/7Ry8CQxrEmlI1A0LJ/MCW1FHNZjbRabPnHA8SEWLN
- XKwWcBFCjqG70PySXa6RAsH08iWWyAEOMg7mYrpGjLLfldR+YDLDRHQCsOWLz5hz
- mTxl9pI5kKTujUGPzzBFqmS37DtRBCowvZboVSd8JHMKaGUFWDr27foWvO7TtxI6
- oPgOYvI2wKNJFxFEROnDSYyQ3SfY+XKyFcf2W1VvifhA7fv46oQSp033SDqPL5X+
- ZjR/Jn3hCw7xljhyqwmFdmWJN1iThC8CiX+eI3nBQE7Fzisg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40vfav3nna-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Aug 2024 23:52:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 478Nqba9026272
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 8 Aug 2024 23:52:37 GMT
-Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 8 Aug 2024 16:52:36 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
- <swboyd@chromium.org>, <dianders@chromium.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/msm: fix the highest_bank_bit for sc7180
-Date: Thu, 8 Aug 2024 16:52:27 -0700
-Message-ID: <20240808235227.2701479-1-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.44.0
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 182C210E82E;
+ Fri,  9 Aug 2024 00:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723162008; x=1754698008;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=sgWT0C1e6mNVgtU6hTXyIuwBguenbIfIqlvhnDxPODU=;
+ b=YzDFCseliMmj77rypobv2GFgZCKdlDWD0yGzf61IPITa8AqCCcJX0Bin
+ lHavnidoXeJPfOkpBIHkbq/+uyZ1/u5ywUqXcss+ejPqq/h8BkUCvkkhl
+ ZgyGTaYBT/hw9K25L66UyZdEKp3ENTuJTgptVAHpG2I384fG41NMz37cL
+ xqokDJv1+OB0vxvrIrdL8DjqFhdzXx95+70OXPPxf5eJM9fY+eUaBBhjK
+ xPxpCeTIoC0hrIfeXwNEZ2ZMQzgUGjQV4Xg7iOvUf1oyPh+0UE6TLmtNw
+ YKNsrzR9DPnoG6anMFd8w7q/kjL1dXmGBsT5CHXI2lxju7OagVvxiOKda g==;
+X-CSE-ConnectionGUID: /S1cB+e0SN6j1voR2HoBDQ==
+X-CSE-MsgGUID: NVjhk1N+Rt2ekdK9JZ/Rfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="43835806"
+X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; d="scan'208";a="43835806"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Aug 2024 17:06:47 -0700
+X-CSE-ConnectionGUID: goIRT5viSOm7yW+dfRsxzg==
+X-CSE-MsgGUID: i7l/YfPDSPKGrGW06rebTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; d="scan'208";a="57348475"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by fmviesa008.fm.intel.com with ESMTP; 08 Aug 2024 17:06:47 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, Shuicheng Lin <shuicheng.lin@intel.com>
+Subject: [PATCH] drm/i915/guc: Fix missing enable of Wa_14019159160 on ARL
+Date: Thu,  8 Aug 2024 17:06:46 -0700
+Message-ID: <20240809000646.1747507-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: tLrREVdqVD1VRV76mscCDOTuVCETMhfF
-X-Proofpoint-GUID: tLrREVdqVD1VRV76mscCDOTuVCETMhfF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-08_23,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=954 adultscore=0
- lowpriorityscore=0 mlxscore=0 bulkscore=0 phishscore=0 suspectscore=0
- impostorscore=0 clxscore=1015 spamscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408080171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,35 +74,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-sc7180 programs the ubwc settings as 0x1e as that would mean a
-highest bank bit of 14 which matches what the GPU sets as well.
+From: John Harrison <John.C.Harrison@Intel.com>
 
-However, the highest_bank_bit field of the msm_mdss_data which is
-being used to program the SSPP's fetch configuration is programmed
-to a highest bank bit of 16 as 0x3 translates to 16 and not 14.
+The previous update to enable the workaround on ARL only changed two
+out of three places where the w/a needs to be enabled. That meant the
+GuC side was operational but not the KMD side. And as the KMD side is
+the trigger, it meant the w/a was not actually active. So fix that.
 
-Fix the highest bank bit field used for the SSPP to match the mdss
-and gpu settings.
-
-Fixes: 6f410b246209 ("drm/msm/mdss: populate missing data")
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Fixes: 104bcfae57d8 ("drm/i915/arl: Enable Wa_14019159160 for ARL")
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/msm/msm_mdss.c | 2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index d90b9471ba6f..faa88fd6eb4d 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -577,7 +577,7 @@ static const struct msm_mdss_data sc7180_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_static = 0x1e,
--	.highest_bank_bit = 0x3,
-+	.highest_bank_bit = 0x1,
- 	.reg_bus_bw = 76800,
- };
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 9400d0eb682b2..3e1c3bc56daf2 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -4506,7 +4506,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+ 	/* Wa_16019325821 */
+ 	/* Wa_14019159160 */
+ 	if ((engine->class == COMPUTE_CLASS || engine->class == RENDER_CLASS) &&
+-	    IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 70), IP_VER(12, 71)))
++	    IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 70), IP_VER(12, 74)))
+ 		engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
  
+ 	/*
 -- 
-2.44.0
+2.46.0
 
