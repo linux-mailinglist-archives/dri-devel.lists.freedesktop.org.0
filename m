@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319E394D390
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 17:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FF594D391
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 17:35:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B06B010E957;
-	Fri,  9 Aug 2024 15:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFDBB10E958;
+	Fri,  9 Aug 2024 15:35:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="S2Inyd01";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GVeTBtmv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
  [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 076BA10E95A
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 15:35:43 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 74A4EC0002;
- Fri,  9 Aug 2024 15:35:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65BED10E95A
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 15:35:46 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C76CFC0008;
+ Fri,  9 Aug 2024 15:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1723217742;
+ t=1723217745;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g23z6Hbo0SgdTOHbizvWXJiLCoM2XaylyRrnPRhOxGk=;
- b=S2Inyd01LRcPT1SHqYsJclO17CgYAuRLfxLPQrCp5GuYFF04jFjYmEldcLmyByturxKLhT
- Yq43FbKjiRdqFKKSc8fzoyQyoTByUB3GKq51hX2ENHnKThHH7TuCHkqDyg71r/My5EiKIy
- N1iHpFgsUpyfnI/rvBwEs4hTpiU8M7Z2owWRjsa8kijxDr50c/8/iE4e5qowZfwZ5h1UJ5
- ClJL3veSaT2b1Hm0zO0vReYlOMwSrhH6F7DoIUv6JO2c0k3O2r4jfXQ/rPIGc3cQKAO7h+
- kkvuH39HjiYP6quUz7LRLnAJmfFi+qTnASW8kK4cbvj2dsgpO/KE6zHT6XFgmA==
+ bh=zXfD1uIHQ08PVRbHD3ejH9ya7NUdvN1EDBI59inSFEs=;
+ b=GVeTBtmva2pQ6cW8+vsqX1j6REQCjU2/HhSlW19/YcRgk8oKUHbUp+6jOwEcK0jPcatxeS
+ zXQ1P//3trfX/mWnKp/Sqg1DOHUUDSX7Z5sOtLukQRgFTOTuw+GFenCzaNSUuoE+6HyZ8C
+ Y+2hMsLCe6C3b7Qde26rEMsfu4dN13Xn2csE61uKDShoX5fsy9s+UZq1spd9GtIEz+oSwj
+ fO+6t5PKd4brBVwZymLQRL7zuIPoScfTkQJfYIkKUjEsBT+pEgzZ7fLbJhRi4ZbkhlZvkN
+ k3RGLAGo7+tor8VKbIuKs5G+iJxamBOLKh71Yfp2tf62P0JVykbViNFO3/d8Mg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 Aug 2024 17:34:50 +0200
-Subject: [PATCH v3 2/7] drm/bridge: add bridge notifier to be notified of
- bridge addition and removal
+Date: Fri, 09 Aug 2024 17:34:51 +0200
+Subject: [PATCH v3 3/7] drm/encoder: add drm_encoder_cleanup_from()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240809-hotplug-drm-bridge-v3-2-b4c178380bc9@bootlin.com>
+Message-Id: <20240809-hotplug-drm-bridge-v3-3-b4c178380bc9@bootlin.com>
 References: <20240809-hotplug-drm-bridge-v3-0-b4c178380bc9@bootlin.com>
 In-Reply-To: <20240809-hotplug-drm-bridge-v3-0-b4c178380bc9@bootlin.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -78,129 +77,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Supporting hardware whose final part of the DRM pipeline can be physically
+removed requires the ability to detach all bridges from a given point to
+the end of the pipeline.
 
-In preparation for allowing bridges to be added to and removed from a DRM
-card without destroying the whole card, add a DRM bridge notifier. Notified
-events are addition and removal to/from the global bridge list.
+Introduce a variant of drm_encoder_cleanup() for this.
 
-Co-developed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
 ---
 
 Changes in v3: none
-Changes in v2: none
----
- drivers/gpu/drm/drm_bridge.c | 35 +++++++++++++++++++++++++++++++++++
- include/drm/drm_bridge.h     | 19 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index d44f055dbe3e..0728a4e0cbfd 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -25,6 +25,7 @@
- #include <linux/media-bus-format.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/notifier.h>
+Changed in v2:
+ - fix a typo in a comment
+---
+ drivers/gpu/drm/drm_encoder.c | 21 +++++++++++++++++++++
+ include/drm/drm_encoder.h     |  1 +
+ 2 files changed, 22 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
+index 8f2bc6a28482..472dfbefe296 100644
+--- a/drivers/gpu/drm/drm_encoder.c
++++ b/drivers/gpu/drm/drm_encoder.c
+@@ -207,6 +207,27 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
+ }
+ EXPORT_SYMBOL(drm_encoder_cleanup);
  
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
-@@ -197,6 +198,36 @@
- 
- static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
-+static BLOCKING_NOTIFIER_HEAD(bridge_notifier);
-+
 +/**
-+ * drm_bridge_notifier_register - add a DRM bridge notifier
-+ * @nb: the notifier block to be registered
++ * drm_encoder_cleanup_from - remove a given bridge and all the following
++ * @encoder: encoder whole list of bridges shall be pruned
++ * @bridge: first bridge to remove
 + *
-+ * The notifier block will be notified of events defined in
-+ * &drm_bridge_notifier_event
++ * Removes from an encoder all the bridges starting with a given bridge
++ * and until the end of the chain.
++ *
++ * This should not be used in "normal" DRM pipelines. It is only useful for
++ * devices whose final part of the DRM chain can be physically removed and
++ * later reconnected (possibly with different hardware).
 + */
-+int drm_bridge_notifier_register(struct notifier_block *nb)
++void drm_encoder_cleanup_from(struct drm_encoder *encoder, struct drm_bridge *bridge)
 +{
-+	return blocking_notifier_chain_register(&bridge_notifier, nb);
-+}
-+EXPORT_SYMBOL(drm_bridge_notifier_register);
++	struct drm_bridge *next;
 +
-+/**
-+ * drm_bridge_notifier_unregister - remove a DRM bridge notifier
-+ * @nb: the notifier block to be unregistered
-+ */
-+int drm_bridge_notifier_unregister(struct notifier_block *nb)
-+{
-+	return blocking_notifier_chain_unregister(&bridge_notifier, nb);
++	list_for_each_entry_safe_from(bridge, next, &encoder->bridge_chain, chain_node)
++		drm_bridge_detach(bridge);
 +}
-+EXPORT_SYMBOL(drm_bridge_notifier_unregister);
++EXPORT_SYMBOL(drm_encoder_cleanup_from);
 +
-+static void drm_bridge_notifier_notify(unsigned long event,
-+				       struct drm_bridge *bridge)
-+{
-+	blocking_notifier_call_chain(&bridge_notifier, event, bridge);
-+}
- 
- /**
-  * drm_bridge_add - add the given bridge to the global bridge list
-@@ -210,6 +241,8 @@ void drm_bridge_add(struct drm_bridge *bridge)
- 	mutex_lock(&bridge_lock);
- 	list_add_tail(&bridge->list, &bridge_list);
- 	mutex_unlock(&bridge_lock);
-+
-+	drm_bridge_notifier_notify(DRM_BRIDGE_NOTIFY_ADD, bridge);
- }
- EXPORT_SYMBOL(drm_bridge_add);
- 
-@@ -243,6 +276,8 @@ EXPORT_SYMBOL(devm_drm_bridge_add);
-  */
- void drm_bridge_remove(struct drm_bridge *bridge)
+ static void drmm_encoder_alloc_release(struct drm_device *dev, void *ptr)
  {
-+	drm_bridge_notifier_notify(DRM_BRIDGE_NOTIFY_REMOVE, bridge);
-+
- 	mutex_lock(&bridge_lock);
- 	list_del_init(&bridge->list);
- 	mutex_unlock(&bridge_lock);
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 75019d16be64..3748c1011307 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -43,6 +43,22 @@ struct drm_panel;
- struct edid;
- struct i2c_adapter;
- 
-+/**
-+ * enum drm_bridge_notifier_event - DRM bridge events
-+ */
-+enum drm_bridge_notifier_event {
-+	/**
-+	 * @DRM_BRIDGE_NOTIFY_ADD: A bridge has just been added to the
-+	 * global bridge list. See drm_bridge_add().
-+	 */
-+	DRM_BRIDGE_NOTIFY_ADD,
-+	/**
-+	 * @DRM_BRIDGE_NOTIFY_REMOVE: A bridge is about to be removed from
-+	 * the global bridge list. See drm_bridge_remove().
-+	 */
-+	DRM_BRIDGE_NOTIFY_REMOVE,
-+};
-+
- /**
-  * enum drm_bridge_attach_flags - Flags for &drm_bridge_funcs.attach
-  */
-@@ -862,6 +878,9 @@ drm_priv_to_bridge(struct drm_private_obj *priv)
- 	return container_of(priv, struct drm_bridge, base);
+ 	struct drm_encoder *encoder = ptr;
+diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+index 977a9381c8ba..bafcabb24267 100644
+--- a/include/drm/drm_encoder.h
++++ b/include/drm/drm_encoder.h
+@@ -320,6 +320,7 @@ static inline struct drm_encoder *drm_encoder_find(struct drm_device *dev,
  }
  
-+int drm_bridge_notifier_register(struct notifier_block *nb);
-+int drm_bridge_notifier_unregister(struct notifier_block *nb);
-+
- void drm_bridge_add(struct drm_bridge *bridge);
- int devm_drm_bridge_add(struct device *dev, struct drm_bridge *bridge);
- void drm_bridge_remove(struct drm_bridge *bridge);
+ void drm_encoder_cleanup(struct drm_encoder *encoder);
++void drm_encoder_cleanup_from(struct drm_encoder *encoder, struct drm_bridge *bridge);
+ 
+ /**
+  * drm_for_each_encoder_mask - iterate over encoders specified by bitmask
 
 -- 
 2.34.1
