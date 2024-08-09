@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51AD94CF13
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 13:00:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFC494CF17
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 13:00:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B61010E8B2;
-	Fri,  9 Aug 2024 11:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D55710E8B5;
+	Fri,  9 Aug 2024 11:00:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDFB10E8B2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F08210E8B4
  for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 11:00:19 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1scNLo-00030o-HG; Fri, 09 Aug 2024 13:00:04 +0200
+ id 1scNLq-00031Y-3C; Fri, 09 Aug 2024 13:00:06 +0200
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1scNLn-005eDV-Eu; Fri, 09 Aug 2024 13:00:03 +0200
+ id 1scNLp-005eDZ-Fs; Fri, 09 Aug 2024 13:00:05 +0200
 Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1scNLn-000AQ5-1B;
- Fri, 09 Aug 2024 13:00:03 +0200
-Message-ID: <b89f0ed8ebfb4fb953db0635f7d56ac5debbbc12.camel@pengutronix.de>
-Subject: Re: [PATCH v3 07/12] drm/imx: ldb: switch to drm_panel_bridge
+ (envelope-from <p.zabel@pengutronix.de>) id 1scNLp-000AQQ-1G;
+ Fri, 09 Aug 2024 13:00:05 +0200
+Message-ID: <4c974512e5392f2d96ea5e04e909821ad017d6ef.camel@pengutronix.de>
+Subject: Re: [PATCH v3 08/12] drm/imx: parallel-display: switch to
+ drm_panel_bridge
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, David Airlie
  <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
@@ -40,10 +41,10 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, David Airlie
 Cc: Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, imx@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org
-Date: Fri, 09 Aug 2024 13:00:03 +0200
-In-Reply-To: <20240602-drm-imx-cleanup-v3-7-e549e2a43100@linaro.org>
+Date: Fri, 09 Aug 2024 13:00:05 +0200
+In-Reply-To: <20240602-drm-imx-cleanup-v3-8-e549e2a43100@linaro.org>
 References: <20240602-drm-imx-cleanup-v3-0-e549e2a43100@linaro.org>
- <20240602-drm-imx-cleanup-v3-7-e549e2a43100@linaro.org>
+ <20240602-drm-imx-cleanup-v3-8-e549e2a43100@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -70,8 +71,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On So, 2024-06-02 at 15:04 +0300, Dmitry Baryshkov wrote:
 > Defer panel handling to drm_panel_bridge, unifying codepaths for the
-> panel and bridge cases. The MFD_SYSCON symbol is moved to select to
-> prevent Kconfig symbol loops.
+> panel and bridge cases.
 >=20
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
