@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6492694D50E
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 18:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4BA94D530
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 19:07:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4D110E99C;
-	Fri,  9 Aug 2024 16:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03AD710E9A9;
+	Fri,  9 Aug 2024 17:07:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LkYP9m0f";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WIoyiXLF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85D2010E99C
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 16:52:51 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4799mgqM015951;
- Fri, 9 Aug 2024 16:52:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 3OtSRxMjMwChT6ppgovQDG8n2yyeIzDV9nL+PQmt2AQ=; b=LkYP9m0faqut7o2C
- /cZbsn1YR0RZzcuQqd57XOx+5OWeeN/avneHkmSHwtu9RUk/CAGcfVgLoSPBATMz
- C0VnUm+4Q6HUFvSxh7mr16+68KLqWeXLWDWshO7TH9BvspBBfu6EkuQL3ejiyICf
- Xryg6ANcx/vDULSkSUBV4XXjfVoSlzpAFHeSCM3rIbX514Np8oYoZqFH/By8vome
- u3nRUi0y3ynj+vQOd48QE4sqNcitPjyaCQS7iHwiPKrYqTR5f0M8rzoh0C7V9Xrf
- VWzTUujWhN5qM7K1ETOnuwj/xPBd3qQ2UQbERukjkRgY9ROhnJ99xUnK0oz4W9nM
- dsE8vw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40vdupp47c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Aug 2024 16:52:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 479GqkpJ009858
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 9 Aug 2024 16:52:46 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 9 Aug 2024
- 09:52:45 -0700
-Message-ID: <54cdd823-98cc-ae67-c824-fad664e796a6@quicinc.com>
-Date: Fri, 9 Aug 2024 10:52:45 -0600
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C43B10E9A9
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 17:07:00 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-5a79df5af51so5074782a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 10:06:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1723223218; x=1723828018; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Bqi0R8E9+yWkIxspBX3nFOrKOj6LKnr9GEzzF8YTptU=;
+ b=WIoyiXLFfQ12nlohPAQSde69grZ023m272cSqm3Lip01adPPNAwk4qyHhsyaIWEtQi
+ 0aoUOTf1X65wNZlnEzlauKyxKoyOKx3URJxVuCbM/RoL6jNvCYH/eq0si5I/gMqdYmo5
+ 4imbV5Xd43Ac7Njvj8w+bR19K3YyFn7PxhQMiglRBBM20IjDplwri8YFiCKvX7gJamqY
+ z4liMGbUMnUAtQ8I+MWp+Cj4nRMnlkHEiG34RmNlHvdBNvMXz/W/LF7O4CyIklpgl2oe
+ GTwMyD+IKcujDNoQD3EqTMWioiGg4CPoOQSuF1P7Vq1+Z6GaCzS6OAzDvBG63OkojPqG
+ S16g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723223218; x=1723828018;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bqi0R8E9+yWkIxspBX3nFOrKOj6LKnr9GEzzF8YTptU=;
+ b=uU+inQytxL5KllQ5NpwFreOdwSVP621+E5g1Se3yC75wEiyiNEb0XsG5prwRLsrwhc
+ OMRkMyWw0nYN1Ou+4wAkS53EvIBiTHgcDCHfTjX/9ke6W6reL/0Pi6vOH9hKAnwcVkZM
+ F8XgLaKtCDCQTTIY1LxHzp4Yu1Xc/bQav4R3n1nTJqtqHLDTa2Ol2au0US+nsEC5fvOm
+ +LOkrm90VC0by0Dc2sRkNwKE0LVBzu0FETFzdmXFBv9nUZGbqfRUI/NWXGPHy+aBm9lc
+ MnDxVW/wW3nxHkAGUgBhcIAQ3MuLP8uZk+eKaXrajBZKCnvlW5+su6YnHhbEUkddHfYN
+ mazA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKcjXYC/TH6qzNw0QDDgiRh5q5ds/Uq36erq9S4faMas2gFnH3Hio/NN3ATx3DTgJH7IZFhLIz9jOHbhfGQVAnlLcQx30QTdYQOvndf4Y1
+X-Gm-Message-State: AOJu0YwF5904B1g6u7QMC8eWv4ze2Qn0gBcAapY0+QiK7zF+TBqVm3zC
+ Qo2eGhTy4GkPdYPouIyBF4GUI8OBRJ7QhNd4l9Ic2fPg2akEq7Z1kKlvX6RFH1s=
+X-Google-Smtp-Source: AGHT+IEeCFPLP0xfg9I587Tui8Mvgeq3K/jroE1CYOnUpQ9zZAYa3E+EGGh4PFeyvJx4Oey5IN0PeA==
+X-Received: by 2002:a17:907:368c:b0:a7a:8dcd:ffb4 with SMTP id
+ a640c23a62f3a-a8091f1998dmr492925166b.17.1723223218128; 
+ Fri, 09 Aug 2024 10:06:58 -0700 (PDT)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a7dc9d89a8esm872794066b.144.2024.08.09.10.06.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Aug 2024 10:06:57 -0700 (PDT)
+Date: Fri, 9 Aug 2024 20:06:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] drm/ast: astdp: fix pre-op vs post-op bug
+Message-ID: <359e5aa5-5908-44d3-8359-4605aac3f5d5@stanley.mountain>
+References: <f7790a38-6b72-44dd-aaeb-550d2de14cf2@stanley.mountain>
+ <57cea156-1abc-4860-9a6a-0a5fdb4a2971@suse.de>
+ <87h6bt3j6w.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] accel: drm_accel: remove incorrect comments
-Content-Language: en-US
-To: bajing <bajing@cmss.chinamobile.com>, <ogabbay@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240731064253.24523-1-bajing@cmss.chinamobile.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240731064253.24523-1-bajing@cmss.chinamobile.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: iWS63QX0a51Rfhujod6BKKy27V1zY1Fo
-X-Proofpoint-GUID: iWS63QX0a51Rfhujod6BKKy27V1zY1Fo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-09_13,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 impostorscore=0 mlxscore=0
- clxscore=1011 mlxlogscore=982 spamscore=0 bulkscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2408090121
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87h6bt3j6w.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,26 +90,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/31/2024 12:42 AM, bajing wrote:
-> accel_minor_replace is of type void, so remove the explanation of the return value in the comments.
+On Fri, Aug 09, 2024 at 04:43:51PM +0300, Jani Nikula wrote:
+> On Fri, 09 Aug 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > Hi,
+> >
+> > thanks a lot for the bugfix.
+> >
+> > Am 09.08.24 um 14:33 schrieb Dan Carpenter:
+> >> The test for "Link training failed" expect the loop to exit with "i"
+> >> set to zero but it exits when "i" is set to -1.  Change this from a
+> >> post-op to a pre-op so that it exits with "i" set to zero.  This
+> >> changes the number of iterations from 10 to 9 but probably that's
+> >> okay.
+> >
+> > Yes, that's ok.
+> >
+> >>
+> >> Fixes: 2281475168d2 ("drm/ast: astdp: Perform link training during atomic_enable")
+> >> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> >> ---
+> >>   drivers/gpu/drm/ast/ast_dp.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> >> index 5d07678b502c..4329ab680f62 100644
+> >> --- a/drivers/gpu/drm/ast/ast_dp.c
+> >> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> >> @@ -148,7 +148,7 @@ void ast_dp_link_training(struct ast_device *ast)
+> >>   	struct drm_device *dev = &ast->base;
+> >>   	unsigned int i = 10;
+> >>   
+> >> -	while (i--) {
+> >> +	while (--i) {
+> >
+> > If this loop ever starts with i = 0, it would break again. Can we use
+> >
+> > while (i) {
+> >    --i;
+> >     ...
+> > }
+> >
+> > instead?
 > 
-> Signed-off-by: bajing <bajing@cmss.chinamobile.com>
-> ---
->   drivers/accel/drm_accel.c | 2 --
->   1 file changed, 2 deletions(-)
+> FWIW, I personally *always* use for loops when there isn't a compelling
+> reason to do otherwise. You know at a glance that
 > 
-> diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
-> index 16c3edb8c46e..09fb64444cc6 100644
-> --- a/drivers/accel/drm_accel.c
-> +++ b/drivers/accel/drm_accel.c
-> @@ -161,8 +161,6 @@ void accel_minor_remove(int index)
->    * This function access the accel minors idr structure and replaces the pointer
->    * that is associated with an existing id. Because the minor pointer can be
->    * NULL, we need to explicitly pass the index.
-> - *
-> - * Return: 0 for success, negative value for error
->    */
->   void accel_minor_replace(struct drm_minor *minor, int index)
->   {
+> 	for (i = 0; i < N; i++)
+> 
+> gets run N times and what i is going to be afterwards.
+> 
+> Sure, you may have to restructure other things, but I think it's almost
+> always worth it.
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+A for statement works here.  I need to resend the patch anyway because
+the if (i) msleep() code doesn't make sense now.
+
+regards,
+dan carpenter
+
