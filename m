@@ -2,65 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39B294D1A4
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 15:54:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1850A94D1D2
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 16:10:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2162510E90E;
-	Fri,  9 Aug 2024 13:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75F8A10E0A8;
+	Fri,  9 Aug 2024 14:10:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RrzpVtRE";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ANKGcLez";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA4010E90B;
- Fri,  9 Aug 2024 13:54:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723211642; x=1754747642;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=HKCBa32ax2IqSlbKwZ588yNgdKaXC2+ejCZBHAL8PCY=;
- b=RrzpVtREFomoBXnEU1OF3CrU6v21TK9QspJR1S71rORXkev1K1DUQpv+
- iarVuRyrAqgKUCPXB6IHgCxnMFk2BE9/MyqCiqgtpbP6+horOq3z+0eUT
- apqVWPBkSiKexMSoxUo+ie0hGriINJXSCsdBCUFdRgEPNjiW85C0uHTM5
- wJqhMXR8ASxrkrvCak3qDhtLj0GUPhmCMenfFJUWZMnPOSk7+VBdMTYJb
- NmwPbm3EUradv63Jtch+U7qKZgiedqKX3s5u7XLD1qg+r1ptHkAHF+c0T
- HKb9yD8BBE2/xJfNKAb+ieN7aC0cQx2iCyZDgP0ztxAjHCzdRo7oOgs41 Q==;
-X-CSE-ConnectionGUID: ZfKw0E9LQcah/2KT2yHYCg==
-X-CSE-MsgGUID: DIowxMJTSN6Ngn/0dc1FUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21359047"
-X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; d="scan'208";a="21359047"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2024 06:54:02 -0700
-X-CSE-ConnectionGUID: w1iB9DHYQdmiXJ4/TQn6ZA==
-X-CSE-MsgGUID: 9j49b05nSvGqq7hcUmKsrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; d="scan'208";a="62529262"
-Received: from johunt-mobl9.ger.corp.intel.com (HELO [10.245.245.150])
- ([10.245.245.150])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2024 06:54:00 -0700
-Message-ID: <a1acfa3f9333e6917f7de85706db00e84abda68a.camel@linux.intel.com>
-Subject: Re: [PATCH v6 12/12] drm/xe: Increase the XE_PL_TT watermark
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-xe@lists.freedesktop.org, Somalapuram Amaranath
- <Amaranath.Somalapuram@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org
-Date: Fri, 09 Aug 2024 15:53:57 +0200
-In-Reply-To: <ZrQG4l9I1KTZZwwl@DUT025-TGLU.fm.intel.com>
-References: <20240703153813.182001-1-thomas.hellstrom@linux.intel.com>
- <20240703153813.182001-13-thomas.hellstrom@linux.intel.com>
- <ZrQG4l9I1KTZZwwl@DUT025-TGLU.fm.intel.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 029C010E915
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 14:10:48 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id
+ 6a1803df08f44-6b7a4668f07so11694236d6.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 07:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1723212648; x=1723817448;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FAq+1P/w8tI0/3HVArG8ZV5u6VZadlBPolUAhgI5gl8=;
+ b=ANKGcLezOdc9/WD0umtpHVpVcC8EGxvxgdaDkrXtgdHIrA13qW9ZD2xWxearQsu7GP
+ BaU4b84bjeITnKqGCKsFcHNFzcAWO3bJGWlCfjkv5KFyP3X7XirluSJnJCRdarF4u18O
+ ROev6VMnIRS1AiL5sDLaXaXjOu6bCKgw4QGrReKx0VZVR6A5JvvuhDaeRz4sEsIUktOS
+ f0TXSEnGpbvL2h15j87Fqb3A09mxY9JkqWyWaz5dnQz7CTKAIwREPZZ4oO55Yk2seFtQ
+ 3kk2zztuI3Ac1iTADbogD75f+quT6Dua0pgP4WQwpY30LaZN+BVvLuZ5BgXoXVCUrZHv
+ 6ASA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723212648; x=1723817448;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FAq+1P/w8tI0/3HVArG8ZV5u6VZadlBPolUAhgI5gl8=;
+ b=bKm0UOogwyhgd/q1wTNPiZ2I7lRaHre642M0sezwrm79bDXajXNyqcmdBXkcF1yhxV
+ ZFiy8f9Ln13+dGv8F7o/8YSlKB16zK1ko0VxYWKRHmTcwnMYJuoaoPiA9KT3Web67tQa
+ YMorBnoEOElo7Gu6kXx8H7DoBwLizdi0a83b8ajhwlyjpiC3BD/h83FN+nwvTkA6bxIk
+ Bbg/Cua6/t8Kx2SVxEISxxVl/8f7Vy2dFP35OFENCITFFyeUEbAzk7wDXmkw4TbiUCWg
+ m55MLERt9a4TOFdGy8R8mglH+o/ol+/WAWUkhtkOOvb4rJUnW3FctvmPbzlc9FFN6npJ
+ gG9Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUu3felgL/RZMgGHaK5iEGUJHane4bv/ACJjwNva8cKAVJ0WDwax//4477bV8vzPgOOdYrr4Hu3cZbxTtXLSmriHlEMunKER/VD5U93UR7z
+X-Gm-Message-State: AOJu0YxKMFkA+mLiSdSxRQj9QCMctoRJQeMiaa/yTjPgK7dW6C4XHlaZ
+ VH+tVpXePm7A69Gd5cNU5fjw3xT35lq50ytcfBeYzktMOORP7nLBKtBxZSNSuzqS9IqyxMYzTuS
+ IhcQFwdGizDXRATGEEdmzqpYWtXaGJEEoW8dU
+X-Google-Smtp-Source: AGHT+IHtXT623FzOsQrwA3QF53Omar/D5N9kMqOW264VduXGeLM8mfJ22+dFZ2QyvytnqYSwbN8pGocgZbvLtoABiDw=
+X-Received: by 2002:a05:6214:459a:b0:6b7:a947:18ea with SMTP id
+ 6a1803df08f44-6bd78dcb419mr20493616d6.34.1723212647651; Fri, 09 Aug 2024
+ 07:10:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240805212536.2172174-1-almasrymina@google.com>
+ <20240805212536.2172174-8-almasrymina@google.com>
+ <20240806135924.5bb65ec7@kernel.org>
+ <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
+ <20240808192410.37a49724@kernel.org>
+In-Reply-To: <20240808192410.37a49724@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 9 Aug 2024 10:10:35 -0400
+Message-ID: <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory
+ provider
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,55 +118,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-08-07 at 23:44 +0000, Matthew Brost wrote:
-> On Wed, Jul 03, 2024 at 05:38:13PM +0200, Thomas Hellstr=C3=B6m wrote:
-> > The XE_PL_TT watermark was set to 50% of system memory.
-> > The idea behind that was unclear since the net effect is that
-> > TT memory will be evicted to TTM_PL_SYSTEM memory if that
-> > watermark is exceeded, requiring PPGTT rebinds and dma
-> > remapping. But there is no similar watermark for TTM_PL_SYSTEM
-> > memory.
-> >=20
-> > The TTM functionality that tries to swap out system memory to
-> > shmem objects if a 50% limit of total system memory is reached
-> > is orthogonal to this, and with the shrinker added, it's no
-> > longer in effect.
-> >=20
-> > Replace the 50% TTM_PL_TT limit with a 100% limit, in effect
-> > allowing all graphics memory to be bound to the device unless it
-> > has been swapped out by the shrinker.
-> >=20
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
->=20
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+On Thu, Aug 8, 2024 at 10:24=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Thu, 8 Aug 2024 16:36:24 -0400 Mina Almasry wrote:
+> > > How do you know that the driver:
+> > >  - supports net_iov at all (let's not make implicit assumptions based
+> > >    on presence of queue API);
+> > >  - supports net_iov in current configuration (eg header-data split is
+> > >    enabled)
+> > >  - supports net_iov for _this_ pool (all drivers must have separate
+> > >    buffer pools for headers and data for this to work, some will use
+> > >    page pool for both)
+> > >
+> > > What comes to mind is adding an "I can gobble up net_iovs from this
+> > > pool" flag in page pool params (the struct that comes from the driver=
+),
+> >
+> > This already sorta exists in the current iteration, although maybe in
+> > an implicit way. As written, drivers need to set params.queue,
+> > otherwise core will not attempt to grab the mp information from
+> > params.queue. A driver can set params.queue for its data pages pool
+> > and not set it for the headers pool. AFAICT that deals with all 3
+> > issues you present above.
+> >
+> > The awkward part is if params.queue starts getting used for other
+> > reasons rather than passing mp configuration, but as of today that's
+> > not the case so I didn't add the secondary flag. If you want a second
+> > flag to be added preemptively, I can do that, no problem. Can you
+> > confirm params.queue is not good enough?
+>
+> I'd prefer a flag. The setting queue in a param struct is not a good
+> API for conveying that the page pool is for netmem payloads only.
+>
+> > > and then on the installation path we can check if after queue reset
+> > > the refcount of the binding has increased. If it did - driver has
+> > > created a pool as we expected, otherwise - fail, something must be of=
+f.
+> > > Maybe that's a bit hacky?
+> >
+> > What's missing is for core to check at binding time that the driver
+> > supports net_iov. I had relied on the implicit presence of the
+> > queue-API.
+> >
+> > What you're proposing works, but AFAICT it's quite hacky, yes. I
+> > basically need to ASSERT_RTNL in net_devmem_binding_get() to ensure
+> > nothing can increment the refcount while the binding is happening so
+> > that the refcount check is valid.
+>
+> True. Shooting from the hip, but we could walk the page pools of the
+> netdev and find the one that has the right mp installed, and matches
+> queue? The page pools are on a list hooked up to the netdev, trivial
+> to walk.
+>
 
-Thanks for reviewing!
-/Thomas
+I think this is good, and it doesn't seem hacky to me, because we can
+check the page_pools of the netdev while we hold rtnl, so we can be
+sure nothing is messing with the pp configuration in the meantime.
+Like you say below it does validate the driver rather than rely on the
+driver saying it's doing the right thing. I'll look into putting this
+in the next version.
 
 
->=20
-> > ---
-> > =C2=A0drivers/gpu/drm/xe/xe_ttm_sys_mgr.c | 3 +--
-> > =C2=A01 file changed, 1 insertion(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-> > b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-> > index 9844a8edbfe1..d38b91872da3 100644
-> > --- a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-> > +++ b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-> > @@ -108,9 +108,8 @@ int xe_ttm_sys_mgr_init(struct xe_device *xe)
-> > =C2=A0	u64 gtt_size;
-> > =C2=A0
-> > =C2=A0	si_meminfo(&si);
-> > +	/* Potentially restrict amount of TT memory here. */
-> > =C2=A0	gtt_size =3D (u64)si.totalram * si.mem_unit;
-> > -	/* TTM limits allocation of all TTM devices by 50% of
-> > system memory */
-> > -	gtt_size /=3D 2;
-> > =C2=A0
-> > =C2=A0	man->use_tt =3D true;
-> > =C2=A0	man->func =3D &xe_ttm_sys_mgr_func;
-> > --=20
-> > 2.44.0
-> >=20
-
+--
+Thanks,
+Mina
