@@ -2,75 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D54D94CCC4
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 10:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D0C94CD40
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 11:22:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C851B10E0BB;
-	Fri,  9 Aug 2024 08:56:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22D4D10E88F;
+	Fri,  9 Aug 2024 09:22:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="GBED+yQJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZFlOkSck";
 	dkim-atps=neutral
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5DA10E0BB
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 08:56:09 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-5a4d5b2c295so165159a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 01:56:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1723193768; x=1723798568; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Zf0eSUCz8oCrEZ7Xk4wx1Lt79O0otqHkMl3ZHIbErRw=;
- b=GBED+yQJPj1/z1gl+un/EZoMbBSlOwKkjWyy/zP5UNpZ7DPmU4hid75Tzu5Sbzi8C8
- bHBeSoBpJ4hDRFfOS+mc4BZTVm1vO9uxagvgHaq6Kq6tL7c9sC8FCtqMHz7Yt99lsuJ+
- kqypUjM6sxcXR91bSeJ9Ov+m49PZdRTPsTuuY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723193768; x=1723798568;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Zf0eSUCz8oCrEZ7Xk4wx1Lt79O0otqHkMl3ZHIbErRw=;
- b=K4taa4B1Iu6LKo7TUgQvRZ2IRYZ4gVYbRSL1b0w2J6l/rQWIW19ZSW3UnZiMgj9yEI
- eEl/mugHEruEcZPr9KZNR2KFBhZKmrMiMYinyDO4un/9MtSWZJfsPdMPc+yQGRv3krk4
- dniPUqrn8A7Syqk3Y/0X7oH00Ef8OepaglGEIA+pZB6uh1Vk4hYf5fjDS5KyN+oR0Vig
- tH6up30ySlizKR+HunzO5qrAIUbweFlSKYffwbF3+SmtUjCqmY/9s6+TE//35DkGumLY
- pgeukmqaog6rmSQ94AL+eY/2qLz+BKA33wFSIhyRzoAQ2XEJFI1AmS4sLNzeFmERCEtn
- CL2g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXayEpdN1VhkUqM65Zr+UCvhZRUwveCNynaAKZvomiUSCNmSsa4B5okRRhFwFvfUIRv7gniBZnLOFcYEfQxHxKymes2RGtMVpFC0rUNlwT7
-X-Gm-Message-State: AOJu0Yzy6iUmw3HjARonAnjYsKItnZpecsVG9I3ROXyPzSEWsXYjay28
- 8HW2rIzO69HJiTKLAxZM14IRXMGpSwV14uGbZzHxKSz58DK+dHWN02WdBSWmylI=
-X-Google-Smtp-Source: AGHT+IGqTC/nx/+XFtpktSWyuxoXIw3nWTqCFBcUX9ii1KnVPn/gT5QRdlqDKdTWwPprB86JbOi8kg==
-X-Received: by 2002:a05:6402:2791:b0:582:4465:8b27 with SMTP id
- 4fb4d7f45d1cf-5bd0a66af4fmr413692a12.4.1723193767591; 
- Fri, 09 Aug 2024 01:56:07 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5bbb2e5ef39sm1355009a12.91.2024.08.09.01.56.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Aug 2024 01:56:07 -0700 (PDT)
-Date: Fri, 9 Aug 2024 10:56:05 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 5/5] drm/panic: Add panic description
-Message-ID: <ZrXZpZWl4BGC1BvA@phenom.ffwll.local>
-References: <20240807134902.458669-1-jfalempe@redhat.com>
- <20240807134902.458669-6-jfalempe@redhat.com>
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5703410E88F;
+ Fri,  9 Aug 2024 09:22:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723195369; x=1754731369;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to;
+ bh=bYGndcNnW1Vba4fNuZLi9vqUiGdG9Cad+lm8zp8Ojcs=;
+ b=ZFlOkSck7xzNTACNM/1Smie+u3A5hp/+Py2bZ1uoVvZconczeemPlhM+
+ QYP5pcf/9WB/tCAkf41FkQc4j3LKQg/agbl/KKKf4q130E88/1SXlBE6J
+ MF/Bi29zUZ1b4uByQVhoXHc7zb878KLU978ObOcgo4yPVpOMWNxfA3vpL
+ q0rfse2RqwHyN/EMHsyCYcgFp0IY3HVm0/G02bVxFYlsF9D5VnF0sTXYo
+ gqEdICzeMzFwl/A5qUR6Wb1kgkZ7Xft74Bzc6F0kuBeYMqXLAJDdj9UhI
+ C8PwnnR+FYmDQxa4P7Qu5s0fYcLc5FesH9HOjWPvcZXyfM4tauZ3KjmvD w==;
+X-CSE-ConnectionGUID: sTJ1OIgMR6iT16Lh4uWYLQ==
+X-CSE-MsgGUID: 5KIpv2/NRGy2+xjwLNy+5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21486411"
+X-IronPort-AV: E=Sophos;i="6.09,275,1716274800"; d="scan'208,217";a="21486411"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2024 02:22:48 -0700
+X-CSE-ConnectionGUID: tbTCISUSRQSpZyPvqbWXgQ==
+X-CSE-MsgGUID: +skD7IZZQK+hCRArOt9lPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,275,1716274800"; d="scan'208,217";a="57594547"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.245.146.117])
+ ([10.245.146.117])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2024 02:22:45 -0700
+Content-Type: multipart/alternative;
+ boundary="------------30rVFzWDHg0gF4dmqBlse02w"
+Message-ID: <58ed26e4-71bc-4182-879c-eb33d9329500@linux.intel.com>
+Date: Fri, 9 Aug 2024 11:22:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240807134902.458669-6-jfalempe@redhat.com>
-X-Operating-System: Linux phenom 6.9.10-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/guc: Fix missing enable of Wa_14019159160 on ARL
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+Cc: DRI-Devel@Lists.FreeDesktop.Org,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Roper
+ <matthew.d.roper@intel.com>, Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, Shuicheng Lin <shuicheng.lin@intel.com>
+References: <20240809000646.1747507-1-John.C.Harrison@Intel.com>
+Content-Language: en-US
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <20240809000646.1747507-1-John.C.Harrison@Intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,173 +77,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 07, 2024 at 03:36:14PM +0200, Jocelyn Falempe wrote:
-> Now that kmsg dump callback has the description parameter, use it in
-> the user panic screen.
-> This is the string passed to panic(), like "VFS: Unable to mount root
-> fs on xxx" or "Attempted to kill init! exitcode=0xxxx".
-> It gives a hint on why the panic occurred, without being too cryptic.
-> 
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+This is a multi-part message in MIME format.
+--------------30rVFzWDHg0gF4dmqBlse02w
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+On 8/9/2024 2:06 AM, John.C.Harrison@Intel.com wrote:
+> From: John Harrison<John.C.Harrison@Intel.com>
+>
+> The previous update to enable the workaround on ARL only changed two
+> out of three places where the w/a needs to be enabled. That meant the
+> GuC side was operational but not the KMD side. And as the KMD side is
+> the trigger, it meant the w/a was not actually active. So fix that.
+>
+> Fixes: 104bcfae57d8 ("drm/i915/arl: Enable Wa_14019159160 for ARL")
+> Cc: John Harrison<John.C.Harrison@Intel.com>
+> Cc: Vinay Belgaumkar<vinay.belgaumkar@intel.com>
+> Cc: Daniele Ceraolo Spurio<daniele.ceraolospurio@intel.com>
+> Cc: Andi Shyti<andi.shyti@linux.intel.com>
+> Cc: Lucas De Marchi<lucas.demarchi@intel.com>
+> Cc: Rodrigo Vivi<rodrigo.vivi@intel.com>
+> Cc: Matt Roper<matthew.d.roper@intel.com>
+> Cc: Jonathan Cavitt<jonathan.cavitt@intel.com>
+> Cc: Nirmoy Das<nirmoy.das@intel.com>
+> Cc: Shuicheng Lin<shuicheng.lin@intel.com>
+> Signed-off-by: John Harrison<John.C.Harrison@Intel.com>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 > ---
-> 
-> v2:
->  * Use a macro PANIC_MSG_LINES, instead of directly using the indice in drm_panic_set_description() (Sima)
->  * Add drm_panic_clear_description() to make sure the stack allocated pointer won't be used. (Sima)
->  * use the macro PANIC_MSG_LINES also in draw_panic_static_user()
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 9400d0eb682b2..3e1c3bc56daf2 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -4506,7 +4506,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>   	/* Wa_16019325821 */
+>   	/* Wa_14019159160 */
+>   	if ((engine->class == COMPUTE_CLASS || engine->class == RENDER_CLASS) &&
+> -	    IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 70), IP_VER(12, 71)))
+> +	    IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 70), IP_VER(12, 74)))
+>   		engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
+>   
+>   	/*
+--------------30rVFzWDHg0gF4dmqBlse02w
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 8/9/2024 2:06 AM,
+      <a class="moz-txt-link-abbreviated" href="mailto:John.C.Harrison@Intel.com">John.C.Harrison@Intel.com</a> wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20240809000646.1747507-1-John.C.Harrison@Intel.com">
+      <pre wrap="" class="moz-quote-pre">From: John Harrison <a class="moz-txt-link-rfc2396E" href="mailto:John.C.Harrison@Intel.com">&lt;John.C.Harrison@Intel.com&gt;</a>
 
-> 
->  drivers/gpu/drm/drm_panic.c | 56 ++++++++++++++++++++++++++++---------
->  1 file changed, 43 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index 2efede7fa23a..c7d9f3a9e30d 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -81,7 +81,10 @@ static struct drm_panic_line panic_msg[] = {
->  	PANIC_LINE("KERNEL PANIC!"),
->  	PANIC_LINE(""),
->  	PANIC_LINE("Please reboot your computer."),
-> +	PANIC_LINE(""),
-> +	PANIC_LINE(""), /* will be replaced by the panic description */
->  };
-> +#define PANIC_MSG_LINES ARRAY_SIZE(panic_msg)
->  
->  static const struct drm_panic_line logo_ascii[] = {
->  	PANIC_LINE("     .--.        _"),
-> @@ -92,6 +95,7 @@ static const struct drm_panic_line logo_ascii[] = {
->  	PANIC_LINE(" /'\\_   _/`\\    (_)"),
->  	PANIC_LINE(" \\___)=(___/"),
->  };
-> +#define PANIC_LOGO_LINES ARRAY_SIZE(logo_ascii)
->  
->  #if defined(CONFIG_LOGO) && !defined(MODULE)
->  static const struct linux_logo *logo_mono;
-> @@ -487,13 +491,12 @@ static void draw_txt_rectangle(struct drm_scanout_buffer *sb,
->  
->  static void draw_panic_static_user(struct drm_scanout_buffer *sb)
->  {
-> -	size_t msg_lines = ARRAY_SIZE(panic_msg);
-> -	size_t logo_ascii_lines = ARRAY_SIZE(logo_ascii);
->  	u32 fg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, sb->format->format);
->  	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
->  	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
->  	struct drm_rect r_screen, r_logo, r_msg;
->  	unsigned int logo_width, logo_height;
-> +	unsigned int msg_width, msg_height;
->  
->  	if (!font)
->  		return;
-> @@ -504,14 +507,14 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
->  		logo_width = logo_mono->width;
->  		logo_height = logo_mono->height;
->  	} else {
-> -		logo_width = get_max_line_len(logo_ascii, logo_ascii_lines) * font->width;
-> -		logo_height = logo_ascii_lines * font->height;
-> +		logo_width = get_max_line_len(logo_ascii, PANIC_LOGO_LINES) * font->width;
-> +		logo_height = PANIC_LOGO_LINES * font->height;
->  	}
-> -
->  	r_logo = DRM_RECT_INIT(0, 0, logo_width, logo_height);
-> -	r_msg = DRM_RECT_INIT(0, 0,
-> -			      min(get_max_line_len(panic_msg, msg_lines) * font->width, sb->width),
-> -			      min(msg_lines * font->height, sb->height));
-> +
-> +	msg_width = min(get_max_line_len(panic_msg, PANIC_MSG_LINES) * font->width, sb->width);
-> +	msg_height = min(PANIC_MSG_LINES * font->height, sb->height);
-> +	r_msg = DRM_RECT_INIT(0, 0, msg_width, msg_height);
->  
->  	/* Center the panic message */
->  	drm_rect_translate(&r_msg, (sb->width - r_msg.x2) / 2, (sb->height - r_msg.y2) / 2);
-> @@ -525,10 +528,10 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
->  			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
->  				       fg_color);
->  		else
-> -			draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
-> +			draw_txt_rectangle(sb, font, logo_ascii, PANIC_LOGO_LINES, false, &r_logo,
->  					   fg_color);
->  	}
-> -	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
-> +	draw_txt_rectangle(sb, font, panic_msg, PANIC_MSG_LINES, true, &r_msg, fg_color);
->  }
->  
->  /*
-> @@ -633,7 +636,31 @@ static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
->  	}
->  }
->  
-> -static void draw_panic_plane(struct drm_plane *plane)
-> +static void drm_panic_set_description(const char *description)
-> +{
-> +	u32 len;
-> +
-> +	if (description) {
-> +		struct drm_panic_line *desc_line = &panic_msg[PANIC_MSG_LINES - 1];
-> +
-> +		desc_line->txt = description;
-> +		len = strlen(description);
-> +		/* ignore the last newline character */
-> +		if (len && description[len - 1] == '\n')
-> +			len -= 1;
-> +		desc_line->len = len;
-> +	}
-> +}
-> +
-> +static void drm_panic_clear_description(void)
-> +{
-> +	struct drm_panic_line *desc_line = &panic_msg[PANIC_MSG_LINES - 1];
-> +
-> +	desc_line->len = 0;
-> +	desc_line->txt = NULL;
-> +}
-> +
-> +static void draw_panic_plane(struct drm_plane *plane, const char *description)
->  {
->  	struct drm_scanout_buffer sb = { };
->  	int ret;
-> @@ -642,6 +669,8 @@ static void draw_panic_plane(struct drm_plane *plane)
->  	if (!drm_panic_trylock(plane->dev, flags))
->  		return;
->  
-> +	drm_panic_set_description(description);
-> +
->  	ret = plane->helper_private->get_scanout_buffer(plane, &sb);
->  
->  	if (!ret && drm_panic_is_format_supported(sb.format)) {
-> @@ -649,6 +678,7 @@ static void draw_panic_plane(struct drm_plane *plane)
->  		if (plane->helper_private->panic_flush)
->  			plane->helper_private->panic_flush(plane);
->  	}
-> +	drm_panic_clear_description();
->  	drm_panic_unlock(plane->dev, flags);
->  }
->  
-> @@ -662,7 +692,7 @@ static void drm_panic(struct kmsg_dumper *dumper, struct kmsg_dump_detail *detai
->  	struct drm_plane *plane = to_drm_plane(dumper);
->  
->  	if (detail->reason == KMSG_DUMP_PANIC)
-> -		draw_panic_plane(plane);
-> +		draw_panic_plane(plane, detail->description);
->  }
->  
->  
-> @@ -682,7 +712,7 @@ static ssize_t debugfs_trigger_write(struct file *file, const char __user *user_
->  	if (kstrtobool_from_user(user_buf, count, &run) == 0 && run) {
->  		struct drm_plane *plane = file->private_data;
->  
-> -		draw_panic_plane(plane);
-> +		draw_panic_plane(plane, "Test from debugfs");
->  	}
->  	return count;
->  }
-> -- 
-> 2.45.2
-> 
+The previous update to enable the workaround on ARL only changed two
+out of three places where the w/a needs to be enabled. That meant the
+GuC side was operational but not the KMD side. And as the KMD side is
+the trigger, it meant the w/a was not actually active. So fix that.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Fixes: 104bcfae57d8 ("drm/i915/arl: Enable Wa_14019159160 for ARL")
+Cc: John Harrison <a class="moz-txt-link-rfc2396E" href="mailto:John.C.Harrison@Intel.com">&lt;John.C.Harrison@Intel.com&gt;</a>
+Cc: Vinay Belgaumkar <a class="moz-txt-link-rfc2396E" href="mailto:vinay.belgaumkar@intel.com">&lt;vinay.belgaumkar@intel.com&gt;</a>
+Cc: Daniele Ceraolo Spurio <a class="moz-txt-link-rfc2396E" href="mailto:daniele.ceraolospurio@intel.com">&lt;daniele.ceraolospurio@intel.com&gt;</a>
+Cc: Andi Shyti <a class="moz-txt-link-rfc2396E" href="mailto:andi.shyti@linux.intel.com">&lt;andi.shyti@linux.intel.com&gt;</a>
+Cc: Lucas De Marchi <a class="moz-txt-link-rfc2396E" href="mailto:lucas.demarchi@intel.com">&lt;lucas.demarchi@intel.com&gt;</a>
+Cc: Rodrigo Vivi <a class="moz-txt-link-rfc2396E" href="mailto:rodrigo.vivi@intel.com">&lt;rodrigo.vivi@intel.com&gt;</a>
+Cc: Matt Roper <a class="moz-txt-link-rfc2396E" href="mailto:matthew.d.roper@intel.com">&lt;matthew.d.roper@intel.com&gt;</a>
+Cc: Jonathan Cavitt <a class="moz-txt-link-rfc2396E" href="mailto:jonathan.cavitt@intel.com">&lt;jonathan.cavitt@intel.com&gt;</a>
+Cc: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a>
+Cc: Shuicheng Lin <a class="moz-txt-link-rfc2396E" href="mailto:shuicheng.lin@intel.com">&lt;shuicheng.lin@intel.com&gt;</a>
+Signed-off-by: John Harrison <a class="moz-txt-link-rfc2396E" href="mailto:John.C.Harrison@Intel.com">&lt;John.C.Harrison@Intel.com&gt;</a></pre>
+    </blockquote>
+    Reviewed-by: <span style="white-space: pre-wrap">Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a></span>
+    <blockquote type="cite"
+      cite="mid:20240809000646.1747507-1-John.C.Harrison@Intel.com">
+      <pre wrap="" class="moz-quote-pre">
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 9400d0eb682b2..3e1c3bc56daf2 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -4506,7 +4506,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+ 	/* Wa_16019325821 */
+ 	/* Wa_14019159160 */
+ 	if ((engine-&gt;class == COMPUTE_CLASS || engine-&gt;class == RENDER_CLASS) &amp;&amp;
+-	    IS_GFX_GT_IP_RANGE(engine-&gt;gt, IP_VER(12, 70), IP_VER(12, 71)))
++	    IS_GFX_GT_IP_RANGE(engine-&gt;gt, IP_VER(12, 70), IP_VER(12, 74)))
+ 		engine-&gt;flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
+ 
+ 	/*
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------30rVFzWDHg0gF4dmqBlse02w--
