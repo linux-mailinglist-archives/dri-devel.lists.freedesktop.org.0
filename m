@@ -2,80 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30ECA94D312
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 17:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5089094D308
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 17:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF1710E94E;
-	Fri,  9 Aug 2024 15:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D17410E94B;
+	Fri,  9 Aug 2024 15:13:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="0GhVRpzY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qYmxTnsy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9075610E94E
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 15:14:00 +0000 (UTC)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 479A0pHv008310;
- Fri, 9 Aug 2024 17:13:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- FlSaZnNd7y0QCcx39z10PqhY0Rx1yv+xs/5BlCrpbHQ=; b=0GhVRpzYDv+xy6ck
- hX9bTaggS95gaBY7VXM+NY4RmiYBoycMJeyIwosZSpchFK1sLxlTLeQCrJ5njOfm
- yBulZBIYBKI4j9vut/gICz7osbfrPApIOBZszePQSBsm9tIHCwADY4q8KN2c5zj4
- jLCwdjMjunaJg+sVjocNrd5f1d4zSzWpSz7dkkdG1A9G9b6dTbgdhd4I+LAvTJNy
- DxbLXdUjej6OIEB3cXrGfWVBh+FLmmighkwnPcW2XgvK2Pzou8gcEZBchbloCU1c
- QZb7RUqXuN74AWCxqzcvbg+9npPXfifETEXSvohsOEZ6bmiEHdHysOTEa688cwKo
- EkJCmA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40tu6n51kp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Aug 2024 17:13:38 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 7449040044;
- Fri,  9 Aug 2024 17:13:34 +0200 (CEST)
-Received: from Webmail-eu.st.com (eqndag1node6.st.com [10.75.129.135])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 680AD2606D0;
- Fri,  9 Aug 2024 17:12:44 +0200 (CEST)
-Received: from [10.252.26.60] (10.252.26.60) by EQNDAG1NODE6.st.com
- (10.75.129.135) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 9 Aug
- 2024 17:12:42 +0200
-Message-ID: <e3cf0c78-133a-400a-9669-93ff529d708b@foss.st.com>
-Date: Fri, 9 Aug 2024 17:12:41 +0200
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9348710E94B
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 15:13:11 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-5af51684d52so2509515a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 08:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1723216390; x=1723821190; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=BpX0PmRMIOMosOFUpPOvs2TSQ8WjI+Sk8T/asQuu3RM=;
+ b=qYmxTnsyy45Qhx/5FR58Huxkr2Quwg8p3qHZmDqhsFO09T1+x9n1tdxcK7nSrGsGqq
+ LmxKbtRA8qH/J4ofXnqTh4gkzSgBXbdm7d7ZwebLtuh6n8mw5DEAKeLlK+/8R0p3BQuU
+ MS165Yj9cYU6fqY4bUJC4N7uyCzwtCULvn1YkvtiuC0+kaczPeXNfMiXJJ0So5lBjT5x
+ hQJjp+JoCARVEFCOYEwE0LMkPLHNqPYqoiyzCzWRZgeUh/MlF8D+eOMh59R6q8HJ7c0L
+ Agis6cJKl2bCv51yRLUHKTXiuvC0ZP2BaQgjfvH3xpEfwaY5bBX0gN6mMiaxnOGP+LVC
+ Gong==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723216390; x=1723821190;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BpX0PmRMIOMosOFUpPOvs2TSQ8WjI+Sk8T/asQuu3RM=;
+ b=oYni2cy6NWNKkbsy/pgrB/eon+QN9PCsZJAtCr4CcApywV7yRIJ/e3QkJnee/Eh/mV
+ XPa2uXG/Dfy35VkfqNQSWKZ8z68Yh4afuNhmyLKGcHP5zqXyXkfayKxTS4KlZ0LFJWVd
+ 0BW1fbBf11Zdli8z283by1weBrTUTv6ClT8DlM8VP/+Bs+fUBB9rKh79wMW/DqsLSHYw
+ 1skMWB4+tXHt8tQuyRySTKTUfD3zBhDMT6kGKnUaoZWexOYLMo60APq64drWJYs9ijVg
+ fXAeLX3erkVaNtzWyPb2307ctJzsYtKp24QEG8sZMdty/ObM+FakaK7yypHiUPVucmiZ
+ nUcw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUgVT7i5JalGgA1SItOIyVFaIGJqbrNpovcmHWIvDYR1kGhNvM7iLyCMN6L5B/LCMgsHzHLk+srN/QRZiZm1XRQWzhqlxnoGaCiFpsOjr5o
+X-Gm-Message-State: AOJu0YxIgJMfi3qdgdbK7AWBuPiT/ur0Jd7ywY3cU7F8NXIqGpObGfHW
+ 2T78z13/9rx6T1s6n87bTHZ/uYPnmodN0KV6rrKU3TnWDr2i1GlXzmxLjIoKvSI=
+X-Google-Smtp-Source: AGHT+IEBThtubQZ1lg4fjJJt14Xg/AU44Rj0pn1BDb2spFYMlZm36ap+IHP9bae5VVVd9msuHZFx7A==
+X-Received: by 2002:a17:907:9604:b0:a7a:ab1a:2d65 with SMTP id
+ a640c23a62f3a-a80aa67ae2cmr145636166b.67.1723216389708; 
+ Fri, 09 Aug 2024 08:13:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a7dc9c615f3sm852578166b.94.2024.08.09.08.13.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Aug 2024 08:13:09 -0700 (PDT)
+Date: Fri, 9 Aug 2024 18:13:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] fbdev: omapfb: panel-sony-acx565akm: Simplify
+ show_cabc_available_modes()
+Message-ID: <08fab5a3-4a6c-442c-98f9-672c5afc3609@stanley.mountain>
+References: <91fc9049558a4865d441930c8f4732461f478eca.1723110340.git.christophe.jaillet@wanadoo.fr>
+ <aa43c1f8-05bc-4edd-b7ba-474953f28f5c@stanley.mountain>
+ <7b65dbd8-1129-4fcc-97ba-43400fc98e31@wanadoo.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linux-stm32] [PATCH RESEND v3 0/3] Update STM DSI PHY driver
-To: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>, Yanjun Yang
- <yangyj.ee@gmail.com>, Philippe CORNU <philippe.cornu@foss.st.com>
-CC: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240129104106.43141-1-raphael.gallais-pou@foss.st.com>
- <21f4d43d-4abd-4aca-7abb-7321bcfa0f1d@foss.st.com>
- <CAE8JAfy9NtBa--DnUt2AEZPFnvjU6idj8DqUbaeLaH0DMFvuhw@mail.gmail.com>
- <e059f157-ff9c-32cb-57a6-48f2331f2555@foss.st.com>
- <ZqeZEB9peRSQkOLZ@void.tail05c47.ts.net>
- <94ecd3a6-3a62-4be6-b384-c8237c818e98@gmail.com>
-Content-Language: en-US
-From: Yannick FERTRE <yannick.fertre@foss.st.com>
-In-Reply-To: <94ecd3a6-3a62-4be6-b384-c8237c818e98@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.252.26.60]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To EQNDAG1NODE6.st.com
- (10.75.129.135)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-09_12,2024-08-07_01,2024-05-17_01
+In-Reply-To: <7b65dbd8-1129-4fcc-97ba-43400fc98e31@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,97 +87,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Aug 09, 2024 at 05:09:28PM +0200, Christophe JAILLET wrote:
+> Le 09/08/2024 � 16:42, Dan Carpenter a �crit�:
+> > On Thu, Aug 08, 2024 at 11:46:11AM +0200, Christophe JAILLET wrote:
+> > > Use sysfs_emit_at() instead of snprintf() + custom logic.
+> > > Using sysfs_emit_at() is much more simple.
+> > > 
+> > > Also, sysfs_emit() is already used in this function, so using
+> > > sysfs_emit_at() is more consistent.
+> > > 
+> > > Also simplify the logic:
+> > >    - always add a space after an entry
+> > >    - change the last space into a '\n'
+> > > 
+> > > Finally it is easy to see that, given the size of cabc_modes, PAGE_SIZE
+> > > can not be reached.
+> > > So better keep everything simple (and correct).
+> > > 
+> > > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> > > ---
+> > >   .../omap2/omapfb/displays/panel-sony-acx565akm.c  | 15 ++++++++-------
+> > >   1 file changed, 8 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
+> > > index 71d2e015960c..fc975615d5c9 100644
+> > > --- a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
+> > > +++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
+> > > @@ -466,19 +466,20 @@ static ssize_t show_cabc_available_modes(struct device *dev,
+> > >   		char *buf)
+> > >   {
+> > >   	struct panel_drv_data *ddata = dev_get_drvdata(dev);
+> > > -	int len;
+> > > +	int len = 0;
+> > >   	int i;
+> > >   	if (!ddata->has_cabc)
+> > >   		return sysfs_emit(buf, "%s\n", cabc_modes[0]);
+> > > -	for (i = 0, len = 0;
+> > > -	     len < PAGE_SIZE && i < ARRAY_SIZE(cabc_modes); i++)
+> > > -		len += snprintf(&buf[len], PAGE_SIZE - len, "%s%s%s",
+> > > -			i ? " " : "", cabc_modes[i],
+> > > -			i == ARRAY_SIZE(cabc_modes) - 1 ? "\n" : "");
+> > > +	for (i = 0; i < ARRAY_SIZE(cabc_modes); i++)
+> > > +		len += sysfs_emit_at(buf, len, "%s ", cabc_modes[i]);
+> > > +
+> > > +	/* Remove the trailing space */
+> > > +	if (len)
+> > > +		buf[len - 1] = '\n';
+> > 
+> > I'm uncomfortable with this line.  It assumes we don't overflow PAGE_SIZE where
+> > the original code was careful about checking.  Probably easiest to do what the
+> > original code did and say:
+> > 
+> 
+> Hi Dan,
+> 
+> I don't follow you. AFAIK, it does not assume anything.
+> 
+> Thanks to sysfs_emit_at(), len can only be in [0..PAGE_SIZE-1] because the
+> trailing \0 is not counted.
+> 
 
-we don't give enough attention to older SOCs like stm32f469. This is an 
-error on our part.
+Ah, you're right.  Sorry for the noise.
 
-I think that to fix this point it would be necessary to define the clock 
-hse as clock fix.
+regards,
+dan carpenter
 
-I hope to be able to release a patch before the end of August
-
-Best regards
-
-Yannick Fertré
-
-
-Le 01/08/2024 à 11:07, Raphaël Gallais-Pou a écrit :
->
->
-> Le 29/07/2024 à 15:28, Yanjun Yang a écrit :
->> On Fri, Jul 26, 2024 at 09:55:35AM +0200, Philippe CORNU wrote:
->>>
->>>
->>> On 7/22/24 10:38, Yanjun Yang wrote:
->>>>
->>>> This patch (commit id:185f99b614427360) seems to break the dsi of
->>>> stm32f469 chip.
->>>> I'm not familiar with the drm and the clock framework, maybe it's
->>>> because there is no
->>>>    "ck_dsi_phy" defined for stm32f469.
->>>> PS:  Sorry for receiving multiple copies of this email, I forgot to
->>>> use plain text mode last time.
->>>>
->>>
->>> Hi,
->>> Thank you for letting us know that there was this error. We should have
->>> detected this before merging, really sorry for the problems caused 
->>> by this
->>> patch. We will investigate the issue and get back to you as soon as
->>> possible. In the meantime, I think you can revert this patch in your 
->>> git
->>> tree.
->>>
->>> Philippe :-)
->>>
->>
->> Hi,
-> Hi,
->
-> FYI
-> DSI clock tree for stm32f469 can be found here:
-> https://www.st.com/resource/en/reference_manual/rm0386-stm32f469xx-and-stm32f479xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf 
->
->
-> Refer to Figure 17: DSI clock tree.
->
-> After some research I think "ck_dsi_phy" was introduced in stm32h7 
-> platforms. There is a mux which interfaces between various clocks 
-> (among ck_hse) and the byte lane clock. stm32f469 has a much simpler 
-> clock tree in which we did not bother to implement this "go-between" 
-> clock, even though they is an equivalent of the mux.
->
->> After some testing, the reason behind my problem is the parent's name of
->> 'clk_dsi_phy' for stm32f4 is 'clk-hse' other than 'ck_hse'.  I don't
->> know which is the better why to fix it:
->> 1. Change "ck_hse" to "clk-hse" in where "clk_dsi_phy" is defined.
-> Doing so will definitely break other platforms.
->
->> 2. Use "pll_in_khz = clk_get_rate(dsi->pllref_clk) / 1000" instead of
->>     "pll_in_khz = (unsigned int)(parent_rate / 1000)" when get the clock
->>     rate.
-> dsi->pllref_clk refers to the HSE clock if you take a look in the 
-> device-tree. This is the reason why this work on your setup. I doubt 
-> nevertheless that it wouldn't work on other platforms. But this would 
-> be a semantic nonsense, since the DSI byte lane clock is not always 
-> derived from HSE clock on other platforms.
->
-> Looking again at the clk-stm32f4 driver and the DSI clock tree linked, 
-> we can maybe implement the desired clock even if it is not represented 
-> on the diagram.
->
-> Eventually if this solution does not work we will go to the second 
-> solution you suggested and we will test it on all platforms.
->
-> @Philippe, @Yannick
-> Do you agree with this workflow ?
->
-> Regards,
-> Raphaël
->
->
->>
->> Both method can fix my problem. The first one might break other
->> platforms. Maybe I should change the clock name of 'clk-hse'. However,
->> I can't find the defination of this clock name for stm32f4.
