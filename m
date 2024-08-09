@@ -2,61 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCBE94D5EB
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 19:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560D494D65A
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 20:38:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE3210E9CD;
-	Fri,  9 Aug 2024 17:59:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 702BC10E954;
+	Fri,  9 Aug 2024 18:37:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Wqjv+a84";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KsU6FID5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBEBA10E9CD
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 17:59:53 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3D85420003;
- Fri,  9 Aug 2024 17:59:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1723226392;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xAub0mkPJ87xzsTXaBjAQ8FSWOArTO6I288vqwLrdYQ=;
- b=Wqjv+a84Ko1Fp2vlL/me5E8Q6bdXY+NpnPLT86U22+ahV6L2JllKhqWejwTpJeYjnMQliT
- RaxRcjyyTNwbFA6FYv0Mlc/01cmPslLEfQ3PtjzToVtyMR8I//KonRmam76Teqkh+wxMx9
- rdoVeEJvFXtIZryjwEk91Sa+kM8axhxr27qbIEogOOe/mJwzgR1QjZYJef+6HFO968tzBW
- 55n0OOwFH/YDe0/+ElGJGVk3kw+5mGxlFPNYBW3/wNddw48eA1fNwF13BM6RcoOkb6E8Vz
- nYwvrkYPqz0hf2hLqmhh8+j4o/T1zth2/h1WXgGWOlOrl7IV5lx0UYIDxpUCIg==
-Date: Fri, 9 Aug 2024 19:59:49 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: Marius Vlad <marius.vlad@collabora.com>,
- Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
- brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
- mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
- tzimmermann@suse.de, maarten.lankhorst@linux.intel.com
-Subject: [RFC] Adds support for ConfigFS to VKMS!
-Message-ID: <ZrZZFQW5RiG12ApN@louis-chauvet-laptop>
-Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
- <jose.exposito89@gmail.com>, 
- Marius Vlad <marius.vlad@collabora.com>,
- Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
- brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
- mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
- tzimmermann@suse.de, maarten.lankhorst@linux.intel.com
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
+ [209.85.160.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 422D810E954;
+ Fri,  9 Aug 2024 18:37:57 +0000 (UTC)
+Received: by mail-oa1-f42.google.com with SMTP id
+ 586e51a60fabf-2642cfb2f6aso1615953fac.2; 
+ Fri, 09 Aug 2024 11:37:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1723228676; x=1723833476; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=23V8N5AdZVNN/gtxnVahpyZ2F/zrIdL7fbh1DnGikW8=;
+ b=KsU6FID56mW1usWvWLwUpNiRuqUd0QVuoovaR7TfETYZbO1HbUEfk6VB//BY8p7VmI
+ EMe0Mi08T5AYofGOm8oHTujFeSRlMawfNwJir4oNrsCsNKef/+uzRrlmGyOX+lNyzssj
+ k6jcsW0Vl/WHZiJ0cnGtQC8deeMApxdGYJwpa9jds8JqETQMz22/zAQxV88VOD4N3y7v
+ aRVw9SjRCAWUDvHMouQAg7HVVAyE/4pJtIzddYV54PRpqNmYAMQyseCRuZO6RZ2Plygx
+ iyufSsbrUb5KSb2cgbaIHL+yeawF3YKg0Cjtg86T6vK9AqsFCGf8QcL3F90EP1AbIwox
+ G0uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723228676; x=1723833476;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=23V8N5AdZVNN/gtxnVahpyZ2F/zrIdL7fbh1DnGikW8=;
+ b=YpJszuvtr62N8hj+JD+IPhQpj5X5IhKnYVNjvL2RPJMBGxx4jqfNWDvNDPl8F/7pIh
+ e5xtXbmbBOSs9OGmsfWsjYv9a8jeg8DuY9ogfL1J5F+ZEVYnEBJWzTyj2CQ4tngTWTxT
+ oMkVC1qifywvwxweuIfCiAjtJhYfYsBk3EL70c8IyPGxGnVj34wQ0bOY0MhsO7lXPVmE
+ eV68B/HWFjKX6CPSefmBp+4Jjb91SMGyoLeSprkSqHVHWdbD/b8tVWxHqfmxcIaW3gl+
+ RVEp0a6jmOHzEXG1A/8NDnBKKaOWmXyXi/C0G2CC4t7r2PsSiKUTugtVnAk98cnqQY4i
+ J1aA==
+X-Gm-Message-State: AOJu0YxQThb0m09eBEpS2ITTaTkgyUJ+4mtRJwYZ80ADrzzgsZHMW70c
+ 4NVlBTUD0zxBJcHWeQzJQS7T74F5DgvJXpcXhUILKZOCI544ytP3IDlwsw==
+X-Google-Smtp-Source: AGHT+IENkZRkxsFSj8C+quRCgcAYIlP4KqTdlj4pXZh5I6G6gUctkIHTSWJe6NHYXlgtEeTz+miBOg==
+X-Received: by 2002:a05:6870:8318:b0:254:94a4:35d2 with SMTP id
+ 586e51a60fabf-26c63021a6dmr2759931fac.45.1723228675709; 
+ Fri, 09 Aug 2024 11:37:55 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:12e9:d196:a1e9:ab67])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-710e5a4a962sm68841b3a.106.2024.08.09.11.37.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Aug 2024 11:37:54 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm: Remove unused pm_state
+Date: Fri,  9 Aug 2024 11:37:52 -0700
+Message-ID: <20240809183752.160634-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,77 +84,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+From: Rob Clark <robdclark@chromium.org>
 
-I'm excited to share some good news! I've recently completed the addition 
-of a ConfigFS interface to VKMS, which allows to configure VKMS from 
-user-space, at runtime. You should be able to:
-- Create new devices
-- Create planes/crtc/encoders
-- Configure rotation, color range, color encoding
-- Link planes, crtc and encoders.
+This was added in commit ec446d09366c ("drm/msm: call
+drm_atomic_helper_suspend() and drm_atomic_helper_resume()"), but unused
+since commit ca8199f13498 ("drm/msm/dpu: ensure device suspend happens
+during PM sleep") which switched to drm_mode_config_helper_suspend()/
+drm_mode_config_helper_resume()..
 
-The entire series can be found on my GitHub repository:
-https://github.com/Fomys/linux/tree/b4/new-configfs
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_drv.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-This series is big, consisting of over 40 commits. Although it's not 
-completely cleaned up, all commits compile successfully and (almost) pass 
-checkpatch.
-
-I plan to split this series into several smaller ones:
-
- - Adding support for additional color formats
-	4a4f75873cca..d74006d7f9c4
- - Reintroducing the writeback algorithm
-	9e74d259e1be..f839dcf6a7d8
- - Clarifying documentation
-	b3bfd0ba2283..93945f0fbfc7
- - Properly splitting headers
-	c70018038572..67258bd8a180
- - Switching to drmm_ helpers
-	844e701e1d6d..f3050d125f64
- - Using a proper platform device driver
-	4658f99dfe3e..a3258e4d7550
- - Introducing a vkms_config structure
-	95ad6da46638..5b2d080b4626
- - Adding ConfigFS support
-	866ad75102ae..f900ad18ab8c
-
-What's currently missing:
-
- - A deep cleanup to ensure checkpatch compliance and proper
-   functionality for every commit
- - Updating documentation
- - Reviews 
-
-The primary area where I need assistance is reviews and testers. I'm aware 
-that Maìra is very busy and can't review quickly, but any other 
-individuals who can test and/or review this series would be greatly 
-appreciated.
-
-My next step is to add connector support, but as I will use this work and 
-my previous series [1], I would like to see it merged first.
-
-If any of the original authors would like to be credited for 
-their contributions, please let me know. I rewrote most of the code, but 
-the general idea was originally from them.
-
-José, I am sorry, I think I missed your mail where you told me you already 
-reviewed some commits: 
-
-> I reviewed the first 9 patches and added a few comments on your
-> GitHub fork.
-
-I am not able to find any comments, can you send me the link to the page 
-with them? I would like to read/apply them before submitting the first 
-part of the series.
-
-Thanks for your time,
-Louis Chauvet
-
-[1]: https://lore.kernel.org/all/20240809-yuv-v10-0-1a7c764166f7@bootlin.com/
-
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index be016d7b4ef1..c2eb9f14323e 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -215,8 +215,6 @@ struct msm_drm_private {
+ 	struct notifier_block vmap_notifier;
+ 	struct shrinker *shrinker;
+ 
+-	struct drm_atomic_state *pm_state;
+-
+ 	/**
+ 	 * hangcheck_period: For hang detection, in ms
+ 	 *
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.46.0
+
