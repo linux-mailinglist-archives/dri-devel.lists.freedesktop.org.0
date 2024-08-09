@@ -2,72 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E6194D25E
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 16:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C8294D27B
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 16:49:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B780F10E935;
-	Fri,  9 Aug 2024 14:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAE7410E93F;
+	Fri,  9 Aug 2024 14:49:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W6IsRg/v";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="q8cLDSTp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFF8C10E935
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 14:42:40 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-5a156556fb4so2587614a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 07:42:40 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 567FD10E93F
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 14:49:06 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-5b9fe5ea355so12563a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 07:49:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1723214559; x=1723819359; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=EJ6x68SVn9l/rEaIOjZbaLG4v3ZBQSVdzvMkr4BOLnE=;
- b=W6IsRg/vnwPwlrnvhpJ5K6h1TRWHG6eqA6SidbqrcaBFSjDP1mWqwLGxrBZkkJttO/
- VyP8UXRAgrEdAhG7fG+BYaVaP4aGLxUw5XXGi8gHUetrMaN0qJ37rjlk7EvxRGi0IHQA
- koS8cqm2uix+rb0xvF31+Lx/TxcDoUkB54sUw5DvhHGTBcQsBZg3KomtJ8Bj63X7pz+Q
- UYVs5N87Epi6+c4+fh56/lpAeKeiOaMz1JHNc9KJVI89ZTabJprEoBlVLssFE9kGszTH
- YNiOiNzAsIiBGQTEz1qtIDQ4nLzzVVeys4aSeaGLw0W2bpUwhlCZr+CVVE3RqfbGnQpZ
- 5soQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723214559; x=1723819359;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=google.com; s=20230601; t=1723214945; x=1723819745;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EJ6x68SVn9l/rEaIOjZbaLG4v3ZBQSVdzvMkr4BOLnE=;
- b=vR703PyEHI6OPRbwvZTTO5P6Y2QDwz26TF5/YOc1ym2M183W+TFM1Bi6I0etlJuiIV
- WtEYZ3JrYvhNOjG7qayMN7C2z5BI9Dey/nyqg81Ry2YArAX9GC1PJyE5BIphz8xdG41l
- r4GDyoU05QnYXTFdjsyhCBY4uzNt4nNdB80ria3yo/mwPJSLoDvTP9Z2/pAyt/MO3r7g
- hBBiN4+lQsar8waGAQ4rbZdMgLI09DLiLViFrsMQxwFdaE5mJtUGEL5zOTEN2DdEx0Vd
- TrEkWhf71Ad+aX01+gZKsy6BaY1H0M/MIhg6OnCOpuHYPpypE4BkNjifWfU+RN4Fk0bo
- KpSg==
+ bh=dWu0PqvJqy7ANrJoPRSlf+01g7voIPMxy2M0Jv3xRKc=;
+ b=q8cLDSTp1Rp0qkHABsLbekQ8pP3T8uIodSuHXq7MxVuh19qdKenz2ZUKL1/Mt/VSKg
+ pzdBkV0xxLuYhbSkDKkCjT6xMquhyWR+ebX357QVcLiXLKqWv+edGonTIuKdaiDfr1t6
+ c22r4ajxSQQgjF9JshDK/F0N3J7y6HDnrPs51rMPssNJVGFUxEhD5eoVahbNAVBmKPI8
+ 68SY+nOrtvs4JDbT55h3jwxhOIAeCN+43CO10EPMqmT7v9eFMuGSreGMWQHkkbeaJWXi
+ sFAxDfzZW66B84n2FjPCS8OIlmtgfTSQbjEVq/3sV2Hs4dKGtzrA/yXuQy62esfrcekV
+ V3aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723214945; x=1723819745;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dWu0PqvJqy7ANrJoPRSlf+01g7voIPMxy2M0Jv3xRKc=;
+ b=VktNan53fawR2FwkOE8QawBCM5mwggMuuCj2T0FoqEd9HOKEKM5z2zftoBz3HdI+mZ
+ NQMHSJHvWmvYeU9GQ82fBKWCVXlsqa/8DjzsKwCgb9rh1ne4vCmsy08jmw4wv1sI90AW
+ LKeJxMmrUQKBNyyXv+O0nVhZkicOXsNQJOfBTsAv/P4yt4S+2VoR+hS7+dzSoPtDvbAV
+ LSmZUe+TtNHz94euTKwT0V75ZO0iYc+hspTdISHsq43Ql13Ixl9x2OXuXbM2A5+tBuYk
+ g5+9VT0yDxNCG06Ju5JL2aLVjtXBcvFBKFdziP7jCDEgbTH2U+qLwYg0iTgCb2lj86dh
+ BaaQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXAx8ugLLa1mJsxZhV03zSklOln51bZJYXpLWtW2N7eTNHxd5mF79JZoTVazc+56+lc1Rmrdev1DQo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVXbwCgJ3D6H/Q5jRMOSYhK1K/+db9FwnmlGafQzki91uD4/UY
- He7QNAugK+jUChOOdRpAPf3+5Yg8mzQpbpUNMs20ivOB7hD0K0qGm4d9Y32tI1Q=
-X-Google-Smtp-Source: AGHT+IH1TWOy97ETcTplA1MtQKCoS3LFPfum0DPCd6fTTLZAlQKCA2baV4vNFWcjn6rsWNaXtYSuKA==
-X-Received: by 2002:a05:6402:848:b0:59e:a1a6:134d with SMTP id
- 4fb4d7f45d1cf-5bd0a63f468mr1207333a12.32.1723214558805; 
- Fri, 09 Aug 2024 07:42:38 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5bbb2c1f856sm1580740a12.25.2024.08.09.07.42.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Aug 2024 07:42:38 -0700 (PDT)
-Date: Fri, 9 Aug 2024 17:42:32 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] fbdev: omapfb: panel-sony-acx565akm: Simplify
- show_cabc_available_modes()
-Message-ID: <aa43c1f8-05bc-4edd-b7ba-474953f28f5c@stanley.mountain>
-References: <91fc9049558a4865d441930c8f4732461f478eca.1723110340.git.christophe.jaillet@wanadoo.fr>
+ AJvYcCVGSNHIhf+ATLUWhb1hrglayUR9v/85WLsGDsGmg8RCbNEE3WeaO2UACY+9mPOqjFDvgoyC86NsBkcYkwRTM6ecD3OB18h7h44Ecoj9CIay
+X-Gm-Message-State: AOJu0YwpNYsyXDwuyhc9hzXCu99nC32ZlRlmmZyqZLrjJ8y3wgfrQHXS
+ cYNd6/X26ADcsJXtdU/RKOL3D8tFYg/MTq8mohTPRBxNjbz0oXBcc0gUaSNOTP95/jCQrZaRrn5
+ Tmlz9yk4QvAmmjXFeogg5RrJZM1mD1grBWAcmD7G4Dczw7AsKfd/Y
+X-Google-Smtp-Source: AGHT+IECeH1cZlQzjGqD9qdmVUlYo0LxpDD50/DKWuzjwSacUn3F7RKkWO9Xw7m/MkhVAtg96a9zx9DleSDxUp7jCCI=
+X-Received: by 2002:a05:6402:350b:b0:58b:90c6:c59e with SMTP id
+ 4fb4d7f45d1cf-5bc4b4363f2mr105419a12.7.1723214943937; Fri, 09 Aug 2024
+ 07:49:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <91fc9049558a4865d441930c8f4732461f478eca.1723110340.git.christophe.jaillet@wanadoo.fr>
+References: <20240805102554.154464-1-andi.shyti@linux.intel.com>
+ <ZrFMopcHlT6G7p3V@ashyti-mobl2.lan> <2024080640-landfall-doozy-e0d2@gregkh>
+ <ZrHw3y8QKPT87LxP@ashyti-mobl2.lan>
+ <172294612086.38654.15621922821489001205@jlahtine-mobl.ger.corp.intel.com>
+In-Reply-To: <172294612086.38654.15621922821489001205@jlahtine-mobl.ger.corp.intel.com>
+From: Jann Horn <jannh@google.com>
+Date: Fri, 9 Aug 2024 16:48:27 +0200
+Message-ID: <CAG48ez0P6juWnVL-m6A33X2GTsrm6CO4okN0s7Y_YT01yTqkrA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Fix mmap memory boundary calculation
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Chris Wilson <chris.p.wilson@linux.intel.com>, 
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,62 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 08, 2024 at 11:46:11AM +0200, Christophe JAILLET wrote:
-> Use sysfs_emit_at() instead of snprintf() + custom logic.
-> Using sysfs_emit_at() is much more simple.
-> 
-> Also, sysfs_emit() is already used in this function, so using
-> sysfs_emit_at() is more consistent.
-> 
-> Also simplify the logic:
->   - always add a space after an entry
->   - change the last space into a '\n'
-> 
-> Finally it is easy to see that, given the size of cabc_modes, PAGE_SIZE
-> can not be reached.
-> So better keep everything simple (and correct).
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  .../omap2/omapfb/displays/panel-sony-acx565akm.c  | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
-> index 71d2e015960c..fc975615d5c9 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
-> @@ -466,19 +466,20 @@ static ssize_t show_cabc_available_modes(struct device *dev,
->  		char *buf)
->  {
->  	struct panel_drv_data *ddata = dev_get_drvdata(dev);
-> -	int len;
-> +	int len = 0;
->  	int i;
->  
->  	if (!ddata->has_cabc)
->  		return sysfs_emit(buf, "%s\n", cabc_modes[0]);
->  
-> -	for (i = 0, len = 0;
-> -	     len < PAGE_SIZE && i < ARRAY_SIZE(cabc_modes); i++)
-> -		len += snprintf(&buf[len], PAGE_SIZE - len, "%s%s%s",
-> -			i ? " " : "", cabc_modes[i],
-> -			i == ARRAY_SIZE(cabc_modes) - 1 ? "\n" : "");
-> +	for (i = 0; i < ARRAY_SIZE(cabc_modes); i++)
-> +		len += sysfs_emit_at(buf, len, "%s ", cabc_modes[i]);
-> +
-> +	/* Remove the trailing space */
-> +	if (len)
-> +		buf[len - 1] = '\n';
+On Tue, Aug 6, 2024 at 2:08=E2=80=AFPM Joonas Lahtinen
+<joonas.lahtinen@linux.intel.com> wrote:
+> Quoting Andi Shyti (2024-08-06 12:46:07)
+> > Hi Greg,
+> >
+> > same question without the stable mailing list not to trigger the
+> > automatic reply.
+> >
+> > > Andi Shyti (2):
+> > >   drm/i915/gem: Adjust vma offset for framebuffer mmap offset
+> > >   drm/i915/gem: Fix Virtual Memory mapping boundaries calculation
+> >
+> > I have forgotten to actually Cc the stable mailing list here.
+> > These two patches need to be merged together even if only the
+> > second patch has the "Fixes:" tag.
+> >
+> > I could have used the "Requires:" tag, but the commit id would
+> > change in between merges and rebases.
+>
+> The patches were the top two in drm-intel-gt-next and committed
+> only few hours ago so I fixed up the patches adding Cc: stable
+> and Requires:
 
-I'm uncomfortable with this line.  It assumes we don't overflow PAGE_SIZE where
-the original code was careful about checking.  Probably easiest to do what the
-original code did and say:
-
-	for (i = 0; i < ARRAY_SIZE(cabc_modes); i++)
-		len += sysfs_emit_at(buf, len, "%s%s", cabc_modes[i],
-				     i == ARRAY_SIZE(cabc_modes) - 1 ? "\n" : "");
-
-regards,
-dan carpenter
-
-
+I'm not very familiar with how the DRM trees work - shouldn't fixes in
+i915 go on the separate drm-intel-fixes branch so that they don't have
+to wait for a merge window?
