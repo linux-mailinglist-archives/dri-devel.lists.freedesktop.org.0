@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5089094D308
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 17:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE4C94D30E
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 17:13:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D17410E94B;
-	Fri,  9 Aug 2024 15:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9A5710E94D;
+	Fri,  9 Aug 2024 15:13:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qYmxTnsy";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="xhUXh7Qg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9348710E94B
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 15:13:11 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-5af51684d52so2509515a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 08:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1723216390; x=1723821190; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=BpX0PmRMIOMosOFUpPOvs2TSQ8WjI+Sk8T/asQuu3RM=;
- b=qYmxTnsyy45Qhx/5FR58Huxkr2Quwg8p3qHZmDqhsFO09T1+x9n1tdxcK7nSrGsGqq
- LmxKbtRA8qH/J4ofXnqTh4gkzSgBXbdm7d7ZwebLtuh6n8mw5DEAKeLlK+/8R0p3BQuU
- MS165Yj9cYU6fqY4bUJC4N7uyCzwtCULvn1YkvtiuC0+kaczPeXNfMiXJJ0So5lBjT5x
- hQJjp+JoCARVEFCOYEwE0LMkPLHNqPYqoiyzCzWRZgeUh/MlF8D+eOMh59R6q8HJ7c0L
- Agis6cJKl2bCv51yRLUHKTXiuvC0ZP2BaQgjfvH3xpEfwaY5bBX0gN6mMiaxnOGP+LVC
- Gong==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723216390; x=1723821190;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BpX0PmRMIOMosOFUpPOvs2TSQ8WjI+Sk8T/asQuu3RM=;
- b=oYni2cy6NWNKkbsy/pgrB/eon+QN9PCsZJAtCr4CcApywV7yRIJ/e3QkJnee/Eh/mV
- XPa2uXG/Dfy35VkfqNQSWKZ8z68Yh4afuNhmyLKGcHP5zqXyXkfayKxTS4KlZ0LFJWVd
- 0BW1fbBf11Zdli8z283by1weBrTUTv6ClT8DlM8VP/+Bs+fUBB9rKh79wMW/DqsLSHYw
- 1skMWB4+tXHt8tQuyRySTKTUfD3zBhDMT6kGKnUaoZWexOYLMo60APq64drWJYs9ijVg
- fXAeLX3erkVaNtzWyPb2307ctJzsYtKp24QEG8sZMdty/ObM+FakaK7yypHiUPVucmiZ
- nUcw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUgVT7i5JalGgA1SItOIyVFaIGJqbrNpovcmHWIvDYR1kGhNvM7iLyCMN6L5B/LCMgsHzHLk+srN/QRZiZm1XRQWzhqlxnoGaCiFpsOjr5o
-X-Gm-Message-State: AOJu0YxIgJMfi3qdgdbK7AWBuPiT/ur0Jd7ywY3cU7F8NXIqGpObGfHW
- 2T78z13/9rx6T1s6n87bTHZ/uYPnmodN0KV6rrKU3TnWDr2i1GlXzmxLjIoKvSI=
-X-Google-Smtp-Source: AGHT+IEBThtubQZ1lg4fjJJt14Xg/AU44Rj0pn1BDb2spFYMlZm36ap+IHP9bae5VVVd9msuHZFx7A==
-X-Received: by 2002:a17:907:9604:b0:a7a:ab1a:2d65 with SMTP id
- a640c23a62f3a-a80aa67ae2cmr145636166b.67.1723216389708; 
- Fri, 09 Aug 2024 08:13:09 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7dc9c615f3sm852578166b.94.2024.08.09.08.13.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Aug 2024 08:13:09 -0700 (PDT)
-Date: Fri, 9 Aug 2024 18:13:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] fbdev: omapfb: panel-sony-acx565akm: Simplify
- show_cabc_available_modes()
-Message-ID: <08fab5a3-4a6c-442c-98f9-672c5afc3609@stanley.mountain>
-References: <91fc9049558a4865d441930c8f4732461f478eca.1723110340.git.christophe.jaillet@wanadoo.fr>
- <aa43c1f8-05bc-4edd-b7ba-474953f28f5c@stanley.mountain>
- <7b65dbd8-1129-4fcc-97ba-43400fc98e31@wanadoo.fr>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA5E10E94D
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 15:13:34 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4799oVn4020207;
+ Fri, 9 Aug 2024 17:13:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=selector1; bh=DFo1fYl9nCcaq9Zjb9msp/
+ A8hQ7oocxj4j73HSkUytY=; b=xhUXh7QgMtiq51FQ2PBRFBr2JxHE7/pXl9qbL7
+ tnH2StFkY0LSOnB8gF7gQHH9VSNIpTa+f/F8rUS9GK8/O4omf0y2yHcTl/EPINAj
+ 3/bLMF/JmoeSuLP62Gt7o4tPL11RHQ/df5NnxEekZGZV4jyhHIu/NqNMd3Hsa6cC
+ /aPK1wxjGac1SH/0/OzkZ9R5/6KQ/oE8tA6/1wzAcJO5i/Mpy7JbeqKGx3L8xTmu
+ dWADCQqmXgX/Y2sEEr46fbSoZlPest5CLVnZLNKPGYlMYqGkSVBbSakq27p4FhBE
+ oQIPaFVCoFSkg7CV0UsCETtuDrHQLNKm04M61ucNw3IhGZAg==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40tu6nwcx1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Aug 2024 17:13:24 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 49C7140046;
+ Fri,  9 Aug 2024 17:13:17 +0200 (CEST)
+Received: from Webmail-eu.st.com (eqndag1node6.st.com [10.75.129.135])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id ACEC12612A9;
+ Fri,  9 Aug 2024 17:13:17 +0200 (CEST)
+Received: from localhost (10.252.26.60) by EQNDAG1NODE6.st.com (10.75.129.135)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 9 Aug
+ 2024 17:13:17 +0200
+From: Yannick Fertre <yannick.fertre@foss.st.com>
+To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] dt-bindings: display: st,
+ stm32-ltdc: Document stm32mp25 compatible
+Date: Fri, 9 Aug 2024 17:13:14 +0200
+Message-ID: <20240809151314.221746-1-yannick.fertre@foss.st.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7b65dbd8-1129-4fcc-97ba-43400fc98e31@wanadoo.fr>
+Content-Type: text/plain
+X-Originating-IP: [10.252.26.60]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To EQNDAG1NODE6.st.com
+ (10.75.129.135)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-09_12,2024-08-07_01,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,68 +86,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 09, 2024 at 05:09:28PM +0200, Christophe JAILLET wrote:
-> Le 09/08/2024 à 16:42, Dan Carpenter a écrit :
-> > On Thu, Aug 08, 2024 at 11:46:11AM +0200, Christophe JAILLET wrote:
-> > > Use sysfs_emit_at() instead of snprintf() + custom logic.
-> > > Using sysfs_emit_at() is much more simple.
-> > > 
-> > > Also, sysfs_emit() is already used in this function, so using
-> > > sysfs_emit_at() is more consistent.
-> > > 
-> > > Also simplify the logic:
-> > >    - always add a space after an entry
-> > >    - change the last space into a '\n'
-> > > 
-> > > Finally it is easy to see that, given the size of cabc_modes, PAGE_SIZE
-> > > can not be reached.
-> > > So better keep everything simple (and correct).
-> > > 
-> > > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> > > ---
-> > >   .../omap2/omapfb/displays/panel-sony-acx565akm.c  | 15 ++++++++-------
-> > >   1 file changed, 8 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
-> > > index 71d2e015960c..fc975615d5c9 100644
-> > > --- a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
-> > > +++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
-> > > @@ -466,19 +466,20 @@ static ssize_t show_cabc_available_modes(struct device *dev,
-> > >   		char *buf)
-> > >   {
-> > >   	struct panel_drv_data *ddata = dev_get_drvdata(dev);
-> > > -	int len;
-> > > +	int len = 0;
-> > >   	int i;
-> > >   	if (!ddata->has_cabc)
-> > >   		return sysfs_emit(buf, "%s\n", cabc_modes[0]);
-> > > -	for (i = 0, len = 0;
-> > > -	     len < PAGE_SIZE && i < ARRAY_SIZE(cabc_modes); i++)
-> > > -		len += snprintf(&buf[len], PAGE_SIZE - len, "%s%s%s",
-> > > -			i ? " " : "", cabc_modes[i],
-> > > -			i == ARRAY_SIZE(cabc_modes) - 1 ? "\n" : "");
-> > > +	for (i = 0; i < ARRAY_SIZE(cabc_modes); i++)
-> > > +		len += sysfs_emit_at(buf, len, "%s ", cabc_modes[i]);
-> > > +
-> > > +	/* Remove the trailing space */
-> > > +	if (len)
-> > > +		buf[len - 1] = '\n';
-> > 
-> > I'm uncomfortable with this line.  It assumes we don't overflow PAGE_SIZE where
-> > the original code was careful about checking.  Probably easiest to do what the
-> > original code did and say:
-> > 
-> 
-> Hi Dan,
-> 
-> I don't follow you. AFAIK, it does not assume anything.
-> 
-> Thanks to sysfs_emit_at(), len can only be in [0..PAGE_SIZE-1] because the
-> trailing \0 is not counted.
-> 
+Add "st,stm32mp25-ltdc" compatible for SOC MP25. This new SOC introduce
+new clocks (bus, ref & lvds). Bus clock was separated from lcd clock.
+New sources are possible for lcd clock (lvds / ref).
 
-Ah, you're right.  Sorry for the noise.
+Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+---
+Changes in v2: Rework clock property.
+ .../bindings/display/st,stm32-ltdc.yaml       | 51 +++++++++++++++----
+ 1 file changed, 41 insertions(+), 10 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+index d6ea4d62a2cf..cc578ad9f040 100644
+--- a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
++++ b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+@@ -12,7 +12,9 @@ maintainers:
+ 
+ properties:
+   compatible:
+-    const: st,stm32-ltdc
++    enum:
++      - st,stm32-ltdc
++      - st,stm32mp25-ltdc
+ 
+   reg:
+     maxItems: 1
+@@ -23,13 +25,6 @@ properties:
+       - description: errors interrupt line.
+     minItems: 1
+ 
+-  clocks:
+-    maxItems: 1
+-
+-  clock-names:
+-    items:
+-      - const: lcd
+-
+   resets:
+     maxItems: 1
+ 
+@@ -46,11 +41,47 @@ required:
+   - compatible
+   - reg
+   - interrupts
+-  - clocks
+-  - clock-names
+   - resets
+   - port
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - st,stm32mp25-ltdc
++    then:
++      properties:
++        clocks:
++          maxItems: 4
++          items:
++            - description: Lcd Clock
++            - description: Bus Clock
++            - description: Reference Clock
++            - description: Lvds Clock
++        clock-names:
++          items:
++            - const: lcd
++            - const: bus
++            - const: ref
++            - const: lvds
++      required:
++        - clocks
++        - clock-names
++    else:
++      properties:
++        clocks:
++          maxItems: 1
++          items:
++            - description: Lcd Clock
++        clock-names:
++          items:
++            - const: lcd
++      required:
++        - clocks
++        - clock-names
++
+ additionalProperties: false
+ 
+ examples:
+-- 
+2.34.1
 
