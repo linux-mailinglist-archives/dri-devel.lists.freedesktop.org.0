@@ -2,67 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92D794D4BE
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 18:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B8694D4CC
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 18:36:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88C7E10E8CF;
-	Fri,  9 Aug 2024 16:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8546710E989;
+	Fri,  9 Aug 2024 16:36:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NpANO2kj";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="iQ/RzX7U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 020B810E8CF
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 16:33:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 956B2CE168B;
- Fri,  9 Aug 2024 16:33:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64940C32782;
- Fri,  9 Aug 2024 16:33:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723221198;
- bh=XC/qQpmOshEYF8U7yU/VK9HlEgr0jSs2SieZLK7Pjz0=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=NpANO2kj24mAtvtCGVfgh2YWortGOLuvsgc+gej7F3/whHAxdt2HmbBfXVzJ3uy26
- 4tYzKQyC16nNxjAKQ6ZWLxyL6aUVbqXNgQXtinv+xzCN/xO5wYPQX4M/tfR8+YX7Hm
- Js7Coz3CUkJZbvnnFcmPsmiM7wqDuj85eK7UzW5/yE4upXRfDlVRiYHvjxzc/Ddw6U
- pevMiIWz/d5NKn/aNMGdB/GOa0iv5qgnQCw9MtrwOPAwpABrswkmZKBE/Sw+TnTYs9
- 8+vwxX4XmPQ9gSlICvDGYD2n7gKIHYTlGTYxLSpu+JBcFGnbmjtrnZmBHZ2BCGlaSV
- SvRavsP9VP30Q==
-Date: Fri, 09 Aug 2024 10:33:17 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D71E10E989
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 16:36:34 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4796bLLD010747;
+ Fri, 9 Aug 2024 16:36:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ +fnDO0hWiOwDNXkXzOMlxzXZYhPAo062ATrotLP5le0=; b=iQ/RzX7UO6d4nw1l
+ peP32BenC4ZvHHNTN+OR+CqWNBRHQRTQ1ZR+cc8EgVqJN9i8cNIr5CqwqIYQcgFw
+ GSLPjyyXXTk4rpFpMHzvp0xtCMo/AZERh7x2QfFkdrO1O/XdQdVxtejTD/FHYIzD
+ H8XPA2ICbS5fWRVwqbCeJjuJgc2LXMe/JirVXmWStWVX6exxKJtgGFCErIFcB8lw
+ u1CAItHCN6t/ckkLzExeSmtevcaBuBBXyyC8uAIuirGa3fnlp81FUIZCNIL7kH0q
+ 3Fv67GqCeRuiT9uFdpyzjYZndmBpjO89Do9uFAiMUs/0kqoFCbZB6qHzLfjC1wV9
+ +czbJg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40vpuvmytj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Aug 2024 16:36:29 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 479GaSnC009861
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 9 Aug 2024 16:36:28 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 9 Aug 2024
+ 09:36:28 -0700
+Message-ID: <06648b4f-c606-06fb-0b9d-945a51f9a297@quicinc.com>
+Date: Fri, 9 Aug 2024 10:36:22 -0600
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- dri-devel@lists.freedesktop.org, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- linux-i2c@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Robert Foss <rfoss@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Dragan Cvetic <dragan.cvetic@amd.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Derek Kiernan <derek.kiernan@amd.com>, 
- Saravana Kannan <saravanak@google.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Arnd Bergmann <arnd@arndb.de>, 
- =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
- David Airlie <airlied@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Conor Dooley <conor+dt@kernel.org>, 
- linux-kernel@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- devicetree@vger.kernel.org
-In-Reply-To: <20240809-hotplug-drm-bridge-v3-1-b4c178380bc9@bootlin.com>
-References: <20240809-hotplug-drm-bridge-v3-0-b4c178380bc9@bootlin.com>
- <20240809-hotplug-drm-bridge-v3-1-b4c178380bc9@bootlin.com>
-Message-Id: <172322119734.685133.9977747524284458277.robh@kernel.org>
-Subject: Re: [PATCH v3 1/7] dt-bindings: connector: add GE SUNH hotplug
- addon connector
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH V2 03/10] accel/amdxdna: Add hardware resource solver
+Content-Language: en-US
+To: Lizhi Hou <lizhi.hou@amd.com>, <ogabbay@kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
+ <sonal.santan@amd.com>, <king.tam@amd.com>
+References: <20240805173959.3181199-1-lizhi.hou@amd.com>
+ <20240805173959.3181199-4-lizhi.hou@amd.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240805173959.3181199-4-lizhi.hou@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: ISCiTNZOVjEBVWlxcMl-QJ_3gDM2Xgs3
+X-Proofpoint-GUID: ISCiTNZOVjEBVWlxcMl-QJ_3gDM2Xgs3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-09_13,2024-08-07_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ spamscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
+ clxscore=1015 bulkscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408090119
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,62 +93,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/5/2024 11:39 AM, Lizhi Hou wrote:
 
-On Fri, 09 Aug 2024 17:34:49 +0200, Luca Ceresoli wrote:
-> Add bindings for the GE SUNH add-on connector. This is a physical,
-> hot-pluggable connector that allows to attach and detach at runtime an
-> add-on adding peripherals on non-discoverable busses.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> ---
-> 
-> Changed in v3:
->  - change the layout to only add subnodes, not properties
->  - add the 'nobus-devices' node description to hold devices not on any bus
->  - add 'i2c-*' nodes for the I2C busses, using a i2c-parent phandle
->  - and the 'dsi' node for the DSI bus
->  - move the entire port@1 node to the overlay (not only the remote-endpoint
->    property)
->  - remove the overlay examples (Overlays in examples are not supported)
->  - add more clarifying descriptions and comments for examples
->  - some rewording
-> 
-> This patch was added in v2.
-> ---
->  .../connector/ge,sunh-addon-connector.yaml         | 185 +++++++++++++++++++++
->  MAINTAINERS                                        |   5 +
->  2 files changed, 190 insertions(+)
-> 
+> +int aie2_max_col = XRS_MAX_COL;
+> +module_param(aie2_max_col, int, 0600);
+> +MODULE_PARM_DESC(aie2_max_col, "Maximum column could be used");
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/connector/ge,sunh-addon-connector.example.dtb: /: 'compatible' is a required property
-	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/connector/ge,sunh-addon-connector.example.dtb: /: 'model' is a required property
-	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/connector/ge,sunh-addon-connector.example.dtb: /: '#address-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/connector/ge,sunh-addon-connector.example.dtb: /: '#size-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240809-hotplug-drm-bridge-v3-1-b4c178380bc9@bootlin.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+I think you selected the wrong type.  What happens if someone sets this 
+to a negative value?
