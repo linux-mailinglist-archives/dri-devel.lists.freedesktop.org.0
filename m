@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AA894D5E3
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 19:58:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCBE94D5EB
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 19:59:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C208710E05F;
-	Fri,  9 Aug 2024 17:58:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE3210E9CD;
+	Fri,  9 Aug 2024 17:59:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QRvROvl2";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Wqjv+a84";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3C310E05F
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 17:58:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B8D6961750;
- Fri,  9 Aug 2024 17:58:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E3FAC32782;
- Fri,  9 Aug 2024 17:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723226302;
- bh=DxL8HNz0O+ryzWyfsA6C9wCd/wXfyjYBBqmvUecssDs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QRvROvl2bllmqnyALF6Jeo8hS9QwzJFnJd6kZz4GU0FurSczGU5xIZm6FMJDPZLjS
- jiDwv1zLwa1MWipXGKWM5Yf57/ESflyM+1sssCbbwL/fAzXZ/pOL66nZ6kirhhZiu4
- IsG/xYPFERP6tgPzKtNTgB1WjUUZwesYU1JzKeyg2kOkwJwNYjcMVP4pZQHtc85gjl
- VTRPe6rFRIj9r6WhhjYce9S3d/i4ArNh7cY+Uq7boC1RPmrBWbCHn+V0H/fP54rcbk
- N/JZG5IENLbDqZyMFJEigryEHnkFGslZGg4ihPF2sDjnSEr41pFSXCmro01IOaz4+e
- BnOiONSsXjfDg==
-Date: Fri, 9 Aug 2024 11:58:21 -0600
-From: Rob Herring <robh@kernel.org>
-To: Yannick Fertre <yannick.fertre@foss.st.com>
-Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: display: st,stm32-ltdc: Document
- stm32mp25 compatible
-Message-ID: <20240809175821.GA927825-robh@kernel.org>
-References: <20240809151314.221746-1-yannick.fertre@foss.st.com>
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBEBA10E9CD
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 17:59:53 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3D85420003;
+ Fri,  9 Aug 2024 17:59:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1723226392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xAub0mkPJ87xzsTXaBjAQ8FSWOArTO6I288vqwLrdYQ=;
+ b=Wqjv+a84Ko1Fp2vlL/me5E8Q6bdXY+NpnPLT86U22+ahV6L2JllKhqWejwTpJeYjnMQliT
+ RaxRcjyyTNwbFA6FYv0Mlc/01cmPslLEfQ3PtjzToVtyMR8I//KonRmam76Teqkh+wxMx9
+ rdoVeEJvFXtIZryjwEk91Sa+kM8axhxr27qbIEogOOe/mJwzgR1QjZYJef+6HFO968tzBW
+ 55n0OOwFH/YDe0/+ElGJGVk3kw+5mGxlFPNYBW3/wNddw48eA1fNwF13BM6RcoOkb6E8Vz
+ nYwvrkYPqz0hf2hLqmhh8+j4o/T1zth2/h1WXgGWOlOrl7IV5lx0UYIDxpUCIg==
+Date: Fri, 9 Aug 2024 19:59:49 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: Marius Vlad <marius.vlad@collabora.com>,
+ Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
+ brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
+ mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
+ tzimmermann@suse.de, maarten.lankhorst@linux.intel.com
+Subject: [RFC] Adds support for ConfigFS to VKMS!
+Message-ID: <ZrZZFQW5RiG12ApN@louis-chauvet-laptop>
+Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
+ <jose.exposito89@gmail.com>, 
+ Marius Vlad <marius.vlad@collabora.com>,
+ Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
+ brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
+ mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
+ tzimmermann@suse.de, maarten.lankhorst@linux.intel.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240809151314.221746-1-yannick.fertre@foss.st.com>
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,101 +72,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 09, 2024 at 05:13:14PM +0200, Yannick Fertre wrote:
-> Add "st,stm32mp25-ltdc" compatible for SOC MP25. This new SOC introduce
-> new clocks (bus, ref & lvds). Bus clock was separated from lcd clock.
-> New sources are possible for lcd clock (lvds / ref).
-> 
-> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
-> ---
-> Changes in v2: Rework clock property.
->  .../bindings/display/st,stm32-ltdc.yaml       | 51 +++++++++++++++----
->  1 file changed, 41 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
-> index d6ea4d62a2cf..cc578ad9f040 100644
-> --- a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
-> +++ b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
-> @@ -12,7 +12,9 @@ maintainers:
->  
->  properties:
->    compatible:
-> -    const: st,stm32-ltdc
-> +    enum:
-> +      - st,stm32-ltdc
-> +      - st,stm32mp25-ltdc
->  
->    reg:
->      maxItems: 1
-> @@ -23,13 +25,6 @@ properties:
->        - description: errors interrupt line.
->      minItems: 1
->  
-> -  clocks:
-> -    maxItems: 1
-> -
-> -  clock-names:
-> -    items:
-> -      - const: lcd
+Hi everyone,
 
-No, keep these at the top-level. Add to the list and add 'minItems: 1'. 
-Then in the if/then schema, just use minItems/maxItems to limit the 
-number of entries.
+I'm excited to share some good news! I've recently completed the addition 
+of a ConfigFS interface to VKMS, which allows to configure VKMS from 
+user-space, at runtime. You should be able to:
+- Create new devices
+- Create planes/crtc/encoders
+- Configure rotation, color range, color encoding
+- Link planes, crtc and encoders.
 
-> -
->    resets:
->      maxItems: 1
->  
-> @@ -46,11 +41,47 @@ required:
->    - compatible
->    - reg
->    - interrupts
-> -  - clocks
-> -  - clock-names
->    - resets
->    - port
->  
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - st,stm32mp25-ltdc
-> +    then:
-> +      properties:
-> +        clocks:
-> +          maxItems: 4
-> +          items:
-> +            - description: Lcd Clock
-> +            - description: Bus Clock
-> +            - description: Reference Clock
-> +            - description: Lvds Clock
-> +        clock-names:
-> +          items:
-> +            - const: lcd
-> +            - const: bus
-> +            - const: ref
-> +            - const: lvds
-> +      required:
-> +        - clocks
-> +        - clock-names
-> +    else:
-> +      properties:
-> +        clocks:
-> +          maxItems: 1
-> +          items:
-> +            - description: Lcd Clock
-> +        clock-names:
-> +          items:
-> +            - const: lcd
-> +      required:
-> +        - clocks
-> +        - clock-names
-> +
->  additionalProperties: false
->  
->  examples:
-> -- 
-> 2.34.1
-> 
+The entire series can be found on my GitHub repository:
+https://github.com/Fomys/linux/tree/b4/new-configfs
+
+This series is big, consisting of over 40 commits. Although it's not 
+completely cleaned up, all commits compile successfully and (almost) pass 
+checkpatch.
+
+I plan to split this series into several smaller ones:
+
+ - Adding support for additional color formats
+	4a4f75873cca..d74006d7f9c4
+ - Reintroducing the writeback algorithm
+	9e74d259e1be..f839dcf6a7d8
+ - Clarifying documentation
+	b3bfd0ba2283..93945f0fbfc7
+ - Properly splitting headers
+	c70018038572..67258bd8a180
+ - Switching to drmm_ helpers
+	844e701e1d6d..f3050d125f64
+ - Using a proper platform device driver
+	4658f99dfe3e..a3258e4d7550
+ - Introducing a vkms_config structure
+	95ad6da46638..5b2d080b4626
+ - Adding ConfigFS support
+	866ad75102ae..f900ad18ab8c
+
+What's currently missing:
+
+ - A deep cleanup to ensure checkpatch compliance and proper
+   functionality for every commit
+ - Updating documentation
+ - Reviews 
+
+The primary area where I need assistance is reviews and testers. I'm aware 
+that Maìra is very busy and can't review quickly, but any other 
+individuals who can test and/or review this series would be greatly 
+appreciated.
+
+My next step is to add connector support, but as I will use this work and 
+my previous series [1], I would like to see it merged first.
+
+If any of the original authors would like to be credited for 
+their contributions, please let me know. I rewrote most of the code, but 
+the general idea was originally from them.
+
+José, I am sorry, I think I missed your mail where you told me you already 
+reviewed some commits: 
+
+> I reviewed the first 9 patches and added a few comments on your
+> GitHub fork.
+
+I am not able to find any comments, can you send me the link to the page 
+with them? I would like to read/apply them before submitting the first 
+part of the series.
+
+Thanks for your time,
+Louis Chauvet
+
+[1]: https://lore.kernel.org/all/20240809-yuv-v10-0-1a7c764166f7@bootlin.com/
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
