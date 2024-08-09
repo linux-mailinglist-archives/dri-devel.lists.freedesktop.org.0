@@ -2,62 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404CB94D7C8
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 22:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A96194D7DF
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2024 22:09:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D31D310E9FA;
-	Fri,  9 Aug 2024 20:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79B6010E9F9;
+	Fri,  9 Aug 2024 20:09:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zm05+15Q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sSN8kmxT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 483F510E9FA
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 20:00:22 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-5a10835487fso3299642a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 13:00:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723233620; x=1723838420; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=q/ZW3nV5tNcjPS6iptoriBrB0i5jeyrg1616ntHGkoU=;
- b=Zm05+15QEBUC9niUIeZoTY2vcpPyC5KR4sksxmneJZ0RdtimFEYQr+BplO1stxpTdt
- /v9VG3oMJ9TKCz9yEXYYkiyGpXHjDDzAwoXYPLvtKh/TbxMwJDm/uWwvXGpq9gwk0y8Z
- ejDoYzA8eGIL6NtZOJDyxXFKZ1IXh0kB4eC94KCuamTeT3kJczioq5kh3Xj+HDuommhP
- U0YpXsSp4VbC6NOkSBzoZFHh9gscqXeGnjSoWx0svC3dOMr+sUnnqCywJ5K4u4gzJffd
- Ix+DdD9b2pwB9jUcNNKlvZjxn6A+QV8PFzQJmWwBvHIflfw1BXz0vfOhkmV0EdXJHURH
- w4DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723233620; x=1723838420;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=q/ZW3nV5tNcjPS6iptoriBrB0i5jeyrg1616ntHGkoU=;
- b=GEiqUMSMXwsQkW2GtoNX6lsyhZx/6bwIm0bQQ1u1mqIiFYtSMtL3nDcdxyTPfhNFWN
- s3/myf7BzkZL+V1irWWzHQK+CJ1RgtlBizUicGWC8jeKhzyfh382fnMMZ4GvR4spSBSH
- tXNzgqKR8AP6DcMc8GHCgWTQ8yjrq7XDhw/1gSmVZjrf7+IU/OcA3lGY/GGBfSDjJKoR
- jnYYzEg/Kqd1XstSbIO9FZppvwCutipMTNIEJ5r1kz1L8EpqLiu3oMraIv37sim/E6x+
- T4YPl5TXNaB5TzpxwalfdOffFyw3AxMUSAtM11AhTUKwGzfKKonRseFNOaen0K8cRNu0
- Aoqg==
-X-Gm-Message-State: AOJu0YzibK/44s2xr3gOzChsc3AdI7KQUpTHHTaPU0O2ocrEn2by6TIJ
- oeSAMNqdjG0ssPEP7HVrWQuuv/PrLyBqVyk8XQhg7FXLTSPOrVusUZPwQ1yz813vSWG+vV3PmTr
- 9ue9qqnDNNI23G6XRb2ueiDiKWDA=
-X-Google-Smtp-Source: AGHT+IER4wDD4pBbs3PQSGPA4ATqufxR+7PRC0XRU0hX1k+RT9NExlXC/+x7kc54KGWyv5Nh9Qjh9AVvd9sF6bJTD3U=
-X-Received: by 2002:a17:907:7da3:b0:a7a:a0c9:124e with SMTP id
- a640c23a62f3a-a80aa53909emr188358066b.4.1723233620228; Fri, 09 Aug 2024
- 13:00:20 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D52A810E9F9
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2024 20:09:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id F1DEC61767;
+ Fri,  9 Aug 2024 20:09:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0C0C32782;
+ Fri,  9 Aug 2024 20:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723234193;
+ bh=TWxH6MDJR9vRLD6TqLUh9ECs1rCynCgT1oMUueBC3RM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=sSN8kmxTVsrWlr2igibsenVZPmn5OL7VoacyHOU+SJMd8MhnxzQSP02RE26i06UpJ
+ hplG+16G3uUgovdzBXMS1NBc+H+7Az/7hFlZyHdE6HrTUn4p/Jvji4Y+6sPVSmREbU
+ u6GNVdhnqptx8tK/eTKptzdX+Njv3kbEl3Yq3Ifq5pbsBr1LRZxwZOqF7e/wPqs4LN
+ Yjij0yX81+HmBupuxTp/2MR1DSNgmEr0mTyiBDnoXP0N8mzjR7UZiwTDw+a/Rnkop+
+ 7fW09DtM25aKRzqme4eU+32qcXFIQ5Pnrc/lTfxnMyRGHEKtxy+wbEmvusj4i8Uj+R
+ Tpb821IpSJ+UQ==
+Date: Fri, 9 Aug 2024 15:09:51 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/2] PCI: Deprecate pcim_iomap_regions() in favor of
+ pcim_iomap_region()
+Message-ID: <20240809200951.GA212090@bhelgaas>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 10 Aug 2024 06:00:08 +1000
-Message-ID: <CAPM=9txFVKQ-E5rPvgUJSo_ypt4uWW4dCyozsb_A5HD8Ldc5zQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.11-rc3
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240807083018.8734-2-pstanner@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,237 +63,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Wed, Aug 07, 2024 at 10:30:18AM +0200, Philipp Stanner wrote:
+> pcim_iomap_regions() is a complicated function that uses a bit mask to
+> determine the BARs the user wishes to request and ioremap. Almost all
+> users only ever set a single bit in that mask, making that mechanism
+> questionable.
+> 
+> pcim_iomap_region() is now available as a more simple replacement.
+> 
+> Make pcim_iomap_region() a public function.
+> 
+> Mark pcim_iomap_regions() as deprecated.
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 
-Weekly regular fixes, mostly amdgpu with i915/xe having a few each,
-and then some misc bits across the board, seems about right for rc3
-time.
+Both applied (second with Thomas' reviewed-by and Dave's ack) to
+pci/devres for v6.12, thanks!
 
-Regards,
-Dave.
-
-drm-fixes-2024-08-10:
-drm fixes for 6.11-rc3
-
-client:
-- fix null ptr deref
-
-bridge:
-- connector: fix double free
-
-atomic:
-- fix async flip update
-
-panel:
-- document panel
-
-omap:
-- add config dependency
-
-tests:
-- fix gem shmem test
-
-drm buddy:
-- Add start address to trim function
-
-amdgpu:
-- DMCUB fix
-- Fix DET programming on some DCNs
-- DCC fixes
-- DCN 4.0.1 fixes
-- SMU 14.0.x update
-- MMHUB fix
-- DCN 3.1.4 fix
-- GC 12.0 fixes
-- Fix soft recovery error propogation
-- SDMA 7.0 fixes
-- DSC fix
-
-xe:
-- Fix off-by-one when processing RTP rules
-- Use dma_fence_chain_free in chain fence unused as a sync
-- Fix PL1 disable flow in xe_hwmon_power_max_write
-- Take ref to VM in delayed dump snapshot
-
-i915:
-- correct dual pps handling for MTL_PCH+ [display]
-- Adjust vma offset for framebuffer mmap offset [gem]
-- Fix Virtual Memory mapping boundaries calculation [gem]
-- Allow evicting to use the requested placement
-- Attempt to get pages without eviction first
-The following changes since commit de9c2c66ad8e787abec7c9d7eff4f8c3cdd28aed:
-
-  Linux 6.11-rc2 (2024-08-04 13:50:53 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-08-10
-
-for you to fetch changes up to 06f5b920d1d0b686d794426264dc39aa8582db14:
-
-  Merge tag 'drm-intel-fixes-2024-08-08' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-(2024-08-09 17:16:29 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.11-rc3
-
-client:
-- fix null ptr deref
-
-bridge:
-- connector: fix double free
-
-atomic:
-- fix async flip update
-
-panel:
-- document panel
-
-omap:
-- add config dependency
-
-tests:
-- fix gem shmem test
-
-drm buddy:
-- Add start address to trim function
-
-amdgpu:
-- DMCUB fix
-- Fix DET programming on some DCNs
-- DCC fixes
-- DCN 4.0.1 fixes
-- SMU 14.0.x update
-- MMHUB fix
-- DCN 3.1.4 fix
-- GC 12.0 fixes
-- Fix soft recovery error propogation
-- SDMA 7.0 fixes
-- DSC fix
-
-xe:
-- Fix off-by-one when processing RTP rules
-- Use dma_fence_chain_free in chain fence unused as a sync
-- Fix PL1 disable flow in xe_hwmon_power_max_write
-- Take ref to VM in delayed dump snapshot
-
-i915:
-- correct dual pps handling for MTL_PCH+ [display]
-- Adjust vma offset for framebuffer mmap offset [gem]
-- Fix Virtual Memory mapping boundaries calculation [gem]
-- Allow evicting to use the requested placement
-- Attempt to get pages without eviction first
-
-----------------------------------------------------------------
-Andi Shyti (2):
-      drm/i915/gem: Adjust vma offset for framebuffer mmap offset
-      drm/i915/gem: Fix Virtual Memory mapping boundaries calculation
-
-Arnd Bergmann (1):
-      drm/omap: add CONFIG_MMU dependency
-
-Arunpravin Paneer Selvam (3):
-      drm/buddy: Add start address support to trim function
-      drm/amdgpu: Add address alignment support to DCC buffers
-      drm/amdgpu: Add DCC GFX12 flag to enable address alignment
-
-Cristian Ciocaltea (1):
-      drm/bridge-connector: Fix double free in error handling paths
-
-Dave Airlie (5):
-      drm/test: fix the gem shmem test to map the sg table.
-      Merge tag 'drm-misc-fixes-2024-08-08' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.11-2024-08-08' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-xe-fixes-2024-08-08' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'drm-intel-fixes-2024-08-08' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-
-David Gow (2):
-      drm/i915: Allow evicting to use the requested placement
-      drm/i915: Attempt to get pages without eviction first
-
-Dnyaneshwar Bhadane (1):
-      drm/i915/display: correct dual pps handling for MTL_PCH+
-
-Fangzhi Zuo (1):
-      drm/amd/display: Skip Recompute DSC Params if no Stream on Link
-
-Frank Min (2):
-      drm/amdgpu: change non-dcc buffer copy configuration
-      drm/amdgpu: correct sdma7 max dw
-
-Joshua Ashton (1):
-      drm/amdgpu: Forward soft recovery errors to userspace
-
-Karthik Poosa (1):
-      drm/xe/hwmon: Fix PL1 disable flow in xe_hwmon_power_max_write
-
-Kenneth Feng (1):
-      drm/amd/pm: update powerplay structure on smu v14.0.2/3
-
-Likun Gao (2):
-      drm/amdgpu: force to use legacy inv in mmhub
-      drm/amdgpu: add golden setting for gc v12
-
-Lucas De Marchi (1):
-      drm/xe/rtp: Fix off-by-one when processing rules
-
-Ma Ke (1):
-      drm/client: fix null pointer dereference in drm_client_modeset_probe
-
-Matthew Brost (2):
-      drm/xe: Use dma_fence_chain_free in chain fence unused as a sync
-      drm/xe: Take ref to VM in delayed snapshot
-
-Rob Clark (1):
-      dt-bindings: display: panel: samsung,atna45dc02: Document ATNA45DC02
-
-Rodrigo Siqueira (6):
-      drm/amd/display: Replace dm_execute_dmub_cmd with
-dc_wake_and_execute_dmub_cmd
-      drm/amd/display: Add missing DET segments programming
-      drm/amd/display: Add dcc propagation value
-      drm/amd/display: Add missing mcache registers
-      drm/amd/display: Add missing DCN314 to the DML Makefile
-      drm/amd/display: Add missing program DET segment call to pipe init
-
-Simon Ser (1):
-      drm/atomic: allow no-op FB_ID updates for async flips
-
- .../bindings/display/panel/samsung,atna33xc20.yaml |  9 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h            |  6 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c            |  3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       | 36 +++++++++++++-
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             | 27 +++++++++++
- drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c             | 18 +++++++
- drivers/gpu/drm/amd/amdgpu/mmhub_v4_1_0.c          |  3 +-
- drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c             |  7 +--
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  3 ++
- drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c   |  3 +-
- drivers/gpu/drm/amd/display/dc/dml/Makefile        |  2 +
- .../drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c    |  2 +
- .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    |  2 +
- .../display/dc/resource/dcn401/dcn401_resource.c   |  1 +
- .../display/dc/resource/dcn401/dcn401_resource.h   |  4 +-
- .../gpu/drm/amd/pm/swsmu/inc/smu_v14_0_2_pptable.h | 52 +++++++++++++++++---
- drivers/gpu/drm/drm_atomic_uapi.c                  | 15 ++----
- drivers/gpu/drm/drm_bridge_connector.c             |  8 +---
- drivers/gpu/drm/drm_buddy.c                        | 25 +++++++++-
- drivers/gpu/drm/drm_client_modeset.c               |  5 ++
- drivers/gpu/drm/i915/display/intel_backlight.c     |  3 ++
- drivers/gpu/drm/i915/display/intel_pps.c           |  3 ++
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           | 55 +++++++++++++++++++---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c            | 13 ++---
- drivers/gpu/drm/omapdrm/Kconfig                    |  1 +
- drivers/gpu/drm/tests/drm_gem_shmem_test.c         | 11 +++++
- drivers/gpu/drm/xe/xe_hwmon.c                      |  3 +-
- drivers/gpu/drm/xe/xe_lrc.c                        | 15 +++++-
- drivers/gpu/drm/xe/xe_rtp.c                        |  2 +-
- drivers/gpu/drm/xe/xe_sync.c                       |  2 +-
- drivers/gpu/drm/xe/xe_ttm_vram_mgr.c               |  2 +-
- include/drm/drm_buddy.h                            |  2 +
- 32 files changed, 287 insertions(+), 56 deletions(-)
+> ---
+>  drivers/pci/devres.c | 8 ++++++--
+>  include/linux/pci.h  | 2 ++
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
+> index 3780a9f9ec00..89ec26ea1501 100644
+> --- a/drivers/pci/devres.c
+> +++ b/drivers/pci/devres.c
+> @@ -728,7 +728,7 @@ EXPORT_SYMBOL(pcim_iounmap);
+>   * Mapping and region will get automatically released on driver detach. If
+>   * desired, release manually only with pcim_iounmap_region().
+>   */
+> -static void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+> +void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+>  				       const char *name)
+>  {
+>  	int ret;
+> @@ -761,6 +761,7 @@ static void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+>  
+>  	return IOMEM_ERR_PTR(ret);
+>  }
+> +EXPORT_SYMBOL(pcim_iomap_region);
+>  
+>  /**
+>   * pcim_iounmap_region - Unmap and release a PCI BAR
+> @@ -783,7 +784,7 @@ static void pcim_iounmap_region(struct pci_dev *pdev, int bar)
+>  }
+>  
+>  /**
+> - * pcim_iomap_regions - Request and iomap PCI BARs
+> + * pcim_iomap_regions - Request and iomap PCI BARs (DEPRECATED)
+>   * @pdev: PCI device to map IO resources for
+>   * @mask: Mask of BARs to request and iomap
+>   * @name: Name associated with the requests
+> @@ -791,6 +792,9 @@ static void pcim_iounmap_region(struct pci_dev *pdev, int bar)
+>   * Returns: 0 on success, negative error code on failure.
+>   *
+>   * Request and iomap regions specified by @mask.
+> + *
+> + * This function is DEPRECATED. Do not use it in new code.
+> + * Use pcim_iomap_region() instead.
+>   */
+>  int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name)
+>  {
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 4cf89a4b4cbc..fc30176d28ca 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -2292,6 +2292,8 @@ static inline void pci_fixup_device(enum pci_fixup_pass pass,
+>  void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned long maxlen);
+>  void pcim_iounmap(struct pci_dev *pdev, void __iomem *addr);
+>  void __iomem * const *pcim_iomap_table(struct pci_dev *pdev);
+> +void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+> +				       const char *name);
+>  int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name);
+>  int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
+>  				   const char *name);
+> -- 
+> 2.45.2
+> 
