@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6AF94DBBC
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 11:09:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E955F94DBBE
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 11:09:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A68B10E114;
-	Sat, 10 Aug 2024 09:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 591E910E107;
+	Sat, 10 Aug 2024 09:09:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WLUMjZlc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kF7YFE/2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94B9710E114
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 09:09:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE05910E11C
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 09:09:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 03DFE60684;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 57EC060AC9;
+ Sat, 10 Aug 2024 09:09:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 787E4C32781;
  Sat, 10 Aug 2024 09:09:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 279A2C4AF0C;
- Sat, 10 Aug 2024 09:09:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723280969;
- bh=1Fnww6k0nGJSxPsTeSzHvQo4ix8VyOpPTfrw4z8M81Y=;
+ s=k20201202; t=1723280973;
+ bh=HspsSskBa2s3o+CjExE7DqUE/JIgX3VED+Eb67tWGS4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WLUMjZlcnxAJA6zW3HW/7RPikZOue9Bm8r+LiundHSKLCNTdC6ej9p0aF5WeSbuJC
- hvJs8PijYz5AiE2t/oB6iC9K0aO8Bkt2ars/onu/nrK/sKHkZLVmNb+FC+EWR4QrOR
- Te2EtXMZRRDO1Ca6fj4joLczo3X/dGn34gNSu1MTnUIXFY2l0EyLTLnugGF72IfVPK
- bdH65meJw6tYfRScQyEk/urPQjo8r116QEktU2oce+vbgKryChKjq7lmuVU1KG2Ub7
- 6TKupH1i79E2oeIp7Zbi3SCErDTY4LjRFrcBmEEscOVFeLTGCuoC3QKGqgzU+7RQXc
- k6iamFwZq0rfA==
+ b=kF7YFE/2LlWrLH2YjCy2uRPJgfw+n22HeBfBcO0ao5x77U84Kz9JIRKr6VlnT2ZLG
+ nuQH9W6hvA7GdI/fdeK7CSzcAGuLeuZCn61vWIoJJM7GjljMKn7DfpqjYUhLN+gKBC
+ BkmOLv2nHfNvtXYAD/+1cYHpnnoZqshoJdq41/dgXIpdNy4PVuX2UlV7Olsy5ooOOJ
+ gowd2Dxt6EF4DnIIhYADwtrxPIGVLD2q3R23jgEXUPs66aeWaYzhhq3vNtUULejsuD
+ NW8mKozh8GopMFavdh00U/bfRySSdk41tc0JiEPHGApzpxBN9lBCWK9wA1plPLcrCX
+ tQm2FtdeRXkRg==
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -40,10 +40,10 @@ To: Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v3 1/5] drm/mediatek: Use cmdq_pkt_eoc() instead of
- cmdq_pkt_finalize()
-Date: Sat, 10 Aug 2024 09:09:14 +0000
-Message-Id: <20240810090918.7457-2-chunkuang.hu@kernel.org>
+Subject: [PATCH v3 2/5] drm/mediatek: Use cmdq_pkt_create() and
+ cmdq_pkt_destroy()
+Date: Sat, 10 Aug 2024 09:09:15 +0000
+Message-Id: <20240810090918.7457-3-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240810090918.7457-1-chunkuang.hu@kernel.org>
 References: <20240810090918.7457-1-chunkuang.hu@kernel.org>
@@ -64,36 +64,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For some client driver, it want to reduce latency between excuting
-previous packet command and next packet command, so append jump
-command to the end of previous packet and the jump destination
-address is the start address of next packet command buffer. Before
-next packet exist, the previous packet has no information of where
-to jump to, so append nop command first. When next packet exist,
-change nop command to jump command. For mediatek drm driver, it
-never has next packet, so appending nop command is redundant.
-Because cmdq_pkt_finalize() would append nop command, so change
-calling cmdq_pkt_finalize() to cmdq_pkt_eoc() to prevent append
-redundant nop command.
+Use cmdq_pkt_create() and cmdq_pkt_destroy() common function
+instead of implementing drm version.
 
 Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_crtc.c | 46 +++--------------------------
+ 1 file changed, 4 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 6f34f573e127..a1976c3ae001 100644
+index a1976c3ae001..5413c0c3dfe8 100644
 --- a/drivers/gpu/drm/mediatek/mtk_crtc.c
 +++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -607,7 +607,7 @@ static void mtk_crtc_update_config(struct mtk_crtc *mtk_crtc, bool needs_vblank)
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
--		cmdq_pkt_finalize(cmdq_handle);
-+		cmdq_pkt_eoc(cmdq_handle);
- 		dma_sync_single_for_device(mtk_crtc->cmdq_client.chan->mbox->dev,
- 					   cmdq_handle->pa_base,
- 					   cmdq_handle->cmd_buf_size,
+@@ -113,44 +113,6 @@ static void mtk_drm_finish_page_flip(struct mtk_crtc *mtk_crtc)
+ 	}
+ }
+ 
+-#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+-static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt,
+-				   size_t size)
+-{
+-	struct device *dev;
+-	dma_addr_t dma_addr;
+-
+-	pkt->va_base = kzalloc(size, GFP_KERNEL);
+-	if (!pkt->va_base)
+-		return -ENOMEM;
+-
+-	pkt->buf_size = size;
+-	pkt->cl = (void *)client;
+-
+-	dev = client->chan->mbox->dev;
+-	dma_addr = dma_map_single(dev, pkt->va_base, pkt->buf_size,
+-				  DMA_TO_DEVICE);
+-	if (dma_mapping_error(dev, dma_addr)) {
+-		dev_err(dev, "dma map failed, size=%u\n", (u32)(u64)size);
+-		kfree(pkt->va_base);
+-		return -ENOMEM;
+-	}
+-
+-	pkt->pa_base = dma_addr;
+-
+-	return 0;
+-}
+-
+-static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
+-{
+-	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
+-
+-	dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
+-			 DMA_TO_DEVICE);
+-	kfree(pkt->va_base);
+-}
+-#endif
+-
+ static void mtk_crtc_destroy(struct drm_crtc *crtc)
+ {
+ 	struct mtk_crtc *mtk_crtc = to_mtk_crtc(crtc);
+@@ -158,7 +120,7 @@ static void mtk_crtc_destroy(struct drm_crtc *crtc)
+ 
+ 	mtk_mutex_put(mtk_crtc->mutex);
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+-	mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
++	cmdq_pkt_destroy(&mtk_crtc->cmdq_client, &mtk_crtc->cmdq_handle);
+ 
+ 	if (mtk_crtc->cmdq_client.chan) {
+ 		mbox_free_channel(mtk_crtc->cmdq_client.chan);
+@@ -1094,9 +1056,9 @@ int mtk_crtc_create(struct drm_device *drm_dev, const unsigned int *path,
+ 			mbox_free_channel(mtk_crtc->cmdq_client.chan);
+ 			mtk_crtc->cmdq_client.chan = NULL;
+ 		} else {
+-			ret = mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq_client,
+-						      &mtk_crtc->cmdq_handle,
+-						      PAGE_SIZE);
++			ret = cmdq_pkt_create(&mtk_crtc->cmdq_client,
++					      &mtk_crtc->cmdq_handle,
++					      PAGE_SIZE);
+ 			if (ret) {
+ 				dev_dbg(dev, "mtk_crtc %d failed to create cmdq packet\n",
+ 					drm_crtc_index(&mtk_crtc->base));
 -- 
 2.34.1
 
