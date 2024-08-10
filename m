@@ -2,75 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8976F94DAC5
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 06:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1029A94DB86
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 10:45:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11A1610E0B9;
-	Sat, 10 Aug 2024 04:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE0E010E0A6;
+	Sat, 10 Aug 2024 08:45:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c3PEMKKE";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="EWVz73eW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51DA010E0B9
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 04:55:08 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-1fc66fc35f2so27005425ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 21:55:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723265708; x=1723870508; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=19rt3cYGIz9ovZGS8R2mAVuVxzzyQDGkKj8/iUwXAXE=;
- b=c3PEMKKEOyvjSl3mtq3zM1exzZSKa9LWNRWkoJQBYle4wj2lT9T9TulcZ2xBcfZ+XG
- oXkQ0P32sap/QoxYh6AMBYEcJTQwencbCYlqheR5YdFXvtblAWcLrk+vKBxaeU1P6L17
- kladhGiGH1tToJJMHDg7UDuisMKtlcEDbkhNj+YjXJAr2+oVPYph0RV933+OnUgJJzoZ
- 6K+TlOsf80Ca0//9mDzjQwA79W0vMdUfuFSS1BFg4AqK8Msk30SnqaQpxurinReH/Pmu
- IQ6DKOQKT8VKalzB+yVTDeeYWT0+4HXRndecV6icZJiHAYH1MMthYdrBOw4Od6QpNAel
- B3wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723265708; x=1723870508;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=19rt3cYGIz9ovZGS8R2mAVuVxzzyQDGkKj8/iUwXAXE=;
- b=wjF5x22mPQon2JgQFpINS/KWPllox+KA3JBAe97ZjTDwuTLbwng1lSSfbvPsi/C1Im
- MomPZ1ZNeYXZOYPiri7Ad/EPVg+BCSeF4yx0DxIn/+wIgCJ8oO5puEVspFVessFyRwCU
- 8lv5aR03YuoiiL5Ktw+Fahrwy5LVBhXRBt6j/PcoJylgOUD1Jlo+K8wfjhhbuSBXPxME
- xioYUTj9u4pwcYDcsQZZ2P11V/9V/E7g1zJXrNiGbtGjJaJHcWjY+hAsDhe9HEkr7MZo
- lfzhQlZHsNOISUpNYypDjlORQIrK9A6xaoxHBvGQsc0XrE5y1Sh1C84g9e5CoZsDu+X1
- xhKA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWsxNz+P62zeU0FpFSqFwfD/Ip3HWlk6q/H4XA/VcJgiN/Gh9nz8X9z2PvgfuPFoE3QJBEl6npcbQQ3Lp2gsMtiLYDDMqJbr9XWRzuEOyJB
-X-Gm-Message-State: AOJu0Ywn8dRybFs8xannPRETRxdu5h/CUBJJnJno6OMVUAQ++iI6VJfY
- KZRFI2juYmblKD2NQXPtI4UiQJnwT/owHrrgzAusmJ1N7pzNdKq3
-X-Google-Smtp-Source: AGHT+IHlx1kQsTJ98HNGtbgTUm2+DBvCCePAmf3vd6I3xO5Wjd0CVQtCUkh5r/ZzM9mb4PGZk+PFeQ==
-X-Received: by 2002:a17:903:2345:b0:1f7:3a70:9e71 with SMTP id
- d9443c01a7336-200ae540e3amr57633735ad.13.1723265707658; 
- Fri, 09 Aug 2024 21:55:07 -0700 (PDT)
-Received: from distilledx.srmu.edu.in ([103.4.221.252])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-200bb8fd82asm5227005ad.73.2024.08.09.21.55.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Aug 2024 21:55:07 -0700 (PDT)
-From: Tejas Vipin <tejasvipin76@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- neil.armstrong@linaro.org, quic_jesszhan@quicinc.com
-Cc: dianders@chromium.org, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH 2/2] drm/panel: jdi-fhd-r63452: transition to mipi_dsi wrapped
- functions
-Date: Sat, 10 Aug 2024 10:24:04 +0530
-Message-ID: <20240810045404.188146-3-tejasvipin76@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240810045404.188146-1-tejasvipin76@gmail.com>
-References: <20240810045404.188146-1-tejasvipin76@gmail.com>
+Received: from IND01-BMX-obe.outbound.protection.outlook.com
+ (mail-bmxind01olkn2102.outbound.protection.outlook.com [40.92.103.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF1210E0A6
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 08:45:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L4f7B0hCb0OSmjpK/QtbfhexH1B5rXlbSarLbhnbLaNo3tPSYePo2SGV4wXWnSfb7o/W/uKE93tcfKroQk7s3yJfVbt/RXhyWID1R6lBpuyeA+7gMEYdU8xNu2hagbxINP9d/ZGhUrUi9uVYEWaEVDdUh++DW0OEQodfQtI/Cpu1MmXYL1iXG5wEmU9c4ysc0EXKU1AFy//Qpag0MWDJsq/mdau4MADJQyW4EeSn5dRz87C/iMPfX3Cu9o+0XIYAJov2jC+sF4UY+hy/CCorx/d/p4CyJ1bjevCuiMfZvCETv5icSY2yDNfuAtr1R/Mw/axTHGMeX9NEHpHzZd701w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IKeO3KY0ZGF0LRzcPMg0swtCXBI9vvV2vcZkKL2g3EQ=;
+ b=dK6bLnWwiUl04q7evzSLH/fVRF13ANhB90Hl43UwDfoqjzgwPh3GNBqGTaf/rXa/cvOxvUlI8yFQStXkWM2d5r65Pmxg2AQWm6JVFmrZtczZjvjYpERzfuD78jEw0K4bZBYRQ/vhwHJ2a8zMkXRGWeVthUEoFAawXrhKc30TrFDEatKl86S6maV6kEWn7oLLouHTWAPeplGFPKINNV7Z97vmJfQMtE+PUzJi5AySWq+Jmsaqkow6sru8/l5fjyqc7Q4CELQ4+ppc+v358D65MOvFQYPOTID6LUKQ5Of14I8PsTvXXUKdwgfLXioAs1Fjetd8soeQ368yX4kkFLHLzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IKeO3KY0ZGF0LRzcPMg0swtCXBI9vvV2vcZkKL2g3EQ=;
+ b=EWVz73eWgCRcjfChXN3O1eMtZSYgS/VxXnZnjwm9oLSDKKobd9oWlO7M42nelfCTuKWdfzwMIZxCl0s4Pz0ZVUj2Gj6YEVVYU1tjzmIvu9o+QqsfCzSm/cDqLday2RckBytWQk2FxystCe2WnmVqL19nJsHxuyIsKSCl1e78GhaV+COp/sgpNS9QdciZpir4wSoO5Jy3EC8t5iVSTOVgIHxOP23ZZ3gHxAHeWBGcnIOUOPrsVJZeVDI4v7EzReTpRE6+z3Ces3BOUlKNnetHYl+7SUjaVVVzXM0AAAB8+sIixOdlGELtUOFNQPC0QMZDbP9VzYbXhqEfWoVQd1Js4w==
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
+ PN0P287MB1153.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:141::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7849.18; Sat, 10 Aug 2024 08:45:09 +0000
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a%5]) with mapi id 15.20.7849.015; Sat, 10 Aug 2024
+ 08:45:09 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
+ <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, Jiri Kosina
+ <jikos@kernel.org>, "bentiss@kernel.org" <bentiss@kernel.org>
+CC: Kerem Karabay <kekrby@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-input@vger.kernel.org"
+ <linux-input@vger.kernel.org>, Orlando Chamberlain <orlandoch.dev@gmail.com>
+Subject: [PATCH v4 0/10] Touch Bar support for T2 Macs
+Thread-Topic: [PATCH v4 0/10] Touch Bar support for T2 Macs
+Thread-Index: AQHa6wGbVnv2F2HmGUyiZHmthnK98Q==
+Date: Sat, 10 Aug 2024 08:45:09 +0000
+Message-ID: <20190CD7-46CE-400D-9C58-29798479660E@live.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [DkgCAXVrzzN0X8+BsSlQ6X7UbaKvGvA4aOuCI9EsScqYw6ZhEEfw/Ll3nYBob4ifg4HAT5Fz5z0=]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN0P287MB1153:EE_
+x-ms-office365-filtering-correlation-id: 5f15c4e8-1acb-4c84-1faa-08dcb918bd9c
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|8060799006|461199028|19110799003|15080799003|3412199025|440099028|4302099013|102099032|1602099012;
+x-microsoft-antispam-message-info: FWmPVEIPKE6TzhBZPLzQwWlv5MlnM7mjpbCZs327YF27wjdbfORbDjmUt2DzRgpHOhHYj04M6DobRifSshhFBjGH+FeftS+NW9TWwawAKqISpRnhAcSlVvD3zPisleElAeptpd6sJUsF6C8deWJvxPmYLVlm70qc5GLRwr6GwXsnaLx1QbMBUoQZ1hKo83Y7+3YjY8sX05xyvedKdj3c+vdXD7xBZbyFregZuIuaDglZgfw96p4QEuIq41Nm/VLZeVUufjG3fKz0dLTXPMaP7H/5zEJeeVtls2yGx6jI/JWkmUBiV+kKMdrJTfiL+2Ek8krTGTtpCzJgT8vy8p4ic+qsMpPRnHb5yeGGmVyOqgjzeISdQFljjBxzbrDgWvUzONRKkEYHtfEUu2WvdT0ZtvKJFIi9JsbZwLwkicd3GETuklp7qjc5LDXrw5jS8ztOhfvlb64YIlUSKLLJLTOYvociwvr77j4lHyeyUkOJk6ULZynDefMV8NLRvlGtm0zTPZTfzJNA/n7WbKyRdLxPP6s3COXm9QYzHDrccmlgpFPE1CX5X19WXQcub9a0FNyBnhpre8uIijHJH0OyYohf6Wb1rRxlMSZsqdA7KdwSEpOJ7RBFqyNMTlQxbcF8Z9g4zUSGxsHhJwBTOXtX1PKo8y2EpBmhuOna63L2cgToE2s/7cUJ5osMe4mwmFlGBAYA8seugREXAhxbbugzT9oF9cS4/+NRAw7iTvh56gmRn9Fo4pordxgGBriNI4xo08HgcKbbvXspQY3FwwhOBCxgAJAOqWlLr90eQkHSwTvio7c=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LmNUda/FWCbH6NiNKQH3OUWxEGuLQbt39jEqsuhDWnBJRR92WJLSyC2EkhGp?=
+ =?us-ascii?Q?vTCH4Y0aRYyCF8OXptJaFJPxuPYGRAoSec1OlTeplUP6JS0MdJ67z5aJp/cY?=
+ =?us-ascii?Q?3M8TvRzlkcsSpokUfRu+nsEdUyEiu+UMUwEAtZFkRThDUYxgjWQwwFiuZo4m?=
+ =?us-ascii?Q?Ez0W1CrN61fPvsB8NQ0EqgPAKuOql8Gmxq5ZuuC3Q9pFzyxhI2Kxw6xCdtts?=
+ =?us-ascii?Q?KiiVw4PC5NkH+rDfgHTxOVOHxxf/kpKKe/2on8/hfHWiAws77pnqj46DowYQ?=
+ =?us-ascii?Q?KiPwKoYq7Rdb3ZEDtEaSlRpEFmT45Dl1H4EoiuR1SM7drT5wN/SLv82SyY73?=
+ =?us-ascii?Q?ytWoR7g3C7L0VYERTx59x0NJ3IrYgrsYxtZ3Vq8FmbOfvv7DRMhq4v5Zcy2h?=
+ =?us-ascii?Q?nSx94koud2GLe+hibQiVeynEITzt5Xgw3aXsqreGxQds1MdkFyN8tgP2cqja?=
+ =?us-ascii?Q?CewJNmnTxBDSwkf4DQ5n4ykLhL3tLSLzpFhQZGxyGOoIY5duyIss9cf9ItZV?=
+ =?us-ascii?Q?YWNeP/t/2TrmW8Icj+RwHK48kl7tyhDWEQ7WV+kDtocB8UAuoJBUgmA9blHr?=
+ =?us-ascii?Q?9uUM4i4CRsSmyt05MppAsmXkvyXX9OTKZjOR+/3gXdmc3f54pucHFxEGQln1?=
+ =?us-ascii?Q?WCKK7NrMHRe7AXuGuarykseHLvhqtdxZyFIaz0DbtkiLOSqYwf1/EInZeqXS?=
+ =?us-ascii?Q?lWRasElSnPz0nySyRECXjYrgoqvZyVW3hVI7Wa15yz1A6/xZWtZNexUoNHET?=
+ =?us-ascii?Q?t9gV1KeANoZ0jkr1Olsabf+9voxOcFKuN8gVgp0Jt4///IZQi4OFN2c6TO5C?=
+ =?us-ascii?Q?dCXogp3dphtyYUAzRtk4+L9s8SJV9PDjfHLmTZuyEP9360c9s64uu+AQOMPJ?=
+ =?us-ascii?Q?DTOwl2O4iRPRNWh4/blAPz+WN+iRGu8dUkBZzrBvuvhgDe2z/m0CG3QnlAup?=
+ =?us-ascii?Q?3JGx8b8UuB4h392rYlxy6D3SKfMyVrjl3pIwL6rbczsiNsGyIhKdosuj5dps?=
+ =?us-ascii?Q?/ug4YbFC/OMhEiALJoGXT+V7FNw3B1m4vGD2zw79uc7ZQq6sP5lOs+FThVWd?=
+ =?us-ascii?Q?OGkMcmrqXXiMEHX/yo/0dim6WBcvb/HFsXUfU1RCg3vk1s/QvwdgJgy7eDqc?=
+ =?us-ascii?Q?PCli3MyRVspKTjeMx4xrsLtQNcswnY593wJ2j4H7r6lhes9IKtMRxuwB0GI5?=
+ =?us-ascii?Q?xeg1XDX5X6iKJywu/kzh4C+ascNAh+Nu1gko0sxFjdezObRVI6ar9CLtHxEr?=
+ =?us-ascii?Q?wCPAEPgHtFTFXTJjimHE005NOXee7iKRYttMYGfgkJ0ImXC842r8C8FYJndN?=
+ =?us-ascii?Q?DoAiw2Aw477Ckv1N2m0HYPyB?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <A5819DF9AB1EE249A347C6F8CA10856C@INDP287.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-24072.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f15c4e8-1acb-4c84-1faa-08dcb918bd9c
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2024 08:45:09.1132 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB1153
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,169 +118,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes the jdi-fhd-r63452 panel to use multi style functions for
-improved error handling.
+Hi Maintainers
 
-Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
----
- drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 125 ++++++-------------
- 1 file changed, 39 insertions(+), 86 deletions(-)
+The Touch Bars found on x86 Macs support two USB configurations: one
+where the device presents itself as a HID keyboard and can display
+predefined sets of keys, and one where the operating system has full
+control over what is displayed.
 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-index 483dc88d16d8..32a244d4bae7 100644
---- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-@@ -41,79 +41,41 @@ static void jdi_fhd_r63452_reset(struct jdi_fhd_r63452 *ctx)
- static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
--	mipi_dsi_generic_write_seq(dsi, 0xec,
--				   0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
--				   0x13, 0x15, 0x68, 0x0b, 0xb5);
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xd6, 0x01);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xec,
-+					 0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
-+					 0x13, 0x15, 0x68, 0x0b, 0xb5);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
- 
--	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set tear on: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
- 
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
- 
--	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set pixel format: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x77);
-+	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0x0000, 0x0437);
-+	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0x0000, 0x077f);
-+	mipi_dsi_dcs_set_tear_scanline_multi(&dsi_ctx, 0x0000);
-+	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0x00ff);
- 
--	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 0x0437);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set column address: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x84, 0x00);
- 
--	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 0x077f);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set page address: %d\n", ret);
--		return ret;
--	}
--
--	ret = mipi_dsi_dcs_set_tear_scanline(dsi, 0x0000);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set tear scanline: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 20);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 80);
- 
--	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display brightness: %d\n", ret);
--		return ret;
--	}
--
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
--
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display on: %d\n", ret);
--		return ret;
--	}
--	msleep(20);
--
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(80);
--
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x04);
--	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xc8, 0x11);
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x84, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xc8, 0x11);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
- 
- 	return 0;
- }
-@@ -121,31 +83,22 @@ static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
- static int jdi_fhd_r63452_off(struct jdi_fhd_r63452 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
--	mipi_dsi_generic_write_seq(dsi, 0xec,
--				   0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
--				   0x13, 0x15, 0x68, 0x0b, 0x95);
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
--
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		return ret;
--	}
--	usleep_range(2000, 3000);
--
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(120);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xd6, 0x01);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xec,
-+					 0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
-+					 0x13, 0x15, 0x68, 0x0b, 0x95);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
-+
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	if (!dsi_ctx.accum_err)
-+		usleep_range(2000, 3000);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
- 	return 0;
- }
--- 
-2.46.0
+This patch series adds support for both the configurations.
+
+The hid-appletb-bl driver adds support for the backlight of the Touch Bar.
+This enables the user to control the brightness of the Touch Bar from
+userspace. The Touch Bar supports 3 modes here: Max brightness, Dim and Off=
+.
+So, daemons, used to manage Touch Bar can easily manage these modes by writ=
+ing
+to /sys/class/backlight/appletb_backlight/brightness. It is needed by both =
+the
+configurations of the Touch Bar.
+
+The hid-appletb-kbd adds support for the first (predefined keys) configurat=
+ion.
+There are 4 modes here: Esc key only, Fn mode, Media keys and No keys.
+Mode can be changed by writing to /sys/bus/hid/drivers/hid-appletb-kbd/<dev=
+>/mode
+This configuration is what Windows uses with the official Apple Bootcamp dr=
+ivers.
+
+Rest patches support the second configuration, where the OS has full contro=
+l
+on what's displayed on the Touch Bar. It is achieved by the patching the
+hid-multitouch driver to add support for touch feedback from the Touch Bar
+and the appletbdrm driver, that displays what we want to on the Touch Bar.
+This configuration is what macOS uses.
+
+The appletbdrm driver is based on the similar driver made for Windows by
+imbushuo [1].
+
+Currently, a daemon named tiny-dfr [2] is being used to display function ke=
+ys
+and media controls using the second configuration for both Apple Silicon an=
+d
+T2 Macs.
+
+A daemon for the first configuration is being developed, but that's a users=
+pace
+thing.
+
+[1]: https://github.com/imbushuo/DFRDisplayKm
+[2]: https://github.com/WhatAmISupposedToPutHere/tiny-dfr
+
+v2:
+  1. Cleaned up some code in the hid-appletb-kbd driver.
+  2. Fixed wrong subject in drm/format-helper patch.
+  3. Fixed Co-developed-by wrongly added to hid-multitouch patch.
+
+v3:
+  1. Fixed key mapping for Function keys in hid-appletb-kbd driver.
+
+v4:
+  1. Added support for fn key toggle in the hid-appletb-kbd driver.
+
+Aditya Garg (1):
+  HID: hid-appletb-kbd: add support for fn toggle between media and
+    function mode
+
+Kerem Karabay (9):
+  HID: hid-appletb-bl: add driver for the backlight of Apple Touch Bars
+  HID: hid-appletb-kbd: add driver for the keyboard mode of Apple Touch
+    Bars
+  HID: multitouch: support getting the contact ID from
+    HID_DG_TRANSDUCER_INDEX fields
+  HID: multitouch: support getting the tip state from HID_DG_TOUCH
+    fields
+  HID: multitouch: take cls->maxcontacts into account for devices
+    without a HID_DG_CONTACTMAX field too
+  HID: multitouch: allow specifying if a device is direct in a class
+  HID: multitouch: add device ID for Apple Touch Bars
+  drm/format-helper: Add conversion from XRGB8888 to BGR888 conversion
+  drm/tiny: add driver for Apple Touch Bars in x86 Macs
+
+ .../ABI/testing/sysfs-driver-hid-appletb-kbd  |  13 +
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/drm_format_helper.c           |  54 ++
+ .../gpu/drm/tests/drm_format_helper_test.c    |  81 +++
+ drivers/gpu/drm/tiny/Kconfig                  |  12 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/appletbdrm.c             | 624 ++++++++++++++++++
+ drivers/hid/Kconfig                           |  22 +
+ drivers/hid/Makefile                          |   2 +
+ drivers/hid/hid-appletb-bl.c                  | 206 ++++++
+ drivers/hid/hid-appletb-kbd.c                 | 432 ++++++++++++
+ drivers/hid/hid-multitouch.c                  |  60 +-
+ drivers/hid/hid-quirks.c                      |   8 +-
+ include/drm/drm_format_helper.h               |   3 +
+ 14 files changed, 1508 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd
+ create mode 100644 drivers/gpu/drm/tiny/appletbdrm.c
+ create mode 100644 drivers/hid/hid-appletb-bl.c
+ create mode 100644 drivers/hid/hid-appletb-kbd.c
+
+--=20
+2.43.0
 
