@@ -2,53 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62CC394DBC2
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 11:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1770794DBC5
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 11:09:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C956310E121;
-	Sat, 10 Aug 2024 09:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8501B10E122;
+	Sat, 10 Aug 2024 09:09:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QCrHhe1t";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="WQS9Tua1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6483910E121
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 09:09:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C078C60AD6;
- Sat, 10 Aug 2024 09:09:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57A03C32781;
- Sat, 10 Aug 2024 09:09:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723280983;
- bh=ROGEn5ECVelo0EfWlJ1OSMy/l5R+qmtaTbsKv+Infh4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QCrHhe1tehZEgJv9yR01fvEw4fMFqrOrQbpgACuU6KeO0JhwgNiJIoL1LlGJo9xUg
- xKDLSUWtO5SWa62SQQjUxeQk3oVZIRJN1Gdms+FCSkE1PymDDISRaypD7l8R6s2ynP
- 8Nmns4r7qD+kZZFq6q0vZS4dy/r+CreBDBRNyP7c6bFgPPMeP92Md1o4WcSVgRTrsU
- Y3SjSzGdEEgT9n+3b1I5mex1QCVg89oQlx5yGloS6ZEE/DHwWAJucT+KuiA0kt+Bm1
- N4JA8ybhUjAny9H/xJ6hGWdfEm4ygXTwIsrbGr858cUXb1r46BvK1BxnKj/VfJXnIv
- poSb/APgF54Tg==
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Moudy Ho <moudy.ho@mediatek.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v3 5/5] soc: mediatek: cmdq: Remove cmdq_pkt_finalize() helper
- function
-Date: Sat, 10 Aug 2024 09:09:18 +0000
-Message-Id: <20240810090918.7457-6-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240810090918.7457-1-chunkuang.hu@kernel.org>
-References: <20240810090918.7457-1-chunkuang.hu@kernel.org>
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70A410E122
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 09:09:52 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-1fd69e44596so20024565ad.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 02:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20230601; t=1723280992; x=1723885792;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lIhiNkZ8ivhgmM1Cc6VYiyybqghiNsm+0JIy+oF46uI=;
+ b=WQS9Tua12/+NZuevpJrtaPVUdZvXVHkQleDA+w34u40g4RRFCNuriao08NFMdmov9Y
+ cL4oiFBpTVfEkMDlOO2+xIg2myk3TXiAyOZVwxsHBJgFS55zpFuzz/Z3PalGMXPWa1hF
+ dA+8gTaUFV3S/+LRi+cXdSGBZqz7s9eXWicWjFe08ah+iQbWPg87+p2oqWnwLiGbd15S
+ aj5FxeRLII5Z5jJ1unbrIJXgXCjqSG3MzVOh4306JxSdwGVKi9995XAnh3qd3wyja9/m
+ 5bwk6Hjqju7Wg1T9LHwLt2an0LqlMDUJoW8VeXhtv0ZYR+/nm4XEGExAWPkpculiSg+P
+ lwnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723280992; x=1723885792;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lIhiNkZ8ivhgmM1Cc6VYiyybqghiNsm+0JIy+oF46uI=;
+ b=OLzMAlW+P7cl87g1x0AYi8hc01IqXXbv+Obb1jx7DHM4jBzmcA2oLAs+UnkTp2jwZm
+ 9ecnJvZmYwkaXA8XLygwexfAzsZvfGdhy8yHcXcXiBc1s86PiepTo8W6b3xUtYipX+aa
+ VZqvvko+SGk8UDDo7sQxGmZsmmE9t07MDdEXJQidqCWfaB+pbSe5Qfwjjsr8Q191erhj
+ UHCoJmneCN973TXeJ+M0e7fFAO1Y48LirCXzpmB/qMELVKAFINwDUGvayCdOvlXZ5U0C
+ tvuLPKPOfilGUVPCVZCB8SIHj5vCU6A2Att6ASpq9pDzJHcojRMKs5G5oyJWm9HiqWTG
+ 3b2Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVY6o9Ijy+rM4PeTtwblLnGQ3Mx1Vz0zJZB6t/voxbqULvrzz3ybV0w8hOPWDlHO7wQY1VnQM0QLVStv6mIW1khrQZqvJOIKINvHqzUFVXT
+X-Gm-Message-State: AOJu0YyNxwx7yXo7DliKOpfwaFbNbRMtj32VQ/DLDhfG6ntg0Kzb2Zv4
+ RINdpYCG6WFP48lNb7yd1PwrHifR7VS5qWwROZbY/otcK/n7Q69hUfPTN22m6Nw1iWyipZqC49n
+ F06MKL/IexLaH84bmQOvdEPghyZo=
+X-Google-Smtp-Source: AGHT+IF0omZAMZcq00ACjBVeu35rKGSbTQfOx1gz2tQVmuRuPcEz5qrubbYp8kV3RZnFuDT5aznCRbdgeLj6EanoUrE=
+X-Received: by 2002:a17:902:d482:b0:200:97b5:dc3f with SMTP id
+ d9443c01a7336-200ae5d86afmr58455285ad.21.1723280992065; Sat, 10 Aug 2024
+ 02:09:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240809124725.17956-1-abelova@astralinux.ru>
+In-Reply-To: <20240809124725.17956-1-abelova@astralinux.ru>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Sat, 10 Aug 2024 11:09:40 +0200
+Message-ID: <CAFBinCATiUnR=P9VRBxWeQhf49k6PVxK+nU95G7w94f-mR2HWQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/meson: add check to prevent dereference of NULL
+To: Anastasia Belova <abelova@astralinux.ru>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ lvc-project@linuxtesting.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,78 +87,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to have fine-grained control, use cmdq_pkt_eoc() and
-cmdq_pkt_jump_rel() to replace cmdq_pkt_finalize().
+Hello Anastasia,
 
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
----
- drivers/soc/mediatek/mtk-cmdq-helper.c | 22 ----------------------
- include/linux/soc/mediatek/mtk-cmdq.h  | 13 -------------
- 2 files changed, 35 deletions(-)
+Thank you for working on this!
 
-diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index a8fccedba83f..2a47dda4dd4a 100644
---- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-+++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -538,27 +538,5 @@ int cmdq_pkt_eoc(struct cmdq_pkt *pkt)
- }
- EXPORT_SYMBOL(cmdq_pkt_eoc);
- 
--int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
--{
--	struct cmdq_instruction inst = { {0} };
--	int err;
--
--	/* insert EOC and generate IRQ for each command iteration */
--	inst.op = CMDQ_CODE_EOC;
--	inst.value = CMDQ_EOC_IRQ_EN;
--	err = cmdq_pkt_append_command(pkt, inst);
--	if (err < 0)
--		return err;
--
--	/* JUMP to end */
--	inst.op = CMDQ_CODE_JUMP;
--	inst.value = CMDQ_JUMP_PASS >>
--		cmdq_get_shift_pa(((struct cmdq_client *)pkt->cl)->chan);
--	err = cmdq_pkt_append_command(pkt, inst);
--
--	return err;
--}
--EXPORT_SYMBOL(cmdq_pkt_finalize);
--
- MODULE_DESCRIPTION("MediaTek Command Queue (CMDQ) driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 5bee6f7fc400..0c3906e8ad19 100644
---- a/include/linux/soc/mediatek/mtk-cmdq.h
-+++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -391,14 +391,6 @@ int cmdq_pkt_jump_rel(struct cmdq_pkt *pkt, s32 offset, u8 shift_pa);
-  */
- int cmdq_pkt_eoc(struct cmdq_pkt *pkt);
- 
--/**
-- * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
-- * @pkt:	the CMDQ packet
-- *
-- * Return: 0 for success; else the error code is returned
-- */
--int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
--
- #else /* IS_ENABLED(CONFIG_MTK_CMDQ) */
- 
- static inline int cmdq_dev_get_client_reg(struct device *dev,
-@@ -519,11 +511,6 @@ static inline int cmdq_pkt_eoc(struct cmdq_pkt *pkt)
- 	return -EINVAL;
- }
- 
--static inline int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
--{
--	return -EINVAL;
--}
--
- #endif /* IS_ENABLED(CONFIG_MTK_CMDQ) */
- 
- #endif	/* __MTK_CMDQ_H__ */
--- 
-2.34.1
+On Fri, Aug 9, 2024 at 2:48=E2=80=AFPM Anastasia Belova <abelova@astralinux=
+.ru> wrote:
+[...]
+> @@ -373,9 +373,11 @@ static int meson_drv_bind_master(struct device *dev,=
+ bool has_components)
+>  free_drm:
+>         drm_dev_put(drm);
+>
+> -       meson_encoder_dsi_remove(priv);
+> -       meson_encoder_hdmi_remove(priv);
+> -       meson_encoder_cvbs_remove(priv);
+> +       if (priv) {
+> +               meson_encoder_dsi_remove(priv);
+> +               meson_encoder_hdmi_remove(priv);
+> +               meson_encoder_cvbs_remove(priv);
+> +       }
+This is the straight-forward approach.
 
+There's been conversions from non-devm_ functions to their devm_*
+counterparts in the past in various subsystems.
+I just found that there's a devm_drm_dev_alloc() which seems to be
+calling drm_dev_put() automatically - but I have never used it myself
+before.
+As an alternative to your suggested approach: could you please look
+into whether devm_drm_dev_alloc() is a suitable replacement (if not:
+just explain why - then this patch is good to be merged)?
+
+
+Thank you!
+Martin
