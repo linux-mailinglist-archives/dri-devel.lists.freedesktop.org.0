@@ -2,65 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9EB94DCBE
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 14:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A5C94DCF9
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 14:54:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5E110E092;
-	Sat, 10 Aug 2024 12:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD3B10E05D;
+	Sat, 10 Aug 2024 12:54:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kV0DkQ9y";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="dnrTkd9S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C10E510E05A;
- Sat, 10 Aug 2024 12:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723292770; x=1754828770;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=n6S/oGteTWAzvKyTeV+JlVkxczJJOB23hpbVAeIhq84=;
- b=kV0DkQ9yy5U397iebDEcKruwJ1mQYDsis3tFwHfkdakraanN0NVtmSNp
- sV8Qxre4+/ezFXC7oix/V+9orULN2y2QFPv1eUa8dDtRix4ukt2QiGC2i
- 13HhRYWUG9st19OldPdUW4koOeHnFB/290puimHX3ZjPlc0SD4x9D1Dp/
- TdV0xJz6yQv7OrN9P6GHX26PwkAMY/BIczujZ2EpFPcTcvc49BMLAErtq
- jouqFk4YPBt+J1IGSkfwbo5HhBqPp4bcJNh83vKBWiG2u9/V1l9y9PHj+
- xUHRXoFZSCvU6FnEiOu9wEzro33bqb2SMPxEsmxqZfm+D1Wb5Tk/lYHmC Q==;
-X-CSE-ConnectionGUID: HVF+DO0bRoSG5d4BhCOyug==
-X-CSE-MsgGUID: lOaSCuV3RtOZFt47g2salw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="25226965"
-X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; d="scan'208";a="25226965"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2024 05:26:09 -0700
-X-CSE-ConnectionGUID: pVlAOMANTumYDn0PJyDMyQ==
-X-CSE-MsgGUID: KLhlkVf/SCKAi+8XtabK9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; d="scan'208";a="62654847"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
- by orviesa005.jf.intel.com with ESMTP; 10 Aug 2024 05:26:06 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sclAa-0009v6-0A;
- Sat, 10 Aug 2024 12:26:04 +0000
-Date: Sat, 10 Aug 2024 20:25:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- intel-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org
-Subject: Re: [PATCH] video/aperture: match the pci device when calling
- sysfb_disable()
-Message-ID: <202408102027.iWri1VXT-lkp@intel.com>
-References: <20240809150327.2485848-1-alexander.deucher@amd.com>
+X-Greylist: delayed 902 seconds by postgrey-1.36 at gabe;
+ Sat, 10 Aug 2024 12:54:50 UTC
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E431E10E05D
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 12:54:50 +0000 (UTC)
+Delivered-To: angelogioacchino.delregno@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1723293583; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=QyH4Jwd6Yg/lZk16RtIbLj59ifl+n7IAOWwawevdrzZkyGl1vf/HWs8oVam+J1/Y0O9e5YBfwYWfvvAsltY382lXRV1NeSnrAtEkXrxfxvWwt18aV3Mud78OTpOAcijmaiCbUuOrRI/Oe/nhTRmVVJGjQj/gH3Zstv0u/vwhVuc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1723293583;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=x8CC5Hli2VvYPqemvO/qI3GDNvN29YYbcLL0ZYScO44=; 
+ b=QlNoixQi4+N3pIHjUYAGhfZjBJsdQPo6yr08em3TTlsZGUDf6S0X7Ap91R3mcMV0/9Zs2/rBKMpKiBg+ctmqM/99FWzCsGhRv2TAsx791VA32X2UqTIFKzLO62E4IgT6Mje6Av2o4zR90sYPS3nw7WvY7tHqRHo7ZvVsBxEeths=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723293583; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=x8CC5Hli2VvYPqemvO/qI3GDNvN29YYbcLL0ZYScO44=;
+ b=dnrTkd9SWhYGrJ+/Tk3ZPwexyIF2n15RKjCfxksh12KUze0cwI75TaqgT/t7W/td
+ dvZ8NsNXuqDXbGA9rbMbUANzHfYttZl1YMtwK8TVRNPMGp5M8cbMMRQEHwHemP80poD
+ ioKw+dOSz8vJVFaHEVfskxE34ya9ZK8JFHMjpjggv9klLmLCb9v4kFC61JLAeSF4Fr8
+ fI8qQCNhCKRnmWYvVkGrRq2SlDEQ/rfPnEEk2wG0p4C9xpVu0Gf9XSc3nA57sfHXiJG
+ znOxFqKoVNOcx1efLcfJX8OgeB4dhR4xSbuwuy8tae7KUHJd32r2rh9FKKz1279d/rJ
+ J439K7+2HA==
+Received: by mx.zohomail.com with SMTPS id 1723293581631329.92947824948465;
+ Sat, 10 Aug 2024 05:39:41 -0700 (PDT)
+Message-ID: <77dc97aa009ae6eb54c616ac03cd85817836f0cf.camel@icenowy.me>
+Subject: Re: [PATCH 4/6] drm/imagination: Add compatible string entry for
+ Series6XT
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Frank Binns <Frank.Binns@imgtec.com>, "matthias.bgg@gmail.com"
+ <matthias.bgg@gmail.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>, Matt
+ Coster <Matt.Coster@imgtec.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>,  "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, "wenst@chromium.org"
+ <wenst@chromium.org>,  "mripard@kernel.org" <mripard@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, 
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,  "linux-clk@vger.kernel.org"
+ <linux-clk@vger.kernel.org>
+Date: Sat, 10 Aug 2024 20:39:31 +0800
+In-Reply-To: <efdacd820d13368816973f57c4a817e039ec4a2d.camel@imgtec.com>
+References: <20240530083513.4135052-1-wenst@chromium.org>
+ <20240530083513.4135052-5-wenst@chromium.org>
+ <efdacd820d13368816973f57c4a817e039ec4a2d.camel@imgtec.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240809150327.2485848-1-alexander.deucher@amd.com>
+X-ZohoMailClient: External
+X-ZohoMail-Owner: <77dc97aa009ae6eb54c616ac03cd85817836f0cf.camel@icenowy.me>+zmo_0_
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,35 +93,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
+=E5=9C=A8 2024-05-31=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 11:18 +0000=EF=BC=
+=8CFrank Binns=E5=86=99=E9=81=93=EF=BC=9A
+> On Thu, 2024-05-30 at 16:35 +0800, Chen-Yu Tsai wrote:
+> > The MediaTek MT8173 comes with a PowerVR Rogue GX6250, which is
+> > part
+> > of the Series6XT, another variation of the Rogue family of GPUs.
+> >=20
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> > =C2=A0drivers/gpu/drm/imagination/pvr_drv.c | 1 +
+> > =C2=A01 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/imagination/pvr_drv.c
+> > b/drivers/gpu/drm/imagination/pvr_drv.c
+> > index 5c3b2d58d766..3d1a933c8303 100644
+> > --- a/drivers/gpu/drm/imagination/pvr_drv.c
+> > +++ b/drivers/gpu/drm/imagination/pvr_drv.c
+> > @@ -1475,6 +1475,7 @@ pvr_remove(struct platform_device *plat_dev)
+> > =C2=A0
+> > =C2=A0static const struct of_device_id dt_match[] =3D {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "img,=
+img-axe", .data =3D NULL },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "img,power=
+vr-6xt", .data =3D NULL },
+>=20
+> I assume that by adding this to the list of supported devices we're
+> essentially
+> freezing the existing uapi. This concerns me, as we've not yet
+> started running
+> Vulkan conformance on any Series6XT GPUs and there's a chance we may
+> need to
+> make some tweaks.
 
-kernel test robot noticed the following build errors:
+Is there anything in the Series 6 XT GPUs that will affect conformance
+test and need new ABI to drive? Well I think the GX6250 GPU has TLA
+despite AXE (and BXE) has none, but what TLA does seems to be for
+transfer jobs, which we already support by using fragment pipeline?
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.11-rc2 next-20240809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+In addition, if we add bits to the ABI, we can recognize the new ABI by
+raising the version number returned by the DRM driver.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Deucher/video-aperture-match-the-pci-device-when-calling-sysfb_disable/20240810-021357
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240809150327.2485848-1-alexander.deucher%40amd.com
-patch subject: [PATCH] video/aperture: match the pci device when calling sysfb_disable()
-config: i386-randconfig-001-20240810 (https://download.01.org/0day-ci/archive/20240810/202408102027.iWri1VXT-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408102027.iWri1VXT-lkp@intel.com/reproduce)
+And, if my understand is right, I think we're keeping the command
+stream the same among different GPUs, so if the FWIF is changed, it's
+quite possible that every GPU, not only S6XT but also AXE will be
+affected too.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408102027.iWri1VXT-lkp@intel.com/
+>=20
+> I'm not really sure what the accepted approach is to hardware
+> enablement /
+> experimental support. I'm not sure if it's sufficient to hide support
+> behind a
+> Kconfig option and/or module parameter or whether we just have to
+> hold this
+> patch back for the time being.
+>=20
+> Thanks
+> Frank
+>=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{}
+> > =C2=A0};
+> > =C2=A0MODULE_DEVICE_TABLE(of, dt_match);
 
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: screen_info_pci_dev
-   >>> referenced by aperture.c:358 (drivers/video/aperture.c:358)
-   >>>               drivers/video/aperture.o:(aperture_remove_conflicting_pci_devices) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
