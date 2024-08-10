@@ -2,69 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6003394DAC3
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 06:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6017A94DAC4
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 06:55:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6AE10E008;
-	Sat, 10 Aug 2024 04:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 072B110E028;
+	Sat, 10 Aug 2024 04:55:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EWwy0Ny0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EEEvhdRy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
- [209.85.167.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF8110E008
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 04:55:02 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id
- 5614622812f47-3db130a872fso1903803b6e.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 21:55:02 -0700 (PDT)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+ [209.85.167.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26DE610E028
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 04:55:05 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id
+ 5614622812f47-3db50abf929so2016962b6e.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Aug 2024 21:55:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723265701; x=1723870501; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=1SZjRA7QvngAVvypNtraGj8iaKVFlhYAXT8CiOPJsiA=;
- b=EWwy0Ny0pB0BGLs6tS1qLqO7P5fhhlUNr7jqmyhTc3rzPXVlYtgLddJya4nhMVccCT
- a3/iE/dglilM3y3SMu3h9QlSEeDQxnBf80GDLOpUN+b85bv4oFXu79U6QuVL/EX578FG
- cgFTym3c3mVch/Wdq6s+24k5aIRZQKo6emVArpy4P/TF2Crxn0lUxoQiCpW573b3g8AP
- ev0LglMGazJf7StyYs6DHpcgQDjmbeFAYnr2vezNnZpRlHX+MLgRWZQiETMfHeGJrSP3
- tWidRv/G8a+PM+APOIBKQJLkpg+nOXgBgPXB7WobEt+aP5XCf8p/w/awoHDcbTEmvCYg
- QkNg==
+ d=gmail.com; s=20230601; t=1723265704; x=1723870504; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IS2eypZenlB0YB7xDQlNlol297l5Xqi9mIfw1aOttS8=;
+ b=EEEvhdRybTieHcJhwKIvXcStgEF25D6nnr0v9ROIEv2xX6qUlTJ/zWGrbf/GDlWdLZ
+ wLRchDwtOaIc7pG9EvgRfhtWeQ21fWFdyvxvpu5Kcea3oiRP8OBKYYmUDWFEzLf2QqBv
+ xcvWV7W0iR99WxbXZ5CvKgiqYJDVfJZK2b0iRzY7FRoob1tz3dhGAh1BDygLmesJ90pg
+ Wl8Zu/S5A0bF8+dTjoWt8Gjl6IQU3GoB3tZjyNQWZYsPmXdlGcUq2Mov7XmFsBQ219e8
+ 3mgZ/pLRq85SJOyoAlavsk8FZ/lWJNXz7VjM85hJ9W9MTooW3nCMCCzg7RRTlIn14bth
+ gMGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723265701; x=1723870501;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1SZjRA7QvngAVvypNtraGj8iaKVFlhYAXT8CiOPJsiA=;
- b=XuZH8nP6ouc0XQVWZWMear3jo9FD0DVBdoI7GwC1ZzT3LwiWhta3/UYTJaEBuTutxg
- wNeyfo9FlJCtI6bkArFcBrn41hc4Yh3wf1OPtKYcGZ/d7YGRc0u2tnc7quXSXf3dFaLx
- z29Qk4rUyzJScG9bIP5DspIorQw99nttFVsliEOB/NhiumQqq4aMbQxOof9bQLOiOAdL
- EcaK76Vin8FQLZpNBfmE03MMMIFALBdZ4MrP0GM/Gw9WasB8FZSJH8O03gSqJD5Cm1rB
- sH04kTRDmEYeZfPyT78z3KCx7HC7q7rCfxOPoknXIVH5EhRubUZLKm3MfwJGuHc94jnG
- Od3g==
+ d=1e100.net; s=20230601; t=1723265704; x=1723870504;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IS2eypZenlB0YB7xDQlNlol297l5Xqi9mIfw1aOttS8=;
+ b=wk9SJlUjoAF8Q/v5GpfVtaT6gHsegMKVAfMxYzkpzulK+uj6kFz5DI/yraypleFdOB
+ DEQMrs/Yd4T88sNCseXRFGaft6B5IJZtO0WAJefcm2HR7XQY+lBft17OvMD1TAZZDDDA
+ uBi1rzUGWRMngql3MYcG7G1LrTE/CUb0khzEh7wrjk3IqgR7V8vO4xfjCtBx1YmNGzVE
+ d20oDGRl0ezXy8QZ6Oh6VBVbQzYm45g+2cyhPxwthvRwn6UfT6d7FLcrgbbK7uGNzeqU
+ xo/wbyyCZbcidhqRp95tfxjbvDNi22loHBHnwoMSjVQBu6iJMKwNFSqk1+aX3S5wG8es
+ vjYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV8TkJLGjZxzekBtRV43KQCVdaR/bNoHIeuk2SRMw2sdPshEwAl3VAn9urAXyD2euATzqICJyaYuK2+Tk0j3Sm+i3Tqk8EG7+yuA9/0eo+4
-X-Gm-Message-State: AOJu0YyBcIW6yy8Jgbc1wIl0nb7+cLFM8VosCeM0upSywB9vvuDYo6UW
- rNVGOA7u2rsGv80XQHjjgFf8oGCBsAgVqdi4QMkskHMHaqHHKksh
-X-Google-Smtp-Source: AGHT+IFCpdECix9ySUNK/iLOdCLtYNnFJ9qFVXUZBFAfrUQMJf68JFWC2QWw0jFtauJ5lq+hwKLVXg==
-X-Received: by 2002:a05:6808:2228:b0:3d9:3f51:f351 with SMTP id
- 5614622812f47-3dc4167b9d8mr4408461b6e.11.1723265700956; 
- Fri, 09 Aug 2024 21:55:00 -0700 (PDT)
+ AJvYcCVJVkSk+5ncNUDZ/dJGEdVVJmRVYhEUxsxcyn27LCOMRrFgUlAe+A0H2y7FDlH+L47RoTE28ZndeF0b/JaYbY4Yi7jmUhpoLFahHSykx7Yl
+X-Gm-Message-State: AOJu0YySJE0QAIJTngHLDOwtZAec1zV4m6cpQxqJI534ek3wce3RRQC2
+ 55JqyxXDOG0WIZbYIPtAMyfg2P327YCvUbfF1Gz5hfkHOZ2eVIMG
+X-Google-Smtp-Source: AGHT+IHDNq0Y0g8CWga0ectmzl5Wbkm4MdbLEC+pLI0m00o5hpFZx9xFMZDa1UF7ISR8lw2Pl0kiiw==
+X-Received: by 2002:a05:6808:6542:b0:3d9:3e48:8b13 with SMTP id
+ 5614622812f47-3dc4166b4d4mr3997158b6e.10.1723265704323; 
+ Fri, 09 Aug 2024 21:55:04 -0700 (PDT)
 Received: from distilledx.srmu.edu.in ([103.4.221.252])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-200bb8fd82asm5227005ad.73.2024.08.09.21.54.57
+ d9443c01a7336-200bb8fd82asm5227005ad.73.2024.08.09.21.55.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Aug 2024 21:55:00 -0700 (PDT)
+ Fri, 09 Aug 2024 21:55:04 -0700 (PDT)
 From: Tejas Vipin <tejasvipin76@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  neil.armstrong@linaro.org, quic_jesszhan@quicinc.com
 Cc: dianders@chromium.org, airlied@gmail.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH 0/2] add more multi functions for streamlined error handling
-Date: Sat, 10 Aug 2024 10:24:02 +0530
-Message-ID: <20240810045404.188146-1-tejasvipin76@gmail.com>
+Subject: [PATCH 1/2] drm/mipi-dsi: Add mipi_dsi_dcs_set_tear_scanline_multi
+Date: Sat, 10 Aug 2024 10:24:03 +0530
+Message-ID: <20240810045404.188146-2-tejasvipin76@gmail.com>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240810045404.188146-1-tejasvipin76@gmail.com>
+References: <20240810045404.188146-1-tejasvipin76@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,19 +85,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds mipi_dsi_dcs_set_tear_scanline_multi to the list of multi
-functions and uses it with other multi functions in the jdi-fhd-r63452
-panel.
+mipi_dsi_dcs_set_tear_scanline_multi can heavily benefit from being
+converted to a multi style function as it is often called in the context of
+similar functions.
 
-Tejas Vipin (2):
-  drm/mipi-dsi: Add mipi_dsi_dcs_set_tear_scanline_multi
-  drm/panel: jdi-fhd-r63452: transition to mipi_dsi wrapped functions
+Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+---
+ drivers/gpu/drm/drm_mipi_dsi.c | 31 +++++++++++++++++++++++++++++++
+ include/drm/drm_mipi_dsi.h     |  2 ++
+ 2 files changed, 33 insertions(+)
 
- drivers/gpu/drm/drm_mipi_dsi.c               |  31 +++++
- drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 125 ++++++-------------
- include/drm/drm_mipi_dsi.h                   |   2 +
- 3 files changed, 72 insertions(+), 86 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index 8d0a866cf1e0..b7ad18c148c2 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -1339,6 +1339,9 @@ EXPORT_SYMBOL(mipi_dsi_dcs_set_pixel_format);
+  * @dsi: DSI peripheral device
+  * @scanline: scanline to use as trigger
+  *
++ * This function is deprecated. Use mipi_dsi_dcs_set_tear_scanline_multi()
++ * instead.
++ *
+  * Return: 0 on success or a negative error code on failure
+  */
+ int mipi_dsi_dcs_set_tear_scanline(struct mipi_dsi_device *dsi, u16 scanline)
+@@ -1833,6 +1836,34 @@ void mipi_dsi_dcs_set_page_address_multi(struct mipi_dsi_multi_context *ctx,
+ }
+ EXPORT_SYMBOL(mipi_dsi_dcs_set_page_address_multi);
+ 
++/**
++ * mipi_dsi_dcs_set_tear_scanline_multi() - set the scanline to use as trigger for
++ *    the Tearing Effect output signal of the display module
++ * @ctx: Context for multiple DSI transactions
++ * @scanline: scanline to use as trigger
++ *
++ * Like mipi_dsi_dcs_set_tear_scanline() but deals with errors in a way that
++ * makes it convenient to make several calls in a row.
++ */
++void mipi_dsi_dcs_set_tear_scanline_multi(struct mipi_dsi_multi_context *ctx,
++					  u16 scanline)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
++
++	if (ctx->accum_err)
++		return;
++
++	ret = mipi_dsi_dcs_set_tear_scanline(dsi, scanline);
++	if (ret < 0) {
++		ctx->accum_err = ret;
++		dev_err(dev, "Failed to set tear scanline: %d\n",
++			ctx->accum_err);
++	}
++}
++EXPORT_SYMBOL(mipi_dsi_dcs_set_tear_scanline_multi);
++
+ static int mipi_dsi_drv_probe(struct device *dev)
+ {
+ 	struct mipi_dsi_driver *drv = to_mipi_dsi_driver(dev->driver);
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 602be6ce081a..c823cc13ad1f 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -375,6 +375,8 @@ void mipi_dsi_dcs_set_column_address_multi(struct mipi_dsi_multi_context *ctx,
+ 					   u16 start, u16 end);
+ void mipi_dsi_dcs_set_page_address_multi(struct mipi_dsi_multi_context *ctx,
+ 					   u16 start, u16 end);
++void mipi_dsi_dcs_set_tear_scanline_multi(struct mipi_dsi_multi_context *ctx,
++					u16 scanline);
+ 
+ /**
+  * mipi_dsi_generic_write_seq - transmit data using a generic write packet
 -- 
 2.46.0
 
