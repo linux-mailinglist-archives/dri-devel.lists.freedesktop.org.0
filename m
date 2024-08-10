@@ -2,74 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0583994DC88
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 13:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F9594DC93
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2024 13:46:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D25B10E0A4;
-	Sat, 10 Aug 2024 11:37:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFC010E103;
+	Sat, 10 Aug 2024 11:45:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iHwr7EN4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="maVue8W4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38DF610E027
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 11:29:53 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-7106cf5771bso2431875b3a.2
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2024 04:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723289393; x=1723894193; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wiCIA4Of57lbaaf813bkQDb7E0Z5QglAPM/HOXvdF3w=;
- b=iHwr7EN4pYfb6DWt5RRqiB0wvHg//uCcum0MU/eDH6iNrVk0s9CAf/koW+eJSNMven
- oUZM+2DpZxdwxlaxL3yONehrL7ZO+n1rOx33mOTbcoBy4zPus0kOcl0z1911N625qEFg
- 77O6MVPZLrzqhvPaSiXvoIDOT6tobfj/stw6Useo9iWKGTqEhMgOpYvc1WH5SIcqn4Th
- PVwj3I3H75jejwzjqN89u/fb7DMkdtksXSZZlFMmyHsBmwv5vojvz24/9JOzhQKt9lar
- SyPFj17dfItQ8E0xfRim3GRu/wn6dbw7sWoc4BIdHKNp3pwlZ418UxS+J4+196Zi0d4I
- gycg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723289393; x=1723894193;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wiCIA4Of57lbaaf813bkQDb7E0Z5QglAPM/HOXvdF3w=;
- b=d0eIZ0PFJpeobx9X0NM4ekn2q07chqazmgqiUotJsvwDXX1lcn/nMbrr1U2ECWNh/8
- YXky0w5sYdAluQetIYYTW1Bq7iDAismWKO5WdMYjDC6UGwAOCWVbOHLFc82gT6WUNGwl
- z7D8sLgeaVAO8JutgPcGpwESCdHf3JZqqPDCpiltz1op3UEOuXkm/W7MajNhEMe6deco
- sKrTc67WogbjkClMxzCfJnuBqhSBR+U/JmmZ7VOmWiPfCPQ2CeHTxvHh7CEvyLPvuIdK
- P97SI0PriIpLTt4TTd7EQMk9cxHlRxNAWgg4+kWlJFIFv/aPTfm0OPYco9yscqLCAs00
- 0OCw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU70idAYi70KWjkPZXBMv3JrtTP0fzNEKrZhrHnG3ATsS5Y7RnRSurlPI5azDkhjl32nMgtkcnxLMw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz26/88lVUtIKrVU5PYhkNABw+X1CyuOny8jYtVawuQe0AJzs2I
- otNJFfEWlQSM+l3l4HGsFZ0ux/E64DMR1JUpCrD/8ZtP52QyeSc49gm5G+l3
-X-Google-Smtp-Source: AGHT+IFFLrXSV9+JbJQlHWg5e69i45Y3QUEbOy1TCpPeglReO8eR90wNrfIufmfrxRocT06DW1dWZw==
-X-Received: by 2002:a05:6a00:130d:b0:704:32dc:c4e4 with SMTP id
- d2e1a72fcca58-710dc627001mr4463972b3a.1.1723289392469; 
- Sat, 10 Aug 2024 04:29:52 -0700 (PDT)
-Received: from ubuntu.worldlink.com.np ([27.34.65.255])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-710e5ac6c6dsm1098003b3a.194.2024.08.10.04.29.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Aug 2024 04:29:52 -0700 (PDT)
-From: Dipendra Khadka <kdipendra88@gmail.com>
-To: robdclark@gmail.com,
-	ean@poorly.run,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Cc: Dipendra Khadka <kdipendra88@gmail.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Fix warning: Using plain integer as NULL pointer in
- msm_ringbuffer.c
-Date: Sat, 10 Aug 2024 11:29:42 +0000
-Message-ID: <20240810112944.175509-1-kdipendra88@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D288F10E103;
+ Sat, 10 Aug 2024 11:45:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723290357; x=1754826357;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8DIEUv9amZ+E2lCgoLiQtJnnKGQaWds7ILyjPec/rbg=;
+ b=maVue8W45+qEmCpoC0RdFy5FI75zJBa08cEet2kd2Fu+4Vm1d0SF7oyr
+ Rc2phGWo8Zim0Xrd5cW3PFA80cLKUhWiQZlGZlagH8uwCP+lxJ+eqDOS5
+ Swc7dTkNGoGZDmZnDBkasBXVstVa2/5KtjVilZTGEm2LAVTV5XilF0CN1
+ FYt7ZbZCmAYwaH3hoBQJ3ZNjYueF7+kxW3T5F75AWgujHjeXNhOk+E/i8
+ kj0apCq9CbYod9bNz3fwHhHVkFwYWRyybm9M6CG3IUsF/3o/nGMAnMcwl
+ a45F40hHDGMovXaRUafnuwY9VcBv7MATVVkgkyCVQpicIIuREBsIWZZTP w==;
+X-CSE-ConnectionGUID: nACKb57sTGiPVk7Ikllzrw==
+X-CSE-MsgGUID: pQtm/QnnTuyGR4RqPbOIUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="21434575"
+X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; d="scan'208";a="21434575"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2024 04:45:56 -0700
+X-CSE-ConnectionGUID: ZE69ZQ+cRkaODyeSfuUf/A==
+X-CSE-MsgGUID: 8yfBQNjpRaGLylUsHtViLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; d="scan'208";a="57701445"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+ by orviesa010.jf.intel.com with ESMTP; 10 Aug 2024 04:45:06 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sckWt-0009tr-0P;
+ Sat, 10 Aug 2024 11:45:03 +0000
+Date: Sat, 10 Aug 2024 19:44:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org
+Subject: Re: [PATCH] video/aperture: match the pci device when calling
+ sysfb_disable()
+Message-ID: <202408101951.tXyqYOzv-lkp@intel.com>
+References: <20240809150327.2485848-1-alexander.deucher@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 10 Aug 2024 11:37:09 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240809150327.2485848-1-alexander.deucher@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,32 +76,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-sparse reported following warning:
+Hi Alex,
 
-'''
-drivers/gpu/drm/msm/msm_ringbuffer.c:34:31: warning: Using plain integer as NULL pointer
-'''
+kernel test robot noticed the following build errors:
 
-This fix changes integer 0 to NULL.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.11-rc2 next-20240809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
----
- drivers/gpu/drm/msm/msm_ringbuffer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Deucher/video-aperture-match-the-pci-device-when-calling-sysfb_disable/20240810-021357
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240809150327.2485848-1-alexander.deucher%40amd.com
+patch subject: [PATCH] video/aperture: match the pci device when calling sysfb_disable()
+config: csky-randconfig-001-20240810 (https://download.01.org/0day-ci/archive/20240810/202408101951.tXyqYOzv-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408101951.tXyqYOzv-lkp@intel.com/reproduce)
 
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index e397c44cc011..5c73b8577945 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -31,7 +31,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
- 
- 	if (IS_ERR(ring->start)) {
- 		ret = PTR_ERR(ring->start);
--		ring->start = 0;
-+		ring->start = NULL;
- 		goto fail;
- 	}
- 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408101951.tXyqYOzv-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   csky-linux-ld: drivers/video/aperture.o: in function `aperture_remove_conflicting_pci_devices':
+>> aperture.c:(.text+0x222): undefined reference to `screen_info_pci_dev'
+   csky-linux-ld: drivers/video/aperture.o: in function `devm_aperture_acquire_release':
+>> aperture.c:(.text+0x2c0): undefined reference to `screen_info'
+>> csky-linux-ld: aperture.c:(.text+0x2c4): undefined reference to `screen_info_pci_dev'
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
