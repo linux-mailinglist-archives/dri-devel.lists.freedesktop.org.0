@@ -2,60 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E0A94E081
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2024 10:28:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9125194E0BB
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2024 11:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14C9C10E0A1;
-	Sun, 11 Aug 2024 08:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A393510E17C;
+	Sun, 11 Aug 2024 09:56:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="NcLchHCR";
+	dkim=pass (2048-bit key; unprotected) header.d=ljones.dev header.i=@ljones.dev header.b="McIv2Bc6";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Wc33fUPK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
- [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD2510E0A1
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2024 08:28:36 +0000 (UTC)
-Delivered-To: uwu@icenowy.me
-ARC-Seal: i=1; a=rsa-sha256; t=1723364911; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=B+0C5KHeuBVdfBK7ZyL0s0sW8SYPjQ6YtghcVAZ8yIkRlEli78S+FV9xJNtljFCcYyHuZknqzzEyT5Lmr7QcZWSyKIlGmpqOY3hTJy6OSXvxcu7j98EPLDh61kwL7AdzBtEE542yqCV1y7vaJGyIbKvrmqz/B+VNcQAHAcVCGUk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723364911;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=f7hdzgnS4D8cvOAiuoGZzS0Zmgqk/HH2cuB+RJSCCpw=; 
- b=CGpyvGnK2QWw5HPNKRCUI2yn/VNBiRGU6mnLPSlVDTUmvoA9djfIsZugkz+DxjX3rLXYl27NmF8k8UoJK4UnkFJm/yxMUSyZfH5yzEuzGbfNwKcy6qNA8nhyG/XLVvyIBBfG7ZsyWNs9ucUn2BfYEhLDlOH8icI0pnJGTjpcVAY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723364911; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=f7hdzgnS4D8cvOAiuoGZzS0Zmgqk/HH2cuB+RJSCCpw=;
- b=NcLchHCRq4P5PlvH3MM8ecsPeQK9hjB+1qO4H62ZVxbfRVSJGpHUQQ9l3EQhw+uE
- XF9wZq6uEZvL4tgJrp20A6G6VGX8losVXK6mcRmAfMZXdV+bs1OvOz5jeLLn6ShHeO4
- RAZbomKrkUUDjIv0bcRCy4NvQ169Q9ez+oURSXrFtlupyBzLAcIi2KjbRiI/icfJGXi
- m5v58Ow3pXDz006WIjb/PVJz8fb4HNBYvQxkZNUpaPXKMoVNAuZgeoAs8S0z70KB3Fz
- jdunSGrLwyxqXkVsUrmomtRSzh2LsiLwSTnr8EKMdjpNyVP7sRIrEAcvjnY8rk6p4Gl
- dBtyUUp5UA==
-Received: by mx.zohomail.com with SMTPS id 1723364909058364.2343906969842;
- Sun, 11 Aug 2024 01:28:29 -0700 (PDT)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH] drm/imagination: properly support stopping LAYOUT_MARS = 1
- cores
-Date: Sun, 11 Aug 2024 16:28:13 +0800
-Message-ID: <20240811082813.245871-1-uwu@icenowy.me>
-X-Mailer: git-send-email 2.46.0
+X-Greylist: delayed 405 seconds by postgrey-1.36 at gabe;
+ Sun, 11 Aug 2024 09:27:08 UTC
+Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com
+ [103.168.172.148])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0C0A10E187
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2024 09:27:08 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailfout.nyi.internal (Postfix) with ESMTP id 95736138CC6A;
+ Sun, 11 Aug 2024 05:20:21 -0400 (EDT)
+Received: from imap41 ([10.202.2.91])
+ by compute3.internal (MEProxy); Sun, 11 Aug 2024 05:20:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm1; t=1723368021;
+ x=1723454421; bh=5rbfEqURGiF9jlW7xiee/gg1cziT13qgtmb8s8ZIskI=; b=
+ McIv2Bc6A+lcrkOnigv3JSiu/agexrOXbzv2IU8Lq/Lga/Q61VG1I0I7Z/BnnIjK
+ F9iRQ2jVv7mulY7Z4IAs7tetaV27dQmnFRv3AR9hTDVOsvtI+Yjf9YBPW9NLDdPp
+ fGzikrDbz9YErCTVR9oDBgJDJSUtcd3mXWbsgVuEsKd8mYXNLLiKkNaQLNkwjGA2
+ pRGx9Ibr/mFgHvSGXfKCZCoscxcLe1lCF814mQy7IsYereY7A8W+vjep1sO1j6KB
+ xVUPI0XLTxCra7vSmjROM89n59S3AT8TnUWqnNbVLEHVzq/pYJVUw23TVaKwTXD7
+ j59u+OuD7ZMYBzsRg59InA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1723368021; x=
+ 1723454421; bh=5rbfEqURGiF9jlW7xiee/gg1cziT13qgtmb8s8ZIskI=; b=W
+ c33fUPKT086vfQwh/CnHNcq4XP8r3OzNQ3sElcAm/QBu/e39yqa4qLr19RFFA4Gb
+ S8OplPP1rt2p/ZnBcizC4RX9pnx1C41+aJu1s6pC06/MaGffV2RaYxfS2A2BHm1t
+ KMVGtGP9AcZP7filzW4L61Vg6i2mjDxsMqnj7Hynoj++7G1BSV9PsPfaMtIHuvaR
+ dYMJ8XPyAU6cgeozqAv8o6+I8pP9ANImWKUJVgEEgOTFZHoy176BkOHreHlS5nAj
+ xOrFwsCEqpOON+wm/VI3hLuS0JFLAf877CMan5cpvnQB9iuH0y2eKKRbf6+AQdtp
+ BGr3jppRTJ3CyG7EotLVg==
+X-ME-Sender: <xms:VIK4Zm6i60rpN5e1_DFKI9uDs_1l7-R1fHYANo4N6Umdkp9DWbJodQ>
+ <xme:VIK4Zv4YoQM8exqJpKO4ogqTFgrrtiZY-iF3VfY6qPh1PuXmU-K-fGV35UL8twn6z
+ p5HkA6qw5fHbMjWhd0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrleekgdduiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+ tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+ hsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredttden
+ ucfhrhhomhepfdfnuhhkvgculfhonhgvshdfuceolhhukhgvsehljhhonhgvshdruggvvh
+ eqnecuggftrfgrthhtvghrnhepgfeiffehtdfghfettdeiuddtfeekvdejgfevhefhffev
+ tdfhjeelgeefffekvdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+ hilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghpthhtohepledp
+ mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepuggrnhhivghlsehffhiflhhlrdgthh
+ dprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepsgho
+ uhhkvghhrggrrhhsmhgrvdefsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhhrihhprg
+ hrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhho
+ rhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvg
+ hlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohephhguvghg
+ ohgvuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnse
+ hsuhhsvgdruggvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgv
+ rhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:VIK4ZlcwlI3Z-3saHAL3TAXfCdGUpOdk1i2FzsAEpJzZBx-tRtUSkA>
+ <xmx:VIK4ZjIrnrI2HtGCjgSl_CMxGrWSBTh6pENLQ4l1RndcMupHfvgijw>
+ <xmx:VIK4ZqIUg5JcYpQ3Z4fQpQ3LWdIertKRPsCUEROOyTwV-tU66q2NDQ>
+ <xmx:VIK4ZkzxlygI3g5eInQoJHkV33Lx3PsRyEiuQyD0gIZ-MKh7P402Fg>
+ <xmx:VYK4ZrremrMpv_rXJcg1FHJc4o4iZn2-vtpvOOKtzWleSMq9Uo-BBym4>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id A87522340081; Sun, 11 Aug 2024 05:20:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Date: Sun, 11 Aug 2024 21:20:00 +1200
+From: "Luke Jones" <luke@ljones.dev>
+To: "Bouke Sybren Haarsma" <boukehaarsma23@gmail.com>,
+ maarten.lankhorst@linux.intel.com, "Hans de Goede" <hdegoede@redhat.com>
+Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <ac41ed9d-59c6-406e-805d-4a272a90a626@app.fastmail.com>
+In-Reply-To: <20240728124731.168452-3-boukehaarsma23@gmail.com>
+References: <20240728124731.168452-1-boukehaarsma23@gmail.com>
+ <20240728124731.168452-3-boukehaarsma23@gmail.com>
+Subject: Re: [PATCH RESEND 2/2] drm: panel-orientation-quirks: Add quirk for
+ Ayn Loki Max
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Sun, 11 Aug 2024 09:56:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,112 +109,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some new Rogue GPU cores have an extra MARS power domain, which
-controlls the power of the firmware core and allows the firmware core to
-power down most parts of the GPU.
+On Mon, 29 Jul 2024, at 12:47 AM, Bouke Sybren Haarsma wrote:
+> Add quirk orientation for Ayn Loki Max model.
+> 
+> This has been tested by JELOS team that uses their
+> own patched kernel for a while now and confirmed by
+> users in the ChimeraOS discord servers.
+> 
+> Signed-off-by: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
+> ---
+> drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+> 1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index a1dfeaae644d..0830cae9a4d0 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -208,6 +208,12 @@ static const struct dmi_system_id orientation_data[] = {
+>   DMI_MATCH(DMI_BOARD_NAME, "KUN"),
+> },
+> .driver_data = (void *)&lcd1600x2560_rightside_up,
+> + }, {    /* AYN Loki Max */
+> + .matches = {
+> + DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
+> + DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Loki Max"),
+> + },
+> + .driver_data = (void *)&lcd1080x1920_leftside_up,
+> }, { /* AYN Loki Zero */
+> .matches = {
+> DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
+> -- 
+> 2.45.2
 
-Adapt to this by ignoring power domains that should be powered down by
-the fiwmare and checking MARS idle status instead.
+Hi All, are we able to get some movement on this? Although many folks who rely on this are able to keep patching it would be wonderful for others to not have to worry about it.
 
-The logic mimics RGXStop() function in the DDK kernel mode source code.
-
-Tested on BXE-4-32 (36.50.54.182) with firmware build 6503725 OS provided
-by Imagination Technologies.
-
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
- .../gpu/drm/imagination/pvr_fw_startstop.c    | 49 +++++++++++++------
- 1 file changed, 35 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_startstop.c b/drivers/gpu/drm/imagination/pvr_fw_startstop.c
-index 159a4c3dd65b..4301a7aded64 100644
---- a/drivers/gpu/drm/imagination/pvr_fw_startstop.c
-+++ b/drivers/gpu/drm/imagination/pvr_fw_startstop.c
-@@ -201,19 +201,28 @@ pvr_fw_stop(struct pvr_device *pvr_dev)
- 				       ~(ROGUE_CR_SIDEKICK_IDLE_GARTEN_EN |
- 					 ROGUE_CR_SIDEKICK_IDLE_SOCIF_EN |
- 					 ROGUE_CR_SIDEKICK_IDLE_HOSTIF_EN);
-+	const u32 mars_idle_mask = ROGUE_CR_MARS_IDLE_CPU_EN |
-+				   ROGUE_CR_MARS_IDLE_MH_SYSARB0_EN;
- 	bool skip_garten_idle = false;
-+	u32 mars = 0;
- 	u32 reg_value;
- 	int err;
- 
-+	if (PVR_HAS_FEATURE(pvr_dev, layout_mars))
-+		PVR_FEATURE_VALUE(pvr_dev, layout_mars, &mars);
-+
- 	/*
- 	 * Wait for Sidekick/Jones to signal IDLE except for the Garten Wrapper.
- 	 * For cores with the LAYOUT_MARS feature, SIDEKICK would have been
- 	 * powered down by the FW.
- 	 */
--	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SIDEKICK_IDLE, sidekick_idle_mask,
--				sidekick_idle_mask, POLL_TIMEOUT_USEC);
--	if (err)
--		return err;
-+	if (mars) {
-+		err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SIDEKICK_IDLE,
-+					sidekick_idle_mask,
-+					sidekick_idle_mask, POLL_TIMEOUT_USEC);
-+		if (err)
-+			return err;
-+	}
- 
- 	/* Unset MTS DM association with threads. */
- 	pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC,
-@@ -267,21 +276,27 @@ pvr_fw_stop(struct pvr_device *pvr_dev)
- 	 * For cores with the LAYOUT_MARS feature, SLC would have been powered
- 	 * down by the FW.
- 	 */
--	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SLC_IDLE,
--				ROGUE_CR_SLC_IDLE_MASKFULL,
--				ROGUE_CR_SLC_IDLE_MASKFULL, POLL_TIMEOUT_USEC);
--	if (err)
--		return err;
-+	if (mars) {
-+		err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SLC_IDLE,
-+					ROGUE_CR_SLC_IDLE_MASKFULL,
-+					ROGUE_CR_SLC_IDLE_MASKFULL,
-+					POLL_TIMEOUT_USEC);
-+		if (err)
-+			return err;
-+	}
- 
- 	/*
- 	 * Wait for Sidekick/Jones to signal IDLE except for the Garten Wrapper.
- 	 * For cores with the LAYOUT_MARS feature, SIDEKICK would have been powered
- 	 * down by the FW.
- 	 */
--	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SIDEKICK_IDLE, sidekick_idle_mask,
--				sidekick_idle_mask, POLL_TIMEOUT_USEC);
--	if (err)
--		return err;
-+	if (mars) {
-+		err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SIDEKICK_IDLE,
-+					sidekick_idle_mask,
-+					sidekick_idle_mask, POLL_TIMEOUT_USEC);
-+		if (err)
-+			return err;
-+	}
- 
- 	if (pvr_dev->fw_dev.processor_type == PVR_FW_PROCESSOR_TYPE_META) {
- 		err = pvr_meta_cr_read32(pvr_dev, META_CR_TxVECINT_BHALT, &reg_value);
-@@ -297,7 +312,13 @@ pvr_fw_stop(struct pvr_device *pvr_dev)
- 			skip_garten_idle = true;
- 	}
- 
--	if (!skip_garten_idle) {
-+	if (mars) {
-+		err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_MARS_IDLE,
-+					mars_idle_mask, mars_idle_mask,
-+					POLL_TIMEOUT_USEC);
-+		if (err)
-+			return err;
-+	} else if (!skip_garten_idle) {
- 		err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SIDEKICK_IDLE,
- 					ROGUE_CR_SIDEKICK_IDLE_GARTEN_EN,
- 					ROGUE_CR_SIDEKICK_IDLE_GARTEN_EN,
--- 
-2.46.0
-
+Cheers,
+Luke.
