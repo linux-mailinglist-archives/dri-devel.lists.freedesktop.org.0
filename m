@@ -2,77 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F2C94F004
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 16:45:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AB694F087
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 16:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1AC610E248;
-	Mon, 12 Aug 2024 14:45:37 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="gKfJqXF4";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81C4110E24F;
+	Mon, 12 Aug 2024 14:51:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D74CB10E248
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 14:45:36 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-52efd2221efso248817e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 07:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1723473935; x=1724078735; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=bymzoOMfqr9IMa+im5HTH14isX5Y4Mb/1e1d6QwQ/7U=;
- b=gKfJqXF4VoP9uYIGxK9mF0TCFt+smWyhK8T9VuoSn+QlGojyJ6MwXAuC6JuJJoEQqZ
- UpfgflIE0HKPo01nWEHn4EHFLJX/qvINt2pOTLR+m1jPW1yx49JzmU8z8UbLquYL8mc1
- ol7fs1iRydI3d284+iyoq/P6YeSblmtpmxCNU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723473935; x=1724078735;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bymzoOMfqr9IMa+im5HTH14isX5Y4Mb/1e1d6QwQ/7U=;
- b=EzlCRPqE/9HmvL81vEtELZSvcwGT2dqj90CMyQNMLsvAMrcvWwdqeRjRrOMEZcxum1
- MmO8O5bvgvxADsJXeLL+UinG6q8meLfrqNrTUw3Kb8/FFdxUGjuUgCHIxZJJE0RM7QCX
- gah+yr881/QgQ5UVYkp4EDbwC/ymyioQC5JFhTz7QGExSfHVp3dVwgo8PdSgoyIlWhJN
- gxiocl4y7HfouhT6JNhkD6nwdgIkBM+KXZC11+IrmQ+n8AI+wJ2t2EX6fL/vuQQub44O
- TZbd4u/TVrUpCNDDobM0w2LAcUee3Hf/61OwMo4B9n7+ipsIuggMaGOCakCeQNJl4El/
- y48Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX47nVczHcuqD+3nummnrjOdm42wG6TTriATpdrngpWt5iCc6u08FZietkHipgQG/EjT377+59JnPM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0259TJVZyNNTYw19xL4TUmtvkWnqU+MrIahApd/FaU+w1Sbdx
- Be+u7iSaHvxBRjp6OBiltSV/ojVd5RXWNNHOkdQoOelWphJzPxm2L8Agr6+S9kc=
-X-Google-Smtp-Source: AGHT+IEB8fiWUUDC//T86CQTr5qw6fcPjynvrtLV8+LmzdPGWvHBZKEgltAoNv+MwyA/0rZeMFIS1Q==
-X-Received: by 2002:a05:6512:23aa:b0:530:b78c:445c with SMTP id
- 2adb3069b0e04-5321369ea54mr169238e87.8.1723473934621; 
- Mon, 12 Aug 2024 07:45:34 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a80bb1d1293sm235140666b.127.2024.08.12.07.45.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Aug 2024 07:45:34 -0700 (PDT)
-Date: Mon, 12 Aug 2024 16:45:32 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH 0/2] Allow partial memory mapping for cpu memory
-Message-ID: <ZrogDGT326oSUZls@phenom.ffwll.local>
-References: <20240807100521.478266-1-andi.shyti@linux.intel.com>
- <ZrXZEpplb6YA9T_d@phenom.ffwll.local>
- <ZrXtiBKyCCh0a_ym@ashyti-mobl2.lan>
- <ZrnRuRGjxHe5zxuf@phenom.ffwll.local>
- <Zrn3QqOvOEW2EYB0@ashyti-mobl2.lan>
+Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B978C10E24F
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 14:51:09 +0000 (UTC)
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+ by ns.iliad.fr (Postfix) with ESMTP id E856E20621;
+ Mon, 12 Aug 2024 16:51:07 +0200 (CEST)
+Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
+ by ns.iliad.fr (Postfix) with ESMTP id D6E1C2060B;
+ Mon, 12 Aug 2024 16:51:07 +0200 (CEST)
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+Subject: [PATCH v5 0/2] Basic support for TI TDP158
+Date: Mon, 12 Aug 2024 16:51:00 +0200
+Message-Id: <20240812-tdp158-v5-0-78684a84ec23@freebox.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zrn3QqOvOEW2EYB0@ashyti-mobl2.lan>
-X-Operating-System: Linux phenom 6.9.10-amd64 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFQhumYC/2XOyw6CMBAF0F8xXVszfdAWV/6HcdHHVLoRUgzRE
+ P7dwgIwLO9kzp0ZSY85YU+up5FkHFKf2lcJ1flEfGNfT6QplEw4cAmKafoOHasMlcxwgKC8B0f
+ Kcpcxps9SdH+U3KT+3ebv0juweXqoGBgFGmJtMOqAXoVbzIiu/VxiJnPHwHeOV6vjxVnhhJQad
+ LT64MTebfdEcdHx6LwBI6Q6OLk5LWB1cv7TqhqAuYCW/7lpmn47OIqARQEAAA==
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Arnaud Vrac <avrac@freebox.fr>, 
+ Pierre-Hugues Husson <phhusson@freebox.fr>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Marc Gonzalez <mgonzalez@freebox.fr>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,71 +61,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 12, 2024 at 01:51:30PM +0200, Andi Shyti wrote:
-> Hi Daniel,
-> 
-> On Mon, Aug 12, 2024 at 11:11:21AM +0200, Daniel Vetter wrote:
-> > On Fri, Aug 09, 2024 at 11:20:56AM +0100, Andi Shyti wrote:
-> > > On Fri, Aug 09, 2024 at 10:53:38AM +0200, Daniel Vetter wrote:
-> > > > On Wed, Aug 07, 2024 at 11:05:19AM +0100, Andi Shyti wrote:
-> > > > > This patch series concludes on the memory mapping fixes and
-> > > > > improvements by allowing partial memory mapping for the cpu
-> > > > > memory as well.
-> > > > > 
-> > > > > The partial memory mapping by adding an object offset was
-> > > > > implicitely included in commit 8bdd9ef7e9b1 ("drm/i915/gem: Fix
-> > > > > Virtual Memory mapping boundaries calculation") for the gtt
-> > > > > memory.
-> > > > 
-> > > > Does userspace actually care? Do we have a flag or something, so that
-> > > > userspace can discover this?
-> > > > 
-> > > > Adding complexity of any kind is absolute no-go, unless there's a
-> > > > userspace need. This also includes the gtt accidental fix.
-> > > 
-> > > Actually this missing functionality was initially filed as a bug
-> > > by mesa folks. So that this patch was requested by them (Lionel
-> > > is Cc'ed).
-> > > 
-> > > The tests cases that have been sent previously and I'm going to
-> > > send again, are directly taken from mesa use cases.
-> > 
-> > Please add the relevant mesa MR to this patch then, and some relevant
-> > explanations for how userspace detects this all and decides to use it.
-> 
-> AFAIK, there is no Mesa MR. We are adding a feature that was
-> missing, but Mesa already supported it (indeed, Nimroy suggested
-> adding the Fixes tag for this).
-> 
-> Also because, Mesa was receiving an invalid address error and
-> asked to support the partial mapping of the memory.
+TDP158 is an AC-coupled DVI / HDMI to TMDS level shifting Redriver.
 
-Uh this sounds a bit too much like just yolo'ing uabi. There's two cases:
+Like the TFP410, the TDP158 can be set up in 2 different ways:
+1) hard-coding its configuration settings using pin-strapping resistors
+2) placing it on an I2C bus, and defer set-up until run-time
 
-- Either this is a regression, it worked previously, mesa is now angry.
-  Then we absolutely need a Fixes: tag, and we also need that for the
-  preceeding work to re-enable this for gtt mappings.
+The mode is selected by pin 8 = I2C_EN
+I2C_EN = 1 ==> I2C Control Mode
+I2C_EN = 0 ==> Pin Strap Mode
 
-- Or mesa is just plain wrong here, which is what my guess is. Because bo
-  mappings have always been full-object (except for the old-style shm
-  mmaps). In that case mesa needs to be fixed (because we're not going to
-  backport old uapi).
+On our board, I2C_EN is pulled high (hard-wired).
 
-  Also in that case, _if_ (and that's a really big if) we really want this
-  uapi, we need it in xe too, it needs a proper mesa MR to use it, it
-  needs igt testcases, and it needs a solid way to detect whether the
-  kernel supports this feature or not. But unless other drivers are doing
-  this too, I have some big questions why i915-gem needs this.
- 
-> > Also, does xe also support this? If we only add this to i915-gem but xe
-> > doesn't have it, it doesn't make much sense imo.
-> 
-> I don't know about. Lionel, Do you have anything to add here from
-> your side?
+---
+Changes in v5:
+- Add BSD-2-Clause option in YAML binding (Rob) + add Rob's tag
+- Link to v4: https://lore.kernel.org/r/20240730-tdp158-v4-0-da69001bdea2@freebox.fr
 
-"I don't know" is not an acceptable answer for uapi work.
--Sima
+Changes in v4:
+- Rebase series on top of v6.11-rc1
+- Add blurb about I2C vs pin strap mode in cover letter
+- Add blurb about I2C vs pin strap mode in binding commit message
+- Add blurb about I2C mode in driver commit message
+- Add comment in binding explaining when reg is required
+- Add comment in binding describing Operation Enable / Reset Pin
+- Link to v3: https://lore.kernel.org/r/20240627-tdp158-v3-0-fb2fbc808346@freebox.fr
+
+Changes in v3:
+- Add 'select DRM_PANEL_BRIDGE' in driver Kconfig
+- Fix checkpatch errors
+- log errors using dev_err (so save dev pointer)
+- expand a few error messages
+- expand commit messages with info from the datasheet
+- mark regulators as required in the DT binding
+- Link to v2: https://lore.kernel.org/r/20240625-tdp158-v2-0-a3b344707fa7@freebox.fr
+
+Changes in v2:
+- Don't overload simple-bridge, spin new minimal driver
+- New driver, new binding
+- Default device settings work fine for us, so we don't tweak registers
+- Link to v1: https://lore.kernel.org/r/20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr
+
+- Link to v0b: https://lore.kernel.org/r/b41f2f86-0d99-4199-92a9-42cbb9d6a6d5@freebox.fr/
+
+- Link to v0a: https://lore.kernel.org/r/d3de652f-ce89-4f57-b900-07b11f8bf8f9@free.fr/
+
+---
+Marc Gonzalez (2):
+      dt-bindings: display: bridge: add TI TDP158
+      drm/bridge: add support for TI TDP158
+
+ .../bindings/display/bridge/ti,tdp158.yaml         |  57 +++++++++++
+ drivers/gpu/drm/bridge/Kconfig                     |   7 ++
+ drivers/gpu/drm/bridge/Makefile                    |   1 +
+ drivers/gpu/drm/bridge/ti-tdp158.c                 | 108 +++++++++++++++++++++
+ 4 files changed, 173 insertions(+)
+---
+base-commit: c6072668fcfb13295b600747dbd89f00da1a4ed9
+change-id: 20240617-tdp158-418200d6cc0b
+
+Best regards,
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Marc Gonzalez <mgonzalez@freebox.fr>
+
