@@ -2,60 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDE394ECFC
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 14:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2D294ED0A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 14:31:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39A7610E1DE;
-	Mon, 12 Aug 2024 12:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B72210E1E0;
+	Mon, 12 Aug 2024 12:31:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="dioaJryu";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Vi2V2t/t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E94710E1DE
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 12:29:47 +0000 (UTC)
-Delivered-To: kernel@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723465777; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=A6ax3BMyOyd7JbSEwrSnFCElNm6SPJV/lKv7cUfPJfBLpFCM0G4Anksx4Yww+ZAbgzRN5nH4MwJyIUNkvSEVeHk3w8VajxFEMQue61FtQCyAZpDo9hswXR9FZvm9Ph89Ni42qGNzF0a/F1MZxRN9q9KvKAQecvpn7wPEaw90Adk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723465777;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=hHBZWGOOS3eyEvyNgSwIxhzhjL9NL+2hrTOzZgpCWm0=; 
- b=oIlPcY7Sm0z9fZom29M+Cznkhh970+wpgeAbnL3CTlyq8tsc0Z1X98dw3MYey9nc47v+Cda3BKxZ0mts9su+pk6izsdJHkxq8V9rKjfCvST+CQGNMGq/VCb/7qxadyrVlCKSoyadGUPqgSXhEZHW/+84BuabSjLh3jOmipo357c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
- dmarc=pass header.from=<mary.guillemard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723465777; 
- s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=hHBZWGOOS3eyEvyNgSwIxhzhjL9NL+2hrTOzZgpCWm0=;
- b=dioaJryuFuIUUNfmHurKYVZvf18eZOEDzuFFRdL3FCt/x4neFoN6EALfQ5C3QwFD
- MiXCPGZt9s2m2oyKKR08JiMhtLflz4BcE3mBlZIf4pt2OFtNeYMtDaUGtZ1llTocuNn
- /ZOdsjXYpg2NrYc2fKQwzu1q00HdnHDCblB5VaWA=
-Received: by mx.zohomail.com with SMTPS id 1723465776463858.7136728257844;
- Mon, 12 Aug 2024 05:29:36 -0700 (PDT)
-From: Mary Guillemard <mary.guillemard@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Christopher Healy <healych@amazon.com>,
- Mary Guillemard <mary.guillemard@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/panthor: Add DEV_QUERY_TIMESTAMP_INFO dev query
-Date: Mon, 12 Aug 2024 14:28:15 +0200
-Message-ID: <20240812122814.177544-2-mary.guillemard@collabora.com>
-X-Mailer: git-send-email 2.45.2
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADF910E1DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 12:31:16 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-5a28b61b880so13345a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 05:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1723465874; x=1724070674;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pMcseotHzw9w1/qyloEY2A3jvRku1lVZIU5xRt3H8hw=;
+ b=Vi2V2t/tlwF05zvbietLUIyftFSwqKAvYXAlDXoc72e38nkYsIiS9aZ6DUdTgbPmiW
+ fgbtKAgequojIOTfnLZEUwIpmCVDkvR4Gl87Klu2tgRYCo7RrI0UaJ4JAk3CvVaUbVxi
+ hNc719j66WjsLBEY8oBNlOvrHoEuWEUVNwjMaFh+RtNzK7CRrP3qUP+WkMTYdYIcaycH
+ UJ3c0MRS/NQgQ8/IaZ6aivQrk0bdOiVHhgsqU+i57h1dOW5QTOKL+8ami/DmBiDWCAMy
+ ZiQ/GKQ4Vjo2KrHsAg08V8OpdfpMDYeGsp1BNdx3Xxt6ffyHs/u627ZOSbfB+zGXyvr+
+ MITw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723465874; x=1724070674;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pMcseotHzw9w1/qyloEY2A3jvRku1lVZIU5xRt3H8hw=;
+ b=ED7l+0gRCYyY1DpyY5WG8UzPU/gATUjbqek9EvYk69AajVZXRGyZPzqWl59oxd4TDF
+ CPdNRGPLOEM01VfoFsyQFCaVAF/6Zj4B5v3PArUKhyqBohFFKRnGD8s15tHKKFAoOP08
+ 81NI0lwJmAHZnEdQgEm3/YueZUaFM/u/lp+cgv+yVrXWdNlL1qd5sxz5M2EpfPNSePEo
+ 3vweueezvHnEhvbyjxeQNmEpf0lrZjt7c/JRHgkvXlez3F1DQcywDMVkVreyUgO0i/iV
+ T41tUiP17JaVXGmu9Y09W3hL7u8UVdey+Pw0PMg4aFHgBH/Bhp4NW5UCS6Ekq2Bq3fih
+ HRAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjzS6M+cWJktI8i0YXgnzAsl7qxCDft+HE7wWc5/jv3xxRh4SICen+Ka6or0NfcyiKlqzTrzWTp1Qb0KH5uReAAmwLU0BL47+fvUVYtyYW
+X-Gm-Message-State: AOJu0Yyjj0xFhycGNFbErbeXAL39oTj0nI2/Dl2Hmetry49wOSX+lq8c
+ epVfVZoHjxvtZj3PKkDyH3CkcJm4H4EH3XAxRz2zh9s6ptlTWlxfUfxTG4UtX9pcnpCcp3yDze/
+ zw/zL8TvapOLKov9Eylg0VQsDOZ+/+wa3M8WV
+X-Google-Smtp-Source: AGHT+IFBkS0vaHhMDQbq1/kPkyc6ayYFZd2RvKz1caxrhyo6RSPUVPLYzq5t18fSiRJtwmNeDhl/Ww0R6fXnIZQ/4uI=
+X-Received: by 2002:a05:6402:38c:b0:5bd:3fff:7196 with SMTP id
+ 4fb4d7f45d1cf-5bd3fff7289mr49160a12.6.1723465873929; Mon, 12 Aug 2024
+ 05:31:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20240805102554.154464-1-andi.shyti@linux.intel.com>
+ <ZrFMopcHlT6G7p3V@ashyti-mobl2.lan> <2024080640-landfall-doozy-e0d2@gregkh>
+ <ZrHw3y8QKPT87LxP@ashyti-mobl2.lan>
+ <172294612086.38654.15621922821489001205@jlahtine-mobl.ger.corp.intel.com>
+ <CAG48ez0P6juWnVL-m6A33X2GTsrm6CO4okN0s7Y_YT01yTqkrA@mail.gmail.com>
+ <CAG48ez1PDJKd5gd932K9iknNg+V=mTmK5OMZys3OEXmKUTXxAw@mail.gmail.com>
+ <172345433630.14739.7181647476623310397@jlahtine-mobl.ger.corp.intel.com>
+In-Reply-To: <172345433630.14739.7181647476623310397@jlahtine-mobl.ger.corp.intel.com>
+From: Jann Horn <jannh@google.com>
+Date: Mon, 12 Aug 2024 14:30:37 +0200
+Message-ID: <CAG48ez1=0PTvJUvaxzrzsA5f1ER4p93bvP1BWEmoR0KSCcz+kA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Fix mmap memory boundary calculation
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Chris Wilson <chris.p.wilson@linux.intel.com>, 
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,223 +93,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose timestamp information supported by the GPU with a new device
-query.
+On Mon, Aug 12, 2024 at 11:19=E2=80=AFAM Joonas Lahtinen
+<joonas.lahtinen@linux.intel.com> wrote:
+> Quoting Jann Horn (2024-08-09 18:40:45)
+> > On Fri, Aug 9, 2024 at 4:48=E2=80=AFPM Jann Horn <jannh@google.com> wro=
+te:
+> > > On Tue, Aug 6, 2024 at 2:08=E2=80=AFPM Joonas Lahtinen
+> > > <joonas.lahtinen@linux.intel.com> wrote:
+> > > > Quoting Andi Shyti (2024-08-06 12:46:07)
+> > > > > Hi Greg,
+> > > > >
+> > > > > same question without the stable mailing list not to trigger the
+> > > > > automatic reply.
+> > > > >
+> > > > > > Andi Shyti (2):
+> > > > > >   drm/i915/gem: Adjust vma offset for framebuffer mmap offset
+> > > > > >   drm/i915/gem: Fix Virtual Memory mapping boundaries calculati=
+on
+> > > > >
+> > > > > I have forgotten to actually Cc the stable mailing list here.
+> > > > > These two patches need to be merged together even if only the
+> > > > > second patch has the "Fixes:" tag.
+> > > > >
+> > > > > I could have used the "Requires:" tag, but the commit id would
+> > > > > change in between merges and rebases.
+> > > >
+> > > > The patches were the top two in drm-intel-gt-next and committed
+> > > > only few hours ago so I fixed up the patches adding Cc: stable
+> > > > and Requires:
+> > >
+> > > I'm not very familiar with how the DRM trees work - shouldn't fixes i=
+n
+> > > i915 go on the separate drm-intel-fixes branch so that they don't hav=
+e
+> > > to wait for a merge window?
+> >
+> > Ah, nevermind, I see it is already in drm-intel-fixes. Sorry for the no=
+ise.
+>
+> Yeah, the DRM subsystem has a rather specific process.
+>
+> Jann, do you consider the fix released already now that it is in -rc3 or =
+will
+> you start the 30 day count from when 6.11 gets released? I hope the latte=
+r,
+> but just want to make sure there are no surprises.
 
-Mali uses an external timer as GPU system time. On ARM, this is wired to
-the generic arch timer so we wire cntfrq_el0 as device frequency.
-
-This new uAPI will be used in Mesa to implement timestamp queries and
-VK_KHR_calibrated_timestamps.
-
-Since this extends the uAPI and because userland needs a way to advertise
-those features conditionally, this also bumps the driver minor version.
-
-v2:
-- Rewrote to use GPU timestamp register
-- Added timestamp_offset to drm_panthor_timestamp_info
-- Add missing include for arch_timer_get_cntfrq
-- Rework commit message
-
-Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_drv.c | 43 ++++++++++++++++++++++++++-
- drivers/gpu/drm/panthor/panthor_gpu.c | 32 ++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_gpu.h |  2 ++
- include/uapi/drm/panthor_drm.h        | 19 ++++++++++++
- 4 files changed, 95 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index b8a84f26b3ef..7589f2373ec0 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -3,6 +3,10 @@
- /* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
- /* Copyright 2019 Collabora ltd. */
- 
-+#ifdef CONFIG_ARM_ARCH_TIMER
-+#include <asm/arch_timer.h>
-+#endif
-+
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/of_platform.h>
-@@ -164,6 +168,7 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
- 	_Generic(_obj_name, \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_gpu_info, tiler_present), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_csif_info, pad), \
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_timestamp_info, current_timestamp), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
-@@ -750,10 +755,33 @@ static void panthor_submit_ctx_cleanup(struct panthor_submit_ctx *ctx,
- 	kvfree(ctx->jobs);
- }
- 
-+static int panthor_ioctl_query_timestamp(struct panthor_device *ptdev,
-+					 struct drm_panthor_timestamp_info *arg)
-+{
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(ptdev->base.dev);
-+	if (ret)
-+		return ret;
-+
-+#ifdef CONFIG_ARM_ARCH_TIMER
-+	arg->timestamp_frequency = arch_timer_get_cntfrq();
-+#else
-+	arg->timestamp_frequency = 0;
-+#endif
-+	arg->current_timestamp = panthor_gpu_read_timestamp(ptdev);
-+	arg->timestamp_offset = panthor_gpu_read_timestamp_offset(ptdev);
-+
-+	pm_runtime_put(ptdev->base.dev);
-+	return 0;
-+}
-+
- static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct drm_file *file)
- {
- 	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
- 	struct drm_panthor_dev_query *args = data;
-+	struct drm_panthor_timestamp_info timestamp_info;
-+	int ret;
- 
- 	if (!args->pointer) {
- 		switch (args->type) {
-@@ -765,6 +793,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
- 			args->size = sizeof(ptdev->csif_info);
- 			return 0;
- 
-+		case DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO:
-+			args->size = sizeof(timestamp_info);
-+			return 0;
-+
- 		default:
- 			return -EINVAL;
- 		}
-@@ -777,6 +809,14 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
- 	case DRM_PANTHOR_DEV_QUERY_CSIF_INFO:
- 		return PANTHOR_UOBJ_SET(args->pointer, args->size, ptdev->csif_info);
- 
-+	case DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO:
-+		ret = panthor_ioctl_query_timestamp(ptdev, &timestamp_info);
-+
-+		if (ret)
-+			return ret;
-+
-+		return PANTHOR_UOBJ_SET(args->pointer, args->size, timestamp_info);
-+
- 	default:
- 		return -EINVAL;
- 	}
-@@ -1372,6 +1412,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
- /*
-  * PanCSF driver version:
-  * - 1.0 - initial interface
-+ * - 1.1 - adds DEV_QUERY_TIMESTAMP_INFO query
-  */
- static const struct drm_driver panthor_drm_driver = {
- 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-@@ -1385,7 +1426,7 @@ static const struct drm_driver panthor_drm_driver = {
- 	.desc = "Panthor DRM driver",
- 	.date = "20230801",
- 	.major = 1,
--	.minor = 0,
-+	.minor = 1,
- 
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-index 5251d8764e7d..2ffd9fa34486 100644
---- a/drivers/gpu/drm/panthor/panthor_gpu.c
-+++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-@@ -480,3 +480,35 @@ void panthor_gpu_resume(struct panthor_device *ptdev)
- 	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
- 	panthor_gpu_l2_power_on(ptdev);
- }
-+
-+/**
-+ * panthor_gpu_read_timestamp() - Read the timstamp register.
-+ * @ptdev: Device.
-+ *
-+ * Return: The GPU timestamp value.
-+ */
-+unsigned long long panthor_gpu_read_timestamp(struct panthor_device *ptdev)
-+{
-+	u32 hi, lo;
-+
-+	hi = gpu_read(ptdev, GPU_TIMESTAMP_HI);
-+	lo = gpu_read(ptdev, GPU_TIMESTAMP_LO);
-+
-+	return ((u64)hi << 32) | lo;
-+}
-+
-+/**
-+ * panthor_gpu_read_timestamp_offset() - Read the timstamp offset register.
-+ * @ptdev: Device.
-+ *
-+ * Return: The GPU timestamp offset value.
-+ */
-+unsigned long long panthor_gpu_read_timestamp_offset(struct panthor_device *ptdev)
-+{
-+	u32 hi, lo;
-+
-+	hi = gpu_read(ptdev, GPU_TIMESTAMP_OFFSET_HI);
-+	lo = gpu_read(ptdev, GPU_TIMESTAMP_OFFSET_LO);
-+
-+	return ((u64)hi << 32) | lo;
-+}
-diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
-index bba7555dd3c6..73d335859db8 100644
---- a/drivers/gpu/drm/panthor/panthor_gpu.h
-+++ b/drivers/gpu/drm/panthor/panthor_gpu.h
-@@ -48,5 +48,7 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
- int panthor_gpu_flush_caches(struct panthor_device *ptdev,
- 			     u32 l2, u32 lsc, u32 other);
- int panthor_gpu_soft_reset(struct panthor_device *ptdev);
-+unsigned long long panthor_gpu_read_timestamp(struct panthor_device *ptdev);
-+unsigned long long panthor_gpu_read_timestamp_offset(struct panthor_device *ptdev);
- 
- #endif
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index aaed8e12ad0b..d4899d9bd507 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -260,6 +260,9 @@ enum drm_panthor_dev_query_type {
- 
- 	/** @DRM_PANTHOR_DEV_QUERY_CSIF_INFO: Query command-stream interface information. */
- 	DRM_PANTHOR_DEV_QUERY_CSIF_INFO,
-+
-+	/** @DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO: Query timestamp information. */
-+	DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO,
- };
- 
- /**
-@@ -377,6 +380,22 @@ struct drm_panthor_csif_info {
- 	__u32 pad;
- };
- 
-+/**
-+ * struct drm_panthor_timestamp_info - Timestamp information
-+ *
-+ * Structure grouping all queryable information relating to the GPU timestamp.
-+ */
-+struct drm_panthor_timestamp_info {
-+	/** @timestamp_frequency: The frequency of the timestamp timer. */
-+	__u64 timestamp_frequency;
-+
-+	/** @current_timestamp: The current timestamp. */
-+	__u64 current_timestamp;
-+
-+	/** @timestamp_offset: The offset of the timestamp timer. */
-+	__u64 timestamp_offset;
-+};
-+
- /**
-  * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
-  */
-
-base-commit: 219b45d023ed0902b05c5902a4f31c2c38bcf68c
--- 
-2.45.2
-
+I will count the issue as fixed and start the 30 day count starting
+from when a fix lands in any upstream release - either a mainline
+release or a stable release. Since the fix has now been queued up for
+6.6 and 6.10, I expect that to happen in a few days.
