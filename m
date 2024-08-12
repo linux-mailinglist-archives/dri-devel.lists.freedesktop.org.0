@@ -2,100 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F3794E979
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 11:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB3894E985
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 11:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBF4710E099;
-	Mon, 12 Aug 2024 09:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7CF10E063;
+	Mon, 12 Aug 2024 09:16:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B/+5L8vN";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="IJzlZ806";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9FCB10E099
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 09:13:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0614261090;
- Mon, 12 Aug 2024 09:13:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8104C32782;
- Mon, 12 Aug 2024 09:13:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723454034;
- bh=49cb+KN9og7h4py/ImFy9HdNnL09UTPkZvB/QwOgiKs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=B/+5L8vNZuErYIeftIT+43oZoJ1FE3n3CC4tQ02MrKWNjTCpfkbml+lvVrmYI8fH5
- nARsGbSOkZM4Ypn52YpXqpygbWG4LV8QsfD0LZnvHMVpqZ4nXuLwz8/SaF5QWTvM0u
- lb1twb1NkW1z1sdD6Lr0Beot0iSsANQ1tPdyqh+hPPk/M0boo4RVLI7DOVs4lfloup
- q2XDjoQCKlveMcgR46xhREUygMxnYufUpWJHbTHeh+GVhY9JyRj29q9Sod4ye2ojnh
- rkbIrauEYapoMl7+5PvdsTg1S5GCBIcUBIge2IJGcxIiIsTFFp3B1akk6FCSTDgLDu
- /rNLw1XXuT5Ow==
-Message-ID: <33ae3c93-81cb-491c-a5b3-239c7c413eb3@kernel.org>
-Date: Mon, 12 Aug 2024 11:13:47 +0200
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35F0910E063
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 09:16:58 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-530eed61afdso447190e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 02:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1723454216; x=1724059016; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fozpmkVWWoUxRzczgwDre6X/R/fGJO0cgQAfwJipm1Q=;
+ b=IJzlZ806aXg5yZna/g5cJq+ULX4Q4fjWvELiT7OBAkFmtdjk+L55/4tM8v8snq3OUd
+ sJHQilBDZknj8twsDlUv38c4WqLqEU4w3f42M800Tc0l1qeRpN+nMM+PNcL7Rm6wRELY
+ XfO3GKbf2CiDSc5SEIosOqEpNYMu8BPFYLQSA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723454216; x=1724059016;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fozpmkVWWoUxRzczgwDre6X/R/fGJO0cgQAfwJipm1Q=;
+ b=R+P4HiymZP+ETjolJ9mABc+TZyq/tNRetSKXkEZyOsmuRMHs5cOyJVxAdVtLzqDXpx
+ 6pDDVcWoRpDh7HEg9gTzcCk4xvIO7sIr7/Nfzm/8761XWEo54Gm8WFUs6iMDEWB2pDg+
+ V6X1NSeiOgweZYszkWaDD8V1TCqzXULOPSjqEasnldl56BtPd6Ha8OO9EMfBo1hJR49T
+ kiJTjMdh5fubsQDXlIjEtNw415MtSAmje3HK92JiqxqfOsYWqR54zdwrt8NXiZQyYSW0
+ Y8F/9uAV46c2HsmIP72GrnJFNzyzmrKfO8KNxrQWLR4aDrjH799v7b0O6Q2E7JQe/hvj
+ /CBg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWWHDNDITSUwj5mKkKi+wUCZqFqFc3HNsLzAF4blwSbtPqDjssymYl9QsFrrh4wjDRYAtxn49Qdcf4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwkTGIYNvqaIy81Q2nyn/aWFiO18Y0xvy+oWcSLXTauR7sbVDFB
+ mO3AnmJUE/PL7+ZpIKqG876z3RV/sgBlHpZBHeDH8ME615VcatRMgwRE87G0bcM=
+X-Google-Smtp-Source: AGHT+IHKBjjM9DjOVxrp2iTIQMmX+DJ0sYeTd6fdCEHk+BQHbEmoLJVR94CfcpRFMvbYy+bSd0R12Q==
+X-Received: by 2002:a05:6512:3b29:b0:52f:413:30de with SMTP id
+ 2adb3069b0e04-530eea25cc4mr3498999e87.7.1723454215812; 
+ Mon, 12 Aug 2024 02:16:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a80bb090253sm216583666b.16.2024.08.12.02.16.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Aug 2024 02:16:55 -0700 (PDT)
+Date: Mon, 12 Aug 2024 11:16:53 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Mohammed Anees <pvmohammedanees2003@gmail.com>
+Cc: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: Add missing documentation for struct
+ drm_plane_size_hint
+Message-ID: <ZrnTBWq0fpKhCvpB@phenom.ffwll.local>
+Mail-Followup-To: Mohammed Anees <pvmohammedanees2003@gmail.com>,
+ airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240811101653.170223-1-pvmohammedanees2003@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] mtd: rawnand: nuvoton: add new driver for the Nuvoton
- MA35 SoC
-To: Hui-Ping Chen <hpchen0nvt@gmail.com>, miquel.raynal@bootlin.com,
- richard@nod.at, vigneshr@ti.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- esben@geanix.com
-Cc: linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240812030045.20831-1-hpchen0nvt@gmail.com>
- <20240812030045.20831-3-hpchen0nvt@gmail.com>
- <06d627d5-947c-4da4-826a-76033386b575@kernel.org>
- <3b7b629e-0085-4821-932c-e89faad15c1a@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <3b7b629e-0085-4821-932c-e89faad15c1a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240811101653.170223-1-pvmohammedanees2003@gmail.com>
+X-Operating-System: Linux phenom 6.9.10-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,41 +87,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/08/2024 11:10, Hui-Ping Chen wrote:
->>> +
->>> +/* NAND-type Flash BCH Error Data Registers */
->>> +#define MA35_NFI_REG_NANDECCED0	(0x960)
->>> +#define MA35_NFI_REG_NANDECCED1	(0x964)
->>> +#define MA35_NFI_REG_NANDECCED2	(0x968)
->>> +#define MA35_NFI_REG_NANDECCED3	(0x96C)
->>> +#define MA35_NFI_REG_NANDECCED4	(0x970)
->>> +#define MA35_NFI_REG_NANDECCED5	(0x974)
->>> +
->>> +/* NAND-type Flash Redundant Area Registers */
->>> +#define MA35_NFI_REG_NANDRA0		(0xA00)
->>> +#define MA35_NFI_REG_NANDRA1		(0xA04)
->>> +
->>> +#define SKIP_SPARE_BYTES	4
->>> +
->>> +/* BCH algorithm related constants and variables */
->>> +enum {
->>> +	eBCH_NONE = 0,
->>> +	eBCH_T8,
->>> +	eBCH_T12,
->>> +	eBCH_T24,
->>> +	eBCH_CNT
->>> +} E_BCHALGORITHM;
->>> +
->>> +static const int g_i32BCHAlgoIdx[eBCH_CNT] = {BCH_T8, BCH_T8, BCH_T12, BCH_T24};
->>> +static struct nand_ecclayout_user ma35_nand_oob;
->> Why this is file-scope?
+On Sun, Aug 11, 2024 at 06:16:51AM -0400, Mohammed Anees wrote:
+> This patch takes care of the following warnings during documentation
+> compiling:
 > 
-> I will remove the `static`.
+> ./include/uapi/drm/drm_mode.h:869: warning: Function parameter or struct member 'width' not described in 'drm_plane_size_hint'
+> ./include/uapi/drm/drm_mode.h:869: warning: Function parameter or struct member 'height' not described in 'drm_plane_size_hint'
+> 
+> Signed-off-by: Mohammed Anees <pvmohammedanees2003@gmail.com>
 
-No, why this cannot be instance dependent? Quick looks says it could.
-And should.
+Applied to drm-misc-next, thanks.
+-sima
 
+> ---
+>  include/uapi/drm/drm_mode.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index d390011b8..c082810c0 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -859,6 +859,8 @@ struct drm_color_lut {
+>  
+>  /**
+>   * struct drm_plane_size_hint - Plane size hints
+> + * @width: The width of the plane in pixel
+> + * @height: The height of the plane in pixel
+>   *
+>   * The plane SIZE_HINTS property blob contains an
+>   * array of struct drm_plane_size_hint.
+> -- 
+> 2.43.0
+> 
 
-Best regards,
-Krzysztof
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
