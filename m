@@ -2,61 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50BD94EA02
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 11:39:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5306594EB23
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 12:32:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4469A10E1A1;
-	Mon, 12 Aug 2024 09:39:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A966210E047;
+	Mon, 12 Aug 2024 10:32:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="SRGElSZy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aJyl8aLD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E764710E1A1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 09:39:03 +0000 (UTC)
-Delivered-To: daniels@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723455540; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=gOt/WiRKxgGBluYCkdey1304INoryoEwh1fT9B6MA6c0PVet6JCfH6CdPGYR820wS54A/wTWcHuzqlJ8DTmc3U+hWgHZEfskmjELcQPZeBOebOajD5LNDedwHYK7OKei25u93QcPysozKwrXOhHEHRjBArRVNBAWnD/YUkBUBWs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723455540;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=x4CcyIs2RHXORPINhp0dQOmoRY0vzYbkeA1TVr2ZBDA=; 
- b=OK7Mb6lg5ut0JmNEdMp0EIrzpS8us2A97Fqhk1eMLP2mtunLbbR68bA29ny1QzuFCLHKwAKTd4z5RQNc+A+kfscU5OKWngcDHknd4HL8Qf8ZAy7inOdb+UO/WqAZqGGYMezMts3cZV+u4HJMBXm7mQGUrif98P42T6sI158YEko=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
- dmarc=pass header.from=<vignesh.raman@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723455540; 
- s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=x4CcyIs2RHXORPINhp0dQOmoRY0vzYbkeA1TVr2ZBDA=;
- b=SRGElSZyZARqX+/zHIoTy0UY0opE9e30NjOQKKtAjhoxngYBI81jqS94kAm+v+BV
- ohdX9RDaglSX/i8mrDGsc6Vn+HMG0P3c72Vo9C8h9Qj0yyO2RYLgMvUJvIIx/gHsqwr
- hcUOcUBNLSSZjm0zXGcmkuHWq6/pVoQooDmSeuCk=
-Received: by mx.zohomail.com with SMTPS id 17234555376541003.9915773763962;
- Mon, 12 Aug 2024 02:38:57 -0700 (PDT)
-Message-ID: <0db8bc11-d388-4f6f-9e04-a7787e2a2e73@collabora.com>
-Date: Mon, 12 Aug 2024 15:08:52 +0530
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A407510E047
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 10:32:44 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-5bd13ea7604so2252366a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 03:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1723458763; x=1724063563; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MuMB18ettI0lvCVPN8Uzf34Q8sUnJqKE6aKvTS+gZPo=;
+ b=aJyl8aLDtypIfTYr+iE00pTqQWp5eee+mym/Ra087vdyiYfR+wnoCOnAvYsVwFvDvX
+ /0Ox5qAOPD2Bm0HZcylq4ql6PCdut9rkKxZpPgoY8GIZR1Zov30nLlJPdYVanB5sWhKY
+ B94pMcYYWZA7i3Gb61RUKjexwa3vttYs+fLrkDiLKGaKFesDBET4h4keDtYkphpD4kbR
+ LelHARPHBCDKKY/5xHLHdQCx7jqQq4MbzIWbvl3e3Ttxf/dL3jDybtiHs8o5ap1pgqCl
+ 076WuEH40BsKAwHaJZaL69UjiM145cywp88A6Q+NYtBpb2ZuD5v/+0iqDG2hZestT777
+ QSAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723458763; x=1724063563;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MuMB18ettI0lvCVPN8Uzf34Q8sUnJqKE6aKvTS+gZPo=;
+ b=dnYs0Qt1k6BwOkoHKspniGURF5QL0EshAO69aRMx0BGHeSgnPNzv2XWjZ3LtQJLUcH
+ Ggg5cq+kneqC3eSnTlxvbp72DfECiAzA7MGq5u/JuSclLfHdfLTnbFjSTYvrY/Xd4gf2
+ 9WODOV0fTkypwLlP3bU6W/s7+hn0ynDae2DNDvLv2eZU3zMVueTlmybBt0fm4lN+nuz/
+ 9dqWHeSUzN5/V11Z3oH1VZ4aW5dCxPXVSgZ5xGY9NkAyOSmlyfiipqtpuEO7PUA6Hpx+
+ REx+1ZBUNAZ+A9YNjQ3QnGjeoirZ7vkyO6VvgbDlgWmPgTxZMP+SnzQBrpILTqJK5M4P
+ vSIA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW5TuLpCl/cl9VnlkuztovOd5bE/wezkty7f75psSxTXEjk1Wmxk59CuJeBtK/RInpPVh7cC4zfEJWnJHyIPe03uxT4nLtcojLDhALLVbLm
+X-Gm-Message-State: AOJu0YxZ68ZZpzsmrIkNWXn00nG7k0tAlrTuq7DPPshPx2OM2i/6GBVn
+ 8HAoPj0YNwStojJbHUk4NMNY5yaCGrCA5BCk9rQHzfvXtzjQTiQWJim5LTxisEg=
+X-Google-Smtp-Source: AGHT+IGTb0RPGjV/HCXKGAbFBigJr9D3mcpwdhEQ4rq2EtnP9756Nqrz7UcEH7QHfheStLdcF/BGHQ==
+X-Received: by 2002:a17:907:97c3:b0:a7a:abd8:77a5 with SMTP id
+ a640c23a62f3a-a80aa654862mr717740566b.43.1723458762661; 
+ Mon, 12 Aug 2024 03:32:42 -0700 (PDT)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a80bb11a5c3sm218864266b.92.2024.08.12.03.32.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Aug 2024 03:32:42 -0700 (PDT)
+Date: Mon, 12 Aug 2024 11:24:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dave Airlie <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2] drm/ast: astdp: fix loop timeout check
+Message-ID: <4b5923f3-27c2-4f7f-b3b0-542a62032b64@stanley.mountain>
+References: <9dbd4d2c-0757-4d5f-aa11-7d9e665e7633@stanley.mountain>
+ <8c1ad0a1-bbc5-4274-bdf5-fcf2e043a869@suse.de>
+ <10624c71-d134-441f-a7e6-d757b60f54f8@stanley.mountain>
+ <2af277bf-f07d-421b-8ffd-25c9761e3eed@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/ci: uprev mesa
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, deborah.brouwer@collabora.com,
- linux-kernel@vger.kernel.org
-References: <20240807082020.429434-1-vignesh.raman@collabora.com>
- <8fc33b63-40db-478c-95bc-bdfaa93d2fd4@igalia.com>
-Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <8fc33b63-40db-478c-95bc-bdfaa93d2fd4@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2af277bf-f07d-421b-8ffd-25c9761e3eed@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,78 +88,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maíra,
-
-On 08/08/24 17:01, Maíra Canal wrote:
-> Hi Vignesh,
+On Mon, Aug 12, 2024 at 09:30:00AM +0200, Thomas Zimmermann wrote:
+> > I feel like if we really hit this failure path then we won't care about the
+> > tenth msleep().  I can resend if you want, but I'd prefer to just leave it.
 > 
-> On 8/7/24 05:20, Vignesh Raman wrote:
->> Uprev mesa to adapt to the latest changes in mesa ci.
->> Project 'anholt/deqp-runner' was moved to 'mesa/deqp-runner'.
->> So update the link.
->>
->> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
->> ---
->>
->> v1:
->>    - Working pipeline link,
->>      
->> https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1242911
->>
->> ---
->>   drivers/gpu/drm/ci/container.yml  |  8 ++++++++
->>   drivers/gpu/drm/ci/gitlab-ci.yml  | 22 ++++++++++++----------
->>   drivers/gpu/drm/ci/image-tags.yml |  8 ++++----
->>   drivers/gpu/drm/ci/lava-submit.sh |  1 +
->>   drivers/gpu/drm/ci/test.yml       |  4 ++--
->>   5 files changed, 27 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ci/container.yml 
->> b/drivers/gpu/drm/ci/container.yml
->> index d6edf3635b23..2a94f54ce4cf 100644
->> --- a/drivers/gpu/drm/ci/container.yml
->> +++ b/drivers/gpu/drm/ci/container.yml
->> @@ -28,6 +28,14 @@ debian/x86_64_test-vk:
->>     rules:
->>       - when: never
->> +debian/arm64_test-vk:
->> +  rules:
->> +    - when: never
->> +
->> +debian/arm64_test-gl:
->> +  rules:
->> +    - when: never
->> +
->>   fedora/x86_64_build:
->>     rules:
->>       - when: never
->> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml 
->> b/drivers/gpu/drm/ci/gitlab-ci.yml
->> index 6d2cefa7f15e..eca47d4f816f 100644
->> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
->> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
->> @@ -1,13 +1,13 @@
->>   variables:
->>     DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
->> -  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 
->> e2b9c5a9e3e4f9b532067af8022eaef8d6fc6c00
->> +  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 
->> d9849ac46623797a9f56fb9d46dc52460ac477de
->>     UPSTREAM_REPO: https://gitlab.freedesktop.org/drm/kernel.git
->>     TARGET_BRANCH: drm-next
->>     IGT_VERSION: f13702b8e4e847c56da3ef6f0969065d686049c5
->> -  DEQP_RUNNER_GIT_URL: 
->> https://gitlab.freedesktop.org/anholt/deqp-runner.git
->> +  DEQP_RUNNER_GIT_URL: 
->> https://gitlab.freedesktop.org/mesa/deqp-runner.git
->>     DEQP_RUNNER_GIT_TAG: v0.15.0
+> Please resend. Even if the link training ultimately fails, the rest of DRM
+> keeps running. 100 msec is not so short to shrug it off IMHO.
 > 
-> Kinda of unrelated to the patch itself, but shouldn't we update
-> DEQP_RUNNER_GIT_TAG? Mesa is already using deqp-runner v0.20.0 and we
-> are still on v0.15.0.
 
-Yes, we need to update deqp-runner also to same version as mesa.
-I will post a patch with this update. Thank you.
+Sure.  No problem.
 
-Regards,
-Vignesh
+regards,
+dan carpenter
+
