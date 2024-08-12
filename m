@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8FB594F8CB
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 23:16:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58B394F8EE
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 23:23:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41D0B10E17E;
-	Mon, 12 Aug 2024 21:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BCBD10E181;
+	Mon, 12 Aug 2024 21:23:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="YI7Wnarb";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="gOl04uim";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A40610E17E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 21:16:09 +0000 (UTC)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FED710E181
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 21:23:44 +0000 (UTC)
 Delivered-To: kernel@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723497358; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1723497816; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=RSgqYHbpvJn5Wr+j9THLyR6jhT2q71jHY2G1g84dWgEuyksCfJSlmACTjFmzwjlg1NNlgnxDVPt91CWFWHwtNGyEgRodleNdY6i/mpoCwkPjiSAtkgQ5w8BwBbamYiM7MrEqvxzaaJpzkPbF5C8qlRels7EfnKowzrflTK4xWrs=
+ b=ieHrHpiltkX1UNLyKDtEdDj/Z1hoqspIEcZkNkpS27ZAgnJ6DHhBPFNHFuDF5vwv/db1hafZuqash/5J76L5HkuUs9pWC8IGY45svx4Fen+V1GfjYvn6jBY3GMs/RkOMBV2eJINHiFsyCqV6TtoC4fWnp8ugaORIdLqw4OAyHAg=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723497358;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=0I1JLzxrV0gVyw2bF2C9h87qd8Pc9eWrEb9tvdjX5cI=; 
- b=n7TyYd8k3VJU4XZI9I0If5Rjgr09wPlshBiIAVtXAghizbtqMnRNrMHac/BZ+Q5bx/y1+3DuP3VxicdR4dii5je42dhTY2+m7AGyC+oan/psfKV2wI07gwruRtE7/QmBgBwBnm34pOfaYwoCwwZ9Fd2ii/zgHpgRsL6L02fyfe0=
+ s=zohoarc; t=1723497816;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=jlGPm4zay+O+5NxYplC7hIV2VJhkT7SctwvsdxMk7NY=; 
+ b=VtE7wAJYrlCy7RCHrO6mPxHzNNuUQq8uKqPeECo4YI14Ns+TdljUCC48aa3wzbsFWfrhiUkDVm6zKgueURuOrdh8oI/QBocUe6fQFqWIvSkZtwvGJR4D+vqJiMlWPG0IkNDhFH6+08kuk7Xzcp8pAKVMO9VHBUP+JczrqUmlokU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=cristian.ciocaltea@collabora.com;
  dmarc=pass header.from=<cristian.ciocaltea@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723497358; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723497816; 
  s=zohomail; d=collabora.com; i=cristian.ciocaltea@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=0I1JLzxrV0gVyw2bF2C9h87qd8Pc9eWrEb9tvdjX5cI=;
- b=YI7Wnarb7Jf1A/cQaxHzhlPU1WxIlqg30fl35glMaLRl/u91qwW2ZfePzP0yG8it
- j5uaqCgPP8hl1i++2+A1UgpMqAyCWoekovvJUwRfNfrDLmwFPCx959IO/qzsOIRyCyN
- LT6Gpt76B19LVEFGAWSyQEENs6DrXzCrAgNsE5Qs=
-Received: by mx.zohomail.com with SMTPS id 1723497357461825.5740191228684;
- Mon, 12 Aug 2024 14:15:57 -0700 (PDT)
+ h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Cc:Cc:Reply-To;
+ bh=jlGPm4zay+O+5NxYplC7hIV2VJhkT7SctwvsdxMk7NY=;
+ b=gOl04uimxp4DdUlWr2mNquqMCp6DdN8bNelW/4ZTAJ4bQwFzpYQvg0y3AeMKuMok
+ 6wJvnw3SK427wsPDdPv7LyCvR//++EiqESgkD6I1J+WClk4Lg1S3UVQLCuMZwkEM/12
+ eB/hYvAXdAyoKMXW08nmZuR9/C+wF+TnQ3Ts4afA=
+Received: by mx.zohomail.com with SMTPS id 1723497815850467.7307432445673;
+ Mon, 12 Aug 2024 14:23:35 -0700 (PDT)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 13 Aug 2024 00:15:11 +0300
-Subject: [PATCH 4/4] drm/rockchip: dw_hdmi: Drop superfluous assignments of
- mpll_cfg, cur_ctr and phy_config
+Date: Tue, 13 Aug 2024 00:23:21 +0300
+Subject: [PATCH] drm/bridge: dw-hdmi: Simplify clock handling
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240813-dw-hdmi-rockchip-cleanup-v1-4-b3e73b5f4fd6@collabora.com>
-References: <20240813-dw-hdmi-rockchip-cleanup-v1-0-b3e73b5f4fd6@collabora.com>
-In-Reply-To: <20240813-dw-hdmi-rockchip-cleanup-v1-0-b3e73b5f4fd6@collabora.com>
-To: Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
+Message-Id: <20240813-dw-hdmi-simple-clk-v1-1-78d45cef02a9@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAEh9umYC/x3MywqAIBBA0V+JWTegPejxK9HCcsohtVCoIPr3p
+ OVZ3PtApMAUoc8eCHRy5N0nyDyD2Si/ErJOhkIUlWhlifpCox1jZHdYwtluSKqT01ILrUQDKTw
+ CLXz/02F83w/fr504ZAAAAA==
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.1
 X-ZohoMailClient: External
@@ -74,52 +74,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mpll_cfg, cur_ctr and phy_config members in struct dw_hdmi_plat_data
-are only used to configure the Synopsys PHYs supported internally by DW
-HDMI transmitter driver (gpu/drm/bridge/synopsys/dw-hdmi.c), via
-hdmi_phy_configure_dwc_hdmi_3d_tx(), which is further invoked from
-dw_hdmi_phy_init().  This is part of the internal
-dw_hdmi_synopsys_phy_ops struct, managed within dw_hdmi_detect_phy().
+Make use of devm_clk_get_enabled() to replace devm_clk_get() and
+clk_prepare_enable() for isfr and iahb clocks, and drop the now
+unnecessary calls to clk_disable_unprepare().
 
-To handle vendor PHYs, DW HDMI driver doesn't make use of the internal
-PHY ops and, instead, relies on the glue layer to provide the phy_ops
-and phy_name members of struct dw_hdmi_plat_data.
+Similarly, use devm_clk_get_optional_enabled() helper for cec clock,
+which additionally allows to remove the -ENOENT test.
 
-Drop the unnecessary assignments of DW internal PHY related members from
-structs rk3228_hdmi_drv_data and rk3328_hdmi_drv_data, since both set
-the phy_force_vendor flag and correctly provide the expected vendor PHY
-data.
+Moreover, the clock related members of struct dw_hdmi are not required
+anymore, hence drop them.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 66 ++++++++-----------------------
+ 1 file changed, 16 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index edfd877c98fc..ca6728a43159 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -444,9 +444,6 @@ static struct rockchip_hdmi_chip_data rk3228_chip_data = {
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 9f2bc932c371..0031f3c54882 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -138,9 +138,6 @@ struct dw_hdmi {
+ 	struct platform_device *audio;
+ 	struct platform_device *cec;
+ 	struct device *dev;
+-	struct clk *isfr_clk;
+-	struct clk *iahb_clk;
+-	struct clk *cec_clk;
+ 	struct dw_hdmi_i2c *i2c;
  
- static const struct dw_hdmi_plat_data rk3228_hdmi_drv_data = {
- 	.mode_valid = dw_hdmi_rockchip_mode_valid,
--	.mpll_cfg = rockchip_mpll_cfg,
--	.cur_ctr = rockchip_cur_ctr,
--	.phy_config = rockchip_phy_config,
- 	.phy_data = &rk3228_chip_data,
- 	.phy_ops = &rk3228_hdmi_phy_ops,
- 	.phy_name = "inno_dw_hdmi_phy2",
-@@ -481,9 +478,6 @@ static struct rockchip_hdmi_chip_data rk3328_chip_data = {
+ 	struct hdmi_data_info hdmi_data;
+@@ -3326,6 +3323,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 	struct device_node *ddc_node;
+ 	struct dw_hdmi_cec_data cec;
+ 	struct dw_hdmi *hdmi;
++	struct clk *clk;
+ 	struct resource *iores = NULL;
+ 	int irq;
+ 	int ret;
+@@ -3405,50 +3403,27 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 		hdmi->regm = plat_data->regm;
+ 	}
  
- static const struct dw_hdmi_plat_data rk3328_hdmi_drv_data = {
- 	.mode_valid = dw_hdmi_rockchip_mode_valid,
--	.mpll_cfg = rockchip_mpll_cfg,
--	.cur_ctr = rockchip_cur_ctr,
--	.phy_config = rockchip_phy_config,
- 	.phy_data = &rk3328_chip_data,
- 	.phy_ops = &rk3328_hdmi_phy_ops,
- 	.phy_name = "inno_dw_hdmi_phy2",
+-	hdmi->isfr_clk = devm_clk_get(hdmi->dev, "isfr");
+-	if (IS_ERR(hdmi->isfr_clk)) {
+-		ret = PTR_ERR(hdmi->isfr_clk);
++	clk = devm_clk_get_enabled(hdmi->dev, "isfr");
++	if (IS_ERR(clk)) {
++		ret = PTR_ERR(clk);
+ 		dev_err(hdmi->dev, "Unable to get HDMI isfr clk: %d\n", ret);
+ 		goto err_res;
+ 	}
+ 
+-	ret = clk_prepare_enable(hdmi->isfr_clk);
+-	if (ret) {
+-		dev_err(hdmi->dev, "Cannot enable HDMI isfr clock: %d\n", ret);
+-		goto err_res;
+-	}
+-
+-	hdmi->iahb_clk = devm_clk_get(hdmi->dev, "iahb");
+-	if (IS_ERR(hdmi->iahb_clk)) {
+-		ret = PTR_ERR(hdmi->iahb_clk);
++	clk = devm_clk_get_enabled(hdmi->dev, "iahb");
++	if (IS_ERR(clk)) {
++		ret = PTR_ERR(clk);
+ 		dev_err(hdmi->dev, "Unable to get HDMI iahb clk: %d\n", ret);
+-		goto err_isfr;
+-	}
+-
+-	ret = clk_prepare_enable(hdmi->iahb_clk);
+-	if (ret) {
+-		dev_err(hdmi->dev, "Cannot enable HDMI iahb clock: %d\n", ret);
+-		goto err_isfr;
++		goto err_res;
+ 	}
+ 
+-	hdmi->cec_clk = devm_clk_get(hdmi->dev, "cec");
+-	if (PTR_ERR(hdmi->cec_clk) == -ENOENT) {
+-		hdmi->cec_clk = NULL;
+-	} else if (IS_ERR(hdmi->cec_clk)) {
+-		ret = PTR_ERR(hdmi->cec_clk);
++	clk = devm_clk_get_optional_enabled(hdmi->dev, "cec");
++	if (IS_ERR(clk)) {
++		ret = PTR_ERR(clk);
+ 		if (ret != -EPROBE_DEFER)
+ 			dev_err(hdmi->dev, "Cannot get HDMI cec clock: %d\n",
+ 				ret);
+-
+-		hdmi->cec_clk = NULL;
+-		goto err_iahb;
+-	} else {
+-		ret = clk_prepare_enable(hdmi->cec_clk);
+-		if (ret) {
+-			dev_err(hdmi->dev, "Cannot enable HDMI cec clock: %d\n",
+-				ret);
+-			goto err_iahb;
+-		}
++		goto err_res;
+ 	}
+ 
+ 	/* Product and revision IDs */
+@@ -3462,12 +3437,12 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 		dev_err(dev, "Unsupported HDMI controller (%04x:%02x:%02x)\n",
+ 			hdmi->version, prod_id0, prod_id1);
+ 		ret = -ENODEV;
+-		goto err_iahb;
++		goto err_res;
+ 	}
+ 
+ 	ret = dw_hdmi_detect_phy(hdmi);
+ 	if (ret < 0)
+-		goto err_iahb;
++		goto err_res;
+ 
+ 	dev_info(dev, "Detected HDMI TX controller v%x.%03x %s HDCP (%s)\n",
+ 		 hdmi->version >> 12, hdmi->version & 0xfff,
+@@ -3479,14 +3454,14 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0) {
+ 		ret = irq;
+-		goto err_iahb;
++		goto err_res;
+ 	}
+ 
+ 	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_hardirq,
+ 					dw_hdmi_irq, IRQF_SHARED,
+ 					dev_name(dev), hdmi);
+ 	if (ret)
+-		goto err_iahb;
++		goto err_res;
+ 
+ 	/*
+ 	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk regenerator
+@@ -3603,11 +3578,6 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 
+ 	return hdmi;
+ 
+-err_iahb:
+-	clk_disable_unprepare(hdmi->iahb_clk);
+-	clk_disable_unprepare(hdmi->cec_clk);
+-err_isfr:
+-	clk_disable_unprepare(hdmi->isfr_clk);
+ err_res:
+ 	i2c_put_adapter(hdmi->ddc);
+ 
+@@ -3627,10 +3597,6 @@ void dw_hdmi_remove(struct dw_hdmi *hdmi)
+ 	/* Disable all interrupts */
+ 	hdmi_writeb(hdmi, ~0, HDMI_IH_MUTE_PHY_STAT0);
+ 
+-	clk_disable_unprepare(hdmi->iahb_clk);
+-	clk_disable_unprepare(hdmi->isfr_clk);
+-	clk_disable_unprepare(hdmi->cec_clk);
+-
+ 	if (hdmi->i2c)
+ 		i2c_del_adapter(&hdmi->i2c->adap);
+ 	else
 
--- 
-2.46.0
+---
+base-commit: 9e6869691724b12e1f43655eeedc35fade38120c
+change-id: 20240813-dw-hdmi-simple-clk-ea91bf50da07
 
