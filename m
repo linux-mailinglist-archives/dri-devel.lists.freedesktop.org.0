@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A34194F728
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 21:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E77894F72F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 21:06:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17F0310E28D;
-	Mon, 12 Aug 2024 19:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692DD10E28C;
+	Mon, 12 Aug 2024 19:06:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OziNeQLq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cuKKPhr5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0BC10E289;
- Mon, 12 Aug 2024 19:05:34 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-70d1d6369acso3836281b3a.0; 
- Mon, 12 Aug 2024 12:05:34 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9CD810E28C;
+ Mon, 12 Aug 2024 19:06:00 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2cb4c584029so3639566a91.3; 
+ Mon, 12 Aug 2024 12:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723489534; x=1724094334; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1723489560; x=1724094360; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zYzk9ajK0qkvS9HudnEJV1OJXQlLDLt8xYzX5H6+jVY=;
- b=OziNeQLqWUd1QyY8a6ZVTjzzpxBHGhVfMAI0QJJYieDDL5nEsXhHCb7zubOT9V70QA
- 0dZ29zPWYErGt1CYv+acgIVYLl0f4YKATi4ASXHkTtFp88+nbIyMVUaKFXuFDyUP3rW9
- 2JEUN479HJgTIBeV7E913D8hTACb4nD1Xa+FrOASNfPcyQoqxmqcXiHu83GHMoFLJluI
- kpn41D3I9iuFjaE6rnKEQUP87fq7ldr6ikq4m4W+bAy8PY/mOcP307TeuS4fTLVQznKs
- iyMB1w7RNc1tPJ0WSXdfyFiV2mchhDZsRK9B1qgRZDC4hgIhs3YmMxpWH3DmUAHW5RSE
- gXWw==
+ bh=cos3n+V8bHGfr3diAdh/N//WjpRiIARzw2HXPekOji8=;
+ b=cuKKPhr52KIDNfyZy+byjU3pXXJ4GBO2KSx1Ogf2m1m8Ffn/HH9aX9lqpMZ9cL4Ba7
+ vOa4rhZXwSvGQnEyOH1N5Da0kSPCXAA6fEcQUqBtxszQz94oqCeKVMrBkQpfKYfs6ziI
+ ipLbLbDHo5LTStizJfiEhvBExFiYdvtuyQIudhisYTzNzkk9vU6geG0aw5jGMK7IVfkA
+ EfJq4svJlD16ZXDDdaf5pSzquc9iIJ9/Lzqcbfv0eQrKj+Yg0RPH9yLuUVPYhH5EaYFQ
+ KvYj1twCZIhk0g/PKwj4q0JoleNObcWekes9QTQYNaluemR4oHctD4AyddUe+CyZ7D73
+ w0Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723489534; x=1724094334;
+ d=1e100.net; s=20230601; t=1723489560; x=1724094360;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zYzk9ajK0qkvS9HudnEJV1OJXQlLDLt8xYzX5H6+jVY=;
- b=m0n6cjaSuZ49SuPJD661RuR/HcPk9xBc3WI/20R4DZlRPrXlYwm1Ak1nYPWYEBeNsv
- NVTi3Paj5BNfQxevhZ3FJ4w+ydzpefpZi1hbx4DJBPKKdsDhZOl3n7k4fw974/UFUNjs
- im94+vUqWCKQtcfTeDeKz+q4CPMez8U3B0VFBQuAb/qbETH1yDEymTTLxCjOnAPlONtC
- IgZyG6bH6r5qtDuKLWt4/1e1kO4A2kEBLqGUFJpcIFGAibtl1LEc2zEu0wJIFTBAUpga
- 0kaxiOWEnffxsLG/rOSi4B02BSvchJ7mclHH0vuHujMYzgubYm54JJIQndO2KaRzYSdV
- d5Eg==
+ bh=cos3n+V8bHGfr3diAdh/N//WjpRiIARzw2HXPekOji8=;
+ b=vPpKG5JsDRK0FuFG8Z4lw8U3A01lzERa/+A1x5F8N51fBEQNgZBnaGfPfMwsE+58kH
+ AboE1hN3nqMIgG3L064TeBJKB5WTaH30SAk5AssCV1edl3ENhuCUAOjB0hgAC/LxB7gx
+ Y4IsIKjLh173ROjnbHULafSeFixc+Vd2LNXQEn21wjgduQ99BTbqVvbFNDWV2Kc4nBfF
+ 5t8p9ckdV4XYILrFWeg0WUxO2ijn1w9ZNPnvK1ZdsoCxzxNZgzU0hp5U7/qThZskLpK/
+ p7m7TceXubQN4jfw70yIFUVr2DM2d2KvfVhZ0O1CU8Ms8/cU/f4SWTSALc8AV5CNYY4C
+ sNlA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXWPrbb/DYXhc/9+kp3MR2VmSqB++9tsguWtCxzniR5NLidRaOd4ldj8NJfUfMTn/BX2E5DuLYjhbM1V+SEaiSwpp10GaHunXw1m+8kQOtlZBtKCLQ+1T+Flx9/JhJ5VM7xGcRGZLBxjfMDX1mXusDRrsMhQZFWLWmITMJ560q8Sq6SIMYuqgTu6VsoH2I=
-X-Gm-Message-State: AOJu0YxeDaHj1YxZCSh3YY0SKeQRXzZyw6gkwi8VsbMXoePskxZgI9vM
- fan3dn9ZdZysJ25Ioc3XRimrXARHehT6X3mVJGRVslKlwmoYXjOeAflhELqSls5qRxKPq3aMjbt
- u3h1UQtCA+S2yw6Pe4TCfCe80mXg=
-X-Google-Smtp-Source: AGHT+IH5VhC6U8Qp+4bvBRGJzRnuovDNQCmdWCOZIiIfYBTYRAjIa4lVC2Jz5IR0rcbQXF5yDius11P9O8tM7Bft9yY=
-X-Received: by 2002:a17:902:fc87:b0:1fb:80a3:5826 with SMTP id
- d9443c01a7336-201cbba9816mr8618925ad.4.1723489533877; Mon, 12 Aug 2024
- 12:05:33 -0700 (PDT)
+ AJvYcCWFWF3+tDihZSddrdBxEAUoqQcxTm9QPjBZlD9nfns8sOs/M1pZ3CfXX7ZgjJvbJ389t9/hNmoJsOWr8YgHG0Rw8Vn5gnACWQWWNmqxsZYAYP3fbCxhrK+EeQSNU0ma+t/XlPzPR4iEE7E+x2Uw7ZesiC6H1VFiPzKX16CKcI5WgJbr4GMbDCSNOnRb6ec=
+X-Gm-Message-State: AOJu0YxkQ4Vzvm8d2vIljJlhJyLTflffy4TnaF9LNRUIjOgE130uP9cy
+ 0kWo5lURo2N0HELqW6lpM3ChEK1Pjo+DhONqMimpQwm8ebpr9gddbTu8YRDmmO61hVUc54C7DYe
+ HxwuINutEhCEUp1DI6FXbjdnfcNQ=
+X-Google-Smtp-Source: AGHT+IHta7yIE+fT/AIep2pR6VJvE8nauN1jUGt+8zlnZd1Y7IDYv83U1ggqGO/wsEW0/YlJNdpkC7n1MNVWISEtrzA=
+X-Received: by 2002:a17:90a:c70b:b0:2c9:9f06:bb2f with SMTP id
+ 98e67ed59e1d1-2d3924d6f9bmr1338941a91.6.1723489560340; Mon, 12 Aug 2024
+ 12:06:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240812083000.337744-1-tzimmermann@suse.de>
- <20240812083000.337744-2-tzimmermann@suse.de>
-In-Reply-To: <20240812083000.337744-2-tzimmermann@suse.de>
+ <20240812083000.337744-3-tzimmermann@suse.de>
+In-Reply-To: <20240812083000.337744-3-tzimmermann@suse.de>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 12 Aug 2024 15:05:22 -0400
-Message-ID: <CADnq5_MM4h3XSKCHViXbdJPTKPjy0QwSsYixpiXd-Cv4O-w-eg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] drm: Do delayed switcheroo in drm_lastclose()
+Date: Mon, 12 Aug 2024 15:05:48 -0400
+Message-ID: <CADnq5_OmtCTuvF_xNmOMYkACjLnJVn7L2wsRyvOsjKtk8inPyQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] drm/amdgpu: Do not set struct drm_driver.lastclose
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
  airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, 
@@ -86,67 +86,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Mon, Aug 12, 2024 at 4:30=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
 .de> wrote:
 >
-> Amdgpu and nouveau call vga_switcheroo_process_delayed_switch() from
-> their lastclose callbacks. Call it from drm_lastclose(), so that the
-> driver functions can finally be removed. Only PCI devices with enabled
-> switcheroo do the delayed switching. The call has no effect on other
-> hardware.
+> Remove the implementation of struct drm_driver.lastclose. The hook
+> was only necessary before in-kernel DRM clients existed, but is now
+> obsolete. The code in amdgpu_driver_lastclose_kms() is performed by
+> drm_lastclose().
 >
 > v2:
-> - move change to drm_lastclose() (Sima)
-> - update docs for vga_switcheroo_process_delayed_switch()
+> - update commit message
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
 > ---
->  drivers/gpu/drm/drm_file.c       | 4 ++++
->  drivers/gpu/vga/vga_switcheroo.c | 3 +--
->  2 files changed, 5 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  2 --
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 17 -----------------
+>  3 files changed, 20 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index 714e42b05108..513bef816ae9 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -38,6 +38,7 @@
->  #include <linux/pci.h>
->  #include <linux/poll.h>
->  #include <linux/slab.h>
-> +#include <linux/vga_switcheroo.h>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
+dgpu/amdgpu.h
+> index 137a88b8de45..4baeb6519fda 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -1484,7 +1484,6 @@ extern const int amdgpu_max_kms_ioctl;
 >
->  #include <drm/drm_client.h>
->  #include <drm/drm_drv.h>
-> @@ -404,6 +405,9 @@ void drm_lastclose(struct drm_device * dev)
->         drm_dbg_core(dev, "driver lastclose completed\n");
->
->         drm_client_dev_restore(dev);
-> +
-> +       if (dev_is_pci(dev->dev))
-> +               vga_switcheroo_process_delayed_switch();
+>  int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long fla=
+gs);
+>  void amdgpu_driver_unload_kms(struct drm_device *dev);
+> -void amdgpu_driver_lastclose_kms(struct drm_device *dev);
+>  int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file=
+_priv);
+>  void amdgpu_driver_postclose_kms(struct drm_device *dev,
+>                                  struct drm_file *file_priv);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_drv.c
+> index 094498a0964b..5dd39e6c6223 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -2953,7 +2953,6 @@ static const struct drm_driver amdgpu_kms_driver =
+=3D {
+>             DRIVER_SYNCOBJ_TIMELINE,
+>         .open =3D amdgpu_driver_open_kms,
+>         .postclose =3D amdgpu_driver_postclose_kms,
+> -       .lastclose =3D amdgpu_driver_lastclose_kms,
+>         .ioctls =3D amdgpu_ioctls_kms,
+>         .num_ioctls =3D ARRAY_SIZE(amdgpu_ioctls_kms),
+>         .dumb_create =3D amdgpu_mode_dumb_create,
+> @@ -2980,7 +2979,6 @@ const struct drm_driver amdgpu_partition_driver =3D=
+ {
+>             DRIVER_SYNCOBJ_TIMELINE,
+>         .open =3D amdgpu_driver_open_kms,
+>         .postclose =3D amdgpu_driver_postclose_kms,
+> -       .lastclose =3D amdgpu_driver_lastclose_kms,
+>         .ioctls =3D amdgpu_ioctls_kms,
+>         .num_ioctls =3D ARRAY_SIZE(amdgpu_ioctls_kms),
+>         .dumb_create =3D amdgpu_mode_dumb_create,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_kms.c
+> index 66782be5917b..0a799942343d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -1269,23 +1269,6 @@ int amdgpu_info_ioctl(struct drm_device *dev, void=
+ *data, struct drm_file *filp)
+>         return 0;
 >  }
 >
+> -
+> -/*
+> - * Outdated mess for old drm with Xorg being in charge (void function no=
+w).
+> - */
+> -/**
+> - * amdgpu_driver_lastclose_kms - drm callback for last close
+> - *
+> - * @dev: drm dev pointer
+> - *
+> - * Switch vga_switcheroo state after last close (all asics).
+> - */
+> -void amdgpu_driver_lastclose_kms(struct drm_device *dev)
+> -{
+> -       drm_fb_helper_lastclose(dev);
+> -       vga_switcheroo_process_delayed_switch();
+> -}
+> -
 >  /**
-> diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switc=
-heroo.c
-> index 365e6ddbe90f..18f2c92beff8 100644
-> --- a/drivers/gpu/vga/vga_switcheroo.c
-> +++ b/drivers/gpu/vga/vga_switcheroo.c
-> @@ -926,8 +926,7 @@ static void vga_switcheroo_debugfs_init(struct vgasr_=
-priv *priv)
->  /**
->   * vga_switcheroo_process_delayed_switch() - helper for delayed switchin=
-g
+>   * amdgpu_driver_open_kms - drm callback for open
 >   *
-> - * Process a delayed switch if one is pending. DRM drivers should call t=
-his
-> - * from their ->lastclose callback.
-> + * Process a delayed switch if one is pending.
->   *
->   * Return: 0 on success. -EINVAL if no delayed switch is pending, if the=
- client
->   * has unregistered in the meantime or if there are other clients blocki=
-ng the
 > --
 > 2.46.0
 >
