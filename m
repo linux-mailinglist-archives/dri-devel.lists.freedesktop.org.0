@@ -2,104 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A6F94E9DA
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 11:32:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F141294E9D9
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 11:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC9DA10E198;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC52110E18E;
 	Mon, 12 Aug 2024 09:32:20 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DW1X6F+a";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nJODztw+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DW1X6F+a";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nJODztw+";
-	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B82510E18D
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86AE410E18F
  for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 09:32:19 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E135020254;
- Mon, 12 Aug 2024 09:32:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723455137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4W3UqAs/lHltWxdJigYTREr9C1Ca4bcR9sTMH9pafec=;
- b=DW1X6F+aHSQWve8WyPppjM/P6/+HRdZHyOSGZIL4+9yuq8pMTju4iHpfe5PzApwfpyLVEs
- i6oNKHhsmpCDBk4bHhodWhW1N6pOKCK7IQi+qZFy77VVDU+n15d/yySSTbprdyrNHWMYIY
- bdoVkI2eHwJdxwaSJIcj1qqrWZpI3cQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723455137;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4W3UqAs/lHltWxdJigYTREr9C1Ca4bcR9sTMH9pafec=;
- b=nJODztw+H8vLCGAAL8EKWJSsp2BjMR3eS3vJzM/t7eVLLlOWFYJIWusDvoKRWgxjbwf9X+
- w+tOchY+YylmQuBg==
-Authentication-Results: smtp-out2.suse.de;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2B7A7224F9;
+ Mon, 12 Aug 2024 09:32:18 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723455137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4W3UqAs/lHltWxdJigYTREr9C1Ca4bcR9sTMH9pafec=;
- b=DW1X6F+aHSQWve8WyPppjM/P6/+HRdZHyOSGZIL4+9yuq8pMTju4iHpfe5PzApwfpyLVEs
- i6oNKHhsmpCDBk4bHhodWhW1N6pOKCK7IQi+qZFy77VVDU+n15d/yySSTbprdyrNHWMYIY
- bdoVkI2eHwJdxwaSJIcj1qqrWZpI3cQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723455137;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4W3UqAs/lHltWxdJigYTREr9C1Ca4bcR9sTMH9pafec=;
- b=nJODztw+H8vLCGAAL8EKWJSsp2BjMR3eS3vJzM/t7eVLLlOWFYJIWusDvoKRWgxjbwf9X+
- w+tOchY+YylmQuBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB05313A3D;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E87EC13A23;
  Mon, 12 Aug 2024 09:32:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 8P5WKKHWuWYjMgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id SJhlN6HWuWYjMgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 12 Aug 2024 09:32:17 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 4/9] drm/ast: astdp: Transparently handle BMC support
-Date: Mon, 12 Aug 2024 11:30:38 +0200
-Message-ID: <20240812093211.382263-5-tzimmermann@suse.de>
+Subject: [PATCH v2 5/9] drm/ast: dp501: Use struct drm_edid and helpers
+Date: Mon, 12 Aug 2024 11:30:39 +0200
+Message-ID: <20240812093211.382263-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240812093211.382263-1-tzimmermann@suse.de>
 References: <20240812093211.382263-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
 X-Spam-Level: 
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Queue-Id: 2B7A7224F9
+X-Spam-Score: -4.00
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
-X-Spam-Score: -6.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,67 +70,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Permanently set the connector status to 'connected'. Return BMC modes
-for connector if no display is attached to the physical DP connector.
-Otherwise use EDID modes as before.
+Convert DP501 support to struct drm_edid and its helpers. Simplifies
+and modernizes the EDID handling.
 
-If the status of the physical connector changes, the driver still
-generates a hotplug event. DRM clients will then reconfigure their
-output to a mode appropriate for either physical display or BMC.
+The driver reads 4 bytes at once, but the overall read length is now
+variable. Therefore update the EDID read loop to never return more than
+the requested bytes.
+
+v2:
+- fix reading EDID data
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_dp.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ast/ast_dp501.c | 59 ++++++++++++---------------------
+ 1 file changed, 22 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 22c4f2a126e9..121a76a85554 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -355,6 +355,17 @@ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
- 	count = drm_edid_connector_add_modes(connector);
- 	drm_edid_free(drm_edid);
- 
-+	if (!count) {
-+		/*
-+		 * There's no EDID data without a connected monitor. Set BMC-
-+		 * compatible modes in this case. The XGA default resolution
-+		 * should work well for all BMCs.
-+		 */
-+		count = drm_add_modes_noedid(connector, 4096, 4096);
-+		if (count)
-+			drm_set_preferred_mode(connector, 1024, 768);
-+	}
-+
- 	return count;
+diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
+index 478efa226170..0dc37b65e1d7 100644
+--- a/drivers/gpu/drm/ast/ast_dp501.c
++++ b/drivers/gpu/drm/ast/ast_dp501.c
+@@ -318,32 +318,30 @@ static bool ast_dp501_is_connected(struct ast_device *ast)
+ 	return true;
  }
  
-@@ -364,10 +375,14 @@ static int ast_astdp_connector_helper_detect_ctx(struct drm_connector *connector
+-static bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
++static int ast_dp512_read_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
  {
- 	struct drm_device *dev = connector->dev;
- 	struct ast_device *ast = to_ast_device(connector->dev);
-+	enum drm_connector_status old_status = connector_status_disconnected;
- 	enum drm_connector_status status = connector_status_disconnected;
- 	struct drm_connector_state *connector_state = connector->state;
- 	bool is_active = false;
+-	struct ast_device *ast = to_ast_device(dev);
+-	u32 i, boot_address, offset, data;
+-	u32 *pEDIDidx;
++	struct ast_device *ast = data;
++	size_t rdlen = round_up(len, 4);
++	u32 i, boot_address, offset, ediddata;
  
-+	if (connector->edid_blob_ptr)
-+		old_status = connector_status_connected;
+-	if (!ast_dp501_is_connected(ast))
+-		return false;
++	if (block > (512 / EDID_LENGTH))
++		return -EIO;
 +
- 	mutex_lock(&ast->modeset_lock);
++	offset = AST_DP501_EDID_DATA + block * EDID_LENGTH;
  
- 	if (connector_state && connector_state->crtc) {
-@@ -390,7 +405,9 @@ static int ast_astdp_connector_helper_detect_ctx(struct drm_connector *connector
+ 	if (ast->config_mode == ast_use_p2a) {
+ 		boot_address = get_fw_base(ast);
  
- 	mutex_unlock(&ast->modeset_lock);
+-		/* Read EDID */
+-		offset = AST_DP501_EDID_DATA;
+-		for (i = 0; i < 128; i += 4) {
+-			data = ast_mindwm(ast, boot_address + offset + i);
+-			pEDIDidx = (u32 *)(ediddata + i);
+-			*pEDIDidx = data;
++		for (i = 0; i < rdlen; i += 4) {
++			ediddata = ast_mindwm(ast, boot_address + offset + i);
++			memcpy(buf, &ediddata, min((len - i), 4));
++			buf += 4;
+ 		}
+ 	} else {
+-		/* Read EDID */
+-		offset = AST_DP501_EDID_DATA;
+-		for (i = 0; i < 128; i += 4) {
+-			data = readl(ast->dp501_fw_buf + offset + i);
+-			pEDIDidx = (u32 *)(ediddata + i);
+-			*pEDIDidx = data;
++		for (i = 0; i < rdlen; i += 4) {
++			ediddata = readl(ast->dp501_fw_buf + offset + i);
++			memcpy(buf, &ediddata, min((len - i), 4));
++			buf += 4;
+ 		}
+ 	}
  
--	return status;
-+	if (status != old_status)
-+		++connector->epoch_counter;
-+	return connector_status_connected;
+@@ -511,29 +509,16 @@ static const struct drm_encoder_helper_funcs ast_dp501_encoder_helper_funcs = {
+ 
+ static int ast_dp501_connector_helper_get_modes(struct drm_connector *connector)
+ {
+-	void *edid;
+-	bool succ;
++	struct ast_device *ast = to_ast_device(connector->dev);
++	const struct drm_edid *drm_edid;
+ 	int count;
+ 
+-	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
+-	if (!edid)
+-		goto err_drm_connector_update_edid_property;
+-
+-	succ = ast_dp501_read_edid(connector->dev, edid);
+-	if (!succ)
+-		goto err_kfree;
+-
+-	drm_connector_update_edid_property(connector, edid);
+-	count = drm_add_edid_modes(connector, edid);
+-	kfree(edid);
++	drm_edid = drm_edid_read_custom(connector, ast_dp512_read_edid_block, ast);
++	drm_edid_connector_update(connector, drm_edid);
++	count = drm_edid_connector_add_modes(connector);
++	drm_edid_free(drm_edid);
+ 
+ 	return count;
+-
+-err_kfree:
+-	kfree(edid);
+-err_drm_connector_update_edid_property:
+-	drm_connector_update_edid_property(connector, NULL);
+-	return 0;
  }
  
- static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs = {
+ static int ast_dp501_connector_helper_detect_ctx(struct drm_connector *connector,
 -- 
 2.46.0
 
