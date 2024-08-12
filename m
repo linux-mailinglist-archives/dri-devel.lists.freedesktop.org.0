@@ -2,58 +2,184 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159C594E82F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 10:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D204694E83D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 10:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19C3710E086;
-	Mon, 12 Aug 2024 08:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5271210E089;
+	Mon, 12 Aug 2024 08:07:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rnh6yX87";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DOWba2XQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38B3310E09E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 08:05:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7397A61088;
- Mon, 12 Aug 2024 08:05:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F14B7C32782;
- Mon, 12 Aug 2024 08:05:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723449933;
- bh=yJMblP9VcpG/FwkXRMSJuZ99TzHFyPGmOF9lfg0RRE8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rnh6yX87Uo33YSj+iSA8peN8E2d2OEgVIkIOv5MZ2AE2Vgo+L8snzXLroqvUp5m00
- YEwY8o+BYv85p/xikxBhbgda09/EKQzEGVVNsXiyH1UXU1M55C9dSW/oiR2nTYie5A
- aCj2uUroQVXpGBlpuUQdsIzQ1lgJP6rZyHukPNis/m3QUnX15mdk88rgZvtFpirOqn
- LYafyds+r43n+qsPCUc3k4zFjasLVrgjaEYviNjUXenLJCHKtkbEBMePMvQkiu24jN
- aqkzAxClltvV+mgKjb4baqXQBTIuK9sGx2LqeHb3uywWGnxlW9W6fFrVPtLtE2UyVg
- mizbsRvYJHxzg==
-Date: Mon, 12 Aug 2024 10:05:26 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
- ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org, 
- catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- audit@vger.kernel.org, 
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
- bpf@vger.kernel.org, 
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Kees Cook <keescook@chromium.org>, Matus Jokay <matus.jokay@stuba.sk>, 
- "Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH v6 1/9] Get rid of __get_task_comm()
-Message-ID: <qztvfvesnxkaol6n3ucf5ovp2ssq4hzxceaedgfexieggzj6zh@pyd5f43pccyh>
-References: <20240812022933.69850-1-laoar.shao@gmail.com>
- <20240812022933.69850-2-laoar.shao@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A1A210E089;
+ Mon, 12 Aug 2024 08:07:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723450025; x=1754986025;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=ifvfDSU5hU6ixZN6NrVZwiJs33vJq7zJQohhxnG0nGs=;
+ b=DOWba2XQnxWTHCIgvbmYbjQiF9q8sktijax72JouyvgT/TD0pnO5L7PH
+ k6jthuv1u/o2auUS4WRZrLMp35C7DdBeJuK0S8viIJ+sYKsFnOuJmUDbe
+ m1AH0Og1wOGQoukYaK9OhUSSlOG20SCNn1bBRpJzj9xIPJbSsMP4mwytj
+ rw5ZxH6UXDiEfNI+zyYs0Iq6wuOzcNPp8DhsLcSuCfcB7RX9cPlOFB0Fs
+ OU53sIEWe38Uw+qNZx79Z6z44ghDEcnxLsp8dA5UQiFzTi/vVX0bXCOKI
+ xx2r0OiCs0v02kWd4f10ayhz+nJiiTDn3HfgazVsk4YvsmAYaEMdvZVy1 A==;
+X-CSE-ConnectionGUID: qu9DjmSEQiK+vK/WbBLcYw==
+X-CSE-MsgGUID: 8NvHDrRPTBqRrJblRHp3BQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="32167221"
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="32167221"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2024 01:07:05 -0700
+X-CSE-ConnectionGUID: 356kAANDQdmevqyP4DGLIA==
+X-CSE-MsgGUID: GTHCmBtfQii6qt22ELefDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="58085508"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 12 Aug 2024 01:07:05 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 12 Aug 2024 01:07:04 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 12 Aug 2024 01:07:04 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.43) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 12 Aug 2024 01:07:03 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LZVK//JFGt8N3AJwHsoLQNw7RgdJX7oPjqNrm/NUd5x8M1BqjWNhmGjf5U9OD7MCZjtWfh3+0X/6f1x4mRJQ3HI9BpTFPTCtx+7voeNwf4M9ek42lx5Hhzit+g7EtGVDGajdvsNhuDm+4kOm8I7ytSIKHt4Zrzr3mJm1T7+wCNHbf6IiS6QU3dzcqL6/LjX2Ar03Cp3O7lamcvywo4Vh/72OxVXc2tuj0qotwQaqn28Ujd0UUUsm0myF3zugxNznCsVTBZNFaZYKO0Dnrtc7KKhoMeQ7IKuFahTpKEb9M6cNC+c6HOUKZqd6LqnGTV5DSDHuDRYeupw7bYGxfwEKjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3+h+0m94U35WuQd6Ti6/GixhWrkFuuet38OgJa4orV4=;
+ b=beqyBFx9q43M6fZ+UciwOzCD9n63Rfy02cROeH0cMhYMHKUlsuEc3V41QO0wR005E+aA0L6eLktwISNeLgKEWN3dLx9l2PmOMbdPX0hbxx/Ah0W5zzJbu3NEy1DyscIirkOWX1dJYv9d/CXmYXAnnJ4uChjkQ9lCVgFLxvBqwzIJXWJs48ivg0TP1C+iUP1fj3RtbFKANA1uDwMP8th0asyDrOO0WqkFpl4mkurqhofl7vrjuuwGnu9GNQra/dH+uuU8ypKhbHtR+efJpx+UTeUZ4A98sKzpfakjjmr1oaYu2w7c+h9n99Ph5kdXS0bvcjJuchZO4zOf24G/uPn7PQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MW4PR11MB7056.namprd11.prod.outlook.com (2603:10b6:303:21a::12)
+ by SA3PR11MB7555.namprd11.prod.outlook.com (2603:10b6:806:311::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.24; Mon, 12 Aug
+ 2024 08:07:01 +0000
+Received: from MW4PR11MB7056.namprd11.prod.outlook.com
+ ([fe80::c4d8:5a0b:cf67:99c5]) by MW4PR11MB7056.namprd11.prod.outlook.com
+ ([fe80::c4d8:5a0b:cf67:99c5%6]) with mapi id 15.20.7828.031; Mon, 12 Aug 2024
+ 08:07:01 +0000
+Message-ID: <97712faf-2859-4245-a15d-2805f25b4c6a@intel.com>
+Date: Mon, 12 Aug 2024 13:36:53 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/xe/uapi: Bring back reset uevent
+To: Raag Jadav <raag.jadav@intel.com>, <lucas.demarchi@intel.com>,
+ <thomas.hellstrom@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <francois.dugast@intel.com>, <rodrigo.vivi@intel.com>,
+ <aravind.iddamsetty@linux.intel.com>, <anshuman.gupta@intel.com>
+References: <20240812074812.1457164-1-raag.jadav@intel.com>
+Content-Language: en-US
+From: "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>
+In-Reply-To: <20240812074812.1457164-1-raag.jadav@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0026.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:b8::14) To MW4PR11MB7056.namprd11.prod.outlook.com
+ (2603:10b6:303:21a::12)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="62fk5rgm4hdf5yga"
-Content-Disposition: inline
-In-Reply-To: <20240812022933.69850-2-laoar.shao@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR11MB7056:EE_|SA3PR11MB7555:EE_
+X-MS-Office365-Filtering-Correlation-Id: 406e5348-42f1-42eb-f2fc-08dcbaa5bead
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZHh0QTlJSWNkblc4WUR6VEFTa1dJaHJaR1hDd0ZjV2dzbDVDN0tqYjdmRkJa?=
+ =?utf-8?B?dUNFUVAwVU9QVXJWZkZzY3BDTWREMGdWMXBxTTgyZ3orNnlUeFM5WEh5UmlO?=
+ =?utf-8?B?dDZRUDdrcDlwQUJhTXo1Q3ZSWmVXcjRXMzNJUk42aEZta3JWWDZjSWpHL3R3?=
+ =?utf-8?B?bWhCL05iRHNocGRUazBkWUhXVGxGYkl5YlNOUGNiU3c0djNPY3VJWkNNUVlB?=
+ =?utf-8?B?c2NISG80dzJzUmxBSEZEVTgwdXA1WWJvNlVvaVJydmxXMGJDZTRXcDFJT2No?=
+ =?utf-8?B?TnFZOFllQUZkTlo3TU9BenZKa1lSMFpab0lldHNvK0V6bm9hTFYzTHp5YWxW?=
+ =?utf-8?B?ZGRyMkY2ZlM5dHpHbE1SV1VNY2h4STcvVVl5b2NidE82WkRZVEd4cHBmaEVk?=
+ =?utf-8?B?b3kvemRFN1ozRms4VW9OOGxmS0J5Z2tzYU1yenpyeWlubGV4NDZ4MEo5SDlI?=
+ =?utf-8?B?QlBKUDVzbjhhNkw4eCtVaGsxdkhzWVFsYllGcUFzeW1qcnFVdTFFRlV5MUdk?=
+ =?utf-8?B?K1poaWk5cHpyVlYwSzRnNG4rdC9wU2JreWJXMnkxd1BHdjlrUlMxRWRPbURH?=
+ =?utf-8?B?VWlmdGxkNVNEcVRFUUF5WjBDVzRFUmFPYnZhU29iK1hWSXNRcnRhd1NBVWtX?=
+ =?utf-8?B?dnE5dmZVWlF2bHJTeitvdENaZVBWbkJ6RmwyVXRZNjM1bzF5ckNweE1WanQ1?=
+ =?utf-8?B?UkN2R2tmYXl1NHN6TWQ4bHVLSllYUnREcnJnWHNqVE1BOEhhM3dSQmc4VU13?=
+ =?utf-8?B?SW1MRGZJQ1dsUldEVmtSelBvVy92L3REWFo0V2JFdm5BVTZQU1ErSjBiall5?=
+ =?utf-8?B?RGFwUjJUV3JMNW1heXZDL0RzQ2JYL3ZqSHNuNitsa1EzN0laRW9aWnNTRlNE?=
+ =?utf-8?B?ZzEyeGN2ZkV5eDJ6akFwS0hqRFJ3RlpaREVxdXF0N0tmRFhZMnd6ZzArOExt?=
+ =?utf-8?B?NWhtL1JnVFVYdnZORmhpb2lOREplS3dFdkpYY2gwUlVkdkRkQURrbGFJZjlN?=
+ =?utf-8?B?eDFQVDFvR0pjS1lxQ2w2RnBmMlZLbjB3VjNpSzZ1azBZL1ZNWGJsYnRpUS9Y?=
+ =?utf-8?B?UElLTzFFSy9OWWtMclVzMXNCT21RTksvcW0yUzg2YkVUNldybTZxV095VUIv?=
+ =?utf-8?B?UzVkL1JpYy85RGVZU2pCMStYZnl4N0R0eGtIejVuU2RkSnl3TG9SWElzL2Zz?=
+ =?utf-8?B?M1pjK2ZMVTlXVCtSQjdBekREaXNJT2pjZDFVcWN6MXM4Rm9ianRGMVV4c2ZR?=
+ =?utf-8?B?ZGFTb3ZBZG5ML1duV0hXR2s5K3E2YjBLZ3h0SldpSFJxY2VhQ2lEdFZTUWZl?=
+ =?utf-8?B?ZHozczFSbFZBNXMwNHhIa3VqV3VxZlpkckJ0R2NiRmV3aVljcjdGU2xkdnZM?=
+ =?utf-8?B?MlNwR2F0ZXlPazF2aGRxa1ZibzhHWGlzT25jaTV0d2owQUNhYVhkV3MwUW1T?=
+ =?utf-8?B?NHB0ZjRDNWR6YjFXYjN4eXpCcm9iOFdmcTNmeWpLcmVQVmRJM1dweVg3VDAr?=
+ =?utf-8?B?KzdPblFOekJUZjZGT01uazB5MXlyVVRhdlpuancvT08xL2lVQXoza0pXT1U2?=
+ =?utf-8?B?R0todTBPSkpHWXJGRDBxVVd2ZUFwc2E5UmRiS3BNc0NLUXNVZzhDRXZHUkhu?=
+ =?utf-8?B?YUhyVTE4emk3dnhRWmZnY0V0L04vMUQ2RTJkL1lvL3hNL0RadXhYQTMydWRE?=
+ =?utf-8?B?NFo3UnEvOXBpRUQvT1NkYUU4U09yTVNqQWlpK09uRTQ2dHZ4NmQxZ2pMYlBx?=
+ =?utf-8?Q?6shcDTCHgmdHqQGgjI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR11MB7056.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TUo4Y3hwcityU2dadG9OM1JxR3FkUUVGUUVmWllHZzlTb01UNytvelRLemds?=
+ =?utf-8?B?OGdnTCt3dUcvZUVNMjF1emFqc2lGaXY0V2YwOTVMaDNFcjdLUmRWdmxsRmcw?=
+ =?utf-8?B?WVcwQm9md1Q0VForTTFZV01abTd0aHpkc1hoOEpXNWhCMldIUURFZGxUVHZM?=
+ =?utf-8?B?aHZDdXYzR2pmd29wRlpIMlRXNTFIQUtXNmhWWUhGOVhJTHIycTB2UXI0dmVx?=
+ =?utf-8?B?Mmx3TTVIZStSNXg4RmNPM1NVWkhiT21TdGwreVAzQU80UUtVd2V2emtJS1ZU?=
+ =?utf-8?B?akh4VnZ0dEwzTmdOL0toYjA4WlFocE1sTE91eHo3TU5ncU41c0JOUmhhRUhj?=
+ =?utf-8?B?UWlza2J5Y1JEQ3RwUytReXhwTlhlc3I3VlFubFRDQlVCREhFMEhqeEF5TnFK?=
+ =?utf-8?B?SHlyMzhNSU04OXFMOFlSSW82Q1dlNnVqZGVFdVpWbGlGSzJWeVBCSXVRZEZp?=
+ =?utf-8?B?aTlhNjNhMHhucUNtaHNDQk9lV296eWVOeTJRTEJvRDFrV0FIbE43L1h3cWpi?=
+ =?utf-8?B?amJtanlXSXI0SU1kK3NpbVlSSzhKcFNRSThXNnRDc0tTemtBNUIxK0hqQUFN?=
+ =?utf-8?B?djBiaUlHd1V3Mk9RMjh5bHJYeEU1T3hZdklzbjVIcVRaM0ZLT3QvUHN5TFA2?=
+ =?utf-8?B?eGtMVEZhQ0s2bGFNSEtCVnhKcy9LSkVlT1lVa3hYSHo1bTFUSXhrK3I0NUp1?=
+ =?utf-8?B?WXMyLzZpbldkZldJTVg2VU5TdkRYdHdLT2g0OFpkbnN5U1FFV3BEUFYzdi9Z?=
+ =?utf-8?B?NWs0YjVQQ0M5cnVHZFlRWVlQQnlKZkQvMHQzLzVsK2R0S0krL1M3WHZ3SlBZ?=
+ =?utf-8?B?RVI4VkRYNEJsRTFnRkdWSHZvenhUZnc4WkdCTDV4OU5QTFpnck5BTUV6Rmd2?=
+ =?utf-8?B?SGIvK2JhTzNpdmhnWmlGL21LSS9SN2lURHdCdGxnZ0F2NlVxK0JZaXdsVWQ4?=
+ =?utf-8?B?N1BDQmNhV2paMUYreU9vYUdmenhQOVBzNFlqV2NpVHJHaWY4dEllNWJtNVN1?=
+ =?utf-8?B?M1Q5bGRzYW9YRjNoU0ZzWlZ2ODErbkFlZUVLT05DazArMzQ1RmlmbEsyb0wy?=
+ =?utf-8?B?c0xmM0dnRjRiUThyektlc05JSjhYa3cwalBGSzUxcjVraTBPQjJrbThHM3RG?=
+ =?utf-8?B?NjRweDlhZWRxRmV0TGI5Tmh0cHZwaTgzbGYrMmsya3lHZHhRU2N0cTFvYVo0?=
+ =?utf-8?B?MEZjYW5vY090bnd5RGowM011ek5OazNBWGYvaFpPMWlNdkVKQUpOWlZMNmFP?=
+ =?utf-8?B?bUhXdjZGK3FJVmhqSXE2ellMSWJ5VytYQTJjQjhON2VUbDJueDdKKy9nbWlL?=
+ =?utf-8?B?bTRKSzV2dzJoYVhQOWFkanZqM1dlS3IwZHdaOWJ0dncyUkQ2UnYrNHltUU40?=
+ =?utf-8?B?eUlINUlIbytwS3pqZnRYcEJuWVZCTU5YYnM4bGlZMjdiNjdEbmFRVnc1T2Ni?=
+ =?utf-8?B?dk80QlNMbElhWDlVSUZFWVRlbmlGcFVkQUhwVUhQK2JKU3NGQjRnamZXNzJ1?=
+ =?utf-8?B?VGlvaDlKdFc4U1VxSWNmbzRWTWs2SW5ONks2MjFlak5uNndQMHQ0TnhkZkVT?=
+ =?utf-8?B?WFFvajVBNS92N3htWGJJVXJ4L0ZsVzBOK2lSTmxNS1JsTU93RGdhUmVZU1Zv?=
+ =?utf-8?B?ZnNEN0g5T1JJSTlsVkpzdFBKUHBESytoSlFXWlJPUW1uajhzWTlFVWtXYVpz?=
+ =?utf-8?B?N0kvYWI5emJ1NHpwR0RBNTAraTY2c25FQjRvb2RJaUhVK054RXlxUVBOOWFM?=
+ =?utf-8?B?Rmtsc3BXbE15MUxvejJ5SkQ5TmFpSzNxVDg3bHdyVVZGeWlVYjBvSURSTng0?=
+ =?utf-8?B?czNWdTdSOHFsc2Z6d2Fsc0lQdnNIcjVoWTlxeXlCaGNIMUR2KzY0TkFVTGpU?=
+ =?utf-8?B?NUFlU3pqRTRqaWdKVXFuaGEzTldZY1FrZEJ1WUs5RWxTT3EvRkNPLzA2Mkx3?=
+ =?utf-8?B?K2JhRFFTcDBtSE8vRnJQbWJRVWFYSlZSNXdwOEJXcUpmWUlaS2RseTNJQ1hB?=
+ =?utf-8?B?UTEyaWtRM2krcVRsc2dCNElsMFN2a3RXdEtaYXpqUjVGQjRPRWllYk9Xd09R?=
+ =?utf-8?B?RWJEVXU3Q0pOaHlKM1BCaVJ2Q1dyQkpxVEZDUmVmVzVXckZWb3lyZTNnWGN0?=
+ =?utf-8?B?Yko0aVFSUFV4SzNnSGkvTGg2UVQ1WnBqb1Y4amRDZ0FPWHJlTFVCcUxoSDFa?=
+ =?utf-8?Q?hheR2VIgrowj8W480Ipptyw=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 406e5348-42f1-42eb-f2fc-08dcbaa5bead
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB7056.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 08:07:01.3941 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jkoEOju+PaYCZFc7KVL2PNEGfGt1qZy4Mq9BajcVwt5FXn2Zf5ArNoGCOtmfZ8bXZQOEycenVM6WucUS/8EAyRvWNaA+5Sxh7nlnvHy6TLg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7555
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,228 +196,262 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---62fk5rgm4hdf5yga
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
-	ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org, 
-	catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, bpf@vger.kernel.org, 
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Kees Cook <keescook@chromium.org>, Matus Jokay <matus.jokay@stuba.sk>, 
-	"Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH v6 1/9] Get rid of __get_task_comm()
-References: <20240812022933.69850-1-laoar.shao@gmail.com>
- <20240812022933.69850-2-laoar.shao@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20240812022933.69850-2-laoar.shao@gmail.com>
 
-Hi Yafang,
+On 12-08-2024 13:18, Raag Jadav wrote:
+> From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+> 
+> This was dropped in commit 77a0d4d1cea2 ("drm/xe/uapi: Remove reset
+> uevent for now") as part of refactoring.
+> 
+> Now that we have better uapi semantics and naming for the uevent,
+> bring it back. With this in place, userspace will be notified of
+> wedged device along with its reason.
+> 
+> $ udevadm monitor --property --kernel
+> monitor will print the received events for:
+> KERNEL - the kernel uevent
+> 
+> KERNEL[871.188570] change   /devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0 (pci)
+> ACTION=change
+> DEVPATH=/devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0
+> SUBSYSTEM=pci
+> DEVICE_STATUS=NEEDS_RESET
+> REASON=GT_RESET_FAILED
+> TILE_ID=0
+> GT_ID=0
+> DRIVER=xe
+> PCI_CLASS=30000
+> PCI_ID=8086:56B1
+> PCI_SUBSYS_ID=8086:1210
+> PCI_SLOT_NAME=0000:03:00.0
+> MODALIAS=pci:v00008086d000056B1sv00008086sd00001210bc03sc00i00
+> SEQNUM=6104
+> 
+> v2: Change authorship to Himal (Aravind)
+>      Add uevent for all device wedged cases (Aravind)
+> 
 
-On Mon, Aug 12, 2024 at 10:29:25AM GMT, Yafang Shao wrote:
-> We want to eliminate the use of __get_task_comm() for the following
-> reasons:
->=20
-> - The task_lock() is unnecessary
->   Quoted from Linus [0]:
->   : Since user space can randomly change their names anyway, using locking
->   : was always wrong for readers (for writers it probably does make sense
->   : to have some lock - although practically speaking nobody cares there
->   : either, but at least for a writer some kind of race could have
->   : long-term mixed results
->=20
-> - The BUILD_BUG_ON() doesn't add any value
->   The only requirement is to ensure that the destination buffer is a valid
->   array.
->=20
-> - Zeroing is not necessary in current use cases
->   To avoid confusion, we should remove it. Moreover, not zeroing could
->   potentially make it easier to uncover bugs. If the caller needs a
->   zero-padded task name, it should be explicitly handled at the call site.
->=20
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Link: https://lore.kernel.org/all/CAHk-=3DwivfrF0_zvf+oj6=3D=3DSh=3D-npJo=
-oP8chLPEfaFV0oNYTTBA@mail.gmail.com [0]
-> Link: https://lore.kernel.org/all/CAHk-=3DwhWtUC-AjmGJveAETKOMeMFSTwKwu99=
-v7+b6AyHMmaDFA@mail.gmail.com/
-> Suggested-by: Alejandro Colomar <alx@kernel.org>
-> Link: https://lore.kernel.org/all/2jxak5v6dfxlpbxhpm3ey7oup4g2lnr3ueurfbo=
-sf5wdo65dk4@srb3hsk72zwq
-> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Eric Biederman <ebiederm@xmission.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> Cc: Matus Jokay <matus.jokay@stuba.sk>
-> Cc: Alejandro Colomar <alx@kernel.org>
-> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+Thanks for the Patch.
+
+You are extending the UAPI beyond GT reset.
+Please add your Co-authored-by:
+
+> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
 > ---
->  fs/exec.c             | 10 ----------
->  fs/proc/array.c       |  2 +-
->  include/linux/sched.h | 31 +++++++++++++++++++++++++------
->  kernel/kthread.c      |  2 +-
->  4 files changed, 27 insertions(+), 18 deletions(-)
->=20
-> diff --git a/fs/exec.c b/fs/exec.c
-> index a47d0e4c54f6..2e468ddd203a 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1264,16 +1264,6 @@ static int unshare_sighand(struct task_struct *me)
->  	return 0;
->  }
-> =20
-> -char *__get_task_comm(char *buf, size_t buf_size, struct task_struct *ts=
-k)
-> -{
-> -	task_lock(tsk);
-> -	/* Always NUL terminated and zero-padded */
-> -	strscpy_pad(buf, tsk->comm, buf_size);
+>   drivers/gpu/drm/xe/xe_device.c     | 10 +++++++++-
+>   drivers/gpu/drm/xe/xe_device.h     |  2 +-
+>   drivers/gpu/drm/xe/xe_gt.c         | 23 +++++++++++++++++++----
+>   drivers/gpu/drm/xe/xe_guc.c        | 13 ++++++++++++-
+>   drivers/gpu/drm/xe/xe_guc_submit.c | 13 ++++++++++++-
+>   include/uapi/drm/xe_drm.h          | 29 +++++++++++++++++++++++++++++
+>   6 files changed, 82 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index 1aba6f9eaa19..d975bdce4a7d 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -955,6 +955,7 @@ static void xe_device_wedged_fini(struct drm_device *drm, void *arg)
+>   /**
+>    * xe_device_declare_wedged - Declare device wedged
+>    * @xe: xe device instance
+> + * @event_params: parameters to be sent along with uevent
+>    *
+>    * This is a final state that can only be cleared with a mudule
 
-This comment is correct (see other comments below).
+since you are here. Please fix typo s/mudule/module.
 
-(Except that pedantically, I'd write it as NUL-terminated with a hyphen,
- just like zero-padded.)
-
-> -	task_unlock(tsk);
-> -	return buf;
-> -}
-> -EXPORT_SYMBOL_GPL(__get_task_comm);
+>    * re-probe (unbind + bind).
+> @@ -965,8 +966,10 @@ static void xe_device_wedged_fini(struct drm_device *drm, void *arg)
+>    * on every single execution timeout (a.k.a. GPU hang) right after devcoredump
+>    * snapshot capture. In this mode, GT reset won't be attempted so the state of
+>    * the issue is preserved for further debugging.
+> + * Caller is expected to pass respective parameters to be sent along with
+> + * uevent. Pass NULL in case of no params.
+>    */
+> -void xe_device_declare_wedged(struct xe_device *xe)
+> +void xe_device_declare_wedged(struct xe_device *xe, char **event_params)
+>   {
+>   	struct xe_gt *gt;
+>   	u8 id;
+> @@ -984,12 +987,17 @@ void xe_device_declare_wedged(struct xe_device *xe)
+>   	xe_pm_runtime_get_noresume(xe);
+>   
+>   	if (!atomic_xchg(&xe->wedged.flag, 1)) {
+> +		struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+> +
+>   		xe->needs_flr_on_fini = true;
+>   		drm_err(&xe->drm,
+>   			"CRITICAL: Xe has declared device %s as wedged.\n"
+>   			"IOCTLs and executions are blocked. Only a rebind may clear the failure\n"
+>   			"Please file a _new_ bug report at https://gitlab.freedesktop.org/drm/xe/kernel/issues/new\n",
+>   			dev_name(xe->drm.dev));
+> +
+> +		/* Notify userspace about reset required */
+> +		kobject_uevent_env(&pdev->dev.kobj, KOBJ_CHANGE, event_params);
+>   	}
+>   
+>   	for_each_gt(gt, xe, id)
+> diff --git a/drivers/gpu/drm/xe/xe_device.h b/drivers/gpu/drm/xe/xe_device.h
+> index db6cc8d0d6b8..5d40fc6f0904 100644
+> --- a/drivers/gpu/drm/xe/xe_device.h
+> +++ b/drivers/gpu/drm/xe/xe_device.h
+> @@ -174,7 +174,7 @@ static inline bool xe_device_wedged(struct xe_device *xe)
+>   	return atomic_read(&xe->wedged.flag);
+>   }
+>   
+> -void xe_device_declare_wedged(struct xe_device *xe);
+> +void xe_device_declare_wedged(struct xe_device *xe, char **reset_event);
+>   
+>   struct xe_file *xe_file_get(struct xe_file *xef);
+>   void xe_file_put(struct xe_file *xef);
+> diff --git a/drivers/gpu/drm/xe/xe_gt.c b/drivers/gpu/drm/xe/xe_gt.c
+> index 58895ed22f6e..519f3c2cf9e2 100644
+> --- a/drivers/gpu/drm/xe/xe_gt.c
+> +++ b/drivers/gpu/drm/xe/xe_gt.c
+> @@ -741,6 +741,24 @@ static int do_gt_restart(struct xe_gt *gt)
+>   	return 0;
+>   }
+>   
+> +static void xe_gt_reset_failed(struct xe_gt *gt, int err)
+> +{
+> +	char *event_params[5];
+> +
+> +	xe_gt_err(gt, "reset failed (%pe)\n", ERR_PTR(err));
+> +
+> +	event_params[0] = DRM_XE_RESET_REQUIRED_UEVENT;
+> +	event_params[1] = DRM_XE_RESET_REQUIRED_UEVENT_REASON_GT;
+> +	event_params[2] = kasprintf(GFP_KERNEL, "TILE_ID=%d", gt_to_tile(gt)->id);
+> +	event_params[3] = kasprintf(GFP_KERNEL, "GT_ID=%d", gt->info.id);
+> +	event_params[4] = NULL;
+> +
+> +	xe_device_declare_wedged(gt_to_xe(gt), event_params);
+> +
+> +	kfree(event_params[2]);
+> +	kfree(event_params[3]);
+> +}
+> +
+>   static int gt_reset(struct xe_gt *gt)
+>   {
+>   	int err;
+> @@ -796,10 +814,7 @@ static int gt_reset(struct xe_gt *gt)
+>   	XE_WARN_ON(xe_uc_start(&gt->uc));
+>   	xe_pm_runtime_put(gt_to_xe(gt));
+>   err_fail:
+> -	xe_gt_err(gt, "reset failed (%pe)\n", ERR_PTR(err));
 > -
->  /*
->   * These functions flushes out all traces of the currently running execu=
-table
->   * so that a new one can be started
-> diff --git a/fs/proc/array.c b/fs/proc/array.c
-> index 34a47fb0c57f..55ed3510d2bb 100644
-> --- a/fs/proc/array.c
-> +++ b/fs/proc/array.c
-> @@ -109,7 +109,7 @@ void proc_task_name(struct seq_file *m, struct task_s=
-truct *p, bool escape)
->  	else if (p->flags & PF_KTHREAD)
->  		get_kthread_comm(tcomm, sizeof(tcomm), p);
->  	else
-> -		__get_task_comm(tcomm, sizeof(tcomm), p);
-> +		get_task_comm(tcomm, p);
-
-LGTM.  (This would have been good even if not removing the helper.)
-
-> =20
->  	if (escape)
->  		seq_escape_str(m, tcomm, ESCAPE_SPACE | ESCAPE_SPECIAL, "\n\\");
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index 33dd8d9d2b85..e0e26edbda61 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1096,9 +1096,11 @@ struct task_struct {
->  	/*
->  	 * executable name, excluding path.
->  	 *
-> -	 * - normally initialized setup_new_exec()
-> -	 * - access it with [gs]et_task_comm()
-> -	 * - lock it with task_lock()
-> +	 * - normally initialized begin_new_exec()
-> +	 * - set it with set_task_comm()
-> +	 *   - strscpy_pad() to ensure it is always NUL-terminated
-
-The comment above is inmprecise.
-It should say either
-"strscpy() to ensure it is always NUL-terminated", or
-"strscpy_pad() to ensure it is NUL-terminated and zero-padded".
-
-> +	 *   - task_lock() to ensure the operation is atomic and the name is
-> +	 *     fully updated.
->  	 */
->  	char				comm[TASK_COMM_LEN];
-> =20
-> @@ -1912,10 +1914,27 @@ static inline void set_task_comm(struct task_stru=
-ct *tsk, const char *from)
->  	__set_task_comm(tsk, from, false);
->  }
-> =20
-> -extern char *__get_task_comm(char *to, size_t len, struct task_struct *t=
-sk);
-> +/*
-> + * - Why not use task_lock()?
-> + *   User space can randomly change their names anyway, so locking for r=
-eaders
-> + *   doesn't make sense. For writers, locking is probably necessary, as =
-a race
-> + *   condition could lead to long-term mixed results.
-> + *   The strscpy_pad() in __set_task_comm() can ensure that the task com=
-m is
-> + *   always NUL-terminated.
-
-This comment has the same imprecission that I noted above.
-
-> Therefore the race condition between reader and
-> + *   writer is not an issue.
+> -	xe_device_declare_wedged(gt_to_xe(gt));
+> -
+> +	xe_gt_reset_failed(gt, err);
+>   	return err;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/xe/xe_guc.c b/drivers/gpu/drm/xe/xe_guc.c
+> index de0fe9e65746..b544012f5b11 100644
+> --- a/drivers/gpu/drm/xe/xe_guc.c
+> +++ b/drivers/gpu/drm/xe/xe_guc.c
+> @@ -560,6 +560,17 @@ static s32 guc_pc_get_cur_freq(struct xe_guc_pc *guc_pc)
+>   	return ret ? ret : freq;
+>   }
+>   
+> +static void xe_guc_load_failed(struct xe_gt *gt)
+> +{
+> +	char *event_params[3];
+> +
+> +	event_params[0] = DRM_XE_RESET_REQUIRED_UEVENT;
+> +	event_params[1] = DRM_XE_RESET_REQUIRED_UEVENT_REASON_GUC;
+> +	event_params[2] = NULL;
+> +
+> +	xe_device_declare_wedged(gt_to_xe(gt), event_params);
+> +}
+> +
+>   /*
+>    * Wait for the GuC to start up.
+>    *
+> @@ -684,7 +695,7 @@ static void guc_wait_ucode(struct xe_guc *guc)
+>   			break;
+>   		}
+>   
+> -		xe_device_declare_wedged(gt_to_xe(gt));
+> +		xe_guc_load_failed(gt);
+>   	} else if (delta_ms > GUC_LOAD_TIME_WARN_MS) {
+>   		xe_gt_warn(gt, "excessive init time: %lldms! [status = 0x%08X, timeouts = %d]\n",
+>   			   delta_ms, status, count);
+> diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+> index 460808507947..33ed6221f465 100644
+> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
+> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+> @@ -891,6 +891,17 @@ void xe_guc_submit_wedge(struct xe_guc *guc)
+>   	mutex_unlock(&guc->submission_state.lock);
+>   }
+>   
+> +static void xe_exec_queue_timedout(struct xe_device *xe)
+> +{
+> +	char *event_params[3];
+> +
+> +	event_params[0] = DRM_XE_RESET_REQUIRED_UEVENT;
+> +	event_params[1] = DRM_XE_RESET_REQUIRED_UEVENT_REASON_TOUT;
+> +	event_params[2] = NULL;
+> +
+> +	xe_device_declare_wedged(xe, event_params);
+> +}
+> +
+>   static bool guc_submit_hint_wedged(struct xe_guc *guc)
+>   {
+>   	struct xe_device *xe = guc_to_xe(guc);
+> @@ -901,7 +912,7 @@ static bool guc_submit_hint_wedged(struct xe_guc *guc)
+>   	if (xe_device_wedged(xe))
+>   		return true;
+>   
+> -	xe_device_declare_wedged(xe);
+> +	xe_exec_queue_timedout(xe);
+>   
+>   	return true;
+>   }
+> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+> index b6fbe4988f2e..dd2f36710057 100644
+> --- a/include/uapi/drm/xe_drm.h
+> +++ b/include/uapi/drm/xe_drm.h
+> @@ -20,6 +20,7 @@ extern "C" {
+>    *   2. Extension definition and helper structs
+>    *   3. IOCTL's Query structs in the order of the Query's entries.
+>    *   4. The rest of IOCTL structs in the order of IOCTL declaration.
+> + *   5. uEvents
+>    */
+>   
+>   /**
+> @@ -1694,6 +1695,34 @@ struct drm_xe_oa_stream_info {
+>   	__u64 reserved[3];
+>   };
+>   
+> +/**
+> + * DOC: uevent generated by xe on it's pci node.
 > + *
-> + * - Why not use strscpy_pad()?
-> + *   While strscpy_pad() prevents writing garbage past the NUL terminato=
-r, which
-> + *   is useful when using the task name as a key in a hash map, most use=
- cases
-> + *   don't require this. Zero-padding might confuse users if it=E2=80=99=
-s unnecessary,
-> + *   and not zeroing might even make it easier to expose bugs. If you ne=
-ed a
-> + *   zero-padded task name, please handle that explicitly at the call si=
-te.
-> + *
-> + * - ARRAY_SIZE() can help ensure that @buf is indeed an array.
+> + * DRM_XE_RESET_REQUIRED_UEVENT - Event is generated when device needs reset.
+> + * The REASON is provided along with the event for which reset is required.
+> + * On the basis of REASONS, additional information might be supplied.
 > + */
->  #define get_task_comm(buf, tsk) ({			\
-> -	BUILD_BUG_ON(sizeof(buf) !=3D TASK_COMM_LEN);	\
-> -	__get_task_comm(buf, sizeof(buf), tsk);		\
-> +	strscpy(buf, (tsk)->comm, ARRAY_SIZE(buf));	\
-> +	buf;						\
->  })
-> =20
->  #ifdef CONFIG_SMP
-> diff --git a/kernel/kthread.c b/kernel/kthread.c
-> index f7be976ff88a..7d001d033cf9 100644
-> --- a/kernel/kthread.c
-> +++ b/kernel/kthread.c
-> @@ -101,7 +101,7 @@ void get_kthread_comm(char *buf, size_t buf_size, str=
-uct task_struct *tsk)
->  	struct kthread *kthread =3D to_kthread(tsk);
-> =20
->  	if (!kthread || !kthread->full_name) {
-> -		__get_task_comm(buf, buf_size, tsk);
-> +		strscpy(buf, tsk->comm, buf_size);
->  		return;
->  	}
-
-Other than that, LGTM.
-
---=20
-<https://www.alejandro-colomar.es/>
-
---62fk5rgm4hdf5yga
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAma5wkAACgkQnowa+77/
-2zIerBAAjn3HL/5KRo0RJMvfZHqb7XVmLQlWw/O9qz5vv2ZOa7fTVN0WbAscF9HY
-bTJGyIikJsrsKoQpLI+ySjhJmRUS0LNg3bKxgVgYPUjt/tl3zWPd9TZ+o7dTQ3Dn
-+tPCRs0xF316BxTbnT66L6dFjckXQMJcM1wlUsBZqbIfdfiFq9wzbnVOCxmmn2Z3
-gvDvmDg7M9E0D5dQCjow6VQNKuBe/HUT7SY9nWZllYnRZH9hRlYQ/GW7SHFSiV75
-LnHWi81xvQ8F0c2hf3DSZGRSunrLTir7TRIfHL/8OpP2ckiqdsEbrgDl6jRz9f6w
-6a2M9MfaQSQ0l0X+Wnr5gk0fdGoyePm1Xmx/3yrTzV/4CGNEqvcgHvkmqbz30HbF
-6AoDwXK0JZdA20ANRSayUuNtv7T+ZJ3xZQbe2CTyNMGD4kaF4J1V359CZMUEx2D1
-mgSypDxkGUYRDf91dN2jYcsDDtP3YbysfiTxVNViwDRgXyFVIyo8FIo8P0+q6QRG
-n5ebmcAD2CIqE/MKcuEr4DHoa+HD08eIYPC29VP/XoUTuq0fVSJehf3zloCtrRUh
-TtVlWEAeDKzZ6xkglyYH6cgMKAkM+s/v+ctXw6SgF9SJfMBXTTn33VTsqj86JGOO
-w/kuIw8T7OCnuVKRRRho3C7ciI5Wu7Whf8cOv/l125fp2OJq9NM=
-=AhLH
------END PGP SIGNATURE-----
-
---62fk5rgm4hdf5yga--
+> +#define DRM_XE_RESET_REQUIRED_UEVENT "DEVICE_STATUS=NEEDS_RESET"
+> +
+> +/**
+> + * DRM_XE_RESET_REQUIRED_UEVENT_REASON_GT - Reason provided to
+> + * DRM_XE_RESET_REQUIRED_UEVENT incase of gt reset failure. The additional
+> + * information supplied is tile id and gt id for which reset has failed.
+> + */
+> +#define DRM_XE_RESET_REQUIRED_UEVENT_REASON_GT "REASON=GT_RESET_FAILED"
+> +
+> +/**
+> + * DRM_XE_RESET_REQUIRED_UEVENT_REASON_GUC - Reason provided to
+> + * DRM_XE_RESET_REQUIRED_UEVENT incase of guc fw load failure.
+> + */
+> +#define DRM_XE_RESET_REQUIRED_UEVENT_REASON_GUC "REASON=GUC_LOAD_FAILED"
+> +
+> +/**
+> + * DRM_XE_RESET_REQUIRED_UEVENT_REASON_TOUT - Reason provided to
+> + * DRM_XE_RESET_REQUIRED_UEVENT incase of exec queue timeout.
+> + */
+> +#define DRM_XE_RESET_REQUIRED_UEVENT_REASON_TOUT "REASON=EXEC_QUEUE_TIMEDOUT"
+> +
+>   #if defined(__cplusplus)
+>   }
+>   #endif
