@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D416794E785
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 09:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D700494E789
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 09:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3090E10E0FF;
-	Mon, 12 Aug 2024 07:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57E2510E101;
+	Mon, 12 Aug 2024 07:14:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fEtQoajw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DqvqL9c7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8758210E0FF;
- Mon, 12 Aug 2024 07:14:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39CB10E101;
+ Mon, 12 Aug 2024 07:14:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723446857; x=1754982857;
+ t=1723446864; x=1754982864;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ugPZI6M1TvdJVOqkCaWpsQPcKmLp14vmdPpzyb0jTXA=;
- b=fEtQoajwEwEBBPvt9JNuAolVRFSpRZBXjBQtobHiiJMGmykqBBmUb8Ji
- dUU3DlKZQYsKoEJHFTQyVSvaht0chuDNuvzNN3B88gQUgJcxlxUdy6TVV
- YHdMElkJ7mOzoQP6Q3llcwXsnRzEKRrUj1mN2ACfSbzpMYyN5cJSC/KN0
- VOGMYLlDrrzsrsY4Pi5ZKteK54Hkd8t/fmIaNH9OspWjL60ZMFpWyqhVw
- 5OanrckripR/V6eOnc6LepHYkxgIkfpPY0QXkpH/BJfWxmKXVrQYUZxKD
- utlqtTCuEJnw1/nYH6PtBeP1YJVPJmnv3qGieZIC2AfdNRh07ZRupPGXx g==;
-X-CSE-ConnectionGUID: jOG+pxe0TgObjO+b4vz7SA==
-X-CSE-MsgGUID: Pzm4QZ0ORb+3oGupyzeh3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21711562"
-X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="21711562"
+ bh=nLYeFCmV2sqj4+yCU6U1t0LxOTa1hw9jyckG6WHjQvg=;
+ b=DqvqL9c7bVT8n41u/UjrSOHj79S6IxA4cMPa2HVxKv8yRZsS1DCYKA0t
+ vc8ferCqGO1qzNCBQ+dhVBkeiAbs6Lfs5PEZPTKc/KPA4JMg3trJj4Yg6
+ t9VXlsi6NTXaNc1RmsL47o94FmlQE92LM+YijjZHQKqk8Xf5r8iEkk6SZ
+ 98rKSIXrv72sptOAJf2HulgmjzrOa2BCqWPFFQzM3JxLBRGXkh/+qod0J
+ LLLgrVQRrsCa7Lio9xwx8AyLT8xlDLfL6XFNj651TSNg18lCFRIMnQ8Lj
+ IZbCJrtYdiJGz1fthUI1LWYz3QDuIbmBrICUx3rI1rFoEbSqPH6WQ96/I Q==;
+X-CSE-ConnectionGUID: w72YHw9oRB+6fOq/LJRMGg==
+X-CSE-MsgGUID: 0eKasuhXTS+kufvFY1B0og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21711597"
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="21711597"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2024 00:14:17 -0700
-X-CSE-ConnectionGUID: 20gV+VxOTN66vkWjO4j+TA==
-X-CSE-MsgGUID: j+8tsWuwRpO5z66lvcz4BQ==
+ 12 Aug 2024 00:14:23 -0700
+X-CSE-ConnectionGUID: gDxvwbtUQGqyr6hrki+oVA==
+X-CSE-MsgGUID: EJqZOrj4S8WKg9ArWC+AEg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="57823816"
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="57823841"
 Received: from allen-box.sh.intel.com ([10.239.159.127])
- by fmviesa007.fm.intel.com with ESMTP; 12 Aug 2024 00:14:11 -0700
+ by fmviesa007.fm.intel.com with ESMTP; 12 Aug 2024 00:14:17 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
  Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
@@ -55,10 +55,10 @@ Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
  iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- Lu Baolu <baolu.lu@linux.intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH 2/3] drm/rockchip: Use iommu_paging_domain_alloc()
-Date: Mon, 12 Aug 2024 15:10:33 +0800
-Message-Id: <20240812071034.9443-2-baolu.lu@linux.intel.com>
+ Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [PATCH 3/3] drm/tegra: Remove call to iommu_domain_alloc()
+Date: Mon, 12 Aug 2024 15:10:34 +0800
+Message-Id: <20240812071034.9443-3-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240812071034.9443-1-baolu.lu@linux.intel.com>
 References: <20240812071034.9443-1-baolu.lu@linux.intel.com>
@@ -79,43 +79,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit <421be3ee36a4> ("drm/rockchip: Refactor IOMMU initialisation") has
-refactored rockchip_drm_init_iommu() to pass a device that the domain is
-allocated for. Replace iommu_domain_alloc() with
-iommu_paging_domain_alloc() to retire the former.
+Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
+the bus structure. The iommu subsystem no longer relies on bus for
+operations. So iommu_domain_alloc() interface is no longer relevant.
+
+Normally, iommu_paging_domain_alloc() could be a replacement for
+iommu_domain_alloc() if the caller has the right device for IOMMU API
+use. Unfortunately, this is not the case for this driver.
+
+Iterate the devices on the platform bus and find a suitable device
+whose device DMA is translated by an IOMMU. Then use this device to
+allocate an iommu domain. The iommu subsystem prevents domains
+allocated by one iommu driver from being attached to devices managed
+by any different iommu driver.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Link: https://lore.kernel.org/r/20240610085555.88197-19-baolu.lu@linux.intel.com
+Link: https://lore.kernel.org/r/20240610085555.88197-20-baolu.lu@linux.intel.com
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tegra/drm.c | 34 +++++++++++++++++++++++++---------
+ 1 file changed, 25 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-index 44d769d9234d..11e5d10de4d7 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-@@ -103,13 +103,17 @@ static int rockchip_drm_init_iommu(struct drm_device *drm_dev)
- 	struct rockchip_drm_private *private = drm_dev->dev_private;
- 	struct iommu_domain_geometry *geometry;
- 	u64 start, end;
-+	int ret;
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 03d1c76aec2d..ee391f859992 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1133,6 +1133,17 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
+ 	return domain != NULL;
+ }
  
- 	if (IS_ERR_OR_NULL(private->iommu_dev))
- 		return 0;
++static int iommu_mapped_device(struct device *dev, void *data)
++{
++	struct device **iommu_dev = data;
++
++	if (!device_iommu_mapped(dev))
++		return 0;
++
++	*iommu_dev = dev;
++	return 1;
++}
++
+ static int host1x_drm_probe(struct host1x_device *dev)
+ {
+ 	struct tegra_drm *tegra;
+@@ -1149,16 +1160,21 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 		goto put;
+ 	}
  
--	private->domain = iommu_domain_alloc(private->iommu_dev->bus);
--	if (!private->domain)
--		return -ENOMEM;
-+	private->domain = iommu_paging_domain_alloc(private->iommu_dev);
-+	if (IS_ERR(private->domain)) {
-+		ret = PTR_ERR(private->domain);
-+		private->domain = NULL;
-+		return ret;
-+	}
+-	if (host1x_drm_wants_iommu(dev) && iommu_present(&platform_bus_type)) {
+-		tegra->domain = iommu_domain_alloc(&platform_bus_type);
+-		if (!tegra->domain) {
+-			err = -ENOMEM;
+-			goto free;
++	if (host1x_drm_wants_iommu(dev)) {
++		struct device *iommu_dev = NULL;
++
++		bus_for_each_dev(&platform_bus_type, NULL, &iommu_dev, iommu_mapped_device);
++		if (iommu_dev) {
++			tegra->domain = iommu_paging_domain_alloc(iommu_dev);
++			if (IS_ERR(tegra->domain)) {
++				err = PTR_ERR(tegra->domain);
++				goto free;
++			}
++
++			err = iova_cache_get();
++			if (err < 0)
++				goto domain;
+ 		}
+-
+-		err = iova_cache_get();
+-		if (err < 0)
+-			goto domain;
+ 	}
  
- 	geometry = &private->domain->geometry;
- 	start = geometry->aperture_start;
+ 	mutex_init(&tegra->clients_lock);
 -- 
 2.34.1
 
