@@ -2,73 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D45894E6F3
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 08:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 265C894E71B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 08:48:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE91A10E0E6;
-	Mon, 12 Aug 2024 06:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1F110E0E9;
+	Mon, 12 Aug 2024 06:48:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KQFrSGBy";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xWPAdWqO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B9xM38CI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xWPAdWqO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B9xM38CI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE8F10E0E6
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 06:43:01 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-52fc4388a64so5478316e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2024 23:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1723444979; x=1724049779; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UbHIy+o48Z4/7AHlMrZBoQctzcikg51wtZVN0gnDpss=;
- b=KQFrSGBy/t8GgqSpc5ptPmiAtO2nCfZK+HudmCkgJJICYqRdiJzA81IOFqM35U5iK+
- L8+kc0ah9rFj+mu7Uv+qcvjG55kn8AM1S4hBQvuTlYwD5NQY+zd5NEYBlT4Z2ANvLSHR
- iMWBUg3tQwkLjY28wHlBUorl/Qve3Ua8irSNOG2cqiNILCtAL++bYIXSBhkOJVjyB0PG
- VuL2QgIYgC6yqTg55jPQhi9uk+f5GWP3bUbFOZYCX3GIIQSIpQEQM7aeVl/UvhZvG1Bx
- WNmxqafclTFBqVJ41dFOIxXMQTSHLDby4WDj8Lizd8LUTKpMpR0OKXNWLfi0Kk8WWl1l
- XrhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723444979; x=1724049779;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UbHIy+o48Z4/7AHlMrZBoQctzcikg51wtZVN0gnDpss=;
- b=ICPKb2MbpvL7ykih5Xgn+bwYrsz0rfn6QLF8TRqR0eGIYclEmUqV0PRgst5oZOizZb
- W/pZTlw+Fq3ZbQGXEM3nSj4IfZZytzKYapysdX5NjLNIdES81r5QFWh1MTuorRmxxS/7
- pzegqv3JaTjBZbPejO5vDJyyvo4OjaRkqOqPleI3AawnKTQrlf7F7dfMEojfBzmySOKH
- up5tNRY88lKV2OQSDv63/RryUno2u5OK4fn/9t9J0QBtPxBbQfH3Ge83hhnoj90nYAPc
- DGCbykjyr7w83Z+DJ+anLrZa5UkQNO1wpIArQpIy7Oh7uywGSF37nWZ8vkue+fmO4TUI
- A/aQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVYX1F+FsUj2StnELeRaHXj+X3LKSJlzbGikiP3+ESWJmVz34w1VJn1lJQBewYr1nNd1Ss5yNT41Zq5/1tl26X/dqMubHk8DfgIwTrbIlvB
-X-Gm-Message-State: AOJu0YwP35Ct/WoG90+u/wZ0of+NN6j8ZtzWV2MEIvk257CM1dkCoQuA
- 4NvZQyK9kD/Tjki7gQ9UgqvrmXLAVzZix6/WO+PY2/xF/zWlsmB3PFzZhi12lFbDNs+O/UHDx28
- o
-X-Google-Smtp-Source: AGHT+IEk4ZnNIsnzZV7k0SJFKSmS/31tiOmiB1Iz5IztkYLjgc9jdDjTxOdK5wP8Zh9WscuTC77ptg==
-X-Received: by 2002:a05:6512:10c9:b0:52e:fd75:f060 with SMTP id
- 2adb3069b0e04-530eea70162mr4660900e87.61.1723444978819; 
- Sun, 11 Aug 2024 23:42:58 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a80bb212bd2sm205048766b.176.2024.08.11.23.42.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Aug 2024 23:42:58 -0700 (PDT)
-Date: Mon, 12 Aug 2024 09:42:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C82E310E0E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 06:48:18 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5EA31224B1;
+ Mon, 12 Aug 2024 06:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723445297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=m+9KZKaXMpJvCr8IEHfjQVejHnTOFoCaWzXhCnaJWQs=;
+ b=xWPAdWqOZUAWtKa0UexY0x6QHSZFXR25Z7ghzu5QVpxsrZJQVuQLChB+chSMR+RsUiLzOL
+ 0iSjAYZbS1OK5ZNAlrDvXOib/0pgfTut9vu7/sboGcfkk/fVTEAy88I7UWabqL0Ja39I8N
+ bMFj2wzTE81hwSclgOBs95HXl+74YvM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723445297;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=m+9KZKaXMpJvCr8IEHfjQVejHnTOFoCaWzXhCnaJWQs=;
+ b=B9xM38CIxcQ9QH/X5nhz4isLK/tmNM9GmaQb//Cs2MBvtN+/qbRDKbGq2DfwSImOhSO12Z
+ FGLv1kRECu4enwAA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xWPAdWqO;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=B9xM38CI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723445297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=m+9KZKaXMpJvCr8IEHfjQVejHnTOFoCaWzXhCnaJWQs=;
+ b=xWPAdWqOZUAWtKa0UexY0x6QHSZFXR25Z7ghzu5QVpxsrZJQVuQLChB+chSMR+RsUiLzOL
+ 0iSjAYZbS1OK5ZNAlrDvXOib/0pgfTut9vu7/sboGcfkk/fVTEAy88I7UWabqL0Ja39I8N
+ bMFj2wzTE81hwSclgOBs95HXl+74YvM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723445297;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=m+9KZKaXMpJvCr8IEHfjQVejHnTOFoCaWzXhCnaJWQs=;
+ b=B9xM38CIxcQ9QH/X5nhz4isLK/tmNM9GmaQb//Cs2MBvtN+/qbRDKbGq2DfwSImOhSO12Z
+ FGLv1kRECu4enwAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0EA2D137BA;
+ Mon, 12 Aug 2024 06:48:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 76pnATGwuWYXAgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Aug 2024 06:48:17 +0000
+Message-ID: <8c1ad0a1-bbc5-4274-bdf5-fcf2e043a869@suse.de>
+Date: Mon, 12 Aug 2024 08:48:16 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/ast: astdp: fix loop timeout check
+To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: Dave Airlie <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v2] drm/ast: astdp: fix loop timeout check
-Message-ID: <9dbd4d2c-0757-4d5f-aa11-7d9e665e7633@stanley.mountain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Jani Nikula <jani.nikula@linux.intel.com>
+References: <9dbd4d2c-0757-4d5f-aa11-7d9e665e7633@stanley.mountain>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <9dbd4d2c-0757-4d5f-aa11-7d9e665e7633@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.50 / 50.00];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
+ RCVD_TLS_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_SEVEN(0.00)[11];
+ ARC_NA(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.50
+X-Rspamd-Queue-Id: 5EA31224B1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,48 +153,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This code has an issue because it loops until "i" is set to UINT_MAX but
-the test for failure assumes that "i" is set to zero.  The result is that
-it will only print an error message if we succeed on the very last try.
-Reformat the loop to count forwards instead of backwards.
+Hi
 
-Fixes: 2281475168d2 ("drm/ast: astdp: Perform link training during atomic_enable")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-v2: In version one, I introduced a bug where it would msleep(100) after failure
-    and that is a pointless thing to do.  Also change the loop to a for loop.
----
- drivers/gpu/drm/ast/ast_dp.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+Am 12.08.24 um 08:42 schrieb Dan Carpenter:
+> This code has an issue because it loops until "i" is set to UINT_MAX but
+> the test for failure assumes that "i" is set to zero.  The result is that
+> it will only print an error message if we succeed on the very last try.
+> Reformat the loop to count forwards instead of backwards.
+>
+> Fixes: 2281475168d2 ("drm/ast: astdp: Perform link training during atomic_enable")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+> v2: In version one, I introduced a bug where it would msleep(100) after failure
+>      and that is a pointless thing to do.  Also change the loop to a for loop.
+> ---
+>   drivers/gpu/drm/ast/ast_dp.c | 12 +++++-------
+>   1 file changed, 5 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index 5d07678b502c..9bc21dd6a54d 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -146,18 +146,16 @@ void ast_dp_power_on_off(struct drm_device *dev, bool on)
+>   void ast_dp_link_training(struct ast_device *ast)
+>   {
+>   	struct drm_device *dev = &ast->base;
+> -	unsigned int i = 10;
+> +	int i;
+>   
+> -	while (i--) {
+> +	for (i = 0; i < 10; i++) {
+>   		u8 vgacrdc = ast_get_index_reg(ast, AST_IO_VGACRI, 0xdc);
+>   
+>   		if (vgacrdc & AST_IO_VGACRDC_LINK_SUCCESS)
+> -			break;
+> -		if (i)
+> -			msleep(100);
+> +			return;
+> +		msleep(100);
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 5d07678b502c..9bc21dd6a54d 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -146,18 +146,16 @@ void ast_dp_power_on_off(struct drm_device *dev, bool on)
- void ast_dp_link_training(struct ast_device *ast)
- {
- 	struct drm_device *dev = &ast->base;
--	unsigned int i = 10;
-+	int i;
- 
--	while (i--) {
-+	for (i = 0; i < 10; i++) {
- 		u8 vgacrdc = ast_get_index_reg(ast, AST_IO_VGACRI, 0xdc);
- 
- 		if (vgacrdc & AST_IO_VGACRDC_LINK_SUCCESS)
--			break;
--		if (i)
--			msleep(100);
-+			return;
-+		msleep(100);
- 	}
--	if (!i)
--		drm_err(dev, "Link training failed\n");
-+	drm_err(dev, "Link training failed\n");
- }
- 
- void ast_dp_set_on_off(struct drm_device *dev, bool on)
+But we don't want to wait during the final iteration of this loop. If 
+you want to use the for loop, it should be something like
+
+for (i= 0; i < 10; ++i) {
+
+     if (i)
+       msleep(100)
+
+     // now test vgacrdc
+}
+
+Best regards
+Thomas
+
+>   	}
+> -	if (!i)
+> -		drm_err(dev, "Link training failed\n");
+> +	drm_err(dev, "Link training failed\n");
+>   }
+>   
+>   void ast_dp_set_on_off(struct drm_device *dev, bool on)
+
 -- 
-2.43.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
