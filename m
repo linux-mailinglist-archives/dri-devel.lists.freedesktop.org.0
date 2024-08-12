@@ -2,142 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265C894E71B
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 08:48:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB1994E72F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 08:52:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1F110E0E9;
-	Mon, 12 Aug 2024 06:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E9D10E036;
+	Mon, 12 Aug 2024 06:52:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xWPAdWqO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B9xM38CI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xWPAdWqO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B9xM38CI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FgplDMlQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C82E310E0E7
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 06:48:18 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5EA31224B1;
- Mon, 12 Aug 2024 06:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723445297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=m+9KZKaXMpJvCr8IEHfjQVejHnTOFoCaWzXhCnaJWQs=;
- b=xWPAdWqOZUAWtKa0UexY0x6QHSZFXR25Z7ghzu5QVpxsrZJQVuQLChB+chSMR+RsUiLzOL
- 0iSjAYZbS1OK5ZNAlrDvXOib/0pgfTut9vu7/sboGcfkk/fVTEAy88I7UWabqL0Ja39I8N
- bMFj2wzTE81hwSclgOBs95HXl+74YvM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723445297;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=m+9KZKaXMpJvCr8IEHfjQVejHnTOFoCaWzXhCnaJWQs=;
- b=B9xM38CIxcQ9QH/X5nhz4isLK/tmNM9GmaQb//Cs2MBvtN+/qbRDKbGq2DfwSImOhSO12Z
- FGLv1kRECu4enwAA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xWPAdWqO;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=B9xM38CI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723445297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=m+9KZKaXMpJvCr8IEHfjQVejHnTOFoCaWzXhCnaJWQs=;
- b=xWPAdWqOZUAWtKa0UexY0x6QHSZFXR25Z7ghzu5QVpxsrZJQVuQLChB+chSMR+RsUiLzOL
- 0iSjAYZbS1OK5ZNAlrDvXOib/0pgfTut9vu7/sboGcfkk/fVTEAy88I7UWabqL0Ja39I8N
- bMFj2wzTE81hwSclgOBs95HXl+74YvM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723445297;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=m+9KZKaXMpJvCr8IEHfjQVejHnTOFoCaWzXhCnaJWQs=;
- b=B9xM38CIxcQ9QH/X5nhz4isLK/tmNM9GmaQb//Cs2MBvtN+/qbRDKbGq2DfwSImOhSO12Z
- FGLv1kRECu4enwAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0EA2D137BA;
- Mon, 12 Aug 2024 06:48:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 76pnATGwuWYXAgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 12 Aug 2024 06:48:17 +0000
-Message-ID: <8c1ad0a1-bbc5-4274-bdf5-fcf2e043a869@suse.de>
-Date: Mon, 12 Aug 2024 08:48:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/ast: astdp: fix loop timeout check
-To: Dan Carpenter <dan.carpenter@linaro.org>
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C78010E036
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 06:52:28 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2ef2cb7d562so39639621fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2024 23:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1723445546; x=1724050346; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=vYvutISkLRUGH6JLFpRcjOxTE3aMRs9JKjHJPpsTDJM=;
+ b=FgplDMlQ/LH69T8ymWcK0F0psl2K44qcOrGvyn8TSRLIKFSbzXeeW6QAQRTJkcMnl9
+ D/lFMyhWh4fyIvSrECPO6drTGMAnLXErmZCF3PUQSDCn9ndIy+43roihnCBSN3TKS6Hx
+ NNCKNvksKDRTeTVltnX5LUJbcCcteRuDmESIFvLt8Q0NVeFgmOf277M+wuh3r0EGccX8
+ n85HItIVS7XI3i/VcCPF09eCXlaMH8gizoss5PgCxIY4QgoWHJGbetfMV8BTEC8ftajm
+ IdBD5Fy6BjI92ijhmUzLtVB7JXY6Q7KOjtguwHlqalrf7t3Vm/r5MQnov/6Ganqn2IBq
+ L5TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723445546; x=1724050346;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vYvutISkLRUGH6JLFpRcjOxTE3aMRs9JKjHJPpsTDJM=;
+ b=nerq+dmqjDhXXUcdShQ6tNr4gYzP/kQk7R0YIrLbJdDiO7eI5XH9ECMuHSHW1O0emF
+ eR7WwJiO5CtH/CV6xlUrhdDqV7CbDnYV59QdGuxZRqzJGDQdOvakGvKhkxXBjWlc5Vjs
+ gjOWw8RUoh3pb6Bdt2DNKi5LcRL7IUVqCDtNY8lkEjxgJ2OqBTc/Wr6ePHEZcJcXDuG0
+ 2gNIIu/RekSX4ObopU4HMME+DDyoXRGJqhVQJO2GfMAY7PzyF8tXwhlm+pGzHsO01sQ0
+ EZ61/3w2bgaxHeJHBKUkiAacJalb9bY4KIVh1DHvI3+9K2tLinXzUdVu4I/ePn4vaDoX
+ Y/Lw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWsQ69HoMDLC5/H3WBh+CtM4nTt7hFgyGA51ROCM9NeG+fsCHUvRb7YOVzGnsPnCgR4Xd4R3zHfG5cunJibHUL7jpATGzbXJyNOG54dI59a
+X-Gm-Message-State: AOJu0YxpGdsp27XvmEf1YHfmUM8je3Rt7gnZbbmqV0qGIRZouUQgVPYV
+ zyq622Wa5gsgvbv/vjUWHtLMLoNvI+oPyhg6uTwiLtWRfpAfga408ME72wCsofI=
+X-Google-Smtp-Source: AGHT+IEhleIQEZN/9JGTRhxG1EPnf++IP7O/xu5A3Y0gWPhqCZnhmQaXR3vNN1OTOTN5uX1Y1o4fGQ==
+X-Received: by 2002:a05:6512:b02:b0:52c:adc4:137c with SMTP id
+ 2adb3069b0e04-530ee984de9mr5848753e87.20.1723445545776; 
+ Sun, 11 Aug 2024 23:52:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5bd1a602220sm2012351a12.82.2024.08.11.23.52.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 11 Aug 2024 23:52:25 -0700 (PDT)
+Date: Mon, 12 Aug 2024 09:52:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Dave Airlie <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Jani Nikula <jani.nikula@linux.intel.com>
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2] drm/ast: astdp: fix loop timeout check
+Message-ID: <989ba8b4-19b4-4053-bb00-ccced42a8829@stanley.mountain>
 References: <9dbd4d2c-0757-4d5f-aa11-7d9e665e7633@stanley.mountain>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <9dbd4d2c-0757-4d5f-aa11-7d9e665e7633@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.50 / 50.00];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
- RCVD_TLS_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_SEVEN(0.00)[11];
- ARC_NA(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.50
-X-Rspamd-Queue-Id: 5EA31224B1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,73 +85,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 12.08.24 um 08:42 schrieb Dan Carpenter:
+On Mon, Aug 12, 2024 at 09:42:53AM +0300, Dan Carpenter wrote:
 > This code has an issue because it loops until "i" is set to UINT_MAX but
 > the test for failure assumes that "i" is set to zero.  The result is that
 > it will only print an error message if we succeed on the very last try.
 > Reformat the loop to count forwards instead of backwards.
->
+> 
 > Fixes: 2281475168d2 ("drm/ast: astdp: Perform link training during atomic_enable")
 > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 > ---
 > v2: In version one, I introduced a bug where it would msleep(100) after failure
->      and that is a pointless thing to do.  Also change the loop to a for loop.
-> ---
->   drivers/gpu/drm/ast/ast_dp.c | 12 +++++-------
->   1 file changed, 5 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-> index 5d07678b502c..9bc21dd6a54d 100644
-> --- a/drivers/gpu/drm/ast/ast_dp.c
-> +++ b/drivers/gpu/drm/ast/ast_dp.c
-> @@ -146,18 +146,16 @@ void ast_dp_power_on_off(struct drm_device *dev, bool on)
->   void ast_dp_link_training(struct ast_device *ast)
->   {
->   	struct drm_device *dev = &ast->base;
-> -	unsigned int i = 10;
-> +	int i;
->   
-> -	while (i--) {
-> +	for (i = 0; i < 10; i++) {
->   		u8 vgacrdc = ast_get_index_reg(ast, AST_IO_VGACRI, 0xdc);
->   
->   		if (vgacrdc & AST_IO_VGACRDC_LINK_SUCCESS)
-> -			break;
-> -		if (i)
-> -			msleep(100);
-> +			return;
-> +		msleep(100);
+>     and that is a pointless thing to do.  Also change the loop to a for loop.
 
-But we don't want to wait during the final iteration of this loop. If 
-you want to use the for loop, it should be something like
+I mean this version also sleeps on the last failed iteration but at least there
+isn't always true if statement to try prevent optimize away the last sleep.
+I'm okay with a sleep on the slow path but not with pointless if statements. ;)
 
-for (i= 0; i < 10; ++i) {
-
-     if (i)
-       msleep(100)
-
-     // now test vgacrdc
-}
-
-Best regards
-Thomas
-
->   	}
-> -	if (!i)
-> -		drm_err(dev, "Link training failed\n");
-> +	drm_err(dev, "Link training failed\n");
->   }
->   
->   void ast_dp_set_on_off(struct drm_device *dev, bool on)
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+regards,
+dan carpenter
 
