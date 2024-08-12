@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA31394ED17
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 14:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2288894ED19
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 14:32:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEDF10E1E4;
-	Mon, 12 Aug 2024 12:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921BC10E1E7;
+	Mon, 12 Aug 2024 12:32:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JQQomB16";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="egTjWree";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7456E10E1E7
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 12:32:39 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4B410E1E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 12:32:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1723465958;
+ s=mimecast20190719; t=1723465966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IUZ3nUjabnl/rX8HyRVbOo2hPPQM6tVFZxMwxugxRlo=;
- b=JQQomB16I8jSpLMkuUNtuDiS020YDdMvL2YIj/keleGRas4Kw0ygenS13xz6MBcoPQl2wk
- LMMxeDTA/XGAn+rLY5w8ayclrNfrWvGYzfRa/z0d6FUBsPaLG/MDQhdCP+YywjleennkmK
- Kv5FNfwROvA2HgiU1fPYWjp4DTu2XoI=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ bh=zFdtMpyoluZDIf8+YBntleODDii1i8IV6WVFQmjpatk=;
+ b=egTjWree6v8gs938EWnRBKYJMcGCCGsn0TWpXWueztofciACDLJ17yDL/TEaEGN1avWAXP
+ eh96zwnwejSKku+hbXTvhT43CSUXDJgq5JJIPlhTd/CIbJo7kz7wluaqWfIhIA0K5XMGfm
+ wSJTVIyWsX/pIuK4tRBn8ImWRh9lOF8=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-493-o1fZJu2cNw-9mtXO46GTNQ-1; Mon,
- 12 Aug 2024 08:32:35 -0400
-X-MC-Unique: o1fZJu2cNw-9mtXO46GTNQ-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-686-6CeaoBF_ORSfKTIMox7dag-1; Mon,
+ 12 Aug 2024 08:32:41 -0400
+X-MC-Unique: 6CeaoBF_ORSfKTIMox7dag-1
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 51A8618F49B0; Mon, 12 Aug 2024 12:32:33 +0000 (UTC)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 15BE2190ECC4; Mon, 12 Aug 2024 12:32:39 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.39.193.28])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 2CC1530001A1; Mon, 12 Aug 2024 12:32:27 +0000 (UTC)
+ id AC2C430001A1; Mon, 12 Aug 2024 12:32:33 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -57,9 +57,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Danilo Krummrich <dakr@redhat.com>
 Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v6 2/4] drm/rect: Add drm_rect_overlap()
-Date: Mon, 12 Aug 2024 14:24:19 +0200
-Message-ID: <20240812123147.81356-3-jfalempe@redhat.com>
+Subject: [PATCH v6 3/4] drm/panic: Simplify logo handling
+Date: Mon, 12 Aug 2024 14:24:20 +0200
+Message-ID: <20240812123147.81356-4-jfalempe@redhat.com>
 In-Reply-To: <20240812123147.81356-1-jfalempe@redhat.com>
 References: <20240812123147.81356-1-jfalempe@redhat.com>
 MIME-Version: 1.0
@@ -80,57 +80,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check if two rectangles overlap.
-It's a bit similar to drm_rect_intersect() but this won't modify
-the rectangle.
-Simplifies a bit drm_panic.
+Move logo rectangle initialisation, and logo drawing in separate
+functions, so they can be re-used by different panic screens.
+It prepares the introduction of the QR code panic screen.
 
 Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/drm_panic.c |  3 +--
- include/drm/drm_rect.h      | 15 +++++++++++++++
- 2 files changed, 16 insertions(+), 2 deletions(-)
+
+v6:
+ * rebase, and handle conflict with 5d45c01dea6f ("drm/panic: Add panic description")
+
+ drivers/gpu/drm/drm_panic.c | 58 +++++++++++++++++++++----------------
+ 1 file changed, 33 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index 0a047152f88b8..59fba23e5fd7a 100644
+index 59fba23e5fd7a..473db5fafb617 100644
 --- a/drivers/gpu/drm/drm_panic.c
 +++ b/drivers/gpu/drm/drm_panic.c
-@@ -529,8 +529,7 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
+@@ -85,7 +85,7 @@ static struct drm_panic_line panic_msg[] = {
+ 	PANIC_LINE(""), /* will be replaced by the panic description */
+ };
+ 
+-#define PANIC_MSG_LINES ARRAY_SIZE(panic_msg)
++static const int panic_msg_lines = ARRAY_SIZE(panic_msg);
+ 
+ static const struct drm_panic_line logo_ascii[] = {
+ 	PANIC_LINE("     .--.        _"),
+@@ -97,7 +97,7 @@ static const struct drm_panic_line logo_ascii[] = {
+ 	PANIC_LINE(" \\___)=(___/"),
+ };
+ 
+-#define PANIC_LOGO_LINES ARRAY_SIZE(logo_ascii)
++static const int logo_ascii_lines = ARRAY_SIZE(logo_ascii);
+ 
+ #if defined(CONFIG_LOGO) && !defined(MODULE)
+ static const struct linux_logo *logo_mono;
+@@ -496,31 +496,44 @@ static void draw_txt_rectangle(struct drm_scanout_buffer *sb,
+ 	}
+ }
+ 
++static void drm_panic_logo_rect(struct drm_rect *rect, const struct font_desc *font)
++{
++	if (logo_mono)
++		drm_rect_init(rect, 0, 0, logo_mono->width, logo_mono->height);
++	else {
++		int logo_width = get_max_line_len(logo_ascii, logo_ascii_lines) * font->width;
++
++		drm_rect_init(rect, 0, 0, logo_width, logo_ascii_lines * font->height);
++	}
++}
++
++static void drm_panic_logo_draw(struct drm_scanout_buffer *sb, struct drm_rect *rect,
++				const struct font_desc *font, u32 fg_color)
++{
++	if (logo_mono)
++		drm_panic_blit(sb, rect, logo_mono->data,
++			       DIV_ROUND_UP(drm_rect_width(rect), 8), 1, fg_color);
++	else
++		draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, rect,
++				   fg_color);
++}
++
+ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
+ {
+ 	u32 fg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, sb->format->format);
+ 	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
+ 	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
+ 	struct drm_rect r_screen, r_logo, r_msg;
+-	unsigned int logo_width, logo_height;
+ 	unsigned int msg_width, msg_height;
+ 
+ 	if (!font)
+ 		return;
+ 
+ 	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
++	drm_panic_logo_rect(&r_logo, font);
+ 
+-	if (logo_mono) {
+-		logo_width = logo_mono->width;
+-		logo_height = logo_mono->height;
+-	} else {
+-		logo_width = get_max_line_len(logo_ascii, PANIC_LOGO_LINES) * font->width;
+-		logo_height = PANIC_LOGO_LINES * font->height;
+-	}
+-	r_logo = DRM_RECT_INIT(0, 0, logo_width, logo_height);
+-
+-	msg_width = min(get_max_line_len(panic_msg, PANIC_MSG_LINES) * font->width, sb->width);
+-	msg_height = min(PANIC_MSG_LINES * font->height, sb->height);
++	msg_width = min(get_max_line_len(panic_msg, panic_msg_lines) * font->width, sb->width);
++	msg_height = min(panic_msg_lines * font->height, sb->height);
+ 	r_msg = DRM_RECT_INIT(0, 0, msg_width, msg_height);
+ 
+ 	/* Center the panic message */
+@@ -529,15 +542,10 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
  	/* Fill with the background color, and draw text on top */
  	drm_panic_fill(sb, &r_screen, bg_color);
  
--	if ((r_msg.x1 >= logo_width || r_msg.y1 >= logo_height) &&
--	    logo_width <= sb->width && logo_height <= sb->height) {
-+	if (!drm_rect_overlap(&r_logo, &r_msg)) {
- 		if (logo_mono)
- 			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
- 				       fg_color);
-diff --git a/include/drm/drm_rect.h b/include/drm/drm_rect.h
-index 73fcb899a01da..7bafde747d560 100644
---- a/include/drm/drm_rect.h
-+++ b/include/drm/drm_rect.h
-@@ -238,6 +238,21 @@ static inline void drm_rect_fp_to_int(struct drm_rect *dst,
- 		      drm_rect_height(src) >> 16);
+-	if (!drm_rect_overlap(&r_logo, &r_msg)) {
+-		if (logo_mono)
+-			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
+-				       fg_color);
+-		else
+-			draw_txt_rectangle(sb, font, logo_ascii, PANIC_LOGO_LINES, false, &r_logo,
+-					   fg_color);
+-	}
+-	draw_txt_rectangle(sb, font, panic_msg, PANIC_MSG_LINES, true, &r_msg, fg_color);
++	if (!drm_rect_overlap(&r_logo, &r_msg))
++		drm_panic_logo_draw(sb, &r_logo, font, fg_color);
++
++	draw_txt_rectangle(sb, font, panic_msg, panic_msg_lines, true, &r_msg, fg_color);
  }
  
-+/**
-+ * drm_rect_overlap - Check if two rectangles overlap
-+ * @r1: first rectangle
-+ * @r2: second rectangle
-+ *
-+ * RETURNS:
-+ * %true if the rectangles overlap, %false otherwise.
-+ */
-+static inline bool drm_rect_overlap(const struct drm_rect *r1,
-+				    const struct drm_rect *r2)
-+{
-+	return (r1->x2 > r2->x1 && r2->x2 > r1->x1 &&
-+		r1->y2 > r2->y1 && r2->y2 > r1->y1);
-+}
-+
- bool drm_rect_intersect(struct drm_rect *r, const struct drm_rect *clip);
- bool drm_rect_clip_scaled(struct drm_rect *src, struct drm_rect *dst,
- 			  const struct drm_rect *clip);
+ /*
+@@ -647,7 +655,7 @@ static void drm_panic_set_description(const char *description)
+ 	u32 len;
+ 
+ 	if (description) {
+-		struct drm_panic_line *desc_line = &panic_msg[PANIC_MSG_LINES - 1];
++		struct drm_panic_line *desc_line = &panic_msg[panic_msg_lines - 1];
+ 
+ 		desc_line->txt = description;
+ 		len = strlen(description);
+@@ -660,7 +668,7 @@ static void drm_panic_set_description(const char *description)
+ 
+ static void drm_panic_clear_description(void)
+ {
+-	struct drm_panic_line *desc_line = &panic_msg[PANIC_MSG_LINES - 1];
++	struct drm_panic_line *desc_line = &panic_msg[panic_msg_lines - 1];
+ 
+ 	desc_line->len = 0;
+ 	desc_line->txt = NULL;
 -- 
 2.46.0
 
