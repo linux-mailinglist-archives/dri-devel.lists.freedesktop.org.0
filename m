@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C83094ECEF
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 14:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C3994ECF3
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 14:26:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8610110E1DB;
-	Mon, 12 Aug 2024 12:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A28F10E1D1;
+	Mon, 12 Aug 2024 12:26:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Nz9fqcSK";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BnsvEfUU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A7F10E1DB
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 12:25:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1F5C10E1D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 12:26:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DA287611A5;
- Mon, 12 Aug 2024 12:25:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 333F0C32782;
- Mon, 12 Aug 2024 12:25:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6B28261003;
+ Mon, 12 Aug 2024 12:26:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E460C32782;
+ Mon, 12 Aug 2024 12:26:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723465533;
- bh=PyBu3mt4YUBFL3Fo40ywdmpVcSLFEnBur8Foy9eeKbY=;
+ s=korg; t=1723465563;
+ bh=TbnsRDPkg0+U21/AiO30rb8s+pGVp1jKIO3Jmv+yYTU=;
  h=Subject:To:Cc:From:Date:From;
- b=Nz9fqcSKBDShDyIMiQhw6w5uTKIPFjWzFXgW7YnQVblFXKGUJ4Jvi1khud6p+RBH/
- zP/fME3/SKLD/bD049suiLSl/m8kVC53GY4/P79/7h4ygJ5qTg/bZuH8aY6Iy6r3kU
- gdiy1YdgTNpj1X0rVuJL0Tipt75jsI7GpS+oi65g=
-Subject: Patch "drm/mgag200: Set DDC timeout in milliseconds" has been added
- to the 5.15-stable tree
+ b=BnsvEfUUE2s8iY5A6mes9UvkvDxUxnipVT2c1Xyv+JD5WI/asCLvSqxmFYN1TIc8d
+ 1mdyzKLeu9U+HU4FgoBTi7XCrGeUKysvxqAriWtM7K4pxz3eSvNxeQ87jaZh9lSqww
+ sel4gf0kxpsCeo5NnAbntzjL2TrnjX6Hxz48qaDk=
+Subject: Patch "drm/mgag200: Bind I2C lifetime to DRM device" has been added
+ to the 6.1-stable tree
 To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, jfalempe@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
+ gregkh@linuxfoundation.org, jfalempe@redhat.com, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 12 Aug 2024 14:25:28 +0200
-Message-ID: <2024081227-felt-tip-washbowl-122b@gregkh>
+Date: Mon, 12 Aug 2024 14:25:52 +0200
+Message-ID: <2024081252-baggy-drivable-12cb@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -59,63 +58,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    drm/mgag200: Set DDC timeout in milliseconds
+    drm/mgag200: Bind I2C lifetime to DRM device
 
-to the 5.15-stable tree which can be found at:
+to the 6.1-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     drm-mgag200-set-ddc-timeout-in-milliseconds.patch
-and it can be found in the queue-5.15 subdirectory.
+     drm-mgag200-bind-i2c-lifetime-to-drm-device.patch
+and it can be found in the queue-6.1 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From ecde5db1598aecab54cc392282c15114f526f05f Mon Sep 17 00:00:00 2001
+From eb1ae34e48a09b7a1179c579aed042b032e408f4 Mon Sep 17 00:00:00 2001
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 13 May 2024 14:51:06 +0200
-Subject: drm/mgag200: Set DDC timeout in milliseconds
+Date: Mon, 13 May 2024 14:51:07 +0200
+Subject: drm/mgag200: Bind I2C lifetime to DRM device
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit ecde5db1598aecab54cc392282c15114f526f05f upstream.
+commit eb1ae34e48a09b7a1179c579aed042b032e408f4 upstream.
 
-Compute the i2c timeout in jiffies from a value in milliseconds. The
-original values of 2 jiffies equals 2 milliseconds if HZ has been
-configured to a value of 1000. This corresponds to 2.2 milliseconds
-used by most other DRM drivers. Update mgag200 accordingly.
+Managed cleanup with devm_add_action_or_reset() will release the I2C
+adapter when the underlying Linux device goes away. But the connector
+still refers to it, so this cleanup leaves behind a stale pointer
+in struct drm_connector.ddc.
+
+Bind the lifetime of the I2C adapter to the connector's lifetime by
+using DRM's managed release. When the DRM device goes away (after
+the Linux device) DRM will first clean up the connector and then
+clean up the I2C adapter.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Fixes: 414c45310625 ("mgag200: initial g200se driver (v2)")
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
+Fixes: b279df242972 ("drm/mgag200: Switch I2C code to managed cleanup")
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Dave Airlie <airlied@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v3.5+
-Link: https://patchwork.freedesktop.org/patch/msgid/20240513125620.6337-2-tzimmermann@suse.de
+Cc: <stable@vger.kernel.org> # v6.0+
+Link: https://patchwork.freedesktop.org/patch/msgid/20240513125620.6337-3-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/mgag200/mgag200_i2c.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mgag200/mgag200_i2c.c |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 --- a/drivers/gpu/drm/mgag200/mgag200_i2c.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_i2c.c
-@@ -134,7 +134,7 @@ struct mga_i2c_chan *mgag200_i2c_create(
- 	i2c->adapter.algo_data = &i2c->bit;
+@@ -31,6 +31,8 @@
+ #include <linux/i2c.h>
+ #include <linux/pci.h>
  
- 	i2c->bit.udelay = 10;
--	i2c->bit.timeout = 2;
-+	i2c->bit.timeout = usecs_to_jiffies(2200);
- 	i2c->bit.data = i2c;
- 	i2c->bit.setsda		= mga_gpio_setsda;
- 	i2c->bit.setscl		= mga_gpio_setscl;
++#include <drm/drm_managed.h>
++
+ #include "mgag200_drv.h"
+ 
+ static int mga_i2c_read_gpio(struct mga_device *mdev)
+@@ -86,7 +88,7 @@ static int mga_gpio_getscl(void *data)
+ 	return (mga_i2c_read_gpio(mdev) & i2c->clock) ? 1 : 0;
+ }
+ 
+-static void mgag200_i2c_release(void *res)
++static void mgag200_i2c_release(struct drm_device *dev, void *res)
+ {
+ 	struct mga_i2c_chan *i2c = res;
+ 
+@@ -126,5 +128,5 @@ int mgag200_i2c_init(struct mga_device *
+ 	if (ret)
+ 		return ret;
+ 
+-	return devm_add_action_or_reset(dev->dev, mgag200_i2c_release, i2c);
++	return drmm_add_action_or_reset(dev, mgag200_i2c_release, i2c);
+ }
 
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.15/drm-client-fix-null-pointer-dereference-in-drm_client_modeset_probe.patch
-queue-5.15/drm-mgag200-set-ddc-timeout-in-milliseconds.patch
+queue-6.1/drm-client-fix-null-pointer-dereference-in-drm_client_modeset_probe.patch
+queue-6.1/drm-mgag200-bind-i2c-lifetime-to-drm-device.patch
+queue-6.1/drm-mgag200-set-ddc-timeout-in-milliseconds.patch
