@@ -2,60 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB59894F812
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 22:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF5E94F852
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 22:40:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89A4410E2B2;
-	Mon, 12 Aug 2024 20:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37CA510E064;
+	Mon, 12 Aug 2024 20:40:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="IoEa2Lt2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="csqXt9Ay";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C8C10E2B5;
- Mon, 12 Aug 2024 20:19:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
- s=mail; t=1723493938;
- bh=IGhH7Rac3vJcKhXubpNUPv4YTUzrF4pVmr4cru2tQpw=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=IoEa2Lt2cISxGRFe76L6DaXhIj3QvZjDSnwkzDMxLBJ+eg+kXUhShmpvDUjjEYL4G
- 40q8C5z7Ni0u4rjMbsO1NhMd+4IfO0jmI0HWi0CcgQj609LnZMWLjoy/PXJvoIT5tz
- ieLwNBNuzDjQ3mBG8IMQiaggHkStwUWUAdQKY5Zg=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 12 Aug 2024 22:18:32 +0200
-Subject: [PATCH v4 3/3] drm/amd/display: Add support for minimum backlight
- quirk
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
+ [209.85.222.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 613BF10E06A
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 20:40:39 +0000 (UTC)
+Received: by mail-ua1-f47.google.com with SMTP id
+ a1e0cc1a2514c-8225a1f4d5fso1471761241.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 13:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1723495238; x=1724100038;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=NZAvXAR1bYBwYWxJuFfSjAliHSEQ1/ECvzqzNyw/0sw=;
+ b=csqXt9AyJ8gWxIigIfbnsuCvEL/BotjVCHlR7PpMr8UF3D8SQJ4zg283bg6uTbTX2E
+ tXt9UKqapKTnODFbg1UxmUuZ02aOQ4jiOCLt1021ADLwfCuBtvX9Z4RU4SXCUTjYNqO2
+ J8Ky2uhhCKNdxp0gOyeSSM4rGxHqWBlrkma6A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723495238; x=1724100038;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NZAvXAR1bYBwYWxJuFfSjAliHSEQ1/ECvzqzNyw/0sw=;
+ b=ifDv84RI7Z2cIWVTHXAx83E5Zs/Sd8y/nHXgHvxMQCBOlBmX4TCdBVWxZ+ItB5hAA9
+ RK0zXumo4bnk5x2rcMjCVpEj7xnIHuvU9iffMG1EHBvCjGxyKlsShJQy6GjVSR6Z2672
+ 2m0TwFbOfIwv4uLdp1n2yoDLL7NCQ4Ce7yiuOM/DuIdJ38oSUh3zcZ4qrB59e7avwvK+
+ ZZQhglKWVFfRGCnQ8EATJe7CMIciZI6Ivatf9fLUUsGcf2AsKZOzlk14CdvwhDagKajm
+ WUkTG6wM6gbmcAycuFoog4EC42KUGDxNzsWy4NpXWbtI+RHmQnOeg1defQnAXgOqdSHl
+ TnFQ==
+X-Gm-Message-State: AOJu0Yzqm1g0xvgDi/iG0qs/7duYGZ1D5en3c+8lr7knx/7bVvAsyuch
+ 0NkXZRSewy0aNujtuyzzfrOdSckpwoQCl1Qvj2FYxqonOWU6+SaRj7rlYXy5idTt+UtjPSl/SqW
+ MzefHHIIiIkPu1GvizxsxFLwOU6O/krBUUr+k
+X-Google-Smtp-Source: AGHT+IE2xPIqgDYMDkVhZ+0wWF3tCQ3Y1t5YGgN/I9e2VhXStjX52f82U/5la54x4iTVj8B/dfc51TU63Md/eZ4s4WA=
+X-Received: by 2002:a05:6102:38d1:b0:48f:95cd:e601 with SMTP id
+ ada2fe7eead31-49743b36d8emr1687799137.25.1723495238239; Mon, 12 Aug 2024
+ 13:40:38 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 12 Aug 2024 13:40:37 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240812-amdgpu-min-backlight-quirk-v4-3-56a63ff897b7@weissschuh.net>
-References: <20240812-amdgpu-min-backlight-quirk-v4-0-56a63ff897b7@weissschuh.net>
-In-Reply-To: <20240812-amdgpu-min-backlight-quirk-v4-0-56a63ff897b7@weissschuh.net>
-To: Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723493938; l=2393;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=IGhH7Rac3vJcKhXubpNUPv4YTUzrF4pVmr4cru2tQpw=;
- b=RnJkvpIfXpZCI+Gp6SwOGL+AMTQ9goFPqkpQrXAGOHy9pMHDyxMikGj5YaM3V6S2JEFGzX51h
- hPE/oi2YDCxCrTKwsuX+dGPmHa/cEgf2gdpgqulxu8hpfTlvI7ADnK5
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+In-Reply-To: <c2218911-650a-4f43-9119-bd2cfc46f3aa@quicinc.com>
+References: <20240808235227.2701479-1-quic_abhinavk@quicinc.com>
+ <CAE-0n53qMJVbfb9oXbDexqhOj6qTBq9k5kMj1e6CXadObhBmLg@mail.gmail.com>
+ <c2218911-650a-4f43-9119-bd2cfc46f3aa@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 12 Aug 2024 13:40:37 -0700
+Message-ID: <CAE-0n53WwLK_Zdf_-1ftUV7pBOj0Vw_uM3LhHdOpVhwY1ZJ0kw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: fix the highest_bank_bit for sc7180
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com, 
+ dianders@chromium.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,64 +83,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Not all platforms provide correct PWM backlight capabilities through ATIF.
-Use the generic drm panel minimum backlight quirk infrastructure to
-override the capabilities where necessary.
+Quoting Abhinav Kumar (2024-08-12 12:41:40)
+>
+> I just retained the same convention that was used earlier. It seems like
+> a mix and match right now. sc7180, sm6115 and qcm2290 were using 0x.
+>
+> I can post a separate change to change all of them.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++++
- 2 files changed, 11 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
-index 0051fb1b437f..655c10aef2e3 100644
---- a/drivers/gpu/drm/amd/amdgpu/Kconfig
-+++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
-@@ -23,6 +23,7 @@ config DRM_AMDGPU
- 	select DRM_BUDDY
- 	select DRM_SUBALLOC_HELPER
- 	select DRM_EXEC
-+	select DRM_PANEL_BACKLIGHT_QUIRKS
- 	# amdgpu depends on ACPI_VIDEO when ACPI is enabled, for select to work
- 	# ACPI_VIDEO's dependencies must also be selected.
- 	select INPUT if ACPI
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 7e7929f24ae4..defa4c869921 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -93,6 +93,7 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_eld.h>
-+#include <drm/drm_utils.h>
- #include <drm/drm_vblank.h>
- #include <drm/drm_audio_component.h>
- #include <drm/drm_gem_atomic_helper.h>
-@@ -3330,6 +3331,8 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
- 	struct drm_connector *conn_base;
- 	struct amdgpu_device *adev;
- 	struct drm_luminance_range_info *luminance_range;
-+	const struct drm_edid *drm_edid;
-+	int min_input_signal_override;
- 
- 	if (aconnector->bl_idx == -1 ||
- 	    aconnector->dc_link->connector_signal != SIGNAL_TYPE_EDP)
-@@ -3364,6 +3367,13 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
- 		caps->aux_min_input_signal = 0;
- 		caps->aux_max_input_signal = 512;
- 	}
-+
-+	drm_edid = drm_edid_alloc(aconnector->edid,
-+				  EDID_LENGTH * (aconnector->edid->extensions + 1));
-+	min_input_signal_override = drm_get_panel_min_brightness_quirk(drm_edid);
-+	drm_edid_free(drm_edid);
-+	if (min_input_signal_override >= 0)
-+		caps->min_input_signal = min_input_signal_override;
- }
- 
- void amdgpu_dm_update_connector_after_detect(
-
--- 
-2.46.0
-
+Sounds good.
