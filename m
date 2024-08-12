@@ -2,73 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA8A94F5EC
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 19:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CDC94F62B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 19:57:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB1D110E1B6;
-	Mon, 12 Aug 2024 17:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC4C110E25F;
+	Mon, 12 Aug 2024 17:57:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gr2IQ7If";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G9pSXQbI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED6C510E19F;
- Mon, 12 Aug 2024 17:38:50 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-2cdadce1a57so3576766a91.2; 
- Mon, 12 Aug 2024 10:38:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723484330; x=1724089130; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UCcUv37+5u+4JJZrsFb/7pw4tBFELLMTnMEqEoQVdH4=;
- b=gr2IQ7IfCf5Lp2BXhMSJtyf3SHELnYnBzppjmM5L34nMsvc74NTmhUCBPO41TIIr/B
- PfIQPE9iddXq5V/km9xGj9kWTAxWEeFfeMl/qsXbLSHm0IDjKSn9Uno3rybYF2rJA1kw
- kSt98AcI3DxtEO5jMFFlOwOq4kszhBkl7w1GqzcoP4ACRSzBi59+51I1WTevv7+rEQMq
- L00xAnFXCNuBEn0UglKVDI0JRU4GnrEcmXN+N0Ik2UWAMDabp+P+NMu71DnrPNeT1fW9
- XJiCBK+aUMvGmJyq8YllGrgJKDxu41LQi7LfvjvqArix7nbg8gm87YTcsJZp83em4R+A
- 16lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723484330; x=1724089130;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UCcUv37+5u+4JJZrsFb/7pw4tBFELLMTnMEqEoQVdH4=;
- b=lFAHPohTLMtix8OfI130bdLiY7dIAxzitLdi4GQW2BFHXO5z+TPbFE+MvYdMyF7u0F
- 3Sqm2FAqx2Fa2p5/jsFEw2n1EqwO4HWiKYJ9CAG3w6pAV3NG24+C6aacR4gryNFCcsej
- ejuE0o7Zed/VJ8G2GiiBsNBuOkvn9kXHu5DjcmbE3V2oSA5MpYU7nF33oT2Rpdk/kkV2
- YM/E6t+sCic7szNAyn4kLxxdBCkGgqx2nkapucCVU60HSo29o6P9Ss3pTKXyeLGvzc4O
- R2XLenQblvwK3iBsaL+LHkbwOw1VnD4K8uz6OC/mKIC+0zFsWbu6Kzlo6YnIvXVAWqZl
- LJ5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWVkcFN+gIHPMwfO4TXD0OycQZP3c/4szgAETNeZNSH5vrPGH0/tK3tr0U3qaZCjfOZgpJqHgpCGQQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw25t0SScnbtGd2ZPgfpAyd63fFdYCRC3eZzZlbDrlc53iMhXiw
- jOVXI2bm/2JhRv9wxoUTkNyMb1wlo502kjB5nY0PH1d3tGXnmcbVJ6EQtM0X/IyqmNapzOgbLNh
- hwJZWPlioc3yZdoFWhJZfwVc1dk0=
-X-Google-Smtp-Source: AGHT+IEETFkUFMiB+Heqo+VnA9kEyVCdmT5SYzP1RMkK/lQejNf3TtG0pnwU6umMb5g1gdhmWhPw4mAGOdVf0T4Okj4=
-X-Received: by 2002:a17:90a:d794:b0:2c7:ab00:f605 with SMTP id
- 98e67ed59e1d1-2d39254ebe9mr1008725a91.20.1723484330316; Mon, 12 Aug 2024
- 10:38:50 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A41010E25F
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 17:57:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 73225CE0FC4;
+ Mon, 12 Aug 2024 17:57:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E1DC32782;
+ Mon, 12 Aug 2024 17:57:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723485455;
+ bh=PjEd0BdogsUTaZfCUMRZ31Ra4P2TNDube5tSGJ9f9sw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=G9pSXQbIwNKKdmOVG04ccy/1dIHLraWQ0G+g5z/MctkmVUUUXo81tnVQfF1RR+c1J
+ Cvxt8qGSPA8JqYgFK4Wsisbb0RFx5KEJ2r00aZDsq7jtURbAetSPgcZbzv7tLhq3In
+ X8cW65UhPResK30p4YVjVef/gIBciCKXIICBbwOv+MOkXOxEPR0kGDviaLOmGrQHjv
+ 1kVsTsVsho3L4Id+uxmWhHD1b/Ou3noRjVmbmLBl93blSGZxY3SAluidKUwiBL8YOv
+ TqI1IrR/S8Qznu2rcbJ2YiWkSSF8CbSPSyNf8gpJaBr19k4+X1N8VCNVUteNnwEgHU
+ 0shtOIic2eEhw==
+Date: Mon, 12 Aug 2024 10:57:32 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
+ <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
+ Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
+ Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
+ <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
+ Klassert <steffen.klassert@secunet.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
+ Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
+ memory provider
+Message-ID: <20240812105732.5d2845e4@kernel.org>
+In-Reply-To: <48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
+References: <20240805212536.2172174-1-almasrymina@google.com>
+ <20240805212536.2172174-8-almasrymina@google.com>
+ <20240806135924.5bb65ec7@kernel.org>
+ <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
+ <20240808192410.37a49724@kernel.org>
+ <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+ <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
+ <20240809205236.77c959b0@kernel.org>
+ <CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
+ <48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
 MIME-Version: 1.0
-References: <20230724211428.3831636-1-michal.winiarski@intel.com>
-In-Reply-To: <20230724211428.3831636-1-michal.winiarski@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 12 Aug 2024 13:38:38 -0400
-Message-ID: <CADnq5_NwDn5DXPadzZtegUJ=y=LfVHykO7kG3edmiqRTTCxMNQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/4] drm: Use full allocated minor range for DRM
-To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, 
- Pekka Paalanen <pekka.paalanen@collabora.com>, David Airlie <airlied@linux.ie>,
- Oded Gabbay <ogabbay@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Emil Velikov <emil.l.velikov@gmail.com>, Matthew Wilcox <willy@infradead.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, James Zhu <James.Zhu@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,57 +95,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Are there any objections to this series?  We have been running into
-this limit as a problem for a while now on big servers.
+On Sun, 11 Aug 2024 22:51:13 +0100 Pavel Begunkov wrote:
+> > I think we're talking about 2 slightly different flags, AFAIU.>
+> > Pavel and I are suggesting the driver reports "I support memory
+> > providers" directly to core (via the queue-api or what not), and we
+> > check that flag directly in netdev_rx_queue_restart(), and fail
+> > immediately if the support is not there.  
+> 
+> I might've misread Jakub, but yes, I believe it's different. It'd
+> communicate about support for providers to upper layers, so we can
+> fail even before attempting to allocate a new queue and init a
+> page pool.
 
-Alex
+Got it. Since allocating memory happens before stopping traffic
+I think it's acceptable to stick to a single flag.
 
-On Mon, Jul 24, 2023 at 5:15=E2=80=AFPM Micha=C5=82 Winiarski
-<michal.winiarski@intel.com> wrote:
->
-> 64 DRM device nodes is not enough for everyone.
-> Upgrade it to ~512K (which definitely is more than enough).
->
-> To allow testing userspace support for >64 devices, add additional DRM
-> modparam (force_extended_minors) which causes DRM to skip allocating mino=
-rs
-> in 0-192 range.
-> Additionally - convert minors to use XArray instead of IDR to simplify th=
-e
-> locking.
->
-> v1 -> v2:
-> Don't touch DRM_MINOR_CONTROL and its range (Simon Ser)
->
-> v2 -> v3:
-> Don't use legacy scheme for >=3D192 minor range (Dave Airlie)
-> Add modparam for testing (Dave Airlie)
-> Add lockdep annotation for IDR (Daniel Vetter)
->
-> v3 -> v4:
-> Convert from IDR to XArray (Matthew Wilcox)
->
-> v4 -> v5:
-> Fixup IDR to XArray conversion (Matthew Wilcox)
->
-> v5 -> v6:
-> Also convert Accel to XArray
-> Rename skip_legacy_minors to force_extended_minors
->
-> Micha=C5=82 Winiarski (4):
->   drm: Use XArray instead of IDR for minors
->   accel: Use XArray instead of IDR for minors
->   drm: Expand max DRM device number to full MINORBITS
->   drm: Introduce force_extended_minors modparam
->
->  drivers/accel/drm_accel.c      | 110 +++------------------------------
->  drivers/gpu/drm/drm_drv.c      | 105 ++++++++++++++++---------------
->  drivers/gpu/drm/drm_file.c     |   2 +-
->  drivers/gpu/drm/drm_internal.h |   4 --
->  include/drm/drm_accel.h        |  18 +-----
->  include/drm/drm_file.h         |   5 ++
->  6 files changed, 69 insertions(+), 175 deletions(-)
->
-> --
-> 2.41.0
->
+> > Jakub is suggesting a page_pool_params flag which lets the driver
+> > report "I support memory providers". If the driver doesn't support it
+> > but core is trying to configure that, then the page_pool_create will
+> > fail, which will cause the queue API operation
+> > (ndo_queue_alloc_mem_alloc) to fail, which causes
+> > netdev_rx_queue_restart() to fail.  
+> 
+> And I'm not against this way either if we explicitly get an error
+> back instead of trying to figure it out post-factum like by
+> checking the references and possibly reverting the allocation.
+> Maybe that's where I was confused, and that refcount thing was
+> suggested as a WARN_ONCE?
+
+Yup, the refcount (now: check of the page pool list) was meant
+as a WARN_ONCE() to catch bad drivers.
+
+> FWIW, I think it warrants two flags. The first saying that the
+> driver supports providers at all:
+> 
+> page_pool_init() {
+> 	if (rxq->mp_params)
+> 		if (!(flags & PP_PROVIDERS_SUPPORTED))
+> 			goto fail;
+> }
+> 
+> And the second telling whether the driver wants to install
+> providers for this particular page pool, so if there is a
+> separate pool for headers we can set it with plain old kernel
+> pages.
+
+The implementation of the queue API should be resilient against
+failures in alloc, and not being MP capable is just a form of 
+alloc failure. I don't see the upside of double-flag. 
+
+> payload_pool = page_pool_create(rqx, PP_PROVIDERS_SUPPORTED);
+> header_pool = page_pool_create(rqx, PP_PROVIDERS_SUPPORTED |
+>                                      PP_IGNORE_PROVIDERS);
+
+Also don't see the upside of the explicit "non-capable" flag,
+but I haven't thought of that. Is there any use?
+
+One important note. The flag should not be tied to memory providers
+but rather to netmem, IOW unreadable memory. MP is an internal detail,
+the important fact from the driver-facing API perspective is that the
+driver doesn't need struct pages.
+
+> (or invert the flag). That's assuming page_pool_params::queue is
+> a generic thing and we don't want to draw equivalence between
+> it and memory providers.
