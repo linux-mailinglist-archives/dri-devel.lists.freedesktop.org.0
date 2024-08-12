@@ -2,85 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FB594FA14
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 00:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D334694FA66
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 01:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 941AF10E1AE;
-	Mon, 12 Aug 2024 22:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2DB010E194;
+	Mon, 12 Aug 2024 23:47:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ZTBFv77s";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="t43A0KxR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD65310E1AE
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 22:59:48 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id
- 46e09a7af769-70968db52d0so5135357a34.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 15:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1723503587; x=1724108387;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5ENm0R32ljVSLiP588ivQL+EpMS161fFo6/+DPyhWgc=;
- b=ZTBFv77sAwHIdvWeZAce4+jj5ALPPR+K6ZJLQvvtyxpU2oV0GfHAL1WaiFErAZbV7t
- wwIySATWKSOfMhRPUPenzZQgqxmiv2SoMbfisi/ErZO/5KGZ2kKVCiw28fmVrDxulDyR
- t/ycUYXDPQKqPQIZzMlSaedCVEjeCFgsTrx2U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723503587; x=1724108387;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5ENm0R32ljVSLiP588ivQL+EpMS161fFo6/+DPyhWgc=;
- b=mqrdNWhpPNk6doabnqAK4jMCZFhpd04ETdrzt8qUKpP4QmDB+l9Ya0L1HeeRPe//Np
- N/m0Cv7uRXEy3V9Y8blwz1NBavtSatiJQ+F9dOM13IG2vGcUj9fskV0n+LGIfGVnez6r
- CpDyCukimB9xUiz1knKX4mnA4mdoEje06GvfqmdS3ZKfYz84vpNyqdsMS0ZlsvdnKSuC
- YKw1dbGNUotKDrFVYRayfRqnsXyxCur712PfPO7u4CbIXWjtcbmFP8mX5yImP1fzTZzd
- UPYhQe2LkWUhY+u2ucuPyNqaJHEqIhrWf17S88h613rvM75xQo59ytE7YM4yG5l+mig0
- 7t5Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWMi+ppMU/gQdQ59v2nY7Ya++yFmk1ZAwiQ7DC1ZRXGAMltcf8P3fS0THWmxZvIMj6j3JXYdXZOITUfD0HgNtZWSR+LFvZNmGRsQvQSiFTK
-X-Gm-Message-State: AOJu0YxwRkQveQsk2SlNovfmRqjri3jmnUJLz1+4wJ5eYhVF/HrOoqkH
- QTBTCR07dPbcHTlin5DHq9FYO0sGFrnUbyuvJrVpMNYDdzpoxLFq7cScdo48ERrH93X/DWwhY+0
- =
-X-Google-Smtp-Source: AGHT+IGm8N0+Kkci47MNOwPc4F1bHTzc6wmYSxMJxdk+C5KmnE+zRfx9smQIo/9yyDLIUc+vJb13Xg==
-X-Received: by 2002:a05:6830:3150:b0:709:400a:5f88 with SMTP id
- 46e09a7af769-70c9389962emr1730844a34.11.1723503587181; 
- Mon, 12 Aug 2024 15:59:47 -0700 (PDT)
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com.
- [209.85.210.45]) by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-70c7b89052dsm1570353a34.70.2024.08.12.15.59.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Aug 2024 15:59:46 -0700 (PDT)
-Received: by mail-ot1-f45.google.com with SMTP id
- 46e09a7af769-7093997dffdso1920835a34.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 15:59:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUyLwJ0mVhFy3rmUFN1ZqOm9HwUmgGM58S8xa/XNSH/EFWH6I3dbLCbJ4X+cuPemMxoLigXeAm6QelhogNH5y8SXqFqIgIrUVoiAd/6TAAA
-X-Received: by 2002:a05:6358:430e:b0:19f:4c1b:f0f8 with SMTP id
- e5c5f4694b2df-1b19d2e6507mr253084955d.24.1723503585569; Mon, 12 Aug 2024
- 15:59:45 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4C8E10E194
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 23:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1723506454; x=1724111254; i=wahrenst@gmx.net;
+ bh=l6OouXenCvAZE1JaCg4HpNacCouIsLa/UOywMg/akPQ=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=t43A0KxRTShwhq51DmI0Hx9L+gPZrgr8r00BkJx0VDqA+AIo08KkR7JQ0dN6tOrH
+ qovMsbM5X7bSgi2yOq4xKC/IZxVpLd2xejYCjVJPnC6z+gPltVxGfvgxKrR8gXZUt
+ 1Z0ccgiWaaLB6ANTDP8rFNYS4MJOsPDw85eXzompgU1MK5HzTuZ+jBKdDmoRfFdM2
+ K4P+5acYr+5/PaN+1ZQ0UMhGiBhnW/i1JqxdLMD93A7MQAaDHqDn/lopnaj9jJo5W
+ NmX9u90FIMpYEZ++rcIbXTcDe0VVs03SbcCReqheJ0paHtnmddE/hJEtyEAETwbEt
+ J23elkwHdIEPzPmN1A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MzQkK-1sHZZ80T5c-00wJPv; Tue, 13
+ Aug 2024 01:47:34 +0200
+Message-ID: <65de7db8-4f81-4c31-be8d-3a03c9aee989@gmx.net>
+Date: Tue, 13 Aug 2024 01:47:31 +0200
 MIME-Version: 1.0
-References: <20240810045404.188146-1-tejasvipin76@gmail.com>
- <20240810045404.188146-3-tejasvipin76@gmail.com>
-In-Reply-To: <20240810045404.188146-3-tejasvipin76@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 12 Aug 2024 15:59:33 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XPX+q9wVO4h2P_4JASoFeAozLP5uDqAXj7fxZe4woj9w@mail.gmail.com>
-Message-ID: <CAD=FV=XPX+q9wVO4h2P_4JASoFeAozLP5uDqAXj7fxZe4woj9w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/panel: jdi-fhd-r63452: transition to mipi_dsi
- wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, airlied@gmail.com, 
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 14/16] WIP: usb: dwc2: Implement recovery after PM
+ domain off
+To: Douglas Anderson <dianders@chromium.org>
+Cc: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Minas Harutyunyan <hminas@synopsys.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+ Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+ Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Jiri Slaby <jirislaby@kernel.org>
+References: <20240728114200.75559-1-wahrenst@gmx.net>
+ <20240728130029.78279-1-wahrenst@gmx.net>
+ <20240728130029.78279-6-wahrenst@gmx.net>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240728130029.78279-6-wahrenst@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Ik08zjVVUi5qEx5fIPQKnKhjJUj59/tBCsiGz1eN2Pm7Quoj1iB
+ SNlD/gQNZC+VslWH4bG/F4WMdl+kUsV+eZR5HGLwXPDSsYua5jSrb0wMxxwJF3fvDSbd6FT
+ HB0bM/UR6ghRTw2R16IKIywSoWG8yUg48pEenKwPKiTxdr6jNEj3vV7Un2zBIDF+c2rtGeE
+ ewOqTvQZHzg7flD1ehlfg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NX0Jg3iPZl8=;vEzuC2Ms0J1UDvbMW+dkF3nw9v6
+ QxRDXzBRZ88Xu+UB/MqvguubkOqslla23fyby/q23PArECBFoJWaarYRKhLBMfcQsuWQOmgFO
+ HolMSpEnntoeKW2xxoA3N8xiNTCFhSQRfK7ZTDpvnx2IeUDuGJHNKva99JSE5tGhgrECIAUJn
+ kWoRj+3clw6L+Gjch16MVT14HC3Z3ZxSEqnnjnY4XUaTK61DlkOSbOIBEkRT13XILgGld8geF
+ WIw2kv2mwmLD/mscf0/S8vYoAGMbY9E0GLLiiKcaDqQeJNLYNgiELj3iNEPYGcpPZqcj6pJlP
+ LWJUchihGQf9fccffqoUkmq47mHYsX/BCGUKvgRPvyLp/+7JeyKad0p29iT55Xi2v57bAgz0s
+ MwAxN4f0Kb/YA3RDoF2ZJtc5HPvw89Q1uTnyGrEuCwg4bnL9GG2pwB8lPWPXrg77YMlWNQGTD
+ GLCVlqju1pNSwXxOdUEOEWH6PUP3oGeH2qNInXNkuGhbJAnbK8kg1U9zqk+eW7oS3Fhfnwgmj
+ igtuxme4puuD9cVZJZjHpok5o5HdA3eIk5tICxeB3+cgdNdH3sb02DFmsnByOR3uU3kchJ/Mm
+ ZYj3juRMZawas6N9kBtUmP2CkBqniww9tkOPUtDSq82u58l+puwNazQc4xr9icO3mqDbEoN1K
+ LoNFygfIHNY75rxXJGoUBUJq948Edj0nJG09QpRFCf/4Nrh0BPU6Hrkc7OxWyQ25pmD6uAanJ
+ WWOgvP0dVejplW6rwX9h9gUz3rWxuKnt9HT6cYsZb7W2paYAQs9uf1w7ztYA0wWbCYEbc5oRL
+ +SV9+eiPUC+YpeQ4WL55vhAA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,194 +97,336 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Doug,
 
-On Fri, Aug 9, 2024 at 9:55=E2=80=AFPM Tejas Vipin <tejasvipin76@gmail.com>=
- wrote:
+Am 28.07.24 um 15:00 schrieb Stefan Wahren:
+> DO NOT MERGE
 >
-> @@ -41,79 +41,41 @@ static void jdi_fhd_r63452_reset(struct jdi_fhd_r6345=
-2 *ctx)
->  static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
->  {
->         struct mipi_dsi_device *dsi =3D ctx->dsi;
-> -       struct device *dev =3D &dsi->dev;
-> -       int ret;
-> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+> According to the dt-bindings there are some platforms, which have a
+> dedicated USB power domain for DWC2 IP core supply. If the power domain
+> is switched off during system suspend then all USB register will lose
+> their settings.
 >
->         dsi->mode_flags |=3D MIPI_DSI_MODE_LPM;
->
-> -       mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
-> -       mipi_dsi_generic_write_seq(dsi, 0xec,
-> -                                  0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x=
-0b, 0x0b,
-> -                                  0x13, 0x15, 0x68, 0x0b, 0xb5);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xd6, 0x01);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xec,
-> +                                        0x64, 0xdc, 0xec, 0x3b, 0x52, 0x=
-00, 0x0b, 0x0b,
-> +                                        0x13, 0x15, 0x68, 0x0b, 0xb5);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
->
-> -       ret =3D mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLA=
-NK);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set tear on: %d\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_V=
-BLANK);
->
-> -       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE,=
- 0x00);
->
-> -       ret =3D mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set pixel format: %d\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x77);
-> +       mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0x0000, 0x0437);
-> +       mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0x0000, 0x077f);
-> +       mipi_dsi_dcs_set_tear_scanline_multi(&dsi_ctx, 0x0000);
-> +       mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0x00ff);
->
-> -       ret =3D mipi_dsi_dcs_set_column_address(dsi, 0x0000, 0x0437);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set column address: %d\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DIS=
-PLAY, 0x24);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE,=
- 0x00);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_CABC_MIN_BRIG=
-HTNESS, 0x00);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x84, 0x00);
->
-> -       ret =3D mipi_dsi_dcs_set_page_address(dsi, 0x0000, 0x077f);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set page address: %d\n", ret);
-> -               return ret;
-> -       }
-> -
-> -       ret =3D mipi_dsi_dcs_set_tear_scanline(dsi, 0x0000);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set tear scanline: %d\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-> +       mipi_dsi_msleep(&dsi_ctx, 20);
-> +       mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-> +       mipi_dsi_msleep(&dsi_ctx, 80);
->
-> -       ret =3D mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set display brightness: %d\n", re=
-t);
-> -               return ret;
-> -       }
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24)=
-;
-> -       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x0=
-0);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
-> -
-> -       ret =3D mipi_dsi_dcs_set_display_on(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set display on: %d\n", ret);
-> -               return ret;
-> -       }
-> -       msleep(20);
-> -
-> -       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> -               return ret;
-> -       }
-> -       msleep(80);
-> -
-> -       mipi_dsi_generic_write_seq(dsi, 0xb0, 0x04);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, 0xc8, 0x11);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
-> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x84, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xc8, 0x11);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
->
->         return 0;
+> So use the power on/off notifier in order to save & restore the USB
+> registers during system suspend.
+sorry for bothering you with this DWC2 stuff, but it would great if you
+can gave some feedback about this patch. I was working a lot to get
+suspend to idle working on Raspberry Pi. And this patch is the most
+complex part of the series.
 
-Whoops! Not "return 0". "return dsi_ctx.accum_err".
+Would you agree with this approach or did i miss something?
 
+The problem is that the power domain driver acts independent from dwc2,
+so we cannot prevent the USB domain power down except declaring a USB
+device as wakeup source. So i decided to use the notifier approach. This
+has been successful tested on some older Raspberry Pi boards.
 
-> @@ -121,31 +83,22 @@ static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *=
-ctx)
->  static int jdi_fhd_r63452_off(struct jdi_fhd_r63452 *ctx)
->  {
->         struct mipi_dsi_device *dsi =3D ctx->dsi;
-> -       struct device *dev =3D &dsi->dev;
-> -       int ret;
-> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+Best regards
 >
->         dsi->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> ---
 >
-> -       mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
-> -       mipi_dsi_generic_write_seq(dsi, 0xec,
-> -                                  0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x=
-0b, 0x0b,
-> -                                  0x13, 0x15, 0x68, 0x0b, 0x95);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
-> -
-> -       ret =3D mipi_dsi_dcs_set_display_off(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set display off: %d\n", ret);
-> -               return ret;
-> -       }
-> -       usleep_range(2000, 3000);
-> -
-> -       ret =3D mipi_dsi_dcs_enter_sleep_mode(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-> -               return ret;
-> -       }
-> -       msleep(120);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xd6, 0x01);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xec,
-> +                                        0x64, 0xdc, 0xec, 0x3b, 0x52, 0x=
-00, 0x0b, 0x0b,
-> +                                        0x13, 0x15, 0x68, 0x0b, 0x95);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
+> Any feedback is appreciated.
+>
+>   drivers/usb/dwc2/core.c     | 16 ++++++++++++
+>   drivers/usb/dwc2/core.h     | 17 +++++++++++++
+>   drivers/usb/dwc2/gadget.c   | 49 +++++++++++++++++++++++++++++++++++++
+>   drivers/usb/dwc2/hcd.c      | 49 +++++++++++++++++++++++++++++++++++++
+>   drivers/usb/dwc2/platform.c | 32 ++++++++++++++++++++++++
+>   5 files changed, 163 insertions(+)
+>
+> diff --git a/drivers/usb/dwc2/core.c b/drivers/usb/dwc2/core.c
+> index 9919ab725d54..a3263cfdedac 100644
+> --- a/drivers/usb/dwc2/core.c
+> +++ b/drivers/usb/dwc2/core.c
+> @@ -391,6 +391,22 @@ int dwc2_exit_hibernation(struct dwc2_hsotg *hsotg,=
+ int rem_wakeup,
+>   		return dwc2_gadget_exit_hibernation(hsotg, rem_wakeup, reset);
+>   }
+>
+> +int dwc2_enter_poweroff(struct dwc2_hsotg *hsotg)
+> +{
+> +	if (dwc2_is_host_mode(hsotg))
+> +		return dwc2_host_enter_poweroff(hsotg);
+> +	else
+> +		return dwc2_gadget_enter_poweroff(hsotg);
+> +}
 > +
-> +       mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-> +       if (!dsi_ctx.accum_err)
-> +               usleep_range(2000, 3000);
-> +       mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-> +       mipi_dsi_msleep(&dsi_ctx, 120);
+> +int dwc2_exit_poweroff(struct dwc2_hsotg *hsotg)
+> +{
+> +	if (dwc2_is_host_mode(hsotg))
+> +		return dwc2_host_exit_poweroff(hsotg);
+> +	else
+> +		return dwc2_gadget_exit_poweroff(hsotg);
+> +}
+> +
+>   /*
+>    * Do core a soft reset of the core.  Be careful with this because it
+>    * resets all the internal state machines of the core.
+> diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
+> index 2bd74f3033ed..9ab755cc3081 100644
+> --- a/drivers/usb/dwc2/core.h
+> +++ b/drivers/usb/dwc2/core.h
+> @@ -9,6 +9,7 @@
+>   #define __DWC2_CORE_H__
 >
->         return 0;
+>   #include <linux/acpi.h>
+> +#include <linux/notifier.h>
+>   #include <linux/phy/phy.h>
+>   #include <linux/regulator/consumer.h>
+>   #include <linux/usb/gadget.h>
+> @@ -1080,6 +1081,8 @@ struct dwc2_hsotg {
+>   	struct regulator *vbus_supply;
+>   	struct regulator *usb33d;
+>
+> +	struct notifier_block genpd_nb;
+> +
+>   	spinlock_t lock;
+>   	void *priv;
+>   	int     irq;
+> @@ -1316,6 +1319,8 @@ int dwc2_exit_partial_power_down(struct dwc2_hsotg=
+ *hsotg, int rem_wakeup,
+>   int dwc2_enter_hibernation(struct dwc2_hsotg *hsotg, int is_host);
+>   int dwc2_exit_hibernation(struct dwc2_hsotg *hsotg, int rem_wakeup,
+>   		int reset, int is_host);
+> +int dwc2_enter_poweroff(struct dwc2_hsotg *hsotg);
+> +int dwc2_exit_poweroff(struct dwc2_hsotg *hsotg);
+>   void dwc2_init_fs_ls_pclk_sel(struct dwc2_hsotg *hsotg);
+>   int dwc2_phy_init(struct dwc2_hsotg *hsotg, bool select_phy);
+>
+> @@ -1435,6 +1440,8 @@ int dwc2_hsotg_tx_fifo_total_depth(struct dwc2_hso=
+tg *hsotg);
+>   int dwc2_hsotg_tx_fifo_average_depth(struct dwc2_hsotg *hsotg);
+>   void dwc2_gadget_init_lpm(struct dwc2_hsotg *hsotg);
+>   void dwc2_gadget_program_ref_clk(struct dwc2_hsotg *hsotg);
+> +int dwc2_gadget_enter_poweroff(struct dwc2_hsotg *hsotg);
+> +int dwc2_gadget_exit_poweroff(struct dwc2_hsotg *hsotg);
+>   static inline void dwc2_clear_fifo_map(struct dwc2_hsotg *hsotg)
+>   { hsotg->fifo_map =3D 0; }
+>   #else
+> @@ -1482,6 +1489,10 @@ static inline int dwc2_hsotg_tx_fifo_average_dept=
+h(struct dwc2_hsotg *hsotg)
+>   { return 0; }
+>   static inline void dwc2_gadget_init_lpm(struct dwc2_hsotg *hsotg) {}
+>   static inline void dwc2_gadget_program_ref_clk(struct dwc2_hsotg *hsot=
+g) {}
+> +static inline int dwc2_gadget_enter_poweroff(struct dwc2_hsotg *hsotg)
+> +{ return 0; }
+> +static inline int dwc2_gadget_exit_poweroff(struct dwc2_hsotg *hsotg)
+> +{ return 0; }
+>   static inline void dwc2_clear_fifo_map(struct dwc2_hsotg *hsotg) {}
+>   #endif
+>
+> @@ -1505,6 +1516,8 @@ int dwc2_host_exit_partial_power_down(struct dwc2_=
+hsotg *hsotg,
+>   void dwc2_host_enter_clock_gating(struct dwc2_hsotg *hsotg);
+>   void dwc2_host_exit_clock_gating(struct dwc2_hsotg *hsotg, int rem_wak=
+eup);
+>   bool dwc2_host_can_poweroff_phy(struct dwc2_hsotg *dwc2);
+> +int dwc2_host_enter_poweroff(struct dwc2_hsotg *hsotg);
+> +int dwc2_host_exit_poweroff(struct dwc2_hsotg *hsotg);
+>   static inline void dwc2_host_schedule_phy_reset(struct dwc2_hsotg *hso=
+tg)
+>   { schedule_work(&hsotg->phy_reset_work); }
+>   #else
+> @@ -1544,6 +1557,10 @@ static inline void dwc2_host_exit_clock_gating(st=
+ruct dwc2_hsotg *hsotg,
+>   					       int rem_wakeup) {}
+>   static inline bool dwc2_host_can_poweroff_phy(struct dwc2_hsotg *dwc2)
+>   { return false; }
+> +static inline int dwc2_host_enter_poweroff(struct dwc2_hsotg *hsotg)
+> +{ return 0; }
+> +static inline int dwc2_host_exit_poweroff(struct dwc2_hsotg *hsotg)
+> +{ return 0; }
+>   static inline void dwc2_host_schedule_phy_reset(struct dwc2_hsotg *hso=
+tg) {}
+>
+>   #endif
+> diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+> index e7bf9cc635be..38f0112970fe 100644
+> --- a/drivers/usb/dwc2/gadget.c
+> +++ b/drivers/usb/dwc2/gadget.c
+> @@ -5710,3 +5710,52 @@ void dwc2_gadget_exit_clock_gating(struct dwc2_hs=
+otg *hsotg, int rem_wakeup)
+>   	hsotg->lx_state =3D DWC2_L0;
+>   	hsotg->bus_suspended =3D false;
+>   }
+> +
+> +int dwc2_gadget_enter_poweroff(struct dwc2_hsotg *hsotg)
+> +{
+> +	int ret;
+> +
+> +	dev_dbg(hsotg->dev, "Entering device power off.\n");
+> +
+> +	/* Backup all registers */
+> +	ret =3D dwc2_backup_global_registers(hsotg);
+> +	if (ret) {
+> +		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	ret =3D dwc2_backup_device_registers(hsotg);
+> +	if (ret) {
+> +		dev_err(hsotg->dev, "%s: failed to backup device registers\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(hsotg->dev, "Entering device power off completed.\n");
+> +	return 0;
+> +}
+> +
+> +int dwc2_gadget_exit_poweroff(struct dwc2_hsotg *hsotg)
+> +{
+> +	int ret;
+> +
+> +	dev_dbg(hsotg->dev, "Exiting device power off.\n");
+> +
+> +	ret =3D dwc2_restore_global_registers(hsotg);
+> +	if (ret) {
+> +		dev_err(hsotg->dev, "%s: failed to restore registers\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	ret =3D dwc2_restore_device_registers(hsotg, 0);
+> +	if (ret) {
+> +		dev_err(hsotg->dev, "%s: failed to restore device registers\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(hsotg->dev, "Exiting device power off completed.\n");
+> +	return 0;
+> +}
+> diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
+> index cb54390e7de4..22afdafb474e 100644
+> --- a/drivers/usb/dwc2/hcd.c
+> +++ b/drivers/usb/dwc2/hcd.c
+> @@ -5993,3 +5993,52 @@ void dwc2_host_exit_clock_gating(struct dwc2_hsot=
+g *hsotg, int rem_wakeup)
+>   			  jiffies + msecs_to_jiffies(71));
+>   	}
+>   }
+> +
+> +int dwc2_host_enter_poweroff(struct dwc2_hsotg *hsotg)
+> +{
+> +	int ret;
+> +
+> +	dev_dbg(hsotg->dev, "Entering host power off.\n");
+> +
+> +	/* Backup all registers */
+> +	ret =3D dwc2_backup_global_registers(hsotg);
+> +	if (ret) {
+> +		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	ret =3D dwc2_backup_host_registers(hsotg);
+> +	if (ret) {
+> +		dev_err(hsotg->dev, "%s: failed to backup host registers\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(hsotg->dev, "Entering host power off completed.\n");
+> +	return 0;
+> +}
+> +
+> +int dwc2_host_exit_poweroff(struct dwc2_hsotg *hsotg)
+> +{
+> +	int ret;
+> +
+> +	dev_dbg(hsotg->dev, "Exiting host power off.\n");
+> +
+> +	ret =3D dwc2_restore_global_registers(hsotg);
+> +	if (ret) {
+> +		dev_err(hsotg->dev, "%s: failed to restore registers\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	ret =3D dwc2_restore_host_registers(hsotg);
+> +	if (ret) {
+> +		dev_err(hsotg->dev, "%s: failed to restore host registers\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(hsotg->dev, "Exiting host power off completed.\n");
+> +	return 0;
+> +}
+> diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+> index 7b84416dfc2b..b97eefc18a6b 100644
+> --- a/drivers/usb/dwc2/platform.c
+> +++ b/drivers/usb/dwc2/platform.c
+> @@ -16,6 +16,7 @@
+>   #include <linux/platform_device.h>
+>   #include <linux/phy/phy.h>
+>   #include <linux/platform_data/s3c-hsotg.h>
+> +#include <linux/pm_domain.h>
+>   #include <linux/reset.h>
+>
+>   #include <linux/usb/of.h>
+> @@ -307,6 +308,8 @@ static void dwc2_driver_remove(struct platform_devic=
+e *dev)
+>   	struct dwc2_gregs_backup *gr;
+>   	int ret =3D 0;
+>
+> +	dev_pm_genpd_remove_notifier(&dev->dev);
+> +
+>   	gr =3D &hsotg->gr_backup;
+>
+>   	/* Exit Hibernation when driver is removed. */
+> @@ -421,6 +424,31 @@ int dwc2_check_core_version(struct dwc2_hsotg *hsot=
+g)
+>   	return 0;
+>   }
+>
+> +static int dwc2_power_notifier(struct notifier_block *nb,
+> +			       unsigned long action, void *data)
+> +{
+> +	struct dwc2_hsotg *hsotg =3D container_of(nb, struct dwc2_hsotg,
+> +						genpd_nb);
+> +	int ret;
+> +
+> +	switch (action) {
+> +	case GENPD_NOTIFY_ON:
+> +		ret =3D dwc2_exit_poweroff(hsotg);
+> +		if (ret)
+> +			dev_err(hsotg->dev, "exit poweroff failed\n");
+> +		break;
+> +	case GENPD_NOTIFY_PRE_OFF:
+> +		ret =3D dwc2_enter_poweroff(hsotg);
+> +		if (ret)
+> +			dev_err(hsotg->dev, "enter poweroff failed\n");
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return NOTIFY_OK;
+> +}
+> +
+>   /**
+>    * dwc2_driver_probe() - Called when the DWC_otg core is bound to the =
+DWC_otg
+>    * driver
+> @@ -620,6 +648,10 @@ static int dwc2_driver_probe(struct platform_device=
+ *dev)
+>   		}
+>   	}
+>   #endif /* CONFIG_USB_DWC2_PERIPHERAL || CONFIG_USB_DWC2_DUAL_ROLE */
+> +
+> +	hsotg->genpd_nb.notifier_call =3D dwc2_power_notifier;
+> +	dev_pm_genpd_add_notifier(&dev->dev, &hsotg->genpd_nb);
+> +
+>   	return 0;
+>
+>   #if IS_ENABLED(CONFIG_USB_DWC2_PERIPHERAL) || \
+> --
+> 2.34.1
+>
 
-Whoops! Not "return 0". "return dsi_ctx.accum_err".
-
-Aside from that, this looks really nice to me. The code is much more
-succinct and I bet much smaller.
-
-FWIW, I won't insist, but I wouldn't object to this patch also fixing
-the callers of jdi_fhd_r63452_on() and jdi_fhd_r63452_off() so that
-they no longer print error messages since the _multi functions are
-always chatty and thus they're just extra double-prints. If you do
-this, jdi_fhd_r63452_off() could actually be a function that returned
-"void". ...then you might want to add a comment saying why
-jdi_fhd_r63452_unprepare() doesn't pass on any errors. That would be
-something like "NOTE: even if sending one of the poweroff commands
-failed, we won't return an error here. While the panel won't have been
-cleanly turned off at least we've asserted the reset signal so it
-should be safe to power it back on again later". ...or something like
-that.
