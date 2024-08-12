@@ -2,65 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4CDD94E667
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 08:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A78C094E688
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 08:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16B0010E0DA;
-	Mon, 12 Aug 2024 06:10:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0904B10E0DE;
+	Mon, 12 Aug 2024 06:25:39 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AfSJ/p5K";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 633FE10E0DA;
- Mon, 12 Aug 2024 06:10:15 +0000 (UTC)
-X-UUID: 8713819c587111efa216b1d71e6e1362-20240812
-X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B,
- HR_CTT_MISS
- HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_DIGIT_LEN
- HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
- HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
- DN_TRUSTED, SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_TRUSTED
- SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
- CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_C_CI, GTI_FG_IT
- GTI_RG_INFO, GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI
- AMN_C_BU, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38, REQID:7c06cd3c-635a-4381-999a-a0fee1d26245, IP:5,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-5
-X-CID-INFO: VERSION:1.1.38, REQID:7c06cd3c-635a-4381-999a-a0fee1d26245, IP:5,
- URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:-5
-X-CID-META: VersionHash:82c5f88, CLOUDID:25e9bf6a66f7d4df0b3a813efb7a5a5e,
- BulkI
- D:240812141010FH96TZX4,BulkQuantity:0,Recheck:0,SF:17|19|45|66|38|25|102,T
- C:nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil
- ,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR, TF_CID_SPAM_FAS, TF_CID_SPAM_FSD,
- TF_CID_SPAM_FSI, TF_CID_SPAM_ULS
-X-UUID: 8713819c587111efa216b1d71e6e1362-20240812
-X-User: yaolu@kylinos.cn
-Received: from localhost.localdomain [(111.48.58.10)] by mailgw.kylinos.cn
- (envelope-from <yaolu@kylinos.cn>) (Generic MTA)
- with ESMTP id 433485791; Mon, 12 Aug 2024 14:10:09 +0800
-From: Lu Yao <yaolu@kylinos.cn>
-To: alexdeucher@gmail.com, ckoenig.leichtzumerken@gmail.com, daniel@ffwll.ch,
- jfalempe@redhat.com
-Cc: Xinhui.Pan@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- srinivasan.shanmugam@amd.com, sunil.khatri@amd.com, yaolu@kylinos.cn
-Subject: [PATCH v2] drm/amdgpu: add dce6 drm_panic support
-Date: Mon, 12 Aug 2024 14:09:14 +0800
-Message-Id: <20240812060914.102614-1-yaolu@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240802071752.116541-1-yaolu@kylinos.cn>
-References: <20240802071752.116541-1-yaolu@kylinos.cn>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A85A410E0DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 06:25:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A43CD60C03;
+ Mon, 12 Aug 2024 06:25:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5659C32782;
+ Mon, 12 Aug 2024 06:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723443936;
+ bh=YHSEiOS1N62k5+Um8mFVLXfCRMZAI0Qk2aVW3CqnsdQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AfSJ/p5K7eM8m4SvS93WUiORGBnBJTVscDjUTJeDKs38oVbgk07sufeJ0VdP3lrJ8
+ 4+Gnpqw60RIDDHe2+FJOol1svc893jE04NSDCjt3Jz2/HKUodsphCbD0oFqZvFO6Tb
+ ld2VvUoD+Neu29qVlLXvPP79x9QmFxESWZbroKyXPl2JQwceJ+/uqbSJbTuu6nzeak
+ 9duj9ISoTvbttYHrLZ/jsElkO89VWbWyHKF3mFm1FwIQEBDu9eSxnoRbTbPZzA3jAw
+ MJx9+SCD9oSZWxHmQUuNxqtRtpNg1eMMO/sPB0npi3jkQQx3GUjSRrn+uAerkSJJj7
+ RXAqQgrrmiNPA==
+Message-ID: <7a8b9bdf-f4df-4da0-83ca-157175817e99@kernel.org>
+Date: Mon, 12 Aug 2024 08:25:28 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: mtd: nuvoton,ma35d1-nand: add new
+ bindings
+To: Hui-Ping Chen <hpchen0nvt@gmail.com>, miquel.raynal@bootlin.com,
+ richard@nod.at, vigneshr@ti.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ esben@geanix.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240812030045.20831-1-hpchen0nvt@gmail.com>
+ <20240812030045.20831-2-hpchen0nvt@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <20240812030045.20831-2-hpchen0nvt@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,93 +109,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the drm_panic module, which displays a pretty user
-friendly message on the screen when a Linux kernel panic occurs.
+On 12/08/2024 05:00, Hui-Ping Chen wrote:
+> Add dt-bindings for the Nuvoton MA35 SoC NAND Controller.
+> 
+> Signed-off-by: Hui-Ping Chen <hpchen0nvt@gmail.com>
+> ---
+>  .../bindings/mtd/nuvoton,ma35d1-nand.yaml     | 97 +++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml b/Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml
+> new file mode 100644
+> index 000000000000..988c43bc6e99
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml
+> @@ -0,0 +1,97 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mtd/nuvoton,ma35d1-nand.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Nuvoton MA35D1 NAND Flash Interface (NFI) Controller
+> +
+> +allOf:
+> +  - $ref: nand-controller.yaml#
 
-Signed-off-by: Lu Yao <yaolu@kylinos.cn>
----
-Changes in v2: 
-1. Drop include "drm_internal.h"
-2. Add disabling DC tiling ops.
-Per suggestion from previous thread:
-https://patchwork.freedesktop.org/patch/606879/?series=136832&rev=1
----
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c | 48 +++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+allOf goes usually just before properties.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-index 05c0df97f01d..ba1b7a36caa3 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-@@ -28,6 +28,7 @@
- #include <drm/drm_modeset_helper.h>
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_vblank.h>
-+#include <drm/drm_panic.h>
- 
- #include "amdgpu.h"
- #include "amdgpu_pm.h"
-@@ -2600,6 +2601,52 @@ static const struct drm_crtc_helper_funcs dce_v6_0_crtc_helper_funcs = {
- 	.get_scanout_position = amdgpu_crtc_get_scanout_position,
- };
- 
-+static int dce_v6_0_drm_primary_plane_get_scanout_buffer(struct drm_plane *plane,
-+							 struct drm_scanout_buffer *sb)
-+{
-+	struct drm_framebuffer *fb;
-+	struct amdgpu_bo *abo;
-+	struct amdgpu_crtc *amdgpu_crtc;
-+	struct amdgpu_device *adev;
-+	uint32_t fb_format;
-+
-+	if (!plane->fb)
-+		return -EINVAL;
-+
-+	fb = plane->fb;
-+
-+	abo = gem_to_amdgpu_bo(fb->obj[0]);
-+	amdgpu_crtc = to_amdgpu_crtc(plane->crtc);
-+	adev = drm_to_adev(fb->dev);
-+
-+	if (!abo->kmap.virtual &&
-+	    ttm_bo_kmap(&abo->tbo, 0, PFN_UP(abo->tbo.base.size), &abo->kmap)) {
-+		DRM_WARN("amdgpu bo map failed, panic won't be displayed\n");
-+		return -ENOMEM;
-+	}
-+
-+	if (abo->kmap.bo_kmap_type & TTM_BO_MAP_IOMEM_MASK)
-+		iosys_map_set_vaddr_iomem(&sb->map[0], abo->kmap.virtual);
-+	else
-+		iosys_map_set_vaddr(&sb->map[0], abo->kmap.virtual);
-+
-+	sb->width = fb->width;
-+	sb->height = fb->height;
-+	sb->format = fb->format;
-+	sb->pitch[0] = fb->pitches[0];
-+
-+	/* Disable DC tiling */
-+	fb_format = RREG32(mmGRPH_CONTROL + amdgpu_crtc->crtc_offset);
-+	fb_format &= ~GRPH_ARRAY_MODE(0x7);
-+	WREG32(mmGRPH_CONTROL + amdgpu_crtc->crtc_offset, fb_format);
-+
-+	return 0;
-+}
-+
-+static const struct drm_plane_helper_funcs dce_v6_0_drm_primary_plane_helper_funcs = {
-+	.get_scanout_buffer = dce_v6_0_drm_primary_plane_get_scanout_buffer
-+};
-+
- static int dce_v6_0_crtc_init(struct amdgpu_device *adev, int index)
- {
- 	struct amdgpu_crtc *amdgpu_crtc;
-@@ -2627,6 +2674,7 @@ static int dce_v6_0_crtc_init(struct amdgpu_device *adev, int index)
- 	amdgpu_crtc->encoder = NULL;
- 	amdgpu_crtc->connector = NULL;
- 	drm_crtc_helper_add(&amdgpu_crtc->base, &dce_v6_0_crtc_helper_funcs);
-+	drm_plane_helper_add(amdgpu_crtc->base.primary, &dce_v6_0_drm_primary_plane_helper_funcs);
- 
- 	return 0;
- }
--- 
-2.25.1
+> +
+> +maintainers:
+> +  - Hui-Ping Chen <hpchen0nvt@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nuvoton,ma35d1-nand
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+
+This cannot be min only. It's unconstrained. maxItems instead. There is
+no existing code like this so this should make you wonder...
+
+> +
+> +patternProperties:
+> +  "^nand@[a-f0-9]$":
+> +    type: object
+> +    $ref: raw-nand-chip.yaml
+> +    properties:
+> +      nand-ecc-mode:
+> +        const: hw
+
+No, drop the property. It does not make sense to have it const.
+Compatible defines it.
+
+> +
+> +      nand-ecc-step-size:
+> +        enum: [512, 1024]
+
+No defaults? So is this required?
+
+> +
+> +      nand-ecc-strength:
+> +        enum: [8, 12, 24]
+
+No defaults? So is this required?
+
+> +
+> +      nand-bus-width:
+> +        const: 8
+
+Drop property.
+
+> +
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/nuvoton,ma35d1-clk.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        nand-controller@401A0000 {
+> +            compatible = "nuvoton,ma35d1-nand";
+> +            reg = <0x0 0x401A0000 0x0 0x1000>;
+> +            interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&clk NAND_GATE>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            nand@0 {
+> +                reg = <0>;
+> +
+> +                nand-on-flash-bbt;
+> +                nand-ecc-mode = "hw";
+
+Drop
+
+> +                nand-ecc-step-size = <512>;
+> +                nand-ecc-strength = <8>;
+> +                nand-bus-width = <8>;
+
+Drop
+
+> +
+> +                partitions {
+> +                    compatible = "fixed-partitions";
+> +                    #address-cells = <1>;
+> +                    #size-cells = <1>;
+> +
+> +                    uboot@0 {
+> +                        label = "nand-uboot";
+> +                        read-only;
+> +                        reg = <0x0 0x300000>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+
+Best regards,
+Krzysztof
 
