@@ -2,51 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905F694EF21
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 16:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA1D94EF5C
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 16:19:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7BB10E22F;
-	Mon, 12 Aug 2024 14:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 999D510E235;
+	Mon, 12 Aug 2024 14:19:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4ISe5BQ4";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UjqeCAFd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2051.outbound.protection.outlook.com [40.107.244.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0503D10E22F
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 14:06:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tSqOPCZ3Mnwd3Cu03spXhCEejewdHAvS/q699Q5eMxRLFuhReRGtFM2HZ/uBdY9rP/F/+hmagW1kwMErtkFdNB8uVtPMWOAioQ1Y845laMekX4nxQmjDPHtQQrPM8PmwheAMnSNzSDo+Wv0CeWaQHNOWhxafS7D8xrBI5PXZginCRf6EWRunTLCAxWdFNTD7CxbKpMahur/lqqia0t9ef6P8qoUVFMRoKAPvRdXx2hpEnBQoQTRGUotX1pN62c7qZxbn8hZ2wlibAZJI84ap7zVn8m2IQZkEMWkzwRGHUmLBJxpLUqCWRdUGRDsCkmNmoTwieRe2bQFRVlXD00IKxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NHDXotm5W7Y6GApY5YAS3hWIAM+2gpC0oPEDAsV9cY0=;
- b=i1RBT4R5LR3kSZ3MAzMnXPoyxSDRuP4+J0/4OYQIcT3v0pJkO54rnJiNY0InFFwiY+z7kMcYhht6zTsuczFQFTT75UNsBBCcB7+Z8JvDGgRetWfYp6AiEBHRflAMYvsRQ8bX3v9OV58zvokCuMkj9R3OTi/fef68j+vv8JwxtCu2iHEZwTxv+b+/O/1jlkf/VcpoxRRGxR5S0Q/lAdbqPTlctOu9z6UcNdXUdrK1VCLALeuTyN8bZgaONpUJOWNB8Y7S3uMlWjIrf82Uiu4uQESLunDxWttB4JRFtTY6eRc4sj/uUY/PyVFytABVata0I8O/VD6ESLIL+VNAwi5dig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NHDXotm5W7Y6GApY5YAS3hWIAM+2gpC0oPEDAsV9cY0=;
- b=4ISe5BQ4fcqceBKDJt/tHxESdwO6LwrTgPs+EUCxwhG977xJj0s7UQMj83nrHnGx/4eosyaSf4bOTqSvXCDGwKbELnxPT99fv2lk+v6ayMtLS1hCtYtn1UjVd5BNpoo/F911jFod/a1M+UOfpdrgX7ZmP9ox5afx2r1bcsgDdRU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SN7PR12MB6839.namprd12.prod.outlook.com (2603:10b6:806:265::21)
- by SA1PR12MB8741.namprd12.prod.outlook.com (2603:10b6:806:378::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Mon, 12 Aug
- 2024 14:06:23 +0000
-Received: from SN7PR12MB6839.namprd12.prod.outlook.com
- ([fe80::eaf3:6d41:3ac0:b5f4]) by SN7PR12MB6839.namprd12.prod.outlook.com
- ([fe80::eaf3:6d41:3ac0:b5f4%6]) with mapi id 15.20.7849.021; Mon, 12 Aug 2024
- 14:06:23 +0000
-Message-ID: <2a88d198-f3b6-4684-b528-4aaaa0340d46@amd.com>
-Date: Mon, 12 Aug 2024 10:06:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 853B410E233
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 14:19:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1723472348;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DsZ0n/uAaYy4BF0ruktYY8YrFP/mFKdzXlqcXk7zn70=;
+ b=UjqeCAFdpD4KspxR8fDZTk/VNggYthpZOkDaWGQGOK1He9hk6dbTK1u0E28/z10rsPR7yA
+ PzCiI6hMeJP3fZ4RLEhGE+bKXD93nEZ9jp+1e4BtkothLWxlC37mE0i3+CP9lUcHweEjNw
+ NOzFs4mKIhAaWhBGKCGrT1pkh1KFttk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-261-Med97TkGMtOpvjnQis3l3Q-1; Mon, 12 Aug 2024 10:19:05 -0400
+X-MC-Unique: Med97TkGMtOpvjnQis3l3Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-429097df54bso29783635e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 07:19:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723472344; x=1724077144;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DsZ0n/uAaYy4BF0ruktYY8YrFP/mFKdzXlqcXk7zn70=;
+ b=qUZiqaasfDhR0y9IoftJ/mJ0PGYhe8rO5N1nqQXLMe1QS/6T6RPVHui0CTqyVbBk2L
+ gmhS5d9rzTazn4ZoB/bfWnlf5F506+t5eOP8ii9gOWVw+0Jb3Q2hfjxHama+4LrCPhvU
+ B0XCasDtnHz6NSm0UXr6MmmqCOvHfqSeIwiM27cu286yhGFAG+sZfwci1A/zA/ylpWgo
+ N5Tpfx8WB7SIflZj5AZn7wJnRG6BOjSynLKEj9SbGSWJVS+nljWiui+rUY7fiQyrpMdL
+ u+SAelMu5PcfSrw+0zvKQPqDxfvDRLTdQDqKp4G+irvhxhEJ22Azc2Z2FIPbuEax0RF1
+ VWDQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVeihgG4Koi4kCdjuGcVVN6q2MMPW/IGdE8CBZg0EBMEz3adUvsWCgaFK33sBaSq1UZx+gtvvbM1cs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwJAMHk1AiL9JFkLOZvrPbWK7FpSW1miDEb37nb1/ha77OZB+U
+ HU85tIBvRogdNd/B8p9UvTuWJrMf1/PDmgS4LRsv5UU7to8hnChvf0tnTv6CAkRd6xgkbaPzzq0
+ ITn227ZL5iVQye3yGFIIMspmnPPo1OuFjn2TmR6sW8GMpFPfp2ArW/pDHgFiqbw99Ng==
+X-Received: by 2002:a05:600c:5489:b0:427:d8f7:b718 with SMTP id
+ 5b1f17b1804b1-429d488047fmr4483195e9.24.1723472343949; 
+ Mon, 12 Aug 2024 07:19:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFMYqABa//mMcdpuf59X1dzQmjPKUZRUSfrn2rTiz4JEfPCW7tnP/wiYu6/J9T05f0sM7ifPw==
+X-Received: by 2002:a05:600c:5489:b0:427:d8f7:b718 with SMTP id
+ 5b1f17b1804b1-429d488047fmr4483015e9.24.1723472343486; 
+ Mon, 12 Aug 2024 07:19:03 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4290c79f345sm187090885e9.39.2024.08.12.07.19.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Aug 2024 07:19:03 -0700 (PDT)
+Message-ID: <60e55a9d-70bb-45d1-ac97-e4f6f6ffa9a9@redhat.com>
+Date: Mon, 12 Aug 2024 16:19:01 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 2/4] drm/rect: Add drm_rect_overlap()
 To: Jani Nikula <jani.nikula@linux.intel.com>,
- Jocelyn Falempe <jfalempe@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -61,104 +84,13 @@ To: Jani Nikula <jani.nikula@linux.intel.com>,
  Danilo Krummrich <dakr@redhat.com>
 References: <20240812123147.81356-1-jfalempe@redhat.com>
  <20240812123147.81356-3-jfalempe@redhat.com> <87sev926na.fsf@intel.com>
-Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
 In-Reply-To: <87sev926na.fsf@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBP288CA0023.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c01:6a::19) To SN7PR12MB6839.namprd12.prod.outlook.com
- (2603:10b6:806:265::21)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB6839:EE_|SA1PR12MB8741:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33166872-c74a-4919-16bf-08dcbad7f2f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NjNXN09pTmlhTzliZ0FyNFBrNklJbU41RURPYWh5dmw1NHVyZGs5QmlwQXQ2?=
- =?utf-8?B?UmNQdld1c2ZZOWlRRnNvTlJFUXZsNk9qOVIyYkZ0ODFIc093S0RmUHlQSXcz?=
- =?utf-8?B?OE8rT3RGMEl2cFkzOXdkNTV0bUxBZEFhdWdXTnkweit4V05KTktpNEdCWXdI?=
- =?utf-8?B?RTZXcHRtVEI0U3R3L3E0cFdIR3JON05rY2ZYeEdDY0pVMUFxbWYxSnN2V0R1?=
- =?utf-8?B?K2Q0N2x2U2FiYWZiZVFBRTB0ejdDdjg5SFRscnhwOFVJaTV0T1VyVUhTV2RM?=
- =?utf-8?B?b2ZUdVdxRkxpMjZ6T0ZvSHlMTWp1WUtsSUIrSlk2M2RxRXh6SzVNRzdJZTA2?=
- =?utf-8?B?dTBxajhDZENCQ0lNWGlPaGFjd0ptbG1HaXpwdTlJTGxHaHFxZTFHcEV6SS9W?=
- =?utf-8?B?U2h1VUMyOFBLR2VpUG01MVd5UUpKUjNwTDNISDFYUzZHQXlUUkRrWGVVeUFK?=
- =?utf-8?B?SUhVUzJIekpmeTZ3QUMwTnYycUNCWXVUVXgxRE1Fc3ZYdmluZTB2M3JEODlu?=
- =?utf-8?B?ZUh3STlaV2RITHJXa3BINjBpYTVkb2hLUDJVMWV3dnhNNnBEN2NvbDdpLzJJ?=
- =?utf-8?B?T1N4dzUvNzVKQW9yeWRVR1E0STRzb1ZJYUZET2JlS1YvVVhncUJVbldyenY3?=
- =?utf-8?B?VUVteXhLQWdIT2x2emE3RWpxWjhwZTljNFNPSmRwaUpkaVBxUFlsdGRDOGJX?=
- =?utf-8?B?djdzK3dWU0F0LzZwdjRaYXI1enpFK0tPZnFTaUFGN3FtNlAvRGd4YXg4bnFK?=
- =?utf-8?B?NS94SWloOFNIank2RUdOR3ZxVFI0QTNLZy9RcHhyYmtoVjlyTzZJbVh3cjZ6?=
- =?utf-8?B?ZGYxbkhCOEFRQVkrTXpFZnRPTlMvNC8yWVZITmJXMlNqR0VteXhWK0ZxMFE1?=
- =?utf-8?B?U2EyR1dXUkRNZkpnS045Vk54QUxQN095Q0FSYkQ4QkxRUjhvOTV0UkVJSW5n?=
- =?utf-8?B?ODVWWkR0aEE3cHZlaFBJcUZSUEdvNUkwQzRZWkFSUE5nTnBlL2VFa1RkakV5?=
- =?utf-8?B?cmt3bHhCOFdCSXJzWWtreEtrS00rTWZtMFVSNElpNHh1RXJQc2ljNkpaYUh2?=
- =?utf-8?B?aEJ3TmczdDNXeEIyWkxFeDFqK3ZoNDdYT25MLzE2V2pGT1Mrd2NaSGhhMjFu?=
- =?utf-8?B?MlR4ODdCcGtuUm9BaEpYS3VzT2lPdUJwOHRLTG0rTGUza3E2VEtoK0VDNEhy?=
- =?utf-8?B?ckppbHBrYzRWcmpuMFp5TUZ6ZFk1TDJzcjNHeEE0QnNOOEorTFRWczBRc3FV?=
- =?utf-8?B?eFFiLzFTNWFYcUx1V1g0anUxQ3dPQ09mZE00cS9URmxqQzQ1cFJxQzg3b1Rs?=
- =?utf-8?B?Y0owdDZHZXUrbEhTNzhEeFI1N241YzV0NDREcXFSM0J3TEtQMTgzRVlVNUll?=
- =?utf-8?B?MDdYMEVOYW5SNjZtTHowUHByck8zNVQxR1NBaU9rMWJGMHdTUm5pU3N0bFVH?=
- =?utf-8?B?dEdhT0VROXViVy80eUFoMmdPeE9JaEZuQ3M2NDZwWjJJRlN4V3A3c3EwSDFY?=
- =?utf-8?B?ajUrWjdQNlNjaWVMV3hZVFc2YzF6bFJmNW9HeVBUdlhNb25SQm1Wclliclho?=
- =?utf-8?B?dzZlTWV3Rk9wVWNxQkxWb0hza21EckFtL3JXQVFNakU1SURDTmdsRGQ1a0l0?=
- =?utf-8?B?N2pZdC9vM2l1ejc1ZGxyRHd4T1RDTm1zOEIwQTVFaXN3ZmZCVTVNRk1zY3o2?=
- =?utf-8?B?TGU4MTM3Tmg2cUFQWWRUcnRUSTM2WU1vb2U0d05vTWd5My9UeVU4OHNzZ0t2?=
- =?utf-8?B?VzR1SHFydHFIREtPRGppMnBHbjZ3RVdLall2L0JubVBHaG14d1dPZDJDc0xD?=
- =?utf-8?B?M2xnWCtNUnUvK3lrbkRjN01uVEgwbkVvV0ZhcDJaWTlLb3pYZ3RLY3JYazB1?=
- =?utf-8?Q?QyrPXPZMyYPMW?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB6839.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WnRITTBsQVVoVnN2aHhJRDdRQzNKRTcvZmZUVmhQMTlrbWlxMytDeW1ZUStD?=
- =?utf-8?B?RjhTeHdmYXR1YzFwQnVKeTVPNWl4TUFqcDlQakdrTFpOU3VQQlY5bTFWZy9v?=
- =?utf-8?B?OTFzTHpDekQ0elAzc0VtR3g4YUozZS9DcFV1Uk1ibUJXWWlMTGFrNUVZcUVt?=
- =?utf-8?B?OXptWEduV0NPNUp1aFBFNm5ZMjQramVES0dIRU1mS1NnNHV3YTdnQmJuY3Z3?=
- =?utf-8?B?VWhxZVlhWW5XTzMxTHpxcnNJK1hsSGp5WWlWWG9hS21aLytmeEZWK05RcTZj?=
- =?utf-8?B?WUpONEdHYTh0Q3NiRFJVd2FsQlJBazJ4NWgrSTJHcm01cEZlb1RmVkpUbkN2?=
- =?utf-8?B?N3lvaUs2NXpIN0o1RjN0dmRGMXMxNldDSVAreUtjRkZvY3dveld6SjNnVGZv?=
- =?utf-8?B?M3BuQ21WUEZ1QnEyYzhsSEcwRWJwSWh3UzgxOHdOZlpqZTV2NWVTc1A4c3lU?=
- =?utf-8?B?TWd2cVA0Q29vNnBsU2V2M09LM0RjaWU0RmlSeENDMlVTdUpUVml2eXBReG1z?=
- =?utf-8?B?MHdGbGhNTk4rYVdpMWp1cGlOd1RTMkNyWkF5dUNZb0ltMTMzc3NXRExMb2tI?=
- =?utf-8?B?WlVvc1g4cHpEdm40ekNFSTZjcjVURExYVTlVckNvZTRsR3gxYnV3ZFFGbTFy?=
- =?utf-8?B?OFhWanFFUisyd1doV3JmYmpOakpiaG12eTNUaURrMXpmUVdnSW1nQXV0enhO?=
- =?utf-8?B?Tk9Pa1V4S0xDNU9UeGY5aUFaNmVSTFR3SUVPbzkxWmtPejhoLzZ4UXV2OFNG?=
- =?utf-8?B?ZFRoME9xY1hmZDlrWmtSYndyMmV4UmpTNU9HcHEzRHhmNVVzbXFrM0VXWERF?=
- =?utf-8?B?eTRTbDRYTnhrTDd3K0pEVGVLZ3lTenc1cEVhMnl1NmxiVE9KRUhaWUhTUko5?=
- =?utf-8?B?K1ZENklhREhkSnVCbW5vRjU2TTBWZGxYL0wvTUNYM25NUmpSZUxKbFc4ZVBJ?=
- =?utf-8?B?QnQzeWRDamtvSkVZZ3YwY3RRbjV6VFFrOTFpc2I2VUF1Z2huSXorQXpHUXNw?=
- =?utf-8?B?RWx5TlpSc2t5aVp3YnNqNm1vSVVETXVDNFE1dHpXWGJ6MFNSZnMwUzJnc2hN?=
- =?utf-8?B?eGFSYnV3MW10cFpqNFdtRzZwNm1uNGRMY1BYM0YyVUJkcG81Y3BvaXpSTnFv?=
- =?utf-8?B?TFBldktOY25kZVpJNGVZU0RkMUtuZDYzaGo5cjdvQ0o5YXlsZzRkY2I0d2Y3?=
- =?utf-8?B?RjZEeE1GSDVOTytXam5SUURxSEJ0TXJxeUpmWUF0V1F0dVpWTmY2NXRick54?=
- =?utf-8?B?Ty9kQi9VTlYzbTFWQ3lZMnU4eUFtdXNVa1pjYmFMbkVleTBRMG9zZDJBaDFB?=
- =?utf-8?B?ZTVFQjcxY3QzVnk0WDhYeXhidm5HWnl4aFU4a0VENUJSUEZIcjRVQVBDMzE1?=
- =?utf-8?B?UW1oOHFXQkFSaWY3bU9tZzI3eUF1bFNkL1BiRkFUZjZIS1NuVVVCNU9nbW9a?=
- =?utf-8?B?Yk5DU1ZkTnZQcnFrbkhhV3U5R3BqNkhTb0lOMUs0WWU3OHFyWkpIWS9mUi9u?=
- =?utf-8?B?SzgvWmRkMHk4MHQ1cCtHMGQyd0FZZ21wUVpTOHRJdXRJQUNSQ3RWMWg3YXNM?=
- =?utf-8?B?eXJOVkh2MzBjUGVVeFRUa0pERm5rZlh2d1lmai9QUEF0dm5KcWUwN2xkSm42?=
- =?utf-8?B?VysyaHN6SjZwdVJLNWJhRUdEQjcxbnJQd00yamFoM0YvU0o5TE5zYUxUdmRl?=
- =?utf-8?B?dFdEanZsSDN2V2k3S2E0eUljbXlFaFVVditlY2RKSlVFdDZkeHNMV0gzbVRX?=
- =?utf-8?B?Zkt4NVB2MDRkNFhGbkQ2MXlHcnlFelIxOEFFQk8rM29vY1Z2M1drUFZUZGRJ?=
- =?utf-8?B?S09EdFY2M2M0SVBBaEx2d2dNWmlRODArdG9semw4SmM0NnFXL2k0K1ZwbGVJ?=
- =?utf-8?B?dlRMaHU4N3RqS2pDRlBUOGNNV2lEaE9qN2ZOTVFmVmppemQrSXBFdDVoRUNR?=
- =?utf-8?B?MnhOYzNCNXlYUmdlVVJnaGh0WFdVMzVhUmFaQVVpOFQ5b3NiYTR2UjNOZTl1?=
- =?utf-8?B?ZVpzV2ZDUElHR0lRcHFydHVIUERJbFBETk5wMEdQSEFENGJlK3E1WXdENVQx?=
- =?utf-8?B?NVVwdFVPTi9LSU1WN2s1b3FrREI0UC95bXZLazhYWEg2NzdGaUNJVFMwSUFP?=
- =?utf-8?Q?is/8s6dqFkdwAedkVlR3zOIP+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33166872-c74a-4919-16bf-08dcbad7f2f0
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB6839.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 14:06:23.7477 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hk7dWjz3ZGVGVC7sIL91H5HTyZOGjkCrcftEKVlAx5tFuaYOoimIFQnLFyE+Qg4AIW2NqkwAqCLPHHOCDg7vlQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8741
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,7 +106,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/12/24 09:49, Jani Nikula wrote:
+
+
+On 12/08/2024 15:49, Jani Nikula wrote:
 > On Mon, 12 Aug 2024, Jocelyn Falempe <jfalempe@redhat.com> wrote:
 >> Check if two rectangles overlap.
 >> It's a bit similar to drm_rect_intersect() but this won't modify
@@ -184,6 +118,8 @@ On 8/12/24 09:49, Jani Nikula wrote:
 > Based on the name, I'd expect drm_rect_overlap() to return true for
 > *any* overlap, while this one seems to mean if one rectangle is
 > completely within another, with no adjacent borders.
+
+It's what I intended, but I may have messed up the formula.
 > 
 > I'd expect a drm_rect_overlap() to return true for this:
 > 
@@ -193,6 +129,19 @@ On 8/12/24 09:49, Jani Nikula wrote:
 >   +---+       |
 >       |       |
 >       +-------+
+
+if r1 is the top left rectangle, you've got:
+
+r1->x2 > r2->x1   => true
+r2->x2 > r1->x1   => true
+r1->y2 > r2->y1   => true
+r2->y2 > r1->y1   => true
+
+So they count as overlap.
+
+Checking in stackoverflow, they use the same formula:
+https://stackoverflow.com/questions/306316/determine-if-two-rectangles-overlap-each-other
+
 > 
 > While this seems to be required instead:
 > 
@@ -204,9 +153,6 @@ On 8/12/24 09:49, Jani Nikula wrote:
 > 
 > 
 > IOW, I find the name misleading.
-
-Ya, maybe drm_rect_encloses() would be a better fit.
-
 > 
 > BR,
 > Jani.
@@ -248,11 +194,6 @@ Ya, maybe drm_rect_encloses() would be a better fit.
 >> + *
 >> + * RETURNS:
 >> + * %true if the rectangles overlap, %false otherwise.
-
-If you do end up going with that name, the returns doc ought to be:
-
-%true if @r2 is completely enclosed in @r1, %false otherwise.
-
 >> + */
 >> +static inline bool drm_rect_overlap(const struct drm_rect *r1,
 >> +				    const struct drm_rect *r2)
@@ -265,6 +206,4 @@ If you do end up going with that name, the returns doc ought to be:
 >>   bool drm_rect_clip_scaled(struct drm_rect *src, struct drm_rect *dst,
 >>   			  const struct drm_rect *clip);
 > 
--- 
-Hamza
 
