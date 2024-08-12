@@ -2,84 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78CDC94F62B
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 19:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B144794F65D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 20:12:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC4C110E25F;
-	Mon, 12 Aug 2024 17:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0903B10E269;
+	Mon, 12 Aug 2024 18:12:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G9pSXQbI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NL03yOS7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A41010E25F
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 17:57:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 73225CE0FC4;
- Mon, 12 Aug 2024 17:57:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E1DC32782;
- Mon, 12 Aug 2024 17:57:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723485455;
- bh=PjEd0BdogsUTaZfCUMRZ31Ra4P2TNDube5tSGJ9f9sw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=G9pSXQbIwNKKdmOVG04ccy/1dIHLraWQ0G+g5z/MctkmVUUUXo81tnVQfF1RR+c1J
- Cvxt8qGSPA8JqYgFK4Wsisbb0RFx5KEJ2r00aZDsq7jtURbAetSPgcZbzv7tLhq3In
- X8cW65UhPResK30p4YVjVef/gIBciCKXIICBbwOv+MOkXOxEPR0kGDviaLOmGrQHjv
- 1kVsTsVsho3L4Id+uxmWhHD1b/Ou3noRjVmbmLBl93blSGZxY3SAluidKUwiBL8YOv
- TqI1IrR/S8Qznu2rcbJ2YiWkSSF8CbSPSyNf8gpJaBr19k4+X1N8VCNVUteNnwEgHU
- 0shtOIic2eEhw==
-Date: Mon, 12 Aug 2024 10:57:32 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
- Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
- Klassert <steffen.klassert@secunet.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
- Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240812105732.5d2845e4@kernel.org>
-In-Reply-To: <48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-8-almasrymina@google.com>
- <20240806135924.5bb65ec7@kernel.org>
- <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
- <20240808192410.37a49724@kernel.org>
- <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
- <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
- <20240809205236.77c959b0@kernel.org>
- <CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
- <48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE8810E269;
+ Mon, 12 Aug 2024 18:12:26 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2ef2cb7d562so47003711fa.3; 
+ Mon, 12 Aug 2024 11:12:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1723486344; x=1724091144; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JESqKurG83p1EuSlHKY8UFmjpYQDpGQfUya4uolhwfQ=;
+ b=NL03yOS7yRFUqXP+adulLtFNYWgI19vGfv2vaCYa5RmumhjtQhHKa3nDpux1NpwV8c
+ 39F42kFU2rJzU24lY6MPNDH629Su3084lESjmP8Py1qp0vDynp65/d31NskUIAHx82Dz
+ AeG96Rsm/CW6POQICkq5UN8OaQlTVL7ghZpG04HIE0w0/hrDNOE7yKjGC4FasXN7sRJN
+ j7UsIEXor9vxwi++rAg61RBwVcc9lDfmih14cXpe+Rj6AXCKJiFXVLP5gjdSp6pm/Jt1
+ uOOvwYWt6jrYzPuBS4aZNwMfmW+fqBXf8uz2o1zy/Uq6ZbFeN6gFnNe+5ht8wNukb4er
+ b5aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723486344; x=1724091144;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JESqKurG83p1EuSlHKY8UFmjpYQDpGQfUya4uolhwfQ=;
+ b=PtFhAgsB4FkzMi/NYyqJjD4pLLv4nBeC4BcVFNy7ijxGnSpZpgGhBJLt67kXihnMsd
+ bxMjpEeTCDauvSk9INtchwNf613WT78KP3TVn9GYwdsz9UEFq+0f7QsxZNC+zam/qxFt
+ lrgz88QIqo0OcXkbS6WpBYugeuatG5zLjRMEWt52vbFSPQycRw7xOEbLEnJoAB5ql+QI
+ S7im+0/ZdhmYlmY1iGLpDsAIMuyKm90rX15HVN9rSTmF7NDo6u4FygKDqB8gg17lAGNF
+ uvtukvsaLCUHEyk9tiepE8xG8B0piihIoFF1UT0blA3UUDyfjPRLShI/WYi0hJR5w3JV
+ XUmA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2CHRSbt9PxeQtHsTIldK9m3cc9C51hduflkqzp4hYl+bStMJvY4tiiqdPLcnu5mNofnR5tIgiPQOMy9jSJTlJd0bGP+A61Deyittq6yiI
+X-Gm-Message-State: AOJu0YwSilYNhP1dR55xTkG6a1pZI/uciwL8UAzeTY/69ueNM2MutrtZ
+ 2/0pA1m6iXeoWAlHZRwbbzcuQRgoKdU4U1+DiJ1eExOZwu8pkoBXTj6I9bd13GZPvUgcm9eFjbb
+ 9wur58LA1k2cTEYZWiB7EaZB3rY4=
+X-Google-Smtp-Source: AGHT+IEaHHcoOSUhdthn7Ei/aIhCd/rHZDID8QRpi2Tn0d4rm/4HfwxhjeF8CwHo3ka3eJcTptWvYVO30ASr34N00/0=
+X-Received: by 2002:a05:651c:154a:b0:2ef:2bdd:229 with SMTP id
+ 38308e7fff4ca-2f2b71569b4mr8650781fa.25.1723486343836; Mon, 12 Aug 2024
+ 11:12:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240808235227.2701479-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <20240808235227.2701479-1-quic_abhinavk@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 12 Aug 2024 11:12:11 -0700
+Message-ID: <CAF6AEGvMRa4-33QZ2j7DE42exnmbh=XtyTiNsxMY4HVW4T5kVg@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: fix the highest_bank_bit for sc7180
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ quic_jesszhan@quicinc.com, swboyd@chromium.org, dianders@chromium.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,67 +84,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 11 Aug 2024 22:51:13 +0100 Pavel Begunkov wrote:
-> > I think we're talking about 2 slightly different flags, AFAIU.>
-> > Pavel and I are suggesting the driver reports "I support memory
-> > providers" directly to core (via the queue-api or what not), and we
-> > check that flag directly in netdev_rx_queue_restart(), and fail
-> > immediately if the support is not there.  
-> 
-> I might've misread Jakub, but yes, I believe it's different. It'd
-> communicate about support for providers to upper layers, so we can
-> fail even before attempting to allocate a new queue and init a
-> page pool.
+On Thu, Aug 8, 2024 at 4:52=E2=80=AFPM Abhinav Kumar <quic_abhinavk@quicinc=
+.com> wrote:
+>
+> sc7180 programs the ubwc settings as 0x1e as that would mean a
+> highest bank bit of 14 which matches what the GPU sets as well.
+>
+> However, the highest_bank_bit field of the msm_mdss_data which is
+> being used to program the SSPP's fetch configuration is programmed
+> to a highest bank bit of 16 as 0x3 translates to 16 and not 14.
+>
+> Fix the highest bank bit field used for the SSPP to match the mdss
+> and gpu settings.
+>
+> Fixes: 6f410b246209 ("drm/msm/mdss: populate missing data")
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Got it. Since allocating memory happens before stopping traffic
-I think it's acceptable to stick to a single flag.
+Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-> > Jakub is suggesting a page_pool_params flag which lets the driver
-> > report "I support memory providers". If the driver doesn't support it
-> > but core is trying to configure that, then the page_pool_create will
-> > fail, which will cause the queue API operation
-> > (ndo_queue_alloc_mem_alloc) to fail, which causes
-> > netdev_rx_queue_restart() to fail.  
-> 
-> And I'm not against this way either if we explicitly get an error
-> back instead of trying to figure it out post-factum like by
-> checking the references and possibly reverting the allocation.
-> Maybe that's where I was confused, and that refcount thing was
-> suggested as a WARN_ONCE?
-
-Yup, the refcount (now: check of the page pool list) was meant
-as a WARN_ONCE() to catch bad drivers.
-
-> FWIW, I think it warrants two flags. The first saying that the
-> driver supports providers at all:
-> 
-> page_pool_init() {
-> 	if (rxq->mp_params)
-> 		if (!(flags & PP_PROVIDERS_SUPPORTED))
-> 			goto fail;
-> }
-> 
-> And the second telling whether the driver wants to install
-> providers for this particular page pool, so if there is a
-> separate pool for headers we can set it with plain old kernel
-> pages.
-
-The implementation of the queue API should be resilient against
-failures in alloc, and not being MP capable is just a form of 
-alloc failure. I don't see the upside of double-flag. 
-
-> payload_pool = page_pool_create(rqx, PP_PROVIDERS_SUPPORTED);
-> header_pool = page_pool_create(rqx, PP_PROVIDERS_SUPPORTED |
->                                      PP_IGNORE_PROVIDERS);
-
-Also don't see the upside of the explicit "non-capable" flag,
-but I haven't thought of that. Is there any use?
-
-One important note. The flag should not be tied to memory providers
-but rather to netmem, IOW unreadable memory. MP is an internal detail,
-the important fact from the driver-facing API perspective is that the
-driver doesn't need struct pages.
-
-> (or invert the flag). That's assuming page_pool_params::queue is
-> a generic thing and we don't want to draw equivalence between
-> it and memory providers.
+> ---
+>  drivers/gpu/drm/msm/msm_mdss.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mds=
+s.c
+> index d90b9471ba6f..faa88fd6eb4d 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -577,7 +577,7 @@ static const struct msm_mdss_data sc7180_data =3D {
+>         .ubwc_enc_version =3D UBWC_2_0,
+>         .ubwc_dec_version =3D UBWC_2_0,
+>         .ubwc_static =3D 0x1e,
+> -       .highest_bank_bit =3D 0x3,
+> +       .highest_bank_bit =3D 0x1,
+>         .reg_bus_bw =3D 76800,
+>  };
+>
+> --
+> 2.44.0
+>
