@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7579594EC20
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 13:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F7D94EC45
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 14:02:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58FEE10E1B9;
-	Mon, 12 Aug 2024 11:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F102210E1C1;
+	Mon, 12 Aug 2024 12:02:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Is+FAHHa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QPuY86sN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C89610E1B8;
- Mon, 12 Aug 2024 11:51:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723463497; x=1754999497;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=JetQAQaJ1I2wNDx3JjQUs3ufydTjZfd8naKWltBwWfQ=;
- b=Is+FAHHa/Pi8lDK2ZSRrBHgf5hke1sXNkVWHoSjjBOSC19xem3zdz9gE
- G6L2aKULYx9Rf1tESBFdPTLH3q2KB/ISNrbBwP+OLav0WjE4dPTaIVuvU
- WfZnQtE5+ohvkpjyRFWK3szGTQevhb1qUUDMmm8paF6f3Y3nNdRxRNzkU
- 3gfG5+LSODi3yhschsT1gGLcp+7IpNjHsBR2YjlIQYNRbe5NkSx+GR+K9
- 0NdAiW2DR6ZC+qPWJobm5IOAtdhKxM13iKHwrrZcFPUgq5ntsVKLV2nub
- 1b7K7VBbMHdmdo2Q4IFN55vpFoCWoPOubep88VkYlarwoLTgZ80o4GoJ7 g==;
-X-CSE-ConnectionGUID: uReeGXhASzu/+mDyiFuXTA==
-X-CSE-MsgGUID: 2YnJ40drSe6pPk9Q9anw+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="32244076"
-X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="32244076"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2024 04:51:37 -0700
-X-CSE-ConnectionGUID: dwpWabwJS6WiECsZ7FX91g==
-X-CSE-MsgGUID: 13NNfiI2Q+G+3x6vih0jWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="63088883"
-Received: from iklimasz-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.149])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2024 04:51:35 -0700
-Date: Mon, 12 Aug 2024 13:51:30 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH 0/2] Allow partial memory mapping for cpu memory
-Message-ID: <Zrn3QqOvOEW2EYB0@ashyti-mobl2.lan>
-References: <20240807100521.478266-1-andi.shyti@linux.intel.com>
- <ZrXZEpplb6YA9T_d@phenom.ffwll.local>
- <ZrXtiBKyCCh0a_ym@ashyti-mobl2.lan>
- <ZrnRuRGjxHe5zxuf@phenom.ffwll.local>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0003B10E1C0;
+ Mon, 12 Aug 2024 12:02:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 42A1761196;
+ Mon, 12 Aug 2024 12:02:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 598B2C32782;
+ Mon, 12 Aug 2024 12:02:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723464159;
+ bh=Z+VpxmtJ6Ay2K7lgWzWOGcfgRQEq44k3n4aLrp2yIu8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QPuY86sNRAcKCSRCmGm0nFXD9Mo/pc1JPZO3SFUQze+oH1on3povG4IErk86G/1C8
+ VzkbYMy+7thPmNkt2UQegAfazOl1Y5n0c4sOqJIXq0LMoH9IGcKTELBCoxLGS/8tIX
+ qIx+j79L8349uzbCcHLSSsbz2zmuLsl8bh/eM7plxfiltpitcXphyWXZGomx+zNeyL
+ Q23DmyWmuqQD97HLs6AiHwhUWs/+uIJsU7Q57Jz0QYXbA1KIA7Eniui8Akh6mm/otT
+ nGggfhx1+xzGW94LA7/DghQu2xJCjb51+HyNJeP944uaWmYr/JTxVw6H+K2ug3WT8p
+ V3UfjOptVkWHg==
+Message-ID: <4e6f3c7b-d296-4985-81cd-4caaba5c04eb@kernel.org>
+Date: Mon, 12 Aug 2024 14:02:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZrnRuRGjxHe5zxuf@phenom.ffwll.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/9] drm/nouveau: Do not set struct drm_driver.lastclose
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, alexander.deucher@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, kherbst@redhat.com,
+ lyude@redhat.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+References: <20240812083000.337744-1-tzimmermann@suse.de>
+ <20240812083000.337744-4-tzimmermann@suse.de>
+Content-Language: en-US
+From: Danilo Krummrich <dakr@kernel.org>
+In-Reply-To: <20240812083000.337744-4-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,49 +63,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-On Mon, Aug 12, 2024 at 11:11:21AM +0200, Daniel Vetter wrote:
-> On Fri, Aug 09, 2024 at 11:20:56AM +0100, Andi Shyti wrote:
-> > On Fri, Aug 09, 2024 at 10:53:38AM +0200, Daniel Vetter wrote:
-> > > On Wed, Aug 07, 2024 at 11:05:19AM +0100, Andi Shyti wrote:
-> > > > This patch series concludes on the memory mapping fixes and
-> > > > improvements by allowing partial memory mapping for the cpu
-> > > > memory as well.
-> > > > 
-> > > > The partial memory mapping by adding an object offset was
-> > > > implicitely included in commit 8bdd9ef7e9b1 ("drm/i915/gem: Fix
-> > > > Virtual Memory mapping boundaries calculation") for the gtt
-> > > > memory.
-> > > 
-> > > Does userspace actually care? Do we have a flag or something, so that
-> > > userspace can discover this?
-> > > 
-> > > Adding complexity of any kind is absolute no-go, unless there's a
-> > > userspace need. This also includes the gtt accidental fix.
-> > 
-> > Actually this missing functionality was initially filed as a bug
-> > by mesa folks. So that this patch was requested by them (Lionel
-> > is Cc'ed).
-> > 
-> > The tests cases that have been sent previously and I'm going to
-> > send again, are directly taken from mesa use cases.
+On 8/12/24 10:28 AM, Thomas Zimmermann wrote:
+> Remove the implementation of struct drm_driver.lastclose. The hook
+> was only necessary before in-kernel DRM clients existed, but is now
+> obsolete. The code in nouveau_vga_lastclose() is performed by
+> drm_lastclose().
 > 
-> Please add the relevant mesa MR to this patch then, and some relevant
-> explanations for how userspace detects this all and decides to use it.
+> v2:
+> - update commit description
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-AFAIK, there is no Mesa MR. We are adding a feature that was
-missing, but Mesa already supported it (indeed, Nimroy suggested
-adding the Fixes tag for this).
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-Also because, Mesa was receiving an invalid address error and
-asked to support the partial mapping of the memory.
-
-> Also, does xe also support this? If we only add this to i915-gem but xe
-> doesn't have it, it doesn't make much sense imo.
-
-I don't know about. Lionel, Do you have anything to add here from
-your side?
-
-Thanks,
-Andi
+> ---
+>   drivers/gpu/drm/nouveau/nouveau_drm.c | 1 -
+>   drivers/gpu/drm/nouveau/nouveau_vga.c | 7 -------
+>   drivers/gpu/drm/nouveau/nouveau_vga.h | 1 -
+>   3 files changed, 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> index ac7c60fb14d3..4a9a9b9c3935 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> @@ -1303,7 +1303,6 @@ driver_stub = {
+>   			   DRIVER_RENDER,
+>   	.open = nouveau_drm_open,
+>   	.postclose = nouveau_drm_postclose,
+> -	.lastclose = nouveau_vga_lastclose,
+>   
+>   #if defined(CONFIG_DEBUG_FS)
+>   	.debugfs_init = nouveau_drm_debugfs_init,
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/nouveau/nouveau_vga.c
+> index 2525e08938b3..ee637f1fe03d 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_vga.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
+> @@ -127,10 +127,3 @@ nouveau_vga_fini(struct nouveau_drm *drm)
+>   	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
+>   		vga_switcheroo_fini_domain_pm_ops(drm->dev->dev);
+>   }
+> -
+> -
+> -void
+> -nouveau_vga_lastclose(struct drm_device *dev)
+> -{
+> -	vga_switcheroo_process_delayed_switch();
+> -}
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.h b/drivers/gpu/drm/nouveau/nouveau_vga.h
+> index 951a83f984dd..63be415d2a44 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_vga.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_vga.h
+> @@ -4,6 +4,5 @@
+>   
+>   void nouveau_vga_init(struct nouveau_drm *);
+>   void nouveau_vga_fini(struct nouveau_drm *);
+> -void nouveau_vga_lastclose(struct drm_device *dev);
+>   
+>   #endif
