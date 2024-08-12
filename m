@@ -2,136 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0287394E7CA
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 09:30:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B24694E7B8
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 09:26:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA8FB10E12D;
-	Mon, 12 Aug 2024 07:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D472110E120;
+	Mon, 12 Aug 2024 07:26:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ekhPfcBa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v74hFElO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ekhPfcBa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v74hFElO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GpekP4H2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE42610E12D
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 07:30:02 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8B55C2022C;
- Mon, 12 Aug 2024 07:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723447801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=85ZTHYXISTff7ib7JZXld7Nng4tieLpucbbA0ZLZL94=;
- b=ekhPfcBaxPWSReJ33Gxp+IVhiLM/qLhAfJ6pSYqm8odoIirVPX7F9g5V7TWu2UW4nyLarX
- zj5d3Q+YGV6emqxHZ0D+kLm4MSlU42pN+deLgzLrh82E8hnOjeA1x29/qAToiZ+drZo5/e
- d1zh/1dUZ9vSTklf2LQwg1Z1HCe0N2M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723447801;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=85ZTHYXISTff7ib7JZXld7Nng4tieLpucbbA0ZLZL94=;
- b=v74hFElOy4xWD2bdpkBxti5pnVYYaD/NCQr2I8bIRgP/vMhZJ/jD82Vh8pOk4cIcLrCyON
- l7enAaJqUYO6lkDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723447801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=85ZTHYXISTff7ib7JZXld7Nng4tieLpucbbA0ZLZL94=;
- b=ekhPfcBaxPWSReJ33Gxp+IVhiLM/qLhAfJ6pSYqm8odoIirVPX7F9g5V7TWu2UW4nyLarX
- zj5d3Q+YGV6emqxHZ0D+kLm4MSlU42pN+deLgzLrh82E8hnOjeA1x29/qAToiZ+drZo5/e
- d1zh/1dUZ9vSTklf2LQwg1Z1HCe0N2M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723447801;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=85ZTHYXISTff7ib7JZXld7Nng4tieLpucbbA0ZLZL94=;
- b=v74hFElOy4xWD2bdpkBxti5pnVYYaD/NCQr2I8bIRgP/vMhZJ/jD82Vh8pOk4cIcLrCyON
- l7enAaJqUYO6lkDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 370A3137BA;
- Mon, 12 Aug 2024 07:30:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Z2wvDPm5uWZpDgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 12 Aug 2024 07:30:01 +0000
-Message-ID: <2af277bf-f07d-421b-8ffd-25c9761e3eed@suse.de>
-Date: Mon, 12 Aug 2024 09:30:00 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6206310E11F;
+ Mon, 12 Aug 2024 07:26:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723447560; x=1754983560;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PKjLln4YynOjFq4w0I0KITeUxBuF8s+Crdydn3fvZC8=;
+ b=GpekP4H25ssw85Fj70750T55OoPqRognOBriqzS/U3fMB7gKrngaiz7e
+ 2XBIL0FiQ2/dEcx7gxtPbtivtXebc3Ex13b8S9ehI5HJWzTc7fAL0LG4Y
+ 4F21IdtYGrgWX8e4cb7rbkn3ZfAkIg/REiyOVXeh/NXwdT2lBgSWI+4+D
+ d73aOB31GTIOKKhGeJW9APF4NAT16S9i8gj+RTj/Ywp7+vjUUH3eM5yKA
+ 3Bu5lNdbNdRL/tACGIaocZbbdExz+uTQttytDHZY0kuycKfRrI5AdWagN
+ NeuvTXgF1F+Q743AThX8WOvhcbb8iTupD1O55lOhIaDiXFwnpL4TfhFiV A==;
+X-CSE-ConnectionGUID: tmiIvcEGTeCgehSSZSKq2w==
+X-CSE-MsgGUID: lbvzUHVFSu23Qt8YFuHmVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="32217977"
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="32217977"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2024 00:26:00 -0700
+X-CSE-ConnectionGUID: D4My7cpjRQ+VmX616SfuEg==
+X-CSE-MsgGUID: x6/8LsjwQBOk5u7eZCpalQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; d="scan'208";a="81412823"
+Received: from jraag-nuc8i7beh.iind.intel.com ([10.145.169.79])
+ by fmviesa002.fm.intel.com with ESMTP; 12 Aug 2024 00:25:56 -0700
+From: Raag Jadav <raag.jadav@intel.com>
+To: lucas.demarchi@intel.com,
+	thomas.hellstrom@linux.intel.com
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, francois.dugast@intel.com,
+ rodrigo.vivi@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, Raag Jadav <raag.jadav@intel.com>
+Subject: [PATCH v2] drm/xe/uapi: Bring back reset uevent
+Date: Mon, 12 Aug 2024 13:18:12 +0530
+Message-Id: <20240812074812.1457164-1-raag.jadav@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/ast: astdp: fix loop timeout check
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Dave Airlie <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Jani Nikula <jani.nikula@linux.intel.com>
-References: <9dbd4d2c-0757-4d5f-aa11-7d9e665e7633@stanley.mountain>
- <8c1ad0a1-bbc5-4274-bdf5-fcf2e043a869@suse.de>
- <10624c71-d134-441f-a7e6-d757b60f54f8@stanley.mountain>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <10624c71-d134-441f-a7e6-d757b60f54f8@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.29
-X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,79 +68,254 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 
-Am 12.08.24 um 08:54 schrieb Dan Carpenter:
-> On Mon, Aug 12, 2024 at 08:48:16AM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 12.08.24 um 08:42 schrieb Dan Carpenter:
->>> This code has an issue because it loops until "i" is set to UINT_MAX but
->>> the test for failure assumes that "i" is set to zero.  The result is that
->>> it will only print an error message if we succeed on the very last try.
->>> Reformat the loop to count forwards instead of backwards.
->>>
->>> Fixes: 2281475168d2 ("drm/ast: astdp: Perform link training during atomic_enable")
->>> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
->>> ---
->>> v2: In version one, I introduced a bug where it would msleep(100) after failure
->>>       and that is a pointless thing to do.  Also change the loop to a for loop.
->>> ---
->>>    drivers/gpu/drm/ast/ast_dp.c | 12 +++++-------
->>>    1 file changed, 5 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
->>> index 5d07678b502c..9bc21dd6a54d 100644
->>> --- a/drivers/gpu/drm/ast/ast_dp.c
->>> +++ b/drivers/gpu/drm/ast/ast_dp.c
->>> @@ -146,18 +146,16 @@ void ast_dp_power_on_off(struct drm_device *dev, bool on)
->>>    void ast_dp_link_training(struct ast_device *ast)
->>>    {
->>>    	struct drm_device *dev = &ast->base;
->>> -	unsigned int i = 10;
->>> +	int i;
->>> -	while (i--) {
->>> +	for (i = 0; i < 10; i++) {
->>>    		u8 vgacrdc = ast_get_index_reg(ast, AST_IO_VGACRI, 0xdc);
->>>    		if (vgacrdc & AST_IO_VGACRDC_LINK_SUCCESS)
->>> -			break;
->>> -		if (i)
->>> -			msleep(100);
->>> +			return;
->>> +		msleep(100);
->> But we don't want to wait during the final iteration of this loop. If you
->> want to use the for loop, it should be something like
->>
->> for (i= 0; i < 10; ++i) {
->>
->>      if (i)
->>        msleep(100)
->>
->>      // now test vgacrdc
->> }
->>
->> Best regards
->> Thomas
-> I feel like if we really hit this failure path then we won't care about the
-> tenth msleep().  I can resend if you want, but I'd prefer to just leave it.
+This was dropped in commit 77a0d4d1cea2 ("drm/xe/uapi: Remove reset
+uevent for now") as part of refactoring.
 
-Please resend. Even if the link training ultimately fails, the rest of 
-DRM keeps running. 100 msec is not so short to shrug it off IMHO.
+Now that we have better uapi semantics and naming for the uevent,
+bring it back. With this in place, userspace will be notified of
+wedged device along with its reason.
 
-Best regards
-Thomas
+$ udevadm monitor --property --kernel
+monitor will print the received events for:
+KERNEL - the kernel uevent
 
->
-> regards,
-> dan carpenter
->
+KERNEL[871.188570] change   /devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0 (pci)
+ACTION=change
+DEVPATH=/devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0
+SUBSYSTEM=pci
+DEVICE_STATUS=NEEDS_RESET
+REASON=GT_RESET_FAILED
+TILE_ID=0
+GT_ID=0
+DRIVER=xe
+PCI_CLASS=30000
+PCI_ID=8086:56B1
+PCI_SUBSYS_ID=8086:1210
+PCI_SLOT_NAME=0000:03:00.0
+MODALIAS=pci:v00008086d000056B1sv00008086sd00001210bc03sc00i00
+SEQNUM=6104
 
+v2: Change authorship to Himal (Aravind)
+    Add uevent for all device wedged cases (Aravind)
+
+Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+---
+ drivers/gpu/drm/xe/xe_device.c     | 10 +++++++++-
+ drivers/gpu/drm/xe/xe_device.h     |  2 +-
+ drivers/gpu/drm/xe/xe_gt.c         | 23 +++++++++++++++++++----
+ drivers/gpu/drm/xe/xe_guc.c        | 13 ++++++++++++-
+ drivers/gpu/drm/xe/xe_guc_submit.c | 13 ++++++++++++-
+ include/uapi/drm/xe_drm.h          | 29 +++++++++++++++++++++++++++++
+ 6 files changed, 82 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index 1aba6f9eaa19..d975bdce4a7d 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -955,6 +955,7 @@ static void xe_device_wedged_fini(struct drm_device *drm, void *arg)
+ /**
+  * xe_device_declare_wedged - Declare device wedged
+  * @xe: xe device instance
++ * @event_params: parameters to be sent along with uevent
+  *
+  * This is a final state that can only be cleared with a mudule
+  * re-probe (unbind + bind).
+@@ -965,8 +966,10 @@ static void xe_device_wedged_fini(struct drm_device *drm, void *arg)
+  * on every single execution timeout (a.k.a. GPU hang) right after devcoredump
+  * snapshot capture. In this mode, GT reset won't be attempted so the state of
+  * the issue is preserved for further debugging.
++ * Caller is expected to pass respective parameters to be sent along with
++ * uevent. Pass NULL in case of no params.
+  */
+-void xe_device_declare_wedged(struct xe_device *xe)
++void xe_device_declare_wedged(struct xe_device *xe, char **event_params)
+ {
+ 	struct xe_gt *gt;
+ 	u8 id;
+@@ -984,12 +987,17 @@ void xe_device_declare_wedged(struct xe_device *xe)
+ 	xe_pm_runtime_get_noresume(xe);
+ 
+ 	if (!atomic_xchg(&xe->wedged.flag, 1)) {
++		struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
++
+ 		xe->needs_flr_on_fini = true;
+ 		drm_err(&xe->drm,
+ 			"CRITICAL: Xe has declared device %s as wedged.\n"
+ 			"IOCTLs and executions are blocked. Only a rebind may clear the failure\n"
+ 			"Please file a _new_ bug report at https://gitlab.freedesktop.org/drm/xe/kernel/issues/new\n",
+ 			dev_name(xe->drm.dev));
++
++		/* Notify userspace about reset required */
++		kobject_uevent_env(&pdev->dev.kobj, KOBJ_CHANGE, event_params);
+ 	}
+ 
+ 	for_each_gt(gt, xe, id)
+diff --git a/drivers/gpu/drm/xe/xe_device.h b/drivers/gpu/drm/xe/xe_device.h
+index db6cc8d0d6b8..5d40fc6f0904 100644
+--- a/drivers/gpu/drm/xe/xe_device.h
++++ b/drivers/gpu/drm/xe/xe_device.h
+@@ -174,7 +174,7 @@ static inline bool xe_device_wedged(struct xe_device *xe)
+ 	return atomic_read(&xe->wedged.flag);
+ }
+ 
+-void xe_device_declare_wedged(struct xe_device *xe);
++void xe_device_declare_wedged(struct xe_device *xe, char **reset_event);
+ 
+ struct xe_file *xe_file_get(struct xe_file *xef);
+ void xe_file_put(struct xe_file *xef);
+diff --git a/drivers/gpu/drm/xe/xe_gt.c b/drivers/gpu/drm/xe/xe_gt.c
+index 58895ed22f6e..519f3c2cf9e2 100644
+--- a/drivers/gpu/drm/xe/xe_gt.c
++++ b/drivers/gpu/drm/xe/xe_gt.c
+@@ -741,6 +741,24 @@ static int do_gt_restart(struct xe_gt *gt)
+ 	return 0;
+ }
+ 
++static void xe_gt_reset_failed(struct xe_gt *gt, int err)
++{
++	char *event_params[5];
++
++	xe_gt_err(gt, "reset failed (%pe)\n", ERR_PTR(err));
++
++	event_params[0] = DRM_XE_RESET_REQUIRED_UEVENT;
++	event_params[1] = DRM_XE_RESET_REQUIRED_UEVENT_REASON_GT;
++	event_params[2] = kasprintf(GFP_KERNEL, "TILE_ID=%d", gt_to_tile(gt)->id);
++	event_params[3] = kasprintf(GFP_KERNEL, "GT_ID=%d", gt->info.id);
++	event_params[4] = NULL;
++
++	xe_device_declare_wedged(gt_to_xe(gt), event_params);
++
++	kfree(event_params[2]);
++	kfree(event_params[3]);
++}
++
+ static int gt_reset(struct xe_gt *gt)
+ {
+ 	int err;
+@@ -796,10 +814,7 @@ static int gt_reset(struct xe_gt *gt)
+ 	XE_WARN_ON(xe_uc_start(&gt->uc));
+ 	xe_pm_runtime_put(gt_to_xe(gt));
+ err_fail:
+-	xe_gt_err(gt, "reset failed (%pe)\n", ERR_PTR(err));
+-
+-	xe_device_declare_wedged(gt_to_xe(gt));
+-
++	xe_gt_reset_failed(gt, err);
+ 	return err;
+ }
+ 
+diff --git a/drivers/gpu/drm/xe/xe_guc.c b/drivers/gpu/drm/xe/xe_guc.c
+index de0fe9e65746..b544012f5b11 100644
+--- a/drivers/gpu/drm/xe/xe_guc.c
++++ b/drivers/gpu/drm/xe/xe_guc.c
+@@ -560,6 +560,17 @@ static s32 guc_pc_get_cur_freq(struct xe_guc_pc *guc_pc)
+ 	return ret ? ret : freq;
+ }
+ 
++static void xe_guc_load_failed(struct xe_gt *gt)
++{
++	char *event_params[3];
++
++	event_params[0] = DRM_XE_RESET_REQUIRED_UEVENT;
++	event_params[1] = DRM_XE_RESET_REQUIRED_UEVENT_REASON_GUC;
++	event_params[2] = NULL;
++
++	xe_device_declare_wedged(gt_to_xe(gt), event_params);
++}
++
+ /*
+  * Wait for the GuC to start up.
+  *
+@@ -684,7 +695,7 @@ static void guc_wait_ucode(struct xe_guc *guc)
+ 			break;
+ 		}
+ 
+-		xe_device_declare_wedged(gt_to_xe(gt));
++		xe_guc_load_failed(gt);
+ 	} else if (delta_ms > GUC_LOAD_TIME_WARN_MS) {
+ 		xe_gt_warn(gt, "excessive init time: %lldms! [status = 0x%08X, timeouts = %d]\n",
+ 			   delta_ms, status, count);
+diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+index 460808507947..33ed6221f465 100644
+--- a/drivers/gpu/drm/xe/xe_guc_submit.c
++++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+@@ -891,6 +891,17 @@ void xe_guc_submit_wedge(struct xe_guc *guc)
+ 	mutex_unlock(&guc->submission_state.lock);
+ }
+ 
++static void xe_exec_queue_timedout(struct xe_device *xe)
++{
++	char *event_params[3];
++
++	event_params[0] = DRM_XE_RESET_REQUIRED_UEVENT;
++	event_params[1] = DRM_XE_RESET_REQUIRED_UEVENT_REASON_TOUT;
++	event_params[2] = NULL;
++
++	xe_device_declare_wedged(xe, event_params);
++}
++
+ static bool guc_submit_hint_wedged(struct xe_guc *guc)
+ {
+ 	struct xe_device *xe = guc_to_xe(guc);
+@@ -901,7 +912,7 @@ static bool guc_submit_hint_wedged(struct xe_guc *guc)
+ 	if (xe_device_wedged(xe))
+ 		return true;
+ 
+-	xe_device_declare_wedged(xe);
++	xe_exec_queue_timedout(xe);
+ 
+ 	return true;
+ }
+diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+index b6fbe4988f2e..dd2f36710057 100644
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -20,6 +20,7 @@ extern "C" {
+  *   2. Extension definition and helper structs
+  *   3. IOCTL's Query structs in the order of the Query's entries.
+  *   4. The rest of IOCTL structs in the order of IOCTL declaration.
++ *   5. uEvents
+  */
+ 
+ /**
+@@ -1694,6 +1695,34 @@ struct drm_xe_oa_stream_info {
+ 	__u64 reserved[3];
+ };
+ 
++/**
++ * DOC: uevent generated by xe on it's pci node.
++ *
++ * DRM_XE_RESET_REQUIRED_UEVENT - Event is generated when device needs reset.
++ * The REASON is provided along with the event for which reset is required.
++ * On the basis of REASONS, additional information might be supplied.
++ */
++#define DRM_XE_RESET_REQUIRED_UEVENT "DEVICE_STATUS=NEEDS_RESET"
++
++/**
++ * DRM_XE_RESET_REQUIRED_UEVENT_REASON_GT - Reason provided to
++ * DRM_XE_RESET_REQUIRED_UEVENT incase of gt reset failure. The additional
++ * information supplied is tile id and gt id for which reset has failed.
++ */
++#define DRM_XE_RESET_REQUIRED_UEVENT_REASON_GT "REASON=GT_RESET_FAILED"
++
++/**
++ * DRM_XE_RESET_REQUIRED_UEVENT_REASON_GUC - Reason provided to
++ * DRM_XE_RESET_REQUIRED_UEVENT incase of guc fw load failure.
++ */
++#define DRM_XE_RESET_REQUIRED_UEVENT_REASON_GUC "REASON=GUC_LOAD_FAILED"
++
++/**
++ * DRM_XE_RESET_REQUIRED_UEVENT_REASON_TOUT - Reason provided to
++ * DRM_XE_RESET_REQUIRED_UEVENT incase of exec queue timeout.
++ */
++#define DRM_XE_RESET_REQUIRED_UEVENT_REASON_TOUT "REASON=EXEC_QUEUE_TIMEDOUT"
++
+ #if defined(__cplusplus)
+ }
+ #endif
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.34.1
 
