@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5824A94F8C8
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 23:15:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D408C94F8C9
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 23:16:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C549010E0CD;
-	Mon, 12 Aug 2024 21:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 527FF10E166;
+	Mon, 12 Aug 2024 21:16:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="JbZ4MY2x";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="Jm+doih0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F5EB10E0CD
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 21:15:55 +0000 (UTC)
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D87B10E17E
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 21:16:01 +0000 (UTC)
 Delivered-To: kernel@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723497344; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1723497351; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=b68lUKwpnjB/+7YqIHIz5YzlCpeCV9JHwdHmlKNmW5XOVH/5TAgLADPvCtsKyV5IdEIZ53XOWStXLJlPunPyUNtAT5PuRi01gXs+iZYT52z6BUUiVR/wWUo6QLRTbOyrv8sxw/n055dlZivmDS+BOou01bwsW4r17GCy48rMEKI=
+ b=ZENgrDfRRit9IQxAEMfVMa6bDv/wTIYlWMCQsPEZjG973Yx9u/bq8juoX8YsjaGpbDt+9Ftw2bFVv6d4yyHRg5NIGWmow85qJLqA78ct8dIJrHFMUcUCQi6z0G/J+j78/RwevoiJMz2st2iMN2EQ1CLbPVgY+PRg5bOzmNzdWRM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723497344;
+ s=zohoarc; t=1723497351;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=IXtCWW++4oKOuR0XGctguunjoFu5Fw/5NafoAGB0Owg=; 
- b=XlcYPI9Jdi6o9OcOSdlixeuMzNQF+PGelN1M1S0m/xOU+tzg705Ek+X6KJ5jWcnLyjQa8qpM0bjKjpgYf5PvhRY6j4KNaMxzBpTM6eatzlgJg/tGwFv6sYKjtcmfZfm1nPS9kzg0CYuejkg6r7PR6y38u4wGfgA3Pqi2wgCYvB0=
+ bh=t7LSjs0y2/n2vSDcJx5q3oVW1Lohb2y98XURfhfwEkk=; 
+ b=g2Grh9+dv+ii6xGaFeCpVRA17I45GgQ2ecnTY8n4Ud+QAvGgKw1YGA90y5oEJag30odC+lKdJ/LsPjSJxgYpyC9+YKE/ux6TmtvedNkzFkpfHUq6QZ9VLXiu/FArf2OWS0SYUxU93BRbNGAhbm6a3fGr+sAU7X9cMgK5OP+M/i0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=cristian.ciocaltea@collabora.com;
  dmarc=pass header.from=<cristian.ciocaltea@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723497344; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723497351; 
  s=zohomail; d=collabora.com; i=cristian.ciocaltea@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=IXtCWW++4oKOuR0XGctguunjoFu5Fw/5NafoAGB0Owg=;
- b=JbZ4MY2xa/NXZ/w497R+qYaoPAua9F3a+mjjfAYO0cClZV92QR6S0nWwyb2Kiu4q
- IX0L41+8XtT6hNlak4+RCdr9vNk7RWmx3b8FotBn4E5HBNSOjInJR7AnrZWhD1o/WER
- rlOnmWj8AhjDzHx3Zn5wbQJ8C3Hs++1NIhKajYas=
-Received: by mx.zohomail.com with SMTPS id 1723497343350386.70115570233713;
- Mon, 12 Aug 2024 14:15:43 -0700 (PDT)
+ bh=t7LSjs0y2/n2vSDcJx5q3oVW1Lohb2y98XURfhfwEkk=;
+ b=Jm+doih0I4KprAGJFywvLeNqLhRxmmK74USvQK4nY1LvLt32q6ZwxH8l/RoL5UDa
+ KnA5ewH+djkxZuc5zeZnVA90V8+tGglO6xr3hnTlNIqXaqTKzdmtN6NNcJTDZV6MV6h
+ 9+NcV2EcfSR+PMCT+PMnUujnMwT1W6KYuCXGlx0Y=
+Received: by mx.zohomail.com with SMTPS id 1723497348303297.7403591581841;
+ Mon, 12 Aug 2024 14:15:48 -0700 (PDT)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 13 Aug 2024 00:15:08 +0300
-Subject: [PATCH 1/4] drm/rockchip: dw_hdmi: Use modern drm_device based logging
+Date: Tue, 13 Aug 2024 00:15:09 +0300
+Subject: [PATCH 2/4] drm/rockchip: dw_hdmi: Simplify clock handling
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240813-dw-hdmi-rockchip-cleanup-v1-1-b3e73b5f4fd6@collabora.com>
+Message-Id: <20240813-dw-hdmi-rockchip-cleanup-v1-2-b3e73b5f4fd6@collabora.com>
 References: <20240813-dw-hdmi-rockchip-cleanup-v1-0-b3e73b5f4fd6@collabora.com>
 In-Reply-To: <20240813-dw-hdmi-rockchip-cleanup-v1-0-b3e73b5f4fd6@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -73,127 +73,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer drm_{err|info|dbg}() over deprecated DRM_DEV_{ERROR|INFO|DEBUG}()
-logging macros.
+Make use of devm_clk_get_optional_enabled() to replace devm_clk_get()
+and clk_prepare_enable() for ref_clk and drop the now unnecessary calls
+to clk_disable_unprepare().
 
-Conversion done with the help of the following semantic patch, followed
-by a few minor indentation adjustments:
-
-@@
-identifier T;
-@@
-
-(
--DRM_DEV_ERROR(T->dev,
-+drm_err(T,
-...)
-|
--DRM_DEV_INFO(T->dev,
-+drm_info(T,
-...)
-|
--DRM_DEV_DEBUG(T->dev,
-+drm_dbg(T,
-...)
-)
+Additionally, use devm_clk_get_optional() helper for grf_clk to replace
+the open coding call to devm_clk_get() followed by the -ENOENT test.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 24 +++++++++++-------------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 38 +++++++++++------------------
+ 1 file changed, 14 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index fe33092abbe7..2509ce19313f 100644
+index 2509ce19313f..7d07039ef096 100644
 --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -212,7 +212,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
+@@ -209,6 +209,7 @@ static const struct dw_hdmi_phy_config rockchip_phy_config[] = {
+ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
+ {
+ 	struct device_node *np = hdmi->dev->of_node;
++	int ret;
  
  	hdmi->regmap = syscon_regmap_lookup_by_phandle(np, "rockchip,grf");
  	if (IS_ERR(hdmi->regmap)) {
--		DRM_DEV_ERROR(hdmi->dev, "Unable to get rockchip,grf\n");
-+		drm_err(hdmi, "Unable to get rockchip,grf\n");
+@@ -216,25 +217,23 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
  		return PTR_ERR(hdmi->regmap);
  	}
  
-@@ -223,7 +223,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
- 	if (PTR_ERR(hdmi->ref_clk) == -EPROBE_DEFER) {
- 		return -EPROBE_DEFER;
- 	} else if (IS_ERR(hdmi->ref_clk)) {
--		DRM_DEV_ERROR(hdmi->dev, "failed to get reference clock\n");
-+		drm_err(hdmi, "failed to get reference clock\n");
- 		return PTR_ERR(hdmi->ref_clk);
+-	hdmi->ref_clk = devm_clk_get_optional(hdmi->dev, "ref");
++	hdmi->ref_clk = devm_clk_get_optional_enabled(hdmi->dev, "ref");
+ 	if (!hdmi->ref_clk)
+-		hdmi->ref_clk = devm_clk_get_optional(hdmi->dev, "vpll");
++		hdmi->ref_clk = devm_clk_get_optional_enabled(hdmi->dev, "vpll");
+ 
+-	if (PTR_ERR(hdmi->ref_clk) == -EPROBE_DEFER) {
+-		return -EPROBE_DEFER;
+-	} else if (IS_ERR(hdmi->ref_clk)) {
+-		drm_err(hdmi, "failed to get reference clock\n");
+-		return PTR_ERR(hdmi->ref_clk);
++	if (IS_ERR(hdmi->ref_clk)) {
++		ret = PTR_ERR(hdmi->ref_clk);
++		if (ret != -EPROBE_DEFER)
++			drm_err(hdmi, "failed to get reference clock\n");
++		return ret;
  	}
  
-@@ -233,7 +233,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
- 	} else if (PTR_ERR(hdmi->grf_clk) == -EPROBE_DEFER) {
- 		return -EPROBE_DEFER;
- 	} else if (IS_ERR(hdmi->grf_clk)) {
--		DRM_DEV_ERROR(hdmi->dev, "failed to get grf clock\n");
-+		drm_err(hdmi, "failed to get grf clock\n");
- 		return PTR_ERR(hdmi->grf_clk);
+-	hdmi->grf_clk = devm_clk_get(hdmi->dev, "grf");
+-	if (PTR_ERR(hdmi->grf_clk) == -ENOENT) {
+-		hdmi->grf_clk = NULL;
+-	} else if (PTR_ERR(hdmi->grf_clk) == -EPROBE_DEFER) {
+-		return -EPROBE_DEFER;
+-	} else if (IS_ERR(hdmi->grf_clk)) {
+-		drm_err(hdmi, "failed to get grf clock\n");
+-		return PTR_ERR(hdmi->grf_clk);
++	hdmi->grf_clk = devm_clk_get_optional(hdmi->dev, "grf");
++	if (IS_ERR(hdmi->grf_clk)) {
++		ret = PTR_ERR(hdmi->grf_clk);
++		if (ret != -EPROBE_DEFER)
++			drm_err(hdmi, "failed to get grf clock\n");
++		return ret;
  	}
  
-@@ -322,17 +322,16 @@ static void dw_hdmi_rockchip_encoder_enable(struct drm_encoder *encoder)
- 
- 	ret = clk_prepare_enable(hdmi->grf_clk);
- 	if (ret < 0) {
--		DRM_DEV_ERROR(hdmi->dev, "failed to enable grfclk %d\n", ret);
-+		drm_err(hdmi, "failed to enable grfclk %d\n", ret);
- 		return;
- 	}
- 
- 	ret = regmap_write(hdmi->regmap, hdmi->chip_data->lcdsel_grf_reg, val);
- 	if (ret != 0)
--		DRM_DEV_ERROR(hdmi->dev, "Could not write to GRF: %d\n", ret);
-+		drm_err(hdmi, "Could not write to GRF: %d\n", ret);
- 
- 	clk_disable_unprepare(hdmi->grf_clk);
--	DRM_DEV_DEBUG(hdmi->dev, "vop %s output to hdmi\n",
--		      ret ? "LIT" : "BIG");
-+	drm_dbg(hdmi, "vop %s output to hdmi\n", ret ? "LIT" : "BIG");
- }
- 
- static int
-@@ -592,7 +591,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 	ret = rockchip_hdmi_parse_dt(hdmi);
- 	if (ret) {
- 		if (ret != -EPROBE_DEFER)
--			DRM_DEV_ERROR(hdmi->dev, "Unable to parse OF data\n");
-+			drm_err(hdmi, "Unable to parse OF data\n");
- 		return ret;
- 	}
- 
-@@ -600,26 +599,25 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 	if (IS_ERR(hdmi->phy)) {
- 		ret = PTR_ERR(hdmi->phy);
- 		if (ret != -EPROBE_DEFER)
--			DRM_DEV_ERROR(hdmi->dev, "failed to get phy\n");
-+			drm_err(hdmi, "failed to get phy\n");
- 		return ret;
- 	}
- 
- 	ret = regulator_enable(hdmi->avdd_0v9);
- 	if (ret) {
--		DRM_DEV_ERROR(hdmi->dev, "failed to enable avdd0v9: %d\n", ret);
-+		drm_err(hdmi, "failed to enable avdd0v9: %d\n", ret);
- 		goto err_avdd_0v9;
- 	}
- 
- 	ret = regulator_enable(hdmi->avdd_1v8);
- 	if (ret) {
--		DRM_DEV_ERROR(hdmi->dev, "failed to enable avdd1v8: %d\n", ret);
-+		drm_err(hdmi, "failed to enable avdd1v8: %d\n", ret);
+ 	hdmi->avdd_0v9 = devm_regulator_get(hdmi->dev, "avdd-0v9");
+@@ -615,12 +614,6 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
  		goto err_avdd_1v8;
  	}
  
- 	ret = clk_prepare_enable(hdmi->ref_clk);
- 	if (ret) {
--		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI reference clock: %d\n",
--			      ret);
-+		drm_err(hdmi, "Failed to enable HDMI reference clock: %d\n", ret);
- 		goto err_clk;
- 	}
+-	ret = clk_prepare_enable(hdmi->ref_clk);
+-	if (ret) {
+-		drm_err(hdmi, "Failed to enable HDMI reference clock: %d\n", ret);
+-		goto err_clk;
+-	}
+-
+ 	if (hdmi->chip_data == &rk3568_chip_data) {
+ 		regmap_write(hdmi->regmap, RK3568_GRF_VO_CON1,
+ 			     HIWORD_UPDATE(RK3568_HDMI_SDAIN_MSK |
+@@ -649,8 +642,6 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
  
+ err_bind:
+ 	drm_encoder_cleanup(encoder);
+-	clk_disable_unprepare(hdmi->ref_clk);
+-err_clk:
+ 	regulator_disable(hdmi->avdd_1v8);
+ err_avdd_1v8:
+ 	regulator_disable(hdmi->avdd_0v9);
+@@ -665,7 +656,6 @@ static void dw_hdmi_rockchip_unbind(struct device *dev, struct device *master,
+ 
+ 	dw_hdmi_unbind(hdmi->hdmi);
+ 	drm_encoder_cleanup(&hdmi->encoder.encoder);
+-	clk_disable_unprepare(hdmi->ref_clk);
+ 
+ 	regulator_disable(hdmi->avdd_1v8);
+ 	regulator_disable(hdmi->avdd_0v9);
 
 -- 
 2.46.0
