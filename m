@@ -2,75 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9B094F694
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 20:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B8494F6C5
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 20:36:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86CC410E274;
-	Mon, 12 Aug 2024 18:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A15810E279;
+	Mon, 12 Aug 2024 18:36:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CrbB9Qso";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XLRX+wDc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B20510E274
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 18:22:24 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2f15790b472so58536871fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 11:22:24 -0700 (PDT)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC15F10E279
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 18:36:25 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-7a1d6f47112so283473885a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 11:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723486943; x=1724091743; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=coUi0/ohCVhoxzgHSkTjcFNIQKRPd60M4TbuFg/3kwI=;
- b=CrbB9QsoT+LsvE+Z6RmvTwes5fk4zwBTEOM/LtAW3qzrMVyo7Jvd8HB3vCYhkYYcYE
- U1Mt20AAcjBvrQ1dqUEhsk0wHp65QVB81OE+YEkkCp0anB7+jI8dCfqdVJnk8yyJUqvv
- 18wuO+cE4QbnQrcN3U8hnYYy1kCKYxXZSKPQLMK8sG9M1U21nfA1JZjU7nD6tiHH8tEC
- sbxmG7A5XlaQ3qTbSn96BwaUN7fdXBF+xJmosoj51W5vvqIwLH6e9cdqS6pdNfBHsdoJ
- 1EK8TYVP380AJCpkZRtu4hqeAqIbEchZepDZbPG8QEu0Bajug+NooMkBXpg5gdTCkijq
- FELQ==
+ d=chromium.org; s=google; t=1723487784; x=1724092584;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=XVEY3EOQ7EfM3BETXw06qP0pD8+sQ+yqKMA+bsLb1lY=;
+ b=XLRX+wDcLjZRpQr1vRgkwaZ4MrdybSfNYJdgxex3d9bO8mnWYGQV0mSj6Sx7fW+54+
+ 6arPgrCMTl4e7SEnF+lKqSxU/CgqM/a4/gf59dY8VZYzYJQq65yTZkLOgZ/MFpTqmKaO
+ jcRZgcFMHVRiEYzMh/qgHSj/OZv+4IL7fz/l8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723486943; x=1724091743;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=coUi0/ohCVhoxzgHSkTjcFNIQKRPd60M4TbuFg/3kwI=;
- b=Aai3nT0Zecs0dN18U0DfThsYWapszW8d4k1Af9uIUJ3CwO92dLCKX/ibEILAJGPtRP
- 20dbM5sderoQzJudCx17EuKJfjCEr6FcipuTmKuxXKGYKxFKvYNmqE5ayrZp0QUN/1YS
- calRo0a6SfFTSB1W2CizIjqAeFY3v96q2UN2TleVbg37fw5g4AypurqtK3CSf8ymtDXl
- 98XTd2cqkw79JZa64Rx+FjX4AigQw2NKv+lT90+NmRgxr5Zuo81KQkaNK1iyxbhFRYXK
- ysdoe5SHBbENHQe6Ou0CUfHl0xgY6Ddp+F4SlQkEpQJHAAUWbRssYn3+H83SRNDRxxug
- srNA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV16ue6K2WbAl9SaqikrSib31NLdmvmULe+7iVr7fNUKU/A4j3uFdIdAdW0/b2CKm4PisDLj0yEcIH2noT9NsBJ9StbLy7Xv73E5P7GwAm3
-X-Gm-Message-State: AOJu0YwC72Tzm1uug+V2b9/US5dTcqW7aRRGMzBGq+lM4uZoz1ReyIYE
- ZnAOtK+hfbMJB7IEoSllIEp0vWouRshzeMkzgnjMIzAu4e/e/B2A+PwLE+46l5Slx5MrUtsY/A3
- FIdhQkcsWxhnBXAXqBDFBei5BE64=
-X-Google-Smtp-Source: AGHT+IGsw5wOKenJ4/S6cK3uyE7tsHyzF1jzrmqdqVsPGZnCBKOLdTZr3nAw3POmcblOWHUs99+JFc65/My6jbBmV4M=
-X-Received: by 2002:a2e:98c3:0:b0:2ef:2eb9:5e55 with SMTP id
- 38308e7fff4ca-2f2b7150337mr7651301fa.13.1723486942050; Mon, 12 Aug 2024
- 11:22:22 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1723487784; x=1724092584;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XVEY3EOQ7EfM3BETXw06qP0pD8+sQ+yqKMA+bsLb1lY=;
+ b=RLmuTL9e82qzo7T9Pksq7T5OmqdzWqzrQVZOvmmpjPd2HhsUYrVtHbw670q2ZiOWH4
+ UsoMCg2zPu1RowUOIqC+X7jT0hRRsq4z2AfN2Is7eGOFzPyybemmdUgWCzmL6AvUNGjS
+ gY9i1e65QCxiKgNwzGVajejpaymfoXTuFXw1b5z/PPJUbRFBjjiCqW+P8pXPew+vB6NX
+ Zz7hHxz8RQ5PkJdvFaV9b0a5ZjVOfgL7rbjKgpyDxaw3B/Kp8YD9pAZosTXn8AnnhXFx
+ LuU6ZIkxGK3mM24dyvNk+6CC44QtDlT/XMoPH3zaw/zpXWWcFxbGZSjUO+tTE0ROCjS7
+ 5qrQ==
+X-Gm-Message-State: AOJu0YzjzeaQ7ZuoYt+voLys3yxtkviB3U6yoDG0tvZB7zVPC4oIyL84
+ ROq5AVPkT0cjWLayEbIs9VqZ2e5DNjT+DzpBsiB2LZTExbL8c4DRzZWEGHWwMGW6kBd4tpaqsRS
+ EUIti6kZ42Q14J2GM+CRlBicpu2snkUBFIhWxQGe7aPsXHdM=
+X-Google-Smtp-Source: AGHT+IHmoofWaFYJnBjW3Mad9MwbSlnA+Lmn21+JRVXHiDX9eb3lBTF/fIYOBI/SdgNYe7IAkY5SEsY8XTjEOJNFGZk=
+X-Received: by 2002:a05:620a:4010:b0:7a1:d73f:53d2 with SMTP id
+ af79cd13be357-7a4e151bd49mr129101485a.20.1723487784514; Mon, 12 Aug 2024
+ 11:36:24 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 12 Aug 2024 11:36:23 -0700
 MIME-Version: 1.0
-References: <20240723114914.53677-1-slp@redhat.com>
- <942afa37-a24c-48ed-ae10-c811849165bf@collabora.com>
- <CAF6AEGvwrYiN6nMSsRAdc3qq+qQGWEvdW_3+xJh6y2iAyW6rkw@mail.gmail.com>
- <46a5ec89-be9b-4342-820d-019b595fa379@collabora.com>
-In-Reply-To: <46a5ec89-be9b-4342-820d-019b595fa379@collabora.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 12 Aug 2024 11:22:10 -0700
-Message-ID: <CAF6AEGseD2=+vZG=ZfigLhDXt4WJ=XkP=NeT3ERTiiPifpbd+Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Sergio Lopez <slp@redhat.com>, gurchetansingh@chromium.org,
- tzimmermann@suse.de, 
- mripard@kernel.org, olvaffe@gmail.com, kraxel@redhat.com, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, airlied@redhat.com, 
- linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
- dri-devel@lists.freedesktop.org
+In-Reply-To: <20240808235227.2701479-1-quic_abhinavk@quicinc.com>
+References: <20240808235227.2701479-1-quic_abhinavk@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 12 Aug 2024 11:36:23 -0700
+Message-ID: <CAE-0n523aJOogAidORYJNGUG4aW9Eq0wzoD3U72i8CFF=BqsaA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: fix the highest_bank_bit for sc7180
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com, 
+ dianders@chromium.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,57 +81,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 8, 2024 at 4:16=E2=80=AFAM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
+Quoting Abhinav Kumar (2024-08-08 16:52:27)
+> sc7180 programs the ubwc settings as 0x1e as that would mean a
+> highest bank bit of 14 which matches what the GPU sets as well.
 >
-> On 8/5/24 19:24, Rob Clark wrote:
-> > On Wed, Jul 24, 2024 at 12:00=E2=80=AFPM Dmitry Osipenko
-> > <dmitry.osipenko@collabora.com> wrote:
-> >>
-> >> On 7/23/24 14:49, Sergio Lopez wrote:
-> >>> There's an incresing number of machines supporting multiple page size=
-s
-> >>> and on these machines the host and a guest can be running, each one,
-> >>> with a different page size.
-> >>>
-> >>> For what pertains to virtio-gpu, this is not a problem if the page si=
-ze
-> >>> of the guest happens to be bigger or equal than the host, but will
-> >>> potentially lead to failures in memory allocations and/or mappings
-> >>> otherwise.
-> >>
-> >> Please describe concrete problem you're trying to solve. Guest memory
-> >> allocation consists of guest pages, I don't see how knowledge of host
-> >> page size helps anything in userspace.
-> >>
-> >> I suspect you want this for host blobs, but then it should be
-> >> virtio_gpu_vram_create() that should use max(host_page_sz,
-> >> guest_page_size), AFAICT. It's kernel who is responsible for memory
-> >> management, userspace can't be trusted for doing that.
-> >
-> > fwiw virtgpu native context would require this as well, mesa would
-> > need to know the host page size to correctly align GPU VA allocations
-> > (which must be a multiple of the host page size).
-> >
-> > So a-b for adding this and exposing it to userspace.
+> However, the highest_bank_bit field of the msm_mdss_data which is
+> being used to program the SSPP's fetch configuration is programmed
+> to a highest bank bit of 16 as 0x3 translates to 16 and not 14.
 >
-> In general, GPU page size has no connection to the CPU page size. It
-> happens that MSM driver uses same page size for both GPU and CPU. Likely
-> you could configure a different GPU page size if you wanted. dGPUs would
-> often use 64k pages.
+> Fix the highest bank bit field used for the SSPP to match the mdss
+> and gpu settings.
+>
+> Fixes: 6f410b246209 ("drm/msm/mdss: populate missing data")
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
 
-The smmu actually supports various different page sizes (4k, 64k,
-etc.. I think up to 2g), and will try to map larger contiguous sets of
-pages using larger page sizes to reduce TLB pressure.  This
-restriction about aligning to host page size is because the kernel
-expects allocations and therefore (currently, pre-sparse) gpu mappings
-to be a multiple of the host page size.
-
-As far as whether this should be something outside of virtio-gpu, this
-does feel a bit specific to how GEM buffer allocations work and how
-host blob resources work.  Maybe other subsystems like media end up
-with similar constraints for similar reasons, idk.  But it at least
-feels like something applicable to all/most virtgpu context types.
-
-BR,
--R
+Tested-by: Stephen Boyd <swboyd@chromium.org> # Trogdor.Lazor
