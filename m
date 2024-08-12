@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6158B94F80C
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 22:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76B894F811
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 22:19:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9881410E25C;
-	Mon, 12 Aug 2024 20:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F361E10E2B1;
+	Mon, 12 Aug 2024 20:19:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=helen.koike@collabora.com header.b="XCgtS0qM";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="FdWZwDdg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3953A10E25C
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 20:17:29 +0000 (UTC)
-Delivered-To: vignesh.raman@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723493846; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VeAOvnMYAfqeYet4+etWygTHbonxIofv3j0KFgRfdga0ZA8AxYB44sSyLeScmNkOazuVHmhB3DtNpT7n8d1e3J+17taGc/BHI/hbwR1Klu7uxUI66vEbkpXCj3pJJs+PpybfSW57QI8ZJgsvdvtpjxMMJbrADhJad+yQ0ATwnF4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723493846;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=RssbRFWVdYwnPLzi6GIn27T9Y1lbXl7o9x32vtJ+4f8=; 
- b=BPvJ0/5aVN8OK8iX260c5DZwGFhhf28zkiriwV1TaeU84fOG8RrLzc6ZA/zqzGtWALi5A0qEPQ8AHKq9GGVlaOR825j96EV9HZacf3UUWfElOkNbuiKx6td47N7BjQT9RDeh1VC9Zk3ssnXTFifxbR5bmBIqo+P8guWaZC98mbo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=helen.koike@collabora.com;
- dmarc=pass header.from=<helen.koike@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723493846; 
- s=zohomail; d=collabora.com; i=helen.koike@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=RssbRFWVdYwnPLzi6GIn27T9Y1lbXl7o9x32vtJ+4f8=;
- b=XCgtS0qMWUMAj8kYTV/yb0muxCoTruh2xdfMxGbj3IJDmjtouMKd5F7fQsVu1ioK
- azCZ57DfcNDqQFqMz5IevJel+EuLJj8csURIQ4DrkKFHiDYAfCbykgXGEjFogGldTJH
- yr8C6pPlr4oIx6NjpCjLTZ7DwksMf37zBjd+ndt8=
-Received: from mail.zoho.com by mx.zohomail.com
- with SMTP id 1723493844407751.8645407577515;
- Mon, 12 Aug 2024 13:17:24 -0700 (PDT)
-Date: Mon, 12 Aug 2024 17:17:24 -0300
-From: Helen Mae Koike Fornazier <helen.koike@collabora.com>
-To: "Vignesh Raman" <vignesh.raman@collabora.com>
-Cc: "dri-devel" <dri-devel@lists.freedesktop.org>,
- "daniels" <daniels@collabora.com>, "airlied" <airlied@gmail.com>,
- "daniel" <daniel@ffwll.ch>, "robdclark" <robdclark@gmail.com>,
- "guilherme.gallo" <guilherme.gallo@collabora.com>,
- "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
- "deborah.brouwer" <deborah.brouwer@collabora.com>,
- "linux-kernel" <linux-kernel@vger.kernel.org>
-Message-ID: <191483d05a3.129198f97500814.8001634600010504645@collabora.com>
-In-Reply-To: <20240812112030.81774-1-vignesh.raman@collabora.com>
-References: <20240812112030.81774-1-vignesh.raman@collabora.com>
-Subject: Re: [PATCH v1] drm/ci: enable lockdep detection
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D63B10E2B2;
+ Mon, 12 Aug 2024 20:19:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+ s=mail; t=1723493938;
+ bh=OzOV3KctGeSDiPIQhS912kuUk6g/QvgVA8C2lsF764I=;
+ h=From:Subject:Date:To:Cc:From;
+ b=FdWZwDdgvX2TtqUKia2mVoB2WpjXtAVkfH7fVseSxaihp02dh8lc6bgzO/tSzALce
+ tqQq++y0Apzc6qOfTHM8SpOL0dVtbZqmpmVgSf/378luwwArzPC8ErIDhazEGCFFa9
+ rJ4DjVh5g91ZC3j3EZsdX9NaF+xoP8tWIp7grOZw=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH v4 0/3] drm: Minimum backlight overrides and implementation
+ for amdgpu
+Date: Mon, 12 Aug 2024 22:18:29 +0200
+Message-Id: <20240812-amdgpu-min-backlight-quirk-v4-0-56a63ff897b7@weissschuh.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIABVuumYC/43Ny27CMBCF4VdBXncqe+zcWPEeVRe+TOIRJYCdp
+ EUo745h00qtUJf/WXznKjIlpiy2m6tItHDm41jCvGyEj3YcCDiUFijRyFpJsIcwnGY48AjO+v0
+ HD3GC88xpD62R2IeWGl1bUYBTop6/Hvjbe+nIeTqmy+NrUff1X+yiQBW76tquspVDu/skzjn7O
+ MfXkSZxtxf84aF+6iFI8OT7pjddsJ3709PfXqPVU08Xz9TBSOdQ2Rp/eeu63gCCLLBOaQEAAA=
+ =
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>, 
+ linux-doc@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723493938; l=2087;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=OzOV3KctGeSDiPIQhS912kuUk6g/QvgVA8C2lsF764I=;
+ b=aTt0wBYAI8GAN6I1WJ95Le7kAoxr9a86SGkK2Libk4hy1AiwbDKxvcsNN0hsMRNHS5SqrYrP2
+ fIzKPqwVXOqClrIFTOS7mp2IadEEkNx8z/n/SO50HAkkSZRiMKamDsy
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,65 +74,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The value of "min_input_signal" returned from ATIF on a Framework AMD 13
+is "12". This leads to a fairly bright minimum display backlight.
 
-Hi Vignesh,
+Introduce a quirk to override "min_input_signal" to "0" which leads to a
+much lower minimum brightness, which is still readable even in daylight.
 
-Thanks for your patch.
+Tested on a Framework AMD 13 BIOS 3.05 and Framework AMD 16.
 
+One solution would be a fixed firmware version, which was announced but
+has no timeline.
 
----- On Mon, 12 Aug 2024 08:20:28 -0300 Vignesh Raman  wrote ---
+---
+Changes in v4:
+- Switch back to v2 implementation
+- Add MODULE_DESCRIPTION()
+- Simplify quirk infrastructure to only handle min backlight quirks.
+  It can be extended if necessary.
+- Expand documentation.
+- Link to v3: https://lore.kernel.org/r/20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net
 
- > We have enabled PROVE_LOCKING (which enables LOCKDEP) in drm-ci. 
- > This will output warnings when kernel locking errors are encountered 
- > and will continue executing tests. To detect if lockdep has been 
- > triggered, check the debug_locks value in /proc/lockdep_stats after 
- > the tests have run. When debug_locks is 0, it indicates that lockdep 
- > has detected issues and turned itself off. So check this value and 
- > exit with an error if lockdep is detected. 
+Changes in v3:
+- Switch to cmdline override parameter
+- Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net
 
-Should we exit with an error? Or with a warning? (GitLab-CI supports that).
-Well, I guess it is serious enough.
+Changes in v2:
+- Introduce proper drm backlight quirk infrastructure
+- Quirk by EDID and DMI instead of only DMI
+- Limit quirk to only single Framework 13 matte panel
+- Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
 
-Should we also track on the xfail folder? So we can annotate those errors as well?
-Did you have an entire pipeline with this? To see if everything is still green?
+---
+Thomas Weißschuh (3):
+      drm: Add panel backlight quirks
+      drm: panel-backlight-quirks: Add Framework 13 matte panel
+      drm/amd/display: Add support for minimum backlight quirk
 
-Helen
+ Documentation/gpu/drm-kms-helpers.rst             |  3 +
+ drivers/gpu/drm/Kconfig                           |  4 ++
+ drivers/gpu/drm/Makefile                          |  1 +
+ drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +++
+ drivers/gpu/drm/drm_panel_backlight_quirks.c      | 77 +++++++++++++++++++++++
+ include/drm/drm_utils.h                           |  3 +
+ 7 files changed, 99 insertions(+)
+---
+base-commit: d74da846046aeec9333e802f5918bd3261fb5509
+change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
 
- >  
- > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com> 
- > --- 
- >  
- > v1: 
- >  - Pipeline link to show lockdep_stats before and after tests, 
- >  https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1246721 
- >  
- > --- 
- >  drivers/gpu/drm/ci/igt_runner.sh | 11 +++++++++++ 
- >  1 file changed, 11 insertions(+) 
- >  
- > diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh 
- > index f38836ec837c..d2c043cd8c6a 100755 
- > --- a/drivers/gpu/drm/ci/igt_runner.sh 
- > +++ b/drivers/gpu/drm/ci/igt_runner.sh 
- > @@ -85,6 +85,17 @@ deqp-runner junit \ 
- >  --limit 50 \ 
- >  --template "See https://$CI_PROJECT_ROOT_NAMESPACE.pages.freedesktop.org/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/results/{{testcase}}.xml" 
- >  
- > +# Check if /proc/lockdep_stats exists 
- > +if [ -f /proc/lockdep_stats ]; then 
- > +    # If debug_locks is 0, it indicates lockdep is detected and it turns itself off. 
- > +    debug_locks=$(grep 'debug_locks:' /proc/lockdep_stats | awk '{print $2}') 
- > +    if [ "$debug_locks" -eq 0 ]; then 
- > +        echo "LOCKDEP issue detected. Please check dmesg logs for more information." 
- > +        cat /proc/lockdep_stats 
- > +        ret=1 
- > +    fi 
- > +fi 
- > + 
- >  # Store the results also in the simpler format used by the runner in ChromeOS CI 
- >  #sed -r 's/(dmesg-warn|pass)/success/g' /results/results.txt > /results/results_simple.txt 
- >  
- > -- 
- > 2.43.0 
- >  
- > 
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+
