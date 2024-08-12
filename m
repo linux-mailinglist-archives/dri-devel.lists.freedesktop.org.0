@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DFB94E9DD
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 11:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E5F94E9D4
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 11:32:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A92CB10E19C;
-	Mon, 12 Aug 2024 09:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D52B10E18D;
+	Mon, 12 Aug 2024 09:32:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38D210E191
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9A6F10E18D
  for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 09:32:19 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6D86A224F6;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A82322024F;
  Mon, 12 Aug 2024 09:32:18 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 31E54137BA;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 72FED13A23;
  Mon, 12 Aug 2024 09:32:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id qMkAC6LWuWYjMgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sKx0GqLWuWYjMgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 12 Aug 2024 09:32:18 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 6/9] drm/ast: dp501: Transparently handle BMC support
-Date: Mon, 12 Aug 2024 11:30:40 +0200
-Message-ID: <20240812093211.382263-7-tzimmermann@suse.de>
+Subject: [PATCH v2 7/9] drm/ast: sil164: Transparently handle BMC support
+Date: Mon, 12 Aug 2024 11:30:41 +0200
+Message-ID: <20240812093211.382263-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240812093211.382263-1-tzimmermann@suse.de>
 References: <20240812093211.382263-1-tzimmermann@suse.de>
@@ -48,7 +48,7 @@ X-Rspamd-Pre-Result: action=no action; module=replies;
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 6D86A224F6
+X-Rspamd-Queue-Id: A82322024F
 X-Spam-Level: 
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
@@ -80,17 +80,21 @@ output to a mode appropriate for either physical display or BMC.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_dp501.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ast/ast_sil164.c | 40 ++++++++++++++++++++++++++++++--
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
-index 0dc37b65e1d7..755cbf931b38 100644
---- a/drivers/gpu/drm/ast/ast_dp501.c
-+++ b/drivers/gpu/drm/ast/ast_dp501.c
-@@ -518,6 +518,17 @@ static int ast_dp501_connector_helper_get_modes(struct drm_connector *connector)
- 	count = drm_edid_connector_add_modes(connector);
- 	drm_edid_free(drm_edid);
+diff --git a/drivers/gpu/drm/ast/ast_sil164.c b/drivers/gpu/drm/ast/ast_sil164.c
+index 6e17d84f994e..940118544fae 100644
+--- a/drivers/gpu/drm/ast/ast_sil164.c
++++ b/drivers/gpu/drm/ast/ast_sil164.c
+@@ -21,9 +21,45 @@ static const struct drm_encoder_funcs ast_sil164_encoder_funcs = {
+  * Connector
+  */
  
++static int ast_sil164_connector_helper_get_modes(struct drm_connector *connector)
++{
++	int count = drm_connector_helper_get_modes(connector);
++
 +	if (!count) {
 +		/*
 +		 * There's no EDID data without a connected monitor. Set BMC-
@@ -102,30 +106,35 @@ index 0dc37b65e1d7..755cbf931b38 100644
 +			drm_set_preferred_mode(connector, 1024, 768);
 +	}
 +
- 	return count;
- }
- 
-@@ -526,10 +537,18 @@ static int ast_dp501_connector_helper_detect_ctx(struct drm_connector *connector
- 						 bool force)
- {
- 	struct ast_device *ast = to_ast_device(connector->dev);
-+	enum drm_connector_status status = connector_status_disconnected;
-+	enum drm_connector_status old_status = connector_status_disconnected;
++	return count;
++}
++
++static int ast_sil164_connector_helper_detect_ctx(struct drm_connector *connector,
++						  struct drm_modeset_acquire_ctx *ctx,
++						  bool force)
++{
++	enum drm_connector_status old_status, status;
 +
 +	if (connector->edid_blob_ptr)
 +		old_status = connector_status_connected;
- 
- 	if (ast_dp501_is_connected(ast))
--		return connector_status_connected;
--	return connector_status_disconnected;
-+		status = connector_status_connected;
++	else
++		old_status = connector_status_disconnected;
++
++	status = drm_connector_helper_detect_from_ddc(connector, ctx, force);
 +
 +	if (status != old_status)
 +		++connector->epoch_counter;
 +	return connector_status_connected;
- }
++}
++
+ static const struct drm_connector_helper_funcs ast_sil164_connector_helper_funcs = {
+-	.get_modes = drm_connector_helper_get_modes,
+-	.detect_ctx = drm_connector_helper_detect_from_ddc,
++	.get_modes = ast_sil164_connector_helper_get_modes,
++	.detect_ctx = ast_sil164_connector_helper_detect_ctx,
+ };
  
- static const struct drm_connector_helper_funcs ast_dp501_connector_helper_funcs = {
+ static const struct drm_connector_funcs ast_sil164_connector_funcs = {
 -- 
 2.46.0
 
