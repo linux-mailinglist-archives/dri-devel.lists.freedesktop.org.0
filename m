@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FABB94ECE8
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 14:25:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C0494ECEB
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2024 14:25:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B68510E1D0;
-	Mon, 12 Aug 2024 12:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39FF910E1D9;
+	Mon, 12 Aug 2024 12:25:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yvs0dZNX";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JBAwK/w3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5314A10E1D0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 12:25:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 924D710E1D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 12:25:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BBE6A6119A;
- Mon, 12 Aug 2024 12:25:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 106E6C32782;
- Mon, 12 Aug 2024 12:25:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 03872611A6;
+ Mon, 12 Aug 2024 12:25:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BF97C4AF0E;
+ Mon, 12 Aug 2024 12:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723465502;
- bh=ZWkzpWCH5mQ4Dtlr2yy14OV8fq5+e6BVnIiUaTbnkj0=;
+ s=korg; t=1723465520;
+ bh=Gjze6GILOLcjaocb2P8tx5OC27J4x6n257G45yZcZD8=;
  h=Subject:To:Cc:From:Date:From;
- b=yvs0dZNXR0zFJxUoQmBcTWz1QWpDJjrfGyOGUc4AfMJZCf53Xzr+3ZvrRJ3y1m8Jz
- zcoIcc3w7YdlYaFCWAH4DTOxT8ypaccDunpjVETKtsMNByqTNAkVUIM4X2QK4WOMd6
- 6uZfvoAR1jWkUzHqmdlYceYAP0MYJXBmN3+yiN5k=
+ b=JBAwK/w37SbKFwJ5u/HpC9NmeLthZj/vhsnL0OqG8T+q8xnnqJcpn5sZogkuKGzAI
+ dkWH9S1TeAa8xPCK0p/DvIXkm04WF0KfKPs7x6qN2QLgaxtAdRiXU794f0Yt7UHPzI
+ 0WbyuM7p7m3226pYok3/qIT4YwkHQdr7kvqM6iEc=
 Subject: Patch "drm/mgag200: Set DDC timeout in milliseconds" has been added
- to the 5.10-stable tree
+ to the 5.4-stable tree
 To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, jfalempe@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 12 Aug 2024 14:24:51 +0200
-Message-ID: <2024081251-arson-untouched-16da@gregkh>
+Date: Mon, 12 Aug 2024 14:25:10 +0200
+Message-ID: <2024081209-slacking-uncertain-34a4@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/mgag200: Set DDC timeout in milliseconds
 
-to the 5.10-stable tree which can be found at:
+to the 5.4-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-mgag200-set-ddc-timeout-in-milliseconds.patch
-and it can be found in the queue-5.10 subdirectory.
+and it can be found in the queue-5.4 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -104,7 +104,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/mgag200/mgag200_i2c.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_i2c.c
-@@ -134,7 +134,7 @@ struct mga_i2c_chan *mgag200_i2c_create(
+@@ -135,7 +135,7 @@ struct mga_i2c_chan *mgag200_i2c_create(
  	i2c->adapter.algo_data = &i2c->bit;
  
  	i2c->bit.udelay = 10;
@@ -117,5 +117,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.10/drm-client-fix-null-pointer-dereference-in-drm_client_modeset_probe.patch
-queue-5.10/drm-mgag200-set-ddc-timeout-in-milliseconds.patch
+queue-5.4/drm-client-fix-null-pointer-dereference-in-drm_client_modeset_probe.patch
+queue-5.4/drm-mgag200-set-ddc-timeout-in-milliseconds.patch
