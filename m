@@ -2,89 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7D09507F3
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 16:39:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A61950828
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 16:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E29E310E374;
-	Tue, 13 Aug 2024 14:39:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE5A010E00B;
+	Tue, 13 Aug 2024 14:49:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kJUMvPwY";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="hZabVRNG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8854110E374
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 14:39:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4B8ABCE13DC;
- Tue, 13 Aug 2024 14:39:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C51EC4AF09;
- Tue, 13 Aug 2024 14:39:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723559960;
- bh=BkMT1oZs8wsRPi0UzxeExZ+sMn6QcdSVOxPluJLt7fQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=kJUMvPwYEz4twWJkX2/DBO6lgBCLmry7xNwcj7mHVF1Wu2r8anDxNlilhF+jy27aG
- Jx4dgTgc0s0HDaUublN5PoN+H2skcCgaLvJGlu/2GxlZwYI7trTSQQXdb74w8R7tRn
- kCAPwm2Cvvz4ybkwcPKvuy2ErXaxmTGR863mS4+qtva0pxa/f44xuE8jHSz/3UVCmz
- lVJkV9Q5J5+Req3XUGUlQgEEwM+nqyKtfAcw+m/7oLQ42wuYXHvL56R/79oq9hyP1W
- bTxxyYQPhwO7iNiUaDaMkCYKVsACtIKK6NbL+EWpR45m+gJVBf9pcDvFLplWXr/S3t
- BGr028oZ7DLMQ==
-Date: Tue, 13 Aug 2024 07:39:17 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
- Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
- Klassert <steffen.klassert@secunet.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
- Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240813073917.690ac1cc@kernel.org>
-In-Reply-To: <5a51b11d-9c35-42a5-879b-08dc7ca2ca18@gmail.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-8-almasrymina@google.com>
- <20240806135924.5bb65ec7@kernel.org>
- <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
- <20240808192410.37a49724@kernel.org>
- <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
- <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
- <20240809205236.77c959b0@kernel.org>
- <CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
- <48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
- <20240812105732.5d2845e4@kernel.org>
- <CAHS8izPb51gvEHGHeQwWTs4YmimLLamau1c4j=Z4KGM8ZJrx5g@mail.gmail.com>
- <a6747b29-ed79-49d4-9ffe-b62074db1e09@gmail.com>
- <20240812165708.33234ed6@kernel.org>
- <5a51b11d-9c35-42a5-879b-08dc7ca2ca18@gmail.com>
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66FEF10E00B
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 14:49:32 +0000 (UTC)
+Delivered-To: kernel@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1723560555; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=T7k15fzR6ZeRas0Yws11RUsu/Wmry+zxDI8dDDUpMt6uIXhI4Dm5BdHluSIP5n9ucncwQrMpEe11BIQ6iamc+2ld0Q+wj6APeZoVS1yMKVLJPvhbEj0oDBHes7BO1qpxgQe+sK7CsqL9Ofpo8jDgSbB7v5URQsbhfsyzb2AbbYQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1723560555;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=9A8PfA0lD2m3WJCSallRUQuWCv07fL5sTjlZMRnm8cE=; 
+ b=acrygEnLK2dju+kCdrgd+KXQpuhTfuWEkzj6AE1WIxltzT2Or4BNuk17I/GeyC4od5LImQ2oSLCE1a+aAIwu548TRJ90ckgHiMu9jyqyJbf0dBbnPAuHsw8RE3UMl6cM/rReV/4NRfFzWIcA72lja6yJ8r6aDmKlZcUEs6Gg1zE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=cristian.ciocaltea@collabora.com;
+ dmarc=pass header.from=<cristian.ciocaltea@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723560555; 
+ s=zohomail; d=collabora.com; i=cristian.ciocaltea@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=9A8PfA0lD2m3WJCSallRUQuWCv07fL5sTjlZMRnm8cE=;
+ b=hZabVRNGAAs7o4UBRDD+FaffzLp2vM5Om2YbqE0tOUMSwyN7yioHL4IiXmoehtp/
+ lv4l5yX3nQSrIsQNmMHeF9dCMTC5hM4gznjBXqSwSt9sVIgYFTXoXMEzzgb9ZQw7yXb
+ PWf0MxhjGZSsg/lGzKPTZ8AaOt5Uj+JdQN+HZ0HU=
+Received: by mx.zohomail.com with SMTPS id 1723560553528681.1259506022782;
+ Tue, 13 Aug 2024 07:49:13 -0700 (PDT)
+Message-ID: <05d1af7a-0bea-464f-a551-3fd8bf5ea9d5@collabora.com>
+Date: Tue, 13 Aug 2024 17:49:06 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] Add initial support for the Rockchip RK3588 HDMI
+ TX Controller
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, kernel@collabora.com,
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
+ Algea Cao <algea.cao@rock-chips.com>
+References: <20240807-b4-rk3588-bridge-upstream-v3-0-60d6bab0dc7c@collabora.com>
+ <2006431.fxN4lLDhpz@diego>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <2006431.fxN4lLDhpz@diego>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,24 +84,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Aug 2024 03:31:13 +0100 Pavel Begunkov wrote:
-> I'm getting lost, so repeating myself a bit. What I think
-> would be a good approach is if we get an error back from
-> the driver if it doesn't support netiov / providers.
+On 8/13/24 4:17 PM, Heiko Stübner wrote:
+> Am Mittwoch, 7. August 2024, 13:07:22 CEST schrieb Cristian Ciocaltea:
+>> The Rockchip RK3588 SoC family integrates the Synopsys DesignWare HDMI
+>> 2.1 Quad-Pixel (QP) TX controller, which is a new IP block, quite
+>> different from those used in the previous generations of Rockchip SoCs.
+>>
+>> The controller supports the following features, among others:
+>>
+>> * Fixed Rate Link (FRL)
+>> * Display Stream Compression (DSC)
+>> * 4K@120Hz and 8K@60Hz video modes
+>> * Variable Refresh Rate (VRR) including Quick Media Switching (QMS)
+>> * Fast Vactive (FVA)
+>> * SCDC I2C DDC access
+>> * Multi-stream audio
+>> * Enhanced Audio Return Channel (EARC)
+>>
+>> This is the last component that needs to be supported in order to enable
+>> the HDMI output functionality on the RK3588 based SBCs, such as the
+>> RADXA Rock 5B.  The other components are the Video Output Processor
+>> (VOP2) and the Samsung IP based HDMI/eDP TX Combo PHY, for which basic
+>> support has been already made available via [1] and [2], respectively.
+>>
+>> Please note this is a reworked version of the original series, which
+>> relied on a commonized dw-hdmi approach.  Since the general consensus
+>> was to handle it as an entirely new IP, I dropped all patches related to
+>> the old dw-hdmi and Rockchip glue code - a few of them might still make
+>> sense as general improvements and will be submitted separately.
+>>
+>> It's worth mentioning the HDMI output support is currently limited to
+>> RGB output up to 4K@60Hz, without audio, CEC or any of the HDMI 2.1
+>> specific features.  Moreover, the VOP2 driver is not able to properly
+>> handle all display modes supported by the connected screens, e.g. it
+>> doesn't cope with non-integer refresh rates.
+>>
+>> A possible workaround consists of enabling the display controller to
+>> make use of the clock provided by the HDMI PHY PLL.  This is still work
+>> in progress and will be submitted later, as well as the required DTS
+>> updates.
+>>
+>> To facilitate testing and experimentation, all HDMI output related
+>> patches, including those part of this series, are available at [3].
+>>
+>> So far I could only verify this on the RADXA Rock 5B board.
 > 
-> netdev_rx_queue_restart() {
-> 	...
-> 	err = dev->queue_mgmt_ops->ndo_queue_mem_alloc();
-> 	if (err == -EOPNOTSUPP) // the driver doesn't support netiov
-> 		return -EOPNOTSUPP;
-> 	...
-> }
+> On a rk3588-tiger-haikou (including its DSI hat and my preliminary DSI
+> driver) it also works.
 > 
-> That can be done if drivers opt in to support providers,
-> e.g. via a page pool flag.
+> Even with both DSI and HDMI at the same time. Both hdmi plugged in on
+> boot and also plugging it in during runtime of the board, generates a
+> clean image on my 1080p display.
 > 
-> What I think wouldn't be a great option is getting back a
-> "success" from the driver even though it ignored
+> So, series
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
 
-page pool params are not the right place for a supported flag.
-Sooner or later we'll want to expose this flag to user space.
+Thanks for checking this out!
+
+Regards,
+Cristian
