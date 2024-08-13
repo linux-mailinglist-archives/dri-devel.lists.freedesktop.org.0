@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA4F9502E0
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 12:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388A09502E1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 12:51:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D278810E2F1;
-	Tue, 13 Aug 2024 10:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2461810E2F3;
+	Tue, 13 Aug 2024 10:51:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OxaOYIRX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T2h5SDR7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24CC710E2ED
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 10:51:48 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4281d812d3eso52674065e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 03:51:48 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1D710E2EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 10:51:49 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-428f5c0833bso36002095e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 03:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723546306; x=1724151106; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1723546308; x=1724151108; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=R6Mz2KhFZzROn/KIWb00LTNVvXvYG/m4Vfb07jwptv4=;
- b=OxaOYIRXPDmM2BpVYATRBmNvt11Qf7iReYV8ZWZBEHDhqKD6qWyWykaFDvKZF3mdiP
- esh5KOeHNQEThoiSxPKzxLTfwEwh3jvJz+GA033mvFwF95jJHzVde7TXaVSG/5FNK3n9
- nsrwUFYa/Tu/BO9pqUJZwTo7xO5CMAY4QmoDKPqNeK+lyT8UHZW4NZ8ONX1aeNUKLR/3
- Jnr8mlOiqEUSe2HYz4sIdPaGQfTbv+x0Yyc8kuvvoZZSEWyoxUhkWY9vXCAXKx/HrwhW
- Z/QURWBVJRwBzXITWVR7UNMxPijYrUfp2J8kfBwi5FCEv8isX+yBVVx6HHFRqLnja3Oi
- 4piQ==
+ bh=yPJvcbH5lYbi1tdr48EenmYPKkhD5TMeNHQFHVN3Exg=;
+ b=T2h5SDR78fqv6SAVpDOQK5OD3Rc2pbl39GdFj4djxLWr5RKc4Srwx10RKoKcI8xWGZ
+ 8zqI8HtAbe1SgfpaEO9Uc/HLZPClnARskUoRMOEc5tUCuNi0tiXzpj8ciqmoiun4OrOo
+ G/PfMxHobkSjS65nnXUbjTuXXZCXqS0kRUuK2QH6p+L1Z7/UU1Lv0jrIKzXrVugfTyet
+ DzyAdP6yTFnTYKL9hxkF+mpJSmiywUP1XkGZsZNUoM4lqVMw2C/GTR5FQLuav1jiKIiO
+ NxbvDx0DVBosZcwxS/KvVFYDT/QvKKIrLEs0B2Nv5anqHbKfKCE//85tmxuoPX6E6Gzn
+ AOCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723546306; x=1724151106;
+ d=1e100.net; s=20230601; t=1723546308; x=1724151108;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R6Mz2KhFZzROn/KIWb00LTNVvXvYG/m4Vfb07jwptv4=;
- b=FKECuQPI/ugtH389DJs/r+2rRoJ/zXbebS4/M3vkaS22uVdTJhGBRiIX5m4IWcFj1/
- nQ6a0kBmSrvPPMoEeGwY54BJv9VmTQn5rjaJdjzrstpenlBlVS8GExBk1baiqM1hsDXm
- eZmz5jZfDalfNZjo6d8hmhrX6AM4QRWIselgQVNd1rawApjsRwMssIIAfoTUBwX0RHaL
- G90aGeh24HAGX8K05/+tWXftdBdN12A1J8GD2nLPc0/jU3lVYXf8nAAt7LgWVozvIOyI
- 3cCxvOcLt+ka8Dh1cBvhJwgyMXKB7r68EEbp3sqCq7EkGpLtsMoRYhqZPvrCCoop544R
- bOsw==
+ bh=yPJvcbH5lYbi1tdr48EenmYPKkhD5TMeNHQFHVN3Exg=;
+ b=UYpllTJf6o8Tgpbt8PXaBvd/HMNm8lHDTLPlyD3xxsOlMLmhUXq2c9uUE0Rg08lCzu
+ j8j8bFa1zwGhx3q4wJliDMFOmDN5r72sJPjXXlTB7CM5B3DuvBqlcVJnuP3mm7w9bJw8
+ 7AEqaUzFF9d5xvA+HIiJOO6Zfhs1+8PvJ7iHo2FlysHe+nhG7/hdEb3IhuLUA3fwmHdS
+ zAJaHSssudU1/2XHBLjvUXl00tAu1kiFYcTV7TTVQyhctJeaLahymaPficYnxq3SeQ8r
+ 5Oo9k9nXJKujFipPTplElJwznbDRhmVQXUBClwCuf4aYx8Jr3ecnLhu2dTlC1S0JIcFg
+ 8pWQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUdsWU55V8fpdEg9hgQd4e6vgke9CsEakrx4JthiKo4F3HtVP9Pw1EozuVjQfTRAkfVbmBa/BlYglogAnWEV8fV35ehm9EZrKktpGgEMbCk
-X-Gm-Message-State: AOJu0Yy0QfYgI+01wjIY/9ZV34Aof3Vf4DZmPUMnhpZUMXpEmT3Yavmk
- JmmDfQ/o8m7NamEhnRi9Hjq2mB2M6W9w9fubU6wCEd4G2g7q9n4Y
-X-Google-Smtp-Source: AGHT+IFc1MxDOM9KHwmSg4MIeIUEJ0CdqAeobEZZY+JR1Ums0WJRTX2kswhgxVkQAvgh3eiXBXE65g==
-X-Received: by 2002:a05:600c:6d3:b0:426:59d3:8cae with SMTP id
- 5b1f17b1804b1-429d633e764mr21330055e9.13.1723546306306; 
- Tue, 13 Aug 2024 03:51:46 -0700 (PDT)
+ AJvYcCVjVCPxLIAMBA71Blmumi87BPjRgTiNma+7hAIfH08VK0Zv8gAhS94TurNXwbvuOXtkDrcdfgnzRQZv0NrGuIQDcp0HHT3zMghr5bv2ncx8
+X-Gm-Message-State: AOJu0YyFGIl6Hpb7aBzcDLQ7p0Fqet4/OuCYR7jeiPqIwAuygs9YUxnk
+ jSo9dxYxvH6rwKL97sLJFikaaT3DjEHnOq2NEB+aRxAH6fDlD/sK
+X-Google-Smtp-Source: AGHT+IHcFaaF5NVEVnvtNiV476r9AqohxbQTNIubIsJ2CbGH8C94GlKmoddxaTxdje9PNBr2TQhbQA==
+X-Received: by 2002:a05:600c:1c17:b0:426:6981:1bd with SMTP id
+ 5b1f17b1804b1-429d6280c76mr19765785e9.5.1723546307600; 
+ Tue, 13 Aug 2024 03:51:47 -0700 (PDT)
 Received: from fedora.. ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-429d877e066sm17290785e9.1.2024.08.13.03.51.45
+ 5b1f17b1804b1-429d877e066sm17290785e9.1.2024.08.13.03.51.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Aug 2024 03:51:45 -0700 (PDT)
+ Tue, 13 Aug 2024 03:51:46 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: rodrigosiqueiramelo@gmail.com
 Cc: melissa.srw@gmail.com, mairacanal@riseup.net, hamohammed.sa@gmail.com,
@@ -62,9 +62,9 @@ Cc: melissa.srw@gmail.com, mairacanal@riseup.net, hamohammed.sa@gmail.com,
  tzimmermann@suse.de, airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, louis.chauvet@bootlin.com,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [RFC PATCH 06/17] drm/vkms: Allow to configure multiple encoders
-Date: Tue, 13 Aug 2024 12:44:17 +0200
-Message-ID: <20240813105134.17439-7-jose.exposito89@gmail.com>
+Subject: [RFC PATCH 07/17] drm/vkms: Use managed memory to create connectors
+Date: Tue, 13 Aug 2024 12:44:18 +0200
+Message-ID: <20240813105134.17439-8-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240813105134.17439-1-jose.exposito89@gmail.com>
 References: <20240813105134.17439-1-jose.exposito89@gmail.com>
@@ -86,202 +86,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a list of encoder configurations to vkms_config and add as many
-encoders as configured during output initialization.
+A future patch will allow to create multiple connectors. Use managed
+memory to simplify the code.
 
-For backwards compatibility, create a single encoder in the default
-configuration.
+Refactor, no functional changes.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/vkms/vkms_config.c | 50 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_config.h | 13 ++++++++
- drivers/gpu/drm/vkms/vkms_output.c | 14 ++++++---
- 3 files changed, 73 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vkms/vkms_drv.h    |  5 ---
+ drivers/gpu/drm/vkms/vkms_output.c | 53 +++++++++++++++++-------------
+ 2 files changed, 31 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 3af750071f04..6a8dfebee24e 100644
---- a/drivers/gpu/drm/vkms/vkms_config.c
-+++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -18,6 +18,7 @@ struct vkms_config *vkms_config_create(char *dev_name)
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 2466e8b0231f..cac37d21654a 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -121,14 +121,9 @@ struct vkms_crtc {
  
- 	config->dev_name = dev_name;
- 	config->crtcs = (struct list_head)LIST_HEAD_INIT(config->crtcs);
-+	config->encoders = (struct list_head)LIST_HEAD_INIT(config->encoders);
+ struct vkms_config;
  
- 	return config;
- }
-@@ -28,6 +29,7 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
- {
- 	struct vkms_config *config;
- 	struct vkms_config_crtc *crtc_cfg;
-+	struct vkms_config_encoder *encoder_cfg;
- 
- 	config = vkms_config_create(DEFAULT_DEVICE_NAME);
- 	if (IS_ERR(config))
-@@ -40,16 +42,24 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
- 	if (IS_ERR(crtc_cfg))
- 		return ERR_CAST(crtc_cfg);
- 
-+	encoder_cfg = vkms_config_add_encoder(config, BIT(0));
-+	if (IS_ERR(encoder_cfg))
-+		return ERR_CAST(encoder_cfg);
-+
- 	return config;
- }
- 
- void vkms_config_destroy(struct vkms_config *config)
- {
- 	struct vkms_config_crtc *crtc_cfg, *crtc_tmp;
-+	struct vkms_config_encoder *encoder_cfg, *encoder_tmp;
- 
- 	list_for_each_entry_safe(crtc_cfg, crtc_tmp, &config->crtcs, list)
- 		vkms_config_destroy_crtc(config, crtc_cfg);
- 
-+	list_for_each_entry_safe(encoder_cfg, encoder_tmp, &config->encoders, list)
-+		vkms_config_destroy_encoder(config, encoder_cfg);
-+
- 	kfree(config);
- }
- 
-@@ -59,6 +69,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	struct drm_device *dev = entry->dev;
- 	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
- 	struct vkms_config_crtc *crtc_cfg;
-+	struct vkms_config_encoder *encoder_cfg;
- 	int n;
- 
- 	seq_printf(m, "dev_name=%s\n", vkmsdev->config->dev_name);
-@@ -72,6 +83,13 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 		n++;
- 	}
- 
-+	n = 0;
-+	list_for_each_entry(encoder_cfg, &vkmsdev->config->encoders, list) {
-+		seq_printf(m, "encoder(%d).possible_crtcs=%d\n", n,
-+			   encoder_cfg->possible_crtcs);
-+		n++;
-+	}
-+
- 	return 0;
- }
- 
-@@ -116,3 +134,35 @@ void vkms_config_destroy_crtc(struct vkms_config *config,
- 	list_del(&crtc_cfg->list);
- 	kfree(crtc_cfg);
- }
-+
-+struct vkms_config_encoder *vkms_config_add_encoder(struct vkms_config *config,
-+						    uint32_t possible_crtcs)
-+{
-+	struct vkms_config_encoder *encoder_cfg;
-+
-+	encoder_cfg = kzalloc(sizeof(*encoder_cfg), GFP_KERNEL);
-+	if (!encoder_cfg)
-+		return ERR_PTR(-ENOMEM);
-+
-+	encoder_cfg->possible_crtcs = possible_crtcs;
-+
-+	encoder_cfg->index = 0;
-+	if (!list_empty(&config->encoders)) {
-+		struct vkms_config_encoder *last;
-+
-+		last = list_last_entry(&config->encoders,
-+				       struct vkms_config_encoder, list);
-+		encoder_cfg->index = last->index + 1;
-+	}
-+
-+	list_add_tail(&encoder_cfg->list, &config->encoders);
-+
-+	return encoder_cfg;
-+}
-+
-+void vkms_config_destroy_encoder(struct vkms_config *config,
-+				 struct vkms_config_encoder *encoder_cfg)
-+{
-+	list_del(&encoder_cfg->list);
-+	kfree(encoder_cfg);
-+}
-diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index bc40a0e3859a..b717b5c0d3d9 100644
---- a/drivers/gpu/drm/vkms/vkms_config.h
-+++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -14,11 +14,18 @@ struct vkms_config_crtc {
- 	bool writeback;
- };
- 
-+struct vkms_config_encoder {
-+	struct list_head list;
-+	unsigned int index;
-+	uint32_t possible_crtcs;
-+};
-+
- struct vkms_config {
- 	char *dev_name;
- 	bool cursor;
- 	bool overlay;
+-struct vkms_output {
+-	struct drm_connector connector;
+-};
+-
+ struct vkms_device {
+ 	struct drm_device drm;
+ 	struct platform_device *platform;
+-	struct vkms_output output;
  	struct list_head crtcs;
-+	struct list_head encoders;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
+ 	const struct vkms_config *config;
  };
-@@ -39,4 +46,10 @@ struct vkms_config_crtc *vkms_config_add_crtc(struct vkms_config *config,
- void vkms_config_destroy_crtc(struct vkms_config *config,
- 			      struct vkms_config_crtc *crtc_cfg);
- 
-+/* Encoders */
-+struct vkms_config_encoder *vkms_config_add_encoder(struct vkms_config *config,
-+						    uint32_t possible_crtcs);
-+void vkms_config_destroy_encoder(struct vkms_config *config,
-+				 struct vkms_config_encoder *encoder_cfg);
-+
- #endif /* _VKMS_CONFIG_H_ */
 diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 15f0b72af325..7afe37aea52d 100644
+index 7afe37aea52d..4413cf88afc7 100644
 --- a/drivers/gpu/drm/vkms/vkms_output.c
 +++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -30,7 +30,8 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
+@@ -9,7 +9,6 @@
+ 
+ static const struct drm_connector_funcs vkms_connector_funcs = {
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+-	.destroy = drm_connector_cleanup,
+ 	.reset = drm_atomic_helper_connector_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+@@ -29,6 +28,33 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
+ 	.get_modes    = vkms_conn_get_modes,
  };
  
++static struct drm_connector *vkms_connector_init(struct vkms_device *vkms_device,
++						 uint32_t possible_encoders)
++{
++	struct drm_connector *connector;
++	int ret;
++
++	connector = drmm_kzalloc(&vkms_device->drm, sizeof(*connector), GFP_KERNEL);
++	if (!connector) {
++		DRM_ERROR("Failed to allocate connector\n");
++		return ERR_PTR(-ENOMEM);
++	}
++
++	ret = drmm_connector_init(&vkms_device->drm, connector,
++				  &vkms_connector_funcs,
++				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
++	if (ret) {
++		DRM_ERROR("Failed to init connector\n");
++		kfree(connector);
++		return ERR_PTR(ret);
++	}
++
++	connector->possible_encoders = possible_encoders;
++	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
++
++	return connector;
++}
++
  static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device,
--					     uint32_t possible_crtcs)
-+					     uint32_t possible_crtcs,
-+					     unsigned int index)
+ 					     uint32_t possible_crtcs,
+ 					     unsigned int index)
+@@ -72,9 +98,8 @@ static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index)
+ 
+ int vkms_output_init(struct vkms_device *vkmsdev, int index)
  {
+-	struct vkms_output *output = &vkmsdev->output;
+ 	struct drm_device *dev = &vkmsdev->drm;
+-	struct drm_connector *connector = &output->connector;
++	struct drm_connector *connector;
  	struct drm_encoder *encoder;
- 	int ret;
-@@ -49,6 +50,7 @@ static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device,
- 		return ERR_PTR(ret);
+ 	struct vkms_config_encoder *encoder_cfg;
+ 	struct vkms_crtc *vkms_crtc;
+@@ -117,14 +142,9 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 		}
  	}
  
-+	encoder->index = index;
- 	encoder->possible_crtcs = possible_crtcs;
+-	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
+-				 DRM_MODE_CONNECTOR_VIRTUAL);
+-	if (ret) {
+-		DRM_ERROR("Failed to init connector\n");
+-		return ret;
+-	}
+-
+-	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
++	connector = vkms_connector_init(vkmsdev, BIT(index));
++	if (IS_ERR(connector))
++		return PTR_ERR(connector);
  
- 	return encoder;
-@@ -74,6 +76,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	struct drm_device *dev = &vkmsdev->drm;
- 	struct drm_connector *connector = &output->connector;
- 	struct drm_encoder *encoder;
-+	struct vkms_config_encoder *encoder_cfg;
- 	struct vkms_crtc *vkms_crtc;
- 	struct vkms_config_crtc *crtc_cfg;
- 	struct vkms_plane *primary, *cursor = NULL;
-@@ -123,9 +126,12 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	list_for_each_entry(encoder_cfg, &vkmsdev->config->encoders, list) {
+ 		encoder = vkms_encoder_init(vkmsdev, encoder_cfg->possible_crtcs,
+@@ -133,18 +153,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 			return PTR_ERR(encoder);
+ 	}
  
- 	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
+-	ret = drm_connector_attach_encoder(connector, encoder);
+-	if (ret) {
+-		DRM_ERROR("Failed to attach connector to encoder\n");
+-		goto err_attach;
+-	}
+-
+ 	drm_mode_config_reset(dev);
  
--	encoder = vkms_encoder_init(vkmsdev, BIT(0));
--	if (IS_ERR(encoder))
--		return PTR_ERR(encoder);
-+	list_for_each_entry(encoder_cfg, &vkmsdev->config->encoders, list) {
-+		encoder = vkms_encoder_init(vkmsdev, encoder_cfg->possible_crtcs,
-+					    encoder_cfg->index);
-+		if (IS_ERR(encoder))
-+			return PTR_ERR(encoder);
-+	}
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret) {
+ 	return 0;
+-
+-err_attach:
+-	drm_connector_cleanup(connector);
+-
+-	return ret;
+ }
 -- 
 2.46.0
 
