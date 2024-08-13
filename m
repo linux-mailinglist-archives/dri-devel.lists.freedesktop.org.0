@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE50F950C13
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 20:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D68950C17
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 20:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C05910E3D2;
-	Tue, 13 Aug 2024 18:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 939C910E3CE;
+	Tue, 13 Aug 2024 18:17:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TTboVg+a";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TwUO2SzP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A206210E3CF
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 18:16:56 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id
- af79cd13be357-7a337501630so378041385a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 11:16:56 -0700 (PDT)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com
+ [209.85.221.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 513EF10E3CE
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 18:17:56 +0000 (UTC)
+Received: by mail-vk1-f170.google.com with SMTP id
+ 71dfb90a1353d-4f50dd3eab9so1989662e0c.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 11:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1723573013; x=1724177813;
+ d=chromium.org; s=google; t=1723573073; x=1724177873;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Yb//bFg6w3kBWyz7jCIoc0uCU2L7eORtwe8AvBhyGXM=;
- b=TTboVg+aWUgPD+iO3TkExEGR9MkRrvBJXr6OWp+Iu4Xb7HrIQNK/7wd8//2HOrNrkw
- nqpdCgoNOfH8X+HcDOJWEQOA6HXDXwFeDmnGYKgYMkNtvVnt1i2Dbts12Mh1czmDC1+D
- SEnUSvIv9r6Zhs4iX3NTVZzXJiSKUME9ZjtbI=
+ bh=imsr1IM3T+HpLuQNUoryQ7eKcRg7fznV3Mgf+zxJJ6s=;
+ b=TwUO2SzPeXy8njL4tnK+3cLas9R72AMybsfpI/QhkM+ZdUztlN1qn8GqAGhg5Ct0OZ
+ iwv9mIjMoDuXL963LhKNF5tBsmuPh1mnW4uUl6VTctFjgEnE5Z/dryXX5eUubga9Q0AX
+ /aeOYXgHrLHIx79D6t5buqKNJyv2sqJxYR4Zc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723573013; x=1724177813;
+ d=1e100.net; s=20230601; t=1723573073; x=1724177873;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Yb//bFg6w3kBWyz7jCIoc0uCU2L7eORtwe8AvBhyGXM=;
- b=rZ3Bp2r4e06HpD06GndcT/KcM9t2JPjS5CmuVBLF+O4AN6vgCLUA4Gdwsp4zrRwxT4
- wQzHVLeHJWNWXSy2Vap41tb4IyyAcSwi8TUCi94RNsaer2Ct7zDyWtj9fa7NsxoPzg3g
- DqlPx9H4ZSwEfP9TNNOx5XIftfCfcezaf4izNh3UUrDayZ+7SSPObssxbwgS3RwYN0i9
- Atwd2Vs8dhrgejZYZUcy867UTNgBGhRNh8ogT1dacZzTFCHlJYBYajDpojLuQDKU8zO5
- 2gncuYWvNbBZlilKl3dnZEQnwLn7vxItohxpOexRsSTuOVA+6mcIAuuAtMIUiRdDVGiY
- rUVA==
+ bh=imsr1IM3T+HpLuQNUoryQ7eKcRg7fznV3Mgf+zxJJ6s=;
+ b=xO6dDFh7FoTQf8rjvj6DU2XUHOTnaUvn0ySnsmd9Ibl4hAhEYAQx2lWpEws2XPRWWY
+ WVEt/h0vwHLuSloSimOhyOpGjqlXQ2ZD1EpNBz3AO92TXItYw1fTHIUiM59VjbvmM5dK
+ oFuWvaIBE3LruLVdj1S3yH0OsfyART9GoKJsN3+L7stJs8nEy/ScnubCmC/xJAIT1zB8
+ IZTowevUKQhT7GxflwXM8rNmcv+8KK9Qs0VB6G0hVDaVhArQmLWA5PsXyUoV/97DOQGE
+ DHw5XaaxIMSLR2BEdTk5wTWUZ+PFFFLiEm2hNWX0jV5Emn4D4u3weOHjpP/VT8PXfuaT
+ 6/vw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWAFCdQIdLD3G7Ti00ystYRlv7qStP3VRRLfOX4xD+TqEavyMROPoxSEvfEjP9uUGer7HrlktGEL60=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEAihB/vjF0NSDFmsltHeC/m+90hPAS8fmCzrdQzwVZI4k8Cj1
- q9sAA5dHaRd8GOjjt1XGgZipcUnV1d/+NO3ekqQBoLr+7tdzgONPI+dZaOlBfaj8IsDeiBfMzmw
+ AJvYcCW8bOFme9ggOaT4cW5RLwTR0m1wLYp4zmLnu7UfYI/wEWjKG4rhINmazhY4qq3+HgdOda//QyEqZu7ZiJknv/jLV61+dtFEmqJ6zy2d6bFK
+X-Gm-Message-State: AOJu0Yx1IryOk2pfBR8hsUPa+V8NkG00U3Q6z7Rwt0bupUFUc2RsVhzw
+ WvwiW4cxxAu6NAqwXD6mlaCLizgZjIr7fsU8Q743WUtAO3mxy5qxJdqXc3oYmxjcozwJCPDNWtA
  =
-X-Google-Smtp-Source: AGHT+IHCMqTN4/SYtFev0ToOg7ntrudvdvtv+UZmQORHGZDQSA4cbDN3U4aCZ9HlukalnUMLsAkyiw==
-X-Received: by 2002:a05:620a:4481:b0:79f:670:7635 with SMTP id
- af79cd13be357-7a4ee3e5187mr45351085a.62.1723573013128; 
- Tue, 13 Aug 2024 11:16:53 -0700 (PDT)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com.
- [209.85.219.48]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7a4c7dedf98sm359880585a.98.2024.08.13.11.16.52
+X-Google-Smtp-Source: AGHT+IEB+phZ4ZJc0gNKww/iDYxc+1qmQyIN9LD5zELP1OFSH5BJ3Sf2+TlCtjzh/AhjcLpig/a4gA==
+X-Received: by 2002:a05:6122:2a04:b0:4ec:f996:5d84 with SMTP id
+ 71dfb90a1353d-4fad1c16970mr646326e0c.2.1723573073482; 
+ Tue, 13 Aug 2024 11:17:53 -0700 (PDT)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com.
+ [209.85.222.53]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-4f91f31c62bsm970553e0c.23.2024.08.13.11.17.52
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Aug 2024 11:16:52 -0700 (PDT)
-Received: by mail-qv1-f48.google.com with SMTP id
- 6a1803df08f44-6b79c969329so30739876d6.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 11:16:52 -0700 (PDT)
+ Tue, 13 Aug 2024 11:17:52 -0700 (PDT)
+Received: by mail-ua1-f53.google.com with SMTP id
+ a1e0cc1a2514c-81ff08e24f8so1879288241.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 11:17:52 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCeqswSOd0ueIUpnJu9uGz6U+ckfvN/GWzXZ/mP7v/Hn9wW6qj0AJDkZ4Th9/DgyrbIZJWcDFjiOw=@lists.freedesktop.org
-X-Received: by 2002:a05:6214:4603:b0:6b1:e371:99d9 with SMTP id
- 6a1803df08f44-6bf5d15a44bmr3257676d6.8.1723573011530; Tue, 13 Aug 2024
- 11:16:51 -0700 (PDT)
+ AJvYcCVIVH3ReEJr//+oh4HHrELvFz29Wpl9cwGcHzk0jTU68kj5LUwGG0I+Ewt8FljHHtxQLZHEJ4gPon0YFMJ7mknlNDHY2vxtxcjnMdTsG5DG
+X-Received: by 2002:a05:6102:3048:b0:48f:e802:4b26 with SMTP id
+ ada2fe7eead31-49759944e85mr582438137.18.1723573071902; Tue, 13 Aug 2024
+ 11:17:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240806135949.468636-1-tejasvipin76@gmail.com>
- <20240806135949.468636-3-tejasvipin76@gmail.com>
-In-Reply-To: <20240806135949.468636-3-tejasvipin76@gmail.com>
+References: <20240813062912.467280-1-tejasvipin76@gmail.com>
+ <20240813062912.467280-3-tejasvipin76@gmail.com>
+In-Reply-To: <20240813062912.467280-3-tejasvipin76@gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 13 Aug 2024 11:16:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Wi9qCm3L+Cg-WxwGEm+xs-M-aKTNRvpFPs-Y3a6m4KrQ@mail.gmail.com>
-Message-ID: <CAD=FV=Wi9qCm3L+Cg-WxwGEm+xs-M-aKTNRvpFPs-Y3a6m4KrQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/panel: startek-kd070fhfid015: transition to
- mipi_dsi wrapped functions
+Date: Tue, 13 Aug 2024 11:17:40 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UtZdh4hMqT7ATtQ+g=jGV568sCnFgJzFLVDRj2qAkVcQ@mail.gmail.com>
+Message-ID: <CAD=FV=UtZdh4hMqT7ATtQ+g=jGV568sCnFgJzFLVDRj2qAkVcQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/panel: jdi-fhd-r63452: transition to mipi_dsi
+ wrapped functions
 To: Tejas Vipin <tejasvipin76@gmail.com>
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, airlied@gmail.com, 
@@ -98,19 +98,20 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Aug 6, 2024 at 7:00=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com>=
- wrote:
+On Mon, Aug 12, 2024 at 11:31=E2=80=AFPM Tejas Vipin <tejasvipin76@gmail.co=
+m> wrote:
 >
-> Use multi style wrapped functions for mipi_dsi in the
-> startek-kd070fhfid015 panel.
+> Changes the jdi-fhd-r63452 panel to use multi style functions for
+> improved error handling.
 >
 > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 > ---
->  .../drm/panel/panel-startek-kd070fhfid015.c   | 115 ++++++------------
->  1 file changed, 35 insertions(+), 80 deletions(-)
+>  drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 150 ++++++-------------
+>  1 file changed, 49 insertions(+), 101 deletions(-)
 
-Pushed to drm-misc-next:
+Looks nice to me now.
 
-[2/2] drm/panel: startek-kd070fhfid015: transition to mipi_dsi wrapped func=
-tions
-      commit: b080a60731ad909eae4463684acc23d322e93579
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+...as per usual, I'll give this a snooze for a week or so and plan to
+apply it if nothing comes up.
