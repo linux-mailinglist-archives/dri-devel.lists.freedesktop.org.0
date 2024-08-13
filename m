@@ -2,68 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD64950405
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 13:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F9E950496
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 14:13:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 348BA10E316;
-	Tue, 13 Aug 2024 11:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F2810E319;
+	Tue, 13 Aug 2024 12:12:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EnMLezDq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PZaeDJ4B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 123F610E2FE;
- Tue, 13 Aug 2024 11:47:35 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 541E510E318;
+ Tue, 13 Aug 2024 12:12:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723549655; x=1755085655;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=G3pOGZVBqXB7sYa2biEjElbdDn1qcCVetk8yRjFI7VY=;
- b=EnMLezDqBNHPWTSdYnU33I/gWqbZeP3sN7Q8m0KHQ16ku9RLPuheaWIl
- hYwRNcAuCktYwr8cWFeXP8dX4pvBkO54iawqae3d3ObTjHPeN0zyMl/+n
- IGjbd6VdOU0HbyPs2ClowqYtYzvqdxLyQnBflE2wla4gH5KcIf9KpAnAQ
- PqdfsEz63IaeENuefBdaHU0+K+XLzx8AoY2Ihy2BUxYAUs23tMpHBwJRX
- CPOuj6T77DO8O05F+ptku4Bhbkx3txC7RaVpd61MvnknU6Vqd8oVMOA7Y
- jBUb1QhQTR53E1BtOJL8iYjpquCOdcJZfMhwWkIFfobSKp1N7pJv9Ve+Y g==;
-X-CSE-ConnectionGUID: 0CD5jzHjQk2Ok8xr0hmO7w==
-X-CSE-MsgGUID: x6ZQzdDYShuGa9XIEPrOpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21523384"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="21523384"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 04:47:35 -0700
-X-CSE-ConnectionGUID: VQZ2r7WpSwadk3elOT4wXg==
-X-CSE-MsgGUID: EAyy5BgcTr6dvpG+kQFuLw==
+ t=1723551178; x=1755087178;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2lZuZVFeOiclAWcSJwOscUKhucFNwAH+bKElI+hlcyc=;
+ b=PZaeDJ4Bp6ovs1TGgzRxCbEjxYO3MET2FY1kP+r/EzJ+Jt14GjJzq6TH
+ Lt7y+WkqkcmafO9ZKl6cwzR38ya/fzz+V97chzOxCd/Wh8vH9qzp8xVPm
+ BxyACvA7Z1bZnnNnINTfOvt0HtA1ModPCpq9MkXrwbN1NTdDWnacskYm5
+ KTXupd45f5y2dvHvgTCC5/o16i8L1pcESnCXNUhhAxg6B8pB/oTW8T5By
+ DPfUtHjtGva5iWfltSwUt0gkf+V5jRWLiuXy4/xgdVrZtLaqmS2+66itu
+ o8iRrE9zP5WC5v9xs8QvoWXXK0p9ExNJ3s3C6mKdNTR6PoyoZYpIIowwO w==;
+X-CSE-ConnectionGUID: l2QyyDHlSGmQyYExlAXXHw==
+X-CSE-MsgGUID: cqOsJ2zfRna//+indnlNpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21682588"
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="21682588"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2024 05:12:57 -0700
+X-CSE-ConnectionGUID: bY9oRFrmQqqvfHNNywmgKw==
+X-CSE-MsgGUID: /ax/e25sT9C32TZD7ytYqA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="63038013"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 04:47:30 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sdpzs-0000000EiH4-0Rht; Tue, 13 Aug 2024 14:47:28 +0300
-Date: Tue, 13 Aug 2024 14:47:27 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, linux@roeck-us.net, andi.shyti@linux.intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, badal.nilawar@intel.com,
- riana.tauro@intel.com, ashutosh.dixit@intel.com, karthik.poosa@intel.com
-Subject: Re: [PATCH v4] drm/i915/hwmon: expose fan speed
-Message-ID: <ZrtHz1aY_Lf_XIsL@smile.fi.intel.com>
-References: <20240809061525.1368153-1-raag.jadav@intel.com>
- <ZrYB-GI9L2RSc2bt@smile.fi.intel.com>
- <ZrtCIU8On4ZKILmh@black.fi.intel.com>
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="89450926"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.234])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2024 05:12:51 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: linux-kernel@vger.kernel.org
+Cc: intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, akinobu.mita@gmail.com,
+ akpm@linux-foundation.org, lucas.demarchi@intel.com,
+ rodrigo.vivi@intel.com, thomas.hellstrom@linux.intel.com,
+ robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, jani.nikula@intel.com
+Subject: [PATCH 1/3] fault-inject: improve build for CONFIG_FAULT_INJECTION=n
+Date: Tue, 13 Aug 2024 15:12:35 +0300
+Message-Id: <20240813121237.2382534-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZrtCIU8On4ZKILmh@black.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,32 +72,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 13, 2024 at 02:23:13PM +0300, Raag Jadav wrote:
-> On Fri, Aug 09, 2024 at 02:48:08PM +0300, Andy Shevchenko wrote:
-> > On Fri, Aug 09, 2024 at 11:45:25AM +0530, Raag Jadav wrote:
+The fault-inject.h users across the kernel need to add a lot of #ifdef
+CONFIG_FAULT_INJECTION to cater for shortcomings in the header. Make
+fault-inject.h self-contained for CONFIG_FAULT_INJECTION=n, and add
+stubs for DECLARE_FAULT_ATTR(), setup_fault_attr(), should_fail_ex(),
+and should_fail() to allow removal of conditional compilation.
 
-...
+Cc: Akinobu Mita <akinobu.mita@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ include/linux/fault-inject.h | 36 +++++++++++++++++++++++++++++-------
+ 1 file changed, 29 insertions(+), 7 deletions(-)
 
-> > > +	/*
-> > > +	 * HW register value is accumulated count of pulses from
-> > > +	 * PWM fan with the scale of 2 pulses per rotation.
-> > > +	 */
-> > > +	rotations = pulses >> 1;
-> > 
-> > In accordance with the comment the
-> > 
-> > 	rotations = pulses / 2;
-> > 
-> > looks better.
-> 
-> This change seems to cause a build error in v5.
-> Something to do with __udivdi3 on i386.
-
-No, it's not this change.
-Please, read report carefully.
-
+diff --git a/include/linux/fault-inject.h b/include/linux/fault-inject.h
+index 354413950d34..8c829d28dcf3 100644
+--- a/include/linux/fault-inject.h
++++ b/include/linux/fault-inject.h
+@@ -2,13 +2,17 @@
+ #ifndef _LINUX_FAULT_INJECT_H
+ #define _LINUX_FAULT_INJECT_H
+ 
++#include <linux/err.h>
++#include <linux/types.h>
++
++struct dentry;
++struct kmem_cache;
++
+ #ifdef CONFIG_FAULT_INJECTION
+ 
+-#include <linux/types.h>
+-#include <linux/debugfs.h>
++#include <linux/atomic.h>
+ #include <linux/configfs.h>
+ #include <linux/ratelimit.h>
+-#include <linux/atomic.h>
+ 
+ /*
+  * For explanation of the elements of this struct, see
+@@ -51,6 +55,28 @@ int setup_fault_attr(struct fault_attr *attr, char *str);
+ bool should_fail_ex(struct fault_attr *attr, ssize_t size, int flags);
+ bool should_fail(struct fault_attr *attr, ssize_t size);
+ 
++#else /* CONFIG_FAULT_INJECTION */
++
++struct fault_attr {
++};
++
++#define DECLARE_FAULT_ATTR(name) struct fault_attr name = {}
++
++static inline int setup_fault_attr(struct fault_attr *attr, char *str)
++{
++	return 0; /* Note: 0 means error for __setup() handlers! */
++}
++static inline bool should_fail_ex(struct fault_attr *attr, ssize_t size, int flags)
++{
++	return false;
++}
++static inline bool should_fail(struct fault_attr *attr, ssize_t size)
++{
++	return false;
++}
++
++#endif /* CONFIG_FAULT_INJECTION */
++
+ #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
+ 
+ struct dentry *fault_create_debugfs_attr(const char *name,
+@@ -87,10 +113,6 @@ static inline void fault_config_init(struct fault_config *config,
+ 
+ #endif /* CONFIG_FAULT_INJECTION_CONFIGFS */
+ 
+-#endif /* CONFIG_FAULT_INJECTION */
+-
+-struct kmem_cache;
+-
+ #ifdef CONFIG_FAIL_PAGE_ALLOC
+ bool should_fail_alloc_page(gfp_t gfp_mask, unsigned int order);
+ #else
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.2
 
