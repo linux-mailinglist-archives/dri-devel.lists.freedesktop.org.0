@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5A59502ED
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 12:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CD19502EC
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 12:52:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE3010E2EB;
-	Tue, 13 Aug 2024 10:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C2110E2FD;
+	Tue, 13 Aug 2024 10:52:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PaZBITCN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LRh5OUi1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F33910E2F8
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A77610E2F8
  for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 10:51:58 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-52fc4388a64so7337118e87.1
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-42816ca782dso40962575e9.2
  for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 03:51:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723546316; x=1724151116; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1723546317; x=1724151117; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GIG00hBvhxwE6VfxQ1Dl1AavFjjBn2BviUu5FBbH+3g=;
- b=PaZBITCNEEh7mxUYjAqRgn/8KrpuSaeSlCr1wIuK3SA9dpZvMw15hxOKH1dJV8D/Nu
- 8rmHK/2TaB0ZlPJBfbxVAuwskAojQWr8wrQlh6OUL4C+CZF8IFNaztrGskMjNDovaBB2
- gMJF5WgzBdHna6dDmuLbQ2/N5gVzp8y5n2h4CWM+1zBjqZduSP6XX+i7chhZvXXI4BSk
- chcI7p6XNQpMOgTPml1r5JC7bd98xQ+YGtsvnVG/PYiZC1sMBdPnr3sLLPscZiIzHnhn
- u3b5iw3RSuWb7o5BcPMbVIthxBVZ5LDn6LbtE+SDx6pDLADzRxEAzf81LYtmarpHGlQL
- bCpA==
+ bh=bEJ3c0tbXkLCUVM8w2XGUoLlD36QVGf/XlmxenxbwBg=;
+ b=LRh5OUi1fIccsOX50vx+v7BHEkKtmI5WMmUsmTYvuQJhtfRE0DHyL4XnZ/qH1gTdWn
+ uZkcY8l/0/+OFpio+gVd9OEL7uXnw8N3Bd9/tyBUI6iJfvucf0qXuG8EfgomW+GQQNdd
+ +z04E5Ydr47eJE6V+LTbfckv2vDeApJm0uKJYQE2gm0Pn0MCBnJ76Fou4BKTnCNvxw+k
+ z1fEpqlecWwk94Wm6pa59NSH4VBzYrOf2mS4MYlegYPRoZN2MgGUgsulcl6+qNK+glNH
+ Bfs4dhcELV4bvCXprfCTWDLDGxk5MC0cGztgzefTW52CzAIpFNBM5x72uVZePiHida8r
+ Zyxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723546316; x=1724151116;
+ d=1e100.net; s=20230601; t=1723546317; x=1724151117;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GIG00hBvhxwE6VfxQ1Dl1AavFjjBn2BviUu5FBbH+3g=;
- b=kv6IHlMXNLb71plEuAl2XIFJG3Vx9j9RcrIhT+SUud5laDZlgaZ3mWPBJFOTf6wQnW
- N5xTTAGzRPSJVvB/qq2h92L0hMbLtfLu1BzXnNrJlUlTapk+k2xCpjw2uxWZXBUAu0nA
- i77RxB5+IVllPumsGyA5OpKaelEnjK0nDyU/cV+ygnANJHLzM+HmAG5nTwGxJsRkiM9T
- S/5jQeV5SLCYlWzwgMa+lI0BGZrvhLvmwl31VQLF7S0omJLWx8gIxa2HJy0xniZtm6bw
- BiDB+TXSj/TmtIceSYWvKP9zULQF+F77T3tqhXQJ/lzb/IMx0727HooGag5tSP2rt9o8
- kadg==
+ bh=bEJ3c0tbXkLCUVM8w2XGUoLlD36QVGf/XlmxenxbwBg=;
+ b=Wi7ZU362abfaQvNsd7wBpWPuez2l3VwYC7nMvjVmsCLGtff0A9zoVX5ZtV0JlyuSu8
+ KXiSiU6HEv2nvhw/laU2jscMXe3m9dPRM/w+krcn1dhMs/apUmk6zm9xRVA8JjApH439
+ oK4Ysd3Pb7GP+Ezdhuc5wHzkZD8K2wCaO6+2RypX7NqOma9ndWXutwi321kW4fHAuq33
+ UMTtEiUSUn3yda8gNja7ma0NcIlM1qcw2WhyXY4e0V11jDPLUgzFoMoFdGcwVmc9Z8z6
+ I8FvUzc9vfPS2W6N1M0bzfqalzu228ZfOgnomgk3ZqCNTmSh2tpqltDiImTCWyqOBkJC
+ Qdxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV2UVw1bi35Q/el4jVXdOn2zXQ7l3NFFnoffud1itTvplmsDeWEXbhH6Af6muUcImAj4umPhaJvB1nBFGNo5GizPvapjSlrWAxMHKr9oZu5
-X-Gm-Message-State: AOJu0YwTyFe/Jm7eZAfz6gY1shhiLb0fVvfs+RlieYrB8TCnQiWr42vl
- E6UhMnC3dNQTKlNutjXUDtxGMX/isBM04wnua4Zpgt3yy1y5huCh
-X-Google-Smtp-Source: AGHT+IHG61sFSXaG2KPmxHnV7dm/Gc1K15rhK/tEp3tOyYNwnbyxbnWi9QRN7AYcotU8SvHARdSFyw==
-X-Received: by 2002:a05:6512:31ce:b0:52e:9b15:1c60 with SMTP id
- 2adb3069b0e04-53213680d76mr1857158e87.48.1723546315942; 
- Tue, 13 Aug 2024 03:51:55 -0700 (PDT)
+ AJvYcCVcKJLMs86dI3caK29ulgvG04Hv7MWNB5NDi58e8+Y2pjm3bne7PWO9oU9dtOn9d+GL6LGBHICLZ/I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyeK6e0CuqSZcC9D7y2L6DVnbBd0flZCTmSPPlkTDPc/Y9CnsER
+ CC5V599XbfNVinZoJnbKSe7rd0gqa6EJKNNNvGqUerrqePc5hd3o
+X-Google-Smtp-Source: AGHT+IESV+wchjJ2FOAcWUm8UC3C3J1WBcWqWQE0yaBq8D5o1OiKaRZvZx0+aIIqhD8qLLziu5WRdw==
+X-Received: by 2002:a05:600c:2909:b0:428:e866:3933 with SMTP id
+ 5b1f17b1804b1-429d4a5a815mr24149465e9.22.1723546316854; 
+ Tue, 13 Aug 2024 03:51:56 -0700 (PDT)
 Received: from fedora.. ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-429d877e066sm17290785e9.1.2024.08.13.03.51.54
+ 5b1f17b1804b1-429d877e066sm17290785e9.1.2024.08.13.03.51.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Aug 2024 03:51:55 -0700 (PDT)
+ Tue, 13 Aug 2024 03:51:56 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: rodrigosiqueiramelo@gmail.com
 Cc: melissa.srw@gmail.com, mairacanal@riseup.net, hamohammed.sa@gmail.com,
@@ -62,9 +62,10 @@ Cc: melissa.srw@gmail.com, mairacanal@riseup.net, hamohammed.sa@gmail.com,
  tzimmermann@suse.de, airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, louis.chauvet@bootlin.com,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [RFC PATCH 14/17] drm/vkms: Allow to configure multiple encoders
-Date: Tue, 13 Aug 2024 12:44:25 +0200
-Message-ID: <20240813105134.17439-15-jose.exposito89@gmail.com>
+Subject: [RFC PATCH 15/17] drm/vkms: Allow to configure multiple planes via
+ configfs
+Date: Tue, 13 Aug 2024 12:44:26 +0200
+Message-ID: <20240813105134.17439-16-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240813105134.17439-1-jose.exposito89@gmail.com>
 References: <20240813105134.17439-1-jose.exposito89@gmail.com>
@@ -86,215 +87,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a list of encoder configurations to vkms_config and add as many
-encoders as configured during output initialization.
-
-For backwards compatibility, create a single encoder in the default
-configuration.
+Create a default subgroup at /config/vkms/planes to allow to create as
+many overlay planes as required. When the plane is created the
+possible_crtcs subgroup is created allowing to link planes and CRTCs.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- Documentation/gpu/vkms.rst           |  16 +++
+ Documentation/gpu/vkms.rst           |  13 ++-
  drivers/gpu/drm/vkms/vkms_config.h   |   3 +
- drivers/gpu/drm/vkms/vkms_configfs.c | 184 ++++++++++++++++++++++++---
- 3 files changed, 188 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/vkms/vkms_configfs.c | 121 +++++++++++++++++++++++++++
+ 3 files changed, 136 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index c69be063d3b4..b6ceb8c48310 100644
+index b6ceb8c48310..ee71d1a569dd 100644
 --- a/Documentation/gpu/vkms.rst
 +++ b/Documentation/gpu/vkms.rst
-@@ -75,6 +75,7 @@ And directories are created for each configurable item of the display pipeline::
- 
-   tree /config/vkms/my-vkms
-     /config/vkms/my-vkms
-+    ├── connectors
+@@ -78,7 +78,8 @@ And directories are created for each configurable item of the display pipeline::
+     ├── connectors
      ├── crtcs
      ├── enabled
-     └── encoders
-@@ -100,16 +101,31 @@ Encoders can be linked to CRTCs by creating a symbolic link under
+-    └── encoders
++    ├── encoders
++    └── planes
  
-   sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/encoders/encoder0/possible_crtcs
+ To add items to the display pipeline, create one or more directories under the
+ available paths.
+@@ -111,6 +112,14 @@ linked to encoders by creating a symbolic link under ``possible_encoders``::
  
-+Next, create one or more connectors::
+   sudo ln -s /config/vkms/my-vkms/encoders/encoder0 /config/vkms/my-vkms/connectors/connector0/possible_encoders
+ 
++Finally, create zero or more overlay planes::
 +
-+  sudo mkdir /config/vkms/my-vkms/connectors/connector0
++  sudo mkdir /config/vkms/my-vkms/planes/plane0
 +
-+The status of the connector can be changed writing ``1`` (connected), ``2``
-+(disconnected) or ``3`` (unknown) to the ``status`` attribute and they can be
-+linked to encoders by creating a symbolic link under ``possible_encoders``::
++And link them with their ``possible_crtcs``::
 +
-+  sudo ln -s /config/vkms/my-vkms/encoders/encoder0 /config/vkms/my-vkms/connectors/connector0/possible_encoders
++  sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/planes/plane0/possible_crtcs
 +
  Once you are done configuring the VKMS instance, enable it::
  
    echo "1" | sudo tee /config/vkms/my-vkms/enabled
- 
-+Note that the connector ``status`` can be changed once the VKMS instance is
-+enabled to emulate hot-plug/unplug.
-+
- Finally, you can remove the VKMS instance disabling it::
- 
-   echo "0" | sudo tee /config/vkms/my-vkms/enabled
- 
- Or removing the top level directory and its subdirectories::
- 
-+  sudo rm /config/vkms/my-vkms/connectors/*/possible_encoders/*
-+  sudo rmdir /config/vkms/my-vkms/connectors/*
+@@ -128,6 +137,8 @@ Or removing the top level directory and its subdirectories::
+   sudo rmdir /config/vkms/my-vkms/connectors/*
    sudo rm /config/vkms/my-vkms/encoders/*/possible_crtcs/*
    sudo rmdir /config/vkms/my-vkms/encoders/*
++  sudo rm /config/vkms/my-vkms/planes/*/possible_crtcs/*
++  sudo rmdir /config/vkms/my-vkms/planes/*
    sudo rmdir /config/vkms/my-vkms/crtcs/*
+   sudo rmdir /config/vkms/my-vkms
+ 
 diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index f9423533a7f3..cf45e3f6ae92 100644
+index cf45e3f6ae92..2ec08bb58ec4 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.h
 +++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -40,6 +40,9 @@ struct vkms_config_connector {
- 	enum drm_connector_status status;
- 	/* only set when instantiated */
- 	struct drm_connector *connector;
+@@ -14,6 +14,9 @@ struct vkms_device;
+ struct vkms_config_plane {
+ 	struct list_head list;
+ 	uint32_t possible_crtcs;
 +	/* only used if created from configfs */
-+	struct config_group connector_group;
-+	struct config_group possible_encoders_group;
++	struct config_group plane_group;
++	struct config_group possible_crtcs_group;
  };
  
- struct vkms_config {
+ struct vkms_config_crtc {
 diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index c0b62fb93dc0..d2369f53e2d8 100644
+index d2369f53e2d8..0b5ac0767da0 100644
 --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -21,6 +21,8 @@ static bool is_configfs_registered;
-  * Each of its items represent a CRTC
-  * @encoders_group: Default subgroup of @device_group at
+@@ -23,6 +23,8 @@ static bool is_configfs_registered;
   * "/config/vkms/encoders". Each of its items represent a encoder
-+ * @connectors_group: Default subgroup of @device_group at
-+ * "/config/vkms/connectors". Each of its items represent a connector
+  * @connectors_group: Default subgroup of @device_group at
+  * "/config/vkms/connectors". Each of its items represent a connector
++ * @planes_group: Default subgroup of @device_group at "/config/vkms/planes".
++ * Each of its items represent an overlay plane
   * @lock: Lock used to project concurrent access to the configuration attributes
   * @enabled: Protected by @lock. The device is created or destroyed when this
   * option changes
-@@ -30,6 +32,7 @@ struct vkms_configfs {
- 	struct config_group device_group;
+@@ -33,6 +35,7 @@ struct vkms_configfs {
  	struct config_group crtcs_group;
  	struct config_group encoders_group;
-+	struct config_group connectors_group;
+ 	struct config_group connectors_group;
++	struct config_group planes_group;
  
  	/* protected by @lock */
  	struct mutex lock;
-@@ -57,6 +60,18 @@ struct vkms_configfs {
- #define encoder_possible_crtcs_item_to_vkms_config_encoder(item) \
- 	container_of(to_config_group(item), struct vkms_config_encoder, possible_crtcs_group)
+@@ -72,6 +75,15 @@ struct vkms_configfs {
+ #define connector_possible_encoders_item_to_vkms_config_connector(item) \
+ 	container_of(to_config_group(item), struct vkms_config_connector, possible_encoders_group)
  
-+#define connectors_group_to_vkms_configfs(group) \
-+	container_of(group, struct vkms_configfs, connectors_group)
++#define planes_group_to_vkms_configfs(group) \
++	container_of(group, struct vkms_configfs, planes_group)
 +
-+#define connectors_item_to_vkms_configfs(item) \
-+	container_of(to_config_group(item), struct vkms_configfs, connectors_group)
++#define planes_item_to_vkms_config_plane(item) \
++	container_of(to_config_group(item), struct vkms_config_plane, plane_group)
 +
-+#define connector_item_to_vkms_config_connector(item) \
-+	container_of(to_config_group(item), struct vkms_config_connector, connector_group)
-+
-+#define connector_possible_encoders_item_to_vkms_config_connector(item) \
-+	container_of(to_config_group(item), struct vkms_config_connector, possible_encoders_group)
++#define plane_possible_crtcs_item_to_vkms_config_plane(item) \
++	container_of(to_config_group(item), struct vkms_config_plane, possible_crtcs_group)
 +
  static ssize_t crtc_cursor_show(struct config_item *item, char *page)
  {
  	struct vkms_config_crtc *crtc_cfg = crtcs_item_to_vkms_config_crtc(item);
-@@ -287,6 +302,154 @@ static struct config_item_type encoders_group_type = {
+@@ -450,6 +462,110 @@ static struct config_item_type connectors_group_type = {
  	.ct_owner = THIS_MODULE,
  };
  
-+static int connector_possible_encoders_allow_link(struct config_item *src,
-+						  struct config_item *target)
++static int plane_possible_crtcs_allow_link(struct config_item *src,
++					   struct config_item *target)
 +{
-+	struct vkms_config_connector *connector_cfg;
-+	struct vkms_config_encoder *encoder_cfg;
++	struct vkms_config_plane *plane_cfg;
++	struct vkms_config_crtc *crtc_cfg;
 +
-+	if (target->ci_type != &encoder_group_type)
++	if (target->ci_type != &crtc_group_type)
 +		return -EINVAL;
 +
-+	connector_cfg = connector_possible_encoders_item_to_vkms_config_connector(src);
-+	encoder_cfg = encoders_item_to_vkms_config_encoder(target);
++	plane_cfg = plane_possible_crtcs_item_to_vkms_config_plane(src);
++	crtc_cfg = crtcs_item_to_vkms_config_crtc(target);
 +
-+	if (connector_cfg->possible_encoders & BIT(encoder_cfg->index))
++	if (plane_cfg->possible_crtcs & BIT(crtc_cfg->index))
 +		return -EINVAL;
 +
-+	connector_cfg->possible_encoders |= BIT(encoder_cfg->index);
++	plane_cfg->possible_crtcs |= BIT(crtc_cfg->index);
 +
 +	return 0;
 +}
 +
-+static void connector_possible_encoders_drop_link(struct config_item *src,
-+						  struct config_item *target)
++static void plane_possible_crtcs_drop_link(struct config_item *src,
++					   struct config_item *target)
 +{
-+	struct vkms_config_connector *connector_cfg;
-+	struct vkms_config_encoder *encoder_cfg;
++	struct vkms_config_plane *plane_cfg;
++	struct vkms_config_crtc *crtc_cfg;
 +
-+	connector_cfg = connector_possible_encoders_item_to_vkms_config_connector(src);
-+	encoder_cfg = encoders_item_to_vkms_config_encoder(target);
++	plane_cfg = plane_possible_crtcs_item_to_vkms_config_plane(src);
++	crtc_cfg = crtcs_item_to_vkms_config_crtc(target);
 +
-+	connector_cfg->possible_encoders &= ~BIT(encoder_cfg->index);
++	plane_cfg->possible_crtcs &= ~BIT(crtc_cfg->index);
 +}
 +
-+static struct configfs_item_operations connector_possible_encoders_item_ops = {
-+	.allow_link = &connector_possible_encoders_allow_link,
-+	.drop_link = &connector_possible_encoders_drop_link,
++static struct configfs_item_operations plane_possible_crtcs_item_ops = {
++	.allow_link = &plane_possible_crtcs_allow_link,
++	.drop_link = &plane_possible_crtcs_drop_link,
 +};
 +
-+static struct config_item_type connector_possible_encoders_group_type = {
-+	.ct_item_ops = &connector_possible_encoders_item_ops,
++static struct config_item_type plane_possible_crtcs_group_type = {
++	.ct_item_ops = &plane_possible_crtcs_item_ops,
 +	.ct_owner = THIS_MODULE,
 +};
 +
-+static ssize_t connector_status_show(struct config_item *item, char *page)
-+{
-+	struct vkms_config_connector *connector_cfg =
-+		connector_item_to_vkms_config_connector(item);
-+
-+	return sprintf(page, "%d\n", connector_cfg->status);
-+}
-+
-+static ssize_t connector_status_store(struct config_item *item, const char *page,
-+				      size_t count)
-+{
-+	struct vkms_configfs *configfs;
-+	struct vkms_config_connector *connector_cfg;
-+	int status;
-+
-+	if (kstrtoint(page, 10, &status))
-+		return -EINVAL;
-+
-+	switch (status) {
-+	case connector_status_connected:
-+	case connector_status_disconnected:
-+	case connector_status_unknown:
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	configfs = connectors_item_to_vkms_configfs(item->ci_parent);
-+	connector_cfg = connector_item_to_vkms_config_connector(item);
-+
-+	vkms_update_connector_status(configfs->vkms_config, connector_cfg, status);
-+
-+	return (ssize_t)count;
-+}
-+
-+CONFIGFS_ATTR(connector_, status);
-+
-+static struct configfs_attribute *connector_group_attrs[] = {
-+	&connector_attr_status,
-+	NULL,
-+};
-+
-+static const struct config_item_type connector_group_type = {
-+	.ct_attrs = connector_group_attrs,
++static const struct config_item_type plane_group_type = {
 +	.ct_owner = THIS_MODULE,
 +};
 +
-+static struct config_group *make_connectors_group(struct config_group *group,
-+						  const char *name)
++static struct config_group *make_planes_group(struct config_group *group,
++					      const char *name)
 +{
-+	struct vkms_configfs *configfs = connectors_group_to_vkms_configfs(group);
-+	struct vkms_config_connector *connector_cfg;
++	struct vkms_configfs *configfs = planes_group_to_vkms_configfs(group);
++	struct vkms_config_plane *plane_cfg;
 +	int ret;
 +
 +	mutex_lock(&configfs->lock);
@@ -304,99 +251,65 @@ index c0b62fb93dc0..d2369f53e2d8 100644
 +		goto err_unlock;
 +	}
 +
-+	connector_cfg = vkms_config_add_connector(configfs->vkms_config, 0,
-+						  connector_status_connected);
-+	if (IS_ERR(connector_cfg)) {
-+		ret = PTR_ERR(connector_cfg);
++	plane_cfg = vkms_config_add_overlay_plane(configfs->vkms_config, 0);
++	if (IS_ERR(plane_cfg)) {
++		ret = PTR_ERR(plane_cfg);
 +		goto err_unlock;
 +	}
 +
-+	config_group_init_type_name(&connector_cfg->connector_group, name,
-+				    &connector_group_type);
++	config_group_init_type_name(&plane_cfg->plane_group, name,
++				    &plane_group_type);
 +
-+	config_group_init_type_name(&connector_cfg->possible_encoders_group,
-+				    "possible_encoders",
-+				    &connector_possible_encoders_group_type);
-+	configfs_add_default_group(&connector_cfg->possible_encoders_group,
-+				   &connector_cfg->connector_group);
++	config_group_init_type_name(&plane_cfg->possible_crtcs_group,
++				    "possible_crtcs",
++				    &plane_possible_crtcs_group_type);
++	configfs_add_default_group(&plane_cfg->possible_crtcs_group,
++				   &plane_cfg->plane_group);
 +
 +	mutex_unlock(&configfs->lock);
 +
-+	return &connector_cfg->connector_group;
++	return &plane_cfg->plane_group;
 +
 +err_unlock:
 +	mutex_unlock(&configfs->lock);
 +	return ERR_PTR(ret);
 +}
 +
-+static void drop_connectors_group(struct config_group *group,
-+				  struct config_item *item)
++static void drop_planes_group(struct config_group *group,
++			      struct config_item *item)
 +{
-+	struct vkms_configfs *configfs = connectors_group_to_vkms_configfs(group);
-+	struct vkms_config_connector *connector_cfg =
-+		connector_item_to_vkms_config_connector(item);
++	struct vkms_configfs *configfs = planes_group_to_vkms_configfs(group);
++	struct vkms_config_plane *plane_cfg =
++		planes_item_to_vkms_config_plane(item);
 +
-+	vkms_config_destroy_connector(configfs->vkms_config, connector_cfg);
++	vkms_config_destroy_overlay_plane(configfs->vkms_config, plane_cfg);
 +}
 +
-+static struct configfs_group_operations connectors_group_ops = {
-+	.make_group = &make_connectors_group,
-+	.drop_item = &drop_connectors_group,
++static struct configfs_group_operations planes_group_ops = {
++	.make_group = &make_planes_group,
++	.drop_item = &drop_planes_group,
 +};
 +
-+static struct config_item_type connectors_group_type = {
-+	.ct_group_ops = &connectors_group_ops,
++static struct config_item_type planes_group_type = {
++	.ct_group_ops = &planes_group_ops,
 +	.ct_owner = THIS_MODULE,
 +};
 +
  static ssize_t device_enabled_show(struct config_item *item, char *page)
  {
  	struct vkms_configfs *configfs = config_item_to_vkms_configfs(item);
-@@ -341,9 +504,7 @@ static struct config_group *make_device_group(struct config_group *group,
- 					      const char *name)
- {
- 	struct vkms_configfs *configfs;
--	struct vkms_config_connector *connector_cfg = NULL;
- 	char *config_name;
--	int ret;
- 
- 	if (strcmp(name, DEFAULT_DEVICE_NAME) == 0)
- 		return ERR_PTR(-EINVAL);
-@@ -358,8 +519,8 @@ static struct config_group *make_device_group(struct config_group *group,
- 	config_name = config_item_name(&configfs->device_group.cg_item);
- 	configfs->vkms_config = vkms_config_create(config_name);
- 	if (IS_ERR(configfs->vkms_config)) {
--		ret = PTR_ERR(configfs->vkms_config);
--		goto err_kfree;
-+		kfree(configfs);
-+		return ERR_CAST(configfs->vkms_config);
- 	}
- 
- 	config_group_init_type_name(&configfs->crtcs_group, "crtcs",
-@@ -372,19 +533,12 @@ static struct config_group *make_device_group(struct config_group *group,
- 	configfs_add_default_group(&configfs->encoders_group,
+@@ -538,6 +654,11 @@ static struct config_group *make_device_group(struct config_group *group,
+ 	configfs_add_default_group(&configfs->connectors_group,
  				   &configfs->device_group);
  
--	connector_cfg = vkms_config_add_connector(configfs->vkms_config, BIT(0),
--						  connector_status_connected);
--	if (IS_ERR(connector_cfg)) {
--		ret = PTR_ERR(connector_cfg);
--		goto err_kfree;
--	}
-+	config_group_init_type_name(&configfs->connectors_group, "connectors",
-+				    &connectors_group_type);
-+	configfs_add_default_group(&configfs->connectors_group,
++	config_group_init_type_name(&configfs->planes_group, "planes",
++				    &planes_group_type);
++	configfs_add_default_group(&configfs->planes_group,
 +				   &configfs->device_group);
- 
++
  	return &configfs->device_group;
--
--err_kfree:
--	kfree(configfs);
--	kfree(connector_cfg);
--	return ERR_PTR(ret);
  }
  
- static void drop_device_group(struct config_group *group,
 -- 
 2.46.0
 
