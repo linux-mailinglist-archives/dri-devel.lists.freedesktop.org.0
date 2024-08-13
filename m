@@ -2,51 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8B195073A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 16:10:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A78D95073C
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 16:11:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F141110E364;
-	Tue, 13 Aug 2024 14:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0BEA10E366;
+	Tue, 13 Aug 2024 14:11:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iEKaISBY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AYP9tGgG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0B7310E364;
- Tue, 13 Aug 2024 14:10:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=mPUoP3zBnuD+//2jB4+IyrnBJmrAfmAOVrJvxYI+SN0=; b=iEKaISBYjakJKv7tuJYQ50lXUV
- QzReT+g0eVOGyPtTA0aLy4VjRf+qrDpYjgLg5Dt2u+XLll66338+ehxOhkBxDKflJ4dMuelEFJokt
- C2YvfRqutqILuEvv5C8oTwTg57M4rdd27x89ASAt9zenRPw3Td/DU2lRfIBvbS54PXHTGaveGTKSt
- J90KMte2+l2rpCTWqnNNv/21QT6Hw3/5T9IK1qnHVsGtWzleAbPXF1ROwSgliEIsJnZcyeuy0aeZ0
- Es8NcYabKIuzJlE2KsjyBtHMMDc31F9azBrO5KH7I+z8SkYxiYqaAigMiUCcZVsDTzSJuqkC0jw0p
- QdTKD8cg==;
-Received: from [84.69.19.168] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sdsEK-00ByDj-5y; Tue, 13 Aug 2024 16:10:32 +0200
-Message-ID: <586d1ac2-5563-40a6-9d99-b23d6bec17e9@igalia.com>
-Date: Tue, 13 Aug 2024 15:10:31 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE1A710E366
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 14:11:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723558312; x=1755094312;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=jcyO1t/F6QSCuTMPpYmyG4FhhEPbx9Z1SU3Jy9ePKow=;
+ b=AYP9tGgGpYv5apB+5eM9V62/vZUwuGLVYIciVk21TH1A00p1j1+OEnjN
+ tvTAW795lFNENx54pKGqQKz5rHXM2mbErjOFwLaoF07E0mzqwbI3KlJFj
+ l4+1yXwnyjMGPa/AzErkhHneB8AutlP0Y9AS2of3KSaHE2vQWeBPnZaHt
+ h+NflicjkVU0G4aJg+8j4KsT7VCcgGhHLjQsYBFCSGHwzXpU3IJSCm6Hn
+ 7ZKxYTpcH929gQJ9WSHlqt3GYQxJDuMb74+UJMecXd7/DQxXDK1hhdhUq
+ 9XcsZaIv8gJpa4wQLGyTMRQj0HityLdnyr9Bl2Qy2P+/zWimTS13fVjGM Q==;
+X-CSE-ConnectionGUID: FWolp6QwRVuKFHks2/5zag==
+X-CSE-MsgGUID: FfxuwntNT3Ca67E5+LE0/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="33128718"
+X-IronPort-AV: E=Sophos;i="6.09,286,1716274800"; d="scan'208";a="33128718"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2024 07:11:51 -0700
+X-CSE-ConnectionGUID: JxP01tMkQtaJqIAoHGTDBQ==
+X-CSE-MsgGUID: r3SwNOPFS2a5ngLhX9Tmiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,286,1716274800"; d="scan'208";a="58764819"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.234])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2024 07:11:45 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, Alex
+ Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, Bjorn Roy
+ Baron <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, Danilo
+ Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH v6 2/4] drm/rect: Add drm_rect_overlap()
+In-Reply-To: <87frr924nj.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240812123147.81356-1-jfalempe@redhat.com>
+ <20240812123147.81356-3-jfalempe@redhat.com> <87sev926na.fsf@intel.com>
+ <60e55a9d-70bb-45d1-ac97-e4f6f6ffa9a9@redhat.com>
+ <87frr924nj.fsf@intel.com>
+Date: Tue, 13 Aug 2024 17:11:37 +0300
+Message-ID: <87mslgzf52.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: Remove hidden double memset from
- amdgpu_vm_pt_clear()
-To: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com
-References: <20240813140835.82748-1-tursulin@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20240813140835.82748-1-tursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,51 +79,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 12 Aug 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Mon, 12 Aug 2024, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>> On 12/08/2024 15:49, Jani Nikula wrote:
+>>> On Mon, 12 Aug 2024, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>>>> Check if two rectangles overlap.
+>>>> It's a bit similar to drm_rect_intersect() but this won't modify
+>>>> the rectangle.
+>>>> Simplifies a bit drm_panic.
+>>> 
+>>> Based on the name, I'd expect drm_rect_overlap() to return true for
+>>> *any* overlap, while this one seems to mean if one rectangle is
+>>> completely within another, with no adjacent borders.
+>>
+>> It's what I intended, but I may have messed up the formula.
+>
+> Hmm, then I may have messed up the review. :)
 
-On 13/08/2024 15:08, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> When CONFIG_INIT_STACK_ALL_ZERO is set and so -ftrivial-auto-var-init=zero
-> compiler option active, compiler fails to notice that later in
-> amdgpu_vm_pt_clear() there  is a second memset to clear the same on stack
-> struct amdgpu_vm_update_params.
-> 
-> If we replace this memset with an explicit automatic variable initializer,
-> compiler can then see it and avoid clearing this struct twice.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> ---
-> This is perhaps a bit questionable, regardless of how annoying it is to
-> know there is this double memset.
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> index e39d6e7643bf..ecdc8fffe941 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> @@ -361,7 +361,7 @@ int amdgpu_vm_pt_clear(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->   {
->   	unsigned int level = adev->vm_manager.root_level;
->   	struct ttm_operation_ctx ctx = { true, false };
-> -	struct amdgpu_vm_update_params params;
-> +	struct amdgpu_vm_update_params params = { };
->   	struct amdgpu_bo *ancestor = &vmbo->bo;
->   	unsigned int entries;
->   	struct amdgpu_bo *bo = &vmbo->bo;
-> @@ -398,7 +398,6 @@ int amdgpu_vm_pt_clear(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->   	if (r)
->   		goto exit;
->   
-> -	memset(&params, 0, sizeof(params));
->   	params.adev = adev;
->   	params.vm = vm;
->   	params.immediate = immediate;
+Yeah, my bad, sorry for the noise.
 
-Or even move all above three into the automatic initializer since all 
-are the function input arguments.
+I think I was thrown off by the comparisons mixing r1 and r2 as the
+first operand. Something like this might have been easier for *me* to
+parse, but not sure if it's worth changing anything:
 
-Regards,
+return (a->x1 < b->x2 && a->x2 > b->x1 &&
+        a->y1 < b->y2 && a->y2 > b->y1);
 
-Tvrtko
+
+BR,
+Jani.
+
+
+>
+> Gotta run now, but I'll get back.
+>
+> BR,
+> Jani.
+>
+>
+>
+>>> 
+>>> I'd expect a drm_rect_overlap() to return true for this:
+>>> 
+>>>   +-------+
+>>>   |   +---+---+
+>>>   |   |       |
+>>>   +---+       |
+>>>       |       |
+>>>       +-------+
+>>
+>> if r1 is the top left rectangle, you've got:
+>>
+>> r1->x2 > r2->x1   => true
+>> r2->x2 > r1->x1   => true
+>> r1->y2 > r2->y1   => true
+>> r2->y2 > r1->y1   => true
+>>
+>> So they count as overlap.
+>>
+>> Checking in stackoverflow, they use the same formula:
+>> https://stackoverflow.com/questions/306316/determine-if-two-rectangles-overlap-each-other
+>>
+>>> 
+>>> While this seems to be required instead:
+>>> 
+>>>   +-------+
+>>>   | +---+ |
+>>>   | |   | |
+>>>   | +---+ |
+>>>   +-------+
+>>> 
+>>> 
+>>> IOW, I find the name misleading.
+>>> 
+>>> BR,
+>>> Jani.
+>>> 
+>>> 
+>>>>
+>>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>>> ---
+>>>>   drivers/gpu/drm/drm_panic.c |  3 +--
+>>>>   include/drm/drm_rect.h      | 15 +++++++++++++++
+>>>>   2 files changed, 16 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+>>>> index 0a047152f88b8..59fba23e5fd7a 100644
+>>>> --- a/drivers/gpu/drm/drm_panic.c
+>>>> +++ b/drivers/gpu/drm/drm_panic.c
+>>>> @@ -529,8 +529,7 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
+>>>>   	/* Fill with the background color, and draw text on top */
+>>>>   	drm_panic_fill(sb, &r_screen, bg_color);
+>>>>   
+>>>> -	if ((r_msg.x1 >= logo_width || r_msg.y1 >= logo_height) &&
+>>>> -	    logo_width <= sb->width && logo_height <= sb->height) {
+>>>> +	if (!drm_rect_overlap(&r_logo, &r_msg)) {
+>>>>   		if (logo_mono)
+>>>>   			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
+>>>>   				       fg_color);
+>>>> diff --git a/include/drm/drm_rect.h b/include/drm/drm_rect.h
+>>>> index 73fcb899a01da..7bafde747d560 100644
+>>>> --- a/include/drm/drm_rect.h
+>>>> +++ b/include/drm/drm_rect.h
+>>>> @@ -238,6 +238,21 @@ static inline void drm_rect_fp_to_int(struct drm_rect *dst,
+>>>>   		      drm_rect_height(src) >> 16);
+>>>>   }
+>>>>   
+>>>> +/**
+>>>> + * drm_rect_overlap - Check if two rectangles overlap
+>>>> + * @r1: first rectangle
+>>>> + * @r2: second rectangle
+>>>> + *
+>>>> + * RETURNS:
+>>>> + * %true if the rectangles overlap, %false otherwise.
+>>>> + */
+>>>> +static inline bool drm_rect_overlap(const struct drm_rect *r1,
+>>>> +				    const struct drm_rect *r2)
+>>>> +{
+>>>> +	return (r1->x2 > r2->x1 && r2->x2 > r1->x1 &&
+>>>> +		r1->y2 > r2->y1 && r2->y2 > r1->y1);
+>>>> +}
+>>>> +
+>>>>   bool drm_rect_intersect(struct drm_rect *r, const struct drm_rect *clip);
+>>>>   bool drm_rect_clip_scaled(struct drm_rect *src, struct drm_rect *dst,
+>>>>   			  const struct drm_rect *clip);
+>>> 
+>>
+
+-- 
+Jani Nikula, Intel
