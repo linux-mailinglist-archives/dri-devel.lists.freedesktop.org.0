@@ -2,61 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D855195063C
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 15:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C76950642
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 15:18:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1FF510E340;
-	Tue, 13 Aug 2024 13:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B21E10E343;
+	Tue, 13 Aug 2024 13:18:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="KExI0w/C";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7C410E340
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 13:18:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=u74mvDQoeCXxOK3A7GukZyX7dsdADP3JWCfmDGUIEGM=; b=G244lL1ngDJeW4mSEkMPunTGgZ
- /ehrSjWm/ejw43wPeicvWorefz2lc/yZzFO9V++8XJA6BHY004sOLTnhHx1rJz5cY04Ckd6u0jRNx
- h/tJKWztwZmdKL4/33O0V+WL1HurI2lCZG1XhgieX+sUc/iNNE+ofdzPsqOktTecwwOZVbzrMS4IS
- GASCXYL8nNBHR47cVUG0wLVEjNVWuBI2x7+vFhxpsYOEfoZo4D9O8G6w2TWxYt8JLaQnuUijHWBfE
- YDJ/GX8SZ/s+tJ+SS4CobMFdwEkcfGiLetiny2/HOprCClkNqU/ZF+oXVsaZ9kkwAjC+7jGL6a4u8
- nxzQdBYQ==;
-Received: from i53875b02.versanet.de ([83.135.91.2] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1sdrP9-0001iC-Ii; Tue, 13 Aug 2024 15:17:39 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, kernel@collabora.com,
- Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
- Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH v3 0/5] Add initial support for the Rockchip RK3588 HDMI TX
- Controller
-Date: Tue, 13 Aug 2024 15:17:37 +0200
-Message-ID: <2006431.fxN4lLDhpz@diego>
-In-Reply-To: <20240807-b4-rk3588-bridge-upstream-v3-0-60d6bab0dc7c@collabora.com>
-References: <20240807-b4-rk3588-bridge-upstream-v3-0-60d6bab0dc7c@collabora.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F327610E343
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 13:18:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1723555129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p+n0lEFXQiakic5mICLW3nKNJkjEJrb7yW+gL0DpIp4=;
+ b=KExI0w/Cshg37jFypQ/g2td0yLLDgF5jXOIp8wt5YQoyUFk1HGRcZ44tAScfNbuIW/T4I+
+ X4Ml5hyC8IMpM6j6PADcx86YdymQUP/O9QSfPh6P9SBbMl2N5IizVZXsvESbLZjtyLy7ga
+ 1taIvp+n4iPMHe+Th6SbOfLDcPwotlg=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-571-Dla9-ahtOLeTeaspnw_7ag-1; Tue, 13 Aug 2024 09:18:47 -0400
+X-MC-Unique: Dla9-ahtOLeTeaspnw_7ag-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ 38308e7fff4ca-2ef3157ae4cso60649831fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 06:18:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723555126; x=1724159926;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=p+n0lEFXQiakic5mICLW3nKNJkjEJrb7yW+gL0DpIp4=;
+ b=lGKx+U+2q0t9XwNAAspfDTYfKSGeft6H5ML07iGqaCmYD7DlukEYicOk5dPJ9pVWkT
+ zI8XpPll5JpnPZfZhLZp8axdWHQ2BRCDeZpXaxL5tH+5fScPGJXMeKkDvqnerN/0aK6E
+ OC6MDz5Mz6JfWgR58cbRMoLSt6Vt1auOVqJkXeWyx+hteyk/O3R0HzTLH3tX/LVgAvS/
+ sSZB6K49M5uuVNdBX2RdcCQO4btIJ23evTpoo+xGkMNPcaZ65evy/9IReELiSTiVUYrV
+ ZI/iyQXYyy4p8IXXB9OXthCWvV/0wLswHECkJgjAjewgFJjpwxS3F3ZT6Z0PBdGG4qpa
+ 3qsw==
+X-Gm-Message-State: AOJu0YwJ37oOlkVE8zpFgrE4HHk8LEDqI6fpwEyRwp/qmfjp7S5utMW3
+ O92Ntm5/SfC3i00gSQgpBMpZzhx5vZ+m4c5jut6zxSG+O7CmqDCYhrfK7hfxV9ZIl0qgacyZWde
+ XTFs/ws0D8sJ0/y0uycOgUnYu2lwmmqyYEcHco+ipIo7jUn244wZqa+UT2Nqw5ZEd/A==
+X-Received: by 2002:a05:651c:b2b:b0:2ef:2e3f:35d9 with SMTP id
+ 38308e7fff4ca-2f2b717f3e9mr36051371fa.33.1723555126127; 
+ Tue, 13 Aug 2024 06:18:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGkybhiZF/xDNIPVNLOTHJunDzf6OI6zVhndAN+ciDxzokpf2I6N4aZl1TwvksuDWw9znu7BQ==
+X-Received: by 2002:a05:651c:b2b:b0:2ef:2e3f:35d9 with SMTP id
+ 38308e7fff4ca-2f2b717f3e9mr36051001fa.33.1723555125454; 
+ Tue, 13 Aug 2024 06:18:45 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a80f414e18csm70053466b.177.2024.08.13.06.18.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Aug 2024 06:18:44 -0700 (PDT)
+Message-ID: <dfe28c0e-20ab-4d9e-9f7b-8a4fad5ecc34@redhat.com>
+Date: Tue, 13 Aug 2024 15:18:43 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/9] drm/ast: astdp: Use struct drm_edid and helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20240812093211.382263-1-tzimmermann@suse.de>
+ <20240812093211.382263-4-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240812093211.382263-4-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,59 +95,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, 7. August 2024, 13:07:22 CEST schrieb Cristian Ciocaltea:
-> The Rockchip RK3588 SoC family integrates the Synopsys DesignWare HDMI
-> 2.1 Quad-Pixel (QP) TX controller, which is a new IP block, quite
-> different from those used in the previous generations of Rockchip SoCs.
+On 12/08/2024 11:30, Thomas Zimmermann wrote:
+> Convert ASTDP support to struct drm_edid and its helpers. Simplifies
+> and modernizes the EDID handling.
 > 
-> The controller supports the following features, among others:
+> The driver reads 4 bytes at once, but the overall read length is now
+> variable. Therefore update the EDID read loop to never return more than
+> the requested bytes.
 > 
-> * Fixed Rate Link (FRL)
-> * Display Stream Compression (DSC)
-> * 4K@120Hz and 8K@60Hz video modes
-> * Variable Refresh Rate (VRR) including Quick Media Switching (QMS)
-> * Fast Vactive (FVA)
-> * SCDC I2C DDC access
-> * Multi-stream audio
-> * Enhanced Audio Return Channel (EARC)
+> The device does not seem to support EDID extensions, as the driver
+> actively clears any such information from the main EDID header. As
+> the new interface allows for reading extension blocks for EDID, make
+> sure that the block is always 0 (i.e., the main header). A later
+> update might fix that.
 > 
-> This is the last component that needs to be supported in order to enable
-> the HDMI output functionality on the RK3588 based SBCs, such as the
-> RADXA Rock 5B.  The other components are the Video Output Processor
-> (VOP2) and the Samsung IP based HDMI/eDP TX Combo PHY, for which basic
-> support has been already made available via [1] and [2], respectively.
-> 
-> Please note this is a reworked version of the original series, which
-> relied on a commonized dw-hdmi approach.  Since the general consensus
-> was to handle it as an entirely new IP, I dropped all patches related to
-> the old dw-hdmi and Rockchip glue code - a few of them might still make
-> sense as general improvements and will be submitted separately.
-> 
-> It's worth mentioning the HDMI output support is currently limited to
-> RGB output up to 4K@60Hz, without audio, CEC or any of the HDMI 2.1
-> specific features.  Moreover, the VOP2 driver is not able to properly
-> handle all display modes supported by the connected screens, e.g. it
-> doesn't cope with non-integer refresh rates.
-> 
-> A possible workaround consists of enabling the display controller to
-> make use of the clock provided by the HDMI PHY PLL.  This is still work
-> in progress and will be submitted later, as well as the required DTS
-> updates.
-> 
-> To facilitate testing and experimentation, all HDMI output related
-> patches, including those part of this series, are available at [3].
-> 
-> So far I could only verify this on the RADXA Rock 5B board.
+> v2:
+> - fix reading if len is not a multiple of 4
 
-On a rk3588-tiger-haikou (including its DSI hat and my preliminary DSI
-driver) it also works.
+Thanks, it looks good to me.
 
-Even with both DSI and HDMI at the same time. Both hdmi plugged in on
-boot and also plugging it in during runtime of the board, generates a
-clean image on my 1080p display.
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-So, series
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-
-
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ast/ast_dp.c | 55 +++++++++++++++++++-----------------
+>   1 file changed, 29 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index 217c155f0874..22c4f2a126e9 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -20,11 +20,15 @@ static bool ast_astdp_is_connected(struct ast_device *ast)
+>   	return true;
+>   }
+>   
+> -static int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+> +static int ast_astdp_read_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
+>   {
+> -	struct ast_device *ast = to_ast_device(dev);
+> +	struct ast_device *ast = data;
+> +	size_t rdlen = round_up(len, 4);
+>   	int ret = 0;
+> -	u8 i;
+> +	unsigned int i;
+> +
+> +	if (block > 0)
+> +		return -EIO; /* extension headers not supported */
+>   
+>   	/*
+>   	 * Protect access to I/O registers from concurrent modesetting
+> @@ -35,13 +39,23 @@ static int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+>   	/* Start reading EDID data */
+>   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xe5, (u8)~AST_IO_VGACRE5_EDID_READ_DONE, 0x00);
+>   
+> -	for (i = 0; i < 32; i++) {
+> +	for (i = 0; i < rdlen; i += 4) {
+> +		unsigned int offset;
+>   		unsigned int j;
+> +		u8 ediddata[4];
+> +		u8 vgacre4;
+> +
+> +		offset = (i + block * EDID_LENGTH) / 4;
+> +		if (offset >= 64) {
+> +			ret = -EIO;
+> +			goto out;
+> +		}
+> +		vgacre4 = offset;
+>   
+>   		/*
+>   		 * CRE4[7:0]: Read-Pointer for EDID (Unit: 4bytes); valid range: 0~64
+>   		 */
+> -		ast_set_index_reg(ast, AST_IO_VGACRI, 0xe4, i);
+> +		ast_set_index_reg(ast, AST_IO_VGACRI, 0xe4, vgacre4);
+>   
+>   		/*
+>   		 * CRD7[b0]: valid flag for EDID
+> @@ -65,7 +79,7 @@ static int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+>   			vgacrd7 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd7);
+>   			if (vgacrd7 & AST_IO_VGACRD7_EDID_VALID_FLAG) {
+>   				vgacrd6 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd6);
+> -				if (vgacrd6 == i)
+> +				if (vgacrd6 == offset)
+>   					break;
+>   			}
+>   		}
+> @@ -93,7 +107,8 @@ static int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+>   			ediddata[2] = 0;
+>   		}
+>   
+> -		ediddata += 4;
+> +		memcpy(buf, ediddata, min((len - i), 4));
+> +		buf += 4;
+>   	}
+>   
+>   out:
+> @@ -330,29 +345,17 @@ static const struct drm_encoder_helper_funcs ast_astdp_encoder_helper_funcs = {
+>   
+>   static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
+>   {
+> -	void *edid;
+> -	int succ;
+> +	struct drm_device *dev = connector->dev;
+> +	struct ast_device *ast = to_ast_device(dev);
+> +	const struct drm_edid *drm_edid;
+>   	int count;
+>   
+> -	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
+> -	if (!edid)
+> -		goto err_drm_connector_update_edid_property;
+> -
+> -	succ = ast_astdp_read_edid(connector->dev, edid);
+> -	if (succ < 0)
+> -		goto err_kfree;
+> -
+> -	drm_connector_update_edid_property(connector, edid);
+> -	count = drm_add_edid_modes(connector, edid);
+> -	kfree(edid);
+> +	drm_edid = drm_edid_read_custom(connector, ast_astdp_read_edid_block, ast);
+> +	drm_edid_connector_update(connector, drm_edid);
+> +	count = drm_edid_connector_add_modes(connector);
+> +	drm_edid_free(drm_edid);
+>   
+>   	return count;
+> -
+> -err_kfree:
+> -	kfree(edid);
+> -err_drm_connector_update_edid_property:
+> -	drm_connector_update_edid_property(connector, NULL);
+> -	return 0;
+>   }
+>   
+>   static int ast_astdp_connector_helper_detect_ctx(struct drm_connector *connector,
 
