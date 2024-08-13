@@ -2,62 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70FE950102
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 11:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E2195010F
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 11:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4AC210E2CC;
-	Tue, 13 Aug 2024 09:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0241110E2CE;
+	Tue, 13 Aug 2024 09:16:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YXs2v11u";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="YSUWVSB6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C65F010E2CC
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 09:13:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723540390; x=1755076390;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=aGvqIoXoggMy1201TQt+pLxsPlqGZEth0kDPzckpUwQ=;
- b=YXs2v11uCWucGzhOA3x1ZugisUev+xmVOq0H76gIxYu2mSKEt+FXW1Of
- ZkfwtIUHpZ0AUU/kdQaTKldwPjHsqsR+/3ajLL9PWa33s0RT62UrQBKN0
- 5kc/t3sACQyEanoQyChiFeE02sF73gUmhzRqEYp692Yc57ZMJbfaX3ZS2
- ECS79p3xMYKv+ymxMmE6ybGmqpnEHifpS72GPe2W4qyQWc2rF55REEI1e
- NNok1cgNOnw3nRvg2J4vTIgNlucQKhZLErY5vyfuBllfpcRKN3spguD3j
- SzISyKiPAZzgQOD5GsSsmSHfQqh4LP4DWMgbZO/9jIR/0btRkZk+aH1q8 w==;
-X-CSE-ConnectionGUID: 1tb5pBAYQ9SIdQN2ZDemYw==
-X-CSE-MsgGUID: m/dlGCFNQfmZ8RK+gqfsng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="25555180"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="25555180"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 02:13:09 -0700
-X-CSE-ConnectionGUID: oitavjEVQQyvVznpoH6E6g==
-X-CSE-MsgGUID: JJu4iHE+SUORa3eqt/B3SQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="96144764"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa001.jf.intel.com with ESMTP; 13 Aug 2024 02:13:04 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id F2FF53B5; Tue, 13 Aug 2024 12:13:01 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Subject: [PATCH v1 1/1] drm/panel: ili9341: Remove duplicate code
-Date: Tue, 13 Aug 2024 12:12:58 +0300
-Message-ID: <20240813091258.1625646-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
-MIME-Version: 1.0
+Received: from DUZPR83CU001.outbound.protection.outlook.com
+ (mail-northeuropeazon11013069.outbound.protection.outlook.com [52.101.67.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45F1A10E2CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 09:16:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=U3njygmgyDYT8lubily+EUzXtymj5QmY/7Tdky7tXGPHxRsQHr4OvYW/eqrIeywP8ggW+CJPgELY3pi+unnyb6omt9x3T9FNCMHIioonCgzUUp5WKU5MNtVJnODxS4PEsAM0GMIFP1uMPNLNnj4FDLgDuSP6kHUReIoWpSOK0UFBm/6Lpjiy/wpVci1cpRAZZSVK0EcJQymVTI4R+L5NIOwZSTmamq6UtUXbtXJ8bH8m/OfYc3X9+uw5tZtm0VdwIJ7+rn4JqzgUwWdQsIb6ycjUHb1ayFlJtEk1fCNP05dgJcVPzqx0HW4uFYOccVKlKMGUua3YTKSitqb9er7aaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gCAAZ49zH8N7/MUhfnyu3FnxMh9kHl+FoDrMM0fmIFM=;
+ b=tsXdK/jd4eFkXBzqBCcjNkCPkc+z51aMSQce4qE5Kpy3gBJ3+EUPOAtKk6+orTkUl186I/Mybs1oFKxFMMyQbhuFLgqu2PlU29sx9QOjovyBYd480eknnT6RvTC8XoR1Y0qe3QBIkqhrk7aq8dY7uSUTAJ6Fz8Y4fobpmcNiCvYB/MYelUG8J8scRwxBFREH7GQzZ/vRuhBCw5VKyk0rqGl0fymWpGZ7jKHES699mL0q1pIiiW6TIVb9Yp14DU/L9gjEoiCxpNtDttoja0Fy6FufZjAnULEYb+fVOWQU0r3noK6kFqBj/AifFCa/ItiGUkulyvmOhY9pYs4WgH6lGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gCAAZ49zH8N7/MUhfnyu3FnxMh9kHl+FoDrMM0fmIFM=;
+ b=YSUWVSB6VKTgmiRwKzOZlI90TsthiCdW1cAL8CTH6PruTJ9Tt9wdYuGxKoA/NzVyZ+GI+5ZbxQei2cNrUGQ7x4XAn03UXZZ5j4hVi3iAK4VVAu9bhMErDsF26AEa1qeZWTBlQFPa9FqHDNdOWdVr88y9zi8cr7QqIdVA1U9epctkyLvz7h5HteIgiX4G7UP1wyiPTRfz2RJ3H7Yf0hl56u9BF7JPzD+xirbeYehyuuVfEzT/0Ialrh1gscgPhrlMPixJZk4cMn6PmhAIA+JNLgsLk23GiyTMHMeiGsCEQmpFxtHe2Cmo2gJBQerO5VgGhFZli1/PgwuJE8B7GmWHlA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DUZPR04MB9781.eurprd04.prod.outlook.com (2603:10a6:10:4e1::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22; Tue, 13 Aug
+ 2024 09:16:30 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%2]) with mapi id 15.20.7849.021; Tue, 13 Aug 2024
+ 09:16:30 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Cc: adrien.grassein@gmail.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/bridge: lontium-lt8912b: Validate mode in
+ drm_bridge_funcs::mode_valid()
+Date: Tue, 13 Aug 2024 17:16:37 +0800
+Message-Id: <20240813091637.1054586-1-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0032.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::23) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DUZPR04MB9781:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e787599-227c-46e9-b463-08dcbb789e27
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|52116014|376014|1800799024|366016|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qzOko/YGzIMY2OatDmP5lChhbhQFElyQ20FusGX64/pzr65ryV0hMyZoVfwn?=
+ =?us-ascii?Q?wOUZIa4spEDonYcgaJ3vmhSSx6ozuvsG1wUfTnfTVKiiDuwpf4wcfhfZr2cr?=
+ =?us-ascii?Q?sG2kuty48ZCMJGJfLAQYmw6gNbOO8XVWuJyEwVGretgZoNZhyYs57UNPZoW1?=
+ =?us-ascii?Q?VunAiAGzUKwi5M1bcFsegRNXYb7TSS4dnLkvOsdBCXL4u3eOeKO7HcSvN9gg?=
+ =?us-ascii?Q?pk5mYCIB89u4+QD+MmR1HOX7LGswe2c45yO7l+GMbq+WWVcwGs++oOY+uMnK?=
+ =?us-ascii?Q?zLWgTMbRw7+JhbEhjBE9SMOrMxECvchz9nm8+8U8Cm5d+qnGuZa/AegtlFEh?=
+ =?us-ascii?Q?H+Ymi+oXOmNDkiCCxSFc9vzANHwZ5P1ReKMzIk4WJs/7j1QuyChf5WDksrNR?=
+ =?us-ascii?Q?ARxc7D2jwDM8GRzKvq1uzmyvEyxG72P7gXGfQBPPbyaZOaDoVqGfEvjQn9g1?=
+ =?us-ascii?Q?QaeS68LNux6PPz9MuMe2O4/fyEaJ0d8fgpEB4Yewn1KLPpsX4V05nO8vLMaf?=
+ =?us-ascii?Q?/oVoYpZIcWuM5ga78nZ4Mj1PmMvw3tW2xblJoIRl4UC4UT8KVYk25SBcv5XB?=
+ =?us-ascii?Q?wfUw/xSYIx/PKSB5+xs3gGx/QlI3klxP2waLs62G+/942UBXs3iT2SrP3QqH?=
+ =?us-ascii?Q?XOVXbKcZmgscBpcToExkVU+yFreXxYfFFxt182Kb5vjppu3BGIEa/lVHm4an?=
+ =?us-ascii?Q?iIxKfRh+K7anL5txzkneMgtc/Zt3HvLlyVv28CAHwnEkqcHE3D6oq0HtPG9h?=
+ =?us-ascii?Q?KS6VrKZ8Td5BwUtOqoM8wD58Q0viNFjd9jTXl/ZChLbREaq4mk3vq5YzGiW5?=
+ =?us-ascii?Q?eBwI+hECyhilvRrdlm946AIiIgQ/IbHfprah+MDFprUQs4hl2a/Nd/j7oB+u?=
+ =?us-ascii?Q?Buv3qpXL/tWqEBAknrgBdbQnDpOGumJv/M6KFr/C45AvsEJDotDaIqCV3ZQU?=
+ =?us-ascii?Q?E2ga+nr6wkxNm0Gks8EAtLyGG/KDdSu7s1vxlna8/LN9gGGY/ufySQnNPUPa?=
+ =?us-ascii?Q?5Wl6LTm2bYsOTmT33tfFCybF5y2kDShl+wqpfiWFcvTX3HAop0ds6SOnAP0z?=
+ =?us-ascii?Q?PRlHhtQnU3wLSzNVWtgSAyQXKhgK9F5vpAf1lKBNXcdGB/MJ7DhA/s7QCZOX?=
+ =?us-ascii?Q?JZ5tWxDbbMfMhZHZKpcy/9SomkxA/4A8O71cAp8A1BpnStSIMF3PdhSY/26D?=
+ =?us-ascii?Q?Avd+2gXqP2lkqTh78FDmrG2mmkkISCjyvC+pB14tpMSysOzuitLtNCqRHHGP?=
+ =?us-ascii?Q?og09cb/greyqXaqph/vmONAMLZeS8jWKXkrhRwoBANWyt3GOjrYXM97IWNwk?=
+ =?us-ascii?Q?hiba0gjr8IbDmVyOnCAJCMjH41gtmtvX0pcLrPN6FWJiRL5X1Fyz7Sfdh4lb?=
+ =?us-ascii?Q?8mjzt0uVuXmz6ticWwBhiDBWrfG4K+/WsWjsol2ZKBrzG/Bg6Q=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(52116014)(376014)(1800799024)(366016)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?91w1r2nUG2l8TWv98fGiQKbnnUMN0NFOBGanaKAr+Kj+L0ZrLqGPXgcT3S20?=
+ =?us-ascii?Q?AykXv6PIBbxuHiYcTmpP7X4LyLLwzIELIg1cnIzUj84TulJru58/CQLrPw2x?=
+ =?us-ascii?Q?0aZ60hHoM6vkSHvzTX5U8sjGYCQm+4HzKYh3Ewbo4PqZBxsFQV77ImbnmtB6?=
+ =?us-ascii?Q?Cwf1B7D8EGmVlh2no4F5CH2ydM+WhfbmRYwJP8kaQ6yyHI/1u3d+dTrqFhjq?=
+ =?us-ascii?Q?+5CVzsHWvWxXbDHjQdrSgDh+OBn6eGRoxFqQS4Fz+3bFCjfu8PL3LBagsF/m?=
+ =?us-ascii?Q?q2lPN/ahOb2Wnjegr02vRJsrLV+xco/motHsNTK1ZGh9e0wv2klZruqiB9CB?=
+ =?us-ascii?Q?onDJ0Q8fB/mWtjwDNTQWycqlwDJ6bQORe+PYqqxP2hZu7mNJ9n4iXk3zqZN2?=
+ =?us-ascii?Q?yg3t04HaPFRO8yfmzsYKU6Uo9bFrQ6yanztwUShbsGDkDFOOwNAI0l+D0s8q?=
+ =?us-ascii?Q?QMQbG8WvVUSxlk3nH/n9K1u7BzHLb2XhFUn+b07x9ZhXE6ag/1oyvXJKk/id?=
+ =?us-ascii?Q?09577aau1PvBzGzwqsJQFralhbXgatrv/cA9zezDhp0HA9MFlSWqd4R46apK?=
+ =?us-ascii?Q?NrBERTnhiipr5Ayguuyx5CkzQ+2uvXwcXfmZN6bk5bGX4zFxOXrt1X07dU/a?=
+ =?us-ascii?Q?E9UmomIugKgBXdse+KNHKYUkme88XIC9urZYmHFF3zec8nu30X34/4IWgaPR?=
+ =?us-ascii?Q?0Ur6DXNi9pCuTMBMEc1lZ7sxp3CbQszqTSXnohqkSrJ4tXJTiibrtTm+M7fW?=
+ =?us-ascii?Q?8s7ybXHz8N8omU75NkxRF8I7iJEXjQJQAGQ949FKvTslOEj4XTvc2jkt+sei?=
+ =?us-ascii?Q?knt+O5HMg41vgb/5ZNTHPbJ11mscHuBey8KwFzrpFY093poxcj5R3K59GCLE?=
+ =?us-ascii?Q?EdzT/89Mlp4wRt3BmAN/h4sR8Mjs4Jekc8qpBUV3nmORimFgQd3Yuvx9h47W?=
+ =?us-ascii?Q?l78qDKP6Vm5aB4m0uzFDNCoLA4XKr4pc/4hn/IuhKsrGkQa/2Gz8hVm+g3h6?=
+ =?us-ascii?Q?eWSMm5jr91MTDcanMx9sEQG6EBc1JjP1hXK/ZWREBqcDkoc9TN+vtvYeN2wU?=
+ =?us-ascii?Q?DGKkUOpbp3JVMq0imblCBbniwFWRAmoFuuKxtatRnnK/62Ho8yzPxme+QtCL?=
+ =?us-ascii?Q?F6FRHyYB0i6h1fxDU6gJkEzz0ZkZGeFC+btmjvmSNACAKTcnkXyjLU1J96X0?=
+ =?us-ascii?Q?rpnnE8cRfILdf7DDWOf/8AGNjSs59gE1vcmGeXaoYgzaDy88i/zQ4XuJF8tk?=
+ =?us-ascii?Q?+7V+1TRvbt6I5mX1qu2sIQmmN3kNi/EYsOYPWT6Oh2bzOuS4ENmSTXFeIkte?=
+ =?us-ascii?Q?6L5CE6BwMbtUm6rLW6Y7X1gsKwVqzNAbl/7pniGQP+fKOghjqM953jHrQwMt?=
+ =?us-ascii?Q?EmsmrRhjPZuCZW9wXYGWz4grFZhdde/sA/i45LmRk8pMILi8ufGEWf3gxmzz?=
+ =?us-ascii?Q?iQzn/lI43j1otyASuuVr8SElh4c/KGYVmnd6BQVB9a7AEwRjXw/HJIBIPQpa?=
+ =?us-ascii?Q?W5xS53yakE5xEDj9lUfpp4ulORitvCVYCX39+1rKdlcbhyDypjoVwT10MF1P?=
+ =?us-ascii?Q?FK4Ht2yLd558tbqP0Rq0V8ORStTC961TKkEbOCAj?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e787599-227c-46e9-b463-08dcbb789e27
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2024 09:16:30.6447 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9VDnadvbcUJYps9ri1a1d4YD7C2bpY3V3KmAhytHDnRMQ2vhY1xMkWOSpKHng8NXErXnTF+Fml+eKETtGOfXhw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9781
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,282 +149,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove duplicate code that is handled by tinyDRM,
-i.e. drivers/gpu/drm/tiny/ili9341.c.
+If the bridge is attached with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag set,
+this driver won't initialize a connector and hence display mode won't be
+validated in drm_connector_helper_funcs::mode_valid().  So, move the mode
+validation from drm_connector_helper_funcs::mode_valid() to
+drm_bridge_funcs::mode_valid(), because the mode validation is always done
+for the bridge.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 210 +------------------
- 1 file changed, 3 insertions(+), 207 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 35 ++++++++++++------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-index 775d5d5e828c..ae4062bb3249 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-@@ -13,9 +13,6 @@
-  * Derived from drivers/drm/gpu/panel/panel-ilitek-ili9322.c
-  * the reuse of DBI abstraction part referred from Linus's patch
-  * "drm/panel: s6e63m0: Switch to DBI abstraction for SPI"
-- *
-- * For only-dbi part, copy from David's code (drm/tiny/ili9341.c)
-- * Copyright 2018 David Lechner <david@lechnology.com>
-  */
- 
- #include <linux/backlight.h>
-@@ -486,176 +483,6 @@ static const struct drm_panel_funcs ili9341_dpi_funcs = {
- 	.get_modes = ili9341_dpi_get_modes,
+diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+index 1a9defa15663..e265ab3c8c92 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
++++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+@@ -422,22 +422,6 @@ static const struct drm_connector_funcs lt8912_connector_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
  };
  
--static void ili9341_dbi_enable(struct drm_simple_display_pipe *pipe,
--			       struct drm_crtc_state *crtc_state,
--			       struct drm_plane_state *plane_state)
+-static enum drm_mode_status
+-lt8912_connector_mode_valid(struct drm_connector *connector,
+-			    struct drm_display_mode *mode)
 -{
--	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
--	struct mipi_dbi *dbi = &dbidev->dbi;
--	u8 addr_mode;
--	int ret, idx;
+-	if (mode->clock > 150000)
+-		return MODE_CLOCK_HIGH;
 -
--	if (!drm_dev_enter(pipe->crtc.dev, &idx))
--		return;
+-	if (mode->hdisplay > 1920)
+-		return MODE_BAD_HVALUE;
 -
--	ret = mipi_dbi_poweron_conditional_reset(dbidev);
--	if (ret < 0)
--		goto out_exit;
--	if (ret == 1)
--		goto out_enable;
+-	if (mode->vdisplay > 1080)
+-		return MODE_BAD_VVALUE;
 -
--	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF);
--
--	mipi_dbi_command(dbi, ILI9341_POWERB, 0x00, 0xc1, 0x30);
--	mipi_dbi_command(dbi, ILI9341_POWER_SEQ, 0x64, 0x03, 0x12, 0x81);
--	mipi_dbi_command(dbi, ILI9341_DTCA, 0x85, 0x00, 0x78);
--	mipi_dbi_command(dbi, ILI9341_POWERA, 0x39, 0x2c, 0x00, 0x34, 0x02);
--	mipi_dbi_command(dbi, ILI9341_PRC, ILI9341_DBI_PRC_NORMAL);
--	mipi_dbi_command(dbi, ILI9341_DTCB, 0x00, 0x00);
--
--	/* Power Control */
--	mipi_dbi_command(dbi, ILI9341_POWER1, ILI9341_DBI_VCOMH_4P6V);
--	mipi_dbi_command(dbi, ILI9341_POWER2, ILI9341_DBI_PWR_2_DEFAULT);
--	/* VCOM */
--	mipi_dbi_command(dbi, ILI9341_VCOM1, ILI9341_DBI_VCOM_1_VMH_4P25V,
--			 ILI9341_DBI_VCOM_1_VML_1P5V);
--	mipi_dbi_command(dbi, ILI9341_VCOM2, ILI9341_DBI_VCOM_2_DEC_58);
--
--	/* Memory Access Control */
--	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT,
--			 MIPI_DCS_PIXEL_FMT_16BIT);
--
--	/* Frame Rate */
--	mipi_dbi_command(dbi, ILI9341_FRC, ILI9341_DBI_FRC_DIVA & 0x03,
--			 ILI9341_DBI_FRC_RTNA & 0x1f);
--
--	/* Gamma */
--	mipi_dbi_command(dbi, ILI9341_3GAMMA_EN, 0x00);
--	mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, ILI9341_GAMMA_CURVE_1);
--	mipi_dbi_command(dbi, ILI9341_PGAMMA,
--			 0x0f, 0x31, 0x2b, 0x0c, 0x0e, 0x08, 0x4e, 0xf1,
--			 0x37, 0x07, 0x10, 0x03, 0x0e, 0x09, 0x00);
--	mipi_dbi_command(dbi, ILI9341_NGAMMA,
--			 0x00, 0x0e, 0x14, 0x03, 0x11, 0x07, 0x31, 0xc1,
--			 0x48, 0x08, 0x0f, 0x0c, 0x31, 0x36, 0x0f);
--
--	/* DDRAM */
--	mipi_dbi_command(dbi, ILI9341_ETMOD, ILI9341_DBI_EMS_GAS |
--			 ILI9341_DBI_EMS_DTS |
--			 ILI9341_DBI_EMS_GON);
--
--	/* Display */
--	mipi_dbi_command(dbi, ILI9341_DFC, 0x08, 0x82, 0x27, 0x00);
--	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
--	msleep(100);
--
--	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
--	msleep(100);
--
--out_enable:
--	switch (dbidev->rotation) {
--	default:
--		addr_mode = ILI9341_MADCTL_MX;
--		break;
--	case 90:
--		addr_mode = ILI9341_MADCTL_MV;
--		break;
--	case 180:
--		addr_mode = ILI9341_MADCTL_MY;
--		break;
--	case 270:
--		addr_mode = ILI9341_MADCTL_MV | ILI9341_MADCTL_MY |
--			    ILI9341_MADCTL_MX;
--		break;
--	}
--
--	addr_mode |= ILI9341_MADCTL_BGR;
--	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
--	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
--	drm_info(&dbidev->drm, "Initialized display serial interface\n");
--out_exit:
--	drm_dev_exit(idx);
+-	return MODE_OK;
 -}
 -
--static const struct drm_simple_display_pipe_funcs ili9341_dbi_funcs = {
--	DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(ili9341_dbi_enable),
--};
--
--static const struct drm_display_mode ili9341_dbi_mode = {
--	DRM_SIMPLE_MODE(240, 320, 37, 49),
--};
--
--DEFINE_DRM_GEM_DMA_FOPS(ili9341_dbi_fops);
--
--static struct drm_driver ili9341_dbi_driver = {
--	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	.fops			= &ili9341_dbi_fops,
--	DRM_GEM_DMA_DRIVER_OPS_VMAP,
--	.debugfs_init		= mipi_dbi_debugfs_init,
--	.name			= "ili9341",
--	.desc			= "Ilitek ILI9341",
--	.date			= "20210716",
--	.major			= 1,
--	.minor			= 0,
--};
--
--static int ili9341_dbi_probe(struct spi_device *spi, struct gpio_desc *dc,
--			     struct gpio_desc *reset)
--{
--	struct device *dev = &spi->dev;
--	struct mipi_dbi_dev *dbidev;
--	struct mipi_dbi *dbi;
--	struct drm_device *drm;
--	struct regulator *vcc;
--	u32 rotation = 0;
--	int ret;
--
--	vcc = devm_regulator_get_optional(dev, "vcc");
--	if (IS_ERR(vcc)) {
--		dev_err(dev, "get optional vcc failed\n");
--		vcc = NULL;
--	}
--
--	dbidev = devm_drm_dev_alloc(dev, &ili9341_dbi_driver,
--				    struct mipi_dbi_dev, drm);
--	if (IS_ERR(dbidev))
--		return PTR_ERR(dbidev);
--
--	dbi = &dbidev->dbi;
--	drm = &dbidev->drm;
--	dbi->reset = reset;
--	dbidev->regulator = vcc;
--
--	drm_mode_config_init(drm);
--
--	dbidev->backlight = devm_of_find_backlight(dev);
--	if (IS_ERR(dbidev->backlight))
--		return PTR_ERR(dbidev->backlight);
--
--	device_property_read_u32(dev, "rotation", &rotation);
--
--	ret = mipi_dbi_spi_init(spi, dbi, dc);
--	if (ret)
--		return ret;
--
--	ret = mipi_dbi_dev_init(dbidev, &ili9341_dbi_funcs,
--				&ili9341_dbi_mode, rotation);
--	if (ret)
--		return ret;
--
--	drm_mode_config_reset(drm);
--
--	ret = drm_dev_register(drm, 0);
--	if (ret)
--		return ret;
--
--	spi_set_drvdata(spi, drm);
--
--	drm_fbdev_dma_setup(drm, 0);
--
--	return 0;
--}
--
- static int ili9341_dpi_probe(struct spi_device *spi, struct gpio_desc *dc,
- 			     struct gpio_desc *reset)
+ static int lt8912_connector_get_modes(struct drm_connector *connector)
  {
-@@ -711,7 +538,6 @@ static int ili9341_probe(struct spi_device *spi)
- 	struct device *dev = &spi->dev;
- 	struct gpio_desc *dc;
- 	struct gpio_desc *reset;
--	const struct spi_device_id *id = spi_get_device_id(spi);
+ 	const struct drm_edid *drm_edid;
+@@ -463,7 +447,6 @@ static int lt8912_connector_get_modes(struct drm_connector *connector)
  
- 	reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(reset))
-@@ -721,36 +547,15 @@ static int ili9341_probe(struct spi_device *spi)
- 	if (IS_ERR(dc))
- 		return dev_err_probe(dev, PTR_ERR(dc), "Failed to get gpio 'dc'\n");
+ static const struct drm_connector_helper_funcs lt8912_connector_helper_funcs = {
+ 	.get_modes = lt8912_connector_get_modes,
+-	.mode_valid = lt8912_connector_mode_valid,
+ };
  
--	if (!strcmp(id->name, "sf-tc240t-9370-t"))
--		return ili9341_dpi_probe(spi, dc, reset);
--
--	if (!strcmp(id->name, "yx240qv29"))
--		return ili9341_dbi_probe(spi, dc, reset);
--
--	return -ENODEV;
-+	return ili9341_dpi_probe(spi, dc, reset);
+ static void lt8912_bridge_mode_set(struct drm_bridge *bridge,
+@@ -605,6 +588,23 @@ static void lt8912_bridge_detach(struct drm_bridge *bridge)
+ 		drm_bridge_hpd_disable(lt->hdmi_port);
  }
  
- static void ili9341_remove(struct spi_device *spi)
++static enum drm_mode_status
++lt8912_bridge_mode_valid(struct drm_bridge *bridge,
++			 const struct drm_display_info *info,
++			 const struct drm_display_mode *mode)
++{
++	if (mode->clock > 150000)
++		return MODE_CLOCK_HIGH;
++
++	if (mode->hdisplay > 1920)
++		return MODE_BAD_HVALUE;
++
++	if (mode->vdisplay > 1080)
++		return MODE_BAD_VVALUE;
++
++	return MODE_OK;
++}
++
+ static enum drm_connector_status
+ lt8912_bridge_detect(struct drm_bridge *bridge)
  {
--	const struct spi_device_id *id = spi_get_device_id(spi);
- 	struct ili9341 *ili = spi_get_drvdata(spi);
--	struct drm_device *drm = spi_get_drvdata(spi);
- 
--	if (!strcmp(id->name, "sf-tc240t-9370-t")) {
--		ili9341_dpi_power_off(ili);
--		drm_panel_remove(&ili->panel);
--	} else if (!strcmp(id->name, "yx240qv29")) {
--		drm_dev_unplug(drm);
--		drm_atomic_helper_shutdown(drm);
--	}
--}
--
--static void ili9341_shutdown(struct spi_device *spi)
--{
--	const struct spi_device_id *id = spi_get_device_id(spi);
--
--	if (!strcmp(id->name, "yx240qv29"))
--		drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-+	ili9341_dpi_power_off(ili);
-+	drm_panel_remove(&ili->panel);
- }
- 
- static const struct of_device_id ili9341_of_match[] = {
-@@ -758,19 +563,11 @@ static const struct of_device_id ili9341_of_match[] = {
- 		.compatible = "st,sf-tc240t-9370-t",
- 		.data = &ili9341_stm32f429_disco_data,
- 	},
--	{
--		/* porting from tiny/ili9341.c
--		 * for original mipi dbi compitable
--		 */
--		.compatible = "adafruit,yx240qv29",
--		.data = NULL,
--	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ili9341_of_match);
- 
- static const struct spi_device_id ili9341_id[] = {
--	{ "yx240qv29", 0 },
- 	{ "sf-tc240t-9370-t", 0 },
- 	{ }
- };
-@@ -779,7 +576,6 @@ MODULE_DEVICE_TABLE(spi, ili9341_id);
- static struct spi_driver ili9341_driver = {
- 	.probe = ili9341_probe,
- 	.remove = ili9341_remove,
--	.shutdown = ili9341_shutdown,
- 	.id_table = ili9341_id,
- 	.driver = {
- 		.name = "panel-ilitek-ili9341",
+@@ -635,6 +635,7 @@ static const struct drm_edid *lt8912_bridge_edid_read(struct drm_bridge *bridge,
+ static const struct drm_bridge_funcs lt8912_bridge_funcs = {
+ 	.attach = lt8912_bridge_attach,
+ 	.detach = lt8912_bridge_detach,
++	.mode_valid = lt8912_bridge_mode_valid,
+ 	.mode_set = lt8912_bridge_mode_set,
+ 	.enable = lt8912_bridge_enable,
+ 	.detect = lt8912_bridge_detect,
 -- 
-2.43.0.rc1.1336.g36b5255a03ac
+2.34.1
 
