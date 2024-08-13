@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6D0950264
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 12:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01768950269
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 12:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1915010E2DF;
-	Tue, 13 Aug 2024 10:25:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61BB710E2E2;
+	Tue, 13 Aug 2024 10:26:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f0YvIW1w";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kTqrz1rS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5659010E2DF
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 10:25:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723544744; x=1755080744;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Q9WkyHx53MsFELKub6AflyoHbkSjJrwxA9qcqbkaVXQ=;
- b=f0YvIW1w66e1h8m/SM5jlCuiJvg+SuRJuvs/CBLTCaScU3VhRRKcmNmM
- rzK3q1+4X3T19ajEjd2uIeOaag5KubBWjiax5Nt+xjFE1MCcDa5/B6PbN
- JSFRnBqSoKX8sFEnIHnFGc2X22B7hHOFWVlvQdKIsFWPp3rPnDlOD3C4C
- t/pzzaG35e3zY8W3buPzt8lKZFGnd0KQn/BB5EhAk/ig87rXu5vU1L9sw
- 6aosM1ViuIMbXkefHX+Ih+qkQfmPhk9M5EPB0KFGt5qn/2ZHufEZ9EVcy
- aUaguDsu5SZCl9hkvf3FDgaWRdHztNYRHxqrifiQWwaj+1inga2bTChtx g==;
-X-CSE-ConnectionGUID: ls8eeeHLQm+vKQOec88LCg==
-X-CSE-MsgGUID: 1zOg/6ySSzOb9ETs1jtUBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="33080795"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="33080795"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 03:25:43 -0700
-X-CSE-ConnectionGUID: PJACcPrpTTKypRG/hjEJJA==
-X-CSE-MsgGUID: pwrt27J3T6azRNrLAmM05w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="63481849"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.234])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 03:25:39 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v1 1/1] drm: fixed: Don't use "proxy" headers
-In-Reply-To: <ZrscJvDZqMQNFgR3@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240422143338.2026791-1-andriy.shevchenko@linux.intel.com>
- <87r0exs067.fsf@intel.com> <ZiqPAeps9uiG63qD@smile.fi.intel.com>
- <ZrscJvDZqMQNFgR3@smile.fi.intel.com>
-Date: Tue, 13 Aug 2024 13:25:36 +0300
-Message-ID: <87zfpgzplr.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C26BF10E2E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 10:26:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ELaTujJ0mcstrUxP29EliuPgJpF4Lufl1gHVfv8mQmU=; b=kTqrz1rSG5dfobVrF6rT8YAQPo
+ axYwFrztkdc5VQX/lGu90WGja/j7XLlEg/oJrSbIBbVKO+P/8v5hXnQ8PYxOmrbQRi5eMRoWLUZav
+ BOAiJ8VI23xv2Ld8hjRy4MnULHHXSIn9LjkIoRTwOGpGhANBAL9U+xq0dkcMvcJg6Sc/oOgVfKm0n
+ oTrmXT8scqI/6+OWBs/aWwkkAPTdF1LsHCBT/NkpWQWoYu+4ku1MPeImQtDgpFI+WgqYwgC28mayP
+ 0t7OuC433jQf0tryEFfJU51FKk7Zva2w+wdUkBLkyOa/UkTFNJCgjlAyx+CISZoMVGDiSkd5IZWK0
+ wEDcZ0/w==;
+Received: from [84.69.19.168] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sdojM-00Bsw6-2q; Tue, 13 Aug 2024 12:26:20 +0200
+Message-ID: <509bc928-52f4-4caf-8040-7f09c37e5377@igalia.com>
+Date: Tue, 13 Aug 2024 11:26:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/v3d: Appease lockdep while updating GPU stats
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com
+References: <20240812091218.70317-1-tursulin@igalia.com>
+ <20240812091218.70317-2-tursulin@igalia.com>
+ <b6caf04e-c9fd-4124-91e8-e9532af6330f@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <b6caf04e-c9fd-4124-91e8-e9532af6330f@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,30 +63,278 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Aug 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> On Thu, Apr 25, 2024 at 08:12:33PM +0300, Andy Shevchenko wrote:
->> On Mon, Apr 22, 2024 at 09:49:04PM +0300, Jani Nikula wrote:
->> > On Mon, 22 Apr 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
->> > > Update header inclusions to follow IWYU (Include What You Use)
->> > > principle.
->> > >
->> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->> > 
->> > Assuming it builds, and nothing depends on other stuff from kernel.h via
->> > drm_fixed.h,
->> 
->> For the record, I have built-tested this via `make allyesconfig` on x86_64.
->> 
->> > Reviewed-by: Jani Nikula <jani.nikula@intel.com>
->> 
->> Thank you!
->
-> Who is going to apply this, please?
 
-Pushed to drm-misc-next, thanks for the patch.
+On 12/08/2024 16:27, Maíra Canal wrote:
+> Hi Tvrtko,
+> 
+> On 8/12/24 06:12, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> Lockdep thinks our seqcount_t usage is unsafe because the update path can
+>> be both from irq and worker context:
+>>
+>>   [ ] ================================
+>>   [ ] WARNING: inconsistent lock state
+>>   [ ] 6.10.3-v8-16k-numa #159 Tainted: G        WC
+>>   [ ] --------------------------------
+>>   [ ] inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+>>   [ ] swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
+>>   [ ] ffff80003d7c08d0 (&v3d_priv->stats[i].lock){?.+.}-{0:0}, at: 
+>> v3d_irq+0xc8/0x660 [v3d]
+>>   [ ] {HARDIRQ-ON-W} state was registered at:
+>>   [ ]   lock_acquire+0x1f8/0x328
+>>   [ ]   v3d_job_start_stats.isra.0+0xd8/0x218 [v3d]
+>>   [ ]   v3d_bin_job_run+0x23c/0x388 [v3d]
+>>   [ ]   drm_sched_run_job_work+0x520/0x6d0 [gpu_sched]
+>>   [ ]   process_one_work+0x62c/0xb48
+>>   [ ]   worker_thread+0x468/0x5b0
+>>   [ ]   kthread+0x1c4/0x1e0
+>>   [ ]   ret_from_fork+0x10/0x20
+>>   [ ] irq event stamp: 337094
+>>   [ ] hardirqs last  enabled at (337093): [<ffffc0008144ce7c>] 
+>> default_idle_call+0x11c/0x140
+>>   [ ] hardirqs last disabled at (337094): [<ffffc0008144a354>] 
+>> el1_interrupt+0x24/0x58
+>>   [ ] softirqs last  enabled at (337082): [<ffffc00080061d90>] 
+>> handle_softirqs+0x4e0/0x538
+>>   [ ] softirqs last disabled at (337073): [<ffffc00080010364>] 
+>> __do_softirq+0x1c/0x28
+>>   [ ]
+>>                  other info that might help us debug this:
+>>   [ ]  Possible unsafe locking scenario:
+>>
+>>   [ ]        CPU0
+>>   [ ]        ----
+>>   [ ]   lock(&v3d_priv->stats[i].lock);
+>>   [ ]   <Interrupt>
+>>   [ ]     lock(&v3d_priv->stats[i].lock);
+>>   [ ]
+>>                  *** DEADLOCK ***
+>>
+>>   [ ] no locks held by swapper/0/0.
+>>   [ ]
+>>                 stack backtrace:
+>>   [ ] CPU: 0 PID: 0 Comm: swapper/0 Tainted: G        WC         
+>> 6.10.3-v8-16k-numa #159
+>>   [ ] Hardware name: Raspberry Pi 5 Model B Rev 1.0 (DT)
+>>   [ ] Call trace:
+>>   [ ]  dump_backtrace+0x170/0x1b8
+>>   [ ]  show_stack+0x20/0x38
+>>   [ ]  dump_stack_lvl+0xb4/0xd0
+>>   [ ]  dump_stack+0x18/0x28
+>>   [ ]  print_usage_bug+0x3cc/0x3f0
+>>   [ ]  mark_lock+0x4d0/0x968
+>>   [ ]  __lock_acquire+0x784/0x18c8
+>>   [ ]  lock_acquire+0x1f8/0x328
+>>   [ ]  v3d_job_update_stats+0xec/0x2e0 [v3d]
+>>   [ ]  v3d_irq+0xc8/0x660 [v3d]
+>>   [ ]  __handle_irq_event_percpu+0x1f8/0x488
+>>   [ ]  handle_irq_event+0x88/0x128
+>>   [ ]  handle_fasteoi_irq+0x298/0x408
+>>   [ ]  generic_handle_domain_irq+0x50/0x78
+>>
+>> But it is a false positive because all the queue-stats pairs have their
+>> own lock and jobs are also one at a time.
+>>
+>> Nevertheless we can appease lockdep by doing two things:
+>>
+>> 1. Split the locks into two classes:
+>>
+>> Because only GPU jobs have the irq context update section, this means no
+>> further changes are required for the CPU based queues.
+>>
+>> 2. Disable local interrupts in the GPU stats update portions:
+>>
+>> This appeases lockdep that all GPU job update sides consistently run with
+>> interrupts disabled. Again, it isn't a real locking issue that this fixes
+>> but it avoids an alarming false positive lockdep splat.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Fixes: 6abe93b621ab ("drm/v3d: Fix race-condition between sysfs/fdinfo 
+>> and interrupt handler")
+>> Cc: Maíra Canal <mcanal@igalia.com>
+>> ---
+>> Splitting into two own lock classes is perhaps too complicated and 
+>> instead
+>> we could use the new v3d_job_start_stats_irqsave() helper from the CPU
+>> jobs too. I *think* that would fix the false positive too.
+>>
+>> The naming of v3d_job_start_stats_irqsave() is also a bit dodgy (given
+>> that the irqsave part depends on lockdep), but I have no better ideas at
+>> the moment.
+>>
+>> Having said this.. Perhaps simply the #ifdef dance with a comment to
+>> existing v3d_job_start_stats() would be better? It would be a much 
+>> shorter
+>> and a very localised patch with perhaps no new downsides.
+> 
+> TBH I don't really like the idea of creating two lock classes only to
+> fix a false positive in lockdep. The code just got too complex for a
+> feature that just exists for tracking stats. Moreover, it is a false
+> positive.
+> 
+> If possible, I'd try any of the two other options you suggested here.
+> They feel more digestible for a false positive fix IMHO.
 
-BR,
-Jani.
+I've sent a different version so please see if that one looks more 
+palatable. Also please double check my assessment that there is no race.
 
--- 
-Jani Nikula, Intel
+Regards,
+
+Tvrtko
+
+> 
+> Best Regards,
+> - Maíra
+> 
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_drv.c   | 16 +++++++++++++++-
+>>   drivers/gpu/drm/v3d/v3d_gem.c   | 15 ++++++++++++++-
+>>   drivers/gpu/drm/v3d/v3d_sched.c | 29 +++++++++++++++++++++++++----
+>>   3 files changed, 54 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c 
+>> b/drivers/gpu/drm/v3d/v3d_drv.c
+>> index d7ff1f5fa481..4a5d3ab1281b 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+>> @@ -106,6 +106,8 @@ static int v3d_get_param_ioctl(struct drm_device 
+>> *dev, void *data,
+>>   static int
+>>   v3d_open(struct drm_device *dev, struct drm_file *file)
+>>   {
+>> +    static struct lock_class_key v3d_stats_gpu_lock_class;
+>> +    static struct lock_class_key v3d_stats_cpu_lock_class;
+>>       struct v3d_dev *v3d = to_v3d_dev(dev);
+>>       struct v3d_file_priv *v3d_priv;
+>>       struct drm_gpu_scheduler *sched;
+>> @@ -118,13 +120,25 @@ v3d_open(struct drm_device *dev, struct drm_file 
+>> *file)
+>>       v3d_priv->v3d = v3d;
+>>       for (i = 0; i < V3D_MAX_QUEUES; i++) {
+>> +        struct lock_class_key *key;
+>> +        char *name;
+>> +
+>>           sched = &v3d->queue[i].sched;
+>>           drm_sched_entity_init(&v3d_priv->sched_entity[i],
+>>                         DRM_SCHED_PRIORITY_NORMAL, &sched,
+>>                         1, NULL);
+>>           memset(&v3d_priv->stats[i], 0, sizeof(v3d_priv->stats[i]));
+>> -        seqcount_init(&v3d_priv->stats[i].lock);
+>> +
+>> +        if (i == V3D_CACHE_CLEAN || i == V3D_CPU) {
+>> +            key = &v3d_stats_cpu_lock_class;
+>> +            name = "v3d_client_stats_cpu_lock";
+>> +        } else {
+>> +            key = &v3d_stats_gpu_lock_class;
+>> +            name = "v3d_client_stats_gpu_lock";
+>> +        }
+>> +
+>> +        __seqcount_init(&v3d_priv->stats[i].lock, name, key);
+>>       }
+>>       v3d_perfmon_open_file(v3d_priv);
+>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c 
+>> b/drivers/gpu/drm/v3d/v3d_gem.c
+>> index da8faf3b9011..3567a80e603d 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+>> @@ -242,16 +242,29 @@ v3d_invalidate_caches(struct v3d_dev *v3d)
+>>   int
+>>   v3d_gem_init(struct drm_device *dev)
+>>   {
+>> +    static struct lock_class_key v3d_stats_gpu_lock_class;
+>> +    static struct lock_class_key v3d_stats_cpu_lock_class;
+>>       struct v3d_dev *v3d = to_v3d_dev(dev);
+>>       u32 pt_size = 4096 * 1024;
+>>       int ret, i;
+>>       for (i = 0; i < V3D_MAX_QUEUES; i++) {
+>>           struct v3d_queue_state *queue = &v3d->queue[i];
+>> +        struct lock_class_key *key;
+>> +        char *name;
+>>           queue->fence_context = dma_fence_context_alloc(1);
+>>           memset(&queue->stats, 0, sizeof(queue->stats));
+>> -        seqcount_init(&queue->stats.lock);
+>> +
+>> +        if (i == V3D_CACHE_CLEAN || i == V3D_CPU) {
+>> +            key = &v3d_stats_cpu_lock_class;
+>> +            name = "v3d_stats_cpu_lock";
+>> +        } else {
+>> +            key = &v3d_stats_gpu_lock_class;
+>> +            name = "v3d_stats_gpu_lock";
+>> +        }
+>> +
+>> +        __seqcount_init(&queue->stats.lock, name, key);
+>>       }
+>>       spin_lock_init(&v3d->mm_lock);
+>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c 
+>> b/drivers/gpu/drm/v3d/v3d_sched.c
+>> index cc2e5a89467b..b2540e20d30c 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+>> @@ -149,6 +149,27 @@ v3d_job_start_stats(struct v3d_job *job, enum 
+>> v3d_queue queue)
+>>       preempt_enable();
+>>   }
+>> +/*
+>> + * We only need to disable local interrupts to appease lockdep who 
+>> otherwise
+>> + * would think v3d_job_start_stats vs v3d_stats_update has an unsafe 
+>> in-irq vs
+>> + * no-irq-off usage problem. This is a false positive becuase all the 
+>> locks are
+>> + * per queue and stats type, and all jobs are completely one at a time
+>> + * serialised.
+>> + */
+>> +static void
+>> +v3d_job_start_stats_irqsave(struct v3d_job *job, enum v3d_queue queue)
+>> +{
+>> +#ifdef CONFIG_LOCKDEP
+>> +    unsigned long flags;
+>> +
+>> +    local_irq_save(flags);
+>> +#endif
+>> +    v3d_job_start_stats(job, queue);
+>> +#ifdef CONFIG_LOCKDEP
+>> +    local_irq_restore(flags);
+>> +#endif
+>> +}
+>> +
+>>   static void
+>>   v3d_stats_update(struct v3d_stats *stats, u64 now)
+>>   {
+>> @@ -194,6 +215,7 @@ static struct dma_fence *v3d_bin_job_run(struct 
+>> drm_sched_job *sched_job)
+>>        * reuse the overflow attached to a previous job.
+>>        */
+>>       V3D_CORE_WRITE(0, V3D_PTB_BPOS, 0);
+>> +    v3d_job_start_stats(&job->base, V3D_BIN); /* Piggy-back on 
+>> existing irq-off section. */
+>>       spin_unlock_irqrestore(&v3d->job_lock, irqflags);
+>>       v3d_invalidate_caches(v3d);
+>> @@ -209,7 +231,6 @@ static struct dma_fence *v3d_bin_job_run(struct 
+>> drm_sched_job *sched_job)
+>>       trace_v3d_submit_cl(dev, false, to_v3d_fence(fence)->seqno,
+>>                   job->start, job->end);
+>> -    v3d_job_start_stats(&job->base, V3D_BIN);
+>>       v3d_switch_perfmon(v3d, &job->base);
+>>       /* Set the current and end address of the control list.
+>> @@ -261,7 +282,7 @@ static struct dma_fence *v3d_render_job_run(struct 
+>> drm_sched_job *sched_job)
+>>       trace_v3d_submit_cl(dev, true, to_v3d_fence(fence)->seqno,
+>>                   job->start, job->end);
+>> -    v3d_job_start_stats(&job->base, V3D_RENDER);
+>> +    v3d_job_start_stats_irqsave(&job->base, V3D_RENDER);
+>>       v3d_switch_perfmon(v3d, &job->base);
+>>       /* XXX: Set the QCFG */
+>> @@ -294,7 +315,7 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
+>>       trace_v3d_submit_tfu(dev, to_v3d_fence(fence)->seqno);
+>> -    v3d_job_start_stats(&job->base, V3D_TFU);
+>> +    v3d_job_start_stats_irqsave(&job->base, V3D_TFU);
+>>       V3D_WRITE(V3D_TFU_IIA(v3d->ver), job->args.iia);
+>>       V3D_WRITE(V3D_TFU_IIS(v3d->ver), job->args.iis);
+>> @@ -339,7 +360,7 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
+>>       trace_v3d_submit_csd(dev, to_v3d_fence(fence)->seqno);
+>> -    v3d_job_start_stats(&job->base, V3D_CSD);
+>> +    v3d_job_start_stats_irqsave(&job->base, V3D_CSD);
+>>       v3d_switch_perfmon(v3d, &job->base);
+>>       csd_cfg0_reg = V3D_CSD_QUEUED_CFG0(v3d->ver);
