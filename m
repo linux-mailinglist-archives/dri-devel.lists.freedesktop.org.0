@@ -2,53 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8E8950D62
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 21:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BD5950D70
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 21:57:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B9B10E3F5;
-	Tue, 13 Aug 2024 19:49:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A21910E3F3;
+	Tue, 13 Aug 2024 19:57:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="flBrEWG+";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Kp1/J3YY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED2910E3F4
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 19:49:25 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EFBDD4AB;
- Tue, 13 Aug 2024 21:48:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1723578507;
- bh=qfGOTiyJ3KnWalfFG5WZN8xh8TCaNyCkVWaZBY6HhPs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=flBrEWG+yF+lTsVhYRwF1ZhdXP+WiM5sSgjPai/Z4hsPvFxQRKDR3xeqCSyiUEMY1
- MilUBbcIEjnXeNfi9rrXCqMFMHzQ+9duQJWnCyUFFMpazDRz7i5x9NenuAiCw55UFH
- r8qaV/ZpDgSiYwqeTI5gcrN8oD2psenzjQctjf2s=
-Date: Tue, 13 Aug 2024 22:48:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v3 2/4] drm: renesas: rz-du: Add RZ/G2UL DU Support
-Message-ID: <20240813194859.GI24634@pendragon.ideasonboard.com>
-References: <20240805155242.151661-1-biju.das.jz@bp.renesas.com>
- <20240805155242.151661-3-biju.das.jz@bp.renesas.com>
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A31C10E3F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 19:57:38 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-a7ac469e4c4so40621566b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 12:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1723579055; x=1724183855;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HY47OI6qgPGV0/QE09FI/k+0tj+UYHuJ+dL5B1JuDSE=;
+ b=Kp1/J3YYhRwYfHcnteNEWNVszX0ZIAfl1ww3e+CPuMMK0EGH2Uc08SZYKeyufyjnIL
+ Qs4KwI9jwUAvtmQtyrFU5WxOPxqRqoMRQjikuoIR+q/vvWhgs9PPSwUHK3lqlB3IHw/K
+ jlVJAcIAPSSayndZaTBNN1TVU5GRLspNCNQGc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723579055; x=1724183855;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HY47OI6qgPGV0/QE09FI/k+0tj+UYHuJ+dL5B1JuDSE=;
+ b=n/hcOQqDHvDWg8Lmj7rEO8GU4+vJXMV5B6OzIi+dsG/eaRdpWmn7heHLKG3z/mYRYw
+ wjB3k8VxnE055IAOaQQKKPdKlznutePJHHA5ZEiWPBisiM1w1zPdWRzu1yoW+71zQdCI
+ lAhMbHVtpt/J5rcl72fdTXpmDswaQivvffuBsz3wYW8sG8+32wmB8N5m6cwPLZqjx/5D
+ THN0jXBS8CnmpxCIYY8gPPNtCaVuIZeJsQuTNu7aduWHXx7dKBw5GkW3xVSnJ7eFGD5i
+ wWdIG2O4fDdjIK4AMgse6EghESK11M8E2BmeDYTLD8DweAemeRhWzzx6vNK8NNzulhCk
+ HSUA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU1IKb/Sa/nxN+96iGBp4KzYO03q2b0YOM7zdv6/gCVK4jcZdi1XAzecaDt2kKY890qoV7AunQu110FMcYKDSDDrDP1oUQJkxC3nApwwio4
+X-Gm-Message-State: AOJu0YygGv6/eOVxSqv+IjmMuslFM8scrGO0a1oI3by6PFhIfPVnz3JV
+ 6czXRe7VGe0g7G65iBq3PJ9DAxK3syE3QJdWMI/EWPxZeaU/Nf8ETU2BmOvso6NnqhcP8K4+3v1
+ ddw==
+X-Google-Smtp-Source: AGHT+IHJHjqhw5/8SGyzCuykaVCSLPmdgaov098G77xdKwLw3b3lAk4NaN1i1MqBIMdO15xYn7HHiw==
+X-Received: by 2002:a17:907:7f8c:b0:a77:cdae:6a59 with SMTP id
+ a640c23a62f3a-a80f0c1c0ecmr332181266b.21.1723579054883; 
+ Tue, 13 Aug 2024 12:57:34 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com.
+ [209.85.221.41]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a80f3fa466asm94925666b.56.2024.08.13.12.57.33
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Aug 2024 12:57:33 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-368440b073bso154186f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 12:57:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXdoyJHu2fq4NDYKGXRRVZ6NS8PTo/geAPytXfHtM/g8tnD/rK28rDH95i/bgs8soy0SM6nH0EsvJ+pmYJIY72+fnN+b9RDpXWz1RlbY4xl
+X-Received: by 2002:a05:6000:1e98:b0:367:8f89:f7c9 with SMTP id
+ ffacd0b85a97d-371775d5820mr524329f8f.33.1723579053293; Tue, 13 Aug 2024
+ 12:57:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240805155242.151661-3-biju.das.jz@bp.renesas.com>
+References: <20240728114200.75559-1-wahrenst@gmx.net>
+ <20240728130029.78279-1-wahrenst@gmx.net>
+ <20240728130029.78279-6-wahrenst@gmx.net>
+ <65de7db8-4f81-4c31-be8d-3a03c9aee989@gmx.net>
+In-Reply-To: <65de7db8-4f81-4c31-be8d-3a03c9aee989@gmx.net>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 13 Aug 2024 12:57:16 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W7sdi1+SHfhY6RrjK32r8iAGe4w+O_u5Sp982vgBU6EQ@mail.gmail.com>
+Message-ID: <CAD=FV=W7sdi1+SHfhY6RrjK32r8iAGe4w+O_u5Sp982vgBU6EQ@mail.gmail.com>
+Subject: Re: [PATCH V2 14/16] WIP: usb: dwc2: Implement recovery after PM
+ domain off
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Minas Harutyunyan <hminas@synopsys.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>, 
+ Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+ Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+ Peter Robinson <pbrobinson@gmail.com>, 
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
+ linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kernel-list@raspberrypi.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Jassi Brar <jassisinghbrar@gmail.com>, Jiri Slaby <jirislaby@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,184 +111,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi,
 
-Thank you for the patch.
+On Mon, Aug 12, 2024 at 4:48=E2=80=AFPM Stefan Wahren <wahrenst@gmx.net> wr=
+ote:
+>
+> Hi Doug,
+>
+> Am 28.07.24 um 15:00 schrieb Stefan Wahren:
+> > DO NOT MERGE
+> >
+> > According to the dt-bindings there are some platforms, which have a
+> > dedicated USB power domain for DWC2 IP core supply. If the power domain
+> > is switched off during system suspend then all USB register will lose
+> > their settings.
+> >
+> > So use the power on/off notifier in order to save & restore the USB
+> > registers during system suspend.
+> sorry for bothering you with this DWC2 stuff, but it would great if you
+> can gave some feedback about this patch.
 
-On Mon, Aug 05, 2024 at 04:52:36PM +0100, Biju Das wrote:
-> The LCD controller is composed of Frame Compression Processor (FCPVD),
-> Video Signal Processor (VSPD), and Display Unit (DU).
-> 
-> It has DPI interface and supports a maximum resolution of WXGA along
-> with 2 RPFs to support the blending of two picture layers and raster
-> operations (ROPs).
-> 
-> The DU module is connected to VSPD. Add RZ/G2UL DU support.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v2->v3:
->  * Avoided the line break in rzg2l_du_start_stop() for rstate.
->  * Replaced port->du_output in  struct rzg2l_du_output_routing and
->    dropped using the port number to indicate the output type in
->    rzg2l_du_encoders_init().
->  * Updated rzg2l_du_r9a07g043u_info and rzg2l_du_r9a07g044_info
-> v1->v2:
->  * No change.
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |  8 +++++++-
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 18 ++++++++++++++++--
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  5 +++--
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |  4 ++--
->  4 files changed, 28 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> index 6e7aac6219be..fd7675c7f181 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> @@ -28,6 +28,7 @@
->  #include "rzg2l_du_vsp.h"
->  
->  #define DU_MCR0			0x00
-> +#define DU_MCR0_DPI_OE		BIT(0)
->  #define DU_MCR0_DI_EN		BIT(8)
->  
->  #define DU_DITR0		0x10
-> @@ -216,9 +217,14 @@ static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
->  
->  static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool start)
->  {
-> +	struct rzg2l_du_crtc_state *rstate = to_rzg2l_crtc_state(rcrtc->crtc.state);
->  	struct rzg2l_du_device *rcdu = rcrtc->dev;
-> +	u32 val = DU_MCR0_DI_EN;
->  
-> -	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
-> +	if (rstate->outputs == BIT(RZG2L_DU_OUTPUT_DPAD0))
+Boy, it's been _ages_ since I looked at anything to do with dwc2, but
+I still have some fondness in my heart for the crufty old driver :-P I
+know I was involved with some of the patches to get
+wakeup-from-suspend working on dwc2 host controllers in the past but,
+if I remember correctly, I mostly shepherded / fixed patches from
+Rockchip. Not sure I can spend the days trawling through the driver
+and testing things with printk that really answering properly would
+need, but let's see...
 
-Is output supposed to contain a single bit, or can it contain multiple
-bits ? In the first case I would rename it to output, in the second case
-you should probably use '&' instead of '=='.
 
-> +		val |= DU_MCR0_DPI_OE;
-> +
-> +	writel(start ? val : 0, rcdu->mmio + DU_MCR0);
->  }
->  
->  static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> index e5eca8691a33..69b8e216ee1a 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> @@ -25,21 +25,35 @@
->   * Device Information
->   */
->  
-> +static const struct rzg2l_du_device_info rzg2l_du_r9a07g043u_info = {
-> +	.channels_mask = BIT(0),
-> +	.routes = {
-> +		[RZG2L_DU_OUTPUT_DSI0] = {
-> +			.du_output = RZG2L_DU_OUTPUT_INVALID,
-> +		},
+> I was working a lot to get
+> suspend to idle working on Raspberry Pi. And this patch is the most
+> complex part of the series.
+>
+> Would you agree with this approach or did i miss something?
+>
+> The problem is that the power domain driver acts independent from dwc2,
+> so we cannot prevent the USB domain power down except declaring a USB
+> device as wakeup source. So i decided to use the notifier approach. This
+> has been successful tested on some older Raspberry Pi boards.
 
-You can drop this entry, as well as the RZG2L_DU_OUTPUT_INVALID macro.
-See below.
+My genpd knowledge is probably not as good as it should be. Don't tell
+anyone (aside from all the people and lists CCed here). ;-)
 
-> +		[RZG2L_DU_OUTPUT_DPAD0] = {
-> +			.possible_outputs = BIT(0),
-> +			.du_output = RZG2L_DU_OUTPUT_DPAD0,
-> +		},
-> +	},
-> +};
-> +
->  static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
->  	.channels_mask = BIT(0),
->  	.routes = {
->  		[RZG2L_DU_OUTPUT_DSI0] = {
->  			.possible_outputs = BIT(0),
-> -			.port = 0,
-> +			.du_output = RZG2L_DU_OUTPUT_DSI0,
->  		},
->  		[RZG2L_DU_OUTPUT_DPAD0] = {
->  			.possible_outputs = BIT(0),
-> -			.port = 1,
-> +			.du_output = RZG2L_DU_OUTPUT_DPAD0,
->  		}
->  	}
->  };
->  
->  static const struct of_device_id rzg2l_du_of_table[] = {
-> +	{ .compatible = "renesas,r9a07g043u-du", .data = &rzg2l_du_r9a07g043u_info },
->  	{ .compatible = "renesas,r9a07g044-du", .data = &rzg2l_du_r9a07g044_info },
->  	{ /* sentinel */ }
->  };
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-> index 58806c2a8f2b..ab82b5c86d6e 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-> @@ -29,7 +29,7 @@ enum rzg2l_du_output {
->  /*
->   * struct rzg2l_du_output_routing - Output routing specification
->   * @possible_outputs: bitmask of possible outputs
-> - * @port: device tree port number corresponding to this output route
-> + * @du_output: DU output
->   *
->   * The DU has 2 possible outputs (DPAD0, DSI0). Output routing data
->   * specify the valid SoC outputs, which CRTC can drive the output, and the type
-> @@ -37,7 +37,7 @@ enum rzg2l_du_output {
->   */
->  struct rzg2l_du_output_routing {
->  	unsigned int possible_outputs;
-> -	unsigned int port;
-> +	unsigned int du_output;
->  };
->  
->  /*
-> @@ -53,6 +53,7 @@ struct rzg2l_du_device_info {
->  #define RZG2L_DU_MAX_CRTCS		1
->  #define RZG2L_DU_MAX_VSPS		1
->  #define RZG2L_DU_MAX_DSI		1
-> +#define RZG2L_DU_OUTPUT_INVALID		-1
->  
->  struct rzg2l_du_device {
->  	struct device *dev;
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> index 07b312b6f81e..361350f2999e 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> @@ -183,8 +183,8 @@ static int rzg2l_du_encoders_init(struct rzg2l_du_device *rcdu)
->  
->  		/* Find the output route corresponding to the port number. */
->  		for (i = 0; i < RZG2L_DU_OUTPUT_MAX; ++i) {
-> -			if (rcdu->info->routes[i].port == ep.port) {
-> -				output = i;
-> +			if (i == rcdu->info->routes[i].du_output) {
+...so I guess you're relying on the fact that
+dev_pm_genpd_add_notifier() will return an error if a power-domain
+wasn't specified for dwc2 in the device tree, then you ignore that
+error and your callback will never happen. You assume that the power
+domain isn't specified then the dwc2 registers will be saved?
 
-If I understand the code correctly, this will always be true except for
-the routes marked with RZG2L_DU_OUTPUT_INVALID, so you will match the
-first valid route, regardless of the value of ep.port. I don't think
-that's correct.
+I guess one thing is that I'd wonder if that's really reliable. Maybe
+some dwc2 controllers lose their registers over system suspend but
+_don't_ specify a power domain? Maybe the USB controller just gets its
+power yanked as part of system suspend. Maybe that's why the functions
+for saving / restoring registers are already there? It looks like
+there are ways for various platforms to specify that registers are
+lost in some cases...
 
-I would keep the port field in the rzg2l_du_output_routing, drop the
-newly added du_output field, and use the following logic:
+...but I guess you can't use the existing ways to say that registers
+are lost because you're trying to be dynamic. You're saying that your
+registers get saved _unless_ the power domain gets turned off, right?
+...and the device core keeps power domains on for suspended devices if
+they are wakeup sources, which makes sense.
 
-		for (i = 0; i < RZG2L_DU_OUTPUT_MAX; ++i) {
-			if (rcdu->info->routes[i].possible_outputs &&
-			    rcdu->info->routes[i].port == ep.port) {
-				output = i;
-				break;
-			}
-		}
+So with that, your patch sounds like a plausible way to do it. I guess
+one other way to do it would be some sort of "canary" approach. You
+could _always_ save registers and then, at resume time, you could
+detect if some "canary" register had reset to its power-on default. If
+you see this then you can assume power was lost and re-init all the
+registers. This could be pretty much any register that you know won't
+be its power on default. In some ways a "canary" approach is uglier
+but it also might be more reliable across more configurations?
 
-Testing possible_outputs skips the routes that don't exist for the
-device, and the ep.port comparison picks the route corresponding to the
-port.
+I guess those would be my main thoughts on the topic. Is that roughly
+the feedback you were looking for?
 
-> +				output = rcdu->info->routes[i].du_output;
->  				break;
->  			}
->  		}
-
--- 
-Regards,
-
-Laurent Pinchart
+-Doug
