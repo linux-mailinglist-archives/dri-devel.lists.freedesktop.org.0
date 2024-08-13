@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7779506F9
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 15:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065CA9506FB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 15:57:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A53D810E358;
-	Tue, 13 Aug 2024 13:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2351810E35C;
+	Tue, 13 Aug 2024 13:57:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qBV9LMaK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RAJdl6nv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41CC110E357;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60A3310E358;
  Tue, 13 Aug 2024 13:57:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,27 +22,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=oxlINvdA9ixgDH89e0tlfUbu3TqoJyDAY8FqJhTX7X0=; b=qBV9LMaK1n4ER4okFEn0htNmSt
- c2rc/8LuDxjPN4wv4uZJ+t5+9mxzSWVm3BpmIm5PXJsqthHIQgTQGiSVGZU2CjjggS2GNW/ybTfuf
- 1b3dhBWvWgdpKaY7sflPkPh/IgfdLccj9pzgljp5Wfmu/Bvzn95VgOlzfbXeDak4ZDkItvKVeS+aN
- ftah7g/+qwvSn49868QCVkCnMOzf2mY52ZRcUitjp1Wrl0Hn9HUMW13G1JxAvKQOmCfy/emm2jLZ7
- vok4bTnZpYPZr0ovpE1hLJ9sUkoBJS/Ns/fTbQrcNBq/RiP3W+Ojf4uJgu7sEyKwOkG6L16cTIo2M
- HMi6IM2w==;
+ bh=gvOvJku7LLeoqGYHzxPANNl5lrtnWUkHhl7l2sRxhM0=; b=RAJdl6nvMXRJ9u6gLUuOHQSYIm
+ hk/G1b5+s67eO9NR/fKMye1hwsaFUgk2nMLtnG202hO6DZa1XS4LYgJ8v0s83BcYYBENwdthn9dyE
+ ImNNm1fdF7W0xxHHMGrjK4rGiI6DVRVmgogBnXNal5cTkfIqVspBdesXaObcEQT/b1MCMQ7z7o8Jf
+ 8pNT34YZKOyFhRT5rW+AfhrUyu8/6PeeTCqRepVfznSpPZSIo/qfHjq5XAb3dza10cm/nR+s+ErzC
+ VyfLjnNy7p76DXXQQ1ljazeU7430xI9fmpzDsh4K0nMAnPHvGYlGClRpwV/Su53zjM530krp/v8/0
+ d1La3msA==;
 Received: from [84.69.19.168] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sds1U-00BxvF-QK; Tue, 13 Aug 2024 15:57:16 +0200
+ id 1sds1V-00BxvI-H2; Tue, 13 Aug 2024 15:57:17 +0200
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.keonig@amd.com>,
- Rob Clark <robdclark@chromium.org>
-Subject: [PATCH 1/2] Documentation/gpu: Document the situation with
- unqualified drm-memory-
-Date: Tue, 13 Aug 2024 14:57:11 +0100
-Message-ID: <20240813135712.82611-2-tursulin@igalia.com>
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@chromium.org>
+Subject: [PATCH 2/2] drm/amdgpu: Use drm_print_memory_stats helper from fdinfo
+Date: Tue, 13 Aug 2024 14:57:12 +0100
+Message-ID: <20240813135712.82611-3-tursulin@igalia.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240813135712.82611-1-tursulin@igalia.com>
 References: <20240813135712.82611-1-tursulin@igalia.com>
@@ -66,96 +65,415 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Currently it is not well defined what is drm-memory- compared to other
-categories.
+Convert fdinfo memory stats to use the common drm_print_memory_stats
+helper.
 
-In practice the only driver which emits these keys is amdgpu and in them
-exposes the current resident buffer object memory (including shared).
+This achieves alignment with the common keys as documented in
+drm-usage-stats.rst, adding specifically drm-total- key the driver was
+missing until now.
 
-To prevent any confusion, document that drm-memory- is deprecated and an
-alias for drm-resident-memory-.
+Additionally I made the code stop skipping total size for objects which
+currently do not have a backing store, and I added resident, active and
+purgeable reporting.
 
-While at it also clarify that the reserved sub-string 'memory' refers to
-the memory region component, and also clarify the intended semantics of
-other memory categories.
+Legacy keys have been preserved, with the outlook of only potentially
+removing only the drm-memory- when the time gets right.
+
+The example output now looks like this:
+
+ pos:	0
+ flags:	02100002
+ mnt_id:	24
+ ino:	1239
+ drm-driver:	amdgpu
+ drm-client-id:	4
+ drm-pdev:	0000:04:00.0
+ pasid:	32771
+ drm-total-cpu:	0
+ drm-shared-cpu:	0
+ drm-active-cpu:	0
+ drm-resident-cpu:	0
+ drm-purgeable-cpu:	0
+ drm-total-gtt:	2392 KiB
+ drm-shared-gtt:	0
+ drm-active-gtt:	0
+ drm-resident-gtt:	2392 KiB
+ drm-purgeable-gtt:	0
+ drm-total-vram:	44564 KiB
+ drm-shared-vram:	31952 KiB
+ drm-active-vram:	0
+ drm-resident-vram:	44564 KiB
+ drm-purgeable-vram:	0
+ drm-memory-vram:	44564 KiB
+ drm-memory-gtt: 	2392 KiB
+ drm-memory-cpu: 	0 KiB
+ amd-memory-visible-vram:	44564 KiB
+ amd-evicted-vram:	0 KiB
+ amd-evicted-visible-vram:	0 KiB
+ amd-requested-vram:	44564 KiB
+ amd-requested-visible-vram:	11952 KiB
+ amd-requested-gtt:	2392 KiB
+ drm-engine-compute:	46464671 ns
 
 v2:
- * Also mark drm-memory- as deprecated.
- * Add some more text describing memory categories. (Alex)
-
-v3:
- * Semantics of the amdgpu drm-memory is actually as drm-resident.
+ * Track purgeable via AMDGPU_GEM_CREATE_DISCARDABLE.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.keonig@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Rob Clark <robdclark@chromium.org>
 ---
- Documentation/gpu/drm-usage-stats.rst | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c | 48 +++++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 96 +++++++++++++++-------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h | 35 +++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c     | 20 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h     |  3 +-
+ 6 files changed, 122 insertions(+), 81 deletions(-)
 
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index a80f95ca1b2f..ff964c707754 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -144,7 +144,9 @@ Memory
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+index c7df7fa3459f..00a4ab082459 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+@@ -59,18 +59,21 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+ 	struct amdgpu_fpriv *fpriv = file->driver_priv;
+ 	struct amdgpu_vm *vm = &fpriv->vm;
  
- Each possible memory type which can be used to store buffer objects by the
- GPU in question shall be given a stable and unique name to be returned as the
--string here.  The name "memory" is reserved to refer to normal system memory.
-+string here.
+-	struct amdgpu_mem_stats stats;
++	struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST + 1] = { };
+ 	ktime_t usage[AMDGPU_HW_IP_NUM];
+-	unsigned int hw_ip;
++	const char *pl_name[] = {
++		[TTM_PL_VRAM] = "vram",
++		[TTM_PL_TT] = "gtt",
++		[TTM_PL_SYSTEM] = "cpu",
++	};
++	unsigned int hw_ip, i;
+ 	int ret;
+ 
+-	memset(&stats, 0, sizeof(stats));
+-
+ 	ret = amdgpu_bo_reserve(vm->root.bo, false);
+ 	if (ret)
+ 		return;
+ 
+-	amdgpu_vm_get_memory(vm, &stats);
++	amdgpu_vm_get_memory(vm, stats, ARRAY_SIZE(stats));
+ 	amdgpu_bo_unreserve(vm->root.bo);
+ 
+ 	amdgpu_ctx_mgr_usage(&fpriv->ctx_mgr, usage);
+@@ -82,24 +85,35 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+ 	 */
+ 
+ 	drm_printf(p, "pasid:\t%u\n", fpriv->vm.pasid);
+-	drm_printf(p, "drm-memory-vram:\t%llu KiB\n", stats.vram/1024UL);
+-	drm_printf(p, "drm-memory-gtt: \t%llu KiB\n", stats.gtt/1024UL);
+-	drm_printf(p, "drm-memory-cpu: \t%llu KiB\n", stats.cpu/1024UL);
 +
-+The region name "memory" is reserved to refer to normal system memory.
- 
- Value shall reflect the amount of storage currently consumed by the buffer
- objects belong to this client, in the respective memory region.
-@@ -152,6 +154,9 @@ objects belong to this client, in the respective memory region.
- Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
- indicating kibi- or mebi-bytes.
- 
-+This key is deprecated and is an alias for drm-resident-<region>. Only one of
-+the two should be present in the output.
++	for (i = 0; i < TTM_PL_PRIV; i++)
++		drm_print_memory_stats(p,
++				       &stats[i].drm,
++				       DRM_GEM_OBJECT_RESIDENT |
++				       DRM_GEM_OBJECT_PURGEABLE,
++				       pl_name[i]);
 +
- - drm-shared-<region>: <uint> [KiB|MiB]
- 
- The total size of buffers that are shared with another file (e.g., have more
-@@ -159,20 +164,34 @@ than a single handle).
- 
- - drm-total-<region>: <uint> [KiB|MiB]
- 
--The total size of buffers that including shared and private memory.
-+The total size of all created buffers including shared and private memory. The
-+backing store for the buffers does not have to be currently instantiated to be
-+counted under this category.
- 
- - drm-resident-<region>: <uint> [KiB|MiB]
- 
--The total size of buffers that are resident in the specified region.
-+The total size of buffers that are resident (have their backing store present or
-+instantiated) in the specified region.
++	/* Legacy amdgpu keys, alias to drm-resident-memory-: */
++	drm_printf(p, "drm-memory-vram:\t%llu KiB\n",
++		   stats[TTM_PL_VRAM].total/1024UL);
++	drm_printf(p, "drm-memory-gtt: \t%llu KiB\n",
++		   stats[TTM_PL_TT].total/1024UL);
++	drm_printf(p, "drm-memory-cpu: \t%llu KiB\n",
++		   stats[TTM_PL_SYSTEM].total/1024UL);
 +
-+This is an alias for drm-memory-<region> and only one of the two should be
-+present in the output.
++	/* Amdgpu specific memory accounting keys: */
+ 	drm_printf(p, "amd-memory-visible-vram:\t%llu KiB\n",
+-		   stats.visible_vram/1024UL);
++		   stats[TTM_PL_VRAM].visible/1024UL);
+ 	drm_printf(p, "amd-evicted-vram:\t%llu KiB\n",
+-		   stats.evicted_vram/1024UL);
++		   stats[TTM_PL_VRAM].evicted/1024UL);
+ 	drm_printf(p, "amd-evicted-visible-vram:\t%llu KiB\n",
+-		   stats.evicted_visible_vram/1024UL);
++		   stats[TTM_PL_VRAM].evicted_visible/1024UL);
+ 	drm_printf(p, "amd-requested-vram:\t%llu KiB\n",
+-		   stats.requested_vram/1024UL);
++		   stats[TTM_PL_VRAM].requested/1024UL);
+ 	drm_printf(p, "amd-requested-visible-vram:\t%llu KiB\n",
+-		   stats.requested_visible_vram/1024UL);
++		   stats[TTM_PL_VRAM].requested_visible/1024UL);
+ 	drm_printf(p, "amd-requested-gtt:\t%llu KiB\n",
+-		   stats.requested_gtt/1024UL);
+-	drm_printf(p, "drm-shared-vram:\t%llu KiB\n", stats.vram_shared/1024UL);
+-	drm_printf(p, "drm-shared-gtt:\t%llu KiB\n", stats.gtt_shared/1024UL);
+-	drm_printf(p, "drm-shared-cpu:\t%llu KiB\n", stats.cpu_shared/1024UL);
++		   stats[TTM_PL_TT].requested/1024UL);
  
- - drm-purgeable-<region>: <uint> [KiB|MiB]
+ 	for (hw_ip = 0; hw_ip < AMDGPU_HW_IP_NUM; ++hw_ip) {
+ 		if (!usage[hw_ip])
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index e32161f6b67a..7facddeab799 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -1284,54 +1284,92 @@ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
+ }
  
- The total size of buffers that are purgeable.
+ void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
+-			  struct amdgpu_mem_stats *stats)
++			  struct amdgpu_mem_stats *stats,
++			  unsigned int sz)
+ {
++	const unsigned int domain_to_pl[] = {
++		[ilog2(AMDGPU_GEM_DOMAIN_CPU)]	    = TTM_PL_SYSTEM,
++		[ilog2(AMDGPU_GEM_DOMAIN_GTT)]	    = TTM_PL_TT,
++		[ilog2(AMDGPU_GEM_DOMAIN_VRAM)]	    = TTM_PL_VRAM,
++		[ilog2(AMDGPU_GEM_DOMAIN_GDS)]	    = AMDGPU_PL_GDS,
++		[ilog2(AMDGPU_GEM_DOMAIN_GWS)]	    = AMDGPU_PL_GWS,
++		[ilog2(AMDGPU_GEM_DOMAIN_OA)]	    = AMDGPU_PL_OA,
++		[ilog2(AMDGPU_GEM_DOMAIN_DOORBELL)] = AMDGPU_PL_DOORBELL,
++	};
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+ 	struct ttm_resource *res = bo->tbo.resource;
++	struct drm_gem_object *obj = &bo->tbo.base;
+ 	uint64_t size = amdgpu_bo_size(bo);
+-	struct drm_gem_object *obj;
+-	bool shared;
++	unsigned int type;
  
-+For example drivers which implement a form of 'madvise' like functionality can
-+here count buffers which have instantiated backing store, but have been marked
-+with an equivalent of MADV_DONTNEED.
+-	/* Abort if the BO doesn't currently have a backing store */
+-	if (!res)
+-		return;
++	if (!res) {
++		/*
++		 * If no backing store use one of the preferred domain for basic
++		 * stats. We take the MSB since that should give a reasonable
++		 * view.
++		 */
++		BUILD_BUG_ON(TTM_PL_VRAM < TTM_PL_TT ||
++			     TTM_PL_VRAM < TTM_PL_SYSTEM);
++		type = fls(bo->preferred_domains & AMDGPU_GEM_DOMAIN_MASK);
++		if (!type)
++			return;
++		type--;
++		if (drm_WARN_ON_ONCE(&adev->ddev,
++				     type >= ARRAY_SIZE(domain_to_pl)))
++			return;
++		type = domain_to_pl[type];
++	} else {
++		type = res->mem_type;
++	}
+ 
+-	obj = &bo->tbo.base;
+-	shared = drm_gem_object_is_shared_for_memory_stats(obj);
+-
+-	switch (res->mem_type) {
++	/* Squash some into 'cpu' to keep the legacy userspace view. */
++	switch (type) {
+ 	case TTM_PL_VRAM:
+-		stats->vram += size;
+-		if (amdgpu_res_cpu_visible(adev, res))
+-			stats->visible_vram += size;
+-		if (shared)
+-			stats->vram_shared += size;
+-		break;
+ 	case TTM_PL_TT:
+-		stats->gtt += size;
+-		if (shared)
+-			stats->gtt_shared += size;
+-		break;
+ 	case TTM_PL_SYSTEM:
++		break;
+ 	default:
+-		stats->cpu += size;
+-		if (shared)
+-			stats->cpu_shared += size;
++		type = TTM_PL_SYSTEM;
+ 		break;
+ 	}
+ 
++	if (drm_WARN_ON_ONCE(&adev->ddev, type >= sz))
++		return;
 +
- - drm-active-<region>: <uint> [KiB|MiB]
- 
- The total size of buffers that are active on one or more engines.
- 
-+One practical example of this can be presence of unsignaled fences in an GEM
-+buffer reservation object. Therefore the active category is a subset of
-+resident.
++	/* DRM stats common fields: */
 +
- Implementation Details
- ======================
++	stats[type].total += size;
++	if (drm_gem_object_is_shared_for_memory_stats(obj))
++		stats[type].drm.shared += size;
++	else
++		stats[type].drm.private += size;
++
++	if (res) {
++		stats[type].drm.resident += size;
++
++		if (!dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_BOOKKEEP))
++			stats[type].drm.active += size;
++		else if (bo->flags & AMDGPU_GEM_CREATE_DISCARDABLE)
++			stats[type].drm.purgeable += size;
++
++		if (type == TTM_PL_VRAM && amdgpu_res_cpu_visible(adev, res))
++			stats[type].visible += size;
++	}
++
++	/* amdgpu specific stats: */
++
+ 	if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) {
+-		stats->requested_vram += size;
++		stats[TTM_PL_VRAM].requested += size;
+ 		if (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED)
+-			stats->requested_visible_vram += size;
++			stats[TTM_PL_VRAM].requested_visible += size;
  
+-		if (res->mem_type != TTM_PL_VRAM) {
+-			stats->evicted_vram += size;
++		if (type != TTM_PL_VRAM) {
++			stats[TTM_PL_VRAM].evicted += size;
+ 			if (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED)
+-				stats->evicted_visible_vram += size;
++				stats[TTM_PL_VRAM].evicted_visible += size;
+ 		}
+ 	} else if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_GTT) {
+-		stats->requested_gtt += size;
++		stats[TTM_PL_TT].requested += size;
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+index bc42ccbde659..44774584a29f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+@@ -136,30 +136,14 @@ struct amdgpu_bo_vm {
+ };
+ 
+ struct amdgpu_mem_stats {
+-	/* current VRAM usage, includes visible VRAM */
+-	uint64_t vram;
+-	/* current shared VRAM usage, includes visible VRAM */
+-	uint64_t vram_shared;
+-	/* current visible VRAM usage */
+-	uint64_t visible_vram;
+-	/* current GTT usage */
+-	uint64_t gtt;
+-	/* current shared GTT usage */
+-	uint64_t gtt_shared;
+-	/* current system memory usage */
+-	uint64_t cpu;
+-	/* current shared system memory usage */
+-	uint64_t cpu_shared;
+-	/* sum of evicted buffers, includes visible VRAM */
+-	uint64_t evicted_vram;
+-	/* sum of evicted buffers due to CPU access */
+-	uint64_t evicted_visible_vram;
+-	/* how much userspace asked for, includes vis.VRAM */
+-	uint64_t requested_vram;
+-	/* how much userspace asked for */
+-	uint64_t requested_visible_vram;
+-	/* how much userspace asked for */
+-	uint64_t requested_gtt;
++	struct drm_memory_stats drm;
++
++	uint64_t total;
++	uint64_t visible;
++	uint64_t evicted;
++	uint64_t evicted_visible;
++	uint64_t requested;
++	uint64_t requested_visible;
+ };
+ 
+ static inline struct amdgpu_bo *ttm_to_amdgpu_bo(struct ttm_buffer_object *tbo)
+@@ -342,7 +326,8 @@ int amdgpu_bo_sync_wait(struct amdgpu_bo *bo, void *owner, bool intr);
+ u64 amdgpu_bo_gpu_offset(struct amdgpu_bo *bo);
+ u64 amdgpu_bo_gpu_offset_no_check(struct amdgpu_bo *bo);
+ void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
+-			  struct amdgpu_mem_stats *stats);
++			  struct amdgpu_mem_stats *stats,
++			  unsigned int size);
+ void amdgpu_bo_add_to_shadow_list(struct amdgpu_bo_vm *vmbo);
+ int amdgpu_bo_restore_shadow(struct amdgpu_bo *shadow,
+ 			     struct dma_fence **fence);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+index 138d80017f35..2852a6064c9a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+@@ -34,6 +34,7 @@
+ #define AMDGPU_PL_OA		(TTM_PL_PRIV + 2)
+ #define AMDGPU_PL_PREEMPT	(TTM_PL_PRIV + 3)
+ #define AMDGPU_PL_DOORBELL	(TTM_PL_PRIV + 4)
++#define __AMDGPU_PL_LAST	(TTM_PL_PRIV + 4)
+ 
+ #define AMDGPU_GTT_MAX_TRANSFER_SIZE	512
+ #define AMDGPU_GTT_NUM_TRANSFER_WINDOWS	2
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 52e6a0b3f0c8..86c3ee0e86e8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -1090,7 +1090,8 @@ int amdgpu_vm_update_range(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ }
+ 
+ static void amdgpu_vm_bo_get_memory(struct amdgpu_bo_va *bo_va,
+-				    struct amdgpu_mem_stats *stats)
++				    struct amdgpu_mem_stats *stats,
++				    unsigned int size)
+ {
+ 	struct amdgpu_vm *vm = bo_va->base.vm;
+ 	struct amdgpu_bo *bo = bo_va->base.bo;
+@@ -1106,34 +1107,35 @@ static void amdgpu_vm_bo_get_memory(struct amdgpu_bo_va *bo_va,
+ 	    !dma_resv_trylock(bo->tbo.base.resv))
+ 		return;
+ 
+-	amdgpu_bo_get_memory(bo, stats);
++	amdgpu_bo_get_memory(bo, stats, size);
+ 	if (!amdgpu_vm_is_bo_always_valid(vm, bo))
+ 		dma_resv_unlock(bo->tbo.base.resv);
+ }
+ 
+ void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
+-			  struct amdgpu_mem_stats *stats)
++			  struct amdgpu_mem_stats *stats,
++			  unsigned int size)
+ {
+ 	struct amdgpu_bo_va *bo_va, *tmp;
+ 
+ 	spin_lock(&vm->status_lock);
+ 	list_for_each_entry_safe(bo_va, tmp, &vm->idle, base.vm_status)
+-		amdgpu_vm_bo_get_memory(bo_va, stats);
++		amdgpu_vm_bo_get_memory(bo_va, stats, size);
+ 
+ 	list_for_each_entry_safe(bo_va, tmp, &vm->evicted, base.vm_status)
+-		amdgpu_vm_bo_get_memory(bo_va, stats);
++		amdgpu_vm_bo_get_memory(bo_va, stats, size);
+ 
+ 	list_for_each_entry_safe(bo_va, tmp, &vm->relocated, base.vm_status)
+-		amdgpu_vm_bo_get_memory(bo_va, stats);
++		amdgpu_vm_bo_get_memory(bo_va, stats, size);
+ 
+ 	list_for_each_entry_safe(bo_va, tmp, &vm->moved, base.vm_status)
+-		amdgpu_vm_bo_get_memory(bo_va, stats);
++		amdgpu_vm_bo_get_memory(bo_va, stats, size);
+ 
+ 	list_for_each_entry_safe(bo_va, tmp, &vm->invalidated, base.vm_status)
+-		amdgpu_vm_bo_get_memory(bo_va, stats);
++		amdgpu_vm_bo_get_memory(bo_va, stats, size);
+ 
+ 	list_for_each_entry_safe(bo_va, tmp, &vm->done, base.vm_status)
+-		amdgpu_vm_bo_get_memory(bo_va, stats);
++		amdgpu_vm_bo_get_memory(bo_va, stats, size);
+ 	spin_unlock(&vm->status_lock);
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+index 046949c4b695..c66ec14dd3d1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+@@ -566,7 +566,8 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
+ void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
+ 				struct amdgpu_vm *vm);
+ void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
+-			  struct amdgpu_mem_stats *stats);
++			  struct amdgpu_mem_stats *stats,
++			  unsigned int size);
+ 
+ int amdgpu_vm_pt_clear(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ 		       struct amdgpu_bo_vm *vmbo, bool immediate);
 -- 
 2.44.0
 
